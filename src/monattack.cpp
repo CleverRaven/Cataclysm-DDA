@@ -388,7 +388,7 @@ void mattack::growplants(monster *z)
        g->add_msg(_("A tree bursts forth from the earth and pierces the %s!"),
                   g->zombie(mondex).name().c_str());
       int rn = rng(10, 30);
-      rn -= g->zombie(mondex).armor_cut();
+      rn -= g->zombie(mondex).get_armor_cut(bp_torso);
       if (rn < 0)
        rn = 0;
       if (g->zombie(mondex).hurt(rn))
@@ -404,7 +404,7 @@ void mattack::growplants(monster *z)
         hit = bp_feet;
        g->add_msg(_("A tree bursts forth from the earth and pierces your %s!"),
                   body_part_name(hit, side).c_str());
-       g->u.hit(g, hit, side, 0, rng(10, 30));
+       g->u.hit(g, z, hit, side, 0, rng(10, 30));
       }
      } else {
       int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
@@ -419,7 +419,7 @@ void mattack::growplants(monster *z)
         g->add_msg(_("A tree bursts forth from the earth and pierces %s's %s!"),
                    g->active_npc[npcdex]->name.c_str(),
                    body_part_name(hit, side).c_str());
-       g->active_npc[npcdex]->hit(g, hit, side, 0, rng(10, 30));
+       g->active_npc[npcdex]->hit(g, z, hit, side, 0, rng(10, 30));
       }
      }
      g->m.ter_set(z->posx() + i, z->posy() + j, t_tree_young);
@@ -443,7 +443,7 @@ void mattack::growplants(monster *z)
         g->add_msg(_("Underbrush forms into a tree, and it pierces the %s!"),
                    g->zombie(mondex).name().c_str());
        int rn = rng(10, 30);
-       rn -= g->zombie(mondex).armor_cut();
+       rn -= g->zombie(mondex).get_armor_cut(bp_torso);
        if (rn < 0)
         rn = 0;
        if (g->zombie(mondex).hurt(rn))
@@ -458,7 +458,7 @@ void mattack::growplants(monster *z)
          hit = bp_feet;
         g->add_msg(_("The underbrush beneath your feet grows and pierces your %s!"),
                    body_part_name(hit, side).c_str());
-        g->u.hit(g, hit, side, 0, rng(10, 30));
+        g->u.hit(g, z, hit, side, 0, rng(10, 30));
        }
       } else {
        int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
@@ -473,7 +473,7 @@ void mattack::growplants(monster *z)
          g->add_msg(_("Underbrush grows into a tree, and it pierces %s's %s!"),
                     g->active_npc[npcdex]->name.c_str(),
                     body_part_name(hit, side).c_str());
-        g->active_npc[npcdex]->hit(g, hit, side, 0, rng(10, 30));
+        g->active_npc[npcdex]->hit(g, z, hit, side, 0, rng(10, 30));
        }
       }
      }
@@ -520,7 +520,7 @@ void mattack::vine(monster *z)
      int side = random_side(bphit);
      g->add_msg(_("The %s lashes your %s!"), z->name().c_str(),
                 body_part_name(bphit, side).c_str());
-     g->u.hit(g, bphit, side, 4, 4);
+     g->u.hit(g, z, bphit, side, 4, 4);
      z->sp_timeout = z->type->sp_freq;
      z->moves -= 100;
      return;
@@ -607,7 +607,7 @@ void mattack::spit_sap(monster *z)
   return;
  if (g->u.uncanny_dodge() ) { return; }
  g->add_msg(_("A glob of sap hits you!"));
- g->u.hit(g, bp_torso, -1, dam, 0);
+ g->u.hit(g, z, bp_torso, -1, dam, 0);
  g->u.add_disease("sap", dam);
 }
 
@@ -867,7 +867,7 @@ void mattack::dermatik(monster *z)
     // Can the bug penetrate our armor?
     body_part targeted = random_body_part();
     int side = random_side(targeted);
-    if (4 < g->u.armor_cut(targeted) / 3) {
+    if (4 < g->u.get_armor_cut(targeted) / 3) {
         g->add_msg(_("The %s lands on your %s, but can't penetrate your armor."),
                      z->name().c_str(), body_part_name(targeted, side).c_str());
         z->moves -= 150; // Attemped laying takes a while
@@ -1021,7 +1021,7 @@ void mattack::tentacle(monster *z)
     body_part hit = random_body_part();
     int dam = rng(10, 20), side = random_side(hit);
     g->add_msg(_("Your %s is hit for %d damage!"), body_part_name(hit, side).c_str(), dam);
-    g->u.hit(g, hit, side, dam, 0);
+    g->u.hit(g, z, hit, side, dam, 0);
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
 
@@ -1076,7 +1076,7 @@ void mattack::vortex(monster *z)
         int side = random_side(hit);
         g->add_msg(_("A %s hits your %s for %d damage!"), thrown.tname().c_str(),
                    body_part_name(hit, side).c_str(), dam);
-        g->u.hit(g, hit, side, dam, 0);
+        g->u.hit(g, z, hit, side, dam, 0);
         dam = 0;
        }
       }
@@ -1173,7 +1173,7 @@ void mattack::vortex(monster *z)
       int damage_copy = damage;
       g->m.shoot(g, traj[i].x, traj[i].y, damage_copy, false, no_effects);
       if (damage_copy < damage)
-       g->u.hit(g, bp_torso, -1, damage - damage_copy, 0);
+       g->u.hit(g, z, bp_torso, -1, damage - damage_copy, 0);
      }
      if (hit_wall)
       damage *= 2;
@@ -1181,7 +1181,7 @@ void mattack::vortex(monster *z)
       g->u.posx = traj[traj.size() - 1].x;
       g->u.posy = traj[traj.size() - 1].y;
      }
-     g->u.hit(g, bp_torso, -1, damage, 0);
+     g->u.hit(g, z, bp_torso, -1, damage, 0);
      g->update_map(g->u.posx, g->u.posy);
     } // Done with checking for player
    }
@@ -1773,7 +1773,7 @@ void mattack::bite(monster *z) {
 
     body_part hit = random_body_part();
     int dam = rng(5, 10), side = random_side(hit);
-    dam = g->u.hit(g, hit, side, dam, 0);
+    dam = g->u.hit(g, z, hit, side, dam, 0);
 
     if (dam > 0) {
         g->add_msg(_("The %s bites your %s!"), z->name().c_str(), body_part_name(hit, side).c_str());
@@ -1836,7 +1836,7 @@ void mattack::flesh_golem(monster *z)
     body_part hit = random_body_part();
     int dam = rng(5, 10), side = random_side(hit);
     g->add_msg(_("Your %s is battered for %d damage!"), body_part_name(hit, side).c_str(), dam);
-    g->u.hit(g, hit, side, dam, 0);
+    g->u.hit(g, z, hit, side, dam, 0);
     if (one_in(6)) {
         g->u.add_effect("effect_downed", 30);
     }

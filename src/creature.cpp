@@ -26,8 +26,8 @@ void Creature::reset(game *g) {
     num_blocks_bonus = 0;
     num_dodges_bonus = 0;
 
-    arm_bash_bonus = 0;
-    arm_cut_bonus = 0;
+    armor_bash_bonus = 0;
+    armor_cut_bonus = 0;
 
     speed_bonus = 0;
     dodge_bonus = 0;
@@ -44,10 +44,7 @@ void Creature::reset(game *g) {
     throw_resist = 0;
 
     // then repopulate the bonus fields
-    for (std::vector<effect>::iterator it = effects.begin();
-            it != effects.end(); ++it) {
-        it->do_effect(g, *this);
-    }
+    process_effects(g);
     str_cur = str_max + get_str_bonus();
     dex_cur = dex_max + get_dex_bonus();
     per_cur = per_max + get_per_bonus();
@@ -78,7 +75,14 @@ class is_id_functor { // functor for remove/has_effect, give c++11 lambdas pls
         bool operator() (effect& e) { return e.get_id() == id; }
 };
 // utility function for process_effects
-bool is_expired_effect(effect& e) { return e.get_duration() <= 0; }
+bool is_expired_effect(effect& e) {
+    if (e.get_duration() <= 0) {
+        g->add_msg_string(e.get_effect_type()->get_remove_message());
+        g->u.add_memorial_log(e.get_effect_type()->get_remove_memorial_log().c_str());
+        return true;
+    } else
+        return false;
+}
 
 void Creature::add_effect(efftype_id eff_id, int dur) {
     // check if we already have it
@@ -95,6 +99,18 @@ void Creature::add_effect(efftype_id eff_id, int dur) {
         effect new_eff(&effect_types[eff_id], dur);
         effects.push_back(new_eff);
     }
+
+    if (is_player()) {
+        g->add_msg_string(effect_types[eff_id].get_apply_message());
+        g->u.add_memorial_log(effect_types[eff_id].get_apply_memorial_log().c_str());
+    }
+}
+bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur) {
+    if (dice(1, 3) > dice(get_env_resist(vector), 3)) {
+        add_effect(eff_id, dur);
+        return true;
+    } else
+        return false;
 }
 void Creature::clear_effects() {
     effects.clear();
@@ -125,6 +141,12 @@ void Creature::process_effects(game* g) {
                        [](effect& e) { return e.get_duration() <= 0; }), effects.end());
                        */
 }
+
+
+void Creature::mod_pain(int npain) {
+    pain += npain;
+}
+
 /*
  * Innate stats getters
  */
@@ -143,6 +165,21 @@ int Creature::get_per() {
 int Creature::get_int() {
     return int_max + int_bonus;
 }
+
+int Creature::get_str_base() {
+    return str_max;
+}
+int Creature::get_dex_base() {
+    return dex_max;
+}
+int Creature::get_per_base() {
+    return per_max;
+}
+int Creature::get_int_base() {
+    return int_max;
+}
+
+
 
 int Creature::get_str_bonus() {
     return str_bonus;
@@ -170,14 +207,27 @@ int Creature::get_num_dodges_bonus() {
     return num_dodges_bonus;
 }
 
-// TODO: implement and actually use these for bash and cut armor,
-// probably needs prototype change to support bodypart
-//
-int Creature::get_arm_bash_bonus() {
-    return arm_bash_bonus;
+// currently this is expected to be overridden to actually have use
+int Creature::get_env_resist(body_part bp) {
+    return 0;
 }
-int Creature::get_arm_cut_bonus() {
-    return arm_cut_bonus;
+int Creature::get_armor_bash(body_part bp) {
+    return armor_bash_bonus;
+}
+int Creature::get_armor_cut(body_part bp) {
+    return armor_cut_bonus;
+}
+int Creature::get_armor_bash_base(body_part bp) {
+    return armor_bash_bonus;
+}
+int Creature::get_armor_cut_base(body_part bp) {
+    return armor_cut_bonus;
+}
+int Creature::get_armor_bash_bonus() {
+    return armor_bash_bonus;
+}
+int Creature::get_armor_cut_bonus() {
+    return armor_cut_bonus;
 }
 
 int Creature::get_speed() {
@@ -261,11 +311,11 @@ void Creature::set_num_dodges_bonus(int ndodges) {
     num_dodges_bonus = ndodges;
 }
 
-void Creature::set_arm_bash_bonus(int nbasharm) {
-    arm_bash_bonus = nbasharm;
+void Creature::set_armor_bash_bonus(int nbasharm) {
+    armor_bash_bonus = nbasharm;
 }
-void Creature::set_arm_cut_bonus(int ncutarm) {
-    arm_cut_bonus = ncutarm;
+void Creature::set_armor_cut_bonus(int ncutarm) {
+    armor_cut_bonus = ncutarm;
 }
 
 void Creature::set_speed_bonus(int nspeed) {

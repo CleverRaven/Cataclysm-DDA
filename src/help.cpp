@@ -557,18 +557,20 @@ You control vehicles using the numpad, or vikeys. However, you control their\n\
                     controls, rather than the vehicle directly. In order to\n\
                     assume control of the vehicle, get to a location with\n\
  \\ | /     \\ | /    \"vehicle controls\" and %s. Once you are in control,\n\
-  \\|/       \\|/     %s accelerates, %s slows or reverses, and %s & %s turn\n\
- -- --     -- --      left or right, respectively.  Your diagonals both turn\n\
-  /|\\       /|\\     and adjust speed. Typically, you will be using \"cruise\n\
- / | \\     / | \\    control\", so the gas/brake adjust the speed which\n\
-                    the vehicle will attempt to maintain. 10-30 MPH, or 16-48\n\
-                    KPH, is a good speed for beginning drivers, who have a\n\
-tendency to fumble the controls. As your Driving skill improves, you will\n\
+  \\|/       \\|/     %s accelerates, %s slows or reverses, &\n\
+ -- --     -- --      %s & %s turn left or right.\n\
+  /|\\       /|\\     Diagonals adjust course and speed. You default to\n\
+ / | \\     / | \\    cruise control, so the gas/brake adjust the speed\n\
+                    which the vehicle will attempt to maintain. 10-30 MPH,\n\
+                    or 16-48 KPH, is a good speed for beginning drivers,\n\
+who tend to fumble the controls. As your Driving skill improves, you will\n\
 fumble less and less. To simply maintain course and speed, hit %s.\n\
 \n\
 It's a good idea to pull the handbrake-\"s\"-when parking, just to be safe.\n\
-If you want to get out, hit the lights, toggle cruise control, or otherwise\n\
-use the vehicle controls, %s to bring up the \"Vehicle Controls\" menu."),
+If you want to get out, hit the lights, toggle cruise control, turn the\n\
+engine on or off, or otherwise use the vehicle controls, %s to bring up\n\
+the \"Vehicle Controls\" menu, which has options for things you'd do\n\
+from the driver's seat."),
             press_x(ACTION_CONTROL_VEHICLE, _("press "), _("'Vehicle Controls'")).c_str(),
             press_x(ACTION_MOVE_N, _(" "), _("'move_n'")).c_str(),
             press_x(ACTION_MOVE_S, _(" "), _("'move_s'")).c_str(),

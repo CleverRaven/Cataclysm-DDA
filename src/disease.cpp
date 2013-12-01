@@ -300,7 +300,7 @@ void dis_remove_memorial(dis_type type_string) {
 void dis_effect(player &p, disease &dis) {
     bool sleeping = p.has_disease("sleep");
     bool tempMsgTrigger = one_in(400);
-    int bonus, psnChance;
+    int bonus;
     dis_type_enum disType = disease_type_lookup[dis.type];
     int grackPower = 500;
     bool inflictBadPsnPain = (!p.has_trait("POISRESIST") && one_in(100)) ||
@@ -897,23 +897,6 @@ void dis_effect(player &p, disease &dis) {
             p.str_cur--;
             p.dex_cur--;
             p.per_cur--;
-            break;
-
-        case DI_POISON:
-            psnChance = 150;
-            if (p.has_trait("POISRESIST")) {
-                psnChance *= 6;
-            } else {
-                p.str_cur -= 2;
-                p.dex_cur--;
-            }
-            if (one_in(psnChance)) {
-                g->add_msg_if_player(&p,_("You're suddenly wracked with pain!"));
-                p.pain++;
-                p.hurt(g, bp_torso, -1, rng(0, 2) * rng(0, 1));
-            }
-            p.per_cur--;
-            p.dex_cur--;
             break;
 
         case DI_BLEED:

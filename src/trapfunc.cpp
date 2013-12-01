@@ -50,7 +50,7 @@ void trapfunc::beartrap(int x, int y)
     g->add_msg(_("A bear trap closes on your foot!"));
     g->u.add_memorial_log(_("Caught by a beartrap."));
     g->sound(x, y, 8, _("SNAP!"));
-    g->u.hit(g, bp_legs, random_side(bp_legs), 10, 16);
+    g->u.hit(g, NULL, bp_legs, random_side(bp_legs), 10, 16);
     g->u.add_disease("beartrap", 1, true);
     g->m.remove_trap(x, y);
     g->m.spawn_item(x, y, "beartrap");
@@ -79,8 +79,8 @@ void trapfunc::board(int x, int y)
 {
  g->add_msg(_("You step on a spiked board!"));
  g->u.add_memorial_log(_("Stepped on a spiked board."));
- g->u.hit(g, bp_feet, 0, 0, rng(6, 10));
- g->u.hit(g, bp_feet, 1, 0, rng(6, 10));
+ g->u.hit(g, NULL, bp_feet, 0, 0, rng(6, 10));
+ g->u.hit(g, NULL, bp_feet, 1, 0, rng(6, 10));
 }
 
 void trapfuncm::board(monster *z, int x, int y)
@@ -101,8 +101,8 @@ void trapfunc::caltrops(int x, int y)
 {
  g->add_msg(_("You step on a sharp metal caltrop!"));
  g->u.add_memorial_log(_("Stepped on a caltrop."));
- g->u.hit(g, bp_feet, 0, 0, rng(9, 30));
- g->u.hit(g, bp_feet, 1, 0, rng(9, 30));
+ g->u.hit(g, NULL, bp_feet, 0, 0, rng(9, 30));
+ g->u.hit(g, NULL, bp_feet, 1, 0, rng(9, 30));
 }
 
 void trapfuncm::caltrops(monster *z, int x, int y)
@@ -173,7 +173,7 @@ void trapfunc::crossbow(int x, int y)
   }
   int side = random_side(hit);
   g->add_msg(_("Your %s is hit!"), body_part_name(hit, side).c_str());
-  g->u.hit(g, hit, side, 0, rng(20, 30));
+  g->u.hit(g, NULL, hit, side, 0, rng(20, 30));
   add_bolt = !one_in(10);
  } else
   g->add_msg(_("You dodge the shot!"));
@@ -239,7 +239,7 @@ void trapfunc::shotgun(int x, int y)
   }
   int side = random_side(hit);
   g->add_msg(_("Your %s is hit!"), body_part_name(hit, side).c_str());
-  g->u.hit(g, hit, side, 0, rng(40 * shots, 60 * shots));
+  g->u.hit(g, NULL, hit, side, 0, rng(40 * shots, 60 * shots));
  } else
   g->add_msg(_("You dodge the shot!"));
  if (shots == 2 || g->m.tr_at(x, y) == tr_shotgun_1) {
@@ -283,15 +283,15 @@ void trapfunc::blade(int x, int y)
 {
  g->add_msg(_("A blade swings out and hacks your torso!"));
  g->u.add_memorial_log(_("Triggered a blade trap."));
- g->u.hit(g, bp_torso, -1, 12, 30);
+ g->u.hit(g, NULL, bp_torso, -1, 12, 30);
 }
 
 void trapfuncm::blade(monster *z, int x, int y)
 {
  if (g->u_see(z))
   g->add_msg(_("A blade swings out and hacks the %s!"), z->name().c_str());
- int cutdam = 30 - z->armor_cut();
- int bashdam = 12 - z->armor_bash();
+ int cutdam = 30 - z->get_armor_cut(bp_torso);
+ int bashdam = 12 - z->get_armor_bash(bp_torso);
  if (cutdam < 0)
   cutdam = 0;
  if (bashdam < 0)
@@ -363,7 +363,7 @@ void trapfunc::snare_heavy(int x, int y)
  g->sound(x, y, 4, _("Snap!"));
  g->add_msg(_("A snare closes on your %s."), body_part_name(hit, side).c_str());
  g->u.add_memorial_log(_("Triggered a heavy snare."));
- g->u.hit(g, bp_legs, side, 15, 20);
+ g->u.hit(g, NULL, bp_legs, side, 15, 20);
  g->u.add_disease("heavysnare", rng(20, 30));
  g->m.remove_trap(x, y);
  g->m.spawn_item(x, y, "rope_6");
@@ -507,8 +507,8 @@ void trapfunc::goo(int x, int y)
  g->u.infect("slimed", bp_feet, 6, 20);
  if (one_in(3)) {
   g->add_msg(_("The acidic goo eats away at your feet."));
-  g->u.hit(g, bp_feet, 0, 0, 5);
-  g->u.hit(g, bp_feet, 1, 0, 5);
+  g->u.hit(g, NULL, bp_feet, 0, 0, 5);
+  g->u.hit(g, NULL, bp_feet, 1, 0, 5);
  }
  g->m.remove_trap(x, y);
 }
@@ -532,16 +532,16 @@ void trapfunc::dissector(int x, int y)
  g->u.add_memorial_log(_("Stepped into a dissector."));
  //~ the sound of a dissector dissecting
  g->sound(x, y, 10, _("BRZZZAP!"));
- g->u.hit(g, bp_head,  -1, 0, 15);
- g->u.hit(g, bp_torso, -1, 0, 20);
- g->u.hit(g, bp_arms,  0, 0, 12);
- g->u.hit(g, bp_arms,  1, 0, 12);
- g->u.hit(g, bp_hands, 0, 0, 10);
- g->u.hit(g, bp_hands, 1, 0, 10);
- g->u.hit(g, bp_legs,  0, 0, 12);
- g->u.hit(g, bp_legs,  1, 0, 12);
- g->u.hit(g, bp_feet,  0, 0, 10);
- g->u.hit(g, bp_feet,  1, 0, 10);
+ g->u.hit(g, NULL, bp_head,  -1, 0, 15);
+ g->u.hit(g, NULL, bp_torso, -1, 0, 20);
+ g->u.hit(g, NULL, bp_arms,  0, 0, 12);
+ g->u.hit(g, NULL, bp_arms,  1, 0, 12);
+ g->u.hit(g, NULL, bp_hands, 0, 0, 10);
+ g->u.hit(g, NULL, bp_hands, 1, 0, 10);
+ g->u.hit(g, NULL, bp_legs,  0, 0, 12);
+ g->u.hit(g, NULL, bp_legs,  1, 0, 12);
+ g->u.hit(g, NULL, bp_feet,  0, 0, 10);
+ g->u.hit(g, NULL, bp_feet,  1, 0, 10);
 }
 
 void trapfuncm::dissector(monster *z, int x, int y)
@@ -564,8 +564,8 @@ void trapfunc::pit(int x, int y)
         if (damage > 0) {
             g->add_msg(_("You hurt yourself!"));
             g->u.hurtall(rng(int(damage / 2), damage));
-            g->u.hit(g, bp_legs, 0, damage, 0);
-            g->u.hit(g, bp_legs, 1, damage, 0);
+            g->u.hit(g, NULL, bp_legs, 0, damage, 0);
+            g->u.hit(g, NULL, bp_legs, 1, damage, 0);
         } else {
             g->add_msg(_("You land nimbly."));
         }
@@ -616,7 +616,7 @@ void trapfunc::pit_spikes(int x, int y)
         }
         int side = random_side(hit);
         g->add_msg(_("The spikes impale your %s!"), body_part_name(hit, side).c_str());
-        g->u.hit(g, hit, side, 0, damage);
+        g->u.hit(g, NULL, hit, side, 0, damage);
         if (one_in(4)) {
             g->add_msg(_("The spears break!"));
             g->m.ter_set(x, y, t_pit);
@@ -665,10 +665,10 @@ void trapfunc::lava(int x, int y)
 {
  g->add_msg(_("The %s burns you horribly!"), g->m.tername(x, y).c_str());
  g->u.add_memorial_log(_("Stepped into lava."));
- g->u.hit(g, bp_feet, 0, 0, 20);
- g->u.hit(g, bp_feet, 1, 0, 20);
- g->u.hit(g, bp_legs, 0, 0, 20);
- g->u.hit(g, bp_legs, 1, 0, 20);
+ g->u.hit(g, NULL, bp_feet, 0, 0, 20);
+ g->u.hit(g, NULL, bp_feet, 1, 0, 20);
+ g->u.hit(g, NULL, bp_legs, 0, 0, 20);
+ g->u.hit(g, NULL, bp_legs, 1, 0, 20);
 }
 
 

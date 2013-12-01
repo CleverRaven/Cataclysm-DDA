@@ -84,13 +84,15 @@ public:
  std::string random_good_trait();
  std::string random_bad_trait();
  void normalize(game *g); // Starting set up of HP and inventory
+
+ virtual void die(game* g, Creature* killer);
 // </newcharacter.cpp>
 
     void pick_name(); // Picks a name from NAMES_*
     std::string disp_name(); // what to call 'im
     std::string skin_name(); // what to call 'im
 
-    bool is_player() { return false; }
+    virtual bool is_player() { return true; }
 
     void process_effects(game *g); // Process long-term effects
 
@@ -225,9 +227,9 @@ public:
  int  hit_roll(); // Our basic hit roll, compared to our target's dodge roll
  bool scored_crit(int target_dodge = 0); // Critical hit?
 
- int roll_bash_damage(monster *z, bool crit);
- int roll_cut_damage(monster *z, bool crit);
- int roll_stab_damage(monster *z, bool crit);
+ int roll_bash_damage(bool crit);
+ int roll_cut_damage(bool crit);
+ int roll_stab_damage(bool crit);
  int roll_stuck_penalty(bool stabbing);
 
  std::vector<matec_id> get_all_techniques();
@@ -265,7 +267,7 @@ public:
 
 // Converts bphurt to a hp_part (if side == 0, the left), then does/heals dam
 // hit() processes damage through armor
- int hit   (game *g, body_part bphurt, int side, int  dam, int  cut);
+ int hit   (game *g, Creature* source, body_part bphurt, int side, int  dam, int  cut);
 // absorb() reduces dam and cut by your armor (and bionics, traits, etc)
  void absorb(game *g, body_part bp,               int &dam, int &cut);
 // hurt() doesn't--effects of disease, what have you
@@ -360,11 +362,11 @@ public:
  int warmth(body_part bp); // Warmth provided by armor &c
  int encumb(body_part bp); // Encumbrance from armor &c
  int encumb(body_part bp, double &layers, int &armorenc);
- int armor_bash(body_part bp); // Bashing resistance
- int armor_cut(body_part bp); // Cutting  resistance
- int armor_bash(); // bodypartless, for creature (for now)
- int armor_cut();
- int resist(body_part bp); // Infection &c resistance
+ int get_armor_bash(body_part bp); // Bashing resistance, from creature
+ int get_armor_cut(body_part bp); // Cutting resistance
+ int get_armor_bash_base(body_part bp); // Bashing resistance
+ int get_armor_cut_base(body_part bp); // Cutting  resistance
+ int get_env_resist(body_part bp); // Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 

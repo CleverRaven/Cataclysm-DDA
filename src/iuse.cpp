@@ -107,7 +107,7 @@ static bool inscribe_item( player *p, std::string verb, std::string gerund, bool
 int iuse::none(player *p, item *it, bool t)
 {
   g->add_msg(_("You can't do anything interesting with your %s."),
-             it->tname(g).c_str());
+             it->tname().c_str());
   return it->type->charges_to_use();
 }
 
@@ -151,10 +151,10 @@ int iuse::royal_jelly(player *p, item *it, bool t)
   message = _("Your sight returns!");
   p->rem_disease("blind");
  }
- if (p->has_disease("poison") || p->has_disease("foodpoison") ||
+ if (p->has_effect("effect_poison") || p->has_disease("foodpoison") ||
      p->has_disease("badpoison") || p->has_disease("paralyzepoison")) {
   message = _("You feel much better!");
-  p->rem_disease("poison");
+  p->remove_effect("effect_poison");
   p->rem_disease("badpoison");
   p->rem_disease("foodpoison");
   p->rem_disease("paralyzepoison");
@@ -812,7 +812,7 @@ int iuse::vaccine(player *p, item *it, bool t) {
 }
 
 int iuse::poison(player *p, item *it, bool t) {
-    p->add_disease("poison", 600);
+    p->add_effect("effect_poison", 600);
     p->add_disease("foodpoison", 1800);
     return it->type->charges_to_use();
 }
@@ -5212,7 +5212,7 @@ int iuse::torch_lit(player *p, item *it, bool t)
     }
     else if(it->charges <= 0)
     {
-        g->add_msg_if_player(p, _("The %s winks out"), it->tname(g).c_str());
+        g->add_msg_if_player(p, _("The %s winks out"), it->tname().c_str());
     }
     else   // Turning it off
     {
@@ -5272,7 +5272,7 @@ int iuse::battletorch_lit(player *p, item *it, bool t)
     }
     else if(it->charges <= 0)
     {
-        g->add_msg_if_player(p, _("The %s winks out"), it->tname(g).c_str());
+        g->add_msg_if_player(p, _("The %s winks out"), it->tname().c_str());
     }
     else   // Turning it off
     {

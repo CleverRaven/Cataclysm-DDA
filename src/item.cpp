@@ -798,7 +798,7 @@ nc_color item::color_in_inventory()
     return c_white;
 }
 
-std::string item::tname(game *g)
+std::string item::tname()
 {
     std::stringstream ret;
 
@@ -911,6 +911,17 @@ std::string item::tname(game *g)
         return "*" + ret.str() + "*";
     } else {
         return ret.str();
+    }
+}
+
+std::string item::display_name()
+{
+    if (charges > 0) {
+        return string_format("%s (%d)", tname().c_str(), charges);
+    } else if (contents.size() == 1 && contents[0].charges > 0) {
+        return string_format("%s (%d)", tname().c_str(), contents[0].charges);
+    } else {
+        return tname();
     }
 }
 

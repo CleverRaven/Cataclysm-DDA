@@ -533,8 +533,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 {
                     message += string_format(_(" You cut the %s!"), z.name().c_str());
                 }
-                if (thrown.type->melee_cut > z.armor_cut())
-                    dam += (thrown.type->melee_cut - z.armor_cut());
+                if (thrown.type->melee_cut > z.get_armor_cut(bp_torso))
+                    dam += (thrown.type->melee_cut - z.get_armor_cut(bp_torso));
             }
             if (thrown.made_of("glass") && !thrown.active && // active = molotov, etc.
                 rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume())
@@ -545,8 +545,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                     m.add_item_or_charges(tx, ty, thrown.contents[i]);
                     sound(tx, ty, 16, _("glass breaking!"));
                     int glassdam = rng(0, thrown.volume() * 2);
-                    if (glassdam > z.armor_cut())
-                        dam += (glassdam - z.armor_cut());
+                    if (glassdam > z.get_armor_cut(bp_torso))
+                        dam += (glassdam - z.get_armor_cut(bp_torso));
             }
             else
                 m.add_item_or_charges(tx, ty, thrown);
@@ -1158,7 +1158,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
             mon.add_effect("effect_bounced", 1);
         }
         // Armor blocks BEFORE any critical effects.
-        int zarm = mon.armor_cut();
+        int zarm = mon.get_armor_cut(bp_torso);
         zarm -= weapon->gun_pierce();
         if (weapon->curammo->phase == LIQUID)
             zarm = 0;
@@ -1301,7 +1301,7 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
                     h->name.c_str(), body_part_name(hit, side).c_str());
             }
         }
-        h->hit(g, hit, side, 0, dam);
+        h->hit(g, &p, hit, side, 0, dam);
     }
 }
 
