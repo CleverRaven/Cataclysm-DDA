@@ -1,5 +1,9 @@
 # JSON Flags
 
+## Notes
+- Many of the flags intended for one category or item type, can be used in other categories or item types. Experiment to see where else flags can be used.
+- Offensive and defensive flags can be used on any item type that can be wielded.
+
 ## Material Phases
 
 - ```NULL```
@@ -7,17 +11,6 @@
 - ```LIQUID```
 - ```GAS```
 - ```PLASMA```
-
-## Body Parts
-
-- ```TORSO```
-- ```HEAD```
-- ```EYES```
-- ```MOUTH```
-- ```ARMS```
-- ```HANDS```
-- ```LEGS```
-- ```FEET```
 
 ## Recipes
 
@@ -434,6 +427,163 @@ The chambering of weapons that this ammo can be loaded into.
 - ```LIGHTNING``` Creates a trail of lightning.
 - ```PLASMA``` Creates a trail of superheated plasma.
 - ```LASER``` Creates a trail of laser (the field type)
+
+## Armor
+
+### Covers
+
+- ```TORSO```
+- ```HEAD```
+- ```EYES```
+- ```MOUTH```
+- ```ARMS```
+- ```HANDS```
+- ```LEGS```
+- ```FEET```
+
+### Flags
+
+- ```FIT``` Reduces encumbrance by one.
+- ```VARSIZE``` Can be made to fit via tailoring.
+- ```SKINTIGHT``` Reduces clothing layering penalty.
+- ```WATER_FRIENDLY``` Prevents the covered body part(s) from getting drenched with water.
+- ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
+- ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
+- ```STURDY``` This clothing is a lot more resistant to damage than normal.
+- ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
+- ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
+- ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
+- ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
+- ```FLOATATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
+- ```OVERSIZE``` Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.
+- ```WATCH``` Acts as a watch and allows the player to see actual time.
+- ```ALARMCLOCK``` Has an alarm-clock feature.
+- ```DEAF``` Makes the player deaf.
+
+### Techniques
+
+See the section on techniques.
+
+## Comestibles
+
+### Comestible type
+
+- ```DRINK```
+- ```FOOD```
+- ```MED```
+
+### Addiction type
+
+- ```nicotine```
+- ```caffeine```
+- ```alcohol```
+- ```sleeping pill```
+- ```opiate```
+- ```amphetamine```
+- ```cocaine```
+- ```crack```
+
+### Use action
+
+- ```NONE``` "You can't do anything of interest with your [x]."
+- ```SEWAGE``` Causes vomiting and a chance to mutate.
+- ```HONEYCOMB``` Spawns wax.
+- ```ROYAL_JELLY``` Alleviates many negative conditions and diseases.
+- ```BANDAGE``` Stop bleeding.
+- ```FIRSTAID``` Heal.
+- ```DISINFECTANT``` Prevents infections.
+- ```CAFF``` Reduces fatigue.
+- ```ATOMIC_CAFF``` Greatly reduces fatigue and increases radiation dosage.
+- ```ALCOHOL``` Increases drunkenness. Adds disease `drunk`.
+- ```ALCOHOL_WEAK``` Slightly increases drunkenness. Adds disease `drunk`
+- ```PKILL``` Reduces pain. Adds disease `pkill[n]` where `[n]` is the level of flag `PKILL_[n]` used on this comestible.
+- ```XANAX``` Alleviates anxiety. Adds disease `took_xanax`.
+- ```CIG``` Alleviates nicotine cravings. Adds disease `cig`.
+- ```ANTIBIOTIC``` Helps fight infections. Removes disease `infected` and adds disease `recover`.
+- ```FUNGICIDE``` Kills fungus and spores. Removes diseases `fungus` and `spores`.
+- ```WEED``` Makes you roll with Cheech & Chong. Adds disease `weed_high`.
+- ```COKE``` Decreases hunger. Adds disease `high`.
+- ```CRACK``` Decreases hunger. Adds disease `high`.
+- ```GRACK``` Decreases hunger. Adds disease 'high'.
+- ```METH``` Adds disease `meth`
+- ```VITAMINS``` Increases healthiness (not to be confused with HP)
+- ```VACCINE``` Greatly increases health.
+- ```POISON``` Adds diseases `poison` and `foodpoison`.
+- ```HALLU``` Adds disease `hallu`.
+- ```THORAZINE``` Removes diseases `hallu`, `visuals`, `high`. Additionally removes disease `formication` if disease `dermatik` isn't also present. Has a chance of a negative reaction which increases fatigue.
+- ```PROZAC``` Adds disease `took_prozac` if not currently present, otherwise acts as a minor stimulant.
+- ```SLEEP``` Greatly increases fatigue.
+- ```IODINE``` Adds disease `iodine`.
+- ```FLUMED``` Adds disease `took_flumed`.
+- ```FLUSLEEP``` Adds disease `took_flumed` and increases fatigue.
+- ```INHALER``` Removes disease `asthma`.
+- ```BLECH``` Causes vomiting.
+- ```CHEW``` Displays message "You chew your %s", but otherwise does nothing.
+- ```MUTAGEN``` Causes mutation.
+- ```PURIFIER``` Removes negative mutations.
+- ```MARLOSS``` "As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."
+- ```DOGFOOD``` Makes a dog friendly.
+- ```CATFOOD```Makes a cat friendly.
+
+### Flags
+
+- ```EATEN_HOT``` Morale bonus for eating hot.
+- ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
+- ```FERTILIZER``` Works as fertilizer for farming.
+- ```SEED``` Plantable seed for farming.
+- ```MUTAGEN_STRONG``` Chance of mutating several times.
+- ```MUTAGEN_PLANT``` Causes mutation in the plant branch.
+- ```MUTAGEN_INSECT``` Causes mutation in the insect branch.
+- ```MUTAGEN_SPIDER``` Causes mutation in the spider branch.
+- ```MUTAGEN_SLIME``` Causes mutation in the slime branch.
+- ```MUTAGEN_FISH``` Causes mutation in the fish branch.
+- ```MUTAGEN_RAT``` Causes mutation in the rat branch.
+- ```MUTAGEN_BEAST``` Causes mutation in the beast branch.
+- ```MUTAGEN_CATTLE``` Causes mutation in the cattle branch.
+- ```MUTAGEN_CEPHALOPOD``` Causes mutation in the cephalopod branch.
+- ```MUTAGEN_BIRD``` Causes mutation in the bird branch.
+- ```MUTAGEN_LIZARD``` Causes mutation in the lizard branch.
+- ```MUTAGEN_TROGLOBITE``` Causes mutation in the troglobite branch.
+- ```MUTAGEN_MEDICAL``` Causes mutation in the medical branch.
+- ```MUTAGEN_CHIMERA``` Causes mutation in the chimera branch.
+- ```MUTAGEN_ALPHA``` Causes mutation in the alpha branch.
+- ```MUTAGEN_ELFA``` Causes mutation in the elfa branch.
+- ```MUTAGEN_RAPTOR``` Causes mutation in the raptor branch.
+- ```PKILL_1``` Minor painkiller.
+- ```PKILL_2``` Moderate painkiller.
+- ```PKILL_3``` Heavy painkiller.
+- ```PKILL_4``` "You shoot up."
+- ```PKILL_L``` Slow-release painkiller.
+- ```SPEAR``` Deals stabbing damage. The `SPEAR` flag is synonymous with the `STAB` flag.
+
+## Tools
+
+## Techniques
+Techniques may be used by tools, armors, weapons and anything else that can be wielded.
+
+### Offensive
+
+- ```SWEEP``` Criticals may make your enemy fall & miss a turn.
+- ```PRECISE``` Criticals are painful and stun.
+- ```BRUTAL``` Criticals knock the target back.
+- ```GRAB``` Hit may allow a second unarmed attack attempt.
+- ```WIDE``` Attacks adjacent opponents.
+- ```RAPID``` Hits faster.
+- ```FEINT``` Misses take less time.
+- ```THROW``` Attacks may throw your opponent.
+- ```DISARM``` Remove an NPC's weapon.
+- ```FLAMING``` Sets the target on fire.
+
+### Defensive
+
+- ```BLOCK``` Block attacks, reducing them to 25% damage.
+- ```BLOCK_LEGS``` Block attacks, but with your legs.
+- ```WBLOCK_1``` Poor chance to block when wielding this item (e.g. pole).
+- ```WBLOCK_2``` Moderate chance to block when wielding this item (e.g. a weapon made for blocking)
+- ```WBLOCK_3``` Good chance to block when wielding this item (e.g. a shield).
+- ```BREAK``` Break from a grab.
+- ```DEF_THROW``` Throw an enemy that attacks you.
+- ```DEF_DISARM``` Disarm an enemy.
 
 ## Skills
 
