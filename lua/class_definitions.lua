@@ -335,9 +335,4 @@ global_functions = {
         args = {"int", "int", "item"},
         rval = nil
     },
-    look_around = {
-        cpp_name = "&g->look_around",
-        args = { },
-        rval = "point"
-    }
 }
