@@ -1819,77 +1819,77 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
  for (int i = 0; i < FULL_SCREEN_WIDTH+1; i++) {
   //Horizontal line top grid
-  mvwputch(w_grid_top, 10, i, c_ltgray, LINE_OXOX);
-  mvwputch(w_grid_top, 14, i, c_ltgray, LINE_OXOX);
+  mvwputch(w_grid_top, 10, i, BORDER_COLOR, LINE_OXOX);
+  mvwputch(w_grid_top, 14, i, BORDER_COLOR, LINE_OXOX);
 
   //Vertical line top grid
   if (i <= infooffsetybottom) {
-   mvwputch(w_grid_top, i, 26, c_ltgray, LINE_XOXO);
-   mvwputch(w_grid_top, i, 53, c_ltgray, LINE_XOXO);
-   mvwputch(w_grid_top, i, FULL_SCREEN_WIDTH, c_ltgray, LINE_XOXO);
+   mvwputch(w_grid_top, i, 26, BORDER_COLOR, LINE_XOXO);
+   mvwputch(w_grid_top, i, 53, BORDER_COLOR, LINE_XOXO);
+   mvwputch(w_grid_top, i, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXO);
   }
 
   //Horizontal line skills
   if (i <= 26) {
-   mvwputch(w_grid_skill, skill_win_size_y, i, c_ltgray, LINE_OXOX);
+   mvwputch(w_grid_skill, skill_win_size_y, i, BORDER_COLOR, LINE_OXOX);
   }
 
   //Vertical line skills
   if (i <= skill_win_size_y) {
-   mvwputch(w_grid_skill, i, 26, c_ltgray, LINE_XOXO);
+   mvwputch(w_grid_skill, i, 26, BORDER_COLOR, LINE_XOXO);
   }
 
   //Horizontal line traits
   if (i <= 26) {
-   mvwputch(w_grid_trait, trait_win_size_y, i, c_ltgray, LINE_OXOX);
+   mvwputch(w_grid_trait, trait_win_size_y, i, BORDER_COLOR, LINE_OXOX);
   }
 
   //Vertical line traits
   if (i <= trait_win_size_y) {
-   mvwputch(w_grid_trait, i, 26, c_ltgray, LINE_XOXO);
+   mvwputch(w_grid_trait, i, 26, BORDER_COLOR, LINE_XOXO);
   }
 
   //Horizontal line effects
   if (i <= 27) {
-   mvwputch(w_grid_effect, effect_win_size_y, i, c_ltgray, LINE_OXOX);
+   mvwputch(w_grid_effect, effect_win_size_y, i, BORDER_COLOR, LINE_OXOX);
   }
 
   //Vertical line effects
   if (i <= effect_win_size_y) {
-   mvwputch(w_grid_effect, i, 0, c_ltgray, LINE_XOXO);
-   mvwputch(w_grid_effect, i, 27, c_ltgray, LINE_XOXO);
+   mvwputch(w_grid_effect, i, 0, BORDER_COLOR, LINE_XOXO);
+   mvwputch(w_grid_effect, i, 27, BORDER_COLOR, LINE_XOXO);
   }
  }
 
  //Intersections top grid
- mvwputch(w_grid_top, 14, 26, c_ltgray, LINE_OXXX); // T
- mvwputch(w_grid_top, 14, 53, c_ltgray, LINE_OXXX); // T
- mvwputch(w_grid_top, 10, 26, c_ltgray, LINE_XXOX); // _|_
- mvwputch(w_grid_top, 10, 53, c_ltgray, LINE_XXOX); // _|_
- mvwputch(w_grid_top, 10, FULL_SCREEN_WIDTH, c_ltgray, LINE_XOXX); // -|
- mvwputch(w_grid_top, 14, FULL_SCREEN_WIDTH, c_ltgray, LINE_XOXX); // -|
+ mvwputch(w_grid_top, 14, 26, BORDER_COLOR, LINE_OXXX); // T
+ mvwputch(w_grid_top, 14, 53, BORDER_COLOR, LINE_OXXX); // T
+ mvwputch(w_grid_top, 10, 26, BORDER_COLOR, LINE_XXOX); // _|_
+ mvwputch(w_grid_top, 10, 53, BORDER_COLOR, LINE_XXOX); // _|_
+ mvwputch(w_grid_top, 10, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXX); // -|
+ mvwputch(w_grid_top, 14, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXX); // -|
  wrefresh(w_grid_top);
 
- mvwputch(w_grid_skill, skill_win_size_y, 26, c_ltgray, LINE_XOOX); // _|
+ mvwputch(w_grid_skill, skill_win_size_y, 26, BORDER_COLOR, LINE_XOOX); // _|
 
  if (skill_win_size_y > trait_win_size_y)
-  mvwputch(w_grid_skill, trait_win_size_y, 26, c_ltgray, LINE_XXXO); // |-
+  mvwputch(w_grid_skill, trait_win_size_y, 26, BORDER_COLOR, LINE_XXXO); // |-
  else if (skill_win_size_y == trait_win_size_y)
-  mvwputch(w_grid_skill, trait_win_size_y, 26, c_ltgray, LINE_XXOX); // _|_
+  mvwputch(w_grid_skill, trait_win_size_y, 26, BORDER_COLOR, LINE_XXOX); // _|_
 
- mvwputch(w_grid_trait, trait_win_size_y, 26, c_ltgray, LINE_XOOX); // _|
+ mvwputch(w_grid_trait, trait_win_size_y, 26, BORDER_COLOR, LINE_XOOX); // _|
 
  if (trait_win_size_y > effect_win_size_y)
-  mvwputch(w_grid_trait, effect_win_size_y, 26, c_ltgray, LINE_XXXO); // |-
+  mvwputch(w_grid_trait, effect_win_size_y, 26, BORDER_COLOR, LINE_XXXO); // |-
  else if (trait_win_size_y == effect_win_size_y)
-  mvwputch(w_grid_trait, effect_win_size_y, 26, c_ltgray, LINE_XXOX); // _|_
+  mvwputch(w_grid_trait, effect_win_size_y, 26, BORDER_COLOR, LINE_XXOX); // _|_
  else if (trait_win_size_y < effect_win_size_y) {
-  mvwputch(w_grid_trait, trait_win_size_y, 26, c_ltgray, LINE_XOXX); // -|
-  mvwputch(w_grid_trait, effect_win_size_y, 26, c_ltgray, LINE_XXOO); // |_
+  mvwputch(w_grid_trait, trait_win_size_y, 26, BORDER_COLOR, LINE_XOXX); // -|
+  mvwputch(w_grid_trait, effect_win_size_y, 26, BORDER_COLOR, LINE_XXOO); // |_
  }
 
- mvwputch(w_grid_effect, effect_win_size_y, 0, c_ltgray, LINE_XXOO); // |_
- mvwputch(w_grid_effect, effect_win_size_y, 27, c_ltgray, LINE_XOOX); // _|
+ mvwputch(w_grid_effect, effect_win_size_y, 0, BORDER_COLOR, LINE_XXOO); // |_
+ mvwputch(w_grid_effect, effect_win_size_y, 27, BORDER_COLOR, LINE_XOOX); // _|
 
  wrefresh(w_grid_skill);
  wrefresh(w_grid_effect);
@@ -9292,7 +9292,3 @@ void player::shift_destination(int shiftx, int shifty)
         it->y += shifty;
     }
 }
-
-
-
-// --- End ---
