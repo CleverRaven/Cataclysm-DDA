@@ -6881,7 +6881,12 @@ void game::control_vehicle()
     } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
                    && u.in_vehicle) {
         u.controlling_vehicle = true;
-        add_msg(_("You take control of the %s."), veh->name.c_str());
+        if (!veh->engine_on) {
+            veh->engine_on = true;
+            add_msg(_("You start up the %s."), veh->name.c_str());
+        } else {
+            add_msg(_("You take control of the %s."), veh->name.c_str());
+        }
     } else {
         int examx, examy;
         if (!choose_adjacent(_("Control vehicle where?"), examx, examy))
