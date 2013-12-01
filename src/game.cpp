@@ -2627,8 +2627,8 @@ void game::update_scent()
  int sum_3_squares_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
  int  squares_used_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
 
- const static std::string hasflag_str_BASHABLE("BASHABLE"); // only need to assemble this once per runtime vs 14884 times
- const static std::string hasflag_str_REDUCE_SCENT("REDUCE_SCENT");
+ static const std::string hasflag_str_BASHABLE("BASHABLE"); // only need to assemble this once per runtime vs 14884 times
+ static const std::string hasflag_str_REDUCE_SCENT("REDUCE_SCENT");
 
  bool can_move_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash move_cost instead of checking 14884 * (3 redundant)
  bool can_bash_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash bashable instead of checking 14884 * (3 redundant)
@@ -2676,7 +2676,7 @@ void game::update_scent()
     // Now we do it for the x direction, multiply by diffusion, and this is what diffuses into our current square.
     grscent[x][y] = static_cast<int>(temp_scent + diffusivity * (sum_3_squares_y[x-1][y] + sum_3_squares_y[x][y] + sum_3_squares_y[x+1][y] )) / 1000;
 
-    int fslime = m.get_field_strength(point(x,y), fd_slime) * 10;
+    const int fslime = m.get_field_strength(point(x,y), fd_slime) * 10;
     if (fslime > 0 && grscent[x][y] < fslime) {
         grscent[x][y] = fslime;
     }
