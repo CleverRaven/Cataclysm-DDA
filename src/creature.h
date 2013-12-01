@@ -6,6 +6,7 @@
 #include "bionics.h"
 #include "json.h"
 #include "effect.h"
+#include "bodypart.h"
 #include <string>
 #include <vector>
 
@@ -27,8 +28,14 @@ class Creature
 
         virtual int hit_creature(game *g, Creature &t, bool allow_grab) = 0; // Returns a damage
 
-        virtual int hit (game *g, body_part bphurt, int side,
+        virtual int hit(game *g, Creature* source, body_part bphurt, int side,
                 int dam, int cut) = 0;
+        /*
+        virtual int hit(game *g, body_part bphurt, int side,
+                int dam, int cut) {
+            hit(g,NULL,bphurt,side,dam,cut);
+        }
+        */
 
         virtual bool block_hit(game *g, body_part &bp_hit, int &side,
             int &bash_dam, int &cut_dam, int &stab_dam) = 0;
@@ -43,9 +50,6 @@ class Creature
 
         // these also differ between player and monster (player takes
         // body_part) but we will use this for now
-        // TODO: change uses of this to get_arm_bash/get_arm_cut
-        virtual int armor_bash() = 0;
-        virtual int armor_cut() = 0;
         // TODO: this is just a shim so knockbacks work
         virtual void knock_back_from(game *g, int posx, int posy) = 0;
 
@@ -53,6 +57,8 @@ class Creature
 
         virtual void normalize(game* g); // recreate the Creature from scratch
         virtual void reset(game* g); // prepare the Creature for the next turn
+
+        virtual void die(game* g, Creature* killer) = 0;
 
         // should replace both player.add_disease and monster.add_effect
         // these are nonvirtual since otherwise they can't be accessed with
@@ -72,6 +78,11 @@ class Creature
         virtual int get_per();
         virtual int get_int();
 
+        virtual int get_str_base();
+        virtual int get_dex_base();
+        virtual int get_per_base();
+        virtual int get_int_base();
+
         virtual int get_str_bonus();
         virtual int get_dex_bonus();
         virtual int get_per_bonus();
@@ -82,8 +93,12 @@ class Creature
         virtual int get_num_blocks_bonus();
         virtual int get_num_dodges_bonus();
 
-        virtual int get_arm_bash_bonus();
-        virtual int get_arm_cut_bonus();
+        virtual int get_armor_bash(body_part bp);
+        virtual int get_armor_cut(body_part bp);
+        virtual int get_armor_bash_base(body_part bp);
+        virtual int get_armor_cut_base(body_part bp);
+        virtual int get_armor_bash_bonus();
+        virtual int get_armor_cut_bonus();
 
         virtual int get_speed();
         virtual int get_dodge();
@@ -115,8 +130,8 @@ class Creature
         virtual void set_num_blocks_bonus(int nblocks);
         virtual void set_num_dodges_bonus(int ndodges);
 
-        virtual void set_arm_bash_bonus(int nbasharm);
-        virtual void set_arm_cut_bonus(int ncutarm);
+        virtual void set_armor_bash_bonus(int nbasharm);
+        virtual void set_armor_cut_bonus(int ncutarm);
 
         virtual void set_speed_bonus(int nspeed);
         virtual void set_dodge_bonus(int ndodge);
@@ -159,8 +174,8 @@ class Creature
         int num_blocks_bonus; // bonus ""
         int num_dodges_bonus;
 
-        int arm_bash_bonus;
-        int arm_cut_bonus;
+        int armor_bash_bonus;
+        int armor_cut_bonus;
 
         int speed_base; // only speed needs a base, the rest are assumed at 0 and calced off skills
 

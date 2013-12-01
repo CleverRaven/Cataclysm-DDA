@@ -667,7 +667,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 } else {
 
                     //Hurt the player
-                    dam = p.hit(g, bphit, side, dam, cut);
+                    dam = p.hit(g, this, bphit, side, dam, cut);
 
                     //Monster effects
                     if (dam > 0 && has_flag(MF_VENOM)) {
@@ -1122,7 +1122,7 @@ void monster::knock_back_from(game *g, int x, int y)
   npc *p = g->active_npc[npcdex];
   hurt(3);
   add_effect("effect_stunned", 1);
-  p->hit(g, bp_torso, -1, type->size, 0);
+  p->hit(g, this, bp_torso, -1, type->size, 0);
   if (u_see)
    g->add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
 

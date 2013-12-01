@@ -166,9 +166,9 @@ int player::hit_creature(game *g, Creature &t, bool allow_grab) {
 
     bool critical_hit = scored_crit(target_dodge);
 
-    int bash_dam = roll_bash_damage(NULL, critical_hit);
-    int cut_dam  = roll_cut_damage(NULL, critical_hit);
-    int stab_dam = roll_stab_damage(NULL, critical_hit);
+    int bash_dam = roll_bash_damage(critical_hit);
+    int cut_dam  = roll_cut_damage(critical_hit);
+    int stab_dam = roll_stab_damage(critical_hit);
 
     body_part bp_hit;
     int side = rng(0, 1);
@@ -228,7 +228,7 @@ int player::hit_creature(game *g, Creature &t, bool allow_grab) {
     if (!is_quiet()) // check martial arts silence
         g->sound(posx, posy, 8, "");
 
-    t.hit(g, bp_hit, side, bash_dam, (cut_dam > stab_dam ? cut_dam : stab_dam));
+    t.hit(g, this, bp_hit, side, bash_dam, (cut_dam > stab_dam ? cut_dam : stab_dam));
 
     int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
@@ -417,7 +417,7 @@ int player::base_damage(bool real_life, int stat)
  return dam;
 }
 
-int player::roll_bash_damage(monster *z, bool crit)
+int player::roll_bash_damage(bool crit)
 {
  int ret = 0;
  int stat = str_cur; // Which stat determines damage?
@@ -427,14 +427,6 @@ int player::roll_bash_damage(monster *z, bool crit)
 
  if (unarmed_attack())
   skill = skillLevel("unarmed");
-
- if(weapon.typeId() =="style_crane"){
-   stat = (dex_cur * 2 + str_cur) / 3;
- } else if(weapon.typeId() == "style_snake"){
-   stat = int(str_cur + per_cur) / 2;
- } else if(weapon.typeId() == "style_dragon"){
-   stat = int(str_cur + int_cur) / 2;
- }
 
  ret = base_damage(true, stat);
 
@@ -466,8 +458,10 @@ int player::roll_bash_damage(monster *z, bool crit)
  if (bash_dam > bash_cap)// Cap for weak characters
   bash_dam = (bash_cap * 3 + bash_dam) / 4;
 
+ /* TODO: add flags n stuff back in
  if (z != NULL && z->has_flag(MF_PLASTIC))
   bash_dam /= rng(2, 4);
+  */
 
  int bash_min = bash_dam / 4;
 
@@ -484,26 +478,17 @@ int player::roll_bash_damage(monster *z, bool crit)
  if (crit) {
   ret += int(stat / 2);
   ret += skill;
-  if (z != NULL)
-   ret -= z->armor_bash() / 2;
- } else if (z != NULL)
-  ret -= z->armor_bash();
+ }
 
  return (ret < 0 ? 0 : ret);
 }
 
-int player::roll_cut_damage(monster *z, bool crit)
+int player::roll_cut_damage(bool crit)
 {
  if (weapon.has_flag("SPEAR"))
   return 0;  // Stabs, doesn't cut!
- int z_armor_cut = (z == NULL ? 0 : z->armor_cut() - skillLevel("cutting") / 2);
 
- if (crit)
-  z_armor_cut /= 2;
- if (z_armor_cut < 0)
-  z_armor_cut = 0;
-
- double ret = mabuff_cut_bonus() + weapon.damage_cut() - z_armor_cut;
+ double ret = mabuff_cut_bonus() + weapon.damage_cut();
 
  if (unarmed_attack() && !wearing_something_on(bp_hands)) {
   if (has_trait("CLAWS"))
@@ -512,7 +497,8 @@ int player::roll_cut_damage(monster *z, bool crit)
    ret += 4;
   if (has_trait("TALONS"))
    ret += 6 + ((int)skillLevel("unarmed") > 8 ? 8 : (int)skillLevel("unarmed"));
-  if (has_trait("SLIME_HANDS") && (z == NULL || !z->has_flag(MF_ACIDPROOF)))
+  //TODO: add acidproof check back to slime hands (probably move it elsewhere)
+  if (has_trait("SLIME_HANDS"))
    ret += rng(4, 6);
  }
 
@@ -531,31 +517,27 @@ int player::roll_cut_damage(monster *z, bool crit)
  return ret;
 }
 
-int player::roll_stab_damage(monster *z, bool crit)
+int player::roll_stab_damage(bool crit)
 {
  double ret = 0;
- int z_armor = (z == NULL ? 0 : z->armor_cut() - 3 * skillLevel("stabbing"));
-
- if (crit)
-  z_armor /= 3;
- if (z_armor < 0)
-  z_armor = 0;
+  //TODO: armor formula is z->get_armor_cut() - 3 * skillLevel("stabbing")
 
  if (unarmed_attack() && !wearing_something_on(bp_hands)) {
-  ret = 0 - z_armor;
+  ret = 0;
   if (has_trait("CLAWS"))
    ret += 6;
-  if (has_trait("NAILS") && z_armor == 0)
+  if (has_trait("NAILS"))
    ret++;
   if (has_bionic("bio_razors"))
    ret += 4;
   if (has_trait("THORNS"))
    ret += 4;
  } else if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
-  ret = int((weapon.damage_cut() - z_armor) / 4);
+  ret = int((weapon.damage_cut()) / 4);
  else
   return 0; // Can't stab at all!
 
+ /* TODO: add this bonus back in
  if (z != NULL && z->speed > 100) { // Bonus against fast monsters
   int speed_min = (z->speed - 100) / 10, speed_max = (z->speed - 100) / 5;
   int speed_dam = rng(speed_min, speed_max);
@@ -564,6 +546,7 @@ int player::roll_stab_damage(monster *z, bool crit)
   if (speed_dam > 0)
    ret += speed_dam;
  }
+ */
 
  if (ret <= 0)
   return 0; // No negative stabbing!
@@ -791,11 +774,9 @@ void player::perform_technique(ma_technique technique, game *g, Creature &t,
             int mondex = g->mon_at(x, y);
             if (mondex != -1 && hit_roll() >= rng(0, 5) + g->zombie(mondex).dodge_roll(g)) {
                 count_hit++;
-                int dam = roll_bash_damage(&(g->zombie(mondex)), false) +
-                    roll_cut_damage (&(g->zombie(mondex)), false);
-                if (g->zombie(mondex).hurt(dam)) {
-                    g->zombie(mondex).die(g);
-                }
+                int dam = roll_bash_damage(false);
+                int cut = roll_cut_damage (false);
+                g->zombie(mondex).hit(g,this,bp_legs,3,dam,cut);
                 if (weapon.has_flag("FLAMING"))  { // Add to wide attacks
                     g->zombie(mondex).add_effect("effect_onfire", rng(3, 4));
                 }
@@ -806,9 +787,9 @@ void player::perform_technique(ma_technique technique, game *g, Creature &t,
             if (npcdex != -1 &&
                 hit_roll() >= rng(0, 5) + g->active_npc[npcdex]->dodge_roll(g)) {
                 count_hit++;
-                int dam = roll_bash_damage(NULL, false);
-                int cut = roll_cut_damage (NULL, false);
-                g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
+                int dam = roll_bash_damage(false);
+                int cut = roll_cut_damage (false);
+                g->active_npc[npcdex]->hit(g, this, bp_legs, 3, dam, cut);
                 if (weapon.has_flag("FLAMING")) {// Add to wide attacks
                     g->active_npc[npcdex]->add_effect("effect_onfire", rng(2, 3));
                 }
@@ -902,8 +883,9 @@ void player::perform_special_attacks(game *g, Creature &t,
                                      int &bash_dam, int &cut_dam, int &stab_dam)
 {
  bool can_poison = false;
- int bash_armor = t.armor_bash();
- int cut_armor  = t.armor_cut();
+ // TODO: rework special attacks to use "normal" damage code path
+ int bash_armor = t.get_armor_bash(bp_torso);
+ int cut_armor  = t.get_armor_cut(bp_torso);
 
  std::vector<special_attack> special_attacks;
  /* TODO: unify the special attacks system, then reenable mutation_attacks
@@ -936,19 +918,11 @@ void player::perform_special_attacks(game *g, Creature &t,
    g->add_msg( special_attacks[i].text.c_str() );
  }
 
- /* TODO: unify effects/diseases, then fix this
  if (can_poison && has_trait("POISONOUS")) {
-  if (z != NULL) {
-   if (!z->has_effect("effect_poisoned"))
-    g->add_msg_if_player(p,_("You poison %s!"), target.c_str());
-   z->add_effect("effect_poisoned", 6);
-  } else if (p != NULL) {
-   if (!p->has_disease("poison"))
-    g->add_msg_if_player(p,_("You poison %s!"), target.c_str());
-   p->add_disease("poison", 6);
-  }
+    if (!t.has_effect("effect_poisoned"))
+        g->add_msg_if_player(&t,_("You poison %s!"), target.c_str());
+    t.add_effect("effect_poisoned", 6);
  }
- */
 }
 
 std::string player::melee_special_effects(game *g, Creature &t, bool crit,

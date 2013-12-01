@@ -26,8 +26,8 @@ void Creature::reset(game *g) {
     num_blocks_bonus = 0;
     num_dodges_bonus = 0;
 
-    arm_bash_bonus = 0;
-    arm_cut_bonus = 0;
+    armor_bash_bonus = 0;
+    armor_cut_bonus = 0;
 
     speed_bonus = 0;
     dodge_bonus = 0;
@@ -144,6 +144,21 @@ int Creature::get_int() {
     return int_max + int_bonus;
 }
 
+int Creature::get_str_base() {
+    return str_max;
+}
+int Creature::get_dex_base() {
+    return dex_max;
+}
+int Creature::get_per_base() {
+    return per_max;
+}
+int Creature::get_int_base() {
+    return int_max;
+}
+
+
+
 int Creature::get_str_bonus() {
     return str_bonus;
 }
@@ -173,11 +188,23 @@ int Creature::get_num_dodges_bonus() {
 // TODO: implement and actually use these for bash and cut armor,
 // probably needs prototype change to support bodypart
 //
-int Creature::get_arm_bash_bonus() {
-    return arm_bash_bonus;
+int Creature::get_armor_bash(body_part bp) {
+    return armor_bash_bonus;
 }
-int Creature::get_arm_cut_bonus() {
-    return arm_cut_bonus;
+int Creature::get_armor_cut(body_part bp) {
+    return armor_cut_bonus;
+}
+int Creature::get_armor_bash_base(body_part bp) {
+    return armor_bash_bonus;
+}
+int Creature::get_armor_cut_base(body_part bp) {
+    return armor_cut_bonus;
+}
+int Creature::get_armor_bash_bonus() {
+    return armor_bash_bonus;
+}
+int Creature::get_armor_cut_bonus() {
+    return armor_cut_bonus;
 }
 
 int Creature::get_speed() {
@@ -261,11 +288,11 @@ void Creature::set_num_dodges_bonus(int ndodges) {
     num_dodges_bonus = ndodges;
 }
 
-void Creature::set_arm_bash_bonus(int nbasharm) {
-    arm_bash_bonus = nbasharm;
+void Creature::set_armor_bash_bonus(int nbasharm) {
+    armor_bash_bonus = nbasharm;
 }
-void Creature::set_arm_cut_bonus(int ncutarm) {
-    arm_cut_bonus = ncutarm;
+void Creature::set_armor_cut_bonus(int ncutarm) {
+    armor_cut_bonus = ncutarm;
 }
 
 void Creature::set_speed_bonus(int nspeed) {

@@ -5349,12 +5349,12 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    }
 
    if (npc_hit != -1) {
-    active_npc[npc_hit]->hit(this, bp_torso, -1, rng(dam / 2, long(dam * 1.5)), 0);
-    active_npc[npc_hit]->hit(this, bp_head,  -1, rng(dam / 3, dam),       0);
-    active_npc[npc_hit]->hit(this, bp_legs,  0, rng(dam / 3, dam),       0);
-    active_npc[npc_hit]->hit(this, bp_legs,  1, rng(dam / 3, dam),       0);
-    active_npc[npc_hit]->hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
-    active_npc[npc_hit]->hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, NULL, bp_torso, -1, rng(dam / 2, long(dam * 1.5)), 0);
+    active_npc[npc_hit]->hit(this, NULL, bp_head,  -1, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, NULL, bp_legs,  0, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, NULL, bp_legs,  1, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, NULL, bp_arms,  0, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, NULL, bp_arms,  1, rng(dam / 3, dam),       0);
     if (active_npc[npc_hit]->hp_cur[hp_head]  <= 0 ||
         active_npc[npc_hit]->hp_cur[hp_torso] <= 0   ) {
      active_npc[npc_hit]->die(this, true);
@@ -5362,12 +5362,12 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    }
    if (u.posx == i && u.posy == j) {
     add_msg(_("You're caught in the explosion!"));
-    u.hit(this, bp_torso, -1, rng(dam / 2, dam * 1.5), 0);
-    u.hit(this, bp_head,  -1, rng(dam / 3, dam),       0);
-    u.hit(this, bp_legs,  0, rng(dam / 3, dam),       0);
-    u.hit(this, bp_legs,  1, rng(dam / 3, dam),       0);
-    u.hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
-    u.hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
+    u.hit(this, NULL, bp_torso, -1, rng(dam / 2, dam * 1.5), 0);
+    u.hit(this, NULL, bp_head,  -1, rng(dam / 3, dam),       0);
+    u.hit(this, NULL, bp_legs,  0, rng(dam / 3, dam),       0);
+    u.hit(this, NULL, bp_legs,  1, rng(dam / 3, dam),       0);
+    u.hit(this, NULL, bp_arms,  0, rng(dam / 3, dam),       0);
+    u.hit(this, NULL, bp_arms,  1, rng(dam / 3, dam),       0);
    }
    if (has_fire) {
     m.add_field(this, i, j, fd_fire, dam / 10);
@@ -5401,7 +5401,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    const int zid = mon_at(tx, ty);
    if (zid != -1) {
     monster &z = _active_monsters[zid];
-    dam -= z.armor_cut();
+    dam -= z.get_armor_cut(bp_torso);
     if (z.hurt(dam))
      kill_mon(zid);
    } else if (npc_at(tx, ty) != -1) {
@@ -5411,7 +5411,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     else if (hit == bp_torso)
      dam = rng(long(1.5 * dam), 3 * dam);
     int npcdex = npc_at(tx, ty);
-    active_npc[npcdex]->hit(this, hit, rng(0, 1), 0, dam);
+    active_npc[npcdex]->hit(this, NULL, hit, rng(0, 1), 0, dam);
     if (active_npc[npcdex]->hp_cur[hp_head] <= 0 ||
         active_npc[npcdex]->hp_cur[hp_torso] <= 0) {
      active_npc[npcdex]->die(this);
@@ -5420,7 +5420,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     body_part hit = random_body_part();
     int side = random_side(hit);
     add_msg(_("Shrapnel hits your %s!"), body_part_name(hit, side).c_str());
-    u.hit(this, hit, random_side(hit), 0, dam);
+    u.hit(this, NULL, hit, random_side(hit), 0, dam);
    } else {
        std::set<std::string> shrapnel_effects;
        m.shoot(this, tx, ty, dam, j == traj.size() - 1, shrapnel_effects );
@@ -5670,13 +5670,13 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                                      targ->name.c_str(), force_remaining);
                     }
                     add_msg(_("%s took %d damage! (before armor)"), targ->name.c_str(), dam_mult*force_remaining);
-                    if (one_in(2)) targ->hit(this, bp_arms, 0, force_remaining*dam_mult, 0);
-                    if (one_in(2)) targ->hit(this, bp_arms, 1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) targ->hit(this, bp_legs, 0, force_remaining*dam_mult, 0);
-                    if (one_in(2)) targ->hit(this, bp_legs, 1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) targ->hit(this, bp_torso, -1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) targ->hit(this, bp_head, -1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) targ->hit(this, bp_hands, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, NULL, bp_arms, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, NULL, bp_arms, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, NULL, bp_legs, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, NULL, bp_legs, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, NULL, bp_torso, -1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, NULL, bp_head, -1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, NULL, bp_hands, 0, force_remaining*dam_mult, 0);
                 }
                 m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
                 sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
@@ -5753,13 +5753,13 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                         add_msg(_("You were stunned for %d turns!"), force_remaining);
                     }
                     u.add_effect("effect_stunned", force_remaining);
-                    if (one_in(2)) u.hit(this, bp_arms, 0, force_remaining*dam_mult, 0);
-                    if (one_in(2)) u.hit(this, bp_arms, 1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) u.hit(this, bp_legs, 0, force_remaining*dam_mult, 0);
-                    if (one_in(2)) u.hit(this, bp_legs, 1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) u.hit(this, bp_torso, -1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) u.hit(this, bp_head, -1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) u.hit(this, bp_hands, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, NULL, bp_arms, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, NULL, bp_arms, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, NULL, bp_legs, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, NULL, bp_legs, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, NULL, bp_torso, -1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, NULL, bp_head, -1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, NULL, bp_hands, 0, force_remaining*dam_mult, 0);
                 }
                 m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
                 sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
@@ -6170,6 +6170,10 @@ void game::kill_mon(int index, bool u_did_it)
   return;
  }
  monster &z = _active_monsters[index];
+ kill_mon(z, u_did_it);
+}
+
+void game::kill_mon(monster& z, bool u_did_it) {
  if (!z.dead) {
   z.dead = true;
   if (u_did_it) {
@@ -6185,6 +6189,7 @@ void game::kill_mon(int index, bool u_did_it)
    m.add_item_or_charges(z.posx(), z.posy(), z.inv[i]);
   z.die(this);
  }
+
 }
 
 void game::explode_mon(int index)
@@ -6521,11 +6526,11 @@ void game::smash()
                 m.add_item_or_charges(u.posx, u.posy, u.weapon.contents[i]);
             }
             sound(u.posx, u.posy, 24, "");
-            u.hit(this, bp_hands, 1, 0, rng(0, u.weapon.volume()));
+            u.hit(this, NULL, bp_hands, 1, 0, rng(0, u.weapon.volume()));
             if (u.weapon.volume() > 20)
             {
                 // Hurt left arm too, if it was big
-                u.hit(this, bp_hands, 0, 0, rng(0, long(u.weapon.volume() * .5)));
+                u.hit(this, NULL, bp_hands, 0, 0, rng(0, long(u.weapon.volume() * .5)));
             }
             u.remove_weapon();
         }
@@ -10465,8 +10470,8 @@ bool game::plmove(int dx, int dy)
              u.clear_destination();
              return false;
          }
-         int udam = u.hit_creature(this, z, true);
-         if (z.hurt(udam) || z.is_hallucination()) {
+         u.hit_creature(this, z, true);
+         if (z.is_hallucination()) {
              kill_mon(mondex, true);
          }
          draw_hit_mon(x,y,z,z.dead);
@@ -10502,10 +10507,6 @@ bool game::plmove(int dx, int dy)
 
      u.hit_creature(this, *active_npc[npcdex], true);
      active_npc[npcdex]->make_angry();
-     if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
-         active_npc[npcdex]->hp_cur[hp_torso] <= 0   ) {
-         active_npc[npcdex]->die(this, true);
-     }
      return false;
  }
 
@@ -10881,10 +10882,10 @@ bool game::plmove(int dx, int dy)
     add_msg(_("Moving past this %s is slow!"), m.name(x, y).c_str());
   }
   if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
-   if (one_in(5) && u.armor_bash(bp_feet) < rng(2, 5)) {
+   if (one_in(5) && u.get_armor_bash(bp_feet) < rng(2, 5)) {
     add_msg(_("You hurt your feet on the %s!"), m.tername(x, y).c_str());
-    u.hit(this, bp_feet, 0, 0, 1);
-    u.hit(this, bp_feet, 1, 0, 1);
+    u.hit(this, NULL, bp_feet, 0, 0, 1);
+    u.hit(this, NULL, bp_feet, 1, 0, 1);
    }
   }
   if (m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))
@@ -10892,7 +10893,7 @@ bool game::plmove(int dx, int dy)
    if (!u.has_trait("PARKOUR") || one_in(4)) {
     body_part bp = random_body_part();
     int side = random_side(bp);
-    if(u.hit(this, bp, side, 0, rng(1, 4)) > 0)
+    if(u.hit(this, NULL, bp, side, 0, rng(1, 4)) > 0)
      add_msg(_("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
    }
   }

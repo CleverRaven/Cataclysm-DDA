@@ -194,6 +194,7 @@ class game
   bool is_in_ice_lab(point location);
 // Kill that monster; fixes any pointers etc
   void kill_mon(int index, bool player_did_it = false);
+  void kill_mon(monster& z, bool player_did_it = false); // new kill_mon that just takes monster reference
   void explode_mon(int index); // Explode a monster; like kill_mon but messier
   void revive_corpse(int x, int y, int n); // revives a corpse from an item pile
   void revive_corpse(int x, int y, item *it); // revives a corpse by item pointer, caller handles item deletion

@@ -1,9 +1,11 @@
 #ifndef _MONSTER_H_
 #define _MONSTER_H_
 
+#include "creature.h"
 #include "player.h"
 #include "mtype.h"
 #include "enums.h"
+#include "bodypart.h"
 #include <vector>
 
 class map;
@@ -184,7 +186,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
     // this first one is the hit from creature. The other hit should be
     // renamed
-    int hit (game *g, body_part bphurt, int side, int dam, int cut);
+    int hit (game *g, Creature *source, body_part bphurt, int side, int dam, int cut);
     bool block_hit(game *g, body_part &bp_hit, int &side,
         int &bash_dam, int &cut_dam, int &stab_dam);
     int hit_creature(game *g, Creature &t, bool allow_grab); // Returns a damage
@@ -193,12 +195,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     // Deals this dam damage; returns true if we dead
     // If real_dam is provided, caps overkill at real_dam.
     bool hurt(int dam, int real_dam = 0);
-    int  armor_cut();   // Natural armor, plus any worn armor
-    int  armor_bash();  // Natural armor, plus any worn armor
+    int  get_armor_cut(body_part bp);   // Natural armor, plus any worn armor
+    int  get_armor_bash(body_part bp);  // Natural armor, plus any worn armor
     int  dodge();       // Natural dodge, or 0 if we're occupied
     int  dodge_roll(game* g);  // For the purposes of comparing to player::hit_roll()
     int  fall_damage(); // How much a fall hurts us
-    void die(game *g);
+
+    void die(game*g, Creature* killer); //this is the die from Creature, it calls kill_mon
+    void die(game *g); // this is the "original" die, called by kill_mon
     void drop_items_on_death(game *g);
 
     // Other

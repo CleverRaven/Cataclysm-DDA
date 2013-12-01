@@ -461,6 +461,7 @@ public:
  bool is_active(game *g);
  void say(game *g, std::string line, ...);
  void decide_needs();
+ void die(game* g, Creature* killer);
  void die(game *g, bool your_fault = false);
 /* shift() works much like monster::shift(), and is called when the player moves
  * from one submap to an adjacent submap.  It updates our position (shifting by

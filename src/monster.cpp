@@ -577,9 +577,13 @@ bool monster::block_hit(game *g, body_part &bp_hit, int &side,
 //TODO: this is the function that will govern our monster getting hit, much
 //like player.hit(). The other hit is for god knows what, but I'm keeping the
 //name the same to not break every line of code in this project.
-int monster::hit(game*g, body_part bp, int a, int b, int c) {
-    (void)g;(void)bp;(void)a;(void)b;(void)c;
-    return 0;
+int monster::hit(game *g, Creature *source, body_part bphurt, int side, int bash, int cut) {
+    bash -= get_armor_bash(bphurt);
+    cut -= get_armor_cut(bphurt);
+    int dam = bash>0?bash:0 + cut>0?cut:0;
+    if (hurt(dam)) // kill me if we need to
+        die(g, source);
+    return dam;
 }
 
 int monster::hit(game *g, Creature &p, body_part &bp_hit) {
@@ -691,15 +695,17 @@ bool monster::hurt(int dam, int real_dam)
  return false;
 }
 
-int monster::armor_cut()
+int monster::get_armor_cut(body_part bp)
 {
+    (void) bp;
 // TODO: Add support for worn armor?
- return int(type->armor_cut);
+ return int(type->armor_cut) + armor_bash_bonus;
 }
 
-int monster::armor_bash()
+int monster::get_armor_bash(body_part bp)
 {
- return int(type->armor_bash);
+    (void) bp;
+ return int(type->armor_bash) + armor_cut_bonus;
 }
 
 int monster::dodge()
@@ -743,6 +749,10 @@ int monster::fall_damage()
  }
 
  return 0;
+}
+
+void monster::die(game *g, Creature* killer) {
+    g->kill_mon(*this, killer != NULL && killer->is_player());
 }
 
 void monster::die(game *g)

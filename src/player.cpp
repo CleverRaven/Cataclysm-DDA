@@ -331,6 +331,12 @@ std::string player::skin_name() {
     return "thin skin";
 }
 
+// just a shim for now since actual player death is handled in game::is_game_over
+void player::die(game* g, Creature* killer) {
+    (void)g;(void)killer; 
+    return;
+}
+
 void player::reset(game *g)
 {
     // We can dodge again!
@@ -3647,7 +3653,7 @@ int player::intimidation()
  return ret;
 }
 
-int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
+int player::hit(game *g, Creature* source, body_part bphurt, int side, int dam, int cut)
 {
     int painadd = 0;
     if (has_disease("sleep")) {
@@ -3784,6 +3790,9 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
   add_disease("adrenaline", 200);
  lifetime_stats()->damage_taken+=dam;
+
+ if (hp_cur[hp_head] <= 0 || hp_cur[hp_head] <= 0)
+     die(g, source);
 
  return dam;
 }
@@ -4041,7 +4050,7 @@ void player::knock_back_from(game *g, int x, int y)
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
   monster *z = &(g->zombie(mondex));
-  hit(g, bp_torso, -1, z->type->size, 0);
+  hit(g, this, bp_torso, -1, z->type->size, 0);
   add_effect("effect_stunned", 1);
   if ((str_max - 6) / 4 > z->type->size) {
    z->knock_back_from(g, posx, posy); // Chain reaction!
@@ -4061,9 +4070,9 @@ void player::knock_back_from(game *g, int x, int y)
  int npcdex = g->npc_at(to.x, to.y);
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
-  hit(g, bp_torso, -1, 3, 0);
+  hit(g, this, bp_torso, -1, 3, 0);
   add_effect("effect_stunned", 1);
-  p->hit(g, bp_torso, -1, 3, 0);
+  p->hit(g, this, bp_torso, -1, 3, 0);
   g->add_msg_player_or_npc( this, _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
   return;
  }
@@ -8555,7 +8564,15 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     return ret;
 }
 
-int player::armor_bash(body_part bp)
+int player::get_armor_bash(body_part bp) {
+    return get_armor_bash_base(bp) + armor_bash_bonus;
+}
+
+int player::get_armor_cut(body_part bp) {
+    return get_armor_cut_base(bp) + armor_cut_bonus;
+}
+
+int player::get_armor_bash_base(body_part bp)
 {
  int ret = 0;
  it_armor* armor;
@@ -8586,7 +8603,7 @@ int player::armor_bash(body_part bp)
  return ret;
 }
 
-int player::armor_cut(body_part bp)
+int player::get_armor_cut_base(body_part bp)
 {
  int ret = 0;
  it_armor* armor;
@@ -9320,14 +9337,6 @@ void player::shift_destination(int shiftx, int shifty)
         it->y += shifty;
     }
 }
-
-int player::armor_bash() {
-    return 0;
-}
-int player::armor_cut() {
-    return 0;
-}
-
 
 bool player::has_weapon() {
     return !unarmed_attack();
