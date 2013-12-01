@@ -135,7 +135,7 @@ struct ter_t {
 
  map_bash_info bash;
  
- bool has_flag(std::string flag) {
+ bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
  }
 
@@ -174,7 +174,7 @@ struct furn_t {
 
  map_bash_info bash;
  
- bool has_flag(std::string flag) {
+ bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
  }
 
