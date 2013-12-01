@@ -343,7 +343,15 @@ void npc::execute_action(game *g, npc_action action, int target)
   break;
 
  case npc_talk_to_player:
-  talk_to_u(g);
+  if(g->u.has_disease("deaf")) {
+      g->add_msg(_("%s tries to talk to you, but you're deaf!"), name.c_str());
+      if(attitude == NPCATT_MUG) {
+          g->add_msg(_("When you don't respond, %s becomes angry!"), name.c_str());
+          make_angry();
+      }
+  } else {
+      talk_to_u(g);
+  }
   moves = 0;
   break;
 
