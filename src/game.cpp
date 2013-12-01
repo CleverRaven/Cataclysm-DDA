@@ -353,7 +353,7 @@ void game::setup()
 
  turnssincelastmon = 0; //Auto safe mode init
  autosafemode = OPTIONS["AUTOSAFEMODE"];
- safemodeveh = OPTIONS["SAFEMODEVEH"]; //Vehicle safemode check
+ safemodeveh = OPTIONS["SAFEMODEVEH"]; //Vehicle safemode check, in practice didn't trigger when needed
 
  footsteps.clear();
  footsteps_source.clear();
@@ -2068,7 +2068,7 @@ bool game::handle_action()
  switch (act) {
 
   case ACTION_PAUSE:
-   if (run_mode == 2 && (safemodeveh || !(u.controlling_vehicle))) { // Monsters around and we don't wanna pause
+   if (run_mode == 2 && ((OPTIONS["SAFEMODEVEH"]) || !(u.controlling_vehicle))) { // Monsters around and we don't wanna pause
      add_msg(_("Monster spotted--safe mode is on! (%s to turn it off.)"),
              press_x(ACTION_TOGGLE_SAFEMODE).c_str());}
    else {
@@ -10371,7 +10371,7 @@ void game::chat()
 }
 
 void game::pldrive(int x, int y) {
-    if (run_mode == 2 && safemodeveh) { // Monsters around and we don't wanna run
+    if (run_mode == 2 && (OPTIONS["SAFEMODEVEH"])) { // Monsters around and we don't wanna run
         add_msg(_("Monster spotted--run mode is on! "
                     "(%s to turn it off or %s to ignore monster.)"),
                     press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
