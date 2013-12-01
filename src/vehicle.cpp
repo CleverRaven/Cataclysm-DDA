@@ -958,6 +958,10 @@ void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
 
 void vehicle::remove_part (int p)
 {
+    if (p >= parts.size()) {
+        debugmsg("Tried to remove part %d but only %d parts!", p, parts.size());
+        return;
+    }
     if (part_flag(p, "TRACK")) {
         // disable tracking if there are no other trackers installed.
         if (tracking_on)
