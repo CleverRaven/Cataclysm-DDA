@@ -32,7 +32,9 @@
 #ifdef SDLTILES
 #include "SDL_image.h" // Make sure to add this to the other OS inclusions
 #endif
+#ifndef strcasecmp
 #define strcasecmp strcmpi
+#endif
 #else
 #include <wordexp.h>
 #if (defined OSX_SDL_FW)
@@ -93,7 +95,8 @@ static bool fontblending = false;
 //***********************************
 //Tile-version specific functions   *
 //***********************************
-void init_tiles()
+
+void init_interface()
 {
 
     DebugLog() << "Initializing SDL Tiles context\n";
@@ -925,8 +928,15 @@ WINDOW *curses_init(void)
     int fontsize = 0; //actuall size
     fin.open("data/FONTDATA");
     if (!fin.is_open()){
-        fontheight=16;
-        fontwidth=8;
+        fontwidth = 8;
+        fontheight = 16;
+        std::ofstream fout;//create data/FONDATA file
+		fout.open("data/FONTDATA");
+		if(fout.is_open()) {
+			fout << "Terminus\n";
+			fout << fontwidth << "\n";
+			fout << fontheight;
+		}
     } else {
         getline(fin, typeface);
         fin >> fontwidth;

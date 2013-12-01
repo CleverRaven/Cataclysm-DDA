@@ -8333,7 +8333,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "veggy_tainted", 3 ]
+      [ "veggy_tainted", 3 ],
+	  [ "biollante_bud", 1 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -12933,6 +12934,29 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "hat_noise_cancelling",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ],
+    [
+      [ "string_36", 2 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "cowboy_hat",
   "category": "CC_ARMOR",
@@ -14565,7 +14589,6 @@
       [ "rock", -1 ],
       [ "primitive_hammer", -1 ],
       [ "hammer", -1 ],
-      [ "toolset", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ]
@@ -14610,6 +14633,7 @@
       [ "bleach", 1 ],
       [ "lye_powder", 100 ],
       [ "bone", 20 ],
+	  [ "biollante_bud", 1],
       [ "ant_egg", 1 ],
       [ "slime_scrap", 1 ]
     ]
@@ -14946,6 +14970,7 @@
     ],
     [
       [ "superglue", 1 ]
+	  
     ]
   ]
 },{

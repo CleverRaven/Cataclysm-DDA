@@ -133,10 +133,10 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
   }
   if (dropping_armor)
    mvwprintz(w_inv, 6 + i, 45, c_white, "%c + %s", g->u.worn[i].invlet,
-             g->u.worn[i].tname(g).c_str());
+             g->u.worn[i].tname().c_str());
   else
    mvwprintz(w_inv, 6 + i, 45, c_ltgray, "%c - %s", g->u.worn[i].invlet,
-             g->u.worn[i].tname(g).c_str());
+             g->u.worn[i].tname().c_str());
  }
 
  // Print items carried
@@ -200,14 +200,10 @@ char game::inv(inventory& inv, std::string title)
     if(cur_it==selected) selected_char=(int)it.invlet;
     mvwputch (w_inv, cur_line, 0, (cur_it == selected ? h_white : c_white), it.invlet);
     mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? h_white : it.color_in_inventory() ), " %s",
-              it.tname(this).c_str());
-    if (slice[cur_it]->size() > 1)
+              it.display_name().c_str());
+    if (slice[cur_it]->size() > 1) {
      wprintw(w_inv, " x %d", slice[cur_it]->size());
-    if (it.charges > 0)
-     wprintw(w_inv, " (%d)", it.charges);
-    else if (it.contents.size() == 1 &&
-             it.contents[0].charges > 0)
-     wprintw(w_inv, " (%d)", it.contents[0].charges);
+    }
     cur_line++;
     max_it=cur_it;
    }
@@ -219,7 +215,10 @@ char game::inv(inventory& inv, std::string title)
    mvwprintw(w_inv, maxitems + 4, 12, _("> More items"));
   wrefresh(w_inv);
 
-  ch = getch();
+  input_context ctxt("INVENTORY");
+  ctxt.register_action("ANY_INPUT");
+  ctxt.handle_input();
+  ch = ctxt.get_raw_input().get_first_input();
 
   if ( ch == KEY_DOWN ) {
     if ( selected < 0 ) {
@@ -357,7 +356,7 @@ std::vector<item> game::multidrop()
           dropping_w = true;
           dropping_a = true;
           mvwprintw(w_inv, drp_line, 90, "%s", drp_line_padding.c_str());
-          mvwprintz(w_inv, drp_line, 90, c_cyan, "%c + %s", u.worn[k].invlet, u.worn[k].tname(this).c_str());
+          mvwprintz(w_inv, drp_line, 90, c_cyan, "%c + %s", u.worn[k].invlet, u.worn[k].tname().c_str());
           drp_line++;
         }
       }
@@ -393,7 +392,7 @@ std::vector<item> game::multidrop()
      icon = '#';
     nc_color col = ( cur_it == selected ? h_white : (dropping[it.invlet] == 0 ? c_ltgray : c_white ) );
     mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
-              it.tname(this).c_str());
+              it.tname().c_str());
     if (stacks[cur_it]->size() > 1)
      wprintz(w_inv, col, " x %d", stacks[cur_it]->size());
     if (it.charges > 0)
@@ -402,7 +401,7 @@ std::vector<item> game::multidrop()
              it.contents[0].charges > 0)
      wprintw(w_inv, " (%d)", it.contents[0].charges);
     if (icon=='+'||icon=='#') {
-      mvwprintz(w_inv, drp_line, 90, col, "%c %c %s", it.invlet, icon, it.tname(this).c_str());
+      mvwprintz(w_inv, drp_line, 90, col, "%c %c %s", it.invlet, icon, it.tname().c_str());
       if (icon=='+'){
         if (stacks[cur_it]->size() > 1)
           wprintz(w_inv, col, " x %d", stacks[cur_it]->size());
@@ -498,7 +497,7 @@ std::vector<item> game::multidrop()
          if ( ch == u.weapon.invlet &&
               std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(), u.weapon.type->id) != unreal_itype_ids.end()){
           if (!warned_about_bionic)
-           add_msg(_("You cannot drop your %s."), u.weapon.tname(this).c_str());
+           add_msg(_("You cannot drop your %s."), u.weapon.tname().c_str());
           warned_about_bionic = true;
          } else {
           weapon_and_armor.push_back(ch);
@@ -598,9 +597,9 @@ void game::compare(int iCompareX, int iCompareY)
  //Filter out items with the same name (keep only one of them)
  std::map <std::string, bool> dups;
  for (int i = 0; i < here.size(); i++) {
-  if (!dups[here[i].tname(this).c_str()]) {
+  if (!dups[here[i].tname().c_str()]) {
    grounditems.push_back(here[i]);
-   dups[here[i].tname(this).c_str()] = true;
+   dups[here[i].tname().c_str()] = true;
   }
  }
  //Only the first 10 Items due to numbering 0-9
@@ -666,13 +665,13 @@ void game::compare(int iCompareX, int iCompareY)
      mvwputch (w_inv, cur_line, 0, c_white, '1'+((cur_it<9) ? cur_it: -1));
      nc_color col = (compare_list[cur_it] == 0 ? c_ltgray : c_white);
      mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
-               grounditems[cur_it].tname(this).c_str());
+               grounditems[cur_it].tname().c_str());
     } else {
      item& it = stacks[cur_it-groundsize]->front();
      mvwputch (w_inv, cur_line, 0, c_white, it.invlet);
      nc_color col = (compare_list[cur_it] == 0 ? c_ltgray : c_white);
      mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
-               it.tname(this).c_str());
+               it.tname().c_str());
      if (stacks[cur_it-groundsize]->size() > 1)
       wprintz(w_inv, col, " x %d", stacks[cur_it-groundsize]->size());
      if (it.charges > 0)
@@ -776,10 +775,10 @@ void game::compare(int iCompareX, int iCompareY)
     }
 
     grounditems[cLastCh-'1'+iZero].info(true, &vItemLastCh);
-    sItemLastCh = grounditems[cLastCh-'1'+iZero].tname(this);
+    sItemLastCh = grounditems[cLastCh-'1'+iZero].tname();
    } else {
     u.i_at(cLastCh).info(true, &vItemLastCh);
-    sItemLastCh = u.i_at(cLastCh).tname(this);
+    sItemLastCh = u.i_at(cLastCh).tname();
    }
 
    if (ch >= '0' && ch <= '9') {
@@ -789,10 +788,10 @@ void game::compare(int iCompareX, int iCompareY)
     }
 
     grounditems[ch-'1'+iZero].info(true, &vItemCh);
-    sItemCh = grounditems[ch-'1'+iZero].tname(this);
+    sItemCh = grounditems[ch-'1'+iZero].tname();
    } else {
     u.i_at(ch).info(true, &vItemCh);
-    sItemCh = u.i_at(ch).tname(this);
+    sItemCh = u.i_at(ch).tname();
    }
 
    compare_split_screen_popup(0, (TERMX-VIEW_OFFSET_X*2)/2, TERMY-VIEW_OFFSET_Y*2, sItemLastCh, vItemLastCh, vItemCh);

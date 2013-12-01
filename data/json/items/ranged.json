@@ -811,7 +811,7 @@
     "dispersion": 2,
     "recoil": 0,
     "durability": 8,
-    "burst": 3,
+    "burst": 0,
     "clip_size": 6,
     "reload": 100
   },
@@ -837,7 +837,7 @@
     "dispersion": 5,
     "recoil": -2,
     "durability": 9,
-    "burst": 3,
+    "burst": 0,
     "clip_size": 8,
     "reload": 80
   },
@@ -2723,8 +2723,7 @@
     "description": "Utilizing a powerful and unusual caliber, the Rivtech RM228 caseless short double-barrel shotgun was designed for personal defense, with durability and ease of use as priorities.",
     "price": 2100,
     "material": ["steel", "kevlar"],
-    "flags": "MODE_BURST",
-    "flags": "RELOAD_ONE",
+    "flags": ["MODE_BURST", "RELOAD_ONE"],
     "skill": "pistol",
     "ammo": "20x66mm",
     "weight": 780,

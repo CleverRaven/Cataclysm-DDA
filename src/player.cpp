@@ -523,6 +523,9 @@ void player::apply_persistent_morale()
         if(covered & mfb(bp_head)) {
             bonus += 3;
         }
+        if(covered & mfb(bp_eyes)) {
+            bonus += 2;
+        }
 
         if(bonus) {
             add_morale(MORALE_PERM_FANCY, bonus, bonus, 5, 5, true);
@@ -1538,13 +1541,13 @@ void player::memorial( std::ofstream &memorial_file )
 
     //Equipment
     memorial_file << _("Weapon:") << "\n";
-    memorial_file << indent << weapon.invlet << " - " << weapon.tname(g) << "\n";
+    memorial_file << indent << weapon.invlet << " - " << weapon.tname() << "\n";
     memorial_file << "\n";
 
     memorial_file << _("Equipment:") << "\n";
     for(int i = 0; i < worn.size(); i++) {
       item next_item = worn[i];
-      memorial_file << indent << next_item.invlet << " - " << next_item.tname(g);
+      memorial_file << indent << next_item.invlet << " - " << next_item.tname();
       if(next_item.charges > 0) {
         memorial_file << " (" << next_item.charges << ")";
       } else if (next_item.contents.size() == 1
@@ -1562,7 +1565,7 @@ void player::memorial( std::ofstream &memorial_file )
     for(int i = 0; i < inv.size(); i++) {
       invslice slice = inv.slice(i, 1);
       item& next_item = slice[0]->front();
-      memorial_file << indent << next_item.invlet << " - " << next_item.tname(g);
+      memorial_file << indent << next_item.invlet << " - " << next_item.tname();
       if(slice[0]->size() > 1) {
         memorial_file << " [" << slice[0]->size() << "]";
       }
@@ -2878,7 +2881,11 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 
     int x = sideStyle ? 37 : 32;
     int y = sideStyle ?  0 :  1;
-    mvwprintz(sideStyle ? w2 : w, y, x, c_yellow, _("Sound %d"), volume);
+    if(has_disease("deaf")) {
+        mvwprintz(sideStyle ? w2 : w, y, x, c_red, _("Deaf!"), volume);
+    } else {
+        mvwprintz(sideStyle ? w2 : w, y, x, c_yellow, _("Sound %d"), volume);
+    }
     volume = 0;
 
     wmove(w, 2, sideStyle ? 0 : 15);
@@ -3458,7 +3465,13 @@ void player::pause(game *g)
             recoil = int(recoil / 2);
         }
     }
-
+ 
+    //Web Weavers...weave web
+    if (has_trait("WEB_WEAVER") && !in_vehicle) {
+      g->m.add_field(g, posx, posy, fd_web, 1); //this adds density to if its not already there.
+      g->add_msg("You spin some webbing.");
+     }
+      
     // Meditation boost for Toad Style
     if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
         int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
@@ -4495,21 +4508,30 @@ void player::suffer(game *g)
             }
         }
     }
-    for (int i = 0; i < illness.size(); i++)
+
+    int ill_num = illness.size();
+    for (int i = 0; i < ill_num; i++)
     {
         dis_effect(*this, illness[i]);
-        if (!illness[i].permanent) {
-            illness[i].duration--;
-        }
-        if (illness[i].decay > 0 && one_in(illness[i].decay)) {
-            illness[i].intensity--;
-        }
-        if (illness[i].duration <= 0 || illness[i].intensity == 0) {
-            dis_end_msg(*this, illness[i]);
-            illness.erase(illness.begin() + i);
+        if (ill_num == illness.size()) {
+            if (!illness[i].permanent) {
+                illness[i].duration--;
+            }
+            if (illness[i].decay > 0 && one_in(illness[i].decay)) {
+                illness[i].intensity--;
+            }
+            if (illness[i].duration <= 0 || illness[i].intensity == 0) {
+                dis_end_msg(*this, illness[i]);
+                illness.erase(illness.begin() + i);
+                ill_num--;
+                i--;
+            }
+        } else {
+            ill_num--;
             i--;
         }
     }
+
     if (!has_disease("sleep"))
     {
         if (weight_carried() > weight_capacity())
@@ -5053,7 +5075,8 @@ void player::vomit(game *g)
     rem_disease("sleep");
 }
 
-void player::drench(game *g, int saturation, int flags) {
+void player::drench(game *g, int saturation, int flags)
+{
     if (is_waterproof(flags)) {
         return;
     }
@@ -5139,11 +5162,11 @@ void player::drench_mut_calc()
         good = 0;
 
         for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-            for (int i = 0; i < mutation_data[*iter].protection.size(); i++) {
-                if (mutation_data[*iter].protection[i].first == it->first) {
-                    ignored += mutation_data[*iter].protection[i].second.x;
-                    neutral += mutation_data[*iter].protection[i].second.y;
-                    good += mutation_data[*iter].protection[i].second.z;
+            for (std::map<std::string,mutation_wet>::iterator wp_iter = mutation_data[*iter].protection.begin(); wp_iter != mutation_data[*iter].protection.end(); ++wp_iter) {
+                if (body_parts[wp_iter->first] == it->first) {
+                    ignored += wp_iter->second.second.x;
+                    neutral += wp_iter->second.second.y;
+                    good += wp_iter->second.second.z;
                 }
             }
         }
@@ -6273,9 +6296,9 @@ bool player::consume(game *g, signed char ch)
             which = -1;
             comest = dynamic_cast<it_comest*>(weapon.type);
         } else {
-            g->add_msg_if_player(this,_("You can't eat your %s."), weapon.tname(g).c_str());
+            g->add_msg_if_player(this,_("You can't eat your %s."), weapon.tname().c_str());
             if(is_npc()) {
-                debugmsg("%s tried to eat a %s", name.c_str(), weapon.tname(g).c_str());
+                debugmsg("%s tried to eat a %s", name.c_str(), weapon.tname().c_str());
             }
             return false;
         }
@@ -6293,9 +6316,9 @@ bool player::consume(game *g, signed char ch)
             which = 0;
             comest = dynamic_cast<it_comest*>(it.type);
         } else {
-            g->add_msg_if_player(this,_("You can't eat your %s."), it.tname(g).c_str());
+            g->add_msg_if_player(this,_("You can't eat your %s."), it.tname().c_str());
             if(is_npc()) {
-                debugmsg("%s tried to eat a %s", name.c_str(), it.tname(g).c_str());
+                debugmsg("%s tried to eat a %s", name.c_str(), it.tname().c_str());
             }
             return false;
         }
@@ -6339,7 +6362,7 @@ bool player::consume(game *g, signed char ch)
             moves -= 250;
             was_consumed = true;
         } else {
-            debugmsg("Unknown comestible type of item: %s\n", to_eat->tname(g).c_str());
+            debugmsg("Unknown comestible type of item: %s\n", to_eat->tname().c_str());
         }
     } else {
  // Consume other type of items.
@@ -6370,7 +6393,7 @@ bool player::consume(game *g, signed char ch)
             charge_power(charge);
             to_eat->charges = 0;
             g->add_msg_player_or_npc(this, _("You eat your %s."), _("<npcname> eats a %s."),
-                                     to_eat->tname(g).c_str());
+                                     to_eat->tname().c_str());
         }
         moves -= 250;
         was_consumed = true;
@@ -6387,7 +6410,7 @@ bool player::consume(game *g, signed char ch)
             weapon = ret_null;
         } else if (which == -2) {
             weapon.contents.erase(weapon.contents.begin());
-            g->add_msg_if_player(this,_("You are now wielding an empty %s."), weapon.tname(g).c_str());
+            g->add_msg_if_player(this,_("You are now wielding an empty %s."), weapon.tname().c_str());
         } else if (which == 0) {
             inv.remove_item_by_letter(ch);
         } else if (which >= 0) {
@@ -6395,19 +6418,19 @@ bool player::consume(game *g, signed char ch)
             it.contents.erase(it.contents.begin());
             if (!is_npc()) {
                 if (OPTIONS["DROP_EMPTY"] == "no") {
-                    g->add_msg(_("%c - an empty %s"), it.invlet, it.tname(g).c_str());
+                    g->add_msg(_("%c - an empty %s"), it.invlet, it.tname().c_str());
 
                 } else if (OPTIONS["DROP_EMPTY"] == "watertight") {
                     if (it.is_container()) {
                         if (!(it.has_flag("WATERTIGHT") && it.has_flag("SEALS"))) {
-                            g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
+                            g->add_msg(_("You drop the empty %s."), it.tname().c_str());
                             g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                         } else {
-                            g->add_msg(_("%c - an empty %s"), it.invlet,it.tname(g).c_str());
+                            g->add_msg(_("%c - an empty %s"), it.invlet,it.tname().c_str());
                         }
                     }
                 } else if (OPTIONS["DROP_EMPTY"] == "all") {
-                    g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
+                    g->add_msg(_("You drop the empty %s."), it.tname().c_str());
                     g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                 }
             }
@@ -6424,7 +6447,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
 {
     int to_eat = 1;
     if (comest == NULL) {
-        debugmsg("player::eat(%s); comest is NULL!", eaten->tname(g).c_str());
+        debugmsg("player::eat(%s); comest is NULL!", eaten->tname().c_str());
         return false;
     }
     if (comest->tool != "null") {
@@ -6467,7 +6490,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
             return false;
         }
         if (!has_trait("SAPROVORE") &&
-            !query_yn(_("This %s smells awful!  Eat it?"), eaten->tname(g).c_str())) {
+            !query_yn(_("This %s smells awful!  Eat it?"), eaten->tname().c_str())) {
             return false;
         }
     }
@@ -6480,7 +6503,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     }
 
     if( spoiled ) {
-        g->add_msg(_("Ick, this %s doesn't taste so good..."), eaten->tname(g).c_str());
+        g->add_msg(_("Ick, this %s doesn't taste so good..."), eaten->tname().c_str());
         if (!has_trait("SAPROVORE") && (!has_bionic("bio_digestion") || one_in(3))) {
             add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60));
         }
@@ -6509,10 +6532,10 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
 
     if (comest->comesttype == "DRINK" && !eaten->has_flag("USE_EAT_VERB")) {
         g->add_msg_player_or_npc( this, _("You drink your %s."), _("<npcname> drinks a %s."),
-                                  eaten->tname(g).c_str());
+                                  eaten->tname().c_str());
     } else if (comest->comesttype == "FOOD" || eaten->has_flag("USE_EAT_VERB")) {
         g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
-                                  eaten->tname(g).c_str());
+                                  eaten->tname().c_str());
     }
 
     if (itypes[comest->tool]->is_tool()) {
@@ -6639,7 +6662,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
    recoil = 0;
    return true;
   } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
-                      weapon.tname(g).c_str())) {
+                      weapon.tname().c_str())) {
    g->m.add_item_or_charges(posx, posy, remove_weapon());
    recoil = 0;
    return true;
@@ -6657,7 +6680,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
  item& it = inv.item_by_letter(ch);
  if (it.is_two_handed(this) && !has_two_arms()) {
   g->add_msg(_("You cannot wield a %s with only one arm."),
-             it.tname(g).c_str());
+             it.tname().c_str());
   return false;
  }
  if (!is_armed()) {
@@ -6683,7 +6706,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
   last_item = itype_id(weapon.type->id);
   return true;
  } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
-                     weapon.tname(g).c_str())) {
+                     weapon.tname().c_str())) {
   g->m.add_item_or_charges(posx, posy, remove_weapon());
   weapon = it;
   inv.remove_item_by_letter(weapon.invlet);
@@ -6854,7 +6877,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
     }
     else
     {
-        g->add_msg(_("Putting on a %s would be tricky."), to_wear->tname(g).c_str());
+        g->add_msg(_("Putting on a %s would be tricky."), to_wear->tname().c_str());
         return false;
     }
 
@@ -7102,7 +7125,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
 
     if(interactive)
     {
-        g->add_msg(_("You put on your %s."), to_wear->tname(g).c_str());
+        g->add_msg(_("You put on your %s."), to_wear->tname().c_str());
         moves -= 350; // TODO: Make this variable?
 
         if (to_wear->is_artifact())
@@ -7163,7 +7186,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
                                 (worn[j].invlet != let)) {
                             if (autodrop) {
                                 g->m.add_item_or_charges(posx, posy, worn[j]);
-                                g->add_msg(_("You take off your your %s."), worn[j].tname(g).c_str());
+                                g->add_msg(_("You take off your your %s."), worn[j].tname().c_str());
                                 worn.erase(worn.begin() + j);
 
                                 // We've invalidated our index into worn[],
@@ -7180,14 +7203,14 @@ bool player::takeoff(game *g, char let, bool autodrop)
                 if (autodrop || volume_capacity() - (reinterpret_cast<it_armor*>(w.type))->storage >
                         volume_carried() + w.type->volume) {
                     inv.add_item_keep_invlet(w);
-                    g->add_msg(_("You take off your your %s."), w.tname(g).c_str());
+                    g->add_msg(_("You take off your your %s."), w.tname().c_str());
                     worn.erase(worn.begin() + i);
                     inv.unsort();
                     taken_off = true;
                 } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
-                        w.tname(g).c_str())) {
+                        w.tname().c_str())) {
                     g->m.add_item_or_charges(posx, posy, w);
-                    g->add_msg(_("You take off your your %s."), w.tname(g).c_str());
+                    g->add_msg(_("You take off your your %s."), w.tname().c_str());
                     worn.erase(worn.begin() + i);
                     taken_off = true;
                 }
@@ -7684,11 +7707,10 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
                                 }
                             }
                         }
-
-                        if (!have_tool)
-                        {
-                           return HINT_IFFY;
-                        }
+                    }
+                    if (!have_tool)
+                    {
+                       return HINT_IFFY;
                     }
                 }
                 // all tools present
@@ -7759,7 +7781,7 @@ void player::use(game *g, char let)
             // so restack to sort things out.
             inv.restack();
         } else {
-            g->add_msg(_("Your %s has %d charges but needs %d."), used->tname(g).c_str(),
+            g->add_msg(_("Your %s has %d charges but needs %d."), used->tname().c_str(),
                        used->charges, tool->charges_per_use);
         }
     } else if (used->type->use == &iuse::boots) {
@@ -7778,74 +7800,74 @@ void player::use(game *g, char let)
             g->add_msg(_("You do not have that item."));
             return;
         } else if (!gun->is_gun()) {
-            g->add_msg(_("That %s is not a gun."), gun->tname(g).c_str());
+            g->add_msg(_("That %s is not a gun."), gun->tname().c_str());
             return;
         }
         it_gun* guntype = dynamic_cast<it_gun*>(gun->type);
         if (guntype->skill_used == Skill::skill("archery") ||
             guntype->skill_used == Skill::skill("launcher")) {
-            g->add_msg(_("You cannot mod your %s."), gun->tname(g).c_str());
+            g->add_msg(_("You cannot mod your %s."), gun->tname().c_str());
             return;
         }
         if (guntype->skill_used == Skill::skill("pistol") && !mod->used_on_pistol) {
             g->add_msg(_("That %s cannot be attached to a handgun."),
-                       used->tname(g).c_str());
+                       used->tname().c_str());
             return;
         } else if (guntype->skill_used == Skill::skill("shotgun") && !mod->used_on_shotgun) {
             g->add_msg(_("That %s cannot be attached to a shotgun."),
-                       used->tname(g).c_str());
+                       used->tname().c_str());
             return;
         } else if (guntype->skill_used == Skill::skill("smg") && !mod->used_on_smg) {
             g->add_msg(_("That %s cannot be attached to a submachine gun."),
-                       used->tname(g).c_str());
+                       used->tname().c_str());
             return;
         } else if (guntype->skill_used == Skill::skill("rifle") && !mod->used_on_rifle) {
             g->add_msg(_("That %s cannot be attached to a rifle."),
-                       used->tname(g).c_str());
+                       used->tname().c_str());
             return;
         } else if ( mod->acceptible_ammo_types.size() &&
                     mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
-            g->add_msg(_("That %s cannot be used on a %s gun."), used->tname(g).c_str(),
+            g->add_msg(_("That %s cannot be used on a %s gun."), used->tname().c_str(),
                        ammo_name(guntype->ammo).c_str());
             return;
         } else if (gun->contents.size() >= 4) {
             g->add_msg(_("Your %s already has 4 mods installed!  To remove the mods, \
-press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
+press 'U' while wielding the unloaded gun."), gun->tname().c_str());
             return;
         }
         if ((mod->id == "clip" || mod->id == "clip2" || mod->id == "spare_mag") &&
             gun->clip_size() <= 2) {
             g->add_msg(_("You can not extend the ammo capacity of your %s."),
-                       gun->tname(g).c_str());
+                       gun->tname().c_str());
             return;
         }
         if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
             g->add_msg(_("You can not use a spare magazine with your %s."),
-                       gun->tname(g).c_str());
+                       gun->tname().c_str());
             return;
         }
         for (int i = 0; i < gun->contents.size(); i++) {
             if (gun->contents[i].type->id == used->type->id) {
-                g->add_msg(_("Your %s already has a %s."), gun->tname(g).c_str(),
-                           used->tname(g).c_str());
+                g->add_msg(_("Your %s already has a %s."), gun->tname().c_str(),
+                           used->tname().c_str());
                 return;
             } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != "NULL" &&
                        !gun->contents[i].has_flag("MODE_AUX") &&
                        (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != "NULL") {
                 g->add_msg(_("Your %s's caliber has already been modified."),
-                           gun->tname(g).c_str());
+                           gun->tname().c_str());
                 return;
             } else if ((mod->id == "barrel_big" || mod->id == "barrel_small") &&
                        (gun->contents[i].type->id == "barrel_big" ||
                         gun->contents[i].type->id == "barrel_small")) {
                 g->add_msg(_("Your %s already has a barrel replacement."),
-                           gun->tname(g).c_str());
+                           gun->tname().c_str());
                 return;
             } else if ((mod->id == "barrel_ported" || mod->id == "suppressor") &&
                        (gun->contents[i].type->id == "barrel_ported" ||
                         gun->contents[i].type->id == "suppressor")) {
                 g->add_msg(_("Your %s cannot use a suppressor and a ported barrel at the same time."),
-                           gun->tname(g).c_str());
+                           gun->tname().c_str());
                 return;
             } else if ((mod->id == "improve_sights" || mod->id == "red_dot_sight" ||
                         mod->id == "holo_sight" || mod->id == "rifle_scope") &&
@@ -7856,13 +7878,13 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
                         gun->contents[i].type->id == "rifle_scope")) {
                 //intentionally leaving laser_sight off the list so that it CAN be used with optics
                 g->add_msg(_("Your %s can only use one type of optical aiming device at a time."),
-                           gun->tname(g).c_str());
+                           gun->tname().c_str());
                 return;
             } else if ((mod->id == "clip" || mod->id == "clip2") &&
                        (gun->contents[i].type->id == "clip" ||
                         gun->contents[i].type->id == "clip2")) {
                 g->add_msg(_("Your %s already has its magazine size extended."),
-                           gun->tname(g).c_str());
+                           gun->tname().c_str());
                 return;
             } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" ||
                         mod->id == "masterkey" || mod->id == "rm121aux" || mod->id == "u_shotgun" ||
@@ -7876,12 +7898,12 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
                         gun->contents[i].type->id == "sword_bayonet" ||
                         gun->contents[i].type->id == "gun_crossbow")) {
                 g->add_msg(_("Your %s already has an under-barrel accessory weapon."),
-                           gun->tname(g).c_str());
+                           gun->tname().c_str());
                 return;
             }
         }
-        g->add_msg(_("You attach the %s to your %s."), used->tname(g).c_str(),
-                   gun->tname(g).c_str());
+        g->add_msg(_("You attach the %s to your %s."), used->tname().c_str(),
+                   gun->tname().c_str());
         gun->contents.push_back(i_rem(let));
         return;
 
@@ -7947,7 +7969,7 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
       return;
     } else {
         g->add_msg(_("You can't do anything interesting with your %s."),
-                   used->tname(g).c_str());
+                   used->tname().c_str());
         return;
     }
 }
@@ -8076,7 +8098,7 @@ void player::read(game *g, char ch)
     if (!it->is_book())
     {
         g->add_msg(_("Your %s is not good reading material."),
-        it->tname(g).c_str());
+        it->tname().c_str());
     return;
     }
 
@@ -8635,7 +8657,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                 {
                     if (cut > arm_cut * 2 || dam > arm_bash * 2)
                     {
-                        g->add_msg_if_player(this,_("Your %s is damaged!"), worn[i].tname(g).c_str());
+                        g->add_msg_if_player(this,_("Your %s is damaged!"), worn[i].tname().c_str());
                         worn[i].damage++;
                     }
                 }
@@ -8646,7 +8668,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     int diff_bash = (dam - arm_bash - bash_absorb < 0) ? -1 : (dam - arm_bash);
                     int diff_cut  = (cut - arm_cut  < 0) ? -1 : (dam - arm_cut);
                     bool armor_damaged = false;
-                    std::string pre_damage_name = worn[i].tname(g);
+                    std::string pre_damage_name = worn[i].tname();
 
                     // armour damage occurs only if damage exceeds armour absorption
                     // plus a luck factor, even if damage is below armour absorption (2% chance)
@@ -8676,10 +8698,10 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     // now check if armour was completely destroyed and display relevant messages
                     if (worn[i].damage >= 5)
                     {
-                      add_memorial_log(_("Worn %s was completely destroyed."), worn[i].tname(g).c_str());
+                      add_memorial_log(_("Worn %s was completely destroyed."), worn[i].tname().c_str());
                         g->add_msg_player_or_npc( this, _("Your %s is completely destroyed!"),
                                                   _("<npcname>'s %s is completely destroyed!"),
-                                                  worn[i].tname(g).c_str() );
+                                                  worn[i].tname().c_str() );
                         worn.erase(worn.begin() + i);
                     } else if (armor_damaged) {
                         std::string damage_verb = diff_bash > diff_cut ? tmp->bash_dmg_verb() :

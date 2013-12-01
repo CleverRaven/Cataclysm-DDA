@@ -9,9 +9,8 @@ import os
 ## DATA
 
 # some .json files have no translatable strings. ignore them.
-ignore = ["item_groups.json", "monstergroups.json", "recipes.json",
-          "sokoban.txt", "colors.json", "species.json",
-          "halloween_special.json"]
+ignore = ["item_groups.json", "monstergroups.json", "recipes",
+          "sokoban.txt", "colors.json", "species.json"]
 
 # keep a list of the files that have been extracted
 extracted = []
@@ -91,12 +90,16 @@ def convert(infilename, outfile, **kwargs):
         if not wrote:
             print("WARNING: %s: nothing translatable found in item: %r" % (infilename, item))
 
-def autoextract(name, **kwargs):
+def autoextract(name, subdir=None, **kwargs):
     "Automatically extract from the named json file in data/json."
     infilename = name + ".json"
+    if subdir:
+        pathfilename = os.path.join(subdir, infilename)
+    else:
+        pathfilename = infilename
     outfilename = os.path.join(to_folder, "json_" + name + ".py")
     with open(outfilename, 'w') as py_out:
-        jsonfile = os.path.join(json_folder, infilename)
+        jsonfile = os.path.join(json_folder, pathfilename)
         convert(jsonfile, py_out, **kwargs)
     extracted.append(infilename)
 
@@ -116,12 +119,14 @@ autoextract("furniture")
 autoextract("terrain")
 autoextract("monsters")
 autoextract("vehicle_parts")
-autoextract("vehicles")
+autoextract("vehicles", "vehicles")
 autoextract("techniques", format_strings=True)
 autoextract("tutorial")
 autoextract("tool_qualities")
 autoextract("doll_speech")
 autoextract("overmap_terrain")
+autoextract("traps")
+autoextract("construction")
 
 # data/json/items/*
 with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
@@ -158,6 +163,8 @@ with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
     jsondata = json.loads(open(jsonfile).read())
     for item in jsondata:
         if not "name" in item: continue # it probably is
+        # ignore world names until a better solution is found
+        if "usage" in item and item["usage"] == "world": continue
         tlinfo = ["proper name"]
         context = None
         if "gender" in item:
@@ -207,7 +214,14 @@ extracted.append("martialarts.json")
 all_files = os.listdir(raw_folder) + os.listdir(json_folder)
 not_found = []
 for f in all_files:
-    if not f in extracted and not f in ignore:
+    if f in extracted or f in ignore:
+        continue
+    d = os.path.join(json_folder,f)
+    if os.path.isdir(d):
+        for sf in os.listdir(d):
+            if not sf in extracted and not sf in ignore:
+                not_found.append(sf)
+    else:
         not_found.append(f)
 
 if not_found:

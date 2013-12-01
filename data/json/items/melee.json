@@ -2365,5 +2365,20 @@
     "bashing" : 5,
     "cutting" : 0,
     "price" : 75
+  },
+  {
+    "type":"GENERIC",
+    "id": "kevlar_harness",
+    "symbol": "[",
+    "color": "blue",
+    "name": "kevlar dog harness",
+    "description": "A blue bulletproof harness, designed to be worn by canines in service of local law enforcement.",
+    "price": 300,
+    "material": ["kevlar", "null"],
+    "weight": 4290,
+    "volume": 18,
+    "bashing": 5,
+    "cutting": 0,
+    "to_hit": -1
   }
 ]

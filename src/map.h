@@ -237,12 +237,12 @@ class map
  std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
 
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
- bool has_flag(std::string flag, const int x, const int y);  // checks terrain, furniture and vehicles
+ bool has_flag(const std::string & flag, const int x, const int y);  // checks terrain, furniture and vehicles
  bool can_put_items(const int x, const int y); // True if items can be placed in this tile
- bool has_flag_ter(std::string flag, const int x, const int y);  // checks terrain
- bool has_flag_furn(std::string flag, const int x, const int y);  // checks furniture
- bool has_flag_ter_or_furn(std::string flag, const int x, const int y); // checks terrain or furniture
- bool has_flag_ter_and_furn(std::string flag, const int x, const int y); // checks terrain and furniture
+ bool has_flag_ter(const std::string & flag, const int x, const int y) const;  // checks terrain
+ bool has_flag_furn(const std::string & flag, const int x, const int y) const;  // checks furniture
+ bool has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const; // checks terrain or furniture
+ bool has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const; // checks terrain and furniture
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
  bool is_destructable_ter_furn(const int x, const int y);       // only checks terrain
  bool is_divable(const int x, const int y);

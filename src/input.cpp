@@ -389,20 +389,7 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
 const std::string& input_context::handle_input() {
     next_action.type = CATA_INPUT_ERROR;
     while(1) {
-        
-#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
-        // Register for ncurses mouse input
-        mousemask(BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL);
-#endif
-
         next_action = inp_mngr.get_input_event(NULL);
-
-#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
-        // De-register from ncurses mouse input
-        mousemask(0, NULL);
-#endif
-        
-
         if (next_action.type == CATA_INPUT_TIMEOUT) {
             return TIMEOUT;
         }
@@ -589,11 +576,6 @@ input_event input_manager::get_input_event(WINDOW* win)
         rval.add_input(key);
     }
 
-#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
-    // De-register ncurses mouse input. Otherwise unmanaged getch() calls will detect mouse input.
-    //mousemask(0, NULL);
-#endif
-
     return rval;
 }
 
@@ -605,6 +587,9 @@ bool gamepad_available()
 
 bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y)
 {
+    if (!coordinate_input_received) {
+        return false;
+    }
     int view_columns = getmaxx(capture_win);
     int view_rows = getmaxy(capture_win);
     int win_left = getbegx(capture_win) - VIEW_OFFSET_X;
@@ -619,5 +604,15 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y)
     y = g->ter_view_y - ((view_rows/2) - coordinate_y);
     
     return true;
+}
+#endif
+
+#ifndef SDLTILES
+void init_interface()
+{
+#if !(defined TILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+    // ncurses mouse registration
+    mousemask(BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL);
+#endif
 }
 #endif

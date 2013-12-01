@@ -654,6 +654,7 @@
     },{
         "type" : "item_group",
         "id" : "homeguns",
+        "guns_with_ammo" : true,
     "items":[
       ["trex_gun", 1],
       ["700nx", 1],
@@ -903,7 +904,6 @@
       ["sandwich_t", 30],
       ["frozen_dinner", 50],
       ["frozen_burrito", 60],
-      ["frozen_burrito", 60],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
       ["cheeseburger", 8],
@@ -932,8 +932,6 @@
       ["lemonlime", 60],
       ["colamdew", 60],
       ["purple_drink", 45],
-      ["sandwich_t", 30],
-      ["sandwich_t", 30],
       ["sandwich_t", 30],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
@@ -1006,7 +1004,7 @@
       ["maltballs", 80],
       ["tea_raw", 10],
       ["pie", 20],
-	  ["pie_meat", 20],
+      ["pie_meat", 20],
       ["chips", 65],
       ["chips2", 50],
       ["chips3", 45],
@@ -1015,10 +1013,7 @@
       ["candy3", 80],
       ["cookies", 80],
       ["pepper", 10],
-      ["coffee_raw", 15],
-      ["coffee_raw", 15],
-      ["coffee_raw", 15],
-      ["coffee_raw", 15],
+      ["coffee_raw", 85],
       ["choco_coffee_beans", 10],
       ["restaurantmap", 5],
       ["touristmap", 2],
@@ -1028,6 +1023,7 @@
     },{
         "type" : "item_group",
         "id" : "behindcounter",
+        "guns_with_ammo" : true,
     "items":[
       ["aspirin", 85],
       ["caffeine", 25],
@@ -1380,6 +1376,7 @@
       ["boots_combat", 20],
       ["boots_hiking", 10],
       ["hat_hard", 50],
+      ["ear_plugs", 50],
       ["mask_filter", 30],
       ["glasses_safety", 40],
       ["bb", 8],
@@ -3856,8 +3853,10 @@
     "items":[
       ["flamethrower", 20],
       ["m249", 30],
-      ["556", 10],
-      ["556", 10],
+      ["556", 30],
+      ["40mm_frag", 7],
+      ["40mm_shot", 6],
+      ["8mm_hvp", 8],
       ["556_incendiary", 10],
       ["rm802", 5],
       ["40mm_concussive", 5],
@@ -4278,6 +4277,7 @@
       ["mask_filter", 30],
       ["glasses_safety", 40],
       ["hat_hard", 50],
+      ["ear_plugs", 50],
       ["extinguisher", 20],
       ["laptop", 20],
       ["flashlight", 40],
@@ -4312,6 +4312,7 @@
       ["mask_filter", 30],
       ["glasses_safety", 40],
       ["hat_hard", 50],
+      ["ear_plugs", 50],
       ["battery", 50],
       ["flashlight", 40],
       ["boots_rubber", 20],
@@ -4341,6 +4342,7 @@
       ["goggles_welding", 70],
       ["goggles_nv", 1],
       ["hat_hard", 50],
+      ["ear_plugs", 50],
       ["backpack", 38],
       ["backpack_leather", 18],
       ["battery", 50],
@@ -4426,6 +4428,7 @@
       ["cleansuit", 10],
       ["mask_gas", 10],
       ["hat_hard", 50],
+      ["ear_plugs", 50],
       ["textbook_carpentry", 6],
       ["mag_mechanics", 25],
       ["decoy_elfa", 8],
@@ -5431,6 +5434,18 @@
       ["loincloth", 2],
       ["loincloth_fur", 1],
       ["loincloth_leather", 1]
+    ]
+	},{
+       "type" : "item_group",
+       "id" : "dog_cop",
+    "items":[
+     ["kevlar_harness", 1]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "dog_collar",
+    "items":[
+     ["leather_collar", 1]
     ]
   }
 ]

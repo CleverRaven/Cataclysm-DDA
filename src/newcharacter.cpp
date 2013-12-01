@@ -503,7 +503,7 @@ int set_stats(WINDOW *w, game *g, player *u, character_type type, int &points)
     char ch;
     int read_spd;
 
-    draw_tabs(w, "STATS");
+    draw_tabs(w, _("STATS"));
 
     mvwprintz(w, 16, 2, COL_NOTE_MINOR, _("j/k, 8/2, or up/down arrows to select a statistic."));
     mvwprintz(w, 17, 2, COL_NOTE_MINOR, _("l, 6, or right arrow to increase the statistic."));
@@ -674,7 +674,7 @@ int set_stats(WINDOW *w, game *g, player *u, character_type type, int &points)
 int set_traits(WINDOW *w, game *g, player *u, character_type type, int &points,
                int max_trait_points)
 {
-    draw_tabs(w, "TRAITS");
+    draw_tabs(w, _("TRAITS"));
 
     WINDOW *w_description = newwin(3, FULL_SCREEN_WIDTH - 2, FULL_SCREEN_HEIGHT - 4 + getbegy(w),
                                    1 + getbegx(w));
@@ -918,7 +918,7 @@ inline bool profession_display_sort(const profession *a, const profession *b)
 
 int set_profession(WINDOW *w, game *g, player *u, character_type type, int &points)
 {
-    draw_tabs(w, "PROFESSION");
+    draw_tabs(w, _("PROFESSION"));
 
     WINDOW *w_description = newwin(3, FULL_SCREEN_WIDTH - 2, FULL_SCREEN_HEIGHT - 4 + getbegy(w),
                                    1 + getbegx(w));
@@ -1081,7 +1081,7 @@ inline bool skill_display_sort(const Skill *a, const Skill *b)
 
 int set_skills(WINDOW *w, game *g, player *u, character_type type, int &points)
 {
-    draw_tabs(w, "SKILLS");
+    draw_tabs(w, _("SKILLS"));
 
     WINDOW *w_description = newwin(3, FULL_SCREEN_WIDTH - 2, FULL_SCREEN_HEIGHT - 4 + getbegy(w),
                                    1 + getbegx(w));
@@ -1225,7 +1225,7 @@ int set_description(WINDOW *w, game *g, player *u, character_type type, int &poi
         return 1;
     }
 
-    draw_tabs(w, "DESCRIPTION");
+    draw_tabs(w, _("DESCRIPTION"));
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d"), points);
 
     const unsigned name_line = 6;

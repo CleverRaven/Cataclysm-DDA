@@ -3,6 +3,7 @@
 #include "json.h"
 #include "file_finder.h"
 
+// can load from json
 #include "material.h"
 #include "bionics.h"
 #include "profession.h"
@@ -22,6 +23,9 @@
 #include "artifact.h"
 #include "speech.h"
 #include "construction.h"
+
+// need data initialized
+#include "bodypart.h"
 
 #include <string>
 #include <vector>
@@ -140,7 +144,8 @@ void init_data_structures()
         new StaticFunctionAccessor(&load_construction);
 
     mutations_category[""].clear();
-    init_mutation_parts();
+    init_body_parts();
+    init_vpart_bitflag_map();
     init_translation();
     init_martial_arts();
     init_inventory_categories();
