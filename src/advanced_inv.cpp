@@ -107,20 +107,27 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     bool compact=(TERMX<=100);
 
     if(isinventory) {
-        int hrightcol=rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
-        if (g->u.convert_weight(g->u.weight_carried()) > 9.9 ) {
-          hrightcol--;
-          if (g->u.convert_weight(g->u.weight_carried()) > 99.9 ) { // not uncommon
-            hrightcol--;
-            if (g->u.convert_weight(g->u.weight_carried()) > 999.9 ) {
-              hrightcol--;
-              if (g->u.convert_weight(g->u.weight_carried()) > 9999.9 ) { // hohum. time to consider tile destruction and sinkholes elsewhere?
-                hrightcol--;
-              }
-            }
-          }
+        int hrightcol = columns//right align
+			- helper::to_string(g->u.convert_weight(g->u.weight_carried())).length() - 3//"xxx.y/"
+			- helper::to_string(g->u.convert_weight(g->u.weight_capacity())).length() - 3//"xxx.y_"
+			- helper::to_string(g->u.volume_carried()).length() - 1//"xxx/"
+			- helper::to_string(g->u.volume_capacity() - 2).length() - 1;//"xxx|"
+        nc_color color = c_ltgreen;//red color if overload
+        if (g->u.weight_carried() > g->u.weight_capacity()) {
+        	color = c_red;
         }
-        mvwprintz( window, 4, hrightcol, c_ltgreen, "%3.1f %3d", g->u.convert_weight(g->u.weight_carried()), g->u.volume_carried() );
+        mvwprintz( window, 4, hrightcol, color, "%.1f/", g->u.convert_weight(g->u.weight_carried()) );
+        wprintz(window, c_ltgray, "%.1f ", g->u.convert_weight(g->u.weight_capacity()) );
+		if (g->u.volume_carried() > g->u.volume_capacity() - 2)
+		{
+			color = c_red;
+		}
+		else
+		{
+			color = c_ltgreen;
+		}
+        wprintz(window, color, "%d/", g->u.volume_carried() );
+        wprintz(window, c_ltgray, "%d ", g->u.volume_capacity() - 2 );
     } else {
         int hrightcol=rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
         if (g->u.convert_weight(squares[pane.area].weight) > 9.9 ) {
@@ -175,7 +182,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
             }
 
         }
-        mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->tname(g).c_str() );
+        mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->tname().c_str() );
 
         if(items[i].it->charges > 0) {
             wprintz(window, thiscolor, " (%d)",items[i].it->charges);
@@ -210,7 +217,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
 
         wprintz(window, (items[i].volume > 0 ? thiscolor : thiscolordark), " %3d", items[i].volume );
         if(active && items[i].autopickup==true) {
-          mvwprintz(window,6+x,1, magenta_background(items[i].it->color(&g->u)),"%s",(compact?items[i].it->tname(g).substr(0,1):">").c_str());
+          mvwprintz(window,6+x,1, magenta_background(items[i].it->color(&g->u)),"%s",(compact?items[i].it->tname().substr(0,1):">").c_str());
         }
       }
     }
@@ -473,7 +480,7 @@ void advanced_inventory::recalc_pane(int i)
         for (unsigned x = 0; x < stacks.size(); ++x ) {
             item &item = stacks[x]->front();
             advanced_inv_listitem it;
-            it.name = item.tname(g);
+            it.name = item.tname();
             if ( filtering && ! cached_lcmatch(it.name, panes[i].filter, panes[i].filtercache ) ) {
                 continue;
             }
@@ -529,7 +536,7 @@ void advanced_inventory::recalc_pane(int i)
                 for (unsigned x = 0; x < items.size(); x++) {
                     advanced_inv_listitem it;
                     it.idx = x;
-                    it.name = items[x].tname(g);
+                    it.name = items[x].tname();
                     if ( filtering && ! cached_lcmatch(it.name, panes[i].filter, panes[i].filtercache ) ) {
                         continue;
                     }
@@ -1084,7 +1091,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                     recalc=true;
 
                     item new_item = (*it);
-                    
+
                     if ( trycharges > 0 ) {
                         new_item.charges = trycharges;
                     }
@@ -1197,7 +1204,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"), center_text(_("[up / page up] previous"), rightWidth - 4)));
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"), center_text(_("[down / page down] next"), rightWidth - 4)));
                 ret=compare_split_screen_popup( 1 + colstart + ( src == isinventory ? w_width/2 : 0 ),
-                    rightWidth, 0, it->tname(g), vThisItem, vDummy );
+                    rightWidth, 0, it->tname(), vThisItem, vDummy );
             }
             if ( ret == KEY_NPAGE || ret == KEY_DOWN ) {
                 changey += 1;

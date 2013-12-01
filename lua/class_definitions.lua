@@ -110,7 +110,7 @@ classes = {
         },
         functions = {
             tname = {
-                args = { "game" },
+                args = { },
                 rval = "string"
             },
             made_of = {

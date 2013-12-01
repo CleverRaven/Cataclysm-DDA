@@ -50,6 +50,7 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     insides_dirty = true;
     engine_on = false;
     has_pedals = false;
+    parts_dirty = true;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -72,7 +73,7 @@ bool vehicle::player_in_control (player *p)
     vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
     if (veh == NULL || veh != this)
         return false;
-    return part_with_feature(veh_part, "CONTROLS", false) >= 0 && p->controlling_vehicle;
+    return part_with_feature(veh_part, VPFLAG_CONTROLS, false) >= 0 && p->controlling_vehicle;
 }
 
 void vehicle::load (std::ifstream &stin)
@@ -105,7 +106,7 @@ void vehicle::add_missing_frames()
         std::pair<int, int> mount_location = std::make_pair(next_x, next_y);
 
         if(locations_checked.count(mount_location) == 0) {
-            std::vector<int> parts_here = parts_at_relative(next_x, next_y);
+            std::vector<int> parts_here = parts_at_relative(next_x, next_y, false);
             bool found = false;
             for(std::vector<int>::iterator here = parts_here.begin();
                     here != parts_here.end(); here++) {
@@ -117,7 +118,7 @@ void vehicle::add_missing_frames()
             if(!found) {
                 //No frame here! Install one.
                 vehicle_part new_part;
-                new_part.id = "frame_vertical";
+                new_part.setid("frame_vertical");
                 new_part.mount_dx = next_x;
                 new_part.mount_dy = next_y;
                 new_part.hp = vehicle_part_types["frame_vertical"].durability;
@@ -413,16 +414,20 @@ void vehicle::use_controls()
         current++;
     }
 
-    // Toggle engine on/off.
+    // Toggle engine on/off, stop driving if we are driving.
     int vpart;
     if (!pedals() && has_engine) {
         options_choice.push_back(toggle_engine);
-        options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
-                                               _("Turn on the engine"), 'e'));
+        if (g->u.controlling_vehicle) {
+            options_message.push_back(uimenu_entry(_("Stop driving."), 's'));
+        } else {
+            options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
+                                                   _("Turn on the engine"), 'e'));
+        }
         current++;
     }
 
-    // Exit vehicle, if we are in it.
+    // Let go without turning the engine off.
     if (g->u.controlling_vehicle &&
         g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
         options_choice.push_back(release_control);
@@ -487,11 +492,19 @@ void vehicle::use_controls()
         }
         break;
     case toggle_engine:
-        if (engine_on) {
-          engine_on = false;
-          g->add_msg(_("You turn the engine off."));
-        }
-        else {
+        if (g->u.controlling_vehicle) {
+            if (engine_on) {
+                engine_on = false;
+                g->add_msg(_("You turn the engine off and let go of the controls."));
+            } else {
+                g->add_msg(_("You let go of the controls."));
+            }
+            g->u.controlling_vehicle = false;
+            break;
+        } else if (engine_on) {
+            engine_on = false;
+            g->add_msg(_("You turn the engine off."));
+        } else {
           if (total_power () < 1) {
               if (total_power (false) < 1)
                   g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
@@ -562,11 +575,8 @@ void vehicle::honk_horn()
 {
     for(int h = 0; h < horns.size(); h++) {
         //Get global position of horn
-        int horn_x = parts[horns[h]].mount_dx;
-        int horn_y = parts[horns[h]].mount_dy;
-        coord_translate( horn_x, horn_y, horn_x, horn_y );
-        horn_x += global_x();
-        horn_y += global_y();
+        const int horn_x = global_x() + parts[horns[h]].precalc_dx[0];
+        const int horn_y = global_y() + parts[horns[h]].precalc_dy[0];
         //Determine sound
         vpart_info &horn_type=part_info(horns[h]);
         if( horn_type.bonus >= 40 ){
@@ -582,9 +592,10 @@ void vehicle::honk_horn()
 vpart_info& vehicle::part_info (int index)
 {
     if (index >= 0 && index < parts.size()) {
-        return vehicle_part_types[parts[index].id];
+        return vehicle_part_int_types[parts[index].iid];
+        // slow autovivication // vehicle_part_types[parts[index].id];
     } else {
-        return vehicle_part_types["null"];
+        return vehicle_part_int_types[0];//"null"];
     }
 }
 
@@ -609,7 +620,7 @@ int vehicle::part_power (int index){
 
 bool vehicle::has_structural_part(int dx, int dy)
 {
-    std::vector<int> parts_here = parts_at_relative(dx, dy);
+    std::vector<int> parts_here = parts_at_relative(dx, dy, false);
 
     for( std::vector<int>::iterator it = parts_here.begin(); it != parts_here.end(); ++it ) {
         if(part_info(*it).location == "structure" && !part_info(*it).has_flag("PROTRUSION")) {
@@ -640,7 +651,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         return false;
     }
 
-    const std::vector<int> parts_in_square = parts_at_relative(dx, dy);
+    const std::vector<int> parts_in_square = parts_at_relative(dx, dy, false);
 
     //First part in an empty square MUST be a structural part
     if(parts_in_square.empty() && part.location != "structure") {
@@ -723,7 +734,7 @@ bool vehicle::can_unmount (int p)
     int dx = parts[p].mount_dx;
     int dy = parts[p].mount_dy;
 
-    std::vector<int> parts_in_square = parts_at_relative(dx, dy);
+    std::vector<int> parts_in_square = parts_at_relative(dx, dy, false);
 
     //Can't remove a seat if there's still a seatbelt there
     if(part_flag(p, "BELTABLE") && part_with_feature(p, "SEATBELT") >= 0) {
@@ -768,7 +779,7 @@ bool vehicle::can_unmount (int p)
             for(int i = 0; i < 4; i++) {
                 int next_x = i < 2 ? (i == 0 ? -1 : 1) : 0;
                 int next_y = i < 2 ? 0 : (i == 2 ? -1 : 1);
-                std::vector<int> parts_over_there = parts_at_relative(dx + next_x, dy + next_y);
+                std::vector<int> parts_over_there = parts_at_relative(dx + next_x, dy + next_y, false);
                 //Ignore empty squares
                 if(parts_over_there.size() > 0) {
                     //Just need one part from the square to track the x/y
@@ -899,7 +910,7 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
         return -1;  // no money -- no ski!
     }
     vehicle_part new_part;
-    new_part.id = id;
+    new_part.setid(id);
     new_part.mount_dx = dx;
     new_part.mount_dy = dy;
     new_part.hp = hp < 0 ? vehicle_part_types[id].durability : hp;
@@ -914,6 +925,12 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     }
     if(part_flag(parts.size()-1,"FUEL_TANK"))
         fuel.push_back(parts.size()-1);
+
+    point p(new_part.mount_dx, new_part.mount_dy);
+    if ( relative_parts.find(p) == relative_parts.end() ) {
+        relative_parts[p].clear();
+    }
+    relative_parts[p].push_back(parts.size());
 
     find_power ();
     find_exhaust ();
@@ -961,6 +978,10 @@ void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
 
 void vehicle::remove_part (int p)
 {
+    if (p >= parts.size()) {
+        debugmsg("Tried to remove part %d but only %d parts!", p, parts.size());
+        return;
+    }
     if (part_flag(p, "TRACK")) {
         // disable tracking if there are no other trackers installed.
         if (tracking_on)
@@ -995,6 +1016,7 @@ void vehicle::remove_part (int p)
     find_horns ();
     find_power ();
     find_fuel_tanks ();
+    find_parts ();
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
@@ -1041,13 +1063,35 @@ item vehicle::item_from_part( int part )
     return tmp;
 }
 
-std::vector<int> vehicle::parts_at_relative (int dx, int dy)
+std::vector<int> vehicle::parts_at_relative (int dx, int dy, bool use_cache)
 {
     std::vector<int> res;
-    for (int i = 0; i < parts.size(); i++)
-        if (parts[i].mount_dx == dx && parts[i].mount_dy == dy)
-            res.push_back (i);
+    if ( use_cache == false ) {
+        for (int i = 0; i < parts.size(); i++)
+            if (parts[i].mount_dx == dx && parts[i].mount_dy == dy)
+                res.push_back (i);
+    } else {
+        if ( parts_dirty == true ) {
+            find_parts();
+        }
+        if ( relative_parts.find( point(dx, dy) ) != relative_parts.end() ) {
+            res = relative_parts[ point(dx, dy) ];
+        }
+    }
     return res;
+}
+
+int vehicle::part_with_feature (int part, vpart_bitflags flag, bool unbroken) {
+    if (part_flag(part, flag)) {
+        return part;
+    }
+    std::vector<int> parts_here = parts_at_relative(parts[part].mount_dx, parts[part].mount_dy);
+    for (int i = 0; i < parts_here.size(); i++) {
+        if (part_flag(parts_here[i], flag) && (!unbroken || parts[parts_here[i]].hp > 0)) {
+            return parts_here[i];
+        }
+    }
+    return -1;    
 }
 
 int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken)
@@ -1085,6 +1129,18 @@ std::vector<int> vehicle::all_parts_with_feature(const std::string& feature, boo
     return parts_found;
 }
 
+std::vector<int> vehicle::all_parts_with_feature(vpart_bitflags feature, bool unbroken)
+{
+    std::vector<int> parts_found;
+    for(int part_index = 0; part_index < parts.size(); part_index++) {
+        if(part_info(part_index).has_flag(feature) &&
+                (!unbroken || parts[part_index].hp > 0)) {
+            parts_found.push_back(part_index);
+        }
+    }
+    return parts_found;
+}
+
 /**
  * Returns all parts in the vehicle that exist in the given location slot. If
  * the empty string is passed in, returns all parts with no slot.
@@ -1105,6 +1161,14 @@ std::vector<int> vehicle::all_parts_at_location(const std::string& location)
 bool vehicle::part_flag (int part, const std::string &flag)
 {
     if (part < 0 || part >= parts.size()) {
+        return false;
+    } else {
+        return part_info(part).has_flag(flag);
+    }
+}
+
+bool vehicle::part_flag( int part, vpart_bitflags flag) {
+   if (part < 0 || part >= parts.size()) {
         return false;
     } else {
         return part_info(part).has_flag(flag);
@@ -1225,7 +1289,7 @@ nc_color vehicle::part_color (int p)
     nc_color col;
 
     //If armoring is present, it colors the visible part
-    int parm = part_with_feature(p, "ARMOR", false);
+    int parm = part_with_feature(p, VPFLAG_ARMOR, false);
     if (parm >= 0) {
         col = part_info(parm).color;
     } else {
@@ -1245,14 +1309,14 @@ nc_color vehicle::part_color (int p)
     }
 
     // curtains turn windshields gray
-    int curtains = part_with_feature(p, "CURTAIN", false);
+    int curtains = part_with_feature(p, VPFLAG_CURTIAN, false);
     if (curtains >= 0) {
-        if (part_with_feature(p, "WINDOW", true) >= 0 && !parts[curtains].open)
+        if (part_with_feature(p, VPFLAG_WINDOW, true) >= 0 && !parts[curtains].open)
             col = part_info(curtains).color;
     }
 
     //Invert colors for cargo parts with stuff in them
-    int cargo_part = part_with_feature(p, "CARGO");
+    int cargo_part = part_with_feature(p, VPFLAG_CARGO);
     if(cargo_part > 0 && !parts[cargo_part].items.empty()) {
         return invert_color(col);
     } else {
@@ -1619,7 +1683,7 @@ int vehicle::solar_power ()
 {
     int pwr = 0;
     for (int p = 0; p < parts.size(); p++) {
-        if (part_flag(p, "SOLAR_PANEL") && parts[p].hp > 0) {
+        if (part_flag(p, VPFLAG_SOLAR_PANEL) && parts[p].hp > 0) {
             int part_x = global_x() + parts[p].precalc_dx[0];
             int part_y = global_y() + parts[p].precalc_dy[0];
             // Can't use g->in_sunlight() because it factors in vehicle roofs.
@@ -1709,7 +1773,7 @@ float vehicle::wheels_area (int *cnt)
 {
     int count = 0;
     int total_area = 0;
-    std::vector<int> wheel_indices = all_parts_with_feature("WHEEL");
+    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
     for (int i = 0; i < wheel_indices.size(); i++)
     {
         int p = wheel_indices[i];
@@ -1736,7 +1800,7 @@ float vehicle::k_dynamics ()
     for (int i = 0; i < structure_indices.size(); i++)
     {
         int p = structure_indices[i];
-        int frame_size = part_with_feature(p, "OBSTACLE") ? 30 : 10;
+        int frame_size = part_with_feature(p, VPFLAG_OBSTACLE) ? 30 : 10;
         int pos = parts[p].mount_dy + max_obst / 2;
         if (pos < 0) {
             pos = 0;
@@ -1795,7 +1859,7 @@ bool vehicle::valid_wheel_config ()
 {
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
-    std::vector<int> wheel_indices = all_parts_with_feature("WHEEL");
+    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
     if(wheel_indices.size() == 0) {
         //No wheels!
         return false;
@@ -2210,7 +2274,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     }
 
     //Damage armor before damaging any other parts
-    int parm = part_with_feature (part, "ARMOR");
+    int parm = part_with_feature (part, VPFLAG_ARMOR);
     if (parm < 0) {
         parm = part;
     }
@@ -2487,7 +2551,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 
 void vehicle::handle_trap (int x, int y, int part)
 {
-    int pwh = part_with_feature (part, "WHEEL");
+    int pwh = part_with_feature (part, VPFLAG_WHEEL);
     if (pwh < 0) {
         return;
     }
@@ -2760,7 +2824,7 @@ void vehicle::gain_moves (int mp)
                 g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN) {
             parts[p].blood--;
         }
-        int p_eng = part_with_feature (p, "ENGINE", false);
+        int p_eng = part_with_feature (p, VPFLAG_ENGINE, false);
         if (p_eng < 0 || parts[p_eng].hp > 0 || parts[p_eng].amount < 1) {
             continue;
         }
@@ -2799,18 +2863,19 @@ void vehicle::find_power ()
     tracking_power = 0;
     fridge_power = 0;
     for (int p = 0; p < parts.size(); p++) {
-        if(part_flag(parts.size()-1,"LIGHT") || part_flag(parts.size()-1,"CONE_LIGHT")) {
-            lights.push_back(parts.size()-1);
-            lights_power += part_info(parts.size()-1).power;
+        const vpart_info& vpi = part_info(p);
+        if (vpi.has_flag("LIGHT") || vpi.has_flag("CONE_LIGHT")) {
+            lights.push_back(p);
+            lights_power += vpi.power;
         }
-        if (part_flag(parts.size()-1,"CIRCLE_LIGHT")) {
-            overhead_power += part_info(parts.size()-1).power;
+        if (vpi.has_flag("CIRCLE_LIGHT")) {
+            overhead_power += vpi.power;
         }
-        if(part_flag(parts.size()-1, "TRACK")) {
-            tracking_power += part_info(parts.size()-1).power;
+        if (vpi.has_flag("TRACK")) {
+            tracking_power += vpi.power;
         }
-        if(part_flag(parts.size()-1, "FRIDGE")) {
-            fridge_power += part_info(parts.size()-1).power;
+        if (vpi.has_flag("FRIDGE")) {
+            fridge_power += vpi.power;
         }
     }
 }
@@ -2823,6 +2888,18 @@ void vehicle::find_fuel_tanks ()
             fuel.push_back(p);
         }
     }
+}
+
+void vehicle::find_parts () {
+    relative_parts.clear();
+    for (int i = 0; i < parts.size(); i++) {
+        point p(parts[i].mount_dx, parts[i].mount_dy);
+        if ( relative_parts.find(p) == relative_parts.end() ) {
+            relative_parts[p].clear();
+        }
+        relative_parts[p].push_back(i);
+    }
+    parts_dirty = false;
 }
 
 void vehicle::find_exhaust ()
@@ -3107,35 +3184,50 @@ void vehicle::fire_turret (int p, bool burst)
     if (!part_flag (p, "TURRET"))
         return;
     it_gun *gun = dynamic_cast<it_gun*> (itypes[part_info(p).item]);
-    if (!gun)
+    if (!gun) {
         return;
+    }
     int charges = burst? gun->burst : 1;
+    std::string whoosh = "";
     if (!charges)
         charges = 1;
     ammotype amt = part_info (p).fuel_type;
-    if (amt == "gasoline" || amt == "plasma")
+    if (amt == "gasoline" || amt == "plasma" || amt == "battery")
     {
-        if (amt == "gasoline")
+        if (amt == "gasoline") {
             charges = 20; // hacky
+        } else if (amt == "battery") {
+            if (one_in(100)) {
+                //~ the sound of a charge-rifle firing a massive ball of plasma
+                whoosh = _("whoosh!");
+                charges = rng(5,8); // kaboom
+            } else {
+                charges = rng(1,4);
+            }
+        }
         int fleft = fuel_left (amt);
-        if (fleft < 1)
+        if (fleft < 1) {
             return;
-        it_ammo *ammo = dynamic_cast<it_ammo*>(itypes[amt == "gasoline" ? "gasoline" : "plasma"]);
-        if (!ammo)
+        }
+        it_ammo *ammo = dynamic_cast<it_ammo*>(itypes[amt]);
+        if (!ammo) {
             return;
-        if (fire_turret_internal (p, *gun, *ammo, charges))
-        { // consume fuel
-            if (amt == "plasma")
+        }
+        if (fire_turret_internal (p, *gun, *ammo, charges, whoosh)) {
+            // consume fuel
+            if (amt == "plasma") {
                 charges *= 10; // hacky, too
-            for (int p = 0; p < parts.size(); p++)
-            {
+            } else if (amt == "battery") {
+                charges *= charges * 5;
+            }
+            for (int p = 0; p < parts.size(); p++) {
                 if (part_flag(p, "FUEL_TANK") &&
-                    part_info(p).fuel_type == amt &&
-                    parts[p].amount > 0)
-                {
+                        part_info(p).fuel_type == amt &&
+                        parts[p].amount > 0) {
                     parts[p].amount -= charges;
-                    if (parts[p].amount < 0)
+                    if (parts[p].amount < 0) {
                         parts[p].amount = 0;
+                    }
                 }
             }
         }
@@ -3160,7 +3252,7 @@ void vehicle::fire_turret (int p, bool burst)
     }
 }
 
-bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges)
+bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges, const std::string &extra_sound)
 {
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];
@@ -3199,6 +3291,11 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     } else if( gun.item_tags.count( "USE_UPS_40" ) ) {
         if( power < 40 ) { return false; }
     }
+    // make a noise, if extra noise is to be made
+    if (extra_sound != "") {
+        g->sound(x, y, 20, extra_sound);
+    }
+    // notify player if player can see the shot
     if( g->u_see(x, y) ) {
         g->add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }

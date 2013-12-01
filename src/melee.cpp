@@ -492,7 +492,7 @@ int player::dodge(game *g)
     if (has_trait("TAIL_LONG")) {ret += 2;}
     if (has_trait("TAIL_CATTLE")) {ret+= 1;}
     if (has_trait("TAIL_RAT")) {ret+= 2;}
-    if (has_trait("TAIL_LIZARD")) {ret+= 1;}
+    if (has_trait("TAIL_THICK")) {ret+= 1;}
     if (has_trait("TAIL_RAPTOR")) {ret+= 3;}
     if (has_trait("TAIL_FLUFFY")) {ret += 4;}
     if (has_trait("WHISKERS")) {ret += 1;}
@@ -859,8 +859,11 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
     } else if (npc) {
         target = p->name;
     } else {
-        target = "a bug";
         // "you" handled separately
+        //TODO alert the user if this happens
+        //This is done to avoid NULL derefrences
+        debugmsg("no valid target in perform_technique");
+        return;
     }
 
   bash_dam += technique.bash;
@@ -875,7 +878,6 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
 
   if (technique.quick) {
     moves += int(attack_speed(*this) / 2);
-    return;
   }
 // The rest affect our target, and thus depend on z vs. p
 
@@ -976,6 +978,10 @@ bool player::can_weapon_block()
 
 bool player::block_hit(game *g, body_part &bp_hit, int &side,
                        int &bash_dam, int &cut_dam, int &stab_dam) {
+
+  ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
+  // these fire even if the attack is blocked (you still got hit)
+
   if (blocks_left < 1)
       return false;
 
@@ -1215,7 +1221,7 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
  if (weapon.made_of("glass") &&
      rng(0, weapon.volume() + 8) < weapon.volume() + str_cur) {
      g->add_msg_player_or_npc( p, _("Your %s shatters!"), _("<npcname>'s %s shatters!"),
-                               weapon.tname(g).c_str() );
+                               weapon.tname().c_str() );
 
   g->sound(posx, posy, 16, "");
 // Dump its contents on the ground
@@ -1520,7 +1526,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
         ret.push_back(tmp);
     }
 
-	    if (has_trait("TAIL_LIZARD") && one_in(3) && one_in(10 - dex_cur)) {
+	    if (has_trait("TAIL_THICK") && one_in(3) && one_in(10 - dex_cur)) {
         special_attack tmp;
         tmp.bash = 8;
         if (is_u) {

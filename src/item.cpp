@@ -203,7 +203,8 @@ void item::clear()
 
 bool item::is_null() const
 {
-    return (type == NULL || type->id == "null");
+    static const std::string s_null("null"); // used alot, no need to repeat
+    return (this == NULL || type == NULL || type->id == s_null);
 }
 
 item item::in_its_container(std::map<std::string, itype*> *itypes)
@@ -359,7 +360,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
  if ( g != NULL && debug == false &&
    ( g->debugmon == true || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) )
  ) debug=true;
- if( !is_null() )
+ if( !is_null() && g != NULL)
  {
   dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
   dump->push_back(iteminfo("BASE", _("   Weight: "), "", g->u.convert_weight(weight()), false, "", true, true));
@@ -798,7 +799,7 @@ nc_color item::color_in_inventory()
     return c_white;
 }
 
-std::string item::tname(game *g)
+std::string item::tname()
 {
     std::stringstream ret;
 
@@ -911,6 +912,17 @@ std::string item::tname(game *g)
         return "*" + ret.str() + "*";
     } else {
         return ret.str();
+    }
+}
+
+std::string item::display_name()
+{
+    if (charges > 0) {
+        return string_format("%s (%d)", tname().c_str(), charges);
+    } else if (contents.size() == 1 && contents[0].charges > 0) {
+        return string_format("%s (%d)", tname().c_str(), contents[0].charges);
+    } else {
+        return tname();
     }
 }
 
@@ -1432,7 +1444,11 @@ std::string item::get_material(int m) const
     if (corpse != NULL && typeId() == "corpse" )
         return corpse->mat;
 
+    if ( is_null())
+        return "NULL type";
+
     return (m==2)?type->m2:type->m1;
+
 }
 
 bool item::made_of(phase_id phase) const
@@ -2213,7 +2229,7 @@ bool item::reload(player &u, char ammo_invlet)
  item *ammo_to_use = (ammo_invlet != 0 ? &u.inv.item_by_letter(ammo_invlet) : NULL);
 
  // also check if wielding ammo
- if (ammo_to_use->is_null()) {
+ if (ammo_to_use == NULL || ammo_to_use->is_null()) {
      if (u.is_armed() && u.weapon.is_ammo() && u.weapon.invlet == ammo_invlet)
          ammo_to_use = &u.weapon;
  }

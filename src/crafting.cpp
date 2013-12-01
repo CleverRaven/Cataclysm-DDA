@@ -745,8 +745,8 @@ recipe* game::select_crafting_recipe()
                             xpos = 32;
                             ypos++;
                             }
-                            mvwprintz(w_data, ypos, xpos, c_white, _("OR "));
-                            xpos += 3;
+                            mvwprintz(w_data, ypos, xpos, c_white, _("%s "), _("OR"));
+                            xpos += utf8_width(_("OR"))+1;
                         }
                     }
                 }
@@ -800,8 +800,8 @@ recipe* game::select_crafting_recipe()
                             ypos++;
                             xpos = 32;
                         }
-                        mvwprintz(w_data, ypos, xpos, c_white, _("OR "));
-                        xpos += 3;
+                        mvwprintz(w_data, ypos, xpos, c_white, _("%s "), _("OR"));
+                        xpos += utf8_width(_("OR"))+1;
                     }
                 }
             }
@@ -1514,7 +1514,7 @@ void game::disassemble(char ch)
                       return;
                     }
                   }
-                  if (OPTIONS["QUERY_DISASSEMBLE"] && !(query_yn(_("Really disassemble your %s?"), dis_item->tname(this).c_str())))
+                  if (OPTIONS["QUERY_DISASSEMBLE"] && !(query_yn(_("Really disassemble your %s?"), dis_item->tname().c_str())))
                   {
                    return;
                   }
@@ -1532,7 +1532,7 @@ void game::disassemble(char ch)
     //if we're trying to disassemble a book or magazine
     if(dis_item->is_book())
     {
-       if (OPTIONS["QUERY_DISASSEMBLE"] && !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname(this).c_str())))
+       if (OPTIONS["QUERY_DISASSEMBLE"] && !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname().c_str())))
              return;
         else
         {

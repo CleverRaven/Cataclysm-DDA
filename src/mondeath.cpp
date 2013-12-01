@@ -202,7 +202,7 @@ void mdeath::fungus(monster *z) {
                     if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 0)) {
                         hit = true;
                     }
-                    if ((hit = true) && (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee")))) {
+                    if (hit && (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee")))) {
                         g->add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
                         hit = false;
                     }

@@ -46,6 +46,10 @@ void game::init_monitems() {
               "mil_accessories", 10, "mil_food", 5, "bionics_mil", 1,
               NULL);
 
+    setvector(&monitems["mon_dog_zombie_cop"],
+              "dog_cop", 1, "dog_collar", 1, 
+			  NULL);			  
+			  
     setvector(&monitems["mon_biollante"], "biollante", 1, NULL);
 
     setvector(&monitems["mon_chud"],
