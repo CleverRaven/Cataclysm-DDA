@@ -446,6 +446,7 @@ void npc::talk_to_u(game *g)
    g->add_msg(_("When you don't respond, %s becomes angry!"), name.c_str());
    make_angry();
   }
+  return;
  }
  
  decide_needs();
