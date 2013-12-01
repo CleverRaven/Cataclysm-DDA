@@ -562,11 +562,8 @@ void vehicle::honk_horn()
 {
     for(int h = 0; h < horns.size(); h++) {
         //Get global position of horn
-        int horn_x = parts[horns[h]].mount_dx;
-        int horn_y = parts[horns[h]].mount_dy;
-        coord_translate( horn_x, horn_y, horn_x, horn_y );
-        horn_x += global_x();
-        horn_y += global_y();
+        const int horn_x = global_x() + parts[horns[h]].precalc_dx[0];
+        const int horn_y = global_y() + parts[horns[h]].precalc_dy[0];
         //Determine sound
         vpart_info &horn_type=part_info(horns[h]);
         if( horn_type.bonus >= 40 ){
@@ -3120,8 +3117,10 @@ void vehicle::fire_turret (int p, bool burst)
             charges = 20; // hacky
         } else if (amt == "battery") {
             if (one_in(100)) {
+                const int gun_x = global_x() + parts[p].precalc_dx[0];
+                const int gun_y = global_y() + parts[p].precalc_dy[0];
                 //~ the sound of a charge-rifle firing a massive ball of plasma
-                g->sound(parts[p].mount_dx, parts[p].mount_dy, 20, _("whoosh!"));
+                g->sound(gun_x, gun_y, 20, _("whoosh!"));
                 charges = rng(5,8); // kaboom
             } else {
                 charges = rng(1,4);
