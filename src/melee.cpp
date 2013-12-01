@@ -878,7 +878,6 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
 
   if (technique.quick) {
     moves += int(attack_speed(*this) / 2);
-    return;
   }
 // The rest affect our target, and thus depend on z vs. p
 
