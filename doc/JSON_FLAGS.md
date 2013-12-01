@@ -28,6 +28,8 @@
 ## Furniture & Terrain
 List of known flags, used in both terrain.json and furniture.json
 
+### Flags
+
 - ```TRANSPARENT``` Players and monsters can see thorugh/past it. Also sets ter_t.transparent.
 - ```FLAT``` Player can build and move furniture on.
 - ```BASHABLE``` Players + Monsters can bash this.
@@ -63,6 +65,46 @@ List of known flags, used in both terrain.json and furniture.json
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```BARRICADABLE_WINDOW``` Window that can be barricaded.
 - ```BARRICADABLE_DOOR``` Door that can be barricaded.
+
+### Examine actions
+
+- ```none``` None
+- ```gaspump``` Use the gas-pump.
+- ```toilet``` Either drink or get water out of the toilet.
+- ```elevator``` Use the elevator to change floors.
+- ```controls_gate``` Controls the attached gate.
+- ```cardreader``` Use the cardreader with a valid card, or attempt to hack.
+- ```rubble``` Clear up the rubble if you have a shovel.
+- ```chainfence``` Hop over the chain fence.
+- ```tent``` Take down the tent.
+- ```shelter``` Take down the shelter.
+- ```wreckage``` Clear up the wreckage if you have a shovel.
+- ```pit``` Cover the pit if you have some planks of wood.
+- ```pit_covered``` Uncover the pit.
+- ```fence_post``` Build a fence.
+- ```remove_fence_rope``` Remove the rope from the fence.
+- ```remove_fence_wire``` Remove the wire from the fence.
+- ```remove_fence_barbed``` Remove the barbed wire from the fence.
+- ```slot_machine``` Gamble.
+- ```safe``` Attempt to crack the safe.
+- ```bulletin_board``` Create a home camp; currently not implemented.
+- ```fault``` Displays descriptive message, but otherwise unused.
+- ```pedestal_wyrm``` Spawn wyrms.
+- ```pedestal_temple``` Opens the temple if you have a petrified eye.
+- ```fswitch``` Flip the switch and the rocks will shift.
+- ```flower_poppy``` Pick the mutated poppy.
+- ```fungus``` Release spores as the terrain crumbles away.
+- ```dirtmound``` Plant seeds and plants.
+- ```aggie_plant``` Harvest plants.
+- ```tree_apple``` Pick an apple tree.
+- ```shrub_blueberry``` Pick a blueberry bush.
+- ```shrub_strawberry``` Pick a strawberry bush.
+- ```shrub_marloss``` Pick a marloss bush.
+- ```shrub_wildveggies``` Pick a wild veggies shrub.
+- ```recycler``` Recycle metal objects.
+- ```trap``` Interact with a trap.
+- ```water_source``` Drink or get water from a water source.
+- ```acid_source``` Get acid from an acid source.
 
 ### Currently only used for Fungal conversions
 
