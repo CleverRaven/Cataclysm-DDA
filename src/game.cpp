@@ -3159,9 +3159,9 @@ void game::add_msg(const char* msg, ...)
  va_end(ap);
 }
 
-void game::add_msg_if_player(player *p, const char* msg, ...)
+void game::add_msg_if_player(Creature *p, const char* msg, ...)
 {
- if (p && !p->is_npc())
+ if (p && p->is_player())
  {
   va_list ap;
   va_start(ap, msg);
@@ -3192,16 +3192,16 @@ void game::add_msg_if_npc(player *p, const char* msg, ...)
     va_end(ap);
 }
 
-void game::add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...)
+void game::add_msg_player_or_npc(Creature* t, const char* player_str, const char* npc_str, ...)
 {
     va_list ap;
-    if( !p ) {return; }
+    //if( !p ) {return; }
 
     va_start( ap, npc_str );
 
-    if( !p->is_npc() ) {
+    if( t->is_player() ) {
         vadd_msg( player_str, ap );
-    } else if( u_see( p ) ) {
+    } else if( u_see(t) ) {
         char buff[1024];
         vsprintf(buff, npc_str, ap);
         std::string processed_npc_string(buff);
@@ -3209,7 +3209,7 @@ void game::add_msg_player_or_npc(player *p, const char* player_str, const char* 
         // if present replace it with the actual npc name.
         size_t offset = processed_npc_string.find("<npcname>");
         if( offset != std::string::npos ) {
-            processed_npc_string.replace(offset, 9,  p->name);
+            processed_npc_string.replace(offset, 9,  t->disp_name());
         }
         add_msg_string( processed_npc_string );
     }
@@ -4589,9 +4589,14 @@ bool game::u_see(int x, int y)
  return can_see;
 }
 
-bool game::u_see(player *p)
+bool game::u_see(Creature *t)
 {
- return u_see(p->posx, p->posy);
+ return u_see(t->xpos(), t->ypos());
+}
+
+bool game::u_see(Creature &t)
+{
+ return u_see(t.xpos(), t.ypos());
 }
 
 bool game::u_see(monster *mon)

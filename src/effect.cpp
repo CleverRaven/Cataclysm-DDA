@@ -57,7 +57,7 @@ effect& effect::operator=(const effect &rhs)
     return *this;
 }
 
-void effect::do_effect(game* g, creature& t) {
+void effect::do_effect(game* g, Creature& t) {
     return;
 }
 

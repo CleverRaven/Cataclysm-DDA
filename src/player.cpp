@@ -91,7 +91,7 @@ void game::init_morale()
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
 }
 
-player::player() : creature(), name("")
+player::player() : Creature(), name("")
 {
  id = 0; // Player is 0. NPCs are different.
  view_offset_x = 0;
@@ -177,7 +177,7 @@ player::player() : creature(), name("")
  recalc_sight_limits();
 }
 
-player::player(const player &rhs): creature(rhs), JsonSerializer(), JsonDeserializer()
+player::player(const player &rhs): Creature(rhs), JsonSerializer(), JsonDeserializer()
 {
  *this = rhs;
 }
@@ -304,7 +304,7 @@ player& player::operator= (const player & rhs)
 
 void player::normalize(game *g)
 {
-    creature::normalize(g);
+    Creature::normalize(g);
 
  ret_null = item(itypes["null"], 0);
  weapon   = item(itypes["null"], 0);
@@ -429,7 +429,7 @@ void player::reset(game *g)
 
     recalc_sight_limits();
 
-    creature::reset(g);
+    Creature::reset(g);
 
 }
 
@@ -4500,7 +4500,7 @@ void player::process_effects(game *g) {
         }
     }
 
-    creature::process_effects(g);
+    Creature::process_effects(g);
 }
 
 void player::suffer(game *g)

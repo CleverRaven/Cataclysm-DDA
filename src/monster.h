@@ -46,7 +46,7 @@ struct monster_effect
  monster_effect(monster_effect_type T, int D) : type (T), duration (D) {}
 };
 
-class monster : public creature, public JsonSerializer, public JsonDeserializer
+class monster : public Creature, public JsonSerializer, public JsonDeserializer
 {
  friend class editmap;
  public:
@@ -187,8 +187,8 @@ class monster : public creature, public JsonSerializer, public JsonDeserializer
     int hit (game *g, body_part bphurt, int side, int dam, int cut);
     bool block_hit(game *g, body_part &bp_hit, int &side,
         int &bash_dam, int &cut_dam, int &stab_dam);
-    int hit_creature(game *g, creature &t, bool allow_grab); // Returns a damage
-    int  hit(game *g, creature &t, body_part &bp_hit); // Returns a damage
+    int hit_creature(game *g, Creature &t, bool allow_grab); // Returns a damage
+    int  hit(game *g, Creature &t, body_part &bp_hit); // Returns a damage
     void hit_monster(game *g, int i);
     // Deals this dam damage; returns true if we dead
     // If real_dam is provided, caps overkill at real_dam.

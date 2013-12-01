@@ -77,7 +77,7 @@ struct stats : public JsonSerializer, public JsonDeserializer
     }
 };
 
-class player : public creature, public JsonSerializer, public JsonDeserializer
+class player : public Creature, public JsonSerializer, public JsonDeserializer
 {
   std::map<Skill*,SkillLevel> _skills;
 
@@ -221,7 +221,7 @@ public:
 
 // melee.cpp
  bool can_weapon_block(); //gear-based defensive ability
- int hit_creature(game *g, creature &p, bool allow_grab = true);
+ int hit_creature(game *g, Creature &p, bool allow_grab = true);
  int  hit_mon(game *g, monster *z, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
 
@@ -242,16 +242,16 @@ public:
  std::vector<matec_id> get_all_techniques();
 
  bool has_technique(matec_id tec);
- matec_id pick_technique(game *g, creature &t,
+ matec_id pick_technique(game *g, Creature &t,
                              bool crit, bool allowgrab);
- void perform_technique(ma_technique technique, game *g, creature &t,
+ void perform_technique(ma_technique technique, game *g, Creature &t,
                        int &bash_dam, int &cut_dam, int &pierce_dam, int &pain);
 
- void perform_special_attacks(game *g, creature &t,
+ void perform_special_attacks(game *g, Creature &t,
                         int &bash_dam, int &cut_dam, int &pierce_dam);
 
  std::vector<special_attack> mutation_attacks(monster *z, player *p);
- std::string melee_special_effects(game *g, creature &t, bool crit,
+ std::string melee_special_effects(game *g, Creature &t, bool crit,
                             int &bash_dam, int &cut_dam, int &stab_dam);
 
  int  dodge(game *g);     // Returns the players's dodge, modded by clothing etc

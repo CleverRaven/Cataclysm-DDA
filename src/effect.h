@@ -6,7 +6,7 @@
 #include "json.h"
 
 class game;
-class creature;
+class Creature;
 
 class effect_type
 {
@@ -54,7 +54,7 @@ class effect
         effect& operator=(const effect & rhs);
 
         effect_type* get_effect_type();
-        void do_effect(game* g, creature& t); // applies the disease's effects
+        void do_effect(game* g, Creature& t); // applies the disease's effects
 
         int get_duration();
         void set_duration(int dur);

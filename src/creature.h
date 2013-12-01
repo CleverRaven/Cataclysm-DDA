@@ -13,19 +13,19 @@
 class game;
 class effect;
 
-class creature
+class Creature
 {
     public:
         // TODO: fill these in
-        creature();
-        creature(const creature & rhs);
+        Creature();
+        Creature(const Creature & rhs);
 
-        virtual std::string disp_name() = 0; // displayname for creature
+        virtual std::string disp_name() = 0; // displayname for Creature
         virtual std::string skin_name() = 0; // name of outer layer, e.g. "armor plates"
 
         virtual int dodge_roll(game* g) = 0;
 
-        virtual int hit_creature(game *g, creature &t, bool allow_grab) = 0; // Returns a damage
+        virtual int hit_creature(game *g, Creature &t, bool allow_grab) = 0; // Returns a damage
 
         virtual int hit (game *g, body_part bphurt, int side,
                 int dam, int cut) = 0;
@@ -46,11 +46,13 @@ class creature
         // TODO: change uses of this to get_arm_bash/get_arm_cut
         virtual int armor_bash() = 0;
         virtual int armor_cut() = 0;
+        // TODO: this is just a shim so knockbacks work
+        virtual void knock_back_from(game *g, int posx, int posy) = 0;
 
         virtual bool is_player() { return false; }
 
-        virtual void normalize(game* g); // recreate the creature from scratch
-        virtual void reset(game* g); // prepare the creature for the next turn
+        virtual void normalize(game* g); // recreate the Creature from scratch
+        virtual void reset(game* g); // prepare the Creature for the next turn
 
         // should replace both player.add_disease and monster.add_effect
         // these are nonvirtual since otherwise they can't be accessed with
@@ -60,10 +62,10 @@ class creature
         void clear_effects(); // remove all effects
         bool has_effect(efftype_id eff_id);
 
-        virtual void process_effects(game* g); // runs all the effects on the creature
+        virtual void process_effects(game* g); // runs all the effects on the Creature
 
         // getters for stats - combat-related stats will all be held within
-        // the creature and re-calculated during every normalize() call
+        // the Creature and re-calculated during every normalize() call
 
         virtual int get_str();
         virtual int get_dex();
@@ -97,6 +99,7 @@ class creature
         virtual float get_cut_mult();
 
         virtual bool get_melee_quiet();
+        virtual int get_grab_resist();
         virtual int get_throw_resist();
 
         // setters for stat boni
@@ -126,6 +129,7 @@ class creature
         virtual void set_cut_mult(float ncutmult);
 
         virtual void set_melee_quiet(bool nquiet);
+        virtual void set_grab_resist(int ngrabres);
         virtual void set_throw_resist(int nthrowres);
 
         // innate stats, slowly move these to protected as we rewrite more of
@@ -170,8 +174,9 @@ class creature
         float bash_mult;
         float cut_mult;
         bool melee_quiet;
-        int throw_resist;
 
+        int grab_resist;
+        int throw_resist;
 
 };
 

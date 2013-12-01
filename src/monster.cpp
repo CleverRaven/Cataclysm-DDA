@@ -582,7 +582,7 @@ int monster::hit(game*g, body_part bp, int a, int b, int c) {
     return 0;
 }
 
-int monster::hit(game *g, creature &p, body_part &bp_hit) {
+int monster::hit(game *g, Creature &p, body_part &bp_hit) {
  int ret = 0;
  int highest_hit = 0;
 
@@ -640,7 +640,7 @@ int monster::hit(game *g, creature &p, body_part &bp_hit) {
 }
 
 
-int monster::hit_creature(game *g, creature &p, bool allow_grab = true) {
+int monster::hit_creature(game *g, Creature &p, bool allow_grab = true) {
     (void)g; (void)p; (void)allow_grab;
     return 0;
 }
@@ -876,7 +876,7 @@ void monster::process_effects(game *g)
         }
     }
 
-    creature::process_effects(g);
+    Creature::process_effects(g);
 }
 
 bool monster::make_fungus()

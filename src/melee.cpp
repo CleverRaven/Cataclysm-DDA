@@ -125,7 +125,7 @@ int player::hit_roll()
  return dice(numdice, sides);
 }
 
-int player::hit_creature(game *g, creature &t, bool allow_grab) {
+int player::hit_creature(game *g, Creature &t, bool allow_grab) {
     bool is_u = (this == &(g->u)); // Affects how we'll display messages
     if (!t.is_player()) {
         t.add_effect("effect_hit_by_player", 100); // Flag as attacked by us
@@ -243,23 +243,21 @@ int player::hit_creature(game *g, creature &t, bool allow_grab) {
     if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
         healall( rng(dam / 10, dam / 5) );
 
-    /*
-     * TODO: implement skill interfaces and stuff for creatures
     if (allow_grab && technique.grabs) {
-    // Move our weapon to a temp slot, if it's not unarmed
-        if (p.has_grab_break_tec() &&
-            dice(p.dex_cur + p.skillLevel("melee"), 12) >
-            dice(dex_cur + skillLevel("melee"), 10)) {
-            g->add_msg_player_or_npc(&p, _("You break the grab!"),
+        // TODO: make this depend on skill (through grab_resist stat) again
+        if (t.get_grab_resist() > 0 &&
+                dice(t.get_dex() , 12) >
+                dice(get_dex(), 10)) {
+            g->add_msg_player_or_npc(&t, _("You break the grab!"),
                                         _("<npcname> breaks the grab!"));
         } else if (!unarmed_attack()) {
+            // Move our weapon to a temp slot, if it's not unarmed
             item tmpweap = remove_weapon();
-            hit_creature(g, p, false); // False means a second grab isn't allowed
+            hit_creature(g, t, false); // False means a second grab isn't allowed
             weapon = tmpweap;
         } else
-        hit_creature(g, p, false); // False means a second grab isn't allowed
+            hit_creature(g, t, false); // False means a second grab isn't allowed
     }
-    */
 
     ma_onattack_effects(); // trigger martial arts on-attack effects
 
@@ -362,7 +360,7 @@ int player::dodge(game *g)
     if (has_disease("sleep") || has_disease("lying_down")) {return 0;}
     if (activity.type != ACT_NULL) {return 0;}
 
-    int ret = creature::get_dodge();
+    int ret = Creature::get_dodge();
     ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
     ret += skillLevel("dodge");
     ret += disease_intensity("dodge_boost");
@@ -643,7 +641,7 @@ int player::roll_stuck_penalty(bool stabbing)
     return stuck_cost;
 }
 
-matec_id player::pick_technique(game *g, creature &t,
+matec_id player::pick_technique(game *g, Creature &t,
                                     bool crit, bool allowgrab)
 {
     (void)allowgrab; //FIXME: is this supposed to be being used for something?
@@ -725,7 +723,7 @@ bool player::has_technique(matec_id id) {
     martialarts[style_selected].has_technique(*this, id);
 }
 
-void player::perform_technique(ma_technique technique, game *g, creature &t,
+void player::perform_technique(ma_technique technique, game *g, Creature &t,
                                int &bash_dam, int &cut_dam,
                                int &stab_dam, int &pain)
 {
@@ -747,7 +745,6 @@ void player::perform_technique(ma_technique technique, game *g, creature &t,
 
     if (technique.quick) {
         moves += int(attack_speed(*this) / 2);
-        return;
     }
 
     if (technique.down_dur > 0) {
@@ -761,23 +758,19 @@ void player::perform_technique(ma_technique technique, game *g, creature &t,
         t.add_effect("effect_stunned", rng(1, technique.stun_dur));
     }
 
-    /* TODO: put all this in when disease/effects merging is done
     if (technique.knockback_dist > 0) {
         int kb_offset = rng(
-        -technique.knockback_spread,
-        technique.knockback_spread
+            -technique.knockback_spread,
+            technique.knockback_spread
         );
-        if (z != NULL) {
-        z->knock_back_from(g, posx+kb_offset, posy+kb_offset);
-        } else if (p != NULL) {
-        p->knock_back_from(g, posy+kb_offset, posy+kb_offset);
-        }
+        t.knock_back_from(g, posx+kb_offset, posy+kb_offset);
     }
 
     if (technique.pain > 0) {
         pain += rng(technique.pain/2, technique.pain);
     }
 
+    /* TODO: put all this in when disease/effects merging is done
     if (technique.disarms) {
         g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
         if (you) {
@@ -788,6 +781,7 @@ void player::perform_technique(ma_technique technique, game *g, creature &t,
                                      target.c_str() );
         }
     }
+    */
 
     if (technique.aoe.length() > 0) {
         int count_hit = 0;
@@ -795,7 +789,7 @@ void player::perform_technique(ma_technique technique, game *g, creature &t,
         for (int y = posy - 1; y <= posy + 1; y++) {
             if (x != tarx || y != tary) { // Don't double-hit our target
             int mondex = g->mon_at(x, y);
-            if (mondex != -1 && hit_roll() >= rng(0, 5) + g->zombie(mondex).dodge_roll()) {
+            if (mondex != -1 && hit_roll() >= rng(0, 5) + g->zombie(mondex).dodge_roll(g)) {
                 count_hit++;
                 int dam = roll_bash_damage(&(g->zombie(mondex)), false) +
                     roll_cut_damage (&(g->zombie(mondex)), false);
@@ -825,10 +819,9 @@ void player::perform_technique(ma_technique technique, game *g, creature &t,
             }
         }
         }
-        g->add_msg_if_player(p, ngettext("%d enemy hit!", "%d enemies hit!", count_hit), count_hit);
+        g->add_msg_if_player(&t, ngettext("%d enemy hit!", "%d enemies hit!", count_hit), count_hit);
 
     }
-    */
 
 }
 
@@ -905,7 +898,7 @@ bool player::block_hit(game *g, body_part &bp_hit, int &side,
   return true;
 }
 
-void player::perform_special_attacks(game *g, creature &t,
+void player::perform_special_attacks(game *g, Creature &t,
                                      int &bash_dam, int &cut_dam, int &stab_dam)
 {
  bool can_poison = false;
@@ -958,7 +951,7 @@ void player::perform_special_attacks(game *g, creature &t,
  */
 }
 
-std::string player::melee_special_effects(game *g, creature &t, bool crit,
+std::string player::melee_special_effects(game *g, Creature &t, bool crit,
                                    int &bash_dam, int &cut_dam, int &stab_dam)
 {
     std::stringstream dump;

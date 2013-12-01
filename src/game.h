@@ -144,9 +144,9 @@ class game
   void vadd_msg(const char* msg, va_list ap );
   void add_msg_string(const std::string &s);
     void add_msg(const char* msg, ...);
-  void add_msg_if_player(player *p, const char* msg, ...);
+  void add_msg_if_player(Creature *t, const char* msg, ...);
   void add_msg_if_npc(player* p, const char* msg, ...);
-  void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
+  void add_msg_player_or_npc(Creature* t, const char* player_str, const char* npc_str, ...);
   std::vector<game_message> recent_messages(const int count); //Retrieves the last X messages
   void add_event(event_type type, int on_turn, int faction_id = -1,
                  int x = -1, int y = -1);
@@ -250,7 +250,8 @@ class game
   bool sees_u(int x, int y, int &t);
   bool u_see (int x, int y);
   bool u_see (monster *mon);
-  bool u_see (player *p);
+  bool u_see (Creature *t); // for backwards compatibility
+  bool u_see (Creature &t);
   bool pl_sees(player *p, monster *mon, int &t);
   bool is_hostile_nearby();
   bool is_hostile_very_close();
