@@ -78,7 +78,7 @@ public:
 
  nc_color color(player *u) const;
  nc_color color_in_inventory();
- std::string tname(game *g = NULL); // g needed for rotten-test
+ std::string tname(game *g = NULL, bool with_prefix = true); // g needed for rotten-test
  void use();
  bool burn(int amount = 1); // Returns true if destroyed
 

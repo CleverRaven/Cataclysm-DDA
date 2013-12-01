@@ -797,14 +797,18 @@ nc_color item::color_in_inventory()
     }
     return c_white;
 }
-
-std::string item::tname(game *g)
+/* @param with_prefix determines whether to return for more of its object, such as
+* 	the extent of damage and burning (was created to sort by name without prefix
+*	in additional inventory)
+* @return name of item
+*/
+std::string item::tname(game *g, bool with_prefix)
 {
     std::stringstream ret;
 
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
-    if (damage != 0 && !is_null()) {
+    if (damage != 0 && !is_null() && with_prefix) {
         if (damage == -1) {
             damtext = rm_prefix(_("<dam_adj>reinforced "));
         } else {
@@ -835,10 +839,12 @@ std::string item::tname(game *g)
     }
 
     std::string burntext = "";
-    if (volume() >= 4 && burnt >= volume() * 2)
-        burntext = rm_prefix(_("<burnt_adj>badly burnt "));
-    else if (burnt > 0)
-        burntext = rm_prefix(_("<burnt_adj>burnt "));
+    if (with_prefix) {
+		if (volume() >= 4 && burnt >= volume() * 2)
+			burntext = rm_prefix(_("<burnt_adj>badly burnt "));
+		else if (burnt > 0)
+			burntext = rm_prefix(_("<burnt_adj>burnt "));
+    }
 
     std::string maintext = "";
     if (corpse != NULL && typeId() == "corpse" ) {
