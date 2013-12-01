@@ -21,6 +21,7 @@
 #include "tutorial.h"
 #include "overmap.h"
 #include "artifact.h"
+#include "mapgen.h"
 #include "speech.h"
 #include "construction.h"
 
@@ -47,6 +48,7 @@ void init_data_mappings() {
     set_furn_ids();
     set_oter_ids();
     set_trap_ids();
+    calculate_mapgen_weights();
 // temporary (reliable) kludge until switch statements are rewritten
     std::map<std::string, int> legacy_lookup;
     for(int i=0; i< num_legacy_ter;i++) {
@@ -142,6 +144,8 @@ void init_data_structures()
         new StaticFunctionAccessor(&load_overmap_terrain);
     type_function_map["construction"] =
         new StaticFunctionAccessor(&load_construction);
+    type_function_map["mapgen"] =
+        new StaticFunctionAccessor(&load_mapgen);
 
     mutations_category[""].clear();
     init_body_parts();
@@ -151,6 +155,7 @@ void init_data_structures()
     init_inventory_categories();
     init_colormap();
     init_artifacts();
+    init_mapgen_builtin_functions();
 }
 
 void release_data_structures()
