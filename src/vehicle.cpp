@@ -562,11 +562,8 @@ void vehicle::honk_horn()
 {
     for(int h = 0; h < horns.size(); h++) {
         //Get global position of horn
-        int horn_x = parts[horns[h]].mount_dx;
-        int horn_y = parts[horns[h]].mount_dy;
-        coord_translate( horn_x, horn_y, horn_x, horn_y );
-        horn_x += global_x();
-        horn_y += global_y();
+        const int horn_x = global_x() + parts[horns[h]].precalc_dx[0];
+        const int horn_y = global_y() + parts[horns[h]].precalc_dy[0];
         //Determine sound
         vpart_info &horn_type=part_info(horns[h]);
         if( horn_type.bonus >= 40 ){
@@ -3108,35 +3105,50 @@ void vehicle::fire_turret (int p, bool burst)
     if (!part_flag (p, "TURRET"))
         return;
     it_gun *gun = dynamic_cast<it_gun*> (itypes[part_info(p).item]);
-    if (!gun)
+    if (!gun) {
         return;
+    }
     int charges = burst? gun->burst : 1;
+    std::string whoosh = "";
     if (!charges)
         charges = 1;
     ammotype amt = part_info (p).fuel_type;
-    if (amt == "gasoline" || amt == "plasma")
+    if (amt == "gasoline" || amt == "plasma" || amt == "battery")
     {
-        if (amt == "gasoline")
+        if (amt == "gasoline") {
             charges = 20; // hacky
+        } else if (amt == "battery") {
+            if (one_in(100)) {
+                //~ the sound of a charge-rifle firing a massive ball of plasma
+                whoosh = _("whoosh!");
+                charges = rng(5,8); // kaboom
+            } else {
+                charges = rng(1,4);
+            }
+        }
         int fleft = fuel_left (amt);
-        if (fleft < 1)
+        if (fleft < 1) {
             return;
-        it_ammo *ammo = dynamic_cast<it_ammo*>(itypes[amt == "gasoline" ? "gasoline" : "plasma"]);
-        if (!ammo)
+        }
+        it_ammo *ammo = dynamic_cast<it_ammo*>(itypes[amt]);
+        if (!ammo) {
             return;
-        if (fire_turret_internal (p, *gun, *ammo, charges))
-        { // consume fuel
-            if (amt == "plasma")
+        }
+        if (fire_turret_internal (p, *gun, *ammo, charges, whoosh)) {
+            // consume fuel
+            if (amt == "plasma") {
                 charges *= 10; // hacky, too
-            for (int p = 0; p < parts.size(); p++)
-            {
+            } else if (amt == "battery") {
+                charges *= charges * 5;
+            }
+            for (int p = 0; p < parts.size(); p++) {
                 if (part_flag(p, "FUEL_TANK") &&
-                    part_info(p).fuel_type == amt &&
-                    parts[p].amount > 0)
-                {
+                        part_info(p).fuel_type == amt &&
+                        parts[p].amount > 0) {
                     parts[p].amount -= charges;
-                    if (parts[p].amount < 0)
+                    if (parts[p].amount < 0) {
                         parts[p].amount = 0;
+                    }
                 }
             }
         }
@@ -3161,7 +3173,7 @@ void vehicle::fire_turret (int p, bool burst)
     }
 }
 
-bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges)
+bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges, const std::string &extra_sound)
 {
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];
@@ -3200,6 +3212,11 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     } else if( gun.item_tags.count( "USE_UPS_40" ) ) {
         if( power < 40 ) { return false; }
     }
+    // make a noise, if extra noise is to be made
+    if (extra_sound != "") {
+        g->sound(x, y, 20, extra_sound);
+    }
+    // notify player if player can see the shot
     if( g->u_see(x, y) ) {
         g->add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }
