@@ -71,7 +71,7 @@ struct vehicle_prototype
  */
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
-    vehicle_part() : id("null"), mount_dx(0), mount_dy(0), hp(0),
+    vehicle_part() : id("null"), iid(0), mount_dx(0), mount_dy(0), hp(0),
       blood(0), bigness(0), inside(false), flags(0), passenger_id(0), amount(0)
     {
         precalc_dx[0] = precalc_dx[1] = -1;
@@ -84,6 +84,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     static const int passenger_flag = 1;
 
     std::string id;         // id in map of parts (vehicle_part_types key)
+    int iid;                // same as above, for lookup via int
     int mount_dx;           // mount point on the forward/backward axis
     int mount_dy;           // mount point on the left/right axis
     int precalc_dx[2];      // mount_dx translated to face.dir [0] and turn_dir [1]
@@ -101,6 +102,16 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
         int direction;      // direction the part is facing
     };
     std::vector<item> items;// inventory
+
+    bool setid(const std::string str) {
+        std::map<std::string, vpart_info>::const_iterator vpit = vehicle_part_types.find(str);
+        if ( vpit == vehicle_part_types.end() ) {
+            return false;
+        }
+        id = str;
+        iid = vpit->second.loadid;
+        return true;
+    }
 
     // json saving/loading
     using JsonSerializer::serialize;
@@ -253,19 +264,21 @@ public:
     void give_part_properties_to_item (game* g, int partnum, item& i);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
-    std::vector<int> parts_at_relative (int dx, int dy);
+    std::vector<int> parts_at_relative (int dx, int dy, bool use_cache = true);
 
 // returns index of part, inner to given, with certain flag, or -1
     int part_with_feature (int p, const std::string &f, bool unbroken = true);
-
+    int part_with_feature (int p, vpart_bitflags f, bool unbroken = true);
 // returns indices of all parts in the vehicle with the given flag
     std::vector<int> all_parts_with_feature(const std::string &feature, bool unbroken = true);
+    std::vector<int> all_parts_with_feature(vpart_bitflags f, bool unbroken = true);
 
 // returns indices of all parts in the given location slot
     std::vector<int> all_parts_at_location(const std::string &location);
 
 // returns true if given flag is present for given part index
     bool part_flag (int p, const std::string &f);
+    bool part_flag (int p, vpart_bitflags f);
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -436,6 +449,8 @@ public:
 
     void find_fuel_tanks ();
 
+    void find_parts();
+
     void find_exhaust ();
 
     void refresh_insides ();
@@ -485,9 +500,11 @@ public:
     std::string name;   // vehicle name
     std::string type;           // vehicle type
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
+    std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
     std::vector<int> horns;            // List of horn part indices
     std::vector<int> lights;           // List of light part indices
     std::vector<int> fuel;             // List of fuel tank indices
+    std::vector<int> wheelcache;
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
     int exhaust_dx;
@@ -496,6 +513,7 @@ public:
     // temp values
     int smx, smy;   // submap coords. WARNING: must ALWAYS correspond to sumbap coords in grid, or i'm out
     bool insides_dirty; // if true, then parts' "inside" flags are outdated and need refreshing
+    bool parts_dirty;   //
     int init_veh_fuel;
     int init_veh_status;
 

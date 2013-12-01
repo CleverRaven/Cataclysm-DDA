@@ -8333,7 +8333,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "veggy_tainted", 3 ]
+      [ "veggy_tainted", 3 ],
+	  [ "biollante_bud", 1 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -14632,6 +14633,7 @@
       [ "bleach", 1 ],
       [ "lye_powder", 100 ],
       [ "bone", 20 ],
+	  [ "biollante_bud", 1],
       [ "ant_egg", 1 ],
       [ "slime_scrap", 1 ]
     ]
@@ -14968,6 +14970,7 @@
     ],
     [
       [ "superglue", 1 ]
+	  
     ]
   ]
 },{

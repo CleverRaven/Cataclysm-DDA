@@ -4,6 +4,9 @@
 #include "item_factory.h"
 #include "item.h"
 #include "pldata.h"
+#include "mapgen.h"
+#include "mapgen_functions.h"
+#include "map.h"
 
 #ifdef LUA
 extern "C" {
@@ -78,13 +81,49 @@ int call_lua(std::string tocall) {
     lua_State* L = lua_state;
 
     update_globals(L);
-
     int err = luaL_dostring(L, tocall.c_str());
     if(err) {
         // Error handling.
         const char* error = lua_tostring(L, -1);
         debugmsg("Error in lua command: %s", error);
     }
+    return err;
+}
+
+//
+int lua_mapgen(map * m, std::string terrain_type, mapgendata md, int t, float d, const std::string & scr) {
+    lua_State* L = lua_state; 
+    {
+        map** map_userdata = (map**) lua_newuserdata(L, sizeof(map*));
+        *map_userdata = m;
+        luah_setmetatable(L, "map_metatable");
+        luah_setglobal(L, "map", -1);
+    }
+   
+    int err = luaL_loadstring(L, scr.c_str() );
+    if(err) {
+        // Error handling.
+        const char* error = lua_tostring(L, -1);
+        debugmsg("Error loading lua mapgen: %s", error);
+        return err;
+    }
+//    int function_index = luaL_ref(L, LUA_REGISTRYINDEX); // todo; make use of this
+//    lua_rawgeti(L, LUA_REGISTRYINDEX, function_index);
+
+    lua_pushstring(L, terrain_type.c_str());
+    lua_setglobal(L, "tertype");
+    lua_pushinteger(L, t);
+    lua_setglobal(L, "turn");
+
+    err=lua_pcall(L, 0 , LUA_MULTRET, 0);
+    if(err) {
+        // Error handling.
+        const char* error = lua_tostring(L, -1);
+        debugmsg("Error running lua mapgen: %s", error);
+    }
+
+//    luah_remove_from_registry(L, function_index); // todo: make use of this
+
     return err;
 }
 

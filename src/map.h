@@ -237,12 +237,12 @@ class map
  std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
 
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
- bool has_flag(std::string flag, const int x, const int y);  // checks terrain, furniture and vehicles
+ bool has_flag(const std::string & flag, const int x, const int y);  // checks terrain, furniture and vehicles
  bool can_put_items(const int x, const int y); // True if items can be placed in this tile
- bool has_flag_ter(std::string flag, const int x, const int y);  // checks terrain
- bool has_flag_furn(std::string flag, const int x, const int y);  // checks furniture
- bool has_flag_ter_or_furn(std::string flag, const int x, const int y); // checks terrain or furniture
- bool has_flag_ter_and_furn(std::string flag, const int x, const int y); // checks terrain and furniture
+ bool has_flag_ter(const std::string & flag, const int x, const int y) const;  // checks terrain
+ bool has_flag_furn(const std::string & flag, const int x, const int y) const;  // checks furniture
+ bool has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const; // checks terrain or furniture
+ bool has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const; // checks terrain and furniture
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
  bool is_destructable_ter_furn(const int x, const int y);       // only checks terrain
  bool is_divable(const int x, const int y);
@@ -250,7 +250,28 @@ class map
  bool flammable_items_at(const int x, const int y);
  bool moppable_items_at(const int x, const int y);
  point random_outdoor_tile();
+// mapgen
 
+void draw_line_ter(const ter_id type, int x1, int y1, int x2, int y2);
+void draw_line_ter(const std::string type, int x1, int y1, int x2, int y2);
+void draw_line_furn(furn_id type, int x1, int y1, int x2, int y2);
+void draw_line_furn(const std::string type, int x1, int y1, int x2, int y2);
+void draw_fill_background(ter_id type);
+void draw_fill_background(std::string type);
+void draw_fill_background(ter_id (*f)());
+
+void draw_square_ter(ter_id type, int x1, int y1, int x2, int y2);
+void draw_square_ter(std::string type, int x1, int y1, int x2, int y2);
+void draw_square_furn(furn_id type, int x1, int y1, int x2, int y2);
+void draw_square_furn(std::string type, int x1, int y1, int x2, int y2);
+void draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2);
+void draw_rough_circle(ter_id type, int x, int y, int rad);
+void draw_rough_circle(std::string type, int x, int y, int rad);
+
+void add_corpse(int x, int y);
+
+
+//
  void translate(const std::string terfrom, const std::string terto); // Change all instances of $from->$to
  void translate_radius(const std::string terfrom, const std::string terto, const float radi, const int uX, const int uY);
  void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to

@@ -161,7 +161,7 @@ void map::generate_lightmap(game* g)
      int dir = vehs[v].v->face.dir();
      float veh_luminance=0.0;
      float iteration=1.0;
-     std::vector<int> light_indices = vehs[v].v->all_parts_with_feature("CONE_LIGHT");
+     std::vector<int> light_indices = vehs[v].v->all_parts_with_feature(VPFLAG_CONE_LIGHT);
      for (std::vector<int>::iterator part = light_indices.begin();
           part != light_indices.end(); ++part) {
              veh_luminance += ( vehs[v].v->part_info(*part).bonus / iteration );
@@ -179,13 +179,13 @@ void map::generate_lightmap(game* g)
      }
    }
    if(vehs[v].v->overhead_lights_on) {
-       std::vector<int> light_indices = vehs[v].v->all_parts_with_feature("CIRCLE_LIGHT");
+       std::vector<int> light_indices = vehs[v].v->all_parts_with_feature(VPFLAG_CIRCLE_LIGHT);
        for (std::vector<int>::iterator part = light_indices.begin();
             part != light_indices.end(); ++part) {
-           if((g->turn % 2 && vehs[v].v->part_info(*part).has_flag("ODDTURN")) ||
-              (!(g->turn % 2) && vehs[v].v->part_info(*part).has_flag("EVENTURN")) ||
-              (!vehs[v].v->part_info(*part).has_flag("EVENTURN") &&
-               !vehs[v].v->part_info(*part).has_flag("ODDTURN"))) {
+           if((g->turn % 2 && vehs[v].v->part_info(*part).has_flag(VPFLAG_ODDTURN)) ||
+              (!(g->turn % 2) && vehs[v].v->part_info(*part).has_flag(VPFLAG_EVENTURN)) ||
+              (!vehs[v].v->part_info(*part).has_flag(VPFLAG_EVENTURN) &&
+               !vehs[v].v->part_info(*part).has_flag(VPFLAG_ODDTURN))) {
                int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
                int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
                if(INBOUNDS(px, py)) {

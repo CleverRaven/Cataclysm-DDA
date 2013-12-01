@@ -189,6 +189,7 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
 
     local stack_index = 1
     for i, arg in ipairs(args) do
+        -- fixme; non hardcoded userdata to class thingy
         if arg ~= "game" then
             text = text .. tab .. retrieve_lua_value("parameter"..i, arg, stack_index+1)..br
             stack_index = stack_index + 1
@@ -246,7 +247,11 @@ end
 
 function generate_class_function_wrappers(functions, class)
     for name, func in pairs(functions) do
-        cpp_output = cpp_output .. generate_class_function_wrapper(class, name, name, func.args, func.rval)
+        if func.cpp_name == nil then
+            cpp_output = cpp_output .. generate_class_function_wrapper(class, name, name, func.args, func.rval)
+        else
+            cpp_output = cpp_output .. generate_class_function_wrapper(class, name, func.cpp_name, func.args, func.rval)
+        end
     end
 end
 
