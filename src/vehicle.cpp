@@ -493,10 +493,13 @@ void vehicle::use_controls()
         }
         else {
           if (total_power () < 1) {
-              if (total_power (false) < 1)
+              if (total_power (false) < 1) {
                   g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
-              else
+              } else if(pedals()) {
+                  g->add_msg (_("The %s's pedals are out of reach!"), name.c_str());
+              } else {
                   g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
+              }
           }
           else {
             engine_on = true;
@@ -2024,10 +2027,13 @@ void vehicle::thrust (int thd) {
         {
             if (pl_ctrl)
             {
-                if (total_power (false) < 1)
-                    g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
-                else
-                    g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
+              if (total_power (false) < 1) {
+                  g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
+              } else if(pedals()) {
+                  g->add_msg (_("The %s's pedals are out of reach!"), name.c_str());
+              } else {
+                  g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
+              }
             }
             cruise_velocity = 0;
             return;
