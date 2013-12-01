@@ -368,6 +368,7 @@ public:
  //npc(npc& rhs);
  npc(const npc &rhs);
  virtual ~npc();
+ virtual bool is_player() { return false; }
  virtual bool is_npc() { return true; }
 
  npc& operator= (const npc &rhs);

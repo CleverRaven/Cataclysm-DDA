@@ -75,7 +75,14 @@ class is_id_functor { // functor for remove/has_effect, give c++11 lambdas pls
         bool operator() (effect& e) { return e.get_id() == id; }
 };
 // utility function for process_effects
-bool is_expired_effect(effect& e) { return e.get_duration() <= 0; }
+bool is_expired_effect(effect& e) {
+    if (e.get_duration() <= 0) {
+        g->add_msg_string(e.get_effect_type()->get_remove_message());
+        g->u.add_memorial_log(e.get_effect_type()->get_remove_memorial_log().c_str());
+        return true;
+    } else
+        return false;
+}
 
 void Creature::add_effect(efftype_id eff_id, int dur) {
     // check if we already have it
@@ -91,6 +98,11 @@ void Creature::add_effect(efftype_id eff_id, int dur) {
             return;
         effect new_eff(&effect_types[eff_id], dur);
         effects.push_back(new_eff);
+    }
+
+    if (is_player()) {
+        g->add_msg_string(effect_types[eff_id].get_apply_message());
+        g->u.add_memorial_log(effect_types[eff_id].get_apply_memorial_log().c_str());
     }
 }
 bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur) {

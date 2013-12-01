@@ -101,7 +101,7 @@ public:
     std::string disp_name(); // what to call 'im
     std::string skin_name(); // what to call 'im
 
-    bool is_player() { return false; }
+    virtual bool is_player() { return true; }
 
     void process_effects(game *g); // Process long-term effects
 
