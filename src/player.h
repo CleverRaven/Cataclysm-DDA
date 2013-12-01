@@ -4,9 +4,6 @@
 #include "character.h"
 #include "item.h"
 #include "monster.h"
-#include "pldata.h"
-#include "skill.h"
-#include "bionics.h"
 #include "trap.h"
 #include "morale.h"
 #include "inventory.h"
@@ -15,12 +12,6 @@
 #include "crafting.h"
 #include "vehicle.h"
 #include "martialarts.h"
-#include "json.h"
-
-#include "action.h"
-#include <vector>
-#include <string>
-#include <map>
 
 class monster;
 class game;
