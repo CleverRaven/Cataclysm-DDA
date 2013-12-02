@@ -977,10 +977,11 @@ int iuse::mut_iv(player *p, item *it, bool t) {
     if(!p->is_npc()) {
       p->add_memorial_log(_("Injected mutagen."));
     }
-    if( it->has_flag("MUTAGEN_STRONG") ) { //3 guaranteed mutations, 75% for the fourth and 66% for the fifth, 6-16 Pain per shot
-         g->add_msg_if_player(p, _("You inject yoursel-arRRRGHH!!!"));
+    if( it->has_flag("MUTAGEN_STRONG") ) { //3 guaranteed mutations, 75%/66%/66% for the 4th/5th/6th, 6-16 Pain per shot and knockdown
+         g->add_msg_if_player(p, _("You inject yoursel-arRGH!"));
          p->mutate(g);
          p->pain += 1 * rng(1, 4);
+         g->sound(p->posx, p->posy, 15 + 3 * str_cur, _("You scream in agony!!"));
          p->mutate(g);
          p->pain += 2 * rng(1, 3);
          p->mutate(g);
@@ -991,7 +992,12 @@ int iuse::mut_iv(player *p, item *it, bool t) {
          if (!one_in(3)) {
              p->mutate(g);
          }
-    } else if( it->has_flag("MUTAGEN_PLANT") ) { //2-10 Pain, 66% for the second and 50% for the third, for all tier 9s
+         if (!one_in(3)) {
+             p->mutate(g);
+         }
+         g->add_msg_if_player(p, _("You writhe and collapse to the ground."));
+         p->add_disease("downed", rng(1, 4));
+    } else if( it->has_flag("MUTAGEN_PLANT") ) { //2-10 Pain, 66% for the second and 50% for the third, for all tier-9s
         g->add_msg_if_player(p, _("You inject some nutrients into your phloem."));
         p->mutate_category(g, "MUTCAT_PLANT");
         p->pain += 2 * rng(1, 5);
@@ -1139,7 +1145,7 @@ int iuse::mut_iv(player *p, item *it, bool t) {
         p->mutate_category(g, "MUTCAT_CHIMERA");
         p->pain += 20;
         g->sound(p->posx, p->posy, 25 + 3 * str_cur, _("You roar in agony!!"));
-        p->add_morale (MORALE_MUTAGEN_CHIMERA, -40, -200);
+        p->add_morale(MORALE_MUTAGEN_CHIMERA, -40, -200);
         if(!one_in(4)) {
             p->mutate_category(g, "MUTCAT_CHIMERA");
             }
@@ -1151,7 +1157,7 @@ int iuse::mut_iv(player *p, item *it, bool t) {
         It's painfully beautiful..."));
         p->mutate_category(g, "MUTCAT_ELFA");
         p->pain += 3 * rng(1, 5);
-        p->add_morale (MORALE_MUTAGEN_ELFA, 20, 100);
+        p->add_morale(MORALE_MUTAGEN_ELFA, 20, 100);
         if(!one_in(3)) {
             p->mutate_category(g, "MUTCAT_ELFA");
             }
@@ -1201,6 +1207,36 @@ int iuse::purifier(player *p, item *it, bool t)
         int index = rng(0, valid.size() - 1);
         p->remove_mutation(g, valid[index] );
         valid.erase(valid.begin() + index);
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::purify_iv(player *p, item *it, bool t)
+{
+    if(!p->is_npc()) {
+        p->add_memorial_log(_("Injected purifier."));
+    }
+    std::vector<std::string> valid; // Which flags the player has
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+        if (p->has_trait(iter->first) && !p->has_base_trait(iter->first)) {
+            //Looks for active mutation
+            valid.push_back(iter->first);
+        }
+    }
+    if (valid.size() == 0) {
+        g->add_msg_if_player(p,_("You feel cleansed."));
+        return it->type->charges_to_use();
+    }
+    int num_cured = rng(4, valid.size()); //Essentially a double-strength purifier, but guaranteed at least 4.  Double-edged and all
+    if (num_cured > 8) {
+        num_cured = 8;
+    }
+    for (int i = 0; i < num_cured && valid.size() > 0; i++) {
+        int index = rng(0, valid.size() - 1);
+        p->remove_mutation(g, valid[index] );
+        valid.erase(valid.begin() + index);
+        p->pain += 2 * num_cured; //Hurts worse as it fixes more
+        g->add_msg_if_player)p,_("Feels like you're on fire, but you're OK."));
     }
     return it->type->charges_to_use();
 }
