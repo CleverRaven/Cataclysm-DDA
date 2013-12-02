@@ -126,12 +126,12 @@ The above example only illustrate the mapgen entries, not the actual format for 
 ```
 "object": { (more json here) }
 ```
-> -or-
+-or-
 > * "lua" - requires 
 ```
 "script": "-- string of lua code\n -- for newline use \n -- and escape \"quote\"s"
 ```
-> -or-
+-or-
 > "lua" - requires
 ```"script": [
    " -- array of lines ",
@@ -142,7 +142,7 @@ The above example only illustrate the mapgen entries, not the actual format for 
 **required for standalone**
 > Values:
 > * "matching_overmap_terrain_id" - see overmap_terrain.json for a list
-> -or-
+-or-
 > * [ "list_of", "oter_ids" ]
 ##### Example: "om_terrain": [ "house", "house_base" ]
 
@@ -173,7 +173,7 @@ Note, either "fill_ter" or "rows" + "terrain" are required.
 # 2.0 "fill_ter": "terrain_id"
 *required if "rows" is unset* 
 > Value: ("string"): Valid terrain id from data/json/terrain.json
-> Example: "fill_ter": "t_grass"
+Example: "fill_ter": "t_grass"
 
 # 2.1 "rows":
 *required if "fill_ter" is unset*
@@ -213,11 +213,11 @@ Example:
 # 2.1.0 "terrain"
 **required by "rows"** Defines terrain ids for "rows", each key is a single character with a terrain id string
 > Value: {object}: { "a", "t_identifier", ... }
-> Example: "terrain":{ " ": "t_grass", "d": "t_floor", "5": "t_wall_glass_h", "%": "t_wall_glass_v", "O": "t_floor", ",": "t_pavement_y", "_": "t_pavement", "r": "t_floor", "6": "t_console", "x": "t_console_broken", "$": "t_shrub", "^": "t_floor", ".": "t_floor", "-": "t_wall_h", "|": "t_wall_v", "#": "t_shrub", "t": "t_floor", "+": "t_door_glass_c", "=": "t_door_locked_alarm", "D": "t_door_locked", "w": "t_window_domestic", "T": "t_floor", "S": "t_floor", "e": "t_floor", "h": "t_floor", "c": "t_floor", "l": "t_floor", "s": "t_sidewalk" },
+Example: "terrain":{ " ": "t_grass", "d": "t_floor", "5": "t_wall_glass_h", "%": "t_wall_glass_v", "O": "t_floor", ",": "t_pavement_y", "_": "t_pavement", "r": "t_floor", "6": "t_console", "x": "t_console_broken", "$": "t_shrub", "^": "t_floor", ".": "t_floor", "-": "t_wall_h", "|": "t_wall_v", "#": "t_shrub", "t": "t_floor", "+": "t_door_glass_c", "=": "t_door_locked_alarm", "D": "t_door_locked", "w": "t_window_domestic", "T": "t_floor", "S": "t_floor", "e": "t_floor", "h": "t_floor", "c": "t_floor", "l": "t_floor", "s": "t_sidewalk" },
 
 # 2.1.1 "furniture"
 **optional** Defines furniture ids for "rows" ( each character in rows is a terrain -or- terrain/furniture combo ). "f_null" means no furniture but the entry can be left out
-> Example: "furniture":{ "d": "f_dumpster", "5": "f_null", "%": "f_null", "O": "f_oven", "r": "f_rack", "^": "f_indoor_plant", "t": "f_table", "T": "f_toilet", "S": "f_sink", "e": "f_fridge", "h": "f_chair", "c": "f_counter", "l": "f_locker", },
+Example: "furniture":{ "d": "f_dumpster", "5": "f_null", "%": "f_null", "O": "f_oven", "r": "f_rack", "^": "f_indoor_plant", "t": "f_table", "T": "f_toilet", "S": "f_sink", "e": "f_fridge", "h": "f_chair", "c": "f_counter", "l": "f_locker", },
 
 ## 2.3 "set"
 **optional** Specific commands to set terrain, furniture, traps, radiation, etc. Array is processed in order.
@@ -226,21 +226,21 @@ Example:
 ### 2.3.0 "point"
 **required** Set things by point. Requires "x", "y", "id" (or "amount" for "radiation")
 > Value: "terrain", "furniture", "trap", "radiation"
-> Example: { "point": "furniture", "id": "f_chair", "x:" 5, "y": 10 }
-> Example: { "point": "trap", "id": "tr_beartrap", "x:" [ 0, 23 ], "y": [ 5, 18 ], "chance": 10, "repeat": [ 2, 5 ] }
-> Example: { "point": "radiation", "id": "f_chair", "x:" 12, "y": 12, "amount": 20 }
+Example: { "point": "furniture", "id": "f_chair", "x:" 5, "y": 10 }
+Example: { "point": "trap", "id": "tr_beartrap", "x:" [ 0, 23 ], "y": [ 5, 18 ], "chance": 10, "repeat": [ 2, 5 ] }
+Example: { "point": "radiation", "id": "f_chair", "x:" 12, "y": 12, "amount": 20 }
 
 #### 2.3.0.0 "x" / "y"
 **both required** x/y coordinates. If it's an array, the result is a random number in that range
 > Value: 0-23
-> -or-
+-or-
 > Value: [ 0-23, 0-23 ] - random point between [ a, b ]
-> Example: "x": 12, "y": [ 5, 15 ]
+Example: "x": 12, "y": [ 5, 15 ]
 
 #### 2.3.0.1 "id"
 **required except by "radiation"** See terrain.json, furniture.json, and trap.json for "id" strings
 > Value: "ter_id", "furn_id", or "trap_id"
-> Example: "id": "tr_beartrap"
+Example: "id": "tr_beartrap"
 
 #### 2.3.0.2 "amount"
 **required for "radiation"** Radiation amount
@@ -253,31 +253,31 @@ Example:
 #### 2.3.0.4 "repeat"
 **optional** repeat this randomly between ??? and ??? times. Only makes sense if the coordinates are random
 > Value: [ *number*, *number* ]
-> Example: [ 1, 3 ] - apply 1-3 times
+Example: [ 1, 3 ] - apply 1-3 times
 
 ### 2.3.1 "line"
 **required** Set things in a line. Requires "x", "y", "x2", "y2", "id" (or "amount" for "radiation")
 > Value: "terrain", "furniture", "trap", "radiation"
-> Example: { "point": "terrain", "id": "t_lava", "x:" 5, "y": 5, "x2": 20, "y2": 20 }
+Example: { "point": "terrain", "id": "t_lava", "x:" 5, "y": 5, "x2": 20, "y2": 20 }
 
 #### 2.3.1.0 "x" / "y"
 **both required** start x/y coordinates. If it's an array, the result is a random number in that range
 > Value: 0-23
-> -or-
+-or-
 > Value: [ 0-23, 0-23 ] - random point between [ a, b ]
-> Example: "x": 12, "y": [ 5, 15 ]
+Example: "x": 12, "y": [ 5, 15 ]
 
 #### 2.3.1.1 "x2" / "y2"
 **both required** end x/y coordinates. If it's an array, the result is a random number in that range
 > Value: 0-23
-> -or-
+-or-
 > Value: [ 0-23, 0-23 ] - random point between [ a, b ]
-> Example: "x": 22, "y": [ 15, 20 ]
+Example: "x": 22, "y": [ 15, 20 ]
 
 #### 2.3.1.2 "id"
 **required except by "radiation"** See terrain.json, furniture.json, and trap.json for "id" strings
 > Value: "ter_id", "furn_id", or "trap_id"
-> Example: "id": "f_counter"
+Example: "id": "f_counter"
 
 #### 2.3.1.3 "amount"
 **required for "radiation"** Radiation amount
@@ -290,12 +290,12 @@ Example:
 #### 2.3.1.5 "repeat"
 **optional** repeat this randomly between ??? and ??? times. Only makes sense if the coordinates are random
 > Value: [ *number*, *number* ]
-> Example: [ 1, 3 ] - apply 1-3 times
+Example: [ 1, 3 ] - apply 1-3 times
 
 ### 2.3.2 "square"
 **required** Define a square of things. Requires "x", "y", "x2", "y2", "id" (or "amount" for "radiation")
 > Value: "terrain", "furniture", "trap", "radiation"
-> Example: { "square": "radiation", "amount": 10, "x:" [ 0, 5 ], "y": [ 0, 5 ], "x2": [ 18, 23 ], "y2": [ 18, 23 ] }
+Example: { "square": "radiation", "amount": 10, "x:" [ 0, 5 ], "y": [ 0, 5 ], "x2": [ 18, 23 ], "y2": [ 18, 23 ] }
 The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define opposite corners
 
 ## 2.4 "place_groups"
@@ -305,14 +305,14 @@ The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define
 ### 2.4.0 "monster"
 **required** The monster group id, which picks random critters from a list
 > Value: "MONSTER_GROUP"
-> Example: { "monster": "GROUP_ZOMBIE", "x": [ 13, 15 ], "y": 15, "chance": 10 }
+Example: { "monster": "GROUP_ZOMBIE", "x": [ 13, 15 ], "y": 15, "chance": 10 }
 
 #### 2.4.0.0 "x" / "y"
 **required** Spawn coordinates ( specific or random )
 > Value: 0-23
-> -or-
+-or-
 > Value: [ 0-23, 0-23 ] - random point between [ a, b ]
-> Example: "x": 12, "y": [ 5, 15 ]
+Example: "x": 12, "y": [ 5, 15 ]
 
 #### 2.4.0.1 "density"
 **optional** magic sauce spawn amount number. Someone else describe this better >.>
@@ -325,14 +325,14 @@ The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define
 ### 2.4.1 "item"
 **required** The item group id, which picks random stuff from a list
 > Value: "ITEM_GROUP"
-> Example: { "item": "livingroom", "x": [ 13, 15 ], "y": 15, "chance": 50 }
+Example: { "item": "livingroom", "x": [ 13, 15 ], "y": 15, "chance": 50 }
 
 #### 2.4.1.0 "x" / "y"
 **required** Spawn coordinates ( specific or random )
 > Value: 0-23
-> -or-
+-or-
 > Value: [ 0-23, 0-23 ] - random point between [ a, b ]
-> Example: "x": 12, "y": [ 5, 15 ]
+Example: "x": 12, "y": [ 5, 15 ]
 
 #### 2.4.1.1 "chance"
 **required** unlike everything else, this is a percentage. Maybe
@@ -345,21 +345,21 @@ The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define
 ### 2.5.0 "item"
 **required** A valid itype ID. see everything in data/json/items
 > Value: "string"
-> Example: { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1, 3], "chance": 2 }
+Example: { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1, 3], "chance": 2 }
 
 #### 2.5.0.0 "x" / "y"
 **required** Spawn coordinates ( specific or random )
 > Value: 0-23
-> -or-
+-or-
 > Value: [ 0-23, 0-23 ] - random point between [ a, b ]
-> Example: "x": 12, "y": [ 5, 15 ]
+Example: "x": 12, "y": [ 5, 15 ]
 
 #### 2.5.0.1 "amount"
 **required** Spawn this amount [ or, range ]
 > Value: *number*
-> -or-
+-or-
 > Value: [ *number*, *number* ] - random point between [ a, b ]
-> Example: "amount": [ 5, 15 ]
+Example: "amount": [ 5, 15 ]
 
 #### 2.5.0.2 "chance"
 **optional** one-in-??? chance to apply
@@ -368,12 +368,12 @@ The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define
 #### 2.5.0.3 "repeat"
 **optional** repeat this randomly between ??? and ??? times. Only makes sense if the coordinates are random
 > Value: [ *number*, *number* ]
-> Example: [ 1, 3 ] - apply 1-3 times
+Example: [ 1, 3 ] - apply 1-3 times
 
 #### 2.6 "lua"
 **optional** lua script to run after all of the above finishes. See below.
 > Value: "string"
-> Example: "lua": "if game.one_in(5000) then\n map:square_ter(\"t_lava\", 3, 3, 20, 20)\n game.add_msg(\"Oh noes micro volcano ;.;\")\n end"
+Example: "lua": "if game.one_in(5000) then\n map:square_ter(\"t_lava\", 3, 3, 20, 20)\n game.add_msg(\"Oh noes micro volcano ;.;\")\n end"
 
 ## 3 Method: lua
 Lua is very WIP but supports the following map class functions:
