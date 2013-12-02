@@ -442,3 +442,9 @@ char Creature::symbol()
 {
     return '?';
 }
+
+//TODO: Finish this implementation
+bool Creature::has_flag(m_flag flag_name)
+{
+    return false;
+}

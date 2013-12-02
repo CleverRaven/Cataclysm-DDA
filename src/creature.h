@@ -9,6 +9,7 @@
 #include "effect.h"
 #include "bodypart.h"
 #include "color.h"
+#include "mtype.h"
 #include <stdlib.h>
 #include <string>
 #include <vector>
@@ -220,6 +221,9 @@ class Creature
         int pain;
 
         void draw(WINDOW* w, int plx, int ply, bool inv);
+
+        //TODO: Actually implement this as a creature thing.
+        virtual bool has_flag(m_flag flag_name);
 
     protected:
         std::vector<effect> effects;
