@@ -91,6 +91,8 @@ enum mon_id {
     mon_mink, mon_muskrat, mon_otter, mon_pig,
     mon_sheep, mon_shrew, mon_squirrel_red,
     mon_weasel,
+	// 0.9 -> 0.10
+	mon_dog_skeleton, mon_dog_zombie_cop, mon_dog_zombie_rot,
     num_monsters
 };
 

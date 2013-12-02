@@ -5441,11 +5441,7 @@
     "items":[
      ["kevlar_harness", 1]
 	]
-	},{
-       "type" : "item_group",
-       "id" : "dog_collar",
-    "items":[
-     ["leather_collar", 1]
+	}
     ]
   }
 ]
