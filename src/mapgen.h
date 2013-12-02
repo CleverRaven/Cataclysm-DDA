@@ -154,6 +154,7 @@ class mapgen_function_json : public virtual mapgen_function {
     std::vector<jmapgen_setmap> setmap_points;
     std::vector<jmapgen_spawn_item> spawnitems;
     std::vector<jmapgen_place_group> place_groups;
+    std::string luascript;
 
     bool do_format;
     bool is_ready;
