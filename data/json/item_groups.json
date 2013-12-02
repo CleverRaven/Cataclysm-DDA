@@ -28,7 +28,7 @@
       ["novel_pulp", 16],
       ["fairy_tales", 20],
       ["mag_comic", 20],
-	  ["candycigarette", 10]
+      ["candycigarette", 10]
     ]
     },{
         "type" : "item_group",
@@ -1806,8 +1806,8 @@
       ["kevlar_plate", 1],
       ["leather", 1],
       ["software_hacking", 10],
-	  ["decoy_elfa", 10],
-	  ["recipe_elfa", 1],
+      ["decoy_elfa", 10],
+      ["recipe_elfa", 1],
       ["jug_plastic", 10],
       ["spray_can", 50],
       ["keg", 10],
@@ -3450,6 +3450,7 @@
       ["recipe_alpha", 1],
       ["recipe_chimera", 2],
       ["recipe_medicalmut", 2],
+      ["recipe_serum", 4],
       ["water_clean", 90],
       ["salt_water", 20],
       ["bleach", 20],
@@ -3657,6 +3658,8 @@
       ["novel_western", 16],
       ["novel_pulp", 16],
       ["tailor_portfolio", 1],
+      ["recipe_alpha", 1],
+      ["recipe_serum", 4],
       ["recipe_raptor", 1],
       ["laptop", 30],
       ["atomic_light", 3],
@@ -4492,7 +4495,7 @@
       ["flyer", 10],
       ["child_book", 2],
       ["lsd", 1],
-	  ["recipe_elfa", 2]
+      ["recipe_elfa", 2]
     ]
     },{
         "type" : "item_group",
@@ -5356,7 +5359,8 @@
       ["computer_science", 7],
       ["solar_cell", 5],
       ["SICP", 3],
-	  ["recipe_chimera", 1],
+      ["recipe_serum", 2],
+      ["recipe_chimera", 1],
       ["soldering_iron", 70],
       ["solder_wire", 70],
       ["textbook_weapwest", 2],

@@ -8309,6 +8309,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "iv_mutagen",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 9,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "mutagen_plant",
   "category": "CC_CHEM",
   "skill_used": "cooking",
@@ -8338,6 +8365,33 @@
     [
       [ "ammonia", 1 ],
       [ "lye_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "iv_mutagen_plant",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_plant", 2 ]
     ]
   ]
 },{
@@ -8377,6 +8431,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "iv_mutagen_insect",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_insect", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "mutagen_spider",
   "category": "CC_CHEM",
   "skill_used": "cooking",
@@ -8406,6 +8487,33 @@
     [
       [ "ammonia", 1 ],
       [ "lye_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "iv_mutagen_spider",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_spider", 2 ]
     ]
   ]
 },{
@@ -8440,6 +8548,33 @@
     [
       [ "ammonia", 1 ],
       [ "lye_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "iv_mutagen_slime",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 9,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_slime", 2 ]
     ]
   ]
 },{
@@ -8480,6 +8615,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "iv_mutagen_fish",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 9,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_fish", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "mutagen_rat",
   "category": "CC_CHEM",
   "skill_used": "cooking",
@@ -8509,6 +8671,33 @@
     [
       [ "ammonia", 1 ],
       [ "lye_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "iv_mutagen_rat",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 9,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_rat", 2 ]
     ]
   ]
 },{
@@ -8546,6 +8735,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "iv_mutagen_beast",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 9,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_beast", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "mutagen_cattle",
   "category": "CC_CHEM",
   "skill_used": "cooking",
@@ -8575,6 +8791,33 @@
     [
       [ "ammonia", 1 ],
       [ "lye_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "iv_mutagen_cattle",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 9,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_cattle", 2 ]
     ]
   ]
 },{
@@ -8613,6 +8856,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "iv_mutagen_cephalopod",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 9,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_cephalopod", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "mutagen_bird",
   "category": "CC_CHEM",
   "skill_used": "cooking",
@@ -8642,6 +8912,33 @@
     [
       [ "ammonia", 1 ],
       [ "lye_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "iv_mutagen_bird",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 9,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_bird", 2 ]
     ]
   ]
 },{
@@ -8679,6 +8976,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "iv_mutagen_lizard",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 9,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_lizard", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "mutagen_troglobite",
   "category": "CC_CHEM",
   "skill_used": "cooking",
@@ -8708,6 +9032,33 @@
     [
       [ "ammonia", 1 ],
       [ "lye_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "iv_mutagen_troglobite",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 9,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_troglobite", 2 ]
     ]
   ]
 },{
@@ -8744,6 +9095,33 @@
     ],
     [
       [ "iodine", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "iv_mutagen_medical",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_medicalmut", 9 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_medical", 2 ]
     ]
   ]
 },{
@@ -8805,6 +9183,33 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "iv_purifier",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 9]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_alpha", 2 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "mutagen_alpha",
   "category": "CC_CHEM",
@@ -8841,6 +9246,33 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "iv_mutagen_alpha",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_alpha", 9 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_alpha", 2 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "mutagen_elfa",
   "category": "CC_CHEM",
@@ -8871,6 +9303,33 @@
     ],
     [
 	  [ "mutagen_bird", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "iv_mutagen_elfa",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_elfa", 10 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_elfa", 2 ]
     ]
   ]
 },{
@@ -8910,6 +9369,33 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "iv_mutagen_chimera",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_chimera", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_chimera", 2 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "mutagen_raptor",
   "category": "CC_CHEM",
@@ -8940,6 +9426,33 @@
     ],
     [
       [ "purifier", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "iv_mutagen_raptor",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_raptor", 10 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_raptor", 2 ]
     ]
   ]
 },{
