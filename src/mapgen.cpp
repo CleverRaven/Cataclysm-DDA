@@ -363,7 +363,7 @@ mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w)
  */
 
 mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_base, int default_idx) {
-    int mgweight = jio.get_int("weight", 1000);
+    int mgweight = jio.get_int("weight", 100000);
     mapgen_function * ret = NULL;
     if ( mgweight <= 0 || jio.get_bool("disabled", false) == true ) {
         const std::string mgtype = jio.get_string("method");

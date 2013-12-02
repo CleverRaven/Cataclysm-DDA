@@ -321,8 +321,8 @@
         "mondensity" : 2,
         "sidewalk" : true,
         "mapgen": [
-            { "method": "builtin", "name": "park_playground", "weight": 500 },
-            { "method": "builtin", "name": "park_basketball", "weight": 1000, "comment": "1000 is default" }
+            { "method": "builtin", "name": "park_playground", "weight": 50000 },
+            { "method": "builtin", "name": "park_basketball", "weight": 100000, "comment": "100000 is default" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -611,8 +611,8 @@
         "mondensity" : 2,
         "sidewalk" : true,
         "mapgen": [
-            { "weight": 250,
-                "comment": "Weight defaults to 1000, so 1/5 fast food joints will be this one unless more are added",
+            { "weight": 25000,
+                "comment": "Weight defaults to 100000, so 1/5 fast food joints will be this one unless more are added",
                 "method": "json", "object": {
                      "fill_ter": "t_grass",
                      "rows":[
