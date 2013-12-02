@@ -4769,7 +4769,7 @@
     {
         "type" : "ARMOR",
         "id" : "runner_bag",
-        "name" : "trail pack",
+        "name" : "runner pack",
         "weight" : 840,
         "color" : "green",
         "covers" : ["TORSO"],
