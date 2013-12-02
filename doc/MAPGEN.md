@@ -83,7 +83,7 @@ As "mapgen": { ... } objects inside an existing overmap_terrain object ( see "s_
         "id" : "s_restaurant_fast",
 (snip)
         "mapgen": [
-            { "weight": 250,
+            { "weight": 25000,
                 "method": "json", "object": {
                      (see below)
             }
@@ -98,7 +98,7 @@ As standalone { "type": "mapgen", ... } objects in a .json inside data/json. Bel
     {
         "type": "mapgen",
         "om_terrain": "s_restaurant_fast",
-        "weight": 250,
+        "weight": 25000,
         "method": "json",
         "object": {
             (see below)
@@ -107,7 +107,7 @@ As standalone { "type": "mapgen", ... } objects in a .json inside data/json. Bel
     {
         "type": "mapgen",
         "om_terrain": "s_restaurant_fast",
-        "weight": 500,
+        "weight": 50000,
         "method": "lua",
         "script": {
             (see below)
@@ -391,7 +391,7 @@ place_items("itype", chance, x, y, x2, y2, bool ongrass, int chance)
 ```
 ## 3.1 Example script inside overmap_terrain entry
 ```
-{ "method": "lua", "weight": -500, "comment": "Inlined, easier to edit", "script": [
+{ "method": "lua", "weight": 50000, "comment": "Inlined, easier to edit", "script": [
     "-- tertype, turn = ...",
     "function g_or_d_or_p()",
     "  if game.one_in(6) then",
