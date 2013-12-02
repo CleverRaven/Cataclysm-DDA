@@ -29,11 +29,16 @@ void game::init_monitems() {
     monitems["mon_zombie_grabber"]    = monitems["mon_zombie"];
     monitems["mon_zombie_master"]     = monitems["mon_zombie"];
     monitems["mon_zombie_hunter"]     = monitems["mon_zombie"];
-	monitems["mon_zombie_fat"]        = monitems["mon_zombie"];
 	monitems["mon_zombie_strong"]     = monitems["mon_zombie"];
 	monitems["mon_zombie_rot"]        = monitems["mon_zombie"];
 	monitems["mon_zombie_crawler"]    = monitems["mon_zombie"];
 
+	setvector(&monitems["mon_zombie_fat"],
+              "livingroom", 5, "fast_food",  25, "bedroom", 10,
+              "softdrugs",  5, "harddrugs", 1, "tools", 4, "trash", 7,
+              "ammo", 1, "pistols", 1, "shotguns", 1, "smg", 1,
+              NULL);
+	
 	setvector(&monitems["mon_zombie_hazmat"],
               "rad_med", 3, "rad_gear",  1, "hazmat_eyes",  2,
               NULL);
