@@ -981,7 +981,7 @@ int iuse::mut_iv(player *p, item *it, bool t) {
          g->add_msg_if_player(p, _("You inject yoursel-arRGH!"));
          p->mutate(g);
          p->pain += 1 * rng(1, 4);
-         g->sound(p->posx, p->posy, 15 + 3 * str_cur, _("You scream in agony!!"));
+         g->sound(p->posx, p->posy, 15 + 3 * p->str_cur, _("You scream in agony!!"));
          p->mutate(g);
          p->pain += 2 * rng(1, 3);
          p->mutate(g);
@@ -1144,7 +1144,7 @@ int iuse::mut_iv(player *p, item *it, bool t) {
         p->pain += 4 * rng(1, 4);
         p->mutate_category(g, "MUTCAT_CHIMERA");
         p->pain += 20;
-        g->sound(p->posx, p->posy, 25 + 3 * str_cur, _("You roar in agony!!"));
+        g->sound(p->posx, p->posy, 25 + 3 * p->str_cur, _("You roar in agony!!"));
         p->add_morale(MORALE_MUTAGEN_CHIMERA, -40, -200);
         if(!one_in(4)) {
             p->mutate_category(g, "MUTCAT_CHIMERA");
@@ -1236,7 +1236,7 @@ int iuse::purify_iv(player *p, item *it, bool t)
         p->remove_mutation(g, valid[index] );
         valid.erase(valid.begin() + index);
         p->pain += 2 * num_cured; //Hurts worse as it fixes more
-        g->add_msg_if_player)p,_("Feels like you're on fire, but you're OK."));
+        g->add_msg_if_player(p,_("Feels like you're on fire, but you're OK."));
     }
     return it->type->charges_to_use();
 }
