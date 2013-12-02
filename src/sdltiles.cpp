@@ -921,7 +921,7 @@ WINDOW *curses_init(void)
     lastchar=-1;
     inputdelay=-1;
 
-    std::string typeface = "";
+    std::string typeface = "Terminus";
     std::string blending = "solid";
     std::ifstream fin;
     int faceIndex = 0;
@@ -931,12 +931,13 @@ WINDOW *curses_init(void)
         fontwidth = 8;
         fontheight = 16;
         std::ofstream fout;//create data/FONDATA file
-		fout.open("data/FONTDATA");
-		if(fout.is_open()) {
-			fout << "Terminus\n";
-			fout << fontwidth << "\n";
-			fout << fontheight;
-		}
+        fout.open("data/FONTDATA");
+        if(fout.is_open()) {
+            fout << typeface << "\n";
+            fout << fontwidth << "\n";
+            fout << fontheight;
+            fout.close();
+        }
     } else {
         getline(fin, typeface);
         fin >> fontwidth;

@@ -9812,7 +9812,7 @@
   "skill_used": "electronics",
   "difficulty": 1,
   "time": 4000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "tools": [
     [

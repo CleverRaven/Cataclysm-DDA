@@ -412,18 +412,23 @@ WINDOW *curses_init(void)
     lastchar=-1;
     inputdelay=-1;
 
-    std::string typeface;
+    std::string typeface = "Terminus";
     char * typeface_c = 0;
     std::ifstream fin;
     fin.open("data\\FONTDATA");
     if (!fin.is_open()){
-        MessageBox(WindowHandle, "Failed to open FONTDATA, loading defaults.", NULL, 0);
+        fontwidth = 8;
         fontheight = 16;
-        fontwidth  = 8;
+        std::ofstream fout;//create data/FONDATA file
+        fout.open("data\\FONTDATA");
+        if(fout.is_open()) {
+            fout << typeface << "\n";
+            fout << fontwidth << "\n";
+            fout << fontheight;
+            fout.close();
+        }
     } else {
         getline(fin, typeface);
-        typeface_c = new char [typeface.size()+1];
-        strcpy (typeface_c, typeface.c_str());
         fin >> fontwidth;
         fin >> fontheight;
         if ((fontwidth <= 4) || (fontheight <=4)){
@@ -432,6 +437,8 @@ WINDOW *curses_init(void)
             fontwidth  = 8;
         }
     }
+    typeface_c = new char [typeface.size()+1];
+    strcpy (typeface_c, typeface.c_str());
 
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
