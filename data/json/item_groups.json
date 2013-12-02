@@ -5469,7 +5469,8 @@
 	 ["mask_dust", 80],
      ["mask_filter", 20],
 	 ["mask_gas", 10]
-	],{
+	]
+	},{
        "type" : "item_group",
        "id" : "rad_gear",
     "items":[
