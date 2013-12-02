@@ -147,10 +147,10 @@ The above example only illustrate the mapgen entries, not the actual format for 
 ##### Example: "om_terrain": [ "house", "house_base" ]
 
 ### 1.2.2 "weight":
-(optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000 is the default, so adding something with weight '500' will make it appear 1/3 times, unless more functions are added. (An insanely high value like 100000000 is useful for testing)
+(optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 100000 is the default, so adding something with weight '50000' will make it appear 1/3 times, unless more functions are added. (An insanely high value like 100000000 is useful for testing)
 > Values:
 > * number - *0 disables*
-Default: 1000
+Default: 100000
 
 ## 1.3 How "overmap_terrain" variables affect mapgen
 "id" is used to determine the required "om_terrain" id for standalone, -except- when the following variables are set in "overmap_terrain":
