@@ -1533,7 +1533,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
-    "description":"Stumbling as it moves, this corpse of an overweight human regards it's surroundings with an empty black gaze.",
+    "description":"Stumbling as it moves, this corpse of an overweight human regards its surroundings with an empty black gaze.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
     },{
@@ -1562,7 +1562,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
-    "description":"Once an able-bodied human, now a monster, whose facial expression is twisted into one of rage",
+    "description":"Once an able-bodied human, now a monster, whose facial expression is twisted into one of rage.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
     },{
@@ -1592,7 +1592,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
     "description":"Having lost control of lower part of body, this zombie slowly drags itself by its arms.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "BLEED", "NO_BREATHE", "VIS30", "REVIVES"],
     "categories":["CLASSIC"]
     },{
         "type" : "MONSTER",
@@ -1621,7 +1621,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
     "description":"This human is completely cowered in a torn protective suit. Only the unsteady gait betrays it's true nature.",
-    "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS30", "REVIVES"],
+    "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "ACIDPROOF", "NO_BREATHE", "VIS30", "REVIVES"],
     "categories":["CLASSIC"]
     },{
         "type" : "MONSTER",
