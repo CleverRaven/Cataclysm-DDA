@@ -1220,20 +1220,19 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
                 mon.moves -= rng(0, adjusted_damage / 5);
                 break;
             }
+
             if (&p == &(g->u) && u_see_mon) {
                 g->add_msg(_("%s You hit the %s for %d damage."), message.c_str(), mon.name().c_str(), adjusted_damage);
             } else if (u_see_mon) {
                 g->add_msg(_("%s %s shoots the %s."), message.c_str(), p.name.c_str(), mon.name().c_str());
             }
-            bool bMonDead = mon.hurt(adjusted_damage, dam);
+            g->hit_monster_with_flags(mon, effects);
+            damage_instance d;
+            d.add_damage(DT_CUT, adjusted_damage, weapon->gun_pierce(),
+                    effects.count("SHOT")?rng(2,3):1); // Shot doesn't penetrate armor well
+            mon.deal_damage(g, &p, bp_torso, -1, d);
             if( u_see_mon ) {
-                g->draw_hit_mon(mon.posx(), mon.posy(), mon, bMonDead);
-            }
-
-            if (bMonDead) {
-                g->kill_mon(g->mon_at(mon.posx(), mon.posy()), (&p == &(g->u)));
-            } else if (!effects.empty()) {
-                g->hit_monster_with_flags(mon, effects);
+                g->draw_hit_mon(mon.posx(), mon.posy(), mon, mon.is_dead_state());
             }
         }
     }

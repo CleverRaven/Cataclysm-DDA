@@ -27,14 +27,7 @@ struct damage_unit {
     { }
 };
 
-class accum_dam_functor { // functor for total_type_damage
-    damage_type dt;
-    public:
-        unsigned int sum;
-        accum_dam_functor(damage_type pdt) : dt(pdt),sum(0) {}
-        void operator() (damage_unit& du) {
-            if (du.type == dt) sum += du.amount; }
-};
+
 // a single atomic unit of damage from an attack. Can include multiple types
 // of damage at different armor mitigation/penetration values
 struct damage_instance {
@@ -43,11 +36,6 @@ struct damage_instance {
     void add_damage(damage_type dt, int a, int rp = 0, float rm = 1.0f) {
         damage_unit du(dt,a,rp,rm);
         damage_units.push_back(du);
-    }
-    int total_type_damage(damage_type dt) { // gets total (unmitigated) damage of a type
-        accum_dam_functor accum(dt);
-        std::for_each(damage_units.begin(),damage_units.end(),accum);
-        return accum.sum;
     }
 };
 
@@ -67,7 +55,9 @@ class Creature
         virtual bool is_player() { return false; }
 
         virtual void normalize(game* g); // recreate the Creature from scratch
-        virtual void reset(game* g); // prepare the Creature for the next turn
+        virtual void reset(game* g); // handle both reset steps. Call this function instead of reset_stats/bonuses
+        virtual void reset_bonuses(game* g); // reset the value of all bonus fields to 0
+        virtual void reset_stats(game* g); // prepare the Creature for the next turn
         virtual void die(game* g, Creature* killer) = 0;
 
         virtual int dodge_roll(game* g) = 0;
@@ -98,12 +88,17 @@ class Creature
         // deals the damage via an attack. Most sources of external damage
         // should use deal_damage
         virtual std::vector<int> deal_damage(game* g, Creature* source, body_part bp, int side, const damage_instance& d);
+        // for each damage type, how much gets through and how much pain do we
+        // accrue? mutates damage and pain
+        virtual void deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain);
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
         virtual void apply_damage(game* g, Creature* source, body_part bp, int side, int amount) = 0;
 
         virtual bool is_on_ground() = 0;
         virtual bool has_weapon() = 0;
+        // returns true iff health is zero or otherwise should be dead
+        virtual bool is_dead_state() = 0;
 
         // xpos and ypos, because posx/posy are used as public variables in
         // player.cpp and therefore referenced everywhere
@@ -123,6 +118,7 @@ class Creature
 
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);
+        virtual void mod_moves(int nmoves);
 
         /*
          * getters for stats - combat-related stats will all be held within
@@ -160,6 +156,7 @@ class Creature
         virtual int get_speed();
         virtual int get_dodge();
 
+        virtual int get_speed_base();
         virtual int get_speed_bonus();
         virtual int get_dodge_bonus();
         virtual int get_block_bonus();
@@ -198,6 +195,12 @@ class Creature
         virtual void set_hit_bonus(int nhit);
         virtual void set_bash_bonus(int nbash);
         virtual void set_cut_bonus(int ncut);
+        virtual void mod_speed_bonus(int nspeed);
+        virtual void mod_dodge_bonus(int ndodge);
+        virtual void mod_block_bonus(int nblock);
+        virtual void mod_hit_bonus(int nhit);
+        virtual void mod_bash_bonus(int nbash);
+        virtual void mod_cut_bonus(int ncut);
 
         virtual void set_bash_mult(float nbashmult);
         virtual void set_cut_mult(float ncutmult);
@@ -208,16 +211,10 @@ class Creature
 
         // innate stats, slowly move these to protected as we rewrite more of
         // the codebase
-        int str_max;
-        int dex_max;
-        int per_max;
-        int int_max;
-        int str_cur;
-        int dex_cur;
-        int per_cur;
-        int int_cur;
+        int str_max, dex_max, per_max, int_max,
+            str_cur, dex_cur, per_cur, int_cur;
 
-        int pain;
+        int moves, pain;
 
         void draw(WINDOW* w, int plx, int ply, bool inv);
 
@@ -255,7 +252,7 @@ class Creature
 
         int grab_resist;
         int throw_resist;
-        
+
         virtual nc_color symbol_color();
         virtual nc_color basic_symbol_color();
         virtual char symbol();

@@ -12,11 +12,11 @@ void Creature::normalize(game* g) {
 }
 
 void Creature::reset(game *g) {
-    // Reset our stats to normal levels
-    // Any persistent buffs/debuffs will take place in disease.h,
-    // player::suffer(), etc.
-
-    // First reset all bonuses to 0 and mults to 1.0
+    reset_bonuses(g);
+    reset_stats(g);
+}
+void Creature::reset_bonuses(game *g) {
+    // Reset all bonuses to 0 and mults to 1.0
     str_bonus = 0;
     dex_bonus = 0;
     per_bonus = 0;
@@ -30,6 +30,7 @@ void Creature::reset(game *g) {
     armor_bash_bonus = 0;
     armor_cut_bonus = 0;
 
+    speed_base = 100;
     speed_bonus = 0;
     dodge_bonus = 0;
     block_bonus = 0;
@@ -43,8 +44,13 @@ void Creature::reset(game *g) {
     melee_quiet = false;
     grab_resist = 0;
     throw_resist = 0;
+}
+void Creature::reset_stats(game *g) {
+    // Reset our stats to normal levels
+    // Any persistent buffs/debuffs will take place in disease.h,
+    // player::suffer(), etc.
 
-    // then repopulate the bonus fields
+    // repopulate the stat fields
     process_effects(g);
     str_cur = str_max + get_str_bonus();
     dex_cur = dex_max + get_dex_bonus();
@@ -60,6 +66,9 @@ void Creature::reset(game *g) {
         per_cur = 0;
     if (int_cur < 0)
         int_cur = 0;
+
+    // add an appropriate number of moves
+    moves = get_speed();
 }
 
 /*
@@ -89,25 +98,7 @@ std::vector<int> Creature::deal_damage(game* g, Creature* source, body_part bp, 
     for (std::vector<damage_unit>::const_iterator it = d.damage_units.begin();
             it != d.damage_units.end(); ++it) {
         cur_damage = 0;
-        switch (it->type) {
-        case DT_BASH:
-            cur_damage += it->amount -
-                std::max(get_armor_bash(bp) - it->res_pen,0)*it->res_mult;
-            total_pain += it->amount / 4;
-            break;
-        case DT_CUT:
-            cur_damage += it->amount -
-                std::max(get_armor_cut(bp) - it->res_pen,0)*it->res_mult;
-            total_pain += (it->amount + sqrt(double(it->amount))) / 4;
-            break;
-        case DT_STAB: // stab differs from cut in that it ignores some armor
-            cur_damage += it->amount -
-                0.8*std::max(get_armor_cut(bp) - it->res_pen,0)*it->res_mult;
-            total_pain += (it->amount + sqrt(double(it->amount))) / 4;
-            break;
-        default:
-            cur_damage += it->amount;
-        }
+        deal_damage_handle_type(*it, bp, cur_damage, total_pain);
         if (cur_damage > 0) {
             dealt_dams[it->type] += cur_damage;
             total_damage += cur_damage;
@@ -117,6 +108,28 @@ std::vector<int> Creature::deal_damage(game* g, Creature* source, body_part bp, 
     mod_pain(total_pain);
     apply_damage(g, source, bp, side, total_damage);
     return dealt_dams;
+}
+void Creature::deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain) {
+    switch (du.type) {
+    case DT_BASH:
+        damage += du.amount -
+            std::max(get_armor_bash(bp) - du.res_pen,0)*du.res_mult;
+        pain += du.amount / 4;
+        break;
+    case DT_CUT:
+        damage += du.amount -
+            std::max(get_armor_cut(bp) - du.res_pen,0)*du.res_mult;
+        pain += (du.amount + sqrt(double(du.amount))) / 4;
+        break;
+    case DT_STAB: // stab differs from cut in that it ignores some armor
+        damage += du.amount -
+            0.8*std::max(get_armor_cut(bp) - du.res_pen,0)*du.res_mult;
+        pain += (du.amount + sqrt(double(du.amount))) / 4;
+        break;
+    default:
+        damage += du.amount;
+        pain += du.amount / 4;
+    }
 }
 
 /*
@@ -199,6 +212,9 @@ void Creature::process_effects(game* g) {
 
 void Creature::mod_pain(int npain) {
     pain += npain;
+}
+void Creature::mod_moves(int nmoves) {
+    moves += nmoves;
 }
 
 /*
@@ -285,7 +301,7 @@ int Creature::get_armor_cut_bonus() {
 }
 
 int Creature::get_speed() {
-    return speed_base + get_speed_bonus();
+    return get_speed_base() + get_speed_bonus();
 }
 int Creature::get_dodge() {
     int ret = (get_dex() / 2) + int(get_speed() / 150) //Faster = small dodge advantage
@@ -293,6 +309,9 @@ int Creature::get_dodge() {
     return ret;
 }
 
+int Creature::get_speed_base() {
+    return speed_base;
+}
 int Creature::get_speed_bonus() {
     return speed_bonus;
 }
@@ -389,6 +408,24 @@ void Creature::set_bash_bonus(int nbash) {
 }
 void Creature::set_cut_bonus(int ncut) {
     cut_bonus = ncut;
+}
+void Creature::mod_speed_bonus(int nspeed) {
+    speed_bonus += nspeed;
+}
+void Creature::mod_dodge_bonus(int ndodge) {
+    dodge_bonus += ndodge;
+}
+void Creature::mod_block_bonus(int nblock) {
+    block_bonus += nblock;
+}
+void Creature::mod_hit_bonus(int nhit) {
+    hit_bonus += nhit;
+}
+void Creature::mod_bash_bonus(int nbash) {
+    bash_bonus += nbash;
+}
+void Creature::mod_cut_bonus(int ncut) {
+    cut_bonus += ncut;
 }
 
 void Creature::set_bash_mult(float nbashmult) {

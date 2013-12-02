@@ -228,7 +228,23 @@ int player::hit_creature(game *g, Creature &t, bool allow_grab) {
     if (!is_quiet()) // check martial arts silence
         g->sound(posx, posy, 8, "");
 
-    t.hit(g, this, bp_hit, side, bash_dam, (cut_dam > stab_dam ? cut_dam : stab_dam));
+    damage_instance d;
+    if (critical_hit) // criticals have extra %arpen
+        d.add_damage(DT_BASH, bash_dam, 0, 0.5);
+    else
+        d.add_damage(DT_BASH, bash_dam);
+    if (cut_dam > stab_dam)
+        if (critical_hit) // criticals have extra flat arpen
+            d.add_damage(DT_CUT, cut_dam, 5);
+        else
+            d.add_damage(DT_CUT, cut_dam);
+    else {
+        if (critical_hit) // stab criticals have extra extra %arpen
+            d.add_damage(DT_STAB, stab_dam, 0, 0.33); 
+        else
+            d.add_damage(DT_STAB, stab_dam); 
+    }
+    t.deal_damage(g, this, bp_hit, side, d);
 
     int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
@@ -458,7 +474,7 @@ int player::roll_bash_damage(bool crit)
  if (bash_dam > bash_cap)// Cap for weak characters
   bash_dam = (bash_cap * 3 + bash_dam) / 4;
 
- /* TODO: add flags n stuff back in
+ /* TODO: handle this in deal_damage
  if (z != NULL && z->has_flag(MF_PLASTIC))
   bash_dam /= rng(2, 4);
   */

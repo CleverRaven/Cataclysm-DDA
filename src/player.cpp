@@ -338,7 +338,7 @@ void player::die(game* g, Creature* killer) {
     return;
 }
 
-void player::reset(game *g)
+void player::reset_stats(game *g)
 {
     // We can dodge again!
     blocks_left = get_num_blocks();
@@ -422,21 +422,19 @@ void player::reset(game *g)
     if (scent > norm_scent)
         scent--;
 
-    // Give us our movement points for the turn.
-    moves += current_speed(g);
-
     // Apply static martial arts buffs
     ma_static_effects();
 
     if (int(g->turn) % 10 == 0) {
-    update_mental_focus();
+        update_mental_focus();
     }
 
     nv_cached = false;
 
     recalc_sight_limits();
+    recalc_speed_bonus();
 
-    Creature::reset(g);
+    Creature::reset_stats(g);
 
 }
 
@@ -1107,26 +1105,25 @@ void player::temp_equalizer(body_part bp1, body_part bp2)
  temp_cur[bp1] += diff;
 }
 
-int player::current_speed(game *g)
+void player::recalc_speed_bonus(game *g)
 {
- int newmoves = 100; // Start with 100 movement points...
 // Minus some for weight...
  int carry_penalty = 0;
  if (weight_carried() > weight_capacity())
   carry_penalty = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
- newmoves -= carry_penalty;
+ mod_speed_bonus(-carry_penalty);
 
  if (pain > pkill) {
   int pain_penalty = int((pain - pkill) * .7);
   if (pain_penalty > 60)
    pain_penalty = 60;
-  newmoves -= pain_penalty;
+  mod_speed_bonus(-pain_penalty);
  }
  if (pkill >= 10) {
   int pkill_penalty = int(pkill * .1);
   if (pkill_penalty > 30)
    pkill_penalty = 30;
-  newmoves -= pkill_penalty;
+  mod_speed_bonus(-pkill_penalty);
  }
 
  if (abs(morale_level()) >= 100) {
@@ -1135,52 +1132,50 @@ int player::current_speed(game *g)
    morale_bonus = -10;
   else if (morale_bonus > 10)
    morale_bonus = 10;
-  newmoves += morale_bonus;
+  mod_speed_bonus(morale_bonus);
  }
 
  if (radiation >= 40) {
   int rad_penalty = radiation / 40;
   if (rad_penalty > 20)
    rad_penalty = 20;
-  newmoves -= rad_penalty;
+  mod_speed_bonus(-rad_penalty);
  }
 
  if (thirst > 40)
-  newmoves -= int((thirst - 40) / 10);
+  mod_speed_bonus(-int((thirst - 40) / 10));
  if (hunger > 100)
-  newmoves -= int((hunger - 100) / 10);
+  mod_speed_bonus(-int((hunger - 100) / 10));
 
- newmoves += (stim > 40 ? 40 : stim);
+ mod_speed_bonus(stim > 40 ? 40 : stim);
 
  for (int i = 0; i < illness.size(); i++)
-  newmoves += disease_speed_boost(illness[i]);
+  mod_speed_bonus(disease_speed_boost(illness[i]));
 
  // add martial arts speed bonus
- newmoves += mabuff_speed_bonus();
-
- if (has_trait("QUICK"))
-  newmoves = int(newmoves * 1.10);
+ mod_speed_bonus(mabuff_speed_bonus());
 
  if (g != NULL) {
   if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy))
-   newmoves -= (g->light_level() >= 12 ? 5 : 10);
+   mod_speed_bonus(-(g->light_level() >= 12 ? 5 : 10));
   if (has_trait("COLDBLOOD3") && g->get_temperature() < 60)
-   newmoves -= int( (65 - g->get_temperature()) / 2);
+   mod_speed_bonus(-int( (65 - g->get_temperature()) / 2));
   else if (has_trait("COLDBLOOD2") && g->get_temperature() < 60)
-   newmoves -= int( (65 - g->get_temperature()) / 3);
+   mod_speed_bonus(-int( (65 - g->get_temperature()) / 3));
   else if (has_trait("COLDBLOOD") && g->get_temperature() < 60)
-   newmoves -= int( (65 - g->get_temperature()) / 5);
+   mod_speed_bonus(-int( (65 - g->get_temperature()) / 5));
  }
 
  if (has_artifact_with(AEP_SPEED_UP))
-  newmoves += 20;
+  mod_speed_bonus(20);
  if (has_artifact_with(AEP_SPEED_DOWN))
-  newmoves -= 20;
+  mod_speed_bonus(-20);
 
- if (newmoves < 25)
-  newmoves = 25;
+ if (has_trait("QUICK")) // multiply by 1.1
+  set_speed_bonus(get_speed() * 1.10 - get_speed_base());
 
- return newmoves;
+ if (get_speed_bonus() < -0.75 * get_speed_base())
+  set_speed_bonus(0.75 * get_speed_base());
 }
 
 int player::run_cost(int base_cost, bool diag)
@@ -2108,7 +2103,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
  mvwprintz(w_speed, 0, 13 - utf8_width(title_SPEED)/2, c_ltgray, title_SPEED);
  mvwprintz(w_speed, 1,  1, c_ltgray, _("Base Move Cost:"));
  mvwprintz(w_speed, 2,  1, c_ltgray, _("Current Speed:"));
- int newmoves = current_speed(g);
+ int newmoves = get_speed();
  int pen = 0;
  line = 3;
  if (weight_carried() > weight_capacity()) {
@@ -3028,10 +3023,10 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
    col_per = c_red;
   if (per_cur > per_max)
    col_per = c_green;
-  int spd_cur = current_speed();
-  if (current_speed() < 100)
+  int spd_cur = get_speed();
+  if (spd_cur < 100)
    col_spd = c_red;
-  if (current_speed() > 100)
+  if (spd_cur > 100)
    col_spd = c_green;
 
     int x  = sideStyle ? 18 : 13;
@@ -3660,6 +3655,10 @@ int player::intimidation()
  return ret;
 }
 
+bool player::is_dead_state() {
+    return hp_cur[hp_head] <= 0 || hp_cur[hp_head] <= 0;
+}
+
 std::vector<int> player::deal_damage(game* g, Creature* source, body_part bp, int side,
         const damage_instance& d) {
 
@@ -3821,7 +3820,7 @@ void player::apply_damage(game* g, Creature* source, body_part bp,
     }
     lifetime_stats()->damage_taken+=dam;
 
-    if (hp_cur[hp_head] <= 0 || hp_cur[hp_head] <= 0)
+    if (is_dead_state())
         die(g, source);
 }
 

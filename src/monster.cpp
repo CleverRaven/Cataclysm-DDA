@@ -569,6 +569,10 @@ bool monster::has_weapon() {
     return false; // monsters will never have weapons, silly
 }
 
+bool monster::is_dead_state() {
+    return hp <= 0;
+}
+
 bool monster::block_hit(game *g, body_part &bp_hit, int &side,
             int &bash_dam, int &cut_dam, int &stab_dam) {
     return false;
@@ -670,7 +674,7 @@ void monster::hit_monster(game *g, int i)
 
 void monster::apply_damage(game* g, Creature* source, body_part bp, int side, int amount) {
     hurt(g, bp, side, amount);
-    if (hp <= 0) die(g, source);
+    if (is_dead_state()) die(g, source);
 }
 
 void monster::hurt(game*g, body_part bp, int side, int dam) {

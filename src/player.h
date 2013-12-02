@@ -119,14 +119,14 @@ public:
  void disp_morale(game *g); // '%' key; morale info
  void disp_status(WINDOW* w, WINDOW *w2, game *g = NULL);// On-screen data
 
- void reset(game *g = NULL);// Resets movement points, stats, applies effects
+ void reset_stats(game *g = NULL);// Resets movement points, stats, applies effects
+ void recalc_speed_bonus(game *g = NULL); // Calculate the various speed bonuses we will get from mutations etc
  void action_taken(); // Called after every action, invalidates player caches.
  void update_morale(); // Ticks down morale counters and removes them
  void apply_persistent_morale(); // Ensure persistent morale effects are up-to-date.
  void update_mental_focus();
  int calc_focus_equilibrium();
  void update_bodytemp(game *g);  // Maintains body temperature
- int  current_speed(game *g = NULL); // Number of movement points we get a turn
  int  run_cost(int base_cost, bool diag = false); // Adjust base_cost
  int  swim_speed(); // Our speed when swimming
 
@@ -205,6 +205,7 @@ public:
 
  bool can_melee();
  bool is_on_ground(); // all body parts are available to ground level damage sources
+ bool is_dead_state(); // check if we should be dead or not
 
  bool has_miss_recovery_tec(); // technique-based miss recovery, like tec_feint
  bool has_grab_break_tec(); // technique-based miss recovery, like tec_feint
@@ -443,7 +444,7 @@ public:
  bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
 
- bool has_weapon(); // Has an item with invlet let
+ bool has_weapon();
 
  bool knows_recipe(recipe *rec);
  void learn_recipe(recipe *rec);
@@ -503,9 +504,8 @@ public:
  unsigned int driving_recoil;
  unsigned int scent;
  int dodges_left, blocks_left;
- int stim, pain, pkill, radiation;
+ int stim, pkill, radiation;
  int cash;
- int moves;
  int movecounter;
  int hp_cur[num_hp_parts], hp_max[num_hp_parts];
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
