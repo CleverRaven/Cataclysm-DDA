@@ -123,14 +123,11 @@ The above example only illustrate the mapgen entries, not the actual format for 
 **required**
 > Values:
 > * "json" - requires 
-
 ```
 "object": { (more json here) }
 ```
 -or-
-
 > * "lua" - requires 
-
 ```
 "script": "-- string of lua code\n -- for newline use \n -- and escape \"quote\"s"
 ```
@@ -145,17 +142,14 @@ The above example only illustrate the mapgen entries, not the actual format for 
 **required for standalone**
 > Values:
 > * "matching_overmap_terrain_id" - see overmap_terrain.json for a list
-
 -or-
-
 > * [ "list_of", "oter_ids" ]
-* Example: "om_terrain": [ "house", "house_base" ]
+##### Example: "om_terrain": [ "house", "house_base" ]
 
 ### 1.2.2 "weight":
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 100000 is the default, so adding something with weight '50000' will make it appear 1/3 times, unless more functions are added. (An insanely high value like 100000000 is useful for testing)
 > Values:
 > * number - *0 disables*
-
 Default: 100000
 
 ## 1.3 How "overmap_terrain" variables affect mapgen
@@ -179,12 +173,13 @@ Note, either "fill_ter" or "rows" + "terrain" are required.
 # 2.0 "fill_ter": "terrain_id"
 *required if "rows" is unset* 
 > Value: ("string"): Valid terrain id from data/json/terrain.json
-* Example: "fill_ter": "t_grass"
+Example: "fill_ter": "t_grass"
 
 # 2.1 "rows":
 *required if "fill_ter" is unset*
 > Value: ([array]): 24 rows of 24 character lines. Each character is defined by "terrain" and optionally "furniture" below
-* Example:
+
+Example:
 ```
 "rows":[
   ",_____ssssssssssss_____,",
@@ -218,7 +213,7 @@ Note, either "fill_ter" or "rows" + "terrain" are required.
 # 2.1.0 "terrain"
 **required by "rows"** Defines terrain ids for "rows", each key is a single character with a terrain id string
 > Value: {object}: { "a", "t_identifier", ... }
-* Example: "terrain":{ " ": "t_grass", "d": "t_floor", "5": "t_wall_glass_h", "%": "t_wall_glass_v", "O": "t_floor", ",": "t_pavement_y", "_": "t_pavement", "r": "t_floor", "6": "t_console", "x": "t_console_broken", "$": "t_shrub", "^": "t_floor", ".": "t_floor", "-": "t_wall_h", "|": "t_wall_v", "#": "t_shrub", "t": "t_floor", "+": "t_door_glass_c", "=": "t_door_locked_alarm", "D": "t_door_locked", "w": "t_window_domestic", "T": "t_floor", "S": "t_floor", "e": "t_floor", "h": "t_floor", "c": "t_floor", "l": "t_floor", "s": "t_sidewalk" },
+Example: "terrain":{ " ": "t_grass", "d": "t_floor", "5": "t_wall_glass_h", "%": "t_wall_glass_v", "O": "t_floor", ",": "t_pavement_y", "_": "t_pavement", "r": "t_floor", "6": "t_console", "x": "t_console_broken", "$": "t_shrub", "^": "t_floor", ".": "t_floor", "-": "t_wall_h", "|": "t_wall_v", "#": "t_shrub", "t": "t_floor", "+": "t_door_glass_c", "=": "t_door_locked_alarm", "D": "t_door_locked", "w": "t_window_domestic", "T": "t_floor", "S": "t_floor", "e": "t_floor", "h": "t_floor", "c": "t_floor", "l": "t_floor", "s": "t_sidewalk" },
 
 # 2.1.1 "furniture"
 **optional** Defines furniture ids for "rows" ( each character in rows is a terrain -or- terrain/furniture combo ). "f_null" means no furniture but the entry can be left out
