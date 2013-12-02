@@ -5476,7 +5476,8 @@
     "items":[
      ["wrapped_rad_badge", 80],
 	 ["geiger_off", 20]
-	],{
+	]
+	},{
        "type" : "item_group",
        "id" : "rad_med",
     "items":[
