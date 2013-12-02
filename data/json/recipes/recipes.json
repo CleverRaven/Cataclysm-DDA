@@ -22134,6 +22134,30 @@
       [ "scrap", 1 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "mop",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "2x4", 1 ],
+      [ "stick", 1 ]
+    ],
+    [
+      [ "rag", 4 ]
+    ],
+    [
+      [ "string_36", 1]
+    ]
+  ]
 },
 {
         "type" : "recipe",
