@@ -1774,8 +1774,8 @@
     {
         "type":"GENERIC",
         "id" : "bat_metal",
-        "name" : "aluminium bat",
-        "description" : "An aluminium baseball bat, lighter than a wooden bat and a little easier to swing as a result.",
+        "name" : "aluminum bat",
+        "description" : "An aluminum baseball bat, lighter than a wooden bat and a little easier to swing as a result.",
         "weight" : 765,
         "to_hit" : 3,
         "color" : "light_gray",
