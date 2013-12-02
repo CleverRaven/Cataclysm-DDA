@@ -83,7 +83,7 @@ As "mapgen": { ... } objects inside an existing overmap_terrain object ( see "s_
         "id" : "s_restaurant_fast",
 (snip)
         "mapgen": [
-            { "weight": 25000,
+            { "weight": 250,
                 "method": "json", "object": {
                      (see below)
             }
@@ -98,7 +98,7 @@ As standalone { "type": "mapgen", ... } objects in a .json inside data/json. Bel
     {
         "type": "mapgen",
         "om_terrain": "s_restaurant_fast",
-        "weight": 25000,
+        "weight": 250,
         "method": "json",
         "object": {
             (see below)
@@ -107,7 +107,7 @@ As standalone { "type": "mapgen", ... } objects in a .json inside data/json. Bel
     {
         "type": "mapgen",
         "om_terrain": "s_restaurant_fast",
-        "weight": 50000,
+        "weight": 500,
         "method": "lua",
         "script": {
             (see below)
@@ -156,11 +156,11 @@ The above example only illustrate the mapgen entries, not the actual format for 
 ##### Example: "om_terrain": [ "house", "house_base" ]
 
 ### 1.2.2 "weight":
-(optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 100000 is the default, so adding something with weight '50000' will make it appear 1/3 times, unless more functions are added. (An insanely high value like 100000000 is useful for testing)
+(optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000 is the default, so adding something with weight '500' will make it appear 1/3 times, unless more functions are added. (An insanely high value like 10000000 is useful for testing)
 > Values:
 > * number - *0 disables*
 
-Default: 100000
+Default: 1000
 
 ## 1.3 How "overmap_terrain" variables affect mapgen
 "id" is used to determine the required "om_terrain" id for standalone, -except- when the following variables are set in "overmap_terrain":
@@ -440,7 +440,7 @@ place_items("itype", chance, x, y, x2, y2, bool ongrass, int chance)
 ```
 ## 3.1 Example script inside overmap_terrain entry
 ```
-{ "method": "lua", "weight": 50000, "comment": "Inlined, easier to edit", "script": [
+{ "method": "lua", "weight": 500, "comment": "Inlined, easier to edit", "script": [
     "-- tertype, turn = ...",
     "function g_or_d_or_p()",
     "  if game.one_in(6) then",

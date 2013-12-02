@@ -363,7 +363,7 @@ mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w)
  */
 
 mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_base, int default_idx) {
-    int mgweight = jio.get_int("weight", 100000);
+    int mgweight = jio.get_int("weight", 1000);
     mapgen_function * ret = NULL;
     if ( mgweight <= 0 || jio.get_bool("disabled", false) == true ) {
         const std::string mgtype = jio.get_string("method");
@@ -478,6 +478,15 @@ terfurn_tile::terfurn_tile() {
     furn = (short)t_null;
 }
 
+bool mapgen_function_json::check_inbounds( jmapgen_int & var ) {
+    const int min = 0;
+    const int max = mapgensize - 1;
+    if ( var.val < min || var.val > max || var.valmax < min || var.valmax > max ) {
+         return false;
+    }
+    return true;
+}
+#define inboundchk(v,j) if (! check_inbounds(v) ) { j.throw_error(string_format("Value must be between 0 and %d",mapgensize)); }
 /*
  * Take json array or int and set a numeric pair
  */
@@ -544,15 +553,19 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
         if ( ! load_jmapgen_int(pjo, "x", tmp_x.val, tmp_x.valmax) ) {
             err = string_format("set %s: bad/missing value for 'x'",tmpval.c_str() ); throw err;
         }
+        inboundchk(tmp_x,pjo);
         if ( ! load_jmapgen_int(pjo, "y", tmp_y.val, tmp_y.valmax) ) {
             err = string_format("set %s: bad/missing value for 'y'",tmpval.c_str() ); throw err;
         }
+        inboundchk(tmp_x,pjo);
         if ( setmap_optype != JMAPGEN_SETMAP_OPTYPE_POINT ) {
             if ( ! load_jmapgen_int(pjo, "x2", tmp_x2.val, tmp_x2.valmax) ) {
                 err = string_format("set %s: bad/missing value for 'x2'",tmpval.c_str() ); throw err;
+                inboundchk(tmp_x2,pjo);
             }
             if ( ! load_jmapgen_int(pjo, "y2", tmp_y2.val, tmp_y2.valmax) ) {
                 err = string_format("set %s: bad/missing value for 'y2'",tmpval.c_str() ); throw err;
+                inboundchk(tmp_y2,pjo);
             }
         }
         if ( tmpop == JMAPGEN_SETMAP_RADIATION ) {
