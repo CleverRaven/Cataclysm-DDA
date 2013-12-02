@@ -415,11 +415,18 @@ WINDOW *curses_init(void)
     std::string typeface;
     char * typeface_c = 0;
     std::ifstream fin;
-    fin.open("data\\FONTDATA");
+    fin.open("data/FONTDATA");
     if (!fin.is_open()){
-        MessageBox(WindowHandle, "Failed to open FONTDATA, loading defaults.", NULL, 0);
+        typeface_c = (char*) "Terminus";
+        fontwidth = 8;
         fontheight = 16;
-        fontwidth  = 8;
+        std::ofstream fout;//create data/FONDATA file
+        fout.open("data/FONTDATA");
+        if(fout.is_open()) {
+            fout << typeface_c << "\n";
+            fout << fontwidth << "\n";
+            fout << fontheight;
+        }
     } else {
         getline(fin, typeface);
         typeface_c = new char [typeface.size()+1];
