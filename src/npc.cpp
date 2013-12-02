@@ -1380,7 +1380,7 @@ void npc::decide_needs()
                        skillLevel("gun") * 2 + 5;
  needrank[need_food] = 15 - hunger;
  needrank[need_drink] = 15 - thirst;
- invslice slice = inv.slice(0, inv.size());
+ invslice slice = inv.slice();
  for (int i = 0; i < slice.size(); i++) {
   it_comest* food = NULL;
   if (slice[i]->front().is_food())
@@ -1438,7 +1438,7 @@ void npc::say(game *g, std::string line, ...)
 void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
 {
  bool found_lighter = false;
- invslice slice = inv.slice(0, inv.size());
+ invslice slice = inv.slice();
  for (int i = 0; i < slice.size(); i++) {
   if (slice[i]->front().type->id == "lighter" && !found_lighter)
    found_lighter = true;
@@ -1456,7 +1456,7 @@ void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
 void npc::init_buying(inventory& you, std::vector<item*> &items,
                       std::vector<int> &prices)
 {
- invslice slice = you.slice(0, you.size());
+ invslice slice = you.slice();
  for (int i = 0; i < slice.size(); i++) {
   int val = value(slice[i]->front());
   if (val >= NPC_HI_VALUE) {

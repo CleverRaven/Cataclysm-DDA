@@ -476,7 +476,7 @@ void advanced_inventory::recalc_pane(int i)
     int aweight = 0;
 
     if(panes[i].area == isinventory) {
-       const invslice & stacks = u.inv.slice(0, u.inv.size());
+       const invslice & stacks = u.inv.slice();
         for (unsigned x = 0; x < stacks.size(); ++x ) {
             item &item = stacks[x]->front();
             advanced_inv_listitem it;

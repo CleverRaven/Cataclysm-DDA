@@ -7,51 +7,12 @@
 
 const std::string inv_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}";
 
-// TODO: make the two slice methods complain (debugmsg?) if length == size()
-// after all, if we're asking for the *entire* inventory,
-// that's probably a sign of a partial legacy conversion
-
-invslice inventory::slice(int start, int length)
-{
+invslice inventory::slice() {
     invslice stacks;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        if (start <= 0)
-        {
-            stacks.push_back(&*iter);
-            --length;
-        }
-        if (length <= 0)
-        {
-            break;
-        }
-        --start;
+        stacks.push_back(&*iter);
     }
-
-    return stacks;
-}
-
-invslice inventory::slice(const std::list<item>* start, int length)
-{
-    invslice stacks;
-    bool found_start = false;
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
-        if (!found_start && start == &(*iter))
-        {
-            found_start = true;
-        }
-        if (found_start)
-        {
-            stacks.push_back(&*iter);
-            --length;
-        }
-        if (length <= 0)
-        {
-            break;
-        }
-    }
-
     return stacks;
 }
 
@@ -200,91 +161,99 @@ inventory inventory::operator+ (const item &rhs)
  return inventory(*this) += rhs;
 }
 
-inventory inventory::filter_by_activation(player& u)
-{
-    inventory reduced_inv;
+/*static*/ bool inventory::has_activation(const item& it, const player& u) {
+    return u.rate_action_use(&it) != HINT_CANT;
+}
+
+/*static*/ bool inventory::has_category(const item& it, item_cat cat, const player& u) {
+    switch (cat)
+    {
+    case IC_COMESTIBLE: // food
+        if (it.is_food(&u) || it.is_food_container(&u))
+        {
+             return true;
+        }
+        break;
+    case IC_AMMO: // ammo
+        if (it.is_ammo() || it.is_ammo_container())
+        {
+             return true;
+        }
+        break;
+    case IC_ARMOR: // armour
+        if (it.is_armor())
+        {
+             return true;
+        }
+        break;
+    case IC_BOOK: // books
+        if (it.is_book())
+        {
+             return true;
+        }
+        break;
+    case IC_TOOL: // tools
+        if (it.is_tool())
+        {
+             return true;
+        }
+        break;
+    case IC_CONTAINER: // containers for liquid handling
+        if (it.is_tool() || it.is_gun())
+        {
+            if (it.ammo_type() == "gasoline")
+            {
+                return true;
+            }
+        }
+        else
+        {
+            if (it.is_container())
+            {
+                return true;
+            }
+        }
+        break;
+    }
+    return false;
+}
+
+/*static*/ bool inventory::has_capacity_for_liquid(const item& it, const item& liquid) {
+    LIQUID_FILL_ERROR error;
+    return (it.get_remaining_capacity_for_liquid(liquid, error) > 0);
+}
+
+invslice inventory::slice_filter_by_activation(const player& u) {
+    invslice stacks;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        if(u.rate_action_use(&iter->front()) != HINT_CANT ) {
-            reduced_inv.clone_stack(*iter);
+        if (has_activation(iter->front(), u)) {
+            stacks.push_back(&*iter);
         }
     }
-    return reduced_inv;
+    return stacks;
 }
 
-inventory inventory::filter_by_category(item_cat cat, const player& u) const
-{
-    inventory reduced_inv;
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
+invslice inventory::slice_filter_by_category(item_cat cat, const player& u) {
+    invslice stacks;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        const item& it = iter->front();
-
-        switch (cat)
-        {
-        case IC_COMESTIBLE: // food
-            if (it.is_food(&u) || it.is_food_container(&u))
-            {
-                 reduced_inv.clone_stack(*iter);
-            }
-            break;
-        case IC_AMMO: // ammo
-            if (it.is_ammo() || it.is_ammo_container())
-            {
-                 reduced_inv.clone_stack(*iter);
-            }
-            break;
-        case IC_ARMOR: // armour
-            if (it.is_armor())
-            {
-                 reduced_inv.clone_stack(*iter);
-            }
-            break;
-        case IC_BOOK: // books
-            if (it.is_book())
-            {
-                 reduced_inv.clone_stack(*iter);
-            }
-            break;
-        case IC_TOOL: // tools
-            if (it.is_tool())
-            {
-                 reduced_inv.clone_stack(*iter);
-            }
-            break;
-        case IC_CONTAINER: // containers for liquid handling
-            if (it.is_tool() || it.is_gun())
-            {
-                if (it.ammo_type() == "gasoline")
-                {
-                    reduced_inv.clone_stack(*iter);
-                }
-            }
-            else
-            {
-                if (it.is_container())
-                {
-                    reduced_inv.clone_stack(*iter);
-                }
-            }
-            break;
+        if (has_category(iter->front(), cat, u)) {
+            stacks.push_back(&*iter);
         }
     }
-    return reduced_inv;
+    return stacks;
 }
 
-inventory inventory::filter_by_capacity_for_liquid(const item &liquid) const
-{
-    inventory reduced_inv;
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
-        const item& it = iter->front();
-        LIQUID_FILL_ERROR error;
-        if (it.get_remaining_capacity_for_liquid(liquid, error) > 0) {
-            reduced_inv.clone_stack(*iter);
+invslice inventory::slice_filter_by_capacity_for_liquid(const item &liquid) {
+    invslice stacks;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+        if (has_capacity_for_liquid(iter->front(), liquid)) {
+            stacks.push_back(&*iter);
         }
     }
-    return reduced_inv;
+    return stacks;
 }
-
 
 void inventory::unsort()
 {

@@ -1562,12 +1562,12 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Inventory:") << "\n";
     inv.restack(this);
     inv.sort();
-    for(int i = 0; i < inv.size(); i++) {
-      invslice slice = inv.slice(i, 1);
-      item& next_item = slice[0]->front();
+    invslice slice = inv.slice();
+    for(int i = 0; i < slice.size(); i++) {
+      item& next_item = slice[i]->front();
       memorial_file << indent << next_item.invlet << " - " << next_item.tname();
-      if(slice[0]->size() > 1) {
-        memorial_file << " [" << slice[0]->size() << "]";
+      if(slice[i]->size() > 1) {
+        memorial_file << " [" << slice[i]->size() << "]";
       }
       if(next_item.charges > 0) {
         memorial_file << " (" << next_item.charges << ")";
@@ -3277,7 +3277,7 @@ float player::active_light()
     float lumination = 0;
 
     int maxlum = 0;
-    const invslice & stacks = inv.slice(0, inv.size());
+    const invslice & stacks = inv.slice();
     for( int x = 0; x < stacks.size(); ++x ) {
         item &itemit = stacks[x]->front();
         item * stack_iter = &itemit;
@@ -7757,7 +7757,7 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
     return HINT_CANT;
 }
 
-hint_rating player::rate_action_use(item *it)
+hint_rating player::rate_action_use(const item *it) const
 {
  if (it->is_tool()) {
   it_tool *tool = dynamic_cast<it_tool*>(it->type);
@@ -7767,7 +7767,7 @@ hint_rating player::rate_action_use(item *it)
    return HINT_GOOD;
   }
  } else if (it->is_gunmod()) {
-  if (skillLevel("gun") == 0) {
+  if (get_skill_level("gun") == 0) {
    return HINT_IFFY;
   } else {
    return HINT_GOOD;

@@ -147,19 +147,23 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
  mvwprintw(w_inv, 1, 62, _("Items:  %d/%d "), n_items, inv_chars.size());
 }
 
-char game::inv(inventory& inv, std::string title)
+char game::inv(inventory& inv, const std::string& title)
 {
-    WINDOW* w_inv = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH + (use_narrow_sidebar() ? 45 : 55), VIEW_OFFSET_Y, VIEW_OFFSET_X);
-    const int maxitems = TERRAIN_WINDOW_HEIGHT - 5;
+    inv.sort();
+    invslice slice = inv.slice();
+    return display_slice(slice, title);
+}
+
+char game::display_slice(invslice& slice, const std::string& title)
+{
+ WINDOW* w_inv = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH + (use_narrow_sidebar() ? 45 : 55), VIEW_OFFSET_Y, VIEW_OFFSET_X);
+ const int maxitems = TERRAIN_WINDOW_HEIGHT - 5;
 
  int ch = (int)'.';
  int start = 0, cur_it = 0, max_it;
- inv.sort();
  std::vector<char> null_vector;
  print_inv_statics(this, w_inv, title, null_vector);
 // Gun, ammo, weapon, armor, food, tool, book, other
-
- invslice slice = inv.slice(0, inv.size());
  std::vector<int> firsts = find_firsts(slice);
 
  int selected =- 1;
@@ -174,7 +178,7 @@ char game::inv(inventory& inv, std::string title)
    mvwprintw(w_inv, maxitems + 4, 0, "         ");
    if ( selected > -1 ) selected = start; // oy, the cheese
   }
-  if (( ch == '>' || ch == KEY_NPAGE ) && cur_it < inv.size()) { // Clear lines and shift
+  if (( ch == '>' || ch == KEY_NPAGE ) && cur_it < slice.size()) { // Clear lines and shift
    start = cur_it;
    mvwprintw(w_inv, maxitems + 4, 12, "            ");
    for (int i = 1; i < maxitems+4; i++)
@@ -211,7 +215,7 @@ char game::inv(inventory& inv, std::string title)
   }
   if (start > 0)
    mvwprintw(w_inv, maxitems + 4, 0, _("< Go Back"));
-  if (cur_it < inv.size())
+  if (cur_it < slice.size())
    mvwprintw(w_inv, maxitems + 4, 12, _("> More items"));
   wrefresh(w_inv);
 
@@ -260,41 +264,42 @@ char game::inv(inventory& inv, std::string title)
 }
 
 // Display current inventory.
-char game::inv(std::string title)
+char game::inv(const std::string& title)
 {
  u.inv.restack(&u);
  u.inv.sort();
- return inv(u.inv,title);
+ invslice slice = u.inv.slice();
+ return display_slice(slice ,title);
 }
 
 char game::inv_activatable(std::string title)
 {
  u.inv.restack(&u);
  u.inv.sort();
- inventory activatables = u.inv.filter_by_activation(u);
- return inv(activatables,title);
+ invslice activatables = u.inv.slice_filter_by_activation(u);
+ return display_slice(activatables,title);
 }
 
 char game::inv_type(std::string title, item_cat inv_item_type)
 {
     u.inv.restack(&u);
     u.inv.sort();
-    inventory reduced_inv = u.inv.filter_by_category(inv_item_type, u);
-    return inv(reduced_inv,title);
+    invslice reduced_inv = u.inv.slice_filter_by_category(inv_item_type, u);
+    return display_slice(reduced_inv,title);
 }
 
 char game::inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single)
 {
     u.inv.restack(&u);
     u.inv.sort();
-    inventory reduced_inv = u.inv.filter_by_capacity_for_liquid(liquid);
+    invslice reduced_inv = u.inv.slice_filter_by_capacity_for_liquid(liquid);
     if (auto_choose_single && reduced_inv.size() == 1) {
-        std::list<item> cont_stack = reduced_inv.const_stack(0);
+        std::list<item>& cont_stack = *reduced_inv[0];
         if (cont_stack.size() > 0) {
             return cont_stack.front().invlet;
         }
     }
-    return inv(reduced_inv, title);
+    return display_slice(reduced_inv, title);
 }
 
 std::vector<item> game::multidrop()
@@ -316,7 +321,7 @@ std::vector<item> game::multidrop()
 
  int ch = (int)'.';
  int start = 0, cur_it = 0, max_it;
- invslice stacks = u.inv.slice(0, u.inv.size());
+ invslice stacks = u.inv.slice();
  std::vector<int> firsts = find_firsts(stacks);
  int selected=-1;
  int selected_char=(int)' ';
@@ -607,7 +612,7 @@ void game::compare(int iCompareX, int iCompareY)
  u.inv.restack(&u);
  u.inv.sort();
 
- invslice stacks = u.inv.slice(0, u.inv.size());
+ invslice stacks = u.inv.slice();
 
  WINDOW* w_inv = newwin(TERMY-VIEW_OFFSET_Y*2, TERMX-VIEW_OFFSET_X*2, VIEW_OFFSET_Y, VIEW_OFFSET_X);
  int maxitems = TERMY-5-VIEW_OFFSET_Y*2;    // Number of items to show at one time.

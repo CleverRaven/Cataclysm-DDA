@@ -349,7 +349,7 @@ public:
  float fine_detail_vision_mod(game *g); // Used for things like reading and sewing, checks light level
 
  // helper functions meant to tell inventory display code what kind of visual feedback to give to the user
- hint_rating rate_action_use(item *it); //rates usability lower for non-tools (books, etc.)
+ hint_rating rate_action_use(const item *it) const; //rates usability lower for non-tools (books, etc.)
  hint_rating rate_action_wear(item *it);
  hint_rating rate_action_eat(item *it);
  hint_rating rate_action_read(item *it, game *g);

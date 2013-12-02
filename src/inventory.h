@@ -19,8 +19,7 @@ typedef std::vector< std::list<item>* > invslice;
 class inventory
 {
  public:
-  invslice slice(int start, int length);
-  invslice slice(const std::list<item>* stack, int length);
+  invslice slice();
   // returns an inventory instance containing only the chosen items
   // chosen is an invlet-count mapping
   inventory subset(std::map<char, int> chosen) const;
@@ -39,9 +38,13 @@ class inventory
   inventory  operator+  (const item &rhs);
   inventory  operator+  (const std::list<item> &rhs);
 
-  inventory filter_by_activation(player& u);
-  inventory filter_by_category(item_cat cat, const player& u) const;
-  inventory filter_by_capacity_for_liquid(const item &liquid) const;
+  static bool has_activation(const item& it, const player& u);
+  static bool has_category(const item& it, item_cat cat, const player& u);
+  static bool has_capacity_for_liquid(const item& it, const item& liquid);
+
+  invslice slice_filter_by_activation(const player& u);
+  invslice slice_filter_by_category(item_cat cat, const player& u);
+  invslice slice_filter_by_capacity_for_liquid(const item &liquid);
 
   void unsort(); // flags the inventory as unsorted
   void sort();
