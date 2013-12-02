@@ -186,6 +186,7 @@ class game
   void clear_zombies();
   bool spawn_hallucination(); //Spawns a hallucination close to the player
 
+  Creature* creature_at(const int x, const int y);
   int  mon_at(const int x, const int y) const; // Index of the monster at (x, y); -1 for none
   int  mon_at(point p) const;
   bool is_empty(const int x, const int y); // True if no PC, no monster, move cost > 0

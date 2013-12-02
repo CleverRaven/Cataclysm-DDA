@@ -6125,6 +6125,17 @@ bool game::spawn_hallucination()
   }
 }
 
+//TODO: change this to work with active_creatures or whatever we call the
+//array of all the creatures
+Creature* game::creature_at(const int x, const int y)
+{
+    int mondex = mon_at(x,y);
+    if (mondex != -1)
+        return &_active_monsters[mondex];
+    else
+        return NULL;
+}
+
 int game::mon_at(const int x, const int y) const
 {
     std::map<point, int>::const_iterator i = z_at.find(point(x, y));

@@ -1,6 +1,7 @@
 #ifndef _CREATURE_H_
 #define _CREATURE_H_
 
+#include "enums.h"
 #include "pldata.h"
 #include "skill.h"
 #include "bionics.h"
@@ -8,9 +9,47 @@
 #include "effect.h"
 #include "bodypart.h"
 #include "color.h"
+#include <stdlib.h>
 #include <string>
 #include <vector>
+#include <algorithm>
 
+struct damage_unit {
+    damage_type type;
+    int amount;
+    int res_pen;
+    float res_mult;
+    damage_unit(damage_type dt, int a, int rp, float rm) :
+        type(dt),
+        amount(a),
+        res_pen(rp),
+        res_mult(rm)
+    { }
+};
+
+class accum_dam_functor { // functor for total_type_damage
+    damage_type dt;
+    public:
+        unsigned int sum;
+        accum_dam_functor(damage_type pdt) : dt(pdt),sum(0) {}
+        void operator() (damage_unit& du) {
+            if (du.type == dt) sum += du.amount; }
+};
+// a single atomic unit of damage from an attack. Can include multiple types
+// of damage at different armor mitigation/penetration values
+struct damage_instance {
+    std::vector<damage_unit> damage_units;
+    damage_instance() { }
+    void add_damage(damage_type dt, int a, int rp = 0, float rm = 1.0f) {
+        damage_unit du(dt,a,rp,rm);
+        damage_units.push_back(du);
+    }
+    int total_type_damage(damage_type dt) { // gets total (unmitigated) damage of a type
+        accum_dam_functor accum(dt);
+        std::for_each(damage_units.begin(),damage_units.end(),accum);
+        return accum.sum;
+    }
+};
 
 class game;
 class effect;
@@ -25,12 +64,19 @@ class Creature
         virtual std::string disp_name() = 0; // displayname for Creature
         virtual std::string skin_name() = 0; // name of outer layer, e.g. "armor plates"
 
+        virtual bool is_player() { return false; }
+
+        virtual void normalize(game* g); // recreate the Creature from scratch
+        virtual void reset(game* g); // prepare the Creature for the next turn
+        virtual void die(game* g, Creature* killer) = 0;
+
         virtual int dodge_roll(game* g) = 0;
 
         virtual int hit_creature(game *g, Creature &t, bool allow_grab) = 0; // Returns a damage
 
         virtual int hit(game *g, Creature* source, body_part bphurt, int side,
-                int dam, int cut) = 0;
+                int dam, int cut);
+
         /*
         virtual int hit(game *g, body_part bphurt, int side,
                 int dam, int cut) {
@@ -41,6 +87,21 @@ class Creature
         virtual bool block_hit(game *g, body_part &bp_hit, int &side,
             int &bash_dam, int &cut_dam, int &stab_dam) = 0;
 
+        // these also differ between player and monster (player takes
+        // body_part) but we will use this for now
+        // TODO: this is just a shim so knockbacks work
+        virtual void knock_back_from(game *g, int posx, int posy) = 0;
+
+        // TODO: remove this function in favor of deal/apply_damage
+        virtual void hurt(game* g, body_part bp, int side, int dam) = 0;
+
+        // deals the damage via an attack. Most sources of external damage
+        // should use deal_damage
+        virtual std::vector<int> deal_damage(game* g, Creature* source, body_part bp, int side, const damage_instance& d);
+        // directly decrements the damage. ONLY handles damage, doesn't
+        // increase pain, apply effects, etc
+        virtual void apply_damage(game* g, Creature* source, body_part bp, int side, int amount) = 0;
+
         virtual bool is_on_ground() = 0;
         virtual bool has_weapon() = 0;
 
@@ -48,20 +109,6 @@ class Creature
         // player.cpp and therefore referenced everywhere
         virtual int xpos() = 0;
         virtual int ypos() = 0;
-
-        // these also differ between player and monster (player takes
-        // body_part) but we will use this for now
-        // TODO: this is just a shim so knockbacks work
-        virtual void knock_back_from(game *g, int posx, int posy) = 0;
-
-        virtual bool is_player() { return false; }
-
-        virtual void normalize(game* g); // recreate the Creature from scratch
-        virtual void reset(game* g); // prepare the Creature for the next turn
-
-        virtual void die(game* g, Creature* killer) = 0;
-
-        virtual void hurt(game* g, body_part bp, int side, int dam) = 0;
 
         // should replace both player.add_disease and monster.add_effect
         // these are nonvirtual since otherwise they can't be accessed with
@@ -77,9 +124,10 @@ class Creature
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);
 
-        // getters for stats - combat-related stats will all be held within
-        // the Creature and re-calculated during every normalize() call
-
+        /*
+         * getters for stats - combat-related stats will all be held within
+         * the Creature and re-calculated during every normalize() call
+         */
         virtual int get_str();
         virtual int get_dex();
         virtual int get_per();
@@ -126,7 +174,9 @@ class Creature
         virtual int get_grab_resist();
         virtual int get_throw_resist();
 
-        // setters for stat boni
+        /*
+         * setters for stats and boni
+         */
         virtual void set_str_bonus(int nstr);
         virtual void set_dex_bonus(int ndex);
         virtual void set_per_bonus(int nper);

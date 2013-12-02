@@ -574,17 +574,6 @@ bool monster::block_hit(game *g, body_part &bp_hit, int &side,
     return false;
 }
 
-//TODO: this is the function that will govern our monster getting hit, much
-//like player.hit(). The other hit is for god knows what, but I'm keeping the
-//name the same to not break every line of code in this project.
-int monster::hit(game *g, Creature *source, body_part bphurt, int side, int bash, int cut) {
-    bash -= get_armor_bash(bphurt);
-    cut -= get_armor_cut(bphurt);
-    int dam = bash>0?bash:0 + cut>0?cut:0;
-    if (hurt(dam)) // kill me if we need to
-        die(g, source);
-    return dam;
-}
 
 int monster::hit(game *g, Creature &p, body_part &bp_hit) {
  int ret = 0;
@@ -677,6 +666,11 @@ void monster::hit_monster(game *g, int i)
  int damage = dice(type->melee_dice, type->melee_sides);
  if (target->hurt(damage))
   g->kill_mon(i, (friendly != 0));
+}
+
+void monster::apply_damage(game* g, Creature* source, body_part bp, int side, int amount) {
+    hurt(g, bp, side, amount);
+    if (hp <= 0) die(g, source);
 }
 
 void monster::hurt(game*g, body_part bp, int side, int dam) {

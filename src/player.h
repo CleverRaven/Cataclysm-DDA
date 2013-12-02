@@ -266,13 +266,16 @@ public:
  int intimidation(); // Physical intimidation
 
 // Converts bphurt to a hp_part (if side == 0, the left), then does/heals dam
-// hit() processes damage through armor
- int hit   (game *g, Creature* source, body_part bphurt, int side, int  dam, int  cut);
 // absorb() reduces dam and cut by your armor (and bionics, traits, etc)
  void absorb(game *g, body_part bp,               int &dam, int &cut);
 // hurt() doesn't--effects of disease, what have you
  void hurt (game *g, body_part bphurt, int side, int  dam);
  void hurt (hp_part hurt, int dam);
+
+ std::vector<int> deal_damage(game* g, Creature* source, body_part bp, int side, const damage_instance& d);
+ void apply_damage(game* g, Creature* source, body_part bp, int side, int amount);
+
+ void mod_pain(int npain);
 
  void heal(body_part healed, int side, int dam);
  void heal(hp_part healed, int dam);

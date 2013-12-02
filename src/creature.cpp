@@ -2,6 +2,7 @@
 #include "output.h"
 #include "game.h"
 #include <algorithm>
+#include <numeric>
 
 Creature::Creature() {};
 
@@ -62,11 +63,65 @@ void Creature::reset(game *g) {
 }
 
 /*
+ * Damage-related functions
+ */
+// TODO: this is a shim for the currently existing calls to Creature::hit,
+// start phasing them out
+int Creature::hit(game *g, Creature* source, body_part bphurt, int side,
+        int dam, int cut) {
+    damage_instance d;
+    d.add_damage(DT_BASH, dam);
+    d.add_damage(DT_CUT, cut);
+    std::vector<int> dealt_dams = deal_damage(g, source, bphurt, side, d);
+
+    return std::accumulate(dealt_dams.begin(),dealt_dams.end(),0);
+}
+
+std::vector<int> Creature::deal_damage(game* g, Creature* source, body_part bp, int side,
+        const damage_instance& d) {
+    int total_damage = 0;
+    int total_pain = 0;
+
+    std::vector<int> dealt_dams(NUM_DT, 0);
+
+    // add up all the damage units dealt
+    int cur_damage;
+    for (std::vector<damage_unit>::const_iterator it = d.damage_units.begin();
+            it != d.damage_units.end(); ++it) {
+        cur_damage = 0;
+        switch (it->type) {
+        case DT_BASH:
+            cur_damage += it->amount -
+                std::max(get_armor_bash(bp) - it->res_pen,0)*it->res_mult;
+            total_pain += it->amount / 4;
+            break;
+        case DT_CUT:
+            cur_damage += it->amount -
+                std::max(get_armor_cut(bp) - it->res_pen,0)*it->res_mult;
+            total_pain += (it->amount + sqrt(double(it->amount))) / 4;
+            break;
+        case DT_STAB: // stab differs from cut in that it ignores some armor
+            cur_damage += it->amount -
+                0.8*std::max(get_armor_cut(bp) - it->res_pen,0)*it->res_mult;
+            total_pain += (it->amount + sqrt(double(it->amount))) / 4;
+            break;
+        default:
+            cur_damage += it->amount;
+        }
+        if (cur_damage > 0) {
+            dealt_dams[it->type] += cur_damage;
+            total_damage += cur_damage;
+        }
+    }
+
+    mod_pain(total_pain);
+    apply_damage(g, source, bp, side, total_damage);
+    return dealt_dams;
+}
+
+/*
  * Effect-related functions
  */
-
-
-
 // Some utility functions for effects
 class is_id_functor { // functor for remove/has_effect, give c++11 lambdas pls
     std::string id;
@@ -74,8 +129,7 @@ class is_id_functor { // functor for remove/has_effect, give c++11 lambdas pls
         is_id_functor(efftype_id rem_id) : id(rem_id) {}
         bool operator() (effect& e) { return e.get_id() == id; }
 };
-// utility function for process_effects
-bool is_expired_effect(effect& e) {
+bool is_expired_effect(effect& e) { // utility function for process_effects
     if (e.get_duration() <= 0) {
         g->add_msg_string(e.get_effect_type()->get_remove_message());
         g->u.add_memorial_log(e.get_effect_type()->get_remove_memorial_log().c_str());
@@ -354,6 +408,9 @@ void Creature::set_throw_resist(int nthrowres) {
     throw_resist = nthrowres;
 }
 
+/*
+ * Drawing-related functions
+ */
 void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted)
 {
     int draw_x = getmaxx(w)/2 + xpos() - player_x;

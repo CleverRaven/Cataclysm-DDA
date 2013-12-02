@@ -34,6 +34,7 @@
 
 #include <ctime>
 #include <algorithm>
+#include <numeric>
 
 nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
@@ -3659,148 +3660,175 @@ int player::intimidation()
  return ret;
 }
 
-int player::hit(game *g, Creature* source, body_part bphurt, int side, int dam, int cut)
-{
-    int painadd = 0;
+std::vector<int> player::deal_damage(game* g, Creature* source, body_part bp, int side,
+        const damage_instance& d) {
+
+    std::vector<int> dealt_dams = Creature::deal_damage(g, source, bp, side, d);
+    int dam = std::accumulate(dealt_dams.begin(),dealt_dams.end(),0);
+
     if (has_disease("sleep")) {
         wake_up(_("You wake up!"));
     } else if (has_disease("lying_down")) {
         rem_disease("lying_down");
     }
 
- absorb(g, bphurt, dam, cut);
+    if (is_player())
+        g->cancel_activity_query(_("You were hurt!"));
 
- dam += cut;
- if (dam <= 0)
-  return dam;
-// TODO: Pre or post blit hit tile onto "this"'s location here
- if( g->u_see( this->posx, this->posy ) ) {
-    g->draw_hit_player(this);
- }
+    // TODO: Pre or post blit hit tile onto "this"'s location here
+    if( g->u_see( this->posx, this->posy ) ) {
+        g->draw_hit_player(this);
+    }
 
- rem_disease("speed_boost");
- if (dam >= 6)
-  rem_disease("armor_boost");
+    // handle snake artifacts
+    if (has_artifact_with(AEP_SNAKES) && dam >= 6) {
+        int snakes = int(dam / 6);
+        std::vector<point> valid;
+        for (int x = posx - 1; x <= posx + 1; x++) {
+            for (int y = posy - 1; y <= posy + 1; y++) {
+                if (g->is_empty(x, y))
+                valid.push_back( point(x, y) );
+            }
+        }
+        if (snakes > valid.size())
+            snakes = valid.size();
+        if (snakes == 1)
+            g->add_msg(_("A snake sprouts from your body!"));
+        else if (snakes >= 2)
+            g->add_msg(_("Some snakes sprout from your body!"));
+        monster snake(GetMType("mon_shadow_snake"));
+        for (int i = 0; i < snakes; i++) {
+            int index = rng(0, valid.size() - 1);
+            point sp = valid[index];
+            valid.erase(valid.begin() + index);
+            snake.spawn(sp.x, sp.y);
+            snake.friendly = -1;
+            g->add_zombie(snake);
+        }
+    }
 
- if (!is_npc())
-  g->cancel_activity_query(_("You were hurt!"));
+    if( g->u_see( this->xpos(), this->ypos() ) ) {
+        g->draw_hit_player(this);
+    }
 
- if (has_artifact_with(AEP_SNAKES) && dam >= 6) {
-  int snakes = int(dam / 6);
-  std::vector<point> valid;
-  for (int x = posx - 1; x <= posx + 1; x++) {
-   for (int y = posy - 1; y <= posy + 1; y++) {
-    if (g->is_empty(x, y))
-     valid.push_back( point(x, y) );
-   }
-  }
-  if (snakes > valid.size())
-   snakes = valid.size();
-  if (snakes == 1)
-   g->add_msg(_("A snake sprouts from your body!"));
-  else if (snakes >= 2)
-   g->add_msg(_("Some snakes sprout from your body!"));
-  monster snake(GetMType("mon_shadow_snake"));
-  for (int i = 0; i < snakes; i++) {
-   int index = rng(0, valid.size() - 1);
-   point sp = valid[index];
-   valid.erase(valid.begin() + index);
-   snake.spawn(sp.x, sp.y);
-   snake.friendly = -1;
-   g->add_zombie(snake);
-  }
- }
+    if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
+        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
+    add_disease("adrenaline", 200);
 
- if (has_trait("PAINRESIST"))
-  painadd = (sqrt(double(cut)) + dam + cut) / (rng(4, 6));
- else
-  painadd = (sqrt(double(cut)) + dam + cut) / 4;
- pain += painadd;
+    switch (bp) {
+    case bp_eyes:
+        mod_pain(1);
+        if (dam > 5 || dealt_dams[DT_CUT] > 0) {
+            int minblind = int((dam + dealt_dams[DT_CUT]) / 10);
+            if (minblind < 1)
+                minblind = 1;
+            int maxblind = int((dam + dealt_dams[DT_CUT]) /  4);
+            if (maxblind > 5)
+                maxblind = 5;
+            add_disease("blind", rng(minblind, maxblind));
+        }
+    case bp_mouth: // Fall through to head damage
+    case bp_head:
+        mod_pain(1);
+        hp_cur[hp_head] -= dam;
+        if (hp_cur[hp_head] < 0)
+        {
+            lifetime_stats()->damage_taken+=hp_cur[hp_head];
+            hp_cur[hp_head] = 0;
+        }
+        break;
+    case bp_torso:
+        // getting hit throws off our shooting
+        recoil += int(dam / 5);
+        break;
+    case bp_hands: // Fall through to arms
+    case bp_arms:
+        // getting hit in the arms throws off our shooting
+        if (side == 1 || weapon.is_two_handed(this))
+            recoil += int(dam / 3);
+        break;
+    case bp_feet: // Fall through to legs
+    case bp_legs:
+        break;
+    default:
+        debugmsg("Wacky body part hit!");
+    }
 
- switch (bphurt) {
- case bp_eyes:
-  pain++;
-  if (dam > 5 || cut > 0) {
-   int minblind = int((dam + cut) / 10);
-   if (minblind < 1)
-    minblind = 1;
-   int maxblind = int((dam + cut) /  4);
-   if (maxblind > 5)
-    maxblind = 5;
-   add_disease("blind", rng(minblind, maxblind));
-  }
+    return dealt_dams;
+}
 
- case bp_mouth: // Fall through to head damage
- case bp_head:
-  pain++;
-  hp_cur[hp_head] -= dam;
-  if (hp_cur[hp_head] < 0)
-  {
-   lifetime_stats()->damage_taken+=hp_cur[hp_head];
-   hp_cur[hp_head] = 0;
-  }
- break;
- case bp_torso:
-  recoil += int(dam / 5);
-  hp_cur[hp_torso] -= dam;
-  if (hp_cur[hp_torso] < 0)
-  {
-   lifetime_stats()->damage_taken+=hp_cur[hp_torso];
-   hp_cur[hp_torso] = 0;
-  }
- break;
- case bp_hands: // Fall through to arms
- case bp_arms:
-  if (side == 1 || weapon.is_two_handed(this))
-   recoil += int(dam / 3);
-  if (side == 0) {
-   hp_cur[hp_arm_l] -= dam;
-   if (hp_cur[hp_arm_l] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
-    hp_cur[hp_arm_l] = 0;
-   }
-  }
-  if (side == 1) {
-   hp_cur[hp_arm_r] -= dam;
-   if (hp_cur[hp_arm_r] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
-    hp_cur[hp_arm_r] = 0;
-   }
-  }
- break;
- case bp_feet: // Fall through to legs
- case bp_legs:
-  if (side == 0) {
-   hp_cur[hp_leg_l] -= dam;
-   if (hp_cur[hp_leg_l] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
-    hp_cur[hp_leg_l] = 0;
-   }
-  }
-  if (side == 1) {
-   hp_cur[hp_leg_r] -= dam;
-   if (hp_cur[hp_leg_r] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
-    hp_cur[hp_leg_r] = 0;
-   }
-  }
- break;
- default:
-  debugmsg("Wacky body part hit!");
- }
- if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
-     (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
-  add_disease("adrenaline", 200);
- lifetime_stats()->damage_taken+=dam;
+void player::apply_damage(game* g, Creature* source, body_part bp,
+        int side, int dam) {
+    switch (bp) {
+    case bp_eyes: // Fall through to head damage
+    case bp_mouth: // Fall through to head damage
+    case bp_head:
+        hp_cur[hp_head] -= dam;
+        if (hp_cur[hp_head] < 0)
+        {
+            lifetime_stats()->damage_taken+=hp_cur[hp_head];
+            hp_cur[hp_head] = 0;
+        }
+        break;
+    case bp_torso:
+        hp_cur[hp_torso] -= dam;
+        if (hp_cur[hp_torso] < 0)
+        {
+            lifetime_stats()->damage_taken+=hp_cur[hp_torso];
+            hp_cur[hp_torso] = 0;
+        }
+        break;
+    case bp_hands: // Fall through to arms
+    case bp_arms:
+        if (side == 0) {
+            hp_cur[hp_arm_l] -= dam;
+            if (hp_cur[hp_arm_l] < 0)
+            {
+                lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
+                hp_cur[hp_arm_l] = 0;
+            }
+        }
+        if (side == 1) {
+            hp_cur[hp_arm_r] -= dam;
+            if (hp_cur[hp_arm_r] < 0)
+            {
+                lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
+                hp_cur[hp_arm_r] = 0;
+            }
+        }
+        break;
+    case bp_feet: // Fall through to legs
+    case bp_legs:
+        if (side == 0) {
+            hp_cur[hp_leg_l] -= dam;
+            if (hp_cur[hp_leg_l] < 0)
+            {
+                lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
+                hp_cur[hp_leg_l] = 0;
+            }
+        }
+        if (side == 1) {
+            hp_cur[hp_leg_r] -= dam;
+            if (hp_cur[hp_leg_r] < 0)
+            {
+                lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
+                hp_cur[hp_leg_r] = 0;
+            }
+        }
+        break;
+    default:
+        debugmsg("Wacky body part hurt!");
+    }
+    lifetime_stats()->damage_taken+=dam;
 
- if (hp_cur[hp_head] <= 0 || hp_cur[hp_head] <= 0)
-     die(g, source);
+    if (hp_cur[hp_head] <= 0 || hp_cur[hp_head] <= 0)
+        die(g, source);
+}
 
- return dam;
+void player::mod_pain(int npain) {
+    if (has_trait("PAINRESIST") && npain > 1) // if it's 1 it'll just become 0, which is bad
+        npain = npain * 4 / rng(4,8);
+    Creature::mod_pain(npain);
 }
 
 void player::hurt(game *g, body_part bphurt, int side, int dam)
@@ -3824,67 +3852,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
   painadd = dam / 2;
  pain += painadd;
 
- switch (bphurt) {
- case bp_eyes: // Fall through to head damage
- case bp_mouth: // Fall through to head damage
- case bp_head:
-  pain++;
-  hp_cur[hp_head] -= dam;
-  if (hp_cur[hp_head] < 0)
-  {
-   lifetime_stats()->damage_taken+=hp_cur[hp_head];
-   hp_cur[hp_head] = 0;
-  }
- break;
- case bp_torso:
-  hp_cur[hp_torso] -= dam;
-  if (hp_cur[hp_torso] < 0)
-  {
-   lifetime_stats()->damage_taken+=hp_cur[hp_torso];
-   hp_cur[hp_torso] = 0;
-  }
- break;
- case bp_hands: // Fall through to arms
- case bp_arms:
-  if (side == 0) {
-   hp_cur[hp_arm_l] -= dam;
-   if (hp_cur[hp_arm_l] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
-    hp_cur[hp_arm_l] = 0;
-   }
-  }
-  if (side == 1) {
-   hp_cur[hp_arm_r] -= dam;
-   if (hp_cur[hp_arm_r] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
-    hp_cur[hp_arm_r] = 0;
-   }
-  }
- break;
- case bp_feet: // Fall through to legs
- case bp_legs:
-  if (side == 0) {
-   hp_cur[hp_leg_l] -= dam;
-   if (hp_cur[hp_leg_l] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
-    hp_cur[hp_leg_l] = 0;
-   }
-  }
-  if (side == 1) {
-   hp_cur[hp_leg_r] -= dam;
-   if (hp_cur[hp_leg_r] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
-    hp_cur[hp_leg_r] = 0;
-   }
-  }
- break;
- default:
-  debugmsg("Wacky body part hurt!");
- }
+
  if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
   add_disease("adrenaline", 200);
