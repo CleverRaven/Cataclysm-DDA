@@ -963,8 +963,16 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 }
 
 inventory game::crafting_inventory(player *p){
- inventory crafting_inv;
- crafting_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE, false);
+	// Get the max crafting distance we'll allow for furniture or terrain.
+	std::map<std::string, furn_t>::const_iterator default_values = furnmap.find("f_defaults");
+	int max_craft_dist = default_values->second.level_of_quality("MAX_CRAFT_DISTANCE");
+
+	inventory extended_crafting_inv;
+	extended_crafting_inv.form_from_map(this, point(p->posx, p->posy), max_craft_dist, false, "CRAFT_DISTANCE", true);
+
+	inventory crafting_inv;
+	crafting_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE, false, "CRAFT_DISTANCE", false);
+	crafting_inv += extended_crafting_inv;
  crafting_inv += p->inv;
  crafting_inv += p->weapon;
  if (p->has_bionic("bio_tools")) {
