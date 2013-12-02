@@ -1,6 +1,7 @@
 #ifndef _ITEM_H_
 #define _ITEM_H_
 
+#include <climits>
 #include <string>
 #include <vector>
 #include "itype.h"
@@ -215,7 +216,7 @@ public:
  char invlet;           // Inventory letter
  int charges;
  bool active;           // If true, it has active effects to be processed
- int fridge;           // The turn we entered a fridge.
+ int fridge;            // The turn we entered a fridge.
  signed char damage;    // How much damage it's sustained; generally, max is 5
  int burnt;             // How badly we're burnt
  int bday;              // The turn on which it was created
@@ -303,6 +304,13 @@ class map_item_stack
             totalcount++;
         }
 };
+
+// Commonly used convenience functions that match an item to one of the 3 common types of locators:
+// invlet (char), type_id (itype_id, a typedef of string), or position (int).
+// The item's position is optional, if not passed in we expect the item to fail position match.
+bool item_matches_locator(const item& it, const itype_id& id, int item_pos = INT_MIN);
+bool item_matches_locator(const item& it, int locator_pos, int item_pos = INT_MIN);
+bool item_matches_locator(const item& it, char invlet, int item_pos = INT_MIN);
 
 //this is an attempt for functional programming
 bool is_edible(item i, player const*u);

@@ -102,7 +102,7 @@ std::list<item>& inventory::stack_by_letter(char ch)
     return nullstack;
 }
 
-std::list<item> inventory::const_stack(int i) const
+const std::list<item>& inventory::const_stack(int i) const
 {
     if (i < 0 || i > items.size())
     {
@@ -116,7 +116,6 @@ std::list<item> inventory::const_stack(int i) const
     {
         ++iter;
     }
-
     return *iter;
 }
 
@@ -659,35 +658,43 @@ void inventory::form_from_map(game *g, point origin, int range, bool assign_invl
   }
  }
 
-
-std::list<item> inventory::remove_stack_by_letter(char ch)
+template<typename Locator>
+std::list<item> inventory::reduce_stack_internal(const Locator& locator, int quantity)
 {
-    return remove_partial_stack(ch, -1);
-}
-
-std::list<item> inventory::remove_partial_stack(char ch, int amount)
-{
+    int pos = 0;
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        if (iter->front().invlet == ch)
+        if (item_matches_locator(iter->front(), locator, pos))
         {
-            if(amount >= iter->size() || amount < 0)
+            if(quantity >= iter->size() || quantity < 0)
             {
                 ret = *iter;
                 items.erase(iter);
             }
             else
             {
-                for(int i = 0 ; i < amount ; i++)
+                for(int i = 0 ; i < quantity ; i++)
                 {
                     ret.push_back(remove_item(&iter->front()));
                 }
             }
             break;
         }
+        ++pos;
     }
     return ret;
+}
+
+// Instantiate for each type of Locator.
+std::list<item> inventory::reduce_stack(int position, int quantity) {
+    return reduce_stack_internal(position, quantity);
+}
+std::list<item> inventory::reduce_stack(char ch, int quantity) {
+    return reduce_stack_internal(ch, quantity);
+}
+std::list<item> inventory::reduce_stack(const itype_id& type, int quantity) {
+    return reduce_stack_internal(type, quantity);
 }
 
 item inventory::remove_item(item* it)
@@ -713,54 +720,53 @@ item inventory::remove_item(item* it)
     return nullitem;
 }
 
-item inventory::remove_item(invstack::iterator iter)
-{
-    item ret = iter->front();
-    iter->erase(iter->begin());
-    if (iter->empty())
-    {
-        items.erase(iter);
-    }
-    return ret;
-}
-
-item inventory::remove_item_by_type(itype_id type)
-{
+template<typename Locator>
+item inventory::remove_item_internal(const Locator& locator) {
+    int pos = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        if (iter->front().type->id == type)
-        {
-            return remove_item(iter);
-        }
-    }
-    return nullitem;
-}
-
-item inventory::remove_item_by_letter(char ch)
-{
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
-        if (iter->begin()->invlet == ch)
+        if (item_matches_locator(iter->front(), locator, pos))
         {
             if (iter->size() > 1)
             {
                 std::list<item>::iterator stack_member = iter->begin();
+                char invlet = stack_member->invlet;
                 ++stack_member;
-                stack_member->invlet = ch;
+                stack_member->invlet = invlet;
             }
-            return remove_item(iter);
+            item ret = iter->front();
+            iter->erase(iter->begin());
+            if (iter->empty())
+            {
+                items.erase(iter);
+            }
+            return ret;
         }
+        ++pos;
     }
 
     return nullitem;
 }
 
+// Instantiate for each type of Locator.
+item inventory::remove_item(int position) {
+    return remove_item_internal(position);
+}
+item inventory::remove_item(char ch) {
+    return remove_item_internal(ch);
+}
+item inventory::remove_item(const itype_id& type) {
+    return remove_item_internal(type);
+}
+
 // using this assumes the item has charges
-item inventory::remove_item_by_charges(char ch, int quantity)
+template<typename Locator>
+item inventory::reduce_charges_internal(const Locator& locator, int quantity)
 {
+    int pos = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        if (iter->begin()->invlet == ch)
+        if (item_matches_locator(iter->front(), locator, pos))
         {
             if (!iter->front().count_by_charges())
             {
@@ -781,10 +787,21 @@ item inventory::remove_item_by_charges(char ch, int quantity)
             }
             return ret;
         }
+        ++pos;
     }
-
-    debugmsg("Tried to remove item with invlet %c by quantity, no such item", ch);
+    debugmsg("Tried to reduce charges but could not find item.");
     return nullitem;
+}
+
+// Instantiate for each type of Locator.
+item inventory::reduce_charges(int position, int quantity) {
+    return reduce_charges_internal(position, quantity);
+}
+item inventory::reduce_charges(char ch, int quantity) {
+    return reduce_charges_internal(ch, quantity);
+}
+item inventory::reduce_charges(const itype_id& type, int quantity) {
+    return reduce_charges_internal(type, quantity);
 }
 
 std::vector<item> inventory::remove_mission_items(int mission_id)
@@ -1575,4 +1592,3 @@ void inventory::assign_empty_invlet(item &it)
   it.invlet = '`';
   //debugmsg("Couldn't find empty invlet");
 }
-

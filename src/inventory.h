@@ -25,7 +25,7 @@ class inventory
   // chosen is an invlet-count mapping
   inventory subset(std::map<char, int> chosen) const;
   std::list<item>& stack_by_letter(char ch);
-  std::list<item> const_stack(int i) const;
+  const std::list<item>& const_stack(int i) const;
   int size() const;
   int num_items() const;
   bool is_sorted() const;
@@ -63,12 +63,21 @@ class inventory
 
   void form_from_map(game *g, point origin, int distance, bool assign_invlet = true);
 
-  std::list<item> remove_stack_by_letter(char ch);
-  std::list<item> remove_partial_stack(char ch, int amount);
-  item  remove_item(item *it);
-  item  remove_item_by_type(itype_id type);
-  item  remove_item_by_letter(char ch);
-  item  remove_item_by_charges(char ch, int quantity); // charged items, not stacks
+  item remove_item(item *it);
+  item remove_item(int position);
+  item remove_item(char ch);
+  item remove_item(const itype_id& type);
+  std::list<item> reduce_stack(int position, int quantity);
+  std::list<item> reduce_stack(char ch, int quantity);
+  std::list<item> reduce_stack(const itype_id& type, int quantity);
+  item reduce_charges(int position, int quantity);
+  item reduce_charges(char ch, int quantity);
+  item reduce_charges(const itype_id& type, int quantity);
+
+  // amount of -1 removes the entire stack.
+  template<typename Locator> std::list<item> reduce_stack(const Locator& type, int amount);
+  template<typename Locator> item reduce_charges(const Locator& type, int quantity);
+
   std::vector<item>  remove_mission_items(int mission_id);
   item& item_by_letter(char ch);
   item& item_by_type(itype_id type);
@@ -134,7 +143,12 @@ class inventory
   std::map<std::string, std::vector<char> > invlet_cache;
   void update_cache_with_item(item& newit);
 
-  item remove_item(invstack::iterator iter);
+  // Often items can be located using typeid, position, or invlet.  To reduce code duplication,
+  // we back those functions with a single internal function templated on the type of Locator.
+  template<typename Locator> item remove_item_internal(const Locator& locator);
+  template<typename Locator> std::list<item> reduce_stack_internal(const Locator& type, int amount);
+  template<typename Locator> item reduce_charges_internal(const Locator& type, int quantity);
+
   void assign_empty_invlet(item &it);
   invstack items;
   bool sorted;

@@ -485,8 +485,7 @@ void advanced_inventory::recalc_pane(int i)
                 continue;
             }
             it.idx = x;
-            // todo: for the love of gods create a u.inv.stack_by_int()
-            int size = u.inv.stack_by_letter(item.invlet).size();
+            int size = u.inv.const_stack(x).size();
             if ( size < 1 ) {
                 size = 1;
             }
@@ -869,9 +868,8 @@ void advanced_inventory::display(game * gp, player * pp) {
                     squares[ destarea ].veh->free_volume( squares[ destarea ].vstor ) :
                     m.free_volume ( squares[ destarea ].x, squares[ destarea ].y )
                 ) * 1000;
-                // TODO figure out a better way to get the item. Without invlets.
-                item* it = &u.inv.slice(item_pos, 1).front()->front();
-                std::list<item>& stack = u.inv.stack_by_letter(it->invlet);
+                const std::list<item>& stack = u.inv.const_stack(item_pos);
+                const item* it = &stack.front();
 
                 int amount = 1;
 //                int volume = it->volume() * 100; // sigh
@@ -922,7 +920,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                 if(stack.size() > 1) { // if the item is stacked
                     if ( amount != 0 && amount <= stack.size() ) {
                         amount = amount > max ? max : amount;
-                        std::list<item> moving_items = u.inv.remove_partial_stack(it->invlet,amount);
+                        std::list<item> moving_items = u.inv.reduce_stack(item_pos, amount);
                         bool chargeback=false;
                         int moved=0;
                         for(std::list<item>::iterator iter = moving_items.begin();
@@ -954,8 +952,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                     }
                 } else if(it->count_by_charges()) {
                     if(amount != 0 && amount <= it->charges ) {
-
-                        item moving_item = u.inv.remove_item_by_charges(it->invlet,amount);
+                        item moving_item = u.inv.reduce_charges(item_pos, amount);
                         if (squares[destarea].vstor>=0) {
                             if(squares[destarea].veh->add_item(squares[destarea].vstor,moving_item) == false) {
                                 // fixme add item back
@@ -974,7 +971,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                         u.moves -= 100;
                     }
                 } else {
-                    item moving_item = u.inv.remove_item_by_letter(it->invlet);
+                    item moving_item = u.inv.remove_item(item_pos);
                     if(squares[destarea].vstor>=0) {
                         if(squares[destarea].veh->add_item(squares[destarea].vstor, moving_item) == false) {
                            // fixme add item back (test)
@@ -1096,8 +1093,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                         new_item.charges = trycharges;
                     }
                     if(destarea == isinventory) {
-                        new_item.invlet = g->nextinv;
-                        g->advance_nextinv();
+                        new_item.invlet = u.unused_invlet();
                         u.i_add(new_item,g);
                         u.moves -= 100;
                     } else if (squares[destarea].vstor >= 0) {

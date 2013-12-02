@@ -1475,7 +1475,7 @@ item consume_vpart_item (game *g, std::string vpid)
         if(candidates[selection].invlet == -1) { //weapon
             g->u.remove_weapon();
         } else { //non-weapon inventory
-            g->u.inv.remove_item_by_letter(candidates[selection].invlet);
+            g->u.inv.remove_item(candidates[selection].invlet);
         }
     } else {
         //map.

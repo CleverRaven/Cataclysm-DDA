@@ -554,13 +554,13 @@ std::vector<item> game::multidrop()
 
  for (std::map<char,int>::iterator it = dropping.begin(); it != dropping.end(); ++it) {
   if (it->second == -1)
-   ret.push_back( u.inv.remove_item_by_letter( it->first));
+   ret.push_back( u.inv.remove_item( it->first));
   else if (it->second && u.inv.item_by_letter( it->first).count_by_charges()) {
    int charges = u.inv.item_by_letter( it->first).charges;// >= it->second ? : it->second;
-   ret.push_back( u.inv.remove_item_by_charges( it->first, it->second > charges ? charges : it->second));
+   ret.push_back( u.inv.reduce_charges( it->first, it->second > charges ? charges : it->second));
   } else if (it->second)
    for (int j = it->second; j > 0; j--)
-    ret.push_back( u.inv.remove_item_by_letter( it->first));
+    ret.push_back( u.inv.remove_item( it->first));
  }
 
  for (int i = 0; i < weapon_and_armor.size(); i++)

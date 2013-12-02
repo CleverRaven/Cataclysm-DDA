@@ -1098,7 +1098,7 @@ void game::process_activity()
       item it = u.inv.item_by_letter(u.activity.invlet);
       iuse tmp;
       tmp.completefirstaid(&u, &it, false);
-      u.inv.remove_item_by_charges(u.activity.invlet, 1);
+      u.inv.reduce_charges(u.activity.invlet, 1);
       // Erase activity and values.
       u.activity.type = ACT_NULL;
       u.activity.values.clear();
@@ -6686,7 +6686,7 @@ bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
     } else if (&u.weapon == it) {
       u.remove_weapon();
     } else {
-      u.inv.remove_item_by_letter(it->invlet);
+      u.inv.remove_item(it->invlet);
     }
   }
   return true;
@@ -9258,7 +9258,7 @@ void game::drop(char chInput)
         if (u.inv.item_by_letter(chInput).is_null()) {
             dropped.push_back(u.i_rem(chInput));
         } else {
-            dropped.push_back(u.inv.remove_item_by_letter(chInput));
+            dropped.push_back(u.inv.remove_item(chInput));
         }
     }
 
@@ -10112,7 +10112,7 @@ void game::reload()
 // If it's a gun, some gunmods can also be loaded
 void game::unload(char chInput)
 { // this is necessary to prevent re-selection of the same item later
-    item it = (u.inv.remove_item_by_letter(chInput));
+    item it = (u.inv.remove_item(chInput));
     if (!it.is_null())
     {
         unload(it);

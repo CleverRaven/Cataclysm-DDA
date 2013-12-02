@@ -5665,7 +5665,7 @@ item player::i_rem(char let)
   }
  }
  if (!inv.item_by_letter(let).is_null())
-  return inv.remove_item_by_letter(let);
+  return inv.remove_item(let);
  return ret_null;
 }
 
@@ -5676,7 +5676,7 @@ item player::i_rem(itype_id type)
     {
         return remove_weapon();
     }
-    return inv.remove_item_by_type(type);
+    return inv.remove_item(type);
 }
 
 item& player::i_at(char let)
@@ -5729,7 +5729,7 @@ std::vector<item *> player::inv_dump()
 
 item player::i_remn(char invlet)
 {
- return inv.remove_item_by_letter(invlet);
+ return inv.remove_item(invlet);
 }
 
 std::list<item> player::use_amount(itype_id it, int quantity, bool use_container)
@@ -6445,7 +6445,7 @@ bool player::consume(game *g, signed char ch)
             weapon.contents.erase(weapon.contents.begin());
             g->add_msg_if_player(this,_("You are now wielding an empty %s."), weapon.tname().c_str());
         } else if (which == 0) {
-            inv.remove_item_by_letter(ch);
+            inv.remove_item(ch);
         } else if (which >= 0) {
             item& it = inv.item_by_letter(ch);
             it.contents.erase(it.contents.begin());
@@ -6457,14 +6457,14 @@ bool player::consume(game *g, signed char ch)
                     if (it.is_container()) {
                         if (!(it.has_flag("WATERTIGHT") && it.has_flag("SEALS"))) {
                             g->add_msg(_("You drop the empty %s."), it.tname().c_str());
-                            g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
+                            g->m.add_item_or_charges(posx, posy, inv.remove_item(it.invlet));
                         } else {
                             g->add_msg(_("%c - an empty %s"), it.invlet,it.tname().c_str());
                         }
                     }
                 } else if (OPTIONS["DROP_EMPTY"] == "all") {
                     g->add_msg(_("You drop the empty %s."), it.tname().c_str());
-                    g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
+                    g->m.add_item_or_charges(posx, posy, inv.remove_item(it.invlet));
                 }
             }
             if (inv.stack_by_letter(it.invlet).size() > 0) {
@@ -6717,7 +6717,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
   return false;
  }
  if (!is_armed()) {
-  weapon = inv.remove_item_by_letter(ch);
+  weapon = inv.remove_item(ch);
   if (weapon.is_artifact() && weapon.is_tool()) {
    it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
    g->add_artifact_messages(art->effects_wielded);
@@ -6728,7 +6728,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
  } else if (volume_carried() + weapon.volume() - it.volume() <
             volume_capacity()) {
   item tmpweap = remove_weapon();
-  weapon = inv.remove_item_by_letter(ch);
+  weapon = inv.remove_item(ch);
   inv.add_item_keep_invlet(tmpweap);
   inv.unsort();
   moves -= 45;
@@ -6742,7 +6742,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
                      weapon.tname().c_str())) {
   g->m.add_item_or_charges(posx, posy, remove_weapon());
   weapon = it;
-  inv.remove_item_by_letter(weapon.invlet);
+  inv.remove_item(weapon.invlet);
   inv.unsort();
   moves -= 30;
   if (weapon.is_artifact() && weapon.is_tool()) {
