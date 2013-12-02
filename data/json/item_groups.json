@@ -5483,8 +5483,13 @@
     "items":[
 	 ["iodine", 50]
 	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_eyes",
+    "items":[
+	 ["glasses_safety", 50]
+	]
 	}
-	
-    ]
+	]
   }
 ]
