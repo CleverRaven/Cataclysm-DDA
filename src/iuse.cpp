@@ -1427,23 +1427,7 @@ int iuse::cut_up(player *p, item *it, item *cut, bool t)
     g->add_msg_if_player(p, sliced_text.c_str(), cut->tname().c_str(), count);
     item result(itypes[type], int(g->turn), g->nextinv);
     p->i_rem(ch);
-    bool drop = false;
-    for (int i = 0; i < count; i++) {
-        int iter = 0;
-        while (p->has_item(result.invlet) && iter < inv_chars.size()) {
-            result.invlet = g->nextinv;
-            g->advance_nextinv();
-            iter++;
-        }
-        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity())) {
-            drop = true;
-        }
-        if (drop) {
-            g->m.add_item_or_charges(p->posx, p->posy, result);
-        } else {
-            p->i_add(result, g);
-        }
-    }
+    p->i_add_or_drop(result, g, count);
     return it->type->charges_to_use();
 }
 
@@ -4961,23 +4945,7 @@ int iuse::knife(player *p, item *it, bool t)
 
     // otherwise layout the goodies.
     p->i_rem(ch);
-    bool drop = false;
-    for (int i = 0; i < count; i++) {
-        int iter = 0;
-        while (p->has_item(result->invlet) && iter < inv_chars.size()) {
-            result->invlet = g->nextinv;
-            g->advance_nextinv();
-            iter++;
-        }
-        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity())) {
-            drop = true;
-        }
-        if (drop) {
-            g->m.add_item_or_charges(p->posx, p->posy, *result);
-        } else {
-            p->i_add(*result);
-        }
-    }
+    p->i_add_or_drop(*result, g, count);
 
     // hear this helps with objects in dynamically allocated memory and
     // their abandonment issues.
@@ -4991,7 +4959,6 @@ int iuse::cut_log_into_planks(player *p, item *it)
     g->add_msg(_("You cut the log into planks."));
     item plank(itypes["2x4"], int(g->turn), g->nextinv);
     item scrap(itypes["splinter"], int(g->turn), g->nextinv);
-    bool drop = false;
     int planks = (rng(1, 3) + (p->skillLevel("carpentry") * 2));
     int scraps = 12 - planks;
     if (planks >= 12) {
@@ -5000,36 +4967,8 @@ int iuse::cut_log_into_planks(player *p, item *it)
     if (scraps >= planks) {
         g->add_msg(_("You waste a lot of the wood."));
     }
-    for (int i = 0; i < planks; i++) {
-        int iter = 0;
-        while (p->has_item(plank.invlet) && iter < inv_chars.size()) {
-            plank.invlet = g->nextinv;
-            g->advance_nextinv();
-            iter++;
-        }
-        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity())) {
-            drop = true;
-        }
-        if (drop) {
-            g->m.add_item_or_charges(p->posx, p->posy, plank);
-        } else {
-            p->i_add(plank);
-        }
-    }
-    for (int i = 0; i < scraps; i++) {
-        int iter = 0;
-        while (p->has_item(scrap.invlet) && iter < inv_chars.size()) {
-            scrap.invlet = g->nextinv;
-            g->advance_nextinv();
-            iter++;
-        }
-        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-            drop = true;
-        if (drop)
-            g->m.add_item_or_charges(p->posx, p->posy, scrap);
-        else
-            p->i_add(scrap);
-    }
+    p->i_add_or_drop(plank, g, planks);
+    p->i_add_or_drop(scrap, g, scraps);
     return it->type->charges_to_use();
 }
 
@@ -5542,57 +5481,14 @@ int iuse::bullet_puller(player *p, item *it, bool t)
  p->moves -= 500;
  if (casing.type->id != "null"){
      casing.charges = multiply;
-     int iter = 0;
-     while ((casing.invlet == 0 || p->has_item(casing.invlet)) && iter < inv_chars.size()) {
-         casing.invlet = g->nextinv;
-         g->advance_nextinv();
-         iter++;}
-     if (p->can_pickWeight(casing.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-         p->can_pickVolume(casing.volume()) && iter < inv_chars.size()) {
-         p->i_add(casing);
-     } else {
-         g->m.add_item_or_charges(p->posx, p->posy, casing);
-     }
+     p->i_add_or_drop(casing, g);
  }
  if (primer.type->id != "null"){
      primer.charges = multiply;
-     int iter = 0;
-     while ((primer.invlet == 0 || p->has_item(primer.invlet)) && iter < inv_chars.size()) {
-         primer.invlet = g->nextinv;
-         g->advance_nextinv();
-         iter++;
-     }
-     if (p->can_pickWeight(primer.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-         p->can_pickVolume(primer.volume()) && iter < inv_chars.size()) {
-         p->i_add(primer);
-     } else {
-         g->m.add_item_or_charges(p->posx, p->posy, primer);
-     }
+     p->i_add_or_drop(primer, g);
  }
- int iter = 0;
- while ((gunpowder.invlet == 0 || p->has_item(gunpowder.invlet)) && iter < inv_chars.size()) {
-     gunpowder.invlet = g->nextinv;
-     g->advance_nextinv();
-     iter++;
- }
- if (p->can_pickWeight(gunpowder.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-     p->can_pickVolume(gunpowder.volume()) && iter < inv_chars.size()) {
-     p->i_add(gunpowder);
- } else {
-   g->m.add_item_or_charges(p->posx, p->posy, gunpowder);
- }
- iter = 0;
- while ((lead.invlet == 0 || p->has_item(lead.invlet)) && iter < inv_chars.size()) {
-     lead.invlet = g->nextinv;
-     g->advance_nextinv();
-     iter++;
- }
- if (p->can_pickWeight(lead.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-     p->can_pickVolume(lead.volume()) && iter < inv_chars.size()) {
-     p->i_add(lead);
- } else {
-   g->m.add_item_or_charges(p->posx, p->posy, lead);
- }
+ p->i_add_or_drop(gunpowder, g);
+ p->i_add_or_drop(lead, g);
 
  p->practice(g->turn, "fabrication", rng(1, multiply / 5 + 1));
  return it->type->charges_to_use();

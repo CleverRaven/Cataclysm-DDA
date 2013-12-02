@@ -6254,6 +6254,39 @@ bool player::has_mission_item(int mission_id)
     return false;
 }
 
+char player::unused_invlet()
+{
+    char invlet = 0;
+    for (int i = 0; i < inv_chars.size(); ++i) {
+        char possible_invlet = g->nextinv;
+        g->advance_nextinv();
+        if (!has_item(possible_invlet)) {
+            invlet = possible_invlet;
+            break;
+        }
+    }
+    return invlet;
+}
+
+bool player::i_add_or_drop(item& it, game *g, int qty) {
+    bool retval = true;
+    bool drop = false;
+    it.invlet = unused_invlet();
+    for (int i = 0; i < qty; ++i) {
+        if (!drop && (it.invlet == 0
+                || !can_pickWeight(it.weight(), !OPTIONS["DANGEROUS_PICKUPS"])
+                || !can_pickVolume(it.volume()))) {
+            drop = true;
+        }
+        if (drop) {
+            retval &= g->m.add_item_or_charges(posx, posy, it);
+        } else {
+            i_add(it, g);
+        }
+    }
+    return retval;
+}
+
 char player::lookup_item(char let)
 {
  if (weapon.invlet == let)
@@ -7985,33 +8018,10 @@ void player::remove_gunmod(item *weapon, int id, game *g) {
         ammo = item(itypes[default_ammo(weapon->ammo_type())], g->turn);
       }
       ammo.charges = gunmod->charges;
-      int iter = 0;
-      while ((ammo.invlet == 0 || has_item(ammo.invlet)) && iter < inv_chars.size()) {
-       ammo.invlet = g->nextinv;
-       g->advance_nextinv();
-       iter++;
-      }
-      if (can_pickWeight(ammo.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-          can_pickVolume(ammo.volume()) && iter < inv_chars.size()) {
-       i_add(ammo, g);
-      } else {
-       g->m.add_item_or_charges(posx, posy, ammo, 1);
-      }
+      i_add_or_drop(ammo, g);
     }
     newgunmod = item(itypes[gunmod->type->id], g->turn);
-    int iter = 0;
-    while ((newgunmod.invlet == 0 || has_item(newgunmod.invlet)) && iter < inv_chars.size())
-    {
-        newgunmod.invlet = g->nextinv;
-        g->advance_nextinv();
-        iter++;
-    }
-    if (can_pickWeight(newgunmod.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-        can_pickVolume(newgunmod.volume()) && iter < inv_chars.size()) {
-     i_add(newgunmod, g);
-    } else {
-     g->m.add_item_or_charges(posx, posy, newgunmod, 1);
-    }
+    i_add_or_drop(newgunmod, g);
     weapon->contents.erase(weapon->contents.begin()+id);
     return;
 }

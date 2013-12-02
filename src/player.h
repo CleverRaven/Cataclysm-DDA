@@ -394,6 +394,9 @@ public:
  std::string weapname(bool charges = true);
 
  item& i_add(item it, game *g = NULL);
+ // Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
+ // An optional qty can be provided (and will perform better than separate calls).
+ bool i_add_or_drop(item& it, game *g, int qty = 1);
  bool has_active_item(itype_id id);
  int  active_item_charges(itype_id id);
  void process_active_items(game *g);
@@ -436,6 +439,7 @@ public:
  bool has_item(item *it);  // Has a specific item
  bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
+ char unused_invlet();  // Returns the next available invlet for a player's inventory, or 0 if full.
 
  bool knows_recipe(recipe *rec);
  void learn_recipe(recipe *rec);
