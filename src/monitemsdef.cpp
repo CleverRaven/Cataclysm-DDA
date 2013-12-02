@@ -29,7 +29,7 @@ void game::init_monitems() {
     monitems["mon_zombie_grabber"]    = monitems["mon_zombie"];
     monitems["mon_zombie_master"]     = monitems["mon_zombie"];
     monitems["mon_zombie_hunter"]     = monitems["mon_zombie"];
-	monitems["mon_zombie_strong"]     = monitems["mon_zombie"];
+	monitems["mon_zombie_tough"]      = monitems["mon_zombie"];
 	monitems["mon_zombie_rot"]        = monitems["mon_zombie"];
 	monitems["mon_zombie_crawler"]    = monitems["mon_zombie"];
 

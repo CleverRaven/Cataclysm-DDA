@@ -1538,8 +1538,8 @@
     "categories":["CLASSIC"]
     },{
         "type" : "MONSTER",
-        "id" : "mon_zombie_strong",
-    "name": "strong zombie",
+        "id" : "mon_zombie_tough",
+    "name": "tough zombie",
     "species":"ZOMBIE",
     "symbol":"Z",
     "color":"ltred",
