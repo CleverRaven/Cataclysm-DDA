@@ -1620,7 +1620,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
-    "description":"This humans face and body is completely covered in a protective suit. The unsteady gait betrays its true nature.",
+    "description":"This zombie's face and body is completely covered by a protective suit. It wanders around, unsteadily.",
     "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "ACIDPROOF", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
     },{
@@ -1649,7 +1649,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
-    "description":"A once-dead corpse of human. Its discolored swollen flesh is riddled with festering wounds and open sores.",
+    "description":"A once-dead human corpse. Its discolored swollen flesh is riddled with festering wounds and open sores.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "VENOM", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
     },{
