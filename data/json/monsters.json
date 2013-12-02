@@ -1562,7 +1562,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
-    "description":"Once an able-bodied human, now a monster. Its facial features are twisted into an expression of pure rage.",
+    "description":"Once an athletic human, now a brutal monster. Its facial features are twisted into an expression of pure rage.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
     },{
@@ -1591,7 +1591,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
-    "description":"Having lost control of its lower part body, this zombie slowly drags itself by its arms.",
+    "description":"This legless corpse drags itself along slowly with its arms.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "BLEED", "NO_BREATHE", "VIS20", "REVIVES"],
     "categories":["CLASSIC"]
     },{
@@ -1620,7 +1620,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
-    "description":"This humans face and body is completely cowered in a protective suit. Figures unsteady gait betrays its true nature.",
+    "description":"This humans face and body is completely covered in a protective suit. The unsteady gait betrays its true nature.",
     "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "ACIDPROOF", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
     },{
@@ -1649,7 +1649,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
-    "description":"An once-dead corpse of human. Its discolored swollen flesh is riddled with festering wounds and open sores.",
+    "description":"A once-dead corpse of human. Its discolored swollen flesh is riddled with festering wounds and open sores.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "VENOM", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
     },{

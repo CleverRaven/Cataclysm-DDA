@@ -35,7 +35,7 @@ void game::init_monitems() {
 	monitems["mon_zombie_crawler"]    = monitems["mon_zombie"];
 
 	setvector(&monitems["mon_zombie_hazmat"],
-              "rad_med", 2, "rad_gear",  1,
+              "rad_med", 3, "rad_gear",  1, "hazmat_eyes",  2,
               NULL);
 	
     setvector(&monitems["mon_beekeeper"], "hive", 80, NULL);
