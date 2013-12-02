@@ -1921,6 +1921,43 @@
   ]
 },{
         "type" : "recipe",
+  "result": "aux_flamer",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skills_required": [ "fabrication", 3 ],
+  "difficulty": 6,
+  "time": 18000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "duct_tape", 50 ]
+    ],
+    [
+      [ "pilot_light", 1 ]
+    ],
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "hose", 2 ]
+    ],
+    [
+      [ "metal_tank", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "shot_he",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
