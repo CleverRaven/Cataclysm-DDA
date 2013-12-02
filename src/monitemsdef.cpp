@@ -29,6 +29,11 @@ void game::init_monitems() {
     monitems["mon_zombie_grabber"]    = monitems["mon_zombie"];
     monitems["mon_zombie_master"]     = monitems["mon_zombie"];
     monitems["mon_zombie_hunter"]     = monitems["mon_zombie"];
+	monitems["mon_zombie_fat"]        = monitems["mon_zombie"];
+	monitems["mon_zombie_strong"]     = monitems["mon_zombie"];
+	monitems["mon_zombie_rot"]        = monitems["mon_zombie"];
+	monitems["mon_zombie_crawler"]    = monitems["mon_zombie"];
+	monitems["mon_zombie_hazmat"]     = monitems["mon_zombie"];
 
     setvector(&monitems["mon_beekeeper"], "hive", 80, NULL);
     setvector(&monitems["mon_zombie_cop"], "cop_weapons", 20, NULL);

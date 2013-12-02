@@ -5437,11 +5437,41 @@
     ]
 	},{
        "type" : "item_group",
-       "id" : "dog_cop",
+       "id" : "hazmat_torso",
     "items":[
-     ["kevlar_harness", 1]
+     ["cleansuit", 40],
+	 ["jumpsuit", 60]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_boots",
+    "items":[
+     ["boots_rubber", 1]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_gloves",
+    "items":[
+     ["gloves_medical", 60],
+	 ["gloves_rubber", 40]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_full",
+    "items":[
+	 ["hazmat_suit", 80],
+     ["anbc_suit", 20]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_mask",
+    "items":[
+	 ["mask_dust", 80],
+     ["mask_filter", 20],
+	 ["mask_gas", 10]
 	]
 	}
+	
     ]
   }
 ]
