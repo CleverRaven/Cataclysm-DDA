@@ -66,6 +66,12 @@ List of known flags, used in both terrain.json and furniture.json
 - ```BARRICADABLE_WINDOW``` Window that can be barricaded.
 - ```BARRICADABLE_DOOR``` Door that can be barricaded.
 
+### Qualities
+Qualities may be used by furniture and terrain, or tools, armors, weapons and anything else that can be wielded. Qualities are similar to flags, except they can also define a value (e.x. `[["CUT"], 3]`) Although any quality can be used on anything, some qualities are really only meant for certain types. The qualities listed here are meant to be used on furniture and terrain.
+
+- ```MAX_CRAFT_DISTANCE``` Defines the maximum crafting distance of items stored on furniture or terrain. Only intended to be used by `f_defaults` in `furniture.json`.
+- ```CRAFT_DISTANCE``` Defines from how many tiles away from the player, items stored on this furniture / terrain can be used to craft with. Has no effect beyond `MAX_CRAFT_DISTANCE`.
+
 ### Examine actions
 
 - ```none``` None
@@ -498,8 +504,8 @@ Techniques may be used by tools, armors, weapons and anything else that can be w
 - ```DEF_THROW``` Throw an enemy that attacks you.
 - ```DEF_DISARM``` Disarm an enemy.
 
-## Qualities
-Qualities, like techniques, may be used by tools, armors, weapons and anything else that can be wielded.
+## Item Qualities
+Qualities may be used by furniture and terrain, or tools, armors, weapons and anything else that can be wielded. Qualities are similar to flags, except they can also define a value (e.x. `[["CUT"], 3]`) Although any quality can be used on anything, some qualities are really only meant for certain types. The qualities listed here are meant to be used on items.
 
 - ```CUT``` Can be used to cut objects.
 
