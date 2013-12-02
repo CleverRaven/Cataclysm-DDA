@@ -4509,25 +4509,22 @@ void player::suffer(game *g)
         }
     }
 
-    int ill_num = illness.size();
-    for (int i = 0; i < ill_num; i++)
-    {
+    for (int i = 0; i < illness.size(); i++) {
         dis_effect(*this, illness[i]);
-        if (ill_num == illness.size()) {
-            if (!illness[i].permanent) {
-                illness[i].duration--;
-            }
-            if (illness[i].decay > 0 && one_in(illness[i].decay)) {
-                illness[i].intensity--;
-            }
-            if (illness[i].duration <= 0 || illness[i].intensity == 0) {
-                dis_end_msg(*this, illness[i]);
-                illness.erase(illness.begin() + i);
-                ill_num--;
-                i--;
-            }
-        } else {
-            ill_num--;
+    }
+
+    // Diseases may remove themselves as part of applying (MA buffs do) so do a
+    // separate loop through the remaining ones for duration, decay, etc..
+    for (int i = 0; i < illness.size(); i++) {
+        if (!illness[i].permanent) {
+            illness[i].duration--;
+        }
+        if (illness[i].decay > 0 && one_in(illness[i].decay)) {
+            illness[i].intensity--;
+        }
+        if (illness[i].duration <= 0 || illness[i].intensity == 0) {
+            dis_end_msg(*this, illness[i]);
+            illness.erase(illness.begin() + i);
             i--;
         }
     }
