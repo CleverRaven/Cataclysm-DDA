@@ -116,8 +116,8 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         if (g->u.weight_carried() > g->u.weight_capacity()) {
         	color = c_red;
         }
-        mvwprintz( window, 4, hrightcol, color, "%.1f/", g->u.convert_weight(g->u.weight_carried()) );
-        wprintz(window, c_ltgray, "%.1f ", g->u.convert_weight(g->u.weight_capacity()) );
+        mvwprintz( window, 4, hrightcol, color, "%.1f", g->u.convert_weight(g->u.weight_carried()) );
+        wprintz(window, c_ltgray, "/%.1f ", g->u.convert_weight(g->u.weight_capacity()) );
 		if (g->u.volume_carried() > g->u.volume_capacity() - 2)
 		{
 			color = c_red;
@@ -126,8 +126,8 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
 		{
 			color = c_ltgreen;
 		}
-        wprintz(window, color, "%d/", g->u.volume_carried() );
-        wprintz(window, c_ltgray, "%d ", g->u.volume_capacity() - 2 );
+        wprintz(window, color, "%d", g->u.volume_carried() );
+        wprintz(window, c_ltgray, "/%d ", g->u.volume_capacity() - 2 );
     } else {
         int hrightcol=rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
         if (g->u.convert_weight(squares[pane.area].weight) > 9.9 ) {
@@ -914,7 +914,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                         string_input_popup( popupmsg, 20,
                              helper::to_string(
                                  ( amount > max ? max : amount )
-                             )
+                             ), "", "", -1, true//input only digits
                         )
                     );
                 }
@@ -1060,7 +1060,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                                     string_input_popup( popupmsg, 20,
                                          helper::to_string(
                                              ( amount > max ? max : amount )
-                                         )
+                                         ), "", "", -1, true//input only digits
                                     )
                                 );
                                 if ( amount > max ) amount = max;

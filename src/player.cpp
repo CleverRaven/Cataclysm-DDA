@@ -2923,7 +2923,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
         mvwprintz(w, sideStyle ? 0 : 3, 0, col_pain, _("Pain %d"), pain - pkill);
 
     int morale_cur = morale_level ();
-        nc_color col_morale = c_white;
+    nc_color col_morale = c_white;
     if (morale_cur >= 10)
         col_morale = c_green;
     else if (morale_cur <= -10)
@@ -2997,7 +2997,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
   }
  } else {  // Not in vehicle
   nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
-           col_per = c_white, col_spd = c_white;
+           col_per = c_white, col_spd = c_white, col_time = c_white;
   if (str_cur < str_max)
    col_str = c_red;
   if (str_cur > str_max)
@@ -3032,7 +3032,10 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     int spdx = sideStyle ?  0 : x + dx * 4;
     int spdy = sideStyle ?  5 : y + dy * 4;
     mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), spd_cur);
-    wprintz(w, c_white, "  %d", movecounter);
+		if (this->weight_carried() > this->weight_capacity() || this->volume_carried() > this->volume_capacity() - 2) {
+				col_time = c_red;
+		}
+    wprintz(w, col_time, "  %d", movecounter);
  }
 }
 
@@ -3462,13 +3465,13 @@ void player::pause(game *g)
             recoil = int(recoil / 2);
         }
     }
- 
+
     //Web Weavers...weave web
     if (has_trait("WEB_WEAVER") && !in_vehicle) {
       g->m.add_field(g, posx, posy, fd_web, 1); //this adds density to if its not already there.
       g->add_msg("You spin some webbing.");
      }
-      
+
     // Meditation boost for Toad Style
     if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
         int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
