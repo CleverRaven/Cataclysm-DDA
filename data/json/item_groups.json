@@ -5491,6 +5491,12 @@
     ]
     },{
         "type" : "item_group",
+        "id" : "cow",
+    "items":[
+      ["cow_bell", 1]
+    ]
+    },{
+        "type" : "item_group",
         "id" : "loincloth",
     "items":[
       ["loincloth", 2],

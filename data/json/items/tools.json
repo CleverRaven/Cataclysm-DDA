@@ -5825,5 +5825,27 @@
     "ammo" : "battery",
     "revert_to" : "null",
     "use_action" : "TAZER"
+  },
+  {
+    "id": "cow_bell",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "cow bell",
+    "description": "A brass cow bell. Potentially useful in so many ways.",
+    "price": 70,
+    "material": ["iron", "wood"],
+    "weight": 566,
+    "volume": 4,
+    "bashing": 9,
+    "cutting": 0,
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "BELL"
   }
 ]

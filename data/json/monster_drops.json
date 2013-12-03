@@ -215,5 +215,12 @@
         "item_groups": [
             [ "dog_cop", 1 ]
         ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_cow",
+        "item_groups": [
+            [ "cow", 75 ]
+        ]
     }
 ]
