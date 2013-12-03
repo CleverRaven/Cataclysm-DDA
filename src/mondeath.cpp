@@ -527,9 +527,11 @@ void mdeath::zombie(monster *z) {
               g->m.put_items_from("hazmat_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
               g->m.put_items_from("hazmat_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
               g->m.put_items_from("hazmat_mask", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+			  
               if (one_in(3)) {
                   g->m.put_items_from("hazmat_eyes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
               }
+			}
         break;
 
         default:
