@@ -4880,8 +4880,8 @@ int game::mon_info(WINDOW *w)
 
     if (newseen > mostseen) {
         if (newseen - mostseen == 1) {
-            monster &m = _active_monsters[new_seen_mon.back()];
-            cancel_activity_query(_("%s spotted!"), m.name().c_str());
+            monster &critter = _active_monsters[new_seen_mon.back()];
+            cancel_activity_query(_("%s spotted!"), critter.name().c_str());
         } else {
             cancel_activity_query(_("Monsters spotted!"));
         }
@@ -6047,28 +6047,28 @@ monster& game::zombie(const int idx)
     return _active_monsters[idx];
 }
 
-bool game::update_zombie_pos(const monster &m, const int newx, const int newy)
+bool game::update_zombie_pos(const monster &critter, const int newx, const int newy)
 {
     bool success = false;
-    const int zid = mon_at(m.posx(), m.posy());
+    const int zid = mon_at(critter.posx(), critter.posy());
     const int newzid = mon_at(newx, newy);
     if (newzid >= 0 && !_active_monsters[newzid].dead) {
         debugmsg("update_zombie_pos: new location %d,%d already has zombie %d",
                 newx, newy, newzid);
     } else if (zid >= 0) {
-        if (&m == &_active_monsters[zid]) {
-            z_at.erase(point(m.posx(), m.posy()));
+        if (&critter == &_active_monsters[zid]) {
+            z_at.erase(point(critter.posx(), critter.posy()));
             z_at[point(newx, newy)] = zid;
             success = true;
         } else {
             debugmsg("update_zombie_pos: old location %d,%d had zombie %d instead",
-                    m.posx(), m.posy(), zid);
+                    critter.posx(), critter.posy(), zid);
         }
     } else {
         // We're changing the x/y coordinates of a zombie that hasn't been added
         // to the game yet. add_zombie() will update z_at for us.
         debugmsg("update_zombie_pos: no such zombie at %d,%d (moving to %d,%d)",
-                m.posx(), m.posy(), newx, newy);
+                critter.posx(), critter.posy(), newx, newy);
     }
     return success;
 }
@@ -6141,8 +6141,8 @@ void game::rebuild_mon_at_cache()
 {
     z_at.clear();
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
-        monster &m = _active_monsters[i];
-        z_at[point(m.posx(), m.posy())] = i;
+        monster &critter = _active_monsters[i];
+        z_at[point(critter.posx(), critter.posy())] = i;
     }
 }
 
