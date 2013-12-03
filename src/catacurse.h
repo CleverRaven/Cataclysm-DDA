@@ -196,4 +196,8 @@ int curses_start_color();
 
 // Add interface specific (SDL/ncurses/wincurses) initializations here
 void init_interface();
+
+int projected_window_width(int column_count);
+int projected_window_height(int row_count);
+
 #endif
