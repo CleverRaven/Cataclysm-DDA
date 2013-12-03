@@ -1185,8 +1185,7 @@ void advanced_inventory::display(game * gp, player * pp) {
             item *it = panes[src].items[list_pos].it;
             int ret=0;
             if(panes[src].area == isinventory ) {
-                char pleaseDeprecateMe=it->invlet;
-                ret=g->inventory_item_menu(pleaseDeprecateMe, 0, w_width/2
+                ret=g->inventory_item_menu(list_pos, 0, w_width/2
                    // fixme: replace compare_split_screen_popup which requires y=0 for item menu to function right
                    // colstart + ( src == left ? w_width/2 : 0 ), 50
                 );

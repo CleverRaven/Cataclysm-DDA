@@ -285,13 +285,12 @@ class game
   std::string sFilter; // this is a member so that it's remembered over time
   std::string list_item_upvote;
   std::string list_item_downvote;
-  char inv(const std::string& title);
-  char inv(inventory&, const std::string&);
-  char inv_activatable(std::string title);
-  char inv_type(std::string title, item_cat inv_item_type = IC_NULL);
-  char inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
-  char display_slice(invslice&, const std::string&);
-  int inventory_item_menu(char chItem, int startx = 0, int width = 50);
+  int inv(const std::string& title);
+  int inv_activatable(std::string title);
+  int inv_type(std::string title, item_cat inv_item_type = IC_NULL);
+  int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
+  int display_slice(invslice&, const std::string&);
+  int inventory_item_menu(int position, int startx = 0, int width = 50);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);

@@ -1635,11 +1635,12 @@ void game::handle_key_blocking_activity() {
     }
 }
 //// item submenu for 'i' and '/'
-int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
+int game::inventory_item_menu(int chPos, int iStartX, int iWidth) {
     int cMenu = (int)'+';
 
-    if (u.has_item(chItem)) {
-        item oThisItem = u.i_at(chItem);
+    if (u.has_item(chPos)) {
+        item& oThisItem = u.i_at(chPos);
+        char chItem = oThisItem.invlet;
         std::vector<iteminfo> vThisItem, vDummy, vMenu;
 
         const int iOffsetX = 2;
@@ -2280,8 +2281,8 @@ bool game::handle_action()
   case ACTION_INVENTORY: {
    int cMenu = ' ';
    do {
-     char chItem = inv(_("Inventory:"));
-     cMenu=inventory_item_menu(chItem);
+     int position = inv(_("Inventory:"));
+     cMenu=inventory_item_menu(position);
    } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
             cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=' );
    refresh_all();
@@ -6551,7 +6552,7 @@ void game::use_item(char chInput)
 {
  char ch;
  if (chInput == '.')
-  ch = inv_activatable(_("Use item:"));
+  ch = u.position_to_invlet(inv_activatable(_("Use item:")));
  else
   ch = chInput;
 
@@ -8937,8 +8938,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         std::stringstream text;
         text << _("Container for ") << liquid.tname();
 
-        char ch = inv_for_liquid(liquid, text.str().c_str(), false);
-        if (!u.has_item(ch)) {
+        int pos = inv_for_liquid(liquid, text.str().c_str(), false);
+        if (!u.has_item(pos)) {
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten(this) &&
@@ -8950,7 +8951,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             return false;
         }
 
-        cont = &(u.i_at(ch));
+        cont = &(u.i_at(pos));
     }
 
     if (cont == NULL || cont->is_null()) {
@@ -9110,11 +9111,11 @@ int game::move_liquid(item &liquid)
   //liquid is in fact a liquid.
   std::stringstream text;
   text << _("Container for ") << liquid.tname();
-  char ch = inv_for_liquid(liquid, text.str().c_str(), false);
+  int pos = inv_for_liquid(liquid, text.str().c_str(), false);
 
   //is container selected?
-  if(u.has_item(ch)) {
-    item *cont = &(u.i_at(ch));
+  if(u.has_item(pos)) {
+    item *cont = &(u.i_at(pos));
     if (cont == NULL || cont->is_null())
       return -1;
     else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
@@ -9415,7 +9416,7 @@ void game::drop_in_direction()
 void game::reassign_item(char ch)
 {
  if (ch == '.') {
-     ch = inv(_("Reassign item:"));
+     ch = u.position_to_invlet(inv(_("Reassign item:")));
  }
  if (ch == ' ') {
   add_msg(_("Never mind."));
@@ -9448,7 +9449,7 @@ void game::plthrow(char chInput)
  if (chInput != '.') {
   ch = chInput;
  } else {
-  ch = inv(_("Throw item:"));
+  ch = u.position_to_invlet(inv(_("Throw item:")));
   refresh_all();
  }
 
@@ -9954,7 +9955,7 @@ void game::eat(char chInput)
   return;
  }
  if (chInput == '.')
-  ch = inv_type(_("Consume item:"), IC_COMESTIBLE );
+  ch = u.position_to_invlet(inv_type(_("Consume item:"), IC_COMESTIBLE ));
  else
   ch = chInput;
 
@@ -9974,7 +9975,7 @@ void game::wear(char chInput)
 {
  char ch;
  if (chInput == '.')
-  ch = inv_type(_("Wear item:"), IC_ARMOR);
+  ch = u.position_to_invlet(inv_type(_("Wear item:"), IC_ARMOR));
  else
   ch = chInput;
 
@@ -9989,7 +9990,7 @@ void game::takeoff(char chInput)
 {
  char ch;
  if (chInput == '.')
-  ch = inv_type(_("Take off item:"), IC_NULL);
+  ch = u.position_to_invlet(inv_type(_("Take off item:"), IC_NULL));
  else
   ch = chInput;
 
@@ -10311,10 +10312,11 @@ void game::wield(char chInput)
   return;
  }
  char ch;
- if (chInput == '.')
-  ch = inv(_("Wield item:"));
- else
+ if (chInput == '.') {
+  ch = u.position_to_invlet(inv(_("Wield item:")));
+ } else {
   ch = chInput;
+ }
 
  if (ch == ' ' || ch == KEY_ESCAPE) {
   add_msg(_("Never mind."));
@@ -10333,7 +10335,7 @@ void game::wield(char chInput)
 
 void game::read()
 {
- char ch = inv_type(_("Read:"), IC_BOOK);
+ char ch = u.position_to_invlet(inv_type(_("Read:"), IC_BOOK));
 
  if (ch == ' ' || ch == KEY_ESCAPE) {
   add_msg(_("Never mind."));

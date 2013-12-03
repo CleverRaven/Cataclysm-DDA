@@ -1190,7 +1190,7 @@ int iuse::sew(player *p, item *it, bool t)
         return 0;
     }
     int thread_used = 1;
-    char ch = g->inv_type(_("Repair what?"), IC_ARMOR);
+    char ch = p->position_to_invlet(g->inv_type(_("Repair what?"), IC_ARMOR));
     item* fix = &(p->i_at(ch));
     if (fix == NULL || fix->is_null()) {
         g->add_msg_if_player(p,_("You do not have that item!"));
@@ -1329,7 +1329,7 @@ int iuse::sew(player *p, item *it, bool t)
 
 int iuse::extra_battery(player *p, item *it, bool t)
 {
-    char ch = g->inv_type(_("Modify what?"), IC_TOOL);
+    char ch = p->position_to_invlet(g->inv_type(_("Modify what?"), IC_TOOL));
     item* modded = &(p->i_at(ch));
 
     if (modded == NULL || modded->is_null())
@@ -1734,7 +1734,7 @@ int iuse::solder_weld(player *p, item *it, bool t)
                 return 0;
             }
 
-            char ch = g->inv_type(_("Repair what?"), IC_ARMOR);
+            char ch = p->position_to_invlet(g->inv_type(_("Repair what?"), IC_ARMOR));
             item* fix = &(p->i_at(ch));
             if (fix == NULL || fix->is_null()) {
                 g->add_msg_if_player(p,_("You do not have that item!"));
@@ -1893,7 +1893,7 @@ int iuse::solder_weld(player *p, item *it, bool t)
 
 int iuse::water_purifier(player *p, item *it, bool t)
 {
- char ch = g->inv_type(_("Purify what?"), IC_COMESTIBLE);
+ char ch = p->position_to_invlet(g->inv_type(_("Purify what?"), IC_COMESTIBLE));
  if (!p->has_item(ch)) {
   g->add_msg_if_player(p,_("You do not have that item!"));
   return 0;
@@ -6124,7 +6124,7 @@ int iuse::boots(player *p, item *it, bool t)
   }
  } else if ((it->contents.size() == 0 && choice == 1) || // Put 1st
             (it->contents.size() == 1 && choice == 2)) { // Put 2st
-  char ch = g->inv_type(_("Put what?"), IC_TOOL);
+  char ch = p->position_to_invlet(g->inv_type(_("Put what?"), IC_TOOL));
   item* put = &(p->i_at(ch));
   if (put == NULL || put->is_null()) {
    g->add_msg_if_player(p, _("You do not have that item!"));

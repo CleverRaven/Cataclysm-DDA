@@ -5685,7 +5685,7 @@ item& player::i_at(int position)
  if (position == -1)
      return weapon;
  if (position < -1) {
-     int worn_index = convert_worn_position_to_index(position);
+     int worn_index = worn_position_to_index(position);
      if (worn_index < worn.size()) {
          return worn[worn_index];
      }
@@ -5715,6 +5715,20 @@ item& player::i_of_type(itype_id type)
    return worn[i];
  }
  return inv.item_by_type(type);
+}
+
+char player::position_to_invlet(int position) {
+    return i_at(position).invlet;
+}
+
+int player::invlet_to_position(char invlet) {
+    if (weapon.invlet == invlet)
+     return -1;
+    for (int i = 0; i < worn.size(); i++) {
+     if (worn[i].invlet == invlet)
+      return worn_position_to_index(i);
+    }
+    return inv.position_by_letter(invlet);
 }
 
 martialart player::get_combat_style()
@@ -6235,6 +6249,10 @@ bool player::has_item(char let)
  return (has_weapon_or_armor(let) || !inv.item_by_letter(let).is_null());
 }
 
+bool player::has_item(int position) {
+    return !i_at(position).is_null();
+}
+
 bool player::has_item(item *it)
 {
  if (it == &weapon)
@@ -6459,7 +6477,7 @@ bool player::consume(game *g, signed char ch)
             weapon.contents.erase(weapon.contents.begin());
             g->add_msg_if_player(this,_("You are now wielding an empty %s."), weapon.tname().c_str());
         } else if (which == 0) {
-            inv.remove_item(ch);
+            inv.remove_item((char)ch);
         } else if (which >= 0) {
             item& it = inv.item_by_letter(ch);
             it.contents.erase(it.contents.begin());
@@ -6731,7 +6749,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
   return false;
  }
  if (!is_armed()) {
-  weapon = inv.remove_item(ch);
+  weapon = inv.remove_item((char)ch);
   if (weapon.is_artifact() && weapon.is_tool()) {
    it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
    g->add_artifact_messages(art->effects_wielded);
@@ -6742,7 +6760,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
  } else if (volume_carried() + weapon.volume() - it.volume() <
             volume_capacity()) {
   item tmpweap = remove_weapon();
-  weapon = inv.remove_item(ch);
+  weapon = inv.remove_item((char)ch);
   inv.add_item_keep_invlet(tmpweap);
   inv.unsort();
   moves -= 45;
@@ -7840,9 +7858,9 @@ void player::use(game *g, char let)
  can modify guns."));
             return;
         }
-        char gunlet = g->inv(_("Select gun to modify:"));
+        int gunpos = g->inv(_("Select gun to modify:"));
         it_gunmod *mod = static_cast<it_gunmod*>(used->type);
-        item* gun = &(i_at(gunlet));
+        item* gun = &(i_at(gunpos));
         if (gun->is_null()) {
             g->add_msg(_("You do not have that item."));
             return;

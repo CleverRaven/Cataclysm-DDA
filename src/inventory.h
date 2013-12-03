@@ -87,6 +87,8 @@ class inventory
   item& item_by_type(itype_id type);
   item& item_or_container(itype_id type); // returns an item, or a container of it
 
+  int position_by_letter(char ch);
+
   std::vector<item*> all_items_by_type(itype_id type);
   std::vector<item*> all_ammo(ammotype type);
   std::vector<item*> all_items_with_flag( const std::string flag );

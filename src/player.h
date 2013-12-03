@@ -409,6 +409,8 @@ public:
  item &i_at(char let); // Returns the item with inventory letter let
  item &i_at(int position);  // Returns the item with a given inventory position.
  item &i_of_type(itype_id type); // Returns the first item with this type
+ char position_to_invlet(int position);
+ int invlet_to_position(char invlet);
  martialart get_combat_style(); // Returns the combat style object
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
  int  butcher_factor(); // Automatically picks our best butchering tool
@@ -437,6 +439,7 @@ public:
  bool has_weapon_or_armor(char let) const; // Has an item with invlet let
  bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag
  bool has_item(char let);  // Has an item with invlet let
+ bool has_item(int position);
  bool has_item(item *it);  // Has a specific item
  bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
@@ -566,7 +569,7 @@ public:
  void environmental_revert_effect();
 
  // -2 position is 0 worn index, -3 position is 1 worn index, etc
- static int convert_worn_position_to_index(int position) {
+ static int worn_position_to_index(int position) {
      return -2 - position;
  }
 

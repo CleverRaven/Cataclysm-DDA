@@ -829,6 +829,17 @@ item& inventory::find_item(int position) {
     return iter->front();
 }
 
+int inventory::position_by_letter(char ch) {
+    int i = 0;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+        if (iter->begin()->invlet == ch) {
+            return i;
+        }
+        ++i;
+    }
+    return INT_MIN;
+}
+
 item& inventory::item_by_letter(char ch)
 {
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)

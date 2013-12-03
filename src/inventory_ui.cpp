@@ -147,14 +147,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
  mvwprintw(w_inv, 1, 62, _("Items:  %d/%d "), n_items, inv_chars.size());
 }
 
-char game::inv(inventory& inv, const std::string& title)
-{
-    inv.sort();
-    invslice slice = inv.slice();
-    return display_slice(slice, title);
-}
-
-char game::display_slice(invslice& slice, const std::string& title)
+int game::display_slice(invslice& slice, const std::string& title)
 {
  WINDOW* w_inv = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH + (use_narrow_sidebar() ? 45 : 55), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  const int maxitems = TERRAIN_WINDOW_HEIGHT - 5;
@@ -260,11 +253,11 @@ char game::display_slice(invslice& slice, const std::string& title)
  delwin(w_inv);
  erase();
  refresh_all();
- return (char)ch;
+ return u.invlet_to_position((char)ch);
 }
 
 // Display current inventory.
-char game::inv(const std::string& title)
+int game::inv(const std::string& title)
 {
  u.inv.restack(&u);
  u.inv.sort();
@@ -272,7 +265,7 @@ char game::inv(const std::string& title)
  return display_slice(slice ,title);
 }
 
-char game::inv_activatable(std::string title)
+int game::inv_activatable(std::string title)
 {
  u.inv.restack(&u);
  u.inv.sort();
@@ -280,7 +273,7 @@ char game::inv_activatable(std::string title)
  return display_slice(activatables,title);
 }
 
-char game::inv_type(std::string title, item_cat inv_item_type)
+int game::inv_type(std::string title, item_cat inv_item_type)
 {
     u.inv.restack(&u);
     u.inv.sort();
@@ -288,7 +281,7 @@ char game::inv_type(std::string title, item_cat inv_item_type)
     return display_slice(reduced_inv,title);
 }
 
-char game::inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single)
+int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single)
 {
     u.inv.restack(&u);
     u.inv.sort();
@@ -296,7 +289,7 @@ char game::inv_for_liquid(const item &liquid, const std::string title, bool auto
     if (auto_choose_single && reduced_inv.size() == 1) {
         std::list<item>& cont_stack = *reduced_inv[0];
         if (cont_stack.size() > 0) {
-            return cont_stack.front().invlet;
+            return u.invlet_to_position(cont_stack.front().invlet);
         }
     }
     return display_slice(reduced_inv, title);
@@ -487,8 +480,8 @@ std::vector<item> game::multidrop()
      if ( ch == '\t' || ch == KEY_RIGHT || ch == KEY_LEFT ) {
         ch = selected_char;
      }
-     if (u.has_item(ch)) {
-       item& it = u.inv.item_by_letter(ch);
+     if (u.has_item((char)ch)) {
+       item& it = u.inv.item_by_letter((char)ch);
        if (it.is_null()) { // Not from inventory
         int found = false;
         for (int i = 0; i < weapon_and_armor.size() && !found; i++) {
@@ -694,8 +687,8 @@ void game::compare(int iCompareX, int iCompareY)
    mvwprintw(w_inv, maxitems + 4, 12, _("> More items"));
   wrefresh(w_inv);
   ch = getch();
-  if (u.has_item(ch)) {
-   item& it = u.inv.item_by_letter(ch);
+  if (u.has_item((char)ch)) {
+   item& it = u.inv.item_by_letter((char)ch);
    if (it.is_null()) { // Not from inventory
     bool found = false;
     for (int i = 0; i < weapon_and_armor.size() && !found; i++) {
@@ -795,8 +788,9 @@ void game::compare(int iCompareX, int iCompareY)
     grounditems[ch-'1'+iZero].info(true, &vItemCh);
     sItemCh = grounditems[ch-'1'+iZero].tname();
    } else {
-    u.i_at(ch).info(true, &vItemCh);
-    sItemCh = u.i_at(ch).tname();
+    item& item = u.i_at((char)ch);
+    item.info(true, &vItemCh);
+    sItemCh = item.tname();
    }
 
    compare_split_screen_popup(0, (TERMX-VIEW_OFFSET_X*2)/2, TERMY-VIEW_OFFSET_Y*2, sItemLastCh, vItemLastCh, vItemCh);
