@@ -20,6 +20,7 @@
       ["colamdew", 15],
       ["backpack", 38],
       ["pockknife", 14],
+      ["wristwatch", 10],
       ["umbrella", 5],
       ["novel_coa", 10],
       ["child_book", 50],
@@ -636,6 +637,9 @@
       ["creepy_doll", 1],
       ["money_bundle", 30],
       ["wristwatch", 15],
+      ["diving_watch", 5],
+      ["gold_watch", 5],
+      ["sf_watch", 2],
       ["pocketwatch", 5],
       ["lsd", 1],
       ["gum", 30],
@@ -1046,6 +1050,7 @@
       ["touristmap", 20],
       ["restaurantmap", 20],
       ["money_bundle", 55],
+      ["gold_watch", 10],
       ["gum", 30],
       ["caff_gum", 10],
       ["sm_extinguisher", 10],
@@ -1490,6 +1495,7 @@
       ["wetsuit_spring", 10],
       ["wetsuit_gloves", 20],
       ["wetsuit_booties", 20],
+      ["diving_watch", 10],
       ["glowstick", 60],
       ["handflare", 40],
       ["elbow_pads", 40],
@@ -2515,6 +2521,7 @@
       ["spray_can", 50],
       ["lsd", 2],
       ["pocketwatch", 5],
+      ["sf_watch", 5],
       ["RPG", 1],
       ["RPG-7_ammo", 1],
       ["clown_suit", 2],
@@ -2713,7 +2720,9 @@
       ["nic_gum", 4],
       ["fan", 10],
       ["sm_extinguisher", 10],
-      ["pocketwatch", 2]
+      ["pocketwatch", 2],
+      ["gold_watch", 2],
+      ["sf_watch", 1]
     ]
     },{
         "type" : "item_group",
@@ -2925,7 +2934,8 @@
       ["minireactor", 1],
       ["alloy_plate", 10],
       ["money_bundle", 90],
-      ["pocketwatch", 5]
+      ["pocketwatch", 5],
+      ["sf_watch", 10]
     ]
     },{
         "type" : "item_group",
@@ -2979,7 +2989,8 @@
       ["nodachi", 1],
       ["manual_dodge", 1],
       ["fancy_sunglasses", 2],
-      ["pocketwatch", 5]
+      ["pocketwatch", 5],
+      ["sf_watch", 5]
     ]
     },{
         "type" : "item_group",
@@ -3001,6 +3012,8 @@
       ["rapier", 3],
       ["cane", 10],
       ["suit", 60],
+      ["gold_watch", 20],
+      ["sf_watch", 10],
       ["mask_gas", 10],
       ["goggles_welding", 70],
       ["goggles_nv", 1],
@@ -5320,6 +5333,7 @@
       ["chemistry_set", 2],
       ["knife_trench", 7],
       ["switchblade", 4],
+      ["gold_watch", 5],
       ["pocketwatch", 2]
     ]
     },{
