@@ -517,10 +517,13 @@ void vehicle::use_controls()
             g->add_msg(_("You turn the engine off."));
         } else {
           if (total_power () < 1) {
-              if (total_power (false) < 1)
+              if (total_power (false) < 1) {
                   g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
-              else
+              } else if(pedals()) {
+                  g->add_msg (_("The %s's pedals are out of reach!"), name.c_str());
+              } else {
                   g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
+              }
           }
           else {
             engine_on = true;
@@ -1691,10 +1694,14 @@ int vehicle::total_power (bool fueled)
     static const std::string ftype_str_muscle(fuel_type_muscle);
     int pwr = 0;
     int cnt = 0;
+    int part_under_player;
+    g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
+    bool player_controlling = player_in_control(&(g->u));
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, VPFLAG_ENGINE) &&
             (fuel_left (part_info(p).fuel_type, true) || !fueled ||
-             part_info(p).fuel_type == ftype_str_muscle) &&
+             ((part_info(p).fuel_type == fuel_type_muscle) && player_controlling &&
+             part_with_feature(part_under_player, VPFLAG_ENGINE) == p)) &&
             parts[p].hp > 0)
         {
             pwr += part_power(p);
@@ -2112,10 +2119,13 @@ void vehicle::thrust (int thd) {
         {
             if (pl_ctrl)
             {
-                if (total_power (false) < 1)
-                    g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
-                else
-                    g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
+              if (total_power (false) < 1) {
+                  g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
+              } else if(pedals()) {
+                  g->add_msg (_("The %s's pedals are out of reach!"), name.c_str());
+              } else {
+                  g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
+              }
             }
             cruise_velocity = 0;
             return;

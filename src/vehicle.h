@@ -204,6 +204,9 @@ private:
     // returns damage bypassed
     int damage_direct (int p, int dmg, int type = 1);
 
+    // get vpart powerinfo for part number, accounting for variable-sized parts.
+    int part_power (int index);
+
 public:
     vehicle (game *ag=0, std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
@@ -237,9 +240,6 @@ public:
 
 // get vpart type info for part number (part at given vector index)
     vpart_info& part_info (int index);
-
-// get vpart powerinfo for part number, accounting for variable-sized parts.
-    int part_power (int index);
 
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, std::string id);

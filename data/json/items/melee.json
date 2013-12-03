@@ -1308,7 +1308,7 @@
     "id": "spoon",
     "symbol": ";",
     "color": "light_gray",
-    "name": "fork",
+    "name": "spoon",
     "description": "Do not try to bend the spoon. That is impossible.",
     "price": 15,
     "material": "steel",
