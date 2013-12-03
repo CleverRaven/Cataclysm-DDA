@@ -7118,10 +7118,15 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
             {
                 mvwprintw(w_look, line++, column, _("There are other items there as well."));
             }
+
+			print_craft_distance_info(lx, ly, w_look, column, ++line);
             m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
         }
     } else if (m.has_flag("CONTAINER", lx, ly)) {
         mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
+
+		print_craft_distance_info(lx, ly, w_look, column, ++line);
+
         if (!mouse_hover) {
             m.drawsq(w_terrain, u, lx, ly, true, false, lx, ly);
         }
@@ -7150,8 +7155,26 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
     }
     else if (!mouse_hover)
     {
+		print_craft_distance_info(lx, ly, w_look, column, line);
         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
     }
+}
+
+void game::print_craft_distance_info(int lx, int ly, WINDOW *w_look, const int column, int &line)
+{
+	if (m.has_quality_furn("CRAFT_DISTANCE", lx, ly))
+	{
+		line += fold_and_print(w_look, line, column, getmaxx(w_look), c_green,
+			_("The %s allows you to craft with items stored there, from up to %d tiles away."),
+			m.furn_at(lx, ly).name.c_str(), m.furn_at(lx, ly).level_of_quality("CRAFT_DISTANCE"));
+	}
+
+	if (m.has_quality_ter("CRAFT_DISTANCE", lx, ly))
+	{
+		line += fold_and_print(w_look, line, column, getmaxx(w_look), c_green,
+			_("The %s allows you to craft with items stored there, from up to %d tiles away."),
+			m.ter_at(lx, ly).name.c_str(), m.ter_at(lx, ly).level_of_quality("CRAFT_DISTANCE"));
+	}
 }
 
 void game::handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover)
@@ -10155,6 +10178,7 @@ void game::unload(item& it)
     int has_shotgun = -1;
     int has_shotgun2 = -1;
     int has_shotgun3 = -1;
+    int has_auxflamer = -1;
     if (it.is_gun()) {
         spare_mag = it.has_gunmod ("spare_mag");
         has_m203 = it.has_gunmod ("m203");
@@ -10162,6 +10186,7 @@ void game::unload(item& it)
         has_shotgun = it.has_gunmod ("u_shotgun");
         has_shotgun2 = it.has_gunmod ("masterkey");
         has_shotgun3 = it.has_gunmod ("rm121aux");
+        has_auxflamer = it.has_gunmod ("aux_flamer");
     }
     if (it.is_container() ||
         (it.charges == 0 &&
@@ -10170,7 +10195,8 @@ void game::unload(item& it)
          (has_40mml == -1 || it.contents[has_40mml].charges <= 0) &&
          (has_shotgun == -1 || it.contents[has_shotgun].charges <= 0) &&
          (has_shotgun2 == -1 || it.contents[has_shotgun2].charges <= 0) &&
-         (has_shotgun3 == -1 || it.contents[has_shotgun3].charges <= 0)))
+         (has_shotgun3 == -1 || it.contents[has_shotgun3].charges <= 0) &&
+         (has_auxflamer == -1 || it.contents[has_auxflamer].charges <= 0) ))
     {
         if (it.contents.size() == 0)
         {
@@ -10255,6 +10281,9 @@ void game::unload(item& it)
   // Then try a Rivtech shotgun
   else if (has_shotgun3 != -1 && weapon->contents[has_shotgun3].charges > 0)
    weapon = &weapon->contents[has_shotgun3];
+  // Then try an auxiliary flamethrower
+  else if (has_shotgun3 != -1 && weapon->contents[has_auxflamer].charges > 0)
+   weapon = &weapon->contents[has_auxflamer];
  }
 
  item newam;

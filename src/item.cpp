@@ -886,14 +886,18 @@ std::string item::tname()
         food = &contents[0];
         food_type = dynamic_cast<it_comest*>(contents[0].type);
     }
-    if (food != NULL && g != NULL && food_type->spoils != 0 &&
-    int(g->turn) < (int)(food->bday + 100))
-        ret << _(" (fresh)");
-    if (food != NULL && g != NULL && food->has_flag("HOT"))
-        ret << _(" (hot)");
-    if (food != NULL && g != NULL && food_type->spoils != 0 &&
-        food->rotten(g))
-        ret << _(" (rotten)");
+    if (food != NULL && g != NULL)
+    {
+        if (food_type->spoils != 0)
+        {
+            if((int)(g->turn) < (int)(food->bday + 100))
+                ret << _(" (fresh)");
+            else if(food->rotten(g))
+                ret << _(" (rotten)");
+        }
+        if (food->has_flag("HOT"))
+            ret << _(" (hot)");
+    }
 
     if (has_flag("FIT")) {
         ret << _(" (fits)");
@@ -1143,18 +1147,37 @@ bool item::has_flag(std::string f) const
 }
 
 bool item::has_quality(std::string quality_id) const {
-    return has_quality(quality_id, 1);
+	if (type->qualities.count(quality_id))
+	{
+		return true;
+	}
+
+	return false;
 }
 
 bool item::has_quality(std::string quality_id, int quality_value) const {
-    // TODO: actually implement this >:(
-    (void)quality_id; (void)quality_value; //unused grrr
-    bool ret = false;
+	bool ret = false;
 
-    if(type->qualities.size() > 0){
-      ret = true;
-    }
-    return ret;
+	if (type->qualities.count(quality_id))
+	{
+		std::map<std::string, int>::const_iterator retrieved_quality = type->qualities.find(quality_id);
+		ret = (quality_value == retrieved_quality->second);
+	}
+
+	return ret;
+}
+
+int item::level_of_quality(std::string quality_id) const
+{
+	if (type->qualities.count(quality_id))
+	{
+		std::map<std::string, int>::const_iterator retrieved_quality = type->qualities.find(quality_id);
+		return retrieved_quality->second;
+	}
+
+	// Just returning 0 isn't really the proper way of handling the situation of not having the requested quality.
+	// But I don't know of any better alternative.
+	return 0;
 }
 
 bool item::has_technique(matec_id tech)
