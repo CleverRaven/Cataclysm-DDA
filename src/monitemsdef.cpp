@@ -39,9 +39,7 @@ void game::init_monitems() {
               "ammo", 1, "pistols", 1, "shotguns", 1, "smg", 1,
               NULL);
 	
-	setvector(&monitems["mon_zombie_hazmat"],
-              "rad_med", 3, "rad_gear",  1, "hazmat_eyes",  2,
-              NULL);
+	setvector(&monitems["mon_zombie_hazmat"], "rad_gear",  4, NULL);
 	
     setvector(&monitems["mon_beekeeper"], "hive", 80, NULL);
     setvector(&monitems["mon_zombie_cop"], "cop_weapons", 20, NULL);
