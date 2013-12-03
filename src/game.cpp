@@ -104,6 +104,7 @@ void game::init_data()
  // Gee, it sure is init-y around here!
     init_data_structures(); // initialize cata data structures
     load_json_dir("data/json"); // load it, load it all!
+    init_names();
     init_npctalk();
     init_artifacts();
     init_weather();
