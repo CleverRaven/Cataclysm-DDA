@@ -7118,10 +7118,15 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
             {
                 mvwprintw(w_look, line++, column, _("There are other items there as well."));
             }
+
+			print_craft_distance_info(lx, ly, w_look, column, ++line);
             m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
         }
     } else if (m.has_flag("CONTAINER", lx, ly)) {
         mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
+
+		print_craft_distance_info(lx, ly, w_look, column, ++line);
+
         if (!mouse_hover) {
             m.drawsq(w_terrain, u, lx, ly, true, false, lx, ly);
         }
@@ -7150,8 +7155,26 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
     }
     else if (!mouse_hover)
     {
+		print_craft_distance_info(lx, ly, w_look, column, line);
         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
     }
+}
+
+void game::print_craft_distance_info(int lx, int ly, WINDOW *w_look, const int column, int &line)
+{
+	if (m.has_quality_furn("CRAFT_DISTANCE", lx, ly))
+	{
+		line += fold_and_print(w_look, line, column, getmaxx(w_look), c_green,
+			_("The %s allows you to craft with items stored there, from up to %d tiles away."),
+			m.furn_at(lx, ly).name.c_str(), m.furn_at(lx, ly).level_of_quality("CRAFT_DISTANCE"));
+	}
+
+	if (m.has_quality_ter("CRAFT_DISTANCE", lx, ly))
+	{
+		line += fold_and_print(w_look, line, column, getmaxx(w_look), c_green,
+			_("The %s allows you to craft with items stored there, from up to %d tiles away."),
+			m.ter_at(lx, ly).name.c_str(), m.ter_at(lx, ly).level_of_quality("CRAFT_DISTANCE"));
+	}
 }
 
 void game::handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover)
