@@ -4569,7 +4569,7 @@
         "material" : ["cotton", "null"],
         "volume" : 0,
         "cutting" : 0,
-        "warmth" : 30,
+        "warmth" : 0,
         "phase" : "solid",
         "enviromental_protection" : 0,
         "encumbrance" : 0,
