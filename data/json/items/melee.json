@@ -2145,7 +2145,7 @@
     "bashing" : -8,
     "cutting" : 0,
     "price" : 250,
-    "flags" : ["WATCH"]
+    "flags" : ["WATCH", "FANCY"]
   },
   {
     "type":"GENERIC",
