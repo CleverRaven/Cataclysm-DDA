@@ -8221,10 +8221,6 @@ void player::read(game *g, char ch)
     {
         g->add_msg(_("This book is too complex for you to easily understand. It will take longer to read."));
         time += (tmp->time * (tmp->intel - int_cur) * 100); // Lower int characters can read, at a speed penalty
-        activity = player_activity(ACT_READ, time, index, ch, "");
-        activity.continuous = study;
-        moves = 0;
-        return;
     }
 
     activity = player_activity(ACT_READ, time, index, ch, "");
