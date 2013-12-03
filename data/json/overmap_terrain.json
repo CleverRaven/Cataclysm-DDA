@@ -706,11 +706,11 @@
                        { "item": "fast_food", "x": [ 11, 11 ], "y": [ 7, 7 ], "chance": 60 },
                        { "monster": "GROUP_ZOMBIE", "x": 15, "y": 15, "chance": 10 }
                     ],
-                    "spawn_items": [
-                       { "id": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1, 3], "chance": 2 }
+                    "add": [
+                       { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1, 3], "chance": 2 }
                     ],
                     "set": [
-                       { "set": "terrain", "x": [ 0, 23 ], "y": 23, "id": "t_dirt", "repeat": [ 5, 15 ] },
+                       { "point": "terrain", "x": [ 0, 23 ], "y": 23, "id": "t_dirt", "repeat": [ 5, 15 ] },
                        { "line": "trap", "x": 14, "y": 13, "x2": 16, "y2": 13, "id": "tr_beartrap", "chance": 5 }
                     ]
                 }
