@@ -1426,6 +1426,8 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
                 mvwprintz(win, y+yofs, x+6, fcs[i], "%d",(fuel_left(fuel_types[i])*100)/cap);
                 wprintz(win, c_ltgray, "%c",045);
               }
+              wprintz(win, c_ltgray, " - %s", ammo_name(fuel_types[i]).c_str() );
+
             }
             if(fullsize) yofs++;
         }
