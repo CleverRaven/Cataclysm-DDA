@@ -5437,6 +5437,12 @@
     ]
 	},{
        "type" : "item_group",
+       "id" : "dog_cop",
+    "items":[
+     ["kevlar_harness", 1]
+	]
+	},{
+       "type" : "item_group",
        "id" : "hazmat_torso",
     "items":[
      ["cleansuit", 40],
