@@ -7863,7 +7863,7 @@ press 'U' while wielding the unloaded gun."), gun->tname().c_str());
                            gun->tname().c_str());
                 return;
             } else if ((mod->id == "improve_sights" || mod->id == "red_dot_sight" ||
-                        mod->id == "holo_sight" || mod->id == "rifle_scope") &&
+                        mod->id == "holo_sight" || mod->id == "pistol_scope"|| mod->id == "rifle_scope") &&
                        (gun->contents[i].type->id == "improve_sights" ||
                         gun->contents[i].type->id == "red_dot_sight" ||
                         gun->contents[i].type->id == "holo_sight" ||
