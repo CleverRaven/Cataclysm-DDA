@@ -5817,7 +5817,7 @@
         "weight" : 80,
         "to_hit" : -1,
         "color" : "yellow",
-        "covers" : ["ARM"],
+        "covers" : ["ARMS"],
         "encumbrance" : 0,
         "price" : 200,
         "material" : ["gold", "silver"],
