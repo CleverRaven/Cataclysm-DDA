@@ -10935,7 +10935,7 @@ bool game::plmove(int dx, int dy)
       u.moves -= 100;
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
       if (z.ammo > 0)
-        u.inv->add_item_by_type("9mm", 1, z.ammo);
+        m.spawn_item(x, y, "9mm", 1, z.ammo, turn);
      }
      return false;
     }
