@@ -10155,6 +10155,7 @@ void game::unload(item& it)
     int has_shotgun = -1;
     int has_shotgun2 = -1;
     int has_shotgun3 = -1;
+    int has_auxflamer = -1;
     if (it.is_gun()) {
         spare_mag = it.has_gunmod ("spare_mag");
         has_m203 = it.has_gunmod ("m203");
@@ -10162,6 +10163,7 @@ void game::unload(item& it)
         has_shotgun = it.has_gunmod ("u_shotgun");
         has_shotgun2 = it.has_gunmod ("masterkey");
         has_shotgun3 = it.has_gunmod ("rm121aux");
+        has_auxflamer = it.has_gunmod ("aux_flamer");
     }
     if (it.is_container() ||
         (it.charges == 0 &&
@@ -10170,7 +10172,8 @@ void game::unload(item& it)
          (has_40mml == -1 || it.contents[has_40mml].charges <= 0) &&
          (has_shotgun == -1 || it.contents[has_shotgun].charges <= 0) &&
          (has_shotgun2 == -1 || it.contents[has_shotgun2].charges <= 0) &&
-         (has_shotgun3 == -1 || it.contents[has_shotgun3].charges <= 0)))
+         (has_shotgun3 == -1 || it.contents[has_shotgun3].charges <= 0) &&
+         (has_auxflamer == -1 || it.contents[has_auxflamer].charges <= 0) ))
     {
         if (it.contents.size() == 0)
         {
@@ -10255,6 +10258,9 @@ void game::unload(item& it)
   // Then try a Rivtech shotgun
   else if (has_shotgun3 != -1 && weapon->contents[has_shotgun3].charges > 0)
    weapon = &weapon->contents[has_shotgun3];
+  // Then try an auxiliary flamethrower
+  else if (has_shotgun3 != -1 && weapon->contents[has_auxflamer].charges > 0)
+   weapon = &weapon->contents[has_auxflamer];
  }
 
  item newam;
