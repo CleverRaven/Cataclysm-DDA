@@ -886,14 +886,18 @@ std::string item::tname()
         food = &contents[0];
         food_type = dynamic_cast<it_comest*>(contents[0].type);
     }
-    if (food != NULL && g != NULL && food_type->spoils != 0 &&
-    int(g->turn) < (int)(food->bday + 100))
-        ret << _(" (fresh)");
-    if (food != NULL && g != NULL && food->has_flag("HOT"))
-        ret << _(" (hot)");
-    if (food != NULL && g != NULL && food_type->spoils != 0 &&
-        food->rotten(g))
-        ret << _(" (rotten)");
+    if (food != NULL && g != NULL)
+    {
+        if (food_type->spoils != 0)
+        {
+            if((int)(g->turn) < (int)(food->bday + 100))
+                ret << _(" (fresh)");
+            else if(food->rotten(g))
+                ret << _(" (rotten)");
+        }
+        if (food->has_flag("HOT"))
+            ret << _(" (hot)");
+    }
 
     if (has_flag("FIT")) {
         ret << _(" (fits)");
