@@ -405,12 +405,14 @@ public:
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
  item remove_weapon();
  void remove_mission_items(int mission_id);
+ item reduce_charges(int position, int quantity);
  item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
  item &i_at(char let); // Returns the item with inventory letter let
  item &i_at(int position);  // Returns the item with a given inventory position.
  item &i_of_type(itype_id type); // Returns the first item with this type
  char position_to_invlet(int position);
  int invlet_to_position(char invlet);
+ int get_item_position(item* it);  // looks up an item (via pointer comparison)
  martialart get_combat_style(); // Returns the combat style object
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
  int  butcher_factor(); // Automatically picks our best butchering tool

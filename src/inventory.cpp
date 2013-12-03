@@ -840,6 +840,19 @@ int inventory::position_by_letter(char ch) {
     return INT_MIN;
 }
 
+int inventory::position_by_item(item* it) {
+    int i = 0;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+        for (std::list<item>::iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter) {
+            if (it == &*stack_iter) {
+                return i;
+            }
+        }
+        ++i;
+    }
+    return INT_MIN;
+}
+
 item& inventory::item_by_letter(char ch)
 {
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)

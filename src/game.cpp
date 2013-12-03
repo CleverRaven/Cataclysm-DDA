@@ -1094,10 +1094,10 @@ void game::process_activity()
 
    case ACT_FIRSTAID:
     {
-      item& it = u.inv.find_item(u.activity.position);
+      item& it = u.i_at(u.activity.position);
       iuse tmp;
       tmp.completefirstaid(&u, &it, false);
-      u.inv.reduce_charges(u.activity.position, 1);
+      u.reduce_charges(u.activity.position, 1);
       // Erase activity and values.
       u.activity.type = ACT_NULL;
       u.activity.values.clear();

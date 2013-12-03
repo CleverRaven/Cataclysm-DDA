@@ -5646,6 +5646,35 @@ void player::remove_mission_items(int mission_id)
  inv.remove_mission_items(mission_id);
 }
 
+item player::reduce_charges(int position, int quantity) {
+    if (position == -1) {
+        if (!weapon.count_by_charges())
+        {
+            debugmsg("Tried to remove %s by charges, but item is not counted by charges",
+                    weapon.type->name.c_str());
+        }
+
+        if (quantity > weapon.charges)
+        {
+            debugmsg("Charges: Tried to remove charges that does not exist, \
+                      removing maximum available charges instead");
+            quantity = weapon.charges;
+        }
+        weapon.charges -= quantity;
+        if (weapon.charges <= 0)
+        {
+            return remove_weapon();
+        }
+        return weapon;
+    } else if (position < -1) {
+        debugmsg("Wearing charged items is not implemented.");
+        return ret_null;
+    } else {
+        return inv.reduce_charges(position, quantity);
+    }
+}
+
+
 item player::i_rem(char let)
 {
  item tmp;
@@ -5730,6 +5759,18 @@ int player::invlet_to_position(char invlet) {
     }
     return inv.position_by_letter(invlet);
 }
+
+int player::get_item_position(item* it) {
+    if (&weapon == it) {
+        return -1;
+    }
+    for (int i = 0; i < worn.size(); i++) {
+     if (&worn[i] == it)
+      return worn_position_to_index(i);
+    }
+    return inv.position_by_item(it);
+}
+
 
 martialart player::get_combat_style()
 {
