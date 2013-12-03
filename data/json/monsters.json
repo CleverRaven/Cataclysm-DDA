@@ -1591,7 +1591,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
-    "description":"This legless corpse drags itself along slowly with its arms.",
+    "description":"This human corpse drags itself along slowly with its arms. Its legs are damaged beyond repair",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "BLEED", "NO_BREATHE", "VIS20", "REVIVES"],
     "categories":["CLASSIC"]
     },{
