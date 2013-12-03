@@ -13,6 +13,13 @@
 
 const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
 
+static const std::string fuel_type_gasoline("gasoline");
+static const std::string fuel_type_battery("battery");
+static const std::string fuel_type_plutonium("plutonium");
+static const std::string fuel_type_plasma("plasma");
+static const std::string fuel_type_water("water");
+static const std::string fuel_type_muscle("muscle");
+
 enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
@@ -602,14 +609,14 @@ vpart_info& vehicle::part_info (int index)
 // engines & solar panels all have power.
 // engines consume, whilst panels provide.
 int vehicle::part_power (int index){
-   if (!part_flag(index, "ENGINE") &&
-       !part_flag(index, "SOLAR_PANEL")) {
+   if (!part_flag(index, VPFLAG_ENGINE) &&
+       !part_flag(index, VPFLAG_SOLAR_PANEL)) {
       return 0; //not an engine.
    }
    if(parts[index].hp <= 0) {
       return 0; //broken.
    }
-   if(part_flag (index, "VARIABLE_SIZE")){ // example: 2.42-L V-twin engine
+   if(part_flag (index, VPFLAG_VARIABLE_SIZE)){ // example: 2.42-L V-twin engine
       return parts[index].bigness;
    }
    else // example: foot crank
@@ -1063,32 +1070,43 @@ item vehicle::item_from_part( int part )
     return tmp;
 }
 
-std::vector<int> vehicle::parts_at_relative (int dx, int dy, bool use_cache)
+const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool use_cache)
 {
-    std::vector<int> res;
     if ( use_cache == false ) {
-        for (int i = 0; i < parts.size(); i++)
-            if (parts[i].mount_dx == dx && parts[i].mount_dy == dy)
+        std::vector<int> res;
+        for (int i = 0; i < parts.size(); i++) {
+            if (parts[i].mount_dx == dx && parts[i].mount_dy == dy) {
                 res.push_back (i);
+            }
+        }
+        return res;
     } else {
         if ( parts_dirty == true ) {
             find_parts();
         }
         if ( relative_parts.find( point(dx, dy) ) != relative_parts.end() ) {
-            res = relative_parts[ point(dx, dy) ];
+            return relative_parts[ point(dx, dy) ];
+        } else {
+            std::vector<int> res;
+            return res;
         }
     }
-    return res;
 }
 
-int vehicle::part_with_feature (int part, vpart_bitflags flag, bool unbroken) {
+int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbroken) {
     if (part_flag(part, flag)) {
         return part;
     }
-    std::vector<int> parts_here = parts_at_relative(parts[part].mount_dx, parts[part].mount_dy);
-    for (int i = 0; i < parts_here.size(); i++) {
-        if (part_flag(parts_here[i], flag) && (!unbroken || parts[parts_here[i]].hp > 0)) {
-            return parts_here[i];
+    if ( parts_dirty == true ) {
+        find_parts();
+    }
+    std::map<point, std::vector<int> >::const_iterator it = relative_parts.find( point( parts[part].mount_dx, parts[part].mount_dy ) );
+    if ( it != relative_parts.end() ) {
+        const std::vector<int> & parts_here = it->second;
+        for (int i = 0; i < parts_here.size(); i++) {
+            if (part_flag(parts_here[i], flag) && (!unbroken || parts[parts_here[i]].hp > 0)) {
+                return parts_here[i];
+            }
         }
     }
     return -1;    
@@ -1129,7 +1147,7 @@ std::vector<int> vehicle::all_parts_with_feature(const std::string& feature, boo
     return parts_found;
 }
 
-std::vector<int> vehicle::all_parts_with_feature(vpart_bitflags feature, bool unbroken)
+std::vector<int> vehicle::all_parts_with_feature(const vpart_bitflags & feature, bool unbroken)
 {
     std::vector<int> parts_found;
     for(int part_index = 0; part_index < parts.size(); part_index++) {
@@ -1167,7 +1185,7 @@ bool vehicle::part_flag (int part, const std::string &flag)
     }
 }
 
-bool vehicle::part_flag( int part, vpart_bitflags flag) {
+bool vehicle::part_flag( int part, const vpart_bitflags &flag) {
    if (part < 0 || part >= parts.size()) {
         return false;
     } else {
@@ -1426,6 +1444,8 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
                 mvwprintz(win, y+yofs, x+6, fcs[i], "%d",(fuel_left(fuel_types[i])*100)/cap);
                 wprintz(win, c_ltgray, "%c",045);
               }
+              wprintz(win, c_ltgray, " - %s", ammo_name(fuel_types[i]).c_str() );
+
             }
             if(fullsize) yofs++;
         }
@@ -1583,22 +1603,22 @@ int vehicle::fuel_left (ammotype ftype, bool for_engine)
     return fl;
 }
 
-int vehicle::fuel_capacity (ammotype ftype)
+int vehicle::fuel_capacity (const ammotype & ftype)
 {
     int cap = 0;
     for (int p = 0; p < parts.size(); p++) {
-        if (part_flag(p, "FUEL_TANK") && ftype == part_info(p).fuel_type) {
+        if (part_flag(p, VPFLAG_FUEL_TANK) && ftype == part_info(p).fuel_type) {
             cap += part_info(p).size;
         }
     }
     return cap;
 }
 
-int vehicle::refill (ammotype ftype, int amount)
+int vehicle::refill (const ammotype & ftype, int amount)
 {
     for (int p = 0; p < parts.size(); p++)
     {
-        if (part_flag(p, "FUEL_TANK") &&
+        if (part_flag(p, VPFLAG_FUEL_TANK) &&
             part_info(p).fuel_type == ftype &&
             parts[p].amount < part_info(p).size &&
             parts[p].hp > 0)
@@ -1619,7 +1639,7 @@ int vehicle::refill (ammotype ftype, int amount)
     return amount;
 }
 
-int vehicle::drain (ammotype ftype, int amount) {
+int vehicle::drain (const ammotype & ftype, int amount) {
   int drained = 0;
 
   for (int p = 0; p < fuel.size(); p++) {
@@ -1639,10 +1659,11 @@ int vehicle::drain (ammotype ftype, int amount) {
   return drained;
 }
 
-int vehicle::basic_consumption (ammotype ftype)
+int vehicle::basic_consumption (ammotype & ft)
 {
     if (ftype == "plutonium")
       ftype = "battery";
+
     int cnt = 0;
     int fcon = 0;
     for (int p = 0; p < parts.size(); p++) {
@@ -1662,12 +1683,13 @@ int vehicle::basic_consumption (ammotype ftype)
 
 int vehicle::total_power (bool fueled)
 {
+    static const std::string ftype_str_muscle("muscle");
     int pwr = 0;
     int cnt = 0;
     for (int p = 0; p < parts.size(); p++)
-        if (part_flag(p, "ENGINE") &&
+        if (part_flag(p, VPFLAG_ENGINE) &&
             (fuel_left (part_info(p).fuel_type, true) || !fueled ||
-             part_info(p).fuel_type == "muscle") &&
+             part_info(p).fuel_type == ftype_str_muscle) &&
             parts[p].hp > 0)
         {
             pwr += part_power(p);
@@ -1681,13 +1703,14 @@ int vehicle::total_power (bool fueled)
 
 int vehicle::solar_power ()
 {
+    static const std::string mflag_str_INDOORS("INDOORS");
     int pwr = 0;
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, VPFLAG_SOLAR_PANEL) && parts[p].hp > 0) {
             int part_x = global_x() + parts[p].precalc_dx[0];
             int part_y = global_y() + parts[p].precalc_dy[0];
             // Can't use g->in_sunlight() because it factors in vehicle roofs.
-            if( !g->m.has_flag_ter_or_furn( "INDOORS", part_x, part_y ) ) {
+            if( !g->m.has_flag_ter_or_furn( mflag_str_INDOORS, part_x, part_y ) ) {
                 pwr += (part_power(p) * g->natural_light_level()) / DAYLIGHT_LEVEL;
             }
         }
@@ -1710,7 +1733,7 @@ int vehicle::safe_velocity (bool fueled)
     int pwrs = 0;
     int cnt = 0;
     for (int p = 0; p < parts.size(); p++)
-        if (part_flag(p, "ENGINE") &&
+        if (part_flag(p, VPFLAG_ENGINE) &&
             (fuel_left (part_info(p).fuel_type, true) || !fueled ||
              part_info(p).fuel_type == "muscle") &&
             parts[p].hp > 0)
@@ -2791,6 +2814,7 @@ void vehicle::place_spawn_items()
 
 void vehicle::gain_moves (int mp)
 {
+    static const std::string veh_str_battery("battery");
     if (velocity) {
         of_turn = 1 + of_turn_carry;
     } else {
@@ -2808,7 +2832,7 @@ void vehicle::gain_moves (int mp)
         }
     }
 
-    refill ("battery", solar_power());
+    refill (veh_str_battery, solar_power());
 
     // check for smoking parts
     for (int p = 0; p < parts.size(); p++)
@@ -2864,17 +2888,17 @@ void vehicle::find_power ()
     fridge_power = 0;
     for (int p = 0; p < parts.size(); p++) {
         const vpart_info& vpi = part_info(p);
-        if (vpi.has_flag("LIGHT") || vpi.has_flag("CONE_LIGHT")) {
+        if (vpi.has_flag(VPFLAG_LIGHT) || vpi.has_flag(VPFLAG_CONE_LIGHT)) {
             lights.push_back(p);
             lights_power += vpi.power;
         }
-        if (vpi.has_flag("CIRCLE_LIGHT")) {
+        if (vpi.has_flag(VPFLAG_CIRCLE_LIGHT)) {
             overhead_power += vpi.power;
         }
-        if (vpi.has_flag("TRACK")) {
+        if (vpi.has_flag(VPFLAG_TRACK)) {
             tracking_power += vpi.power;
         }
-        if (vpi.has_flag("FRIDGE")) {
+        if (vpi.has_flag(VPFLAG_FRIDGE)) {
             fridge_power += vpi.power;
         }
     }
@@ -2884,7 +2908,7 @@ void vehicle::find_fuel_tanks ()
 {
     fuel.clear();
     for (int p = 0; p < parts.size(); p++) {
-        if(part_flag( p,"FUEL_TANK" )) {
+        if(part_flag( p,VPFLAG_FUEL_TANK )) {
             fuel.push_back(p);
         }
     }
@@ -2906,7 +2930,7 @@ void vehicle::find_exhaust ()
 {
     int en = -1;
     for (int p = 0; p < parts.size(); p++) {
-        if (part_flag(p, "ENGINE") && part_info(p).fuel_type == "gasoline") {
+        if (part_flag(p, VPFLAG_ENGINE) && part_info(p).fuel_type == fuel_type_gasoline) {
             en = p;
             break;
         }
