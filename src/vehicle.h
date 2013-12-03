@@ -331,7 +331,7 @@ public:
 
 // Checks how much certain fuel left in tanks. If for_engine == true that means
 // ftype == "battery" is also takes in account "plutonium" fuel (electric motors can use both)
-    int fuel_left (ammotype ftype, bool for_engine = false);
+    int fuel_left (const ammotype & ftype, bool for_engine = false);
     int fuel_capacity (const ammotype & ftype);
 
     // refill fuel tank(s) with given type of fuel
