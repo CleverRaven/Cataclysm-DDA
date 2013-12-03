@@ -375,6 +375,7 @@
         "id" : "fridge",
     "items":[
       ["water_clean", 90],
+      ["water_mineral", 40],
       ["oj", 50],
       ["cranberry_juice", 50],
       ["sports_drink", 30],
@@ -900,6 +901,7 @@
         "id" : "fridgesnacks",
     "items":[
       ["water_clean", 90],
+      ["water_mineral", 40],
       ["oj", 50],
       ["juice", 50],
       ["cranberry_juice", 50],
@@ -948,6 +950,7 @@
         "id" : "fast_food",
     "items":[
       ["water_clean", 90],
+      ["water_mineral", 10],
       ["cola", 70],
       ["choc_drink", 30],
       ["rootbeer", 65],
@@ -1009,6 +1012,7 @@
         "id" : "coffee_shop",
     "items":[
       ["water_clean", 90],
+      ["water_mineral", 40],
       ["cola", 70],
       ["choc_drink", 40],
       ["rootbeer", 65],
@@ -3288,6 +3292,7 @@
         "id" : "shelter",
     "items":[
       ["water_clean", 90],
+      ["water_mineral" 20],
       ["soup_veggy", 15],
       ["soup_meat", 15],
       ["soup_tomato", 15],
@@ -5198,6 +5203,7 @@
         "id" : "stash_food",
     "items":[
       ["water_clean", 90],
+      ["water_mineral", 40],
       ["cola", 70],
       ["creamsoda", 60],
       ["lemonlime", 60],
