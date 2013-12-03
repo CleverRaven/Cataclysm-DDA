@@ -7253,6 +7253,7 @@ void player::sort_armor(game *g)
     // Layout window
     WINDOW *w_sort_armor = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, win_y, win_x);
     draw_border(w_sort_armor);
+    // TODO: use BORDER_COLOR for drawing grids
     mvwhline(w_sort_armor, 2, 1, 0, FULL_SCREEN_WIDTH-2);
     mvwvline(w_sort_armor, 3, left_w + 1, 0, FULL_SCREEN_HEIGHT-4);
     mvwvline(w_sort_armor, 3, left_w + middle_w + 2, 0, FULL_SCREEN_HEIGHT-4);
@@ -7337,8 +7338,8 @@ void player::sort_armor(game *g)
             mvwprintz(w_sort_middle, 0, 1, c_white, each_armor->name.c_str());
             mvwprintz(w_sort_middle, 1, 2, c_ltgray, _("Coverage: "));
             mvwprintz(w_sort_middle, 2, 2, c_ltgray, _("Encumbrance: "));
-            mvwprintz(w_sort_middle, 3, 2, c_ltgray, _("Bash prot: "));
-            mvwprintz(w_sort_middle, 4, 2, c_ltgray, _("Cut prot: "));
+            mvwprintz(w_sort_middle, 3, 2, c_ltgray, _("Bash protection: "));
+            mvwprintz(w_sort_middle, 4, 2, c_ltgray, _("Cut protection: "));
             mvwprintz(w_sort_middle, 5, 2, c_ltgray, _("Warmth: "));
             mvwprintz(w_sort_middle, 6, 2, c_ltgray, _("Storage: "));
 
