@@ -74,6 +74,7 @@ class Creature
         virtual void apply_damage(game* g, Creature* source, body_part bp, int side, int amount) = 0;
 
         virtual bool is_on_ground() = 0;
+        virtual bool is_warm(); // is this creature warm, for IR vision, heat drain, etc
         virtual bool has_weapon() = 0;
         // returns true iff health is zero or otherwise should be dead
         virtual bool is_dead_state() = 0;

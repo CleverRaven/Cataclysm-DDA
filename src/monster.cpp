@@ -569,6 +569,10 @@ bool monster::has_weapon() {
     return false; // monsters will never have weapons, silly
 }
 
+bool monster::is_warm() {
+    return has_flag(MF_WARM);
+}
+
 bool monster::is_dead_state() {
     return hp <= 0;
 }

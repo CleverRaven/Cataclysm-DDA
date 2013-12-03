@@ -144,6 +144,14 @@ void Creature::deal_damage_handle_type(const damage_unit& du, body_part bp, int&
 }
 
 /*
+ * State check functions
+ */
+
+bool Creature::is_warm() {
+    return true;
+}
+
+/*
  * Effect-related functions
  */
 // Some utility functions for effects

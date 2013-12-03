@@ -996,7 +996,7 @@ std::string player::melee_special_effects(game *g, Creature &t, bool crit,
                      weapon.made_of("gold")) && one_in(3));
 
  bool drain_them = (has_active_bionic("bio_heat_absorb") && power_level >= 1 &&
-                    !is_armed());
+                    !is_armed() && t.is_warm());
 
  drain_them &= one_in(2); // Only works half the time
 

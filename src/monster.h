@@ -188,6 +188,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     int trigger_sum(game *g, std::set<monster_trigger> *triggers);
 
     bool is_on_ground();
+    bool is_warm();
     bool has_weapon();
     bool is_dead_state(); // check if we should be dead or not
 
