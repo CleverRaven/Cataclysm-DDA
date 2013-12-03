@@ -407,6 +407,7 @@ public:
  void remove_mission_items(int mission_id);
  item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
  item &i_at(char let); // Returns the item with inventory letter let
+ item &i_at(int position);  // Returns the item with a given inventory position.
  item &i_of_type(itype_id type); // Returns the first item with this type
  martialart get_combat_style(); // Returns the combat style object
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
@@ -563,6 +564,11 @@ public:
  void set_underwater(bool);
 
  void environmental_revert_effect();
+
+ // -2 position is 0 worn index, -3 position is 1 worn index, etc
+ static int convert_worn_position_to_index(int position) {
+     return -2 - position;
+ }
 
 protected:
     std::set<std::string> my_traits;

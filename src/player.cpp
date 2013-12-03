@@ -5679,6 +5679,20 @@ item player::i_rem(itype_id type)
     return inv.remove_item(type);
 }
 
+// Negative positions indicate weapon/clothing, 0 & positive indicate inventory
+item& player::i_at(int position)
+{
+ if (position == -1)
+     return weapon;
+ if (position < -1) {
+     int worn_index = convert_worn_position_to_index(position);
+     if (worn_index < worn.size()) {
+         return worn[worn_index];
+     }
+ }
+ return inv.find_item(position);
+}
+
 item& player::i_at(char let)
 {
  if (let == KEY_ESCAPE)

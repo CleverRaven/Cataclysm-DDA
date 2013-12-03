@@ -65,7 +65,7 @@ std::list<item>& inventory::stack_by_letter(char ch)
 
 const std::list<item>& inventory::const_stack(int i) const
 {
-    if (i < 0 || i > items.size())
+    if (i < 0 || i >= items.size())
     {
         debugmsg("Attempted to access stack %d in an inventory (size %d)",
                  i, items.size());
@@ -816,6 +816,17 @@ void inventory::dump(std::vector<item *>& dest)
             dest.push_back(&(*stack_iter));
         }
     }
+}
+
+item& inventory::find_item(int position) {
+    if (position < 0 || position >= items.size())
+        return nullitem;
+    invstack::iterator iter = items.begin();
+    for (int j = 0; j < position; ++j)
+    {
+        ++iter;
+    }
+    return iter->front();
 }
 
 item& inventory::item_by_letter(char ch)
