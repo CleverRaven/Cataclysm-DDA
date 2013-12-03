@@ -371,7 +371,7 @@ public:
  void practice(const calendar& turn, Skill *s, int amount);
  void practice(const calendar& turn, std::string s, int amount);
 
- void assign_activity(game* g, activity_type type, int moves, int index = -1, char invlet = 0, std::string name = "");
+ void assign_activity(game* g, activity_type type, int moves, int index = -1, int pos = INT_MIN, std::string name = "");
  bool has_activity(game* g, const activity_type type);
  void cancel_activity();
 

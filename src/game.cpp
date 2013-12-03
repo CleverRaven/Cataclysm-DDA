@@ -859,8 +859,7 @@ void game::process_activity()
     u.activity.moves_left -= 100;
 
     if (u.activity.type == ACT_GAME) {
-      item& game_item = u.weapon.invlet == u.activity.invlet ?
-                            u.weapon : u.inv.item_by_letter(u.activity.invlet);
+      item& game_item = u.i_at(u.activity.position);
 
       //Deduct 1 battery charge for every minute spent playing
       if(int(turn) % 10 == 0) {
@@ -922,7 +921,7 @@ void game::process_activity()
     } else {
         reloadable = &u.inv.item_by_letter(u.activity.name[0]);
     }
-    if (reloadable->reload(u, u.activity.invlet))
+    if (reloadable->reload(u, u.position_to_invlet(u.activity.position))) {
      if (reloadable->is_gun() && reloadable->has_flag("RELOAD_ONE")) {
       add_msg(_("You insert a cartridge into your %s."),
               reloadable->tname().c_str());
@@ -934,13 +933,13 @@ void game::process_activity()
       add_msg(_("You reload your %s."), reloadable->tname().c_str());
       u.recoil = 6;
      }
-    else
+    } else {
      add_msg(_("Can't reload your %s."), reloadable->tname().c_str());
+    }
     break;
 
    case ACT_READ:
-    book_item = &(u.weapon.invlet == u.activity.invlet ?
-                            u.weapon : u.inv.item_by_letter(u.activity.invlet));
+    book_item = &(u.i_at(u.activity.position));
     reading = dynamic_cast<it_book*>(book_item->type);
 
     if (reading->fun != 0) {
@@ -1018,7 +1017,7 @@ void game::process_activity()
       if (u.activity.index == -2) {
        u.read(this,u.weapon.invlet);
       } else {
-       u.read(this,u.activity.invlet);
+       u.read(this, u.position_to_invlet(u.activity.position));
       }
       if (u.activity.type != ACT_NULL) {
         u.activity.continuous = true;
@@ -1095,10 +1094,10 @@ void game::process_activity()
 
    case ACT_FIRSTAID:
     {
-      item it = u.inv.item_by_letter(u.activity.invlet);
+      item& it = u.inv.find_item(u.activity.position);
       iuse tmp;
       tmp.completefirstaid(&u, &it, false);
-      u.inv.reduce_charges(u.activity.invlet, 1);
+      u.inv.reduce_charges(u.activity.position, 1);
       // Erase activity and values.
       u.activity.type = ACT_NULL;
       u.activity.values.clear();
@@ -6732,7 +6731,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
         u.activity = player_activity( ACT_VEHICLE, vehint.sel_cmd == 'f' ||
                                       vehint.sel_cmd == 's' ||
                                       vehint.sel_cmd == 'c' ? 200 : 20000,
-                                      (int) vehint.sel_cmd, 0, "");
+                                      (int) vehint.sel_cmd, INT_MIN, "");
         u.activity.values.push_back (veh.global_x());    // values[0]
         u.activity.values.push_back (veh.global_y());    // values[1]
         u.activity.values.push_back (vehint.ddx);   // values[2]
@@ -10066,7 +10065,7 @@ void game::reload(char chInput)
 
      // and finally reload.
      const char chStr[2]={chInput, '\0'};
-     u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, am_invlet, chStr);
+     u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, u.invlet_to_position(am_invlet), chStr);
      u.moves = 0;
 
  } else if (it->is_tool()) { // tools are simpler
@@ -10089,7 +10088,7 @@ void game::reload(char chInput)
 
     // do the actual reloading
      const char chStr[2]={chInput, '\0'};
-    u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, am_invlet, chStr);
+    u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, u.invlet_to_position(am_invlet), chStr);
     u.moves = 0;
 
  } else { // what else is there?

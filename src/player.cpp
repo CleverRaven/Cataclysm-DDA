@@ -598,7 +598,7 @@ int player::calc_focus_equilibrium()
         }
         else
         {
-            reading = dynamic_cast<it_book *>(inv.item_by_letter(activity.invlet).type);
+            reading = dynamic_cast<it_book *>(inv.find_item(activity.position).type);
         }
         // apply a penalty when we're actually learning something
         if (skillLevel(reading->type) < (int)reading->level)
@@ -8223,7 +8223,7 @@ void player::read(game *g, char ch)
         time += (tmp->time * (tmp->intel - int_cur) * 100); // Lower int characters can read, at a speed penalty
     }
 
-    activity = player_activity(ACT_READ, time, index, ch, "");
+    activity = player_activity(ACT_READ, time, index, invlet_to_position(ch), "");
     activity.continuous = study;
     moves = 0;
 
@@ -9003,14 +9003,14 @@ void player::learn_recipe(recipe *rec)
     learned_recipes[rec->ident] = rec;
 }
 
-void player::assign_activity(game* g, activity_type type, int moves, int index, char invlet, std::string name)
+void player::assign_activity(game* g, activity_type type, int moves, int index, int pos, std::string name)
 {
-    if (backlog.type == type && backlog.index == index && backlog.invlet == invlet &&
+    if (backlog.type == type && backlog.index == index && backlog.position == pos &&
         backlog.name == name && query_yn(_("Resume task?"))) {
             activity = backlog;
             backlog = player_activity();
     } else {
-        activity = player_activity(type, moves, index, invlet, name);
+        activity = player_activity(type, moves, index, pos, name);
     }
     activity.warned_of_proximity = false;
 }
