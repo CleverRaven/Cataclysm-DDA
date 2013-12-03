@@ -65,4 +65,6 @@ class NameGenerator {
   std::vector<Name> names;
 };
 
+void load_names_from_file(const std::string &filename);
+
 #endif

@@ -1160,13 +1160,29 @@
 
   {
     "type":"GENERIC",
+    "id": "ceramic_armor",
+    "symbol": ",",
+    "color": "yellow",
+    "name": "ceramic armor plate",
+    "description": "A ceramic armor plate, specifically engineered for use in a bullet resistant vest.",
+    "price": 80,
+    "material": "ceramic",
+    "weight": 362,
+    "volume": 2,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "type":"GENERIC",
     "id": "ceramic_plate",
     "symbol": ",",
     "color": "yellow",
     "name": "ceramic plate",
     "description": "A ceramic dinner plate, you could probably play frisbee with it",
     "price": 10,
-    "material": "glass",
+    "material": "ceramic",
     "weight": 362,
     "volume": 1,
     "bashing": 1,
@@ -1182,7 +1198,7 @@
     "name": "ceramic bowl",
     "description": "A shallow dessert bowl, not a lot of use for it really.",
     "price": 10,
-    "material": "glass",
+    "material": "ceramic",
     "weight": 400,
     "volume": 1,
     "bashing": 1,
@@ -1198,7 +1214,7 @@
     "name": "ceramic cup",
     "description": "A ceramic teacup, pinky out!",
     "price": 10,
-    "material": "glass",
+    "material": "ceramic",
     "weight": 300,
     "volume": 1,
     "bashing": 1,
@@ -1292,7 +1308,7 @@
     "id": "spoon",
     "symbol": ";",
     "color": "light_gray",
-    "name": "fork",
+    "name": "spoon",
     "description": "Do not try to bend the spoon. That is impossible.",
     "price": 15,
     "material": "steel",
@@ -2129,7 +2145,7 @@
     "bashing" : -8,
     "cutting" : 0,
     "price" : 250,
-    "flags" : ["WATCH"]
+    "flags" : ["WATCH", "FANCY"]
   },
   {
     "type":"GENERIC",

@@ -1,5 +1,6 @@
 [
     {
+        "type" : "keybinding",
         "id":"UP",
         "name":"Pan up",
         "bindings":[
@@ -22,6 +23,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"DOWN",
         "name":"Pan down",
         "bindings":[
@@ -44,6 +46,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"LEFT",
         "name":"Pan left",
         "bindings":[
@@ -66,6 +69,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"RIGHT",
         "name":"Pan right",
         "bindings":[
@@ -88,6 +92,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"LEFTUP",
         "name":"Pan up-left",
         "bindings":[
@@ -106,6 +111,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"RIGHTUP",
         "name":"Pan up-right",
         "bindings":[
@@ -124,6 +130,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"LEFTDOWN",
         "name":"Pan down-left",
         "bindings":[
@@ -142,6 +149,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"RIGHTDOWN",
         "name":"Pan down-right",
         "bindings":[
@@ -160,6 +168,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"HELP_KEYBINDINGS",
         "name":"Display Help",
         "bindings":[
@@ -170,6 +179,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"CENTER",
         "category":"OVERMAP",
         "name":"Center On Character",
@@ -181,6 +191,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"LEVEL_UP",
         "name":"Go Up",
         "bindings":[
@@ -195,6 +206,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"LEVEL_DOWN",
         "name":"Go Down",
         "bindings":[
@@ -209,6 +221,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"CONFIRM",
         "name":"Confirm Choice",
         "bindings":[
@@ -219,6 +232,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"DELETE_NOTE",
         "category":"OVERMAP",
         "name":"Delete Note",
@@ -230,6 +244,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"CREATE_NOTE",
         "category":"OVERMAP",
         "name":"Create/Edit Note",
@@ -241,6 +256,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"LIST_NOTES",
         "category":"OVERMAP",
         "name":"List Notes",
@@ -252,6 +268,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"SEARCH",
         "name":"Search",
         "bindings":[
@@ -262,6 +279,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"QUIT",
         "category":"OVERMAP",
         "name":"Exit Screen",
@@ -289,6 +307,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"QUIT",
         "name":"Exit Screen",
         "bindings":[
@@ -303,6 +322,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"FIRE",
         "name":"Fire Weapon",
         "bindings":[
@@ -329,6 +349,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"PREV_TARGET",
         "name":"Prev Target",
         "bindings":[
@@ -343,6 +364,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"NEXT_TARGET",
         "name":"Next Target",
         "bindings":[
@@ -357,6 +379,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"SELECT",
         "name":"Select",
         "bindings":[
@@ -367,6 +390,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"SEC_SELECT",
         "name":"Select",
         "bindings":[
@@ -377,6 +401,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"SELECT",
         "name":"Select",
         "category":"LOOK",
@@ -388,6 +413,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"MOUSE_MOVE",
         "name":"Mouse Move",
         "bindings":[
@@ -398,6 +424,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"TOGGLE_FAST_SCROLL",
         "name":"Toggle Fast Scroll",
         "bindings":[
@@ -408,6 +435,7 @@
         ]
     },
     {
+        "type" : "keybinding",
         "id":"TOGGLE_SNAP_TO_TARGET",
         "name":"Toggle Snap to Target",
         "bindings":[
