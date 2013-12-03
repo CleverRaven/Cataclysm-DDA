@@ -215,7 +215,7 @@ public:
 
 // melee.cpp
  bool can_weapon_block(); //gear-based defensive ability
- int hit_creature(game *g, Creature &p, bool allow_grab = true);
+ int melee_attack(game *g, Creature &p, bool allow_special = true);
  int  hit_mon(game *g, monster *z, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
 
@@ -244,9 +244,8 @@ public:
  void perform_special_attacks(game *g, Creature &t,
                         int &bash_dam, int &cut_dam, int &pierce_dam);
 
- std::vector<special_attack> mutation_attacks(monster *z, player *p);
- std::string melee_special_effects(game *g, Creature &t, bool crit,
-                            int &bash_dam, int &cut_dam, int &stab_dam);
+ std::vector<special_attack> mutation_attacks(Creature &t);
+ std::string melee_special_effects(game *g, Creature &t, bool crit, damage_instance& d);
 
  int  dodge(game *g);     // Returns the players's dodge, modded by clothing etc
  int  dodge_roll(game *g);// For comparison to hit_roll()
@@ -273,7 +272,8 @@ public:
  void hurt (game *g, body_part bphurt, int side, int  dam);
  void hurt (hp_part hurt, int dam);
 
- std::vector<int> deal_damage(game* g, Creature* source, body_part bp, int side, const damage_instance& d);
+ dealt_damage_instance deal_damage(game* g, Creature* source, body_part bp,
+         int side, const damage_instance& d);
  void apply_damage(game* g, Creature* source, body_part bp, int side, int amount);
 
  void mod_pain(int npain);

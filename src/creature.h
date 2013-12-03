@@ -1,7 +1,7 @@
 #ifndef _CREATURE_H_
 #define _CREATURE_H_
 
-#include "enums.h"
+#include "damage.h"
 #include "pldata.h"
 #include "skill.h"
 #include "bionics.h"
@@ -14,31 +14,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-
-struct damage_unit {
-    damage_type type;
-    int amount;
-    int res_pen;
-    float res_mult;
-    damage_unit(damage_type dt, int a, int rp, float rm) :
-        type(dt),
-        amount(a),
-        res_pen(rp),
-        res_mult(rm)
-    { }
-};
-
-
-// a single atomic unit of damage from an attack. Can include multiple types
-// of damage at different armor mitigation/penetration values
-struct damage_instance {
-    std::vector<damage_unit> damage_units;
-    damage_instance() { }
-    void add_damage(damage_type dt, int a, int rp = 0, float rm = 1.0f) {
-        damage_unit du(dt,a,rp,rm);
-        damage_units.push_back(du);
-    }
-};
+#include <numeric>
 
 class game;
 class effect;
@@ -63,7 +39,8 @@ class Creature
 
         virtual int dodge_roll(game* g) = 0;
 
-        virtual int hit_creature(game *g, Creature &t, bool allow_grab) = 0; // Returns a damage
+        // makes a single melee attack, with the currently equipped weapon
+        virtual int melee_attack(game *g, Creature &t, bool allow_special) = 0; // Returns a damage
 
         virtual int hit(game *g, Creature* source, body_part bphurt, int side,
                 int dam, int cut);
@@ -88,7 +65,7 @@ class Creature
 
         // deals the damage via an attack. Most sources of external damage
         // should use deal_damage
-        virtual std::vector<int> deal_damage(game* g, Creature* source, body_part bp, int side, const damage_instance& d);
+        virtual dealt_damage_instance deal_damage(game* g, Creature* source, body_part bp, int side, const damage_instance& d);
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain);
@@ -125,25 +102,25 @@ class Creature
          * getters for stats - combat-related stats will all be held within
          * the Creature and re-calculated during every normalize() call
          */
-        virtual int get_str();
-        virtual int get_dex();
-        virtual int get_per();
-        virtual int get_int();
+        virtual int get_str() const;
+        virtual int get_dex() const;
+        virtual int get_per() const;
+        virtual int get_int() const;
 
-        virtual int get_str_base();
-        virtual int get_dex_base();
-        virtual int get_per_base();
-        virtual int get_int_base();
+        virtual int get_str_base() const;
+        virtual int get_dex_base() const;
+        virtual int get_per_base() const;
+        virtual int get_int_base() const;
 
-        virtual int get_str_bonus();
-        virtual int get_dex_bonus();
-        virtual int get_per_bonus();
-        virtual int get_int_bonus();
+        virtual int get_str_bonus() const;
+        virtual int get_dex_bonus() const;
+        virtual int get_per_bonus() const;
+        virtual int get_int_bonus() const;
 
-        virtual int get_num_blocks();
-        virtual int get_num_dodges();
-        virtual int get_num_blocks_bonus();
-        virtual int get_num_dodges_bonus();
+        virtual int get_num_blocks() const;
+        virtual int get_num_dodges() const;
+        virtual int get_num_blocks_bonus() const;
+        virtual int get_num_dodges_bonus() const;
 
         virtual int get_env_resist(body_part bp);
 
@@ -264,6 +241,4 @@ class Creature
 };
 
 #endif
-
-
 

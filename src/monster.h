@@ -193,12 +193,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
     bool block_hit(game *g, body_part &bp_hit, int &side,
         int &bash_dam, int &cut_dam, int &stab_dam);
-    int hit_creature(game *g, Creature &t, bool allow_grab); // Returns a damage
+    int melee_attack(game *g, Creature &t, bool allow_special = true); // Returns a damage
+    void do_melee_hit(game *g, Creature &t, const damage_instance &d); // Returns a damage
     // TODO: this hit is not the same as the one from Creature, it hits other
     // things. Need to phase out
     int  hit(game *g, Creature &t, body_part &bp_hit); // Returns a damage
     void hit_monster(game *g, int i);
     // TODO: fully replace hurt with apply/deal_damage
+    virtual void deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain);
     void apply_damage(game* g, Creature* source, body_part bp, int side, int amount);
     // Deals this dam damage; returns true if we dead
     // If real_dam is provided, caps overkill at real_dam.

@@ -10501,7 +10501,7 @@ bool game::plmove(int dx, int dy)
              u.clear_destination();
              return false;
          }
-         u.hit_creature(this, z, true);
+         u.melee_attack(this, z, true);
          if (z.is_hallucination()) {
              kill_mon(mondex, true);
          }
@@ -10536,7 +10536,7 @@ bool game::plmove(int dx, int dy)
          return false;
      }
 
-     u.hit_creature(this, *active_npc[npcdex], true);
+     u.melee_attack(this, *active_npc[npcdex], true);
      active_npc[npcdex]->make_angry();
      return false;
  }
@@ -11936,7 +11936,7 @@ void game::update_stair_monsters() {
                         tries++;
                     }
                     add_msg(_("The %s tried to push you back but failed! It attacks you!"), z.name().c_str());
-                    z.hit_creature(this, u, false);
+                    z.melee_attack(this, u, false);
                     u.moves -= 100;
                     return;
                 }

@@ -3659,11 +3659,11 @@ bool player::is_dead_state() {
     return hp_cur[hp_head] <= 0 || hp_cur[hp_head] <= 0;
 }
 
-std::vector<int> player::deal_damage(game* g, Creature* source, body_part bp, int side,
-        const damage_instance& d) {
+dealt_damage_instance player::deal_damage(game* g, Creature* source, body_part bp,
+        int side, const damage_instance& d) {
 
-    std::vector<int> dealt_dams = Creature::deal_damage(g, source, bp, side, d);
-    int dam = std::accumulate(dealt_dams.begin(),dealt_dams.end(),0);
+    dealt_damage_instance dealt_dams = Creature::deal_damage(g, source, bp, side, d);
+    int dam = dealt_dams.total_damage();
 
     if (has_disease("sleep")) {
         wake_up(_("You wake up!"));
@@ -3714,14 +3714,15 @@ std::vector<int> player::deal_damage(game* g, Creature* source, body_part bp, in
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
     add_disease("adrenaline", 200);
 
+    int cut_dam = dealt_dams.type_damage(DT_CUT);
     switch (bp) {
     case bp_eyes:
         mod_pain(1);
-        if (dam > 5 || dealt_dams[DT_CUT] > 0) {
-            int minblind = int((dam + dealt_dams[DT_CUT]) / 10);
+        if (dam > 5 || cut_dam > 0) {
+            int minblind = int((dam + cut_dam) / 10);
             if (minblind < 1)
                 minblind = 1;
-            int maxblind = int((dam + dealt_dams[DT_CUT]) /  4);
+            int maxblind = int((dam + cut_dam) /  4);
             if (maxblind > 5)
                 maxblind = 5;
             add_disease("blind", rng(minblind, maxblind));
@@ -3753,7 +3754,7 @@ std::vector<int> player::deal_damage(game* g, Creature* source, body_part bp, in
         debugmsg("Wacky body part hit!");
     }
 
-    return dealt_dams;
+    return dealt_damage_instance(dealt_dams);
 }
 
 void player::apply_damage(game* g, Creature* source, body_part bp,

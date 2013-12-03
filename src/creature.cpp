@@ -81,12 +81,12 @@ int Creature::hit(game *g, Creature* source, body_part bphurt, int side,
     damage_instance d;
     d.add_damage(DT_BASH, dam);
     d.add_damage(DT_CUT, cut);
-    std::vector<int> dealt_dams = deal_damage(g, source, bphurt, side, d);
+    dealt_damage_instance dealt_dams = deal_damage(g, source, bphurt, side, d);
 
-    return std::accumulate(dealt_dams.begin(),dealt_dams.end(),0);
+    return dealt_dams.total_damage();
 }
 
-std::vector<int> Creature::deal_damage(game* g, Creature* source, body_part bp, int side,
+dealt_damage_instance Creature::deal_damage(game* g, Creature* source, body_part bp, int side,
         const damage_instance& d) {
     int total_damage = 0;
     int total_pain = 0;
@@ -107,14 +107,15 @@ std::vector<int> Creature::deal_damage(game* g, Creature* source, body_part bp, 
 
     mod_pain(total_pain);
     apply_damage(g, source, bp, side, total_damage);
-    return dealt_dams;
+    return dealt_damage_instance(dealt_dams);
 }
 void Creature::deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain) {
     switch (du.type) {
     case DT_BASH:
         damage += du.amount -
             std::max(get_armor_bash(bp) - du.res_pen,0)*du.res_mult;
-        pain += du.amount / 4;
+        pain += du.amount / 4; // add up pain before using mod_pain since certain traits modify that
+        mod_moves(-rng(0,damage*2)); // bashing damage reduces moves
         break;
     case DT_CUT:
         damage += du.amount -
@@ -125,6 +126,16 @@ void Creature::deal_damage_handle_type(const damage_unit& du, body_part bp, int&
         damage += du.amount -
             0.8*std::max(get_armor_cut(bp) - du.res_pen,0)*du.res_mult;
         pain += (du.amount + sqrt(double(du.amount))) / 4;
+        break;
+    case DT_ELECTRIC:
+        damage += du.amount;
+        pain += du.amount / 4;
+        mod_moves(-du.amount * 100);
+        break;
+    case DT_COLD:
+        damage += du.amount;
+        pain += du.amount / 6;
+        mod_moves(-du.amount * 80);
         break;
     default:
         damage += du.amount;
@@ -223,57 +234,57 @@ void Creature::mod_moves(int nmoves) {
 
 // get_stat() always gets total (current) value, NEVER just the base
 // get_stat_bonus() is always just the bonus amount
-int Creature::get_str() {
+int Creature::get_str() const {
     return str_max + str_bonus;
 }
-int Creature::get_dex() {
+int Creature::get_dex() const {
     return dex_max + dex_bonus;
 }
-int Creature::get_per() {
+int Creature::get_per() const {
     return per_max + per_bonus;
 }
-int Creature::get_int() {
+int Creature::get_int() const {
     return int_max + int_bonus;
 }
 
-int Creature::get_str_base() {
+int Creature::get_str_base() const {
     return str_max;
 }
-int Creature::get_dex_base() {
+int Creature::get_dex_base() const {
     return dex_max;
 }
-int Creature::get_per_base() {
+int Creature::get_per_base() const {
     return per_max;
 }
-int Creature::get_int_base() {
+int Creature::get_int_base() const {
     return int_max;
 }
 
 
 
-int Creature::get_str_bonus() {
+int Creature::get_str_bonus() const {
     return str_bonus;
 }
-int Creature::get_dex_bonus() {
+int Creature::get_dex_bonus() const {
     return dex_bonus;
 }
-int Creature::get_per_bonus() {
+int Creature::get_per_bonus() const {
     return per_bonus;
 }
-int Creature::get_int_bonus() {
+int Creature::get_int_bonus() const {
     return int_bonus;
 }
 
-int Creature::get_num_blocks() {
+int Creature::get_num_blocks() const {
     return num_blocks + num_blocks_bonus;
 }
-int Creature::get_num_dodges() {
+int Creature::get_num_dodges() const {
     return num_dodges + num_dodges_bonus;
 }
-int Creature::get_num_blocks_bonus() {
+int Creature::get_num_blocks_bonus() const {
     return num_blocks_bonus;
 }
-int Creature::get_num_dodges_bonus() {
+int Creature::get_num_dodges_bonus() const {
     return num_dodges_bonus;
 }
 

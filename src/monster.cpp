@@ -637,9 +637,12 @@ int monster::hit(game *g, Creature &p, body_part &bp_hit) {
 }
 
 
-int monster::hit_creature(game *g, Creature &p, bool allow_grab = true) {
+int monster::melee_attack(game *g, Creature &p, bool allow_grab) {
     (void)g; (void)p; (void)allow_grab;
     return 0;
+}
+
+void monster::do_melee_hit(game *g, Creature &t, const damage_instance &d) {
 }
 
 void monster::hit_monster(game *g, int i)
@@ -670,6 +673,21 @@ void monster::hit_monster(game *g, int i)
  int damage = dice(type->melee_dice, type->melee_sides);
  if (target->hurt(damage))
   g->kill_mon(i, (friendly != 0));
+}
+
+void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain) {
+    switch (du.type) {
+    case DT_ELECTRIC:
+        if (has_flag(MF_ELECTRIC)) {
+            damage -= du.amount; // immunity, since it will be re-added again in base method
+        }
+    case DT_COLD:
+        if (!has_flag(MF_WARM)) {
+            damage -= du.amount; // immunity
+        }
+    }
+
+    Creature::deal_damage_handle_type(du, bp, damage, pain);
 }
 
 void monster::apply_damage(game* g, Creature* source, body_part bp, int side, int amount) {

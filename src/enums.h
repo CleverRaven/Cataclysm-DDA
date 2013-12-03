@@ -39,6 +39,7 @@ enum damage_type
     DT_ACID, // corrosive damage, e.g. acid
     DT_STAB, // stabbing/piercing damage
     DT_HEAT, // e.g. fire, plasma
+    DT_COLD, // e.g. heatdrain, cryogrenades
     DT_ELECTRIC, // e.g. electrical discharge
     NUM_DT
 };
