@@ -5796,7 +5796,7 @@
         "color" : "yellow",
         "encumbrance" : 0,
         "price" : 100,
-        "material" : ["steel", gold"],
+        "material" : ["steel", "gold"],
         "flags" : ["WATCH", "FANCY"],
         "coverage" : 1,
         "symbol" : "[",
