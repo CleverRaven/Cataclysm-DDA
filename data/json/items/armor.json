@@ -2713,11 +2713,11 @@
         "warmth" : 15,
         "phase" : "solid",
         "enviromental_protection" : 0,
-        "encumbrance" : 2,
+        "encumbrance" : 3,
         "bashing" : 8,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 85,
-        "material_thickness" : 6
+        "material_thickness" : 5
     },
     {
         "type" : "ARMOR",
@@ -2737,11 +2737,11 @@
         "warmth" : 15,
         "phase" : "solid",
         "enviromental_protection" : 0,
-        "encumbrance" : 3,
+        "encumbrance" : 4,
         "bashing" : 8,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 85,
-        "material_thickness" : 6
+        "material_thickness" : 5
     },
     {
         "type" : "ARMOR",
@@ -2761,11 +2761,11 @@
         "warmth" : 15,
         "phase" : "solid",
         "enviromental_protection" : 0,
-        "encumbrance" : 1,
+        "encumbrance" : 2,
         "bashing" : 6,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 85,
-        "material_thickness" : 6
+        "material_thickness" : 5
     },
     {
         "type" : "ARMOR",
@@ -2785,11 +2785,11 @@
         "warmth" : 15,
         "phase" : "solid",
         "enviromental_protection" : 0,
-        "encumbrance" : 1,
+        "encumbrance" : 2,
         "bashing" : 6,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 85,
-        "material_thickness" : 6
+        "material_thickness" : 5
     },
     {
         "type" : "ARMOR",
@@ -2809,11 +2809,11 @@
         "warmth" : 15,
         "phase" : "solid",
         "enviromental_protection" : 0,
-        "encumbrance" : 4,
+        "encumbrance" : 6,
         "bashing" : 6,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 85,
-        "material_thickness" : 6
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -4574,7 +4574,6 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : 0,
-        "flags" : ["SKINTIGHT"],
         "coverage" : 12,
         "material_thickness" : 1
     },
@@ -5610,7 +5609,7 @@
         "bashing" : 1,
         "flags" : ["WATERPROOF","STURDY"],
         "coverage" : 100,
-        "material_thickness" : 10
+        "material_thickness" : 11
     },
     {
         "type" : "ARMOR",
@@ -5634,7 +5633,7 @@
         "encumbrance" : 5,
         "bashing" : 1,
         "coverage" : 100,
-        "material_thickness" : 10,
+        "material_thickness" : 11,
         "flags" : ["WATCH","WATERPROOF","STURDY"]
     },
     {

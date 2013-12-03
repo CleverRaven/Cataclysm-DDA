@@ -376,7 +376,7 @@
         "acid_resist" : 0,
         "elec_resist" : 0,
         "fire_resist" : 2,
-        "density" : 52
+        "density" : 30
     },{
         "type" : "material",
         "ident" : "superalloy",
@@ -399,8 +399,8 @@
         "type" : "material",
         "ident" : "hardsteel",
         "name" : "Hard Steel",
-        "bash_resist" : 12,
-        "cut_resist" : 24,
+        "bash_resist" : 10,
+        "cut_resist" : 16,
         "bash_dmg_verb" : "dented",
         "cut_dmg_verb" : "scratched",
         "dmg_adj" : [
@@ -409,10 +409,10 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 0,
+        "acid_resist" : 1,
         "elec_resist" : 0,
         "fire_resist" : 2,
-        "density" : 80
+        "density" : 40
     },{
         "type" : "material",
         "ident" : "silver",
