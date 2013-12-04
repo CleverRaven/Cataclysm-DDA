@@ -150,6 +150,8 @@ void init_data_structures()
     type_function_map["mapgen"] =
         new StaticFunctionAccessor(&load_mapgen);
 
+    type_function_map["monitems"] = new ClassFunctionAccessor<game>(g, &game::load_monitem);
+
     mutations_category[""].clear();
     init_body_parts();
     init_vpart_bitflag_map();

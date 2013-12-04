@@ -2929,7 +2929,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
         mvwprintz(w, sideStyle ? 0 : 3, 0, col_pain, _("Pain %d"), pain - pkill);
 
     int morale_cur = morale_level ();
-        nc_color col_morale = c_white;
+    nc_color col_morale = c_white;
     if (morale_cur >= 10)
         col_morale = c_green;
     else if (morale_cur <= -10)
@@ -3003,7 +3003,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
   }
  } else {  // Not in vehicle
   nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
-           col_per = c_white, col_spd = c_white;
+           col_per = c_white, col_spd = c_white, col_time = c_white;
   if (str_cur < str_max)
    col_str = c_red;
   if (str_cur > str_max)
@@ -3038,7 +3038,10 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     int spdx = sideStyle ?  0 : x + dx * 4;
     int spdy = sideStyle ?  5 : y + dy * 4;
     mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), spd_cur);
-    wprintz(w, c_white, "  %d", movecounter);
+		if (this->weight_carried() > this->weight_capacity() || this->volume_carried() > this->volume_capacity() - 2) {
+				col_time = c_red;
+		}
+    wprintz(w, col_time, "  %d", movecounter);
  }
 }
 
@@ -3468,13 +3471,13 @@ void player::pause(game *g)
             recoil = int(recoil / 2);
         }
     }
- 
+
     //Web Weavers...weave web
     if (has_trait("WEB_WEAVER") && !in_vehicle) {
       g->m.add_field(g, posx, posy, fd_web, 1); //this adds density to if its not already there.
       g->add_msg("You spin some webbing.");
      }
-      
+
     // Meditation boost for Toad Style
     if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
         int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
@@ -7652,6 +7655,7 @@ hint_rating player::rate_action_unload(item *it) {
  int has_shotgun = -1;
  int has_shotgun2 = -1;
  int has_shotgun3 = -1;
+ int has_auxflamer = -1;
  if (it->is_gun()) {
   spare_mag = it->has_gunmod ("spare_mag");
   has_m203 = it->has_gunmod ("m203");
@@ -7659,6 +7663,7 @@ hint_rating player::rate_action_unload(item *it) {
   has_shotgun = it->has_gunmod ("u_shotgun");
   has_shotgun2 = it->has_gunmod ("masterkey");
   has_shotgun3 = it->has_gunmod ("rm121aux");
+  has_auxflamer = it->has_gunmod ("aux_flamer");
  }
  if (it->is_container() ||
      (it->charges == 0 &&
@@ -7667,7 +7672,8 @@ hint_rating player::rate_action_unload(item *it) {
       (has_40mml == -1 || it->contents[has_40mml].charges <= 0) &&
       (has_shotgun == -1 || it->contents[has_shotgun].charges <= 0) &&
       (has_shotgun2 == -1 || it->contents[has_shotgun2].charges <= 0) &&
-      (has_shotgun3 == -1 || it->contents[has_shotgun3].charges <= 0))) {
+      (has_shotgun3 == -1 || it->contents[has_shotgun3].charges <= 0) &&
+      (has_auxflamer == -1 || it->contents[has_auxflamer].charges <= 0) )) {
   if (it->contents.size() == 0) {
    return HINT_IFFY;
   }
@@ -7906,8 +7912,9 @@ press 'U' while wielding the unloaded gun."), gun->tname().c_str());
                            gun->tname().c_str());
                 return;
             } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" ||
-                        mod->id == "masterkey" || mod->id == "rm121aux" || mod->id == "u_shotgun" ||
-                        mod->id == "bayonet" || mod->id == "gun_crossbow" || mod->id == "sword_bayonet") &&
+                        mod->id == "masterkey" || mod->id == "aux_flamer" || mod->id == "u_shotgun" ||
+                        mod->id == "bayonet" || mod->id == "gun_crossbow" || mod->id == "rm121aux" ||
+                        mod->id == "sword_bayonet") &&
                        (gun->contents[i].type->id == "pipe_launcher40mm" ||
                         gun->contents[i].type->id == "m203" ||
                         gun->contents[i].type->id == "masterkey" ||
@@ -7915,6 +7922,7 @@ press 'U' while wielding the unloaded gun."), gun->tname().c_str());
                         gun->contents[i].type->id == "u_shotgun" ||
                         gun->contents[i].type->id == "bayonet" ||
                         gun->contents[i].type->id == "sword_bayonet" ||
+                        gun->contents[i].type->id == "aux_flamer" ||
                         gun->contents[i].type->id == "gun_crossbow")) {
                 g->add_msg(_("Your %s already has an under-barrel accessory weapon."),
                            gun->tname().c_str());

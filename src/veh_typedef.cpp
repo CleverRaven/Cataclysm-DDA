@@ -273,6 +273,8 @@ void init_vpart_bitflag_map() {
     vpart_bitflag_map["CURTIAN"]=     VPFLAG_CURTIAN;
     vpart_bitflag_map["CARGO"]=     VPFLAG_CARGO;   
     vpart_bitflag_map["SOLAR_PANEL"]=     VPFLAG_SOLAR_PANEL;   
+    vpart_bitflag_map["VPFLAG_VARIABLE_SIZE"] = VPFLAG_VARIABLE_SIZE;
+    vpart_bitflag_map["VPFLAG_TRACK"] = VPFLAG_TRACK;      // find_power -> game::finalize_vehicles
 /*    vpart_bitflag_map["SWIMMABLE"] = VPFLAG_SWIMMABLE; */ // only relevent for cars in water
 
 }

@@ -113,7 +113,6 @@ void game::init_data()
     init_morale();
     init_itypes();               // Set up item types                (SEE itypedef.cpp)
     item_controller->init_old(); //Item manager
-    init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
     init_missions();             // Set up mission templates         (SEE missiondef.cpp)
     init_autosave();             // Set up autosave
     init_diseases();             // Set up disease lookup table
@@ -1987,8 +1986,8 @@ bool game::handle_action()
                 mouse_action_y = my;
                 int mouse_selected_mondex = mon_at(mx, my);
                 if (mouse_selected_mondex != -1) {
-                    monster &z = _active_monsters[mouse_selected_mondex];
-                    if (!u_see(&z)) {
+                    monster &critter = _active_monsters[mouse_selected_mondex];
+                    if (!u_see(&critter)) {
                         add_msg(_("Nothing relevant here."));
                         return false;
                     }
@@ -2499,8 +2498,8 @@ bool game::handle_action()
    if (run_mode == 2) {
     add_msg(_("Ignoring enemy!"));
     for(int i=0; i < new_seen_mon.size(); i++) {
-        monster &z = _active_monsters[new_seen_mon[i]];
-        z.ignoring = rl_dist( point(u.posx, u.posy), z.pos() );
+        monster &critter = _active_monsters[new_seen_mon[i]];
+        critter.ignoring = rl_dist( point(u.posx, u.posy), critter.pos() );
     }
     run_mode = 1;
    }
@@ -3592,13 +3591,13 @@ void game::mondebug()
 {
  int tc;
  for (int i = 0; i < num_zombies(); i++) {
-  monster &z = _active_monsters[i];
-  z.debug(u);
-  if (z.has_flag(MF_SEES) &&
-      m.sees(z.posx(), z.posy(), u.posx, u.posy, -1, tc))
-   debugmsg("The %s can see you.", z.name().c_str());
+  monster &critter = _active_monsters[i];
+  critter.debug(u);
+  if (critter.has_flag(MF_SEES) &&
+      m.sees(critter.posx(), critter.posy(), u.posx, u.posy, -1, tc))
+   debugmsg("The %s can see you.", critter.name().c_str());
   else
-   debugmsg("The %s can't see you...", z.name().c_str());
+   debugmsg("The %s can't see you...", critter.name().c_str());
  }
 }
 
@@ -4074,20 +4073,20 @@ void game::draw_ter(int posx, int posy)
     // Draw monsters
     int mx, my;
     for (int i = 0; i < num_zombies(); i++) {
-        monster &z = _active_monsters[i];
-        my = POSY + (z.posy() - posy);
-        mx = POSX + (z.posx() - posx);
+        monster &critter = _active_monsters[i];
+        my = POSY + (critter.posy() - posy);
+        mx = POSX + (critter.posx() - posx);
         if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH
-                && my < TERRAIN_WINDOW_HEIGHT && u_see(&z)) {
-            z.draw(w_terrain, posx, posy, false);
+                && my < TERRAIN_WINDOW_HEIGHT && u_see(&critter)) {
+            critter.draw(w_terrain, posx, posy, false);
             mapRain[my][mx] = false;
-        } else if (z.has_flag(MF_WARM)
+        } else if (critter.has_flag(MF_WARM)
                    && mx >= 0 && my >= 0
                    && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT
                    && (u.has_active_bionic("bio_infrared")
                        || u.has_trait("INFRARED")
                        || u.has_trait("LIZ_IR"))
-                   && m.pl_sees(u.posx,u.posy,z.posx(),z.posy(),
+                   && m.pl_sees(u.posx,u.posy,critter.posx(),critter.posy(),
                                 u.sight_range(DAYLIGHT_LEVEL))) {
             mvwputch(w_terrain, my, mx, c_red, '?');
         }
@@ -4576,8 +4575,8 @@ bool game::sees_u(int x, int y, int &t)
     int range = 0;
  int mondex = mon_at(x,y);
  if (mondex != -1) {
-  monster &z = _active_monsters[mondex];
-        range = z.vision_range(u.posx, u.posy);
+  monster &critter = _active_monsters[mondex];
+        range = critter.vision_range(u.posx, u.posy);
  }
 
  return (!(u.has_active_bionic("bio_cloak") || u.has_active_bionic("bio_night") ||
@@ -4758,15 +4757,15 @@ bool game::is_hostile_very_close()
 
 bool game::is_hostile_within(int distance){
     for (int i = 0; i < num_zombies(); i++) {
-        monster &z = _active_monsters[i];
-        if (!u_see(&z))
+        monster &critter = _active_monsters[i];
+        if (!u_see(&critter))
             continue;
 
-        monster_attitude matt = z.attitude(&u);
+        monster_attitude matt = critter.attitude(&u);
         if (MATT_ATTACK != matt && MATT_FOLLOW != matt)
             continue;
 
-        int mondist = rl_dist(u.posx, u.posy, z.posx(), z.posy());
+        int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
         if (mondist <= distance)
             return true;
     }
@@ -4818,32 +4817,32 @@ int game::mon_info(WINDOW *w)
     new_seen_mon.clear();
 
     for (int i = 0; i < num_zombies(); i++) {
-        monster &z = _active_monsters[i];
-        if (u_see(&z) && !z.type->has_flag(MF_VERMIN)) {
-            dir_to_mon = direction_from(viewx, viewy, z.posx(), z.posy());
+        monster &critter = _active_monsters[i];
+        if (u_see(&critter) && !critter.type->has_flag(MF_VERMIN)) {
+            dir_to_mon = direction_from(viewx, viewy, critter.posx(), critter.posy());
             int index;
-            int mx = POSX + (z.posx() - viewx);
-            int my = POSY + (z.posy() - viewy);
+            int mx = POSX + (critter.posx() - viewx);
+            int my = POSY + (critter.posy() - viewy);
             if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT) {
                 index = 8;
             } else {
                 index = dir_to_mon;
             }
 
-            monster_attitude matt = z.attitude(&u);
+            monster_attitude matt = critter.attitude(&u);
             if (MATT_ATTACK == matt || MATT_FOLLOW == matt) {
                 int j;
-                if (index < 8 && sees_u(z.posx(), z.posy(), j))
+                if (index < 8 && sees_u(critter.posx(), critter.posy(), j))
                     dangerous[index] = true;
 
-                int mondist = rl_dist(u.posx, u.posy, z.posx(), z.posy());
+                int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
                 if (mondist <= iProxyDist) {
                     bool passmon = false;
 
-                    if ( z.ignoring > 0 ) {
+                    if ( critter.ignoring > 0 ) {
                         if ( run_mode != 1 ) {
-                            z.ignoring = 0;
-                        } else if ( mondist > z.ignoring / 2 || mondist < 6 ) {
+                            critter.ignoring = 0;
+                        } else if ( mondist > critter.ignoring / 2 || mondist < 6 ) {
                             passmon = true;
                         }
                     }
@@ -4858,8 +4857,8 @@ int game::mon_info(WINDOW *w)
                 }
             }
 
-            if (!vector_has(unique_mons[dir_to_mon], z.type->id))
-                unique_mons[index].push_back(z.type->id);
+            if (!vector_has(unique_mons[dir_to_mon], critter.type->id))
+                unique_mons[index].push_back(critter.type->id);
         }
     }
 
@@ -4886,8 +4885,8 @@ int game::mon_info(WINDOW *w)
 
     if (newseen > mostseen) {
         if (newseen - mostseen == 1) {
-            monster &m = _active_monsters[new_seen_mon.back()];
-            cancel_activity_query(_("%s spotted!"), m.name().c_str());
+            monster &critter = _active_monsters[new_seen_mon.back()];
+            cancel_activity_query(_("%s spotted!"), critter.name().c_str());
         } else {
             cancel_activity_query(_("Monsters spotted!"));
         }
@@ -5025,11 +5024,11 @@ int game::mon_info(WINDOW *w)
 void game::cleanup_dead()
 {
     for( int i = 0; i < num_zombies(); i++ ) {
-        monster &z = _active_monsters[i];
-        if( z.dead || z.hp <= 0 ) {
-            dbg (D_INFO) << string_format( "cleanup_dead: z[%d] %d,%d dead:%c hp:%d %s",
-                                           i, z.posx(), z.posy(), (z.dead?'1':'0'),
-                                           z.hp, z.type->name.c_str() );
+        monster &critter = _active_monsters[i];
+        if( critter.dead || critter.hp <= 0 ) {
+            dbg (D_INFO) << string_format( "cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
+                                           i, critter.posx(), critter.posy(), (critter.dead?'1':'0'),
+                                           critter.hp, critter.type->name.c_str() );
             remove_zombie(i);
             if( last_target == i ) {
                 last_target = -1;
@@ -5069,57 +5068,57 @@ void game::monmove()
     }
 
  for (int i = 0; i < num_zombies(); i++) {
-  monster &z = _active_monsters[i];
-  while (!z.dead && !z.can_move_to(this, z.posx(), z.posy())) {
+  monster &critter = _active_monsters[i];
+  while (!critter.dead && !critter.can_move_to(this, critter.posx(), critter.posy())) {
 // If we can't move to our current position, assign us to a new one
    if (debugmon)
    {
-    dbg(D_ERROR) << "game:monmove: " << z.name().c_str()
-                 << " can't move to its location! (" << z.posx()
-                 << ":" << z.posy() << "), "
-                 << m.tername(z.posx(), z.posy()).c_str();
-    debugmsg("%s can't move to its location! (%d:%d), %s", z.name().c_str(),
-             z.posx(), z.posy(), m.tername(z.posx(), z.posy()).c_str());
+    dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
+                 << " can't move to its location! (" << critter.posx()
+                 << ":" << critter.posy() << "), "
+                 << m.tername(critter.posx(), critter.posy()).c_str();
+    debugmsg("%s can't move to its location! (%d:%d), %s", critter.name().c_str(),
+             critter.posx(), critter.posy(), m.tername(critter.posx(), critter.posy()).c_str());
    }
    bool okay = false;
    int xdir = rng(1, 2) * 2 - 3, ydir = rng(1, 2) * 2 - 3; // -1 or 1
-   int startx = z.posx() - 3 * xdir, endx = z.posx() + 3 * xdir;
-   int starty = z.posy() - 3 * ydir, endy = z.posy() + 3 * ydir;
+   int startx = critter.posx() - 3 * xdir, endx = critter.posx() + 3 * xdir;
+   int starty = critter.posy() - 3 * ydir, endy = critter.posy() + 3 * ydir;
    for (int x = startx; x != endx && !okay; x += xdir) {
     for (int y = starty; y != endy && !okay; y += ydir){
-     if (z.can_move_to(this, x, y) && is_empty(x, y)) {
-      z.setpos(x, y);
+     if (critter.can_move_to(this, x, y) && is_empty(x, y)) {
+      critter.setpos(x, y);
       okay = true;
      }
     }
    }
    if (!okay)
-    z.dead = true;
+    critter.dead = true;
   }
 
-  if (!z.dead) {
-   z.reset(this);
-   if (z.hurt(0))
+  if (!critter.dead) {
+   critter.reset(this);
+   if (critter.hurt(0))
     kill_mon(i, false);
   }
 
-  m.mon_in_field(z.posx(), z.posy(), this, &z);
+  m.mon_in_field(critter.posx(), critter.posy(), this, &critter);
 
-  while (z.moves > 0 && !z.dead) {
-   z.made_footstep = false;
-   z.plan(this, friendlies); // Formulate a path to follow
-   z.move(this); // Move one square, possibly hit u
-   z.process_triggers(this);
-   m.mon_in_field(z.posx(), z.posy(), this, &z);
-   if (z.hurt(0)) { // Maybe we died...
+  while (critter.moves > 0 && !critter.dead) {
+   critter.made_footstep = false;
+   critter.plan(this, friendlies); // Formulate a path to follow
+   critter.move(this); // Move one square, possibly hit u
+   critter.process_triggers(this);
+   m.mon_in_field(critter.posx(), critter.posy(), this, &critter);
+   if (critter.hurt(0)) { // Maybe we died...
     kill_mon(i, false);
-    z.dead = true;
+    critter.dead = true;
    }
   }
 
-  if (!z.dead) {
+  if (!critter.dead) {
    if (u.has_active_bionic("bio_alarm") && u.power_level >= 1 &&
-       rl_dist(u.posx, u.posy, z.posx(), z.posy()) <= 5) {
+       rl_dist(u.posx, u.posy, critter.posx(), critter.posy()) <= 5) {
     u.power_level--;
     add_msg(_("Your motion alarm goes off!"));
     cancel_activity_query(_("Your motion alarm goes off!"));
@@ -5129,24 +5128,24 @@ void game::monmove()
     }
    }
 // We might have stumbled out of range of the player; if so, kill us
-   if (z.posx() < 0 - (SEEX * MAPSIZE) / 6 ||
-       z.posy() < 0 - (SEEY * MAPSIZE) / 6 ||
-       z.posx() > (SEEX * MAPSIZE * 7) / 6 ||
-       z.posy() > (SEEY * MAPSIZE * 7) / 6   ) {
+   if (critter.posx() < 0 - (SEEX * MAPSIZE) / 6 ||
+       critter.posy() < 0 - (SEEY * MAPSIZE) / 6 ||
+       critter.posx() > (SEEX * MAPSIZE * 7) / 6 ||
+       critter.posy() > (SEEY * MAPSIZE * 7) / 6   ) {
 // Re-absorb into local group, if applicable
-    int group = valid_group((z.type->id), levx, levy, levz);
+    int group = valid_group((critter.type->id), levx, levy, levz);
     if (group != -1) {
      cur_om->zg[group].population++;
      if (cur_om->zg[group].population / (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
          !cur_om->zg[group].diffuse )
       cur_om->zg[group].radius++;
-    } else if (MonsterGroupManager::Monster2Group((z.type->id)) != "GROUP_NULL") {
-     cur_om->zg.push_back(mongroup(MonsterGroupManager::Monster2Group((z.type->id)),
+    } else if (MonsterGroupManager::Monster2Group((critter.type->id)) != "GROUP_NULL") {
+     cur_om->zg.push_back(mongroup(MonsterGroupManager::Monster2Group((critter.type->id)),
                                   levx, levy, levz, 1, 1));
     }
-    z.dead = true;
+    critter.dead = true;
    } else
-    z.receive_moves();
+    critter.receive_moves();
   }
  }
 
@@ -5179,12 +5178,12 @@ bool game::sound(int x, int y, int vol, std::string description)
     // --- Monster sound handling here ---
     // Alert all monsters (that can hear) to the sound.
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
-        monster &z = _active_monsters[i];
-        // rl_dist() is faster than z.has_flag() or z.can_hear(), so we'll check it first.
-        int dist = rl_dist(x, y, z.posx(), z.posy());
+        monster &critter = _active_monsters[i];
+        // rl_dist() is faster than critter.has_flag() or critter.can_hear(), so we'll check it first.
+        int dist = rl_dist(x, y, critter.posx(), critter.posy());
         int vol_goodhearing = vol * 2 - dist;
-        if (vol_goodhearing > 0 && z.can_hear()) {
-            const bool goodhearing = z.has_flag(MF_GOODHEARING);
+        if (vol_goodhearing > 0 && critter.can_hear()) {
+            const bool goodhearing = critter.has_flag(MF_GOODHEARING);
             int volume = goodhearing ? vol_goodhearing : (vol - dist);
             // Error is based on volume, louder sound = less error
             if (volume > 0) {
@@ -5203,8 +5202,8 @@ bool game::sound(int x, int y, int vol, std::string description)
                 int target_y = y + rng(-max_error, max_error);
 
                 int wander_turns = volume * (goodhearing ? 6 : 1);
-                z.wander_to(target_x, target_y, wander_turns);
-                z.process_trigger(MTRIG_SOUND, volume);
+                critter.wander_to(target_x, target_y, wander_turns);
+                critter.process_trigger(MTRIG_SOUND, volume);
             }
         }
     }
@@ -5351,9 +5350,9 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
 
    int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
    if (mon_hit != -1) {
-    monster &z = _active_monsters[mon_hit];
-    if (!z.dead && z.hurt(rng(dam / 2, long(dam * 1.5)))) {
-     if (z.hp < 0 - (z.type->size < 2? 1.5:3) * z.type->hp)
+    monster &critter = _active_monsters[mon_hit];
+    if (!critter.dead && critter.hurt(rng(dam / 2, long(dam * 1.5)))) {
+     if (critter.hp < 0 - (critter.type->size < 2? 1.5:3) * critter.type->hp)
       explode_mon(mon_hit); // Explode them if it was big overkill
      else
       kill_mon(mon_hit); // TODO: player's fault?
@@ -5417,9 +5416,9 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    ty = traj[j].y;
    const int zid = mon_at(tx, ty);
    if (zid != -1) {
-    monster &z = _active_monsters[zid];
-    dam -= z.get_armor_cut(bp_torso);
-    if (z.hurt(dam))
+    monster &critter = _active_monsters[zid];
+    dam -= critter.get_armor_cut(bp_torso);
+    if (critter.hurt(dam))
      kill_mon(zid);
    } else if (npc_at(tx, ty) != -1) {
     body_part hit = random_body_part();
@@ -5463,17 +5462,17 @@ void game::flashbang(int x, int y, bool player_immune)
         }
     }
     for (int i = 0; i < num_zombies(); i++) {
-        monster &z = _active_monsters[i];
-        dist = rl_dist(z.posx(), z.posy(), x, y);
+        monster &critter = _active_monsters[i];
+        dist = rl_dist(critter.posx(), critter.posy(), x, y);
         if (dist <= 4) {
-            z.add_effect("effect_stunned", 10 - dist);
+            critter.add_effect("effect_stunned", 10 - dist);
         }
         if (dist <= 8) {
-            if (z.has_flag(MF_SEES) && m.sees(z.posx(), z.posy(), x, y, 8, t)) {
-                z.add_effect("effect_blind", 18 - dist);
+            if (critter.has_flag(MF_SEES) && m.sees(critter.posx(), critter.posy(), x, y, 8, t)) {
+                critter.add_effect("effect_blind", 18 - dist);
             }
-            if (z.has_flag(MF_HEARS)) {
-                z.add_effect("effect_deaf", 60 - dist * 4);
+            if (critter.has_flag(MF_HEARS)) {
+                critter.add_effect("effect_deaf", 60 - dist * 4);
             }
         }
     }
@@ -5488,11 +5487,11 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
     sound(x, y, force*force*dam_mult/2, _("Crack!"));
     for (int i = 0; i < num_zombies(); i++)
     {
-        monster &z = _active_monsters[i];
-        if (rl_dist(z.posx(), z.posy(), x, y) <= radius)
+        monster &critter = _active_monsters[i];
+        if (rl_dist(critter.posx(), critter.posy(), x, y) <= radius)
         {
-            add_msg(_("%s is caught in the shockwave!"), z.name().c_str());
-            knockback(x, y, z.posx(), z.posy(), force, stun, dam_mult);
+            add_msg(_("%s is caught in the shockwave!"), critter.name().c_str());
+            knockback(x, y, critter.posx(), critter.posy(), force, stun, dam_mult);
         }
     }
     for (int i = 0; i < active_npc.size(); i++)
@@ -5927,11 +5926,11 @@ void game::scrambler_blast(int x, int y)
 {
     int mondex = mon_at(x, y);
     if (mondex != -1) {
-        monster &z = _active_monsters[mondex];
-        if (z.has_flag(MF_ELECTRONIC)) {
-            z.make_friendly();
+        monster &critter = _active_monsters[mondex];
+        if (critter.has_flag(MF_ELECTRONIC)) {
+            critter.make_friendly();
         }
-        add_msg(_("The %s sparks and begins searching for a target!"), z.name().c_str());
+        add_msg(_("The %s sparks and begins searching for a target!"), critter.name().c_str());
     }
 }
 
@@ -5964,35 +5963,35 @@ void game::emp_blast(int x, int y)
  }
  int mondex = mon_at(x, y);
  if (mondex != -1) {
-  monster &z = _active_monsters[mondex];
-  if (z.has_flag(MF_ELECTRONIC)) {
+  monster &critter = _active_monsters[mondex];
+  if (critter.has_flag(MF_ELECTRONIC)) {
    // TODO: Add flag to mob instead.
-   if (z.type->id == "mon_turret" && one_in(3)) {
-     add_msg(_("The %s beeps erratically and deactivates!"), z.name().c_str());
+   if (critter.type->id == "mon_turret" && one_in(3)) {
+     add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
       remove_zombie(mondex);
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
-      m.spawn_item(x, y, "9mm", 1, z.ammo, turn);
+      m.spawn_item(x, y, "9mm", 1, critter.ammo, turn);
    }
-   else if (z.type->id == "mon_laserturret" && one_in(3)) {
-      add_msg(_("The %s beeps erratically and deactivates!"), z.name().c_str());
+   else if (critter.type->id == "mon_laserturret" && one_in(3)) {
+      add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
       remove_zombie(mondex);
       m.spawn_item(x, y, "bot_laserturret", 1, 0, turn);
    }
-   else if (z.type->id == "mon_manhack" && one_in(6)) {
-     add_msg(_("The %s flies erratically and drops from the air!"), z.name().c_str());
+   else if (critter.type->id == "mon_manhack" && one_in(6)) {
+     add_msg(_("The %s flies erratically and drops from the air!"), critter.name().c_str());
      remove_zombie(mondex);
      m.spawn_item(x, y, "bot_manhack", 1, 0, turn);
    }
    else {
-      add_msg(_("The EMP blast fries the %s!"), z.name().c_str());
+      add_msg(_("The EMP blast fries the %s!"), critter.name().c_str());
       int dam = dice(10, 10);
-      if (z.hurt(dam))
+      if (critter.hurt(dam))
         kill_mon(mondex); // TODO: Player's fault?
       else if (one_in(6))
-        z.make_friendly();
+        critter.make_friendly();
     }
   } else
-   add_msg(_("The %s is unaffected by the EMP blast."), z.name().c_str());
+   add_msg(_("The %s is unaffected by the EMP blast."), critter.name().c_str());
  }
  if (u.posx == x && u.posy == y) {
   if (u.power_level > 0) {
@@ -6053,28 +6052,28 @@ monster& game::zombie(const int idx)
     return _active_monsters[idx];
 }
 
-bool game::update_zombie_pos(const monster &m, const int newx, const int newy)
+bool game::update_zombie_pos(const monster &critter, const int newx, const int newy)
 {
     bool success = false;
-    const int zid = mon_at(m.posx(), m.posy());
+    const int zid = mon_at(critter.posx(), critter.posy());
     const int newzid = mon_at(newx, newy);
     if (newzid >= 0 && !_active_monsters[newzid].dead) {
         debugmsg("update_zombie_pos: new location %d,%d already has zombie %d",
                 newx, newy, newzid);
     } else if (zid >= 0) {
-        if (&m == &_active_monsters[zid]) {
-            z_at.erase(point(m.posx(), m.posy()));
+        if (&critter == &_active_monsters[zid]) {
+            z_at.erase(point(critter.posx(), critter.posy()));
             z_at[point(newx, newy)] = zid;
             success = true;
         } else {
             debugmsg("update_zombie_pos: old location %d,%d had zombie %d instead",
-                    m.posx(), m.posy(), zid);
+                    critter.posx(), critter.posy(), zid);
         }
     } else {
         // We're changing the x/y coordinates of a zombie that hasn't been added
         // to the game yet. add_zombie() will update z_at for us.
         debugmsg("update_zombie_pos: no such zombie at %d,%d (moving to %d,%d)",
-                m.posx(), m.posy(), newx, newy);
+                critter.posx(), critter.posy(), newx, newy);
     }
     return success;
 }
@@ -6158,8 +6157,8 @@ void game::rebuild_mon_at_cache()
 {
     z_at.clear();
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
-        monster &m = _active_monsters[i];
-        z_at[point(m.posx(), m.posy())] = i;
+        monster &critter = _active_monsters[i];
+        z_at[point(critter.posx(), critter.posy())] = i;
     }
 }
 
@@ -6197,25 +6196,25 @@ void game::kill_mon(int index, bool u_did_it)
   if (debugmon)  debugmsg("Tried to kill monster %d! (%d in play)", index, num_zombies());
   return;
  }
- monster &z = _active_monsters[index];
- kill_mon(z, u_did_it);
+ monster &critter = _active_monsters[index];
+ kill_mon(critter, u_did_it);
 }
 
-void game::kill_mon(monster& z, bool u_did_it) {
- if (!z.dead) {
-  z.dead = true;
+void game::kill_mon(monster& critter, bool u_did_it) {
+ if (!critter.dead) {
+  critter.dead = true;
   if (u_did_it) {
-   if (z.has_flag(MF_GUILT)) {
+   if (critter.has_flag(MF_GUILT)) {
     mdeath tmpdeath;
-    tmpdeath.guilt(&z);
+    tmpdeath.guilt(&critter);
    }
-   if (!z.is_hallucination()) {
-    kills[z.type->id]++; // Increment our kill counter
+   if (!critter.is_hallucination()) {
+    kills[critter.type->id]++; // Increment our kill counter
    }
   }
-  for (int i = 0; i < z.inv.size(); i++)
-   m.add_item_or_charges(z.posx(), z.posy(), z.inv[i]);
-  z.die(this);
+  for (int i = 0; i < critter.inv.size(); i++)
+   m.add_item_or_charges(critter.posx(), critter.posy(), critter.inv[i]);
+  critter.die(this);
  }
 
 }
@@ -6228,16 +6227,16 @@ void game::explode_mon(int index)
   debugmsg("Tried to explode monster %d! (%d in play)", index, num_zombies());
   return;
  }
- monster &z = _active_monsters[index];
- if(z.is_hallucination()) {
+ monster &critter = _active_monsters[index];
+ if(critter.is_hallucination()) {
    //Can't gib hallucinations
    return;
  }
- if (!z.dead) {
-  z.dead = true;
-  kills[z.type->id]++; // Increment our kill counter
+ if (!critter.dead) {
+  critter.dead = true;
+  kills[critter.type->id]++; // Increment our kill counter
 // Send body parts and blood all over!
-  mtype* corpse = z.type;
+  mtype* corpse = critter.type;
   if (corpse->mat == "flesh" || corpse->mat == "veggy") { // No chunks otherwise
    int num_chunks = 0;
    switch (corpse->size) {
@@ -6260,7 +6259,7 @@ void game::explode_mon(int index)
      meat = "veggy";
    }
 
-   int posx = z.posx(), posy = z.posy();
+   int posx = critter.posx(), posy = critter.posy();
    for (int i = 0; i < num_chunks; i++) {
     int tarx = posx + rng(-3, 3), tary = posy + rng(-3, 3);
     std::vector<point> traj = line_to(posx, posy, tarx, tary, 0);
@@ -6297,7 +6296,7 @@ void game::explode_mon(int index)
  }
 
  // there WAS an erasure of the monster here, but it caused issues with loops
- // we should structure things so that z.erase is only called in specified cleanup
+ // we should structure things so that critter.erase is only called in specified cleanup
  // functions
 
  if (last_target == index)
@@ -6407,8 +6406,8 @@ void game::close(int closex, int closey)
     vehicle *veh = m.veh_at(closex, closey, vpart);
     int zid = mon_at(closex, closey);
     if (zid != -1) {
-        monster &z = _active_monsters[zid];
-        add_msg(_("There's a %s in the way!"), z.name().c_str());
+        monster &critter = _active_monsters[zid];
+        add_msg(_("There's a %s in the way!"), critter.name().c_str());
     }
     else if (veh) {
         int openable = veh->part_with_feature(vpart, "OPENABLE");
@@ -7139,10 +7138,15 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
             {
                 mvwprintw(w_look, line++, column, _("There are other items there as well."));
             }
+
+			print_craft_distance_info(lx, ly, w_look, column, ++line);
             m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
         }
     } else if (m.has_flag("CONTAINER", lx, ly)) {
         mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
+
+		print_craft_distance_info(lx, ly, w_look, column, ++line);
+
         if (!mouse_hover) {
             m.drawsq(w_terrain, u, lx, ly, true, false, lx, ly);
         }
@@ -7171,8 +7175,26 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
     }
     else if (!mouse_hover)
     {
+		print_craft_distance_info(lx, ly, w_look, column, line);
         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
     }
+}
+
+void game::print_craft_distance_info(int lx, int ly, WINDOW *w_look, const int column, int &line)
+{
+	if (m.has_quality_furn("CRAFT_DISTANCE", lx, ly))
+	{
+		line += fold_and_print(w_look, line, column, getmaxx(w_look), c_green,
+			_("The %s allows you to craft with items stored there, from up to %d tiles away."),
+			m.furn_at(lx, ly).name.c_str(), m.furn_at(lx, ly).level_of_quality("CRAFT_DISTANCE"));
+	}
+
+	if (m.has_quality_ter("CRAFT_DISTANCE", lx, ly))
+	{
+		line += fold_and_print(w_look, line, column, getmaxx(w_look), c_green,
+			_("The %s allows you to craft with items stored there, from up to %d tiles away."),
+			m.ter_at(lx, ly).name.c_str(), m.ter_at(lx, ly).level_of_quality("CRAFT_DISTANCE"));
+	}
 }
 
 void game::handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover)
@@ -8563,18 +8585,18 @@ and you can't unwield your %s."),
                 idx = pickup_chars.find(ch);
             }
 
-            if (idx != -1) {
-                if (itemcount != 0 || pickup_count[idx] == 0) {
-                    if (itemcount >= here[idx].charges) {
-                        // Ignore the count if we pickup the whole stack anyway
+            if ( idx < here.size()) {
+                if (idx != -1) {
+                    if (itemcount != 0 || pickup_count[idx] == 0) {
+                        if (itemcount >= here[idx].charges) {
+                            // Ignore the count if we pickup the whole stack anyway
+                            itemcount = 0;
+                        }
+                        pickup_count[idx] = itemcount;
                         itemcount = 0;
                     }
-                    pickup_count[idx] = itemcount;
-                    itemcount = 0;
                 }
-            }
 
-            if ( idx < here.size()) {
                 getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
                 if ( ch != KEY_RIGHT && ch != KEY_LEFT) {
                     selected = idx;
@@ -9495,11 +9517,11 @@ void game::plthrow(char chInput)
  std::vector <int> targetindices;
  int passtarget = -1;
  for (int i = 0; i < num_zombies(); i++) {
-   monster &z = _active_monsters[i];
-   if (u_see(&z)) {
-     z.draw(w_terrain, u.posx, u.posy, true);
-     if(rl_dist( u.posx, u.posy, z.posx(), z.posy() ) <= range) {
-       mon_targets.push_back(z);
+   monster &critter = _active_monsters[i];
+   if (u_see(&critter)) {
+     critter.draw(w_terrain, u.posx, u.posy, true);
+     if(rl_dist( u.posx, u.posy, critter.posx(), critter.posy() ) <= range) {
+       mon_targets.push_back(critter);
        targetindices.push_back(i);
        if (i == last_target) {
          passtarget = mon_targets.size() - 1;
@@ -9642,13 +9664,13 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  std::vector <int> targetindices;
  int passtarget = -1;
  for (int i = 0; i < num_zombies(); i++) {
-   monster &z = _active_monsters[i];
-   if (u_see(&z)) {
-     z.draw(w_terrain, u.posx, u.posy, true);
-     if(rl_dist( u.posx, u.posy, z.posx(), z.posy() ) <= range) {
-       mon_targets.push_back(z);
+   monster &critter = _active_monsters[i];
+   if (u_see(&critter)) {
+     critter.draw(w_terrain, u.posx, u.posy, true);
+     if(rl_dist( u.posx, u.posy, critter.posx(), critter.posy() ) <= range) {
+       mon_targets.push_back(critter);
        targetindices.push_back(i);
-       bool is_default_target = default_target_x == z.posx() && default_target_y == z.posy();
+       bool is_default_target = default_target_x == critter.posx() && default_target_y == critter.posy();
        if (is_default_target || (passtarget == -1 && i == last_target)) {
          passtarget = mon_targets.size() - 1;
        }
@@ -10176,6 +10198,7 @@ void game::unload(item& it)
     int has_shotgun = -1;
     int has_shotgun2 = -1;
     int has_shotgun3 = -1;
+    int has_auxflamer = -1;
     if (it.is_gun()) {
         spare_mag = it.has_gunmod ("spare_mag");
         has_m203 = it.has_gunmod ("m203");
@@ -10183,6 +10206,7 @@ void game::unload(item& it)
         has_shotgun = it.has_gunmod ("u_shotgun");
         has_shotgun2 = it.has_gunmod ("masterkey");
         has_shotgun3 = it.has_gunmod ("rm121aux");
+        has_auxflamer = it.has_gunmod ("aux_flamer");
     }
     if (it.is_container() ||
         (it.charges == 0 &&
@@ -10191,7 +10215,8 @@ void game::unload(item& it)
          (has_40mml == -1 || it.contents[has_40mml].charges <= 0) &&
          (has_shotgun == -1 || it.contents[has_shotgun].charges <= 0) &&
          (has_shotgun2 == -1 || it.contents[has_shotgun2].charges <= 0) &&
-         (has_shotgun3 == -1 || it.contents[has_shotgun3].charges <= 0)))
+         (has_shotgun3 == -1 || it.contents[has_shotgun3].charges <= 0) &&
+         (has_auxflamer == -1 || it.contents[has_auxflamer].charges <= 0) ))
     {
         if (it.contents.size() == 0)
         {
@@ -10276,6 +10301,9 @@ void game::unload(item& it)
   // Then try a Rivtech shotgun
   else if (has_shotgun3 != -1 && weapon->contents[has_shotgun3].charges > 0)
    weapon = &weapon->contents[has_shotgun3];
+  // Then try an auxiliary flamethrower
+  else if (has_shotgun3 != -1 && weapon->contents[has_auxflamer].charges > 0)
+   weapon = &weapon->contents[has_auxflamer];
  }
 
  item newam;
@@ -10499,18 +10527,18 @@ bool game::plmove(int dx, int dy)
  // Are we displacing a monster?  If it's vermin, always.
  bool displace = false;
  if (mondex != -1) {
-     monster &z = zombie(mondex);
-     if (z.friendly == 0 && !(z.type->has_flag(MF_VERMIN))) {
+     monster &critter = zombie(mondex);
+     if (critter.friendly == 0 && !(critter.type->has_flag(MF_VERMIN))) {
          if (u.has_destination()) {
              add_msg(_("Monster in the way. Auto-move canceled. Click directly on monster to attack."));
              u.clear_destination();
              return false;
          }
-         u.melee_attack(this, z, true);
-         if (z.is_hallucination()) {
+         u.melee_attack(this, critter, true);
+         if (critter.is_hallucination()) {
              kill_mon(mondex, true);
          }
-         draw_hit_mon(x,y,z,z.dead);
+         draw_hit_mon(x,y,critter,critter.dead);
          return false;
      } else {
          displace = true;
@@ -10738,13 +10766,14 @@ bool game::plmove(int dx, int dy)
               grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
               int imp = 0;
               std::vector<veh_collision> veh_veh_colls;
+              std::vector<veh_collision> veh_misc_colls;
               bool can_move = true;
               // Set player location to illegal value so it can't collide with vehicle.
               int player_prev_x = u.posx;
               int player_prev_y = u.posy;
               u.posx = 0;
               u.posy = 0;
-              if( grabbed_vehicle->collision( veh_veh_colls, dxVeh, dyVeh, can_move, imp, true ) ) {
+              if( grabbed_vehicle->collision( veh_veh_colls, veh_misc_colls, dxVeh, dyVeh, can_move, imp, true ) ) {
                   // TODO: figure out what we collided with.
                   add_msg( _("The %s collides with something."), grabbed_vehicle->name.c_str() );
                   u.moves -= 10;
@@ -10949,20 +10978,20 @@ bool game::plmove(int dx, int dy)
 // displace is set at the top of this function.
   if (displace) { // We displaced a friendly monster!
 // Immobile monsters can't be displaced.
-   monster &z = zombie(mondex);
-   if (z.has_flag(MF_IMMOBILE)) {
+   monster &critter = zombie(mondex);
+   if (critter.has_flag(MF_IMMOBILE)) {
 // ...except that turrets can be picked up.
 // TODO: Make there a flag, instead of hard-coded to mon_turret
-    if (z.type->id == "mon_turret") {
+    if (critter.type->id == "mon_turret") {
      if (query_yn(_("Deactivate the turret?"))) {
       remove_zombie(mondex);
       u.moves -= 100;
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
-      m.spawn_item(x, y, "9mm", 1, z.ammo, turn);
+      m.spawn_item(x, y, "9mm", 1, critter.ammo, turn);
      }
      return false;
     }
-    else if (z.type->id == "mon_laserturret") {
+    else if (critter.type->id == "mon_laserturret") {
      if (query_yn(_("Deactivate the laser turret?"))) {
       remove_zombie(mondex);
       u.moves -= 100;
@@ -10970,31 +10999,31 @@ bool game::plmove(int dx, int dy)
      }
      return false;
     } else {
-     add_msg(_("You can't displace your %s."), z.name().c_str());
+     add_msg(_("You can't displace your %s."), critter.name().c_str());
      return false;
     }
-   z.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
-   add_msg(_("You displace the %s."), z.name().c_str());
+   critter.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
+   add_msg(_("You displace the %s."), critter.name().c_str());
    }
-   else if (z.type->id == "mon_manhack") {
+   else if (critter.type->id == "mon_manhack") {
     if (query_yn(_("Reprogram the manhack?"))) {
       int choice = 0;
-      if (z.has_effect("effect_docile"))
+      if (critter.has_effect("effect_docile"))
         choice = menu(true, _("Do what?"), _("Engage targets."), _("Deactivate."), NULL);
       else
         choice = menu(true, _("Do what?"), _("Follow me."), _("Deactivate."), NULL);
       switch (choice) {
       case 1:{
-        if (z.has_effect("effect_docile")) {
-          z.remove_effect("effect_docile");
+        if (critter.has_effect("effect_docile")) {
+          critter.remove_effect("effect_docile");
           if (one_in(3))
-            add_msg(_("The %s hovers momentarily as it surveys the area."), z.name().c_str());
+            add_msg(_("The %s hovers momentarily as it surveys the area."), critter.name().c_str());
         }
         else {
-          z.add_effect("effect_docile", -1);
-          add_msg(_("The %s ."), z.name().c_str());
+          critter.add_effect("effect_docile", -1);
+          add_msg(_("The %s ."), critter.name().c_str());
           if (one_in(3))
-            add_msg(_("The %s lets out a whirring noise and starts to follow you."), z.name().c_str());
+            add_msg(_("The %s lets out a whirring noise and starts to follow you."), critter.name().c_str());
         }
         break;
       }
@@ -11011,8 +11040,8 @@ bool game::plmove(int dx, int dy)
     }
     return false;
   }
-   z.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
-   add_msg(_("You displace the %s."), z.name().c_str());
+   critter.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
+   add_msg(_("You displace the %s."), critter.name().c_str());
   }
 
   if (x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
@@ -11340,11 +11369,11 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
             dam1 = std::max(dam1 / 2 - 5, 0);
         if (mondex >= 0)
         {
-            monster &z = zombie(mondex);
+            monster &critter = zombie(mondex);
             slam = true;
-            dname = z.name();
+            dname = critter.name();
             dam2 = flvel / 3 + rng (0, flvel * 1 / 3);
-            if (z.hurt(dam2))
+            if (critter.hurt(dam2))
              kill_mon(mondex, false);
             else
              thru = false;
@@ -11570,16 +11599,16 @@ void game::vertical_move(int movez, bool force) {
  }
  // Make sure monsters are saved!
  for (unsigned int i = 0; i < num_zombies(); i++) {
-    monster &z = zombie(i);
-    int turns = z.turns_to_reach(this, u.posx, u.posy);
-        if (turns < 10 && coming_to_stairs.size() < 8 && z.will_reach(this, u.posx, u.posy)
+    monster &critter = zombie(i);
+    int turns = critter.turns_to_reach(this, u.posx, u.posy);
+        if (turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach(this, u.posx, u.posy)
             && !slippedpast) {
-            z.onstairs = true;
-            z.staircount = 10 + turns;
-            coming_to_stairs.push_back(z);
+            critter.onstairs = true;
+            critter.staircount = 10 + turns;
+            coming_to_stairs.push_back(critter);
             //remove_zombie(i);
         } else {
-            force_save_monster(z);
+            force_save_monster(critter);
         }
 }
  despawn_monsters();
@@ -11881,23 +11910,23 @@ void game::update_stair_monsters() {
         // Attempt to spawn zombies.
         for (int i = 0; i < coming_to_stairs.size(); i++) {
             int mposx = stairx[si], mposy = stairy[si];
-            monster &z = coming_to_stairs[i];
+            monster &critter = coming_to_stairs[i];
 
             // We might be not be visible.
-            if (!( z.posx() < 0 - (SEEX * MAPSIZE) / 6 ||
-                    z.posy() < 0 - (SEEY * MAPSIZE) / 6 ||
-                    z.posx() > (SEEX * MAPSIZE * 7) / 6 ||
-                    z.posy() > (SEEY * MAPSIZE * 7) / 6 ) ) {
+            if (!( critter.posx() < 0 - (SEEX * MAPSIZE) / 6 ||
+                    critter.posy() < 0 - (SEEY * MAPSIZE) / 6 ||
+                    critter.posx() > (SEEX * MAPSIZE * 7) / 6 ||
+                    critter.posy() > (SEEY * MAPSIZE * 7) / 6 ) ) {
 
                 coming_to_stairs[i].staircount -= 4;
                 // Let the player know zombies are trying to come.
-                z.setpos(mposx, mposy, true);
+                critter.setpos(mposx, mposy, true);
                 if (u_see(mposx, mposy)) {
                     std::stringstream dump;
                     if (coming_to_stairs[i].staircount > 4)
-                        dump << _("You see a ") << z.name() << _(" on the stairs!");
+                        dump << _("You see a ") << critter.name() << _(" on the stairs!");
                     else
-                        dump << _("The ") << z.name() << _(" is almost at the ")
+                        dump << _("The ") << critter.name() << _(" is almost at the ")
                         << (m.has_flag("GOES_UP", mposx, mposy) ? _("bottom") : _("top")) <<  _(" of the ")
                         << m.tername(mposx, mposy).c_str() << "!";
                     add_msg(dump.str().c_str());
@@ -11907,29 +11936,29 @@ void game::update_stair_monsters() {
                 }
 
                 if (is_empty(mposx, mposy) && coming_to_stairs[i].staircount <= 0) {
-                    z.setpos(mposx, mposy, true);
-                    z.onstairs = false;
-                    z.staircount = 0;
-                    add_zombie(z);
+                    critter.setpos(mposx, mposy, true);
+                    critter.onstairs = false;
+                    critter.staircount = 0;
+                    add_zombie(critter);
                     if (u_see(mposx, mposy)) {
                         if (m.has_flag("GOES_UP", mposx, mposy)) {
-                            add_msg(_("The %s comes down the %s!"), z.name().c_str(),
+                            add_msg(_("The %s comes down the %s!"), critter.name().c_str(),
                                     m.tername(mposx, mposy).c_str());
                         } else {
-                            add_msg(_("The %s comes up the %s!"), z.name().c_str(),
+                            add_msg(_("The %s comes up the %s!"), critter.name().c_str(),
                                     m.tername(mposx, mposy).c_str());
                         }
                     }
                     coming_to_stairs.erase(coming_to_stairs.begin() + i);
-                } else if (u.posx == mposx && u.posy == mposy && z.staircount <= 0) {
+                } else if (u.posx == mposx && u.posy == mposy && critter.staircount <= 0) {
                     // Search for a clear tile.
                     int pushx = -1, pushy = -1;
                     int tries = 0;
-                    z.setpos(mposx, mposy, true);
+                    critter.setpos(mposx, mposy, true);
                     while(tries < 9) {
                         pushx = rng(-1, 1), pushy = rng(-1, 1);
-                        if (z.can_move_to(this, mposx + pushx, mposy + pushy) && pushx != 0 && pushy != 0) {
-                            add_msg(_("The %s pushed you back!"), z.name().c_str());
+                        if (critter.can_move_to(this, mposx + pushx, mposy + pushy) && pushx != 0 && pushy != 0) {
+                            add_msg(_("The %s pushed you back!"), critter.name().c_str());
                             u.posx += pushx;
                             u.posy += pushy;
                             u.moves -= 100;
@@ -11940,8 +11969,8 @@ void game::update_stair_monsters() {
                         }
                         tries++;
                     }
-                    add_msg(_("The %s tried to push you back but failed! It attacks you!"), z.name().c_str());
-                    z.melee_attack(this, u, false);
+                    add_msg(_("The %s tried to push you back but failed! It attacks you!"), critter.name().c_str());
+                    critter.melee_attack(this, u, false);
                     u.moves -= 100;
                     return;
                 }
@@ -11956,52 +11985,52 @@ void game::update_stair_monsters() {
     }
 }
 
-void game::force_save_monster(monster &z) {
-    real_coords rc( m.getabs(z.posx(), z.posy() ) );
-    z.spawnmapx = rc.om_sub.x;
-    z.spawnmapy = rc.om_sub.y;
-    z.spawnposx = rc.sub_pos.x;
-    z.spawnposy = rc.sub_pos.y;
+void game::force_save_monster(monster &critter) {
+    real_coords rc( m.getabs(critter.posx(), critter.posy() ) );
+    critter.spawnmapx = rc.om_sub.x;
+    critter.spawnmapy = rc.om_sub.y;
+    critter.spawnposx = rc.sub_pos.x;
+    critter.spawnposy = rc.sub_pos.y;
 
     tinymap tmp(&traps);
-    tmp.load(this, z.spawnmapx, z.spawnmapy, levz, false);
-    tmp.add_spawn(&z);
-    tmp.save(cur_om, turn, z.spawnmapx, z.spawnmapy, levz);
+    tmp.load(this, critter.spawnmapx, critter.spawnmapy, levz, false);
+    tmp.add_spawn(&critter);
+    tmp.save(cur_om, turn, critter.spawnmapx, critter.spawnmapy, levz);
 }
 
 void game::despawn_monsters(const int shiftx, const int shifty)
 {
     for (unsigned int i = 0; i < num_zombies(); i++) {
-        monster &z = zombie(i);
+        monster &critter = zombie(i);
         // If either shift argument is non-zero, we're shifting.
         if(shiftx != 0 || shifty != 0) {
-            z.shift(shiftx, shifty);
-            if( z.posx() >= 0 && z.posx() <= SEEX * MAPSIZE &&
-                    z.posy() >= 0 && z.posy() <= SEEY * MAPSIZE) {
+            critter.shift(shiftx, shifty);
+            if( critter.posx() >= 0 && critter.posx() <= SEEX * MAPSIZE &&
+                    critter.posy() >= 0 && critter.posy() <= SEEY * MAPSIZE) {
                 // We're inbounds, so don't despawn after all.
                 continue;
             } else {
-                if ( (z.spawnmapx != -1) || z.getkeep() ||
-                          ((shiftx != 0 || shifty != 0) && z.friendly != 0 ) ) {
+                if ( (critter.spawnmapx != -1) || critter.getkeep() ||
+                          ((shiftx != 0 || shifty != 0) && critter.friendly != 0 ) ) {
                     // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
-                    real_coords rc( m.getabs(z.posx(), z.posy() ) ); // still madness, bud handles straddling omap and -/+
-                    z.spawnmapx = rc.om_sub.x;
-                    z.spawnmapy = rc.om_sub.y;
-                    z.spawnposx = rc.sub_pos.x;
-                    z.spawnposy = rc.sub_pos.y;
+                    real_coords rc( m.getabs(critter.posx(), critter.posy() ) ); // still madness, bud handles straddling omap and -/+
+                    critter.spawnmapx = rc.om_sub.x;
+                    critter.spawnmapy = rc.om_sub.y;
+                    critter.spawnposx = rc.sub_pos.x;
+                    critter.spawnposy = rc.sub_pos.y;
 
                     // We're saving him, so there's no need to keep anymore.
-                    z.setkeep(false);
+                    critter.setkeep(false);
 
                     tinymap tmp(&traps);
-                    tmp.load(this, z.spawnmapx, z.spawnmapy, levz, false);
-                    tmp.add_spawn(&z);
-                    tmp.save(cur_om, turn, z.spawnmapx, z.spawnmapy, levz);
+                    tmp.load(this, critter.spawnmapx, critter.spawnmapy, levz, false);
+                    tmp.add_spawn(&critter);
+                    tmp.save(cur_om, turn, critter.spawnmapx, critter.spawnmapy, levz);
                 }
                 else
                 {
                     // No spawn site, so absorb them back into a group.
-                    int group = valid_group((z.type->id), levx + shiftx, levy + shifty, levz);
+                    int group = valid_group((critter.type->id), levx + shiftx, levy + shifty, levz);
                     if (group != -1)
                     {
                         cur_om->zg[group].population++;
@@ -12014,7 +12043,7 @@ void game::despawn_monsters(const int shiftx, const int shifty)
                     }
                 }
                 // Check if we should keep him.
-                if (!z.getkeep()) {
+                if (!critter.getkeep()) {
                     remove_zombie(i);
                     i--;
                 }
@@ -12387,14 +12416,14 @@ void game::teleport(player *p, bool add_teleglow)
         } else if (can_see) {
             const int i = mon_at(newx, newy);
             if (i != -1) {
-                monster &z = zombie(i);
+                monster &critter = zombie(i);
                 if (is_u) {
                     add_msg(_("You teleport into the middle of a %s!"),
-                            z.name().c_str());
-                    u.add_memorial_log(_("Telefragged a %s."), z.name().c_str());
+                            critter.name().c_str());
+                    u.add_memorial_log(_("Telefragged a %s."), critter.name().c_str());
                 } else {
                     add_msg(_("%s teleports into the middle of a %s!"),
-                            p->name.c_str(), z.name().c_str());
+                            p->name.c_str(), critter.name().c_str());
                 }
                 explode_mon(i);
             }
@@ -12407,7 +12436,7 @@ void game::teleport(player *p, bool add_teleglow)
 
 void game::nuke(int x, int y)
 {
-    // TODO: nukes hit above surface, not z = 0
+    // TODO: nukes hit above surface, not critter = 0
     if (x < 0 || y < 0 || x >= OMAPX || y >= OMAPY)
         return;
     int mapx = x * 2, mapy = y * 2;

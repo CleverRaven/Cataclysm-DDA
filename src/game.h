@@ -178,10 +178,10 @@ class game
   int  npc_by_id(const int id) const; // Index of the npc at (x, y); -1 for none
  // void build_monmap();  // Caches data for mon_at()
 
-  bool add_zombie(monster& m);
+  bool add_zombie(monster& critter);
   size_t num_zombies() const;
   monster& zombie(const int idx);
-  bool update_zombie_pos(const monster &m, const int newx, const int newy);
+  bool update_zombie_pos(const monster &critter, const int newx, const int newy);
   void remove_zombie(const int idx);
   void clear_zombies();
   bool spawn_hallucination(); //Spawns a hallucination close to the player
@@ -195,12 +195,12 @@ class game
   bool is_in_ice_lab(point location);
 // Kill that monster; fixes any pointers etc
   void kill_mon(int index, bool player_did_it = false);
-  void kill_mon(monster& z, bool player_did_it = false); // new kill_mon that just takes monster reference
+  void kill_mon(monster& critter, bool player_did_it = false); // new kill_mon that just takes monster reference
   void explode_mon(int index); // Explode a monster; like kill_mon but messier
   void revive_corpse(int x, int y, int n); // revives a corpse from an item pile
   void revive_corpse(int x, int y, item *it); // revives a corpse by item pointer, caller handles item deletion
 // hit_monster_with_flags processes ammo flags (e.g. incendiary, etc)
-  void hit_monster_with_flags(monster &z, const std::set<std::string> &effects);
+  void hit_monster_with_flags(monster &critter, const std::set<std::string> &effects);
   void plfire(bool burst, int default_target_x = -1, int default_target_y = -1); // Player fires a gun (target selection)...
 // ... a gun is fired, maybe by an NPC (actual damage, etc.).
   void fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
@@ -376,7 +376,7 @@ class game
 // Animation related functions
   void draw_explosion(int x, int y, int radius, nc_color col);
   void draw_bullet(player &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
-  void draw_hit_mon(int x, int y, monster m, bool dead = false);
+  void draw_hit_mon(int x, int y, monster critter, bool dead = false);
   void draw_hit_player(player *p, bool dead = false);
   void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
   void draw_line(const int x, const int y, std::vector<point> ret);
@@ -386,6 +386,8 @@ class game
   void load_vehiclepart(JsonObject &jo);
   void load_vehicle(JsonObject &jo);
   void finalize_vehicles();
+
+  void load_monitem(JsonObject &jo);     // Load monster inventory selection entry
 
   std::queue<vehicle_prototype*> vehprototypes;
 
@@ -426,7 +428,6 @@ class game
   void init_professions();
   void init_faction_data();
   void init_mongroups() throw (std::string);    // Initualizes monster groups
-  void init_monitems();     // Initializes monster inventory selection
   void release_traps();     // Release trap types memory
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
@@ -511,6 +512,7 @@ class game
   void print_terrain_info(int lx, int ly, WINDOW* w_look, int column, int &line);
   void print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int &line);
   void print_object_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
+  void print_craft_distance_info(int lx, int ly, WINDOW *w_look, const int column, int &line);
   void handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
   void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
@@ -527,7 +529,7 @@ class game
   void replace_stair_monsters();
   void update_stair_monsters();
   void despawn_monsters(const int shiftx = 0, const int shifty = 0);
-  void force_save_monster(monster &z);
+  void force_save_monster(monster &critter);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   int valid_group(std::string type, int x, int y, int z);// Picks a group from cur_om
   void set_adjacent_overmaps(bool from_scratch = false);

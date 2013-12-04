@@ -264,21 +264,21 @@ public:
     void give_part_properties_to_item (game* g, int partnum, item& i);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
-    std::vector<int> parts_at_relative (int dx, int dy, bool use_cache = true);
+    const std::vector<int> parts_at_relative (const int dx, const int dy, bool use_cache = true);
 
 // returns index of part, inner to given, with certain flag, or -1
     int part_with_feature (int p, const std::string &f, bool unbroken = true);
-    int part_with_feature (int p, vpart_bitflags f, bool unbroken = true);
+    int part_with_feature (int p, const vpart_bitflags &f, bool unbroken = true);
 // returns indices of all parts in the vehicle with the given flag
     std::vector<int> all_parts_with_feature(const std::string &feature, bool unbroken = true);
-    std::vector<int> all_parts_with_feature(vpart_bitflags f, bool unbroken = true);
+    std::vector<int> all_parts_with_feature(const vpart_bitflags &f, bool unbroken = true);
 
 // returns indices of all parts in the given location slot
     std::vector<int> all_parts_at_location(const std::string &location);
 
 // returns true if given flag is present for given part index
     bool part_flag (int p, const std::string &f);
-    bool part_flag (int p, vpart_bitflags f);
+    bool part_flag (int p, const vpart_bitflags &f);
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -331,19 +331,19 @@ public:
 
 // Checks how much certain fuel left in tanks. If for_engine == true that means
 // ftype == "battery" is also takes in account "plutonium" fuel (electric motors can use both)
-    int fuel_left (ammotype ftype, bool for_engine = false);
-    int fuel_capacity (ammotype ftype);
+    int fuel_left (const ammotype & ftype, bool for_engine = false);
+    int fuel_capacity (const ammotype & ftype);
 
     // refill fuel tank(s) with given type of fuel
     // returns amount of leftover fuel
-    int refill (ammotype ftype, int amount);
+    int refill (const ammotype & ftype, int amount);
 
     // drains a fuel type (e.g. for the kitchen unit)
     // returns amount actually drained, does not engage reactor
-    int drain (ammotype ftype, int amount);
+    int drain (const ammotype & ftype, int amount);
 
 // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
-    int basic_consumption (ammotype ftype);
+    int basic_consumption (const ammotype & ftype);
 
     void consume_fuel ();
 
@@ -413,7 +413,8 @@ public:
 // turn vehicle left (negative) or right (positive), degrees
     void turn (int deg);
 
-    bool collision( std::vector<veh_collision> &veh_veh_colls, int dx, int dy,
+    bool collision( std::vector<veh_collision> &veh_veh_colls,
+                    std::vector<veh_collision> &veh_misc_colls, int dx, int dy,
                     bool &can_move, int &imp, bool just_detect = false );
 
 // handle given part collision with vehicle, monster/NPC/player or terrain obstacle

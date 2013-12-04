@@ -116,8 +116,8 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         if (g->u.weight_carried() > g->u.weight_capacity()) {
         	color = c_red;
         }
-        mvwprintz( window, 4, hrightcol, color, "%.1f/", g->u.convert_weight(g->u.weight_carried()) );
-        wprintz(window, c_ltgray, "%.1f ", g->u.convert_weight(g->u.weight_capacity()) );
+        mvwprintz( window, 4, hrightcol, color, "%.1f", g->u.convert_weight(g->u.weight_carried()) );
+        wprintz(window, c_ltgray, "/%.1f ", g->u.convert_weight(g->u.weight_capacity()) );
 		if (g->u.volume_carried() > g->u.volume_capacity() - 2)
 		{
 			color = c_red;
@@ -126,8 +126,8 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
 		{
 			color = c_ltgreen;
 		}
-        wprintz(window, color, "%d/", g->u.volume_carried() );
-        wprintz(window, c_ltgray, "%d ", g->u.volume_capacity() - 2 );
+        wprintz(window, color, "%d", g->u.volume_carried() );
+        wprintz(window, c_ltgray, "/%d ", g->u.volume_capacity() - 2 );
     } else {
         int hrightcol=rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
         if (g->u.convert_weight(squares[pane.area].weight) > 9.9 ) {
@@ -269,10 +269,17 @@ struct advanced_inv_sorter {
             };
         }
         // secondary sort by name
-        std::string n1=d1.name;
-        std::string n2=d2.name;
+        std::string n1;
+        std::string n2;
+		if (d1.name_without_prefix == d2.name_without_prefix){//if names without prefix equal, compare full name
+			n1 = d1.name;
+			n2 = d2.name;
+		} else {//else compare name without prefix
+			n1 = d1.name_without_prefix;
+			n2 = d2.name_without_prefix;
+		}
         return std::lexicographical_compare( n1.begin(), n1.end(),
-            n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
+				n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
     };
 };
 
@@ -481,6 +488,7 @@ void advanced_inventory::recalc_pane(int i)
             item &item = stacks[x]->front();
             advanced_inv_listitem it;
             it.name = item.tname();
+            it.name_without_prefix = item.tname( false );
             if ( filtering && ! cached_lcmatch(it.name, panes[i].filter, panes[i].filtercache ) ) {
                 continue;
             }
@@ -537,6 +545,7 @@ void advanced_inventory::recalc_pane(int i)
                     advanced_inv_listitem it;
                     it.idx = x;
                     it.name = items[x].tname();
+		               			it.name_without_prefix = items[x].tname( false );
                     if ( filtering && ! cached_lcmatch(it.name, panes[i].filter, panes[i].filtercache ) ) {
                         continue;
                     }
@@ -914,7 +923,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                         string_input_popup( popupmsg, 20,
                              helper::to_string(
                                  ( amount > max ? max : amount )
-                             )
+                             ), "", "", -1, true//input only digits
                         )
                     );
                 }
@@ -1060,7 +1069,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                                     string_input_popup( popupmsg, 20,
                                          helper::to_string(
                                              ( amount > max ? max : amount )
-                                         )
+                                         ), "", "", -1, true//input only digits
                                     )
                                 );
                                 if ( amount > max ) amount = max;
