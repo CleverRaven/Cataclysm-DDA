@@ -22154,6 +22154,32 @@
     ]
 },{
         "type" : "recipe",
+  "result": "30gal_drum",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 8,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+
+  "tools": [
+    [
+      [ "soldering_iron", 40 ],
+      [ "toolset", 4 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "duct_tape", 200 ]
+    ],
+    [
+      [ "jerrycan", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "leathersandals",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
