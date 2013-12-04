@@ -358,6 +358,23 @@
         "material": "paper"
     },
     {
+        "id": "55gal_drum",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "dark_gray",
+        "name": "55 gallon drum",
+        "description": "A massive steel barrel with a resealable lid.",
+        "price": 5000,
+        "weight": 20000,
+        "volume": 825,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "steel",
+        "contains": 825,
+        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+    },
+    {
         "id": "wooden_barrel",
         "type": "CONTAINER",
         "symbol": ")",

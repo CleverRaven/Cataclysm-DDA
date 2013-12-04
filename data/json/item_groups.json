@@ -90,6 +90,7 @@
       ["battery_car", 6],
       ["battery_truck", 6],
       ["foot_crank", 10],
+      ["55gal_drum", 1],
       ["flyer", 10]
     ]
     },{
@@ -4490,6 +4491,7 @@
       ["hazmat_suit", 5],
       ["e_tool", 5],
       ["sm_extinguisher", 10],
+      ["55gal_drum", 40],
       ["apron_leather", 10]
     ]
     },{
@@ -4537,6 +4539,7 @@
       ["flyer", 10],
       ["child_book", 2],
       ["lsd", 1],
+      ["55gal_drum", 5],
 	  ["recipe_elfa", 2]
     ]
     },{
@@ -4549,6 +4552,7 @@
       ["flashlight", 40],
       ["dynamite", 5],
       ["matches", 60],
+      ["55gal_drum", 10],
       ["apron_leather", 5]
     ]
     },{
@@ -4898,6 +4902,7 @@
       ["flaregun", 20],
       ["signal_flare", 25],
       ["glasses_bal", 10],
+      ["55gal_drum", 1],
       ["optical_cloak", 1]
     ]
     },{
