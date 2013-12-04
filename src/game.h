@@ -483,25 +483,25 @@ class game
 // Pick where to put liquid; false if it's left where it was
 
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items 'I'
-  void drop(char chInput = '.'); // Drop an item  'd'
+  void drop(int pos = INT_MIN); // Drop an item  'd'
   void drop_in_direction(); // Drop w/ direction  'D'
-  void reassign_item(char ch = '.'); // Reassign the letter of an item  '='
+  void reassign_item(int pos = INT_MIN); // Reassign the letter of an item  '='
   void butcher(); // Butcher a corpse  'B'
   void complete_butcher(int index); // Finish the butchering process
   void forage(); // Foraging ('a' on underbrush)
-  void eat(char chInput = '.'); // Eat food or fuel  'E' (or 'a')
-  void use_item(char chInput = '.'); // Use item; also tries E,R,W  'a'
+  void eat(int pos = INT_MIN); // Eat food or fuel  'E' (or 'a')
+  void use_item(int pos = INT_MIN); // Use item; also tries E,R,W  'a'
   void use_wielded_item();
   void wear(char chInput = '.'); // Wear armor  'W' (or 'a')
-  void takeoff(char chInput = '.'); // Remove armor  'T'
+  void takeoff(int pos = INT_MIN); // Remove armor  'T'
   void reload(); // Reload a wielded gun/tool  'r'
-  void reload(char chInput);
+  void reload(int pos);
   void unload(item& it); // Unload a gun/tool  'U'
-  void unload(char chInput);
-  void wield(char chInput = '.'); // Wield a weapon  'w'
+  void unload(int pos = INT_MIN);
+  void wield(int pos = INT_MIN); // Wield a weapon  'w'
   void read(); // Read a book  'R' (or 'a')
   void chat(); // Talk to a nearby NPC  'C'
-  void plthrow(char chInput = '.'); // Throw an item  't'
+  void plthrow(int pos = INT_MIN); // Throw an item  't'
 
   // Internal methods to show "look around" info
   void print_fields_info(int lx, int ly, WINDOW* w_look, int column, int &line);
@@ -599,7 +599,6 @@ class game
   int nulscent;    // Returned for OOB scent checks
   std::vector<event> events;         // Game events to be processed
   std::map<std::string, int> kills;         // Player's kill count
-  std::string last_action;  // The keypresses of last turn
   int moves_since_last_save;
   int item_exchanges_since_save;
   time_t last_save_timestamp;
