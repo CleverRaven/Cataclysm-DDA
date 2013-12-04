@@ -22172,7 +22172,8 @@
   ],
   "components": [
     [
-      [ "duct_tape", 200 ]
+      [ "duct_tape", 200 ],
+      [ "superglue", 4 ]
     ],
     [
       [ "jerrycan", 5 ]
