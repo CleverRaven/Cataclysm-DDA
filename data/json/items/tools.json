@@ -3564,6 +3564,31 @@
   },
 
   {
+    "id": "fire_ax",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "firefighter's axe",
+    "description": "This is a large, two-handed pickhead axe normally used bu firefighters. It makes a powerful melee weapon, but is a bit slow to recover between swings.",
+    "price": 500,
+    "material": ["steel", "wood"],
+    "techniques": ["BRUTAL"],
+    "weight": 2720,
+    "volume": 8,
+    "bashing": 20,
+    "cutting": 20,
+    "flags" : ["CHOP"],
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "LUMBER"
+  },
+
+  {
     "id": "battleaxe",
     "type": "TOOL",
     "symbol": "/",

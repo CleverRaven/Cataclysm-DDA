@@ -1339,6 +1339,7 @@
       ["flashlight", 40],
       ["crowbar", 18],
       ["halligan", 1],
+      ["fire_ax", 3],
       ["nailgun", 12],
       ["carver_off", 4],
       ["press", 5],
@@ -4282,6 +4283,7 @@
       ["flashlight", 40],
       ["crowbar", 18],
       ["halligan", 3],
+      ["fire_ax", 5],
       ["chainsaw_off", 7],
       ["beartrap", 5],
       ["grenade", 3],
@@ -4524,6 +4526,7 @@
       ["rag", 1],
       ["crowbar", 18],
       ["halligan", 1],
+      ["fire_ax", 2],
       ["spray_can", 50],
       ["jar_glass", 10],
       ["jar_3l_glass", 8],
@@ -4653,6 +4656,7 @@
       ["e_tool", 10],
       ["survivormap", 5],
       ["halligan", 10],
+      ["fire_ax", 5],
       ["pur_tablets", 10]
     ]
     },{
@@ -5084,6 +5088,7 @@
       ["ampoule", 10],
       ["optical_cloak", 1],
       ["halligan", 10],
+      ["fire_ax", 5],
       ["bot_laserturret", 1]
     ]
     },{
