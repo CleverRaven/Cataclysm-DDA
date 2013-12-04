@@ -6497,6 +6497,18 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
             return false;
         }
     }
+    if ((comest->nutr > 0 && (this->hunger - comest->nutr) < (this->has_trait("GOURMAND")) ? -60 : -20)
+      || (comest->quench > 0 && (this->thirst - comest->quench) < (this->has_trait("GOURMAND")) ? -60 : -20)) {
+        if (spoiled){//rotten get random nutrification
+            if (!query_yn(_("You can hardly finish it all. Eat it?"))) {
+                return false;
+            }
+        } else {
+            if (!query_yn(_("You will not be able to finish it all. Eat it?"))) {
+                return false;
+            }
+        }
+    }
 
     if( spoiled ) {
         g->add_msg(_("Ick, this %s doesn't taste so good..."), eaten->tname().c_str());
