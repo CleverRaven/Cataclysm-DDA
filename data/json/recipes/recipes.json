@@ -11754,6 +11754,29 @@
   ]
 },{
         "type" : "recipe",
+  "result": "boots_western",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 100 ],
+      [ "sewing_kit", 100 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 9 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "helmet_larmor",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
