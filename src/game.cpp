@@ -2673,12 +2673,18 @@ void game::update_scent()
    if (has_wall_here[x][y] == false) {
        // to how many neighboring squares do we diffuse out? (include our own square since we also include our own square when diffusing in)
        int squares_used = squares_used_y[x-1][y] + squares_used_y[x][y] + squares_used_y[x+1][y];
-       
-       temp_scent  = grscent[x][y] * (10 * 1000 - squares_used * diffusivity); // take the old scent and subtract what diffuses out
-       temp_scent -= grscent[x][y] * diffusivity * (90 - squares_used) / 5; // walls and reduce_scent squares absorb some scent 
+        
+       int this_diffusivity;
+       if (reduce_scent_here[x][y] == false) {
+           this_diffusivity = diffusivity;
+       } else {
+           this_diffusivity = diffusivity / 5; // less air moves in and out when the reduce_scent flag is present in this square
+       }
+       temp_scent  = grscent[x][y] * (10 * 1000 - squares_used * this_diffusivity); // take the old scent and subtract what diffuses out
+       temp_scent -= grscent[x][y] * this_diffusivity * (90 - squares_used) / 5; // neighboring walls and reduce_scent squares absorb some scent 
        // we've already summed neighboring scent values in the y direction in the previous loop.
        // Now we do it for the x direction, multiply by diffusion, and this is what diffuses into our current square.
-       grscent[x][y] = static_cast<int>(temp_scent + diffusivity * (sum_3_scent_y[x-1][y] + sum_3_scent_y[x][y] + sum_3_scent_y[x+1][y] )) / (1000 * 10);
+       grscent[x][y] = static_cast<int>(temp_scent + this_diffusivity * (sum_3_scent_y[x-1][y] + sum_3_scent_y[x][y] + sum_3_scent_y[x+1][y] )) / (1000 * 10);
 
 
        const int fslime = m.get_field_strength(point(x,y), fd_slime) * 10;
