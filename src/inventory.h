@@ -4,9 +4,10 @@
 #include "item.h"
 #include "artifact.h"
 
-#include <string>
-#include <vector>
 #include <list>
+#include <string>
+#include <utility>
+#include <vector>
 
 class game;
 class map;
@@ -15,6 +16,7 @@ const extern std::string inv_chars;
 
 typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
+typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 
 class inventory
 {
@@ -22,7 +24,7 @@ class inventory
   invslice slice();
   // returns an inventory instance containing only the chosen items
   // chosen is an invlet-count mapping
-  inventory subset(std::map<char, int> chosen) const;
+  inventory subset(std::map<int, int> chosen) const;
   std::list<item>& stack_by_letter(char ch);
   const std::list<item>& const_stack(int i) const;
   int size() const;
@@ -42,9 +44,10 @@ class inventory
   static bool has_category(const item& it, item_cat cat, const player& u);
   static bool has_capacity_for_liquid(const item& it, const item& liquid);
 
-  invslice slice_filter_by_activation(const player& u);
-  invslice slice_filter_by_category(item_cat cat, const player& u);
-  invslice slice_filter_by_capacity_for_liquid(const item &liquid);
+  indexed_invslice slice_filter();  // unfiltered, but useful for a consistent interface.
+  indexed_invslice slice_filter_by_activation(const player& u);
+  indexed_invslice slice_filter_by_category(item_cat cat, const player& u);
+  indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
 
   void unsort(); // flags the inventory as unsorted
   void sort();

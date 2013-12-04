@@ -16,13 +16,14 @@ invslice inventory::slice() {
     return stacks;
 }
 
-inventory inventory::subset(std::map<char, int> chosen) const
+inventory inventory::subset(std::map<int, int> chosen) const
 {
+    int i = 0;
     inventory ret;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         // don't need to worry about auto-creation of entries, as long as default == 0
-        int count = chosen[iter->front().invlet];
+        int count = chosen[i];
         if (count != 0)
         {
             if (iter->front().count_by_charges())
@@ -47,6 +48,7 @@ inventory inventory::subset(std::map<char, int> chosen) const
                 }
             }
         }
+        ++i;
     }
     return ret;
 }
@@ -223,34 +225,51 @@ inventory inventory::operator+ (const item &rhs)
     return (it.get_remaining_capacity_for_liquid(liquid, error) > 0);
 }
 
-invslice inventory::slice_filter_by_activation(const player& u) {
-    invslice stacks;
+indexed_invslice inventory::slice_filter() {
+    int i = 0;
+    indexed_invslice stacks;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        stacks.push_back(std::make_pair(&*iter, i));
+        ++i;
+    }
+    return stacks;
+}
+
+indexed_invslice inventory::slice_filter_by_activation(const player& u) {
+    int i = 0;
+    indexed_invslice stacks;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         if (has_activation(iter->front(), u)) {
-            stacks.push_back(&*iter);
+            stacks.push_back(std::make_pair(&*iter, i));
         }
+        ++i;
     }
     return stacks;
 }
 
-invslice inventory::slice_filter_by_category(item_cat cat, const player& u) {
-    invslice stacks;
+indexed_invslice inventory::slice_filter_by_category(item_cat cat, const player& u) {
+    int i = 0;
+    indexed_invslice stacks;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         if (has_category(iter->front(), cat, u)) {
-            stacks.push_back(&*iter);
+            stacks.push_back(std::make_pair(&*iter, i));
         }
+        ++i;
     }
     return stacks;
 }
 
-invslice inventory::slice_filter_by_capacity_for_liquid(const item &liquid) {
-    invslice stacks;
+indexed_invslice inventory::slice_filter_by_capacity_for_liquid(const item &liquid) {
+    int i = 0;
+    indexed_invslice stacks;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         if (has_capacity_for_liquid(iter->front(), liquid)) {
-            stacks.push_back(&*iter);
+            stacks.push_back(std::make_pair(&*iter, i));
         }
+        ++i;
     }
     return stacks;
 }
