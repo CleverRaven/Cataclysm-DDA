@@ -492,7 +492,7 @@ class game
   void eat(int pos = INT_MIN); // Eat food or fuel  'E' (or 'a')
   void use_item(int pos = INT_MIN); // Use item; also tries E,R,W  'a'
   void use_wielded_item();
-  void wear(char chInput = '.'); // Wear armor  'W' (or 'a')
+  void wear(int pos = INT_MIN); // Wear armor  'W' (or 'a')
   void takeoff(int pos = INT_MIN); // Remove armor  'T'
   void reload(); // Reload a wielded gun/tool  'r'
   void reload(int pos);

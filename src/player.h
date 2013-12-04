@@ -327,20 +327,20 @@ public:
  void drench_mut_calc(); //Recalculate mutation drench protection for all bodyparts (ignored/good/neutral stats)
 
  char lookup_item(char let);
- bool consume(game *g, signed char invlet);
+ bool consume(game *g, int pos);
  bool eat(game *g, item *eat, it_comest *comest);
  void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
  virtual bool wield(game *g, signed char invlet, bool autodrop = false);// Wield item; returns false on fail
  void pick_style(game *g); // Pick a style
- bool wear(game *g, char let, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
+ bool wear(game *g, int pos, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
  bool wear_item(game *g, item *to_wear, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
- bool takeoff(game *g, char let, bool autodrop = false);// Take off item; returns false on fail
+ bool takeoff(game *g, int pos, bool autodrop = false);// Take off item; returns false on fail
  void sort_armor(game *g);      // re-order armor layering
- void use(game *g, char let); // Use a tool
+ void use(game *g, int pos); // Use a tool
  void use_wielded(game *g);
  void remove_gunmod(item *weapon, int id, game *g);
  bool install_bionics(game *g, it_bionic* type); // Install bionics
- void read(game *g, char let); // Read a book
+ void read(game *g, int pos); // Read a book
  void try_to_sleep(game *g); // '$' command; adds DIS_LYING_DOWN
  bool can_sleep(game *g); // Checked each turn during DIS_LYING_DOWN
  void fall_asleep(int duration);

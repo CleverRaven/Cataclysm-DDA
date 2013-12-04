@@ -1016,9 +1016,9 @@ void game::process_activity()
      if (u.skillLevel(reading->type) == originalSkillLevel && u.activity.continuous) {
       u.cancel_activity();
       if (u.activity.index == -2) {
-       u.read(this,u.weapon.invlet);
+       u.read(this, -1);
       } else {
-       u.read(this, u.position_to_invlet(u.activity.position));
+       u.read(this, u.activity.position);
       }
       if (u.activity.type != ACT_NULL) {
         u.activity.continuous = true;
@@ -6557,7 +6557,7 @@ void game::use_item(int pos)
   return;
  }
  refresh_all();
- u.use(this, u.position_to_invlet(pos));
+ u.use(this, pos);
 }
 
 void game::use_wielded_item()
@@ -8184,7 +8184,7 @@ void game::pickup(int posx, int posy, int min)
                     if (veh->fuel_left("water") > 0) { // -1 if no water at all
                         veh->drain("water", 1);
                         item water(itypes["water_clean"], 0);
-                        u.consume(this, u.inv.add_item(water).invlet);
+                        u.eat(this, &water, dynamic_cast<it_comest*>(water.type));
                         u.moves -= 250;
                     } else {
                         add_msg(_("The water tank is empty."));
@@ -9946,22 +9946,15 @@ void game::eat(int pos)
   return;
  }
 
- u.consume(this, u.lookup_item(u.position_to_invlet(pos)));
+ u.consume(this, pos);
 }
 
-void game::wear(char chInput)
+void game::wear(int pos)
 {
- char ch;
- if (chInput == '.')
-  ch = u.position_to_invlet(inv_type(_("Wear item:"), IC_ARMOR));
- else
-  ch = chInput;
+ if (pos == INT_MIN)
+  pos = inv_type(_("Wear item:"), IC_ARMOR);
 
- if (inv_chars.find(ch) == std::string::npos) {
-  add_msg(_("Never mind."));
-  return;
- }
- u.wear(this, ch);
+ u.wear(this, pos);
 }
 
 void game::takeoff(int pos)
@@ -9974,7 +9967,7 @@ void game::takeoff(int pos)
   return;
  }
 
- if (u.takeoff(this, u.position_to_invlet(pos)))
+ if (u.takeoff(this, pos))
   u.moves -= 250; // TODO: Make this variable
  else
   add_msg(_("Invalid selection."));
@@ -10304,14 +10297,14 @@ void game::wield(int pos)
 
 void game::read()
 {
- char ch = u.position_to_invlet(inv_type(_("Read:"), IC_BOOK));
+ int pos = inv_type(_("Read:"), IC_BOOK);
 
- if (ch == ' ' || ch == KEY_ESCAPE) {
+ if (pos == INT_MIN) {
   add_msg(_("Never mind."));
   return;
  }
  draw();
- u.read(this, ch);
+ u.read(this, pos);
 }
 
 void game::chat()

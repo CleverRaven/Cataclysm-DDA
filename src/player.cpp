@@ -6398,16 +6398,16 @@ hint_rating player::rate_action_eat(item *it)
  return HINT_CANT;
 }
 
-bool player::consume(game *g, signed char ch)
+bool player::consume(game *g, int pos)
 {
     item *to_eat = NULL;
     it_comest *comest = NULL;
     int which = -3; // Helps us know how to delete the item which got eaten
 
-    if(ch == -2) {
+    if(pos == INT_MIN) {
         g->add_msg(_("You do not have that item."));
         return false;
-    } else if (ch == -1) {
+    } else if (pos == -1) {
         // Consume your current weapon
         if (weapon.is_food_container(this)) {
             to_eat = &weapon.contents[0];
@@ -6428,7 +6428,7 @@ bool player::consume(game *g, signed char ch)
         }
     } else {
         // Consume item from inventory
-        item& it = inv.item_by_letter(ch);
+        item& it = inv.find_item(pos);
         if (it.is_food_container(this)) {
             to_eat = &(it.contents[0]);
             which = 1;
@@ -6536,9 +6536,9 @@ bool player::consume(game *g, signed char ch)
             weapon.contents.erase(weapon.contents.begin());
             g->add_msg_if_player(this,_("You are now wielding an empty %s."), weapon.tname().c_str());
         } else if (which == 0) {
-            inv.remove_item((char)ch);
+            inv.remove_item(pos);
         } else if (which >= 0) {
-            item& it = inv.item_by_letter(ch);
+            item& it = inv.find_item(pos);
             it.contents.erase(it.contents.begin());
             if (!is_npc()) {
                 if (OPTIONS["DROP_EMPTY"] == "no") {
@@ -6950,25 +6950,25 @@ hint_rating player::rate_action_wear(item *it)
  return HINT_GOOD;
 }
 
-bool player::wear(game *g, char let, bool interactive)
+bool player::wear(game *g, int pos, bool interactive)
 {
     item* to_wear = NULL;
     int index = -1;
-    if (weapon.invlet == let)
+    if (pos == -1)
     {
         to_wear = &weapon;
         index = -2;
     }
     else
     {
-        to_wear = &inv.item_by_letter(let);
+        to_wear = &inv.find_item(pos);
     }
 
     if (to_wear->is_null())
     {
         if(interactive)
         {
-            g->add_msg(_("You don't have item '%c'."), let);
+            g->add_msg(_("You don't have that item."));
         }
 
         return false;
@@ -7289,58 +7289,55 @@ hint_rating player::rate_action_takeoff(item *it) {
  return HINT_IFFY;
 }
 
-bool player::takeoff(game *g, char let, bool autodrop)
+bool player::takeoff(game *g, int pos, bool autodrop)
 {
     bool taken_off = false;
-    if (weapon.invlet == let) {
+    if (pos == -1) {
         taken_off = wield(g, -3, autodrop);
     } else {
-        bool found = false;
-        for (int i = 0; i < worn.size(); i++) {
-            if (worn[i].invlet == let) {
-                found = true;
-                item &w = worn[i];
+        int worn_index = worn_position_to_index(pos);
+        if (worn_index >=0 && worn_index < worn.size()) {
+            item &w = worn[worn_index];
 
-                // Handle power armor.
-                if ((reinterpret_cast<it_armor*>(w.type))->is_power_armor() &&
-                        ((reinterpret_cast<it_armor*>(w.type))->covers & mfb(bp_torso))) {
-                    // We're trying to take off power armor, but cannot do that if we have a power armor component on!
-                    for (int j = 0; j < worn.size(); j++) {
-                        if ((reinterpret_cast<it_armor*>(worn[j].type))->is_power_armor() &&
-                                (worn[j].invlet != let)) {
-                            if (autodrop) {
-                                g->m.add_item_or_charges(posx, posy, worn[j]);
-                                g->add_msg(_("You take off your your %s."), worn[j].tname().c_str());
-                                worn.erase(worn.begin() + j);
-
-                                // We've invalidated our index into worn[],
-                                // so rescan from the beginning.
-                                j = -1;
-                                taken_off = true;
-                            } else {
-                                g->add_msg(_("You can't take off power armor while wearing other power armor components."));
+            // Handle power armor.
+            if ((reinterpret_cast<it_armor*>(w.type))->is_power_armor() &&
+                    ((reinterpret_cast<it_armor*>(w.type))->covers & mfb(bp_torso))) {
+                // We're trying to take off power armor, but cannot do that if we have a power armor component on!
+                for (int j = worn.size() - 1; j >= 0; j--) {
+                    if ((reinterpret_cast<it_armor*>(worn[j].type))->is_power_armor() &&
+                            j != worn_index) {
+                        if (autodrop) {
+                            g->m.add_item_or_charges(posx, posy, worn[j]);
+                            g->add_msg(_("You take off your your %s."), worn[j].tname().c_str());
+                            worn.erase(worn.begin() + j);
+                            // If we are before worn_index, erasing this element shifted its position by 1.
+                            if (worn_index > j) {
+                                worn_index -= 1;
+                                w = worn[worn_index];
                             }
+                            taken_off = true;
+                        } else {
+                            g->add_msg(_("You can't take off power armor while wearing other power armor components."));
                         }
                     }
                 }
-
-                if (autodrop || volume_capacity() - (reinterpret_cast<it_armor*>(w.type))->storage >
-                        volume_carried() + w.type->volume) {
-                    inv.add_item_keep_invlet(w);
-                    g->add_msg(_("You take off your your %s."), w.tname().c_str());
-                    worn.erase(worn.begin() + i);
-                    inv.unsort();
-                    taken_off = true;
-                } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
-                        w.tname().c_str())) {
-                    g->m.add_item_or_charges(posx, posy, w);
-                    g->add_msg(_("You take off your your %s."), w.tname().c_str());
-                    worn.erase(worn.begin() + i);
-                    taken_off = true;
-                }
             }
-        }
-        if (!found) {
+
+            if (autodrop || volume_capacity() - (reinterpret_cast<it_armor*>(w.type))->storage >
+                        volume_carried() + w.type->volume) {
+                inv.add_item_keep_invlet(w);
+                g->add_msg(_("You take off your your %s."), w.tname().c_str());
+                worn.erase(worn.begin() + worn_index);
+                inv.unsort();
+                taken_off = true;
+            } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
+                    w.tname().c_str())) {
+                g->m.add_item_or_charges(posx, posy, w);
+                g->add_msg(_("You take off your your %s."), w.tname().c_str());
+                worn.erase(worn.begin() + worn_index);
+                taken_off = true;
+            }
+        } else {
             g->add_msg(_("You are not wearing that item."));
         }
     }
@@ -7710,7 +7707,7 @@ The sum of these values is the effective encumbrance value your character has fo
 }
 
 void player::use_wielded(game *g) {
-  use(g, weapon.invlet);
+  use(g, -1);
 }
 
 hint_rating player::rate_action_reload(item *it) {
@@ -7877,9 +7874,9 @@ hint_rating player::rate_action_use(const item *it) const
  return HINT_CANT;
 }
 
-void player::use(game *g, char let)
+void player::use(game *g, int pos)
 {
-    item* used = &i_at(let);
+    item* used = &i_at(pos);
     item copy;
 
     if (used->is_null()) {
@@ -7898,7 +7895,7 @@ void player::use(game *g, char let)
                     used->charges -= std::min(used->charges, charges_used);
                 } else {
                     // An item that doesn't normally expend charges is destroyed instead.
-                    i_rem(let);
+                    i_rem(pos);
                 }
             }
             // We may have fiddled with the state of the item in the iuse method,
@@ -8028,23 +8025,23 @@ press 'U' while wielding the unloaded gun."), gun->tname().c_str());
         }
         g->add_msg(_("You attach the %s to your %s."), used->tname().c_str(),
                    gun->tname().c_str());
-        gun->contents.push_back(i_rem(let));
+        gun->contents.push_back(i_rem(pos));
         return;
 
     } else if (used->is_bionic()) {
         it_bionic* tmp = dynamic_cast<it_bionic*>(used->type);
         if (install_bionics(g, tmp)) {
-            i_rem(let);
+            i_rem(pos);
         }
         return;
     } else if (used->is_food() || used->is_food_container()) {
-        consume(g, lookup_item(let));
+        consume(g, pos);
         return;
     } else if (used->is_book()) {
-        read(g, let);
+        read(g, pos);
         return;
     } else if (used->is_armor()) {
-        wear(g, let);
+        wear(g, pos);
         return;
     } else if (used->is_gun()) {
       // Get weapon mod names.
@@ -8140,7 +8137,7 @@ hint_rating player::rate_action_read(item *it, game *g)
  return HINT_GOOD;
 }
 
-void player::read(game *g, char ch)
+void player::read(game *g, int pos)
 {
     vehicle *veh = g->m.veh_at (posx, posy);
     if (veh && veh->player_in_control (this))
@@ -8168,14 +8165,14 @@ void player::read(game *g, char ch)
     // Find the object
     int index = -1;
     item* it = NULL;
-    if (weapon.invlet == ch)
+    if (pos == -1)
     {
         index = -2;
         it = &weapon;
     }
     else
     {
-        it = &inv.item_by_letter(ch);
+        it = &inv.find_item(pos);
     }
 
     if (it == NULL || it->is_null())
@@ -8282,7 +8279,7 @@ void player::read(game *g, char ch)
         time += (tmp->time * (tmp->intel - int_cur) * 100); // Lower int characters can read, at a speed penalty
     }
 
-    activity = player_activity(ACT_READ, time, index, invlet_to_position(ch), "");
+    activity = player_activity(ACT_READ, time, index, pos, "");
     activity.continuous = study;
     moves = 0;
 
