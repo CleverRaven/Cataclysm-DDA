@@ -4058,38 +4058,36 @@ bool game::isBetween(int test, int down, int up)
 
 void game::draw_ter(int posx, int posy)
 {
-    mapRain.clear();
-    // posx/posy default to -999
-    if (posx == -999)
-    posx = u.posx + u.view_offset_x;
-    if (posy == -999)
-    posy = u.posy + u.view_offset_y;
+ mapRain.clear();
+// posx/posy default to -999
+ if (posx == -999)
+  posx = u.posx + u.view_offset_x;
+ if (posy == -999)
+  posy = u.posy + u.view_offset_y;
 
-    ter_view_x = posx;
-    ter_view_y = posy;
+ ter_view_x = posx;
+ ter_view_y = posy;
 
-    m.build_map_cache(this);
-    m.draw(this, w_terrain, point(posx, posy));
-    
+ m.build_map_cache(this);
+ m.draw(this, w_terrain, point(posx, posy));
 
-    //TODO: Make this draw from the creature list instead of separate lists independently.
     // Draw monsters
     int mx, my;
     for (int i = 0; i < num_zombies(); i++) {
-        Creature &next_creature = _active_monsters[i];
-        my = POSY + (next_creature.ypos() - posy);
-        mx = POSX + (next_creature.xpos() - posx);
+        monster &z = _active_monsters[i];
+        my = POSY + (z.posy() - posy);
+        mx = POSX + (z.posx() - posx);
         if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH
-                && my < TERRAIN_WINDOW_HEIGHT && u_see(&next_creature)) {
-            next_creature.draw(w_terrain, posx, posy, false);
+                && my < TERRAIN_WINDOW_HEIGHT && u_see(&z)) {
+            z.draw(w_terrain, posx, posy, false);
             mapRain[my][mx] = false;
-        } else if (next_creature.has_flag(MF_WARM)
+        } else if (z.has_flag(MF_WARM)
                    && mx >= 0 && my >= 0
                    && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT
                    && (u.has_active_bionic("bio_infrared")
                        || u.has_trait("INFRARED")
                        || u.has_trait("LIZ_IR"))
-                   && m.pl_sees(u.posx,u.posy,next_creature.xpos(),next_creature.ypos(),
+                   && m.pl_sees(u.posx,u.posy,z.posx(),z.posy(),
                                 u.sight_range(DAYLIGHT_LEVEL))) {
             mvwputch(w_terrain, my, mx, c_red, '?');
         }

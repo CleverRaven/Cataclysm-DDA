@@ -3,6 +3,7 @@
 
 #include "creature.h"
 #include "player.h"
+#include "mtype.h"
 #include "enums.h"
 #include "bodypart.h"
 #include <vector>
