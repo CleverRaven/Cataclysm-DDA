@@ -7108,12 +7108,16 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        // Checks to see if the player is wearing leather/plastic etc shoes
-        if (is_wearing_shoes()){
-            if(interactive){
-                g->add_msg(_("You're already wearing footwear!"));
+
+        if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet)
+          && ((to_wear->made_of("leather") || to_wear->made_of("plastic") || to_wear->made_of("steel") ||
+                to_wear->made_of("kevlar") || to_wear->made_of("chitin")))){
+            if (is_wearing_shoes()){// Checks to see if the player is wearing leather/plastic etc shoes
+                if(interactive){
+                    g->add_msg(_("You're already wearing footwear!"));
+                }
+                return false;
             }
-            return false;
         }
     }
 
