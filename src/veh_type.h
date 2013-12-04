@@ -44,6 +44,9 @@ enum vpart_bitflags {
     VPFLAG_CURTIAN,
     VPFLAG_CARGO,
     VPFLAG_SOLAR_PANEL,
+    VPFLAG_VARIABLE_SIZE,
+    VPFLAG_TRACK,
+
 };
 /* Flag info:
  * INTERNAL - Can be mounted inside other parts
@@ -83,7 +86,7 @@ struct vpart_info
     bool has_flag(const std::string & flag) const {
         return flags.count(flag) != 0;
     }
-    bool has_flag(const vpart_bitflags flag) {
+    bool has_flag(const vpart_bitflags & flag) const {
         return (bitflags & mfb(flag));
     }
 };
