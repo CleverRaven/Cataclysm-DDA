@@ -96,7 +96,6 @@ class advanced_inventory
 
     int src;// = left; // the active screen , 0 for left , 1 for right.
     int dest;// = right;
-    int max_inv;// = inv_chars.size() - u.worn.size() - ( u.is_armed() ? 1 : 0 );
     bool examineScroll;// = false;
     bool filter_edit;
 

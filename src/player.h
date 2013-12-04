@@ -253,7 +253,7 @@ public:
  point adjacent_tile();     // Returns an unoccupied, safe adjacent point. If none exists, returns player position.
 
 // ranged.cpp
- int throw_range(signed char invlet); // Range of throwing item; -1:ERR 0:Can't throw
+ int throw_range(int pos); // Range of throwing item; -1:ERR 0:Can't throw
  int ranged_dex_mod (bool real_life = true);
  int ranged_per_mod (bool real_life = true);
  int throw_dex_mod  (bool real_life = true);
@@ -447,7 +447,6 @@ public:
  bool has_item(item *it);  // Has a specific item
  bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
- char unused_invlet();  // Returns the next available invlet for a player's inventory, or 0 if full.
 
  bool knows_recipe(recipe *rec);
  void learn_recipe(recipe *rec);

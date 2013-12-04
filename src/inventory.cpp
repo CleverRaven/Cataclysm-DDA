@@ -1601,7 +1601,7 @@ std::vector<item*> inventory::active_items()
     return ret;
 }
 
-void inventory::assign_empty_invlet(item &it)
+void inventory::assign_empty_invlet(item &it, bool force)
 {
   player *p = &(g->u);
   for (std::string::const_iterator newinvlet = inv_chars.begin();
@@ -1612,6 +1612,5 @@ void inventory::assign_empty_invlet(item &it)
     return;
    }
   }
-  it.invlet = '`';
-  //debugmsg("Couldn't find empty invlet");
+  it.invlet = force ? '`' : 0;
 }

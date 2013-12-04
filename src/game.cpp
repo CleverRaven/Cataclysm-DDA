@@ -922,7 +922,7 @@ void game::process_activity()
      ss >> reloadable_pos;
      reloadable = &u.i_at(reloadable_pos);
     }
-    if (reloadable->reload(u, u.position_to_invlet(u.activity.position))) {
+    if (reloadable->reload(u, u.activity.position)) {
      if (reloadable->is_gun() && reloadable->has_flag("RELOAD_ONE")) {
       add_msg(_("You insert a cartridge into your %s."),
               reloadable->tname().c_str());
@@ -8304,10 +8304,7 @@ void game::pickup(int posx, int posy, int min)
             iter++;
             advance_nextinv();
         }
-        if (iter > inv_chars.size()) {
-            add_msg(_("You're carrying too many items!"));
-            return;
-        } else if (!u.can_pickWeight(newit.weight(), false)) {
+        if (!u.can_pickWeight(newit.weight(), false)) {
             add_msg(_("The %s is too heavy!"), newit.display_name().c_str());
             decrease_nextinv();
         } else if (!u.can_pickVolume(newit.volume())) {
@@ -8333,6 +8330,7 @@ void game::pickup(int posx, int posy, int min)
                             m.i_clear(posx, posy);
                         }
                         m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
+                        u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
                         u.wield(this, u.i_add(newit, this).invlet);
                         u.moves -= 100;
                         add_msg(_("Wielding %c - %s"), newit.invlet,
@@ -8348,6 +8346,7 @@ and you can't unwield your %s."),
                     decrease_nextinv();
                 }
             } else {
+                u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
                 u.wield(this, u.i_add(newit, this).invlet);
                 if (from_veh) {
                     veh->remove_item (veh_part, 0);
@@ -8722,13 +8721,7 @@ and you can't unwield your %s."),
                 }
             }
 
-            if (iter == inv_chars.size()) {
-                add_msg(_("You're carrying too many items!"));
-                werase(w_pickup);
-                wrefresh(w_pickup);
-                delwin(w_pickup);
-                return;
-            } else if (!u.can_pickWeight(here[i].weight(), false)) {
+            if (!u.can_pickWeight(here[i].weight(), false)) {
                 add_msg(_("The %s is too heavy!"), here[i].display_name().c_str());
                 decrease_nextinv();
             } else if (!u.can_pickVolume(here[i].volume())) {
@@ -8747,6 +8740,7 @@ and you can't unwield your %s."),
                                          here[i].display_name().c_str())) {
                                 picked_up = true;
                                 m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
+                                u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                                 u.wield(this, u.i_add(here[i], this).invlet);
                                 mapPickup[here[i].tname()]++;
                                 add_msg(_("Wielding %c - %s"), u.weapon.invlet,
@@ -8763,6 +8757,7 @@ and you can't unwield your %s."),
                         decrease_nextinv();
                     }
                 } else {
+                    u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                     u.wield(this, u.i_add(here[i], this).invlet);
                     mapPickup[here[i].tname()]++;
                     picked_up = true;
@@ -9250,7 +9245,7 @@ void game::drop(int pos)
     if (pos == INT_MIN) {
         dropped = multidrop();
     } else {
-        dropped.push_back(u.i_rem(u.position_to_invlet(pos)));
+        dropped.push_back(u.i_rem(pos));
     }
 
     if (dropped.size() == 0) {
@@ -9436,9 +9431,8 @@ void game::plthrow(int pos)
   pos = inv(_("Throw item:"));
   refresh_all();
  }
- char ch = u.position_to_invlet(pos);
 
- int range = u.throw_range(u.lookup_item(ch));
+ int range = u.throw_range(pos);
  if (range < 0) {
   add_msg(_("You don't have that item."));
   return;
@@ -9486,10 +9480,10 @@ void game::plthrow(int pos)
 
  // Throw a single charge of a stacking object.
  if( thrown.count_by_charges() && thrown.charges > 1 ) {
-     u.i_at(ch).charges--;
+     u.i_at(pos).charges--;
      thrown.charges = 1;
  } else {
-     u.i_rem(ch);
+     u.i_rem(pos);
  }
 
  // Base move cost on moves per turn of the weapon
@@ -10283,6 +10277,12 @@ void game::wield(int pos)
  if (pos == INT_MIN) {
   add_msg(_("Never mind."));
   return;
+ }
+
+ // Weapons need invlets to access, give one if not already assigned.
+ item& it = u.i_at(pos);
+ if (it.is_null() && it.invlet == 0) {
+  u.inv.assign_empty_invlet(it, true);
  }
 
  bool success = false;

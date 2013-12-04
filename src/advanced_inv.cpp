@@ -441,7 +441,6 @@ void advanced_inventory::init(game *gp, player *pp)
 
     src = left; // the active screen , 0 for left , 1 for right.
     dest = right;
-    max_inv = inv_chars.size() - p->worn.size() - ( p->is_armed() ? 1 : 0 );
     examineScroll = false;
     filter_edit = false;
 }
@@ -658,7 +657,7 @@ void advanced_inventory::redraw_pane( int i )
     }
     wborder(panes[i].window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     mvwprintw(panes[i].window, 0, 3, _("< [s]ort: %s >"), sortnames[ ( panes[i].sortby <= 6 ? panes[i].sortby : 0 ) ].c_str() );
-    int max = ( panes[i].area == isinventory ? max_inv : MAX_ITEM_IN_SQUARE );
+    int max = MAX_ITEM_IN_SQUARE;
     if ( panes[i].area == isall ) {
         max *= 9;
     }
@@ -718,7 +717,6 @@ void advanced_inventory::display(game * gp, player * pp) {
 
         if(redraw || panes[0].redraw || panes[1].redraw ) // any redraw = redraw everything except opposite
         {
-            max_inv = inv_chars.size() - u.worn.size() - ( u.is_armed() ? 1 : 0 );
             for (int i = 0; i < 2; i++) {
                 if ( redraw || panes[i].redraw ) {
                    redraw_pane( i );
@@ -1024,7 +1022,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                     int trycharges = -1;
                     if ( destarea == isinventory ) // if destination is inventory
                     {
-                        if(squares[destarea].size >= max_inv) {
+                        if(squares[destarea].size >= MAX_ITEM_IN_SQUARE) {
                             popup(_("Too many items."));
                             continue;
                         }
@@ -1093,7 +1091,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                         new_item.charges = trycharges;
                     }
                     if(destarea == isinventory) {
-                        new_item.invlet = u.unused_invlet();
+                        u.inv.assign_empty_invlet(new_item);
                         u.i_add(new_item,g);
                         u.moves -= 100;
                     } else if (squares[destarea].vstor >= 0) {

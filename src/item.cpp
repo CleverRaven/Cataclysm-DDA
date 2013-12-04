@@ -2221,18 +2221,12 @@ char item::pick_reload_ammo(player &u, bool interactive)
  return am_invlet;
 }
 
-bool item::reload(player &u, char ammo_invlet)
+bool item::reload(player &u, int pos)
 {
  bool single_load = false;
  int max_load = 1;
  item *reload_target = NULL;
- item *ammo_to_use = (ammo_invlet != 0 ? &u.inv.item_by_letter(ammo_invlet) : NULL);
-
- // also check if wielding ammo
- if (ammo_to_use == NULL || ammo_to_use->is_null()) {
-     if (u.is_armed() && u.weapon.is_ammo() && u.weapon.invlet == ammo_invlet)
-         ammo_to_use = &u.weapon;
- }
+ item *ammo_to_use = &u.i_at(pos);
 
  // Handle ammo in containers, currently only gasoline
  if(ammo_to_use && ammo_to_use->is_container())
@@ -2305,7 +2299,7 @@ bool item::reload(player &u, char ammo_invlet)
   max_load *= 2;
  }
 
- if (ammo_invlet > 0) {
+ if (pos != INT_MIN) {
   // If the gun is currently loaded with a different type of ammo, reloading fails
   if ((reload_target->is_gun() || reload_target->is_gunmod()) &&
       reload_target->charges > 0 &&
@@ -2344,12 +2338,8 @@ bool item::reload(player &u, char ammo_invlet)
       {
           ammo_to_use->contents.erase(ammo_to_use->contents.begin());
       }
-      else if (u.weapon.invlet == ammo_to_use->invlet) {
-          u.remove_weapon();
-      }
-      else
-      {
-          u.i_remn(ammo_invlet);
+      else {
+          u.i_rem(pos);
       }
   }
   return true;

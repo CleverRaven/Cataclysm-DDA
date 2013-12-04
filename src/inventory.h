@@ -148,6 +148,9 @@ class inventory
   item nullitem;
   std::list<item> nullstack;
 
+  // Assigns an invlet if any remain.  If none do, will assign ` if force is
+  // true, empty (invlet = 0) otherwise.
+  void assign_empty_invlet(item &it, bool force = false);
  private:
   // For each item ID, store a set of "favorite" inventory letters.
   std::map<std::string, std::vector<char> > invlet_cache;
@@ -159,7 +162,6 @@ class inventory
   template<typename Locator> std::list<item> reduce_stack_internal(const Locator& type, int amount);
   template<typename Locator> item reduce_charges_internal(const Locator& type, int quantity);
 
-  void assign_empty_invlet(item &it);
   invstack items;
   bool sorted;
 };

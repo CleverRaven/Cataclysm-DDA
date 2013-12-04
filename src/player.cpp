@@ -3510,15 +3510,15 @@ void player::pause(game *g)
     }
 }
 
-int player::throw_range(signed char ch)
+int player::throw_range(int pos)
 {
  item tmp;
- if (ch == -1)
+ if (pos == -1)
   tmp = weapon;
- else if (ch == -2)
+ else if (pos == INT_MIN)
   return -1;
  else
-  tmp = inv.item_by_letter(ch);
+  tmp = inv.find_item(pos);
 
  if (tmp.count_by_charges() && tmp.charges > 1)
   tmp.charges = 1;
@@ -6345,28 +6345,13 @@ bool player::has_mission_item(int mission_id)
     return false;
 }
 
-char player::unused_invlet()
-{
-    char invlet = 0;
-    for (int i = 0; i < inv_chars.size(); ++i) {
-        char possible_invlet = g->nextinv;
-        g->advance_nextinv();
-        if (!has_item(possible_invlet)) {
-            invlet = possible_invlet;
-            break;
-        }
-    }
-    return invlet;
-}
-
 bool player::i_add_or_drop(item& it, game *g, int qty) {
     bool retval = true;
     bool drop = false;
-    it.invlet = unused_invlet();
+    inv.assign_empty_invlet(it);
     for (int i = 0; i < qty; ++i) {
-        if (!drop && (it.invlet == 0
-                || !can_pickWeight(it.weight(), !OPTIONS["DANGEROUS_PICKUPS"])
-                || !can_pickVolume(it.volume()))) {
+        if (!drop && (!can_pickWeight(it.weight(), !OPTIONS["DANGEROUS_PICKUPS"])
+                      || !can_pickVolume(it.volume()))) {
             drop = true;
         }
         if (drop) {
@@ -7242,6 +7227,11 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
                 }
             }
         }
+    }
+
+    // Armor needs invlets to access, give one if not already assigned.
+    if (to_wear->invlet == 0) {
+        inv.assign_empty_invlet(*to_wear, true);
     }
 
     last_item = itype_id(to_wear->type->id);
