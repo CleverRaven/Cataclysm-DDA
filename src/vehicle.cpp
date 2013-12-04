@@ -2249,7 +2249,8 @@ void vehicle::stop ()
     of_turn_carry = 0;
 }
 
-bool vehicle::collision( std::vector<veh_collision> &veh_veh_colls, int dx, int dy,
+bool vehicle::collision( std::vector<veh_collision> &veh_veh_colls,
+                         std::vector<veh_collision> &veh_misc_colls, int dx, int dy,
                          bool &can_move, int &imp, bool just_detect )
 {
     std::vector<int> structural_indices = all_parts_at_location(part_location_structure);
@@ -2265,6 +2266,7 @@ bool vehicle::collision( std::vector<veh_collision> &veh_veh_colls, int dx, int 
         } else if( coll.type == veh_coll_veh ) {
             veh_veh_colls.push_back( coll );
         } else if( coll.type != veh_coll_nothing ) { //run over someone?
+            veh_misc_colls.push_back(coll);
             if( can_move ) {
                 imp += coll.imp;
             }
@@ -2282,7 +2284,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     int mondex = g->mon_at(x, y);
     int npcind = g->npc_at(x, y);
     bool u_here = x == g->u.posx && y == g->u.posy && !g->u.in_vehicle;
-    monster *z = mondex >= 0? &g->zombie(mondex) : 0;
+    monster *z = mondex >= 0? &g->zombie(mondex) : NULL;
     player *ph = (npcind >= 0? g->active_npc[npcind] : (u_here? &g->u : 0));
 
     // if in a vehicle assume it's this one
@@ -2582,6 +2584,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     damage (parm, part_dmg, 1);
 
     veh_collision ret;
+    ret.part = part;
     ret.type = collision_type;
     ret.imp = part_dmg;
     return ret;
@@ -3088,7 +3091,7 @@ void vehicle::damage_all (int dmg1, int dmg2, int type, const point &impact)
     if (dmg1 < 1) { return; }
     for (int p = 0; p < parts.size(); p++) {
         int distance = 1 + square_dist( parts[p].mount_dx, parts[p].mount_dy, impact.x, impact.y );
-        if( distance > 1 && one_in( distance ) && part_info(p).location == part_location_structure ) {
+        if( distance > 1 && part_info(p).location == part_location_structure ) {
             damage_direct (p, rng( dmg1, dmg2 ) / (distance * distance), type);
         }
     }

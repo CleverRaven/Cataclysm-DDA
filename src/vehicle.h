@@ -413,7 +413,8 @@ public:
 // turn vehicle left (negative) or right (positive), degrees
     void turn (int deg);
 
-    bool collision( std::vector<veh_collision> &veh_veh_colls, int dx, int dy,
+    bool collision( std::vector<veh_collision> &veh_veh_colls,
+                    std::vector<veh_collision> &veh_misc_colls, int dx, int dy,
                     bool &can_move, int &imp, bool just_detect = false );
 
 // handle given part collision with vehicle, monster/NPC/player or terrain obstacle
