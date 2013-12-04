@@ -899,7 +899,7 @@ std::string item::tname( bool with_prefix )
         {
             if((int)(g->turn) < (int)(food->bday + 100))
                 ret << _(" (fresh)");
-            else if(food->rotten(g))
+            if(food->rotten(g))
                 ret << _(" (rotten)");
         }
         if (food->has_flag("HOT"))
@@ -1216,7 +1216,7 @@ bool item::rotten(game *g)
         fridge = 0;
       }
       expiry = (int)g->turn - bday;
-      return (expiry > food->spoils * 600);
+      return (expiry > (signed int)food->spoils * 600);
     }
     else {
       return false;
