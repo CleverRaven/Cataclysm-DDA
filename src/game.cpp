@@ -5246,8 +5246,9 @@ bool game::sound(int x, int y, int vol, std::string description)
 
     // See if we need to wake someone up
     if (u.has_disease("sleep")){
-        if ((!u.has_trait("HEAVYSLEEPER") && dice(2, 15) < vol - dist) ||
-              (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist)) {
+        if ((!(u.has_trait("HEAVYSLEEPER") || u.has_trait("HEAVYSLEEPER2")) && dice(2, 15) < vol - dist) ||
+              (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist) ||
+              (u.has_trait("HEAVYSLEEPER2") && dice(6, 15) < vol - dist)) { //Not kidding about sleep-thru-firefight
             u.rem_disease("sleep");
             add_msg(_("You're woken up by a noise."));
         } else {
