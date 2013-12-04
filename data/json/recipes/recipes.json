@@ -18922,7 +18922,7 @@
   "result": "halligan",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "difficulty": 7,
+  "difficulty": 8,
   "time": 420000,
   "reversible": false,
   "autolearn": true,
@@ -18940,7 +18940,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 350], ["char_forge", 70]
+      ["forge", 400], ["char_forge", 80]
      ]
     ],
   "components":

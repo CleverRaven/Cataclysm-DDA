@@ -655,6 +655,7 @@
       ["tux", 1],
       ["dress_wedding", 1],
       ["corset", 15],
+      ["firehelmet", 5],
       ["leathersandals", 25]
     ]
     },{
@@ -3156,6 +3157,7 @@
       ["lawn_dart", 10],
       ["dehydrator", 15],
       ["pickelhaube", 50],
+      ["firehelmet", 10],
       ["makeshift_machete", 0],
       ["picklocks", 10],
       ["rucksack", 20],
