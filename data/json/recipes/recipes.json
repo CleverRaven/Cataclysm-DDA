@@ -18919,6 +18919,40 @@
     ]
 },{
         "type" : "recipe",
+  "result": "halligan",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 420000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 350], ["char_forge", 70]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 9 ],
+     [ "scrap", 27 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "hacksaw",
   "category": "CC_MISC",
   "skill_used": "fabrication",
@@ -19140,6 +19174,44 @@
     [
      [ "2x4", 3 ],
      [ "stick", 6 ]
+    ]
+   ]
+},{
+        "type" : "recipe",
+  "result": "fire_ax",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 9,
+  "time": 420000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 450], ["char_forge", 90]
+     ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 4 ],
+     [ "steel_chunk", 12 ],
+     [ "scrap", 36 ]
+    ],
+    [
+     [ "2x4", 2 ],
+     [ "stick", 4 ]
     ]
    ]
 },{
