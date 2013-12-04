@@ -5698,6 +5698,24 @@ item player::i_rem(char let)
  return ret_null;
 }
 
+item player::i_rem(int pos)
+{
+ item tmp;
+ if (pos == -1) {
+     if (std::find(martial_arts_itype_ids.begin(), martial_arts_itype_ids.end(), weapon.type->id) != martial_arts_itype_ids.end()){
+         return ret_null;
+     }
+     tmp = weapon;
+     weapon = ret_null;
+     return tmp;
+ } else if (pos < -1 && pos > worn_position_to_index(worn.size())) {
+     tmp = worn[worn_position_to_index(pos)];
+     worn.erase(worn.begin() + worn_position_to_index(pos));
+     return tmp;
+ }
+ return inv.remove_item(pos);
+}
+
 item player::i_rem(itype_id type)
 {
     item ret;

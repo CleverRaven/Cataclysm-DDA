@@ -402,6 +402,8 @@ public:
  void process_active_items(game *g);
  bool process_single_active_item(game *g, item *it); // returns false if it needs to be removed
  item i_rem(char let); // Remove item from inventory; returns ret_null on fail
+ item i_rem(signed char ch) { return i_rem((char) ch); }  // prevent signed char->int conversion
+ item i_rem(int pos); // Remove item from inventory; returns ret_null on fail
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
  item remove_weapon();
  void remove_mission_items(int mission_id);

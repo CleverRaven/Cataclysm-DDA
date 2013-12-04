@@ -1191,8 +1191,8 @@ int iuse::sew(player *p, item *it, bool t)
         return 0;
     }
     int thread_used = 1;
-    char ch = p->position_to_invlet(g->inv_type(_("Repair what?"), IC_ARMOR));
-    item* fix = &(p->i_at(ch));
+    int pos = g->inv_type(_("Repair what?"), IC_ARMOR);
+    item* fix = &(p->i_at(pos));
     if (fix == NULL || fix->is_null()) {
         g->add_msg_if_player(p,_("You do not have that item!"));
         return 0;
@@ -1271,10 +1271,10 @@ int iuse::sew(player *p, item *it, bool t)
         if (rn <= 4) {
             g->add_msg_if_player(p,_("You damage your %s!"), fix->tname().c_str());
             fix->damage++;
-        } else if (rn >= 12 && p->i_at(ch).has_flag("VARSIZE") && !p->i_at(ch).has_flag("FIT")) {
+        } else if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT")) {
             g->add_msg_if_player(p,_("You take your %s in, improving the fit."), fix->tname().c_str());
-            (p->i_at(ch).item_tags.insert("FIT"));
-        } else if (rn >= 12 && (p->i_at(ch).has_flag("FIT") || !p->i_at(ch).has_flag("VARSIZE"))) {
+            fix->item_tags.insert("FIT");
+        } else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
             g->add_msg_if_player(p, _("You make your %s extra sturdy."), fix->tname().c_str());
             fix->damage--;
             g->consume_items(p, comps);
@@ -1300,7 +1300,7 @@ int iuse::sew(player *p, item *it, bool t)
             fix->damage++;
             if (fix->damage >= 5) {
                 g->add_msg_if_player(p,_("You destroy it!"));
-                p->i_rem(ch);
+                p->i_rem(pos);
             }
         } else if (rn <= 6) {
             g->add_msg_if_player(p,_("You don't repair your %s, but you waste lots of thread."),
@@ -1330,8 +1330,8 @@ int iuse::sew(player *p, item *it, bool t)
 
 int iuse::extra_battery(player *p, item *it, bool t)
 {
-    char ch = p->position_to_invlet(g->inv_type(_("Modify what?"), IC_TOOL));
-    item* modded = &(p->i_at(ch));
+    int pos = g->inv_type(_("Modify what?"), IC_TOOL);
+    item* modded = &(p->i_at(pos));
 
     if (modded == NULL || modded->is_null())
     {
@@ -1735,8 +1735,8 @@ int iuse::solder_weld(player *p, item *it, bool t)
                 return 0;
             }
 
-            char ch = p->position_to_invlet(g->inv_type(_("Repair what?"), IC_ARMOR));
-            item* fix = &(p->i_at(ch));
+            int pos = g->inv_type(_("Repair what?"), IC_ARMOR);
+            item* fix = &(p->i_at(pos));
             if (fix == NULL || fix->is_null()) {
                 g->add_msg_if_player(p,_("You do not have that item!"));
                 return 0 ;
@@ -1814,13 +1814,13 @@ int iuse::solder_weld(player *p, item *it, bool t)
                     g->add_msg_if_player(p,_("You damage your %s!"), fix->tname().c_str());
                     fix->damage++;
                 }
-                else if (rn >= 12 && p->i_at(ch).has_flag("VARSIZE") && !p->i_at(ch).has_flag("FIT"))
+                else if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))
                 {
                     g->add_msg_if_player(p,_("You take your %s in, improving the fit."),
                                          fix->tname().c_str());
-                    p->i_at(ch).item_tags.insert("FIT");
+                    fix->item_tags.insert("FIT");
                 }
-                else if (rn >= 12 && (p->i_at(ch).has_flag("FIT") || !p->i_at(ch).has_flag("VARSIZE")))
+                else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE")))
                 {
                     g->add_msg_if_player(p, _("You make your %s extra sturdy."), fix->tname().c_str());
                     fix->damage--;
@@ -1850,7 +1850,7 @@ int iuse::solder_weld(player *p, item *it, bool t)
                     if (fix->damage >= 5)
                     {
                         g->add_msg_if_player(p,_("You destroy it!"));
-                        p->i_rem(ch);
+                        p->i_rem(pos);
                     }
                 }
                 else if (rn <= 6)
@@ -1894,16 +1894,16 @@ int iuse::solder_weld(player *p, item *it, bool t)
 
 int iuse::water_purifier(player *p, item *it, bool t)
 {
- char ch = p->position_to_invlet(g->inv_type(_("Purify what?"), IC_COMESTIBLE));
- if (!p->has_item(ch)) {
+ int pos = g->inv_type(_("Purify what?"), IC_COMESTIBLE);
+ if (!p->has_item(pos)) {
   g->add_msg_if_player(p,_("You do not have that item!"));
   return 0;
  }
- if (p->i_at(ch).contents.size() == 0) {
+ if (p->i_at(pos).contents.size() == 0) {
   g->add_msg_if_player(p,_("You can only purify water."));
   return 0;
  }
- item *pure = &(p->i_at(ch).contents[0]);
+ item *pure = &(p->i_at(pos).contents[0]);
  if (pure->type->id != "water" && pure->type->id != "salt_water") {
   g->add_msg_if_player(p,_("You can only purify water."));
   return 0;
@@ -6125,8 +6125,8 @@ int iuse::boots(player *p, item *it, bool t)
   }
  } else if ((it->contents.size() == 0 && choice == 1) || // Put 1st
             (it->contents.size() == 1 && choice == 2)) { // Put 2st
-  char ch = p->position_to_invlet(g->inv_type(_("Put what?"), IC_TOOL));
-  item* put = &(p->i_at(ch));
+  int pos = g->inv_type(_("Put what?"), IC_TOOL);
+  item* put = &(p->i_at(pos));
   if (put == NULL || put->is_null()) {
    g->add_msg_if_player(p, _("You do not have that item!"));
    return 0;
@@ -6141,7 +6141,7 @@ int iuse::boots(player *p, item *it, bool t)
   }
   p->moves -= 30;
   g->add_msg_if_player(p, _("You put the %s in your boot."), put->tname().c_str());
-  it->put_in(p->i_rem(ch));
+  it->put_in(p->i_rem(pos));
  }
  return it->type->charges_to_use();
 }
