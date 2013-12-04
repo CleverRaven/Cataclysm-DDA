@@ -1577,6 +1577,7 @@ void complete_vehicle (game *g)
         g->add_msg (_("You install a %s into the %s."),
                     vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
         g->u.practice (g->turn, "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20);
+        veh->find_parts();
         break;
     case 'r':
         if (veh->parts[vehicle_part].hp <= 0) {
