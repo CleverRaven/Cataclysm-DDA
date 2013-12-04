@@ -214,7 +214,7 @@ public:
 
 // melee.cpp
  bool can_weapon_block(); //gear-based defensive ability
- int  hit_mon(game *g, monster *z, bool allow_grab = true);
+ int  hit_mon(game *g, monster *critter, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
 
  bool block_hit(game *g, body_part &bp_hit, int &side,
@@ -226,24 +226,24 @@ public:
  int  hit_roll(); // Our basic hit roll, compared to our target's dodge roll
  bool scored_crit(int target_dodge = 0); // Critical hit?
 
- int roll_bash_damage(monster *z, bool crit);
- int roll_cut_damage(monster *z, bool crit);
- int roll_stab_damage(monster *z, bool crit);
+ int roll_bash_damage(monster *critter, bool crit);
+ int roll_cut_damage(monster *critter, bool crit);
+ int roll_stab_damage(monster *critter, bool crit);
  int roll_stuck_penalty(bool stabbing);
 
  std::vector<matec_id> get_all_techniques();
 
  bool has_technique(matec_id tec);
- matec_id pick_technique(game *g, monster *z, player *p,
+ matec_id pick_technique(game *g, monster *critter, player *p,
                              bool crit, bool allowgrab);
- void perform_technique(ma_technique technique, game *g, monster *z, player *p,
+ void perform_technique(ma_technique technique, game *g, monster *critter, player *p,
                        int &bash_dam, int &cut_dam, int &pierce_dam, int &pain);
 
- void perform_special_attacks(game *g, monster *z, player *p,
+ void perform_special_attacks(game *g, monster *critter, player *p,
                         int &bash_dam, int &cut_dam, int &pierce_dam);
 
- std::vector<special_attack> mutation_attacks(monster *z, player *p);
- std::string melee_special_effects(game *g, monster *z, player *p, bool crit,
+ std::vector<special_attack> mutation_attacks(monster *critter, player *p);
+ std::string melee_special_effects(game *g, monster *critter, player *p, bool crit,
                             int &bash_dam, int &cut_dam, int &stab_dam);
 
  int  dodge(game *g);     // Returns the players's dodge, modded by clothing etc

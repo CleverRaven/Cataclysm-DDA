@@ -126,18 +126,18 @@ int player::hit_roll()
 }
 
 
-int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
+int player::hit_mon(game *g, monster *critter, bool allow_grab) // defaults to true
 {
     bool is_u = (this == &(g->u)); // Affects how we'll display messages
     if (is_u) {
-        z->add_effect(ME_HIT_BY_PLAYER, 100); // Flag as attacked by us
+        critter->add_effect(ME_HIT_BY_PLAYER, 100); // Flag as attacked by us
     }
 
     std::string message = is_u ? _("You hit %s") : _("<npcname> hits %s");
-    std::string target_name = string_format(_("the %s"), z->name().c_str());
+    std::string target_name = string_format(_("the %s"), critter->name().c_str());
 
 // If !allow_grab, then we already grabbed them--meaning their dodge is hampered
- int mondodge = (allow_grab ? z->dodge_roll() : z->dodge_roll() / 3);
+ int mondodge = (allow_grab ? critter->dodge_roll() : critter->dodge_roll() / 3);
 
  bool missed = (hit_roll() < mondodge ||
                 one_in(4 + dex_cur + weapon.type->m_to_hit));
@@ -169,28 +169,28 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
  bool critical_hit = scored_crit(mondodge);
 
- int bash_dam = roll_bash_damage(z, critical_hit);
- int cut_dam  = roll_cut_damage(z, critical_hit);
- int stab_dam = roll_stab_damage(z, critical_hit);
+ int bash_dam = roll_bash_damage(critter, critical_hit);
+ int cut_dam  = roll_cut_damage(critter, critical_hit);
+ int stab_dam = roll_stab_damage(critter, critical_hit);
 
  int pain = 0; // Boost to pain; required for perform_technique
 
 // Pick one or more special attacks
- matec_id tec_id = pick_technique(g, z, NULL, critical_hit, allow_grab);
+ matec_id tec_id = pick_technique(g, critter, NULL, critical_hit, allow_grab);
  ma_technique technique = ma_techniques[tec_id];
 
 
 // Handles effects as well; not done in melee_affect_*
  if (tec_id != "tec_none")
-  perform_technique(technique, g, z, NULL, bash_dam, cut_dam, stab_dam, pain);
+  perform_technique(technique, g, critter, NULL, bash_dam, cut_dam, stab_dam, pain);
 
  if (weapon.has_flag("FLAMING")) {
-   z->add_effect(ME_ONFIRE, rng(3, 4));
+   critter->add_effect(ME_ONFIRE, rng(3, 4));
  }
- z->speed -= int(pain / 2);
+ critter->speed -= int(pain / 2);
 
 // Mutation-based attacks
- perform_special_attacks(g, z, NULL, bash_dam, cut_dam, stab_dam);
+ perform_special_attacks(g, critter, NULL, bash_dam, cut_dam, stab_dam);
 
     message = melee_message(technique.id, *this, bash_dam, cut_dam, stab_dam);
 
@@ -201,11 +201,11 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
   g->sound(posx, posy, 8, "");
 
  // Handles speed penalties to monster & us, etc
- std::string specialmsg = melee_special_effects(g, z, this, critical_hit, bash_dam, cut_dam, stab_dam);
+ std::string specialmsg = melee_special_effects(g, critter, this, critical_hit, bash_dam, cut_dam, stab_dam);
 
  int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
-  if (g->u_see(z)) {
+  if (g->u_see(critter)) {
       player_hit_message(g, this, message, target_name, dam, critical_hit);
   }
 
@@ -221,10 +221,10 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 // Move our weapon to a temp slot, if it's not unarmed
   if (!unarmed_attack()) {
    item tmpweap = remove_weapon();
-   dam += hit_mon(g, z, false); // False means a second grab isn't allowed
+   dam += hit_mon(g, critter, false); // False means a second grab isn't allowed
    weapon = tmpweap;
   } else
-   dam += hit_mon(g, z, false); // False means a second grab isn't allowed
+   dam += hit_mon(g, critter, false); // False means a second grab isn't allowed
  }
 
  if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
@@ -536,7 +536,7 @@ int player::base_damage(bool real_life, int stat)
  return dam;
 }
 
-int player::roll_bash_damage(monster *z, bool crit)
+int player::roll_bash_damage(monster *critter, bool crit)
 {
  int ret = 0;
  int stat = str_cur; // Which stat determines damage?
@@ -585,7 +585,7 @@ int player::roll_bash_damage(monster *z, bool crit)
  if (bash_dam > bash_cap)// Cap for weak characters
   bash_dam = (bash_cap * 3 + bash_dam) / 4;
 
- if (z != NULL && z->has_flag(MF_PLASTIC))
+ if (critter != NULL && critter->has_flag(MF_PLASTIC))
   bash_dam /= rng(2, 4);
 
  int bash_min = bash_dam / 4;
@@ -603,19 +603,19 @@ int player::roll_bash_damage(monster *z, bool crit)
  if (crit) {
   ret += int(stat / 2);
   ret += skill;
-  if (z != NULL)
-   ret -= z->armor_bash() / 2;
- } else if (z != NULL)
-  ret -= z->armor_bash();
+  if (critter != NULL)
+   ret -= critter->armor_bash() / 2;
+ } else if (critter != NULL)
+  ret -= critter->armor_bash();
 
  return (ret < 0 ? 0 : ret);
 }
 
-int player::roll_cut_damage(monster *z, bool crit)
+int player::roll_cut_damage(monster *critter, bool crit)
 {
  if (weapon.has_flag("SPEAR"))
   return 0;  // Stabs, doesn't cut!
- int z_armor_cut = (z == NULL ? 0 : z->armor_cut() - skillLevel("cutting") / 2);
+ int z_armor_cut = (critter == NULL ? 0 : critter->armor_cut() - skillLevel("cutting") / 2);
 
  if (crit)
   z_armor_cut /= 2;
@@ -631,7 +631,7 @@ int player::roll_cut_damage(monster *z, bool crit)
    ret += 4;
   if (has_trait("TALONS"))
    ret += 6 + ((int)skillLevel("unarmed") > 8 ? 8 : (int)skillLevel("unarmed"));
-  if (has_trait("SLIME_HANDS") && (z == NULL || !z->has_flag(MF_ACIDPROOF)))
+  if (has_trait("SLIME_HANDS") && (critter == NULL || !critter->has_flag(MF_ACIDPROOF)))
    ret += rng(4, 6);
  }
 
@@ -650,10 +650,10 @@ int player::roll_cut_damage(monster *z, bool crit)
  return ret;
 }
 
-int player::roll_stab_damage(monster *z, bool crit)
+int player::roll_stab_damage(monster *critter, bool crit)
 {
  double ret = 0;
- int z_armor = (z == NULL ? 0 : z->armor_cut() - 3 * skillLevel("stabbing"));
+ int z_armor = (critter == NULL ? 0 : critter->armor_cut() - 3 * skillLevel("stabbing"));
 
  if (crit)
   z_armor /= 3;
@@ -675,8 +675,8 @@ int player::roll_stab_damage(monster *z, bool crit)
  else
   return 0; // Can't stab at all!
 
- if (z != NULL && z->speed > 100) { // Bonus against fast monsters
-  int speed_min = (z->speed - 100) / 10, speed_max = (z->speed - 100) / 5;
+ if (critter != NULL && critter->speed > 100) { // Bonus against fast monsters
+  int speed_min = (critter->speed - 100) / 10, speed_max = (critter->speed - 100) / 5;
   int speed_dam = rng(speed_min, speed_max);
   if (speed_dam > ret * 2)
    speed_dam = ret * 2;
@@ -760,18 +760,18 @@ int player::roll_stuck_penalty(bool stabbing)
     return stuck_cost;
 }
 
-matec_id player::pick_technique(game *g, monster *z, player *p,
+matec_id player::pick_technique(game *g, monster *critter, player *p,
                                     bool crit, bool allowgrab)
 {
     (void)allowgrab; //FIXME: is this supposed to be being used for something?
 
- if (z == NULL && p == NULL)
+ if (critter == NULL && p == NULL)
   return "tec_none";
 
  std::vector<matec_id> all = get_all_techniques();
 
  std::vector<matec_id> possible;
- bool downed = ((z && !z->has_effect(ME_DOWNED)) ||
+ bool downed = ((critter && !critter->has_effect(ME_DOWNED)) ||
                 (p && !p->has_disease("downed"))  );
 
   // first add non-aoe tecs
@@ -792,7 +792,7 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
     //TODO: these are the stat reqs for tec_disarm
     // dice(   dex_cur +    skillLevel("unarmed"),  8) >
     // dice(p->dex_cur + p->skillLevel("melee"),   10))
-    if (tec.disarms && !(!z && p->weapon.typeId() != "null")) continue;
+    if (tec.disarms && !(!critter && p->weapon.typeId() != "null")) continue;
 
     // ignore aoe tecs for a bit
     if (tec.aoe.length() > 0) continue;
@@ -844,18 +844,18 @@ bool player::has_technique(matec_id id) {
     martialarts[style_selected].has_technique(*this, id);
 }
 
-void player::perform_technique(ma_technique technique, game *g, monster *z,
+void player::perform_technique(ma_technique technique, game *g, monster *critter,
                                player *p, int &bash_dam, int &cut_dam,
                                int &stab_dam, int &pain)
 {
 
-    const bool mon = (z != NULL);
+    const bool mon = (critter != NULL);
     const bool npc = (p != NULL && p->is_npc());
     const bool you = (p == &(g->u));
 
     std::string target;
     if (mon) {
-        target = string_format(_("the %s"), z->name().c_str());
+        target = string_format(_("the %s"), critter->name().c_str());
     } else if (npc) {
         target = p->name;
     } else {
@@ -874,17 +874,17 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
   cut_dam *= technique.cut_mult;
   stab_dam *= technique.cut_mult;
 
-  int tarx = (mon ? z->posx() : p->posx), tary = (mon ? z->posy() : p->posy);
+  int tarx = (mon ? critter->posx() : p->posx), tary = (mon ? critter->posy() : p->posy);
 
   if (technique.quick) {
     moves += int(attack_speed(*this) / 2);
   }
-// The rest affect our target, and thus depend on z vs. p
+// The rest affect our target, and thus depend on critter vs. p
 
   if (technique.down_dur > 0) {
-    if (z != NULL && !z->has_flag(MF_FLIES)) {
-      z->add_effect(ME_DOWNED, rng(1, 2));
-      bash_dam += z->fall_damage();
+    if (critter != NULL && !critter->has_flag(MF_FLIES)) {
+      critter->add_effect(ME_DOWNED, rng(1, 2));
+      bash_dam += critter->fall_damage();
     } else if (p != NULL && p->weapon.typeId() != "style_judo" &&
       !p->is_throw_immune()) {
       p->add_disease("downed", rng(1, 2));
@@ -893,8 +893,8 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
   }
 
   if (technique.stun_dur > 0) {
-    if (z != NULL)
-      z->add_effect(ME_STUNNED, rng(1, technique.stun_dur));
+    if (critter != NULL)
+      critter->add_effect(ME_STUNNED, rng(1, technique.stun_dur));
     else if (p != NULL)
       p->add_disease("stunned", rng(1, technique.stun_dur/2));
   }
@@ -904,8 +904,8 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
       -technique.knockback_spread,
       technique.knockback_spread
     );
-    if (z != NULL) {
-      z->knock_back_from(g, posx+kb_offset, posy+kb_offset);
+    if (critter != NULL) {
+      critter->knock_back_from(g, posx+kb_offset, posy+kb_offset);
     } else if (p != NULL) {
       p->knock_back_from(g, posy+kb_offset, posy+kb_offset);
     }
@@ -1040,17 +1040,17 @@ bool player::block_hit(game *g, body_part &bp_hit, int &side,
   return true;
 }
 
-void player::perform_special_attacks(game *g, monster *z, player *p,
+void player::perform_special_attacks(game *g, monster *critter, player *p,
                                      int &bash_dam, int &cut_dam, int &stab_dam)
 {
  bool can_poison = false;
- int bash_armor = (z == NULL ? 0 : z->armor_bash());
- int cut_armor  = (z == NULL ? 0 : z->armor_cut());
- std::vector<special_attack> special_attacks = mutation_attacks(z, p);
+ int bash_armor = (critter == NULL ? 0 : critter->armor_bash());
+ int cut_armor  = (critter == NULL ? 0 : critter->armor_cut());
+ std::vector<special_attack> special_attacks = mutation_attacks(critter, p);
 
     std::string target;
-    if (z != NULL) {
-        target = string_format(_("the %s"), z->name().c_str());
+    if (critter != NULL) {
+        target = string_format(_("the %s"), critter->name().c_str());
     } else if (p != NULL) {
         target = p->name.c_str();
     } else {
@@ -1082,10 +1082,10 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
  }
 
  if (can_poison && has_trait("POISONOUS")) {
-  if (z != NULL) {
-   if (!z->has_effect(ME_POISONED))
+  if (critter != NULL) {
+   if (!critter->has_effect(ME_POISONED))
     g->add_msg_if_player(p,_("You poison %s!"), target.c_str());
-   z->add_effect(ME_POISONED, 6);
+   critter->add_effect(ME_POISONED, 6);
   } else if (p != NULL) {
    if (!p->has_disease("poison"))
     g->add_msg_if_player(p,_("You poison %s!"), target.c_str());
@@ -1094,21 +1094,21 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
  }
 }
 
-std::string player::melee_special_effects(game *g, monster *z, player *p, bool crit,
+std::string player::melee_special_effects(game *g, monster *critter, player *p, bool crit,
                                    int &bash_dam, int &cut_dam, int &stab_dam)
 {
     std::stringstream dump;
 
-    if (z == NULL && p == NULL) {
+    if (critter == NULL && p == NULL) {
         return NULL;
     }
-    const bool mon = (z != NULL);
+    const bool mon = (critter != NULL);
     const bool npc = (p != NULL && p->is_npc());
     const bool you = (p == &(g->u));
 
     std::string target;
     if (mon) {
-        target = string_format(_("the %s"), z->name().c_str());
+        target = string_format(_("the %s"), critter->name().c_str());
     } else if (npc) {
         target = p->name;
     } else {
@@ -1116,11 +1116,11 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
         // "you" handled separately
     }
 
- int tarposx = (mon ? z->posx() : p->posx), tarposy = (mon ? z->posy() : p->posy);
+ int tarposx = (mon ? critter->posx() : p->posx), tarposy = (mon ? critter->posy() : p->posy);
 
 // Bashing effecs
  if (mon)
-  z->moves -= rng(0, bash_dam * 2);
+  critter->moves -= rng(0, bash_dam * 2);
  else
   p->moves -= rng(0, bash_dam * 2);
 
@@ -1131,7 +1131,7 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
    turns_stunned = 6;
   if (turns_stunned > 0) {
    if (mon)
-    z->add_effect(ME_STUNNED, turns_stunned);
+    critter->add_effect(ME_STUNNED, turns_stunned);
    else
     p->add_disease("stunned", 1 + turns_stunned / 2);
   }
@@ -1152,14 +1152,14 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
                                      target.c_str() );
         }
         if (mon) {
-            z->add_effect(ME_DOWNED, 1);
-            z->moves -= stab_moves / 2;
+            critter->add_effect(ME_DOWNED, 1);
+            critter->moves -= stab_moves / 2;
         } else {
             p->add_disease("downed", 1);
             p->moves -= stab_moves / 2;
         }
     } else if (mon) {
-        z->moves -= stab_moves;
+        critter->moves -= stab_moves;
     } else {
         p->moves -= stab_moves;
     }
@@ -1169,10 +1169,10 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
                     (unarmed_attack() || weapon.made_of("iron") ||
                      weapon.made_of("steel") || weapon.made_of("silver") ||
                      weapon.made_of("gold")) &&
-                    (!mon || !z->has_flag(MF_ELECTRIC)) && one_in(3));
+                    (!mon || !critter->has_flag(MF_ELECTRIC)) && one_in(3));
 
  bool drain_them = (has_active_bionic("bio_heat_absorb") && power_level >= 1 &&
-                    !is_armed() && (!mon || z->has_flag(MF_WARM)));
+                    !is_armed() && (!mon || critter->has_flag(MF_WARM)));
 
  drain_them &= one_in(2); // Only works half the time
 
@@ -1180,8 +1180,8 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
         power_level -= 2;
         int shock = rng(2, 5);
         if (mon) {
-            z->hurt( shock * rng(1, 3) );
-            z->moves -= shock * 180;
+            critter->hurt( shock * rng(1, 3) );
+            critter->moves -= shock * 180;
             g->add_msg_player_or_npc(this, _("You shock %s."),
                                      _("<npcname> shocks %s."),
                                      target.c_str());
@@ -1202,8 +1202,8 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
                                      target.c_str());
         }
         if (mon) {
-            z->moves -= rng(80, 120);
-            z->speed -= rng(4, 6);
+            critter->moves -= rng(80, 120);
+            critter->speed -= rng(4, 6);
         } else {
             p->moves -= rng(80, 120);
         }
@@ -1211,7 +1211,7 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
 
  bool conductive = !wearing_something_on(bp_hands) && weapon.conductive();
 
- if (mon && z->has_flag(MF_ELECTRIC) && conductive) {
+ if (mon && critter->has_flag(MF_ELECTRIC) && conductive) {
   hurtall(rng(0, 1));
   moves -= rng(0, 50);
   g->add_msg_if_player(p, _("Contact with %s shocks you!"), target.c_str());
@@ -1247,30 +1247,30 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
   }
  }
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) &&
-         !z->is_hallucination()) {
+         !critter->is_hallucination()) {
   if (you)
     dump << string_format(_("Your %s gets stuck in %s, pulling it our of your hands!"), weapon.tname().c_str(), target.c_str());
   if (mon) {
    if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
-    z->speed *= .7;
+    critter->speed *= .7;
    else
-    z->speed *= .85;
-   z->add_item(remove_weapon());
+    critter->speed *= .85;
+   critter->add_item(remove_weapon());
   } else
    g->m.add_item_or_charges(posx, posy, remove_weapon());
  } else {
-  if (mon && (cut_dam >= z->hp || stab_dam >= z->hp)) {
+  if (mon && (cut_dam >= critter->hp || stab_dam >= critter->hp)) {
    cutting_penalty /= 2;
    cutting_penalty -= rng(skillLevel("cutting"), skillLevel("cutting") * 2 + 2);
   }
   if (cutting_penalty > 0)
    moves -= cutting_penalty;
-  if (cutting_penalty >= 50 && !z->is_hallucination()) {
+  if (cutting_penalty >= 50 && !critter->is_hallucination()) {
     if (you)
     dump << string_format(_("Your %s gets stuck in %s but you yank it free!"), weapon.tname().c_str(), target.c_str());
   }
   if (mon && (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")))
-   z->speed *= .9;
+   critter->speed *= .9;
  }
 
 // Finally, some special effects for martial arts
@@ -1285,22 +1285,22 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
   return dump.str();
 }
 
-std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
+std::vector<special_attack> player::mutation_attacks(monster *critter, player *p)
 {
     std::vector<special_attack> ret;
 
-    if (z == NULL && p == NULL) {
+    if (critter == NULL && p == NULL) {
         return ret;
     }
 
-    const bool mon = (z != NULL);
+    const bool mon = (critter != NULL);
     const bool npc = (p != NULL && p->is_npc());
     const bool male = (p != NULL && p->male);
     const bool is_u = !is_npc();
 
     std::string target;
     if (mon) {
-        target = string_format(_("the %s"), z->name().c_str());
+        target = string_format(_("the %s"), critter->name().c_str());
     } else if (npc) {
         target = p->name;
     } else {
