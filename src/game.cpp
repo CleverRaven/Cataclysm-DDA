@@ -8565,18 +8565,18 @@ and you can't unwield your %s."),
                 idx = pickup_chars.find(ch);
             }
 
-            if (idx != -1) {
-                if (itemcount != 0 || pickup_count[idx] == 0) {
-                    if (itemcount >= here[idx].charges) {
-                        // Ignore the count if we pickup the whole stack anyway
+            if ( idx < here.size()) {
+                if (idx != -1) {
+                    if (itemcount != 0 || pickup_count[idx] == 0) {
+                        if (itemcount >= here[idx].charges) {
+                            // Ignore the count if we pickup the whole stack anyway
+                            itemcount = 0;
+                        }
+                        pickup_count[idx] = itemcount;
                         itemcount = 0;
                     }
-                    pickup_count[idx] = itemcount;
-                    itemcount = 0;
                 }
-            }
 
-            if ( idx < here.size()) {
                 getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
                 if ( ch != KEY_RIGHT && ch != KEY_LEFT) {
                     selected = idx;
