@@ -927,6 +927,30 @@
   },
 
   {
+    "id": "halligan",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "Halligan bar",
+    "description": "This is a heavy multiple-use tool commonly carried by firefighters, law enforcement, and military rescue units. Use it to open locked doors without destroying them or to lift manhole covers. You could also wield it to bash some heads in.",
+    "price": 750,
+    "material": "steel",
+    "techniques": ["WIDE", "BRUTAL"],
+    "weight": 3600,
+    "volume": 5,
+    "bashing": 20,
+    "cutting": 5,
+    "to_hit": 2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "CROWBAR"
+  },
+
+  {
     "id": "makeshift_crowbar",
     "type": "TOOL",
     "symbol": ";",
