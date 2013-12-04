@@ -384,6 +384,8 @@ class game
   void load_vehicle(JsonObject &jo);
   void finalize_vehicles();
 
+  void load_monitem(JsonObject &jo);     // Load monster inventory selection entry
+
   std::queue<vehicle_prototype*> vehprototypes;
 
   nc_color limb_color(player *p, body_part bp, int side, bool bleed = true,
@@ -423,7 +425,6 @@ class game
   void init_professions();
   void init_faction_data();
   void init_mongroups() throw (std::string);    // Initualizes monster groups
-  void init_monitems();     // Initializes monster inventory selection
   void release_traps();     // Release trap types memory
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
