@@ -22121,6 +22121,39 @@
   ]
 },{
         "type" : "recipe",
+  "result": "55gal_drum",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 8,
+  "time": 420000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 400], ["char_forge", 80]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "steel_lump", 16 ],
+     [ "steel_chunk", 64 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "leathersandals",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
