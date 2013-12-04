@@ -1156,60 +1156,6 @@ int set_skills(WINDOW *w, game *g, player *u, character_type type, int &points)
 			}
 		}
 
-        /*if (cur_pos < iHalf) {
-            for (int i = 0; i < iContentHeight; ++i) {
-                Skill *thisSkill = sorted_skills[i];
-
-                mvwprintz(w, 5 + i, 2, c_ltgray, "\
-                                             "); // Clear the line
-                if (u->skillLevel(thisSkill) == 0) {
-                    mvwprintz(w, 5 + i, 2, (i == cur_pos ? h_ltgray : c_ltgray),
-                              thisSkill->name().c_str());
-                } else {
-                    mvwprintz(w, 5 + i, 2,
-                              (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                              "%s ", thisSkill->name().c_str());
-                    for (int j = 0; j < u->skillLevel(thisSkill); j++) {
-                        wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
-                    }
-                }
-            }
-        } else if (cur_pos > num_skills - iContentHeight + iHalf) {
-            for (int i = num_skills - iContentHeight; i < num_skills; ++i) {
-                Skill *thisSkill = sorted_skills[i];
-                mvwprintz(w, FULL_SCREEN_HEIGHT - 4 + i - num_skills, 2, c_ltgray, "\
-                                             "); // Clear the line
-                if (u->skillLevel(thisSkill) == 0) {
-                    mvwprintz(w, FULL_SCREEN_HEIGHT - 4 + i - num_skills, 2,
-                              (i == cur_pos ? h_ltgray : c_ltgray), thisSkill->name().c_str());
-                } else {
-                    mvwprintz(w, FULL_SCREEN_HEIGHT - 4 + i - num_skills, 2,
-                              (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
-                              thisSkill->name().c_str());
-                    for (int j = 0; j < u->skillLevel(thisSkill); j++) {
-                        wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
-                    }
-                }
-            }
-        } else {
-            for (int i = cur_pos - iHalf; i < cur_pos + iContentHeight - iHalf; ++i) {
-                Skill *thisSkill = sorted_skills[i];
-                mvwprintz(w, 5 + iHalf + i - cur_pos, 2, c_ltgray, "\
-                                             "); // Clear the line
-                if (u->skillLevel(thisSkill) == 0) {
-                    mvwprintz(w, 5 + iHalf + i - cur_pos, 2, (i == cur_pos ? h_ltgray : c_ltgray),
-                              thisSkill->name().c_str());
-                } else {
-                    mvwprintz(w, 5 + iHalf + i - cur_pos, 2,
-                              (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                              "%s ", thisSkill->name().c_str());
-                    for (int j = 0; j < u->skillLevel(thisSkill); j++) {
-                        wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
-                    }
-                }
-            }
-        }*/
-
         //Draw Scrollbar
         draw_scrollbar(w, cur_pos, iContentHeight, num_skills, 5);
 
