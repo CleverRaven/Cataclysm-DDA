@@ -1222,9 +1222,9 @@ int player::run_cost(int base_cost, bool diag)
 
     movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
-    if (!wearing_something_on(bp_feet) && !has_trait("PADDED_FEET") &&
-            !has_trait("HOOVES"))
+    if (!is_wearing_shoes() && !has_trait("PADDED_FEET") && !has_trait("HOOVES")){
         movecost += 15;
+    }
 
     if (diag)
         movecost *= 1.4142;
@@ -7108,23 +7108,12 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
-        if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(to_wear->made_of("wool") || to_wear->made_of("cotton")))
-        {
-            for (int i = 0; i < worn.size(); i++)
-            {
-                item *worn_item = &worn[i];
-                it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
-
-                if (worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of("wool") || worn_item->made_of("cotton")))
-                {
-                    if(interactive)
-                    {
-                        g->add_msg(_("You're already wearing footwear!"));
-                    }
-                    return false;
-                }
+        // Checks to see if the player is wearing leather/plastic etc shoes
+        if (is_wearing_shoes()){
+            if(interactive){
+                g->add_msg(_("You're already wearing footwear!"));
             }
+            return false;
         }
     }
 
@@ -8843,6 +8832,22 @@ bool player::wearing_something_on(body_part bp)
     return true;
  }
  return false;
+}
+
+bool player::is_wearing_shoes() {
+    for (int i = 0; i < worn.size(); i++)
+    {
+        item *worn_item = &worn[i];
+        it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
+
+        if (worn_armor->covers & mfb(bp_feet)
+            && (worn_item->made_of("leather") || worn_item->made_of("plastic") || worn_item->made_of("steel") ||
+                worn_item->made_of("kevlar") || worn_item->made_of("chitin")))
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool player::is_wearing_power_armor(bool *hasHelmet) const {
