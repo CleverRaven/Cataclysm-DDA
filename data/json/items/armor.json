@@ -4417,7 +4417,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A distinctive helmet worn by firefighters. Since the introduction of more modern firefighting equipment, they serve as a badge of honor and are not commonly used in the field.",
+        "description" : "A distinctive helmet worn by firefighters. More than just a piece of firefighting equipment, they serve as a badge of honor and respect.",
         "price" : 240,
         "material" : ["steel", "null"],
         "volume" : 5,
