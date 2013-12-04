@@ -559,11 +559,12 @@ bool map::vehproceed(game* g){
     int dmg_1 = 0;
 
     std::vector<veh_collision> veh_veh_colls;
+    std::vector<veh_collision> veh_misc_colls;
 
     if (veh->velocity == 0) { can_move = false; }
     // find collisions
     int vel1 = veh->velocity/100; //velocity of car before collision
-    veh->collision( veh_veh_colls, dx, dy, can_move, dmg_1 );
+    veh->collision( veh_veh_colls, veh_misc_colls, dx, dy, can_move, dmg_1 );
 
     bool veh_veh_coll_flag = false;
     // Used to calculate the epicenter of the collision.
@@ -700,15 +701,24 @@ bool map::vehproceed(game* g){
         veh2->of_turn = avg_of_turn * 1.1;
     }
 
+    for(std::vector<veh_collision>::iterator next_collision = veh_misc_colls.begin();
+            next_collision != veh_misc_colls.end(); next_collision++) {
+
+        point collision_point(veh->parts[next_collision->part].mount_dx,
+                                    veh->parts[next_collision->part].mount_dy);
+        int coll_dmg = next_collision->imp;
+        //Shock damage
+        debugmsg("Dealing %d points of shock damage from %s (%d, %d)", coll_dmg,
+                veh->part_info(next_collision->part).name.c_str(), collision_point.x, collision_point.y);
+        veh->damage_all(coll_dmg / 2, coll_dmg, 1, collision_point);
+
+    }
+
     int coll_turn = 0;
     if (dmg_1 > 0) {
         int vel1_a = veh->velocity / 100; //velocity of car after collision
         int d_vel = abs(vel1 - vel1_a);
 
-        if (dmg_1 > 100) {
-            // shake veh because of collision
-            veh->damage_all(dmg_1 / 2, dmg_1, 1, epicenter1);
-        }
         std::vector<int> ppl = veh->boarded_parts();
 
         for (int ps = 0; ps < ppl.size(); ps++) {

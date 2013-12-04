@@ -10750,13 +10750,14 @@ bool game::plmove(int dx, int dy)
               grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
               int imp = 0;
               std::vector<veh_collision> veh_veh_colls;
+              std::vector<veh_collision> veh_misc_colls;
               bool can_move = true;
               // Set player location to illegal value so it can't collide with vehicle.
               int player_prev_x = u.posx;
               int player_prev_y = u.posy;
               u.posx = 0;
               u.posy = 0;
-              if( grabbed_vehicle->collision( veh_veh_colls, dxVeh, dyVeh, can_move, imp, true ) ) {
+              if( grabbed_vehicle->collision( veh_veh_colls, veh_misc_colls, dxVeh, dyVeh, can_move, imp, true ) ) {
                   // TODO: figure out what we collided with.
                   add_msg( _("The %s collides with something."), grabbed_vehicle->name.c_str() );
                   u.moves -= 10;
