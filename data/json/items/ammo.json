@@ -2882,7 +2882,7 @@
         "pierce" : 25,
         "range" : 40,
         "dispersion" : 10,
-        "recoil" : 10,
+        "recoil" : 20,
         "count" : 3
     },
     {   "type" : "AMMO",
