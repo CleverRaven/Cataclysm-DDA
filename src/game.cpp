@@ -2606,102 +2606,114 @@ int& game::scent(int x, int y)
 
 void game::update_scent()
 {
- static point player_last_position = point( u.posx, u.posy );
- static calendar player_last_moved = turn;
- // Stop updating scent after X turns of the player not moving.
- // Once wind is added, need to reset this on wind shifts as well.
- if( u.posx == player_last_position.x && u.posy == player_last_position.y ) {
-     if( player_last_moved + 1000 < turn ) {
-         return;
-     }
- } else {
-     player_last_position = point( u.posx, u.posy );
-	 player_last_moved = turn;
- }
-
- int temp_scent;
- // note: the next two intermediate variables need to be at least [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
- // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid introducing new bugs.
- int  sum_3_scent_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
- int squares_used_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
-
- static const std::string hasflag_str_WALL("WALL"); // only need to assemble this once per runtime vs 14884 times
- static const std::string hasflag_str_REDUCE_SCENT("REDUCE_SCENT");
-
- bool     has_wall_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash instead of checking 14884 * (3 redundant)
- bool reduce_scent_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash instead of checking 14884 * (3 redundant)
-
- const int diffusivity = 100; // decrease this to reduce gas spread. Keep it under 125 for stability.  This is essentially a decimal number * 1000.
-
- if (!u.has_active_bionic("bio_scent_mask")) {
-     grscent[u.posx][u.posy] = u.scent;
- }
-
- // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9 times. This cost us an extra loop here, but
- // it also eliminated a loop at the end, so there is a net performance improvement over the old code. Could probably still be better.
- // note: this method needs an array that is one square larger on each side in the x direction then the final scent matrix
- // I think this is fine since SCENT_RADIUS is less than SEEX*MAPSIZE, but if that changes, this may need tweaking.
- for (int x = u.posx - SCENT_RADIUS -1; x <= u.posx + SCENT_RADIUS + 1; x++) {
-  for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-   // cache expensive flag checks, once per tile.
-   if ( y == u.posy - SCENT_RADIUS ) {  // ..and only once. y-1 y-0, when we are at the top row...
-       for (int i = y - 1; i <= y; ++i) {
-           has_wall_here[x][i] = m.has_flag(hasflag_str_WALL, x, i);
-           reduce_scent_here[x][i] = m.has_flag(hasflag_str_REDUCE_SCENT, x, i);
-       }
-   }
-   has_wall_here[x][y+1] = m.has_flag(hasflag_str_WALL, x, y+1); // ...means we only need y+1 here for lookahead
-   reduce_scent_here[x][y+1] = m.has_flag(hasflag_str_REDUCE_SCENT, x, y+1);
-
-   // remember the sum of the scent val for the up to 3 neighboring squares that can defuse into.
-   sum_3_scent_y[x][y]  = 0;
-   squares_used_y[x][y] = 0; 
-   for (int i = y - 1; i <= y + 1; ++i) {
-       if (reduce_scent_here[x][i] == true) {
-           sum_3_scent_y[x][y]  += 2 * grscent[x][i]; // only 20% of scent can diffuse on REDUCE_SCENT squares
-           squares_used_y[x][y] += 2; // only 20% of scent diffusion goes into REDUCE_SCENT squares 
-       } else if (has_wall_here[x][i] == false) { 
-           sum_3_scent_y[x][y]  += 10 * grscent[x][i];
-           squares_used_y[x][y] += 10; 
-       } 
-   }
-
-  }
- }
- for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
-  for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-   if (has_wall_here[x][y] == false) {
-       // to how many neighboring squares do we diffuse out? (include our own square since we also include our own square when diffusing in)
-       int squares_used = squares_used_y[x-1][y] + squares_used_y[x][y] + squares_used_y[x+1][y];
-        
-       int this_diffusivity;
-       if (reduce_scent_here[x][y] == false) {
-           this_diffusivity = diffusivity;
-       } else {
-           this_diffusivity = diffusivity / 5; // less air moves in and out when the reduce_scent flag is present in this square
-       }
-       temp_scent  = grscent[x][y] * (10 * 1000 - squares_used * this_diffusivity); // take the old scent and subtract what diffuses out
-       temp_scent -= grscent[x][y] * this_diffusivity * (90 - squares_used) / 5; // neighboring walls and reduce_scent squares absorb some scent 
-       // we've already summed neighboring scent values in the y direction in the previous loop.
-       // Now we do it for the x direction, multiply by diffusion, and this is what diffuses into our current square.
-       grscent[x][y] = static_cast<int>(temp_scent + this_diffusivity * (sum_3_scent_y[x-1][y] + sum_3_scent_y[x][y] + sum_3_scent_y[x+1][y] )) / (1000 * 10);
-
-
-       const int fslime = m.get_field_strength(point(x,y), fd_slime) * 10;
-       if (fslime > 0 && grscent[x][y] < fslime) {
-           grscent[x][y] = fslime;
-       }
-       if (grscent[x][y] > 10000) {
-           dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
-                        << y << " (" << grscent[x][y] << ")";
-           debugmsg("Wacky scent at %d, %d (%d)", x, y, grscent[x][y]);
-           grscent[x][y] = 0; // Scent should never be higher
-       }
-   } else { // there is a wall here
-       grscent[x][y] = 0;
-   }
-  }
- }
+    static point player_last_position = point( u.posx, u.posy );
+    static calendar player_last_moved = turn;
+    // Stop updating scent after X turns of the player not moving.
+    // Once wind is added, need to reset this on wind shifts as well.
+    if( u.posx == player_last_position.x && u.posy == player_last_position.y ) {
+        if( player_last_moved + 1000 < turn ) {
+            return;
+        }
+    } else {
+        player_last_position = point( u.posx, u.posy );
+   	    player_last_moved = turn;
+    }
+   
+    int temp_scent;
+    // note: the next two intermediate variables need to be at least 
+    // [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
+    // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid new bugs.
+    int  sum_3_scent_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
+    int squares_used_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
+   
+    static const std::string hasflag_str_WALL("WALL"); // only need to assemble this once per run
+    static const std::string hasflag_str_REDUCE_SCENT("REDUCE_SCENT");
+   
+    bool     has_wall_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash instead of
+    bool reduce_scent_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // checking 14884 * (3 redundant)
+   
+    const int diffusivity = 100; // decrease this to reduce gas spread. Keep it under 125 for 
+                                 // stability. This is essentially a decimal number * 1000.
+   
+    if (!u.has_active_bionic("bio_scent_mask")) {
+        grscent[u.posx][u.posy] = u.scent;
+    }
+   
+    // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9 
+    // times. This cost us an extra loop here, but it also eliminated a loop at the end, so there 
+    // is a net performance improvement over the old code. Could probably still be better.
+    // note: this method needs an array that is one square larger on each side in the x direction 
+    // than the final scent matrix. I think this is fine since SCENT_RADIUS is less than 
+    // SEEX*MAPSIZE, but if that changes, this may need tweaking.
+    for (int x = u.posx - SCENT_RADIUS -1; x <= u.posx + SCENT_RADIUS + 1; x++) {
+        for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
+            // cache expensive flag checks, once per tile.
+            if ( y == u.posy - SCENT_RADIUS ) {  // Setting y-1 y-0, when we are at the top row...
+                for (int i = y - 1; i <= y; ++i) {
+                    has_wall_here[x][i] = m.has_flag(hasflag_str_WALL, x, i);
+                    reduce_scent_here[x][i] = m.has_flag(hasflag_str_REDUCE_SCENT, x, i);
+                }
+            }
+            has_wall_here[x][y+1] = m.has_flag(hasflag_str_WALL, x, y+1); // ...so only y+1 here.
+            reduce_scent_here[x][y+1] = m.has_flag(hasflag_str_REDUCE_SCENT, x, y+1);
+   
+            // remember the sum of the scent val for the 3 neighboring squares that can defuse into
+            sum_3_scent_y[x][y]  = 0;
+            squares_used_y[x][y] = 0; 
+            for (int i = y - 1; i <= y + 1; ++i) {
+                if (reduce_scent_here[x][i] == true) {
+                    // only 20% of scent can diffuse on REDUCE_SCENT squares
+                    sum_3_scent_y[x][y]  += 2 * grscent[x][i];
+                    squares_used_y[x][y] += 2; // only 20% diffuses into REDUCE_SCENT squares 
+                } else if (has_wall_here[x][i] == false) { 
+                    sum_3_scent_y[x][y]  += 10 * grscent[x][i];
+                    squares_used_y[x][y] += 10; 
+                } 
+            }
+        }
+    }
+    for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
+        for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
+            if (has_wall_here[x][y] == false) {
+                // to how many neighboring squares do we diffuse out? (include our own square 
+                // since we also include our own square when diffusing in)
+                int squares_used = squares_used_y[x-1][y] 
+                                 + squares_used_y[x][y] 
+                                 + squares_used_y[x+1][y];
+                 
+                int this_diffusivity;
+                if (reduce_scent_here[x][y] == false) {
+                    this_diffusivity = diffusivity;
+                } else {
+                    this_diffusivity = diffusivity / 5; //less air movement for REDUCE_SCENT square
+                }
+                // take the old scent and subtract what diffuses out
+                temp_scent  = grscent[x][y] * (10 * 1000 - squares_used * this_diffusivity);
+                // neighboring walls and reduce_scent squares absorb some scent
+                temp_scent -= grscent[x][y] * this_diffusivity * (90 - squares_used) / 5;
+                // we've already summed neighboring scent values in the y direction in the previous
+                // loop. Now we do it for the x direction, multiply by diffusion, and this is what 
+                // diffuses into our current square.
+                grscent[x][y] = static_cast<int>(temp_scent + this_diffusivity * 
+                                (sum_3_scent_y[x-1][y] + sum_3_scent_y[x][y] + 
+                                sum_3_scent_y[x+1][y] )) / (1000 * 10);
+   
+   
+                const int fslime = m.get_field_strength(point(x,y), fd_slime) * 10;
+                if (fslime > 0 && grscent[x][y] < fslime) {
+                    grscent[x][y] = fslime;
+                }
+                if (grscent[x][y] > 10000) {
+                    dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
+                                 << y << " (" << grscent[x][y] << ")";
+                    debugmsg("Wacky scent at %d, %d (%d)", x, y, grscent[x][y]);
+                    grscent[x][y] = 0; // Scent should never be higher
+                }
+            } else { // there is a wall here
+                grscent[x][y] = 0;
+            }
+        }
+    }
 }
 
 bool game::is_game_over()
