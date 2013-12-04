@@ -5521,7 +5521,56 @@
     "items":[
      ["kevlar_harness", 1]
 	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_torso",
+    "items":[
+     ["cleansuit", 40],
+	 ["jumpsuit", 60]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_boots",
+    "items":[
+     ["boots_rubber", 1]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_gloves",
+    "items":[
+     ["gloves_medical", 60],
+	 ["gloves_rubber", 40]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_full",
+    "items":[
+	 ["hazmat_suit", 80],
+     ["anbc_suit", 20]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_mask",
+    "items":[
+	 ["mask_dust", 80],
+     ["mask_filter", 20],
+	 ["mask_gas", 10]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "rad_gear",
+    "items":[
+     ["wrapped_rad_badge", 80],
+	 ["geiger_off", 20],
+	 ["iodine", 50]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_eyes",
+    "items":[
+	 ["glasses_safety", 50]
+	]
 	}
-    ]
+	]
   }
 ]
