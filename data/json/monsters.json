@@ -1645,8 +1645,8 @@
     "armor_cut":0,
     "item_chance":40,
     "luminance":0,
-    "hp":40,
-    "special_freq":5,
+    "hp":35,
+    "special_freq":2,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
     "description":"A once-dead human corpse. Its discolored swollen flesh is riddled with festering wounds and open sores.",
@@ -1928,12 +1928,12 @@
     "armor_cut":0,
     "item_chance":0,
     "luminance":0,
-    "hp":28,
-    "special_freq":20,
+    "hp":24,
+    "special_freq":2,
     "death_function":"NORMAL",
     "special_attack":"BITE",
     "description":"Acrid smell accompanies this corpse of canine. Its whole body is covered in chains of pulsing cysts and slime dribbling ulcers.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "VENOM", "NO_BREATHE", "VIS50", "REVIVES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"]
     },{
         "type" : "MONSTER",
         "id" : "mon_zombie_brute",
