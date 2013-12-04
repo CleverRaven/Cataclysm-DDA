@@ -28,6 +28,7 @@ struct advanced_inv_listitem {
     int area;
     item *it;
     std::string name;
+    std::string name_without_prefix;
     bool autopickup;
     int stacks;
     int volume;

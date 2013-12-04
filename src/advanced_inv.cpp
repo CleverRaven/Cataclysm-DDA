@@ -269,10 +269,17 @@ struct advanced_inv_sorter {
             };
         }
         // secondary sort by name
-        std::string n1=d1.name;
-        std::string n2=d2.name;
+        std::string n1;
+        std::string n2;
+		if (d1.name_without_prefix == d2.name_without_prefix){//if names without prefix equal, compare full name
+			n1 = d1.name;
+			n2 = d2.name;
+		} else {//else compare name without prefix
+			n1 = d1.name_without_prefix;
+			n2 = d2.name_without_prefix;
+		}
         return std::lexicographical_compare( n1.begin(), n1.end(),
-            n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
+				n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
     };
 };
 
@@ -481,6 +488,7 @@ void advanced_inventory::recalc_pane(int i)
             item &item = stacks[x]->front();
             advanced_inv_listitem it;
             it.name = item.tname();
+            it.name_without_prefix = item.tname( false );
             if ( filtering && ! cached_lcmatch(it.name, panes[i].filter, panes[i].filtercache ) ) {
                 continue;
             }
@@ -537,6 +545,7 @@ void advanced_inventory::recalc_pane(int i)
                     advanced_inv_listitem it;
                     it.idx = x;
                     it.name = items[x].tname();
+		               			it.name_without_prefix = items[x].tname( false );
                     if ( filtering && ! cached_lcmatch(it.name, panes[i].filter, panes[i].filtercache ) ) {
                         continue;
                     }
