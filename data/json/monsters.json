@@ -295,7 +295,7 @@
     "dodge":2,
     "armor_bash":2,
     "armor_cut":0,
-    "item_chance":0,
+    "item_chance":-50,
     "luminance":0,
     "hp":100,
     "special_freq":0,

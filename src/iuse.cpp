@@ -6384,3 +6384,13 @@ int iuse::talking_doll(player *p, item *it, bool t)
 
     return it->type->charges_to_use();
 }
+
+int iuse::bell(player *p, item *it, bool t)
+{
+    if( it->type->id == "cow_bell" ) {
+        g->sound(p->posx, p->posy, 6, _("Clank! Clank!"));   
+    } else {
+        g->sound(p->posx, p->posy, 4, _("Ring! Ring!"));
+    }
+    return it->type->charges_to_use();
+}
