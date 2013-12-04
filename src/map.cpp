@@ -708,10 +708,7 @@ bool map::vehproceed(game* g){
                                     veh->parts[next_collision->part].mount_dy);
         int coll_dmg = next_collision->imp;
         //Shock damage
-        debugmsg("Dealing %d points of shock damage from %s (%d, %d)", coll_dmg,
-                veh->part_info(next_collision->part).name.c_str(), collision_point.x, collision_point.y);
         veh->damage_all(coll_dmg / 2, coll_dmg, 1, collision_point);
-
     }
 
     int coll_turn = 0;
