@@ -360,7 +360,7 @@
     {
         "id": "55gal_drum",
         "type": "CONTAINER",
-        "symbol": ")",
+        "symbol": "0",
         "color": "dark_gray",
         "name": "55 gallon drum",
         "description": "A massive steel barrel with a resealable lid.",
@@ -372,6 +372,23 @@
         "to_hit": 1,
         "material": "steel",
         "contains": 825,
+        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+    },
+    {
+        "id": "30gal_drum",
+        "type": "CONTAINER",
+        "symbol": "0",
+        "color": "light_blue",
+        "name": "30 gallon barrel",
+        "description": "A huge plastic barrel with a resealable lid.",
+        "price": 5000,
+        "weight": 6800,
+        "volume": 450,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "plastic",
+        "contains": 450,
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
     },
     {
