@@ -24,6 +24,7 @@
 #include "mapgen.h"
 #include "speech.h"
 #include "construction.h"
+#include "name.h"
 
 // need data initialized
 #include "bodypart.h"
@@ -32,6 +33,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream> // for throwing errors
+#include <locale> // for loading names
 
 #include "savegame.h"
 
@@ -115,7 +117,6 @@ void init_data_structures()
     // Non Static Function Access
     type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET, &snippet_library::load_snippet);
     type_function_map["item_group"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_item_group);
-    type_function_map["NAME"] = new ClassFunctionAccessor<NameGenerator>(&NameGenerator::generator(), &NameGenerator::load_name);
 
     type_function_map["vehicle_part"] = new ClassFunctionAccessor<game>(g, &game::load_vehiclepart);
     type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle);
@@ -146,6 +147,8 @@ void init_data_structures()
         new StaticFunctionAccessor(&load_construction);
     type_function_map["mapgen"] =
         new StaticFunctionAccessor(&load_mapgen);
+
+    type_function_map["monitems"] = new ClassFunctionAccessor<game>(g, &game::load_monitem);
 
     mutations_category[""].clear();
     init_body_parts();
@@ -244,4 +247,27 @@ void load_all_from_json(JsonIn &jsin)
     }
 }
 
+// load names depending on current locale
+void init_names()
+{
+    std::locale loc("");
+    std::string loc_name = loc.name();
+    if (loc_name == "C") {
+        loc_name = "en";
+    }
+    size_t dotpos = loc_name.find('.');
+    if (dotpos != std::string::npos) {
+        loc_name = loc_name.substr(0, dotpos);
+    }
+    // test if a local version exists
+    std::string filename = "data/names/" + loc_name + ".json";
+    std::ifstream fin(filename.c_str(), std::ifstream::in | std::ifstream::binary);
+    if (!fin.good()) {
+        // if not, use "en.json"
+        filename = "data/names/en.json";
+    }
+    fin.close();
+
+    load_names_from_file(filename);
+}
 

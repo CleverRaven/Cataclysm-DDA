@@ -478,6 +478,15 @@ terfurn_tile::terfurn_tile() {
     furn = (short)t_null;
 }
 
+bool mapgen_function_json::check_inbounds( jmapgen_int & var ) {
+    const int min = 0;
+    const int max = mapgensize - 1;
+    if ( var.val < min || var.val > max || var.valmax < min || var.valmax > max ) {
+         return false;
+    }
+    return true;
+}
+#define inboundchk(v,j) if (! check_inbounds(v) ) { j.throw_error(string_format("Value must be between 0 and %d",mapgensize)); }
 /*
  * Take json array or int and set a numeric pair
  */
@@ -515,8 +524,11 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
     int setmap_optype = 0;
     while ( parray.has_more() ) {
         JsonObject pjo = parray.next_object();
-        if ( pjo.read("set",tmpval ) ) {
+        if ( pjo.read("point",tmpval ) ) {
             setmap_optype = JMAPGEN_SETMAP_OPTYPE_POINT;
+        } else if ( pjo.read("set",tmpval ) ) {
+            setmap_optype = JMAPGEN_SETMAP_OPTYPE_POINT;
+            debugmsg("Warning, set: [ { \"set\": ... } is deprecated, use set: [ { \"point\": ... ");
         } else if ( pjo.read("line",tmpval ) ) {
             setmap_optype = JMAPGEN_SETMAP_OPTYPE_LINE;
         } else if ( pjo.read("square",tmpval ) ) {
@@ -541,15 +553,19 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
         if ( ! load_jmapgen_int(pjo, "x", tmp_x.val, tmp_x.valmax) ) {
             err = string_format("set %s: bad/missing value for 'x'",tmpval.c_str() ); throw err;
         }
+        inboundchk(tmp_x,pjo);
         if ( ! load_jmapgen_int(pjo, "y", tmp_y.val, tmp_y.valmax) ) {
             err = string_format("set %s: bad/missing value for 'y'",tmpval.c_str() ); throw err;
         }
+        inboundchk(tmp_x,pjo);
         if ( setmap_optype != JMAPGEN_SETMAP_OPTYPE_POINT ) {
             if ( ! load_jmapgen_int(pjo, "x2", tmp_x2.val, tmp_x2.valmax) ) {
                 err = string_format("set %s: bad/missing value for 'x2'",tmpval.c_str() ); throw err;
+                inboundchk(tmp_x2,pjo);
             }
             if ( ! load_jmapgen_int(pjo, "y2", tmp_y2.val, tmp_y2.valmax) ) {
                 err = string_format("set %s: bad/missing value for 'y2'",tmpval.c_str() ); throw err;
+                inboundchk(tmp_y2,pjo);
             }
         }
         if ( tmpop == JMAPGEN_SETMAP_RADIATION ) {
@@ -775,18 +791,25 @@ bool mapgen_function_json::setup() {
            // todo: write TFM.
        }
 
-       if ( jo.has_array("spawn_items") ) {
-           parray = jo.get_array( "spawn_items");
+       if ( jo.has_array("add") ) {
+           parray = jo.get_array( "add");
            
            while ( parray.has_more() ) {
                jmapgen_int tmp_x(0,0);
                jmapgen_int tmp_y(0,0);
                jmapgen_int tmp_amt(1,1);
                JsonObject jsi = parray.next_object();
-               if ( ! jsi.has_string("id") || ! jsi.has_member("x") || ! jsi.has_member("y") ) {
+               if ( jsi.has_string("item") ) {
+                   tmpval = jsi.get_string("item");
+                   if( ! item_controller->has_template(tmpval) ) {
+                       jsi.throw_error("  add item: no such item '%s'", tmpval.c_str() );
+                   }
+               } else {
+                   parray.throw_error("adding other things is not supported yet"); return false;
+               }
+               if ( ! jsi.has_member("x") || ! jsi.has_member("y") ) {
                    parray.throw_error("  spawn_items: syntax error. Must be at least: { \"id\": \"(itype)\", \"x\": int, \"y\": int }");
                }
-               tmpval = jsi.get_string("id");
                if ( ! load_jmapgen_int(jsi, "x", tmp_x.val, tmp_x.valmax) ) {
                    jsi.throw_error("  spawn_items: invalid value for 'x'");
                }
@@ -821,6 +844,20 @@ bool mapgen_function_json::setup() {
                 throw err;
             }
        }
+       
+#ifdef LUA
+       // silently ignore if unsupported in build
+       if ( jo.has_string("lua") ) { // minified into one\nline
+           luascript = jo.get_string("lua");
+       } else if ( jo.has_array("lua") ) { // or 1 line per entry array
+           luascript = "";
+           JsonArray jascr = jo.get_array("lua");
+           while ( jascr.has_more() ) {
+               luascript += jascr.next_string();
+               luascript += "\n";
+           }
+       }
+#endif
 
     } catch (std::string e) {
         debugmsg("Bad JSON mapgen, discarding:\n  %s\n", e.c_str() );
@@ -946,6 +983,7 @@ bool jmapgen_setmap::apply( map *m ) {
     return true;
 }
 
+void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::string & scr);
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
@@ -965,6 +1003,11 @@ void mapgen_function_json::apply( map * m, oter_id terrain_type, mapgendata md, 
     for( int i=0; i < setmap_points.size(); i++ ) {
         setmap_points[i].apply( m );
     }
+#ifdef LUA
+    if ( ! luascript.empty() ) {
+        mapgen_lua(m, terrain_type, md, t, d, luascript);
+    }
+#endif
     if ( terrain_type.t().rotates == true ) {
         mapgen_rotate(m, terrain_type, false );
     }

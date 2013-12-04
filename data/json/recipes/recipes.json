@@ -1921,6 +1921,43 @@
   ]
 },{
         "type" : "recipe",
+  "result": "aux_flamer",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skills_required": [ "fabrication", 3 ],
+  "difficulty": 6,
+  "time": 18000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "duct_tape", 50 ]
+    ],
+    [
+      [ "pilot_light", 1 ]
+    ],
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "hose", 2 ]
+    ],
+    [
+      [ "metal_tank", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "shot_he",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
@@ -2989,6 +3026,96 @@
   "components": [
     [
       [ "leather", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "modularvestsuper",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "modularvest", 1 ],
+      [ "modularvestsuper", 1]
+    ],
+    [
+      [ "alloy_plate", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "modularveststeel",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "modularvest", 1 ],
+      [ "modularveststeel", 1]
+    ],
+    [
+      [ "steel_plate", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "modularvestceramic",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "modularvest", 1 ],
+      [ "modularvestceramic", 1]
+    ],
+    [
+      [ "ceramic_armor", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "modularvestkevlar",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "modularvest", 1 ],
+      [ "modularvestkevlar", 1]
+    ],
+    [
+      [ "kevlar_plate", 8 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "modularvesthard",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "modularvest", 1 ],
+      [ "modularvesthard", 1]
+    ],
+    [
+      [ "hard_plate", 1 ]
     ]
   ]
 },{
@@ -11623,6 +11750,29 @@
     [
       [ "leather", 18 ],
       [ "fur", 18 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "boots_western",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 100 ],
+      [ "sewing_kit", 100 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 9 ]
     ]
   ]
 },{
@@ -22132,6 +22282,30 @@
     ],
     [
       [ "scrap", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mop",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "2x4", 1 ],
+      [ "stick", 1 ]
+    ],
+    [
+      [ "rag", 4 ]
+    ],
+    [
+      [ "string_36", 1]
     ]
   ]
 },

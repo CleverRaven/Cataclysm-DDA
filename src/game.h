@@ -178,10 +178,10 @@ class game
   int  npc_by_id(const int id) const; // Index of the npc at (x, y); -1 for none
  // void build_monmap();  // Caches data for mon_at()
 
-  bool add_zombie(monster& m);
+  bool add_zombie(monster& critter);
   size_t num_zombies() const;
   monster& zombie(const int idx);
-  bool update_zombie_pos(const monster &m, const int newx, const int newy);
+  bool update_zombie_pos(const monster &critter, const int newx, const int newy);
   void remove_zombie(const int idx);
   void clear_zombies();
   bool spawn_hallucination(); //Spawns a hallucination close to the player
@@ -373,7 +373,7 @@ class game
 // Animation related functions
   void draw_explosion(int x, int y, int radius, nc_color col);
   void draw_bullet(player &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
-  void draw_hit_mon(int x, int y, monster m, bool dead = false);
+  void draw_hit_mon(int x, int y, monster critter, bool dead = false);
   void draw_hit_player(player *p, bool dead = false);
   void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
   void draw_line(const int x, const int y, std::vector<point> ret);
@@ -383,6 +383,8 @@ class game
   void load_vehiclepart(JsonObject &jo);
   void load_vehicle(JsonObject &jo);
   void finalize_vehicles();
+
+  void load_monitem(JsonObject &jo);     // Load monster inventory selection entry
 
   std::queue<vehicle_prototype*> vehprototypes;
 
@@ -423,7 +425,6 @@ class game
   void init_professions();
   void init_faction_data();
   void init_mongroups() throw (std::string);    // Initualizes monster groups
-  void init_monitems();     // Initializes monster inventory selection
   void release_traps();     // Release trap types memory
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
@@ -508,6 +509,7 @@ class game
   void print_terrain_info(int lx, int ly, WINDOW* w_look, int column, int &line);
   void print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int &line);
   void print_object_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
+  void print_craft_distance_info(int lx, int ly, WINDOW *w_look, const int column, int &line);
   void handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
   void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 

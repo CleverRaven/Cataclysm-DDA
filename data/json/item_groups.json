@@ -20,6 +20,7 @@
       ["colamdew", 15],
       ["backpack", 38],
       ["pockknife", 14],
+      ["wristwatch", 10],
       ["umbrella", 5],
       ["novel_coa", 10],
       ["child_book", 50],
@@ -28,7 +29,7 @@
       ["novel_pulp", 16],
       ["fairy_tales", 20],
       ["mag_comic", 20],
-	  ["candycigarette", 10]
+      ["candycigarette", 10]
     ]
     },{
         "type" : "item_group",
@@ -140,6 +141,7 @@
       ["boots_combat", 10],
       ["boots_winter", 60],
       ["boots_hiking", 10],
+      ["runner_bag", 5],
       ["flip_flops", 35],
       ["lowtops", 45],
       ["dress_shoes", 50],
@@ -559,6 +561,7 @@
       ["football", 5],
       ["socks", 70],
       ["mocassins", 5],
+      ["boots_western", 4],
       ["bandana", 35],
       ["glasses_eye", 90],
       ["contacts", 15],
@@ -636,6 +639,9 @@
       ["creepy_doll", 1],
       ["money_bundle", 30],
       ["wristwatch", 15],
+      ["diving_watch", 5],
+      ["gold_watch", 5],
+      ["sf_watch", 2],
       ["pocketwatch", 5],
       ["lsd", 1],
       ["gum", 30],
@@ -1018,7 +1024,7 @@
       ["restaurantmap", 5],
       ["touristmap", 2],
       ["salt", 10],
-	  ["brioche", 50]
+      ["brioche", 50]
     ]
     },{
         "type" : "item_group",
@@ -1046,6 +1052,7 @@
       ["touristmap", 20],
       ["restaurantmap", 20],
       ["money_bundle", 55],
+      ["gold_watch", 10],
       ["gum", 30],
       ["caff_gum", 10],
       ["sm_extinguisher", 10],
@@ -1375,6 +1382,7 @@
       ["boots_steel", 50],
       ["boots_combat", 20],
       ["boots_hiking", 10],
+      ["runner_bag", 5],
       ["hat_hard", 50],
       ["ear_plugs", 50],
       ["mask_filter", 30],
@@ -1490,6 +1498,7 @@
       ["wetsuit_spring", 10],
       ["wetsuit_gloves", 20],
       ["wetsuit_booties", 20],
+      ["diving_watch", 10],
       ["glowstick", 60],
       ["handflare", 40],
       ["elbow_pads", 40],
@@ -1498,6 +1507,7 @@
       ["protein_powder", 15],
       ["airhorn", 40],
       ["boots_hiking", 10],
+      ["runner_bag", 5],
       ["leathersandals", 10]
     ]
     },{
@@ -1593,6 +1603,7 @@
       ["dart", 5],
       ["pocketwatch", 5],
       ["boots_hiking", 20],
+      ["runner_bag", 15],
       ["pur_tablets", 10],
       ["e_tool", 10],
       ["knife_trench", 7],
@@ -1733,6 +1744,7 @@
       ["elbow_pads", 40],
       ["knee_pads", 40],
       ["boots_hiking", 10],
+      ["runner_bag", 5],
       ["pur_tablets", 5],
       ["protein_powder", 15],
       ["protein_shake", 15],
@@ -1804,6 +1816,7 @@
       ["syringe", 8],
       ["rag", 1],
       ["kevlar_plate", 1],
+      ["ceramic_armor", 1],
       ["leather", 1],
       ["software_hacking", 10],
 	  ["decoy_elfa", 10],
@@ -2137,6 +2150,7 @@
       ["heels", 50],
       ["boots_combat", 10],
       ["boots_hiking", 20],
+      ["boots_western", 10],
       ["leathersandals", 10]
     ]
     },{
@@ -2252,6 +2266,7 @@
       ["tophat", 10],
       ["bowhat", 10],
       ["cowboy_hat", 10],
+      ["boots_western", 8],
       ["glasses_monocle", 2],
       ["pants_leather", 60],
       ["pants_cargo", 70],
@@ -2441,6 +2456,7 @@
       ["boots", 70],
       ["boots_steel", 50],
       ["boots_hiking", 20],
+      ["boots_western", 5],
       ["boots_combat", 10]
     ]
     },{
@@ -2465,6 +2481,11 @@
     "items":[
       ["baton", 8],
       ["kevlar", 30],
+      ["dragonskin", 10],
+      ["modularvest", 20],
+      ["modularveststeel", 6],
+      ["modularvestceramic", 5],
+      ["modularvestkevlar", 15],
       ["vest", 15],
       ["gloves_leather", 45],
       ["gloves_tactical", 10],
@@ -2515,6 +2536,7 @@
       ["spray_can", 50],
       ["lsd", 2],
       ["pocketwatch", 5],
+      ["sf_watch", 5],
       ["RPG", 1],
       ["RPG-7_ammo", 1],
       ["clown_suit", 2],
@@ -2713,7 +2735,9 @@
       ["nic_gum", 4],
       ["fan", 10],
       ["sm_extinguisher", 10],
-      ["pocketwatch", 2]
+      ["pocketwatch", 2],
+      ["gold_watch", 2],
+      ["sf_watch", 1]
     ]
     },{
         "type" : "item_group",
@@ -2922,10 +2946,12 @@
       ["power_armor_basic", 5],
       ["power_armor_light", 3],
       ["power_armor_heavy", 3],
+      ["modularvesthard", 5],
       ["minireactor", 1],
       ["alloy_plate", 10],
       ["money_bundle", 90],
-      ["pocketwatch", 5]
+      ["pocketwatch", 5],
+      ["sf_watch", 10]
     ]
     },{
         "type" : "item_group",
@@ -2979,7 +3005,8 @@
       ["nodachi", 1],
       ["manual_dodge", 1],
       ["fancy_sunglasses", 2],
-      ["pocketwatch", 5]
+      ["pocketwatch", 5],
+      ["sf_watch", 5]
     ]
     },{
         "type" : "item_group",
@@ -3001,6 +3028,8 @@
       ["rapier", 3],
       ["cane", 10],
       ["suit", 60],
+      ["gold_watch", 20],
+      ["sf_watch", 10],
       ["mask_gas", 10],
       ["goggles_welding", 70],
       ["goggles_nv", 1],
@@ -3048,6 +3077,7 @@
       ["mocassins", 5],
       ["dress_shoes", 50],
       ["heels", 50],
+      ["boots_western", 10],
       ["pants", 75],
       ["pants_army", 30],
       ["jacket_army", 30],
@@ -3157,6 +3187,7 @@
       ["apron_leather", 5],
       ["boots_combat", 10],
       ["boots_hiking", 10],
+      ["runner_bag", 5],
       ["gloves_tactical", 1],
       ["glasses_bal", 5],
       ["elbow_pads", 10],
@@ -3261,6 +3292,7 @@
       ["boots", 70],
       ["boots_winter", 60],
       ["boots_hiking", 30],
+      ["runner_bag", 5],
       ["socks_wool", 30],
       ["jeans", 90],
       ["pants_checkered", 5],
@@ -3947,7 +3979,13 @@
       ["pants_army", 30],
       ["jacket_army", 30],
       ["army_top", 30],
-      ["kevlar", 30],
+      ["kevlar", 10],
+      ["modularvest", 15],
+      ["modularvestkevlar", 18],
+      ["modularvestceramic", 25],
+      ["modularveststeel", 20],
+      ["modularvestsuper", 2],
+      ["modularvesthard", 1],
       ["vest", 15],
       ["mask_gas", 10],
       ["goggles_nv", 1],
@@ -4002,7 +4040,13 @@
         "type" : "item_group",
         "id" : "mil_armor_torso",
     "items":[
-      ["kevlar", 30],
+      ["kevlar", 10],
+      ["modularvest", 15],
+      ["modularvestkevlar", 18],
+      ["modularvestceramic", 25],
+      ["modularveststeel", 20],
+      ["modularvestsuper", 2],
+      ["modularvesthard", 1],
       ["jacket_army", 30],
       ["vest", 15],
       ["chestrig", 10],
@@ -4018,6 +4062,7 @@
     "items":[
       ["helmet_army", 40],
       ["helmet_liner", 20],
+      ["helmet_netting", 20],
       ["beret", 50],
       ["beret_wool", 40],
       ["mask_bal", 10]
@@ -4167,6 +4212,11 @@
       ["jumpsuit", 20],
       ["jacket_leather", 30],
       ["kevlar", 30],
+      ["modularvest", 12],
+      ["modularvestkevlar", 10],
+      ["modularvestceramic", 8],
+      ["modularveststeel", 5],
+      ["modularvestsuper", 1],
       ["dump_pouch", 20],
       ["mask_bal", 5],
       ["vest", 15],
@@ -4492,7 +4542,7 @@
       ["flyer", 10],
       ["child_book", 2],
       ["lsd", 1],
-	  ["recipe_elfa", 2]
+      ["recipe_elfa", 2]
     ]
     },{
         "type" : "item_group",
@@ -4695,6 +4745,7 @@
       ["spring", 50],
       ["steel_lump", 30],
       ["kevlar_plate", 10],
+      ["ceramic_armor", 15],
       ["motor", 2],
       ["battery", 50],
       ["plut_cell", 10]
@@ -4731,6 +4782,7 @@
       ["baton", 8],
       ["tazer", 3],
       ["kevlar_plate", 10],
+      ["ceramic_armor", 15],
       ["tonfa", 10],
       ["shocktonfa_off", 5],
       ["alloy_plate", 10]
@@ -4748,6 +4800,7 @@
     "items":[
       ["flamethrower", 1],
       ["kevlar_plate", 10],
+      ["ceramic_armor", 15],
       ["alloy_plate", 10]
     ]
     },{
@@ -4756,6 +4809,7 @@
     "items":[
       ["9mm", 8],
       ["kevlar_plate", 10],
+      ["ceramic_armor", 15],
       ["alloy_plate", 10]
     ]
     },{
@@ -4767,6 +4821,7 @@
       ["9mm", 8],
       ["alloy_plate", 10],
       ["kevlar_plate", 10],
+      ["ceramic_armor", 10],
       ["hard_plate", 30]
     ]
     },{
@@ -4806,7 +4861,13 @@
       ["boots_combat", 10],
       ["gloves_tactical", 10],
       ["jumpsuit", 20],
-      ["kevlar", 30],
+      ["kevlar", 10],
+      ["modularvest", 15],
+      ["modularvestkevlar", 18],
+      ["modularvestceramic", 25],
+      ["modularveststeel", 20],
+      ["modularvestsuper", 8],
+      ["modularvesthard", 5],
       ["kevlar_plate", 10],
       ["mask_gas", 10],
       ["helmet_army", 40],
@@ -4827,7 +4888,7 @@
       ["LAW_Packed", 30],
       ["m3_carlgustav", 1],
       ["gobag", 2],
-	    ["recipe_raptor", 2],
+      ["recipe_raptor", 2],
       ["84x246mm_he", 3],
       ["84x246mm_hedp", 2],
       ["84x246mm_smoke", 3],
@@ -4873,7 +4934,13 @@
       ["pants_army", 30],
       ["jacket_army", 30],
       ["army_top", 30],
-      ["kevlar", 30],
+      ["kevlar", 10],
+      ["modularvest", 15],
+      ["modularvestkevlar", 18],
+      ["modularvestceramic", 24],
+      ["modularveststeel", 18],
+      ["modularvestsuper", 8],
+      ["modularvesthard", 2],
       ["vest", 15],
       ["gloves_fingerless", 20],
       ["gloves_tactical", 30],
@@ -4885,7 +4952,13 @@
       ["armguard_hard", 20],
       ["legguard_hard", 15],
       ["helmet_army", 40],
-      ["kevlar", 30],
+      ["kevlar", 10],
+      ["modularvest", 15],
+      ["modularvestkevlar", 18],
+      ["modularvestceramic", 24],
+      ["modularveststeel", 18],
+      ["modularvestsuper", 8],
+      ["modularvesthard", 2],
       ["dump_pouch", 20],
       ["helmet_liner", 10],
       ["backpack", 38],
@@ -5320,6 +5393,7 @@
       ["chemistry_set", 2],
       ["knife_trench", 7],
       ["switchblade", 4],
+      ["gold_watch", 5],
       ["pocketwatch", 2]
     ]
     },{
@@ -5426,6 +5500,12 @@
     "items":[
       ["knife_steak", 3],
       ["ax", 1]
+    ]
+    },{
+        "type" : "item_group",
+        "id" : "cow",
+    "items":[
+      ["cow_bell", 1]
     ]
     },{
         "type" : "item_group",
