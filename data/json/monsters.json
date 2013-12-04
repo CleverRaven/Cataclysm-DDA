@@ -1650,7 +1650,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
     "description":"A once-dead human corpse. Its discolored swollen flesh is riddled with festering wounds and open sores.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "VENOM", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
     },{
         "type" : "MONSTER",
