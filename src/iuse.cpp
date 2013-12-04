@@ -973,6 +973,216 @@ int iuse::mutagen(player *p, item *it, bool t) {
     return it->type->charges_to_use();
 }
 
+int iuse::mut_iv(player *p, item *it, bool t) {
+    if(!p->is_npc()) {
+      p->add_memorial_log(_("Injected mutagen."));
+    }
+    if( it->has_flag("MUTAGEN_STRONG") ) { //3 guaranteed mutations, 75%/66%/66% for the 4th/5th/6th, 6-16 Pain per shot and knockdown
+         g->add_msg_if_player(p, _("You inject yoursel-arRGH!"));
+         p->mutate(g);
+         p->pain += 1 * rng(1, 4);
+         g->sound(p->posx, p->posy, 15 + 3 * p->str_cur, _("You scream in agony!!"));
+         p->mutate(g);
+         p->pain += 2 * rng(1, 3);
+         p->mutate(g);
+         p->pain += 3 * rng(1, 2);
+         if (!one_in(4)) {
+             p->mutate(g);
+         }
+         if (!one_in(3)) {
+             p->mutate(g);
+         }
+         if (!one_in(3)) {
+             p->mutate(g);
+         }
+         g->add_msg_if_player(p, _("You writhe and collapse to the ground."));
+         p->add_disease("downed", rng(1, 4));
+    } else if( it->has_flag("MUTAGEN_PLANT") ) { //2-10 Pain, 66% for the second and 50% for the third, for all tier-9s
+        g->add_msg_if_player(p, _("You inject some nutrients into your phloem."));
+        p->mutate_category(g, "MUTCAT_PLANT");
+        p->pain += 2 * rng(1, 5);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_PLANT");
+            }
+        if(one_in(2)) {
+          p->mutate_category(g, "MUTCAT_PLANT");
+          }
+    } else if( it->has_flag("MUTAGEN_INSECT") ) {
+        g->add_msg_if_player(p, _("You sting yourself...for the Queen."));
+        p->mutate_category(g, "MUTCAT_INSECT");
+        p->pain += 2 * rng(1, 5);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_INSECT");
+            }
+        if(one_in(2)) {
+          p->mutate_category(g, "MUTCAT_INSECT");
+          }
+    } else if( it->has_flag("MUTAGEN_SPIDER") ) {
+        g->add_msg_if_player(p, _("Mmm...the *special* venom."));
+        p->mutate_category(g, "MUTCAT_SPIDER");
+        p->pain += 2 * rng(1, 5);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_SPIDER");
+            }
+        if(one_in(2)) {
+          p->mutate_category(g, "MUTCAT_SPIDER");
+          }
+    } else if( it->has_flag("MUTAGEN_SLIME") ) {
+        g->add_msg_if_player(p, _("This stuff takes you back. Downright primordial!"));
+        p->mutate_category(g, "MUTCAT_SLIME");
+        p->pain += 2 * rng(1, 5);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_SLIME");
+            }
+        if(one_in(2)) {
+          p->mutate_category(g, "MUTCAT_SLIME");
+          }
+    } else if( it->has_flag("MUTAGEN_FISH") ) {
+        g->add_msg_if_player(p, _("Your pulse pounds as the waves."));
+        p->mutate_category(g, "MUTCAT_FISH");
+        p->pain += 2 * rng(1, 5);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_FISH");
+            }
+        if(one_in(2)) {
+          p->mutate_category(g, "MUTCAT_FISH");
+          }
+    } else if( it->has_flag("MUTAGEN_RAT") ) {
+        g->add_msg_if_player(p, _("You squeak as the shot hits you."));
+        p->mutate_category(g, "MUTCAT_RAT");
+        p->pain += 2 * rng(1, 5);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_RAT");
+            }
+        if(one_in(2)) {
+          p->mutate_category(g, "MUTCAT_RAT");
+          }
+    } else if( it->has_flag("MUTAGEN_BEAST") ) {
+        g->add_msg_if_player(p, _("Your heart races wildly as the injection takes hold."));
+        p->mutate_category(g, "MUTCAT_BEAST");
+        p->pain += 2 * rng(1, 5);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_BEAST");
+            }
+        if(one_in(2)) {
+          p->mutate_category(g, "MUTCAT_BEAST");
+          }
+    } else if( it->has_flag("MUTAGEN_CATTLE") ) {
+        g->add_msg_if_player(p, _("You wonder if this is what rBGH feels like..."));
+        p->mutate_category(g, "MUTCAT_CATTLE");
+        p->pain += 2 * rng(1, 5);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_CATTLE");
+            }
+        if(one_in(2)) {
+          p->mutate_category(g, "MUTCAT_CATTLE");
+          }
+    } else if( it->has_flag("MUTAGEN_CEPHALOPOD") ) {
+          g->add_msg_if_player(p, _("You watch the mutagen flow through a maze of little twisty passages.\n\
+            All the same."));
+        p->mutate_category(g, "MUTCAT_CEPHALOPOD");
+        p->pain += 2 * rng(1, 5);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_CEPHALOPOD");
+            }
+        if(one_in(2)) {
+          p->mutate_category(g, "MUTCAT_CEPHALOPOD");
+          }
+    } else if( it->has_flag("MUTAGEN_BIRD") ) {
+        g->add_msg_if_player(p, _("Your arms spasm in an oddly wavelike motion."));
+        p->mutate_category(g, "MUTCAT_BIRD");
+        p->pain += 2 * rng(1, 5);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_BIRD");
+            }
+        if(one_in(2)) {
+          p->mutate_category(g, "MUTCAT_BIRD");
+          }
+    } else if( it->has_flag("MUTAGEN_LIZARD") ) {
+        g->add_msg_if_player(p, _("Your blood cools down. The feeling is..different."));
+        p->mutate_category(g, "MUTCAT_LIZARD");
+        p->pain += 2 * rng(1, 5);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_LIZARD");
+            }
+        if(one_in(2)) {
+          p->mutate_category(g, "MUTCAT_LIZARD");
+          }
+    } else if( it->has_flag("MUTAGEN_TROGLOBITE") ) {
+        g->add_msg_if_player(p, _("As you press the plunger, it all goes so bright..."));
+        p->mutate_category(g, "MUTCAT_TROGLO");
+        p->pain += 2 * rng(1, 5);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_TROGLO");
+            }
+        if(one_in(2)) {
+          p->mutate_category(g, "MUTCAT_TROGLO");
+          }
+    } else if( it->has_flag("MUTAGEN_ALPHA") ) { //5-15 pain, 66% for each of the followups, so slightly better odds (designed for injection)
+        g->add_msg_if_player(p, _("You took that shot like a champ!"));
+        p->mutate_category(g, "MUTCAT_ALPHA");
+        p->pain += 3 * rng(1, 5);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_ALPHA");
+            }
+        if(!one_in(3)) {
+          p->mutate_category(g, "MUTCAT_ALPHA");
+          }
+    } else if( it->has_flag("MUTAGEN_MEDICAL") ) { //2-6 pain, same as Alpha--since specifically intended for medical applications
+        g->add_msg_if_player(p, _("You can feel the blood in your medication stream. It's a strange feeling."));
+        p->mutate_category(g, "MUTCAT_MEDICAL");
+        p->pain += 2 * rng(1, 3);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_MEDICAL");
+            }
+        if(!one_in(3)) {
+          p->mutate_category(g, "MUTCAT_MEDICAL");
+          }
+    } else if( it->has_flag("MUTAGEN_CHIMERA") ) { //24-36 pain, Scream,, -40 Morale, but two guaranteed mutations and 75% each for third and fourth
+        g->add_msg_if_player(p, _("everyanimalthateverlived..bursting.from.YOU!"));
+        p->mutate_category(g, "MUTCAT_CHIMERA");
+        p->pain += 4 * rng(1, 4);
+        p->mutate_category(g, "MUTCAT_CHIMERA");
+        p->pain += 20;
+        g->sound(p->posx, p->posy, 25 + 3 * p->str_cur, _("You roar in agony!!"));
+        p->add_morale(MORALE_MUTAGEN_CHIMERA, -40, -200);
+        if(!one_in(4)) {
+            p->mutate_category(g, "MUTCAT_CHIMERA");
+            }
+        if(!one_in(4)) {
+          p->mutate_category(g, "MUTCAT_CHIMERA");
+          }
+    } else if( it->has_flag("MUTAGEN_ELFA") ) { // 3-15 pain, morale boost, but no more mutagenic than cat-9s
+        g->add_msg_if_player(p, _("Everything goes green for a second.\n\
+        It's painfully beautiful..."));
+        p->mutate_category(g, "MUTCAT_ELFA");
+        p->pain += 3 * rng(1, 5);
+        p->add_morale(MORALE_MUTAGEN_ELFA, 20, 100);
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_ELFA");
+            }
+        if(one_in(2)) {
+          p->mutate_category(g, "MUTCAT_ELFA");
+          }
+    } else if( it->has_flag("MUTAGEN_RAPTOR") ) { //Little more painful than average, but nowhere near as harsh & effective as Chimera.
+        g->add_msg_if_player(p, _("You distinctly smell the mutagen mixing with your blood\n\
+        ...and then it passes."));
+        p->mutate_category(g, "MUTCAT_RAPTOR");
+        p->pain += 2 * rng(1, 5);
+        if(!one_in(4)) {
+            p->mutate_category(g, "MUTCAT_RAPTOR");
+            }
+        if(one_in(2)) {
+          p->mutate_category(g, "MUTCAT_RAPTOR");
+          }
+    } else {
+        if (!one_in(3)) {
+            p->mutate(g);
+        }
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::purifier(player *p, item *it, bool t)
 {
     if(!p->is_npc()) {
@@ -997,6 +1207,36 @@ int iuse::purifier(player *p, item *it, bool t)
         int index = rng(0, valid.size() - 1);
         p->remove_mutation(g, valid[index] );
         valid.erase(valid.begin() + index);
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::purify_iv(player *p, item *it, bool t)
+{
+    if(!p->is_npc()) {
+        p->add_memorial_log(_("Injected purifier."));
+    }
+    std::vector<std::string> valid; // Which flags the player has
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+        if (p->has_trait(iter->first) && !p->has_base_trait(iter->first)) {
+            //Looks for active mutation
+            valid.push_back(iter->first);
+        }
+    }
+    if (valid.size() == 0) {
+        g->add_msg_if_player(p,_("You feel cleansed."));
+        return it->type->charges_to_use();
+    }
+    int num_cured = rng(4, valid.size()); //Essentially a double-strength purifier, but guaranteed at least 4.  Double-edged and all
+    if (num_cured > 8) {
+        num_cured = 8;
+    }
+    for (int i = 0; i < num_cured && valid.size() > 0; i++) {
+        int index = rng(0, valid.size() - 1);
+        p->remove_mutation(g, valid[index] );
+        valid.erase(valid.begin() + index);
+        p->pain += 2 * num_cured; //Hurts worse as it fixes more
+        g->add_msg_if_player(p,_("Feels like you're on fire, but you're OK."));
     }
     return it->type->charges_to_use();
 }
