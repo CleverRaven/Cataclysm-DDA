@@ -9718,7 +9718,8 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
      (firing->ammo != "BB" && firing->ammo != "nail"))
      u.practice(turn, "gun", 5);
 
- fire(u, x, y, trajectory, burst);
+ u.fire_gun(x,y,burst);
+ //fire(u, x, y, trajectory, burst);
 }
 
 void game::butcher()

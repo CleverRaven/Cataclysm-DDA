@@ -1,7 +1,7 @@
 #include "material.h"
 
 #include "output.h" // debugmsg
-#include "enums.h" // damage_type
+#include "damage.h" // damage_type
 #include "json.h"
 #include "translations.h"
 

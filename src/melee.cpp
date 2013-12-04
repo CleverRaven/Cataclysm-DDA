@@ -222,8 +222,6 @@ int player::melee_attack(game *g, Creature &t, bool allow_special) {
 
     perform_special_attacks(g, t, bash_dam, cut_dam, stab_dam);
 
-    message = melee_message(technique.id, *this, bash_dam, cut_dam, stab_dam);
-
     // multiply damage by style damage_mults
     bash_dam *= mabuff_bash_mult();
     cut_dam *= mabuff_cut_mult();

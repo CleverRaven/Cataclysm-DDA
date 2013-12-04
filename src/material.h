@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 
+#include "damage.h" // damage_type
 #include "enums.h"
 #include "json.h"
 

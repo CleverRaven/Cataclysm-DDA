@@ -12,8 +12,7 @@
 #include <stdlib.h>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <numeric>
+#include <set>
 
 class game;
 class effect;
@@ -40,6 +39,16 @@ class Creature
 
         // makes a single melee attack, with the currently equipped weapon
         virtual int melee_attack(game *g, Creature &t, bool allow_special) = 0; // Returns a damage
+
+        // fires a projectile at target point
+        virtual int projectile_attack(game *g, projectile &proj, int targetx, int targety,
+                std::set<std::string>& proj_effects);
+
+        /*
+        // instantly deals damage at the target point
+        virtual int smite_attack(game* g, projectile &proj, int targetx, int targety,
+                std::set<std::string>& proj_effects);
+                */
 
         virtual int hit(game *g, Creature* source, body_part bphurt, int side,
                 int dam, int cut);

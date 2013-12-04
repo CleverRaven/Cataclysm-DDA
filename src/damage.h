@@ -1,15 +1,44 @@
 #ifndef _DAMAGE_H_
 #define _DAMAGE_H_
 
-#include "enums.h"
+#include <string>
+#include <vector>
+#include <set>
 #include <algorithm>
 #include <numeric>
+
+class game;
+
+enum damage_type
+{
+    DT_NONE= 0, // null damage, doesn't exist
+    DT_TRUE, // typeless damage, should always go through
+    DT_INTERNAL, // internal damage, like from smoke or poison
+    DT_BASH, // bash damage
+    DT_CUT, // cut damage
+    DT_ACID, // corrosive damage, e.g. acid
+    DT_STAB, // stabbing/piercing damage
+    DT_HEAT, // e.g. fire, plasma
+    DT_COLD, // e.g. heatdrain, cryogrenades
+    DT_ELECTRIC, // e.g. electrical discharge
+    NUM_DT
+};
+
+enum blast_shape
+{
+    BS_NONE = 0, // no aoe
+    BS_BLAST, // generic "blast" effect, like grenades
+    BS_RAYS, // randomly scattered rays of damage propragating from impact point
+    BS_CONE, // cone-shaped effect, starting at impact and hitting enemies behind in a cone
+    NUM_BS
+};
 
 struct damage_unit {
     damage_type type;
     int amount;
     int res_pen;
     float res_mult;
+
     damage_unit(damage_type dt, int a, int rp, float rm) :
         type(dt),
         amount(a),
@@ -24,11 +53,11 @@ struct damage_unit {
 struct damage_instance {
     std::vector<damage_unit> damage_units;
     damage_instance() { }
-    static damage_instance physical(int bash, int cut, int stab) {
+    static damage_instance physical(int bash, int cut, int stab, int arpen = 0) {
         damage_instance d;
-        d.add_damage(DT_BASH, bash);
-        d.add_damage(DT_CUT, cut);
-        d.add_damage(DT_STAB, stab);
+        d.add_damage(DT_BASH, bash, arpen);
+        d.add_damage(DT_CUT, cut, arpen);
+        d.add_damage(DT_STAB, stab, arpen);
         return d;
     }
     void add_damage(damage_type dt, int a, int rp = 0, float rm = 1.0f) {
@@ -68,7 +97,27 @@ struct dealt_damage_instance {
     }
 };
 
-damage_instance physical_damage_instance(int bash, int cut, int stab);
+class it_ammo;
+
+struct projectile {
+    damage_instance impact;
+    damage_instance payload;
+    blast_shape aoe_shape;
+    int aoe_size;
+
+    // TODO: things below here are here temporarily until we finish those
+    // systems
+    bool is_bolt;
+    it_ammo *ammo;
+
+    bool missed;
+    double missed_by;
+
+    projectile() : aoe_shape(BS_NONE), aoe_size(0), is_bolt(false) {
+    }
+};
+
+void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects);
 
 #endif
 

@@ -25,7 +25,7 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
     }
 }
 /* Bullet Animation */
-void game::draw_bullet(player &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts)
+void game::draw_bullet(Creature& p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts)
 {
     if (u_see(tx, ty)) {
         if (i > 0)
@@ -41,7 +41,7 @@ void game::draw_bullet(player &p, int tx, int ty, int i, std::vector<point> traj
         mvwputch(w_terrain, POSY + (ty - (u.posy + u.view_offset_y)),
                  POSX + (tx - (u.posx + u.view_offset_x)), c_red, bullet);
         wrefresh(w_terrain);
-        if (&p == &u)
+        if (p.is_player())
          nanosleep(&ts, NULL);
    }
 }

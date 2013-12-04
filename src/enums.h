@@ -29,21 +29,6 @@ enum object_type {
   NUM_OBJECTS,
 };
 
-enum damage_type
-{
-    DT_NULL = 0, // null damage, doesn't exist
-    DT_NONE, // typeless damage, should always go through
-    DT_INTERNAL, // internal damage, like from smoke or poison
-    DT_BASH, // bash damage
-    DT_CUT, // cut damage
-    DT_ACID, // corrosive damage, e.g. acid
-    DT_STAB, // stabbing/piercing damage
-    DT_HEAT, // e.g. fire, plasma
-    DT_COLD, // e.g. heatdrain, cryogrenades
-    DT_ELECTRIC, // e.g. electrical discharge
-    NUM_DT
-};
-
 struct point : public JsonSerializer, public JsonDeserializer
 {
     int x;

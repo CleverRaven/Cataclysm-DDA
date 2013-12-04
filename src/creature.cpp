@@ -1,3 +1,4 @@
+#include "item.h"
 #include "creature.h"
 #include "output.h"
 #include "game.h"
@@ -74,6 +75,117 @@ void Creature::reset_stats(game *g) {
 /*
  * Damage-related functions
  */
+
+int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targety, std::set<std::string>& proj_effects) {
+    std::vector<point> trajectory = line_to(xpos(),ypos(),targetx,targety,0);
+
+    // Set up a timespec for use in the nanosleep function below
+    timespec ts;
+    ts.tv_sec = 0;
+    ts.tv_nsec = BULLET_SPEED;
+
+    int dam = proj.impact.total_damage() + proj.payload.total_damage();
+    bool is_bolt = proj.is_bolt;
+    it_ammo *curammo = proj.ammo;
+    item ammotmp = item(curammo, 0);
+    ammotmp.charges = 1;
+
+    bool missed = proj.missed;
+    double missed_by = proj.missed_by;
+
+    // Trace the trajectory, doing damage in order
+    int tx = trajectory[0].x;
+    int ty = trajectory[0].y;
+    int px = trajectory[0].x;
+    int py = trajectory[0].y;
+    for (int i = 0; i < trajectory.size() && (dam > 0 || (proj_effects.count("FLAME"))); i++) {
+        px = tx;
+        py = ty;
+        (void) px;
+        (void) py;
+        tx = trajectory[i].x;
+        ty = trajectory[i].y;
+        // Drawing the bullet uses player u, and not player p, because it's drawn
+        // relative to YOUR position, which may not be the gunman's position.
+        g->draw_bullet(*this, tx, ty, i, trajectory, proj_effects.count("FLAME")? '#':'*', ts);
+
+        if (dam <= 0 && !(proj_effects.count("FLAME"))) { // Ran out of momentum.
+            ammo_effects(g, tx, ty, proj_effects);
+            if (is_bolt && !(proj_effects.count("IGNITE")) &&
+                !(proj_effects.count("EXPLOSIVE")) &&
+                ((curammo->m1 == "wood" && !one_in(4)) ||
+                (curammo->m1 != "wood" && !one_in(15)))) {
+                g->m.add_item_or_charges(tx, ty, ammotmp);
+            }
+            return 0;
+        }
+
+        // If there's a monster in the path of our bullet, and either our aim was true,
+        //  OR it's not the monster we were aiming at and we were lucky enough to hit it
+        int mondex = g->mon_at(tx, ty);
+        // If we shot us a monster...
+        /* TODO: implement underground etc flags in Creature
+        if (mondex != -1 && ((!zombie(mondex).digging()) ||
+                            rl_dist(xpos(), ypos(), g->zombie(mondex).xpos(),
+                                    g->zombie(mondex).ypos()) <= 1) &&
+                                    */
+        if (mondex != -1 &&
+            ((!missed && i == trajectory.size() - 1) ||
+            one_in((5 - int(g->zombie(mondex).type->size)))) ) {
+            monster &z = g->zombie(mondex);
+
+            double goodhit = missed_by;
+            if (i < trajectory.size() - 1) { // Unintentional hit
+                goodhit = double(rand() / (RAND_MAX + 1.0)) / 2;
+            }
+
+            // Penalize for the monster's speed
+            if (z.speed > 80) {
+                goodhit *= double( double(z.speed) / 80.0);
+            }
+
+            /*
+            shoot_monster(this, p, z, dam, goodhit, weapon, proj_effects);
+            */
+            std::string message = "Reworked hit.";
+            g->add_msg(_("%s You hit the %s for %d damage."), message.c_str(),
+                    z.disp_name().c_str(), dam);
+            z.deal_damage(g, this, bp_torso, 3, damage_instance::physical(0,dam,0));
+            std::vector<point> blood_traj = trajectory;
+            blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
+            //splatter(this, blood_traj, dam, &z); TODO: add splatter effects
+            //back in
+            dam = 0;
+        } else {
+            g->m.shoot(g, tx, ty, dam, i == trajectory.size() - 1, proj_effects);
+        }
+    } // Done with the trajectory!
+
+    ammo_effects(g, tx, ty, proj_effects);
+    /* TODO: add bounce effects back in
+    if (proj_effects.count("BOUNCE")) {
+        for (unsigned long int i = 0; i < num_zombies(); i++) {
+            monster &z = zombie(i);
+            // search for monsters in radius 4 around impact site
+            if (rl_dist(z.posx(), z.posy(), tx, ty) <= 4) {
+                // don't hit targets that have already been hit
+                if (!z.has_effect("effect_bounced") && !z.dead) {
+                    add_msg(_("The attack bounced to %s!"), z.name().c_str());
+                    trajectory = line_to(tx, ty, z.posx(), z.posy(), 0);
+                    if (weapon->charges > 0) {
+                        fire(p, z.posx(), z.posy(), trajectory, false);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    */
+
+    return 0;
+}
+
+
 // TODO: this is a shim for the currently existing calls to Creature::hit,
 // start phasing them out
 int Creature::hit(game *g, Creature* source, body_part bphurt, int side,
