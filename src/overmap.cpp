@@ -2102,7 +2102,8 @@ void overmap::process_mongroups()
  }
 }
 
-void grow_forest_oter_id(oter_id & oid, bool swampy) {
+void grow_forest_oter_id(oter_id & oid, bool swampy)
+{
     if (swampy && ( oid == ot_field || oid == ot_forest ) ) {
         oid = ot_forest_water;
     } else if ( oid == ot_forest ) {
