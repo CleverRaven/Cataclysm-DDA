@@ -1409,24 +1409,19 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
  }
 }
 
-void game::disassemble(char ch)
+void game::disassemble(int pos)
 {
-    if (!ch)
+    if (!pos)
     {
-        ch = inv(_("Disassemble item:"));
+        pos = inv(_("Disassemble item:"));
     }
-    if (ch == 27)
+    if (!u.has_item(pos))
     {
-        add_msg(_("Never mind."));
-        return;
-    }
-    if (!u.has_item(ch))
-    {
-        add_msg(_("You don't have item '%c'!"), ch);
+        add_msg(_("You don't have that item!"), pos);
         return;
     }
 
-    item* dis_item = &u.i_at(ch);
+    item* dis_item = &u.i_at(pos);
 
 
     for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter)
@@ -1521,7 +1516,7 @@ void game::disassemble(char ch)
                     u.assign_activity(this, ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
                     u.moves = 0;
                     std::vector<int> dis_items;
-                    dis_items.push_back(ch);
+                    dis_items.push_back(pos);
                     u.activity.values = dis_items;
                 }
                 return; // recipe exists, but no tools, so do not start disassembly
