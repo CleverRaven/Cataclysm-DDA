@@ -531,6 +531,8 @@ void input_context::display_help() {
     while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE) { ch = getch(); };
 
     werase(w_help);
+    wrefresh(w_help);
+    delwin(w_help);
 }
 
 input_event input_context::get_raw_input()
