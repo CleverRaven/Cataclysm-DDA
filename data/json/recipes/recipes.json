@@ -29,6 +29,105 @@
     },{
         "type" : "recipe_category",
         "id" : "CC_NONCRAFT"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_WEAPON_BASHING"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_WEAPON_CUTTING"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_WEAPON_PIERCING"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_WEAPON_RANGED"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_WEAPON_MISC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_AMMO_BULLETS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_AMMO_ARROWS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_AMMO_COMPONENTS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_AMMO_MISC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_FOOD_MEAT"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_FOOD_VEGGI"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_FOOD_SNACK"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_FOOD_BREAD"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_FOOD_MISC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_DRINK_NORMAL"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_DRINK_ALCOHOLIC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_DRINK_MISC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_CHEMS_DRUGS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_CHEMS_MUTAGEN"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_CHEMS_CHEMICALS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_CHEMS_MISC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ELECTRONICS_CBMS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ELECTRONICS_LIGHTING"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ELECTRONICS_MISC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_SUITS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_HEAD"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_TORSO"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_ARMS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_HANDS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_LEGS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_FEET"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_MISC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_MISC_MISC"
     },
 
     {
@@ -36,6 +135,7 @@
   "result": "cell_phone",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
+  "subcategory": "CSC_WEAPON_BASHING",
   "difficulty": 0,
   "time": 500,
   "reversible": true,

@@ -1092,6 +1092,38 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
     }
 }
 
+void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
+{
+    int iOffsetXRight = iOffsetX + utf8_width(sText.c_str()) + 1;
+
+    //mvwputch(w, 0, iOffsetX,      c_ltgray, LINE_OXXO); // |^
+    //mvwputch(w, 0, iOffsetXRight, c_ltgray, LINE_OOXX); // ^|
+    //mvwputch(w, 1, iOffsetX,      c_ltgray, LINE_XOXO); // |
+    //mvwputch(w, 1, iOffsetXRight, c_ltgray, LINE_XOXO); // |
+
+    mvwprintz(w, 0, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, sText.c_str());
+
+    //for (int i = iOffsetX + 1; i < iOffsetXRight; i++) {
+    //    mvwputch(w, 0, i, c_ltgray, LINE_OXOX);    // -
+    //}
+
+    if (bSelected) {
+        mvwputch(w, 0, iOffsetX - 1,      h_ltgray, '<');
+        mvwputch(w, 0, iOffsetXRight + 1, h_ltgray, '>');
+
+        for (int i = iOffsetX + 1; i < iOffsetXRight; i++) {
+            mvwputch(w, 1, i, c_black, ' ');
+        }
+
+        //mvwputch(w, 2, iOffsetX,      c_ltgray, LINE_XOOX); // _|
+        //mvwputch(w, 2, iOffsetXRight, c_ltgray, LINE_XXOO); // |_
+
+    } //else {
+        //mvwputch(w, 2, iOffsetX,      c_ltgray, LINE_XXOX); // _|_
+        //mvwputch(w, 2, iOffsetXRight, c_ltgray, LINE_XXOX); // _|_
+    //}
+}
+
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY, const int iOffsetX,
                     nc_color bar_color)
@@ -1152,6 +1184,7 @@ void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeig
         }
     }
 }
+
 
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
 {
