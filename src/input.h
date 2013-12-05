@@ -75,6 +75,7 @@ struct input_event {
     input_event()
     {
         mouse_x = mouse_y = 0;
+        type = CATA_INPUT_ERROR;
     }
 
     long get_first_input() const
