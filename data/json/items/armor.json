@@ -6763,7 +6763,7 @@
         "bashing" : 6,
         "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 4
+        "material_thickness" : 5
     },
     {
         "type" : "ARMOR",
