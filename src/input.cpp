@@ -491,14 +491,18 @@ void input_context::display_help() {
 
     werase(w_help);
 
+    // Draw win header and borders
+    draw_border(w_help, c_white);
+    mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybinding help")))/2 - 1,
+              c_ltred, " %s ", _("Keybinding help"));
     mvwprintz(w_help, 1, 51, c_ltred, _("Unbound keys"));
     mvwprintz(w_help, 2, 51, c_ltgreen, _("Keybinding active only"));
     mvwprintz(w_help, 3, 51, c_ltgreen, _("on this screen"));
     mvwprintz(w_help, 4, 51, c_ltgray, _("Keybinding active globally"));
 
-    // Clear the lines
-    for (int i = 0; i < FULL_SCREEN_HEIGHT-2; i++)
-    mvwprintz(w_help, i, 0, c_black, "                                                ");
+    // Clear the lines. Don't touch borders
+    for (int i = 1; i < FULL_SCREEN_HEIGHT-3; i++)
+    mvwprintz(w_help, i, 1, c_black, "                                               ");
 
     for (int i=0; i<registered_actions.size(); i++) {
         const std::string& action_id = registered_actions[i];
