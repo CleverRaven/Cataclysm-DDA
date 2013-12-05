@@ -95,8 +95,8 @@ static bool inscribe_item( player *p, std::string verb, std::string gerund, bool
     //Note: this part still strongly relies on English grammar.
     //Although it can be easily worked around in language like Chinese,
     //but might need to be reworked for some European languages that have more verb forms
-    char ch = g->inv(string_format(_("%s on what?"), verb.c_str()));
-    item* cut = &(p->i_at(ch));
+    int pos = g->inv(string_format(_("%s on what?"), verb.c_str()));
+    item* cut = &(p->i_at(pos));
     if (cut->type->id == "null") {
         g->add_msg(_("You do not have that item!"));
         return false;
@@ -1418,24 +1418,24 @@ int iuse::cut_up(player *p, item *it, item *cut, bool t)
         type = "leather";
     }
 
-    char ch = cut->invlet;
+    int pos = p->get_item_position(cut);
 
     if (count <= 0) {
         g->add_msg_if_player(p, scrap_text.c_str(), cut->tname().c_str());
-        p->i_rem(ch);
+        p->i_rem(pos);
         return it->type->charges_to_use();
     }
     g->add_msg_if_player(p, sliced_text.c_str(), cut->tname().c_str(), count);
     item result(itypes[type], int(g->turn), g->nextinv);
-    p->i_rem(ch);
+    p->i_rem(pos);
     p->i_add_or_drop(result, g, count);
     return it->type->charges_to_use();
 }
 
 int iuse::scissors(player *p, item *it, bool t)
 {
-    char ch = g->inv(_("Chop up what?"));
-    item *cut = &(p->i_at(ch));
+    int pos = g->inv(_("Chop up what?"));
+    item *cut = &(p->i_at(pos));
 
     if (!valid_fabric(p, cut, t)) {
         return 0;
@@ -4828,7 +4828,7 @@ int iuse::knife(player *p, item *it, bool t)
     const int carve_writing = 1;
     const int cauterize = 2;
     const int cancel = 4;
-    char ch;
+    int pos;
 
     uimenu kmenu;
     kmenu.selected = uistate.iuse_knife_selected;
@@ -4859,14 +4859,14 @@ int iuse::knife(player *p, item *it, bool t)
         }
         return it->type->charges_to_use();
     } else if (choice == cut_fabric) {
-        ch = g->inv(_("Chop up what?"));
+        pos = g->inv(_("Chop up what?"));
     } else if (choice == carve_writing) {
-        ch = g->inv(_("Carve writing on what?"));
+        pos = g->inv(_("Carve writing on what?"));
     } else {
         return 0;
     }
 
-    item *cut = &(p->i_at(ch));
+    item *cut = &(p->i_at(pos));
 
     if (cut->type->id == "null") {
         g->add_msg(_("You do not have that item!"));
@@ -4945,7 +4945,7 @@ int iuse::knife(player *p, item *it, bool t)
     }
 
     // otherwise layout the goodies.
-    p->i_rem(ch);
+    p->i_rem(pos);
     p->i_add_or_drop(*result, g, count);
 
     // hear this helps with objects in dynamically allocated memory and
@@ -4975,14 +4975,14 @@ int iuse::cut_log_into_planks(player *p, item *it)
 
 int iuse::lumber(player *p, item *it, bool t)
 {
- char ch = g->inv(_("Cut up what?"));
- item* cut = &(p->i_at(ch));
+ int pos = g->inv(_("Cut up what?"));
+ item* cut = &(p->i_at(pos));
  if (cut->type->id == "null") {
   g->add_msg(_("You do not have that item!"));
   return 0;
  }
  if (cut->type->id == "log") {
-     p->i_rem(ch);
+     p->i_rem(pos);
      cut_log_into_planks(p, it);
      return it->type->charges_to_use();
  } else {
@@ -5276,8 +5276,8 @@ int iuse::candle_lit(player *p, item *it, bool t)
 
 int iuse::bullet_puller(player *p, item *it, bool t)
 {
- char ch = g->inv(_("Disassemble what?"));
- item* pull = &(p->i_at(ch));
+ int pos = g->inv(_("Disassemble what?"));
+ item* pull = &(p->i_at(pos));
  if (pull->type->id == "null") {
   g->add_msg(_("You do not have that item!"));
   return 0;
@@ -5476,7 +5476,7 @@ int iuse::bullet_puller(player *p, item *it, bool t)
  }
  pull->charges = pull->charges - multiply;
  if (pull->charges == 0) {
-     p->i_rem(ch);
+     p->i_rem(pos);
  }
  g->add_msg(_("You take apart the ammunition."));
  p->moves -= 500;
@@ -6022,8 +6022,8 @@ int iuse::spray_can(player *p, item *it, bool t)
  */
 static bool heat_item(player *p)
 {
-    char ch = g->inv(_("Heat up what?"));
-    item* heat = &(p->i_at(ch));
+    int pos = g->inv(_("Heat up what?"));
+    item* heat = &(p->i_at(pos));
     if (heat->type->id == "null") {
         g->add_msg(_("You do not have that item!"));
         return false;
