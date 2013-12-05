@@ -936,6 +936,37 @@
     },
     {
         "type": "profession",
+        "ident": "firefighter",
+        "name": "Firefighter",
+        "description": "As a first responder you were direct witness to the gutwrenching horrors of the apocalypse. Separated from most of your equipment and your unit while on call, you were forced to fight your way to safety with little more than your trusty iron and bunker gear to protect you.",
+        "points": 2,
+        "skills": [
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            },
+            {
+                "level": 1,
+                "name": "swimming"
+            }
+        ],
+        "items": [
+            "bunker_pants",
+            "bunker_coat",
+            "boots_bunker",
+            "fire_gauntlets",
+            "glasses_safety",
+            "firehelmet",
+            "halligan",
+            "pocketwatch"
+        ]
+    },
+    {
+        "type": "profession",
         "ident": "skaboy",
         "name": "Rudeboy",
         "description": "The apocalypse has been your psychotic dream come true. Now that the system is dead, it's time to party among the bones of the world!",

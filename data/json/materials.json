@@ -481,9 +481,9 @@
             "shredded",
             "tattered"
         ],
-        "acid_resist" : 3,
+        "acid_resist" : 2,
         "elec_resist" : 4,
-        "fire_resist" : 24,
+        "fire_resist" : 20,
         "density" : 4
     },{
         "type" : "material",

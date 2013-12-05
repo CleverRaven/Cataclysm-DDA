@@ -889,6 +889,23 @@ int iuse::inhaler(player *p, item *it, bool t) {
     return it->type->charges_to_use();
 }
 
+int iuse::oxygen_bottle(player *p, item *it, bool t) {
+    p->moves -= 500;
+    g->add_msg_if_player(p,_("You breathe deeply from the %s"), it->tname().c_str());
+    if (p->has_disease("smoke")) {
+          p->rem_disease("smoke");
+        }
+        else if (p->has_disease("asthma")) {
+          p->rem_disease("asthma");
+        }
+        else if (p->stim < 16) {
+          p->stim += 8;
+          p->pkill += 2;
+        }
+    p->pkill += 2;
+    return it->type->charges_to_use();
+}
+
 int iuse::blech(player *p, item *it, bool t) {
     // TODO: Add more effects?
     g->add_msg_if_player(p,_("Blech, that burns your throat!"));
