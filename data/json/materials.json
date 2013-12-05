@@ -469,6 +469,24 @@
         "density" : 70
     },{
         "type" : "material",
+        "ident" : "nomex",
+        "name" : "Nomex",
+        "bash_resist" : 1,
+        "cut_resist" : 2,
+        "bash_dmg_verb" : "ripped",
+        "cut_dmg_verb" : "cut",
+        "dmg_adj" : [
+            "ripped",
+            "torn",
+            "shredded",
+            "tattered"
+        ],
+        "acid_resist" : 4,
+        "elec_resist" : 6,
+        "fire_resist" : 24,
+        "density" : 4
+    },{
+        "type" : "material",
         "ident" : "gold",
         "name" : "Gold",
         "bash_resist" : 1,
