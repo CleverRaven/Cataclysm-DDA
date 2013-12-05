@@ -107,6 +107,43 @@ struct map_bash_info {
  * Furniture only:
  * BLOCKSDOOR - This will boost map terrain's resistance to bashing if str_*_blocked is set (see map_bash_info)
  */
+
+/*
+ * Note; All flags are defined as strings dynamically in data/json/terrain.json and furniture.json. The list above
+ * represent the common builtins. The enum below is an alternative means of fast-access, for those flags that are checked
+ * so much that strings produce a significant performance penalty. The following are equivalent:
+ *  m->has_flag("FLAMMABLE");     //
+ *  m->has_flag(TFLAG_FLAMMABLE); // ~ 20 x faster than the above, ( 2.5 x faster if the above uses static const std::string str_flammable("FLAMMABLE");
+ * To add a new ter_bitflag, add below and add to init_ter_bitflag_map() in mapdata.cpp
+ * Order does not matter.
+ */
+enum ter_bitflags {
+    TFLAG_NONE,
+    TFLAG_TRANSPARENT,
+    TFLAG_FLAMMABLE,
+    TFLAG_BASHABLE,
+    TFLAG_REDUCE_SCENT,
+    TFLAG_SWIMMABLE,
+    TFLAG_SUPPORTS_ROOF,
+    TFLAG_NOITEM,
+    TFLAG_SEALED,
+    TFLAG_LIQUID,
+    TFLAG_COLLAPSES,
+    TFLAG_EXPLODES,
+    TFLAG_FLAMMABLE_ASH,
+    TFLAG_DESTROY_ITEM,
+    TFLAG_INDOORS,
+    TFLAG_PLANT,
+    TFLAG_FIRE_CONTAINER,
+    TFLAG_FLAMMABLE_HARD,
+    TFLAG_SUPPRESS_SMOKE,
+    TFLAG_SHARP,
+    TFLAG_DIGGABLE,
+    TFLAG_ROUGH,
+};
+extern std::map<std::string, ter_bitflags> ter_bitflags_map;
+void init_ter_bitflags_map();
+
 typedef int ter_id;
 typedef int furn_id;
 /*
@@ -128,7 +165,8 @@ struct ter_t {
  nc_color color;//The color the sym will draw in on the GUI.
  unsigned char movecost; //The amount of movement points required to pass this terrain by default.
  trap_id trap; //The id of the trap located at this terrain. Limit one trap per tile currently.
- std::set<std::string> flags;// : num_t_flags; This refers to enum t_flag defined above.
+ std::set<std::string> flags;// string flags which may or may not refer to what's documented above.
+ unsigned long bitflags; // bitfield of -certian- string flags which are heavily checked
  iexamine_function examine; //What happens when the terrain is examined
  std::string open;          // open action: transform into terrain with matching id
  std::string close;         // close action: transform into terrain with matching id
@@ -140,10 +178,17 @@ struct ter_t {
      return flags.count(flag) != 0;
  }
 
+ bool has_flag(const ter_bitflags flag) const {
+     return (bitflags & mfb(flag));
+ }
+
  void set_flag(std::string flag) {
      flags.insert(flag);
      if("TRANSPARENT" == flag) {
          transparent = true;
+     }
+     if ( ter_bitflags_map.find( flag ) != ter_bitflags_map.end() ) {
+         bitflags |= mfb ( ter_bitflags_map.find( flag )->second ); 
      }
  }
 
@@ -203,7 +248,8 @@ struct furn_t {
  nc_color color;
  int movecost; // Penalty to terrain
  int move_str_req; //The amount of strength required to move through this terrain easily.
- std::set<std::string> flags;
+ std::set<std::string> flags;// string flags which may or may not refer to what's documented above.
+ unsigned long bitflags; // bitfield of -certian- string flags which are heavily checked
  iexamine_function examine;
  std::string open;
  std::string close;
@@ -215,10 +261,17 @@ struct furn_t {
      return flags.count(flag) != 0;
  }
 
+ bool has_flag(const ter_bitflags flag) const {
+     return (bitflags & mfb(flag));
+ }
+
  void set_flag(std::string flag) {
      flags.insert(flag);
      if("TRANSPARENT" == flag) {
          transparent = true;
+     }
+     if ( ter_bitflags_map.find( flag ) != ter_bitflags_map.end() ) {
+         bitflags |= mfb ( ter_bitflags_map.find( flag )->second ); 
      }
  }
 

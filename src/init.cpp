@@ -152,6 +152,7 @@ void init_data_structures()
 
     mutations_category[""].clear();
     init_body_parts();
+    init_ter_bitflags_map();
     init_vpart_bitflag_map();
     init_translation();
     init_martial_arts();
