@@ -1134,7 +1134,7 @@ bool map::trans(const int x, const int y)
             }
         }
     } else {
-        tertr = ( terlist[ter(x, y)].transparent && furnlist[furn(x, y)].transparent );
+        tertr = has_flag_ter_and_furn(TFLAG_TRANSPARENT, x, y);
     }
     if( tertr ) {
         // Fields may obscure the view, too
@@ -3880,7 +3880,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
                 traplocs[t].insert(point(fx, fy));
                 if ( do_funnels &&
                      g->traps[t]->funnel_radius_mm > 0 &&             // funnel
-                     has_flag_ter_or_furn("INDOORS", fx, fy) == false // we have no outside_cache
+                     has_flag_ter_or_furn(TFLAG_INDOORS, fx, fy) == false // we have no outside_cache
                    ) {
                     rain_backlog[point(x, y)] = t;
                 }
