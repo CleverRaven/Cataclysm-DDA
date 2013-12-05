@@ -158,6 +158,216 @@
   ]
 },{
         "type" : "recipe",
+  "result": "mre_beef_packed",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 150,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_beef", 1]
+    ],
+    [
+      [ "chocolate", 1]
+    ],
+    [
+      [ "paper", 6]
+    ],
+    [
+      [ "spork", 1]
+    ],
+    [
+      [ "heatpack", 1]
+    ],
+    [
+      [ "gum", 1]
+    ],
+    [
+      [ "crackers", 2]
+    ],
+    [
+      [ "coffee_raw", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_veggy_packed",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 150,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_veggy", 1]
+    ],
+    [
+      [ "chocolate", 1]
+    ],
+    [
+      [ "paper", 6]
+    ],
+    [
+      [ "spork", 1]
+    ],
+    [
+      [ "heatpack", 1]
+    ],
+    [
+      [ "gum", 1]
+    ],
+    [
+      [ "crackers", 2]
+    ],
+    [
+      [ "coffee_raw", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_chicken_packed",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 150,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_chicken", 1]
+    ],
+    [
+      [ "chocolate", 1]
+    ],
+    [
+      [ "paper", 6]
+    ],
+    [
+      [ "spork", 1]
+    ],
+    [
+      [ "heatpack", 1]
+    ],
+    [
+      [ "gum", 1]
+    ],
+    [
+      [ "crackers", 2]
+    ],
+    [
+      [ "coffee_raw", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_sloppy_packed",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 150,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "slopyyjoe", 1]
+    ],
+    [
+      [ "chocolate", 1]
+    ],
+    [
+      [ "paper", 6]
+    ],
+    [
+      [ "spork", 1]
+    ],
+    [
+      [ "heatpack", 1]
+    ],
+    [
+      [ "gum", 1]
+    ],
+    [
+      [ "crackers", 2]
+    ],
+    [
+      [ "coffee_raw", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_4finger_packed",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 150,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "hotdogs_cooked", 4]
+    ],
+    [
+      [ "chocolate", 1]
+    ],
+    [
+      [ "paper", 6]
+    ],
+    [
+      [ "spork", 1]
+    ],
+    [
+      [ "heatpack", 1]
+    ],
+    [
+      [ "gum", 1]
+    ],
+    [
+      [ "crackers", 2]
+    ],
+    [
+      [ "coffee_raw", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_noodle_packed",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 150,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "spaghetti_cooked", 2]
+    ],
+    [
+      [ "chocolate", 1]
+    ],
+    [
+      [ "paper", 6]
+    ],
+    [
+      [ "spork", 1]
+    ],
+    [
+      [ "heatpack", 1]
+    ],
+    [
+      [ "gum", 1]
+    ],
+    [
+      [ "crackers", 2]
+    ],
+    [
+      [ "coffee_raw", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "necklace",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
