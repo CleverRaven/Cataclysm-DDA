@@ -859,12 +859,8 @@ std::string item::tname()
             ret << "+";
         maintext = ret.str();
     } else if (contents.size() == 1) {
-        maintext = rmp_format(
-                       contents[0].made_of(LIQUID)?
-                       _("<item_name>%s of %s"):
-                       _("<item_name>%s with %s"),
-                       type->name.c_str(), contents[0].tname().c_str()
-                   );
+        maintext = rmp_format(_("<item_name>%s of %s"), type->name.c_str(),
+                              contents[0].tname().c_str());
     }
     else if (contents.size() > 0) {
         maintext = rmp_format(_("<item_name>%s, full"), type->name.c_str());
