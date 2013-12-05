@@ -8470,7 +8470,8 @@
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_creepy", 8 ]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -8531,7 +8532,8 @@
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_maiar", 8 ]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -8593,7 +8595,8 @@
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_maiar", 8 ]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -8653,7 +8656,8 @@
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_maiar", 8 ]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -8714,7 +8718,8 @@
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_animal", 8 ]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -8777,7 +8782,8 @@
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_creepy", 8 ]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -8837,7 +8843,8 @@
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_animal", 8 ]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -8897,7 +8904,8 @@
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_animal", 8 ]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -8957,7 +8965,8 @@
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_creepy", 8 ]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9018,7 +9027,8 @@
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_animal", 8 ]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9078,7 +9088,8 @@
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_animal", 8 ]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9138,7 +9149,8 @@
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_maiar", 8 ]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
