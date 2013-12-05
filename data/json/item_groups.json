@@ -661,6 +661,7 @@
       ["bunker_coat", 1],
       ["bunker_pants", 1],
       ["boots_bunker", 1],
+      ["fireman_belt", 1],
       ["mask_bunker", 1],
       ["nomex_suit", 1],
       ["nomex_hood", 1],
@@ -2613,6 +2614,7 @@
      ["battery", 10],
      ["smokebomb", 10],
      ["oxygen_tank", 5],
+     ["jack", 2],
      ["smoxygen_tank", 10]
 
 	]
@@ -3266,6 +3268,7 @@
       ["bunker_pants", 5],
       ["boots_bunker", 5],
       ["mask_bunker", 3],
+      ["fireman_belt", 3],
       ["nomex_suit", 1],
       ["nomex_hood", 1],
       ["nomex_gloves", 1],
@@ -5748,10 +5751,13 @@
      ["elbow_pads", 5],
      ["legrig", 5],
      ["UPS_off", 5],
+     ["adv_UPS_off", 2],
      ["emer_blanket", 5],
      ["battery", 10],
      ["tool_belt", 5],
      ["oxygen_tank", 15],
+     ["fireman_belt", 15],
+     ["jack", 5],
      ["smoxygen_tank", 35]
 
 	]
@@ -5798,6 +5804,7 @@
 	 ["geiger_off", 20],
    ["oxygen_tank", 10],
    ["smoxygen_tank", 15],
+   ["adv_UPS_off", 2],
 	 ["iodine", 50]
 	]
 	},{
