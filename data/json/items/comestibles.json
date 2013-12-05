@@ -1,5 +1,11 @@
 [
     {
+        "type" : "ITEM_CATEGORY",
+        "id" : "chems",
+        "name" : "chemical stuff",
+        "sort_rank" : 5
+    },
+    {
         "id": "water",
         "type": "COMESTIBLE",
         "symbol": "~",

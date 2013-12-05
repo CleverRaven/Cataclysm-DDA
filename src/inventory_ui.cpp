@@ -3,6 +3,7 @@
 #include "uistate.h"
 #include "keypress.h"
 #include "translations.h"
+#include "item_factory.h"
 #include "options.h"
 #include <string>
 #include <vector>
@@ -10,14 +11,22 @@
 #include <sstream>
 #include <algorithm>
 
-std::vector<int> find_firsts(invslice &slice, std::vector<std::string> &CATEGORIES)
+typedef std::vector<item_category> CategoriesVector;
+
+std::vector<int> find_firsts(invslice &slice, CategoriesVector &CATEGORIES)
 {
+    static const item_category category_on_ground(
+        "GROUND:",
+        _("GROUND:"),
+        -1000 // should be the first category
+    );
+
     std::vector<int> firsts;
     CATEGORIES.clear();
-    CATEGORIES.push_back("GROUND:");
+    CATEGORIES.push_back(category_on_ground);
     for (int i = 0; i < slice.size(); i++) {
         item& it = slice[i]->front();
-        const std::string category = it.get_category();
+        const item_category &category = it.get_category();
         if(std::find(CATEGORIES.begin(), CATEGORIES.end(), category) == CATEGORIES.end()) {
             CATEGORIES.push_back(category);
         }
@@ -28,7 +37,7 @@ std::vector<int> find_firsts(invslice &slice, std::vector<std::string> &CATEGORI
 
     for (int i = 0; i < slice.size(); i++) {
         item& it = slice[i]->front();
-        const std::string category = it.get_category();
+        const item_category &category = it.get_category();
         for(size_t j = 0; j < firsts.size(); j++) {
             if(firsts[j] == -1 && CATEGORIES[j+1] == category) {
                 firsts[j] = i;
@@ -132,7 +141,7 @@ char game::inv(inventory& inv, std::string title)
 // Gun, ammo, weapon, armor, food, tool, book, other
 
  invslice slice = inv.slice(0, inv.size());
- std::vector<std::string> CATEGORIES;
+ CategoriesVector CATEGORIES;
  std::vector<int> firsts = find_firsts(slice, CATEGORIES);
 
  int selected =- 1;
@@ -162,7 +171,7 @@ char game::inv(inventory& inv, std::string title)
 
    for (int i = 1; i < CATEGORIES.size(); i++) {
     if (cur_it == firsts[i-1]) {
-     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
+     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].name.c_str());
      cur_line++;
     }
    }
@@ -291,7 +300,7 @@ std::vector<item> game::multidrop()
  int ch = (int)'.';
  int start = 0, cur_it = 0, max_it;
  invslice stacks = u.inv.slice(0, u.inv.size());
- std::vector<std::string> CATEGORIES;
+ CategoriesVector CATEGORIES;
  std::vector<int> firsts = find_firsts(stacks, CATEGORIES);
  int selected=-1;
  int selected_char=(int)' ';
@@ -349,7 +358,7 @@ std::vector<item> game::multidrop()
 // Print category header
    for (int i = 1; i < CATEGORIES.size(); i++) {
     if (cur_it == firsts[i-1]) {
-     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
+     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].name.c_str());
      cur_line++;
     }
    }
@@ -594,7 +603,7 @@ void game::compare(int iCompareX, int iCompareY)
  std::vector<char> weapon_and_armor; // Always single, not counted
  print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
 // Gun, ammo, weapon, armor, food, tool, book, other
- std::vector<std::string> CATEGORIES;
+ CategoriesVector CATEGORIES;
  std::vector<int> first = find_firsts(stacks, CATEGORIES);
  std::vector<int> firsts;
  if (groundsize > 0) {
@@ -629,7 +638,7 @@ void game::compare(int iCompareX, int iCompareY)
 // Print category header
    for (int i = iHeaderOffset; i < CATEGORIES.size(); i++) {
     if (cur_it == firsts[i-iHeaderOffset]) {
-     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
+     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].name.c_str());
      cur_line++;
     }
    }

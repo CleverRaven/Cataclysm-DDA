@@ -1,4 +1,10 @@
 [
+    {
+        "type" : "ITEM_CATEGORY",
+        "id" : "spare_parts",
+        "name" : "spare parts",
+        "sort_rank" : 8
+    },
   { "id":"lighter",
     "type": "TOOL",
     "symbol": ",",
@@ -4153,7 +4159,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "spare parts",
+    "category" : "spare_parts",
     "use_action": "RAG"
   },
 
@@ -4177,7 +4183,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "spare parts",
+    "category" : "spare_parts",
     "use_action": "NONE"
   },
 
@@ -4201,7 +4207,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "spare parts",
+    "category" : "spare_parts",
     "use_action": "NONE"
   },
 

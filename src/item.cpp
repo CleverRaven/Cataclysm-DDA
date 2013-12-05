@@ -1733,10 +1733,10 @@ int item::sort_rank() const
 
 bool item::operator<(const item& other) const
 {
-    const std::string cat_a = get_category();
-    const std::string cat_b = other.get_category();
+    const item_category &cat_a = get_category();
+    const item_category &cat_b = other.get_category();
     if(cat_a != cat_b) {
-        return item_controller->compare_category(cat_a, cat_b);
+        return cat_a < cat_b;
     } else {
         const item *me = is_container() && contents.size() > 0 ? &contents[0] : this;
         const item *rhs = other.is_container() && other.contents.size() > 0 ? &other.contents[0] : &other;
@@ -2527,23 +2527,20 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
     return remaining_capacity;
 }
 
-std::string item::get_category() const {
+const item_category &item::get_category() const
+{
     if(is_container() && !contents.empty()) {
         return contents[0].get_category();
     }
-    if(type != 0 && !type->category.empty()) {
-        return type->category;
+    if(type != 0) {
+        if(type->category == 0) {
+            // Category not set? Set it now.
+            itype *t = const_cast<itype *>(type);
+            t->category = item_controller->get_category(item_controller->calc_category(t));
+        }
+        return *type->category;
     }
-    if (is_gun() ) return _("guns");
-    if (is_ammo() ) return _("ammo");
-    if (is_weap() ) return _("weapons");
-    if (is_tool() ) return _("tools");
-    if (is_armor() ) return _("clothing");
-    if (is_food() ) {
-        it_comest* comest = dynamic_cast<it_comest*>(type);
-        return ( comest->comesttype != "MED" ? _("drugs") : _("food") );
-    }
-    if (is_book() ) return _("books");
-    if (is_gunmod() || is_bionic()) return _("mods");
-    return _("other");
+    // null-item -> null-category
+    static item_category null_category;
+    return null_category;
 }

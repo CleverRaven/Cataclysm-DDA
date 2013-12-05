@@ -43,6 +43,9 @@ extern std::vector<std::string> artifact_itype_ids;
 extern std::vector<std::string> standard_itype_ids;
 extern std::vector<std::string> pseudo_itype_ids;
 
+// see item_factory.h
+class item_category;
+
 struct itype;
 extern std::map<std::string, itype*> itypes;
 
@@ -133,7 +136,7 @@ struct itype
  std::set<std::string> techniques;
  unsigned int light_emission;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
 
- std::string category; // category name or empty for automatic selection
+ const item_category *category; // category pointer or NULL for automatic selection
 
  virtual bool is_food()          { return false; }
  virtual bool is_ammo()          { return false; }
@@ -159,7 +162,7 @@ struct itype
 
  use_function use;// Special effects of use
 
- itype() : id("null"), name("none"), m1("null"), m2("null") {
+ itype() : id("null"), name("none"), m1("null"), m2("null"), category(0) {
   price = 0;
   sym = '#';
   color = c_white;
@@ -180,7 +183,7 @@ struct itype
        char psym, nc_color pcolor, std::string pm1, std::string pm2, phase_id pphase,
        unsigned short pvolume, unsigned int pweight,
        signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit) :
-    id(pid), name(pname), description(pdes), m1(pm1), m2(pm2) {
+    id(pid), name(pname), description(pdes), m1(pm1), m2(pm2), category(0) {
   price       = pprice;
   sym         = psym;
   color       = pcolor;

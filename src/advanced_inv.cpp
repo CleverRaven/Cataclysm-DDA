@@ -250,7 +250,7 @@ struct advanced_inv_sorter {
                 }
                 case SORTBY_CATEGORY: {
                     if ( d1.cat != d2.cat ) {
-                      return item_controller->compare_category(d1.cat, d2.cat);
+                      return *d1.cat < *d2.cat;
                     } else if ( d1.volume == -8 ) {
                       return true;
                     } else if ( d2.volume == -8 ) {
@@ -470,11 +470,11 @@ void advanced_inventory::recalc_pane(int i)
             it.stacks = size;
             it.weight = item.weight() * size;
             it.volume = item.volume() * size;
-            it.cat = item.get_category();
+            it.cat = &(item.get_category());
             it.it = &item;
             it.area = panes[i].area;
-            if( has_category.count(it.cat) == 0 ) {
-                has_category.insert(it.cat);
+            if( has_category.count(it.cat->id) == 0 ) {
+                has_category.insert(it.cat->id);
                 panes[i].numcats++;
                 if(panes[i].sortby == SORTBY_CATEGORY) {
                     advanced_inv_listitem itc;
@@ -483,7 +483,7 @@ void advanced_inventory::recalc_pane(int i)
                     itc.weight = -8;
                     itc.volume = -8;
                     itc.cat = it.cat;
-                    itc.name = it.cat;
+                    itc.name = it.cat->name;
                     itc.area = panes[i].area;
                     panes[i].items.push_back(itc);
                 }
@@ -522,11 +522,11 @@ void advanced_inventory::recalc_pane(int i)
                     it.stacks = 1;
                     it.weight = items[x].weight();
                     it.volume = items[x].volume();
-                    it.cat = items[x].get_category();
+                    it.cat = &(items[x].get_category());
                     it.it = &items[x];
                     it.area = s;
-                    if( has_category.count(it.cat) == 0 ) {
-                        has_category.insert(it.cat);
+                    if( has_category.count(it.cat->id) == 0 ) {
+                        has_category.insert(it.cat->id);
                         panes[i].numcats++;
                         if(panes[i].sortby == SORTBY_CATEGORY) {
                             advanced_inv_listitem itc;
@@ -535,7 +535,7 @@ void advanced_inventory::recalc_pane(int i)
                             itc.weight = -8;
                             itc.volume = -8;
                             itc.cat = it.cat;
-                            itc.name = it.cat;
+                            itc.name = it.cat->name;
                             itc.area = s;
                             panes[i].items.push_back(itc);
                         }

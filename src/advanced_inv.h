@@ -22,6 +22,9 @@ struct advanced_inv_area {
     int max_size, max_volume;
 };
 
+// see item_factory.h
+class item_category;
+
 // for printing items in environment
 struct advanced_inv_listitem {
     int idx;
@@ -32,7 +35,7 @@ struct advanced_inv_listitem {
     int stacks;
     int volume;
     int weight;
-    std::string cat;
+    const item_category *cat;
 };
 
 class advanced_inventory_pane {
