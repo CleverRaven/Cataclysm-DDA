@@ -2559,7 +2559,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "iv_mutagen_trog",
+        "id" : "iv_mutagen_troglobite",
         "name" : "troglobite serum",
         "weight" : 1,
         "color" : "gray",

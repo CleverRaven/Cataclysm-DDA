@@ -9164,7 +9164,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "iv_mutagen_trog",
+  "result": "iv_mutagen_troglobite",
   "category": "CC_CHEM",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
