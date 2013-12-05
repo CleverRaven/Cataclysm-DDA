@@ -328,7 +328,7 @@
         "name" : "Heavy Sleeper",
         "points" : -1,
         "description" : "You're quite the heavy sleeper. Noises are unlikely to wake you up.",
-        "changes_to" : ["HEAVYSLEEPER2"]
+        "changes_to" : ["HEAVYSLEEPER2"],
         "starting_trait" : true,
         "category" : ["MUTCAT_INSECT", "MUTCAT_PLANT", "MUTCAT_MEDICAL"]
     },{
@@ -1237,7 +1237,7 @@
         "points" : 3,
         "description" : "You've developed the ability to stockpile calories and then sleep for extended periods of time.",
         "valid" : false,
-        "prereqs" : ["HEAVYSLEEPER2"]
+        "prereqs" : ["HEAVYSLEEPER2"],
         "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
@@ -1760,7 +1760,7 @@
         "description" : "You could probably sleep through a firefight.",
         "valid" : false,
         "prereqs" : ["HEAVYSLEEPER"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_CANINE"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
         "id" : "ROT1",

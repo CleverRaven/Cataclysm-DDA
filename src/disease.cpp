@@ -2307,6 +2307,36 @@ void manage_fungal_infection(player& p, disease& dis) {
 
 void manage_sleep(player& p, disease& dis) {
     p.moves = 0;
+    if((int(g->turn) % 5 == 0) && p.has_trait("HIBERNATE") && p.hunger < -60) { //Hibernating only kicks in whilst Engorged
+        int recovery_chance;
+        // Accelerated recovery capped to 2x over 2 hours
+        // After 16 hours of activity, equal to 7.25 hours of rest
+        if (dis.intensity < 24) {
+            dis.intensity++;
+        } else if (dis.intensity < 1) {
+            dis.intensity = 1;
+        }
+        recovery_chance = 24 - dis.intensity + 1;
+        if (p.fatigue > 0) {
+            p.fatigue -= 1 + one_in(recovery_chance);
+        }
+        if (p.has_trait("FASTHEALER")) {
+            p.healall(1);
+        } else if (p.has_trait("FASTHEALER2")) {
+            p.healall(1 + one_in(2));
+        } else if (p.has_trait("REGEN")) {
+            p.healall(2);
+        } else {
+            p.healall(one_in(4));
+        }
+
+        if (p.fatigue <= 0 && p.fatigue > -20) {
+            p.fatigue = -25;
+            g->add_msg(_("You feel well rested."));
+            dis.duration = dice(3, 100);
+        }
+    }
+    
     if(int(g->turn) % 50 == 0) {
         int recovery_chance;
         // Accelerated recovery capped to 2x over 2 hours
@@ -2368,12 +2398,18 @@ void manage_sleep(player& p, disease& dis) {
     }
 
     int tirednessVal = rng(5, 200) + rng(0,abs(p.fatigue * 2 * 5));
-    if (p.has_trait("HEAVYSLEEPER2") && !p.has_trait("HIBERNATE") { // So you can too sleep through noon
-        tirednessVal * 1.25;
+    if (p.has_trait("HEAVYSLEEPER2") && !p.has_trait("HIBERNATE")) { // So you can too sleep through noon
+        if ((tirednessVal * 1.25) < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
+        g->add_msg(_("The light wakes you up."));
+        dis.duration = 1;
         }
-    if p.has_trait("HIBERNATE") { // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
-        tirednessVal * 5;
+        return;}
+    if (p.has_trait("HIBERNATE")) { // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
+        if ((tirednessVal * 5) < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
+        g->add_msg(_("The light wakes you up."));
+        dis.duration = 1;
         }
+        return;}
     if (tirednessVal < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
         g->add_msg(_("The light wakes you up."));
         dis.duration = 1;

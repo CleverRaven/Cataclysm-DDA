@@ -2819,6 +2819,10 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
         wprintz(w, c_yellow, _("Hungry"));
     else if (hunger < 0)
         wprintz(w, c_green,  _("Full"));
+    else if (hunger < -20)
+        wprintz(w, c_ltgreen,  _("Sated"));
+    else if (hunger < -60)
+        wprintz(w, c_green,  _("Engorged"));
 
  // Find hottest/coldest bodypart
  int min = 0, max = 0;
@@ -2896,6 +2900,10 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
         wprintz(w, c_yellow, _("Thirsty"));
     else if (thirst < 0)
         wprintz(w, c_green,  _("Slaked"));
+    else if (thirst < -20)
+        wprintz(w, c_green,  _("Hydrated"));
+    else if (thirst < -60)
+        wprintz(w, c_green,  _("Turgid"));
 
     wmove(w, sideStyle ? 3 : 2, sideStyle ? 0 : 30);
     if (fatigue > 575)
@@ -3469,7 +3477,7 @@ void player::pause(game *g)
       g->add_msg("You spin some webbing.");
      }
       
-    // Meditation boost for Toad Style
+    // Meditation boost for Toad Style, obsolete
     if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
         int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
         int arm_max = (int_cur + per_cur) / 2;
@@ -6460,7 +6468,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
 
     last_item = itype_id(eaten->type->id);
 
-    if (overeating && !is_npc() && !query_yn(_("You're full.  Force yourself to eat?"))) {
+    if (overeating && (!(has_trait("HIBERNATE"))) && !is_npc() && !query_yn(_("You're full.  Force yourself to eat?"))) {
         return false;
     }
 
@@ -6503,7 +6511,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
         consume_effects(eaten, comest, spoiled);
     } else {
         consume_effects(eaten, comest);
-        if (!has_trait("GOURMAND")) {
+        if (!(has_trait("GOURMAND") || has_trait("HIBERNATE"))) {
             if ((overeating && rng(-200, 0) > hunger)) {
                 vomit(g);
             }
@@ -6610,6 +6618,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         } else if (comest->fun > 0) {
             add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
         }
+        if (has_trait("GOURMAND") && !(has_trait("HIBERNATE"))) {
         if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
             g->add_msg_if_player(this,_("You can't finish it all!"));
         }
@@ -6618,6 +6627,39 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         }
         if (thirst < -60) {
             thirst = -60;
+        }
+    }
+    } if (has_trait("HIBERNATE")) {
+         if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) { //Tell the player what's going on
+            g->add_msg_if_player(this,_("You gorge yourself, preparing to hibernate."));
+            if (one_in(2)) {
+                (fatigue += (comest->nutr)); //50% chance of the food tiring you
+            }
+        }
+        if ((comest->nutr > 0 && hunger < -200) || (comest->quench > 0 && thirst < -200)) { //Hibernation should cut burn to 60/day
+            g->add_msg_if_player(this,_("You feel stocked for a day or two. Got your bed all ready and secured?"));
+            if (one_in(2)) {
+                (fatigue += (comest->nutr)); //And another 50%, intended cumulative
+            }
+        }
+        if ((comest->nutr > 0 && hunger < -400) || (comest->quench > 0 && thirst < -400)) {
+            g->add_msg_if_player(this,_("Mmm.  You can stil fit some more in...but maybe you should get comfortable and sleep."));
+             if (!(one_in(3))) {
+                (fatigue += (comest->nutr)); //Third check, this one at 66%
+            }
+        }
+        if ((comest->nutr > 0 && hunger < -600) || (comest->quench > 0 && thirst < -600)) {
+            g->add_msg_if_player(this,_("That filled a hole!  Time for bed..."));
+            fatigue += (comest->nutr); //At this point, you're done.  Schlaf gut.
+        }
+        if ((comest->nutr > 0 && hunger < -620) || (comest->quench > 0 && thirst < -620)) {
+            g->add_msg_if_player(this,_("You can't finish it all!"));
+        }
+        if (hunger < -620) {
+            hunger = -620;
+        }
+        if (thirst < -620) {
+            thirst = -620;
         }
     } else {
         if (comest->fun < 0) {
