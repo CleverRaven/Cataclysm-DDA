@@ -5082,87 +5082,98 @@ void game::monmove()
         }
     }
 
- for (int i = 0; i < num_zombies(); i++) {
-  monster &critter = _active_monsters[i];
-  while (!critter.dead && !critter.can_move_to(this, critter.posx(), critter.posy())) {
-// If we can't move to our current position, assign us to a new one
-   if (debugmon)
-   {
-    dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
-                 << " can't move to its location! (" << critter.posx()
-                 << ":" << critter.posy() << "), "
-                 << m.tername(critter.posx(), critter.posy()).c_str();
-    debugmsg("%s can't move to its location! (%d:%d), %s", critter.name().c_str(),
-             critter.posx(), critter.posy(), m.tername(critter.posx(), critter.posy()).c_str());
-   }
-   bool okay = false;
-   int xdir = rng(1, 2) * 2 - 3, ydir = rng(1, 2) * 2 - 3; // -1 or 1
-   int startx = critter.posx() - 3 * xdir, endx = critter.posx() + 3 * xdir;
-   int starty = critter.posy() - 3 * ydir, endy = critter.posy() + 3 * ydir;
-   for (int x = startx; x != endx && !okay; x += xdir) {
-    for (int y = starty; y != endy && !okay; y += ydir){
-     if (critter.can_move_to(this, x, y) && is_empty(x, y)) {
-      critter.setpos(x, y);
-      okay = true;
-     }
+    for (int i = 0; i < num_zombies(); i++)
+    {
+        monster *critter = &_active_monsters[i];
+        while (!critter->dead && !critter->can_move_to(this, critter->posx(), critter->posy())) {
+            // If we can't move to our current position, assign us to a new one
+            if (debugmon) {
+                dbg(D_ERROR) << "game:monmove: " << critter->name().c_str()
+                            << " can't move to its location! (" << critter->posx()
+                            << ":" << critter->posy() << "), "
+                            << m.tername(critter->posx(), critter->posy()).c_str();
+                debugmsg("%s can't move to its location! (%d:%d), %s", critter->name().c_str(),
+                        critter->posx(), critter->posy(), m.tername(critter->posx(), critter->posy()).c_str());
+            }
+            bool okay = false;
+            int xdir = rng(1, 2) * 2 - 3, ydir = rng(1, 2) * 2 - 3; // -1 or 1
+            int startx = critter->posx() - 3 * xdir, endx = critter->posx() + 3 * xdir;
+            int starty = critter->posy() - 3 * ydir, endy = critter->posy() + 3 * ydir;
+            for (int x = startx; x != endx && !okay; x += xdir) {
+                for (int y = starty; y != endy && !okay; y += ydir) {
+                    if (critter->can_move_to(this, x, y) && is_empty(x, y)) {
+                        critter->setpos(x, y);
+                        okay = true;
+                    }
+                }
+            }
+            if (!okay) {
+                critter->dead = true;
+            }
+        }
+
+        if (!critter->dead) {
+            critter->process_effects(this);
+            if (critter->hurt(0)) {
+                kill_mon(i, false);
+                // might have spaned more monsters on death,
+                // changing _active_monsters
+                critter = &_active_monsters[i];
+            }
+        }
+
+        m.mon_in_field(critter->posx(), critter->posy(), this, critter);
+        // might have killed the critter and spawned more monsters
+        critter = &_active_monsters[i];
+
+        while (critter->moves > 0 && !critter->dead) {
+            critter->made_footstep = false;
+            critter->plan(this, friendlies); // Formulate a path to follow
+            critter->move(this); // Move one square, possibly hit u
+            critter->process_triggers(this);
+            m.mon_in_field(critter->posx(), critter->posy(), this, critter);
+            critter = &_active_monsters[i];
+            if (critter->hurt(0)) { // Maybe we died...
+                kill_mon(i, false);
+                critter = &_active_monsters[i];
+                critter->dead = true;
+            }
+        }
+
+        if (!critter->dead) {
+            if (u.has_active_bionic("bio_alarm") && u.power_level >= 1 &&
+                rl_dist(u.posx, u.posy, critter->posx(), critter->posy()) <= 5) {
+                u.power_level--;
+                add_msg(_("Your motion alarm goes off!"));
+                cancel_activity_query(_("Your motion alarm goes off!"));
+                if (u.has_disease("sleep") || u.has_disease("lying_down")) {
+                    u.rem_disease("sleep");
+                    u.rem_disease("lying_down");
+                }
+            }
+            // We might have stumbled out of range of the player; if so, kill us
+            if (critter->posx() < 0 - (SEEX * MAPSIZE) / 6 ||
+                critter->posy() < 0 - (SEEY * MAPSIZE) / 6 ||
+                critter->posx() > (SEEX * MAPSIZE * 7) / 6 ||
+                critter->posy() > (SEEY * MAPSIZE * 7) / 6   ) {
+                // Re-absorb into local group, if applicable
+                int group = valid_group((critter->type->id), levx, levy, levz);
+                if (group != -1) {
+                    cur_om->zg[group].population++;
+                    if (cur_om->zg[group].population / (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
+                        !cur_om->zg[group].diffuse ) {
+                        cur_om->zg[group].radius++;
+                    }
+                } else if (MonsterGroupManager::Monster2Group((critter->type->id)) != "GROUP_NULL") {
+                    cur_om->zg.push_back(mongroup(MonsterGroupManager::Monster2Group((critter->type->id)),
+                                                levx, levy, levz, 1, 1));
+                }
+                critter->dead = true;
+            } else {
+                critter->receive_moves();
+            }
+        }
     }
-   }
-   if (!okay)
-    critter.dead = true;
-  }
-
-  if (!critter.dead) {
-   critter.process_effects(this);
-   if (critter.hurt(0))
-    kill_mon(i, false);
-  }
-
-  m.mon_in_field(critter.posx(), critter.posy(), this, &critter);
-
-  while (critter.moves > 0 && !critter.dead) {
-   critter.made_footstep = false;
-   critter.plan(this, friendlies); // Formulate a path to follow
-   critter.move(this); // Move one square, possibly hit u
-   critter.process_triggers(this);
-   m.mon_in_field(critter.posx(), critter.posy(), this, &critter);
-   if (critter.hurt(0)) { // Maybe we died...
-    kill_mon(i, false);
-    critter.dead = true;
-   }
-  }
-
-  if (!critter.dead) {
-   if (u.has_active_bionic("bio_alarm") && u.power_level >= 1 &&
-       rl_dist(u.posx, u.posy, critter.posx(), critter.posy()) <= 5) {
-    u.power_level--;
-    add_msg(_("Your motion alarm goes off!"));
-    cancel_activity_query(_("Your motion alarm goes off!"));
-    if (u.has_disease("sleep") || u.has_disease("lying_down")) {
-     u.rem_disease("sleep");
-     u.rem_disease("lying_down");
-    }
-   }
-// We might have stumbled out of range of the player; if so, kill us
-   if (critter.posx() < 0 - (SEEX * MAPSIZE) / 6 ||
-       critter.posy() < 0 - (SEEY * MAPSIZE) / 6 ||
-       critter.posx() > (SEEX * MAPSIZE * 7) / 6 ||
-       critter.posy() > (SEEY * MAPSIZE * 7) / 6   ) {
-// Re-absorb into local group, if applicable
-    int group = valid_group((critter.type->id), levx, levy, levz);
-    if (group != -1) {
-     cur_om->zg[group].population++;
-     if (cur_om->zg[group].population / (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
-         !cur_om->zg[group].diffuse )
-      cur_om->zg[group].radius++;
-    } else if (MonsterGroupManager::Monster2Group((critter.type->id)) != "GROUP_NULL") {
-     cur_om->zg.push_back(mongroup(MonsterGroupManager::Monster2Group((critter.type->id)),
-                                  levx, levy, levz, 1, 1));
-    }
-    critter.dead = true;
-   } else
-    critter.receive_moves();
-  }
- }
 
  cleanup_dead();
 
