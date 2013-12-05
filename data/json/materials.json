@@ -472,7 +472,7 @@
         "ident" : "nomex",
         "name" : "Nomex",
         "bash_resist" : 1,
-        "cut_resist" : 2,
+        "cut_resist" : 1,
         "bash_dmg_verb" : "ripped",
         "cut_dmg_verb" : "cut",
         "dmg_adj" : [
@@ -481,8 +481,8 @@
             "shredded",
             "tattered"
         ],
-        "acid_resist" : 4,
-        "elec_resist" : 6,
+        "acid_resist" : 3,
+        "elec_resist" : 4,
         "fire_resist" : 24,
         "density" : 4
     },{

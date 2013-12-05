@@ -2384,6 +2384,21 @@
   },
   {
     "type":"GENERIC",
+    "id": "nomex",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "nomex patch",
+    "description": "A small bolt Nomex fire-resistant fabric.",
+    "price": 40,
+    "material": ["nomex", "null"],
+    "weight": 42,
+    "volume": 1,
+    "bashing": -8,
+    "cutting": 0,
+    "to_hit": 0
+  },
+  {
+    "type":"GENERIC",
     "id": "kevlar_harness",
     "symbol": "[",
     "color": "blue",

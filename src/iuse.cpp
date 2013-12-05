@@ -1218,8 +1218,12 @@ int iuse::sew(player *p, item *it, bool t)
         repair_items.push_back("fur");
         plurals.push_back(rm_prefix(_("<plural>fur")));
     }
+    if (fix->made_of("nomex")) {
+        repair_items.push_back("nomex");
+        plurals.push_back(rm_prefix(_("<plural>nomex")));
+    }
     if(repair_items.empty()) {
-        g->add_msg_if_player(p,_("Your %s is not made of cotton, wool, leather or fur."),
+        g->add_msg_if_player(p,_("Your %s is not made of fabric, leather or fur."),
                              fix->tname().c_str());
         return 0;
     }
@@ -1376,8 +1380,8 @@ static bool valid_fabric(player *p, item *it, bool t)
         g->add_msg_if_player(p, _("There's no point in cutting a %s."), it->type->name.c_str());
         return false;
     }
-    if (!it->made_of("cotton") && !it->made_of("leather")) {
-        g->add_msg(_("You can only slice items made of cotton or leather."));
+    if (!it->made_of("cotton") && !it->made_of("leather") && !it->made_of("nomex")) {
+        g->add_msg(_("You can only slice items made of fabric or leather."));
         return false;
     }
 
@@ -1410,11 +1414,16 @@ int iuse::cut_up(player *p, item *it, item *cut, bool t)
         sliced_text = ngettext("You slice the %s into a rag.", "You slice the %1$s into %2$d rags.",
                                count);
         type = "rag";
-    } else {
+    } else if (cut->made_of("leather")) {
         scrap_text = _("You clumsily cut the %s into useless scraps.");
         sliced_text = ngettext("You slice the %s into a piece of leather.",
                                "You slice the %1$s into %2$d pieces of leather.", count);
         type = "leather";
+    } else {
+        scrap_text = _("You clumsily cut the %s into useless scraps.");
+        sliced_text = ngettext("You cut the %s into a piece of nomex.",
+                               "You slice the %1$s into %2$d pieces of nomex.", count);
+        type = "nomex";
     }
 
     char ch = cut->invlet;
@@ -4909,7 +4918,7 @@ int iuse::knife(player *p, item *it, bool t)
     item *result = NULL;
     int count = amount;
 
-    if ((cut->made_of("cotton") || cut->made_of("leather")) ) {
+    if ((cut->made_of("cotton") || cut->made_of("leather") || cut->made_of("nomex")) ) {
         if (valid_fabric(p, cut, t)) {
             cut_up(p, it, cut, t);
         }

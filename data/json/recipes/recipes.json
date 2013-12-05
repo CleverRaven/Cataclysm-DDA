@@ -12629,6 +12629,86 @@
   ]
 },{
         "type" : "recipe",
+  "result": "nomex_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 7,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 40 ],
+      [ "sewing_kit", 40 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "nomex", 18 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "nomex_hood",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 7,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "nomex", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "nomex_gloves",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 7,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "nomex", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "nomex_socks",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 7,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "nomex", 9 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "gloves_fingerless",
   "category": "CC_ARMOR",
   "skill_used": "tailor",

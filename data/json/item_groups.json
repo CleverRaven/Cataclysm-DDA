@@ -2210,6 +2210,7 @@
       ["jacket_leather", 30],
       ["coat_rain", 50],
       ["trenchcoat", 25],
+      ["skinny_tie", 5],
       ["apron_leather", 1]
     ]
     },{
@@ -2350,6 +2351,8 @@
       ["army_top", 20],
       ["tux", 1],
       ["dress_wedding", 1],
+      ["porkpie", 5],
+      ["skinny_tie", 5],
       ["jersey", 40]
     ]
     },{
