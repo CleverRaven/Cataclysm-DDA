@@ -10062,7 +10062,7 @@ void game::reload(char chInput)
              if ((contents.is_gunmod() &&
                   (contents.typeId() == "spare_mag" &&
                    contents.charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
-                (contents.has_flag("AUX_MODE") &&
+                (contents.has_flag("MODE_AUX") &&
                  contents.charges < contents.clip_size()))
              {
                  magazine_isfull = false;
