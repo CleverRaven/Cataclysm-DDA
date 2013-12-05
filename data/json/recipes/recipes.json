@@ -9164,7 +9164,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "iv_mutagen_troglobite",
+  "result": "iv_mutagen_trog",
   "category": "CC_CHEM",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
@@ -15633,7 +15633,7 @@
     ],
     [
       [ "superglue", 1 ]
-	  
+
     ]
   ]
 },{
