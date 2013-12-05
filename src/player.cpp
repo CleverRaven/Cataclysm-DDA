@@ -8398,6 +8398,10 @@ float player::fine_detail_vision_mod(game *g)
     {
         vision_ii -= 3.5;
     }
+    if (g->u.has_active_item("atomic_light"))
+    {
+        vision_ii -= 1;
+    }
 
     if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
 	else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
