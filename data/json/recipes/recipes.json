@@ -19288,6 +19288,46 @@
   ]
 },{
         "type" : "recipe",
+  "result": "lajatang",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "q_staff", 1 ]
+    ],
+    [
+      [ "duct_tape", 100 ]
+    ],
+    [
+      [ "blade", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "cs_lajatang_off",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "q_staff", 1 ]
+    ],
+    [
+      [ "duct_tape", 200 ]
+    ],
+    [
+      [ "chainsaw_off", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "blade",
   "id_suffix": "from steel",
   "category": "CC_MISC",

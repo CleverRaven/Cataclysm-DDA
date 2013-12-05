@@ -548,6 +548,23 @@
   },
 
   {
+     "type":"GENERIC",
+     "id": "lajatang",
+     "symbol": "/",
+     "color": "brown",
+     "name": "lajatang",
+     "description": "An exotic weapon comprised of a long pole of wood with curved blades on each end. It can be deadly in skilled hands.",
+     "price": 60,
+     "material": ["wood", "iron"],
+     "techniques" : ["WBLOCK_1", "WIDE"],
+     "weight": 2500,
+     "volume": 26,
+     "bashing": 4,
+     "cutting": 26,
+     "to_hit": 2
+  },
+
+  {
     "type":"GENERIC",
     "id": "hatchet",
     "symbol": ";",

@@ -112,6 +112,8 @@ void Item_factory::init(){
     iuse_function_list["SIPHON"] = &iuse::siphon;
     iuse_function_list["CHAINSAW_OFF"] = &iuse::chainsaw_off;
     iuse_function_list["CHAINSAW_ON"] = &iuse::chainsaw_on;
+    iuse_function_list["CS_LAJATANG_OFF"] = &iuse::cs_lajatang_off;
+    iuse_function_list["CS_LAJATANG_ON"] = &iuse::cs_lajatang_on;
     iuse_function_list["CARVER_OFF"] = &iuse::carver_off;
     iuse_function_list["CARVER_ON"] = &iuse::carver_on;
     iuse_function_list["COMBATSAW_OFF"] = &iuse::combatsaw_off;
