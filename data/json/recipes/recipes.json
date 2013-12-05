@@ -158,6 +158,216 @@
   ]
 },{
         "type" : "recipe",
+  "result": "mre_beef_packed",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 150,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_beef", 1]
+    ],
+    [
+      [ "chocolate", 1]
+    ],
+    [
+      [ "paper", 6]
+    ],
+    [
+      [ "spork", 1]
+    ],
+    [
+      [ "heatpack", 1]
+    ],
+    [
+      [ "gum", 1]
+    ],
+    [
+      [ "crackers", 2]
+    ],
+    [
+      [ "coffee_raw", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_veggy_packed",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 150,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_veggy", 1]
+    ],
+    [
+      [ "chocolate", 1]
+    ],
+    [
+      [ "paper", 6]
+    ],
+    [
+      [ "spork", 1]
+    ],
+    [
+      [ "heatpack", 1]
+    ],
+    [
+      [ "gum", 1]
+    ],
+    [
+      [ "crackers", 2]
+    ],
+    [
+      [ "coffee_raw", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_chicken_packed",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 150,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_chicken", 1]
+    ],
+    [
+      [ "chocolate", 1]
+    ],
+    [
+      [ "paper", 6]
+    ],
+    [
+      [ "spork", 1]
+    ],
+    [
+      [ "heatpack", 1]
+    ],
+    [
+      [ "gum", 1]
+    ],
+    [
+      [ "crackers", 2]
+    ],
+    [
+      [ "coffee_raw", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_sloppy_packed",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 150,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "slopyyjoe", 1]
+    ],
+    [
+      [ "chocolate", 1]
+    ],
+    [
+      [ "paper", 6]
+    ],
+    [
+      [ "spork", 1]
+    ],
+    [
+      [ "heatpack", 1]
+    ],
+    [
+      [ "gum", 1]
+    ],
+    [
+      [ "crackers", 2]
+    ],
+    [
+      [ "coffee_raw", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_4finger_packed",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 150,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "hotdogs_cooked", 4]
+    ],
+    [
+      [ "chocolate", 1]
+    ],
+    [
+      [ "paper", 6]
+    ],
+    [
+      [ "spork", 1]
+    ],
+    [
+      [ "heatpack", 1]
+    ],
+    [
+      [ "gum", 1]
+    ],
+    [
+      [ "crackers", 2]
+    ],
+    [
+      [ "coffee_raw", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_noodle_packed",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 150,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "spaghetti_cooked", 2]
+    ],
+    [
+      [ "chocolate", 1]
+    ],
+    [
+      [ "paper", 6]
+    ],
+    [
+      [ "spork", 1]
+    ],
+    [
+      [ "heatpack", 1]
+    ],
+    [
+      [ "gum", 1]
+    ],
+    [
+      [ "crackers", 2]
+    ],
+    [
+      [ "coffee_raw", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "necklace",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -781,7 +991,11 @@
   "components": [
     [
       [ "rag", 1 ],
-      [ "duct_tape", 50 ]
+      [ "duct_tape", 50 ],
+      [ "string_6", 2 ],
+      [ "sinew", 100 ],
+      [ "thread", 100 ],
+      [ "plant_fibre", 100 ]
     ],
     [
       [ "spike", 1 ]
@@ -4771,6 +4985,44 @@
   ]
 },{
         "type" : "recipe",
+  "result": "meatjelly",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "spear_wood", -1 ],
+      [ "spear_steel", -1 ],
+      [ "pointy_stick", -1 ],
+      [ "skewer", -1 ],
+      [ "javelin", -1 ],
+      [ "javelin_iron", -1 ],
+      [ "spear_knife", -1 ],
+      [ "tongs", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "meat", 1 ]
+    ],
+    [
+      [ "royal_jelly", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "rehydrated_meat",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -5149,6 +5401,86 @@
       [ "seasoning_italian", 10 ],
       [ "seasoning_salt", 10 ],
       [ "pepper", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sausagegravy",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools" : [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
+      [ "tongs", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sausage", 1 ]
+    ],
+    [
+      [ "soup_mushroom", 1]
+    ],
+    [
+      [ "biscuit", 2],
+      [ "bread", 3],
+      [ "hardtack", 4]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mannwurstgravy",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools" : [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
+      [ "tongs", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mannwurst", 1 ]
+    ],
+    [
+      [ "soup_mushroom", 1]
+    ],
+    [
+      [ "biscuit", 2],
+      [ "bread", 3],
+      [ "hardtack", 4]
     ]
   ]
 },{
@@ -6450,6 +6782,32 @@
     ],
     [
       [ "vodka", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "waterbooze",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 7000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "water", 10 ]
+    ],
+    [
+      [ "wine_riesling", 15 ],
+      [ "wine_chardonnay", 15 ],
+      [ "wine_cabernet", 15 ],
+      [ "wine_noir", 15 ],
+      [ "whiskey", 15 ],
+      [ "vodka", 15 ],
+      [ "gin", 15 ],
+      [ "rum", 15 ],
+      [ "tequila", 15 ],
+      [ "triple_sec", 15 ]
     ]
   ]
 },{
@@ -8078,6 +8436,118 @@
       [ "meat_canned", 1 ],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "lasagna",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_italian", 3 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 3 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "seasoning_italian", 5 ],
+      [ "sauce_red", 1 ]
+    ],
+    [
+      [ "cheese", 1 ],
+      [ "can_cheese", 2 ]
+    ],
+    [
+      [ "irradiated_tomato", 1 ],
+      [ "tomato", 1 ],
+      [ "irradiated_broccoli", 1 ],
+      [ "broccoli", 1 ],
+      [ "irradiated_zucchini", 1 ],
+      [ "zucchini", 1 ]
+    ],
+    [
+      [ "meat", 2 ],
+      [ "meat_canned", 1 ],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "hflesh_lasagna",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 3 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 3 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "seasoning_italian", 5 ],
+      [ "sauce_red", 1 ]
+    ],
+    [
+      [ "cheese", 1 ],
+      [ "can_cheese", 2 ]
+    ],
+    [
+      [ "irradiated_tomato", 1 ],
+      [ "tomato", 1 ],
+      [ "irradiated_broccoli", 1 ],
+      [ "broccoli", 1 ],
+      [ "irradiated_zucchini", 1 ],
+      [ "zucchini", 1 ]
+    ],
+    [
+      [ "human_flesh", 2 ],
+      [ "human_canned", 1 ],
+      [ "rehydrated_hflesh", 2 ],
+      [ "dry_hflesh", 2 ]
     ]
   ]
 },{
@@ -20564,7 +21034,135 @@
       [ "hardtack", 4]
     ],
     [
-      [ "meat", 1 ]
+      [ "meat", 1 ],
+      [ "bologna", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "sandwich_cheese",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 2000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "cheese", 1 ],
+      [ "can_cheese", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "sandwich_p",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 2000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "penutbutter", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "sandwich_pbj",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 2000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "jam_strawberries", 1 ],
+      [ "jam_blueberries", 1 ],
+      [ "jam_fruit", 1 ]
+    ],
+    [
+      [ "penutbutter", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "sandwich_pbh",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 2000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "honey", 1 ],
+      [ "honeybottle", 1 ]
+    ],
+    [
+      [ "penutbutter", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "sandwich_grilled",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 5000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "cheese", 1 ],
+      [ "can_cheese", 2 ]
     ]
   ]
 },{
@@ -20597,7 +21195,8 @@
       [ "hardtack", 4]
     ],
     [
-      [ "human_flesh", 1 ]
+      [ "human_flesh", 1 ],
+      [ "hfleshbologna", 2]
     ]
   ]
 },{

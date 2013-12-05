@@ -33,6 +33,23 @@
         "flags": ["RIGID", "WATERTIGHT", "SEALS"]
     },
     {
+        "id": "cup_plastic",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_cyan",
+        "name": "plastic cup",
+        "description": "A small plastic cup used to hold 250ml of particular dairy based treats. It has no particular use and isn't resealable.",
+        "price": 2,
+        "weight": 4,
+        "volume": 1,
+        "bashing": -10,
+        "cutting": 0,
+        "to_hit": -4,
+        "material": "plastic",
+        "contains": 1,
+        "flags": ["RIGID", "WATERTIGHT"]
+    },
+    {
         "id": "bottle_glass",
         "type": "CONTAINER",
         "symbol": ")",
