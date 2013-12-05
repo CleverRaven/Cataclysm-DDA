@@ -2626,9 +2626,6 @@ void game::update_scent()
  int sum_3_squares_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
  int  squares_used_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
 
- static const std::string hasflag_str_BASHABLE("BASHABLE"); // only need to assemble this once per runtime vs 14884 times
- static const std::string hasflag_str_REDUCE_SCENT("REDUCE_SCENT");
-
  bool can_move_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash move_cost instead of checking 14884 * (3 redundant)
  bool can_bash_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash bashable instead of checking 14884 * (3 redundant)
 
@@ -2646,11 +2643,11 @@ void game::update_scent()
    if ( y == u.posy - SCENT_RADIUS ) {  // ..and only once. y-1 y-0, when we are at the top row...
        for (int i = y - 1; i <= y; ++i) {
            can_move_here[x][i] = (m.move_cost_ter_furn(x, i) > 0 );
-           can_bash_here[x][i] = m.has_flag(hasflag_str_BASHABLE, x, i);
+           can_bash_here[x][i] = m.has_flag(TFLAG_BASHABLE, x, i);
        }
    }
    can_move_here[x][y+1] = (m.move_cost_ter_furn(x, y+1) > 0 ); // ...means we only need y+1 here for lookahead
-   can_bash_here[x][y+1] = m.has_flag(hasflag_str_BASHABLE, x, y+1);
+   can_bash_here[x][y+1] = m.has_flag(TFLAG_BASHABLE, x, y+1);
 
    // remember the sum of the scent val for the up to 3 neighboring squares that can defuse into.
    sum_3_squares_y[x][y] = 0;
@@ -2687,7 +2684,7 @@ void game::update_scent()
     }
     //Greatly reduce scent for bashable barriers, even more for ductaped barriers
     if( can_move_here[x][y] == false ) { /* always true: can_bash_here[x][y] */
-        if( m.has_flag(hasflag_str_REDUCE_SCENT, x, y)) {
+        if( m.has_flag(TFLAG_REDUCE_SCENT, x, y)) {
             grscent[x][y] /= 12;
         } else {
             grscent[x][y] /= 4;
