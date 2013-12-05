@@ -12713,6 +12713,52 @@
   ]
 },{
         "type" : "recipe",
+  "result": "entry_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "skills_required" : ["tailor", 6],
+  "difficulty": 6,
+  "time": 160000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_fireman", 8 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+     [
+      [ "welder", 28 ],
+      [ "soldering_iron", 28 ],
+      [ "toolset", 2 ]
+     ],
+     [
+      [ "needle_bone", 200 ],
+      [ "sewing_kit", 200 ]
+    ]
+  ],
+  "components": [
+     [
+     [ "nomex", 40 ]
+     ],
+     [
+      [ "kevlar_plate", 8 ]
+     ],
+     [
+      [ "mask_bunker", 1 ]
+     ],
+     [
+      [ "duct_tape", 200 ],
+      [ "superglue", 5 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 24 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
   "result": "gloves_fingerless",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -20563,6 +20609,7 @@
      ],
      [
      [ "nomex_suit", 1 ],
+     [ "entry_suit", 1 ],
      [ "nomex", 20 ]
      ],
      [
