@@ -4569,16 +4569,16 @@ faction* game::random_evil_faction()
 
 bool game::sees_u(int x, int y, int &t)
 {
-    int range = 0;
- int mondex = mon_at(x,y);
- if (mondex != -1) {
-  monster &critter = _active_monsters[mondex];
-        range = critter.vision_range(u.posx, u.posy);
- }
-
- return (!(u.has_active_bionic("bio_cloak") || u.has_active_bionic("bio_night") ||
-           u.has_active_optcloak() || u.has_artifact_with(AEP_INVISIBLE))
-           && m.sees(x, y, u.posx, u.posy, range, t));
+    const int mondex = mon_at(x,y);
+    if (mondex != -1) {
+        const monster &critter = _active_monsters[mondex];
+        return critter.sees_player(t);
+    }
+    // range = 0 = unlimited, proceeding sans critter
+    return (
+        m.sees(x, y, u.posx, u.posy, 0, t) &&
+        ! u.is_invisible()
+    );
 }
 
 bool game::u_see(int x, int y)
