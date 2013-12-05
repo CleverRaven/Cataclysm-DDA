@@ -40,7 +40,7 @@ void load_recipe(JsonObject &jsobj)
     // required
     std::string result = jsobj.get_string("result");
     std::string category = jsobj.get_string("category");
-    std::string subcategory = jsobj.get_string("subcategory", "CSC_WEAPON_MISC");
+    std::string subcategory = jsobj.get_string("subcategory", "CSC_MISC_MISC");
     int difficulty = jsobj.get_int("difficulty");
     int time = jsobj.get_int("time");
     bool autolearn = jsobj.get_bool("autolearn");
@@ -590,7 +590,7 @@ recipe* game::select_crafting_recipe()
             current.clear();
             available.clear();
             // Set current to all recipes in the current tab; available are possible to make
-            pick_recipes(crafting_inv, current, available, tab, filterstring);
+            pick_recipes(crafting_inv, current, available, tab, subtab, filterstring);
         }
 
         // Clear the screen of recipe data, and draw it anew
@@ -892,6 +892,7 @@ recipe* game::select_crafting_recipe()
                 if (tab == "CC_WEAPON")
                 {
                     tab = "CC_MISC";
+                    subtab = "CSC_MISC_MISC";
                 }
                 else
                 {
@@ -942,6 +943,7 @@ recipe* game::select_crafting_recipe()
                 if (tab == "CC_MISC")
                 {
                     tab = "CC_WEAPON";
+                    subtab = "CSC_WEAPON_BASHING";
                 }
                 else
                 {
@@ -1152,13 +1154,15 @@ inventory game::crafting_inventory(player *p){
 }
 
 void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &current,
-                         std::vector<bool> &available, craft_cat tab, std::string filter)
+                         std::vector<bool> &available, craft_cat tab, craft_subcat subtab, std::string filter)
 {
 
     recipe_list available_recipes;
 
+
     if (filter == "") {
         available_recipes = recipes[tab];
+
     } else {
         for (recipe_map::iterator iter = recipes.begin(); iter != recipes.end(); ++iter)
         {
@@ -1171,6 +1175,7 @@ void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &cur
 
     for (recipe_list::iterator iter = available_recipes.begin(); iter != available_recipes.end(); ++iter)
     {
+        if ((*iter)->subcat == subtab) {
         if (!u.knows_recipe(*iter))
             continue;
 
@@ -1181,7 +1186,6 @@ void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &cur
         if (filter != "" && item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos)
             continue;
 
-
         if (can_make_with_inventory(*iter, crafting_inv))
         {
             current.insert(current.begin(), *iter);
@@ -1191,6 +1195,7 @@ void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &cur
         {
             current.push_back(*iter);
             available.push_back(false);
+        }
         }
     }
 }
