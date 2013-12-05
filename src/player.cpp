@@ -8844,15 +8844,14 @@ bool player::wearing_something_on(body_part bp)
 }
 
 bool player::is_wearing_shoes() {
-    for (int i = 0; i < worn.size(); i++)
-    {
+    for (int i = 0; i < worn.size(); i++) {
         item *worn_item = &worn[i];
         it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
 
-        if (worn_armor->covers & mfb(bp_feet)
-            && (worn_item->made_of("leather") || worn_item->made_of("plastic") || worn_item->made_of("steel") ||
-                worn_item->made_of("kevlar") || worn_item->made_of("chitin")))
-        {
+        if (worn_armor->covers & mfb(bp_feet) &&
+            (worn_item->made_of("leather") || worn_item->made_of("plastic") ||
+             worn_item->made_of("steel") || worn_item->made_of("kevlar") ||
+             worn_item->made_of("chitin"))) {
             return true;
         }
     }

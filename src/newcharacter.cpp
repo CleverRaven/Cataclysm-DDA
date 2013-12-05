@@ -1107,54 +1107,54 @@ int set_skills(WINDOW *w, game *g, player *u, character_type type, int &points)
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, COL_SKILL_USED,
                        currentSkill->description().c_str());
 
-		int first_i, end_i, base_y;
-		if (cur_pos < iHalf) {
-			first_i = 0;
-			end_i = iContentHeight;
-			base_y = 5;
+        int first_i, end_i, base_y;
+        if (cur_pos < iHalf) {
+            first_i = 0;
+            end_i = iContentHeight;
+            base_y = 5;
         } else if (cur_pos > num_skills - iContentHeight + iHalf) {
-        	first_i = num_skills - iContentHeight;
-        	end_i = num_skills;
-        	base_y = FULL_SCREEN_HEIGHT - 4 - num_skills;
+            first_i = num_skills - iContentHeight;
+            end_i = num_skills;
+            base_y = FULL_SCREEN_HEIGHT - 4 - num_skills;
         } else {
-        	first_i = cur_pos - iHalf;
-        	end_i = cur_pos + iContentHeight - iHalf;
-        	base_y = 5 + iHalf - cur_pos;
+            first_i = cur_pos - iHalf;
+            end_i = cur_pos + iContentHeight - iHalf;
+            base_y = 5 + iHalf - cur_pos;
         }
-		for (int i = first_i; i < end_i; ++i) {
-			Skill *thisSkill = sorted_skills[i];
-			mvwprintz(w, base_y + i, 2, c_ltgray, "\
+        for (int i = first_i; i < end_i; ++i) {
+            Skill *thisSkill = sorted_skills[i];
+            mvwprintz(w, base_y + i, 2, c_ltgray, "\
                                          "); // Clear the line
-			bool there_is_space = false;
-			if (u->skillLevel(thisSkill) == 0) {
-				mvwprintz(w, base_y + i, 2,
-						  (i == cur_pos ? h_ltgray : c_ltgray), thisSkill->name().c_str());
-			} else {
-				mvwprintz(w, base_y + i, 2,
-						  (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
-						  thisSkill->name().c_str());
-				there_is_space = true;
-				for (int j = 0; j < u->skillLevel(thisSkill); j++) {
-					wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
-				}
-			}
-			profession::StartingSkillList prof_skills = u->prof->skills();//profession skills
-			for (int k = 0; k < prof_skills.size(); k++) {
-				Skill *skill = Skill::skill(prof_skills[k].first);
-				if (skill == NULL) {
-					continue;  // skip unrecognized skills.
-				}
-				if (skill->ident() == thisSkill->ident()){
-					if (!there_is_space) {
-						wprintz(w, (i == cur_pos ? h_white : c_white), " ");
-					}
-					for (int j = 0; j < prof_skills[k].second; j++) {
-						wprintz(w, (i == cur_pos ? h_white : c_white), "*");
-					}
-					break;
-				}
-			}
-		}
+            bool there_is_space = false;
+            if (u->skillLevel(thisSkill) == 0) {
+                mvwprintz(w, base_y + i, 2,
+                          (i == cur_pos ? h_ltgray : c_ltgray), thisSkill->name().c_str());
+            } else {
+                mvwprintz(w, base_y + i, 2,
+                          (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
+                          thisSkill->name().c_str());
+                there_is_space = true;
+                for (int j = 0; j < u->skillLevel(thisSkill); j++) {
+                    wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
+                }
+            }
+            profession::StartingSkillList prof_skills = u->prof->skills();//profession skills
+            for (int k = 0; k < prof_skills.size(); k++) {
+                Skill *skill = Skill::skill(prof_skills[k].first);
+                if (skill == NULL) {
+                    continue;  // skip unrecognized skills.
+                }
+                if (skill->ident() == thisSkill->ident()){
+                    if (!there_is_space) {
+                        wprintz(w, (i == cur_pos ? h_white : c_white), " ");
+                    }
+                    for (int j = 0; j < prof_skills[k].second; j++) {
+                        wprintz(w, (i == cur_pos ? h_white : c_white), "*");
+                    }
+                    break;
+                }
+            }
+        }
 
         //Draw Scrollbar
         draw_scrollbar(w, cur_pos, iContentHeight, num_skills, 5);
