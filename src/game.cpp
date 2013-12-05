@@ -10278,7 +10278,7 @@ void game::unload(item& it)
   else if (has_shotgun3 != -1 && weapon->contents[has_shotgun3].charges > 0)
    weapon = &weapon->contents[has_shotgun3];
   // Then try an auxiliary flamethrower
-  else if (has_shotgun3 != -1 && weapon->contents[has_auxflamer].charges > 0)
+  else if (has_auxflamer != -1 && weapon->contents[has_auxflamer].charges > 0)
    weapon = &weapon->contents[has_auxflamer];
  }
 
