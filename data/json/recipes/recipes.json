@@ -2209,6 +2209,52 @@
     ]
 },{
         "type" : "recipe",
+  "result": "trimmer_off",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "skills_required" : [ "electronics", 3 ],
+  "difficulty": 5,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "tools" : [
+     [ ["mold_plastic", -1] ],
+     [
+      ["hotplate", 12],
+      ["toolset", 1],
+      ["fire", -1]
+     ],
+     [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+     ],
+     [
+      [ "soldering_iron", 12 ],
+      [ "toolset", 1 ]
+     ]
+  ],
+  "components" : [
+     [
+      ["plastic_chunk", 6]
+     ],
+     [
+      ["chain", 1]
+     ],
+     [
+      ["motor", 1]
+     ],
+     [
+      ["power_supply", 1]
+     ],
+     [
+      [ "scrap", 1 ]
+     ],
+     [
+      [ "cable", 5 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "combatsaw_off",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
