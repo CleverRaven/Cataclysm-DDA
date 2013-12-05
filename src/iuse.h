@@ -95,6 +95,8 @@ class iuse
   int cs_lajatang_on   (player *p, item *it, bool t);
   int carver_off       (player *p, item *it, bool t);
   int carver_on        (player *p, item *it, bool t);
+  int trimmer_off      (player *p, item *it, bool t);
+  int trimmer_on       (player *p, item *it, bool t);
   int combatsaw_off    (player *p, item *it, bool t);
   int combatsaw_on     (player *p, item *it, bool t);
   int shishkebab_off   (player *p, item *it, bool t);

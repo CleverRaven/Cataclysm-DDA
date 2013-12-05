@@ -3031,6 +3031,34 @@ int iuse::carver_on(player *p, item *it, bool t)
  return it->type->charges_to_use();
 }
 
+int iuse::trimmer_off(player *p, item *it, bool t)
+{
+ p->moves -= 80;
+ if (rng(0, 10) - it->damage > 3 && it->charges > 0) {
+  g->sound(p->posx, p->posy, 15,
+           _("With a roar, the hedge trimmer leaps to life!"));
+  it->make(itypes["trimmer_on"]);
+  it->active = true;
+ } else {
+  g->add_msg_if_player(p,_("You yank the cord, but nothing happens."));
+ }
+ return it->type->charges_to_use();
+}
+
+int iuse::trimmer_on(player *p, item *it, bool t)
+{
+ if (t) { // Effects while simply on
+  if (one_in(15)) {
+   g->sound(p->posx, p->posy, 10, _("Your hedge trimmer rumbles."));
+  }
+ } else { // Toggling
+  g->add_msg_if_player(p,_("Your hedge trimmer dies."));
+  it->make(itypes["trimmer_off"]);
+  it->active = false;
+ }
+ return it->type->charges_to_use();
+}
+
 int iuse::shishkebab_off(player *p, item *it, bool t)
 {
     int choice = menu(true, _("What's the plan?"), _("Bring the heat!"),
