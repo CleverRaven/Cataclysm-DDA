@@ -22161,9 +22161,9 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "qualities" : [
+  "qualities":[
     {"id":"CUT","level":1,"amount":1}
-
+  ],
   "tools": [
     [
       [ "soldering_iron", 40 ],
