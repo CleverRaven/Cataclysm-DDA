@@ -509,6 +509,7 @@ class game
   void print_terrain_info(int lx, int ly, WINDOW* w_look, int column, int &line);
   void print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int &line);
   void print_object_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
+  void print_craft_distance_info(int lx, int ly, WINDOW *w_look, const int column, int &line);
   void handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
   void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 

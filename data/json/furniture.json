@@ -8,6 +8,16 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT"]
+	},{
+		"type" : "furniture",
+		"id" : "f_defaults",
+		"name" : "nothing",
+		"symbol" : " ",
+		"color" : "white", 
+		"move_cost_mod" : 0,
+		"required_str" : -1,
+		"flags" : ["TRANSPARENT"],
+		"qualities" : [["MAX_CRAFT_DISTANCE", 10]]
     },{
         "type" : "furniture",
         "id" : "f_hay",
@@ -222,7 +232,8 @@
                 { "item": "nail", "amount": 6, "minamount": 2},
                 { "item": "splinter", "amount": 1 }
             ]
-        }
+        },
+		"qualities" : [["CRAFT_DISTANCE", 3]]
     },{
         "type" : "furniture",
         "id" : "f_trashcan",
@@ -258,7 +269,8 @@
                 { "item": "nail", "amount": 6, "minamount": 2},
                 { "item": "splinter", "amount": 1 }
             ]
-        }
+        },
+		"qualities" : [["CRAFT_DISTANCE", 3]]
     },{
         "type" : "furniture",
         "id" : "f_exercise",
@@ -296,7 +308,8 @@
                 { "item": "nail", "amount": 6, "minamount": 2},
                 { "item": "splinter", "amount": 1 }
             ]
-        }
+        },
+		"qualities" : [["CRAFT_DISTANCE", 3]]
     },{
         "type" : "furniture",
         "id" : "f_table",
@@ -315,7 +328,8 @@
                 { "item": "nail", "amount": 12, "minamount": 4},
                 { "item": "splinter", "amount": 1 }
             ]
-        }
+        },
+		"qualities" : [["CRAFT_DISTANCE", 4]]
     },{
         "type" : "furniture",
         "id" : "f_pool_table",
@@ -334,7 +348,8 @@
                 { "item": "nail", "amount": 12, "minamount": 4},
                 { "item": "splinter", "amount": 1 }
             ]
-        }
+        },
+		"qualities" : [["CRAFT_DISTANCE", 4]]
     },{
         "type" : "furniture",
         "id" : "f_counter",
@@ -353,7 +368,8 @@
                 { "item": "nail", "amount": 12, "minamount": 4},
                 { "item": "splinter", "amount": 1 }
             ]
-        }
+        },
+		"qualities" : [["CRAFT_DISTANCE", 4]]
     },{
         "type" : "furniture",
         "id" : "f_fridge",
@@ -373,7 +389,8 @@
                 { "item": "hose", "amount": 1},
                 { "item": "cu_pipe", "amount": 5, "minamount": 2 }
             ]
-        }
+        },
+		"qualities" : [["CRAFT_DISTANCE", 3]]
     },{
         "type" : "furniture",
         "id" : "f_glass_fridge",
@@ -393,7 +410,8 @@
                 { "item": "hose", "amount": 1},
                 { "item": "cu_pipe", "amount": 5, "minamount": 2 }
             ]
-        }
+        },
+		"qualities" : [["CRAFT_DISTANCE", 4]]
     },{
         "type" : "furniture",
         "id" : "f_dresser",
@@ -412,7 +430,8 @@
                 { "item": "nail", "amount": 12, "minamount": 4},
                 { "item": "splinter", "amount": 1 }
             ]
-        }
+        },
+		"qualities" : [["CRAFT_DISTANCE", 3]]
     },{
         "type" : "furniture",
         "id" : "f_locker",
@@ -431,7 +450,8 @@
                 { "item": "steel_chunk", "amount": 3, "minamount": 0},
                 { "item": "pipe", "amount": 1 }
             ]
-        }
+        },
+		"qualities" : [["CRAFT_DISTANCE", 4]]
     },{
         "type" : "furniture",
         "id" : "f_rack",
@@ -450,7 +470,8 @@
                 { "item": "steel_chunk", "amount": 3, "minamount": 0},
                 { "item": "pipe", "amount": 1 }
             ]
-        }
+        },
+		"qualities" : [["CRAFT_DISTANCE", 4]]
     },{
         "type" : "furniture",
         "id" : "f_bookcase",
@@ -469,7 +490,8 @@
                 { "item": "nail", "amount": 12, "minamount": 4},
                 { "item": "splinter", "amount": 1 }
             ]
-        }
+        },
+		"qualities" : [["CRAFT_DISTANCE", 4]]
     },{
         "type" : "furniture",
         "id" : "f_washer",
@@ -728,7 +750,8 @@
         "move_cost_mod": -1,
         "required_str": 14,
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "PLACE_ITEM"],
-        "close": "f_safe"
+        "close": "f_safe",
+		"qualities" : [["CRAFT_DISTANCE", 4]]
     },{
         "type" : "furniture",
         "id" : "f_plant_seed",

@@ -250,6 +250,18 @@ class map
  bool flammable_items_at(const int x, const int y);
  bool moppable_items_at(const int x, const int y);
  point random_outdoor_tile();
+
+ bool has_quality(std::string quality_id, const int x, const int y);
+ bool has_quality(std::string quality_id, const int quality_value, const int x, const int y);
+ bool has_quality_ter(std::string quality_id, const int x, const int y);
+ bool has_quality_ter(std::string quality_id, const int quality_value, const int x, const int y);
+ bool has_quality_furn(std::string quality_id, const int x, const int y);
+ bool has_quality_furn(std::string quality_id, const int quality_value, const int x, const int y);
+ bool has_quality_ter_or_furn(std::string quality_id, const int x, const int y);
+ bool has_quality_ter_or_furn(std::string quality_id, const int quality_value, const int x, const int y);
+ bool has_quality_ter_and_furn(std::string quality_id, const int x, const int y);
+ bool has_quality_ter_and_furn(std::string quality_id, const int quality_value, const int x, const int y);
+
 // mapgen
 
 void draw_line_ter(const ter_id type, int x1, int y1, int x2, int y2);
@@ -316,8 +328,9 @@ void add_corpse(int x, int y);
  void process_vehicles(game *g);
 
  std::list<item> use_amount(const point origin, const int range, const itype_id type, const int amount,
-                              const bool use_container = false);
- std::list<item> use_charges(const point origin, const int range, const itype_id type, const int amount);
+                            const bool use_container = false, std::string extended_flag = "", int extended_range = INT_MAX);
+ std::list<item> use_charges(const point origin, const int range, const itype_id type, const int amount, 
+							 std::string extended_flag = "", int extended_range = INT_MAX);
 
 // Traps
  std::string trap_get(const int x, const int y) const;

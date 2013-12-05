@@ -1276,6 +1276,56 @@ point map::random_outdoor_tile()
  return options[rng(0, options.size() - 1)];
 }
 
+bool map::has_quality(std::string quality_id, const int x, const int y)
+{
+	return (terlist[ter(x, y)].has_quality(quality_id) || (furnlist[furn(x, y)].has_quality(quality_id)));
+}
+
+bool map::has_quality(std::string quality_id, const int quality_value, const int x, const int y)
+{
+	return (terlist[ter(x, y)].has_quality(quality_id, quality_value) || (furnlist[furn(x, y)].has_quality(quality_id, quality_value)));
+}
+
+bool map::has_quality_ter(std::string quality_id, const int x, const int y)
+{
+	return terlist[ter(x, y)].has_quality(quality_id);
+}
+
+bool map::has_quality_ter(std::string quality_id, const int quality_value, const int x, const int y)
+{
+	return terlist[ter(x, y)].has_quality(quality_id, quality_value);
+}
+
+bool map::has_quality_furn(std::string quality_id, const int x, const int y)
+{
+	return furnlist[furn(x, y)].has_quality(quality_id);
+}
+
+bool map::has_quality_furn(std::string quality_id, const int quality_value, const int x, const int y)
+{
+	return furnlist[furn(x, y)].has_quality(quality_id, quality_value);
+}
+
+bool map::has_quality_ter_or_furn(std::string quality_id, const int x, const int y)
+{
+	return (terlist[ter(x, y)].has_quality(quality_id) || (furnlist[furn(x, y)].has_quality(quality_id)));
+}
+
+bool map::has_quality_ter_or_furn(std::string quality_id, const int quality_value, const int x, const int y)
+{
+	return (terlist[ter(x, y)].has_quality(quality_id, quality_value) || (furnlist[furn(x, y)].has_quality(quality_id, quality_value)));
+}
+
+bool map::has_quality_ter_and_furn(std::string quality_id, const int x, const int y)
+{
+	return (terlist[ter(x, y)].has_quality(quality_id) && (furnlist[furn(x, y)].has_quality(quality_id)));
+}
+
+bool map::has_quality_ter_and_furn(std::string quality_id, const int quality_value, const int x, const int y)
+{
+	return (terlist[ter(x, y)].has_quality(quality_id, quality_value) && (furnlist[furn(x, y)].has_quality(quality_id, quality_value)));
+}
+
 bool map::has_adjacent_furniture(const int x, const int y)
 {
     const signed char cx[4] = { 0, -1, 0, 1};
@@ -2519,14 +2569,52 @@ bool map::process_active_item(game* g, item *it, const int nonant, const int i, 
 }
 
 std::list<item> map::use_amount(const point origin, const int range, const itype_id type,
-                                const int amount, const bool use_container)
+                                const int amount, const bool use_container, std::string extended_flag, int extended_range)
 {
+ // If `extended_range` isn't set (i.e. set to our default value), then we set it to the same range as `range`.
+ extended_range = extended_range == INT_MAX ? range : extended_range;
+
  std::list<item> ret;
  int quantity = amount;
- for (int radius = 0; radius <= range && quantity > 0; radius++) {
+ for (int radius = 0; radius <= extended_range && quantity > 0; radius++) {
   for (int x = origin.x - radius; x <= origin.x + radius; x++) {
    for (int y = origin.y - radius; y <= origin.y + radius; y++) {
     if (rl_dist(origin.x, origin.y, x, y) >= radius) {
+
+	 bool matches_flag = (g->m.has_flag(extended_flag, x, y) || g->m.has_quality(extended_flag, x, y));
+
+	 if (!matches_flag)
+	 {
+		// If the tile doesn't have the extended flag, then we shouldn't allow crafting beyond `range`.
+		if (x < (origin.x - range) || x >(origin.x + range) ||
+			y < (origin.y - range) || y >(origin.y + range))
+		{
+			continue;
+		}
+	 }
+	 else if (extended_flag == "CRAFT_DISTANCE")
+	 {
+		int craft_distance = 0, furn_distance = 0, ter_distance = 0;
+
+		if (g->m.has_furn(x, y))
+		{
+			furn_t furn_here = g->m.furn_at(x, y);
+			furn_distance = furn_here.has_quality("CRAFT_DISTANCE") ? furn_here.level_of_quality("CRAFT_DISTANCE") : 0;
+		}
+
+		ter_t ter_here = g->m.ter_at(x, y);
+		ter_distance = ter_here.has_quality("CRAFT_DISTANCE") ? ter_here.level_of_quality("CRAFT_DISTANCE") : 0;
+
+		craft_distance = furn_distance > ter_distance ? furn_distance : ter_distance;
+
+		// Skip if neither the furniture nor terrain at this point affects crafting at this distance.
+		if (x < (origin.x - craft_distance) || x >(origin.x + craft_distance) ||
+			y < (origin.y - craft_distance) || y >(origin.y + craft_distance))
+		{
+			continue;
+		}
+	 }
+	
      for (int n = 0; n < i_at(x, y).size() && quantity > 0; n++) {
       item* curit = &(i_at(x, y)[n]);
       bool used_contents = false;
@@ -2556,14 +2644,53 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
  return ret;
 }
 
-std::list<item> map::use_charges(const point origin, const int range, const itype_id type, const int amount)
+std::list<item> map::use_charges(const point origin, const int range, const itype_id type, const int amount, 
+								 std::string extended_flag, int extended_range)
 {
+ // If `extended_range` isn't set (i.e. set to our default value), then we set it to the same range as `range`.
+ extended_range = extended_range == INT_MAX ? range : extended_range;
+
  std::list<item> ret;
  int quantity = amount;
- for (int radius = 0; radius <= range && quantity > 0; radius++) {
+ for (int radius = 0; radius <= extended_range && quantity > 0; radius++) {
   for (int x = origin.x - radius; x <= origin.x + radius; x++) {
    for (int y = origin.y - radius; y <= origin.y + radius; y++) {
     if (rl_dist(origin.x, origin.y, x, y) >= radius) {
+
+	  bool matches_flag = (g->m.has_flag(extended_flag, x, y) || g->m.has_quality(extended_flag, x, y));
+
+	  if (!matches_flag)
+	  {
+		  // If the tile doesn't have the extended flag, then we shouldn't allow crafting beyond `range`.
+		  if (x < (origin.x - range) || x >(origin.x + range) ||
+			  y < (origin.y - range) || y >(origin.y + range))
+		  {
+			  continue;
+		  }
+	  }
+	  else if (extended_flag == "CRAFT_DISTANCE")
+	  {
+		  int craft_distance = 0, furn_distance = 0, ter_distance = 0;
+
+		  if (g->m.has_furn(x, y))
+		  {
+			  furn_t furn_here = g->m.furn_at(x, y);
+			  furn_distance = furn_here.has_quality("CRAFT_DISTANCE") ? furn_here.level_of_quality("CRAFT_DISTANCE") : 0;
+		  }
+
+		  ter_t ter_here = g->m.ter_at(x, y);
+		  ter_distance = ter_here.has_quality("CRAFT_DISTANCE") ? ter_here.level_of_quality("CRAFT_DISTANCE") : 0;
+
+		  craft_distance = furn_distance > ter_distance ? furn_distance : ter_distance;
+
+		  // Skip if neither the furniture nor terrain at this point affects crafting at this distance.
+		  if (x < (origin.x - craft_distance) || x > (origin.x + craft_distance) ||
+		      y < (origin.y - craft_distance) || y > (origin.y + craft_distance))
+		  {
+			  continue;
+		  }
+	  }
+
       int vpart = -1;
       vehicle *veh = veh_at(x, y, vpart);
 
