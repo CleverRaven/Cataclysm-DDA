@@ -4583,6 +4583,7 @@ bool game::sees_u(int x, int y, int &t)
 
 bool game::u_see(int x, int y)
 {
+ static const std::string str_bio_night("bio_night");
  int wanted_range = rl_dist(u.posx, u.posy, x, y);
 
  bool can_see = false;
@@ -4592,7 +4593,7 @@ bool game::u_see(int x, int y)
           (wanted_range <= u.sight_range(DAYLIGHT_LEVEL) &&
             m.light_at(x, y) >= LL_LOW))
      can_see = m.pl_sees(u.posx, u.posy, x, y, wanted_range);
-     if (u.has_active_bionic("bio_night") && wanted_range < 15 && wanted_range > u.sight_range(1))
+     if (u.has_active_bionic(str_bio_night) && wanted_range < 15 && wanted_range > u.sight_range(1))
         return false;
 
  return can_see;
