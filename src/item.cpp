@@ -899,7 +899,7 @@ std::string item::tname( bool with_prefix )
         {
             if((int)(g->turn) < (int)(food->bday + 100))
                 ret << _(" (fresh)");
-            else if(food->rotten(g))
+            if(food->rotten(g))
                 ret << _(" (rotten)");
         }
         if (food->has_flag("HOT"))
@@ -1154,37 +1154,18 @@ bool item::has_flag(std::string f) const
 }
 
 bool item::has_quality(std::string quality_id) const {
-	if (type->qualities.count(quality_id))
-	{
-		return true;
-	}
-
-	return false;
+    return has_quality(quality_id, 1);
 }
 
 bool item::has_quality(std::string quality_id, int quality_value) const {
-	bool ret = false;
+    // TODO: actually implement this >:(
+    (void)quality_id; (void)quality_value; //unused grrr
+    bool ret = false;
 
-	if (type->qualities.count(quality_id))
-	{
-		std::map<std::string, int>::const_iterator retrieved_quality = type->qualities.find(quality_id);
-		ret = (quality_value == retrieved_quality->second);
-	}
-
-	return ret;
-}
-
-int item::level_of_quality(std::string quality_id) const
-{
-	if (type->qualities.count(quality_id))
-	{
-		std::map<std::string, int>::const_iterator retrieved_quality = type->qualities.find(quality_id);
-		return retrieved_quality->second;
-	}
-
-	// Just returning 0 isn't really the proper way of handling the situation of not having the requested quality.
-	// But I don't know of any better alternative.
-	return 0;
+    if(type->qualities.size() > 0){
+      ret = true;
+    }
+    return ret;
 }
 
 bool item::has_technique(matec_id tech)
@@ -1216,7 +1197,7 @@ bool item::rotten(game *g)
         fridge = 0;
       }
       expiry = (int)g->turn - bday;
-      return (expiry > food->spoils * 600);
+      return (expiry > (signed int)food->spoils * 600);
     }
     else {
       return false;
