@@ -29,6 +29,105 @@
     },{
         "type" : "recipe_category",
         "id" : "CC_NONCRAFT"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_WEAPON_BASHING"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_WEAPON_CUTTING"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_WEAPON_PIERCING"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_WEAPON_RANGED"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_WEAPON_MISC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_AMMO_BULLETS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_AMMO_ARROWS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_AMMO_COMPONENTS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_AMMO_MISC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_FOOD_MEAT"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_FOOD_VEGGI"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_FOOD_SNACK"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_FOOD_BREAD"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_FOOD_MISC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_DRINK_NORMAL"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_DRINK_ALCOHOLIC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_DRINK_MISC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_CHEMS_DRUGS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_CHEMS_MUTAGEN"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_CHEMS_CHEMICALS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_CHEMS_MISC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ELECTRONICS_CBMS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ELECTRONICS_LIGHTING"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ELECTRONICS_MISC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_SUITS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_HEAD"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_TORSO"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_ARMS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_HANDS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_LEGS"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_FEET"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_ARMOR_MISC"
+    },{
+        "type" : "recipe_subcategory",
+        "id" : "CSC_MISC_MISC"
     },
 
     {
@@ -36,6 +135,7 @@
   "result": "cell_phone",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
+  "subcategory": "CSC_WEAPON_BASHING",
   "difficulty": 0,
   "time": 500,
   "reversible": true,
@@ -701,6 +801,7 @@
         "type" : "recipe",
   "result": "makeshift_machete",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 5000,
@@ -718,6 +819,7 @@
         "type" : "recipe",
   "result": "makeshift_halberd",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 5000,
@@ -741,6 +843,7 @@
   "type" : "recipe",
   "result": "scythe_war",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 2,
   "time": 20000,
@@ -767,6 +870,7 @@
   "type" : "recipe",
   "result": "makeshift_knife",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 5000,
@@ -832,6 +936,7 @@
         "type" : "recipe",
   "result": "sling",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
@@ -855,6 +960,7 @@
         "type" : "recipe",
   "result": "slingshot",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 3000,
@@ -876,6 +982,7 @@
         "type" : "recipe",
   "result": "blowgun",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
   "difficulty": 2,
   "time": 5000,
@@ -1075,6 +1182,7 @@
         "type" : "recipe",
   "result": "longbow",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
   "skills_required": [ "archery", 3 ],
   "difficulty": 3,
@@ -1100,6 +1208,7 @@
         "type" : "recipe",
   "result": "selfbow",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
   "skills_required": [ "survival", 1 ],
   "difficulty": 0,
@@ -1125,6 +1234,7 @@
         "type" : "recipe",
   "result": "shortbow",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
   "skills_required": [ "archery", 1 ],
   "difficulty": 2,
@@ -1150,6 +1260,7 @@
         "type" : "recipe",
   "result": "reflexrecurvebow",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
   "skills_required": [[ "archery", 7 ]],
   "difficulty": 5,
@@ -1378,6 +1489,7 @@
         "type" : "recipe",
   "result": "shotgun_sawn",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
@@ -1429,6 +1541,7 @@
         "type" : "recipe",
   "result": "saiga_sawn",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
@@ -1449,6 +1562,7 @@
         "type" : "recipe",
   "result": "hand_crossbow",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
   "skills_required": [ "archery", 3 ],
   "difficulty": 3,
@@ -1497,6 +1611,7 @@
         "type" : "recipe",
   "result": "crossbow",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
   "skills_required": [ "archery", 3 ],
   "difficulty": 3,
@@ -1526,6 +1641,7 @@
         "type" : "recipe",
   "result": "huge_crossbow",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
   "skills_required": [ "archery", 3 ],
   "difficulty": 6,
@@ -1585,6 +1701,7 @@
         "type" : "recipe",
   "result": "rep_crossbow",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
   "skills_required": [ "archery", 3 ],
   "difficulty": 3,
@@ -1626,6 +1743,7 @@
         "type" : "recipe",
   "result": "rifle_22",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
@@ -1654,6 +1772,7 @@
         "type" : "recipe",
   "result": "pipe_shotgun",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
   "skills_required": [ "gun", 1 ],
   "difficulty": 2,
@@ -1682,6 +1801,7 @@
         "type" : "recipe",
   "result": "pipe_shotgunsawn",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 12000,
@@ -1702,6 +1822,7 @@
         "type" : "recipe",
   "result": "rifle_9mm",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
@@ -1730,6 +1851,7 @@
         "type" : "recipe",
   "result": "smg_9mm",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
@@ -1768,6 +1890,7 @@
         "type" : "recipe",
   "result": "smg_45",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
@@ -1805,6 +1928,7 @@
 },{
         "type" : "recipe",
   "result": "flamethrower_simple",
+  "subcategory": "CSC_WEAPON_RANGED",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
   "skills_required": [ "gun", 3 ],
@@ -1841,6 +1965,7 @@
         "type" : "recipe",
   "result": "launcher_simple",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
   "skills_required": [ "launcher", 3 ],
   "difficulty": 6,
@@ -1869,6 +1994,7 @@
         "type" : "recipe",
   "result": "pipe_launcher40mm",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
   "skills_required": [ "launcher", 3 ],
   "difficulty": 6,
@@ -1896,6 +2022,7 @@
         "type" : "recipe",
   "result": "u_shotgun",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
   "skills_required": [ "shotgun", 3 ],
   "difficulty": 6,
@@ -2117,6 +2244,7 @@
         "type" : "recipe",
   "result": "chainsaw_off",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "mechanics",
   "difficulty": 4,
   "time": 20000,
@@ -2165,6 +2293,7 @@
         "type" : "recipe",
   "result": "carver_off",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "skills_required" : [ "electronics", 3 ],
   "difficulty": 4,
