@@ -328,6 +328,7 @@
         "name" : "Heavy Sleeper",
         "points" : -1,
         "description" : "You're quite the heavy sleeper. Noises are unlikely to wake you up.",
+        "changes_to" : ["HEAVYSLEEPER2"]
         "starting_trait" : true,
         "category" : ["MUTCAT_INSECT", "MUTCAT_PLANT", "MUTCAT_MEDICAL"]
     },{
@@ -1231,6 +1232,15 @@
         "category" : ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
+        "id" : "HIBERNATE",
+        "name" : "Hibernation",
+        "points" : 3,
+        "description" : "You've developed the ability to stockpile calories and then sleep for extended periods of time.",
+        "valid" : false,
+        "prereqs" : ["HEAVYSLEEPER2"]
+        "category" : ["MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
         "id" : "PAINREC1",
         "name" : "Pain Recovery",
         "points" : 3,
@@ -1742,6 +1752,15 @@
         "points" : -3,
         "description" : "Your body dries out easily; you need to drink a lot more water.",
         "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD", "MUTCAT_CHIMERA", "MUTCAT_ELFA"]
+    },{
+        "type" : "mutation",
+        "id" : "HEAVYSLEEPER2",
+        "name" : "Very Heavy Sleeper",
+        "points" : -3,
+        "description" : "You could probably sleep through a firefight.",
+        "valid" : false,
+        "prereqs" : ["HEAVYSLEEPER"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CANINE"]
     },{
         "type" : "mutation",
         "id" : "ROT1",

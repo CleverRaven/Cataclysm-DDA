@@ -2368,6 +2368,12 @@ void manage_sleep(player& p, disease& dis) {
     }
 
     int tirednessVal = rng(5, 200) + rng(0,abs(p.fatigue * 2 * 5));
+    if (p.has_trait("HEAVYSLEEPER2") && !p.has_trait("HIBERNATE") { // So you can too sleep through noon
+        tirednessVal * 1.25;
+        }
+    if p.has_trait("HIBERNATE") { // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
+        tirednessVal * 5;
+        }
     if (tirednessVal < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
         g->add_msg(_("The light wakes you up."));
         dis.duration = 1;
