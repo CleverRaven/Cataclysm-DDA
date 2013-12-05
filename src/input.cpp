@@ -493,8 +493,8 @@ void input_context::display_help() {
 
     // Draw win header and borders
     draw_border(w_help, c_white);
-    mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybinding help")))/2 - 1,
-              c_ltred, " %s ", _("Keybinding help"));
+    mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings")))/2 - 1,
+              c_ltred, " %s ", _("Keybindings"));
     mvwprintz(w_help, 1, 51, c_ltred, _("Unbound keys"));
     mvwprintz(w_help, 2, 51, c_ltgreen, _("Keybinding active only"));
     mvwprintz(w_help, 3, 51, c_ltgreen, _("on this screen"));

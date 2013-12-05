@@ -812,7 +812,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   refresh();
 
   input_context ctxt("TARGET");
-  // "ANY_INPUT should be added before any real help strings
+  // "ANY_INPUT" should be added before any real help strings
   // Or strings will be writen on window border.
   ctxt.register_action("ANY_INPUT");
   ctxt.register_directions();
