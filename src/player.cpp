@@ -8402,8 +8402,8 @@ float player::fine_detail_vision_mod(game *g)
 
     if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
 	else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
-    else if (has_trait("NIGHTVISION2")) { vision_ii -= 1.5; }
-    else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV")) { vision_ii -= 2.5; }
+    else if (has_trait("NIGHTVISION2")) { vision_ii -= 2; }
+    else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV")) { vision_ii -= 3; }
 
     if (vision_ii < 1) { vision_ii = 1; }
     return vision_ii;

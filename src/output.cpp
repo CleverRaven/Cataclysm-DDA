@@ -816,8 +816,10 @@ void full_screen_popup(const char *mes, ...)
 //otherwise if sType == "MENU", dValue can be used to control color
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
+//@param without_getch don't wait getch, return = (int)' ';
 int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName,
-                               std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected)
+                               std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected,
+                               bool without_getch)
 {
     WINDOW *w = newwin(iHeight, iWidth, VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
@@ -927,7 +929,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
     int ch = (int)' ';
 
     wrefresh(w);
-    if (iLeft > 0) {
+    if (!without_getch) {
         ch = (int)getch();
         if ( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
             ch = selected_ret;

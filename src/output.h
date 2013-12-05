@@ -91,7 +91,7 @@ void popup_top(const char *mes, ...); // Displayed at the top of the screen
 void popup(const char *mes, ...);
 void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
 void full_screen_popup(const char *mes, ...);
-int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected=-1);
+int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected = -1, bool without_getch = false);
 
 char rand_char();
 long special_symbol (long sym);

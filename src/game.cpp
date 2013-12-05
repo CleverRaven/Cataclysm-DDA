@@ -1662,7 +1662,7 @@ int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
         vMenu.push_back(iteminfo("MENU", (bHPR) ? "-":"+", (bHPR) ? _("<-> Autopickup") : _("<+> Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
 
         oThisItem.info(true, &vThisItem, this);
-        compare_split_screen_popup(iStartX,iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(), vThisItem, vDummy);
+        compare_split_screen_popup(iStartX,iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(), vThisItem, vDummy, -1, true);
 
         const int iMenuStart = iOffsetX;
         const int iMenuItems = vMenu.size() - 1;
@@ -7658,8 +7658,8 @@ int game::list_items()
 
                 oThisItem.info(true, &vThisItem);
                 compare_split_screen_popup(0, width - 5, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(), vThisItem, vDummy);
+                // wait until the user presses a key to wipe the screen
 
-                getch(); // wait until the user presses a key to wipe the screen
                 iLastActiveX = -1;
                 iLastActiveY = -1;
                 reset = true;
