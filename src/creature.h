@@ -35,7 +35,8 @@ class Creature
         virtual void reset_stats(game* g); // prepare the Creature for the next turn
         virtual void die(game* g, Creature* killer) = 0;
 
-        virtual int dodge_roll(game* g) = 0;
+        virtual int hit_roll() = 0;
+        virtual int dodge_roll() = 0;
 
         // makes a single melee attack, with the currently equipped weapon
         virtual int melee_attack(game *g, Creature &t, bool allow_special) = 0; // Returns a damage
@@ -71,15 +72,26 @@ class Creature
         // TODO: remove this function in favor of deal/apply_damage
         virtual void hurt(game* g, body_part bp, int side, int dam) = 0;
 
+        /*
+        // makes a melee attack against the creature
+        virtual void deal_melee_attack(game* g, damage_instance& d);
+
+        // makes a ranged projectile attack against the creature
+        virtual void deal_projectile_attack();
+        */
+
         // deals the damage via an attack. Most sources of external damage
         // should use deal_damage
-        virtual dealt_damage_instance deal_damage(game* g, Creature* source, body_part bp, int side, const damage_instance& d);
+        virtual dealt_damage_instance deal_damage(game* g,
+                Creature* source, body_part bp, int side, const damage_instance& d);
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
-        virtual void deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain);
+        virtual void deal_damage_handle_type(const damage_unit& du,
+                body_part bp, int& damage, int& pain);
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
-        virtual void apply_damage(game* g, Creature* source, body_part bp, int side, int amount) = 0;
+        virtual void apply_damage(game* g, Creature* source,
+                body_part bp, int side, int amount) = 0;
 
         virtual bool is_on_ground() = 0;
         virtual bool is_warm(); // is this creature warm, for IR vision, heat drain, etc
@@ -142,8 +154,11 @@ class Creature
 
         virtual int get_speed();
         virtual int get_dodge();
+        virtual int get_hit();
 
         virtual int get_speed_base();
+        virtual int get_dodge_base();
+        virtual int get_hit_base();
         virtual int get_speed_bonus();
         virtual int get_dodge_bonus();
         virtual int get_block_bonus();

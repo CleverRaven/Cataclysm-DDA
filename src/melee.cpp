@@ -43,6 +43,7 @@ bool player::unarmed_attack() {
  return (weapon.typeId() == "null" || weapon.has_flag("UNARMED_WEAPON"));
 }
 
+// TODO: this is here for newcharacter.cpp only, swap it out when possible
 int player::base_to_hit(bool real_life, int stat)
 {
  if (stat == -999)
@@ -50,56 +51,54 @@ int player::base_to_hit(bool real_life, int stat)
  return 1 + int(stat / 2) + skillLevel("melee");
 }
 
+
+int player::get_hit_base()
+{
+    int best_bonus = 0;
+
+    // Are we unarmed?
+    if (unarmed_attack()) {
+        best_bonus = skillLevel("unarmed");
+        if (skillLevel("unarmed") > 4)
+            best_bonus += skillLevel("unarmed") - 4; // Extra bonus for high levels
+    }
+
+    // Using a bashing weapon?
+    if (weapon.is_bashing_weapon()) {
+        int bash_bonus = int(skillLevel("bashing") / 3);
+        if (bash_bonus > best_bonus)
+            best_bonus = bash_bonus;
+    }
+
+    // Using a cutting weapon?
+    if (weapon.is_cutting_weapon()) {
+        int cut_bonus = int(skillLevel("cutting") / 2);
+        if (cut_bonus > best_bonus)
+            best_bonus = cut_bonus;
+    }
+
+    // Using a spear?
+    if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) {
+        int stab_bonus = int(skillLevel("stabbing") / 2);
+        if (stab_bonus > best_bonus)
+            best_bonus = stab_bonus;
+    }
+
+    // Creature::get_hit_base includes stat calculations already
+    return Creature::get_hit_base() + skillLevel("melee") + best_bonus;
+}
+
 int player::hit_roll()
 {
- int stat = dex_cur;
 // apply martial arts bonuses
-  stat += mabuff_tohit_bonus();
 
+ int numdice = get_hit();
 
-// keep the old martial arts mechanics for now
-// Some martial arts use something else to determine hits!
- if(weapon.typeId() == "style_tiger"){
-   stat = (str_cur * 2 + dex_cur) / 3;
- } else if(weapon.typeId() == "style_leopard"){
-   stat = (per_cur + int_cur + dex_cur * 2) / 4;
- } else if(weapon.typeId() == "style_snake"){
-   stat = (per_cur + dex_cur) / 2;
- }
- int numdice = base_to_hit(stat) + weapon.type->m_to_hit +
-               disease_intensity("attack_boost");
  int sides = 10 - encumb(bp_torso);
  int best_bonus = 0;
  if (sides < 2)
   sides = 2;
 
-// Are we unarmed?
- if (unarmed_attack()) {
-  best_bonus = skillLevel("unarmed");
-  if (skillLevel("unarmed") > 4)
-   best_bonus += skillLevel("unarmed") - 4; // Extra bonus for high levels
- }
-
-// Using a bashing weapon?
- if (weapon.is_bashing_weapon()) {
-  int bash_bonus = int(skillLevel("bashing") / 3);
-  if (bash_bonus > best_bonus)
-   best_bonus = bash_bonus;
- }
-
-// Using a cutting weapon?
- if (weapon.is_cutting_weapon()) {
-  int cut_bonus = int(skillLevel("cutting") / 2);
-  if (cut_bonus > best_bonus)
-   best_bonus = cut_bonus;
- }
-
-// Using a spear?
- if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) {
-  int stab_bonus = int(skillLevel("stabbing") / 2);
-  if (stab_bonus > best_bonus)
-   best_bonus = stab_bonus;
- }
 
  numdice += best_bonus; // Use whichever bonus is best.
 
@@ -125,6 +124,8 @@ int player::hit_roll()
  return dice(numdice, sides);
 }
 
+// Melee calculation is two parts. In melee_attack, we calculate if we would
+// hit. In Creature::deal_melee_hit, we calculate if the target dodges.
 int player::melee_attack(game *g, Creature &t, bool allow_special) {
     bool is_u = (this == &(g->u)); // Affects how we'll display messages
     if (!t.is_player()) {
@@ -133,7 +134,7 @@ int player::melee_attack(game *g, Creature &t, bool allow_special) {
 
     std::string message = is_u ? _("You hit %s") : _("<npcname> hits %s");
     std::string target_name = t.disp_name();
-    int target_dodge = t.dodge_roll(g);
+    int target_dodge = t.dodge_roll();
     int hit_value = hit_roll() - target_dodge;
 
     bool missed = (hit_roll() < target_dodge ||
@@ -286,6 +287,7 @@ int player::melee_attack(game *g, Creature &t, bool allow_special) {
     ma_onattack_effects(); // trigger martial arts on-attack effects
 
     return dam;
+
 }
 
 int stumble(player &u)
@@ -376,7 +378,12 @@ bool player::scored_crit(int target_dodge)
  return false;
 }
 
-int player::dodge(game *g)
+int player::get_dodge_base() {
+    // Creature::get_dodge_base includes stat calculations already
+    return Creature::get_dodge_base() + skillLevel("dodge");
+}
+
+int player::get_dodge()
 //Returns 1/2*DEX + dodge skill level + static bonuses from mutations
 //Return numbers range from around 4 (starting player, no boosts) to 29 (20 DEX, 10 dodge, +9 mutations)
 {
@@ -384,34 +391,12 @@ int player::dodge(game *g)
     if (has_disease("sleep") || has_disease("lying_down")) {return 0;}
     if (activity.type != ACT_NULL) {return 0;}
 
-    int ret = Creature::get_dodge();
-    ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
-    ret += skillLevel("dodge");
-    ret += disease_intensity("dodge_boost");
-
-    // add martial arts bonus
-    ret += mabuff_dodge_bonus();
-
-    //Mutations
-    if (has_trait("TAIL_LONG")) {ret += 2;}
-    if (has_trait("TAIL_CATTLE")) {ret+= 1;}
-    if (has_trait("TAIL_RAT")) {ret+= 2;}
-    if (has_trait("TAIL_THICK")) {ret+= 1;}
-    if (has_trait("TAIL_RAPTOR")) {ret+= 3;}
-    if (has_trait("TAIL_FLUFFY")) {ret += 4;}
-    if (has_trait("WHISKERS")) {ret += 1;}
-    if (has_trait("WINGS_BAT")) {ret -= 3;}
-
-    if (str_max >= 16) {ret--;} // Penalty if we're huge
-    else if (str_max <= 5) {ret++;} // Bonus if we're small
-
-    return ret;
-
+    return Creature::get_dodge();
 }
 
-int player::dodge_roll(game *g)
+int player::dodge_roll()
 {
-    int dodge_stat = dodge(g);
+    int dodge_stat = get_dodge();
 
     if (dodges_left <= 0) { // We already dodged this turn
         if (rng(0, skillLevel("dodge") + dex_cur + 15) <= skillLevel("dodge") + dex_cur) {
@@ -796,7 +781,7 @@ void player::perform_technique(ma_technique technique, game *g, Creature &t,
         for (int y = posy - 1; y <= posy + 1; y++) {
             if (x != tarx || y != tary) { // Don't double-hit our target
             int mondex = g->mon_at(x, y);
-            if (mondex != -1 && hit_roll() >= rng(0, 5) + g->zombie(mondex).dodge_roll(g)) {
+            if (mondex != -1 && hit_roll() >= rng(0, 5) + g->zombie(mondex).dodge_roll()) {
                 count_hit++;
                 melee_attack(g,g->zombie(mondex),false);
 
@@ -805,7 +790,7 @@ void player::perform_technique(ma_technique technique, game *g, Creature &t,
             }
             int npcdex = g->npc_at(x, y);
             if (npcdex != -1 &&
-                    hit_roll() >= rng(0, 5) + g->active_npc[npcdex]->dodge_roll(g)) {
+                    hit_roll() >= rng(0, 5) + g->active_npc[npcdex]->dodge_roll()) {
                 count_hit++;
                 melee_attack(g,*g->active_npc[npcdex],false);
                 g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), g->active_npc[npcdex]->name.c_str() );

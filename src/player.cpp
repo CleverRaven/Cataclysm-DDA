@@ -348,6 +348,7 @@ void player::reset_stats(game *g)
 
     // Didn't just pick something up
     last_item = itype_id("null");
+
     // Bionic buffs
     if (has_active_bionic("bio_hydraulics"))
         mod_str_bonus(20);
@@ -406,6 +407,31 @@ void player::reset_stats(game *g)
         mod_per_bonus(-int(abs(stim - 15) / 12));
         mod_int_bonus(-int(abs(stim - 15) / 14));
     }
+
+    // Dodge-related effects
+    mod_dodge_bonus(
+            mabuff_dodge_bonus()
+            - encumb(bp_legs)/2
+            - encumb(bp_torso)
+        );
+    if (has_trait("TAIL_LONG")) {mod_dodge_bonus(2);}
+    if (has_trait("TAIL_CATTLE")) {mod_dodge_bonus(1);}
+    if (has_trait("TAIL_RAT")) {mod_dodge_bonus(2);}
+    if (has_trait("TAIL_THICK")) {mod_dodge_bonus(1);}
+    if (has_trait("TAIL_RAPTOR")) {mod_dodge_bonus(3);}
+    if (has_trait("TAIL_FLUFFY")) {mod_dodge_bonus(4);}
+    if (has_trait("WHISKERS")) {mod_dodge_bonus(1);}
+    if (has_trait("WINGS_BAT")) {mod_dodge_bonus(-3);}
+
+    if (str_max >= 16) {mod_dodge_bonus(-1);} // Penalty if we're huge
+    else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
+
+    // Hit-related effects
+    mod_hit_bonus(
+            mabuff_tohit_bonus()
+            + weapon.type->m_to_hit
+            - encumb(bp_torso)
+        );
 
     // Set our scent towards the norm
     int norm_scent = 500;

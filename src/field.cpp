@@ -1472,7 +1472,7 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
     npc_inside = (veh && veh->is_inside(veh_part));
    }
    if (g->u.posx == x && g->u.posy == y && !pc_inside) {            //If there's a PC at (x,y) and he's not in a covered vehicle...
-    if (g->u.dodge(g) < rng(1, hit_chance) || one_in(g->u.dodge(g))) {
+    if (g->u.get_dodge() < rng(1, hit_chance) || one_in(g->u.get_dodge())) {
      int how_many_limbs_hit = rng(0, num_hp_parts);
      for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
       g->u.hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
@@ -1501,7 +1501,7 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
    }
    if (fdnpc != -1) {
     if (fdnpc < g->active_npc.size() && !npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...
-    if (me && (me->dodge(g) < rng(1, hit_chance) || one_in(me->dodge(g)))) {
+    if (me && (me->get_dodge() < rng(1, hit_chance) || one_in(me->get_dodge()))) {
       int how_many_limbs_hit = rng(0, num_hp_parts);
       for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
        me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);

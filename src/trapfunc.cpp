@@ -157,7 +157,7 @@ void trapfunc::crossbow(int x, int y)
  bool add_bolt = true;
  g->add_msg(_("You trigger a crossbow trap!"));
  g->u.add_memorial_log(_("Triggered a crossbow trap."));
- if (!one_in(4) && rng(8, 20) > g->u.dodge(g)) {
+ if (!one_in(4) && rng(8, 20) > g->u.get_dodge()) {
   body_part hit = num_bp;
   switch (rng(1, 10)) {
    case  1: hit = bp_feet; break;
@@ -223,7 +223,7 @@ void trapfunc::shotgun(int x, int y)
  int shots = (one_in(8) || one_in(20 - g->u.str_max) ? 2 : 1);
  if (g->m.tr_at(x, y) == tr_shotgun_1)
   shots = 1;
- if (rng(5, 50) > g->u.dodge(g)) {
+ if (rng(5, 50) > g->u.get_dodge()) {
   body_part hit = num_bp;
   switch (rng(1, 10)) {
    case  1: hit = bp_feet; break;
@@ -559,7 +559,7 @@ void trapfunc::pit(int x, int y)
         g->add_msg(_("You flap your wings and flutter down gracefully."));
     } else {
         float eff = pit_effectiveness(x, y);
-        int dodge = g->u.dodge(g);
+        int dodge = g->u.get_dodge();
         int damage = eff * rng(10, 20) - rng(dodge, dodge * 5);
         if (damage > 0) {
             g->add_msg(_("You hurt yourself!"));
@@ -594,7 +594,7 @@ void trapfunc::pit_spikes(int x, int y)
 {
     g->add_msg(_("You fall in a pit!"));
     g->u.add_memorial_log(_("Fell into a spiked pit."));
-    int dodge = g->u.dodge(g);
+    int dodge = g->u.get_dodge();
     int damage = pit_effectiveness(x, y) * rng(20, 50);
     if (g->u.has_trait("WINGS_BIRD")) {
         g->add_msg(_("You flap your wings and flutter down gracefully."));

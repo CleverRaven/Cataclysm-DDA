@@ -11664,7 +11664,7 @@ void game::vertical_move(int movez, bool force) {
    add_msg(_("You flap your wings and flutter down gracefully."));
   else {
    int dam = int((u.str_max / 4) + rng(5, 10)) * rng(1, 3);//The bigger they are
-   dam -= rng(u.dodge(this), u.dodge(this) * 3);
+   dam -= rng(u.get_dodge(), u.get_dodge() * 3);
    if (dam <= 0)
     add_msg(_("You fall expertly and take no damage."));
    else {
@@ -11961,7 +11961,7 @@ void game::update_stair_monsters() {
                             u.posy += pushy;
                             u.moves -= 100;
                             // Stumble.
-                            if (u.dodge(this) < 12)
+                            if (u.get_dodge() < 12)
                                 u.add_effect("effect_downed", 2);
                             return;
                         }

@@ -1,6 +1,7 @@
 #ifndef _DAMAGE_H_
 #define _DAMAGE_H_
 
+#include "color.h"
 #include <string>
 #include <vector>
 #include <set>
@@ -97,24 +98,31 @@ struct dealt_damage_instance {
     }
 };
 
+class itype;
 class it_ammo;
 
 struct projectile {
     damage_instance impact;
     damage_instance payload;
     blast_shape aoe_shape;
+    nc_color aoe_color;
     int aoe_size;
 
     // TODO: things below here are here temporarily until we finish those
     // systems
-    bool is_bolt;
-    it_ammo *ammo;
+    it_ammo *ammo; // projectile's item that gets spawned at impact location, e.g. thrown weapons/bolts
+    int num_spawn;
 
     bool missed;
     double missed_by;
 
-    projectile() : aoe_shape(BS_NONE), aoe_size(0), is_bolt(false) {
-    }
+    projectile() :
+        aoe_shape(BS_NONE),
+        aoe_color(c_red),
+        aoe_size(0),
+        ammo(NULL),
+        num_spawn(0)
+    { }
 };
 
 void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects);

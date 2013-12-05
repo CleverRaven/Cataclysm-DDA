@@ -85,10 +85,11 @@ int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targ
     ts.tv_nsec = BULLET_SPEED;
 
     int dam = proj.impact.total_damage() + proj.payload.total_damage();
-    bool is_bolt = proj.is_bolt;
     it_ammo *curammo = proj.ammo;
     item ammotmp = item(curammo, 0);
     ammotmp.charges = 1;
+
+    //bool is_bolt = (curammo->type == "bolt" || curammo->type == "arrow");
 
     bool missed = proj.missed;
     double missed_by = proj.missed_by;
@@ -98,6 +99,7 @@ int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targ
     int ty = trajectory[0].y;
     int px = trajectory[0].x;
     int py = trajectory[0].y;
+
     for (int i = 0; i < trajectory.size() && (dam > 0 || (proj_effects.count("FLAME"))); i++) {
         px = tx;
         py = ty;
@@ -110,13 +112,6 @@ int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targ
         g->draw_bullet(*this, tx, ty, i, trajectory, proj_effects.count("FLAME")? '#':'*', ts);
 
         if (dam <= 0 && !(proj_effects.count("FLAME"))) { // Ran out of momentum.
-            ammo_effects(g, tx, ty, proj_effects);
-            if (is_bolt && !(proj_effects.count("IGNITE")) &&
-                !(proj_effects.count("EXPLOSIVE")) &&
-                ((curammo->m1 == "wood" && !one_in(4)) ||
-                (curammo->m1 != "wood" && !one_in(15)))) {
-                g->m.add_item_or_charges(tx, ty, ammotmp);
-            }
             return 0;
         }
 
@@ -435,13 +430,20 @@ int Creature::get_speed() {
     return get_speed_base() + get_speed_bonus();
 }
 int Creature::get_dodge() {
-    int ret = (get_dex() / 2) + int(get_speed() / 150) //Faster = small dodge advantage
-        + get_dodge_bonus();
-    return ret;
+    return get_dodge_base() + get_dodge_bonus();
+}
+int Creature::get_hit() {
+    return get_hit_base() + get_hit_bonus();
 }
 
 int Creature::get_speed_base() {
     return speed_base;
+}
+int Creature::get_dodge_base() {
+    return (get_dex() / 2) + int(get_speed() / 150); //Faster = small dodge advantage
+}
+int Creature::get_hit_base() {
+    return (get_dex() / 2) + 1;
 }
 int Creature::get_speed_bonus() {
     return speed_bonus;

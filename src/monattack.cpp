@@ -223,7 +223,7 @@ void mattack::boomer(monster *z)
   }
  }
  if (!g->u.uncanny_dodge()) {
-  if (rng(0, 10) > g->u.dodge(g) || one_in(g->u.dodge(g)))
+  if (rng(0, 10) > g->u.get_dodge() || one_in(g->u.get_dodge()))
    g->u.infect("boomered", bp_eyes, 3, 12, false, 1, 1);
   else if (u_see)
     g->add_msg(_("You dodge it!"));
@@ -326,7 +326,7 @@ void mattack::science(monster *z) // I said SCIENCE again!
              z->name().c_str());
   z->moves -= 400;
   if (!g->u.uncanny_dodge()) {
-   if (g->u.dodge(g) > rng(0, 16) && !one_in(g->u.dodge(g)))
+   if (g->u.get_dodge() > rng(0, 16) && !one_in(g->u.get_dodge()))
     g->add_msg(_("You dodge the beam!"));
    else if (one_in(6))
     g->u.mutate(g);
@@ -836,7 +836,7 @@ void mattack::dermatik(monster *z)
 
     if (g->u.uncanny_dodge()) { return; }
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
     {
         g->add_msg(_("The %s tries to land on you, but you dodge."), z->name().c_str());
@@ -847,7 +847,7 @@ void mattack::dermatik(monster *z)
     }
 
     // Can we swat the bug away?
-    int dodge_roll = z->dodge_roll(g);
+    int dodge_roll = z->dodge_roll();
     int swat_skill = (g->u.skillLevel("melee") + g->u.skillLevel("unarmed") * 2) / 3;
     int player_swat = dice(swat_skill, 10);
     if (g->u.has_trait("TAIL_CATTLE")) {
@@ -1009,7 +1009,7 @@ void mattack::tentacle(monster *z)
 
     if (g->u.uncanny_dodge()) { return; }
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
     {
         g->add_msg(_("You dodge it!"));
@@ -1763,7 +1763,7 @@ void mattack::bite(monster *z) {
     if (g->u.uncanny_dodge()) { return; }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         g->add_msg(_("You dodge it!"));
         g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
@@ -1826,7 +1826,7 @@ void mattack::flesh_golem(monster *z)
     if (g->u.uncanny_dodge()) { return; }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         g->add_msg(_("You dodge it!"));
         g->u.practice(g->turn, "dodge", z->type->melee_skill*2);

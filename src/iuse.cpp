@@ -4686,7 +4686,7 @@ int iuse::tazer(player *p, item *it, bool t)
    case MS_LARGE: numdice += 2; break;
    case MS_HUGE:  numdice += 4; break;
   }
-  int mondice = z->dodge();
+  int mondice = z->get_dodge();
   if (dice(numdice, 10) < dice(mondice, 10)) { // A miss!
    g->add_msg_if_player(p,_("You attempt to shock the %s, but miss."), z->name().c_str());
    return it->type->charges_to_use();
@@ -4707,7 +4707,7 @@ int iuse::tazer(player *p, item *it, bool t)
     numdice++; // Minor bonus against huge people
   else if (foe->str_max <= 5)
    numdice--; // Minor penalty against tiny people
-  if (dice(numdice, 10) <= dice(foe->dodge(g), 6)) {
+  if (dice(numdice, 10) <= dice(foe->get_dodge(), 6)) {
    g->add_msg_if_player(p,_("You attempt to shock %s, but miss."), foe->name.c_str());
    return it->type->charges_to_use();
   }
@@ -4770,7 +4770,7 @@ int iuse::tazer2(player *p, item *it, bool t)
                     break;
             }
 
-            int mondice = z->dodge();
+            int mondice = z->get_dodge();
 
             if (dice(numdice, 10) < dice(mondice, 10)) { // A miss!
                 g->add_msg_if_player(p, _("You attempt to shock the %s, but miss."),
@@ -4803,7 +4803,7 @@ int iuse::tazer2(player *p, item *it, bool t)
                     numdice--;    // Minor penalty against tiny people
                 }
 
-            if (dice(numdice, 10) <= dice(foe->dodge(g), 6)) {
+            if (dice(numdice, 10) <= dice(foe->get_dodge(), 6)) {
                 g->add_msg_if_player(p, _("You attempt to shock %s, but miss."), foe->name.c_str());
                 return it->charges -= 100;
             }

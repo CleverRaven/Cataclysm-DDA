@@ -226,6 +226,7 @@ public:
  int base_damage(bool real_life = true, int stat = -999);
  int base_to_hit(bool real_life = true, int stat = -999);
 
+ int get_hit_base();     // Returns the player's to-hit, modded by clothing etc
  int  hit_roll(); // Our basic hit roll, compared to our target's dodge roll
  bool scored_crit(int target_dodge = 0); // Critical hit?
 
@@ -248,8 +249,9 @@ public:
  std::vector<special_attack> mutation_attacks(Creature &t);
  std::string melee_special_effects(game *g, Creature &t, bool crit, damage_instance& d);
 
- int  dodge(game *g);     // Returns the players's dodge, modded by clothing etc
- int  dodge_roll(game *g);// For comparison to hit_roll()
+ int get_dodge_base();   // Returns the players's dodge, modded by clothing etc
+ int get_dodge();
+ int dodge_roll();// For comparison to hit_roll()
 
  bool uncanny_dodge(bool is_u = true);      // Move us to an adjacent_tile() if available. Display message if player is dodging.
  point adjacent_tile();     // Returns an unoccupied, safe adjacent point. If none exists, returns player position.

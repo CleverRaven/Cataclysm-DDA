@@ -646,9 +646,6 @@ int monster::melee_attack(game *g, Creature &p, bool allow_grab) {
     return 0;
 }
 
-void monster::do_melee_hit(game *g, Creature &t, const damage_instance &d) {
-}
-
 void monster::hit_monster(game *g, int i)
 {
  monster* target = &(g->zombie(i));
@@ -659,7 +656,7 @@ void monster::hit_monster(game *g, int i)
  }
 
  int numdice = type->melee_skill;
- int dodgedice = target->dodge() * 2;
+ int dodgedice = target->get_dodge() * 2;
  switch (target->type->size) {
   case MS_TINY:  dodgedice += 6; break;
   case MS_SMALL: dodgedice += 3; break;
@@ -731,7 +728,11 @@ int monster::get_armor_bash(body_part bp)
  return int(type->armor_bash) + armor_cut_bonus;
 }
 
-int monster::dodge()
+int monster::hit_roll() {
+    return 0;
+}
+
+int monster::get_dodge()
 {
  if (has_effect("effect_downed"))
   return 0;
@@ -740,13 +741,12 @@ int monster::dodge()
   ret /= 2;
  if (moves <= 0 - 100 - type->speed)
   ret = rng(0, ret);
- return ret;
+ return ret + get_dodge_bonus();
 }
 
-int monster::dodge_roll(game* g)
+int monster::dodge_roll()
 {
-(void)g; // we need g to maintain interface compatibility
- int numdice = dodge();
+ int numdice = get_dodge();
 
  switch (type->size) {
   case MS_TINY:  numdice += 6; break;

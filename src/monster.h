@@ -196,7 +196,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     bool block_hit(game *g, body_part &bp_hit, int &side,
         int &bash_dam, int &cut_dam, int &stab_dam);
     int melee_attack(game *g, Creature &t, bool allow_special = true); // Returns a damage
-    void do_melee_hit(game *g, Creature &t, const damage_instance &d); // Returns a damage
     // TODO: this hit is not the same as the one from Creature, it hits other
     // things. Need to phase out
     int  hit(game *g, Creature &t, body_part &bp_hit); // Returns a damage
@@ -211,8 +210,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     void hurt(game*g, body_part bp, int side, int dam);
     int  get_armor_cut(body_part bp);   // Natural armor, plus any worn armor
     int  get_armor_bash(body_part bp);  // Natural armor, plus any worn armor
-    int  dodge();       // Natural dodge, or 0 if we're occupied
-    int  dodge_roll(game* g);  // For the purposes of comparing to player::hit_roll()
+    int  get_dodge();       // Natural dodge, or 0 if we're occupied
+    int  hit_roll();  // For the purposes of comparing to player::dodge_roll()
+    int  dodge_roll();  // For the purposes of comparing to player::hit_roll()
     int  fall_damage(); // How much a fall hurts us
 
     void die(game*g, Creature* killer); //this is the die from Creature, it calls kill_mon
