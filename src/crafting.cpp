@@ -157,7 +157,7 @@ bool game::crafting_allowed()
         add_msg(_("Your morale is too low to craft..."));
         return false;
     }
-    if (u.fine_detail_vision_mod(g) >= 4) {//minimum LL_LOW of LL_DARK + ELFA_NV
+    if (u.fine_detail_vision_mod(g) > 4) {//minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light)
         g->add_msg(_("You can't see to craft!"));
         return false;
     }

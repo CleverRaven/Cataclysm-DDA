@@ -2343,7 +2343,7 @@
     "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic nightlight, and feel confident that you won't have to worry about depleting its power supply for at least 160 million years of faithful service.",
     "price": 1250,
     "material": ["plastic", "steel"],
-    "flags": ["LIGHT_2"],
+    "flags": ["LIGHT_1"],
     "weight": 3714,
     "volume": 1,
     "bashing": 4,

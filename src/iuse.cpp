@@ -1425,7 +1425,7 @@ int iuse::primitive_fire(player *p, item *it, bool t)
 
 int iuse::sew(player *p, item *it, bool t)
 {
-    if (p->fine_detail_vision_mod(g) >= 4) {//minimum LL_LOW of LL_DARK + ELFA_NV
+    if (p->fine_detail_vision_mod(g) > 4) {//minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light)
         g->add_msg(_("You can't see to sew!"));
         return 0;
     }
