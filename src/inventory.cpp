@@ -326,6 +326,11 @@ void inventory::update_cache_with_item(item& newit) {
     // 1. It adds newit's invlet to the list of favorite letters for newit's item type.
     // 2. It removes newit's invlet from the list of favorite letters for all other item types.
 
+    // no invlet item, just return.
+    // TODO: Should we instead remember that the invlet was cleared?
+    if (newit.invlet == 0) {
+        return;
+    }
     // Iterator over all the keys of the map.
     std::map<std::string, std::vector<char> >::iterator i;
     for(i=invlet_cache.begin(); i!=invlet_cache.end(); i++) {

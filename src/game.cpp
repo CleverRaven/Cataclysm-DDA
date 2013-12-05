@@ -9404,21 +9404,33 @@ void game::reassign_item(int pos)
      pos = inv(_("Reassign item:"));
  }
  if (pos == INT_MIN) {
-  add_msg(_("Never mind."));
-  return;
+     add_msg(_("Never mind."));
+     return;
  }
 
+ item* change_from = &u.i_at(pos);
  char newch = popup_getkey(_("%s; enter new letter."),
-                           u.i_at(pos).tname().c_str());
- if (inv_chars.find(newch) == std::string::npos) {
-  add_msg(_("%c is not a valid inventory letter."), newch);
-  return;
+                           change_from->tname().c_str());
+ if (newch == ' ') {
+     if (pos >= 0) {
+         change_from->invlet = 0;
+     } else {
+         add_msg(_("Cannot clear inventory letter of worn or wielded items."));
+         return;
+     }
+ } else if (inv_chars.find(newch) == std::string::npos) {
+     add_msg(_("%c is not a valid inventory letter."), newch);
+     return;
  }
- item* change_from = &(u.i_at(pos));
  if (u.has_item(newch)) {
-  item* change_to = &(u.i_at(newch));
-  change_to->invlet = change_from->invlet;
-  add_msg("%c - %s", change_to->invlet, change_to->tname().c_str());
+     if (change_from->invlet == 0 && u.has_weapon_or_armor(newch)) {
+         // TODO: Chain assignment dialogues until in a valid state.
+         add_msg(_("Cannot unassign inventory letter of worn or wielded items."));
+         return;
+     }
+     item* change_to = &(u.i_at(newch));
+     change_to->invlet = change_from->invlet;
+     add_msg("%c - %s", change_to->invlet, change_to->tname().c_str());
  }
  change_from->invlet = newch;
  add_msg("%c - %s", newch, change_from->tname().c_str());
@@ -10281,7 +10293,7 @@ void game::wield(int pos)
 
  // Weapons need invlets to access, give one if not already assigned.
  item& it = u.i_at(pos);
- if (it.is_null() && it.invlet == 0) {
+ if (!it.is_null() && it.invlet == 0) {
   u.inv.assign_empty_invlet(it, true);
  }
 

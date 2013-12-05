@@ -144,7 +144,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
       invlet != inv_chars.end(); ++invlet) {
    n_items += ((g->u.inv.item_by_letter(*invlet).is_null()) ? 0 : 1);
  }
- mvwprintw(w_inv, 1, 62, _("Items:  %d/%d "), n_items, inv_chars.size());
+ mvwprintw(w_inv, 1, 62, _("Hotkeys:  %d/%d "), n_items, inv_chars.size());
 }
 
 int game::display_slice(indexed_invslice& slice, const std::string& title)
@@ -575,7 +575,8 @@ std::vector<item> game::multidrop()
 
  for (int i = 0; i < weapon_and_armor.size(); i++)
  {
-     if (!u.takeoff(this, u.invlet_to_position(weapon_and_armor[i]), true))
+     int wornpos = u.invlet_to_position(weapon_and_armor[i]);
+     if (wornpos == INT_MIN || !u.takeoff(this, wornpos, true))
      {
          continue;
      }

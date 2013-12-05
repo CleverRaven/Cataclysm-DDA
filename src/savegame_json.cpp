@@ -788,9 +788,9 @@ void inventory::json_load_items(JsonIn &jsin)
         JsonArray ja = jsin.get_array();
         while ( ja.has_more() ) {
             JsonObject jo = ja.next_object();
-            push_back( item( jo ) );
+            add_item(item( jo ), false, false);
         }
-    } catch (std::string jsonerr) {
+    } catch (std::string& jsonerr) {
          debugmsg("bad inventory json:\n%s", jsonerr.c_str() );
     }
 }
