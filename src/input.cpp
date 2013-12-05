@@ -399,7 +399,7 @@ const std::string& input_context::handle_input() {
         // Special help action
         if(action == "HELP_KEYBINDINGS") {
             display_help();
-            continue;
+            return ANY_INPUT;
         }
 
         if(next_action.type == CATA_INPUT_MOUSE) {
