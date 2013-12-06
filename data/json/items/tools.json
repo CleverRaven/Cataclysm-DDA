@@ -1305,7 +1305,7 @@
     "volume": 30,
     "bashing": 4,
     "cutting": 140,
-    "flags" : ["CHOP", "MESSY"],
+    "flags" : ["CHOP", "MESSY", "HURT_WHEN_PULLED"],
     "to_hit": -5,
     "max_charges": 800,
     "initial_charges": 0,
