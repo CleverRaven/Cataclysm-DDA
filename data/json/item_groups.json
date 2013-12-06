@@ -757,6 +757,7 @@
       ["rifle_scope", 17],
       ["pistol_scope", 14],
       ["improve_sights", 20],
+      ["waterproof_gunmod", 4],
       ["cu_pipe", 10],
       ["5x50_hull", 8],
       ["rm120c", 3],
@@ -2132,6 +2133,7 @@
       ["pistol_scope", 12],
       ["cu_pipe", 10],
       ["5x50_hull", 8],
+      ["waterproof_gunmod", 8],
       ["improve_sights", 20]
     ]
     },{
@@ -3959,6 +3961,7 @@
       ["20x66_frag", 1],
       ["20x66_slug", 4],
       ["20x66_flechette", 5],
+      ["waterproof_gunmod", 2],
       ["improve_sights", 5]
     ]
     },{
@@ -4037,6 +4040,7 @@
       ["knee_pads", 40],
       ["mask_bal", 5],
       ["e_tool", 10],
+      ["waterproof_gunmod", 8],
       ["glasses_bal", 30]
     ]
     },{
@@ -5066,6 +5070,7 @@
       ["caff_gum", 10],
       ["nic_gum", 1],
       ["improve_sights", 10],
+      ["waterproof_gunmod", 4],
       ["pur_tablets", 10],
       ["cleansuit", 5],
       ["8mm_hvp", 2],
@@ -5389,6 +5394,7 @@
       ["caff_gum", 7],
       ["nic_gum", 1],
       ["improve_sights", 10],
+      ["waterproof_gunmod", 4],
       ["u_shotgun", 4],
       ["RPG", 1],
       ["RPG-7_ammo", 1],

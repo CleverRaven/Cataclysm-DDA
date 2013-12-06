@@ -278,8 +278,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   if (firing->skill_used != Skill::skill("archery") &&
       firing->skill_used != Skill::skill("throw")) {
       // Current guns have a durability between 5 and 9.
-      // Misfire chance is between 1/64 and 1/1024.
-    if (u.is_underwater() && one_in(firing->durability)) {
+      // Misfire chance is between 1/64 and 1/1024, 1/durability when underwater unless WATERPROOF_GUN is in effect.
+    if (u.is_underwater() && !weapon->has_flag("WATERPROOF_GUN") && one_in(firing->durability)) {
           add_msg_player_or_npc( &p, _("Your weapon misfires with a wet click!"),
                                  _("<npcname>'s weapon misfires with a wet click!") );
           return;
