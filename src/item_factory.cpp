@@ -16,6 +16,17 @@
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
+static const std::string category_id_guns("guns");
+static const std::string category_id_ammo("ammo");
+static const std::string category_id_weapons("weapons");
+static const std::string category_id_tools("tools");
+static const std::string category_id_clothing("clothing");
+static const std::string category_id_drugs("drugs");
+static const std::string category_id_food("food");
+static const std::string category_id_books("books");
+static const std::string category_id_mods("mods");
+static const std::string category_id_other("other");
+
 Item_factory* item_controller = new Item_factory();
 
 //Every item factory comes with a missing item
@@ -69,6 +80,8 @@ void Item_factory::init(){
     iuse_function_list["CHEW"] = &iuse::chew;
     iuse_function_list["MUTAGEN"] = &iuse::mutagen;
     iuse_function_list["PURIFIER"] = &iuse::purifier;
+    iuse_function_list["MUT_IV"] = &iuse::mut_iv;
+    iuse_function_list["PURIFY_IV"] = &iuse::purify_iv;
     iuse_function_list["MARLOSS"] = &iuse::marloss;
     iuse_function_list["DOGFOOD"] = &iuse::dogfood;
     iuse_function_list["CATFOOD"] = &iuse::catfood;
@@ -229,6 +242,33 @@ void Item_factory::init(){
     techniques_list["PRECISE"] = "tec_precise";
     techniques_list["RAPID"] = "tec_rapid";
 
+    // Load default categories with their default sort_rank
+    // Negative rank so the default categories come before all
+    // the explicit defined categories from json
+    // (assuming the category definitions in json use positive sort_ranks).
+    // Note that json data might override these settings
+    // (simply define a category in json with the id
+    // taken from category_id_* and that definition will get
+    // used - see load_item_category)
+    add_category(category_id_guns, -20, _("guns"));
+    add_category(category_id_ammo, -19, _("ammo"));
+    add_category(category_id_weapons, -18, _("weapons"));
+    add_category(category_id_tools, -17, _("tools"));
+    add_category(category_id_clothing, -16, _("clothing"));
+    add_category(category_id_food, -15, _("food"));
+    add_category(category_id_drugs, -14, _("drugs"));
+    add_category(category_id_books, -13, _("books"));
+    add_category(category_id_mods, -12, _("mods"));
+    add_category(category_id_other, -11, _("other"));
+}
+
+void Item_factory::add_category(const std::string &id, int sort_rank, const std::string &name) {
+    // unconditionally override any existing definition
+    // as there should be none.
+    item_category &cat = m_categories[id];
+    cat.id = id;
+    cat.sort_rank = sort_rank;
+    cat.name = name;
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
@@ -668,6 +708,28 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
 
     new_item_template->use = (!jo.has_member("use_action") ? &iuse::none :
                               use_from_string(jo.get_string("use_action")));
+
+    if(jo.has_member("category")) {
+        new_item_template->category = get_category(jo.get_string("category"));
+    } else {
+        new_item_template->category = get_category(calc_category(new_item_template));
+    }
+}
+
+void Item_factory::load_item_category(JsonObject &jo)
+{
+    const std::string id = jo.get_string("id");
+    // reuse an existing definition,
+    // override the name and the sort_rank if
+    // these are present in the json
+    item_category &cat = m_categories[id];
+    cat.id = id;
+    if(jo.has_member("name")) {
+        cat.name = _(jo.get_string("name").c_str());
+    }
+    if(jo.has_member("sort_rank")) {
+        cat.sort_rank = jo.get_int("sort_rank");
+    }
 }
 
 void Item_factory::set_qualities_from_json(JsonObject& jo, std::string member, itype* new_item_template)
@@ -817,4 +879,71 @@ void Item_factory::set_intvar(std::string tag, unsigned int & var, int min, int 
             var=candidate;
         }
     }
+}
+
+bool item_category::operator<(const item_category &rhs) const
+{
+    if(sort_rank != rhs.sort_rank) {
+        return sort_rank < rhs.sort_rank;
+    }
+    if(name != rhs.name) {
+        return name < rhs.name;
+    }
+    return id < rhs.id;
+}
+
+bool item_category::operator==(const item_category &rhs) const
+{
+    return sort_rank == rhs.sort_rank &&
+           name == rhs.name &&
+           id == rhs.id;
+}
+
+bool item_category::operator!=(const item_category &rhs) const
+{
+    return !(*this == rhs);
+}
+
+const item_category *Item_factory::get_category(const std::string &id)
+{
+    const CategoryMap::const_iterator a = m_categories.find(id);
+    if(a != m_categories.end()) {
+        return &a->second;
+    }
+    // Unknown / invalid category id, improvise and make this
+    // a new category with at least a name.
+    item_category &cat = m_categories[id];
+    cat.id = id;
+    cat.name = id;
+    return &cat;
+}
+
+const std::string &Item_factory::calc_category(itype *it)
+{
+    if (it->is_gun() ) {
+        return category_id_guns;
+    }
+    if (it->is_ammo() ) {
+        return category_id_ammo;
+    }
+    if (it->is_tool() ) {
+        return category_id_tools;
+    }
+    if (it->is_armor() ) {
+        return category_id_clothing;
+    }
+    if (it->is_food() ) {
+        it_comest *comest = dynamic_cast<it_comest *>(it);
+        return ( comest->comesttype == "MED" ? category_id_drugs : category_id_food );
+    }
+    if (it->is_book() ) {
+        return category_id_books;
+    }
+    if (it->is_gunmod() || it->is_bionic()) {
+        return category_id_mods;
+    }
+    if (it->melee_dam > 7 || it->melee_cut > 5) {
+        return category_id_weapons;
+    }
+    return category_id_other;
 }

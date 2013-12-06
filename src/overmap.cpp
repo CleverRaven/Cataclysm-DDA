@@ -2023,7 +2023,7 @@ point overmap::draw_overmap(game *g, int zlevel)
       mvwprintz(w_search, 4, 1, c_white,
        _("'<' '>' Cycle targets."));
       mvwprintz(w_search, 10, 1, c_white, _("Enter/Spacebar to select."));
-      mvwprintz(w_search, 11, 1, c_white, _("q to return."));
+      mvwprintz(w_search, 11, 1, c_white, _("q or ESC to return."));
       ch = input();
       if (ch == ERR)
        blink = !blink;
@@ -2041,9 +2041,9 @@ point overmap::draw_overmap(game *g, int zlevel)
       draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
       wrefresh(w_search);
       timeout(BLINK_SPEED);
-     } while(ch != '\n' && ch != ' ' && ch != 'q');
+     } while(ch != '\n' && ch != ' ' && ch != 'q' && ch != KEY_ESCAPE);
      //If q is hit, return to the last position
-     if(ch == 'q'){
+     if(ch == 'q' || ch == KEY_ESCAPE){
       cursx = tmpx;
       cursy = tmpy;
      }
@@ -2102,7 +2102,8 @@ void overmap::process_mongroups()
  }
 }
 
-void grow_forest_oter_id(oter_id & oid, bool swampy) {
+void grow_forest_oter_id(oter_id & oid, bool swampy)
+{
     if (swampy && ( oid == ot_field || oid == ot_forest ) ) {
         oid = ot_forest_water;
     } else if ( oid == ot_forest ) {

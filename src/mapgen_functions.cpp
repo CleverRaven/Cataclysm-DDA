@@ -1516,7 +1516,11 @@ void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn, 
             veh_type = "rv";
         } else if (ra <= 20) {
             veh_type = "schoolbus";
-        } else {
+        } else if (ra <= 40) {
+            veh_type = "fire_truck";
+        }else if (ra <= 60) {
+            veh_type = "policecar";
+        }else {
             veh_type = "quad_bike";
         }
     } else if (roll <= 15) { //commercial

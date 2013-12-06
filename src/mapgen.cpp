@@ -2184,6 +2184,10 @@ sss|........|.R.|EEED___\n",
                     add_vehicle (g, "motorcycle", 17, 13, 180);
                 }
                 if (x_in_y(1, 5)) {
+                    if (one_in(3)) {
+                        add_vehicle (g, "fire_truck", 6, 13, 0);
+                        }
+                    else
                     add_vehicle (g, "flatbed_truck", 17, 19, 180);
                 }
             } else if (t_north == "office_tower_b_entrance") {
@@ -2195,6 +2199,10 @@ sss|........|.R.|EEED___\n",
                     add_vehicle (g, "motorcycle", 4, 18, 270);
                 }
                 if (x_in_y(1, 5)) {
+                    if (one_in(3)) {
+                        add_vehicle (g, "fire_truck", 6, 13, 0);
+                        }
+                    else
                     add_vehicle (g, "flatbed_truck", 16, 17, 270);
                 }
             } else if (t_east == "office_tower_b_entrance") {
@@ -2282,6 +2290,10 @@ ssssssssssssssssssssssss\n",
             } else if (t_east == "office_tower_b_entrance") {
                 rotate(2);
                 if (x_in_y(1, 5)) {
+                    if (one_in(3)) {
+                        add_vehicle (g, "fire_truck", 6, 13, 0);
+                        }
+                    else
                     add_vehicle (g, "flatbed_truck", 7, 7, 270);
                 }
                 if (x_in_y(1, 5)) {
@@ -2377,7 +2389,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     add_vehicle (g, "flatbed_truck", 12, 17, 270);
                 }
                 if (x_in_y(1, 3)) {
-                    add_vehicle (g, "car", 18, 17, 270);
+                    add_vehicle (g, "fire_truck", 18, 17, 270);
                 }
             } else if (t_east == "office_tower_b" && t_south == "office_tower_b") {
                 rotate(3);
@@ -2385,6 +2397,10 @@ ___DEEE|.R.|...,,...|sss\n",
                     add_vehicle (g, "cube_van", 6, 6, 0);
                 }
                 if (x_in_y(1, 5)) {
+                    if (one_in(3)) {
+                        add_vehicle (g, "fire_truck", 6, 13, 0);
+                        }
+                    else
                     add_vehicle (g, "flatbed_truck", 6, 13, 0);
                 }
                 if (x_in_y(1, 3)) {
@@ -5890,21 +5906,33 @@ sssssssss_______ssssssss\n",
             if (x_in_y(1, 7)) {
                 add_vehicle (g, "schoolbus", 19, 10, 0);
             }
+            else if (one_in(5)) {
+                add_vehicle (g, "fire_truck", 19, 10, 0);
+                }
         } else if (t_east == "school_2") {
             rotate(2);
             if (x_in_y(1, 7)) {
                 add_vehicle (g, "schoolbus", 9, 7, 0);
             }
+            else if (one_in(5)) {
+                add_vehicle (g, "fire_truck", 9, 7, 0);
+                }
         } else if (t_south == "school_2") {
             rotate(3);
             if (x_in_y(1, 7)) {
                 add_vehicle (g, "schoolbus", 12, 18, 180);
             }
+            else if (one_in(5)) {
+                add_vehicle (g, "fire_truck", 12, 18, 180);
+                }
         } else if (t_west == "school_2") {
             rotate(0);
             if (x_in_y(1, 7)) {
                 add_vehicle (g, "schoolbus", 17, 7, 0);
             }
+            else if (one_in(5)) {
+                add_vehicle (g, "fire_truck", 17, 7, 0);
+                }
         }
 
 
@@ -7506,21 +7534,33 @@ sssssssssssssssssssssss\n",
             if (x_in_y(1, 12)) {
                 add_vehicle (g, "car", 12, 18, 180);
             }
+            else if (x_in_y(2, 9)) {
+                add_vehicle (g, "fire_truck", 12, 18, 180);
+                }
         } else if (t_east == "hotel_tower_1_2") {
             rotate(2);
             if (x_in_y(1, 12)) {
                 add_vehicle (g, "car", 9, 7, 0);
             }
+            else if (x_in_y(2, 9)) {
+                add_vehicle (g, "fire_truck", 9, 7, 0);
+                }
         } else if (t_south == "hotel_tower_1_2") {
             rotate(3);
             if (x_in_y(1, 12)) {
                 add_vehicle (g, "car", 12, 18, 180);
             }
+            else if (x_in_y(2, 9)) {
+                add_vehicle (g, "fire_truck", 12, 18, 180);
+                }
         } else if (t_west == "hotel_tower_1_2") {
             rotate(0);
             if (x_in_y(1, 12)) {
                 add_vehicle (g, "car", 17, 7, 0);
             }
+            else if (x_in_y(2, 9)) {
+                add_vehicle (g, "fire_truck", 17, 7, 180);
+                }
         }
 
 

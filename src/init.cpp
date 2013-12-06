@@ -130,6 +130,7 @@ void init_data_structures()
     type_function_map["CONTAINER"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_container);
     type_function_map["GUNMOD"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gunmod);
     type_function_map["GENERIC"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_generic);
+    type_function_map["ITEM_CATEGORY"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_item_category);
 
     type_function_map["MONSTER"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_monster);
     type_function_map["SPECIES"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_species);
@@ -156,7 +157,6 @@ void init_data_structures()
     init_vpart_bitflag_map();
     init_translation();
     init_martial_arts();
-    init_inventory_categories();
     init_colormap();
     init_artifacts();
     init_mapgen_builtin_functions();
@@ -248,6 +248,7 @@ void load_all_from_json(JsonIn &jsin)
     }
 }
 
+#ifdef LOCALIZE
 // load names depending on current locale
 void init_names()
 {
@@ -271,4 +272,10 @@ void init_names()
 
     load_names_from_file(filename);
 }
+#else
+void init_names()
+{
+    load_names_from_file("data/names/en.json");
+}
+#endif
 

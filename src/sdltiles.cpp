@@ -1160,6 +1160,7 @@ input_event input_manager::get_input_event(WINDOW *win) {
     {
         do
         {
+            rval.type = CATA_INPUT_ERROR;
             CheckMessages();
             if (lastchar!=ERR) break;
             SDL_Delay(1);
@@ -1173,6 +1174,7 @@ input_event input_manager::get_input_event(WINDOW *win) {
         bool timedout = false;
         do
         {
+            rval.type = CATA_INPUT_ERROR;
             CheckMessages();
             endtime=SDL_GetTicks();
             if (lastchar!=ERR) break;

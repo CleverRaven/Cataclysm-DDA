@@ -140,6 +140,7 @@ enum ter_bitflags {
     TFLAG_SHARP,
     TFLAG_DIGGABLE,
     TFLAG_ROUGH,
+    TFLAG_WALL,
 };
 extern std::map<std::string, ter_bitflags> ter_bitflags_map;
 void init_ter_bitflags_map();
@@ -170,7 +171,6 @@ struct ter_t {
  iexamine_function examine; //What happens when the terrain is examined
  std::string open;          // open action: transform into terrain with matching id
  std::string close;         // close action: transform into terrain with matching id
- std::map<std::string, int> qualities; // Qualities; similar to flags, but can have a(n int) value.
 
  map_bash_info bash;
  
@@ -191,41 +191,6 @@ struct ter_t {
          bitflags |= mfb ( ter_bitflags_map.find( flag )->second ); 
      }
  }
-
- bool has_quality(std::string quality_id) const {
-	 if (qualities.count(quality_id))
-	 {
-		 return true;
-	 }
-
-	 return false;
- }
-
- bool has_quality(std::string quality_id, int quality_value) const {
-	 bool ret = false;
-
-	 if (qualities.count(quality_id))
-	 {
-		 std::map<std::string, int>::const_iterator retrieved_quality = qualities.find(quality_id);
-		 ret = (quality_value == retrieved_quality->second);
-	 }
-
-	 return ret;
- }
-
- int level_of_quality(std::string quality_id) const
- {
-	 if (qualities.count(quality_id))
-	 {
-		 std::map<std::string, int>::const_iterator retrieved_quality = qualities.find(quality_id);
-		 return retrieved_quality->second;
-	 }
-
-	 // Just returning 0 isn't really the proper way of handling the situation of not having the requested quality.
-	 // But I don't know of any better alternative.
-	 return 0;
- }
-
  bool transparent;
 };
 
@@ -253,7 +218,6 @@ struct furn_t {
  iexamine_function examine;
  std::string open;
  std::string close;
- std::map<std::string, int> qualities; // Qualities; similar to flags, but can have a(n int) value.
 
  map_bash_info bash;
  
@@ -274,41 +238,6 @@ struct furn_t {
          bitflags |= mfb ( ter_bitflags_map.find( flag )->second ); 
      }
  }
-
- bool has_quality(std::string quality_id) const {
-	 if (qualities.count(quality_id))
-	 {
-		 return true;
-	 }
-
-	 return false;
- }
-
- bool has_quality(std::string quality_id, int quality_value) const {
-	 bool ret = false;
-
-	 if (qualities.count(quality_id))
-	 {
-		 std::map<std::string, int>::const_iterator retrieved_quality = qualities.find(quality_id);
-		 ret = (quality_value == retrieved_quality->second);
-	 }
-
-	 return ret;
- }
-
- int level_of_quality(std::string quality_id) const
- {
-	 if (qualities.count(quality_id))
-	 {
-		 std::map<std::string, int>::const_iterator retrieved_quality = qualities.find(quality_id);
-		 return retrieved_quality->second;
-	 }
-
-	 // Just returning 0 isn't really the proper way of handling the situation of not having the requested quality.
-	 // But I don't know of any better alternative.
-	 return 0;
- }
-
  bool transparent;
 };
 

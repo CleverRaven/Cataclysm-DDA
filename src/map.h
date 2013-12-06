@@ -257,19 +257,8 @@ class map
  bool flammable_items_at(const int x, const int y);
  bool moppable_items_at(const int x, const int y);
  point random_outdoor_tile();
-
- bool has_quality(std::string quality_id, const int x, const int y);
- bool has_quality(std::string quality_id, const int quality_value, const int x, const int y);
- bool has_quality_ter(std::string quality_id, const int x, const int y);
- bool has_quality_ter(std::string quality_id, const int quality_value, const int x, const int y);
- bool has_quality_furn(std::string quality_id, const int x, const int y);
- bool has_quality_furn(std::string quality_id, const int quality_value, const int x, const int y);
- bool has_quality_ter_or_furn(std::string quality_id, const int x, const int y);
- bool has_quality_ter_or_furn(std::string quality_id, const int quality_value, const int x, const int y);
- bool has_quality_ter_and_furn(std::string quality_id, const int x, const int y);
- bool has_quality_ter_and_furn(std::string quality_id, const int quality_value, const int x, const int y);
-
 // mapgen
+
 void draw_line_ter(const ter_id type, int x1, int y1, int x2, int y2);
 void draw_line_ter(const std::string type, int x1, int y1, int x2, int y2);
 void draw_line_furn(furn_id type, int x1, int y1, int x2, int y2);
@@ -288,6 +277,8 @@ void draw_rough_circle(std::string type, int x, int y, int rad);
 
 void add_corpse(int x, int y);
 
+
+//
  void translate(const std::string terfrom, const std::string terto); // Change all instances of $from->$to
  void translate_radius(const std::string terfrom, const std::string terto, const float radi, const int uX, const int uY);
  void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to

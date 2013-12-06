@@ -360,7 +360,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
  if ( g != NULL && debug == false &&
    ( g->debugmon == true || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) )
  ) debug=true;
- if( !is_null() && g != NULL)
+ if( !is_null() )
  {
   dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
   dump->push_back(iteminfo("BASE", _("   Weight: "), "", g->u.convert_weight(weight()), false, "", true, true));
@@ -899,7 +899,7 @@ std::string item::tname( bool with_prefix )
         {
             if((int)(g->turn) < (int)(food->bday + 100))
                 ret << _(" (fresh)");
-            else if(food->rotten(g))
+            if(food->rotten(g))
                 ret << _(" (rotten)");
         }
         if (food->has_flag("HOT"))
@@ -1154,37 +1154,18 @@ bool item::has_flag(std::string f) const
 }
 
 bool item::has_quality(std::string quality_id) const {
-	if (type->qualities.count(quality_id))
-	{
-		return true;
-	}
-
-	return false;
+    return has_quality(quality_id, 1);
 }
 
 bool item::has_quality(std::string quality_id, int quality_value) const {
-	bool ret = false;
+    // TODO: actually implement this >:(
+    (void)quality_id; (void)quality_value; //unused grrr
+    bool ret = false;
 
-	if (type->qualities.count(quality_id))
-	{
-		std::map<std::string, int>::const_iterator retrieved_quality = type->qualities.find(quality_id);
-		ret = (quality_value == retrieved_quality->second);
-	}
-
-	return ret;
-}
-
-int item::level_of_quality(std::string quality_id) const
-{
-	if (type->qualities.count(quality_id))
-	{
-		std::map<std::string, int>::const_iterator retrieved_quality = type->qualities.find(quality_id);
-		return retrieved_quality->second;
-	}
-
-	// Just returning 0 isn't really the proper way of handling the situation of not having the requested quality.
-	// But I don't know of any better alternative.
-	return 0;
+    if(type->qualities.size() > 0){
+      ret = true;
+    }
+    return ret;
 }
 
 bool item::has_technique(matec_id tech)
@@ -1216,7 +1197,7 @@ bool item::rotten(game *g)
         fridge = 0;
       }
       expiry = (int)g->turn - bday;
-      return (expiry > food->spoils * 600);
+      return (expiry > (signed int)food->spoils * 600);
     }
     else {
       return false;
@@ -1797,10 +1778,11 @@ int item::sort_rank() const
 
 bool item::operator<(const item& other) const
 {
-    int my_rank = sort_rank();
-    int other_rank = other.sort_rank();
-    if (my_rank == other_rank)
-    {
+    const item_category &cat_a = get_category();
+    const item_category &cat_b = other.get_category();
+    if(cat_a != cat_b) {
+        return cat_a < cat_b;
+    } else {
         const item *me = is_container() && contents.size() > 0 ? &contents[0] : this;
         const item *rhs = other.is_container() && other.contents.size() > 0 ? &other.contents[0] : &other;
 
@@ -1812,10 +1794,6 @@ bool item::operator<(const item& other) const
         {
             return me->type->id < rhs->type->id;
         }
-    }
-    else
-    {
-        return sort_rank() < other.sort_rank();
     }
 }
 
@@ -2592,4 +2570,22 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
     }
 
     return remaining_capacity;
+}
+
+const item_category &item::get_category() const
+{
+    if(is_container() && !contents.empty()) {
+        return contents[0].get_category();
+    }
+    if(type != 0) {
+        if(type->category == 0) {
+            // Category not set? Set it now.
+            itype *t = const_cast<itype *>(type);
+            t->category = item_controller->get_category(item_controller->calc_category(t));
+        }
+        return *type->category;
+    }
+    // null-item -> null-category
+    static item_category null_category;
+    return null_category;
 }

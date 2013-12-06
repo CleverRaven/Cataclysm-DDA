@@ -83,6 +83,9 @@ public:
     void use();
     bool burn(int amount = 1); // Returns true if destroyed
 
+ // Returns the category of this item.
+ const item_category &get_category() const;
+
 // Firearm specifics
  int reload_time(player &u);
  int clip_size();
@@ -137,7 +140,6 @@ public:
  bool has_flag(std::string f) const;
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
- int level_of_quality(std::string quality_id) const;
  bool has_technique(std::string t);
  int has_gunmod(itype_id type);
  item* active_gunmod();

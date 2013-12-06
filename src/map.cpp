@@ -1365,56 +1365,6 @@ point map::random_outdoor_tile()
  return options[rng(0, options.size() - 1)];
 }
 
-bool map::has_quality(std::string quality_id, const int x, const int y)
-{
-	return (terlist[ter(x, y)].has_quality(quality_id) || (furnlist[furn(x, y)].has_quality(quality_id)));
-}
-
-bool map::has_quality(std::string quality_id, const int quality_value, const int x, const int y)
-{
-	return (terlist[ter(x, y)].has_quality(quality_id, quality_value) || (furnlist[furn(x, y)].has_quality(quality_id, quality_value)));
-}
-
-bool map::has_quality_ter(std::string quality_id, const int x, const int y)
-{
-	return terlist[ter(x, y)].has_quality(quality_id);
-}
-
-bool map::has_quality_ter(std::string quality_id, const int quality_value, const int x, const int y)
-{
-	return terlist[ter(x, y)].has_quality(quality_id, quality_value);
-}
-
-bool map::has_quality_furn(std::string quality_id, const int x, const int y)
-{
-	return furnlist[furn(x, y)].has_quality(quality_id);
-}
-
-bool map::has_quality_furn(std::string quality_id, const int quality_value, const int x, const int y)
-{
-	return furnlist[furn(x, y)].has_quality(quality_id, quality_value);
-}
-
-bool map::has_quality_ter_or_furn(std::string quality_id, const int x, const int y)
-{
-	return (terlist[ter(x, y)].has_quality(quality_id) || (furnlist[furn(x, y)].has_quality(quality_id)));
-}
-
-bool map::has_quality_ter_or_furn(std::string quality_id, const int quality_value, const int x, const int y)
-{
-	return (terlist[ter(x, y)].has_quality(quality_id, quality_value) || (furnlist[furn(x, y)].has_quality(quality_id, quality_value)));
-}
-
-bool map::has_quality_ter_and_furn(std::string quality_id, const int x, const int y)
-{
-	return (terlist[ter(x, y)].has_quality(quality_id) && (furnlist[furn(x, y)].has_quality(quality_id)));
-}
-
-bool map::has_quality_ter_and_furn(std::string quality_id, const int quality_value, const int x, const int y)
-{
-	return (terlist[ter(x, y)].has_quality(quality_id, quality_value) && (furnlist[furn(x, y)].has_quality(quality_id, quality_value)));
-}
-
 bool map::has_adjacent_furniture(const int x, const int y)
 {
     const signed char cx[4] = { 0, -1, 0, 1};

@@ -2613,86 +2613,106 @@ void game::update_scent()
     if( u.posx == player_last_position.x && u.posy == player_last_position.y ) {
         if( player_last_moved + 1000 < turn ) {
             return;
-	}
+        }
     } else {
         player_last_position = point( u.posx, u.posy );
-	player_last_moved = turn;
+   	    player_last_moved = turn;
     }
 
+    // note: the next two intermediate variables need to be at least
+    // [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
+    // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid new bugs.
+    int  sum_3_scent_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
+    int squares_used_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
 
- int temp_scent;
- // note: the next two intermediate variables need to be at least [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
- // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid introducing new bugs.
- int sum_3_squares_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
- int  squares_used_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
+    bool     has_wall_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash instead of
+    bool reduce_scent_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // checking 14884 * (3 redundant)
 
- bool can_move_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash move_cost instead of checking 14884 * (3 redundant)
- bool can_bash_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash bashable instead of checking 14884 * (3 redundant)
+    const int diffusivity = 100; // decrease this to reduce gas spread. Keep it under 125 for
+                                 // stability. This is essentially a decimal number * 1000.
 
- const int diffusivity = 100; // decrease this to reduce gas spread. Keep it under 125 for stability.  This is essentially a decimal number * 1000.
-
- if (!u.has_active_bionic("bio_scent_mask"))
-  grscent[u.posx][u.posy] = u.scent;
- // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9 times. This cost us an extra loop here, but
- // it also eliminated a loop at the end, so there is a net performance improvement over the old code. Could probably still be better.
- // note: this method needs an array that is one square larger on each side in the x direction then the final scent matrix
- // I think this is fine since SCENT_RADIUS is less than SEEX*MAPSIZE, but if that changes, this may need tweaking.
- for (int x = u.posx - SCENT_RADIUS -1; x <= u.posx + SCENT_RADIUS + 1; x++) {
-  for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-   // cache expensive flag checks, once per tile.
-   if ( y == u.posy - SCENT_RADIUS ) {  // ..and only once. y-1 y-0, when we are at the top row...
-       for (int i = y - 1; i <= y; ++i) {
-           can_move_here[x][i] = (m.move_cost_ter_furn(x, i) > 0 );
-           can_bash_here[x][i] = m.has_flag(TFLAG_BASHABLE, x, i);
-       }
-   }
-   can_move_here[x][y+1] = (m.move_cost_ter_furn(x, y+1) > 0 ); // ...means we only need y+1 here for lookahead
-   can_bash_here[x][y+1] = m.has_flag(TFLAG_BASHABLE, x, y+1);
-
-   // remember the sum of the scent val for the up to 3 neighboring squares that can defuse into.
-   sum_3_squares_y[x][y] = 0;
-   squares_used_y[x][y] = 0;
-   for (int i = y - 1; i <= y + 1; ++i) {
-    if ( can_move_here[x][i] == true || can_bash_here[x][i] == true ) { // save 
-     sum_3_squares_y[x][y] += grscent[x][i];
-     squares_used_y[x][y] += 1;
+    if (!u.has_active_bionic("bio_scent_mask")) {
+        grscent[u.posx][u.posy] = u.scent;
     }
-   }
 
-  }
- }
- for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
-  for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-   if (can_move_here[x][y] == true || can_bash_here[x][y] == true) {
-    // to how many neighboring squares do we diffuse out? (include our own square since we also include our own square when diffusing in)
-    int squares_used = squares_used_y[x-1][y] + squares_used_y[x][y] + squares_used_y[x+1][y];
-    // take the old scent and subtract what diffuses out
-    temp_scent = grscent[x][y] * (1000 - squares_used * diffusivity); // it's okay if this is slightly negative
-    // we've already summed neighboring scent values in the y direction in the previous loop.
-    // Now we do it for the x direction, multiply by diffusion, and this is what diffuses into our current square.
-    grscent[x][y] = static_cast<int>(temp_scent + diffusivity * (sum_3_squares_y[x-1][y] + sum_3_squares_y[x][y] + sum_3_squares_y[x+1][y] )) / 1000;
+    // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9
+    // times. This cost us an extra loop here, but it also eliminated a loop at the end, so there
+    // is a net performance improvement over the old code. Could probably still be better.
+    // note: this method needs an array that is one square larger on each side in the x direction
+    // than the final scent matrix. I think this is fine since SCENT_RADIUS is less than
+    // SEEX*MAPSIZE, but if that changes, this may need tweaking.
+    for (int x = u.posx - SCENT_RADIUS -1; x <= u.posx + SCENT_RADIUS + 1; x++) {
+        for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
+            // cache expensive flag checks, once per tile.
+            if ( y == u.posy - SCENT_RADIUS ) {  // Setting y-1 y-0, when we are at the top row...
+                for (int i = y - 1; i <= y; ++i) {
+                    has_wall_here[x][i] = m.has_flag(TFLAG_WALL, x, i);
+                    reduce_scent_here[x][i] = m.has_flag(TFLAG_REDUCE_SCENT, x, i);
+                }
+            }
+            has_wall_here[x][y+1] = m.has_flag(TFLAG_WALL, x, y+1); // ...so only y+1 here.
+            reduce_scent_here[x][y+1] = m.has_flag(TFLAG_REDUCE_SCENT, x, y+1);
 
-    const int fslime = m.get_field_strength(point(x,y), fd_slime) * 10;
-    if (fslime > 0 && grscent[x][y] < fslime) {
-        grscent[x][y] = fslime;
-    }
-    if (grscent[x][y] > 10000) {
-        dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
-                     << y << " (" << grscent[x][y] << ")";
-        debugmsg("Wacky scent at %d, %d (%d)", x, y, grscent[x][y]);
-        grscent[x][y] = 0; // Scent should never be higher
-    }
-    //Greatly reduce scent for bashable barriers, even more for ductaped barriers
-    if( can_move_here[x][y] == false ) { /* always true: can_bash_here[x][y] */
-        if( m.has_flag(TFLAG_REDUCE_SCENT, x, y)) {
-            grscent[x][y] /= 12;
-        } else {
-            grscent[x][y] /= 4;
+            // remember the sum of the scent val for the 3 neighboring squares that can defuse into
+            sum_3_scent_y[y][x]  = 0;
+            squares_used_y[y][x] = 0;
+            for (int i = y - 1; i <= y + 1; ++i) {
+                if (has_wall_here[x][i] == false) {
+                    if (reduce_scent_here[x][i] == true) {
+                        // only 20% of scent can diffuse on REDUCE_SCENT squares
+                        sum_3_scent_y[y][x]  += 2 * grscent[x][i];
+                        squares_used_y[y][x] += 2; // only 20% diffuses into REDUCE_SCENT squares
+                    } else {
+                        sum_3_scent_y[y][x]  += 10 * grscent[x][i];
+                        squares_used_y[y][x] += 10;
+                    }
+                }
+            }
         }
     }
-   }
-  }
- }
+    for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
+        for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
+            if (has_wall_here[x][y] == false) {
+                // to how many neighboring squares do we diffuse out? (include our own square
+                // since we also include our own square when diffusing in)
+                int squares_used = squares_used_y[y][x-1]
+                                 + squares_used_y[y][x]
+                                 + squares_used_y[y][x+1];
+
+                int this_diffusivity;
+                if (reduce_scent_here[x][y] == false) {
+                    this_diffusivity = diffusivity;
+                } else {
+                    this_diffusivity = diffusivity / 5; //less air movement for REDUCE_SCENT square
+                }
+                int temp_scent;
+                // take the old scent and subtract what diffuses out
+                temp_scent  = grscent[x][y] * (10 * 1000 - squares_used * this_diffusivity);
+                // neighboring walls and reduce_scent squares absorb some scent
+                temp_scent -= grscent[x][y] * this_diffusivity * (90 - squares_used) / 5;
+                // we've already summed neighboring scent values in the y direction in the previous
+                // loop. Now we do it for the x direction, multiply by diffusion, and this is what
+                // diffuses into our current square.
+                grscent[x][y] = (temp_scent + this_diffusivity *
+                                (sum_3_scent_y[y][x-1] + sum_3_scent_y[y][x] +
+                                sum_3_scent_y[y][x+1] )) / (1000 * 10);
+
+
+                const int fslime = m.get_field_strength(point(x,y), fd_slime) * 10;
+                if (fslime > 0 && grscent[x][y] < fslime) {
+                    grscent[x][y] = fslime;
+                }
+                if (grscent[x][y] > 10000) {
+                    dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
+                                 << y << " (" << grscent[x][y] << ")";
+                    debugmsg("Wacky scent at %d, %d (%d)", x, y, grscent[x][y]);
+                    grscent[x][y] = 0; // Scent should never be higher
+                }
+            } else { // there is a wall here
+                grscent[x][y] = 0;
+            }
+        }
+    }
 }
 
 bool game::is_game_over()
@@ -5060,87 +5080,98 @@ void game::monmove()
         }
     }
 
- for (int i = 0; i < num_zombies(); i++) {
-  monster &critter = _active_monsters[i];
-  while (!critter.dead && !critter.can_move_to(this, critter.posx(), critter.posy())) {
-// If we can't move to our current position, assign us to a new one
-   if (debugmon)
-   {
-    dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
-                 << " can't move to its location! (" << critter.posx()
-                 << ":" << critter.posy() << "), "
-                 << m.tername(critter.posx(), critter.posy()).c_str();
-    debugmsg("%s can't move to its location! (%d:%d), %s", critter.name().c_str(),
-             critter.posx(), critter.posy(), m.tername(critter.posx(), critter.posy()).c_str());
-   }
-   bool okay = false;
-   int xdir = rng(1, 2) * 2 - 3, ydir = rng(1, 2) * 2 - 3; // -1 or 1
-   int startx = critter.posx() - 3 * xdir, endx = critter.posx() + 3 * xdir;
-   int starty = critter.posy() - 3 * ydir, endy = critter.posy() + 3 * ydir;
-   for (int x = startx; x != endx && !okay; x += xdir) {
-    for (int y = starty; y != endy && !okay; y += ydir){
-     if (critter.can_move_to(this, x, y) && is_empty(x, y)) {
-      critter.setpos(x, y);
-      okay = true;
-     }
+    for (int i = 0; i < num_zombies(); i++)
+    {
+        monster *critter = &_active_monsters[i];
+        while (!critter->dead && !critter->can_move_to(this, critter->posx(), critter->posy())) {
+            // If we can't move to our current position, assign us to a new one
+            if (debugmon) {
+                dbg(D_ERROR) << "game:monmove: " << critter->name().c_str()
+                            << " can't move to its location! (" << critter->posx()
+                            << ":" << critter->posy() << "), "
+                            << m.tername(critter->posx(), critter->posy()).c_str();
+                debugmsg("%s can't move to its location! (%d:%d), %s", critter->name().c_str(),
+                        critter->posx(), critter->posy(), m.tername(critter->posx(), critter->posy()).c_str());
+            }
+            bool okay = false;
+            int xdir = rng(1, 2) * 2 - 3, ydir = rng(1, 2) * 2 - 3; // -1 or 1
+            int startx = critter->posx() - 3 * xdir, endx = critter->posx() + 3 * xdir;
+            int starty = critter->posy() - 3 * ydir, endy = critter->posy() + 3 * ydir;
+            for (int x = startx; x != endx && !okay; x += xdir) {
+                for (int y = starty; y != endy && !okay; y += ydir) {
+                    if (critter->can_move_to(this, x, y) && is_empty(x, y)) {
+                        critter->setpos(x, y);
+                        okay = true;
+                    }
+                }
+            }
+            if (!okay) {
+                critter->dead = true;
+            }
+        }
+
+        if (!critter->dead) {
+            critter->process_effects(this);
+            if (critter->hurt(0)) {
+                kill_mon(i, false);
+                // might have spaned more monsters on death,
+                // changing _active_monsters
+                critter = &_active_monsters[i];
+            }
+        }
+
+        m.mon_in_field(critter->posx(), critter->posy(), this, critter);
+        // might have killed the critter and spawned more monsters
+        critter = &_active_monsters[i];
+
+        while (critter->moves > 0 && !critter->dead) {
+            critter->made_footstep = false;
+            critter->plan(this, friendlies); // Formulate a path to follow
+            critter->move(this); // Move one square, possibly hit u
+            critter->process_triggers(this);
+            m.mon_in_field(critter->posx(), critter->posy(), this, critter);
+            critter = &_active_monsters[i];
+            if (critter->hurt(0)) { // Maybe we died...
+                kill_mon(i, false);
+                critter = &_active_monsters[i];
+                critter->dead = true;
+            }
+        }
+
+        if (!critter->dead) {
+            if (u.has_active_bionic("bio_alarm") && u.power_level >= 1 &&
+                rl_dist(u.posx, u.posy, critter->posx(), critter->posy()) <= 5) {
+                u.power_level--;
+                add_msg(_("Your motion alarm goes off!"));
+                cancel_activity_query(_("Your motion alarm goes off!"));
+                if (u.has_disease("sleep") || u.has_disease("lying_down")) {
+                    u.rem_disease("sleep");
+                    u.rem_disease("lying_down");
+                }
+            }
+            // We might have stumbled out of range of the player; if so, kill us
+            if (critter->posx() < 0 - (SEEX * MAPSIZE) / 6 ||
+                critter->posy() < 0 - (SEEY * MAPSIZE) / 6 ||
+                critter->posx() > (SEEX * MAPSIZE * 7) / 6 ||
+                critter->posy() > (SEEY * MAPSIZE * 7) / 6   ) {
+                // Re-absorb into local group, if applicable
+                int group = valid_group((critter->type->id), levx, levy, levz);
+                if (group != -1) {
+                    cur_om->zg[group].population++;
+                    if (cur_om->zg[group].population / (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
+                        !cur_om->zg[group].diffuse ) {
+                        cur_om->zg[group].radius++;
+                    }
+                } else if (MonsterGroupManager::Monster2Group((critter->type->id)) != "GROUP_NULL") {
+                    cur_om->zg.push_back(mongroup(MonsterGroupManager::Monster2Group((critter->type->id)),
+                                                levx, levy, levz, 1, 1));
+                }
+                critter->dead = true;
+            } else {
+                critter->receive_moves();
+            }
+        }
     }
-   }
-   if (!okay)
-    critter.dead = true;
-  }
-
-  if (!critter.dead) {
-   critter.process_effects(this);
-   if (critter.hurt(0))
-    kill_mon(i, false);
-  }
-
-  m.mon_in_field(critter.posx(), critter.posy(), this, &critter);
-
-  while (critter.moves > 0 && !critter.dead) {
-   critter.made_footstep = false;
-   critter.plan(this, friendlies); // Formulate a path to follow
-   critter.move(this); // Move one square, possibly hit u
-   critter.process_triggers(this);
-   m.mon_in_field(critter.posx(), critter.posy(), this, &critter);
-   if (critter.hurt(0)) { // Maybe we died...
-    kill_mon(i, false);
-    critter.dead = true;
-   }
-  }
-
-  if (!critter.dead) {
-   if (u.has_active_bionic("bio_alarm") && u.power_level >= 1 &&
-       rl_dist(u.posx, u.posy, critter.posx(), critter.posy()) <= 5) {
-    u.power_level--;
-    add_msg(_("Your motion alarm goes off!"));
-    cancel_activity_query(_("Your motion alarm goes off!"));
-    if (u.has_disease("sleep") || u.has_disease("lying_down")) {
-     u.rem_disease("sleep");
-     u.rem_disease("lying_down");
-    }
-   }
-// We might have stumbled out of range of the player; if so, kill us
-   if (critter.posx() < 0 - (SEEX * MAPSIZE) / 6 ||
-       critter.posy() < 0 - (SEEY * MAPSIZE) / 6 ||
-       critter.posx() > (SEEX * MAPSIZE * 7) / 6 ||
-       critter.posy() > (SEEY * MAPSIZE * 7) / 6   ) {
-// Re-absorb into local group, if applicable
-    int group = valid_group((critter.type->id), levx, levy, levz);
-    if (group != -1) {
-     cur_om->zg[group].population++;
-     if (cur_om->zg[group].population / (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
-         !cur_om->zg[group].diffuse )
-      cur_om->zg[group].radius++;
-    } else if (MonsterGroupManager::Monster2Group((critter.type->id)) != "GROUP_NULL") {
-     cur_om->zg.push_back(mongroup(MonsterGroupManager::Monster2Group((critter.type->id)),
-                                  levx, levy, levz, 1, 1));
-    }
-    critter.dead = true;
-   } else
-    critter.receive_moves();
-  }
- }
 
  cleanup_dead();
 
@@ -7115,15 +7146,10 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
             {
                 mvwprintw(w_look, line++, column, _("There are other items there as well."));
             }
-
-			print_craft_distance_info(lx, ly, w_look, column, ++line);
             m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
         }
     } else if (m.has_flag("CONTAINER", lx, ly)) {
         mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
-
-		print_craft_distance_info(lx, ly, w_look, column, ++line);
-
         if (!mouse_hover) {
             m.drawsq(w_terrain, u, lx, ly, true, false, lx, ly);
         }
@@ -7152,26 +7178,8 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
     }
     else if (!mouse_hover)
     {
-		print_craft_distance_info(lx, ly, w_look, column, line);
         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
     }
-}
-
-void game::print_craft_distance_info(int lx, int ly, WINDOW *w_look, const int column, int &line)
-{
-	if (m.has_quality_furn("CRAFT_DISTANCE", lx, ly))
-	{
-		line += fold_and_print(w_look, line, column, getmaxx(w_look), c_green,
-			_("The %s allows you to craft with items stored there, from up to %d tiles away."),
-			m.furn_at(lx, ly).name.c_str(), m.furn_at(lx, ly).level_of_quality("CRAFT_DISTANCE"));
-	}
-
-	if (m.has_quality_ter("CRAFT_DISTANCE", lx, ly))
-	{
-		line += fold_and_print(w_look, line, column, getmaxx(w_look), c_green,
-			_("The %s allows you to craft with items stored there, from up to %d tiles away."),
-			m.ter_at(lx, ly).name.c_str(), m.ter_at(lx, ly).level_of_quality("CRAFT_DISTANCE"));
-	}
 }
 
 void game::handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover)
@@ -10063,7 +10071,7 @@ void game::reload(char chInput)
              if ((contents.is_gunmod() &&
                   (contents.typeId() == "spare_mag" &&
                    contents.charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
-                (contents.has_flag("AUX_MODE") &&
+                (contents.has_flag("MODE_AUX") &&
                  contents.charges < contents.clip_size()))
              {
                  magazine_isfull = false;
@@ -10279,7 +10287,7 @@ void game::unload(item& it)
   else if (has_shotgun3 != -1 && weapon->contents[has_shotgun3].charges > 0)
    weapon = &weapon->contents[has_shotgun3];
   // Then try an auxiliary flamethrower
-  else if (has_shotgun3 != -1 && weapon->contents[has_auxflamer].charges > 0)
+  else if (has_auxflamer != -1 && weapon->contents[has_auxflamer].charges > 0)
    weapon = &weapon->contents[has_auxflamer];
  }
 
@@ -10968,7 +10976,8 @@ bool game::plmove(int dx, int dy)
       remove_zombie(mondex);
       u.moves -= 100;
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
-      m.spawn_item(x, y, "9mm", 1, critter.ammo, turn);
+      if (critter.ammo > 0)
+        m.spawn_item(x, y, "9mm", 1, critter.ammo, turn);
      }
      return false;
     }

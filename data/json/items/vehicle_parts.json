@@ -1,5 +1,11 @@
 [
     {
+        "type" : "ITEM_CATEGORY",
+        "id" : "veh_parts",
+        "name" : "vehicle parts",
+        "sort_rank" : 10
+    },
+    {
         "type":"GENERIC",
         "id" : "frame",
         "name" : "steel frame",
@@ -13,6 +19,7 @@
         "volume" : 60,
         "bashing" : 20,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 55
     },
     {
@@ -28,6 +35,7 @@
         "volume" : 30,
         "bashing" : 4,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 250
     },
     {
@@ -43,6 +51,7 @@
         "volume" : 5,
         "bashing" : 2,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 25
     },
     {
@@ -59,6 +68,7 @@
         "volume" : 14,
         "bashing" : 19,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 30
     },
     {
@@ -74,6 +84,7 @@
         "volume" : 12,
         "bashing" : 2,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 400
     },
     {
@@ -89,6 +100,7 @@
         "volume" : 6,
         "bashing" : 4,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 120
     },
     {
@@ -104,6 +116,7 @@
         "volume" : 15,
         "bashing" : 9,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 220
     },
     {
@@ -119,6 +132,7 @@
         "volume" : 12,
         "bashing" : 7,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 900
     },
     {
@@ -134,6 +148,7 @@
         "volume" : 2,
         "bashing" : 10,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 90
     },
     {
@@ -149,6 +164,7 @@
         "volume" : 2,
         "bashing" : 1,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 50
     },
     {
@@ -164,6 +180,7 @@
         "volume" : 3,
         "bashing" : 2,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 20
     },
     {
@@ -179,6 +196,7 @@
         "volume" : 4,
         "bashing" : 3,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 40
     },
     {
@@ -194,6 +212,7 @@
         "volume" : 6,
         "bashing" : 5,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 60
     },
     {
@@ -209,6 +228,7 @@
         "volume" : 8,
         "bashing" : 6,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 80
     },
     {
@@ -224,6 +244,7 @@
         "volume" : 6,
         "bashing" : 7,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 900
     },
     {
@@ -239,6 +260,7 @@
         "volume" : 12,
         "bashing" : 1,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 900
     },
     {
@@ -254,6 +276,7 @@
         "volume" : 26,
         "bashing" : 1,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 900
     },
     {
@@ -269,6 +292,7 @@
         "volume": 20,
         "bashing": 8,
         "cutting": 0,
+        "category" : "veh_parts",
         "price": 600
     },
     {
@@ -284,6 +308,7 @@
         "volume" : 1,
         "bashing" : 1,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 50
     },
     {
@@ -299,6 +324,7 @@
         "volume" : 4,
         "bashing" : 5,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 60
     },
     {
@@ -314,6 +340,7 @@
         "volume" : 12,
         "bashing" : 6,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 120
     },
     {
@@ -329,6 +356,7 @@
         "volume" : 12,
         "bashing" : 6,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 185
     },
     {
@@ -344,6 +372,7 @@
         "volume" : 2,
         "bashing" : -2,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 85
     },
     {
@@ -360,6 +389,7 @@
         "bashing" : 6,
         "cutting" : 3,
         "flags" : ["STAB"],
+        "category" : "veh_parts",
         "price" : 185
     },
     {
@@ -375,6 +405,7 @@
         "volume" : 12,
         "bashing" : 6,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 160
     },
     {
@@ -390,6 +421,7 @@
         "volume" : 80,
         "bashing" : 0,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 400
     },
     {
@@ -405,6 +437,7 @@
         "volume" : 80,
         "bashing" : 0,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 400
     },
     {
@@ -420,6 +453,7 @@
         "volume" : 111,
         "bashing" : 0,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 400
     },
     {
@@ -450,6 +484,7 @@
         "volume": 2,
         "bashing": 1,
         "cutting": 0,
+        "category" : "veh_parts",
         "price": 800
     },
     {
@@ -465,6 +500,7 @@
         "volume": 4,
         "bashing": 1,
         "cutting": 0,
+        "category" : "veh_parts",
         "price": 400
     },
     {
@@ -480,6 +516,7 @@
         "volume": 4,
         "bashing": 1,
         "cutting": 0,
+        "category" : "veh_parts",
         "price": 400
     },
     {
@@ -495,6 +532,7 @@
         "volume": 8,
         "bashing": 5,
         "cutting": 0,
+        "category" : "veh_parts",
         "price": 900
     }
 ]

@@ -80,6 +80,7 @@ void init_ter_bitflags_map() {
     ter_bitflags_map["FLAMMABLE_ASH"]           = TFLAG_FLAMMABLE_ASH;  // oh hey fire. again.
     ter_bitflags_map["PLANT"]                   = TFLAG_PLANT;          // full map iteration
     ter_bitflags_map["EXPLODES"]                = TFLAG_EXPLODES;       // guess who? smokey the bear -warned- you
+    ter_bitflags_map["WALL"]                    = TFLAG_WALL;           // smells
 }
 
 
@@ -197,24 +198,6 @@ void load_furniture(JsonObject &jsobj)
     new_furniture.examine = iexamine_function_from_string("none");
   }
 
-  if (jsobj.has_member("qualities"))
-  {
-	  if (jsobj.has_array("qualities"))
-	  {
-		  JsonArray jarr = jsobj.get_array("qualities");
-
-		  while (jarr.has_more())
-		  {
-			  JsonArray curr = jarr.next_array();
-			  new_furniture.qualities.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
-		  }
-	  }
-	  else
-	  {
-		  debugmsg("Qualities list for furniture %s is not an array.", new_furniture.id.c_str());
-	  }
-  }
-
   new_furniture.open = "";
   if ( jsobj.has_member("open") ) {
       new_furniture.open = jsobj.get_string("open");
@@ -255,23 +238,6 @@ void load_terrain(JsonObject &jsobj)
     new_terrain.trap = tr_null;
   }
 
-  if (jsobj.has_member("qualities"))
-  {
-	  if (jsobj.has_array("qualities"))
-	  {
-		  JsonArray jarr = jsobj.get_array("qualities");
-
-		  while (jarr.has_more())
-		  {
-			  JsonArray curr = jarr.next_array();
-			  new_terrain.qualities.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
-		  }
-	  }
-	  else
-	  {
-		  debugmsg("Qualities list for furniture %s is not an array.", new_terrain.id.c_str());
-	  }
-  }
 
   new_terrain.transparent = false;
   new_terrain.bitflags = 0;

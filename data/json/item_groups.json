@@ -29,7 +29,7 @@
       ["novel_pulp", 16],
       ["fairy_tales", 20],
       ["mag_comic", 20],
-	  ["candycigarette", 10]
+      ["candycigarette", 10]
     ]
     },{
         "type" : "item_group",
@@ -561,6 +561,7 @@
       ["football", 5],
       ["socks", 70],
       ["mocassins", 5],
+      ["boots_western", 4],
       ["bandana", 35],
       ["glasses_eye", 90],
       ["contacts", 15],
@@ -1023,7 +1024,7 @@
       ["restaurantmap", 5],
       ["touristmap", 2],
       ["salt", 10],
-	  ["brioche", 50]
+      ["brioche", 50]
     ]
     },{
         "type" : "item_group",
@@ -1818,8 +1819,8 @@
       ["ceramic_armor", 1],
       ["leather", 1],
       ["software_hacking", 10],
-	  ["decoy_elfa", 10],
-	  ["recipe_elfa", 1],
+      ["decoy_elfa", 10],
+      ["recipe_elfa", 1],
       ["jug_plastic", 10],
       ["spray_can", 50],
       ["keg", 10],
@@ -2149,6 +2150,7 @@
       ["heels", 50],
       ["boots_combat", 10],
       ["boots_hiking", 20],
+      ["boots_western", 10],
       ["leathersandals", 10]
     ]
     },{
@@ -2264,6 +2266,7 @@
       ["tophat", 10],
       ["bowhat", 10],
       ["cowboy_hat", 10],
+      ["boots_western", 8],
       ["glasses_monocle", 2],
       ["pants_leather", 60],
       ["pants_cargo", 70],
@@ -2453,6 +2456,7 @@
       ["boots", 70],
       ["boots_steel", 50],
       ["boots_hiking", 20],
+      ["boots_western", 5],
       ["boots_combat", 10]
     ]
     },{
@@ -3073,6 +3077,7 @@
       ["mocassins", 5],
       ["dress_shoes", 50],
       ["heels", 50],
+      ["boots_western", 10],
       ["pants", 75],
       ["pants_army", 30],
       ["jacket_army", 30],
@@ -3477,6 +3482,7 @@
       ["recipe_alpha", 1],
       ["recipe_chimera", 2],
       ["recipe_medicalmut", 2],
+      ["recipe_serum", 4],
       ["water_clean", 90],
       ["salt_water", 20],
       ["bleach", 20],
@@ -3684,6 +3690,8 @@
       ["novel_western", 16],
       ["novel_pulp", 16],
       ["tailor_portfolio", 1],
+      ["recipe_alpha", 1],
+      ["recipe_serum", 4],
       ["recipe_raptor", 1],
       ["laptop", 30],
       ["atomic_light", 3],
@@ -3788,6 +3796,7 @@
       ["bio_scent_mask", 10],
       ["bio_cloak", 10],
       ["bio_fingerhack", 10],
+      ["bio_lockpick", 10],
       ["bio_night", 10],
       ["bio_carbon", 10],
       ["bio_armor_head", 10],
@@ -4142,6 +4151,7 @@
       ["bio_scent_mask", 10],
       ["bio_cloak", 10],
       ["bio_fingerhack", 10],
+      ["bio_lockpick", 10],
       ["bio_night", 10],
       ["bio_nanobots", 10],
       ["bio_blood_anal", 10],
@@ -4537,7 +4547,7 @@
       ["flyer", 10],
       ["child_book", 2],
       ["lsd", 1],
-	  ["recipe_elfa", 2]
+      ["recipe_elfa", 2]
     ]
     },{
         "type" : "item_group",
@@ -5425,7 +5435,8 @@
       ["computer_science", 7],
       ["solar_cell", 5],
       ["SICP", 3],
-	  ["recipe_chimera", 1],
+      ["recipe_serum", 2],
+      ["recipe_chimera", 1],
       ["soldering_iron", 70],
       ["solder_wire", 70],
       ["textbook_weapwest", 2],
@@ -5516,7 +5527,56 @@
     "items":[
      ["kevlar_harness", 1]
 	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_torso",
+    "items":[
+     ["cleansuit", 40],
+	 ["jumpsuit", 60]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_boots",
+    "items":[
+     ["boots_rubber", 1]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_gloves",
+    "items":[
+     ["gloves_medical", 60],
+	 ["gloves_rubber", 40]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_full",
+    "items":[
+	 ["hazmat_suit", 80],
+     ["anbc_suit", 20]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_mask",
+    "items":[
+	 ["mask_dust", 80],
+     ["mask_filter", 20],
+	 ["mask_gas", 10]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "rad_gear",
+    "items":[
+     ["wrapped_rad_badge", 80],
+	 ["geiger_off", 20],
+	 ["iodine", 50]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "hazmat_eyes",
+    "items":[
+	 ["glasses_safety", 50]
+	]
 	}
-    ]
+	]
   }
 ]
