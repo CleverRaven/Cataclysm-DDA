@@ -39,7 +39,8 @@
         "type": "monitems",
         "id": "mon_zombie_cop",
         "item_groups": [
-            [ "cop_weapons", 20 ]
+            [ "cop_weapons", 20 ],
+            [ "cop_gear", 40 ]
         ]
     },
     {
@@ -222,6 +223,13 @@
         "id": "mon_zombie_hazmat",
         "item_groups": [
             [ "rad_gear", 1 ]
+        ]
+    },
+	{
+        "type": "monitems",
+        "id": "mon_zombie_fireman",
+        "item_groups": [
+            [ "fireman_gear", 1 ]
         ]
     },
     {

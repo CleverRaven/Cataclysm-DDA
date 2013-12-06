@@ -209,6 +209,8 @@
       ["dogfood", 10],
       ["catfood", 10],
       ["nic_gum", 2],
+      ["oxygen_tank", 2],
+      ["smoxygen_tank", 1],
       ["leathersandals", 25]
     ]
     },{
@@ -656,6 +658,18 @@
       ["tux", 1],
       ["dress_wedding", 1],
       ["corset", 15],
+      ["firehelmet", 1],
+      ["bunker_coat", 1],
+      ["bunker_pants", 1],
+      ["boots_bunker", 1],
+      ["fireman_belt", 1],
+      ["mask_bunker", 1],
+      ["nomex_suit", 1],
+      ["nomex_hood", 1],
+      ["nomex_gloves", 1],
+      ["nomex_socks", 1],
+      ["oxygen_tank", 3],
+      ["smoxygen_tank", 2],
       ["leathersandals", 25]
     ]
     },{
@@ -1145,6 +1159,8 @@
       ["vaccine_shot", 10],
       ["protein_powder", 15],
       ["caff_gum", 10],
+      ["oxygen_tank", 20],
+      ["smoxygen_tank", 5],
       ["nic_gum", 25]
     ]
     },{
@@ -1339,6 +1355,8 @@
       ["xacto", 10],
       ["flashlight", 40],
       ["crowbar", 18],
+      ["halligan", 1],
+      ["fire_ax", 3],
       ["nailgun", 12],
       ["carver_off", 4],
       ["press", 5],
@@ -2202,6 +2220,7 @@
       ["jacket_leather", 30],
       ["coat_rain", 50],
       ["trenchcoat", 25],
+      ["skinny_tie", 5],
       ["apron_leather", 1]
     ]
     },{
@@ -2342,6 +2361,8 @@
       ["army_top", 20],
       ["tux", 1],
       ["dress_wedding", 1],
+      ["porkpie", 5],
+      ["skinny_tie", 5],
       ["jersey", 40]
     ]
     },{
@@ -2450,6 +2471,7 @@
       ["manual_survival", 3],
       ["manual_swimming", 5],
       ["textbook_speech", 12],
+	    ["textbook_fireman", 10],
       ["textbook_armeast", 3]
     ]
     },{
@@ -2468,6 +2490,7 @@
     "items":[
       ["dress_shirt", 60],
       ["under_armor", 20],
+      ["sheriffshirt", 5],
       ["jacket_light", 50]
     ]
     },{
@@ -2483,40 +2506,122 @@
         "id" : "cop_weapons",
     "items":[
       ["baton", 8],
-      ["kevlar", 30],
-      ["dragonskin", 10],
-      ["modularvest", 20],
-      ["modularveststeel", 6],
-      ["modularvestceramic", 5],
-      ["modularvestkevlar", 15],
-      ["vest", 15],
-      ["gloves_leather", 45],
-      ["gloves_tactical", 10],
-      ["glasses_bal", 10],
-      ["mask_bal", 1],
-      ["mask_gas", 10],
-      ["goggles_nv", 1],
-      ["helmet_riot", 25],
-      ["holster", 8],
-      ["bootstrap", 3],
-      ["armguard_hard", 20],
-      ["legguard_hard", 15],
+      ["remington_870", 15],
       ["shot_00", 8],
-      ["9mm", 8],
-      ["usp_9mm", 6],
+      ["45_acp", 8],
+      ["usp_9mm", 10],
+      ["rm120c", 3],
       ["remington_870", 9],
-      ["UPS_off", 5],
-      ["tazer", 3],
+      ["mossberg_500", 5],
+      ["rm20", 1],
       ["shot_beanbag", 15],
       ["20x66_beanbag", 10],
-      ["tac_helmet", 15],
-      ["tac_fullhelmet", 7],
+      ["20x66_flare", 5],
+      ["20x66_shot", 5],
       ["tonfa", 30],
       ["tonfa_wood", 10],
-      ["shocktonfa_off", 15],
-      ["swat_armor", 10]
+      ["usp_45", 6],
+      ["m1911", 5],
+      ["rm99_pistol", 1],
+      ["rm103a_pistol", 2],
+      ["8mm_fmj", 5],
+      ["8mm_caseless", 6],
+      ["40mm_teargas", 10],
+      ["40mm_smoke", 5],
+      ["40mm_flare", 4],
+      ["40mm_flashbang", 8],
+      ["40mm_beanbag", 6],
+      ["m320", 3],
+      ["mgl", 1],
+      ["rm802", 2],
+      ["m203", 2],
+      ["m4a1", 4],
+      ["rm121aux", 1],
+      ["hk_mp5", 10],
+      ["9mm", 12],
+      ["rm51_assault_rifle", 1],
+      ["rm2000_smg", 2],
+      ["shocktonfa_off", 15]
     ]
     },{
+       "type" : "item_group",
+       "id" : "cop_gear",
+    "items":[
+	   ["sm_extinguisher", 5],
+     ["kevlar", 20],
+     ["dragonskin", 3],
+     ["modularvest", 8],
+     ["modularveststeel", 3],
+     ["modularvestceramic", 2],
+     ["modularvestkevlar", 5],
+     ["cowboy_hat", 5],
+     ["picklocks", 5],
+     ["vest", 20],
+     ["cell_phone", 15],
+     ["pda", 5],
+     ["laptop", 2],
+     ["badge_deputy", 5],
+     ["gloves_leather", 45],
+     ["gloves_tactical", 10],
+     ["tac_helmet", 15],
+     ["tac_fullhelmet", 7],
+     ["glasses_bal", 10],
+     ["gloves_medical", 10],
+     ["sunglasses", 10],
+     ["glasses_safety", 5],
+     ["wristwatch", 10],
+     ["gold_watch", 2],
+     ["sf_watch", 1],
+     ["mask_bal", 1],
+     ["mask_gas", 15],
+     ["goggles_nv", 2],
+     ["helmet_riot", 25],
+     ["holster", 8],
+     ["bootstrap", 3],
+     ["armguard_hard", 20],
+     ["legguard_hard", 15],
+	   ["1st_aid", 20],
+	   ["bandages", 20],
+	   ["crowbar", 10],
+	   ["hammer_sledge", 5],
+	   ["airhorn", 15],
+	   ["boltcutters", 10],
+	   ["chestrig", 10],
+	   ["backpack", 10],
+	   ["rope_30", 10],
+	   ["rx12_injector", 1],
+	   ["ampoule", 5],
+	   ["flaregun", 5],
+	   ["signal_flare", 5],
+	   ["handflare", 20],
+	   ["flashlight", 30],
+	   ["glowstick", 10],
+	   ["two_way_radio", 40],
+	   ["emergency_book", 1],
+	   ["textbook_firstaid", 1],
+	   ["manual_first_aid", 1],
+	   ["pocket_firstaid", 5],
+     ["pocketwatch", 1],
+     ["gum", 5],
+	   ["chaw", 5],
+     ["ref_lighter", 1],
+     ["knee_pads", 10],
+     ["elbow_pads", 10],
+     ["tazer", 15],
+     ["UPS_off", 5],
+     ["legrig", 5],
+     ["swat_armor", 20],
+     ["gasbomb", 20],
+     ["flashbang", 20],
+     ["emer_blanket", 5],
+     ["battery", 10],
+     ["smokebomb", 10],
+     ["oxygen_tank", 5],
+     ["jack", 2],
+     ["smoxygen_tank", 10]
+
+	]
+	},{
         "type" : "item_group",
         "id" : "cop_evidence",
     "items":[
@@ -2656,6 +2761,8 @@
       ["oxy_powder", 2],
       ["hazmat_suit", 5],
       ["fungicide", 10],
+      ["oxygen_tank", 40],
+      ["smoxygen_tank", 10],
       ["jar_3l_glass", 15]
     ]
     },{
@@ -2686,6 +2793,8 @@
       ["medical_tape", 45],
       ["jar_glass", 20],
       ["jar_3l_glass", 15],
+      ["oxygen_tank", 50],
+      ["smoxygen_tank", 25],
       ["quikclot", 10]
     ]
     },{
@@ -3157,7 +3266,16 @@
       ["lawn_dart", 10],
       ["dehydrator", 15],
       ["pickelhaube", 50],
-      ["makeshift_machete", 0],
+      ["firehelmet", 10],
+      ["bunker_coat", 5],
+      ["bunker_pants", 5],
+      ["boots_bunker", 5],
+      ["mask_bunker", 3],
+      ["fireman_belt", 3],
+      ["nomex_suit", 1],
+      ["nomex_hood", 1],
+      ["nomex_gloves", 1],
+      ["nomex_socks", 1],
       ["picklocks", 10],
       ["rucksack", 20],
       ["puller", 5],
@@ -3205,6 +3323,8 @@
       ["signal_flare", 15],
       ["rm120c", 5],
       ["knee_pads", 10],
+      ["oxygen_tank", 10],
+      ["smoxygen_tank", 5],
       ["leathersandals", 10]
     ]
     },{
@@ -4124,6 +4244,8 @@
       ["fungicide", 5],
       ["rx12_injector", 8],
       ["ampoule", 12],
+      ["oxygen_tank", 10],
+      ["smoxygen_tank", 20],
       ["quikclot", 10]
     ]
     },{
@@ -4308,6 +4430,8 @@
       ["extinguisher", 20],
       ["flashlight", 40],
       ["crowbar", 18],
+      ["halligan", 3],
+      ["fire_ax", 5],
       ["chainsaw_off", 7],
       ["beartrap", 5],
       ["grenade", 3],
@@ -4551,6 +4675,8 @@
       ["cell_phone", 30],
       ["rag", 1],
       ["crowbar", 18],
+      ["halligan", 1],
+      ["fire_ax", 2],
       ["spray_can", 50],
       ["jar_glass", 10],
       ["jar_3l_glass", 8],
@@ -4683,6 +4809,8 @@
       ["child_book", 20],
       ["e_tool", 10],
       ["survivormap", 5],
+      ["halligan", 10],
+      ["fire_ax", 5],
       ["pur_tablets", 10]
     ]
     },{
@@ -5115,6 +5243,8 @@
       ["rx12_injector", 5],
       ["ampoule", 10],
       ["optical_cloak", 1],
+      ["halligan", 10],
+      ["fire_ax", 5],
       ["bot_laserturret", 1]
     ]
     },{
@@ -5561,6 +5691,117 @@
 	]
 	},{
        "type" : "item_group",
+       "id" : "fireman_torso",
+    "items":[
+	   ["bunker_coat", 80],
+	   ["vest", 30]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "fireman_pants",
+    "items":[
+	   ["bunker_pants", 80],
+	   ["nomex_suit", 40],
+	   ["pants_cargo", 10]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "fireman_boots",
+    "items":[
+     ["boots_bunker", 70],
+	   ["boots_steel", 20],
+	   ["boots_combat", 5],
+	   ["boots_rubber", 10],
+     ["boots_hiking", 5],
+	   ["nomex_socks", 40]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "fireman_gloves",
+    "items":[
+     ["fire_gauntlets", 60],
+     ["gloves_medical", 5],
+	   ["gloves_tactical", 20],
+	   ["gloves_rubber", 10],
+	   ["nomex_gloves", 30]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "fireman_head",
+    "items":[
+	   ["firehelmet", 60],
+     ["hat_knit", 10],
+     ["nomex_hood", 40],
+     ["hat_hard", 5],
+     ["hat_noise_cancelling", 5]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "fireman_mask",
+    "items":[
+     ["mask_bunker", 70],
+     ["mask_dust", 30],
+	   ["mask_gas", 20],
+	   ["mask_filter", 10],
+     ["goggles_nv", 1]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "fireman_gear",
+    "items":[
+     ["extinguisher", 10],
+	   ["sm_extinguisher", 20],
+	   ["fire_ax", 60],
+	   ["halligan", 50],
+	   ["1st_aid", 10],
+	   ["bandages", 5],
+	   ["crowbar", 15],
+	   ["entry_suit", 10],
+	   ["hammer_sledge", 15],
+	   ["shovel", 20],
+     ["cell_phone", 10],
+	   ["airhorn", 5],
+	   ["boltcutters", 5],
+	   ["chestrig", 10],
+	   ["chainsaw_off", 1],
+	   ["backpack", 15],
+	   ["rope_30", 10],
+	   ["rx12_injector", 1],
+	   ["ampoule", 5],
+	   ["flaregun", 5],
+	   ["signal_flare", 5],
+	   ["flamethrower", 1],
+	   ["handflare", 20],
+	   ["flashlight", 30],
+	   ["glowstick", 10],
+	   ["two_way_radio", 20],
+	   ["emergency_book", 1],
+	   ["textbook_firstaid", 5],
+	   ["manual_first_aid", 5],
+	   ["pocket_firstaid", 10],
+     ["pocketwatch", 5],
+     ["wristwatch", 10],
+     ["cigar", 5],
+	   ["chaw", 1],
+     ["ref_lighter", 1],
+	   ["flask_hip", 1],
+	   ["textbook_fireman", 10],
+     ["knee_pads", 5],
+     ["elbow_pads", 5],
+     ["legrig", 5],
+     ["UPS_off", 5],
+     ["adv_UPS_off", 2],
+     ["emer_blanket", 5],
+     ["battery", 10],
+     ["tool_belt", 5],
+     ["oxygen_tank", 15],
+     ["fireman_belt", 15],
+     ["jack", 5],
+     ["smoxygen_tank", 35]
+
+	]
+	},{
+       "type" : "item_group",
        "id" : "hazmat_torso",
     "items":[
      ["cleansuit", 40],
@@ -5600,6 +5841,9 @@
     "items":[
      ["wrapped_rad_badge", 80],
 	 ["geiger_off", 20],
+   ["oxygen_tank", 10],
+   ["smoxygen_tank", 15],
+   ["adv_UPS_off", 2],
 	 ["iodine", 50]
 	]
 	},{

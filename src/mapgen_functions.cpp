@@ -4485,7 +4485,7 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int turn, float
 
         m->place_items("kitchen",      40,  6,  8,  9, 11,    false, 0);
         m->place_items("cop_weapons",  70, 20,  8, 22,  8,    false, 0);
-        m->place_items("cop_weapons",  70, 20,  8, 20, 11,    false, 0);
+        m->place_items("cop_gear",  70, 20,  8, 20, 11,    false, 0);
         m->place_items("cop_evidence", 60,  1, 15,  4, 15,    false, 0);
 
         for (int i = 0; i <= 23; i++) {

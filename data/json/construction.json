@@ -67,6 +67,7 @@
         "tools" : [
             [
                 "ax",
+                "fire_ax",
                 "primitive_axe",
                 "battleaxe",
                 "chainsaw_on",
@@ -84,6 +85,7 @@
         "tools" : [
             [
                 "ax",
+                "fire_ax",
                 "primitive_axe",
                 "battleaxe",
                 "chainsaw_on",
@@ -99,7 +101,7 @@
         "difficulty" : 0,
         "time" : 23,
         "tools" : [
-            [ "ax", "primitive_axe", "chainsaw_on", "saw", "battleaxe" ]
+            [ "ax", "fire_ax", "primitive_axe", "chainsaw_on", "saw", "battleaxe" ]
         ],
         "pre_terrain" : "t_trunk",
         "post_terrain" : "t_dirt",

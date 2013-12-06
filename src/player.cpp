@@ -6821,17 +6821,17 @@ hint_rating player::rate_action_wear(item *it)
   return HINT_IFFY;
  }
  if (armor->covers & mfb(bp_head) && !it->made_of("wool") &&
-     !it->made_of("cotton") && !it->made_of("leather") &&
-     (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") ||
-      has_trait("ANTLERS"))) {
+     !it->made_of("cotton") && !it->made_of("leather") 
+     && !it->made_of("nomex") && (has_trait("HORNS_POINTED") || 
+     has_trait("ANTENNAE") || has_trait("ANTLERS"))) {
   return HINT_IFFY;
  }
  // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
- if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(it->made_of("wool") || it->made_of("cotton"))) {
+ if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(it->made_of("wool") || it->made_of("cotton") || it->made_of("nomex"))) {
   for (int i = 0; i < worn.size(); i++) {
    item *worn_item = &worn[i];
    it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
-   if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of("wool") || worn_item->made_of("cotton"))) {
+   if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of("wool") || worn_item->made_of("cotton") || worn_item->made_of("nomex"))) {
     return HINT_IFFY;
    }
   }
@@ -7104,7 +7104,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_head) && !to_wear->made_of("wool") && !to_wear->made_of("cotton") && !to_wear->made_of("leather") && (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS")))
+        if (armor->covers & mfb(bp_head) && !to_wear->made_of("wool") && !to_wear->made_of("cotton") && !to_wear->made_of("nomex") && !to_wear->made_of("leather") && (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS")))
         {
             if(interactive)
             {
@@ -7113,10 +7113,8 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-
-        if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet)
-          && ((to_wear->made_of("leather") || to_wear->made_of("plastic") || to_wear->made_of("steel") ||
-                to_wear->made_of("kevlar") || to_wear->made_of("chitin")))){
+        if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(to_wear->made_of("wool") || to_wear->made_of("cotton") || to_wear->made_of("nomex")))
+        {
             if (is_wearing_shoes()){// Checks to see if the player is wearing leather/plastic etc shoes
                 if(interactive){
                     g->add_msg(_("You're already wearing footwear!"));
@@ -8850,9 +8848,9 @@ bool player::is_wearing_shoes() {
         it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
 
         if (worn_armor->covers & mfb(bp_feet) &&
-            (worn_item->made_of("leather") || worn_item->made_of("plastic") ||
-             worn_item->made_of("steel") || worn_item->made_of("kevlar") ||
-             worn_item->made_of("chitin"))) {
+            !(worn_item->made_of("wool") ||
+              worn_item->made_of("cotton") ||
+              worn_item->made_of("nomex"))) {
             return true;
         }
     }

@@ -13158,6 +13158,136 @@
   ]
 },{
         "type" : "recipe",
+  "result": "nomex_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_fireman", 6 ]],
+  "tools": [
+    [
+      [ "needle_bone", 40 ],
+      [ "sewing_kit", 40 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "nomex", 18 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "nomex_hood",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_fireman", 6 ]],
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "nomex", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "nomex_gloves",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_fireman", 6 ]],
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "nomex", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "nomex_socks",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_fireman", 6 ]],
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "nomex", 9 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "entry_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "skills_required" : ["tailor", 6],
+  "difficulty": 6,
+  "time": 160000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_fireman", 8 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+     [
+      [ "welder", 28 ],
+      [ "soldering_iron", 28 ],
+      [ "toolset", 2 ]
+     ],
+     [
+      [ "needle_bone", 200 ],
+      [ "sewing_kit", 200 ]
+    ]
+  ],
+  "components": [
+     [
+     [ "nomex", 40 ]
+     ],
+     [
+      [ "kevlar_plate", 8 ]
+     ],
+     [
+      [ "mask_bunker", 1 ]
+     ],
+     [
+      [ "duct_tape", 200 ],
+      [ "superglue", 5 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 24 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
   "result": "gloves_fingerless",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -13524,7 +13654,8 @@
   "components": [
       [
       [ "mask_filter", 2 ],
-      [ "mask_gas", 1 ]
+      [ "mask_gas", 1 ],
+      [ "mask_bunker", 1 ]
       ],
       [
       [ "glasses_safety", 2 ],
@@ -19495,6 +19626,41 @@
     ]
 },{
         "type" : "recipe",
+  "result": "halligan",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 8,
+  "time": 420000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_fireman", 8 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 400], ["char_forge", 80]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 9 ],
+     [ "scrap", 27 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "hacksaw",
   "category": "CC_MISC",
   "skill_used": "fabrication",
@@ -19716,6 +19882,45 @@
     [
      [ "2x4", 3 ],
      [ "stick", 6 ]
+    ]
+   ]
+},{
+        "type" : "recipe",
+  "result": "fire_ax",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 9,
+  "time": 420000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_fireman", 9 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 450], ["char_forge", 90]
+     ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 4 ],
+     [ "steel_chunk", 12 ],
+     [ "scrap", 36 ]
+    ],
+    [
+     [ "2x4", 2 ],
+     [ "stick", 4 ]
     ]
    ]
 },{
@@ -20778,6 +20983,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
      ]
@@ -20830,6 +21036,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
      ]
@@ -20887,6 +21094,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
      ]
@@ -20942,6 +21150,62 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 24 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fsurvivor_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 8,
+  "time": 320000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+     [
+      [ "welder", 28 ],
+      [ "soldering_iron", 28 ],
+      [ "toolset", 2 ]
+     ],
+     [
+      [ "needle_bone", 200 ],
+      [ "sewing_kit", 200 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 4 ]
+     ],
+     [
+     [ "nomex_suit", 1 ],
+     [ "entry_suit", 1 ],
+     [ "nomex", 20 ]
+     ],
+     [
+      [ "coat_rain", 1 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 6 ],
+      [ "leather_pouch", 4 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 200 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
      ]
@@ -21001,6 +21265,8 @@
       [ "helmet_skid", 1 ],
       [ "helmet_bike", 1 ],
       [ "hat_hard", 1 ],
+      [ "firehelmet", 1 ],
+      [ "pickelhaube", 1 ],
       [ "plastic_chunk", 8 ]
      ]
   ]
@@ -21095,6 +21361,7 @@
       [ "boots_combat", 1 ],
       [ "boots_steel", 1 ],
       [ "boots_hiking", 1 ],
+      [ "boots_bunker", 1 ],
       [ "boots", 1 ]
      ]
   ]
