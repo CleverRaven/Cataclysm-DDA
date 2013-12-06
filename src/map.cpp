@@ -2586,30 +2586,31 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
 	 if (!matches_flag)
 	 {
 		// If the tile doesn't have the extended flag, then we shouldn't allow crafting beyond `range`.
-		if (x < (origin.x - range) || x >(origin.x + range) ||
-			y < (origin.y - range) || y >(origin.y + range))
+		if (x < (origin.x - range) || x > (origin.x + range) ||
+			y < (origin.y - range) || y > (origin.y + range))
 		{
 			continue;
 		}
 	 }
 	 else if (extended_flag == "CRAFT_DISTANCE")
 	 {
-		int craft_distance = 0, furn_distance = 0, ter_distance = 0;
+		 int craft_distance = 0;
 
-		if (g->m.has_furn(x, y))
-		{
-			furn_t furn_here = g->m.furn_at(x, y);
-			furn_distance = furn_here.has_quality("CRAFT_DISTANCE") ? furn_here.level_of_quality("CRAFT_DISTANCE") : 0;
-		}
-
-		ter_t ter_here = g->m.ter_at(x, y);
-		ter_distance = ter_here.has_quality("CRAFT_DISTANCE") ? ter_here.level_of_quality("CRAFT_DISTANCE") : 0;
-
-		craft_distance = furn_distance > ter_distance ? furn_distance : ter_distance;
+		 // Furniture always trumps terrain in regards to crafting distance.
+		 if (g->m.has_furn(x, y))
+		 {
+			 furn_t furn_here = g->m.furn_at(x, y);
+			 craft_distance = furn_here.has_quality("CRAFT_DISTANCE") ? furn_here.level_of_quality("CRAFT_DISTANCE") : PICKUP_RANGE;
+		 }
+		 else
+		 {
+			 ter_t ter_here = g->m.ter_at(x, y);
+			 craft_distance = ter_here.has_quality("CRAFT_DISTANCE") ? ter_here.level_of_quality("CRAFT_DISTANCE") : PICKUP_RANGE;
+		 }
 
 		// Skip if neither the furniture nor terrain at this point affects crafting at this distance.
-		if (x < (origin.x - craft_distance) || x >(origin.x + craft_distance) ||
-			y < (origin.y - craft_distance) || y >(origin.y + craft_distance))
+		if (x < (origin.x - craft_distance) || x > (origin.x + craft_distance) ||
+			y < (origin.y - craft_distance) || y > (origin.y + craft_distance))
 		{
 			continue;
 		}
@@ -2662,26 +2663,27 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
 	  if (!matches_flag)
 	  {
 		  // If the tile doesn't have the extended flag, then we shouldn't allow crafting beyond `range`.
-		  if (x < (origin.x - range) || x >(origin.x + range) ||
-			  y < (origin.y - range) || y >(origin.y + range))
+		  if (x < (origin.x - range) || x > (origin.x + range) ||
+			  y < (origin.y - range) || y > (origin.y + range))
 		  {
 			  continue;
 		  }
 	  }
 	  else if (extended_flag == "CRAFT_DISTANCE")
 	  {
-		  int craft_distance = 0, furn_distance = 0, ter_distance = 0;
+		  int craft_distance = 0;
 
+		  // Furniture always trumps terrain in regards to crafting distance.
 		  if (g->m.has_furn(x, y))
 		  {
 			  furn_t furn_here = g->m.furn_at(x, y);
-			  furn_distance = furn_here.has_quality("CRAFT_DISTANCE") ? furn_here.level_of_quality("CRAFT_DISTANCE") : 0;
+			  craft_distance = furn_here.has_quality("CRAFT_DISTANCE") ? furn_here.level_of_quality("CRAFT_DISTANCE") : PICKUP_RANGE;
 		  }
-
-		  ter_t ter_here = g->m.ter_at(x, y);
-		  ter_distance = ter_here.has_quality("CRAFT_DISTANCE") ? ter_here.level_of_quality("CRAFT_DISTANCE") : 0;
-
-		  craft_distance = furn_distance > ter_distance ? furn_distance : ter_distance;
+		  else
+		  {
+			  ter_t ter_here = g->m.ter_at(x, y);
+			  craft_distance = ter_here.has_quality("CRAFT_DISTANCE") ? ter_here.level_of_quality("CRAFT_DISTANCE") : PICKUP_RANGE;
+		  }
 
 		  // Skip if neither the furniture nor terrain at this point affects crafting at this distance.
 		  if (x < (origin.x - craft_distance) || x > (origin.x + craft_distance) ||

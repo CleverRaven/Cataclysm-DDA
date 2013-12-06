@@ -1376,9 +1376,19 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
 
 void game::consume_tools(player *p, std::vector<component> tools, bool force_available)
 {
+ // Get the max crafting distance we'll allow for furniture or terrain.
+ std::map<std::string, furn_t>::const_iterator default_values = furnmap.find("f_defaults");
+ int max_craft_dist = default_values->second.level_of_quality("MAX_CRAFT_DISTANCE");
+
  bool found_nocharge = false;
+
+ inventory extended_map_inv;
+ extended_map_inv.form_from_map(this, point(p->posx, p->posy), max_craft_dist, false, "CRAFT_DISTANCE", true);
+
  inventory map_inv;
- map_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE);
+ map_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE, false, "CRAFT_DISTANCE", false);
+ map_inv += extended_map_inv;
+
  std::vector<component> player_has;
  std::vector<component> map_has;
 // Use charges of any tools that require charges used
@@ -1404,7 +1414,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
      if(map_has.empty()){
          p->use_charges(player_has[0].type, player_has[0].count);
      } else {
-         m.use_charges(p->pos(), PICKUP_RANGE, map_has[0].type, map_has[0].count);
+         m.use_charges(p->pos(), PICKUP_RANGE, map_has[0].type, map_has[0].count, "CRAFT_DISTANCE", max_craft_dist);
      }
  } else { // Variety of options, list them and pick one
 // Populate the list
@@ -1423,7 +1433,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
   int selection = menu_vec(false, _("Use which tool?"), options) - 1;
   if (selection < map_has.size())
    m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
-                    map_has[selection].type, map_has[selection].count);
+                    map_has[selection].type, map_has[selection].count, "CRAFT_DISTANCE", max_craft_dist);
   else {
    selection -= map_has.size();
    p->use_charges(player_has[selection].type, player_has[selection].count);
