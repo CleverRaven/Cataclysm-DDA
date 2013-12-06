@@ -259,9 +259,9 @@ public:
     item item_from_part( int part );
 
 // translate item health to part health
-    void get_part_properties_from_item (game* g, int partnum, item& i);
+    void get_part_properties_from_item (int partnum, item& i);
 // translate part health to item health (very lossy.)
-    void give_part_properties_to_item (game* g, int partnum, item& i);
+    void give_part_properties_to_item (int partnum, item& i);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
     const std::vector<int> parts_at_relative (const int dx, const int dy, bool use_cache = true);
@@ -439,7 +439,7 @@ public:
 // Generates starting items in the car, should only be called when placed on the map
     void place_spawn_items();
 
-    void gain_moves (int mp);
+    void gain_moves();
 
 // reduces velocity to 0
     void stop ();

@@ -817,6 +817,7 @@ void veh_interact::do_drain(task_reason reason)
  */
 void veh_interact::do_rename(task_reason reason)
 {
+    (void)reason; // unused
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
     if(name.length() > 0) {
         (veh->name = name);
@@ -1528,7 +1529,7 @@ void complete_vehicle (game *g)
         }
         used_item = consume_vpart_item (g, part_id);
         batterycharges = used_item.charges;
-        veh->get_part_properties_from_item(g, partnum, used_item); //transfer damage, etc.
+        veh->get_part_properties_from_item(partnum, used_item); //transfer damage, etc.
         tools.push_back(component("welder", welder_charges));
         tools.push_back(component("welder_crude", welder_crude_charges));
         tools.push_back(component("duct_tape", DUCT_TAPE_USED));
@@ -1680,7 +1681,7 @@ void complete_vehicle (game *g)
                 debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
             }
             used_item = consume_vpart_item( g, part_id );
-            veh->get_part_properties_from_item( g, partnum, used_item ); //transfer damage, etc.
+            veh->get_part_properties_from_item( partnum, used_item ); //transfer damage, etc.
             // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
             if ( !broken ) {
                 g->m.add_item_or_charges( g->u.posx, g->u.posy, removed_wheel );

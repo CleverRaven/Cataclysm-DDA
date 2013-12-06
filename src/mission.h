@@ -190,7 +190,7 @@ public:
 
     std::string name();
     std::string save_info();
-    void load_info(game *g, std::ifstream &info);
+    void load_info(std::ifstream &info);
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const;
     using JsonDeserializer::deserialize;

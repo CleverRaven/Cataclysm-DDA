@@ -554,7 +554,7 @@ void computer::activate_function(game *g, computer_action action)
     case COMPACT_MISS_LAUNCH:
     {
         // Target Acquisition.
-        point target = g->cur_om->draw_overmap(g, 0);
+        point target = g->cur_om->draw_overmap(0);
         if (target.x == -1)
         {
             g->add_msg(_("Target acquisition canceled"));

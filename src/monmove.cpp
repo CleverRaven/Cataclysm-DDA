@@ -548,7 +548,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     std::string your = (is_npc ? p.name + "'s" : "your");
     std::string Your = (is_npc ? p.name + "'s" : "Your");
     body_part bphit;
-    int dam = hit(g, p, bphit), cut = type->melee_cut, stab = 0;
+    int dam = hit(p, bphit), cut = type->melee_cut, stab = 0;
     int side = random_side(bphit);
 
     //110*e^(-.3*[melee skill of monster]) = % chance to miss. *100 to track .01%'s

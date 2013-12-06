@@ -175,7 +175,7 @@ class monster : public JsonSerializer, public JsonDeserializer
     void process_triggers(game *g); // Process things that anger/scare us
     void process_trigger(monster_trigger trig, int amount); // Single trigger
     int trigger_sum(game *g, std::set<monster_trigger> *triggers);
-    int  hit(game *g, player &p, body_part &bp_hit); // Returns a damage
+    int  hit(player &p, body_part &bp_hit); // Returns a damage
     void hit_monster(game *g, int i);
     // Deals this dam damage; returns true if we dead
     // If real_dam is provided, caps overkill at real_dam.

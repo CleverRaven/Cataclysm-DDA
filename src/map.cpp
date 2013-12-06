@@ -415,7 +415,7 @@ void map::vehmove(game *g)
         VehicleList vehs = g->m.get_vehicles();
         for(int v = 0; v < vehs.size(); ++v) {
             vehicle* veh = vehs[v].v;
-            veh->gain_moves (abs (veh->velocity));
+            veh->gain_moves();
             veh->power_parts();
             veh->idle();
         }
@@ -3847,7 +3847,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
   }
 
   if ( shiftx != 0 || shifty != 0 ) {
-       this_om = &overmap_buffer.get(g, om->pos().x + shiftx, om->pos().y + shifty);
+       this_om = &overmap_buffer.get(om->pos().x + shiftx, om->pos().y + shifty);
   }
 
   tmp_map.generate(g, this_om, newmapx, newmapy, worldz, int(g->turn));
@@ -4240,6 +4240,7 @@ tinymap::~tinymap()
 }
 ////////////////////
 ter_id find_ter_id(const std::string id, bool complain=true) {
+    (void)complain; //FIXME: complain unused
     if( termap.find(id) == termap.end() ) {
          debugmsg("Can't find termap[%s]",id.c_str());
          return 0;
@@ -4248,6 +4249,7 @@ ter_id find_ter_id(const std::string id, bool complain=true) {
 };
 
 ter_id find_furn_id(const std::string id, bool complain=true) {
+    (void)complain; //FIXME: complain unused
     if( furnmap.find(id) == furnmap.end() ) {
          debugmsg("Can't find furnmap[%s]",id.c_str());
          return 0;

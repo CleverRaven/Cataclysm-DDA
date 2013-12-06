@@ -23,7 +23,7 @@ bool tutorial_game::init(game *g)
  g->temperature = 65;
 // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
 // middle of the "real" game world
- g->u.normalize(g);
+ g->u.normalize();
  g->u.str_cur = g->u.str_max;
  g->u.per_cur = g->u.per_max;
  g->u.int_cur = g->u.int_max;
@@ -32,7 +32,7 @@ bool tutorial_game::init(game *g)
  g->u.name = _("John Smith");
  g->levx = 100;
  g->levy = 100;
- g->cur_om = &overmap_buffer.get(g, 0, 0);
+ g->cur_om = &overmap_buffer.get(0, 0);
  g->cur_om->make_tutorial();
  g->cur_om->save();
  g->u.toggle_trait("QUICK");
@@ -113,7 +113,7 @@ void tutorial_game::per_turn(game *g)
   add_message(g, LESSON_PICKUP);
 }
 
-void tutorial_game::pre_action(game *g, action_id &act)
+void tutorial_game::pre_action(game *, action_id &)
 {
 }
 

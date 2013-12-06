@@ -836,10 +836,10 @@ void iexamine::shrub_marloss(game *g, player *p, map *m, int examx, int examy) {
   pick_plant(g, p, m, examx, examy, "marloss_berry", t_shrub_fungal);
 }
 
-void iexamine::shrub_wildveggies(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::shrub_wildveggies(game*, player *p, map *m, int examx, int examy) {
  if(!query_yn(_("Pick %s?"),m->tername(examx, examy).c_str())) return;
 
- p->assign_activity(g, ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
+ p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
  p->activity.placement = point(examx, examy);
  p->moves = 0;
 }

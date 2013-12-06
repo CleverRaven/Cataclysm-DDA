@@ -401,7 +401,7 @@ void game::start_game(std::string worldname)
 // Init some factions.
  if (!load_master(worldname)) // Master data record contains factions.
   create_factions();
- cur_om = &overmap_buffer.get(this, 0, 0); // We start in the (0,0,0) overmap.
+ cur_om = &overmap_buffer.get(0, 0); // We start in the (0,0,0) overmap.
 
 // Find a random house on the map, and set us there.
  cur_om->first_house(levx, levy);
@@ -515,7 +515,7 @@ void game::create_starting_npcs()
         return; //Do not generate a starting npc.
     }
  npc * tmp = new npc();
- tmp->normalize(this);
+ tmp->normalize();
  tmp->randomize(this, (one_in(2) ? NC_DOCTOR : NC_NONE));
  tmp->spawn_at(cur_om, levx, levy, levz); //spawn the npc in the overmap.
  tmp->place_near(this, SEEX * int(MAPSIZE / 2) + SEEX, SEEY * int(MAPSIZE / 2) + 6);
@@ -1320,8 +1320,8 @@ void game::update_weather()
             cancel_activity_query(_("The weather changed to %s!"), weather_data[weather].name.c_str());
         }
 
-        if (weather != old_weather && u.has_activity(this, ACT_WAIT_WEATHER)) {
-            u.assign_activity(this, ACT_WAIT_WEATHER, 0, 0);
+        if (weather != old_weather && u.has_activity(ACT_WAIT_WEATHER)) {
+            u.assign_activity(ACT_WAIT_WEATHER, 0, 0);
         }
     }
 }
@@ -2359,7 +2359,7 @@ bool game::handle_action()
    break;
 
   case ACTION_PICK_STYLE:
-   u.pick_style(this);
+   u.pick_style();
    refresh_all();
    break;
 
@@ -2401,7 +2401,7 @@ bool game::handle_action()
    break;
 
   case ACTION_SORT_ARMOR:
-    u.sort_armor(this);
+    u.sort_armor();
     refresh_all();
     break;
 
@@ -2585,7 +2585,7 @@ bool game::handle_action()
    break;
 
   case ACTION_MORALE:
-   u.disp_morale(this);
+   u.disp_morale();
    refresh_all();
    break;
 
@@ -3360,7 +3360,7 @@ void game::debug()
    break;
 
   case 3: {
-        point tmp = cur_om->draw_overmap(this, levz);
+        point tmp = cur_om->draw_overmap(levz);
         if (tmp.x != -1)
         {
             //First offload the active npcs.
@@ -3404,7 +3404,7 @@ void game::debug()
 
   case 5: {
    npc * temp = new npc();
-   temp->normalize(this);
+   temp->normalize();
    temp->randomize(this);
    //temp.attitude = NPCATT_TALK; //not needed
    temp->spawn_at(cur_om, levx, levy, levz);
@@ -3677,7 +3677,7 @@ void game::groupdebug()
 
 void game::draw_overmap()
 {
- cur_om->draw_overmap(this, levz);
+    cur_om->draw_overmap(levz);
 }
 
 void game::disp_kills()
@@ -6786,6 +6786,7 @@ void game::handbrake ()
 
 void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 {
+    (void)examx; (void)examy; // not currently used
     veh_interact vehint;
     vehint.ddx = cx;
     vehint.ddy = cy;
@@ -8966,7 +8967,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
                 } else if (fuel_amnt == fuel_cap) {
                     add_msg (_("Already full."));
                 } else if (from_ground && query_yn(_("Pump until full?"))) {
-                    u.assign_activity(this, ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
+                    u.assign_activity(ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
                     u.activity.placement = point(vx, vy);
                 } else { // Not pump
                     veh->refill ("gasoline", liquid.charges);
@@ -9810,7 +9811,7 @@ void game::butcher()
  time_to_cut += factor * 5; // Penalty for poor tool
  if (time_to_cut < 250)
   time_to_cut = 250;
- u.assign_activity(this, ACT_BUTCHER, time_to_cut, corpses[butcher_corpse_index]);
+ u.assign_activity(ACT_BUTCHER, time_to_cut, corpses[butcher_corpse_index]);
  u.moves = 0;
 }
 
@@ -10131,7 +10132,7 @@ void game::reload(char chInput)
 
      // and finally reload.
      const char chStr[2]={chInput, '\0'};
-     u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, am_invlet, chStr);
+     u.assign_activity(ACT_RELOAD, it->reload_time(u), -1, am_invlet, chStr);
      u.moves = 0;
 
  } else if (it->is_tool()) { // tools are simpler
@@ -10154,7 +10155,7 @@ void game::reload(char chInput)
 
     // do the actual reloading
      const char chStr[2]={chInput, '\0'};
-    u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, am_invlet, chStr);
+    u.assign_activity(ACT_RELOAD, it->reload_time(u), -1, am_invlet, chStr);
     u.moves = 0;
 
  } else { // what else is there?
@@ -11754,7 +11755,7 @@ void game::update_map(int &x, int &y) {
  }
  if (olevx != 0 || olevy != 0) {
   cur_om->save();
-  cur_om = &overmap_buffer.get(this, cur_om->pos().x + olevx, cur_om->pos().y + olevy);
+  cur_om = &overmap_buffer.get(cur_om->pos().x + olevx, cur_om->pos().y + olevy);
  }
  set_adjacent_overmaps();
 
@@ -11821,13 +11822,13 @@ void game::set_adjacent_overmaps(bool from_scratch)
   do_d = true;
 
  if(do_h){
-  om_hori = &overmap_buffer.get(this, diag_posx, cur_om->pos().y);
+  om_hori = &overmap_buffer.get(diag_posx, cur_om->pos().y);
  }
  if(do_v){
-  om_vert = &overmap_buffer.get(this, cur_om->pos().x, diag_posy);
+  om_vert = &overmap_buffer.get(cur_om->pos().x, diag_posy);
  }
  if(do_d){
-  om_diag = &overmap_buffer.get(this, diag_posx, diag_posy);
+  om_diag = &overmap_buffer.get(diag_posx, diag_posy);
  }
 }
 
@@ -12096,7 +12097,7 @@ void game::spawn_mon(int shiftx, int shifty)
  // Create a new NPC?
  if (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] && one_in(100 + 15 * cur_om->npcs.size())) {
   npc * tmp = new npc();
-  tmp->normalize(this);
+  tmp->normalize();
   tmp->randomize(this);
   //tmp->stock_missions(this);
   tmp->spawn_at(cur_om, levx, levy, levz);
@@ -12288,7 +12289,7 @@ void game::wait()
             return;
     }
 
-    u.assign_activity(this, actType, time, 0);
+    u.assign_activity(actType, time, 0);
     u.activity.continuous = true;
     u.moves = 0;
 }

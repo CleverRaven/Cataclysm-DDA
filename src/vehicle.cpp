@@ -954,7 +954,8 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
 }
 
 // share damage & bigness betwixt veh_parts & items.
-void vehicle::get_part_properties_from_item(game* g, int partnum, item& i){
+void vehicle::get_part_properties_from_item(int partnum, item& i)
+{
     //transfer bigness if relevant.
     itype_id  pitmid = part_info(partnum).item;
     itype* itemtype = itypes[pitmid];
@@ -968,7 +969,9 @@ void vehicle::get_part_properties_from_item(game* g, int partnum, item& i){
     health /= 5;
     parts[partnum].hp = health;
 }
-void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
+
+void vehicle::give_part_properties_to_item(int partnum, item& i)
+{
     //transfer bigness if relevant.
     itype_id  pitmid = part_info(partnum).item;
     itype* itemtype = itypes[pitmid];
@@ -1070,7 +1073,7 @@ item vehicle::item_from_part( int part )
     item tmp(parttype, g->turn);
 
     //transfer damage, etc.
-    give_part_properties_to_item(g, part, tmp);
+    give_part_properties_to_item(part, tmp);
     if( parttype->is_var_veh_part() ) {
         tmp.bigness = bigness;
     }
@@ -2830,7 +2833,7 @@ void vehicle::place_spawn_items()
     }
 }
 
-void vehicle::gain_moves (int mp)
+void vehicle::gain_moves()
 {
     static const std::string veh_str_battery(fuel_type_battery);
     if (velocity) {

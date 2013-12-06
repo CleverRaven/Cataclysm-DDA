@@ -14,8 +14,8 @@
 #include "monstergenerator.h"
 #include <algorithm>
 
-std::vector<item> starting_clothes(npc_class type, bool male, game *g);
-std::list<item> starting_inv(npc *me, npc_class type, game *g);
+std::vector<item> starting_clothes(npc_class type, bool male);
+std::list<item> starting_inv(npc *me, npc_class type);
 
 npc::npc()
 {
@@ -149,7 +149,7 @@ std::string npc::save_info()
     return serialize(); // also saves contents
 }
 
-void npc::load_info(game *g, std::string data)
+void npc::load_info(std::string data)
 {
     std::stringstream dump;
     dump << data;
@@ -168,7 +168,7 @@ void npc::load_info(game *g, std::string data)
         }
         return;
     } else {
-        load_legacy(g, dump);
+        load_legacy(dump);
     }
 }
 
@@ -360,10 +360,10 @@ void npc::randomize(game *g, npc_class type)
   hp_max[i] = 60 + str_max * 3;
   hp_cur[i] = hp_max[i];
  }
- starting_weapon(g);
- worn = starting_clothes(type, male, g);
+ starting_weapon();
+ worn = starting_clothes(type, male);
  inv.clear();
- inv.add_stack(starting_inv(this, type, g));
+ inv.add_stack(starting_inv(this, type));
  update_worst_item_value();
 }
 
@@ -593,7 +593,7 @@ void npc::randomize_from_faction(game *g, faction *fac)
  }
 }
 
-std::vector<item> starting_clothes(npc_class type, bool male, game *g)
+std::vector<item> starting_clothes(npc_class type, bool male)
 {
  std::vector<item> ret;
  itype_id pants = "null", shoes = "null", shirt = "null",
@@ -774,7 +774,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
  return ret;
 }
 
-std::list<item> starting_inv(npc *me, npc_class type, game *g)
+std::list<item> starting_inv(npc *me, npc_class type)
 {
  int total_space = me->volume_capacity() - 2;
  std::list<item> ret;
@@ -915,7 +915,7 @@ Skill* npc::best_skill()
  return best_skills[index];
 }
 
-void npc::starting_weapon(game *g)
+void npc::starting_weapon()
 {
     // TODO add throwing weapons
 
@@ -1014,7 +1014,9 @@ bool npc::wear_if_wanted(item it)
  return false;
 }
 //to placate clang++
-bool npc::wield(game *g, signed char invlet, bool autodrop){
+bool npc::wield(game *g, signed char invlet, bool autodrop)
+{
+    (void)autodrop; // ignored
     return this->wield(g,invlet);
 }
 
@@ -1174,6 +1176,7 @@ void npc::form_opinion(player *u)
 talk_topic npc::pick_talk_topic(player *u)
 {
  //form_opinion(u);
+ (void)u;
  if (personality.aggression > 0) {
   if (op_of_u.fear * 2 < personality.bravery && personality.altruism < 0)
    return TALK_MUG;
@@ -1288,9 +1291,11 @@ void npc::make_angry()
   attitude = NPCATT_KILL; // Yeah, we think we could take you!
 }
 
+// STUB
 bool npc::wants_to_travel_with(player *p)
 {
- return true;
+    (void)p; // TODO: implement
+    return true;
 }
 
 int npc::assigned_missions_value(game *g)

@@ -364,7 +364,7 @@ void add_corpse(int x, int y);
 // mapgen.cpp functions
  void generate(game *g, overmap *om, const int x, const int y, const int z, const int turn);
  void post_process(game *g, unsigned zones);
- void place_spawns(game *g, std::string group, const int chance,
+ void place_spawns(std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge

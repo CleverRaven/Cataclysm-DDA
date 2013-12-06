@@ -113,7 +113,7 @@ struct jmapgen_place_group {
     jmapgen_place_group(jmapgen_int ix, jmapgen_int iy, std::string igid, jmapgen_place_group_op iop, int ichance,
         float idensity = -1.0f, jmapgen_int irepeat = jmapgen_int(1,1)
       ) : x(ix), y(iy), gid(igid), op(iop), chance(ichance), density(idensity), repeat(irepeat) { }
-    void apply( map * m, float mdensity, int t );
+    void apply( map * m, float mdensity );
 };
 
 struct jmapgen_spawn_item {
@@ -137,7 +137,7 @@ class mapgen_function_json : public virtual mapgen_function {
     void setup_place_group(JsonArray &parray );
     void setup_setmap(JsonArray &parray);
     bool setup();
-    void apply(map * m,oter_id id,mapgendata md ,int t,float d);
+    void apply(map * m, oter_id id, float d);
     mapgen_function_json(std::string s, int w = 1000) {
         ftype = MAPGENFUNC_JSON;
         weight = w;

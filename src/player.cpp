@@ -303,7 +303,7 @@ player& player::operator= (const player & rhs)
  return (*this);
 }
 
-void player::normalize(game *g)
+void player::normalize()
 {
  ret_null = item(itypes["null"], 0);
  weapon   = item(itypes["null"], 0);
@@ -1303,7 +1303,7 @@ nc_color player::color()
  return c_white;
 }
 
-void player::load_info(game *g, std::string data)
+void player::load_info(std::string data)
 {
     std::stringstream dump;
     dump << data;
@@ -1322,7 +1322,7 @@ void player::load_info(game *g, std::string data)
         }
         return;
     } else { // old save
-        load_legacy(g, dump);
+        load_legacy(dump);
     }
 }
 
@@ -2659,7 +2659,7 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
  erase();
 }
 
-void player::disp_morale(game *g)
+void player::disp_morale()
 {
     // Ensure the player's persistent morale effects are up-to-date.
     apply_persistent_morale();
@@ -6737,7 +6737,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
 
 }
 
-void player::pick_style(game *g) // Style selection menu
+void player::pick_style() // Style selection menu
 {
  std::vector<std::string> options;
  options.push_back(_("No style"));
@@ -7234,7 +7234,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
 
 #include <string>
 
-void player::sort_armor(game *g)
+void player::sort_armor()
 {
     int32_t win_x = TERMX/2 - FULL_SCREEN_WIDTH/2;
     int32_t win_y = TERMY/2 - FULL_SCREEN_HEIGHT/2;
@@ -8993,7 +8993,7 @@ void player::learn_recipe(recipe *rec)
     learned_recipes[rec->ident] = rec;
 }
 
-void player::assign_activity(game* g, activity_type type, int moves, int index, char invlet, std::string name)
+void player::assign_activity(activity_type type, int moves, int index, char invlet, std::string name)
 {
     if (backlog.type == type && backlog.index == index && backlog.invlet == invlet &&
         backlog.name == name && query_yn(_("Resume task?"))) {
@@ -9005,7 +9005,7 @@ void player::assign_activity(game* g, activity_type type, int moves, int index, 
     activity.warned_of_proximity = false;
 }
 
-bool player::has_activity(game* g, const activity_type type)
+bool player::has_activity(const activity_type type)
 {
     if (activity.type == type) {
         return true;

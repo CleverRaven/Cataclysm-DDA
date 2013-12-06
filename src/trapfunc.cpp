@@ -39,7 +39,7 @@ void trapfuncm::bubble(monster *z, int x, int y)
  g->m.remove_trap(x, y);
 }
 
-void trapfuncm::cot(monster *z, int x, int y)
+void trapfuncm::cot(monster *z, int, int)
 {
  g->add_msg(_("The %s stumbles over the cot"), z->name().c_str());
  z->moves -= 100;
@@ -75,7 +75,7 @@ void trapfuncm::beartrap(monster *z, int x, int y)
  z->add_item(beartrap);
 }
 
-void trapfunc::board(int x, int y)
+void trapfunc::board(int, int)
 {
  g->add_msg(_("You step on a spiked board!"));
  g->u.add_memorial_log(_("Stepped on a spiked board."));
@@ -97,7 +97,7 @@ void trapfuncm::board(monster *z, int x, int y)
   z->moves -= 80;
 }
 
-void trapfunc::caltrops(int x, int y)
+void trapfunc::caltrops(int, int)
 {
  g->add_msg(_("You step on a sharp metal caltrop!"));
  g->u.add_memorial_log(_("Stepped on a caltrop."));
@@ -139,7 +139,7 @@ void trapfunc::tripwire(int x, int y)
   g->u.hurtall(rng(1, 4));
 }
 
-void trapfuncm::tripwire(monster *z, int x, int y)
+void trapfuncm::tripwire(monster *z, int, int)
 {
     // tiny animals don't trigger tripwires, they just squeeze under it
     if (z->type->size == MS_TINY)
@@ -279,7 +279,7 @@ void trapfuncm::shotgun(monster *z, int x, int y)
 }
 
 
-void trapfunc::blade(int x, int y)
+void trapfunc::blade(int, int)
 {
  g->add_msg(_("A blade swings out and hacks your torso!"));
  g->u.add_memorial_log(_("Triggered a blade trap."));
@@ -717,6 +717,7 @@ void trapfuncm::portal(monster *z, int x, int y)
 
 void trapfunc::sinkhole(int x, int y)
 {
+    (void)x; (void)y; // unused
  g->add_msg(_("You step into a sinkhole, and start to sink down!"));
  g->u.add_memorial_log(_("Stepped into a sinkhole."));
  if (g->u.has_amount("rope_30", 1) &&
@@ -781,7 +782,7 @@ void trapfuncm::sinkhole(monster *z, int x, int y)
     (void)y;
 }
 
-void trapfunc::ledge(int x, int y)
+void trapfunc::ledge(int, int)
 {
  g->add_msg(_("You fall down a level!"));
  g->u.add_memorial_log(_("Fell down a ledge."));
@@ -796,6 +797,7 @@ void trapfuncm::ledge(monster *z, int x, int y)
 
 void trapfunc::temple_flood(int x, int y)
 {
+    (void)x; (void)y; // unused
  g->add_msg(_("You step on a loose tile, and water starts to flood the room!"));
  g->u.add_memorial_log(_("Triggered a flood trap."));
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
@@ -840,7 +842,7 @@ void trapfunc::temple_toggle(int x, int y)
  }
 }
 
-void trapfunc::glow(int x, int y)
+void trapfunc::glow(int, int)
 {
  if (one_in(3)) {
   g->add_msg(_("You're bathed in radiation!"));
@@ -852,7 +854,7 @@ void trapfunc::glow(int x, int y)
   g->add_msg(_("Small flashes surround you."));
 }
 
-void trapfuncm::glow(monster *z, int x, int y)
+void trapfuncm::glow(monster *z, int, int)
 {
  if (one_in(3)) {
   z->hurt( rng(5, 10) );
@@ -925,16 +927,16 @@ void trapfunc::shadow(int x, int y)
  }
 }
 
-void trapfunc::drain(int x, int y)
+void trapfunc::drain(int, int)
 {
  g->u.add_memorial_log(_("Triggered a life-draining trap."));
  g->add_msg(_("You feel your life force sapping away."));
  g->u.hurtall(1);
 }
 
-void trapfuncm::drain(monster *z, int x, int y)
+void trapfuncm::drain(monster *z, int, int)
 {
- z->hurt(1);
+    z->hurt(1);
 }
 
 void trapfunc::snake(int x, int y)
@@ -968,7 +970,7 @@ void trapfunc::snake(int x, int y)
   g->m.remove_trap(x, y);
 }
 
-void trapfuncm::snake(monster *z, int x, int y)
+void trapfuncm::snake(monster*, int x, int y)
 {
     g->sound(x, y, 10, _("ssssssss"));
     if (one_in(6)) {

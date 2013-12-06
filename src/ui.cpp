@@ -541,6 +541,7 @@ void uimenu::redraw( bool redraw_callback ) {
         mvwprintz(window,w_height-1,2,border_color,"< %s >",filter.c_str() );
         mvwprintz(window,w_height-1,4,text_color,"%s",filter.c_str());
     }
+    (void)redraw_callback; // TODO
 /*
 // pending tests on if this is needed
     if ( redraw_callback && callback != NULL ) {

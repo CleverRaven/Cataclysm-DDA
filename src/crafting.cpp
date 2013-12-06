@@ -1025,7 +1025,7 @@ void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &cur
 
 void game::make_craft(recipe *making)
 {
- u.assign_activity(this, ACT_CRAFT, making->time, making->id);
+ u.assign_activity(ACT_CRAFT, making->time, making->id);
  u.moves = 0;
  u.lastrecipe = making;
 }
@@ -1033,7 +1033,7 @@ void game::make_craft(recipe *making)
 
 void game::make_all_craft(recipe *making)
 {
- u.assign_activity(this, ACT_LONGCRAFT, making->time, making->id);
+ u.assign_activity(ACT_LONGCRAFT, making->time, making->id);
  u.moves = 0;
  u.lastrecipe = making;
 }
@@ -1522,7 +1522,7 @@ void game::disassemble(char ch)
                   {
                    return;
                   }
-                    u.assign_activity(this, ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
+                    u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
                     u.moves = 0;
                     std::vector<int> dis_items;
                     dis_items.push_back(ch);

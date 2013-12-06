@@ -219,7 +219,7 @@ void game::unserialize(std::ifstream & fin)
         turn = tmpturn;
         nextspawn = tmpspawn;
 
-        cur_om = &overmap_buffer.get(this, comx, comy);
+        cur_om = &overmap_buffer.get(comx, comy);
         m.load(this, levx, levy, levz);
 
         run_mode = tmprun;
@@ -338,7 +338,7 @@ void game::save_weather(std::ofstream & fout) {
     }
 }
 ///// overmap
-void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plrfilename,
+void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                           std::string const & terfilename) {
     // DEBUG VARS
     int nummg = 0;
@@ -360,7 +360,7 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
         }
     }
     if (savegame_loading_version != savegame_version) {
-        if ( unserialize_legacy(g, fin, plrfilename, terfilename) == true ) {
+        if ( unserialize_legacy(fin, plrfilename, terfilename) == true ) {
             return;
         }
     }
@@ -431,7 +431,7 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
             std::string npcdata;
             getline(fin, npcdata);
             npc * tmp = new npc();
-            tmp->load_info(g, npcdata);
+            tmp->load_info(npcdata);
             npcs.push_back(tmp);
         } else if (datatype == 'P') {
             // Chomp the invlet_cache, since the npc doesn't use it.

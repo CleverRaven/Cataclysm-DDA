@@ -358,10 +358,12 @@ int ma_buff::speed_bonus(player& u)
     return speed;
 }
 int ma_buff::arm_bash_bonus(player& u) {
-  return arm_bash;
+    (void)u; //unused
+    return arm_bash;
 }
 int ma_buff::arm_cut_bonus(player& u) {
-  return arm_cut;
+    (void)u; //unused
+    return arm_cut;
 }
 float ma_buff::bash_mult() {
   return bash_stat_mult;

@@ -451,7 +451,7 @@ for (int x = site.x - 2; x <= site.x + 2; x++) {
    g->cur_om->seen(x, y, 0) = true;
  }
  npc * temp = new npc();
- temp->normalize(g);
+ temp->normalize();
  temp->randomize(g, NC_COWBOY);
  temp->omx = site.x*2;
  temp->omy = site.y*2;

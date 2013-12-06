@@ -96,7 +96,7 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
             overy = (OMAPY * 2 + y) / 2;
             sy = -1;
         }
-        overmap tmp = overmap_buffer.get(g, om->pos().x + sx, om->pos().y + sy);
+        overmap tmp = overmap_buffer.get(om->pos().x + sx, om->pos().y + sy);
         terrain_type = tmp.ter(overx, overy, z);
         //zones = tmp.zones(overx, overy);
         t_above = tmp.ter(overx, overy, z + 1);
@@ -174,80 +174,80 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
         if (overy - 1 >= 0) {
             t_north = om->ter(overx, overy - 1, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
+            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y - 1);
             t_north = tmp.ter(overx, OMAPY - 1, z);
         }
 
         if (overy - 1 >= 0 && overx + 1 < OMAPX) {
             t_neast = om->ter(overx + 1, overy - 1, z);
         } else if (overy - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
+            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y - 1);
             t_neast = tmp.ter(0, overy - 1, z);
         } else if (overx + 1 < OMAPX) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
+            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y);
             t_neast = tmp.ter(overx + 1, OMAPY - 1, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y - 1);
+            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y - 1);
             t_neast = tmp.ter(0, OMAPY - 1, z);
         }
 
         if (overx + 1 < OMAPX) {
             t_east = om->ter(overx + 1, overy, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
+            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y);
             t_east = tmp.ter(0, overy, z);
         }
 
         if (overy + 1 < OMAPY && overx + 1 < OMAPX) {
             t_seast = om->ter(overx + 1, overy + 1, z);
         } else if (overy + 1 < OMAPY) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
+            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y + 1);
             t_seast = tmp.ter(0, overy + 1, z);
         } else if (overx + 1 < OMAPX) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
+            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y);
             t_seast = tmp.ter(overx + 1, 0, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y + 1);
+            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y + 1);
             t_seast = tmp.ter(0, 0, z);
         }
 
         if (overy + 1 < OMAPY) {
             t_south = om->ter(overx, overy + 1, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
+            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y + 1);
             t_south = tmp.ter(overx, 0, z);
         }
 
         if (overy - 1 >= 0 && overx - 1 >= 0) {
             t_nwest = om->ter(overx - 1, overy - 1, z);
         } else if (overy - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
+            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y - 1);
             t_nwest = tmp.ter(OMAPX - 1, overy - 1, z);
         } else if (overx - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
+            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y);
             t_nwest = tmp.ter(overx - 1, OMAPY - 1, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y - 1);
+            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y - 1);
             t_nwest = tmp.ter(OMAPX - 1, OMAPY - 1, z);
         }
 
         if (overx - 1 >= 0) {
             t_west = om->ter(overx - 1, overy, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
+            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y);
             t_west = tmp.ter(OMAPX - 1, overy, z);
         }
 
         if (overy + 1 < OMAPY && overx - 1 >= 0) {
             t_swest = om->ter(overx - 1, overy + 1, z);
         } else if (overy + 1 < OMAPY) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
+            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y + 1);
             t_swest = tmp.ter(OMAPX - 1, overy + 1, z);
         } else if (overx - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
+            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y);
             t_swest = tmp.ter(overx - 1, 0, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y + 1);
+            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y + 1);
             t_swest = tmp.ter(OMAPX - 1, 0, z);
         }
     }
@@ -876,13 +876,13 @@ bool mapgen_function_json::setup() {
 /*
  * place_monster, place_item; critters and things according to mon_group / item_group
  */
-void jmapgen_place_group::apply( map * m, const float mdensity, const int t ) {
+void jmapgen_place_group::apply( map * m, const float mdensity ) {
     const int trepeat = repeat.get();
     switch(op) {
         case JMAPGEN_PLACEGROUP_MONSTER: {
             for (int i = 0; i < trepeat; i++) {
                 // g->add_msg("%s %d %d,%d %d,%d %.4f", gid.c_str(), chance, x.val, y.val, x.valmax, y.valmax, ( density == -1.0f ? mdensity : density ) );
-                m->place_spawns(g, gid, chance, x.val, y.val, x.valmax, y.valmax, ( density == -1.0f ? mdensity : density ) );
+                m->place_spawns(gid, chance, x.val, y.val, x.valmax, y.valmax, ( density == -1.0f ? mdensity : density ) );
             }
         } break;
         case JMAPGEN_PLACEGROUP_ITEM: {
@@ -987,7 +987,7 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void mapgen_function_json::apply( map * m, oter_id terrain_type, mapgendata md, int t, float d ) {
+void mapgen_function_json::apply( map * m, oter_id terrain_type, float d ) {
     if ( fill_ter != -1 ) {
         m->draw_fill_background( fill_ter );
     }
@@ -998,7 +998,7 @@ void mapgen_function_json::apply( map * m, oter_id terrain_type, mapgendata md, 
         spawnitems[i].apply( m );
     }
     for( int i=0; i < place_groups.size(); i++ ) {
-        place_groups[i].apply( m, d, t );
+        place_groups[i].apply( m, d );
     }
     for( int i=0; i < setmap_points.size(); i++ ) {
         setmap_points[i].apply( m );
@@ -1025,6 +1025,7 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
 #ifdef LUA
     lua_mapgen(m, std::string(id), md, t, d, scr);
 #else
+    (void)scr;
     mapgen_crater(m,id,md,t,d);
     mapf::formatted_set_terrain(m, 0, 6, 
 "\
@@ -1111,7 +1112,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
            gfunction(this, terrain_type, facing_data, turn, density);
         } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_JSON ) {
            mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(fmapit->second[fidx]);
-           mf->apply( this, terrain_type, facing_data, turn, density );
+           mf->apply( this, terrain_type, density );
         } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_LUA ) {
            mapgen_function_lua * mf = dynamic_cast<mapgen_function_lua*>(fmapit->second[fidx]);
            mapgen_lua(this, terrain_type, facing_data, turn, density, mf->scr );
@@ -1184,7 +1185,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
             }
         }
         if (density > 1) {
-            place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
         } else {
             add_spawn("mon_zombie", rng(1, 8), 15, 10);
         }
@@ -1197,7 +1198,6 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         } else if (t_west == "apartments_con_tower_1" && t_south == "apartments_con_tower_1") {
             rotate(2);
         }
-
 
     } else if (terrain_type == "apartments_con_tower_1") {
 
@@ -1269,7 +1269,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                 }
             }
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
             } else {
                 add_spawn("mon_zombie", rng(1, 8), 15, 10);
             }
@@ -1350,7 +1350,7 @@ ss                      \n",
                 }
             }
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
             } else {
                 add_spawn("mon_zombie", rng(1, 8), 15, 10);
             }
@@ -1429,7 +1429,7 @@ ss                      \n",
                 }
             }
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
             } else {
                 add_spawn("mon_zombie", rng(1, 8), 15, 10);
             }
@@ -1510,7 +1510,7 @@ ss                      \n",
             }
         }
         if (density > 1) {
-            place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
         } else {
             add_spawn("mon_zombie", rng(1, 8), 15, 10);
         }
@@ -1597,7 +1597,7 @@ ss                      \n",
                 }
             }
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
             } else {
                 add_spawn("mon_zombie", rng(1, 8), 15, 10);
             }
@@ -1680,7 +1680,7 @@ ss                      \n",
                 }
             }
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
             } else {
                 add_spawn("mon_zombie", rng(1, 8), 15, 10);
             }
@@ -1763,7 +1763,7 @@ EE|.+..........e|ssR    \n\
                 }
             }
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
             } else {
                 add_spawn("mon_zombie", rng(1, 8), 15, 10);
             }
@@ -1821,7 +1821,7 @@ ssssss______ss______ssss\n",
         place_items("office", 75, 19, 6, 19, 6, false, 0);
         place_items("office", 75, 12, 8, 14, 8, false, 0);
         if (density > 1) {
-            place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 12, 3, density);
+            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 12, 3, density);
         } else {
             if (x_in_y(1, 2)) {
                 add_spawn("mon_zombie", 2, 15, 7);
@@ -1895,7 +1895,7 @@ ss%|rrrr|...|.R.|EEED...\n",
                                                f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
                                                f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 2, 8, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 2, 8, density);
             } else {
                 add_spawn("mon_zombie", rng(0, 5), 15, 7);
                 if (x_in_y(1, 1)) {
@@ -1978,7 +1978,7 @@ ssssssssssssssssssssssss\n",
             place_items("cubical_office", 75, 19, 5, 19, 7, false, 0);
             place_items("cleaning", 80, 1, 7, 2, 7, false, 0);
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 14, 10, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 14, 10, density);
             } else {
                 add_spawn("mon_zombie", rng(0, 15), 14, 10);
                 if (x_in_y(1, 2)) {
@@ -2049,7 +2049,7 @@ ssssssssssssssssssssssss\n\
             place_items("office", 75, 16, 11, 17, 12, false, 0);
             place_items("cleaning", 75, 8, 20, 10, 20, false, 0);
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 9, 15, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 9, 15, density);
             } else {
                 add_spawn("mon_zombie", rng(0, 5), 9, 15);
             }
@@ -2110,7 +2110,7 @@ ssssssssssssssssssssssss\n",
                                            f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
                                            f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
         if (density > 1) {
-            place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+            place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         } else {
             add_spawn("mon_zombie", rng(0, 5), SEEX * 2 - 1, SEEX * 2 - 1);
         }
@@ -2171,7 +2171,7 @@ sss|........|.R.|EEED___\n",
                                                f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
                                                f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
             } else {
                 add_spawn("mon_zombie", rng(0, 5), SEEX * 2 - 1, SEEX * 2 - 1);
             }
@@ -2272,7 +2272,7 @@ ssssssssssssssssssssssss\n",
                                                f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
                                                f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
             } else {
                 add_spawn("mon_zombie", rng(0, 5), SEEX * 2 - 1, SEEX * 2 - 1);
             }
@@ -2365,7 +2365,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                                f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
                                                f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
             } else {
                 add_spawn("mon_zombie", rng(0, 5), SEEX * 2 - 1, SEEX * 2 - 1);
             }
@@ -2477,9 +2477,9 @@ ssssssssssssssssssssssss\n",
             }
         }
         if (density > 1) {
-            place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
         } else {
-            place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
         }
         if (t_north == "cathedral_1" && t_west == "cathedral_1") {
             rotate(3);
@@ -2557,9 +2557,9 @@ ss          #bbbb...bbbb\n",
                 }
             }
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
             } else {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
             }
             if (t_west == "cathedral_1_entrance") {
                 rotate(1);
@@ -2632,9 +2632,9 @@ ssssssssssssssssssssssss\n",
                 }
             }
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
             } else {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
             }
             if (t_north == "cathedral_1_entrance") {
                 rotate(1);
@@ -2702,9 +2702,9 @@ bbb...bbbb#           ss\n",
                 }
             }
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
             } else {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
             }
             if (t_west == "cathedral_1" && t_north == "cathedral_1") {
                 rotate(1);
@@ -2771,9 +2771,9 @@ bbb...bbbb#           ss\n",
             }
         }
         if (density > 1) {
-            place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
         } else {
-            place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
         }
         if (t_north == "cathedral_b" && t_west == "cathedral_b") {
             rotate(3);
@@ -2911,9 +2911,9 @@ cc-|-D----|#############\n\
                 }
             }
             if (density > 1) {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
             } else {
-                place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
             }
             if (t_north == "cathedral_b_entrance") {
                 rotate(1);
@@ -5551,7 +5551,7 @@ ff.......|....|WWWWWWWW|\n\
         place_items("bigtools", 80,  18, 7, 21,  7, false, 0);
         place_items("office", 80,  18,  11, 20,  11, false, 0);
         place_items("office", 60,  18,  13, 18,  13, false, 0);
-        place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.2);
+        place_spawns("GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.2);
         if (t_north == "public_works" && t_west == "public_works") {
             rotate(3);
         } else if (t_north == "public_works" && t_east == "public_works") {
@@ -5616,7 +5616,7 @@ ff.......|....|WWWWWWWW|\n\
             spawn_item(16, 7, "2x4", rng(1, 20));
             spawn_item(12, 2, "nail");
             spawn_item(13, 2, "nail");
-            place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
+            place_spawns("GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
             if (t_west == "public_works_entrance") {
                 rotate(1);
             }
@@ -5673,7 +5673,7 @@ ____sss                 \n",
             place_items("construction_worker", 90,  3, 10, 10,  10, false, 0);
             place_items("office", 80,  15,  19, 17,  19, false, 0);
             place_items("cleaning", 80,  17,  16, 17,  16, false, 0);
-            place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.3);
+            place_spawns("GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.3);
             if (t_north == "public_works_entrance") {
                 rotate(1);
             }
@@ -5731,7 +5731,7 @@ __________           f  \n",
             place_items("electronics", 80,  16,  2, 18,  2, false, 0);
             place_items("cleaning", 85,  12,  2, 13,  2, false, 0);
             spawn_item(3, 2, "log", rng(1, 3));
-            place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
+            place_spawns("GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
             if (t_west == "public_works" && t_north == "public_works") {
                 rotate(1);
                 if (x_in_y(2, 3)) {
@@ -5753,7 +5753,6 @@ __________           f  \n",
                 }
             }
         }
-
 
     } else if (terrain_type == "school_1") {
 
@@ -7430,7 +7429,7 @@ ssssssssssssssssssssssss\n",
                                            f_null,   f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table,
                                            f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase,
                                            f_chair, f_counter, f_dresser, f_locker, f_null));
-        place_spawns(g, "GROUP_ZOMBIE", 2, 6, 6, 18, 18, density);
+        place_spawns("GROUP_ZOMBIE", 2, 6, 6, 18, 18, density);
         if (t_north == "hotel_tower_1_2") {
             rotate(3);
         } else if (t_east == "hotel_tower_1_2") {
@@ -7479,7 +7478,7 @@ s________sssss________ss\n",
                                            f_null,   f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table,
                                            f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase,
                                            f_chair, f_counter, f_dresser, f_locker, f_null));
-        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+        place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
         if (t_north == "hotel_tower_1_5") {
             rotate(0);
         } else if (t_east == "hotel_tower_1_5") {
@@ -7528,7 +7527,7 @@ sssssssssssssssssssssss\n",
                                            f_null,   f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table,
                                            f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase,
                                            f_chair, f_counter, f_dresser, f_locker, f_null));
-        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+        place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
         if (t_north == "hotel_tower_1_2") {
             rotate(1);
             if (x_in_y(1, 12)) {
@@ -7610,7 +7609,7 @@ s_____,_____,_____,_____\n",
                 }
             }
         }
-        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+        place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
         if (t_north == "hotel_tower_1_5") {
             rotate(3);
         } else if (t_east == "hotel_tower_1_5") {
@@ -7671,7 +7670,7 @@ ________________________\n\
             }
         }
         if (density > 1) {
-            place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
         } else {
             if (x_in_y(1, 2)) {
                 add_spawn("mon_zombie", 2, 15, 7);
@@ -7743,7 +7742,7 @@ ____,_____,_____,_____s\n",
                 }
             }
         }
-        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+        place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
         if (t_north == "hotel_tower_1_5") {
             rotate(1);
         } else if (t_east == "hotel_tower_1_5") {
@@ -7804,7 +7803,7 @@ s    |c....|c....|c....|\n",
             }
         }
         if (density > 1) {
-            place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
         } else {
             add_spawn("mon_zombie", rng(0, 12), 14, 11);
         }
@@ -7868,7 +7867,7 @@ c...d|t.........t|....c|\n",
             }
         }
         if (density > 1) {
-            place_spawns(g, "GROUP_ZOMBIE", 2, 0, 23, 23, 3, density);
+            place_spawns("GROUP_ZOMBIE", 2, 0, 23, 23, 3, density);
         } else {
             add_spawn("mon_zombie", rng(1, 18), 12, 12);
         }
@@ -7932,7 +7931,7 @@ h....|h....|h....|    s \n\
             }
         }
         if (density > 1) {
-            place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
         } else {
             add_spawn("mon_zombie", rng(1, 8), 12, 12);
         }
@@ -8943,7 +8942,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             if (one_in(2)) {
                 add_spawn("mon_zombie", rng(1, 6), 4, 14);
             } else {
-                place_spawns(g, "GROUP_DOMESTIC", 2, 10, 15, 12, 17, 1);
+                place_spawns("GROUP_DOMESTIC", 2, 10, 15, 12, 17, 1);
             }
         } else {
             fill_background(this, &grass_or_dirt);
@@ -9079,7 +9078,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             if (one_in(3)) {
                 add_spawn("mon_zombie", rng(3, 6), 12, 12);
             } else {
-                place_spawns(g, "GROUP_DOMESTIC", 2, 0, 0, 15, 15, 1);
+                place_spawns("GROUP_DOMESTIC", 2, 0, 0, 15, 15, 1);
             }
 
         } else {
@@ -10640,7 +10639,7 @@ void map::post_process(game *g, unsigned zones)
 
 }
 
-void map::place_spawns(game *g, std::string group, const int chance,
+void map::place_spawns(std::string group, const int chance,
                        const int x1, const int y1, const int x2, const int y2, const float density)
 {
     if (!ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"]) {
@@ -10649,7 +10648,7 @@ void map::place_spawns(game *g, std::string group, const int chance,
 
     if ( MonsterGroupManager::isValidMonsterGroup( group ) == false ) {
         real_coords rc( this->getabs() );
-        overmap * thisom = &overmap_buffer.get(g, rc.abs_om.x, rc.abs_om.y );
+        overmap * thisom = &overmap_buffer.get(rc.abs_om.x, rc.abs_om.y );
         oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
         debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
         return;
@@ -10715,7 +10714,7 @@ int lets_spawn = 100 * ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
     selected_item = item_controller->id_from(loc, guns_have_ammo);
     if ( selected_item == "MISSING_ITEM" ) {
         real_coords rc( this->getabs() );
-        overmap * thisom = &overmap_buffer.get(g, rc.abs_om.x, rc.abs_om.y );
+        overmap * thisom = &overmap_buffer.get(rc.abs_om.x, rc.abs_om.y );
         oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
         debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)", loc.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
     }
@@ -12367,7 +12366,7 @@ void map::add_extra(map_extra type, game *g)
             extra_items = "bionics";
             break;
         }
-        place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f);//0.1 = 1-5
+        place_spawns("GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f);//0.1 = 1-5
         place_items(extra_items, 70, cx - 4, cy - 4, cx + 4, cy + 4, true, 0);
     }
     break;
@@ -12401,7 +12400,7 @@ void map::add_extra(map_extra type, game *g)
             }
             
         }
-        place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1,
+        place_spawns("GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1,
                      0.1f);//0.1 = 1-5
         place_items("rare", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
     }
@@ -12927,7 +12926,7 @@ void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2) {
 void rough_circle(map *m, ter_id type, int x, int y, int rad) {
     m->draw_rough_circle(type, x, y, rad);
 }
-void add_corpse(game *g, map *m, int x, int y) {
+void add_corpse(map *m, int x, int y) {
     m->add_corpse(x, y);
 }
 

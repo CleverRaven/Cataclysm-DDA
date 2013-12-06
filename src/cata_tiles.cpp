@@ -424,25 +424,25 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit || do_draw_line || do_draw_weather || do_draw_footsteps;
     if (in_animation) {
         if (do_draw_explosion) {
-            draw_explosion_frame(destx, desty, centerx, centery, width, height);
+            draw_explosion_frame();
         }
         if (do_draw_bullet) {
-            draw_bullet_frame(destx, desty, centerx, centery, width, height);
+            draw_bullet_frame();
         }
         if (do_draw_hit) {
-            draw_hit_frame(destx, desty, centerx, centery, width, height);
+            draw_hit_frame();
             void_hit();
         }
         if (do_draw_line) {
-            draw_line(destx, desty, centerx, centery, width, height);
+            draw_line();
             void_line();
         }
         if (do_draw_weather) {
-            draw_weather_frame(destx, desty, centerx, centery, width, height);
+            draw_weather_frame();
             void_weather();
         }
         if (do_draw_footsteps) {
-            draw_footsteps_frame(destx, desty, centerx, centery, width, height);
+            draw_footsteps_frame();
             void_footsteps();
         }
     }
@@ -1113,7 +1113,7 @@ void cata_tiles::void_footsteps()
     do_draw_footsteps = false;
 }
 /* -- Animation Renders */
-void cata_tiles::draw_explosion_frame(int destx, int desty, int centerx, int centery, int width, int height)
+void cata_tiles::draw_explosion_frame()
 {
     std::string exp_name = "explosion";
     int subtile, rotation;
@@ -1140,13 +1140,13 @@ void cata_tiles::draw_explosion_frame(int destx, int desty, int centerx, int cen
         }
     }
 }
-void cata_tiles::draw_bullet_frame(int destx, int desty, int centerx, int centery, int width, int height)
+void cata_tiles::draw_bullet_frame()
 {
     const int mx = bul_pos_x, my = bul_pos_y;
 
     draw_from_id_string(bul_id, mx, my, 0, 0);
 }
-void cata_tiles::draw_hit_frame(int destx, int desty, int centerx, int centery, int width, int height)
+void cata_tiles::draw_hit_frame()
 {
     const int mx = hit_pos_x, my = hit_pos_y;
     std::string hit_overlay = "animation_hit";
@@ -1154,7 +1154,7 @@ void cata_tiles::draw_hit_frame(int destx, int desty, int centerx, int centery, 
     draw_from_id_string(hit_entity_id, mx, my, 0, 0);
     draw_from_id_string(hit_overlay, mx, my, 0, 0);
 }
-void cata_tiles::draw_line(int destx, int desty, int centerx, int centery, int width, int height)
+void cata_tiles::draw_line()
 {
     int mx = line_pos_x, my = line_pos_y;
     std::string line_overlay = "animation_line";
@@ -1171,7 +1171,7 @@ void cata_tiles::draw_line(int destx, int desty, int centerx, int centery, int w
 
     draw_from_id_string(line_endpoint_id, mx, my, 0, 0);
 }
-void cata_tiles::draw_weather_frame(int destx, int desty, int centerx, int centery, int width, int height)
+void cata_tiles::draw_weather_frame()
 {
     for (std::vector<std::pair<int, int> >::iterator weather_iterator = anim_weather.vdrops.begin();
             weather_iterator != anim_weather.vdrops.end();
@@ -1186,7 +1186,7 @@ void cata_tiles::draw_weather_frame(int destx, int desty, int centerx, int cente
         draw_from_id_string(weather_name, x, y, 0, 0, false);
     }
 }
-void cata_tiles::draw_footsteps_frame(int destx, int desty, int centerx, int centery, int width, int height)
+void cata_tiles::draw_footsteps_frame()
 {
     const std::string footstep_tilestring = "footstep";
     while (!footsteps.empty()) {

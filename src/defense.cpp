@@ -71,10 +71,10 @@ bool defense_game::init(game *g)
  g->u.per_cur = g->u.per_max;
  g->u.int_cur = g->u.int_max;
  g->u.dex_cur = g->u.dex_max;
- init_itypes(g);
- init_mtypes(g);
+ init_itypes();
+ init_mtypes();
  init_constructions();
- init_recipes(g);
+ init_recipes();
  current_wave = 0;
  hunger = false;
  thirst = false;
@@ -91,7 +91,7 @@ bool defense_game::init(game *g)
  g->u.cash = initial_cash;
  popup_nowait(_("Please wait as the map generates [ 0%]"));
  // TODO: support multiple defence games? clean up old defence game
- g->cur_om = &overmap_buffer.get(g, 0, 0);
+ g->cur_om = &overmap_buffer.get(0, 0);
  init_map(g);
  caravan(g);
  return true;
@@ -219,7 +219,7 @@ void defense_game::reset_recipes()
     }
 }
 
-void defense_game::init_itypes(game *g)
+void defense_game::init_itypes()
 {
     std::vector<int> change_2x4, change_landmine, change_bot;
     change_2x4.push_back(itypes["2x4"]->volume);
@@ -237,9 +237,8 @@ void defense_game::init_itypes(game *g)
     itypes["bot_turret"]->price = 6000;
 }
 
-void defense_game::init_mtypes(game *g)
+void defense_game::init_mtypes()
 {
-    (void)g; //unused
     m_flag flags[] = {MF_BASHES, MF_SMELLS, MF_HEARS, MF_SEES};
     monflags_to_add.insert(flags, flags + 4);
 
@@ -271,9 +270,8 @@ void defense_game::init_constructions()
     }
 }
 
-void defense_game::init_recipes(game *g)
+void defense_game::init_recipes()
 {
-    (void)g; //unused
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter)
     {
         for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter)

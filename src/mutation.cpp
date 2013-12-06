@@ -6,7 +6,7 @@
 // mutation_effect handles things like destruction of armor, etc.
 void mutation_effect(game *g, player &p, std::string mut);
 // mutation_loss_effect handles what happens when you lose a mutation
-void mutation_loss_effect(game *g, player &p, std::string mut);
+void mutation_loss_effect(player &p, std::string mut);
 
 bool player::mutation_ok(game *g, std::string mutation, bool force_good, bool force_bad)
 {
@@ -255,7 +255,7 @@ void player::mutate_towards(game *g, std::string mut)
         g->add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing].name.c_str(), traits[mut].name.c_str());
         g->u.add_memorial_log(_("'%s' mutation turned into '%s'"), traits[replacing].name.c_str(), traits[mut].name.c_str());
         toggle_mutation(replacing);
-        mutation_loss_effect(g, *this, replacing);
+        mutation_loss_effect(*this, replacing);
         mutation_effect(g, *this, mut);
 
     } else if (canceltrait != "") {
@@ -263,7 +263,7 @@ void player::mutate_towards(game *g, std::string mut)
         g->add_msg(_("Your innate %1$s trait turns into %2$s!"), traits[canceltrait].name.c_str(), traits[mut].name.c_str());
         g->u.add_memorial_log(_("'%s' trait turned into '%s'"), traits[canceltrait].name.c_str(), traits[mut].name.c_str());
         toggle_mutation(canceltrait);
-        mutation_loss_effect(g, *this, canceltrait);
+        mutation_loss_effect(*this, canceltrait);
         mutation_effect(g, *this, mut);
     } else {
         g->add_msg(_("You gain a mutation called %s!"), traits[mut].name.c_str());
@@ -332,11 +332,11 @@ void player::remove_mutation(game *g, std::string mut)
     if (replacing != "") {
         g->add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(), traits[replacing].name.c_str());
         toggle_mutation(replacing);
-        mutation_loss_effect(g, *this, mut);
+        mutation_loss_effect(*this, mut);
         mutation_effect(g, *this, replacing);
     } else {
         g->add_msg(_("You lose your %s mutation."), traits[mut].name.c_str());
-        mutation_loss_effect(g, *this, mut);
+        mutation_loss_effect(*this, mut);
     }
 
     set_highest_cat_level();
@@ -493,7 +493,7 @@ void mutation_effect(game *g, player &p, std::string mut)
     }
 }
 
-void mutation_loss_effect(game *g, player &p, std::string mut)
+void mutation_loss_effect(player &p, std::string mut)
 {
     if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "FRAIL") {
         p.recalc_hp();
