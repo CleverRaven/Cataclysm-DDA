@@ -1106,6 +1106,22 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
     }
 }
 
+void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
+{
+    int iOffsetXRight = iOffsetX + utf8_width(sText.c_str()) + 1;
+
+    mvwprintz(w, 0, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, sText.c_str());
+
+    if (bSelected) {
+        mvwputch(w, 0, iOffsetX - 1,      h_ltgray, '<');
+        mvwputch(w, 0, iOffsetXRight + 1, h_ltgray, '>');
+
+        for (int i = iOffsetX + 1; i < iOffsetXRight; i++) {
+            mvwputch(w, 1, i, c_black, ' ');
+        }
+    }
+}
+
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY, const int iOffsetX,
                     nc_color bar_color)
@@ -1166,6 +1182,7 @@ void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeig
         }
     }
 }
+
 
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
 {

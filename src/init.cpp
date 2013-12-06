@@ -136,6 +136,7 @@ void init_data_structures()
     type_function_map["SPECIES"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_species);
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
+    type_function_map["recipe_subcategory"] = new StaticFunctionAccessor(&load_recipe_subcategory);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
     type_function_map["tool_quality"] = new StaticFunctionAccessor(&load_quality);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
@@ -174,7 +175,7 @@ void release_data_structures()
 void load_json_dir(std::string const &dirname)
 {
     // get a list of all files in the directory
-    std::vector<std::string> dir = 
+    std::vector<std::string> dir =
         file_finder::get_files_from_path(".json", dirname, true, true);
     // iterate over each file
     std::vector<std::string>::iterator it;
