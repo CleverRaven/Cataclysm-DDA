@@ -781,7 +781,11 @@
   "components": [
     [
       [ "rag", 1 ],
-      [ "duct_tape", 50 ]
+      [ "duct_tape", 50 ],
+      [ "string_6", 2 ],
+      [ "sinew", 100 ],
+      [ "thread", 100 ],
+      [ "plant_fibre", 100 ]
     ],
     [
       [ "spike", 1 ]

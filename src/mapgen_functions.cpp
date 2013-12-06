@@ -1519,7 +1519,7 @@ void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn, 
         } else if (ra <= 40) {
             veh_type = "fire_truck";
         }else if (ra <= 60) {
-            veh_type = "police_car";
+            veh_type = "policecar";
         }else {
             veh_type = "quad_bike";
         }
