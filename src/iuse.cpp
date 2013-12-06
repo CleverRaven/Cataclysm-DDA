@@ -4266,8 +4266,7 @@ int iuse::turret(player *p, item *it, bool t)
  monster mturret(GetMType("mon_turret"), dirx, diry);
  int ammo = std::min(p->inv.charges_of("9mm"), 500);
  if (ammo > 0) {
-    item& it = p->inv.item_by_type("9mm");
-    p->inv.reduce_charges(p->get_item_position(&it), ammo);
+    p->inv.reduce_charges(p->inv.position_by_type("9mm"), ammo);
     if (ammo == 1) {
       g->add_msg_if_player(p,_("You load your only 9mm bullet into the turret."));
     }

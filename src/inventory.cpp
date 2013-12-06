@@ -901,6 +901,19 @@ item& inventory::item_by_type(itype_id type)
     return nullitem;
 }
 
+int inventory::position_by_type(itype_id type)
+{
+    int i = 0;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        if (iter->front().type->id == type)
+        {
+            return i;
+        }
+        ++i;
+    }
+    return INT_MIN;
+}
 item& inventory::item_or_container(itype_id type)
 {
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)

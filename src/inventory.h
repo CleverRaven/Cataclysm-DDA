@@ -91,6 +91,7 @@ class inventory
   item& item_or_container(itype_id type); // returns an item, or a container of it
 
   int position_by_item(item* it);  // looks up an item (via pointer comparison)
+  int position_by_type(itype_id type);
   int position_by_letter(char ch);
 
   std::vector<std::pair<item*, int> > all_items_by_type(itype_id type);
