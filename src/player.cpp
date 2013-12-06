@@ -4499,6 +4499,11 @@ void player::suffer(game *g)
         {
             oxygen--;
         }
+        if (is_wearing("rebreather") &&
+            (has_active_item("UPS_on") || has_active_item("adv_UPS_on")))
+            {
+                oxygen++;
+            }
         if (oxygen < 0)
         {
             if (has_bionic("bio_gills") && power_level > 0)
