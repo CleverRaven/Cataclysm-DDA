@@ -876,7 +876,7 @@ bool mapgen_function_json::setup() {
 /*
  * place_monster, place_item; critters and things according to mon_group / item_group
  */
-void jmapgen_place_group::apply( map * m, const float mdensity, const int t ) {
+void jmapgen_place_group::apply( map * m, const float mdensity ) {
     const int trepeat = repeat.get();
     switch(op) {
         case JMAPGEN_PLACEGROUP_MONSTER: {
@@ -987,7 +987,7 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void mapgen_function_json::apply( map * m, oter_id terrain_type, mapgendata md, int t, float d ) {
+void mapgen_function_json::apply( map * m, oter_id terrain_type, float d ) {
     if ( fill_ter != -1 ) {
         m->draw_fill_background( fill_ter );
     }
@@ -998,7 +998,7 @@ void mapgen_function_json::apply( map * m, oter_id terrain_type, mapgendata md, 
         spawnitems[i].apply( m );
     }
     for( int i=0; i < place_groups.size(); i++ ) {
-        place_groups[i].apply( m, d, t );
+        place_groups[i].apply( m, d );
     }
     for( int i=0; i < setmap_points.size(); i++ ) {
         setmap_points[i].apply( m );
@@ -1025,6 +1025,7 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
 #ifdef LUA
     lua_mapgen(m, std::string(id), md, t, d, scr);
 #else
+    (void)scr;
     mapgen_crater(m,id,md,t,d);
     mapf::formatted_set_terrain(m, 0, 6, 
 "\
@@ -1111,7 +1112,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
            gfunction(this, terrain_type, facing_data, turn, density);
         } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_JSON ) {
            mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(fmapit->second[fidx]);
-           mf->apply( this, terrain_type, facing_data, turn, density );
+           mf->apply( this, terrain_type, density );
         } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_LUA ) {
            mapgen_function_lua * mf = dynamic_cast<mapgen_function_lua*>(fmapit->second[fidx]);
            mapgen_lua(this, terrain_type, facing_data, turn, density, mf->scr );
@@ -12925,7 +12926,7 @@ void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2) {
 void rough_circle(map *m, ter_id type, int x, int y, int rad) {
     m->draw_rough_circle(type, x, y, rad);
 }
-void add_corpse(game *g, map *m, int x, int y) {
+void add_corpse(map *m, int x, int y) {
     m->add_corpse(x, y);
 }
 
