@@ -396,6 +396,14 @@ int player::roll_bash_damage(bool crit)
 
  if (unarmed_attack())
   bash_dam = rng(0, int(stat / 2) + skillLevel("unarmed"));
+ else
+    // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
+    if (skillLevel("bashing") <= 5)
+    ret *= 0.8 + 0.08 * skillLevel("bashing");
+    else
+    ret *= 0.92 + 0.04 * skillLevel("bashing");
+
+
 
  if (crit) {
   bash_dam *= 1.5;
@@ -480,7 +488,7 @@ int player::roll_stab_damage(bool crit)
   if (has_trait("THORNS"))
    ret += 4;
  } else if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
-  ret = int((weapon.damage_cut()) / 4);
+  ret = weapon.damage_cut();
  else
   return 0; // Can't stab at all!
 
@@ -498,12 +506,14 @@ int player::roll_stab_damage(bool crit)
  if (ret <= 0)
   return 0; // No negative stabbing!
 
- if (crit) {
-  double multiplier = 1.0 + (skillLevel("stabbing") / 5.0);
-  if (multiplier > 2.5)
-   multiplier = 2.5;
-  ret *= multiplier;
- }
+// 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%, 146%
+ if (skillLevel("stabbing") <= 5)
+  ret *= 0.66 + 0.1 * skillLevel("stabbing");
+ else
+  ret *= 0.86 + 0.06 * skillLevel("stabbing");
+
+ if (crit)
+  ret *= 1.0 + (skillLevel("stabbing") / 10.0);
 
  return ret;
 }
