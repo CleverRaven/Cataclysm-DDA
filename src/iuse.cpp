@@ -1607,7 +1607,7 @@ int iuse::primitive_fire(player *p, item *it, bool t)
 
 int iuse::sew(player *p, item *it, bool t)
 {
-    if (p->fine_detail_vision_mod(g) > 2.5) {
+    if (p->fine_detail_vision_mod(g) > 4) {//minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light)
         g->add_msg(_("You can't see to sew!"));
         return 0;
     }
@@ -4436,7 +4436,7 @@ int iuse::matchbomb_act(player *p, item *it, bool t) {
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999) { return 0; }
     // Simple timer effects
-    if (t) { 
+    if (t) {
         g->sound(pos.x, pos.y, 0, _("ssss..."));
     } else if(it->charges > 0) {
         g->add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
@@ -6813,7 +6813,7 @@ int iuse::talking_doll(player *p, item *it, bool t)
 int iuse::bell(player *p, item *it, bool t)
 {
     if( it->type->id == "cow_bell" ) {
-        g->sound(p->posx, p->posy, 6, _("Clank! Clank!"));   
+        g->sound(p->posx, p->posy, 6, _("Clank! Clank!"));
     } else {
         g->sound(p->posx, p->posy, 4, _("Ring! Ring!"));
     }

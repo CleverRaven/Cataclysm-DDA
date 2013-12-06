@@ -8062,7 +8062,7 @@ void player::read(game *g, char ch)
 
     // Check if reading is okay
     // check for light level
-    if (fine_detail_vision_mod(g) > 2.5)
+    if (fine_detail_vision_mod(g) > 4)//minimum LL_LOW or LL_DARK + (ELFA_NV or atomic_light)
     {
         g->add_msg(_("You can't see to read!"));
         return;
@@ -8186,7 +8186,7 @@ void player::read(game *g, char ch)
     }
 
  // Base read_speed() is 1000 move points (1 minute per tmp->time)
-    time = tmp->time * read_speed() * fine_detail_vision_mod(g);
+    time = tmp->time * read_speed() * (fine_detail_vision_mod(g));
     if (tmp->intel > int_cur)
     {
         g->add_msg(_("This book is too complex for you to easily understand. It will take longer to read."));
@@ -8394,15 +8394,16 @@ float player::fine_detail_vision_mod(game *g)
     if (g->m.light_at(posx, posy) == LL_LOW) { vision_ii = 4; }
     else if (g->m.light_at(posx, posy) == LL_DARK) { vision_ii = 5; }
 
-    if (g->u.has_active_item("glowstick_lit"))
-    {
-        vision_ii -= 3.5;
+    if (g->u.has_item_with_flag("LIGHT_2")){
+        vision_ii -= 2;
+    } else if (g->u.has_item_with_flag("LIGHT_1")){
+        vision_ii -= 1;
     }
 
     if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
 	else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
-    else if (has_trait("NIGHTVISION2")) { vision_ii -= 1.5; }
-    else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV")) { vision_ii -= 2.5; }
+    else if (has_trait("NIGHTVISION2")) { vision_ii -= 2; }
+    else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV")) { vision_ii -= 3; }
 
     if (vision_ii < 1) { vision_ii = 1; }
     return vision_ii;

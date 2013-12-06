@@ -1634,8 +1634,20 @@ void game::handle_key_blocking_activity() {
         timeout(-1);
     }
 }
-//// item submenu for 'i' and '/'
-int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
+/* item submenu for 'i' and '/'
+* It use compare_split_screen_popup to draw item info and action menu
+*
+* @param chItem char of item in inventory
+* @param iStartX Left coord of the item info window
+* @param iWidth width of the item info window (height = height of terminal)
+* @param position It is position of the action menu. Default 0
+* 	-2 - near the right edge of the terminal window
+* 	-1 - left before item info window
+* 	0 - right after item info window
+* 	1 - near the left edge of the terminal window
+* @return getch
+*/
+int game::inventory_item_menu(char chItem, int iStartX, int iWidth, int position) {
     int cMenu = (int)'+';
 
     if (u.has_item(chItem)) {
@@ -1645,31 +1657,54 @@ int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
         const int iOffsetX = 2;
         const bool bHPR = hasPickupRule(oThisItem.tname());
 
+		int max_text_length = 0; int length = 0;
         vMenu.push_back(iteminfo("MENU", "", "iOffsetX", iOffsetX));
         vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
-        vMenu.push_back(iteminfo("MENU", "a", _("<a>ctivate"), u.rate_action_use(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "R", _("<R>ead"), u.rate_action_read(&oThisItem, this)));
-        vMenu.push_back(iteminfo("MENU", "E", _("<E>at"), u.rate_action_eat(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "W", _("<W>ear"), u.rate_action_wear(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "w", _("<w>ield")));
-        vMenu.push_back(iteminfo("MENU", "t", _("<t>hrow")));
-        vMenu.push_back(iteminfo("MENU", "T", _("<T>ake off"), u.rate_action_takeoff(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "d", _("<d>rop")));
-        vMenu.push_back(iteminfo("MENU", "U", _("<U>nload"), u.rate_action_unload(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "r", _("<r>eload"), u.rate_action_reload(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble(&oThisItem, this)));
-        vMenu.push_back(iteminfo("MENU", "=", _("<=> reassign")));
-        vMenu.push_back(iteminfo("MENU", (bHPR) ? "-":"+", (bHPR) ? _("<-> Autopickup") : _("<+> Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
+        length = utf8_width(_("<a>ctivate")); if (length > max_text_length) max_text_length = length;
+		vMenu.push_back(iteminfo("MENU", "a", _("<a>ctivate"), u.rate_action_use(&oThisItem)));
+		length = utf8_width(_("<R>ead")); if (length > max_text_length) max_text_length = length;
+		vMenu.push_back(iteminfo("MENU", "R", _("<R>ead"), u.rate_action_read(&oThisItem, this)));
+		length = utf8_width(_("<E>at")); if (length > max_text_length) max_text_length = length;
+		vMenu.push_back(iteminfo("MENU", "E", _("<E>at"), u.rate_action_eat(&oThisItem)));
+		length = utf8_width(_("<W>ear")); if (length > max_text_length) max_text_length = length;
+		vMenu.push_back(iteminfo("MENU", "W", _("<W>ear"), u.rate_action_wear(&oThisItem)));
+		length = utf8_width(_("<w>ield")); if (length > max_text_length) max_text_length = length;
+		vMenu.push_back(iteminfo("MENU", "w", _("<w>ield")));
+		length = utf8_width(_("<t>hrow")); if (length > max_text_length) max_text_length = length;
+		vMenu.push_back(iteminfo("MENU", "t", _("<t>hrow")));
+		length = utf8_width(_("<T>ake off")); if (length > max_text_length) max_text_length = length;
+		vMenu.push_back(iteminfo("MENU", "T", _("<T>ake off"), u.rate_action_takeoff(&oThisItem)));
+		length = utf8_width(_("<d>rop")); if (length > max_text_length) max_text_length = length;
+		vMenu.push_back(iteminfo("MENU", "d", _("<d>rop")));
+		length = utf8_width(_("<U>nload")); if (length > max_text_length) max_text_length = length;
+		vMenu.push_back(iteminfo("MENU", "U", _("<U>nload"), u.rate_action_unload(&oThisItem)));
+		length = utf8_width(_("<r>eload")); if (length > max_text_length) max_text_length = length;
+		vMenu.push_back(iteminfo("MENU", "r", _("<r>eload"), u.rate_action_reload(&oThisItem)));
+		length = utf8_width(_("<D>isassemble")); if (length > max_text_length) max_text_length = length;
+		vMenu.push_back(iteminfo("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble(&oThisItem, this)));
+		length = utf8_width(_("<=> reassign")); if (length > max_text_length) max_text_length = length;
+		vMenu.push_back(iteminfo("MENU", "=", _("<=> reassign")));
+		length = utf8_width(_("<-> Autopickup")); if (length > max_text_length) max_text_length = length;
+		length = utf8_width(_("<+> Autopickup")); if (length > max_text_length) max_text_length = length;
+		vMenu.push_back(iteminfo("MENU", (bHPR) ? "-":"+", (bHPR) ? _("<-> Autopickup") : _("<+> Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
 
         oThisItem.info(true, &vThisItem, this);
-        compare_split_screen_popup(iStartX,iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(), vThisItem, vDummy);
+        compare_split_screen_popup(iStartX, iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(), vThisItem, vDummy, -1, true);
 
         const int iMenuStart = iOffsetX;
         const int iMenuItems = vMenu.size() - 1;
         int iSelected = iOffsetX - 1;
+		int popup_width = max_text_length + 2;
+		int popup_x = 0;
+		switch (position){
+			case -2: popup_x = 0; break; //near the right edge of the terminal window
+			case -1: popup_x = iStartX - popup_width; break; //left before item info window
+			case 0: popup_x = iStartX + iWidth; break; //right after item info window
+			case 1: popup_x = TERMX - popup_width; break; //near the left edge of the terminal window
+		}
 
         do {
-            cMenu = compare_split_screen_popup(iStartX + iWidth, iMenuItems + iOffsetX, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
+            cMenu = compare_split_screen_popup(popup_x, popup_width, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
                 iSelected >= iOffsetX && iSelected <= iMenuItems ? iSelected : -1
             );
 
@@ -7669,8 +7704,8 @@ int game::list_items()
 
                 oThisItem.info(true, &vThisItem);
                 compare_split_screen_popup(0, width - 5, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(), vThisItem, vDummy);
+                // wait until the user presses a key to wipe the screen
 
-                getch(); // wait until the user presses a key to wipe the screen
                 iLastActiveX = -1;
                 iLastActiveY = -1;
                 reset = true;

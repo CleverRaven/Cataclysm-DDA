@@ -393,7 +393,7 @@ void advanced_inventory::init(game *gp, player *pp)
     }
 
     panes[left].pos = 0;
-    panes[left].area = 5;
+    panes[left].area = 10;
     panes[right].pos = 1;
     panes[right].area = isinventory;
 
@@ -625,8 +625,6 @@ void advanced_inventory::redraw_pane( int i )
     // draw the stuff
     werase(panes[i].window);
 
-
-
     print_items( panes[i], (src == i) );
 
     int sel = -1;
@@ -715,43 +713,47 @@ void advanced_inventory::display(game * gp, player * pp) {
             max_inv = inv_chars.size() - u.worn.size() - ( u.is_armed() ? 1 : 0 );
             for (int i = 0; i < 2; i++) {
                 if ( redraw || panes[i].redraw ) {
-                   redraw_pane( i );
+                    redraw_pane( i );
+                    wrefresh(panes[i].window);
                 }
             }
 
             recalc=false;
-
-            werase(head);
+            if (redraw)
             {
-                draw_border(head);
-                int line=1;
-                if( checkshowmsg || showmsg ) {
-                  for (int i = g->messages.size() - 1; i >= 0 && line < 4; i--) {
-                    std::string mes = g->messages[i].message;
-                    if (g->messages[i].count > 1) {
-                      std::stringstream mesSS;
-                      mesSS << mes << " x " << g->messages[i].count;
-                      mes = mesSS.str();
+                werase(head);
+                {
+                    draw_border(head);
+                    int line=1;
+                    if( checkshowmsg || showmsg ) {
+                      for (int i = g->messages.size() - 1; i >= 0 && line < 4; i--) {
+                        std::string mes = g->messages[i].message;
+                        if (g->messages[i].count > 1) {
+                          std::stringstream mesSS;
+                          mesSS << mes << " x " << g->messages[i].count;
+                          mes = mesSS.str();
+                        }
+                        nc_color col = c_dkgray;
+                        if (int(g->messages[i].turn) >= g->curmes) {
+                           col = c_ltred;
+                           showmsg=true;
+                        } else {
+                           col = c_ltgray;
+                        }
+                        if ( showmsg ) mvwprintz(head, line, 2, col, mes.c_str());
+                        line++;
+                      }
                     }
-                    nc_color col = c_dkgray;
-                    if (int(g->messages[i].turn) >= g->curmes) {
-                       col = c_ltred;
-                       showmsg=true;
+                    if ( ! showmsg ) {
+                      mvwprintz(head,0,w_width-18,c_white,_("< [?] show log >"));
+                      mvwprintz(head,1,2, c_white, _("hjkl or arrow keys to move cursor, [m]ove item between panes,"));
+                      mvwprintz(head,2,2, c_white, _("1-9 (or GHJKLYUBNI) to select square for active tab, 0 for inventory,"));
+                      mvwprintz(head,3,2, c_white, _("[e]xamine item,  [s]ort display, toggle auto[p]ickup, [q]uit."));
                     } else {
-                       col = c_ltgray;
+                      mvwprintz(head,0,w_width-19,c_white,_("< [?] show help >"));
                     }
-                    if ( showmsg ) mvwprintz(head, line, 2, col, mes.c_str());
-                    line++;
-                  }
                 }
-                if ( ! showmsg ) {
-                  mvwprintz(head,0,w_width-18,c_white,_("< [?] show log >"));
-                  mvwprintz(head,1,2, c_white, _("hjkl or arrow keys to move cursor, [m]ove item between panes,"));
-                  mvwprintz(head,2,2, c_white, _("1-9 (or GHJKLYUBNI) to select square for active tab, 0 for inventory,"));
-                  mvwprintz(head,3,2, c_white, _("[e]xamine item,  [s]ort display, toggle auto[p]ickup, [q]uit."));
-                } else {
-                  mvwprintz(head,0,w_width-19,c_white,_("< [?] show help >"));
-                }
+                wrefresh(head);
             }
             redraw = false;
         }
@@ -759,20 +761,9 @@ void advanced_inventory::display(game * gp, player * pp) {
         int list_pos = panes[src].index + (panes[src].page * itemsPerPage);
         int item_pos = panes[src].size > 0 ? panes[src].items[list_pos].idx : 0;
 
-
-        // todo refactor; this breaks if done in reverse
-        if (!examineScroll) {
-            wrefresh(head);
-            wrefresh(panes[right].window);
-        }
-        wrefresh(panes[left].window);
-        examineScroll = false;
-
-
         int changex = -1;
         int changey = 0;
         bool donothing = false;
-
 
         int c = lastCh ? lastCh : getch();
         lastCh = 0;
@@ -1158,7 +1149,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                 }
             } while(key != '\n' && key != KEY_ESCAPE);
             filter_edit = false;
-            redraw_pane(src);
+            redraw = true;
         } else if('p' == c) {
             if(panes[src].size == 0) {
                 continue;
@@ -1183,20 +1174,23 @@ void advanced_inventory::display(game * gp, player * pp) {
             int ret=0;
             if(panes[src].area == isinventory ) {
                 char pleaseDeprecateMe=it->invlet;
-                ret=g->inventory_item_menu(pleaseDeprecateMe, 0, w_width/2
-                   // fixme: replace compare_split_screen_popup which requires y=0 for item menu to function right
-                   // colstart + ( src == left ? w_width/2 : 0 ), 50
+                ret=g->inventory_item_menu(pleaseDeprecateMe,
+										colstart + ( src == left ? w_width/2 : 0 ),
+										w_width/2,
+										(src == right ? 1 : -1)
+					//-1 - left before the item info window
+					// 1 - near the left edge of the terminal window
                 );
-                recalc=true;
-                checkshowmsg=true;
+                panes[src].recalc = true;
+                checkshowmsg = true;
             } else {
                 std::vector<iteminfo> vThisItem, vDummy;
                 it->info(true, &vThisItem, g);
-                int rightWidth = w_width / 2 - 2;
+                int rightWidth = w_width / 2;
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"), "\n"));
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"), center_text(_("[up / page up] previous"), rightWidth - 4)));
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"), center_text(_("[down / page down] next"), rightWidth - 4)));
-                ret=compare_split_screen_popup( 1 + colstart + ( src == isinventory ? w_width/2 : 0 ),
+                ret=compare_split_screen_popup(colstart + ( src == left ? w_width/2 : 0 ),
                     rightWidth, 0, it->tname(), vThisItem, vDummy );
             }
             if ( ret == KEY_NPAGE || ret == KEY_DOWN ) {
@@ -1205,9 +1199,9 @@ void advanced_inventory::display(game * gp, player * pp) {
             } else if ( ret == KEY_PPAGE || ret == KEY_UP ) {
                 changey += -1;
                 lastCh='e';
-            }
-            if (changey) { examineScroll = true; }
-            redraw = true;
+            } else {
+                lastCh = 0; redraw = true;
+            };
         }
         else if( 'q' == c || KEY_ESCAPE == c || ' ' == c )
         {
@@ -1277,7 +1271,7 @@ void advanced_inventory::display(game * gp, player * pp) {
               }
 
             }
-            redraw = true;
+            panes[src].redraw = true;
           }
           if ( changex >= 0 ) {
             src = changex;
