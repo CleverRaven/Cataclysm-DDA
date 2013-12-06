@@ -896,7 +896,7 @@ recipe* game::select_crafting_recipe()
                     tab = prev_craft_cat(tab);
                     if ( tab == "CC_WEAPON") { subtab = "CSC_WEAPON_BASHING"; }
                     else if (tab == "CC_AMMO") { subtab = "CSC_AMMO_BULLETS"; }
-                    else if (tab == "CC_FOOD") { subtab = "CSC_FOOD_DRINK"; }
+                    else if (tab == "CC_FOOD") { subtab = "CSC_FOOD_DRINKS"; }
                     else if (tab == "CC_CHEM") { subtab = "CSC_CHEMS_DRUGS"; }
                     else if (tab == "CC_ELECTRONIC") { subtab = "CSC_ELECTRONICS_CBMS"; }
                     else if (tab == "CC_ARMOR") { subtab = "CSC_ARMOR_STORAGE"; }
