@@ -14222,6 +14222,53 @@
   ]
 },{
         "type" : "recipe",
+  "result": "cargo_rack",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "skills_required": ["mechanics",1],
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "frame", 4 ]
+    ],
+    [
+      ["rope_30", 4]
+    ],
+    [
+      [ "steel_chunk", 4 ],
+      [ "scrap", 12 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "foot_crank",
   "category": "CC_MISC",
   "skill_used": "mechanics",
