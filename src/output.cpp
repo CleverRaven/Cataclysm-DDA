@@ -564,8 +564,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                 ret.append(tmp);
             }
         } else if( ch != 0 && ch != ERR && (ret.size() < max_length || max_length == 0) ) {
-            if (only_digits && (ch != '0' && ch != '1' && ch != '2' && ch != '3' && ch != '4' && ch != '5'
-                                 && ch != '6' && ch != '7' && ch != '8' && ch != '9')) {
+            if ( only_digits && !isdigit(ch) ) {
                 return_key = true;
             } else {
                 if ( pos == ret.size() ) {
