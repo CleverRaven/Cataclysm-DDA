@@ -434,10 +434,21 @@ void npc::talk_to_u(game *g)
   }
  }
 
- if (d.topic_stack.back() == TALK_NONE)
+ if (d.topic_stack.back() == TALK_NONE) {
   d.topic_stack.back() = pick_talk_topic(&(g->u));
-
+ }
+ 
  moves -= 100;
+ 
+ if(g->u.has_disease("deaf")) {
+  g->add_msg(_("%s tries to talk to you, but you're deaf!"), name.c_str());
+  if(d.topic_stack.back() == TALK_MUG) {
+   g->add_msg(_("When you don't respond, %s becomes angry!"), name.c_str());
+   make_angry();
+  }
+  return;
+ }
+ 
  decide_needs();
 
  d.win = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -1863,6 +1874,7 @@ void talk_function::set_engagement_all(npc *p)
  p->combat_rules.engagement = ENGAGE_ALL;
 }
 
+//TODO currently this does not handle martial art styles correctly
 void talk_function::start_training(npc *p)
 {
  int cost = 0, time = 0;

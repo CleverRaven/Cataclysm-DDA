@@ -185,8 +185,14 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
             }
         }
 
-        if (closest == -2)
+        if (closest == -2) {
+            if (one_in(2)) {//random for the diversity of the trajectory
+                ++stc;
+            } else {
+                --stc;
+            }
             set_dest(g->u.posx, g->u.posy, stc);
+        }
         else if (closest <= -3)
             set_dest(g->zombie(-3 - closest).posx(), g->zombie(-3 - closest).posy(), stc);
         else if (closest >= 0)
@@ -586,7 +592,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             {
                 p.practice(g->turn, "dodge", type->melee_skill);
 
-                if(!p.block_hit(g, this, NULL, bphit, side, dam, cut, stab) && u_see) {
+                if(!p.block_hit(g, bphit, side, dam, cut, stab) && u_see) {
                     if (is_npc) {
                         if( u_see ) {
                             g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),

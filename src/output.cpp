@@ -299,7 +299,8 @@ void realDebugmsg(const char *filename, const char *line, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[1024];
+    char buff[4096];
+//[1024];
     vsprintf(buff, mes, ap);
     va_end(ap);
     fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "DEBUG: %s\n  Press spacebar...", buff);
@@ -372,7 +373,7 @@ int query_int(const char *mes, ...)
 }
 
 std::string string_input_popup(std::string title, int width, std::string input, std::string desc,
-                               std::string identifier, int max_length )
+                               std::string identifier, int max_length, bool only_digits )
 {
     nc_color title_color = c_ltred;
     nc_color desc_color = c_green;
@@ -418,7 +419,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
     long key = 0;
     int pos = -1;
     std::string ret = string_input_win(w, input, max_length, startx, starty, endx, true, key, pos,
-                                       identifier, w_x, w_y, true );
+                                       identifier, w_x, w_y, true, only_digits);
     werase(w);
     wrefresh(w);
     delwin(w);
@@ -427,7 +428,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 }
 
 std::string string_input_win(WINDOW *w, std::string input, int max_length, int startx, int starty,
-                             int endx, bool loop, long &ch, int &pos, std::string identifier, int w_x, int w_y, bool dorefresh )
+                             int endx, bool loop, long &ch, int &pos, std::string identifier, int w_x, int w_y, bool dorefresh, bool only_digits )
 {
     std::string ret = input;
     nc_color string_color = c_magenta;
@@ -488,18 +489,11 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             wrefresh(w);
         }
         ch = getch();
+        bool return_key = false;
         if (ch == 27) { // Escape
             return "";
         } else if (ch == '\n') {
-            if(identifier.size() > 0 && ret.size() > 0 ) {
-                std::vector<std::string> *hist = uistate.gethistory(identifier);
-                if( hist != NULL ) {
-                    if ( hist->size() == 0 || (*hist)[hist->size() - 1] != ret ) {
-                        hist->push_back(ret);
-                    }
-                }
-            }
-            return ret;
+            return_key = true;
         } else if (ch == KEY_UP ) {
             if(identifier.size() > 0) {
                 std::vector<std::string> *hist = uistate.gethistory(identifier);
@@ -570,13 +564,31 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                 ret.append(tmp);
             }
         } else if( ch != 0 && ch != ERR && (ret.size() < max_length || max_length == 0) ) {
-            if ( pos == ret.size() ) {
-                ret += ch;
+            if (only_digits && (ch != '0' && ch != '1' && ch != '2' && ch != '3' && ch != '4' && ch != '5'
+                                 && ch != '6' && ch != '7' && ch != '8' && ch != '9')) {
+                return_key = true;
             } else {
-                ret.insert(pos, 1, ch);
+                if ( pos == ret.size() ) {
+                    ret += ch;
+                } else {
+                    ret.insert(pos, 1, ch);
+                }
+                redraw = true;
+                pos++;
             }
-            redraw = true;
-            pos++;
+        }
+        if (return_key) {//"/n" return code
+            {
+                if(identifier.size() > 0 && ret.size() > 0 ) {
+                    std::vector<std::string> *hist = uistate.gethistory(identifier);
+                    if( hist != NULL ) {
+                        if ( hist->size() == 0 || (*hist)[hist->size() - 1] != ret ) {
+                            hist->push_back(ret);
+                        }
+                    }
+                }
+                return ret;
+            }
         }
     } while ( loop == true );
     return ret;

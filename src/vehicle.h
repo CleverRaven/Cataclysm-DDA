@@ -71,7 +71,7 @@ struct vehicle_prototype
  */
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
-    vehicle_part() : id("null"), mount_dx(0), mount_dy(0), hp(0),
+    vehicle_part() : id("null"), iid(0), mount_dx(0), mount_dy(0), hp(0),
       blood(0), bigness(0), inside(false), flags(0), passenger_id(0), amount(0)
     {
         precalc_dx[0] = precalc_dx[1] = -1;
@@ -84,6 +84,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     static const int passenger_flag = 1;
 
     std::string id;         // id in map of parts (vehicle_part_types key)
+    int iid;                // same as above, for lookup via int
     int mount_dx;           // mount point on the forward/backward axis
     int mount_dy;           // mount point on the left/right axis
     int precalc_dx[2];      // mount_dx translated to face.dir [0] and turn_dir [1]
@@ -101,6 +102,16 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
         int direction;      // direction the part is facing
     };
     std::vector<item> items;// inventory
+
+    bool setid(const std::string str) {
+        std::map<std::string, vpart_info>::const_iterator vpit = vehicle_part_types.find(str);
+        if ( vpit == vehicle_part_types.end() ) {
+            return false;
+        }
+        id = str;
+        iid = vpit->second.loadid;
+        return true;
+    }
 
     // json saving/loading
     using JsonSerializer::serialize;
@@ -193,6 +204,9 @@ private:
     // returns damage bypassed
     int damage_direct (int p, int dmg, int type = 1);
 
+    // get vpart powerinfo for part number, accounting for variable-sized parts.
+    int part_power (int index);
+
 public:
     vehicle (game *ag=0, std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
@@ -227,9 +241,6 @@ public:
 // get vpart type info for part number (part at given vector index)
     vpart_info& part_info (int index);
 
-// get vpart powerinfo for part number, accounting for variable-sized parts.
-    int part_power (int index);
-
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, std::string id);
 
@@ -253,19 +264,21 @@ public:
     void give_part_properties_to_item (int partnum, item& i);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
-    std::vector<int> parts_at_relative (int dx, int dy);
+    const std::vector<int> parts_at_relative (const int dx, const int dy, bool use_cache = true);
 
 // returns index of part, inner to given, with certain flag, or -1
     int part_with_feature (int p, const std::string &f, bool unbroken = true);
-
+    int part_with_feature (int p, const vpart_bitflags &f, bool unbroken = true);
 // returns indices of all parts in the vehicle with the given flag
     std::vector<int> all_parts_with_feature(const std::string &feature, bool unbroken = true);
+    std::vector<int> all_parts_with_feature(const vpart_bitflags &f, bool unbroken = true);
 
 // returns indices of all parts in the given location slot
     std::vector<int> all_parts_at_location(const std::string &location);
 
 // returns true if given flag is present for given part index
     bool part_flag (int p, const std::string &f);
+    bool part_flag (int p, const vpart_bitflags &f);
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -318,19 +331,19 @@ public:
 
 // Checks how much certain fuel left in tanks. If for_engine == true that means
 // ftype == "battery" is also takes in account "plutonium" fuel (electric motors can use both)
-    int fuel_left (ammotype ftype, bool for_engine = false);
-    int fuel_capacity (ammotype ftype);
+    int fuel_left (const ammotype & ftype, bool for_engine = false);
+    int fuel_capacity (const ammotype & ftype);
 
     // refill fuel tank(s) with given type of fuel
     // returns amount of leftover fuel
-    int refill (ammotype ftype, int amount);
+    int refill (const ammotype & ftype, int amount);
 
     // drains a fuel type (e.g. for the kitchen unit)
     // returns amount actually drained, does not engage reactor
-    int drain (ammotype ftype, int amount);
+    int drain (const ammotype & ftype, int amount);
 
 // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
-    int basic_consumption (ammotype ftype);
+    int basic_consumption (const ammotype & ftype);
 
     void consume_fuel ();
 
@@ -400,7 +413,8 @@ public:
 // turn vehicle left (negative) or right (positive), degrees
     void turn (int deg);
 
-    bool collision( std::vector<veh_collision> &veh_veh_colls, int dx, int dy,
+    bool collision( std::vector<veh_collision> &veh_veh_colls,
+                    std::vector<veh_collision> &veh_misc_colls, int dx, int dy,
                     bool &can_move, int &imp, bool just_detect = false );
 
 // handle given part collision with vehicle, monster/NPC/player or terrain obstacle
@@ -436,6 +450,8 @@ public:
 
     void find_fuel_tanks ();
 
+    void find_parts();
+
     void find_exhaust ();
 
     void refresh_insides ();
@@ -465,7 +481,8 @@ public:
     void fire_turret (int p, bool burst = true);
 
     // internal procedure of turret firing
-    bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges);
+    bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges,
+                               const std::string &firing_sound = "");
 
     // opens/closes doors or multipart doors
     void open(int part_index);
@@ -484,9 +501,11 @@ public:
     std::string name;   // vehicle name
     std::string type;           // vehicle type
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
+    std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
     std::vector<int> horns;            // List of horn part indices
     std::vector<int> lights;           // List of light part indices
     std::vector<int> fuel;             // List of fuel tank indices
+    std::vector<int> wheelcache;
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
     int exhaust_dx;
@@ -495,6 +514,7 @@ public:
     // temp values
     int smx, smy;   // submap coords. WARNING: must ALWAYS correspond to sumbap coords in grid, or i'm out
     bool insides_dirty; // if true, then parts' "inside" flags are outdated and need refreshing
+    bool parts_dirty;   //
     int init_veh_fuel;
     int init_veh_status;
 

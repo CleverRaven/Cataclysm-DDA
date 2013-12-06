@@ -1,7 +1,9 @@
 #ifndef __CATACURSE__
 #define __CATACURSE__
 #if (defined _WIN32 || defined WINDOWS)
+#ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0500
+#endif
 #define WIN32_LEAN_AND_MEAN
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -191,7 +193,11 @@ void curses_delay(int delay);
 void curses_timeout(int t);
 int curses_getch(WINDOW* win);
 int curses_start_color();
-#ifdef SDLTILES
-void init_tiles();
-#endif
+
+// Add interface specific (SDL/ncurses/wincurses) initializations here
+void init_interface();
+
+int projected_window_width(int column_count);
+int projected_window_height(int row_count);
+
 #endif

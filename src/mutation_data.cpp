@@ -15,7 +15,6 @@
 std::vector<dream> dreams;
 std::map<std::string, std::vector<std::string> > mutations_category;
 std::map<std::string, mutation_branch> mutation_data;
-std::map<std::string, unsigned> bodyparts_list;
 
 void load_mutation(JsonObject &jsobj)
 {
@@ -64,21 +63,9 @@ void load_mutation(JsonObject &jsobj)
         int neutral = jo.get_int("neutral", 0);
         int good = jo.get_int("good", 0);
         tripoint protect = tripoint(ignored, neutral, good);
-        mutation_data[id].protection.push_back(
-            mutation_wet(bodyparts_list[part_id], protect));
+        mutation_data[id].protection[part_id] =
+            mutation_wet(body_parts[part_id], protect);
     }
-}
-
-void init_mutation_parts()
-{
-    bodyparts_list["TORSO"] = mfb(bp_torso);
-    bodyparts_list["HEAD"] = mfb(bp_head);
-    bodyparts_list["EYES"] = mfb(bp_eyes);
-    bodyparts_list["MOUTH"] = mfb(bp_mouth);
-    bodyparts_list["ARMS"] = mfb(bp_arms);
-    bodyparts_list["HANDS"] = mfb(bp_hands);
-    bodyparts_list["LEGS"] = mfb(bp_legs);
-    bodyparts_list["FEET"] = mfb(bp_feet);
 }
 
 void load_dream(JsonObject &jsobj)

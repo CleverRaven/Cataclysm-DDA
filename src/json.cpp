@@ -84,7 +84,6 @@ std::string utf16_to_utf8(unsigned ch) {
     } else if (ch <= 0x10FFFF) {
         utf8Bytes = 4;
     } else {
-        utf8Bytes = 3;
         std::stringstream err;
         err << "unknown unicode: " << ch;
         throw err.str();
@@ -194,6 +193,27 @@ std::string JsonObject::str()
     } else {
         return "{}";
     }
+}
+
+
+void JsonObject::throw_error(std::string err, const std::string & name) {
+    jsin->seek(verify_position(name,false));
+    jsin->error(err);
+}
+
+void JsonArray::throw_error(std::string err) {
+    jsin->error(err);
+}
+
+void JsonArray::throw_error(std::string err, int idx) {
+    if (idx >= 0 && idx < positions.size() ) {
+        jsin->seek( positions[idx] );
+    }
+    jsin->error(err);
+}
+
+void JsonObject::throw_error(std::string err) {
+    jsin->error(err);
 }
 
 JsonIn* JsonObject::get_raw(const std::string &name)

@@ -847,9 +847,20 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
     return false;
 }
 
-std::map<std::string, cOpt> worldfactory::get_world_options(std::string path)
+std::map<std::string, cOpt> worldfactory::get_default_world_options()
 {
     std::map<std::string, cOpt> retoptions;
+    for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
+        if (it->second.getPage() == "world_default") {
+            retoptions[it->first] = it->second;
+        }
+    }
+    return retoptions;
+}
+
+std::map<std::string, cOpt> worldfactory::get_world_options(std::string path)
+{
+    std::map<std::string, cOpt> retoptions = get_default_world_options();
     std::ifstream fin;
 
     fin.open(path.c_str());
@@ -874,7 +885,6 @@ std::map<std::string, cOpt> worldfactory::get_world_options(std::string path)
             int ipos = sLine.find(' ');
             // make sure that the option being loaded is part of the world_default page in OPTIONS
             if(OPTIONS[sLine.substr(0, ipos)].getPage() == "world_default"){
-                retoptions[sLine.substr(0, ipos)] = OPTIONS[sLine.substr(0, ipos)]; // init to OPTIONS current
                 retoptions[sLine.substr(0, ipos)].setValue(sLine.substr(ipos + 1, sLine.length()));
             }
         }

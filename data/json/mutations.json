@@ -565,6 +565,7 @@
         "description" : "Your eyes have turned...green.  It's tough to tell the exact shade as it seems to shift.  The effect is ...pleasant.",
         "leads_to" : ["ELFA_NV"],
         "valid" : false,
+        "cancels" : ["LIZ_EYE"],
         "category" : ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
@@ -602,6 +603,7 @@
         "ugliness" : 1,
         "description" : "Your eyes have mutated, with a brilliant iris and slitted pupil similar to that of a lizard.  This is visually striking, but doesn't seem to affect your vision.",
         "leads_to" : ["LIZ_IR"],
+        "cancels" : ["ELFAEYES"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
@@ -714,12 +716,12 @@
         "cancels" : ["THICK_SCALES", "FEATHERS"],
         "category" : ["MUTCAT_FISH"],
         "wet_protection" : [
-            { "part" : "HEAD", "ignored" : 7 },
-            { "part" : "LEGS", "ignored" : 21 },
-            { "part" : "FEET", "ignored" : 6 },
-            { "part" : "ARMS", "ignored" : 19 },
-            { "part" : "HANDS", "ignored" : 5 },
-            { "part" : "TORSO", "ignored" : 40 }
+            { "part" : "HEAD", "good" : 7 },
+            { "part" : "LEGS", "good" : 21 },
+            { "part" : "FEET", "good" : 6 },
+            { "part" : "ARMS", "good" : 19 },
+            { "part" : "HANDS", "good" : 5 },
+            { "part" : "TORSO", "good" : 40 }
         ]
     },{
         "type" : "mutation",
@@ -1121,7 +1123,7 @@
         "visibility" : 1,
         "ugliness" : 2,
         "description" : "You have a short, stubby tail, like a rabbit's. It serves no purpose.",
-        "changes_to" : ["TAIL_LONG", "TAIL_THICK", "TAIL_FIN"]
+        "changes_to" : ["TAIL_LONG", "TAIL_THICK", "TAIL_FIN", "TAIL_RAT", "TAIL_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "TAIL_FIN",
@@ -1131,7 +1133,7 @@
         "ugliness" : 2,
         "description" : "You have a fin-like tail. It allows you to swim more quickly. Slightly increases wet benefits.",
         "prereqs" : ["TAIL_STUB"],
-        "cancels" : ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_LIZARD", "TAIL_STING", "TAIL_CLUB"],
+        "cancels" : ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_THICK", "TAIL_STING", "TAIL_CLUB", "TAIL_RAT", "TAIL_CATTLE"],
         "category" : ["MUTCAT_FISH"],
         "wet_protection":[
          {
@@ -1148,9 +1150,8 @@
         "ugliness" : 2,
         "description" : "You have a long, graceful tail, like that of a big cat. It improves your balance, making your ability to dodge higher.",
         "prereqs" : ["TAIL_STUB"],
-        "cancels" : ["TAIL_FIN"],
-        "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE"],
-        "category" : ["MUTCAT_RAT"]
+        "cancels" : ["TAIL_FIN", "TAIL_THICK", "TAIL_RAPTOR"],
+        "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE", "TAIL_RAT"]
     },{
         "type" : "mutation",
         "id" : "TAIL_CATTLE",
@@ -1182,7 +1183,7 @@
         "ugliness" : 2,
         "description" : "You have a long, thick, lizardlike tail. It helps you balance a bit but also makes a serviceable whip.",
         "prereqs" : ["TAIL_STUB"],
-        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING",  "TAIL_CLUB", "TAIL_RAPTOR", "TAIL_CATTLE", "TAIL_RAT"],
+        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_RAPTOR", "TAIL_CATTLE", "TAIL_RAT"],
         "changes_to" : ["TAIL_CLUB"],
         "category" : ["MUTCAT_LIZARD"]
     },{
@@ -1194,7 +1195,7 @@
         "ugliness" : 2,
         "description" : "You have a long and semi-stiff lizardlike tail. You can't effectively lash it in combat, but do find it significantly improves your balance.",
         "prereqs" : ["TAIL_STUB"],
-        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"],
+        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_RAT", "TAIL_CATTLE", "TAIL_LONG"],
         "category" : ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
@@ -1204,7 +1205,7 @@
         "visibility" : 7,
         "description" : "You have a long, fluffy-furred tail. It greatly improves your balance, making your ability to dodge much higher.  However, you find yourself wagging when happy...",
         "prereqs" : ["TAIL_LONG"],
-        "cancels" : ["TAIL_STING", "TAIL_CLUB", "TAIL_FIN", "TAIL_LIZARD"],
+        "cancels" : ["TAIL_STING", "TAIL_CLUB", "TAIL_FIN", "TAIL_THICK", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
         "category" : ["MUTCAT_BEAST"]
     },{
         "type" : "mutation",
@@ -1215,7 +1216,7 @@
         "ugliness" : 3,
         "description" : "You have a long tail that ends in a vicious stinger, like that of a scorpion. It does not improve your balance at all, but allows for a powerful piercing attack.",
         "prereqs" : ["TAIL_LONG"],
-        "cancels" : ["TAIL_FLUFFY", "TAIL_CLUB", "TAIL_FIN", "TAIL_LIZARD"],
+        "cancels" : ["TAIL_FLUFFY", "TAIL_CLUB", "TAIL_FIN", "TAIL_THICK", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
         "category" : ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
@@ -1225,8 +1226,8 @@
         "visibility" : 7,
         "ugliness" : 2,
         "description" : "You have a long tail that ends in a heavy, bony club. It does not improve your balance at all, but allows for a powerful bashing attack.",
-        "prereqs" : ["TAIL_LIZARD"],
-        "cancels" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_FIN"],
+        "prereqs" : ["TAIL_THICK"],
+        "cancels" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_FIN", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
         "category" : ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",

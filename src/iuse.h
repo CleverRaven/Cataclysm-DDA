@@ -7,49 +7,51 @@ class player;
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
 class iuse
 {
- public:
-  int none                  (player*, item*, bool);
+public:
+    int none                (player*, item*, bool);
 
 // FOOD AND DRUGS (ADMINISTRATION)
-  int sewage                (player*, item*, bool);
-  int honeycomb             (player*, item*, bool);
-  int royal_jelly           (player*, item*, bool);
-  int bandage               (player*, item*, bool);
-  int firstaid              (player*, item*, bool);
-  int completefirstaid      (player*, item*, bool);
-  int disinfectant          (player*, item*, bool);
-  int caff                  (player*, item*, bool);
-  int atomic_caff           (player*, item*, bool);
-  int alcohol               (player*, item*, bool);
-  int alcohol_weak          (player*, item*, bool);
-  int pkill                 (player*, item*, bool);
-  int xanax                 (player*, item*, bool);
-  int cig                   (player*, item*, bool);
-  int antibiotic            (player*, item*, bool);
-  int fungicide             (player*, item*, bool);
-  int weed                  (player*, item*, bool);
-  int coke                  (player*, item*, bool);
-  int crack                 (player*, item*, bool);
-  int grack                 (player*, item*, bool);
-  int meth                  (player*, item*, bool);
-  int vitamins              (player*, item*, bool);
-  int vaccine               (player*, item*, bool);
-  int poison                (player*, item*, bool);
-  int hallu                 (player*, item*, bool);
-  int thorazine             (player*, item*, bool);
-  int prozac                (player*, item*, bool);
-  int sleep                 (player*, item*, bool);
-  int iodine                (player*, item*, bool);
-  int flumed                (player*, item*, bool);
-  int flusleep              (player*, item*, bool);
-  int inhaler               (player*, item*, bool);
-  int blech                 (player*, item*, bool);
-  int chew                  (player*, item*, bool);
-  int mutagen               (player*, item*, bool);
-  int purifier              (player*, item*, bool);
-  int marloss               (player*, item*, bool);
-  int dogfood               (player*, item*, bool);
-  int catfood               (player*, item*, bool);
+    int sewage              (player*, item*, bool);
+    int honeycomb           (player*, item*, bool);
+    int royal_jelly         (player*, item*, bool);
+    int bandage             (player*, item*, bool);
+    int firstaid            (player*, item*, bool);
+    int completefirstaid    (player*, item*, bool);
+    int disinfectant        (player*, item*, bool);
+    int caff                (player*, item*, bool);
+    int atomic_caff         (player*, item*, bool);
+    int alcohol             (player*, item*, bool);
+    int alcohol_weak        (player*, item*, bool);
+    int pkill               (player*, item*, bool);
+    int xanax               (player*, item*, bool);
+    int cig                 (player*, item*, bool);
+    int antibiotic          (player*, item*, bool);
+    int fungicide           (player*, item*, bool);
+    int weed                (player*, item*, bool);
+    int coke                (player*, item*, bool);
+    int crack               (player*, item*, bool);
+    int grack               (player*, item*, bool);
+    int meth                (player*, item*, bool);
+    int vitamins            (player*, item*, bool);
+    int vaccine             (player*, item*, bool);
+    int poison              (player*, item*, bool);
+    int hallu               (player*, item*, bool);
+    int thorazine           (player*, item*, bool);
+    int prozac              (player*, item*, bool);
+    int sleep               (player*, item*, bool);
+    int iodine              (player*, item*, bool);
+    int flumed              (player*, item*, bool);
+    int flusleep            (player*, item*, bool);
+    int inhaler             (player*, item*, bool);
+    int blech               (player*, item*, bool);
+    int chew                (player*, item*, bool);
+    int mutagen             (player*, item*, bool);
+    int mut_iv              (player*, item*, bool);
+    int purifier            (player*, item*, bool);
+    int purify_iv           (player*, item*, bool);
+    int marloss             (player*, item*, bool);
+    int dogfood             (player*, item*, bool);
+    int catfood             (player*, item*, bool);
 
 // TOOLS
   int lighter               (player*, item*, bool);
@@ -196,6 +198,7 @@ class iuse
   int jet_injector          (player*, item*, bool);
   int contacts              (player*, item*, bool);
   int talking_doll          (player*, item*, bool);
+  int bell                  (player*, item*, bool);
 // MACGUFFINS
   int mcg_note              (player*, item*, bool);
 // ARTIFACTS

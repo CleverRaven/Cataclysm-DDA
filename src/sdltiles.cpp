@@ -32,7 +32,9 @@
 #ifdef SDLTILES
 #include "SDL_image.h" // Make sure to add this to the other OS inclusions
 #endif
+#ifndef strcasecmp
 #define strcasecmp strcmpi
+#endif
 #else
 #include <wordexp.h>
 #if (defined OSX_SDL_FW)
@@ -93,7 +95,8 @@ static bool fontblending = false;
 //***********************************
 //Tile-version specific functions   *
 //***********************************
-void init_tiles()
+
+void init_interface()
 {
 
     DebugLog() << "Initializing SDL Tiles context\n";
@@ -912,21 +915,45 @@ static int test_face_size(std::string f, int size, int faceIndex)
     return faceIndex;
 }
 
+// Calculates the new width of the window, given the number of columns.
+int projected_window_width(int column_count)
+{
+	const int SidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+	int newWindowWidth = (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
+	newWindowWidth = newWindowWidth < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : newWindowWidth;
+
+	return newWindowWidth * fontwidth;
+}
+
+// Calculates the new height of the window, given the number of rows.
+int projected_window_height(int row_count)
+{
+	return (OPTIONS["VIEWPORT_Y"] * 2 + 1) * fontheight;
+}
+
 //Basic Init, create the font, backbuffer, etc
 WINDOW *curses_init(void)
 {
     lastchar=-1;
     inputdelay=-1;
 
-    std::string typeface = "";
+    std::string typeface = "Terminus";
     std::string blending = "solid";
     std::ifstream fin;
     int faceIndex = 0;
     int fontsize = 0; //actuall size
     fin.open("data/FONTDATA");
     if (!fin.is_open()){
-        fontheight=16;
-        fontwidth=8;
+        fontwidth = 8;
+        fontheight = 16;
+        std::ofstream fout;//create data/FONDATA file
+        fout.open("data/FONTDATA");
+        if(fout.is_open()) {
+            fout << typeface << "\n";
+            fout << fontwidth << "\n";
+            fout << fontheight;
+            fout.close();
+        }
     } else {
         getline(fin, typeface);
         fin >> fontwidth;
@@ -1133,6 +1160,7 @@ input_event input_manager::get_input_event(WINDOW *win) {
     {
         do
         {
+            rval.type = CATA_INPUT_ERROR;
             CheckMessages();
             if (lastchar!=ERR) break;
             SDL_Delay(1);
@@ -1146,6 +1174,7 @@ input_event input_manager::get_input_event(WINDOW *win) {
         bool timedout = false;
         do
         {
+            rval.type = CATA_INPUT_ERROR;
             CheckMessages();
             endtime=SDL_GetTicks();
             if (lastchar!=ERR) break;

@@ -264,7 +264,7 @@ point editmap::edit()
     target.x = g->u.posx + g->u.view_offset_x;
     target.y = g->u.posy + g->u.view_offset_y;
     int ch;
-    InputEvent input;
+    InputEvent input = Undefined;
 
     uberdraw = uistate.editmap_nsa_viewmode;
     infoHeight = 14;
@@ -578,7 +578,7 @@ void editmap::update_view(bool update_info)
 
         if (!g->m.has_flag("CONTAINER", target.x, target.y) && g->m.i_at(target.x, target.y).size() > 0) {
             mvwprintw(w_info, off, 1, _("There is a %s there."),
-                      g->m.i_at(target.x, target.y)[0].tname(g).c_str());
+                      g->m.i_at(target.x, target.y)[0].tname().c_str());
             off++;
             if (g->m.i_at(target.x, target.y).size() > 1) {
                 mvwprintw(w_info, off, 1, _("There are %d other items there as well."), g->m.i_at(target.x, target.y).size() - 1);
@@ -1168,7 +1168,7 @@ int editmap::edit_itm()
     ilmenu.return_invalid = true;
     std::vector<item>& items = g->m.i_at(target.x , target.y );
     for(int i = 0; i < items.size(); i++) {
-        ilmenu.addentry(i, true, 0, "%s%s", items[i].tname(g).c_str(), items[i].light.luminance > 0 ? " L" : "" );
+        ilmenu.addentry(i, true, 0, "%s%s", items[i].tname().c_str(), items[i].light.luminance > 0 ? " L" : "" );
     }
     // todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
     ilmenu.addentry(-5, true, 'a', "Add item");
@@ -1256,7 +1256,7 @@ int editmap::edit_itm()
             g->wishitem(NULL,target.x, target.y);
             ilmenu.entries.clear();
             for(int i = 0; i < items.size(); i++) {
-               ilmenu.addentry(i, true, 0, "%s%s", items[i].tname(g).c_str(), items[i].light.luminance > 0 ? " L" : "" );
+               ilmenu.addentry(i, true, 0, "%s%s", items[i].tname().c_str(), items[i].light.luminance > 0 ? " L" : "" );
             }
             ilmenu.addentry(-5, true, 'a', "Add item");
             ilmenu.addentry(-10, true, 'q', "Cancel");

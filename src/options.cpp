@@ -5,6 +5,7 @@
 #include "keypress.h"
 #include "translations.h"
 #include "file_finder.h"
+#include "cursesdef.h"
 #ifdef SDLTILES
 #include "cata_tiles.h"
 #endif // SDLTILES
@@ -14,7 +15,7 @@
 #include <string>
 #include <locale>
 #include <sstream>
-
+ 
 bool trigdist;
 bool use_tiles;
 
@@ -761,7 +762,34 @@ void show_options(bool ingame)
         }
 
         wrefresh(w_options_header);
-        fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip() + "  #" + OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText()).c_str());
+
+#if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
+		if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_X")
+		{
+			int new_viewport_x, new_window_width;
+			std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
+			
+			value_conversion >> new_viewport_x;
+			new_window_width = projected_window_width(new_viewport_x);
+
+			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s -- The window will be %d pixels wide with the selected value.", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(), new_window_width);
+		}
+		else if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_Y")
+		{
+			int new_viewport_y, new_window_height;
+			std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
+
+			value_conversion >> new_viewport_y;
+			new_window_height = projected_window_height(new_viewport_y);
+
+			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s -- The window will be %d pixels tall with the selected value.", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(), new_window_height);
+		}
+		else
+#endif
+		{
+			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str());
+		}
+
         if ( iCurrentPage != iLastPage ) {
             iLastPage = iCurrentPage;
             if ( ingame && iCurrentPage == iWorldOptPage ) {

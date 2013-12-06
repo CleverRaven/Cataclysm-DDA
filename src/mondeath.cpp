@@ -202,7 +202,7 @@ void mdeath::fungus(monster *z) {
                     if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 0)) {
                         hit = true;
                     }
-                    if ((hit = true) && (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee")))) {
+                    if (hit && (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee")))) {
                         g->add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
                         hit = false;
                     }
@@ -472,6 +472,7 @@ void mdeath::zombie(monster *z) {
     else if (zid == "mon_zombie_scientist"){ dropset = 2;}
     else if (zid == "mon_zombie_soldier"){ dropset = 3;}
     else if (zid == "mon_zombie_hulk"){ dropset = 4;}
+	else if (zid == "mon_zombie_hazmat"){ dropset = 5;}
     switch(dropset) {
         case 0: // mon_zombie_cop
             g->m.put_items_from("cop_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
@@ -517,6 +518,21 @@ void mdeath::zombie(monster *z) {
             g->m.spawn_item(z->posx(), z->posy(), "rag", 1, 0, g->turn, rng(5,10));
             g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             break;
+			
+		case 5: // mon_zombie_hazmat
+		    if (one_in(5)) {
+            g->m.put_items_from("hazmat_full", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            } else {
+              g->m.put_items_from("hazmat_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+              g->m.put_items_from("hazmat_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+              g->m.put_items_from("hazmat_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+              g->m.put_items_from("hazmat_mask", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+			  
+              if (one_in(3)) {
+                  g->m.put_items_from("hazmat_eyes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+              }
+			}
+        break;
 
         default:
             g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));

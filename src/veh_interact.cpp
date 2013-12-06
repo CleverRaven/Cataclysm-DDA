@@ -299,7 +299,8 @@ void veh_interact::cache_tool_availability()
                   crafting_inv.has_charges("welder_crude", charges_crude)) ||
                  (crafting_inv.has_amount("toolset", 1) &&
                   crafting_inv.has_charges("toolset", charges / 20));
-    has_goggles = crafting_inv.has_amount("goggles_welding",1);
+    has_goggles = (crafting_inv.has_amount("goggles_welding",1) ||
+                   g->u.has_bionic("bio_sunglasses"));
     has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED));
     has_jack = crafting_inv.has_amount("jack", 1);
     has_siphon = crafting_inv.has_amount("hose", 1);
@@ -1577,6 +1578,7 @@ void complete_vehicle (game *g)
         g->add_msg (_("You install a %s into the %s."),
                     vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
         g->u.practice (g->turn, "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20);
+        veh->find_parts();
         break;
     case 'r':
         if (veh->parts[vehicle_part].hp <= 0) {

@@ -210,13 +210,14 @@ public:
  bool has_grab_break_tec(); // technique-based miss recovery, like tec_feint
  bool can_leg_block(); // technique-based defensive ability
  bool can_arm_block(); // technique-based defensive ability, like tec_leg_block
+ bool can_block(); // can we block at all
 
 // melee.cpp
  bool can_weapon_block(); //gear-based defensive ability
  int  hit_mon(game *g, monster *z, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
 
- bool block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
+ bool block_hit(game *g, body_part &bp_hit, int &side,
     int &bash_dam, int &cut_dam, int &stab_dam);
 
  int base_damage(bool real_life = true, int stat = -999);
@@ -364,6 +365,7 @@ public:
  int armor_cut(body_part bp); // Cutting  resistance
  int resist(body_part bp); // Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
+ bool is_wearing_shoes();// True if wearing something on feet and it is not wool or not cotton
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 
  int adjust_for_focus(int amount);
