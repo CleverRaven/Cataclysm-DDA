@@ -93,7 +93,7 @@ class inventory
   int position_by_item(item* it);  // looks up an item (via pointer comparison)
   int position_by_letter(char ch);
 
-  std::vector<item*> all_items_by_type(itype_id type);
+  std::vector<std::pair<item*, int> > all_items_by_type(itype_id type);
   std::vector<item*> all_ammo(ammotype type);
   std::vector<item*> all_items_with_flag( const std::string flag );
 

@@ -925,9 +925,10 @@ item& inventory::item_or_container(itype_id type)
     return nullitem;
 }
 
-std::vector<item*> inventory::all_items_by_type(itype_id type)
+std::vector<std::pair<item*, int> > inventory::all_items_by_type(itype_id type)
 {
-    std::vector<item*> ret;
+    std::vector<std::pair<item*, int> > ret;
+    int i = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         for (std::list<item>::iterator stack_iter = iter->begin();
@@ -936,9 +937,10 @@ std::vector<item*> inventory::all_items_by_type(itype_id type)
         {
             if (stack_iter->type->id == type)
             {
-                ret.push_back(&*stack_iter);
+                ret.push_back(std::make_pair(&*stack_iter, i));
             }
         }
+        ++i;
     }
     return ret;
 }

@@ -6064,18 +6064,18 @@ int player::butcher_factor()
 
 item* player::pick_usb()
 {
- std::vector<item*> drives = inv.all_items_by_type("usb_drive");
+ std::vector<std::pair<item*, int> > drives = inv.all_items_by_type("usb_drive");
 
  if (drives.empty())
   return NULL; // None available!
 
  std::vector<std::string> selections;
  for (int i = 0; i < drives.size() && i < 9; i++)
-  selections.push_back( drives[i]->tname() );
+  selections.push_back( drives[i].first->tname() );
 
  int select = menu_vec(false, _("Choose drive:"), selections);
 
- return drives[ select - 1 ];
+ return drives[ select - 1 ].first;
 }
 
 bool player::is_wearing(itype_id it)
