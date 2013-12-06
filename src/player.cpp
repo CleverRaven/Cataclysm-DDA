@@ -7308,13 +7308,13 @@ bool player::takeoff(game *g, int pos, bool autodrop)
                             taken_off = true;
                         } else {
                             g->add_msg(_("You can't take off power armor while wearing other power armor components."));
+                            return false;
                         }
                     }
                 }
             }
 
-            if (autodrop || volume_capacity() - (reinterpret_cast<it_armor*>(w.type))->storage >
-                        volume_carried() + w.type->volume) {
+            if (autodrop || volume_capacity() - (reinterpret_cast<it_armor*>(w.type))->storage > volume_carried() + w.type->volume) {
                 inv.add_item_keep_invlet(w);
                 g->add_msg(_("You take off your your %s."), w.tname().c_str());
                 worn.erase(worn.begin() + worn_index);
