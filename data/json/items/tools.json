@@ -1,5 +1,4 @@
 [
-
   {
     "id": "testflames",
     "type": "TOOL",
@@ -24,6 +23,12 @@
     "revert_to": "null"
   },
 
+    {
+        "type" : "ITEM_CATEGORY",
+        "id" : "spare_parts",
+        "name" : "spare parts",
+        "sort_rank" : 8
+    },
   { "id":"lighter",
     "type": "TOOL",
     "symbol": ",",
@@ -3061,6 +3066,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
+    "category" : "weapons",
     "qualities": [["CUT", 1]]
   },
 
@@ -3163,6 +3169,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
+    "category" : "weapons",
     "qualities": [["CUT", 1]]
   },
 
@@ -3213,6 +3220,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
+    "category" : "weapons",
     "qualities": [["CUT", 1]]
   },
 
@@ -3239,6 +3247,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "KNIFE"
   },
 
@@ -3265,6 +3274,7 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "ZWEIFIRE_OFF"
   },
 
@@ -3291,6 +3301,7 @@
     "turns_per_charge": 30,
     "ammo": "gasoline",
     "revert_to": "zweifire_off",
+    "category" : "weapons",
     "use_action": "ZWEIFIRE_ON"
   },
 
@@ -3316,6 +3327,7 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "BROADFIRE_OFF"
   },
 
@@ -3341,6 +3353,7 @@
     "turns_per_charge": 30,
     "ammo": "gasoline",
     "revert_to": "broadfire_off",
+    "category" : "weapons",
     "use_action": "BROADFIRE_ON"
   },
 
@@ -3390,6 +3403,7 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "SHISHKEBAB_OFF"
   },
 
@@ -3414,6 +3428,7 @@
     "turns_per_charge": 20,
     "ammo": "gasoline",
     "revert_to": "shishkebab_off",
+    "category" : "weapons",
     "use_action": "SHISHKEBAB_ON"
   },
 
@@ -3439,6 +3454,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "KNIFE"
   },
 
@@ -4167,6 +4183,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "spare_parts",
     "use_action": "RAG"
   },
 
@@ -4190,6 +4207,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "spare_parts",
     "use_action": "NONE"
   },
 
@@ -4213,6 +4231,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "spare_parts",
     "use_action": "NONE"
   },
 
@@ -4663,6 +4682,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -4686,6 +4706,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -4709,6 +4730,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -4732,6 +4754,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -4755,6 +4778,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -4778,6 +4802,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -4848,6 +4873,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -4871,6 +4897,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -5355,6 +5382,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "KNIFE"
   },
 

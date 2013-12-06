@@ -28,6 +28,7 @@
     "volume": 1,
     "bashing": -8,
     "cutting": 0,
+    "category": "spare_parts",
     "to_hit": 0
   },
 
@@ -188,6 +189,7 @@
     "volume": 1,
     "bashing": -5,
     "cutting": 0,
+    "category": "spare_parts",
     "to_hit": -1
   },
 
@@ -348,6 +350,7 @@
     "volume": 0,
     "bashing": -6,
     "cutting": 0,
+    "category" : "spare_parts",
     "to_hit": 2
   },
 
@@ -364,6 +367,7 @@
     "volume": 2,
     "bashing": 8,
     "cutting": 0,
+    "category" : "spare_parts",
     "to_hit": -2
   },
 
@@ -396,6 +400,7 @@
     "volume": 1,
     "bashing": 1,
     "cutting": 0,
+    "category" : "spare_parts",
     "to_hit": -2
   },
 
@@ -527,6 +532,7 @@
     "volume": 12,
     "bashing": 23,
     "cutting": 0,
+    "category" : "weapons",
     "to_hit": 3
   },
 
@@ -544,6 +550,7 @@
     "volume": 12,
     "bashing": 30,
     "cutting": 0,
+    "category" : "weapons",
     "to_hit": 3
   },
 
@@ -562,6 +569,7 @@
     "cutting": 6,
     "flags" : ["CHOP"],
     "to_hit": 1,
+    "category" : "weapons",
     "qualities": [["CUT", 1]]
   },
 
@@ -578,6 +586,7 @@
     "volume": 8,
     "bashing": 6,
     "cutting": 0,
+    "category" : "tools",
     "to_hit": 1
   },
 
@@ -594,6 +603,7 @@
     "volume": 4,
     "bashing": 10,
     "cutting": 0,
+    "category" : "tools",
     "to_hit": 2
   },
 
@@ -610,6 +620,7 @@
     "volume": 4,
     "bashing": 10,
     "cutting": 0,
+    "category" : "tools",
     "to_hit": 2
   },
 

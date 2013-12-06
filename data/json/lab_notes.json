@@ -9,18 +9,24 @@
         "type" : "lab_note",
         "text" : "Both PE012 and PE018 show great stability.  A subject was exposed to both substances, alternating between the mutagen and the purifier.  Ultimately, the subject returned to baseline state with no apparent side effects."
     },{
-		"type" : "lab_note",
-		"text" : ":.||||ERROR||With XE037 having breached confinement, Dr. Maiar recommends that we prepare for the inevitable.  PE050 can be quickly and cheaply reconfigured for |||||ERROR: FILE CORRUPT|||||"
-	},{
-		"type" : "lab_note",
-		"text" : "Dr. Maiar has been terminated for engaging in unethical research on human subjects.  His notes are being destroyed and all personnel under him have been reassigned.  Further discussion of or attempts to carry on his work will be grounds for immediate termination."
-	},{
-		"type" : "lab_note",
-		"text" : "|||ERROR: UNREFERENCED MEMORY 0Ex670c9e1f5, REROUTING: CENSORSHIP IS A BREAKDOWN, WE ROUTE AROUND IT.  THE WORD IS ALREADY OUT.  NOBODY DROPS MAIAR INTO LAVA.||||||"
-	},{
-		"type" : "lab_note",
-		"text" : "Given the current population projections, PE065 deployment is no longer feasible.  We simply haven't the stock.  Remaininig chemical and psychopharmalogical department assets are being assigned to Dr. Sattler's PE070 project."
-	},{
+        "type" : "lab_note",
+        "text" : ":.||||ERROR||With XE037 having breached confinement, Dr. Maiar recommends that we prepare for the inevitable.  PE050 can be quickly and cheaply reconfigured for |||||ERROR: FILE CORRUPT|||||"
+    },{
+        "type" : "lab_note",
+        "text" : "Dr. Maiar has been terminated for engaging in unethical research on human subjects.  His notes are being destroyed and all personnel under him have been reassigned.  Further discussion of or attempts to carry on his work will be grounds for immediate termination."
+    },{
+        "type" : "lab_note",
+        "text" : "|||ERROR: UNREFERENCED MEMORY 0Ex670c9e1f5, REROUTING: CENSORSHIP IS A BREAKDOWN, WE ROUTE AROUND IT.  THE WORD IS ALREADY OUT.  NOBODY DROPS MAIAR INTO LAVA.||||||"
+    },{
+        "type" : "lab_note",
+        "text" : "Given the current population projections, PE065 deployment is no longer feasible.  We simply haven't the stock.  Remaining chemical and psychopharmalogical department assets are being assigned to Dr. Sattler's PE070 project."
+    },{
+        "type" : "lab_note",
+        "text" : "Dr. Maiar's success with intravenous mutagenic administration has been adopted facilitywide; insofar as any of our work can ever be 'published', he and his team hit the jackpot.  IV administration is quicker and easier, and in some cases is reportedly more efficient, than the oral techniques we have been using."
+    },{
+        "type" : "lab_note",
+        "text" : "Recent fieldwork and extraction efforts have resulted in a series of mutagens tailored to focus the mutation process into particular subtypes.  These have been designated PE025 through 037.  Though significantly more resource- and time-intensive to produce, they promise a bold new transhuman future.  Several research teams are already investigating possible applications."
+    },{
         "type" : "lab_note",
         "text" : "The chemical department has come through with a stable mutagen cocktail.  PE050 shows promise as an all-around genetic enhancement, with the worst side effect being digestive upset.  The lack of macro-scale physical changes makes it ideal for both military and civilian applications."
     },{

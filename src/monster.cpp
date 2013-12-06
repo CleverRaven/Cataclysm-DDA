@@ -813,6 +813,9 @@ void monster::die(game *g)
   if (misstype->goal == MGOAL_KILL_MONSTER)
    g->mission_step_complete(mission_id, 1);
  }
+ // temporary copy as the death function might invalidate this when
+ // this is in the game::_active_monsters vector
+ monster tmp_copy(*this);
 // Also, perform our death function
  mdeath md;
  if(is_hallucination()) {
@@ -824,13 +827,13 @@ void monster::die(game *g)
  }
 // If our species fears seeing one of our own die, process that
  int anger_adjust = 0, morale_adjust = 0;
- if (type->has_anger_trigger(MTRIG_FRIEND_DIED)){
+ if (tmp_copy.type->has_anger_trigger(MTRIG_FRIEND_DIED)){
     anger_adjust += 15;
  }
- if (type->has_fear_trigger(MTRIG_FRIEND_DIED)){
+ if (tmp_copy.type->has_fear_trigger(MTRIG_FRIEND_DIED)){
     morale_adjust -= 15;
  }
- if (type->has_placate_trigger(MTRIG_FRIEND_DIED)){
+ if (tmp_copy.type->has_placate_trigger(MTRIG_FRIEND_DIED)){
     anger_adjust -= 15;
  }
 
@@ -838,7 +841,7 @@ void monster::die(game *g)
   int light = g->light_level();
   for (int i = 0; i < g->num_zombies(); i++) {
    int t = 0;
-   if (g->m.sees(g->zombie(i).posx(), g->zombie(i).posy(), _posx, _posy, light, t)) {
+   if (g->m.sees(g->zombie(i).posx(), g->zombie(i).posy(), tmp_copy._posx, tmp_copy._posy, light, t)) {
     g->zombie(i).morale += morale_adjust;
     g->zombie(i).anger += anger_adjust;
    }

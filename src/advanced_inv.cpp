@@ -15,6 +15,7 @@
 #include "translations.h"
 #include "uistate.h"
 #include "helper.h"
+#include "item_factory.h"
 #include "auto_pickup.h"
 #ifdef _MSC_VER
 // MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
@@ -257,7 +258,7 @@ struct advanced_inv_sorter {
                 }
                 case SORTBY_CATEGORY: {
                     if ( d1.cat != d2.cat ) {
-                      return d1.cat < d2.cat;
+                      return *d1.cat < *d2.cat;
                     } else if ( d1.volume == -8 ) {
                       return true;
                     } else if ( d2.volume == -8 ) {
@@ -356,22 +357,6 @@ void advanced_inv_update_area( advanced_inv_area &area, game *g ) {
     }
     area.volume=0; // must update in main function
     area.weight=0; // must update in main function
-}
-
-int advanced_inv_getinvcat(item *it) {
-    if ( it->is_gun() ) return 0;
-    if ( it->is_ammo() ) return 1;
-    if ( it->is_weap() ) return 2;
-    if ( it->is_tool() ) return 3;
-    if ( it->is_armor() ) return 4;
-    if ( it->is_food_container() ) return 5;
-    if ( it->is_food() ) {
-        it_comest* comest = dynamic_cast<it_comest*>(it->type);
-        return ( comest->comesttype != "MED" ? 5 : 6 );
-    }
-    if ( it->is_book() ) return 7;
-    if (it->is_gunmod() || it->is_bionic()) return 8;
-    return 9;
 }
 
 std::string center_text(const char *str, int width)
@@ -474,10 +459,9 @@ void advanced_inventory::recalc_pane(int i)
     bool filtering = ( panes[i].filter.size() > 0 );
     player &u = *p;
     map &m = g->m;
-    std::string invcats[10] = { _("guns"), _("ammo"), _("weapons"), _("tools"), _("clothing"), _("food"), _("drugs"), _("books"), _("mods"), _("other") };
     int idest = (i == left ? right : left);
     panes[i].items.clear();
-    bool hascat[10] = {false, false, false, false, false, false, false, false, false, false};
+    std::set<std::string> has_category;
     panes[i].numcats = 0;
     int avolume = 0;
     int aweight = 0;
@@ -502,11 +486,11 @@ void advanced_inventory::recalc_pane(int i)
             it.stacks = size;
             it.weight = item.weight() * size;
             it.volume = item.volume() * size;
-            it.cat = advanced_inv_getinvcat(&item);
+            it.cat = &(item.get_category());
             it.it = &item;
             it.area = panes[i].area;
-            if( !hascat[it.cat] ) {
-                hascat[it.cat] = true;
+            if( has_category.count(it.cat->id) == 0 ) {
+                has_category.insert(it.cat->id);
                 panes[i].numcats++;
                 if(panes[i].sortby == SORTBY_CATEGORY) {
                     advanced_inv_listitem itc;
@@ -515,7 +499,7 @@ void advanced_inventory::recalc_pane(int i)
                     itc.weight = -8;
                     itc.volume = -8;
                     itc.cat = it.cat;
-                    itc.name = invcats[it.cat];
+                    itc.name = it.cat->name;
                     itc.area = panes[i].area;
                     panes[i].items.push_back(itc);
                 }
@@ -555,11 +539,11 @@ void advanced_inventory::recalc_pane(int i)
                     it.stacks = 1;
                     it.weight = items[x].weight();
                     it.volume = items[x].volume();
-                    it.cat = advanced_inv_getinvcat(&items[x]);
+                    it.cat = &(items[x].get_category());
                     it.it = &items[x];
                     it.area = s;
-                    if( ! hascat[it.cat] ) {
-                        hascat[it.cat] = true;
+                    if( has_category.count(it.cat->id) == 0 ) {
+                        has_category.insert(it.cat->id);
                         panes[i].numcats++;
                         if(panes[i].sortby == SORTBY_CATEGORY) {
                             advanced_inv_listitem itc;
@@ -568,7 +552,7 @@ void advanced_inventory::recalc_pane(int i)
                             itc.weight = -8;
                             itc.volume = -8;
                             itc.cat = it.cat;
-                            itc.name = invcats[it.cat];
+                            itc.name = it.cat->name;
                             itc.area = s;
                             panes[i].items.push_back(itc);
                         }
