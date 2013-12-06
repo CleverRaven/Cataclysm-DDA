@@ -1778,10 +1778,11 @@ int item::sort_rank() const
 
 bool item::operator<(const item& other) const
 {
-    int my_rank = sort_rank();
-    int other_rank = other.sort_rank();
-    if (my_rank == other_rank)
-    {
+    const item_category &cat_a = get_category();
+    const item_category &cat_b = other.get_category();
+    if(cat_a != cat_b) {
+        return cat_a < cat_b;
+    } else {
         const item *me = is_container() && contents.size() > 0 ? &contents[0] : this;
         const item *rhs = other.is_container() && other.contents.size() > 0 ? &other.contents[0] : &other;
 
@@ -1793,10 +1794,6 @@ bool item::operator<(const item& other) const
         {
             return me->type->id < rhs->type->id;
         }
-    }
-    else
-    {
-        return sort_rank() < other.sort_rank();
     }
 }
 
@@ -2573,4 +2570,22 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
     }
 
     return remaining_capacity;
+}
+
+const item_category &item::get_category() const
+{
+    if(is_container() && !contents.empty()) {
+        return contents[0].get_category();
+    }
+    if(type != 0) {
+        if(type->category == 0) {
+            // Category not set? Set it now.
+            itype *t = const_cast<itype *>(type);
+            t->category = item_controller->get_category(item_controller->calc_category(t));
+        }
+        return *type->category;
+    }
+    // null-item -> null-category
+    static item_category null_category;
+    return null_category;
 }
