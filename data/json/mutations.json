@@ -313,7 +313,7 @@
         "points" : -2,
         "description" : "Without your glasses, your seeing radius is severely reduced! However, while wearing glasses this trait has no effect, and you are guaranteed to start with a pair.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BEAST", "MUTCAT_TROGLO"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_TROGLO", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "HYPEROPIC",
@@ -764,7 +764,7 @@
         "description" : "Thick black fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
         "prereqs" : ["LIGHTFUR"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "CHITIN",
@@ -1005,7 +1005,7 @@
         "visibility" : 1,
         "description" : "The bottoms of your feet are strongly padded. You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when running barefoot. Slightly decreases wet penalties.",
         "cancels" : ["HOOVES", "LEG_TENTACLES"],
-        "category" : ["MUTCAT_BEAST"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"],
         "wet_protection" : [
             { "part" : "FEET", "neutral" : 2 }
         ]
@@ -1124,7 +1124,8 @@
         "visibility" : 1,
         "ugliness" : 2,
         "description" : "You have a short, stubby tail, like a rabbit's. It serves no purpose.",
-        "changes_to" : ["TAIL_LONG", "TAIL_THICK", "TAIL_FIN", "TAIL_RAT", "TAIL_RAPTOR"]
+        "changes_to" : ["TAIL_LONG", "TAIL_THICK", "TAIL_FIN", "TAIL_RAT", "TAIL_RAPTOR"],
+        "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "TAIL_FIN",
@@ -1323,6 +1324,15 @@
         "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
+        "id" : "URSINE_EARS",
+        "name" : "Ursine Ears",
+        "points" : 2,
+        "visibility" : 4,
+        "ugliness" : 1,
+        "description" : "Your ears have grown longer and rounder, much like those of a bear. You can hear things a little farther away.",
+        "category" : ["MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
         "id" : "ELFA_EARS",
         "name" : "Pointed Ears",
         "points" : 0,
@@ -1402,7 +1412,7 @@
         "ugliness" : 2,
         "description" : "Your muscles are noticeably bulging. Strength + 7",
         "prereqs" : ["STR_UP_3"],
-        "category" : ["MUTCAT_BEAST"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "DEX_UP",
@@ -1626,7 +1636,7 @@
         "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "prereqs" : ["DEFORMED"],
         "changes_to" : ["DEFORMED3"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_PLANT"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE", "MUTCAT_PLANT"]
     },{
         "type" : "mutation",
         "id" : "DEFORMED3",
@@ -1702,6 +1712,17 @@
         "cancels" : ["MINOTAUR", "LONG_MUZZLE", "PROBOSCIS"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
+    },{
+        "type" : "mutation",
+        "id" : "BEAR_MUZZLE",
+        "name" : "Ursine Muzzle",
+        "points" : -1,
+        "visibility" : 5,
+        "ugliness" : 4,
+        "description" : "Your jaw and nose have extended into a bearish muzzle.  You could bite with it and it and looks impressive, but prevents you from wearing mouthgear.",
+        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "PROBOSCIS"],
+        "prereqs" : ["SNOUT"],
+        "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "LONG_MUZZLE",
@@ -1933,7 +1954,8 @@
         "points" : -3,
         "description" : "Your muscles are generally slow to move. You run 10% slower.",
         "cancels" : ["FLEET", "FLEET2"],
-        "changes_to" : ["PONDEROUS2"]
+        "changes_to" : ["PONDEROUS2"],
+        "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "PONDEROUS2",
@@ -1992,7 +2014,7 @@
         "points" : -1,
         "description" : "You have a growling, rough voice. Persuading NPCs will be more difficult, but threatening them will be easier.",
         "changes_to" : ["SNARL"],
-        "category" : ["MUTCAT_RAT"]
+        "category" : ["MUTCAT_RAT", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "SNARL",
