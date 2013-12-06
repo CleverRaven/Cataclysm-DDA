@@ -8678,7 +8678,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     // determine how much the damage exceeds the armour absorption
                     // bash damage takes into account preceding layers
                     int diff_bash = (dam - arm_bash - bash_absorb < 0) ? -1 : (dam - arm_bash);
-                    int diff_cut  = (cut - arm_cut  < 0) ? -1 : (dam - arm_cut);
+                    int diff_cut  = (cut - arm_cut  < 0) ? -1 : (cut - arm_cut);
                     bool armor_damaged = false;
                     std::string pre_damage_name = worn[i].tname();
 
