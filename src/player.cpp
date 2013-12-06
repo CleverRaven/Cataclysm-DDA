@@ -1221,6 +1221,8 @@ int player::run_cost(int base_cost, bool diag)
         movecost *= 1.2f;
     if (has_trait("PONDEROUS3"))
         movecost *= 1.3f;
+    if (is_wearing("swim_fins"))
+        movecost *= 1.4f;
 
     movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
@@ -1237,6 +1239,8 @@ int player::run_cost(int base_cost, bool diag)
 int player::swim_speed()
 {
   int ret = 440 + weight_carried() / 60 - 50 * skillLevel("swimming");
+ if (is_wearing("swim_fins"))
+  ret -= (10 * str_cur) * 1.5;
  if (has_trait("WEBBED"))
   ret -= 60 + str_cur * 5;
  if (has_trait("TAIL_FIN"))

@@ -1491,6 +1491,7 @@
       ["armguard_hard", 20],
       ["legguard_hard", 15],
       ["goggles_swim", 50],
+      ["swim_fins", 30],
       ["goggles_ski", 30],
       ["hat_ball", 30],
       ["helmet_bike", 35],
@@ -1769,6 +1770,7 @@
       ["fishspear", 12],
       ["a_fishspear", 10],
       ["c_fishspear", 10],
+      ["swim_fins", 20],
       ["leathersandals", 15]
     ]
     },{
@@ -2591,7 +2593,8 @@
         "type" : "item_group",
         "id" : "swimmer_shoes",
     "items":[
-      ["flip_flops", 80]
+      ["flip_flops", 80],
+      ["swim_fins", 20]
     ]
     },{
         "type" : "item_group",
