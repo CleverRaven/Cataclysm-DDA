@@ -90,6 +90,9 @@
         "type" : "recipe_subcategory",
         "id" : "CSC_ELECTRONICS_LIGHTING"
     },{
+	"type" : "recipe_subcategory",
+        "id" : "CSC_ELECTRONICS_COMPONENTS"
+    },{
         "type" : "recipe_subcategory",
         "id" : "CSC_ELECTRONICS_OTHER"
     },{

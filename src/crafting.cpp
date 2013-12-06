@@ -1101,7 +1101,8 @@ void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool fil
         else if (tab == "CC_ELECTRONIC") {
             draw_subtab(w,  2, _("CBMS"), (subtab == "CSC_ELECTRONICS_CBMS") ? true : false);
             draw_subtab(w,  9, _("LIGHTING"), (subtab == "CSC_ELECTRONICS_LIGHTING") ? true : false);
-            draw_subtab(w,  20, _("OTHER"), (subtab == "CSC_ELECTRONICS_OTHER") ? true : false);
+            draw_subtab(w,  20, _("COMPONENTS"), (subtab == "CSC_ELECTRONICS_COMPONENTS") ? true : false);
+            draw_subtab(w,  33, _("OTHER"), (subtab == "CSC_ELECTRONICS_OTHER") ? true : false);
         }
         else if (tab == "CC_ARMOR") {
             draw_subtab(w,  2, _("STORAGE"), (subtab == "CSC_ARMOR_STORAGE") ? true : false);
