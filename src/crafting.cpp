@@ -890,25 +890,25 @@ recipe* game::select_crafting_recipe()
         {
             case DirectionW:
                 if (tab == "CC_WEAPON" && subtab == "CSC_WEAPON_BASHING") {
-                    subtab == "CSC_WEAPON_OTHER";
+                    subtab = "CSC_WEAPON_OTHER";
                 }
                 else if (tab == "CC_AMMO" && subtab == "CSC_AMMO_BULLETS") {
-                    subtab == "CSC_AMMO_OTHER";
+                    subtab = "CSC_AMMO_OTHER";
                 }
                 else if (tab == "CC_FOOD" && subtab == "CSC_FOOD_DRINKS") {
-                    subtab == "CSC_FOOD_OTHER";
+                    subtab = "CSC_FOOD_OTHER";
                 }
                 else if (tab == "CC_CHEM" && subtab == "CSC_CHEM_DRUGS") {
-                    subtab == "CSC_CHEM_OTHER";
+                    subtab = "CSC_CHEM_OTHER";
                 }
                 else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONIC_CBMS") {
-                    subtab == "CSC_ELECTRONIC_OTHER";
+                    subtab = "CSC_ELECTRONIC_OTHER";
                 }
                 else if (tab == "CC_ARMOR" && subtab == "CSC_ARMOR_STORAGE") {
-                    subtab == "CSC_ARMOR_OTHER";
+                    subtab = "CSC_ARMOR_OTHER";
                 }
                 else if (tab == "CC_OTHER" && subtab == "CSC_OTHER_TOOLS") {
-                    subtab == "CSC_OTHER_OTHER";
+                    subtab = "CSC_OTHER_OTHER";
                 }
                 else
                 {
@@ -937,25 +937,25 @@ recipe* game::select_crafting_recipe()
                 break;
             case DirectionE:
                 if (tab == "CC_WEAPON" && subtab == "CSC_WEAPON_OTHER") {
-                    subtab == "CSC_WEAPON_BASHING";
+                    subtab = "CSC_WEAPON_BASHING";
                 }
                 else if (tab == "CC_AMMO" && subtab == "CSC_AMMO_OTHER") {
-                    subtab == "CSC_AMMO_BULLETS";
+                    subtab = "CSC_AMMO_BULLETS";
                 }
                 else if (tab == "CC_FOOD" && subtab == "CSC_FOOD_OTHER") {
-                    subtab == "CSC_FOOD_DRINK";
+                    subtab = "CSC_FOOD_DRINK";
                 }
                 else if (tab == "CC_CHEM" && subtab == "CSC_CHEM_OTHER") {
-                    subtab == "CSC_CHEM_DRUGS";
+                    subtab = "CSC_CHEM_DRUGS";
                 }
                 else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONIC_OTHER") {
-                    subtab == "CSC_ELECTRONIC_CBMS";
+                    subtab = "CSC_ELECTRONIC_CBMS";
                 }
                 else if (tab == "CC_ARMOR" && subtab == "CSC_ARMOR_OTHER") {
-                    subtab == "CSC_ARMOR_STORAGE";
+                    subtab = "CSC_ARMOR_STORAGE";
                 }
                 else if (tab == "CC_OTHER" && subtab == "CSC_OTHER_OTHER") {
-                    subtab == "CSC_OTHER_TOOLS";
+                    subtab = "CSC_OTHER_TOOLS";
                 }
                 else
                 {
