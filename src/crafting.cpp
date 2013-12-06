@@ -859,25 +859,25 @@ recipe* game::select_crafting_recipe()
         {
             case DirectionW:
                 if (tab == "CC_WEAPON" && subtab == "CSC_WEAPON_BASHING") {
-                    subtab == "CSC_WEAPON_MISC";
+                    subtab == "CSC_WEAPON_OTHER";
                 }
                 else if (tab == "CC_AMMO" && subtab == "CSC_AMMO_BULLETS") {
-                    subtab == "CSC_AMMO_MISC";
+                    subtab == "CSC_AMMO_OTHER";
                 }
                 else if (tab == "CC_FOOD" && subtab == "CSC_FOOD_DRINKS") {
-                    subtab == "CSC_FOOD_MISC";
+                    subtab == "CSC_FOOD_OTHER";
                 }
                 else if (tab == "CC_CHEM" && subtab == "CSC_CHEMS_DRUGS") {
-                    subtab == "CSC_CHEMS_MISC";
+                    subtab == "CSC_CHEMS_OTHER";
                 }
                 else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONICS_CBMS") {
-                    subtab == "CSC_ELECTRONICS_MISC";
+                    subtab == "CSC_ELECTRONICS_OTHER";
                 }
                 else if (tab == "CC_ARMOR" && subtab == "CSC_ARMOR_STORAGE") {
-                    subtab == "CSC_ARMOR_MISC";
+                    subtab == "CSC_ARMOR_OTHER";
                 }
-                else if (tab == "CC_MISC" && subtab == "CSC_MISC_TOOLS") {
-                    subtab == "CSC_MISC_MISC";
+                else if (tab == "CC_OTHER" && subtab == "CSC_OTHER_TOOLS") {
+                    subtab == "CSC_OTHER_OTHER";
                 }
                 else
                 {
@@ -888,8 +888,8 @@ recipe* game::select_crafting_recipe()
             case DirectionUp:
                 if (tab == "CC_WEAPON")
                 {
-                    tab = "CC_MISC";
-                    subtab = "CSC_MISC_TOOLS";
+                    tab = "CC_OTHER";
+                    subtab = "CSC_OTHER_TOOLS";
                 }
                 else
                 {
@@ -900,31 +900,31 @@ recipe* game::select_crafting_recipe()
                     else if (tab == "CC_CHEM") { subtab = "CSC_CHEMS_DRUGS"; }
                     else if (tab == "CC_ELECTRONIC") { subtab = "CSC_ELECTRONICS_CBMS"; }
                     else if (tab == "CC_ARMOR") { subtab = "CSC_ARMOR_STORAGE"; }
-                    else if (tab == "CC_MISC") { subtab = "CSC_MISC_TOOLS"; }
+                    else if (tab == "CC_OTHER") { subtab = "CSC_OTHER_TOOLS"; }
                 }
                 redraw = true;
                 break;
             case DirectionE:
-                if (tab == "CC_WEAPON" && subtab == "CSC_WEAPON_MISC") {
+                if (tab == "CC_WEAPON" && subtab == "CSC_WEAPON_OTHER") {
                     subtab == "CSC_WEAPON_BASHING";
                 }
-                else if (tab == "CC_AMMO" && subtab == "CSC_AMMO_MISC") {
+                else if (tab == "CC_AMMO" && subtab == "CSC_AMMO_OTHER") {
                     subtab == "CSC_AMMO_BULLETS";
                 }
-                else if (tab == "CC_FOOD" && subtab == "CSC_FOOD_MISC") {
+                else if (tab == "CC_FOOD" && subtab == "CSC_FOOD_OTHER") {
                     subtab == "CSC_FOOD_DRINK";
                 }
-                else if (tab == "CC_CHEM" && subtab == "CSC_CHEMS_MISC") {
+                else if (tab == "CC_CHEM" && subtab == "CSC_CHEMS_OTHER") {
                     subtab == "CSC_CHEMS_DRUGS";
                 }
-                else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONICS_MISC") {
+                else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONICS_OTHER") {
                     subtab == "CSC_ELECTRONICS_CBMS";
                 }
-                else if (tab == "CC_ARMOR" && subtab == "CSC_ARMOR_MISC") {
+                else if (tab == "CC_ARMOR" && subtab == "CSC_ARMOR_OTHER") {
                     subtab == "CSC_ARMOR_STORAGE";
                 }
-                else if (tab == "CC_MISC" && subtab == "CSC_MISC_MISC") {
-                    subtab == "CSC_MISC_TOOLS";
+                else if (tab == "CC_OTHER" && subtab == "CSC_OTHER_OTHER") {
+                    subtab == "CSC_OTHER_TOOLS";
                 }
                 else
                 {
@@ -933,7 +933,7 @@ recipe* game::select_crafting_recipe()
                 redraw = true;
                 break;
             case DirectionDown:
-                if (tab == "CC_MISC")
+                if (tab == "CC_OTHER")
                 {
                     tab = "CC_WEAPON";
                     subtab = "CSC_WEAPON_BASHING";
@@ -947,7 +947,7 @@ recipe* game::select_crafting_recipe()
                     else if (tab == "CC_CHEM") { subtab = "CSC_CHEMS_DRUGS"; }
                     else if (tab == "CC_ELECTRONIC") { subtab = "CSC_ELECTRONICS_CBMS"; }
                     else if (tab == "CC_ARMOR") { subtab = "CSC_ARMOR_STORAGE"; }
-                    else if (tab == "CC_MISC") { subtab = "CSC_MISC_TOOLS"; }
+                    else if (tab == "CC_OTHER") { subtab = "CSC_OTHER_TOOLS"; }
                 }
                 redraw = true;
                 break;
@@ -1040,7 +1040,7 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
         draw_tab(w, 29, _("CHEMS"),   (tab == "CC_CHEM")   ? true : false);
         draw_tab(w, 38, _("ELECTRONICS"), (tab == "CC_ELECTRONIC") ? true : false);
         draw_tab(w, 52, _("ARMOR"),   (tab == "CC_ARMOR")  ? true : false);
-        draw_tab(w, 60, _("MISC"),    (tab == "CC_MISC")   ? true : false);
+        draw_tab(w, 60, _("OTHER"),    (tab == "CC_OTHER")   ? true : false);
     }
     else
     {
@@ -1075,13 +1075,13 @@ void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool fil
             draw_subtab(w, 33, _("RANGED"),  (subtab == "CSC_WEAPON_RANGED")  ? true : false);
             draw_subtab(w, 42, _("EXPLOSIVE"),  (subtab == "CSC_WEAPON_EXPLOSIVE")  ? true : false);
             draw_subtab(w, 54, _("MODS"),  (subtab == "CSC_WEAPON_MODS")  ? true : false);
-            draw_subtab(w, 61, _("MISC"),   (subtab == "CSC_WEAPON_MISC")   ? true : false);
+            draw_subtab(w, 61, _("OTHER"),   (subtab == "CSC_WEAPON_OTHER")   ? true : false);
         }
         else if (tab == "CC_AMMO") {
             draw_subtab(w,  2, _("BULLETS"), (subtab == "CSC_AMMO_BULLETS") ? true : false);
             draw_subtab(w,  12, _("ARROWS"), (subtab == "CSC_AMMO_ARROWS") ? true : false);
             draw_subtab(w,  21, _("COMPONENTS"), (subtab == "CSC_AMMO_COMPONENTS") ? true : false);
-            draw_subtab(w,  34, _("MISC"), (subtab == "CSC_AMMO_MISC") ? true : false);
+            draw_subtab(w,  34, _("OTHER"), (subtab == "CSC_AMMO_OTHER") ? true : false);
         }
         else if (tab == "CC_FOOD") {
             draw_subtab(w,  2, _("DRINKS"), (subtab == "CSC_FOOD_DRINKS") ? true : false);
@@ -1090,18 +1090,18 @@ void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool fil
             draw_subtab(w,  26, _("SNACK"), (subtab == "CSC_FOOD_SNACK") ? true : false);
             draw_subtab(w,  34, _("BREAD"), (subtab == "CSC_FOOD_BREAD") ? true : false);
             draw_subtab(w,  42, _("PASTA"), (subtab == "CSC_FOOD_PASTA") ? true : false);
-            draw_subtab(w,  50, _("MISC"), (subtab == "CSC_FOOD_MISC") ? true : false);
+            draw_subtab(w,  50, _("OTHER"), (subtab == "CSC_FOOD_OTHER") ? true : false);
         }
         else if (tab == "CC_CHEM") {
             draw_subtab(w,  2, _("DRUGS"), (subtab == "CSC_CHEMS_DRUGS") ? true : false);
             draw_subtab(w,  10, _("MUTAGEN"), (subtab == "CSC_CHEMS_MUTAGEN") ? true : false);
             draw_subtab(w,  20, _("CHEMICALS"), (subtab == "CSC_CHEMS_CHEMICALS") ? true : false);
-            draw_subtab(w,  32, _("MISC"), (subtab == "CSC_CHEMS_MISC") ? true : false);
+            draw_subtab(w,  32, _("OTHER"), (subtab == "CSC_CHEMS_OTHER") ? true : false);
         }
         else if (tab == "CC_ELECTRONIC") {
             draw_subtab(w,  2, _("CBMS"), (subtab == "CSC_ELECTRONICS_CBMS") ? true : false);
             draw_subtab(w,  9, _("LIGHTING"), (subtab == "CSC_ELECTRONICS_LIGHTING") ? true : false);
-            draw_subtab(w,  20, _("MISC"), (subtab == "CSC_ELECTRONICS_MISC") ? true : false);
+            draw_subtab(w,  20, _("OTHER"), (subtab == "CSC_ELECTRONICS_OTHER") ? true : false);
         }
         else if (tab == "CC_ARMOR") {
             draw_subtab(w,  2, _("STORAGE"), (subtab == "CSC_ARMOR_STORAGE") ? true : false);
@@ -1113,16 +1113,16 @@ void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool fil
             draw_subtab(w,  48, _("HANDS"), (subtab == "CSC_ARMOR_HANDS") ? true : false);
             draw_subtab(w,  56, _("LEGS"), (subtab == "CSC_ARMOR_LEGS") ? true : false);
             draw_subtab(w,  63, _("FEET"), (subtab == "CSC_ARMOR_FEET") ? true : false);
-            draw_subtab(w,  70, _("MISC"), (subtab == "CSC_ARMOR_MISC") ? true : false);
+            draw_subtab(w,  70, _("OTHER"), (subtab == "CSC_ARMOR_OTHER") ? true : false);
         }
-        else if (tab == "CC_MISC") {
-            draw_subtab(w,  2, _("TOOLS"), (subtab == "CSC_MISC_TOOLS") ? true : false);
-            draw_subtab(w,  10, _("MEDICAL"), (subtab == "CSC_MISC_MEDICAL") ? true : false);
-            draw_subtab(w,  20, _("CONTAINERS"), (subtab == "CSC_MISC_CONTAINERS") ? true : false);
-            draw_subtab(w,  33, _("MATERIALS"), (subtab == "CSC_MISC_MATERIALS") ? true : false);
-            draw_subtab(w,  45, _("PARTS"), (subtab == "CSC_MISC_PARTS") ? true : false);
-            draw_subtab(w,  53, _("TRAPS"), (subtab == "CSC_MISC_TRAPS") ? true : false);
-            draw_subtab(w,  61, _("MISC"), (subtab == "CSC_MISC_MISC") ? true : false);
+        else if (tab == "CC_OTHER") {
+            draw_subtab(w,  2, _("TOOLS"), (subtab == "CSC_OTHER_TOOLS") ? true : false);
+            draw_subtab(w,  10, _("MEDICAL"), (subtab == "CSC_OTHER_MEDICAL") ? true : false);
+            draw_subtab(w,  20, _("CONTAINERS"), (subtab == "CSC_OTHER_CONTAINERS") ? true : false);
+            draw_subtab(w,  33, _("MATERIALS"), (subtab == "CSC_OTHER_MATERIALS") ? true : false);
+            draw_subtab(w,  45, _("PARTS"), (subtab == "CSC_OTHER_PARTS") ? true : false);
+            draw_subtab(w,  53, _("TRAPS"), (subtab == "CSC_OTHER_TRAPS") ? true : false);
+            draw_subtab(w,  61, _("OTHER"), (subtab == "CSC_OTHER_OTHER") ? true : false);
         }
     }
     else
