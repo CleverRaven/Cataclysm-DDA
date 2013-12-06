@@ -76,7 +76,8 @@ void Creature::reset_stats(game *g) {
  * Damage-related functions
  */
 
-int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targety, std::set<std::string>& proj_effects) {
+int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targety,
+        double missed_by) {
     std::vector<point> trajectory = line_to(xpos(),ypos(),targetx,targety,0);
 
     // Set up a timespec for use in the nanosleep function below
@@ -91,8 +92,7 @@ int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targ
 
     //bool is_bolt = (curammo->type == "bolt" || curammo->type == "arrow");
 
-    bool missed = proj.missed;
-    double missed_by = proj.missed_by;
+    bool missed = missed_by >= 0.8;
 
     // Trace the trajectory, doing damage in order
     int tx = trajectory[0].x;
@@ -100,7 +100,7 @@ int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targ
     int px = trajectory[0].x;
     int py = trajectory[0].y;
 
-    for (int i = 0; i < trajectory.size() && (dam > 0 || (proj_effects.count("FLAME"))); i++) {
+    for (int i = 0; i < trajectory.size() && (dam > 0 || (proj.proj_effects.count("FLAME"))); i++) {
         px = tx;
         py = ty;
         (void) px;
@@ -109,9 +109,9 @@ int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targ
         ty = trajectory[i].y;
         // Drawing the bullet uses player u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
-        g->draw_bullet(*this, tx, ty, i, trajectory, proj_effects.count("FLAME")? '#':'*', ts);
+        g->draw_bullet(*this, tx, ty, i, trajectory, proj.proj_effects.count("FLAME")? '#':'*', ts);
 
-        if (dam <= 0 && !(proj_effects.count("FLAME"))) { // Ran out of momentum.
+        if (dam <= 0 && !(proj.proj_effects.count("FLAME"))) { // Ran out of momentum.
             return 0;
         }
 
@@ -142,8 +142,7 @@ int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targ
             /*
             shoot_monster(this, p, z, dam, goodhit, weapon, proj_effects);
             */
-            std::string message = "Reworked hit.";
-            g->add_msg(_("%s You hit the %s for %d damage."), message.c_str(),
+            g->add_msg(_("You hit the %s for %d damage."),
                     z.disp_name().c_str(), dam);
             z.deal_damage(g, this, bp_torso, 3, damage_instance::physical(0,dam,0));
             std::vector<point> blood_traj = trajectory;
@@ -152,11 +151,11 @@ int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targ
             //back in
             dam = 0;
         } else {
-            g->m.shoot(g, tx, ty, dam, i == trajectory.size() - 1, proj_effects);
+            g->m.shoot(g, tx, ty, dam, i == trajectory.size() - 1, proj.proj_effects);
         }
     } // Done with the trajectory!
 
-    ammo_effects(g, tx, ty, proj_effects);
+    ammo_effects(g, tx, ty, proj.proj_effects);
     /* TODO: add bounce effects back in
     if (proj_effects.count("BOUNCE")) {
         for (unsigned long int i = 0; i < num_zombies(); i++) {
@@ -191,6 +190,89 @@ int Creature::hit(game *g, Creature* source, body_part bphurt, int side,
     dealt_damage_instance dealt_dams = deal_damage(g, source, bphurt, side, d);
 
     return dealt_dams.total_damage();
+}
+
+int Creature::deal_melee_attack(game* g, Creature* source, int hitroll, bool critical_hit,
+        damage_instance& d, dealt_damage_instance &dealt_dam) {
+    int dodgeroll = dodge_roll();
+    int hit_spread = hitroll - dodgeroll;
+    bool missed = hit_spread <= 0;
+
+    if (missed) return hit_spread;
+
+    //bool critical_hit = hit_spread > 30; //scored_crit(dodgeroll);
+
+    body_part bp_hit;
+    int side = rng(0, 1);
+    int hit_value = hitroll + rng(-10, 10);
+    if (hit_value >= 30)
+        bp_hit = bp_eyes;
+    else if (hit_value >= 20)
+        bp_hit = bp_head;
+    else if (hit_value >= 10)
+        bp_hit = bp_torso;
+    else if (one_in(4))
+        bp_hit = bp_legs;
+    else
+        bp_hit = bp_arms;
+
+    // Bashing crit
+    if (critical_hit) {
+        int turns_stunned = (d.type_damage(DT_BASH) + hit_spread)/20;
+        if (turns_stunned > 6)
+            turns_stunned = 6;
+        if (turns_stunned > 0) {
+            add_effect("effect_stunned", turns_stunned);
+        }
+    }
+
+    // Stabbing effects
+    int stab_moves = rng(d.type_damage(DT_STAB) / 2, d.type_damage(DT_STAB) * 1.5);
+    if (critical_hit) {
+        stab_moves *= 1.5;
+    }
+    if (stab_moves >= 150) {
+        if (is_player()) {
+            // can the player force their self to the ground? probably not.
+            g->add_msg_if_npc(source, _("<npcname> forces you to the ground!"));
+        } else {
+            g->add_msg_player_or_npc(source, _("You force %s to the ground!"),
+                                     _("<npcname> forces %s to the ground!"),
+                                     disp_name().c_str() );
+        }
+        add_effect("effect_downed", 1);
+        mod_moves(-stab_moves / 2);
+    } else
+        mod_moves(-stab_moves);
+    block_hit(g, bp_hit, side, d);
+
+    dealt_dam = deal_damage(g, this, bp_hit, side, d);
+
+    /* TODO: add grabs n shit back in
+    if (allow_special && technique.grabs) {
+        // TODO: make this depend on skill (through grab_resist stat) again
+        if (t.get_grab_resist() > 0 &&
+                dice(t.get_dex() , 12) >
+                dice(get_dex(), 10)) {
+            g->add_msg_player_or_npc(&t, _("You break the grab!"),
+                                        _("<npcname> breaks the grab!"));
+        } else if (!unarmed_attack()) {
+            // Move our weapon to a temp slot, if it's not unarmed
+            item tmpweap = remove_weapon();
+            melee_attack(g, t, false); // False means a second grab isn't allowed
+            weapon = tmpweap;
+        } else
+            melee_attack(g, t, false); // False means a second grab isn't allowed
+    }
+    */
+
+    return hit_spread;
+}
+
+int Creature::deal_projectile_attack(game* g, Creature* source, float missed_by, bool dodgeable,
+        damage_instance& d, dealt_damage_instance &dealt_dam) {
+
+    return 0;
 }
 
 dealt_damage_instance Creature::deal_damage(game* g, Creature* source, body_part bp, int side,
@@ -234,12 +316,18 @@ void Creature::deal_damage_handle_type(const damage_unit& du, body_part bp, int&
             0.8*std::max(get_armor_cut(bp) - du.res_pen,0)*du.res_mult;
         pain += (du.amount + sqrt(double(du.amount))) / 4;
         break;
-    case DT_ELECTRIC:
+    case DT_HEAT: // heat damage sets us on fire sometimes
+        damage += du.amount;
+        pain += du.amount / 4;
+        if (rng(0,100) > (100 - 400/(du.amount+3)))
+            add_effect("effect_onfire", rng(1,3));
+        break;
+    case DT_ELECTRIC: // electrical damage slows us a lot
         damage += du.amount;
         pain += du.amount / 4;
         mod_moves(-du.amount * 100);
         break;
-    case DT_COLD:
+    case DT_COLD: // cold damage slows us a bit and hurts less
         damage += du.amount;
         pain += du.amount / 6;
         mod_moves(-du.amount * 80);

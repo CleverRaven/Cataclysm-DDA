@@ -194,7 +194,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     bool is_dead_state(); // check if we should be dead or not
 
     bool block_hit(game *g, body_part &bp_hit, int &side,
-        int &bash_dam, int &cut_dam, int &stab_dam);
+        damage_instance &d);
     int melee_attack(game *g, Creature &t, bool allow_special = true); // Returns a damage
     // TODO: this hit is not the same as the one from Creature, it hits other
     // things. Need to phase out

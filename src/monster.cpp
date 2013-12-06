@@ -178,7 +178,7 @@ std::string monster::name_with_armor()
 }
 
 std::string monster::disp_name() {
-    return name();
+    return "the " + name();
 }
 
 std::string monster::skin_name() {
@@ -578,7 +578,7 @@ bool monster::is_dead_state() {
 }
 
 bool monster::block_hit(game *g, body_part &bp_hit, int &side,
-            int &bash_dam, int &cut_dam, int &stab_dam) {
+            damage_instance &d) {
     return false;
 }
 

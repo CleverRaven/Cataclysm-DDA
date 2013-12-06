@@ -134,17 +134,51 @@ int player::melee_attack(game *g, Creature &t, bool allow_special) {
 
     std::string message = is_u ? _("You hit %s") : _("<npcname> hits %s");
     std::string target_name = t.disp_name();
-    int target_dodge = t.dodge_roll();
-    int hit_value = hit_roll() - target_dodge;
-
-    bool missed = (hit_roll() < target_dodge ||
-                one_in(4 + dex_cur + weapon.type->m_to_hit));
 
     int move_cost = attack_speed(*this);
 
-    if (missed) {
+    int bash_dam = roll_bash_damage(false);
+    int cut_dam  = roll_cut_damage(false);
+    int stab_dam = roll_stab_damage(false);
+
+    bool critical_hit = scored_crit(t.dodge_roll());
+
+    // multiply damage by style damage_mults
+    bash_dam *= mabuff_bash_mult();
+    cut_dam *= mabuff_cut_mult();
+    stab_dam *= mabuff_cut_mult();
+
+    damage_instance d;
+    if (critical_hit) // criticals have extra %arpen
+        d.add_damage(DT_BASH, bash_dam * 1.5, 0, 0.5);
+    else
+        d.add_damage(DT_BASH, bash_dam);
+    if (cut_dam > stab_dam)
+        if (critical_hit) // criticals have extra flat arpen
+            d.add_damage(DT_CUT, cut_dam, 5);
+        else
+            d.add_damage(DT_CUT, cut_dam);
+    else {
+        if (critical_hit) // stab criticals have extra extra %arpen
+            d.add_damage(DT_STAB, stab_dam, 0, 0.33);
+        else
+            d.add_damage(DT_STAB, stab_dam);
+    }
+
+    // Pick one or more special attacks
+    ma_technique technique;
+    if (allow_special) {
+        technique = ma_techniques[pick_technique(g, t, critical_hit, true)];
+    } else
+        technique = ma_techniques["tec_none"];
+
+    // Handles speed penalties to monster & us, etc
+    std::string specialmsg = melee_special_effects(g, t, d);
+    dealt_damage_instance dealt_dam; // gets overwritten with the dealt damage values
+    int hit_spread = t.deal_melee_attack(g, this, hit_roll(), critical_hit, d, dealt_dam);
+    if (hit_spread < 0) {
         int stumble_pen = stumble(*this);
-        if (is_u) { // Only display messages if this is the player
+        if (is_player()) { // Only display messages if this is the player
             if (has_miss_recovery_tec())
                 g->add_msg(_("You feint."));
             else if (stumble_pen >= 60)
@@ -160,134 +194,38 @@ int player::melee_attack(game *g, Creature &t, bool allow_special) {
         move_cost += stumble_pen;
         if (has_miss_recovery_tec())
             move_cost = rng(move_cost / 3, move_cost);
-        moves -= move_cost;
-        return 0;
-    }
-    moves -= move_cost;
-
-    bool critical_hit = scored_crit(target_dodge) && allow_special;
-
-    int bash_dam = roll_bash_damage(critical_hit);
-    int cut_dam  = roll_cut_damage(critical_hit);
-    int stab_dam = roll_stab_damage(critical_hit);
-
-    body_part bp_hit;
-    int side = rng(0, 1);
-    hit_value += rng(-10, 10);
-    if (hit_value >= 30)
-        bp_hit = bp_eyes;
-    else if (hit_value >= 20)
-        bp_hit = bp_head;
-    else if (hit_value >= 10)
-        bp_hit = bp_torso;
-    else if (one_in(4))
-        bp_hit = bp_legs;
-    else
-        bp_hit = bp_arms;
-    /*
-    std::string bodypart = body_part_name(bp_hit, side);
-    std::string target_name;
-    if (p.is_npc()) {
-        //~ someone's bodypart, e.g. "Kate's leg"
-        target_name = string_format(_("%1$s's %2$s"),
-                                    p.name.c_str(), bodypart.c_str());
     } else {
-        //~ your bodypart, e.g. "your head"
-        target_name = string_format(_("your %s"), bodypart.c_str());
-        }
-    */
+        // Handles effects as well; not done in melee_affect_*
+        if (technique.id != "tec_none")
+            perform_technique(technique, g, t, bash_dam, cut_dam, stab_dam, pain);
+        perform_special_attacks(g, t);
+        // Make a rather quiet sound, to alert any nearby monsters
+        if (!is_quiet()) // check martial arts silence
+            g->sound(posx, posy, 8, "");
 
-    t.block_hit(g, bp_hit, side, bash_dam, cut_dam, stab_dam);
+        int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
-    if (bash_dam + cut_dam + stab_dam <= 0)
-    return 0; // Defensive technique canceled our attack!
+        bool bashing = (bash_dam >= 10 && !unarmed_attack());
+        bool cutting = (cut_dam >= 10 && cut_dam >= stab_dam);
+        bool stabbing = (stab_dam >= 10 && stab_dam >= cut_dam);
 
-    int pain = 0; // Boost to pain; required for perform_technique
+        melee_practice(g->turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
 
-    // Pick one or more special attacks
-    ma_technique technique;
-    if (allow_special) {
-        technique = ma_techniques[pick_technique(g, t, critical_hit, true)];
-    } else
-        technique = ma_techniques["tec_none"];
+        if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
+            healall( rng(dam / 10, dam / 5) );
 
-    // Handles effects as well; not done in melee_affect_*
-    if (technique.id != "tec_none")
-        perform_technique(technique, g, t, bash_dam, cut_dam, stab_dam, pain);
+        message = melee_message(technique.id, *this, bash_dam, cut_dam, stab_dam);
+        player_hit_message(g, this, message, target_name, dam, critical_hit);
 
-    if (weapon.has_flag("FLAMING")) {
-        t.add_effect("effect_onfire", rng(3, 4));
+        if (!specialmsg.empty())
+            g->add_msg(specialmsg.c_str());
     }
-    //TODO: add speed defecit/pain
-    //t->speed -= int(pain / 2);
 
-    perform_special_attacks(g, t, bash_dam, cut_dam, stab_dam);
-
-    // multiply damage by style damage_mults
-    bash_dam *= mabuff_bash_mult();
-    cut_dam *= mabuff_cut_mult();
-    stab_dam *= mabuff_cut_mult();
-
-    damage_instance d;
-    if (critical_hit) // criticals have extra %arpen
-        d.add_damage(DT_BASH, bash_dam, 0, 0.5);
-    else
-        d.add_damage(DT_BASH, bash_dam);
-    if (cut_dam > stab_dam)
-        if (critical_hit) // criticals have extra flat arpen
-            d.add_damage(DT_CUT, cut_dam, 5);
-        else
-            d.add_damage(DT_CUT, cut_dam);
-    else {
-        if (critical_hit) // stab criticals have extra extra %arpen
-            d.add_damage(DT_STAB, stab_dam, 0, 0.33); 
-        else
-            d.add_damage(DT_STAB, stab_dam); 
-    }
-    // Handles speed penalties to monster & us, etc
-    std::string specialmsg = melee_special_effects(g, t, critical_hit, d);
-
-    if (!specialmsg.empty())
-        g->add_msg(specialmsg.c_str());
-    // Make a rather quiet sound, to alert any nearby monsters
-    if (!is_quiet()) // check martial arts silence
-        g->sound(posx, posy, 8, "");
-
-    t.deal_damage(g, this, bp_hit, side, d);
-
-    int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
-
-    message = melee_message(technique.id, *this, bash_dam, cut_dam, stab_dam);
-    player_hit_message(g, this, message, target_name, dam, critical_hit);
-
-    bool bashing = (bash_dam >= 10 && !unarmed_attack());
-    bool cutting = (cut_dam >= 10 && cut_dam >= stab_dam);
-    bool stabbing = (stab_dam >= 10 && stab_dam >= cut_dam);
-    melee_practice(g->turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
-
-    if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
-        healall( rng(dam / 10, dam / 5) );
-
-    if (allow_special && technique.grabs) {
-        // TODO: make this depend on skill (through grab_resist stat) again
-        if (t.get_grab_resist() > 0 &&
-                dice(t.get_dex() , 12) >
-                dice(get_dex(), 10)) {
-            g->add_msg_player_or_npc(&t, _("You break the grab!"),
-                                        _("<npcname> breaks the grab!"));
-        } else if (!unarmed_attack()) {
-            // Move our weapon to a temp slot, if it's not unarmed
-            item tmpweap = remove_weapon();
-            melee_attack(g, t, false); // False means a second grab isn't allowed
-            weapon = tmpweap;
-        } else
-            melee_attack(g, t, false); // False means a second grab isn't allowed
-    }
+    mod_moves(-move_cost);
 
     ma_onattack_effects(); // trigger martial arts on-attack effects
 
-    return dam;
-
+    return 0;
 }
 
 int stumble(player &u)
@@ -814,105 +752,113 @@ bool player::can_weapon_block()
 
 
 bool player::block_hit(game *g, body_part &bp_hit, int &side,
-                       int &bash_dam, int &cut_dam, int &stab_dam) {
+                       damage_instance &dam) {
 
-  ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
-  // these fire even if the attack is blocked (you still got hit)
+    if (blocks_left < 1)
+        return false;
 
-  if (blocks_left < 1)
-      return false;
+    ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
+    // these fire even if the attack is blocked (you still got hit)
 
-  if (unarmed_attack() && can_block()) {
-    //Choose which body part to block with
-    if (can_leg_block() && can_arm_block())
-      bp_hit = one_in(2) ? bp_legs : bp_arms;
-    else if (can_leg_block())
-      bp_hit = bp_legs;
-    else
-      bp_hit = bp_arms;
+    int total_phys_block = mabuff_block_bonus();
+    bool conductive_weapon = weapon.conductive();
 
-    // Choose what side to block with.
-    if (bp_hit == bp_legs)
-      side = hp_cur[hp_leg_r] > hp_cur[hp_leg_l];
-    else
-      side = hp_cur[hp_arm_r] > hp_cur[hp_arm_l];
+    if (unarmed_attack() && can_block()) {
+        //Choose which body part to block with
+        if (can_leg_block() && can_arm_block())
+        bp_hit = one_in(2) ? bp_legs : bp_arms;
+        else if (can_leg_block())
+        bp_hit = bp_legs;
+        else
+        bp_hit = bp_arms;
 
-    g->add_msg_player_or_npc( this, _("You block with your %s!"),
-    _("<npcname> blocks with their %s!"),
-    body_part_name(bp_hit, side).c_str());
+        // Choose what side to block with.
+        if (bp_hit == bp_legs)
+        side = hp_cur[hp_leg_r] > hp_cur[hp_leg_l];
+        else
+        side = hp_cur[hp_arm_r] > hp_cur[hp_arm_l];
 
-    bash_dam *= .5;
-
-    bash_dam -= mabuff_block_bonus();
-    bash_dam = bash_dam < 0 ? 0 : bash_dam;
-  }
-  else if (can_arm_block() || can_weapon_block()) {
-    float mult = 1.0f;
-    // If we are using a weapon, apply extra reductions
-    if (weapon.has_technique("WBLOCK_1")) {
-      mult = 0.4;
-    } else if (weapon.has_technique("WBLOCK_2")) {
-      mult = 0.15;
-    } else if (weapon.has_technique("WBLOCK_3")) {
-      mult = 0.05;
-    } else {
-      mult = 0.5; // always at least as good as unarmed
+        g->add_msg_player_or_npc( this, _("You block with your %s!"),
+        _("<npcname> blocks with their %s!"),
+        body_part_name(bp_hit, side).c_str());
+    } else if (can_arm_block() || can_weapon_block()) {
+        // If we are using a weapon, apply extra reductions
+        g->add_msg_player_or_npc( this, _("You block with your %s!"),
+                    _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
     }
-    g->add_msg_player_or_npc( this, _("You block with your %s!"),
-                _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
-    bash_dam *= mult;
-    cut_dam *= mult;
-    stab_dam *= mult;
-    // then convert cut/stab into bash
-    bash_dam += cut_dam + stab_dam;
-    cut_dam = stab_dam = 0;
 
-    bash_dam -= mabuff_block_bonus();
-    bash_dam = bash_dam < 0 ? 0 : bash_dam;
-  }
-  blocks_left--;
+    float phys_mult = 1.0f;
+    int block_amount;
+    for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
+            it != dam.damage_units.end(); ++it) {
+        // block physical damage "normally"
+        if (it->type == DT_BASH || it->type == DT_CUT || it->type == DT_STAB) {
+            // use up our flat block bonus first
+            block_amount = std::min(total_phys_block, it->amount);
+            total_phys_block -= block_amount;
+            it->amount -= block_amount;
 
-  ma_onblock_effects(); // fire martial arts block-triggered effects
+            if (unarmed_attack() && can_block()) {
+                phys_mult = 0.5;
+            } else if (can_arm_block() || can_weapon_block()) {
+                if (weapon.has_technique("WBLOCK_1")) {
+                    phys_mult = 0.4;
+                } else if (weapon.has_technique("WBLOCK_2")) {
+                    phys_mult = 0.15;
+                } else if (weapon.has_technique("WBLOCK_3")) {
+                    phys_mult = 0.05;
+                } else {
+                    phys_mult = 0.5; // always at least as good as unarmed
+                }
+            }
+            it->amount *= phys_mult;
+        // non-electrical "elemental" damage types do their full damage if unarmed,
+        // but severely mitigated damage if not
+        } else if (it->type == DT_HEAT || it->type == DT_ACID || it->type == DT_COLD) {
+            //TODO: should damage weapons if blocked
+            if (!unarmed_attack() && can_weapon_block()) {
+                it->amount /= 5;
+            }
+        // electrical damage deals full damage if unarmed OR wielding a
+        // conductive weapon
+        } else if (it->type == DT_ELECTRIC) {
+            if (!unarmed_attack() && can_weapon_block() && !conductive_weapon) {
+                it->amount /= 5;
+            }
+        }
+    }
 
-  return true;
+    blocks_left--;
+
+    ma_onblock_effects(); // fire martial arts block-triggered effects
+
+    return true;
 }
 
-void player::perform_special_attacks(game *g, Creature &t,
-                                     int &bash_dam, int &cut_dam, int &stab_dam)
+void player::perform_special_attacks(game *g, Creature &t)
 {
  bool can_poison = false;
- // TODO: rework special attacks to use "normal" damage code path
- int bash_armor = t.get_armor_bash(bp_torso);
- int cut_armor  = t.get_armor_cut(bp_torso);
 
- /* TODO: finish mutation attacks
- std::vector<special_attack> special_attacks;
- */
  std::vector<special_attack> special_attacks = mutation_attacks(t);
 
-    std::string target = t.disp_name();
+ std::string target = t.disp_name();
 
  for (int i = 0; i < special_attacks.size(); i++) {
-  bool did_damage = false;
-  if (special_attacks[i].bash > bash_armor) {
-   bash_dam += special_attacks[i].bash;
-   did_damage = true;
-  }
-  if (special_attacks[i].cut > cut_armor) {
-   cut_dam += special_attacks[i].cut - cut_armor;
-   did_damage = true;
-  }
-  if (special_attacks[i].stab > cut_armor * .8) {
-   stab_dam += special_attacks[i].stab - cut_armor * .8;
-   did_damage = true;
-  }
+  damage_instance d =  damage_instance::physical(
+        special_attacks[i].bash,
+        special_attacks[i].cut,
+        special_attacks[i].stab
+    );
+  dealt_damage_instance dealt_dam;
+  t.deal_melee_attack(g, this, hit_roll() * 0.8, false, d, dealt_dam);
+  if (dealt_dam.total_damage() > 0)
+      g->add_msg(special_attacks[i].text.c_str());
 
-  if (!can_poison && one_in(2) &&
-      (special_attacks[i].cut > cut_armor ||
-       special_attacks[i].stab > cut_armor * .8))
+  if (!can_poison && one_in(2) && (dealt_dam.type_damage(DT_CUT) > 0 ||
+        dealt_dam.type_damage(DT_STAB)))
    can_poison = true;
 
-  if (did_damage)
+  if (dealt_dam.total_damage() > 0)
    g->add_msg( special_attacks[i].text.c_str() );
  }
 
@@ -923,8 +869,7 @@ void player::perform_special_attacks(game *g, Creature &t,
  }
 }
 
-std::string player::melee_special_effects(game *g, Creature &t, bool crit,
-                                   damage_instance& d)
+std::string player::melee_special_effects(game *g, Creature &t, damage_instance& d)
 {
     std::stringstream dump;
 
@@ -937,41 +882,6 @@ std::string player::melee_special_effects(game *g, Creature &t, bool crit,
     (void)tarposx;
     (void)tarposy;
 
-    /* TODO: yep gonna do more merge before this goes in too
-
-    // Bashing crit
-    if (crit && !unarmed_attack()) {
-        int turns_stunned = int(bash_dam / 20) + rng(0, int(skillLevel("bashing") / 2));
-        if (turns_stunned > 6)
-            turns_stunned = 6;
-        if (turns_stunned > 0) {
-            t.add_effect("effect_stunned", turns_stunned);
-        }
-    }
-
-    // Stabbing effects
-    int stab_moves = rng(stab_dam / 2, stab_dam * 1.5);
-    if (crit) {
-        stab_moves *= 1.5;
-    }
-    if (stab_moves >= 150) {
-        if (you) {
-            // can the player force their self to the ground? probably not.
-            g->add_msg_if_npc(this, _("<npcname> forces you to the ground!"));
-        } else {
-            g->add_msg_player_or_npc(this, _("You force %s to the ground!"),
-                                     _("<npcname> forces %s to the ground!"),
-                                     target.c_str() );
-        }
-        t.add_effect("effect_downed", 1);
-        p->moves -= stab_moves / 2;
-    } else if (mon) {
-        z->moves -= stab_moves;
-    } else {
-        p->moves -= stab_moves;
-    }
-    */
-
 // Bonus attacks!
  bool shock_them = (has_active_bionic("bio_shock") && power_level >= 2 &&
                     (unarmed_attack() || weapon.made_of("iron") ||
@@ -980,31 +890,50 @@ std::string player::melee_special_effects(game *g, Creature &t, bool crit,
 
  bool drain_them = (has_active_bionic("bio_heat_absorb") && power_level >= 1 &&
                     !is_armed() && t.is_warm());
-
  drain_them &= one_in(2); // Only works half the time
 
-    if (shock_them) {
+ bool burn_them = weapon.has_flag("FLAMING");
+
+
+    if (shock_them) { // bionics only
         power_level -= 2;
         int shock = rng(2, 5);
         d.add_damage(DT_ELECTRIC, shock*rng(1,3));
-        g->add_msg_player_or_npc(this, _("You shock %s."),
-                                    _("<npcname> shocks %s."),
-                                    target.c_str());
+
+        if (is_player())
+            dump << string_format(_("You shock %s."), target.c_str());
+        else
+            g->add_msg_player_or_npc(this, _("You shock %s."),
+                                        _("<npcname> shocks %s."),
+                                        target.c_str());
     }
 
-    if (drain_them) {
+    if (drain_them) { // bionics only
         power_level--;
         charge_power(rng(0, 2));
         d.add_damage(DT_COLD, 1);
         if (t.is_player()) {
             g->add_msg_if_npc(this, _("<npcname> drains your body heat!"));
         } else {
-            g->add_msg_player_or_npc(this, _("You drain %s's body heat!"),
+            if (is_player())
+                dump << string_format(_("You drain %s's body heat."), target.c_str());
+            else
+                g->add_msg_player_or_npc(this, _("You drain %s's body heat!"),
                                      _("<npcname> drains %s's body heat!"),
                                      target.c_str());
         }
     }
 
+    if (burn_them) { // for flaming weapons
+        d.add_damage(DT_HEAT, rng(1,8));
+
+        if (is_player())
+            dump << string_format(_("You burn %s."), target.c_str());
+        else
+            g->add_msg_player_or_npc(this, _("You burn %s."),
+                                        _("<npcname> burns %s."),
+                                        target.c_str());
+    }
 
  /* TODO: implement this effect yo, also figure out why weapon.conductive
   * isn't used to decide shock_them instead of the OR chains

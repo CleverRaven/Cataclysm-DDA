@@ -74,13 +74,16 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         return;
     }
 
-    std::set<std::string> proj_effects;
+    projectile proj; // damage will be set later
+    proj.aoe_size = 0;
+    proj.ammo = curammo;
+
     std::set<std::string> *curammo_effects = &curammo->ammo_effects;
     if(gunmod == NULL){
         std::set<std::string> *gun_effects = &dynamic_cast<it_gun*>(used_weapon->type)->ammo_effects;
-        proj_effects.insert(gun_effects->begin(),gun_effects->end());
+        proj.proj_effects.insert(gun_effects->begin(),gun_effects->end());
     }
-    proj_effects.insert(curammo_effects->begin(),curammo_effects->end());
+    proj.proj_effects.insert(curammo_effects->begin(),curammo_effects->end());
 
     //int x = xpos(), y = ypos();
     // Have to use the gun, gunmods don't have a type
@@ -91,7 +94,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         burst = false; // Can't burst fire a semi-auto
 
     // Use different amounts of time depending on the type of gun and our skill
-    if (!proj_effects.count("BOUNCE")) {
+    if (!proj.proj_effects.count("BOUNCE")) {
         moves -= time_to_fire(*this, firing);
     }
     // Decide how many shots to fire
@@ -277,7 +280,6 @@ void player::fire_gun(int tarx, int tary, bool burst) {
             }
         }
 
-        bool missed = false;
         make_gun_sound_effect(g, *this, burst, used_weapon);
         int trange = calculate_range(*this, tarx, tary);
         double missed_by = calculate_missed_by(*this, trange, used_weapon);
@@ -302,6 +304,9 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
         int mtarx = tarx;
         int mtary = tary;
+
+        int adjusted_damage = used_weapon->gun_damage();
+
         if (missed_by >= 1.) {
             // We missed D:
             // Shoot a random nearby space?
@@ -314,22 +319,37 @@ void player::fire_gun(int tarx, int tary, bool burst) {
                 trajectory = line_to(posx, posy, mtarx, mtary, 0);
             }
             */
-            missed = true;
         } else if (missed_by >= .8 / monster_speed_penalty) {
             // Hit the space, but not necessarily the monster there
-            missed = true;
+        } else {
+            if (missed_by <= .1) { // TODO: check for heads for headshot
+                g->add_msg(_("Headshot!"));
+                adjusted_damage = rng(5 * adjusted_damage, 8 * adjusted_damage);
+                practice(g->turn, firing->skill_used, 5);
+                lifetime_stats()->headshots++;
+            } else if (missed_by <= .2) {
+                g->add_msg(_("Critical!"));
+                adjusted_damage = rng(adjusted_damage * 2, adjusted_damage * 3);
+                practice(g->turn, firing->skill_used, 3);
+            } else if (missed_by <= .4) {
+                g->add_msg(_("Good hit!"));
+                adjusted_damage = rng(adjusted_damage , adjusted_damage * 2);
+                practice(g->turn, firing->skill_used, 2);
+            } else if (missed_by <= .6) {
+                adjusted_damage = rng(adjusted_damage / 2, adjusted_damage);
+                practice(g->turn, firing->skill_used, 1);
+            } else if (missed_by <= .8) {
+                g->add_msg(_("Grazing hit."));
+                adjusted_damage = rng(0, adjusted_damage);
+            } else {
+                adjusted_damage = 0;
+            }
         }
 
-        int dam = used_weapon->gun_damage();
 
-        projectile proj;
-        proj.impact = damage_instance::physical(0,dam,0);
-        proj.aoe_size = 0;
-        proj.ammo = curammo;
-        proj.missed = missed;
-        proj.missed_by = missed_by;
+        proj.impact = damage_instance::physical(0,adjusted_damage,0);
 
-        projectile_attack(g, proj, mtarx, mtary, proj_effects);
+        projectile_attack(g, proj, mtarx, mtary, missed_by);
 
         /* TODO: add bolt dropping back in
         if (g->m.move_cost(tx, ty) == 0) {
@@ -1007,6 +1027,27 @@ int calculate_range(player &p, int tarx, int tary)
 
  return trange;
 }
+
+/* TODO: replace calculate_missed with this version
+// utility functions for projectile_attack
+double calculate_missed_by(int trange, int dispersion, int hit) {
+    double deviation = 80. + dispersion;
+
+    deviation -= double(dice(hit, 10)) / 10.0;
+
+    // this is what the total bonus USED to look like
+    // rng(0,x) on each term in the sum
+    // 3 * skill + skill + 2 * dex + 2 * per
+    // - 2*p.encumb(bp_arms) - 4*p.encumb(bp_eyes) - 5/8 * recoil
+
+    if (deviation < 0) { return 0; }
+    // .013 * trange is a computationally cheap version of finding the tangent.
+    // (note that .00325 * 4 = .013; .00325 is used because deviation is a number
+    //  of quarter-degrees)
+    // It's also generous; missed_by will be rather short.
+    return .00325 * deviation * trange;
+}
+*/
 
 double calculate_missed_by(player &p, int trange, item* weapon)
 {

@@ -28,6 +28,7 @@ class Creature
         virtual std::string skin_name() = 0; // name of outer layer, e.g. "armor plates"
 
         virtual bool is_player() { return false; }
+        virtual bool is_npc () { return false; }
 
         virtual void normalize(game* g); // recreate the Creature from scratch
         virtual void reset(game* g); // handle both reset steps. Call this function instead of reset_stats/bonuses
@@ -43,7 +44,7 @@ class Creature
 
         // fires a projectile at target point
         virtual int projectile_attack(game *g, projectile &proj, int targetx, int targety,
-                std::set<std::string>& proj_effects);
+                double missed_by);
 
         /*
         // instantly deals damage at the target point
@@ -61,8 +62,9 @@ class Creature
         }
         */
 
+        // handles blocking of damage instance. mutates &dam
         virtual bool block_hit(game *g, body_part &bp_hit, int &side,
-            int &bash_dam, int &cut_dam, int &stab_dam) = 0;
+            damage_instance &dam) = 0;
 
         // these also differ between player and monster (player takes
         // body_part) but we will use this for now
@@ -72,13 +74,17 @@ class Creature
         // TODO: remove this function in favor of deal/apply_damage
         virtual void hurt(game* g, body_part bp, int side, int dam) = 0;
 
-        /*
         // makes a melee attack against the creature
-        virtual void deal_melee_attack(game* g, damage_instance& d);
+        // dealt_dam is overwritten with the values of the damage dealt
+        // returns hit - dodge (>=0 = hit, <0 = miss)
+        virtual int deal_melee_attack(game* g, Creature* source, int hitroll, bool crit,
+                damage_instance& d, dealt_damage_instance &dealt_dam);
 
         // makes a ranged projectile attack against the creature
-        virtual void deal_projectile_attack();
-        */
+        // dodgeable determines if the dodge stat applies or not, dodge is
+        // reduced for ranged attacks
+        virtual int deal_projectile_attack(game* g, Creature* source, float missed_by, bool dodgeable,
+                damage_instance& d, dealt_damage_instance &dealt_dam);
 
         // deals the damage via an attack. Most sources of external damage
         // should use deal_damage

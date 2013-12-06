@@ -3202,8 +3202,10 @@ void game::add_msg_if_player(Creature *p, const char* msg, ...)
  }
 }
 
-void game::add_msg_if_npc(player *p, const char* msg, ...)
+void game::add_msg_if_npc(Creature *p, const char* msg, ...)
 {
+    return;
+    /* TODO: make this function actually work again when NPCs are back in
     if (!p || !p->is_npc()) {
         return;
     }
@@ -3222,6 +3224,7 @@ void game::add_msg_if_npc(player *p, const char* msg, ...)
     add_msg_string(processed_npc_string);
 
     va_end(ap);
+    */
 }
 
 void game::add_msg_player_or_npc(Creature* t, const char* player_str, const char* npc_str, ...)

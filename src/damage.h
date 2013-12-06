@@ -86,6 +86,7 @@ struct damage_instance {
 struct dealt_damage_instance {
     std::vector<int> dealt_dams;
 
+    dealt_damage_instance() : dealt_dams(NUM_DT, 0) { }
     dealt_damage_instance(std::vector<int> &dealt) : dealt_dams(dealt) { }
     void set_damage(damage_type dt, int amount) {
         dealt_dams[dt] = amount;
@@ -110,11 +111,9 @@ struct projectile {
 
     // TODO: things below here are here temporarily until we finish those
     // systems
+    std::set<std::string> proj_effects;
     it_ammo *ammo; // projectile's item that gets spawned at impact location, e.g. thrown weapons/bolts
     int num_spawn;
-
-    bool missed;
-    double missed_by;
 
     projectile() :
         aoe_shape(BS_NONE),

@@ -221,7 +221,7 @@ public:
  void hit_player(game *g, player &p, bool allow_grab = true);
 
  bool block_hit(game *g, body_part &bp_hit, int &side,
-    int &bash_dam, int &cut_dam, int &stab_dam);
+    damage_instance &dam);
 
  int base_damage(bool real_life = true, int stat = -999);
  int base_to_hit(bool real_life = true, int stat = -999);
@@ -243,11 +243,10 @@ public:
  void perform_technique(ma_technique technique, game *g, Creature &t,
                        int &bash_dam, int &cut_dam, int &pierce_dam, int &pain);
 
- void perform_special_attacks(game *g, Creature &t,
-                        int &bash_dam, int &cut_dam, int &pierce_dam);
+ void perform_special_attacks(game *g, Creature &t);
 
  std::vector<special_attack> mutation_attacks(Creature &t);
- std::string melee_special_effects(game *g, Creature &t, bool crit, damage_instance& d);
+ std::string melee_special_effects(game *g, Creature &t, damage_instance& d);
 
  int get_dodge_base();   // Returns the players's dodge, modded by clothing etc
  int get_dodge();
