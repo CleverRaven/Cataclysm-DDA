@@ -1082,6 +1082,8 @@ int calculate_range(player &p, int tarx, int tary)
 {
  int trange = rl_dist(p.posx, p.posy, tarx, tary);
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
+ if (p.is_underwater()) // Range is effectively four times longer when shooting underwater.
+  trange = int(trange * 4);
  if (trange < int(firing->volume / 3) && firing->ammo != "shot")
   trange = int(firing->volume / 3);
  else if (p.has_bionic("bio_targeting")) {
