@@ -152,11 +152,15 @@ void load_quality(JsonObject &jo)
 
 bool game::crafting_allowed()
 {
-    if (u.morale_level() < MIN_MORALE_CRAFT)
-    { // See morale.h
+    if (u.morale_level() < MIN_MORALE_CRAFT) { // See morale.h
         add_msg(_("Your morale is too low to craft..."));
         return false;
     }
+    return true;
+}
+
+bool game::crafting_can_see()
+{
     if (u.fine_detail_vision_mod(g) > 2.5) {
         g->add_msg(_("You can't see to craft!"));
         return false;
@@ -167,20 +171,21 @@ bool game::crafting_allowed()
 
 void game::recraft()
 {
- if(u.lastrecipe == NULL)
- {
-  popup(_("Craft something first"));
- }
- else if (making_would_work(u.lastrecipe))
- {
-  make_craft(u.lastrecipe);
- }
+    if(u.lastrecipe == NULL) {
+        popup(_("Craft something first"));
+    } else if (making_would_work(u.lastrecipe)) {
+        make_craft(u.lastrecipe);
+    }
 }
 
 //TODO clean up this function to give better status messages (e.g., "no fire available")
 bool game::making_would_work(recipe *making)
 {
     if (!crafting_allowed()) {
+        return false;
+    }
+
+    if(!crafting_can_see()) {
         return false;
     }
 
@@ -453,29 +458,29 @@ bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
 
 void game::craft()
 {
-    if (!crafting_allowed())
-    {
+    if (!crafting_allowed()) {
         return;
     }
 
     recipe *rec = select_crafting_recipe();
-    if (rec)
-    {
-        make_craft(rec);
+    if (rec) {
+        if(crafting_can_see()) {
+            make_craft(rec);
+        }
     }
 }
 
 void game::long_craft()
 {
-    if (!crafting_allowed())
-    {
+    if (!crafting_allowed()) {
         return;
     }
 
     recipe *rec = select_crafting_recipe();
-    if (rec)
-    {
-        make_all_craft(rec);
+    if (rec) {
+        if(crafting_can_see()) {
+            make_all_craft(rec);
+        }
     }
 }
 
