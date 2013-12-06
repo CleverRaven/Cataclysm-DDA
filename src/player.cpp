@@ -7856,6 +7856,11 @@ press 'U' while wielding the unloaded gun."), gun->tname().c_str());
                        gun->tname().c_str());
             return;
         }
+        if (mod->id == "waterproof_gunmod" && gun->has_flag("WATERPROOF_GUN")) {
+            g->add_msg(_("Your %s is already waterproof."),
+                       gun->tname().c_str());
+            return;
+        }
         for (int i = 0; i < gun->contents.size(); i++) {
             if (gun->contents[i].type->id == used->type->id) {
                 g->add_msg(_("Your %s already has a %s."), gun->tname().c_str(),

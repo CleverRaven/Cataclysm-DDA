@@ -1231,7 +1231,8 @@ bool map::flammable_items_at(const int x, const int y)
   if (it->is_ammo() && it->ammo_type() != "battery" &&
       it->ammo_type() != "nail" && it->ammo_type() != "BB" &&
       it->ammo_type() != "bolt" && it->ammo_type() != "arrow" &&
-      it->ammo_type() != "pebble" && it->ammo_type() != "NULL")
+      it->ammo_type() != "pebble" && it->ammo_type() != "fishspear" &&
+      it->ammo_type() != "NULL")
     return true;
  }
  return false;

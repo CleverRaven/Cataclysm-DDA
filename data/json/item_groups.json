@@ -761,6 +761,13 @@
       ["cu_pipe", 10],
       ["5x50_hull", 8],
       ["rm120c", 3],
+      ["speargun", 4],
+      ["minispeargun", 2],
+      ["doublespeargun", 2],
+      ["airspeargun", 2],
+      ["fishspear", 4],
+      ["a_fishspear", 2],
+      ["c_fishspear", 2],
       ["u_shotgun", 5]
     ]
     },{
@@ -1755,6 +1762,13 @@
       ["signal_flare", 15],
       ["airhorn", 30],
       ["quikclot", 10],
+      ["speargun", 10],
+      ["minispeargun", 10],
+      ["doublespeargun", 8],
+      ["airspeargun", 8],
+      ["fishspear", 12],
+      ["a_fishspear", 10],
+      ["c_fishspear", 10],
       ["leathersandals", 15]
     ]
     },{
@@ -3204,6 +3218,13 @@
       ["signal_flare", 15],
       ["rm120c", 5],
       ["knee_pads", 10],
+      ["speargun", 8],
+      ["minispeargun", 6],
+      ["doublespeargun", 6],
+      ["airspeargun", 4],
+      ["fishspear", 4],
+      ["a_fishspear", 8],
+      ["c_fishspear", 8],
       ["leathersandals", 10]
     ]
     },{

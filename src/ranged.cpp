@@ -1074,6 +1074,7 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
  else if (weapon->curammo->type != "bolt" &&
           weapon->curammo->type != "arrow" &&
           weapon->curammo->type != "pebble" &&
+          weapon->curammo->type != "fishspear" &&
           weapon->curammo->type != "dart")
   g->sound(p.posx, p.posy, noise, gunsound);
 }
