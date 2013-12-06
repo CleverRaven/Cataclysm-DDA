@@ -2176,7 +2176,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
  }
 
 
- char am_invlet = 0;
+ int am_pos = 0;
 
  if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
      uimenu amenu;
@@ -2210,15 +2210,15 @@ int item::pick_reload_ammo(player &u, bool interactive)
      }
      amenu.query();
      if ( amenu.ret >= 0 ) {
-        am_invlet = am[ amenu.ret ]->invlet;
+        am_pos = g->u.get_item_position(am[ amenu.ret ]);
         uistate.lastreload[ ammo_type() ] = am[ amenu.ret ]->typeId();
      }
  }
  // Either only one valid choice or chosing for a NPC, just return the first.
  else if (am.size() > 0){
-  am_invlet = am[0]->invlet;
+     am_pos = g->u.get_item_position(am[0]);
  }
- return g->u.invlet_to_position(am_invlet);
+ return am_pos;
 }
 
 bool item::reload(player &u, int pos)
