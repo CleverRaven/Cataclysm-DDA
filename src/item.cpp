@@ -2176,7 +2176,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
  }
 
 
- int am_pos = 0;
+ int am_pos = INT_MIN;
 
  if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
      uimenu amenu;
