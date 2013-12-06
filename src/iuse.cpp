@@ -4266,8 +4266,8 @@ int iuse::turret(player *p, item *it, bool t)
  monster mturret(GetMType("mon_turret"), dirx, diry);
  int ammo = std::min(p->inv.charges_of("9mm"), 500);
  if (ammo > 0) {
-    char invlet = p->inv.item_by_type("9mm").invlet;
-    p->inv.reduce_charges(invlet, ammo);
+    item& it = p->inv.item_by_type("9mm");
+    p->inv.reduce_charges(p->get_item_position(&it), ammo);
     if (ammo == 1) {
       g->add_msg_if_player(p,_("You load your only 9mm bullet into the turret."));
     }
@@ -4712,7 +4712,7 @@ int iuse::portable_game(player *p, item *it, bool t)
         int time = 15000;
 
         g->add_msg_if_player(p, _("You play on your %s for a while."), it->name.c_str());
-        p->assign_activity(g, ACT_GAME, time, -1, it->invlet, "gaming");
+        p->assign_activity(g, ACT_GAME, time, -1, p->get_item_position(it), "gaming");
         p->moves = 0;
 
         std::map<std::string, std::string> game_data;
@@ -6119,6 +6119,7 @@ int iuse::boots(player *p, item *it, bool t)
   p->moves -= 15;
   item knife = it->contents[choice - 1];
   if (!p->is_armed() || p->wield(g, -3)) {
+   p->inv.assign_empty_invlet(knife, true);  // force getting an invlet.
    p->i_add(knife);
    p->wield(g, knife.invlet);
    it->contents.erase(it->contents.begin() + choice - 1);
