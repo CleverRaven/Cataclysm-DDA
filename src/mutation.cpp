@@ -481,10 +481,10 @@ void mutation_effect(game *g, player &p, std::string mut)
                         g->add_msg(_("Your %s is pushed off."), p.worn[i].tname().c_str());
                     }
 
-                    char tmp_invlet = p.worn[i].invlet;
+                    int pos = player::worn_position_to_index(i);
                     g->m.add_item_or_charges(p.posx, p.posy, p.worn[i]);
-                    p.takeoff( g, p.worn[i].invlet, true );
-                    p.i_rem( tmp_invlet );
+                    p.takeoff(g, pos, true);
+                    p.i_rem(pos);
                 }
                 // Reset to the start of the vector
                 i = 0;
