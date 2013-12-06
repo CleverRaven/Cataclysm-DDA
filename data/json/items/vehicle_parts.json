@@ -521,6 +521,21 @@
     },
     {
         "type":"GENERIC",
+        "id" : "cargo_rack",
+        "name" : "cargo carrier",
+        "description" : "A heavy frame outfitted with tie-downs and attachment points for carrying cargo.",
+        "weight" : 28813,
+        "to_hit" : -4,
+        "color" : "cyan",
+        "symbol" : "]",
+        "material" : ["steel", "plastic"],
+        "volume" : 200,
+        "bashing" : 2,
+        "cutting" : 0,
+        "price" : 400
+    },
+    {
+        "type":"GENERIC",
         "id": "floodlight",
         "name": "floodlight",
         "description": "A large and heavy light designed to illuminate wide areas.",
