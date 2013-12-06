@@ -321,8 +321,8 @@ void mdeath::blobsplit(monster *z) {
         if (g->u_see(z)) {
             //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)
             g->add_msg(_("The %s splatters apart."), z->name().c_str());
-            return;
         }
+        return;
     }
     monster blob(GetMType((speed < 50 ? "mon_blob_small" : "mon_blob")));
     blob.speed = speed;
