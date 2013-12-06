@@ -463,7 +463,7 @@ class game
   void make_all_craft(recipe *making); // See crafting.cpp
   void complete_craft();               // See crafting.cpp
   void pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &current,
-                    std::vector<bool> &available, craft_cat tab, craft_subcat subtab,std::string filter);// crafting.cpp
+                    std::vector<bool> &available, craft_cat tab, craft_subcat subtab, std::string filter);// crafting.cpp
   craft_cat next_craft_cat(craft_cat cat); // crafting.cpp
   craft_cat prev_craft_cat(craft_cat cat); // crafting.cpp
   craft_subcat next_craft_subcat(craft_subcat subcat); // crafting.cpp
