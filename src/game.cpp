@@ -6681,7 +6681,7 @@ bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
     } else if (&u.weapon == it) {
       u.remove_weapon();
     } else {
-      u.inv.remove_item(it->invlet);
+      u.inv.remove_item(u.get_item_position(it));
     }
   }
   return true;
@@ -8376,7 +8376,7 @@ and you can't unwield your %s."),
                 m.i_clear(posx, posy);
             }
             u.moves -= 100;
-            add_msg("%c - %s", newit.invlet, newit.display_name().c_str());
+            add_msg("%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.display_name().c_str());
         }
 
         if (weight_is_okay && u.weight_carried() >= u.weight_capacity()) {
@@ -9430,10 +9430,10 @@ void game::reassign_item(int pos)
      }
      item* change_to = &(u.i_at(newch));
      change_to->invlet = change_from->invlet;
-     add_msg("%c - %s", change_to->invlet, change_to->tname().c_str());
+     add_msg("%c - %s", change_to->invlet == 0 ? ' ' : change_to->invlet, change_to->tname().c_str());
  }
  change_from->invlet = newch;
- add_msg("%c - %s", newch, change_from->tname().c_str());
+ add_msg("%c - %s", newch == 0 ? ' ' : newch, change_from->tname().c_str());
 }
 
 void game::plthrow(int pos)
@@ -9526,7 +9526,7 @@ void game::plthrow(int pos)
 
 void game::plfire(bool burst, int default_target_x, int default_target_y)
 {
- char reload_invlet = 0;
+ int reload_pos = INT_MIN;
  if (!u.weapon.is_gun())
   return;
  vehicle *veh = m.veh_at(u.posx, u.posy);
@@ -9562,13 +9562,13 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  }
 
  if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
-  reload_invlet = u.weapon.pick_reload_ammo(u, true);
-  if (reload_invlet == 0) {
+  reload_pos = u.weapon.pick_reload_ammo(u, true);
+  if (reload_pos == INT_MIN) {
    add_msg(_("Out of ammo!"));
    return;
   }
 
-  u.weapon.reload(u, reload_invlet);
+  u.weapon.reload(u, reload_pos);
   u.moves -= u.weapon.reload_time(u);
   refresh_all();
  }
@@ -10027,8 +10027,8 @@ void game::reload(int pos)
      }
 
      // pick ammo
-     char am_invlet = it->pick_reload_ammo(u, true);
-     if (am_invlet == 0) {
+     int am_pos = it->pick_reload_ammo(u, true);
+     if (am_pos == INT_MIN) {
          add_msg(_("Out of ammo!"));
          return;
      }
@@ -10036,7 +10036,7 @@ void game::reload(int pos)
      // and finally reload.
      std::stringstream ss;
      ss << pos;
-     u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, u.invlet_to_position(am_invlet), ss.str());
+     u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
      u.moves = 0;
 
  } else if (it->is_tool()) { // tools are simpler
@@ -10049,9 +10049,9 @@ void game::reload(int pos)
      }
 
     // pick ammo
-    char am_invlet = it->pick_reload_ammo(u, true);
+    int am_pos = it->pick_reload_ammo(u, true);
 
-    if (am_invlet == 0) {
+    if (am_pos == INT_MIN) {
         // no ammo, fail reload
         add_msg(_("Out of %s!"), ammo_name(tool->ammo).c_str());
         return;
@@ -10060,7 +10060,7 @@ void game::reload(int pos)
     // do the actual reloading
     std::stringstream ss;
     ss << pos;
-    u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, u.invlet_to_position(am_invlet), ss.str());
+    u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
     u.moves = 0;
 
  } else { // what else is there?

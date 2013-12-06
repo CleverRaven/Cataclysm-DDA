@@ -1105,30 +1105,29 @@ void game::complete_craft()
    consume_tools(&u, making->tools[i], false);
  }
 
-  // Set up the new item, and pick an inventory letter
- int iter = 0;
- item newit(item_controller->find_template(making->result), turn, nextinv);
+  // Set up the new item, and assign an inventory letter if available
+ item newit(item_controller->find_template(making->result), turn, 0);
 
-    if (newit.is_armor() && newit.has_flag("VARSIZE"))
-    {
-        newit.item_tags.insert("FIT");
-    }
-    float used_age_tally = 0;
-    int used_age_count = 0;
-    for (std::list<item>::iterator iter = used.begin(); iter != used.end(); ++iter)
-    {
-        if (iter->goes_bad())
-        {
-            used_age_tally += ((int)turn - iter->bday)/
-                (float)(dynamic_cast<it_comest*>(iter->type)->spoils);
-            ++used_age_count;
-        }
-    }
-    if (used_age_count > 0 && newit.goes_bad())
-    {
-        const int average_used_age = int((used_age_tally / used_age_count) * dynamic_cast<it_comest*>(newit.type)->spoils);
-        newit.bday = newit.bday - average_used_age;
-    }
+ if (newit.is_armor() && newit.has_flag("VARSIZE"))
+ {
+     newit.item_tags.insert("FIT");
+ }
+ float used_age_tally = 0;
+ int used_age_count = 0;
+ for (std::list<item>::iterator iter = used.begin(); iter != used.end(); ++iter)
+ {
+     if (iter->goes_bad())
+     {
+         used_age_tally += ((int)turn - iter->bday)/
+                 (float)(dynamic_cast<it_comest*>(iter->type)->spoils);
+         ++used_age_count;
+     }
+ }
+ if (used_age_count > 0 && newit.goes_bad())
+ {
+     const int average_used_age = int((used_age_tally / used_age_count) * dynamic_cast<it_comest*>(newit.type)->spoils);
+     newit.bday = newit.bday - average_used_age;
+ }
  // for food items
  if (newit.is_food())
   {
@@ -1143,17 +1142,13 @@ void game::complete_craft()
   }
  if (!newit.craft_has_charges())
   newit.charges = 0;
- do {
-  newit.invlet = nextinv;
-  advance_nextinv();
-  iter++;
- } while (u.has_item(newit.invlet) && iter < inv_chars.size());
+ u.inv.assign_empty_invlet(newit);
  //newit = newit.in_its_container(&itypes);
  if (newit.made_of(LIQUID))
   handle_liquid(newit, false, false);
  else {
 // We might not have space for the item
-  if (iter == inv_chars.size() || !u.can_pickVolume(newit.volume())) {
+  if (!u.can_pickVolume(newit.volume())) {
    add_msg(_("There's no room in your inventory for the %s, so you drop it."),
              newit.tname().c_str());
    m.add_item_or_charges(u.posx, u.posy, newit);
@@ -1163,7 +1158,7 @@ void game::complete_craft()
    m.add_item_or_charges(u.posx, u.posy, newit);
   } else {
    newit = u.i_add(newit);
-   add_msg("%c - %s", newit.invlet, newit.tname().c_str());
+   add_msg("%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
   }
  }
  u.inv.restack(&u);

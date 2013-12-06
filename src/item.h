@@ -95,7 +95,7 @@ public:
  int recoil(bool with_ammo = true);
  int range(player *p = NULL);
  ammotype ammo_type() const;
- char pick_reload_ammo(player &u, bool interactive);
+ int pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, int pos);
  void next_mode();
 

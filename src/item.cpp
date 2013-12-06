@@ -2120,14 +2120,14 @@ ammotype item::ammo_type() const
     return "NULL";
 }
 
-char item::pick_reload_ammo(player &u, bool interactive)
+int item::pick_reload_ammo(player &u, bool interactive)
 {
  if( is_null() )
-  return false;
+  return INT_MIN;
 
  if (!type->is_gun() && !type->is_tool()) {
   debugmsg("RELOADING NON-GUN NON-TOOL");
-  return false;
+  return INT_MIN;
  }
  int has_spare_mag = has_gunmod ("spare_mag");
 
@@ -2136,13 +2136,13 @@ char item::pick_reload_ammo(player &u, bool interactive)
  if (type->is_gun()) {
   if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
    // Special return to use magazine for reloading.
-   return -2;
+   return INT_MIN + 1;
   }
   it_gun* tmp = dynamic_cast<it_gun*>(type);
 
   // If there's room to load more ammo into the gun or a spare mag, stash the ammo.
   // If the gun is partially loaded make sure the ammo matches.
-  // If the gun is empty, either the spre mag is empty too and anything goes,
+  // If the gun is empty, either the spare mag is empty too and anything goes,
   // or the spare mag is loaded and we're doing a tactical reload.
   if (charges < clip_size() ||
       (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
@@ -2218,7 +2218,7 @@ char item::pick_reload_ammo(player &u, bool interactive)
  else if (am.size() > 0){
   am_invlet = am[0]->invlet;
  }
- return am_invlet;
+ return g->u.invlet_to_position(am_invlet);
 }
 
 bool item::reload(player &u, int pos)
