@@ -247,6 +247,7 @@ void load_all_from_json(JsonIn &jsin)
     }
 }
 
+#ifdef LOCALIZE
 // load names depending on current locale
 void init_names()
 {
@@ -270,4 +271,10 @@ void init_names()
 
     load_names_from_file(filename);
 }
+#else
+void init_names()
+{
+    load_names_from_file("data/names/en.json");
+}
+#endif
 
