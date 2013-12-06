@@ -40,7 +40,20 @@ void load_recipe(JsonObject &jsobj)
     // required
     std::string result = jsobj.get_string("result");
     std::string category = jsobj.get_string("category");
-    std::string subcategory = jsobj.get_string("subcategory");
+    std::string subcategory = "";
+    if ( !jsobj.has_string("subcategory") ) {
+        if (category == "CC_NONCRAFT") { subcategory = "CSC_NONCRAFT"; }
+        else if (category == "CC_WEAPON") { subcategory = "CSC_WEAPON_OTHER"; }
+        else if (category == "CC_AMMO") { subcategory = "CSC_AMMO_OTHER"; }
+        else if (category == "CC_FOOD") { subcategory = "CSC_FOOD_OTHER"; }
+        else if (category == "CC_CHEM") { subcategory = "CSC_CHEM_OTHER"; }
+        else if (category == "CC_ELECTRONIC") { subcategory = "CSC_ELECTRONIC_OTHER"; }
+        else if (category == "CC_ARMOR") { subcategory = "CSC_ARMOR_OTHER"; }
+        else if (category == "CC_OTHER") { subcategory = "CSC_OTHER_OTHER"; }
+    } else {
+    subcategory = jsobj.get_string("subcategory");
+    }
+
     int difficulty = jsobj.get_int("difficulty");
     int time = jsobj.get_int("time");
     bool autolearn = jsobj.get_bool("autolearn");
@@ -867,11 +880,11 @@ recipe* game::select_crafting_recipe()
                 else if (tab == "CC_FOOD" && subtab == "CSC_FOOD_DRINKS") {
                     subtab == "CSC_FOOD_OTHER";
                 }
-                else if (tab == "CC_CHEM" && subtab == "CSC_CHEMS_DRUGS") {
-                    subtab == "CSC_CHEMS_OTHER";
+                else if (tab == "CC_CHEM" && subtab == "CSC_CHEM_DRUGS") {
+                    subtab == "CSC_CHEM_OTHER";
                 }
-                else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONICS_CBMS") {
-                    subtab == "CSC_ELECTRONICS_OTHER";
+                else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONIC_CBMS") {
+                    subtab == "CSC_ELECTRONIC_OTHER";
                 }
                 else if (tab == "CC_ARMOR" && subtab == "CSC_ARMOR_STORAGE") {
                     subtab == "CSC_ARMOR_OTHER";
@@ -897,8 +910,8 @@ recipe* game::select_crafting_recipe()
                     if ( tab == "CC_WEAPON") { subtab = "CSC_WEAPON_BASHING"; }
                     else if (tab == "CC_AMMO") { subtab = "CSC_AMMO_BULLETS"; }
                     else if (tab == "CC_FOOD") { subtab = "CSC_FOOD_DRINKS"; }
-                    else if (tab == "CC_CHEM") { subtab = "CSC_CHEMS_DRUGS"; }
-                    else if (tab == "CC_ELECTRONIC") { subtab = "CSC_ELECTRONICS_CBMS"; }
+                    else if (tab == "CC_CHEM") { subtab = "CSC_CHEM_DRUGS"; }
+                    else if (tab == "CC_ELECTRONIC") { subtab = "CSC_ELECTRONIC_CBMS"; }
                     else if (tab == "CC_ARMOR") { subtab = "CSC_ARMOR_STORAGE"; }
                     else if (tab == "CC_OTHER") { subtab = "CSC_OTHER_TOOLS"; }
                 }
@@ -914,11 +927,11 @@ recipe* game::select_crafting_recipe()
                 else if (tab == "CC_FOOD" && subtab == "CSC_FOOD_OTHER") {
                     subtab == "CSC_FOOD_DRINK";
                 }
-                else if (tab == "CC_CHEM" && subtab == "CSC_CHEMS_OTHER") {
-                    subtab == "CSC_CHEMS_DRUGS";
+                else if (tab == "CC_CHEM" && subtab == "CSC_CHEM_OTHER") {
+                    subtab == "CSC_CHEM_DRUGS";
                 }
-                else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONICS_OTHER") {
-                    subtab == "CSC_ELECTRONICS_CBMS";
+                else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONIC_OTHER") {
+                    subtab == "CSC_ELECTRONIC_CBMS";
                 }
                 else if (tab == "CC_ARMOR" && subtab == "CSC_ARMOR_OTHER") {
                     subtab == "CSC_ARMOR_STORAGE";
@@ -944,8 +957,8 @@ recipe* game::select_crafting_recipe()
                     if ( tab == "CC_WEAPON") { subtab = "CSC_WEAPON_BASHING"; }
                     else if (tab == "CC_AMMO") { subtab = "CSC_AMMO_BULLETS"; }
                     else if (tab == "CC_FOOD") { subtab = "CSC_FOOD_DRINKS"; }
-                    else if (tab == "CC_CHEM") { subtab = "CSC_CHEMS_DRUGS"; }
-                    else if (tab == "CC_ELECTRONIC") { subtab = "CSC_ELECTRONICS_CBMS"; }
+                    else if (tab == "CC_CHEM") { subtab = "CSC_CHEM_DRUGS"; }
+                    else if (tab == "CC_ELECTRONIC") { subtab = "CSC_ELECTRONIC_CBMS"; }
                     else if (tab == "CC_ARMOR") { subtab = "CSC_ARMOR_STORAGE"; }
                     else if (tab == "CC_OTHER") { subtab = "CSC_OTHER_TOOLS"; }
                 }
@@ -1093,16 +1106,16 @@ void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool fil
             draw_subtab(w,  50, _("OTHER"), (subtab == "CSC_FOOD_OTHER") ? true : false);
         }
         else if (tab == "CC_CHEM") {
-            draw_subtab(w,  2, _("DRUGS"), (subtab == "CSC_CHEMS_DRUGS") ? true : false);
-            draw_subtab(w,  10, _("MUTAGEN"), (subtab == "CSC_CHEMS_MUTAGEN") ? true : false);
-            draw_subtab(w,  20, _("CHEMICALS"), (subtab == "CSC_CHEMS_CHEMICALS") ? true : false);
-            draw_subtab(w,  32, _("OTHER"), (subtab == "CSC_CHEMS_OTHER") ? true : false);
+            draw_subtab(w,  2, _("DRUGS"), (subtab == "CSC_CHEM_DRUGS") ? true : false);
+            draw_subtab(w,  10, _("MUTAGEN"), (subtab == "CSC_CHEM_MUTAGEN") ? true : false);
+            draw_subtab(w,  20, _("CHEMICALS"), (subtab == "CSC_CHEM_CHEMICALS") ? true : false);
+            draw_subtab(w,  32, _("OTHER"), (subtab == "CSC_CHEM_OTHER") ? true : false);
         }
         else if (tab == "CC_ELECTRONIC") {
-            draw_subtab(w,  2, _("CBMS"), (subtab == "CSC_ELECTRONICS_CBMS") ? true : false);
-            draw_subtab(w,  9, _("LIGHTING"), (subtab == "CSC_ELECTRONICS_LIGHTING") ? true : false);
-            draw_subtab(w,  20, _("COMPONENTS"), (subtab == "CSC_ELECTRONICS_COMPONENTS") ? true : false);
-            draw_subtab(w,  33, _("OTHER"), (subtab == "CSC_ELECTRONICS_OTHER") ? true : false);
+            draw_subtab(w,  2, _("CBMS"), (subtab == "CSC_ELECTRONIC_CBMS") ? true : false);
+            draw_subtab(w,  9, _("LIGHTING"), (subtab == "CSC_ELECTRONIC_LIGHTING") ? true : false);
+            draw_subtab(w,  20, _("COMPONENTS"), (subtab == "CSC_ELECTRONIC_COMPONENTS") ? true : false);
+            draw_subtab(w,  33, _("OTHER"), (subtab == "CSC_ELECTRONIC_OTHER") ? true : false);
         }
         else if (tab == "CC_ARMOR") {
             draw_subtab(w,  2, _("STORAGE"), (subtab == "CSC_ARMOR_STORAGE") ? true : false);
