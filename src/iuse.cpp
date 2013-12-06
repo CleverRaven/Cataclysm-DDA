@@ -3059,6 +3059,28 @@ int iuse::trimmer_on(player *p, item *it, bool t)
  return it->type->charges_to_use();
 }
 
+int iuse::circsaw_off(player *p, item *it, bool t)
+{
+ it->make(itypes["circsaw_on"]);
+ it->active = true;
+ g->add_msg_if_player(p,_("You turn on the circular saw."));
+ return it->type->charges_to_use();
+}
+
+int iuse::circsaw_on(player *p, item *it, bool t)
+{
+ if (t) { // Effects while simply on
+  if (one_in(15)) {
+   g->sound(p->posx, p->posy, 7, _("Your circular saw buzzes."));
+  }
+ } else { // Toggling
+  g->add_msg_if_player(p,_("Your circular saw powers off."));
+  it->make(itypes["circsaw_off"]);
+  it->active = false;
+ }
+ return it->type->charges_to_use();
+}
+
 int iuse::shishkebab_off(player *p, item *it, bool t)
 {
     int choice = menu(true, _("What's the plan?"), _("Bring the heat!"),

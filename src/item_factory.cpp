@@ -118,6 +118,8 @@ void Item_factory::init(){
     iuse_function_list["CARVER_ON"] = &iuse::carver_on;
     iuse_function_list["TRIMMER_OFF"] = &iuse::trimmer_off;
     iuse_function_list["TRIMMER_ON"] = &iuse::trimmer_on;
+    iuse_function_list["CIRCSAW_OFF"] = &iuse::circsaw_off;
+    iuse_function_list["CIRCSAW_ON"] = &iuse::circsaw_on;
     iuse_function_list["COMBATSAW_OFF"] = &iuse::combatsaw_off;
     iuse_function_list["COMBATSAW_ON"] = &iuse::combatsaw_on;
     iuse_function_list["SHISHKEBAB_OFF"] = &iuse::shishkebab_off;
