@@ -3664,6 +3664,7 @@
       ["wrapped_rad_badge", 15],
       ["glasses_safety", 40],
       ["goggles_welding", 70],
+      ["recipe_lab_elec", 15],
       ["teleporter", 10],
       ["usb_drive", 5]
     ]
