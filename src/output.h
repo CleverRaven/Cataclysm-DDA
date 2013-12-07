@@ -91,7 +91,7 @@ void popup_top(const char *mes, ...); // Displayed at the top of the screen
 void popup(const char *mes, ...);
 void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
 void full_screen_popup(const char *mes, ...);
-int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected=-1);
+int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected = -1, bool without_getch = false);
 
 char rand_char();
 long special_symbol (long sym);
@@ -110,6 +110,7 @@ size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fm
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout = 70);
 
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
+void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight, const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0, nc_color bar_color = c_white);
 void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW* w);

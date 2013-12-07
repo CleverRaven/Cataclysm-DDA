@@ -7369,6 +7369,7 @@ ee|,,,,,,r|#############\n\
                 }
                 if (this->furn(i, j) == f_locker) {
                     place_items("cop_weapons", 20,  i,  j, i,  j, false, 0);
+                    place_items("cop_gear", 20,  i,  j, i,  j, false, 0);
                     place_items("cop_torso", 20,  i,  j, i,  j, false, 0);
                     place_items("cop_pants", 20,  i,  j, i,  j, false, 0);
                     place_items("cop_shoes", 20,  i,  j, i,  j, false, 0);

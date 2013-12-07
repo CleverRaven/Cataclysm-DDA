@@ -146,6 +146,26 @@ char game::inv(inventory& inv, std::string title)
 
  int selected =- 1;
  int selected_char = (int)' ';
+
+ int next_category_at = 0, prev_category_at = 0;
+ bool inCategoryMode = false;
+
+ std::vector<int> category_order;
+ category_order.reserve(firsts.size());
+
+ // Items are not guaranteed to be in the same order as their categories, in fact they almost never are.
+ // So we sort the categories by which items actually show up first in the inventory.
+ for (int current_item = 0; current_item < inv.size(); ++current_item)
+ {
+	 for (int i = 1; i < CATEGORIES.size(); ++i)
+	 {
+		 if (current_item == firsts[i - 1])
+		 {
+			 category_order.push_back(i - 1);
+		 }
+	 }
+ }
+
  do {
   if (( ch == '<' || ch == KEY_PPAGE ) && start > 0) { // Clear lines and shift
    for (int i = 1; i < maxitems+4; i++)
@@ -165,6 +185,22 @@ char game::inv(inventory& inv, std::string title)
   }
   int cur_line = 2;
   max_it = 0;
+
+  // Find the inventory position of the first item in the previous and next category (in relation 
+  // to the currently selected category).
+  for (int i = 0; i < category_order.size(); ++i)
+  {
+	  if (selected > firsts[category_order[i]] && prev_category_at <= firsts[category_order[i]])
+	  {
+		  prev_category_at = firsts[category_order[i]];
+	  }
+
+	  if (selected < firsts[category_order[i]] && next_category_at <= selected)
+	  {
+		  next_category_at = firsts[category_order[i]];
+	  }
+  }
+
   for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++) {
 // Clear the current line;
    mvwprintw(w_inv, cur_line, 0, "                                             ");
@@ -180,8 +216,9 @@ char game::inv(inventory& inv, std::string title)
    {
     item& it = slice[cur_it]->front();
     if(cur_it==selected) selected_char=(int)it.invlet;
-    mvwputch (w_inv, cur_line, 0, (cur_it == selected ? h_white : c_white), it.invlet);
-    mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? h_white : it.color_in_inventory() ), " %s",
+	nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
+	mvwputch(w_inv, cur_line, 0, (cur_it == selected ? selected_line_color : c_white), it.invlet);
+	mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? selected_line_color : it.color_in_inventory()), " %s",
               it.display_name().c_str());
     if (slice[cur_it]->size() > 1) {
      wprintw(w_inv, " x %d", slice[cur_it]->size());
@@ -191,6 +228,16 @@ char game::inv(inventory& inv, std::string title)
    }
 
   }
+
+  if (inCategoryMode)
+  {
+	  mvwprintz(w_inv, maxitems + 4, 32, c_white_red, _("In category select mode! Press [SPACE] to enter item select mode."));
+  }
+  else
+  {
+	  mvwprintz(w_inv, maxitems + 4, 32, h_white, _("In item select mode! Press [SPACE] to enter category select mode."));
+  }
+
   if (start > 0)
    mvwprintw(w_inv, maxitems + 4, 0, _("< Go Back"));
   if (cur_it < inv.size())
@@ -202,12 +249,26 @@ char game::inv(inventory& inv, std::string title)
   ctxt.handle_input();
   ch = ctxt.get_raw_input().get_first_input();
 
-  if ( ch == KEY_DOWN ) {
+  if (ch == ' ')
+  {
+	  inCategoryMode = !inCategoryMode;
+  }
+  else if ( ch == KEY_DOWN ) {
     if ( selected < 0 ) {
       selected = start;
     } else {
-      selected++;
+		if (inCategoryMode)
+		{
+			selected < firsts[category_order[category_order.size() - 1]] ? selected = next_category_at : 0;
+		}
+		else
+		{
+			selected++;
+		}
+		
+		next_category_at = prev_category_at = 0;
     }
+
     if ( selected > max_it ) {
       if( cur_it < u.inv.size() ) {
         ch='>';
@@ -216,7 +277,9 @@ char game::inv(inventory& inv, std::string title)
       }
     }
   } else if ( ch == KEY_UP ) {
-    selected--;
+	inCategoryMode ? selected = prev_category_at : selected--;
+	next_category_at = prev_category_at = 0;
+
     if ( selected < -1 ) {
       selected = -1; // wraparound?
     } else if ( selected < start ) {
@@ -233,7 +296,7 @@ char game::inv(inventory& inv, std::string title)
     ch = selected_char;
   }
 
- } while (ch == '<' || ch == '>' || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_UP || ch == KEY_DOWN );
+ } while (ch == '<' || ch == '>' || ch == ' ' || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_UP || ch == KEY_DOWN );
  werase(w_inv);
  delwin(w_inv);
  erase();
@@ -303,7 +366,43 @@ std::vector<item> game::multidrop()
  std::vector<int> firsts = find_firsts(stacks, CATEGORIES);
  int selected=-1;
  int selected_char=(int)' ';
+
+ int next_category_at = 0, prev_category_at = 0;
+ bool inCategoryMode = false;
+
+ std::vector<int> category_order;
+ category_order.reserve(firsts.size());
+
+ // Items are not guaranteed to be in the same order as their categories, in fact they almost never are.
+ // So we sort the categories by which items actually show up first in the inventory.
+ for (int current_item = 0; current_item < u.inv.size(); ++current_item)
+ {
+	 for (int i = 1; i < CATEGORIES.size(); ++i)
+	 {
+		 if (current_item == firsts[i - 1])
+		 {
+			 category_order.push_back(i - 1);
+		 }
+	 }
+ }
+
  do {
+
+  // Find the inventory position of the first item in the previous and next category (in relation 
+  // to the currently selected category).
+  for (int i = 0; i < category_order.size(); ++i)
+  {
+	if (selected > firsts[category_order[i]] && prev_category_at <= firsts[category_order[i]])
+	{
+		prev_category_at = firsts[category_order[i]];
+	}
+
+	if (selected < firsts[category_order[i]] && next_category_at <= selected)
+	{
+		next_category_at = firsts[category_order[i]];
+	}
+  }
+
   inventory drop_subset = u.inv.subset(dropping);
   int new_weight = base_weight - drop_subset.weight();
   int new_volume = base_volume - drop_subset.volume();
@@ -367,13 +466,14 @@ std::vector<item> game::multidrop()
    if (cur_it < stacks.size()) {
     item& it = stacks[cur_it]->front();
     if(cur_it==selected) selected_char=(int)it.invlet;
-    mvwputch (w_inv, cur_line, 0, (cur_it == selected ? h_white : c_white), it.invlet);
+	nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
+    mvwputch (w_inv, cur_line, 0, (cur_it == selected ? selected_line_color : c_white), it.invlet);
     char icon = '-';
     if (dropping[it.invlet] >= (it.count_by_charges() ? it.charges : stacks[cur_it]->size()))
      icon = '+';
     else if (dropping[it.invlet] > 0)
      icon = '#';
-    nc_color col = ( cur_it == selected ? h_white : (dropping[it.invlet] == 0 ? c_ltgray : c_white ) );
+    nc_color col = ( cur_it == selected ? selected_line_color : (dropping[it.invlet] == 0 ? c_ltgray : c_white ) );
     mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
               it.tname().c_str());
     if (stacks[cur_it]->size() > 1)
@@ -400,6 +500,16 @@ std::vector<item> game::multidrop()
    cur_line++;
    max_it=cur_it;
   }
+
+  if (inCategoryMode)
+  {
+	  mvwprintz(w_inv, maxitems + 4, 32, c_white_red, _("In category select mode! Press [SPACE] to enter item select mode."));
+  }
+  else
+  {
+	  mvwprintz(w_inv, maxitems + 4, 32, h_white, _("In item select mode! Press [SPACE] to enter category select mode."));
+  }
+
   if (start > 0)
    mvwprintw(w_inv, maxitems + 4, 0, _("< Go Back"));
   if (cur_it < u.inv.size())
@@ -409,7 +519,12 @@ std::vector<item> game::multidrop()
   ch = input();
 */
   ch = getch();
-  if ( ch == '<' || ch == KEY_PPAGE ) {
+
+  if (ch == ' ')
+  {
+	  inCategoryMode = !inCategoryMode;
+  }
+  else if ( ch == '<' || ch == KEY_PPAGE ) {
    if( start > 0) {
     for (int i = 1; i < maxitems+4; i++)
      mvwprintz(w_inv, i, 0, c_black, "                                             ");
@@ -431,8 +546,18 @@ std::vector<item> game::multidrop()
     if ( selected < 0 ) {
       selected = start;
     } else {
-      selected++;
+	  if (inCategoryMode)
+	  {
+		selected < firsts[category_order[category_order.size() - 1]] ? selected = next_category_at : 0;
+	  }
+	  else
+	  {
+		selected++;
+	  }
+
+	  next_category_at = prev_category_at = 0;
     }
+
     if ( selected > max_it ) {
       if( cur_it < u.inv.size() ) {
         start = cur_it;
@@ -444,7 +569,9 @@ std::vector<item> game::multidrop()
       }
     }
   } else if ( ch == KEY_UP ) {
-    selected--;
+	inCategoryMode ? selected = prev_category_at : selected--;
+	next_category_at = prev_category_at = 0;
+
     if ( selected < -1 ) {
       selected = -1; // wraparound?
     } else if ( selected < start ) {
@@ -524,7 +651,7 @@ std::vector<item> game::multidrop()
        }
      }
   }
- } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
+ } while (ch != '\n' && ch != KEY_ESCAPE);
  werase(w_inv);
  delwin(w_inv);
  erase();
@@ -778,7 +905,8 @@ void game::compare(int iCompareX, int iCompareY)
     sItemCh = u.i_at(ch).tname();
    }
 
-   compare_split_screen_popup(0, (TERMX-VIEW_OFFSET_X*2)/2, TERMY-VIEW_OFFSET_Y*2, sItemLastCh, vItemLastCh, vItemCh);
+   compare_split_screen_popup(0, (TERMX-VIEW_OFFSET_X*2)/2, TERMY-VIEW_OFFSET_Y*2, sItemLastCh, vItemLastCh, vItemCh
+                              , -1, true);//without getch()
    compare_split_screen_popup((TERMX-VIEW_OFFSET_X*2)/2, (TERMX-VIEW_OFFSET_X*2)/2, TERMY-VIEW_OFFSET_Y*2, sItemCh, vItemCh, vItemLastCh);
 
    wclear(w_inv);

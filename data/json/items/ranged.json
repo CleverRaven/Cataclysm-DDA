@@ -2656,7 +2656,7 @@
     "ranged_damage": 0,
     "range": 0,
     "dispersion": 0,
-    "recoil": 50,
+    "recoil": 60,
     "durability": 6,
     "burst": 0,
     "clip_size": 1,

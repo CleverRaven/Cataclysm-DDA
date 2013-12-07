@@ -83,6 +83,7 @@ class advanced_inventory
 
     bool checkshowmsg;
     bool showmsg;
+	bool inCategoryMode;
 
     int itemsPerPage;
     int w_height;

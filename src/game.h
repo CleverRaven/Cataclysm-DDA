@@ -293,7 +293,7 @@ class game
   char inv_activatable(std::string title);
   char inv_type(std::string title, item_cat inv_item_type = IC_NULL);
   char inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
-  int inventory_item_menu(char chItem, int startx = 0, int width = 50);
+  int inventory_item_menu(char chItem, int startx = 0, int width = 50, int position = 0);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);
@@ -467,9 +467,11 @@ class game
   void make_all_craft(recipe *making); // See crafting.cpp
   void complete_craft();               // See crafting.cpp
   void pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &current,
-                    std::vector<bool> &available, craft_cat tab,std::string filter);// crafting.cpp
+                    std::vector<bool> &available, craft_cat tab, craft_subcat subtab, std::string filter);// crafting.cpp
   craft_cat next_craft_cat(craft_cat cat); // crafting.cpp
   craft_cat prev_craft_cat(craft_cat cat); // crafting.cpp
+  craft_subcat next_craft_subcat(craft_subcat subcat); // crafting.cpp
+  craft_subcat prev_craft_subcat(craft_subcat subcat); // crafting.cpp
   void disassemble(char ch = 0);       // See crafting.cpp
   void complete_disassemble();         // See crafting.cpp
   recipe* recipe_by_index(int index);  // See crafting.cpp

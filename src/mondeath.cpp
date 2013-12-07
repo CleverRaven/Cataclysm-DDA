@@ -472,7 +472,8 @@ void mdeath::zombie(monster *z) {
     else if (zid == "mon_zombie_scientist"){ dropset = 2;}
     else if (zid == "mon_zombie_soldier"){ dropset = 3;}
     else if (zid == "mon_zombie_hulk"){ dropset = 4;}
-	else if (zid == "mon_zombie_hazmat"){ dropset = 5;}
+	  else if (zid == "mon_zombie_hazmat"){ dropset = 5;}
+  	else if (zid == "mon_zombie_fireman"){ dropset = 6;}
     switch(dropset) {
         case 0: // mon_zombie_cop
             g->m.put_items_from("cop_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
@@ -519,7 +520,7 @@ void mdeath::zombie(monster *z) {
             g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             break;
 			
-		case 5: // mon_zombie_hazmat
+	    	case 5: // mon_zombie_hazmat
 		    if (one_in(5)) {
             g->m.put_items_from("hazmat_full", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             } else {
@@ -527,6 +528,18 @@ void mdeath::zombie(monster *z) {
               g->m.put_items_from("hazmat_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
               g->m.put_items_from("hazmat_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
               g->m.put_items_from("hazmat_mask", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+			  
+              if (one_in(3)) {
+                  g->m.put_items_from("hazmat_eyes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+              }
+
+	    	case 6: // mon_zombie_fireman
+              g->m.put_items_from("fireman_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+              g->m.put_items_from("fireman_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+              g->m.put_items_from("fireman_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+              g->m.put_items_from("fireman_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+              g->m.put_items_from("fireman_mask", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+              g->m.put_items_from("fireman_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
 			  
               if (one_in(3)) {
                   g->m.put_items_from("hazmat_eyes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));

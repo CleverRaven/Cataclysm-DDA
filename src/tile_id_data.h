@@ -94,6 +94,7 @@ const std::string monster_names[num_monsters] =
     toString(mon_zombie_master),
     toString(mon_beekeeper),
     toString(mon_zombie_child),
+    toString(mon_zombie_fireman),
 
     toString(mon_jabberwock),
 

@@ -564,8 +564,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                 ret.append(tmp);
             }
         } else if( ch != 0 && ch != ERR && (ret.size() < max_length || max_length == 0) ) {
-            if (only_digits && (ch != '0' && ch != '1' && ch != '2' && ch != '3' && ch != '4' && ch != '5'
-                                 && ch != '6' && ch != '7' && ch != '8' && ch != '9')) {
+            if ( only_digits && !isdigit(ch) ) {
                 return_key = true;
             } else {
                 if ( pos == ret.size() ) {
@@ -816,8 +815,10 @@ void full_screen_popup(const char *mes, ...)
 //otherwise if sType == "MENU", dValue can be used to control color
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
+//@param without_getch don't wait getch, return = (int)' ';
 int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName,
-                               std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected)
+                               std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected,
+                               bool without_getch)
 {
     WINDOW *w = newwin(iHeight, iWidth, VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
@@ -927,7 +928,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
     int ch = (int)' ';
 
     wrefresh(w);
-    if (iLeft > 0) {
+    if (!without_getch) {
         ch = (int)getch();
         if ( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
             ch = selected_ret;
@@ -1105,6 +1106,22 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
     }
 }
 
+void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
+{
+    int iOffsetXRight = iOffsetX + utf8_width(sText.c_str()) + 1;
+
+    mvwprintz(w, 0, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, sText.c_str());
+
+    if (bSelected) {
+        mvwputch(w, 0, iOffsetX - 1,      h_ltgray, '<');
+        mvwputch(w, 0, iOffsetXRight + 1, h_ltgray, '>');
+
+        for (int i = iOffsetX + 1; i < iOffsetXRight; i++) {
+            mvwputch(w, 1, i, c_black, ' ');
+        }
+    }
+}
+
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY, const int iOffsetX,
                     nc_color bar_color)
@@ -1165,6 +1182,7 @@ void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeig
         }
     }
 }
+
 
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
 {

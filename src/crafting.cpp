@@ -14,16 +14,23 @@
 #include <queue>
 
 std::vector<craft_cat> craft_cat_list;
+std::vector<craft_subcat> craft_subcat_list;
 std::vector<std::string> recipe_names;
 recipe_map recipes;
 std::map<std::string,quality> qualities;
 std::map<std::string, std::queue<std::pair<recipe*, int> > > recipe_booksets;
 
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
+void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered=false);
 
 void load_recipe_category(JsonObject &jsobj)
 {
     craft_cat_list.push_back(jsobj.get_string("id"));
+}
+
+void load_recipe_subcategory(JsonObject &jsobj)
+{
+    craft_subcat_list.push_back(jsobj.get_string("id"));
 }
 
 void load_recipe(JsonObject &jsobj)
@@ -33,6 +40,20 @@ void load_recipe(JsonObject &jsobj)
     // required
     std::string result = jsobj.get_string("result");
     std::string category = jsobj.get_string("category");
+    std::string subcategory = "";
+    if ( !jsobj.has_string("subcategory") ) {
+        if (category == "CC_NONCRAFT") { subcategory = "CSC_NONCRAFT"; }
+        else if (category == "CC_WEAPON") { subcategory = "CSC_WEAPON_OTHER"; }
+        else if (category == "CC_AMMO") { subcategory = "CSC_AMMO_OTHER"; }
+        else if (category == "CC_FOOD") { subcategory = "CSC_FOOD_OTHER"; }
+        else if (category == "CC_CHEM") { subcategory = "CSC_CHEM_OTHER"; }
+        else if (category == "CC_ELECTRONIC") { subcategory = "CSC_ELECTRONIC_OTHER"; }
+        else if (category == "CC_ARMOR") { subcategory = "CSC_ARMOR_OTHER"; }
+        else if (category == "CC_OTHER") { subcategory = "CSC_OTHER_OTHER"; }
+    } else {
+    subcategory = jsobj.get_string("subcategory");
+    }
+
     int difficulty = jsobj.get_int("difficulty");
     int time = jsobj.get_int("time");
     bool autolearn = jsobj.get_bool("autolearn");
@@ -72,7 +93,7 @@ void load_recipe(JsonObject &jsobj)
     recipe_names.push_back(rec_name);
     int id = recipe_names.size();
 
-    recipe* rec = new recipe(rec_name, id, result, category, skill_used,
+    recipe* rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
                              requires_skills, difficulty, time, reversible,
                              autolearn, learn_by_disassembly);
 
@@ -157,7 +178,7 @@ bool game::crafting_allowed()
         add_msg(_("Your morale is too low to craft..."));
         return false;
     }
-    if (u.fine_detail_vision_mod(g) > 2.5) {
+    if (u.fine_detail_vision_mod(g) > 4) {//minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light)
         g->add_msg(_("You can't see to craft!"));
         return false;
     }
@@ -507,6 +528,34 @@ craft_cat game::prev_craft_cat(craft_cat cat)
     return NULL;
 }
 
+craft_subcat game::next_craft_subcat(craft_subcat subcat)
+{
+    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list.begin();
+         iter != craft_subcat_list.end();
+         ++iter)
+    {
+        if ((*iter) == subcat)
+        {
+            return *(++iter);
+        }
+    }
+    return NULL;
+}
+
+craft_subcat game::prev_craft_subcat(craft_subcat subcat)
+{
+    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list.begin();
+         iter != craft_subcat_list.end();
+         ++iter)
+    {
+        if ((*iter) == subcat)
+        {
+            return *(--iter);
+        }
+    }
+    return NULL;
+}
+
 // return whether any of the listed components have been flagged as available
 bool any_marked_available(const std::vector<component> &comps)
 {
@@ -522,24 +571,27 @@ bool any_marked_available(const std::vector<component> &comps)
 recipe* game::select_crafting_recipe()
 {
     const int headHeight = 3;
+    const int subHeadHeight = 2;
     const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
     bool isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
 
     const int width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) : FULL_SCREEN_WIDTH;
     const int wStart = ( TERMX - width ) / 2;
     const int tailHeight = isWide ? 3 : 4;
-    const int dataLines = TERMY - headHeight - tailHeight;
+    const int dataLines = TERMY - (headHeight + subHeadHeight) - tailHeight;
     const int dataHalfLines = dataLines / 2;
-    const int dataHeight = TERMY - headHeight;
+    const int dataHeight = TERMY - (headHeight + subHeadHeight);
 
     int lastid = -1;
 
     WINDOW *w_head = newwin(headHeight, width, 0, wStart);
-    WINDOW *w_data = newwin(dataHeight, width, headHeight, wStart);
+    WINDOW *w_subhead = newwin(subHeadHeight, width, 3, wStart);
+    WINDOW *w_data = newwin(dataHeight, width, headHeight + subHeadHeight, wStart);
 
     const int iInfoWidth = width - FULL_SCREEN_WIDTH - 3;
     std::vector<std::string> folded;
     craft_cat tab = "CC_WEAPON";
+    craft_subcat subtab = "CSC_WEAPON_BASHING";
     std::vector<recipe*> current;
     std::vector<bool> available;
     item tmp;
@@ -563,10 +615,11 @@ recipe* game::select_crafting_recipe()
             }
 
             draw_recipe_tabs(w_head, tab, (filterstring == "")?false:true);
+            draw_recipe_subtabs(w_subhead, tab, subtab, (filterstring == "")?false:true);
             current.clear();
             available.clear();
             // Set current to all recipes in the current tab; available are possible to make
-            pick_recipes(crafting_inv, current, available, tab,filterstring);
+            pick_recipes(crafting_inv, current, available, tab, subtab, filterstring);
         }
 
         // Clear the screen of recipe data, and draw it anew
@@ -836,26 +889,96 @@ recipe* game::select_crafting_recipe()
         switch (input)
         {
             case DirectionW:
+                if (tab == "CC_WEAPON" && subtab == "CSC_WEAPON_BASHING") {
+                    subtab = "CSC_WEAPON_OTHER";
+                }
+                else if (tab == "CC_AMMO" && subtab == "CSC_AMMO_BULLETS") {
+                    subtab = "CSC_AMMO_OTHER";
+                }
+                else if (tab == "CC_FOOD" && subtab == "CSC_FOOD_DRINKS") {
+                    subtab = "CSC_FOOD_OTHER";
+                }
+                else if (tab == "CC_CHEM" && subtab == "CSC_CHEM_DRUGS") {
+                    subtab = "CSC_CHEM_OTHER";
+                }
+                else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONIC_CBMS") {
+                    subtab = "CSC_ELECTRONIC_OTHER";
+                }
+                else if (tab == "CC_ARMOR" && subtab == "CSC_ARMOR_STORAGE") {
+                    subtab = "CSC_ARMOR_OTHER";
+                }
+                else if (tab == "CC_OTHER" && subtab == "CSC_OTHER_TOOLS") {
+                    subtab = "CSC_OTHER_OTHER";
+                }
+                else
+                {
+                    subtab = prev_craft_subcat(subtab);
+                }
+                redraw = true;
+                break;
             case DirectionUp:
                 if (tab == "CC_WEAPON")
                 {
-                    tab = "CC_MISC";
+                    tab = "CC_OTHER";
+                    subtab = "CSC_OTHER_TOOLS";
                 }
                 else
                 {
                     tab = prev_craft_cat(tab);
+                    if ( tab == "CC_WEAPON") { subtab = "CSC_WEAPON_BASHING"; }
+                    else if (tab == "CC_AMMO") { subtab = "CSC_AMMO_BULLETS"; }
+                    else if (tab == "CC_FOOD") { subtab = "CSC_FOOD_DRINKS"; }
+                    else if (tab == "CC_CHEM") { subtab = "CSC_CHEM_DRUGS"; }
+                    else if (tab == "CC_ELECTRONIC") { subtab = "CSC_ELECTRONIC_CBMS"; }
+                    else if (tab == "CC_ARMOR") { subtab = "CSC_ARMOR_STORAGE"; }
+                    else if (tab == "CC_OTHER") { subtab = "CSC_OTHER_TOOLS"; }
                 }
                 redraw = true;
                 break;
             case DirectionE:
+                if (tab == "CC_WEAPON" && subtab == "CSC_WEAPON_OTHER") {
+                    subtab = "CSC_WEAPON_BASHING";
+                }
+                else if (tab == "CC_AMMO" && subtab == "CSC_AMMO_OTHER") {
+                    subtab = "CSC_AMMO_BULLETS";
+                }
+                else if (tab == "CC_FOOD" && subtab == "CSC_FOOD_OTHER") {
+                    subtab = "CSC_FOOD_DRINK";
+                }
+                else if (tab == "CC_CHEM" && subtab == "CSC_CHEM_OTHER") {
+                    subtab = "CSC_CHEM_DRUGS";
+                }
+                else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONIC_OTHER") {
+                    subtab = "CSC_ELECTRONIC_CBMS";
+                }
+                else if (tab == "CC_ARMOR" && subtab == "CSC_ARMOR_OTHER") {
+                    subtab = "CSC_ARMOR_STORAGE";
+                }
+                else if (tab == "CC_OTHER" && subtab == "CSC_OTHER_OTHER") {
+                    subtab = "CSC_OTHER_TOOLS";
+                }
+                else
+                {
+                    subtab = next_craft_subcat(subtab);
+                }
+                redraw = true;
+                break;
             case DirectionDown:
-                if (tab == "CC_MISC")
+                if (tab == "CC_OTHER")
                 {
                     tab = "CC_WEAPON";
+                    subtab = "CSC_WEAPON_BASHING";
                 }
                 else
                 {
                     tab = next_craft_cat(tab);
+                    if ( tab == "CC_WEAPON") { subtab = "CSC_WEAPON_BASHING"; }
+                    else if (tab == "CC_AMMO") { subtab = "CSC_AMMO_BULLETS"; }
+                    else if (tab == "CC_FOOD") { subtab = "CSC_FOOD_DRINKS"; }
+                    else if (tab == "CC_CHEM") { subtab = "CSC_CHEM_DRUGS"; }
+                    else if (tab == "CC_ELECTRONIC") { subtab = "CSC_ELECTRONIC_CBMS"; }
+                    else if (tab == "CC_ARMOR") { subtab = "CSC_ARMOR_STORAGE"; }
+                    else if (tab == "CC_OTHER") { subtab = "CSC_OTHER_TOOLS"; }
                 }
                 redraw = true;
                 break;
@@ -919,8 +1042,10 @@ recipe* game::select_crafting_recipe()
     } while (input != Cancel && !done);
 
     werase(w_head);
+    werase(w_subhead);
     werase(w_data);
     delwin(w_head);
+    delwin(w_subhead);
     delwin(w_data);
     refresh_all();
 
@@ -948,19 +1073,106 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
         pos_x += utf8_width(_("AMMO")) + tab_step;
         draw_tab(w, pos_x, _("FOOD"),    (tab == "CC_FOOD")   ? true : false);
         pos_x += utf8_width(_("FOOD")) + tab_step;
-        draw_tab(w, pos_x, _("DRINKS"),  (tab == "CC_DRINK")  ? true : false);
-        pos_x += utf8_width(_("DRINKS")) + tab_step;
         draw_tab(w, pos_x, _("CHEMS"),   (tab == "CC_CHEM")   ? true : false);
         pos_x += utf8_width(_("CHEMS")) + tab_step;
         draw_tab(w, pos_x, _("ELECTRONICS"), (tab == "CC_ELECTRONIC") ? true : false);
         pos_x += utf8_width(_("ELECTRONICS")) + tab_step;
         draw_tab(w, pos_x, _("ARMOR"),   (tab == "CC_ARMOR")  ? true : false);
         pos_x += utf8_width(_("ARMOR")) + tab_step;
-        draw_tab(w, pos_x, _("MISC"),    (tab == "CC_MISC")   ? true : false);
+        draw_tab(w, pos_x, _("OTHER"),    (tab == "CC_OTHER") ? true : false);
     }
     else
     {
         draw_tab(w,  2, _("Searched"), true);
+    }
+
+    wrefresh(w);
+}
+
+void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered)
+{
+    werase(w);
+    int width = getmaxx(w);
+    for (int i = 0; i < width; i++)
+    {
+        if (i == 0) { mvwputch(w, 2, i, c_ltgray, LINE_XXXO); }
+        else if (i == width) { mvwputch(w, 2, i, c_ltgray, LINE_XOXX); }
+        else { mvwputch(w, 2, i, c_ltgray, LINE_OXOX); }
+    }
+
+    for (int i = 0; i < 3; i++) {
+        mvwputch(w, i,  0, c_ltgray, LINE_XOXO); // |^
+        mvwputch(w, i, width-1, c_ltgray,  LINE_XOXO); // ^|
+    }
+
+    if(!filtered)
+    {
+        if (tab == "CC_WEAPON") {
+            draw_subtab(w,  2, _("BASHING"), (subtab == "CSC_WEAPON_BASHING") ? true : false);
+            draw_subtab(w, 12, _("CUTTING"),    (subtab == "CSC_WEAPON_CUTTING")   ? true : false);
+            draw_subtab(w, 22, _("PIERCING"),    (subtab == "CSC_WEAPON_PIERCING")   ? true : false);
+            draw_subtab(w, 33, _("RANGED"),  (subtab == "CSC_WEAPON_RANGED")  ? true : false);
+            draw_subtab(w, 42, _("EXPLOSIVE"),  (subtab == "CSC_WEAPON_EXPLOSIVE")  ? true : false);
+            draw_subtab(w, 54, _("MODS"),  (subtab == "CSC_WEAPON_MODS")  ? true : false);
+            draw_subtab(w, 61, _("OTHER"),   (subtab == "CSC_WEAPON_OTHER")   ? true : false);
+        }
+        else if (tab == "CC_AMMO") {
+            draw_subtab(w,  2, _("BULLETS"), (subtab == "CSC_AMMO_BULLETS") ? true : false);
+            draw_subtab(w,  12, _("ARROWS"), (subtab == "CSC_AMMO_ARROWS") ? true : false);
+            draw_subtab(w,  21, _("COMPONENTS"), (subtab == "CSC_AMMO_COMPONENTS") ? true : false);
+            draw_subtab(w,  34, _("OTHER"), (subtab == "CSC_AMMO_OTHER") ? true : false);
+        }
+        else if (tab == "CC_FOOD") {
+            draw_subtab(w,  2, _("DRINKS"), (subtab == "CSC_FOOD_DRINKS") ? true : false);
+            draw_subtab(w,  11, _("MEAT"), (subtab == "CSC_FOOD_MEAT") ? true : false);
+            draw_subtab(w,  18, _("VEGGI"), (subtab == "CSC_FOOD_VEGGI") ? true : false);
+            draw_subtab(w,  26, _("SNACK"), (subtab == "CSC_FOOD_SNACK") ? true : false);
+            draw_subtab(w,  34, _("BREAD"), (subtab == "CSC_FOOD_BREAD") ? true : false);
+            draw_subtab(w,  42, _("PASTA"), (subtab == "CSC_FOOD_PASTA") ? true : false);
+            draw_subtab(w,  50, _("OTHER"), (subtab == "CSC_FOOD_OTHER") ? true : false);
+        }
+        else if (tab == "CC_CHEM") {
+            draw_subtab(w,  2, _("DRUGS"), (subtab == "CSC_CHEM_DRUGS") ? true : false);
+            draw_subtab(w,  10, _("MUTAGEN"), (subtab == "CSC_CHEM_MUTAGEN") ? true : false);
+            draw_subtab(w,  20, _("CHEMICALS"), (subtab == "CSC_CHEM_CHEMICALS") ? true : false);
+            draw_subtab(w,  32, _("OTHER"), (subtab == "CSC_CHEM_OTHER") ? true : false);
+        }
+        else if (tab == "CC_ELECTRONIC") {
+            draw_subtab(w,  2, _("CBMS"), (subtab == "CSC_ELECTRONIC_CBMS") ? true : false);
+            draw_subtab(w,  9, _("LIGHTING"), (subtab == "CSC_ELECTRONIC_LIGHTING") ? true : false);
+            draw_subtab(w,  20, _("COMPONENTS"), (subtab == "CSC_ELECTRONIC_COMPONENTS") ? true : false);
+            draw_subtab(w,  33, _("OTHER"), (subtab == "CSC_ELECTRONIC_OTHER") ? true : false);
+        }
+        else if (tab == "CC_ARMOR") {
+            draw_subtab(w,  2, _("STORAGE"), (subtab == "CSC_ARMOR_STORAGE") ? true : false);
+            draw_subtab(w,  12, _("SUIT"), (subtab == "CSC_ARMOR_SUIT") ? true : false);
+            draw_subtab(w,  19, _("HEAD"), (subtab == "CSC_ARMOR_HEAD") ? true : false);
+            draw_subtab(w,  26, _("BACK"), (subtab == "CSC_ARMOR_BACK") ? true : false);
+            draw_subtab(w,  33, _("TORSO"), (subtab == "CSC_ARMOR_TORSO") ? true : false);
+            draw_subtab(w,  41, _("ARMS"), (subtab == "CSC_ARMOR_ARMS") ? true : false);
+            draw_subtab(w,  48, _("HANDS"), (subtab == "CSC_ARMOR_HANDS") ? true : false);
+            draw_subtab(w,  56, _("LEGS"), (subtab == "CSC_ARMOR_LEGS") ? true : false);
+            draw_subtab(w,  63, _("FEET"), (subtab == "CSC_ARMOR_FEET") ? true : false);
+            draw_subtab(w,  70, _("OTHER"), (subtab == "CSC_ARMOR_OTHER") ? true : false);
+        }
+        else if (tab == "CC_OTHER") {
+            draw_subtab(w,  2, _("TOOLS"), (subtab == "CSC_OTHER_TOOLS") ? true : false);
+            draw_subtab(w,  10, _("MEDICAL"), (subtab == "CSC_OTHER_MEDICAL") ? true : false);
+            draw_subtab(w,  20, _("CONTAINERS"), (subtab == "CSC_OTHER_CONTAINERS") ? true : false);
+            draw_subtab(w,  33, _("MATERIALS"), (subtab == "CSC_OTHER_MATERIALS") ? true : false);
+            draw_subtab(w,  45, _("PARTS"), (subtab == "CSC_OTHER_PARTS") ? true : false);
+            draw_subtab(w,  53, _("TRAPS"), (subtab == "CSC_OTHER_TRAPS") ? true : false);
+            draw_subtab(w,  61, _("OTHER"), (subtab == "CSC_OTHER_OTHER") ? true : false);
+        }
+    }
+    else
+    {
+        werase(w);
+
+        for (int i = 0; i < 3; i++) {
+            mvwputch(w, i,  0, c_ltgray, LINE_XOXO); // |^
+            mvwputch(w, i, width-1, c_ltgray,  LINE_XOXO); // ^|
+        }
     }
 
     wrefresh(w);
@@ -980,9 +1192,8 @@ inventory game::crafting_inventory(player *p){
 }
 
 void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &current,
-                        std::vector<bool> &available, craft_cat tab,std::string filter)
+                         std::vector<bool> &available, craft_cat tab, craft_subcat subtab, std::string filter)
 {
-
     recipe_list available_recipes;
 
     if (filter == "") {
@@ -999,6 +1210,7 @@ void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &cur
 
     for (recipe_list::iterator iter = available_recipes.begin(); iter != available_recipes.end(); ++iter)
     {
+        if ((*iter)->subcat == subtab) {
         if (!u.knows_recipe(*iter))
             continue;
 
@@ -1009,7 +1221,6 @@ void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &cur
         if (filter != "" && item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos)
             continue;
 
-
         if (can_make_with_inventory(*iter, crafting_inv))
         {
             current.insert(current.begin(), *iter);
@@ -1019,6 +1230,7 @@ void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &cur
         {
             current.push_back(*iter);
             available.push_back(false);
+        }
         }
     }
 }

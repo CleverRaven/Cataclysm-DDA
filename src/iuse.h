@@ -199,6 +199,7 @@ class iuse
   int contacts (player *p, item *it, bool t);
   int talking_doll     (player *p, item *it, bool t);
   int bell             (player *p, item *it, bool t);
+  int oxygen_bottle          (player *p, item *it, bool t);
 // MACGUFFINS
   int mcg_note         (player *p, item *it, bool t);
 // ARTIFACTS

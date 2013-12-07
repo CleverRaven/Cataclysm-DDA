@@ -2268,19 +2268,19 @@
         ],
         "items" : [
             {"x": 0, "y": 0, "chance": 1, "items": "roadmap"},
-            {"x": -1, "y": 0, "chance": 8, "items": "1st_aid"},
+            {"x": -1, "y": 0, "chance": 8, "items": ["smoxygen_tank", "1st_aid"]},
             {"x": -1, "y": 0, "chance": 12, "items": "extinguisher"},
             {"x": -1, "y": 0, "chance": 1, "items": "GUITAR"},
-            {"x": -4, "y": 1, "chance": 4, "items": ["hose", "flashlight"]},
-            {"x": -4, "y": -1, "chance": 8, "items": "flashlight"},
-            {"x": -4, "y": -2, "chance": 4, "items": "hammer_sledge"},
-            {"x": -5, "y": -1, "chance": 1, "items": ["hazmat_suit", "mask_gas"]},
-            {"x": -5, "y": -2, "chance": 7, "items": "ax"},
-            {"x": -5, "y": 2, "chance": 2, "items": "chainsaw_off"},
-            {"x": -6, "y": -1, "chance": 1, "items": ["hazmat_suit", "mask_gas"]},
-            {"x": -6, "y": -2, "chance": 5, "items": "shovel"},
-            {"x": -6, "y": 1, "chance": 1, "items": ["hazmat_suit", "mask_gas"]},
-            {"x": -6, "y": 2, "chance": 5, "items": "crowbar"}
+            {"x": -4, "y": 1, "chance": 4, "item_groups": "fireman_gear"},
+            {"x": -4, "y": -1, "chance": 8, "items": ["flashlight", "oxygen_tank", "smoxygen_tank", "1st_aid"]},
+            {"x": -4, "y": -2, "chance": 4, "item_groups": "fireman_gear"},
+            {"x": -5, "y": -1, "chance": 1, "items": ["bunker_coat", "bunker_pants", "boots_bunker", "fire_gauntlets", "firehelmet", "mask_bunker"]},
+            {"x": -5, "y": -2, "chance": 7, "items": ["fire_ax", "hammer_sledge", "shovel"]},
+            {"x": -5, "y": 2, "chance": 1, "items": ["fire_ax", "chainsaw_off", "halligan"]},
+            {"x": -6, "y": -1, "chance": 1, "items": ["nomex_suit", "nomex_hood", "nomex_gloves", "nomex_socks"]},
+            {"x": -6, "y": -2, "chance": 5, "items": ["halligan", "crowbar", "hammer_sledge"]},
+            {"x": -6, "y": 1, "chance": 1, "items": ["entry_suit", "mask_gas", "smoxygen_tank"]},
+            {"x": -6, "y": 2, "chance": 5, "items": ["halligan", "crowbar", "shovel", "rope_30"]}
         ]
     }
 ]
