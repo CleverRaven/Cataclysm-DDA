@@ -4459,7 +4459,7 @@ int iuse::arrow_flamable(player *p, item *it, bool t)
  g->add_msg_if_player(p,_("You light the arrow!."));
  p->moves -= 150;
  it->make(itypes["arrow_flamming"]);
- return it->type->charges_to_use();
+ return 0;
 }
 
 int iuse::molotov(player *p, item *it, bool t)
@@ -5851,7 +5851,7 @@ int iuse::candle(player *p, item *it, bool t)
         g->add_msg_if_player(p, _("You light the candle."));
         it->make(itypes["candle_lit"]);
         it->active = true;
-        return it->type->charges_to_use();
+        return 0;
     }
 }
 
