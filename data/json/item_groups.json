@@ -152,6 +152,7 @@
       ["wetsuit_spring", 2],
       ["wetsuit_gloves", 3],
       ["wetsuit_booties", 3],
+      ["dive_bag", 3],
       ["poncho", 15],
       ["gloves_light", 35],
       ["mittens", 30],
@@ -1508,6 +1509,7 @@
       ["wetsuit_spring", 10],
       ["wetsuit_gloves", 20],
       ["wetsuit_booties", 20],
+      ["dive_bag", 5],
       ["diving_watch", 10],
       ["rebreather", 3],
       ["glowstick", 60],
@@ -1604,6 +1606,7 @@
       ["wetsuit_spring", 10],
       ["wetsuit_gloves", 20],
       ["wetsuit_booties", 20],
+      ["dive_bag", 10],
       ["rebreather", 3],
       ["fishing_waders", 12],
       ["gasoline_lantern", 5],
@@ -1746,6 +1749,7 @@
       ["wetsuit_spring", 10],
       ["wetsuit_gloves", 20],
       ["wetsuit_booties", 20],
+      ["dive_bag", 10],
       ["rebreather", 2],
       ["glowstick", 60],
       ["handflare", 40],
@@ -2349,6 +2353,7 @@
       ["wetsuit_spring", 5],
       ["wetsuit_gloves", 10],
       ["wetsuit_booties", 10],
+      ["dive_bag", 5],
       ["jedi_cloak", 1],
       ["apron_leather", 1],
       ["clown_suit", 1],
@@ -2586,6 +2591,7 @@
         "id" : "swimmer_torso",
     "items":[
       ["bikini_top", 50],
+      ["dive_bag", 5],
       ["flotation_vest", 10]
     ]
     },{

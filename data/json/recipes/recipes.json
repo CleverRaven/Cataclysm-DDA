@@ -3273,7 +3273,7 @@
          "type" : "recipe",
   "result": "m_fishspear",
   "category": "CC_AMMO",
-  "skill_used": "fabrication"
+  "skill_used": "fabrication",
   "difficulty": 4,
   "time": 10000,
   "reversible": false,
@@ -13618,6 +13618,50 @@
   ]
 },{
         "type" : "recipe",
+  "result": "rebreather",
+  "category": "CC_ARMOR",
+  "skill_used": "electronics",
+  "skills_required": [ "tailor", 1 ],
+  "difficulty": 9,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mask_filter", 1 ]
+    ],
+    [
+      [ "power_supply", 2 ]
+    ],
+    [
+      [ "amplifier", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 4 ]
+    ],
+    [
+      [ "circuit", 2 ]
+    ],
+    [
+      [ "e_scrap", 8 ]
+    ],
+    [
+      [ "cable", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "hat_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -20984,6 +21028,57 @@
   ]
 },{
         "type" : "recipe",
+  "result": "h20survivor_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 7,
+  "time": 300000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "needle_bone", 200 ],
+      [ "sewing_kit", 200 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 10 ]
+     ],
+     [
+      [ "wetsuit", 1 ],
+      [ "swetsuit_spring", 1 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 6 ],
+      [ "leather_pouch", 4 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 400 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "swat_armor", 1 ],
+      [ "modularvest", 1 ],
+      [ "kevlar_plate", 24 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
   "result": "helmet_survivor",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -21449,6 +21544,65 @@
     ],
     [
       [ "spray_can", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "goggles_swim",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "goggles_ski", 1 ],
+      [ "goggles_welding", 1 ],
+      [ "glasses_safety", 1 ]
+    ],
+    [
+      [ "duct_tape", 120 ],
+      [ "medical_tape", 120 ]
+    ],
+    [
+      [ "superglue", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "swim_fins",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "skills_required" : ["tailor", 2],
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 3 ]
+    ],
+    [
+      [ "needle_bone", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+ "components": [
+    [
+      [ "plastic_chunk", 8 ]
+    ],
+    [
+      [ "duct_tape", 80 ],
+      [ "medical_tape", 80 ]
+    ],
+    [
+      [ "superglue", 1 ]
     ]
   ]
 },{

@@ -1969,7 +1969,7 @@ int iuse::solder_weld(player *p, item *it, bool t)
 
     // Option for cauterization only if player has the incentive to do so
     // One does not check for open wounds with a soldering iron.
-    if (p->has_disease("bite") || p->has_disease("bleed")) {
+    if ((p->has_disease("bite") || p->has_disease("bleed")) && !p->is_underwater()) {
         choice = menu(true, ("Using soldering item:"), _("Cauterize wound"),
                       _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
     } else if (p->has_trait("MASOCHIST")) {
@@ -5093,12 +5093,12 @@ int iuse::knife(player *p, item *it, bool t)
     kmenu.text = _("Using knife:");
     kmenu.addentry( cut_fabric, true, -1, _("Cut up fabric/plastic/kevlar/wood") );
     kmenu.addentry( carve_writing, true, -1, _("Carve writing on item") );
-    if (p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ) {
+    if ((p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ) && !p->is_underwater() ) {
         if ( !p->use_charges_if_avail("fire", 4) ) {
             kmenu.addentry( cauterize, false, -1,
                             _("You need a lighter with 4 charges before you can cauterize yourself.") );
         } else {
-            kmenu.addentry( cauterize, true, -1, (p->has_disease("bite") || p->has_disease("bleed")) ?
+            kmenu.addentry( cauterize, true, -1, ((p->has_disease("bite") || p->has_disease("bleed")) && !p->is_underwater()) ?
                             _("Cauterize") : _("Cauterize...for FUN!") );
         }
     }
@@ -6403,7 +6403,7 @@ int iuse::hotplate(player *p, item *it, bool t)
   }
 
   int choice = 1;
-  if (p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ) {
+  if ((p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ) && !p->is_underwater() ) {
     //Might want to cauterize
     choice = menu(true, ("Using hotplate:"), _("Heat food"), _("Cauterize wound"), _("Cancel"), NULL);
   }

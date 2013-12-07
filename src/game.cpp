@@ -11274,7 +11274,7 @@ void game::plswim(int x, int y)
  int movecost = u.swim_speed();
  u.practice(turn, "swimming", u.is_underwater() ? 2 : 1);
  if (movecost >= 500) {
-  if (!u.is_underwater()) {
+  if (!u.is_underwater() || !u.is_wearing("swim_fins")) {
     add_msg(_("You sink like a rock!"));
    u.set_underwater(true);
    u.oxygen = 30 + 2 * u.str_cur;
@@ -11492,7 +11492,7 @@ void game::vertical_move(int movez, bool force) {
    u.oxygen = 30 + 2 * u.str_cur;
    add_msg(_("You dive underwater!"));
   } else {
-   if (u.swim_speed() < 500) {
+   if (u.swim_speed() < 500 || u.is_wearing("swim_fins")) {
     u.set_underwater(false);
     add_msg(_("You surface."));
    } else

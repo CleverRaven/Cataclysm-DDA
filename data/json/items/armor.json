@@ -1470,7 +1470,7 @@
         "bashing" : -2,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT"],
         "coverage" : 85,
-        "material_thickness" : 2
+        "material_thickness" : 1
     },
     {
         "type" : "ARMOR",
@@ -4941,6 +4941,30 @@
     },
     {
         "type" : "ARMOR",
+        "id" : "dive_bag",
+        "name" : "dive bag",
+        "weight" : 512,
+        "color" : "yellow",
+        "covers" : ["TORSO"],
+        "to_hit" : 0,
+        "storage" : 40,
+        "symbol" : "[",
+        "description" : "A lightweight mesh backpack, commonly used by swimmers and divers.",
+        "price" : 320,
+        "material" : ["plastic", "null"],
+        "volume" : 6,
+        "cutting" : 0,
+        "warmth" : 0,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "encumbrance" : 1,
+        "bashing" : -4,
+        "coverage" : 40,
+        "flags" : ["WATER_FRIENDLY"],
+        "material_thickness" : 1
+    },
+    {
+        "type" : "ARMOR",
         "id" : "molle_pack",
         "name" : "MOLLE pack",
         "weight" : 966,
@@ -4960,6 +4984,7 @@
         "encumbrance" : 1,
         "bashing" : -4,
         "coverage" : 35,
+        "flags" : ["WATERPROOF"],
         "material_thickness" : 2
     },
     {
@@ -5076,6 +5101,7 @@
         "encumbrance" : 0,
         "bashing" : 1,
         "coverage" : 20,
+        "flags" : ["WATERPROOF"],
         "material_thickness" : 2
     },
     {
@@ -6499,6 +6525,30 @@
         "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "HOOD","RAINPROOF", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 6
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "h20survivor_suit",
+        "name" : "survivor wetsuit",
+        "weight" : 6100,
+        "color" : "dark_gray",
+        "covers" : ["LEGS", "TORSO", "ARMS"],
+        "to_hit" : -3,
+        "storage" : 50,
+        "symbol" : "[",
+        "description" : "A lightweight home built combination armor made from a cut down bulletproof vest and a reinforced neoprene wetsuit. Protects from the elements as well as from harm.",
+        "price" : 1100,
+        "material" : ["kevlar", "plastic"],
+        "volume" : 42,
+        "cutting" : 0,
+        "warmth" : 15,
+        "phase" : "solid",
+        "enviromental_protection" : 5,
+        "encumbrance" : 1,
+        "bashing" : 6,
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY"],
+        "coverage" : 100,
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
