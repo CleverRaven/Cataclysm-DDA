@@ -1011,6 +1011,17 @@ void vehicle::remove_part (int p)
         }
     }
 
+    //Ditto for seatbelts
+    if(part_flag(p, "SEAT")) {
+        int seatbelt = part_with_feature(p, "SEATBELT", false);
+        if (seatbelt >= 0) {
+            int x = parts[seatbelt].precalc_dx[0], y = parts[seatbelt].precalc_dy[0];
+            item it = item_from_part(seatbelt);
+            g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
+            remove_part(seatbelt);
+        }
+    }
+
     parts.erase(parts.begin() + p);
     refresh();
 
