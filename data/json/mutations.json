@@ -547,7 +547,7 @@
         "prereqs" : ["NIGHTVISION"],
         "changes_to" : ["NIGHTVISION3"],
         "cancels" : ["ELFA_NV", "ELFA_FNV"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "NIGHTVISION3",
@@ -913,6 +913,7 @@
         "ugliness" : 2,
         "description" : "You have claws on the ends of your fingers. If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
         "prereqs" : ["NAILS"],
+        "changes_to" : ["CLAWS_RETRACT"],
         "cancels" : ["TALONS"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAT", "MUTCAT_RAPTOR"]
     },{
@@ -922,21 +923,10 @@
         "points" : 2,
         "visibility" : 1,
         "ugliness" : 2,
-        "description" : "You've developed the ability to retract your claws when not using them.",
+        "description" : "You have claws on the ends of your fingers, and can retract them if desired.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
         "prereqs" : ["CLAWS"],
         "cancels" : ["TALONS"],
         "category" : ["MUTCAT_FELINE"]
-    },{
-        "type" : "mutation",
-        "id" : "PAWS",
-        "name" : "Paws",
-        "points" : -2,
-        "visibility" : 3,
-        "ugliness" : 2,
-        "description" : "Your hands have fused into quasi-paws. You can still grip things, but fine manipulation is a challenge; permanent hand encumbrance of 1. Gloves don't fit, either.",
-        "prereqs" : ["CLAWS", "CLAWS_RETRACT"],
-        "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
-        "category" : ["MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "TALONS",
@@ -1634,7 +1624,7 @@
         "description" : "You smell awful. Monsters that track scent will find you very easily, and humans will react poorly.",
         "prereqs" : ["SMELLY"],
         "leads_to" : ["PHEROMONE_INSECT", "PHEROMONE_MAMMAL"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_CHIMERA", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "DEFORMED",
@@ -1711,7 +1701,7 @@
         "visibility" : 4,
         "ugliness" : 3,
         "description" : "Your face and jaw have begun...changing. Masks and such fit OK, but you're noticeably mutated.",
-        "changes_to" : ["MINOTAUR", "MUZZLE", "LONG_MUZZLE", "PROBOSCIS"]
+        "changes_to" : ["MINOTAUR", "MUZZLE", "BEAR_MUZZLE", "LONG_MUZZLE", "PROBOSCIS"]
     },{
         "type" : "mutation",
         "id" : "MINOTAUR",
@@ -1741,7 +1731,7 @@
         "points" : -1,
         "visibility" : 5,
         "ugliness" : 4,
-        "description" : "Your jaw and nose have extended into a bearish muzzle.  You could bite with it, and it looks impressive, but ir prevents you from wearing mouthgear.",
+        "description" : "Your jaw and nose have extended into a bearish muzzle.  You could bite with it, and it looks impressive, but it prevents you from wearing mouthgear.",
         "cancels" : ["MINOTAUR", "LONG_MUZZLE", "PROBOSCIS"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_URSINE"]
@@ -1892,6 +1882,17 @@
         ]
     },{
         "type" : "mutation",
+        "id" : "PAWS",
+        "name" : "Paws",
+        "points" : -3,
+        "visibility" : 3,
+        "ugliness" : 2,
+        "description" : "Your hands have fused into quasi-paws. You can still grip things, but fine manipulation is a challenge: permanent hand encumbrance of 1 and difficulty with delicate craftwork. Gloves don't fit, either.",
+        "prereqs" : ["CLAWS", "CLAWS_RETRACT"],
+        "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "category" : ["MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_FELINE"]
+    },{
+        "type" : "mutation",
         "id" : "BEAK",
         "name" : "Beak",
         "points" : -1,
@@ -1903,6 +1904,14 @@
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 1 }
         ]
+    },{
+        "type" : "mutation",
+        "id" : "BADTEMPER",
+        "name" : "Bad Temper",
+        "points" : -3,
+        "description" : "Things just keep getting you down. You tend to be unhappy, and it takes some doing to cheer you up.",
+        "cancels" : ["OPTIMISTIC"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "UNSTABLE",

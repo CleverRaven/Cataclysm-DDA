@@ -1062,6 +1062,19 @@ void game::complete_craft()
   skill_dice -= main_rank_penalty * 4;
  }
 
+ //It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor, not inability to see what you're doing
+ if (u.has_trait("PAWS")) {
+  int paws_rank_penalty = 0;
+  if (making->skill_used == Skill::skill("electronics")) {
+   paws_rank_penalty = 1;
+  } else if (making->skill_used == Skill::skill("tailoring")) {
+   paws_rank_penalty = 1;
+  } else if (making->skill_used == Skill::skill("mechanics")) {
+   paws_rank_penalty = 1;
+  }
+  skill_dice -= paws_rank_penalty * 4;
+ }
+ 
 // Sides on dice is 16 plus your current intelligence
  int skill_sides = 16 + u.int_cur;
 

@@ -85,6 +85,7 @@ void game::init_morale()
     _("Hoarder"),
     _("Stylish"),
     _("Optimist"),
+    _("Bad Tempered"),
     _("Found kitten <3")
     };
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
@@ -555,6 +556,12 @@ void player::apply_persistent_morale()
     if (has_trait("OPTIMISTIC"))
     {
         add_morale(MORALE_PERM_OPTIMIST, 4, 4, 5, 5, true);
+    }
+    
+    // And Bad Temper works just the same way.  But in reverse.  ):
+    if (has_trait("BADTEMPER"))
+    {
+        add_morale(MORALE_PERM_BADTEMPER, -4, -4, 5, 5, true);
     }
 }
 
@@ -5282,6 +5289,19 @@ int player::net_morale(morale_point effect)
         }
     }
 
+     // Again, those grouchy Bad-Tempered folks always focus on the negative.
+     // They can't handle positive things as well.  They're No Fun.  D:
+    if (has_trait("BADTEMPER"))
+    {
+        if (bonus < 0)
+        {
+            bonus *= 1.25;
+        }
+        else
+        {
+            bonus *= 0.75;
+        }
+    }
     return bonus;
 }
 
