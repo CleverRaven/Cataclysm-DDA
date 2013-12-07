@@ -2661,9 +2661,6 @@ void game::update_scent()
     int  sum_3_scent_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
     int squares_used_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
 
-    static const std::string hasflag_str_WALL("WALL"); // only need to assemble this once per run
-    static const std::string hasflag_str_REDUCE_SCENT("REDUCE_SCENT");
-
     bool     has_wall_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash instead of
     bool reduce_scent_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // checking 14884 * (3 redundant)
 
@@ -2685,12 +2682,12 @@ void game::update_scent()
             // cache expensive flag checks, once per tile.
             if ( y == u.posy - SCENT_RADIUS ) {  // Setting y-1 y-0, when we are at the top row...
                 for (int i = y - 1; i <= y; ++i) {
-                    has_wall_here[x][i] = m.has_flag(hasflag_str_WALL, x, i);
-                    reduce_scent_here[x][i] = m.has_flag(hasflag_str_REDUCE_SCENT, x, i);
+                    has_wall_here[x][i] = m.has_flag(TFLAG_WALL, x, i);
+                    reduce_scent_here[x][i] = m.has_flag(TFLAG_REDUCE_SCENT, x, i);
                 }
             }
-            has_wall_here[x][y+1] = m.has_flag(hasflag_str_WALL, x, y+1); // ...so only y+1 here.
-            reduce_scent_here[x][y+1] = m.has_flag(hasflag_str_REDUCE_SCENT, x, y+1);
+            has_wall_here[x][y+1] = m.has_flag(TFLAG_WALL, x, y+1); // ...so only y+1 here.
+            reduce_scent_here[x][y+1] = m.has_flag(TFLAG_REDUCE_SCENT, x, y+1);
 
             // remember the sum of the scent val for the 3 neighboring squares that can defuse into
             sum_3_scent_y[y][x]  = 0;
@@ -4628,20 +4625,21 @@ faction* game::random_evil_faction()
 
 bool game::sees_u(int x, int y, int &t)
 {
-    int range = 0;
- int mondex = mon_at(x,y);
- if (mondex != -1) {
-  monster &critter = _active_monsters[mondex];
-        range = critter.vision_range(u.posx, u.posy);
- }
-
- return (!(u.has_active_bionic("bio_cloak") || u.has_active_bionic("bio_night") ||
-           u.has_active_optcloak() || u.has_artifact_with(AEP_INVISIBLE))
-           && m.sees(x, y, u.posx, u.posy, range, t));
+    const int mondex = mon_at(x,y);
+    if (mondex != -1) {
+        const monster &critter = _active_monsters[mondex];
+        return critter.sees_player(t);
+    }
+    // range = 0 = unlimited, proceeding sans critter
+    return (
+        m.sees(x, y, u.posx, u.posy, 0, t) &&
+        ! u.is_invisible()
+    );
 }
 
 bool game::u_see(int x, int y)
 {
+ static const std::string str_bio_night("bio_night");
  int wanted_range = rl_dist(u.posx, u.posy, x, y);
 
  bool can_see = false;
@@ -4651,7 +4649,7 @@ bool game::u_see(int x, int y)
           (wanted_range <= u.sight_range(DAYLIGHT_LEVEL) &&
             m.light_at(x, y) >= LL_LOW))
      can_see = m.pl_sees(u.posx, u.posy, x, y, wanted_range);
-     if (u.has_active_bionic("bio_night") && wanted_range < 15 && wanted_range > u.sight_range(1))
+     if (u.has_active_bionic(str_bio_night) && wanted_range < 15 && wanted_range > u.sight_range(1))
         return false;
 
  return can_see;
@@ -5403,9 +5401,9 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     dam = 3 * power;
    else
     dam = 3 * power / (rl_dist(x, y, i, j));
-   if (m.has_flag("BASHABLE", i, j))
+   if (m.has_flag(TFLAG_BASHABLE, i, j))
     m.bash(i, j, dam, junk);
-   if (m.has_flag("BASHABLE", i, j)) // Double up for tough doors, etc.
+   if (m.has_flag(TFLAG_BASHABLE, i, j)) // Double up for tough doors, etc.
     m.bash(i, j, dam, junk);
    if (m.is_destructable(i, j) && rng(25, 100) < dam)
     m.destroy(this, i, j, false);

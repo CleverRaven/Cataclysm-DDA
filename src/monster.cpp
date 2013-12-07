@@ -276,7 +276,7 @@ nc_color monster::color_with_effects()
  return ret;
 }
 
-bool monster::has_flag(m_flag f)
+bool monster::has_flag(const m_flag f) const
 {
  return type->has_flag(f);
 }
@@ -308,7 +308,7 @@ bool monster::digging()
     return has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", posx(), posy()));
 }
 
-int monster::vision_range(int x, int y)
+int monster::vision_range(const int x, const int y) const
 {
     int range = g->light_level();
     // Set to max possible value if the target is lit brightly
@@ -329,6 +329,18 @@ int monster::vision_range(int x, int y)
     range = std::max(range, 1);
 
     return range;
+}
+
+bool monster::sees_player(int & tc, player * p) const {
+    if ( p == NULL ) {
+        p = &g->u;
+    }
+    const int range = vision_range(p->posx, p->posy);
+    // * p->visibility() / 100;
+    return (
+        g->m.sees( _posx, _posy, p->posx, p->posy, range, tc ) && 
+        p->is_invisible() == false
+    );
 }
 
 bool monster::made_of(std::string m)
