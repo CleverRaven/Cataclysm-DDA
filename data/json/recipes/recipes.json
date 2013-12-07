@@ -24032,7 +24032,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "flint_ammo",
+  "result": "flintlock_ammo",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
   "skills_required": [ "gun", 1 ],
@@ -24042,16 +24042,6 @@
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 1 ],
-      [ "press", 2 ]
-    ]
   ],
   "components": [
     [
@@ -24070,43 +24060,6 @@
       [ "wrapper", 1],
       [ "bag_plastic", 1 ],
       [ "paper", 25 ]
-    ]
-  ]
-},{
-        "type" : "recipe",
-  "result": "rifle_flint",
-  "category": "CC_WEAPON",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 12000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "2x4", 2 ]
-    ],
-    [
-      [ "rag", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
     ]
   ]
 },{
@@ -24131,44 +24084,6 @@
     ],
     [
       [ "string_36", 1]
-    ]
-  ]
-},
-{
-        "type" : "recipe",
-  "result": "pistol_flint",
-  "category": "CC_WEAPON",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 12000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ],
-    [
-      [ "rag", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
     ]
   ]
 }
