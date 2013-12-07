@@ -385,7 +385,7 @@
         "type" : "martial_art",
         "id" : "style_snake",
         "name" : "Snake Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes. Your Perception iproves yur accuracy and your damage.",
+        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes. Your Perception improves your accuracy and your damage.",
         "static_buffs" : [
             {
                 "id" : "snake_static",
