@@ -1210,35 +1210,9 @@ void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &cur
     current.clear();
     available.clear();
 
-    //TODO:: Hacked together bugfixing. FIX IT!!!
-    if (filter == "") {
-        for (recipe_list::iterator iter = available_recipes.begin();
-             iter != available_recipes.end(); ++iter) {
-            if ((*iter)->subcat == subtab) {
-                if (!u.knows_recipe(*iter)) {
-                    continue;
-                }
-
-                if ((*iter)->difficulty < 0 ) {
-                    continue;
-                }
-
-                if (filter != "" && item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos) {
-                    continue;
-                }
-
-                if (can_make_with_inventory(*iter, crafting_inv)) {
-                    current.insert(current.begin(), *iter);
-                    available.insert(available.begin(), true);
-                } else {
-                    current.push_back(*iter);
-                    available.push_back(false);
-                }
-            }
-        }
-    } else {
-        for (recipe_list::iterator iter = available_recipes.begin();
-             iter != available_recipes.end(); ++iter) {
+    for (recipe_list::iterator iter = available_recipes.begin();
+         iter != available_recipes.end(); ++iter) {
+        if ((*iter)->subcat == subtab || filter != "") {
             if (!u.knows_recipe(*iter)) {
                 continue;
             }
@@ -1247,8 +1221,7 @@ void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &cur
                 continue;
             }
 
-            if (filter != "" &&
-                item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos) {
+            if (filter != "" && item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos) {
                 continue;
             }
 
