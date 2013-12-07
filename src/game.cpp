@@ -5401,10 +5401,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     dam = 3 * power;
    else
     dam = 3 * power / (rl_dist(x, y, i, j));
-   if (m.has_flag(TFLAG_BASHABLE, i, j))
-    m.bash(i, j, dam, junk);
-   if (m.has_flag(TFLAG_BASHABLE, i, j)) // Double up for tough doors, etc.
-    m.bash(i, j, dam, junk);
+   m.bash(i, j, dam, junk);
+   m.bash(i, j, dam, junk); // Double up for tough doors, etc.
    if (m.is_destructable(i, j) && rng(25, 100) < dam)
     m.destroy(this, i, j, false);
 
