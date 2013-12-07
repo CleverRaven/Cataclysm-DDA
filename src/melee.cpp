@@ -411,7 +411,7 @@ bool player::scored_crit(int target_dodge)
  if (weapon.type->m_to_hit > 0) {
   for (int i = 1; i <= weapon.type->m_to_hit; i++)
    chance += (50 / (2 + i));
- } else if (chance < 0) {
+ } else if (weapon.type->m_to_hit < 0) {
   for (int i = 0; i > weapon.type->m_to_hit; i--)
    chance /= 2;
  }
@@ -456,7 +456,7 @@ bool player::scored_crit(int target_dodge)
  if (best_skill > 3) {
   for (int i = 3; i < best_skill; i++)
    chance += (50 / (2 + i));
- } else if (chance < 3) {
+ } else if (best_skill < 3) {
   for (int i = 3; i > best_skill; i--)
    chance /= 2;
  }
