@@ -925,7 +925,7 @@ recipe* game::select_crafting_recipe()
                     subtab == "CSC_AMMO_BULLETS";
                 }
                 else if (tab == "CC_FOOD" && subtab == "CSC_FOOD_OTHER") {
-                    subtab == "CSC_FOOD_DRINK";
+                    subtab == "CSC_FOOD_DRINKS";
                 }
                 else if (tab == "CC_CHEM" && subtab == "CSC_CHEM_OTHER") {
                     subtab == "CSC_CHEM_DRUGS";
