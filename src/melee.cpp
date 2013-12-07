@@ -411,7 +411,7 @@ bool player::scored_crit(int target_dodge)
  if (weapon.type->m_to_hit > 0) {
   for (int i = 1; i <= weapon.type->m_to_hit; i++)
    chance += (50 / (2 + i));
- } else if (chance < 0) {
+ } else if (weapon.type->m_to_hit < 0) {
   for (int i = 0; i > weapon.type->m_to_hit; i--)
    chance /= 2;
  }
@@ -456,7 +456,7 @@ bool player::scored_crit(int target_dodge)
  if (best_skill > 3) {
   for (int i = 3; i < best_skill; i++)
    chance += (50 / (2 + i));
- } else if (chance < 3) {
+ } else if (best_skill < 3) {
   for (int i = 3; i > best_skill; i--)
    chance /= 2;
  }
@@ -671,7 +671,7 @@ int player::roll_stab_damage(monster *z, bool crit)
   if (has_trait("THORNS"))
    ret += 4;
  } else if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
-  ret = int((weapon.damage_cut() - z_armor) / 4);
+  ret = int((weapon.damage_cut() - z_armor));
  else
   return 0; // Can't stab at all!
 
