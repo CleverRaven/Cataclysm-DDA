@@ -843,6 +843,7 @@
       ["flask_hip", 2],
       ["tux", 1],
       ["dress_wedding", 1],
+      ["clogs", 2],
       ["wristwatch", 15]
     ]
     },{
@@ -2177,6 +2178,7 @@
       ["boots_combat", 10],
       ["boots_hiking", 20],
       ["boots_western", 10],
+      ["clogs", 1],
       ["leathersandals", 10]
     ]
     },{
@@ -3330,6 +3332,7 @@
       ["knee_pads", 10],
       ["oxygen_tank", 10],
       ["smoxygen_tank", 5],
+      ["clogs", 1],
       ["leathersandals", 10]
     ]
     },{
