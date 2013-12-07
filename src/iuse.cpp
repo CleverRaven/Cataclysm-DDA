@@ -4452,14 +4452,21 @@ int iuse::acidbomb_act(player *p, item *it, bool t)
 
 int iuse::arrow_flamable(player *p, item *it, bool t)
 {
- if (!p->use_charges_if_avail("fire", 1)) {
-  g->add_msg_if_player(p,_("You need a lighter!"));
-  return 0;
- }
- g->add_msg_if_player(p,_("You light the arrow!."));
- p->moves -= 150;
- it->make(itypes["arrow_flamming"]);
- return it->type->charges_to_use();
+    if (!p->use_charges_if_avail("fire", 1)) {
+        g->add_msg_if_player(p, _("You need a lighter!"));
+        return 0;
+    }
+    g->add_msg_if_player(p, _("You light the arrow!."));
+    p->moves -= 150;
+    if(it->charges == 1) {
+        it->make(itypes["arrow_flamming"]);
+        return 0;
+    }
+    item lit_arrow(*it);
+    lit_arrow.make(itypes["arrow_flamming"]);
+    lit_arrow.charges = 1;
+    p->i_add(lit_arrow, g);
+    return 1;
 }
 
 int iuse::molotov(player *p, item *it, bool t)
@@ -5384,7 +5391,7 @@ int iuse::knife(player *p, item *it, bool t)
     kmenu.addentry( cut_fabric, true, -1, _("Cut up fabric/plastic/kevlar/wood") );
     kmenu.addentry( carve_writing, true, -1, _("Carve writing on item") );
     if (p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ) {
-        if ( !p->use_charges_if_avail("fire", 4) ) {
+        if ( !p->has_charges("fire", 4) ) {
             kmenu.addentry( cauterize, false, -1,
                             _("You need a lighter with 4 charges before you can cauterize yourself.") );
         } else {
@@ -5400,6 +5407,7 @@ int iuse::knife(player *p, item *it, bool t)
     }
 
     if ( choice == cauterize) {
+        p->use_charges("fire", 4);
         if (!(p->has_disease("bite") || p->has_disease("bleed"))) {
             cauterize_effect(p, it, true);
         } else {
@@ -5850,7 +5858,7 @@ int iuse::candle(player *p, item *it, bool t)
         g->add_msg_if_player(p, _("You light the candle."));
         it->make(itypes["candle_lit"]);
         it->active = true;
-        return it->type->charges_to_use();
+        return 0;
     }
 }
 
