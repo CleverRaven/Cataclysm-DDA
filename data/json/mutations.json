@@ -917,6 +917,28 @@
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAT", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
+        "id" : "CLAWS_RETRACT",
+        "name" : "Retractable Claws",
+        "points" : 2,
+        "visibility" : 1,
+        "ugliness" : 2,
+        "description" : "You've developed the ability to retract your claws when not using them.",
+        "prereqs" : ["CLAWS"],
+        "cancels" : ["TALONS"],
+        "category" : ["MUTCAT_FELINE"]
+    },{
+        "type" : "mutation",
+        "id" : "PAWS",
+        "name" : "Paws",
+        "points" : -2,
+        "visibility" : 3,
+        "ugliness" : 2,
+        "description" : "Your hands have fused into quasi-paws. You can still grip things, but fine manipulation is a challenge; permanent hand encumbrance of 1. Gloves don't fit, either.",
+        "prereqs" : ["CLAWS", "CLAWS_RETRACT"],
+        "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "category" : ["MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_FELINE"]
+    },{
+        "type" : "mutation",
         "id" : "TALONS",
         "name" : "Large Talons",
         "points" : 2,
@@ -1719,7 +1741,7 @@
         "points" : -1,
         "visibility" : 5,
         "ugliness" : 4,
-        "description" : "Your jaw and nose have extended into a bearish muzzle.  You could bite with it and it and looks impressive, but prevents you from wearing mouthgear.",
+        "description" : "Your jaw and nose have extended into a bearish muzzle.  You could bite with it, and it looks impressive, but ir prevents you from wearing mouthgear.",
         "cancels" : ["MINOTAUR", "LONG_MUZZLE", "PROBOSCIS"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_URSINE"]
@@ -2077,6 +2099,7 @@
         "ugliness" : 4,
         "description" : "Your arms have transformed into tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. Somewhat decreases wet penalties.",
         "changes_to" : ["ARM_TENTACLES_4"],
+        "cancels" : ["PAWS"],
         "wet_protection" : [
             { "part" : "ARMS", "neutral" : 19 },
             { "part" : "HANDS", "neutral" : 5 }
@@ -2091,6 +2114,7 @@
         "description" : "Your arms have transformed into four tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. You can make up to 3 extra attacks with them. Somewhat decreases wet penalties.",
         "prereqs" : ["ARM_TENTACLES"],
         "changes_to" : ["ARM_TENTACLES_8"],
+        "cancels" : ["PAWS"],
         "wet_protection" : [
             { "part" : "ARMS", "neutral" : 19 },
             { "part" : "HANDS", "neutral" : 5 }
@@ -2104,6 +2128,7 @@
         "ugliness" : 6,
         "description" : "Your arms have transformed into eight tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. You can make up to 7 extra attacks with them. Somewhat decreases wet penalties.",
         "prereqs" : ["ARM_TENTACLES_4"],
+        "cancels" : ["PAWS"],
         "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "ARMS", "neutral" : 19 },

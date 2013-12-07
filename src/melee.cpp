@@ -625,7 +625,7 @@ int player::roll_cut_damage(monster *z, bool crit)
  double ret = mabuff_cut_bonus() + weapon.damage_cut() - z_armor_cut;
 
  if (unarmed_attack() && !wearing_something_on(bp_hands)) {
-  if (has_trait("CLAWS"))
+  if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
    ret += 6;
   if (has_bionic("bio_razors"))
    ret += 4;
@@ -634,7 +634,7 @@ int player::roll_cut_damage(monster *z, bool crit)
   if (has_trait("SLIME_HANDS") && (z == NULL || !z->has_flag(MF_ACIDPROOF)))
    ret += rng(4, 6);
  }
-
+  
  if (ret <= 0)
   return 0; // No negative damage!
 
@@ -662,7 +662,7 @@ int player::roll_stab_damage(monster *z, bool crit)
 
  if (unarmed_attack() && !wearing_something_on(bp_hands)) {
   ret = 0 - z_armor;
-  if (has_trait("CLAWS"))
+  if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
    ret += 6;
   if (has_trait("NAILS") && z_armor == 0)
    ret++;
@@ -1079,6 +1079,7 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
 
   if (did_damage)
    g->add_msg( special_attacks[i].text.c_str() );
+   
  }
 
  if (can_poison && has_trait("POISONOUS")) {
@@ -1308,12 +1309,13 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
         // "you" handled separately
     }
 
- //Having lupine or croc jaws makes it much easier to sink your fangs into people
+ //Having lupine or croc jaws makes it much easier to sink your fangs into people; Ursine/Feline, not so much
     if (has_trait("FANGS") && (
             (!wearing_something_on(bp_mouth) && !has_trait("MUZZLE") && !has_trait("LONG_MUZZLE") &&
             one_in(20 - dex_cur - skillLevel("unarmed"))) ||
             (has_trait("MUZZLE") && one_in(18 - dex_cur - skillLevel("unarmed"))) ||
-            (has_trait("LONG_MUZZLE") && one_in(15 - dex_cur - skillLevel("unarmed"))))) {
+            (has_trait("LONG_MUZZLE") && one_in(15 - dex_cur - skillLevel("unarmed"))) ||
+            (has_trait("BEAR_MUZZLE") && one_in(20 - dex_cur - skillLevel("unarmed"))))) {
         special_attack tmp;
         tmp.stab = 20;
         if (is_u) {
@@ -1340,6 +1342,22 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
                                      name.c_str(), target.c_str());
         } else {
             tmp.text = string_format(_("%s nips and harries %s!"),
+                                     name.c_str(), target.c_str());
+        }
+        ret.push_back(tmp);
+    }
+    
+    if (!has_trait("FANGS") && has_trait("BEAR_MUZZLE") && one_in(20 - dex_cur - skillLevel("unarmed"))) {
+        special_attack tmp;
+        tmp.cut = 5;
+        if (is_u) {
+            tmp.text = string_format(_("You bite %s!"),
+                                     target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s bites %s!"),
+                                     name.c_str(), target.c_str());
+        } else {
+            tmp.text = string_format(_("%s bites %s!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);

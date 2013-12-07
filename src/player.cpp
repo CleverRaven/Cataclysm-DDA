@@ -7053,6 +7053,15 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             }
             return false;
         }
+        
+        if (armor->covers & mfb(bp_hands) && has_trait("PAWS"))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("You cannot get %s to stay on your paws."), armor->name.c_str());
+            }
+            return false;
+        }
 
         if (armor->covers & mfb(bp_mouth) && has_trait("BEAK"))
         {
@@ -7063,7 +7072,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_mouth) && (has_trait("MUZZLE") || has_trait("LONG_MUZZLE")))
+        if (armor->covers & mfb(bp_mouth) && (has_trait("MUZZLE") || has_trait("BEAR_MUZZLE") || has_trait("LONG_MUZZLE")))
         {
             if(interactive)
             {
@@ -8560,6 +8569,9 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     }
     if( has_trait("ARM_FEATHERS") && bp == bp_arms ) {
         ret += 2;
+    }
+    if (bp == bp_hands && has_trait("PAWS")) {
+        ret += 1;
     }
     if (bp == bp_hands &&
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
