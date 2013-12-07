@@ -117,13 +117,13 @@ class map
   * 0         | Impassable
   * n > 0     | x*n turns to move past this
   */
- int move_cost(const int x, const int y, const vehicle *ignored_vehicle = NULL);
+ int move_cost(const int x, const int y, const vehicle *ignored_vehicle = NULL) const;
 
 
  /**
   * Similar behavior to `move_cost()`, but ignores vehicles.
   */
- int move_cost_ter_furn(const int x, const int y);
+ int move_cost_ter_furn(const int x, const int y) const;
 
  /**
   * Cost to move out of one tile and into the next.
@@ -237,12 +237,19 @@ class map
  std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
 
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
- bool has_flag(const std::string & flag, const int x, const int y);  // checks terrain, furniture and vehicles
+ bool has_flag(const std::string & flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
  bool can_put_items(const int x, const int y); // True if items can be placed in this tile
  bool has_flag_ter(const std::string & flag, const int x, const int y) const;  // checks terrain
  bool has_flag_furn(const std::string & flag, const int x, const int y) const;  // checks furniture
  bool has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const; // checks terrain or furniture
  bool has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const; // checks terrain and furniture
+ // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
+ bool has_flag(const ter_bitflags flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
+ bool has_flag_ter(const ter_bitflags flag, const int x, const int y) const;  // checks terrain
+ bool has_flag_furn(const ter_bitflags flag, const int x, const int y) const;  // checks furniture
+ bool has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain or furniture
+ bool has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain and furniture
+
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
  bool is_destructable_ter_furn(const int x, const int y);       // only checks terrain
  bool is_divable(const int x, const int y);

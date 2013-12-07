@@ -1715,14 +1715,13 @@ int vehicle::total_power (bool fueled)
 
 int vehicle::solar_power ()
 {
-    static const std::string mflag_str_INDOORS("INDOORS");
     int pwr = 0;
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, VPFLAG_SOLAR_PANEL) && parts[p].hp > 0) {
             int part_x = global_x() + parts[p].precalc_dx[0];
             int part_y = global_y() + parts[p].precalc_dy[0];
             // Can't use g->in_sunlight() because it factors in vehicle roofs.
-            if( !g->m.has_flag_ter_or_furn( mflag_str_INDOORS, part_x, part_y ) ) {
+            if( !g->m.has_flag_ter_or_furn( TFLAG_INDOORS, part_x, part_y ) ) {
                 pwr += (part_power(p) * g->natural_light_level()) / DAYLIGHT_LEVEL;
             }
         }

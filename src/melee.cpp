@@ -218,7 +218,7 @@ int player::melee_attack(game *g, Creature &t, bool allow_special) {
         player_hit_message(g, this, message, target_name, dam, critical_hit);
 
         if (!specialmsg.empty())
-            g->add_msg(specialmsg.c_str());
+            g->add_msg_if_player(this,specialmsg.c_str());
     }
 
     mod_moves(-move_cost);
@@ -991,24 +991,28 @@ std::string player::melee_special_effects(game *g, Creature &t, damage_instance&
  }
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) /* && TODO: put is_halluc check back in
          !z->is_hallucination()*/) {
-  if (t.is_player())
     dump << string_format(_("Your %s gets stuck in %s, pulling it our of your hands!"), weapon.tname().c_str(), target.c_str());
   // TODO: better speed debuffs for target, possibly through effects
   t.mod_moves(-30);
+  if (weapon.has_flag("HURT_WHEN_PULLED") && one_in(3)) {
+    //Sharp objects that injure wielder when pulled from hands (so cutting damage only)
+    dump << std::endl << string_format(_("You are hurt by the %s being pulled from your hands!"), weapon.tname().c_str());
+    damage_instance pull_dam = damage_instance::physical(0,weapon.damage_cut()/2,0);
+    deal_damage(g, NULL, bp_hands, random_side(bp_hands), pull_dam);
+  }
  } else {
   if (d.total_damage() > 20) { // TODO: change this back to "if it would kill the monster"
    cutting_penalty /= 2;
    cutting_penalty -= rng(skillLevel("cutting"), skillLevel("cutting") * 2 + 2);
   }
-  if (cutting_penalty > 0)
-   moves -= cutting_penalty;
   if (cutting_penalty >= 50/* && !z->is_hallucination()*/) { // TODO: halluc check again
-    if (t.is_player())
-    dump << string_format(_("Your %s gets stuck in %s but you yank it free!"), weapon.tname().c_str(), target.c_str());
+   dump << string_format(_("Your %s gets stuck in %s but you yank it free!"), weapon.tname().c_str(), target.c_str());
   }
   if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
    t.mod_moves(-30);
  }
+ if (cutting_penalty > 0)
+  mod_moves(-cutting_penalty);
 
   // on-hit effects for martial arts
   ma_onhit_effects();

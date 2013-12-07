@@ -510,7 +510,7 @@ int iuse::firstaid(player *p, item *it, bool t)
     // Assign first aid long action.
     int healed = use_healing_item(p, it, 14, 10, 18, it->name, 95, 99, 95, false);
     if (healed != num_hp_parts) {
-      p->assign_activity(g, ACT_FIRSTAID, 6000 / (p->skillLevel("first aid") + 1), 0, it->invlet, it->name);
+      p->assign_activity(g, ACT_FIRSTAID, 6000 / (p->skillLevel("firstaid") + 1), 0, it->invlet, it->name);
       p->activity.values.push_back(healed);
       p->moves = 0;
     }
@@ -3179,6 +3179,38 @@ int iuse::chainsaw_on(player *p, item *it, bool t)
  return it->type->charges_to_use();
 }
 
+int iuse::cs_lajatang_off(player *p, item *it, bool t)
+{
+ p->moves -= 80;
+ if (rng(0, 10) - it->damage > 5 && it->charges > 1) {
+  g->sound(p->posx, p->posy, 40,
+           _("With a roar, the chainsaws leap to life!"));
+  it->make(itypes["cs_lajatang_on"]);
+  it->active = true;
+ } else {
+  g->add_msg_if_player(p,_("You yank the cords, but nothing happens."));
+ }
+ return it->type->charges_to_use();
+}
+
+int iuse::cs_lajatang_on(player *p, item *it, bool t)
+{
+ if (t) { // Effects while simply on
+  if (one_in(15)) {
+   g->sound(p->posx, p->posy, 12, _("Your chainsaws rumble."));
+  }
+  //Deduct an additional charge (since there are two of them)
+  if(it->charges > 0) {
+   it->charges--;
+  }
+ } else { // Toggling
+  g->add_msg_if_player(p,_("Your chainsaws die."));
+  it->make(itypes["cs_lajatang_off"]);
+  it->active = false;
+ }
+ return it->type->charges_to_use();
+}
+
 int iuse::carver_off(player *p, item *it, bool t)
 {
  p->moves -= 80;
@@ -3202,6 +3234,56 @@ int iuse::carver_on(player *p, item *it, bool t)
  } else { // Toggling
   g->add_msg_if_player(p,_("Your electric carver dies."));
   it->make(itypes["carver_off"]);
+  it->active = false;
+ }
+ return it->type->charges_to_use();
+}
+
+int iuse::trimmer_off(player *p, item *it, bool t)
+{
+ p->moves -= 80;
+ if (rng(0, 10) - it->damage > 3 && it->charges > 0) {
+  g->sound(p->posx, p->posy, 15,
+           _("With a roar, the hedge trimmer leaps to life!"));
+  it->make(itypes["trimmer_on"]);
+  it->active = true;
+ } else {
+  g->add_msg_if_player(p,_("You yank the cord, but nothing happens."));
+ }
+ return it->type->charges_to_use();
+}
+
+int iuse::trimmer_on(player *p, item *it, bool t)
+{
+ if (t) { // Effects while simply on
+  if (one_in(15)) {
+   g->sound(p->posx, p->posy, 10, _("Your hedge trimmer rumbles."));
+  }
+ } else { // Toggling
+  g->add_msg_if_player(p,_("Your hedge trimmer dies."));
+  it->make(itypes["trimmer_off"]);
+  it->active = false;
+ }
+ return it->type->charges_to_use();
+}
+
+int iuse::circsaw_off(player *p, item *it, bool t)
+{
+ it->make(itypes["circsaw_on"]);
+ it->active = true;
+ g->add_msg_if_player(p,_("You turn on the circular saw."));
+ return it->type->charges_to_use();
+}
+
+int iuse::circsaw_on(player *p, item *it, bool t)
+{
+ if (t) { // Effects while simply on
+  if (one_in(15)) {
+   g->sound(p->posx, p->posy, 7, _("Your circular saw buzzes."));
+  }
+ } else { // Toggling
+  g->add_msg_if_player(p,_("Your circular saw powers off."));
+  it->make(itypes["circsaw_off"]);
   it->active = false;
  }
  return it->type->charges_to_use();

@@ -352,7 +352,7 @@ void map::castLight( game *g, int row, float start, float end, int xx, int xy, i
 
 void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc )
 {
- bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
+ static bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
  memset(lit, 0, sizeof(lit));
 
  if (INBOUNDS(x, y)) {
@@ -411,7 +411,7 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
  if (luminance <= LIGHT_SOURCE_LOCAL)
   return;
 
- bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
+ static bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
  memset(lit, 0, sizeof(lit));
 
  #define lum_mult 3.0
@@ -504,7 +504,8 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
 
 
  float transparency = LIGHT_TRANSPARENCY_CLEAR;
-
+ float light=0.0;
+ int td = 0;
  // TODO: [lightmap] Pull out the common code here rather than duplication
  if (ax > ay) {
   int t = ay - (ax >> 1);
@@ -517,23 +518,23 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
    x += dx;
    t += ay;
 
-   if (INBOUNDS(x, y) && !lit[x][y]) {
+ if (INBOUNDS(x, y)) {
+  if (!lit[x][y]) {
     // Multiple rays will pass through the same squares so we need to record that
     lit[x][y] = true;
 
     // We know x is the longest angle here and squares can ignore the abs calculation
-    float light=0.0;
+    light=0.0;
     if ( trig_brightcalc ) {
-      int td = trig_dist(sx, sy, x, y);
+      td = trig_dist(sx, sy, x, y);
       light = luminance / ( td * td );
     } else {
       light = luminance / ((sx - x) * (sx - x));
     }
     lm[x][y] += light * transparency;
-   }
-
-   if (INBOUNDS(x, y))
-     transparency *= light_transparency(x, y);
+  }
+  transparency *= light_transparency(x, y);
+ }
 
    if (transparency <= LIGHT_TRANSPARENCY_SOLID)
     break;
@@ -550,23 +551,23 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
    y += dy;
    t += ax;
 
-   if (INBOUNDS(x, y) && !lit[x][y]) {
+ if (INBOUNDS(x, y)) {
+  if(!lit[x][y]) {
     // Multiple rays will pass through the same squares so we need to record that
     lit[x][y] = true;
 
     // We know y is the longest angle here and squares can ignore the abs calculation
-    float light=0.0;
+    light=0.0;
     if ( trig_brightcalc ) {
-      int td = trig_dist(sx, sy, x, y);
+      td = trig_dist(sx, sy, x, y);
       light = luminance / ( td * td );
     } else {
       light = luminance / ((sy - y) * (sy - y));
     }
     lm[x][y] += light * transparency;
-   }
-
-   if (INBOUNDS(x, y))
-    transparency *= light_transparency(x, y);
+  }
+  transparency *= light_transparency(x, y);
+ }
 
    if (transparency <= LIGHT_TRANSPARENCY_SOLID)
     break;

@@ -3215,7 +3215,7 @@ bool player::in_climate_control(game *g)
     return regulated_area;
 }
 
-bool player::has_bionic(bionic_id b) const
+bool player::has_bionic(const bionic_id & b) const
 {
  for (int i = 0; i < my_bionics.size(); i++) {
   if (my_bionics[i].id == b)
@@ -3224,16 +3224,20 @@ bool player::has_bionic(bionic_id b) const
  return false;
 }
 
-bool player::has_active_optcloak() {
-  if ((has_active_item("UPS_on") || has_active_item("adv_UPS_on"))
-      && is_wearing("optical_cloak")) {
+bool player::has_active_optcloak() const {
+  static const std::string str_UPS_on("UPS_on");
+  static const std::string str_adv_UPS_on("adv_UPS_on");
+  static const std::string str_optical_cloak("optical_cloak");
+
+  if ((has_active_item(str_UPS_on) || has_active_item(str_adv_UPS_on))
+      && is_wearing(str_optical_cloak)) {
     return true;
   } else {
     return false;
   }
 }
 
-bool player::has_active_bionic(bionic_id b) const
+bool player::has_active_bionic(const bionic_id & b) const
 {
  for (int i = 0; i < my_bionics.size(); i++) {
   if (my_bionics[i].id == b)
@@ -5476,7 +5480,7 @@ item& player::i_add(item it, game *g)
  return inv.add_item(it);
 }
 
-bool player::has_active_item(itype_id id)
+bool player::has_active_item(const itype_id & id) const
 {
     if (weapon.type->id == id && weapon.active)
     {
@@ -6040,7 +6044,7 @@ item* player::pick_usb()
  return drives[ select - 1 ];
 }
 
-bool player::is_wearing(itype_id it)
+bool player::is_wearing(const itype_id & it) const
 {
  for (int i = 0; i < worn.size(); i++) {
   if (worn[i].type->id == it)
@@ -6096,7 +6100,7 @@ bool player::is_waterproof(int flags) const {
   return covered_with_flag("WATERPROOF", flags);
 }
 
-bool player::has_artifact_with(art_effect_passive effect)
+bool player::has_artifact_with(const art_effect_passive effect) const
 {
  if (weapon.is_artifact() && weapon.is_tool()) {
   it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(weapon.type);
@@ -8837,13 +8841,13 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     // determine how much the damage exceeds the armour absorption
                     // bash damage takes into account preceding layers
                     int diff_bash = (dam - arm_bash - bash_absorb < 0) ? -1 : (dam - arm_bash);
-                    int diff_cut  = (cut - arm_cut  < 0) ? -1 : (dam - arm_cut);
+                    int diff_cut  = (cut - arm_cut  < 0) ? -1 : (cut - arm_cut);
                     bool armor_damaged = false;
                     std::string pre_damage_name = worn[i].tname();
 
                     // armour damage occurs only if damage exceeds armour absorption
                     // plus a luck factor, even if damage is below armour absorption (2% chance)
-                    if ((diff_bash > arm_bash && !one_in(diff_bash)) ||
+                    if ((dam > arm_bash && !one_in(diff_bash)) ||
                         (!worn[i].has_flag ("STURDY") && diff_bash == -1 && one_in(50)))
                     {
                         armor_damaged = true;
@@ -8854,7 +8858,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     // cut damage falls through to inner layers only if preceding layer was damaged
                     if (cut_through)
                     {
-                        if ((diff_cut > arm_cut && !one_in(diff_cut)) ||
+                        if ((cut > arm_cut && !one_in(diff_cut)) ||
                             (!worn[i].has_flag ("STURDY") && diff_cut == -1 && one_in(50)))
                         {
                             armor_damaged = true;
@@ -9419,6 +9423,26 @@ void player::environmental_revert_effect()
     radiation = 0;
 
     recalc_sight_limits();
+}
+
+bool player::is_invisible() const {
+    static const std::string str_bio_cloak("bio_cloak"); // This function used in monster::plan_moves
+    static const std::string str_bio_night("bio_night");
+    return (
+        has_active_bionic(str_bio_cloak) ||
+        has_active_bionic(str_bio_night) ||
+        has_active_optcloak() ||
+        has_artifact_with(AEP_INVISIBLE)
+    );
+}
+
+int player::visibility( bool check_color, int stillness ) const { // 0-100 %
+    if ( is_invisible() ) {
+        return 0;
+    }
+    // todo:
+    // if ( dark_clothing() && light check ...
+    return 100;
 }
 
 void player::set_destination(const std::vector<point> &route)
