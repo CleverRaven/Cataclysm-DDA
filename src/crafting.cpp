@@ -1192,7 +1192,8 @@ inventory game::crafting_inventory(player *p){
 }
 
 void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &current,
-                         std::vector<bool> &available, craft_cat tab, craft_subcat subtab, std::string filter)
+                        std::vector<bool> &available, craft_cat tab,
+                        craft_subcat subtab, std::string filter)
 {
     recipe_list available_recipes;
 
@@ -1200,9 +1201,9 @@ void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &cur
         available_recipes = recipes[tab];
     } else {
 
-        for (recipe_map::iterator iter = recipes.begin(); iter != recipes.end(); ++iter)
-        {
-            available_recipes.insert(available_recipes.begin(), iter->second.begin(), iter->second.end());
+        for (recipe_map::iterator iter = recipes.begin(); iter != recipes.end(); ++iter) {
+            available_recipes.insert(available_recipes.begin(),
+                                     iter->second.begin(), iter->second.end());
         }
     }
 
@@ -1211,49 +1212,50 @@ void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &cur
 
     //TODO:: Hacked together bugfixing. FIX IT!!!
     if (filter == "") {
-        for (recipe_list::iterator iter = available_recipes.begin(); iter != available_recipes.end(); ++iter)
-        {
+        for (recipe_list::iterator iter = available_recipes.begin();
+             iter != available_recipes.end(); ++iter) {
             if ((*iter)->subcat == subtab) {
-                if (!u.knows_recipe(*iter))
+                if (!u.knows_recipe(*iter)) {
                     continue;
+                }
 
-                if ((*iter)->difficulty < 0 )
+                if ((*iter)->difficulty < 0 ) {
                     continue;
+                }
 
-                if (filter != "" && item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos)
+                if (filter != "" && item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos) {
                     continue;
+                }
 
-                if (can_make_with_inventory(*iter, crafting_inv))
-                {
+                if (can_make_with_inventory(*iter, crafting_inv)) {
                     current.insert(current.begin(), *iter);
                     available.insert(available.begin(), true);
-                }
-                else
-                {
+                } else {
                     current.push_back(*iter);
                     available.push_back(false);
                 }
             }
         }
     } else {
-        for (recipe_list::iterator iter = available_recipes.begin(); iter != available_recipes.end(); ++iter)
-        {
-            if (!u.knows_recipe(*iter))
+        for (recipe_list::iterator iter = available_recipes.begin();
+             iter != available_recipes.end(); ++iter) {
+            if (!u.knows_recipe(*iter)) {
                 continue;
+            }
 
-            if ((*iter)->difficulty < 0 )
+            if ((*iter)->difficulty < 0 ) {
                 continue;
+            }
 
-            if (filter != "" && item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos)
+            if (filter != "" &&
+                item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos) {
                 continue;
+            }
 
-            if (can_make_with_inventory(*iter, crafting_inv))
-            {
+            if (can_make_with_inventory(*iter, crafting_inv)) {
                 current.insert(current.begin(), *iter);
                 available.insert(available.begin(), true);
-            }
-            else
-            {
+            } else {
                 current.push_back(*iter);
                 available.push_back(false);
             }
