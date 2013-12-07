@@ -3245,7 +3245,7 @@
         "name" : "paper cartidge",
         "symbol" : "=",
         "color" : "white",
-        "description" : "A paper cartidge containing blackpowder and a metallic proyectile. Hystorically used to reload muzzleloaders in a more reasonable time.",
+        "description" : "A paper cartidge containing black powder and a metallic projectile. Historically used to reload muzzleloaders in a more reasonable time.",
         "material" : "steel",
         "volume" : 2,
         "weight" : 70,
