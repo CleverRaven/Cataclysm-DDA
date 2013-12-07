@@ -934,22 +934,7 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
 
-    if(part_flag(parts.size()-1,"HORN")) {
-        horns.push_back(parts.size() - 1);
-    }
-    if(part_flag(parts.size()-1,"FUEL_TANK"))
-        fuel.push_back(parts.size()-1);
-
-    point p(new_part.mount_dx, new_part.mount_dy);
-    if ( relative_parts.find(p) == relative_parts.end() ) {
-        relative_parts[p].clear();
-    }
-    relative_parts[p].push_back(parts.size());
-
-    find_power ();
-    find_exhaust ();
-    precalc_mounts (0, face.dir());
-    insides_dirty = true;
+    refresh();
     return parts.size() - 1;
 }
 
@@ -1027,13 +1012,7 @@ void vehicle::remove_part (int p)
     }
 
     parts.erase(parts.begin() + p);
-    find_horns ();
-    find_power ();
-    find_fuel_tanks ();
-    find_parts ();
-    find_exhaust ();
-    precalc_mounts (0, face.dir());
-    insides_dirty = true;
+    refresh();
 
     if(parts.size() == 0) {
         g->m.destroy_vehicle(this);
@@ -2983,6 +2962,21 @@ bool vehicle::pedals() {
   return false;
 }
 
+/**
+ * Refreshes all caches and refinds all parts, after the vehicle has had a part
+ * added or removed.
+ */
+void vehicle::refresh()
+{
+    find_horns ();
+    find_power ();
+    find_fuel_tanks ();
+    find_parts ();
+    find_exhaust ();
+    precalc_mounts (0, face.dir());
+    insides_dirty = true;
+}
+
 void vehicle::refresh_insides ()
 {
     insides_dirty = false;
@@ -3094,6 +3088,26 @@ void vehicle::damage_all (int dmg1, int dmg2, int type, const point &impact)
             damage_direct (p, rng( dmg1, dmg2 ) / (distance * distance), type);
         }
     }
+}
+
+/**
+ * Shifts all parts of the vehicle by the given amounts, and then shifts the
+ * vehicle itself in the opposite direction. The end result is that the vehicle
+ * appears to have not moved. Useful for re-zeroing a vehicle to ensure that a
+ * (0, 0) part is always present.
+ * @param dx How much to shift on the x-axis.
+ * @param dy How much to shift on the y-axis.
+ */
+void vehicle::shift_parts(const int dx, const int dy)
+{
+    for(unsigned int p = 0; p < parts.size(); p++) {
+        parts[p].mount_dx += dx;
+        parts[p].mount_dy += dy;
+    }
+    posx -= dx;
+    posy -= dy;
+
+    refresh();
 }
 
 int vehicle::damage_direct (int p, int dmg, int type)
