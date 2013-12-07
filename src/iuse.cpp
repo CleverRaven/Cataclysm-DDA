@@ -2130,7 +2130,7 @@ int iuse::handflare_lit(player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
-static int cauterize_effect(player *p, item *it, bool force = true)
+static bool cauterize_effect(player *p, item *it, bool force = true)
 {
     hp_part hpart = use_healing_item(p, it, -2, -2, -2, it->name, 100, 50, 0, force);
     if (hpart != num_hp_parts) {
@@ -2142,7 +2142,7 @@ static int cauterize_effect(player *p, item *it, bool force = true)
         if (p->has_disease("bite", bp, side)) {
             g->u.add_disease("bite", 2600, false, 1, 1, 0, -1, bp, side, true);
         }
-        return it->type->charges_to_use();
+        return true;
     }
     return 0;
 }
@@ -2154,8 +2154,7 @@ static int cauterize_elec(player *p, item *it)
         return 0;
     } else if (!p->has_disease("bite") && !p->has_disease("bleed")) {
         if (p->has_trait("MASOCHIST") && query_yn(_("Cauterize yourself for fun?"))) {
-            cauterize_effect(p, it, true);
-            return it->type->charges_to_use();
+            return cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
         }
         else {
             g->add_msg_if_player(p,_("You are not bleeding or bitten, there is no need to cauterize yourself."));
@@ -2164,10 +2163,9 @@ static int cauterize_elec(player *p, item *it)
     }
     else if (p->is_npc() || query_yn(_("Cauterize any open wounds?")))
     {
-        cauterize_effect(p, it);
-        return it->type->charges_to_use();
+        return cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
     }
-    return it->type->charges_to_use();
+    return 0;
 }
 
 int iuse::solder_weld(player *p, item *it, bool t)
@@ -5407,11 +5405,9 @@ int iuse::knife(player *p, item *it, bool t)
     }
 
     if ( choice == cauterize) {
-        p->use_charges("fire", 4);
-        if (!(p->has_disease("bite") || p->has_disease("bleed"))) {
-            cauterize_effect(p, it, true);
-        } else {
-            cauterize_effect(p, it);
+        bool has_disease = p->has_disease("bite") || p->has_disease("bleed");
+        if( cauterize_effect(p, it, !has_disease) ) {
+            p->use_charges("fire", 4);
         }
         return it->type->charges_to_use();
     } else if (choice == cut_fabric) {
