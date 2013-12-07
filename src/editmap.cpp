@@ -34,8 +34,6 @@
 #define inbounds(x, y) (x >= 0 && x < maplim && y >= 0 && y < maplim)
 #define pinbounds(p) ( p.x >= 0 && p.x < maplim && p.y >= 0 && p.y < maplim)
 
-#include "picofunc.h"
-
 std::vector<std::string> fld_string ( std::string str, int width ) {
     std::vector<std::string> lines;
     if ( width < 1 ) {

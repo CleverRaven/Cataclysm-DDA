@@ -1248,16 +1248,24 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
  }
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) &&
          !z->is_hallucination()) {
-  if (you)
+  if (you) {
     dump << string_format(_("Your %s gets stuck in %s, pulling it our of your hands!"), weapon.tname().c_str(), target.c_str());
+  }
+  if(weapon.has_flag("HURT_WHEN_PULLED") && one_in(3)) {
+    //Sharp objects that injure wielder when pulled from hands (so cutting damage only)
+    dump << std::endl << string_format(_("You are hurt by the %s being pulled from your hands!"), weapon.tname().c_str());
+    p->hit(g, bp_hands, random_side(bp_hands), 0, (weapon.damage_cut() / 2));
+  }
   if (mon) {
-   if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
+   if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) {
     z->speed *= .7;
-   else
+   } else {
     z->speed *= .85;
+   }
    z->add_item(remove_weapon());
-  } else
+  } else {
    g->m.add_item_or_charges(posx, posy, remove_weapon());
+  }
  } else {
   if (mon && (cut_dam >= z->hp || stab_dam >= z->hp)) {
    cutting_penalty /= 2;

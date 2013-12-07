@@ -69,13 +69,14 @@ class monster : public JsonSerializer, public JsonDeserializer
  void draw(WINDOW* w, int plx, int ply, bool inv);
  nc_color color_with_effects(); // Color with fire, beartrapped, etc.
                                 // Inverts color if inv==true
- bool has_flag(m_flag f); // Returns true if f is set (see mtype.h)
+ bool has_flag(const m_flag f) const; // Returns true if f is set (see mtype.h)
  bool can_see();      // MF_SEES and no ME_BLIND
  bool can_hear();     // MF_HEARS and no ME_DEAF
  bool can_submerge(); // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
  bool can_drown();    // MF_AQUATIC or MF_SWIMS or MF_NO_BREATHE or MF_FLIES
  bool digging();      // MF_DIGS or MF_CAN_DIG and diggable terrain
- int vision_range(int x, int y); // Returns monster vision range, x and y are the target spot
+ int vision_range(const int x, const int y) const; // Returns monster vision range, x and y are the target spot
+ bool sees_player(int & tc, player * p = NULL) const; // Sees player/npc
  bool made_of(std::string m); // Returns true if it's made of m
  bool made_of(phase_id p); // Returns true if its phase is p
 

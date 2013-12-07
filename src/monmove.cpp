@@ -122,7 +122,7 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
         } else if (friendly > 0 && one_in(3)) {
             // Grow restless with no targets
             friendly--;
-        } else if (friendly < 0 && g->sees_u(_posx, _posy, tc)) {
+        } else if (friendly < 0 &&  sees_player( tc ) ) { 
             if (rl_dist(posx(), posy(), g->u.posx, g->u.posy) > 2) {
                 set_dest(g->u.posx, g->u.posy, tc);
             } else {
@@ -133,7 +133,7 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
     }
 
     // If we can see, and we can see a character, move toward them or flee.
-    if (can_see() && g->sees_u(_posx, _posy, tc)) {
+    if (can_see() && sees_player( tc ) ) { 
         dist = rl_dist(posx(), posy(), g->u.posx, g->u.posy);
         if (is_fleeing(g->u)) {
             // Wander away.
@@ -1079,7 +1079,7 @@ void monster::stumble(game *g, bool moved)
  if (plans.size() > 0) {
   if (g->m.sees(posx(), posy(), plans.back().x, plans.back().y, -1, tc))
    set_dest(plans.back().x, plans.back().y, tc);
-  else if (g->sees_u(posx(), posy(), tc))
+  else if (sees_player( tc ))
    set_dest(g->u.posx, g->u.posy, tc);
   else //durr, i'm suddenly calm. what was i doing?
    plans.clear();

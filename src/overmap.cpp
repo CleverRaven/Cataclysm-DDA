@@ -1884,7 +1884,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   }
 
   real_coords rc;
-  rc.fromomap( g->cur_om->pos().x, g->cur_om->pos().y, cursx, cursy );
+  rc.fromomap( pos().x, pos().y, cursx, cursy );
 
   if (csee) {
    mvwputch(w, 1, om_map_width + 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
@@ -1954,9 +1954,18 @@ point overmap::draw_overmap(game *g, int zlevel)
  ictxt.register_action("QUIT");
  std::string action;
  do {
-     draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
-     action = ictxt.handle_input();
-     timeout(BLINK_SPEED); // Enable blinking!
+    real_coords rc;
+    rc.fromomap(g->cur_om->pos().x, g->cur_om->pos().y, cursx, cursy);
+    // (cursx, cursy) are the coordinates of the overmap-terrain,
+    // that is in the center of the view (relative to this overmap)
+    // Those coordinates get translated to the coordinates of the
+    // overmap they are on (rc.abs_om) and the coordinates of the
+    // overmap-terrain on that overmap (rc.om_pos)
+    overmap &center_om = overmap_buffer.get(g, rc.abs_om.x, rc.abs_om.y);
+
+    center_om.draw(w_map, g, zlevel, rc.om_pos.x, rc.om_pos.y, origx, origy, ch, blink, hori, vert, diag, &ictxt);
+    action = ictxt.handle_input();
+    timeout(BLINK_SPEED); // Enable blinking!
 
   int dirx, diry;
   if (action != "ANY_INPUT") {
@@ -1981,23 +1990,29 @@ point overmap::draw_overmap(game *g, int zlevel)
    ret = point(-1, -1);
   else if (action == "CREATE_NOTE") {
    timeout(-1);
-   add_note(cursx, cursy, zlevel, string_input_popup(_("Note (X:TEXT for custom symbol):"),
-                                                     45, note(cursx, cursy, zlevel))); // 45 char max
+   const std::string old_note = center_om.note(rc.om_pos.x, rc.om_pos.y, zlevel);
+   const std::string new_note = string_input_popup(_("Note (X:TEXT for custom symbol):"), 45, old_note); // 45 char max
+   if(old_note != new_note) {
+     center_om.add_note(rc.om_pos.x, rc.om_pos.y, zlevel, new_note);
+   }
    timeout(BLINK_SPEED);
   } else if(action == "DELETE_NOTE"){
    timeout(-1);
-   if (has_note(cursx, cursy, zlevel)){
+   if (center_om.has_note(rc.om_pos.x, rc.om_pos.y, zlevel)){
     bool res = query_yn(_("Really delete note?"));
     if (res == true)
-     delete_note(cursx, cursy, zlevel);
+     center_om.delete_note(rc.om_pos.x, rc.om_pos.y, zlevel);
    }
    timeout(BLINK_SPEED);
   } else if (action == "LIST_NOTES"){
    timeout(-1);
-   point p = display_notes(g, zlevel);
-   if (p.x != -1){
-    cursx = p.x;
-    cursy = p.y;
+   point p = center_om.display_notes(g, zlevel);
+   if (p.x != -1) {
+    // Translate coords relative to center_om back to relative to this
+    real_coords rct;
+    rct.fromomap(center_om.pos().x, center_om.pos().y, p.x, p.y);
+    cursx = rct.abs_pos.x / (2 * SEEX);
+    cursy = rct.abs_pos.y / (2 * SEEX);
    }
    timeout(BLINK_SPEED);
    wrefresh(w_map);
@@ -2006,11 +2021,11 @@ point overmap::draw_overmap(game *g, int zlevel)
    timeout(-1);
    std::string term = string_input_popup(_("Search term:"));
    timeout(BLINK_SPEED);
-   draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
-   point found = find_note(cursx, cursy, zlevel, term);
+   center_om.draw(w_map, g, zlevel, rc.om_pos.x, rc.om_pos.y, origx, origy, ch, blink, hori, vert, diag, &ictxt);
+   point found = center_om.find_note(rc.om_pos.x, rc.om_pos.y, zlevel, term);
    if (found.x == -1) { // Didn't find a note
     std::vector<point> terlist;
-    terlist = find_terrain(term, origx, origy, zlevel);
+    terlist = center_om.find_terrain(term, rc.om_pos.x, rc.om_pos.y, zlevel);
     if (terlist.size() != 0){
      int i = 0;
      //Navigate through results
@@ -2036,9 +2051,9 @@ point overmap::draw_overmap(game *g, int zlevel)
        if(i < 0)
         i = terlist.size() - 1;
       }
-      cursx = terlist[i].x;
-      cursy = terlist[i].y;
-      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
+      rc.om_pos.x = terlist[i].x;
+      rc.om_pos.y = terlist[i].y;
+      center_om.draw(w_map, g, zlevel, rc.om_pos.x, rc.om_pos.y, origx, origy, ch, blink, hori, vert, diag, &ictxt);
       wrefresh(w_search);
       timeout(BLINK_SPEED);
      } while(ch != '\n' && ch != ' ' && ch != 'q' && ch != KEY_ESCAPE);
@@ -2046,13 +2061,22 @@ point overmap::draw_overmap(game *g, int zlevel)
      if(ch == 'q' || ch == KEY_ESCAPE){
       cursx = tmpx;
       cursy = tmpy;
+     } else {
+      // Translate coords relative to center_om back to relative to this
+      real_coords rct;
+      rct.fromomap(center_om.pos().x, center_om.pos().y, rc.om_pos.x, rc.om_pos.y);
+      cursx = rct.abs_pos.x / (2 * SEEX);
+      cursy = rct.abs_pos.y / (2 * SEEX);
      }
      ch = '.';
     }
    }
    if (found.x != -1) {
-    cursx = found.x;
-    cursy = found.y;
+    // Translate coords relative to center_om back to relative to this
+    real_coords rct;
+    rct.fromomap(center_om.pos().x, center_om.pos().y, found.x, found.y);
+    cursx = rct.abs_pos.x / (2 * SEEX);
+    cursy = rct.abs_pos.y / (2 * SEEX);
    }
   }
   else if (action == "ANY_INPUT") { // Hit timeout on input, so make characters blink

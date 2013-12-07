@@ -91,8 +91,14 @@ class iuse
   int siphon           (player *p, item *it, bool t);
   int chainsaw_off     (player *p, item *it, bool t);
   int chainsaw_on      (player *p, item *it, bool t);
+  int cs_lajatang_off  (player *p, item *it, bool t);
+  int cs_lajatang_on   (player *p, item *it, bool t);
   int carver_off       (player *p, item *it, bool t);
   int carver_on        (player *p, item *it, bool t);
+  int trimmer_off      (player *p, item *it, bool t);
+  int trimmer_on       (player *p, item *it, bool t);
+  int circsaw_off      (player *p, item *it, bool t);
+  int circsaw_on       (player *p, item *it, bool t);
   int combatsaw_off    (player *p, item *it, bool t);
   int combatsaw_on     (player *p, item *it, bool t);
   int shishkebab_off   (player *p, item *it, bool t);

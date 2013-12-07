@@ -86,7 +86,7 @@ struct vpart_info
     bool has_flag(const std::string & flag) const {
         return flags.count(flag) != 0;
     }
-    bool has_flag(const vpart_bitflags & flag) const {
+    bool has_flag(const vpart_bitflags flag) const {
         return (bitflags & mfb(flag));
     }
 };

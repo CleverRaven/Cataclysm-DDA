@@ -142,9 +142,9 @@ public:
 
  bool in_climate_control(game *g);
 
- bool has_bionic(bionic_id b) const;
- bool has_active_bionic(bionic_id b) const;
- bool has_active_optcloak();
+ bool has_bionic(const bionic_id & b) const;
+ bool has_active_bionic(const bionic_id & b) const;
+ bool has_active_optcloak() const;
  void add_bionic(bionic_id b);
  void charge_power(int amount);
  void power_bionics(game *g);
@@ -395,7 +395,7 @@ public:
  std::string weapname(bool charges = true);
 
  item& i_add(item it, game *g = NULL);
- bool has_active_item(itype_id id);
+ bool has_active_item(const itype_id & id) const;
  int  active_item_charges(itype_id id);
  void process_active_items(game *g);
  bool process_single_active_item(game *g, item *it); // returns false if it needs to be removed
@@ -410,8 +410,8 @@ public:
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
  int  butcher_factor(); // Automatically picks our best butchering tool
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
- bool is_wearing(itype_id it); // Are we wearing a specific itype?
- bool has_artifact_with(art_effect_passive effect);
+ bool is_wearing(const itype_id & it) const; // Are we wearing a specific itype?
+ bool has_artifact_with(const art_effect_passive effect) const;
  bool worn_with_flag( std::string flag ) const;
 
  bool covered_with_flag( const std::string flag, int parts ) const;
@@ -560,6 +560,9 @@ public:
  void set_underwater(bool);
 
  void environmental_revert_effect();
+
+ bool is_invisible() const;
+ int visibility( bool check_color = false, int stillness = 0 ) const; // just checks is_invisible for the moment
 
 protected:
     std::set<std::string> my_traits;
