@@ -766,7 +766,7 @@
       ["doublespeargun", 2],
       ["airspeargun", 2],
       ["fishspear", 4],
-      ["a_fishspear", 2],
+      ["m_fishspear", 2],
       ["c_fishspear", 2],
       ["u_shotgun", 5]
     ]
@@ -1771,7 +1771,7 @@
       ["doublespeargun", 8],
       ["airspeargun", 8],
       ["fishspear", 12],
-      ["a_fishspear", 10],
+      ["m_fishspear", 10],
       ["c_fishspear", 10],
       ["swim_fins", 20],
       ["leathersandals", 15]
@@ -3230,7 +3230,7 @@
       ["doublespeargun", 6],
       ["airspeargun", 4],
       ["fishspear", 4],
-      ["a_fishspear", 8],
+      ["m_fishspear", 8],
       ["c_fishspear", 8],
       ["rebreather", 5],
       ["leathersandals", 10]

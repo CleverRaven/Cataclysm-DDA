@@ -3237,6 +3237,67 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "fishspear",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools" : [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "bee_sting", 1 ]
+    ],
+    [
+      [ "scrap", 4 ]
+    ]
+  ]
+},{
+         "type" : "recipe",
+  "result": "m_fishspear",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication"
+  "difficulty": 4,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        ["hacksaw", -1],
+        ["toolset", -1]
+    ],
+    [
+      ["rock", -1],
+      ["primitive_hammer", -1],
+      ["hammer", -1],
+      ["hatchet", -1],
+      ["toolset", -1]
+    ]
+  ],
+  "components": [
+      [
+        ["steel_chunk", 3],
+        ["scrap", 8]
+      ]
+  ]
+},{
          "type" : "recipe",
   "result": "9mm",
   "category": "CC_AMMO",
@@ -22819,6 +22880,114 @@
     ],
     [
       [ "string_36", 1]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "speargun",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skills_required": [ "fabrication", 2 ],
+  "difficulty": 3,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "2x4", 2 ],
+      [ "stick", 2 ]
+    ],
+    [
+      [ "hose", 4 ]
+    ],
+    [
+      [ "scrap", 4 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "doublespeargun",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skills_required": [ "fabrication", 2 ],
+  "difficulty": 4,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "2x4", 3 ],
+      [ "stick", 3 ]
+    ],
+    [
+      [ "hose", 8 ]
+    ],
+    [
+      [ "scrap", 6 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "minispeargun",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skills_required": [ "fabrication", 2 ],
+  "difficulty": 4,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "2x4", 1 ],
+      [ "stick", 1 ]
+    ],
+    [
+      [ "hose", 2 ]
+    ],
+    [
+      [ "scrap", 3 ]
     ]
   ]
 },
