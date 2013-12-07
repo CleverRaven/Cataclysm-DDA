@@ -8687,7 +8687,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
 
                     // armour damage occurs only if damage exceeds armour absorption
                     // plus a luck factor, even if damage is below armour absorption (2% chance)
-                    if ((diff_bash > arm_bash && !one_in(diff_bash)) ||
+                    if ((dam > arm_bash && !one_in(diff_bash)) ||
                         (!worn[i].has_flag ("STURDY") && diff_bash == -1 && one_in(50)))
                     {
                         armor_damaged = true;
@@ -8698,7 +8698,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     // cut damage falls through to inner layers only if preceding layer was damaged
                     if (cut_through)
                     {
-                        if ((diff_cut > arm_cut && !one_in(diff_cut)) ||
+                        if ((cut > arm_cut && !one_in(diff_cut)) ||
                             (!worn[i].has_flag ("STURDY") && diff_cut == -1 && one_in(50)))
                         {
                             armor_damaged = true;
