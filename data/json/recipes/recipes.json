@@ -23857,6 +23857,45 @@
   ]
   },{
         "type" : "recipe",
+  "result": "bastsandals",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "plant_fibre", 140 ],
+      [ "sinew", 140 ],
+      [ "thread", 140 ]
+    ]
+  ]
+  },{
+        "type" : "recipe",
+  "result": "clogs",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "2x4", 2 ],
+      [ "stick", 2 ],
+      [ "splinter", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "brioche",
   "category": "CC_FOOD",
   "skill_used": "cooking",
