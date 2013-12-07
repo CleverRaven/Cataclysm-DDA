@@ -530,13 +530,11 @@ craft_cat game::prev_craft_cat(craft_cat cat)
 
 craft_subcat game::next_craft_subcat(craft_subcat subcat)
 {
-    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list.begin();
-         iter != craft_subcat_list.end();
-         ++iter)
+    for (size_t i = 0; i < craft_subcat_list.size(); i++)
     {
-        if ((*iter) == subcat)
+        if (craft_subcat_list[i] == subcat)
         {
-            return *(++iter);
+            return craft_subcat_list[(i + 1) % craft_subcat_list.size()];
         }
     }
     return NULL;
@@ -544,13 +542,11 @@ craft_subcat game::next_craft_subcat(craft_subcat subcat)
 
 craft_subcat game::prev_craft_subcat(craft_subcat subcat)
 {
-    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list.begin();
-         iter != craft_subcat_list.end();
-         ++iter)
+    for (size_t i = 0; i < craft_subcat_list.size(); i++)
     {
-        if ((*iter) == subcat)
+        if (craft_subcat_list[i] == subcat)
         {
-            return *(--iter);
+            return craft_subcat_list[(i + craft_subcat_list.size() - 1) % craft_subcat_list.size()];
         }
     }
     return NULL;
