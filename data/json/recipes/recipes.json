@@ -19142,9 +19142,47 @@
   "components":
     [
      [
-     [ "steel_lump", 2 ],
-     [ "steel_chunk", 8 ],
-     [ "scrap", 24 ]
+     [ "steel_chunk", 3 ],
+     [ "scrap", 9 ]
+     ],
+     [
+     [ "plastic_chunk", 1 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "diveknife",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 360000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 350], ["char_forge", 70]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_chunk", 2 ],
+     [ "scrap", 6 ]
+     ],
+     [
+     [ "plastic_chunk", 2 ]
      ]
     ]
 },{

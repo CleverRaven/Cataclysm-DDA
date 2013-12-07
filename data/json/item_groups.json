@@ -768,6 +768,7 @@
       ["fishspear", 4],
       ["m_fishspear", 2],
       ["c_fishspear", 2],
+      ["diveknife", 6],
       ["u_shotgun", 5]
     ]
     },{
@@ -1774,6 +1775,7 @@
       ["m_fishspear", 10],
       ["c_fishspear", 10],
       ["swim_fins", 20],
+      ["diveknife", 12],
       ["leathersandals", 15]
     ]
     },{
@@ -3233,6 +3235,7 @@
       ["m_fishspear", 8],
       ["c_fishspear", 8],
       ["rebreather", 5],
+      ["diveknife", 10],
       ["leathersandals", 10]
     ]
     },{
