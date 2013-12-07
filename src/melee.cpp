@@ -671,7 +671,7 @@ int player::roll_stab_damage(monster *z, bool crit)
   if (has_trait("THORNS"))
    ret += 4;
  } else if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
-  ret = int((weapon.damage_cut() - z_armor) / 4);
+  ret = int((weapon.damage_cut() - z_armor));
  else
   return 0; // Can't stab at all!
 
