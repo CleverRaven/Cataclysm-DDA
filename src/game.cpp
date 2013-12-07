@@ -774,7 +774,6 @@ bool game::do_turn()
     update_stair_monsters();
     u.reset(this);
     u.process_active_items(this);
-    u.suffer(this);
 
     if (levz >= 0 && !u.is_underwater()) {
         weather_effect weffect;
@@ -5086,6 +5085,7 @@ void game::cleanup_dead()
             dbg (D_INFO) << string_format( "cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
                                            i, critter.posx(), critter.posy(), (critter.dead?'1':'0'),
                                            critter.hp, critter.type->name.c_str() );
+            critter.die(this); // dies at the very end
             remove_zombie(i);
             if( last_target == i ) {
                 last_target = -1;
@@ -5226,7 +5226,6 @@ void game::monmove()
    active_npc[i]->die(this);
   else {
    active_npc[i]->reset(this);
-   active_npc[i]->suffer(this);
    while (!active_npc[i]->dead && active_npc[i]->moves > 0 && turns < 10) {
     turns++;
     active_npc[i]->move(this);
@@ -6282,7 +6281,6 @@ void game::kill_mon(monster& critter, bool u_did_it) {
   }
   for (int i = 0; i < critter.inv.size(); i++)
    m.add_item_or_charges(critter.posx(), critter.posy(), critter.inv[i]);
-  critter.die(this);
  }
 
 }

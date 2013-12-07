@@ -346,6 +346,8 @@ void player::reset_stats(game *g)
     blocks_left = get_num_blocks();
     dodges_left = get_num_dodges();
 
+    suffer(g);
+
     // Didn't just pick something up
     last_item = itype_id("null");
 
@@ -456,7 +458,6 @@ void player::reset_stats(game *g)
     if (int(g->turn) % 10 == 0) {
         update_mental_focus();
     }
-
     nv_cached = false;
 
     recalc_sight_limits();

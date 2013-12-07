@@ -307,7 +307,7 @@ void dis_effect(player &p, disease &dis) {
                                 (p.has_trait("POISRESIST") && one_in(500));
     switch(disType) {
         case DI_GLARE:
-            p.per_cur -= 1;
+            p.mod_per_bonus(-1);
             if (one_in(200)) {
                 g->add_msg(_("The sunlight's glare makes it hard to see."));
             }

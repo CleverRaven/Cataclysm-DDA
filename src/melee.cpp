@@ -911,7 +911,7 @@ std::string player::melee_special_effects(game *g, Creature &t, damage_instance&
         d.add_damage(DT_ELECTRIC, shock*rng(1,3));
 
         if (is_player())
-            dump << string_format(_("You shock %s."), target.c_str());
+            dump << string_format(_("You shock %s."), target.c_str()) << std::endl;
         else
             g->add_msg_player_or_npc(this, _("You shock %s."),
                                         _("<npcname> shocks %s."),
@@ -926,7 +926,7 @@ std::string player::melee_special_effects(game *g, Creature &t, damage_instance&
             g->add_msg_if_npc(this, _("<npcname> drains your body heat!"));
         } else {
             if (is_player())
-                dump << string_format(_("You drain %s's body heat."), target.c_str());
+                dump << string_format(_("You drain %s's body heat."), target.c_str()) << std::endl;
             else
                 g->add_msg_player_or_npc(this, _("You drain %s's body heat!"),
                                      _("<npcname> drains %s's body heat!"),
@@ -938,7 +938,7 @@ std::string player::melee_special_effects(game *g, Creature &t, damage_instance&
         d.add_damage(DT_HEAT, rng(1,8));
 
         if (is_player())
-            dump << string_format(_("You burn %s."), target.c_str());
+            dump << string_format(_("You burn %s."), target.c_str()) << std::endl;
         else
             g->add_msg_player_or_npc(this, _("You burn %s."),
                                         _("<npcname> burns %s."),

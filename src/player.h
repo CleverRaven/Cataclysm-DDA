@@ -500,10 +500,6 @@ public:
 
  int next_climate_control_check;
  bool last_climate_control_ret;
-// Current--i.e. modified by disease, pain, etc.
- int str_cur, dex_cur, int_cur, per_cur;
-// Maximum--i.e. unmodified by disease
- int str_max, dex_max, int_max, per_max;
  int power_level, max_power_level;
  int hunger, thirst, fatigue, health;
  int oxygen;
