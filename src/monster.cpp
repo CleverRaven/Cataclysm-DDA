@@ -582,6 +582,11 @@ bool monster::block_hit(game *g, body_part &bp_hit, int &side,
     return false;
 }
 
+void monster::absorb_hit(game *g, body_part bp, int side,
+        damage_instance &dam) {
+    return;
+}
+
 
 int monster::hit(game *g, Creature &p, body_part &bp_hit) {
  int ret = 0;

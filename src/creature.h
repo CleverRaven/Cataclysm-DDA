@@ -55,19 +55,16 @@ class Creature
         virtual int hit(game *g, Creature* source, body_part bphurt, int side,
                 int dam, int cut);
 
-        /*
-        virtual int hit(game *g, body_part bphurt, int side,
-                int dam, int cut) {
-            hit(g,NULL,bphurt,side,dam,cut);
-        }
-        */
 
         // handles blocking of damage instance. mutates &dam
         virtual bool block_hit(game *g, body_part &bp_hit, int &side,
             damage_instance &dam) = 0;
 
-        // these also differ between player and monster (player takes
-        // body_part) but we will use this for now
+        // handles armor absorption (including clothing damage etc)
+        // of damage instance. mutates &dam
+        virtual void absorb_hit(game *g, body_part bp, int side,
+                damage_instance &dam) = 0;
+
         // TODO: this is just a shim so knockbacks work
         virtual void knock_back_from(game *g, int posx, int posy) = 0;
 
@@ -86,10 +83,12 @@ class Creature
         virtual int deal_projectile_attack(game* g, Creature* source, float missed_by, bool dodgeable,
                 damage_instance& d, dealt_damage_instance &dealt_dam);
 
-        // deals the damage via an attack. Most sources of external damage
-        // should use deal_damage
+        // deals the damage via an attack. Allows armor mitigation etc.
+        // Most sources of external damage should use deal_damage
+        // Mutates the damage_instance& object passed in to reflect the
+        // post-mitigation object
         virtual dealt_damage_instance deal_damage(game* g,
-                Creature* source, body_part bp, int side, const damage_instance& d);
+                Creature* source, body_part bp, int side, damage_instance& d);
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type(const damage_unit& du,

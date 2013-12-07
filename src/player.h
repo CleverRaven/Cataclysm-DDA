@@ -223,6 +223,10 @@ public:
  bool block_hit(game *g, body_part &bp_hit, int &side,
     damage_instance &dam);
 
+ bool armor_absorb(damage_unit& du, item& armor);
+ void absorb_hit(game *g, body_part bp, int side,
+    damage_instance &dam);
+
  int base_damage(bool real_life = true, int stat = -999);
  int base_to_hit(bool real_life = true, int stat = -999);
 
@@ -275,7 +279,7 @@ public:
  void hurt (hp_part hurt, int dam);
 
  dealt_damage_instance deal_damage(game* g, Creature* source, body_part bp,
-         int side, const damage_instance& d);
+         int side, damage_instance& d);
  void apply_damage(game* g, Creature* source, body_part bp, int side, int amount);
 
  void mod_pain(int npain);

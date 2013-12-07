@@ -3688,7 +3688,7 @@ bool player::is_dead_state() {
 }
 
 dealt_damage_instance player::deal_damage(game* g, Creature* source, body_part bp,
-        int side, const damage_instance& d) {
+        int side, damage_instance& d) {
 
     dealt_damage_instance dealt_dams = Creature::deal_damage(g, source, bp, side, d);
     int dam = dealt_dams.total_damage();
@@ -8672,6 +8672,107 @@ int player::get_armor_cut_base(body_part bp)
  ret += rng(0, disease_intensity("armor_boost"));
  return ret;
 }
+
+void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
+    it_armor* tmp;
+    for (int i=0; i<p->worn.size(); i++) {
+        tmp = dynamic_cast<it_armor*>(p->worn[i].type);
+        if (tmp->covers & mfb(bp)) {
+            armor_indices.push_back(i);
+        }
+    }
+}
+// mutates du, returns true iff armor was damaged
+bool player::armor_absorb(damage_unit& du, item& armor) {
+    it_armor* armor_type = dynamic_cast<it_armor*>(armor.type);
+
+    float mitigation = 0; // total amount of damage mitigated
+    float effective_resist = 0;
+    bool armor_damaged = false;
+
+    switch (du.type) {
+    case DT_BASH:
+        effective_resist = std::max(armor.bash_resist() - du.res_pen,0)*du.res_mult;
+        break;
+    case DT_CUT:
+        effective_resist = std::max(armor.cut_resist() - du.res_pen,0)*du.res_mult;
+        break;
+    case DT_STAB: // stab differs from cut in that it ignores some armor
+        effective_resist = 0.8*std::max(armor.cut_resist() - du.res_pen,0)*du.res_mult;
+        break;
+    default: // TODO: DT_ACID/HEAT vs env protection, DT_COLD vs warmth
+        effective_resist = 0;
+    }
+
+    std::string pre_damage_name = armor.tname();
+
+    if (rng(0,100) < armor_type->coverage) {
+        if (armor_type->is_power_armor()) { // TODO: add some check for power armor
+        }
+
+        mitigation = std::min(effective_resist, du.amount);
+        du.amount -= mitigation; // mitigate the damage first
+
+        // if the post-mitigation amount is greater than the amount
+        if ((du.amount > effective_resist && !one_in(du.amount) && one_in(2)) ||
+                // or if it isn't, but 1/50 chance
+                (du.amount <= effective_resist && !armor.has_flag("STURDY")
+                && !armor_type->is_power_armor() && one_in(200))) {
+            armor_damaged = true;
+            armor.damage++;
+            std::string damage_verb = du.type == DT_BASH
+                ? armor_type->bash_dmg_verb()
+                : armor_type->cut_dmg_verb();
+            g->add_msg_if_player(this, _("Your %s is %s!"), pre_damage_name.c_str(),
+                                    damage_verb.c_str());
+        }
+    }
+    return armor_damaged;
+}
+void player::absorb_hit(game *g, body_part bp, int side,
+        damage_instance &dam) {
+    std::vector<int> armor_indices;
+
+    get_armor_on(this,bp,armor_indices);
+    for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
+            it != dam.damage_units.end(); ++it) {
+        // CBMs absorb damage first before hitting armour
+        if (has_active_bionic("bio_ads")) {
+            if (it->amount > 0 && power_level > 1) {
+                if (it->type == DT_BASH)
+                    it->amount -= rng(1, 8);
+                else if (it->type == DT_CUT)
+                    it->amount -= rng(1, 4);
+                else if (it->type == DT_STAB)
+                    it->amount -= rng(1, 2);
+                power_level--;
+            }
+            if (it->amount < 0) it->amount = 0;
+        }
+
+        // TODO: do this properly, with std::remove_if or something
+        int offset = 0;
+        for (std::vector<int>::iterator armor_it = armor_indices.begin();
+                armor_it != armor_indices.end(); ++armor_it) {
+
+            int index = *armor_it + offset;
+
+            armor_absorb(*it, worn[index]);
+
+            // now check if armour was completely destroyed and display relevant messages
+            // TODO: use something less janky than the old code for this check
+            if (worn[index].damage >= 5) {
+                add_memorial_log(_("Worn %s was completely destroyed."), worn[index].tname().c_str());
+                g->add_msg_player_or_npc( this, _("Your %s is completely destroyed!"),
+                                            _("<npcname>'s %s is completely destroyed!"),
+                                            worn[index].tname().c_str() );
+                worn.erase(worn.begin() + index);
+                offset--;
+            }
+        }
+    }
+}
+
 
 void player::absorb(game *g, body_part bp, int &dam, int &cut)
 {

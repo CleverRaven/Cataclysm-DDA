@@ -193,6 +193,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     bool has_weapon();
     bool is_dead_state(); // check if we should be dead or not
 
+    void absorb_hit(game *g, body_part bp, int side,
+            damage_instance &dam);
     bool block_hit(game *g, body_part &bp_hit, int &side,
         damage_instance &d);
     int melee_attack(game *g, Creature &t, bool allow_special = true); // Returns a damage

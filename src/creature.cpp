@@ -144,7 +144,8 @@ int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targ
             */
             g->add_msg(_("You hit the %s for %d damage."),
                     z.disp_name().c_str(), dam);
-            z.deal_damage(g, this, bp_torso, 3, damage_instance::physical(0,dam,0));
+            damage_instance d = damage_instance::physical(0,dam,0);
+            z.deal_damage(g, this, bp_torso, 3, d);
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
             //splatter(this, blood_traj, dam, &z); TODO: add splatter effects
@@ -276,11 +277,13 @@ int Creature::deal_projectile_attack(game* g, Creature* source, float missed_by,
 }
 
 dealt_damage_instance Creature::deal_damage(game* g, Creature* source, body_part bp, int side,
-        const damage_instance& d) {
+        damage_instance& d) {
     int total_damage = 0;
     int total_pain = 0;
 
     std::vector<int> dealt_dams(NUM_DT, 0);
+
+    absorb_hit(g, bp, side, d);
 
     // add up all the damage units dealt
     int cur_damage;
@@ -301,19 +304,16 @@ dealt_damage_instance Creature::deal_damage(game* g, Creature* source, body_part
 void Creature::deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain) {
     switch (du.type) {
     case DT_BASH:
-        damage += du.amount -
-            std::max(get_armor_bash(bp) - du.res_pen,0)*du.res_mult;
+        damage += du.amount;
         pain += du.amount / 4; // add up pain before using mod_pain since certain traits modify that
         mod_moves(-rng(0,damage*2)); // bashing damage reduces moves
         break;
     case DT_CUT:
-        damage += du.amount -
-            std::max(get_armor_cut(bp) - du.res_pen,0)*du.res_mult;
+        damage += du.amount;
         pain += (du.amount + sqrt(double(du.amount))) / 4;
         break;
     case DT_STAB: // stab differs from cut in that it ignores some armor
-        damage += du.amount -
-            0.8*std::max(get_armor_cut(bp) - du.res_pen,0)*du.res_mult;
+        damage += du.amount;
         pain += (du.amount + sqrt(double(du.amount))) / 4;
         break;
     case DT_HEAT: // heat damage sets us on fire sometimes

@@ -770,7 +770,7 @@ bool player::block_hit(game *g, body_part &bp_hit, int &side,
     ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
     // these fire even if the attack is blocked (you still got hit)
 
-    int total_phys_block = mabuff_block_bonus();
+    float total_phys_block = mabuff_block_bonus();
     bool conductive_weapon = weapon.conductive();
 
     if (unarmed_attack() && can_block()) {
@@ -798,7 +798,7 @@ bool player::block_hit(game *g, body_part &bp_hit, int &side,
     }
 
     float phys_mult = 1.0f;
-    int block_amount;
+    float block_amount;
     for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
             it != dam.damage_units.end(); ++it) {
         // block physical damage "normally"
@@ -965,11 +965,14 @@ std::string player::melee_special_effects(game *g, Creature &t, damage_instance&
 // Dump its contents on the ground
   for (int i = 0; i < weapon.contents.size(); i++)
    g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
+  damage_instance shatter_dam = damage_instance::physical(0,rng(0, weapon.volume() * 2),0);
   deal_damage(g, this, bp_arms, 1,
-          damage_instance::physical(0,rng(0, weapon.volume() * 2),0));// Take damage
-  if (weapon.is_two_handed(this))// Hurt left arm too, if it was big
-    deal_damage(g, this, bp_arms, 1,
-            damage_instance::physical(0,rng(0, weapon.volume() * 2),0));
+          shatter_dam);// Take damage
+  if (weapon.is_two_handed(this)) {// Hurt left arm too, if it was big
+      //redeclare shatter_dam because deal_damage mutates it
+    shatter_dam = damage_instance::physical(0,rng(0, weapon.volume() * 2),0);
+    deal_damage(g, this, bp_arms, 1, shatter_dam);
+  }
   d.add_damage(DT_CUT, rng(0, 5 + int(weapon.volume() * 1.5)));// Hurt the monster extra
   remove_weapon();
  }

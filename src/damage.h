@@ -36,11 +36,11 @@ enum blast_shape
 
 struct damage_unit {
     damage_type type;
-    int amount;
+    float amount;
     int res_pen;
     float res_mult;
 
-    damage_unit(damage_type dt, int a, int rp, float rm) :
+    damage_unit(damage_type dt, float a, int rp, float rm) :
         type(dt),
         amount(a),
         res_pen(rp),
@@ -54,27 +54,27 @@ struct damage_unit {
 struct damage_instance {
     std::vector<damage_unit> damage_units;
     damage_instance() { }
-    static damage_instance physical(int bash, int cut, int stab, int arpen = 0) {
+    static damage_instance physical(float bash, float cut, float stab, int arpen = 0) {
         damage_instance d;
         d.add_damage(DT_BASH, bash, arpen);
         d.add_damage(DT_CUT, cut, arpen);
         d.add_damage(DT_STAB, stab, arpen);
         return d;
     }
-    void add_damage(damage_type dt, int a, int rp = 0, float rm = 1.0f) {
+    void add_damage(damage_type dt, float a, int rp = 0, float rm = 1.0f) {
         damage_unit du(dt,a,rp,rm);
         damage_units.push_back(du);
     }
-    int type_damage(damage_type dt) const {
-        int ret = 0;
+    float type_damage(damage_type dt) const {
+        float ret = 0;
         for (std::vector<damage_unit>::const_iterator it = damage_units.begin();
                 it != damage_units.end(); ++it) {
             if (it->type == dt) ret += it->amount;
         }
         return ret;
     }
-    int total_damage() const {
-        int ret = 0;
+    float total_damage() const {
+        float ret = 0;
         for (std::vector<damage_unit>::const_iterator it = damage_units.begin();
                 it != damage_units.end(); ++it) {
             ret += it->amount;
