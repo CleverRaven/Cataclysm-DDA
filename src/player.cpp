@@ -8852,9 +8852,11 @@ bool player::is_wearing_shoes() {
         it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
 
         if (worn_armor->covers & mfb(bp_feet) &&
-            !(worn_item->made_of("wool") ||
-              worn_item->made_of("cotton") ||
-              worn_item->made_of("nomex"))) {
+            (!(worn_item->made_of("wool") && !worn_item->has_flag("SKINTIGHT")) ||
+              (worn_item->made_of("cotton") && !worn_item->has_flag("SKINTIGHT")) ||
+              (worn_item->made_of("wood") && !worn_item->has_flag("SKINTIGHT")) ||
+              (worn_item->made_of("nomex") && !worn_item->has_flag("SKINTIGHT"))) &&
+              (!worn_item->has_flag("SKINTIGHT"))) {
             return true;
         }
     }
