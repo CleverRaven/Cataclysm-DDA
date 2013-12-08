@@ -503,11 +503,8 @@ void game::long_craft()
 craft_cat game::next_craft_cat(craft_cat cat)
 {
     for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
-         iter != craft_cat_list.end();
-         ++iter)
-    {
-        if ((*iter) == cat)
-        {
+         iter != craft_cat_list.end(); ++iter) {
+        if ((*iter) == cat) {
             return *(++iter);
         }
     }
@@ -517,11 +514,8 @@ craft_cat game::next_craft_cat(craft_cat cat)
 craft_cat game::prev_craft_cat(craft_cat cat)
 {
     for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
-         iter != craft_cat_list.end();
-         ++iter)
-    {
-        if ((*iter) == cat)
-        {
+         iter != craft_cat_list.end(); ++iter) {
+        if ((*iter) == cat) {
             return *(--iter);
         }
     }
@@ -531,11 +525,8 @@ craft_cat game::prev_craft_cat(craft_cat cat)
 craft_subcat game::next_craft_subcat(craft_subcat subcat)
 {
     for (std::vector<craft_subcat>::iterator iter = craft_subcat_list.begin();
-         iter != craft_subcat_list.end();
-         ++iter)
-    {
-        if ((*iter) == subcat)
-        {
+         iter != craft_subcat_list.end(); ++iter) {
+        if ((*iter) == subcat) {
             return *(++iter);
         }
     }
@@ -545,11 +536,8 @@ craft_subcat game::next_craft_subcat(craft_subcat subcat)
 craft_subcat game::prev_craft_subcat(craft_subcat subcat)
 {
     for (std::vector<craft_subcat>::iterator iter = craft_subcat_list.begin();
-         iter != craft_subcat_list.end();
-         ++iter)
-    {
-        if ((*iter) == subcat)
-        {
+         iter != craft_subcat_list.end(); ++iter) {
+        if ((*iter) == subcat) {
             return *(--iter);
         }
     }
