@@ -1378,12 +1378,6 @@ int random_skill()
     return rng(1, Skill::skills.size() - 1);
 }
 
-int random_profession()
-{
-    return rng(1, Skill::skills.size() - 1);
-}
-
-
 int calc_HP(int strength, bool tough)
 {
     return int((60 + 3 * strength) * (tough ? 1.2 : 1));
