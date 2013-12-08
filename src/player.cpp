@@ -4056,20 +4056,20 @@ void player::knock_back_from(game *g, int x, int y)
 // First, see if we hit a monster
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
-  monster *z = &(g->zombie(mondex));
-  hit(g, this, bp_torso, -1, z->type->size, 0);
+  monster *critter = &(g->zombie(mondex));
+  hit(g, this, bp_torso, -1, critter->type->size, 0);
   add_effect("effect_stunned", 1);
-  if ((str_max - 6) / 4 > z->type->size) {
-   z->knock_back_from(g, posx, posy); // Chain reaction!
-   z->hurt((str_max - 6) / 4);
-   z->add_effect("effect_stunned", 1);
-  } else if ((str_max - 6) / 4 == z->type->size) {
-   z->hurt((str_max - 6) / 4);
-   z->add_effect("effect_stunned", 1);
+  if ((str_max - 6) / 4 > critter->type->size) {
+   critter->knock_back_from(g, posx, posy); // Chain reaction!
+   critter->hurt((str_max - 6) / 4);
+   critter->add_effect("effect_stunned", 1);
+  } else if ((str_max - 6) / 4 == critter->type->size) {
+   critter->hurt((str_max - 6) / 4);
+   critter->add_effect("effect_stunned", 1);
   }
 
   g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
-                            z->name().c_str() );
+                            critter->name().c_str() );
 
   return;
  }
