@@ -278,7 +278,8 @@ int Creature::deal_melee_attack(game* g, Creature* source, int hitroll, bool cri
         mod_moves(-stab_moves);
     block_hit(g, bp_hit, side, d);
 
-    dealt_dam = deal_damage(g, this, bp_hit, side, d);
+    on_gethit(g, source, bp_hit, d); // trigger on-gethit events
+    dealt_dam = deal_damage(g, source, bp_hit, side, d);
 
     /* TODO: add grabs n shit back in
     if (allow_special && technique.grabs) {
@@ -516,6 +517,13 @@ void Creature::mod_moves(int nmoves) {
 }
 
 /*
+ * Killer-related things
+ */
+Creature* Creature::get_killer() {
+    return killer;
+}
+
+/*
  * Innate stats getters
  */
 
@@ -748,6 +756,14 @@ void Creature::set_grab_resist(int ngrabres) {
 }
 void Creature::set_throw_resist(int nthrowres) {
     throw_resist = nthrowres;
+}
+
+/*
+ * Event handlers
+ */
+
+void Creature::on_gethit(game *g, Creature *source, body_part bp_hit, damage_instance &dam) {
+    // does nothing by default
 }
 
 /*

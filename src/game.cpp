@@ -5086,6 +5086,11 @@ void game::cleanup_dead()
                                            i, critter.posx(), critter.posy(), (critter.dead?'1':'0'),
                                            critter.hp, critter.type->name.c_str() );
             critter.die(this); // dies at the very end
+            if (critter.get_killer()->is_player() &&
+                    critter.has_flag(MF_GUILT)) {
+                mdeath tmpdeath;
+                tmpdeath.guilt(&critter);
+            }
             remove_zombie(i);
             if( last_target == i ) {
                 last_target = -1;
@@ -6269,10 +6274,6 @@ void game::kill_mon(monster& critter, bool u_did_it) {
  if (!critter.dead) {
   critter.dead = true;
   if (u_did_it) {
-   if (critter.has_flag(MF_GUILT)) {
-    mdeath tmpdeath;
-    tmpdeath.guilt(&critter);
-   }
    if (!critter.is_hallucination()) {
     kills[critter.type->id]++; // Increment our kill counter
    }

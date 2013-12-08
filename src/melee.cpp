@@ -99,7 +99,6 @@ int player::hit_roll()
  if (sides < 2)
   sides = 2;
 
-
  numdice += best_bonus; // Use whichever bonus is best.
 
 // Drunken master makes us hit better
@@ -126,7 +125,7 @@ int player::hit_roll()
 
 // Melee calculation is two parts. In melee_attack, we calculate if we would
 // hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-int player::melee_attack(game *g, Creature &t, bool allow_special) {
+void player::melee_attack(game *g, Creature &t, bool allow_special) {
     bool is_u = (this == &(g->u)); // Affects how we'll display messages
     if (!t.is_player()) {
         t.add_effect("effect_hit_by_player", 100); // Flag as attacked by us for AI
@@ -203,11 +202,11 @@ int player::melee_attack(game *g, Creature &t, bool allow_special) {
         if (!is_quiet()) // check martial arts silence
             g->sound(posx, posy, 8, "");
 
-        int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
+        int dam = dealt_dam.total_damage();
 
-        bool bashing = (bash_dam >= 10 && !unarmed_attack());
-        bool cutting = (cut_dam >= 10 && cut_dam >= stab_dam);
-        bool stabbing = (stab_dam >= 10 && stab_dam >= cut_dam);
+        bool bashing = (d.type_damage(DT_BASH) >= 10 && !unarmed_attack());
+        bool cutting = (d.type_damage(DT_CUT) >= 10);
+        bool stabbing = (d.type_damage(DT_STAB) >= 10);
 
         melee_practice(g->turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
 
@@ -225,7 +224,7 @@ int player::melee_attack(game *g, Creature &t, bool allow_special) {
 
     ma_onattack_effects(); // trigger martial arts on-attack effects
 
-    return 0;
+    return;
 }
 
 int stumble(player &u)

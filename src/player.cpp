@@ -335,9 +335,8 @@ std::string player::skin_name() {
 }
 
 // just a shim for now since actual player death is handled in game::is_game_over
-void player::die(game* g, Creature* killer) {
-    (void)g;(void)killer; 
-    return;
+void player::die(game* g, Creature* nkiller) {
+    killer = nkiller;
 }
 
 void player::reset_stats(game *g)
@@ -3690,6 +3689,61 @@ int player::intimidation()
 
 bool player::is_dead_state() {
     return hp_cur[hp_head] <= 0 || hp_cur[hp_head] <= 0;
+}
+
+void player::on_gethit(game *g, Creature *source, body_part bp_hit,
+        damage_instance &dam) {
+    bool u_see = g->u_see(this);
+    if (is_player())
+    {
+        if (g->u.activity.type == ACT_RELOAD)
+        {
+            g->add_msg(_("You stop reloading."));
+        }
+        else if (g->u.activity.type == ACT_READ)
+        {
+            g->add_msg(_("You stop reading."));
+        }
+        else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
+        {
+            g->add_msg(_("You stop crafting."));
+            g->u.activity.type = ACT_NULL;
+        }
+    }
+    if (source != NULL) {
+        if (has_active_bionic("bio_ods"))
+        {
+            if (is_player()) {
+                g->add_msg(_("Your offensive defense system shocks %s in mid-attack!"),
+                            source->disp_name().c_str());
+            } else if (u_see) {
+                g->add_msg(_("%s's offensive defense system shocks %s in mid-attack!"),
+                            disp_name().c_str(),
+                            source->disp_name().c_str());
+            }
+            damage_instance ods_shock_damage;
+            ods_shock_damage.add_damage(DT_ELECTRIC, rng(10,40));
+            source->deal_damage(g, this, bp_torso, 3, ods_shock_damage);
+        }
+        if (encumb(bp_hit) == 0 &&(has_trait("SPINES") || has_trait("QUILLS")))
+        {
+            int spine = rng(1, (has_trait("QUILLS") ? 20 : 8));
+            if (!is_player()) {
+                if( u_see ) {
+                    g->add_msg(_("%1$s's %2$s puncture %s in mid-attack!"), name.c_str(),
+                                (g->u.has_trait("QUILLS") ? _("quills") : _("spines")),
+                                source->disp_name().c_str());
+                }
+            } else {
+                g->add_msg(_("Your %s puncture %s in mid-attack!"),
+                            (g->u.has_trait("QUILLS") ? _("quills") : _("spines")),
+                            source->disp_name().c_str());
+            }
+            damage_instance spine_damage;
+            spine_damage.add_damage(DT_STAB, spine);
+            source->deal_damage(g, this, bp_torso, 3, spine_damage);
+        }
+    }
 }
 
 dealt_damage_instance player::deal_damage(game* g, Creature* source, body_part bp,
