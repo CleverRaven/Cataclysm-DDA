@@ -26,7 +26,6 @@ int Creature_tracker::mon_at(point coords) const
         }
     }
     return -1;
-
 }
 
 
@@ -104,7 +103,7 @@ void Creature_tracker::clear()
 
 void Creature_tracker::rebuild_cache()
 {
-    clear();
+    _old_monsters_by_location.clear();
     for (int ii = 0, max_ii = size(); ii < max_ii; ii++) {
         monster &critter = _old_monsters_list[ii];
         _old_monsters_by_location[point(critter.posx(), critter.posy())] = ii;
