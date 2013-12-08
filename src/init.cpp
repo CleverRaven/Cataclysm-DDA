@@ -136,7 +136,6 @@ void init_data_structures()
     type_function_map["SPECIES"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_species);
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
-    type_function_map["recipe_subcategory"] = new StaticFunctionAccessor(&load_recipe_subcategory);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
     type_function_map["tool_quality"] = new StaticFunctionAccessor(&load_quality);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
