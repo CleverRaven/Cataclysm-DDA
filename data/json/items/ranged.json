@@ -2939,7 +2939,7 @@
     "to_hit": -2,
     "ranged_damage": 0,
     "range": 0,
-    "dispersion": 5,
+    "dispersion": 0,
     "recoil": 0,
     "durability": 8,
     "burst": 0,

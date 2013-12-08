@@ -6290,6 +6290,9 @@ bool player::consume(game *g, signed char ch)
     if(ch == -2) {
         g->add_msg(_("You do not have that item."));
         return false;
+    } if (is_underwater()) {
+        g->add_msg_if_player(this, _("You can't do that while underwater."));
+        return false;
     } else if (ch == -1) {
         // Consume your current weapon
         if (weapon.is_food_container(this)) {
@@ -6467,6 +6470,10 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
                        itypes[comest->tool]->name.c_str());
             return false;
         }
+    }
+    if (is_underwater()) {
+        g->add_msg_if_player(this, _("You can't do that while underwater."));
+        return false;
     }
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
                        comest->nutr >= 5);

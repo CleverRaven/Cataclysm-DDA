@@ -1361,6 +1361,10 @@ int iuse::catfood(player *p, item *it, bool t)
 
 bool prep_firestarter_use(player *p, item *it, int &posx, int &posy)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return false;
+    }
     if (!g->choose_adjacent(_("Light where?"),posx,posy)) {
         return false;
     }
@@ -1793,6 +1797,10 @@ int iuse::hammer(player *p, item *it, bool t)
 
 int iuse::gasoline_lantern_off(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+ }
     if (it->charges == 0)
     {
         g->add_msg_if_player(p,_("The lantern is empty."));
@@ -1814,6 +1822,12 @@ int iuse::gasoline_lantern_off(player *p, item *it, bool t)
 
 int iuse::gasoline_lantern_on(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+  g->add_msg_if_player(p,_("The lantern is extinguished."));
+            it->make(itypes["gasoline_lantern"]);
+            it->active = false;
+        return 0;
+    }
     if (t)  // Normal use
     {
 // Do nothing... player::active_light and the lightmap::generate deal with this
@@ -2918,7 +2932,7 @@ int iuse::siphon(player *p, item *it, bool t)
 int iuse::combatsaw_off(player *p, item *it, bool t)
 {
  p->moves -= 60;
- if (it->charges > 0) {
+ if (it->charges > 0 && !p->is_underwater()) {
   g->sound(p->posx, p->posy, 30,
            _("With a snarl, the combat chainsaw screams to life!"));
   it->make(itypes["combatsaw_on"]);
@@ -2932,7 +2946,12 @@ int iuse::combatsaw_off(player *p, item *it, bool t)
 int iuse::combatsaw_on(player *p, item *it, bool t)
 {
  if (t) { // Effects while simply on
-  if (one_in(12)) {
+  if (p->is_underwater()) {
+   g->add_msg_if_player(p,_("Your chainsaw gurgles in the water and stops."));
+  it->make(itypes["combatsaw_off"]);
+  it->active = false;
+ }
+  else if (one_in(12)) {
    g->sound(p->posx, p->posy, 18, _("Your combat chainsaw growls."));
   }
  } else { // Toggling
@@ -2946,7 +2965,7 @@ int iuse::combatsaw_on(player *p, item *it, bool t)
 int iuse::chainsaw_off(player *p, item *it, bool t)
 {
  p->moves -= 80;
- if (rng(0, 10) - it->damage > 5 && it->charges > 0) {
+ if (rng(0, 10) - it->damage > 5 && it->charges > 0 && !p->is_underwater()) {
   g->sound(p->posx, p->posy, 20,
            _("With a roar, the chainsaw leaps to life!"));
   it->make(itypes["chainsaw_on"]);
@@ -2959,13 +2978,18 @@ int iuse::chainsaw_off(player *p, item *it, bool t)
 
 int iuse::chainsaw_on(player *p, item *it, bool t)
 {
- if (t) { // Effects while simply on
+   if (p->is_underwater()) {
+   g->add_msg_if_player(p,_("Your chainsaw gurgles in the water and stops."));
+  it->make(itypes["combatsaw_off"]);
+  it->active = false;
+ }
+  else if (t) { // Effects while simply on
   if (one_in(15)) {
    g->sound(p->posx, p->posy, 12, _("Your chainsaw rumbles."));
   }
  } else { // Toggling
   g->add_msg_if_player(p,_("Your chainsaw dies."));
-  it->make(itypes["chainsaw_off"]);
+  it->make(itypes["combatsaw_off"]);
   it->active = false;
  }
  return it->type->charges_to_use();
@@ -3007,7 +3031,7 @@ int iuse::shishkebab_off(player *p, item *it, bool t)
     case 1:
     {
         p->moves -= 10;
-        if (rng(0, 10) - it->damage > 5 && it->charges > 0) {
+        if (rng(0, 10) - it->damage > 5 && it->charges > 0 && !p->is_underwater()) {
             g->sound(p->posx, p->posy, 10,
                      _("Let's dance Zeds!"));
             it->make(itypes["shishkebab_on"]);
@@ -3029,7 +3053,12 @@ int iuse::shishkebab_off(player *p, item *it, bool t)
 
 int iuse::shishkebab_on(player *p, item *it, bool t)
 {
-    if (t)    // Effects while simply on
+      if (p->is_underwater()) {
+   g->add_msg_if_player(p,_("Your shishkebab hisses in the water and goes out."));
+  it->make(itypes["shishkebab_off"]);
+  it->active = false;
+ }
+  else if (t)    // Effects while simply on
     {
         if (one_in(25)) {
             g->sound(p->posx, p->posy, 10, _("Your shishkebab crackles!"));
@@ -3086,7 +3115,7 @@ int iuse::firemachete_off(player *p, item *it, bool t)
     case 1:
     {
         p->moves -= 10;
-        if (rng(0, 10) - it->damage > 2 && it->charges > 0)
+        if (rng(0, 10) - it->damage > 2 && it->charges > 0 && !p->is_underwater())
         {
             g->sound(p->posx, p->posy, 10, _("Your No. 9 glows!"));
             it->make(itypes["firemachete_on"]);
@@ -3110,7 +3139,12 @@ int iuse::firemachete_on(player *p, item *it, bool t)
 {
     if (t)    // Effects while simply on
     {
-        if (one_in(25))
+              if (p->is_underwater()) {
+   g->add_msg_if_player(p,_("Your No. 9 hisses in the water and goes out."));
+  it->make(itypes["firemachete_off"]);
+  it->active = false;
+ }
+  else if (one_in(25))
             g->sound(p->posx, p->posy, 5, _("Your No. 9 hisses."));
         if (one_in(100))
         {
@@ -3162,7 +3196,7 @@ int iuse::broadfire_off(player *p, item *it, bool t)
     case 1:
     {
         p->moves -= 10;
-        if (it->charges > 0)
+        if (it->charges > 0 && !p->is_underwater())
         {
             g->sound(p->posx, p->posy, 10,
                      _("Charge!!"));
@@ -3185,7 +3219,12 @@ int iuse::broadfire_on(player *p, item *it, bool t)
 {
     if (t)    // Effects while simply on
     {
-        if (one_in(35)) {
+              if (p->is_underwater()) {
+   g->add_msg_if_player(p,_("Your sword hisses in the water and goes out."));
+  it->make(itypes["broadfire_off"]);
+  it->active = false;
+ }
+  else if (one_in(35)) {
             g->add_msg_if_player(p,_("Your blade burns for combat!"));
         }
     }
@@ -3231,7 +3270,7 @@ int iuse::firekatana_off(player *p, item *it, bool t)
     case 1:
     {
         p->moves -= 10;
-        if (it->charges > 0)
+        if (it->charges > 0 && !p->is_underwater())
         {
             g->sound(p->posx, p->posy, 10,
                      _("The Sun rises."));
@@ -3255,7 +3294,12 @@ int iuse::firekatana_on(player *p, item *it, bool t)
 {
     if (t)    // Effects while simply on
     {
-        if (one_in(35)) {
+              if (p->is_underwater()) {
+   g->add_msg_if_player(p,_("Your sword hisses in the water and goes out."));
+  it->make(itypes["firekatana_off"]);
+  it->active = false;
+ }
+  else if (one_in(35)) {
             g->add_msg_if_player(p,_("The Sun shines brightly."));
         }
     }
@@ -3301,7 +3345,7 @@ int iuse::zweifire_off(player *p, item *it, bool t)
     case 1:
     {
         p->moves -= 10;
-        if (it->charges > 0)
+        if (it->charges > 0 && !p->is_underwater())
         {
             g->sound(p->posx, p->posy, 10,
                      _("Die Klinge deines Schwertes brennt!"));
@@ -3327,7 +3371,12 @@ int iuse::zweifire_on(player *p, item *it, bool t)
 {
     if (t)    // Effects while simply on
     {
-        if (one_in(35)) {
+              if (p->is_underwater()) {
+   g->add_msg_if_player(p,_("Dein Schwert zischt und erlischt."));
+  it->make(itypes["zweifire_off"]);
+  it->active = false;
+ }
+  else if (one_in(35)) {
             //~ (Flammenschwert) "The fire on your blade burns brightly!"
             g->add_msg_if_player(p,_("Das Feuer um deine Schwertklinge leuchtet hell!"));
         }
@@ -3379,6 +3428,10 @@ int iuse::zweifire_on(player *p, item *it, bool t)
 
 int iuse::jackhammer(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+ }
  int dirx, diry;
  if(!g->choose_adjacent(_("Drill where?"),dirx,diry)) {
   return 0;
@@ -3409,6 +3462,10 @@ int iuse::jackhammer(player *p, item *it, bool t)
 
 int iuse::jacqueshammer(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+ }
  // translator comments for everything to reduce confusion
  int dirx, diry;
  g->draw();
@@ -3457,6 +3514,10 @@ int iuse::pickaxe(player *p, item *it, bool t)
 }
 int iuse::set_trap(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+ }
  int dirx, diry;
  if(!g->choose_adjacent(_("Place trap where?"),dirx,diry)) {
   return 0;
@@ -3755,6 +3816,10 @@ int iuse::can_goo(player *p, item *it, bool t)
 
 int iuse::pipebomb(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
     if (!p->use_charges_if_avail("fire", 1)) {
         g->add_msg_if_player(p,_("You need a lighter!"));
         return 0;
@@ -4162,6 +4227,10 @@ int iuse::acidbomb_act(player *p, item *it, bool t)
 
 int iuse::arrow_flamable(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
  if (!p->use_charges_if_avail("fire", 1)) {
   g->add_msg_if_player(p,_("You need a lighter!"));
   return 0;
@@ -4174,6 +4243,10 @@ int iuse::arrow_flamable(player *p, item *it, bool t)
 
 int iuse::molotov(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
  if (!p->use_charges_if_avail("fire", 1)) {
   g->add_msg_if_player(p,_("You need a lighter!"));
   return 0;
@@ -4209,6 +4282,10 @@ int iuse::molotov_lit(player *p, item *it, bool t)
 
 int iuse::dynamite(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
  if (!p->use_charges_if_avail("fire", 1)) {
   g->add_msg_if_player(p,_("You need a lighter!"));
   return 0;
@@ -4237,8 +4314,12 @@ int iuse::dynamite_act(player *p, item *it, bool t)
     return 0;
 }
 
-int iuse::matchbomb(player *p, item *it, bool t) {
-    if( !p->use_charges_if_avail("fire", 1) ) {
+int iuse::matchbomb(player *p, item *it, bool t) 
+ { if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+  }
+   if( !p->use_charges_if_avail("fire", 1) ) {
         it->charges++;
         g->add_msg_if_player(p,_("You need a lighter!"));
         return 0;
@@ -4268,6 +4349,10 @@ int iuse::matchbomb_act(player *p, item *it, bool t) {
 
 int iuse::firecracker_pack(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
  if (!p->has_charges("fire", 1)) {
   g->add_msg_if_player(p,_("You need a lighter!"));
   return 0;
@@ -4363,6 +4448,10 @@ int iuse::firecracker_pack_act(player *p, item *it, bool t)
 
 int iuse::firecracker(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
  if (!p->use_charges_if_avail("fire", 1))
  {
   g->add_msg_if_player(p,_("You need a lighter!"));
@@ -4436,6 +4525,10 @@ int iuse::mininuke_act(player *p, item *it, bool t)
 
 int iuse::pheromone(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
  point pos(p->posx, p->posy);
 
  if (pos.x == -999 || pos.y == -999) {
@@ -5433,6 +5526,10 @@ int iuse::shelter(player *p, item *it, bool t)
 
 int iuse::torch(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
     if (!p->use_charges_if_avail("fire", 1)) {
         g->add_msg_if_player(p,_("You need a lighter or fire to light this."));
         return 0;
@@ -5447,6 +5544,12 @@ int iuse::torch(player *p, item *it, bool t)
 
 int iuse::torch_lit(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p,_("The torch is extinguished."));
+        it->make(itypes["torch"]);
+        it->active = false;
+        return 0;
+}
     if (t)
     {
         if (it->charges == 0)
@@ -5493,6 +5596,10 @@ int iuse::torch_lit(player *p, item *it, bool t)
 
 int iuse::battletorch(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
     if (!p->use_charges_if_avail("fire", 1)) {
         g->add_msg_if_player(p,_("You need a lighter or fire to light this."));
         return 0;
@@ -5507,6 +5614,12 @@ int iuse::battletorch(player *p, item *it, bool t)
 
 int iuse::battletorch_lit(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+  g->add_msg_if_player(p,_("The Louisville Slaughterer is extinguished."));
+  it->make(itypes["bat"]);
+  it->active = false;
+        return 0;
+    }
     if (t)
     {
         if (it->charges == 0)
@@ -5553,6 +5666,10 @@ int iuse::battletorch_lit(player *p, item *it, bool t)
 
 int iuse::candle(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
     if (!p->use_charges_if_avail("fire", 1)) {
         g->add_msg_if_player(p, _("You need a lighter to light this."));
         return 0;
@@ -5566,6 +5683,12 @@ int iuse::candle(player *p, item *it, bool t)
 
 int iuse::candle_lit(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+  g->add_msg_if_player(p,_("The candle is extinguished."));
+  it->make(itypes["candle"]);
+  it->active = false;
+        return 0;
+    }
  if (t) { // Normal use
 // Do nothing... player::active_light and the lightmap::generate deal with this
  } else { // Turning it off
@@ -5579,6 +5702,10 @@ int iuse::candle_lit(player *p, item *it, bool t)
 
 int iuse::bullet_puller(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
  char ch = g->inv(_("Disassemble what?"));
  item* pull = &(p->i_at(ch));
  if (pull->type->id == "null") {
@@ -5894,6 +6021,10 @@ int iuse::mop(player *p, item *it, bool t)
 
 int iuse::rag(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
     if (p->has_disease("bleed")){
         if (use_healing_item(p, it, 0, 0, 0, it->name, 50, 0, 0, false) != num_hp_parts) {
             p->use_charges("rag", 1);
