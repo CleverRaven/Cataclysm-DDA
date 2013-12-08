@@ -1112,7 +1112,7 @@ void map::step_in_field(int x, int y, game *g)
             //Tear gas will both give you teargas disease and/or blind you.
             if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
             {
-                g->u.infect("teargas", bp_mouth, 5, 20);
+                g->u.add_env_effect("effect_teargas", bp_mouth, 5, 20);
             }
             if (cur->getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
             {

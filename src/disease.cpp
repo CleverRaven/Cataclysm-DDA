@@ -24,7 +24,7 @@ enum dis_type_enum {
  DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER,
 // Fields - onfire moved to effects
- DI_SMOKE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
+ DI_CRUSHED, DI_BOULDERING,
 // Monsters
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_DEAF, DI_BLIND,
@@ -84,7 +84,6 @@ void game::init_diseases() {
     disease_type_lookup["common_cold"] = DI_COMMON_COLD;
     disease_type_lookup["flu"] = DI_FLU;
     disease_type_lookup["recover"] = DI_RECOVER;
-    disease_type_lookup["teargas"] = DI_TEARGAS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
     disease_type_lookup["boomered"] = DI_BOOMERED;
@@ -162,9 +161,6 @@ void dis_msg(dis_type type_string) {
     case DI_FLU:
         g->add_msg(_("You feel a flu coming on..."));
         g->u.add_memorial_log(_("Caught the flu."));
-        break;
-    case DI_TEARGAS:
-        g->add_msg(_("You inhale a lungful of tear gas."));
         break;
     case DI_CRUSHED:
         g->add_msg(_("The ceiling collapses on you!"));
@@ -658,15 +654,6 @@ void dis_effect(player &p, disease &dis) {
                 if (one_in(3600) || will_vomit(p)) {
                     p.vomit(g);
                 }
-            }
-            break;
-
-        case DI_TEARGAS:
-            p.str_cur -= 2;
-            p.dex_cur -= 2;
-            p.per_cur -= 5;
-            if (one_in(3)) {
-                handle_cough(p, 3);
             }
             break;
 
@@ -1449,7 +1436,6 @@ std::string dis_name(disease& dis)
 
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
-    case DI_TEARGAS: return _("Tear gas");
     case DI_BOOMERED: return _("Boomered");
     case DI_SAP: return _("Sap-coated");
 
@@ -1886,12 +1872,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         "Increased thirst;   Frequent coughing;   Occasional vomiting\n"
         "Strength - 4;   Dexterity - 2;   Intelligence - 2;   Perception - 1\n"
         "Symptoms alleviated by medication (Dayquil or Nyquil).");
-
-    case DI_TEARGAS:
-        return _(
-        "Strength - 2;   Dexterity - 2;   Intelligence - 1;   Perception - 4\n"
-        "Occasionally you will cough, costing movement and creating noise.\n"
-        "Loss of health - Torso");
 
     case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 

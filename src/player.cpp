@@ -4612,10 +4612,16 @@ void player::process_effects(game *g) {
             mod_str_bonus(-1);
             mod_dex_bonus(-1);
             it->set_intensity((it->get_duration()+190)/200);
-            if (it->get_duration() >= 10 && one_in(6)) {
+            if (it->get_intensity() >= 10 && one_in(6)) {
                 handle_cough(*this, it->get_intensity());
             }
-            break;
+        } else if (id == "effect_teargas") {
+            mod_str_bonus(-2);
+            mod_dex_bonus(-2);
+            mod_per_bonus(-5);
+            if (one_in(3)) {
+                handle_cough(*this, 4);
+            }
         }
     }
 
