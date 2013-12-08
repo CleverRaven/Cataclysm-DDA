@@ -3086,11 +3086,22 @@ int vehicle::damage (int p, int dmg, int type, bool aimed)
     else
     {
         // covered by armor -- damage armor first
-        dres = damage_direct (parm, dmg, type);
         // half damage for internal part(over parts not covered)
         bool overhead = part_flag(pdm, "ROOF") ||
                         part_info(pdm).location == "on_roof";
-        damage_direct (pdm, overhead ? dmg : dmg / 2, type);
+        // Calling damage_direct may remove the damaged part
+        // completely, therefor the other indes (pdm) becames
+        // wrong if pdm > parm.
+        // Damaging the part with the higher index first is save,
+        // as removing a part only changes indizes after the
+        // removed part.
+        if(parm < pdm) {
+            damage_direct (pdm, overhead ? dmg : dmg / 2, type);
+            dres = damage_direct (parm, dmg, type);
+        } else {
+            dres = damage_direct (parm, dmg, type);
+            damage_direct (pdm, overhead ? dmg : dmg / 2, type);
+        }
     }
     return dres;
 }
@@ -3154,19 +3165,18 @@ int vehicle::damage_direct (int p, int dmg, int type)
                         g->m.add_item_or_charges(x_pos, y_pos, part_as_item, true);
                         remove_part(parts_in_square[index]);
                     }
-                    /* After clearing the frame, remove it if normally legal to
-                     * do so (it's not holding the vehicle together). At a 
-                     * later date, some more complicated system (such as
-                     * actually making two vehicles from the split parts)
-                     * would be ideal. */
-                    if(can_unmount(p)) {
-                        if(g->u_see(x_pos, y_pos)) {
-                            g->add_msg(_("The %s's %s is destroyed!"),
-                                    name.c_str(), part_info(p).name.c_str());
-                        }
-                        break_part_into_pieces(p, x_pos, y_pos, true);
-                        remove_part(p);
+                }
+                /* After clearing the frame, remove it if normally legal to do
+                 * so (it's not holding the vehicle together). At a later date,
+                 * some more complicated system (such as actually making two
+                 * vehicles from the split parts) would be ideal. */
+                if(can_unmount(p)) {
+                    if(g->u_see(x_pos, y_pos)) {
+                        g->add_msg(_("The %s's %s is destroyed!"),
+                                name.c_str(), part_info(p).name.c_str());
                     }
+                    break_part_into_pieces(p, x_pos, y_pos, true);
+                    remove_part(p);
                 }
             } else {
                 //Just break it off
@@ -3177,7 +3187,6 @@ int vehicle::damage_direct (int p, int dmg, int type)
                 break_part_into_pieces(p, x_pos, y_pos, true);
                 remove_part(p);
             }
-            insides_dirty = true;
         }
         return dmg;
     }

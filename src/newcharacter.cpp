@@ -137,6 +137,19 @@ bool player::create(game *g, character_type type, std::string tempname)
                         }
                     }
                 }
+                int prof_index = rng(0, profession::count() - 1);
+                for(profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
+                    if(prof_index == 0) {
+                        profession *newprof = profession::prof(iter->first);
+                        if(newprof->can_pick(this, points) == "YES") {
+                            points -= newprof->point_cost();
+                            prof = newprof;
+                        }
+                        break;
+                    } else {
+                        prof_index--;
+                    }
+                }
                 while (points > 0) {
                     switch (rng((num_gtraits < max_trait_points ? 1 : 5), 9)) {
                         case 1:
