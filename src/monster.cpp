@@ -671,7 +671,7 @@ void monster::melee_attack(game *g, Creature &target, bool allow_grab) {
 
     body_part bp_hit;
     int highest_hit = 0;
-    int hitstat = type->melee_skill;
+    int hitstat = std::max(type->melee_skill - 2,0);
     int hitroll = dice(hitstat,10);
 
     damage_instance damage;
@@ -731,7 +731,7 @@ void monster::melee_attack(game *g, Creature &target, bool allow_grab) {
     }
 
     dealt_damage_instance dealt_dam;
-    target.deal_melee_attack(g, this, hitroll, false, damage, dealt_dam);
+    int hitspread = target.deal_melee_attack(g, this, hitroll, false, damage, dealt_dam);
 
     if (is_hallucination()) {
         if(one_in(7)) {
@@ -741,7 +741,6 @@ void monster::melee_attack(game *g, Creature &target, bool allow_grab) {
     }
 
     if (dealt_dam.total_damage() > 0) {
-        // TODO: characters practice dodge when a hit misses 'em
         if (target.is_player()) {
             if (u_see_me)
                 g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
@@ -755,6 +754,19 @@ void monster::melee_attack(game *g, Creature &target, bool allow_grab) {
                             target.disp_name().c_str(),
                             body_part_name(bp_hit, random_side(bp_hit)).c_str());
         }
+    } else if (hitspread < 0) { // a miss
+        // TODO: characters practice dodge when a hit misses 'em
+        if (target.is_player()) {
+            if (u_see_me)
+                g->add_msg(_("You dodge %1$s."), disp_name().c_str());
+            else
+                g->add_msg(_("You dodge an attack from an unseen source."));
+        } else {
+            if (u_see_me)
+                g->add_msg(_("The %1$s dodges %2$s's attack."), name().c_str(),
+                            target.disp_name().c_str());
+        }
+
     }
 
     // Adjust anger/morale of same-species monsters, if appropriate
