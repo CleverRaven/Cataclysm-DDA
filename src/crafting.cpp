@@ -152,6 +152,10 @@ void load_quality(JsonObject &jo)
 
 bool game::crafting_allowed()
 {
+    if (u.is_underwater()) {
+        g->add_msg(_("You can't do that while underwater."));
+        return false;
+    }
     if (u.morale_level() < MIN_MORALE_CRAFT)
     { // See morale.h
         add_msg(_("Your morale is too low to craft..."));

@@ -1222,7 +1222,7 @@ int player::run_cost(int base_cost, bool diag)
     if (has_trait("PONDEROUS3"))
         movecost *= 1.3f;
     if (is_wearing("swim_fins"))
-        movecost *= 1.4f;
+        movecost *= 1.5f;
 
     movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
@@ -4499,10 +4499,10 @@ void player::suffer(game *g)
         {
             oxygen--;
         }
-        if (oxygen < 10 && is_wearing("rebreather") &&
+        if (oxygen < 12 && is_wearing("rebreather") &&
             (has_active_item("UPS_on") || has_active_item("adv_UPS_on")))
             {
-                oxygen += 10;
+                oxygen += 12;
             }
         if (oxygen < 0)
         {
