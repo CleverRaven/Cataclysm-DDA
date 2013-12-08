@@ -248,11 +248,6 @@
    },
    {
       "type":"effect_type",
-      "id":"effect_wet",
-      "apply_message":"You're getting soaked!"
-   },
-   {
-      "type":"effect_type",
       "id":"effect_jetinjector",
       "apply_message":"You feel a rush as the chemicals flow through your body!"
    },

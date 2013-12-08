@@ -15,7 +15,7 @@
 enum dis_type_enum {
  DI_NULL,
 // Weather
- DI_GLARE, DI_WET,
+ DI_GLARE,
 // Temperature, the order is important (dependant on bodypart.h)
  DI_COLD,
  DI_FROSTBITE,
@@ -78,7 +78,6 @@ void game::init_diseases() {
 
     disease_type_lookup["null"] = DI_NULL;
     disease_type_lookup["glare"] = DI_GLARE;
-    disease_type_lookup["wet"] = DI_WET;
     disease_type_lookup["cold"] = DI_COLD;
     disease_type_lookup["frostbite"] = DI_FROSTBITE;
     disease_type_lookup["hot"] = DI_HOT;
@@ -160,9 +159,6 @@ void game::init_diseases() {
 void dis_msg(dis_type type_string) {
     dis_type_enum type = disease_type_lookup[type_string];
     switch (type) {
-    case DI_WET:
-        g->add_msg(_("You're getting soaked!"));
-        break;
     case DI_COMMON_COLD:
         g->add_msg(_("You feel a cold coming on..."));
         g->u.add_memorial_log(_("Caught a cold."));
@@ -303,10 +299,6 @@ void dis_effect(player &p, disease &dis) {
     bool inflictBadPsnPain = (!p.has_trait("POISRESIST") && one_in(100)) ||
                                 (p.has_trait("POISRESIST") && one_in(500));
     switch(disType) {
-        case DI_WET:
-            p.add_morale(MORALE_WET, -1, -50, 60, 10);
-            break;
-
         case DI_COLD:
             switch(dis.bp) {
                 case bp_head:
