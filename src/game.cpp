@@ -5487,12 +5487,12 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
  return;
 }
 
-void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
+void game::explosion(int x, int y, int power, int shrapnel, int element)
 {
  int radius = int(sqrt(double(power / 4)));
  int dam;
  std::string junk;
- int noise = power * (has_fire ? 2 : 10);
+ int noise = power * (element == NO_ELEMENT ? 2 : 10);
 
  if (power >= 30)
   sound(x, y, noise, _("a huge explosion!"));
@@ -5546,15 +5546,18 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     u.hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
     u.hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
    }
-   if (has_fire) {
+   if (element == HAS_FIRE) {
     m.add_field(this, i, j, fd_fire, dam / 10);
    }
   }
  }
 
 // Draw the explosion
- draw_explosion(x, y, radius, c_red);
-
+if (element == HAS_FIRE)
+    draw_explosion(x, y, radius, c_red);
+if (element == HAS_ICE)
+    draw_explosion(x, y, radius, c_blue);
+ 
 // The rest of the function is shrapnel
  if (shrapnel <= 0)
   return;
@@ -6076,7 +6079,9 @@ void game::resonance_cascade(int x, int y)
     m.destroy(this, i, j, true);
     break;
    case 19:
-    explosion(i, j, rng(1, 10), rng(0, 1) * rng(0, 6), one_in(4));
+    int element = NO_ELEMENT;
+    if (one_in(4)) element = HAS_FIRE;
+    explosion(i, j, rng(1, 10), rng(0, 1) * rng(0, 6), element);
     break;
    }
   }

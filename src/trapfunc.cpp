@@ -430,7 +430,7 @@ void trapfunc::landmine(int x, int y)
 {
  g->add_msg(_("You trigger a land mine!"));
  g->u.add_memorial_log(_("Stepped on a land mine."));
- g->explosion(x, y, 10, 8, false);
+ g->explosion(x, y, 10, 8);
  g->m.remove_trap(x, y);
 }
 
@@ -442,7 +442,7 @@ void trapfuncm::landmine(monster *z, int x, int y)
 
  if (g->u_see(x, y))
   g->add_msg(_("The %s steps on a land mine!"), z->name().c_str());
- g->explosion(x, y, 10, 8, false);
+ g->explosion(x, y, 10, 8);
  g->m.remove_trap(x, y);
 }
 
@@ -450,7 +450,7 @@ void trapfunc::boobytrap(int x, int y)
 {
  g->add_msg(_("You trigger a booby trap!"));
  g->u.add_memorial_log(_("Triggered a booby trap."));
- g->explosion(x, y, 18, 12, false);
+ g->explosion(x, y, 18, 12);
  g->m.remove_trap(x, y);
 }
 
@@ -458,7 +458,7 @@ void trapfuncm::boobytrap(monster *z, int x, int y)
 {
  if (g->u_see(x, y))
   g->add_msg(_("The %s triggers a booby trap!"), z->name().c_str());
- g->explosion(x, y, 18, 12, false);
+ g->explosion(x, y, 18, 12);
  g->m.remove_trap(x, y);
 }
 

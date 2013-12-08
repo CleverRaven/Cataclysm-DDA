@@ -4077,7 +4077,7 @@ int iuse::pipebomb_act(player *p, item *it, bool t)
   if (one_in(10) && g->u_see(pos.x, pos.y)) {
    g->add_msg(_("The pipe bomb fizzles out."));
   } else {
-   g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
+   g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4));
   }
  }
  return 0;
@@ -4104,7 +4104,7 @@ int iuse::grenade_act(player *p, item *it, bool t)
         g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
         return 0;
     } else { // When that timer runs down...
-        g->explosion(pos.x, pos.y, 12, 28, false);
+        g->explosion(pos.x, pos.y, 12, 28);
     }
     return 0;
 }
@@ -4290,7 +4290,7 @@ int iuse::c4armed(player *p, item *it, bool t)
   g->add_msg(_("You've already set the %s's timer, you might want to get away from it."), it->name.c_str());
   return 0;
  } else { // When that timer runs down...
-  g->explosion(pos.x, pos.y, 40, 3, false);
+  g->explosion(pos.x, pos.y, 40, 3);
  }
  return 0;
 }
@@ -4503,7 +4503,7 @@ int iuse::molotov_lit(player *p, item *it, bool t)
     } else {
         point pos = g->find_item(it);
         if (!t) {
-            g->explosion(pos.x, pos.y, 8, 0, true);
+            g->explosion(pos.x, pos.y, 8, 0, element = HAS_FIRE);
         }
     }
     return 0;
@@ -4534,7 +4534,7 @@ int iuse::dynamite_act(player *p, item *it, bool t)
         g->add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
         return 0;
     } else {
-        g->explosion(pos.x, pos.y, 60, 0, false);
+        g->explosion(pos.x, pos.y, 60, 0);
     }
     return 0;
 }
@@ -4563,7 +4563,7 @@ int iuse::matchbomb_act(player *p, item *it, bool t) {
         return 0;
     } else {
         // When that timer runs down...
-        g->explosion(pos.x, pos.y, 24, 0, false);
+        g->explosion(pos.x, pos.y, 24, 0);
     }
     return 0;
 }
@@ -4723,7 +4723,7 @@ int iuse::mininuke_act(player *p, item *it, bool t)
   g->add_msg(_("You've already set the %s's timer, you might want to get away from it."), it->name.c_str());
   return 0;
  } else { // When that timer runs down...
-  g->explosion(pos.x, pos.y, 200, 0, false);
+  g->explosion(pos.x, pos.y, 200, 0);
   int junk;
   for (int i = -4; i <= 4; i++) {
    for (int j = -4; j <= 4; j++) {
@@ -6264,7 +6264,7 @@ int iuse::artifact(player *p, item *it, bool t)
   case AEA_FIREBALL: {
    point fireball = g->look_around();
    if (fireball.x != -1 && fireball.y != -1)
-    g->explosion(fireball.x, fireball.y, 8, 0, true);
+    g->explosion(fireball.x, fireball.y, 8, 0, element = HAS_FIRE);
   } break;
 
   case AEA_ADRENALINE:

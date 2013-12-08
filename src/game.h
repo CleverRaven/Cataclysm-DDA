@@ -88,6 +88,15 @@ enum quit_status {
  QUIT_ERROR
 };
 
+enum explosion_element {
+ NO_ELEMENT = 0,    // Regular explosion
+ HAS_FIRE,          // Leaves fire behind
+ HAS_ICE,           // Blue color, leaves ice/snow behind
+ // HAS_ACID,          // Green color, leaves acid behind (not implemented yet)
+ HAS_ERROR
+};
+
+
 // Refactoring into base monster class.
 
 struct monster_and_count
@@ -159,8 +168,8 @@ class game
   std::vector<monster*> footsteps_source;
 // visual cue to monsters moving out of the players sight
   void draw_footsteps();
-// Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
-  void explosion(int x, int y, int power, int shrapnel, bool fire);
+// Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel, made of (element)
+  void explosion(int x, int y, int power, int shrapnel, int element = NO_ELEMENT);
 // Draws an explosion with set radius and color at the given location
   /* Defined later in this file */
   //void draw_explosion(int x, int y, int radius, nc_color col);
