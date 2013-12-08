@@ -14,7 +14,6 @@
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
 void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon);
-int calculate_range(player &p, int tarx, int tary);
 double calculate_missed_by(player &p, int trange, item* weapon);
 void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
                    item* weapon, const std::set<std::string> &effects);
@@ -84,6 +83,10 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         proj.proj_effects.insert(gun_effects->begin(),gun_effects->end());
     }
     proj.proj_effects.insert(curammo_effects->begin(),curammo_effects->end());
+
+    proj.wide = (weapon.curammo->phase == LIQUID ||
+            proj.proj_effects.count("SHOT") || proj.proj_effects.count("BOUNCE"));
+    proj.drops = (curammo->type == "bolt" || curammo->type == "arrow");
 
     //int x = xpos(), y = ypos();
     // Have to use the gun, gunmods don't have a type
@@ -187,7 +190,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
                 tarx = new_targets[target_picked].x;
                 tary = new_targets[target_picked].y;
                 zid = g->mon_at(tarx, tary);
-                /* TODO: get dat t back in? No idea what it does though,
+                /* TODO: get t back in? No idea what it does though,
                  * line.h comment is unhelpful because Bresenham doesn't have
                  * any well-known variants and produces a deterministic
                  * solution. Code in line.h makes it look like it curves the line?
@@ -281,17 +284,16 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         }
 
         make_gun_sound_effect(g, *this, burst, used_weapon);
-        int trange = calculate_range(*this, tarx, tary);
-        double missed_by = calculate_missed_by(*this, trange, used_weapon);
-        // Calculate a penalty based on the monster's speed
-        double monster_speed_penalty = 1.;
-        int target_index = g->mon_at(tarx, tary);
-        if (target_index != -1) {
-            monster_speed_penalty = double(g->zombie(target_index).speed) / 80.;
-            if (monster_speed_penalty < 1.) {
-                monster_speed_penalty = 1.;
-            }
-        }
+
+        double total_dispersion = get_weapon_dispersion(used_weapon);
+        int range = rl_dist(xpos(), ypos(), tarx, tary);
+        // penalties for point-blank
+        if (range < (firing->volume/3) && firing->ammo != "shot")
+            total_dispersion *= double(firing->volume/3) / double(range);
+
+        // rifle has less range penalty past LONG_RANGE
+        if (firing->skill_used == Skill::skill("rifle") && range > LONG_RANGE)
+            total_dispersion *= 1 - 0.4*double(range - LONG_RANGE) / double(range);
 
         if (curshot > 0) {
             if (recoil_add(*this) % 2 == 1) {
@@ -307,62 +309,20 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
         int adjusted_damage = used_weapon->gun_damage();
 
-        if (missed_by >= 1.) {
-            // We missed D:
-            // Shoot a random nearby space?
-            mtarx = tarx + rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
-            mtary = tary + rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
-            /* TODO: as above, figure out what the tart parameter does
-            if (m.sees(posx, posy, x, y, -1, tart)) {
-                trajectory = line_to(posx, posy, mtarx, mtary, tart);
-            } else {
-                trajectory = line_to(posx, posy, mtarx, mtary, 0);
-            }
-            */
-        } else if (missed_by >= .8 / monster_speed_penalty) {
-            // Hit the space, but not necessarily the monster there
-        } else {
-            if (missed_by <= .1) { // TODO: check for heads for headshot
-                g->add_msg(_("Headshot!"));
-                adjusted_damage = rng(5 * adjusted_damage, 8 * adjusted_damage);
-                practice(g->turn, firing->skill_used, 5);
-                lifetime_stats()->headshots++;
-            } else if (missed_by <= .2) {
-                g->add_msg(_("Critical!"));
-                adjusted_damage = rng(adjusted_damage * 2, adjusted_damage * 3);
-                practice(g->turn, firing->skill_used, 3);
-            } else if (missed_by <= .4) {
-                g->add_msg(_("Good hit!"));
-                adjusted_damage = rng(adjusted_damage , adjusted_damage * 2);
-                practice(g->turn, firing->skill_used, 2);
-            } else if (missed_by <= .6) {
-                adjusted_damage = rng(adjusted_damage / 2, adjusted_damage);
-                practice(g->turn, firing->skill_used, 1);
-            } else if (missed_by <= .8) {
-                g->add_msg(_("Grazing hit."));
-                adjusted_damage = rng(0, adjusted_damage);
-            } else {
-                adjusted_damage = 0;
-            }
-        }
-
-
         proj.impact = damage_instance::physical(0,adjusted_damage,0);
 
-        projectile_attack(g, proj, mtarx, mtary, missed_by);
+        double missed_by = projectile_attack(g, proj, mtarx, mtary, total_dispersion);
+        if (missed_by <= .1) { // TODO: check head existence for headshot
+            practice(g->turn, firing->skill_used, 5);
+            lifetime_stats()->headshots++;
+        } else if (missed_by <= .2) {
+            practice(g->turn, firing->skill_used, 3);
+        } else if (missed_by <= .4) {
+            practice(g->turn, firing->skill_used, 2);
+        } else if (missed_by <= .6) {
+            practice(g->turn, firing->skill_used, 1);
+        }
 
-        /* TODO: add bolt dropping back in
-        if (g->m.move_cost(tx, ty) == 0) {
-            tx = px;
-            ty = py;
-        }
-        if (is_bolt && !(proj_effects.count("IGNITE")) &&
-            !(proj_effects.count("EXPLOSIVE")) &&
-            ((curammo->m1 == "wood" && !one_in(5)) ||
-            (curammo->m1 != "wood" && !one_in(15))  )) {
-            g->m.add_item_or_charges(tx, ty, ammotmp);
-        }
-        */
     }
 
     if (used_weapon->num_charges() == 0) {
@@ -1012,77 +972,40 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
   g->sound(p.posx, p.posy, noise, gunsound);
 }
 
-int calculate_range(player &p, int tarx, int tary)
-{
- int trange = rl_dist(p.posx, p.posy, tarx, tary);
- it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
- if (trange < int(firing->volume / 3) && firing->ammo != "shot")
-  trange = int(firing->volume / 3);
- else if (p.has_bionic("bio_targeting")) {
-  if (trange > LONG_RANGE)
-   trange = int(trange * .65);
-  else
-   trange = int(trange * .8);
- }
-
- if (firing->skill_used == Skill::skill("rifle") && trange > LONG_RANGE)
-  trange = LONG_RANGE + .6 * (trange - LONG_RANGE);
-
- return trange;
-}
-
-/* TODO: replace calculate_missed with this version
 // utility functions for projectile_attack
-double calculate_missed_by(int trange, int dispersion, int hit) {
-    double deviation = 80. + dispersion;
+double player::get_weapon_dispersion(item *weapon) {
+    // constant offset, to make the value equivalent to the old numbers
+    double dispersion = 80
+        + weapon->curammo->dispersion
+        + weapon->dispersion()
+        + (recoil + driving_recoil) * 0.625;
 
-    deviation -= double(dice(hit, 10)) / 10.0;
+    // No type for gunmods,so use player weapon.
+    it_gun* firing = dynamic_cast<it_gun*>(weapon->type);
+
+    // Up to 0.75 degrees for each skill point < 8.
+    dispersion -= 3*skillLevel(firing->skill_used);
+    // Up to 0.25 deg per each skill point < 9.
+    dispersion -= skillLevel("gun");
+
+    dispersion -= 2*get_dex();
+    dispersion -= 2*get_per();
+
+    dispersion += 2*encumb(bp_arms) + 4*encumb(bp_eyes);
 
     // this is what the total bonus USED to look like
     // rng(0,x) on each term in the sum
     // 3 * skill + skill + 2 * dex + 2 * per
     // - 2*p.encumb(bp_arms) - 4*p.encumb(bp_eyes) - 5/8 * recoil
 
-    if (deviation < 0) { return 0; }
-    // .013 * trange is a computationally cheap version of finding the tangent.
-    // (note that .00325 * 4 = .013; .00325 is used because deviation is a number
-    //  of quarter-degrees)
-    // It's also generous; missed_by will be rather short.
-    return .00325 * deviation * trange;
-}
-*/
+    // old targeting bionic suddenly went from 0.8 to 0.65 when LONG_RANGE was
+    // crossed, so increasing range by 1 would actually increase accuracy by a
+    // lot. This is kind of a compromise
+    if (has_bionic("bio_targeting"))
+        dispersion *= 0.75;
 
-double calculate_missed_by(player &p, int trange, item* weapon)
-{
-    // No type for gunmods,so use player weapon.
-    it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
-    // Calculate deviation from intended target (assuming we shoot for the head)
-    double deviation = 0.; // Measured in quarter-degrees.
-    // Up to 0.75 degrees for each skill point < 8.
-    if (p.skillLevel(firing->skill_used) < 8) {
-        deviation += rng(0, 3 * (8 - p.skillLevel(firing->skill_used)));
-    }
-
-    // Up to 0.25 deg per each skill point < 9.
-    if (p.skillLevel("gun") < 9) { deviation += rng(0, 9 - p.skillLevel("gun")); }
-
-    deviation += rng(0, p.ranged_dex_mod());
-    deviation += rng(0, p.ranged_per_mod());
-
-    deviation += rng(0, 2 * p.encumb(bp_arms)) + rng(0, 4 * p.encumb(bp_eyes));
-
-    deviation += rng(0, weapon->curammo->dispersion);
-    // item::dispersion() doesn't support gunmods.
-    deviation += rng(0, p.weapon.dispersion());
-    int adj_recoil = p.recoil + p.driving_recoil;
-    deviation += rng(int(adj_recoil / 4), adj_recoil);
-
-    if (deviation < 0) { return 0; }
-    // .013 * trange is a computationally cheap version of finding the tangent.
-    // (note that .00325 * 4 = .013; .00325 is used because deviation is a number
-    //  of quarter-degrees)
-    // It's also generous; missed_by will be rather short.
-    return (.00325 * deviation * trange);
+    if (dispersion < 0) { return 0; }
+    return dispersion;
 }
 
 int recoil_add(player &p)

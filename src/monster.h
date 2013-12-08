@@ -199,6 +199,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     bool block_hit(game *g, body_part &bp_hit, int &side,
         damage_instance &d);
     int melee_attack(game *g, Creature &t, bool allow_special = true); // Returns a damage
+    virtual int deal_projectile_attack(game* g, Creature* source, double missed_by, bool dodgeable,
+            projectile& proj, dealt_damage_instance &dealt_dam);
     // TODO: this hit is not the same as the one from Creature, it hits other
     // things. Need to phase out
     int  hit(game *g, Creature &t, body_part &bp_hit); // Returns a damage

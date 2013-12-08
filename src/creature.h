@@ -42,9 +42,10 @@ class Creature
         // makes a single melee attack, with the currently equipped weapon
         virtual int melee_attack(game *g, Creature &t, bool allow_special) = 0; // Returns a damage
 
-        // fires a projectile at target point
-        virtual int projectile_attack(game *g, projectile &proj, int targetx, int targety,
-                double missed_by);
+        // fires a projectile at target point, with total_dispersion
+        // dispersion. returns the rolled dispersion of the shot.
+        virtual double projectile_attack(game *g, projectile &proj, int targetx, int targety,
+                double total_dispersion);
 
         /*
         // instantly deals damage at the target point
@@ -80,8 +81,8 @@ class Creature
         // makes a ranged projectile attack against the creature
         // dodgeable determines if the dodge stat applies or not, dodge is
         // reduced for ranged attacks
-        virtual int deal_projectile_attack(game* g, Creature* source, float missed_by, bool dodgeable,
-                damage_instance& d, dealt_damage_instance &dealt_dam);
+        virtual int deal_projectile_attack(game* g, Creature* source, double missed_by, bool dodgeable,
+                projectile& proj, dealt_damage_instance &dealt_dam);
 
         // deals the damage via an attack. Allows armor mitigation etc.
         // Most sources of external damage should use deal_damage

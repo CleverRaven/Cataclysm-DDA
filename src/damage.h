@@ -9,6 +9,9 @@
 #include <numeric>
 
 class game;
+class itype;
+class it_ammo;
+class item;
 
 enum damage_type
 {
@@ -53,54 +56,34 @@ struct damage_unit {
 // of damage at different armor mitigation/penetration values
 struct damage_instance {
     std::vector<damage_unit> damage_units;
-    damage_instance() { }
-    static damage_instance physical(float bash, float cut, float stab, int arpen = 0) {
-        damage_instance d;
-        d.add_damage(DT_BASH, bash, arpen);
-        d.add_damage(DT_CUT, cut, arpen);
-        d.add_damage(DT_STAB, stab, arpen);
-        return d;
-    }
-    void add_damage(damage_type dt, float a, int rp = 0, float rm = 1.0f) {
-        damage_unit du(dt,a,rp,rm);
-        damage_units.push_back(du);
-    }
-    float type_damage(damage_type dt) const {
-        float ret = 0;
-        for (std::vector<damage_unit>::const_iterator it = damage_units.begin();
-                it != damage_units.end(); ++it) {
-            if (it->type == dt) ret += it->amount;
-        }
-        return ret;
-    }
-    float total_damage() const {
-        float ret = 0;
-        for (std::vector<damage_unit>::const_iterator it = damage_units.begin();
-                it != damage_units.end(); ++it) {
-            ret += it->amount;
-        }
-        return ret;
-    }
+    damage_instance();
+    static damage_instance physical(float bash, float cut, float stab, int arpen = 0);
+    void add_damage(damage_type dt, float a, int rp = 0, float rm = 1.0f);
+    void mult_damage(double multiplier);
+    float type_damage(damage_type dt) const;
+    float total_damage() const;
 };
 
 struct dealt_damage_instance {
     std::vector<int> dealt_dams;
 
-    dealt_damage_instance() : dealt_dams(NUM_DT, 0) { }
-    dealt_damage_instance(std::vector<int> &dealt) : dealt_dams(dealt) { }
-    void set_damage(damage_type dt, int amount) {
-        dealt_dams[dt] = amount;
-    }
-    int type_damage(damage_type dt) const {
-        return dealt_dams[dt];
-    }
-    int total_damage() const {
-        return std::accumulate(dealt_dams.begin(),dealt_dams.end(),0);
-    }
+    dealt_damage_instance();
+    //TODO: add check to ensure length
+    dealt_damage_instance(std::vector<int> &dealt);
+    void set_damage(damage_type dt, int amount);
+    int type_damage(damage_type dt) const;
+    int total_damage() const;
 };
 
-class itype;
-class it_ammo;
+struct resistances {
+    std::vector<int> resist_vals;
+
+    resistances();
+
+    resistances(item& armor);
+    void set_resist(damage_type dt, int amount);
+    int type_resist(damage_type dt) const;
+};
 
 struct projectile {
     damage_instance impact;
@@ -108,19 +91,21 @@ struct projectile {
     blast_shape aoe_shape;
     nc_color aoe_color;
     int aoe_size;
+    bool drops; // does it drop ammo units?
+    bool wide; // a shot that "covers" the target, e.g. a shotgun blast or flamethrower napalm
 
     // TODO: things below here are here temporarily until we finish those
     // systems
     std::set<std::string> proj_effects;
     it_ammo *ammo; // projectile's item that gets spawned at impact location, e.g. thrown weapons/bolts
-    int num_spawn;
 
     projectile() :
         aoe_shape(BS_NONE),
         aoe_color(c_red),
         aoe_size(0),
-        ammo(NULL),
-        num_spawn(0)
+        drops(false),
+        wide(false),
+        ammo(NULL)
     { }
 };
 

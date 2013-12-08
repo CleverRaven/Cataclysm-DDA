@@ -867,9 +867,6 @@ void player::perform_special_attacks(game *g, Creature &t)
   if (!can_poison && one_in(2) && (dealt_dam.type_damage(DT_CUT) > 0 ||
         dealt_dam.type_damage(DT_STAB)))
    can_poison = true;
-
-  if (dealt_dam.total_damage() > 0)
-   g->add_msg( special_attacks[i].text.c_str() );
  }
 
  if (can_poison && has_trait("POISONOUS")) {
@@ -1235,18 +1232,16 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         }
 
         for (int i = 0; i < num_attacks; i++) {
-            if (one_in(18 - dex_cur - skillLevel("unarmed"))) {
-                special_attack tmp;
-                tmp.bash = str_cur / 2;
-                if (is_player()) {
-                    tmp.text = string_format(_("You slap %s with your tentacle!"),
-                                             target.c_str());
-                } else {
-                    tmp.text = string_format(_("%s slaps %s with their tentacle!"),
-                                             name.c_str(), target.c_str());
-                }
-                ret.push_back(tmp);
+            special_attack tmp;
+            tmp.bash = str_cur / 3 + 1;
+            if (is_player()) {
+                tmp.text = string_format(_("You slap %s with your tentacle!"),
+                                            target.c_str());
+            } else {
+                tmp.text = string_format(_("%s slaps %s with their tentacle!"),
+                                            name.c_str(), target.c_str());
             }
+            ret.push_back(tmp);
         }
      }
 

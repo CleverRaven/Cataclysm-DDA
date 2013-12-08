@@ -76,14 +76,40 @@ void Creature::reset_stats(game *g) {
  * Damage-related functions
  */
 
-int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targety,
-        double missed_by) {
+double Creature::projectile_attack(game *g, projectile &proj, int targetx, int targety,
+        double shot_dispersion) {
+    int range = rl_dist(xpos(),ypos(),targetx,targety);
     std::vector<point> trajectory = line_to(xpos(),ypos(),targetx,targety,0);
+
+    // .013 * trange is a computationally cheap version of finding the tangent.
+    // (note that .00325 * 4 = .013; .00325 is used because deviation is a number
+    //  of quarter-degrees)
+    // It's also generous; missed_by will be rather short.
+    double missed_by = double(dice(shot_dispersion,20))/20. * .00325 * range;
+
+    double damage_mult = 1.0;
+
+    if (missed_by >= 1.) {
+        // We missed D:
+        // Shoot a random nearby space?
+        targetx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
+        targety += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
+        /* TODO: as above, figure out what the tart parameter does
+        if (m.sees(posx, posy, x, y, -1, tart)) {
+            trajectory = line_to(posx, posy, mtarx, mtary, tart);
+        } else {
+            trajectory = line_to(posx, posy, mtarx, mtary, 0);
+        }
+        */
+    }
 
     // Set up a timespec for use in the nanosleep function below
     timespec ts;
     ts.tv_sec = 0;
     ts.tv_nsec = BULLET_SPEED;
+
+    proj.impact.mult_damage(damage_mult);
+    proj.payload.mult_damage(damage_mult);
 
     int dam = proj.impact.total_damage() + proj.payload.total_damage();
     it_ammo *curammo = proj.ammo;
@@ -91,8 +117,6 @@ int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targ
     ammotmp.charges = 1;
 
     //bool is_bolt = (curammo->type == "bolt" || curammo->type == "arrow");
-
-    bool missed = missed_by >= 0.8;
 
     // Trace the trajectory, doing damage in order
     int tx = trajectory[0].x;
@@ -109,11 +133,13 @@ int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targ
         ty = trajectory[i].y;
         // Drawing the bullet uses player u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
-        g->draw_bullet(*this, tx, ty, i, trajectory, proj.proj_effects.count("FLAME")? '#':'*', ts);
+        g->draw_bullet(g->u, tx, ty, i, trajectory, proj.proj_effects.count("FLAME")? '#':'*', ts);
 
+        /* TODO: add running out of momentum back in
         if (dam <= 0 && !(proj.proj_effects.count("FLAME"))) { // Ran out of momentum.
-            return 0;
+            break;
         }
+        */
 
         // If there's a monster in the path of our bullet, and either our aim was true,
         //  OR it's not the monster we were aiming at and we were lucky enough to hit it
@@ -124,28 +150,21 @@ int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targ
                             rl_dist(xpos(), ypos(), g->zombie(mondex).xpos(),
                                     g->zombie(mondex).ypos()) <= 1) &&
                                     */
-        if (mondex != -1 &&
-            ((!missed && i == trajectory.size() - 1) ||
-            one_in((5 - int(g->zombie(mondex).type->size)))) ) {
+        // TODO: add size effects to accuracy
+        double cur_missed_by;
+        if (i < trajectory.size() - 1) { // Unintentional hit
+            cur_missed_by = std::max(rng_float(0,1.5)+(1-missed_by),0.2);
+        } else {
+            cur_missed_by = missed_by;
+        }
+        if (mondex != -1 && cur_missed_by <= 1.0) {
             monster &z = g->zombie(mondex);
 
-            double goodhit = missed_by;
-            if (i < trajectory.size() - 1) { // Unintentional hit
-                goodhit = double(rand() / (RAND_MAX + 1.0)) / 2;
-            }
-
-            // Penalize for the monster's speed
-            if (z.speed > 80) {
-                goodhit *= double( double(z.speed) / 80.0);
-            }
-
-            /*
-            shoot_monster(this, p, z, dam, goodhit, weapon, proj_effects);
-            */
-            g->add_msg(_("You hit the %s for %d damage."),
-                    z.disp_name().c_str(), dam);
             damage_instance d = damage_instance::physical(0,dam,0);
-            z.deal_damage(g, this, bp_torso, 3, d);
+            dealt_damage_instance dealt_dam;
+            // TODO: add bounce effect application
+            z.deal_projectile_attack(g, this, missed_by, false, proj, dealt_dam);
+            //z.deal_damage(g, this, bp_torso, 3, d);
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
             //splatter(this, blood_traj, dam, &z); TODO: add splatter effects
@@ -155,6 +174,18 @@ int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targ
             g->m.shoot(g, tx, ty, dam, i == trajectory.size() - 1, proj.proj_effects);
         }
     } // Done with the trajectory!
+
+    if (g->m.move_cost(tx, ty) == 0) {
+        tx = px;
+        ty = py;
+    }
+    if (curammo != NULL && proj.drops &&
+            !(proj.proj_effects.count("IGNITE")) &&
+            !(proj.proj_effects.count("EXPLOSIVE")) &&
+            ((curammo->m1 == "wood" && !one_in(5)) ||
+            (curammo->m1 != "wood" && !one_in(15))  )) {
+        g->m.add_item_or_charges(tx, ty, ammotmp);
+    }
 
     ammo_effects(g, tx, ty, proj.proj_effects);
     /* TODO: add bounce effects back in
@@ -177,7 +208,7 @@ int Creature::projectile_attack(game *g, projectile &proj, int targetx, int targ
     }
     */
 
-    return 0;
+    return missed_by;
 }
 
 
@@ -205,7 +236,7 @@ int Creature::deal_melee_attack(game* g, Creature* source, int hitroll, bool cri
 
     body_part bp_hit;
     int side = rng(0, 1);
-    int hit_value = hitroll + rng(-10, 10);
+    int hit_value = hitroll + dice(10,5) - 30;
     if (hit_value >= 30)
         bp_hit = bp_eyes;
     else if (hit_value >= 20)
@@ -270,8 +301,61 @@ int Creature::deal_melee_attack(game* g, Creature* source, int hitroll, bool cri
     return hit_spread;
 }
 
-int Creature::deal_projectile_attack(game* g, Creature* source, float missed_by, bool dodgeable,
-        damage_instance& d, dealt_damage_instance &dealt_dam) {
+int Creature::deal_projectile_attack(game* g, Creature* source, double missed_by, bool dodgeable,
+        projectile& proj, dealt_damage_instance &dealt_dam) {
+    body_part bp_hit;
+    int side = rng(0, 1);
+
+    double hit_value = missed_by + rng_float(-0.5, 0.5);
+    if (hit_value <= 0.4) // headshots considered elsewhere
+        bp_hit = bp_torso;
+    else if (one_in(4))
+        bp_hit = bp_legs;
+    else
+        bp_hit = bp_arms;
+
+    double monster_speed_penalty = std::max(double(get_speed())/80.,1.0);
+    double goodhit = missed_by / monster_speed_penalty;
+    double damage_mult = 1.0;
+
+    if (goodhit <= .1) { // TODO: check head existence for headshot
+        g->add_msg_if_player(source,_("Headshot!"));
+        damage_mult *= rng_float(5,8);
+        bp_hit = bp_head; // headshot hits the head, of course
+    } else if (goodhit <= .2) {
+        g->add_msg_if_player(source,_("Critical!"));
+        damage_mult *= rng_float(2,3);
+    } else if (goodhit <= .4) {
+        g->add_msg_if_player(source,_("Good hit!"));
+        damage_mult *= rng_float(1,2);
+    } else if (goodhit <= .6) {
+        damage_mult *= rng_float(0.5,1);
+    } else if (goodhit <= .8) {
+        g->add_msg_if_player(source,_("Grazing hit."));
+        damage_mult *= rng_float(0, 1);
+    } else {
+        damage_mult *= 0;
+    }
+
+    // copy it, since we're mutating
+    damage_instance impact = proj.impact;
+    impact.mult_damage(damage_mult);
+
+    dealt_dam = deal_damage(g, source, bp_hit, side, impact);
+
+    bool u_see_this = g->u_see(this);
+    if (u_see_this && dealt_dam.total_damage() == 0) {
+        g->add_msg(_("The shot reflects off the %s!"),
+                skin_name().c_str());
+    } else if (source != NULL && u_see_this) {
+        if (source->is_player()) {
+            g->add_msg(_("You hit the %s for %d damage."),
+                    disp_name().c_str(), dealt_dam.total_damage());
+        } else if (u_see_this) {
+            g->add_msg(_("%s shoots the %s."),
+                    source->disp_name().c_str(), disp_name().c_str());
+        }
+    }
 
     return 0;
 }
