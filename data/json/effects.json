@@ -85,6 +85,13 @@
         "name": "Stuck in beartrap",
         "desc": "You can't move!"
     },
+    {
+        "type":"effect_type",
+        "id":"effect_glare",
+        "name": "Glare",
+        "desc": "Perception - 1",
+        "apply_message":"The sunlight's glare makes it hard to see."
+    },
    {
       "type":"effect_type",
       "id":"effect_boomered",
@@ -222,11 +229,6 @@
    {
       "type":"effect_type",
       "id":"effect_asked_to_lead"
-   },
-   {
-      "type":"effect_type",
-      "id":"effect_glare",
-      "apply_message":"The sunlight's glare makes it hard to see."
    },
    {
       "type":"effect_type",

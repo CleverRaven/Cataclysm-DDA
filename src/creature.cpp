@@ -466,11 +466,10 @@ void Creature::add_effect(efftype_id eff_id, int dur) {
             return;
         effect new_eff(&effect_types[eff_id], dur);
         effects.push_back(new_eff);
-    }
-
-    if (is_player()) {
-        g->add_msg_string(effect_types[eff_id].get_apply_message());
-        g->u.add_memorial_log(effect_types[eff_id].get_apply_memorial_log().c_str());
+        if (is_player()) { // only print the message if we didn't already have it
+            g->add_msg_string(effect_types[eff_id].get_apply_message());
+            g->u.add_memorial_log(effect_types[eff_id].get_apply_memorial_log().c_str());
+        }
     }
 }
 bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur) {

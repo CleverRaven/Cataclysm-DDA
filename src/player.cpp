@@ -4583,9 +4583,12 @@ void player::process_effects(game *g) {
             }
             mod_per_bonus(-1);
             mod_dex_bonus(-1);
+        } else if (id == "effect_glare") {
+            mod_per_bonus(-1);
+            if (one_in(200)) {
+                g->add_msg_if_player(this,_("The sunlight's glare makes it hard to see."));
+            }
         }
-
-
     }
 
     Creature::process_effects(g);

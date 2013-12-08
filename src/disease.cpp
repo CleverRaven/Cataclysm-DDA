@@ -160,9 +160,6 @@ void game::init_diseases() {
 void dis_msg(dis_type type_string) {
     dis_type_enum type = disease_type_lookup[type_string];
     switch (type) {
-    case DI_GLARE:
-        g->add_msg(_("The sunlight's glare makes it hard to see."));
-        break;
     case DI_WET:
         g->add_msg(_("You're getting soaked!"));
         break;
@@ -306,13 +303,6 @@ void dis_effect(player &p, disease &dis) {
     bool inflictBadPsnPain = (!p.has_trait("POISRESIST") && one_in(100)) ||
                                 (p.has_trait("POISRESIST") && one_in(500));
     switch(disType) {
-        case DI_GLARE:
-            p.mod_per_bonus(-1);
-            if (one_in(200)) {
-                g->add_msg(_("The sunlight's glare makes it hard to see."));
-            }
-            break;
-
         case DI_WET:
             p.add_morale(MORALE_WET, -1, -50, 60, 10);
             break;
@@ -1374,7 +1364,6 @@ std::string dis_name(disease& dis)
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
     case DI_NULL: return "";
-    case DI_GLARE: return _("Glare");
     case DI_COLD:
         switch (dis.bp) {
             case bp_head:
@@ -1767,10 +1756,6 @@ std::string dis_description(disease& dis)
 
     case DI_NULL:
         return _("None");
-
-    case DI_GLARE:
-        stream << _("Perception - 1");
-        return stream.str();
 
     case DI_COLD:
         switch(dis.bp) {
