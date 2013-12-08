@@ -1248,7 +1248,7 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
     int npcdex = g->npc_at(h->posx, h->posy);
     // Gunmods don't have a type, so use the player gun type.
     it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
-    body_part hit;
+    body_part hit = bp_torso;
     if (goodhit < .003) {
         hit = bp_eyes;
         dam = rng(3 * dam, 5 * dam);
