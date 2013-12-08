@@ -670,7 +670,7 @@ void monster::melee_attack(game *g, Creature &target, bool allow_grab) {
     bool u_see_me = g->u_see(this);
 
     body_part bp_hit;
-    int highest_hit = 0;
+    //int highest_hit = 0;
     int hitstat = std::max(type->melee_skill - 2,0);
     int hitroll = dice(hitstat,10);
 
@@ -681,6 +681,7 @@ void monster::melee_attack(game *g, Creature &target, bool allow_grab) {
     if (type->melee_cut > 0)
         damage.add_damage(DT_CUT, type->melee_cut);
 
+    /* TODO: height-related bodypart selection
     //If the player is knocked down or the monster can fly, any body part is a valid target
     if(target.is_on_ground() || has_flag(MF_FLIES)){
         highest_hit = 20;
@@ -729,9 +730,11 @@ void monster::melee_attack(game *g, Creature &target, bool allow_grab) {
     } else{
         bp_hit = bp_head;
     }
+    */
 
     dealt_damage_instance dealt_dam;
     int hitspread = target.deal_melee_attack(g, this, hitroll, false, damage, dealt_dam);
+    bp_hit = dealt_dam.bp_hit;
 
     if (is_hallucination()) {
         if(one_in(7)) {

@@ -236,12 +236,12 @@ int Creature::deal_melee_attack(game* g, Creature* source, int hitroll, bool cri
 
     body_part bp_hit;
     int side = rng(0, 1);
-    int hit_value = hitroll + dice(10,5) - 30;
-    if (hit_value >= 30)
+    int hit_value = hitroll + dice(10,6) - 35;
+    if (hit_value >= 40)
         bp_hit = bp_eyes;
-    else if (hit_value >= 20)
+    else if (hit_value >= 30)
         bp_hit = bp_head;
-    else if (hit_value >= 10)
+    else if (hit_value >= 5)
         bp_hit = bp_torso;
     else if (one_in(4))
         bp_hit = bp_legs;
@@ -280,6 +280,7 @@ int Creature::deal_melee_attack(game* g, Creature* source, int hitroll, bool cri
 
     on_gethit(g, source, bp_hit, d); // trigger on-gethit events
     dealt_dam = deal_damage(g, source, bp_hit, side, d);
+    dealt_dam.bp_hit = bp_hit;
 
     /* TODO: add grabs n shit back in
     if (allow_special && technique.grabs) {
@@ -343,6 +344,7 @@ int Creature::deal_projectile_attack(game* g, Creature* source, double missed_by
     impact.mult_damage(damage_mult);
 
     dealt_dam = deal_damage(g, source, bp_hit, side, impact);
+    dealt_dam.bp_hit = bp_hit;
 
     bool u_see_this = g->u_see(this);
     if (u_see_this && dealt_dam.total_damage() == 0) {

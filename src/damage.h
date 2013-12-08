@@ -1,6 +1,7 @@
 #ifndef _DAMAGE_H_
 #define _DAMAGE_H_
 
+#include "bodypart.h"
 #include "color.h"
 #include <string>
 #include <vector>
@@ -66,6 +67,7 @@ struct damage_instance {
 
 struct dealt_damage_instance {
     std::vector<int> dealt_dams;
+    body_part bp_hit;
 
     dealt_damage_instance();
     //TODO: add check to ensure length
