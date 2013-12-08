@@ -6,17 +6,17 @@ Creature_tracker::Creature_tracker()
     _old_monsters_list.reserve(1000);
 }
 
-monster Creature_tracker::find(int index)
+monster& Creature_tracker::find(int index)
 {
     return _old_monsters_list[index];
 }
 
-int Creature_tracker::mon_at(int x_pos, int y_pos)
+int Creature_tracker::mon_at(int x_pos, int y_pos) const
 {
     return mon_at(point(x_pos,y_pos));
 }
 
-int Creature_tracker::mon_at(point coords)
+int Creature_tracker::mon_at(point coords) const
 {
     std::map<point, int>::const_iterator iter = _old_monsters_by_location.find(coords);
     if (iter != _old_monsters_by_location.end()) {
@@ -44,7 +44,8 @@ bool Creature_tracker::add(monster& critter)
     return true;
 }
 
-size_t Creature_tracker::size(){
+size_t Creature_tracker::size() const
+{
     return _old_monsters_list.size();
 }
 

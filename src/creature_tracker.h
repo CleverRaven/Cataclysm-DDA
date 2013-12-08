@@ -10,11 +10,11 @@ class Creature_tracker
 {
 public:
     Creature_tracker();
-    monster find(int index);
-    int mon_at(point coords);
-    int mon_at(int x_pos, int y_pos);
+    monster& find(int index);
+    int mon_at(point coords) const;
+    int mon_at(int x_pos, int y_pos) const;
     bool add(monster& critter);
-    size_t size();
+    size_t size() const;
     bool update_pos(const monster &critter, const int new_x_pos, const int new_y_pos);
     void remove(const int idx);
     void clear();
