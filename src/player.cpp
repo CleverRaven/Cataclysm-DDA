@@ -2829,7 +2829,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     else if (hunger < 0)
         wprintz(w, c_green,  _("Full"));
     else if (hunger < -20)
-        wprintz(w, c_ltgreen,  _("Sated"));
+        wprintz(w, c_green,  _("Sated"));
     else if (hunger < -60)
         wprintz(w, c_green,  _("Engorged"));
 

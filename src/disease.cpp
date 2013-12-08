@@ -2313,9 +2313,14 @@ void manage_fungal_infection(player& p, disease& dis) {
 
 void manage_sleep(player& p, disease& dis) {
     p.moves = 0;
-    if((int(g->turn) % 350 == 0) && p.has_trait("HIBERNATE") && p.hunger < -60) { //Hibernating only kicks in whilst Engorged
-        int recovery_chance; // Hibernators' metabolism slows down a bit.
-        // Accelerated recovery capped to 2x over 2 hours
+    // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here as a safety catch
+    // One test subject managed to get two Colds during hibernation; since those add fatigue and dry out the character,
+    // the subject went for the full 10 days plus a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
+    // life like that--but since there's much less fluid reserve than food reserve, simply using the same numbers won't work.
+    
+    if((int(g->turn) % 350 == 0) && p.has_trait("HIBERNATE") && (p.hunger < -60) && !(p.thirst >= 80)) {
+        int recovery_chance; // Hibernators' metabolism slows down: you heal and recover Fatigue much more slowly
+        // Accelerated recovery capped to 2x over 2 hours...well, it was ;-P
         // After 16 hours of activity, equal to 7.25 hours of rest
         if (dis.intensity < 24) {
             dis.intensity++;
@@ -2343,7 +2348,8 @@ void manage_sleep(player& p, disease& dis) {
         }
     }
     
-    if((int(g->turn) % 50 == 0) && !(p.hunger < -60)) {
+    //If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.  See above.
+    if((int(g->turn) % 50 == 0) && (!(p.hunger < -60) || (p.thirst >= 80))) {
         int recovery_chance;
         // Accelerated recovery capped to 2x over 2 hours
         // After 16 hours of activity, equal to 7.25 hours of rest
@@ -2379,8 +2385,11 @@ void manage_sleep(player& p, disease& dis) {
         p.thirst--;
     }
     
-    if (int(g->turn) % 65 == 0 && !p.has_bionic("bio_recycler") && (p.hunger < -60)) {
-        // Hunger and thirst advance more slowly while we sleep. Hibernation burns almost half as fast as normal.
+        // Hunger and thirst advance *much* more slowly whilst we hibernate.  (int (g->turn) % 50 would be zero burn.)
+        // Very Thirsty catch deliberately NOT applied here, to fend off Dehydration debuffs until the char wakes.
+        // This was time-trial'd quite thoroughly, so kindly don't "rebalance" without a good explanation and taking a night
+        // to make sure it works with the extended sleep duration, OK?
+    if (int(g->turn) % 70 == 0 && !p.has_bionic("bio_recycler") && (p.hunger < -60)) {
         p.hunger--;
         p.thirst--;
     }
