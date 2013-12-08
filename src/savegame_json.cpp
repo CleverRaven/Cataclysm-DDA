@@ -137,7 +137,7 @@ void player::json_load_common_variables(JsonObject & data)
     data.read("radiation",radiation);
     data.read("scent",scent);
     data.read("moves",moves);
-    data.read("dodges_left",dodges_left);
+    data.read("dodges_left",num_dodges);
     data.read("underwater",underwater);
     data.read("oxygen",oxygen);
     data.read("male",male);
@@ -212,7 +212,7 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // initiative type stuff
     json.member( "moves", moves );
-    json.member( "dodges_left", dodges_left );
+    json.member( "dodges_left", num_dodges);
 
     // breathing
     json.member( "underwater", underwater );
@@ -288,7 +288,7 @@ void player::serialize(JsonOut &json, bool save_contents) const
     json.member( "grab_type", obj_type_name[ (int)grab_type ] );
 
     // misc player specific stuff
-    json.member( "blocks_left", blocks_left );
+    json.member( "blocks_left", num_blocks );
     json.member( "focus_pool", focus_pool );
     json.member( "style_selected", style_selected );
 
@@ -385,7 +385,7 @@ void player::deserialize(JsonIn &jsin)
         grab_type = (object_type)obj_type_id[grab_typestr];
     }
 
-    data.read( "blocks_left", blocks_left);
+    data.read( "blocks_left", num_blocks);
     data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );
 

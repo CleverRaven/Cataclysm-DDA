@@ -774,7 +774,6 @@ bool game::do_turn()
     update_stair_monsters();
     u.reset(this);
     u.process_active_items(this);
-    u.suffer(this);
 
     if (levz >= 0 && !u.is_underwater()) {
         weather_effect weffect;
@@ -3224,9 +3223,9 @@ void game::add_msg(const char* msg, ...)
  va_end(ap);
 }
 
-void game::add_msg_if_player(player *p, const char* msg, ...)
+void game::add_msg_if_player(Creature *p, const char* msg, ...)
 {
- if (p && !p->is_npc())
+ if (p && p->is_player())
  {
   va_list ap;
   va_start(ap, msg);
@@ -3235,8 +3234,10 @@ void game::add_msg_if_player(player *p, const char* msg, ...)
  }
 }
 
-void game::add_msg_if_npc(player *p, const char* msg, ...)
+void game::add_msg_if_npc(Creature *p, const char* msg, ...)
 {
+    return;
+    /* TODO: make this function actually work again when NPCs are back in
     if (!p || !p->is_npc()) {
         return;
     }
@@ -3255,18 +3256,19 @@ void game::add_msg_if_npc(player *p, const char* msg, ...)
     add_msg_string(processed_npc_string);
 
     va_end(ap);
+    */
 }
 
-void game::add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...)
+void game::add_msg_player_or_npc(Creature* t, const char* player_str, const char* npc_str, ...)
 {
     va_list ap;
-    if( !p ) {return; }
+    //if( !p ) {return; }
 
     va_start( ap, npc_str );
 
-    if( !p->is_npc() ) {
+    if( t->is_player() ) {
         vadd_msg( player_str, ap );
-    } else if( u_see( p ) ) {
+    } else if( u_see(t) ) {
         char buff[1024];
         vsprintf(buff, npc_str, ap);
         std::string processed_npc_string(buff);
@@ -3274,7 +3276,7 @@ void game::add_msg_player_or_npc(player *p, const char* player_str, const char* 
         // if present replace it with the actual npc name.
         size_t offset = processed_npc_string.find("<npcname>");
         if( offset != std::string::npos ) {
-            processed_npc_string.replace(offset, 9,  p->name);
+            processed_npc_string.replace(offset, 9,  t->disp_name());
         }
         add_msg_string( processed_npc_string );
     }
@@ -4655,9 +4657,14 @@ bool game::u_see(int x, int y)
  return can_see;
 }
 
-bool game::u_see(player *p)
+bool game::u_see(Creature *t)
 {
- return u_see(p->posx, p->posy);
+ return u_see(t->xpos(), t->ypos());
+}
+
+bool game::u_see(Creature &t)
+{
+ return u_see(t.xpos(), t.ypos());
 }
 
 bool game::u_see(monster *mon)
@@ -5078,6 +5085,7 @@ void game::cleanup_dead()
             dbg (D_INFO) << string_format( "cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
                                            i, critter.posx(), critter.posy(), (critter.dead?'1':'0'),
                                            critter.hp, critter.type->name.c_str() );
+            critter.die(this); // dies at the very end
             remove_zombie(i);
             if( last_target == i ) {
                 last_target = -1;
@@ -5148,11 +5156,11 @@ void game::monmove()
 
         if (!critter->dead) {
             critter->process_effects(this);
+            critter->reset(this);
             if (critter->hurt(0)) {
                 kill_mon(i, false);
                 // might have spaned more monsters on death,
                 // changing _active_monsters
-                critter = &_active_monsters[i];
             }
         }
 
@@ -5218,7 +5226,6 @@ void game::monmove()
    active_npc[i]->die(this);
   else {
    active_npc[i]->reset(this);
-   active_npc[i]->suffer(this);
    while (!active_npc[i]->dead && active_npc[i]->moves > 0 && turns < 10) {
     turns++;
     active_npc[i]->move(this);
@@ -5425,12 +5432,12 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    }
 
    if (npc_hit != -1) {
-    active_npc[npc_hit]->hit(this, bp_torso, -1, rng(dam / 2, long(dam * 1.5)), 0);
-    active_npc[npc_hit]->hit(this, bp_head,  -1, rng(dam / 3, dam),       0);
-    active_npc[npc_hit]->hit(this, bp_legs,  0, rng(dam / 3, dam),       0);
-    active_npc[npc_hit]->hit(this, bp_legs,  1, rng(dam / 3, dam),       0);
-    active_npc[npc_hit]->hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
-    active_npc[npc_hit]->hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, NULL, bp_torso, -1, rng(dam / 2, long(dam * 1.5)), 0);
+    active_npc[npc_hit]->hit(this, NULL, bp_head,  -1, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, NULL, bp_legs,  0, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, NULL, bp_legs,  1, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, NULL, bp_arms,  0, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, NULL, bp_arms,  1, rng(dam / 3, dam),       0);
     if (active_npc[npc_hit]->hp_cur[hp_head]  <= 0 ||
         active_npc[npc_hit]->hp_cur[hp_torso] <= 0   ) {
      active_npc[npc_hit]->die(this, true);
@@ -5438,12 +5445,12 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    }
    if (u.posx == i && u.posy == j) {
     add_msg(_("You're caught in the explosion!"));
-    u.hit(this, bp_torso, -1, rng(dam / 2, dam * 1.5), 0);
-    u.hit(this, bp_head,  -1, rng(dam / 3, dam),       0);
-    u.hit(this, bp_legs,  0, rng(dam / 3, dam),       0);
-    u.hit(this, bp_legs,  1, rng(dam / 3, dam),       0);
-    u.hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
-    u.hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
+    u.hit(this, NULL, bp_torso, -1, rng(dam / 2, dam * 1.5), 0);
+    u.hit(this, NULL, bp_head,  -1, rng(dam / 3, dam),       0);
+    u.hit(this, NULL, bp_legs,  0, rng(dam / 3, dam),       0);
+    u.hit(this, NULL, bp_legs,  1, rng(dam / 3, dam),       0);
+    u.hit(this, NULL, bp_arms,  0, rng(dam / 3, dam),       0);
+    u.hit(this, NULL, bp_arms,  1, rng(dam / 3, dam),       0);
    }
    if (has_fire) {
     m.add_field(this, i, j, fd_fire, dam / 10);
@@ -5477,7 +5484,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    const int zid = mon_at(tx, ty);
    if (zid != -1) {
     monster &critter = _active_monsters[zid];
-    dam -= critter.armor_cut();
+    dam -= critter.get_armor_cut(bp_torso);
     if (critter.hurt(dam))
      kill_mon(zid);
    } else if (npc_at(tx, ty) != -1) {
@@ -5487,7 +5494,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     else if (hit == bp_torso)
      dam = rng(long(1.5 * dam), 3 * dam);
     int npcdex = npc_at(tx, ty);
-    active_npc[npcdex]->hit(this, hit, rng(0, 1), 0, dam);
+    active_npc[npcdex]->hit(this, NULL, hit, rng(0, 1), 0, dam);
     if (active_npc[npcdex]->hp_cur[hp_head] <= 0 ||
         active_npc[npcdex]->hp_cur[hp_torso] <= 0) {
      active_npc[npcdex]->die(this);
@@ -5496,7 +5503,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     body_part hit = random_body_part();
     int side = random_side(hit);
     add_msg(_("Shrapnel hits your %s!"), body_part_name(hit, side).c_str());
-    u.hit(this, hit, random_side(hit), 0, dam);
+    u.hit(this, NULL, hit, random_side(hit), 0, dam);
    } else {
        std::set<std::string> shrapnel_effects;
        m.shoot(this, tx, ty, dam, j == traj.size() - 1, shrapnel_effects );
@@ -5525,14 +5532,14 @@ void game::flashbang(int x, int y, bool player_immune)
         monster &critter = _active_monsters[i];
         dist = rl_dist(critter.posx(), critter.posy(), x, y);
         if (dist <= 4) {
-            critter.add_effect(ME_STUNNED, 10 - dist);
+            critter.add_effect("effect_stunned", 10 - dist);
         }
         if (dist <= 8) {
             if (critter.has_flag(MF_SEES) && m.sees(critter.posx(), critter.posy(), x, y, 8, t)) {
-                critter.add_effect(ME_BLIND, 18 - dist);
+                critter.add_effect("effect_blind", 18 - dist);
             }
             if (critter.has_flag(MF_HEARS)) {
-                critter.add_effect(ME_DEAF, 60 - dist * 4);
+                critter.add_effect("effect_deaf", 60 - dist * 4);
             }
         }
     }
@@ -5613,7 +5620,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         monster *targ = &_active_monsters[zid];
         if (stun > 0)
         {
-            targ->add_effect(ME_STUNNED, stun);
+            targ->add_effect("effect_stunned", stun);
             add_msg(ngettext("%s was stunned for %d turn!",
                              "%s was stunned for %d turns!", stun),
                     targ->name().c_str(), stun);
@@ -5626,9 +5633,9 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 force_remaining = traj.size() - i;
                 if (stun != 0)
                 {
-                    if (targ->has_effect(ME_STUNNED))
+                    if (targ->has_effect("effect_stunned"))
                     {
-                        targ->add_effect(ME_STUNNED, force_remaining);
+                        targ->add_effect("effect_stunned", force_remaining);
                         add_msg(ngettext("%s was stunned AGAIN for %d turn!",
                                          "%s was stunned AGAIN for %d turns!",
                                          force_remaining),
@@ -5636,7 +5643,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     }
                     else
                     {
-                        targ->add_effect(ME_STUNNED, force_remaining);
+                        targ->add_effect("effect_stunned", force_remaining);
                         add_msg(ngettext("%s was stunned for %d turn!",
                                          "%s was stunned for %d turns!",
                                          force_remaining),
@@ -5658,9 +5665,9 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 force_remaining = traj.size() - i;
                 if (stun != 0)
                 {
-                    if (targ->has_effect(ME_STUNNED))
+                    if (targ->has_effect("effect_stunned"))
                     {
-                        targ->add_effect(ME_STUNNED, force_remaining);
+                        targ->add_effect("effect_stunned", force_remaining);
                         add_msg(ngettext("%s was stunned AGAIN for %d turn!",
                                          "%s was stunned AGAIN for %d turns!",
                                          force_remaining),
@@ -5668,7 +5675,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     }
                     else
                     {
-                        targ->add_effect(ME_STUNNED, force_remaining);
+                        targ->add_effect("effect_stunned", force_remaining);
                         add_msg(ngettext("%s was stunned for %d turn!",
                                          "%s was stunned for %d turns!",
                                          force_remaining),
@@ -5713,7 +5720,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         npc *targ = active_npc[npc_at(tx, ty)];
         if (stun > 0)
         {
-            targ->add_disease("stunned", stun);
+            targ->add_effect("effect_stunned", stun);
             add_msg(ngettext("%s was stunned for %d turn!",
                              "%s was stunned for %d turns!", stun),
                     targ->name.c_str(), stun);
@@ -5727,10 +5734,10 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 force_remaining = traj.size() - i;
                 if (stun != 0)
                 {
-                    if (targ->has_disease("stunned"))
+                    if (targ->has_effect("effect_stunned"))
                     {
-                        targ->add_disease("stunned", force_remaining);
-                        if (targ->has_disease("stunned"))
+                        targ->add_effect("effect_stunned", force_remaining);
+                        if (targ->has_effect("effect_stunned"))
                             add_msg(ngettext("%s was stunned AGAIN for %d turn!",
                                              "%s was stunned AGAIN for %d turns!",
                                              force_remaining),
@@ -5738,21 +5745,21 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     }
                     else
                     {
-                        targ->add_disease("stunned", force_remaining);
-                        if (targ->has_disease("stunned"))
+                        targ->add_effect("effect_stunned", force_remaining);
+                        if (targ->has_effect("effect_stunned"))
                             add_msg(ngettext("%s was stunned for %d turn!",
                                              "%s was stunned for %d turns!",
                                              force_remaining),
                                      targ->name.c_str(), force_remaining);
                     }
                     add_msg(_("%s took %d damage! (before armor)"), targ->name.c_str(), dam_mult*force_remaining);
-                    if (one_in(2)) targ->hit(this, bp_arms, 0, force_remaining*dam_mult, 0);
-                    if (one_in(2)) targ->hit(this, bp_arms, 1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) targ->hit(this, bp_legs, 0, force_remaining*dam_mult, 0);
-                    if (one_in(2)) targ->hit(this, bp_legs, 1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) targ->hit(this, bp_torso, -1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) targ->hit(this, bp_head, -1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) targ->hit(this, bp_hands, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, NULL, bp_arms, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, NULL, bp_arms, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, NULL, bp_legs, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, NULL, bp_legs, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, NULL, bp_torso, -1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, NULL, bp_head, -1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, NULL, bp_hands, 0, force_remaining*dam_mult, 0);
                 }
                 m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
                 sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
@@ -5766,7 +5773,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 force_remaining = traj.size() - i;
                 if (stun != 0)
                 {
-                    if (targ->has_disease("stunned"))
+                    if (targ->has_effect("effect_stunned"))
                     {
                         add_msg(ngettext("%s was stunned AGAIN for %d turn!",
                                          "%s was stunned AGAIN for %d turns!",
@@ -5780,7 +5787,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                                          force_remaining),
                                  targ->name.c_str(), force_remaining);
                     }
-                    targ->add_disease("stunned", force_remaining);
+                    targ->add_effect("effectstunned", force_remaining);
                 }
                 traj.erase(traj.begin(), traj.begin()+i);
                 if (mon_at(traj.front().x, traj.front().y) != -1) {
@@ -5808,7 +5815,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
     {
         if (stun > 0)
         {
-            u.add_disease("stunned", stun);
+            u.add_effect("effect_stunned", stun);
             add_msg(_("You were stunned for %d turns!"), stun);
         }
         for(int i = 1; i < traj.size(); i++)
@@ -5820,7 +5827,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 force_remaining = traj.size() - i;
                 if (stun != 0)
                 {
-                    if (u.has_disease("stunned"))
+                    if (u.has_effect("effect_stunned"))
                     {
                         add_msg(_("You were stunned AGAIN for %d turns!"), force_remaining);
                     }
@@ -5828,14 +5835,14 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     {
                         add_msg(_("You were stunned for %d turns!"), force_remaining);
                     }
-                    u.add_disease("stunned", force_remaining);
-                    if (one_in(2)) u.hit(this, bp_arms, 0, force_remaining*dam_mult, 0);
-                    if (one_in(2)) u.hit(this, bp_arms, 1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) u.hit(this, bp_legs, 0, force_remaining*dam_mult, 0);
-                    if (one_in(2)) u.hit(this, bp_legs, 1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) u.hit(this, bp_torso, -1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) u.hit(this, bp_head, -1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) u.hit(this, bp_hands, 0, force_remaining*dam_mult, 0);
+                    u.add_effect("effect_stunned", force_remaining);
+                    if (one_in(2)) u.hit(this, NULL, bp_arms, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, NULL, bp_arms, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, NULL, bp_legs, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, NULL, bp_legs, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, NULL, bp_torso, -1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, NULL, bp_head, -1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, NULL, bp_hands, 0, force_remaining*dam_mult, 0);
                 }
                 m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
                 sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
@@ -5848,7 +5855,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 force_remaining = traj.size() - i;
                 if (stun != 0)
                 {
-                    if (u.has_disease("stunned"))
+                    if (u.has_effect("effect_stunned"))
                     {
                         add_msg(_("You were stunned AGAIN for %d turns!"), force_remaining);
                     }
@@ -5856,7 +5863,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     {
                         add_msg(_("You were stunned for %d turns!"), force_remaining);
                     }
-                    u.add_disease("stunned", force_remaining);
+                    u.add_effect("effect_stunned", force_remaining);
                 }
                 traj.erase(traj.begin(), traj.begin()+i);
                 if (mon_at(traj.front().x, traj.front().y) != -1) {
@@ -6185,6 +6192,17 @@ bool game::spawn_hallucination()
   }
 }
 
+//TODO: change this to work with active_creatures or whatever we call the
+//array of all the creatures
+Creature* game::creature_at(const int x, const int y)
+{
+    int mondex = mon_at(x,y);
+    if (mondex != -1)
+        return &_active_monsters[mondex];
+    else
+        return NULL;
+}
+
 int game::mon_at(const int x, const int y) const
 {
     std::map<point, int>::const_iterator i = z_at.find(point(x, y));
@@ -6246,6 +6264,10 @@ void game::kill_mon(int index, bool u_did_it)
   return;
  }
  monster &critter = _active_monsters[index];
+ kill_mon(critter, u_did_it);
+}
+
+void game::kill_mon(monster& critter, bool u_did_it) {
  if (!critter.dead) {
   critter.dead = true;
   if (u_did_it) {
@@ -6259,8 +6281,8 @@ void game::kill_mon(int index, bool u_did_it)
   }
   for (int i = 0; i < critter.inv.size(); i++)
    m.add_item_or_charges(critter.posx(), critter.posy(), critter.inv[i]);
-  critter.die(this);
  }
+
 }
 
 void game::explode_mon(int index)
@@ -6597,11 +6619,11 @@ void game::smash()
                 m.add_item_or_charges(u.posx, u.posy, u.weapon.contents[i]);
             }
             sound(u.posx, u.posy, 24, "");
-            u.hit(this, bp_hands, 1, 0, rng(0, u.weapon.volume()));
+            u.hit(this, NULL, bp_hands, 1, 0, rng(0, u.weapon.volume()));
             if (u.weapon.volume() > 20)
             {
                 // Hurt left arm too, if it was big
-                u.hit(this, bp_hands, 0, 0, rng(0, long(u.weapon.volume() * .5)));
+                u.hit(this, NULL, bp_hands, 0, 0, rng(0, long(u.weapon.volume() * .5)));
             }
             u.remove_weapon();
         }
@@ -9719,7 +9741,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  }
  if (passtarget != -1) { // We picked a real live target
   last_target = targetindices[passtarget]; // Make it our default for next time
-  zombie(targetindices[passtarget]).add_effect(ME_HIT_BY_PLAYER, 100);
+  zombie(targetindices[passtarget]).add_effect("effect_hit_by_player", 100);
  }
 
  if (u.weapon.mode == "MODE_BURST")
@@ -9739,7 +9761,8 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
      (firing->ammo != "BB" && firing->ammo != "nail"))
      u.practice(turn, "gun", 5);
 
- fire(u, x, y, trajectory, burst);
+ u.fire_gun(x,y,burst);
+ //fire(u, x, y, trajectory, burst);
 }
 
 void game::butcher()
@@ -10527,7 +10550,7 @@ bool game::plmove(int dx, int dy)
     }
  int x = 0;
  int y = 0;
- if (u.has_disease("stunned")) {
+ if (u.has_effect("effect_stunned")) {
   x = rng(u.posx - 1, u.posx + 1);
   y = rng(u.posy - 1, u.posy + 1);
  } else {
@@ -10555,8 +10578,8 @@ bool game::plmove(int dx, int dy)
              u.clear_destination();
              return false;
          }
-         int udam = u.hit_mon(this, &critter);
-         if (critter.hurt(udam) || critter.is_hallucination()) {
+         u.melee_attack(this, critter, true);
+         if (critter.is_hallucination()) {
              kill_mon(mondex, true);
          }
          draw_hit_mon(x,y,critter,critter.dead);
@@ -10590,12 +10613,8 @@ bool game::plmove(int dx, int dy)
          return false;
      }
 
-     u.hit_player(this, *active_npc[npcdex]);
+     u.melee_attack(this, *active_npc[npcdex], true);
      active_npc[npcdex]->make_angry();
-     if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
-         active_npc[npcdex]->hp_cur[hp_torso] <= 0   ) {
-         active_npc[npcdex]->die(this, true);
-     }
      return false;
  }
 
@@ -10630,14 +10649,14 @@ bool game::plmove(int dx, int dy)
    u.rem_disease("in_pit");
   }
  }
- if (u.has_disease("downed")) {
+ if (u.has_effect("effect_downed")) {
   if (rng(0, 40) > u.dex_cur + int(u.str_cur / 2)) {
    add_msg(_("You struggle to stand."));
    u.moves -= 100;
    return false;
   } else {
    add_msg(_("You stand up."));
-   u.rem_disease("downed");
+   u.remove_effect("effect_downed");
    u.moves -= 100;
    return false;
   }
@@ -10718,12 +10737,12 @@ bool game::plmove(int dx, int dy)
 
         switch (curType) {
             case fd_smoke:
-                dangerous = !(u.resist(bp_mouth) >= 7);
+                dangerous = !(u.get_env_resist(bp_mouth) >= 7);
                 break;
             case fd_tear_gas:
             case fd_toxic_gas:
             case fd_gas_vent:
-                dangerous = !(u.resist(bp_mouth) >= 15);
+                dangerous = !(u.get_env_resist(bp_mouth) >= 15);
                 break;
             default:
                 dangerous = cur->is_dangerous();
@@ -10972,10 +10991,10 @@ bool game::plmove(int dx, int dy)
     add_msg(_("Moving past this %s is slow!"), m.name(x, y).c_str());
   }
   if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
-   if (one_in(5) && u.armor_bash(bp_feet) < rng(2, 5)) {
+   if (one_in(5) && u.get_armor_bash(bp_feet) < rng(2, 5)) {
     add_msg(_("You hurt your feet on the %s!"), m.tername(x, y).c_str());
-    u.hit(this, bp_feet, 0, 0, 1);
-    u.hit(this, bp_feet, 1, 0, 1);
+    u.hit(this, NULL, bp_feet, 0, 0, 1);
+    u.hit(this, NULL, bp_feet, 1, 0, 1);
    }
   }
   if (m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))
@@ -10983,7 +11002,7 @@ bool game::plmove(int dx, int dy)
    if (!u.has_trait("PARKOUR") || one_in(4)) {
     body_part bp = random_body_part();
     int side = random_side(bp);
-    if(u.hit(this, bp, side, 0, rng(1, 4)) > 0)
+    if(u.hit(this, NULL, bp, side, 0, rng(1, 4)) > 0)
      add_msg(_("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
    }
   }
@@ -10996,9 +11015,9 @@ bool game::plmove(int dx, int dy)
   if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE))
    sound(x, y, 40, _("You emit a rattling sound."));
 // If we moved out of the nonant, we need update our map data
-  if (m.has_flag("SWIMMABLE", x, y) && u.has_disease("onfire")) {
+  if (m.has_flag("SWIMMABLE", x, y) && u.has_effect("effect_onfire")) {
    add_msg(_("The water puts out the flames!"));
-   u.rem_disease("onfire");
+   u.remove_effect("effect_onfire");
   }
 // displace is set at the top of this function.
   if (displace) { // We displaced a friendly monster!
@@ -11034,19 +11053,19 @@ bool game::plmove(int dx, int dy)
    else if (critter.type->id == "mon_manhack") {
     if (query_yn(_("Reprogram the manhack?"))) {
       int choice = 0;
-      if (critter.has_effect(ME_DOCILE))
+      if (critter.has_effect("effect_docile"))
         choice = menu(true, _("Do what?"), _("Engage targets."), _("Deactivate."), NULL);
       else
         choice = menu(true, _("Do what?"), _("Follow me."), _("Deactivate."), NULL);
       switch (choice) {
       case 1:{
-        if (critter.has_effect(ME_DOCILE)) {
-          critter.rem_effect(ME_DOCILE);
+        if (critter.has_effect("effect_docile")) {
+          critter.remove_effect("effect_docile");
           if (one_in(3))
             add_msg(_("The %s hovers momentarily as it surveys the area."), critter.name().c_str());
         }
         else {
-          critter.add_effect(ME_DOCILE, -1);
+          critter.add_effect("effect_docile", -1);
           add_msg(_("The %s ."), critter.name().c_str());
           if (one_in(3))
             add_msg(_("The %s lets out a whirring noise and starts to follow you."), critter.name().c_str());
@@ -11279,7 +11298,7 @@ bool game::plmove(int dx, int dy)
    plswim(x, y);
   }
  } else { // Invalid move
-  if (u.has_disease("blind") || u.has_disease("stunned")) {
+  if (u.has_disease("blind") || u.has_effect("effect_stunned")) {
 // Only lose movement if we're blind
    add_msg(_("You bump into a %s!"), m.name(x, y).c_str());
    u.moves -= 100;
@@ -11312,9 +11331,9 @@ void game::plswim(int x, int y)
   debugmsg("Tried to swim in %s!", m.tername(x, y).c_str());
   return;
  }
- if (u.has_disease("onfire")) {
+ if (u.has_effect("effect_onfire")) {
   add_msg(_("The water puts out the flames!"));
-  u.rem_disease("onfire");
+  u.remove_effect("effect_onfire");
  }
  int movecost = u.swim_speed();
  u.practice(turn, "swimming", u.is_underwater() ? 2 : 1);
@@ -11692,7 +11711,7 @@ void game::vertical_move(int movez, bool force) {
    add_msg(_("You flap your wings and flutter down gracefully."));
   else {
    int dam = int((u.str_max / 4) + rng(5, 10)) * rng(1, 3);//The bigger they are
-   dam -= rng(u.dodge(this), u.dodge(this) * 3);
+   dam -= rng(u.get_dodge(), u.get_dodge() * 3);
    if (dam <= 0)
     add_msg(_("You fall expertly and take no damage."));
    else {
@@ -11992,14 +12011,14 @@ void game::update_stair_monsters() {
                             u.posy += pushy;
                             u.moves -= 100;
                             // Stumble.
-                            if (u.dodge(this) < 12)
-                                u.add_disease("downed", 2);
+                            if (u.get_dodge() < 12)
+                                u.add_effect("effect_downed", 2);
                             return;
                         }
                         tries++;
                     }
                     add_msg(_("The %s tried to push you back but failed! It attacks you!"), critter.name().c_str());
-                    critter.hit_player(this, u, false);
+                    critter.melee_attack(this, u, false);
                     u.moves -= 100;
                     return;
                 }

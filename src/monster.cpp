@@ -177,6 +177,13 @@ std::string monster::name_with_armor()
  return ret;
 }
 
+std::string monster::disp_name() {
+    return "the " + name();
+}
+
+std::string monster::skin_name() {
+    return name_with_armor();
+}
 int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
 {
 // First line of w is the border; the next two are terrain info, and after that
@@ -209,11 +216,11 @@ int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
    wprintz(w, h_red, "BUG: Behavior unnamed. (monster.cpp:print_info)");
    break;
  }
- if (has_effect(ME_DOWNED))
+ if (has_effect("effect_downed"))
   wprintz(w, h_white, _("On ground"));
- else if (has_effect(ME_STUNNED))
+ else if (has_effect("effect_stunned"))
   wprintz(w, h_white, _("Stunned"));
- else if (has_effect(ME_BEARTRAP))
+ else if (has_effect("effect_beartrap"))
   wprintz(w, h_white, _("Trapped"));
  std::string damage_info;
  nc_color col;
@@ -248,30 +255,30 @@ int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
 
 char monster::symbol()
 {
- return type->sym;
+    return type->sym;
 }
 
-void monster::draw(WINDOW *w, int plx, int ply, bool inv)
+nc_color monster::basic_symbol_color()
 {
- int x = getmaxx(w)/2 + posx() - plx;
- int y = getmaxy(w)/2 + posy() - ply;
- nc_color color = type->color;
- if (friendly != 0 && !inv)
-  mvwputch_hi(w, y, x, color, type->sym);
- else if (inv)
-  mvwputch_inv(w, y, x, color, type->sym);
- else {
-  color = color_with_effects();
-  mvwputch(w, y, x, color, type->sym);
- }
+    return type->color;
+}
+
+nc_color monster::symbol_color()
+{
+    return color_with_effects();
+}
+
+bool monster::is_symbol_highlighted()
+{
+    return (friendly != 0);
 }
 
 nc_color monster::color_with_effects()
 {
  nc_color ret = type->color;
- if (has_effect(ME_BEARTRAP) || has_effect(ME_STUNNED) || has_effect(ME_DOWNED))
+ if (has_effect("effect_beartrap") || has_effect("effect_stunned") || has_effect("effect_downed"))
   ret = hilite(ret);
- if (has_effect(ME_ONFIRE))
+ if (has_effect("effect_onfire"))
   ret = red_background(ret);
  return ret;
 }
@@ -283,12 +290,12 @@ bool monster::has_flag(const m_flag f) const
 
 bool monster::can_see()
 {
- return has_flag(MF_SEES) && !has_effect(ME_BLIND);
+ return has_flag(MF_SEES) && !has_effect("effect_blind");
 }
 
 bool monster::can_hear()
 {
- return has_flag(MF_HEARS) && !has_effect(ME_DEAF);
+ return has_flag(MF_HEARS) && !has_effect("effect_deaf");
 }
 
 bool monster::can_submerge()
@@ -419,7 +426,7 @@ point monster::move_target()
 
 bool monster::is_fleeing(player &u)
 {
- if (has_effect(ME_RUN))
+ if (has_effect("effect_run"))
   return true;
  monster_attitude att = attitude(&u);
  return (att == MATT_FLEE ||
@@ -430,7 +437,7 @@ monster_attitude monster::attitude(player *u)
 {
  if (friendly != 0)
   return MATT_FRIEND;
- if (has_effect(ME_RUN))
+ if (has_effect("effect_run"))
   return MATT_FLEE;
 
  int effective_anger  = anger;
@@ -566,7 +573,34 @@ int monster::trigger_sum(game *g, std::set<monster_trigger> *triggers)
  return ret;
 }
 
-int monster::hit(game *g, player &p, body_part &bp_hit) {
+bool monster::is_on_ground() {
+    return false; //TODO: actually make this work
+}
+
+bool monster::has_weapon() {
+    return false; // monsters will never have weapons, silly
+}
+
+bool monster::is_warm() {
+    return has_flag(MF_WARM);
+}
+
+bool monster::is_dead_state() {
+    return hp <= 0;
+}
+
+bool monster::block_hit(game *g, body_part &bp_hit, int &side,
+            damage_instance &d) {
+    return false;
+}
+
+void monster::absorb_hit(game *g, body_part bp, int side,
+        damage_instance &dam) {
+    return;
+}
+
+
+int monster::hit(game *g, Creature &p, body_part &bp_hit) {
  int ret = 0;
  int highest_hit = 0;
 
@@ -623,6 +657,12 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
  return ret;
 }
 
+
+int monster::melee_attack(game *g, Creature &p, bool allow_grab) {
+    (void)g; (void)p; (void)allow_grab;
+    return 0;
+}
+
 void monster::hit_monster(game *g, int i)
 {
  monster* target = &(g->zombie(i));
@@ -633,7 +673,7 @@ void monster::hit_monster(game *g, int i)
  }
 
  int numdice = type->melee_skill;
- int dodgedice = target->dodge() * 2;
+ int dodgedice = target->get_dodge() * 2;
  switch (target->type->size) {
   case MS_TINY:  dodgedice += 6; break;
   case MS_SMALL: dodgedice += 3; break;
@@ -653,6 +693,29 @@ void monster::hit_monster(game *g, int i)
   g->kill_mon(i, (friendly != 0));
 }
 
+void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain) {
+    switch (du.type) {
+    case DT_ELECTRIC:
+        if (has_flag(MF_ELECTRIC)) {
+            damage -= du.amount; // immunity, since it will be re-added again in base method
+        }
+    case DT_COLD:
+        if (!has_flag(MF_WARM)) {
+            damage -= du.amount; // immunity
+        }
+    }
+
+    Creature::deal_damage_handle_type(du, bp, damage, pain);
+}
+
+void monster::apply_damage(game* g, Creature* source, body_part bp, int side, int amount) {
+    hurt(g, bp, side, amount);
+    if (is_dead_state()) die(g, source);
+}
+
+void monster::hurt(game*g, body_part bp, int side, int dam) {
+    hurt(dam);
+}
 
 bool monster::hurt(int dam, int real_dam)
 {
@@ -669,32 +732,38 @@ bool monster::hurt(int dam, int real_dam)
  return false;
 }
 
-int monster::armor_cut()
+int monster::get_armor_cut(body_part bp)
 {
+    (void) bp;
 // TODO: Add support for worn armor?
- return int(type->armor_cut);
+ return int(type->armor_cut) + armor_bash_bonus;
 }
 
-int monster::armor_bash()
+int monster::get_armor_bash(body_part bp)
 {
- return int(type->armor_bash);
+    (void) bp;
+ return int(type->armor_bash) + armor_cut_bonus;
 }
 
-int monster::dodge()
+int monster::hit_roll() {
+    return 0;
+}
+
+int monster::get_dodge()
 {
- if (has_effect(ME_DOWNED))
+ if (has_effect("effect_downed"))
   return 0;
  int ret = type->sk_dodge;
- if (has_effect(ME_BEARTRAP))
+ if (has_effect("effect_beartrap"))
   ret /= 2;
  if (moves <= 0 - 100 - type->speed)
   ret = rng(0, ret);
- return ret;
+ return ret + get_dodge_bonus();
 }
 
 int monster::dodge_roll()
 {
- int numdice = dodge();
+ int numdice = get_dodge();
 
  switch (type->size) {
   case MS_TINY:  numdice += 6; break;
@@ -720,6 +789,10 @@ int monster::fall_damage()
  }
 
  return 0;
+}
+
+void monster::die(game *g, Creature* killer) {
+    g->kill_mon(*this, killer != NULL && killer->is_player());
 }
 
 void monster::die(game *g)
@@ -835,69 +908,28 @@ void monster::drop_items_on_death(game *g)
     }
 }
 
-void monster::add_effect(monster_effect_type effect, int duration)
-{
- for (int i = 0; i < effects.size(); i++) {
-  if (effects[i].type == effect) {
-   effects[i].duration += duration;
-   return;
-  }
- }
- effects.push_back(monster_effect(effect, duration));
-}
-
-bool monster::has_effect(monster_effect_type effect)
-{
- for (int i = 0; i < effects.size(); i++) {
-  if (effects[i].type == effect)
-   return true;
- }
- return false;
-}
-
-void monster::rem_effect(monster_effect_type effect)
-{
- for (int i = 0; i < effects.size(); i++) {
-  if (effects[i].type == effect) {
-   effects.erase(effects.begin() + i);
-   i--;
-  }
- }
-}
-
 void monster::process_effects(game *g)
 {
- for (int i = 0; i < effects.size(); i++) {
-  switch (effects[i].type) {
-  case ME_POISONED:
-   speed -= rng(0, 3);
-   hurt(rng(1, 3));
-   break;
+    for (std::vector<effect>::iterator it = effects.begin();
+            it != effects.end(); ++it) {
+        std::string id = it->get_id();
+        if (id == "effect_poisoned") {
+            speed -= rng(0, 3);
+            hurt(rng(1, 3));
 
-// MATERIALS-TODO: use fire resistance
-  case ME_ONFIRE:
-   if (made_of("flesh"))
-    hurt(rng(3, 8));
-   if (made_of("veggy"))
-    hurt(rng(10, 20));
-   if (made_of("paper") || made_of("powder") || made_of("wood") || made_of("cotton") ||
-       made_of("wool"))
-    hurt(rng(15, 40));
-   break;
+        // MATERIALS-TODO: use fire resistance
+        } else if (id == "effect_onfire") {
+            if (made_of("flesh"))
+                hurt(rng(3, 8));
+            if (made_of("veggy"))
+                hurt(rng(10, 20));
+            if (made_of("paper") || made_of("powder") || made_of("wood") || made_of("cotton") ||
+                made_of("wool"))
+                hurt(rng(15, 40));
+        }
+    }
 
-  }
-  if (effects[i].duration > 0) {
-   effects[i].duration--;
-   if (g->debugmon)
-    debugmsg("Duration %d", effects[i].duration);
-  }
-  if (effects[i].duration == 0) {
-   if (g->debugmon)
-    debugmsg("Deleting");
-   effects.erase(effects.begin() + i);
-   i--;
-  }
- }
+    Creature::process_effects(g);
 }
 
 bool monster::make_fungus()

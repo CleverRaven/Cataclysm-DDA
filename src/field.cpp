@@ -817,7 +817,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                         g->add_msg(_("A %s hits you!"), tmp.tname().c_str());
                                         body_part hit = random_body_part();
                                         int side = random_side(hit);
-                                        g->u.hit(g, hit, side, 6, 0);
+                                        g->u.hit(g, NULL, hit, side, 6, 0);
                                     }
                                     int npcdex = g->npc_at(newp.x, newp.y),
                                         mondex = g->mon_at(newp.x, newp.y);
@@ -826,7 +826,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                         npc *p = g->active_npc[npcdex];
                                         body_part hit = random_body_part();
                                         int side = random_side(hit);
-                                        p->hit(g, hit, side, 6, 0);
+                                        p->hit(g, NULL, hit, side, 6, 0);
                                         if (g->u_see(newp.x, newp.y)) {
                                             g->add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
                                         }
@@ -834,7 +834,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 
                                     if (mondex != -1) {
                                         monster *mon = &(g->zombie(mondex));
-                                        mon->hurt(6 - mon->armor_bash());
+                                        mon->hurt(6 - mon->get_armor_bash(bp_torso));
                                         if (g->u_see(newp.x, newp.y))
                                             g->add_msg(_("A %s hits the %s!"), tmp.tname().c_str(),
                                                        mon->name().c_str());
@@ -1013,20 +1013,20 @@ void map::step_in_field(int x, int y, game *g)
             //TODO: Add resistance to this with rubber shoes or something?
             if (cur->getFieldDensity() == 3 && !inside) {
                 g->add_msg(_("The acid burns your legs and feet!"));
-                g->u.hit(g, bp_feet, 0, 0, rng(4, 10));
-                g->u.hit(g, bp_feet, 1, 0, rng(4, 10));
-                g->u.hit(g, bp_legs, 0, 0, rng(2,  8));
-                g->u.hit(g, bp_legs, 1, 0, rng(2,  8));
+                g->u.hit(g, NULL, bp_feet, 0, 0, rng(4, 10));
+                g->u.hit(g, NULL, bp_feet, 1, 0, rng(4, 10));
+                g->u.hit(g, NULL, bp_legs, 0, 0, rng(2,  8));
+                g->u.hit(g, NULL, bp_legs, 1, 0, rng(2,  8));
             } else if (cur->getFieldDensity() == 2 && !inside) {
-                g->u.hit(g, bp_feet, 0, 0, rng(2, 5));
-                g->u.hit(g, bp_feet, 1, 0, rng(2, 5));
-                g->u.hit(g, bp_legs, 0, 0, rng(1,  4));
-                g->u.hit(g, bp_legs, 1, 0, rng(1,  4));
+                g->u.hit(g, NULL, bp_feet, 0, 0, rng(2, 5));
+                g->u.hit(g, NULL, bp_feet, 1, 0, rng(2, 5));
+                g->u.hit(g, NULL, bp_legs, 0, 0, rng(1,  4));
+                g->u.hit(g, NULL, bp_legs, 1, 0, rng(1,  4));
             } else if (!inside) {
-                g->u.hit(g, bp_feet, 0, 0, rng(1, 3));
-                g->u.hit(g, bp_feet, 1, 0, rng(1, 3));
-                g->u.hit(g, bp_legs, 0, 0, rng(0,  2));
-                g->u.hit(g, bp_legs, 1, 0, rng(0,  2));
+                g->u.hit(g, NULL, bp_feet, 0, 0, rng(1, 3));
+                g->u.hit(g, NULL, bp_feet, 1, 0, rng(1, 3));
+                g->u.hit(g, NULL, bp_legs, 0, 0, rng(0,  2));
+                g->u.hit(g, NULL, bp_legs, 1, 0, rng(0,  2));
             }
             break;
 
@@ -1062,21 +1062,21 @@ void map::step_in_field(int x, int y, game *g)
             if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink prevents ALL fire damage.
                 if (adjusted_intensity == 1) {
                     g->add_msg(_("You burn your legs and feet!"));
-                    g->u.hit(g, bp_feet, 0, 0, rng(2, 6));
-                    g->u.hit(g, bp_feet, 1, 0, rng(2, 6));
-                    g->u.hit(g, bp_legs, 0, 0, rng(1, 4));
-                    g->u.hit(g, bp_legs, 1, 0, rng(1, 4));
+                    g->u.hit(g, NULL, bp_feet, 0, 0, rng(2, 6));
+                    g->u.hit(g, NULL, bp_feet, 1, 0, rng(2, 6));
+                    g->u.hit(g, NULL, bp_legs, 0, 0, rng(1, 4));
+                    g->u.hit(g, NULL, bp_legs, 1, 0, rng(1, 4));
                 } else if (adjusted_intensity == 2) {
                     g->add_msg(_("You're burning up!"));
-                    g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
-                    g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
-                    g->u.hit(g, bp_torso, -1, 4, rng(4, 9));
+                    g->u.hit(g, NULL, bp_legs, 0, 0,  rng(2, 6));
+                    g->u.hit(g, NULL, bp_legs, 1, 0,  rng(2, 6));
+                    g->u.hit(g, NULL, bp_torso, -1, 4, rng(4, 9));
                 } else if (adjusted_intensity == 3) {
                     g->add_msg(_("You're set ablaze!"));
-                    g->u.hit(g, bp_legs, 0, 0, rng(2, 6));
-                    g->u.hit(g, bp_legs, 1, 0, rng(2, 6));
-                    g->u.hit(g, bp_torso, -1, 4, rng(4, 9));
-                    g->u.add_disease("onfire", 5); //lasting fire damage only from the strongest fires.
+                    g->u.hit(g, NULL, bp_legs, 0, 0, rng(2, 6));
+                    g->u.hit(g, NULL, bp_legs, 1, 0, rng(2, 6));
+                    g->u.hit(g, NULL, bp_torso, -1, 4, rng(4, 9));
+                    g->u.add_effect("effect_onfire", 5); //lasting fire damage only from the strongest fires.
                 }
             }
             break;
@@ -1124,13 +1124,13 @@ void map::step_in_field(int x, int y, game *g)
             // Toxic gas at low levels poisons you.
             // Toxic gas at high levels will cause very nasty poison.
             if (cur->getFieldDensity() == 2 && (!inside || (cur->getFieldDensity() == 3 && inside))) {
-                g->u.infect("poison", bp_mouth, 5, 30);
+                g->u.add_env_effect("effect_poison", bp_mouth, 5, 30);
             }
             else if (cur->getFieldDensity() == 3 && !inside)
             {
                 g->u.infect("badpoison", bp_mouth, 5, 30);
             } else if (cur->getFieldDensity() == 1 && (!inside)) {
-                g->u.infect("poison", bp_mouth, 2, 10);
+                g->u.add_env_effect("effect_poison", bp_mouth, 2, 20);
             }
             break;
 
@@ -1150,9 +1150,9 @@ void map::step_in_field(int x, int y, game *g)
             if (inside) break; //fireballs can't touch you inside a car.
             if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink stops fire.
                 g->add_msg(_("You're torched by flames!"));
-                g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
-                g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
-                g->u.hit(g, bp_torso, -1, 4, rng(4, 9));
+                g->u.hit(g, NULL, bp_legs, 0, 0,  rng(2, 6));
+                g->u.hit(g, NULL, bp_legs, 1, 0,  rng(2, 6));
+                g->u.hit(g, NULL, bp_torso, -1, 4, rng(4, 9));
             } else
                 g->add_msg(_("These flames do not burn you."));
             break;
@@ -1286,7 +1286,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
                     z->moves -= 20;
                     if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
                         !z->made_of("steel") && !z->has_flag(MF_FIREY)) {
-                        z->add_effect(ME_ONFIRE, rng(3, 8));
+                        z->add_effect("effect_onfire", rng(3, 8));
                     }
                 }
             } else if (cur->getFieldDensity() == 3) {
@@ -1295,7 +1295,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
                     z->moves -= 40;
                     if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
                         !z->made_of("steel") && !z->has_flag(MF_FIREY)) {
-                        z->add_effect(ME_ONFIRE, rng(8, 12));
+                        z->add_effect("effect_onfire", rng(8, 12));
                     }
                 }
             }
@@ -1305,7 +1305,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 
         case fd_rubble:
             if (!z->has_flag(MF_FLIES) && !z->has_flag(MF_AQUATIC)) {
-                z->add_effect(ME_BOULDERING, 1);
+                z->add_effect("effect_bouldering", 1);
             }
             break;
 
@@ -1324,20 +1324,20 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
             if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy")) &&
                 !z->has_flag(MF_NO_BREATHE)) {
                 if (cur->getFieldDensity() == 3) {
-                    z->add_effect(ME_STUNNED, rng(10, 20));
+                    z->add_effect("effect_stunned", rng(10, 20));
                     dam += rng(4, 10);
                 } else if (cur->getFieldDensity() == 2) {
-                    z->add_effect(ME_STUNNED, rng(5, 10));
+                    z->add_effect("effect_stunned", rng(5, 10));
                     dam += rng(2, 5);
                 } else {
-                    z->add_effect(ME_STUNNED, rng(1, 5));
+                    z->add_effect("effect_stunned", rng(1, 5));
                 }
                 if (z->made_of("veggy")) {
                     z->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
                     dam += cur->getFieldDensity() * rng(8, 14);
                 }
                 if (z->has_flag(MF_SEES)) {
-                     z->add_effect(ME_BLIND, cur->getFieldDensity() * 8);
+                     z->add_effect("effect_blind", cur->getFieldDensity() * 8);
                 }
             }
             break;
@@ -1472,22 +1472,22 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
     npc_inside = (veh && veh->is_inside(veh_part));
    }
    if (g->u.posx == x && g->u.posy == y && !pc_inside) {            //If there's a PC at (x,y) and he's not in a covered vehicle...
-    if (g->u.dodge(g) < rng(1, hit_chance) || one_in(g->u.dodge(g))) {
+    if (g->u.get_dodge() < rng(1, hit_chance) || one_in(g->u.get_dodge())) {
      int how_many_limbs_hit = rng(0, num_hp_parts);
      for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
       g->u.hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
       g->add_msg(_("You are hit by the falling debris!"));
      }
      if (one_in(g->u.dex_cur)) {
-      g->u.add_disease("downed", 2);
+      g->u.add_effect("effect_downed", 2);
      }
      if (one_in(g->u.str_cur)) {
-      g->u.add_disease("stunned", 2);
+      g->u.add_effect("effect_stunned", 2);
      }
     }
     else if (one_in(g->u.str_cur)) {
      g->add_msg(_("You trip as you evade the falling debris!"));
-     g->u.add_disease("downed", 1);
+     g->u.add_effect("effect_downed", 1);
     }
                         //Avoiding disease system for the moment, since I was having trouble with it.
 //    g->u.add_disease("crushed", 42, g);    //Using a disease allows for easy modification without messing with field code
@@ -1501,20 +1501,20 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
    }
    if (fdnpc != -1) {
     if (fdnpc < g->active_npc.size() && !npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...
-    if (me && (me->dodge(g) < rng(1, hit_chance) || one_in(me->dodge(g)))) {
+    if (me && (me->get_dodge() < rng(1, hit_chance) || one_in(me->get_dodge()))) {
       int how_many_limbs_hit = rng(0, num_hp_parts);
       for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
        me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
       }
       if (one_in(me->dex_cur)) {
-       me->add_disease("downed", 2);
+       me->add_effect("effect_downed", 2);
       }
       if (one_in(me->str_cur)) {
-       me->add_disease("stunned", 2);
+       me->add_effect("effect_stunned", 2);
       }
      }
      else if (me && one_in(me->str_cur)) {
-      me->add_disease("downed", 1);
+      me->add_effect("effect_downed", 1);
      }
     }
     if (me && (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0)) {

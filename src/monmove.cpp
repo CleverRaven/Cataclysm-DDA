@@ -113,7 +113,7 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
             }
         }
 
-        if (has_effect(ME_DOCILE)) {
+        if (has_effect("effect_docile")) {
             closest = -1;
         }
 
@@ -251,16 +251,16 @@ void monster::move(game *g)
         moves = 0;
         return;
     }
-    if (has_effect(ME_STUNNED)) {
+    if (has_effect("effect_stunned")) {
         stumble(g, false);
         moves = 0;
         return;
     }
-    if (has_effect(ME_DOWNED)) {
+    if (has_effect("effect_downed")) {
         moves = 0;
         return;
     }
-    if (has_effect(ME_BOULDERING)) {
+    if (has_effect("effect_bouldering")) {
         moves -= 20;
         if (moves < 0) {
             return;
@@ -536,10 +536,10 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     {
         return;
     }
-    add_effect(ME_HIT_BY_PLAYER, 3); // Make us a valid target for a few turns
+    add_effect("effect_hit_by_player", 3); // Make us a valid target for a few turns
     if (has_flag(MF_HIT_AND_RUN))
     {
-        add_effect(ME_RUN, 4);
+        add_effect("effect_run", 4);
     }
     bool is_npc = p.is_npc();
     bool u_see = (!is_npc || g->u_see(p.posx, p.posy));
@@ -564,7 +564,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
         if (!g->u.uncanny_dodge())
         {
             //Reduce player's ability to dodge by monster's ability to hit
-            int dodge_ii = p.dodge(g) - rng(0, type->melee_skill);
+            int dodge_ii = p.get_dodge() - rng(0, type->melee_skill);
             if (dodge_ii < 0)
             {
                 dodge_ii = 0;
@@ -592,7 +592,8 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             {
                 p.practice(g->turn, "dodge", type->melee_skill);
 
-                if(!p.block_hit(g, bphit, side, dam, cut, stab) && u_see) {
+                damage_instance d = damage_instance::physical(dam, cut, stab);
+                if(!p.block_hit(g, bphit, side, d) && u_see) {
                     if (is_npc) {
                         if( u_see ) {
                             g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
@@ -673,12 +674,12 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 } else {
 
                     //Hurt the player
-                    dam = p.hit(g, bphit, side, dam, cut);
+                    dam = p.hit(g, this, bphit, side, dam, cut);
 
                     //Monster effects
                     if (dam > 0 && has_flag(MF_VENOM)) {
                         g->add_msg_if_player(&p, _("You're poisoned!"));
-                        p.add_disease("poison", 30);
+                        p.add_effect("effect_poison", 30);
                     } else if (dam > 0 && has_flag(MF_BADVENOM)) {
                         g->add_msg_if_player(&p, _("You feel poison flood your body, wracking you with pain..."));
                         p.add_disease("badpoison", 40);
@@ -935,7 +936,7 @@ int monster::move_to(game *g, int x, int y, bool force)
         return 0;
     }
 
-    if (has_effect(ME_BEARTRAP)) {
+    if (has_effect("effect_beartrap")) {
         moves = 0;
         return 0;
     }
@@ -1107,14 +1108,14 @@ void monster::knock_back_from(game *g, int x, int y)
  if (mondex != -1) {
   monster *z = &(g->zombie(mondex));
   hurt(z->type->size);
-  add_effect(ME_STUNNED, 1);
+  add_effect("effect_stunned", 1);
   if (type->size > 1 + z->type->size) {
    z->knock_back_from(g, posx(), posy()); // Chain reaction!
    z->hurt(type->size);
-   z->add_effect(ME_STUNNED, 1);
+   z->add_effect("effect_stunned", 1);
   } else if (type->size > z->type->size) {
    z->hurt(type->size);
-   z->add_effect(ME_STUNNED, 1);
+   z->add_effect("effect_stunned", 1);
   }
 
   if (u_see)
@@ -1127,8 +1128,8 @@ void monster::knock_back_from(game *g, int x, int y)
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
   hurt(3);
-  add_effect(ME_STUNNED, 1);
-  p->hit(g, bp_torso, -1, type->size, 0);
+  add_effect("effect_stunned", 1);
+  p->hit(g, this, bp_torso, -1, type->size, 0);
   if (u_see)
    g->add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
 
@@ -1151,7 +1152,7 @@ void monster::knock_back_from(game *g, int x, int y)
 
   } else { // It's some kind of wall.
    hurt(type->size);
-   add_effect(ME_STUNNED, 2);
+   add_effect("effect_stunned", 2);
    if (u_see)
     g->add_msg(_("The %s bounces off a %s."), name().c_str(),
                g->m.tername(to.x, to.y).c_str());

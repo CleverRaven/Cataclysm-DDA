@@ -34,9 +34,11 @@
 
 #include <ctime>
 #include <algorithm>
+#include <numeric>
 
 nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
+static void manage_fire_exposure(player& p, int fireStrength = 1);
 
 std::map<std::string, trait> traits;
 std::map<std::string, martialart> ma_styles;
@@ -92,7 +94,7 @@ void game::init_morale()
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
 }
 
-player::player() : name("")
+player::player() : Character(), name("")
 {
  id = 0; // Player is 0. NPCs are different.
  view_offset_x = 0;
@@ -178,7 +180,7 @@ player::player() : name("")
  recalc_sight_limits();
 }
 
-player::player(const player &rhs): JsonSerializer(), JsonDeserializer()
+player::player(const player &rhs): Character(rhs), JsonSerializer(), JsonDeserializer()
 {
  *this = rhs;
 }
@@ -305,6 +307,8 @@ player& player::operator= (const player & rhs)
 
 void player::normalize(game *g)
 {
+    Creature::normalize(g);
+
  ret_null = item(itypes["null"], 0);
  weapon   = item(itypes["null"], 0);
  style_selected = "style_none";
@@ -322,118 +326,145 @@ void player::pick_name() {
     name = Name::generate(male);
 }
 
-void player::reset(game *g)
-{
-// Reset our stats to normal levels
-// Any persistent buffs/debuffs will take place in disease.h,
-// player::suffer(), etc.
- str_cur = str_max;
- dex_cur = dex_max;
- int_cur = int_max;
- per_cur = per_max;
-// We can dodge again!
- dodges_left = 1;
- blocks_left = 1;
-// Didn't just pick something up
- last_item = itype_id("null");
-// Bionic buffs
- if (has_active_bionic("bio_hydraulics"))
-  str_cur += 20;
- if (has_bionic("bio_eye_enhancer"))
-  per_cur += 2;
- if (has_bionic("bio_str_enhancer"))
-  str_cur += 2;
- if (has_bionic("bio_int_enhancer"))
-  int_cur += 2;
-if (has_bionic("bio_dex_enhancer"))
-  dex_cur += 2;
-if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
-     hunger < 100 && (int(g->turn) % 5 == 0)) {
-  hunger += 2;
-  power_level++;
+std::string player::disp_name() {
+    return name;
 }
 
-// Trait / mutation buffs
- if (has_trait("THICK_SCALES"))
-  dex_cur -= 2;
- if (has_trait("CHITIN2") || has_trait("CHITIN3"))
-  dex_cur--;
- if (has_trait("COMPOUND_EYES") && !wearing_something_on(bp_eyes))
-  per_cur++;
- if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-     has_trait("ARM_TENTACLES_8"))
-  dex_cur++;
-// Pain
- if (pain > pkill) {
-  str_cur  -=     int((pain - pkill) / 15);
-  dex_cur  -=     int((pain - pkill) / 15);
-  per_cur  -=     int((pain - pkill) / 20);
-  int_cur  -= 1 + int((pain - pkill) / 25);
- }
-// Morale
- if (abs(morale_level()) >= 100) {
-  str_cur  += int(morale_level() / 180);
-  dex_cur  += int(morale_level() / 200);
-  per_cur  += int(morale_level() / 125);
-  int_cur  += int(morale_level() / 100);
- }
-// Radiation
- if (radiation > 0) {
-  str_cur  -= int(radiation / 80);
-  dex_cur  -= int(radiation / 110);
-  per_cur  -= int(radiation / 100);
-  int_cur  -= int(radiation / 120);
- }
-// Stimulants
- dex_cur += int(stim / 10);
- per_cur += int(stim /  7);
- int_cur += int(stim /  6);
- if (stim >= 30) {
-  dex_cur -= int(abs(stim - 15) /  8);
-  per_cur -= int(abs(stim - 15) / 12);
-  int_cur -= int(abs(stim - 15) / 14);
- }
+std::string player::skin_name() {
+    return "thin skin";
+}
 
-// Set our scent towards the norm
- int norm_scent = 500;
- if (has_trait("SMELLY"))
-  norm_scent = 800;
- if (has_trait("SMELLY2"))
-  norm_scent = 1200;
+// just a shim for now since actual player death is handled in game::is_game_over
+void player::die(game* g, Creature* killer) {
+    (void)g;(void)killer; 
+    return;
+}
 
- // Scent increases fast at first, and slows down as it approaches normal levels.
- // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
- // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
- if (scent < rng(0, norm_scent))
-   scent++;
+void player::reset_stats(game *g)
+{
+    // We can dodge again!
+    blocks_left = get_num_blocks();
+    dodges_left = get_num_dodges();
 
- // Unusually high scent decreases steadily until it reaches normal levels.
- if (scent > norm_scent)
-  scent--;
+    suffer(g);
 
-// Give us our movement points for the turn.
- moves += current_speed(g);
+    // Didn't just pick something up
+    last_item = itype_id("null");
 
-// Apply static martial arts buffs
-  ma_static_effects();
+    // Bionic buffs
+    if (has_active_bionic("bio_hydraulics"))
+        mod_str_bonus(20);
+    if (has_bionic("bio_eye_enhancer"))
+        mod_per_bonus(2);
+    if (has_bionic("bio_str_enhancer"))
+        mod_str_bonus(2);
+    if (has_bionic("bio_int_enhancer"))
+        mod_int_bonus(2);
+    if (has_bionic("bio_dex_enhancer"))
+        mod_dex_bonus(2);
+    if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
+            hunger < 100 && (int(g->turn) % 5 == 0)) {
+        hunger += 2;
+        power_level++;
+    }
 
-// Floor for our stats.  No stat changes should occur after this!
- if (dex_cur < 0)
-  dex_cur = 0;
- if (str_cur < 0)
-  str_cur = 0;
- if (per_cur < 0)
-  per_cur = 0;
- if (int_cur < 0)
-  int_cur = 0;
+    // Trait / mutation buffs
+    if (has_trait("THICK_SCALES"))
+        mod_dex_bonus(-2);
+    if (has_trait("CHITIN2") || has_trait("CHITIN3"))
+        mod_dex_bonus(-1);
+    if (has_trait("COMPOUND_EYES") && !wearing_something_on(bp_eyes))
+        mod_per_bonus(1);
+    if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
+            has_trait("ARM_TENTACLES_8"))
+        mod_dex_bonus(1);
 
- if (int(g->turn) % 10 == 0) {
-  update_mental_focus();
- }
+    // Pain
+    if (pain > pkill) {
+        mod_str_bonus(-int((pain - pkill) / 15));
+        mod_dex_bonus(-int((pain - pkill) / 15));
+        mod_per_bonus(-int((pain - pkill) / 20));
+        mod_int_bonus(-(1 + int((pain - pkill) / 25)));
+    }
+    // Morale
+    if (abs(morale_level()) >= 100) {
+        mod_str_bonus(int(morale_level() / 180));
+        mod_dex_bonus(int(morale_level() / 200));
+        mod_per_bonus(int(morale_level() / 125));
+        mod_int_bonus(int(morale_level() / 100));
+    }
+    // Radiation
+    if (radiation > 0) {
+        mod_str_bonus(-int(radiation / 80));
+        mod_dex_bonus(-int(radiation / 110));
+        mod_per_bonus(-int(radiation / 100));
+        mod_int_bonus(-int(radiation / 120));
+    }
+    // Stimulants
+    mod_dex_bonus(int(stim / 10));
+    mod_per_bonus(int(stim /  7));
+    mod_int_bonus(int(stim /  6));
+    if (stim >= 30) {
+        mod_dex_bonus(-int(abs(stim - 15) /  8));
+        mod_per_bonus(-int(abs(stim - 15) / 12));
+        mod_int_bonus(-int(abs(stim - 15) / 14));
+    }
 
- nv_cached = false;
+    // Dodge-related effects
+    mod_dodge_bonus(
+            mabuff_dodge_bonus()
+            - encumb(bp_legs)/2
+            - encumb(bp_torso)
+        );
+    if (has_trait("TAIL_LONG")) {mod_dodge_bonus(2);}
+    if (has_trait("TAIL_CATTLE")) {mod_dodge_bonus(1);}
+    if (has_trait("TAIL_RAT")) {mod_dodge_bonus(2);}
+    if (has_trait("TAIL_THICK")) {mod_dodge_bonus(1);}
+    if (has_trait("TAIL_RAPTOR")) {mod_dodge_bonus(3);}
+    if (has_trait("TAIL_FLUFFY")) {mod_dodge_bonus(4);}
+    if (has_trait("WHISKERS")) {mod_dodge_bonus(1);}
+    if (has_trait("WINGS_BAT")) {mod_dodge_bonus(-3);}
 
- recalc_sight_limits();
+    if (str_max >= 16) {mod_dodge_bonus(-1);} // Penalty if we're huge
+    else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
+
+    // Hit-related effects
+    mod_hit_bonus(
+            mabuff_tohit_bonus()
+            + weapon.type->m_to_hit
+            - encumb(bp_torso)
+        );
+
+    // Set our scent towards the norm
+    int norm_scent = 500;
+    if (has_trait("SMELLY"))
+        norm_scent = 800;
+    if (has_trait("SMELLY2"))
+        norm_scent = 1200;
+
+    // Scent increases fast at first, and slows down as it approaches normal levels.
+    // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
+    // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
+    if (scent < rng(0, norm_scent))
+        scent++;
+
+    // Unusually high scent decreases steadily until it reaches normal levels.
+    if (scent > norm_scent)
+        scent--;
+
+    // Apply static martial arts buffs
+    ma_static_effects();
+
+    if (int(g->turn) % 10 == 0) {
+        update_mental_focus();
+    }
+    nv_cached = false;
+
+    recalc_sight_limits();
+    recalc_speed_bonus();
+
+    Creature::reset_stats(g);
+
 }
 
 void player::action_taken()
@@ -806,7 +837,7 @@ void player::update_bodytemp(game *g)
         }
         // TILES
         // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
-        if (has_disease("onfire")) {
+        if (has_effect("effect_onfire")) {
             temp_cur[i] += 250;
         }
         if ( g->m.get_field_strength( point(posx, posy), fd_fire ) > 2 || trap_at_pos == tr_lava) {
@@ -862,7 +893,7 @@ void player::update_bodytemp(game *g)
             blister_count = (has_trait("BARK") ? -100 : 0);
         }
         // BLISTERS : Skin gets blisters from intense heat exposure.
-        if (blister_count - 10*resist(body_part(i)) > 20)
+        if (blister_count - 10*get_env_resist(body_part(i)) > 20)
         {
             add_disease("blisters", 1, false, 1, 1, 0, 1, (body_part)i, -1);
         }
@@ -1103,26 +1134,25 @@ void player::temp_equalizer(body_part bp1, body_part bp2)
  temp_cur[bp1] += diff;
 }
 
-int player::current_speed(game *g)
+void player::recalc_speed_bonus(game *g)
 {
- int newmoves = 100; // Start with 100 movement points...
 // Minus some for weight...
  int carry_penalty = 0;
  if (weight_carried() > weight_capacity())
   carry_penalty = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
- newmoves -= carry_penalty;
+ mod_speed_bonus(-carry_penalty);
 
  if (pain > pkill) {
   int pain_penalty = int((pain - pkill) * .7);
   if (pain_penalty > 60)
    pain_penalty = 60;
-  newmoves -= pain_penalty;
+  mod_speed_bonus(-pain_penalty);
  }
  if (pkill >= 10) {
   int pkill_penalty = int(pkill * .1);
   if (pkill_penalty > 30)
    pkill_penalty = 30;
-  newmoves -= pkill_penalty;
+  mod_speed_bonus(-pkill_penalty);
  }
 
  if (abs(morale_level()) >= 100) {
@@ -1131,52 +1161,50 @@ int player::current_speed(game *g)
    morale_bonus = -10;
   else if (morale_bonus > 10)
    morale_bonus = 10;
-  newmoves += morale_bonus;
+  mod_speed_bonus(morale_bonus);
  }
 
  if (radiation >= 40) {
   int rad_penalty = radiation / 40;
   if (rad_penalty > 20)
    rad_penalty = 20;
-  newmoves -= rad_penalty;
+  mod_speed_bonus(-rad_penalty);
  }
 
  if (thirst > 40)
-  newmoves -= int((thirst - 40) / 10);
+  mod_speed_bonus(-int((thirst - 40) / 10));
  if (hunger > 100)
-  newmoves -= int((hunger - 100) / 10);
+  mod_speed_bonus(-int((hunger - 100) / 10));
 
- newmoves += (stim > 40 ? 40 : stim);
+ mod_speed_bonus(stim > 40 ? 40 : stim);
 
  for (int i = 0; i < illness.size(); i++)
-  newmoves += disease_speed_boost(illness[i]);
+  mod_speed_bonus(disease_speed_boost(illness[i]));
 
  // add martial arts speed bonus
- newmoves += mabuff_speed_bonus();
-
- if (has_trait("QUICK"))
-  newmoves = int(newmoves * 1.10);
+ mod_speed_bonus(mabuff_speed_bonus());
 
  if (g != NULL) {
   if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy))
-   newmoves -= (g->light_level() >= 12 ? 5 : 10);
+   mod_speed_bonus(-(g->light_level() >= 12 ? 5 : 10));
   if (has_trait("COLDBLOOD3") && g->get_temperature() < 60)
-   newmoves -= int( (65 - g->get_temperature()) / 2);
+   mod_speed_bonus(-int( (65 - g->get_temperature()) / 2));
   else if (has_trait("COLDBLOOD2") && g->get_temperature() < 60)
-   newmoves -= int( (65 - g->get_temperature()) / 3);
+   mod_speed_bonus(-int( (65 - g->get_temperature()) / 3));
   else if (has_trait("COLDBLOOD") && g->get_temperature() < 60)
-   newmoves -= int( (65 - g->get_temperature()) / 5);
+   mod_speed_bonus(-int( (65 - g->get_temperature()) / 5));
  }
 
  if (has_artifact_with(AEP_SPEED_UP))
-  newmoves += 20;
+  mod_speed_bonus(20);
  if (has_artifact_with(AEP_SPEED_DOWN))
-  newmoves -= 20;
+  mod_speed_bonus(-20);
 
- if (newmoves < 25)
-  newmoves = 25;
+ if (has_trait("QUICK")) // multiply by 1.1
+  set_speed_bonus(get_speed() * 1.10 - get_speed_base());
 
- return newmoves;
+ if (get_speed_bonus() < -0.75 * get_speed_base())
+  set_speed_bonus(0.75 * get_speed_base());
 }
 
 int player::run_cost(int base_cost, bool diag)
@@ -1267,7 +1295,7 @@ int player::swim_speed()
 bool player::is_on_ground()
 {
     bool on_ground = false;
-    if(has_disease("downed") || hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 ){
+    if(has_effect("effect_downed") || hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 ){
         on_ground = true;
     }
     return  on_ground;
@@ -1289,9 +1317,9 @@ void player::set_underwater(bool u)
 
 nc_color player::color()
 {
- if (has_disease("onfire"))
+ if (has_effect("effect_onfire"))
   return c_red;
- if (has_disease("stunned"))
+ if (has_effect("effect_stunned"))
   return c_ltblue;
  if (has_disease("boomered"))
   return c_pink;
@@ -1698,6 +1726,11 @@ void player::disp_info(game *g)
    effect_text.push_back(dis_description(illness[i]));
   }
  }
+    for (std::vector<effect>::iterator it = effects.begin();
+        it != effects.end(); ++it) {
+        effect_name.push_back(it->get_effect_type()->get_name());
+        effect_text.push_back(it->get_effect_type()->get_desc());
+    }
  if (abs(morale_level()) >= 100) {
   bool pos = (morale_level() > 0);
   effect_name.push_back(pos ? _("Elated") : _("Depressed"));
@@ -2098,7 +2131,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
  mvwprintz(w_speed, 0, 13 - utf8_width(title_SPEED)/2, c_ltgray, title_SPEED);
  mvwprintz(w_speed, 1,  1, c_ltgray, _("Base Move Cost:"));
  mvwprintz(w_speed, 2,  1, c_ltgray, _("Current Speed:"));
- int newmoves = current_speed(g);
+ int newmoves = get_speed();
  int pen = 0;
  line = 3;
  if (weight_carried() > weight_capacity()) {
@@ -3016,10 +3049,10 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
    col_per = c_red;
   if (per_cur > per_max)
    col_per = c_green;
-  int spd_cur = current_speed();
-  if (current_speed() < 100)
+  int spd_cur = get_speed();
+  if (spd_cur < 100)
    col_spd = c_red;
-  if (current_speed() > 100)
+  if (spd_cur > 100)
    col_spd = c_green;
 
     int x  = sideStyle ? 18 : 13;
@@ -3655,145 +3688,180 @@ int player::intimidation()
  return ret;
 }
 
-int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
-{
-    int painadd = 0;
+bool player::is_dead_state() {
+    return hp_cur[hp_head] <= 0 || hp_cur[hp_head] <= 0;
+}
+
+dealt_damage_instance player::deal_damage(game* g, Creature* source, body_part bp,
+        int side, damage_instance& d) {
+
+    dealt_damage_instance dealt_dams = Creature::deal_damage(g, source, bp, side, d);
+    int dam = dealt_dams.total_damage();
+
     if (has_disease("sleep")) {
         wake_up(_("You wake up!"));
     } else if (has_disease("lying_down")) {
         rem_disease("lying_down");
     }
 
- absorb(g, bphurt, dam, cut);
+    if (is_player())
+        g->cancel_activity_query(_("You were hurt!"));
 
- dam += cut;
- if (dam <= 0)
-  return dam;
-// TODO: Pre or post blit hit tile onto "this"'s location here
- if( g->u_see( this->posx, this->posy ) ) {
-    g->draw_hit_player(this);
- }
+    // TODO: Pre or post blit hit tile onto "this"'s location here
+    if( g->u_see( this->posx, this->posy ) ) {
+        g->draw_hit_player(this);
+    }
 
- rem_disease("speed_boost");
- if (dam >= 6)
-  rem_disease("armor_boost");
+    // handle snake artifacts
+    if (has_artifact_with(AEP_SNAKES) && dam >= 6) {
+        int snakes = int(dam / 6);
+        std::vector<point> valid;
+        for (int x = posx - 1; x <= posx + 1; x++) {
+            for (int y = posy - 1; y <= posy + 1; y++) {
+                if (g->is_empty(x, y))
+                valid.push_back( point(x, y) );
+            }
+        }
+        if (snakes > valid.size())
+            snakes = valid.size();
+        if (snakes == 1)
+            g->add_msg(_("A snake sprouts from your body!"));
+        else if (snakes >= 2)
+            g->add_msg(_("Some snakes sprout from your body!"));
+        monster snake(GetMType("mon_shadow_snake"));
+        for (int i = 0; i < snakes; i++) {
+            int index = rng(0, valid.size() - 1);
+            point sp = valid[index];
+            valid.erase(valid.begin() + index);
+            snake.spawn(sp.x, sp.y);
+            snake.friendly = -1;
+            g->add_zombie(snake);
+        }
+    }
 
- if (!is_npc())
-  g->cancel_activity_query(_("You were hurt!"));
+    if( g->u_see( this->xpos(), this->ypos() ) ) {
+        g->draw_hit_player(this);
+    }
 
- if (has_artifact_with(AEP_SNAKES) && dam >= 6) {
-  int snakes = int(dam / 6);
-  std::vector<point> valid;
-  for (int x = posx - 1; x <= posx + 1; x++) {
-   for (int y = posy - 1; y <= posy + 1; y++) {
-    if (g->is_empty(x, y))
-     valid.push_back( point(x, y) );
-   }
-  }
-  if (snakes > valid.size())
-   snakes = valid.size();
-  if (snakes == 1)
-   g->add_msg(_("A snake sprouts from your body!"));
-  else if (snakes >= 2)
-   g->add_msg(_("Some snakes sprout from your body!"));
-  monster snake(GetMType("mon_shadow_snake"));
-  for (int i = 0; i < snakes; i++) {
-   int index = rng(0, valid.size() - 1);
-   point sp = valid[index];
-   valid.erase(valid.begin() + index);
-   snake.spawn(sp.x, sp.y);
-   snake.friendly = -1;
-   g->add_zombie(snake);
-  }
- }
+    if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
+        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
+    add_disease("adrenaline", 200);
 
- if (has_trait("PAINRESIST"))
-  painadd = (sqrt(double(cut)) + dam + cut) / (rng(4, 6));
- else
-  painadd = (sqrt(double(cut)) + dam + cut) / 4;
- pain += painadd;
+    int cut_dam = dealt_dams.type_damage(DT_CUT);
+    switch (bp) {
+    case bp_eyes:
+        mod_pain(1);
+        if (dam > 5 || cut_dam > 0) {
+            int minblind = int((dam + cut_dam) / 10);
+            if (minblind < 1)
+                minblind = 1;
+            int maxblind = int((dam + cut_dam) /  4);
+            if (maxblind > 5)
+                maxblind = 5;
+            add_disease("blind", rng(minblind, maxblind));
+        }
+    case bp_mouth: // Fall through to head damage
+    case bp_head:
+        mod_pain(1);
+        hp_cur[hp_head] -= dam;
+        if (hp_cur[hp_head] < 0)
+        {
+            lifetime_stats()->damage_taken+=hp_cur[hp_head];
+            hp_cur[hp_head] = 0;
+        }
+        break;
+    case bp_torso:
+        // getting hit throws off our shooting
+        recoil += int(dam / 5);
+        break;
+    case bp_hands: // Fall through to arms
+    case bp_arms:
+        // getting hit in the arms throws off our shooting
+        if (side == 1 || weapon.is_two_handed(this))
+            recoil += int(dam / 3);
+        break;
+    case bp_feet: // Fall through to legs
+    case bp_legs:
+        break;
+    default:
+        debugmsg("Wacky body part hit!");
+    }
 
- switch (bphurt) {
- case bp_eyes:
-  pain++;
-  if (dam > 5 || cut > 0) {
-   int minblind = int((dam + cut) / 10);
-   if (minblind < 1)
-    minblind = 1;
-   int maxblind = int((dam + cut) /  4);
-   if (maxblind > 5)
-    maxblind = 5;
-   add_disease("blind", rng(minblind, maxblind));
-  }
+    return dealt_damage_instance(dealt_dams);
+}
 
- case bp_mouth: // Fall through to head damage
- case bp_head:
-  pain++;
-  hp_cur[hp_head] -= dam;
-  if (hp_cur[hp_head] < 0)
-  {
-   lifetime_stats()->damage_taken+=hp_cur[hp_head];
-   hp_cur[hp_head] = 0;
-  }
- break;
- case bp_torso:
-  recoil += int(dam / 5);
-  hp_cur[hp_torso] -= dam;
-  if (hp_cur[hp_torso] < 0)
-  {
-   lifetime_stats()->damage_taken+=hp_cur[hp_torso];
-   hp_cur[hp_torso] = 0;
-  }
- break;
- case bp_hands: // Fall through to arms
- case bp_arms:
-  if (side == 1 || weapon.is_two_handed(this))
-   recoil += int(dam / 3);
-  if (side == 0) {
-   hp_cur[hp_arm_l] -= dam;
-   if (hp_cur[hp_arm_l] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
-    hp_cur[hp_arm_l] = 0;
-   }
-  }
-  if (side == 1) {
-   hp_cur[hp_arm_r] -= dam;
-   if (hp_cur[hp_arm_r] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
-    hp_cur[hp_arm_r] = 0;
-   }
-  }
- break;
- case bp_feet: // Fall through to legs
- case bp_legs:
-  if (side == 0) {
-   hp_cur[hp_leg_l] -= dam;
-   if (hp_cur[hp_leg_l] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
-    hp_cur[hp_leg_l] = 0;
-   }
-  }
-  if (side == 1) {
-   hp_cur[hp_leg_r] -= dam;
-   if (hp_cur[hp_leg_r] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
-    hp_cur[hp_leg_r] = 0;
-   }
-  }
- break;
- default:
-  debugmsg("Wacky body part hit!");
- }
- if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
-     (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
-  add_disease("adrenaline", 200);
- lifetime_stats()->damage_taken+=dam;
+void player::apply_damage(game* g, Creature* source, body_part bp,
+        int side, int dam) {
+    switch (bp) {
+    case bp_eyes: // Fall through to head damage
+    case bp_mouth: // Fall through to head damage
+    case bp_head:
+        hp_cur[hp_head] -= dam;
+        if (hp_cur[hp_head] < 0)
+        {
+            lifetime_stats()->damage_taken+=hp_cur[hp_head];
+            hp_cur[hp_head] = 0;
+        }
+        break;
+    case bp_torso:
+        hp_cur[hp_torso] -= dam;
+        if (hp_cur[hp_torso] < 0)
+        {
+            lifetime_stats()->damage_taken+=hp_cur[hp_torso];
+            hp_cur[hp_torso] = 0;
+        }
+        break;
+    case bp_hands: // Fall through to arms
+    case bp_arms:
+        if (side == 0) {
+            hp_cur[hp_arm_l] -= dam;
+            if (hp_cur[hp_arm_l] < 0)
+            {
+                lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
+                hp_cur[hp_arm_l] = 0;
+            }
+        }
+        if (side == 1) {
+            hp_cur[hp_arm_r] -= dam;
+            if (hp_cur[hp_arm_r] < 0)
+            {
+                lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
+                hp_cur[hp_arm_r] = 0;
+            }
+        }
+        break;
+    case bp_feet: // Fall through to legs
+    case bp_legs:
+        if (side == 0) {
+            hp_cur[hp_leg_l] -= dam;
+            if (hp_cur[hp_leg_l] < 0)
+            {
+                lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
+                hp_cur[hp_leg_l] = 0;
+            }
+        }
+        if (side == 1) {
+            hp_cur[hp_leg_r] -= dam;
+            if (hp_cur[hp_leg_r] < 0)
+            {
+                lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
+                hp_cur[hp_leg_r] = 0;
+            }
+        }
+        break;
+    default:
+        debugmsg("Wacky body part hurt!");
+    }
+    lifetime_stats()->damage_taken+=dam;
 
- return dam;
+    if (is_dead_state())
+        die(g, source);
+}
+
+void player::mod_pain(int npain) {
+    if (has_trait("PAINRESIST") && npain > 1) // if it's 1 it'll just become 0, which is bad
+        npain = npain * 4 / rng(4,8);
+    Creature::mod_pain(npain);
 }
 
 void player::hurt(game *g, body_part bphurt, int side, int dam)
@@ -3817,67 +3885,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
   painadd = dam / 2;
  pain += painadd;
 
- switch (bphurt) {
- case bp_eyes: // Fall through to head damage
- case bp_mouth: // Fall through to head damage
- case bp_head:
-  pain++;
-  hp_cur[hp_head] -= dam;
-  if (hp_cur[hp_head] < 0)
-  {
-   lifetime_stats()->damage_taken+=hp_cur[hp_head];
-   hp_cur[hp_head] = 0;
-  }
- break;
- case bp_torso:
-  hp_cur[hp_torso] -= dam;
-  if (hp_cur[hp_torso] < 0)
-  {
-   lifetime_stats()->damage_taken+=hp_cur[hp_torso];
-   hp_cur[hp_torso] = 0;
-  }
- break;
- case bp_hands: // Fall through to arms
- case bp_arms:
-  if (side == 0) {
-   hp_cur[hp_arm_l] -= dam;
-   if (hp_cur[hp_arm_l] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
-    hp_cur[hp_arm_l] = 0;
-   }
-  }
-  if (side == 1) {
-   hp_cur[hp_arm_r] -= dam;
-   if (hp_cur[hp_arm_r] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
-    hp_cur[hp_arm_r] = 0;
-   }
-  }
- break;
- case bp_feet: // Fall through to legs
- case bp_legs:
-  if (side == 0) {
-   hp_cur[hp_leg_l] -= dam;
-   if (hp_cur[hp_leg_l] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
-    hp_cur[hp_leg_l] = 0;
-   }
-  }
-  if (side == 1) {
-   hp_cur[hp_leg_r] -= dam;
-   if (hp_cur[hp_leg_r] < 0)
-   {
-    lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
-    hp_cur[hp_leg_r] = 0;
-   }
-  }
- break;
- default:
-  debugmsg("Wacky body part hurt!");
- }
+
  if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
   add_disease("adrenaline", 200);
@@ -4049,15 +4057,15 @@ void player::knock_back_from(game *g, int x, int y)
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
   monster *z = &(g->zombie(mondex));
-  hit(g, bp_torso, -1, z->type->size, 0);
-  add_disease("stunned", 1);
+  hit(g, this, bp_torso, -1, z->type->size, 0);
+  add_effect("effect_stunned", 1);
   if ((str_max - 6) / 4 > z->type->size) {
    z->knock_back_from(g, posx, posy); // Chain reaction!
    z->hurt((str_max - 6) / 4);
-   z->add_effect(ME_STUNNED, 1);
+   z->add_effect("effect_stunned", 1);
   } else if ((str_max - 6) / 4 == z->type->size) {
    z->hurt((str_max - 6) / 4);
-   z->add_effect(ME_STUNNED, 1);
+   z->add_effect("effect_stunned", 1);
   }
 
   g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
@@ -4069,9 +4077,9 @@ void player::knock_back_from(game *g, int x, int y)
  int npcdex = g->npc_at(to.x, to.y);
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
-  hit(g, bp_torso, -1, 3, 0);
-  add_disease("stunned", 1);
-  p->hit(g, bp_torso, -1, 3, 0);
+  hit(g, this, bp_torso, -1, 3, 0);
+  add_effect("effect_stunned", 1);
+  p->hit(g, this, bp_torso, -1, 3, 0);
   g->add_msg_player_or_npc( this, _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
   return;
  }
@@ -4086,7 +4094,7 @@ void player::knock_back_from(game *g, int x, int y)
 // TODO: NPCs can't swim!
   } else { // It's some kind of wall.
    hurt(g, bp_torso, -1, 3);
-   add_disease("stunned", 2);
+   add_effect("effect_stunned", 2);
    g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
                              g->m.tername(to.x, to.y).c_str() );
   }
@@ -4226,7 +4234,7 @@ bool player::infect(dis_type type, body_part vector, int strength,
         return false;
     }
 
-    if (dice(strength, 3) > dice(resist(vector), 3)) {
+    if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
         if (targeted) {
             add_disease(type, duration, permanent, intensity, max_intensity, decay,
                           additive, vector, side, main_parts_only);
@@ -4484,6 +4492,50 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
     }
 }
 
+void manage_fire_exposure(player &p, int fireStrength) {
+    // TODO: this should be determined by material properties
+    p.hurtall(3*fireStrength);
+    for (int i = 0; i < p.worn.size(); i++) {
+        item tmp = p.worn[i];
+        bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
+        bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10*fireStrength));
+        bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50*fireStrength));
+        if (burnVeggy || burnFabric || burnPlastic) {
+            p.worn.erase(p.worn.begin() + i);
+            i--;
+        }
+    }
+}
+void player::process_effects(game *g) {
+    int psnChance;
+    for (std::vector<effect>::iterator it = effects.begin();
+            it != effects.end(); ++it) {
+        std::string id = it->get_id();
+        if (id == "effect_onfire") {
+            manage_fire_exposure(*this, 1);
+        } else if (id == "effect_poison") {
+            psnChance = 150;
+            if (has_trait("POISRESIST")) {
+                psnChance *= 6;
+            } else {
+                mod_str_bonus(-2);
+                mod_per_bonus(-1);
+            }
+            if (one_in(psnChance)) {
+                g->add_msg_if_player(this,_("You're suddenly wracked with pain!"));
+                mod_pain(1);
+                hurt(g, bp_torso, -1, rng(0, 2) * rng(0, 1));
+            }
+            mod_per_bonus(-1);
+            mod_dex_bonus(-1);
+        }
+
+
+    }
+
+    Creature::process_effects(g);
+}
+
 void player::suffer(game *g)
 {
     for (int i = 0; i < my_bionics.size(); i++)
@@ -4548,10 +4600,10 @@ void player::suffer(game *g)
             }
         }
         if (weight_carried() > 4 * weight_capacity()) {
-            if (has_disease("downed")) {
-                add_disease("downed", 1);
+            if (has_effect("effect_downed")) {
+                add_effect("effect_downed", 1);
             } else {
-                add_disease("downed", 2);
+                add_effect("effect_downed", 2);
             }
         }
         int timer = -3600;
@@ -6541,7 +6593,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     }
     // If it's poisonous... poison us.  TODO: More several poison effects
     if (eaten->poison >= rng(2, 4)) {
-        add_disease("poison", eaten->poison * 100);
+        add_effect("effect_poison", eaten->poison * 100);
     }
     if (eaten->poison > 0) {
         add_disease("foodpoison", eaten->poison * 300);
@@ -8546,7 +8598,15 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     return ret;
 }
 
-int player::armor_bash(body_part bp)
+int player::get_armor_bash(body_part bp) {
+    return get_armor_bash_base(bp) + armor_bash_bonus;
+}
+
+int player::get_armor_cut(body_part bp) {
+    return get_armor_cut_base(bp) + armor_cut_bonus;
+}
+
+int player::get_armor_bash_base(body_part bp)
 {
  int ret = 0;
  it_armor* armor;
@@ -8577,7 +8637,7 @@ int player::armor_bash(body_part bp)
  return ret;
 }
 
-int player::armor_cut(body_part bp)
+int player::get_armor_cut_base(body_part bp)
 {
  int ret = 0;
  it_armor* armor;
@@ -8617,6 +8677,107 @@ int player::armor_cut(body_part bp)
  ret += rng(0, disease_intensity("armor_boost"));
  return ret;
 }
+
+void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
+    it_armor* tmp;
+    for (int i=0; i<p->worn.size(); i++) {
+        tmp = dynamic_cast<it_armor*>(p->worn[i].type);
+        if (tmp->covers & mfb(bp)) {
+            armor_indices.push_back(i);
+        }
+    }
+}
+// mutates du, returns true iff armor was damaged
+bool player::armor_absorb(damage_unit& du, item& armor) {
+    it_armor* armor_type = dynamic_cast<it_armor*>(armor.type);
+
+    float mitigation = 0; // total amount of damage mitigated
+    float effective_resist = 0;
+    bool armor_damaged = false;
+
+    switch (du.type) {
+    case DT_BASH:
+        effective_resist = std::max(armor.bash_resist() - du.res_pen,0)*du.res_mult;
+        break;
+    case DT_CUT:
+        effective_resist = std::max(armor.cut_resist() - du.res_pen,0)*du.res_mult;
+        break;
+    case DT_STAB: // stab differs from cut in that it ignores some armor
+        effective_resist = 0.8*std::max(armor.cut_resist() - du.res_pen,0)*du.res_mult;
+        break;
+    default: // TODO: DT_ACID/HEAT vs env protection, DT_COLD vs warmth
+        effective_resist = 0;
+    }
+
+    std::string pre_damage_name = armor.tname();
+
+    if (rng(0,100) < armor_type->coverage) {
+        if (armor_type->is_power_armor()) { // TODO: add some check for power armor
+        }
+
+        mitigation = std::min(effective_resist, du.amount);
+        du.amount -= mitigation; // mitigate the damage first
+
+        // if the post-mitigation amount is greater than the amount
+        if ((du.amount > effective_resist && !one_in(du.amount) && one_in(2)) ||
+                // or if it isn't, but 1/50 chance
+                (du.amount <= effective_resist && !armor.has_flag("STURDY")
+                && !armor_type->is_power_armor() && one_in(200))) {
+            armor_damaged = true;
+            armor.damage++;
+            std::string damage_verb = du.type == DT_BASH
+                ? armor_type->bash_dmg_verb()
+                : armor_type->cut_dmg_verb();
+            g->add_msg_if_player(this, _("Your %s is %s!"), pre_damage_name.c_str(),
+                                    damage_verb.c_str());
+        }
+    }
+    return armor_damaged;
+}
+void player::absorb_hit(game *g, body_part bp, int side,
+        damage_instance &dam) {
+    std::vector<int> armor_indices;
+
+    get_armor_on(this,bp,armor_indices);
+    for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
+            it != dam.damage_units.end(); ++it) {
+        // CBMs absorb damage first before hitting armour
+        if (has_active_bionic("bio_ads")) {
+            if (it->amount > 0 && power_level > 1) {
+                if (it->type == DT_BASH)
+                    it->amount -= rng(1, 8);
+                else if (it->type == DT_CUT)
+                    it->amount -= rng(1, 4);
+                else if (it->type == DT_STAB)
+                    it->amount -= rng(1, 2);
+                power_level--;
+            }
+            if (it->amount < 0) it->amount = 0;
+        }
+
+        // TODO: do this properly, with std::remove_if or something
+        int offset = 0;
+        for (std::vector<int>::iterator armor_it = armor_indices.begin();
+                armor_it != armor_indices.end(); ++armor_it) {
+
+            int index = *armor_it + offset;
+
+            armor_absorb(*it, worn[index]);
+
+            // now check if armour was completely destroyed and display relevant messages
+            // TODO: use something less janky than the old code for this check
+            if (worn[index].damage >= 5) {
+                add_memorial_log(_("Worn %s was completely destroyed."), worn[index].tname().c_str());
+                g->add_msg_player_or_npc( this, _("Your %s is completely destroyed!"),
+                                            _("<npcname>'s %s is completely destroyed!"),
+                                            worn[index].tname().c_str() );
+                worn.erase(worn.begin() + index);
+                offset--;
+            }
+        }
+    }
+}
+
 
 void player::absorb(game *g, body_part bp, int &dam, int &cut)
 {
@@ -8809,7 +8970,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         cut = 0;
 }
 
-int player::resist(body_part bp)
+int player::get_env_resist(body_part bp)
 {
     int ret = 0;
     for (int i = 0; i < worn.size(); i++) {
@@ -9346,3 +9507,9 @@ void player::shift_destination(int shiftx, int shifty)
         it->y += shifty;
     }
 }
+
+bool player::has_weapon() {
+    return !unarmed_attack();
+}
+
+// --- End ---
