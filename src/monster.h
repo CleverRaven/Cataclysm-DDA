@@ -144,7 +144,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
  point scent_move(game *g);
  point wander_next(game *g);
- void hit_player(game *g, player &p, bool can_grab = true);
  int calc_movecost(game *g, int x1, int y1, int x2, int y2);
 
  /**
@@ -198,7 +197,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
             damage_instance &dam);
     bool block_hit(game *g, body_part &bp_hit, int &side,
         damage_instance &d);
-    int melee_attack(game *g, Creature &t, bool allow_special = true); // Returns a damage
+    void melee_attack(game *g, Creature &p, bool allow_special = true);
+    virtual int deal_projectile_attack(game* g, Creature* source, double missed_by, bool dodgeable,
+            projectile& proj, dealt_damage_instance &dealt_dam);
     // TODO: this hit is not the same as the one from Creature, it hits other
     // things. Need to phase out
     int  hit(game *g, Creature &t, body_part &bp_hit); // Returns a damage
@@ -240,7 +241,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  int spawnmapx, spawnmapy, spawnposx, spawnposy;
 
 // DEFINING VALUES
- int moves, speed;
+ int speed;
  int hp;
  int sp_timeout;
  int friendly;

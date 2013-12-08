@@ -85,7 +85,7 @@ public:
  std::string random_bad_trait();
  void normalize(game *g); // Starting set up of HP and inventory
 
- virtual void die(game* g, Creature* killer);
+ virtual void die(game* g, Creature* nkiller);
 // </newcharacter.cpp>
 
     void pick_name(); // Picks a name from NAMES_*
@@ -215,9 +215,10 @@ public:
 
 // melee.cpp
  bool can_weapon_block(); //gear-based defensive ability
- int melee_attack(game *g, Creature &p, bool allow_special = true);
+ void melee_attack(game *g, Creature &p, bool allow_special = true);
+ double get_weapon_dispersion(item* weapon);
  void fire_gun(int targetx, int targety, bool burst);
- int  hit_mon(game *g, monster *z, bool allow_grab = true);
+ int  hit_mon(game *g, monster *critter, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
 
  bool block_hit(game *g, body_part &bp_hit, int &side,
@@ -226,6 +227,7 @@ public:
  bool armor_absorb(damage_unit& du, item& armor);
  void absorb_hit(game *g, body_part bp, int side,
     damage_instance &dam);
+ void on_gethit(game *g, Creature *source, body_part bp_hit, damage_instance &dam);
 
  int base_damage(bool real_life = true, int stat = -999);
  int base_to_hit(bool real_life = true, int stat = -999);

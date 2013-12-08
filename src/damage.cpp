@@ -1,5 +1,74 @@
+#include "item.h"
 #include "game.h"
 #include "damage.h"
+
+damage_instance::damage_instance() { }
+damage_instance damage_instance::physical(float bash, float cut, float stab, int arpen) {
+    damage_instance d;
+    d.add_damage(DT_BASH, bash, arpen);
+    d.add_damage(DT_CUT, cut, arpen);
+    d.add_damage(DT_STAB, stab, arpen);
+    return d;
+}
+void damage_instance::add_damage(damage_type dt, float a, int rp, float rm) {
+    damage_unit du(dt,a,rp,rm);
+    damage_units.push_back(du);
+}
+void damage_instance::mult_damage(double multiplier) {
+    for (std::vector<damage_unit>::iterator it = damage_units.begin();
+            it != damage_units.end(); ++it) {
+        it->amount *= multiplier;
+    }
+}
+float damage_instance::type_damage(damage_type dt) const {
+    float ret = 0;
+    for (std::vector<damage_unit>::const_iterator it = damage_units.begin();
+            it != damage_units.end(); ++it) {
+        if (it->type == dt) ret += it->amount;
+    }
+    return ret;
+}
+float damage_instance::total_damage() const {
+    float ret = 0;
+    for (std::vector<damage_unit>::const_iterator it = damage_units.begin();
+            it != damage_units.end(); ++it) {
+        ret += it->amount;
+    }
+    return ret;
+}
+
+
+dealt_damage_instance::dealt_damage_instance() : dealt_dams(NUM_DT, 0) { }
+//TODO: add check to ensure length
+dealt_damage_instance::dealt_damage_instance(std::vector<int> &dealt) : dealt_dams(dealt) { }
+void dealt_damage_instance::set_damage(damage_type dt, int amount) {
+    dealt_dams[dt] = amount;
+}
+int dealt_damage_instance::type_damage(damage_type dt) const {
+    return dealt_dams[dt];
+}
+int dealt_damage_instance::total_damage() const {
+    return std::accumulate(dealt_dams.begin(),dealt_dams.end(),0);
+}
+
+
+resistances::resistances() : resist_vals(NUM_DT, 0) { }
+
+resistances::resistances(item& armor) : resist_vals(NUM_DT, 0) {
+    if (armor.is_armor()) {
+        set_resist(DT_BASH, armor.bash_resist());
+        set_resist(DT_CUT, armor.cut_resist());
+        set_resist(DT_STAB, 0.8*armor.cut_resist()); // stab dam cares less bout armor
+    }
+}
+void resistances::set_resist(damage_type dt, int amount) {
+    resist_vals[dt] = amount;
+}
+int resistances::type_resist(damage_type dt) const {
+    return resist_vals[dt];
+}
+
+
 
 void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
 {

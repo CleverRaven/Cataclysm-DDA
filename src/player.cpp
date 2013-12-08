@@ -39,6 +39,7 @@
 nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
 static void manage_fire_exposure(player& p, int fireStrength = 1);
+static void handle_cough(player& p, int intensity = 1, int volume = 12);
 
 std::map<std::string, trait> traits;
 std::map<std::string, martialart> ma_styles;
@@ -335,9 +336,8 @@ std::string player::skin_name() {
 }
 
 // just a shim for now since actual player death is handled in game::is_game_over
-void player::die(game* g, Creature* killer) {
-    (void)g;(void)killer; 
-    return;
+void player::die(game* g, Creature* nkiller) {
+    killer = nkiller;
 }
 
 void player::reset_stats(game *g)
@@ -1728,7 +1728,7 @@ void player::disp_info(game *g)
  }
     for (std::vector<effect>::iterator it = effects.begin();
         it != effects.end(); ++it) {
-        effect_name.push_back(it->get_effect_type()->get_name());
+        effect_name.push_back(it->disp_name());
         effect_text.push_back(it->get_effect_type()->get_desc());
     }
  if (abs(morale_level()) >= 100) {
@@ -3692,6 +3692,61 @@ bool player::is_dead_state() {
     return hp_cur[hp_head] <= 0 || hp_cur[hp_head] <= 0;
 }
 
+void player::on_gethit(game *g, Creature *source, body_part bp_hit,
+        damage_instance &dam) {
+    bool u_see = g->u_see(this);
+    if (is_player())
+    {
+        if (g->u.activity.type == ACT_RELOAD)
+        {
+            g->add_msg(_("You stop reloading."));
+        }
+        else if (g->u.activity.type == ACT_READ)
+        {
+            g->add_msg(_("You stop reading."));
+        }
+        else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
+        {
+            g->add_msg(_("You stop crafting."));
+            g->u.activity.type = ACT_NULL;
+        }
+    }
+    if (source != NULL) {
+        if (has_active_bionic("bio_ods"))
+        {
+            if (is_player()) {
+                g->add_msg(_("Your offensive defense system shocks %s in mid-attack!"),
+                            source->disp_name().c_str());
+            } else if (u_see) {
+                g->add_msg(_("%s's offensive defense system shocks %s in mid-attack!"),
+                            disp_name().c_str(),
+                            source->disp_name().c_str());
+            }
+            damage_instance ods_shock_damage;
+            ods_shock_damage.add_damage(DT_ELECTRIC, rng(10,40));
+            source->deal_damage(g, this, bp_torso, 3, ods_shock_damage);
+        }
+        if (encumb(bp_hit) == 0 &&(has_trait("SPINES") || has_trait("QUILLS")))
+        {
+            int spine = rng(1, (has_trait("QUILLS") ? 20 : 8));
+            if (!is_player()) {
+                if( u_see ) {
+                    g->add_msg(_("%1$s's %2$s puncture %s in mid-attack!"), name.c_str(),
+                                (g->u.has_trait("QUILLS") ? _("quills") : _("spines")),
+                                source->disp_name().c_str());
+                }
+            } else {
+                g->add_msg(_("Your %s puncture %s in mid-attack!"),
+                            (g->u.has_trait("QUILLS") ? _("quills") : _("spines")),
+                            source->disp_name().c_str());
+            }
+            damage_instance spine_damage;
+            spine_damage.add_damage(DT_STAB, spine);
+            source->deal_damage(g, this, bp_torso, 3, spine_damage);
+        }
+    }
+}
+
 dealt_damage_instance player::deal_damage(game* g, Creature* source, body_part bp,
         int side, damage_instance& d) {
 
@@ -3792,6 +3847,7 @@ dealt_damage_instance player::deal_damage(game* g, Creature* source, body_part b
 
 void player::apply_damage(game* g, Creature* source, body_part bp,
         int side, int dam) {
+    if (is_dead_state()) return; // don't do any more damage if we're already dead
     switch (bp) {
     case bp_eyes: // Fall through to head damage
     case bp_mouth: // Fall through to head damage
@@ -4056,20 +4112,20 @@ void player::knock_back_from(game *g, int x, int y)
 // First, see if we hit a monster
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
-  monster *z = &(g->zombie(mondex));
-  hit(g, this, bp_torso, -1, z->type->size, 0);
+  monster *critter = &(g->zombie(mondex));
+  hit(g, this, bp_torso, -1, critter->type->size, 0);
   add_effect("effect_stunned", 1);
-  if ((str_max - 6) / 4 > z->type->size) {
-   z->knock_back_from(g, posx, posy); // Chain reaction!
-   z->hurt((str_max - 6) / 4);
-   z->add_effect("effect_stunned", 1);
-  } else if ((str_max - 6) / 4 == z->type->size) {
-   z->hurt((str_max - 6) / 4);
-   z->add_effect("effect_stunned", 1);
+  if ((str_max - 6) / 4 > critter->type->size) {
+   critter->knock_back_from(g, posx, posy); // Chain reaction!
+   critter->hurt((str_max - 6) / 4);
+   critter->add_effect("effect_stunned", 1);
+  } else if ((str_max - 6) / 4 == critter->type->size) {
+   critter->hurt((str_max - 6) / 4);
+   critter->add_effect("effect_stunned", 1);
   }
 
   g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
-                            z->name().c_str() );
+                            critter->name().c_str() );
 
   return;
  }
@@ -4492,7 +4548,7 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
     }
 }
 
-void manage_fire_exposure(player &p, int fireStrength) {
+static void manage_fire_exposure(player &p, int fireStrength) {
     // TODO: this should be determined by material properties
     p.hurtall(3*fireStrength);
     for (int i = 0; i < p.worn.size(); i++) {
@@ -4504,6 +4560,21 @@ void manage_fire_exposure(player &p, int fireStrength) {
             p.worn.erase(p.worn.begin() + i);
             i--;
         }
+    }
+}
+static void handle_cough(player &p, int intensity, int loudness) {
+    if (p.is_player()) {
+        g->add_msg(_("You cough heavily."));
+        g->sound(p.posx, p.posy, loudness, "");
+    } else {
+        g->sound(p.posx, p.posy, loudness, _("a hacking cough."));
+    }
+    p.mod_moves(-80);
+    if (rng(1,6) < intensity) {
+        p.apply_damage(g, NULL, bp_torso, -1, 1);
+    }
+    if (p.has_disease("sleep") && intensity >= 2) {
+        p.wake_up(_("You wake up coughing."));
     }
 }
 void player::process_effects(game *g) {
@@ -4528,9 +4599,30 @@ void player::process_effects(game *g) {
             }
             mod_per_bonus(-1);
             mod_dex_bonus(-1);
+        } else if (id == "effect_glare") {
+            mod_per_bonus(-1);
+            if (one_in(200)) {
+                g->add_msg_if_player(this,_("The sunlight's glare makes it hard to see."));
+            }
+        } else if (id == "effect_smoke") {
+            // A hard limit on the duration of the smoke disease.
+            if( it->get_duration() >= 600) {
+                it->set_duration(600);
+            }
+            mod_str_bonus(-1);
+            mod_dex_bonus(-1);
+            it->set_intensity((it->get_duration()+190)/200);
+            if (it->get_intensity() >= 10 && one_in(6)) {
+                handle_cough(*this, it->get_intensity());
+            }
+        } else if (id == "effect_teargas") {
+            mod_str_bonus(-2);
+            mod_dex_bonus(-2);
+            mod_per_bonus(-5);
+            if (one_in(3)) {
+                handle_cough(*this, 4);
+            }
         }
-
-
     }
 
     Creature::process_effects(g);
@@ -8687,27 +8779,30 @@ void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
         }
     }
 }
+float get_effective_resist(damage_unit& du, const resistances& resists) {
+    float effective_resist = 0.f;
+    switch (du.type) {
+    case DT_BASH:
+        effective_resist = std::max(resists.type_resist(DT_BASH) - du.res_pen,0)*du.res_mult;
+        break;
+    case DT_CUT:
+        effective_resist = std::max(resists.type_resist(DT_CUT) - du.res_pen,0)*du.res_mult;
+        break;
+    case DT_STAB:
+        effective_resist = std::max(resists.type_resist(DT_STAB) - du.res_pen,0)*du.res_mult;
+        break;
+    default: // TODO: DT_ACID/HEAT vs env protection, DT_COLD vs warmth
+        effective_resist = 0;
+    }
+    return effective_resist;
+}
 // mutates du, returns true iff armor was damaged
 bool player::armor_absorb(damage_unit& du, item& armor) {
     it_armor* armor_type = dynamic_cast<it_armor*>(armor.type);
 
     float mitigation = 0; // total amount of damage mitigated
-    float effective_resist = 0;
+    float effective_resist = get_effective_resist(du, resistances(armor));
     bool armor_damaged = false;
-
-    switch (du.type) {
-    case DT_BASH:
-        effective_resist = std::max(armor.bash_resist() - du.res_pen,0)*du.res_mult;
-        break;
-    case DT_CUT:
-        effective_resist = std::max(armor.cut_resist() - du.res_pen,0)*du.res_mult;
-        break;
-    case DT_STAB: // stab differs from cut in that it ignores some armor
-        effective_resist = 0.8*std::max(armor.cut_resist() - du.res_pen,0)*du.res_mult;
-        break;
-    default: // TODO: DT_ACID/HEAT vs env protection, DT_COLD vs warmth
-        effective_resist = 0;
-    }
 
     std::string pre_damage_name = armor.tname();
 
@@ -8774,6 +8869,9 @@ void player::absorb_hit(game *g, body_part bp, int side,
                 worn.erase(worn.begin() + index);
                 offset--;
             }
+        }
+        if (it->type == DT_BASH) {
+        } else if (it->type == DT_CUT) {
         }
     }
 }

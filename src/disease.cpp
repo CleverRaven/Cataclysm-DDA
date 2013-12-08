@@ -15,7 +15,6 @@
 enum dis_type_enum {
  DI_NULL,
 // Weather
- DI_GLARE, DI_WET,
 // Temperature, the order is important (dependant on bodypart.h)
  DI_COLD,
  DI_FROSTBITE,
@@ -25,12 +24,12 @@ enum dis_type_enum {
  DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER,
 // Fields - onfire moved to effects
- DI_SMOKE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
+ DI_CRUSHED, DI_BOULDERING,
 // Monsters
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_DEAF, DI_BLIND,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
- DI_POISON, DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
+ DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
  DI_WEBBED,
  DI_RAT, DI_BITE,
@@ -66,7 +65,7 @@ static void handle_alcohol(player& p, disease& dis);
 static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
 static void handle_recovery(player& p, disease& dis);
-static void handle_cough(player& p, int volume = 12);
+static void handle_cough(player& p, int intensity = 1, int volume = 12);
 static void handle_deliriant(player& p, disease& dis);
 static void handle_evil(player& p, disease& dis);
 static void handle_insect_parasites(player& p, disease& dis);
@@ -77,8 +76,6 @@ void game::init_diseases() {
     // Initialize the disease lookup table.
 
     disease_type_lookup["null"] = DI_NULL;
-    disease_type_lookup["glare"] = DI_GLARE;
-    disease_type_lookup["wet"] = DI_WET;
     disease_type_lookup["cold"] = DI_COLD;
     disease_type_lookup["frostbite"] = DI_FROSTBITE;
     disease_type_lookup["hot"] = DI_HOT;
@@ -87,8 +84,6 @@ void game::init_diseases() {
     disease_type_lookup["common_cold"] = DI_COMMON_COLD;
     disease_type_lookup["flu"] = DI_FLU;
     disease_type_lookup["recover"] = DI_RECOVER;
-    disease_type_lookup["smoke"] = DI_SMOKE;
-    disease_type_lookup["teargas"] = DI_TEARGAS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
     disease_type_lookup["boomered"] = DI_BOOMERED;
@@ -101,7 +96,6 @@ void game::init_diseases() {
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
-    disease_type_lookup["poison"] = DI_POISON;
     disease_type_lookup["bleed"] = DI_BLEED;
     disease_type_lookup["badpoison"] = DI_BADPOISON;
     disease_type_lookup["paralyzepoison"] = DI_PARALYZEPOISON;
@@ -160,12 +154,6 @@ void game::init_diseases() {
 void dis_msg(dis_type type_string) {
     dis_type_enum type = disease_type_lookup[type_string];
     switch (type) {
-    case DI_GLARE:
-        g->add_msg(_("The sunlight's glare makes it hard to see."));
-        break;
-    case DI_WET:
-        g->add_msg(_("You're getting soaked!"));
-        break;
     case DI_COMMON_COLD:
         g->add_msg(_("You feel a cold coming on..."));
         g->u.add_memorial_log(_("Caught a cold."));
@@ -173,12 +161,6 @@ void dis_msg(dis_type type_string) {
     case DI_FLU:
         g->add_msg(_("You feel a flu coming on..."));
         g->u.add_memorial_log(_("Caught the flu."));
-        break;
-    case DI_SMOKE:
-        g->add_msg(_("You inhale a lungful of thick smoke."));
-        break;
-    case DI_TEARGAS:
-        g->add_msg(_("You inhale a lungful of tear gas."));
         break;
     case DI_CRUSHED:
         g->add_msg(_("The ceiling collapses on you!"));
@@ -306,17 +288,6 @@ void dis_effect(player &p, disease &dis) {
     bool inflictBadPsnPain = (!p.has_trait("POISRESIST") && one_in(100)) ||
                                 (p.has_trait("POISRESIST") && one_in(500));
     switch(disType) {
-        case DI_GLARE:
-            p.mod_per_bonus(-1);
-            if (one_in(200)) {
-                g->add_msg(_("The sunlight's glare makes it hard to see."));
-            }
-            break;
-
-        case DI_WET:
-            p.add_morale(MORALE_WET, -1, -50, 60, 10);
-            break;
-
         case DI_COLD:
             switch(dis.bp) {
                 case bp_head:
@@ -683,28 +654,6 @@ void dis_effect(player &p, disease &dis) {
                 if (one_in(3600) || will_vomit(p)) {
                     p.vomit(g);
                 }
-            }
-            break;
-
-        case DI_SMOKE:
-        // A hard limit on the duration of the smoke disease.
-            if( dis.duration >= 600) {
-                dis.duration = 600;
-            }
-            p.str_cur--;
-            p.dex_cur--;
-            p.per_cur--;
-            if (dis.duration >= 10 && one_in(6)) {
-                handle_cough(p);
-            }
-            break;
-
-        case DI_TEARGAS:
-            p.str_cur -= 2;
-            p.dex_cur -= 2;
-            p.per_cur -= 5;
-            if (one_in(3)) {
-                handle_cough(p);
             }
             break;
 
@@ -1374,7 +1323,6 @@ std::string dis_name(disease& dis)
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
     case DI_NULL: return "";
-    case DI_GLARE: return _("Glare");
     case DI_COLD:
         switch (dis.bp) {
             case bp_head:
@@ -1488,8 +1436,6 @@ std::string dis_name(disease& dis)
 
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
-    case DI_SMOKE: return _("Smoke");
-    case DI_TEARGAS: return _("Tear gas");
     case DI_BOOMERED: return _("Boomered");
     case DI_SAP: return _("Sap-coated");
 
@@ -1531,7 +1477,6 @@ std::string dis_name(disease& dis)
     case DI_BLIND: return _("Blind");
     case DI_STUNNED: return _("Stunned");
     case DI_DOWNED: return _("Downed");
-    case DI_POISON: return _("Poisoned");
     case DI_BLEED:
     {
         std::string status = "";
@@ -1768,10 +1713,6 @@ std::string dis_description(disease& dis)
     case DI_NULL:
         return _("None");
 
-    case DI_GLARE:
-        stream << _("Perception - 1");
-        return stream.str();
-
     case DI_COLD:
         switch(dis.bp) {
             case bp_head:
@@ -1932,18 +1873,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         "Strength - 4;   Dexterity - 2;   Intelligence - 2;   Perception - 1\n"
         "Symptoms alleviated by medication (Dayquil or Nyquil).");
 
-    case DI_SMOKE:
-        return _(
-        "Strength - 1;   Dexterity - 1;\n"
-        "Occasionally you will cough, costing movement and creating noise.\n"
-        "Loss of health - Torso");
-
-    case DI_TEARGAS:
-        return _(
-        "Strength - 2;   Dexterity - 2;   Intelligence - 1;   Perception - 4\n"
-        "Occasionally you will cough, costing movement and creating noise.\n"
-        "Loss of health - Torso");
-
     case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 
     case DI_BOULDERING:
@@ -1991,11 +1920,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
     case DI_STUNNED: return _("Your movement is randomized.");
 
     case DI_DOWNED: return _("You're knocked to the ground.  You have to get up before you can move.");
-
-    case DI_POISON:
-        return _(
-        "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\n"
-        "Occasional pain and/or damage.");
 
     case DI_BLEED:
         switch (dis.intensity) {
@@ -2559,7 +2483,7 @@ static void handle_recovery(player& p, disease& dis) {
     }
 }
 
-static void handle_cough(player &p, int loudness) {
+static void handle_cough(player &p, int intensity, int loudness) {
     if (!p.is_npc()) {
         g->add_msg(_("You cough heavily."));
         g->sound(p.posx, p.posy, loudness, "");

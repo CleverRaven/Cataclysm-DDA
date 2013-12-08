@@ -85,6 +85,27 @@
         "name": "Stuck in beartrap",
         "desc": "You can't move!"
     },
+    {
+        "type":"effect_type",
+        "id":"effect_glare",
+        "name": "Glare",
+        "desc": "Perception - 1",
+        "apply_message":"The sunlight's glare makes it hard to see."
+    },
+    {
+        "type":"effect_type",
+        "id":"effect_smoke",
+        "name": "Smoke",
+        "desc": "Strength - 1;   Dexterity - 1;\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso",
+        "apply_message":"You inhale a lungful of thick smoke."
+    },
+    {
+        "type":"effect_type",
+        "id":"effect_teargas",
+        "name": "Tear gas",
+        "desc": "Strength - 2;   Dexterity - 2;   Intelligence - 1;   Perception - 4\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso",
+        "apply_message":"You inhale a lungful of tear gas."
+    },
    {
       "type":"effect_type",
       "id":"effect_boomered",
@@ -121,11 +142,6 @@
    {
       "type":"effect_type",
       "id":"effect_spores"
-   },
-   {
-      "type":"effect_type",
-      "id":"effect_teargas",
-      "apply_message":"You inhale a lungful of tear gas."
    },
    {
       "type":"effect_type",
@@ -225,11 +241,6 @@
    },
    {
       "type":"effect_type",
-      "id":"effect_glare",
-      "apply_message":"The sunlight's glare makes it hard to see."
-   },
-   {
-      "type":"effect_type",
       "id":"effect_took_xanax"
    },
    {
@@ -243,11 +254,6 @@
    {
       "type":"effect_type",
       "id":"effect_asked_for_item"
-   },
-   {
-      "type":"effect_type",
-      "id":"effect_wet",
-      "apply_message":"You're getting soaked!"
    },
    {
       "type":"effect_type",
@@ -357,11 +363,6 @@
    {
       "type":"effect_type",
       "id":"effect_pkill3"
-   },
-   {
-      "type":"effect_type",
-      "id":"effect_smoke",
-      "apply_message":"You inhale a lungful of thick smoke."
    },
    {
       "type":"effect_type",

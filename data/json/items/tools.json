@@ -2190,7 +2190,7 @@
       "to_hit" : 0,
       "max_charges": 5,
       "initial_charges": 5,
-      "charges_per_use": 0,
+      "charges_per_use": 1,
       "turns_per_charge": 0,
       "ammo": "NULL",
       "revert_to": "null",

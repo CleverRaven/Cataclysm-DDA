@@ -4667,32 +4667,32 @@ bool game::u_see(Creature &t)
  return u_see(t.xpos(), t.ypos());
 }
 
-bool game::u_see(monster *mon)
+bool game::u_see(monster *critter)
 {
- int dist = rl_dist(u.posx, u.posy, mon->posx(), mon->posy());
+ int dist = rl_dist(u.posx, u.posy, critter->posx(), critter->posy());
  if (u.has_trait("ANTENNAE") && dist <= 3) {
   return true;
  }
- if (mon->digging() && !u.has_active_bionic("bio_ground_sonar") && dist > 1) {
+ if (critter->digging() && !u.has_active_bionic("bio_ground_sonar") && dist > 1) {
   return false; // Can't see digging monsters until we're right next to them
  }
- if (m.is_divable(mon->posx(), mon->posy()) && mon->can_submerge()
+ if (m.is_divable(critter->posx(), critter->posy()) && critter->can_submerge()
          && !u.is_underwater()) {
    //Monster is in the water and submerged, and we're out of/above the water
    return false;
  }
 
- return u_see(mon->posx(), mon->posy());
+ return u_see(critter->posx(), critter->posy());
 }
 
-bool game::pl_sees(player *p, monster *mon, int &t)
+bool game::pl_sees(player *p, monster *critter, int &t)
 {
  // TODO: [lightmap] Allow npcs to use the lightmap
- if (mon->digging() && !p->has_active_bionic("bio_ground_sonar") &&
-       rl_dist(p->posx, p->posy, mon->posx(), mon->posy()) > 1)
+ if (critter->digging() && !p->has_active_bionic("bio_ground_sonar") &&
+       rl_dist(p->posx, p->posy, critter->posx(), critter->posy()) > 1)
   return false; // Can't see digging monsters until we're right next to them
  int range = p->sight_range(light_level());
- return m.sees(p->posx, p->posy, mon->posx(), mon->posy(), range, t);
+ return m.sees(p->posx, p->posy, critter->posx(), critter->posy(), range, t);
 }
 
 /**
@@ -5086,6 +5086,12 @@ void game::cleanup_dead()
                                            i, critter.posx(), critter.posy(), (critter.dead?'1':'0'),
                                            critter.hp, critter.type->name.c_str() );
             critter.die(this); // dies at the very end
+            Creature* killer = critter.get_killer();
+            if (killer != NULL && killer->is_player() &&
+                    critter.has_flag(MF_GUILT)) {
+                mdeath tmpdeath;
+                tmpdeath.guilt(&critter);
+            }
             remove_zombie(i);
             if( last_target == i ) {
                 last_target = -1;
@@ -5408,10 +5414,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     dam = 3 * power;
    else
     dam = 3 * power / (rl_dist(x, y, i, j));
-   if (m.has_flag(TFLAG_BASHABLE, i, j))
-    m.bash(i, j, dam, junk);
-   if (m.has_flag(TFLAG_BASHABLE, i, j)) // Double up for tough doors, etc.
-    m.bash(i, j, dam, junk);
+   m.bash(i, j, dam, junk);
+   m.bash(i, j, dam, junk); // Double up for tough doors, etc.
    if (m.is_destructable(i, j) && rng(25, 100) < dam)
     m.destroy(this, i, j, false);
 
@@ -6202,10 +6206,6 @@ void game::kill_mon(monster& critter, bool u_did_it) {
  if (!critter.dead) {
   critter.dead = true;
   if (u_did_it) {
-   if (critter.has_flag(MF_GUILT)) {
-    mdeath tmpdeath;
-    tmpdeath.guilt(&critter);
-   }
    if (!critter.is_hallucination()) {
     kills[critter.type->id]++; // Increment our kill counter
    }
@@ -6322,16 +6322,16 @@ void game::revive_corpse(int x, int y, item *it)
         return;
     }
     int burnt_penalty = it->burnt;
-    monster mon(it->corpse, x, y);
-    mon.speed = int(mon.speed * .8) - burnt_penalty / 2;
-    mon.hp    = int(mon.hp    * .7) - burnt_penalty;
+    monster critter(it->corpse, x, y);
+    critter.speed = int(critter.speed * .8) - burnt_penalty / 2;
+    critter.hp    = int(critter.hp    * .7) - burnt_penalty;
     if (it->damage > 0)
     {
-        mon.speed /= it->damage + 1;
-        mon.hp /= it->damage + 1;
+        critter.speed /= it->damage + 1;
+        critter.hp /= it->damage + 1;
     }
-    mon.no_extra_death_drops = true;
-    add_zombie(mon);
+    critter.no_extra_death_drops = true;
+    add_zombie(critter);
 }
 
 void game::open()

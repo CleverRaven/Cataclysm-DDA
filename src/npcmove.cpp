@@ -1458,9 +1458,7 @@ npc_action npc::scan_new_items(game *g, int target)
 void npc::melee_monster(game *g, int target)
 {
  monster* monhit = &(g->zombie(target));
- int dam = melee_attack(g, *monhit, true);
- if (monhit->hurt(dam))
-  g->kill_mon(target, false);
+ melee_attack(g, *monhit, true);
 }
 
 void npc::melee_player(game *g, player &foe)

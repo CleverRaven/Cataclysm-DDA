@@ -40,11 +40,12 @@ class Creature
         virtual int dodge_roll() = 0;
 
         // makes a single melee attack, with the currently equipped weapon
-        virtual int melee_attack(game *g, Creature &t, bool allow_special) = 0; // Returns a damage
+        virtual void melee_attack(game *g, Creature &t, bool allow_special) = 0; // Returns a damage
 
-        // fires a projectile at target point
-        virtual int projectile_attack(game *g, projectile &proj, int targetx, int targety,
-                double missed_by);
+        // fires a projectile at target point, with total_dispersion
+        // dispersion. returns the rolled dispersion of the shot.
+        virtual double projectile_attack(game *g, projectile &proj, int targetx, int targety,
+                double total_dispersion);
 
         /*
         // instantly deals damage at the target point
@@ -80,8 +81,8 @@ class Creature
         // makes a ranged projectile attack against the creature
         // dodgeable determines if the dodge stat applies or not, dodge is
         // reduced for ranged attacks
-        virtual int deal_projectile_attack(game* g, Creature* source, float missed_by, bool dodgeable,
-                damage_instance& d, dealt_damage_instance &dealt_dam);
+        virtual int deal_projectile_attack(game* g, Creature* source, double missed_by, bool dodgeable,
+                projectile& proj, dealt_damage_instance &dealt_dam);
 
         // deals the damage via an attack. Allows armor mitigation etc.
         // Most sources of external damage should use deal_damage
@@ -123,6 +124,12 @@ class Creature
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);
         virtual void mod_moves(int nmoves);
+
+        /*
+         * Get/set our killer, this is currently used exclusively to allow
+         * mondeath effects to happen after death cleanup
+         */
+        virtual Creature* get_killer();
 
         /*
          * getters for stats - combat-related stats will all be held within
@@ -216,6 +223,13 @@ class Creature
         virtual void set_grab_resist(int ngrabres);
         virtual void set_throw_resist(int nthrowres);
 
+        /*
+         * Event handlers
+         */
+
+        virtual void on_gethit(game *g, Creature *source, body_part bp_hit,
+                damage_instance &dam);
+
         // innate stats, slowly move these to protected as we rewrite more of
         // the codebase
         int str_max, dex_max, per_max, int_max,
@@ -226,6 +240,8 @@ class Creature
         void draw(WINDOW* w, int plx, int ply, bool inv);
 
     protected:
+        Creature* killer; // whoever killed us. this should be NULL unless we are dead
+
         std::vector<effect> effects;
 
         // used for innate bonuses like effects. weapon bonuses will be
