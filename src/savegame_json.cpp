@@ -44,7 +44,7 @@ void player_activity::serialize(JsonOut &json) const
     json.member( "type", int(type) );
     json.member( "moves_left", moves_left );
     json.member( "index", int(index) );
-    json.member( "invlet", int(invlet) );
+    json.member( "position", int(position) );
     json.member( "name", name );
     json.member( "placement", placement );
     json.member( "values", values );
@@ -56,18 +56,17 @@ void player_activity::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
     int tmptype;
-    int tmpinv;
+    int tmppos;
     if ( !data.read( "type", tmptype ) || type >= NUM_ACTIVITIES ) {
         debugmsg( "Bad activity data:\n%s", data.str().c_str() );
     }
-    if ( !data.read( "invlet", tmpinv)) {
-        debugmsg( "Bad activity data:\n%s", data.str().c_str() );
+    if ( !data.read( "position", tmppos)) {
+        tmppos = INT_MIN;  // If loading a save before position existed, hope.
     }
     type = activity_type(tmptype);
     data.read( "moves_left", moves_left );
     data.read( "index", index );
-    data.read( "invlet", tmpinv );
-    invlet = (char)tmpinv;
+    position = (char)tmppos;
     data.read( "name", name );
     data.read( "placement", placement );
     values = data.get_int_array("values");
@@ -789,9 +788,9 @@ void inventory::json_load_items(JsonIn &jsin)
         JsonArray ja = jsin.get_array();
         while ( ja.has_more() ) {
             JsonObject jo = ja.next_object();
-            push_back( item( jo ) );
+            add_item(item( jo ), false, false);
         }
-    } catch (std::string jsonerr) {
+    } catch (std::string& jsonerr) {
          debugmsg("bad inventory json:\n%s", jsonerr.c_str() );
     }
 }

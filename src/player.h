@@ -253,7 +253,7 @@ public:
  point adjacent_tile();     // Returns an unoccupied, safe adjacent point. If none exists, returns player position.
 
 // ranged.cpp
- int throw_range(signed char invlet); // Range of throwing item; -1:ERR 0:Can't throw
+ int throw_range(int pos); // Range of throwing item; -1:ERR 0:Can't throw
  int ranged_dex_mod (bool real_life = true);
  int ranged_per_mod (bool real_life = true);
  int throw_dex_mod  (bool real_life = true);
@@ -327,20 +327,20 @@ public:
  void drench_mut_calc(); //Recalculate mutation drench protection for all bodyparts (ignored/good/neutral stats)
 
  char lookup_item(char let);
- bool consume(game *g, signed char invlet);
+ bool consume(game *g, int pos);
  bool eat(game *g, item *eat, it_comest *comest);
  void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
  virtual bool wield(game *g, signed char invlet, bool autodrop = false);// Wield item; returns false on fail
  void pick_style(game *g); // Pick a style
- bool wear(game *g, char let, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
+ bool wear(game *g, int pos, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
  bool wear_item(game *g, item *to_wear, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
- bool takeoff(game *g, char let, bool autodrop = false);// Take off item; returns false on fail
+ bool takeoff(game *g, int pos, bool autodrop = false);// Take off item; returns false on fail
  void sort_armor(game *g);      // re-order armor layering
- void use(game *g, char let); // Use a tool
+ void use(game *g, int pos); // Use a tool
  void use_wielded(game *g);
  void remove_gunmod(item *weapon, int id, game *g);
  bool install_bionics(game *g, it_bionic* type); // Install bionics
- void read(game *g, char let); // Read a book
+ void read(game *g, int pos); // Read a book
  void try_to_sleep(game *g); // '$' command; adds DIS_LYING_DOWN
  bool can_sleep(game *g); // Checked each turn during DIS_LYING_DOWN
  void fall_asleep(int duration);
@@ -349,7 +349,7 @@ public:
  float fine_detail_vision_mod(game *g); // Used for things like reading and sewing, checks light level
 
  // helper functions meant to tell inventory display code what kind of visual feedback to give to the user
- hint_rating rate_action_use(item *it); //rates usability lower for non-tools (books, etc.)
+ hint_rating rate_action_use(const item *it) const; //rates usability lower for non-tools (books, etc.)
  hint_rating rate_action_wear(item *it);
  hint_rating rate_action_eat(item *it);
  hint_rating rate_action_read(item *it, game *g);
@@ -372,7 +372,7 @@ public:
  void practice(const calendar& turn, Skill *s, int amount);
  void practice(const calendar& turn, std::string s, int amount);
 
- void assign_activity(game* g, activity_type type, int moves, int index = -1, char invlet = 0, std::string name = "");
+ void assign_activity(game* g, activity_type type, int moves, int index = -1, int pos = INT_MIN, std::string name = "");
  bool has_activity(game* g, const activity_type type);
  void cancel_activity();
 
@@ -395,17 +395,27 @@ public:
  std::string weapname(bool charges = true);
 
  item& i_add(item it, game *g = NULL);
- bool has_active_item(const itype_id & id) const;
+ // Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
+ // An optional qty can be provided (and will perform better than separate calls).
+ bool i_add_or_drop(item& it, game *g, int qty = 1);
+ bool has_active_item(const itype_id &id) const;
  int  active_item_charges(itype_id id);
  void process_active_items(game *g);
  bool process_single_active_item(game *g, item *it); // returns false if it needs to be removed
  item i_rem(char let); // Remove item from inventory; returns ret_null on fail
+ item i_rem(signed char ch) { return i_rem((char) ch); }  // prevent signed char->int conversion
+ item i_rem(int pos); // Remove item from inventory; returns ret_null on fail
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
  item remove_weapon();
  void remove_mission_items(int mission_id);
+ item reduce_charges(int position, int quantity);
  item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
  item &i_at(char let); // Returns the item with inventory letter let
+ item &i_at(int position);  // Returns the item with a given inventory position.
  item &i_of_type(itype_id type); // Returns the first item with this type
+ char position_to_invlet(int position);
+ int invlet_to_position(char invlet);
+ int get_item_position(item* it);  // looks up an item (via pointer comparison)
  martialart get_combat_style(); // Returns the combat style object
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
  int  butcher_factor(); // Automatically picks our best butchering tool
@@ -434,6 +444,7 @@ public:
  bool has_weapon_or_armor(char let) const; // Has an item with invlet let
  bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag
  bool has_item(char let);  // Has an item with invlet let
+ bool has_item(int position);
  bool has_item(item *it);  // Has a specific item
  bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
@@ -563,6 +574,10 @@ public:
 
  bool is_invisible() const;
  int visibility( bool check_color = false, int stillness = 0 ) const; // just checks is_invisible for the moment
+ // -2 position is 0 worn index, -3 position is 1 worn index, etc
+ static int worn_position_to_index(int position) {
+     return -2 - position;
+ }
 
 protected:
     std::set<std::string> my_traits;

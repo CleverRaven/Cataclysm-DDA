@@ -95,8 +95,8 @@ static bool inscribe_item( player *p, std::string verb, std::string gerund, bool
     //Note: this part still strongly relies on English grammar.
     //Although it can be easily worked around in language like Chinese,
     //but might need to be reworked for some European languages that have more verb forms
-    char ch = g->inv(string_format(_("%s on what?"), verb.c_str()));
-    item* cut = &(p->i_at(ch));
+    int pos = g->inv(string_format(_("%s on what?"), verb.c_str()));
+    item* cut = &(p->i_at(pos));
     if (cut->type->id == "null") {
         g->add_msg(_("You do not have that item!"));
         return false;
@@ -510,7 +510,8 @@ int iuse::firstaid(player *p, item *it, bool t)
     // Assign first aid long action.
     int healed = use_healing_item(p, it, 14, 10, 18, it->name, 95, 99, 95, false);
     if (healed != num_hp_parts) {
-      p->assign_activity(g, ACT_FIRSTAID, 6000 / (p->skillLevel("firstaid") + 1), 0, it->invlet, it->name);
+      p->assign_activity(g, ACT_FIRSTAID, 6000 / (p->skillLevel("first aid") + 1), 0,
+                         p->get_item_position(it), it->name);
       p->activity.values.push_back(healed);
       p->moves = 0;
     }
@@ -1629,8 +1630,8 @@ int iuse::sew(player *p, item *it, bool t)
         return 0;
     }
     int thread_used = 1;
-    char ch = g->inv_type(_("Repair what?"), IC_ARMOR);
-    item* fix = &(p->i_at(ch));
+    int pos = g->inv_type(_("Repair what?"), IC_ARMOR);
+    item* fix = &(p->i_at(pos));
     if (fix == NULL || fix->is_null()) {
         g->add_msg_if_player(p,_("You do not have that item!"));
         return 0;
@@ -1713,10 +1714,10 @@ int iuse::sew(player *p, item *it, bool t)
         if (rn <= 4) {
             g->add_msg_if_player(p,_("You damage your %s!"), fix->tname().c_str());
             fix->damage++;
-        } else if (rn >= 12 && p->i_at(ch).has_flag("VARSIZE") && !p->i_at(ch).has_flag("FIT")) {
+        } else if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT")) {
             g->add_msg_if_player(p,_("You take your %s in, improving the fit."), fix->tname().c_str());
-            (p->i_at(ch).item_tags.insert("FIT"));
-        } else if (rn >= 12 && (p->i_at(ch).has_flag("FIT") || !p->i_at(ch).has_flag("VARSIZE"))) {
+            fix->item_tags.insert("FIT");
+        } else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
             g->add_msg_if_player(p, _("You make your %s extra sturdy."), fix->tname().c_str());
             fix->damage--;
             g->consume_items(p, comps);
@@ -1742,7 +1743,7 @@ int iuse::sew(player *p, item *it, bool t)
             fix->damage++;
             if (fix->damage >= 5) {
                 g->add_msg_if_player(p,_("You destroy it!"));
-                p->i_rem(ch);
+                p->i_rem(pos);
             }
         } else if (rn <= 6) {
             g->add_msg_if_player(p,_("You don't repair your %s, but you waste lots of thread."),
@@ -1772,8 +1773,8 @@ int iuse::sew(player *p, item *it, bool t)
 
 int iuse::extra_battery(player *p, item *it, bool t)
 {
-    char ch = g->inv_type(_("Modify what?"), IC_TOOL);
-    item* modded = &(p->i_at(ch));
+    int pos = g->inv_type(_("Modify what?"), IC_TOOL);
+    item* modded = &(p->i_at(pos));
 
     if (modded == NULL || modded->is_null())
     {
@@ -1865,40 +1866,24 @@ int iuse::cut_up(player *p, item *it, item *cut, bool t)
         type = "nomex";
     }
 
-    char ch = cut->invlet;
+    int pos = p->get_item_position(cut);
 
     if (count <= 0) {
         g->add_msg_if_player(p, scrap_text.c_str(), cut->tname().c_str());
-        p->i_rem(ch);
+        p->i_rem(pos);
         return it->type->charges_to_use();
     }
     g->add_msg_if_player(p, sliced_text.c_str(), cut->tname().c_str(), count);
     item result(itypes[type], int(g->turn), g->nextinv);
-    p->i_rem(ch);
-    bool drop = false;
-    for (int i = 0; i < count; i++) {
-        int iter = 0;
-        while (p->has_item(result.invlet) && iter < inv_chars.size()) {
-            result.invlet = g->nextinv;
-            g->advance_nextinv();
-            iter++;
-        }
-        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity())) {
-            drop = true;
-        }
-        if (drop) {
-            g->m.add_item_or_charges(p->posx, p->posy, result);
-        } else {
-            p->i_add(result, g);
-        }
-    }
+    p->i_rem(pos);
+    p->i_add_or_drop(result, g, count);
     return it->type->charges_to_use();
 }
 
 int iuse::scissors(player *p, item *it, bool t)
 {
-    char ch = g->inv(_("Chop up what?"));
-    item *cut = &(p->i_at(ch));
+    int pos = g->inv(_("Chop up what?"));
+    item *cut = &(p->i_at(pos));
 
     if (!valid_fabric(p, cut, t)) {
         return 0;
@@ -2196,8 +2181,8 @@ int iuse::solder_weld(player *p, item *it, bool t)
                 return 0;
             }
 
-            char ch = g->inv_type(_("Repair what?"), IC_ARMOR);
-            item* fix = &(p->i_at(ch));
+            int pos = g->inv_type(_("Repair what?"), IC_ARMOR);
+            item* fix = &(p->i_at(pos));
             if (fix == NULL || fix->is_null()) {
                 g->add_msg_if_player(p,_("You do not have that item!"));
                 return 0 ;
@@ -2275,13 +2260,13 @@ int iuse::solder_weld(player *p, item *it, bool t)
                     g->add_msg_if_player(p,_("You damage your %s!"), fix->tname().c_str());
                     fix->damage++;
                 }
-                else if (rn >= 12 && p->i_at(ch).has_flag("VARSIZE") && !p->i_at(ch).has_flag("FIT"))
+                else if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))
                 {
                     g->add_msg_if_player(p,_("You take your %s in, improving the fit."),
                                          fix->tname().c_str());
-                    p->i_at(ch).item_tags.insert("FIT");
+                    fix->item_tags.insert("FIT");
                 }
-                else if (rn >= 12 && (p->i_at(ch).has_flag("FIT") || !p->i_at(ch).has_flag("VARSIZE")))
+                else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE")))
                 {
                     g->add_msg_if_player(p, _("You make your %s extra sturdy."), fix->tname().c_str());
                     fix->damage--;
@@ -2311,7 +2296,7 @@ int iuse::solder_weld(player *p, item *it, bool t)
                     if (fix->damage >= 5)
                     {
                         g->add_msg_if_player(p,_("You destroy it!"));
-                        p->i_rem(ch);
+                        p->i_rem(pos);
                     }
                 }
                 else if (rn <= 6)
@@ -2355,16 +2340,16 @@ int iuse::solder_weld(player *p, item *it, bool t)
 
 int iuse::water_purifier(player *p, item *it, bool t)
 {
- char ch = g->inv_type(_("Purify what?"), IC_COMESTIBLE);
- if (!p->has_item(ch)) {
+ int pos = g->inv_type(_("Purify what?"), IC_COMESTIBLE);
+ if (!p->has_item(pos)) {
   g->add_msg_if_player(p,_("You do not have that item!"));
   return 0;
  }
- if (p->i_at(ch).contents.size() == 0) {
+ if (p->i_at(pos).contents.size() == 0) {
   g->add_msg_if_player(p,_("You can only purify water."));
   return 0;
  }
- item *pure = &(p->i_at(ch).contents[0]);
+ item *pure = &(p->i_at(pos).contents[0]);
  if (pure->type->id != "water" && pure->type->id != "salt_water") {
   g->add_msg_if_player(p,_("You can only purify water."));
   return 0;
@@ -4816,8 +4801,7 @@ int iuse::turret(player *p, item *it, bool t)
  monster mturret(GetMType("mon_turret"), dirx, diry);
  int ammo = std::min(p->inv.charges_of("9mm"), 500);
  if (ammo > 0) {
-    char invlet = p->inv.item_by_type("9mm").invlet;
-    p->inv.remove_item_by_charges(invlet, ammo);
+    p->inv.reduce_charges(p->inv.position_by_type("9mm"), ammo);
     if (ammo == 1) {
       g->add_msg_if_player(p,_("You load your only 9mm bullet into the turret."));
     }
@@ -5265,7 +5249,7 @@ int iuse::portable_game(player *p, item *it, bool t)
         int time = 15000;
 
         g->add_msg_if_player(p, _("You play on your %s for a while."), it->name.c_str());
-        p->assign_activity(g, ACT_GAME, time, -1, it->invlet, "gaming");
+        p->assign_activity(g, ACT_GAME, time, -1, p->get_item_position(it), "gaming");
         p->moves = 0;
 
         std::map<std::string, std::string> game_data;
@@ -5381,7 +5365,7 @@ int iuse::knife(player *p, item *it, bool t)
     const int carve_writing = 1;
     const int cauterize = 2;
     const int cancel = 4;
-    char ch;
+    int pos;
 
     uimenu kmenu;
     kmenu.selected = uistate.iuse_knife_selected;
@@ -5411,14 +5395,14 @@ int iuse::knife(player *p, item *it, bool t)
         }
         return it->type->charges_to_use();
     } else if (choice == cut_fabric) {
-        ch = g->inv(_("Chop up what?"));
+        pos = g->inv(_("Chop up what?"));
     } else if (choice == carve_writing) {
-        ch = g->inv(_("Carve writing on what?"));
+        pos = g->inv(_("Carve writing on what?"));
     } else {
         return 0;
     }
 
-    item *cut = &(p->i_at(ch));
+    item *cut = &(p->i_at(pos));
 
     if (cut->type->id == "null") {
         g->add_msg(_("You do not have that item!"));
@@ -5497,24 +5481,8 @@ int iuse::knife(player *p, item *it, bool t)
     }
 
     // otherwise layout the goodies.
-    p->i_rem(ch);
-    bool drop = false;
-    for (int i = 0; i < count; i++) {
-        int iter = 0;
-        while (p->has_item(result->invlet) && iter < inv_chars.size()) {
-            result->invlet = g->nextinv;
-            g->advance_nextinv();
-            iter++;
-        }
-        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity())) {
-            drop = true;
-        }
-        if (drop) {
-            g->m.add_item_or_charges(p->posx, p->posy, *result);
-        } else {
-            p->i_add(*result);
-        }
-    }
+    p->i_rem(pos);
+    p->i_add_or_drop(*result, g, count);
 
     // hear this helps with objects in dynamically allocated memory and
     // their abandonment issues.
@@ -5528,7 +5496,6 @@ int iuse::cut_log_into_planks(player *p, item *it)
     g->add_msg(_("You cut the log into planks."));
     item plank(itypes["2x4"], int(g->turn), g->nextinv);
     item scrap(itypes["splinter"], int(g->turn), g->nextinv);
-    bool drop = false;
     int planks = (rng(1, 3) + (p->skillLevel("carpentry") * 2));
     int scraps = 12 - planks;
     if (planks >= 12) {
@@ -5537,49 +5504,21 @@ int iuse::cut_log_into_planks(player *p, item *it)
     if (scraps >= planks) {
         g->add_msg(_("You waste a lot of the wood."));
     }
-    for (int i = 0; i < planks; i++) {
-        int iter = 0;
-        while (p->has_item(plank.invlet) && iter < inv_chars.size()) {
-            plank.invlet = g->nextinv;
-            g->advance_nextinv();
-            iter++;
-        }
-        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity())) {
-            drop = true;
-        }
-        if (drop) {
-            g->m.add_item_or_charges(p->posx, p->posy, plank);
-        } else {
-            p->i_add(plank);
-        }
-    }
-    for (int i = 0; i < scraps; i++) {
-        int iter = 0;
-        while (p->has_item(scrap.invlet) && iter < inv_chars.size()) {
-            scrap.invlet = g->nextinv;
-            g->advance_nextinv();
-            iter++;
-        }
-        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-            drop = true;
-        if (drop)
-            g->m.add_item_or_charges(p->posx, p->posy, scrap);
-        else
-            p->i_add(scrap);
-    }
+    p->i_add_or_drop(plank, g, planks);
+    p->i_add_or_drop(scrap, g, scraps);
     return it->type->charges_to_use();
 }
 
 int iuse::lumber(player *p, item *it, bool t)
 {
- char ch = g->inv(_("Cut up what?"));
- item* cut = &(p->i_at(ch));
+ int pos = g->inv(_("Cut up what?"));
+ item* cut = &(p->i_at(pos));
  if (cut->type->id == "null") {
   g->add_msg(_("You do not have that item!"));
   return 0;
  }
  if (cut->type->id == "log") {
-     p->i_rem(ch);
+     p->i_rem(pos);
      cut_log_into_planks(p, it);
      return it->type->charges_to_use();
  } else {
@@ -5873,8 +5812,8 @@ int iuse::candle_lit(player *p, item *it, bool t)
 
 int iuse::bullet_puller(player *p, item *it, bool t)
 {
- char ch = g->inv(_("Disassemble what?"));
- item* pull = &(p->i_at(ch));
+ int pos = g->inv(_("Disassemble what?"));
+ item* pull = &(p->i_at(pos));
  if (pull->type->id == "null") {
   g->add_msg(_("You do not have that item!"));
   return 0;
@@ -6073,63 +6012,20 @@ int iuse::bullet_puller(player *p, item *it, bool t)
  }
  pull->charges = pull->charges - multiply;
  if (pull->charges == 0) {
-     p->i_rem(ch);
+     p->i_rem(pos);
  }
  g->add_msg(_("You take apart the ammunition."));
  p->moves -= 500;
  if (casing.type->id != "null"){
      casing.charges = multiply;
-     int iter = 0;
-     while ((casing.invlet == 0 || p->has_item(casing.invlet)) && iter < inv_chars.size()) {
-         casing.invlet = g->nextinv;
-         g->advance_nextinv();
-         iter++;}
-     if (p->can_pickWeight(casing.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-         p->can_pickVolume(casing.volume()) && iter < inv_chars.size()) {
-         p->i_add(casing);
-     } else {
-         g->m.add_item_or_charges(p->posx, p->posy, casing);
-     }
+     p->i_add_or_drop(casing, g);
  }
  if (primer.type->id != "null"){
      primer.charges = multiply;
-     int iter = 0;
-     while ((primer.invlet == 0 || p->has_item(primer.invlet)) && iter < inv_chars.size()) {
-         primer.invlet = g->nextinv;
-         g->advance_nextinv();
-         iter++;
-     }
-     if (p->can_pickWeight(primer.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-         p->can_pickVolume(primer.volume()) && iter < inv_chars.size()) {
-         p->i_add(primer);
-     } else {
-         g->m.add_item_or_charges(p->posx, p->posy, primer);
-     }
+     p->i_add_or_drop(primer, g);
  }
- int iter = 0;
- while ((gunpowder.invlet == 0 || p->has_item(gunpowder.invlet)) && iter < inv_chars.size()) {
-     gunpowder.invlet = g->nextinv;
-     g->advance_nextinv();
-     iter++;
- }
- if (p->can_pickWeight(gunpowder.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-     p->can_pickVolume(gunpowder.volume()) && iter < inv_chars.size()) {
-     p->i_add(gunpowder);
- } else {
-   g->m.add_item_or_charges(p->posx, p->posy, gunpowder);
- }
- iter = 0;
- while ((lead.invlet == 0 || p->has_item(lead.invlet)) && iter < inv_chars.size()) {
-     lead.invlet = g->nextinv;
-     g->advance_nextinv();
-     iter++;
- }
- if (p->can_pickWeight(lead.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-     p->can_pickVolume(lead.volume()) && iter < inv_chars.size()) {
-     p->i_add(lead);
- } else {
-   g->m.add_item_or_charges(p->posx, p->posy, lead);
- }
+ p->i_add_or_drop(gunpowder, g);
+ p->i_add_or_drop(lead, g);
 
  p->practice(g->turn, "fabrication", rng(1, multiply / 5 + 1));
  return it->type->charges_to_use();
@@ -6662,8 +6558,8 @@ int iuse::spray_can(player *p, item *it, bool t)
  */
 static bool heat_item(player *p)
 {
-    char ch = g->inv(_("Heat up what?"));
-    item* heat = &(p->i_at(ch));
+    int pos = g->inv(_("Heat up what?"));
+    item* heat = &(p->i_at(pos));
     if (heat->type->id == "null") {
         g->add_msg(_("You do not have that item!"));
         return false;
@@ -6759,14 +6655,15 @@ int iuse::boots(player *p, item *it, bool t)
   p->moves -= 15;
   item knife = it->contents[choice - 1];
   if (!p->is_armed() || p->wield(g, -3)) {
+   p->inv.assign_empty_invlet(knife, true);  // force getting an invlet.
    p->i_add(knife);
    p->wield(g, knife.invlet);
    it->contents.erase(it->contents.begin() + choice - 1);
   }
  } else if ((it->contents.size() == 0 && choice == 1) || // Put 1st
             (it->contents.size() == 1 && choice == 2)) { // Put 2st
-  char ch = g->inv_type(_("Put what?"), IC_TOOL);
-  item* put = &(p->i_at(ch));
+  int pos = g->inv_type(_("Put what?"), IC_TOOL);
+  item* put = &(p->i_at(pos));
   if (put == NULL || put->is_null()) {
    g->add_msg_if_player(p, _("You do not have that item!"));
    return 0;
@@ -6781,7 +6678,7 @@ int iuse::boots(player *p, item *it, bool t)
   }
   p->moves -= 30;
   g->add_msg_if_player(p, _("You put the %s in your boot."), put->tname().c_str());
-  it->put_in(p->i_rem(ch));
+  it->put_in(p->i_rem(pos));
  }
  return it->type->charges_to_use();
 }

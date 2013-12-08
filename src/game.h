@@ -285,12 +285,12 @@ class game
   std::string sFilter; // this is a member so that it's remembered over time
   std::string list_item_upvote;
   std::string list_item_downvote;
-  char inv(std::string title);
-  char inv(inventory&,std::string);
-  char inv_activatable(std::string title);
-  char inv_type(std::string title, item_cat inv_item_type = IC_NULL);
-  char inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
-  int inventory_item_menu(char chItem, int startx = 0, int width = 50, int position = 0);
+  int inv(const std::string& title);
+  int inv_activatable(std::string title);
+  int inv_type(std::string title, item_cat inv_item_type = IC_NULL);
+  int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
+  int display_slice(indexed_invslice&, const std::string&);
+  int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);
@@ -469,7 +469,7 @@ class game
   craft_cat prev_craft_cat(craft_cat cat); // crafting.cpp
   craft_subcat next_craft_subcat(craft_subcat subcat); // crafting.cpp
   craft_subcat prev_craft_subcat(craft_subcat subcat); // crafting.cpp
-  void disassemble(char ch = 0);       // See crafting.cpp
+  void disassemble(int pos = 0);       // See crafting.cpp
   void complete_disassemble();         // See crafting.cpp
   recipe* recipe_by_index(int index);  // See crafting.cpp
 
@@ -486,25 +486,25 @@ class game
 // Pick where to put liquid; false if it's left where it was
 
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items 'I'
-  void drop(char chInput = '.'); // Drop an item  'd'
+  void drop(int pos = INT_MIN); // Drop an item  'd'
   void drop_in_direction(); // Drop w/ direction  'D'
-  void reassign_item(char ch = '.'); // Reassign the letter of an item  '='
+  void reassign_item(int pos = INT_MIN); // Reassign the letter of an item  '='
   void butcher(); // Butcher a corpse  'B'
   void complete_butcher(int index); // Finish the butchering process
   void forage(); // Foraging ('a' on underbrush)
-  void eat(char chInput = '.'); // Eat food or fuel  'E' (or 'a')
-  void use_item(char chInput = '.'); // Use item; also tries E,R,W  'a'
+  void eat(int pos = INT_MIN); // Eat food or fuel  'E' (or 'a')
+  void use_item(int pos = INT_MIN); // Use item; also tries E,R,W  'a'
   void use_wielded_item();
-  void wear(char chInput = '.'); // Wear armor  'W' (or 'a')
-  void takeoff(char chInput = '.'); // Remove armor  'T'
+  void wear(int pos = INT_MIN); // Wear armor  'W' (or 'a')
+  void takeoff(int pos = INT_MIN); // Remove armor  'T'
   void reload(); // Reload a wielded gun/tool  'r'
-  void reload(char chInput);
+  void reload(int pos);
   void unload(item& it); // Unload a gun/tool  'U'
-  void unload(char chInput);
-  void wield(char chInput = '.'); // Wield a weapon  'w'
+  void unload(int pos = INT_MIN);
+  void wield(int pos = INT_MIN); // Wield a weapon  'w'
   void read(); // Read a book  'R' (or 'a')
   void chat(); // Talk to a nearby NPC  'C'
-  void plthrow(char chInput = '.'); // Throw an item  't'
+  void plthrow(int pos = INT_MIN); // Throw an item  't'
 
   // Internal methods to show "look around" info
   void print_fields_info(int lx, int ly, WINDOW* w_look, int column, int &line);
@@ -602,7 +602,6 @@ class game
   int nulscent;    // Returned for OOB scent checks
   std::vector<event> events;         // Game events to be processed
   std::map<std::string, int> kills;         // Player's kill count
-  std::string last_action;  // The keypresses of last turn
   int moves_since_last_save;
   int item_exchanges_since_save;
   time_t last_save_timestamp;

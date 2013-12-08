@@ -27,7 +27,7 @@ void mission_start::infect_npc(game *g, mission *miss)
  }
  p->add_disease("infection", 1, true);
  // make sure they don't have any antibiotics
- while ( !p->inv.remove_item_by_type("antibiotics").is_null() ) { /* empty */ }
+ while ( !p->inv.remove_item("antibiotics").is_null() ) { /* empty */ }
 }
 
 void mission_start::place_dog(game *g, mission *miss)
