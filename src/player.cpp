@@ -3792,6 +3792,7 @@ dealt_damage_instance player::deal_damage(game* g, Creature* source, body_part b
 
 void player::apply_damage(game* g, Creature* source, body_part bp,
         int side, int dam) {
+    if (is_dead_state()) return; // don't do any more damage if we're already dead
     switch (bp) {
     case bp_eyes: // Fall through to head damage
     case bp_mouth: // Fall through to head damage
