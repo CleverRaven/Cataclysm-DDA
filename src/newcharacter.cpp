@@ -73,11 +73,12 @@ bool player::create(game *g, character_type type, std::string tempname)
                 g->u.male = (rng(1, 100) > 50);
                 g->u.pick_name();
             case PLTYPE_RANDOM: {
+                g->u.prof = profession::weighted_random();
                 str_max = rng(6, 12);
                 dex_max = rng(6, 12);
                 int_max = rng(6, 12);
                 per_max = rng(6, 12);
-                points = points - str_max - dex_max - int_max - per_max;
+                points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost();
                 if (str_max > HIGH_STAT) {
                     points -= (str_max - HIGH_STAT);
                 }
@@ -1376,6 +1377,12 @@ int random_skill()
 {
     return rng(1, Skill::skills.size() - 1);
 }
+
+int random_profession()
+{
+    return rng(1, Skill::skills.size() - 1);
+}
+
 
 int calc_HP(int strength, bool tough)
 {

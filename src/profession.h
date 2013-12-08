@@ -46,6 +46,8 @@ public:
     // these should be the only ways used to get at professions
     static profession* prof(std::string ident);
     static profession* generic(); // points to the generic, default profession
+    // return a random profession, weighted for use w/ random character creation or npcs
+    static profession* weighted_random();
     static bool exists(std::string ident);
     static profmap::const_iterator begin();
     static profmap::const_iterator end();
