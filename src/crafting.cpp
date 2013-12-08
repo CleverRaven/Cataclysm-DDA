@@ -20,16 +20,15 @@ recipe_map recipes;
 std::map<std::string,quality> qualities;
 std::map<std::string, std::queue<std::pair<recipe*, int> > > recipe_booksets;
 
-void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
-void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered=false);
-craft_cat first_craft_cat();
-craft_cat last_craft_cat();
-craft_cat next_craft_cat(const craft_cat cat);
-craft_cat prev_craft_cat(const craft_cat cat);
-craft_subcat first_craft_subcat(const craft_cat cat);
-craft_subcat last_craft_subcat(const craft_cat cat);
-craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat);
-craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat);
+static void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
+static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered=false);
+static craft_cat first_craft_cat();
+static craft_cat next_craft_cat(const craft_cat cat);
+static craft_cat prev_craft_cat(const craft_cat cat);
+static craft_subcat first_craft_subcat(const craft_cat cat);
+static craft_subcat last_craft_subcat(const craft_cat cat);
+static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat);
+static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat);
 
 void load_recipe_category(JsonObject &jsobj)
 {
@@ -509,17 +508,12 @@ void game::long_craft()
     }
 }
 
-craft_cat first_craft_cat()
+static craft_cat first_craft_cat()
 {
     return craft_cat_list.front();
 }
 
-craft_cat last_craft_cat()
-{
-    return craft_cat_list.back();
-}
-
-craft_cat next_craft_cat(const craft_cat cat)
+static craft_cat next_craft_cat(const craft_cat cat)
 {
     for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
          iter != craft_cat_list.end(); ++iter) {
@@ -533,7 +527,7 @@ craft_cat next_craft_cat(const craft_cat cat)
     return NULL;
 }
 
-craft_cat prev_craft_cat(const craft_cat cat)
+static craft_cat prev_craft_cat(const craft_cat cat)
 {
     for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
          iter != craft_cat_list.end(); ++iter) {
@@ -547,17 +541,17 @@ craft_cat prev_craft_cat(const craft_cat cat)
     return NULL;
 }
 
-craft_subcat first_craft_subcat(const craft_cat cat)
+static craft_subcat first_craft_subcat(const craft_cat cat)
 {
     return craft_subcat_list[cat].front();
 }
 
-craft_subcat last_craft_subcat(const craft_cat cat)
+static craft_subcat last_craft_subcat(const craft_cat cat)
 {
     return craft_subcat_list[cat].back();
 }
 
-craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat)
+static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat)
 {
     for (std::vector<craft_subcat>::iterator iter = craft_subcat_list[cat].begin();
          iter != craft_subcat_list[cat].end(); ++iter) {
@@ -571,7 +565,7 @@ craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat)
     return NULL;
 }
 
-craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat)
+static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat)
 {
     for (std::vector<craft_subcat>::iterator iter = craft_subcat_list[cat].begin();
          iter != craft_subcat_list[cat].end(); ++iter) {
@@ -1005,7 +999,7 @@ recipe* game::select_crafting_recipe()
     return chosen;
 }
 
-void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
+static void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 {
     werase(w);
     int width = getmaxx(w);
@@ -1042,7 +1036,7 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
     wrefresh(w);
 }
 
-void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered)
+static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered)
 {
     werase(w);
     int width = getmaxx(w);
