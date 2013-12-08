@@ -3254,7 +3254,7 @@
         "to_hit" : 0,
         "ammo_type" : "ammo_flintlock",
         "casing" : "NULL",
-        "damage" : 30,
+        "damage" : 40,
         "pierce" : 0,
         "range" : 12,
         "dispersion" : 8,
