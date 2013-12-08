@@ -3129,10 +3129,10 @@ void vehicle::damage_all (int dmg1, int dmg2, int type, const point &impact)
 void vehicle::shift_parts(const int dx, const int dy)
 {
     for(unsigned int p = 0; p < parts.size(); p++) {
-        parts[p].mount_dx += dx;
-        parts[p].mount_dy += dy;
+        parts[p].mount_dx -= dx;
+        parts[p].mount_dy -= dy;
     }
-    posx -= dy;
+    posx += dy;
     posy -= dx;
 
     refresh();
