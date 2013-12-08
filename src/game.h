@@ -313,6 +313,7 @@ class game
   calendar turn;
   signed char temperature;              // The air temperature
   int get_temperature();    // Returns outdoor or indoor temperature of current location
+  int get_temperature(point location);    // Returns outdoor or indoor temperature of current location
   weather_type weather;   // Weather pattern--SEE weather.h
 
   std::map<int, weather_segment> weather_log;

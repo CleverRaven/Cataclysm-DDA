@@ -1330,8 +1330,16 @@ void game::update_weather()
 int game::get_temperature()
 {
     point location = om_location();
+    
+    return get_temperature(location);
+}
+
+int game::get_temperature(point location)
+{
+    // Fetch temperature due to weather
     int tmp_temperature = temperature;
 
+    // Add temperature due to submap
     tmp_temperature += m.temperature(u.posx, u.posy);
 
     return tmp_temperature;
