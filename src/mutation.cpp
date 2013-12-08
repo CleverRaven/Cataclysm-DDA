@@ -413,6 +413,10 @@ void mutation_effect(game *g, player &p, std::string mut)
         // Push off non-cloth helmets
         bps.push_back(bp_head);
 
+    } else if (mut == "LARGE") {
+        p.str_max += 2;
+        p.recalc_hp();
+
     } else if (mut == "STR_UP") {
         p.str_max ++;
         p.recalc_hp();
@@ -476,7 +480,8 @@ void mutation_effect(game *g, player &p, std::string mut)
 
                     p.worn.erase(p.worn.begin() + i);
 
-                } else {
+                } 
+                else {
                     if (is_u) {
                         g->add_msg(_("Your %s is pushed off."), p.worn[i].tname().c_str());
                     }
@@ -496,6 +501,10 @@ void mutation_effect(game *g, player &p, std::string mut)
 void mutation_loss_effect(game *g, player &p, std::string mut)
 {
     if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "FRAIL") {
+        p.recalc_hp();
+
+    } else if (mut == "LARGE") {
+        p.str_max -= 2;
         p.recalc_hp();
 
     } else if (mut == "STR_UP") {

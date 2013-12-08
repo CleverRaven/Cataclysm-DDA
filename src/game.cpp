@@ -2428,8 +2428,11 @@ bool game::handle_action()
         }
 
         as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_CAPITAL_YN"]?'N':'n'), _("No.")) );
-
-        if (u.has_item_with_flag("ALARMCLOCK"))
+        
+        if (u.has_item_with_flag("ALARMCLOCK") && (u.hunger < -60)) {
+            as_m.text = _("You're engorged to hibernate. The alarm would only attract attention.");
+            }
+        if (u.has_item_with_flag("ALARMCLOCK") && !(u.hunger < -60))
         {
             as_m.entries.push_back(uimenu_entry(3, true, '3', _("Set alarm to wake up in 3 hours.") ));
             as_m.entries.push_back(uimenu_entry(4, true, '4', _("Set alarm to wake up in 4 hours.") ));

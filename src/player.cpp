@@ -1242,6 +1242,8 @@ int player::run_cost(int base_cost, bool diag)
 int player::swim_speed()
 {
   int ret = 440 + weight_carried() / 60 - 50 * skillLevel("swimming");
+ if (has_trait("PAWS"))
+  ret -= 15 + str_cur * 4;
  if (has_trait("WEBBED"))
   ret -= 60 + str_cur * 5;
  if (has_trait("TAIL_FIN"))
@@ -8590,7 +8592,10 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     if( has_trait("ARM_FEATHERS") && bp == bp_arms ) {
         ret += 2;
     }
-    if (bp == bp_hands && has_trait("PAWS")) {
+    if ( has_trait("PAWS") && bp == bp_hands ) {
+        ret += 1;
+    }
+    if ( has_trait("LARGE") && (bp == bp_arms || bp == bp_torso )) {
         ret += 1;
     }
     if (bp == bp_hands &&

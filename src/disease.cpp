@@ -801,7 +801,13 @@ void dis_effect(player &p, disease &dis) {
                         g->add_msg(_("You use your %s to keep warm."), item_name.c_str());
                     }
                 }
-                p.fall_asleep(6000);
+                if (p.has_trait("HIBERNATE") && (p.hunger < -60)) {
+                p.fall_asleep(144000); // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
+                }                     // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
+                                     // In practice, the fatigue from filling the tank from (no msg) to Time For Bed will last about 8 days.
+                if (p.hunger >= -60) {
+                p.fall_asleep(6000); //10 hours, default max sleep time.
+                }
             }
             if (dis.duration == 1 && !p.has_disease("sleep")) {
                 g->add_msg_if_player(&p,_("You try to sleep, but can't..."));
@@ -2307,8 +2313,8 @@ void manage_fungal_infection(player& p, disease& dis) {
 
 void manage_sleep(player& p, disease& dis) {
     p.moves = 0;
-    if((int(g->turn) % 5 == 0) && p.has_trait("HIBERNATE") && p.hunger < -60) { //Hibernating only kicks in whilst Engorged
-        int recovery_chance;
+    if((int(g->turn) % 350 == 0) && p.has_trait("HIBERNATE") && p.hunger < -60) { //Hibernating only kicks in whilst Engorged
+        int recovery_chance; // Hibernators' metabolism slows down a bit.
         // Accelerated recovery capped to 2x over 2 hours
         // After 16 hours of activity, equal to 7.25 hours of rest
         if (dis.intensity < 24) {
@@ -2337,7 +2343,7 @@ void manage_sleep(player& p, disease& dis) {
         }
     }
     
-    if(int(g->turn) % 50 == 0) {
+    if((int(g->turn) % 50 == 0) && !(p.hunger < -60)) {
         int recovery_chance;
         // Accelerated recovery capped to 2x over 2 hours
         // After 16 hours of activity, equal to 7.25 hours of rest
@@ -2367,8 +2373,14 @@ void manage_sleep(player& p, disease& dis) {
         }
     }
 
-    if (int(g->turn) % 100 == 0 && !p.has_bionic("bio_recycler")) {
-        // Hunger and thirst advance more slowly while we sleep.
+    if (int(g->turn) % 100 == 0 && !p.has_bionic("bio_recycler") && !(p.hunger < -60)) {
+        // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
+        p.hunger--;
+        p.thirst--;
+    }
+    
+    if (int(g->turn) % 70 == 0 && !p.has_bionic("bio_recycler") && (p.hunger < -60)) {
+        // Hunger and thirst advance more slowly while we sleep. Hibernation burns a little slower.
         p.hunger--;
         p.thirst--;
     }

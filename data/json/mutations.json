@@ -921,8 +921,8 @@
         "id" : "CLAWS_RETRACT",
         "name" : "Retractable Claws",
         "points" : 2,
-        "visibility" : 1,
-        "ugliness" : 2,
+        "visibility" : 0,
+        "ugliness" : 1,
         "description" : "You have claws on the ends of your fingers, and can retract them if desired.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
         "prereqs" : ["CLAWS"],
         "cancels" : ["TALONS"],
@@ -1207,7 +1207,7 @@
         "points" : 3,
         "visibility" : 8,
         "ugliness" : 2,
-        "description" : "You have a long and semi-stiff lizardlike tail. You can't effectively lash it in combat, but do find it significantly improves your balance.",
+        "description" : "You have a long and semi-stiff lizardlike tail. You can't effectively lash it in combat, but it significantly improves your balance.",
         "prereqs" : ["TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_RAT", "TAIL_CATTLE", "TAIL_LONG"],
         "category" : ["MUTCAT_RAPTOR"]
@@ -1388,6 +1388,13 @@
         "ugliness" : 1,
         "description" : "You have a set of prominent rodent-like whiskers around your mouth. These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
         "category" : ["MUTCAT_RAT"]
+    },{
+        "type" : "mutation",
+        "id" : "LARGE",
+        "name" : "Inconveniently Large",
+        "points" : 0,
+        "description" : "You have grown noticeably taller and broader. Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+1 Torso and Arm Encumbrance).",
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
         "id" : "STR_UP",
@@ -1884,10 +1891,10 @@
         "type" : "mutation",
         "id" : "PAWS",
         "name" : "Paws",
-        "points" : -3,
+        "points" : -2,
         "visibility" : 3,
         "ugliness" : 2,
-        "description" : "Your hands have fused into quasi-paws. You can still grip things, but fine manipulation is a challenge: permanent hand encumbrance of 1 and difficulty with delicate craftwork. Gloves don't fit, either.",
+        "description" : "Your hands have fused into quasi-paws. You can still grip things, but fine manipulation is a challenge: permanent hand encumbrance of 1, difficulty with delicate craftwork, and you gloves don't fit. At least the paws handle water a bit better.",
         "prereqs" : ["CLAWS", "CLAWS_RETRACT"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "category" : ["MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_FELINE"]
@@ -1908,8 +1915,9 @@
         "type" : "mutation",
         "id" : "BADTEMPER",
         "name" : "Bad Temper",
-        "points" : -3,
+        "points" : -2,
         "description" : "Things just keep getting you down. You tend to be unhappy, and it takes some doing to cheer you up.",
+        "starting_trait" : true,
         "cancels" : ["OPTIMISTIC"],
         "category" : ["MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_CHIMERA"]
     },{
