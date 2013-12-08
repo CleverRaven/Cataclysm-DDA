@@ -23,9 +23,44 @@
 
 #define MONSTER_FOLLOW_DIST 8
 
-void monster::receive_moves()
+void monster::receive_moves(game *g)
 {
- moves += speed;
+    const int absolute_zero_F = -460;
+    // At the moment, this points to the PLAYER and NOT the monster
+    // Fetching a Z's om location is difficult, I am told
+    point location = g->om_location();
+    // Fetching the monster's om_location is tricky, so for now
+    // we just use the player's temperature. This works for now, because
+    // ice labs are the only exception and it's underground so yeah.
+    int temperature = g->get_temperature(location) + abs(absolute_zero_F);
+    int preferred_temperature = 65 + abs(absolute_zero_F);
+    float monster_resistance = 0.7;
+
+    // Effects of the temperature
+    if (has_flag(MF_WARM)) {
+        monster_resistance = 1.0;
+    } else if (has_flag(MF_COLD)) {
+        monster_resistance = 0.5;
+    } else if (has_flag(MF_ELECTRONIC)) {
+        monster_resistance = 3.0;
+    } else if (has_flag(MF_INSECT_BLOOD)) {
+        monster_resistance = 0.3;
+    }
+    if (has_flag(MF_ICE)) {
+        preferred_temperature = 0;
+    } else if (has_flag(MF_FIRE)) {
+        preferred_temperature = 100;
+    }
+    // Effects of map tiles
+    // (nothing at the moment)
+
+    float temperature_modifier = 1.0;
+    temperature_modifier = 1.0 - (float)pow((float)((abs(preferred_temperature - temperature)) / (float)(preferred_temperature)), monster_resistance);
+    // Logically, the temps should not drop below absolute zero. However, if temps get high enough (1000F+), this number becomes negative.
+    temperature_modifier = (temperature_modifier > 0 ? temperature_modifier : 0);
+
+    // To avoid 0^0 moments
+    moves += (temperature == preferred_temperature ? speed : speed*temperature_modifier);
 }
 
 bool monster::wander()

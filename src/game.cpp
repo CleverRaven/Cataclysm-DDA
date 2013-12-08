@@ -5303,7 +5303,7 @@ void game::monmove()
                 }
                 critter->dead = true;
             } else {
-                critter->receive_moves();
+                critter->receive_moves(g);
             }
         }
     }
