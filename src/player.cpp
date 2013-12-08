@@ -39,6 +39,7 @@
 nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
 static void manage_fire_exposure(player& p, int fireStrength = 1);
+static void handle_cough(player& p, int intensity = 1, int volume = 12);
 
 std::map<std::string, trait> traits;
 std::map<std::string, martialart> ma_styles;
@@ -1727,7 +1728,7 @@ void player::disp_info(game *g)
  }
     for (std::vector<effect>::iterator it = effects.begin();
         it != effects.end(); ++it) {
-        effect_name.push_back(it->get_effect_type()->get_name());
+        effect_name.push_back(it->disp_name());
         effect_text.push_back(it->get_effect_type()->get_desc());
     }
  if (abs(morale_level()) >= 100) {
@@ -4547,7 +4548,7 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
     }
 }
 
-void manage_fire_exposure(player &p, int fireStrength) {
+static void manage_fire_exposure(player &p, int fireStrength) {
     // TODO: this should be determined by material properties
     p.hurtall(3*fireStrength);
     for (int i = 0; i < p.worn.size(); i++) {
@@ -4559,6 +4560,21 @@ void manage_fire_exposure(player &p, int fireStrength) {
             p.worn.erase(p.worn.begin() + i);
             i--;
         }
+    }
+}
+static void handle_cough(player &p, int intensity, int loudness) {
+    if (p.is_player()) {
+        g->add_msg(_("You cough heavily."));
+        g->sound(p.posx, p.posy, loudness, "");
+    } else {
+        g->sound(p.posx, p.posy, loudness, _("a hacking cough."));
+    }
+    p.mod_moves(-80);
+    if (rng(1,6) < intensity) {
+        p.apply_damage(g, NULL, bp_torso, -1, 1);
+    }
+    if (p.has_disease("sleep") && intensity >= 2) {
+        p.wake_up(_("You wake up coughing."));
     }
 }
 void player::process_effects(game *g) {
@@ -4588,6 +4604,18 @@ void player::process_effects(game *g) {
             if (one_in(200)) {
                 g->add_msg_if_player(this,_("The sunlight's glare makes it hard to see."));
             }
+        } else if (id == "effect_smoke") {
+            // A hard limit on the duration of the smoke disease.
+            if( it->get_duration() >= 600) {
+                it->set_duration(600);
+            }
+            mod_str_bonus(-1);
+            mod_dex_bonus(-1);
+            it->set_intensity((it->get_duration()+190)/200);
+            if (it->get_duration() >= 10 && one_in(6)) {
+                handle_cough(*this, it->get_intensity());
+            }
+            break;
         }
     }
 

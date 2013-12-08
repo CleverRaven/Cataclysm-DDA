@@ -892,8 +892,8 @@ int iuse::inhaler(player *p, item *it, bool t) {
 int iuse::oxygen_bottle(player *p, item *it, bool t) {
     p->moves -= 500;
     g->add_msg_if_player(p,_("You breathe deeply from the %s"), it->tname().c_str());
-    if (p->has_disease("smoke")) {
-          p->rem_disease("smoke");
+    if (p->has_effect("effect_smoke")) {
+          p->remove_effect("effect_smoke");
         }
         else if (p->has_disease("asthma")) {
           p->rem_disease("asthma");

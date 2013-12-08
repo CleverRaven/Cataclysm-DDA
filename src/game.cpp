@@ -5086,7 +5086,8 @@ void game::cleanup_dead()
                                            i, critter.posx(), critter.posy(), (critter.dead?'1':'0'),
                                            critter.hp, critter.type->name.c_str() );
             critter.die(this); // dies at the very end
-            if (critter.get_killer()->is_player() &&
+            Creature* killer = critter.get_killer();
+            if (killer != NULL && killer->is_player() &&
                     critter.has_flag(MF_GUILT)) {
                 mdeath tmpdeath;
                 tmpdeath.guilt(&critter);

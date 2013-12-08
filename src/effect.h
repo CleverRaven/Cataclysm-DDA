@@ -53,12 +53,17 @@ class effect
         effect(const effect & rhs);
         effect& operator=(const effect & rhs);
 
+        std::string disp_name();
+
         effect_type* get_effect_type();
         void do_effect(game* g, Creature& t); // applies the disease's effects
 
         int get_duration();
         void set_duration(int dur);
         void mod_duration(int dur);
+
+        int get_intensity();
+        void set_intensity(int dur);
 
         efftype_id get_id() {
           return eff_type->id;

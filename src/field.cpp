@@ -1103,7 +1103,7 @@ void map::step_in_field(int x, int y, game *g)
                         coughStr = 1;
                         coughDur = 2;
                     }
-                    g->u.infect("smoke", bp_mouth, coughStr, coughDur);
+                    g->u.add_env_effect("effect_smoke", bp_mouth, coughStr, coughDur);
                 }
             }
             break;

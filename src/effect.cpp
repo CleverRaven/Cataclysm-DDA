@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "output.h"
 #include <map>
+#include <iostream>
 
 std::map<std::string, effect_type> effect_types;
 
@@ -57,6 +58,14 @@ effect& effect::operator=(const effect &rhs)
     return *this;
 }
 
+std::string effect::disp_name() {
+    std::stringstream ret;
+    ret << eff_type->get_name();
+    if (intensity > 1) {
+        ret << " [" << intensity << "]";
+    }
+    return ret.str();
+}
 void effect::do_effect(game* g, Creature& t) {
     return;
 }
@@ -69,6 +78,13 @@ void effect::set_duration(int dur) {
 }
 void effect::mod_duration(int dur) {
     duration += dur;
+}
+
+int effect::get_intensity() {
+    return intensity;
+}
+void effect::set_intensity(int nintensity) {
+    intensity = nintensity;
 }
 
 effect_type* effect::get_effect_type() {
