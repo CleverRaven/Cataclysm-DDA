@@ -6095,17 +6095,18 @@ int game::npc_by_id(const int id) const
  return -1;
 }
 
-bool game::add_zombie(monster& m)
+bool game::add_zombie(monster& critter)
 {
-    if (m.type->id == "mon_null"){ // Don't wanna spawn null monsters o.O
+    critter_tracker.add(critter);
+    if (critter.type->id == "mon_null"){ // Don't wanna spawn null monsters o.O
         return false;
     }
-    if (-1 != mon_at(m.pos())) {
-        debugmsg("add_zombie: there's already a monster at %d,%d", m.posx(), m.posy());
+    if (-1 != mon_at(critter.pos())) {
+        debugmsg("add_zombie: there's already a monster at %d,%d", critter.posx(), critter.posy());
         return false;
     }
-    z_at[point(m.posx(), m.posy())] = _active_monsters.size();
-    _active_monsters.push_back(m);
+    z_at[point(critter.posx(), critter.posy())] = _active_monsters.size();
+    _active_monsters.push_back(critter);
     return true;
 }
 
@@ -6121,11 +6122,12 @@ monster& game::zombie(const int idx)
 
 bool game::update_zombie_pos(const monster &critter, const int newx, const int newy)
 {
+    critter_tracker.update_pos(critter, newx, newy);
     bool success = false;
     const int zid = mon_at(critter.posx(), critter.posy());
     const int newzid = mon_at(newx, newy);
     if (newzid >= 0 && !_active_monsters[newzid].dead) {
-        debugmsg("update_zombie_pos: new location %d,%d already has zombie %d",
+        debugmsg("GAME: update_zombie_pos: new location %d,%d already has zombie %d",
                 newx, newy, newzid);
     } else if (zid >= 0) {
         if (&critter == &_active_monsters[zid]) {
@@ -6133,13 +6135,13 @@ bool game::update_zombie_pos(const monster &critter, const int newx, const int n
             z_at[point(newx, newy)] = zid;
             success = true;
         } else {
-            debugmsg("update_zombie_pos: old location %d,%d had zombie %d instead",
+            debugmsg("GAME: update_zombie_pos: old location %d,%d had zombie %d instead",
                     critter.posx(), critter.posy(), zid);
         }
     } else {
         // We're changing the x/y coordinates of a zombie that hasn't been added
         // to the game yet. add_zombie() will update z_at for us.
-        debugmsg("update_zombie_pos: no such zombie at %d,%d (moving to %d,%d)",
+        debugmsg("GAME: update_zombie_pos: no such zombie at %d,%d (moving to %d,%d)",
                 critter.posx(), critter.posy(), newx, newy);
     }
     return success;
@@ -6147,6 +6149,7 @@ bool game::update_zombie_pos(const monster &critter, const int newx, const int n
 
 void game::remove_zombie(const int idx)
 {
+    critter_tracker.remove(idx);
     monster& m = _active_monsters[idx];
     const point oldloc(m.posx(), m.posy());
     const std::map<point, int>::const_iterator i = z_at.find(oldloc);
@@ -6168,6 +6171,7 @@ void game::remove_zombie(const int idx)
 
 void game::clear_zombies()
 {
+    critter_tracker.clear();
     _active_monsters.clear();
     z_at.clear();
 }
@@ -6227,6 +6231,7 @@ void game::rebuild_mon_at_cache()
         monster &critter = _active_monsters[i];
         z_at[point(critter.posx(), critter.posy())] = i;
     }
+    critter_tracker.rebuild_cache();
 }
 
 bool game::is_empty(const int x, const int y)

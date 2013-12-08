@@ -24,6 +24,7 @@
 #include "gamemode.h"
 #include "live_view.h"
 #include "worldfactory.h"
+#include "creature_tracker.h"
 #include <vector>
 #include <map>
 #include <queue>
@@ -584,6 +585,7 @@ class game
 
   std::vector<monster> _active_monsters;
   std::map<point, int> z_at;
+  Creature_tracker critter_tracker;
 
   signed char last_target; // The last monster targeted
   int run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
