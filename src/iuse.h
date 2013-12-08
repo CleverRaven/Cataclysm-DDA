@@ -46,6 +46,7 @@ class iuse
   int blech            (player *p, item *it, bool t);
   int chew            (player *p, item *it, bool t);
   int mutagen          (player *p, item *it, bool t);
+  int mut_iv          (player *p, item *it, bool t);
   int purifier         (player *p, item *it, bool t);
   int marloss          (player *p, item *it, bool t);
   int dogfood          (player *p, item *it, bool t);

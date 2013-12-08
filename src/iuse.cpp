@@ -935,6 +935,9 @@ int iuse::mutagen(player *p, item *it, bool t) {
     } else if( it->has_flag("MUTAGEN_BEAST") ) {
         g->add_msg_if_player(p, _("Your heart races and you see blood for a moment."));
         p->mutate_category(g, "MUTCAT_BEAST");
+    } else if( it->has_flag("MUTAGEN_URSINE") ) {
+        g->add_msg_if_player(p, _("You feel an urge to...patrol? the forests?"));
+        p->mutate_category(g, "MUTCAT_URSINE");
     } else if( it->has_flag("MUTAGEN_CATTLE") ) {
         g->add_msg_if_player(p, _("Your mind and body slow down. You feel peaceful."));
         p->mutate_category(g, "MUTCAT_CATTLE");
@@ -966,6 +969,78 @@ int iuse::mutagen(player *p, item *it, bool t) {
         g->add_msg_if_player(p, _("Mmm...sweet, bloody flavor...tastes like victory."));
         p->mutate_category(g, "MUTCAT_RAPTOR");
     } else {
+        if (!one_in(3)) {
+            p->mutate(g);
+        }
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::mut_iv(player *p, item *it, bool t) {
+    if(!p->is_npc()) {
+      p->add_memorial_log(_("Injected mutagen."));
+    }
+    if( it->has_flag("MUTAGEN_STRONG") ) { //3 guaranteed mutations, 75%/66%/66% for the 4th/5th/6th, 6-16 Pain per shot and potential knockdown/KO
+        g->add_msg_if_player(p, _("You inject yoursel-arRGH!"));
+        p->mutate(g);
+        p->pain += 1 * rng(1, 4);
+        g->sound(p->posx, p->posy, 15 + 3 * p->str_cur, _("You scream in agony!!"));
+        p->hunger += 10; //Standard IV-mutagen effect: 10 hunger/thirst & 5 Fatigue *per mutation*. Numbers may vary based on mutagen.
+        p->fatigue += 5;
+        p->thirst += 10;
+        p->mutate(g);
+        p->pain += 2 * rng(1, 3);
+        p->hunger += 10;
+        p->fatigue += 5;
+        p->thirst += 10;
+        p->mutate(g);
+        p->hunger += 10;
+        p->fatigue += 5;
+        p->thirst += 10;
+        p->pain += 3 * rng(1, 2);
+         if (!one_in(4)) {
+            p->mutate(g);
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+         }
+         if (!one_in(3)) {
+            p->mutate(g);
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+            g->add_msg_if_player(p, _("You writhe and collapse to the ground."));
+            p->add_disease("downed", rng(1, 4));
+         }
+         if (!one_in(3)) { //Jackpot! ...kinda, don't wanna go unconscious in dangerous territory
+            p->mutate(g);
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+            g->add_msg_if_player(p, _("It all goes dark..."));
+            p->fall_asleep((400 - p->int_cur * 5)); //Should be about 40 min, less 30 sec/IN point.
+          }
+        }else if( it->has_flag("MUTAGEN_URSINE") ) {
+        g->add_msg_if_player(p, _("You feel yourself quite equipped for wilderness survival."));
+        p->mutate_category(g, "MUTCAT_URSINE");
+        p->pain += 2 * rng(1, 5);
+        p->hunger += 10;
+        p->fatigue += 5;
+        p->thirst += 10;
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_URSINE");
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+            }
+        if(one_in(2)) {
+            p->mutate_category(g, "MUTCAT_URSINE");
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+            }
+    }
+    else {
         if (!one_in(3)) {
             p->mutate(g);
         }

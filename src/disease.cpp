@@ -2379,8 +2379,8 @@ void manage_sleep(player& p, disease& dis) {
         p.thirst--;
     }
     
-    if (int(g->turn) % 70 == 0 && !p.has_bionic("bio_recycler") && (p.hunger < -60)) {
-        // Hunger and thirst advance more slowly while we sleep. Hibernation burns a little slower.
+    if (int(g->turn) % 65 == 0 && !p.has_bionic("bio_recycler") && (p.hunger < -60)) {
+        // Hunger and thirst advance more slowly while we sleep. Hibernation burns almost half as fast as normal.
         p.hunger--;
         p.thirst--;
     }
