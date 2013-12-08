@@ -9,8 +9,8 @@
 #include <numeric>
 
 class game;
-class itype;
-class it_ammo;
+struct itype;
+struct it_ammo;
 class item;
 
 enum damage_type
