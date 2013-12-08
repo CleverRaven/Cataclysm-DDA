@@ -763,13 +763,6 @@ bool vehicle::can_unmount (int p)
     //Structural parts have extra requirements
     if(part_info(p).location == part_location_structure) {
 
-        /* Can't unmount the last structural part at (0, 0) unless it is the
-         * last part of the whole vehicle, as the map relies on vehicles having
-         * a part at (0, 0) to locate them with. */
-        if(dx == 0 && dy == 0 && parts_in_square.size() == 1 && parts.size() > 1) {
-            return false;
-        }
-
         /* To remove a structural part, there can be only structural parts left
          * in that square (might be more than one in the case of wreckage) */
         for(int part_index = 0; part_index < parts_in_square.size(); part_index++) {
@@ -1019,6 +1012,19 @@ void vehicle::remove_part (int p)
             item it = item_from_part(seatbelt);
             g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
             remove_part(seatbelt);
+        }
+    }
+
+    //If we remove the (0, 0) frame, we need to shift things around
+    if(part_info(p).location == "structure" && parts[p].mount_dx == 0 && parts[p].mount_dy == 0) {
+        //Find a frame, any frame, to shift to
+        for(int next_part = 0; next_part < parts.size(); next_part++) {
+            if(next_part != p
+                    && part_info(next_part).location == "structure"
+                    && !part_info(next_part).has_flag("PROTRUSION")) {
+                shift_parts(parts[next_part].mount_dx, parts[next_part].mount_dy);
+                break;
+            }
         }
     }
 
@@ -3115,10 +3121,15 @@ void vehicle::shift_parts(const int dx, const int dy)
         parts[p].mount_dx += dx;
         parts[p].mount_dy += dy;
     }
-    posx -= dx;
-    posy -= dy;
+    posx -= dy;
+    posy -= dx;
 
     refresh();
+
+    //Need to also update the map after this
+    g->m.update_vehicle_cache(this);
+    g->m.reset_vehicle_cache();
+    
 }
 
 int vehicle::damage_direct (int p, int dmg, int type)
@@ -3145,10 +3156,10 @@ int vehicle::damage_direct (int p, int dmg, int type)
                         remove_part(parts_in_square[index]);
                     }
                     /* After clearing the frame, remove it if normally legal to
-                     * do so (it's not (0, 0) and not holding the vehicle
-                     * together). At a later date, some more complicated system
-                     * (such as actually making two vehicles from the split
-                     * parts) would be ideal. */
+                     * do so (it's not holding the vehicle together). At a 
+                     * later date, some more complicated system (such as
+                     * actually making two vehicles from the split parts)
+                     * would be ideal. */
                     if(can_unmount(p)) {
                         if(g->u_see(x_pos, y_pos)) {
                             g->add_msg(_("The %s's %s is destroyed!"),
