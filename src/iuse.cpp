@@ -495,6 +495,10 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
 
 int iuse::bandage(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return false;
+    }
     if( num_hp_parts != use_healing_item(p, it, 3, 1, 4, it->name, 90, 0, 0, false) ) {
         if (it->type->id != "quikclot") {
           // Make bandages and rags take arbitrarily longer than hemostatic powder.
@@ -507,6 +511,10 @@ int iuse::bandage(player *p, item *it, bool t)
 
 int iuse::firstaid(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return false;
+    }
     // Assign first aid long action.
     int healed = use_healing_item(p, it, 14, 10, 18, it->name, 95, 99, 95, false);
     if (healed != num_hp_parts) {
@@ -530,6 +538,10 @@ int iuse::completefirstaid(player *p, item *it, bool t)
 
 int iuse::disinfectant(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return false;
+    }
     if( num_hp_parts != use_healing_item(p, it, 6, 5, 9, it->name, 0, 95, 0, false) ) {
         return it->type->charges_to_use();
     }
@@ -644,6 +656,10 @@ int iuse::antibiotic(player *p, item *it, bool t) {
 }
 
 int iuse::fungicide(player *p, item *it, bool t) {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return false;
+    }
     g->add_msg_if_player(p,_("You take some fungicide."));
     if (p->has_disease("fungus")) {
         p->rem_disease("fungus");
@@ -1429,6 +1445,10 @@ int iuse::primitive_fire(player *p, item *it, bool t)
 
 int iuse::sew(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
     if (p->fine_detail_vision_mod(g) > 2.5) {
         g->add_msg(_("You can't see to sew!"));
         return 0;
@@ -1958,7 +1978,7 @@ static int cauterize_elec(player *p, item *it)
     if (it->charges == 0) {
         g->add_msg_if_player(p,_("You need batteries to cauterize wounds."));
         return 0;
-    } else if (!p->has_disease("bite") && !p->has_disease("bleed")) {
+    } else if (!p->has_disease("bite") && !p->has_disease("bleed") && !p->is_underwater()) {
         if (p->has_trait("MASOCHIST") && query_yn(_("Cauterize yourself for fun?"))) {
             cauterize_effect(p, it, true);
             return it->type->charges_to_use();
@@ -1978,6 +1998,10 @@ static int cauterize_elec(player *p, item *it)
 
 int iuse::solder_weld(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
     int choice = 2;
     int charges_used = (dynamic_cast<it_tool*>(it->type))->charges_to_use();
 
@@ -5031,6 +5055,10 @@ int iuse::mp3_on(player *p, item *it, bool t)
 
 int iuse::portable_game(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
     if(p->has_trait("ILLITERATE")) {
         g->add_msg(_("You're illiterate!"));
         return 0;
@@ -5122,6 +5150,10 @@ int iuse::vortex(player *p, item *it, bool t)
 
 int iuse::dog_whistle(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
  g->add_msg_if_player(p,_("You blow your dog whistle."));
  for (int i = 0; i < g->num_zombies(); i++) {
   if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == "mon_dog") {
@@ -6640,6 +6672,10 @@ int iuse::towel(player *p, item *it, bool t)
 
 int iuse::unfold_bicycle(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
     vehicle *bicycle = g->m.add_vehicle( g, "bicycle", p->posx, p->posy, 0, 0, 0, false);
     if( bicycle ) {
         // Mark the vehicle as foldable.
@@ -6711,6 +6747,10 @@ int iuse::jet_injector(player *p, item *it, bool t)
 
 int iuse::contacts(player *p, item *it, bool t)
 {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
   int duration = rng(80640, 120960); // Around 7 days.
   if(p->has_disease("contacts") ) {
     if ( query_yn(_("Replace your current lenses?")) ) {
