@@ -5280,23 +5280,24 @@ bool game::sound(int x, int y, int vol, std::string description)
 
     // Mutation/Bionic volume modifiers
     if (u.has_bionic("bio_ears")) {
-  vol *= 3.5;
+        vol *= 3.5;
     }
     if (u.has_trait("BADHEARING")) {
-  vol *= .5;
+        vol *= .5;
     }
     if (u.has_trait("CANINE_EARS")) {
-  vol *= 1.5;
+        vol *= 1.5;
     }
 
     // Too far away, we didn't hear it!
     if (dist > vol) {
-  return false;
- }
+        return false;
+    }
 
     if (u.has_disease("deaf")) {
         // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
-        if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF")) && rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
+        if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF")) &&
+            rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
             int duration = std::min(40, (vol - dist - 130) / 4);
             u.add_disease("deaf", duration);
         }
@@ -5313,7 +5314,7 @@ bool game::sound(int x, int y, int vol, std::string description)
     // See if we need to wake someone up
     if (u.has_disease("sleep")){
         if ((!u.has_trait("HEAVYSLEEPER") && dice(2, 15) < vol - dist) ||
-              (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist)) {
+            (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist)) {
             u.rem_disease("sleep");
             add_msg(_("You're woken up by a noise."));
         } else {
@@ -5321,34 +5322,34 @@ bool game::sound(int x, int y, int vol, std::string description)
         }
     }
 
- if (x != u.posx || y != u.posy) {
-  if(u.activity.ignore_trivial != true) {
-    std::string query;
+    if( (x != u.posx || y != u.posy) && !m.pl_sees(u.posx, u.posy, x, y, dist) ) {
+        if(u.activity.ignore_trivial != true) {
+            std::string query;
             if (description != "") {
-        query = string_format(_("Heard %s!"), description.c_str());
-    } else {
-        query = _("Heard a noise!");
-    }
+                query = string_format(_("Heard %s!"), description.c_str());
+            } else {
+                query = _("Heard a noise!");
+            }
 
-    if( cancel_activity_or_ignore_query(query.c_str()) ) {
-        u.activity.ignore_trivial = true;
+            if( cancel_activity_or_ignore_query(query.c_str()) ) {
+                u.activity.ignore_trivial = true;
+            }
+        }
     }
-  }
- }
 
     // Only print a description if it exists
     if (description != "") {
-// If it came from us, don't print a direction
+        // If it came from us, don't print a direction
         if (x == u.posx && y == u.posy) {
-  capitalize_letter(description, 0);
-  add_msg("%s", description.c_str());
+            capitalize_letter(description, 0);
+            add_msg("%s", description.c_str());
         } else {
             // Else print a direction as well
- std::string direction = direction_name(direction_from(u.posx, u.posy, x, y));
- add_msg(_("From the %s you hear %s"), direction.c_str(), description.c_str());
+            std::string direction = direction_name(direction_from(u.posx, u.posy, x, y));
+            add_msg(_("From the %s you hear %s"), direction.c_str(), description.c_str());
         }
     }
- return true;
+    return true;
 }
 
 // add_footstep will create a list of locations to draw monster
