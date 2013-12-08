@@ -313,7 +313,7 @@
         "points" : -2,
         "description" : "Without your glasses, your seeing radius is severely reduced! However, while wearing glasses this trait has no effect, and you are guaranteed to start with a pair.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BEAST", "MUTCAT_TROGLO"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_TROGLO", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "HYPEROPIC",
@@ -328,6 +328,7 @@
         "name" : "Heavy Sleeper",
         "points" : -1,
         "description" : "You're quite the heavy sleeper. Noises are unlikely to wake you up.",
+        "changes_to" : ["HEAVYSLEEPER2"],
         "starting_trait" : true,
         "category" : ["MUTCAT_INSECT", "MUTCAT_PLANT", "MUTCAT_MEDICAL"]
     },{
@@ -546,7 +547,7 @@
         "prereqs" : ["NIGHTVISION"],
         "changes_to" : ["NIGHTVISION3"],
         "cancels" : ["ELFA_NV", "ELFA_FNV"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "NIGHTVISION3",
@@ -763,7 +764,7 @@
         "description" : "Thick black fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
         "prereqs" : ["LIGHTFUR"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "CHITIN",
@@ -912,8 +913,20 @@
         "ugliness" : 2,
         "description" : "You have claws on the ends of your fingers. If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
         "prereqs" : ["NAILS"],
+        "changes_to" : ["CLAWS_RETRACT"],
         "cancels" : ["TALONS"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAT", "MUTCAT_RAPTOR"]
+    },{
+        "type" : "mutation",
+        "id" : "CLAWS_RETRACT",
+        "name" : "Retractable Claws",
+        "points" : 2,
+        "visibility" : 0,
+        "ugliness" : 1,
+        "description" : "You have claws on the ends of your fingers, and can retract them if desired.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
+        "prereqs" : ["CLAWS"],
+        "cancels" : ["TALONS"],
+        "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "TALONS",
@@ -1004,7 +1017,7 @@
         "visibility" : 1,
         "description" : "The bottoms of your feet are strongly padded. You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when running barefoot. Slightly decreases wet penalties.",
         "cancels" : ["HOOVES", "LEG_TENTACLES"],
-        "category" : ["MUTCAT_BEAST"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"],
         "wet_protection" : [
             { "part" : "FEET", "neutral" : 2 }
         ]
@@ -1123,7 +1136,8 @@
         "visibility" : 1,
         "ugliness" : 2,
         "description" : "You have a short, stubby tail, like a rabbit's. It serves no purpose.",
-        "changes_to" : ["TAIL_LONG", "TAIL_THICK", "TAIL_FIN", "TAIL_RAT", "TAIL_RAPTOR"]
+        "changes_to" : ["TAIL_LONG", "TAIL_THICK", "TAIL_FIN", "TAIL_RAT", "TAIL_RAPTOR"],
+        "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "TAIL_FIN",
@@ -1193,7 +1207,7 @@
         "points" : 3,
         "visibility" : 8,
         "ugliness" : 2,
-        "description" : "You have a long and semi-stiff lizardlike tail. You can't effectively lash it in combat, but do find it significantly improves your balance.",
+        "description" : "You have a long and semi-stiff lizardlike tail. You can't effectively lash it in combat, but it significantly improves your balance.",
         "prereqs" : ["TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_RAT", "TAIL_CATTLE", "TAIL_LONG"],
         "category" : ["MUTCAT_RAPTOR"]
@@ -1229,6 +1243,15 @@
         "prereqs" : ["TAIL_THICK"],
         "cancels" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_FIN", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
         "category" : ["MUTCAT_CHIMERA"]
+    },{
+        "type" : "mutation",
+        "id" : "HIBERNATE",
+        "name" : "Hibernation",
+        "points" : 3,
+        "description" : "You've developed the ability to stockpile calories and then sleep for extended periods of time.",
+        "valid" : false,
+        "prereqs" : ["HEAVYSLEEPER2"],
+        "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "PAINREC1",
@@ -1313,6 +1336,15 @@
         "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
+        "id" : "URSINE_EARS",
+        "name" : "Ursine Ears",
+        "points" : 2,
+        "visibility" : 4,
+        "ugliness" : 1,
+        "description" : "Your ears have grown longer and rounder, much like those of a bear. You can hear things a little farther away.",
+        "category" : ["MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
         "id" : "ELFA_EARS",
         "name" : "Pointed Ears",
         "points" : 0,
@@ -1358,6 +1390,13 @@
         "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
+        "id" : "LARGE",
+        "name" : "Inconveniently Large",
+        "points" : 0,
+        "description" : "You have grown noticeably taller and broader. Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+1 Torso and Arm Encumbrance).",
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
         "id" : "STR_UP",
         "name" : "Strong",
         "points" : 1,
@@ -1392,7 +1431,7 @@
         "ugliness" : 2,
         "description" : "Your muscles are noticeably bulging. Strength + 7",
         "prereqs" : ["STR_UP_3"],
-        "category" : ["MUTCAT_BEAST"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "DEX_UP",
@@ -1592,7 +1631,7 @@
         "description" : "You smell awful. Monsters that track scent will find you very easily, and humans will react poorly.",
         "prereqs" : ["SMELLY"],
         "leads_to" : ["PHEROMONE_INSECT", "PHEROMONE_MAMMAL"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_CHIMERA", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "DEFORMED",
@@ -1616,7 +1655,7 @@
         "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "prereqs" : ["DEFORMED"],
         "changes_to" : ["DEFORMED3"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_PLANT"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE", "MUTCAT_PLANT"]
     },{
         "type" : "mutation",
         "id" : "DEFORMED3",
@@ -1669,7 +1708,7 @@
         "visibility" : 4,
         "ugliness" : 3,
         "description" : "Your face and jaw have begun...changing. Masks and such fit OK, but you're noticeably mutated.",
-        "changes_to" : ["MINOTAUR", "MUZZLE", "LONG_MUZZLE", "PROBOSCIS"]
+        "changes_to" : ["MINOTAUR", "MUZZLE", "BEAR_MUZZLE", "LONG_MUZZLE", "PROBOSCIS"]
     },{
         "type" : "mutation",
         "id" : "MINOTAUR",
@@ -1692,6 +1731,17 @@
         "cancels" : ["MINOTAUR", "LONG_MUZZLE", "PROBOSCIS"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
+    },{
+        "type" : "mutation",
+        "id" : "BEAR_MUZZLE",
+        "name" : "Ursine Muzzle",
+        "points" : -1,
+        "visibility" : 5,
+        "ugliness" : 4,
+        "description" : "Your jaw and nose have extended into a bearish muzzle.  You could bite with it, and it looks impressive, but it prevents you from wearing mouthgear.",
+        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "PROBOSCIS"],
+        "prereqs" : ["SNOUT"],
+        "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "LONG_MUZZLE",
@@ -1742,6 +1792,15 @@
         "points" : -3,
         "description" : "Your body dries out easily; you need to drink a lot more water.",
         "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD", "MUTCAT_CHIMERA", "MUTCAT_ELFA"]
+    },{
+        "type" : "mutation",
+        "id" : "HEAVYSLEEPER2",
+        "name" : "Very Heavy Sleeper",
+        "points" : -3,
+        "description" : "You could probably sleep through a firefight.",
+        "valid" : false,
+        "prereqs" : ["HEAVYSLEEPER"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
         "id" : "ROT1",
@@ -1830,6 +1889,17 @@
         ]
     },{
         "type" : "mutation",
+        "id" : "PAWS",
+        "name" : "Paws",
+        "points" : -2,
+        "visibility" : 3,
+        "ugliness" : 2,
+        "description" : "Your hands have fused into quasi-paws. You can still grip things, but fine manipulation is a challenge: permanent hand encumbrance of 1, difficulty with delicate craftwork, and you gloves don't fit. At least the paws handle water a bit better.",
+        "prereqs" : ["CLAWS", "CLAWS_RETRACT"],
+        "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "category" : ["MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_FELINE"]
+    },{
+        "type" : "mutation",
         "id" : "BEAK",
         "name" : "Beak",
         "points" : -1,
@@ -1841,6 +1911,15 @@
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 1 }
         ]
+    },{
+        "type" : "mutation",
+        "id" : "BADTEMPER",
+        "name" : "Bad Temper",
+        "points" : -2,
+        "description" : "Things just keep getting you down. You tend to be unhappy, and it takes some doing to cheer you up.",
+        "starting_trait" : true,
+        "cancels" : ["OPTIMISTIC"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "UNSTABLE",
@@ -1914,7 +1993,8 @@
         "points" : -3,
         "description" : "Your muscles are generally slow to move. You run 10% slower.",
         "cancels" : ["FLEET", "FLEET2"],
-        "changes_to" : ["PONDEROUS2"]
+        "changes_to" : ["PONDEROUS2"],
+        "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "PONDEROUS2",
@@ -1973,7 +2053,7 @@
         "points" : -1,
         "description" : "You have a growling, rough voice. Persuading NPCs will be more difficult, but threatening them will be easier.",
         "changes_to" : ["SNARL"],
-        "category" : ["MUTCAT_RAT"]
+        "category" : ["MUTCAT_RAT", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "SNARL",
@@ -2036,6 +2116,7 @@
         "ugliness" : 4,
         "description" : "Your arms have transformed into tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. Somewhat decreases wet penalties.",
         "changes_to" : ["ARM_TENTACLES_4"],
+        "cancels" : ["PAWS"],
         "wet_protection" : [
             { "part" : "ARMS", "neutral" : 19 },
             { "part" : "HANDS", "neutral" : 5 }
@@ -2050,6 +2131,7 @@
         "description" : "Your arms have transformed into four tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. You can make up to 3 extra attacks with them. Somewhat decreases wet penalties.",
         "prereqs" : ["ARM_TENTACLES"],
         "changes_to" : ["ARM_TENTACLES_8"],
+        "cancels" : ["PAWS"],
         "wet_protection" : [
             { "part" : "ARMS", "neutral" : 19 },
             { "part" : "HANDS", "neutral" : 5 }
@@ -2063,6 +2145,7 @@
         "ugliness" : 6,
         "description" : "Your arms have transformed into eight tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. You can make up to 7 extra attacks with them. Somewhat decreases wet penalties.",
         "prereqs" : ["ARM_TENTACLES_4"],
+        "cancels" : ["PAWS"],
         "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "ARMS", "neutral" : 19 },

@@ -87,6 +87,7 @@ void game::init_morale()
     _("Hoarder"),
     _("Stylish"),
     _("Optimist"),
+    _("Bad Tempered"),
     _("Found kitten <3")
     };
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
@@ -557,6 +558,12 @@ void player::apply_persistent_morale()
     if (has_trait("OPTIMISTIC"))
     {
         add_morale(MORALE_PERM_OPTIMIST, 4, 4, 5, 5, true);
+    }
+    
+    // And Bad Temper works just the same way.  But in reverse.  ):
+    if (has_trait("BADTEMPER"))
+    {
+        add_morale(MORALE_PERM_BADTEMPER, -4, -4, 5, 5, true);
     }
 }
 
@@ -1237,6 +1244,8 @@ int player::run_cost(int base_cost, bool diag)
 int player::swim_speed()
 {
   int ret = 440 + weight_carried() / 60 - 50 * skillLevel("swimming");
+ if (has_trait("PAWS"))
+  ret -= 15 + str_cur * 4;
  if (has_trait("WEBBED"))
   ret -= 60 + str_cur * 5;
  if (has_trait("TAIL_FIN"))
@@ -2821,6 +2830,10 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
         wprintz(w, c_yellow, _("Hungry"));
     else if (hunger < 0)
         wprintz(w, c_green,  _("Full"));
+    else if (hunger < -20)
+        wprintz(w, c_green,  _("Sated"));
+    else if (hunger < -60)
+        wprintz(w, c_green,  _("Engorged"));
 
  // Find hottest/coldest bodypart
  int min = 0, max = 0;
@@ -2898,6 +2911,10 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
         wprintz(w, c_yellow, _("Thirsty"));
     else if (thirst < 0)
         wprintz(w, c_green,  _("Slaked"));
+    else if (thirst < -20)
+        wprintz(w, c_green,  _("Hydrated"));
+    else if (thirst < -60)
+        wprintz(w, c_green,  _("Turgid"));
 
     wmove(w, sideStyle ? 3 : 2, sideStyle ? 0 : 30);
     if (fatigue > 575)
@@ -3478,7 +3495,7 @@ void player::pause(game *g)
       g->add_msg("You spin some webbing.");
      }
 
-    // Meditation boost for Toad Style
+    // Meditation boost for Toad Style, obsolete
     if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
         int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
         int arm_max = (int_cur + per_cur) / 2;
@@ -5283,6 +5300,19 @@ int player::net_morale(morale_point effect)
         }
     }
 
+     // Again, those grouchy Bad-Tempered folks always focus on the negative.
+     // They can't handle positive things as well.  They're No Fun.  D:
+    if (has_trait("BADTEMPER"))
+    {
+        if (bonus < 0)
+        {
+            bonus *= 1.25;
+        }
+        else
+        {
+            bonus *= 0.75;
+        }
+    }
     return bonus;
 }
 
@@ -6578,7 +6608,8 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
 
     last_item = itype_id(eaten->type->id);
 
-    if (overeating && !is_npc() && !query_yn(_("You're full.  Force yourself to eat?"))) {
+    if (overeating && !has_trait("HIBERNATE") && !is_npc() &&
+        !query_yn(_("You're full.  Force yourself to eat?"))) {
         return false;
     }
 
@@ -6613,10 +6644,15 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
         }
     }
 
-    int temp_hunger = this->hunger - comest->nutr;//not working directly in the equation... can't imagine why
-    int temp_thrist = this->thirst - comest->quench;
-    if ((comest->nutr > 0 && temp_hunger < (this->has_trait("GOURMAND") ? -60 : -20))
-      || (comest->quench > 0 && temp_thrist < (this->has_trait("GOURMAND") ? -60 : -20))) {
+    //not working directly in the equation... can't imagine why
+    int temp_hunger = hunger - comest->nutr;
+    int temp_thirst = thirst - comest->quench;
+    int threshold = has_trait("GOURMAND") ? -60 : -20;
+    if( has_trait("HIBERNATE") ) {
+        threshold = -620;
+    }
+    if( ( comest->nutr > 0 && temp_hunger < threshold ) ||
+        ( comest->quench > 0 && temp_thirst < threshold ) ) {
         if (spoiled){//rotten get random nutrification
             if (!query_yn(_("You can hardly finish it all. Consume it?"))) {
                 return false;
@@ -6636,7 +6672,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
         consume_effects(eaten, comest, spoiled);
     } else {
         consume_effects(eaten, comest);
-        if (!has_trait("GOURMAND")) {
+        if (!(has_trait("GOURMAND") || has_trait("HIBERNATE"))) {
             if ((overeating && rng(-200, 0) > hunger)) {
                 vomit(g);
             }
@@ -6743,6 +6779,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         } else if (comest->fun > 0) {
             add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
         }
+        if (has_trait("GOURMAND") && !(has_trait("HIBERNATE"))) {
         if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
             g->add_msg_if_player(this,_("You can't finish it all!"));
         }
@@ -6751,6 +6788,39 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         }
         if (thirst < -60) {
             thirst = -60;
+        }
+    }
+    } if (has_trait("HIBERNATE")) {
+         if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) { //Tell the player what's going on
+            g->add_msg_if_player(this,_("You gorge yourself, preparing to hibernate."));
+            if (one_in(2)) {
+                (fatigue += (comest->nutr)); //50% chance of the food tiring you
+            }
+        }
+        if ((comest->nutr > 0 && hunger < -200) || (comest->quench > 0 && thirst < -200)) { //Hibernation should cut burn to 60/day
+            g->add_msg_if_player(this,_("You feel stocked for a day or two. Got your bed all ready and secured?"));
+            if (one_in(2)) {
+                (fatigue += (comest->nutr)); //And another 50%, intended cumulative
+            }
+        }
+        if ((comest->nutr > 0 && hunger < -400) || (comest->quench > 0 && thirst < -400)) {
+            g->add_msg_if_player(this,_("Mmm.  You can stil fit some more in...but maybe you should get comfortable and sleep."));
+             if (!(one_in(3))) {
+                (fatigue += (comest->nutr)); //Third check, this one at 66%
+            }
+        }
+        if ((comest->nutr > 0 && hunger < -600) || (comest->quench > 0 && thirst < -600)) {
+            g->add_msg_if_player(this,_("That filled a hole!  Time for bed..."));
+            fatigue += (comest->nutr); //At this point, you're done.  Schlaf gut.
+        }
+        if ((comest->nutr > 0 && hunger < -620) || (comest->quench > 0 && thirst < -620)) {
+            g->add_msg_if_player(this,_("You can't finish it all!"));
+        }
+        if (hunger < -620) {
+            hunger = -620;
+        }
+        if (thirst < -620) {
+            thirst = -620;
         }
     } else {
         if (comest->fun < 0) {
@@ -7144,6 +7214,15 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             }
             return false;
         }
+        
+        if (armor->covers & mfb(bp_hands) && has_trait("PAWS"))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("You cannot get %s to stay on your paws."), armor->name.c_str());
+            }
+            return false;
+        }
 
         if (armor->covers & mfb(bp_mouth) && has_trait("BEAK"))
         {
@@ -7154,7 +7233,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_mouth) && (has_trait("MUZZLE") || has_trait("LONG_MUZZLE")))
+        if (armor->covers & mfb(bp_mouth) && (has_trait("MUZZLE") || has_trait("BEAR_MUZZLE") || has_trait("LONG_MUZZLE")))
         {
             if(interactive)
             {
@@ -8618,6 +8697,12 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     }
     if( has_trait("ARM_FEATHERS") && bp == bp_arms ) {
         ret += 2;
+    }
+    if ( has_trait("PAWS") && bp == bp_hands ) {
+        ret += 1;
+    }
+    if ( has_trait("LARGE") && (bp == bp_arms || bp == bp_torso )) {
+        ret += 1;
     }
     if (bp == bp_hands &&
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||

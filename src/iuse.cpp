@@ -953,6 +953,9 @@ int iuse::mutagen(player *p, item *it, bool t) {
     } else if( it->has_flag("MUTAGEN_BEAST") ) {
         g->add_msg_if_player(p, _("Your heart races and you see blood for a moment."));
         p->mutate_category(g, "MUTCAT_BEAST");
+    } else if( it->has_flag("MUTAGEN_URSINE") ) {
+        g->add_msg_if_player(p, _("You feel an urge to...patrol? the forests?"));
+        p->mutate_category(g, "MUTCAT_URSINE");
     } else if( it->has_flag("MUTAGEN_CATTLE") ) {
         g->add_msg_if_player(p, _("Your mind and body slow down. You feel peaceful."));
         p->mutate_category(g, "MUTCAT_CATTLE");
@@ -1123,9 +1126,28 @@ int iuse::mut_iv(player *p, item *it, bool t) {
             p->hunger += 10;
             p->fatigue += 5;
             p->thirst += 10;
-            }
+        }
         if(one_in(2)) {
             p->mutate_category(g, "MUTCAT_FISH");
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+        }
+    }else if( it->has_flag("MUTAGEN_URSINE") ) {
+        g->add_msg_if_player(p, _("You feel yourself quite equipped for wilderness survival."));
+        p->mutate_category(g, "MUTCAT_URSINE");
+        p->pain += 2 * rng(1, 5);
+        p->hunger += 10;
+        p->fatigue += 5;
+        p->thirst += 10;
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_URSINE");
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+            }
+        if(one_in(2)) {
+            p->mutate_category(g, "MUTCAT_URSINE");
             p->hunger += 10;
             p->fatigue += 5;
             p->thirst += 10;

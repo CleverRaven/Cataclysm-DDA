@@ -801,7 +801,13 @@ void dis_effect(player &p, disease &dis) {
                         g->add_msg(_("You use your %s to keep warm."), item_name.c_str());
                     }
                 }
-                p.fall_asleep(6000);
+                if (p.has_trait("HIBERNATE") && (p.hunger < -60)) {
+                p.fall_asleep(144000); // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
+                }                     // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
+                                     // In practice, the fatigue from filling the tank from (no msg) to Time For Bed will last about 8 days.
+                if (p.hunger >= -60) {
+                p.fall_asleep(6000); //10 hours, default max sleep time.
+                }
             }
             if (dis.duration == 1 && !p.has_disease("sleep")) {
                 g->add_msg_if_player(&p,_("You try to sleep, but can't..."));
@@ -2307,7 +2313,43 @@ void manage_fungal_infection(player& p, disease& dis) {
 
 void manage_sleep(player& p, disease& dis) {
     p.moves = 0;
-    if(int(g->turn) % 50 == 0) {
+    // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here as a safety catch
+    // One test subject managed to get two Colds during hibernation; since those add fatigue and dry out the character,
+    // the subject went for the full 10 days plus a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
+    // life like that--but since there's much less fluid reserve than food reserve, simply using the same numbers won't work.
+    
+    if((int(g->turn) % 350 == 0) && p.has_trait("HIBERNATE") && (p.hunger < -60) && !(p.thirst >= 80)) {
+        int recovery_chance; // Hibernators' metabolism slows down: you heal and recover Fatigue much more slowly
+        // Accelerated recovery capped to 2x over 2 hours...well, it was ;-P
+        // After 16 hours of activity, equal to 7.25 hours of rest
+        if (dis.intensity < 24) {
+            dis.intensity++;
+        } else if (dis.intensity < 1) {
+            dis.intensity = 1;
+        }
+        recovery_chance = 24 - dis.intensity + 1;
+        if (p.fatigue > 0) {
+            p.fatigue -= 1 + one_in(recovery_chance);
+        }
+        if (p.has_trait("FASTHEALER")) {
+            p.healall(1);
+        } else if (p.has_trait("FASTHEALER2")) {
+            p.healall(1 + one_in(2));
+        } else if (p.has_trait("REGEN")) {
+            p.healall(2);
+        } else {
+            p.healall(one_in(4));
+        }
+
+        if (p.fatigue <= 0 && p.fatigue > -20) {
+            p.fatigue = -25;
+            g->add_msg(_("You feel well rested."));
+            dis.duration = dice(3, 100);
+        }
+    }
+    
+    //If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.  See above.
+    if((int(g->turn) % 50 == 0) && (!(p.hunger < -60) || (p.thirst >= 80))) {
         int recovery_chance;
         // Accelerated recovery capped to 2x over 2 hours
         // After 16 hours of activity, equal to 7.25 hours of rest
@@ -2337,8 +2379,17 @@ void manage_sleep(player& p, disease& dis) {
         }
     }
 
-    if (int(g->turn) % 100 == 0 && !p.has_bionic("bio_recycler")) {
-        // Hunger and thirst advance more slowly while we sleep.
+    if (int(g->turn) % 100 == 0 && !p.has_bionic("bio_recycler") && !(p.hunger < -60)) {
+        // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
+        p.hunger--;
+        p.thirst--;
+    }
+    
+        // Hunger and thirst advance *much* more slowly whilst we hibernate.  (int (g->turn) % 50 would be zero burn.)
+        // Very Thirsty catch deliberately NOT applied here, to fend off Dehydration debuffs until the char wakes.
+        // This was time-trial'd quite thoroughly, so kindly don't "rebalance" without a good explanation and taking a night
+        // to make sure it works with the extended sleep duration, OK?
+    if (int(g->turn) % 70 == 0 && !p.has_bionic("bio_recycler") && (p.hunger < -60)) {
         p.hunger--;
         p.thirst--;
     }
@@ -2368,6 +2419,18 @@ void manage_sleep(player& p, disease& dis) {
     }
 
     int tirednessVal = rng(5, 200) + rng(0,abs(p.fatigue * 2 * 5));
+    if (p.has_trait("HEAVYSLEEPER2") && !p.has_trait("HIBERNATE")) { // So you can too sleep through noon
+        if ((tirednessVal * 1.25) < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
+        g->add_msg(_("The light wakes you up."));
+        dis.duration = 1;
+        }
+        return;}
+    if (p.has_trait("HIBERNATE")) { // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
+        if ((tirednessVal * 5) < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
+        g->add_msg(_("The light wakes you up."));
+        dis.duration = 1;
+        }
+        return;}
     if (tirednessVal < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
         g->add_msg(_("The light wakes you up."));
         dis.duration = 1;

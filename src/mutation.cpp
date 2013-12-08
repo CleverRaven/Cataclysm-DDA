@@ -377,7 +377,7 @@ void mutation_effect(game *g, player &p, std::string mut)
     if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "FRAIL") {
         p.recalc_hp();
 
-    } else if (mut == "WEBBED" || mut == "ARM_TENTACLES" || mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8") {
+    } else if (mut == "WEBBED" || mut == "PAWS" || mut == "ARM_TENTACLES" || mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8") {
         // Push off gloves
         bps.push_back(bp_hands);
 
@@ -391,7 +391,7 @@ void mutation_effect(game *g, player &p, std::string mut)
         destroy = true;
         bps.push_back(bp_mouth);
 
-    } else if (mut == "MINOTAUR" || mut == "MUZZLE" || mut == "LONG_MUZZLE") {
+    } else if (mut == "MINOTAUR" || mut == "MUZZLE" || mut == "BEAR_MUZZLE" || mut == "LONG_MUZZLE") {
         // Push off mouthwear
         bps.push_back(bp_mouth);
 
@@ -412,6 +412,10 @@ void mutation_effect(game *g, player &p, std::string mut)
     } else if (mut == "HORNS_POINTED" || mut == "ANTENNAE" || mut == "ANTLERS") {
         // Push off non-cloth helmets
         bps.push_back(bp_head);
+
+    } else if (mut == "LARGE") {
+        p.str_max += 2;
+        p.recalc_hp();
 
     } else if (mut == "STR_UP") {
         p.str_max ++;
@@ -476,7 +480,8 @@ void mutation_effect(game *g, player &p, std::string mut)
 
                     p.worn.erase(p.worn.begin() + i);
 
-                } else {
+                } 
+                else {
                     if (is_u) {
                         g->add_msg(_("Your %s is pushed off."), p.worn[i].tname().c_str());
                     }
@@ -496,6 +501,10 @@ void mutation_effect(game *g, player &p, std::string mut)
 void mutation_loss_effect(game *g, player &p, std::string mut)
 {
     if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "FRAIL") {
+        p.recalc_hp();
+
+    } else if (mut == "LARGE") {
+        p.str_max -= 2;
         p.recalc_hp();
 
     } else if (mut == "STR_UP") {
