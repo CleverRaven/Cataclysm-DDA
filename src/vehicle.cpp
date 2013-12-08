@@ -3127,7 +3127,6 @@ void vehicle::shift_parts(const int dx, const int dy)
     refresh();
 
     //Need to also update the map after this
-    g->m.update_vehicle_cache(this);
     g->m.reset_vehicle_cache();
     
 }
