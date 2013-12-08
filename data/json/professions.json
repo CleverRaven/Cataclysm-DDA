@@ -732,7 +732,9 @@
         "items" : [
             "house_coat",
             "towel",
-            "guidebook"
+            "guidebook",
+            "pockknife",
+            "matches"
         ]
     },
     {
@@ -787,7 +789,9 @@
         "points": 0,
         "items": [
             "clown_suit",
-            "clownshoes"
+            "clownshoes",
+            "pockknife",
+            "matches"
         ]
     },
     {
@@ -799,7 +803,9 @@
         "items": [
             "bondage_suit",
             "bondage_mask",
-            "boots"
+            "boots",
+            "pockknife",
+            "matches"
         ]
     },
     {
@@ -813,7 +819,8 @@
             "pants_checkered",
             "dress_shoes",
             "cane",
-            "pocketwatch"
+            "pocketwatch",
+            "pockknife"
         ]
     },
     {
@@ -821,13 +828,13 @@
         "ident": "cosplay",
         "name": "Otaku",
         "description": "Late nights with friends watching anime and eating snacks has prepared you for the premier anime convention in the Northeast.  It just had to be the day of the apocalypse.  At least you were ready in case your costume tore.",
-        "points": 4,
+        "points": 1,
         "items": [
             "shorts",
             "sneakers",
             "tank_top",
             "sewing_kit",
-            "mbag",
+            "purse",
             "fur_cat_ears",
             "fur_cat_tail",
             "fur_collar",
@@ -890,7 +897,8 @@
             "dress_shirt",
             "pants",
             "sneakers",
-            "golf_club"
+            "golf_club",
+            "pockknife"
         ]
     },
     {
@@ -901,7 +909,9 @@
         "points": 0,
         "items": [
             "tux",
-            "dress_shoes"
+            "dress_shoes",
+            "pockknife",
+            "matches"
         ]
     },
     {
@@ -912,7 +922,9 @@
         "points": 0,
         "items": [
             "dress_wedding",
-            "dress_shoes"
+            "dress_shoes",
+            "pockknife",
+            "matches"
         ]
     },
     {
