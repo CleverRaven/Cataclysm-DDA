@@ -4109,6 +4109,38 @@ int iuse::grenade_act(player *p, item *it, bool t)
     return 0;
 }
 
+int iuse::freeze_grenade(player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,_("You push the detonator on the grenade."));
+    it->make(itypes["freeze_grenade_act"]);
+    it->charges = 5;
+    it->active = true;
+    return it->type->charges_to_use();
+}
+
+int iuse::freeze_grenade_act(player *p, item *it, bool t)
+{
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999)
+        return 0;
+    if (t) // Simple timer effects
+    {
+        if ( one_in(2) ) {
+            g->sound(pos.x, pos.y, 0, _("Beep."));  // Vol 0 = only heard if you hold it
+        } else {
+            g->sound(pos.x, pos.y, 0, _("Boop."));  // Vol 0 = only heard if you hold it
+        }
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already pushed the %s's detenator, try throwing it instead."), it->name.c_str());
+        return 0;
+    }
+    else  // When that timer runs down...
+    {
+        g->explosion(pos.x, pos.y, 12, 0, HAS_ICE);
+    }
+    return 0;
+}
+
 int iuse::granade(player *p, item *it, bool t)
 {
     g->add_msg_if_player(p,_("You pull the pin on the Granade."));
@@ -4505,6 +4537,36 @@ int iuse::molotov_lit(player *p, item *it, bool t)
         if (!t) {
             g->explosion(pos.x, pos.y, 8, 0, HAS_FIRE);
         }
+    }
+    return 0;
+}
+
+int iuse::ice_molotov(player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,_("You remove the canister from its casing."));
+    p->moves -= 150;
+    it->make(itypes["ice_molotov_lit"]);
+    it->bday = int(g->turn);
+    it->active = true;
+    return it->type->charges_to_use();
+}
+
+int iuse::ice_molotov_lit(player *p, item *it, bool t)
+{
+    int age = int(g->turn) - it->bday;
+    if (p->has_item(it)) {
+        it->charges += 1;
+        if (age >= 5) { // More than 5 turns old = chance of going out
+            if (rng(1, 50) < age) {
+                g->add_msg_if_player(p,_("Your liquid nitrogen evaporates."));
+                it->make(itypes["canister_empty"]);
+                it->active = false;
+            }
+        }
+    } else {
+        point pos = g->find_item(it);
+        if (!t)
+            g->explosion(pos.x, pos.y, 8, 0, HAS_ICE);
     }
     return 0;
 }

@@ -122,6 +122,8 @@ class iuse
   int pipebomb_act     (player *p, item *it, bool t);
   int grenade          (player *p, item *it, bool t);
   int grenade_act      (player *p, item *it, bool t);
+  int freeze_grenade   (player *p, item *it, bool t);
+  int freeze_grenade_act (player *p, item *it, bool t);
   int granade          (player *p, item *it, bool t);
   int granade_act      (player *p, item *it, bool t);
   int flashbang        (player *p, item *it, bool t);
@@ -141,6 +143,8 @@ class iuse
   int acidbomb_act     (player *p, item *it, bool t);
   int molotov          (player *p, item *it, bool t);
   int molotov_lit      (player *p, item *it, bool t);
+  int ice_molotov          (player *p, item *it, bool t);
+  int ice_molotov_lit      (player *p, item *it, bool t);
   int matchbomb        (player *p, item *it, bool t);
   int matchbomb_act    (player *p, item *it, bool t);
   int dynamite         (player *p, item *it, bool t);

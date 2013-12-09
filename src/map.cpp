@@ -1965,6 +1965,13 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     if (ammo_effects.count("LASER"))
         add_field(g, x, y, fd_laser, 2);
 
+    if (ammo_effects.count("FROST_TRAIL") && !one_in(5)) {
+        if (one_in(2)) 
+            add_field(g, x, y, fd_ice_mist, rng(1, 2));
+        else
+            add_field(g, x, y, fd_frost, 1);
+    }
+
     // Set damage to 0 if it's less
     if (dam < 0)
         dam = 0;

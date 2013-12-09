@@ -1426,5 +1426,11 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
       }
     }
   }
+  if (effects.count("ICEBOMB")) {
+    g->explosion(x, y, 18, 0, HAS_ICE);
+  }
 
+  if (effects.count("ICEBOMB_BIG")) {
+    g->explosion(x, y, 72, 0, HAS_ICE);
+  }
 }

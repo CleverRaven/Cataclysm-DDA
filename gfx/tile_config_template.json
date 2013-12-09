@@ -10383,6 +10383,20 @@
 			"rotates":false,
 			"multitile":false
 		},
+        {
+          "id": "ice_molotov",
+          "fg":-1,
+          "bg":-1,
+          "rotates":false,
+          "multitile":false
+        },
+        {
+          "id": "ice_molotov_lit",
+          "fg":-1,
+          "bg":-1,
+          "rotates":false,
+          "multitile":false
+        },
 		{
 			"id": "acidbomb",
 			"fg":-1,
