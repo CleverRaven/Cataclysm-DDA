@@ -6604,7 +6604,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     }
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
                        comest->nutr >= 5);
-    bool hiberfood = (has_trait("HIBERNATE") && (hunger > -60));    
+    bool hiberfood = (has_trait("HIBERNATE") && (hunger > -60 && thirst > -60 ));    
     bool spoiled = eaten->rotten(g);
 
     last_item = itype_id(eaten->type->id);
@@ -6613,7 +6613,9 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
         !query_yn(_("You're full.  Force yourself to eat?"))) {
         return false;
     }
-    if (hiberfood && !is_npc() && (((hunger - (comest->nutr)) < -60) || ((thirst - (comest->quench)) < -60))){
+    int temp_nutr = comest->nutr;
+    int temp_quench = comest->quench;
+    if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60))){
        if (!query_yn(_("You're adequately fueled. Prepare for hibernation?"))) {
         return false;
        }
@@ -6657,12 +6659,12 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     //not working directly in the equation... can't imagine why
     int temp_hunger = hunger - comest->nutr;
     int temp_thirst = thirst - comest->quench;
-    int threshold = has_trait("GOURMAND") ? -60 : -20;
+    int capacity = has_trait("GOURMAND") ? -60 : -20;
     if( has_trait("HIBERNATE") ) {
-        threshold = -620;
+        capacity = -620;
     }
-    if( ( comest->nutr > 0 && temp_hunger < threshold ) ||
-        ( comest->quench > 0 && temp_thirst < threshold ) ) {
+    if( ( comest->nutr > 0 && temp_hunger < capacity ) ||
+        ( comest->quench > 0 && temp_thirst < capacity ) ) {
         if (spoiled){//rotten get random nutrification
             if (!query_yn(_("You can hardly finish it all. Consume it?"))) {
                 return false;
