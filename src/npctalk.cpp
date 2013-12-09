@@ -760,6 +760,9 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   if (ability <= 10)
    return "&You can't make anything out.";
 
+  if (ability > 100)
+   ability = 100;
+
   std::stringstream info;
   info << "&";
   int str_range = int(100 / ability);
