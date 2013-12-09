@@ -207,6 +207,9 @@ private:
     // get vpart powerinfo for part number, accounting for variable-sized parts.
     int part_power (int index);
 
+    //Refresh all caches and re-locate all parts
+    void refresh();
+
 public:
     vehicle (game *ag=0, std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
@@ -474,6 +477,9 @@ public:
 
     // damage all parts (like shake from strong collision), range from dmg1 to dmg2
     void damage_all (int dmg1, int dmg2, int type, const point &impact);
+
+    //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
+    void shift_parts(const int dx, const int dy);
 
     void leak_fuel (int p);
 
