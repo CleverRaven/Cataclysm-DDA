@@ -802,6 +802,7 @@ void dis_effect(player &p, disease &dis) {
                     }
                 }
                 if (p.has_trait("HIBERNATE") && (p.hunger < -60)) {
+                p.add_memorial_log(_("Entered hibernation."));
                 p.fall_asleep(144000); // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
                 }                     // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
                                      // In practice, the fatigue from filling the tank from (no msg) to Time For Bed will last about 8 days.
@@ -2345,10 +2346,11 @@ void manage_sleep(player& p, disease& dis) {
             p.fatigue = -25;
             g->add_msg(_("You feel well rested."));
             dis.duration = dice(3, 100);
+            p.add_memorial_log(_("Awoke from hibernation."));
         }
     }
     
-    //If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.  See above.
+    //If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.  See above.  No log note for you. :-/
     if((int(g->turn) % 50 == 0) && (!(p.hunger < -60) || (p.thirst >= 80))) {
         int recovery_chance;
         // Accelerated recovery capped to 2x over 2 hours

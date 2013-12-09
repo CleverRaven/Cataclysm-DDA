@@ -6604,6 +6604,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     }
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
                        comest->nutr >= 5);
+    bool hiberfood = (has_trait("HIBERNATE") && (hunger > -60));    
     bool spoiled = eaten->rotten(g);
 
     last_item = itype_id(eaten->type->id);
@@ -6611,6 +6612,15 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     if (overeating && !has_trait("HIBERNATE") && !is_npc() &&
         !query_yn(_("You're full.  Force yourself to eat?"))) {
         return false;
+    }
+    if (hiberfood && !is_npc() && (((hunger - (comest->nutr)) < -60) || ((thirst - (comest->quench)) < -60))){
+       if (!query_yn(_("You're adequately fueled. Prepare for hibernation?"))) {
+        return false;
+       }
+       else
+       if(!is_npc()) {add_memorial_log(_("Began preparing for hibernation."));
+                      g->add_msg(_("You've begun stockpiling calories and liquid for hibernation. You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW."));
+      }
     }
 
     if (has_trait("CARNIVORE") && eaten->made_of("veggy") && comest->nutr > 0) {
