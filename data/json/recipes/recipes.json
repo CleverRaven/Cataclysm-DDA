@@ -333,7 +333,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "mre_noodle_packed",
+  "result": "mre_noodles_packed",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "difficulty": 0,
@@ -20395,7 +20395,7 @@
   ]
 },{
         "type" : "recipe",
-   "result": "sandwich_p",
+   "result": "sandwich_pb",
    "category": "CC_FOOD",
    "skill_used": "cooking",
    "difficulty": 1,
