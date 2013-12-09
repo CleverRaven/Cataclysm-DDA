@@ -10899,7 +10899,8 @@
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "radio_book", 1 ] , [ "textbook_anarch", 1 ]],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -10920,7 +10921,8 @@
   "difficulty": 4,
   "time": 5000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "radio_book", 3 ] , [ "textbook_anarch", 5 ]],
   "tools": [
     [
       [ "hacksaw", -1 ], [ "toolset", -1 ]
@@ -10956,7 +10958,8 @@
   "difficulty": 1,
   "time": 4000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "radio_book", 3 ] , [ "manual_electronics", 1 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -10987,7 +10990,8 @@
   "difficulty": 1,
   "time": 6500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 2 ] , [ "advanced_electronics", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11015,7 +11019,8 @@
   "difficulty": 2,
   "time": 12000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "radio_book", 1 ] , [ "textbook_electronics", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11046,7 +11051,8 @@
   "difficulty": 3,
   "time": 14000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 2 ] , [ "textbook_anarch", 3 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11077,7 +11083,8 @@
   "difficulty": 0,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ]],
   "components": [
     [
       [ "amplifier", 1 ]
@@ -11099,7 +11106,8 @@
   "time": 10000,
   "reversible": true,
   "decomp_learn": 0,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 0 ] , [ "mag_electronics", 1 ]],
   "components": [
     [
       [ "amplifier", 1 ]
@@ -11125,7 +11133,8 @@
   "time": 15000,
   "reversible": true,
   "decomp_learn": 0,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 2 ]],
   "components": [
     [
       [ "amplifier", 4 ]
@@ -11148,7 +11157,8 @@
   "time": 20000,
   "reversible": true,
   "decomp_learn": 0,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "advanced_electronics", 2 ] , [ "textbook_anarch", 2 ]],
   "components": [
     [
       [ "antenna", 1 ],
@@ -11176,7 +11186,8 @@
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ] , [ "textbook_anarch", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11214,7 +11225,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 3,
-  "book_learn": [[ "manual_electronics", 3 ], [ "textbook_electronics", 3 ]],
+  "book_learn": [[ "manual_electronics", 2 ], [ "advanced_electronics", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11243,7 +11254,8 @@
   "difficulty": 3,
   "time": 25000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "advanced_electronics", 3 ] , [ "textbook_electronics", 3 ] , [ "textbook_anarch", 4 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11281,7 +11293,8 @@
   "difficulty": 1,
   "time": 15000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "radio_book", 1 ] , [ "textbook_anarch", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11310,7 +11323,8 @@
   "difficulty": 2,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11344,7 +11358,8 @@
   "difficulty": 2,
   "time": 25000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "radio_book", 2] , [ "textbook_anarch", 3 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11379,7 +11394,8 @@
   "difficulty": 3,
   "time": 25000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "advanced_electronics", 3 ] , [ "manual_electronics", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11413,7 +11429,8 @@
   "difficulty": 3,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "advanced_electronics", 1 ] , [ "mag_electronics", 3 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11449,7 +11466,8 @@
   "difficulty": 3,
   "time": 25000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "advanced_electronics", 2 ] , [ "textbook_electronics", 3 ] , [ "textbook_anarch", 3 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11480,7 +11498,8 @@
   "difficulty": 4,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "mag_electronics", 2 ] , [ "textbook_anarch", 4 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11555,7 +11574,8 @@
   "difficulty": 4,
   "time": 35000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 3 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11589,7 +11609,8 @@
   "difficulty": 4,
   "time": 32000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 5 ] , [ "advanced_electronics", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11629,7 +11650,8 @@
   "difficulty": 5,
   "time": 40000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_electronics", 6 ] , [ "textbook_robots", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11664,7 +11686,8 @@
   "difficulty": 8,
   "time": 60000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_electronics", 7 ] , [ "textbook_robots", 6 ]],
   "tools": [
     [
       ["screwdriver", -1],
@@ -11743,7 +11766,7 @@
   "reversible": true,
   "decomp_learn": 4,
   "autolearn": true,
-  "book_learn": [[ "recipe_lab_elec", 4 ]],
+  "book_learn": [[ "advanced_electronics", 5] , [ "recipe_lab_elec", 4 ] , [ "textbook_anarch", 6]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11819,7 +11842,7 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 6 ]],
+  "book_learn": [[ "recipe_augs", 6 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11857,7 +11880,7 @@
   "time": 70000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 8 ]],
+  "book_learn": [[ "recipe_lab_elec", 8 ] , [ "recipe_augs", 7 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11896,7 +11919,7 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 7 ]],
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_augs", 7 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11933,7 +11956,7 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 7 ]],
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_augs", 7 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11967,7 +11990,7 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 7 ]],
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mil_augs", 6 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12001,7 +12024,7 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 8 ]],
+  "book_learn": [[ "recipe_lab_elec", 8 ] , [ "recipe_mil_augs", 7 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12039,7 +12062,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 7 ]],
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_augs", 6 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12074,7 +12097,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 7,
-  "book_learn": [[ "recipe_lab_elec", 7 ]],
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mil_augs", 8 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12112,7 +12135,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 5 ]],
+  "book_learn": [[ "recipe_lab_elec", 5 ] , [ "recipe_augs", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12150,7 +12173,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 6 ]],
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12188,7 +12211,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 6 ]],
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12229,7 +12252,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 6 ]],
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12270,7 +12293,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 6 ]],
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12311,7 +12334,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 6 ]],
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 6 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
