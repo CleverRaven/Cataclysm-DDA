@@ -1150,6 +1150,9 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
     std::string message;
     bool u_see_mon = g->u_see(&(mon));
     int adjusted_damage = dam;
+    if (mon.has_effect(ME_FROZEN)) {
+        dam /= rng(2, 4);
+    }
     if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - goodhit)) && // Maxes out at 50% chance with perfect hit
     weapon->curammo->phase != LIQUID && !effects.count("SHOT") && !effects.count("BOUNCE")) {
         if (u_see_mon)

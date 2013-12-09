@@ -578,8 +578,8 @@ int player::roll_bash_damage(monster *critter, bool crit)
   bash_dam = rng(0, int(stat / 2) + skillLevel("unarmed"));
 
  if (crit) {
-  bash_dam *= 1.5;
-  bash_cap *= 2;
+  bash_dam *= critter->has_effect(ME_FROZEN) ? 1.5 : 4;
+  bash_cap *= critter->has_effect(ME_FROZEN) ? 2 : 4;
  }
 
  if (bash_dam > bash_cap)// Cap for weak characters
@@ -587,6 +587,9 @@ int player::roll_bash_damage(monster *critter, bool crit)
 
  if (critter != NULL && critter->has_flag(MF_PLASTIC))
   bash_dam /= rng(2, 4);
+
+ if (critter != NULL && critter->has_effect(ME_FROZEN))
+  bash_dam *= rng(2,4);
 
  int bash_min = bash_dam / 4;
 
@@ -644,6 +647,9 @@ int player::roll_cut_damage(monster *critter, bool crit)
  else
   ret *= 0.92 + 0.04 * skillLevel("cutting");
 
+ if (critter != NULL && critter->has_effect(ME_FROZEN))
+  ret /= rng(2,4);
+
  if (crit)
   ret *= 1.0 + (skillLevel("cutting") / 12.0);
 
@@ -683,6 +689,9 @@ int player::roll_stab_damage(monster *critter, bool crit)
   if (speed_dam > 0)
    ret += speed_dam;
  }
+
+ if (critter != NULL && critter->has_effect(ME_FROZEN))
+  ret /= rng(2,4);
 
  if (ret <= 0)
   return 0; // No negative stabbing!
