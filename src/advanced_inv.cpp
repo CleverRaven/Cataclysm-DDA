@@ -1169,7 +1169,7 @@ void advanced_inventory::display(game * gp, player * pp)
             item *it = panes[src].items[list_pos].it;
             int ret=0;
             if(panes[src].area == isinventory ) {
-                ret = g->inventory_item_menu( list_pos, colstart + ( src == left ? w_width / 2 : 0 ),
+                ret = g->inventory_item_menu( item_pos, colstart + ( src == left ? w_width / 2 : 0 ),
                                               w_width / 2, (src == right ? 1 : -1) );
                 panes[src].recalc = true;
                 checkshowmsg = true;
