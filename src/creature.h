@@ -81,7 +81,7 @@ class Creature
         // makes a ranged projectile attack against the creature
         // dodgeable determines if the dodge stat applies or not, dodge is
         // reduced for ranged attacks
-        virtual int deal_projectile_attack(game* g, Creature* source, double missed_by, bool dodgeable,
+        virtual int deal_projectile_attack(game* g, Creature* source, double missed_by,
                 projectile& proj, dealt_damage_instance &dealt_dam);
 
         // deals the damage via an attack. Allows armor mitigation etc.

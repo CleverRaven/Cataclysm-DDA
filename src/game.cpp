@@ -5536,7 +5536,7 @@ void game::flashbang(int x, int y, bool player_immune)
             if (u.has_bionic("bio_sunglasses")) {
                 flash_mod = 6;
             }
-            u.infect("blind", bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist);
+            u.add_env_effect("effect_blind", bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist);
         }
     }
     for (int i = 0; i < num_zombies(); i++) {
@@ -11075,7 +11075,7 @@ bool game::plmove(int dx, int dy)
 
     // List items here
     if (!m.has_flag("SEALED", x, y)) {
-        if (u.has_disease("blind") && !m.i_at(x, y).empty()) {
+        if (u.has_effect("effect_blind") && !m.i_at(x, y).empty()) {
             add_msg(_("There's something here, but you can't see what it is."));
         } else if (!m.i_at(x, y).empty()) {
             std::vector<std::string> names;
@@ -11212,7 +11212,7 @@ bool game::plmove(int dx, int dy)
    plswim(x, y);
   }
  } else { // Invalid move
-  if (u.has_disease("blind") || u.has_effect("effect_stunned")) {
+  if (u.has_effect("effect_blind") || u.has_effect("effect_stunned")) {
 // Only lose movement if we're blind
    add_msg(_("You bump into a %s!"), m.name(x, y).c_str());
    u.moves -= 100;

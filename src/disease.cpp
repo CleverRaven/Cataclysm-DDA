@@ -27,7 +27,7 @@ enum dis_type_enum {
  DI_CRUSHED, DI_BOULDERING,
 // Monsters
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
- DI_DEAF, DI_BLIND,
+ DI_DEAF,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
@@ -92,7 +92,6 @@ void game::init_diseases() {
     disease_type_lookup["fungus"] = DI_FUNGUS;
     disease_type_lookup["slimed"] = DI_SLIMED;
     disease_type_lookup["deaf"] = DI_DEAF;
-    disease_type_lookup["blind"] = DI_BLIND;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
@@ -202,9 +201,6 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_DEAF:
         g->add_msg(_("You're deafened!"));
-        break;
-    case DI_BLIND:
-        g->add_msg(_("You're blinded!"));
         break;
     case DI_STUNNED:
         g->add_msg(_("You're stunned!"));
@@ -1130,7 +1126,7 @@ void dis_effect(player &p, disease &dis) {
                 }
                 if (one_in(12000 - dis.duration)) {
                     g->add_msg_if_player(&p,_("Your vision is filled with bright lights..."));
-                    p.add_disease("blind", rng(10, 20));
+                    p.add_effect("effect_blind", rng(10, 20));
                     if (one_in(8)) {
                         p.rem_disease("teleglow");
                     }
@@ -1480,7 +1476,6 @@ std::string dis_name(disease& dis)
 
     case DI_SLIMED: return _("Slimed");
     case DI_DEAF: return _("Deaf");
-    case DI_BLIND: return _("Blind");
     case DI_STUNNED: return _("Stunned");
     case DI_DOWNED: return _("Downed");
     case DI_BLEED:
@@ -1919,9 +1914,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         return _("Speed -40%;   Dexterity - 2");
 
     case DI_DEAF: return _("Sounds will not be reported.  You cannot talk with NPCs.");
-
-    case DI_BLIND:
-        return _("Range of Sight: 0");
 
     case DI_STUNNED: return _("Your movement is randomized.");
 

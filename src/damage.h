@@ -93,6 +93,7 @@ struct projectile {
     blast_shape aoe_shape;
     nc_color aoe_color;
     int aoe_size;
+    int speed; // how hard is it to dodge? essentially rolls to-hit, bullets have arbitrarily high values but thrown objects have dodgeable values
     bool drops; // does it drop ammo units?
     bool wide; // a shot that "covers" the target, e.g. a shotgun blast or flamethrower napalm
 
@@ -105,6 +106,7 @@ struct projectile {
         aoe_shape(BS_NONE),
         aoe_color(c_red),
         aoe_size(0),
+        speed(0),
         drops(false),
         wide(false),
         ammo(NULL)

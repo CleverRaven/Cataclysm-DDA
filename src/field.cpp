@@ -1116,7 +1116,7 @@ void map::step_in_field(int x, int y, game *g)
             }
             if (cur->getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
             {
-                g->u.infect("blind", bp_eyes, cur->getFieldDensity() * 2, 10);
+                g->u.add_env_effect("effect_blind", bp_eyes, cur->getFieldDensity() * 2, 10);
             }
             break;
 

@@ -1057,7 +1057,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
     if (!has_trait("FANGS") && has_trait("BEAR_MUZZLE") && one_in(20 - dex_cur - skillLevel("unarmed"))) {
         special_attack tmp;
         tmp.cut = 5;
-        if (is_u) {
+        if (is_player()) {
             tmp.text = string_format(_("You bite %s!"),
                                      target.c_str());
         } else if (male) {

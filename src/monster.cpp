@@ -824,7 +824,7 @@ void monster::hit_monster(game *g, int i)
   g->kill_mon(i, (friendly != 0));
 }
 
-int monster::deal_projectile_attack(game* g, Creature* source, double missed_by, bool dodgeable,
+int monster::deal_projectile_attack(game* g, Creature* source, double missed_by,
         projectile& proj, dealt_damage_instance &dealt_dam) {
     bool u_see_mon = g->u_see(this);
     if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && // Maxes out at 50% chance with perfect hit
@@ -839,7 +839,7 @@ int monster::deal_projectile_attack(game* g, Creature* source, double missed_by,
     if (missed_by < 0.2 && has_flag(MF_NOHEAD)) {
         missed_by = 0.2;
     }
-    return Creature::deal_projectile_attack(g, source, missed_by, dodgeable, proj, dealt_dam);
+    return Creature::deal_projectile_attack(g, source, missed_by, proj, dealt_dam);
 }
 
 void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain) {

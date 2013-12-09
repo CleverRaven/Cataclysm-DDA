@@ -3400,7 +3400,7 @@ void player::recalc_sight_limits()
     sight_boost_cap = 0;
 
     // Set sight_max.
-    if (has_disease("blind")) {
+    if (has_effect("effect_blind")) {
         sight_max = 0;
     } else if (has_disease("in_pit") ||
             has_disease("boomered") ||
@@ -3432,7 +3432,7 @@ int player::unimpaired_range()
  int ret = DAYLIGHT_LEVEL;
  if (has_disease("in_pit"))
   ret = 1;
- if (has_disease("blind"))
+ if (has_effect("effect_blind"))
   ret = 0;
  return ret;
 }
@@ -3830,7 +3830,7 @@ dealt_damage_instance player::deal_damage(game* g, Creature* source, body_part b
             int maxblind = int((dam + cut_dam) /  4);
             if (maxblind > 5)
                 maxblind = 5;
-            add_disease("blind", rng(minblind, maxblind));
+            add_effect("effect_blind", rng(minblind, maxblind));
         }
     case bp_mouth: // Fall through to head damage
     case bp_head:
@@ -8681,7 +8681,7 @@ std::string player::is_snuggling(game *g)
 // 2.5 is enough light for detail work.
 float player::fine_detail_vision_mod(game *g)
 {
-    if (has_disease("blind") || has_disease("boomered"))
+    if (has_effect("effect_blind") || has_disease("boomered"))
     {
         return 5;
     }

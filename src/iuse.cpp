@@ -147,9 +147,9 @@ int iuse::royal_jelly(player *p, item *it, bool t)
   message = _("You feel cleansed inside!");
   p->rem_disease("dermatik");
  }
- if (p->has_disease("blind")) {
+ if (p->has_effect("effect_blind")) {
   message = _("Your sight returns!");
-  p->rem_disease("blind");
+  p->remove_effect("effect_blind");
  }
  if (p->has_effect("effect_poison") || p->has_disease("foodpoison") ||
      p->has_disease("badpoison") || p->has_disease("paralyzepoison")) {

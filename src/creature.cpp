@@ -163,7 +163,7 @@ double Creature::projectile_attack(game *g, projectile &proj, int targetx, int t
             damage_instance d = damage_instance::physical(0,dam,0);
             dealt_damage_instance dealt_dam;
             // TODO: add bounce effect application
-            z.deal_projectile_attack(g, this, missed_by, false, proj, dealt_dam);
+            z.deal_projectile_attack(g, this, missed_by, proj, dealt_dam);
             //z.deal_damage(g, this, bp_torso, 3, d);
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
@@ -236,7 +236,7 @@ int Creature::deal_melee_attack(game* g, Creature* source, int hitroll, bool cri
 
     body_part bp_hit;
     int side = rng(0, 1);
-    int hit_value = hitroll + dice(10,6) - 35;
+    int hit_value = hit_spread + dice(10,6) - 35;
     if (hit_value >= 40)
         bp_hit = bp_eyes;
     else if (hit_value >= 30)
@@ -303,10 +303,22 @@ int Creature::deal_melee_attack(game* g, Creature* source, int hitroll, bool cri
     return hit_spread;
 }
 
-int Creature::deal_projectile_attack(game* g, Creature* source, double missed_by, bool dodgeable,
+int Creature::deal_projectile_attack(game* g, Creature* source, double missed_by,
         projectile& proj, dealt_damage_instance &dealt_dam) {
+    bool u_see_this = g->u_see(this);
     body_part bp_hit;
     int side = rng(0, 1);
+
+    if (dodge_roll() >= dice(10,proj.speed)) { // do 10,speed because speed could potentially be > 10000
+        if (is_player())
+            g->add_msg(_("You dodge %s's projectile!"),
+                    skin_name().c_str());
+        else if (u_see_this)
+            g->add_msg(_("%s dodges %s's projectile."),
+                    disp_name().c_str(), source->disp_name().c_str());
+        return 0;
+    }
+
 
     double hit_value = missed_by + rng_float(-0.5, 0.5);
     if (hit_value <= 0.4) // headshots considered elsewhere
@@ -346,7 +358,6 @@ int Creature::deal_projectile_attack(game* g, Creature* source, double missed_by
     dealt_dam = deal_damage(g, source, bp_hit, side, impact);
     dealt_dam.bp_hit = bp_hit;
 
-    bool u_see_this = g->u_see(this);
     if (u_see_this && dealt_dam.total_damage() == 0) {
         g->add_msg(_("The shot reflects off the %s!"),
                 skin_name().c_str());

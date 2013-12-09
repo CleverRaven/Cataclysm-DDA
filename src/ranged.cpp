@@ -76,6 +76,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     projectile proj; // damage will be set later
     proj.aoe_size = 0;
     proj.ammo = curammo;
+    proj.speed = 1000;
 
     std::set<std::string> *curammo_effects = &curammo->ammo_effects;
     if(gunmod == NULL){
