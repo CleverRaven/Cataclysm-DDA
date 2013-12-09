@@ -19,6 +19,7 @@ public:
     void remove(const int idx);
     void clear();
     void rebuild_cache();
+    const std::vector<monster>& list() const;
 
 private:
     std::vector<monster> _old_monsters_list;

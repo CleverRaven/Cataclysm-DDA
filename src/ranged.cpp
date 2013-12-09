@@ -156,6 +156,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
             /* TODO: get burst target reacquisition in when we've sufficiently
              * reworked other things
+             * This does NOT work right now - the _active_monsters reference has been deprecated
             for (
                 int radius = 0;                        // range from last target, not shooter!
                 radius <= 2 + skillLevel("gun") &&   // more skill: wider burst area?

@@ -982,7 +982,6 @@ void monster::die(game *g)
    g->mission_step_complete(mission_id, 1);
  }
  // temporary copy as the death function might invalidate this when
- // this is in the game::_active_monsters vector
  monster tmp_copy(*this);
 // Also, perform our death function
  mdeath md;

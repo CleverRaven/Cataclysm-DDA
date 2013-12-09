@@ -42,7 +42,6 @@ bool Creature_tracker::add(monster& critter)
     _old_monsters_list.push_back(critter);
     return true;
 }
-
 size_t Creature_tracker::size() const
 {
     return _old_monsters_list.size();
@@ -108,4 +107,9 @@ void Creature_tracker::rebuild_cache()
         monster &critter = _old_monsters_list[ii];
         _old_monsters_by_location[point(critter.posx(), critter.posy())] = ii;
     }
+}
+
+const std::vector<monster>& Creature_tracker::list() const
+{
+    return _old_monsters_list;
 }

@@ -583,7 +583,6 @@ class game
 
 // ########################## DATA ################################
 
-  std::vector<monster> _active_monsters;
   std::map<point, int> z_at;
   Creature_tracker critter_tracker;
 

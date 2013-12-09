@@ -331,7 +331,6 @@ void game::init_ui(){
 void game::setup()
 {
  m = map(&traps); // Init the root map with our vectors
- _active_monsters.reserve(1000); // Reserve some space
 
 // Even though we may already have 'd', nextinv will be incremented as needed
  nextinv = 'd';
@@ -2533,7 +2532,7 @@ bool game::handle_action()
    if (run_mode == 2) {
     add_msg(_("Ignoring enemy!"));
     for(int i=0; i < new_seen_mon.size(); i++) {
-        monster &critter = _active_monsters[new_seen_mon[i]];
+        monster &critter = critter_tracker.find(new_seen_mon[i]);
         critter.ignoring = rl_dist( point(u.posx, u.posy), critter.pos() );
     }
     run_mode = 1;
@@ -4941,7 +4940,7 @@ int game::mon_info(WINDOW *w)
 
     if (newseen > mostseen) {
         if (newseen - mostseen == 1) {
-            monster &critter = _active_monsters[new_seen_mon.back()];
+            monster &critter = critter_tracker.find(new_seen_mon.back());
             cancel_activity_query(_("%s spotted!"), critter.name().c_str());
         } else {
             cancel_activity_query(_("Monsters spotted!"));
@@ -5166,7 +5165,6 @@ void game::monmove()
             if (critter->hurt(0)) {
                 kill_mon(i, false);
                 // might have spaned more monsters on death,
-                // changing _active_monsters
             }
         }
 

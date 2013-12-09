@@ -120,7 +120,7 @@ void game::serialize(std::ofstream & fout) {
         json.member( "grscent", rle_out.str() );
 
         // Then each monster
-        json.member( "active_monsters", _active_monsters );
+        json.member( "active_monsters", critter_tracker.list() );
         json.member( "stair_monsters", coming_to_stairs );
 
         // save killcounts.
