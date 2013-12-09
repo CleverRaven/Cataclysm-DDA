@@ -427,8 +427,9 @@ WINDOW *curses_init(void)
     std::string typeface = "Terminus";
     char * typeface_c = 0;
     std::ifstream fin;
-    fin.open("data\\FONTDATA");
+    fin.open("data/FONTDATA");
     if (!fin.is_open()){
+        typeface_c = (char*) "Terminus";
         fontwidth = 8;
         fontheight = 16;
         std::ofstream fout;//create data/FONDATA file

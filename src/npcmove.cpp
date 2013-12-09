@@ -213,7 +213,7 @@ void npc::execute_action(game *g, npc_action action, int target)
  {
   bool ammo_found = false;
   int index = -1;
-  invslice slice = inv.slice(0, inv.size());
+  invslice slice = inv.slice();
   for (int i = 0; i < slice.size(); i++) {
    item& it = slice[i]->front();
    bool am = (it.is_gun() &&
@@ -537,7 +537,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
 // Check if there's something better to wield
  bool has_empty_gun = false, has_better_melee = false;
  std::vector<item*> empty_guns;
- invslice slice = inv.slice(0, inv.size());
+ invslice slice = inv.slice();
  for (int i = 0; i < slice.size(); i++) {
   item& it = slice[i]->front();
   bool allowed = can_use_gun && it.is_gun() && (!use_silent || weapon.is_silent());
@@ -698,7 +698,7 @@ bool npc::alt_attack_available(game *g)
 signed char npc::choose_escape_item()
 {
  int best = -1, ret = -1;
- invslice slice = inv.slice(0, inv.size());
+ invslice slice = inv.slice();
  for (int i = 0; i < slice.size(); i++) {
   item& it = slice[i]->front();
   for (int j = 0; j < NUM_ESCAPE_ITEMS; j++) {
@@ -1335,7 +1335,7 @@ void npc::drop_items(game *g, int weight, int volume)
  std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
 
 // First fill our ratio vectors, so we know which things to drop first
- invslice slice = inv.slice(0, inv.size());
+ invslice slice = inv.slice();
  for (int i = 0; i < slice.size(); i++) {
   item& it = slice[i]->front();
   double wgt_ratio, vol_ratio;
@@ -1420,7 +1420,7 @@ npc_action npc::scan_new_items(game *g, int target)
 {
  bool can_use_gun = (!is_following() || combat_rules.use_guns);
  bool use_silent = (is_following() && combat_rules.use_silent);
- invslice slice = inv.slice(0, inv.size());
+ invslice slice = inv.slice();
 
 // Check if there's something better to wield
  bool has_empty_gun = false, has_better_melee = false;
@@ -1522,7 +1522,7 @@ void npc::alt_attack(game *g, int target)
   used = &weapon;
   invlet = 0;
  } else {
-  invslice slice = inv.slice(0, inv.size());
+  invslice slice = inv.slice();
   for (int i = 0; i < inv.size(); i++) {
    if (slice[i]->front().type->id == which) {
     used = &(slice[i]->front());
@@ -1789,7 +1789,7 @@ void npc::pick_and_eat(game *g)
 {
  int best_hunger = 999, best_thirst = 999, index = -1;
  bool thirst_more_important = (thirst > hunger * 1.5);
- invslice slice = inv.slice(0, inv.size());
+ invslice slice = inv.slice();
  for (int i = 0; i < slice.size(); i++) {
   int eaten_hunger = -1, eaten_thirst = -1;
   it_comest* food = NULL;
@@ -1865,7 +1865,7 @@ void npc::mug_player(game *g, player &mark)
    }
    int best_value = minimum_item_value() * value_mod;
    char invlet = 0;
-   invslice slice = mark.inv.slice(0, mark.inv.size());
+   invslice slice = mark.inv.slice();
    for (int i = 0; i < slice.size(); i++) {
     if (value(slice[i]->front()) >= best_value &&
         can_pickVolume(slice[i]->front().volume()) &&

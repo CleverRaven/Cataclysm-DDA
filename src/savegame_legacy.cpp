@@ -1365,7 +1365,8 @@ void player::load_legacy(game *g, std::stringstream & dump) {
   dump >> tmptype >> moves_left >> index >> tmpinvlet >> tmpname >> placement.x >> placement.y >> tmp;
   name = tmpname.substr(4);
   type = activity_type(tmptype);
-  invlet = tmpinvlet;
+  // can't actually save in the middle of an activity with invlets, so not supporting legacy is ok.
+  position = INT_MIN;
   for (int i = 0; i < tmp; i++) {
    int tmp2;
    dump >> tmp2;

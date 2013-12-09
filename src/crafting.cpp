@@ -1271,6 +1271,19 @@ void game::complete_craft()
   skill_dice -= main_rank_penalty * 4;
  }
 
+ //It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor, not inability to see what you're doing
+ if (u.has_trait("PAWS")) {
+  int paws_rank_penalty = 0;
+  if (making->skill_used == Skill::skill("electronics")) {
+   paws_rank_penalty = 1;
+  } else if (making->skill_used == Skill::skill("tailoring")) {
+   paws_rank_penalty = 1;
+  } else if (making->skill_used == Skill::skill("mechanics")) {
+   paws_rank_penalty = 1;
+  }
+  skill_dice -= paws_rank_penalty * 4;
+ }
+ 
 // Sides on dice is 16 plus your current intelligence
  int skill_sides = 16 + u.int_cur;
 
@@ -1322,30 +1335,29 @@ void game::complete_craft()
    consume_tools(&u, making->tools[i], false);
  }
 
-  // Set up the new item, and pick an inventory letter
- int iter = 0;
- item newit(item_controller->find_template(making->result), turn, nextinv);
+  // Set up the new item, and assign an inventory letter if available
+ item newit(item_controller->find_template(making->result), turn, 0);
 
-    if (newit.is_armor() && newit.has_flag("VARSIZE"))
-    {
-        newit.item_tags.insert("FIT");
-    }
-    float used_age_tally = 0;
-    int used_age_count = 0;
-    for (std::list<item>::iterator iter = used.begin(); iter != used.end(); ++iter)
-    {
-        if (iter->goes_bad())
-        {
-            used_age_tally += ((int)turn - iter->bday)/
-                (float)(dynamic_cast<it_comest*>(iter->type)->spoils);
-            ++used_age_count;
-        }
-    }
-    if (used_age_count > 0 && newit.goes_bad())
-    {
-        const int average_used_age = int((used_age_tally / used_age_count) * dynamic_cast<it_comest*>(newit.type)->spoils);
-        newit.bday = newit.bday - average_used_age;
-    }
+ if (newit.is_armor() && newit.has_flag("VARSIZE"))
+ {
+     newit.item_tags.insert("FIT");
+ }
+ float used_age_tally = 0;
+ int used_age_count = 0;
+ for (std::list<item>::iterator iter = used.begin(); iter != used.end(); ++iter)
+ {
+     if (iter->goes_bad())
+     {
+         used_age_tally += ((int)turn - iter->bday)/
+                 (float)(dynamic_cast<it_comest*>(iter->type)->spoils);
+         ++used_age_count;
+     }
+ }
+ if (used_age_count > 0 && newit.goes_bad())
+ {
+     const int average_used_age = int((used_age_tally / used_age_count) * dynamic_cast<it_comest*>(newit.type)->spoils);
+     newit.bday = newit.bday - average_used_age;
+ }
  // for food items
  if (newit.is_food())
   {
@@ -1360,17 +1372,13 @@ void game::complete_craft()
   }
  if (!newit.craft_has_charges())
   newit.charges = 0;
- do {
-  newit.invlet = nextinv;
-  advance_nextinv();
-  iter++;
- } while (u.has_item(newit.invlet) && iter < inv_chars.size());
+ u.inv.assign_empty_invlet(newit);
  //newit = newit.in_its_container(&itypes);
  if (newit.made_of(LIQUID))
   handle_liquid(newit, false, false);
  else {
 // We might not have space for the item
-  if (iter == inv_chars.size() || !u.can_pickVolume(newit.volume())) {
+  if (!u.can_pickVolume(newit.volume())) {
    add_msg(_("There's no room in your inventory for the %s, so you drop it."),
              newit.tname().c_str());
    m.add_item_or_charges(u.posx, u.posy, newit);
@@ -1380,7 +1388,7 @@ void game::complete_craft()
    m.add_item_or_charges(u.posx, u.posy, newit);
   } else {
    newit = u.i_add(newit);
-   add_msg("%c - %s", newit.invlet, newit.tname().c_str());
+   add_msg("%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
   }
  }
  u.inv.restack(&u);
@@ -1626,24 +1634,19 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
  }
 }
 
-void game::disassemble(char ch)
+void game::disassemble(int pos)
 {
-    if (!ch)
+    if (!pos)
     {
-        ch = inv(_("Disassemble item:"));
+        pos = inv(_("Disassemble item:"));
     }
-    if (ch == 27)
+    if (!u.has_item(pos))
     {
-        add_msg(_("Never mind."));
-        return;
-    }
-    if (!u.has_item(ch))
-    {
-        add_msg(_("You don't have item '%c'!"), ch);
+        add_msg(_("You don't have that item!"), pos);
         return;
     }
 
-    item* dis_item = &u.i_at(ch);
+    item* dis_item = &u.i_at(pos);
 
 
     for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter)
@@ -1738,7 +1741,7 @@ void game::disassemble(char ch)
                     u.assign_activity(this, ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
                     u.moves = 0;
                     std::vector<int> dis_items;
-                    dis_items.push_back(ch);
+                    dis_items.push_back(pos);
                     u.activity.values = dis_items;
                 }
                 return; // recipe exists, but no tools, so do not start disassembly

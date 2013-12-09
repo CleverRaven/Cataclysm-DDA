@@ -79,6 +79,7 @@ void Item_factory::init(){
     iuse_function_list["BLECH"] = &iuse::blech;
     iuse_function_list["CHEW"] = &iuse::chew;
     iuse_function_list["MUTAGEN"] = &iuse::mutagen;
+    iuse_function_list["MUT_IV"] = &iuse::mut_iv;
     iuse_function_list["PURIFIER"] = &iuse::purifier;
     iuse_function_list["MUT_IV"] = &iuse::mut_iv;
     iuse_function_list["PURIFY_IV"] = &iuse::purify_iv;

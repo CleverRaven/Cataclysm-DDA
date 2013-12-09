@@ -343,8 +343,7 @@ void player::activate_bionic(int b, game *g)
   else if (query_yn(_("Drink from your hands?")))
   {
       inv.push_back(water);
-      water = inv.item_by_type(water.typeId());
-      consume(g, water.invlet);
+      consume(g, inv.position_by_type(water.typeId()));
       moves -= 350;
   }
   else
@@ -434,8 +433,7 @@ void player::activate_bionic(int b, game *g)
                   moves -= 100;
               } else if (query_yn(_("Drink directly from the condensor?"))) {
                   inv.push_back(water);
-                  water = inv.item_by_type(water.typeId());
-                  consume(g, water.invlet);
+                  consume(g, inv.position_by_type(water.typeId()));
                   moves -= 350;
               }
               extracted = true;

@@ -42,6 +42,14 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You have a strange dream about bears.",
+            "Your dreams give you a strange furry feeling."
+            ],
+        "category" : "MUTCAT_URSINE",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
             "You have a strange dream about cattle.",
             "Your dreams give you a strange content, furry feeling."
             ],
@@ -178,6 +186,14 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You dream of foraging in the woods...mouth-first?",
+            "Your dream-reflection is rather bearish."
+            ],
+        "category" : "MUTCAT_URSINE",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
             "You dream of grazing in an open field.",
             "In a dream you catch a glimpse of a strangely cattle-like image of yourself."
             ],
@@ -310,6 +326,14 @@
             "A terrifyingly real dream has you killing game with your bare teeth."
             ],
         "category" : "MUTCAT_BEAST",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "Your dream of raiding a giant beehive has you licking your...muzzle in anticipation.",
+            "In your dream, you stalk and kill a young wolf, using only your teeth and claws."
+            ],
+        "category" : "MUTCAT_URSINE",
         "strength" : 3
     },{
         "type" : "dream",
