@@ -1524,7 +1524,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
             break;
 
         case fd_ice_floor:
-            if (!z->has_flag(MF_ICEY)) {
+            if (!(z->has_flag(MF_ICEY) && z->has_flag(MF_DIGS) && z->has_flag(MF_FLIES))) {
                 switch (cur->getFieldDensity()) {
                     // TODO : add something more interesting. More chance to miss? To stumble?
                     case 1: z->moves -= rng(10, 20); break;
