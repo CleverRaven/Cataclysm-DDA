@@ -1937,7 +1937,7 @@ int iuse::extinguisher(player *p, item *it, bool t)
    g->add_msg_if_player(p,_("The %s is sprayed!"), g->zombie(mondex).name().c_str());
   if (g->zombie(mondex).made_of(LIQUID)) {
    if (g->u_see(&(g->zombie(mondex))))
-    g->add_msg_if_player(p,_("The %s is frozen!"), g->zombie(mondex).name().c_str());
+    g->zombie(mondex).add_effect(ME_FROZEN, rng(1, 5));
    if (g->zombie(mondex).hurt(rng(20, 60)))
     g->kill_mon(mondex, (p == &(g->u)));
    else

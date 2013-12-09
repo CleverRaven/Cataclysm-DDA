@@ -1433,4 +1433,16 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
   if (effects.count("ICEBOMB_BIG")) {
     g->explosion(x, y, 72, 0, HAS_ICE);
   }
+
+  if (effects.count("FREEZE_WEAK")) { 
+    g->freeze(x, y, one_in(2) ? 5 : 0); 
+  }
+
+  if (effects.count("FREEZE_MEDIUM")) { 
+    g->freeze(x, y, one_in(8) ? rng(10, 15) : 0); 
+  }
+
+  if (effects.count("FREEZE_STRONG")) { 
+    g->freeze(x, y, rng(25, 50)); 
+  }
 }

@@ -375,6 +375,9 @@ class game
  void knockback(int sx, int sy, int tx, int ty, int force, int stun, int dam_mult);
  void knockback(std::vector<point>& traj, int force, int stun, int dam_mult);
 
+ // Freeze function: applies the freeze effect to the target
+ void freeze(int x, int y, int power);
+
  // shockwave applies knockback to all targets within radius of (x,y)
  // parameters force, stun, and dam_mult are passed to knockback()
  // ignore_player determines if player is affected, useful for bionic, etc.

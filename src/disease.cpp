@@ -39,7 +39,7 @@ enum dis_type_enum {
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
   DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH,
 // Traps
- DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
+ DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED, DI_DOWNED, DI_FROZEN,
 // Martial Arts
  DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
   DI_SPEED_BOOST, DI_VIPER_COMBO,
@@ -139,6 +139,7 @@ void game::init_diseases() {
     disease_type_lookup["in_pit"] = DI_IN_PIT;
     disease_type_lookup["stunned"] = DI_STUNNED;
     disease_type_lookup["downed"] = DI_DOWNED;
+    disease_type_lookup["frozen"] = DI_FROZEN;
     disease_type_lookup["attack_boost"] = DI_ATTACK_BOOST;
     disease_type_lookup["damage_boost"] = DI_DAMAGE_BOOST;
     disease_type_lookup["dodge_boost"] = DI_DODGE_BOOST;
@@ -239,6 +240,9 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_DOWNED:
         g->add_msg(_("You're knocked to the floor!"));
+        break;
+    case DI_FROZEN:
+        g->add_msg(_("You're frozen!"));
         break;
     case DI_AMIGARA:
         g->add_msg(_("You can't look away from the faultline..."));
@@ -1584,6 +1588,7 @@ std::string dis_name(disease& dis)
     case DI_BLIND: return _("Blind");
     case DI_STUNNED: return _("Stunned");
     case DI_DOWNED: return _("Downed");
+    case DI_FROZEN: return _("Frozen");
     case DI_POISON: return _("Poisoned");
     case DI_BLEED:
     {
@@ -2067,6 +2072,8 @@ Your feet are blistering from the intense heat. It is extremely painful.");
     case DI_STUNNED: return _("Your movement is randomized.");
 
     case DI_DOWNED: return _("You're knocked to the ground.  You have to get up before you can move.");
+
+    case DI_FROZEN: return _("You're a frozen block of ice. You cannot move.");
 
     case DI_POISON:
         return _(

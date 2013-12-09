@@ -68,7 +68,7 @@ int player::hit_roll()
  }
  int numdice = base_to_hit(stat) + weapon.type->m_to_hit +
                disease_intensity("attack_boost");
- int sides = 10 - encumb(bp_torso) - (disease_intensity("onice") - 1
+ int sides = 10 - encumb(bp_torso) - (disease_intensity("onice") - 1);
  int best_bonus = 0;
  if (sides < 2)
   sides = 2;

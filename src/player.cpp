@@ -1286,6 +1286,8 @@ nc_color player::color()
   return c_ltblue;
  if (has_disease("boomered"))
   return c_pink;
+ if (has_disease("frozen"))
+  return c_cyan;
  if (underwater)
   return c_blue;
  if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE) ||

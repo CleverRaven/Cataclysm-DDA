@@ -291,7 +291,7 @@ void monster::move(game *g)
         moves = 0;
         return;
     }
-    if (has_effect(ME_DOWNED)) {
+    if (has_effect(ME_DOWNED) || has_effect(ME_FROZEN)) {
         moves = 0;
         return;
     }
@@ -1058,6 +1058,18 @@ int monster::move_to(game *g, int x, int y, bool force)
             }
         }
     }
+
+    // Ice trail monsters leave... a trail of level 2 frost, surrounded by level 1 frost 
+    // with a chance of bellowing out ice mist 
+    if (has_flag(MF_ICETRAIL) && !is_hallucination()) { 
+    g->m.add_field(g, posx(), posy(), fd_frost, one_in(10) ? 2 : 1); 
+    for ( int x = posx() - 1 ; x == posx() + 1 ; x++) { 
+        for ( int y = posy() - 1 ; y == posy() + 1 ; y++) { 
+            if ( one_in(10) ) g->m.add_field(g, posx(), posy(), fd_ice_mist, 1); 
+            g->m.add_field(g, posx(), posy(), fd_frost, 1); 
+            } 
+        } 
+    } 
 
     return 1;
 }

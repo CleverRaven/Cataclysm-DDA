@@ -18,6 +18,7 @@ ME_POISONED,        // Slowed, takes damage
 ME_ONFIRE,          // Lit aflame
 ME_STUNNED,         // Stumbling briefly
 ME_DOWNED,          // Knocked down
+ME_FROZEN,          // Frozen
 ME_BLIND,           // Can't use sight
 ME_DEAF,            // Can't use hearing
 ME_TARGETED,        // Targeting locked on--for robots that shoot guns

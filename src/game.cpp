@@ -1368,7 +1368,6 @@ int game::get_radiante_temperature(int posx, int posy)
     }
 
     int tile_distance = 1;
-    int tile_energy = 0;
     // Four intensities of fire, in DDA units
     // Values taken from wikipedia and divided by 4
     int fire_temperature_level[4] = {13500, 20500, 27500, 35000};
@@ -1386,7 +1385,7 @@ int game::get_radiante_temperature(int posx, int posy)
             }
             field &tile_field = m.field_at(posx + j, posy + k);
             tile_distance = std::max(1, std::max(abs(j), abs(k)));
-            int felt_tile_energy = 0;
+            int tile_energy = 0;
 
             /**
              *  Fire energy
@@ -1408,7 +1407,6 @@ int game::get_radiante_temperature(int posx, int posy)
                     case 4:
                         tile_energy = fire_temperature_level[4]; break;
                 }
-                felt_tile_energy += exp(0.004) * (tile_energy / (tile_distance * tile_distance));
             }
 
             /**
@@ -1419,13 +1417,26 @@ int game::get_radiante_temperature(int posx, int posy)
 
             if ( m.tr_at(posx + j, posy + k) == tr_lava ) {
                 tile_energy = lava_temperature;
-
-                felt_tile_energy += exp(0.004) * (tile_energy / (tile_distance * tile_distance));
             }
+
+            /**
+             * Monster aura energy
+             */
+
+            if ( mon_at(posx + j, posy + k) != -1 ) {
+                monster &z = _active_monsters[mon_at(posx + j, posy + k)];
+                if (z.has_flag(MF_COLDAURA)) {
+                    tile_energy -= 20000;
+                }
+                if (z.has_flag(MF_HOTAURA)) {
+                    tile_energy += 20000;
+                }
+            }
+            
             /**
              * Total energy felt
              */
-            felt_radiante_energy += felt_tile_energy;
+            felt_radiante_energy += exp(0.004) * (tile_energy / (tile_distance * tile_distance));
         }
     }
     return felt_radiante_energy;
@@ -5995,6 +6006,22 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
     }
     return;
 }
+
+void game::freeze(int x, int y, int power) 
+{
+    const int zid = mon_at(x, y); 
+    if (zid != -1) 
+        { 
+        monster *targ = &_active_monsters[zid]; 
+        if (power > 0 && !targ->has_flag(MF_ICEY)) 
+        { 
+            targ->add_effect(ME_FROZEN, power); 
+            add_msg(ngettext("%s was frozen for %d turn!", 
+                             "%s was frozen for %d turns!", power), 
+                             targ->name().c_str(), power); 
+        } 
+    } 
+} 
 
 void game::use_computer(int x, int y)
 {
@@ -10619,6 +10646,9 @@ bool game::plmove(int dx, int dy)
  if (u.has_disease("stunned")) {
   x = rng(u.posx - 1, u.posx + 1);
   y = rng(u.posy - 1, u.posy + 1);
+ } else if (u.has_disease("frozen")) {
+  x = u.posx;
+  y = u.posy;
  } else if (u.disease_intensity("onice") == 3 && one_in( 1 + u.resist(bp_feet) * 2 )) {
   add_msg("You slip on the ice!");
   x = rng(u.posx - 1, u.posx + 1);
