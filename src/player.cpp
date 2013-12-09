@@ -711,7 +711,7 @@ void player::update_bodytemp(game *g)
     const ter_id ter_at_pos = g->m.ter(posx, posy);
     const furn_id furn_at_pos = g->m.furn(posx, posy);
     // Fetches the temperature change due to surrounding tiles
-    int radiante_heat = g->get_radiante_temperature(posx, posy);
+    int radiant_heat = g->get_radiant_temperature(posx, posy);
     // When the player is sleeping, he will use floor items for warmth
     int floor_item_warmth = 0;
     // When the player is sleeping, he will use floor bedding for warmth
@@ -790,14 +790,14 @@ void player::update_bodytemp(game *g)
         temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
         if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
-        // RADIANTE ENERGY
-        // Apply felt radiante energy
-        temp_conv[i] += radiante_heat;
-        // Radiante energy will cause blisters
-        int blister_count = radiante_heat / 10000;
-        // Radiante energy will reduce frostbite
+        // RADIANT ENERGY
+        // Apply felt radiant energy
+        temp_conv[i] += radiant_heat;
+        // radiant energy will cause blisters
+        int blister_count = radiant_heat / 10000;
+        // radiant energy will reduce frostbite
         if (frostbite_timer[i] > 0)
-            { frostbite_timer[i] -= radiante_heat / 10000;}
+            { frostbite_timer[i] -= radiant_heat / 10000;}
         // TILES
         if (has_disease("onfire")) {
             temp_conv[i] += 15000;

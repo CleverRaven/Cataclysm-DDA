@@ -1345,14 +1345,14 @@ int game::get_temperature(point location)
     return tmp_temperature;
 }
 
-int game::get_radiante_temperature(int posx, int posy)
+int game::get_radiant_temperature(int posx, int posy)
 {
     // Need to find a way to calculate distance between monster and tile
 
     // Implicitly, this always calculates the tile from the POV of the player
     // because of the use of "u_see"
 
-    int felt_radiante_energy = 0;
+    int felt_radiant_energy = 0;
 
     /**
      *  Sun energy (distance is constant due to its sheer magnitude)
@@ -1360,11 +1360,11 @@ int game::get_radiante_temperature(int posx, int posy)
 
     if (weather == WEATHER_SUNNY && is_in_sunlight(posx, posy))
     {
-        felt_radiante_energy += 1000;
+        felt_radiant_energy += 1000;
     }
     if (weather == WEATHER_CLEAR && is_in_sunlight(posx, posy))
     {
-        felt_radiante_energy += 500;
+        felt_radiant_energy += 500;
     }
 
     int tile_distance = 1;
@@ -1380,7 +1380,7 @@ int game::get_radiante_temperature(int posx, int posy)
             // Skip things you can't see
             if ( !u_see(posx + j, posy + k) ) {
                 // DEBUG
-                felt_radiante_energy += 1;
+                felt_radiant_energy += 1;
                 continue;
             }
             field &tile_field = m.field_at(posx + j, posy + k);
@@ -1389,10 +1389,10 @@ int game::get_radiante_temperature(int posx, int posy)
 
             /**
              *  Fire energy
-             *      Find the felt_radiante temperatue of the player
+             *      Find the felt_radiant temperatue of the player
              *      ISSUE : fire "size" should also incorporate number of tiles ...
              *          Current fix : fire temp definitions are divided by 4
-             *      BUG : Sometimes, when the player is close, and he takes a step, the radiante energy is zero
+             *      BUG : Sometimes, when the player is close, and he takes a step, the radiant energy is zero
              *          because he loses sight
              */
 
@@ -1436,10 +1436,10 @@ int game::get_radiante_temperature(int posx, int posy)
             /**
              * Total energy felt
              */
-            felt_radiante_energy += exp(0.004) * (tile_energy / (tile_distance * tile_distance));
+            felt_radiant_energy += exp(0.004) * (tile_energy / (tile_distance * tile_distance));
         }
     }
-    return felt_radiante_energy;
+    return felt_radiant_energy;
 }
 
 int game::assign_mission_id()
