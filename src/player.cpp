@@ -8151,8 +8151,9 @@ void player::read(game *g, char ch)
         g->add_msg(_("What's the point of reading?  (Your morale is too low!)"));
         return;
     }
-    else if (skillLevel(tmp->type) >= (int)tmp->level && tmp->fun <= 0 && !can_study_recipe(tmp) &&
-            !query_yn(_("Your %s skill won't be improved.  Read anyway?"),
+    else if (skillLevel(tmp->type) >= (int)tmp->level && !can_study_recipe(tmp) &&
+            !query_yn(_(tmp->fun > 0 ? "It would be fun, but your %s skill won't be improved.  Read anyway?"
+                        : "Your %s skill won't be improved.  Read anyway?"),
                       tmp->type->name().c_str()))
     {
         return;
