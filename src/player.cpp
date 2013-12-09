@@ -8161,7 +8161,7 @@ press 'U' while wielding the unloaded gun."), gun->tname().c_str());
           g->add_msg(_("You remove all the modifications from your %s."), weapon->name.c_str());
         }
         else {
-          g->add_msg(_("Nevermind."));
+          g->add_msg(_("Never mind."));
           return;
         }
         // Removing stuff from a gun takes time.

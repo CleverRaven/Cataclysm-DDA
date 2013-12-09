@@ -3095,7 +3095,7 @@ int iuse::siphon(player *p, item *it, bool t)
         fmenu.text = _("Fill what?");
         fmenu.addentry("Nearby vehicle (%d)",foundv.size());
         fmenu.addentry("Container");
-        fmenu.addentry("Nevermind");
+        fmenu.addentry("Never mind");
         fmenu.query();
         if ( fmenu.ret == 0 ) {
             if ( foundv.size() > 1 ) {
