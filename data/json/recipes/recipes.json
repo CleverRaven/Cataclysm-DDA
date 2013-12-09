@@ -24209,22 +24209,7 @@
   "autolearn": true,
   "components": [
     [
-      [ "rag", 4 ]
-    ]
-  ]
-},{
-        "type" : "recipe",
-  "result": "handrags",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_FEET",
-  "skill_used": "tailor",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": true,
-  "components": [
-    [
-      [ "rag", 2 ]
+      [ "rag", 6 ]
     ]
   ]
 },
