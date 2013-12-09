@@ -1636,7 +1636,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
 
 void game::disassemble(int pos)
 {
-    if (!pos)
+    if (pos == INT_MAX)
     {
         pos = inv(_("Disassemble item:"));
     }

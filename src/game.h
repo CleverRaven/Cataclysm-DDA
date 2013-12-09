@@ -469,7 +469,7 @@ class game
   craft_cat prev_craft_cat(craft_cat cat); // crafting.cpp
   craft_subcat next_craft_subcat(craft_subcat subcat); // crafting.cpp
   craft_subcat prev_craft_subcat(craft_subcat subcat); // crafting.cpp
-  void disassemble(int pos = 0);       // See crafting.cpp
+  void disassemble(int pos = INT_MAX);       // See crafting.cpp
   void complete_disassemble();         // See crafting.cpp
   recipe* recipe_by_index(int index);  // See crafting.cpp
 
