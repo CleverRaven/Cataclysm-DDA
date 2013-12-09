@@ -24197,6 +24197,82 @@
       [ "string_36", 1]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "40mm_shot",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 6,
+  "time": 12500,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+    ]
+  ],
+  "components": [
+    [
+     [ "40mm_casing", 4 ]
+    ],
+    [
+     [ "shotgun_primer", 4 ]
+    ],
+    [
+     [ "gunpowder", 160 ]
+    ],
+    [
+      [ "lead", 200 ],
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
+      [ "tin", 200 ],
+      [ "bismuth", 200 ],
+      [ "solder_wire", 200 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "40mm_flechette",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 6,
+  "time": 12500,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "boltcutters", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+    ]
+  ],
+  "components": [
+    [
+     [ "40mm_casing", 4 ]
+    ],
+    [
+     [ "shotgun_primer", 4 ]
+    ],
+    [
+     [ "gunpowder", 160 ]
+    ],
+    [
+     [ "nail", 120 ]
+    ]
+  ]
 },
 {
         "type" : "recipe",
