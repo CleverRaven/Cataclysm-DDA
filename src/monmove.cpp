@@ -37,19 +37,19 @@ void monster::receive_moves(game *g)
     float monster_resistance = 0.7;
 
     // Effects of the temperature
-    if (has_flag(MF_WARM)) {
+    if (type->in_species("MAMMAL") || type->in_species("BIRD")) {
         monster_resistance = 1.0;
-    } else if (has_flag(MF_COLD)) {
+    } else if (type->in_species("WORM") || type->in_species("ZOMBIE")) {
         monster_resistance = 0.5;
-    } else if (has_flag(MF_ELECTRONIC)) {
+    } else if (type->in_species("ROBOT") || type->in_species("NETHER") || type->in_species("ABBERATION") || type->in_species("HORROR") || type->in_species("UNKNOWN")) {
         monster_resistance = 3.0;
-    } else if (has_flag(MF_INSECT_BLOOD)) {
+    } else if (type->in_species("INSECT") || type->in_species("SPIDER") || type->in_species("MOLLUSK") || type->in_species("AMPHIBIAN") || type->in_species("PLANT") || type->in_species("FUNGUS")) {
         monster_resistance = 0.3;
     }
-    if (has_flag(MF_ICE)) {
-        preferred_temperature = 0;
-    } else if (has_flag(MF_FIRE)) {
-        preferred_temperature = 100;
+    if (has_flag(MF_ICEY)) {
+        preferred_temperature = 32 + abs(absolute_zero_F);;
+    } else if (has_flag(MF_FIREY)) {
+        preferred_temperature = 150 + abs(absolute_zero_F);;
     }
     // Effects of map tiles
     // (nothing at the moment)

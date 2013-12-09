@@ -490,7 +490,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 ter_set(x, y, ter_id(int(ter(x, y)) + 1));
                                 cur->setFieldAge(0); //Fresh level 3 fire.
                                 cur->setFieldDensity(3);
-                                g->explosion(x, y, 40, 0, element = HAS_FIRE); //Boom.
+                                g->explosion(x, y, 40, 0, HAS_FIRE); //Boom.
 
                             } else if (has_flag("FLAMMABLE", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
                                 //The fire feeds on the ground itself until max density.
@@ -614,7 +614,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                     if (has_flag("EXPLODES", fx, fy) && one_in(8 - cur->getFieldDensity()) &&
                                         tr_brazier != tr_at(x, y) && (has_flag("FIRE_CONTAINER", x, y) != true ) ) {
                                         ter_set(fx, fy, ter_id(int(ter(fx, fy)) + 1));
-                                        g->explosion(fx, fy, 40, 0, element = HAS_FIRE); //Nearby explodables? blow em up.
+                                        g->explosion(fx, fy, 40, 0, HAS_FIRE); //Nearby explodables? blow em up.
                                     } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance && cur->getFieldAge() < 200 &&
                                                tr_brazier != tr_at(x, y) &&
                                                (has_flag("FIRE_CONTAINER", x, y) != true ) &&

@@ -1350,10 +1350,10 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
     g->explosion(x, y, 12, 28);
 
   if (effects.count("NAPALM"))
-    g->explosion(x, y, 18, 0, element = HAS_FIRE);
+    g->explosion(x, y, 18, 0, HAS_FIRE);
 
   if (effects.count("NAPALM_BIG"))
-    g->explosion(x, y, 72, 0, element = HAS_FIRE);
+    g->explosion(x, y, 72, 0, HAS_FIRE);
 
   if (effects.count("MININUKE_MOD")){
     g->explosion(x, y, 200, 0);
@@ -1405,7 +1405,7 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
     g->flashbang(x, y);
 
   if (effects.count("FLAME"))
-    g->explosion(x, y, 4, 0, element = HAS_FIRE);
+    g->explosion(x, y, 4, 0, HAS_FIRE);
 
   if (effects.count("FLARE"))
     g->m.add_field(g, x, y, fd_fire, 1);

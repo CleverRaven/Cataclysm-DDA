@@ -711,7 +711,7 @@ void player::update_bodytemp(game *g)
     const ter_id ter_at_pos = g->m.ter(posx, posy);
     const furn_id furn_at_pos = g->m.furn(posx, posy);
     // Fetches the temperature change due to surrounding tiles
-    int radiante_heat = g->get_radiante_heat(posx, posy);
+    int radiante_heat = g->get_radiante_temperature(posx, posy);
     // When the player is sleeping, he will use floor items for warmth
     int floor_item_warmth = 0;
     // When the player is sleeping, he will use floor bedding for warmth

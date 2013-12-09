@@ -140,6 +140,7 @@ enum m_flag {
     MF_KEENNOSE,            //Keen sense of smell
     MF_STUMBLES,            // Stumbles in its movement
     MF_WARM,                // Warm blooded
+    MF_COLD,                // Cold blooded
     MF_NOHEAD,              // Headshots not allowed!
     MF_HARDTOSHOOT,         // Some shots are actually misses
     MF_GRABS,               // Its attacks may grab us!
@@ -166,6 +167,7 @@ enum m_flag {
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_FIREY,               // Burns stuff and is immune to fire
+    MF_ICEY,                // Freezes stuff and is immune to ice
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by emp blasts, and other stuff
     MF_FUR,                 // May produce fur when butchered

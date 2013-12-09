@@ -4503,7 +4503,7 @@ int iuse::molotov_lit(player *p, item *it, bool t)
     } else {
         point pos = g->find_item(it);
         if (!t) {
-            g->explosion(pos.x, pos.y, 8, 0, element = HAS_FIRE);
+            g->explosion(pos.x, pos.y, 8, 0, HAS_FIRE);
         }
     }
     return 0;
@@ -6264,7 +6264,7 @@ int iuse::artifact(player *p, item *it, bool t)
   case AEA_FIREBALL: {
    point fireball = g->look_around();
    if (fireball.x != -1 && fireball.y != -1)
-    g->explosion(fireball.x, fireball.y, 8, 0, element = HAS_FIRE);
+    g->explosion(fireball.x, fireball.y, 8, 0, HAS_FIRE);
   } break;
 
   case AEA_ADRENALINE:

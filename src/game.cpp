@@ -1345,7 +1345,7 @@ int game::get_temperature(point location)
     return tmp_temperature;
 }
 
-int get_radiante_temperature(int posx, int posy)
+int game::get_radiante_temperature(int posx, int posy)
 {
     // Need to find a way to calculate distance between monster and tile
 
