@@ -3132,8 +3132,12 @@ void vehicle::shift_parts(const int dx, const int dy)
         parts[p].mount_dx -= dx;
         parts[p].mount_dy -= dy;
     }
-    posx += dy;
-    posy -= dx;
+
+    //Don't use the cache as it hasn't been updated yet
+    std::vector<int> origin_parts = parts_at_relative(0, 0, false);
+
+    posx += parts[origin_parts[0]].precalc_dx[0];
+    posy += parts[origin_parts[0]].precalc_dy[0];
 
     refresh();
 
