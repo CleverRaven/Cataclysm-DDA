@@ -182,10 +182,10 @@
       [ "heatpack", 1]
     ],
     [
-      [ "gum", 1]
+      [ "gum", 2]
     ],
     [
-      [ "crackers", 2]
+      [ "crackers", 4]
     ],
     [
       [ "coffee_raw", 1]
@@ -217,10 +217,10 @@
       [ "heatpack", 1]
     ],
     [
-      [ "gum", 1]
+      [ "gum", 2]
     ],
     [
-      [ "crackers", 2]
+      [ "crackers", 4]
     ],
     [
       [ "coffee_raw", 1]
@@ -252,10 +252,10 @@
       [ "heatpack", 1]
     ],
     [
-      [ "gum", 1]
+      [ "gum", 2]
     ],
     [
-      [ "crackers", 2]
+      [ "crackers", 4]
     ],
     [
       [ "coffee_raw", 1]
@@ -272,7 +272,7 @@
   "autolearn": false,
   "components": [
     [
-      [ "slopyyjoe", 1]
+      [ "sloppyjoe", 1]
     ],
     [
       [ "chocolate", 1]
@@ -287,10 +287,10 @@
       [ "heatpack", 1]
     ],
     [
-      [ "gum", 1]
+      [ "gum", 2]
     ],
     [
-      [ "crackers", 2]
+      [ "crackers", 4]
     ],
     [
       [ "coffee_raw", 1]
@@ -322,10 +322,10 @@
       [ "heatpack", 1]
     ],
     [
-      [ "gum", 1]
+      [ "gum", 2]
     ],
     [
-      [ "crackers", 2]
+      [ "crackers", 4]
     ],
     [
       [ "coffee_raw", 1]
@@ -357,10 +357,10 @@
       [ "heatpack", 1]
     ],
     [
-      [ "gum", 1]
+      [ "gum", 2]
     ],
     [
-      [ "crackers", 2]
+      [ "crackers", 4]
     ],
     [
       [ "coffee_raw", 1]
