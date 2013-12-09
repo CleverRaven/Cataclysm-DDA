@@ -168,7 +168,32 @@ void game::init_fields()
             {_("faint glimmer"), _("beam of light"), _("intense beam of light")}, '#',
             {c_blue, c_ltblue, c_white}, {true, true, true}, {false, false, false}, 1,
             {0,0,0}
+        },
+
+        { // Ice mist
+            {_("cold mist"),  _("ice mist"), _("ice fog")},    '8',
+            {c_ltblue, c_cyan, c_blue},  {true, true, true},{false, false, true},  500,
+            {0,0,0}
+        },
+
+        { // Ice on the floor
+            {_("thin ice"),  _("rough ice"), _("smooth ice")},    '#',
+            {c_ltblue, c_cyan, c_blue},  {true, true, true}, {false, false, true},  750,
+            {0,0,0}
+        },
+
+        { // frost on the floor
+            {_("light frost"),  _("frost"), _("dense frost")},    '#',
+            {c_white, c_white, c_white},  {true, true, true}, {false, false, false},  250,
+            {0,0,0}
+        },
+
+        { // Snow on the floor
+            {_("snow"),  _("knee deep snow"), _("waist high snow")},    '#',
+            {c_white, c_white, c_white},  {true, true, true}, {false, false, false},  600,
+            {0,0,0}
         }
+        
     };
     for(int i=0; i<num_fields; i++) {
         fieldlist[i] = tmp_fields[i];
@@ -202,9 +227,9 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
             // Current field not a candidate.
             if( !(a || b) ) { continue; }
             field_entry* tmpfld = m->field_at( x + a, y + b ).findField( curtype );
-            // Candidates are existing non-max-strength fields or navigable tiles with no field.
-            if( ( tmpfld && tmpfld->getFieldDensity() < 3 ) ||
-                ( !tmpfld && m->move_cost( x + a, y + b ) > 0 ) ) {
+            // Candidates are existing fields that are weaker in strength or navigable tiles with no field.
+            if ( ( tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() ) ||
+            ( !tmpfld && m->move_cost( x + a, y + b ) > 0 ) ) {
                 spread.push_back( point( x + a, y + b ) );
             }
         }
@@ -226,6 +251,14 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
     }
 }
 
+/*
+Function: age_ice
+Helper function that returns how much a tile that melts should age due to temperature
+*/
+static int age_ice( int temperature )
+{
+    return (temperature - 32)/4;
+}
 
 bool map::process_fields(game *g)
 {
@@ -258,6 +291,9 @@ bool map::process_fields_in_submap(game *g, int gridn)
     field_id curtype; //Holds cur->getFieldType() as thats what the old system used before rewrite.
 
     bool skipIterIncr = false; // keep track on when not to increment it[erator]
+
+    // For use with temperature related tiles
+    int temperature = g->get_temperature();
 
     //Loop through all tiles in this submap indicated by gridn
     for (int locx = 0; locx < SEEX; locx++) {
@@ -911,6 +947,46 @@ bool map::process_fields_in_submap(game *g, int gridn)
                         }
                         break;
 
+                    case fd_ice_mist:
+                        spread_gas( this, cur, x, y, curtype, 40, 50 );
+                        // Avoid negative ages, otherwise modify age depending on temperature
+                        if ( cur->getFieldAge() < 1 ) {
+                            cur->setFieldAge(1);
+                        }
+                        else {
+                            cur->setFieldAge(cur->getFieldAge() + age_ice(temperature));
+                        }
+                        break;
+
+                    case fd_ice_floor: {
+                        if ( cur->getFieldAge() < 1 ) {
+                            cur->setFieldAge(1);
+                        }
+                        else {
+                            cur->setFieldAge(cur->getFieldAge() + age_ice(temperature));
+                        }
+                    }
+                    break;
+
+                    case fd_frost: {
+                        if ( cur->getFieldAge() < 1 ) {
+                            cur->setFieldAge(1);
+                        }
+                        else {
+                            cur->setFieldAge(cur->getFieldAge() + age_ice(temperature));
+                        }
+                    }
+
+                    case fd_snow: {
+                        if ( cur->getFieldAge() < 1 ) {
+                            cur->setFieldAge(1);
+                        }
+                        else {
+                            cur->setFieldAge(cur->getFieldAge() + age_ice(temperature));
+                        }
+                    }
+                    break;
+
                 } // switch (curtype)
 
                 cur->setFieldAge(cur->getFieldAge() + 1);
@@ -1191,6 +1267,22 @@ void map::step_in_field(int x, int y, game *g)
             //Stepping on an acid vent shuts it down.
             field_list_it = curfield.removeField( fd_acid_vent );
             continue;
+
+        case fd_ice_mist:
+            // This stuff is taken care of in game::get_temperature() and player::update_bodytemp()
+            break;
+
+        case fd_ice_floor:
+            g->u.add_disease("onice", 1, cur->getFieldDensity(), 3);
+            break;
+
+        case fd_snow:
+            switch (cur->getFieldDensity()) {
+                case 3: g->u.moves -= 40; break;
+                case 2: g->u.moves -= 20; break;
+                case 1: g->u.moves -= 10; break;
+            }
+            break;
         }
         ++field_list_it;
     }
@@ -1421,7 +1513,27 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
                 }
             }
             break;
+        case fd_ice_mist:
+            if (!z->has_flag(MF_ICEY)) {
+                switch (cur->getFieldDensity()) {
+                    case 1: z->moves -= rng(10, 20); break;
+                    case 2: z->moves -= rng(20, 40); break;
+                    case 3: z->moves -= rng(40, 80); break;
+                }
+            }
+            break;
 
+        case fd_ice_floor:
+            if (!z->has_flag(MF_ICEY)) {
+                switch (cur->getFieldDensity()) {
+                    // TODO : add something more interesting. More chance to miss? To stumble?
+                    case 1: z->moves -= rng(10, 20); break;
+                    case 2: z->moves -= rng(20, 40); break;
+                    case 3: z->moves -= rng(40, 80); break;
+                }
+            }
+            break;
+ 
         }
         ++field_list_it;
     }

@@ -16,7 +16,7 @@ enum dis_type_enum {
  DI_NULL,
 // Weather
  DI_GLARE, DI_WET,
-// Temperature, the order is important (dependant on bodypart.h)
+// Temperature
  DI_COLD,
  DI_FROSTBITE,
  DI_HOT,
@@ -25,7 +25,7 @@ enum dis_type_enum {
  DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER,
 // Fields
- DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
+ DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING, DI_ONICE,
 // Monsters
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_DEAF, DI_BLIND,
@@ -93,6 +93,7 @@ void game::init_diseases() {
     disease_type_lookup["teargas"] = DI_TEARGAS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
+    disease_type_lookup["onice"] = DI_ONICE;
     disease_type_lookup["boomered"] = DI_BOOMERED;
     disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["spores"] = DI_SPORES;
@@ -191,6 +192,9 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_BOULDERING:
         g->add_msg(_("You are slowed by the rubble."));
+        break;
+    case DI_ONICE:
+        g->add_msg(_("You are careful on the ice."));
         break;
     case DI_BOOMERED:
         g->add_msg(_("You're covered in bile!"));
@@ -744,6 +748,17 @@ void dis_effect(player &p, disease &dis) {
             }
             if (p.dex_cur < 1) {
                 p.dex_cur = 1;
+            }
+            break;
+
+        case DI_ONICE:
+            switch(g->u.disease_intensity("onice")) {
+                case 3: p.moves -= 40; break; // Reduces melee and dodge by 2, and send in random direction
+                case 2: p.moves -= 20; break; // Reduce melee and dodge by 1
+                case 1: p.moves -= 10; break;
+                default:
+                    debugmsg("Something went wrong with DI_ONICE.");
+                    debugmsg("Check disease.cpp");
             }
             break;
 
@@ -1527,6 +1542,7 @@ std::string dis_name(disease& dis)
     case DI_SMOKE: return _("Smoke");
     case DI_TEARGAS: return _("Tear gas");
     case DI_ONFIRE: return _("On Fire");
+    case DI_ONICE: return _("On Ice");
     case DI_BOOMERED: return _("Boomered");
     case DI_SAP: return _("Sap-coated");
 
@@ -2004,6 +2020,24 @@ Your feet are blistering from the intense heat. It is extremely painful.");
             "You are being slowed by climbing over a mountain of rubble.");
         }
         return stream.str();
+
+    case DI_ONICE:
+        switch (dis.intensity){
+        case 1:
+            stream << _(
+            "Your footing is uneasy on this thin ice.");
+            return stream.str();
+        case 2:
+            stream << _(
+            "Melee - 1;   Dodge - 1\n"
+            "The ice below your feet is slippery.");
+            return stream.str();
+        case 3:
+            stream << _(
+            "Melee - 2;   Dodge -2\n"
+            "You have a hard time keeping your balance on this ice!");
+            return stream.str();
+        }
 
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
 

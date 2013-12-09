@@ -805,6 +805,11 @@ void player::update_bodytemp(game *g)
         if ( g->m.get_field_strength( point(posx, posy), fd_fire ) > 2 || trap_at_pos == tr_lava) {
             temp_conv[i] += 15000;
         }
+        // Walking in icy mist is bad for body temp 
+        if ((local_field.findField(fd_ice_mist)))
+          {
+            temp_conv[i] -= 3000 * local_field.findField(fd_ice_mist)->getFieldDensity();
+          }
         // DISEASES
         if (has_disease("flu") && i == bp_head) { temp_conv[i] += 1500; }
         if (has_disease("common_cold")) { temp_conv[i] -= 750; }

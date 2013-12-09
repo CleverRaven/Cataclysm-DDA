@@ -5549,6 +5549,13 @@ void game::explosion(int x, int y, int power, int shrapnel, int element)
    if (element == HAS_FIRE) {
     m.add_field(this, i, j, fd_fire, dam / 10);
    }
+   if (element == HAS_ICE) {
+    m.add_field(this, i, j, fd_frost, dam / 10);
+    if (one_in(3)) 
+     m.add_field(this, i, j, fd_ice_floor, dam / 10);
+    if (one_in(2))
+     m.add_field(this, i, j, fd_ice_mist, dam / 10);
+   }
   }
  }
 
@@ -10610,6 +10617,10 @@ bool game::plmove(int dx, int dy)
  int x = 0;
  int y = 0;
  if (u.has_disease("stunned")) {
+  x = rng(u.posx - 1, u.posx + 1);
+  y = rng(u.posy - 1, u.posy + 1);
+ } else if (u.disease_intensity("onice") == 3 && one_in( 1 + u.resist(bp_feet) * 2 )) {
+  add_msg("You slip on the ice!");
   x = rng(u.posx - 1, u.posx + 1);
   y = rng(u.posy - 1, u.posy + 1);
  } else {
