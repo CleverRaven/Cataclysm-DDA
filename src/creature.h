@@ -44,7 +44,7 @@ class Creature
 
         // fires a projectile at target point, with total_dispersion
         // dispersion. returns the rolled dispersion of the shot.
-        virtual double projectile_attack(game *g, projectile &proj, int targetx, int targety,
+        virtual double projectile_attack(game *g, const projectile &proj, int targetx, int targety,
                 double total_dispersion);
 
         /*
@@ -59,7 +59,7 @@ class Creature
 
         // handles blocking of damage instance. mutates &dam
         virtual bool block_hit(game *g, body_part &bp_hit, int &side,
-            damage_instance &dam) = 0;
+                damage_instance &dam) = 0;
 
         // handles armor absorption (including clothing damage etc)
         // of damage instance. mutates &dam
@@ -76,20 +76,20 @@ class Creature
         // dealt_dam is overwritten with the values of the damage dealt
         // returns hit - dodge (>=0 = hit, <0 = miss)
         virtual int deal_melee_attack(game* g, Creature* source, int hitroll, bool crit,
-                damage_instance& d, dealt_damage_instance &dealt_dam);
+                const damage_instance& d, dealt_damage_instance &dealt_dam);
 
         // makes a ranged projectile attack against the creature
         // dodgeable determines if the dodge stat applies or not, dodge is
         // reduced for ranged attacks
         virtual int deal_projectile_attack(game* g, Creature* source, double missed_by,
-                projectile& proj, dealt_damage_instance &dealt_dam);
+                const projectile& proj, dealt_damage_instance &dealt_dam);
 
         // deals the damage via an attack. Allows armor mitigation etc.
         // Most sources of external damage should use deal_damage
         // Mutates the damage_instance& object passed in to reflect the
         // post-mitigation object
         virtual dealt_damage_instance deal_damage(game* g,
-                Creature* source, body_part bp, int side, damage_instance& d);
+                Creature* source, body_part bp, int side, const damage_instance& d);
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type(const damage_unit& du,

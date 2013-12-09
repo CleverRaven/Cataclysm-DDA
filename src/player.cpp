@@ -329,6 +329,8 @@ void player::pick_name() {
 }
 
 std::string player::disp_name() {
+    if (is_player())
+        return "you";
     return name;
 }
 
@@ -3765,7 +3767,7 @@ void player::on_gethit(game *g, Creature *source, body_part bp_hit,
 }
 
 dealt_damage_instance player::deal_damage(game* g, Creature* source, body_part bp,
-        int side, damage_instance& d) {
+        int side, const damage_instance& d) {
 
     dealt_damage_instance dealt_dams = Creature::deal_damage(g, source, bp, side, d);
     int dam = dealt_dams.total_damage();

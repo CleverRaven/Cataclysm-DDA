@@ -76,7 +76,7 @@ void Creature::reset_stats(game *g) {
  * Damage-related functions
  */
 
-double Creature::projectile_attack(game *g, projectile &proj, int targetx, int targety,
+double Creature::projectile_attack(game *g, const projectile &proj, int targetx, int targety,
         double shot_dispersion) {
     int range = rl_dist(xpos(),ypos(),targetx,targety);
     std::vector<point> trajectory = line_to(xpos(),ypos(),targetx,targety,0);
@@ -87,7 +87,6 @@ double Creature::projectile_attack(game *g, projectile &proj, int targetx, int t
     // It's also generous; missed_by will be rather short.
     double missed_by = double(dice(shot_dispersion,20))/20. * .00325 * range;
 
-    double damage_mult = 1.0;
 
     if (missed_by >= 1.) {
         // We missed D:
@@ -108,13 +107,8 @@ double Creature::projectile_attack(game *g, projectile &proj, int targetx, int t
     ts.tv_sec = 0;
     ts.tv_nsec = BULLET_SPEED;
 
-    proj.impact.mult_damage(damage_mult);
-    proj.payload.mult_damage(damage_mult);
-
     int dam = proj.impact.total_damage() + proj.payload.total_damage();
     it_ammo *curammo = proj.ammo;
-    item ammotmp = item(curammo, 0);
-    ammotmp.charges = 1;
 
     //bool is_bolt = (curammo->type == "bolt" || curammo->type == "arrow");
 
@@ -160,7 +154,6 @@ double Creature::projectile_attack(game *g, projectile &proj, int targetx, int t
         if (mondex != -1 && cur_missed_by <= 1.0) {
             monster &z = g->zombie(mondex);
 
-            damage_instance d = damage_instance::physical(0,dam,0);
             dealt_damage_instance dealt_dam;
             // TODO: add bounce effect application
             z.deal_projectile_attack(g, this, missed_by, proj, dealt_dam);
@@ -170,6 +163,15 @@ double Creature::projectile_attack(game *g, projectile &proj, int targetx, int t
             //splatter(this, blood_traj, dam, &z); TODO: add splatter effects
             //back in
             dam = 0;
+        // TODO: general case this so it works for all npcs, instead of only
+        // player
+        } else if (g->u.xpos() == tx && g->u.ypos() == ty
+                && cur_missed_by <= 1.0) {
+            dealt_damage_instance dealt_dam;
+            g->u.deal_projectile_attack(g, this, missed_by, proj, dealt_dam);
+            std::vector<point> blood_traj = trajectory;
+            blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
+
         } else {
             g->m.shoot(g, tx, ty, dam, i == trajectory.size() - 1, proj.proj_effects);
         }
@@ -179,11 +181,14 @@ double Creature::projectile_attack(game *g, projectile &proj, int targetx, int t
         tx = px;
         ty = py;
     }
+    // we can only drop something if curammo exists
     if (curammo != NULL && proj.drops &&
             !(proj.proj_effects.count("IGNITE")) &&
             !(proj.proj_effects.count("EXPLOSIVE")) &&
             ((curammo->m1 == "wood" && !one_in(5)) ||
             (curammo->m1 != "wood" && !one_in(15))  )) {
+        item ammotmp = item(curammo, 0);
+        ammotmp.charges = 1;
         g->m.add_item_or_charges(tx, ty, ammotmp);
     }
 
@@ -225,10 +230,12 @@ int Creature::hit(game *g, Creature* source, body_part bphurt, int side,
 }
 
 int Creature::deal_melee_attack(game* g, Creature* source, int hitroll, bool critical_hit,
-        damage_instance& d, dealt_damage_instance &dealt_dam) {
+        const damage_instance& dam, dealt_damage_instance &dealt_dam) {
     int dodgeroll = dodge_roll();
     int hit_spread = hitroll - dodgeroll;
     bool missed = hit_spread <= 0;
+
+    damage_instance d = dam; // copy, since we will mutate in block_hit
 
     if (missed) return hit_spread;
 
@@ -304,7 +311,7 @@ int Creature::deal_melee_attack(game* g, Creature* source, int hitroll, bool cri
 }
 
 int Creature::deal_projectile_attack(game* g, Creature* source, double missed_by,
-        projectile& proj, dealt_damage_instance &dealt_dam) {
+        const projectile& proj, dealt_damage_instance &dealt_dam) {
     bool u_see_this = g->u_see(this);
     body_part bp_hit;
     int side = rng(0, 1);
@@ -366,7 +373,7 @@ int Creature::deal_projectile_attack(game* g, Creature* source, double missed_by
             g->add_msg(_("You hit the %s for %d damage."),
                     disp_name().c_str(), dealt_dam.total_damage());
         } else if (u_see_this) {
-            g->add_msg(_("%s shoots the %s."),
+            g->add_msg(_("%s shoots %s."),
                     source->disp_name().c_str(), disp_name().c_str());
         }
     }
@@ -375,9 +382,10 @@ int Creature::deal_projectile_attack(game* g, Creature* source, double missed_by
 }
 
 dealt_damage_instance Creature::deal_damage(game* g, Creature* source, body_part bp, int side,
-        damage_instance& d) {
+        const damage_instance& dam) {
     int total_damage = 0;
     int total_pain = 0;
+    damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
     std::vector<int> dealt_dams(NUM_DT, 0);
 

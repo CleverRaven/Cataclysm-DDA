@@ -281,7 +281,7 @@ public:
  void hurt (hp_part hurt, int dam);
 
  dealt_damage_instance deal_damage(game* g, Creature* source, body_part bp,
-         int side, damage_instance& d);
+         int side, const damage_instance& d);
  void apply_damage(game* g, Creature* source, body_part bp, int side, int amount);
 
  void mod_pain(int npain);

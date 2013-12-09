@@ -199,7 +199,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         damage_instance &d);
     void melee_attack(game *g, Creature &p, bool allow_special = true);
     virtual int deal_projectile_attack(game* g, Creature* source, double missed_by,
-            projectile& proj, dealt_damage_instance &dealt_dam);
+            const projectile& proj, dealt_damage_instance &dealt_dam);
     // TODO: this hit is not the same as the one from Creature, it hits other
     // things. Need to phase out
     int  hit(game *g, Creature &t, body_part &bp_hit); // Returns a damage

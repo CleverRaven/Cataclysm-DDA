@@ -825,7 +825,7 @@ void monster::hit_monster(game *g, int i)
 }
 
 int monster::deal_projectile_attack(game* g, Creature* source, double missed_by,
-        projectile& proj, dealt_damage_instance &dealt_dam) {
+        const projectile& proj, dealt_damage_instance &dealt_dam) {
     bool u_see_mon = g->u_see(this);
     if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && // Maxes out at 50% chance with perfect hit
             !proj.wide) {

@@ -288,6 +288,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         make_gun_sound_effect(g, *this, burst, used_weapon);
 
         double total_dispersion = get_weapon_dispersion(used_weapon);
+        //debugmsg("%f",total_dispersion);
         int range = rl_dist(xpos(), ypos(), tarx, tary);
         // penalties for point-blank
         if (range < (firing->volume/3) && firing->ammo != "shot")

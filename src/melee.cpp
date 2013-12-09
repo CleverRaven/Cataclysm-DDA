@@ -853,13 +853,13 @@ void player::perform_special_attacks(game *g, Creature &t)
  std::string target = t.disp_name();
 
  for (int i = 0; i < special_attacks.size(); i++) {
-  damage_instance d =  damage_instance::physical(
-        special_attacks[i].bash,
-        special_attacks[i].cut,
-        special_attacks[i].stab
-    );
   dealt_damage_instance dealt_dam;
-  t.deal_melee_attack(g, this, hit_roll() * 0.8, false, d, dealt_dam);
+  t.deal_melee_attack(g, this, hit_roll() * 0.8, false,
+        damage_instance::physical(
+            special_attacks[i].bash,
+            special_attacks[i].cut,
+            special_attacks[i].stab
+        ), dealt_dam);
   if (dealt_dam.total_damage() > 0)
       g->add_msg(special_attacks[i].text.c_str());
 
@@ -961,13 +961,11 @@ std::string player::melee_special_effects(game *g, Creature &t, damage_instance&
 // Dump its contents on the ground
   for (int i = 0; i < weapon.contents.size(); i++)
    g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
-  damage_instance shatter_dam = damage_instance::physical(0,rng(0, weapon.volume() * 2),0);
-  deal_damage(g, this, bp_arms, 1,
-          shatter_dam);// Take damage
+   // Take damage
+  deal_damage(g, this, bp_arms, 1,damage_instance::physical(0,rng(0, weapon.volume() * 2),0));
   if (weapon.is_two_handed(this)) {// Hurt left arm too, if it was big
       //redeclare shatter_dam because deal_damage mutates it
-    shatter_dam = damage_instance::physical(0,rng(0, weapon.volume() * 2),0);
-    deal_damage(g, this, bp_arms, 1, shatter_dam);
+    deal_damage(g, this, bp_arms, 1, damage_instance::physical(0,rng(0, weapon.volume() * 2),0));
   }
   d.add_damage(DT_CUT, rng(0, 5 + int(weapon.volume() * 1.5)));// Hurt the monster extra
   remove_weapon();
@@ -993,8 +991,8 @@ std::string player::melee_special_effects(game *g, Creature &t, damage_instance&
   if (weapon.has_flag("HURT_WHEN_PULLED") && one_in(3)) {
     //Sharp objects that injure wielder when pulled from hands (so cutting damage only)
     dump << std::endl << string_format(_("You are hurt by the %s being pulled from your hands!"), weapon.tname().c_str());
-    damage_instance pull_dam = damage_instance::physical(0,weapon.damage_cut()/2,0);
-    deal_damage(g, NULL, bp_hands, random_side(bp_hands), pull_dam);
+    deal_damage(g, NULL, bp_hands, random_side(bp_hands),
+            damage_instance::physical(0,weapon.damage_cut()/2,0));
   }
  } else {
   if (d.total_damage() > 20) { // TODO: change this back to "if it would kill the monster"
