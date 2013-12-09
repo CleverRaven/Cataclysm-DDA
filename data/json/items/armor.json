@@ -6445,7 +6445,7 @@
         "encumbrance" : 0,
         "price" : 200,
         "material" : ["gold", "silver"],
-        "flags" : ["WATCH", "SUPER_FANCY"],
+        "flags" : ["WATCH", "SUPER_FANCY", "SKINTIGHT"],
         "coverage" : 1,
         "symbol" : "[",
         "bashing" : 0,
