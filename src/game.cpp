@@ -5692,6 +5692,49 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
     return;
 }
 
+void game::frost_nova(int x, int y, int radius, int power, bool ignore_player)
+{
+    draw_explosion(x, y, radius, c_blue);
+
+    for (int i = 0 ; i < x ; x++)
+    {
+        for (int j = 0 ; j < y ; y++)
+        {
+            m.add_field(this, i, j, fd_frost, 3);
+            int distance = (abs(i) + abs(j)) / 2; // Pythagoras would disagree, but close enough
+            if (one_in(distance)) m.add_field(this, i, j, fd_ice_mist, std::min(3, radius - distance));
+        }
+    }
+
+    sound(x, y, power*power/2, _("Snap!"));
+    // Critters get hit by the nova
+    for (int i = 0; i < num_zombies(); i++)
+    {
+        monster &critter = _active_monsters[i];
+        if (rl_dist(critter.posx(), critter.posy(), x, y) <= radius)
+        {
+            add_msg(_("%s is caught in the frost nova!"), critter.name().c_str());
+            freeze(critter.posx(), critter.posy(), power);
+        }
+    }
+    // NPCs get hit by the nova
+    for (int i = 0; i < active_npc.size(); i++)
+    {
+        if (rl_dist(active_npc[i]->posx, active_npc[i]->posy, x, y) <= radius)
+        {
+            add_msg(_("%s is caught in the frost nova!"), active_npc[i]->name.c_str());
+            freeze(active_npc[i]->posx, active_npc[i]->posy, power);
+        }
+    }
+    // You get hit by the nova
+    if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player)
+    {
+        add_msg(_("You're caught in the frost nova!"));
+        freeze(u.posx, u.posy, power);
+    }
+    return;
+}
+
 /* Knockback target at (tx,ty) by force number of tiles in direction from (sx,sy) to (tx,ty)
    stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
    dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
@@ -6009,16 +6052,24 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
 
 void game::freeze(int x, int y, int power) 
 {
-    const int zid = mon_at(x, y); 
+    const int zid = mon_at(x, y);
+    int size_factor = 1;
     if (zid != -1) 
         { 
         monster *targ = &_active_monsters[zid]; 
+        switch (targ->type->size) {
+            case MS_TINY:   size_factor =  1; break;
+            case MS_SMALL:  size_factor =  2; break;
+            case MS_MEDIUM: size_factor =  4; break;
+            case MS_LARGE:  size_factor =  8; break;
+            case MS_HUGE:   size_factor = 16; break;
+        }
         if (power > 0 && !targ->has_flag(MF_ICEY)) 
         { 
-            targ->add_effect(ME_FROZEN, power); 
+            targ->add_effect(ME_FROZEN, power/size_factor); 
             add_msg(ngettext("%s was frozen for %d turn!", 
-                             "%s was frozen for %d turns!", power), 
-                             targ->name().c_str(), power); 
+                             "%s was frozen for %d turns!", power/size_factor), 
+                             targ->name().c_str(), power/size_factor); 
         } 
     } 
 } 

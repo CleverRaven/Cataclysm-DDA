@@ -383,6 +383,11 @@ class game
  // ignore_player determines if player is affected, useful for bionic, etc.
  void shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player);
 
+ // frost_nova applies freeze to all targets within radius of (x,y)
+ // parameters force are passed to freeze()
+ // ignore_player determines if player is affected, useful for bionic, etc.
+ void frost_nova(int x, int y, int radius, int power, bool ignore_player);
+
 
 // Animation related functions
   void draw_explosion(int x, int y, int radius, nc_color col);
