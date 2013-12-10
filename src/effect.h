@@ -7,6 +7,9 @@
 
 class game;
 class Creature;
+class effect_type;
+
+extern std::map<std::string, effect_type> effect_types;
 
 class effect_type
 {
@@ -45,7 +48,7 @@ class effect_type
         std::string remove_memorial_log;
 };
 
-class effect
+class effect : public JsonSerializer, public JsonDeserializer
 {
     public:
         effect();
@@ -69,13 +72,28 @@ class effect
           return eff_type->id;
         }
 
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &json) const {
+        json.start_object();
+        json.member("eff_type", eff_type != NULL ? eff_type->id : "");
+        json.member("duration", duration);
+        json.member("intensity", intensity);
+        json.end_object();
+    }
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin) {
+        JsonObject jo = jsin.get_object();
+        eff_type = &effect_types[jo.get_string("eff_type")];
+        duration = jo.get_int("duration");
+        intensity = jo.get_int("intensity");
+    }
+
     protected:
         effect_type* eff_type;
         int duration;
         int intensity;
-};
 
-extern std::map<std::string, effect_type> effect_types;
+};
 
 void load_effect_type(JsonObject& jo);
 #endif

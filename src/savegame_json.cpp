@@ -180,6 +180,7 @@ void player::json_load_common_variables(JsonObject & data)
 
     data.read("ma_styles",ma_styles);
     data.read("illness",illness);
+    data.read("effects",effects);
     data.read("addictions",addictions);
     data.read("my_bionics",my_bionics);
 }
@@ -252,6 +253,7 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // disease
     json.member( "illness", illness );
+    json.member( "effects", effects );
 
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
