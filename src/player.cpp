@@ -3619,6 +3619,10 @@ int player::rust_rate(bool real_life)
     if (has_trait("FORGETFUL")) {
         ret *= 1.33;
     }
+    
+    if (has_trait("GOODMEMORY")) {
+        ret *= .66;
+    }
 
     if (ret < 0) {
         ret = 0;
