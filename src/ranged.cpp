@@ -1024,8 +1024,8 @@ double player::get_weapon_dispersion(item *weapon) {
     // lot. This is kind of a compromise
     if (has_bionic("bio_targeting"))
         dispersion *= 0.75;
-    if ((p.is_underwater() && !p.weapon.has_flag("UNDERWATER_GUN")) || // Range is effectively four times longer when shooting unflagged guns underwater.
-            (!p.is_underwater() && p.weapon.has_flag("UNDERWATER_GUN"))) { // Range is effectively four times longer when shooting flagged guns out of water.
+    if ((is_underwater() && !weapon->has_flag("UNDERWATER_GUN")) || // Range is effectively four times longer when shooting unflagged guns underwater.
+            (!is_underwater() && weapon->has_flag("UNDERWATER_GUN"))) { // Range is effectively four times longer when shooting flagged guns out of water.
         dispersion *= 4;
     }
 

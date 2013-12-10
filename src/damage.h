@@ -13,6 +13,7 @@ class game;
 struct itype;
 struct it_ammo;
 class item;
+class monster;
 
 enum damage_type
 {
@@ -83,8 +84,11 @@ struct resistances {
     resistances();
 
     resistances(item& armor);
+    resistances(monster& monster);
     void set_resist(damage_type dt, int amount);
     int type_resist(damage_type dt) const;
+
+    float get_effective_resist(const damage_unit& du);
 };
 
 struct projectile {

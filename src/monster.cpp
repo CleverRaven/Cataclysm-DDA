@@ -596,7 +596,11 @@ bool monster::block_hit(game *g, body_part &bp_hit, int &side,
 
 void monster::absorb_hit(game *g, body_part bp, int side,
         damage_instance &dam) {
-    return;
+    for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
+            it != dam.damage_units.end(); ++it) {
+        it->amount -= std::min(resistances(*this).get_effective_resist(*it),
+                it->amount);
+    }
 }
 
 
@@ -846,12 +850,25 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     switch (du.type) {
     case DT_ELECTRIC:
         if (has_flag(MF_ELECTRIC)) {
-            damage -= du.amount; // immunity, since it will be re-added again in base method
+            damage += 0; // immunity
+            pain += 0;
+            return; // returns, since we don't want a fallthrough
         }
+        break;
     case DT_COLD:
         if (!has_flag(MF_WARM)) {
-            damage -= du.amount; // immunity
+            damage += 0; // immunity
+            pain += 0;
+            return;
         }
+        break;
+    case DT_BASH:
+        if (has_flag(MF_PLASTIC)) {
+            damage += du.amount / rng(2,4); // lessened effect
+            pain += du.amount / 4;
+            return;
+        }
+        break;
     }
 
     Creature::deal_damage_handle_type(du, bp, damage, pain);

@@ -8979,29 +8979,13 @@ void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
         }
     }
 }
-float get_effective_resist(damage_unit& du, const resistances& resists) {
-    float effective_resist = 0.f;
-    switch (du.type) {
-    case DT_BASH:
-        effective_resist = std::max(resists.type_resist(DT_BASH) - du.res_pen,0)*du.res_mult;
-        break;
-    case DT_CUT:
-        effective_resist = std::max(resists.type_resist(DT_CUT) - du.res_pen,0)*du.res_mult;
-        break;
-    case DT_STAB:
-        effective_resist = std::max(resists.type_resist(DT_STAB) - du.res_pen,0)*du.res_mult;
-        break;
-    default: // TODO: DT_ACID/HEAT vs env protection, DT_COLD vs warmth
-        effective_resist = 0;
-    }
-    return effective_resist;
-}
+
 // mutates du, returns true iff armor was damaged
 bool player::armor_absorb(damage_unit& du, item& armor) {
     it_armor* armor_type = dynamic_cast<it_armor*>(armor.type);
 
     float mitigation = 0; // total amount of damage mitigated
-    float effective_resist = get_effective_resist(du, resistances(armor));
+    float effective_resist = resistances(armor).get_effective_resist(du);
     bool armor_damaged = false;
 
     std::string pre_damage_name = armor.tname();

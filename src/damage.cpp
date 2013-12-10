@@ -1,4 +1,5 @@
 #include "item.h"
+#include "monster.h"
 #include "game.h"
 #include "damage.h"
 
@@ -53,7 +54,6 @@ int dealt_damage_instance::total_damage() const {
 
 
 resistances::resistances() : resist_vals(NUM_DT, 0) { }
-
 resistances::resistances(item& armor) : resist_vals(NUM_DT, 0) {
     if (armor.is_armor()) {
         set_resist(DT_BASH, armor.bash_resist());
@@ -61,11 +61,33 @@ resistances::resistances(item& armor) : resist_vals(NUM_DT, 0) {
         set_resist(DT_STAB, 0.8*armor.cut_resist()); // stab dam cares less bout armor
     }
 }
+resistances::resistances(monster& monster) : resist_vals(NUM_DT, 0) {
+    set_resist(DT_BASH, monster.type->armor_bash);
+    set_resist(DT_CUT, monster.type->armor_cut);
+    set_resist(DT_STAB, 0.8*monster.type->armor_cut); // stab dam cares less bout armor
+}
 void resistances::set_resist(damage_type dt, int amount) {
     resist_vals[dt] = amount;
 }
 int resistances::type_resist(damage_type dt) const {
     return resist_vals[dt];
+}
+float resistances::get_effective_resist(const damage_unit& du) {
+    float effective_resist = 0.f;
+    switch (du.type) {
+    case DT_BASH:
+        effective_resist = std::max(type_resist(DT_BASH) - du.res_pen,0)*du.res_mult;
+        break;
+    case DT_CUT:
+        effective_resist = std::max(type_resist(DT_CUT) - du.res_pen,0)*du.res_mult;
+        break;
+    case DT_STAB:
+        effective_resist = std::max(type_resist(DT_STAB) - du.res_pen,0)*du.res_mult;
+        break;
+    default: // TODO: DT_ACID/HEAT vs env protection, DT_COLD vs warmth
+        effective_resist = 0;
+    }
+    return effective_resist;
 }
 
 
