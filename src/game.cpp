@@ -10975,6 +10975,8 @@ bool game::plmove(int dx, int dy)
   if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES")) {
    if (u.has_trait("LIGHTSTEP"))
     sound(x, y, 2, ""); // Sound of footsteps may awaken nearby monsters
+   else if (u.has_trait("CLUMSY"))
+    sound(x, y, 10, ""); // Sound of footsteps may awaken nearby monsters
    else
     sound(x, y, 6, ""); // Sound of footsteps may awaken nearby monsters
   }

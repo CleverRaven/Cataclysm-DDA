@@ -3458,6 +3458,8 @@ bool player::avoid_trap(trap* tr)
   traproll = dice(6, tr->avoidance);
  if (has_trait("LIGHTSTEP"))
   myroll += dice(2, 6);
+ if (has_trait("CLUMSY"))
+  myroll -= dice(2, 6);
  if (myroll >= traproll)
   return true;
  return false;

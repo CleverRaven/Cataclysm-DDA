@@ -266,7 +266,8 @@
         "points" : 1,
         "description" : "You make less noise while walking. You're also less likely to set off traps.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA"]
+        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA"],
+        "cancels" : ["CLUMSY"]
     },{
         "type" : "mutation",
         "id" : "ROBUST",
@@ -499,6 +500,14 @@
         "starting_trait" : true,
         "valid" : false,
         "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "CLUMSY",
+        "name" : "Clumsy",
+        "points" : -1,
+        "description" : "You make more noise while walking. You're also more likely to set off traps.",
+        "starting_trait" : true,
+        "cancels" : ["LIGHTSTEP"]
     },{
         "type" : "mutation",
         "id" : "JITTERY",
