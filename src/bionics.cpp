@@ -41,141 +41,225 @@ bionic_id game::random_good_bionic() const
     return random_bionic->first;
 }
 
-// helper function for power_bionics
-void show_power_level_in_titlebar(WINDOW* window, player* p)
+void show_bionics_titlebar(WINDOW *window, player *p, bool activating, bool reassigning)
 {
-    mvwprintz(window, 1, 62, c_white, _("Power: %d/%d"), p->power_level, p->max_power_level);
+    werase(window);
+    mvwprintz(window, 0,  0, c_blue, _("BIONICS -"));
+    if(reassigning) {
+        mvwprintz(window, 0, 10, c_white, _("Reassigning. Press SPACE to cancel or"));
+        mvwprintz(window, 1, 10, c_white, _("select a bionic to reassign."));
+    } else if(activating) {
+        mvwprintz(window, 0, 10, c_white, _("Activating. Press '!' to examine your implants."));
+        mvwprintz(window, 1, 10, c_white, _("Press '=' to reassign a key."));
+    } else {
+        mvwprintz(window, 0, 10, c_white, _("Examining. Press '!' to activate your implants."));
+        mvwprintz(window, 1, 10, c_white, _("Press '=' to reassign a key."));
+    }
+    mvwprintz(window, 0, 61, c_white, _("Power: %d/%d"), p->power_level, p->max_power_level);
+    wrefresh(window);
 }
 
 void player::power_bionics(game *g)
 {
     int HEIGHT = TERMY;
     int WIDTH = FULL_SCREEN_WIDTH;
-    int START_X = (TERMX - WIDTH)/2;
-    int START_Y = (TERMY - HEIGHT)/2;
- WINDOW* wBio = newwin(HEIGHT, WIDTH, START_Y, START_X);
+    int START_X = (TERMX - WIDTH) / 2;
+    int START_Y = (TERMY - HEIGHT) / 2;
+    WINDOW *wBio = newwin(HEIGHT, WIDTH, START_Y, START_X);
     int DESCRIPTION_WIDTH = WIDTH - 2; // Same width as bionics window minus 2 for the borders
     int DESCRIPTION_HEIGHT = 3;
     int DESCRIPTION_START_X = getbegx(wBio) + 1; // +1 to avoid border
-    int DESCRIPTION_START_Y = getmaxy(wBio) - DESCRIPTION_HEIGHT - 1; // At the bottom of the bio window, -1 to avoid border
- WINDOW* w_description = newwin(DESCRIPTION_HEIGHT, DESCRIPTION_WIDTH, DESCRIPTION_START_Y, DESCRIPTION_START_X);
+    int DESCRIPTION_START_Y = getmaxy(wBio) - DESCRIPTION_HEIGHT -
+                              1; // At the bottom of the bio window, -1 to avoid border
+    WINDOW *w_description = newwin(DESCRIPTION_HEIGHT, DESCRIPTION_WIDTH, DESCRIPTION_START_Y,
+                                   DESCRIPTION_START_X);
 
- werase(wBio);
- draw_border(wBio);
+    int TITLE_WIDTH = DESCRIPTION_WIDTH;
+    int TITLE_HEIGHT = 2;
+    int TITLE_START_X = DESCRIPTION_START_X;
+    int TITLE_START_Y = START_Y + 1;
+    WINDOW *w_title = newwin(TITLE_HEIGHT, TITLE_WIDTH, TITLE_START_Y,
+                             TITLE_START_X);
 
- std::vector <bionic> passive;
- std::vector <bionic> active;
- int HEADER_TEXT_Y = START_Y + 1;
- mvwprintz(wBio, HEADER_TEXT_Y,  1, c_blue, _("BIONICS -"));
- mvwprintz(wBio, HEADER_TEXT_Y, 11, c_white, _("Activating.  Press '!' to examine your implants."));
- show_power_level_in_titlebar(wBio, this);
+    int scroll_position = 0;
+    bool redraw = true;
+    bool reassigning = false;
+    bool activating = true;
 
- int HEADER_LINE_Y = START_Y + 2;
- int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - 1;
- for (int i = 1; i < 79; i++) {
-  mvwputch(wBio, HEADER_LINE_Y, i, c_ltgray, LINE_OXOX); // Draw line under title
-  mvwputch(wBio, DESCRIPTION_LINE_Y, i, c_ltgray, LINE_OXOX); // Draw line above description
- }
-
- // Draw symbols to connect additional lines to border
- mvwputch(wBio, HEADER_LINE_Y,  0, c_ltgray, LINE_XXXO); // |-
- mvwputch(wBio, HEADER_LINE_Y, 79, c_ltgray, LINE_XOXX); // -|
-
- mvwputch(wBio, DESCRIPTION_LINE_Y,  0, c_ltgray, LINE_XXXO); // |-
- mvwputch(wBio, DESCRIPTION_LINE_Y, 79, c_ltgray, LINE_XOXX); // -|
-
- for (unsigned i = 0; i < my_bionics.size(); i++) {
-  if (!bionics[my_bionics[i].id]->activated)
-   passive.push_back(my_bionics[i]);
-  else
-   active.push_back(my_bionics[i]);
- }
- nc_color type;
- if (!passive.empty()) {
-  mvwprintz(wBio, 3, 1, c_ltblue, _("Passive:"));
-  for (unsigned i = 0; i < passive.size(); i++) {
-   if (bionics[passive[i].id]->power_source)
-    type = c_ltcyan;
-   else
-    type = c_cyan;
-   mvwputch(wBio, 4 + i, 1, type, passive[i].invlet);
-   mvwprintz(wBio, 4 + i, 3, type, bionics[passive[i].id]->name.c_str());
-  }
- }
- if (!active.empty()) {
-  mvwprintz(wBio, 3, 33, c_ltblue, _("Active:"));
-  for (unsigned i = 0; i < active.size(); i++) {
-   if (active[i].powered && !bionics[active[i].id]->power_source)
-    type = c_red;
-    else if (bionics[active[i].id]->power_source && !active[i].powered)
-    type = c_ltcyan;
-    else if (bionics[active[i].id]->power_source && active[i].powered)
-    type = c_ltgreen;
-   else
-    type = c_ltred;
-
-   mvwputch(wBio, 4 + i, 33, type, active[i].invlet);
-   mvwprintz(wBio, 4 + i, 35, type,
-             (active[i].powered ? _("%s - ON") : _("%s - %d PU / %d trns")),
-             bionics[active[i].id]->name.c_str(),
-             bionics[active[i].id]->power_cost,
-             bionics[active[i].id]->charge_time);
-  }
- }
- wrefresh(wBio);
- char ch;
- bool activating = true;
- bionic *tmp = NULL;
- int b = 0;
- do {
-  ch = getch();
-  if (ch == '!') {
-   activating = !activating;
-   if (activating)
-    mvwprintz(wBio, 1, 11, c_white, _("Activating.  Press '!' to examine your implants."));
-   else
-    mvwprintz(wBio, 1, 11, c_white, _("Examining.  Press '!' to activate your implants."));
-  } else if (ch == ' ')
-   ch = KEY_ESCAPE;
-  else if (ch != KEY_ESCAPE) {
-   for (unsigned i = 0; i < my_bionics.size(); i++) {
-    if (ch == my_bionics[i].invlet) {
-     tmp = &my_bionics[i];
-     b = i;
-     ch = KEY_ESCAPE;
+    std::vector <bionic *> passive;
+    std::vector <bionic *> active;
+    for (unsigned i = 0; i < my_bionics.size(); i++) {
+        if (!bionics[my_bionics[i].id]->activated) {
+            passive.push_back(&my_bionics[i]);
+        } else {
+            active.push_back(&my_bionics[i]);
+        }
     }
-   }
-   if (ch == KEY_ESCAPE) {
-    if (activating) {
-     if (bionics[tmp->id]->activated) {
-      show_power_level_in_titlebar(wBio, this);
-      itype_id weapon_id = weapon.type->id;
-      if (tmp->powered) {
-       tmp->powered = false;
-       g->add_msg(_("%s powered off."), bionics[tmp->id]->name.c_str());
-      } else if (power_level >= bionics[tmp->id]->power_cost ||
-                 (weapon_id == "bio_claws_weapon" && tmp->id == "bio_claws_weapon"))
-       activate_bionic(b, g);
-     } else
-      mvwprintz(wBio, 21, 1, c_ltred, _("\
+
+    int HEADER_LINE_Y = TITLE_START_Y + TITLE_HEIGHT; // + lines with text in titlebar
+    int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - 1;
+
+    // maximal number of rows in both columns
+    const int bionic_count = std::max(passive.size(), active.size());
+    // number of rows with bionics shown (+1 for displaying "Passiv:"/"Active:")
+    const int bionic_display_height = DESCRIPTION_LINE_Y - HEADER_LINE_Y - 2;
+    int max_scroll_position = bionic_count - bionic_display_height;
+
+    while(true) {
+        // offset for display: bionic with index i is drawn at y=list_start_y+i
+        // the header ("Passiv:"/"Active:") is drawn at y=HEADER_LINE_Y+1
+        // drawing the bionics starts with bionic[scroll_position]
+        const int list_start_y = HEADER_LINE_Y + 2 - scroll_position;
+        if(redraw) {
+            redraw = false;
+
+            werase(wBio);
+            draw_border(wBio);
+
+            for (int i = 1; i < WIDTH - 1; i++) {
+                mvwputch(wBio, HEADER_LINE_Y, i, c_ltgray, LINE_OXOX); // Draw line under title
+                mvwputch(wBio, DESCRIPTION_LINE_Y, i, c_ltgray, LINE_OXOX); // Draw line above description
+            }
+
+            // Draw symbols to connect additional lines to border
+            mvwputch(wBio, HEADER_LINE_Y,  0, c_ltgray, LINE_XXXO); // |-
+            mvwputch(wBio, HEADER_LINE_Y, WIDTH - 1, c_ltgray, LINE_XOXX); // -|
+
+            mvwputch(wBio, DESCRIPTION_LINE_Y,  0, c_ltgray, LINE_XXXO); // |-
+            mvwputch(wBio, DESCRIPTION_LINE_Y, WIDTH - 1, c_ltgray, LINE_XOXX); // -|
+
+            nc_color type;
+            mvwprintz(wBio, HEADER_LINE_Y + 1, 1, c_ltblue, _("Passive:"));
+            for (unsigned i = scroll_position; i < passive.size(); i++) {
+                if (list_start_y + i == DESCRIPTION_LINE_Y) {
+                    break;
+                }
+                if (bionics[passive[i]->id]->power_source) {
+                    type = c_ltcyan;
+                } else {
+                    type = c_cyan;
+                }
+                mvwputch(wBio, list_start_y + i, 2, type, passive[i]->invlet);
+                mvwprintz(wBio, list_start_y + i, 4, type, bionics[passive[i]->id]->name.c_str());
+            }
+            mvwprintz(wBio, HEADER_LINE_Y + 1, 33, c_ltblue, _("Active:"));
+            for (unsigned i = scroll_position; i < active.size(); i++) {
+                if (list_start_y + i == DESCRIPTION_LINE_Y) {
+                    break;
+                }
+                if (active[i]->powered && !bionics[active[i]->id]->power_source) {
+                    type = c_red;
+                } else if (bionics[active[i]->id]->power_source && !active[i]->powered) {
+                    type = c_ltcyan;
+                } else if (bionics[active[i]->id]->power_source && active[i]->powered) {
+                    type = c_ltgreen;
+                } else {
+                    type = c_ltred;
+                }
+
+                mvwputch(wBio, list_start_y + i, 33, type, active[i]->invlet);
+                mvwprintz(wBio, list_start_y + i, 35, type,
+                          (active[i]->powered ? _("%s - ON") : _("%s - %d PU / %d trns")),
+                          bionics[active[i]->id]->name.c_str(),
+                          bionics[active[i]->id]->power_cost,
+                          bionics[active[i]->id]->charge_time);
+            }
+            if(scroll_position > 0) {
+                mvwputch(wBio, 5, 0, c_ltgreen, '^');
+            }
+            if(scroll_position < max_scroll_position && max_scroll_position > 0) {
+                mvwputch(wBio, 5 + bionic_display_height - 1, 0, c_ltgreen, 'v');
+            }
+        }
+        wrefresh(wBio);
+        show_bionics_titlebar(w_title, this, activating, reassigning);
+        long ch = getch();
+        bionic *tmp = NULL;
+        if (reassigning) {
+            reassigning = false;
+            tmp = bionic_by_invlet(ch);
+            if(tmp == 0) {
+                // Selected an non-existing bionic (or escape, or ...)
+                continue;
+            }
+            redraw = true;
+            const char newch = popup_getkey(_("%s; enter new letter."),
+                                            bionics[tmp->id]->name.c_str());
+            wrefresh(wBio);
+            if(newch == ch || newch == ' ' || newch == KEY_ESCAPE) {
+                continue;
+            }
+            bionic *otmp = bionic_by_invlet(newch);
+            // if there is already a bionic with the new invlet, the invlet
+            // is considered valid.
+            if(otmp == 0 && inv_chars.find(newch) == std::string::npos) {
+                // TODO separate list of letters for bionics
+                popup(_("%c is not a valid inventory letter."), newch);
+                continue;
+            }
+            if(otmp != 0) {
+                std::swap(tmp->invlet, otmp->invlet);
+            } else {
+                tmp->invlet = newch;
+            }
+            // TODO: show a message like when reassigning a key to an item?
+        } else if (ch == KEY_DOWN) {
+            if(scroll_position < max_scroll_position) {
+                scroll_position++;
+                redraw = true;
+            }
+        } else if (ch == KEY_UP) {
+            if(scroll_position > 0) {
+                scroll_position--;
+                redraw = true;
+            }
+        } else if (ch == '=') {
+            reassigning = true;
+        } else if (ch == '!') {
+            activating = !activating;
+        } else {
+            tmp = bionic_by_invlet(ch);
+            if(tmp == 0) {
+                // entered a key that is not mapped to any bionic,
+                // -> leave screen
+                break;
+            }
+            const std::string &bio_id = tmp->id;
+            const bionic_data &bio_data = *bionics[bio_id];
+            if (activating) {
+                if (bio_data.activated) {
+                    itype_id weapon_id = weapon.type->id;
+                    if (tmp->powered) {
+                        tmp->powered = false;
+                        g->add_msg(_("%s powered off."), bio_data.name.c_str());
+                    } else if (power_level >= bio_data.power_cost ||
+                               (weapon_id == "bio_claws_weapon" && bio_id == "bio_claws_weapon")) {
+                        int b = tmp - &my_bionics[0];
+                        activate_bionic(b, g);
+                    }
+                    // Action done, leave screen
+                    break;
+                } else {
+                    popup(_("\
 You can not activate %s!  To read a description of \
-%s, press '!', then '%c'."), bionics[tmp->id]->name.c_str(),
-                            bionics[tmp->id]->name.c_str(), tmp->invlet);
-    } else { // Describing bionics, not activating them!
-// Clear the lines first
-     ch = 0;
-     werase(w_description);
-     fold_and_print(w_description, 0, 0, 78, c_ltblue, bionics[tmp->id]->description.c_str());
+%s, press '!', then '%c'."), bio_data.name.c_str(),
+                          bio_data.name.c_str(), tmp->invlet);
+                    redraw = true;
+                }
+            } else { // Describing bionics, not activating them!
+                // Clear the lines first
+                werase(w_description);
+                fold_and_print(w_description, 0, 0, WIDTH - 2, c_ltblue, bio_data.description.c_str());
+            }
+        }
+        wrefresh(w_description);
     }
-   }
-  }
-  wrefresh(w_description);
-  wrefresh(wBio);
- } while (ch != KEY_ESCAPE);
- werase(wBio);
- wrefresh(wBio);
- delwin(wBio);
- erase();
+    werase(wBio);
+    wrefresh(wBio);
+    delwin(w_title);
+    delwin(w_description);
+    delwin(wBio);
+    erase();
 }
 
 // Why put this in a Big Switch?  Why not let bionics have pointers to
