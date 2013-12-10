@@ -1524,12 +1524,14 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
             break;
 
         case fd_ice_floor:
+            int stumble_penalty = 1;
+            if (z->has_flag(MF_STUMBLES)) stumble_penalty = 2;
             if (!(z->has_flag(MF_ICEY) && z->has_flag(MF_DIGS) && z->has_flag(MF_FLIES))) {
                 switch (cur->getFieldDensity()) {
                     // TODO : add something more interesting. More chance to miss? To stumble?
-                    case 1: z->moves -= rng(10, 20); break;
-                    case 2: z->moves -= rng(20, 40); break;
-                    case 3: z->moves -= rng(40, 80); break;
+                    case 1: z->moves -= rng(10, 20) * stumble_penalty; break;
+                    case 2: z->moves -= rng(20, 40) * stumble_penalty; break;
+                    case 3: z->moves -= rng(40, 80) * stumble_penalty; break;
                 }
             }
             break;
