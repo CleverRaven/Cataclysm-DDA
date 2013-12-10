@@ -5219,6 +5219,8 @@ int player::weight_capacity(bool real_life)
  int ret = 13000 + str * 4000;
  if (has_trait("BADBACK"))
   ret = int(ret * .65);
+ if (has_trait("STRONGBACK"))
+  ret = int(ret * 1.35);
  if (has_trait("LIGHT_BONES"))
   ret = int(ret * .80);
  if (has_trait("HOLLOW_BONES"))
@@ -5242,6 +5244,8 @@ int player::volume_capacity()
   ret += 16;
  if (has_trait("PACKMULE"))
   ret = int(ret * 1.4);
+ if (has_trait("DISORGANIZED"))
+  ret = int(ret * 0.6);
  return ret;
 }
 

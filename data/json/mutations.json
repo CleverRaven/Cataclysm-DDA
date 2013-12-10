@@ -133,6 +133,15 @@
         "valid" : false
     },{
         "type" : "mutation",
+        "id" : "STRONGBACK",
+        "name" : "Strong Back",
+        "points" : 3,
+        "description" : "You are capable of carrying far more than someone with similar strength could. Your maximum weight carried is increased by 35%.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["BADBACK"]
+    },{
+        "type" : "mutation",
         "id" : "FASTLEARNER",
         "name" : "Fast Learner",
         "points" : 3,
@@ -347,6 +356,15 @@
         "description" : "You simply can not carry as much as people with a similar strength could. Your maximum weight carried is reduced by 35%.",
         "starting_trait" : true,
         "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA"]
+    },{
+        "type" : "mutation",
+        "id" : "DISORGANIZED",
+        "name" : "Disorganized",
+        "points" : -3,
+        "description" : "You are terrible at organizing and storing your possessions. You can carry 40% less volume.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["PACKMULE"]
     },{
         "type" : "mutation",
         "id" : "ILLITERATE",
