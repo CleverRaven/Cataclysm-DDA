@@ -846,6 +846,7 @@ void game::process_activity()
  it_book* reading;
  item* book_item;
  item* reloadable;
+ vehicle *veh;
  bool no_recipes;
  if (u.activity.type != ACT_NULL) {
   if (int(turn) % 50 == 0) {
@@ -876,7 +877,7 @@ void game::process_activity()
     u.pause(this);
 
   } else if (u.activity.type == ACT_REFILL_VEHICLE) {
-   vehicle *veh = m.veh_at( u.activity.placement.x, u.activity.placement.y );
+   veh = m.veh_at( u.activity.placement.x, u.activity.placement.y );
    if (!veh) {  // Vehicle must've moved or something!
     u.activity.moves_left = 0;
     return;
@@ -1108,6 +1109,8 @@ void game::process_activity()
     break;
 
    case ACT_VEHICLE:
+    //Grab this now, in case the vehicle gets shifted
+    veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
     complete_vehicle (this);
     break;
    }
@@ -1124,7 +1127,6 @@ void game::process_activity()
                 u.activity.values.size());
     }
     else {
-     vehicle *veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
      if (veh) {
       exam_vehicle(*veh, u.activity.values[0], u.activity.values[1],
                          u.activity.values[2], u.activity.values[3]);
