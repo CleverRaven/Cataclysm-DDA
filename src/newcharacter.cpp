@@ -278,6 +278,9 @@ bool player::create(game *g, character_type type, std::string tempname)
     if (has_trait("SMELLY")) {
         scent = 800;
     }
+    if (has_trait("INODOROUS")) {
+        scent = 300;
+    }
 
     if (has_trait("MARTIAL_ARTS")) {
         matype_id ma_type;
