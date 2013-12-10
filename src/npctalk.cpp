@@ -760,6 +760,9 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   if (ability <= 10)
    return "&You can't make anything out.";
 
+  if (ability > 100)
+   ability = 100;
+
   std::stringstream info;
   info << "&";
   int str_range = int(100 / ability);
@@ -1727,7 +1730,7 @@ void talk_function::give_equipment(game *g, npc *p)
  p->init_selling(giving, prices);
  int chosen = -1;
  if (giving.empty()) {
-  invslice slice = p->inv.slice(0, p->inv.size());
+  invslice slice = p->inv.slice();
   for (int i = 0; i < slice.size(); i++) {
    giving.push_back(&slice[i]->front());
    prices.push_back(slice[i]->front().price());

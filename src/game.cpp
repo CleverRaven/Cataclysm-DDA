@@ -515,19 +515,19 @@ void game::create_starting_npcs()
     if(!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
         return; //Do not generate a starting npc.
     }
- npc * tmp = new npc();
- tmp->normalize(this);
- tmp->randomize(this, (one_in(2) ? NC_DOCTOR : NC_NONE));
- tmp->spawn_at(cur_om, levx, levy, levz); //spawn the npc in the overmap.
- tmp->place_near(this, SEEX * int(MAPSIZE / 2) + SEEX, SEEY * int(MAPSIZE / 2) + 6);
- tmp->form_opinion(&u);
- tmp->attitude = NPCATT_NULL;
- tmp->mission = NPC_MISSION_SHELTER; //This sets the npc mission. This NPC remains in the shelter.
- tmp->chatbin.first_topic = TALK_SHELTER;
- tmp->chatbin.missions.push_back(
-     reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp->getID()) ); //one random shelter mission/
+    npc * tmp = new npc();
+    tmp->normalize(this);
+    tmp->randomize(this, (one_in(2) ? NC_DOCTOR : NC_NONE));
+    tmp->spawn_at(cur_om, levx, levy, levz); //spawn the npc in the overmap.
+    tmp->place_near(this, SEEX * int(MAPSIZE / 2) + SEEX, SEEY * int(MAPSIZE / 2) + 6);
+    tmp->form_opinion(&u);
+    tmp->attitude = NPCATT_NULL;
+    tmp->mission = NPC_MISSION_SHELTER; //This sets the npc mission. This NPC remains in the shelter.
+    tmp->chatbin.first_topic = TALK_SHELTER;
+    tmp->chatbin.missions.push_back(
+        reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp->getID()) ); //one random shelter mission/
 
- active_npc.push_back(tmp);
+    active_npc.push_back(tmp);
 }
 
 void game::cleanup_at_end(){
@@ -860,8 +860,7 @@ void game::process_activity()
     u.activity.moves_left -= 100;
 
     if (u.activity.type == ACT_GAME) {
-      item& game_item = u.weapon.invlet == u.activity.invlet ?
-                            u.weapon : u.inv.item_by_letter(u.activity.invlet);
+      item& game_item = u.i_at(u.activity.position);
 
       //Deduct 1 battery charge for every minute spent playing
       if(int(turn) % 10 == 0) {
@@ -918,12 +917,13 @@ void game::process_activity()
    switch (u.activity.type) {
 
    case ACT_RELOAD:
-    if (u.activity.name[0] == u.weapon.invlet) {
-        reloadable = &u.weapon;
-    } else {
-        reloadable = &u.inv.item_by_letter(u.activity.name[0]);
+    {
+     int reloadable_pos;
+     std::stringstream ss(u.activity.name);
+     ss >> reloadable_pos;
+     reloadable = &u.i_at(reloadable_pos);
     }
-    if (reloadable->reload(u, u.activity.invlet))
+    if (reloadable->reload(u, u.activity.position)) {
      if (reloadable->is_gun() && reloadable->has_flag("RELOAD_ONE")) {
       add_msg(_("You insert a cartridge into your %s."),
               reloadable->tname().c_str());
@@ -935,13 +935,13 @@ void game::process_activity()
       add_msg(_("You reload your %s."), reloadable->tname().c_str());
       u.recoil = 6;
      }
-    else
+    } else {
      add_msg(_("Can't reload your %s."), reloadable->tname().c_str());
+    }
     break;
 
    case ACT_READ:
-    book_item = &(u.weapon.invlet == u.activity.invlet ?
-                            u.weapon : u.inv.item_by_letter(u.activity.invlet));
+    book_item = &(u.i_at(u.activity.position));
     reading = dynamic_cast<it_book*>(book_item->type);
 
     if (reading->fun != 0) {
@@ -1017,9 +1017,9 @@ void game::process_activity()
      if (u.skillLevel(reading->type) == originalSkillLevel && u.activity.continuous) {
       u.cancel_activity();
       if (u.activity.index == -2) {
-       u.read(this,u.weapon.invlet);
+       u.read(this, -1);
       } else {
-       u.read(this,u.activity.invlet);
+       u.read(this, u.activity.position);
       }
       if (u.activity.type != ACT_NULL) {
         u.activity.continuous = true;
@@ -1096,10 +1096,10 @@ void game::process_activity()
 
    case ACT_FIRSTAID:
     {
-      item it = u.inv.item_by_letter(u.activity.invlet);
+      item& it = u.i_at(u.activity.position);
       iuse tmp;
       tmp.completefirstaid(&u, &it, false);
-      u.inv.remove_item_by_charges(u.activity.invlet, 1);
+      u.reduce_charges(u.activity.position, 1);
       // Erase activity and values.
       u.activity.type = ACT_NULL;
       u.activity.values.clear();
@@ -1635,10 +1635,11 @@ void game::handle_key_blocking_activity() {
         timeout(-1);
     }
 }
+
 /* item submenu for 'i' and '/'
 * It use compare_split_screen_popup to draw item info and action menu
 *
-* @param chItem char of item in inventory
+* @param pos position of item in inventory
 * @param iStartX Left coord of the item info window
 * @param iWidth width of the item info window (height = height of terminal)
 * @param position It is position of the action menu. Default 0
@@ -1648,46 +1649,47 @@ void game::handle_key_blocking_activity() {
 * 	1 - near the left edge of the terminal window
 * @return getch
 */
-int game::inventory_item_menu(char chItem, int iStartX, int iWidth, int position) {
+int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
     int cMenu = (int)'+';
 
-    if (u.has_item(chItem)) {
-        item oThisItem = u.i_at(chItem);
+    if (u.has_item(pos)) {
+        item& oThisItem = u.i_at(pos);
         std::vector<iteminfo> vThisItem, vDummy, vMenu;
 
         const int iOffsetX = 2;
         const bool bHPR = hasPickupRule(oThisItem.tname());
 
-		int max_text_length = 0; int length = 0;
+        int max_text_length = 0;
+        int length = 0;
         vMenu.push_back(iteminfo("MENU", "", "iOffsetX", iOffsetX));
         vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
         length = utf8_width(_("<a>ctivate")); if (length > max_text_length) max_text_length = length;
-		vMenu.push_back(iteminfo("MENU", "a", _("<a>ctivate"), u.rate_action_use(&oThisItem)));
-		length = utf8_width(_("<R>ead")); if (length > max_text_length) max_text_length = length;
-		vMenu.push_back(iteminfo("MENU", "R", _("<R>ead"), u.rate_action_read(&oThisItem, this)));
-		length = utf8_width(_("<E>at")); if (length > max_text_length) max_text_length = length;
-		vMenu.push_back(iteminfo("MENU", "E", _("<E>at"), u.rate_action_eat(&oThisItem)));
-		length = utf8_width(_("<W>ear")); if (length > max_text_length) max_text_length = length;
-		vMenu.push_back(iteminfo("MENU", "W", _("<W>ear"), u.rate_action_wear(&oThisItem)));
-		length = utf8_width(_("<w>ield")); if (length > max_text_length) max_text_length = length;
-		vMenu.push_back(iteminfo("MENU", "w", _("<w>ield")));
-		length = utf8_width(_("<t>hrow")); if (length > max_text_length) max_text_length = length;
-		vMenu.push_back(iteminfo("MENU", "t", _("<t>hrow")));
-		length = utf8_width(_("<T>ake off")); if (length > max_text_length) max_text_length = length;
-		vMenu.push_back(iteminfo("MENU", "T", _("<T>ake off"), u.rate_action_takeoff(&oThisItem)));
-		length = utf8_width(_("<d>rop")); if (length > max_text_length) max_text_length = length;
-		vMenu.push_back(iteminfo("MENU", "d", _("<d>rop")));
-		length = utf8_width(_("<U>nload")); if (length > max_text_length) max_text_length = length;
-		vMenu.push_back(iteminfo("MENU", "U", _("<U>nload"), u.rate_action_unload(&oThisItem)));
-		length = utf8_width(_("<r>eload")); if (length > max_text_length) max_text_length = length;
-		vMenu.push_back(iteminfo("MENU", "r", _("<r>eload"), u.rate_action_reload(&oThisItem)));
-		length = utf8_width(_("<D>isassemble")); if (length > max_text_length) max_text_length = length;
-		vMenu.push_back(iteminfo("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble(&oThisItem, this)));
-		length = utf8_width(_("<=> reassign")); if (length > max_text_length) max_text_length = length;
-		vMenu.push_back(iteminfo("MENU", "=", _("<=> reassign")));
-		length = utf8_width(_("<-> Autopickup")); if (length > max_text_length) max_text_length = length;
-		length = utf8_width(_("<+> Autopickup")); if (length > max_text_length) max_text_length = length;
-		vMenu.push_back(iteminfo("MENU", (bHPR) ? "-":"+", (bHPR) ? _("<-> Autopickup") : _("<+> Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
+        vMenu.push_back(iteminfo("MENU", "a", _("<a>ctivate"), u.rate_action_use(&oThisItem)));
+        length = utf8_width(_("<R>ead")); if (length > max_text_length) max_text_length = length;
+        vMenu.push_back(iteminfo("MENU", "R", _("<R>ead"), u.rate_action_read(&oThisItem, this)));
+        length = utf8_width(_("<E>at")); if (length > max_text_length) max_text_length = length;
+        vMenu.push_back(iteminfo("MENU", "E", _("<E>at"), u.rate_action_eat(&oThisItem)));
+        length = utf8_width(_("<W>ear")); if (length > max_text_length) max_text_length = length;
+        vMenu.push_back(iteminfo("MENU", "W", _("<W>ear"), u.rate_action_wear(&oThisItem)));
+        length = utf8_width(_("<w>ield")); if (length > max_text_length) max_text_length = length;
+        vMenu.push_back(iteminfo("MENU", "w", _("<w>ield")));
+        length = utf8_width(_("<t>hrow")); if (length > max_text_length) max_text_length = length;
+        vMenu.push_back(iteminfo("MENU", "t", _("<t>hrow")));
+        length = utf8_width(_("<T>ake off")); if (length > max_text_length) max_text_length = length;
+        vMenu.push_back(iteminfo("MENU", "T", _("<T>ake off"), u.rate_action_takeoff(&oThisItem)));
+        length = utf8_width(_("<d>rop")); if (length > max_text_length) max_text_length = length;
+        vMenu.push_back(iteminfo("MENU", "d", _("<d>rop")));
+        length = utf8_width(_("<U>nload")); if (length > max_text_length) max_text_length = length;
+        vMenu.push_back(iteminfo("MENU", "U", _("<U>nload"), u.rate_action_unload(&oThisItem)));
+        length = utf8_width(_("<r>eload")); if (length > max_text_length) max_text_length = length;
+        vMenu.push_back(iteminfo("MENU", "r", _("<r>eload"), u.rate_action_reload(&oThisItem)));
+        length = utf8_width(_("<D>isassemble")); if (length > max_text_length) max_text_length = length;
+        vMenu.push_back(iteminfo("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble(&oThisItem, this)));
+        length = utf8_width(_("<=> reassign")); if (length > max_text_length) max_text_length = length;
+        vMenu.push_back(iteminfo("MENU", "=", _("<=> reassign")));
+        length = utf8_width(_("<-> Autopickup")); if (length > max_text_length) max_text_length = length;
+        length = utf8_width(_("<+> Autopickup")); if (length > max_text_length) max_text_length = length;
+        vMenu.push_back(iteminfo("MENU", (bHPR) ? "-":"+", (bHPR) ? _("<-> Autopickup") : _("<+> Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
 
         oThisItem.info(true, &vThisItem, this);
         compare_split_screen_popup(iStartX, iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(), vThisItem, vDummy, -1, true);
@@ -1695,14 +1697,14 @@ int game::inventory_item_menu(char chItem, int iStartX, int iWidth, int position
         const int iMenuStart = iOffsetX;
         const int iMenuItems = vMenu.size() - 1;
         int iSelected = iOffsetX - 1;
-		int popup_width = max_text_length + 2;
-		int popup_x = 0;
-		switch (position){
-			case -2: popup_x = 0; break; //near the right edge of the terminal window
-			case -1: popup_x = iStartX - popup_width; break; //left before item info window
-			case 0: popup_x = iStartX + iWidth; break; //right after item info window
-			case 1: popup_x = TERMX - popup_width; break; //near the left edge of the terminal window
-		}
+        int popup_width = max_text_length + 2;
+        int popup_x = 0;
+        switch (position) {
+        case -2: popup_x = 0; break; //near the right edge of the terminal window
+        case -1: popup_x = iStartX - popup_width; break; //left before item info window
+        case 0: popup_x = iStartX + iWidth; break; //right after item info window
+        case 1: popup_x = TERMX - popup_width; break; //near the left edge of the terminal window
+        }
 
         do {
             cMenu = compare_split_screen_popup(popup_x, popup_width, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
@@ -1711,40 +1713,40 @@ int game::inventory_item_menu(char chItem, int iStartX, int iWidth, int position
 
             switch(cMenu) {
                 case 'a':
-                 use_item(chItem);
+                 use_item(pos);
                  break;
                 case 'E':
-                 eat(chItem);
+                 eat(pos);
                  break;
                 case 'W':
-                 wear(chItem);
+                 wear(pos);
                  break;
                 case 'w':
-                 wield(chItem);
+                 wield(pos);
                  break;
                 case 't':
-                 plthrow(chItem);
+                 plthrow(pos);
                  break;
                 case 'T':
-                 takeoff(chItem);
+                 takeoff(pos);
                  break;
                 case 'd':
-                 drop(chItem);
+                 drop(pos);
                  break;
                 case 'U':
-                 unload(chItem);
+                 unload(pos);
                  break;
                 case 'r':
-                 reload(chItem);
+                 reload(pos);
                  break;
                 case 'R':
-                 u.read(this, chItem);
+                 u.read(this, pos);
                  break;
                 case 'D':
-                 disassemble(chItem);
+                 disassemble(pos);
                  break;
                 case '=':
-                 reassign_item(chItem);
+                 reassign_item(pos);
                  break;
                 case KEY_UP:
                  iSelected--;
@@ -2316,8 +2318,8 @@ bool game::handle_action()
   case ACTION_INVENTORY: {
    int cMenu = ' ';
    do {
-     char chItem = inv(_("Inventory:"));
-     cMenu=inventory_item_menu(chItem);
+     int position = inv(_("Inventory:"));
+     cMenu=inventory_item_menu(position);
    } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
             cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=' );
    refresh_all();
@@ -2463,8 +2465,11 @@ bool game::handle_action()
         }
 
         as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_CAPITAL_YN"]?'N':'n'), _("No.")) );
-
-        if (u.has_item_with_flag("ALARMCLOCK"))
+        
+        if (u.has_item_with_flag("ALARMCLOCK") && (u.hunger < -60)) {
+            as_m.text = _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
+            }
+        if (u.has_item_with_flag("ALARMCLOCK") && !(u.hunger < -60))
         {
             as_m.entries.push_back(uimenu_entry(3, true, '3', _("Set alarm to wake up in 3 hours.") ));
             as_m.entries.push_back(uimenu_entry(4, true, '4', _("Set alarm to wake up in 4 hours.") ));
@@ -5286,6 +5291,9 @@ bool game::sound(int x, int y, int vol, std::string description)
     if (u.has_trait("CANINE_EARS")) {
   vol *= 1.5;
     }
+    if (u.has_trait("URSINE_EARS")) {
+  vol *= 1.25;
+    }
 
     // Too far away, we didn't hear it!
     if (dist > vol) {
@@ -5310,8 +5318,9 @@ bool game::sound(int x, int y, int vol, std::string description)
 
     // See if we need to wake someone up
     if (u.has_disease("sleep")){
-        if ((!u.has_trait("HEAVYSLEEPER") && dice(2, 15) < vol - dist) ||
-              (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist)) {
+        if ((!(u.has_trait("HEAVYSLEEPER") || u.has_trait("HEAVYSLEEPER2")) && dice(2, 15) < vol - dist) ||
+              (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist) ||
+              (u.has_trait("HEAVYSLEEPER2") && dice(6, 15) < vol - dist)) { //Not kidding about sleep-thru-firefight
             u.rem_disease("sleep");
             add_msg(_("You're woken up by a noise."));
         } else {
@@ -6610,21 +6619,17 @@ void game::smash()
     }
 }
 
-void game::use_item(char chInput)
+void game::use_item(int pos)
 {
- char ch;
- if (chInput == '.')
-  ch = inv_activatable(_("Use item:"));
- else
-  ch = chInput;
+ if (pos == INT_MIN)
+  pos = inv_activatable(_("Use item:"));
 
- if (ch == ' ' || ch == KEY_ESCAPE) {
+ if (pos == INT_MIN) {
   add_msg(_("Never mind."));
   return;
  }
- last_action += ch;
  refresh_all();
- u.use(this, ch);
+ u.use(this, pos);
 }
 
 void game::use_wielded_item()
@@ -6640,7 +6645,6 @@ bool game::choose_adjacent(std::string message, int &x, int &y)
     wrefresh(w_terrain);
     DebugLog() << "calling get_input() for " << message << "\n";
     InputEvent input = get_input();
-    last_action += input;
     if (input == Cancel || input == Close)
         return false;
     else
@@ -6749,7 +6753,7 @@ bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
     } else if (&u.weapon == it) {
       u.remove_weapon();
     } else {
-      u.inv.remove_item_by_letter(it->invlet);
+      u.inv.remove_item(u.get_item_position(it));
     }
   }
   return true;
@@ -6794,7 +6798,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
         u.activity = player_activity( ACT_VEHICLE, vehint.sel_cmd == 'f' ||
                                       vehint.sel_cmd == 's' ||
                                       vehint.sel_cmd == 'c' ? 200 : 20000,
-                                      (int) vehint.sel_cmd, 0, "");
+                                      (int) vehint.sel_cmd, INT_MIN, "");
         u.activity.values.push_back (veh.global_x());    // values[0]
         u.activity.values.push_back (veh.global_y());    // values[1]
         u.activity.values.push_back (vehint.ddx);   // values[2]
@@ -8252,7 +8256,7 @@ void game::pickup(int posx, int posy, int min)
                     if (veh->fuel_left("water") > 0) { // -1 if no water at all
                         veh->drain("water", 1);
                         item water(itypes["water_clean"], 0);
-                        u.consume(this, u.inv.add_item(water).invlet);
+                        u.eat(this, &water, dynamic_cast<it_comest*>(water.type));
                         u.moves -= 250;
                     } else {
                         add_msg(_("The water tank is empty."));
@@ -8372,10 +8376,7 @@ void game::pickup(int posx, int posy, int min)
             iter++;
             advance_nextinv();
         }
-        if (iter > inv_chars.size()) {
-            add_msg(_("You're carrying too many items!"));
-            return;
-        } else if (!u.can_pickWeight(newit.weight(), false)) {
+        if (!u.can_pickWeight(newit.weight(), false)) {
             add_msg(_("The %s is too heavy!"), newit.display_name().c_str());
             decrease_nextinv();
         } else if (!u.can_pickVolume(newit.volume())) {
@@ -8401,6 +8402,7 @@ void game::pickup(int posx, int posy, int min)
                             m.i_clear(posx, posy);
                         }
                         m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
+                        u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
                         u.wield(this, u.i_add(newit, this).invlet);
                         u.moves -= 100;
                         add_msg(_("Wielding %c - %s"), newit.invlet,
@@ -8416,6 +8418,7 @@ and you can't unwield your %s."),
                     decrease_nextinv();
                 }
             } else {
+                u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
                 u.wield(this, u.i_add(newit, this).invlet);
                 if (from_veh) {
                     veh->remove_item (veh_part, 0);
@@ -8445,7 +8448,7 @@ and you can't unwield your %s."),
                 m.i_clear(posx, posy);
             }
             u.moves -= 100;
-            add_msg("%c - %s", newit.invlet, newit.display_name().c_str());
+            add_msg("%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.display_name().c_str());
         }
 
         if (weight_is_okay && u.weight_carried() >= u.weight_capacity()) {
@@ -8790,13 +8793,7 @@ and you can't unwield your %s."),
                 }
             }
 
-            if (iter == inv_chars.size()) {
-                add_msg(_("You're carrying too many items!"));
-                werase(w_pickup);
-                wrefresh(w_pickup);
-                delwin(w_pickup);
-                return;
-            } else if (!u.can_pickWeight(here[i].weight(), false)) {
+            if (!u.can_pickWeight(here[i].weight(), false)) {
                 add_msg(_("The %s is too heavy!"), here[i].display_name().c_str());
                 decrease_nextinv();
             } else if (!u.can_pickVolume(here[i].volume())) {
@@ -8815,6 +8812,7 @@ and you can't unwield your %s."),
                                          here[i].display_name().c_str())) {
                                 picked_up = true;
                                 m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
+                                u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                                 u.wield(this, u.i_add(here[i], this).invlet);
                                 mapPickup[here[i].tname()]++;
                                 add_msg(_("Wielding %c - %s"), u.weapon.invlet,
@@ -8831,6 +8829,7 @@ and you can't unwield your %s."),
                         decrease_nextinv();
                     }
                 } else {
+                    u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                     u.wield(this, u.i_add(here[i], this).invlet);
                     mapPickup[here[i].tname()]++;
                     picked_up = true;
@@ -9000,8 +8999,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         std::stringstream text;
         text << _("Container for ") << liquid.tname();
 
-        char ch = inv_for_liquid(liquid, text.str().c_str(), false);
-        if (!u.has_item(ch)) {
+        int pos = inv_for_liquid(liquid, text.str().c_str(), false);
+        if (!u.has_item(pos)) {
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten(this) &&
@@ -9013,7 +9012,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             return false;
         }
 
-        cont = &(u.i_at(ch));
+        cont = &(u.i_at(pos));
     }
 
     if (cont == NULL || cont->is_null()) {
@@ -9173,11 +9172,11 @@ int game::move_liquid(item &liquid)
   //liquid is in fact a liquid.
   std::stringstream text;
   text << _("Container for ") << liquid.tname();
-  char ch = inv_for_liquid(liquid, text.str().c_str(), false);
+  int pos = inv_for_liquid(liquid, text.str().c_str(), false);
 
   //is container selected?
-  if(u.has_item(ch)) {
-    item *cont = &(u.i_at(ch));
+  if(u.has_item(pos)) {
+    item *cont = &(u.i_at(pos));
     if (cont == NULL || cont->is_null())
       return -1;
     else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
@@ -9311,18 +9310,14 @@ int game::move_liquid(item &liquid)
  return -1;
 }
 
-void game::drop(char chInput)
+void game::drop(int pos)
 {
     std::vector<item> dropped;
 
-    if (chInput == '.') {
+    if (pos == INT_MIN) {
         dropped = multidrop();
     } else {
-        if (u.inv.item_by_letter(chInput).is_null()) {
-            dropped.push_back(u.i_rem(chInput));
-        } else {
-            dropped.push_back(u.inv.remove_item_by_letter(chInput));
-        }
+        dropped.push_back(u.i_rem(pos));
     }
 
     if (dropped.size() == 0) {
@@ -9475,47 +9470,53 @@ void game::drop_in_direction()
     }
 }
 
-void game::reassign_item(char ch)
+void game::reassign_item(int pos)
 {
- if (ch == '.') {
-     ch = inv(_("Reassign item:"));
+ if (pos == INT_MIN) {
+     pos = inv(_("Reassign item:"));
  }
- if (ch == ' ') {
-  add_msg(_("Never mind."));
-  return;
+ if (pos == INT_MIN) {
+     add_msg(_("Never mind."));
+     return;
  }
- if (!u.has_item(ch)) {
-  add_msg(_("You do not have that item."));
-  return;
+
+ item* change_from = &u.i_at(pos);
+ char newch = popup_getkey(_("%s; enter new letter."),
+                           change_from->tname().c_str());
+ if (newch == ' ') {
+     if (pos >= 0) {
+         change_from->invlet = 0;
+     } else {
+         add_msg(_("Cannot clear inventory letter of worn or wielded items."));
+         return;
+     }
+ } else if (inv_chars.find(newch) == std::string::npos) {
+     add_msg(_("%c is not a valid inventory letter."), newch);
+     return;
  }
- char newch = popup_getkey(_("%c - %s; enter new letter."), ch,
-                           u.i_at(ch).tname().c_str());
- if (inv_chars.find(newch) == std::string::npos) {
-  add_msg(_("%c is not a valid inventory letter."), newch);
-  return;
- }
- item* change_from = &(u.i_at(ch));
  if (u.has_item(newch)) {
-  item* change_to = &(u.i_at(newch));
-  change_to->invlet = ch;
-  add_msg("%c - %s", ch, change_to->tname().c_str());
+     if (change_from->invlet == 0 && u.has_weapon_or_armor(newch)) {
+         // TODO: Chain assignment dialogues until in a valid state.
+         add_msg(_("Cannot unassign inventory letter of worn or wielded items."));
+         return;
+     }
+     item* change_to = &(u.i_at(newch));
+     change_to->invlet = change_from->invlet;
+     add_msg("%c - %s", change_to->invlet == 0 ? ' ' : change_to->invlet, change_to->tname().c_str());
  }
  change_from->invlet = newch;
- add_msg("%c - %s", newch, change_from->tname().c_str());
+ add_msg("%c - %s", newch == 0 ? ' ' : newch, change_from->tname().c_str());
 }
 
-void game::plthrow(char chInput)
+void game::plthrow(int pos)
 {
- char ch;
 
- if (chInput != '.') {
-  ch = chInput;
- } else {
-  ch = inv(_("Throw item:"));
+ if (pos == INT_MIN) {
+  pos = inv(_("Throw item:"));
   refresh_all();
  }
 
- int range = u.throw_range(u.lookup_item(ch));
+ int range = u.throw_range(pos);
  if (range < 0) {
   add_msg(_("You don't have that item."));
   return;
@@ -9523,7 +9524,7 @@ void game::plthrow(char chInput)
   add_msg(_("That is too heavy to throw."));
   return;
  }
- item thrown = u.i_at(ch);
+ item thrown = u.i_at(pos);
   if( std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(),
     thrown.type->id) != unreal_itype_ids.end()) {
   add_msg(_("That's part of your body, you can't throw that!"));
@@ -9563,10 +9564,10 @@ void game::plthrow(char chInput)
 
  // Throw a single charge of a stacking object.
  if( thrown.count_by_charges() && thrown.charges > 1 ) {
-     u.i_at(ch).charges--;
+     u.i_at(pos).charges--;
      thrown.charges = 1;
  } else {
-     u.i_rem(ch);
+     u.i_rem(pos);
  }
 
  // Base move cost on moves per turn of the weapon
@@ -9597,7 +9598,7 @@ void game::plthrow(char chInput)
 
 void game::plfire(bool burst, int default_target_x, int default_target_y)
 {
- char reload_invlet = 0;
+ int reload_pos = INT_MIN;
  if (!u.weapon.is_gun())
   return;
  vehicle *veh = m.veh_at(u.posx, u.posy);
@@ -9633,13 +9634,13 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  }
 
  if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
-  reload_invlet = u.weapon.pick_reload_ammo(u, true);
-  if (reload_invlet == 0) {
+  reload_pos = u.weapon.pick_reload_ammo(u, true);
+  if (reload_pos == INT_MIN) {
    add_msg(_("Out of ammo!"));
    return;
   }
 
-  u.weapon.reload(u, reload_invlet);
+  u.weapon.reload(u, reload_pos);
   u.moves -= u.weapon.reload_time(u);
   refresh_all();
  }
@@ -10005,9 +10006,8 @@ void game::forage()
   }
 }
 
-void game::eat(char chInput)
+void game::eat(int pos)
 {
- char ch;
  if (u.has_trait("RUMINANT") && m.ter(u.posx, u.posy) == t_underbrush &&
      query_yn(_("Eat underbrush?"))) {
   u.moves -= 400;
@@ -10016,65 +10016,44 @@ void game::eat(char chInput)
   add_msg(_("You eat the underbrush."));
   return;
  }
- if (chInput == '.')
-  ch = inv_type(_("Consume item:"), IC_COMESTIBLE );
- else
-  ch = chInput;
+ if (pos == INT_MIN)
+  pos = inv_type(_("Consume item:"), IC_COMESTIBLE);
 
- if (ch == ' ' || ch == KEY_ESCAPE) {
+ if (pos == INT_MIN) {
   add_msg(_("Never mind."));
   return;
  }
 
- if (!u.has_item(ch)) {
-  add_msg(_("You don't have item '%c'!"), ch);
-  return;
- }
- u.consume(this, u.lookup_item(ch));
+ u.consume(this, pos);
 }
 
-void game::wear(char chInput)
+void game::wear(int pos)
 {
- char ch;
- if (chInput == '.')
-  ch = inv_type(_("Wear item:"), IC_ARMOR);
- else
-  ch = chInput;
+ if (pos == INT_MIN)
+  pos = inv_type(_("Wear item:"), IC_ARMOR);
 
- if (inv_chars.find(ch) == std::string::npos) {
-  add_msg(_("Never mind."));
-  return;
- }
- u.wear(this, ch);
+ u.wear(this, pos);
 }
 
-void game::takeoff(char chInput)
+void game::takeoff(int pos)
 {
- char ch;
- if (chInput == '.')
-  ch = inv_type(_("Take off item:"), IC_NULL);
- else
-  ch = chInput;
+ if (pos == INT_MIN)
+  pos = inv_type(_("Take off item:"), IC_NULL);
 
- if (ch == ' ' || ch == KEY_ESCAPE) {
+ if (pos == INT_MIN) {
   add_msg(_("Never mind."));
   return;
  }
 
- if (u.takeoff(this, ch))
+ if (u.takeoff(this, pos))
   u.moves -= 250; // TODO: Make this variable
  else
   add_msg(_("Invalid selection."));
 }
 
-void game::reload(char chInput)
+void game::reload(int pos)
 {
- item* it;
- if (u.weapon.invlet == chInput) {
-      it = &u.weapon;
- } else {
-      it = &u.inv.item_by_letter(chInput);
- }
+ item* it = &u.i_at(pos);
 
  // Gun reloading is more complex.
  if (it->is_gun()) {
@@ -10120,15 +10099,16 @@ void game::reload(char chInput)
      }
 
      // pick ammo
-     char am_invlet = it->pick_reload_ammo(u, true);
-     if (am_invlet == 0) {
+     int am_pos = it->pick_reload_ammo(u, true);
+     if (am_pos == INT_MIN) {
          add_msg(_("Out of ammo!"));
          return;
      }
 
      // and finally reload.
-     const char chStr[2]={chInput, '\0'};
-     u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, am_invlet, chStr);
+     std::stringstream ss;
+     ss << pos;
+     u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
      u.moves = 0;
 
  } else if (it->is_tool()) { // tools are simpler
@@ -10141,17 +10121,18 @@ void game::reload(char chInput)
      }
 
     // pick ammo
-    char am_invlet = it->pick_reload_ammo(u, true);
+    int am_pos = it->pick_reload_ammo(u, true);
 
-    if (am_invlet == 0) {
+    if (am_pos == INT_MIN) {
         // no ammo, fail reload
         add_msg(_("Out of %s!"), ammo_name(tool->ammo).c_str());
         return;
     }
 
     // do the actual reloading
-     const char chStr[2]={chInput, '\0'};
-    u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, am_invlet, chStr);
+    std::stringstream ss;
+    ss << pos;
+    u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
     u.moves = 0;
 
  } else { // what else is there?
@@ -10167,15 +10148,15 @@ void game::reload()
     if (!u.is_armed()) {
       add_msg(_("You're not wielding anything."));
     } else {
-      reload(u.weapon.invlet);
+      reload(-1);
     }
 }
 
 // Unload a containter, gun, or tool
 // If it's a gun, some gunmods can also be loaded
-void game::unload(char chInput)
+void game::unload(int pos)
 { // this is necessary to prevent re-selection of the same item later
-    item it = (u.inv.remove_item_by_letter(chInput));
+    item it = (u.inv.remove_item(pos));
     if (!it.is_null())
     {
         unload(it);
@@ -10184,7 +10165,7 @@ void game::unload(char chInput)
     else
     {
         item ite;
-        if (u.weapon.invlet == chInput) { // item is wielded as weapon.
+        if (pos == -1) { // item is wielded as weapon.
             if (std::find(martial_arts_itype_ids.begin(), martial_arts_itype_ids.end(), u.weapon.type->id) != martial_arts_itype_ids.end()){
                 return; //ABORT!
             } else {
@@ -10195,7 +10176,7 @@ void game::unload(char chInput)
                 return;
             }
         } else { //this is that opportunity for reselection where the original container is worn, see issue #808
-            item& itm = u.i_at(chInput);
+            item& itm = u.i_at(pos);
             if (!itm.is_null())
             {
                 unload(itm);
@@ -10372,29 +10353,33 @@ void game::unload(item& it)
  }
 }
 
-void game::wield(char chInput)
+void game::wield(int pos)
 {
  if (u.weapon.has_flag("NO_UNWIELD")) {
 // Bionics can't be unwielded
   add_msg(_("You cannot unwield your %s."), u.weapon.tname().c_str());
   return;
  }
- char ch;
- if (chInput == '.')
-  ch = inv(_("Wield item:"));
- else
-  ch = chInput;
+ if (pos == INT_MIN) {
+  pos = inv(_("Wield item:"));
+ }
 
- if (ch == ' ' || ch == KEY_ESCAPE) {
+ if (pos == INT_MIN) {
   add_msg(_("Never mind."));
   return;
  }
 
+ // Weapons need invlets to access, give one if not already assigned.
+ item& it = u.i_at(pos);
+ if (!it.is_null() && it.invlet == 0) {
+  u.inv.assign_empty_invlet(it, true);
+ }
+
  bool success = false;
- if (ch == '-')
+ if (pos == -1)
   success = u.wield(this, -3);
  else
-  success = u.wield(this, u.lookup_item(ch));
+  success = u.wield(this, u.lookup_item(u.position_to_invlet(pos)));
 
  if (success)
   u.recoil = 5;
@@ -10402,14 +10387,14 @@ void game::wield(char chInput)
 
 void game::read()
 {
- char ch = inv_type(_("Read:"), IC_BOOK);
+ int pos = inv_type(_("Read:"), IC_BOOK);
 
- if (ch == ' ' || ch == KEY_ESCAPE) {
+ if (pos == INT_MIN) {
   add_msg(_("Never mind."));
   return;
  }
  draw();
- u.read(this, ch);
+ u.read(this, pos);
 }
 
 void game::chat()

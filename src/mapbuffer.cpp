@@ -262,7 +262,7 @@ void mapbuffer::load(std::string worldname)
 
 void mapbuffer::unserialize(std::ifstream & fin) {
  std::map<tripoint, submap*>::iterator it;
- int itx, ity, t, d, a, num_submaps, num_loaded = 0;
+ int itx, ity, t, d, a, num_submaps = 0, num_loaded = 0;
  item it_tmp;
  std::string databuff;
  std::string st;

@@ -3308,7 +3308,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];
     // code copied form mattack::smg, mattack::flamethrower
-    int t, fire_t;
+    int t, fire_t = 0;
     monster *target = 0;
     int range = ammo.type == fuel_type_gasoline ? 5 : 12;
     int closest = range + 1;

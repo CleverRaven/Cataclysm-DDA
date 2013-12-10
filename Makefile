@@ -78,7 +78,7 @@ W32ODIR = objwin
 W32ODIRTILES = objwin/tiles
 DDIR = .deps
 
-OS  = $(shell uname -o)
+OS  = $(shell uname -s)
 CXX = $(CROSS)g++
 LD  = $(CROSS)g++
 RC  = $(CROSS)windres
@@ -104,13 +104,6 @@ W32BINDIST = cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
 W32BINDIST_CMD = cd $(BINDIST_DIR) && zip -r ../$(W32BINDIST) * && cd $(BUILD_DIR)
 
-# is this section even being used anymore?
-# SOMEBODY PLEASE CHECK
-#ifeq ($(OS), Msys)
-#  LDFLAGS = -static -lpdcurses
-#else
-#  LDFLAGS += -lncurses
-#endif
 
 # Check if called without a special build target
 ifeq ($(NATIVE),)
@@ -143,7 +136,7 @@ ifeq ($(NATIVE), osx)
     LDFLAGS += -lintl
   endif
   TARGETSYSTEM=LINUX
-  ifneq ($(OS), GNU/Linux)
+  ifneq ($(OS), Linux)
     BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
   endif
 endif
@@ -247,7 +240,7 @@ else
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(TARGETSYSTEM),LINUX)
     ifeq ($(LOCALIZE),1)
-      ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Darwin)
+      ifeq ($(OS), Darwin)
         LDFLAGS += -lncurses
       else
         ifeq ($(NATIVE), osx)

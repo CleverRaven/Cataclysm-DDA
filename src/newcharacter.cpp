@@ -388,7 +388,15 @@ bool player::create(game *g, character_type type, std::string tempname)
          iter != prof_items.end(); ++iter) {
         tmp = item(item_controller->find_template(*iter), 0);
         tmp = tmp.in_its_container(&(itypes));
-        inv.push_back(tmp);
+        if(tmp.is_armor()) {
+            if(tmp.has_flag("VARSIZE")) {
+                tmp.item_tags.insert("FIT");
+            }
+            // If wearing an item fails we fail silently.
+            wear_item(g, &tmp, false);
+        } else {
+            inv.push_back(tmp);
+        }
     }
 
     std::vector<addiction> prof_addictions = g->u.prof->addictions();
@@ -449,22 +457,6 @@ bool player::create(game *g, character_type type, std::string tempname)
         if (!has_base_trait(iter->first)) {
             my_mutations.erase(iter->first);
         }
-
-    // Equip any armor from our inventory.
-    // If we are unable to wear some of it due to encumbrance, it will silently fail.
-    std::vector<item *> tmp_inv;
-    inv.dump(tmp_inv);
-
-    for(std::vector<item *>::iterator i = tmp_inv.begin(); i != tmp_inv.end(); ++i) {
-        if( (*i)->is_armor()) {
-            if( (*i)->has_flag("VARSIZE")) {
-                (*i)->item_tags.insert("FIT");
-            }
-            // It might be more elegant to use player::wear_item,
-            // but then we have to implement our own inventory removal.
-            wear(g, (*i)->invlet, false);
-        }
-    }
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
