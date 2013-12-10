@@ -1253,7 +1253,8 @@
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_archery", 3 ] , [ "recipe_bows", 2 ] , [ "book_archery", 4]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1305,7 +1306,8 @@
   "difficulty": 2,
   "time": 15000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_bows", 1 ] , [ "manual_archery", 2 ] , [ "book_archery", 2 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1331,7 +1333,8 @@
   "difficulty": 5,
   "time": 25000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_bows", 6 ] , [ "manual_archery", 7]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1641,7 +1644,8 @@
   "difficulty": 3,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 5] , [ "book_archery", 4]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1690,7 +1694,8 @@
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_bows", 2 ] , [ "manual_archery", 4] , [ "book_archery", 3]],
   "tools": [
     [
       [ "wrench", -1 ],
@@ -1720,7 +1725,8 @@
   "difficulty": 6,
   "time": 60000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_bows", 6 ] , [ "textbook_weapwest", 6]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1780,7 +1786,8 @@
   "difficulty": 3,
   "time": 45000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn":false,
+  "book_learn" : [[ "recipe_bows", 4 ] , [ "textbook_weapeast", 6]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -2821,7 +2828,8 @@
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 2 ] , [ "pocket_survival", 2] , [ "manual_archery", 1]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -2844,7 +2852,8 @@
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 1 ]],
   "tools" : [
     [
       [ "hacksaw", -1 ],
@@ -2874,7 +2883,8 @@
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 1 ] , [ "manual_archery", 2] , [ "book_archery", 3]],
   "tools" : [
     [
       [ "rock", -1 ],
@@ -2900,7 +2910,8 @@
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 1 ] , [ "manual_archery", 2 ] , [ "book_archery", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -2924,7 +2935,8 @@
   "difficulty" : 0,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 1 ] , [ "pocket_survival", 1] , [ "manual_survival", 1] , [ "book_archery", 1]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -2983,6 +2995,7 @@
   "time" : 2000,
   "reversible" : false,
   "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 1 ] , [ "pocket_survival", 1]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3007,7 +3020,8 @@
   "difficulty" : 3,
   "time" : 3000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 2 ] , [ "book_archery", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3029,7 +3043,8 @@
   "difficulty" : 3,
   "time" : 3000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 1 ] , [ "book_archery", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3051,7 +3066,8 @@
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 5 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3089,7 +3105,8 @@
   "difficulty" : 5,
   "time" : 3000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3114,7 +3131,8 @@
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
   "tools" : [
     [
       [ "hacksaw", -1 ],
@@ -3170,7 +3188,8 @@
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 2 ] , [ "pocket_survival", 2],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3198,7 +3217,8 @@
   "difficulty" : 5,
   "time" : 3000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3223,7 +3243,8 @@
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3261,7 +3282,8 @@
   "difficulty" : 7,
   "time" : 7000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 6 ]],
   "tools" : [
     [
       [ "screwdriver", -1 ],
@@ -3345,7 +3367,8 @@
   "difficulty": 2,
   "time": 10000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
   "tools": [
     [
       [ "needle_bone", 2 ],
@@ -3457,7 +3480,8 @@
   "difficulty": 3,
   "time": 20000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
   "tools": [
     [
       [ "needle_bone", 8 ],
@@ -3490,7 +3514,8 @@
   "difficulty": 1,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_arrows", 1 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3513,7 +3538,8 @@
   "difficulty": 3,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_arrows", 2 ]],
   "tools": [
     [
         ["hacksaw", -1],
@@ -3543,7 +3569,8 @@
   "difficulty": 4,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_arrows", 7 ]],
   "tools": [
     [
         ["hacksaw", -1],
