@@ -2020,6 +2020,9 @@ point overmap::draw_overmap(game *g, int zlevel)
    int tmpx = cursx, tmpy = cursy;
    timeout(-1);
    std::string term = string_input_popup(_("Search term:"));
+   if(term.empty()) {
+    continue;
+   }
    timeout(BLINK_SPEED);
    center_om.draw(w_map, g, zlevel, rc.om_pos.x, rc.om_pos.y, origx, origy, ch, blink, hori, vert, diag, &ictxt);
    point found = center_om.find_note(rc.om_pos.x, rc.om_pos.y, zlevel, term);
