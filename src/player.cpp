@@ -1228,6 +1228,8 @@ int player::run_cost(int base_cost, bool diag)
         movecost *= 1.2f;
     if (has_trait("PONDEROUS3"))
         movecost *= 1.3f;
+    if (is_wearing("swim_fins"))
+        movecost *= 1.5f;
 
     movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
@@ -1246,6 +1248,8 @@ int player::swim_speed()
   int ret = 440 + weight_carried() / 60 - 50 * skillLevel("swimming");
  if (has_trait("PAWS"))
   ret -= 15 + str_cur * 4;
+ if (is_wearing("swim_fins"))
+  ret -= (10 * str_cur) * 1.5;
  if (has_trait("WEBBED"))
   ret -= 60 + str_cur * 5;
  if (has_trait("TAIL_FIN"))
@@ -4516,6 +4520,11 @@ void player::suffer(game *g)
         {
             oxygen--;
         }
+        if (oxygen < 12 && is_wearing("rebreather") &&
+            (has_active_item("UPS_on") || has_active_item("adv_UPS_on")))
+            {
+                oxygen += 12;
+            }
         if (oxygen < 0)
         {
             if (has_bionic("bio_gills") && power_level > 0)
@@ -6424,6 +6433,9 @@ bool player::consume(game *g, int pos)
     if(pos == INT_MIN) {
         g->add_msg(_("You do not have that item."));
         return false;
+    } if (is_underwater()) {
+        g->add_msg_if_player(this, _("You can't do that while underwater."));
+        return false;
     } else if (pos == -1) {
         // Consume your current weapon
         if (weapon.is_food_container(this)) {
@@ -6601,6 +6613,10 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
                        itypes[comest->tool]->name.c_str());
             return false;
         }
+    }
+    if (is_underwater()) {
+        g->add_msg_if_player(this, _("You can't do that while underwater."));
+        return false;
     }
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
                        comest->nutr >= 5);
@@ -8052,6 +8068,11 @@ press 'U' while wielding the unloaded gun."), gun->tname().c_str());
         }
         if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
             g->add_msg(_("You can not use a spare magazine with your %s."),
+                       gun->tname().c_str());
+            return;
+        }
+        if (mod->id == "waterproof_gunmod" && gun->has_flag("WATERPROOF_GUN")) {
+            g->add_msg(_("Your %s is already waterproof."),
                        gun->tname().c_str());
             return;
         }

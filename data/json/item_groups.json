@@ -153,6 +153,7 @@
       ["wetsuit_spring", 2],
       ["wetsuit_gloves", 3],
       ["wetsuit_booties", 3],
+      ["dive_bag", 3],
       ["poncho", 15],
       ["gloves_light", 35],
       ["mittens", 30],
@@ -772,9 +773,18 @@
       ["rifle_scope", 17],
       ["pistol_scope", 14],
       ["improve_sights", 20],
+      ["waterproof_gunmod", 4],
       ["cu_pipe", 10],
       ["5x50_hull", 8],
       ["rm120c", 3],
+      ["speargun", 4],
+      ["minispeargun", 2],
+      ["doublespeargun", 2],
+      ["airspeargun", 2],
+      ["fishspear", 4],
+      ["m_fishspear", 2],
+      ["c_fishspear", 2],
+      ["diveknife", 6],
       ["u_shotgun", 5]
     ]
     },{
@@ -1508,6 +1518,7 @@
       ["armguard_hard", 20],
       ["legguard_hard", 15],
       ["goggles_swim", 50],
+      ["swim_fins", 30],
       ["goggles_ski", 30],
       ["hat_ball", 30],
       ["helmet_bike", 35],
@@ -1523,7 +1534,9 @@
       ["wetsuit_spring", 10],
       ["wetsuit_gloves", 20],
       ["wetsuit_booties", 20],
+      ["dive_bag", 5],
       ["diving_watch", 10],
+      ["rebreather", 3],
       ["glowstick", 60],
       ["handflare", 40],
       ["elbow_pads", 40],
@@ -1618,6 +1631,8 @@
       ["wetsuit_spring", 10],
       ["wetsuit_gloves", 20],
       ["wetsuit_booties", 20],
+      ["dive_bag", 10],
+      ["rebreather", 3],
       ["fishing_waders", 12],
       ["gasoline_lantern", 5],
       ["folding_bicycle", 1],
@@ -1759,6 +1774,8 @@
       ["wetsuit_spring", 10],
       ["wetsuit_gloves", 20],
       ["wetsuit_booties", 20],
+      ["dive_bag", 10],
+      ["rebreather", 2],
       ["glowstick", 60],
       ["handflare", 40],
       ["folding_bicycle", 1],
@@ -1779,6 +1796,15 @@
       ["signal_flare", 15],
       ["airhorn", 30],
       ["quikclot", 10],
+      ["speargun", 10],
+      ["minispeargun", 10],
+      ["doublespeargun", 8],
+      ["airspeargun", 8],
+      ["fishspear", 12],
+      ["m_fishspear", 10],
+      ["c_fishspear", 10],
+      ["swim_fins", 20],
+      ["diveknife", 12],
       ["leathersandals", 15]
     ]
     },{
@@ -2159,6 +2185,7 @@
       ["pistol_scope", 12],
       ["cu_pipe", 10],
       ["5x50_hull", 8],
+      ["waterproof_gunmod", 8],
       ["improve_sights", 20]
     ]
     },{
@@ -2355,6 +2382,7 @@
       ["wetsuit_spring", 5],
       ["wetsuit_gloves", 10],
       ["wetsuit_booties", 10],
+      ["dive_bag", 5],
       ["jedi_cloak", 1],
       ["apron_leather", 1],
       ["clown_suit", 1],
@@ -2670,6 +2698,7 @@
     "items":[
       ["goggles_swim", 90],
       ["fancy_sunglasses", 1],
+      ["rebreather", 1],
       ["sunglasses", 10]
     ]
     },{
@@ -2677,6 +2706,7 @@
         "id" : "swimmer_torso",
     "items":[
       ["bikini_top", 50],
+      ["dive_bag", 5],
       ["flotation_vest", 10]
     ]
     },{
@@ -2690,7 +2720,8 @@
         "type" : "item_group",
         "id" : "swimmer_shoes",
     "items":[
-      ["flip_flops", 80]
+      ["flip_flops", 80],
+      ["swim_fins", 20]
     ]
     },{
         "type" : "item_group",
@@ -3333,11 +3364,20 @@
       ["oxygen_tank", 10],
       ["smoxygen_tank", 5],
       ["clogs", 1],
+      ["speargun", 8],
+      ["minispeargun", 6],
+      ["doublespeargun", 6],
+      ["airspeargun", 4],
+      ["fishspear", 4],
+      ["m_fishspear", 8],
+      ["c_fishspear", 8],
+      ["rebreather", 5],
+      ["diveknife", 10],
       ["leathersandals", 10]
     ]
     },{
-        "type" : "item_group",
-        "id" : "mil_surplus",
+    "type" : "item_group",
+    "id" : "mil_surplus",
     "items":[
       ["knife_combat", 14],
       ["throwing_knife", 14],
@@ -4113,6 +4153,7 @@
       ["20x66_frag", 1],
       ["20x66_slug", 4],
       ["20x66_flechette", 5],
+      ["waterproof_gunmod", 2],
       ["improve_sights", 5]
     ]
     },{
@@ -4191,6 +4232,7 @@
       ["knee_pads", 40],
       ["mask_bal", 5],
       ["e_tool", 10],
+      ["waterproof_gunmod", 8],
       ["glasses_bal", 30]
     ]
     },{
@@ -5237,6 +5279,7 @@
       ["caff_gum", 10],
       ["nic_gum", 1],
       ["improve_sights", 10],
+      ["waterproof_gunmod", 4],
       ["pur_tablets", 10],
       ["cleansuit", 5],
       ["8mm_hvp", 2],
@@ -5563,6 +5606,7 @@
       ["caff_gum", 7],
       ["nic_gum", 1],
       ["improve_sights", 10],
+      ["waterproof_gunmod", 4],
       ["u_shotgun", 4],
       ["RPG", 1],
       ["RPG-7_ammo", 1],

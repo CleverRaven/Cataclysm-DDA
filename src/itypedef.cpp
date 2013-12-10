@@ -387,6 +387,7 @@ std::string ammo_name(ammotype t)
     if( t == "components" ) return _("components");
     if( t == "RPG-7" )      return _("RPG-7");
     if( t == "dart" )       return _("dart");
+    if( t == "fishspear" )  return _("speargun spear");
     return "XXX";
 }
 
@@ -437,5 +438,6 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "thrown"  )      return "thrown";
     if( guntype == "ampoule"  )     return "ampoule";
     if( guntype == "50"  )          return "50bmg";
+    if( guntype == "fishspear"  )   return "fishspear";
     return "null";
 }

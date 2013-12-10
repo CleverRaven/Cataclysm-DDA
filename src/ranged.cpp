@@ -278,12 +278,16 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   if (firing->skill_used != Skill::skill("archery") &&
       firing->skill_used != Skill::skill("throw")) {
       // Current guns have a durability between 5 and 9.
-      // Misfire chance is between 1/64 and 1/1024.
-      if (one_in(2 << firing->durability)) {
+      // Misfire chance is between 1/64 and 1/1024, 1/durability when underwater unless WATERPROOF_GUN is in effect.
+    if (u.is_underwater() && !weapon->has_flag("WATERPROOF_GUN") && one_in(firing->durability)) {
+          add_msg_player_or_npc( &p, _("Your weapon misfires with a wet click!"),
+                                 _("<npcname>'s weapon misfires with a wet click!") );
+          return;
+      } else if (one_in(2 << firing->durability)) {
           add_msg_player_or_npc( &p, _("Your weapon misfires!"),
                                  _("<npcname>'s weapon misfires!") );
           return;
-      }
+  }
   }
 
   make_gun_sound_effect(this, p, burst, weapon);
@@ -1073,6 +1077,7 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
  else if (weapon->curammo->type != "bolt" &&
           weapon->curammo->type != "arrow" &&
           weapon->curammo->type != "pebble" &&
+          weapon->curammo->type != "fishspear" &&
           weapon->curammo->type != "dart")
   g->sound(p.posx, p.posy, noise, gunsound);
 }
@@ -1081,7 +1086,10 @@ int calculate_range(player &p, int tarx, int tary)
 {
  int trange = rl_dist(p.posx, p.posy, tarx, tary);
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
- if (trange < int(firing->volume / 3) && firing->ammo != "shot")
+ if ((p.is_underwater() && !p.weapon.has_flag("UNDERWATER_GUN")) || // Range is effectively four times longer when shooting unflagged guns underwater.
+ (!p.is_underwater() && p.weapon.has_flag("UNDERWATER_GUN"))) { // Range is effectively four times longer when shooting flagged guns out of water.
+  trange = int(trange * 4);
+}if (trange < int(firing->volume / 3) && firing->ammo != "shot")
   trange = int(firing->volume / 3);
  else if (p.has_bionic("bio_targeting")) {
   if (trange > LONG_RANGE)
