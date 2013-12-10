@@ -4427,6 +4427,10 @@ void player::add_addiction(add_type type, int strength)
   strength = int(strength * 1.5);
   timer = 800;
  }
+ if (has_trait("NONADDICTIVE")) {
+  strength = int(strength * .50);
+  timer = 1800;
+ }
  //Update existing addiction
  for (int i = 0; i < addictions.size(); i++) {
   if (addictions[i].type == type) {
@@ -4579,6 +4583,10 @@ void player::suffer(game *g)
         if (has_trait("ADDICTIVE"))
         {
             timer = -4000;
+        }
+        if (has_trait("NONADDICTIVE"))
+        {
+            timer = -3200;
         }
         for (int i = 0; i < addictions.size(); i++)
         {

@@ -185,6 +185,15 @@
         "valid" : false
     },{
         "type" : "mutation",
+        "id" : "NONADDICTIVE",
+        "name" : "Non Addictive Personality",
+        "points" : 3,
+        "description" : "Whether due to a lifetime of exposure or through simple willpower, it's harder for you to become addicted to substances, and easier to rid yourself of these addictions.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["ADDICTIVE"]
+    },{
+        "type" : "mutation",
         "id" : "ANIMALEMPATH",
         "name" : "Animal Empathy",
         "points" : 1,
@@ -446,7 +455,8 @@
         "description" : "It's easier for you to become addicted to substances, and harder to rid yourself of these addictions.",
         "starting_trait" : true,
         "valid" : false,
-        "category" : ["MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_MEDICAL"],
+        "cancels" : ["NONADDICTIVE"]
     },{
         "type" : "mutation",
         "id" : "TRIGGERHAPPY",
