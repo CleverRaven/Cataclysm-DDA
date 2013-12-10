@@ -452,7 +452,13 @@ monster_attitude monster::attitude(player *u)
    if (effective_anger < 10)
     effective_morale += 5;
   }
-
+  if (u->has_trait("ANIMALDISCORD") && has_flag(MF_ANIMAL)) {
+   if (effective_anger >= 10)
+    effective_anger += 10;
+   if (effective_anger < 10)
+    effective_morale -= 5;
+  }
+  
  }
 
  if (effective_morale < 0) {

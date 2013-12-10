@@ -199,7 +199,8 @@
         "points" : 1,
         "description" : "Peaceful animals will not run away from you, and even aggressive animals are less likely to attack. This only applies to natural animals such as woodland creatures.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BEAST"]
+        "category" : ["MUTCAT_BEAST"],
+        "cancels" : ["ANIMALDISCORD"]
     },{
         "type" : "mutation",
         "id" : "TERRIFYING",
@@ -481,6 +482,14 @@
         "description" : "You suffer from a minor chemical imbalance, whether mental or physical. Minor changes to your internal chemistry will manifest themselves on occasion, such as hunger, sleepiness, narcotic effects, etc.",
         "starting_trait" : true,
         "category" : ["MUTCAT_SLIME", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA", "MUTCAT_ELFA"]
+    },{
+        "type" : "mutation",
+        "id" : "ANIMALDISCORD",
+        "name" : "Animal Discord",
+        "points" : -1,
+        "description" : "Most animals don't like you, and aggressive animals are more likely to attack you. This only applies to natural animals such as woodland creatures.",
+        "starting_trait" : true,
+        "cancels" : ["ANIMALEMPATH"]
     },{
         "type" : "mutation",
         "id" : "SCHIZOPHRENIC",
@@ -1824,6 +1833,7 @@
         "name" : "Fast Metabolism",
         "points" : -2,
         "description" : "You require more food than most people.",
+        "starting_trait" : true,
         "category" : ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_ALPHA", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA", "MUTCAT_ELFA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
@@ -1831,6 +1841,7 @@
         "name" : "High Thirst",
         "points" : -3,
         "description" : "Your body dries out easily; you need to drink a lot more water.",
+        "starting_trait" : true,
         "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD", "MUTCAT_CHIMERA", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
