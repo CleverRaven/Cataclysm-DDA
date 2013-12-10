@@ -1106,7 +1106,7 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
-  "skills_required": [ "survival", 1, "throw", 2 ],
+  "skills_required": [[ "survival", 1 ], [ "throw", 2 ]],
   "difficulty": 3,
   "time": 5000,
   "reversible": false,
