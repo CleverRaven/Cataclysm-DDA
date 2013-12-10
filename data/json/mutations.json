@@ -278,6 +278,14 @@
         "category" : ["MUTCAT_SLIME", "MUTCAT_ALPHA", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
+        "id" : "EAGLEEYED",
+        "name" : "Eagle Eyed",
+        "points" : 1,
+        "description" : "You have exceptional long-distance eyesight and your ability to spot far away landmarks is unmatched. Your sight radius on the overmap extends beyond the normal range.",
+        "starting_trait" : true,
+        "cancels" : ["MYOPIC"]
+    },{
+        "type" : "mutation",
         "id" : "CANNIBAL",
         "name" : "Cannibal",
         "points" : 3,
