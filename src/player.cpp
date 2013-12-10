@@ -1258,6 +1258,8 @@ int player::run_cost(int base_cost, bool diag)
         movecost *= 1.2f;
     if (has_trait("PONDEROUS3"))
         movecost *= 1.3f;
+    if (is_wearing("swim_fins"))
+        movecost *= 1.5f;
 
     movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
@@ -1276,6 +1278,8 @@ int player::swim_speed()
   int ret = 440 + weight_carried() / 60 - 50 * skillLevel("swimming");
  if (has_trait("PAWS"))
   ret -= 15 + str_cur * 4;
+ if (is_wearing("swim_fins"))
+  ret -= (10 * str_cur) * 1.5;
  if (has_trait("WEBBED"))
   ret -= 60 + str_cur * 5;
  if (has_trait("TAIL_FIN"))
@@ -4662,6 +4666,11 @@ void player::suffer(game *g)
         {
             oxygen--;
         }
+        if (oxygen < 12 && is_wearing("rebreather") &&
+            (has_active_item("UPS_on") || has_active_item("adv_UPS_on")))
+            {
+                oxygen += 12;
+            }
         if (oxygen < 0)
         {
             if (has_bionic("bio_gills") && power_level > 0)
@@ -6570,6 +6579,9 @@ bool player::consume(game *g, int pos)
     if(pos == INT_MIN) {
         g->add_msg(_("You do not have that item."));
         return false;
+    } if (is_underwater()) {
+        g->add_msg_if_player(this, _("You can't do that while underwater."));
+        return false;
     } else if (pos == -1) {
         // Consume your current weapon
         if (weapon.is_food_container(this)) {
@@ -6747,6 +6759,10 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
                        itypes[comest->tool]->name.c_str());
             return false;
         }
+    }
+    if (is_underwater()) {
+        g->add_msg_if_player(this, _("You can't do that while underwater."));
+        return false;
     }
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
                        comest->nutr >= 5);
@@ -7150,21 +7166,18 @@ hint_rating player::rate_action_wear(item *it)
   return HINT_IFFY;
  }
  if (armor->covers & mfb(bp_head) && !it->made_of("wool") &&
-     !it->made_of("cotton") && !it->made_of("leather") 
-     && !it->made_of("nomex") && (has_trait("HORNS_POINTED") || 
-     has_trait("ANTENNAE") || has_trait("ANTLERS"))) {
+     !it->made_of("cotton") && !it->made_of("leather") && !it->made_of("nomex") &&
+     (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS"))) {
   return HINT_IFFY;
  }
- // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
- if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(it->made_of("wool") || it->made_of("cotton") || it->made_of("nomex"))) {
-  for (int i = 0; i < worn.size(); i++) {
-   item *worn_item = &worn[i];
-   it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
-   if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of("wool") || worn_item->made_of("cotton") || worn_item->made_of("nomex"))) {
-    return HINT_IFFY;
-   }
-  }
+ // Checks to see if the player is wearing leather/plastic/etc shoes
+ if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) &&
+     (it->made_of("leather") || it->made_of("plastic") ||
+      it->made_of("steel") || it->made_of("kevlar") ||
+      it->made_of("chitin")) && is_wearing_shoes()){
+  return HINT_IFFY;
  }
+
  return HINT_GOOD;
 }
 
@@ -7329,7 +7342,8 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg(wearing_something_on(bp_head) ? _("You can't wear another helmet!") : _("You can't wear a helmet!"));
+                g->add_msg(wearing_something_on(bp_head) ?
+                           _("You can't wear another helmet!") : _("You can't wear a helmet!"));
             }
             return false;
         }
@@ -7343,7 +7357,9 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if ( armor->covers & mfb(bp_hands) && (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") || has_trait("ARM_TENTACLES_8")) )
+        if ( armor->covers & mfb(bp_hands) &&
+             (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
+              has_trait("ARM_TENTACLES_8")) )
         {
             if(interactive)
             {
@@ -7360,7 +7376,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_hands) && has_trait("PAWS"))
         {
             if(interactive)
@@ -7379,7 +7395,8 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_mouth) && (has_trait("MUZZLE") || has_trait("BEAR_MUZZLE") || has_trait("LONG_MUZZLE")))
+        if (armor->covers & mfb(bp_mouth) &&
+            (has_trait("MUZZLE") || has_trait("BEAR_MUZZLE") || has_trait("LONG_MUZZLE")))
         {
             if(interactive)
             {
@@ -7442,23 +7459,29 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_head) && !to_wear->made_of("wool") && !to_wear->made_of("cotton") && !to_wear->made_of("nomex") && !to_wear->made_of("leather") && (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS")))
+        if (armor->covers & mfb(bp_head) &&
+            !to_wear->made_of("wool") && !to_wear->made_of("cotton") &&
+            !to_wear->made_of("nomex") && !to_wear->made_of("leather") &&
+            (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS")))
         {
             if(interactive)
             {
-                g->add_msg(_("You cannot wear a helmet over your %s."), (has_trait("HORNS_POINTED") ? _("horns") : (has_trait("ANTENNAE") ? _("antennae") : _("antlers"))));
+                g->add_msg(_("You cannot wear a helmet over your %s."),
+                           (has_trait("HORNS_POINTED") ? _("horns") :
+                            (has_trait("ANTENNAE") ? _("antennae") : _("antlers"))));
             }
             return false;
         }
 
-        if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(to_wear->made_of("wool") || to_wear->made_of("cotton") || to_wear->made_of("nomex")))
-        {
-            if (is_wearing_shoes()){// Checks to see if the player is wearing leather/plastic etc shoes
-                if(interactive){
-                    g->add_msg(_("You're already wearing footwear!"));
-                }
-                return false;
+        if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) &&
+            (to_wear->made_of("leather") || to_wear->made_of("plastic") ||
+             to_wear->made_of("steel") || to_wear->made_of("kevlar") ||
+             to_wear->made_of("chitin")) && is_wearing_shoes()) {
+            // Checks to see if the player is wearing leather/plastic etc shoes
+           	if(interactive){
+                g->add_msg(_("You're already wearing footwear!"));
             }
+            return false;
         }
     }
 
@@ -8194,6 +8217,11 @@ press 'U' while wielding the unloaded gun."), gun->tname().c_str());
                        gun->tname().c_str());
             return;
         }
+        if (mod->id == "waterproof_gunmod" && gun->has_flag("WATERPROOF_GUN")) {
+            g->add_msg(_("Your %s is already waterproof."),
+                       gun->tname().c_str());
+            return;
+        }
         for (int i = 0; i < gun->contents.size(); i++) {
             if (gun->contents[i].type->id == used->type->id) {
                 g->add_msg(_("Your %s already has a %s."), gun->tname().c_str(),
@@ -8307,7 +8335,7 @@ press 'U' while wielding the unloaded gun."), gun->tname().c_str());
           g->add_msg(_("You remove all the modifications from your %s."), weapon->name.c_str());
         }
         else {
-          g->add_msg(_("Nevermind."));
+          g->add_msg(_("Never mind."));
           return;
         }
         // Removing stuff from a gun takes time.
@@ -8464,8 +8492,9 @@ void player::read(game *g, int pos)
         g->add_msg(_("What's the point of reading?  (Your morale is too low!)"));
         return;
     }
-    else if (skillLevel(tmp->type) >= (int)tmp->level && tmp->fun <= 0 && !can_study_recipe(tmp) &&
-            !query_yn(_("Your %s skill won't be improved.  Read anyway?"),
+    else if (skillLevel(tmp->type) >= (int)tmp->level && !can_study_recipe(tmp) &&
+            !query_yn(_(tmp->fun > 0 ? "It would be fun, but your %s skill won't be improved.  Read anyway?"
+                        : "Your %s skill won't be improved.  Read anyway?"),
                       tmp->type->name().c_str()))
     {
         return;
@@ -9282,9 +9311,9 @@ bool player::is_wearing_shoes() {
         it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
 
         if (worn_armor->covers & mfb(bp_feet) &&
-            !(worn_item->made_of("wool") ||
-              worn_item->made_of("cotton") ||
-              worn_item->made_of("nomex"))) {
+            (worn_item->made_of("leather") || worn_item->made_of("plastic") ||
+             worn_item->made_of("steel") || worn_item->made_of("kevlar") ||
+             worn_item->made_of("chitin"))) {
             return true;
         }
     }

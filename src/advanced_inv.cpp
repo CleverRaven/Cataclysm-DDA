@@ -740,13 +740,15 @@ void advanced_inventory::display(game * gp, player * pp)
                     mvwprintz(head,0,w_width-18,c_white,_("< [?] show log >"));
                     mvwprintz(head,1,2, c_white, _("hjkl or arrow keys to move cursor, [m]ove item between panes,"));
                     mvwprintz(head,2,2, c_white, _("1-9 (or GHJKLYUBNI) to select square for active tab, 0 for inventory,"));
-                    mvwprintz(head,3,2, c_white, _("[e]xamine item,  [s]ort display, toggle auto[p]ickup, [q]uit."));
+                    mvwprintz(head,3,2, c_white, _("[e]xamine item, [s]ort display, toggle auto[p]ickup, [q]uit."));
                     if (panes[src].sortby == SORTBY_CATEGORY) {
                         nc_color highlight_color = inCategoryMode ? c_white_red : h_ltgray;
-                        mvwprintz(head, 3, 63, highlight_color, _("[space] toggles selection modes"));
+                        mvwprintz(head, 3, 3 + utf8_width(_("[e]xamine item, [s]ort display, toggle auto[p]ickup, [q]uit.")),
+                                  highlight_color, _("[space] toggles selection modes"));
                     }
                 } else {
-                    mvwprintz(head,0,w_width-19,c_white,_("< [?] show help >"));
+                    mvwprintz(head, 0, w_width - utf8_width(_("< [?] show help >")),
+                              c_white, _("< [?] show help >"));
                 }
                 wrefresh(head);
             }
@@ -1169,7 +1171,7 @@ void advanced_inventory::display(game * gp, player * pp)
             item *it = panes[src].items[list_pos].it;
             int ret=0;
             if(panes[src].area == isinventory ) {
-                ret = g->inventory_item_menu( list_pos, colstart + ( src == left ? w_width / 2 : 0 ),
+                ret = g->inventory_item_menu( item_pos, colstart + ( src == left ? w_width / 2 : 0 ),
                                               w_width / 2, (src == right ? 1 : -1) );
                 panes[src].recalc = true;
                 checkshowmsg = true;

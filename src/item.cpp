@@ -866,8 +866,9 @@ std::string item::tname( bool with_prefix )
             ret << "+";
         maintext = ret.str();
     } else if (contents.size() == 1) {
-        maintext = rmp_format(_("<item_name>%s of %s"), type->name.c_str(),
-                              contents[0].tname().c_str());
+        maintext = rmp_format((contents[0].made_of(LIQUID) || contents[0].is_food())?
+                              _("<item_name>%s of %s"):("<item_name>%s with %s"),
+                              type->name.c_str(), contents[0].tname().c_str());
     }
     else if (contents.size() > 0) {
         maintext = rmp_format(_("<item_name>%s, full"), type->name.c_str());
@@ -1509,6 +1510,7 @@ bool item::is_silent() const
    curammo->type == "bolt" || // crossbows
    curammo->type == "arrow" ||// bows
    curammo->type == "pebble" ||// sling[shot]
+   curammo->type == "fishspear" ||// speargun spears
    curammo->type == "dart"     // blowguns and such
  );
 }

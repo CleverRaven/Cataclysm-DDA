@@ -2123,6 +2123,7 @@
         "type" : "recipe",
   "result": "aux_flamer",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
   "skill_used": "mechanics",
   "skills_required": [ "fabrication", 3 ],
   "difficulty": 6,
@@ -2213,7 +2214,7 @@
         "type" : "recipe",
   "result": "40mm_acidbomb",
   "category": "CC_AMMO",
-  "subcategory": "CSC_WEAPON_EXPLOSIVE",
+  "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 100,
@@ -2279,7 +2280,7 @@
   "type" : "recipe",
   "result": "mininuke_mod",
   "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_EXPLOSIVE",
+  "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
   "skills_required": ["electronics",  7],
   "difficulty": 8,
@@ -2322,8 +2323,8 @@
 },{
         "type" : "recipe",
   "result": "chainsaw_off",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "mechanics",
   "difficulty": 4,
   "time": 20000,
@@ -2371,8 +2372,8 @@
 },{
         "type" : "recipe",
   "result": "carver_off",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "fabrication",
   "skills_required" : [ "electronics", 3 ],
   "difficulty": 4,
@@ -2418,7 +2419,8 @@
 },{
         "type" : "recipe",
   "result": "trimmer_off",
-  "category": "CC_WEAPON",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "fabrication",
   "skills_required" : [ "electronics", 3 ],
   "difficulty": 5,
@@ -2464,7 +2466,8 @@
 },{
         "type" : "recipe",
   "result": "circsaw_off",
-  "category": "CC_WEAPON",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "fabrication",
   "skills_required" : [ "electronics", 3 ],
   "difficulty": 5,
@@ -2511,6 +2514,7 @@
         "type" : "recipe",
   "result": "combatsaw_off",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "mechanics",
   "skills_required": ["melee",  2],
   "difficulty": 6,
@@ -3082,8 +3086,8 @@
 },{
         "type" : "recipe",
   "result" : "arrow_wood",
-  "subcategory": "CSC_AMMO_ARROWS",
   "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
   "skills_required": [ "archery", 3 ],
   "difficulty" : 5,
@@ -3107,8 +3111,8 @@
 },{
         "type" : "recipe",
   "result" : "arrow_metal_sharpened",
-  "subcategory": "CSC_AMMO_ARROWS",
   "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
   "skills_required": [ "archery", 3 ],
   "difficulty" : 5,
@@ -3136,8 +3140,8 @@
 },{
         "type" : "recipe",
   "result" : "arrow_heavy_fire_hardened_fletched",
-  "subcategory": "CSC_AMMO_ARROWS",
   "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
   "skills_required": [ "archery", 3 ],
   "difficulty" : 5,
@@ -3361,6 +3365,7 @@
         "type" : "recipe",
   "result": "modularvestsuper",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
@@ -3379,6 +3384,7 @@
         "type" : "recipe",
   "result": "modularveststeel",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
@@ -3397,6 +3403,7 @@
         "type" : "recipe",
   "result": "modularvestceramic",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
@@ -3415,6 +3422,7 @@
         "type" : "recipe",
   "result": "modularvestkevlar",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
@@ -3433,6 +3441,7 @@
         "type" : "recipe",
   "result": "modularvesthard",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
@@ -3568,6 +3577,67 @@
     [
       [ "gunpowder", 20 ]
     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fishspear",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools" : [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "bee_sting", 1 ]
+    ],
+    [
+      [ "scrap", 4 ]
+    ]
+  ]
+},{
+         "type" : "recipe",
+  "result": "m_fishspear",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        ["hacksaw", -1],
+        ["toolset", -1]
+    ],
+    [
+      ["rock", -1],
+      ["primitive_hammer", -1],
+      ["hammer", -1],
+      ["hatchet", -1],
+      ["toolset", -1]
+    ]
+  ],
+  "components": [
+      [
+        ["steel_chunk", 3],
+        ["scrap", 8]
+      ]
   ]
 },{
          "type" : "recipe",
@@ -5541,6 +5611,7 @@
         "type" : "recipe",
   "result": "bologna",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
@@ -5571,6 +5642,7 @@
         "type" : "recipe",
   "result": "hfleshbologna",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 18000,
@@ -5865,6 +5937,7 @@
         "type" : "recipe",
   "result": "cooked_burrito",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 2500,
@@ -5989,6 +6062,7 @@
         "type" : "recipe",
   "result": "hobo_helper",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 10000,
@@ -6031,6 +6105,7 @@
         "type" : "recipe",
   "result": "potato_baked",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 15000,
@@ -6094,6 +6169,7 @@
         "type" : "recipe",
    "result": "nachos",
    "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
    "difficulty": 1,
    "time": 20000,
@@ -6128,6 +6204,7 @@
         "type" : "recipe",
    "result": "nachosc",
    "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
    "difficulty": 0,
    "time": 20000,
@@ -6162,6 +6239,7 @@
         "type" : "recipe",
    "result": "nachosm",
    "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
    "difficulty": 0,
    "time": 20000,
@@ -6197,6 +6275,7 @@
         "type" : "recipe",
    "result": "nachosmc",
    "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
    "difficulty": 0,
    "time": 20000,
@@ -6236,6 +6315,7 @@
         "type" : "recipe",
    "result": "nachoshf",
    "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
    "difficulty": 0,
    "time": 20000,
@@ -6272,6 +6352,7 @@
         "type" : "recipe",
    "result": "nachoshc",
    "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
    "difficulty": 0,
    "time": 20000,
@@ -6312,6 +6393,7 @@
         "type" : "recipe",
    "result": "cheese_fries",
    "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
    "difficulty": 0,
    "time": 10000,
@@ -6341,6 +6423,7 @@
         "type" : "recipe",
   "result": "popcorn",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 3000,
@@ -6368,6 +6451,7 @@
         "type" : "recipe",
   "result": "popcorn2",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 300,
@@ -6489,6 +6573,7 @@
         "type" : "recipe",
   "result": "strawberries_cooked",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 5000,
@@ -6516,6 +6601,7 @@
         "type" : "recipe",
   "result": "blueberries_cooked",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 5000,
@@ -6543,6 +6629,7 @@
         "type" : "recipe",
   "result": "jam_strawberries",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 30000,
@@ -6573,6 +6660,7 @@
         "type" : "recipe",
   "result": "jam_blueberries",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 30000,
@@ -6902,6 +6990,7 @@
         "type" : "recipe",
   "result": "jerky",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 30000,
@@ -6930,6 +7019,7 @@
         "type" : "recipe",
   "result": "jerky_human",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 30000,
@@ -6959,6 +7049,7 @@
         "type" : "recipe",
   "result": "V8",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 5000,
@@ -6982,6 +7073,7 @@
         "type" : "recipe",
   "result": "broth",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 10000,
@@ -7023,7 +7115,7 @@
         "type" : "recipe",
   "result": "broth_bone",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_SNACK",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 60000,
@@ -7054,7 +7146,7 @@
         "type" : "recipe",
   "result": "soup_veggy",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_SNACK",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 10000,
@@ -7099,6 +7191,7 @@
         "type" : "recipe",
   "result": "soup_meat",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 10000,
@@ -7137,6 +7230,7 @@
         "type" : "recipe",
   "result": "soup_woods",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 10000,
@@ -7179,6 +7273,7 @@
         "type" : "recipe",
   "result": "soup_human",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 10000,
@@ -7216,6 +7311,7 @@
         "type" : "recipe",
   "result": "can_chowder",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 10000,
@@ -7257,7 +7353,7 @@
         "type" : "recipe",
   "result": "bread",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_VEGGI",
+  "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
@@ -7288,7 +7384,7 @@
         "type" : "recipe",
   "result": "cornbread",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_VEGGI",
+  "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 18000,
@@ -7319,7 +7415,7 @@
         "type" : "recipe",
   "result": "hardtack",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_VEGGI",
+  "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 90000,
@@ -7354,7 +7450,7 @@
         "type" : "recipe",
   "result": "biscuit",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_VEGGI",
+  "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 20000,
@@ -7387,6 +7483,7 @@
         "type" : "recipe",
   "result": "johnnycake",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 14000,
@@ -7416,6 +7513,7 @@
         "type" : "recipe",
   "result": "oatmeal_cooked",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 6000,
@@ -7447,6 +7545,7 @@
         "type" : "recipe",
   "result": "oatmeal_deluxe",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 6000,
@@ -7500,6 +7599,7 @@
         "type" : "recipe",
   "result": "scrambled_eggs",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 6000,
@@ -7531,6 +7631,7 @@
         "type" : "recipe",
   "result": "deluxe_eggs",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 6000,
@@ -7678,6 +7779,7 @@
         "type" : "recipe",
   "result": "choc_pancakes",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 12000,
@@ -7723,7 +7825,7 @@
         "type" : "recipe",
   "result": "waffles",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_MEAT",
+  "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 12000,
@@ -7767,7 +7869,7 @@
         "type" : "recipe",
   "result": "fruit_waffles",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_MEAT",
+  "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 12000,
@@ -7828,7 +7930,7 @@
         "type" : "recipe",
   "result": "choc_waffles",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_VEGGI",
+  "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 12000,
@@ -8149,7 +8251,7 @@
         "type" : "recipe",
   "result": "pie_meat",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_MEAT",
+  "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 25000,
@@ -8184,7 +8286,7 @@
         "type" : "recipe",
   "result": "pie_human",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_MEAT",
+  "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 25000,
@@ -8220,7 +8322,7 @@
         "type" : "recipe",
   "result": "chili",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_BREAD",
+  "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
@@ -8262,7 +8364,7 @@
         "type" : "recipe",
   "result": "chili_human",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_BREAD",
+  "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
@@ -8351,7 +8453,7 @@
         "type" : "recipe",
   "result": "smores",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_BREAD",
+  "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 8000,
@@ -8615,6 +8717,7 @@
         "type" : "recipe",
   "result": "meth",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 20000,
@@ -8651,6 +8754,7 @@
         "type" : "recipe",
   "result": "crack",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
@@ -8685,6 +8789,7 @@
         "type" : "recipe",
   "result": "poppy_sleep",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
   "skill_used": "cooking",
   "skills_required": [ "survival", 1 ],
   "difficulty": 2,
@@ -8716,6 +8821,7 @@
         "type" : "recipe",
   "result": "poppy_pain",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
   "skill_used": "cooking",
   "skills_required": [ "survival", 1 ],
   "difficulty": 2,
@@ -8747,6 +8853,7 @@
         "type" : "recipe",
   "result": "fungicide",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
   "skills_required": [ "survival", 1 ],
   "difficulty": 2,
@@ -8780,7 +8887,7 @@
 },{
         "type" : "recipe",
   "result": "royal_jelly",
-  "category": "CC_CHEM",
+  "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 5,
@@ -8806,6 +8913,7 @@
         "type" : "recipe",
   "result": "heroin",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
   "skill_used": "cooking",
   "difficulty": 6,
   "time": 2000,
@@ -8838,6 +8946,7 @@
         "type" : "recipe",
   "result": "mutagen",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 1 ],
   "difficulty": 8,
@@ -8877,6 +8986,7 @@
         "type" : "recipe",
   "result": "iv_mutagen",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGIN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
   "difficulty": 9,
@@ -8904,6 +9014,7 @@
         "type" : "recipe",
   "result": "mutagen_plant",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
@@ -8939,6 +9050,7 @@
         "type" : "recipe",
   "result": "iv_mutagen_plant",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
   "difficulty": 10,
@@ -8966,6 +9078,7 @@
         "type" : "recipe",
   "result": "mutagen_insect",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
@@ -9002,7 +9115,7 @@
         "type" : "recipe",
   "result": "iv_mutagen_insect",
   "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_DRUG",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
   "difficulty": 10,
@@ -9030,7 +9143,7 @@
         "type" : "recipe",
   "result": "mutagen_spider",
   "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_DRUG",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
@@ -9065,7 +9178,7 @@
         "type" : "recipe",
   "result": "iv_mutagen_spider",
   "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_DRUG",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
   "difficulty": 10,
@@ -9093,7 +9206,7 @@
         "type" : "recipe",
   "result": "mutagen_slime",
   "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_DRUG",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
@@ -9129,7 +9242,7 @@
         "type" : "recipe",
   "result": "iv_mutagen_slime",
   "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_DRUG",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
   "difficulty": 9,
@@ -9157,6 +9270,7 @@
         "type" : "recipe",
   "result": "mutagen_fish",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
@@ -9194,7 +9308,7 @@
         "type" : "recipe",
   "result": "iv_mutagen_fish",
   "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_DRUG",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
   "difficulty": 9,
@@ -9320,6 +9434,7 @@
     "type" : "recipe",
   "result": "mutagen_ursine",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
@@ -9698,6 +9813,7 @@
         "type" : "recipe",
   "result": "iv_mutagen_troglobite",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
   "difficulty": 9,
@@ -9762,6 +9878,7 @@
         "type" : "recipe",
   "result": "iv_mutagen_medical",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
   "difficulty": 10,
@@ -9849,6 +9966,7 @@
         "type" : "recipe",
   "result": "iv_purifier",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
   "difficulty": 10,
@@ -9913,6 +10031,7 @@
         "type" : "recipe",
   "result": "iv_mutagen_alpha",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
   "difficulty": 10,
@@ -9974,6 +10093,7 @@
         "type" : "recipe",
   "result": "iv_mutagen_elfa",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
   "difficulty": 10,
@@ -10038,6 +10158,7 @@
         "type" : "recipe",
   "result": "iv_mutagen_chimera",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
   "difficulty": 10,
@@ -10099,6 +10220,7 @@
         "type" : "recipe",
   "result": "iv_mutagen_raptor",
   "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 3 ],
   "difficulty": 10,
@@ -11180,7 +11302,8 @@
 },{
         "type" : "recipe",
   "result": "floodlight",
-  "category": "CC_ELECTRONIC",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "mechanics",
   "skills_required": [ "electronics", 1 ],
   "difficulty": 2,
@@ -12908,6 +13031,7 @@
         "type" : "recipe",
   "result": "boots_western",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 35000,
@@ -13825,6 +13949,7 @@
         "type" : "recipe",
   "result": "nomex_suit",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 6,
   "time": 24000,
@@ -13846,6 +13971,7 @@
         "type" : "recipe",
   "result": "nomex_hood",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
   "difficulty": 6,
   "time": 24000,
@@ -13867,6 +13993,7 @@
         "type" : "recipe",
   "result": "nomex_gloves",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
   "skill_used": "tailor",
   "difficulty": 6,
   "time": 24000,
@@ -13888,6 +14015,7 @@
         "type" : "recipe",
   "result": "nomex_socks",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 6,
   "time": 24000,
@@ -13909,6 +14037,7 @@
         "type" : "recipe",
   "result": "entry_suit",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "fabrication",
   "skills_required" : ["tailor", 6],
   "difficulty": 6,
@@ -14386,6 +14515,50 @@
   ]
 },{
         "type" : "recipe",
+  "result": "rebreather",
+  "category": "CC_ARMOR",
+  "skill_used": "electronics",
+  "skills_required": [ "tailor", 1 ],
+  "difficulty": 9,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mask_filter", 1 ]
+    ],
+    [
+      [ "power_supply", 2 ]
+    ],
+    [
+      [ "amplifier", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 4 ]
+    ],
+    [
+      [ "circuit", 2 ]
+    ],
+    [
+      [ "e_scrap", 8 ]
+    ],
+    [
+      [ "cable", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "hat_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -14431,6 +14604,7 @@
         "type" : "recipe",
   "result": "hat_noise_cancelling",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 10000,
@@ -17275,7 +17449,7 @@
         "type" : "recipe",
   "result": "jar_veggy_canned",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOO_VEGGI",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
@@ -17862,8 +18036,8 @@
 },{
         "type" : "recipe",
   "result": "firemachete_off",
-  "subcategory": "CSC_WEAPON_CUTTING",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "mechanics",
   "difficulty": 4,
   "time": 20000,
@@ -18700,7 +18874,7 @@
         "type" : "recipe",
   "result": "fertilizer_liquid",
   "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_CHEMICAL",
+  "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
   "skills_required": ["survival", 2],
   "difficulty": 3,
@@ -19518,6 +19692,7 @@
         "type" : "recipe",
   "result": "battleaxe",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 480000,
@@ -19562,6 +19737,7 @@
         "type" : "recipe",
   "result": "warhammer",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_BASHING",
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 480000,
@@ -20152,9 +20328,47 @@
   "components":
     [
      [
-     [ "steel_lump", 2 ],
-     [ "steel_chunk", 8 ],
-     [ "scrap", 24 ]
+     [ "steel_chunk", 3 ],
+     [ "scrap", 9 ]
+     ],
+     [
+     [ "plastic_chunk", 1 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "diveknife",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 360000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 350], ["char_forge", 70]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_chunk", 2 ],
+     [ "scrap", 6 ]
+     ],
+     [
+     [ "plastic_chunk", 2 ]
      ]
     ]
 },{
@@ -20369,6 +20583,7 @@
         "type" : "recipe",
   "result": "lajatang",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 15000,
@@ -20389,6 +20604,7 @@
         "type" : "recipe",
   "result": "cs_lajatang_off",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 15000,
@@ -20823,6 +21039,7 @@
         "type" : "recipe",
   "result": "fire_ax",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 9,
   "time": 420000,
@@ -21465,6 +21682,7 @@
         "type" : "recipe",
    "result": "taco",
    "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "difficulty": 3,
    "time": 8000,
@@ -21499,6 +21717,7 @@
         "type" : "recipe",
    "result": "tiotaco",
    "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "difficulty": 3,
    "time": 8000,
@@ -21533,6 +21752,7 @@
         "type" : "recipe",
    "result": "hotdogs_cooked",
    "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "difficulty": 2,
    "time": 8000,
@@ -21573,6 +21793,7 @@
         "type" : "recipe",
    "result": "chilidogs",
    "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "difficulty": 2,
    "time": 8000,
@@ -21611,6 +21832,7 @@
         "type" : "recipe",
    "result": "chilidogs_human",
    "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "difficulty": 2,
    "time": 8000,
@@ -21650,6 +21872,7 @@
         "type" : "recipe",
    "result": "corndogs_cooked",
    "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "difficulty": 2,
    "time": 6500,
@@ -22120,6 +22343,7 @@
         "type" : "recipe",
   "result": "fsurvivor_suit",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 6],
   "difficulty": 8,
@@ -22168,6 +22392,57 @@
       [ "kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
+      [ "kevlar_plate", 24 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "h20survivor_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 7,
+  "time": 300000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "needle_bone", 200 ],
+      [ "sewing_kit", 200 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 10 ]
+     ],
+     [
+      [ "wetsuit", 1 ],
+      [ "swetsuit_spring", 1 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 6 ],
+      [ "leather_pouch", 4 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 400 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "swat_armor", 1 ],
+      [ "modularvest", 1 ],
       [ "kevlar_plate", 24 ]
      ]
   ]
@@ -22653,6 +22928,65 @@
     ],
     [
       [ "spray_can", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "goggles_swim",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "goggles_ski", 1 ],
+      [ "goggles_welding", 1 ],
+      [ "glasses_safety", 1 ]
+    ],
+    [
+      [ "duct_tape", 120 ],
+      [ "medical_tape", 120 ]
+    ],
+    [
+      [ "superglue", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "swim_fins",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "skills_required" : ["tailor", 2],
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 3 ]
+    ],
+    [
+      [ "needle_bone", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+ "components": [
+    [
+      [ "plastic_chunk", 8 ]
+    ],
+    [
+      [ "duct_tape", 80 ],
+      [ "medical_tape", 80 ]
+    ],
+    [
+      [ "superglue", 1 ]
     ]
   ]
 },{
@@ -24058,6 +24392,7 @@
         "type" : "recipe",
   "result": "leathersandals",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 20000,
@@ -24078,6 +24413,7 @@
         "type" : "recipe",
   "result": "bastsandals",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 30000,
@@ -24114,9 +24450,10 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "brioche",
   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 60000,
@@ -24157,9 +24494,10 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "flint_ammo",
   "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
@@ -24199,9 +24537,10 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rifle_flint",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
@@ -24238,7 +24577,8 @@
 },{
   "type" : "recipe",
   "result": "mop",
-  "category": "CC_WEAPON",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 10000,
@@ -24259,11 +24599,209 @@
       [ "string_36", 1]
     ]
   ]
-},
-{
-        "type" : "recipe",
+},{
+  "type" : "recipe",
+  "result": "footrags",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rag", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "40mm_shot",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_BULLETS",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 6,
+  "time": 12500,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+    ]
+  ],
+  "components": [
+    [
+     [ "40mm_casing", 4 ]
+    ],
+    [
+     [ "shotgun_primer", 4 ]
+    ],
+    [
+     [ "gunpowder", 160 ]
+    ],
+    [
+      [ "lead", 200 ],
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
+      [ "tin", 200 ],
+      [ "bismuth", 200 ],
+      [ "solder_wire", 200 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "40mm_flechette",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_BULLETS",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 7,
+  "time": 17500,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "boltcutters", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+    ]
+  ],
+  "components": [
+    [
+     [ "40mm_casing", 4 ]
+    ],
+    [
+     [ "shotgun_primer", 4 ]
+    ],
+    [
+     [ "gunpowder", 160 ]
+    ],
+    [
+     [ "nail", 120 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "speargun",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skills_required": [ "fabrication", 2 ],
+  "difficulty": 3,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "2x4", 2 ],
+      [ "stick", 2 ]
+    ],
+    [
+      [ "hose", 4 ]
+    ],
+    [
+      [ "scrap", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "doublespeargun",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skills_required": [ "fabrication", 2 ],
+  "difficulty": 4,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "2x4", 3 ],
+      [ "stick", 3 ]
+    ],
+    [
+      [ "hose", 8 ]
+    ],
+    [
+      [ "scrap", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "minispeargun",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skills_required": [ "fabrication", 2 ],
+  "difficulty": 4,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "2x4", 1 ],
+      [ "stick", 1 ]
+    ],
+    [
+      [ "hose", 2 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "pistol_flint",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,

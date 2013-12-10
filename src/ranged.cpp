@@ -261,6 +261,23 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         } else if (!used_weapon->has_flag("NO_AMMO")) {
             used_weapon->charges--;
         }
+        /* TODO: merge the underwater stuff in. this is just going to take way
+         * too much work right now
+  if (firing->skill_used != Skill::skill("archery") &&
+      firing->skill_used != Skill::skill("throw")) {
+      // Current guns have a durability between 5 and 9.
+      // Misfire chance is between 1/64 and 1/1024, 1/durability when underwater unless WATERPROOF_GUN is in effect.
+    if (u.is_underwater() && !weapon->has_flag("WATERPROOF_GUN") && one_in(firing->durability)) {
+          add_msg_player_or_npc( &p, _("Your weapon misfires with a wet click!"),
+                                 _("<npcname>'s weapon misfires with a wet click!") );
+          return;
+      } else if (one_in(2 << firing->durability)) {
+          add_msg_player_or_npc( &p, _("Your weapon misfires!"),
+                                 _("<npcname>'s weapon misfires!") );
+          return;
+  }
+  }
+  */
 
         // Drain UPS power
         if (has_charges("adv_UPS_off", adv_ups_drain)) {
@@ -971,6 +988,7 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
  else if (weapon->curammo->type != "bolt" &&
           weapon->curammo->type != "arrow" &&
           weapon->curammo->type != "pebble" &&
+          weapon->curammo->type != "fishspear" &&
           weapon->curammo->type != "dart")
   g->sound(p.posx, p.posy, noise, gunsound);
 }
@@ -1006,6 +1024,10 @@ double player::get_weapon_dispersion(item *weapon) {
     // lot. This is kind of a compromise
     if (has_bionic("bio_targeting"))
         dispersion *= 0.75;
+    if ((p.is_underwater() && !p.weapon.has_flag("UNDERWATER_GUN")) || // Range is effectively four times longer when shooting unflagged guns underwater.
+            (!p.is_underwater() && p.weapon.has_flag("UNDERWATER_GUN"))) { // Range is effectively four times longer when shooting flagged guns out of water.
+        dispersion *= 4;
+    }
 
     if (dispersion < 0) { return 0; }
     return dispersion;
@@ -1130,7 +1152,7 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
     int npcdex = g->npc_at(h->posx, h->posy);
     // Gunmods don't have a type, so use the player gun type.
     it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
-    body_part hit;
+    body_part hit = bp_torso;
     if (goodhit < .003) {
         hit = bp_eyes;
         dam = rng(3 * dam, 5 * dam);

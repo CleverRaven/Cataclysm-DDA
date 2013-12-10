@@ -763,13 +763,6 @@ bool vehicle::can_unmount (int p)
     //Structural parts have extra requirements
     if(part_info(p).location == part_location_structure) {
 
-        /* Can't unmount the last structural part at (0, 0) unless it is the
-         * last part of the whole vehicle, as the map relies on vehicles having
-         * a part at (0, 0) to locate them with. */
-        if(dx == 0 && dy == 0 && parts_in_square.size() == 1 && parts.size() > 1) {
-            return false;
-        }
-
         /* To remove a structural part, there can be only structural parts left
          * in that square (might be more than one in the case of wreckage) */
         for(int part_index = 0; part_index < parts_in_square.size(); part_index++) {
@@ -934,22 +927,7 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
 
-    if(part_flag(parts.size()-1,"HORN")) {
-        horns.push_back(parts.size() - 1);
-    }
-    if(part_flag(parts.size()-1,"FUEL_TANK"))
-        fuel.push_back(parts.size()-1);
-
-    point p(new_part.mount_dx, new_part.mount_dy);
-    if ( relative_parts.find(p) == relative_parts.end() ) {
-        relative_parts[p].clear();
-    }
-    relative_parts[p].push_back(parts.size());
-
-    find_power ();
-    find_exhaust ();
-    precalc_mounts (0, face.dir());
-    insides_dirty = true;
+    refresh();
     return parts.size() - 1;
 }
 
@@ -1026,14 +1004,32 @@ void vehicle::remove_part (int p)
         }
     }
 
+    //Ditto for seatbelts
+    if(part_flag(p, "SEAT")) {
+        int seatbelt = part_with_feature(p, "SEATBELT", false);
+        if (seatbelt >= 0) {
+            int x = parts[seatbelt].precalc_dx[0], y = parts[seatbelt].precalc_dy[0];
+            item it = item_from_part(seatbelt);
+            g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
+            remove_part(seatbelt);
+        }
+    }
+
+    //If we remove the (0, 0) frame, we need to shift things around
+    if(part_info(p).location == "structure" && parts[p].mount_dx == 0 && parts[p].mount_dy == 0) {
+        //Find a frame, any frame, to shift to
+        for(int next_part = 0; next_part < parts.size(); next_part++) {
+            if(next_part != p
+                    && part_info(next_part).location == "structure"
+                    && !part_info(next_part).has_flag("PROTRUSION")) {
+                shift_parts(parts[next_part].mount_dx, parts[next_part].mount_dy);
+                break;
+            }
+        }
+    }
+
     parts.erase(parts.begin() + p);
-    find_horns ();
-    find_power ();
-    find_fuel_tanks ();
-    find_parts ();
-    find_exhaust ();
-    precalc_mounts (0, face.dir());
-    insides_dirty = true;
+    refresh();
 
     if(parts.size() == 0) {
         g->m.destroy_vehicle(this);
@@ -2983,6 +2979,21 @@ bool vehicle::pedals() {
   return false;
 }
 
+/**
+ * Refreshes all caches and refinds all parts, after the vehicle has had a part
+ * added or removed.
+ */
+void vehicle::refresh()
+{
+    find_horns ();
+    find_power ();
+    find_fuel_tanks ();
+    find_parts ();
+    find_exhaust ();
+    precalc_mounts (0, face.dir());
+    insides_dirty = true;
+}
+
 void vehicle::refresh_insides ()
 {
     insides_dirty = false;
@@ -3107,6 +3118,34 @@ void vehicle::damage_all (int dmg1, int dmg2, int type, const point &impact)
     }
 }
 
+/**
+ * Shifts all parts of the vehicle by the given amounts, and then shifts the
+ * vehicle itself in the opposite direction. The end result is that the vehicle
+ * appears to have not moved. Useful for re-zeroing a vehicle to ensure that a
+ * (0, 0) part is always present.
+ * @param dx How much to shift on the x-axis.
+ * @param dy How much to shift on the y-axis.
+ */
+void vehicle::shift_parts(const int dx, const int dy)
+{
+    for(unsigned int p = 0; p < parts.size(); p++) {
+        parts[p].mount_dx -= dx;
+        parts[p].mount_dy -= dy;
+    }
+
+    //Don't use the cache as it hasn't been updated yet
+    std::vector<int> origin_parts = parts_at_relative(0, 0, false);
+
+    posx += parts[origin_parts[0]].precalc_dx[0];
+    posy += parts[origin_parts[0]].precalc_dy[0];
+
+    refresh();
+
+    //Need to also update the map after this
+    g->m.reset_vehicle_cache();
+    
+}
+
 int vehicle::damage_direct (int p, int dmg, int type)
 {
     if (parts[p].hp <= 0) {
@@ -3131,11 +3170,10 @@ int vehicle::damage_direct (int p, int dmg, int type)
                         remove_part(parts_in_square[index]);
                     }
                 }
-                /* After clearing the frame, remove it if normally legal to
-                 * do so (it's not (0, 0) and not holding the vehicle
-                 * together). At a later date, some more complicated system
-                 * (such as actually making two vehicles from the split
-                 * parts) would be ideal. */
+                /* After clearing the frame, remove it if normally legal to do
+                 * so (it's not holding the vehicle together). At a later date,
+                 * some more complicated system (such as actually making two
+                 * vehicles from the split parts) would be ideal. */
                 if(can_unmount(p)) {
                     if(g->u_see(x_pos, y_pos)) {
                         g->add_msg(_("The %s's %s is destroyed!"),
@@ -3308,7 +3346,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];
     // code copied form mattack::smg, mattack::flamethrower
-    int t, fire_t;
+    int t, fire_t = 0;
     monster *target = 0;
     int range = ammo.type == fuel_type_gasoline ? 5 : 12;
     int closest = range + 1;
