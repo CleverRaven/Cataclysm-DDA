@@ -130,7 +130,8 @@
         "points" : 3,
         "description" : "You can manage to find space for anything! You can carry 40% more volume.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "cancels" : ["DISORGANIZED"]
     },{
         "type" : "mutation",
         "id" : "STRONGBACK",
@@ -355,7 +356,8 @@
         "points" : -3,
         "description" : "You simply can not carry as much as people with a similar strength could. Your maximum weight carried is reduced by 35%.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA"]
+        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA"],
+        "cancels" : ["STRONGBACK"]
     },{
         "type" : "mutation",
         "id" : "DISORGANIZED",
