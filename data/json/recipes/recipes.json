@@ -24158,7 +24158,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "flint_ammo",
+  "result": "flintlock_ammo",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
   "skills_required": [ "gun", 1 ],
@@ -24168,16 +24168,6 @@
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 1 ],
-      [ "press", 2 ]
-    ]
   ],
   "components": [
     [
@@ -24198,41 +24188,105 @@
       [ "paper", 25 ]
     ]
   ]
-},{
+  },{
         "type" : "recipe",
-  "result": "rifle_flint",
-  "category": "CC_WEAPON",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 12000,
-  "reversible": true,
+  "result": "rifle_flintlock",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 8,
+  "time": 240000,
+  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+  "tools":[ 
+    [ 
+      ["hammer", -1], 
+      ["toolset", -1] 
     ],
     [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      ["screwdriver", -1]
+    ],
+    [
+      ["tongs", -1]
+    ],
+    [
+      ["chisel", -1]
+    ],
+    [
+      ["anvil", -1]
+    ],
+    [
+      ["swage", -1]
+    ],
+    [
+      ["forge", 400],
+      [ "char_forge", 80]
     ]
   ],
   "components": [
     [
-      [ "pipe", 1 ]
+      [ "log", 1]
     ],
     [
-      [ "2x4", 2 ]
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 12 ],
+     [ "scrap", 36 ]
     ],
     [
-      [ "rag", 1 ]
+     [ "pipe", 1]
+    ]
+  ]},{
+        "type" : "recipe",
+  "result": "pistol_flintlock",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 8,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools":[ 
+    [ 
+      ["hammer", -1], 
+      ["toolset", -1] 
     ],
     [
-      [ "scrap", 1 ]
+      ["screwdriver", -1]
+    ],
+    [
+      ["tongs", -1]
+    ],
+    [
+      ["chisel", -1]
+    ],
+    [
+      ["anvil", -1]
+    ],
+    [
+      ["swage", -1]
+    ],
+    [
+      ["forge", 400],
+      [ "char_forge", 80]
+    ]
+  ],
+  "components": [
+    [
+      [ "log", 1]
+    ],
+    [
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 9 ],
+     [ "scrap", 27 ]
+    ],
+    [
+     [ "pipe", 1]
     ]
   ]
 },{
@@ -24257,44 +24311,6 @@
     ],
     [
       [ "string_36", 1]
-    ]
-  ]
-},
-{
-        "type" : "recipe",
-  "result": "pistol_flint",
-  "category": "CC_WEAPON",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 12000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ],
-    [
-      [ "rag", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
     ]
   ]
 }
