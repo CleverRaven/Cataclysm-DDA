@@ -1399,13 +1399,13 @@ int game::get_radiant_temperature(int posx, int posy)
             if ( tile_field.findField(fd_fire) ) {
                 switch (tile_field.findField(fd_fire)->getFieldDensity()) {
                     case 1: 
-                        tile_energy = fire_temperature_level[1]; break;
+                        tile_energy += fire_temperature_level[0]; break;
                     case 2:
-                        tile_energy = fire_temperature_level[2]; break;
+                        tile_energy += fire_temperature_level[1]; break;
                     case 3:
-                        tile_energy = fire_temperature_level[3]; break;
+                        tile_energy += fire_temperature_level[2]; break;
                     case 4:
-                        tile_energy = fire_temperature_level[4]; break;
+                        tile_energy += fire_temperature_level[3]; break;
                 }
             }
 
@@ -1416,7 +1416,7 @@ int game::get_radiant_temperature(int posx, int posy)
              */
 
             if ( m.tr_at(posx + j, posy + k) == tr_lava ) {
-                tile_energy = lava_temperature;
+                tile_energy += lava_temperature;
             }
 
             /**
