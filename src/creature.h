@@ -42,8 +42,11 @@ class Creature
         // makes a single melee attack, with the currently equipped weapon
         virtual void melee_attack(game *g, Creature &t, bool allow_special) = 0; // Returns a damage
 
-        // fires a projectile at target point, with total_dispersion
+        // fires a projectile at target point from source point, with total_dispersion
         // dispersion. returns the rolled dispersion of the shot.
+        virtual double projectile_attack(game *g, const projectile &proj, int sourcex, int sourcey,
+                int targetx, int targety, double total_dispersion);
+        // overloaded version, assume it comes from this Creature's position
         virtual double projectile_attack(game *g, const projectile &proj, int targetx, int targety,
                 double total_dispersion);
 
