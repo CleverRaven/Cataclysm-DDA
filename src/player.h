@@ -152,6 +152,9 @@ public:
  bool remove_random_bionic();
  int num_bionics() const;
  bionic& bionic_at_index(int i);
+ // returns the bionic with the given invlet, or NULL if no
+ // bionic has that invlet.
+ bionic* bionic_by_invlet(char ch);
  float active_light();
 
  bool mutation_ok(game *g, std::string mutation, bool force_good, bool force_bad);
