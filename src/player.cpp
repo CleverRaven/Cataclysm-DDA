@@ -5954,7 +5954,9 @@ bool player::has_fire(const int quantity)
 {
 // TODO: Replace this with a "tool produces fire" flag.
 
-    if (has_charges("torch_lit", 1)) {
+    if (g->m.has_nearby_fire(posx, posy)) {
+        return true;
+    } else if (has_charges("torch_lit", 1)) {
         return true;
     } else if (has_charges("battletorch_lit", quantity)) {
         return true;
@@ -6006,7 +6008,9 @@ void player::use_fire(const int quantity)
 // (home made, military), hotplate, welder in that order.
 // bio_lighter, bio_laser, bio_tools, has_bionic("bio_tools"
 
-    if (has_charges("torch_lit", 1)) {
+    if (g->m.has_nearby_fire(posx, posy)) {
+        return;
+    } else if (has_charges("torch_lit", 1)) {
         return;
     } else if (has_charges("battletorch_lit", 1)) {
         return;
