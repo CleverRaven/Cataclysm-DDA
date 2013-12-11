@@ -6673,6 +6673,20 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     int temp_hunger = hunger - comest->nutr;
     int temp_thirst = thirst - comest->quench;
     int threshold = has_trait("GOURMAND") ? -60 : -20;
+    if( has_trait("HIBERNATE") && !is_npc() &&
+        // If BOTH hunger and thirst are above the threshold...
+        ( hunger > threshold && thirst > threshold ) &&
+        // ...and EITHER of them crosses under the threshold...
+        ( temp_hunger < threshold || temp_thirst < threshold ) ) {
+        // Prompt to make sure player wants to gorge for hibernation...
+        if( query_yn(_("Start gorging in preperation for hibernation?")) ) {
+            // ...and explain what that means.
+            g->add_msg(_("As you force yourself to eat, you have the feeling that you'll just be able to keep eating and then sleep for a long time."));
+        } else {
+            return false;
+        }
+    }
+
     if( has_trait("HIBERNATE") ) {
         threshold = -620;
     }
