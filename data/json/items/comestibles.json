@@ -8469,7 +8469,7 @@
         "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 115,
-        "description" : "An cannibalistic dish made with cheese, tomato sauce, human flesh, and vegetables.",
+        "description" : "A cannibalistic dish made with cheese, tomato sauce, human flesh, and vegetables.",
         "price" : 180,
         "material" : "hflesh",
         "tool" : "null",
