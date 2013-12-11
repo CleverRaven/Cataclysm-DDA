@@ -277,7 +277,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
     const bool debug_retarget = false;  // this will inevitably be needed
     //const bool wildly_spraying = false; // stub for now. later, rng based on stress/skill/etc at the start,
-    //int weaponrange = weapon.range(); // this is expensive, let's cache. todo: figure out if we need weapon.range(&p);
+    int weaponrange = weapon.range(); // this is expensive, let's cache. todo: figure out if we need weapon.range(&p);
 
     for (int curshot = 0; curshot < num_shots; curshot++) {
         // Burst-fire weapons allow us to pick a new target after killing the first
@@ -295,38 +295,18 @@ void player::fire_gun(int tarx, int tary, bool burst) {
                 }
             }
 
-            /* TODO: get burst target reacquisition in when we've sufficiently
-             * reworked other things
-             * This does NOT work right now - the _active_monsters reference has been deprecated
-            for (
-                int radius = 0;                        // range from last target, not shooter!
-                radius <= 2 + skillLevel("gun") &&   // more skill: wider burst area?
-                radius <= weaponrange &&               // this seems redundant
-                ( new_targets.empty() ||               // got target? stop looking. However this breaks random selection, aka, wildly spraying, so:
-                    wildly_spraying == true );          // lets set this based on rng && stress or whatever elsewhere
-                radius++
-            ) {                                      // iterate from last target's position: makes sense for burst fire.
-
-                for (std::vector<monster>::iterator it = g->_active_monsters.begin(); it != g->_active_monsters.end(); ++it) {
-                    int nt_range_to_me = rl_dist(xpos(), ypos(), it->xpos()(), it->ypos());
-                    int dummy;
-                    if (nt_range_to_me == 0 || nt_range_to_me > weaponrange ||
-                        !pl_sees(&p, &(*it), dummy)) {
-                        // reject out of range and unseen targets as well as MY FACE
-                        continue;
-                    }
-
-                    int nt_range_to_lt = rl_dist(tarx, tary, it->xpos(), it->ypos());
-                    //debug
-                    if ( debug_retarget && nt_range_to_lt <= 5 ) printz(c_red, " r:%d/l:%d/m:%d ..", radius, nt_range_to_lt, nt_range_to_me );
-                    if (nt_range_to_lt != radius) {
-                        continue;                    // we're spiralling outward, catch you next iteration (maybe)
-                    }
-                    if (it->hp >0 && it->friendly == 0) {
-                        new_targets.push_back(point(it->xpos(), it->ypos())); // oh you're not dead and I don't like you. Hello!
-                    }
+            for (unsigned long int i = 0; i < g->num_zombies(); i++) {
+                monster &z = g->zombie(i);
+                int dummy;
+                // search for monsters in radius
+                if (rl_dist(z.posx(), z.posy(), tarx, tary) <= std::min(2 + skillLevel("gun"), weaponrange) &&
+                        rl_dist(xpos(),ypos(),z.xpos(),z.ypos()) <= weaponrange &&
+                        g->pl_sees(&g->u, &z, dummy) ) {
+                    if (!z.is_dead_state())
+                        new_targets.push_back(point(z.xpos(), z.ypos())); // oh you're not dead and I don't like you. Hello!
                 }
-            } */
+            }
+
             if ( new_targets.empty() == false ) {    /* new victim! or last victim moved */
                 int target_picked = rng(0, new_targets.size() - 1); /* 1 victim list unless wildly spraying */
                 tarx = new_targets[target_picked].x;
