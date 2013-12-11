@@ -406,6 +406,23 @@
 
   {
     "type":"GENERIC",
+    "id": "glass_shard",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "glass shard",
+    "description": "A broken shard of glass covered in sharp edges. You could use it as a weapon, but you might want to wear gloves.",
+    "price": 0,
+    "material": "glass",
+    "weight": 89,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 6,
+    "flags": ["HURT_WHEN_WIELDED", "HURT_WHEN_PULLED"],
+    "to_hit": -1
+  },
+
+  {
+    "type":"GENERIC",
     "id": "glass_sheet",
     "symbol": "]",
     "color": "light_cyan",
@@ -888,13 +905,14 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "circular sawblade",
-    "description": "An 8\" circular sawblade. You could make a saw with it, or throw it.",
+    "description": "An 8\" circular sawblade. You could make a saw with it, or throw it. Wielding it without sturdy gloves is a bad idea.",
     "price": 200,
     "material": "iron",
     "weight": 349,
     "volume": 1,
     "bashing": 0,
     "cutting": 14,
+    "flags": ["HURT_WHEN_WIELDED"],
     "to_hit": -4
   },
 

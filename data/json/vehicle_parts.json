@@ -735,7 +735,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OVER", "OBSTACLE", "WINDOW"],
-        "breaks_into" : []
+        "breaks_into" : [
+            {"item": "glass_shard", "min": 3, "max": 6}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "blade_horizontal",
@@ -1712,7 +1714,10 @@
         "difficulty" : 6,
         "location" : "center",
         "flags" : ["OBSTACLE", "WINDOW"],
-        "breaks_into" : []
+        "breaks_into" : [
+            {"item": "glass_shard", "min": 3, "max": 6},
+            {"item": "wire", "min": 4, "max": 8}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "horn_bicycle",
