@@ -906,7 +906,10 @@
             "str_min": 1, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
-            "ter_set": "t_window_frame"
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "amount": 5 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -922,7 +925,10 @@
             "str_min": 1, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
-            "ter_set": "t_window_frame"
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "amount": 5 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -943,6 +949,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_window_frame",
             "items": [
+                { "item": "glass_shard", "amount": 3 },
                 { "item": "sheet", "amount": 2 },
                 { "item": "stick", "amount": 1},
                 { "item": "string_36", "amount": 1 }
@@ -965,6 +972,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_window_frame",
             "items": [
+                { "item": "glass_shard", "amount": 3 },
                 { "item": "sheet", "amount": 2 },
                 { "item": "stick", "amount": 1},
                 { "item": "string_36", "amount": 1 }
@@ -995,6 +1003,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_window_frame",
             "items": [
+                { "item": "glass_shard", "amount": 3 },
                 { "item": "sheet", "amount": 2 },
                 { "item": "stick", "amount": 1},
                 { "item": "string_36", "amount": 1 }
@@ -1031,7 +1040,10 @@
             "str_min": 1, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
-            "ter_set": "t_window_frame"
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "amount": 5 }
+            ]
         }
     },{
         "type" : "terrain",
