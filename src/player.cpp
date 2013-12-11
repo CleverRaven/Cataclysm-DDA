@@ -397,7 +397,7 @@ if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
 
 // Set our scent towards the norm
  int norm_scent = 500;
- if (has_trait("INODOROUS"))
+ if (has_trait("WEAKSCENT"))
   norm_scent = 300;
  if (has_trait("SMELLY"))
   norm_scent = 800;
