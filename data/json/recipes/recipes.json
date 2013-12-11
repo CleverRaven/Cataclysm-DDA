@@ -20533,6 +20533,34 @@
     ]
   ]
 },{
+        "type" : "recipe",
+   "result": "toasterpastry",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 3000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "toasterpastry_frozen", 1 ]
+    ]
+  ]
+},{
    "type" : "recipe",
    "result": "ketchup",
    "category": "CC_FOOD",
