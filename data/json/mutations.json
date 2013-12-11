@@ -53,6 +53,15 @@
         "category" : ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
+        "id" : "EASYSLEEPER",
+        "name" : "Accomplished Sleeper",
+        "points" : 2,
+        "description" : "You have always been able to fall asleep easily, even when sleeping in less than ideal circumstances.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["INSOMNIA"]
+    },{
+        "type" : "mutation",
         "id" : "PAINRESIST",
         "name" : "Pain Resistant",
         "points" : 2,
@@ -428,7 +437,8 @@
         "description" : "You have a hard time falling asleep, even under the best circumstances!",
         "starting_trait" : true,
         "valid" : false,
-        "category" : ["MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_MEDICAL"],
+        "cancels" : ["EASYSLEEPER"]
     },{
         "type" : "mutation",
         "id" : "VEGETARIAN",

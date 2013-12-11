@@ -8498,6 +8498,8 @@ bool player::can_sleep(game *g)
   sleepy -= 3;
  if (has_trait("INSOMNIA"))
   sleepy -= 8;
+ if (has_trait("EASYSLEEPER"))
+  sleepy += 8;
 
  int vpart = -1;
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
