@@ -159,7 +159,8 @@
         "points" : 3,
         "description" : "You have a flexible mind, allowing you to learn skills much faster than others. Note that this only applies to real-world experience, not to skill gain from other sources like books.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "cancels" : ["SLOWLEARNER"]
     },{
         "type" : "mutation",
         "id" : "GOODMEMORY",
@@ -440,6 +441,15 @@
         "description" : "Your hearing is poor, and you may not hear quiet or far-off noises.",
         "starting_trait" : true,
         "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "SLOWLEARNER",
+        "name" : "Slow Learner",
+        "points" : -3,
+        "description" : "You are slow to grasp new ideas and thus learn things more slowly than others. Note that this only applies to real-world experience, not to skill gain from other sources like books.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["FASTLEARNER"]
     },{
         "type" : "mutation",
         "id" : "INSOMNIA",

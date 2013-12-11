@@ -9113,6 +9113,10 @@ int player::adjust_for_focus(int amount)
     {
         effective_focus += 15;
     }
+    if (has_trait("SLOWLEARNER"))
+    {
+        effective_focus -= 15;
+    }
     double tmp = amount * (effective_focus / 100.0);
     int ret = int(tmp);
     if (rng(0, 100) < 100 * (tmp - ret))
