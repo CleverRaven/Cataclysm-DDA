@@ -5290,6 +5290,9 @@ bool game::sound(int x, int y, int vol, std::string description)
     if (u.has_trait("BADHEARING")) {
   vol *= .5;
     }
+    if (u.has_trait("GOODHEARING")) {
+  vol *= 1.25;
+    }
     if (u.has_trait("CANINE_EARS")) {
   vol *= 1.5;
     }
@@ -5380,6 +5383,8 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
   err_offset--;
  if (u.has_trait("BADHEARING"))
   err_offset++;
+ if (u.has_trait("GOODHEARING"))
+  err_offset--;
 
  int origx = x, origy = y;
  std::vector<point> point_vector;

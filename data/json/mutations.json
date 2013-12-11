@@ -11,6 +11,14 @@
         "category" : ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
+        "id" : "GOODHEARING",
+        "name" : "Good Hearing",
+        "points" : 2,
+        "description" : "Your hearing is better than average, and you can hear distant sounds more easily.",
+        "starting_trait" : true,
+        "cancels" : ["BADHEARING"]
+    },{
+        "type" : "mutation",
         "id" : "PARKOUR",
         "name" : "Parkour Expert",
         "points" : 2,
@@ -440,7 +448,8 @@
         "points" : -2,
         "description" : "Your hearing is poor, and you may not hear quiet or far-off noises.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "cancels" : ["GOODHEARING"]
     },{
         "type" : "mutation",
         "id" : "SLOWLEARNER",
