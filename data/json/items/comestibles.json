@@ -4438,7 +4438,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "sandwich_pb",
-        "name" : "penutbutter sandwich",
+        "name" : "peanut butter sandwich",
         "weight" : 186,
         "color" : "brown",
         "addiction_type" : "none",
