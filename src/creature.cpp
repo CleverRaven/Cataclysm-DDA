@@ -199,7 +199,7 @@ int Creature::deal_projectile_attack(game* g, Creature* source, double missed_by
     double goodhit = missed_by / monster_speed_penalty;
     double damage_mult = 1.0;
 
-    if (goodhit <= .1) { // TODO: check head existence for headshot
+    if (goodhit <= .1) {
         g->add_msg_if_player(source,_("Headshot!"));
         damage_mult *= rng_float(5,8);
         bp_hit = bp_head; // headshot hits the head, of course
@@ -382,10 +382,6 @@ void Creature::process_effects(game* g) {
     }
     effects.erase(std::remove_if(effects.begin(), effects.end(),
                        is_expired_effect), effects.end());
-    /* TODO: use this instead when we switch to c++11 ;)
-    effects.erase(std::remove_if(effects.begin(), effects.end(),
-                       [](effect& e) { return e.get_duration() <= 0; }), effects.end());
-                       */
 }
 
 

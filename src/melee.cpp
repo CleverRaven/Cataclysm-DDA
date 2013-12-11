@@ -1041,8 +1041,11 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         if (is_player()) {
             tmp.text = string_format(_("You sink your fangs into %s!"),
                                      target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s sinks his fangs into %s!"),
+                                     name.c_str(), target.c_str());
         } else {
-            tmp.text = string_format(_("%s sinks their fangs into %s!"),
+            tmp.text = string_format(_("%s sinks her fangs into %s!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
@@ -1054,13 +1057,16 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         if (is_player()) {
             tmp.text = string_format(_("You nip at %s!"),
                                      target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s nips and harries %s!"),
+                                     name.c_str(), target.c_str());
         } else {
             tmp.text = string_format(_("%s nips and harries %s!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
     }
-    
+
     if (!has_trait("FANGS") && has_trait("BEAR_MUZZLE") && one_in(20 - dex_cur - skillLevel("unarmed"))) {
         special_attack tmp;
         tmp.cut = 5;
@@ -1084,6 +1090,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         if (is_player()) {
             tmp.text = string_format(_("You bite a chunk out of %s!"),
                                      target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s bites a chunk out of %s!"),
+                                     name.c_str(), target.c_str());
         } else {
             tmp.text = string_format(_("%s bites a chunk out of %s!"),
                                      name.c_str(), target.c_str());
@@ -1097,8 +1106,11 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         if (is_player()) {
             tmp.text = string_format(_("You slice %s with your mandibles!"),
                                      target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s slices %s with his mandibles!"),
+                                     name.c_str(), target.c_str());
         } else {
-            tmp.text = string_format(_("%s slices %s with their mandibles!"),
+            tmp.text = string_format(_("%s slices %s with her mandibles!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
@@ -1126,8 +1138,11 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         if (is_player()) {
             tmp.text = string_format(_("You kick %s with your hooves!"),
                                      target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s kicks %s with his hooves!"),
+                                     name.c_str(), target.c_str());
         } else {
-            tmp.text = string_format(_("%s kicks %s with their hooves!"),
+            tmp.text = string_format(_("%s kicks %s with her hooves!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
@@ -1142,6 +1157,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         if (is_player()) {
             tmp.text = string_format(_("You slash %s with a talon!"),
                                      target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s slashes %s with a talon!"),
+                                     name.c_str(), target.c_str());
         } else {
             tmp.text = string_format(_("%s slashes %s with a talon!"),
                                      name.c_str(), target.c_str());
@@ -1156,8 +1174,11 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         if (is_player()) {
             tmp.text = string_format(_("You headbutt %s with your horns!"),
                                      target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s headbutts %s with his horns!"),
+                                     name.c_str(), target.c_str());
         } else {
-            tmp.text = string_format(_("%s headbutts %s with their horns!"),
+            tmp.text = string_format(_("%s headbutts %s with her horns!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
@@ -1169,8 +1190,11 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         if (is_player()) {
             tmp.text = string_format(_("You headbutt %s with your curled horns!"),
                                      target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s headbutts %s with his curled horns!"),
+                                     name.c_str(), target.c_str());
         } else {
-            tmp.text = string_format(_("%s headbutts %s with their curled horns!"),
+            tmp.text = string_format(_("%s headbutts %s with her curled horns!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
@@ -1195,8 +1219,11 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         if (is_player()) {
             tmp.text = string_format(_("You butt %s with your antlers!"),
                                      target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s butts %s with his antlers!"),
+                                     name.c_str(), target.c_str());
         } else {
-            tmp.text = string_format(_("%s butts %s with their antlers!"),
+            tmp.text = string_format(_("%s butts %s with her antlers!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
@@ -1208,8 +1235,11 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         if (is_player()) {
             tmp.text = string_format(_("You sting %s with your tail!"),
                                      target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s stings %s with his tail!"),
+                                     name.c_str(), target.c_str());
         } else {
-            tmp.text = string_format(_("%s stings %s with their tail!"),
+            tmp.text = string_format(_("%s stings %s with her tail!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
@@ -1221,21 +1251,27 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         if (is_player()) {
             tmp.text = string_format(_("You club %s with your tail!"),
                                      target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s clubs %s with his tail!"),
+                                     name.c_str(), target.c_str());
         } else {
-            tmp.text = string_format(_("%s clubs %s with their tail!"),
+            tmp.text = string_format(_("%s clubs %s with her tail!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
     }
 
-	    if (has_trait("TAIL_THICK") && one_in(3) && one_in(10 - dex_cur)) {
+    if (has_trait("TAIL_THICK") && one_in(3) && one_in(10 - dex_cur)) {
         special_attack tmp;
         tmp.bash = 8;
         if (is_player()) {
             tmp.text = string_format(_("You whap %s with your tail!"),
                                      target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s whaps %s with his tail!"),
+                                     name.c_str(), target.c_str());
         } else {
-            tmp.text = string_format(_("%s whaps %s with their tail!"),
+            tmp.text = string_format(_("%s whaps %s with her tail!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
@@ -1260,8 +1296,11 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
             if (is_player()) {
                 tmp.text = string_format(_("You slap %s with your tentacle!"),
                                             target.c_str());
+            } else if (male) {
+                tmp.text = string_format(_("%s slaps %s with his tentacle!"),
+                                            name.c_str(), target.c_str());
             } else {
-                tmp.text = string_format(_("%s slaps %s with their tentacle!"),
+                tmp.text = string_format(_("%s slaps %s with her tentacle!"),
                                             name.c_str(), target.c_str());
             }
             ret.push_back(tmp);
@@ -1271,8 +1310,6 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
     return ret;
 }
 
-//TODO: change the print to respect damage types? e.g. "You deal 24(18c+4p+2b)
-//damage to the foobar"
 std::string melee_message(matec_id tec_id, player &p, int bash_dam, int cut_dam, int stab_dam)
 {
     if (ma_techniques.find(tec_id) != ma_techniques.end()) {
