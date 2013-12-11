@@ -2337,6 +2337,8 @@ void manage_sleep(player& p, disease& dis) {
             p.healall(1 + one_in(2));
         } else if (p.has_trait("REGEN")) {
             p.healall(2);
+        } else if (p.has_trait("SLOWHEALER")) {
+            p.healall(one_in(8));
         } else {
             p.healall(one_in(4));
         }
@@ -2368,6 +2370,8 @@ void manage_sleep(player& p, disease& dis) {
             p.healall(1 + one_in(2));
         } else if (p.has_trait("REGEN")) {
             p.healall(2);
+        } else if (p.has_trait("SLOWHEALER")) {
+            p.healall(one_in(8));
         } else {
             p.healall(one_in(4));
         }

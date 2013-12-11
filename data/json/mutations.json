@@ -50,7 +50,7 @@
         "points" : 2,
         "description" : "You heal a little faster than most; sleeping will heal more lost HP.",
         "starting_trait" : true,
-        "cancels" : ["ROT1", "ROT2", "ROT3"],
+        "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER"],
         "changes_to" : ["FASTHEALER2"],
         "category" : ["MUTCAT_MEDICAL"]
     },{
@@ -407,6 +407,14 @@
         "description" : "Without your glasses, your seeing radius is severely reduced! However, while wearing glasses this trait has no effect, and you are guaranteed to start with a pair.",
         "starting_trait" : true,
         "category" : ["MUTCAT_BEAST", "MUTCAT_TROGLO", "MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
+        "id" : "SLOWHEALER",
+        "name" : "Slow Healer",
+        "points" : -2,
+        "description" : "You heal a little slower than most; sleeping will heal less lost HP.",
+        "starting_trait" : true,
+        "cancels" : ["FASTHEALER"]
     },{
         "type" : "mutation",
         "id" : "HYPEROPIC",

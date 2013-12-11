@@ -5066,6 +5066,8 @@ void player::mend(game *g)
     healing_factor *= 4.0;
    } else if (has_trait("FASTHEALER")) {
     healing_factor *= 2.0;
+   } else if (has_trait("SLOWHEALER")) {
+    healing_factor *= 0.5;
    }
 
    bool mended = false;
