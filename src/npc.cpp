@@ -1947,7 +1947,7 @@ void npc::die(game *g, bool your_fault)
                 g->u.add_memorial_log(_("Killed an innocent, %s, in cold blood. They were weak."), name.c_str());
             } else if(g->u.has_trait("CANNIBAL") && !g->u.has_trait("PSYCHOPATH")) {
                 g->u.add_memorial_log(_("Killed an innocent, %s."), name.c_str());
-                g->u.add_morale(MORALE_KILLED_INNOCENT, -10, 0, 5000, 300);
+                g->u.add_morale(MORALE_KILLED_INNOCENT, -5, 0, 5000, 300);
             } else {
                 g->u.add_memorial_log(_("Killed a delicious-looking innocent, %s, in cold blood."), name.c_str());
             }
