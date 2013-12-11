@@ -3307,6 +3307,15 @@ bionic& player::bionic_at_index(int i)
     return my_bionics[i];
 }
 
+bionic* player::bionic_by_invlet(char ch) {
+    for (size_t i = 0; i < my_bionics.size(); i++) {
+        if (my_bionics[i].invlet == ch) {
+            return &my_bionics[i];
+        }
+    }
+    return 0;
+}
+
 // Returns true if a bionic was removed.
 bool player::remove_random_bionic() {
     const int numb = num_bionics();

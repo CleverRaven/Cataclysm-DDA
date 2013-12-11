@@ -384,6 +384,10 @@ void initOptions() {
                                              _("If true, safemode will be on after starting a new game or loading."),
                                              true
                                             );
+    OPTIONS["VEHICLE_ARMOR_COLOR"] =    cOpt("interface", _("Vehicle plating changes part color"),
+                                             _("If true, vehicle parts will change color if they are armor plated"),
+                                             true
+                                            );
 
     OPTIONS["SAFEMODEPROXIMITY"] =      cOpt("general", _("Safemode proximity distance"),
                                              _("If safemode is enabled, distance to hostiles when safemode should show a warning. 0 = Max player viewdistance."),

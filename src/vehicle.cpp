@@ -1309,8 +1309,12 @@ nc_color vehicle::part_color (int p)
 
     nc_color col;
 
-    //If armoring is present, it colors the visible part
-    int parm = part_with_feature(p, VPFLAG_ARMOR, false);
+    int parm = -1;
+
+    //If armoring is present and the option is set, it colors the visible part
+    if (OPTIONS["VEHICLE_ARMOR_COLOR"] == true)
+      parm = part_with_feature(p, VPFLAG_ARMOR, false);
+
     if (parm >= 0) {
         col = part_info(parm).color;
     } else {

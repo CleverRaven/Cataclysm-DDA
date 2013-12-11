@@ -663,6 +663,34 @@ bool game::do_turn()
         }
     }
 
+    // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
+    // Penalties start at Dead Tired and go from there
+    if (u.fatigue >= 383 && !u.has_disease("sleep")){
+        if (u.fatigue >= 700) {
+            if (turn % 50 == 0) {
+                add_msg(_("You're too tired to stop yawning."));
+                u.add_disease("lack_sleep", 50);
+                }
+            if (one_in(50 + u.int_cur)) {
+            // Rivet's idea: look out for microsleeps!
+                u.add_disease("sleep", 5);
+                }
+            }
+        else if (u.fatigue >= 575) {
+            if (turn % 50 == 0) {
+                add_msg(_("How much longer until bedtime?"));
+                u.add_disease("lack_sleep", 50);
+                }
+            if (one_in(100 + u.int_cur)) {
+                u.add_disease("sleep", 5);
+                }
+            }
+        else if (u.fatigue >= 383 && turn % 50 == 0) {
+            add_msg(_("*yawn* You should really get some sleep."));
+            u.add_disease("lack_sleep", 50);
+            }
+    }
+    
     if (turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
         if ((!u.has_trait("LIGHTEATER") || !one_in(3)) &&
             (!u.has_bionic("bio_recycler") || turn % 300 == 0)) {
