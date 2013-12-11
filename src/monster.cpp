@@ -179,7 +179,7 @@ std::string monster::name_with_armor()
 
 std::string monster::disp_name() {
     char buffer[256];
-    sprintf(buffer, "the %s", name().c_str());
+    sprintf(buffer, _("the %s"), name().c_str());
     return buffer;
 }
 
@@ -842,7 +842,7 @@ int monster::deal_melee_attack(game* g, Creature* source, int hitroll, bool crit
                 (g->u.weapon.conductive() || g->u.unarmed_attack())
                 ) {
             damage_instance shock;
-            shock.add_damage(DT_ELECTRIC, rng_float(0,1));
+            shock.add_damage(DT_ELECTRIC, rng(0,1));
             source->deal_damage(g, this, bp_arms, 1, shock);
             g->add_msg_if_player(source, _("Contact with %s shocks you!"),
                     disp_name().c_str());
