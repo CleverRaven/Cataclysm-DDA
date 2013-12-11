@@ -6657,7 +6657,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
         g->add_msg_if_player(this, _("You can't stand the thought of eating veggies."));
         return false;
     }
-    if ((!has_trait("CANNIBAL") || (!has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&& !is_npc() &&
+    if ((!has_trait("CANNIBAL") || !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&& !is_npc() &&
         !query_yn(_("The thought of eating that makes you feel sick. Really do it?"))) {
         return false;
     }
