@@ -52,7 +52,9 @@ enum dis_type_enum {
 // NPC-only
  DI_CATCH_UP,
  // Contact lenses
- DI_CONTACTS
+ DI_CONTACTS,
+ // Lack/sleep
+ DI_LACKSLEEP
 };
 
 std::map<std::string, dis_type_enum> disease_type_lookup;
@@ -157,6 +159,7 @@ void game::init_diseases() {
     disease_type_lookup["weed_high"] = DI_WEED_HIGH;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
     disease_type_lookup["contacts"] = DI_CONTACTS;
+    disease_type_lookup["lack_sleep"] = DI_LACKSLEEP;
 }
 
 void dis_msg(dis_type type_string) {
@@ -259,6 +262,9 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_CONTACTS:
         g->add_msg(_("You can see more clearly."));
+        break;
+    case DI_LACKSLEEP:
+        g->add_msg(_("You are too tired to function well."));
         break;
     default:
         break;
@@ -1303,6 +1309,13 @@ void dis_effect(player &p, disease &dis) {
               }
             }
             break;
+            
+        case DI_LACKSLEEP:
+            p.str_cur -= 1;
+            p.dex_cur -= 1;
+            p.int_cur -= 2;
+            p.per_cur -= 2;
+            break;
     }
 }
 
@@ -1399,6 +1412,7 @@ int disease_speed_boost(disease dis)
         case DI_GRACK:      return +20000;
         case DI_METH:       return (dis.duration > 600 ? 50 : -40);
         case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
+        case DI_LACKSLEEP:  return -5;
         default:;
    }
     return 0;
@@ -1773,6 +1787,8 @@ std::string dis_name(disease& dis)
         } else
           return "Invalid martial arts buff";
 
+    case DI_LACKSLEEP: return _("Lacking Sleep");
+          
     default:;
     }
     return "";
@@ -2214,6 +2230,9 @@ condition, and deals massive damage.");
         else
           return "This is probably a bug.";
 
+    case DI_LACKSLEEP: return _("You haven't slept in a while, and it shows. \n\
+    You can't move as quickly and your stats just aren't where they should be.");
+   
     default:;
     }
     return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
