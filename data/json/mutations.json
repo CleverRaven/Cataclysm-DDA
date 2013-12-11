@@ -8,7 +8,8 @@
         "starting_trait" : true,
         "cancels" : ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
         "changes_to" : ["FLEET2"],
-        "category" : ["MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_SPIDER"],
+        "cancels" : ["SLOWRUNNER"]
     },{
         "type" : "mutation",
         "id" : "GOODHEARING",
@@ -634,6 +635,14 @@
         "starting_trait" : true,
         "valid" : false,
         "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "SLOWRUNNER",
+        "name" : "Slow Runner",
+        "points" : -2,
+        "description" : "You can't run as fast as most, resulting in a 15% speed penalty on flat ground.",
+        "starting_trait" : true,
+        "cancels" : ["FLEET"]
     },{
         "type" : "mutation",
         "id" : "WEAKSTOMACH",

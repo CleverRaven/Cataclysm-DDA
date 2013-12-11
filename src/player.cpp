@@ -1220,6 +1220,8 @@ int player::run_cost(int base_cost, bool diag)
         movecost *= .85f;
     if (has_trait("FLEET2") && flatground)
         movecost *= .7f;
+    if (has_trait("SLOWRUNNER") && flatground)
+        movecost *= 1.15f;
     if (has_trait("PADDED_FEET") && !wearing_something_on(bp_feet))
         movecost *= .9f;
     if (has_trait("LIGHT_BONES"))
