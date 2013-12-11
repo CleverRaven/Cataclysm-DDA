@@ -1396,9 +1396,9 @@ void mattack::smg(monster *z)
   return;
  z->sp_timeout = z->type->sp_freq; // Reset timer
 
- if (!z->has_effect("effect_targeted")) {
+ if (!z->has_effect("targeted")) {
   g->sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
-  z->add_effect("effect_targeted", 8);
+  z->add_effect("targeted", 8);
   z->moves -= 100;
   return;
  }
@@ -1426,7 +1426,7 @@ void mattack::smg(monster *z)
       std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
       g->fire(tmp, g->u.posx, g->u.posy, traj, true);
       z->ammo -= 1;
-      z->add_effect("effect_targeted", 3);
+      z->add_effect("targeted", 3);
     }
     else {
       if (one_in(3)) {
@@ -1535,9 +1535,9 @@ void mattack::laser(monster *z)
   return;
  z->sp_timeout = z->type->sp_freq; // Reset timer
 
- if (!z->has_effect("effect_targeted")) {
+ if (!z->has_effect("targeted")) {
   g->sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
-  z->add_effect("effect_targeted", 8);
+  z->add_effect("targeted", 8);
   z->moves -= 100;
   return;
  }
@@ -1563,7 +1563,7 @@ void mattack::laser(monster *z)
       tmp.weapon.charges = 100;
       std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
       g->fire(tmp, g->u.posx, g->u.posy, traj, true);
-      z->add_effect("effect_targeted", 3);
+      z->add_effect("targeted", 3);
   }
   else {
     if (one_in(3)) {
@@ -1598,7 +1598,7 @@ void mattack::flamethrower(monster *z)
         }
         g->m.add_field(g, traj[i].x, traj[i].y, fd_fire, 1);
     }
-    if (!g->u.uncanny_dodge()) { g->u.add_effect("effect_onfire", 8); }
+    if (!g->u.uncanny_dodge()) { g->u.add_effect("onfire", 8); }
 }
 
 void mattack::copbot(monster *z)
@@ -1838,7 +1838,7 @@ void mattack::flesh_golem(monster *z)
     g->add_msg(_("Your %s is battered for %d damage!"), body_part_name(hit, side).c_str(), dam);
     g->u.hit(g, z, hit, side, dam, 0);
     if (one_in(6)) {
-        g->u.add_effect("effect_downed", 30);
+        g->u.add_effect("downed", 30);
     }
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }

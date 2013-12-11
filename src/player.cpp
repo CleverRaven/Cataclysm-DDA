@@ -846,7 +846,7 @@ void player::update_bodytemp(game *g)
         }
         // TILES
         // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
-        if (has_effect("effect_onfire")) {
+        if (has_effect("onfire")) {
             temp_cur[i] += 250;
         }
         if ( g->m.get_field_strength( point(posx, posy), fd_fire ) > 2 || trap_at_pos == tr_lava) {
@@ -1310,7 +1310,7 @@ int player::swim_speed()
 bool player::is_on_ground()
 {
     bool on_ground = false;
-    if(has_effect("effect_downed") || hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 ){
+    if(has_effect("downed") || hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 ){
         on_ground = true;
     }
     return  on_ground;
@@ -1332,9 +1332,9 @@ void player::set_underwater(bool u)
 
 nc_color player::color()
 {
- if (has_effect("effect_onfire"))
+ if (has_effect("onfire"))
   return c_red;
- if (has_effect("effect_stunned"))
+ if (has_effect("stunned"))
   return c_ltblue;
  if (has_disease("boomered"))
   return c_pink;
@@ -3415,7 +3415,7 @@ void player::recalc_sight_limits()
     sight_boost_cap = 0;
 
     // Set sight_max.
-    if (has_effect("effect_blind")) {
+    if (has_effect("blind")) {
         sight_max = 0;
     } else if (has_disease("in_pit") ||
             has_disease("boomered") ||
@@ -3447,7 +3447,7 @@ int player::unimpaired_range()
  int ret = DAYLIGHT_LEVEL;
  if (has_disease("in_pit"))
   ret = 1;
- if (has_effect("effect_blind"))
+ if (has_effect("blind"))
   ret = 0;
  return ret;
 }
@@ -3845,7 +3845,7 @@ dealt_damage_instance player::deal_damage(game* g, Creature* source, body_part b
             int maxblind = int((dam + cut_dam) /  4);
             if (maxblind > 5)
                 maxblind = 5;
-            add_effect("effect_blind", rng(minblind, maxblind));
+            add_effect("blind", rng(minblind, maxblind));
         }
     case bp_mouth: // Fall through to head damage
     case bp_head:
@@ -4146,14 +4146,14 @@ void player::knock_back_from(game *g, int x, int y)
  if (mondex != -1) {
   monster *critter = &(g->zombie(mondex));
   hit(g, this, bp_torso, -1, critter->type->size, 0);
-  add_effect("effect_stunned", 1);
+  add_effect("stunned", 1);
   if ((str_max - 6) / 4 > critter->type->size) {
    critter->knock_back_from(g, posx, posy); // Chain reaction!
    critter->hurt((str_max - 6) / 4);
-   critter->add_effect("effect_stunned", 1);
+   critter->add_effect("stunned", 1);
   } else if ((str_max - 6) / 4 == critter->type->size) {
    critter->hurt((str_max - 6) / 4);
-   critter->add_effect("effect_stunned", 1);
+   critter->add_effect("stunned", 1);
   }
 
   g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
@@ -4166,7 +4166,7 @@ void player::knock_back_from(game *g, int x, int y)
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
   hit(g, this, bp_torso, -1, 3, 0);
-  add_effect("effect_stunned", 1);
+  add_effect("stunned", 1);
   p->hit(g, this, bp_torso, -1, 3, 0);
   g->add_msg_player_or_npc( this, _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
   return;
@@ -4182,7 +4182,7 @@ void player::knock_back_from(game *g, int x, int y)
 // TODO: NPCs can't swim!
   } else { // It's some kind of wall.
    hurt(g, bp_torso, -1, 3);
-   add_effect("effect_stunned", 2);
+   add_effect("stunned", 2);
    g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
                              g->m.tername(to.x, to.y).c_str() );
   }
@@ -4614,9 +4614,9 @@ void player::process_effects(game *g) {
     for (std::vector<effect>::iterator it = effects.begin();
             it != effects.end(); ++it) {
         std::string id = it->get_id();
-        if (id == "effect_onfire") {
+        if (id == "onfire") {
             manage_fire_exposure(*this, 1);
-        } else if (id == "effect_poison") {
+        } else if (id == "poison") {
             psnChance = 150;
             if (has_trait("POISRESIST")) {
                 psnChance *= 6;
@@ -4631,12 +4631,12 @@ void player::process_effects(game *g) {
             }
             mod_per_bonus(-1);
             mod_dex_bonus(-1);
-        } else if (id == "effect_glare") {
+        } else if (id == "glare") {
             mod_per_bonus(-1);
             if (one_in(200)) {
                 g->add_msg_if_player(this,_("The sunlight's glare makes it hard to see."));
             }
-        } else if (id == "effect_smoke") {
+        } else if (id == "smoke") {
             // A hard limit on the duration of the smoke disease.
             if( it->get_duration() >= 600) {
                 it->set_duration(600);
@@ -4647,7 +4647,7 @@ void player::process_effects(game *g) {
             if (it->get_intensity() >= 10 && one_in(6)) {
                 handle_cough(*this, it->get_intensity());
             }
-        } else if (id == "effect_teargas") {
+        } else if (id == "teargas") {
             mod_str_bonus(-2);
             mod_dex_bonus(-2);
             mod_per_bonus(-5);
@@ -4729,10 +4729,10 @@ void player::suffer(game *g)
             }
         }
         if (weight_carried() > 4 * weight_capacity()) {
-            if (has_effect("effect_downed")) {
-                add_effect("effect_downed", 1);
+            if (has_effect("downed")) {
+                add_effect("downed", 1);
             } else {
-                add_effect("effect_downed", 2);
+                add_effect("downed", 2);
             }
         }
         int timer = -3600;
@@ -6857,7 +6857,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     }
     // If it's poisonous... poison us.  TODO: More several poison effects
     if (eaten->poison >= rng(2, 4)) {
-        add_effect("effect_poison", eaten->poison * 100);
+        add_effect("poison", eaten->poison * 100);
     }
     if (eaten->poison > 0) {
         add_disease("foodpoison", eaten->poison * 300);
@@ -8721,7 +8721,7 @@ std::string player::is_snuggling(game *g)
 // 2.5 is enough light for detail work.
 float player::fine_detail_vision_mod(game *g)
 {
-    if (has_effect("effect_blind") || has_disease("boomered"))
+    if (has_effect("blind") || has_disease("boomered"))
     {
         return 5;
     }

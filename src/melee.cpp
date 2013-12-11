@@ -128,7 +128,7 @@ int player::hit_roll()
 void player::melee_attack(game *g, Creature &t, bool allow_special) {
     bool is_u = (this == &(g->u)); // Affects how we'll display messages
     if (!t.is_player()) {
-        t.add_effect("effect_hit_by_player", 100); // Flag as attacked by us for AI
+        t.add_effect("hit_by_player", 100); // Flag as attacked by us for AI
     }
 
     std::string message = is_u ? _("You hit %s") : _("<npcname> hits %s");
@@ -590,7 +590,7 @@ matec_id player::pick_technique(game *g, Creature &t,
 
     std::vector<matec_id> possible;
 
-    bool downed = t.has_effect("effect_downed");
+    bool downed = t.has_effect("downed");
 
     // first add non-aoe tecs
     for (std::vector<matec_id>::const_iterator it = all.begin();
@@ -688,13 +688,13 @@ void player::perform_technique(ma_technique technique, game *g, Creature &t,
 
     if (technique.down_dur > 0) {
         if (t.get_throw_resist() == 0) {
-            t.add_effect("effect_downed", rng(1, technique.down_dur));
+            t.add_effect("downed", rng(1, technique.down_dur));
             bash_dam += 3;
         }
     }
 
     if (technique.stun_dur > 0) {
-        t.add_effect("effect_stunned", rng(1, technique.stun_dur));
+        t.add_effect("stunned", rng(1, technique.stun_dur));
     }
 
     if (technique.knockback_dist > 0) {
@@ -869,9 +869,9 @@ void player::perform_special_attacks(game *g, Creature &t)
  }
 
  if (can_poison && has_trait("POISONOUS")) {
-    if (!t.has_effect("effect_poisoned"))
+    if (!t.has_effect("poisoned"))
         g->add_msg_if_player(&t,_("You poison %s!"), target.c_str());
-    t.add_effect("effect_poisoned", 6);
+    t.add_effect("poisoned", 6);
  }
 }
 

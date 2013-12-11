@@ -113,7 +113,7 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
             }
         }
 
-        if (has_effect("effect_docile")) {
+        if (has_effect("docile")) {
             closest = -1;
         }
 
@@ -251,16 +251,16 @@ void monster::move(game *g)
         moves = 0;
         return;
     }
-    if (has_effect("effect_stunned")) {
+    if (has_effect("stunned")) {
         stumble(g, false);
         moves = 0;
         return;
     }
-    if (has_effect("effect_downed")) {
+    if (has_effect("downed")) {
         moves = 0;
         return;
     }
-    if (has_effect("effect_bouldering")) {
+    if (has_effect("bouldering")) {
         moves -= 20;
         if (moves < 0) {
             return;
@@ -713,7 +713,7 @@ int monster::move_to(game *g, int x, int y, bool force)
         return 0;
     }
 
-    if (has_effect("effect_beartrap")) {
+    if (has_effect("beartrap")) {
         moves = 0;
         return 0;
     }
@@ -885,14 +885,14 @@ void monster::knock_back_from(game *g, int x, int y)
  if (mondex != -1) {
   monster *z = &(g->zombie(mondex));
   hurt(z->type->size);
-  add_effect("effect_stunned", 1);
+  add_effect("stunned", 1);
   if (type->size > 1 + z->type->size) {
    z->knock_back_from(g, posx(), posy()); // Chain reaction!
    z->hurt(type->size);
-   z->add_effect("effect_stunned", 1);
+   z->add_effect("stunned", 1);
   } else if (type->size > z->type->size) {
    z->hurt(type->size);
-   z->add_effect("effect_stunned", 1);
+   z->add_effect("stunned", 1);
   }
 
   if (u_see)
@@ -905,7 +905,7 @@ void monster::knock_back_from(game *g, int x, int y)
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
   hurt(3);
-  add_effect("effect_stunned", 1);
+  add_effect("stunned", 1);
   p->hit(g, this, bp_torso, -1, type->size, 0);
   if (u_see)
    g->add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
@@ -929,7 +929,7 @@ void monster::knock_back_from(game *g, int x, int y)
 
   } else { // It's some kind of wall.
    hurt(type->size);
-   add_effect("effect_stunned", 2);
+   add_effect("stunned", 2);
    if (u_see)
     g->add_msg(_("The %s bounces off a %s."), name().c_str(),
                g->m.tername(to.x, to.y).c_str());

@@ -424,7 +424,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
       okay_by_rules = (mon->hp <= average_damage_dealt());
       break;
      case ENGAGE_HIT:
-      okay_by_rules = (mon->has_effect("effect_hit_by_player"));
+      okay_by_rules = (mon->has_effect("hit_by_player"));
       break;
     }
    }
@@ -941,7 +941,7 @@ bool npc::can_move_to(game *g, int x, int y)
 void npc::move_to(game *g, int x, int y)
 {
 
- if (has_effect("effect_downed")) {
+ if (has_effect("downed")) {
   moves -= 100;
   return;
  }
@@ -958,7 +958,7 @@ void npc::move_to(game *g, int x, int y)
    recoil = int(recoil / 2);
   }
  }
- if (has_effect("effect_stunned")) {
+ if (has_effect("stunned")) {
   x = rng(posx - 1, posx + 1);
   y = rng(posy - 1, posy + 1);
  }

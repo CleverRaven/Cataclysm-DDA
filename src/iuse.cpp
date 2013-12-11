@@ -147,14 +147,14 @@ int iuse::royal_jelly(player *p, item *it, bool t)
   message = _("You feel cleansed inside!");
   p->rem_disease("dermatik");
  }
- if (p->has_effect("effect_blind")) {
+ if (p->has_effect("blind")) {
   message = _("Your sight returns!");
-  p->remove_effect("effect_blind");
+  p->remove_effect("blind");
  }
- if (p->has_effect("effect_poison") || p->has_disease("foodpoison") ||
+ if (p->has_effect("poison") || p->has_disease("foodpoison") ||
      p->has_disease("badpoison") || p->has_disease("paralyzepoison")) {
   message = _("You feel much better!");
-  p->remove_effect("effect_poison");
+  p->remove_effect("poison");
   p->rem_disease("badpoison");
   p->rem_disease("foodpoison");
   p->rem_disease("paralyzepoison");
@@ -829,7 +829,7 @@ int iuse::vaccine(player *p, item *it, bool t) {
 }
 
 int iuse::poison(player *p, item *it, bool t) {
-    p->add_effect("effect_poison", 600);
+    p->add_effect("poison", 600);
     p->add_disease("foodpoison", 1800);
     return it->type->charges_to_use();
 }
@@ -909,8 +909,8 @@ int iuse::inhaler(player *p, item *it, bool t) {
 int iuse::oxygen_bottle(player *p, item *it, bool t) {
     p->moves -= 500;
     g->add_msg_if_player(p,_("You breathe deeply from the %s"), it->tname().c_str());
-    if (p->has_effect("effect_smoke")) {
-          p->remove_effect("effect_smoke");
+    if (p->has_effect("smoke")) {
+          p->remove_effect("smoke");
         }
         else if (p->has_disease("asthma")) {
           p->rem_disease("asthma");
@@ -5454,14 +5454,14 @@ int iuse::dog_whistle(player *p, item *it, bool t)
  for (int i = 0; i < g->num_zombies(); i++) {
   if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == "mon_dog") {
    bool u_see = g->u_see(&(g->zombie(i)));
-   if (g->zombie(i).has_effect("effect_docile")) {
+   if (g->zombie(i).has_effect("docile")) {
     if (u_see)
      g->add_msg_if_player(p,_("Your %s looks ready to attack."), g->zombie(i).name().c_str());
-    g->zombie(i).remove_effect("effect_docile");
+    g->zombie(i).remove_effect("docile");
    } else {
     if (u_see)
      g->add_msg_if_player(p,_("Your %s goes docile."), g->zombie(i).name().c_str());
-    g->zombie(i).add_effect("effect_docile", -1);
+    g->zombie(i).add_effect("docile", -1);
    }
   }
  }
@@ -6502,7 +6502,7 @@ int iuse::artifact(player *p, item *it, bool t)
     for (int y = p->posy - 8; y <= p->posy + 8; y++) {
      int mondex = g->mon_at(x, y);
      if (mondex != -1)
-      g->zombie(mondex).add_effect("effect_stunned", rng(5, 15));
+      g->zombie(mondex).add_effect("stunned", rng(5, 15));
     }
    }
 

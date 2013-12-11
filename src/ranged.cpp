@@ -827,24 +827,24 @@ void game::hit_monster_with_flags(monster &z, const std::set<std::string> &effec
 
   if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
       z.made_of("paper") || z.made_of("wood"))
-   z.add_effect("effect_onfire", rng(8, 20));
+   z.add_effect("onfire", rng(8, 20));
   else if (z.made_of("flesh"))
-   z.add_effect("effect_onfire", rng(5, 10));
+   z.add_effect("onfire", rng(5, 10));
  } else if (effects.count("INCENDIARY")) {
 
   if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
       z.made_of("paper") || z.made_of("wood"))
-   z.add_effect("effect_onfire", rng(2, 6));
+   z.add_effect("onfire", rng(2, 6));
   else if (z.made_of("flesh") && one_in(4))
-   z.add_effect("effect_onfire", rng(1, 4));
+   z.add_effect("onfire", rng(1, 4));
 
  } else if (effects.count("IGNITE")) {
 
    if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
       z.made_of("paper") || z.made_of("wood"))
-      z.add_effect("effect_onfire", rng(6, 6));
+      z.add_effect("onfire", rng(6, 6));
    else if (z.made_of("flesh"))
-   z.add_effect("effect_onfire", rng(10, 10));
+   z.add_effect("onfire", rng(10, 10));
 
  }
  int stun_strength = 0;
@@ -873,7 +873,7 @@ void game::hit_monster_with_flags(monster &z, const std::set<std::string> &effec
          stun_strength /= 4;
          break;
      }
-     z.add_effect( "effect_stunned", rng(stun_strength / 2, stun_strength) );
+     z.add_effect( "stunned", rng(stun_strength / 2, stun_strength) );
  }
 }
 
@@ -1063,7 +1063,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
     } else { // Not HARDTOSHOOT
         // Bounce applies whether it does damage or not.
         if (effects.count("BOUNCE")) {
-            mon.add_effect("effect_bounced", 1);
+            mon.add_effect("bounced", 1);
         }
         // Armor blocks BEFORE any critical effects.
         int zarm = mon.get_armor_cut(bp_torso);

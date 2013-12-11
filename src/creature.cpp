@@ -200,7 +200,7 @@ double Creature::projectile_attack(game *g, const projectile &proj, int targetx,
             // search for monsters in radius 4 around impact site
             if (rl_dist(z.posx(), z.posy(), tx, ty) <= 4) {
                 // don't hit targets that have already been hit
-                if (!z.has_effect("effect_bounced") && !z.dead) {
+                if (!z.has_effect("bounced") && !z.dead) {
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
                     trajectory = line_to(tx, ty, z.posx(), z.posy(), 0);
                     if (weapon->charges > 0) {
@@ -261,7 +261,7 @@ int Creature::deal_melee_attack(game* g, Creature* source, int hitroll, bool cri
         if (turns_stunned > 6)
             turns_stunned = 6;
         if (turns_stunned > 0) {
-            add_effect("effect_stunned", turns_stunned);
+            add_effect("stunned", turns_stunned);
         }
     }
 
@@ -279,7 +279,7 @@ int Creature::deal_melee_attack(game* g, Creature* source, int hitroll, bool cri
                                      _("<npcname> forces %s to the ground!"),
                                      disp_name().c_str() );
         }
-        add_effect("effect_downed", 1);
+        add_effect("downed", 1);
         mod_moves(-stab_moves / 2);
     } else
         mod_moves(-stab_moves);
@@ -426,7 +426,7 @@ void Creature::deal_damage_handle_type(const damage_unit& du, body_part bp, int&
         damage += du.amount;
         pain += du.amount / 4;
         if (rng(0,100) > (100 - 400/(du.amount+3)))
-            add_effect("effect_onfire", rng(1,3));
+            add_effect("onfire", rng(1,3));
         break;
     case DT_ELECTRIC: // electrical damage slows us a lot
         damage += du.amount;

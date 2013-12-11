@@ -1,51 +1,51 @@
 [
     {
         "type":"effect_type",
-        "id":"effect_hit_by_player",
+        "id":"hit_by_player",
         "name": "Hit By Player",
         "desc": "AI tag for when monsters are hit by player. This is a bug if you have it."
     },
     {
         "type":"effect_type",
-        "id":"effect_docile",
+        "id":"docile",
         "name": "Docile Monster",
         "desc": "AI tag for when monsters are tamed. This is a bug if you have it."
     },
     {
         "type":"effect_type",
-        "id":"effect_run",
+        "id":"run",
         "name": "Hit-and-run Running",
         "desc": "AI tag for when hit-and-run monsters run away. This is a bug if you have it."
     },
     {
         "type":"effect_type",
-        "id":"effect_bounced",
+        "id":"bounced",
         "name": "Bounced",
         "desc": "A bouncing effect has bounced to you lately."
     },
     {
         "type":"effect_type",
-        "id":"effect_targeted",
+        "id":"targeted",
         "name": "Targeted By Turret",
         "desc": "A turret is targeting you!"
     },
     {
         "type":"effect_type",
-        "id":"effect_downed",
+        "id":"downed",
         "name": "Downed",
         "desc": "You're knocked to the ground.  You have to get up before you can move.",
         "apply_message":"You're knocked to the floor!"
     },
     {
         "type":"effect_type",
-        "id":"effect_stunned",
+        "id":"stunned",
         "name": "Stunned",
         "apply_message":"You're stunned!",
         "desc": "Your movement is randomized."
     },
     {
         "type":"effect_type",
-        "id":"effect_onfire",
+        "id":"onfire",
         "name": "On Fire",
         "desc": "Loss of health - Entire Body\nYour clothing and other equipment may be consumed by the flames.",
         "remove_memorial_log":"Put out the fire.",
@@ -54,359 +54,359 @@
     },
     {
         "type":"effect_type",
-        "id":"effect_bouldering",
+        "id":"bouldering",
         "name": "Clambering Over Rubble",
         "desc": "You are being slowed climbing over a pile of rubble",
         "apply_message":"You are slowed by the rubble."
     },
     {
         "type":"effect_type",
-        "id":"effect_blind",
+        "id":"blind",
         "name": "Blind",
         "desc": "Range of Sight: 0",
         "apply_message":"You're blinded!"
     },
     {
         "type":"effect_type",
-        "id":"effect_deaf",
+        "id":"deaf",
         "name": "Deaf",
         "desc": "Sounds will not be reported.  You cannot talk with NPCs.",
         "apply_message":"You're deafened!"
     },
     {
         "type":"effect_type",
-        "id":"effect_poison",
+        "id":"poison",
         "name": "Poisoned",
         "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."
     },
     {
         "type":"effect_type",
-        "id":"effect_beartrap",
+        "id":"beartrap",
         "name": "Stuck in beartrap",
         "desc": "You can't move!"
     },
     {
         "type":"effect_type",
-        "id":"effect_glare",
+        "id":"glare",
         "name": "Glare",
         "desc": "Perception - 1",
         "apply_message":"The sunlight's glare makes it hard to see."
     },
     {
         "type":"effect_type",
-        "id":"effect_smoke",
+        "id":"smoke",
         "name": "Smoke",
         "desc": "Strength - 1;   Dexterity - 1;\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso",
         "apply_message":"You inhale a lungful of thick smoke."
     },
     {
         "type":"effect_type",
-        "id":"effect_teargas",
+        "id":"teargas",
         "name": "Tear gas",
         "desc": "Strength - 2;   Dexterity - 2;   Intelligence - 1;   Perception - 4\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso",
         "apply_message":"You inhale a lungful of tear gas."
     },
    {
       "type":"effect_type",
-      "id":"effect_boomered",
+      "id":"boomered",
       "apply_message":"You're covered in bile!"
    },
    {
       "type":"effect_type",
-      "id":"effect_took_flumed"
+      "id":"took_flumed"
    },
    {
       "type":"effect_type",
-      "id":"effect_in_pit"
+      "id":"in_pit"
    },
    {
       "type":"effect_type",
-      "id":"effect_pkill2"
+      "id":"pkill2"
    },
    {
       "type":"effect_type",
-      "id":"effect_null"
+      "id":"null"
    },
    {
       "type":"effect_type",
-      "id":"effect_webbed",
+      "id":"webbed",
       "apply_message":"You're covered in webs!"
    },
    {
       "apply_memorial_log":"Contracted an infection.",
       "type":"effect_type",
-      "id":"effect_infected",
+      "id":"infected",
       "remove_memorial_log":"Recovered from an infection... this time.",
       "apply_message":"Your bite wound feels infected"
    },
    {
       "type":"effect_type",
-      "id":"effect_spores"
+      "id":"spores"
    },
    {
       "type":"effect_type",
-      "id":"effect_visuals"
+      "id":"visuals"
    },
    {
       "type":"effect_type",
-      "id":"effect_rat"
+      "id":"rat"
    },
    {
       "apply_memorial_log":"Received a deep bite wound.",
       "type":"effect_type",
-      "id":"effect_bite",
+      "id":"bite",
       "remove_memorial_log":"Recoverd from a bite wound.",
       "apply_message":"The bite wound feels really deep..."
    },
    {
       "type":"effect_type",
-      "id":"effect_ma_buff"
+      "id":"ma_buff"
    },
    {
       "type":"effect_type",
-      "id":"effect_iodine"
+      "id":"iodine"
    },
    {
       "type":"effect_type",
-      "id":"effect_shakes"
+      "id":"shakes"
    },
    {
       "type":"effect_type",
-      "id":"effect_blisters"
+      "id":"blisters"
    },
    {
       "type":"effect_type",
-      "id":"effect_bleed"
+      "id":"bleed"
    },
    {
       "type":"effect_type",
-      "id":"effect_foodpoison"
+      "id":"foodpoison"
    },
    {
       "type":"effect_type",
-      "id":"effect_speed_boost"
+      "id":"speed_boost"
    },
    {
       "type":"effect_type",
-      "id":"effect_slimed",
+      "id":"slimed",
       "apply_message":"You're covered in thick goo!"
    },
    {
       "type":"effect_type",
-      "id":"effect_hallu"
+      "id":"hallu"
    },
    {
       "type":"effect_type",
-      "id":"effect_paralyzepoison"
+      "id":"paralyzepoison"
    },
    {
       "type":"effect_type",
-      "id":"effect_cold"
+      "id":"cold"
    },
    {
       "type":"effect_type",
-      "id":"effect_dermatik"
+      "id":"dermatik"
    },
    {
       "type":"effect_type",
-      "id":"effect_pkill_l"
+      "id":"pkill_l"
    },
    {
       "type":"effect_type",
-      "id":"effect_frostbite"
+      "id":"frostbite"
    },
    {
       "type":"effect_type",
-      "id":"effect_sap",
+      "id":"sap",
       "apply_message":"You're coated in sap!"
    },
    {
       "type":"effect_type",
-      "id":"effect_viper_combo"
+      "id":"viper_combo"
    },
    {
       "apply_memorial_log":"Caught a cold.",
       "type":"effect_type",
-      "id":"effect_common_cold",
+      "id":"common_cold",
       "remove_memorial_log":"Got over the cold.",
       "apply_message":"You feel a cold coming on..."
    },
    {
       "type":"effect_type",
-      "id":"effect_alarm_clock"
+      "id":"alarm_clock"
    },
    {
       "type":"effect_type",
-      "id":"effect_asked_to_lead"
+      "id":"asked_to_lead"
    },
    {
       "type":"effect_type",
-      "id":"effect_took_xanax"
+      "id":"took_xanax"
    },
    {
       "type":"effect_type",
-      "id":"effect_evil"
+      "id":"evil"
    },
    {
       "type":"effect_type",
-      "id":"effect_attention"
+      "id":"attention"
    },
    {
       "type":"effect_type",
-      "id":"effect_asked_for_item"
+      "id":"asked_for_item"
    },
    {
       "type":"effect_type",
-      "id":"effect_jetinjector",
+      "id":"jetinjector",
       "apply_message":"You feel a rush as the chemicals flow through your body!"
    },
    {
       "type":"effect_type",
-      "id":"effect_adrenaline",
+      "id":"adrenaline",
       "apply_message":"You feel a surge of adrenaline!"
    },
    {
       "type":"effect_type",
-      "id":"effect_recover"
+      "id":"recover"
    },
    {
       "type":"effect_type",
-      "id":"effect_meth"
+      "id":"meth"
    },
    {
       "type":"effect_type",
-      "id":"effect_dodge_boost"
+      "id":"dodge_boost"
    },
    {
       "type":"effect_type",
-      "id":"effect_cig"
+      "id":"cig"
    },
    {
       "type":"effect_type",
-      "id":"effect_grack"
+      "id":"grack"
    },
    {
       "remove_memorial_log":"Cured the fungal infection.",
       "type":"effect_type",
-      "id":"effect_fungus"
+      "id":"fungus"
    },
    {
       "type":"effect_type",
-      "id":"effect_teleglow"
+      "id":"teleglow"
    },
    {
       "type":"effect_type",
-      "id":"effect_high"
+      "id":"high"
    },
    {
       "remove_message":"Your vision starts to blur.",
       "type":"effect_type",
-      "id":"effect_contacts",
+      "id":"contacts",
       "apply_message":"You can see more clearly."
    },
    {
       "type":"effect_type",
-      "id":"effect_formication",
+      "id":"formication",
       "apply_message":"Your skin feels extremely itchy!"
    },
    {
       "apply_memorial_log":"Caught the flu.",
       "type":"effect_type",
-      "id":"effect_flu",
+      "id":"flu",
       "remove_memorial_log":"Got over the flu.",
       "apply_message":"You feel a flu coming on..."
    },
    {
       "type":"effect_type",
-      "id":"effect_drunk"
+      "id":"drunk"
    },
    {
       "type":"effect_type",
-      "id":"effect_took_prozac"
+      "id":"took_prozac"
    },
    {
       "type":"effect_type",
-      "id":"effect_armor_boost"
+      "id":"armor_boost"
    },
    {
       "type":"effect_type",
-      "id":"effect_amigara",
+      "id":"amigara",
       "apply_message":"You can't look away from the faultline..."
    },
    {
       "type":"effect_type",
-      "id":"effect_lying_down",
+      "id":"lying_down",
       "apply_message":"You lie down to go to sleep..."
    },
    {
       "type":"effect_type",
-      "id":"effect_heavysnare",
+      "id":"heavysnare",
       "apply_message":"You are snared."
    },
    {
       "type":"effect_type",
-      "id":"effect_asked_to_follow"
+      "id":"asked_to_follow"
    },
    {
       "type":"effect_type",
-      "id":"effect_hot"
+      "id":"hot"
    },
    {
       "type":"effect_type",
-      "id":"effect_pkill1"
+      "id":"pkill1"
    },
    {
       "remove_message":"You wake up.",
       "type":"effect_type",
-      "id":"effect_sleep"
+      "id":"sleep"
    },
    {
       "type":"effect_type",
-      "id":"effect_pkill3"
+      "id":"pkill3"
    },
    {
       "type":"effect_type",
-      "id":"effect_catch_up"
+      "id":"catch_up"
    },
    {
       "type":"effect_type",
-      "id":"effect_asthma",
+      "id":"asthma",
       "apply_message":"You can't breathe... asthma attack!"
    },
    {
       "type":"effect_type",
-      "id":"effect_lightsnare",
+      "id":"lightsnare",
       "apply_message":"You are snared."
    },
    {
       "type":"effect_type",
-      "id":"effect_crushed",
+      "id":"crushed",
       "apply_message":"The ceiling collapses on you!"
    },
    {
       "type":"effect_type",
-      "id":"effect_stemcell_treatment",
+      "id":"stemcell_treatment",
       "apply_message":"It is excruciating."
    },
    {
       "type":"effect_type",
-      "id":"effect_badpoison"
+      "id":"badpoison"
    },
    {
       "type":"effect_type",
-      "id":"effect_weed_high",
+      "id":"weed_high",
       "apply_message":"You feel lightheaded."
    },
    {
       "type":"effect_type",
-      "id":"effect_infection"
+      "id":"infection"
    },
    {
       "type":"effect_type",
-      "id":"effect_damage_boost"
+      "id":"damage_boost"
    },
    {
       "type":"effect_type",
-      "id":"effect_attack_boost"
+      "id":"attack_boost"
    }
 ]

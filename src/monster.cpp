@@ -216,11 +216,11 @@ int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
    wprintz(w, h_red, "BUG: Behavior unnamed. (monster.cpp:print_info)");
    break;
  }
- if (has_effect("effect_downed"))
+ if (has_effect("downed"))
   wprintz(w, h_white, _("On ground"));
- else if (has_effect("effect_stunned"))
+ else if (has_effect("stunned"))
   wprintz(w, h_white, _("Stunned"));
- else if (has_effect("effect_beartrap"))
+ else if (has_effect("beartrap"))
   wprintz(w, h_white, _("Trapped"));
  std::string damage_info;
  nc_color col;
@@ -276,9 +276,9 @@ bool monster::is_symbol_highlighted()
 nc_color monster::color_with_effects()
 {
  nc_color ret = type->color;
- if (has_effect("effect_beartrap") || has_effect("effect_stunned") || has_effect("effect_downed"))
+ if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed"))
   ret = hilite(ret);
- if (has_effect("effect_onfire"))
+ if (has_effect("onfire"))
   ret = red_background(ret);
  return ret;
 }
@@ -290,12 +290,12 @@ bool monster::has_flag(const m_flag f) const
 
 bool monster::can_see()
 {
- return has_flag(MF_SEES) && !has_effect("effect_blind");
+ return has_flag(MF_SEES) && !has_effect("blind");
 }
 
 bool monster::can_hear()
 {
- return has_flag(MF_HEARS) && !has_effect("effect_deaf");
+ return has_flag(MF_HEARS) && !has_effect("deaf");
 }
 
 bool monster::can_submerge()
@@ -426,7 +426,7 @@ point monster::move_target()
 
 bool monster::is_fleeing(player &u)
 {
- if (has_effect("effect_run"))
+ if (has_effect("run"))
   return true;
  monster_attitude att = attitude(&u);
  return (att == MATT_FLEE ||
@@ -437,7 +437,7 @@ monster_attitude monster::attitude(player *u)
 {
  if (friendly != 0)
   return MATT_FRIEND;
- if (has_effect("effect_run"))
+ if (has_effect("run"))
   return MATT_FLEE;
 
  int effective_anger  = anger;
@@ -666,10 +666,10 @@ void monster::melee_attack(game *g, Creature &target, bool allow_grab) {
     mod_moves(-100);
     if (type->melee_dice == 0) // We don't attack, so just return
         return;
-    add_effect("effect_hit_by_player", 3); // Make us a valid target for a few turns
+    add_effect("hit_by_player", 3); // Make us a valid target for a few turns
 
     if (has_flag(MF_HIT_AND_RUN))
-        add_effect("effect_run", 4);
+        add_effect("run", 4);
 
     bool u_see_me = g->u_see(this);
 
@@ -918,10 +918,10 @@ int monster::hit_roll() {
 
 int monster::get_dodge()
 {
- if (has_effect("effect_downed"))
+ if (has_effect("downed"))
   return 0;
  int ret = type->sk_dodge;
- if (has_effect("effect_beartrap"))
+ if (has_effect("beartrap"))
   ret /= 2;
  if (moves <= 0 - 100 - type->speed)
   ret = rng(0, ret);
@@ -1080,12 +1080,12 @@ void monster::process_effects(game *g)
     for (std::vector<effect>::iterator it = effects.begin();
             it != effects.end(); ++it) {
         std::string id = it->get_id();
-        if (id == "effect_poisoned") {
+        if (id == "poisoned") {
             speed -= rng(0, 3);
             hurt(rng(1, 3));
 
         // MATERIALS-TODO: use fire resistance
-        } else if (id == "effect_onfire") {
+        } else if (id == "onfire") {
             if (made_of("flesh"))
                 hurt(rng(3, 8));
             if (made_of("veggy"))

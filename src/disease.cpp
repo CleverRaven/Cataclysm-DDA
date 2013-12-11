@@ -1132,7 +1132,7 @@ void dis_effect(player &p, disease &dis) {
                 }
                 if (one_in(12000 - dis.duration)) {
                     g->add_msg_if_player(&p,_("Your vision is filled with bright lights..."));
-                    p.add_effect("effect_blind", rng(10, 20));
+                    p.add_effect("blind", rng(10, 20));
                     if (one_in(8)) {
                         p.rem_disease("teleglow");
                     }
