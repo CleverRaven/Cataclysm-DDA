@@ -1929,7 +1929,7 @@ void npc::die(game *g, bool your_fault)
     }
     if (your_fault){
         if (is_friend()) {
-            if(!g->u.has_trait("CANNIBAL")) {
+            if(!g->u.has_trait("CANNIBAL") || !g->u.has_trait("PSYCHOPATH")) {
                 // Very long duration, about 7d, decay starts after 10h.
                 g->u.add_memorial_log(_("Killed a friend, %s."), name.c_str());
                 g->u.add_morale(MORALE_KILLED_FRIEND, -500, 0, 10000, 600);
@@ -1937,7 +1937,7 @@ void npc::die(game *g, bool your_fault)
                 g->u.add_memorial_log(_("Killed a delicious-looking friend, %s, in cold blood."), name.c_str());
             }
         } else if (!is_enemy() || this->hit_by_player){
-            if(!g->u.has_trait("CANNIBAL")) {
+            if(!g->u.has_trait("CANNIBAL") || !g->u.has_trait("PSYCHOPATH")) {
                 // Very long duration, about 3.5d, decay starts after 5h.
                 g->u.add_memorial_log("Killed an innocent person, %s.", name.c_str());
                 g->u.add_morale(MORALE_KILLED_INNOCENT, -100, 0, 5000, 300);

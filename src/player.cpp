@@ -6657,7 +6657,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
         g->add_msg_if_player(this, _("You can't stand the thought of eating veggies."));
         return false;
     }
-    if (!has_trait("CANNIBAL") && eaten->made_of("hflesh")&& !is_npc() &&
+    if ((!has_trait("CANNIBAL") || (!has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&& !is_npc() &&
         !query_yn(_("The thought of eating that makes you feel sick. Really do it?"))) {
         return false;
     }
@@ -6759,6 +6759,8 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
       if (has_trait("CANNIBAL")) {
           g->add_msg_if_player(this, _("You feast upon the human flesh."));
           add_morale(MORALE_CANNIBAL, 15, 100);
+      } else if (has_trait("PSYCHOPATH")) {
+          g->add_msg_if_player(this, _("Meh. You've eaten worse."));
       } else {
           g->add_msg_if_player(this, _("You feel horrible for eating a person."));
           add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);

@@ -350,6 +350,14 @@
         "cancels" : ["VEGETARIAN"]
     },{
         "type" : "mutation",
+        "id" : "PSYCHOPATH",
+        "name" : "Psychopath",
+        "points" : 2,
+        "description" : "You don't experience guilt like others do. Even when you know your actions are wrong, you just don't care.",
+        "starting_trait" : true,
+        "valid" : false
+    },{
+        "type" : "mutation",
         "id" : "MARTIAL_ARTS",
         "name" : "Martial Arts Training",
         "points" : 3,

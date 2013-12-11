@@ -274,7 +274,7 @@ void mdeath::guilt(monster *z) {
                  and add a "PSYCHOPATH" trait for terminally guilt-free folk.
                  Guilty cannibals could make for good drama!
     */
-    if (g->u.has_trait("CANNIBAL")) {
+    if (g->u.has_trait("CANNIBAL") || g->u.has_trait("PSYCHOPATH")) {
         return;
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > MAX_GUILT_DISTANCE) {
