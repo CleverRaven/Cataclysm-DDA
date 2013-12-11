@@ -171,6 +171,15 @@
         "cancels" : ["SLOWLEARNER"]
     },{
         "type" : "mutation",
+        "id" : "STRONGSTOMACH",
+        "name" : "Strong Stomach",
+        "points" : 1,
+        "description" : "You are less likely to throw up from food poisoning, alcohol, etc.",
+        "starting_trait" : true,
+        "changes_to" : ["NAUSEA"],
+        "cancels" : ["WEAKSTOMACH"]
+    },{
+        "type" : "mutation",
         "id" : "GOODMEMORY",
         "name" : "Good Memory",
         "points" : -3,
@@ -624,7 +633,8 @@
         "points" : -1,
         "description" : "You are more likely to throw up from food poisoning, alcohol, etc.",
         "starting_trait" : true,
-        "changes_to" : ["NAUSEA"]
+        "changes_to" : ["NAUSEA"],
+        "cancels" : ["STRONGSTOMACH"]
     },{
         "type" : "mutation",
         "id" : "WOOLALLERGY",
