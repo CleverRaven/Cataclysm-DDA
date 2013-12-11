@@ -1218,6 +1218,12 @@ std::string player::melee_special_effects(game *g, monster *critter, player *p, 
   g->add_msg_if_player(p, _("Contact with %s shocks you!"), target.c_str());
  }
 
+ //Hurting the wielder from poorly-chosen weapons
+ if(weapon.has_flag("HURT_WHEN_WIELDED") && x_in_y(2, 3)) {
+     g->add_msg_if_player(p, _("The %s cuts your hand!"), weapon.tname().c_str());
+     p->hit(g, bp_hands, random_side(bp_hands), 0, weapon.damage_cut());
+ }
+
 // Glass weapons shatter sometimes
  if (weapon.made_of("glass") &&
      rng(0, weapon.volume() + 8) < weapon.volume() + str_cur) {
