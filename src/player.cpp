@@ -3615,6 +3615,8 @@ int player::read_speed(bool real_life)
  int ret = 1000 - 50 * (intel - 8);
  if (has_trait("FASTREADER"))
   ret *= .8;
+ if (has_trait("SLOWREADER"))
+  ret *= 1.3;
  if (ret < 100)
   ret = 100;
  return (real_life ? ret : ret / 10);

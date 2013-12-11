@@ -91,7 +91,7 @@
         "description" : "You're a quick reader, and can get through books a lot faster than most.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["ILLITERATE"]
+        "cancels" : ["ILLITERATE", "SLOWREADER"]
     },{
         "type" : "mutation",
         "id" : "TOUGH",
@@ -411,7 +411,7 @@
         "description" : "You never learned to read! Books and computers are off-limits to you.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["FASTREADER"]
+        "cancels" : ["FASTREADER", "SLOWREADER"]
     },{
         "type" : "mutation",
         "id" : "BADHEARING",
@@ -517,6 +517,15 @@
         "description" : "Most animals don't like you, and aggressive animals are more likely to attack you. This only applies to natural animals such as woodland creatures.",
         "starting_trait" : true,
         "cancels" : ["ANIMALEMPATH"]
+    },{
+        "type" : "mutation",
+        "id" : "SLOWREADER",
+        "name" : "Slow Reader",
+        "points" : -1,
+        "description" : "You're a slow reader, and it takes you longer to get through books than most.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["ILLITERATE", "FASTREADER"]
     },{
         "type" : "mutation",
         "id" : "SCHIZOPHRENIC",
