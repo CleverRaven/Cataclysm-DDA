@@ -16,7 +16,8 @@
         "points" : 2,
         "description" : "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "cancels" : ["BADKNEES"]
     },{
         "type" : "mutation",
         "id" : "QUICK",
@@ -50,6 +51,7 @@
         "points" : 3,
         "description" : "Your metabolism is a little slower, and you require less food than most.",
         "starting_trait" : true,
+        "cancels" : ["HUNGER"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
@@ -361,6 +363,15 @@
         "category" : ["MUTCAT_ALPHA"],
         "cancels" : ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
         "changes_to" : ["BEAUTIFUL"]
+    },{
+        "type" : "mutation",
+        "id" : "BADKNEES",
+        "name" : "Bad Knees",
+        "points" : -1,
+        "description" : "Whether due to injury or age, your knees aren't particularly strong or flexible. Moving over rough terrain will slow you down more than normal.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["PARKOUR"]
     },{
         "type" : "mutation",
         "id" : "MYOPIC",
@@ -1888,6 +1899,7 @@
         "points" : -2,
         "description" : "You require more food than most people.",
         "starting_trait" : true,
+        "cancels" : ["LIGHTEATER"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_ALPHA", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA", "MUTCAT_ELFA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",

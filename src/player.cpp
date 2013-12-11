@@ -1201,6 +1201,11 @@ int player::run_cost(int base_cost, bool diag)
         if (movecost < 100)
             movecost = 100;
     }
+    if (has_trait("BADKNEES") && movecost > 100 ) {
+        movecost *= 1.25f;
+        if (movecost < 100)
+            movecost = 100;
+    }
 
     if (hp_cur[hp_leg_l] == 0)
         movecost += 50;
