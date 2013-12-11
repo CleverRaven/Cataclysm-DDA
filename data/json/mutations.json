@@ -137,6 +137,7 @@
         "description" : "Your skin is tough. Cutting damage is slightly reduced for you. Slightly decreases wet penalties.",
         "starting_trait" : true,
         "category" : ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"],
+        "cancels" : ["THINSKIN"],
         "wet_protection" : [
             {
                 "part" : "LEGS",
@@ -504,6 +505,14 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["CANNIBAL", "CARNIVORE", "SAPROVORE", "MEATARIAN"]
+    },{
+        "type" : "mutation",
+        "id" : "THINSKIN",
+        "name" : "Thin-Skinned",
+        "points" : -1,
+        "description" : "Your skin is fragile. Cutting damage is slightly increased for you.",
+        "starting_trait" : true,
+        "cancels" : ["THICKSKIN"]
     },{
         "type" : "mutation",
         "id" : "MEATARIAN",

@@ -8826,6 +8826,8 @@ int player::armor_cut(body_part bp)
   ret += 3;
  if (has_trait("THICKSKIN"))
   ret++;
+ if (has_trait("THINSKIN"))
+  ret--;
  if (has_trait("SCALES"))
   ret += 2;
  if (has_trait("THICK_SCALES"))
@@ -8990,6 +8992,8 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
     }
     if (has_trait("THICKSKIN"))
         cut--;
+    if (has_trait("THINSKIN"))
+        cut++;
     if (has_trait("SCALES"))
         cut -= 2;
     if (has_trait("THICK_SCALES"))
