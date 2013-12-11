@@ -1239,7 +1239,7 @@ int player::run_cost(int base_cost, bool diag)
 
     movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
-    if (!is_wearing_shoes() && !has_trait("PADDED_FEET") && !has_trait("HOOVES")){
+    if (!is_wearing_shoes() && !has_trait("PADDED_FEET") && !has_trait("HOOVES")&& !has_trait("TOUGH_FEET")){
         movecost += 15;
     }
 
