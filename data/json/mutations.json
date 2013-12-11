@@ -20,6 +20,21 @@
         "cancels" : ["BADHEARING"]
     },{
         "type" : "mutation",
+        "id" : "OUTDOORSMAN",
+        "name" : "Outdoorsman",
+        "points" : 1,
+        "description" : "You are accustomed to being exposed to the elements. This decreases morale penalties for being wet.",
+        "starting_trait" : true,
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 6 },
+            { "part" : "LEGS", "ignored" : 8 },
+            { "part" : "FEET", "ignored" : 2 },
+            { "part" : "ARMS", "ignored" : 8 },
+            { "part" : "HANDS", "ignored" : 12 },
+            { "part" : "TORSO", "ignored" : 10 }
+        ]
+    },{
+        "type" : "mutation",
         "id" : "PARKOUR",
         "name" : "Parkour Expert",
         "points" : 2,
