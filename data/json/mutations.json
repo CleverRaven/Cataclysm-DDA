@@ -25,6 +25,7 @@
         "points" : 1,
         "description" : "You are accustomed to being exposed to the elements. This decreases morale penalties for being wet.",
         "starting_trait" : true,
+        "valid" : false,
         "wet_protection" : [
             { "part" : "HEAD", "ignored" : 6 },
             { "part" : "LEGS", "ignored" : 8 },
