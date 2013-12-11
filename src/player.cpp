@@ -68,6 +68,7 @@ void game::init_morale()
     _("Disliked %i"),
     _("Ate Human Flesh"),
     _("Ate Meat"),
+    _("Ate Vegetables"),
     _("Wet"),
     _("Dried Off"),
     _("Cold"),
@@ -6651,7 +6652,11 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     }
 
     if (has_trait("VEGETARIAN") && eaten->made_of("flesh") && !is_npc() &&
-        !query_yn(_("Really eat that meat? Your stomach won't be happy."))) {
+        !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
+        return false;
+    }
+    if (has_trait("MEATARIAN") && eaten->made_of("veggy") && !is_npc() &&
+        !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
 
@@ -6751,6 +6756,10 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     if (has_trait("VEGETARIAN") && (eaten->made_of("flesh") || eaten->made_of("hflesh"))) {
         g->add_msg_if_player(this,_("Almost instantly you feel a familiar pain in your stomach."));
         add_morale(MORALE_VEGETARIAN, -75, -400, 300, 240);
+    }
+    if (has_trait("MEATARIAN") && eaten->made_of("veggy")) {
+        g->add_msg_if_player(this,_("Yuck! How can anybody eat this stuff?"));
+        add_morale(MORALE_MEATARIAN, -75, -400, 300, 240);
     }
     if ((has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
             eaten->made_of("flesh")) {

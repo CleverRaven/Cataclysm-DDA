@@ -437,7 +437,16 @@
         "description" : "You have problems with eating meat. It's possible for you to eat it, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["CANNIBAL"]
+        "cancels" : ["CANNIBAL", "CARNIVORE", "SAPROVORE", "MEATARIAN"]
+    },{
+        "type" : "mutation",
+        "id" : "MEATARIAN",
+        "name" : "Hates Vegetables",
+        "points" : -3,
+        "description" : "You despise eating plant-based foods. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT"]
     },{
         "type" : "mutation",
         "id" : "GLASSJAW",
@@ -2060,7 +2069,7 @@
         "name" : "Carnivore",
         "points" : -3,
         "description" : "Your body's ability to digest fruits, vegetables and grains is severely hampered. You cannot eat anything besides meat.",
-        "cancels" : ["HERBIVORE", "RUMINANT"],
+        "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT"],
         "leads_to" : ["SAPROVORE"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"]
     },{
