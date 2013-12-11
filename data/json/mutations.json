@@ -343,7 +343,7 @@
         "type" : "mutation",
         "id" : "CANNIBAL",
         "name" : "Cannibal",
-        "points" : 3,
+        "points" : 1,
         "description" : "For your whole life you've been forbidden from indulging in your peculiar tastes. Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
         "starting_trait" : true,
         "valid" : false,
