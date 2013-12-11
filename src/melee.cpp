@@ -941,16 +941,6 @@ std::string player::melee_special_effects(game *g, Creature &t, damage_instance&
                                         target.c_str());
     }
 
- /* TODO: implement this effect yo, also figure out why weapon.conductive
-  * isn't used to decide shock_them instead of the OR chains
- bool conductive = !wearing_something_on(bp_hands) && weapon.conductive();
- if (mon && z->has_flag(MF_ELECTRIC) && conductive) {
-  hurtall(rng(0, 1));
-  moves -= rng(0, 50);
-  g->add_msg_if_player(p, _("Contact with %s shocks you!"), target.c_str());
- }
- */
-
  //Hurting the wielder from poorly-chosen weapons
  if(weapon.has_flag("HURT_WHEN_WIELDED") && x_in_y(2, 3)) {
      g->add_msg_if_player(this, _("The %s cuts your hand!"), weapon.tname().c_str());
@@ -974,7 +964,7 @@ std::string player::melee_special_effects(game *g, Creature &t, damage_instance&
   deal_damage(g, this, bp_arms, 1,damage_instance::physical(0,rng(0, weapon.volume() * 2),0));
   if (weapon.is_two_handed(this)) {// Hurt left arm too, if it was big
       //redeclare shatter_dam because deal_damage mutates it
-    deal_damage(g, this, bp_arms, 1, damage_instance::physical(0,rng(0, weapon.volume() * 2),0));
+    deal_damage(g, this, bp_arms, 0, damage_instance::physical(0,rng(0, weapon.volume() * 2),0));
   }
   d.add_damage(DT_CUT, rng(0, 5 + int(weapon.volume() * 1.5)));// Hurt the monster extra
   remove_weapon();

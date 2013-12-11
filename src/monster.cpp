@@ -178,7 +178,9 @@ std::string monster::name_with_armor()
 }
 
 std::string monster::disp_name() {
-    return "the " + name();
+    char buffer[256];
+    sprintf(buffer, "the %s", name().c_str());
+    return buffer;
 }
 
 std::string monster::skin_name() {
@@ -830,6 +832,23 @@ void monster::hit_monster(game *g, int i)
  int damage = dice(type->melee_dice, type->melee_sides);
  if (target->hurt(damage))
   g->kill_mon(i, (friendly != 0));
+}
+
+int monster::deal_melee_attack(game* g, Creature* source, int hitroll, bool crit,
+        const damage_instance& d, dealt_damage_instance &dealt_dam) {
+    if (has_flag(MF_ELECTRIC)) { // shockers electrocute melee attackers
+        if (source != NULL && source->is_player() &&
+                !g->u.wearing_something_on(bp_hands) &&
+                (g->u.weapon.conductive() || g->u.unarmed_attack())
+                ) {
+            damage_instance shock;
+            shock.add_damage(DT_ELECTRIC, rng_float(0,1));
+            source->deal_damage(g, this, bp_arms, 1, shock);
+            g->add_msg_if_player(source, _("Contact with %s shocks you!"),
+                    disp_name().c_str());
+        }
+    }
+    return Creature::deal_melee_attack(g, source, hitroll, crit, d, dealt_dam);
 }
 
 int monster::deal_projectile_attack(game* g, Creature* source, double missed_by,
