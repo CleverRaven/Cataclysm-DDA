@@ -953,10 +953,10 @@ std::string player::melee_special_effects(game *g, Creature &t, damage_instance&
 
  //Hurting the wielder from poorly-chosen weapons
  if(weapon.has_flag("HURT_WHEN_WIELDED") && x_in_y(2, 3)) {
-     g->add_msg_if_player(p, _("The %s cuts your hand!"), weapon.tname().c_str());
-     p->hit(g, bp_hands, 0, 0, weapon.damage_cut());
+     g->add_msg_if_player(this, _("The %s cuts your hand!"), weapon.tname().c_str());
+     deal_damage(g, NULL, bp_hands, 0, damage_instance::physical(0,weapon.damage_cut(),0));
      if (weapon.is_two_handed(this)) { // Hurt left hand too, if it was big
-       hit(g, bp_hands, 1, 0, weapon.damage_cut());
+       deal_damage(g, NULL, bp_hands, 1, damage_instance::physical(0,weapon.damage_cut(),0));
      }
  }
 
