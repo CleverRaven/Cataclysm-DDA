@@ -573,6 +573,10 @@ int monster::trigger_sum(game *g, std::set<monster_trigger> *triggers)
  return ret;
 }
 
+bool monster::is_underwater() const {
+    return false; //TODO: actually make this work
+}
+
 bool monster::is_on_ground() {
     return false; //TODO: actually make this work
 }

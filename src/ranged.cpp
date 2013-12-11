@@ -381,23 +381,6 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         } else if (!used_weapon->has_flag("NO_AMMO")) {
             used_weapon->charges--;
         }
-        /* TODO: merge the underwater stuff in. this is just going to take way
-         * too much work right now
-  if (firing->skill_used != Skill::skill("archery") &&
-      firing->skill_used != Skill::skill("throw")) {
-      // Current guns have a durability between 5 and 9.
-      // Misfire chance is between 1/64 and 1/1024, 1/durability when underwater unless WATERPROOF_GUN is in effect.
-    if (u.is_underwater() && !weapon->has_flag("WATERPROOF_GUN") && one_in(firing->durability)) {
-          add_msg_player_or_npc( &p, _("Your weapon misfires with a wet click!"),
-                                 _("<npcname>'s weapon misfires with a wet click!") );
-          return;
-      } else if (one_in(2 << firing->durability)) {
-          add_msg_player_or_npc( &p, _("Your weapon misfires!"),
-                                 _("<npcname>'s weapon misfires!") );
-          return;
-  }
-  }
-  */
 
         // Drain UPS power
         if (has_charges("adv_UPS_off", adv_ups_drain)) {
@@ -410,12 +393,15 @@ void player::fire_gun(int tarx, int tary, bool burst) {
             use_charges("UPS_on", ups_drain);
         }
 
-
         if (firing->skill_used != Skill::skill("archery") &&
             firing->skill_used != Skill::skill("throw")) {
             // Current guns have a durability between 5 and 9.
             // Misfire chance is between 1/64 and 1/1024.
-            if (one_in(2 << firing->durability)) {
+            if (is_underwater() && !weapon.has_flag("WATERPROOF_GUN") && one_in(firing->durability)) {
+                g->add_msg_player_or_npc( this, _("Your weapon misfires with a wet click!"),
+                                        _("<npcname>'s weapon misfires with a wet click!") );
+                return;
+            } else if (one_in(2 << firing->durability)) {
                 g->add_msg_player_or_npc( this, _("Your weapon misfires!"),
                                         _("<npcname>'s weapon misfires!") );
                 return;

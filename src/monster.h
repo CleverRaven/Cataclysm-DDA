@@ -188,6 +188,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     void process_trigger(monster_trigger trig, int amount); // Single trigger
     int trigger_sum(game *g, std::set<monster_trigger> *triggers);
 
+    bool is_underwater() const;
     bool is_on_ground();
     bool is_warm();
     bool has_weapon();
