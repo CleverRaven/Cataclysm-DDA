@@ -1941,12 +1941,12 @@ void npc::die(game *g, bool your_fault)
         } else if (!is_enemy() || this->hit_by_player){
             if(!g->u.has_trait("CANNIBAL") && !g->u.has_trait("PSYCHOPATH")) {
                 // Very long duration, about 3.5d, decay starts after 5h.
-                g->u.add_memorial_log("Killed an innocent person, %s.", name.c_str());
+                g->u.add_memorial_log("Killed an innocent person, %s, in cold blood and felt terrible afterwards.", name.c_str());
                 g->u.add_morale(MORALE_KILLED_INNOCENT, -100, 0, 5000, 300);
             } else if(!g->u.has_trait("CANNIBAL") && g->u.has_trait("PSYCHOPATH")) {
                 g->u.add_memorial_log(_("Killed an innocent, %s, in cold blood. They were weak."), name.c_str());
             } else if(g->u.has_trait("CANNIBAL") && !g->u.has_trait("PSYCHOPATH")) {
-                g->u.add_memorial_log(_("Killed an innocent, %s, in cold blood."), name.c_str());
+                g->u.add_memorial_log(_("Killed an innocent, %s."), name.c_str());
                 g->u.add_morale(MORALE_KILLED_INNOCENT, -10, 0, 5000, 300);
             } else {
                 g->u.add_memorial_log(_("Killed a delicious-looking innocent, %s, in cold blood."), name.c_str());
