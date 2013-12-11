@@ -9522,7 +9522,7 @@
     ]
   ]
 },{
-``"type" : "recipe",
+  "type" : "recipe",
   "result": "mutagen_feline",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
