@@ -2361,6 +2361,11 @@ void manage_sleep(player& p, disease& dis) {
         recovery_chance = 24 - dis.intensity + 1;
         if (p.fatigue > 0) {
             p.fatigue -= 1 + one_in(recovery_chance);
+            // You fatigue & recover faster with Sleepy
+            // Very Sleepy, you just fatigue faster
+            if (p.has_trait("SLEEPY")) {
+                p.fatigue -=(1 + one_in(recovery_chance) / 2);
+            }
         }
         if (p.has_trait("FASTHEALER")) {
             p.healall(1);

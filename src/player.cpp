@@ -928,6 +928,11 @@ void player::update_bodytemp(game *g)
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 750 : 1500);
         }
+        // Feline fur
+        if (has_trait("FELINE_FUR"))
+        {
+            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 500 : 1000);
+        }
         // Disintergration
         if (has_trait("ROT1")) { temp_conv[i] -= 250;}
         else if (has_trait("ROT2")) { temp_conv[i] -= 750;}
@@ -3400,7 +3405,7 @@ void player::recalc_sight_limits()
         sight_boost = sight_boost_cap;
 	}else if (has_trait("ELFA_NV")) {
         sight_boost = 6;
-    } else if (has_trait("NIGHTVISION2")) {
+    } else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV")) {
         sight_boost = 4;
     } else if (has_trait("NIGHTVISION")) {
         sight_boost = 1;
@@ -5174,7 +5179,7 @@ void player::drench(game *g, int saturation, int flags)
     int dur = 60;
     int d_start = 30;
     if (morale_cap < 0) {
-        if (has_trait("LIGHTFUR") || has_trait("FUR")) {
+        if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR")) {
             dur /= 5;
             d_start /= 5;
         }
@@ -8262,7 +8267,7 @@ void player::read(game *g, int pos)
     vehicle *veh = g->m.veh_at (posx, posy);
     if (veh && veh->player_in_control (this))
     {
-        g->add_msg(_("It's bad idea to read while driving."));
+        g->add_msg(_("It's a bad idea to read while driving!"));
         return;
     }
 
@@ -8605,7 +8610,7 @@ float player::fine_detail_vision_mod(game *g)
 
     if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
 	else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
-    else if (has_trait("NIGHTVISION2")) { vision_ii -= 2; }
+    else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV")) { vision_ii -= 2; }
     else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV")) { vision_ii -= 3; }
 
     if (vision_ii < 1) { vision_ii = 1; }
@@ -8775,6 +8780,8 @@ int player::armor_bash(body_part bp)
   else if (bp == bp_eyes && has_bionic("bio_armor_eyes"))
   ret += 3;
  if (has_trait("FUR"))
+  ret++;
+ if (bp == bp_head && has_trait("LYNX_FUR"))
   ret++;
  if (has_trait("CHITIN"))
   ret += 2;
@@ -8982,6 +8989,8 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
     if (bp == bp_arms && has_trait("ARM_FEATHERS"))
         dam--;
     if (has_trait("FUR"))
+        dam--;
+    if (bp == bp_head && has_trait("LYNX_FUR"))
         dam--;
     if (has_trait("CHITIN"))
         cut -= 2;
