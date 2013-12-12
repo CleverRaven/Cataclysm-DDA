@@ -5,7 +5,7 @@
         "name": "nothing",
         "symbol": " ",
         "color": "white",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "DIGGABLE"]
     },{
         "type" : "terrain",
@@ -13,7 +13,7 @@
         "name": "empty space",
         "symbol": " ",
         "color": "black",
-        "move_cost": 2,
+        "move_cost": 4,
         "trap": "ledge",
         "flags": ["TRANSPARENT"]
     },{
@@ -22,7 +22,7 @@
         "name": "dirt",
         "symbol": ".",
         "color": "brown",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
     },{
         "type" : "terrain",
@@ -30,7 +30,7 @@
         "name": "sand",
         "symbol": ".",
         "color": "yellow",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
     },{
         "type" : "terrain",
@@ -38,7 +38,7 @@
         "name": "mound of dirt",
         "symbol": "#",
         "color": "brown",
-        "move_cost": 3,
+        "move_cost": 5,
         "flags": ["TRANSPARENT", "DIGGABLE"],
         "examine_action": "dirtmound"
     },{
@@ -47,7 +47,7 @@
         "name": "shallow pit",
         "symbol": "0",
         "color": "yellow",
-        "move_cost": 8,
+        "move_cost": 10,
         "flags": ["TRANSPARENT", "DIGGABLE"]
     },{
         "type" : "terrain",
@@ -55,7 +55,7 @@
         "name": "pit",
         "symbol": "0",
         "color": "brown",
-        "move_cost": 10,
+        "move_cost": 12,
         "trap": "pit",
         "flags": ["TRANSPARENT", "DIGGABLE"],
         "examine_action": "pit"
@@ -65,7 +65,7 @@
         "name": "corpse filled pit",
         "symbol": "#",
         "color": "green",
-        "move_cost": 5,
+        "move_cost": 7,
         "flags": ["TRANSPARENT", "DIGGABLE"]
     },{
         "type" : "terrain",
@@ -73,7 +73,7 @@
         "name": "covered pit",
         "symbol": "#",
         "color": "ltred",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT"],
         "examine_action": "pit_covered"
     },{
@@ -82,7 +82,7 @@
         "name": "spiked pit",
         "symbol": "0",
         "color": "ltred",
-        "move_cost": 10,
+        "move_cost": 12,
         "trap": "spike_pit",
         "flags": ["TRANSPARENT", "DIGGABLE"],
         "examine_action": "pit"
@@ -92,7 +92,7 @@
         "name": "covered spiked pit",
         "symbol": "#",
         "color": "ltred",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT"],
         "examine_action": "pit_covered"
     },{
@@ -101,7 +101,7 @@
         "name": "rock floor",
         "symbol": ".",
         "color": "ltgray",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "INDOORS", "FLAT"]
     },{
         "type" : "terrain",
@@ -109,7 +109,7 @@
         "name": "pile of rubble",
         "symbol": "^",
         "color": "ltgray",
-        "move_cost": 4,
+        "move_cost": 6,
         "flags": ["TRANSPARENT", "ROUGH", "DIGGABLE"],
         "examine_action": "rubble"
     },{
@@ -118,7 +118,7 @@
         "name": "pile of ash",
         "symbol": "#",
         "color": "ltgray",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "DIGGABLE"],
         "examine_action": "rubble"
     },{
@@ -127,7 +127,7 @@
         "name": "twisted metal",
         "symbol": "#",
         "color": "cyan",
-        "move_cost": 5,
+        "move_cost": 7,
         "flags": ["TRANSPARENT", "ROUGH", "SHARP", "PLACE_ITEM"],
         "examine_action": "wreckage"
     },{
@@ -136,7 +136,7 @@
         "name": "metal wreckage",
         "symbol": "#",
         "color": "cyan",
-        "move_cost": 5,
+        "move_cost": 7,
         "flags": ["TRANSPARENT", "ROUGH", "SHARP", "PLACE_ITEM"],
         "examine_action": "wreckage"
     },{
@@ -145,7 +145,7 @@
         "name": "grass",
         "symbol": ".",
         "color": "green",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
     },{
         "type" : "terrain",
@@ -153,7 +153,7 @@
         "name": "metal floor",
         "symbol": ".",
         "color": "ltcyan",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "INDOORS", "FLAT"]
     },{
         "type" : "terrain",
@@ -161,7 +161,7 @@
         "name": "pavement",
         "symbol": ".",
         "color": "dkgray",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAT"]
     },{
         "type" : "terrain",
@@ -169,7 +169,7 @@
         "name": "yellow pavement",
         "symbol": ".",
         "color": "yellow",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAT"]
     },{
         "type" : "terrain",
@@ -177,7 +177,7 @@
         "name": "sidewalk",
         "symbol": ".",
         "color": "ltgray",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAT"]
     },{
         "type" : "terrain",
@@ -185,7 +185,7 @@
         "name": "concrete",
         "symbol": ".",
         "color": "ltgray",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAT"]
     },{
         "type" : "terrain",
@@ -193,7 +193,7 @@
         "name": "floor",
         "symbol": ".",
         "color": "cyan",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
         ]
@@ -203,7 +203,7 @@
         "name": "dirt floor",
         "symbol": ".",
         "color": "brown",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": [
             "TRANSPARENT", "DIGGABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
         ]
@@ -213,7 +213,7 @@
         "name": "metal grate",
         "symbol": "#",
         "color": "dkgray",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT"]
     },{
         "type" : "terrain",
@@ -221,7 +221,7 @@
         "name": "slime",
         "symbol": "~",
         "color": "green",
-        "move_cost": 6,
+        "move_cost": 8,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM"]
     },{
         "type" : "terrain",
@@ -229,7 +229,7 @@
         "name": "walkway",
         "symbol": "#",
         "color": "yellow",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT"]
     },{
         "type" : "terrain",
@@ -238,7 +238,7 @@
         "comment": "Skylight",
         "symbol": ".",
         "color": "white",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "FLAT"
         ]
@@ -249,7 +249,7 @@
         "comment": "Emergency Light",
         "symbol": ".",
         "color": "white",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
         ]
@@ -260,7 +260,7 @@
         "comment": "Regular Light",
         "symbol": ".",
         "color": "white",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
         ]
@@ -270,7 +270,7 @@
         "name": "half-built wall",
         "symbol": "#",
         "color": "brown",
-        "move_cost": 4,
+        "move_cost": 6,
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT"]
     },{
         "type" : "terrain",
@@ -370,7 +370,7 @@
         "comment": "Open palisade gate",
         "symbol": ".",
         "color": "brown",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "FLAT"]
     },{
         "type" : "terrain",
@@ -378,7 +378,7 @@
         "name": "half-built wall",
         "symbol": "#",
         "color": "ltred",
-        "move_cost": 4,
+        "move_cost": 6,
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT"]
     },{
         "type" : "terrain",
@@ -628,7 +628,7 @@
         "name": "open wood door",
         "symbol": "'",
         "color": "brown",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": [
             "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
             "FLAT", "BARRICADABLE_DOOR"
@@ -696,7 +696,7 @@
         "name": "empty door frame",
         "symbol": ".",
         "color": "brown",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"]
     },{
         "type" : "terrain",
@@ -722,7 +722,7 @@
         "name": "closed wooden gate",
         "symbol": "+",
         "color": "brown",
-        "move_cost": 3,
+        "move_cost": 5,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH", "DOOR"],
         "open": "t_fencegate_o",
         "bash": {
@@ -742,7 +742,7 @@
         "name": "open wooden gate",
         "symbol": ".",
         "color": "brown",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": [
             "TRANSPARENT", "SUPPORTS_ROOF", "FLAMMABLE_ASH", "FLAT"],
         "close": "t_fencegate_c"
@@ -771,7 +771,7 @@
         "name": "open wire gate",
         "symbol": ".",
         "color": "cyan",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
         "close": "t_chaingate_c"
     },{
@@ -808,7 +808,7 @@
         "name": "open metal door",
         "symbol": "'",
         "color": "cyan",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT", "BARRICADABLE_DOOR"],
         "close": "t_door_metal_c"
     },{
@@ -837,7 +837,7 @@
         "name": "open bar door",
         "symbol": "'",
         "color": "cyan",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
         "close": "t_door_bar_c"
     },{
@@ -871,7 +871,7 @@
         "name": "open glass door",
         "symbol": "'",
         "color": "ltcyan",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT", "BARRICADABLE_DOOR"],
         "close": "t_door_glass_c"
     },{
@@ -976,7 +976,7 @@
         "name": "open window",
         "symbol": "'",
         "color": "ltcyan",
-        "move_cost": 4,
+        "move_cost": 6,
         "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE" ],
         "close": "t_window_domestic"
     },{
@@ -1039,7 +1039,7 @@
         "name": "empty window",
         "symbol": "0",
         "color": "yellow",
-        "move_cost": 8,
+        "move_cost": 10,
         "flags": [
             "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "BARRICADABLE_WINDOW"
         ]
@@ -1049,7 +1049,7 @@
         "name": "window frame",
         "symbol": "0",
         "color": "ltcyan",
-        "move_cost": 8,
+        "move_cost": 10,
         "flags": [
             "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"
         ]
@@ -1140,7 +1140,7 @@
         "name": "young tree",
         "symbol": "1",
         "color": "green",
-        "move_cost": 4,
+        "move_cost": 6,
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "YOUNG", "REDUCE_SCENT"],
         "bash": {
             "str_min": 4, "str_max": 50,
@@ -1166,7 +1166,7 @@
         "name": "underbrush",
         "symbol": "#",
         "color": "ltgreen",
-        "move_cost": 6,
+        "move_cost": 8,
         "flags": [
             "TRANSPARENT", "BASHABLE", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB"
         ],
@@ -1183,7 +1183,7 @@
         "name": "shrub",
         "symbol": "#",
         "color": "green",
-        "move_cost": 8,
+        "move_cost": 10,
         "flags": [
             "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB"
         ],
@@ -1199,7 +1199,7 @@
         "name": "blueberry bush",
         "symbol": "#",
         "color": "ltgreen",
-        "move_cost": 8,
+        "move_cost": 10,
         "flags": [
             "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB"
         ],
@@ -1210,7 +1210,7 @@
         "name": "strawberry bush",
         "symbol": "#",
         "color": "ltgreen",
-        "move_cost": 8,
+        "move_cost": 10,
         "flags": [
             "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB"
         ],
@@ -1221,7 +1221,7 @@
         "name": "tree trunk",
         "symbol": "1",
         "color": "brown",
-        "move_cost": 4,
+        "move_cost": 6,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT"]
     },{
         "type" : "terrain",
@@ -1245,7 +1245,7 @@
         "name": "wax floor",
         "symbol": ".",
         "color": "yellow",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "INDOORS", "FLAT"]
     },{
         "type" : "terrain",
@@ -1253,7 +1253,7 @@
         "name": "picket fence",
         "symbol": "|",
         "color": "brown",
-        "move_cost": 3,
+        "move_cost": 5,
         "flags": [
             "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT"
         ],
@@ -1274,7 +1274,7 @@
         "name": "picket fence",
         "symbol": "-",
         "color": "brown",
-        "move_cost": 3,
+        "move_cost": 5,
         "flags": [
             "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT"
         ],
@@ -1335,7 +1335,7 @@
         "name": "metal post",
         "symbol": "#",
         "color": "cyan",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "THIN_OBSTACLE"]
     },{
         "type" : "terrain",
@@ -1343,7 +1343,7 @@
         "name": "fence post",
         "symbol": "#",
         "color": "brown",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
         "examine_action": "fence_post",
         "bash": {
@@ -1361,7 +1361,7 @@
         "name": "wire fence",
         "symbol": "$",
         "color": "blue",
-        "move_cost": 4,
+        "move_cost": 6,
         "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
         "examine_action": "remove_fence_wire"
     },{
@@ -1370,7 +1370,7 @@
         "name": "barbed wire fence",
         "symbol": "$",
         "color": "blue",
-        "move_cost": 4,
+        "move_cost": 6,
         "flags": ["TRANSPARENT", "SHARP", "THIN_OBSTACLE"],
         "examine_action": "remove_fence_barbed"
     },{
@@ -1379,7 +1379,7 @@
         "name": "rope fence",
         "symbol": "$",
         "color": "brown",
-        "move_cost": 3,
+        "move_cost": 5,
         "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
         "examine_action": "remove_fence_rope"
     },{
@@ -1388,7 +1388,7 @@
         "name": "railing",
         "symbol": "|",
         "color": "yellow",
-        "move_cost": 3,
+        "move_cost": 5,
         "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE"]
     },{
         "type" : "terrain",
@@ -1396,7 +1396,7 @@
         "name": "railing",
         "symbol": "-",
         "color": "yellow",
-        "move_cost": 3,
+        "move_cost": 5,
         "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE"]
     },{
         "type" : "terrain",
@@ -1404,7 +1404,7 @@
         "name": "marloss bush",
         "symbol": "#",
         "color": "dkgray",
-        "move_cost": 8,
+        "move_cost": 10,
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "FUNGUS", "SHRUB"],
         "bash": {
             "str_min": 0, "str_max": 40,
@@ -1419,7 +1419,7 @@
         "name": "fungal bed",
         "symbol": ".",
         "color": "ltgray",
-        "move_cost": 3,
+        "move_cost": 5,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FUNGUS"]
     },{
         "type" : "terrain",
@@ -1428,7 +1428,7 @@
         "comment": "roofed",
         "symbol": ".",
         "color": "ltgray",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "FUNGUS"
         ]
@@ -1439,7 +1439,7 @@
         "comment": "supports",
         "symbol": ".",
         "color": "ltgray",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "FLAT", "FUNGUS"]
     },{
         "type" : "terrain",
@@ -1448,7 +1448,7 @@
         "comment": "outside",
         "symbol": ".",
         "color": "ltgray",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "FUNGUS"]
     },{
         "type" : "terrain",
@@ -1480,7 +1480,7 @@
         "name": "fungal mound",
         "symbol": "#",
         "color": "ltgray",
-        "move_cost": 4,
+        "move_cost": 6,
         "flags": ["TRANSPARENT", "THIN_OBSTACLE", "FLAMMABLE_ASH", "FUNGUS"]
     },{
         "type" : "terrain",
@@ -1488,7 +1488,7 @@
         "name": "fungal shrub",
         "symbol": "#",
         "color": "dkgray",
-        "move_cost": 8,
+        "move_cost": 10,
         "flags": [
             "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "FUNGUS"
         ]
@@ -1506,7 +1506,7 @@
         "name": "young fungal tree",
         "symbol": "1",
         "color": "dkgray",
-        "move_cost": 4,
+        "move_cost": 6,
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "FUNGUS", "YOUNG", "REDUCE_SCENT"]
     },{
         "type" : "terrain",
@@ -1514,7 +1514,7 @@
         "name": "shallow water",
         "symbol": "~",
         "color": "ltblue",
-        "move_cost": 5,
+        "move_cost": 7,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE"],
         "examine_action": "water_source"
     },{
@@ -1532,7 +1532,7 @@
         "name": "pool water",
         "symbol": "~",
         "color": "ltblue",
-        "move_cost": 5,
+        "move_cost": 7,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "INDOORS"],
         "examine_action": "water_source"
     },{
@@ -1541,7 +1541,7 @@
         "name": "sewage",
         "symbol": "~",
         "color": "ltgreen",
-        "move_cost": 6,
+        "move_cost": 8,
         "flags": ["TRANSPARENT", "SWIMMABLE"],
         "examine_action": "water_source"
     },{
@@ -1550,7 +1550,7 @@
         "name": "lava",
         "symbol": "~",
         "color": "red",
-        "move_cost": 4,
+        "move_cost": 6,
         "trap": "lava",
         "flags": ["TRANSPARENT", "LIQUID", "DESTROY_ITEM"]
     },{
@@ -1559,7 +1559,7 @@
         "name": "sandbox",
         "symbol": "#",
         "color": "yellow",
-        "move_cost": 3,
+        "move_cost": 5,
         "flags": ["TRANSPARENT", "DECONSTRUCT"]
     },{
         "type" : "terrain",
@@ -1567,7 +1567,7 @@
         "name": "slide",
         "symbol": "#",
         "color": "ltcyan",
-        "move_cost": 4,
+        "move_cost": 6,
         "flags": ["TRANSPARENT", "DECONSTRUCT"]
     },{
         "type" : "terrain",
@@ -1575,7 +1575,7 @@
         "name": "monkey bars",
         "symbol": "#",
         "color": "cyan",
-        "move_cost": 4,
+        "move_cost": 6,
         "flags": ["TRANSPARENT", "DECONSTRUCT"]
     },{
         "type" : "terrain",
@@ -1746,7 +1746,7 @@
         "name": "stairs",
         "symbol": ">",
         "color": "yellow",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"]
     },{
         "type": "terrain",
@@ -1754,7 +1754,7 @@
         "name": "stairs",
         "symbol": "<",
         "color": "yellow",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "GOES_UP", "PLACE_ITEM"]
     },{
         "type" : "terrain",
@@ -1762,7 +1762,7 @@
         "name": "manhole",
         "symbol": ">",
         "color": "dkgray",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"]
     },{
         "type" : "terrain",
@@ -1770,7 +1770,7 @@
         "name": "ladder",
         "symbol": "<",
         "color": "dkgray",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "GOES_UP", "PLACE_ITEM"]
     },{
         "type" : "terrain",
@@ -1778,7 +1778,7 @@
         "name": "ladder",
         "symbol": ">",
         "color": "dkgray",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"]
     },{
         "type" : "terrain",
@@ -1786,7 +1786,7 @@
         "name": "downward slope",
         "symbol": ">",
         "color": "brown",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"]
     },{
         "type" : "terrain",
@@ -1794,7 +1794,7 @@
         "name": "upward slope",
         "symbol": "<",
         "color": "brown",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "GOES_UP", "PLACE_ITEM"]
     },{
         "type" : "terrain",
@@ -1802,7 +1802,7 @@
         "name": "rope leading up",
         "symbol": "<",
         "color": "white",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "GOES_UP"]
     },{
         "type" : "terrain",
@@ -1810,7 +1810,7 @@
         "name": "manhole cover",
         "symbol": "0",
         "color": "dkgray",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT"]
     },{
         "type" : "terrain",
@@ -1872,7 +1872,7 @@
         "name": "elevator",
         "symbol": ".",
         "color": "magenta",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["INDOORS", "TRANSPARENT"]
     },{
         "type" : "terrain",
@@ -1925,7 +1925,7 @@
         "name": "red floor",
         "symbol": ".",
         "color": "red",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAT"]
     },{
         "type" : "terrain",
@@ -1933,7 +1933,7 @@
         "name": "green floor",
         "symbol": ".",
         "color": "green",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAT"]
     },{
         "type" : "terrain",
@@ -1941,7 +1941,7 @@
         "name": "blue floor",
         "symbol": ".",
         "color": "blue",
-        "move_cost": 2,
+        "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAT"]
     },{
         "type" : "terrain",
