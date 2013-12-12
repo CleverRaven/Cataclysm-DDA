@@ -12693,7 +12693,7 @@
 },{
         "type" : "recipe",
   "result": "bio_blood_filter",
-   "uncraft",
+  "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
   "skill_used": "electronics",
