@@ -156,7 +156,7 @@ void game::init_weather()
 // point the rate decreases until even extremophiles find it too hot. Here we just stop
 // further acceleration at 105 F. This should only need to run once when the game starts.
 int calc_hourly_rotpoints_at_temp(const int temp) {
-  const int base=600;       // default temp = 65, so generic->rotten() assumes 600 decay points per hour
+  // default temp = 65, so generic->rotten() assumes 600 decay points per hour
   const int dropoff=38;     // ditch our fancy equation and do a linear approach to 0 rot at 31f
   const int cutoff=105;     // stop torturing the player at this temperature, which is
   const int cutoffrot=3540; // ..almost 6 times the base rate. bacteria hate the heat too
