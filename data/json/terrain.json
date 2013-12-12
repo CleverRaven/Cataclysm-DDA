@@ -722,7 +722,7 @@
         "name": "closed wooden gate",
         "symbol": "+",
         "color": "brown",
-        "move_cost": 5,
+        "move_cost": 6,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH", "DOOR"],
         "open": "t_fencegate_o",
         "bash": {
@@ -976,7 +976,7 @@
         "name": "open window",
         "symbol": "'",
         "color": "ltcyan",
-        "move_cost": 6,
+        "move_cost": 8,
         "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE" ],
         "close": "t_window_domestic"
     },{
@@ -1253,7 +1253,7 @@
         "name": "picket fence",
         "symbol": "|",
         "color": "brown",
-        "move_cost": 5,
+        "move_cost": 6,
         "flags": [
             "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT"
         ],
@@ -1274,7 +1274,7 @@
         "name": "picket fence",
         "symbol": "-",
         "color": "brown",
-        "move_cost": 5,
+        "move_cost": 6,
         "flags": [
             "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT"
         ],
