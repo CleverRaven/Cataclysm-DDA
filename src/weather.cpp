@@ -273,6 +273,8 @@ void weather_effect::thunder(game *g)
     if (one_in(THUNDER_CHANCE)) {
         if (g->levz >= 0) {
             g->add_msg(_("You hear a distant rumble of thunder."));
+        } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->levz)) {
+            g->add_msg(_("You hear a rumble of thunder from above."));
         } else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->levz)) {
             g->add_msg(_("You hear a rumble of thunder from above."));
         }

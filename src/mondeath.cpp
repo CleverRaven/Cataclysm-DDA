@@ -270,11 +270,8 @@ void mdeath::guilt(monster *z) {
     guilt_tresholds[50] = "You regret killing %s.";
     guilt_tresholds[25] = "You feel remorse for killing %s.";
 
-    /*  TODO:   Replace default cannibal checks with more elaborate conditions,
-                 and add a "PSYCHOPATH" trait for terminally guilt-free folk.
-                 Guilty cannibals could make for good drama!
-    */
-    if (g->u.has_trait("CANNIBAL")) {
+
+    if (g->u.has_trait("PSYCHOPATH")) {
         return;
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > MAX_GUILT_DISTANCE) {

@@ -2356,6 +2356,8 @@ void manage_sleep(player& p, disease& dis) {
             p.healall(1 + one_in(2));
         } else if (p.has_trait("REGEN")) {
             p.healall(2);
+        } else if (p.has_trait("SLOWHEALER")) {
+            p.healall(one_in(8));
         } else {
             p.healall(one_in(4));
         }
@@ -2387,6 +2389,8 @@ void manage_sleep(player& p, disease& dis) {
             p.healall(1 + one_in(2));
         } else if (p.has_trait("REGEN")) {
             p.healall(2);
+        } else if (p.has_trait("SLOWHEALER")) {
+            p.healall(one_in(8));
         } else {
             p.healall(one_in(4));
         }
@@ -2886,6 +2890,6 @@ bool will_vomit(player& p, int chance) {
     bool antiEmetics = p.has_disease("weed_high");
     bool hasNausea = p.has_trait("NAUSEA") && one_in(chance*2);
     bool stomachUpset = p.has_trait("WEAKSTOMACH") && one_in(chance*3);
-    bool suppressed = antiEmetics && !drunk && !one_in(chance);
+    bool suppressed = (p.has_trait("STRONGSTOMACH") && one_in(2)) || (antiEmetics && !drunk && !one_in(chance));
     return ((stomachUpset || hasNausea) && !suppressed);
 }

@@ -5318,6 +5318,9 @@ bool game::sound(int x, int y, int vol, std::string description)
     if (u.has_trait("BADHEARING")) {
   vol *= .5;
     }
+    if (u.has_trait("GOODHEARING")) {
+  vol *= 1.25;
+    }
     if (u.has_trait("CANINE_EARS")) {
   vol *= 1.5;
     }
@@ -5408,6 +5411,8 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
   err_offset--;
  if (u.has_trait("BADHEARING"))
   err_offset++;
+ if (u.has_trait("GOODHEARING"))
+  err_offset--;
 
  int origx = x, origy = y;
  std::vector<point> point_vector;
@@ -11003,6 +11008,8 @@ bool game::plmove(int dx, int dy)
   if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES")) {
    if (u.has_trait("LIGHTSTEP"))
     sound(x, y, 2, ""); // Sound of footsteps may awaken nearby monsters
+   else if (u.has_trait("CLUMSY"))
+    sound(x, y, 10, ""); // Sound of footsteps may awaken nearby monsters
    else
     sound(x, y, 6, ""); // Sound of footsteps may awaken nearby monsters
   }
