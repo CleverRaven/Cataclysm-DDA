@@ -58,7 +58,8 @@
         "points" : 2,
         "description" : "Nothing gets you down! You savor the joys of life, ignore its hardships, and are generally happier than most people.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "cancels" : ["BADTEMPER"]
     },{
         "type" : "mutation",
         "id" : "FASTHEALER",
