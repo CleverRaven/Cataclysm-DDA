@@ -2226,7 +2226,8 @@
       ["under_armor_shorts", 20],
       ["dress", 70],
       ["sundress", 50],
-      ["dress_wedding", 1]
+      ["dress_wedding", 1],
+      ["postman_shorts", 5]
     ]
     },{
         "type" : "item_group",
@@ -2242,7 +2243,8 @@
       ["hoodie", 65],
       ["under_armor", 20],
       ["jersey", 40],
-      ["camisole", 60]
+      ["camisole", 60],
+      ["postman_shirt", 5]
     ]
     },{
         "type" : "item_group",
@@ -2398,7 +2400,10 @@
       ["dress_wedding", 1],
       ["porkpie", 5],
       ["skinny_tie", 5],
-      ["jersey", 40]
+      ["jersey", 40],
+      ["postman_shorts", 5],
+      ["postman_shirt", 5],
+      ["postman_hat", 5]
     ]
     },{
         "type" : "item_group",
@@ -2810,6 +2815,20 @@
       ["blood", 20],
       ["vacutainer", 10]
     ]
+    },{
+    	"type" : "item_group",
+    	"id" : "postman_gear",
+    	"items":[
+    		["postman_hat", 50],
+    		["postman_shirt", 70],
+    		["postman_shorts", 70],
+    		["mbag", 40],
+    		["wristwatch", 50],
+    		["leatherbelt", 70],
+    		["briefs", 90],
+    		["socks", 70],
+    		["sneakers", 70]
+    		]
     },{
         "type" : "item_group",
         "id" : "surgery",
