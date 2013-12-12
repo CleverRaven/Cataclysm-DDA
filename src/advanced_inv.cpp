@@ -801,14 +801,14 @@ void advanced_inventory::display(game * gp, player * pp)
                 popup(_("You can't put items there"));
             }
             recalc = true;
-        } else if('m' == c || 'M' == c || 'p' == c ) {
+        } else if('m' == c || 'M' == c || '\n' == c || 'p' == c ) {
             // If the active screen has no item.
             if( panes[src].size == 0 ) {
                 continue;
             } else if ( item_pos == -8 ) {
                 continue; // category header
             }
-            bool moveall = ('M' == c);
+            bool moveall = ('M' == c || '\n' == c );
             int destarea = panes[dest].area;
             if ( panes[dest].area == isall || 'p' == c ) {
                 bool valid=false;
