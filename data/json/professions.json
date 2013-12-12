@@ -791,7 +791,7 @@
             "clown_suit",
             "clownshoes",
             "pockknife",
-            "matches"
+            "airhorn"
         ]
     },
     {
@@ -804,7 +804,8 @@
             "bondage_suit",
             "bondage_mask",
             "boots",
-            "pockknife",
+            "leather_belt",
+            "candle",
             "matches"
         ]
     },
@@ -910,8 +911,9 @@
         "items": [
             "tux",
             "dress_shoes",
-            "pockknife",
-            "matches"
+            "gold_watch",
+            "flask_hip",
+            "touristmap"
         ]
     },
     {
@@ -923,8 +925,10 @@
         "items": [
             "dress_wedding",
             "dress_shoes",
-            "pockknife",
-            "matches"
+            "purse",
+            "touristmap",
+            "lighter",
+            "cig"
         ]
     },
     {
