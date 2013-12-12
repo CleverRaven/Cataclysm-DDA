@@ -663,7 +663,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 smoke += 2;
 
                             } else if (it->made_of("plastic")) {
-                                //Smokey material, doesn't fuel well.
+                                // Smokey material, doesn't fuel well.
                                 smoke += 3;
                                 if (it->burnt <= cur->getFieldDensity() * 2 ||
                                     (cur->getFieldDensity() == 3 && one_in(vol))) {
@@ -709,7 +709,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         if((tr_brazier != tr_at(x, y)) &&
                            (has_flag("FIRE_CONTAINER", x, y) != true )) {
                             // Consume the terrain we're on
-                            if (has_flag("FLAMMABLE", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
+                            if( has_flag("FLAMMABLE", x, y) &&
+                                one_in(32 - cur->getFieldDensity() * 10) ) {
                                 //The fire feeds on the ground itself until max density.
                                 cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() *
                                                  cur->getFieldDensity() * 40);
@@ -741,14 +742,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             } else if (terlist[ter(x, y)].has_flag("SWIMMABLE")) {
                                 cur->setFieldAge(cur->getFieldAge() + 800);
-                                // Flames die quickly on water
+                                // Flames die quickly on water.
                             }
                         }
 
                         // If the flames are in a pit, it can't spread to non-pit
                         bool in_pit = (ter(x, y) == t_pit);
 
-                        // If the flames are REALLY big, they contribute to adjacent flames
+                        // If the flames are REALLY big, they contribute to adjacent flames.
                         if (cur->getFieldAge() < 0 && tr_brazier != tr_at(x, y) &&
                             (has_flag("FIRE_CONTAINER", x, y) != true  ) ) {
                             if(cur->getFieldDensity() == 3) {
@@ -780,15 +781,21 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // burning neighbours are necessary in addition to
                                 // field age < 0, or alternatively, a LOT of fuel.
 
-                                // The maximum fire density is 1 for a lone fire, 2 for at least 1 neighbour,
+                                // The maximum fire density is 1 for a lone fire,
+                                // 2 for at least 1 neighbour,
                                 // 3 for at least 2 neighbours.
                                 int maximum_density =  1;
 
-                                // The following logic looks a bit complex due to optimization concerns, so here are the semantics:
-                                // 1. Calculate maximum field density based on fuel, -500 is 2(raging), -1000 is 3(inferno)
-                                // 2. Calculate maximum field density based on neighbours, 1 neighbours is 2(raging), 2 or more neighbours is 3(inferno)
+                                // The following logic looks a bit complex due to
+                                // optimization concerns, so here are the semantics:
+                                // 1. Calculate maximum field density based on fuel,
+                                // -500 is 2(raging), -1000 is 3(inferno)
+                                // 2. Calculate maximum field density based on neighbours,
+                                // 1 neighbours is 2(raging), 2 or more neighbours is 3(inferno)
                                 // 3. Pick the higher maximum between 1. and 2.
-                                // We don't just calculate both maximums and pick the higher because the adjacent field lookup is quite expensive and should be avoided if possible.
+                                // We don't just calculate both maximums and pick the higher
+                                // because the adjacent field lookup is quite expensive and
+                                // should be avoided if possible.
                                 if(cur->getFieldAge() < -1500) {
                                     maximum_density = 3;
                                 } else {
@@ -811,8 +818,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
 
                                 // If we consumed a lot, the flames grow higher
-                                while (cur->getFieldDensity() < maximum_density && cur->getFieldAge() < 0) {
-                                    //Fires under 0 age grow in size. Level 3 fires under 0 spread later on.
+                                while (cur->getFieldDensity() < maximum_density &&
+                                       cur->getFieldAge() < 0) {
+                                    // Fires under 0 age grow in size.
+                                    // Level 3 fires under 0 spread later on.
                                     cur->setFieldAge(cur->getFieldAge() + 300);
                                     cur->setFieldDensity(cur->getFieldDensity() + 1);
                                 }
@@ -820,11 +829,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
 
                         // Consume adjacent fuel / terrain / webs to spread.
-                        // Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
-                        //Fires can only spread under 30 age. This is arbitrary but seems to work well.
-                        //The reason is to differentiate a fire that spawned vs one created really.
-                        //Fires spawned by fire in a new square START at 30 age, so if its a square with no fuel on it
-                        //the fire won't keep crawling endlessly across the map.
+                        // Randomly offset our x/y shifts by 0-2,
+                        // to randomly pick a square to spread to.
+                        // Fires can only spread under 30 age.
+                        // This is arbitrary but seems to work well.
+                        // The reason is to differentiate a fire that spawned vs one created really.
+                        // Fires spawned by fire in a new square START at 30 age,
+                        // so if its a square with no fuel on it
+                        // the fire won't keep crawling endlessly across the map.
                         int starti = rng(0, 2);
                         int startj = rng(0, 2);
                         for (int i = 0; i < 3; i++) {
@@ -841,11 +853,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                           cur->getFieldAge() < 200 && tr_brazier != tr_at(x, y) &&
                                           (has_flag("FIRE_CONTAINER", x, y) != true ) &&
                                           (in_pit == (ter(fx, fy) == t_pit)) &&
-                                          ((cur->getFieldDensity() >= 2 && (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||
-                                          (cur->getFieldDensity() >= 2  && (has_flag("FLAMMABLE_ASH", fx, fy) && one_in(10))) ||
-                                          (cur->getFieldDensity() == 3  && (has_flag("FLAMMABLE_HARD", fx, fy) && one_in(10))) ||
+                                          ((cur->getFieldDensity() >= 2 &&
+                                            (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||
+                                          (cur->getFieldDensity() >= 2 &&
+                                           (has_flag("FLAMMABLE_ASH", fx, fy) && one_in(10))) ||
+                                          (cur->getFieldDensity() == 3 &&
+                                           (has_flag("FLAMMABLE_HARD", fx, fy) && one_in(10))) ||
                                           flammable_items_at(fx, fy) || nearwebfld )) {
-                                        add_field(fx, fy, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
+                                        add_field(fx, fy, fd_fire, 1);
+                                        //Nearby open flammable ground? Set it on fire.
                                         tmpfld = nearby_field.findField(fd_fire);
                                         if(tmpfld) {
                                             tmpfld->setFieldAge(100);
