@@ -208,7 +208,7 @@
         "type" : "mutation",
         "id" : "GOODMEMORY",
         "name" : "Good Memory",
-        "points" : -3,
+        "points" : 3,
         "description" : "You have a an exceptional memory, and find it easy to remember things. Your skills will erode slightly slower than usual.",
         "starting_trait" : true,
         "valid" : false,
