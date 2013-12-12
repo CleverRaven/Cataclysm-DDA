@@ -987,7 +987,7 @@
         "type": "profession",
         "ident": "postman",
         "name": "Mail Carrier",
-        "description": "You were a proud postal service worker. Neither snow nor rain would stop you from delivering correspondence near and far. But you weren't counting on the cataclysm! Now, with nobody to deliver correspondence from and to you wander post-apocalyptic New England. Those times bobbing and weaving from front lawn dogs will come in handy dodging the horrors of the new world.",
+        "description": "You were a proud postal service worker. Neither snow nor rain would stop you from delivering correspondence near and far. But you weren't counting on the cataclysm!.",
         "points": 1,
         "skills": [
             {
