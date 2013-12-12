@@ -285,6 +285,12 @@ void game::init_fields()
             {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '.', 8,
             { c_white, c_cyan, c_cyan }, { true, true, false }, { true, true, true }, 40,
             {0,0,0}
+        },
+
+        { // A small, incipient fire.
+            {_("hot spot"), _("flame"), _("flames")}, '.',
+            {c_yellow, c_ltred, c_red}, {true, true, true}, {false, false, false}, 20,
+            {0,0,0}
         }
 
     };
