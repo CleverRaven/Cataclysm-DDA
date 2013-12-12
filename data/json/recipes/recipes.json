@@ -13501,7 +13501,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "leg_warmers",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -13519,6 +13519,50 @@
   "components": [
     [
       [ "rag", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "leg_warmers_xl",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 2 ] , [ "manual_tailor", 3 ]],
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "leg_warmers_xlf",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 2 ] , [ "manual_tailor", 3 ]],
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 10 ]
     ]
   ]
 },{
