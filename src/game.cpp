@@ -704,6 +704,15 @@ bool game::do_turn()
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
         if (u.fatigue < 1050 && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
             u.fatigue++;
+            // Sleepy folks gain fatigue faster; Very Sleepy is twice as fast as typical
+            if (u.has_trait("SLEEPY")) {
+                if (one_in(3)) {
+                    u.fatigue++;
+                    }
+            }
+            if (u.has_trait("SLEEPY2")) {
+                u.fatigue++;
+            }
         }
         if (u.fatigue == 192 && !u.has_disease("lying_down") && !u.has_disease("sleep")) {
             if (u.activity.type == ACT_NULL) {
@@ -5313,29 +5322,30 @@ bool game::sound(int x, int y, int vol, std::string description)
 
     // Mutation/Bionic volume modifiers
     if (u.has_bionic("bio_ears")) {
-  vol *= 3.5;
+        vol *= 3.5;
     }
     if (u.has_trait("BADHEARING")) {
-  vol *= .5;
+        vol *= .5;
     }
     if (u.has_trait("GOODHEARING")) {
-  vol *= 1.25;
+        vol *= 1.25;
     }
     if (u.has_trait("CANINE_EARS")) {
-  vol *= 1.5;
+        vol *= 1.5;
     }
-    if (u.has_trait("URSINE_EARS")) {
-  vol *= 1.25;
+    if (u.has_trait("URSINE_EARS") || u.has_trait("FELINE_EARS")) {
+        vol *= 1.25;
     }
 
     // Too far away, we didn't hear it!
     if (dist > vol) {
-  return false;
- }
+        return false;
+    }
 
     if (u.has_disease("deaf")) {
         // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
-        if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF")) && rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
+        if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF")) &&
+            rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
             int duration = std::min(40, (vol - dist - 130) / 4);
             u.add_disease("deaf", duration);
         }
@@ -5351,9 +5361,11 @@ bool game::sound(int x, int y, int vol, std::string description)
 
     // See if we need to wake someone up
     if (u.has_disease("sleep")){
-        if ((!(u.has_trait("HEAVYSLEEPER") || u.has_trait("HEAVYSLEEPER2")) && dice(2, 15) < vol - dist) ||
+        if ((!(u.has_trait("HEAVYSLEEPER") ||
+               u.has_trait("HEAVYSLEEPER2")) && dice(2, 15) < vol - dist) ||
               (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist) ||
-              (u.has_trait("HEAVYSLEEPER2") && dice(6, 15) < vol - dist)) { //Not kidding about sleep-thru-firefight
+              (u.has_trait("HEAVYSLEEPER2") && dice(6, 15) < vol - dist)) {
+            //Not kidding about sleep-thru-firefight
             u.rem_disease("sleep");
             add_msg(_("You're woken up by a noise."));
         } else {
@@ -5361,34 +5373,34 @@ bool game::sound(int x, int y, int vol, std::string description)
         }
     }
 
- if (x != u.posx || y != u.posy) {
-  if(u.activity.ignore_trivial != true) {
-    std::string query;
+    if (x != u.posx || y != u.posy) {
+        if(u.activity.ignore_trivial != true) {
+            std::string query;
             if (description != "") {
-        query = string_format(_("Heard %s!"), description.c_str());
-    } else {
-        query = _("Heard a noise!");
-    }
+                query = string_format(_("Heard %s!"), description.c_str());
+            } else {
+                query = _("Heard a noise!");
+            }
 
-    if( cancel_activity_or_ignore_query(query.c_str()) ) {
-        u.activity.ignore_trivial = true;
+            if( cancel_activity_or_ignore_query(query.c_str()) ) {
+                u.activity.ignore_trivial = true;
+            }
+        }
     }
-  }
- }
 
     // Only print a description if it exists
     if (description != "") {
-// If it came from us, don't print a direction
+        // If it came from us, don't print a direction
         if (x == u.posx && y == u.posy) {
-  capitalize_letter(description, 0);
-  add_msg("%s", description.c_str());
+            capitalize_letter(description, 0);
+            add_msg("%s", description.c_str());
         } else {
             // Else print a direction as well
- std::string direction = direction_name(direction_from(u.posx, u.posy, x, y));
- add_msg(_("From the %s you hear %s"), direction.c_str(), description.c_str());
+            std::string direction = direction_name(direction_from(u.posx, u.posy, x, y));
+            add_msg(_("From the %s you hear %s"), direction.c_str(), description.c_str());
         }
     }
- return true;
+    return true;
 }
 
 // add_footstep will create a list of locations to draw monster
@@ -5396,36 +5408,39 @@ bool game::sound(int x, int y, int vol, std::string description)
 // characters hearing and how close they are
 void game::add_footstep(int x, int y, int volume, int distance, monster* source)
 {
- if (x == u.posx && y == u.posy)
-  return;
- else if (u_see(x, y))
-  return;
- int err_offset;
- if (volume / distance < 2)
-  err_offset = 3;
- else if (volume / distance < 3)
-  err_offset = 2;
- else
-  err_offset = 1;
- if (u.has_bionic("bio_ears"))
-  err_offset--;
- if (u.has_trait("BADHEARING"))
-  err_offset++;
- if (u.has_trait("GOODHEARING"))
-  err_offset--;
+    if (x == u.posx && y == u.posy) {
+        return;
+    } else if (u_see(x, y)) {
+        return;
+    }
+    int err_offset;
+    if (volume / distance < 2) {
+        err_offset = 3;
+    } else if (volume / distance < 3) {
+        err_offset = 2;
+    } else {
+        err_offset = 1;
+    }
+    if (u.has_bionic("bio_ears")) {
+        err_offset--;
+    }
+    if (u.has_trait("BADHEARING")) {
+        err_offset++;
+    }
+    if (u.has_trait("GOODHEARING") || u.has_trait("FELINE_EARS")) {
+        err_offset--;
+    }
 
- int origx = x, origy = y;
- std::vector<point> point_vector;
- for (x = origx-err_offset; x <= origx+err_offset; x++)
- {
-     for (y = origy-err_offset; y <= origy+err_offset; y++)
-     {
-         point_vector.push_back(point(x,y));
-     }
- }
- footsteps.push_back(point_vector);
- footsteps_source.push_back(source);
- return;
+    int origx = x, origy = y;
+    std::vector<point> point_vector;
+    for (x = origx-err_offset; x <= origx+err_offset; x++) {
+        for (y = origy-err_offset; y <= origy+err_offset; y++) {
+            point_vector.push_back(point(x,y));
+        }
+    }
+    footsteps.push_back(point_vector);
+    footsteps_source.push_back(source);
+    return;
 }
 
 void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)

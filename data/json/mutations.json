@@ -321,7 +321,7 @@
         "points" : 1,
         "description" : "You make less noise while walking. You're also less likely to set off traps.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA"],
+        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA", "MUTCAT_FELINE"],
         "cancels" : ["CLUMSY"]
     },{
         "type" : "mutation",
@@ -412,7 +412,7 @@
         "ugliness" : -2,
         "description" : "You are a sight to behold. NPCs who care about such thing will react more kindly to you.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_ALPHA"],
+        "category" : ["MUTCAT_ALPHA", "MUTCAT_FELINE"],
         "cancels" : ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
         "changes_to" : ["BEAUTIFUL"]
     },{
@@ -457,6 +457,14 @@
         "changes_to" : ["HEAVYSLEEPER2"],
         "starting_trait" : true,
         "category" : ["MUTCAT_INSECT", "MUTCAT_PLANT", "MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "SLEEPY",
+        "name" : "Sleepy",
+        "points" : -1,
+        "description" : "You need sleep more often, but still spend most of your time awake.",
+        "changes_to" : ["SLEEPY2"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "ASTHMA",
@@ -599,7 +607,8 @@
         "description" : "Your scent is particularly strong. It's not offensive to humans, but animals that track your scent will do so more easily.",
         "starting_trait" : true,
         "changes_to" : ["SMELLY2"],
-        "cancels" : ["INODOROUS"]
+        "cancels" : ["INODOROUS"],
+        "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "CHEMIMBALANCE",
@@ -719,7 +728,7 @@
         "starting_trait" : true,
         "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "changes_to" : ["DEFORMED"],
-        "categories": ["MUTCAT_RAPTOR"]
+        "categories": ["MUTCAT_RAPTOR", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "FRAIL",
@@ -777,7 +786,7 @@
         "description" : "The shadows don't seem as dark now.",
         "prereqs" : ["ELFAEYES"],
         "changes_to" : ["ELFA_FNV"],
-        "cancels" : ["NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
+        "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
@@ -786,8 +795,28 @@
         "points" : 5,
         "description" : "You can see clearly, even in the darkest caves and under moonless skies.",
         "prereqs" : ["ELFA_NV"],
-        "cancels" : ["NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
+        "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_ELFA"]
+    },{
+        "type" : "mutation",
+        "id" : "FEL_EYE",
+        "name" : "Feline Eyes",
+        "points" : 0,
+        "visibility" : 2,
+        "ugliness" : 1,
+        "description" : "Your eyes have mutated, now having a slitted pupil and glittering in light, much like those of cats.  This is visually striking, but it isn't helping you see at night.",
+        "leads_to" : ["FEL_NV"],
+        "cancels" : ["ELFAEYES", "LIZ_EYE"],
+        "category" : ["MUTCAT_FELINE", "MUTCAT_BEAST"]
+    },{
+        "type" : "mutation",
+        "id" : "FEL_NV",
+        "name" : "Feline Vision",
+        "points" : 4,
+        "description" : "Your optic nerves and brain caught up with your eyes.  Now you can see pretty well at night.",
+        "prereqs" : ["FEL_EYE"],
+        "cancels" : ["ELFA_NV", "ELFA_FNV", "LIZ_IR", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
+        "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "INFRARED",
@@ -954,7 +983,7 @@
         "category" : ["MUTCAT_CHIMERA"],
         "prereqs" : ["SKIN_ROUGH"],
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
-        "changes_to" : ["FUR"]
+        "changes_to" : ["FUR", "FELINE_FUR"]
     },{
         "type" : "mutation",
         "id" : "FUR",
@@ -966,6 +995,28 @@
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
         "prereqs" : ["LIGHTFUR"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER", "MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
+        "id" : "FELINE_FUR",
+        "name" : "Sleek Fur",
+        "points" : 2,
+        "visibility" : 10,
+        "ugliness" : 3,
+        "description" : "You've grown sleek brown fur, providing some protection from cold.",
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
+        "prereqs" : ["LIGHTFUR"],
+        "leads_to" : ["LYNX_FUR"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_FELINE"]
+    },{
+        "type" : "mutation",
+        "id" : "LYNX_FUR",
+        "name" : "Lynx Fur",
+        "points" : 1,
+        "visibility" : 8,
+        "ugliness" : 1,
+        "description" : "Your fur's grown out significantly around your cheeks and neck. It provides minor protection against attacks.",
+        "prereqs" : ["FELINE_FUR"],
+        "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "CHITIN",
@@ -1218,7 +1269,7 @@
         "visibility" : 1,
         "description" : "The bottoms of your feet are strongly padded. You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when running barefoot. Slightly decreases wet penalties.",
         "cancels" : ["HOOVES", "LEG_TENTACLES"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE", "MUTCAT_FELINE"],
         "wet_protection" : [
             { "part" : "FEET", "neutral" : 2 }
         ]
@@ -1366,7 +1417,8 @@
         "description" : "You have a long, graceful tail, like that of a big cat. It improves your balance, making your ability to dodge higher.",
         "prereqs" : ["TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_THICK", "TAIL_RAPTOR"],
-        "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE", "TAIL_RAT"]
+        "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE", "TAIL_RAT"],
+        "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "TAIL_CATTLE",
@@ -1537,6 +1589,15 @@
         "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
+        "id" : "FELINE_EARS",
+        "name" : "Feline Ears",
+        "points" : 2,
+        "visibility" : 4,
+        "ugliness" : 0,
+        "description" : "Your ears have extended into long, pointed, velvety ones, like those of a feline. You find it much easier to tune in on sounds from afar.",
+        "category" : ["MUTCAT_FELINE", "MUTCAT_BEAST"]
+    },{
+        "type" : "mutation",
         "id" : "URSINE_EARS",
         "name" : "Ursine Ears",
         "points" : 2,
@@ -1588,7 +1649,7 @@
         "visibility" : 3,
         "ugliness" : 1,
         "description" : "You have a set of prominent rodent-like whiskers around your mouth. These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
-        "category" : ["MUTCAT_RAT"]
+        "category" : ["MUTCAT_RAT", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "LARGE",
@@ -1658,7 +1719,7 @@
         "description" : "You are nimble and quick. Dexterity + 4",
         "prereqs" : ["DEX_UP_2"],
         "changes_to" : ["DEX_UP_4"],
-        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA"]
+        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "DEX_UP_4",
@@ -1844,7 +1905,7 @@
         "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "prereqs" : ["UGLY"],
         "changes_to" : ["DEFORMED2"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_CATTLE", "MUTCAT_INSECT", "MUTCAT_CEPHALOPOD"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_CATTLE", "MUTCAT_INSECT", "MUTCAT_CEPHALOPOD", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "DEFORMED2",
@@ -1909,7 +1970,8 @@
         "visibility" : 4,
         "ugliness" : 3,
         "description" : "Your face and jaw have begun...changing. Masks and such fit OK, but you're noticeably mutated.",
-        "changes_to" : ["MINOTAUR", "MUZZLE", "BEAR_MUZZLE", "LONG_MUZZLE", "PROBOSCIS"]
+        "changes_to" : ["MINOTAUR", "MUZZLE", "BEAR_MUZZLE", "LONG_MUZZLE", "PROBOSCIS"],
+        "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "MINOTAUR",
@@ -2007,6 +2069,14 @@
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
+        "id" : "SLEEPY2",
+        "name" : "Very Sleepy",
+        "points" : -3,
+        "description" : "You find yourself needing to sleep quite often.  You'll spend about half your time in or around bed.",
+        "prereqs" : ["SLEEPY"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_FELINE"]
+    },{
+        "type" : "mutation",
         "id" : "ROT1",
         "name" : "Weakening",
         "points" : -6,
@@ -2101,7 +2171,7 @@
         "description" : "Your hands have fused into quasi-paws. You can still grip things, but fine manipulation is a challenge: permanent hand encumbrance of 1, difficulty with delicate craftwork, and you gloves don't fit. At least the paws handle water a bit better.",
         "prereqs" : ["CLAWS", "CLAWS_RETRACT"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
-        "category" : ["MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_FELINE"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "BEAK",
@@ -2189,7 +2259,7 @@
         "description" : "Your body's ability to digest fruits, vegetables and grains is severely hampered. You cannot eat anything besides meat.",
         "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT"],
         "leads_to" : ["SAPROVORE"],
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "PONDEROUS1",
@@ -2265,7 +2335,7 @@
         "points" : -2,
         "description" : "You have a threatening snarl in your voice. Persuading NPCs will be near impossible, but threatening them will be much easier.",
         "prereqs" : ["GROWL"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "HISS",

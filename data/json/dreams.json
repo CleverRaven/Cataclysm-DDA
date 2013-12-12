@@ -50,6 +50,14 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You have a strange dream about cats.",
+            "Your dreams give you a sleek furry feeling."
+            ],
+        "category" : "MUTCAT_FELINE",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
             "You have a strange dream about cattle.",
             "Your dreams give you a strange content, furry feeling."
             ],
@@ -194,6 +202,14 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You easily bound from the street to a roof..oh, only a dream.",
+            "As you dream, your reflection looks rather catlike."
+            ],
+        "category" : "MUTCAT_FELINE",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
             "You dream of grazing in an open field.",
             "In a dream you catch a glimpse of a strangely cattle-like image of yourself."
             ],
@@ -334,6 +350,14 @@
             "In your dream, you stalk and kill a young wolf, using only your teeth and claws."
             ],
         "category" : "MUTCAT_URSINE",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "A warm, sunny spot high up where you can watch your prey. What a great dream!",
+            "You dream of pursuing and killing a rat, for some reason."
+            ],
+        "category" : "MUTCAT_FELINE",
         "strength" : 3
     },{
         "type" : "dream",
