@@ -3162,9 +3162,8 @@
         "type" : "item_group",
         "id" : "pawn",
     "items":[
-      ["rifle_flint", 5],
-      ["pistol_flint", 5],
-      ["flint_ammo", 5],
+      ["rifle_flintlock", 1],
+      ["pistol_flintlock", 1],
       ["moss_brownie", 5],
       ["cop_38", 5],
       ["cigar", 5],

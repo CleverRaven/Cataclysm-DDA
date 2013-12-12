@@ -24558,7 +24558,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "flint_ammo",
+  "result": "flintlock_ammo",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -24569,16 +24569,6 @@
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 1 ],
-      [ "press", 2 ]
-    ]
   ],
   "components": [
     [
@@ -24601,65 +24591,54 @@
   ]
 },{
   "type" : "recipe",
-  "result": "rifle_flint",
+  "result": "rifle_flintlock",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 12000,
-  "reversible": true,
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 8,
+  "time": 240000,
+  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
-  "tools": [
+  "tools":[
     [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      ["hammer", -1],
+      ["toolset", -1]
     ],
     [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      ["screwdriver", -1]
+    ],
+    [
+      ["tongs", -1]
+    ],
+    [
+      ["chisel", -1]
+    ],
+    [
+      ["anvil", -1]
+    ],
+    [
+      ["swage", -1]
+    ],
+    [
+      ["forge", 400],
+      [ "char_forge", 80]
     ]
   ],
   "components": [
-    [
-      [ "pipe", 1 ]
-    ],
     [
       [ "2x4", 2 ]
     ],
     [
-      [ "rag", 1 ]
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 12 ],
+     [ "scrap", 36 ]
     ],
     [
-      [ "scrap", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "mop",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 10000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "2x4", 1 ],
-      [ "stick", 1 ]
-    ],
-    [
-      [ "rag", 4 ]
-    ],
-    [
-      [ "string_36", 1]
+     [ "pipe", 1]
     ]
   ]
 },{
@@ -24862,40 +24841,79 @@
   ]
 },{
   "type" : "recipe",
-  "result": "pistol_flint",
+  "result": "pistol_flintlock",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 12000,
-  "reversible": true,
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 8,
+  "time": 80000,
+  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
-  "tools": [
+  "tools":[
     [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      ["hammer", -1],
+      ["toolset", -1]
     ],
     [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      ["screwdriver", -1]
+    ],
+    [
+      ["tongs", -1]
+    ],
+    [
+      ["chisel", -1]
+    ],
+    [
+      ["anvil", -1]
+    ],
+    [
+      ["swage", -1]
+    ],
+    [
+      ["forge", 400],
+      [ "char_forge", 80]
     ]
   ],
   "components": [
     [
-      [ "pipe", 1 ]
+      [ "2x4", 2 ]
     ],
     [
-      [ "2x4", 1 ]
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 9 ],
+     [ "scrap", 27 ]
     ],
     [
-      [ "rag", 1 ]
+     [ "pipe", 1]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mop",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "2x4", 1 ],
+      [ "stick", 1 ]
     ],
     [
-      [ "scrap", 1 ]
+      [ "rag", 4 ]
+    ],
+    [
+      [ "string_36", 1]
     ]
   ]
 }
