@@ -1403,7 +1403,7 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "jumpsuit_XL",
+        "id" : "jumpsuit_xl",
         "name" : "XL jumpsuit",
         "weight" : 810,
         "color" : "yellow",
@@ -7746,7 +7746,7 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "rebreather_XL",
+        "id" : "rebreather_xl",
         "name" : "XL rebreather mask",
         "weight" : 720,
         "color" : "dark_gray",
