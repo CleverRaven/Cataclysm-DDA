@@ -7104,7 +7104,7 @@ void game::print_terrain_info(int lx, int ly, WINDOW* w_look, int column, int &l
         mvwprintw(w_look, line, column, _("%s; Impassable"), tile.c_str());
     } else {
         mvwprintw(w_look, line, column, _("%s; Movement cost %d"), tile.c_str(),
-            m.move_cost(lx, ly) * 50);
+            m.move_cost(lx, ly) * 25);
     }
     mvwprintw(w_look, ++line, column, "%s", m.features(lx, ly).c_str());
     if (line < ending_line) {
@@ -10963,8 +10963,8 @@ bool game::plmove(int dx, int dy)
     u.recoil = int(u.recoil / 2);
    }
   }
-  if ((!u.has_trait("PARKOUR") && m.move_cost(x, y) > 2) ||
-      ( u.has_trait("PARKOUR") && m.move_cost(x, y) > 4    ))
+  if ((!u.has_trait("PARKOUR") && m.move_cost(x, y) > 4) ||
+      ( u.has_trait("PARKOUR") && m.move_cost(x, y) > 6    ))
   {
    if (veh1 && m.move_cost(x,y) != 2)
     add_msg(_("Moving past this %s is slow!"), veh1->part_info(vpart1).name.c_str());
