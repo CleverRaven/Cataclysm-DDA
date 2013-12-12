@@ -704,6 +704,15 @@ bool game::do_turn()
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
         if (u.fatigue < 1050 && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
             u.fatigue++;
+            // Sleepy folks gain fatigue faster; Very Sleepy is twice as fast as typical
+            if (u.has_trait("SLEEPY")) {
+                if (one_in(3)) {
+                    u.fatigue++;
+                    }
+            }
+            if (u.has_trait("SLEEPY2")) {
+                u.fatigue++;
+            }
         }
         if (u.fatigue == 192 && !u.has_disease("lying_down") && !u.has_disease("sleep")) {
             if (u.activity.type == ACT_NULL) {
@@ -5321,7 +5330,7 @@ bool game::sound(int x, int y, int vol, std::string description)
     if (u.has_trait("CANINE_EARS")) {
   vol *= 1.5;
     }
-    if (u.has_trait("URSINE_EARS")) {
+    if (u.has_trait("URSINE_EARS") || u.has_trait("FELINE_EARS")) {
   vol *= 1.25;
     }
 
@@ -5408,6 +5417,8 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
   err_offset--;
  if (u.has_trait("BADHEARING"))
   err_offset++;
+  if (u.has_trait("FELINE_EARS"))
+  err_offset--;
 
  int origx = x, origy = y;
  std::vector<point> point_vector;
