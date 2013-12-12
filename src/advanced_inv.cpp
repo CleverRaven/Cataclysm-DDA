@@ -738,7 +738,7 @@ void advanced_inventory::display(game * gp, player * pp)
                 }
                 if ( ! showmsg ) {
                     mvwprintz(head,0,w_width-18,c_white,_("< [?] show log >"));
-                    mvwprintz(head,1,2, c_white, _("hjkl or arrow keys to move cursor, [m]ove item between panes,"));
+                    mvwprintz(head,1,2, c_white, _("hjkl or arrow keys to move cursor, [m]ove item between panes ([M]: all)"));
                     mvwprintz(head,2,2, c_white, _("1-9 (or GHJKLYUBNI) to select square for active tab, 0 for inventory,"));
                     mvwprintz(head,3,2, c_white, _("[e]xamine item, [s]ort display, toggle auto[p]ickup, [q]uit."));
                     if (panes[src].sortby == SORTBY_CATEGORY) {
@@ -801,15 +801,16 @@ void advanced_inventory::display(game * gp, player * pp)
                 popup(_("You can't put items there"));
             }
             recalc = true;
-        } else if('m' == c || 'M' == c) {
+        } else if('m' == c || 'M' == c || 'p' == c ) {
             // If the active screen has no item.
             if( panes[src].size == 0 ) {
                 continue;
             } else if ( item_pos == -8 ) {
                 continue; // category header
             }
+            bool moveall = ('M' == c);
             int destarea = panes[dest].area;
-            if ( panes[dest].area == isall || 'M' == c ) {
+            if ( panes[dest].area == isall || 'p' == c ) {
                 bool valid=false;
                 uimenu m; /* using new uimenu class */
                 m.text=_("Select destination");
@@ -888,7 +889,7 @@ void advanced_inventory::display(game * gp, player * pp)
                     popup(_("Destination area has too many items. Remove some first."));
                     continue;
                 }
-                if ( askamount ) {
+                if ( askamount && ( amount > max || !moveall ) ) {
                     std::string popupmsg=_("How many do you want to move? (0 to cancel)");
                     if(amount > max) {
                         popupmsg=string_format(_("Destination can only hold %d! Move how many? (0 to cancel) "), max);
@@ -1037,16 +1038,21 @@ void advanced_inventory::display(game * gp, player * pp)
                                 std::string popupmsg=_("How many do you want to move? (0 to cancel)");
                                 if(amount > max) {
                                     popupmsg=string_format(_("Destination can only hold %d! Move how many? (0 to cancel) "), max);
+                                    moveall = false;
                                 }
                                 // fixme / todo make popup take numbers only (m = accept, q = cancel)
-                                amount = helper::to_int(
-                                    string_input_popup( popupmsg, 20,
-                                         helper::to_string(
-                                             ( amount > max ? max : amount )
-                                         ), "", "", -1, true//input only digits
-                                    )
-                                );
-                                if ( amount > max ) amount = max;
+                                if ( !moveall ) {
+                                    amount = helper::to_int(
+                                        string_input_popup( popupmsg, 20,
+                                             helper::to_string(
+                                                 ( amount > max ? max : amount )
+                                             ), "", "", -1, true//input only digits
+                                        )
+                                    );
+                                    if ( amount > max ) amount = max;
+                                } else { 
+                                    amount = max;
+                                }
                                 if ( amount != it->charges ) {
                                     tryvolume = ( unitvolume * amount ) / 1000;
                                     tryweight = ( unitweight * amount ) / 1000;
