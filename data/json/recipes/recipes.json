@@ -12931,7 +12931,7 @@
 },{
   "type" : "recipe",
   "result": "stockings_tent_legs",
-  "id_suffix": "collection"
+  "id_suffix": "collection",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
@@ -12974,7 +12974,7 @@
 },{
   "type" : "recipe",
   "result": "stockings_tent_arms",
-  "id_suffix": "collection"
+  "id_suffix": "collection",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
   "skill_used": "tailor",
@@ -13448,7 +13448,7 @@
     [
       [ "pants", 2 ],
       [ "pants_cargo", 1 ]
-    ]
+    ],
     [
       [ "rag", 6 ]
     ]
@@ -13456,7 +13456,7 @@
 },{
   "type" : "recipe",
   "result": "jumpsuit_xl",
-  "id_suffix": "from_jumpsuit"
+  "id_suffix": "from_jumpsuit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
@@ -14685,7 +14685,7 @@
     ],
     [
       [ "hose", 1 ]
-    ]
+    ],
     [
       ["plastic_chunk", 4]
     ]
@@ -14693,7 +14693,7 @@
 },{
   "type" : "recipe",
   "result": "mask_gas_xl",
-  "id_suffix": "expand-existing"
+  "id_suffix": "expand-existing",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
@@ -14888,7 +14888,8 @@
 },{
   "type" : "recipe",
   "result": "rebreather_xl",
-  "id_suffix": "mod_existing"
+  "id_suffix": "mod_existing",
+  "id_suffix": "mod_existing",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
   "skills_required": [ "electronics", 4 ],
@@ -14913,7 +14914,8 @@
       [ "rebreather", 1 ]
     ],
     [
-      [ "mask_filter", 1 ]
+      [ "mask_filter", 1 ],
+      [ "mask_gas", 1 ]
     ],
     [
       [ "power_supply", 1 ]
@@ -14923,7 +14925,7 @@
     ],
     [
       [ "plastic_chunk", 6 ]
-    ],
+    ]
   ]
 },{
         "type" : "recipe",
