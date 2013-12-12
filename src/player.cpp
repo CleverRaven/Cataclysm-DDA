@@ -4529,7 +4529,7 @@ void player::suffer(game *g)
         {
             oxygen--;
         }
-        if (oxygen < 12 && is_wearing("rebreather") &&
+        if (oxygen < 12 && (is_wearing("rebreather") || is_wearing ("rebreather_xl")) &&
             (has_active_item("UPS_on") || has_active_item("adv_UPS_on")))
             {
                 oxygen += 12;
