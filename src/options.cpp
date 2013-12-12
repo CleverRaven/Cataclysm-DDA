@@ -15,7 +15,7 @@
 #include <string>
 #include <locale>
 #include <sstream>
- 
+
 bool trigdist;
 bool use_tiles;
 
@@ -317,8 +317,6 @@ bool cOpt::operator!=(const std::string sCompare) const {
     return !(*this == sCompare);
 }
 
-
-
 void initOptions() {
     vPages.clear();
     vPages.push_back(std::make_pair("general", _("General")));
@@ -384,6 +382,7 @@ void initOptions() {
                                              _("If true, safemode will be on after starting a new game or loading."),
                                              true
                                             );
+
     OPTIONS["VEHICLE_ARMOR_COLOR"] =    cOpt("interface", _("Vehicle plating changes part color"),
                                              _("If true, vehicle parts will change color if they are armor plated"),
                                              true
@@ -485,7 +484,7 @@ void initOptions() {
                                              _("A scaling factor that determines density of monster spawns."),
                                              0.0, 50.0, 1.0, 0.1
                                             );
-                                            
+
     OPTIONS["ITEM_SPAWNRATE"] =         cOpt("world_default", _("Item spawn scaling factor"),
                                              _("A scaling factor that determines density of item spawns."),
                                              0.1, 1.0, 1.0, 0.1
@@ -539,6 +538,7 @@ void initOptions() {
                                              _("Switch between two different styles of vehicle interaction menu or combination of them."),
                                              "vertical,horizontal,hybrid", "vertical"
                                             );
+
     OPTIONS["MOVE_VIEW_OFFSET"] =       cOpt("interface", _("Move view offset"),
                                              _("Move view by how many squares per keypress."),
                                              1, 50, 1
@@ -600,7 +600,7 @@ void initOptions() {
                                              true
                                             );
 
-    OPTIONS["AUTO_PICKUP"] =            cOpt("general", _("Enable item auto pickup"),
+    OPTIONS["AUTO_PICKUP"] =            cOpt("general", _("Auto pickup enabled"),
                                              _("Enable item auto pickup. Change pickup rules with the Auto Pickup Manager in the Help Menu ?3"),
                                              false
                                             );
@@ -631,11 +631,12 @@ void initOptions() {
     OPTIONS["USE_TILES"] =              cOpt("graphics", _("Use tiles"),
                                              _("If true, replaces some TTF rendered text with tiles. Only applicable on SDL builds."),
                                              true
-                                             );
+                                            );
 
     OPTIONS["TILES"] =                  cOpt("graphics", _("Choose tileset"),
                                              _("Choose the tileset you want to use. Only applicable on SDL builds."),
-                                             tileset_names, "hoder");   // populate the options dynamically
+                                             tileset_names, "hoder"
+                                            );   // populate the options dynamically
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
         for (unsigned i=0; i < vPages.size(); ++i) {
@@ -768,18 +769,15 @@ void show_options(bool ingame)
         wrefresh(w_options_header);
 
 #if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
-		if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_X")
-		{
+		if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_X") {
 			int new_viewport_x, new_window_width;
 			std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
-			
+
 			value_conversion >> new_viewport_x;
 			new_window_width = projected_window_width(new_viewport_x);
 
 			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s -- The window will be %d pixels wide with the selected value.", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(), new_window_width);
-		}
-		else if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_Y")
-		{
+		} else if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_Y") {
 			int new_viewport_y, new_window_height;
 			std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
@@ -787,8 +785,7 @@ void show_options(bool ingame)
 			new_window_height = projected_window_height(new_viewport_y);
 
 			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s -- The window will be %d pixels tall with the selected value.", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(), new_window_height);
-		}
-		else
+		} else
 #endif
 		{
 			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str());
@@ -983,13 +980,13 @@ std::string get_tileset_names(std::string dir_path)
             optionNames["hoder"] = _("Hoder's");
             return defaultTilesets;
         }
-        std::string tileset_name;
-// should only have 2 values inside it, otherwise is going to only load the last 2 values
+        std::string tileset_name; // should only have 2 values inside it, otherwise is going to only load the last 2 values
+
         while(!fin.eof()) {
             std::string sOption;
             fin >> sOption;
 
-        //DebugLog() << "\tCurrent: " << sOption << " -- ";
+            //DebugLog() << "\tCurrent: " << sOption << " -- ";
 
             if(sOption == "") {
                 getline(fin, sOption);    // Empty line, chomp it
@@ -998,24 +995,18 @@ std::string get_tileset_names(std::string dir_path)
                 getline(fin, sOption);
                 //DebugLog() << "Comment line, skipping\n";
             } else {
-
-         if (sOption.find("NAME") != std::string::npos)
-                {
+                if (sOption.find("NAME") != std::string::npos) {
                     tileset_name = "";
                     fin >> tileset_name;
                     if(first_tileset_name)
                     {
                         first_tileset_name = false;
                         tileset_names += tileset_name;
-                    }
-                    else
-                    {
+                    } else {
                         tileset_names += std::string(",");
                         tileset_names += tileset_name;
                     }
-                }
-         else if (sOption.find("VIEW") != std::string::npos)
-                {
+                } else if (sOption.find("VIEW") != std::string::npos) {
                     std::string viewName = "";
                     fin >> viewName;
                     optionNames[tileset_name] = viewName;
@@ -1025,12 +1016,13 @@ std::string get_tileset_names(std::string dir_path)
         }
         fin.close();
     }
-    if(tileset_names == "")
-    {
+
+    if(tileset_names == "") {
         optionNames["deon"] = _("Deon's");          // more standards
         optionNames["hoder"] = _("Hoder's");
         return defaultTilesets;
 
     }
+
     return tileset_names;
 }
