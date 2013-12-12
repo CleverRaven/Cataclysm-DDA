@@ -1403,7 +1403,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "caltrops",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
@@ -1438,7 +1438,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "caltrops",
   "id_suffix": "from wire",
   "category": "CC_OTHER",
@@ -1466,11 +1466,12 @@
     [
      [
      [ "wire_barbed", 3 ],
-     [ "wire", 9 ]
+     [ "wire", 9 ],
+     [ "nail", 10 ]
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "nailbat",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_BASHING",
