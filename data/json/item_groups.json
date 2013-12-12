@@ -2494,6 +2494,7 @@
       ["textbook_mechanics", 12],
       ["textbook_fabrication", 12],
       ["welding_book", 2],
+      ["textbook_gaswarfare", 5],
       ["textbook_tailor", 12],
       ["textbook_weapwest", 3],
       ["textbook_weapeast", 3],
@@ -2670,6 +2671,7 @@
       ["heroin", 1],
       ["syringe", 8],
       ["electrohack", 3],
+      ["textbook_gaswarfare", 1],
       ["knife_combat", 14],
       ["throwing_knife", 7],
       ["punch_dagger", 12],
@@ -3717,6 +3719,7 @@
         "id" : "goo",
     "items":[
       ["jumpsuit", 20],
+      ["subsuit_XL", 1],
       ["gloves_rubber", 20],
       ["mask_filter", 30],
       ["glasses_safety", 40],
@@ -3758,6 +3761,7 @@
       ["rag", 1],
       ["scissors", 50],
       ["boots_rubber", 20],
+      ["subsuit_XL", 4],
       ["rag_bloody", 1]
     ]
     },{

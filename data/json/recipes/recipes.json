@@ -2195,6 +2195,7 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "textbook_gaswarfare", 4 ]],
   "tools": [
     [
       [ "hotplate", 5 ],
@@ -2220,6 +2221,7 @@
   "time": 100,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "textbook_gaswarfare", 4 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -2617,6 +2619,7 @@
   "time": 8000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "textbook_gaswarfare", 3 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12690,7 +12693,7 @@
 },{
         "type" : "recipe",
   "result": "bio_blood_filter",
-  "id_suffix": "uncraft",
+   "uncraft",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
   "skill_used": "electronics",
@@ -12881,6 +12884,113 @@
   "components": [
     [
       [ "rag", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "stockings",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 6 ],
+      [ "sewing_kit", 6 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 8 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "stockings_tent_legs",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 36 ],
+      [ "sewing_kit", 36 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 48 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "stockings_tent_legs",
+  "id_suffix": "collection"
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 6 ],
+      [ "sewing_kit", 6 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "stockings", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "stockings_tent_arms",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_ARMS",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 48 ],
+      [ "sewing_kit", 48 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 64 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "stockings_tent_arms",
+  "id_suffix": "collection"
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_ARMS",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "stockings", 4 ]
     ]
   ]
 },{
@@ -13311,6 +13421,62 @@
     ],
     [
       [ "long_underpants", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "jumpsuit_xl",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ]],
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "polo_shirt", 2 ],
+      [ "tshirt", 3 ]
+    ],
+    [
+      [ "pants", 2 ],
+      [ "pants_cargo", 1 ]
+    ]
+    [
+      [ "rag", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "jumpsuit_xl",
+  "id_suffix": "from_jumpsuit"
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ]],
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "jumpsuit", 1 ]
+    ],
+    [
+      [ "rag", 10 ]
     ]
   ]
 },{
@@ -14422,6 +14588,7 @@
   "time": 20000,
   "reversible": true,
   "autolearn": true,
+  "book_learn": [[ "textbook_gaswarfare", 2 ]],
   "tools": [
     [
       [ "wrench", -1 ],
@@ -14439,6 +14606,78 @@
     ],
     [
       [ "hose", 1 ]
+    ]
+  ]
+},{
+"type" : "recipe",
+  "result": "mask_gas_xl",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_gaswarfare", 4 ]],
+  "tools": [
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "goggles_ski", 1 ],
+      [ "goggles_swim", 2 ]
+    ],
+    [
+      [ "mask_filter", 3 ],
+      [ "muffler", 1 ]
+    ],
+    [
+      [ "hose", 1 ]
+    ]
+    [
+      ["plastic_chunk", 4]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mask_gas_xl",
+  "id_suffix": "expand-existing"
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_gaswarfare", 4 ]],
+  "tools": [
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mask_gas", 1 ]
+    ],
+    [
+      [ "mask_filter", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 3 ]
     ]
   ]
 },{
@@ -14556,6 +14795,91 @@
     [
       [ "cable", 2 ]
     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "rebreather_xl",
+  "category": "CC_ARMOR",
+  "skill_used": "electronics",
+  "skills_required": [ "tailor", 3 ],
+  "difficulty": 9,
+  "time": 85000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_swimming", 7 ]],
+  "tools": [
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mask_filter", 2 ]
+    ],
+    [
+      [ "power_supply", 2 ]
+    ],
+    [
+      [ "amplifier", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 2 ]
+    ],
+    [
+      [ "circuit", 2 ]
+    ],
+    [
+      [ "e_scrap", 8 ]
+    ],
+    [
+      [ "cable", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "rebreather_xl",
+  "id_suffix": "mod_existing"
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required": [ "electronics", 4 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_swimming", 5 ]],
+  "tools": [
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rebreather", 1 ]
+    ],
+    [
+      [ "mask_filter", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "e_scrap", 4 ]
+    ],
+    [
+      [ "plastic_chunk", 6 ]
+    ],
   ]
 },{
         "type" : "recipe",
@@ -22425,7 +22749,7 @@
      ],
      [
       [ "wetsuit", 1 ],
-      [ "swetsuit_spring", 1 ]
+      [ "wetsuit_spring", 1 ]
      ],
      [
       [ "chestrig", 1 ],
