@@ -24835,5 +24835,26 @@
       [ "scrap", 1 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "glass_shiv",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "skills_required": [],
+  "difficulty": 0,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [],
+  "components": [
+    [
+      [ "glass_shard", 1 ]
+    ],
+    [
+      [ "rag", 1 ],
+      [ "duct_tape", 10]
+    ]
+  ]
 }
 ]
