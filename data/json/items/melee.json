@@ -2228,6 +2228,23 @@
   },
   {
     "type":"GENERIC",
+    "id" : "teleumbrella",
+    "symbol" : ",",
+    "color": "dark_gray",
+    "name": "telescoping umbrella",
+    "description": "A telescoping umbrella which collapses down for easy storage, useful for keeping dry when wielded.",
+    "material": ["plastic", "null"],
+    "price": 120,
+    "volume": 2,
+    "weight": 118,
+    "bashing": 1,
+    "cutting": 0,
+    "to_hit": 1,
+    "flags": ["RAIN_PROTECT"],
+    "techniques": ["WBLOCK_1"]
+  },
+  {
+    "type":"GENERIC",
     "id": "fish_bowl",
     "symbol": "u",
     "color": "light_cyan",
