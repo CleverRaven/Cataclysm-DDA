@@ -832,8 +832,6 @@
     <ClInclude Include="..\src\output.h" />
     <ClInclude Include="..\src\overmap.h" />
     <ClInclude Include="..\src\overmapbuffer.h" />
-    <ClInclude Include="..\src\picofunc.h" />
-    <ClInclude Include="..\src\picojson.h" />
     <ClInclude Include="..\src\player.h" />
     <ClInclude Include="..\src\pldata.h" />
     <ClInclude Include="..\src\posix_time.h" />
@@ -951,7 +949,6 @@
     <ClCompile Include="..\src\output.cpp" />
     <ClCompile Include="..\src\overmap.cpp" />
     <ClCompile Include="..\src\overmapbuffer.cpp" />
-    <ClCompile Include="..\src\picofunc.cpp" />
     <ClCompile Include="..\src\player.cpp" />
     <ClCompile Include="..\src\posix_time.cpp" />
     <ClCompile Include="..\src\profession.cpp" />
