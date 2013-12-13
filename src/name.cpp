@@ -117,7 +117,15 @@ void load_names_from_file(const std::string &filename)
     }
 
     NameGenerator &gen = NameGenerator::generator();
-    JsonIn jsin(&data_file);
+
+    std::istringstream iss(
+        std::string(
+            (std::istreambuf_iterator<char>(data_file)),
+            std::istreambuf_iterator<char>()
+        )
+    );
+    JsonIn jsin(&iss);
+    data_file.close();
 
     // load em all
     jsin.start_array();
