@@ -6674,6 +6674,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     }
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
                        comest->nutr >= 5);
+    bool hiberfood = (has_trait("HIBERNATE") && (hunger > -60 && thirst > -60 ));    
     bool spoiled = eaten->rotten(g);
 
     last_item = itype_id(eaten->type->id);
@@ -6681,6 +6682,17 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     if (overeating && !has_trait("HIBERNATE") && !is_npc() &&
         !query_yn(_("You're full.  Force yourself to eat?"))) {
         return false;
+    }
+    int temp_nutr = comest->nutr;
+    int temp_quench = comest->quench;
+    if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60))){
+       if (!query_yn(_("You're adequately fueled. Prepare for hibernation?"))) {
+        return false;
+       }
+       else
+       if(!is_npc()) {add_memorial_log(_("Began preparing for hibernation."));
+                      g->add_msg(_("You've begun stockpiling calories and liquid for hibernation. You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW."));
+      }
     }
 
     if (has_trait("CARNIVORE") && eaten->made_of("veggy") && comest->nutr > 0) {
@@ -6725,12 +6737,12 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     //not working directly in the equation... can't imagine why
     int temp_hunger = hunger - comest->nutr;
     int temp_thirst = thirst - comest->quench;
-    int threshold = has_trait("GOURMAND") ? -60 : -20;
+    int capacity = has_trait("GOURMAND") ? -60 : -20;
     if( has_trait("HIBERNATE") ) {
-        threshold = -620;
+        capacity = -620;
     }
-    if( ( comest->nutr > 0 && temp_hunger < threshold ) ||
-        ( comest->quench > 0 && temp_thirst < threshold ) ) {
+    if( ( comest->nutr > 0 && temp_hunger < capacity ) ||
+        ( comest->quench > 0 && temp_thirst < capacity ) ) {
         if (spoiled){//rotten get random nutrification
             if (!query_yn(_("You can hardly finish it all. Consume it?"))) {
                 return false;
