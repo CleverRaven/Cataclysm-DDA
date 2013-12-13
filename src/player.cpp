@@ -1322,6 +1322,10 @@ int player::swim_speed()
  return ret;
 }
 
+bool player::digging() {
+    return false;
+}
+
 bool player::is_on_ground()
 {
     bool on_ground = false;

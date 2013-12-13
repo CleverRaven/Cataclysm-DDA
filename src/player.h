@@ -207,6 +207,7 @@ public:
  bool is_quiet(); // martial arts quiet melee
 
  bool can_melee();
+ bool digging();      // always false, because players can't dig
  bool is_on_ground(); // all body parts are available to ground level damage sources
  bool is_dead_state(); // check if we should be dead or not
 

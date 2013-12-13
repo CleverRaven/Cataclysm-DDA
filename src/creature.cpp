@@ -72,6 +72,9 @@ void Creature::reset_stats(game *g) {
     moves = get_speed();
 }
 
+// MF_DIGS or MF_CAN_DIG and diggable terrain
+bool Creature::digging(){ return false; }
+
 /*
  * Damage-related functions
  */

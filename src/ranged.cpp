@@ -30,13 +30,11 @@ double Creature::projectile_attack(game *g, const projectile &proj, int targetx,
 double Creature::projectile_attack(game *g, const projectile &proj, int sourcex, int sourcey,
         int targetx, int targety, double shot_dispersion) {
     int range = rl_dist(sourcex,sourcey,targetx,targety);
-    std::vector<point> trajectory = line_to(sourcex,sourcey,targetx,targety,0);
-
     // .013 * trange is a computationally cheap version of finding the tangent.
     // (note that .00325 * 4 = .013; .00325 is used because deviation is a number
     //  of quarter-degrees)
     // It's also generous; missed_by will be rather short.
-    double missed_by = double(dice(shot_dispersion,20))/20. * .00325 * range;
+    double missed_by = shot_dispersion * .00325 * range;
 
 
     if (missed_by >= 1.) {
@@ -44,14 +42,10 @@ double Creature::projectile_attack(game *g, const projectile &proj, int sourcex,
         // Shoot a random nearby space?
         targetx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
         targety += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
-        /* TODO: as above, figure out what the tart parameter does
-        if (m.sees(posx, posy, x, y, -1, tart)) {
-            trajectory = line_to(posx, posy, mtarx, mtary, tart);
-        } else {
-            trajectory = line_to(posx, posy, mtarx, mtary, 0);
-        }
-        */
+        /* TODO: as above, figure out what the tart parameter does */
     }
+
+    std::vector<point> trajectory = line_to(sourcex,sourcey,targetx,targety,0);
 
     // Set up a timespec for use in the nanosleep function below
     timespec ts;
@@ -60,8 +54,6 @@ double Creature::projectile_attack(game *g, const projectile &proj, int sourcex,
 
     int dam = proj.impact.total_damage() + proj.payload.total_damage();
     it_ammo *curammo = proj.ammo;
-
-    //bool is_bolt = (curammo->type == "bolt" || curammo->type == "arrow");
 
     // Trace the trajectory, doing damage in order
     int tx = trajectory[0].x;
@@ -86,16 +78,16 @@ double Creature::projectile_attack(game *g, const projectile &proj, int sourcex,
         }
         */
 
+        int mondex = g->mon_at(tx, ty);
+        // ignore non-point-blank digging targets (since they are underground)
+        if (mondex != -1 && g->zombie(mondex).digging() &&
+                            rl_dist(xpos(), ypos(), g->zombie(mondex).xpos(),
+                                    g->zombie(mondex).ypos()) > 1)
+            mondex = -1;
+        // If we shot us a monster...
+        // TODO: add size effects to accuracy
         // If there's a monster in the path of our bullet, and either our aim was true,
         //  OR it's not the monster we were aiming at and we were lucky enough to hit it
-        int mondex = g->mon_at(tx, ty);
-        // If we shot us a monster...
-        /* TODO: implement underground etc flags in Creature
-        if (mondex != -1 && ((!zombie(mondex).digging()) ||
-                            rl_dist(xpos(), ypos(), g->zombie(mondex).xpos(),
-                                    g->zombie(mondex).ypos()) <= 1) &&
-                                    */
-        // TODO: add size effects to accuracy
         double cur_missed_by;
         if (i < trajectory.size() - 1) { // Unintentional hit
             cur_missed_by = std::max(rng_float(0,1.5)+(1-missed_by),0.2);
@@ -106,9 +98,7 @@ double Creature::projectile_attack(game *g, const projectile &proj, int sourcex,
             monster &z = g->zombie(mondex);
 
             dealt_damage_instance dealt_dam;
-            // TODO: add bounce effect application
             z.deal_projectile_attack(g, this, missed_by, proj, dealt_dam);
-            //z.deal_damage(g, this, bp_torso, 3, d);
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
             //splatter(this, blood_traj, dam, &z); TODO: add splatter effects
@@ -1101,24 +1091,28 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
 
 // utility functions for projectile_attack
 double player::get_weapon_dispersion(item *weapon) {
-    // constant offset, to make the value equivalent to the old numbers
-    double dispersion = 80
-        + weapon->curammo->dispersion
-        + weapon->dispersion()
-        + (recoil + driving_recoil) * 0.625;
+    it_gun* firing = dynamic_cast<it_gun *>(weapon->type);
 
-    // No type for gunmods,so use player weapon.
-    it_gun* firing = dynamic_cast<it_gun*>(weapon->type);
-
+    double dispersion = 0.; // Measured in quarter-degrees.
     // Up to 0.75 degrees for each skill point < 8.
-    dispersion -= 3*skillLevel(firing->skill_used);
+    if (skillLevel(firing->skill_used) < 8) {
+        dispersion += rng(0, 3 * (8 - skillLevel(firing->skill_used)));
+    }
     // Up to 0.25 deg per each skill point < 9.
-    dispersion -= skillLevel("gun");
+    if (skillLevel("gun") < 9) {
+        dispersion += rng(0, 9 - skillLevel("gun"));
+    }
 
-    dispersion -= 2*get_dex();
-    dispersion -= 2*get_per();
+    dispersion += rng(0, ranged_dex_mod());
+    dispersion += rng(0, ranged_per_mod());
 
-    dispersion += 2*encumb(bp_arms) + 4*encumb(bp_eyes);
+    dispersion += rng(0, 2 * encumb(bp_arms)) + rng(0, 4 * encumb(bp_eyes));
+
+    dispersion += rng(0, weapon->curammo->dispersion);
+    // item::dispersion() doesn't support gunmods.
+    dispersion += rng(0, weapon->dispersion());
+    int adj_recoil = recoil + driving_recoil;
+    dispersion += rng(int(adj_recoil / 4), adj_recoil);
 
     // this is what the total bonus USED to look like
     // rng(0,x) on each term in the sum
