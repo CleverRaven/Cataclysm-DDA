@@ -3157,6 +3157,7 @@
       ["q_staff", 10],
       ["i_staff", 5],
       ["sword_bayonet", 10],
+      ["bagh_nakha", 5],
       ["apron_leather", 1]
     ]
     },{
@@ -3393,6 +3394,7 @@
       ["c_fishspear", 8],
       ["rebreather", 5],
       ["diveknife", 10],
+      ["bagh_nakha", 2],
       ["leathersandals", 10]
     ]
     },{
