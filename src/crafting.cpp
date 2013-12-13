@@ -888,7 +888,13 @@ recipe* game::select_crafting_recipe()
 
         wrefresh(w_data);
         int ch=(int)getch();
-        if(ch=='e'||ch=='E') { ch=(int)'?'; } // get_input is inflexible
+        if(ch=='e'||ch=='E') { // get_input is inflexible
+            ch=(int)'?';
+        } else if(ch == KEY_PPAGE) {
+            ch=(int)'<';
+        } else if(ch == KEY_NPAGE || ch == '\t' ) {
+            ch=(int)'>';
+        }
         input = get_input(ch);
         switch (input)
         {

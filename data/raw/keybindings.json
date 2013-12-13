@@ -316,6 +316,18 @@
                 "key":"ESC"
             },
             {
+                "input_method":"keyboard",
+                "key":"q"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"Q"
+            },
+            {
+                "input_method":"keyboard",
+                "key":" "
+            },
+            {
                 "input_method":"gamepad",
                 "key":"JOY_3"
             }
@@ -359,6 +371,10 @@
             },
             {
                 "input_method":"keyboard",
+                "key":"PPAGE"
+            },
+            {
+                "input_method":"keyboard",
                 "key":"<"
             }
         ]
@@ -371,6 +387,10 @@
             {
                 "input_method":"mouse",
                 "key":"SCROLL_DOWN"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
             },
             {
                 "input_method":"keyboard",
