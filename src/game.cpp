@@ -10964,9 +10964,9 @@ bool game::plmove(int dx, int dy)
    }
   }
   if ((!u.has_trait("PARKOUR") && m.move_cost(x, y) > 4) ||
-      ( u.has_trait("PARKOUR") && m.move_cost(x, y) > 6    ))
+      ( u.has_trait("PARKOUR") && m.move_cost(x, y) > 8))
   {
-   if (veh1 && m.move_cost(x,y) != 2)
+   if (veh1 && m.move_cost(x,y) != 4)
     add_msg(_("Moving past this %s is slow!"), veh1->part_info(vpart1).name.c_str());
    else
     add_msg(_("Moving past this %s is slow!"), m.name(x, y).c_str());

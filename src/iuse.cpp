@@ -3683,7 +3683,7 @@ int iuse::jackhammer(player *p, item *it, bool t)
   p->moves -= 500;
   //~ the sound of a jackhammer
   g->sound(dirx, diry, 45, _("TATATATATATATAT!"));
- } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
+ } else if (g->m.move_cost(dirx, diry) == 4 && g->levz != -1 &&
             g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
@@ -3723,7 +3723,7 @@ int iuse::jacqueshammer(player *p, item *it, bool t)
   p->moves -= 500;
   //~ the sound of a "jacqueshammer"
   g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
- } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
+ } else if (g->m.move_cost(dirx, diry) == 4 && g->levz != -1 &&
             g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
@@ -3757,7 +3757,7 @@ int iuse::set_trap(player *p, item *it, bool t)
  }
  int posx = dirx;
  int posy = diry;
- if (g->m.move_cost(posx, posy) != 2) {
+ if (g->m.move_cost(posx, posy) != 4) {
   g->add_msg_if_player(p,_("You can't place a %s there."), it->tname().c_str());
   return 0;
  }
@@ -3825,14 +3825,14 @@ if(it->type->id == "cot"){
   practice = 0;
  } else if(it->type->id == "tripwire"){
 // Must have a connection between solid squares.
-  if ((g->m.move_cost(posx    , posy - 1) != 2 &&
-       g->m.move_cost(posx    , posy + 1) != 2   ) ||
-      (g->m.move_cost(posx + 1, posy    ) != 2 &&
-       g->m.move_cost(posx - 1, posy    ) != 2   ) ||
-      (g->m.move_cost(posx - 1, posy - 1) != 2 &&
-       g->m.move_cost(posx + 1, posy + 1) != 2   ) ||
-      (g->m.move_cost(posx + 1, posy - 1) != 2 &&
-       g->m.move_cost(posx - 1, posy + 1) != 2   )) {
+  if ((g->m.move_cost(posx    , posy - 1) != 4 &&
+       g->m.move_cost(posx    , posy + 1) != 4   ) ||
+      (g->m.move_cost(posx + 1, posy    ) != 4 &&
+       g->m.move_cost(posx - 1, posy    ) != 4   ) ||
+      (g->m.move_cost(posx - 1, posy - 1) != 4 &&
+       g->m.move_cost(posx + 1, posy + 1) != 4   ) ||
+      (g->m.move_cost(posx + 1, posy - 1) != 4 &&
+       g->m.move_cost(posx - 1, posy + 1) != 4   )) {
    message << _("You string up the tripwire.");
    type= tr_tripwire;
    practice = 3;
@@ -3853,7 +3853,7 @@ if(it->type->id == "cot"){
   posy = (diry - p->posy)*2 + p->posy;
   for (int i = -1; i <= 1; i++) {
    for (int j = -1; j <= 1; j++) {
-    if (g->m.move_cost(posx + i, posy + j) != 2) {
+    if (g->m.move_cost(posx + i, posy + j) != 4) {
      g->add_msg_if_player(p,_("That trap needs a 3x3 space to be clear, centered two tiles from you."));
      return 0;
     }

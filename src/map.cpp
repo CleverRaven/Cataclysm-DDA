@@ -1989,7 +1989,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     //}
 
     // Now, destroy items on that tile.
-    if ((move_cost(x, y) == 2 && !hit_items) || !INBOUNDS(x, y))
+    if ((move_cost(x, y) == 4 && !hit_items) || !INBOUNDS(x, y))
         return; // Items on floor-type spaces won't be shot up.
 
     for (int i = 0; i < i_at(x, y).size(); i++)

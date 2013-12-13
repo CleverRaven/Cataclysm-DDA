@@ -5017,7 +5017,7 @@ ff.......|....|WWWWWWWW|\n\
                     do {
                         body = point(-1, -1);
                         int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
-                        if (move_cost(x, y) == 2) {
+                        if (move_cost(x, y) == 4) {
                             body = point(x, y);
                         } else {
                             tries++;
