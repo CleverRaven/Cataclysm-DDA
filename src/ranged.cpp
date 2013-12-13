@@ -35,6 +35,7 @@ double Creature::projectile_attack(game *g, const projectile &proj, int sourcex,
     //  of quarter-degrees)
     // It's also generous; missed_by will be rather short.
     double missed_by = shot_dispersion * .00325 * range;
+    // TODO: move to-hit roll back in here
 
 
     if (missed_by >= 1.) {
