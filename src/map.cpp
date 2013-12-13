@@ -3860,8 +3860,8 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
               }
               if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
                   it_comest *food = dynamic_cast<it_comest*>(it->type);
-                  int maxShelfLife = it->bday + (food->spoils * 600)*2;
-                  if(g->turn >= maxShelfLife) {
+                  it->rotten(g);
+                  if(it->rot >= (food->spoils * 600)*2) {
                       it = tmpsub->itm[x][y].erase(it);
                   } else { ++it; intidx++; }
               } else { ++it; intidx++; }

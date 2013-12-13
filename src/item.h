@@ -220,6 +220,8 @@ public:
  int charges;
  bool active;           // If true, it has active effects to be processed
  int fridge;            // The turn we entered a fridge.
+ int rot;               // decay; same as turn-bday at 65 degrees, but doubles/halves every 18 degrees. can be negative (start game fridges)
+ int last_rot_check;    // last turn we calculated rot
  signed char damage;    // How much damage it's sustained; generally, max is 5
  int burnt;             // How badly we're burnt
  int bday;              // The turn on which it was created
