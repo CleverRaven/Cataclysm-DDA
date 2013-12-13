@@ -186,6 +186,42 @@ std::string monster::disp_name() {
 std::string monster::skin_name() {
     return name_with_armor();
 }
+
+void monster::get_HP_Bar(nc_color &color, std::string &text)
+{
+    ::get_HP_Bar(hp, type->hp, color, text, true);
+}
+
+void monster::get_Attitude(game *g, nc_color &color, std::string &text)
+{
+    switch (attitude(&(g->u))) {
+        case MATT_FRIEND:
+            color = h_white;
+            text = _("Friendly ");
+            break;
+        case MATT_FLEE:
+            color = c_green;
+            text = _("Fleeing! ");
+            break;
+        case MATT_IGNORE:
+            color = c_ltgray;
+            text = _("Ignoring ");
+            break;
+        case MATT_FOLLOW:
+            color = c_yellow;
+            text = _("Tracking ");
+            break;
+        case MATT_ATTACK:
+            color = c_red;
+            text = _("Hostile! ");
+            break;
+        default:
+            color = h_red;
+            text = "BUG: Behavior unnamed. (monster.cpp:get_Attitude)";
+            break;
+    }
+}
+
 int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
 {
 // First line of w is the border; the next two are terrain info, and after that
@@ -198,26 +234,12 @@ int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
  const int vEnd = vStart + vLines;
 
  mvwprintz(w, vStart++, column, c_white, "%s ", type->name.c_str());
- switch (attitude(&(g->u))) {
-  case MATT_FRIEND:
-   wprintz(w, h_white, _("Friendly! "));
-   break;
-  case MATT_FLEE:
-   wprintz(w, c_green, _("Fleeing! "));
-   break;
-  case MATT_IGNORE:
-   wprintz(w, c_ltgray, _("Ignoring "));
-   break;
-  case MATT_FOLLOW:
-   wprintz(w, c_yellow, _("Tracking "));
-   break;
-  case MATT_ATTACK:
-   wprintz(w, c_red, _("Hostile! "));
-   break;
-  default:
-   wprintz(w, h_red, "BUG: Behavior unnamed. (monster.cpp:print_info)");
-   break;
- }
+ nc_color color = c_white;
+ std::string attitude = "";
+
+ get_Attitude(g, color, attitude);
+ wprintz(w, color, attitude.c_str());
+
  if (has_effect("downed"))
   wprintz(w, h_white, _("On ground"));
  else if (has_effect("stunned"))
@@ -347,7 +369,7 @@ bool monster::sees_player(int & tc, player * p) const {
     const int range = vision_range(p->posx, p->posy);
     // * p->visibility() / 100;
     return (
-        g->m.sees( _posx, _posy, p->posx, p->posy, range, tc ) && 
+        g->m.sees( _posx, _posy, p->posx, p->posy, range, tc ) &&
         p->is_invisible() == false
     );
 }
@@ -460,6 +482,12 @@ monster_attitude monster::attitude(player *u)
     effective_anger -= 10;
    if (effective_anger < 10)
     effective_morale += 5;
+  }
+  if (u->has_trait("ANIMALDISCORD") && has_flag(MF_ANIMAL)) {
+   if (effective_anger >= 10)
+    effective_anger += 10;
+   if (effective_anger < 10)
+    effective_morale -= 5;
   }
 
  }

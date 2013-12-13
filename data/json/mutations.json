@@ -8,7 +8,32 @@
         "starting_trait" : true,
         "cancels" : ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
         "changes_to" : ["FLEET2"],
-        "category" : ["MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_SPIDER"],
+        "cancels" : ["SLOWRUNNER"]
+    },{
+        "type" : "mutation",
+        "id" : "GOODHEARING",
+        "name" : "Good Hearing",
+        "points" : 2,
+        "description" : "Your hearing is better than average, and you can hear distant sounds more easily.",
+        "starting_trait" : true,
+        "cancels" : ["BADHEARING"]
+    },{
+        "type" : "mutation",
+        "id" : "OUTDOORSMAN",
+        "name" : "Outdoorsman",
+        "points" : 1,
+        "description" : "You are accustomed to being exposed to the elements. This decreases morale penalties for being wet.",
+        "starting_trait" : true,
+        "valid" : false,
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 6 },
+            { "part" : "LEGS", "ignored" : 8 },
+            { "part" : "FEET", "ignored" : 2 },
+            { "part" : "ARMS", "ignored" : 8 },
+            { "part" : "HANDS", "ignored" : 12 },
+            { "part" : "TORSO", "ignored" : 10 }
+        ]
     },{
         "type" : "mutation",
         "id" : "PARKOUR",
@@ -16,7 +41,8 @@
         "points" : 2,
         "description" : "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "cancels" : ["BADKNEES"]
     },{
         "type" : "mutation",
         "id" : "QUICK",
@@ -40,7 +66,7 @@
         "points" : 2,
         "description" : "You heal a little faster than most; sleeping will heal more lost HP.",
         "starting_trait" : true,
-        "cancels" : ["ROT1", "ROT2", "ROT3"],
+        "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER"],
         "changes_to" : ["FASTHEALER2"],
         "category" : ["MUTCAT_MEDICAL"]
     },{
@@ -50,7 +76,17 @@
         "points" : 3,
         "description" : "Your metabolism is a little slower, and you require less food than most.",
         "starting_trait" : true,
+        "cancels" : ["HUNGER"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO"]
+    },{
+        "type" : "mutation",
+        "id" : "EASYSLEEPER",
+        "name" : "Accomplished Sleeper",
+        "points" : 2,
+        "description" : "You have always been able to fall asleep easily, even when sleeping in less than ideal circumstances.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["INSOMNIA"]
     },{
         "type" : "mutation",
         "id" : "PAINRESIST",
@@ -91,7 +127,15 @@
         "description" : "You're a quick reader, and can get through books a lot faster than most.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["ILLITERATE"]
+        "cancels" : ["ILLITERATE", "SLOWREADER"]
+    },{
+        "type" : "mutation",
+        "id" : "TOUGH_FEET",
+        "name" : "Tough Feet",
+        "points" : 1,
+        "description" : "The bottoms of your feet are tough and you are accustomed to going barefoot. You receive no movement penalty for not wearing shoes.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "TOUGH",
@@ -109,6 +153,7 @@
         "description" : "Your skin is tough. Cutting damage is slightly reduced for you. Slightly decreases wet penalties.",
         "starting_trait" : true,
         "category" : ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"],
+        "cancels" : ["THINSKIN"],
         "wet_protection" : [
             {
                 "part" : "LEGS",
@@ -130,7 +175,17 @@
         "points" : 3,
         "description" : "You can manage to find space for anything! You can carry 40% more volume.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "cancels" : ["DISORGANIZED"]
+    },{
+        "type" : "mutation",
+        "id" : "STRONGBACK",
+        "name" : "Strong Back",
+        "points" : 3,
+        "description" : "You are capable of carrying far more than someone with similar strength could. Your maximum weight carried is increased by 35%.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["BADBACK"]
     },{
         "type" : "mutation",
         "id" : "FASTLEARNER",
@@ -138,7 +193,26 @@
         "points" : 3,
         "description" : "You have a flexible mind, allowing you to learn skills much faster than others. Note that this only applies to real-world experience, not to skill gain from other sources like books.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "cancels" : ["SLOWLEARNER"]
+    },{
+        "type" : "mutation",
+        "id" : "STRONGSTOMACH",
+        "name" : "Strong Stomach",
+        "points" : 1,
+        "description" : "You are less likely to throw up from food poisoning, alcohol, etc.",
+        "starting_trait" : true,
+        "changes_to" : ["NAUSEA"],
+        "cancels" : ["WEAKSTOMACH"]
+    },{
+        "type" : "mutation",
+        "id" : "GOODMEMORY",
+        "name" : "Good Memory",
+        "points" : 3,
+        "description" : "You have a an exceptional memory, and find it easy to remember things. Your skills will erode slightly slower than usual.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["FORGETFUL"]
     },{
         "type" : "mutation",
         "id" : "DEFT",
@@ -166,12 +240,22 @@
         "valid" : false
     },{
         "type" : "mutation",
+        "id" : "NONADDICTIVE",
+        "name" : "Addiction Resistant",
+        "points" : 3,
+        "description" : "Whether due to a lifetime of exposure or through simple willpower, it's harder for you to become addicted to substances, and easier to rid yourself of these addictions.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["ADDICTIVE"]
+    },{
+        "type" : "mutation",
         "id" : "ANIMALEMPATH",
         "name" : "Animal Empathy",
         "points" : 1,
         "description" : "Peaceful animals will not run away from you, and even aggressive animals are less likely to attack. This only applies to natural animals such as woodland creatures.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BEAST"]
+        "category" : ["MUTCAT_BEAST"],
+        "cancels" : ["ANIMALDISCORD"]
     },{
         "type" : "mutation",
         "id" : "TERRIFYING",
@@ -237,7 +321,8 @@
         "points" : 1,
         "description" : "You make less noise while walking. You're also less likely to set off traps.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA"]
+        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA", "MUTCAT_FELINE"],
+        "cancels" : ["CLUMSY"]
     },{
         "type" : "mutation",
         "id" : "ROBUST",
@@ -248,13 +333,29 @@
         "category" : ["MUTCAT_SLIME", "MUTCAT_ALPHA", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
+        "id" : "EAGLEEYED",
+        "name" : "Eagle Eyed",
+        "points" : 1,
+        "description" : "You have exceptional long-distance eyesight and your ability to spot far away landmarks is unmatched. Your sight radius on the overmap extends beyond the normal range.",
+        "starting_trait" : true,
+        "cancels" : ["MYOPIC"]
+    },{
+        "type" : "mutation",
         "id" : "CANNIBAL",
         "name" : "Cannibal",
-        "points" : 3,
+        "points" : 1,
         "description" : "For your whole life you've been forbidden from indulging in your peculiar tastes. Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["VEGETARIAN"]
+    },{
+        "type" : "mutation",
+        "id" : "PSYCHOPATH",
+        "name" : "Psychopath",
+        "points" : 2,
+        "description" : "You don't experience guilt like others do. Even when you know your actions are wrong, you just don't care.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "MARTIAL_ARTS",
@@ -289,6 +390,14 @@
         "valid": false
     },{
         "type" : "mutation",
+        "id" : "WEAKSCENT",
+        "name" : "Weak Scent",
+        "points" : 1,
+        "description" : "Your scent is quite weak. Animals that track your scent will do so with more difficulty.",
+        "starting_trait" : true,
+        "cancels" : ["SMELLY"]
+    },{
+        "type" : "mutation",
         "id" : "LIAR",
         "name" : "Skilled Liar",
         "points" : 2,
@@ -303,9 +412,18 @@
         "ugliness" : -2,
         "description" : "You are a sight to behold. NPCs who care about such thing will react more kindly to you.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_ALPHA"],
+        "category" : ["MUTCAT_ALPHA", "MUTCAT_FELINE"],
         "cancels" : ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
         "changes_to" : ["BEAUTIFUL"]
+    },{
+        "type" : "mutation",
+        "id" : "BADKNEES",
+        "name" : "Bad Knees",
+        "points" : -1,
+        "description" : "Whether due to injury or age, your knees aren't particularly strong or flexible. Moving over rough terrain will slow you down more than normal.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["PARKOUR"]
     },{
         "type" : "mutation",
         "id" : "MYOPIC",
@@ -314,6 +432,14 @@
         "description" : "Without your glasses, your seeing radius is severely reduced! However, while wearing glasses this trait has no effect, and you are guaranteed to start with a pair.",
         "starting_trait" : true,
         "category" : ["MUTCAT_BEAST", "MUTCAT_TROGLO", "MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
+        "id" : "SLOWHEALER",
+        "name" : "Slow Healer",
+        "points" : -2,
+        "description" : "You heal a little slower than most; sleeping will heal less lost HP.",
+        "starting_trait" : true,
+        "cancels" : ["FASTHEALER"]
     },{
         "type" : "mutation",
         "id" : "HYPEROPIC",
@@ -333,6 +459,14 @@
         "category" : ["MUTCAT_INSECT", "MUTCAT_PLANT", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
+        "id" : "SLEEPY",
+        "name" : "Sleepy",
+        "points" : -1,
+        "description" : "You need sleep more often, but still spend most of your time awake.",
+        "changes_to" : ["SLEEPY2"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
+    },{
+        "type" : "mutation",
         "id" : "ASTHMA",
         "name" : "Asthmatic",
         "points" : -4,
@@ -346,7 +480,17 @@
         "points" : -3,
         "description" : "You simply can not carry as much as people with a similar strength could. Your maximum weight carried is reduced by 35%.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA"]
+        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA"],
+        "cancels" : ["STRONGBACK"]
+    },{
+        "type" : "mutation",
+        "id" : "DISORGANIZED",
+        "name" : "Disorganized",
+        "points" : -3,
+        "description" : "You are terrible at organizing and storing your possessions. You can carry 40% less volume.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["PACKMULE"]
     },{
         "type" : "mutation",
         "id" : "ILLITERATE",
@@ -355,7 +499,7 @@
         "description" : "You never learned to read! Books and computers are off-limits to you.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["FASTREADER"]
+        "cancels" : ["FASTREADER", "SLOWREADER"]
     },{
         "type" : "mutation",
         "id" : "BADHEARING",
@@ -363,7 +507,17 @@
         "points" : -2,
         "description" : "Your hearing is poor, and you may not hear quiet or far-off noises.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "cancels" : ["GOODHEARING"]
+    },{
+        "type" : "mutation",
+        "id" : "SLOWLEARNER",
+        "name" : "Slow Learner",
+        "points" : -3,
+        "description" : "You are slow to grasp new ideas and thus learn things more slowly than others. Note that this only applies to real-world experience, not to skill gain from other sources like books.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["FASTLEARNER"]
     },{
         "type" : "mutation",
         "id" : "INSOMNIA",
@@ -372,7 +526,8 @@
         "description" : "You have a hard time falling asleep, even under the best circumstances!",
         "starting_trait" : true,
         "valid" : false,
-        "category" : ["MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_MEDICAL"],
+        "cancels" : ["EASYSLEEPER"]
     },{
         "type" : "mutation",
         "id" : "VEGETARIAN",
@@ -381,7 +536,24 @@
         "description" : "You have problems with eating meat. It's possible for you to eat it, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["CANNIBAL"]
+        "cancels" : ["CANNIBAL", "CARNIVORE", "SAPROVORE", "MEATARIAN"]
+    },{
+        "type" : "mutation",
+        "id" : "THINSKIN",
+        "name" : "Thin-Skinned",
+        "points" : -1,
+        "description" : "Your skin is fragile. Cutting damage is slightly increased for you.",
+        "starting_trait" : true,
+        "cancels" : ["THICKSKIN"]
+    },{
+        "type" : "mutation",
+        "id" : "MEATARIAN",
+        "name" : "Hates Vegetables",
+        "points" : -3,
+        "description" : "You despise eating plant-based foods. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT"]
     },{
         "type" : "mutation",
         "id" : "GLASSJAW",
@@ -398,7 +570,8 @@
         "points" : -3,
         "description" : "You have a hard time remembering things. Your skills will erode slightly faster than usual.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BEAST", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA"],
+        "cancels" : ["GOODMEMORY"]
     },{
         "type" : "mutation",
         "id" : "LIGHTWEIGHT",
@@ -416,7 +589,8 @@
         "description" : "It's easier for you to become addicted to substances, and harder to rid yourself of these addictions.",
         "starting_trait" : true,
         "valid" : false,
-        "category" : ["MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_MEDICAL"],
+        "cancels" : ["NONADDICTIVE"]
     },{
         "type" : "mutation",
         "id" : "TRIGGERHAPPY",
@@ -428,11 +602,13 @@
     },{
         "type" : "mutation",
         "id" : "SMELLY",
-        "name" : "Smelly",
+        "name" : "Strong scent",
         "points" : -1,
         "description" : "Your scent is particularly strong. It's not offensive to humans, but animals that track your scent will do so more easily.",
         "starting_trait" : true,
-        "changes_to" : ["SMELLY2"]
+        "changes_to" : ["SMELLY2"],
+        "cancels" : ["INODOROUS"],
+        "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "CHEMIMBALANCE",
@@ -443,6 +619,23 @@
         "category" : ["MUTCAT_SLIME", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
+        "id" : "ANIMALDISCORD",
+        "name" : "Animal Discord",
+        "points" : -1,
+        "description" : "Most animals don't like you, and aggressive animals are more likely to attack you. This only applies to natural animals such as woodland creatures.",
+        "starting_trait" : true,
+        "cancels" : ["ANIMALEMPATH"]
+    },{
+        "type" : "mutation",
+        "id" : "SLOWREADER",
+        "name" : "Slow Reader",
+        "points" : -1,
+        "description" : "You're a slow reader, and it takes you longer to get through books than most.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["ILLITERATE", "FASTREADER"]
+    },{
+        "type" : "mutation",
         "id" : "SCHIZOPHRENIC",
         "name" : "Schizophrenic",
         "points" : -5,
@@ -450,6 +643,14 @@
         "starting_trait" : true,
         "valid" : false,
         "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "CLUMSY",
+        "name" : "Clumsy",
+        "points" : -1,
+        "description" : "You make more noise while walking. You're also more likely to set off traps.",
+        "starting_trait" : true,
+        "cancels" : ["LIGHTSTEP"]
     },{
         "type" : "mutation",
         "id" : "JITTERY",
@@ -486,12 +687,21 @@
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
+        "id" : "SLOWRUNNER",
+        "name" : "Slow Runner",
+        "points" : -2,
+        "description" : "You can't run as fast as most, resulting in a 15% speed penalty on flat ground.",
+        "starting_trait" : true,
+        "cancels" : ["FLEET"]
+    },{
+        "type" : "mutation",
         "id" : "WEAKSTOMACH",
         "name" : "Weak Stomach",
         "points" : -1,
         "description" : "You are more likely to throw up from food poisoning, alcohol, etc.",
         "starting_trait" : true,
-        "changes_to" : ["NAUSEA"]
+        "changes_to" : ["NAUSEA"],
+        "cancels" : ["STRONGSTOMACH"]
     },{
         "type" : "mutation",
         "id" : "WOOLALLERGY",
@@ -518,7 +728,7 @@
         "starting_trait" : true,
         "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "changes_to" : ["DEFORMED"],
-        "categories": ["MUTCAT_RAPTOR"]
+        "categories": ["MUTCAT_RAPTOR", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "FRAIL",
@@ -576,7 +786,7 @@
         "description" : "The shadows don't seem as dark now.",
         "prereqs" : ["ELFAEYES"],
         "changes_to" : ["ELFA_FNV"],
-        "cancels" : ["NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
+        "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
@@ -585,8 +795,28 @@
         "points" : 5,
         "description" : "You can see clearly, even in the darkest caves and under moonless skies.",
         "prereqs" : ["ELFA_NV"],
-        "cancels" : ["NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
+        "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_ELFA"]
+    },{
+        "type" : "mutation",
+        "id" : "FEL_EYE",
+        "name" : "Feline Eyes",
+        "points" : 0,
+        "visibility" : 2,
+        "ugliness" : 1,
+        "description" : "Your eyes have mutated, now having a slitted pupil and glittering in light, much like those of cats.  This is visually striking, but it isn't helping you see at night.",
+        "leads_to" : ["FEL_NV"],
+        "cancels" : ["ELFAEYES", "LIZ_EYE"],
+        "category" : ["MUTCAT_FELINE", "MUTCAT_BEAST"]
+    },{
+        "type" : "mutation",
+        "id" : "FEL_NV",
+        "name" : "Feline Vision",
+        "points" : 4,
+        "description" : "Your optic nerves and brain caught up with your eyes.  Now you can see pretty well at night.",
+        "prereqs" : ["FEL_EYE"],
+        "cancels" : ["ELFA_NV", "ELFA_FNV", "LIZ_IR", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
+        "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "INFRARED",
@@ -753,7 +983,7 @@
         "category" : ["MUTCAT_CHIMERA"],
         "prereqs" : ["SKIN_ROUGH"],
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
-        "changes_to" : ["FUR"]
+        "changes_to" : ["FUR", "FELINE_FUR"]
     },{
         "type" : "mutation",
         "id" : "FUR",
@@ -765,6 +995,28 @@
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
         "prereqs" : ["LIGHTFUR"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER", "MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
+        "id" : "FELINE_FUR",
+        "name" : "Sleek Fur",
+        "points" : 2,
+        "visibility" : 10,
+        "ugliness" : 3,
+        "description" : "You've grown sleek brown fur, providing some protection from cold.",
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
+        "prereqs" : ["LIGHTFUR"],
+        "leads_to" : ["LYNX_FUR"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_FELINE"]
+    },{
+        "type" : "mutation",
+        "id" : "LYNX_FUR",
+        "name" : "Lynx Fur",
+        "points" : 1,
+        "visibility" : 8,
+        "ugliness" : 1,
+        "description" : "Your fur's grown out significantly around your cheeks and neck. It provides minor protection against attacks.",
+        "prereqs" : ["FELINE_FUR"],
+        "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "CHITIN",
@@ -1017,7 +1269,7 @@
         "visibility" : 1,
         "description" : "The bottoms of your feet are strongly padded. You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when running barefoot. Slightly decreases wet penalties.",
         "cancels" : ["HOOVES", "LEG_TENTACLES"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE", "MUTCAT_FELINE"],
         "wet_protection" : [
             { "part" : "FEET", "neutral" : 2 }
         ]
@@ -1165,7 +1417,8 @@
         "description" : "You have a long, graceful tail, like that of a big cat. It improves your balance, making your ability to dodge higher.",
         "prereqs" : ["TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_THICK", "TAIL_RAPTOR"],
-        "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE", "TAIL_RAT"]
+        "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE", "TAIL_RAT"],
+        "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "TAIL_CATTLE",
@@ -1336,6 +1589,15 @@
         "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
+        "id" : "FELINE_EARS",
+        "name" : "Feline Ears",
+        "points" : 2,
+        "visibility" : 4,
+        "ugliness" : 0,
+        "description" : "Your ears have extended into long, pointed, velvety ones, like those of a feline. You find it much easier to tune in on sounds from afar.",
+        "category" : ["MUTCAT_FELINE", "MUTCAT_BEAST"]
+    },{
+        "type" : "mutation",
         "id" : "URSINE_EARS",
         "name" : "Ursine Ears",
         "points" : 2,
@@ -1387,7 +1649,7 @@
         "visibility" : 3,
         "ugliness" : 1,
         "description" : "You have a set of prominent rodent-like whiskers around your mouth. These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
-        "category" : ["MUTCAT_RAT"]
+        "category" : ["MUTCAT_RAT", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "LARGE",
@@ -1457,7 +1719,7 @@
         "description" : "You are nimble and quick. Dexterity + 4",
         "prereqs" : ["DEX_UP_2"],
         "changes_to" : ["DEX_UP_4"],
-        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA"]
+        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "DEX_UP_4",
@@ -1624,7 +1886,7 @@
     },{
         "type" : "mutation",
         "id" : "SMELLY2",
-        "name" : "Very Smelly",
+        "name" : "Smelly",
         "points" : -4,
         "visibility" : 4,
         "ugliness" : 5,
@@ -1643,7 +1905,7 @@
         "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "prereqs" : ["UGLY"],
         "changes_to" : ["DEFORMED2"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_CATTLE", "MUTCAT_INSECT", "MUTCAT_CEPHALOPOD"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_CATTLE", "MUTCAT_INSECT", "MUTCAT_CEPHALOPOD", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "DEFORMED2",
@@ -1708,7 +1970,8 @@
         "visibility" : 4,
         "ugliness" : 3,
         "description" : "Your face and jaw have begun...changing. Masks and such fit OK, but you're noticeably mutated.",
-        "changes_to" : ["MINOTAUR", "MUZZLE", "BEAR_MUZZLE", "LONG_MUZZLE", "PROBOSCIS"]
+        "changes_to" : ["MINOTAUR", "MUZZLE", "BEAR_MUZZLE", "LONG_MUZZLE", "PROBOSCIS"],
+        "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "MINOTAUR",
@@ -1784,6 +2047,8 @@
         "name" : "Fast Metabolism",
         "points" : -2,
         "description" : "You require more food than most people.",
+        "starting_trait" : true,
+        "cancels" : ["LIGHTEATER"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_ALPHA", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA", "MUTCAT_ELFA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
@@ -1791,6 +2056,7 @@
         "name" : "High Thirst",
         "points" : -3,
         "description" : "Your body dries out easily; you need to drink a lot more water.",
+        "starting_trait" : true,
         "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD", "MUTCAT_CHIMERA", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
@@ -1801,6 +2067,14 @@
         "valid" : false,
         "prereqs" : ["HEAVYSLEEPER"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
+    },{
+        "type" : "mutation",
+        "id" : "SLEEPY2",
+        "name" : "Very Sleepy",
+        "points" : -3,
+        "description" : "You find yourself needing to sleep quite often.  You'll spend about half your time in or around bed.",
+        "prereqs" : ["SLEEPY"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "ROT1",
@@ -1897,7 +2171,7 @@
         "description" : "Your hands have fused into quasi-paws. You can still grip things, but fine manipulation is a challenge: permanent hand encumbrance of 1, difficulty with delicate craftwork, and you gloves don't fit. At least the paws handle water a bit better.",
         "prereqs" : ["CLAWS", "CLAWS_RETRACT"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
-        "category" : ["MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_FELINE"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "BEAK",
@@ -1983,9 +2257,9 @@
         "name" : "Carnivore",
         "points" : -3,
         "description" : "Your body's ability to digest fruits, vegetables and grains is severely hampered. You cannot eat anything besides meat.",
-        "cancels" : ["HERBIVORE", "RUMINANT"],
+        "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT"],
         "leads_to" : ["SAPROVORE"],
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "PONDEROUS1",
@@ -2061,7 +2335,7 @@
         "points" : -2,
         "description" : "You have a threatening snarl in your voice. Persuading NPCs will be near impossible, but threatening them will be much easier.",
         "prereqs" : ["GROWL"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA", "MUTCAT_FELINE"]
     },{
         "type" : "mutation",
         "id" : "HISS",

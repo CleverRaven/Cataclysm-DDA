@@ -690,7 +690,7 @@ bool game::do_turn()
             u.add_disease("lack_sleep", 50);
             }
     }
-    
+
     if (turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
         if ((!u.has_trait("LIGHTEATER") || !one_in(3)) &&
             (!u.has_bionic("bio_recycler") || turn % 300 == 0)) {
@@ -703,6 +703,15 @@ bool game::do_turn()
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
         if (u.fatigue < 1050 && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
             u.fatigue++;
+            // Sleepy folks gain fatigue faster; Very Sleepy is twice as fast as typical
+            if (u.has_trait("SLEEPY")) {
+                if (one_in(3)) {
+                    u.fatigue++;
+                    }
+            }
+            if (u.has_trait("SLEEPY2")) {
+                u.fatigue++;
+            }
         }
         if (u.fatigue == 192 && !u.has_disease("lying_down") && !u.has_disease("sleep")) {
             if (u.activity.type == ACT_NULL) {
@@ -2319,18 +2328,18 @@ bool game::handle_action()
     do {
         if ( startas != 2 ) { // last mode 2 = list_monster
             startas = 0;      // but only for the first bit of the loop
-        iRetItems = list_items();
+            iRetItems = list_items(iRetMonsters);
         } else {
             iRetItems = -2;   // so we'll try list_items if list_monsters found 0
         }
         if (iRetItems != -1 || startas == 2 ) {
             startas = 0;
-            iRetMonsters = list_monsters();
+            iRetMonsters = list_monsters(iRetItems);
             if ( iRetMonsters == 2 ) {
                 iRetItems = -1; // will fire, exit loop
             } else if ( iRetMonsters == -1 && iRetItems == -2 ) {
                 iRetItems = -1; // exit if requested on list_monsters firstrun
-        }
+            }
         }
     } while (iRetItems != -1 && iRetMonsters != -1 && !(iRetItems == 0 && iRetMonsters == 0));
 
@@ -2493,7 +2502,7 @@ bool game::handle_action()
         }
 
         as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_CAPITAL_YN"]?'N':'n'), _("No.")) );
-        
+
         if (u.has_item_with_flag("ALARMCLOCK") && (u.hunger < -60)) {
             as_m.text = _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
             }
@@ -4241,7 +4250,6 @@ void game::refresh_all()
 void game::draw_HP()
 {
     werase(w_HP);
-    int current_hp;
     nc_color color;
     std::string health_bar = "";
 
@@ -4251,47 +4259,11 @@ void game::draw_HP()
     int hpy = wide ? 0 : 1;
     int dy  = wide ? 1 : 2;
     for (int i = 0; i < num_hp_parts; i++) {
-        current_hp = u.hp_cur[i];
-        if (current_hp == u.hp_max[i]){
-          color = c_green;
-          health_bar = "|||||";
-        } else if (current_hp > u.hp_max[i] * .9) {
-          color = c_green;
-          health_bar = "||||\\";
-        } else if (current_hp > u.hp_max[i] * .8) {
-          color = c_ltgreen;
-          health_bar = "||||";
-        } else if (current_hp > u.hp_max[i] * .7) {
-          color = c_ltgreen;
-          health_bar = "|||\\";
-        } else if (current_hp > u.hp_max[i] * .6) {
-          color = c_yellow;
-          health_bar = "|||";
-        } else if (current_hp > u.hp_max[i] * .5) {
-          color = c_yellow;
-          health_bar = "||\\";
-        } else if (current_hp > u.hp_max[i] * .4) {
-          color = c_ltred;
-          health_bar = "||";
-        } else if (current_hp > u.hp_max[i] * .3) {
-          color = c_ltred;
-          health_bar = "|\\";
-        } else if (current_hp > u.hp_max[i] * .2) {
-          color = c_red;
-          health_bar = "|";
-        } else if (current_hp > u.hp_max[i] * .1) {
-          color = c_red;
-          health_bar = "\\";
-        } else if (current_hp > 0) {
-          color = c_red;
-          health_bar = ":";
-        } else {
-          color = c_ltgray;
-          health_bar = "-----";
-        }
+        get_HP_Bar(u.hp_cur[i], u.hp_max[i], color, health_bar);
+
         wmove(w_HP, i * dy + hpy, hpx);
         if (u.has_trait("SELFAWARE")) {
-            wprintz(w_HP, color, "%3d  ", current_hp);
+            wprintz(w_HP, color, "%3d  ", u.hp_cur[i]);
         } else {
             wprintz(w_HP, color, health_bar.c_str());
 
@@ -5324,26 +5296,30 @@ bool game::sound(int x, int y, int vol, std::string description)
 
     // Mutation/Bionic volume modifiers
     if (u.has_bionic("bio_ears")) {
-  vol *= 3.5;
+        vol *= 3.5;
     }
     if (u.has_trait("BADHEARING")) {
-  vol *= .5;
+        vol *= .5;
+    }
+    if (u.has_trait("GOODHEARING")) {
+        vol *= 1.25;
     }
     if (u.has_trait("CANINE_EARS")) {
-  vol *= 1.5;
+        vol *= 1.5;
     }
-    if (u.has_trait("URSINE_EARS")) {
-  vol *= 1.25;
+    if (u.has_trait("URSINE_EARS") || u.has_trait("FELINE_EARS")) {
+        vol *= 1.25;
     }
 
     // Too far away, we didn't hear it!
     if (dist > vol) {
-  return false;
- }
+        return false;
+    }
 
     if (u.has_disease("deaf")) {
         // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
-        if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF")) && rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
+        if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF")) &&
+            rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
             int duration = std::min(40, (vol - dist - 130) / 4);
             u.add_disease("deaf", duration);
         }
@@ -5359,9 +5335,11 @@ bool game::sound(int x, int y, int vol, std::string description)
 
     // See if we need to wake someone up
     if (u.has_disease("sleep")){
-        if ((!(u.has_trait("HEAVYSLEEPER") || u.has_trait("HEAVYSLEEPER2")) && dice(2, 15) < vol - dist) ||
+        if ((!(u.has_trait("HEAVYSLEEPER") ||
+               u.has_trait("HEAVYSLEEPER2")) && dice(2, 15) < vol - dist) ||
               (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist) ||
-              (u.has_trait("HEAVYSLEEPER2") && dice(6, 15) < vol - dist)) { //Not kidding about sleep-thru-firefight
+              (u.has_trait("HEAVYSLEEPER2") && dice(6, 15) < vol - dist)) {
+            //Not kidding about sleep-thru-firefight
             u.rem_disease("sleep");
             add_msg(_("You're woken up by a noise."));
         } else {
@@ -5369,34 +5347,34 @@ bool game::sound(int x, int y, int vol, std::string description)
         }
     }
 
- if (x != u.posx || y != u.posy) {
-  if(u.activity.ignore_trivial != true) {
-    std::string query;
+    if (x != u.posx || y != u.posy) {
+        if(u.activity.ignore_trivial != true) {
+            std::string query;
             if (description != "") {
-        query = string_format(_("Heard %s!"), description.c_str());
-    } else {
-        query = _("Heard a noise!");
-    }
+                query = string_format(_("Heard %s!"), description.c_str());
+            } else {
+                query = _("Heard a noise!");
+            }
 
-    if( cancel_activity_or_ignore_query(query.c_str()) ) {
-        u.activity.ignore_trivial = true;
+            if( cancel_activity_or_ignore_query(query.c_str()) ) {
+                u.activity.ignore_trivial = true;
+            }
+        }
     }
-  }
- }
 
     // Only print a description if it exists
     if (description != "") {
-// If it came from us, don't print a direction
+        // If it came from us, don't print a direction
         if (x == u.posx && y == u.posy) {
-  capitalize_letter(description, 0);
-  add_msg("%s", description.c_str());
+            capitalize_letter(description, 0);
+            add_msg("%s", description.c_str());
         } else {
             // Else print a direction as well
- std::string direction = direction_name(direction_from(u.posx, u.posy, x, y));
- add_msg(_("From the %s you hear %s"), direction.c_str(), description.c_str());
+            std::string direction = direction_name(direction_from(u.posx, u.posy, x, y));
+            add_msg(_("From the %s you hear %s"), direction.c_str(), description.c_str());
         }
     }
- return true;
+    return true;
 }
 
 // add_footstep will create a list of locations to draw monster
@@ -5404,34 +5382,39 @@ bool game::sound(int x, int y, int vol, std::string description)
 // characters hearing and how close they are
 void game::add_footstep(int x, int y, int volume, int distance, monster* source)
 {
- if (x == u.posx && y == u.posy)
-  return;
- else if (u_see(x, y))
-  return;
- int err_offset;
- if (volume / distance < 2)
-  err_offset = 3;
- else if (volume / distance < 3)
-  err_offset = 2;
- else
-  err_offset = 1;
- if (u.has_bionic("bio_ears"))
-  err_offset--;
- if (u.has_trait("BADHEARING"))
-  err_offset++;
+    if (x == u.posx && y == u.posy) {
+        return;
+    } else if (u_see(x, y)) {
+        return;
+    }
+    int err_offset;
+    if (volume / distance < 2) {
+        err_offset = 3;
+    } else if (volume / distance < 3) {
+        err_offset = 2;
+    } else {
+        err_offset = 1;
+    }
+    if (u.has_bionic("bio_ears")) {
+        err_offset--;
+    }
+    if (u.has_trait("BADHEARING")) {
+        err_offset++;
+    }
+    if (u.has_trait("GOODHEARING") || u.has_trait("FELINE_EARS")) {
+        err_offset--;
+    }
 
- int origx = x, origy = y;
- std::vector<point> point_vector;
- for (x = origx-err_offset; x <= origx+err_offset; x++)
- {
-     for (y = origy-err_offset; y <= origy+err_offset; y++)
-     {
-         point_vector.push_back(point(x,y));
-     }
- }
- footsteps.push_back(point_vector);
- footsteps_source.push_back(source);
- return;
+    int origx = x, origy = y;
+    std::vector<point> point_vector;
+    for (x = origx-err_offset; x <= origx+err_offset; x++) {
+        for (y = origy-err_offset; y <= origy+err_offset; y++) {
+            point_vector.push_back(point(x,y));
+        }
+    }
+    footsteps.push_back(point_vector);
+    footsteps_source.push_back(source);
+    return;
 }
 
 void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
@@ -7335,20 +7318,22 @@ point game::look_around()
 
 bool game::list_items_match(std::string sText, std::string sPattern)
 {
- size_t iPos;
+    size_t iPos;
 
- do {
-  iPos = sPattern.find(",");
+    do {
+        iPos = sPattern.find(",");
 
-  if (sText.find((iPos == std::string::npos) ? sPattern : sPattern.substr(0, iPos)) != std::string::npos)
-   return true;
+        if (sText.find((iPos == std::string::npos) ? sPattern : sPattern.substr(0, iPos)) != std::string::npos) {
+            return true;
+        }
 
-  if (iPos != std::string::npos)
-   sPattern = sPattern.substr(iPos+1, sPattern.size());
+        if (iPos != std::string::npos) {
+            sPattern = sPattern.substr(iPos+1, sPattern.size());
+        }
 
- } while(iPos != std::string::npos);
+    } while(iPos != std::string::npos);
 
- return false;
+    return false;
 }
 
 std::vector<map_item_stack> game::find_nearby_items(int iRadius)
@@ -7405,18 +7390,15 @@ std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack>
 
     std::string sFilterPre = "";
     std::string sFilterTemp = filter;
-    if (sFilterTemp != "" && filter.substr(0, 1) == "-")
-    {
+    if (sFilterTemp != "" && filter.substr(0, 1) == "-") {
         sFilterPre = "-";
         sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
     }
 
-    for (std::vector<map_item_stack>::iterator iter = stack.begin(); iter != stack.end(); ++iter)
-    {
+    for (std::vector<map_item_stack>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
         std::string name = iter->example.tname();
         if (sFilterTemp == "" || ((sFilterPre != "-" && list_items_match(name, sFilterTemp)) ||
-                                  (sFilterPre == "-" && !list_items_match(name, sFilterTemp))))
-        {
+                                  (sFilterPre == "-" && !list_items_match(name, sFilterTemp)))) {
             ret.push_back(*iter);
         }
     }
@@ -7425,8 +7407,7 @@ std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack>
 
 std::string game::ask_item_filter(WINDOW* window, int rows)
 {
-    for (int i = 0; i < rows-1; i++)
-    {
+    for (int i = 0; i < rows-1; i++) {
         mvwprintz(window, i, 1, c_black, "%s", "\
                                                      ");
     }
@@ -7466,16 +7447,13 @@ void game::draw_trail_to_square(int x, int y, bool bDrawX)
 void game::reset_item_list_state(WINDOW* window, int height)
 {
     const int width = use_narrow_sidebar() ? 45 : 55;
-    for (int i = 1; i < TERMX; i++)
-    {
-        if (i < width)
-        {
+    for (int i = 1; i < TERMX; i++) {
+        if (i < width) {
             mvwputch(window, 0, i, c_ltgray, LINE_OXOX); // -
             mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
         }
 
-        if (i < TERMY-height-VIEW_OFFSET_Y*2)
-        {
+        if (i < TERMY-height-VIEW_OFFSET_Y*2) {
             mvwputch(window, i, 0, c_ltgray, LINE_XOXO); // |
             mvwputch(window, i, width - 1, c_ltgray, LINE_XOXO); // |
         }
@@ -7487,13 +7465,11 @@ void game::reset_item_list_state(WINDOW* window, int height)
     mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, 0,         c_ltgray, LINE_XXXO); // |-
     mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, width - 1, c_ltgray, LINE_XOXX); // -|
 
-    mvwprintz(window, 0, 2, c_ltgreen, "< ");
+    mvwprintz(window, 0, 2, c_ltgreen, "<Tab>  ");
     wprintz(window, c_white, _("Items"));
-    wprintz(window, c_ltgreen, " >");
 
     std::vector<std::string> tokens;
-    if (sFilter != "")
-    {
+    if (sFilter != "") {
         tokens.push_back(_("<R>eset"));
     }
 
@@ -7527,19 +7503,17 @@ int game::list_filter_high_priority(std::vector<map_item_stack> &stack, std::str
 {
     //TODO:optimize if necessary
     std::vector<map_item_stack> tempstack; // temp
-    for(int i = 0 ; i < stack.size() ; i++)
-    {
+    for(int i = 0 ; i < stack.size() ; i++) {
         std::string name = stack[i].example.tname();
-        if(prorities == "" || !list_items_match(name,prorities))
-        {
+        if(prorities == "" || !list_items_match(name,prorities)) {
             tempstack.push_back(stack[i]);
             stack.erase(stack.begin()+i);
             i--;
         }
     }
+
     int id = stack.size();
-    for(int i = 0 ; i < tempstack.size() ; i++)
-    {
+    for(int i = 0 ; i < tempstack.size() ; i++) {
         stack.push_back(tempstack[i]);
     }
     return id;
@@ -7548,19 +7522,17 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
 {
     //TODO:optimize if necessary
     std::vector<map_item_stack> tempstack; // temp
-    for(int i = start ; i < stack.size() ; i++)
-    {
+    for(int i = start ; i < stack.size() ; i++) {
         std::string name = stack[i].example.tname();
-        if(prorities != "" && list_items_match(name,prorities))
-        {
+        if(prorities != "" && list_items_match(name,prorities)) {
             tempstack.push_back(stack[i]);
             stack.erase(stack.begin()+i);
             i--;
         }
     }
+
     int id = stack.size();
-    for(int i = 0 ; i < tempstack.size() ; i++)
-    {
+    for(int i = 0 ; i < tempstack.size() ; i++) {
         stack.push_back(tempstack[i]);
     }
     return id;
@@ -7582,6 +7554,7 @@ void centerlistview(game *g, int iActiveX, int iActiveY)
                 } else {
                     u.view_offset_x = xpos - (TERRAIN_WINDOW_WIDTH - 1) + xOffset;
                 }
+
                 if (xpos < 0) {
                     u.view_offset_y = ypos - yOffset;
                 } else {
@@ -7599,6 +7572,7 @@ void centerlistview(game *g, int iActiveX, int iActiveY)
             } else {
                 u.view_offset_x = 0;
             }
+
             if (ypos < 0) {
                 u.view_offset_y = ypos;
             } else if (ypos >= TERRAIN_WINDOW_HEIGHT) {
@@ -7611,8 +7585,7 @@ void centerlistview(game *g, int iActiveX, int iActiveY)
 
 }
 
-
-int game::list_items()
+int game::list_items(const int iLastState)
 {
     int iInfoHeight = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
@@ -7656,33 +7629,24 @@ int game::list_items()
     int iFilter = 0;
     int iPage = 0;
 
-    do
-    {
-        if (ground_items.size() > 0)
-        {
-            if (ch == 'I' || ch == 'c' || ch == 'C')
-            {
+    do {
+        if (ground_items.size() > 0 || iLastState == 1) {
+            if (ch == 'I' || ch == 'c' || ch == 'C') {
                 compare(iActiveX, iActiveY);
                 reset = true;
                 refresh_all();
-            }
-            else if (ch == 'f' || ch == 'F')
-            {
+            } else if (ch == 'f' || ch == 'F') {
                 sFilter = ask_item_filter(w_item_info, iInfoHeight);
                 reset = true;
                 refilter = true;
-            }
-            else if (ch == 'r' || ch == 'R')
-            {
+            } else if (ch == 'r' || ch == 'R') {
                 sFilter = "";
                 filtered_items = ground_items;
                 iLastActiveX = -1;
                 iLastActiveY = -1;
                 reset = true;
                 refilter = true;
-            }
-            else if ((ch == 'e' || ch == 'E') && filtered_items.size())
-            {
+            } else if ((ch == 'e' || ch == 'E') && filtered_items.size()) {
                 item oThisItem = filtered_items[iActive].example;
                 std::vector<iteminfo> vThisItem, vDummy;
 
@@ -7693,23 +7657,19 @@ int game::list_items()
                 iLastActiveX = -1;
                 iLastActiveY = -1;
                 reset = true;
-            }
-            else if(ch == '+')
-            {
+            } else if(ch == '+') {
                 std::string temp = string_input_popup(_("High Priority:"), width, list_item_upvote, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_priority", 256);
                 list_item_upvote = temp;
                 refilter = true;
                 reset = true;
-            }
-            else if(ch == '-')
-            {
+            } else if(ch == '-') {
                 std::string temp = string_input_popup(_("Low Priority:"), width, list_item_downvote, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_downvote", 256);
                 list_item_downvote = temp;
                 refilter = true;
                 reset = true;
             }
-            if (refilter)
-            {
+
+            if (refilter) {
                 filtered_items = filter_item_stacks(ground_items, sFilter);
                 highPEnd = list_filter_high_priority(filtered_items,list_item_upvote);
                 lowPStart = list_filter_low_priority(filtered_items,highPEnd,list_item_downvote);
@@ -7719,15 +7679,14 @@ int game::list_items()
                 iLastActiveY = -1;
                 refilter = false;
             }
-            if (reset)
-            {
+
+            if (reset) {
                 reset_item_list_state(w_items, iInfoHeight);
                 reset = false;
             }
 
             // we're switching on input here, whereas above it was if/else clauses on a char
-            switch(input)
-            {
+            switch(input) {
                 case DirectionN:
                     iActive--;
                     iPage = 0;
@@ -7772,110 +7731,108 @@ int game::list_items()
                     break;
             }
 
-            //Draw Scrollbar
-            draw_scrollbar(w_items, iActive, iMaxRows, iItemNum - iFilter, 1);
+            if (ground_items.size() == 0 && iLastState == 1) {
+                mvwprintz(w_items, 10, 2, c_white, _("You dont see any items around you!"));
+            } else {
+                //Draw Scrollbar
+                draw_scrollbar(w_items, iActive, iMaxRows, iItemNum - iFilter, 1);
 
-            calcStartPos(iStartPos, iActive, iMaxRows, iItemNum - iFilter);
+                calcStartPos(iStartPos, iActive, iMaxRows, iItemNum - iFilter);
 
-            for (int i = 0; i < iMaxRows; i++)
-            {
-                wmove(w_items, i + 1, 1);
-                for (int i = 1; i < width - 1; i++)
-                    wprintz(w_items, c_black, " ");
+                for (int i = 0; i < iMaxRows; i++) {
+                    wmove(w_items, i + 1, 1);
+                    for (int i = 1; i < width - 1; i++)
+                        wprintz(w_items, c_black, " ");
+                }
+
+                int iNum = 0;
+                iFilter = ground_items.size() - filtered_items.size();
+                iActiveX = 0;
+                iActiveY = 0;
+                item activeItem;
+                std::stringstream sText;
+                bool high = true;
+                bool low = false;
+                int index = 0;
+                for (std::vector<map_item_stack>::iterator iter = filtered_items.begin() ;
+                     iter != filtered_items.end();
+                     ++iter,++index) {
+
+                    if(index == highPEnd) {
+                        high = false;
+                    }
+
+                    if(index == lowPStart) {
+                        low = true;
+                    }
+
+                    if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) ) {
+                        int iThisPage = 0;
+
+                        if (iNum == iActive) {
+                            iThisPage = iPage;
+
+                            iActiveX = iter->vIG[iThisPage].x;
+                            iActiveY = iter->vIG[iThisPage].y;
+
+                            activeItem = iter->example;
+                        }
+
+                        sText.str("");
+
+                        if (iter->vIG.size() > 1) {
+                            sText << "[" << iThisPage+1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
+                        }
+
+                        sText << iter->example.tname();
+
+                        if (iter->vIG[iThisPage].count > 1) {
+                            sText << " [" << iter->vIG[iThisPage].count << "]";
+                        }
+
+                        mvwprintz(w_items, 1 + iNum - iStartPos, 2,
+                                  ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : c_white))),
+                                  "%s", (sText.str()).c_str());
+                        int numw = iItemNum > 9 ? 2 : 1;
+                        mvwprintz(w_items, 1 + iNum - iStartPos, width - (5 + numw),
+                                  ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
+                                  numw, trig_dist(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y),
+                                  direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y)).c_str()
+                                 );
+                     }
+                     iNum++;
+                }
+
+                mvwprintz(w_items, 0, (width - 9) / 2 + ((iItemNum - iFilter > 9) ? 0 : 1),
+                          c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive+1);
+                wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
+
+                werase(w_item_info);
+                fold_and_print(w_item_info,1,1,width - 5, c_white, "%s", activeItem.info().c_str());
+
+                //Only redraw trail/terrain if x/y position changed
+                if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
+                    iLastActiveX = iActiveX;
+                    iLastActiveY = iActiveY;
+                    centerlistview(this, iActiveX, iActiveY);
+                    draw_trail_to_square(iActiveX, iActiveY, true);
+                }
             }
 
-            int iNum = 0;
-            iFilter = ground_items.size() - filtered_items.size();
-            iActiveX = 0;
-            iActiveY = 0;
-            item activeItem;
-            std::stringstream sText;
-            bool high = true;
-            bool low = false;
-            int index = 0;
-            for (std::vector<map_item_stack>::iterator iter = filtered_items.begin() ;
-                 iter != filtered_items.end();
-                 ++iter,++index)
-            {
-                if(index == highPEnd)
-                {
-                    high = false;
-                }
-                if(index == lowPStart)
-                {
-                    low = true;
-                }
-                if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) )
-                {
-                    int iThisPage = 0;
-
-                    if (iNum == iActive) {
-                        iThisPage = iPage;
-
-                        iActiveX = iter->vIG[iThisPage].x;
-                        iActiveY = iter->vIG[iThisPage].y;
-
-                        activeItem = iter->example;
-                    }
-
-                    sText.str("");
-
-                    if (iter->vIG.size() > 1) {
-                        sText << "[" << iThisPage+1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
-                    }
-
-                    sText << iter->example.tname();
-
-                    if (iter->vIG[iThisPage].count > 1) {
-                        sText << " [" << iter->vIG[iThisPage].count << "]";
-                    }
-
-                    mvwprintz(w_items, 1 + iNum - iStartPos, 2,
-                              ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : c_white))),
-                              "%s", (sText.str()).c_str());
-                    int numw = iItemNum > 9 ? 2 : 1;
-                    mvwprintz(w_items, 1 + iNum - iStartPos, width - (5 + numw),
-                              ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                              numw, trig_dist(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y),
-                              direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y)).c_str()
-                             );
-                 }
-                 iNum++;
-            }
-
-            mvwprintz(w_items, 0, (width - 9) / 2 + ((iItemNum - iFilter > 9) ? 0 : 1),
-                      c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive+1);
-            wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
-
-            werase(w_item_info);
-            fold_and_print(w_item_info,1,1,width - 5, c_white, "%s", activeItem.info().c_str());
-
-            for (int j=0; j < iInfoHeight-1; j++)
-            {
+            for (int j=0; j < iInfoHeight-1; j++) {
                 mvwputch(w_item_info_border, j, 0, c_ltgray, LINE_XOXO);
             }
 
-            for (int j=0; j < iInfoHeight-1; j++)
-            {
+            for (int j=0; j < iInfoHeight-1; j++) {
                 mvwputch(w_item_info_border, j, width - 1, c_ltgray, LINE_XOXO);
             }
 
-            for (int j=0; j < width - 1; j++)
-            {
+            for (int j=0; j < width - 1; j++) {
                 mvwputch(w_item_info_border, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
             }
 
             mvwputch(w_item_info_border, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
             mvwputch(w_item_info_border, iInfoHeight-1, width - 1, c_ltgray, LINE_XOOX);
-
-            //Only redraw trail/terrain if x/y position changed
-            if (iActiveX != iLastActiveX || iActiveY != iLastActiveY)
-            {
-                iLastActiveX = iActiveX;
-                iLastActiveY = iActiveY;
-                centerlistview(this, iActiveX, iActiveY);
-                draw_trail_to_square(iActiveX, iActiveY, true);
-            }
 
             wrefresh(w_items);
             wrefresh(w_item_info_border);
@@ -7884,15 +7841,12 @@ int game::list_items()
             refresh();
             ch = getch();
             input = get_input(ch);
-        }
-        else
-        {
+        } else {
             iReturn = 0;
             ch = ' ';
             input = Close;
         }
-    }
-    while (input != Close && input != Cancel);
+    } while (input != Close && input != Cancel);
 
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;
@@ -7907,7 +7861,6 @@ int game::list_items()
 
     return iReturn;
 }
-
 
 std::vector<int> game::find_nearby_monsters(int iRadius)
 {
@@ -7924,7 +7877,7 @@ std::vector<int> game::find_nearby_monsters(int iRadius)
     return ret;
 }
 
-int game::list_monsters()
+int game::list_monsters(const int iLastState)
 {
     int iInfoHeight = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
@@ -7979,12 +7932,11 @@ int game::list_monsters()
     mvwputch(w_monsters, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, 0,         c_ltgray, LINE_XXXO); // |-
     mvwputch(w_monsters, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, width - 1, c_ltgray, LINE_XOXX); // -|
 
-    mvwprintz(w_monsters, 0, 2, c_ltgreen, "< ");
+    mvwprintz(w_monsters, 0, 2, c_ltgreen, "<Tab> ");
     wprintz(w_monsters, c_white, _("Monsters"));
-    wprintz(w_monsters, c_ltgreen, " >");
 
     do {
-        if (vMonsters.size() > 0) {
+        if (vMonsters.size() > 0 || iLastState == 1) {
             // we're switching on input here, whereas above it was if/else clauses on a char
             switch(input) {
                 case DirectionN:
@@ -8034,95 +7986,110 @@ int game::list_monsters()
                                 delwin(w_monster_info_border);
                                 return 2;
                             }
-                        }
-                        break;
-                default:
-                    break;
-            }
+                            } break;
+                        default:
+                            break;
+                    }
                 }
                 break;
             }
 
-            //Draw Scrollbar
-            draw_scrollbar(w_monsters, iActive, iMaxRows, iMonsterNum, 1);
+            if (vMonsters.size() == 0 && iLastState == 1) {
+                mvwprintz(w_monsters, 10, 2, c_white, _("You dont see any monsters around you!"));
+            } else {
+                //Draw Scrollbar
+                draw_scrollbar(w_monsters, iActive, iMaxRows, iMonsterNum, 1);
 
-            calcStartPos(iStartPos, iActive, iMaxRows, iMonsterNum);
+                calcStartPos(iStartPos, iActive, iMaxRows, iMonsterNum);
 
-            for (int i = 0; i < iMaxRows; i++) {
-                wmove(w_monsters, i + 1, 1);
-                for (int i = 1; i < width - 1; i++)
-                    wprintz(w_monsters, c_black, " ");
+                for (int i = 0; i < iMaxRows; i++) {
+                    wmove(w_monsters, i + 1, 1);
+                    for (int i = 1; i < width - 1; i++)
+                        wprintz(w_monsters, c_black, " ");
+                }
+
+                int iNum = 0;
+                iActiveX = 0;
+                iActiveY = 0;
+                iMonDex = -1;
+
+                for (int i = 0; i < vMonsters.size(); ++i) {
+                    if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iMonsterNum) ?
+                                                                 iMonsterNum : iMaxRows) ) {
+
+                        if (iNum == iActive) {
+                            iMonDex = vMonsters[i];
+
+                            iActiveX = zombie(iMonDex).posx() - u.posx;
+                            iActiveY = zombie(iMonDex).posy() - u.posy;
+                        }
+
+                        int iDummy;
+                        if (sees_u(zombie(vMonsters[i]).posx(), zombie(vMonsters[i]).posy(), iDummy)) {
+                            mvwprintz(w_monsters, 1 + iNum - iStartPos, 1, c_yellow, "!");
+                        }
+
+                        mvwprintz(w_monsters, 1 + iNum - iStartPos, 2,
+                                  ((iNum == iActive) ? c_ltgreen : c_white),
+                                  "%s", (zombie(vMonsters[i]).name()).c_str());
+                        nc_color color = c_white;
+                        std::string sText = "";
+
+                        zombie(vMonsters[i]).get_HP_Bar(color, sText);
+                        mvwprintz(w_monsters, 1 + iNum - iStartPos, 23, color, sText.c_str());
+
+                        zombie(vMonsters[i]).get_Attitude(this, color, sText);
+                        mvwprintz(w_monsters, 1 + iNum - iStartPos, 29, color, sText.c_str());
+
+                        int numw = iMonsterNum > 9 ? 2 : 1;
+                        mvwprintz(w_monsters, 1 + iNum - iStartPos, width - (5 + numw),
+                                  ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
+                                  numw, trig_dist(0, 0, zombie(vMonsters[i]).posx() - u.posx,
+                                                  zombie(vMonsters[i]).posy() - u.posy),
+                                  direction_name_short(
+                                      direction_from( 0, 0, zombie(vMonsters[i]).posx() - u.posx,
+                                                      zombie(vMonsters[i]).posy() - u.posy)).c_str() );
+                     }
+                     iNum++;
+                }
+
+                mvwprintz(w_monsters, 0, (width - 9) / 2 + ((iMonsterNum > 9) ? 0 : 1),
+                          c_ltgreen, " %*d", ((iMonsterNum > 9) ? 2 : 1), iActive+1);
+                wprintz(w_monsters, c_white, " / %*d ", ((iMonsterNum > 9) ? 2 : 1), iMonsterNum);
+
+                werase(w_monster_info);
+
+                //print monster info
+                zombie(iMonDex).print_info(this, w_monster_info,1,11);
+
+                mvwprintz(w_monsters, getmaxy(w_monsters)-1, 1, c_ltgreen, press_x(ACTION_LOOK).c_str());
+                wprintz(w_monsters, c_ltgray, " %s",_("to look around"));
+                if ( rl_dist(point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
+                    wprintz(w_monsters, c_ltgray, "%s", " ");
+                    wprintz(w_monsters, c_ltgreen, press_x(ACTION_FIRE).c_str());
+                    wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
+                }
+
+                //Only redraw trail/terrain if x/y position changed
+                if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
+                    iLastActiveX = iActiveX;
+                    iLastActiveY = iActiveY;
+                    centerlistview(this, iActiveX, iActiveY);
+                    draw_trail_to_square(iActiveX, iActiveY, false);
+                }
             }
-
-            int iNum = 0;
-            iActiveX = 0;
-            iActiveY = 0;
-            iMonDex = -1;
-
-            for (int i = 0; i < vMonsters.size(); ++i) {
-                if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iMonsterNum) ?
-                                                             iMonsterNum : iMaxRows) ) {
-
-                    if (iNum == iActive) {
-                        iMonDex = vMonsters[i];
-
-                        iActiveX = zombie(iMonDex).posx() - u.posx;
-                        iActiveY = zombie(iMonDex).posy() - u.posy;
-                    }
-
-                    mvwprintz(w_monsters, 1 + iNum - iStartPos, 2,
-                              ((iNum == iActive) ? c_ltgreen : c_white),
-                              "%s", (zombie(vMonsters[i]).name()).c_str());
-
-                    int numw = iMonsterNum > 9 ? 2 : 1;
-                    mvwprintz(w_monsters, 1 + iNum - iStartPos, width - (5 + numw),
-                              ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                              numw, trig_dist(0, 0, zombie(vMonsters[i]).posx() - u.posx,
-                                              zombie(vMonsters[i]).posy() - u.posy),
-                              direction_name_short(
-                                  direction_from( 0, 0, zombie(vMonsters[i]).posx() - u.posx,
-                                                  zombie(vMonsters[i]).posy() - u.posy)).c_str() );
-                 }
-                 iNum++;
-            }
-
-            mvwprintz(w_monsters, 0, (width - 9) / 2 + ((iMonsterNum > 9) ? 0 : 1),
-                      c_ltgreen, " %*d", ((iMonsterNum > 9) ? 2 : 1), iActive+1);
-            wprintz(w_monsters, c_white, " / %*d ", ((iMonsterNum > 9) ? 2 : 1), iMonsterNum);
-
-            werase(w_monster_info);
-
-            //print monster info
-            zombie(iMonDex).print_info(this, w_monster_info,1,11);
 
             for (int j=0; j < iInfoHeight-1; j++) {
                 mvwputch(w_monster_info_border, j, 0, c_ltgray, LINE_XOXO);
                 mvwputch(w_monster_info_border, j, width - 1, c_ltgray, LINE_XOXO);
             }
 
-
             for (int j=0; j < width - 1; j++) {
                 mvwputch(w_monster_info_border, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
             }
 
-            mvwprintz(w_monsters, getmaxy(w_monsters)-1, 1, c_ltgreen, press_x(ACTION_LOOK).c_str());
-            wprintz(w_monsters, c_ltgray, " %s",_("to look around"));
-            if ( rl_dist(point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
-                wprintz(w_monsters, c_ltgray, "%s", " ");
-                wprintz(w_monsters, c_ltgreen, press_x(ACTION_FIRE).c_str());
-                wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
-            }
-
             mvwputch(w_monster_info_border, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
             mvwputch(w_monster_info_border, iInfoHeight-1, width - 1, c_ltgray, LINE_XOOX);
-
-            //Only redraw trail/terrain if x/y position changed
-            if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
-                iLastActiveX = iActiveX;
-                iLastActiveY = iActiveY;
-                centerlistview(this, iActiveX, iActiveY);
-                draw_trail_to_square(iActiveX, iActiveY, false);
-            }
 
             wrefresh(w_monsters);
             wrefresh(w_monster_info_border);
@@ -10953,6 +10920,8 @@ bool game::plmove(int dx, int dy)
   if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES")) {
    if (u.has_trait("LIGHTSTEP"))
     sound(x, y, 2, ""); // Sound of footsteps may awaken nearby monsters
+   else if (u.has_trait("CLUMSY"))
+    sound(x, y, 10, ""); // Sound of footsteps may awaken nearby monsters
    else
     sound(x, y, 6, ""); // Sound of footsteps may awaken nearby monsters
   }

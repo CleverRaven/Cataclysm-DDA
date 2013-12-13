@@ -18,7 +18,8 @@
             [ "ammo", 1 ],
             [ "pistols", 1 ],
             [ "shotguns", 1 ],
-            [ "smg", 1 ]
+            [ "smg", 1 ],
+            [ "postman_gear", 5]
         ]
     },
     {

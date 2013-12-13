@@ -70,6 +70,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  // the creature-class versions of the above
  std::string disp_name();
  std::string skin_name();
+ void get_HP_Bar(nc_color &color, std::string &text);
+ void get_Attitude(game *g, nc_color &color, std::string &text);
  int print_info(game *g, WINDOW* w, int vStart = 6, int vLines = 5, int column = 1); // Prints information to w.
 
  // Information on how our symbol should appear

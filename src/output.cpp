@@ -1315,3 +1315,45 @@ size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const char *fm
     }
     return len;
 }
+
+void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::string &text, const bool bMonster)
+{
+    if (current_hp == max_hp){
+      color = c_green;
+      text = "|||||";
+    } else if (current_hp > max_hp * .9 && !bMonster) {
+      color = c_green;
+      text = "||||\\";
+    } else if (current_hp > max_hp * .8) {
+      color = c_ltgreen;
+      text = "||||";
+    } else if (current_hp > max_hp * .7 && !bMonster) {
+      color = c_ltgreen;
+      text = "|||\\";
+    } else if (current_hp > max_hp * .6) {
+      color = c_yellow;
+      text = "|||";
+    } else if (current_hp > max_hp * .5 && !bMonster) {
+      color = c_yellow;
+      text = "||\\";
+    } else if (current_hp > max_hp * .4 && !bMonster) {
+      color = c_ltred;
+      text = "||";
+    } else if (current_hp > max_hp * .3) {
+      color = c_ltred;
+      text = "|\\";
+    } else if (current_hp > max_hp * .2 && !bMonster) {
+      color = c_red;
+      text = "|";
+    } else if (current_hp > max_hp * .1) {
+      color = c_red;
+      text = "\\";
+    } else if (current_hp > 0) {
+      color = c_red;
+      text = ":";
+    } else {
+      color = c_ltgray;
+      text = "-----";
+    }
+}
+

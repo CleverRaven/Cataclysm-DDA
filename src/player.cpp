@@ -71,6 +71,7 @@ void game::init_morale()
     _("Disliked %i"),
     _("Ate Human Flesh"),
     _("Ate Meat"),
+    _("Ate Vegetables"),
     _("Wet"),
     _("Dried Off"),
     _("Cold"),
@@ -440,6 +441,8 @@ void player::reset_stats(game *g)
 
     // Set our scent towards the norm
     int norm_scent = 500;
+    if (has_trait("WEAKSCENT"))
+        norm_scent = 300;
     if (has_trait("SMELLY"))
         norm_scent = 800;
     if (has_trait("SMELLY2"))
@@ -961,6 +964,11 @@ void player::update_bodytemp(game *g)
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 750 : 1500);
         }
+        // Feline fur
+        if (has_trait("FELINE_FUR"))
+        {
+            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 500 : 1000);
+        }
         // Disintergration
         if (has_trait("ROT1")) { temp_conv[i] -= 250;}
         else if (has_trait("ROT2")) { temp_conv[i] -= 750;}
@@ -1228,6 +1236,11 @@ int player::run_cost(int base_cost, bool diag)
         if (movecost < 100)
             movecost = 100;
     }
+    if (has_trait("BADKNEES") && movecost > 100 ) {
+        movecost *= 1.25f;
+        if (movecost < 100)
+            movecost = 100;
+    }
 
     if (hp_cur[hp_leg_l] == 0)
         movecost += 50;
@@ -1242,6 +1255,8 @@ int player::run_cost(int base_cost, bool diag)
         movecost *= .85f;
     if (has_trait("FLEET2") && flatground)
         movecost *= .7f;
+    if (has_trait("SLOWRUNNER") && flatground)
+        movecost *= 1.15f;
     if (has_trait("PADDED_FEET") && !wearing_something_on(bp_feet))
         movecost *= .9f;
     if (has_trait("LIGHT_BONES"))
@@ -1263,7 +1278,7 @@ int player::run_cost(int base_cost, bool diag)
 
     movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
-    if (!is_wearing_shoes() && !has_trait("PADDED_FEET") && !has_trait("HOOVES")){
+    if (!is_wearing_shoes() && !has_trait("PADDED_FEET") && !has_trait("HOOVES")&& !has_trait("TOUGH_FEET")){
         movecost += 15;
     }
 
@@ -3435,7 +3450,7 @@ void player::recalc_sight_limits()
         sight_boost = sight_boost_cap;
 	}else if (has_trait("ELFA_NV")) {
         sight_boost = 6;
-    } else if (has_trait("NIGHTVISION2")) {
+    } else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV")) {
         sight_boost = 4;
     } else if (has_trait("NIGHTVISION")) {
         sight_boost = 1;
@@ -3461,11 +3476,19 @@ int player::overmap_sight_range(int light_level)
     if( sight <= SEEX * 4) {
         return (sight / (SEEX / 2) );
     }
-    if( has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        -1 != weapon.has_gunmod("rifle_scope") ) {
+    if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
+        -1 != weapon.has_gunmod("rifle_scope") ) && !has_trait("EAGLEEYED"))  {
         return 20;
     }
-
+    else if (!(has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
+        -1 != weapon.has_gunmod("rifle_scope") ) && has_trait("EAGLEEYED"))  {
+        return 20;
+    }
+    else if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
+        -1 != weapon.has_gunmod("rifle_scope") ) && has_trait("EAGLEEYED"))  {
+        return 30;
+    }
+    
     return 10;
 }
 
@@ -3506,6 +3529,8 @@ bool player::avoid_trap(trap* tr)
   traproll = dice(6, tr->avoidance);
  if (has_trait("LIGHTSTEP"))
   myroll += dice(2, 6);
+ if (has_trait("CLUMSY"))
+  myroll -= dice(2, 6);
  if (myroll >= traproll)
   return true;
  return false;
@@ -3650,6 +3675,8 @@ int player::read_speed(bool real_life)
  int ret = 1000 - 50 * (intel - 8);
  if (has_trait("FASTREADER"))
   ret *= .8;
+ if (has_trait("SLOWREADER"))
+  ret *= 1.3;
  if (ret < 100)
   ret = 100;
  return (real_life ? ret : ret / 10);
@@ -3666,6 +3693,10 @@ int player::rust_rate(bool real_life)
 
     if (has_trait("FORGETFUL")) {
         ret *= 1.33;
+    }
+    
+    if (has_trait("GOODMEMORY")) {
+        ret *= .66;
     }
 
     if (ret < 0) {
@@ -4502,6 +4533,10 @@ void player::add_addiction(add_type type, int strength)
   strength = int(strength * 1.5);
   timer = 800;
  }
+ if (has_trait("NONADDICTIVE")) {
+  strength = int(strength * .50);
+  timer = 1800;
+ }
  //Update existing addiction
  for (int i = 0; i < addictions.size(); i++) {
   if (addictions[i].type == type) {
@@ -4675,7 +4710,7 @@ void player::suffer(game *g)
         {
             oxygen--;
         }
-        if (oxygen < 12 && is_wearing("rebreather") &&
+        if (oxygen < 12 && (is_wearing("rebreather") || is_wearing ("rebreather_xl")) &&
             (has_active_item("UPS_on") || has_active_item("adv_UPS_on")))
             {
                 oxygen += 12;
@@ -4739,6 +4774,10 @@ void player::suffer(game *g)
         if (has_trait("ADDICTIVE"))
         {
             timer = -4000;
+        }
+        if (has_trait("NONADDICTIVE"))
+        {
+            timer = -3200;
         }
         for (int i = 0; i < addictions.size(); i++)
         {
@@ -5196,6 +5235,8 @@ void player::mend(game *g)
     healing_factor *= 4.0;
    } else if (has_trait("FASTHEALER")) {
     healing_factor *= 2.0;
+   } else if (has_trait("SLOWHEALER")) {
+    healing_factor *= 0.5;
    }
 
    bool mended = false;
@@ -5320,7 +5361,7 @@ void player::drench(game *g, int saturation, int flags)
     int dur = 60;
     int d_start = 30;
     if (morale_cap < 0) {
-        if (has_trait("LIGHTFUR") || has_trait("FUR")) {
+        if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR")) {
             dur /= 5;
             d_start /= 5;
         }
@@ -5383,6 +5424,8 @@ int player::weight_capacity(bool real_life)
  int ret = 13000 + str * 4000;
  if (has_trait("BADBACK"))
   ret = int(ret * .65);
+ if (has_trait("STRONGBACK"))
+  ret = int(ret * 1.35);
  if (has_trait("LIGHT_BONES"))
   ret = int(ret * .80);
  if (has_trait("HOLLOW_BONES"))
@@ -5406,6 +5449,8 @@ int player::volume_capacity()
   ret += 16;
  if (has_trait("PACKMULE"))
   ret = int(ret * 1.4);
+ if (has_trait("DISORGANIZED"))
+  ret = int(ret * 0.6);
  return ret;
 }
 
@@ -6788,13 +6833,21 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
         g->add_msg_if_player(this, _("You can't stand the thought of eating veggies."));
         return false;
     }
-    if (!has_trait("CANNIBAL") && eaten->made_of("hflesh")&& !is_npc() &&
+    if ((!has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&& !is_npc() &&
         !query_yn(_("The thought of eating that makes you feel sick. Really do it?"))) {
+        return false;
+    }
+    if ((has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&& !is_npc() &&
+        !query_yn(_("The thought of eating that makes you feel both guilty and excited. Go through with it?"))) {
         return false;
     }
 
     if (has_trait("VEGETARIAN") && eaten->made_of("flesh") && !is_npc() &&
-        !query_yn(_("Really eat that meat? Your stomach won't be happy."))) {
+        !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
+        return false;
+    }
+    if (has_trait("MEATARIAN") && eaten->made_of("veggy") && !is_npc() &&
+        !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
 
@@ -6883,9 +6936,14 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     }
 
     if (eaten->made_of("hflesh")) {
-      if (has_trait("CANNIBAL")) {
+      if (has_trait("CANNIBAL") && has_trait("PSYCHOPATH")) {
           g->add_msg_if_player(this, _("You feast upon the human flesh."));
-          add_morale(MORALE_CANNIBAL, 15, 100);
+          add_morale(MORALE_CANNIBAL, 15, 200);
+      } else if (has_trait("PSYCHOPATH") && !has_trait("CANNIBAL")) {
+          g->add_msg_if_player(this, _("Meh. You've eaten worse."));
+      } else if (!has_trait("PSYCHOPATH") && has_trait("CANNIBAL")) {
+          g->add_msg_if_player(this, _("You indulge your shameful hunger."));
+          add_morale(MORALE_CANNIBAL, 10, 50);
       } else {
           g->add_msg_if_player(this, _("You feel horrible for eating a person."));
           add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
@@ -6894,6 +6952,10 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     if (has_trait("VEGETARIAN") && (eaten->made_of("flesh") || eaten->made_of("hflesh"))) {
         g->add_msg_if_player(this,_("Almost instantly you feel a familiar pain in your stomach."));
         add_morale(MORALE_VEGETARIAN, -75, -400, 300, 240);
+    }
+    if (has_trait("MEATARIAN") && eaten->made_of("veggy")) {
+        g->add_msg_if_player(this,_("Yuck! How can anybody eat this stuff?"));
+        add_morale(MORALE_MEATARIAN, -75, -400, 300, 240);
     }
     if ((has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
             eaten->made_of("flesh")) {
@@ -8408,7 +8470,7 @@ void player::read(game *g, int pos)
     vehicle *veh = g->m.veh_at (posx, posy);
     if (veh && veh->player_in_control (this))
     {
-        g->add_msg(_("It's bad idea to read while driving."));
+        g->add_msg(_("It's a bad idea to read while driving!"));
         return;
     }
 
@@ -8636,6 +8698,8 @@ bool player::can_sleep(game *g)
   sleepy -= 3;
  if (has_trait("INSOMNIA"))
   sleepy -= 8;
+ if (has_trait("EASYSLEEPER"))
+  sleepy += 8;
 
  int vpart = -1;
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
@@ -8751,7 +8815,7 @@ float player::fine_detail_vision_mod(game *g)
 
     if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
 	else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
-    else if (has_trait("NIGHTVISION2")) { vision_ii -= 2; }
+    else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV")) { vision_ii -= 2; }
     else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV")) { vision_ii -= 3; }
 
     if (vision_ii < 1) { vision_ii = 1; }
@@ -8930,6 +8994,8 @@ int player::get_armor_bash_base(body_part bp)
   ret += 3;
  if (has_trait("FUR"))
   ret++;
+ if (bp == bp_head && has_trait("LYNX_FUR"))
+  ret++;
  if (has_trait("CHITIN"))
   ret += 2;
  if (has_trait("SHELL") && bp == bp_torso)
@@ -8961,6 +9027,8 @@ int player::get_armor_cut_base(body_part bp)
   ret += 3;
  if (has_trait("THICKSKIN"))
   ret++;
+ if (has_trait("THINSKIN"))
+  ret--;
  if (has_trait("SCALES"))
   ret += 2;
  if (has_trait("THICK_SCALES"))
@@ -9216,6 +9284,8 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
     }
     if (has_trait("THICKSKIN"))
         cut--;
+    if (has_trait("THINSKIN"))
+        cut++;
     if (has_trait("SCALES"))
         cut -= 2;
     if (has_trait("THICK_SCALES"))
@@ -9227,6 +9297,8 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
     if (bp == bp_arms && has_trait("ARM_FEATHERS"))
         dam--;
     if (has_trait("FUR"))
+        dam--;
+    if (bp == bp_head && has_trait("LYNX_FUR"))
         dam--;
     if (has_trait("CHITIN"))
         cut -= 2;
@@ -9342,6 +9414,10 @@ int player::adjust_for_focus(int amount)
     if (has_trait("FASTLEARNER"))
     {
         effective_focus += 15;
+    }
+    if (has_trait("SLOWLEARNER"))
+    {
+        effective_focus -= 15;
     }
     double tmp = amount * (effective_focus / 100.0);
     int ret = int(tmp);

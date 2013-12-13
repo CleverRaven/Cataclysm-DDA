@@ -2226,7 +2226,8 @@
       ["under_armor_shorts", 20],
       ["dress", 70],
       ["sundress", 50],
-      ["dress_wedding", 1]
+      ["dress_wedding", 1],
+      ["postman_shorts", 5]
     ]
     },{
         "type" : "item_group",
@@ -2242,7 +2243,8 @@
       ["hoodie", 65],
       ["under_armor", 20],
       ["jersey", 40],
-      ["camisole", 60]
+      ["camisole", 60],
+      ["postman_shirt", 5]
     ]
     },{
         "type" : "item_group",
@@ -2398,7 +2400,10 @@
       ["dress_wedding", 1],
       ["porkpie", 5],
       ["skinny_tie", 5],
-      ["jersey", 40]
+      ["jersey", 40],
+      ["postman_shorts", 5],
+      ["postman_shirt", 5],
+      ["postman_hat", 5]
     ]
     },{
         "type" : "item_group",
@@ -2494,6 +2499,7 @@
       ["textbook_mechanics", 12],
       ["textbook_fabrication", 12],
       ["welding_book", 2],
+      ["textbook_gaswarfare", 5],
       ["textbook_tailor", 12],
       ["textbook_weapwest", 3],
       ["textbook_weapeast", 3],
@@ -2670,6 +2676,7 @@
       ["heroin", 1],
       ["syringe", 8],
       ["electrohack", 3],
+      ["textbook_gaswarfare", 1],
       ["knife_combat", 14],
       ["throwing_knife", 7],
       ["punch_dagger", 12],
@@ -2810,6 +2817,20 @@
       ["blood", 20],
       ["vacutainer", 10]
     ]
+    },{
+    	"type" : "item_group",
+    	"id" : "postman_gear",
+    	"items":[
+    		["postman_hat", 50],
+    		["postman_shirt", 70],
+    		["postman_shorts", 70],
+    		["mbag", 40],
+    		["wristwatch", 50],
+    		["leatherbelt", 70],
+    		["briefs", 90],
+    		["socks", 70],
+    		["sneakers", 70]
+    		]
     },{
         "type" : "item_group",
         "id" : "surgery",
@@ -3162,9 +3183,8 @@
         "type" : "item_group",
         "id" : "pawn",
     "items":[
-      ["rifle_flint", 5],
-      ["pistol_flint", 5],
-      ["flint_ammo", 5],
+      ["rifle_flintlock", 1],
+      ["pistol_flintlock", 1],
       ["moss_brownie", 5],
       ["cop_38", 5],
       ["cigar", 5],
@@ -3676,6 +3696,7 @@
       ["iv_mutagen_lizard", 2],
       ["iv_mutagen_troglobite", 2],
       ["iv_mutagen_ursine", 2],
+      ["iv_mutagen_feline", 2],
       ["purifier", 10],
       ["iv_purifier", 8],
       ["royal_jelly", 8],
@@ -3717,6 +3738,7 @@
         "id" : "goo",
     "items":[
       ["jumpsuit", 20],
+      ["subsuit_XL", 1],
       ["gloves_rubber", 20],
       ["mask_filter", 30],
       ["glasses_safety", 40],
@@ -3758,6 +3780,7 @@
       ["rag", 1],
       ["scissors", 50],
       ["boots_rubber", 20],
+      ["subsuit_XL", 4],
       ["rag_bloody", 1]
     ]
     },{
