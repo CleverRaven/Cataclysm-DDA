@@ -696,32 +696,10 @@ bool game::do_turn()
         if ((!u.has_trait("LIGHTEATER") || !one_in(3)) &&
             (!u.has_bionic("bio_recycler") || turn % 300 == 0)) {
             u.hunger++;
-            if (u.has_trait("HUNGER") {
-                if (one_in(2) {
-                    u.hunger++;
-                    }
-                }
-            if (u.has_trait("HUNGER2") {
-                u.hunger ++;
-                }
-            if (u.has_trait("HUNGER3") {
-                u.hunger += 2;
-                }
         }
         if ((!u.has_bionic("bio_recycler") || turn % 100 == 0) &&
             (!u.has_trait("PLANTSKIN") || !one_in(5))) {
             u.thirst++;
-            if (u.has_trait("THIRST") {
-                if (one_in(2) {
-                    u.thirst++;
-                    }
-                }
-            if (u.has_trait("THIRST2") {
-                u.thirst ++;
-                }
-            if (u.has_trait("THIRST3") {
-                u.thirst += 2;
-                }
         }
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
         if (u.fatigue < 1050 && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
