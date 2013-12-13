@@ -2861,7 +2861,7 @@
         "recoil" : 14,
         "count" : 4,
         "stack_size" : 20,
-        "effects" : ["INCENDIARY", "FLARE", "SMOKE"]
+        "effects" : ["INCENDIARY", "FLARE"]
     },
     {   "type" : "AMMO",
         "id" : "rebar_rail",
@@ -3073,7 +3073,7 @@
         "recoil" : 34,
         "count" : 20,
         "stack_size" : 20,
-        "effects" : ["INCENDIARY", "FLARE", "SMOKE"]
+        "effects" : ["INCENDIARY", "FLARE"]
     },
     {   "type" : "AMMO",
         "id" : "20x66_inc",
