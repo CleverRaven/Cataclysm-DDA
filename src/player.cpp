@@ -926,8 +926,8 @@ void player::update_bodytemp(game *g)
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 250 : 500);
         }
-        // Furry
-        if (has_trait("FUR"))
+        // Furry or Lupine Fur
+        if (has_trait("FUR") || has_trait("LUPINE_FUR")
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 750 : 1500);
         }
@@ -5215,7 +5215,7 @@ void player::drench(game *g, int saturation, int flags)
     int dur = 60;
     int d_start = 30;
     if (morale_cap < 0) {
-        if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR")) {
+        if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") || has_trait("LUPINE_FUR")) {
             dur /= 5;
             d_start /= 5;
         }
@@ -8838,7 +8838,7 @@ int player::armor_bash(body_part bp)
   ret += 3;
   else if (bp == bp_eyes && has_bionic("bio_armor_eyes"))
   ret += 3;
- if (has_trait("FUR"))
+ if (has_trait("FUR") || has_trait("LUPINE_FUR"))
   ret++;
  if (bp == bp_head && has_trait("LYNX_FUR"))
   ret++;
@@ -9051,7 +9051,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         dam--;
     if (bp == bp_arms && has_trait("ARM_FEATHERS"))
         dam--;
-    if (has_trait("FUR"))
+    if (has_trait("FUR") || has_trait("LUPINE_FUR"))
         dam--;
     if (bp == bp_head && has_trait("LYNX_FUR"))
         dam--;
