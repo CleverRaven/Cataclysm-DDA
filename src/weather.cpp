@@ -318,6 +318,14 @@ void weather_effect::thunder(game *g)
 void weather_effect::lightning(game *g)
 {
     thunder(g);
+    if(one_in(LIGHTNING_CHANCE)) {
+        if(g->levz >= 0) {
+            g->add_msg(_("A flash of lightning illuminates your surroundings!"));
+            g->lightning_active = true;
+        }
+    } else {
+        g->lightning_active = false;
+    }
 }
 
 void weather_effect::light_acid(game *g)
