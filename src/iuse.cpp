@@ -147,14 +147,14 @@ int iuse::royal_jelly(player *p, item *it, bool t)
   message = _("You feel cleansed inside!");
   p->rem_disease("dermatik");
  }
- if (p->has_disease("blind")) {
+ if (p->has_effect("blind")) {
   message = _("Your sight returns!");
-  p->rem_disease("blind");
+  p->remove_effect("blind");
  }
- if (p->has_disease("poison") || p->has_disease("foodpoison") ||
+ if (p->has_effect("poison") || p->has_disease("foodpoison") ||
      p->has_disease("badpoison") || p->has_disease("paralyzepoison")) {
   message = _("You feel much better!");
-  p->rem_disease("poison");
+  p->remove_effect("poison");
   p->rem_disease("badpoison");
   p->rem_disease("foodpoison");
   p->rem_disease("paralyzepoison");
@@ -829,7 +829,7 @@ int iuse::vaccine(player *p, item *it, bool t) {
 }
 
 int iuse::poison(player *p, item *it, bool t) {
-    p->add_disease("poison", 600);
+    p->add_effect("poison", 600);
     p->add_disease("foodpoison", 1800);
     return it->type->charges_to_use();
 }
@@ -909,8 +909,8 @@ int iuse::inhaler(player *p, item *it, bool t) {
 int iuse::oxygen_bottle(player *p, item *it, bool t) {
     p->moves -= 500;
     g->add_msg_if_player(p,_("You breathe deeply from the %s"), it->tname().c_str());
-    if (p->has_disease("smoke")) {
-          p->rem_disease("smoke");
+    if (p->has_effect("smoke")) {
+          p->remove_effect("smoke");
         }
         else if (p->has_disease("asthma")) {
           p->rem_disease("asthma");
@@ -4283,10 +4283,7 @@ int iuse::granade_act(player *p, item *it, bool t)
                         if (mon_hit != -1) {
                             g->zombie(mon_hit).speed = g->zombie(mon_hit).type->speed;
                             g->zombie(mon_hit).hp = g->zombie(mon_hit).type->hp;
-                            for (int i = 0; i < g->zombie(mon_hit).effects.size(); i++) {
-                                g->zombie(mon_hit).effects.erase(g->zombie(mon_hit).effects.begin() + i);
-                                i--;
-                            }
+                            g->zombie(mon_hit).clear_effects();
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             g->active_npc[npc_hit]->environmental_revert_effect();
@@ -5084,7 +5081,7 @@ int iuse::tazer(player *p, item *it, bool t)
    case MS_LARGE: numdice += 2; break;
    case MS_HUGE:  numdice += 4; break;
   }
-  int mondice = z->dodge();
+  int mondice = z->get_dodge();
   if (dice(numdice, 10) < dice(mondice, 10)) { // A miss!
    g->add_msg_if_player(p,_("You attempt to shock the %s, but miss."), z->name().c_str());
    return it->type->charges_to_use();
@@ -5105,7 +5102,7 @@ int iuse::tazer(player *p, item *it, bool t)
     numdice++; // Minor bonus against huge people
   else if (foe->str_max <= 5)
    numdice--; // Minor penalty against tiny people
-  if (dice(numdice, 10) <= dice(foe->dodge(g), 6)) {
+  if (dice(numdice, 10) <= dice(foe->get_dodge(), 6)) {
    g->add_msg_if_player(p,_("You attempt to shock %s, but miss."), foe->name.c_str());
    return it->type->charges_to_use();
   }
@@ -5168,7 +5165,7 @@ int iuse::tazer2(player *p, item *it, bool t)
                     break;
             }
 
-            int mondice = z->dodge();
+            int mondice = z->get_dodge();
 
             if (dice(numdice, 10) < dice(mondice, 10)) { // A miss!
                 g->add_msg_if_player(p, _("You attempt to shock the %s, but miss."),
@@ -5201,7 +5198,7 @@ int iuse::tazer2(player *p, item *it, bool t)
                     numdice--;    // Minor penalty against tiny people
                 }
 
-            if (dice(numdice, 10) <= dice(foe->dodge(g), 6)) {
+            if (dice(numdice, 10) <= dice(foe->get_dodge(), 6)) {
                 g->add_msg_if_player(p, _("You attempt to shock %s, but miss."), foe->name.c_str());
                 return it->charges -= 100;
             }
@@ -5433,14 +5430,14 @@ int iuse::dog_whistle(player *p, item *it, bool t)
  for (int i = 0; i < g->num_zombies(); i++) {
   if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == "mon_dog") {
    bool u_see = g->u_see(&(g->zombie(i)));
-   if (g->zombie(i).has_effect(ME_DOCILE)) {
+   if (g->zombie(i).has_effect("docile")) {
     if (u_see)
      g->add_msg_if_player(p,_("Your %s looks ready to attack."), g->zombie(i).name().c_str());
-    g->zombie(i).rem_effect(ME_DOCILE);
+    g->zombie(i).remove_effect("docile");
    } else {
     if (u_see)
      g->add_msg_if_player(p,_("Your %s goes docile."), g->zombie(i).name().c_str());
-    g->zombie(i).add_effect(ME_DOCILE, -1);
+    g->zombie(i).add_effect("docile", -1);
    }
   }
  }
@@ -6481,7 +6478,7 @@ int iuse::artifact(player *p, item *it, bool t)
     for (int y = p->posy - 8; y <= p->posy + 8; y++) {
      int mondex = g->mon_at(x, y);
      if (mondex != -1)
-      g->zombie(mondex).add_effect(ME_STUNNED, rng(5, 15));
+      g->zombie(mondex).add_effect("stunned", rng(5, 15));
     }
    }
 

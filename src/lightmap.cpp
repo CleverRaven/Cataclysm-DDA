@@ -142,7 +142,7 @@ void map::generate_lightmap(game* g)
   int mx = g->zombie(i).posx();
   int my = g->zombie(i).posy();
   if (INBOUNDS(mx, my)) {
-   if (g->zombie(i).has_effect(ME_ONFIRE)) {
+   if (g->zombie(i).has_effect("onfire")) {
      apply_light_source(mx, my, 3, trigdist);
    }
    // TODO: [lightmap] Attach natural light brightness to creatures

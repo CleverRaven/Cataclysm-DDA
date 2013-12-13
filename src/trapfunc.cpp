@@ -50,7 +50,7 @@ void trapfunc::beartrap(int x, int y)
     g->add_msg(_("A bear trap closes on your foot!"));
     g->u.add_memorial_log(_("Caught by a beartrap."));
     g->sound(x, y, 8, _("SNAP!"));
-    g->u.hit(g, bp_legs, random_side(bp_legs), 10, 16);
+    g->u.hit(g, NULL, bp_legs, random_side(bp_legs), 10, 16);
     g->u.add_disease("beartrap", 1, true);
     g->m.remove_trap(x, y);
     g->m.spawn_item(x, y, "beartrap");
@@ -68,7 +68,7 @@ void trapfuncm::beartrap(monster *z, int x, int y)
   g->m.spawn_item(x, y, "beartrap");
  } else {
   z->moves = 0;
-  z->add_effect(ME_BEARTRAP, rng(8, 15));
+  z->add_effect("beartrap", rng(8, 15));
  }
  g->m.remove_trap(x, y);
  item beartrap(itypes["beartrap"], 0);
@@ -79,8 +79,8 @@ void trapfunc::board(int x, int y)
 {
  g->add_msg(_("You step on a spiked board!"));
  g->u.add_memorial_log(_("Stepped on a spiked board."));
- g->u.hit(g, bp_feet, 0, 0, rng(6, 10));
- g->u.hit(g, bp_feet, 1, 0, rng(6, 10));
+ g->u.hit(g, NULL, bp_feet, 0, 0, rng(6, 10));
+ g->u.hit(g, NULL, bp_feet, 1, 0, rng(6, 10));
 }
 
 void trapfuncm::board(monster *z, int x, int y)
@@ -101,8 +101,8 @@ void trapfunc::caltrops(int x, int y)
 {
  g->add_msg(_("You step on a sharp metal caltrop!"));
  g->u.add_memorial_log(_("Stepped on a caltrop."));
- g->u.hit(g, bp_feet, 0, 0, rng(9, 30));
- g->u.hit(g, bp_feet, 1, 0, rng(9, 30));
+ g->u.hit(g, NULL, bp_feet, 0, 0, rng(9, 30));
+ g->u.hit(g, NULL, bp_feet, 1, 0, rng(9, 30));
 }
 
 void trapfuncm::caltrops(monster *z, int x, int y)
@@ -157,7 +157,7 @@ void trapfunc::crossbow(int x, int y)
  bool add_bolt = true;
  g->add_msg(_("You trigger a crossbow trap!"));
  g->u.add_memorial_log(_("Triggered a crossbow trap."));
- if (!one_in(4) && rng(8, 20) > g->u.dodge(g)) {
+ if (!one_in(4) && rng(8, 20) > g->u.get_dodge()) {
   body_part hit = num_bp;
   switch (rng(1, 10)) {
    case  1: hit = bp_feet; break;
@@ -173,7 +173,7 @@ void trapfunc::crossbow(int x, int y)
   }
   int side = random_side(hit);
   g->add_msg(_("Your %s is hit!"), body_part_name(hit, side).c_str());
-  g->u.hit(g, hit, side, 0, rng(20, 30));
+  g->u.hit(g, NULL, hit, side, 0, rng(20, 30));
   add_bolt = !one_in(10);
  } else
   g->add_msg(_("You dodge the shot!"));
@@ -223,7 +223,7 @@ void trapfunc::shotgun(int x, int y)
  int shots = (one_in(8) || one_in(20 - g->u.str_max) ? 2 : 1);
  if (g->m.tr_at(x, y) == tr_shotgun_1)
   shots = 1;
- if (rng(5, 50) > g->u.dodge(g)) {
+ if (rng(5, 50) > g->u.get_dodge()) {
   body_part hit = num_bp;
   switch (rng(1, 10)) {
    case  1: hit = bp_feet; break;
@@ -239,7 +239,7 @@ void trapfunc::shotgun(int x, int y)
   }
   int side = random_side(hit);
   g->add_msg(_("Your %s is hit!"), body_part_name(hit, side).c_str());
-  g->u.hit(g, hit, side, 0, rng(40 * shots, 60 * shots));
+  g->u.hit(g, NULL, hit, side, 0, rng(40 * shots, 60 * shots));
  } else
   g->add_msg(_("You dodge the shot!"));
  if (shots == 2 || g->m.tr_at(x, y) == tr_shotgun_1) {
@@ -283,15 +283,15 @@ void trapfunc::blade(int x, int y)
 {
  g->add_msg(_("A blade swings out and hacks your torso!"));
  g->u.add_memorial_log(_("Triggered a blade trap."));
- g->u.hit(g, bp_torso, -1, 12, 30);
+ g->u.hit(g, NULL, bp_torso, -1, 12, 30);
 }
 
 void trapfuncm::blade(monster *z, int x, int y)
 {
  if (g->u_see(z))
   g->add_msg(_("A blade swings out and hacks the %s!"), z->name().c_str());
- int cutdam = 30 - z->armor_cut();
- int bashdam = 12 - z->armor_bash();
+ int cutdam = 30 - z->get_armor_cut(bp_torso);
+ int bashdam = 12 - z->get_armor_bash(bp_torso);
  if (cutdam < 0)
   cutdam = 0;
  if (bashdam < 0)
@@ -323,7 +323,7 @@ void trapfuncm::snare_light(monster *z, int x, int y)
    if(z->hurt(10)){
     g->kill_mon(g->mon_at(x, y));
    } else {
-    z->add_effect(ME_BEARTRAP, -1);
+    z->add_effect("beartrap", -1);
    }
    break;
   case MS_SMALL:
@@ -331,14 +331,14 @@ void trapfuncm::snare_light(monster *z, int x, int y)
     g->add_msg(_("The %s has been snared!"), z->name().c_str());
    }
    z->moves = 0;
-   z->add_effect(ME_BEARTRAP, rng(100, 150));
+   z->add_effect("beartrap", rng(100, 150));
    break;
   case MS_MEDIUM:
    if(seen){
     g->add_msg(_("The %s has been snared!"), z->name().c_str());
    }
    z->moves = 0;
-   z->add_effect(ME_BEARTRAP, rng(20, 30));
+   z->add_effect("beartrap", rng(20, 30));
    break;
   case MS_LARGE:
    if(seen){
@@ -363,7 +363,7 @@ void trapfunc::snare_heavy(int x, int y)
  g->sound(x, y, 4, _("Snap!"));
  g->add_msg(_("A snare closes on your %s."), body_part_name(hit, side).c_str());
  g->u.add_memorial_log(_("Triggered a heavy snare."));
- g->u.hit(g, bp_legs, side, 15, 20);
+ g->u.hit(g, NULL, bp_legs, side, 15, 20);
  g->u.add_disease("heavysnare", rng(20, 30));
  g->m.remove_trap(x, y);
  g->m.spawn_item(x, y, "rope_6");
@@ -383,7 +383,7 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
     g->kill_mon(g->mon_at(x, y));
    } else {
     z->moves = 0;
-    z->add_effect(ME_BEARTRAP, -1);
+    z->add_effect("beartrap", -1);
    }
    break;
   case MS_SMALL:
@@ -394,7 +394,7 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
     g->kill_mon(g->mon_at(x, y));
    } else {
     z->moves = 0;
-    z->add_effect(ME_BEARTRAP, -1);
+    z->add_effect("beartrap", -1);
    }
    break;
   case MS_MEDIUM:
@@ -405,7 +405,7 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
     g->kill_mon(g->mon_at(x, y));
    } else {
     z->moves = 0;
-    z->add_effect(ME_BEARTRAP, rng(100, 150));
+    z->add_effect("beartrap", rng(100, 150));
    }
    break;
   case MS_LARGE:
@@ -413,7 +413,7 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
     g->add_msg(_("The %s has been snared!"), z->name().c_str());
    }
     z->moves = 0;
-    z->add_effect(ME_BEARTRAP, rng(20, 30));
+    z->add_effect("beartrap", rng(20, 30));
    break;
   case MS_HUGE:
    if(seen){
@@ -507,8 +507,8 @@ void trapfunc::goo(int x, int y)
  g->u.infect("slimed", bp_feet, 6, 20);
  if (one_in(3)) {
   g->add_msg(_("The acidic goo eats away at your feet."));
-  g->u.hit(g, bp_feet, 0, 0, 5);
-  g->u.hit(g, bp_feet, 1, 0, 5);
+  g->u.hit(g, NULL, bp_feet, 0, 0, 5);
+  g->u.hit(g, NULL, bp_feet, 1, 0, 5);
  }
  g->m.remove_trap(x, y);
 }
@@ -532,16 +532,16 @@ void trapfunc::dissector(int x, int y)
  g->u.add_memorial_log(_("Stepped into a dissector."));
  //~ the sound of a dissector dissecting
  g->sound(x, y, 10, _("BRZZZAP!"));
- g->u.hit(g, bp_head,  -1, 0, 15);
- g->u.hit(g, bp_torso, -1, 0, 20);
- g->u.hit(g, bp_arms,  0, 0, 12);
- g->u.hit(g, bp_arms,  1, 0, 12);
- g->u.hit(g, bp_hands, 0, 0, 10);
- g->u.hit(g, bp_hands, 1, 0, 10);
- g->u.hit(g, bp_legs,  0, 0, 12);
- g->u.hit(g, bp_legs,  1, 0, 12);
- g->u.hit(g, bp_feet,  0, 0, 10);
- g->u.hit(g, bp_feet,  1, 0, 10);
+ g->u.hit(g, NULL, bp_head,  -1, 0, 15);
+ g->u.hit(g, NULL, bp_torso, -1, 0, 20);
+ g->u.hit(g, NULL, bp_arms,  0, 0, 12);
+ g->u.hit(g, NULL, bp_arms,  1, 0, 12);
+ g->u.hit(g, NULL, bp_hands, 0, 0, 10);
+ g->u.hit(g, NULL, bp_hands, 1, 0, 10);
+ g->u.hit(g, NULL, bp_legs,  0, 0, 12);
+ g->u.hit(g, NULL, bp_legs,  1, 0, 12);
+ g->u.hit(g, NULL, bp_feet,  0, 0, 10);
+ g->u.hit(g, NULL, bp_feet,  1, 0, 10);
 }
 
 void trapfuncm::dissector(monster *z, int x, int y)
@@ -559,13 +559,13 @@ void trapfunc::pit(int x, int y)
         g->add_msg(_("You flap your wings and flutter down gracefully."));
     } else {
         float eff = pit_effectiveness(x, y);
-        int dodge = g->u.dodge(g);
+        int dodge = g->u.get_dodge();
         int damage = eff * rng(10, 20) - rng(dodge, dodge * 5);
         if (damage > 0) {
             g->add_msg(_("You hurt yourself!"));
             g->u.hurtall(rng(int(damage / 2), damage));
-            g->u.hit(g, bp_legs, 0, damage, 0);
-            g->u.hit(g, bp_legs, 1, damage, 0);
+            g->u.hit(g, NULL, bp_legs, 0, damage, 0);
+            g->u.hit(g, NULL, bp_legs, 1, damage, 0);
         } else {
             g->add_msg(_("You land nimbly."));
         }
@@ -594,7 +594,7 @@ void trapfunc::pit_spikes(int x, int y)
 {
     g->add_msg(_("You fall in a pit!"));
     g->u.add_memorial_log(_("Fell into a spiked pit."));
-    int dodge = g->u.dodge(g);
+    int dodge = g->u.get_dodge();
     int damage = pit_effectiveness(x, y) * rng(20, 50);
     if (g->u.has_trait("WINGS_BIRD")) {
         g->add_msg(_("You flap your wings and flutter down gracefully."));
@@ -616,7 +616,7 @@ void trapfunc::pit_spikes(int x, int y)
         }
         int side = random_side(hit);
         g->add_msg(_("The spikes impale your %s!"), body_part_name(hit, side).c_str());
-        g->u.hit(g, hit, side, 0, damage);
+        g->u.hit(g, NULL, hit, side, 0, damage);
         if (one_in(4)) {
             g->add_msg(_("The spears break!"));
             g->m.ter_set(x, y, t_pit);
@@ -665,10 +665,10 @@ void trapfunc::lava(int x, int y)
 {
  g->add_msg(_("The %s burns you horribly!"), g->m.tername(x, y).c_str());
  g->u.add_memorial_log(_("Stepped into lava."));
- g->u.hit(g, bp_feet, 0, 0, 20);
- g->u.hit(g, bp_feet, 1, 0, 20);
- g->u.hit(g, bp_legs, 0, 0, 20);
- g->u.hit(g, bp_legs, 1, 0, 20);
+ g->u.hit(g, NULL, bp_feet, 0, 0, 20);
+ g->u.hit(g, NULL, bp_feet, 1, 0, 20);
+ g->u.hit(g, NULL, bp_legs, 0, 0, 20);
+ g->u.hit(g, NULL, bp_legs, 1, 0, 20);
 }
 
 
@@ -895,7 +895,7 @@ void trapfuncm::hum(monster *z, int x, int y)
   sfx = _("VRMMMMMM");
 
  if (volume >= 150)
-  z->add_effect(ME_DEAF, volume - 140);
+  z->add_effect("deaf", volume - 140);
 
  g->sound(x, y, volume, sfx);
 }
