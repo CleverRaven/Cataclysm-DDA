@@ -18,6 +18,7 @@ ME_POISONED,        // Slowed, takes damage
 ME_ONFIRE,          // Lit aflame
 ME_STUNNED,         // Stumbling briefly
 ME_DOWNED,          // Knocked down
+ME_FROZEN,          // Frozen
 ME_BLIND,           // Can't use sight
 ME_DEAF,            // Can't use hearing
 ME_TARGETED,        // Targeting locked on--for robots that shoot guns
@@ -97,7 +98,7 @@ class monster : public JsonSerializer, public JsonDeserializer
  point move_target(); // Returns point at the end of the monster's current plans
 
 // Movement
- void receive_moves();       // Gives us movement points
+ void receive_moves(game *g);       // Gives us movement points
  void shift(int sx, int sy); // Shifts the monster to the appropriate submap
                              // Updates current pos AND our plans
  bool wander(); // Returns true if we have no plans

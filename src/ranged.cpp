@@ -1158,6 +1158,9 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
     std::string message;
     bool u_see_mon = g->u_see(&(mon));
     int adjusted_damage = dam;
+    if (mon.has_effect(ME_FROZEN)) {
+        dam /= rng(2, 4);
+    }
     if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - goodhit)) && // Maxes out at 50% chance with perfect hit
     weapon->curammo->phase != LIQUID && !effects.count("SHOT") && !effects.count("BOUNCE")) {
         if (u_see_mon)
@@ -1352,19 +1355,19 @@ void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
 void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
 {
   if (effects.count("EXPLOSIVE"))
-    g->explosion(x, y, 24, 0, false);
+    g->explosion(x, y, 24, 0);
 
   if (effects.count("FRAG"))
-    g->explosion(x, y, 12, 28, false);
+    g->explosion(x, y, 12, 28);
 
   if (effects.count("NAPALM"))
-    g->explosion(x, y, 18, 0, true);
+    g->explosion(x, y, 18, 0, HAS_FIRE);
 
   if (effects.count("NAPALM_BIG"))
-    g->explosion(x, y, 72, 0, true);
+    g->explosion(x, y, 72, 0, HAS_FIRE);
 
   if (effects.count("MININUKE_MOD")){
-    g->explosion(x, y, 200, 0, false);
+    g->explosion(x, y, 200, 0);
     int junk;
     for (int i = -4; i <= 4; i++) {
      for (int j = -4; j <= 4; j++) {
@@ -1384,10 +1387,10 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
   }
 
   if (effects.count("EXPLOSIVE_BIG"))
-    g->explosion(x, y, 40, 0, false);
+    g->explosion(x, y, 40, 0);
 
   if (effects.count("EXPLOSIVE_HUGE"))
-    g->explosion(x, y, 80, 0, false);
+    g->explosion(x, y, 80, 0);
 
   if (effects.count("TEARGAS")) {
     for (int i = -2; i <= 2; i++) {
@@ -1413,7 +1416,7 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
     g->flashbang(x, y);
 
   if (effects.count("FLAME"))
-    g->explosion(x, y, 4, 0, true);
+    g->explosion(x, y, 4, 0, HAS_FIRE);
 
   if (effects.count("FLARE"))
     g->m.add_field(g, x, y, fd_fire, 1);
@@ -1434,5 +1437,23 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
       }
     }
   }
+  if (effects.count("ICEBOMB")) {
+    g->explosion(x, y, 18, 0, HAS_ICE);
+  }
 
+  if (effects.count("ICEBOMB_BIG")) {
+    g->explosion(x, y, 72, 0, HAS_ICE);
+  }
+
+  if (effects.count("FREEZE_WEAK")) { 
+    g->freeze(x, y, one_in(2) ? 5 : 0); 
+  }
+
+  if (effects.count("FREEZE_MEDIUM")) { 
+    g->freeze(x, y, one_in(8) ? rng(10, 15) : 0); 
+  }
+
+  if (effects.count("FREEZE_STRONG")) { 
+    g->freeze(x, y, rng(25, 50)); 
+  }
 }

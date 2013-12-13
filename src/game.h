@@ -88,6 +88,15 @@ enum quit_status {
  QUIT_ERROR
 };
 
+enum explosion_element {
+ NO_ELEMENT = 0,    // Regular explosion
+ HAS_FIRE,          // Leaves fire behind
+ HAS_ICE,           // Blue color, leaves ice/snow behind
+ // HAS_ACID,          // Green color, leaves acid behind (not implemented yet)
+ HAS_ERROR
+};
+
+
 // Refactoring into base monster class.
 
 struct monster_and_count
@@ -159,8 +168,8 @@ class game
   std::vector<monster*> footsteps_source;
 // visual cue to monsters moving out of the players sight
   void draw_footsteps();
-// Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
-  void explosion(int x, int y, int power, int shrapnel, bool fire);
+// Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel, made of (element)
+  void explosion(int x, int y, int power, int shrapnel, int element = NO_ELEMENT);
 // Draws an explosion with set radius and color at the given location
   /* Defined later in this file */
   //void draw_explosion(int x, int y, int radius, nc_color col);
@@ -313,6 +322,8 @@ class game
   calendar turn;
   signed char temperature;              // The air temperature
   int get_temperature();    // Returns outdoor or indoor temperature of current location
+  int get_temperature(point location);    // Returns outdoor or indoor temperature of current location
+  int get_radiant_temperature(int posx, int posy); // Returns the temperature changes at a coord (posx, posy) due to radiant energy
   weather_type weather;   // Weather pattern--SEE weather.h
 
   std::map<int, weather_segment> weather_log;
@@ -364,10 +375,18 @@ class game
  void knockback(int sx, int sy, int tx, int ty, int force, int stun, int dam_mult);
  void knockback(std::vector<point>& traj, int force, int stun, int dam_mult);
 
+ // Freeze function: applies the freeze effect to the target
+ void freeze(int x, int y, int power);
+
  // shockwave applies knockback to all targets within radius of (x,y)
  // parameters force, stun, and dam_mult are passed to knockback()
  // ignore_player determines if player is affected, useful for bionic, etc.
  void shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player);
+
+ // frost_nova applies freeze to all targets within radius of (x,y)
+ // parameters force are passed to freeze()
+ // ignore_player determines if player is affected, useful for bionic, etc.
+ void frost_nova(int x, int y, int radius, int power, bool ignore_player);
 
 
 // Animation related functions

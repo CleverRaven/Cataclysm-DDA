@@ -1938,7 +1938,7 @@ int iuse::extinguisher(player *p, item *it, bool t)
    g->add_msg_if_player(p,_("The %s is sprayed!"), g->zombie(mondex).name().c_str());
   if (g->zombie(mondex).made_of(LIQUID)) {
    if (g->u_see(&(g->zombie(mondex))))
-    g->add_msg_if_player(p,_("The %s is frozen!"), g->zombie(mondex).name().c_str());
+    g->zombie(mondex).add_effect(ME_FROZEN, rng(1, 5));
    if (g->zombie(mondex).hurt(rng(20, 60)))
     g->kill_mon(mondex, (p == &(g->u)));
    else
@@ -4140,7 +4140,7 @@ int iuse::pipebomb_act(player *p, item *it, bool t)
   if (one_in(10) && g->u_see(pos.x, pos.y)) {
    g->add_msg(_("The pipe bomb fizzles out."));
   } else {
-   g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
+   g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4));
   }
  }
  return 0;
@@ -4167,7 +4167,39 @@ int iuse::grenade_act(player *p, item *it, bool t)
         g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
         return 0;
     } else { // When that timer runs down...
-        g->explosion(pos.x, pos.y, 12, 28, false);
+        g->explosion(pos.x, pos.y, 12, 28);
+    }
+    return 0;
+}
+
+int iuse::freeze_grenade(player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,_("You push the detonator on the grenade."));
+    it->make(itypes["freeze_grenade_act"]);
+    it->charges = 5;
+    it->active = true;
+    return it->type->charges_to_use();
+}
+
+int iuse::freeze_grenade_act(player *p, item *it, bool t)
+{
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999)
+        return 0;
+    if (t) // Simple timer effects
+    {
+        if ( one_in(2) ) {
+            g->sound(pos.x, pos.y, 0, _("Beep."));  // Vol 0 = only heard if you hold it
+        } else {
+            g->sound(pos.x, pos.y, 0, _("Boop."));  // Vol 0 = only heard if you hold it
+        }
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already pushed the %s's detenator, try throwing it instead."), it->name.c_str());
+        return 0;
+    }
+    else  // When that timer runs down...
+    {
+        g->explosion(pos.x, pos.y, 12, 0, HAS_ICE);
     }
     return 0;
 }
@@ -4353,7 +4385,7 @@ int iuse::c4armed(player *p, item *it, bool t)
   g->add_msg(_("You've already set the %s's timer, you might want to get away from it."), it->name.c_str());
   return 0;
  } else { // When that timer runs down...
-  g->explosion(pos.x, pos.y, 40, 3, false);
+  g->explosion(pos.x, pos.y, 40, 3);
  }
  return 0;
 }
@@ -4574,8 +4606,38 @@ int iuse::molotov_lit(player *p, item *it, bool t)
     } else {
         point pos = g->find_item(it);
         if (!t) {
-            g->explosion(pos.x, pos.y, 8, 0, true);
+            g->explosion(pos.x, pos.y, 8, 0, HAS_FIRE);
         }
+    }
+    return 0;
+}
+
+int iuse::ice_molotov(player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,_("You remove the canister from its casing."));
+    p->moves -= 150;
+    it->make(itypes["ice_molotov_lit"]);
+    it->bday = int(g->turn);
+    it->active = true;
+    return it->type->charges_to_use();
+}
+
+int iuse::ice_molotov_lit(player *p, item *it, bool t)
+{
+    int age = int(g->turn) - it->bday;
+    if (p->has_item(it)) {
+        it->charges += 1;
+        if (age >= 5) { // More than 5 turns old = chance of going out
+            if (rng(1, 50) < age) {
+                g->add_msg_if_player(p,_("Your liquid nitrogen evaporates."));
+                it->make(itypes["canister_empty"]);
+                it->active = false;
+            }
+        }
+    } else {
+        point pos = g->find_item(it);
+        if (!t)
+            g->explosion(pos.x, pos.y, 8, 0, HAS_ICE);
     }
     return 0;
 }
@@ -4609,7 +4671,7 @@ int iuse::dynamite_act(player *p, item *it, bool t)
         g->add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
         return 0;
     } else {
-        g->explosion(pos.x, pos.y, 60, 0, false);
+        g->explosion(pos.x, pos.y, 60, 0);
     }
     return 0;
 }
@@ -4642,7 +4704,7 @@ int iuse::matchbomb_act(player *p, item *it, bool t) {
         return 0;
     } else {
         // When that timer runs down...
-        g->explosion(pos.x, pos.y, 24, 0, false);
+        g->explosion(pos.x, pos.y, 24, 0);
     }
     return 0;
 }
@@ -4810,7 +4872,7 @@ int iuse::mininuke_act(player *p, item *it, bool t)
   g->add_msg(_("You've already set the %s's timer, you might want to get away from it."), it->name.c_str());
   return 0;
  } else { // When that timer runs down...
-  g->explosion(pos.x, pos.y, 200, 0, false);
+  g->explosion(pos.x, pos.y, 200, 0);
   int junk;
   for (int i = -4; i <= 4; i++) {
    for (int j = -4; j <= 4; j++) {
@@ -6403,7 +6465,7 @@ int iuse::artifact(player *p, item *it, bool t)
   case AEA_FIREBALL: {
    point fireball = g->look_around();
    if (fireball.x != -1 && fireball.y != -1)
-    g->explosion(fireball.x, fireball.y, 8, 0, true);
+    g->explosion(fireball.x, fireball.y, 8, 0, HAS_FIRE);
   } break;
 
   case AEA_ADRENALINE:

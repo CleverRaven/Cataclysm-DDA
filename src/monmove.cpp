@@ -23,9 +23,44 @@
 
 #define MONSTER_FOLLOW_DIST 8
 
-void monster::receive_moves()
+void monster::receive_moves(game *g)
 {
- moves += speed;
+    const int absolute_zero_F = -460;
+    // At the moment, this points to the PLAYER and NOT the monster
+    // Fetching a Z's om location is difficult, I am told
+    point location = g->om_location();
+    // Fetching the monster's om_location is tricky, so for now
+    // we just use the player's temperature. This works for now, because
+    // ice labs are the only exception and it's underground so yeah.
+    int temperature = g->get_temperature(location) + abs(absolute_zero_F);
+    int preferred_temperature = 65 + abs(absolute_zero_F);
+    float monster_resistance = 0.7;
+
+    // Effects of the temperature
+    if (type->in_species("MAMMAL") || type->in_species("BIRD")) {
+        monster_resistance = 1.0;
+    } else if (type->in_species("WORM") || type->in_species("ZOMBIE")) {
+        monster_resistance = 0.5;
+    } else if (type->in_species("ROBOT") || type->in_species("NETHER") || type->in_species("ABBERATION") || type->in_species("HORROR") || type->in_species("UNKNOWN")) {
+        monster_resistance = 3.0;
+    } else if (type->in_species("INSECT") || type->in_species("SPIDER") || type->in_species("MOLLUSK") || type->in_species("AMPHIBIAN") || type->in_species("PLANT") || type->in_species("FUNGUS")) {
+        monster_resistance = 0.3;
+    }
+    if (has_flag(MF_ICEY)) {
+        preferred_temperature = 32 + abs(absolute_zero_F);;
+    } else if (has_flag(MF_FIREY)) {
+        preferred_temperature = 150 + abs(absolute_zero_F);;
+    }
+    // Effects of map tiles
+    // (nothing at the moment)
+
+    float temperature_modifier = 1.0;
+    temperature_modifier = 1.0 - (float)pow((float)((abs(preferred_temperature - temperature)) / (float)(preferred_temperature)), monster_resistance);
+    // Logically, the temps should not drop below absolute zero. However, if temps get high enough (1000F+), this number becomes negative.
+    temperature_modifier = (temperature_modifier > 0 ? temperature_modifier : 0);
+
+    // To avoid 0^0 moments
+    moves += (temperature == preferred_temperature ? speed : speed*temperature_modifier);
 }
 
 bool monster::wander()
@@ -256,7 +291,7 @@ void monster::move(game *g)
         moves = 0;
         return;
     }
-    if (has_effect(ME_DOWNED)) {
+    if (has_effect(ME_DOWNED) || has_effect(ME_FROZEN)) {
         moves = 0;
         return;
     }
@@ -1023,6 +1058,18 @@ int monster::move_to(game *g, int x, int y, bool force)
             }
         }
     }
+
+    // Ice trail monsters leave... a trail of level 2 frost, surrounded by level 1 frost 
+    // with a chance of bellowing out ice mist 
+    if (has_flag(MF_ICETRAIL) && !is_hallucination()) { 
+    g->m.add_field(g, posx(), posy(), fd_frost, one_in(10) ? 2 : 1); 
+    for ( int x = posx() - 1 ; x == posx() + 1 ; x++) { 
+        for ( int y = posy() - 1 ; y == posy() + 1 ; y++) { 
+            if ( one_in(10) ) g->m.add_field(g, posx(), posy(), fd_ice_mist, 1); 
+            g->m.add_field(g, posx(), posy(), fd_frost, 1); 
+            } 
+        } 
+    } 
 
     return 1;
 }

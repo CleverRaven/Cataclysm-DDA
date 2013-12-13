@@ -584,6 +584,9 @@ void player::activate_bionic(int b, game *g)
  } else if(bio.id == "bio_shockwave") {
    g->shockwave(posx, posy, 3, 4, 2, 8, true);
    g->add_msg_if_player(this,_("You unleash a powerful shockwave!"));
+ } else if (bio.id == "bio_frost_nova") {
+   g->frost_nova(posx, posy, 3, rng(15, 35), true);
+   g->add_msg_if_player(this,_("You unleash a powerful frost nova!"));
  } else if(bio.id == "bio_chain_lightning"){
   tmp_item = weapon;
   weapon = item(itypes["bio_lightning"], 0);

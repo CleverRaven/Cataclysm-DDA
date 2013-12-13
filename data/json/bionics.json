@@ -498,6 +498,13 @@
     "description":    "Your nervous system has been augmented with bionic processors, allowing you to dodge attacks beyond normal human capability, including bullets."
     },{
         "type" : "bionic",
+        "id" : "bio_frost_nova",
+    "name"       :    "Frost nova",
+    "active"     :    true,
+    "cost"       :    10,
+    "description":    "Your body is equipped with an impressive shock cooling system, allowing your to unleash a fierce cold snap that flash freezes enemies around you."
+    },{
+        "type" : "bionic",
         "id" : "bio_dis_shock",
     "name"       :    "Electrical Discharge",
     "faulty"     :    true,

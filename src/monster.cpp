@@ -235,6 +235,8 @@ int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
   wprintz(w, h_white, _("On ground"));
  else if (has_effect(ME_STUNNED))
   wprintz(w, h_white, _("Stunned"));
+ else if (has_effect(ME_FROZEN))
+  wprintz(w, h_white, _("Frozen"));
  else if (has_effect(ME_BEARTRAP))
   wprintz(w, h_white, _("Trapped"));
  std::string damage_info;
@@ -295,6 +297,8 @@ nc_color monster::color_with_effects()
   ret = hilite(ret);
  if (has_effect(ME_ONFIRE))
   ret = red_background(ret);
+ if (has_effect(ME_FROZEN))
+  ret = cyan_background(ret);
  return ret;
 }
 

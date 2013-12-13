@@ -1852,3 +1852,68 @@ void mattack::parrot(monster *z)
         g->sound(z->posx(), z->posy(), speech.volume, speech.text);
     }
 }
+
+void mattack::freeze(monster *z)
+{
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+        return;
+    }
+
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    g->add_msg(_("The %s strikes you with a chilling hit!"), z->name().c_str());
+    z->moves -= 150;
+
+    if (g->u.uncanny_dodge()) { return; }
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+        g->add_msg(_("You dodge it!"));
+        g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
+        return;
+    }
+
+    // Does no damage
+
+    g->add_msg(_("You feel frigid!"));
+
+    for ( int i = 0 ; i < num_bp ; i++)
+        g->u.temp_cur[i] -= 250;
+
+    g->u.practice(g->turn, "dodge", z->type->melee_skill);
+}
+
+void mattack::icestorm(monster *z)
+{
+    int t;
+    int junk = 0;
+    if (!g->sees_u(z->posx(), z->posy(), t) ||
+       !g->m.clear_path(z->posx(), z->posy(), g->u.posx, g->u.posy, 12, 1, 100, junk)) {
+        return; // Can't see/reach you, no attack
+    }
+    z->moves = -50;   // It takes a while
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    g->add_msg(_("A streak of ice shoots towards you!"));
+    int tarx = g->u.posx + rng(-1, 1) + rng(-1, 1);// 3 in 9 chance of direct hit,
+    int tary = g->u.posy + rng(-1, 1) + rng(-1, 1);// 4 in 9 chance of near hit
+    if (!g->m.sees(z->posx(), z->posy(), tarx, tary, -1, t)) {
+        t = 0;
+    }
+    std::vector<point> streak = line_to(z->posx(), z->posy(), tarx, tary, t);
+    for (int i = 0; i < streak.size(); i++) { // Fill the LOS with ice mist
+        if (!one_in(4)) {
+            g->m.add_field(g, streak[i].x, streak[i].y, fd_ice_mist, rng(1, 3));
+        }
+    }
+    // 5x5 cloud of ice mist and frost at the square hit
+    for (int i = tarx - 2; i <= tarx + 2; i++) {
+        for (int j = tary - 2; j <= tary + 2; j++) {
+            if (one_in(2) || (i == 0 && j == 0)) {
+                g->m.add_field(g, i, j, fd_frost, rng(1, 2));
+            }
+            if (!one_in(4) || (i == 0 && j == 0)) {
+                g->m.add_field(g, i, j, fd_ice_mist, rng(1, 3));
+            }
+        }
+    }
+}

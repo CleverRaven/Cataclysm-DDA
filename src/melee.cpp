@@ -68,7 +68,7 @@ int player::hit_roll()
  }
  int numdice = base_to_hit(stat) + weapon.type->m_to_hit +
                disease_intensity("attack_boost");
- int sides = 10 - encumb(bp_torso);
+ int sides = 10 - encumb(bp_torso) - (disease_intensity("onice") - 1);
  int best_bonus = 0;
  if (sides < 2)
   sides = 2;
@@ -119,7 +119,7 @@ int player::hit_roll()
 
  if (numdice < 1) {
   numdice = 1;
-  sides = 8 - encumb(bp_torso);
+  sides = 8 - encumb(bp_torso) - (disease_intensity("onice") - 1);
  }
 
  return dice(numdice, sides);
@@ -482,7 +482,7 @@ int player::dodge(game *g)
     int ret = (dex_cur / 2);
     ret += skillLevel("dodge");
     ret += disease_intensity("dodge_boost");
-    ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
+    ret -= (encumb(bp_legs) / 2) + encumb(bp_torso) + (disease_intensity("onice") - 1);
     ret += int(current_speed(g) / 150); //Faster = small dodge advantage
 
     // add martial arts bonus
@@ -578,8 +578,8 @@ int player::roll_bash_damage(monster *critter, bool crit)
   bash_dam = rng(0, int(stat / 2) + skillLevel("unarmed"));
 
  if (crit) {
-  bash_dam *= 1.5;
-  bash_cap *= 2;
+  bash_dam *= critter->has_effect(ME_FROZEN) ? 1.5 : 4;
+  bash_cap *= critter->has_effect(ME_FROZEN) ? 2 : 4;
  }
 
  if (bash_dam > bash_cap)// Cap for weak characters
@@ -587,6 +587,9 @@ int player::roll_bash_damage(monster *critter, bool crit)
 
  if (critter != NULL && critter->has_flag(MF_PLASTIC))
   bash_dam /= rng(2, 4);
+
+ if (critter != NULL && critter->has_effect(ME_FROZEN))
+  bash_dam *= rng(2,4);
 
  int bash_min = bash_dam / 4;
 
@@ -644,6 +647,9 @@ int player::roll_cut_damage(monster *critter, bool crit)
  else
   ret *= 0.92 + 0.04 * skillLevel("cutting");
 
+ if (critter != NULL && critter->has_effect(ME_FROZEN))
+  ret /= rng(2,4);
+
  if (crit)
   ret *= 1.0 + (skillLevel("cutting") / 12.0);
 
@@ -683,6 +689,9 @@ int player::roll_stab_damage(monster *critter, bool crit)
   if (speed_dam > 0)
    ret += speed_dam;
  }
+
+ if (critter != NULL && critter->has_effect(ME_FROZEN))
+  ret /= rng(2,4);
 
  if (ret <= 0)
   return 0; // No negative stabbing!
@@ -1789,7 +1798,7 @@ int attack_speed(player &u)
  int dexbonus = (int)( pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
 
  move_cost += skill_cost;
- move_cost += 20 * u.encumb(bp_torso);
+ move_cost += 20 * u.encumb(bp_torso) + 20 * (u.disease_intensity("onice") - 1);
  move_cost -= dexbonus;
 
  if (u.has_trait("LIGHT_BONES"))

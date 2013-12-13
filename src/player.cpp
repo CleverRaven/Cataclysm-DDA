@@ -713,6 +713,8 @@ void player::update_bodytemp(game *g)
     const trap_id trap_at_pos = g->m.tr_at(posx, posy);
     const ter_id ter_at_pos = g->m.ter(posx, posy);
     const furn_id furn_at_pos = g->m.furn(posx, posy);
+    // Fetches the temperature change due to surrounding tiles
+    int radiant_heat = g->get_radiant_temperature(posx, posy);
     // When the player is sleeping, he will use floor items for warmth
     int floor_item_warmth = 0;
     // When the player is sleeping, he will use floor bedding for warmth
@@ -791,45 +793,25 @@ void player::update_bodytemp(game *g)
         temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
         if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
-        // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
-        int blister_count = 0; // If the counter is high, your skin starts to burn
-        for (int j = -6 ; j <= 6 ; j++) {
-            for (int k = -6 ; k <= 6 ; k++) {
-                int heat_intensity = 0;
-
-                int ffire = g->m.get_field_strength( point(posx + j, posy + k), fd_fire );
-                if(ffire > 0) {
-                    heat_intensity = ffire;
-                } else if (g->m.tr_at(posx + j, posy + k) == tr_lava ) {
-                    heat_intensity = 3;
-                }
-                if (heat_intensity > 0 && g->u_see(posx + j, posy + k)) {
-                    // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
-                    int fire_dist = std::max(1, std::max(j, k));
-                    if (frostbite_timer[i] > 0) {
-                        frostbite_timer[i] -= heat_intensity - fire_dist / 2;
-                    }
-                    temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist * fire_dist);
-                    blister_count += heat_intensity / (fire_dist * fire_dist);
-                }
-            }
-        }
+        // RADIANT ENERGY
+        // Apply felt radiant energy
+        temp_conv[i] += radiant_heat;
+        // radiant energy will cause blisters
+        int blister_count = radiant_heat / 10000;
+        // radiant energy will reduce frostbite
+        if (frostbite_timer[i] > 0)
+            { frostbite_timer[i] -= radiant_heat / 10000;}
         // TILES
-        // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
         if (has_disease("onfire")) {
-            temp_cur[i] += 250;
+            temp_conv[i] += 15000;
         }
         if ( g->m.get_field_strength( point(posx, posy), fd_fire ) > 2 || trap_at_pos == tr_lava) {
-            temp_cur[i] += 250;
+            temp_conv[i] += 15000;
         }
-        // WEATHER
-        if (g->weather == WEATHER_SUNNY && g->is_in_sunlight(posx, posy))
+        // Walking in icy mist is bad for body temp 
+        if (g->m.get_field_strength( point(posx, posy), fd_ice_mist ))
         {
-            temp_conv[i] += 1000;
-        }
-        if (g->weather == WEATHER_CLEAR && g->is_in_sunlight(posx, posy))
-        {
-            temp_conv[i] += 500;
+            temp_conv[i] -= 3000 * g->m.get_field_strength( point(posx, posy), fd_ice_mist );
         }
         // DISEASES
         if (has_disease("flu") && i == bp_head) { temp_conv[i] += 1500; }
@@ -1323,6 +1305,8 @@ nc_color player::color()
   return c_ltblue;
  if (has_disease("boomered"))
   return c_pink;
+ if (has_disease("frozen"))
+  return c_cyan;
  if (underwater)
   return c_blue;
  if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE) ||

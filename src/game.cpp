@@ -1369,11 +1369,116 @@ void game::update_weather()
 int game::get_temperature()
 {
     point location = om_location();
+    
+    return get_temperature(location);
+}
+
+int game::get_temperature(point location)
+{
+    // Fetch temperature due to weather
     int tmp_temperature = temperature;
 
+    // Add temperature due to submap
     tmp_temperature += m.temperature(u.posx, u.posy);
 
     return tmp_temperature;
+}
+
+int game::get_radiant_temperature(int posx, int posy)
+{
+    // Need to find a way to calculate distance between monster and tile
+
+    // Implicitly, this always calculates the tile from the POV of the player
+    // because of the use of "u_see"
+
+    int felt_radiant_energy = 0;
+
+    /**
+     *  Sun energy (distance is constant due to its sheer magnitude)
+     */
+
+    if (weather == WEATHER_SUNNY && is_in_sunlight(posx, posy))
+    {
+        felt_radiant_energy += 1000;
+    }
+    if (weather == WEATHER_CLEAR && is_in_sunlight(posx, posy))
+    {
+        felt_radiant_energy += 500;
+    }
+
+    int tile_distance = 1;
+    // Four intensities of fire, in DDA units
+    // Values taken from wikipedia and divided by 4
+    int fire_temperature_level[4] = {13500, 20500, 27500, 35000};
+    int lava_temperature = fire_temperature_level[3];
+
+    for (int j = -6 ; j <= 6 ; j++)
+    {
+        for (int k = -6 ; k <= 6 ; k++)
+        {
+            // Skip things you can't see
+            if ( !u_see(posx + j, posy + k) ) {
+                // DEBUG
+                felt_radiant_energy += 1;
+                continue;
+            }
+            field &tile_field = m.field_at(posx + j, posy + k);
+            tile_distance = std::max(1, std::max(abs(j), abs(k)));
+            int tile_energy = 0;
+
+            /**
+             *  Fire energy
+             *      Find the felt_radiant temperatue of the player
+             *      ISSUE : fire "size" should also incorporate number of tiles ...
+             *          Current fix : fire temp definitions are divided by 4
+             *      BUG : Sometimes, when the player is close, and he takes a step, the radiant energy is zero
+             *          because he loses sight
+             */
+
+            if ( tile_field.findField(fd_fire) ) {
+                switch (tile_field.findField(fd_fire)->getFieldDensity()) {
+                    case 1: 
+                        tile_energy += fire_temperature_level[0]; break;
+                    case 2:
+                        tile_energy += fire_temperature_level[1]; break;
+                    case 3:
+                        tile_energy += fire_temperature_level[2]; break;
+                    case 4:
+                        tile_energy += fire_temperature_level[3]; break;
+                }
+            }
+
+            /**
+             * Lava energy
+             *      ISSUE : Cannot use tile_field because lava is a type of terrain
+             *      How to make this prettier?
+             */
+
+            if ( m.tr_at(posx + j, posy + k) == tr_lava ) {
+                tile_energy += lava_temperature;
+            }
+
+            /**
+             * Monster aura energy
+             */
+
+            if ( mon_at(posx + j, posy + k) != -1 ) {
+                monster &z = _active_monsters[mon_at(posx + j, posy + k)];
+                if (z.has_flag(MF_COLDAURA)) {
+                    tile_energy -= 20000;
+                }
+                if (z.has_flag(MF_HOTAURA)) {
+                    tile_energy += 20000;
+                }
+            }
+            
+            /**
+             * Total energy felt
+             */
+            felt_radiant_energy += exp(0.004) * (tile_energy / (tile_distance * tile_distance));
+        }
+    }
+    return felt_radiant_energy;
 }
 
 int game::assign_mission_id()
@@ -5272,7 +5377,7 @@ void game::monmove()
                 }
                 critter->dead = true;
             } else {
-                critter->receive_moves();
+                critter->receive_moves(g);
             }
         }
     }
@@ -5467,12 +5572,12 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
     return;
 }
 
-void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
+void game::explosion(int x, int y, int power, int shrapnel, int element)
 {
  int radius = int(sqrt(double(power / 4)));
  int dam;
  std::string junk;
- int noise = power * (has_fire ? 2 : 10);
+ int noise = power * (element == NO_ELEMENT ? 2 : 10);
 
  if (power >= 30)
   sound(x, y, noise, _("a huge explosion!"));
@@ -5526,15 +5631,25 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     u.hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
     u.hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
    }
-   if (has_fire) {
+   if (element == HAS_FIRE) {
     m.add_field(this, i, j, fd_fire, dam / 10);
+   }
+   if (element == HAS_ICE) {
+    m.add_field(this, i, j, fd_frost, dam / 10);
+    if (one_in(3)) 
+     m.add_field(this, i, j, fd_ice_floor, dam / 10);
+    if (one_in(2))
+     m.add_field(this, i, j, fd_ice_mist, dam / 10);
    }
   }
  }
 
 // Draw the explosion
- draw_explosion(x, y, radius, c_red);
-
+if (element == HAS_FIRE)
+    draw_explosion(x, y, radius, c_red);
+if (element == HAS_ICE)
+    draw_explosion(x, y, radius, c_blue);
+ 
 // The rest of the function is shrapnel
  if (shrapnel <= 0)
   return;
@@ -5647,6 +5762,49 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
     {
         add_msg(_("You're caught in the shockwave!"));
         knockback(x, y, u.posx, u.posy, force, stun, dam_mult);
+    }
+    return;
+}
+
+void game::frost_nova(int x, int y, int radius, int power, bool ignore_player)
+{
+    draw_explosion(x, y, radius, c_blue);
+
+    for (int i = 0 ; i < x ; x++)
+    {
+        for (int j = 0 ; j < y ; y++)
+        {
+            m.add_field(this, i, j, fd_frost, 3);
+            int distance = (abs(i) + abs(j)) / 2; // Pythagoras would disagree, but close enough
+            if (one_in(distance)) m.add_field(this, i, j, fd_ice_mist, std::min(3, radius - distance));
+        }
+    }
+
+    sound(x, y, power*power/2, _("Snap!"));
+    // Critters get hit by the nova
+    for (int i = 0; i < num_zombies(); i++)
+    {
+        monster &critter = _active_monsters[i];
+        if (rl_dist(critter.posx(), critter.posy(), x, y) <= radius)
+        {
+            add_msg(_("%s is caught in the frost nova!"), critter.name().c_str());
+            freeze(critter.posx(), critter.posy(), power);
+        }
+    }
+    // NPCs get hit by the nova
+    for (int i = 0; i < active_npc.size(); i++)
+    {
+        if (rl_dist(active_npc[i]->posx, active_npc[i]->posy, x, y) <= radius)
+        {
+            add_msg(_("%s is caught in the frost nova!"), active_npc[i]->name.c_str());
+            freeze(active_npc[i]->posx, active_npc[i]->posy, power);
+        }
+    }
+    // You get hit by the nova
+    if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player)
+    {
+        add_msg(_("You're caught in the frost nova!"));
+        freeze(u.posx, u.posy, power);
     }
     return;
 }
@@ -5966,6 +6124,30 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
     return;
 }
 
+void game::freeze(int x, int y, int power) 
+{
+    const int zid = mon_at(x, y);
+    int size_factor = 1;
+    if (zid != -1) 
+        { 
+        monster *targ = &_active_monsters[zid]; 
+        switch (targ->type->size) {
+            case MS_TINY:   size_factor =  1; break;
+            case MS_SMALL:  size_factor =  2; break;
+            case MS_MEDIUM: size_factor =  4; break;
+            case MS_LARGE:  size_factor =  8; break;
+            case MS_HUGE:   size_factor = 16; break;
+        }
+        if (power > 0 && !targ->has_flag(MF_ICEY)) 
+        { 
+            targ->add_effect(ME_FROZEN, power/size_factor); 
+            add_msg(ngettext("%s was frozen for %d turn!", 
+                             "%s was frozen for %d turns!", power/size_factor), 
+                             targ->name().c_str(), power/size_factor); 
+        } 
+    } 
+} 
+
 void game::use_computer(int x, int y)
 {
  if (u.has_trait("ILLITERATE")) {
@@ -6056,7 +6238,9 @@ void game::resonance_cascade(int x, int y)
     m.destroy(this, i, j, true);
     break;
    case 19:
-    explosion(i, j, rng(1, 10), rng(0, 1) * rng(0, 6), one_in(4));
+    int element = NO_ELEMENT;
+    if (one_in(4)) element = HAS_FIRE;
+    explosion(i, j, rng(1, 10), rng(0, 1) * rng(0, 6), element);
     break;
    }
   }
@@ -10569,6 +10753,13 @@ bool game::plmove(int dx, int dy)
  int x = 0;
  int y = 0;
  if (u.has_disease("stunned")) {
+  x = rng(u.posx - 1, u.posx + 1);
+  y = rng(u.posy - 1, u.posy + 1);
+ } else if (u.has_disease("frozen")) {
+  x = u.posx;
+  y = u.posy;
+ } else if (u.disease_intensity("onice") == 3 && one_in( 1 + u.resist(bp_feet) * 2 )) {
+  add_msg("You slip on the ice!");
   x = rng(u.posx - 1, u.posx + 1);
   y = rng(u.posy - 1, u.posy + 1);
  } else {

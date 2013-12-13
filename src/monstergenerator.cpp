@@ -243,6 +243,7 @@ void MonsterGenerator::init_flags() {
     flag_map["SLUDGEPROOF"] = MF_SLUDGEPROOF;
     flag_map["SLUDGETRAIL"] = MF_SLUDGETRAIL;
     flag_map["FIREY"] = MF_FIREY;
+    flag_map["ICEY"] = MF_ICEY;
     flag_map["QUEEN"] = MF_QUEEN;
     flag_map["ELECTRONIC"] = MF_ELECTRONIC;
     flag_map["FUR"] = MF_FUR;

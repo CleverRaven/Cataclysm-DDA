@@ -396,7 +396,7 @@ void mdeath::explode(monster *z) {
         case MS_HUGE:
             size = 26; break;
     }
-    g->explosion(z->posx(), z->posy(), size, 0, false);
+    g->explosion(z->posx(), z->posy(), size, 0);
 }
 
 void mdeath::broken(monster *z) {

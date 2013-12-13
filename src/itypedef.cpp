@@ -227,6 +227,7 @@ BIO_SINGLE("bio_heat_absorb", 5500, c_red, 5);
 BIO_SINGLE("bio_claws", 5500, c_red, 5);
 BIO_SINGLE("bio_razors", 4500, c_red, 4);
 BIO_SINGLE("bio_shockwave", 5500, c_red, 5);
+BIO_SINGLE("bio_frost_nova", 5500, c_red, 5);
 // armor:
 BIO_SINGLE("bio_carbon", 7500, c_cyan, 9);
 BIO_SINGLE("bio_armor_head", 3500, c_cyan, 5);

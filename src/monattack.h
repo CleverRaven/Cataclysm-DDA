@@ -50,6 +50,8 @@ public:
     void brandish           (monster *z);
     void flesh_golem        (monster *z);
     void parrot             (monster *z);
+    void freeze             (monster *z);
+    void icestorm           (monster *z);
 };
 
 #endif
