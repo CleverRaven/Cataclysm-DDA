@@ -5467,18 +5467,10 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
     return;
 }
 
-void game::explosion(int x, int y, int power, int shrapnel, bool fire)
+void game::do_blast( const int x, const int y, const int power, const int radius, const bool fire )
 {
-    int radius = int(sqrt(double(power / 4)));
-    int dam;
     std::string junk;
-    int noise = power * (fire ? 2 : 10);
-
-    if (power >= 30) {
-        sound(x, y, noise, _("a huge explosion!"));
-    } else {
-        sound(x, y, noise, _("an explosion!"));
-    }
+    int dam;
     for (int i = x - radius; i <= x + radius; i++) {
         for (int j = y - radius; j <= y + radius; j++) {
             if (i == x && j == y) {
@@ -5536,9 +5528,24 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
             }
         }
     }
+}
 
-    // Draw the explosion
-    draw_explosion(x, y, radius, c_red);
+void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blast)
+{
+    int radius = int(sqrt(double(power / 4)));
+    int dam;
+    int noise = power * (fire ? 2 : 10);
+
+    if (power >= 30) {
+        sound(x, y, noise, _("a huge explosion!"));
+    } else {
+        sound(x, y, noise, _("an explosion!"));
+    }
+    if( blast ) {
+        do_blast( x, y, power, radius, fire );
+        // Draw the explosion
+        draw_explosion(x, y, radius, c_red);
+    }
 
     // The rest of the function is shrapnel
     if (shrapnel <= 0) {
