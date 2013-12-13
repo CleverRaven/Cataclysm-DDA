@@ -6674,6 +6674,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     }
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
                        comest->nutr >= 5);
+    bool hiberfood = (has_trait("HIBERNATE") && (hunger > -60 && thirst > -60 ));    
     bool spoiled = eaten->rotten(g);
 
     last_item = itype_id(eaten->type->id);
@@ -6681,6 +6682,17 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     if (overeating && !has_trait("HIBERNATE") && !is_npc() &&
         !query_yn(_("You're full.  Force yourself to eat?"))) {
         return false;
+    }
+    int temp_nutr = comest->nutr;
+    int temp_quench = comest->quench;
+    if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60))){
+       if (!query_yn(_("You're adequately fueled. Prepare for hibernation?"))) {
+        return false;
+       }
+       else
+       if(!is_npc()) {add_memorial_log(_("Began preparing for hibernation."));
+                      g->add_msg(_("You've begun stockpiling calories and liquid for hibernation. You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW."));
+      }
     }
 
     if (has_trait("CARNIVORE") && eaten->made_of("veggy") && comest->nutr > 0) {
@@ -6726,11 +6738,25 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     int temp_hunger = hunger - comest->nutr;
     int temp_thirst = thirst - comest->quench;
     int threshold = has_trait("GOURMAND") ? -60 : -20;
-    if( has_trait("HIBERNATE") ) {
-        threshold = -620;
+    if( has_trait("HIBERNATE") && !is_npc() &&
+        // If BOTH hunger and thirst are above the threshold...
+        ( hunger > threshold && thirst > threshold ) &&
+        // ...and EITHER of them crosses under the threshold...
+        ( temp_hunger < threshold || temp_thirst < threshold ) ) {
+        // Prompt to make sure player wants to gorge for hibernation...
+        if( query_yn(_("Start gorging in preperation for hibernation?")) ) {
+            // ...and explain what that means.
+            g->add_msg(_("As you force yourself to eat, you have the feeling that you'll just be able to keep eating and then sleep for a long time."));
+        } else {
+            return false;
+        }
     }
-    if( ( comest->nutr > 0 && temp_hunger < threshold ) ||
-        ( comest->quench > 0 && temp_thirst < threshold ) ) {
+
+    if( has_trait("HIBERNATE") ) {
+        capacity = -620;
+    }
+    if( ( comest->nutr > 0 && temp_hunger < capacity ) ||
+        ( comest->quench > 0 && temp_thirst < capacity ) ) {
         if (spoiled){//rotten get random nutrification
             if (!query_yn(_("You can hardly finish it all. Consume it?"))) {
                 return false;
