@@ -424,7 +424,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
       okay_by_rules = (mon->hp <= average_damage_dealt());
       break;
      case ENGAGE_HIT:
-      okay_by_rules = (mon->has_effect(ME_HIT_BY_PLAYER));
+      okay_by_rules = (mon->has_effect("hit_by_player"));
       break;
     }
    }
@@ -445,7 +445,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
     distance = (100 * rl_dist(g->u.posx, g->u.posy, mon->posx(), mon->posy())) /
                mon->speed;
     priority -= distance;
-    if (mon->speed < current_speed(g))
+    if (mon->speed < get_speed())
      priority -= 10;
     priority *= (personality.bravery + personality.altruism + op_of_u.value) /
                 15;
@@ -460,7 +460,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
 
 npc_action npc::method_of_fleeing(game *g, int enemy)
 {
- int speed = (enemy == TARGET_PLAYER ? g->u.current_speed(g) :
+ int speed = (enemy == TARGET_PLAYER ? g->u.get_speed() :
                                        g->zombie(enemy).speed);
  point enemy_loc = (enemy == TARGET_PLAYER ? point(g->u.posx, g->u.posy) :
                     point(g->zombie(enemy).posx(), g->zombie(enemy).posy()));
@@ -469,7 +469,7 @@ npc_action npc::method_of_fleeing(game *g, int enemy)
  if (choose_escape_item() >= 0) // We have an escape item!
   return npc_escape_item;
 
- if (speed > 0 && (100 * distance) / speed <= 4 && speed > current_speed(g))
+ if (speed > 0 && (100 * distance) / speed <= 4 && speed > get_speed())
   return method_of_attack(g, enemy, -1); // Can't outrun, so attack
 
  return npc_flee;
@@ -899,14 +899,14 @@ bool npc::need_to_reload()
 bool npc::enough_time_to_reload(game *g, int target, item &gun)
 {
  int rltime = gun.reload_time(*this);
- double turns_til_reloaded = rltime / current_speed(g);
+ double turns_til_reloaded = rltime / get_speed();
  int dist, speed, linet;
 
  if (target == TARGET_PLAYER) {
   if (g->sees_u(posx, posy, linet) && g->u.weapon.is_gun() && rltime > 200)
    return false; // Don't take longer than 2 turns if player has a gun
   dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
-  speed = speed_estimate(g->u.current_speed(g));
+  speed = speed_estimate(g->u.get_speed());
  } else if (target >= 0) {
   dist = rl_dist(posx, posy, g->zombie(target).posx(), g->zombie(target).posy());
   speed = speed_estimate(g->zombie(target).speed);
@@ -941,7 +941,7 @@ bool npc::can_move_to(game *g, int x, int y)
 void npc::move_to(game *g, int x, int y)
 {
 
- if (has_disease("downed")) {
+ if (has_effect("downed")) {
   moves -= 100;
   return;
  }
@@ -958,7 +958,7 @@ void npc::move_to(game *g, int x, int y)
    recoil = int(recoil / 2);
   }
  }
- if (has_disease("stunned")) {
+ if (has_effect("stunned")) {
   x = rng(posx - 1, posx + 1);
   y = rng(posy - 1, posy + 1);
  }
@@ -1458,14 +1458,12 @@ npc_action npc::scan_new_items(game *g, int target)
 void npc::melee_monster(game *g, int target)
 {
  monster* monhit = &(g->zombie(target));
- int dam = hit_mon(g, monhit);
- if (monhit->hurt(dam))
-  g->kill_mon(target, false);
+ melee_attack(g, *monhit, true);
 }
 
 void npc::melee_player(game *g, player &foe)
 {
- hit_player(g, foe);
+ melee_attack(g, foe, true);
 }
 
 void npc::wield_best_melee(game *g)

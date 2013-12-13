@@ -368,6 +368,7 @@ public:
  //npc(npc& rhs);
  npc(const npc &rhs);
  virtual ~npc();
+ virtual bool is_player() { return false; }
  virtual bool is_npc() { return true; }
 
  npc& operator= (const npc &rhs);
@@ -461,6 +462,7 @@ public:
  bool is_active(game *g);
  void say(game *g, std::string line, ...);
  void decide_needs();
+ void die(game* g, Creature* killer);
  void die(game *g, bool your_fault = false);
 /* shift() works much like monster::shift(), and is called when the player moves
  * from one submap to an adjacent submap.  It updates our position (shifting by

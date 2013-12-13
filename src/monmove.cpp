@@ -113,7 +113,7 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
             }
         }
 
-        if (has_effect(ME_DOCILE)) {
+        if (has_effect("docile")) {
             closest = -1;
         }
 
@@ -251,16 +251,16 @@ void monster::move(game *g)
         moves = 0;
         return;
     }
-    if (has_effect(ME_STUNNED)) {
+    if (has_effect("stunned")) {
         stumble(g, false);
         moves = 0;
         return;
     }
-    if (has_effect(ME_DOWNED)) {
+    if (has_effect("downed")) {
         moves = 0;
         return;
     }
-    if (has_effect(ME_BOULDERING)) {
+    if (has_effect("bouldering")) {
         moves -= 20;
         if (moves < 0) {
             return;
@@ -528,228 +528,6 @@ point monster::wander_next(game *g)
  return next;
 }
 
-void monster::hit_player(game *g, player &p, bool can_grab)
-{
-    moves -= 100;
-
-    if (type->melee_dice == 0) // We don't attack, so just return
-    {
-        return;
-    }
-    add_effect(ME_HIT_BY_PLAYER, 3); // Make us a valid target for a few turns
-    if (has_flag(MF_HIT_AND_RUN))
-    {
-        add_effect(ME_RUN, 4);
-    }
-    bool is_npc = p.is_npc();
-    bool u_see = (!is_npc || g->u_see(p.posx, p.posy));
-    std::string you  = (is_npc ? p.name : "you");
-    std::string You  = (is_npc ? p.name : "You");
-    std::string your = (is_npc ? p.name + "'s" : "your");
-    std::string Your = (is_npc ? p.name + "'s" : "Your");
-    body_part bphit;
-    int dam = hit(g, p, bphit), cut = type->melee_cut, stab = 0;
-    int side = random_side(bphit);
-
-    //110*e^(-.3*[melee skill of monster]) = % chance to miss. *100 to track .01%'s
-    //Returns ~80% at 1, drops quickly to 33% at 4, then slowly to 5% at 10 and 1% at 16
-    if (rng(0, 10000) < 11000 * exp(-.3 * type->melee_skill))
-    {
-        if (u_see) {
-            g->add_msg(_("The %s misses."), name().c_str());
-        }
-    }
-    else
-    {
-        if (!g->u.uncanny_dodge())
-        {
-            //Reduce player's ability to dodge by monster's ability to hit
-            int dodge_ii = p.dodge(g) - rng(0, type->melee_skill);
-            if (dodge_ii < 0)
-            {
-                dodge_ii = 0;
-            }
-
-            // 100/(1+99*e^(-.6*[dodge() return modified by monster's skill])) = % chance to dodge
-            // *100 to track .01%'s
-            // 1% minimum, scales slowly to 16% at 5, then rapidly to 80% at 10,
-            // then returns less with each additional point, reaching 99% at 16
-            if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * dodge_ii)))
-            {
-                if (is_npc) {
-                    if(u_see) {
-                        g->add_msg(_("%1$s dodges the %2$s."), p.name.c_str(), name().c_str());
-                    }
-                } else {
-                    g->add_msg(_("You dodge the %s."), name().c_str());
-                }
-                p.practice(g->turn, "dodge", type->melee_skill * 2); //Better monster = more skill gained
-                p.ma_ondodge_effects();
-            }
-
-            //Successful hit with damage
-            else if (dam > 0)
-            {
-                p.practice(g->turn, "dodge", type->melee_skill);
-
-                if(!p.block_hit(g, bphit, side, dam, cut, stab) && u_see) {
-                    if (is_npc) {
-                        if( u_see ) {
-                            g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
-                                       p.name.c_str(), body_part_name(bphit, side).c_str());
-                        }
-                    } else {
-                        if ( g->u_see(this) ) {
-                            g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
-                                   body_part_name(bphit, side).c_str());
-                        } else {
-                            g->add_msg(_("Something hits your %s."),
-                                    body_part_name(bphit, side).c_str());
-                        }
-                    }
-                }
-
-                // Attempt defensive moves
-                if (!is_npc)
-                {
-                    if (g->u.activity.type == ACT_RELOAD)
-                    {
-                        g->add_msg(_("You stop reloading."));
-                    }
-                    else if (g->u.activity.type == ACT_READ)
-                    {
-                        g->add_msg(_("You stop reading."));
-                    }
-                    else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
-                    {
-                        g->add_msg(_("You stop crafting."));
-                        g->u.activity.type = ACT_NULL;
-                    }
-                }
-
-                if (p.has_active_bionic("bio_ods"))
-                {
-                    if (!is_npc) {
-                        g->add_msg(_("Your offensive defense system shocks it!"),
-                                   p.name.c_str());
-                    } else if (u_see) {
-                        g->add_msg(_("%s's offensive defense system shocks it!"),
-                                   p.name.c_str());
-                    }
-                    if (hurt(rng(10, 40))) {
-                        die(g);
-                    }
-                }
-                if (p.encumb(bphit) == 0 &&(p.has_trait("SPINES") || p.has_trait("QUILLS")))
-                {
-                    int spine = rng(1, (p.has_trait("QUILLS") ? 20 : 8));
-                    if (is_npc) {
-                        if( u_see ) {
-                            g->add_msg(_("%1$s's %2$s puncture it!"), p.name.c_str(),
-                                       (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
-                        }
-                    } else {
-                        g->add_msg(_("Your %s puncture it!"),
-                                   (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
-                    }
-                    if (hurt(spine))
-                        die(g);
-                }
-
-                if (dam + cut <= 0)
-                {
-                    return; // Defensive technique canceled damage.
-                }
-
-                //Hallucinations don't actually hurt the player, but do produce the message
-                if(is_hallucination()) {
-
-                    //~14% chance of vanishing after hitting the player
-                    if(one_in(7)) {
-                      die(g);
-                      return;
-                    }
-
-                } else {
-
-                    //Hurt the player
-                    dam = p.hit(g, bphit, side, dam, cut);
-
-                    //Monster effects
-                    if (dam > 0 && has_flag(MF_VENOM)) {
-                        g->add_msg_if_player(&p, _("You're poisoned!"));
-                        p.add_disease("poison", 30);
-                    } else if (dam > 0 && has_flag(MF_BADVENOM)) {
-                        g->add_msg_if_player(&p, _("You feel poison flood your body, wracking you with pain..."));
-                        p.add_disease("badpoison", 40);
-                    } else if (dam > 0 && has_flag(MF_PARALYZE)) {
-                        g->add_msg_if_player(&p, _("You feel poison enter your body!"));
-                        p.add_disease("paralyzepoison", 100, false, 1, 20, 100);
-                    }
-
-                    if (has_flag(MF_BLEED) && dam > 6 && cut > 0) {
-                        g->add_msg_if_player(&p, _("You're Bleeding!"));
-                        p.add_disease("bleed", 60, false, 1, 3, 120, 1, bphit, side, true);
-                    }
-
-                    //Same as monster's chance to not miss
-                    if (can_grab && has_flag(MF_GRABS) &&
-                        (rng(0, 10000) > 11000 * exp(-.3 * type->melee_skill)))
-                    {
-                        g->add_msg(_("The %s grabs you!"), name().c_str());
-                        if (p.has_grab_break_tec() &&
-                            dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10))
-                        {
-                            g->add_msg_if_player(&p, _("You break the grab!"));
-                        } else {
-                            hit_player(g, p, false); //We grabed, so hit them again
-                        }
-                    }
-
-                }
-                // TODO: readd with counter mechanic
-            }
-        }
-    }
-
-    // if dam > 0
-    if (is_npc)
-    {
-        if (p.hp_cur[hp_head] <= 0 || p.hp_cur[hp_torso] <= 0)
-        {
-            npc* tmp = dynamic_cast<npc*>(&p);
-            tmp->die(g);
-            int index = g->npc_at(p.posx, p.posy);
-            if (index != -1 && index < g->active_npc.size())
-            {
-                g->active_npc.erase(g->active_npc.begin() + index);
-            }
-            plans.clear();
-        }
-    }
-
-    // Adjust anger/morale of same-species monsters, if appropriate
-    int anger_adjust = 0, morale_adjust = 0;
-    if (type->has_anger_trigger(MTRIG_FRIEND_ATTACKED)){
-        anger_adjust += 15;
-    }
-    if (type->has_fear_trigger(MTRIG_FRIEND_ATTACKED)){
-        morale_adjust -= 15;
-    }
-    if (type->has_placate_trigger(MTRIG_FRIEND_ATTACKED)){
-        anger_adjust -= 15;
-    }
-
-    if (anger_adjust != 0 && morale_adjust != 0)
-    {
-        for (int i = 0; i < g->num_zombies(); i++)
-        {
-            g->zombie(i).morale += morale_adjust;
-            g->zombie(i).anger += anger_adjust;
-        }
-    }
-}
-
 int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
 {
     int movecost = 0;
@@ -880,7 +658,7 @@ int monster::attack_at(int x, int y) {
     int npcdex = g->npc_at(x, y);
 
     if(x == g->u.posx && y == g->u.posy) {
-        hit_player(g, g->u);
+        melee_attack(g, g->u);
         return 1;
     }
 
@@ -920,7 +698,7 @@ int monster::attack_at(int x, int y) {
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
-        hit_player(g, *g->active_npc[npcdex]);
+        melee_attack(g, *g->active_npc[npcdex]);
         return 1;
     }
 
@@ -935,7 +713,7 @@ int monster::move_to(game *g, int x, int y, bool force)
         return 0;
     }
 
-    if (has_effect(ME_BEARTRAP)) {
+    if (has_effect("beartrap")) {
         moves = 0;
         return 0;
     }
@@ -1107,14 +885,14 @@ void monster::knock_back_from(game *g, int x, int y)
  if (mondex != -1) {
   monster *z = &(g->zombie(mondex));
   hurt(z->type->size);
-  add_effect(ME_STUNNED, 1);
+  add_effect("stunned", 1);
   if (type->size > 1 + z->type->size) {
    z->knock_back_from(g, posx(), posy()); // Chain reaction!
    z->hurt(type->size);
-   z->add_effect(ME_STUNNED, 1);
+   z->add_effect("stunned", 1);
   } else if (type->size > z->type->size) {
    z->hurt(type->size);
-   z->add_effect(ME_STUNNED, 1);
+   z->add_effect("stunned", 1);
   }
 
   if (u_see)
@@ -1127,8 +905,8 @@ void monster::knock_back_from(game *g, int x, int y)
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
   hurt(3);
-  add_effect(ME_STUNNED, 1);
-  p->hit(g, bp_torso, -1, type->size, 0);
+  add_effect("stunned", 1);
+  p->hit(g, this, bp_torso, -1, type->size, 0);
   if (u_see)
    g->add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
 
@@ -1151,7 +929,7 @@ void monster::knock_back_from(game *g, int x, int y)
 
   } else { // It's some kind of wall.
    hurt(type->size);
-   add_effect(ME_STUNNED, 2);
+   add_effect("stunned", 2);
    if (u_see)
     g->add_msg(_("The %s bounces off a %s."), name().c_str(),
                g->m.tername(to.x, to.y).c_str());
