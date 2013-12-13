@@ -3310,17 +3310,24 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
    drew_field = false;
   }
  }
-// If there's items here, draw those instead
- if (show_items && !has_flag("CONTAINER", x, y) && curr_items.size() > 0 && !drew_field) {
-  if (sym != '.' && sym != '%')
-   hi = true;
-  else {
-   tercol = curr_items[curr_items.size() - 1].color();
-   if (curr_items.size() > 1)
-    invert = !invert;
-   sym = curr_items[curr_items.size() - 1].symbol();
-  }
- }
+    // If there's items here, draw those instead
+    if (show_items && !has_flag("CONTAINER", x, y) && curr_items.size() > 0 && !drew_field) {
+        if (sym != '.' && sym != '%') {
+            hi = true;
+        } else {
+            // if there's furniture, then only change the furniture colour
+            if (has_furn(x, y)) {
+                invert = !invert;
+                sym = furnlist[curr_furn].sym;
+            } else {
+                tercol = curr_items[curr_items.size() - 1].color();
+                if (curr_items.size() > 1) {
+                    invert = !invert;
+                }
+                sym = curr_items[curr_items.size() - 1].symbol();
+            }
+        }
+    }
 
  int veh_part = 0;
  vehicle *veh = veh_at(x, y, veh_part);
