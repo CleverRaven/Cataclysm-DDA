@@ -6737,7 +6737,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     //not working directly in the equation... can't imagine why
     int temp_hunger = hunger - comest->nutr;
     int temp_thirst = thirst - comest->quench;
-    int threshold = has_trait("GOURMAND") ? -60 : -20;
+    int capacity = has_trait("GOURMAND") ? -60 : -20;
     if( has_trait("HIBERNATE") && !is_npc() &&
         // If BOTH hunger and thirst are above the capacity...
         ( hunger > capacity && thirst > capacity ) &&
