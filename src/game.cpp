@@ -3630,6 +3630,7 @@ Current turn: %d; Next spawn %d.\n\
         weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
       }
       weather_menu.addentry(-10,true,'v',"View weather log");
+      weather_menu.addentry(-11,true,'d',"View last 800 hours of decay");
       weather_menu.query();
 
       if(weather_menu.ret > 0 && weather_menu.ret < NUM_WEATHER_TYPES) {
@@ -3656,7 +3657,7 @@ Current turn: %d; Next spawn %d.\n\
               int(turn), int(nextweather), cweather, pweather
           );
           for(std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it) {
-              weather_log_menu.addentry(-1,true,-1,"%dd%dh %d %s[%d] %d",
+              weather_log_menu.addentry(-1,true,-1,"%dd%dh %6d %15s[%d] %2d",
                   it->second.deadline.days(),it->second.deadline.hours(),
                   it->first,
                   weather_data[int(it->second.weather)].name.c_str(),
@@ -3668,7 +3669,67 @@ Current turn: %d; Next spawn %d.\n\
           }
           }
           weather_log_menu.query();
+
+      } else if(weather_menu.ret == -11) {
+          uimenu decay_test_menu;
+
+
+
+          std::map<int, weather_segment>::iterator pit = weather_log.lower_bound(int(turn));
+          --pit;
+
+          calendar diffturn;
+
+          decay_test_menu.text = string_format("turn: %d, next: %d",
+              int(turn), int(nextweather)
+          );
+
+          const int ne = 3;
+          std::string examples[ne] = { "milk", "meat", "bread",  };
+          int esz[ne];
+          int exsp[ne];
+          std::string spstr="";
+          for (int i=0; i < ne; i++) {
+              itype * ity = item_controller->find_template(examples[i]);
+              exsp[i] = dynamic_cast<it_comest*>(ity)->spoils * 600;
+              esz[i] = examples[i].size();
+              spstr = string_format("%s | %s",spstr.c_str(),examples[i].c_str());
+          }
+
+          decay_test_menu.addentry(-1,true,-1,"  age  day hour   turn |   w-end  temp |    rot  hr %% %s", spstr.c_str() );
+
+          for( int i = 0; i < 800; i++ ) {
+              spstr="";
+              diffturn = int(turn)-(i*600);
+              pit = weather_log.lower_bound(int(diffturn));
+              int prt = get_rot_since( int(diffturn), int(turn) );
+              int perc = ( get_rot_since( int(diffturn), int(diffturn)+600 ) * 100 ) / 600;
+              int frt = int(turn) - int(diffturn);
+              for (int e=0; e < ne; e++) {
+                  spstr = string_format("%s | %c %c%s", spstr.c_str(),
+                      exsp[e] > prt ? 'Y' : ' ',
+                      exsp[e] > frt ? 'Y' : ' ',
+                      std::string(esz[e]-3, ' ').c_str()
+                  );
+              }
+              decay_test_menu.addentry(-1,true,-1,"%4dh %3dd%3dh %7d | %7d: %3df | %7d %3d%% %s",
+                  0-i,
+                  diffturn.days(), diffturn.hours(), int(diffturn),
+                  int(pit->second.deadline), pit->second.temperature, prt, perc,
+                  spstr.c_str()
+              );
+          }
+          decay_test_menu.query();
       }
+
+
+
+
+
+
+
+
+
   }
   break;
 

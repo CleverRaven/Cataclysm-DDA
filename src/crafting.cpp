@@ -1396,8 +1396,9 @@ void game::complete_craft()
  {
      if (iter->goes_bad())
      {
-         used_age_tally += ((int)turn - iter->bday)/
-                 (float)(dynamic_cast<it_comest*>(iter->type)->spoils);
+            iter->rotten(g);
+            used_age_tally += iter->rot/
+                (float)(dynamic_cast<it_comest*>(iter->type)->spoils);
          ++used_age_count;
      }
  }
