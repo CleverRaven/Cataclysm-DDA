@@ -249,7 +249,7 @@ void load_all_from_json(JsonIn &jsin)
     }
 }
 
-#ifdef LOCALIZE
+#if defined LOCALIZE && ! defined __CYGWIN__
 // load names depending on current locale
 void init_names()
 {
