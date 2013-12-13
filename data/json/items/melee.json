@@ -2141,7 +2141,7 @@
         "bashing" : 2,
         "cutting" : 10,
         "flags" : ["STAB", "UNARMED_WEAPON"],
-        "price" : 0
+        "price" : 100
     },
     {
         "type":"GENERIC",
@@ -2157,7 +2157,8 @@
         "bashing" : 1,
         "cutting" : 6,
         "flags" : ["SLICE", "UNARMED_WEAPON"],
-        "price" : 0
+        "price" : 200,
+        "qualities": [["CUT", 1]]
     },
   {
     "type":"GENERIC",
