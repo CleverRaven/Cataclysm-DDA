@@ -371,6 +371,10 @@
             },
             {
                 "input_method":"keyboard",
+                "key":"PPAGE"
+            },
+            {
+                "input_method":"keyboard",
                 "key":"<"
             }
         ]
@@ -383,6 +387,10 @@
             {
                 "input_method":"mouse",
                 "key":"SCROLL_DOWN"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
             },
             {
                 "input_method":"keyboard",
