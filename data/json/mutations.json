@@ -2049,15 +2049,52 @@
         "description" : "You require more food than most people.",
         "starting_trait" : true,
         "cancels" : ["LIGHTEATER"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_ALPHA", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA", "MUTCAT_ELFA", "MUTCAT_RAPTOR"]
+        "changes_to" :["HUNGER2"],
+        "category" : ["MUTCAT_RAT", "MUTCAT_ALPHA", "MUTCAT_MEDICAL", "MUTCAT_ELFA"]
+    },{
+        "type" : "mutation",
+        "id" : "HUNGER2",
+        "name" : "Very Fast Metabolism",
+        "points" : -3,
+        "description" : "You find yourself hungry.  A lot.  You need about twice as much food as the average human.",
+        "cancels" : ["LIGHTEATER"],
+        "prereqs" : ["HUNGER"],
+        "changes_to" :["HUNGER3"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAPTOR"]
+    },{
+        "type" : "mutation",
+        "id" : "HUNGER3",
+        "name" : "Extreme Metabolism",
+        "points" : -4,
+        "description" : "You burn calories like gasoline-soaked tinder.  You consume three times as much food as the average human.",
+        "trans_note" : "The simile there is intended for a Really Quick Burn--BAM burned."
+        "cancels" : ["LIGHTEATER"],
+        "prereqs" : ["HUNGER2"],
+        "category" : ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "THIRST",
         "name" : "High Thirst",
         "points" : -3,
-        "description" : "Your body dries out easily; you need to drink a lot more water.",
+        "description" : "Your body dries out easily; you need to drink more water.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD", "MUTCAT_CHIMERA", "MUTCAT_ELFA"]
+        "category" : ["MUTCAT_SLIME", "MUTCAT_CEPHALOPOD", "MUTCAT_CHIMERA", "MUTCAT_ELFA"]
+    },{
+        "type" : "mutation",
+        "id" : "THIRST2",
+        "name" : "Very Thirsty",
+        "points" : -4,
+        "description" : "Ugh, out of water already? You need about twice the fluids of an average human.",
+        "prereqs" : ["THIRST"],
+        "changes_to" :["THIRST3"],
+        "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD"]
+    },{
+        "type" : "mutation",
+        "id" : "THIRST3",
+        "name" : "Extremely Thirsty",
+        "points" : -5,
+        "description" : "You dry out seriously quickly, requiring three times as much liquid to stay hydrated.",
+        "prereqs" : ["THIRST2"]
     },{
         "type" : "mutation",
         "id" : "HEAVYSLEEPER2",
