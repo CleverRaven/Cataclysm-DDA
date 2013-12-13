@@ -37,16 +37,20 @@ double Creature::projectile_attack(game *g, const projectile &proj, int sourcex,
     double missed_by = shot_dispersion * .00325 * range;
     // TODO: move to-hit roll back in here
 
-
     if (missed_by >= 1.) {
         // We missed D:
         // Shoot a random nearby space?
         targetx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
         targety += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
-        /* TODO: as above, figure out what the tart parameter does */
     }
 
-    std::vector<point> trajectory = line_to(sourcex,sourcey,targetx,targety,0);
+    std::vector<point> trajectory;
+    int tart = 0;
+    if (g->m.sees(sourcex, sourcey, targetx, targety, 0, tart)) {
+        trajectory = line_to(sourcex,sourcey,targetx,targety,tart);
+    } else {
+        trajectory = line_to(sourcex,sourcey,targetx,targety,0);
+    }
 
     // Set up a timespec for use in the nanosleep function below
     timespec ts;
@@ -264,8 +268,6 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         num_shots--;
     }
 
-    //int tart;
-
     const bool debug_retarget = false;  // this will inevitably be needed
     //const bool wildly_spraying = false; // stub for now. later, rng based on stress/skill/etc at the start,
     int weaponrange = weapon.range(); // this is expensive, let's cache. todo: figure out if we need weapon.range(&p);
@@ -303,16 +305,6 @@ void player::fire_gun(int tarx, int tary, bool burst) {
                 tarx = new_targets[target_picked].x;
                 tary = new_targets[target_picked].y;
                 zid = g->mon_at(tarx, tary);
-                /* TODO: get t back in? No idea what it does though,
-                 * line.h comment is unhelpful because Bresenham doesn't have
-                 * any well-known variants and produces a deterministic
-                 * solution. Code in line.h makes it look like it curves the line?
-                if (m.sees(posx, posy, tarx, tary, 0, tart)) {
-                    trajectory = line_to(posx, posy, tarx, tary, tart);
-                } else {
-                    trajectory = line_to(posx, posy, tarx, tary, 0);
-                }
-                */
 
                 /* debug */ if (debug_retarget) printz(c_ltgreen, " NEW:(%d:%d,%d) %d,%d (%s)[%d] hp: %d",
                     target_picked, new_targets[target_picked].x, new_targets[target_picked].y,
@@ -1147,7 +1139,6 @@ int recoil_add(player &p)
  return 0;
 }
 
-// TODO: actually implement all of the special effects here
 void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
                    item* weapon, const std::set<std::string> &effects)
 {
