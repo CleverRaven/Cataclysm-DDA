@@ -202,7 +202,6 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         } else if ( isall ) {
             mvwprintz(window, 6 + x, amount_column, thiscolor, "%s", squares[items[i].area].shortname.c_str());
         }
-//mvwprintz(window, 6 + x, amount_column-3, thiscolor, "%d", items[i].cat);
         int xrightcol=rightcol;
         if (g->u.convert_weight(items[i].weight) > 9.9 ) {
           xrightcol--;
