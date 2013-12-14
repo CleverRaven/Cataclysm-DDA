@@ -1383,6 +1383,22 @@ bool map::has_adjacent_furniture(const int x, const int y)
  return false;
 }
 
+bool map::has_nearby_fire(int x, int y, int radius)
+{
+    for(int dx = -radius; dx <= radius; dx++) {
+        for(int dy = -radius; dy <= radius; dy++) {
+            const point p(x + dx, y + dy);
+            if (field_at(p.x, p.y).findField(fd_fire) != 0) {
+                return true;
+            }
+            if (ter(p.x, p.y) == t_lava) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void map::mop_spills(const int x, const int y) {
  for (int i = 0; i < i_at(x, y).size(); i++) {
   item *it = &(i_at(x, y)[i]);
