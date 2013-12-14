@@ -22927,7 +22927,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "helmet_survivor",
+  "result": "helmet_hsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
@@ -23035,7 +23035,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "gloves_survivor",
+  "result": "gloves_hsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
   "skill_used": "tailor",
@@ -23128,7 +23128,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "boots_survivor",
+  "result": "boots_hsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",

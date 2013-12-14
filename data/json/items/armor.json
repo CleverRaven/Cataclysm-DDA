@@ -7175,8 +7175,8 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "boots_survivor",
-        "name" : "survivor boots",
+        "id" : "boots_hsurvivor",
+        "name" : "heavy survivor boots",
         "weight" : 1810,
         "color" : "dark_gray",
         "covers" : ["FEET"],
@@ -7224,8 +7224,8 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "gloves_survivor",
-        "name" : "survivor gloves",
+        "id" : "gloves_hsurvivor",
+        "name" : "heavy survivor gloves",
         "weight" : 380,
         "color" : "dark_gray",
         "covers" : ["HANDS"],
@@ -7272,8 +7272,8 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "helmet_survivor",
-        "name" : "survivor helmet",
+        "id" : "helmet_hsurvivor",
+        "name" : "heavy survivor helmet",
         "weight" : 1712,
         "color" : "dark_gray",
         "covers" : ["HEAD"],
