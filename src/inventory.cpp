@@ -541,17 +541,47 @@ void inventory::restack(player *p)
     }
 }
 
-void inventory::form_from_map(game *g, point origin, int range, bool assign_invlet)
+void inventory::form_from_map(game *g, point origin, int range, bool assign_invlet, std::string filter_flag, bool filter_inclusive)
 {
  items.clear();
  for (int x = origin.x - range; x <= origin.x + range; x++) {
   for (int y = origin.y - range; y <= origin.y + range; y++) {
    int junk;
-   if (g->m.has_flag("SEALED", x, y) ||
-       ((origin.x != x || origin.y != y) &&
-        !g->m.clear_path( origin.x, origin.y, x, y, range, 1, 100, junk ) ) ) {
-     continue;
+
+   bool matches_flag = (g->m.has_flag(filter_flag, x, y) || g->m.has_quality(filter_flag, x, y));
+
+   if (g->m.has_flag("SEALED", x, y) || 
+      (filter_inclusive != matches_flag) ||
+      ((origin.x != x || origin.y != y) &&
+      !g->m.clear_path(origin.x, origin.y, x, y, range, 1, 100, junk)))
+      {
+         continue;
+      }
+
+   if (filter_flag == "CRAFT_DISTANCE")
+   {
+	   int craft_distance = 0;
+
+	   // Furniture always trumps terrain in regards to crafting distance.
+	   if (g->m.has_furn(x, y))
+	   {
+		   furn_t furn_here = g->m.furn_at(x, y);
+		   craft_distance = furn_here.has_quality("CRAFT_DISTANCE") ? furn_here.level_of_quality("CRAFT_DISTANCE") : PICKUP_RANGE;
+	   }
+	   else
+	   {
+		   ter_t ter_here = g->m.ter_at(x, y);
+		   craft_distance = ter_here.has_quality("CRAFT_DISTANCE") ? ter_here.level_of_quality("CRAFT_DISTANCE") : PICKUP_RANGE;
+	   }
+
+	   // Skip if neither the furniture nor terrain at this point affects crafting at this distance.
+	   if (x < (origin.x - craft_distance) || x > (origin.x + craft_distance) ||
+		   y < (origin.y - craft_distance) || y > (origin.y + craft_distance))
+	   {
+		   continue;
+	   }
    }
+
    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
     if (!g->m.i_at(x, y)[i].made_of(LIQUID))
      add_item(g->m.i_at(x, y)[i], false, assign_invlet);

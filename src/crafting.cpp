@@ -1228,8 +1228,17 @@ void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool fil
 }
 
 inventory game::crafting_inventory(player *p){
+ // Get the max crafting distance we'll allow for furniture or terrain.
+ std::map<std::string, furn_t>::const_iterator default_values = furnmap.find("f_defaults");
+ int max_craft_dist = default_values->second.level_of_quality("MAX_CRAFT_DISTANCE");
+
+ inventory extended_crafting_inv;
+ extended_crafting_inv.form_from_map(this, point(p->posx, p->posy), max_craft_dist, false, "CRAFT_DISTANCE", true);
+
  inventory crafting_inv;
- crafting_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE, false);
+ crafting_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE, false, "CRAFT_DISTANCE", false);
+
+ crafting_inv += extended_crafting_inv;
  crafting_inv += p->inv;
  crafting_inv += p->weapon;
  if (p->has_bionic("bio_tools")) {
@@ -1446,6 +1455,10 @@ void game::complete_craft()
 
 std::list<item> game::consume_items(player *p, std::vector<component> components)
 {
+	// Get the max crafting distance we'll allow for furniture or terrain.
+	std::map<std::string, furn_t>::const_iterator default_values = furnmap.find("f_defaults");
+	int max_craft_dist = default_values->second.level_of_quality("MAX_CRAFT_DISTANCE");
+
     std::list<item> ret;
     // For each set of components in the recipe, fill you_have with the list of all
     // matching ingredients the player has.
@@ -1455,8 +1468,13 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
     std::vector<component> player_use;
     std::vector<component> map_use;
     std::vector<component> mixed_use;
-    inventory map_inv;
-    map_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE);
+
+	inventory extended_map_inv;
+	extended_map_inv.form_from_map(this, point(p->posx, p->posy), max_craft_dist, false, "CRAFT_DISTANCE", true);
+	
+	inventory map_inv;
+    map_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE, false, "CRAFT_DISTANCE", false);
+	map_inv += extended_map_inv;
 
     for (unsigned i = 0; i < components.size(); i++)
     {
@@ -1587,14 +1605,14 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
             map_use[i].count > 0)
         {
             std::list<item> tmp = m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
-                                                map_use[i].type, map_use[i].count);
+                                                map_use[i].type, map_use[i].count, "CRAFT_DISTANCE", max_craft_dist);
             ret.splice(ret.end(), tmp);
         }
         else
         {
            std::list<item> tmp =  m.use_amount(point(p->posx, p->posy), PICKUP_RANGE,
                                                map_use[i].type, abs(map_use[i].count),
-                                               (map_use[i].count < 0));
+                                               (map_use[i].count < 0), "CRAFT_DISTANCE", max_craft_dist);
            ret.splice(ret.end(), tmp);
         }
     }
@@ -1608,7 +1626,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
             tmp = p->use_charges(mixed_use[i].type, p->charges_of(mixed_use[i].type));
             ret.splice(ret.end(), tmp);
             tmp = m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
-                                mixed_use[i].type, from_map);
+                                mixed_use[i].type, from_map, "CRAFT_DISTANCE", max_craft_dist);
             ret.splice(ret.end(), tmp);
         }
         else
@@ -1620,7 +1638,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
                                in_container);
             ret.splice(ret.end(), tmp);
             tmp = m.use_amount(point(p->posx, p->posy), PICKUP_RANGE,
-                               mixed_use[i].type, from_map, in_container);
+                               mixed_use[i].type, from_map, in_container, "CRAFT_DISTANCE", max_craft_dist);
             ret.splice(ret.end(), tmp);
         }
     }
@@ -1629,9 +1647,19 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
 
 void game::consume_tools(player *p, std::vector<component> tools, bool force_available)
 {
+ // Get the max crafting distance we'll allow for furniture or terrain.
+ std::map<std::string, furn_t>::const_iterator default_values = furnmap.find("f_defaults");
+ int max_craft_dist = default_values->second.level_of_quality("MAX_CRAFT_DISTANCE");
+
  bool found_nocharge = false;
+
+ inventory extended_map_inv;
+ extended_map_inv.form_from_map(this, point(p->posx, p->posy), max_craft_dist, false, "CRAFT_DISTANCE", true);
+
  inventory map_inv;
- map_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE);
+ map_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE, false, "CRAFT_DISTANCE", false);
+ map_inv += extended_map_inv;
+
  std::vector<component> player_has;
  std::vector<component> map_has;
 // Use charges of any tools that require charges used
@@ -1657,7 +1685,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
      if(map_has.empty()){
          p->use_charges(player_has[0].type, player_has[0].count);
      } else {
-         m.use_charges(p->pos(), PICKUP_RANGE, map_has[0].type, map_has[0].count);
+         m.use_charges(p->pos(), PICKUP_RANGE, map_has[0].type, map_has[0].count, "CRAFT_DISTANCE", max_craft_dist);
      }
  } else { // Variety of options, list them and pick one
 // Populate the list
@@ -1676,7 +1704,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
   int selection = menu_vec(false, _("Use which tool?"), options) - 1;
   if (selection < map_has.size())
    m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
-                    map_has[selection].type, map_has[selection].count);
+                    map_has[selection].type, map_has[selection].count, "CRAFT_DISTANCE", max_craft_dist);
   else {
    selection -= map_has.size();
    p->use_charges(player_has[selection].type, player_has[selection].count);

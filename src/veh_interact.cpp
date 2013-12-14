@@ -1416,10 +1416,36 @@ struct candidate_vpart {
  */
 item consume_vpart_item (game *g, std::string vpid)
 {
+	// Get the max crafting distance we'll allow for furniture or terrain.
+	std::map<std::string, furn_t>::const_iterator default_values = furnmap.find("f_defaults");
+	int max_craft_dist = default_values->second.level_of_quality("MAX_CRAFT_DISTANCE");
+
     std::vector<candidate_vpart> candidates;
     const itype_id itid = vehicle_part_types[vpid].item;
-    for (int x = g->u.posx - PICKUP_RANGE; x <= g->u.posx + PICKUP_RANGE; x++) {
-        for (int y = g->u.posy - PICKUP_RANGE; y <= g->u.posy + PICKUP_RANGE; y++) {
+	for (int x = g->u.posx - max_craft_dist; x <= g->u.posx + max_craft_dist; x++) {
+		for (int y = g->u.posy - max_craft_dist; y <= g->u.posy + max_craft_dist; y++) {
+
+			int craft_distance = 0;
+
+			// Furniture always trumps terrain in regards to crafting distance.
+			if (g->m.has_furn(x, y))
+			{
+				furn_t furn_here = g->m.furn_at(x, y);
+				craft_distance = furn_here.has_quality("CRAFT_DISTANCE") ? furn_here.level_of_quality("CRAFT_DISTANCE") : PICKUP_RANGE;
+			}
+			else
+			{
+				ter_t ter_here = g->m.ter_at(x, y);
+				craft_distance = ter_here.has_quality("CRAFT_DISTANCE") ? ter_here.level_of_quality("CRAFT_DISTANCE") : PICKUP_RANGE;
+			}
+
+			// Skip if neither the furniture nor terrain at this point affects crafting at this distance.
+			if (x < (g->u.posx - craft_distance) || x >(g->u.posx + craft_distance) ||
+				y < (g->u.posy - craft_distance) || y >(g->u.posy + craft_distance))
+			{
+				continue;
+			}
+
             for(int i = 0; i < g->m.i_at(x, y).size(); i++) {
                 item *ith_item = &(g->m.i_at(x, y)[i]);
                 if (ith_item->type->id == itid) {

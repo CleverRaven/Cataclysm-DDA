@@ -67,7 +67,7 @@ class inventory
  */
   void restack(player *p = NULL);
 
-  void form_from_map(game *g, point origin, int distance, bool assign_invlet = true);
+  void form_from_map(game *g, point origin, int distance, bool assign_invlet = true, std::string filter_flag = "", bool filter_inclusive = true);
 
   item remove_item(item *it);
   item remove_item(int position);
