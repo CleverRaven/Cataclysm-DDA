@@ -318,6 +318,7 @@ class game
   signed char temperature;              // The air temperature
   int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;   // Weather pattern--SEE weather.h
+  bool lightning_active;
 
   std::map<int, weather_segment> weather_log;
   char nextinv; // Determines which letter the next inv item will have

@@ -3,6 +3,7 @@
 #include "output.h"
 #include "options.h"
 #include "translations.h"
+#include "game.h"
 
 calendar::calendar()
 {
@@ -324,6 +325,10 @@ bool calendar::is_night() const
 
 int calendar::sunlight() const
 {
+ //Recent lightning strike has lit the area
+ if(g->lightning_active) {
+  return DAYLIGHT_LEVEL;
+ }
  calendar sunrise_time = sunrise(), sunset_time = sunset();
 
  int mins = 0, sunrise_mins = 0, sunset_mins = 0;

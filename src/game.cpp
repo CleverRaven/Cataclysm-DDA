@@ -1374,6 +1374,9 @@ void game::update_weather()
         temperature = new_weather.temperature;
         nextweather = weather_log.upper_bound(int(new_weather.deadline))->second.deadline;
 
+        //In case weather changes right after a lightning strike
+        g->lightning_active = false;
+
         if (weather != old_weather && weather_data[weather].dangerous &&
             levz >= 0 && m.is_outside(u.posx, u.posy))
         {
