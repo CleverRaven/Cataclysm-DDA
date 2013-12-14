@@ -2387,7 +2387,7 @@
         "points" : -3,
         "description" : "You sometimes scream uncontrollably.",
         "prereqs" : ["SHOUT1"],
-        "changes_to" : ["SHOUT3"]
+        "changes_to" : ["SHOUT3"],
         "category" : ["MUTCAT_BEAST"]
     },{
         "type" : "mutation",

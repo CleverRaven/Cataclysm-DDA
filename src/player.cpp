@@ -927,7 +927,7 @@ void player::update_bodytemp(game *g)
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 250 : 500);
         }
         // Furry or Lupine Fur
-        if (has_trait("FUR") || has_trait("LUPINE_FUR")
+        if (has_trait("FUR") || has_trait("LUPINE_FUR"))
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 750 : 1500);
         }

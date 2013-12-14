@@ -43,7 +43,7 @@
         "type" : "dream",
         "messages" : [
             "You have a strange dream about bears.",
-            "Your dreams give you a strange furry feeling."
+            "Your dreams give you a rough furry feeling."
             ],
         "category" : "MUTCAT_URSINE",
         "strength" : 1
@@ -54,6 +54,14 @@
             "Your dreams give you a sleek furry feeling."
             ],
         "category" : "MUTCAT_FELINE",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about wolves.",
+            "Your dreams give you a thick furry feeling."
+            ],
+        "category" : "MUTCAT_LUPINE",
         "strength" : 1
     },{
         "type" : "dream",
@@ -210,6 +218,14 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You have a disturbing dream of someone invading your territory.",
+            "Your dream-self's muzzle looks...wait, muzzle?"
+            ],
+        "category" : "MUTCAT_LUPINE",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
             "You dream of grazing in an open field.",
             "In a dream you catch a glimpse of a strangely cattle-like image of yourself."
             ],
@@ -358,6 +374,14 @@
             "You dream of pursuing and killing a rat, for some reason."
             ],
         "category" : "MUTCAT_FELINE",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of tearing into a fresh kill.",
+            "You ream of finally finding the perfect place to make your den."
+            ],
+        "category" : "MUTCAT_LUPINE",
         "strength" : 3
     },{
         "type" : "dream",
