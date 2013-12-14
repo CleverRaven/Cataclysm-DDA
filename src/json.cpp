@@ -112,9 +112,9 @@ std::string utf16_to_utf8(unsigned ch) {
  * represents a JSON object,
  * providing access to the underlying data.
  */
-JsonObject::JsonObject(JsonIn *j) : positions()
+JsonObject::JsonObject(JsonIn &j) : positions()
 {
-    jsin = j;
+    jsin = &j;
     start = jsin->tell();
     // cache the position of the value for each member
     jsin->start_object();
@@ -303,7 +303,7 @@ JsonArray JsonObject::get_array(const std::string &name)
         return JsonArray(); // empty array
     }
     jsin->seek(pos);
-    return JsonArray(jsin);
+    return JsonArray(*jsin);
 }
 
 std::vector<int> JsonObject::get_int_array(const std::string &name)
@@ -442,9 +442,9 @@ bool JsonObject::has_object(const std::string &name)
  * represents a JSON array,
  * providing access to the underlying data.
  */
-JsonArray::JsonArray(JsonIn *j) : positions()
+JsonArray::JsonArray(JsonIn &j) : positions()
 {
-    jsin = j;
+    jsin = &j;
     start = jsin->tell();
     index = 0;
     // cache the position of each element
@@ -700,8 +700,8 @@ bool JsonArray::has_object(int i)
  * represents an istream of JSON data,
  * allowing easy extraction into c++ datatypes.
  */
-JsonIn::JsonIn(std::istream *s, bool strict) :
-    stream(s), strict(strict), ate_separator(false)
+JsonIn::JsonIn(std::istream &s, bool strict) :
+    stream(&s), strict(strict), ate_separator(false)
 {
 }
 
@@ -1118,8 +1118,8 @@ bool JsonIn::get_bool()
     throw (std::string)"warnings are silly";
 }
 
-JsonObject JsonIn::get_object() { return JsonObject(this); }
-JsonArray JsonIn::get_array() { return JsonArray(this); }
+JsonObject JsonIn::get_object() { return JsonObject(*this); }
+JsonArray JsonIn::get_array() { return JsonArray(*this); }
 
 void JsonIn::start_array()
 {
@@ -1467,8 +1467,8 @@ std::string JsonIn::substr(size_t pos, size_t len)
  * represents an ostream of JSON data,
  * allowing easy serialization of c++ datatypes.
  */
-JsonOut::JsonOut(std::ostream *s, bool pretty)
-    :   stream(s), pretty_print(pretty), need_separator(false), indent_level(0)
+JsonOut::JsonOut(std::ostream &s, bool pretty)
+    :   stream(&s), pretty_print(pretty), need_separator(false), indent_level(0)
 {
     // ensure user's locale doesn't interfere with number format
     stream->imbue(std::locale::classic());

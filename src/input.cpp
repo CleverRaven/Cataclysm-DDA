@@ -163,7 +163,7 @@ void input_manager::init() {
         throw "Could not read " + file_name;
     }
 
-    JsonIn jsin(&data_file);
+    JsonIn jsin(data_file);
 
     //Crawl through once and create an entry for every definition
     jsin.start_array();

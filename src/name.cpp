@@ -124,7 +124,7 @@ void load_names_from_file(const std::string &filename)
             std::istreambuf_iterator<char>()
         )
     );
-    JsonIn jsin(&iss);
+    JsonIn jsin(iss);
     data_file.close();
 
     // load em all

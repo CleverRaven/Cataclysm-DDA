@@ -285,7 +285,7 @@ std::string item::save_info() const
 {
     // doing this manually so as not to recurse
     std::stringstream s;
-    JsonOut jsout(&s);
+    JsonOut jsout(s);
     serialize(jsout, false);
     return s.str();
 }
@@ -337,7 +337,7 @@ void item::load_info(std::string data, game *g)
         check=data[1];
     }
     if ( check == '{' ) {
-        JsonIn jsin(&dump);
+        JsonIn jsin(dump);
         try {
             deserialize(jsin);
         } catch (std::string jsonerr) {

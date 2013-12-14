@@ -218,7 +218,7 @@ private:
     void end_value();
 
 public:
-    JsonIn(std::istream *stream, bool strict = true);
+    JsonIn(std::istream &stream, bool strict = true);
 
     bool get_ate_separator() { return ate_separator; }
     void set_ate_separator(bool s) { ate_separator = s; }
@@ -340,7 +340,7 @@ private:
     int indent_level;
 
 public:
-    JsonOut(std::ostream *stream, bool pretty_print=false);
+    JsonOut(std::ostream &stream, bool pretty_print=false);
 
     // punctuation
     void write_indent();
@@ -413,7 +413,7 @@ private:
                         const bool throw_exception=true);
 
 public:
-    JsonObject(JsonIn *jsin);
+    JsonObject(JsonIn &jsin);
     JsonObject(const JsonObject &jsobj);
     JsonObject() : positions(), start(0), end(0), jsin(NULL) {}
     ~JsonObject() { finish(); }
@@ -491,7 +491,7 @@ private:
     void verify_index(int i);
 
 public:
-    JsonArray(JsonIn *jsin);
+    JsonArray(JsonIn &jsin);
     JsonArray(const JsonArray &jsarr);
     JsonArray() : positions(), start(0), index(0), end(0), jsin(NULL) {};
     ~JsonArray() { finish(); }
@@ -569,7 +569,7 @@ public:
         return s.str();
     }
     void serialize(std::ostream &o) const {
-        JsonOut jout(&o);
+        JsonOut jout(o);
         serialize(jout);
     }
 };
@@ -583,7 +583,7 @@ public:
         deserialize(s);
     }
     void deserialize(std::istream &i) {
-        JsonIn jin(&i);
+        JsonIn jin(i);
         deserialize(jin);
     }
 };

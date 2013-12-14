@@ -94,7 +94,7 @@ void vehicle::load (std::ifstream &stin)
     if ( type.size() > 1 && ( type[0] == '{' || type[1] == '{' ) ) {
         std::stringstream derp;
         derp << type;
-        JsonIn jsin(&derp);
+        JsonIn jsin(derp);
         try {
             deserialize(jsin);
         } catch (std::string jsonerr) {

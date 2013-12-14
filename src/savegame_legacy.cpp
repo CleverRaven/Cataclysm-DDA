@@ -71,7 +71,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
        // unserialize_legacy in savegame_legacy.cpp
             std::string linebuf;
             std::stringstream linein;
-            JsonIn jsin(&(parseline()));
+            JsonIn jsin(parseline());
             JsonObject pdata = jsin.get_object();
 
             int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
@@ -139,7 +139,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             int kk; int kscrap;
             if ( linein.peek() == '{' ) {
                 try {
-                    JsonIn kjin(&linein);
+                    JsonIn kjin(linein);
                     kjin.read(kills);
                 } catch (std::string jsonerr) {
                     debugmsg("Bad killcount json\n%s", jsonerr.c_str() );
