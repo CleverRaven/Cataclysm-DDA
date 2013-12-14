@@ -1913,6 +1913,11 @@ void npc::shift(int sx, int sy)
  path.clear();
 }
 
+void npc::die(game* g, Creature* nkiller) {
+    killer = nkiller;
+    die(g, nkiller != NULL && nkiller->is_player());
+}
+
 void npc::die(game *g, bool your_fault)
 {
     if (dead) {

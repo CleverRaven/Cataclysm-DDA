@@ -29,17 +29,6 @@ enum object_type {
   NUM_OBJECTS,
 };
 
-enum damage_type
-{
-    DNULL = 0,
-    BASH,
-    CUT,
-    ACID,
-    ELECTRICITY,
-    FIRE,
-    NUM_DAM_TYPES
-};
-
 struct point : public JsonSerializer, public JsonDeserializer
 {
     int x;
