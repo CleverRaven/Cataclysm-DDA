@@ -11,53 +11,8 @@
 #include <string>
 #include <vector>
 
-/* JSON parsing and serialization tools for Cataclysm-DDA
- * ~
- * These tools are intended to support the following use cases:
- * (1) loading game data from .json files,
- * (2) serializing data to JSON for game saving,
- * (3) loading JSON data from game save files.
- * ~
- * For (1), files are assumed to be either a single object,
- * or an array of objects. Each object must have a "type" member,
- * indicating the internal data type it is intended to represent.
- * Object members should be named in accord with the names used
- * in the equivalent C++ struct or class.
- * ~
- * An example object might look something like the following:
- * {
- *     "type" : "tool",
- *     "id" : "mop",
- *     "name" : "mop",
- *     "description": "An unwieldy mop. Good for cleaning up spills."
- * }
- * ~
- * A central dispatcher (init.cpp) will load each .json file,
- * construct a JsonObject instance to represent each object in the file,
- * then send the JsonObject to the appropriate data constructor,
- * according to its "type" member.
- * ~
- * Object constructors can use the JsonObject class to construct from JSON.
- * The type of each member must be inferrable from the object "type",
- * and each should be parsed expecting the correct datatype.
- * If it fails, it's an error.
- * ~
- * Members not present in JSON should be left with their default values.
- * ~
- * Members named "name", "description", "sound", "text" and "message"
- * will be automatically made available for translation.
- * ~
- * Other members that need translating must be special-cased in
- * lang/extract_json_strings.py.
- * ~
- * For (2), objects will be serialized to a compatible format,
- * for use within player save files.
- * ~
- * For (3), objects will be loaded in a similar fashion to (1).
- * ~
- * For (2) and (3), a similar parser/dispatcher can be used,
- * but the container format needn't be pure JSON.
- */
+// JSON parsing and serialization tools for Cataclysm-DDA.
+// For documentation, see the included header, json.h.
 
 bool is_whitespace(char ch)
 {
