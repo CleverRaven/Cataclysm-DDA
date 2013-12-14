@@ -6,6 +6,9 @@
         "description": "Some would say that there's nothing particularly notable about you. But you've survived, and that's more than most could say right now.",
         "points": 0,
         "items": [
+            "leather_belt",
+            "socks",
+            "briefs",
             "jeans",
             "tshirt",
             "sneakers",
@@ -27,6 +30,9 @@
             }
         ],
         "items": [
+            "leather_belt",
+            "socks",
+            "briefs",
             "polo_shirt",
             "blazer",
             "pants",
@@ -53,7 +59,10 @@
             "hat_chef",
             "jacket_chef",
             "pants_checkered",
-            "dress_shoes"
+            "dress_shoes",
+            "leather_belt",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -88,7 +97,10 @@
             "coat_lab",
             "gloves_rubber",
             "glasses_safety",
-            "chemistry_set"
+            "chemistry_set",
+            "leather_belt",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -109,7 +121,10 @@
             "boots_steel",
             "tool_belt",
             "wrench",
-            "mag_cars"
+            "mag_cars",
+            "leather_belt",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -149,7 +164,10 @@
             "lighter",
             "rolling_paper",
             "switchblade",
-            "picklocks"
+            "picklocks",
+            "leather_belt",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -179,7 +197,10 @@
             "m4a1",
             "223",
             "knife_combat",
-            "binoculars"
+            "binoculars",
+            "leather_belt",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -202,7 +223,10 @@
             "water_clean",
             "bandages",
             "bandages",
-            "1st_aid"
+            "1st_aid",
+            "leather_belt",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -247,7 +271,10 @@
             "switchblade",
             "lighter",
             "mag_porn",
-            "sunglasses"
+            "sunglasses",
+            "leather_belt",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -267,7 +294,10 @@
             "cx4",
             "9mm",
             "pockknife",
-            "hat_ball"
+            "hat_ball",
+            "leather_belt",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -313,7 +343,9 @@
             "backpack",
             "knife_combat",
             "lighter",
-            "rope_30"
+            "rope_30",
+            "leather_belt",
+            "boxer_shorts"
         ]
     },
     {
@@ -328,6 +360,9 @@
             "dress_shoes",
             "cig",
             "lighter"
+            "leather_belt",
+            "socks",
+            "briefs"
         ],
         "addictions": [
             {
@@ -350,6 +385,8 @@
             "crack",
             "crack",
             "ref_lighter"
+            "socks",
+            "boy_shorts"
         ],
         "addictions": [
             {
@@ -414,14 +451,16 @@
             }
         ],
         "items": [
-            "pants_army",
+            "pants",
             "socks",
             "badge_deputy",
             "sheriffshirt",
             "boots",
             "holster",
             "m1911",
-            "45_acp"
+            "45_acp",
+            "leather_belt",
+            "boxer_shorts"
         ]
     },
     {
@@ -438,7 +477,9 @@
         ],
         "items": [
             "suit",
-            "dress_shoes"
+            "dress_shoes",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -461,7 +502,10 @@
             "arrow_cf",
             "knife_combat",
             "hat_hunting",
-            "quiver"
+            "quiver",
+            "leather_belt",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -483,7 +527,10 @@
             "hammer",
             "nail",
             "nail",
-            "tool_belt"
+            "tool_belt",
+            "leather_belt",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -497,7 +544,10 @@
             "boots",
             "hat_hunting",
             "jacket_flannel",
-            "ax"
+            "ax",
+            "leather_belt",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -512,7 +562,9 @@
             "sneakers",
             "tshirt",
             "socks",
-            "fun_survival"
+            "fun_survival",
+            "leather_belt",
+            "boxer_shorts"
         ]
     },
     {
@@ -532,7 +584,9 @@
             "sneakers",
             "tshirt",
             "socks",
-            "knife_steak"
+            "knife_steak",
+            "leather_belt",
+            "boxer_shorts"
         ]
     },
     {
@@ -551,7 +605,9 @@
             "jumpsuit",
             "boots",
             "tool_belt",
-            "flashlight"
+            "flashlight",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -572,7 +628,10 @@
             "sneakers",
             "portable_game",
             "mbag",
-            "laptop"
+            "laptop",
+            "leather_belt",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -590,7 +649,10 @@
             "textbook_speech",
             "story_book",
             "howto_computer",
-            "novel_coa"
+            "novel_coa",
+            "leather_belt",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -626,7 +688,10 @@
             "boots",
             "bandana",
             "jacket_leather",
-            "pockknife"
+            "pockknife",
+            "leather_belt",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -643,7 +708,9 @@
         ],
         "items": [
             "tux",
-            "dress_shoes"
+            "dress_shoes",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -661,7 +728,10 @@
             "sunglasses",
             "jeans",
             "dress_shirt",
-            "dress_shoes"
+            "dress_shoes",
+            "leather_belt",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -679,7 +749,10 @@
         "items":[
             "jeans",
             "tshirt",
-            "sneakers"
+            "sneakers",
+            "leather_belt",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -697,7 +770,10 @@
         ],
         "items":[
             "dress_shoes",
-            "suit"
+            "suit",
+            "leather_belt",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -719,6 +795,9 @@
             "sneakers",
             "jeans",
             "tshirt"
+            "leather_belt",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -730,7 +809,7 @@
         "items" : [
             "house_coat",
             "towel",
-            "guidebook"
+            "guidebook",
         ]
     },
     {
@@ -753,7 +832,10 @@
             "beartrap",
             "pockknife",
             "cig",
-            "matches"
+            "matches",
+            "leather_belt",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -774,7 +856,10 @@
             "tank_top",
             "apron_leather",
             "fire_gauntlets",
-            "hammer"
+            "hammer",
+            "leather_belt",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -785,7 +870,9 @@
         "points": 0,
         "items": [
             "clown_suit",
-            "clownshoes"
+            "clownshoes",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -811,7 +898,10 @@
             "pants_checkered",
             "dress_shoes",
             "cane",
-            "pocketwatch"
+            "pocketwatch",
+            "leather_belt",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -829,7 +919,9 @@
             "fur_cat_ears",
             "fur_cat_tail",
             "fur_collar",
-            "cheeseburger"
+            "cheeseburger",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -844,7 +936,9 @@
             "jersey",
             "pants",
             "sneakers",
-            "puck"
+            "puck",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -859,7 +953,10 @@
             "dress_shirt",
             "pants",
             "cleats",
-            "baseball"
+            "baseball",
+            "leather_belt",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -874,7 +971,9 @@
             "helmet_football",
             "pants",
             "cleats",
-            "football"
+            "football",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -889,6 +988,9 @@
             "pants",
             "sneakers",
             "golf_club"
+            "leather_belt",
+            "socks",
+            "briefs"
         ]
     },
     {
@@ -900,6 +1002,9 @@
         "items": [
             "tux",
             "dress_shoes"
+            "leather_belt",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -910,7 +1015,9 @@
         "points": 0,
         "items": [
             "dress_wedding",
-            "dress_shoes"
+            "heels",
+            "panties"
+            
         ]
     },
     {
@@ -929,7 +1036,10 @@
             "rolling_paper",
             "cig",
             "mp3",
-            "ref_lighter"
+            "ref_lighter",
+            "leather_belt",
+            "stockings",
+            "boy_shorts"
         ]
     },
     {
@@ -961,7 +1071,9 @@
             "glasses_safety",
             "firehelmet",
             "halligan",
-            "pocketwatch"
+            "pocketwatch",
+            "socks",
+            "boxer_shorts"
         ]
     },
     {
@@ -980,7 +1092,8 @@
             "rolling_paper",
             "cig",
             "mp3",
-            "ref_lighter"
+            "ref_lighter",
+            "leather_belt",
         ]
     },
     {
