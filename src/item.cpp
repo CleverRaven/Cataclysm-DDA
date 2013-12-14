@@ -905,14 +905,7 @@ std::string item::tname( bool with_prefix )
     {
         food = this;
         food_type = dynamic_cast<it_comest*>(type);
-    }
-    else if (is_food_container())
-    {
-        food = &contents[0];
-        food_type = dynamic_cast<it_comest*>(contents[0].type);
-    }
-    if (food != NULL && g != NULL)
-    {
+
         if (food_type->spoils != 0)
         {
             if(food->rotten(g)) {
