@@ -18,7 +18,7 @@ class monster;
 enum damage_type {
     DT_NULL = 0, // null damage, doesn't exist
     DT_TRUE, // typeless damage, should always go through
-    DT_INTERNAL, // internal damage, like from smoke or poison
+    DT_BIOLOGICAL, // internal damage, like from smoke or poison
     DT_BASH, // bash damage
     DT_CUT, // cut damage
     DT_ACID, // corrosive damage, e.g. acid
