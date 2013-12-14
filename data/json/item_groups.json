@@ -536,6 +536,7 @@
       ["flotation_vest", 1],
       ["bearing", 1],
       ["atomic_light", 1],
+      ["alarmclock", 10],
       ["charcoal", 20]
     ]
     },{
@@ -671,6 +672,7 @@
       ["nomex_socks", 1],
       ["oxygen_tank", 3],
       ["smoxygen_tank", 2],
+      ["alarmclock", 30],
       ["leathersandals", 25]
     ]
     },{
@@ -3393,6 +3395,7 @@
       ["c_fishspear", 8],
       ["rebreather", 5],
       ["diveknife", 10],
+      ["alarmclock", 5],
       ["leathersandals", 10]
     ]
     },{
