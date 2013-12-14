@@ -47,7 +47,7 @@
         "name": "shallow pit",
         "symbol": "0",
         "color": "yellow",
-        "move_cost": 10,
+        "move_cost": 12,
         "flags": ["TRANSPARENT", "DIGGABLE"]
     },{
         "type" : "terrain",
@@ -55,7 +55,7 @@
         "name": "pit",
         "symbol": "0",
         "color": "brown",
-        "move_cost": 12,
+        "move_cost": 14,
         "trap": "pit",
         "flags": ["TRANSPARENT", "DIGGABLE"],
         "examine_action": "pit"
@@ -82,7 +82,7 @@
         "name": "spiked pit",
         "symbol": "0",
         "color": "ltred",
-        "move_cost": 12,
+        "move_cost": 14,
         "trap": "spike_pit",
         "flags": ["TRANSPARENT", "DIGGABLE"],
         "examine_action": "pit"
@@ -976,7 +976,7 @@
         "name": "open window",
         "symbol": "'",
         "color": "ltcyan",
-        "move_cost": 8,
+        "move_cost": 11,
         "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE" ],
         "close": "t_window_domestic"
     },{
@@ -1049,7 +1049,7 @@
         "name": "window frame",
         "symbol": "0",
         "color": "ltcyan",
-        "move_cost": 10,
+        "move_cost": 12,
         "flags": [
             "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"
         ]
