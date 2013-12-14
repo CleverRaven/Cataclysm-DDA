@@ -6989,6 +6989,9 @@ int iuse::bell(player *p, item *it, bool t)
 {
     if( it->type->id == "cow_bell" ) {
         g->sound(p->posx, p->posy, 6, _("Clank! Clank!"));
+        if ( ! p->has_disease("deaf") ) {
+            p->add_morale(MORALE_FEELING_GOOD, 1, 15);
+        }
     } else {
         g->sound(p->posx, p->posy, 4, _("Ring! Ring!"));
     }
