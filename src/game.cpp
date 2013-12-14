@@ -780,10 +780,10 @@ bool game::do_turn()
     }
 
     process_activity();
-    if(u.moves > 0) {
+    if(!u.has_disease("sleep") && u.moves > 0) {
         while (u.moves > 0) {
             cleanup_dead();
-            if (!u.has_disease("sleep") && u.activity.type == ACT_NULL) {
+            if (u.activity.type == ACT_NULL) {
                 draw();
             }
 
