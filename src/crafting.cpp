@@ -1920,19 +1920,19 @@ void game::complete_disassemble()
   {
     if (dis->skill_used == NULL || dis->learn_by_disassembly <= u.skillLevel(dis->skill_used))
     {
-      if (rng(0,3) == 0)
+      if (one_in(4))
       {
         u.learn_recipe(dis);
-        add_msg(_("You learned a recipe from this disassembly!"));
+        add_msg(_("You learned a recipe from disassembling it!"));
       }
       else
       {
-        add_msg(_("You think you could learn a recipe from this item. Maybe you'll try again."));
+        add_msg(_("You might be able to learn a recipe if you disassemble another."));
       }
     }
     else
     {
-      add_msg(_("With some more skill, you might learn a recipe from this."));
+      add_msg(_("If you had better skills, you might learn a recipe next time."));
     }
   }
 }
