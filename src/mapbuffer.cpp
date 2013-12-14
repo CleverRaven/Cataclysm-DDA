@@ -94,7 +94,7 @@ void mapbuffer::save()
  fout.open(mapfile.str().c_str());
  fout << "# version " << savegame_version << std::endl;
 
-    JsonOut jsout(&fout);
+    JsonOut jsout(fout);
     jsout.start_object();
     jsout.member("listsize", (unsigned int)submap_list.size());
 
@@ -289,7 +289,7 @@ void mapbuffer::unserialize(std::ifstream & fin) {
     std::stringstream jsonbuff;
     getline(fin, databuff);
     jsonbuff.str(databuff);
-    JsonIn jsin(&jsonbuff);
+    JsonIn jsin(jsonbuff);
 
     std::map<int, int> ter_key;
     std::map<int, int> furn_key;

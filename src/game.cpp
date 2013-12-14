@@ -2972,7 +2972,7 @@ void game::load_uistate(std::string worldname) {
         return;
     }
     try {
-        JsonIn jsin(&fin);
+        JsonIn jsin(fin);
         uistate.deserialize(jsin);
     } catch (std::string e) {
         dbg(D_ERROR) << "load_uistate: " << e;
@@ -3059,7 +3059,7 @@ void game::save_artifacts()
     std::ofstream fout;
     std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
     fout.open(artfilename.c_str(), std::ofstream::trunc);
-    JsonOut json(&fout);
+    JsonOut json(fout);
     json.start_array();
     for ( std::vector<std::string>::iterator it =
           artifact_itype_ids.begin();

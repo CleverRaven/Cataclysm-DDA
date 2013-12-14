@@ -396,7 +396,7 @@ void monster::load_info(std::string data)
     std::stringstream dump;
     dump << data;
     if ( dump.peek() == '{' ) {
-        JsonIn jsin(&dump);
+        JsonIn jsin(dump);
         try {
             deserialize(jsin);
         } catch (std::string jsonerr) {

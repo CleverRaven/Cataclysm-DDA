@@ -673,7 +673,7 @@ bool mapgen_function_json::setup() {
     }
     std::istringstream iss( jdata );
     try {
-        JsonIn jsin(&iss);
+        JsonIn jsin(iss);
         jsin.eat_whitespace();
         char ch = jsin.peek();
         if ( ch != '{' ) {

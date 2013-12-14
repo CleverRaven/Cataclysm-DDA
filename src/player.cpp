@@ -1376,7 +1376,7 @@ void player::load_info(game *g, std::string data)
         check = data[1];
     }
     if ( check == '{' ) {
-        JsonIn jsin(&dump);
+        JsonIn jsin(dump);
         try {
             deserialize(jsin);
         } catch (std::string jsonerr) {
