@@ -125,7 +125,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
       invlet != inv_chars.end(); ++invlet) {
    n_items += ((g->u.inv.item_by_letter(*invlet).is_null()) ? 0 : 1);
  }
- mvwprintw(w_inv, 1, 62, _("Hotkeys:  %d/%d "), n_items, inv_chars.size());
+ mvwprintw(w_inv, 1, 61, _("Hotkeys:  %d/%d "), n_items, inv_chars.size());
 }
 
 int game::display_slice(indexed_invslice& slice, const std::string& title)

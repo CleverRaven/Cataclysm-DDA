@@ -236,6 +236,11 @@ class map
 
  std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
 
+ // Check for terrain/furniture/field that provide a
+ // "fire" item to be used for example when crafting or when
+ // a iuse function needs fire.
+ bool has_nearby_fire(int x, int y, int radius = 1);
+
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(const std::string & flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
  bool can_put_items(const int x, const int y); // True if items can be placed in this tile

@@ -557,7 +557,7 @@ void inventory::form_from_map(game *g, point origin, int range, bool assign_invl
      add_item(g->m.i_at(x, y)[i], false, assign_invlet);
 // Kludges for now!
    ter_id terrain_id = g->m.ter(x, y);
-   if ((g->m.field_at(x, y).findField(fd_fire)) || (terrain_id == t_lava)) {
+   if (g->m.has_nearby_fire(x, y, 0)) {
     item fire(itypes["fire"], 0);
     fire.charges = 1;
     add_item(fire);
