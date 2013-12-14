@@ -294,6 +294,15 @@ void game::load_weather(std::ifstream & fin) {
        }
    }
 
+   //Check for "lightning:" marker - if absent, ignore
+   if (fin.peek() == 'l') {
+       std::string line;
+       getline(fin, line);
+       lightning_active = ((*line.end()) == '1');
+   } else {
+       lightning_active = false;
+   }
+
      while(!fin.eof()) {
         std::string data;
         getline(fin, data);
@@ -329,6 +338,7 @@ void game::load_weather(std::ifstream & fin) {
 
 void game::save_weather(std::ofstream & fout) {
     fout << "# version " << savegame_version << std::endl;
+    fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
     const int climatezone = 0;
     for( std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it ) {
       fout << it->first
