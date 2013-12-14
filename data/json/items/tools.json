@@ -288,7 +288,7 @@
     "symbol": ";",
     "color": "light_green",
     "name": "rechargeable battery mod",
-    "description": "This is a patchwork capacitance device made with spare electronics. With enough electronics skill, you could attach this to your devices to be able to rechage it with a rechargeing station.",
+    "description": "This is a patchwork capacitance device made with spare electronics. With enough electronics skill, you could attach this to your devices to be able to rechage it with a recharging station.",
     "price": 500,
     "material": ["plastic", "iron"],
     "weight": 142,
