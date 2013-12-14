@@ -709,7 +709,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
     if (is_tool() && has_flag("RECHARGE"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
-        dump->push_back(iteminfo("DESCRIPTION", _("This tool has a rechargeable battery pack.")));
+        dump->push_back(iteminfo("DESCRIPTION", _("This tool has a rechargeable battery pack. It is not unloadable.")));
     }
     std::map<std::string, std::string>::const_iterator item_note = item_vars.find("item_note");
     std::map<std::string, std::string>::const_iterator item_note_type = item_vars.find("item_note_type");
