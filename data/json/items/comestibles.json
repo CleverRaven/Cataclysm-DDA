@@ -1944,7 +1944,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "mutagen_upine",
+        "id" : "mutagen_lupine",
         "name" : "lupine mutagen",
         "weight" : 250,
         "color" : "light_green",
