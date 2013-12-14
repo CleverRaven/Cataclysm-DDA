@@ -1,13 +1,13 @@
 #ifndef _JSON_H_
 #define _JSON_H_
 
+#include <istream>
+#include <map>
+#include <ostream>
+#include <set>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <istream>
-#include <ostream>
-#include <sstream>
-#include <map>
-#include <set>
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven

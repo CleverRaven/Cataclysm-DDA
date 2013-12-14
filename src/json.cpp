@@ -1,15 +1,15 @@
 #include "json.h"
 
+#include <cmath> // pow
 #include <cstdlib> // strtoul
 #include <cstring> // strcmp
-#include <cmath> // pow
-#include <istream>
 #include <fstream>
-#include <vector>
-#include <string>
-#include <sstream>
-#include <set>
+#include <istream>
 #include <locale> // ensure user's locale doesn't interfere with output
+#include <set>
+#include <sstream>
+#include <string>
+#include <vector>
 
 /* JSON parsing and serialization tools for Cataclysm-DDA
  * ~
