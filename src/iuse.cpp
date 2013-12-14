@@ -1882,7 +1882,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool t)
     }
 
     modded->item_tags.insert("RECHARGE");
-    modded->curammo = dynamic_cast<it_ammo*>(itypes["null"]);
+    modded->item_tags.insert("NO_UNLOAD");
     g->add_msg_if_player(p,_("You insert the rechargeable battery pack into your %s!"), tool->name.c_str());
     return 1;
 }

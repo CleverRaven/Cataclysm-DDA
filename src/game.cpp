@@ -2467,7 +2467,7 @@ bool game::handle_action()
         }
 
         as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_CAPITAL_YN"]?'N':'n'), _("No.")) );
-        
+
         if (u.has_item_with_flag("ALARMCLOCK") && (u.hunger < -60)) {
             as_m.text = _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
             }
@@ -10271,7 +10271,11 @@ void game::unload(item& it)
     }
 
     if(it.has_flag("NO_UNLOAD")) {
-      add_msg(_("You can't unload a %s!"), it.tname().c_str());
+      if(it.has_flag("RECHARGE")) {
+        add_msg(_("You can't unload a rechargeable %s!"), it.tname().c_str());
+      } else {
+        add_msg(_("You can't unload a %s!"), it.tname().c_str());
+      }
       return;
     }
 
