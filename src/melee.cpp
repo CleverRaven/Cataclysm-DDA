@@ -1041,7 +1041,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (!has_trait("FANGS") && has_trait("MUZZLE") && one_in(18 - dex_cur - skillLevel("unarmed"))) {
+    if (!has_trait("FANGS") && has_trait("MUZZLE") &&
+            one_in(18 - dex_cur - skillLevel("unarmed")) &&
+            (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.cut = 4;
         if (is_player()) {
@@ -1057,7 +1059,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (!has_trait("FANGS") && has_trait("BEAR_MUZZLE") && one_in(20 - dex_cur - skillLevel("unarmed"))) {
+    if (!has_trait("FANGS") && has_trait("BEAR_MUZZLE") &&
+            one_in(20 - dex_cur - skillLevel("unarmed")) &&
+            (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.cut = 5;
         if (is_player()) {
@@ -1074,7 +1078,8 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
     }
 
     if (!has_trait("FANGS") && has_trait("LONG_MUZZLE") &&
-            one_in(18 - dex_cur - skillLevel("unarmed"))) {
+            one_in(18 - dex_cur - skillLevel("unarmed")) &&
+            (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.stab = 18;
         if (is_player()) {
@@ -1090,7 +1095,8 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("MANDIBLES") && one_in(22 - dex_cur - skillLevel("unarmed"))) {
+    if (has_trait("MANDIBLES") && one_in(22 - dex_cur - skillLevel("unarmed")) &&
+            (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.cut = 12;
         if (is_player()) {
@@ -1106,7 +1112,8 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("BEAK") && one_in(15 - dex_cur - skillLevel("unarmed"))) {
+    if (has_trait("BEAK") && one_in(15 - dex_cur - skillLevel("unarmed")) &&
+            (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.stab = 15;
         if (is_player()) {

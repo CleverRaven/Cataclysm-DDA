@@ -9434,7 +9434,7 @@
   "time": 10000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "recipe_animal", 8 ]],
+  "book_learn": [[ "recipe_animal", 7 ]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9610,6 +9610,69 @@
   "components": [
     [
       [ "mutagen_feline", 2 ]
+    ]
+  ]
+},{
+    "type" : "recipe",
+  "result": "mutagen_lupine",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 1 ],
+  "difficulty": 9,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_animal", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen", 1 ]
+    ],
+    [
+      [ "meat", 3 ]
+    ],
+    [
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
+    ]
+  ]
+},{
+    "type" : "recipe",
+  "result": "iv_mutagen_lupine",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 9,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_lupine", 2 ]
     ]
   ]
 },{

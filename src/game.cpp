@@ -5393,6 +5393,9 @@ bool game::sound(int x, int y, int vol, std::string description)
     if (u.has_trait("URSINE_EARS") || u.has_trait("FELINE_EARS")) {
         vol *= 1.25;
     }
+    if (u.has_trait("LUPINE_EARS")) {
+        vol *= 1.75;
+    }
 
     // Too far away, we didn't hear it!
     if (dist > vol) {
