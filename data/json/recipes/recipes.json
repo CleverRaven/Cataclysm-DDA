@@ -1253,8 +1253,8 @@
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
-  "autolearn": false,
-  "book_learn": [[ "manual_archery", 3 ] , [ "recipe_bows", 2 ] , [ "book_archery", 4]],
+  "autolearn": true,
+  "book_learn": [[ "manual_archery", 2 ] , [ "recipe_bows", 1 ] , [ "book_archery", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1306,7 +1306,7 @@
   "difficulty": 2,
   "time": 15000,
   "reversible": true,
-  "autolearn": false,
+  "autolearn": true,
   "book_learn": [[ "recipe_bows", 1 ] , [ "manual_archery", 2 ] , [ "book_archery", 2 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
@@ -2828,7 +2828,7 @@
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : false,
+  "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 2 ] , [ "pocket_survival", 2] , [ "manual_archery", 1]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
@@ -2852,7 +2852,7 @@
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : false,
+  "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ]],
   "tools" : [
     [
@@ -2883,7 +2883,7 @@
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : false,
+  "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ] , [ "manual_archery", 2] , [ "book_archery", 3]],
   "tools" : [
     [
@@ -2910,7 +2910,7 @@
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : false,
+  "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ] , [ "manual_archery", 2 ] , [ "book_archery", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
@@ -2935,8 +2935,7 @@
   "difficulty" : 0,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : false,
-  "book_learn" : [[ "recipe_arrows", 1 ] , [ "pocket_survival", 1] , [ "manual_survival", 1] , [ "book_archery", 1]],
+  "autolearn" : true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3020,7 +3019,7 @@
   "difficulty" : 3,
   "time" : 3000,
   "reversible" : false,
-  "autolearn" : false,
+  "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 2 ] , [ "book_archery", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
@@ -3043,7 +3042,7 @@
   "difficulty" : 3,
   "time" : 3000,
   "reversible" : false,
-  "autolearn" : false,
+  "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ] , [ "book_archery", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
@@ -3131,7 +3130,7 @@
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : false,
+  "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "tools" : [
     [
@@ -3217,7 +3216,7 @@
   "difficulty" : 5,
   "time" : 3000,
   "reversible" : false,
-  "autolearn" : false,
+  "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -3243,7 +3242,7 @@
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : false,
+  "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -3367,8 +3366,8 @@
   "difficulty": 2,
   "time": 10000,
   "reversible": true,
-  "autolearn": false,
-  "book_learn" : [[ "recipe_arrows", 3 ]],
+  "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 1 ]],
   "tools": [
     [
       [ "needle_bone", 2 ],
@@ -3480,8 +3479,8 @@
   "difficulty": 3,
   "time": 20000,
   "reversible": true,
-  "autolearn": false,
-  "book_learn" : [[ "recipe_arrows", 3 ]],
+  "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 2 ]],
   "tools": [
     [
       [ "needle_bone", 8 ],
@@ -3514,8 +3513,7 @@
   "difficulty": 1,
   "time": 5000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn" : [[ "recipe_arrows", 1 ]],
+  "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3538,7 +3536,7 @@
   "difficulty": 3,
   "time": 10000,
   "reversible": false,
-  "autolearn": false,
+  "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 2 ]],
   "tools": [
     [
