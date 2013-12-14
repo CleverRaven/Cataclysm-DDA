@@ -10,7 +10,7 @@ class Character : public Creature
 {
     public:
         Character();
-        Character(const Creature & rhs);
+        Character(const Creature &rhs);
 };
 
 #endif

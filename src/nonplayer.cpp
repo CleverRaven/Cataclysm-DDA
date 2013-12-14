@@ -5,13 +5,13 @@ Nonplayer::Nonplayer() : Character()
 {
 }
 
-Nonplayer::Nonplayer(const Nonplayer &rhs) : Character() 
+Nonplayer::Nonplayer(const Nonplayer &rhs) : Character()
 {
-    *this = rhs; 
+    *this = rhs;
 }
 
 
-Nonplayer& Nonplayer::operator= (const Nonplayer & rhs)
+Nonplayer &Nonplayer::operator= (const Nonplayer &rhs)
 {
     Character::operator=(rhs);
     return (*this);

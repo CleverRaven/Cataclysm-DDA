@@ -15,9 +15,8 @@ struct it_ammo;
 class item;
 class monster;
 
-enum damage_type
-{
-    DT_NONE= 0, // null damage, doesn't exist
+enum damage_type {
+    DT_NONE = 0, // null damage, doesn't exist
     DT_TRUE, // typeless damage, should always go through
     DT_INTERNAL, // internal damage, like from smoke or poison
     DT_BASH, // bash damage
@@ -30,8 +29,7 @@ enum damage_type
     NUM_DT
 };
 
-enum blast_shape
-{
+enum blast_shape {
     BS_NONE = 0, // no aoe
     BS_BLAST, // generic "blast" effect, like grenades
     BS_RAYS, // randomly scattered rays of damage propragating from impact point
@@ -83,12 +81,12 @@ struct resistances {
 
     resistances();
 
-    resistances(item& armor);
-    resistances(monster& monster);
+    resistances(item &armor);
+    resistances(monster &monster);
     void set_resist(damage_type dt, int amount);
     int type_resist(damage_type dt) const;
 
-    float get_effective_resist(const damage_unit& du);
+    float get_effective_resist(const damage_unit &du);
 };
 
 struct projectile {

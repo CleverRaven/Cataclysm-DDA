@@ -13,11 +13,11 @@ extern std::map<std::string, effect_type> effect_types;
 
 class effect_type
 {
-    friend void load_effect_type(JsonObject& jo);
-    friend class effect;
+        friend void load_effect_type(JsonObject &jo);
+        friend class effect;
     public:
         effect_type();
-        effect_type(const effect_type & rhs);
+        effect_type(const effect_type &rhs);
 
 
         efftype_id id;
@@ -52,14 +52,14 @@ class effect : public JsonSerializer, public JsonDeserializer
 {
     public:
         effect();
-        effect(effect_type* eff_type, int dur);
-        effect(const effect & rhs);
-        effect& operator=(const effect & rhs);
+        effect(effect_type *eff_type, int dur);
+        effect(const effect &rhs);
+        effect &operator=(const effect &rhs);
 
         std::string disp_name();
 
-        effect_type* get_effect_type();
-        void do_effect(game* g, Creature& t); // applies the disease's effects
+        effect_type *get_effect_type();
+        void do_effect(game *g, Creature &t); // applies the disease's effects
 
         int get_duration();
         void set_duration(int dur);
@@ -69,31 +69,31 @@ class effect : public JsonSerializer, public JsonDeserializer
         void set_intensity(int dur);
 
         efftype_id get_id() {
-          return eff_type->id;
+            return eff_type->id;
         }
 
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &json) const {
-        json.start_object();
-        json.member("eff_type", eff_type != NULL ? eff_type->id : "");
-        json.member("duration", duration);
-        json.member("intensity", intensity);
-        json.end_object();
-    }
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) {
-        JsonObject jo = jsin.get_object();
-        eff_type = &effect_types[jo.get_string("eff_type")];
-        duration = jo.get_int("duration");
-        intensity = jo.get_int("intensity");
-    }
+        using JsonSerializer::serialize;
+        void serialize(JsonOut &json) const {
+            json.start_object();
+            json.member("eff_type", eff_type != NULL ? eff_type->id : "");
+            json.member("duration", duration);
+            json.member("intensity", intensity);
+            json.end_object();
+        }
+        using JsonDeserializer::deserialize;
+        void deserialize(JsonIn &jsin) {
+            JsonObject jo = jsin.get_object();
+            eff_type = &effect_types[jo.get_string("eff_type")];
+            duration = jo.get_int("duration");
+            intensity = jo.get_int("intensity");
+        }
 
     protected:
-        effect_type* eff_type;
+        effect_type *eff_type;
         int duration;
         int intensity;
 
 };
 
-void load_effect_type(JsonObject& jo);
+void load_effect_type(JsonObject &jo);
 #endif

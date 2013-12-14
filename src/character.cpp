@@ -2,5 +2,5 @@
 
 Character::Character() {};
 
-Character::Character(const Creature & rhs) {};
+Character::Character(const Creature &rhs) {};
 

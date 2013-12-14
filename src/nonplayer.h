@@ -9,7 +9,7 @@ class Nonplayer : public Character, public JsonSerializer, public JsonDeserializ
         virtual ~Nonplayer();
         Nonplayer();
         Nonplayer(const Nonplayer &rhs);
-        Nonplayer& operator= (const Nonplayer & rhs);
+        Nonplayer &operator= (const Nonplayer &rhs);
 };
 
 #endif
