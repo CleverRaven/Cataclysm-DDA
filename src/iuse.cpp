@@ -4463,30 +4463,27 @@ int iuse::smokebomb(player *p, item *it, bool t)
 
 int iuse::smokebomb_act(player *p, item *it, bool t)
 {
- point pos = g->find_item(it);
- if (pos.x == -999 || pos.y == -999) {
-  return 0;
- }
- if (t) {
-  if (it->charges > 17) {
-   g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
-  } else if(it->charges > 0) {
-   g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
-   return 0;
-  } else {
-   int junk;
-   for (int i = -2; i <= 2; i++) {
-    for (int j = -2; j <= 2; j++) {
-     if (g->m.sees(pos.x, pos.y, pos.x + i, pos.y + j, 3, junk) &&
-         g->m.move_cost(pos.x + i, pos.y + j) > 0)
-      g->m.add_field(g, pos.x + i, pos.y + j, fd_smoke, rng(1, 2) + rng(0, 1));
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
     }
-   }
-  }
- } else {
-  it->make(itypes["canister_empty"]);
- }
- return 0;
+    if (t) {
+        g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
+        return 0;
+    } else {
+        int junk;
+        for (int i = -2; i <= 2; i++) {
+            for (int j = -2; j <= 2; j++) {
+                if (g->m.sees(pos.x, pos.y, pos.x + i, pos.y + j, 3, junk) &&
+                    g->m.move_cost(pos.x + i, pos.y + j) > 0) {
+                    g->m.add_field(g, pos.x + i, pos.y + j, fd_smoke, rng(1, 2) + rng(0, 1));
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 int iuse::acidbomb(player *p, item *it, bool t)
