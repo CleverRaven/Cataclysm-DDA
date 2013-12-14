@@ -1877,7 +1877,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool t)
 
     if (modded->has_flag("RECHARGE"))
     {
-        g->add_msg_if_player(p,_("That item has already has a rechargeable battery pack."));
+        g->add_msg_if_player(p,_("That item already has a rechargeable battery pack."));
         return 0;
     }
 
