@@ -16,7 +16,7 @@ class item;
 class monster;
 
 enum damage_type {
-    DT_NONE = 0, // null damage, doesn't exist
+    DT_NULL = 0, // null damage, doesn't exist
     DT_TRUE, // typeless damage, should always go through
     DT_INTERNAL, // internal damage, like from smoke or poison
     DT_BASH, // bash damage
