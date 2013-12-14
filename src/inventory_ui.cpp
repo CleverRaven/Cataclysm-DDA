@@ -230,11 +230,11 @@ int game::display_slice(indexed_invslice& slice, const std::string& title)
 
   if (inCategoryMode)
   {
-	  mvwprintz(w_inv, maxitems + 4, 32, c_white_red, _("In category select mode! Press [SPACE] to enter item select mode."));
+	  mvwprintz(w_inv, maxitems + 4, 32, c_white_red, _("In category select mode! Press [TAB] to enter item select mode."));
   }
   else
   {
-	  mvwprintz(w_inv, maxitems + 4, 32, h_white, _("In item select mode! Press [SPACE] to enter category select mode."));
+	  mvwprintz(w_inv, maxitems + 4, 32, h_white, _("In item select mode! Press [TAB] to enter category select mode."));
   }
 
   if (start > 0)
@@ -248,7 +248,7 @@ int game::display_slice(indexed_invslice& slice, const std::string& title)
   ctxt.handle_input();
   ch = ctxt.get_raw_input().get_first_input();
 
-  if (ch == ' ')
+  if (ch == '\t')
   {
 	  inCategoryMode = !inCategoryMode;
   }
@@ -295,7 +295,7 @@ int game::display_slice(indexed_invslice& slice, const std::string& title)
     ch = '\n';
   }
 
- } while (ch == '<' || ch == '>' || ch == ' ' || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_UP || ch == KEY_DOWN );
+ } while (ch == '<' || ch == '>' || ch == '\t' || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_UP || ch == KEY_DOWN );
  werase(w_inv);
  delwin(w_inv);
  erase();
@@ -507,9 +507,9 @@ std::vector<item> game::multidrop()
         }
 
         if (inCategoryMode) {
-            mvwprintz(w_inv, maxitems + 4, 32, c_white_red, _("In category select mode! Press [SPACE] to enter item select mode."));
+            mvwprintz(w_inv, maxitems + 4, 32, c_white_red, _("In category select mode! Press [TAB] to enter item select mode."));
         } else {
-            mvwprintz(w_inv, maxitems + 4, 32, h_white, _("In item select mode! Press [SPACE] to enter category select mode."));
+            mvwprintz(w_inv, maxitems + 4, 32, h_white, _("In item select mode! Press [TAB] to enter category select mode."));
         }
 
         if (start > 0) {
@@ -524,7 +524,7 @@ std::vector<item> game::multidrop()
 */
         ch = getch();
 
-        if (ch == ' ') {
+        if (ch == '\t') {
             inCategoryMode = !inCategoryMode;
         }
         else if ( ch == '<' || ch == KEY_PPAGE ) {
@@ -652,7 +652,7 @@ std::vector<item> game::multidrop()
                 count = 0;
             }
         }
-    } while (ch != '\n' && ch != KEY_ESCAPE);
+    } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
     werase(w_inv);
     delwin(w_inv);
     erase();
