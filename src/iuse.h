@@ -58,6 +58,7 @@ class iuse
   int primitive_fire   (player *p, item *it, bool t);
   int sew              (player *p, item *it, bool t);
   int extra_battery    (player *p, item *it, bool t);
+  int rechargeable_battery(player *p, item *it, bool t);
   int cut_up           (player *p, item *it, item *cut, bool t);
   int scissors         (player *p, item *it, bool t);
   int extinguisher     (player *p, item *it, bool t);

@@ -549,5 +549,21 @@
         "cutting": 0,
         "category" : "veh_parts",
         "price": 900
+    },
+    {
+        "type":"GENERIC",
+        "id": "recharge_station",
+        "name": "recharging station",
+        "description": "A small box with jacks for different rechargeable tools.",
+        "weight": 2500,
+        "to_hit": 1,
+        "color": "light_blue",
+        "symbol": "-",
+        "material": ["steel", "plastic"],
+        "volume": 8,
+        "bashing": 5,
+        "cutting": 0,
+        "category" : "veh_parts",
+        "price": 900
     }
 ]

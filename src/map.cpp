@@ -2527,6 +2527,13 @@ void map::process_active_items_in_vehicles(game *g, const int nonant)
                     it->fridge = (int)g->turn;
                     it->item_counter -= 10;
                 }
+                if (it->has_flag("RECHARGE") && next_vehicle->part_with_feature(*part_index, VPFLAG_RECHARGE) &&
+                    next_vehicle->recharger_on) {
+                        if (it->is_tool() && static_cast<it_tool*>(it->type)->max_charges > it->charges ) {
+                            g->add_msg("%s: chargin mah lasor (%d)",it->type->id.c_str(), it->charges);
+                            it->charges++;
+                        }
+                }
                 if(process_active_item(g, it, nonant, mapx, mapy)) {
                     next_vehicle->remove_item(*part_index, n);
                 }

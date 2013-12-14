@@ -1852,6 +1852,41 @@ int iuse::extra_battery(player *p, item *it, bool t)
     return 1;
 }
 
+int iuse::rechargeable_battery(player *p, item *it, bool t)
+{
+    int pos = g->inv_type(_("Modify what?"), IC_TOOL);
+    item* modded = &(p->i_at(pos));
+
+    if (modded == NULL || modded->is_null())
+    {
+        g->add_msg_if_player(p,_("You do not have that item!"));
+        return 0;
+    }
+    if (!modded->is_tool())
+    {
+        g->add_msg_if_player(p,_("You can only mod tools with this battery mod."));
+        return 0;
+    }
+
+    it_tool *tool = dynamic_cast<it_tool*>(modded->type);
+    if (tool->ammo != "battery")
+    {
+        g->add_msg_if_player(p,_("That item does not use batteries!"));
+        return 0;
+    }
+
+    if (modded->has_flag("RECHARGE"))
+    {
+        g->add_msg_if_player(p,_("That item has already has a rechargeable battery pack."));
+        return 0;
+    }
+
+    modded->item_tags.insert("RECHARGE");
+    modded->curammo = dynamic_cast<it_ammo*>(itypes["null"]);
+    g->add_msg_if_player(p,_("You insert the rechargeable battery pack into your your %s!"), tool->name.c_str());
+    return 1;
+}
+
 static bool valid_fabric(player *p, item *it, bool t)
 {
     if (it->type->id == "null") {
@@ -4638,7 +4673,7 @@ int iuse::dynamite_act(player *p, item *it, bool t)
     return 0;
 }
 
-int iuse::matchbomb(player *p, item *it, bool t) 
+int iuse::matchbomb(player *p, item *it, bool t)
  { if (p->is_underwater()) {
         g->add_msg_if_player(p, _("You can't do that while underwater."));
         return 0;
