@@ -215,10 +215,6 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
             fridge_on = true;
         }
 
-        //if(all_parts_with_feature("RECHARGE").size() > 0) {
-        //    recharger_on = true;
-        //}
-
     }
 
     for (int p = 0; p < parts.size(); p++)
