@@ -212,6 +212,7 @@ class Creature
         virtual void set_armor_bash_bonus(int nbasharm);
         virtual void set_armor_cut_bonus(int ncutarm);
 
+        virtual void set_speed_base(int nspeed);
         virtual void set_speed_bonus(int nspeed);
         virtual void set_dodge_bonus(int ndodge);
         virtual void set_block_bonus(int nblock);

@@ -57,6 +57,7 @@ monster::monster(mtype *t)
  type = t;
  moves = type->speed;
  speed = type->speed;
+ Creature::set_speed_base(speed);
  hp = type->hp;
  sp_timeout = rng(0, type->sp_freq);
  spawnmapx = -1;
@@ -87,6 +88,7 @@ monster::monster(mtype *t, int x, int y)
  type = t;
  moves = type->speed;
  speed = type->speed;
+ Creature::set_speed_base(speed);
  hp = type->hp;
  sp_timeout = type->sp_freq;
  spawnmapx = -1;
@@ -135,6 +137,7 @@ void monster::poly(mtype *t)
  type = t;
  moves = 0;
  speed = type->speed;
+ Creature::set_speed_base(speed);
  anger = type->agro;
  morale = type->morale;
  hp = int(hp_percentage * type->hp);

@@ -34,7 +34,6 @@ void Creature::reset_bonuses(game *g)
     armor_bash_bonus = 0;
     armor_cut_bonus = 0;
 
-    speed_base = 100;
     speed_bonus = 0;
     dodge_bonus = 0;
     block_bonus = 0;
@@ -77,7 +76,7 @@ void Creature::reset_stats(game *g)
     }
 
     // add an appropriate number of moves
-    moves = get_speed();
+    moves += get_speed();
 }
 
 // MF_DIGS or MF_CAN_DIG and diggable terrain
@@ -678,6 +677,10 @@ void Creature::set_armor_cut_bonus(int ncutarm)
     armor_cut_bonus = ncutarm;
 }
 
+void Creature::set_speed_base(int nspeed)
+{
+    speed_base = nspeed;
+}
 void Creature::set_speed_bonus(int nspeed)
 {
     speed_bonus = nspeed;
