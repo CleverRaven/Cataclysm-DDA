@@ -338,7 +338,7 @@
     "description": "This is a small gasoline powered lantern. It does not provide much light, but it lasts a long time. It is turned on. Use it to turn it off.",
     "price": 600,
     "material": ["glass", "iron"],
-    "flags": "LIGHT_6",
+    "flags": "LIGHT_15",
     "weight": 1400,
     "volume": 3,
     "bashing": 1,

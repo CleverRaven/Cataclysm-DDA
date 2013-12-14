@@ -542,6 +542,30 @@
   ]
 },{
         "type" : "recipe",
+  "result": "alarmclock",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 600,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 4 ]
+    ],
+    [
+      [ "clockworks", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "television",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
