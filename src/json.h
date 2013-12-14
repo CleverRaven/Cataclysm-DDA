@@ -204,8 +204,6 @@ class JsonArray;
 class JsonSerializer;
 class JsonDeserializer;
 
-bool is_whitespace(char ch); // RFC 4627 compliant
-
 
 /* JsonIn */
 
