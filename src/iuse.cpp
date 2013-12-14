@@ -6989,6 +6989,15 @@ int iuse::bell(player *p, item *it, bool t)
 {
     if( it->type->id == "cow_bell" ) {
         g->sound(p->posx, p->posy, 6, _("Clank! Clank!"));
+        if ( ! p->has_disease("deaf") ) {
+            const int cow_factor = 1 + ( p->mutation_category_level.find("MUTCAT_CATTLE") == p->mutation_category_level.end() ?
+                0 :
+                p->mutation_category_level.find("MUTCAT_CATTLE")->second
+            );
+            if ( x_in_y( cow_factor, 1 + cow_factor ) ) {
+                p->add_morale(MORALE_MUSIC, 1, 15 * (cow_factor > 10 ? 10 : cow_factor) );
+            }
+        }
     } else {
         g->sound(p->posx, p->posy, 4, _("Ring! Ring!"));
     }
