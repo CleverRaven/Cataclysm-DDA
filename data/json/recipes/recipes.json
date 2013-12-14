@@ -20888,6 +20888,40 @@
      ]
     ]
 },{
+        "type" : "recipe",
+  "result": "bagh_nakha",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 250], ["char_forge", 50]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_chunk", 3 ],
+     [ "scrap", 9 ]
+     ]
+    ]
+},{
   "type" : "recipe",
   "result": "tonfa_wood",
   "category": "CC_WEAPON",
