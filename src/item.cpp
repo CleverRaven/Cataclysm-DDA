@@ -181,6 +181,8 @@ void item::init() {
     player_id = -1;
     light = nolight;
     fridge = 0;
+    rot = 0;
+    last_rot_check = 0;
 }
 
 void item::make(itype* it)
@@ -283,7 +285,7 @@ std::string item::save_info() const
 {
     // doing this manually so as not to recurse
     std::stringstream s;
-    JsonOut jsout(&s);
+    JsonOut jsout(s);
     serialize(jsout, false);
     return s.str();
 }
@@ -335,7 +337,7 @@ void item::load_info(std::string data, game *g)
         check=data[1];
     }
     if ( check == '{' ) {
-        JsonIn jsin(&dump);
+        JsonIn jsin(dump);
         try {
             deserialize(jsin);
         } catch (std::string jsonerr) {
@@ -379,6 +381,25 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   if ( debug == true ) {
     if( g != NULL ) {
       dump->push_back(iteminfo("BASE", _("age: "), "",  (int(g->turn) - bday) / (10 * 60), true, "", true, true));
+      int maxrot = 0;
+      item * food = NULL;
+      if( goes_bad() ) {
+        food = this;
+        maxrot = dynamic_cast<it_comest*>(type)->spoils * 600;
+      } else if(is_food_container()) {
+        food = &contents[0];
+        if ( food->goes_bad() ) {
+            maxrot =dynamic_cast<it_comest*>(food->type)->spoils * 600;
+        }
+      }
+      if ( food != NULL && maxrot != 0 ) {
+        dump->push_back(iteminfo("BASE", _("bday rot: "), "",  (int(g->turn) - food->bday), true, "", true, true));
+        dump->push_back(iteminfo("BASE", _("temp rot: "), "",  (int)food->rot, true, "", true, true));
+        dump->push_back(iteminfo("BASE", _(" max rot: "), "",  (int)maxrot, true, "", true, true));
+        dump->push_back(iteminfo("BASE", _("  fridge: "), "",  (int)food->fridge, true, "", true, true));
+        dump->push_back(iteminfo("BASE", _("last rot: "), "",  (int)food->last_rot_check, true, "", true, true));
+      }
+
     }
     dump->push_back(iteminfo("BASE", _("burn: "), "",  burnt, true, "", true, true));
   }
@@ -884,20 +905,14 @@ std::string item::tname( bool with_prefix )
     {
         food = this;
         food_type = dynamic_cast<it_comest*>(type);
-    }
-    else if (is_food_container())
-    {
-        food = &contents[0];
-        food_type = dynamic_cast<it_comest*>(contents[0].type);
-    }
-    if (food != NULL && g != NULL)
-    {
+
         if (food_type->spoils != 0)
         {
-            if((int)(g->turn) < (int)(food->bday + 100))
-                ret << _(" (fresh)");
-            if(food->rotten(g))
+            if(food->rotten(g)) {
                 ret << _(" (rotten)");
+            } else if ( rot < 100 ) {
+                ret << _(" (fresh)");
+            }
         }
         if (food->has_flag("HOT"))
             ret << _(" (hot)");
@@ -1182,21 +1197,28 @@ int item::has_gunmod(itype_id mod_type)
 
 bool item::rotten(game *g)
 {
-    int expiry;
     if (!is_food() || g == NULL)
         return false;
     it_comest* food = dynamic_cast<it_comest*>(type);
     if (food->spoils != 0) {
-      it_comest* food = dynamic_cast<it_comest*>(type);
-      if (fridge > 0) {
-        // Add the number of turns we should get from refrigeration
-        bday += ((int)g->turn - fridge) * 0.8;
-        fridge = 0;
+      if ( last_rot_check+10 < int(g->turn) ) {
+          const int since = ( last_rot_check == 0 ? (int)bday : last_rot_check );
+          const int until = ( fridge > 0 ? fridge : int(g->turn) );
+          if ( since < until ) {
+              int old = rot;
+              rot += get_rot_since( since, until );
+              if (g->debugmon) g->add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
+          }
+          last_rot_check = int(g->turn);          
+
+          if (fridge > 0) {
+            // Flat 20%
+            rot += (until - fridge) * 0.2;
+            fridge = 0;
+          }
       }
-      expiry = (int)g->turn - bday;
-      return (expiry > (signed int)food->spoils * 600);
-    }
-    else {
+      return (rot > (signed int)food->spoils * 600);
+    } else {
       return false;
     }
 }

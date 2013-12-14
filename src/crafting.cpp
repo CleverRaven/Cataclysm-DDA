@@ -173,16 +173,16 @@ void load_quality(JsonObject &jo)
 
 bool game::crafting_allowed()
 {
-    if (u.is_underwater()) {
-        g->add_msg(_("You can't do that while underwater."));
-        return false;
-    }
-    if (u.morale_level() < MIN_MORALE_CRAFT)
-    { // See morale.h
+    if (u.morale_level() < MIN_MORALE_CRAFT) { // See morale.h
         add_msg(_("Your morale is too low to craft..."));
         return false;
     }
-    if (u.fine_detail_vision_mod(g) > 4) {//minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light)
+    return true;
+}
+
+bool game::crafting_can_see()
+{
+    if (u.fine_detail_vision_mod(g) > 4) {//minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light) (vs 2.5)
         g->add_msg(_("You can't see to craft!"));
         return false;
     }
@@ -192,20 +192,21 @@ bool game::crafting_allowed()
 
 void game::recraft()
 {
- if(u.lastrecipe == NULL)
- {
-  popup(_("Craft something first"));
- }
- else if (making_would_work(u.lastrecipe))
- {
-  make_craft(u.lastrecipe);
- }
+    if(u.lastrecipe == NULL) {
+        popup(_("Craft something first"));
+    } else if (making_would_work(u.lastrecipe)) {
+        make_craft(u.lastrecipe);
+    }
 }
 
 //TODO clean up this function to give better status messages (e.g., "no fire available")
 bool game::making_would_work(recipe *making)
 {
     if (!crafting_allowed()) {
+        return false;
+    }
+
+    if(!crafting_can_see()) {
         return false;
     }
 
@@ -478,29 +479,29 @@ bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
 
 void game::craft()
 {
-    if (!crafting_allowed())
-    {
+    if (!crafting_allowed()) {
         return;
     }
 
     recipe *rec = select_crafting_recipe();
-    if (rec)
-    {
-        make_craft(rec);
+    if (rec) {
+        if(crafting_can_see()) {
+            make_craft(rec);
+        }
     }
 }
 
 void game::long_craft()
 {
-    if (!crafting_allowed())
-    {
+    if (!crafting_allowed()) {
         return;
     }
 
     recipe *rec = select_crafting_recipe();
-    if (rec)
-    {
-        make_all_craft(rec);
+    if (rec) {
+        if(crafting_can_see()) {
+            make_all_craft(rec);
+        }
     }
 }
 
@@ -888,7 +889,13 @@ recipe* game::select_crafting_recipe()
 
         wrefresh(w_data);
         int ch=(int)getch();
-        if(ch=='e'||ch=='E') { ch=(int)'?'; } // get_input is inflexible
+        if(ch=='e'||ch=='E') { // get_input is inflexible
+            ch=(int)'?';
+        } else if(ch == KEY_PPAGE) {
+            ch=(int)'<';
+        } else if(ch == KEY_NPAGE || ch == '\t' ) {
+            ch=(int)'>';
+        }
         input = get_input(ch);
         switch (input)
         {
@@ -1390,8 +1397,9 @@ void game::complete_craft()
  {
      if (iter->goes_bad())
      {
-         used_age_tally += ((int)turn - iter->bday)/
-                 (float)(dynamic_cast<it_comest*>(iter->type)->spoils);
+            iter->rotten(g);
+            used_age_tally += iter->rot/
+                (float)(dynamic_cast<it_comest*>(iter->type)->spoils);
          ++used_age_count;
      }
  }
@@ -1912,19 +1920,19 @@ void game::complete_disassemble()
   {
     if (dis->skill_used == NULL || dis->learn_by_disassembly <= u.skillLevel(dis->skill_used))
     {
-      if (rng(0,3) == 0)
+      if (one_in(4))
       {
         u.learn_recipe(dis);
-        add_msg(_("You learned a recipe from this disassembly!"));
+        add_msg(_("You learned a recipe from disassembling it!"));
       }
       else
       {
-        add_msg(_("You think you could learn a recipe from this item. Maybe you'll try again."));
+        add_msg(_("You might be able to learn a recipe if you disassemble another."));
       }
     }
     else
     {
-      add_msg(_("With some more skill, you might learn a recipe from this."));
+      add_msg(_("If you had better skills, you might learn a recipe next time."));
     }
   }
 }

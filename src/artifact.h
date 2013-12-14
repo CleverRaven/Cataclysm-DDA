@@ -349,6 +349,6 @@ itype* new_natural_artifact(itypemap &itypes, artifact_natural_property prop = A
 
 // note: needs to be called by main() before MAPBUFFER.load
 void load_artifacts(const std::string &filename, itypemap &itypes);
-void load_artifacts_from_ifstream(std::ifstream *f, itypemap &itypes);
+void load_artifacts_from_ifstream(std::ifstream &f, itypemap &itypes);
 
 #endif

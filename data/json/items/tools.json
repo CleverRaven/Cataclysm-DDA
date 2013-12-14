@@ -1,4 +1,28 @@
 [
+  {
+    "id": "testflames",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "Flaming Chunk of Steel +2",
+    "description": "HOLY SHIT THIS THING IS ON FIRE",
+    "price": 980,
+    "material": "steel",
+    "flags": ["FIRE", "SLICE", "LIGHT_50", "FLAMING"],
+    "techniques": ["WBLOCK_3", "WIDE"],
+    "weight": 64,
+    "volume": 1,
+    "bashing": 1,
+    "cutting": 1,
+    "to_hit": 100,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null"
+  },
+
     {
         "type" : "ITEM_CATEGORY",
         "id" : "spare_parts",
@@ -314,7 +338,7 @@
     "description": "This is a small gasoline powered lantern. It does not provide much light, but it lasts a long time. It is turned on. Use it to turn it off.",
     "price": 600,
     "material": ["glass", "iron"],
-    "flags": "LIGHT_6",
+    "flags": "LIGHT_15",
     "weight": 1400,
     "volume": 3,
     "bashing": 1,
@@ -2147,7 +2171,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
-    "revert_to": "null",
+    "revert_to": "canister_empty",
     "use_action": "SMOKEBOMB_ACT"
   },
 

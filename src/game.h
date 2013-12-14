@@ -24,6 +24,7 @@
 #include "gamemode.h"
 #include "live_view.h"
 #include "worldfactory.h"
+#include "creature_tracker.h"
 #include <vector>
 #include <map>
 #include <queue>
@@ -144,9 +145,9 @@ class game
   void vadd_msg(const char* msg, va_list ap );
   void add_msg_string(const std::string &s);
     void add_msg(const char* msg, ...);
-  void add_msg_if_player(player *p, const char* msg, ...);
-  void add_msg_if_npc(player* p, const char* msg, ...);
-  void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
+  void add_msg_if_player(Creature *t, const char* msg, ...);
+  void add_msg_if_npc(Creature* p, const char* msg, ...);
+  void add_msg_player_or_npc(Creature* p, const char* player_str, const char* npc_str, ...);
   std::vector<game_message> recent_messages(const int count); //Retrieves the last X messages
   void add_event(event_type type, int on_turn, int faction_id = -1,
                  int x = -1, int y = -1);
@@ -186,6 +187,7 @@ class game
   void clear_zombies();
   bool spawn_hallucination(); //Spawns a hallucination close to the player
 
+  Creature* creature_at(const int x, const int y);
   int  mon_at(const int x, const int y) const; // Index of the monster at (x, y); -1 for none
   int  mon_at(point p) const;
   bool is_empty(const int x, const int y); // True if no PC, no monster, move cost > 0
@@ -194,11 +196,12 @@ class game
   bool is_in_ice_lab(point location);
 // Kill that monster; fixes any pointers etc
   void kill_mon(int index, bool player_did_it = false);
+  void kill_mon(monster& critter, bool player_did_it = false); // new kill_mon that just takes monster reference
   void explode_mon(int index); // Explode a monster; like kill_mon but messier
   void revive_corpse(int x, int y, int n); // revives a corpse from an item pile
   void revive_corpse(int x, int y, item *it); // revives a corpse by item pointer, caller handles item deletion
 // hit_monster_with_flags processes ammo flags (e.g. incendiary, etc)
-  void hit_monster_with_flags(monster &z, const std::set<std::string> &effects);
+  void hit_monster_with_flags(monster &critter, const std::set<std::string> &effects);
   void plfire(bool burst, int default_target_x = -1, int default_target_y = -1); // Player fires a gun (target selection)...
 // ... a gun is fired, maybe by an NPC (actual damage, etc.).
   void fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
@@ -250,7 +253,8 @@ class game
   bool sees_u(int x, int y, int &t);
   bool u_see (int x, int y);
   bool u_see (monster *critter);
-  bool u_see (player *p);
+  bool u_see (Creature *t); // for backwards compatibility
+  bool u_see (Creature &t);
   bool pl_sees(player *p, monster *critter, int &t);
   bool is_hostile_nearby();
   bool is_hostile_very_close();
@@ -314,6 +318,7 @@ class game
   signed char temperature;              // The air temperature
   int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;   // Weather pattern--SEE weather.h
+  bool lightning_active;
 
   std::map<int, weather_segment> weather_log;
   char nextinv; // Determines which letter the next inv item will have
@@ -372,7 +377,7 @@ class game
 
 // Animation related functions
   void draw_explosion(int x, int y, int radius, nc_color col);
-  void draw_bullet(player &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
+  void draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
   void draw_hit_mon(int x, int y, monster critter, bool dead = false);
   void draw_hit_player(player *p, bool dead = false);
   void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
@@ -455,6 +460,7 @@ class game
   void recraft();                      // See crafting.cpp
   void long_craft();                   // See crafting.cpp
   bool crafting_allowed();             // See crafting.cpp
+  bool crafting_can_see();             // See crafting.cpp
   recipe* select_crafting_recipe();    // See crafting.cpp
   bool making_would_work(recipe *r);   // See crafting.cpp
   bool can_make(recipe *r);            // See crafting.cpp
@@ -527,7 +533,7 @@ class game
   void replace_stair_monsters();
   void update_stair_monsters();
   void despawn_monsters(const int shiftx = 0, const int shifty = 0);
-  void force_save_monster(monster &z);
+  void force_save_monster(monster &critter);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   int valid_group(std::string type, int x, int y, int z);// Picks a group from cur_om
   void set_adjacent_overmaps(bool from_scratch = false);
@@ -579,8 +585,8 @@ class game
 
 // ########################## DATA ################################
 
-  std::vector<monster> _active_monsters;
   std::map<point, int> z_at;
+  Creature_tracker critter_tracker;
 
   signed char last_target; // The last monster targeted
   int run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new

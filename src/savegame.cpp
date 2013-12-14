@@ -77,7 +77,7 @@ void game::serialize(std::ofstream & fout) {
         // Header
         fout << "# version " << savegame_version << std::endl;
 
-        JsonOut json(&fout, true); // pretty-print
+        JsonOut json(fout, true); // pretty-print
 
         json.start_object();
         // basic game state information.
@@ -120,7 +120,7 @@ void game::serialize(std::ofstream & fout) {
         json.member( "grscent", rle_out.str() );
 
         // Then each monster
-        json.member( "active_monsters", _active_monsters );
+        json.member( "active_monsters", critter_tracker.list() );
         json.member( "stair_monsters", coming_to_stairs );
 
         // save killcounts.
@@ -196,7 +196,7 @@ void game::unserialize(std::ifstream & fin)
     std::stringstream linein;
 
     int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
-    JsonIn jsin(&fin);
+    JsonIn jsin(fin);
     try {
         JsonObject data = jsin.get_object();
 
@@ -294,6 +294,15 @@ void game::load_weather(std::ifstream & fin) {
        }
    }
 
+   //Check for "lightning:" marker - if absent, ignore
+   if (fin.peek() == 'l') {
+       std::string line;
+       getline(fin, line);
+       lightning_active = ((*line.end()) == '1');
+   } else {
+       lightning_active = false;
+   }
+
      while(!fin.eof()) {
         std::string data;
         getline(fin, data);
@@ -329,6 +338,7 @@ void game::load_weather(std::ifstream & fin) {
 
 void game::save_weather(std::ofstream & fout) {
     fout << "# version " << savegame_version << std::endl;
+    fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
     const int climatezone = 0;
     for( std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it ) {
       fout << it->first
@@ -625,7 +635,7 @@ void game::unserialize_master(std::ifstream &fin) {
    }
     try {
         // single-pass parsing example
-        JsonIn jsin(&fin);
+        JsonIn jsin(fin);
         jsin.start_object();
         while (!jsin.end_object()) {
             std::string name = jsin.get_member_name();
@@ -662,7 +672,7 @@ void game::unserialize_master(std::ifstream &fin) {
 void game::serialize_master(std::ofstream &fout) {
     fout << "# version " << savegame_version << std::endl;
     try {
-        JsonOut json(&fout, true); // pretty-print
+        JsonOut json(fout, true); // pretty-print
         json.start_object();
 
         json.member("next_mission_id", next_mission_id);

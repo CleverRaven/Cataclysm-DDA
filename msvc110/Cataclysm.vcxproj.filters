@@ -288,9 +288,6 @@
     <ClCompile Include="..\src\overmapbuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\picofunc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -615,12 +612,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\overmapbuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\picofunc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\picojson.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\player.h">

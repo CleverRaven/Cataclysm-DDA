@@ -1383,6 +1383,22 @@ bool map::has_adjacent_furniture(const int x, const int y)
  return false;
 }
 
+bool map::has_nearby_fire(int x, int y, int radius)
+{
+    for(int dx = -radius; dx <= radius; dx++) {
+        for(int dy = -radius; dy <= radius; dy++) {
+            const point p(x + dx, y + dy);
+            if (field_at(p.x, p.y).findField(fd_fire) != 0) {
+                return true;
+            }
+            if (ter(p.x, p.y) == t_lava) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void map::mop_spills(const int x, const int y) {
  for (int i = 0; i < i_at(x, y).size(); i++) {
   item *it = &(i_at(x, y)[i]);
@@ -3310,17 +3326,24 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
    drew_field = false;
   }
  }
-// If there's items here, draw those instead
- if (show_items && !has_flag("CONTAINER", x, y) && curr_items.size() > 0 && !drew_field) {
-  if (sym != '.' && sym != '%')
-   hi = true;
-  else {
-   tercol = curr_items[curr_items.size() - 1].color();
-   if (curr_items.size() > 1)
-    invert = !invert;
-   sym = curr_items[curr_items.size() - 1].symbol();
-  }
- }
+    // If there's items here, draw those instead
+    if (show_items && !has_flag("CONTAINER", x, y) && curr_items.size() > 0 && !drew_field) {
+        if (sym != '.' && sym != '%') {
+            hi = true;
+        } else {
+            // if there's furniture, then only change the furniture colour
+            if (has_furn(x, y)) {
+                invert = !invert;
+                sym = furnlist[curr_furn].sym;
+            } else {
+                tercol = curr_items[curr_items.size() - 1].color();
+                if (curr_items.size() > 1) {
+                    invert = !invert;
+                }
+                sym = curr_items[curr_items.size() - 1].symbol();
+            }
+        }
+    }
 
  int veh_part = 0;
  vehicle *veh = veh_at(x, y, veh_part);
@@ -3860,8 +3883,8 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
               }
               if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
                   it_comest *food = dynamic_cast<it_comest*>(it->type);
-                  int maxShelfLife = it->bday + (food->spoils * 600)*2;
-                  if(g->turn >= maxShelfLife) {
+                  it->rotten(g);
+                  if(it->rot >= (food->spoils * 600)*2) {
                       it = tmpsub->itm[x][y].erase(it);
                   } else { ++it; intidx++; }
               } else { ++it; intidx++; }

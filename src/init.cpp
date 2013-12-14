@@ -4,6 +4,7 @@
 #include "file_finder.h"
 
 // can load from json
+#include "effect.h"
 #include "material.h"
 #include "bionics.h"
 #include "profession.h"
@@ -141,6 +142,7 @@ void init_data_structures()
     type_function_map["tool_quality"] = new StaticFunctionAccessor(&load_quality);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
+    type_function_map["effect_type"] = new StaticFunctionAccessor(&load_effect_type);
     type_function_map["tutorial_messages"] =
         new StaticFunctionAccessor(&load_tutorial_messages);
     type_function_map["overmap_terrain"] =
@@ -193,7 +195,7 @@ void load_json_dir(std::string const &dirname)
         infile.close();
         // parse it
         try {
-            JsonIn jsin(&iss);
+            JsonIn jsin(iss);
             load_all_from_json(jsin);
         } catch (std::string e) {
             throw *(it) + ": " + e;
@@ -249,7 +251,7 @@ void load_all_from_json(JsonIn &jsin)
     }
 }
 
-#ifdef LOCALIZE
+#if defined LOCALIZE && ! defined __CYGWIN__
 // load names depending on current locale
 void init_names()
 {

@@ -94,7 +94,7 @@ void vehicle::load (std::ifstream &stin)
     if ( type.size() > 1 && ( type[0] == '{' || type[1] == '{' ) ) {
         std::stringstream derp;
         derp << type;
-        JsonIn jsin(&derp);
+        JsonIn jsin(derp);
         try {
             deserialize(jsin);
         } catch (std::string jsonerr) {
@@ -2500,7 +2500,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
                 turns_stunned = 6;
             }
             if (turns_stunned > 0 && z) {
-                z->add_effect(ME_STUNNED, turns_stunned);
+                z->add_effect("stunned", turns_stunned);
             }
 
             int angle = (100 - degree) * 2 * (one_in(2)? 1 : -1);

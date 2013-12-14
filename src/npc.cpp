@@ -160,7 +160,7 @@ void npc::load_info(game *g, std::string data)
         check = data[1];
     }
     if ( check == '{' ) {
-        JsonIn jsin(&dump);
+        JsonIn jsin(dump);
         try {
             deserialize(jsin);
         } catch (std::string jsonerr) {
@@ -1911,6 +1911,11 @@ void npc::shift(int sx, int sy)
  plx -= sx * SEEX;
  ply -= sy * SEEY;
  path.clear();
+}
+
+void npc::die(game* g, Creature* nkiller) {
+    killer = nkiller;
+    die(g, nkiller != NULL && nkiller->is_player());
 }
 
 void npc::die(game *g, bool your_fault)

@@ -147,14 +147,14 @@ int iuse::royal_jelly(player *p, item *it, bool t)
   message = _("You feel cleansed inside!");
   p->rem_disease("dermatik");
  }
- if (p->has_disease("blind")) {
+ if (p->has_effect("blind")) {
   message = _("Your sight returns!");
-  p->rem_disease("blind");
+  p->remove_effect("blind");
  }
- if (p->has_disease("poison") || p->has_disease("foodpoison") ||
+ if (p->has_effect("poison") || p->has_disease("foodpoison") ||
      p->has_disease("badpoison") || p->has_disease("paralyzepoison")) {
   message = _("You feel much better!");
-  p->rem_disease("poison");
+  p->remove_effect("poison");
   p->rem_disease("badpoison");
   p->rem_disease("foodpoison");
   p->rem_disease("paralyzepoison");
@@ -829,7 +829,7 @@ int iuse::vaccine(player *p, item *it, bool t) {
 }
 
 int iuse::poison(player *p, item *it, bool t) {
-    p->add_disease("poison", 600);
+    p->add_effect("poison", 600);
     p->add_disease("foodpoison", 1800);
     return it->type->charges_to_use();
 }
@@ -909,8 +909,8 @@ int iuse::inhaler(player *p, item *it, bool t) {
 int iuse::oxygen_bottle(player *p, item *it, bool t) {
     p->moves -= 500;
     g->add_msg_if_player(p,_("You breathe deeply from the %s"), it->tname().c_str());
-    if (p->has_disease("smoke")) {
-          p->rem_disease("smoke");
+    if (p->has_effect("smoke")) {
+          p->remove_effect("smoke");
         }
         else if (p->has_disease("asthma")) {
           p->rem_disease("asthma");
@@ -975,6 +975,9 @@ int iuse::mutagen(player *p, item *it, bool t) {
     } else if( it->has_flag("MUTAGEN_FELINE") ) {
         g->add_msg_if_player(p, _("As you lap up the last of the mutagen, you wonder why..."));
         p->mutate_category(g, "MUTCAT_FELINE");
+    } else if( it->has_flag("MUTAGEN_LUPINE") ) {
+        g->add_msg_if_player(p, _("You feel an urge to mark your territory. But then it passes."));
+        p->mutate_category(g, "MUTCAT_LUPINE");
     } else if( it->has_flag("MUTAGEN_CATTLE") ) {
         g->add_msg_if_player(p, _("Your mind and body slow down. You feel peaceful."));
         p->mutate_category(g, "MUTCAT_CATTLE");
@@ -1015,14 +1018,18 @@ int iuse::mutagen(player *p, item *it, bool t) {
 
 int iuse::mut_iv(player *p, item *it, bool t) {
     if(!p->is_npc()) {
-      p->add_memorial_log(_("Injected mutagen."));
+        p->add_memorial_log(_("Injected mutagen."));
     }
-    if( it->has_flag("MUTAGEN_STRONG") ) { //3 guaranteed mutations, 75%/66%/66% for the 4th/5th/6th, 6-16 Pain per shot and potential knockdown/KO
+    if( it->has_flag("MUTAGEN_STRONG") ) {
+        // 3 guaranteed mutations, 75%/66%/66% for the 4th/5th/6th,
+        // 6-16 Pain per shot and potential knockdown/KO.
         g->add_msg_if_player(p, _("You inject yoursel-arRGH!"));
         p->mutate(g);
         p->pain += 1 * rng(1, 4);
         g->sound(p->posx, p->posy, 15 + 3 * p->str_cur, _("You scream in agony!!"));
-        p->hunger += 10; //Standard IV-mutagen effect: 10 hunger/thirst & 5 Fatigue *per mutation*. Numbers may vary based on mutagen.
+        //Standard IV-mutagen effect: 10 hunger/thirst & 5 Fatigue *per mutation*.
+        // Numbers may vary based on mutagen.
+        p->hunger += 10;
         p->fatigue += 5;
         p->thirst += 10;
         p->mutate(g);
@@ -1035,122 +1042,29 @@ int iuse::mut_iv(player *p, item *it, bool t) {
         p->fatigue += 5;
         p->thirst += 10;
         p->pain += 3 * rng(1, 2);
-         if (!one_in(4)) {
+        if (!one_in(4)) {
             p->mutate(g);
             p->hunger += 10;
             p->fatigue += 5;
             p->thirst += 10;
-         }
-         if (!one_in(3)) {
+        }
+        if (!one_in(3)) {
             p->mutate(g);
             p->hunger += 10;
             p->fatigue += 5;
             p->thirst += 10;
             g->add_msg_if_player(p, _("You writhe and collapse to the ground."));
             p->add_disease("downed", rng(1, 4));
-         }
-         if (!one_in(3)) { //Jackpot! ...kinda, don't wanna go unconscious in dangerous territory
+        }
+        if (!one_in(3)) {
+            //Jackpot! ...kinda, don't wanna go unconscious in dangerous territory
             p->mutate(g);
             p->hunger += 10;
             p->fatigue += 5;
             p->thirst += 10;
             g->add_msg_if_player(p, _("It all goes dark..."));
-            p->fall_asleep((400 - p->int_cur * 5)); //Should be about 40 min, less 30 sec/IN point.
-          }
-    } else if( it->has_flag("MUTAGEN_PLANT") ) { //2-10 Pain, 66% for the second and 50% for the third, for all tier-9s
-        g->add_msg_if_player(p, _("You inject some nutrients into your phloem."));
-        p->mutate_category(g, "MUTCAT_PLANT");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->fatigue += 5; //EkarusRyndren had the idea to add Fatigue and knockout, though that's a bit much for every case
-        p->thirst += 10;
-        if(!one_in(3)) {
-            p->mutate_category(g, "MUTCAT_PLANT");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category(g, "MUTCAT_PLANT");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-    } else if( it->has_flag("MUTAGEN_INSECT") ) {
-        g->add_msg_if_player(p, _("You sting yourself...for the Queen."));
-        p->mutate_category(g, "MUTCAT_INSECT");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->fatigue += 5;
-        p->thirst += 10;
-        if(!one_in(3)) {
-            p->mutate_category(g, "MUTCAT_INSECT");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category(g, "MUTCAT_INSECT");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-    } else if( it->has_flag("MUTAGEN_SPIDER") ) {
-        g->add_msg_if_player(p, _("Mmm...the *special* venom."));
-        p->mutate_category(g, "MUTCAT_SPIDER");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->fatigue += 5;
-        p->thirst += 10;
-        if(!one_in(3)) {
-            p->mutate_category(g, "MUTCAT_SPIDER");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category(g, "MUTCAT_SPIDER");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-    } else if( it->has_flag("MUTAGEN_SLIME") ) {
-        g->add_msg_if_player(p, _("This stuff takes you back. Downright primordial!"));
-        p->mutate_category(g, "MUTCAT_SLIME");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->fatigue += 5;
-        p->thirst += 10;
-        if(!one_in(3)) {
-            p->mutate_category(g, "MUTCAT_SLIME");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category(g, "MUTCAT_SLIME");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-    } else if( it->has_flag("MUTAGEN_FISH") ) {
-        g->add_msg_if_player(p, _("Your pulse pounds as the waves."));
-        p->mutate_category(g, "MUTCAT_FISH");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->fatigue += 5;
-        p->thirst += 10;
-        if(!one_in(3)) {
-            p->mutate_category(g, "MUTCAT_FISH");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-        }
-        if(one_in(2)) {
-            p->mutate_category(g, "MUTCAT_FISH");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
+            //Should be about 40 min, less 30 sec/IN point.
+            p->fall_asleep((400 - p->int_cur * 5));
         }
     } else if( it->has_flag("MUTAGEN_URSINE") ) {
         g->add_msg_if_player(p, _("You feel yourself quite equipped for wilderness survival."));
@@ -1225,6 +1139,25 @@ int iuse::mut_iv(player *p, item *it, bool t) {
             }
         if(one_in(2)) {
             p->mutate_category(g, "MUTCAT_BEAST");
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+            }
+    } else if( it->has_flag("MUTAGEN_LUPINE") ) {
+        g->add_msg_if_player(p, _("As the mutagen hits you, your ears twitch and you stifle a yipe."));
+        p->mutate_category(g, "MUTCAT_LUPINE");
+        p->pain += 2 * rng(1, 5);
+        p->hunger += 10;
+        p->fatigue += 5;
+        p->thirst += 10;
+        if(!one_in(3)) {
+            p->mutate_category(g, "MUTCAT_LUPINE");
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+            }
+        if(one_in(2)) {
+            p->mutate_category(g, "MUTCAT_LUPINE");
             p->hunger += 10;
             p->fatigue += 5;
             p->thirst += 10;
@@ -1328,7 +1261,8 @@ int iuse::mut_iv(player *p, item *it, bool t) {
         g->add_msg_if_player(p, _("You took that shot like a champ!"));
         p->mutate_category(g, "MUTCAT_ALPHA");
         p->pain += 3 * rng(1, 5);
-        p->hunger += 3; //Alpha doesn't make a lot of massive morphologial changes, so less nutrients needed
+        //Alpha doesn't make a lot of massive morphologial changes, so less nutrients needed.
+        p->hunger += 3;
         p->fatigue += 5;
         p->thirst += 3;
         if(!one_in(3)) {
@@ -1336,18 +1270,20 @@ int iuse::mut_iv(player *p, item *it, bool t) {
             p->hunger += 3;
             p->fatigue += 5;
             p->thirst += 3;
-            }
+        }
         if(!one_in(3)) {
             p->mutate_category(g, "MUTCAT_ALPHA");
             p->hunger += 3;
             p->fatigue += 5;
             p->thirst += 3;
-          }
-    } else if( it->has_flag("MUTAGEN_MEDICAL") ) { //2-6 pain, same as Alpha--since specifically intended for medical applications
+        }
+    } else if( it->has_flag("MUTAGEN_MEDICAL") ) {
+        // 2-6 pain, same as Alpha--since specifically intended for medical applications.
         g->add_msg_if_player(p, _("You can feel the blood in your medication stream. It's a strange feeling."));
         p->mutate_category(g, "MUTCAT_MEDICAL");
         p->pain += 2 * rng(1, 3);
-        p->hunger += 3; //Medical's are pretty much all physiology, IIRC
+        //Medical's are pretty much all physiology, IIRC
+        p->hunger += 3;
         p->fatigue += 5;
         p->thirst += 3;
         if(!one_in(3)) {
@@ -1362,11 +1298,14 @@ int iuse::mut_iv(player *p, item *it, bool t) {
             p->fatigue += 5;
             p->thirst += 3;
           }
-    } else if( it->has_flag("MUTAGEN_CHIMERA") ) { //24-36 pain, Scream,, -40 Morale, but two guaranteed mutations and 75% each for third and fourth
+    } else if( it->has_flag("MUTAGEN_CHIMERA") ) {
+        // 24-36 pain, Scream,, -40 Morale,
+        // but two guaranteed mutations and 75% each for third and fourth.
         g->add_msg_if_player(p, _("everyanimalthateverlived..bursting.from.YOU!"));
         p->mutate_category(g, "MUTCAT_CHIMERA");
         p->pain += 4 * rng(1, 4);
-        p->hunger += 20; //Chimera's all about the massive morphological changes Done Quick, so lotsa nutrition needed
+        //Chimera's all about the massive morphological changes Done Quick, so lotsa nutrition needed.
+        p->hunger += 20;
         p->fatigue += 20;
         p->thirst += 20;
         p->mutate_category(g, "MUTCAT_CHIMERA");
@@ -1381,60 +1320,97 @@ int iuse::mut_iv(player *p, item *it, bool t) {
             p->hunger += 20;
             p->fatigue += 10;
             p->thirst += 20;
-            }
+        }
         if(!one_in(4)) {
             p->mutate_category(g, "MUTCAT_CHIMERA");
             p->hunger += 20;
             p->thirst += 10;
             p->pain += 5;
+            // Out for a while--long enough to receive another two injections
+            // and wake up in hostile territory.
             g->add_msg_if_player(p, _("With a final painful *pop*, you go out like a light."));
-            p->fall_asleep(800 - p->int_cur * 5); //Out for a while--long enough to receive another two injections and wake up in hostile territory
-          }
-    } else if( it->has_flag("MUTAGEN_ELFA") ) { // 3-15 pain, morale boost, but no more mutagenic than cat-9s
-        g->add_msg_if_player(p, _("Everything goes green for a second.\n\
+            p->fall_asleep(800 - p->int_cur * 5);
+        }
+    } else {
+        std::string mutation_category;
+        // These categories for the most part share their effects,
+        // so print their messages and any epecial effects,
+        // then handle the mutation at the end in combined code.
+        if( it->has_flag("MUTAGEN_PLANT") ) {
+            g->add_msg_if_player(p, _("You inject some nutrients into your phloem."));
+            mutation_category = "MUTCAT_PLANT";
+        } else if( it->has_flag("MUTAGEN_INSECT") ) {
+            g->add_msg_if_player(p, _("You sting yourself...for the Queen."));
+            mutation_category = "MUTCAT_INSECT";
+        } else if( it->has_flag("MUTAGEN_SPIDER") ) {
+            g->add_msg_if_player(p, _("Mmm...the *special* venom."));
+            mutation_category = "MUTCAT_SPIDER";
+        } else if( it->has_flag("MUTAGEN_SLIME") ) {
+            g->add_msg_if_player(p, _("This stuff takes you back. Downright primordial!"));
+            mutation_category = "MUTCAT_SLIME";
+        } else if( it->has_flag("MUTAGEN_FISH") ) {
+            g->add_msg_if_player(p, _("Your pulse pounds as the waves."));
+            mutation_category = "MUTCAT_FISH";
+        } else if( it->has_flag("MUTAGEN_URSINE") ) {
+            g->add_msg_if_player(p, _("You feel yourself quite equipped for wilderness survival."));
+            mutation_category = "MUTCAT_URSINE";
+        } else if( it->has_flag("MUTAGEN_RAT") ) {
+            g->add_msg_if_player(p, _("You squeak as the shot hits you."));
+            g->sound(p->posx, p->posy, 10, _("Eep!"));
+            mutation_category = "MUTCAT_RAT";
+        } else if( it->has_flag("MUTAGEN_BEAST") ) {
+            g->add_msg_if_player(p, _("Your heart races wildly as the injection takes hold."));
+            mutation_category = "MUTCAT_BEAST";
+        } else if( it->has_flag("MUTAGEN_CATTLE") ) {
+            g->add_msg_if_player(p, _("You wonder if this is what rBGH feels like..."));
+            mutation_category = "MUTCAT_CATTLE";
+        } else if( it->has_flag("MUTAGEN_CEPHALOPOD") ) {
+            g->add_msg_if_player(p, _("You watch the mutagen flow through a maze of little twisty passages.\n\
+            All the same."));
+            mutation_category = "MUTCAT_CEPHALOPOD";
+        } else if( it->has_flag("MUTAGEN_BIRD") ) {
+            g->add_msg_if_player(p, _("Your arms spasm in an oddly wavelike motion."));
+            mutation_category = "MUTCAT_BIRD";
+        } else if( it->has_flag("MUTAGEN_LIZARD") ) {
+            g->add_msg_if_player(p, _("Your blood cools down. The feeling is..different."));
+            mutation_category = "MUTCAT_LIZARD";
+        } else if( it->has_flag("MUTAGEN_TROGLOBITE") ) {
+            g->add_msg_if_player(p, _("As you press the plunger, it all goes so bright..."));
+            mutation_category = "MUTCAT_TROGLOBITE";
+        } else if( it->has_flag("MUTAGEN_ELFA") ) {
+            // 3-15 pain, morale boost, but no more mutagenic than cat-9s
+            g->add_msg_if_player(p, _("Everything goes green for a second.\n\
         It's painfully beautiful..."));
-        p->mutate_category(g, "MUTCAT_ELFA");
-        p->fall_asleep(20); //Should be out for two minutes.  Ecstasy Of Green
-        p->pain += 3 * rng(1, 5);
-        p->add_morale(MORALE_MUTAGEN_ELFA, 25, 100);
+            p->fall_asleep(20); //Should be out for two minutes.  Ecstasy Of Green
+            // Extra helping of pain.
+            p->pain += rng(1, 5);
+            p->add_morale(MORALE_MUTAGEN_ELFA, 25, 100);
+            mutation_category = "MUTCAT_ELFA";
+        } else if( it->has_flag("MUTAGEN_RAPTOR") ) {
+            //Little more painful than average, but nowhere near as harsh & effective as Chimera.
+            g->add_msg_if_player(p, _("You distinctly smell the mutagen mixing with your blood\n\
+        ...and then it passes."));
+            mutation_category = "MUTCAT_RAPTOR";
+        }
+
+        p->mutate_category(g, mutation_category);
+        p->pain += 2 * rng(1, 5);
         p->hunger += 10;
+        // EkarusRyndren had the idea to add Fatigue and knockout,
+        // though that's a bit much for every case
         p->fatigue += 5;
         p->thirst += 10;
         if(!one_in(3)) {
-            p->mutate_category(g, "MUTCAT_ELFA");
+            p->mutate_category(g, mutation_category);
             p->hunger += 10;
             p->fatigue += 5;
             p->thirst += 10;
-            }
+        }
         if(one_in(2)) {
-            p->mutate_category(g, "MUTCAT_ELFA");
+            p->mutate_category(g, mutation_category);
             p->hunger += 10;
             p->fatigue += 5;
             p->thirst += 10;
-          }
-    } else if( it->has_flag("MUTAGEN_RAPTOR") ) { //Little more painful than average, but nowhere near as harsh & effective as Chimera.
-        g->add_msg_if_player(p, _("You distinctly smell the mutagen mixing with your blood\n\
-        ...and then it passes."));
-        p->mutate_category(g, "MUTCAT_RAPTOR");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->hunger += 5;
-        p->thirst += 10;
-        if(!one_in(4)) {
-            p->mutate_category(g, "MUTCAT_RAPTOR");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category(g, "MUTCAT_RAPTOR");
-            p->hunger += 10;
-            p->hunger += 5;
-            p->thirst += 10;
-          }
-    } else {
-        if (!one_in(3)) {
-            p->mutate(g);
         }
     }
     return it->type->charges_to_use();
@@ -4329,10 +4305,7 @@ int iuse::granade_act(player *p, item *it, bool t)
                         if (mon_hit != -1) {
                             g->zombie(mon_hit).speed = g->zombie(mon_hit).type->speed;
                             g->zombie(mon_hit).hp = g->zombie(mon_hit).type->hp;
-                            for (int i = 0; i < g->zombie(mon_hit).effects.size(); i++) {
-                                g->zombie(mon_hit).effects.erase(g->zombie(mon_hit).effects.begin() + i);
-                                i--;
-                            }
+                            g->zombie(mon_hit).clear_effects();
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             g->active_npc[npc_hit]->environmental_revert_effect();
@@ -4512,30 +4485,27 @@ int iuse::smokebomb(player *p, item *it, bool t)
 
 int iuse::smokebomb_act(player *p, item *it, bool t)
 {
- point pos = g->find_item(it);
- if (pos.x == -999 || pos.y == -999) {
-  return 0;
- }
- if (t) {
-  if (it->charges > 17) {
-   g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
-  } else if(it->charges > 0) {
-   g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
-   return 0;
-  } else {
-   int junk;
-   for (int i = -2; i <= 2; i++) {
-    for (int j = -2; j <= 2; j++) {
-     if (g->m.sees(pos.x, pos.y, pos.x + i, pos.y + j, 3, junk) &&
-         g->m.move_cost(pos.x + i, pos.y + j) > 0)
-      g->m.add_field(g, pos.x + i, pos.y + j, fd_smoke, rng(1, 2) + rng(0, 1));
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
     }
-   }
-  }
- } else {
-  it->make(itypes["canister_empty"]);
- }
- return 0;
+    if (t) {
+        g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
+        return 0;
+    } else {
+        int junk;
+        for (int i = -2; i <= 2; i++) {
+            for (int j = -2; j <= 2; j++) {
+                if (g->m.sees(pos.x, pos.y, pos.x + i, pos.y + j, 3, junk) &&
+                    g->m.move_cost(pos.x + i, pos.y + j) > 0) {
+                    g->m.add_field(g, pos.x + i, pos.y + j, fd_smoke, rng(1, 2) + rng(0, 1));
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 int iuse::acidbomb(player *p, item *it, bool t)
@@ -5130,7 +5100,7 @@ int iuse::tazer(player *p, item *it, bool t)
    case MS_LARGE: numdice += 2; break;
    case MS_HUGE:  numdice += 4; break;
   }
-  int mondice = z->dodge();
+  int mondice = z->get_dodge();
   if (dice(numdice, 10) < dice(mondice, 10)) { // A miss!
    g->add_msg_if_player(p,_("You attempt to shock the %s, but miss."), z->name().c_str());
    return it->type->charges_to_use();
@@ -5151,7 +5121,7 @@ int iuse::tazer(player *p, item *it, bool t)
     numdice++; // Minor bonus against huge people
   else if (foe->str_max <= 5)
    numdice--; // Minor penalty against tiny people
-  if (dice(numdice, 10) <= dice(foe->dodge(g), 6)) {
+  if (dice(numdice, 10) <= dice(foe->get_dodge(), 6)) {
    g->add_msg_if_player(p,_("You attempt to shock %s, but miss."), foe->name.c_str());
    return it->type->charges_to_use();
   }
@@ -5214,7 +5184,7 @@ int iuse::tazer2(player *p, item *it, bool t)
                     break;
             }
 
-            int mondice = z->dodge();
+            int mondice = z->get_dodge();
 
             if (dice(numdice, 10) < dice(mondice, 10)) { // A miss!
                 g->add_msg_if_player(p, _("You attempt to shock the %s, but miss."),
@@ -5247,7 +5217,7 @@ int iuse::tazer2(player *p, item *it, bool t)
                     numdice--;    // Minor penalty against tiny people
                 }
 
-            if (dice(numdice, 10) <= dice(foe->dodge(g), 6)) {
+            if (dice(numdice, 10) <= dice(foe->get_dodge(), 6)) {
                 g->add_msg_if_player(p, _("You attempt to shock %s, but miss."), foe->name.c_str());
                 return it->charges -= 100;
             }
@@ -5479,14 +5449,14 @@ int iuse::dog_whistle(player *p, item *it, bool t)
  for (int i = 0; i < g->num_zombies(); i++) {
   if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == "mon_dog") {
    bool u_see = g->u_see(&(g->zombie(i)));
-   if (g->zombie(i).has_effect(ME_DOCILE)) {
+   if (g->zombie(i).has_effect("docile")) {
     if (u_see)
      g->add_msg_if_player(p,_("Your %s looks ready to attack."), g->zombie(i).name().c_str());
-    g->zombie(i).rem_effect(ME_DOCILE);
+    g->zombie(i).remove_effect("docile");
    } else {
     if (u_see)
      g->add_msg_if_player(p,_("Your %s goes docile."), g->zombie(i).name().c_str());
-    g->zombie(i).add_effect(ME_DOCILE, -1);
+    g->zombie(i).add_effect("docile", -1);
    }
   }
  }
@@ -6527,7 +6497,7 @@ int iuse::artifact(player *p, item *it, bool t)
     for (int y = p->posy - 8; y <= p->posy + 8; y++) {
      int mondex = g->mon_at(x, y);
      if (mondex != -1)
-      g->zombie(mondex).add_effect(ME_STUNNED, rng(5, 15));
+      g->zombie(mondex).add_effect("stunned", rng(5, 15));
     }
    }
 
@@ -7038,6 +7008,15 @@ int iuse::bell(player *p, item *it, bool t)
 {
     if( it->type->id == "cow_bell" ) {
         g->sound(p->posx, p->posy, 6, _("Clank! Clank!"));
+        if ( ! p->has_disease("deaf") ) {
+            const int cow_factor = 1 + ( p->mutation_category_level.find("MUTCAT_CATTLE") == p->mutation_category_level.end() ?
+                0 :
+                p->mutation_category_level.find("MUTCAT_CATTLE")->second
+            );
+            if ( x_in_y( cow_factor, 1 + cow_factor ) ) {
+                p->add_morale(MORALE_MUSIC, 1, 15 * (cow_factor > 10 ? 10 : cow_factor) );
+            }
+        }
     } else {
         g->sound(p->posx, p->posy, 4, _("Ring! Ring!"));
     }

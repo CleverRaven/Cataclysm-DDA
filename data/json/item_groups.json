@@ -22,6 +22,7 @@
       ["pockknife", 14],
       ["wristwatch", 10],
       ["umbrella", 5],
+      ["teleumbrella", 2],
       ["novel_coa", 10],
       ["child_book", 50],
       ["tall_tales", 20],
@@ -197,6 +198,7 @@
       ["wristwatch", 15],
       ["pocketwatch", 5],
       ["umbrella", 50],
+      ["teleumbrella", 20],
       ["fish_bowl", 1],
       ["lsd", 1],
       ["laptop", 10],
@@ -536,6 +538,7 @@
       ["flotation_vest", 1],
       ["bearing", 1],
       ["atomic_light", 1],
+      ["alarmclock", 10],
       ["charcoal", 20]
     ]
     },{
@@ -671,6 +674,7 @@
       ["nomex_socks", 1],
       ["oxygen_tank", 3],
       ["smoxygen_tank", 2],
+      ["alarmclock", 30],
       ["leathersandals", 25]
     ]
     },{
@@ -1639,6 +1643,7 @@
       ["coat_rain",10],
       ["hood_rain", 5],
       ["umbrella",12],
+      ["teleumbrella", 5],
       ["blowgun", 5],
       ["dart", 5],
       ["pocketwatch", 5],
@@ -2226,7 +2231,8 @@
       ["under_armor_shorts", 20],
       ["dress", 70],
       ["sundress", 50],
-      ["dress_wedding", 1]
+      ["dress_wedding", 1],
+      ["postman_shorts", 5]
     ]
     },{
         "type" : "item_group",
@@ -2242,7 +2248,8 @@
       ["hoodie", 65],
       ["under_armor", 20],
       ["jersey", 40],
-      ["camisole", 60]
+      ["camisole", 60],
+      ["postman_shirt", 5]
     ]
     },{
         "type" : "item_group",
@@ -2398,7 +2405,10 @@
       ["dress_wedding", 1],
       ["porkpie", 5],
       ["skinny_tie", 5],
-      ["jersey", 40]
+      ["jersey", 40],
+      ["postman_shorts", 5],
+      ["postman_shirt", 5],
+      ["postman_hat", 5]
     ]
     },{
         "type" : "item_group",
@@ -2813,6 +2823,20 @@
       ["vacutainer", 10]
     ]
     },{
+    	"type" : "item_group",
+    	"id" : "postman_gear",
+    	"items":[
+    		["postman_hat", 50],
+    		["postman_shirt", 70],
+    		["postman_shorts", 70],
+    		["mbag", 40],
+    		["wristwatch", 50],
+    		["leatherbelt", 70],
+    		["briefs", 90],
+    		["socks", 70],
+    		["sneakers", 70]
+    		]
+    },{
         "type" : "item_group",
         "id" : "surgery",
     "items":[
@@ -2882,6 +2906,7 @@
       ["usb_drive", 5],
       ["software_useless", 10],
       ["umbrella", 5],
+      ["teleumbrella", 2],
       ["gum", 10],
       ["caff_gum", 6],
       ["nic_gum", 4],
@@ -2963,6 +2988,7 @@
       ["mp3", 18],
       ["portable_game", 8],
       ["umbrella", 5],
+      ["teleumbrella", 2],
       ["mag_tailor", 5],
       ["gum", 20],
       ["caff_gum", 7],
@@ -3050,6 +3076,7 @@
       ["pockknife", 14],
       ["mag_comic", 20],
       ["umbrella", 5],
+      ["teleumbrella", 2],
       ["football_armor", 5],
       ["helmet_football", 5],
       ["football", 5]
@@ -3072,6 +3099,7 @@
       ["cane", 10],
       ["candlestick", 80],
       ["umbrella", 50],
+      ["teleumbrella", 20],
       ["essay_book", 6],
       ["poetry_book", 6],
       ["philosophy_book", 2],
@@ -3138,6 +3166,7 @@
       ["q_staff", 10],
       ["i_staff", 5],
       ["sword_bayonet", 10],
+      ["bagh_nakha", 5],
       ["apron_leather", 1]
     ]
     },{
@@ -3330,6 +3359,7 @@
       ["wristwatch", 15],
       ["pocketwatch", 20],
       ["umbrella", 5],
+      ["teleumbrella", 2],
       ["tac_helmet", 5],
       ["tac_fullhelmet", 2],
       ["textbook_tailor", 12],
@@ -3374,6 +3404,8 @@
       ["c_fishspear", 8],
       ["rebreather", 5],
       ["diveknife", 10],
+      ["alarmclock", 5],
+      ["bagh_nakha", 2],
       ["leathersandals", 10]
     ]
     },{
@@ -3522,6 +3554,7 @@
       ["coat_rain", 5],
       ["hood_rain", 5],
       ["umbrella", 7],
+      ["teleumbrella", 3],
       ["apron_leather", 5],
       ["pocketwatch", 5],
       ["e_tool", 2],
@@ -3678,6 +3711,7 @@
       ["iv_mutagen_troglobite", 2],
       ["iv_mutagen_ursine", 2],
       ["iv_mutagen_feline", 2],
+      ["iv_mutagen_lupine", 2],
       ["purifier", 10],
       ["iv_purifier", 8],
       ["royal_jelly", 8],
@@ -4739,7 +4773,8 @@
       ["flyer", 10],
       ["gasoline_lantern", 10],
       ["child_book", 4],
-      ["umbrella",1],
+      ["umbrella", 1],
+      ["teleumbrella",1],
       ["pocketwatch", 1]
     ]
     },{

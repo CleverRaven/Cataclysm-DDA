@@ -13,13 +13,47 @@ void weather_effect::glare(game *g)
 {
  if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses")
  && !g->u.is_wearing("fancy_sunglasses") && !g->u.has_bionic("bio_sunglasses")) {
-        if(!g->u.has_disease("glare")) {
-            g->u.infect("glare", bp_eyes, 2, 2);
+        if(!g->u.has_effect("glare")) {
+            g->u.add_env_effect("glare", bp_eyes, 2, 2);
         } else {
-            g->u.infect("glare", bp_eyes, 2, 1);
+            g->u.add_env_effect("glare", bp_eyes, 2, 1);
         }
     }
 }
+////// food vs weather
+
+int get_rot_since( const int since, const int endturn ) {
+    int ret = 0;
+    int tbegin = since;
+    int tend = endturn;
+    // todo; hourly quick lookback, select weather_log from climate zone
+    std::map<int, weather_segment>::iterator wit = g->weather_log.lower_bound( endturn );
+    if ( wit == g->weather_log.end() ) { // missing wlog, debugmsg?
+       return endturn-since;
+    } else if ( wit->first > endturn ) { // incomplete wlog
+       return ( (endturn-since) * get_hourly_rotpoints_at_temp(wit->second.temperature) ) / 600;
+    }
+
+    for( ;
+         wit != g->weather_log.begin(); --wit
+       ) {
+       if ( wit->first <= endturn ) {
+           tbegin = wit->first;
+           if ( tbegin < since ) {
+               tbegin = since;
+               ret += ( (tend-tbegin) * get_hourly_rotpoints_at_temp(wit->second.temperature) );// / 600 ;
+               tend = wit->first;
+               break;
+           }
+           ret += ( (tend-tbegin) * get_hourly_rotpoints_at_temp(wit->second.temperature) );// / 600 ;
+           tend = wit->first;
+       }
+    }
+    if ( since < tbegin ) { // incomplete wlog
+       ret += ( (tbegin-since) * get_hourly_rotpoints_at_temp(65) );
+    }
+    return ret / 600;
+};
 
 ////// Funnels.
 /*
@@ -284,6 +318,14 @@ void weather_effect::thunder(game *g)
 void weather_effect::lightning(game *g)
 {
     thunder(g);
+    if(one_in(LIGHTNING_CHANCE)) {
+        if(g->levz >= 0) {
+            g->add_msg(_("A flash of lightning illuminates your surroundings!"));
+            g->lightning_active = true;
+        }
+    } else {
+        g->lightning_active = false;
+    }
 }
 
 void weather_effect::light_acid(game *g)

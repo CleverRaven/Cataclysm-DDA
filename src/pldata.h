@@ -16,6 +16,7 @@ typedef std::string mabuff_id;
 
 typedef std::string matec_id;
 
+typedef std::string efftype_id;
 
 enum character_type {
  PLTYPE_CUSTOM,

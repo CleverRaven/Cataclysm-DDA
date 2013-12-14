@@ -1083,7 +1083,7 @@ int curses_start_color(void)
     //Load the console colors from colors.json
     std::ifstream colorfile("data/raw/colors.json", std::ifstream::in | std::ifstream::binary);
     try{
-        JsonIn jsin(&colorfile);
+        JsonIn jsin(colorfile);
         char ch;
         // Manually load the colordef object because the json handler isn't loaded yet.
         jsin.eat_whitespace();

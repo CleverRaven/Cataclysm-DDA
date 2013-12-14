@@ -103,5 +103,7 @@ std::string print_temperature(float fahrenheit, int decimals = 0);
 
 void retroactively_fill_from_funnel( game * g, item *it, const trap_id t, const int endturn );
 
-
+extern const std::vector<int> rot_chart;
+int get_hourly_rotpoints_at_temp (const int & temp);
+int get_rot_since( const int since, const int endturn );
 #endif // _WEATHER_H_
