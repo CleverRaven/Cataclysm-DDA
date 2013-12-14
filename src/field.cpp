@@ -16,156 +16,156 @@ void game::init_fields()
     field_t tmp_fields[num_fields] =
     {
         {
-            {"", "", ""}, '%',
+            {"", "", ""}, '%', 0,
             {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
             {0,0,0}
         },
 
         {
-            {_("blood splatter"), _("blood stain"), _("puddle of blood")}, '%',
+            {_("blood splatter"), _("blood stain"), _("puddle of blood")}, '%', 0,
             {c_red, c_red, c_red}, {true, true, true}, {false, false, false}, 2500,
             {0,0,0}
         },
         {
-            {_("bile splatter"), _("bile stain"), _("puddle of bile")}, '%',
+            {_("bile splatter"), _("bile stain"), _("puddle of bile")}, '%', 0,
             {c_pink, c_pink, c_pink}, {true, true, true}, {false, false, false}, 2500,
             {0,0,0}
         },
 
         {
-            {_("scraps of flesh"), _("bloody meat chunks"), _("heap of gore")}, '~',
+            {_("scraps of flesh"), _("bloody meat chunks"), _("heap of gore")}, '~', 0,
             {c_brown, c_ltred, c_red}, {true, true, true}, {false, false, false}, 2500,
             {0,0,0}
         },
 
         {
-            {_("shredded leaves and twigs"), _("shattered branches and leaves"), _("broken vegetation tangle")}, '~',
+            {_("shredded leaves and twigs"), _("shattered branches and leaves"), _("broken vegetation tangle")}, '~', 0,
             {c_ltgreen, c_ltgreen, c_green}, {true, true, true}, {false, false, false}, 2500,
             {0,0,0}
         },
 
         {
-            {_("cobwebs"),_("webs"), _("thick webs")}, '}',
+            {_("cobwebs"),_("webs"), _("thick webs")}, '}', 2,
             {c_white, c_white, c_white}, {true, true, false},{false, false, false}, 0,
             {0,0,0}
         },
 
         {
-            {_("slime trail"), _("slime stain"), _("puddle of slime")}, '%',
+            {_("slime trail"), _("slime stain"), _("puddle of slime")}, '%', 0,
             {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false}, 2500,
             {0,0,0}
         },
 
         {
-            {_("acid splatter"), _("acid streak"), _("pool of acid")}, '5',
+            {_("acid splatter"), _("acid streak"), _("pool of acid")}, '5', 2,
             {c_ltgreen, c_green, c_green}, {true, true, true}, {true, true, true}, 10,
             {0,0,0}
         },
 
         {
-            {_("sap splatter"), _("glob of sap"), _("pool of sap")}, '5',
+            {_("sap splatter"), _("glob of sap"), _("pool of sap")}, '5', 2,
             {c_yellow, c_brown, c_brown}, {true, true, true}, {true, true, true}, 20,
             {0,0,0}
         },
 
         {
-            {_("thin sludge trail"), _("sludge trail"), _("thick sludge trail")}, '5',
+            {_("thin sludge trail"), _("sludge trail"), _("thick sludge trail")}, '5', 2,
             {c_ltgray, c_dkgray, c_black}, {true, true, true}, {false, false, false}, 900,
             {0,0,0}
         },
 
         {
-            {_("small fire"), _("fire"), _("raging fire")}, '4',
+            {_("small fire"), _("fire"), _("raging fire")}, '4', 4,
             {c_yellow, c_ltred, c_red}, {true, true, true}, {true, true, true}, 800,
             {0,0,0}
         },
 
         {
-            {_("rubble heap"), _("rubble pile"), _("mountain of rubble")}, '#',
+            {_("rubble heap"), _("rubble pile"), _("mountain of rubble")}, '#', 2,
             {c_dkgray, c_dkgray, c_dkgray}, {true, true, false},{false, false, false},  0,
             {0,0,0}
         },
 
         {
-            {_("thin smoke"), _("smoke"), _("thick smoke")}, '8',
+            {_("thin smoke"), _("smoke"), _("thick smoke")}, '8', 8,
             {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true},  300,
             {0,0,0}
         },
 
         {
-            {_("hazy cloud"),_("toxic gas"),_("thick toxic gas")}, '8',
+            {_("hazy cloud"),_("toxic gas"),_("thick toxic gas")}, '8', 8,
             {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true},  900,
             {0,0,0}
         },
 
         {
-            {_("hazy cloud"),_("tear gas"),_("thick tear gas")}, '8',
+            {_("hazy cloud"),_("tear gas"),_("thick tear gas")}, '8', 8,
             {c_white, c_yellow, c_brown}, {true, false, false},{true, true, true},   600,
             {0,0,0}
         },
 
         {
-            {_("hazy cloud"),_("radioactive gas"), _("thick radioactive gas")}, '8',
+            {_("hazy cloud"),_("radioactive gas"), _("thick radioactive gas")}, '8', 8,
             {c_white, c_ltgreen, c_green}, {true, true, false}, {true, true, true},  1000,
             {0,0,0}
         },
 
         {
-            {_("gas vent"), _("gas vent"), _("gas vent")}, '%',
+            {_("gas vent"), _("gas vent"), _("gas vent")}, '%', 0,
             {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
             {0,0,0}
         },
 
         { // Fire Vents
-            {"", "", ""}, '&',
+            {"", "", ""}, '&', 0,
             {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
             {0,0,0}
         },
 
         {
-            {_("fire"), _("fire"), _("fire")}, '5',
+            {_("fire"), _("fire"), _("fire")}, '5', 4,
             {c_red, c_red, c_red}, {true, true, true}, {true, true, true}, 0,
             {0,0,0}
         },
 
         {
-            {_("sparks"), _("electric crackle"), _("electric cloud")}, '9',
+            {_("sparks"), _("electric crackle"), _("electric cloud")}, '9', 4,
             {c_white, c_cyan, c_blue}, {true, true, true}, {true, true, true}, 2,
             {0,0,0}
         },
 
         {
-            {_("odd ripple"), _("swirling air"), _("tear in reality")}, '*',
+            {_("odd ripple"), _("swirling air"), _("tear in reality")}, '*', 8,
             {c_ltgray, c_dkgray, c_magenta},{true, true, false},{false, false, false},  0,
             {0,0,0}
         },
 
         { //Push Items
-            {"", "", ""}, '&',
+            {"", "", ""}, '&', 0,
             {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
             {0,0,0}
         },
 
         { // shock vents
-            {"", "", ""}, '&',
+            {"", "", ""}, '&', 0,
             {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
             {0,0,0}
         },
 
         { // acid vents
-            {"", "", ""}, '&',
+            {"", "", ""}, '&', 0,
             {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
             {0,0,0}
         },
 
         { // plasma glow (for plasma weapons)
-            {_("faint plasma"), _("glowing plasma"), _("burning plasma")}, '9',
+            {_("faint plasma"), _("glowing plasma"), _("burning plasma")}, '9', 4,
             {c_magenta, c_pink, c_white}, {true, true, true}, {false, false, false}, 2,
             {0,0,0}
         },
 
         { // laser beam (for laser weapons)
-            {_("faint glimmer"), _("beam of light"), _("intense beam of light")}, '#',
+            {_("faint glimmer"), _("beam of light"), _("intense beam of light")}, '#', 4,
             {c_blue, c_ltblue, c_white}, {true, true, true}, {false, false, false}, 1,
             {0,0,0}
         }
@@ -1635,14 +1635,14 @@ Density defaults to 1, and age to 0 (permanent) if not specified.
 */
 bool field::addField(const field_id field_to_add, const unsigned char new_density, const int new_age){
     std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_add);
+    if (fieldlist[field_to_add].priority >= fieldlist[draw_symbol].priority)
+        draw_symbol = field_to_add;
     if(it != field_list.end()) {
         //Already exists, but lets update it. This is tentative.
         it->second->setFieldDensity(it->second->getFieldDensity() + new_density);
-        draw_symbol = field_to_add;
         return false;
-    };
+    }
     field_list[field_to_add]=new field_entry(field_to_add, new_density, new_age);
-    draw_symbol = field_to_add;
     return true;
 };
 
@@ -1697,7 +1697,8 @@ std::map<field_id, field_entry*>::iterator field::getFieldEnd(){
 Function: fieldSymbol
 Returns the last added field from the tile for drawing purposes.
 */
-field_id field::fieldSymbol() const{
+field_id field::fieldSymbol() const
+{
     return draw_symbol;
 }
 
