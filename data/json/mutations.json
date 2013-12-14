@@ -2105,7 +2105,7 @@
         "name" : "Extreme Metabolism",
         "points" : -4,
         "description" : "You burn calories like gasoline-soaked tinder.  You consume three times as much food as the average human.",
-        "trans_note" : "The simile there is intended for a Really Quick Burn--BAM burned."
+        "trans_note" : "The simile there is intended for a Really Quick Burn--BAM burned.",
         "cancels" : ["LIGHTEATER"],
         "prereqs" : ["HUNGER2"],
         "category" : ["MUTCAT_CHIMERA"]
