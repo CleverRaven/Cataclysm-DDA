@@ -645,6 +645,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
    if (has_flag("DOUBLE_AMMO")) {
 
     dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges (doubled)."):string_format(_("Maximum <num> charges (doubled) of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges*2));
+   } else if (has_flag("RECHARGE")) {
+    dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges (rechargeable)."):string_format(_("Maximum <num> charges (rechargeable) of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges));
+   } else if (has_flag("DOUBLE_AMMO") && has_flag("RECHARGE")) {
+    dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges (rechargeable) (doubled)."):string_format(_("Maximum <num> charges (rechargeable) (doubled) of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges*2));
    } else {
     dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges."):string_format(_("Maximum <num> charges of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges));
    }
@@ -722,6 +726,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has double the normal maximum charges.")));
+    }
+    if (is_tool() && has_flag("RECHARGE"))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("This tool has a rechargeable battery pack. It is not unloadable.")));
     }
     std::map<std::string, std::string>::const_iterator item_note = item_vars.find("item_note");
     std::map<std::string, std::string>::const_iterator item_note_type = item_vars.find("item_note_type");

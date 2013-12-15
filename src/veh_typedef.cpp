@@ -114,6 +114,8 @@ void game::load_vehiclepart(JsonObject &jo)
 
     //Calculate and cache z-ordering based off of location
     if(next_part.location == "on_roof") {
+        next_part.z_order = 9;
+    } else if(next_part.location == "on_cargo") {
         next_part.z_order = 8;
     } else if(next_part.location == "center") {
         next_part.z_order = 7;
@@ -271,10 +273,11 @@ void init_vpart_bitflag_map() {
     vpart_bitflag_map["LIGHT"]=     VPFLAG_LIGHT;
     vpart_bitflag_map["WINDOW"]=     VPFLAG_WINDOW;
     vpart_bitflag_map["CURTIAN"]=     VPFLAG_CURTIAN;
-    vpart_bitflag_map["CARGO"]=     VPFLAG_CARGO;   
-    vpart_bitflag_map["SOLAR_PANEL"]=     VPFLAG_SOLAR_PANEL;   
+    vpart_bitflag_map["CARGO"]=     VPFLAG_CARGO;
+    vpart_bitflag_map["INTERNAL"]=     VPFLAG_INTERNAL;
+    vpart_bitflag_map["SOLAR_PANEL"]=     VPFLAG_SOLAR_PANEL;
     vpart_bitflag_map["VPFLAG_VARIABLE_SIZE"] = VPFLAG_VARIABLE_SIZE;
     vpart_bitflag_map["VPFLAG_TRACK"] = VPFLAG_TRACK;      // find_power -> game::finalize_vehicles
 /*    vpart_bitflag_map["SWIMMABLE"] = VPFLAG_SWIMMABLE; */ // only relevent for cars in water
-
+    vpart_bitflag_map["RECHARGE"] = VPFLAG_RECHARGE;
 }

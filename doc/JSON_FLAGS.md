@@ -347,7 +347,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 ### Flags
 
 - ```NOINSTALL``` Cannot be installed.
-- ```INTERNAL``` Can be mounted inside other parts.
+- ```INTERNAL``` Must be mounted inside a cargo area.
 - ```ANCHOR_POINT``` Allows secure seatbelt attachment.
 - ```OVER``` Can be mounted over other parts.
 - ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
@@ -392,6 +392,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
 - ```ODDTURN``` Only on during odd turns.
 - ```EVENTURN``` Only on during even turns.
+- ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
 
 ## Ammo
 
@@ -671,6 +672,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
 - ```FIRE``` Counts as a fire for crafting purposes.
 - ```WRAP``` Unused?
+- ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station. 
 
 ### Use actions
 
