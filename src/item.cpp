@@ -181,6 +181,7 @@ void item::init() {
     player_id = -1;
     light = nolight;
     fridge = 0;
+    recharging = 0;
 }
 
 void item::make(itype* it)
