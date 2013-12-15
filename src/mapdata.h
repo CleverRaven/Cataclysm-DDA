@@ -174,6 +174,12 @@ struct ter_t {
 
  map_bash_info bash;
  
+ std::string deconstruct_skill; // skill required for deconstruction
+ int deconstruct_difficulty;  // difficulty of deconstruction
+ std::vector<std::vector<component> > deconstruct_tools; // tools required for deconstruction
+ std::vector<std::vector<component> > deconstruct_components; // components given upon deconstruction
+ 
+ 
  bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
  }
@@ -220,6 +226,10 @@ struct furn_t {
  std::string close;
 
  map_bash_info bash;
+ std::string deconstruct_skill; // skill required for deconstruction
+ int deconstruct_difficulty;  // difficulty of deconstruction
+ std::vector<std::vector<component> > deconstruct_tools; // tools required for deconstruction
+ std::vector<std::vector<component> > deconstruct_components; // components given upon deconstruction
  
  bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;

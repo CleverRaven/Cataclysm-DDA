@@ -207,6 +207,40 @@ void load_furniture(JsonObject &jsobj)
       new_furniture.close = jsobj.get_string("close");
   }
   new_furniture.bash.load(jsobj, "bash", true);
+  
+  new_furniture.deconstruct_skill = "carpentry";
+  if ( jsobj.has_member("deconstruct_skill") ) {
+      new_furniture.deconstruct_skill = jsobj.get_string("deconstruct_skill");
+  }
+  new_furniture.deconstruct_difficulty = 0;
+  if ( jsobj.has_member("deconstruct_difficulty") ) {
+      new_furniture.deconstruct_difficulty = jsobj.get_int("deconstruct_difficulty");
+  }
+  
+  JsonArray temp;  
+  temp = jsobj.get_array("deconstruct_tools");
+    while (temp.has_more()) {
+        std::vector<component> tool_choices;
+        JsonArray ja = temp.next_array();
+        while (ja.has_more()) {
+            std::string name = ja.next_string();
+            tool_choices.push_back(component(name, 1));
+        }
+        new_furniture.deconstruct_tools.push_back(tool_choices);
+    }
+  
+  temp = jsobj.get_array("deconstruct_components");
+    while (temp.has_more()) {
+        std::vector<component> comp_choices;
+        JsonArray ja = temp.next_array();
+        while (ja.has_more()) {
+            JsonArray comp = ja.next_array();
+            std::string name = comp.get_string(0);
+            int quant = comp.get_int(1);
+            comp_choices.push_back(component(name, quant));
+        }
+        new_furniture.deconstruct_components.push_back(comp_choices);
+    }
 
   new_furniture.loadid = furnlist.size();
   furnmap[new_furniture.id] = new_furniture;
@@ -275,6 +309,40 @@ void load_terrain(JsonObject &jsobj)
 */
   new_terrain.bash.load(jsobj, "bash", false);
 
+  new_terrain.deconstruct_skill = "carpentry";
+  if ( jsobj.has_member("deconstruct_skill") ) {
+      new_terrain.deconstruct_skill = jsobj.get_string("deconstruct_skill");
+  }
+  new_terrain.deconstruct_difficulty = 0;
+  if ( jsobj.has_member("deconstruct_difficulty") ) {
+      new_terrain.deconstruct_difficulty = jsobj.get_int("deconstruct_difficulty");
+  }
+  
+  JsonArray temp;
+  temp = jsobj.get_array("deconstruct_tools");
+    while (temp.has_more()) {
+        std::vector<component> tool_choices;
+        JsonArray ja = temp.next_array();
+        while (ja.has_more()) {
+            std::string name = ja.next_string();
+            tool_choices.push_back(component(name, 1));
+        }
+        new_terrain.deconstruct_tools.push_back(tool_choices);
+    }
+  
+  temp = jsobj.get_array("deconstruct_components");
+    while (temp.has_more()) {
+        std::vector<component> comp_choices;
+        JsonArray ja = temp.next_array();
+        while (ja.has_more()) {
+            JsonArray comp = ja.next_array();
+            std::string name = comp.get_string(0);
+            int quant = comp.get_int(1);
+            comp_choices.push_back(component(name, quant));
+        }
+        new_terrain.deconstruct_components.push_back(comp_choices);
+    }
+  
   new_terrain.loadid=terlist.size();
   termap[new_terrain.id]=new_terrain;
   terlist.push_back(new_terrain);
