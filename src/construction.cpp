@@ -629,6 +629,38 @@ void construct::done_deconstruct(point p)
         g->m.spawn_item(p.x, p.y, "nail", 0, rng(12,16));
         g->m.furn_set(p.x, p.y, f_null);
       break;
+      case old_f_toilet:
+      case old_f_sink:
+      case old_f_bathtub:
+        g->m.spawn_item(p.x, p.y, "cu_pipe", rng(0,2));
+        g->m.furn_set(p.x, p.y, f_null);
+        break;
+      case old_f_woodstove:
+        g->m.spawn_item(p.x, p.y, "scrap", rng(3,14));
+        g->m.spawn_item(p.x, p.y, "pipe", rng(0,1));
+        g->m.furn_set(p.x, p.y, f_null);
+        break;
+      case old_f_fireplace:
+        g->m.spawn_item(p.x, p.y, "rock", rng(5,35));
+        g->m.furn_set(p.x, p.y, f_null);
+        break;
+      case old_f_trashcan:
+        g->m.spawn_item(p.x, p.y, "plastic_chunk", rng(1,4));
+        g->m.furn_set(p.x, p.y, f_null);
+        break;
+      case old_f_desk:
+        g->m.spawn_item(p.x, p.y, "2x4", rng(1,5));
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(2,8));
+        g->m.furn_set(p.x, p.y, f_null);
+        break;
+      case old_f_dryer:
+      case old_f_washer:
+        g->m.spawn_item(p.x, p.y, "scrap", rng(1,8));
+        g->m.spawn_item(p.x, p.y, "steel_chunk", rng(0,4));
+        g->m.spawn_item(p.x, p.y, "hose", rng(0,3));
+        g->m.spawn_item(p.x, p.y, "cu_pipe", rng(2,6));
+        g->m.furn_set(p.x, p.y, f_null);
+        break;
       default:
         g->add_msg(_("You have to push away %s first."), g->m.furnname(p.x, p.y).c_str());
       break;
@@ -681,6 +713,109 @@ void construct::done_deconstruct(point p)
         g->m.spawn_item(p.x, p.y, "pipe", rng(6,12));
         g->m.ter_set(p.x, p.y, t_grass);
       break;
+      case old_t_grate:
+        g->m.spawn_item(p.x, p.y, "scrap", rng(1,4));
+        g->m.ter_set(p.x, p.y, t_pit);
+        break;
+      case old_t_wall_log_half:
+        g->m.spawn_item(p.x, p.y, "stick", rng(1,4));
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(2,6));
+        g->m.ter_set(p.x, p.y, t_dirt);
+        break;
+      case old_t_wall_log:
+      case old_t_wall_log_chipped:
+      case old_t_wall_log_broken:
+        g->m.spawn_item(p.x, p.y, "stick", rng(3,7));
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(5,14));
+        g->m.ter_set(p.x, p.y, t_dirt);
+        break;
+      case old_t_palisade:
+        g->m.spawn_item(p.x, p.y, "log", rng(1,3));
+        g->m.spawn_item(p.x, p.y, "rope_6", rng(0,1));
+        g->m.ter_set(p.x, p.y, t_dirt);
+        break;
+      case old_t_palisade_gate:
+        g->m.spawn_item(p.x, p.y, "log", rng(0,1));
+        g->m.spawn_item(p.x, p.y, "2x4", rng(1,2));
+        g->m.spawn_item(p.x, p.y, "rope_6", rng(0,1));
+        g->m.ter_set(p.x, p.y, t_pit);
+        break;
+      case old_t_wall_wood:
+      case old_t_wall_wood_chipped:
+      case old_t_wall_wood_
+        g->m.spawn_item(p.x, p.y, "2x4", rng(2,8));
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(2,6));
+        g->m.ter_set(p.x,p.y, t_dirt);
+        break;
+      case old_t_fencegate_c:
+        g->m.spawn_item(p.x, p.y, "2x4", rng(1,4));
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(2,12));
+        g->m.ter_set(p.x, p.y, t_dirt);
+        break;
+      case old_t_chaingate_c:
+        g->m.spawn_item(p.x, p.y, "wire", rng(8,20));
+        g->m.spawn_item(p.x, p.y, "scrap", rng(0,12));
+        g->m.ter_set(p.x, p.y, t_dirt);
+        break;
+      case old_t_fence_v:
+      case old_t_fence_h:
+        g->m.spawn_item(p.x, p.y, "2x4", rng(0,3));
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(2,6));
+        g->m.ter_set(p.x, p.y, t_fence_post);
+        break;
+      case old_t_chainfence_v:
+      case old_t_chainfence_h:
+        g->m.spawn_item(p.x, p.y, "wire", rng(5,20));
+        g->m.ter_set(p.x, p.y, t_chainfence_posts);
+        break;
+      case old_t_chainfece_posts:
+        g->m.spawn_item(p.x, p.y, "pipe", rng(2,6));
+        g->m.spawn_item(p.x, p.y, "scrap", rng(3,8));
+        g->m.ter_set(p.x, p.y, t_pit);
+        break;
+      case old_t_fence_post:
+        g->m.spawn_item(p.x, p.y, "pointy_stick", rng(0,2));
+        g->m.ter_set(p.x, p.y, t_pit);
+        break;
+      case old_t_railing_v:
+      case old_t_railing_h:
+        g->m.spawn_item(p.x, p.y, "pipe", rng(0,3));
+        g->m.spawn_item(p.x, p.y, "scrap", rng(2,8));
+        g->m.ter_set(p.x, p.y, t_dirt);
+        break;
+      case old_t_gates_mech_control:
+      case old_t_gates_control_concrete:
+        g->m.spawn_item(p.x, p.y, "chain", rng(0,2));
+        g->m.spawn_item(p.x, p.y, "scrap", rng(2,6));
+        g->m.ter_set(p.x, p.y, t_dirt);
+        break;
+      case old_t_barndoor:
+      case old_t_palisade_pulley:
+        g->m.spawn_item(p.x, p.y, "rope_30", rng(0,1));
+        g->m.spawn_item(p.x, p.y, "scrap", rng(1,4));
+        g->m/ter_set(p.x, p.y, t_dirt);
+        break;
+      case old_t_wall_half:
+        g->m.spawn_item(p.x, p.y, "2x4", rng(3,10));
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,20));
+        g->m.ter_set(p.x, p.y, t_dirt);
+        break;
+      case old_t_wall_v:
+      case old_t_wall_h:
+        g->m.spawn_item(p.x, p.y, "2x4", rng(3,10));
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,20));
+        g->m.ter_set(p.x, p.y, t_dirt);
+        break;
+      case old_t_concrete_v:
+      case old_t_concrete_h:
+        g->m.spawn_item(p.x, p.y, "rebar", rng(2,10));
+        g->m.spawn_item(p.x, p.y, "rock", rng(5,20));
+        g->m.ter_set(p.x, p.y, t_dirt);
+        break;
+      case old_t_bars:
+        g->m.spawn_item(p.x, p.y, "pipe", rng(1,6));
+        g->m.ter_set(p.x, p.y, t_dirt);
+        break;
     }
   }
 }
