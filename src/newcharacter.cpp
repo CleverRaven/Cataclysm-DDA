@@ -727,7 +727,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d"), points);
         mvwprintz(w, 3, 18, c_ltgreen, "%2d/%d", num_good, max_trait_points);
-        mvwprintz(w, 3, 25, c_ltred, "%2d/%d", num_bad, max_trait_points);
+        mvwprintz(w, 3, 25, c_ltred, "%2d/%d ", num_bad, max_trait_points);
 
         // Clear the bottom of the screen.
         werase(w_description);
