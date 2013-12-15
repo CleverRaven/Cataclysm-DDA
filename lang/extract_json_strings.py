@@ -19,9 +19,11 @@ not_json = {
 ignorable = {
     "colordef",
     "item_group",
+    "mapgen",
     "monstergroup",
     "monitems",
     "recipe_category",
+    "recipe_subcategory",
     "recipe",
     "SPECIES"
 }
@@ -48,6 +50,7 @@ automatically_convertible = {
     "GUNMOD",
     "GUN",
     "hint",
+    "ITEM_CATEGORY",
     "keybinding",
     "lab_note",
     "MONSTER",
