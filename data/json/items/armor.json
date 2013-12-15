@@ -8082,7 +8082,7 @@
         "encumbrance" : 3,
         "bashing" : 1,
         "coverage" : 75,
-        "flags" : ["WATER_FRIENDLY"],
+        "flags" : ["WATER_FRIENDLY", "REBREATHER"],
         "material_thickness" : 1
     },
     {
@@ -8106,7 +8106,7 @@
         "encumbrance" : 3,
         "bashing" : 1,
         "coverage" : 75,
-        "flags" : ["WATER_FRIENDLY", "OVERSIZE"],
+        "flags" : ["WATER_FRIENDLY", "OVERSIZE", "REBREATHER"],
         "material_thickness" : 1
     },
     {
