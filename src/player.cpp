@@ -8716,7 +8716,7 @@ void player::try_to_sleep()
   g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
   g->add_msg(
-             terlist[ter_at_pos].movecost <= 2 ?
+             terlist[ter_at_pos].movecost <= 4 ?
              _("It's a little hard to get to sleep on this %s.") :
              _("It's hard to get to sleep on this %s."),
              _(terlist[ter_at_pos].name.c_str())); // FIXME i18n

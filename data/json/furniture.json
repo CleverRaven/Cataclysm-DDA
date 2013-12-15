@@ -14,7 +14,7 @@
         "name": "hay",
         "symbol": "#",
         "bgcolor": "brown",
-        "move_cost_mod": 3,
+        "move_cost_mod": 6,
         "required_str": 6,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC"]
     },{
@@ -43,7 +43,7 @@
         "name": "indoor plant",
         "symbol": "^",
         "color": "green",
-        "move_cost_mod": 2,
+        "move_cost_mod": 4,
         "required_str": 5,
         "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC"],
         "bash": {
@@ -60,7 +60,7 @@
         "name": "bed",
         "symbol": "#",
         "color": "magenta",
-        "move_cost_mod": 3,
+        "move_cost_mod": 6,
         "required_str": -1,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC"]
     },{
@@ -69,7 +69,7 @@
         "name": "toilet",
         "symbol": "&",
         "color": "white",
-        "move_cost_mod": 2,
+        "move_cost_mod": 4,
         "required_str": 18,
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD"],
         "examine_action": "toilet",
@@ -88,7 +88,7 @@
         "name": "makeshift bed",
         "symbol": "#",
         "color": "magenta",
-        "move_cost_mod": 3,
+        "move_cost_mod": 6,
         "required_str": 12,
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "DECONSTRUCT", "ORGANIC"]
     },{
@@ -97,7 +97,7 @@
         "name": "sink",
         "symbol": "&",
         "color": "white",
-        "move_cost_mod": 2,
+        "move_cost_mod": 4,
         "required_str": 18,
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM"],
         "bash": {
@@ -115,7 +115,7 @@
         "name": "oven",
         "symbol": "#",
         "color": "dkgray",
-        "move_cost_mod": 2,
+        "move_cost_mod": 4,
         "required_str": 10,
         "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR"],
         "bash": {
@@ -137,7 +137,7 @@
         "name": "wood stove",
         "symbol": "#",
         "bgcolor": "red",
-        "move_cost_mod": 2,
+        "move_cost_mod": 4,
         "required_str": 10,
         "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"]
     },{
@@ -146,7 +146,7 @@
         "name": "fireplace",
         "symbol": "#",
         "bgcolor": "white",
-        "move_cost_mod": 2,
+        "move_cost_mod": 4,
         "required_str": -1,
         "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"]
     },{
@@ -155,7 +155,7 @@
         "name": "bathtub",
         "symbol": "~",
         "color": "white",
-        "move_cost_mod": 2,
+        "move_cost_mod": 4,
         "required_str": 10,
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
         "bash": {
@@ -173,7 +173,7 @@
         "name": "chair",
         "symbol": "#",
         "color": "brown",
-        "move_cost_mod": 1,
+        "move_cost_mod": 2,
         "required_str": 6,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "ORGANIC"],
         "bash": {
@@ -192,7 +192,7 @@
         "name": "arm chair",
         "symbol": "H",
         "color": "green",
-        "move_cost_mod": 1,
+        "move_cost_mod": 2,
         "required_str": 7,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "ORGANIC"]
     },{
@@ -201,7 +201,7 @@
         "name": "sofa",
         "symbol": "H",
         "bgcolor": "red",
-        "move_cost_mod": 1,
+        "move_cost_mod": 2,
         "required_str": 10,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "ORGANIC", "BLOCKSDOOR"]
     },{
@@ -210,7 +210,7 @@
         "name": "cupboard",
         "symbol": "#",
         "color": "blue",
-        "move_cost_mod": 1,
+        "move_cost_mod": 2,
         "required_str": 8,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM", "ORGANIC"],
         "bash": {
@@ -229,7 +229,7 @@
         "name": "trash can",
         "symbol": "&",
         "color": "ltcyan",
-        "move_cost_mod": 1,
+        "move_cost_mod": 2,
         "required_str": 5,
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM"],
         "bash": {
@@ -246,7 +246,7 @@
         "name": "desk",
         "symbol": "#",
         "color": "ltred",
-        "move_cost_mod": 1,
+        "move_cost_mod": 2,
         "required_str": 8,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM", "ORGANIC"],
         "bash": {
@@ -265,7 +265,7 @@
         "name": "exercise machine",
         "symbol": "T",
         "color": "dkgray",
-        "move_cost_mod": 1,
+        "move_cost_mod": 2,
         "required_str": 8,
         "flags": ["TRANSPARENT", "DECONSTRUCT", "BASHABLE"],
 		"bash": {
@@ -284,7 +284,7 @@
         "name": "bench",
         "symbol": "#",
         "color": "brown",
-        "move_cost_mod": 1,
+        "move_cost_mod": 2,
         "required_str": 8,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "ORGANIC"],
         "bash": {
@@ -303,7 +303,7 @@
         "name": "table",
         "symbol": "#",
         "color": "red",
-        "move_cost_mod": 2,
+        "move_cost_mod": 4,
         "required_str": 8,
         "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT", "ORGANIC"],
         "bash": {
@@ -322,7 +322,7 @@
         "name": "pool table",
         "symbol": "#",
         "color": "green",
-        "move_cost_mod": 2,
+        "move_cost_mod": 4,
         "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT", "ORGANIC"],
         "bash": {
@@ -341,7 +341,7 @@
         "name": "counter",
         "symbol": "#",
         "color": "blue",
-        "move_cost_mod": 2,
+        "move_cost_mod": 4,
         "required_str": 10,
         "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT", "ORGANIC"],
         "bash": {
@@ -667,7 +667,7 @@
         "name": "mutated poppy flower",
         "symbol": "f",
         "color": "red",
-        "move_cost_mod": 1,
+        "move_cost_mod": 2,
         "required_str": -1,
         "flags": ["TRANSPARENT"],
         "examine_action": "flower_poppy"
@@ -677,7 +677,7 @@
         "name": "fungal flower",
         "symbol": "f",
         "color": "dkgray",
-        "move_cost_mod": 1,
+        "move_cost_mod": 2,
         "required_str": -1,
         "flags": ["TRANSPARENT", "FLOWER", "FUNGUS"],
         "examine_action": "fungus"
@@ -696,7 +696,7 @@
         "name": "fungal clump",
         "symbol": "#",
         "bgcolor": "ltgray",
-        "move_cost_mod": 3,
+        "move_cost_mod": 6,
         "required_str": -1,
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE_ASH", "FUNGUS"]
     },{

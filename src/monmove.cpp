@@ -539,27 +539,27 @@ int monster::calc_movecost(int x1, int y1, int x2, int y2)
     // Swimming monsters move super fast in water
     } else if (has_flag(MF_SWIMS)) {
         if (g->m.has_flag("SWIMMABLE", x1, y1)) {
-            movecost += 25;
+            movecost += 12;
         } else {
-            movecost += 50 * g->m.move_cost(x1, y1);
+            movecost += 25 * g->m.move_cost(x1, y1);
         }
         if (g->m.has_flag("SWIMMABLE", x2, y2)) {
-            movecost += 25;
+            movecost += 13;
         } else {
-            movecost += 50 * g->m.move_cost(x2, y2);
+            movecost += 25 * g->m.move_cost(x2, y2);
         }
         movecost *= diag_mult;
     // No-breathe monsters have to walk underwater slowly
     } else if (can_submerge()) {
         if (g->m.has_flag("SWIMMABLE", x1, y1)) {
-            movecost += 150;
+            movecost += 75;
         } else {
-            movecost += 50 * g->m.move_cost(x1, y1);
+            movecost += 25 * g->m.move_cost(x1, y1);
         }
         if (g->m.has_flag("SWIMMABLE", x2, y2)) {
-            movecost += 150;
+            movecost += 75;
         } else {
-            movecost += 50 * g->m.move_cost(x2, y2);
+            movecost += 25 * g->m.move_cost(x2, y2);
         }
         movecost *= diag_mult / 2;
     // All others use the same calculation as the player

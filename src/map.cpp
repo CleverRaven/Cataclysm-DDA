@@ -1074,9 +1074,9 @@ int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle) con
                 } else {
                     const int ipart = veh->part_with_feature(vpart, VPFLAG_AISLE);
                     if (ipart >= 0) {
-                        return 2;
+                        return 4;
                     }
-                    return 8;
+                    return 10;
                 }
             }
         }
@@ -1112,8 +1112,8 @@ int map::combined_movecost(const int x1, const int y1,
 {
     int cost1 = move_cost(x1, y1, ignored_vehicle);
     int cost2 = move_cost(x2, y2, ignored_vehicle);
-    // 50 moves taken per move_cost (70.71.. diagonally)
-    int mult = (trigdist && x1 != x2 && y1 != y2 ? 71 : 50);
+    // 25 moves taken per move_cost (35.35.. diagonally)
+    int mult = (trigdist && x1 != x2 && y1 != y2 ? 35 : 25);
     return (cost1 + cost2 + modifier) * mult / 2;
 }
 
@@ -2006,7 +2006,7 @@ void map::shoot(const int x, const int y, int &dam,
     //}
 
     // Now, destroy items on that tile.
-    if ((move_cost(x, y) == 2 && !hit_items) || !INBOUNDS(x, y))
+    if ((move_cost(x, y) == 4 && !hit_items) || !INBOUNDS(x, y))
         return; // Items on floor-type spaces won't be shot up.
 
     for (int i = 0; i < i_at(x, y).size(); i++)
