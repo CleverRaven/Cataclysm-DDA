@@ -916,6 +916,10 @@ std::string item::tname( bool with_prefix )
         ret << _(" (fits)");
     }
 
+    if (has_flag("RECHARGE")) {
+        ret << _(" (rechargeable)");
+    }
+
     if (owned > 0)
         ret << _(" (owned)");
 
