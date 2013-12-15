@@ -648,11 +648,6 @@ void construct::done_deconstruct(point p)
         g->m.spawn_item(p.x, p.y, "plastic_chunk", rng(1,4));
         g->m.furn_set(p.x, p.y, f_null);
         break;
-      case old_f_desk:
-        g->m.spawn_item(p.x, p.y, "2x4", rng(1,5));
-        g->m.spawn_item(p.x, p.y, "nail", 0, rng(2,8));
-        g->m.furn_set(p.x, p.y, f_null);
-        break;
       case old_f_dryer:
       case old_f_washer:
         g->m.spawn_item(p.x, p.y, "scrap", rng(1,8));
@@ -742,7 +737,7 @@ void construct::done_deconstruct(point p)
         break;
       case old_t_wall_wood:
       case old_t_wall_wood_chipped:
-      case old_t_wall_wood_
+      case old_t_wall_wood_broken:
         g->m.spawn_item(p.x, p.y, "2x4", rng(2,8));
         g->m.spawn_item(p.x, p.y, "nail", 0, rng(2,6));
         g->m.ter_set(p.x,p.y, t_dirt);
@@ -768,7 +763,7 @@ void construct::done_deconstruct(point p)
         g->m.spawn_item(p.x, p.y, "wire", rng(5,20));
         g->m.ter_set(p.x, p.y, t_chainfence_posts);
         break;
-      case old_t_chainfece_posts:
+      case old_t_chainfence_posts:
         g->m.spawn_item(p.x, p.y, "pipe", rng(2,6));
         g->m.spawn_item(p.x, p.y, "scrap", rng(3,8));
         g->m.ter_set(p.x, p.y, t_pit);
@@ -793,7 +788,7 @@ void construct::done_deconstruct(point p)
       case old_t_palisade_pulley:
         g->m.spawn_item(p.x, p.y, "rope_30", rng(0,1));
         g->m.spawn_item(p.x, p.y, "scrap", rng(1,4));
-        g->m/ter_set(p.x, p.y, t_dirt);
+        g->m.ter_set(p.x, p.y, t_dirt);
         break;
       case old_t_wall_half:
         g->m.spawn_item(p.x, p.y, "2x4", rng(3,10));
