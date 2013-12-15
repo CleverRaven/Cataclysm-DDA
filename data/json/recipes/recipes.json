@@ -13540,7 +13540,7 @@
         "type" : "recipe",
   "result": "long_undertop",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_LEGS",
+  "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 35000,
