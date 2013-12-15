@@ -22685,7 +22685,7 @@
   ]
 },{
         "type" : "recipe",
-   "result": "humanwurst",
+   "result": "h_currywurst",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
