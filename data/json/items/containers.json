@@ -33,6 +33,23 @@
         "flags": ["RIGID", "WATERTIGHT", "SEALS"]
     },
     {
+        "id": "cup_plastic",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_cyan",
+        "name": "plastic bottle",
+        "description": "A small, vacuum sealed cup, essentially trash.",
+        "price": 2,
+        "weight": 6,
+        "volume": 1,
+        "bashing": -8,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "plastic",
+        "contains": 1,
+        "flags": ["RIGID", "WATERTIGHT"]
+    },
+    {
         "id": "bottle_glass",
         "type": "CONTAINER",
         "symbol": ")",
