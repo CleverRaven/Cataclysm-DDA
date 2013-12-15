@@ -3439,7 +3439,7 @@ void player::recalc_sight_limits()
     } else if (has_disease("in_pit") ||
             has_disease("boomered") ||
             (underwater && !has_bionic("bio_membrane") &&
-                !has_trait("MEMBRANE") && !is_wearing("goggles_swim"))) {
+                !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES"))) {
         sight_max = 1;
     } else if (has_trait("MYOPIC") && !is_wearing("glasses_eye") &&
             !is_wearing("glasses_monocle") && !is_wearing("glasses_bifocal") &&
@@ -3509,7 +3509,7 @@ bool player::sight_impaired()
 {
  return has_disease("boomered") ||
   (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE")
-              && !is_wearing("goggles_swim")) ||
+              && !worn_with_flag("SWIM_GOGGLES")) ||
   (has_trait("MYOPIC") && !is_wearing("glasses_eye")
                         && !is_wearing("glasses_monocle")
                         && !is_wearing("glasses_bifocal")
@@ -4712,7 +4712,7 @@ void player::suffer()
         {
             oxygen--;
         }
-        if (oxygen < 12 && (is_wearing("rebreather") || is_wearing ("rebreather_xl")) &&
+        if (oxygen < 12 && worn_with_flag("REBREATHER") &&
             (has_active_item("UPS_on") || has_active_item("adv_UPS_on")))
             {
                 oxygen += 12;
@@ -7855,6 +7855,8 @@ void player::sort_armor()
                 tmp_str += _("You will not drown today.\n");
             if (tmp_worn[leftListIndex]->has_flag("OVERSIZE"))
                 tmp_str += _("It is very bulky.\n");
+            if (tmp_worn[leftListIndex]->has_flag("SWIM_GOGGLES"))
+                tmp_str += _("It helps you to see clearly underwater.\n");
                 //WATCH
                 //ALARMCLOCK
 
