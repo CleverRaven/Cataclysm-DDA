@@ -22635,6 +22635,8 @@
       [ "tool_belt", 1 ],
       [ "ragpouch", 4 ],
       [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
       [ "fanny", 2 ]
      ],
      [
@@ -22680,6 +22682,8 @@
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
       [ "fanny", 2 ]
      ],
      [
@@ -22734,6 +22738,8 @@
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
       [ "fanny", 2 ]
      ],
      [
@@ -22793,6 +22799,8 @@
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
       [ "fanny", 2 ]
      ],
      [
@@ -22850,6 +22858,8 @@
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
       [ "fanny", 2 ]
      ],
      [
@@ -22906,6 +22916,8 @@
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
       [ "fanny", 2 ]
      ],
      [
@@ -22958,6 +22970,8 @@
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
       [ "fanny", 2 ]
      ],
      [
@@ -23609,7 +23623,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "boots_survivor",
+  "result": "boots_fsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
@@ -23648,9 +23662,7 @@
      [
       [ "boots_combat", 1 ],
       [ "boots_steel", 1 ],
-      [ "boots_hiking", 1 ],
-      [ "boots_bunker", 1 ],
-      [ "boots", 1 ]
+      [ "boots_bunker", 1 ]
      ]
   ]
 },{

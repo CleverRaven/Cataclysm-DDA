@@ -4328,7 +4328,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A small pair of goggles. Distorts vision above water, but allows you to see much further under water.",
+        "description" : "A small pair of goggles made for swimming.",
         "price" : 110,
         "material" : ["plastic", "null"],
         "volume" : 1,
@@ -4338,7 +4338,7 @@
         "enviromental_protection" : 4,
         "encumbrance" : 2,
         "bashing" : -5,
-        "flags" : ["WATER_FRIENDLY"],
+        "flags" : ["WATER_FRIENDLY", "SWIM_GOGGLES"],
         "coverage" : 100,
         "material_thickness" : 2
     },

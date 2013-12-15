@@ -694,6 +694,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     LIGHT_* - light emission, sets cached int light_emission
     USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
     STURDY - Clothing is made to be armor. Prevents damage to armor unless it is penetrated.
+    SWIM_GOGGLES - Allows you to see much further under water.
 
     Container-only flags:
     SEALS
