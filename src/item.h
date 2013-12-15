@@ -220,7 +220,6 @@ public:
  int charges;
  bool active;           // If true, it has active effects to be processed
  int fridge;            // The turn we entered a fridge.
- int recharging;        // Turn last recharged.
  signed char damage;    // How much damage it's sustained; generally, max is 5
  int burnt;             // How badly we're burnt
  int bday;              // The turn on which it was created
