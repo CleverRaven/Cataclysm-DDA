@@ -3995,111 +3995,127 @@ faction* game::list_factions(std::string title)
 
 void game::list_missions()
 {
- WINDOW *w_missions = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                              (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
-                              (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    WINDOW *w_missions = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
+                                (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
- int tab = 0, selection = 0;
- InputEvent input;
- do {
-  werase(w_missions);
-  //draw_tabs(w_missions, tab, "ACTIVE MISSIONS", "COMPLETED MISSIONS", "FAILED MISSIONS", NULL);
-  std::vector<int> umissions;
-  switch (tab) {
-   case 0: umissions = u.active_missions;       break;
-   case 1: umissions = u.completed_missions;    break;
-   case 2: umissions = u.failed_missions;       break;
-  }
+    int tab = 0, selection = 0;
+    InputEvent input;
+    do {
+        werase(w_missions);
+        std::vector<int> umissions;
+        switch (tab) {
+        case 0:
+            umissions = u.active_missions;
+            break;
+        case 1:
+            umissions = u.completed_missions;
+            break;
+        case 2:
+            umissions = u.failed_missions;
+            break;
+        }
 
-  for (int i = 1; i < FULL_SCREEN_WIDTH-1; i++) {
-   mvwputch(w_missions, 2, i, c_ltgray, LINE_OXOX);
-   mvwputch(w_missions, FULL_SCREEN_HEIGHT-1, i, c_ltgray, LINE_OXOX);
+        for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
+            mvwputch(w_missions, 2, i, BORDER_COLOR, LINE_OXOX);
+            mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
 
-   if (i > 2 && i < FULL_SCREEN_HEIGHT-1) {
-    mvwputch(w_missions, i, 0, c_ltgray, LINE_XOXO);
-    mvwputch(w_missions, i, 30, c_ltgray, LINE_XOXO);
-    mvwputch(w_missions, i, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOXO);
-   }
-  }
+            if (i > 2 && i < FULL_SCREEN_HEIGHT - 1) {
+                mvwputch(w_missions, i, 0, BORDER_COLOR, LINE_XOXO);
+                mvwputch(w_missions, i, 30, BORDER_COLOR, LINE_XOXO);
+                mvwputch(w_missions, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO);
+            }
+        }
 
-  draw_tab(w_missions, 7, _("ACTIVE MISSIONS"), (tab == 0) ? true : false);
-  draw_tab(w_missions, 30, _("COMPLETED MISSIONS"), (tab == 1) ? true : false);
-  draw_tab(w_missions, 56, _("FAILED MISSIONS"), (tab == 2) ? true : false);
+        draw_tab(w_missions, 7, _("ACTIVE MISSIONS"), (tab == 0) ? true : false);
+        draw_tab(w_missions, 30, _("COMPLETED MISSIONS"), (tab == 1) ? true : false);
+        draw_tab(w_missions, 56, _("FAILED MISSIONS"), (tab == 2) ? true : false);
 
-  mvwputch(w_missions, 2,  0, c_white, LINE_OXXO); // |^
-  mvwputch(w_missions, 2, FULL_SCREEN_WIDTH-1, c_white, LINE_OOXX); // ^|
+        mvwputch(w_missions, 2,  0, BORDER_COLOR, LINE_OXXO); // |^
+        mvwputch(w_missions, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX); // ^|
 
-  mvwputch(w_missions, FULL_SCREEN_HEIGHT-1, 0, c_ltgray, LINE_XXOO); // |
-  mvwputch(w_missions, FULL_SCREEN_HEIGHT-1, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOOX); // _|
+        mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |
+        mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
 
-  mvwputch(w_missions, 2, 30, c_white, (tab == 1) ? LINE_XOXX : LINE_XXXX); // + || -|
-  mvwputch(w_missions, FULL_SCREEN_HEIGHT-1, 30, c_white, LINE_XXOX); // _|_
+        mvwputch(w_missions, 2, 30, BORDER_COLOR, (tab == 1) ? LINE_XOXX : LINE_XXXX); // + || -|
+        mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, 30, BORDER_COLOR, LINE_XXOX); // _|_
 
-  for (int i = 0; i < umissions.size(); i++) {
-   mission *miss = find_mission(umissions[i]);
-   nc_color col = c_white;
-   if (i == u.active_mission && tab == 0)
-    col = c_ltred;
-   if (selection == i)
-    mvwprintz(w_missions, 3 + i, 1, hilite(col), miss->name().c_str());
-   else
-    mvwprintz(w_missions, 3 + i, 1, col, miss->name().c_str());
-  }
+        for (int i = 0; i < umissions.size(); i++) {
+            mission *miss = find_mission(umissions[i]);
+            nc_color col = c_white;
+            if (i == u.active_mission && tab == 0) {
+                col = c_ltred;
+            }
+            if (selection == i) {
+                mvwprintz(w_missions, 3 + i, 1, hilite(col), miss->name().c_str());
+            } else {
+                mvwprintz(w_missions, 3 + i, 1, col, miss->name().c_str());
+            }
+        }
 
-  if (selection >= 0 && selection < umissions.size()) {
-   mission *miss = find_mission(umissions[selection]);
-   mvwprintz(w_missions, 4, 31, c_white,
-             miss->description.c_str());
-   if (miss->deadline != 0)
-    mvwprintz(w_missions, 5, 31, c_white, _("Deadline: %d (%d)"),
-              miss->deadline, int(turn));
-   mvwprintz(w_missions, 6, 31, c_white, _("Target: (%d, %d)   You: (%d, %d)"),
-             miss->target.x, miss->target.y,
-             (levx + int (MAPSIZE / 2)) / 2, (levy + int (MAPSIZE / 2)) / 2);
-  } else {
-   std::string nope;
-   switch (tab) {
-    case 0: nope = _("You have no active missions!"); break;
-    case 1: nope = _("You haven't completed any missions!"); break;
-    case 2: nope = _("You haven't failed any missions!"); break;
-   }
-   mvwprintz(w_missions, 4, 31, c_ltred, nope.c_str());
-  }
+        if (selection >= 0 && selection < umissions.size()) {
+            mission *miss = find_mission(umissions[selection]);
+            mvwprintz(w_missions, 4, 31, c_white,
+                      miss->description.c_str());
+            if (miss->deadline != 0)
+                mvwprintz(w_missions, 5, 31, c_white, _("Deadline: %d (%d)"),
+                          miss->deadline, int(turn));
+            mvwprintz(w_missions, 6, 31, c_white, _("Target: (%d, %d)   You: (%d, %d)"),
+                      miss->target.x, miss->target.y,
+                      (levx + int (MAPSIZE / 2)) / 2, (levy + int (MAPSIZE / 2)) / 2);
+        } else {
+            std::string nope;
+            switch (tab) {
+            case 0:
+                nope = _("You have no active missions!");
+                break;
+            case 1:
+                nope = _("You haven't completed any missions!");
+                break;
+            case 2:
+                nope = _("You haven't failed any missions!");
+                break;
+            }
+            mvwprintz(w_missions, 4, 31, c_ltred, nope.c_str());
+        }
 
-  wrefresh(w_missions);
-  input = get_input();
-  switch (input) {
-  case DirectionE:
-   tab++;
-   if (tab == 3)
-    tab = 0;
-   break;
-  case DirectionW:
-   tab--;
-   if (tab < 0)
-    tab = 2;
-   break;
-  case DirectionS:
-   selection++;
-   if (selection >= umissions.size())
-    selection = 0;
-   break;
-  case DirectionN:
-   selection--;
-   if (selection < 0)
-    selection = umissions.size() - 1;
-   break;
-  case Confirm:
-   u.active_mission = selection;
-   break;
-  }
+        wrefresh(w_missions);
+        input = get_input();
+        switch (input) {
+        case DirectionE:
+            tab++;
+            if (tab == 3) {
+                tab = 0;
+            }
+            break;
+        case DirectionW:
+            tab--;
+            if (tab < 0) {
+                tab = 2;
+            }
+            break;
+        case DirectionS:
+            selection++;
+            if (selection >= umissions.size()) {
+                selection = 0;
+            }
+            break;
+        case DirectionN:
+            selection--;
+            if (selection < 0) {
+                selection = umissions.size() - 1;
+            }
+            break;
+        case Confirm:
+            u.active_mission = selection;
+            break;
+        }
 
- } while (input != Cancel && input != Close);
+    } while (input != Cancel && input != Close);
 
-
- werase(w_missions);
- delwin(w_missions);
- refresh_all();
+    werase(w_missions);
+    delwin(w_missions);
+    refresh_all();
 }
 
 void game::draw()
