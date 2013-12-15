@@ -1379,6 +1379,35 @@
   ]
 },{
         "type" : "recipe",
+  "result": "compbow",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "skills_required": [[ "archery", 4 ]],
+  "difficulty": 6,
+  "time": 45000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "stick", 3 ],
+      [ "2x4", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 12 ]
+    ],
+    [
+      [ "string_36", 2 ],
+      [ "thread", 200 ],
+      [ "sinew", 200 ],
+      [ "plant_fibre", 200 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "nailboard",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
