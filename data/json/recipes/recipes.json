@@ -12754,7 +12754,7 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "electronics",
-  "difficulty": 8,
+  "difficulty": 6,
   "time": 50000,
   "reversible": true,
   "autolearn": true,
