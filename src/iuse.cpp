@@ -1830,7 +1830,7 @@ int iuse::extra_battery(player *p, item *it, bool t)
     }
     if (!modded->is_tool())
     {
-        g->add_msg_if_player(p,_("You can only mod tools with this battery mod."));
+        g->add_msg_if_player(p,_("This mod can only be used on tools."));
         return 0;
     }
 
