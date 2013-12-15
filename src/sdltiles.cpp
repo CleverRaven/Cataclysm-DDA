@@ -887,26 +887,23 @@ static std::string find_system_font(std::string name, int& faceIndex)
 static int test_face_size(std::string f, int size, int faceIndex)
 {
     TTF_Font* fnt = TTF_OpenFontIndex(f.c_str(), size, faceIndex);
-    if(fnt)
-    {
+    if(fnt) {
         char* style = TTF_FontFaceStyleName(fnt);
-        if(style != NULL)
-        {
+        if(style != NULL) {
             int faces = TTF_FontFaces(fnt);
             bool found = false;
-            for(int i = faces - 1; i >= 0 && !found; i--)
-            {
+            for(int i = faces - 1; i >= 0 && !found; i--) {
                 TTF_Font* tf = TTF_OpenFontIndex(f.c_str(), size, i);
                 char* ts = NULL;
-                if(NULL != tf && NULL != (ts = TTF_FontFaceStyleName(tf)))
-                {
-                    if(0 == strcasecmp(ts, style) && TTF_FontHeight(tf) <= size)
-                    {
-                        faceIndex = i;
-                        found = true;
-                    }
+                if(NULL != tf) {
+                   if( NULL != (ts = TTF_FontFaceStyleName(tf))) {
+                       if(0 == strcasecmp(ts, style) && TTF_FontHeight(tf) <= size) {
+                           faceIndex = i;
+                           found = true;
+                       }
+                   }
+                   TTF_CloseFont(tf);
                 }
-                TTF_CloseFont(tf);
             }
         }
         TTF_CloseFont(fnt);
