@@ -697,7 +697,7 @@
         "symbol": ".",
         "color": "brown",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"]
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT", "DECONSTRUCT"]
     },{
         "type" : "terrain",
         "id" : "t_chaingate_l",
@@ -1041,7 +1041,7 @@
         "color": "yellow",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "BARRICADABLE_WINDOW"
+            "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "BARRICADABLE_WINDOW", "DECONSTRUCT"
         ]
     },{
         "type" : "terrain",

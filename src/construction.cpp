@@ -643,6 +643,12 @@ void construct::done_deconstruct(point p)
         g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,12));
         g->m.ter_set(p.x, p.y, t_door_frame);
       break;
+      case old_t_door_frame:
+      case old_t_window_empty:
+        g->m.spawn_item(p.x, p.y, "2x4", 4);
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,12));
+        g->m.ter_set(p.x, p.y, t_dirt);
+      break;
       case old_t_curtains:
       case old_t_window_domestic:
         g->m.spawn_item(g->u.posx, g->u.posy, "stick");
