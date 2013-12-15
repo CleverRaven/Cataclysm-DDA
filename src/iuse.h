@@ -58,6 +58,7 @@ public:
   int primitive_fire   (player *, item *, bool);
   int sew              (player *, item *, bool);
   int extra_battery    (player *, item *, bool);
+  int rechargeable_battery(player *, item *, bool);
   int cut_up           (player *, item *, item *, bool);
   int scissors         (player *, item *, bool);
   int extinguisher     (player *, item *, bool);

@@ -35,7 +35,8 @@ enum vehicle_controls {
  control_cancel,
  convert_vehicle,
  toggle_engine,
- toggle_fridge
+ toggle_fridge,
+ toggle_recharger
 };
 
 vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
@@ -50,6 +51,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     lights_power = 0;
     overhead_power = 0;
     fridge_power = 0;
+    recharger_power = 0;
     tracking_power = 0;
     cruise_velocity = 0;
     skidding = false;
@@ -58,6 +60,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     tracking_on = false;
     overhead_lights_on = false;
     fridge_on = false;
+    recharger_on = false;
     insides_dirty = true;
     engine_on = false;
     has_pedals = false;
@@ -206,7 +209,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if(one_in(10)) {
             blood_covered = true;
         }
-        
+
         //Fridge should always start out activated if present
         if(all_parts_with_feature("FRIDGE").size() > 0) {
             fridge_on = true;
@@ -345,6 +348,7 @@ void vehicle::use_controls()
     bool has_tracker = false;
     bool has_engine = false;
     bool has_fridge = false;
+    bool has_recharger = false;
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -369,6 +373,9 @@ void vehicle::use_controls()
         }
         else if (part_flag(p, "FRIDGE")) {
             has_fridge = true;
+        }
+        else if (part_flag(p, "RECHARGE")) {
+            has_recharger = true;
         }
     }
 
@@ -407,6 +414,14 @@ void vehicle::use_controls()
         options_choice.push_back(toggle_fridge);
         options_message.push_back(uimenu_entry(fridge_on ? _("Turn off fridge") :
                                                _("Turn on fridge"), 'f'));
+        current++;
+    }
+
+    // Turn the recharging station on/off
+    if (has_recharger) {
+        options_choice.push_back(toggle_recharger);
+        options_message.push_back(uimenu_entry(recharger_on ? _("Turn off recharger") :
+                                               _("Turn on recharger"), 'r'));
         current++;
     }
 
@@ -500,6 +515,15 @@ void vehicle::use_controls()
                        _("Fridge turned off"));
         } else {
             g->add_msg(_("The fridge won't turn on!"));
+        }
+        break;
+    case toggle_recharger:
+        if( !recharger_on || fuel_left(fuel_type_battery) ) {
+            recharger_on = !recharger_on;
+            g->add_msg((recharger_on) ? _("Recharger turned on") :
+                       _("Recharger turned off"));
+        } else {
+            g->add_msg(_("The recharger won't turn on!"));
         }
         break;
     case toggle_engine:
@@ -712,6 +736,20 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         for( std::vector<int>::const_iterator it = parts_in_square.begin();
              it != parts_in_square.end(); ++it ) {
             if(part_info(*it).has_flag("BELTABLE")) {
+                anchor_found = true;
+            }
+        }
+        if(!anchor_found) {
+            return false;
+        }
+    }
+
+    //Internal must be installed into a cargo area.
+    if(vehicle_part_types[id].has_flag("INTERNAL")) {
+        bool anchor_found = false;
+        for( std::vector<int>::const_iterator it = parts_in_square.begin();
+             it != parts_in_square.end(); ++it ) {
+            if(part_info(*it).has_flag("CARGO")) {
                 anchor_found = true;
             }
         }
@@ -1991,6 +2029,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
       if(overhead_lights_on)power += overhead_power;
       if(tracking_on)power += tracking_power;
       if(fridge_on) power += fridge_power;
+      if(recharger_on) power += recharger_power;
       if(power <= 0)return;
       for(int f=0;f<fuel.size() && power > 0;f++)
       {
@@ -2015,6 +2054,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         tracking_on = false;
         overhead_lights_on = false;
         fridge_on = false;
+        recharger_on = false;
         if(player_in_control(&g->u) || g->u_see(global_x(), global_y()) )
             g->add_msg("The %s's battery dies!",name.c_str());
     }
@@ -2906,6 +2946,7 @@ void vehicle::find_power ()
     overhead_power = 0;
     tracking_power = 0;
     fridge_power = 0;
+    recharger_power = 0;
     for (int p = 0; p < parts.size(); p++) {
         const vpart_info& vpi = part_info(p);
         if (vpi.has_flag(VPFLAG_LIGHT) || vpi.has_flag(VPFLAG_CONE_LIGHT)) {
@@ -2920,6 +2961,9 @@ void vehicle::find_power ()
         }
         if (vpi.has_flag(VPFLAG_FRIDGE)) {
             fridge_power += vpi.power;
+        }
+        if (vpi.has_flag(VPFLAG_RECHARGE)) {
+            recharger_power += vpi.power;
         }
     }
 }
@@ -3150,7 +3194,7 @@ void vehicle::shift_parts(const int dx, const int dy)
 
     //Need to also update the map after this
     g->m.reset_vehicle_cache();
-    
+
 }
 
 int vehicle::damage_direct (int p, int dmg, int type)

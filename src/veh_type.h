@@ -18,7 +18,7 @@ struct break_entry {
 #endif
 // bitmask backing store of -certian- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
-enum vpart_bitflags { 
+enum vpart_bitflags {
     VPFLAG_NONE,
     VPFLAG_ARMOR,
     VPFLAG_TRANSPARENT,
@@ -35,17 +35,19 @@ enum vpart_bitflags {
     VPFLAG_SEATBELT,
     VPFLAG_WHEEL,
 
-    VPFLAG_ALTERNATOR, 
+    VPFLAG_ALTERNATOR,
     VPFLAG_ENGINE,
     VPFLAG_FRIDGE,
     VPFLAG_FUEL_TANK,
-    VPFLAG_LIGHT, 
+    VPFLAG_LIGHT,
     VPFLAG_WINDOW,
     VPFLAG_CURTIAN,
     VPFLAG_CARGO,
+    VPFLAG_INTERNAL,
     VPFLAG_SOLAR_PANEL,
     VPFLAG_VARIABLE_SIZE,
     VPFLAG_TRACK,
+    VPFLAG_RECHARGE,
 
 };
 /* Flag info:
