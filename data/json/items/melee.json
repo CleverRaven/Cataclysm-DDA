@@ -2147,7 +2147,7 @@
         "type":"GENERIC",
         "id" : "bagh_nakha",
         "name" : "tiger claws",
-        "description" : "Also called bagh nakha or iron paw, this is a small claw-like bladed weapon from India designed to be concealed under and against the palm",
+        "description" : "Also called bagh nakha or iron paw, this is a small claw-like bladed weapon from India designed to be concealed under and against the palm.",
         "weight" : 92,
         "to_hit" : 3,
         "color" : "dark_gray",
