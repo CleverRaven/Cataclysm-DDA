@@ -2214,7 +2214,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY"],
         "coverage" : 20,
-        "material_thickness" : 3
+        "material_thickness" : 2
     },
     {
         "type" : "ARMOR",
@@ -2238,7 +2238,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY"],
         "coverage" : 30,
-        "material_thickness" : 3
+        "material_thickness" : 2
     },
     {
         "type" : "ARMOR",
@@ -2262,7 +2262,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY"],
         "coverage" : 40,
-        "material_thickness" : 3
+        "material_thickness" : 2
     },
     {
         "type" : "ARMOR",
@@ -3467,7 +3467,7 @@
         "type" : "ARMOR",
         "id" : "pants_survivor",
         "name" : "survivor cargo pants",
-        "weight" : 900,
+        "weight" : 920,
         "color" : "green",
         "covers" : ["LEGS"],
         "to_hit" : 0,
@@ -7753,7 +7753,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 4
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
