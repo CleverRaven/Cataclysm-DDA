@@ -139,11 +139,14 @@ def gettextify(string, context=None):
     else:
         return "_(%r)\n" % string
 
-def writestr(filename, string, context=None, format_strings=False):
+def writestr(filename, string, context=None, format_strings=False, comment=None):
     "Wrap the string and write to the file."
     # no empty strings
     if not string: return
     with open(filename,'a') as fs:
+        # Append developers comment
+        if comment:
+            tlcomment(fs, comment)
         # most of the strings from json don't use string formatting.
         # we must tell xgettext this explicitly
         if not format_strings and "%" in string:
@@ -152,9 +155,10 @@ def writestr(filename, string, context=None, format_strings=False):
 
 def tlcomment(fs, string):
     "Write the string to the file as a comment for translators."
-    fs.write("#~ ")
-    fs.write(string)
-    fs.write("\n")
+    if len(string) > 0:
+        fs.write("#~ ")
+        fs.write(string)
+        fs.write("\n")
 
 def get_outfile(json_object_type):
     return os.path.join(to_dir, json_object_type + "_from_json.py")
