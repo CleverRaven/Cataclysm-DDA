@@ -7104,7 +7104,7 @@
         "type" : "ARMOR",
         "id" : "lsurvivor_suit",
         "name" : "light survivor suit",
-        "weight" : 6100,
+        "weight" : 5100,
         "color" : "green",
         "covers" : ["LEGS", "TORSO", "ARMS"],
         "to_hit" : -3,
