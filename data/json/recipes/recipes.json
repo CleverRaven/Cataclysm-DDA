@@ -14830,6 +14830,46 @@
   ]
 },{
         "type" : "recipe",
+  "result": "mask_survivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 5,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+      ]
+  ],
+  "components": [
+      [
+      [ "mask_filter", 2 ],
+      [ "mask_gas", 1 ],
+      [ "mask_bunker", 1 ]
+      ],
+      [
+      [ "glasses_safety", 2 ],
+      [ "glasses_bal", 1 ]
+      ],
+      [
+      [ "duct_tape", 150 ],
+      [ "superglue", 2 ]
+      ],
+      [
+      [ "mask_bal", 1 ],
+      [ "kevlar_plate", 6 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
   "result": "mask_wsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -14877,6 +14917,53 @@
   ]
 },{
         "type" : "recipe",
+  "result": "mask_wsurvivorxl",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "skills_required" : ["tailor", 7],
+  "difficulty": 5,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "mask_filter", 2 ],
+      [ "mask_gas", 1 ],
+      [ "mask_bunker", 1 ]
+      ],
+      [
+      [ "glasses_safety", 2 ],
+      [ "glasses_bal", 1 ]
+      ],
+      [
+      [ "duct_tape", 100 ],
+      [ "superglue", 1 ]
+      ],
+      [
+      [ "mask_bal", 1 ],
+      [ "kevlar_plate", 4 ]
+      ],
+      [
+      [ "fur", 12 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
   "result": "mask_fsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -14914,6 +15001,47 @@
       [
       [ "mask_bal", 1 ],
       [ "kevlar_plate", 4 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mask_fsurvivorxl",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 8,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "sewing_kit", 20 ]
+    ],
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "mask_bunker", 1 ]
+      ],
+      [
+      [ "nomex", 8 ]
+      ],
+      [
+      [ "duct_tape", 200 ],
+      [ "superglue", 2 ]
+      ],
+      [
+      [ "mask_bal", 1 ],
+      [ "kevlar_plate", 6 ]
       ]
   ]
 },{
@@ -14958,6 +15086,50 @@
       [
       [ "mask_bal", 1 ],
       [ "kevlar_plate", 4 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mask_h20survivorxl",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 7,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "sewing_kit", 20 ]
+    ],
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "rebreather", 1 ]
+      ],
+      [
+      [ "goggles_swim", 1 ]
+      ],
+      [
+      [ "plastic_chunk", 8 ]
+      ],
+      [
+      [ "duct_tape", 200 ],
+      [ "superglue", 2 ]
+      ],
+      [
+      [ "mask_bal", 1 ],
+      [ "kevlar_plate", 6 ]
       ]
   ]
 },{
