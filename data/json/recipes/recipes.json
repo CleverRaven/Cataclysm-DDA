@@ -6852,7 +6852,8 @@
     ],
     [
       [ "sugar", 1 ],
-      [ "honeycomb", 1 ]
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 1]
     ],
     [
       [ "water", 1 ],
@@ -7627,6 +7628,7 @@
       [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
       [ "honeycomb", 1 ],
+      [ "honey_bottled", 1],
       [ "jam_strawberries", 1 ],
       [ "jam_blueberries", 1 ],
       [ "jam_fruit", 1 ],
@@ -8097,6 +8099,7 @@
     [
       [ "sugar", 1 ],
       [ "honeycomb", 1 ],
+      [ "honey_bottled", 1],
       [ "syrup", 1 ]
     ]
   ]
@@ -8134,6 +8137,7 @@
       [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
+      [ "honey_bottled", 1],
       [ "honeycomb", 1 ]
     ],
     [
@@ -8212,6 +8216,7 @@
     [
       [ "sugar", 1 ],
       [ "honeycomb", 1 ],
+      [ "honey_bottled", 1],
       [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
     ],
@@ -8373,6 +8378,81 @@
   ]
 },{
         "type" : "recipe",
+  "result": "curry_meat",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "veggy", 2 ],
+      [ "veggy_wild", 2 ],
+      [ "veggy_vac", 2 ],
+      [ "rehydrated_veggy", 2 ],
+      [ "dry_veggy", 2 ]
+    ],
+    [
+      [ "tomato", 1 ]
+    ],
+    [
+      [ "meat", 1]
+    ],
+    [
+      [ "sauce_red", 1 ],
+      [ "curry_powder", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "curry_veggy",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "veggy", 2 ],
+      [ "veggy_wild", 2 ],
+      [ "veggy_vac", 2 ],
+      [ "rehydrated_veggy", 2 ],
+      [ "dry_veggy", 2 ]
+    ],
+    [
+      [ "tomato", 1 ]
+    ],
+    [
+      [ "sauce_red", 1 ],
+      [ "curry_powder", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "chili",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -8410,7 +8490,8 @@
       [ "can_beans", 1]
     ],
     [
-      [ "sauce_red", 1 ]
+      [ "sauce_red", 1 ],
+      [ "chilli-p", 1]
     ]
   ]
 },{
@@ -8452,7 +8533,8 @@
       [ "can_beans", 1]
     ],
     [
-      [ "sauce_red", 1 ]
+      [ "sauce_red", 1 ],
+      [ "chilli-p", 1]
     ]
   ]
 },{
@@ -8669,6 +8751,98 @@
       [ "meat_canned", 1 ],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "lasagne",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_PASTA",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_italian", 3 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "lasagne_raw", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "seasoning_italian", 5 ],
+      [ "sauce_red", 1 ],
+      [ "tomato", 2 ]
+    ],
+    [
+      [ "meat", 2 ],
+      [ "meat_canned", 1 ],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "luigilasagne",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_PASTA",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 3 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "lasagne_raw", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "seasoning_italian", 5 ],
+      [ "sauce_red", 1 ],
+      [ "tomato", 2 ]
+    ],
+    [
+      [ "human_flesh", 2 ],
+      [ "human_canned", 1 ],
+      [ "rehydrated_hflesh", 2 ],
+      [ "dry_hflesh", 2 ]
     ]
   ]
 },{
@@ -9155,6 +9329,7 @@
       [ "mutagen", 1 ]
     ],
     [
+      [ "honey_bottled", 3],
       [ "honeycomb", 3 ],
       [ "bee_sting", 3 ],
       [ "wasp_sting", 3 ]
@@ -10667,6 +10842,7 @@
       [ "irradiated_watermelon", 2 ],
       [ "irradiated_melon", 2 ],
       [ "irradiated_corn", 3 ],
+      [ "honey_bottled", 1],
       [ "honeycomb", 1 ],
       [ "cola", 6 ],
       [ "rootbeer", 6 ],
@@ -19545,8 +19721,57 @@
       ["fire", -1]
     ],
     [
-     ["sheet_metal", -1],
-     ["steel_plate", -1]
+     ["pastaextruder", -1]
+    ]
+  ],
+  "components": [
+    [ ["flour", 4] ],
+    [ ["water", 1], ["water_clean", 1] ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "lasagne_raw",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_PASTA",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["hotplate", 25],
+      [ "char_smoker", 1 ],
+      ["toolset", 2],
+      ["fire", -1]
+    ],
+    [
+     ["pastaextruder", -1]
+    ]
+  ],
+  "components": [
+    [ ["flour", 4] ],
+    [ ["water", 1], ["water_clean", 1] ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "macaroni_raw",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_PASTA",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["hotplate", 25],
+      [ "char_smoker", 1 ],
+      ["toolset", 2],
+      ["fire", -1]
+    ],
+    [
+     ["pastaextruder", -1]
     ]
   ],
   "components": [
@@ -22500,6 +22725,41 @@
   ]
 },{
         "type" : "recipe",
+   "result": "currywurst",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+   "skill_used": "cooking",
+   "difficulty": 2,
+   "time": 8000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+   [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sausage", 1 ]
+    ],
+    [
+      [ "curry_powder", 1]
+    ],
+    [
+      [ "ketchup", 4]
+    ]
+  ]
+},{
+        "type" : "recipe",
    "result": "chilidogs_human",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -22536,6 +22796,42 @@
     ],
     [
       [ "mustard", 4]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "h_currywurst",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+   "skill_used": "cooking",
+   "difficulty": 2,
+   "time": 8000,
+   "reversible": false,
+   "autolearn": false,
+  "book_learn": [[ "cookbook_human", 1 ]],
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+   [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mannwurst", 1 ]
+    ],
+    [
+      [ "curry_powder", 1]
+    ],
+    [
+      [ "ketchup", 4]
     ]
   ]
 },{
@@ -22651,6 +22947,82 @@
   ]
 },{
         "type" : "recipe",
+   "result": "sloppyjoe",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 8000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "sauce_red", 1],
+      [ "irradiated_tomato", 2 ],
+      [ "tomato", 2 ]
+    ],
+    [
+      [ "meat", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "manwich",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 8000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "sauce_red", 1],
+      [ "irradiated_tomato", 2 ],
+      [ "tomato", 2 ]
+    ],
+    [
+      [ "hflesh", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
    "result": "sandwich_t",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -22680,6 +23052,81 @@
     ],
     [
       [ "meat", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "sandwich_pb",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 4000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "peanutbutter", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "sandwich_pbj",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 4000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "jam_blueberries", 2 ],
+      [ "jam_strawberries", 2],
+      [ "jam_fruit", 2]
+    ],
+    [
+      [ "peanutbutter", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "sandwich_pbh",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 4000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "honey", 1 ],
+      [ "honey_bottled", 2]
+    ],
+    [
+      [ "peanutbutter", 1 ]
     ]
   ]
 },{
@@ -22714,6 +23161,29 @@
     ],
     [
       [ "human_flesh", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "toasterpastry",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 5000,
+   "reversible": false,
+   "autolearn": true,
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+    ],
+  "components": [
+    [
+      [ "toasterpastryfrozen", 1 ]
     ]
   ]
 },{
@@ -25542,6 +26012,186 @@
     [
       [ "rag", 1 ],
       [ "duct_tape", 10]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_beef_box",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_beef", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "crackers", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "candy3", 3 ]
+    ],
+    [
+      [ "matches", 20 ]
+    ],
+    [
+      [ "gum", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_veggy_box",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_veggy", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "crackers", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "candy3", 3 ]
+    ],
+    [
+      [ "matches", 20 ]
+    ],
+    [
+      [ "gum", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_chicken_box",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_chicken", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "crackers", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "candy3", 3 ]
+    ],
+    [
+      [ "matches", 20 ]
+    ],
+    [
+      [ "gum", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_4fingers_box",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_hotdogs", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "crackers", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "candy3", 3 ]
+    ],
+    [
+      [ "matches", 20 ]
+    ],
+    [
+      [ "gum", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_ravioli_box",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_ravioli", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "crackers", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "candy3", 3 ]
+    ],
+    [
+      [ "matches", 20 ]
+    ],
+    [
+      [ "gum", 4 ]
     ]
   ]
 }
