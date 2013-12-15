@@ -16923,7 +16923,8 @@
 },{
         "type" : "recipe",
   "result": "cargo_rack",
-  "category": "CC_MISC",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "skills_required": ["mechanics",1],
   "difficulty": 4,
