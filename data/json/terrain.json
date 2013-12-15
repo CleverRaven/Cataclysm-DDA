@@ -14,7 +14,7 @@
         "symbol": " ",
         "color": "black",
         "move_cost": 2,
-        "trap": "ledge",
+        "trap": "tr_ledge",
         "flags": ["TRANSPARENT"]
     },{
         "type" : "terrain",
@@ -56,7 +56,7 @@
         "symbol": "0",
         "color": "brown",
         "move_cost": 10,
-        "trap": "pit",
+        "trap": "tr_pit",
         "flags": ["TRANSPARENT", "DIGGABLE"],
         "examine_action": "pit"
     },{
@@ -83,7 +83,7 @@
         "symbol": "0",
         "color": "ltred",
         "move_cost": 10,
-        "trap": "spike_pit",
+        "trap": "tr_spike_pit",
         "flags": ["TRANSPARENT", "DIGGABLE"],
         "examine_action": "pit"
     },{
@@ -1563,7 +1563,7 @@
         "symbol": "~",
         "color": "red",
         "move_cost": 4,
-        "trap": "lava",
+        "trap": "tr_lava",
         "flags": ["TRANSPARENT", "LIQUID", "DESTROY_ITEM"]
     },{
         "type" : "terrain",
