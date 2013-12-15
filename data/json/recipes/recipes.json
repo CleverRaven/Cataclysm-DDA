@@ -14877,6 +14877,47 @@
   ]
 },{
         "type" : "recipe",
+  "result": "mask_fsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 8,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "sewing_kit", 20 ]
+    ],
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "mask_bunker", 1 ]
+      ],
+      [
+      [ "nomex", 4 ]
+      ],
+      [
+      [ "duct_tape", 200 ],
+      [ "superglue", 2 ]
+      ],
+      [
+      [ "mask_bal", 1 ],
+      [ "kevlar_plate", 4 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
   "result": "goggles_nv",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -23118,6 +23159,45 @@
   ]
 },{
         "type" : "recipe",
+  "result": "hood_fsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 8,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "needle_bone", 40 ],
+      [ "sewing_kit", 40 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "nomex", 8 ]
+     ],
+     [
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "nomex_hood", 1 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
   "result": "gloves_lsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
@@ -23309,6 +23389,50 @@
   ]
 },{
         "type" : "recipe",
+  "result": "gloves_fsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 8,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 14 ],
+      [ "soldering_iron", 14 ],
+      [ "toolset", 1 ]
+    ],
+    [
+      [ "needle_bone", 50 ],
+      [ "sewing_kit", 50 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "nomex", 6 ]
+     ],
+     [
+      [ "leather", 2 ]
+     ],
+     [
+      [ "duct_tape", 120 ]
+     ],
+     [
+      [ "gloves_tactical", 1 ],
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "nomex_gloves", 1 ],
+      [ "fire_gauntlets", 1 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
   "result": "boots_lsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -23474,6 +23598,52 @@
      ],
      [
       [ "duct_tape", 100 ]
+     ],
+     [
+      [ "boots_combat", 1 ],
+      [ "boots_steel", 1 ],
+      [ "boots_hiking", 1 ],
+      [ "boots_bunker", 1 ],
+      [ "boots", 1 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "boots_survivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 8,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "needle_bone", 80 ],
+      [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "nomex", 8 ]
+     ],
+     [
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "duct_tape", 200 ]
+     ],
+     [
+      [ "nomex_socks", 1 ]
      ],
      [
       [ "boots_combat", 1 ],
