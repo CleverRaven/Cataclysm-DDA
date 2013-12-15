@@ -983,11 +983,11 @@ bool jmapgen_setmap::apply( map *m ) {
     return true;
 }
 
-void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::string & scr);
+void mapgen_lua(map * m, oter_id id, mapgendata md, int t, float d, const std::string & scr);
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void mapgen_function_json::apply( map * m, oter_id terrain_type, float d ) {
+void mapgen_function_json::apply( map *m, oter_id terrain_type, mapgendata md, int t, float d ) {
     if ( fill_ter != -1 ) {
         m->draw_fill_background( fill_ter );
     }
@@ -1007,6 +1007,9 @@ void mapgen_function_json::apply( map * m, oter_id terrain_type, float d ) {
     if ( ! luascript.empty() ) {
         mapgen_lua(m, terrain_type, md, t, d, luascript);
     }
+#else
+    (void)md;
+    (void)t;
 #endif
     if ( terrain_type.t().rotates == true ) {
         mapgen_rotate(m, terrain_type, false );
@@ -1112,7 +1115,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
            gfunction(this, terrain_type, facing_data, turn, density);
         } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_JSON ) {
            mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(fmapit->second[fidx]);
-           mf->apply( this, terrain_type, density );
+           mf->apply( this, terrain_type, facing_data, turn, density );
         } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_LUA ) {
            mapgen_function_lua * mf = dynamic_cast<mapgen_function_lua*>(fmapit->second[fidx]);
            mapgen_lua(this, terrain_type, facing_data, turn, density, mf->scr );

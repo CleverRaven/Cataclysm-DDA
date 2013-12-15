@@ -91,15 +91,15 @@ int call_lua(std::string tocall) {
 }
 
 //
-int lua_mapgen(map * m, std::string terrain_type, mapgendata md, int t, float d, const std::string & scr) {
-    lua_State* L = lua_state; 
+int lua_mapgen(map * m, std::string terrain_type, mapgendata, int t, float, const std::string & scr) {
+    lua_State* L = lua_state;
     {
         map** map_userdata = (map**) lua_newuserdata(L, sizeof(map*));
         *map_userdata = m;
         luah_setmetatable(L, "map_metatable");
         luah_setglobal(L, "map", -1);
     }
-   
+
     int err = luaL_loadstring(L, scr.c_str() );
     if(err) {
         // Error handling.

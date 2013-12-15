@@ -916,7 +916,7 @@ static int test_face_size(std::string f, int size, int faceIndex)
 }
 
 // Calculates the new width of the window, given the number of columns.
-int projected_window_width(int column_count)
+int projected_window_width(int)
 {
 	const int SidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
 	int newWindowWidth = (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
@@ -926,7 +926,7 @@ int projected_window_width(int column_count)
 }
 
 // Calculates the new height of the window, given the number of rows.
-int projected_window_height(int row_count)
+int projected_window_height(int)
 {
 	return (OPTIONS["VIEWPORT_Y"] * 2 + 1) * fontheight;
 }

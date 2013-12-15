@@ -137,7 +137,8 @@ class mapgen_function_json : public virtual mapgen_function {
     void setup_place_group(JsonArray &parray );
     void setup_setmap(JsonArray &parray);
     bool setup();
-    void apply(map * m, oter_id id, float d);
+    void apply( map *m, oter_id terrain_type, mapgendata md, int t, float d );
+
     mapgen_function_json(std::string s, int w = 1000) {
         ftype = MAPGENFUNC_JSON;
         weight = w;
