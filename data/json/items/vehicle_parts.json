@@ -554,7 +554,7 @@
         "type":"GENERIC",
         "id": "recharge_station",
         "name": "recharging station",
-        "description": "A small box with jacks for different rechargeable tools.",
+        "description": "An induction based charging system. Once mounted to the side of a vehicle storage space, anything with rechargeable batteries will slowly recharge.",
         "weight": 2500,
         "to_hit": 1,
         "color": "light_blue",
