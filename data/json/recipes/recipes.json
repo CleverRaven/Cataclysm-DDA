@@ -1616,6 +1616,7 @@
   "time": 6000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "manual_shotgun", 2 ] , [ "manual_pistol", 2 ]],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -1955,7 +1956,8 @@
   "difficulty": 5,
   "time": 18000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_shotgun", 4 ] , [ "mag_shotgun", 5 ]],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -1994,7 +1996,8 @@
   "difficulty": 5,
   "time": 20000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_smg", 4 ] , [ "mag_smg", 5 ]],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -2062,6 +2065,7 @@
 },{
         "type" : "recipe",
   "result": "launcher_simple",
+  "note": "standalone_weapon",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
@@ -2091,6 +2095,7 @@
 },{
         "type" : "recipe",
   "result": "pipe_launcher40mm",
+  "note": "underbarrel_mount",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
@@ -2098,7 +2103,8 @@
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_launcher", 3 ] , [ "mag_launcher", 4 ]],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -2126,7 +2132,8 @@
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_shotgun", 4 ] , [ "mag_shotgun", 5 ]],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -2314,7 +2321,7 @@
   "time": 95000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 8 ]],
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mininuke_launch", 5],
   "tools": [
     [
       ["screwdriver", -1],
@@ -19124,7 +19131,8 @@
   "difficulty": 8,
   "time": 24000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[recipe_mininuke_launch", 5]],
   "tools": [
     [
       ["goggles_welding", -1]
@@ -19173,6 +19181,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[textbook_fabrication", 2]],
   "tools": [
     [
       ["goggles_welding", -1]
@@ -20797,7 +20806,7 @@
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used" : "fabrication",
   "skills_required" : ["throw", 1],
-  "difficulty" : 8,
+  "difficulty" : 6,
   "time" : 30000,
   "reversible" : false,
   "autolearn" : true,
@@ -24052,7 +24061,8 @@
   "difficulty": 6,
   "time": 30000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 5]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -25059,6 +25069,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "manual_rifle", 2 ] , [ "manual_pistol", 2 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -25092,6 +25103,7 @@
   "time": 240000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "manual_rifle", 5 ] , [ "mag_rifle", 6 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -25342,6 +25354,7 @@
   "time": 80000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "manual_pistol", 5 ] , [ "mag_pistol", 6 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
