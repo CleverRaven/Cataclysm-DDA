@@ -1,4 +1,34 @@
 [
+  {
+    "id": "testflames",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "Flaming Chunk of Steel +2",
+    "description": "HOLY SHIT THIS THING IS ON FIRE",
+    "price": 980,
+    "material": "steel",
+    "flags": ["FIRE", "SLICE", "LIGHT_50", "FLAMING"],
+    "techniques": ["WBLOCK_3", "WIDE"],
+    "weight": 64,
+    "volume": 1,
+    "bashing": 1,
+    "cutting": 1,
+    "to_hit": 100,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null"
+  },
+
+    {
+        "type" : "ITEM_CATEGORY",
+        "id" : "spare_parts",
+        "name" : "spare parts",
+        "sort_rank" : 8
+    },
   { "id":"lighter",
     "type": "TOOL",
     "symbol": ",",
@@ -208,6 +238,52 @@
   },
 
   {
+    "id": "oxygen_tank",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "oxygen tank",
+    "description": "This is tank of compressed medical oxygen with a regulator and mask. Commonly used in emergency situations, it provides immediate relief for asthma attacks and smoke inhalation and can provide a brief burst of energy.",
+    "price": 1200,
+    "material": ["steel", "plastic"],
+    "weight": 3200,
+    "volume": 8,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -4,
+    "max_charges": 24,
+    "initial_charges": 24,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "OXYGEN_BOTTLE"
+  },
+
+  {
+    "id": "smoxygen_tank",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "red",
+    "name": "emergency oxygen pack",
+    "description": "This is a small tank of compressed medical oxygen with a folding regulator and mask. Commonly used in emergency situations, it provides immediate relief for asthma attacks and smoke inhalation and can provide a brief burst of energy.",
+    "price": 1800,
+    "material": ["plastic", "steel"],
+    "weight": 1740,
+    "volume": 4,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 12,
+    "initial_charges": 12,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "OXYGEN_BOTTLE"
+  },
+
+  {
     "id": "battery_compartment",
     "type": "TOOL",
     "symbol": ";",
@@ -262,7 +338,7 @@
     "description": "This is a small gasoline powered lantern. It does not provide much light, but it lasts a long time. It is turned on. Use it to turn it off.",
     "price": 600,
     "material": ["glass", "iron"],
-    "flags": "LIGHT_6",
+    "flags": "LIGHT_15",
     "weight": 1400,
     "volume": 3,
     "bashing": 1,
@@ -927,6 +1003,30 @@
   },
 
   {
+    "id": "halligan",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "Halligan bar",
+    "description": "This is a heavy multiple-use tool commonly carried by firefighters, law enforcement, and military rescue units. Use it to open locked doors without destroying them or to lift manhole covers. You could also wield it to bash some heads in.",
+    "price": 750,
+    "material": "steel",
+    "techniques": ["WIDE", "BRUTAL"],
+    "weight": 3600,
+    "volume": 5,
+    "bashing": 20,
+    "cutting": 5,
+    "to_hit": 2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "CROWBAR"
+  },
+
+  {
     "id": "makeshift_crowbar",
     "type": "TOOL",
     "symbol": ";",
@@ -1136,6 +1236,96 @@
     "use_action": "CARVER_ON",
     "qualities": [["CUT", 1]]
   },{
+    "id": "trimmer_off",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "green",
+    "name": "hedge trimmer (off)",
+    "description": "A cordless, double-sided, gasoline-powered hedge trimmer. A long line of sharp-edged teeth extends from the engine; turning the trimmer on will make them rapidly vibrate. The poor man's chainsaw as far as the zombies are concerned.",
+    "price": 400,
+    "material": ["steel", "plastic"],
+    "weight": 4500,
+    "volume": 8,
+    "bashing": 4,
+    "cutting": 8,
+    "to_hit": -1,
+    "max_charges": 200,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "gasoline",
+    "revert_to": "null",
+    "use_action": "TRIMMER_OFF"
+  },{
+    "id": "trimmer_on",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "green",
+    "name": "hedge trimmer (on)",
+    "description": "A cordless, double-sided, gasoline-powered hedge trimmer. It is currently on, ready to do some zombie topiary; use this item to turn it off.",
+    "price": 400,
+    "material": ["steel", "plastic"],
+    "flags" : ["CHOP"],
+    "weight": 4500,
+    "volume": 8,
+    "bashing": 4,
+    "cutting": 40,
+    "flags" : ["CHOP", "MESSY"],
+    "to_hit": -1,
+    "max_charges": 200,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "gasoline",
+    "revert_to": "trimmer_off",
+    "use_action": "TRIMMER_ON",
+    "qualities": [["CUT", 1]]
+  },{
+    "id": "circsaw_off",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "yellow",
+    "name": "circular saw (off)",
+    "description": "A lightweight handheld cordless circular saw. Spins a circular blade fast enough to cut wood, metal, zombies, or in an emergency, pizza. The blade, while effective in combat, is hard to hit with due to its small size.",
+    "price": 650,
+    "material": ["steel", "plastic"],
+    "weight": 2940,
+    "volume": 3,
+    "bashing": 2,
+    "cutting": 4,
+    "to_hit": -3,
+    "max_charges": 100,
+    "initial_charges": 50,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "CIRCSAW_OFF"
+  },{
+    "id": "circsaw_on",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "yellow",
+    "name": "circular saw (on)",
+    "description": "A lightweight handheld cordless circular saw. It is currently on and the blade is spinning; use this item to turn it off.",
+    "price": 650,
+    "material": ["steel", "plastic"],
+    "flags" : ["CHOP"],
+    "weight": 2940,
+    "volume": 3,
+    "bashing": 2,
+    "cutting": 50,
+    "flags" : ["CHOP", "MESSY"],
+    "to_hit": -3,
+    "max_charges": 100,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "battery",
+    "revert_to": "circsaw_off",
+    "use_action": "CIRCSAW_ON",
+    "qualities": [["CUT", 1]]
+  },{
     "id": "combatsaw_off",
     "type": "TOOL",
     "symbol": "/",
@@ -1179,6 +1369,51 @@
     "ammo": "gasoline",
     "revert_to": "combatsaw_off",
     "use_action": "COMBATSAW_ON"
+  },{
+    "id": "cs_lajatang_off",
+    "type":"TOOL",
+    "symbol": "/",
+    "color": "red",
+    "name": "chainsaw lajatang (off)",
+    "description": "A long wooden pole with chainsaws impractically attached to both ends. The product of either genius or insanity, but not both; the weight ensures that only someone both strong and very skilled could possibly hope to use it.",
+    "price": 800,
+    "material": ["plastic", "iron"],
+    "techniques" : ["WBLOCK_1", "WIDE"],
+    "weight": 14254,
+    "volume": 30,
+    "bashing": 20,
+    "cutting": 0,
+    "to_hit": -5,
+    "max_charges": 800,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "gasoline",
+    "revert_to": "chainsaw_off",
+    "use_action": "CS_LAJATANG_OFF"
+  },{
+    "id": "cs_lajatang_on",
+    "type":"TOOL",
+    "symbol": "/",
+    "color": "red",
+    "name": "chainsaw lajatang (on)",
+    "description": "A long wooden pole with chainsaws impractically attached to both ends. They are currently on and draining gasoline; use this item to turn them off.",
+    "price": 800,
+    "material": ["plastic", "iron"],
+    "techniques" : ["WBLOCK_1", "WIDE", "SWEEP"],
+    "weight": 14254,
+    "volume": 30,
+    "bashing": 4,
+    "cutting": 140,
+    "flags" : ["CHOP", "MESSY", "HURT_WHEN_PULLED"],
+    "to_hit": -5,
+    "max_charges": 800,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "gasoline",
+    "revert_to": "cs_lajatang_off",
+    "use_action": "CS_LAJATANG_ON"
   },{
     "id": "jackhammer",
     "type": "TOOL",
@@ -1936,7 +2171,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
-    "revert_to": "null",
+    "revert_to": "canister_empty",
     "use_action": "SMOKEBOMB_ACT"
   },
 
@@ -1955,7 +2190,7 @@
       "to_hit" : 0,
       "max_charges": 5,
       "initial_charges": 5,
-      "charges_per_use": 0,
+      "charges_per_use": 1,
       "turns_per_charge": 0,
       "ammo": "NULL",
       "revert_to": "null",
@@ -3036,6 +3271,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
+    "category" : "weapons",
     "qualities": [["CUT", 1]]
   },
 
@@ -3138,6 +3374,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
+    "category" : "weapons",
     "qualities": [["CUT", 1]]
   },
 
@@ -3188,6 +3425,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
+    "category" : "weapons",
     "qualities": [["CUT", 1]]
   },
 
@@ -3214,6 +3452,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "KNIFE"
   },
 
@@ -3240,6 +3479,7 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "ZWEIFIRE_OFF"
   },
 
@@ -3266,6 +3506,7 @@
     "turns_per_charge": 30,
     "ammo": "gasoline",
     "revert_to": "zweifire_off",
+    "category" : "weapons",
     "use_action": "ZWEIFIRE_ON"
   },
 
@@ -3291,6 +3532,7 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "BROADFIRE_OFF"
   },
 
@@ -3316,6 +3558,7 @@
     "turns_per_charge": 30,
     "ammo": "gasoline",
     "revert_to": "broadfire_off",
+    "category" : "weapons",
     "use_action": "BROADFIRE_ON"
   },
 
@@ -3365,6 +3608,7 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "SHISHKEBAB_OFF"
   },
 
@@ -3389,6 +3633,7 @@
     "turns_per_charge": 20,
     "ammo": "gasoline",
     "revert_to": "shishkebab_off",
+    "category" : "weapons",
     "use_action": "SHISHKEBAB_ON"
   },
 
@@ -3414,6 +3659,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "KNIFE"
   },
 
@@ -3528,6 +3774,31 @@
     "volume": 10,
     "bashing": 20,
     "cutting": 14,
+    "flags" : ["CHOP"],
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "LUMBER"
+  },
+
+  {
+    "id": "fire_ax",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "fire axe",
+    "description": "This is a large, two-handed pickhead axe normally used by firefighters. It makes a powerful melee weapon, but is a bit slow to recover between swings.",
+    "price": 500,
+    "material": ["steel", "wood"],
+    "techniques": ["BRUTAL"],
+    "weight": 2720,
+    "volume": 8,
+    "bashing": 20,
+    "cutting": 20,
     "flags" : ["CHOP"],
     "to_hit": 1,
     "max_charges": 0,
@@ -4142,6 +4413,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "spare_parts",
     "use_action": "RAG"
   },
 
@@ -4165,6 +4437,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "spare_parts",
     "use_action": "NONE"
   },
 
@@ -4188,6 +4461,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "spare_parts",
     "use_action": "NONE"
   },
 
@@ -4638,6 +4912,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -4661,6 +4936,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -4684,6 +4960,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -4707,6 +4984,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -4730,6 +5008,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -4753,6 +5032,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -4823,6 +5103,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -4846,6 +5127,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "food",
     "use_action": "DEJAR"
   },
 
@@ -5330,6 +5612,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "KNIFE"
   },
 
@@ -5692,7 +5975,6 @@
     "description": "This is an old-fashioned farming tool used to cut tall grass. While it may be a giant blade on the end of a stick, it is incredibly awkward to use for anything but its intended purpose.",
     "price": 380,
     "material": ["steel", "plastic"],
-    "flags": "SLICE",
     "techniques": ["WIDE", "BRUTAL"],
     "weight": 3013,
     "volume": 13,
@@ -5718,7 +6000,7 @@
     "description": "This farming tool has been modified into a weapon by reinforcing and rotating its blade 90 degrees, transforming it into a deadly giant blade on the end of a stick.",
     "price": 1160,
     "material": ["steel", "plastic"],
-    "flags": "SLICE",
+    "flags": "CHOP",
     "techniques": ["WIDE", "BRUTAL"],
     "weight": 3013,
     "volume": 13,
@@ -5825,5 +6107,51 @@
     "ammo" : "battery",
     "revert_to" : "null",
     "use_action" : "TAZER"
+  },
+  {
+    "id": "diveknife",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "yellow",
+    "name": "dive knife",
+    "description": "This is a short, sturdy knife with a serrated edge for cutting lines and straps, and a blunt tip for prying. Used primarily by divers, it is very light and takes up virtually no space in one's pockets.",
+    "price": 140,
+    "material": ["steel", "plastic"],
+    "flags": "CHOP",
+    "weight": 226,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 12,
+    "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1]]
+  },
+  {
+    "id": "cow_bell",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "cow bell",
+    "description": "A brass cow bell. Potentially useful in so many ways.",
+    "price": 70,
+    "material": ["iron", "wood"],
+    "weight": 566,
+    "volume": 4,
+    "bashing": 9,
+    "cutting": 0,
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "BELL"
   }
 ]

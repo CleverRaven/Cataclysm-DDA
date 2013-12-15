@@ -299,7 +299,8 @@ void realDebugmsg(const char *filename, const char *line, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[1024];
+    char buff[4096];
+//[1024];
     vsprintf(buff, mes, ap);
     va_end(ap);
     fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "DEBUG: %s\n  Press spacebar...", buff);
@@ -372,7 +373,7 @@ int query_int(const char *mes, ...)
 }
 
 std::string string_input_popup(std::string title, int width, std::string input, std::string desc,
-                               std::string identifier, int max_length )
+                               std::string identifier, int max_length, bool only_digits )
 {
     nc_color title_color = c_ltred;
     nc_color desc_color = c_green;
@@ -418,7 +419,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
     long key = 0;
     int pos = -1;
     std::string ret = string_input_win(w, input, max_length, startx, starty, endx, true, key, pos,
-                                       identifier, w_x, w_y, true );
+                                       identifier, w_x, w_y, true, only_digits);
     werase(w);
     wrefresh(w);
     delwin(w);
@@ -427,7 +428,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 }
 
 std::string string_input_win(WINDOW *w, std::string input, int max_length, int startx, int starty,
-                             int endx, bool loop, long &ch, int &pos, std::string identifier, int w_x, int w_y, bool dorefresh )
+                             int endx, bool loop, long &ch, int &pos, std::string identifier, int w_x, int w_y, bool dorefresh, bool only_digits )
 {
     std::string ret = input;
     nc_color string_color = c_magenta;
@@ -488,18 +489,11 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             wrefresh(w);
         }
         ch = getch();
+        bool return_key = false;
         if (ch == 27) { // Escape
             return "";
         } else if (ch == '\n') {
-            if(identifier.size() > 0 && ret.size() > 0 ) {
-                std::vector<std::string> *hist = uistate.gethistory(identifier);
-                if( hist != NULL ) {
-                    if ( hist->size() == 0 || (*hist)[hist->size() - 1] != ret ) {
-                        hist->push_back(ret);
-                    }
-                }
-            }
-            return ret;
+            return_key = true;
         } else if (ch == KEY_UP ) {
             if(identifier.size() > 0) {
                 std::vector<std::string> *hist = uistate.gethistory(identifier);
@@ -570,13 +564,30 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                 ret.append(tmp);
             }
         } else if( ch != 0 && ch != ERR && (ret.size() < max_length || max_length == 0) ) {
-            if ( pos == ret.size() ) {
-                ret += ch;
+            if ( only_digits && !isdigit(ch) ) {
+                return_key = true;
             } else {
-                ret.insert(pos, 1, ch);
+                if ( pos == ret.size() ) {
+                    ret += ch;
+                } else {
+                    ret.insert(pos, 1, ch);
+                }
+                redraw = true;
+                pos++;
             }
-            redraw = true;
-            pos++;
+        }
+        if (return_key) {//"/n" return code
+            {
+                if(identifier.size() > 0 && ret.size() > 0 ) {
+                    std::vector<std::string> *hist = uistate.gethistory(identifier);
+                    if( hist != NULL ) {
+                        if ( hist->size() == 0 || (*hist)[hist->size() - 1] != ret ) {
+                            hist->push_back(ret);
+                        }
+                    }
+                }
+                return ret;
+            }
         }
     } while ( loop == true );
     return ret;
@@ -804,8 +815,10 @@ void full_screen_popup(const char *mes, ...)
 //otherwise if sType == "MENU", dValue can be used to control color
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
+//@param without_getch don't wait getch, return = (int)' ';
 int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName,
-                               std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected)
+                               std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected,
+                               bool without_getch)
 {
     WINDOW *w = newwin(iHeight, iWidth, VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
@@ -915,7 +928,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
     int ch = (int)' ';
 
     wrefresh(w);
-    if (iLeft > 0) {
+    if (!without_getch) {
         ch = (int)getch();
         if ( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
             ch = selected_ret;
@@ -1093,6 +1106,22 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
     }
 }
 
+void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
+{
+    int iOffsetXRight = iOffsetX + utf8_width(sText.c_str()) + 1;
+
+    mvwprintz(w, 0, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, sText.c_str());
+
+    if (bSelected) {
+        mvwputch(w, 0, iOffsetX - 1,      h_ltgray, '<');
+        mvwputch(w, 0, iOffsetXRight + 1, h_ltgray, '>');
+
+        for (int i = iOffsetX + 1; i < iOffsetXRight; i++) {
+            mvwputch(w, 1, i, c_black, ' ');
+        }
+    }
+}
+
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY, const int iOffsetX,
                     nc_color bar_color)
@@ -1153,6 +1182,7 @@ void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeig
         }
     }
 }
+
 
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
 {
@@ -1285,3 +1315,45 @@ size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const char *fm
     }
     return len;
 }
+
+void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::string &text, const bool bMonster)
+{
+    if (current_hp == max_hp){
+      color = c_green;
+      text = "|||||";
+    } else if (current_hp > max_hp * .9 && !bMonster) {
+      color = c_green;
+      text = "||||\\";
+    } else if (current_hp > max_hp * .8) {
+      color = c_ltgreen;
+      text = "||||";
+    } else if (current_hp > max_hp * .7 && !bMonster) {
+      color = c_ltgreen;
+      text = "|||\\";
+    } else if (current_hp > max_hp * .6) {
+      color = c_yellow;
+      text = "|||";
+    } else if (current_hp > max_hp * .5 && !bMonster) {
+      color = c_yellow;
+      text = "||\\";
+    } else if (current_hp > max_hp * .4 && !bMonster) {
+      color = c_ltred;
+      text = "||";
+    } else if (current_hp > max_hp * .3) {
+      color = c_ltred;
+      text = "|\\";
+    } else if (current_hp > max_hp * .2 && !bMonster) {
+      color = c_red;
+      text = "|";
+    } else if (current_hp > max_hp * .1) {
+      color = c_red;
+      text = "\\";
+    } else if (current_hp > 0) {
+      color = c_red;
+      text = ":";
+    } else {
+      color = c_ltgray;
+      text = "-----";
+    }
+}
+

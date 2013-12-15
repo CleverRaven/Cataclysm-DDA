@@ -81,8 +81,8 @@ std::vector<std::string> split_by_color(const std::string &s);
 void realDebugmsg(const char* name, const char* line, const char *mes, ...);
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
-std::string string_input_popup(std::string title, int width = 0, std::string input = "", std::string desc = "", std::string identifier = "", int max_length = -1 );
-std::string string_input_win (WINDOW * w, std::string input, int max_length, int startx, int starty, int endx, bool loop, long & key, int & pos, std::string identifier="", int w_x=-1, int w_y=-1, bool dorefresh=true );
+std::string string_input_popup(std::string title, int width = 0, std::string input = "", std::string desc = "", std::string identifier = "", int max_length = -1, bool only_digits = false);
+std::string string_input_win (WINDOW * w, std::string input, int max_length, int startx, int starty, int endx, bool loop, long & key, int & pos, std::string identifier="", int w_x=-1, int w_y=-1, bool dorefresh=true, bool only_digits = false );
 char popup_getkey(const char *mes, ...);
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec(bool cancelable, const char *mes, std::vector<std::string> options);
@@ -91,7 +91,7 @@ void popup_top(const char *mes, ...); // Displayed at the top of the screen
 void popup(const char *mes, ...);
 void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
 void full_screen_popup(const char *mes, ...);
-int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected=-1);
+int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected = -1, bool without_getch = false);
 
 char rand_char();
 long special_symbol (long sym);
@@ -109,7 +109,9 @@ size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fm
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout = 70);
 
+void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::string &health_bar, const bool bMonster = false);
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
+void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight, const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0, nc_color bar_color = c_white);
 void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW* w);

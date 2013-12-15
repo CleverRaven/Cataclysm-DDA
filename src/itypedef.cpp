@@ -240,6 +240,7 @@ BIO_SINGLE("bio_scent_mask", 8500, c_magenta, 5);
 BIO_SINGLE("bio_cloak", 8500, c_magenta, 5);
 BIO_SINGLE("bio_fingerhack", 3500, c_magenta, 2);
 BIO_SINGLE("bio_night", 8500, c_magenta, 5);
+BIO_SINGLE("bio_lockpick", 3500, c_magenta, 2);
 // defensive
 BIO_SINGLE("bio_ads", 9500, c_ltblue, 7);
 BIO_SINGLE("bio_ods", 9500, c_ltblue, 7);
@@ -336,7 +337,7 @@ GUN("bio_lightning", _("Chain Lightning"),  0,c_magenta, "steel", "plastic",
 std::string ammo_name(ammotype t)
 {
     if( t == "700nx")       return _(".700 Nitro Express");
-    if( t == "ammo_flint")  return _("flintlock paper pack");
+    if( t == "ammo_flintlock")  return _("paper cartidge");
     if( t == "50")          return _(".50 BMG");
     if( t == "nail")        return _("nails");
     if( t == "BB" )         return _("BBs");
@@ -386,6 +387,7 @@ std::string ammo_name(ammotype t)
     if( t == "components" ) return _("components");
     if( t == "RPG-7" )      return _("RPG-7");
     if( t == "dart" )       return _("dart");
+    if( t == "fishspear" )  return _("speargun spear");
     return "XXX";
 }
 
@@ -436,5 +438,6 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "thrown"  )      return "thrown";
     if( guntype == "ampoule"  )     return "ampoule";
     if( guntype == "50"  )          return "50bmg";
+    if( guntype == "fishspear"  )   return "fishspear";
     return "null";
 }

@@ -4,7 +4,18 @@
 #include <vector>
 
 #include "map.h"
+/////
+struct terfurn_tile {
+   short ter;
+   short furn;
+   terfurn_tile();
+};
 
+void formatted_set_incredibly_simple( 
+  map * m, const terfurn_tile data[], const int width, const int height, const int startx, const int starty, const int defter=-1
+);
+
+/////
 namespace mapf
 {
  namespace internal
@@ -24,6 +35,8 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
                        const bool empty_toilets = false);
 
 internal::format_effect* basic_bind(std::string characters, ...);
+internal::format_effect* ter_str_bind(std::string characters, ...);
+internal::format_effect* furn_str_bind(std::string characters, ...);
 internal::format_effect* simple_method_bind(std::string characters, ...);
 internal::format_effect* end();
 

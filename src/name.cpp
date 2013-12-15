@@ -1,4 +1,5 @@
 #include <map>
+#include <fstream>
 
 #include "json.h"
 #include "name.h"
@@ -106,3 +107,31 @@ Name::Name(std::string name, uint32_t flags) {
   _value = name;
   _flags = flags;
 }
+
+void load_names_from_file(const std::string &filename)
+{
+    std::ifstream data_file;
+    data_file.open(filename.c_str(), std::ifstream::in | std::ifstream::binary);
+    if(!data_file.good()) {
+        throw "Could not read " + filename;
+    }
+
+    NameGenerator &gen = NameGenerator::generator();
+
+    std::istringstream iss(
+        std::string(
+            (std::istreambuf_iterator<char>(data_file)),
+            std::istreambuf_iterator<char>()
+        )
+    );
+    JsonIn jsin(iss);
+    data_file.close();
+
+    // load em all
+    jsin.start_array();
+    while (!jsin.end_array()) {
+        JsonObject json_name = jsin.get_object();
+        gen.load_name(json_name);
+    }
+}
+

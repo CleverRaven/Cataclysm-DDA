@@ -44,7 +44,7 @@ void player_activity::serialize(JsonOut &json) const
     json.member( "type", int(type) );
     json.member( "moves_left", moves_left );
     json.member( "index", int(index) );
-    json.member( "invlet", int(invlet) );
+    json.member( "position", int(position) );
     json.member( "name", name );
     json.member( "placement", placement );
     json.member( "values", values );
@@ -56,18 +56,17 @@ void player_activity::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
     int tmptype;
-    int tmpinv;
+    int tmppos;
     if ( !data.read( "type", tmptype ) || type >= NUM_ACTIVITIES ) {
         debugmsg( "Bad activity data:\n%s", data.str().c_str() );
     }
-    if ( !data.read( "invlet", tmpinv)) {
-        debugmsg( "Bad activity data:\n%s", data.str().c_str() );
+    if ( !data.read( "position", tmppos)) {
+        tmppos = INT_MIN;  // If loading a save before position existed, hope.
     }
     type = activity_type(tmptype);
     data.read( "moves_left", moves_left );
     data.read( "index", index );
-    data.read( "invlet", tmpinv );
-    invlet = (char)tmpinv;
+    position = (char)tmppos;
     data.read( "name", name );
     data.read( "placement", placement );
     values = data.get_int_array("values");
@@ -137,7 +136,7 @@ void player::json_load_common_variables(JsonObject & data)
     data.read("radiation",radiation);
     data.read("scent",scent);
     data.read("moves",moves);
-    data.read("dodges_left",dodges_left);
+    data.read("dodges_left",num_dodges);
     data.read("underwater",underwater);
     data.read("oxygen",oxygen);
     data.read("male",male);
@@ -181,6 +180,7 @@ void player::json_load_common_variables(JsonObject & data)
 
     data.read("ma_styles",ma_styles);
     data.read("illness",illness);
+    data.read("effects",effects);
     data.read("addictions",addictions);
     data.read("my_bionics",my_bionics);
 }
@@ -212,7 +212,7 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // initiative type stuff
     json.member( "moves", moves );
-    json.member( "dodges_left", dodges_left );
+    json.member( "dodges_left", num_dodges);
 
     // breathing
     json.member( "underwater", underwater );
@@ -253,6 +253,7 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // disease
     json.member( "illness", illness );
+    json.member( "effects", effects );
 
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
@@ -288,7 +289,7 @@ void player::serialize(JsonOut &json, bool save_contents) const
     json.member( "grab_type", obj_type_name[ (int)grab_type ] );
 
     // misc player specific stuff
-    json.member( "blocks_left", blocks_left );
+    json.member( "blocks_left", num_blocks );
     json.member( "focus_pool", focus_pool );
     json.member( "style_selected", style_selected );
 
@@ -385,7 +386,7 @@ void player::deserialize(JsonIn &jsin)
         grab_type = (object_type)obj_type_id[grab_typestr];
     }
 
-    data.read( "blocks_left", blocks_left);
+    data.read( "blocks_left", num_blocks);
     data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );
 
@@ -789,9 +790,9 @@ void inventory::json_load_items(JsonIn &jsin)
         JsonArray ja = jsin.get_array();
         while ( ja.has_more() ) {
             JsonObject jo = ja.next_object();
-            push_back( item( jo ) );
+            add_item(item( jo ), false, false);
         }
-    } catch (std::string jsonerr) {
+    } catch (std::string& jsonerr) {
          debugmsg("bad inventory json:\n%s", jsonerr.c_str() );
     }
 }
@@ -940,6 +941,8 @@ void item::deserialize(JsonObject &data)
     damage = damtmp; // todo: check why this is done after make(), using a tmp variable
     data.read( "active", active );
     data.read( "fridge", fridge );
+    data.read( "rot", rot );
+    data.read( "last_rot_check", last_rot_check );
 
     data.read( "curammo", ammotmp );
     if ( ammotmp != "null" ) {
@@ -1013,7 +1016,11 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if ( ammotmp != "null" ) json.member( "curammo", ammotmp );
     if ( mode != "NULL" )    json.member( "mode", mode );
     if ( active == true )    json.member( "active", true );
-    if ( fridge == true )    json.member( "fridge", true );
+    // bug? // if ( fridge == true )    json.member( "fridge", true );
+    if ( fridge != 0 )       json.member( "fridge", fridge );
+    if ( rot != 0 )          json.member( "rot", rot );
+    if ( last_rot_check != 0 )    json.member( "last_rot_check", last_rot_check );
+
     if ( corpse != NULL )    json.member( "corpse", corpse->id );
 
     if ( owned != -1 )       json.member( "owned", owned );

@@ -91,8 +91,7 @@ void iexamine::toilet(game *g, player *p, map *m, int examx, int examy) {
             water_temp.charges = std::min(water_temp.charges, water.charges);
 
             p->inv.push_back(water_temp);
-            water_temp = p->inv.item_by_type(water_temp.typeId());
-            p->consume(g, water_temp.invlet);
+            p->consume(g, p->inv.position_by_type(water_temp.typeId()));
             p->moves -= 350;
 
             water.charges -= water_temp.charges;
@@ -614,7 +613,7 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
     return;
   }
 
-  int resist = p->resist(bp_mouth);
+  int resist = p->get_env_resist(bp_mouth);
 
   if (resist < 10) {
     // Can't smell the flowers with a gas mask on!
@@ -985,8 +984,7 @@ void iexamine::water_source(game *g, player *p, map *m, const int examx, const i
     else if (query_yn(_("Drink from your hands?")))
     {
         p->inv.push_back(water);
-        water = p->inv.item_by_type(water.typeId());
-        p->consume(g, water.invlet);
+        p->consume(g, p->inv.position_by_type(water.typeId()));
         p->moves -= 350;
     }
 }

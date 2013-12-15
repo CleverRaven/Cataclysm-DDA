@@ -40,6 +40,11 @@ void construction_menu()
         }
     }
 
+    if(available.empty()) {
+        popup(_("You can not construct anything here."));
+        return;
+    }
+
     int iMaxY = TERMY;
     if (available.size()+2 < iMaxY) {
         iMaxY = available.size()+2;

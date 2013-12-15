@@ -137,7 +137,7 @@ class cata_tiles
         void load_tileset(std::string path);
         /** Load tileset config file */
         void load_tilejson(std::string path);
-        void load_tilejson_from_file(std::ifstream *f);
+        void load_tilejson_from_file(std::ifstream &f);
         /* After loading tileset, create additional cache for rotating each tile assuming it is used for rotations */
         void create_rotation_cache();
         /** Draw to screen */

@@ -160,7 +160,7 @@ void npc::load_info(game *g, std::string data)
         check = data[1];
     }
     if ( check == '{' ) {
-        JsonIn jsin(&dump);
+        JsonIn jsin(dump);
         try {
             deserialize(jsin);
         } catch (std::string jsonerr) {
@@ -1380,7 +1380,7 @@ void npc::decide_needs()
                        skillLevel("gun") * 2 + 5;
  needrank[need_food] = 15 - hunger;
  needrank[need_drink] = 15 - thirst;
- invslice slice = inv.slice(0, inv.size());
+ invslice slice = inv.slice();
  for (int i = 0; i < slice.size(); i++) {
   it_comest* food = NULL;
   if (slice[i]->front().is_food())
@@ -1438,7 +1438,7 @@ void npc::say(game *g, std::string line, ...)
 void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
 {
  bool found_lighter = false;
- invslice slice = inv.slice(0, inv.size());
+ invslice slice = inv.slice();
  for (int i = 0; i < slice.size(); i++) {
   if (slice[i]->front().type->id == "lighter" && !found_lighter)
    found_lighter = true;
@@ -1456,7 +1456,7 @@ void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
 void npc::init_buying(inventory& you, std::vector<item*> &items,
                       std::vector<int> &prices)
 {
- invslice slice = you.slice(0, you.size());
+ invslice slice = you.slice();
  for (int i = 0; i < slice.size(); i++) {
   int val = value(slice[i]->front());
   if (val >= NPC_HI_VALUE) {
@@ -1913,6 +1913,11 @@ void npc::shift(int sx, int sy)
  path.clear();
 }
 
+void npc::die(game* g, Creature* nkiller) {
+    killer = nkiller;
+    die(g, nkiller != NULL && nkiller->is_player());
+}
+
 void npc::die(game *g, bool your_fault)
 {
     if (dead) {
@@ -1929,18 +1934,25 @@ void npc::die(game *g, bool your_fault)
     }
     if (your_fault){
         if (is_friend()) {
-            if(!g->u.has_trait("CANNIBAL")) {
+            if(!g->u.has_trait("PSYCHOPATH")) {
                 // Very long duration, about 7d, decay starts after 10h.
                 g->u.add_memorial_log(_("Killed a friend, %s."), name.c_str());
                 g->u.add_morale(MORALE_KILLED_FRIEND, -500, 0, 10000, 600);
+            } else if(!g->u.has_trait("CANNIBAL") && g->u.has_trait("PSYCHOPATH")) {
+                g->u.add_memorial_log(_("Killed someone foolish enough to call you friend, %s. Didn't care."), name.c_str());
             } else {
                 g->u.add_memorial_log(_("Killed a delicious-looking friend, %s, in cold blood."), name.c_str());
             }
         } else if (!is_enemy() || this->hit_by_player){
-            if(!g->u.has_trait("CANNIBAL")) {
+            if(!g->u.has_trait("CANNIBAL") && !g->u.has_trait("PSYCHOPATH")) {
                 // Very long duration, about 3.5d, decay starts after 5h.
-                g->u.add_memorial_log("Killed an innocent person, %s.", name.c_str());
+                g->u.add_memorial_log("Killed an innocent person, %s, in cold blood and felt terrible afterwards.", name.c_str());
                 g->u.add_morale(MORALE_KILLED_INNOCENT, -100, 0, 5000, 300);
+            } else if(!g->u.has_trait("CANNIBAL") && g->u.has_trait("PSYCHOPATH")) {
+                g->u.add_memorial_log(_("Killed an innocent, %s, in cold blood. They were weak."), name.c_str());
+            } else if(g->u.has_trait("CANNIBAL") && !g->u.has_trait("PSYCHOPATH")) {
+                g->u.add_memorial_log(_("Killed an innocent, %s."), name.c_str());
+                g->u.add_morale(MORALE_KILLED_INNOCENT, -5, 0, 500, 300);
             } else {
                 g->u.add_memorial_log(_("Killed a delicious-looking innocent, %s, in cold blood."), name.c_str());
             }

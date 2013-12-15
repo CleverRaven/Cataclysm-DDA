@@ -1,6 +1,7 @@
 #ifndef _ITEM_H_
 #define _ITEM_H_
 
+#include <climits>
 #include <string>
 #include <vector>
 #include "itype.h"
@@ -78,10 +79,13 @@ public:
 
     nc_color color(player *u) const;
     nc_color color_in_inventory();
-    std::string tname(); // item name (includes damage, freshness, etc)
+    std::string tname(bool with_prefix = true); // item name (includes damage, freshness, etc)
     std::string display_name(); // name for display (includes charges, etc)
     void use();
     bool burn(int amount = 1); // Returns true if destroyed
+
+ // Returns the category of this item.
+ const item_category &get_category() const;
 
 // Firearm specifics
  int reload_time(player &u);
@@ -94,8 +98,8 @@ public:
  int recoil(bool with_ammo = true);
  int range(player *p = NULL);
  ammotype ammo_type() const;
- char pick_reload_ammo(player &u, bool interactive);
- bool reload(player &u, char invlet);
+ int pick_reload_ammo(player &u, bool interactive);
+ bool reload(player &u, int pos);
  void next_mode();
 
     using JsonSerializer::serialize;
@@ -215,7 +219,9 @@ public:
  char invlet;           // Inventory letter
  int charges;
  bool active;           // If true, it has active effects to be processed
- int fridge;           // The turn we entered a fridge.
+ int fridge;            // The turn we entered a fridge.
+ int rot;               // decay; same as turn-bday at 65 degrees, but doubles/halves every 18 degrees. can be negative (start game fridges)
+ int last_rot_check;    // last turn we calculated rot
  signed char damage;    // How much damage it's sustained; generally, max is 5
  int burnt;             // How badly we're burnt
  int bday;              // The turn on which it was created
@@ -303,6 +309,13 @@ class map_item_stack
             totalcount++;
         }
 };
+
+// Commonly used convenience functions that match an item to one of the 3 common types of locators:
+// invlet (char), type_id (itype_id, a typedef of string), or position (int).
+// The item's position is optional, if not passed in we expect the item to fail position match.
+bool item_matches_locator(const item& it, const itype_id& id, int item_pos = INT_MIN);
+bool item_matches_locator(const item& it, int locator_pos, int item_pos = INT_MIN);
+bool item_matches_locator(const item& it, char invlet, int item_pos = INT_MIN);
 
 //this is an attempt for functional programming
 bool is_edible(item i, player const*u);

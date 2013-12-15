@@ -291,10 +291,10 @@
 		<Unit filename="src/mapdata.cpp" />
 		<Unit filename="src/mapdata.h" />
 		<Unit filename="src/mapgen.cpp" />
-		<Unit filename="src/mapgenformat.cpp" />
-		<Unit filename="src/mapgenformat.h" />
 		<Unit filename="src/mapgen_functions.cpp" />
 		<Unit filename="src/mapgen_functions.h" />
+		<Unit filename="src/mapgenformat.cpp" />
+		<Unit filename="src/mapgenformat.h" />
 		<Unit filename="src/mapitems.h" />
 		<Unit filename="src/martialarts.cpp" />
 		<Unit filename="src/martialarts.h" />
@@ -344,8 +344,6 @@
 		<Unit filename="src/overmap.h" />
 		<Unit filename="src/overmapbuffer.cpp" />
 		<Unit filename="src/overmapbuffer.h" />
-		<Unit filename="src/picofunc.cpp" />
-		<Unit filename="src/picofunc.h" />
 		<Unit filename="src/picojson.h" />
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/player.h" />

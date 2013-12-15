@@ -181,6 +181,8 @@ void item::init() {
     player_id = -1;
     light = nolight;
     fridge = 0;
+    rot = 0;
+    last_rot_check = 0;
 }
 
 void item::make(itype* it)
@@ -283,7 +285,7 @@ std::string item::save_info() const
 {
     // doing this manually so as not to recurse
     std::stringstream s;
-    JsonOut jsout(&s);
+    JsonOut jsout(s);
     serialize(jsout, false);
     return s.str();
 }
@@ -335,7 +337,7 @@ void item::load_info(std::string data, game *g)
         check=data[1];
     }
     if ( check == '{' ) {
-        JsonIn jsin(&dump);
+        JsonIn jsin(dump);
         try {
             deserialize(jsin);
         } catch (std::string jsonerr) {
@@ -360,7 +362,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
  if ( g != NULL && debug == false &&
    ( g->debugmon == true || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) )
  ) debug=true;
- if( !is_null() && g != NULL)
+ if( !is_null() )
  {
   dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
   dump->push_back(iteminfo("BASE", _("   Weight: "), "", g->u.convert_weight(weight()), false, "", true, true));
@@ -379,6 +381,25 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   if ( debug == true ) {
     if( g != NULL ) {
       dump->push_back(iteminfo("BASE", _("age: "), "",  (int(g->turn) - bday) / (10 * 60), true, "", true, true));
+      int maxrot = 0;
+      item * food = NULL;
+      if( goes_bad() ) {
+        food = this;
+        maxrot = dynamic_cast<it_comest*>(type)->spoils * 600;
+      } else if(is_food_container()) {
+        food = &contents[0];
+        if ( food->goes_bad() ) {
+            maxrot =dynamic_cast<it_comest*>(food->type)->spoils * 600;
+        }
+      }
+      if ( food != NULL && maxrot != 0 ) {
+        dump->push_back(iteminfo("BASE", _("bday rot: "), "",  (int(g->turn) - food->bday), true, "", true, true));
+        dump->push_back(iteminfo("BASE", _("temp rot: "), "",  (int)food->rot, true, "", true, true));
+        dump->push_back(iteminfo("BASE", _(" max rot: "), "",  (int)maxrot, true, "", true, true));
+        dump->push_back(iteminfo("BASE", _("  fridge: "), "",  (int)food->fridge, true, "", true, true));
+        dump->push_back(iteminfo("BASE", _("last rot: "), "",  (int)food->last_rot_check, true, "", true, true));
+      }
+
     }
     dump->push_back(iteminfo("BASE", _("burn: "), "",  burnt, true, "", true, true));
   }
@@ -799,13 +820,18 @@ nc_color item::color_in_inventory()
     return c_white;
 }
 
-std::string item::tname()
+/* @param with_prefix determines whether to return for more of its object, such as
+* 	the extent of damage and burning (was created to sort by name without prefix
+*	in additional inventory)
+* @return name of item
+*/
+std::string item::tname( bool with_prefix )
 {
     std::stringstream ret;
 
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
-    if (damage != 0 && !is_null()) {
+    if (damage != 0 && !is_null() && with_prefix) {
         if (damage == -1) {
             damtext = rm_prefix(_("<dam_adj>reinforced "));
         } else {
@@ -836,10 +862,12 @@ std::string item::tname()
     }
 
     std::string burntext = "";
-    if (volume() >= 4 && burnt >= volume() * 2)
-        burntext = rm_prefix(_("<burnt_adj>badly burnt "));
-    else if (burnt > 0)
-        burntext = rm_prefix(_("<burnt_adj>burnt "));
+    if (with_prefix) {
+		if (volume() >= 4 && burnt >= volume() * 2)
+			burntext = rm_prefix(_("<burnt_adj>badly burnt "));
+		else if (burnt > 0)
+			burntext = rm_prefix(_("<burnt_adj>burnt "));
+    }
 
     std::string maintext = "";
     if (corpse != NULL && typeId() == "corpse" ) {
@@ -859,12 +887,9 @@ std::string item::tname()
             ret << "+";
         maintext = ret.str();
     } else if (contents.size() == 1) {
-        maintext = rmp_format(
-                       contents[0].made_of(LIQUID)?
-                       _("<item_name>%s of %s"):
-                       _("<item_name>%s with %s"),
-                       type->name.c_str(), contents[0].tname().c_str()
-                   );
+        maintext = rmp_format((contents[0].made_of(LIQUID) || contents[0].is_food())?
+                              _("<item_name>%s of %s"):("<item_name>%s with %s"),
+                              type->name.c_str(), contents[0].tname().c_str());
     }
     else if (contents.size() > 0) {
         maintext = rmp_format(_("<item_name>%s, full"), type->name.c_str());
@@ -880,20 +905,18 @@ std::string item::tname()
     {
         food = this;
         food_type = dynamic_cast<it_comest*>(type);
+
+        if (food_type->spoils != 0)
+        {
+            if(food->rotten(g)) {
+                ret << _(" (rotten)");
+            } else if ( rot < 100 ) {
+                ret << _(" (fresh)");
+            }
+        }
+        if (food->has_flag("HOT"))
+            ret << _(" (hot)");
     }
-    else if (is_food_container())
-    {
-        food = &contents[0];
-        food_type = dynamic_cast<it_comest*>(contents[0].type);
-    }
-    if (food != NULL && g != NULL && food_type->spoils != 0 &&
-    int(g->turn) < (int)(food->bday + 100))
-        ret << _(" (fresh)");
-    if (food != NULL && g != NULL && food->has_flag("HOT"))
-        ret << _(" (hot)");
-    if (food != NULL && g != NULL && food_type->spoils != 0 &&
-        food->rotten(g))
-        ret << _(" (rotten)");
 
     if (has_flag("FIT")) {
         ret << _(" (fits)");
@@ -1174,21 +1197,28 @@ int item::has_gunmod(itype_id mod_type)
 
 bool item::rotten(game *g)
 {
-    int expiry;
     if (!is_food() || g == NULL)
         return false;
     it_comest* food = dynamic_cast<it_comest*>(type);
     if (food->spoils != 0) {
-      it_comest* food = dynamic_cast<it_comest*>(type);
-      if (fridge > 0) {
-        // Add the number of turns we should get from refrigeration
-        bday += ((int)g->turn - fridge) * 0.8;
-        fridge = 0;
+      if ( last_rot_check+10 < int(g->turn) ) {
+          const int since = ( last_rot_check == 0 ? (int)bday : last_rot_check );
+          const int until = ( fridge > 0 ? fridge : int(g->turn) );
+          if ( since < until ) {
+              int old = rot;
+              rot += get_rot_since( since, until );
+              if (g->debugmon) g->add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
+          }
+          last_rot_check = int(g->turn);          
+
+          if (fridge > 0) {
+            // Flat 20%
+            rot += (until - fridge) * 0.2;
+            fridge = 0;
+          }
       }
-      expiry = (int)g->turn - bday;
-      return (expiry > food->spoils * 600);
-    }
-    else {
+      return (rot > (signed int)food->spoils * 600);
+    } else {
       return false;
     }
 }
@@ -1502,6 +1532,7 @@ bool item::is_silent() const
    curammo->type == "bolt" || // crossbows
    curammo->type == "arrow" ||// bows
    curammo->type == "pebble" ||// sling[shot]
+   curammo->type == "fishspear" ||// speargun spears
    curammo->type == "dart"     // blowguns and such
  );
 }
@@ -1767,10 +1798,11 @@ int item::sort_rank() const
 
 bool item::operator<(const item& other) const
 {
-    int my_rank = sort_rank();
-    int other_rank = other.sort_rank();
-    if (my_rank == other_rank)
-    {
+    const item_category &cat_a = get_category();
+    const item_category &cat_b = other.get_category();
+    if(cat_a != cat_b) {
+        return cat_a < cat_b;
+    } else {
         const item *me = is_container() && contents.size() > 0 ? &contents[0] : this;
         const item *rhs = other.is_container() && other.contents.size() > 0 ? &other.contents[0] : &other;
 
@@ -1782,10 +1814,6 @@ bool item::operator<(const item& other) const
         {
             return me->type->id < rhs->type->id;
         }
-    }
-    else
-    {
-        return sort_rank() < other.sort_rank();
     }
 }
 
@@ -2120,14 +2148,14 @@ ammotype item::ammo_type() const
     return "NULL";
 }
 
-char item::pick_reload_ammo(player &u, bool interactive)
+int item::pick_reload_ammo(player &u, bool interactive)
 {
  if( is_null() )
-  return false;
+  return INT_MIN;
 
  if (!type->is_gun() && !type->is_tool()) {
   debugmsg("RELOADING NON-GUN NON-TOOL");
-  return false;
+  return INT_MIN;
  }
  int has_spare_mag = has_gunmod ("spare_mag");
 
@@ -2136,13 +2164,13 @@ char item::pick_reload_ammo(player &u, bool interactive)
  if (type->is_gun()) {
   if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
    // Special return to use magazine for reloading.
-   return -2;
+   return INT_MIN + 1;
   }
   it_gun* tmp = dynamic_cast<it_gun*>(type);
 
   // If there's room to load more ammo into the gun or a spare mag, stash the ammo.
   // If the gun is partially loaded make sure the ammo matches.
-  // If the gun is empty, either the spre mag is empty too and anything goes,
+  // If the gun is empty, either the spare mag is empty too and anything goes,
   // or the spare mag is loaded and we're doing a tactical reload.
   if (charges < clip_size() ||
       (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
@@ -2176,7 +2204,7 @@ char item::pick_reload_ammo(player &u, bool interactive)
  }
 
 
- char am_invlet = 0;
+ int am_pos = INT_MIN;
 
  if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
      uimenu amenu;
@@ -2210,29 +2238,23 @@ char item::pick_reload_ammo(player &u, bool interactive)
      }
      amenu.query();
      if ( amenu.ret >= 0 ) {
-        am_invlet = am[ amenu.ret ]->invlet;
+        am_pos = g->u.get_item_position(am[ amenu.ret ]);
         uistate.lastreload[ ammo_type() ] = am[ amenu.ret ]->typeId();
      }
  }
  // Either only one valid choice or chosing for a NPC, just return the first.
  else if (am.size() > 0){
-  am_invlet = am[0]->invlet;
+     am_pos = g->u.get_item_position(am[0]);
  }
- return am_invlet;
+ return am_pos;
 }
 
-bool item::reload(player &u, char ammo_invlet)
+bool item::reload(player &u, int pos)
 {
  bool single_load = false;
  int max_load = 1;
  item *reload_target = NULL;
- item *ammo_to_use = (ammo_invlet != 0 ? &u.inv.item_by_letter(ammo_invlet) : NULL);
-
- // also check if wielding ammo
- if (ammo_to_use == NULL || ammo_to_use->is_null()) {
-     if (u.is_armed() && u.weapon.is_ammo() && u.weapon.invlet == ammo_invlet)
-         ammo_to_use = &u.weapon;
- }
+ item *ammo_to_use = &u.i_at(pos);
 
  // Handle ammo in containers, currently only gasoline
  if(ammo_to_use && ammo_to_use->is_container())
@@ -2305,7 +2327,7 @@ bool item::reload(player &u, char ammo_invlet)
   max_load *= 2;
  }
 
- if (ammo_invlet > 0) {
+ if (pos != INT_MIN) {
   // If the gun is currently loaded with a different type of ammo, reloading fails
   if ((reload_target->is_gun() || reload_target->is_gunmod()) &&
       reload_target->charges > 0 &&
@@ -2344,12 +2366,8 @@ bool item::reload(player &u, char ammo_invlet)
       {
           ammo_to_use->contents.erase(ammo_to_use->contents.begin());
       }
-      else if (u.weapon.invlet == ammo_to_use->invlet) {
-          u.remove_weapon();
-      }
-      else
-      {
-          u.i_remn(ammo_invlet);
+      else {
+          u.i_rem(pos);
       }
   }
   return true;
@@ -2562,4 +2580,32 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
     }
 
     return remaining_capacity;
+}
+
+const item_category &item::get_category() const
+{
+    if(is_container() && !contents.empty()) {
+        return contents[0].get_category();
+    }
+    if(type != 0) {
+        if(type->category == 0) {
+            // Category not set? Set it now.
+            itype *t = const_cast<itype *>(type);
+            t->category = item_controller->get_category(item_controller->calc_category(t));
+        }
+        return *type->category;
+    }
+    // null-item -> null-category
+    static item_category null_category;
+    return null_category;
+}
+
+bool item_matches_locator(const item& it, const itype_id& id, int item_pos) {
+    return it.typeId() == id;
+}
+bool item_matches_locator(const item& it, int locator_pos, int item_pos) {
+    return item_pos == locator_pos;
+}
+bool item_matches_locator(const item& it, char invlet, int item_pos) {
+    return it.invlet == invlet;
 }

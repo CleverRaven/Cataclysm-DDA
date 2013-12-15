@@ -15,7 +15,6 @@
 enum dis_type_enum {
  DI_NULL,
 // Weather
- DI_GLARE, DI_WET,
 // Temperature, the order is important (dependant on bodypart.h)
  DI_COLD,
  DI_FROSTBITE,
@@ -24,13 +23,13 @@ enum dis_type_enum {
 // Diseases
  DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER,
-// Fields
- DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
+// Fields - onfire moved to effects
+ DI_CRUSHED, DI_BOULDERING,
 // Monsters
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
- DI_DEAF, DI_BLIND,
+ DI_DEAF,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
- DI_POISON, DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
+ DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
  DI_WEBBED,
  DI_RAT, DI_BITE,
@@ -52,14 +51,15 @@ enum dis_type_enum {
 // NPC-only
  DI_CATCH_UP,
  // Contact lenses
- DI_CONTACTS
+ DI_CONTACTS,
+ // Lack/sleep
+ DI_LACKSLEEP
 };
 
 std::map<std::string, dis_type_enum> disease_type_lookup;
 
 // Todo: Move helper functions into a DiseaseHandler Class.
 // Should standardize parameters so we can make function pointers.
-static void manage_fire_exposure(player& p, int fireStrength = 1);
 static void manage_fungal_infection(player& p, disease& dis);
 static void manage_sleep(player& p, disease& dis);
 
@@ -67,7 +67,7 @@ static void handle_alcohol(player& p, disease& dis);
 static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
 static void handle_recovery(player& p, disease& dis);
-static void handle_cough(player& p, int volume = 12);
+static void handle_cough(player& p, int intensity = 1, int volume = 12);
 static void handle_deliriant(player& p, disease& dis);
 static void handle_evil(player& p, disease& dis);
 static void handle_insect_parasites(player& p, disease& dis);
@@ -78,8 +78,6 @@ void game::init_diseases() {
     // Initialize the disease lookup table.
 
     disease_type_lookup["null"] = DI_NULL;
-    disease_type_lookup["glare"] = DI_GLARE;
-    disease_type_lookup["wet"] = DI_WET;
     disease_type_lookup["cold"] = DI_COLD;
     disease_type_lookup["frostbite"] = DI_FROSTBITE;
     disease_type_lookup["hot"] = DI_HOT;
@@ -88,9 +86,6 @@ void game::init_diseases() {
     disease_type_lookup["common_cold"] = DI_COMMON_COLD;
     disease_type_lookup["flu"] = DI_FLU;
     disease_type_lookup["recover"] = DI_RECOVER;
-    disease_type_lookup["smoke"] = DI_SMOKE;
-    disease_type_lookup["onfire"] = DI_ONFIRE;
-    disease_type_lookup["teargas"] = DI_TEARGAS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
     disease_type_lookup["boomered"] = DI_BOOMERED;
@@ -99,11 +94,9 @@ void game::init_diseases() {
     disease_type_lookup["fungus"] = DI_FUNGUS;
     disease_type_lookup["slimed"] = DI_SLIMED;
     disease_type_lookup["deaf"] = DI_DEAF;
-    disease_type_lookup["blind"] = DI_BLIND;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
-    disease_type_lookup["poison"] = DI_POISON;
     disease_type_lookup["bleed"] = DI_BLEED;
     disease_type_lookup["badpoison"] = DI_BADPOISON;
     disease_type_lookup["paralyzepoison"] = DI_PARALYZEPOISON;
@@ -157,17 +150,12 @@ void game::init_diseases() {
     disease_type_lookup["weed_high"] = DI_WEED_HIGH;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
     disease_type_lookup["contacts"] = DI_CONTACTS;
+    disease_type_lookup["lack_sleep"] = DI_LACKSLEEP;
 }
 
 void dis_msg(dis_type type_string) {
     dis_type_enum type = disease_type_lookup[type_string];
     switch (type) {
-    case DI_GLARE:
-        g->add_msg(_("The sunlight's glare makes it hard to see."));
-        break;
-    case DI_WET:
-        g->add_msg(_("You're getting soaked!"));
-        break;
     case DI_COMMON_COLD:
         g->add_msg(_("You feel a cold coming on..."));
         g->u.add_memorial_log(_("Caught a cold."));
@@ -175,16 +163,6 @@ void dis_msg(dis_type type_string) {
     case DI_FLU:
         g->add_msg(_("You feel a flu coming on..."));
         g->u.add_memorial_log(_("Caught the flu."));
-        break;
-    case DI_ONFIRE:
-        g->add_msg(_("You're on fire!"));
-        g->u.add_memorial_log(_("Caught on fire."));
-        break;
-    case DI_SMOKE:
-        g->add_msg(_("You inhale a lungful of thick smoke."));
-        break;
-    case DI_TEARGAS:
-        g->add_msg(_("You inhale a lungful of tear gas."));
         break;
     case DI_CRUSHED:
         g->add_msg(_("The ceiling collapses on you!"));
@@ -227,9 +205,6 @@ void dis_msg(dis_type type_string) {
     case DI_DEAF:
         g->add_msg(_("You're deafened!"));
         break;
-    case DI_BLIND:
-        g->add_msg(_("You're blinded!"));
-        break;
     case DI_STUNNED:
         g->add_msg(_("You're stunned!"));
         break;
@@ -259,6 +234,9 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_CONTACTS:
         g->add_msg(_("You can see more clearly."));
+        break;
+    case DI_LACKSLEEP:
+        g->add_msg(_("You are too tired to function well."));
         break;
     default:
         break;
@@ -290,9 +268,6 @@ void dis_remove_memorial(dis_type type_string) {
     case DI_FLU:
       g->u.add_memorial_log(_("Got over the flu."));
       break;
-    case DI_ONFIRE:
-      g->u.add_memorial_log(_("Put out the fire."));
-      break;
     case DI_FUNGUS:
       g->u.add_memorial_log(_("Cured the fungal infection."));
       break;
@@ -309,23 +284,12 @@ void dis_remove_memorial(dis_type type_string) {
 void dis_effect(player &p, disease &dis) {
     bool sleeping = p.has_disease("sleep");
     bool tempMsgTrigger = one_in(400);
-    int bonus, psnChance;
+    int bonus;
     dis_type_enum disType = disease_type_lookup[dis.type];
     int grackPower = 500;
     bool inflictBadPsnPain = (!p.has_trait("POISRESIST") && one_in(100)) ||
                                 (p.has_trait("POISRESIST") && one_in(500));
     switch(disType) {
-        case DI_GLARE:
-            p.per_cur -= 1;
-            if (one_in(200)) {
-                g->add_msg(_("The sunlight's glare makes it hard to see."));
-            }
-            break;
-
-        case DI_WET:
-            p.add_morale(MORALE_WET, -1, -50, 60, 10);
-            break;
-
         case DI_COLD:
             switch(dis.bp) {
                 case bp_head:
@@ -695,32 +659,6 @@ void dis_effect(player &p, disease &dis) {
             }
             break;
 
-        case DI_SMOKE:
-        // A hard limit on the duration of the smoke disease.
-            if( dis.duration >= 600) {
-                dis.duration = 600;
-            }
-            p.str_cur--;
-            p.dex_cur--;
-            p.per_cur--;
-            if (dis.duration >= 10 && one_in(6)) {
-                handle_cough(p);
-            }
-            break;
-
-        case DI_TEARGAS:
-            p.str_cur -= 2;
-            p.dex_cur -= 2;
-            p.per_cur -= 5;
-            if (one_in(3)) {
-                handle_cough(p);
-            }
-            break;
-
-        case DI_ONFIRE:
-            manage_fire_exposure(p, 1);
-            break;
-
         case DI_CRUSHED:
             p.hurtall(10);
             /*  This could be developed on later, for instance
@@ -801,7 +739,14 @@ void dis_effect(player &p, disease &dis) {
                         g->add_msg(_("You use your %s to keep warm."), item_name.c_str());
                     }
                 }
-                p.fall_asleep(6000);
+                if (p.has_trait("HIBERNATE") && (p.hunger < -60)) {
+                p.add_memorial_log(_("Entered hibernation."));
+                p.fall_asleep(144000); // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
+                }                     // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
+                                     // In practice, the fatigue from filling the tank from (no msg) to Time For Bed will last about 8 days.
+                if (p.hunger >= -60) {
+                p.fall_asleep(6000); //10 hours, default max sleep time.
+                }
             }
             if (dis.duration == 1 && !p.has_disease("sleep")) {
                 g->add_msg_if_player(&p,_("You try to sleep, but can't..."));
@@ -910,23 +855,6 @@ void dis_effect(player &p, disease &dis) {
             p.str_cur--;
             p.dex_cur--;
             p.per_cur--;
-            break;
-
-        case DI_POISON:
-            psnChance = 150;
-            if (p.has_trait("POISRESIST")) {
-                psnChance *= 6;
-            } else {
-                p.str_cur -= 2;
-                p.dex_cur--;
-            }
-            if (one_in(psnChance)) {
-                g->add_msg_if_player(&p,_("You're suddenly wracked with pain!"));
-                p.pain++;
-                p.hurt(g, bp_torso, -1, rng(0, 2) * rng(0, 1));
-            }
-            p.per_cur--;
-            p.dex_cur--;
             break;
 
         case DI_BLEED:
@@ -1205,7 +1133,7 @@ void dis_effect(player &p, disease &dis) {
                 }
                 if (one_in(12000 - dis.duration)) {
                     g->add_msg_if_player(&p,_("Your vision is filled with bright lights..."));
-                    p.add_disease("blind", rng(10, 20));
+                    p.add_effect("blind", rng(10, 20));
                     if (one_in(8)) {
                         p.rem_disease("teleglow");
                     }
@@ -1296,6 +1224,13 @@ void dis_effect(player &p, disease &dis) {
                 p.rem_disease(dis.type);
               }
             }
+            break;
+            
+        case DI_LACKSLEEP:
+            p.str_cur -= 1;
+            p.dex_cur -= 1;
+            p.int_cur -= 2;
+            p.per_cur -= 2;
             break;
     }
 }
@@ -1393,6 +1328,7 @@ int disease_speed_boost(disease dis)
         case DI_GRACK:      return +20000;
         case DI_METH:       return (dis.duration > 600 ? 50 : -40);
         case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
+        case DI_LACKSLEEP:  return -5;
         default:;
    }
     return 0;
@@ -1404,7 +1340,6 @@ std::string dis_name(disease& dis)
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
     case DI_NULL: return "";
-    case DI_GLARE: return _("Glare");
     case DI_COLD:
         switch (dis.bp) {
             case bp_head:
@@ -1518,9 +1453,6 @@ std::string dis_name(disease& dis)
 
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
-    case DI_SMOKE: return _("Smoke");
-    case DI_TEARGAS: return _("Tear gas");
-    case DI_ONFIRE: return _("On Fire");
     case DI_BOOMERED: return _("Boomered");
     case DI_SAP: return _("Sap-coated");
 
@@ -1559,10 +1491,8 @@ std::string dis_name(disease& dis)
 
     case DI_SLIMED: return _("Slimed");
     case DI_DEAF: return _("Deaf");
-    case DI_BLIND: return _("Blind");
     case DI_STUNNED: return _("Stunned");
     case DI_DOWNED: return _("Downed");
-    case DI_POISON: return _("Poisoned");
     case DI_BLEED:
     {
         std::string status = "";
@@ -1767,6 +1697,8 @@ std::string dis_name(disease& dis)
         } else
           return "Invalid martial arts buff";
 
+    case DI_LACKSLEEP: return _("Lacking Sleep");
+          
     default:;
     }
     return "";
@@ -1798,10 +1730,6 @@ std::string dis_description(disease& dis)
 
     case DI_NULL:
         return _("None");
-
-    case DI_GLARE:
-        stream << _("Perception - 1");
-        return stream.str();
 
     case DI_COLD:
         switch(dis.bp) {
@@ -1963,23 +1891,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         "Strength - 4;   Dexterity - 2;   Intelligence - 2;   Perception - 1\n"
         "Symptoms alleviated by medication (Dayquil or Nyquil).");
 
-    case DI_SMOKE:
-        return _(
-        "Strength - 1;   Dexterity - 1;\n"
-        "Occasionally you will cough, costing movement and creating noise.\n"
-        "Loss of health - Torso");
-
-    case DI_TEARGAS:
-        return _(
-        "Strength - 2;   Dexterity - 2;   Intelligence - 1;   Perception - 4\n"
-        "Occasionally you will cough, costing movement and creating noise.\n"
-        "Loss of health - Torso");
-
-    case DI_ONFIRE:
-        return _(
-        "Loss of health - Entire Body\n"
-        "Your clothing and other equipment may be consumed by the flames.");
-
     case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 
     case DI_BOULDERING:
@@ -2021,17 +1932,9 @@ Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_DEAF: return _("Sounds will not be reported.  You cannot talk with NPCs.");
 
-    case DI_BLIND:
-        return _("Range of Sight: 0");
-
     case DI_STUNNED: return _("Your movement is randomized.");
 
     case DI_DOWNED: return _("You're knocked to the ground.  You have to get up before you can move.");
-
-    case DI_POISON:
-        return _(
-        "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\n"
-        "Occasional pain and/or damage.");
 
     case DI_BLEED:
         switch (dis.intensity) {
@@ -2208,24 +2111,12 @@ condition, and deals massive damage.");
         else
           return "This is probably a bug.";
 
+    case DI_LACKSLEEP: return _("You haven't slept in a while, and it shows. \n\
+    You can't move as quickly and your stats just aren't where they should be.");
+   
     default:;
     }
     return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
-}
-
-void manage_fire_exposure(player &p, int fireStrength) {
-    // TODO: this should be determined by material properties
-    p.hurtall(3*fireStrength);
-    for (int i = 0; i < p.worn.size(); i++) {
-        item tmp = p.worn[i];
-        bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
-        bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10*fireStrength));
-        bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50*fireStrength));
-        if (burnVeggy || burnFabric || burnPlastic) {
-            p.worn.erase(p.worn.begin() + i);
-            i--;
-        }
-    }
 }
 
 void manage_fungal_infection(player& p, disease& dis) {
@@ -2307,9 +2198,14 @@ void manage_fungal_infection(player& p, disease& dis) {
 
 void manage_sleep(player& p, disease& dis) {
     p.moves = 0;
-    if(int(g->turn) % 50 == 0) {
-        int recovery_chance;
-        // Accelerated recovery capped to 2x over 2 hours
+    // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here as a safety catch
+    // One test subject managed to get two Colds during hibernation; since those add fatigue and dry out the character,
+    // the subject went for the full 10 days plus a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
+    // life like that--but since there's much less fluid reserve than food reserve, simply using the same numbers won't work.
+    
+    if((int(g->turn) % 350 == 0) && p.has_trait("HIBERNATE") && (p.hunger < -60) && !(p.thirst >= 80)) {
+        int recovery_chance; // Hibernators' metabolism slows down: you heal and recover Fatigue much more slowly
+        // Accelerated recovery capped to 2x over 2 hours...well, it was ;-P
         // After 16 hours of activity, equal to 7.25 hours of rest
         if (dis.intensity < 24) {
             dis.intensity++;
@@ -2326,6 +2222,47 @@ void manage_sleep(player& p, disease& dis) {
             p.healall(1 + one_in(2));
         } else if (p.has_trait("REGEN")) {
             p.healall(2);
+        } else if (p.has_trait("SLOWHEALER")) {
+            p.healall(one_in(8));
+        } else {
+            p.healall(one_in(4));
+        }
+
+        if (p.fatigue <= 0 && p.fatigue > -20) {
+            p.fatigue = -25;
+            g->add_msg(_("You feel well rested."));
+            dis.duration = dice(3, 100);
+            p.add_memorial_log(_("Awoke from hibernation."));
+        }
+    }
+    
+    //If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.  See above.  No log note for you. :-/
+    if((int(g->turn) % 50 == 0) && (!(p.hunger < -60) || (p.thirst >= 80))) {
+        int recovery_chance;
+        // Accelerated recovery capped to 2x over 2 hours
+        // After 16 hours of activity, equal to 7.25 hours of rest
+        if (dis.intensity < 24) {
+            dis.intensity++;
+        } else if (dis.intensity < 1) {
+            dis.intensity = 1;
+        }
+        recovery_chance = 24 - dis.intensity + 1;
+        if (p.fatigue > 0) {
+            p.fatigue -= 1 + one_in(recovery_chance);
+            // You fatigue & recover faster with Sleepy
+            // Very Sleepy, you just fatigue faster
+            if (p.has_trait("SLEEPY")) {
+                p.fatigue -=(1 + one_in(recovery_chance) / 2);
+            }
+        }
+        if (p.has_trait("FASTHEALER")) {
+            p.healall(1);
+        } else if (p.has_trait("FASTHEALER2")) {
+            p.healall(1 + one_in(2));
+        } else if (p.has_trait("REGEN")) {
+            p.healall(2);
+        } else if (p.has_trait("SLOWHEALER")) {
+            p.healall(one_in(8));
         } else {
             p.healall(one_in(4));
         }
@@ -2337,8 +2274,17 @@ void manage_sleep(player& p, disease& dis) {
         }
     }
 
-    if (int(g->turn) % 100 == 0 && !p.has_bionic("bio_recycler")) {
-        // Hunger and thirst advance more slowly while we sleep.
+    if (int(g->turn) % 100 == 0 && !p.has_bionic("bio_recycler") && !(p.hunger < -60)) {
+        // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
+        p.hunger--;
+        p.thirst--;
+    }
+    
+        // Hunger and thirst advance *much* more slowly whilst we hibernate.  (int (g->turn) % 50 would be zero burn.)
+        // Very Thirsty catch deliberately NOT applied here, to fend off Dehydration debuffs until the char wakes.
+        // This was time-trial'd quite thoroughly, so kindly don't "rebalance" without a good explanation and taking a night
+        // to make sure it works with the extended sleep duration, OK?
+    if (int(g->turn) % 70 == 0 && !p.has_bionic("bio_recycler") && (p.hunger < -60)) {
         p.hunger--;
         p.thirst--;
     }
@@ -2368,6 +2314,18 @@ void manage_sleep(player& p, disease& dis) {
     }
 
     int tirednessVal = rng(5, 200) + rng(0,abs(p.fatigue * 2 * 5));
+    if (p.has_trait("HEAVYSLEEPER2") && !p.has_trait("HIBERNATE")) { // So you can too sleep through noon
+        if ((tirednessVal * 1.25) < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
+        g->add_msg(_("The light wakes you up."));
+        dis.duration = 1;
+        }
+        return;}
+    if (p.has_trait("HIBERNATE")) { // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
+        if ((tirednessVal * 5) < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
+        g->add_msg(_("The light wakes you up."));
+        dis.duration = 1;
+        }
+        return;}
     if (tirednessVal < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
         g->add_msg(_("The light wakes you up."));
         dis.duration = 1;
@@ -2610,7 +2568,7 @@ static void handle_recovery(player& p, disease& dis) {
     }
 }
 
-static void handle_cough(player &p, int loudness) {
+static void handle_cough(player &p, int intensity, int loudness) {
     if (!p.is_npc()) {
         g->add_msg(_("You cough heavily."));
         g->sound(p.posx, p.posy, loudness, "");
@@ -2804,6 +2762,6 @@ bool will_vomit(player& p, int chance) {
     bool antiEmetics = p.has_disease("weed_high");
     bool hasNausea = p.has_trait("NAUSEA") && one_in(chance*2);
     bool stomachUpset = p.has_trait("WEAKSTOMACH") && one_in(chance*3);
-    bool suppressed = antiEmetics && !drunk && !one_in(chance);
+    bool suppressed = (p.has_trait("STRONGSTOMACH") && one_in(2)) || (antiEmetics && !drunk && !one_in(chance));
     return ((stomachUpset || hasNausea) && !suppressed);
 }

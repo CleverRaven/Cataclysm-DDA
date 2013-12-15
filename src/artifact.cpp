@@ -788,7 +788,7 @@ void load_artifacts(const std::string &artfilename, itypemap &itypes)
     }
 
     try {
-        load_artifacts_from_ifstream(&file_test, itypes);
+        load_artifacts_from_ifstream(file_test, itypes);
     } catch (std::string e) {
         debugmsg("%s: %s", artfilename.c_str(), e.c_str());
     }
@@ -796,7 +796,7 @@ void load_artifacts(const std::string &artfilename, itypemap &itypes)
     file_test.close();
 }
 
-void load_artifacts_from_ifstream(std::ifstream *f, itypemap &itypes)
+void load_artifacts_from_ifstream(std::ifstream &f, itypemap &itypes)
 {
     // delete current artefact ids
     artifact_itype_ids.clear();

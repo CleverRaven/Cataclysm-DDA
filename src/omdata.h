@@ -30,7 +30,6 @@ struct oter_t {
     bool allow_road;
     bool is_river;
     bool is_road;
-    // std::vector<mapgen_function_pointer> mapgen;
     // bool disable_default_mapgen;
     // automatically set. We can be wasteful of memory here for num_oters * sizeof(extrastuff), if it'll save us from thousands of string ops
     std::string id_base; // base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
@@ -38,6 +37,8 @@ struct oter_t {
     std::vector<int> directional_peers; // fast reliable (?) method of determining whatever_west, etc.
     bool rotates; // lazy for; directional_peers.size() == 4
     bool line_drawing; // lazy for; directional_peers.size() == 8
+    std::string id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.
+
     oter_t& operator=(const oter_t right){
         id = right.id;
         loadid = right.loadid;
@@ -54,12 +55,12 @@ struct oter_t {
         allow_road = right.allow_road;
         is_river = right.is_river;
         is_road = right.is_road;
-        //mapgen = right.mapgen;
         //disable_default_mapgen = right.disable_default_mapgen;
         loadid_base = right.loadid_base;
         directional_peers = right.directional_peers;
         rotates = right.rotates;
         line_drawing = right.line_drawing;
+        id_mapgen = right.id_mapgen;
         return *this;
     }
 };

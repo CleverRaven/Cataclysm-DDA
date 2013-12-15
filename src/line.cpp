@@ -4,7 +4,7 @@
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 
-std::vector <point> line_to(int x1, int y1, int x2, int y2, int t)
+std::vector <point> line_to(const int x1, const int y1, const int x2, const int y2, int t)
 {
  std::vector<point> ret;
  // Preallocate the number of cells we need instead of allocating them piecewise.
@@ -62,17 +62,17 @@ std::vector <point> line_to(int x1, int y1, int x2, int y2, int t)
  return ret;
 }
 
-int trig_dist(int x1, int y1, int x2, int y2)
+int trig_dist(const int x1, const int y1, const int x2, const int y2)
 {
    return int( sqrt( double( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) ) ) );
 }
 
-int square_dist(int x1, int y1, int x2, int y2) {
-   int dx = abs(x1 - x2), dy = abs(y1 - y2);
+int square_dist(const int x1, const int y1, const int x2, const int y2) {
+   const int dx = abs(x1 - x2), dy = abs(y1 - y2);
    return ( dx > dy ? dx : dy );
 }
 
-int rl_dist(int x1, int y1, int x2, int y2)
+int rl_dist(const int x1, const int y1, const int x2, const int y2)
 {
  if(trigdist) {
      return trig_dist( x1, y1, x2, y2 );
@@ -85,7 +85,7 @@ int rl_dist(point a, point b)
  return rl_dist(a.x, a.y, b.x, b.y);
 }
 
-double slope_of(std::vector<point> line)
+double slope_of(const std::vector<point> & line)
 {
  double dX = line.back().x - line.front().x, dY = line.back().y - line.front().y;
  if (dX == 0)
@@ -93,7 +93,7 @@ double slope_of(std::vector<point> line)
  return (dY / dX);
 }
 
-std::vector<point> continue_line(std::vector<point> line, int distance)
+std::vector<point> continue_line(const std::vector<point> & line, const int distance)
 {
  point start = line.back(), end = line.back();
  double slope = slope_of(line);

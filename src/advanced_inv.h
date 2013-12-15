@@ -22,17 +22,21 @@ struct advanced_inv_area {
     int max_size, max_volume;
 };
 
+// see item_factory.h
+class item_category;
+
 // for printing items in environment
 struct advanced_inv_listitem {
     int idx;
     int area;
     item *it;
     std::string name;
+    std::string name_without_prefix;
     bool autopickup;
     int stacks;
     int volume;
     int weight;
-    int cat;
+    const item_category *cat;
 };
 
 class advanced_inventory_pane {
@@ -79,6 +83,7 @@ class advanced_inventory
 
     bool checkshowmsg;
     bool showmsg;
+	bool inCategoryMode;
 
     int itemsPerPage;
     int w_height;
@@ -96,7 +101,6 @@ class advanced_inventory
 
     int src;// = left; // the active screen , 0 for left , 1 for right.
     int dest;// = right;
-    int max_inv;// = inv_chars.size() - u.worn.size() - ( u.is_armed() ? 1 : 0 );
     bool examineScroll;// = false;
     bool filter_edit;
 

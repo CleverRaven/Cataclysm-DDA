@@ -1,63 +1,18 @@
 #include "json.h"
 
+#include <cmath> // pow
 #include <cstdlib> // strtoul
 #include <cstring> // strcmp
-#include <cmath> // pow
-#include <istream>
 #include <fstream>
-#include <vector>
-#include <string>
-#include <sstream>
-#include <set>
+#include <istream>
 #include <locale> // ensure user's locale doesn't interfere with output
+#include <set>
+#include <sstream>
+#include <string>
+#include <vector>
 
-/* JSON parsing and serialization tools for Cataclysm-DDA
- * ~
- * These tools are intended to support the following use cases:
- * (1) loading game data from .json files,
- * (2) serializing data to JSON for game saving,
- * (3) loading JSON data from game save files.
- * ~
- * For (1), files are assumed to be either a single object,
- * or an array of objects. Each object must have a "type" member,
- * indicating the internal data type it is intended to represent.
- * Object members should be named in accord with the names used
- * in the equivalent C++ struct or class.
- * ~
- * An example object might look something like the following:
- * {
- *     "type" : "tool",
- *     "id" : "mop",
- *     "name" : "mop",
- *     "description": "An unwieldy mop. Good for cleaning up spills."
- * }
- * ~
- * A central dispatcher (init.cpp) will load each .json file,
- * construct a JsonObject instance to represent each object in the file,
- * then send the JsonObject to the appropriate data constructor,
- * according to its "type" member.
- * ~
- * Object constructors can use the JsonObject class to construct from JSON.
- * The type of each member must be inferrable from the object "type",
- * and each should be parsed expecting the correct datatype.
- * If it fails, it's an error.
- * ~
- * Members not present in JSON should be left with their default values.
- * ~
- * Members named "name", "description", "sound", "text" and "message"
- * will be automatically made available for translation.
- * ~
- * Other members that need translating must be special-cased in
- * lang/extract_json_strings.py.
- * ~
- * For (2), objects will be serialized to a compatible format,
- * for use within player save files.
- * ~
- * For (3), objects will be loaded in a similar fashion to (1).
- * ~
- * For (2) and (3), a similar parser/dispatcher can be used,
- * but the container format needn't be pure JSON.
- */
+// JSON parsing and serialization tools for Cataclysm-DDA.
+// For documentation, see the included header, json.h.
 
 bool is_whitespace(char ch)
 {
@@ -112,9 +67,9 @@ std::string utf16_to_utf8(unsigned ch) {
  * represents a JSON object,
  * providing access to the underlying data.
  */
-JsonObject::JsonObject(JsonIn *j) : positions()
+JsonObject::JsonObject(JsonIn &j) : positions()
 {
-    jsin = j;
+    jsin = &j;
     start = jsin->tell();
     // cache the position of the value for each member
     jsin->start_object();
@@ -303,7 +258,7 @@ JsonArray JsonObject::get_array(const std::string &name)
         return JsonArray(); // empty array
     }
     jsin->seek(pos);
-    return JsonArray(jsin);
+    return JsonArray(*jsin);
 }
 
 std::vector<int> JsonObject::get_int_array(const std::string &name)
@@ -442,9 +397,9 @@ bool JsonObject::has_object(const std::string &name)
  * represents a JSON array,
  * providing access to the underlying data.
  */
-JsonArray::JsonArray(JsonIn *j) : positions()
+JsonArray::JsonArray(JsonIn &j) : positions()
 {
-    jsin = j;
+    jsin = &j;
     start = jsin->tell();
     index = 0;
     // cache the position of each element
@@ -700,8 +655,8 @@ bool JsonArray::has_object(int i)
  * represents an istream of JSON data,
  * allowing easy extraction into c++ datatypes.
  */
-JsonIn::JsonIn(std::istream *s, bool strict) :
-    stream(s), strict(strict), ate_separator(false)
+JsonIn::JsonIn(std::istream &s, bool strict) :
+    stream(&s), strict(strict), ate_separator(false)
 {
 }
 
@@ -1118,8 +1073,8 @@ bool JsonIn::get_bool()
     throw (std::string)"warnings are silly";
 }
 
-JsonObject JsonIn::get_object() { return JsonObject(this); }
-JsonArray JsonIn::get_array() { return JsonArray(this); }
+JsonObject JsonIn::get_object() { return JsonObject(*this); }
+JsonArray JsonIn::get_array() { return JsonArray(*this); }
 
 void JsonIn::start_array()
 {
@@ -1467,8 +1422,8 @@ std::string JsonIn::substr(size_t pos, size_t len)
  * represents an ostream of JSON data,
  * allowing easy serialization of c++ datatypes.
  */
-JsonOut::JsonOut(std::ostream *s, bool pretty)
-    :   stream(s), pretty_print(pretty), need_separator(false), indent_level(0)
+JsonOut::JsonOut(std::ostream &s, bool pretty)
+    :   stream(&s), pretty_print(pretty), need_separator(false), indent_level(0)
 {
     // ensure user's locale doesn't interfere with number format
     stream->imbue(std::locale::classic());

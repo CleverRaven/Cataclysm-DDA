@@ -268,7 +268,7 @@ void cata_tiles::load_tilejson(std::string path)
     }
 
     try {
-        load_tilejson_from_file(&config_file);
+        load_tilejson_from_file( config_file );
     } catch (std::string e) {
         debugmsg("%s: %s", path.c_str(), e.c_str());
     }
@@ -276,7 +276,7 @@ void cata_tiles::load_tilejson(std::string path)
     config_file.close();
 }
 
-void cata_tiles::load_tilejson_from_file(std::ifstream *f)
+void cata_tiles::load_tilejson_from_file(std::ifstream &f)
 {
     JsonIn config_json(f);
     // it's all one json object

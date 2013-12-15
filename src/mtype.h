@@ -37,7 +37,7 @@ enum mon_id {
     mon_zombie_fast, mon_zombie_brute, mon_zombie_hulk, mon_zombie_fungus,
     mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
     mon_zombie_scientist, mon_zombie_soldier, mon_zombie_grabber,
-    mon_zombie_master,  mon_beekeeper, mon_zombie_child,
+    mon_zombie_master,  mon_beekeeper, mon_zombie_child, mon_zombie_fireman,
     // Flesh Golem
     mon_jabberwock,
     // Triffids
@@ -91,6 +91,8 @@ enum mon_id {
     mon_mink, mon_muskrat, mon_otter, mon_pig,
     mon_sheep, mon_shrew, mon_squirrel_red,
     mon_weasel,
+	// 0.9 -> 0.10
+	mon_dog_skeleton, mon_dog_zombie_cop, mon_dog_zombie_rot,
     num_monsters
 };
 

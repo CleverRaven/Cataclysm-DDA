@@ -559,11 +559,12 @@ bool map::vehproceed(game* g){
     int dmg_1 = 0;
 
     std::vector<veh_collision> veh_veh_colls;
+    std::vector<veh_collision> veh_misc_colls;
 
     if (veh->velocity == 0) { can_move = false; }
     // find collisions
     int vel1 = veh->velocity/100; //velocity of car before collision
-    veh->collision( veh_veh_colls, dx, dy, can_move, dmg_1 );
+    veh->collision( veh_veh_colls, veh_misc_colls, dx, dy, can_move, dmg_1 );
 
     bool veh_veh_coll_flag = false;
     // Used to calculate the epicenter of the collision.
@@ -700,15 +701,21 @@ bool map::vehproceed(game* g){
         veh2->of_turn = avg_of_turn * 1.1;
     }
 
+    for(std::vector<veh_collision>::iterator next_collision = veh_misc_colls.begin();
+            next_collision != veh_misc_colls.end(); next_collision++) {
+
+        point collision_point(veh->parts[next_collision->part].mount_dx,
+                                    veh->parts[next_collision->part].mount_dy);
+        int coll_dmg = next_collision->imp;
+        //Shock damage
+        veh->damage_all(coll_dmg / 2, coll_dmg, 1, collision_point);
+    }
+
     int coll_turn = 0;
     if (dmg_1 > 0) {
         int vel1_a = veh->velocity / 100; //velocity of car after collision
         int d_vel = abs(vel1 - vel1_a);
 
-        if (dmg_1 > 100) {
-            // shake veh because of collision
-            veh->damage_all(dmg_1 / 2, dmg_1, 1, epicenter1);
-        }
         std::vector<int> ppl = veh->boarded_parts();
 
         for (int ps = 0; ps < ppl.size(); ps++) {
@@ -1049,36 +1056,53 @@ std::string map::features(const int x, const int y)
  return ret;
 }
 
-int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle)
+int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle) const
 {
-    if (terlist[ter(x, y)].movecost == 0 || furnlist[furn(x, y)].movecost < 0) {
+    int cost = move_cost_ter_furn(x, y); // covers !inbounds check too
+    if ( cost == 0 ) {
         return 0;
     }
-    int vpart = -1;
-    vehicle *veh = veh_at(x, y, vpart);
-    if (veh && veh != ignored_vehicle) {  // moving past vehicle cost
-        const int dpart = veh->part_with_feature(vpart, VPFLAG_OBSTACLE);
-        if (dpart >= 0 && (!veh->part_flag(dpart, VPFLAG_OPENABLE) || !veh->parts[dpart].open)) {
-        return 0;
-        } else {
-            const int ipart = veh->part_with_feature(vpart, VPFLAG_AISLE);
-            if (ipart >= 0) {
-                return 2;
+    if (veh_in_active_range && veh_exists_at[x][y]) {
+        std::map< std::pair<int, int>, std::pair<vehicle *, int> >::const_iterator it;
+        if ((it = veh_cached_parts.find( std::make_pair(x, y) )) != veh_cached_parts.end()) {
+            const int vpart = it->second.second;
+            vehicle *veh = it->second.first;
+            if (veh != ignored_vehicle) {  // moving past vehicle cost
+                const int dpart = veh->part_with_feature(vpart, VPFLAG_OBSTACLE);
+                if (dpart >= 0 && (!veh->part_flag(dpart, VPFLAG_OPENABLE) || !veh->parts[dpart].open)) {
+                    return 0;
+                } else {
+                    const int ipart = veh->part_with_feature(vpart, VPFLAG_AISLE);
+                    if (ipart >= 0) {
+                        return 2;
+                    }
+                    return 8;
+                }
             }
-            return 8;
         }
     }
-    int cost = terlist[ter(x, y)].movecost + furnlist[furn(x, y)].movecost;
-    cost+= field_at(x,y).move_cost();
+//    cost+= field_at(x,y).move_cost(); // <-- unimplemented in all cases
     return cost > 0 ? cost : 0;
 }
 
-int map::move_cost_ter_furn(const int x, const int y)
+int map::move_cost_ter_furn(const int x, const int y) const
 {
-    if (terlist[ter(x, y)].movecost == 0 || furnlist[furn(x, y)].movecost < 0) {
+    if (!INBOUNDS(x, y)) {
         return 0;
     }
-    int cost = terlist[ter(x, y)].movecost + furnlist[furn(x, y)].movecost;
+    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+    const int lx = x % SEEX;
+    const int ly = y % SEEY;
+
+    const int tercost = terlist[ grid[nonant]->ter[lx][ly] ].movecost;
+    if ( tercost == 0 ) {
+        return 0;
+    }
+    const int furncost = furnlist[ grid[nonant]->frn[lx][ly] ].movecost;
+    if ( furncost < 0 ) {
+        return 0;
+    }
+    const int cost = tercost + furncost;
     return cost > 0 ? cost : 0;
 }
 
@@ -1110,7 +1134,7 @@ bool map::trans(const int x, const int y)
             }
         }
     } else {
-        tertr = ( terlist[ter(x, y)].transparent && furnlist[furn(x, y)].transparent );
+        tertr = has_flag_ter_and_furn(TFLAG_TRANSPARENT, x, y);
     }
     if( tertr ) {
         // Fields may obscure the view, too
@@ -1134,20 +1158,28 @@ bool map::trans(const int x, const int y)
     return false; //failsafe block vision
 }
 
-bool map::has_flag(const std::string & flag, const int x, const int y)
+bool map::has_flag(const std::string &flag, const int x, const int y) const
 {
- static const std::string flag_str_BASHABLE = "BASHABLE"; // construct once per runtime, slash delay 90%
- if (flag_str_BASHABLE == flag) {
-  int vpart;
-  vehicle *veh = veh_at(x, y, vpart);
-  if (veh && veh->parts[vpart].hp > 0 && // if there's a vehicle part here...
-      veh->part_with_feature (vpart, VPFLAG_OBSTACLE) >= 0) {// & it is obstacle...
-   const int p = veh->part_with_feature (vpart, VPFLAG_OPENABLE);
-   if (p < 0 || !veh->parts[p].open) // and not open door
-    return true;
-  }
- }
- return (terlist[ter(x, y)].has_flag(flag) || (furnlist[furn(x, y)].has_flag(flag)));
+    static const std::string flag_str_BASHABLE("BASHABLE"); // construct once per runtime, slash delay 90%
+    if (!INBOUNDS(x, y)) {
+        return false;
+    }
+    // veh_at const no bueno
+    if (veh_in_active_range && veh_exists_at[x][y] && flag_str_BASHABLE == flag) {
+        std::map< std::pair<int, int>, std::pair<vehicle *, int> >::const_iterator it;
+        if ((it = veh_cached_parts.find( std::make_pair(x, y) )) != veh_cached_parts.end()) {
+            const int vpart = it->second.second;
+            vehicle *veh = it->second.first;
+            if (veh->parts[vpart].hp > 0 && // if there's a vehicle part here...
+                veh->part_with_feature (vpart, VPFLAG_OBSTACLE) >= 0) {// & it is obstacle...
+                const int p = veh->part_with_feature (vpart, VPFLAG_OPENABLE);
+                if (p < 0 || !veh->parts[p].open) { // and not open door
+                    return true;
+                }
+            }
+        }
+    }
+    return has_flag_ter_or_furn(flag, x, y);
 }
 
 bool map::can_put_items(const int x, const int y)
@@ -1167,14 +1199,78 @@ bool map::has_flag_furn(const std::string & flag, const int x, const int y) cons
 
 bool map::has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const
 {
- return (terlist[ter(x, y)].has_flag(flag) || (furnlist[furn(x, y)].has_flag(flag)));
+    if (!INBOUNDS(x, y)) {
+        return false;
+    }
+    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+    const int lx = x % SEEX;
+    const int ly = y % SEEY;
+
+    return ( terlist[ grid[nonant]->ter[lx][ly] ].has_flag(flag) || furnlist[ grid[nonant]->frn[lx][ly] ].has_flag(flag) );
 }
 
 bool map::has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const
 {
  return terlist[ter(x, y)].has_flag(flag) && furnlist[furn(x, y)].has_flag(flag);
 }
+/////
+bool map::has_flag(const ter_bitflags flag, const int x, const int y) const
+{
+    if (!INBOUNDS(x, y)) {
+        return false;
+    }
+    // veh_at const no bueno
+    if (veh_in_active_range && veh_exists_at[x][y] && flag == TFLAG_BASHABLE) {
+        std::map< std::pair<int, int>, std::pair<vehicle *, int> >::const_iterator it;
+        if ((it = veh_cached_parts.find( std::make_pair(x, y) )) != veh_cached_parts.end()) {
+            const int vpart = it->second.second;
+            vehicle *veh = it->second.first;
+            if (veh->parts[vpart].hp > 0 && // if there's a vehicle part here...
+                veh->part_with_feature (vpart, VPFLAG_OBSTACLE) >= 0) {// & it is obstacle...
+                const int p = veh->part_with_feature (vpart, VPFLAG_OPENABLE);
+                if (p < 0 || !veh->parts[p].open) { // and not open door
+                    return true;
+                }
+            }
+        }
+    }
+    return has_flag_ter_or_furn(flag, x, y);
+}
 
+bool map::has_flag_ter(const ter_bitflags flag, const int x, const int y) const
+{
+ return terlist[ter(x, y)].has_flag(flag);
+}
+
+bool map::has_flag_furn(const ter_bitflags flag, const int x, const int y) const
+{
+ return furnlist[furn(x, y)].has_flag(flag);
+}
+
+bool map::has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const
+{
+    if (!INBOUNDS(x, y)) {
+        return false;
+    }
+    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+    const int lx = x % SEEX;
+    const int ly = y % SEEY;
+
+    return ( terlist[ grid[nonant]->ter[lx][ly] ].has_flag(flag) || furnlist[ grid[nonant]->frn[lx][ly] ].has_flag(flag) );
+}
+
+bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const
+{
+    if (!INBOUNDS(x, y)) {
+        return false;
+    }
+    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+    const int lx = x % SEEX;
+    const int ly = y % SEEY;
+ return terlist[ grid[nonant]->ter[lx][ly] ].has_flag(flag) && furnlist[ grid[nonant]->frn[lx][ly] ].has_flag(flag);
+}
+
+/////
 bool map::is_destructable(const int x, const int y)
 {
  return (has_flag("BASHABLE", x, y) ||
@@ -1224,7 +1320,8 @@ bool map::flammable_items_at(const int x, const int y)
   if (it->is_ammo() && it->ammo_type() != "battery" &&
       it->ammo_type() != "nail" && it->ammo_type() != "BB" &&
       it->ammo_type() != "bolt" && it->ammo_type() != "arrow" &&
-      it->ammo_type() != "pebble" && it->ammo_type() != "NULL")
+      it->ammo_type() != "pebble" && it->ammo_type() != "fishspear" &&
+      it->ammo_type() != "NULL")
     return true;
  }
  return false;
@@ -1284,6 +1381,22 @@ bool map::has_adjacent_furniture(const int x, const int y)
     }
 
  return false;
+}
+
+bool map::has_nearby_fire(int x, int y, int radius)
+{
+    for(int dx = -radius; dx <= radius; dx++) {
+        for(int dy = -radius; dy <= radius; dy++) {
+            const point p(x + dx, y + dy);
+            if (field_at(p.x, p.y).findField(fd_fire) != 0) {
+                return true;
+            }
+            if (ter(p.x, p.y) == t_lava) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void map::mop_spills(const int x, const int y) {
@@ -3213,17 +3326,24 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
    drew_field = false;
   }
  }
-// If there's items here, draw those instead
- if (show_items && !has_flag("CONTAINER", x, y) && curr_items.size() > 0 && !drew_field) {
-  if (sym != '.' && sym != '%')
-   hi = true;
-  else {
-   tercol = curr_items[curr_items.size() - 1].color();
-   if (curr_items.size() > 1)
-    invert = !invert;
-   sym = curr_items[curr_items.size() - 1].symbol();
-  }
- }
+    // If there's items here, draw those instead
+    if (show_items && !has_flag("CONTAINER", x, y) && curr_items.size() > 0 && !drew_field) {
+        if (sym != '.' && sym != '%') {
+            hi = true;
+        } else {
+            // if there's furniture, then only change the furniture colour
+            if (has_furn(x, y)) {
+                invert = !invert;
+                sym = furnlist[curr_furn].sym;
+            } else {
+                tercol = curr_items[curr_items.size() - 1].color();
+                if (curr_items.size() > 1) {
+                    invert = !invert;
+                }
+                sym = curr_items[curr_items.size() - 1].symbol();
+            }
+        }
+    }
 
  int veh_part = 0;
  vehicle *veh = veh_at(x, y, veh_part);
@@ -3734,7 +3854,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
                 traplocs[t].insert(point(fx, fy));
                 if ( do_funnels &&
                      g->traps[t]->funnel_radius_mm > 0 &&             // funnel
-                     has_flag_ter_or_furn("INDOORS", fx, fy) == false // we have no outside_cache
+                     has_flag_ter_or_furn(TFLAG_INDOORS, fx, fy) == false // we have no outside_cache
                    ) {
                     rain_backlog[point(x, y)] = t;
                 }
@@ -3763,8 +3883,8 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
               }
               if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
                   it_comest *food = dynamic_cast<it_comest*>(it->type);
-                  int maxShelfLife = it->bday + (food->spoils * 600)*2;
-                  if(g->turn >= maxShelfLife) {
+                  it->rotten(g);
+                  if(it->rot >= (food->spoils * 600)*2) {
                       it = tmpsub->itm[x][y].erase(it);
                   } else { ++it; intidx++; }
               } else { ++it; intidx++; }
@@ -4230,4 +4350,272 @@ tinymap::tinymap(std::vector<trap*> *trptr)
 
 tinymap::~tinymap()
 {
+}
+////////////////////
+ter_id find_ter_id(const std::string id, bool complain=true) {
+    if( termap.find(id) == termap.end() ) {
+         debugmsg("Can't find termap[%s]",id.c_str());
+         return 0;
+    }
+    return termap[id].loadid;
+};
+
+ter_id find_furn_id(const std::string id, bool complain=true) {
+    if( furnmap.find(id) == furnmap.end() ) {
+         debugmsg("Can't find furnmap[%s]",id.c_str());
+         return 0;
+    }
+    return furnmap[id].loadid;
+};
+void map::draw_line_ter(const ter_id type, int x1, int y1, int x2, int y2)
+{
+    std::vector<point> line = line_to(x1, y1, x2, y2, 0);
+    for (int i = 0; i < line.size(); i++) {
+        ter_set(line[i].x, line[i].y, type);
+    }
+    ter_set(x1, y1, type);
+}
+void map::draw_line_ter(const std::string type, int x1, int y1, int x2, int y2) {
+    draw_line_ter(find_ter_id(type), x1, y1, x2, y2);
+}
+
+
+void map::draw_line_furn(furn_id type, int x1, int y1, int x2, int y2) {
+    std::vector<point> line = line_to(x1, y1, x2, y2, 0);
+    for (int i = 0; i < line.size(); i++) {
+        furn_set(line[i].x, line[i].y, type);
+    }
+    furn_set(x1, y1, type);
+}
+void map::draw_line_furn(const std::string type, int x1, int y1, int x2, int y2) {
+    draw_line_furn(find_furn_id(type), x1, y1, x2, y2);
+}
+
+void map::draw_fill_background(ter_id type) {
+    draw_square_ter(type, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
+}
+void map::draw_fill_background(std::string type) {
+    draw_square_ter(find_ter_id(type), 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
+}
+void map::draw_fill_background(ter_id (*f)()) {
+    draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
+}
+
+
+void map::draw_square_ter(ter_id type, int x1, int y1, int x2, int y2) {
+    for (int x = x1; x <= x2; x++) {
+        for (int y = y1; y <= y2; y++) {
+            ter_set(x, y, type);
+        }
+    }
+}
+void map::draw_square_ter(std::string type, int x1, int y1, int x2, int y2) {
+    draw_square_ter(find_ter_id(type), x1, y1, x2, y2);
+}
+
+void map::draw_square_furn(furn_id type, int x1, int y1, int x2, int y2) {
+    for (int x = x1; x <= x2; x++) {
+        for (int y = y1; y <= y2; y++) {
+            furn_set(x, y, type);
+        }
+    }
+}
+void map::draw_square_furn(std::string type, int x1, int y1, int x2, int y2) {
+    draw_square_furn(find_furn_id(type), x1, y1, x2, y2);
+}
+
+void map::draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2) {
+    for (int x = x1; x <= x2; x++) {
+        for (int y = y1; y <= y2; y++) {
+            ter_set(x, y, f());
+        }
+    }
+}
+
+void map::draw_rough_circle(ter_id type, int x, int y, int rad) {
+    for (int i = x - rad; i <= x + rad; i++) {
+        for (int j = y - rad; j <= y + rad; j++) {
+            if (rl_dist(x, y, i, j) + rng(0, 3) <= rad) {
+                ter_set(i, j, type);
+            }
+        }
+    }
+}
+void map::draw_rough_circle(std::string type, int x, int y, int rad) {
+    draw_rough_circle(find_ter_id(type), x, y, rad);
+}
+
+void map::add_corpse(int x, int y) {
+    item body;
+    body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
+    add_item_or_charges(x, y, body);
+    put_items_from("shoes",  1, x, y, 0, 0, 0);
+    put_items_from("pants",  1, x, y, 0, 0, 0);
+    put_items_from("shirts", 1, x, y, 0, 0, 0);
+    if (one_in(6)) {
+        put_items_from("jackets", 1, x, y, 0, 0, 0);
+    }
+    if (one_in(15)) {
+        put_items_from("bags", 1, x, y, 0, 0, 0);
+    }
+}
+
+/**
+ * Adds vehicles to the current submap, selected from a random weighted
+ * distribution of possible vehicles. If the road has a pavement, then set the
+ * 'city' flag to true to spawn wrecks. If it doesn't (ie, highway or country
+ * road,) then set 'city' to false to spawn far fewer vehicles that are out
+ * of gas instead of wrecked.
+ * @param city Whether or not to spawn city wrecks.
+ * @param facing The direction the spawned car should face (multiple of 90).
+ */
+void map::add_road_vehicles(bool city, int facing)
+{
+    if (city) {
+        int spawn_type = rng(0, 100);
+        if(spawn_type <= 33) {
+            //Randomly-distributed wrecks
+            int maxwrecks = rng(1, 3);
+            for (int nv = 0; nv < maxwrecks; nv++) {
+                int vx = rng(0, 19);
+                int vy = rng(0, 19);
+                int car_type = rng(1, 100);
+                if (car_type <= 25) {
+                    add_vehicle(g, "car", vx, vy, facing, -1, 1);
+                } else if (car_type <= 30) {
+                    add_vehicle(g, "policecar", vx, vy, facing, -1, 1);
+                } else if (car_type <= 40) {
+                    add_vehicle(g, "ambulance", vx, vy, facing, -1, 1);
+                } else if (car_type <= 45) {
+                    add_vehicle(g, "beetle", vx, vy, facing, -1, 1);
+                } else if (car_type <= 50) {
+                    add_vehicle(g, "scooter", vx, vy, facing, -1, 1);
+                } else if (car_type <= 55) {
+                    add_vehicle(g, "motorcycle", vx, vy, facing, -1, 1);
+                } else if (car_type <= 65) {
+                    add_vehicle(g, "hippie_van", vx, vy, facing, -1, 1);
+                } else if (car_type <= 70) {
+                    add_vehicle(g, "cube_van", vx, vy, facing, -1, 1);
+                } else if (car_type <= 80) {
+                    add_vehicle(g, "electric_car", vx, vy, facing, -1, 1);
+                } else if (car_type <= 90) {
+                    add_vehicle(g, "flatbed_truck", vx, vy, facing, -1, 1);
+                } else if (car_type <= 95) {
+                    add_vehicle(g, "rv", vx, vy, facing, -1, 1);
+                } else {
+                    add_vehicle(g, "motorcycle_sidecart", vx, vy, facing, -1, 1);
+                }
+            }
+        } else if(spawn_type <= 66) {
+            //Parked vehicles
+            int veh_x = 0;
+            int veh_y = 0;
+            if(facing == 0) {
+                veh_x = rng(4, 16);
+                veh_y = 17;
+            } else if(facing == 90) {
+                veh_x = 6;
+                veh_y = rng(4, 16);
+            } else if(facing == 180) {
+                veh_x = rng(4, 16);
+                veh_y = 6;
+            } else if(facing == 270) {
+                veh_x = 17;
+                veh_y = rng(4, 16);
+            }
+            int veh_type = rng(0, 100);
+            if(veh_type <= 70) {
+                add_vehicle(g, "car", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 95) {
+                add_vehicle(g, "electric_car", veh_x, veh_y, facing, -1, 1);
+            } else {
+                add_vehicle(g, "policecar", veh_x, veh_y, facing, -1, 1);
+            }
+        } else if(spawn_type <= 99) {
+            //Totally clear section of road
+            return;
+        } else {
+            //Road-blocking obstacle of some kind.
+            int block_type = rng(0, 100);
+            if(block_type <= 75) {
+                //Jack-knifed semi
+                int semi_x = 0;
+                int semi_y = 0;
+                int trailer_x = 0;
+                int trailer_y = 0;
+                if(facing == 0) {
+                    semi_x = rng(0, 16);
+                    semi_y = rng(14, 16);
+                    trailer_x = semi_x + 4;
+                    trailer_y = semi_y - 10;
+                } else if(facing == 90) {
+                    semi_x = rng(0, 8);
+                    semi_y = rng(4, 15);
+                    trailer_x = semi_x + 12;
+                    trailer_y = semi_y + 1;
+                } else if(facing == 180) {
+                    semi_x = rng(4, 16);
+                    semi_y = rng(4, 6);
+                    trailer_x = semi_x - 4;
+                    trailer_y = semi_y + 10;
+                } else {
+                    semi_x = rng(12, 20);
+                    semi_y = rng(5, 16);
+                    trailer_x = semi_x - 12;
+                    trailer_y = semi_y - 1;
+                }
+                add_vehicle(g, "semi_truck", semi_x, semi_y, (facing + 135) % 360, -1, 1);
+                add_vehicle(g, "truck_trailer", trailer_x, trailer_y, (facing + 90) % 360, -1, 1);
+            } else {
+                //Huge pileup of random vehicles
+                std::string next_vehicle;
+                int num_cars = rng(18, 22);
+                bool policecars = block_type >= 95; //Policecar pileup, Blues Brothers style
+                vehicle *last_added_car = NULL;
+                for(int i = 0; i < num_cars; i++) {
+                    if(policecars) {
+                        next_vehicle = "policecar";
+                    } else {
+                        //Random car
+                        int car_type = rng(0, 100);
+                        if(car_type <= 70) {
+                            next_vehicle = "car";
+                        } else if(car_type <= 90) {
+                            next_vehicle = "flatbed_truck";
+                        } else if(car_type <= 95) {
+                            next_vehicle = "cube_van";
+                        } else {
+                            next_vehicle = "hippie_van";
+                        }
+                    }
+                    last_added_car = add_vehicle(g, next_vehicle, rng(4, 16), rng(4, 16), rng(0, 3) * 90, -1, 1);
+                }
+
+                //Hopefully by the last one we've got a giant pileup, so name it
+                if (last_added_car != NULL) {
+                    if(policecars) {
+                        last_added_car->name = _("policecar pile-up");
+                    } else {
+                        last_added_car->name = _("pile-up");
+                    }
+                }
+            }
+        }
+    } else {
+        // spawn regular road out of fuel vehicles
+        if (one_in(40)) {
+            int vx = rng(8, 16);
+            int vy = rng(8, 16);
+            int car_type = rng(1, 10);
+            if (car_type <= 5) {
+                add_vehicle(g, "car", vx, vy, facing, 0, -1);
+            } else if (car_type <= 8) {
+                add_vehicle(g, "flatbed_truck", vx, vy, facing, 0, -1);
+            } else if (car_type <= 9) {
+                add_vehicle(g, "semi_truck", vx, vy, facing, 0, -1);
+            } else {
+                add_vehicle(g, "armored_car", vx, vy, facing, 0, -1);
+            }
+        }
+    }
 }

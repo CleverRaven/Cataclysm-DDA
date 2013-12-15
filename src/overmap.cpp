@@ -21,6 +21,7 @@
 #include "input.h"
 #include "json.h"
 #include <queue>
+#include "mapgen.h"
 #define dbg(x) dout((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #ifdef _MSC_VER
@@ -359,6 +360,35 @@ void load_oter(oter_t & oter) {
     oterlist.push_back(oter);
 }
 
+/*
+ * load mapgen functions from an overmap_terrain json entry
+ * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
+ */
+void load_overmap_terrain_mapgens(JsonObject &jo, const std::string id_base, const std::string suffix = "")
+{
+    const std::string fmapkey(id_base + suffix);
+    const std::string jsonkey("mapgen" + suffix);
+    bool default_mapgen = jo.get_bool("default_mapgen", true);
+    int default_idx = -1;
+    if ( default_mapgen ) {
+        if ( mapgen_cfunction_map.find( fmapkey ) != mapgen_cfunction_map.end() ) {
+            oter_mapgen[fmapkey].push_back( new mapgen_function_builtin( fmapkey ) );
+            default_idx = oter_mapgen[fmapkey].size() - 1;
+        }
+    }
+    if ( jo.has_array( jsonkey ) ) {
+        JsonArray ja = jo.get_array( jsonkey );
+        int c=0;
+        while ( ja.has_more() ) {
+            if ( ja.has_object(c) ) {
+                JsonObject jio = ja.next_object();
+                load_mapgen_function( jio, fmapkey, default_idx );
+            }
+            c++;
+        }
+    }
+}
+
 void load_overmap_terrain(JsonObject &jo)
 {
     oter_t oter;
@@ -406,6 +436,10 @@ void load_overmap_terrain(JsonObject &jo)
     oter.is_road = isroad(id_base);
     oter.is_river = (id_base.compare(0,5,"river",5) == 0 || id_base.compare(0,6,"bridge",6) == 0);
 
+    oter.id_mapgen = id_base; // What, another identifier? Whyyy...
+    if ( ! line_drawing ) { // ...oh
+        load_overmap_terrain_mapgens(jo, id_base);
+    }
 
     if (line_drawing) {
         // add variants for line drawing
@@ -413,7 +447,8 @@ void load_overmap_terrain(JsonObject &jo)
         for( int i = start_iid; i < start_iid+12; i++ ) {
             oter.directional_peers.push_back(i);
         }
-
+        oter.id_mapgen = id_base + "_straight";
+        load_overmap_terrain_mapgens(jo, id_base, "_straight");
         oter.id = id_base + "_ns";
         oter.sym = LINE_XOXO;
         load_oter(oter);
@@ -422,6 +457,8 @@ void load_overmap_terrain(JsonObject &jo)
         oter.sym = LINE_OXOX;
         load_oter(oter);
 
+        oter.id_mapgen = id_base + "_curved";
+        load_overmap_terrain_mapgens(jo, id_base, "_curved");
         oter.id = id_base + "_ne";
         oter.sym = LINE_XXOO;
         load_oter(oter);
@@ -434,12 +471,12 @@ void load_overmap_terrain(JsonObject &jo)
         oter.sym = LINE_OOXX;
         load_oter(oter);
 
-
-
         oter.id = id_base + "_wn";
         oter.sym = LINE_XOOX;
         load_oter(oter);
 
+        oter.id_mapgen = id_base + "_tee";
+        load_overmap_terrain_mapgens(jo, id_base, "_tee");
         oter.id = id_base + "_nes";
         oter.sym = LINE_XXXO;
         load_oter(oter);
@@ -457,7 +494,8 @@ void load_overmap_terrain(JsonObject &jo)
         load_oter(oter);
 
 
-
+        oter.id_mapgen = id_base + "_four_way";
+        load_overmap_terrain_mapgens(jo, id_base, "_four_way");
         oter.id = id_base + "_nesw";
         oter.sym = LINE_XXXX;
         load_oter(oter);
@@ -608,6 +646,7 @@ void overmap::init_layers()
 oter_id& overmap::ter(const int x, const int y, const int z)
 {
     if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+        nullret = 0;
         return nullret;
     }
 
@@ -1845,7 +1884,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   }
 
   real_coords rc;
-  rc.fromomap( g->cur_om->pos().x, g->cur_om->pos().y, cursx, cursy );
+  rc.fromomap( pos().x, pos().y, cursx, cursy );
 
   if (csee) {
    mvwputch(w, 1, om_map_width + 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
@@ -1915,9 +1954,18 @@ point overmap::draw_overmap(game *g, int zlevel)
  ictxt.register_action("QUIT");
  std::string action;
  do {
-     draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
-     action = ictxt.handle_input();
-     timeout(BLINK_SPEED); // Enable blinking!
+    real_coords rc;
+    rc.fromomap(g->cur_om->pos().x, g->cur_om->pos().y, cursx, cursy);
+    // (cursx, cursy) are the coordinates of the overmap-terrain,
+    // that is in the center of the view (relative to this overmap)
+    // Those coordinates get translated to the coordinates of the
+    // overmap they are on (rc.abs_om) and the coordinates of the
+    // overmap-terrain on that overmap (rc.om_pos)
+    overmap &center_om = overmap_buffer.get(g, rc.abs_om.x, rc.abs_om.y);
+
+    center_om.draw(w_map, g, zlevel, rc.om_pos.x, rc.om_pos.y, origx, origy, ch, blink, hori, vert, diag, &ictxt);
+    action = ictxt.handle_input();
+    timeout(BLINK_SPEED); // Enable blinking!
 
   int dirx, diry;
   if (action != "ANY_INPUT") {
@@ -1942,23 +1990,29 @@ point overmap::draw_overmap(game *g, int zlevel)
    ret = point(-1, -1);
   else if (action == "CREATE_NOTE") {
    timeout(-1);
-   add_note(cursx, cursy, zlevel, string_input_popup(_("Note (X:TEXT for custom symbol):"),
-                                                     45, note(cursx, cursy, zlevel))); // 45 char max
+   const std::string old_note = center_om.note(rc.om_pos.x, rc.om_pos.y, zlevel);
+   const std::string new_note = string_input_popup(_("Note (X:TEXT for custom symbol):"), 45, old_note); // 45 char max
+   if(old_note != new_note) {
+     center_om.add_note(rc.om_pos.x, rc.om_pos.y, zlevel, new_note);
+   }
    timeout(BLINK_SPEED);
   } else if(action == "DELETE_NOTE"){
    timeout(-1);
-   if (has_note(cursx, cursy, zlevel)){
+   if (center_om.has_note(rc.om_pos.x, rc.om_pos.y, zlevel)){
     bool res = query_yn(_("Really delete note?"));
     if (res == true)
-     delete_note(cursx, cursy, zlevel);
+     center_om.delete_note(rc.om_pos.x, rc.om_pos.y, zlevel);
    }
    timeout(BLINK_SPEED);
   } else if (action == "LIST_NOTES"){
    timeout(-1);
-   point p = display_notes(g, zlevel);
-   if (p.x != -1){
-    cursx = p.x;
-    cursy = p.y;
+   point p = center_om.display_notes(g, zlevel);
+   if (p.x != -1) {
+    // Translate coords relative to center_om back to relative to this
+    real_coords rct;
+    rct.fromomap(center_om.pos().x, center_om.pos().y, p.x, p.y);
+    cursx = rct.abs_pos.x / (2 * SEEX);
+    cursy = rct.abs_pos.y / (2 * SEEX);
    }
    timeout(BLINK_SPEED);
    wrefresh(w_map);
@@ -1966,12 +2020,15 @@ point overmap::draw_overmap(game *g, int zlevel)
    int tmpx = cursx, tmpy = cursy;
    timeout(-1);
    std::string term = string_input_popup(_("Search term:"));
+   if(term.empty()) {
+    continue;
+   }
    timeout(BLINK_SPEED);
-   draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
-   point found = find_note(cursx, cursy, zlevel, term);
+   center_om.draw(w_map, g, zlevel, rc.om_pos.x, rc.om_pos.y, origx, origy, ch, blink, hori, vert, diag, &ictxt);
+   point found = center_om.find_note(rc.om_pos.x, rc.om_pos.y, zlevel, term);
    if (found.x == -1) { // Didn't find a note
     std::vector<point> terlist;
-    terlist = find_terrain(term, origx, origy, zlevel);
+    terlist = center_om.find_terrain(term, rc.om_pos.x, rc.om_pos.y, zlevel);
     if (terlist.size() != 0){
      int i = 0;
      //Navigate through results
@@ -1984,7 +2041,7 @@ point overmap::draw_overmap(game *g, int zlevel)
       mvwprintz(w_search, 4, 1, c_white,
        _("'<' '>' Cycle targets."));
       mvwprintz(w_search, 10, 1, c_white, _("Enter/Spacebar to select."));
-      mvwprintz(w_search, 11, 1, c_white, _("q to return."));
+      mvwprintz(w_search, 11, 1, c_white, _("q or ESC to return."));
       ch = input();
       if (ch == ERR)
        blink = !blink;
@@ -1997,23 +2054,32 @@ point overmap::draw_overmap(game *g, int zlevel)
        if(i < 0)
         i = terlist.size() - 1;
       }
-      cursx = terlist[i].x;
-      cursy = terlist[i].y;
-      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
+      rc.om_pos.x = terlist[i].x;
+      rc.om_pos.y = terlist[i].y;
+      center_om.draw(w_map, g, zlevel, rc.om_pos.x, rc.om_pos.y, origx, origy, ch, blink, hori, vert, diag, &ictxt);
       wrefresh(w_search);
       timeout(BLINK_SPEED);
-     } while(ch != '\n' && ch != ' ' && ch != 'q');
+     } while(ch != '\n' && ch != ' ' && ch != 'q' && ch != KEY_ESCAPE);
      //If q is hit, return to the last position
-     if(ch == 'q'){
+     if(ch == 'q' || ch == KEY_ESCAPE){
       cursx = tmpx;
       cursy = tmpy;
+     } else {
+      // Translate coords relative to center_om back to relative to this
+      real_coords rct;
+      rct.fromomap(center_om.pos().x, center_om.pos().y, rc.om_pos.x, rc.om_pos.y);
+      cursx = rct.abs_pos.x / (2 * SEEX);
+      cursy = rct.abs_pos.y / (2 * SEEX);
      }
      ch = '.';
     }
    }
    if (found.x != -1) {
-    cursx = found.x;
-    cursy = found.y;
+    // Translate coords relative to center_om back to relative to this
+    real_coords rct;
+    rct.fromomap(center_om.pos().x, center_om.pos().y, found.x, found.y);
+    cursx = rct.abs_pos.x / (2 * SEEX);
+    cursy = rct.abs_pos.y / (2 * SEEX);
    }
   }
   else if (action == "ANY_INPUT") { // Hit timeout on input, so make characters blink
@@ -2063,7 +2129,8 @@ void overmap::process_mongroups()
  }
 }
 
-void grow_forest_oter_id(oter_id & oid, bool swampy) {
+void grow_forest_oter_id(oter_id & oid, bool swampy)
+{
     if (swampy && ( oid == ot_field || oid == ot_forest ) ) {
         oid = ot_forest_water;
     } else if ( oid == ot_forest ) {
@@ -2570,7 +2637,7 @@ void overmap::build_tunnel(int x, int y, int z, int s, int dir)
                     ter(valid[i].x, valid[i].y, z) = "ants_larvae";
                 }
             } else if (one_in(5)) {
-                int dir2;
+                int dir2 = 0;
                 if (valid[i].y == y - 1) { dir2 = 0; }
                 if (valid[i].x == x + 1) { dir2 = 1; }
                 if (valid[i].y == y + 1) { dir2 = 2; }

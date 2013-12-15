@@ -385,7 +385,7 @@
         "type" : "martial_art",
         "id" : "style_snake",
         "name" : "Snake Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes. Your Perception iproves yur accuracy and your damage.",
+        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes. Your Perception improves your accuracy and your damage.",
         "static_buffs" : [
             {
                 "id" : "snake_static",
@@ -426,13 +426,13 @@
         "type" : "martial_art",
         "id" : "style_scorpion",
         "name" : "Scorpion Kung Fu",
-        "description": "One of the Five Deadly Venoms.  Scorpion Style is a mysterious art which uses pincer-like hands and a stinger kick.  Critical hits should do massive damage and knock your target back, and we'll fix that as soon as we can.",
+        "description": "One of the Five Deadly Venoms.  Scorpion Style is a mysterious art which uses pincer-like hands and a stinger kick.  Critical hits do massive damage and knock your target back.",
         "arm_block" : 3,
         "static_buffs" : [
             {
                 "id" : "scorpion_static",
                 "name" : "Scorpion Venom",
-                "description" : "Flat bonus to damage.",
+                "description" : "+2 bashing damage.",
                 "unarmed_allowed" : true,
                 "bash" : 2
             }
@@ -445,7 +445,7 @@
         "type" : "martial_art",
         "id" : "style_toad",
         "name" : "Toad Kung Fu",
-        "description": "One of the Five Deadly Venoms.  Toad Style will be immensely powerful through its immunity to nearly any weapon, once we get the connection rebuilt.  Until then, best not meditate by pausing, though it used to give you armor proportional to your Intelligence and Perception.",
+        "description": "One of the Five Deadly Venoms.  Masters of Toad Style can focus themselves against all attacks.  You can meditate by pausing, giving you armor, though you will lose focus when you move.",
         "arm_block" : 3,
         "static_buffs" : [
             {
@@ -477,7 +477,7 @@
         "type" : "martial_art",
         "id" : "style_lizard",
         "name" : "Lizard Kung Fu",
-        "description": "One of the Five Deadly Venoms, and likely to be refactored to a mutation at the next save-compatibility breaker. Lizard Style docuses on using walls to your advantage.",
+        "description": "One of the Five Deadly Venoms, and likely to be refactored to a mutation at the next save-compatibility breaker. Lizard Style focuses on using walls to your advantage.",
         "arm_block" : 2,
         "techniques" : [
             "tec_counter"
@@ -486,11 +486,50 @@
         "type" : "martial_art",
         "id" : "style_venom_snake",
         "name" : "Viper Kung Fu",
-        "description": "One of the Five Deadly Venoms.  Viper Style has a uniqe three-part combo, ehich is supposed to initiate on a critical strike, then chain into piercing damage and a two-handed Viper Strike.",
+        "description": "A legacy of the Five Deadly Venoms.  Viper Style has a uniqe three-part combo, which initiates on a dodge, then counters with a stunning chop and the legendary Viper Strike.",
+        "static_buffs" : [
+            {
+                "id" : "venom_snake_static",
+                "name" : "Viper Patience",
+                "description" : "You are trained to stick close and stay cool in a fight, waiting for the opportunity to strike...",
+                "unarmed_allowed" : true,
+                "dodge" : 2
+            }
+        ],
+        "ondodge_buffs": [
+            {
+                "id" : "venom_snake_combo_initiate",
+                "name" : "Viper Ambush",
+                "description" : "You've lured 'em in! Your next attack will be a Viper Bite.",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 0,
+                "buff_duration" : 2,
+                "max_stacks" : 1,
+                "bash_mult" : 1.5,
+                "stun_dur" : 2
+            }
+        ],
+        "onhit_buffs": [
+            {
+                "id" : "venom_snake_combo_continue",
+                "name" : "Viper Lock",
+                "description" : "You bit true! Your next attack will be the Viper Strike!",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 0,
+                "req_buffs" : [
+                  "venom_snake_combo_initiate"
+                  ],
+                "buff_duration" : 2,
+                "max_stacks" : 1,
+                "bash_mult" : 3
+            }
+        ],
         "techniques" : [
             "tec_venom_snake_rapid",
             "tec_venom_snake_feint",
-            "tec_venom_snake_break"
+            "tec_venom_snake_break",
+            "tec_venom_snake_bite",
+            "tec_venom_snake_strike"
         ]
     }
 ]

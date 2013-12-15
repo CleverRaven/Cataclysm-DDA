@@ -38,7 +38,6 @@
 #include "profession.h"
 #include "skill.h"
 #include "vehicle.h"
-#include "picofunc.h"
 
 //
 #include "mission.h"
@@ -72,36 +71,29 @@ bool game::unserialize_legacy(std::ifstream & fin) {
        // unserialize_legacy in savegame_legacy.cpp
             std::string linebuf;
             std::stringstream linein;
-
+            JsonIn jsin(parseline());
+            JsonObject pdata = jsin.get_object();
 
             int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
-            picojson::value pval;
-            parseline() >> pval;
-            std::string jsonerr = picojson::get_last_error();
-            if ( ! jsonerr.empty() ) {
-                debugmsg("Bad save json\n%s", jsonerr.c_str() );
-            }
-            picojson::object &pdata = pval.get<picojson::object>();
-
-            picoint(pdata,"turn",tmpturn);
-            picoint(pdata,"last_target",tmptar);
-            picoint(pdata,"run_mode", tmprun);
-            picoint(pdata,"mostseen", mostseen);
-            picoint(pdata,"nextinv", tmpinv);
+            pdata.read("turn", tmpturn);
+            pdata.read("last_target", tmptar);
+            pdata.read("run_mode", tmprun);
+            pdata.read("mostseen", mostseen);
+            pdata.read("nextinv", tmpinv);
             nextinv = (char)tmpinv;
-            picoint(pdata,"next_npc_id", next_npc_id);
-            picoint(pdata,"next_faction_id", next_faction_id);
-            picoint(pdata,"next_mission_id", next_mission_id);
-            picoint(pdata,"nextspawn",tmpspawn);
+            pdata.read("next_npc_id", next_npc_id);
+            pdata.read("next_faction_id", next_faction_id);
+            pdata.read("next_mission_id", next_mission_id);
+            pdata.read("nextspawn", tmpspawn);
 
             getline(fin, linebuf); // Does weather need to be loaded in this order? Probably not,
             load_legacy_future_weather(linebuf); // but better safe than jackie chan expressions later
 
-            picoint(pdata,"levx",levx);
-            picoint(pdata,"levy",levy);
-            picoint(pdata,"levz",levz);
-            picoint(pdata,"om_x",comx);
-            picoint(pdata,"om_y",comy);
+            pdata.read("levx",levx);
+            pdata.read("levy",levy);
+            pdata.read("levz",levz);
+            pdata.read("om_x",comx);
+            pdata.read("om_y",comy);
 
             turn = tmpturn;
             nextspawn = tmpspawn;
@@ -146,16 +138,11 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             parseline();
             int kk; int kscrap;
             if ( linein.peek() == '{' ) {
-                picojson::value kdata;
-                linein >> kdata;
-                std::string jsonerr = picojson::get_last_error();
-                if ( ! jsonerr.empty() ) {
+                try {
+                    JsonIn kjin(linein);
+                    kjin.read(kills);
+                } catch (std::string jsonerr) {
                     debugmsg("Bad killcount json\n%s", jsonerr.c_str() );
-                } else {
-                    picojson::object &pkdata = kdata.get<picojson::object>();
-                    for( picojson::object::const_iterator it = pkdata.begin(); it != pkdata.end(); ++it) {
-                        kills[it->first] = (int)it->second.get<double>();
-                    }
                 }
             } else {
                 for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
@@ -1378,7 +1365,8 @@ void player::load_legacy(game *g, std::stringstream & dump) {
   dump >> tmptype >> moves_left >> index >> tmpinvlet >> tmpname >> placement.x >> placement.y >> tmp;
   name = tmpname.substr(4);
   type = activity_type(tmptype);
-  invlet = tmpinvlet;
+  // can't actually save in the middle of an activity with invlets, so not supporting legacy is ok.
+  position = INT_MIN;
   for (int i = 0; i < tmp; i++) {
    int tmp2;
    dump >> tmp2;
