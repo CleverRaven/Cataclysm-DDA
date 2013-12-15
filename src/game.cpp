@@ -900,11 +900,11 @@ void game::process_events()
 
 void game::process_activity()
 {
- it_book* reading;
- item* book_item;
- item* reloadable;
- vehicle *veh;
- bool no_recipes;
+ it_book *reading = NULL;
+ item *book_item = NULL;
+ item *reloadable = NULL;
+ vehicle *veh = NULL;
+ bool no_recipes = true;
  if (u.activity.type != ACT_NULL) {
   if (int(turn) % 50 == 0) {
    draw();
