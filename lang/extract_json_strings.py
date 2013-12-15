@@ -20,9 +20,10 @@ ignorable = {
     "colordef",
     "item_group",
     "monstergroup",
+    "monitems",
     "recipe_category",
     "recipe",
-    "SPECIES",
+    "SPECIES"
 }
 
 # these objects can have their strings automatically extracted.
