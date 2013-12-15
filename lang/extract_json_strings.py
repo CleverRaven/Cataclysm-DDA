@@ -95,10 +95,21 @@ def extract_martial_art(item):
         writestr(outfile, buff["name"])
         writestr(outfile, buff["description"])
 
+def extract_effect_type(item):
+    outfile = get_outfile("effects")
+    # writestr will not write string if it is None.
+    for f in [ "name", "desc", "apply_message"]:
+        found = item.get(f, None)
+        writestr(outfile, found)
+    for m in [ "remove_memorial_log", "apply_memorial_log"]:
+        found = item.get(m, None)
+        writestr(outfile, found, comment="Memorial file message")
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "material": extract_material,
     "martial_art": extract_martial_art,
+    "effect_type": extract_effect_type
 }
 
 ##
