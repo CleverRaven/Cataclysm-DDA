@@ -5,7 +5,7 @@
 #include "creature.h"
 #include "json.h"
 
-class game;
+
 class Creature;
 class effect_type;
 
@@ -59,7 +59,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         std::string disp_name();
 
         effect_type *get_effect_type();
-        void do_effect(game *g, Creature &t); // applies the disease's effects
+        void do_effect(Creature &t); // applies the disease's effects
 
         int get_duration();
         void set_duration(int dur);

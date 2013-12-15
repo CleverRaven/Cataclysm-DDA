@@ -220,20 +220,20 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
             candidate_field->setFieldDensity(candidate_density + 1);
             cur->setFieldDensity(current_density - 1);
         // Or, just create a new field.
-        } else if ( m->add_field( g, p.x, p.y, curtype, 1 ) ) {
+        } else if ( m->add_field( p.x, p.y, curtype, 1 ) ) {
             cur->setFieldDensity( current_density - 1 );
         }
     }
 }
 
 
-bool map::process_fields(game *g)
+bool map::process_fields()
 {
  bool found_field = false;
  for (int x = 0; x < my_MAPSIZE; x++) {
   for (int y = 0; y < my_MAPSIZE; y++) {
    if (grid[x + y * my_MAPSIZE]->field_count > 0)
-    found_field |= process_fields_in_submap(g, x + y * my_MAPSIZE);
+    found_field |= process_fields_in_submap(x + y * my_MAPSIZE);
   }
  }
  return found_field;
@@ -245,7 +245,7 @@ Iterates over every field on every tile of the given submap indicated by NONANT 
 This is the general update function for field effects. This should only be called once per game turn.
 If you need to insert a new field behavior per unit time add a case statement in the switch below.
 */
-bool map::process_fields_in_submap(game *g, int gridn)
+bool map::process_fields_in_submap(int gridn)
 {
     // Realistically this is always true, this function only gets called if fields exist.
     bool found_field = false;
@@ -497,7 +497,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 40);
                                 smoke += 15;
                                 if (cur->getFieldDensity() == 3) {
-                                    g->m.destroy(g, x, y, false);
+                                    g->m.destroy(x, y, false);
                                 }
 
                             } else if (has_flag("FLAMMABLE_ASH", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
@@ -516,7 +516,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 30);
                                 smoke += 10;
                                 if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
-                                    g->m.destroy(g, x, y, false);
+                                    g->m.destroy(x, y, false);
                                 }
 
                             } else if (terlist[ter(x, y)].has_flag("SWIMMABLE")) {
@@ -628,7 +628,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                                     (has_flag("FLAMMABLE_HARD", fx, fy) && one_in(10))) ||
                                                    flammable_items_at(fx, fy) ||
                                                    nearwebfld )) {
-                                        add_field(g, fx, fy, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
+                                        add_field(fx, fy, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
                                         tmpfld = nearby_field.findField(fd_fire);
                                         if(tmpfld) {
                                             tmpfld->setFieldAge(100);
@@ -667,7 +667,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                             rng(3, 35) < cur->getFieldDensity() * 5 && cur->getFieldAge() < 1000 &&
                                             (has_flag("SUPPRESS_SMOKE", x, y) != true )) {
                                             smoke--;
-                                            add_field(g, fx, fy, fd_smoke, rng(1, cur->getFieldDensity())); //Add smoke!
+                                            add_field(fx, fy, fd_smoke, rng(1, cur->getFieldDensity())); //Add smoke!
                                         }
                                     }
                                 }
@@ -703,7 +703,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 if (tmpfld && tmpfld->getFieldDensity() < 3) {
                                     tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
                                 } else {
-                                    add_field(g, i, j, fd_toxic_gas, 3);
+                                    add_field(i, j, fd_toxic_gas, 3);
                                 }
                             }
                         }
@@ -740,7 +740,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 while (tries < 10 && cur->getFieldAge() < 50 && cur->getFieldDensity() > 1) {
                                     int cx = x + rng(-1, 1), cy = y + rng(-1, 1);
                                     if (move_cost(cx, cy) != 0) {
-                                        add_field(g, point(cx, cy), fd_electricity, 1, cur->getFieldAge() + 1);
+                                        add_field(point(cx, cy), fd_electricity, 1, cur->getFieldAge() + 1);
                                         cur->setFieldDensity(cur->getFieldDensity() - 1);
                                         tries = 0;
                                     } else {
@@ -765,13 +765,13 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                                 py).findField(fd_electricity)->getFieldDensity() + 1);
                                         cur->setFieldDensity(cur->getFieldDensity() - 1);
                                     } else if (move_cost(px, py) > 0) {
-                                        add_field(g, point(px, py), fd_electricity, 1, cur->getFieldAge() + 1);
+                                        add_field(point(px, py), fd_electricity, 1, cur->getFieldAge() + 1);
                                     }
                                     cur->setFieldDensity(cur->getFieldDensity() - 1);
                                 }
                                 while (!valid.empty() && cur->getFieldDensity() > 1) {
                                     int index = rng(0, valid.size() - 1);
-                                    add_field(g, valid[index], fd_electricity, 1, cur->getFieldAge() + 1);
+                                    add_field(valid[index], fd_electricity, 1, cur->getFieldAge() + 1);
                                     cur->setFieldDensity(cur->getFieldDensity() - 1);
                                     valid.erase(valid.begin() + index);
                                 }
@@ -817,7 +817,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                         g->add_msg(_("A %s hits you!"), tmp.tname().c_str());
                                         body_part hit = random_body_part();
                                         int side = random_side(hit);
-                                        g->u.hit(g, NULL, hit, side, 6, 0);
+                                        g->u.hit(NULL, hit, side, 6, 0);
                                     }
                                     int npcdex = g->npc_at(newp.x, newp.y),
                                         mondex = g->mon_at(newp.x, newp.y);
@@ -826,7 +826,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                         npc *p = g->active_npc[npcdex];
                                         body_part hit = random_body_part();
                                         int side = random_side(hit);
-                                        p->hit(g, NULL, hit, side, 6, 0);
+                                        p->hit(NULL, hit, side, 6, 0);
                                         if (g->u_see(newp.x, newp.y)) {
                                             g->add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
                                         }
@@ -864,7 +864,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 for (int n = 0; n < dist; n++) {
                                     boltx += xdir;
                                     bolty += ydir;
-                                    add_field(g, boltx, bolty, fd_electricity, rng(2, 3));
+                                    add_field(boltx, bolty, fd_electricity, rng(2, 3));
                                     if (one_in(4)) {
                                         if (xdir == 0) {
                                             xdir = rng(0, 1) * 2 - 1;
@@ -902,7 +902,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                                 newdens = 3;
                                             }
                                             if (newdens > 0) {
-                                                add_field(g, i, j, fd_acid, newdens);
+                                                add_field(i, j, fd_acid, newdens);
                                             }
                                         }
                                     }
@@ -947,7 +947,7 @@ Triggers any active abilities a field effect would have. Fire burns you, acid me
 If you add a field effect that interacts with the player place a case statement in the switch here.
 If you wish for a field effect to do something over time (propagate, interact with terrain, etc) place it in process_subfields
 */
-void map::step_in_field(int x, int y, game *g)
+void map::step_in_field(int x, int y)
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
     field &curfield = field_at(x, y);
@@ -1013,20 +1013,20 @@ void map::step_in_field(int x, int y, game *g)
             //TODO: Add resistance to this with rubber shoes or something?
             if (cur->getFieldDensity() == 3 && !inside) {
                 g->add_msg(_("The acid burns your legs and feet!"));
-                g->u.hit(g, NULL, bp_feet, 0, 0, rng(4, 10));
-                g->u.hit(g, NULL, bp_feet, 1, 0, rng(4, 10));
-                g->u.hit(g, NULL, bp_legs, 0, 0, rng(2,  8));
-                g->u.hit(g, NULL, bp_legs, 1, 0, rng(2,  8));
+                g->u.hit(NULL, bp_feet, 0, 0, rng(4, 10));
+                g->u.hit(NULL, bp_feet, 1, 0, rng(4, 10));
+                g->u.hit(NULL, bp_legs, 0, 0, rng(2,  8));
+                g->u.hit(NULL, bp_legs, 1, 0, rng(2,  8));
             } else if (cur->getFieldDensity() == 2 && !inside) {
-                g->u.hit(g, NULL, bp_feet, 0, 0, rng(2, 5));
-                g->u.hit(g, NULL, bp_feet, 1, 0, rng(2, 5));
-                g->u.hit(g, NULL, bp_legs, 0, 0, rng(1,  4));
-                g->u.hit(g, NULL, bp_legs, 1, 0, rng(1,  4));
+                g->u.hit(NULL, bp_feet, 0, 0, rng(2, 5));
+                g->u.hit(NULL, bp_feet, 1, 0, rng(2, 5));
+                g->u.hit(NULL, bp_legs, 0, 0, rng(1,  4));
+                g->u.hit(NULL, bp_legs, 1, 0, rng(1,  4));
             } else if (!inside) {
-                g->u.hit(g, NULL, bp_feet, 0, 0, rng(1, 3));
-                g->u.hit(g, NULL, bp_feet, 1, 0, rng(1, 3));
-                g->u.hit(g, NULL, bp_legs, 0, 0, rng(0,  2));
-                g->u.hit(g, NULL, bp_legs, 1, 0, rng(0,  2));
+                g->u.hit(NULL, bp_feet, 0, 0, rng(1, 3));
+                g->u.hit(NULL, bp_feet, 1, 0, rng(1, 3));
+                g->u.hit(NULL, bp_legs, 0, 0, rng(0,  2));
+                g->u.hit(NULL, bp_legs, 1, 0, rng(0,  2));
             }
             break;
 
@@ -1062,20 +1062,20 @@ void map::step_in_field(int x, int y, game *g)
             if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink prevents ALL fire damage.
                 if (adjusted_intensity == 1) {
                     g->add_msg(_("You burn your legs and feet!"));
-                    g->u.hit(g, NULL, bp_feet, 0, 0, rng(2, 6));
-                    g->u.hit(g, NULL, bp_feet, 1, 0, rng(2, 6));
-                    g->u.hit(g, NULL, bp_legs, 0, 0, rng(1, 4));
-                    g->u.hit(g, NULL, bp_legs, 1, 0, rng(1, 4));
+                    g->u.hit(NULL, bp_feet, 0, 0, rng(2, 6));
+                    g->u.hit(NULL, bp_feet, 1, 0, rng(2, 6));
+                    g->u.hit(NULL, bp_legs, 0, 0, rng(1, 4));
+                    g->u.hit(NULL, bp_legs, 1, 0, rng(1, 4));
                 } else if (adjusted_intensity == 2) {
                     g->add_msg(_("You're burning up!"));
-                    g->u.hit(g, NULL, bp_legs, 0, 0,  rng(2, 6));
-                    g->u.hit(g, NULL, bp_legs, 1, 0,  rng(2, 6));
-                    g->u.hit(g, NULL, bp_torso, -1, 4, rng(4, 9));
+                    g->u.hit(NULL, bp_legs, 0, 0,  rng(2, 6));
+                    g->u.hit(NULL, bp_legs, 1, 0,  rng(2, 6));
+                    g->u.hit(NULL, bp_torso, -1, 4, rng(4, 9));
                 } else if (adjusted_intensity == 3) {
                     g->add_msg(_("You're set ablaze!"));
-                    g->u.hit(g, NULL, bp_legs, 0, 0, rng(2, 6));
-                    g->u.hit(g, NULL, bp_legs, 1, 0, rng(2, 6));
-                    g->u.hit(g, NULL, bp_torso, -1, 4, rng(4, 9));
+                    g->u.hit(NULL, bp_legs, 0, 0, rng(2, 6));
+                    g->u.hit(NULL, bp_legs, 1, 0, rng(2, 6));
+                    g->u.hit(NULL, bp_torso, -1, 4, rng(4, 9));
                     g->u.add_effect("onfire", 5); //lasting fire damage only from the strongest fires.
                 }
             }
@@ -1150,9 +1150,9 @@ void map::step_in_field(int x, int y, game *g)
             if (inside) break; //fireballs can't touch you inside a car.
             if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink stops fire.
                 g->add_msg(_("You're torched by flames!"));
-                g->u.hit(g, NULL, bp_legs, 0, 0,  rng(2, 6));
-                g->u.hit(g, NULL, bp_legs, 1, 0,  rng(2, 6));
-                g->u.hit(g, NULL, bp_torso, -1, 4, rng(4, 9));
+                g->u.hit(NULL, bp_legs, 0, 0,  rng(2, 6));
+                g->u.hit(NULL, bp_legs, 1, 0,  rng(2, 6));
+                g->u.hit(NULL, bp_torso, -1, 4, rng(4, 9));
             } else
                 g->add_msg(_("These flames do not burn you."));
             break;
@@ -1201,7 +1201,7 @@ void map::step_in_field(int x, int y, game *g)
     }
 }
 
-void map::mon_in_field(int x, int y, game *g, monster *z)
+void map::mon_in_field(int x, int y, monster *z)
 {
     if (z->digging()) {
         return; // Digging monsters are immune to fields
@@ -1428,7 +1428,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     if (dam > 0) {
         z->hurt(dam);
         if(z->hp < 1) {
-          z->die(g);
+          z->die();
         }
     }
 }
@@ -1443,7 +1443,7 @@ bool vector_has(std::vector <item> vec, itype_id type)
 }
 
 // TODO FIXME XXX: oh god the horror
-void map::field_effect(int x, int y, game *g) //Applies effect of field immediately
+void map::field_effect(int x, int y) //Applies effect of field immediately
 {
  field_entry *cur = NULL;
  field &curfield = field_at(x, y);
@@ -1518,7 +1518,7 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
      }
     }
     if (me && (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0)) {
-     me->die(g, false);        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
+     me->die(false);        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
      g->active_npc.erase(g->active_npc.begin() + fdnpc);
     }                                       //Still need to add vehicle damage, but I'm ignoring that for now.
    }

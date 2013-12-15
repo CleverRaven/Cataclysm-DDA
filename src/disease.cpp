@@ -494,7 +494,7 @@ void dis_effect(player &p, disease &dis) {
                             }
                             // Hallucinations handled in game.cpp
                             if (one_in(std::min(14500, 15000 - p.temp_cur[bp_head]))) {
-                                p.vomit(g);
+                                p.vomit();
                             }
                             if (p.pain < 20) {
                                 p.pain++;
@@ -654,7 +654,7 @@ void dis_effect(player &p, disease &dis) {
             }
             if (!p.has_disease("took_flumed") || one_in(2)) {
                 if (one_in(3600) || will_vomit(p)) {
-                    p.vomit(g);
+                    p.vomit();
                 }
             }
             break;
@@ -688,7 +688,7 @@ void dis_effect(player &p, disease &dis) {
         case DI_BOOMERED:
             p.per_cur -= 5;
             if (will_vomit(p)) {
-                p.vomit(g);
+                p.vomit();
             } else if (one_in(3600)) {
                 g->add_msg_if_player(&p,_("You gag and retch."));
             }
@@ -713,7 +713,7 @@ void dis_effect(player &p, disease &dis) {
         case DI_SLIMED:
             p.dex_cur -= 2;
             if (will_vomit(p, 2100)) {
-                p.vomit(g);
+                p.vomit();
             } else if (one_in(4800)) {
                 g->add_msg_if_player(&p,_("You gag and retch."));
             }
@@ -721,11 +721,11 @@ void dis_effect(player &p, disease &dis) {
 
         case DI_LYING_DOWN:
             p.moves = 0;
-            if (p.can_sleep(g)) {
+            if (p.can_sleep()) {
                 dis.duration = 1;
                 g->add_msg_if_player(&p,_("You fall asleep."));
                 // Communicate to the player that he is using items on the floor
-                std::string item_name = p.is_snuggling(g);
+                std::string item_name = p.is_snuggling();
                 if (item_name == "many") {
                     if (one_in(15) ) {
                         g->add_msg(_("You nestle your pile of clothes for warmth."));
@@ -837,7 +837,7 @@ void dis_effect(player &p, disease &dis) {
                 p.str_cur--;
                 p.dex_cur--;
                 if (dis.duration >= 1200 && (one_in(50) || will_vomit(p, 10))) {
-                    p.vomit(g);
+                    p.vomit();
                 }
             } else {
                 // p.dex_cur++;
@@ -862,10 +862,10 @@ void dis_effect(player &p, disease &dis) {
                 g->add_msg_player_or_npc( &p, _("You lose some blood."),
                                          _("<npcname> loses some blood.") );
                 p.pain++;
-                p.hurt(g, dis.bp, dis.side == -1 ? 0 : dis.side, 1);
+                p.hurt(dis.bp, dis.side == -1 ? 0 : dis.side, 1);
                 p.per_cur--;
                 p.str_cur--;
-                g->m.add_field(g, p.posx, p.posy, fd_blood, 1);
+                g->m.add_field(p.posx, p.posy, fd_blood, 1);
             }
             break;
 
@@ -873,7 +873,7 @@ void dis_effect(player &p, disease &dis) {
             if (inflictBadPsnPain) {
                 g->add_msg_if_player(&p,_("You're suddenly wracked with pain!"));
                 p.pain += 2;
-                p.hurt(g, bp_torso, -1, rng(0, 2));
+                p.hurt(bp_torso, -1, rng(0, 2));
             }
             p.per_cur -= 2;
             p.dex_cur -= 2;
@@ -899,10 +899,10 @@ void dis_effect(player &p, disease &dis) {
             }
             if (one_in(300 + bonus)) {
                 g->add_msg_if_player(&p,_("You're suddenly wracked with pain and nausea!"));
-                p.hurt(g, bp_torso, -1, 1);
+                p.hurt(bp_torso, -1, 1);
             }
             if (will_vomit(p, 100+bonus) || one_in(600 + bonus)) {
-                p.vomit(g);
+                p.vomit();
             }
             break;
 
@@ -926,15 +926,15 @@ void dis_effect(player &p, disease &dis) {
             p.per_cur -= int(dis.duration / 25);
             if (rng(0, 100) < dis.duration / 10) {
                 if (!one_in(5)) {
-                    p.mutate_category(g, "MUTCAT_RAT");
+                    p.mutate_category("MUTCAT_RAT");
                     dis.duration /= 5;
                 } else {
-                    p.mutate_category(g, "MUTCAT_TROGLO");
+                    p.mutate_category("MUTCAT_TROGLO");
                     dis.duration /= 3;
                 }
             } else if (rng(0, 100) < dis.duration / 8) {
                 if (one_in(3)) {
-                    p.vomit(g);
+                    p.vomit();
                     dis.duration -= 10;
                 } else {
                     g->add_msg(_("You feel nauseous!"));
@@ -956,7 +956,7 @@ void dis_effect(player &p, disease &dis) {
                                        body_part_name(dis.bp, dis.side).c_str());
                 }
                 p.moves -= 150;
-                p.hurt(g, dis.bp, dis.side, 1);
+                p.hurt(dis.bp, dis.side, 1);
             }
             break;
 
@@ -1045,7 +1045,7 @@ void dis_effect(player &p, disease &dis) {
                 p.fatigue += 1;
             }
             if (will_vomit(p, 2000)) {
-                p.vomit(g);
+                p.vomit();
             }
             break;
 
@@ -1122,7 +1122,7 @@ void dis_effect(player &p, disease &dis) {
                 }
                 if (one_in(3500 - int(.25 * (dis.duration - 3600)))) {
                     g->add_msg_if_player(&p,_("You shudder suddenly."));
-                    p.mutate(g);
+                    p.mutate();
                     if (one_in(4))
                     p.rem_disease("teleglow");
                 }
@@ -2139,7 +2139,7 @@ void manage_fungal_infection(player& p, disease& dis) {
             if (one_in(600 + bonus * 3)) {
                 g->add_msg_if_player(&p, _("You spasm suddenly!"));
                 p.moves -= 100;
-                p.hurt(g, bp_torso, -1, 5);
+                p.hurt(bp_torso, -1, 5);
             }
             if (will_vomit(p, 800 + bonus * 4) || one_in(2000 + bonus * 10)) {
                 g->add_msg_player_or_npc( &p, _("You vomit a thick, gray goop."),
@@ -2149,7 +2149,7 @@ void manage_fungal_infection(player& p, disease& dis) {
                 p.moves = -200;
                 p.hunger += awfulness;
                 p.thirst += awfulness;
-                p.hurt(g, bp_torso, -1, awfulness / p.str_cur);  // can't be healthy
+                p.hurt(bp_torso, -1, awfulness / p.str_cur);  // can't be healthy
             }
         } else {
             p.add_disease("fungus", 1, true, 1, 1, 0, -1);
@@ -2191,8 +2191,8 @@ void manage_fungal_infection(player& p, disease& dis) {
         g->add_msg_player_or_npc(&p,
             _("Your hands bulge. Fungus stalks burst through the bulge!"),
             _("<npcname>'s hands bulge. Fungus stalks burst through the bulge!"));
-        p.hurt(g, bp_arms, 0, 999);
-        p.hurt(g, bp_arms, 1, 999);
+        p.hurt(bp_arms, 0, 999);
+        p.hurt(bp_arms, 1, 999);
     }
 }
 
@@ -2372,7 +2372,7 @@ static void handle_alcohol(player& p, disease& dis) {
     }
     if (dis.duration > 2000 + 100 * dice(2, 100) &&
         (will_vomit(p, 1) || one_in(20))) {
-        p.vomit(g);
+        p.vomit();
     }
     bool readyForNap = one_in(500 - int(dis.duration / 80));
     if (!p.has_disease("sleep") && dis.duration >= 4500 && readyForNap) {
@@ -2466,7 +2466,7 @@ static void handle_infected_wound(player& p, disease& dis) {
             g->add_msg_if_player(&p,
                 _("You feel feverish and nauseous, your %s wound has begun to turn green."),
                   body_part_name(dis.bp, dis.side).c_str());
-            p.vomit(g);
+            p.vomit();
             if(p.pain < 50) {
                 p.pain++;
             }
@@ -2483,7 +2483,7 @@ static void handle_infected_wound(player& p, disease& dis) {
             } else {
                 g->add_msg_if_player(&p,_("You can barely remain standing."));
             }
-            p.vomit(g);
+            p.vomit();
             if(p.pain < 100)
             {
                 p.pain++;
@@ -2516,7 +2516,7 @@ static void handle_recovery(player& p, disease& dis) {
             } else {
                 g->add_msg_if_player(&p,_("You can barely remain standing."));
             }
-            p.vomit(g);
+            p.vomit();
             if(p.pain < 80)
             {
                 p.pain++;
@@ -2535,7 +2535,7 @@ static void handle_recovery(player& p, disease& dis) {
             }
             g->add_msg_if_player(&p,
                 _("You feel feverish and nauseous."));
-            p.vomit(g);
+            p.vomit();
             if(p.pain < 40) {
                 p.pain++;
             }
@@ -2568,7 +2568,7 @@ static void handle_recovery(player& p, disease& dis) {
     }
 }
 
-static void handle_cough(player &p, int intensity, int loudness) {
+static void handle_cough(player &p, int, int loudness) {
     if (!p.is_npc()) {
         g->add_msg(_("You cough heavily."));
         g->sound(p.posx, p.posy, loudness, "");
@@ -2577,7 +2577,7 @@ static void handle_cough(player &p, int intensity, int loudness) {
     }
     p.moves -= 80;
     if (!one_in(4)) {
-        p.hurt(g, bp_torso, -1, 1);
+        p.hurt(bp_torso, -1, 1);
     }
     if (p.has_disease("sleep")) {
         p.wake_up(_("You wake up coughing."));
@@ -2612,7 +2612,7 @@ static void handle_deliriant(player& p, disease& dis) {
             g->add_msg_if_player(&p,_("You feel sick to your stomach."));
             p.hunger -= 2;
             if (one_in(6)) {
-                p.vomit(g);
+                p.vomit();
                 if (one_in(2)) {
                     // we've vomited enough for now
                     puked = true;
@@ -2717,13 +2717,13 @@ static void handle_insect_parasites(player& p, disease& dis) {
         p.add_disease("formication", 600, false, 1, 3, 0, 1, dis.bp, dis.side, true);
     }
     if (dis.duration > 1 && one_in(2400)) {
-        p.vomit(g);
+        p.vomit();
     }
     if (dis.duration == 1) {
         // Spawn some larvae!
         // Choose how many insects; more for large characters
         int num_insects = rng(1, std::min(3, p.str_max / 3));
-        p.hurt(g, dis.bp, dis.side, rng(2, 4) * num_insects);
+        p.hurt(dis.bp, dis.side, rng(2, 4) * num_insects);
         // Figure out where they may be placed
         g->add_msg_player_or_npc( &p,
             _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),

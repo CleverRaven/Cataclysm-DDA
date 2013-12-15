@@ -14,7 +14,7 @@
 const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
- *   assemble "structure" once here instead of repeatedly later. 
+ *   assemble "structure" once here instead of repeatedly later.
  */
 static const std::string fuel_type_gasoline("gasoline");
 static const std::string fuel_type_battery("battery");
@@ -38,7 +38,7 @@ enum vehicle_controls {
  toggle_fridge
 };
 
-vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_status): g(ag), type(type_id)
+vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
 {
     posx = 0;
     posy = 0;
@@ -65,10 +65,10 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
-      if(ag->vtypes.count(type) > 0) {
+      if(g->vtypes.count(type) > 0) {
         //If this template already exists, copy it
-        *this = *(ag->vtypes[type]);
-        init_state(ag, init_veh_fuel, init_veh_status);
+        *this = *(g->vtypes[type]);
+        init_state(init_veh_fuel, init_veh_status);
       }
     }
     precalc_mounts(0, face.dir());
@@ -151,7 +151,7 @@ void vehicle::save (std::ofstream &stout)
     return;
 }
 
-void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
+void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 {
     bool destroyEngine = false;
     bool destroyTires = false;
@@ -932,7 +932,8 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
 }
 
 // share damage & bigness betwixt veh_parts & items.
-void vehicle::get_part_properties_from_item(game* g, int partnum, item& i){
+void vehicle::get_part_properties_from_item(int partnum, item& i)
+{
     //transfer bigness if relevant.
     itype_id  pitmid = part_info(partnum).item;
     itype* itemtype = itypes[pitmid];
@@ -946,7 +947,9 @@ void vehicle::get_part_properties_from_item(game* g, int partnum, item& i){
     health /= 5;
     parts[partnum].hp = health;
 }
-void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
+
+void vehicle::give_part_properties_to_item(int partnum, item& i)
+{
     //transfer bigness if relevant.
     itype_id  pitmid = part_info(partnum).item;
     itype* itemtype = itypes[pitmid];
@@ -1066,7 +1069,7 @@ item vehicle::item_from_part( int part )
     item tmp(parttype, g->turn);
 
     //transfer damage, etc.
-    give_part_properties_to_item(g, part, tmp);
+    give_part_properties_to_item(part, tmp);
     if( parttype->is_var_veh_part() ) {
         tmp.bigness = bigness;
     }
@@ -1112,7 +1115,7 @@ int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbro
             }
         }
     }
-    return -1;    
+    return -1;
 }
 
 int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken)
@@ -2072,7 +2075,7 @@ void vehicle::idle() {
         if (smk > 0 && !pedals()) {
           int rdx = rng(0, 2);
           int rdy = rng(0, 2);
-          g->m.add_field(g, global_x() + rdx, global_y() + rdy, fd_smoke, (sound / 50) + 1);
+          g->m.add_field(global_x() + rdx, global_y() + rdy, fd_smoke, (sound / 50) + 1);
         }
       }
     }
@@ -2164,7 +2167,7 @@ void vehicle::thrust (int thd) {
         {
             int rdx, rdy;
             coord_translate (exhaust_dx, exhaust_dy, rdx, rdy);
-            g->m.add_field(g, global_x() + rdx, global_y() + rdy, fd_smoke, (smk / 50) + 1);
+            g->m.add_field(global_x() + rdx, global_y() + rdy, fd_smoke, (smk / 50) + 1);
         }
         std::string soundmessage;
         if (!pedals()) {
@@ -2462,7 +2465,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
                     }
                     break;
                 case veh_coll_destructable:
-                    g->m.destroy(g, x, y, false);
+                    g->m.destroy(x, y, false);
                     snd = _("crash!");
                     break;
                 case veh_coll_other:
@@ -2514,7 +2517,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
                     g->kill_mon (mondex, pl_ctrl);
                 }
             } else {
-                ph->hitall (g, dam, 40);
+                ph->hitall (dam, 40);
                 if (vel2_a > rng (10, 20)) {
                     g->fling_player_or_monster (ph, 0, move.dir() + angle, vel2_a);
                 }
@@ -2553,7 +2556,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         }
 
         if (part_flag(part, "SHARP")) {
-            g->m.adjust_field_strength(g, point(x, y), fd_blood, 1 );
+            g->m.adjust_field_strength(point(x, y), fd_blood, 1 );
         } else {
             g->sound(x, y, 20, "");
         }
@@ -2829,7 +2832,7 @@ void vehicle::place_spawn_items()
     }
 }
 
-void vehicle::gain_moves (int mp)
+void vehicle::gain_moves()
 {
     static const std::string veh_str_battery(fuel_type_battery);
     if (velocity) {
@@ -2873,7 +2876,7 @@ void vehicle::gain_moves (int mp)
         for (int ix = -1; ix <= 1; ix++) {
             for (int iy = -1; iy <= 1; iy++) {
                 if (!rng(0, 2)) {
-                    g->m.add_field(g, part_x + ix, part_y + iy, fd_smoke, rng(2, 4));
+                    g->m.add_field(part_x + ix, part_y + iy, fd_smoke, rng(2, 4));
                 }
             }
         }
@@ -3416,7 +3419,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     refill( fuel_type_battery, ups_ref.charges );
     if( ammo.type == fuel_type_gasoline ) {
         for( int i = 0; i < traj.size(); i++ ) {
-            g->m.add_field(g, traj[i].x, traj[i].y, fd_fire, 1);
+            g->m.add_field(traj[i].x, traj[i].y, fd_fire, 1);
         }
     }
 

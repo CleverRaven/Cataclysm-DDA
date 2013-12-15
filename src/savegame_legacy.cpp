@@ -98,8 +98,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             turn = tmpturn;
             nextspawn = tmpspawn;
 
-            cur_om = &overmap_buffer.get(this, comx, comy);
-            m.load(this, levx, levy, levz);
+            cur_om = &overmap_buffer.get(comx, comy);
+            m.load(levx, levy, levz);
 
             run_mode = tmprun;
             if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -157,7 +157,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // Finally, the data on the player.
             getline(fin, data);
-            u.load_info(this, data);
+            u.load_info(data);
             u.load_memorial_file( fin );
             // end .sav version 9
 
@@ -185,8 +185,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             turn = tmpturn;
             nextspawn = tmpspawn;
 
-            cur_om = &overmap_buffer.get(this, comx, comy);
-            m.load(this, levx, levy, levz);
+            cur_om = &overmap_buffer.get(comx, comy);
+            m.load(levx, levy, levz);
 
             run_mode = tmprun;
             if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -223,7 +223,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                 getline( fin, data );
                 for (int i = 0; i < num_items; i++) {
                     getline( fin, data );
-                    montmp.inv.push_back( item( data, this ) );
+                    montmp.inv.push_back( item( data ) );
                 }
 
                 add_zombie(montmp);
@@ -244,7 +244,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // Finally, the data on the player.
             getline(fin, data);
-            u.load_info(this, data);
+            u.load_info(data);
             u.load_memorial_file( fin );
 
             // And the player's inventory...
@@ -262,7 +262,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                     getline(fin, itemdata);
                     if ( item_place == 'I' || item_place == 'C' || item_place == 'W' ||
                          item_place == 'S' || item_place == 'w' || item_place == 'c' ) {
-                        item tmpitem(itemdata, this);
+                        item tmpitem(itemdata);
                         if (item_place == 'I') {
                             tmpinv.push_back(tmpitem);
                         } else if (item_place == 'C') {
@@ -302,8 +302,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             turn = tmpturn;
             nextspawn = tmpspawn;
 
-            cur_om = &overmap_buffer.get(this, comx, comy);
-            m.load(this, levx, levy, levz);
+            cur_om = &overmap_buffer.get(comx, comy);
+            m.load(levx, levy, levz);
 
             run_mode = tmprun;
             if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -340,7 +340,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                 getline( fin, data );
                 for (int i = 0; i < num_items; i++) {
                     getline( fin, data );
-                    montmp.inv.push_back( item( data, this ) );
+                    montmp.inv.push_back( item( data ) );
                 }
 
                 add_zombie(montmp);
@@ -361,7 +361,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // Finally, the data on the player.
             getline(fin, data);
-            u.load_info(this, data);
+            u.load_info(data);
             u.load_memorial_file( fin );
 
             // And the player's inventory...
@@ -379,7 +379,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                     getline(fin, itemdata);
                     if ( item_place == 'I' || item_place == 'C' || item_place == 'W' ||
                          item_place == 'S' || item_place == 'w' || item_place == 'c' ) {
-                        item tmpitem(itemdata, this);
+                        item tmpitem(itemdata);
                         if (item_place == 'I') {
                             tmpinv.push_back(tmpitem);
                         } else if (item_place == 'C') {
@@ -418,8 +418,8 @@ original 'structure', which globs game/weather/location & killcount/player data 
          turn = tmpturn;
          nextspawn = tmpspawn;
 
-         cur_om = &overmap_buffer.get(this, comx, comy);
-         m.load(this, levx, levy, levz);
+         cur_om = &overmap_buffer.get(comx, comy);
+         m.load(levx, levy, levz);
 
          run_mode = tmprun;
          if (OPTIONS["SAFEMODE"] && run_mode == 0)
@@ -453,7 +453,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
           getline( fin, data );
           for (int i = 0; i < num_items; i++) {
               getline( fin, data );
-              montmp.inv.push_back( item( data, this ) );
+              montmp.inv.push_back( item( data ) );
           }
 
           add_zombie(montmp);
@@ -467,7 +467,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
          if (fin.peek() == '\n')
           fin.get(junk); // Chomp that pesky endline
          getline(fin, data);
-         u.load_info(this, data);
+         u.load_info(data);
         // And the player's inventory...
          u.inv.load_invlet_cache( fin );
 
@@ -482,7 +482,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
           if (!fin.eof()) {
            getline(fin, itemdata);
            if ( item_place == 'I' || item_place == 'C' || item_place == 'W' || item_place == 'S' || item_place == 'w' || item_place == 'c' ) {
-               item tmpitem(itemdata, this);
+               item tmpitem(itemdata);
                if (item_place == 'I') {
                    tmpinv.push_back(tmpitem);
                } else if (item_place == 'C') {
@@ -847,7 +847,7 @@ const char* oter_legacy[num_ter_types] = {
     "tutorial"
 };
 
-bool overmap::unserialize_legacy(game *g, std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename) {
+bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename) {
     switch (savegame_loading_version) {
         case 11:
         case 10:
@@ -926,7 +926,7 @@ bool overmap::unserialize_legacy(game *g, std::ifstream & fin, std::string const
                     std::string npcdata;
                     getline(fin, npcdata);
                     npc * tmp = new npc();
-                    tmp->load_info(g, npcdata);
+                    tmp->load_info(npcdata);
                     npcs.push_back(tmp);
                 } else if (datatype == 'P') {
                     // Chomp the invlet_cache, since the npc doesn't use it.
@@ -941,7 +941,7 @@ bool overmap::unserialize_legacy(game *g, std::ifstream & fin, std::string const
                                  loc.x, loc.y);
                         debugmsg(itemdata.c_str());
                     } else {
-                        item tmp(itemdata, g);
+                        item tmp(itemdata);
                         npc* last = npcs.back();
                         switch (datatype) {
                         case 'I':
@@ -1093,7 +1093,7 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
           }
           sm->turn_last_touched = turn;
           sm->temperature = temperature;
-          int turndif = (master_game ? int(master_game->turn) - turn : 0);
+          int turndif = int(g->turn) - turn;
           if (turndif < 0)
            turndif = 0;
         // Load terrain
@@ -1135,7 +1135,7 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
             fin >> itx >> ity;
             getline(fin, databuff); // Clear out the endline
             getline(fin, databuff);
-            it_tmp.load_info(databuff, master_game);
+            it_tmp.load_info(databuff);
             sm->itm[itx][ity].push_back(it_tmp);
             if (it_tmp.active)
              sm->active_item_count++;
@@ -1143,7 +1143,7 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
             getline(fin, databuff); // Clear out the endline
             getline(fin, databuff);
             int index = sm->itm[itx][ity].size() - 1;
-            it_tmp.load_info(databuff, master_game);
+            it_tmp.load_info(databuff);
             sm->itm[itx][ity][index].put_in(it_tmp);
             if (it_tmp.active)
              sm->active_item_count++;
@@ -1167,11 +1167,11 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
                             spawnname);
             sm->spawns.push_back(tmp);
            } else if (string_identifier == "V") {
-            vehicle * veh = new vehicle(master_game);
+            vehicle *veh = new vehicle();
             veh->load (fin);
             //veh.smx = gridx;
             //veh.smy = gridy;
-            master_game->m.vehicle_list.insert(veh);
+            g->m.vehicle_list.insert(veh);
             sm->vehicles.push_back(veh);
            } else if (string_identifier == "c") {
             getline(fin, databuff);
@@ -1203,7 +1203,8 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
 ///// old stringstream based class loadgame functions. For saves from < 0.8 to git sep 20 '13
 
 ///// player.h
-void player::load_legacy(game *g, std::stringstream & dump) {
+void player::load_legacy(std::stringstream & dump)
+{
  int inveh, vctrl;
  itype_id styletmp;
  std::string prof_ident;
@@ -1376,7 +1377,7 @@ void player::load_legacy(game *g, std::stringstream & dump) {
 
 
 ///// npc.h
-void npc::load_legacy(game *g, std::stringstream & dump) {
+void npc::load_legacy(std::stringstream & dump) {
     std::string tmpname;
     int deathtmp, deadtmp, classtmp, npc_id;
  dump >> npc_id;
@@ -1566,7 +1567,7 @@ void monster::load_legacy(std::stringstream & dump) {
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars );
 
-void item::load_legacy(game * g, std::stringstream & dump) {
+void item::load_legacy(std::stringstream & dump) {
     clear();
     std::string idtmp, ammotmp, item_tag;
     int lettmp, damtmp, acttmp, corp, tag_count;
@@ -1670,7 +1671,7 @@ void vehicle::load_legacy(std::ifstream &stin) {
             itms++;
             getline(stin, databuff);
             item itm;
-            itm.load_info (databuff, g);
+            itm.load_info(databuff);
             new_part.items.push_back (itm);
             int ncont;
             stin >> ncont; // how many items inside container
@@ -1679,7 +1680,7 @@ void vehicle::load_legacy(std::ifstream &stin) {
             {
                 getline(stin, databuff);
                 item citm;
-                citm.load_info (databuff, g);
+                citm.load_info(databuff);
                 new_part.items[new_part.items.size()-1].put_in (citm);
             }
         }
@@ -1714,7 +1715,7 @@ bool game::unserialize_master_legacy(std::ifstream & fin) {
   fin.get(junk); // Chomp that pesky endline
  for (int i = 0; i < num_missions; i++) {
   mission tmpmiss;
-  tmpmiss.load_info(this, fin);
+  tmpmiss.load_info(fin);
   active_missions.push_back(tmpmiss);
  }
 

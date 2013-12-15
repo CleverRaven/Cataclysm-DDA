@@ -81,7 +81,7 @@ void computer::shutdown_terminal()
     w_border = NULL;
 }
 
-void computer::use(game *g)
+void computer::use()
 {
     if (w_border == NULL) {
         w_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -113,13 +113,13 @@ void computer::use(game *g)
 
         case 'y':
         case 'Y':
-            if (!hack_attempt(g, &(g->u))) {
+            if (!hack_attempt(&(g->u))) {
                 if (failures.empty()) {
                     query_any(_("Maximum login attempts exceeded. Press any key..."));
                     shutdown_terminal();
                     return;
                 }
-                activate_random_failure(g);
+                activate_random_failure();
                 shutdown_terminal();
                 return;
             } else { // Successful hack attempt
@@ -156,18 +156,18 @@ void computer::use(game *g)
             if (current.security > 0) {
                 print_error(_("Password required."));
                 if (query_bool(_("Hack into system?"))) {
-                    if (!hack_attempt(g, &(g->u), current.security)) {
-                        activate_random_failure(g);
+                    if (!hack_attempt(&(g->u), current.security)) {
+                        activate_random_failure();
                         shutdown_terminal();
                         return;
                     } else {
                         // Succesfully hacked function
                         options[ch].security = 0;
-                        activate_function(g, current.action);
+                        activate_function(current.action);
                     }
                 }
             } else { // No need to hack, just activate
-                activate_function(g, current.action);
+                activate_function(current.action);
             }
             reset_terminal();
         } // Done processing a selected option.
@@ -176,7 +176,7 @@ void computer::use(game *g)
     shutdown_terminal(); // This should have been done by now, but just in case.
 }
 
-bool computer::hack_attempt(game *g, player *p, int Security)
+bool computer::hack_attempt(player *p, int Security)
 {
     if (Security == -1) {
         Security = security;    // Set to main system security if no value passed
@@ -261,7 +261,7 @@ void computer::load_data(std::string data)
     }
 }
 
-void computer::activate_function(game *g, computer_action action)
+void computer::activate_function(computer_action action)
 {
     switch (action) {
 
@@ -477,7 +477,7 @@ void computer::activate_function(game *g, computer_action action)
 
     case COMPACT_MISS_LAUNCH: {
         // Target Acquisition.
-        point target = g->cur_om->draw_overmap(g, 0);
+        point target = g->cur_om->draw_overmap(0);
         if (target.x == -1) {
             g->add_msg(_("Target acquisition canceled"));
             return;
@@ -495,7 +495,7 @@ void computer::activate_function(game *g, computer_action action)
         for(int i = g->u.posx + 8; i < g->u.posx + 15; i++) {
             for(int j = g->u.posy + 3; j < g->u.posy + 12; j++)
                 if(!one_in(4)) {
-                    g->m.add_field(NULL, i + rng(-2, 2), j + rng(-2, 2), fd_smoke, rng(1, 9));
+                    g->m.add_field(i + rng(-2, 2), j + rng(-2, 2), fd_smoke, rng(1, 9));
                 }
         }
 
@@ -505,7 +505,7 @@ void computer::activate_function(game *g, computer_action action)
         // For each level between here and the surface, remove the missile
         for (int level = g->levz; level <= 0; level++) {
             map tmpmap(&g->traps);
-            tmpmap.load(g, g->levx, g->levy, level, false);
+            tmpmap.load(g->levx, g->levy, level, false);
 
             if(level < 0) {
                 tmpmap.translate(t_missile, t_hole);
@@ -523,7 +523,7 @@ void computer::activate_function(game *g, computer_action action)
             }
         }
 
-        activate_failure(g, COMPFAIL_SHUTDOWN);
+        activate_failure(COMPFAIL_SHUTDOWN);
     }
     break;
 
@@ -533,7 +533,7 @@ void computer::activate_function(game *g, computer_action action)
             g->u.add_memorial_log(_("Disarmed a nuclear missile."));
             g->add_msg(_("Nuclear missile disarmed!"));
             options.clear();//disable missile.
-            activate_failure(g, COMPFAIL_SHUTDOWN);
+            activate_failure(COMPFAIL_SHUTDOWN);
         } else {
             g->add_msg(_("Nuclear missile remains active."));
             return;
@@ -1059,14 +1059,14 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
     } // switch (action)
 }
 
-void computer::activate_random_failure(game *g)
+void computer::activate_random_failure()
 {
     computer_failure fail = (failures.empty() ? COMPFAIL_SHUTDOWN :
                              failures[rng(0, failures.size() - 1)]);
-    activate_failure(g, fail);
+    activate_failure(fail);
 }
 
-void computer::activate_failure(game *g, computer_failure fail)
+void computer::activate_failure(computer_failure fail)
 {
     switch (fail) {
 

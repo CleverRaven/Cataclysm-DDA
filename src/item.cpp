@@ -148,9 +148,9 @@ itype * item::nullitem()
     return nullitem_m;
 }
 
-item::item(std::string itemdata, game *g)
+item::item(std::string itemdata)
 {
- load_info(itemdata, g);
+    load_info(itemdata);
 }
 
 item::item(JsonObject &jo)
@@ -327,7 +327,7 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
 }
 
 
-void item::load_info(std::string data, game *g)
+void item::load_info(std::string data)
 {
     std::stringstream dump;
     dump << data;
@@ -345,7 +345,7 @@ void item::load_info(std::string data, game *g)
         }
         return;
     } else {
-        load_legacy(g, dump);
+        load_legacy(dump);
     }
 }
 
@@ -356,7 +356,7 @@ std::string item::info(bool showtext)
     return info(showtext, &dummy);
 }
 
-std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool debug)
+std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 {
  std::stringstream temp1, temp2;
  if ( g != NULL && debug == false &&
@@ -908,7 +908,7 @@ std::string item::tname( bool with_prefix )
 
         if (food_type->spoils != 0)
         {
-            if(food->rotten(g)) {
+            if(food->rotten()) {
                 ret << _(" (rotten)");
             } else if ( rot < 100 ) {
                 ret << _(" (fresh)");
@@ -1195,7 +1195,7 @@ int item::has_gunmod(itype_id mod_type)
     return -1;
 }
 
-bool item::rotten(game *g)
+bool item::rotten()
 {
     if (!is_food() || g == NULL)
         return false;
@@ -1223,7 +1223,7 @@ bool item::rotten(game *g)
     }
 }
 
-bool item::ready_to_revive(game *g)
+bool item::ready_to_revive()
 {
     if ( corpse == NULL || !corpse->has_flag(MF_REVIVES) || damage >= 4)
     {
@@ -2600,12 +2600,12 @@ const item_category &item::get_category() const
     return null_category;
 }
 
-bool item_matches_locator(const item& it, const itype_id& id, int item_pos) {
+bool item_matches_locator(const item &it, const itype_id &id, int) {
     return it.typeId() == id;
 }
-bool item_matches_locator(const item& it, int locator_pos, int item_pos) {
+bool item_matches_locator(const item &, int locator_pos, int item_pos) {
     return item_pos == locator_pos;
 }
-bool item_matches_locator(const item& it, char invlet, int item_pos) {
+bool item_matches_locator(const item &it, char invlet, int) {
     return it.invlet == invlet;
 }

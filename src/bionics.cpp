@@ -17,7 +17,7 @@ std::vector<bionic_id> faulty_bionics;
 std::vector<bionic_id> power_source_bionics;
 std::vector<bionic_id> unpowered_bionics;
 
-void bionics_install_failure(game *g, player *u, it_bionic *type, int success);
+void bionics_install_failure(player *u, it_bionic *type, int success);
 
 bionic_data::bionic_data(std::string new_name, bool new_power_source, bool new_activated,
                          int new_power_cost, int new_charge_time, std::string new_description, bool new_faulty) : description(new_description)
@@ -59,7 +59,7 @@ void show_bionics_titlebar(WINDOW *window, player *p, bool activating, bool reas
     wrefresh(window);
 }
 
-void player::power_bionics(game *g)
+void player::power_bionics()
 {
     int HEIGHT = TERMY;
     int WIDTH = FULL_SCREEN_WIDTH;
@@ -235,7 +235,7 @@ void player::power_bionics(game *g)
                     } else if (power_level >= bio_data.power_cost ||
                                (weapon_id == "bio_claws_weapon" && bio_id == "bio_claws_weapon")) {
                         int b = tmp - &my_bionics[0];
-                        activate_bionic(b, g);
+                        activate_bionic(b);
                     }
                     // Action done, leave screen
                     break;
@@ -267,7 +267,7 @@ You can not activate %s!  To read a description of \
 //
 // Well, because like diseases, which are also in a Big Switch, bionics don't
 // share functions....
-void player::activate_bionic(int b, game *g)
+void player::activate_bionic(int b)
 {
     bionic bio = my_bionics[b];
     int power_cost = bionics[bio.id]->power_cost;
@@ -334,11 +334,11 @@ void player::activate_bionic(int b, game *g)
         g->add_msg(_("Your speed suddenly increases!"));
         if (one_in(3)) {
             g->add_msg(_("Your muscles tear with the strain."));
-            hurt(g, bp_arms, 0, rng(5, 10));
-            hurt(g, bp_arms, 1, rng(5, 10));
-            hurt(g, bp_legs, 0, rng(7, 12));
-            hurt(g, bp_legs, 1, rng(7, 12));
-            hurt(g, bp_torso, -1, rng(5, 15));
+            hurt(bp_arms, 0, rng(5, 10));
+            hurt(bp_arms, 1, rng(5, 10));
+            hurt(bp_legs, 0, rng(7, 12));
+            hurt(bp_legs, 1, rng(7, 12));
+            hurt(bp_torso, -1, rng(5, 15));
         }
         if (one_in(5)) {
             add_disease("teleglow", rng(50, 400));
@@ -450,14 +450,14 @@ void player::activate_bionic(int b, game *g)
             moves -= 100;
         } else if (query_yn(_("Drink from your hands?"))) {
             inv.push_back(water);
-            consume(g, inv.position_by_type(water.typeId()));
+            consume(inv.position_by_type(water.typeId()));
             moves -= 350;
         } else {
             power_level += bionics["bio_evap"]->power_cost;
         }
     } else if(bio.id == "bio_lighter") {
         if(!g->choose_adjacent(_("Start a fire where?"), dirx, diry) ||
-           (!g->m.add_field(g, dirx, diry, fd_fire, 1))) {
+           (!g->m.add_field(dirx, diry, fd_fire, 1))) {
             g->add_msg_if_player(this, _("You can't light a fire there."));
             power_level += bionics["bio_lighter"]->power_cost;
         }
@@ -540,7 +540,7 @@ void player::activate_bionic(int b, game *g)
                         moves -= 100;
                     } else if (query_yn(_("Drink directly from the condensor?"))) {
                         inv.push_back(water);
-                        consume(g, inv.position_by_type(water.typeId()));
+                        consume(inv.position_by_type(water.typeId()));
                         moves -= 350;
                     }
                     extracted = true;
@@ -626,7 +626,7 @@ void player::activate_bionic(int b, game *g)
     }
 }
 
-bool player::install_bionics(game *g, it_bionic *type)
+bool player::install_bionics(it_bionic *type)
 {
 
     if (type == NULL) {
@@ -684,13 +684,13 @@ bool player::install_bionics(game *g, it_bionic *type)
         }
     } else {
         g->u.add_memorial_log(_("Failed to install bionic: %s."), bionics[type->id]->name.c_str());
-        bionics_install_failure(g, this, type, success);
+        bionics_install_failure(this, type, success);
     }
     g->refresh_all();
     return true;
 }
 
-void bionics_install_failure(game *g, player *u, it_bionic *type, int success)
+void bionics_install_failure(player *u, it_bionic *type, int success)
 {
 
     // "success" should be passed in as a negative integer representing how far off we
@@ -767,7 +767,7 @@ void bionics_install_failure(game *g, player *u, it_bionic *type, int success)
     case 4:
         g->add_msg(_("You do damage to your genetics, causing mutation!"));
         while (failure_level > 0) {
-            u->mutate(g);
+            u->mutate();
             failure_level -= rng(1, failure_level + 2);
         }
         break;

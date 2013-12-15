@@ -23,7 +23,6 @@ enum task_reason {
 };
 
 class vehicle;
-class game;
 
 class veh_interact
 {
@@ -149,6 +148,6 @@ public:
     void exec(vehicle *v);
 };
 
-void complete_vehicle (game *g);
+void complete_vehicle ();
 
 #endif

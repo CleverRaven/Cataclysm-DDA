@@ -9,7 +9,6 @@
 #include <algorithm>
 #include <numeric>
 
-class game;
 struct itype;
 struct it_ammo;
 class item;
@@ -115,7 +114,7 @@ struct projectile {
     { }
 };
 
-void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects);
+void ammo_effects(int x, int y, const std::set<std::string> &effects);
 
 #endif
 

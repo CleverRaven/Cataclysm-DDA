@@ -374,16 +374,16 @@ public:
  npc& operator= (const npc &rhs);
 
 // Generating our stats, etc.
- void randomize(game *g, npc_class type = NC_NONE);
- void randomize_from_faction(game *g, faction *fac);
+ void randomize(npc_class type = NC_NONE);
+ void randomize_from_faction(faction *fac);
  void spawn_at(overmap *o, int posx, int posy, int omz);
- void place_near(game *g, int potentialX, int potentialY);
+ void place_near(int potentialX, int potentialY);
  Skill* best_skill();
- void starting_weapon(game *g);
+ void starting_weapon();
 
 // Save & load
- virtual void load_legacy(game *g, std::stringstream & dump);// Overloaded from player
- virtual void load_info(game *g, std::string data);// Overloaded from player
+ virtual void load_legacy(std::stringstream & dump);// Overloaded from player
+ virtual void load_info(std::string data);// Overloaded from player
  virtual std::string save_info();
 
     using player::deserialize;
@@ -398,9 +398,9 @@ public:
  std::string opinion_text();
 
 // Goal / mission functions
- void pick_long_term_goal(game *g);
- void perform_mission(game *g);
- int  minutes_to_u(game *g); // Time in minutes it takes to reach player
+ void pick_long_term_goal();
+ void perform_mission();
+ int  minutes_to_u(); // Time in minutes it takes to reach player
  bool fac_has_value(faction_value value);
  bool fac_has_job(faction_job job);
 
@@ -408,12 +408,12 @@ public:
  void form_opinion(player *u);
  talk_topic pick_talk_topic(player *u);
  int  player_danger(player *u); // Comparable to monsters
- int vehicle_danger(game *g, int radius);
+ int vehicle_danger(int radius);
  bool turned_hostile(); // True if our anger is at least equal to...
  int hostile_anger_level(); // ... this value!
  void make_angry(); // Called if the player attacks us
  bool wants_to_travel_with(player *p);
- int assigned_missions_value(game *g);
+ int assigned_missions_value();
  std::vector<Skill*> skills_offered_to(player *p); // Skills that're higher
  std::vector<itype_id> styles_offered_to(player *p); // Martial Arts
 // State checks
@@ -423,15 +423,15 @@ public:
  bool is_leader(); // Leading the player
  bool is_defending(); // Putting the player's safety ahead of ours
 // What happens when the player makes a request
- void told_to_help(game *g);
- void told_to_wait(game *g);
- void told_to_leave(game *g);
+ void told_to_help();
+ void told_to_wait();
+ void told_to_leave();
  int  follow_distance(); // How closely do we follow the player?
  int  speed_estimate(int speed); // Estimate of a target's speed, usually player
 
 
 // Dialogue and bartering--see npctalk.cpp
- void talk_to_u(game *g);
+ void talk_to_u();
 // Bartering - select items we're willing to buy/sell and set prices
 // Prices are later modified by g->u's barter skill; see dialogue.cpp
 // init_buying() fills <indices> with the indices of items in <you>
@@ -446,24 +446,24 @@ public:
  void update_worst_item_value(); // Find the worst value in our inventory
  int  value(const item &it);
  bool wear_if_wanted(item it);
- virtual bool wield(game *g, signed char invlet, bool);
- virtual bool wield(game *g, signed char invlet);
+ virtual bool wield(signed char invlet, bool);
+ virtual bool wield(signed char invlet);
  bool has_healing_item();
  bool has_painkiller();
  bool took_painkiller();
- void use_painkiller(game *g);
- void activate_item(game *g, char invlet);
+ void use_painkiller();
+ void activate_item(char invlet);
 
 // Interaction and assessment of the world around us
- int  danger_assessment(game *g);
+ int  danger_assessment();
  int  average_damage_dealt(); // Our guess at how much damage we can deal
  bool bravery_check(int diff);
  bool emergency(int danger);
- bool is_active(game *g);
- void say(game *g, std::string line, ...);
+ bool is_active();
+ void say(std::string line, ...);
  void decide_needs();
- void die(game* g, Creature* killer);
- void die(game *g, bool your_fault = false);
+ void die(Creature* killer);
+ void die(bool your_fault = false);
 /* shift() works much like monster::shift(), and is called when the player moves
  * from one submap to an adjacent submap.  It updates our position (shifting by
  * 12 tiles), as well as our plans.
@@ -472,61 +472,61 @@ public:
 
 
 // Movement; the following are defined in npcmove.cpp
- void move(game *g); // Picks an action & a target and calls execute_action
- void execute_action(game *g, npc_action action, int target); // Performs action
+ void move(); // Picks an action & a target and calls execute_action
+ void execute_action(npc_action action, int target); // Performs action
 
 // Functions which choose an action for a particular goal
- void choose_monster_target(game *g, int &enemy, int &danger,
+ void choose_monster_target(int &enemy, int &danger,
                             int &total_danger);
- npc_action method_of_fleeing (game *g, int target);
- npc_action method_of_attack (game *g, int enemy, int danger);
- npc_action address_needs (game *g, int danger);
- npc_action address_player (game *g);
- npc_action long_term_goal_action(game *g);
- bool alt_attack_available(game *g); // Do we have grenades, molotov, etc?
+ npc_action method_of_fleeing (int target);
+ npc_action method_of_attack (int enemy, int danger);
+ npc_action address_needs (int danger);
+ npc_action address_player ();
+ npc_action long_term_goal_action();
+ bool alt_attack_available(); // Do we have grenades, molotov, etc?
  signed char  choose_escape_item(); // Returns index of our best escape aid
 
 // Helper functions for ranged combat
  int  confident_range(char invlet = 0); // >= 50% chance to hit
- bool wont_hit_friend(game *g, int tarx, int tary, char invlet = 0);
+ bool wont_hit_friend(int tarx, int tary, char invlet = 0);
  bool can_reload(); // Wielding a gun that is not fully loaded
  bool need_to_reload(); // Wielding a gun that is empty
- bool enough_time_to_reload(game *g, int target, item &gun);
+ bool enough_time_to_reload(int target, item &gun);
 
 // Physical movement from one tile to the next
- void update_path (game *g, int x, int y);
- bool can_move_to (game *g, int x, int y);
- void move_to  (game *g, int x, int y);
- void move_to_next (game *g); // Next in <path>
- void avoid_friendly_fire(game *g, int target); // Maneuver so we won't shoot u
- void move_away_from (game *g, int x, int y);
+ void update_path (int x, int y);
+ bool can_move_to (int x, int y);
+ void move_to  (int x, int y);
+ void move_to_next (); // Next in <path>
+ void avoid_friendly_fire(int target); // Maneuver so we won't shoot u
+ void move_away_from (int x, int y);
  void move_pause (); // Same as if the player pressed '.'
 
 // Item discovery and fetching
- void find_item  (game *g); // Look around and pick an item
- void pick_up_item (game *g); // Move to, or grab, our targeted item
- void drop_items (game *g, int weight, int volume); // Drop wgt and vol
- npc_action scan_new_items(game *g, int target);
+ void find_item  (); // Look around and pick an item
+ void pick_up_item (); // Move to, or grab, our targeted item
+ void drop_items (int weight, int volume); // Drop wgt and vol
+ npc_action scan_new_items(int target);
 
 // Combat functions and player interaction functions
- void melee_monster (game *g, int target);
- void melee_player (game *g, player &foe);
- void wield_best_melee (game *g);
- void alt_attack (game *g, int target);
- void use_escape_item (game *g, signed char invlet, int target);
- void heal_player (game *g, player &patient);
- void heal_self  (game *g);
- void take_painkiller (game *g);
- void pick_and_eat (game *g);
- void mug_player (game *g, player &mark);
- void look_for_player (game *g, player &sought);
+ void melee_monster (int target);
+ void melee_player (player &foe);
+ void wield_best_melee ();
+ void alt_attack (int target);
+ void use_escape_item (signed char invlet);
+ void heal_player (player &patient);
+ void heal_self  ();
+ void take_painkiller ();
+ void pick_and_eat ();
+ void mug_player (player &mark);
+ void look_for_player (player &sought);
  bool saw_player_recently();// Do we have an idea of where u are?
 
 // Movement on the overmap scale
  bool has_destination(); // Do we have a long-term destination?
- void set_destination(game *g); // Pick a place to go
- void go_to_destination(game *g); // Move there; on the micro scale
- void reach_destination(game *g); // We made it!
+ void set_destination(); // Pick a place to go
+ void go_to_destination(); // Move there; on the micro scale
+ void reach_destination(); // We made it!
 
 // The preceding are in npcmove.cpp
 

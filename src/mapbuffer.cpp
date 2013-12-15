@@ -31,12 +31,6 @@ void mapbuffer::reset(){
  submap_list.clear();
 }
 
-// game g's existance does not imply that it has been identified, started, or loaded.
-void mapbuffer::set_game(game *g)
-{
- master_game = g;
-}
-
 // set to dirty right before the game starts & the player starts changing stuff.
 void mapbuffer::set_dirty()
 {
@@ -57,8 +51,7 @@ bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
  if (submaps.count(p) != 0)
   return false;
 
- if (master_game)
-  sm->turn_last_touched = int(master_game->turn);
+ sm->turn_last_touched = int(g->turn);
  submap_list.push_back(sm);
  submaps[p] = sm;
 
@@ -245,10 +238,6 @@ void mapbuffer::save()
 
 void mapbuffer::load(std::string worldname)
 {
- if (!master_game) {
-  debugmsg("Can't load mapbuffer without a master_game");
-  return;
- }
  std::ifstream fin;
  std::stringstream worldmap;
  worldmap << world_generator->all_worlds[worldname]->world_path << "/maps.txt";
@@ -366,7 +355,7 @@ void mapbuffer::unserialize(std::ifstream & fin) {
   }
   sm->turn_last_touched = turn;
   sm->temperature = temperature;
-  int turndif = (master_game ? int(master_game->turn) - turn : 0);
+  int turndif = int(g->turn) - turn;
   if (turndif < 0)
    turndif = 0;
 // Load terrain
@@ -410,7 +399,7 @@ void mapbuffer::unserialize(std::ifstream & fin) {
     fin >> itx >> ity;
     getline(fin, databuff); // Clear out the endline
     getline(fin, databuff);
-    it_tmp.load_info(databuff, master_game);
+    it_tmp.load_info(databuff);
     sm->itm[itx][ity].push_back(it_tmp);
     if (it_tmp.active)
      sm->active_item_count++;
@@ -418,7 +407,7 @@ void mapbuffer::unserialize(std::ifstream & fin) {
     getline(fin, databuff); // Clear out the endline
     getline(fin, databuff);
     int index = sm->itm[itx][ity].size() - 1;
-    it_tmp.load_info(databuff, master_game);
+    it_tmp.load_info(databuff);
     sm->itm[itx][ity][index].put_in(it_tmp);
     if (it_tmp.active)
      sm->active_item_count++;
@@ -442,11 +431,9 @@ void mapbuffer::unserialize(std::ifstream & fin) {
                     spawnname);
     sm->spawns.push_back(tmp);
    } else if (string_identifier == "V") {
-    vehicle * veh = new vehicle(master_game);
+    vehicle * veh = new vehicle();
     veh->load (fin);
-    //veh.smx = gridx;
-    //veh.smy = gridy;
-    master_game->m.vehicle_list.insert(veh);
+    g->m.vehicle_list.insert(veh);
     sm->vehicles.push_back(veh);
    } else if (string_identifier == "c") {
     getline(fin, databuff);

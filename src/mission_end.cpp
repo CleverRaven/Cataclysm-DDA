@@ -2,7 +2,7 @@
 #include "game.h"
 #include "translations.h"
 
-void mission_end::heal_infection(game *g, mission *miss)
+void mission_end::heal_infection(mission *miss)
 {
     bool found_npc = false;
     for (int i = 0; !found_npc && i < g->cur_om->npcs.size(); i++) {
@@ -13,13 +13,13 @@ void mission_end::heal_infection(game *g, mission *miss)
     }
 }
 
-void mission_end::leave(game *g, mission *miss)
+void mission_end::leave(mission *miss)
 {
     npc *p = g->find_npc(miss->npc_id);
     p->attitude = NPCATT_NULL;
 }
 
-void mission_end::deposit_box(game *g, mission *miss)
+void mission_end::deposit_box(mission *miss)
 {
     npc *p = g->find_npc(miss->npc_id);
     p->attitude = NPCATT_NULL;//npc leaves your party

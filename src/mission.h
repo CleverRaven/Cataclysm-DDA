@@ -73,9 +73,9 @@ enum mission_goal {
 };
 
 struct mission_place { // Return true if [posx,posy] is valid in overmap
-    bool never     (game *, int, int) { return false; }
-    bool always    (game *, int, int) { return true;  }
-    bool near_town (game *g, int posx, int posy);
+    bool never     (int, int) { return false; }
+    bool always    (int, int) { return true;  }
+    bool near_town (int posx, int posy);
 };
 
 /* mission_start functions are first run when a mission is accepted; this
@@ -85,37 +85,37 @@ struct mission_place { // Return true if [posx,posy] is valid in overmap
  * goal, or run the appropriate mission_end function.
  */
 struct mission_start {
-    void standard           (game *, mission *); // Standard for its goal type
-    void join               (game *, mission *); // NPC giving mission joins your party
-    void infect_npc         (game *, mission *); // DI_INFECTION, remove antibiotics
-    void place_dog          (game *, mission *); // Put a dog in a house!
-    void place_zombie_mom   (game *, mission *); // Put a zombie mom in a house!
-    void place_jabberwock   (game *, mission *); // Put a jabberwok in the woods nearby
-    void kill_100_z         (game *, mission *); // Kill 100 more regular zombies
-    void kill_horde_master  (game *, mission *);// Kill the master zombie at the center of the horde
-    void place_npc_software (game *, mission *); // Put NPC-type-dependent software
-    void place_priest_diary (game *, mission *); // Hides the priest's diary in a local house
-    void place_deposit_box  (game *, mission *); // Place a safe deposit box in a nearby bank
-    void reveal_lab_black_box (game *, mission *); // Reveal the nearest lab and give black box
-    void open_sarcophagus   (game *, mission *); // Reveal the sarcophagus and give access code acidia v
-    void reveal_hospital    (game *, mission *); // Reveal the nearest hospital
-    void find_safety        (game *, mission *); // Goal is set to non-spawn area
-    void point_prison       (game *, mission *); // Point to prison entrance
-    void point_cabin_strange (game *, mission *); // Point to strange cabin location
-    void recruit_tracker    (game *, mission *); // Recruit a tracker to help you
-    void place_book         (game *, mission *); // Place a book to retrieve
+    void standard           ( mission *); // Standard for its goal type
+    void join               ( mission *); // NPC giving mission joins your party
+    void infect_npc         ( mission *); // DI_INFECTION, remove antibiotics
+    void place_dog          ( mission *); // Put a dog in a house!
+    void place_zombie_mom   ( mission *); // Put a zombie mom in a house!
+    void place_jabberwock   ( mission *); // Put a jabberwok in the woods nearby
+    void kill_100_z         ( mission *); // Kill 100 more regular zombies
+    void kill_horde_master  ( mission *);// Kill the master zombie at the center of the horde
+    void place_npc_software ( mission *); // Put NPC-type-dependent software
+    void place_priest_diary ( mission *); // Hides the priest's diary in a local house
+    void place_deposit_box  ( mission *); // Place a safe deposit box in a nearby bank
+    void reveal_lab_black_box ( mission *); // Reveal the nearest lab and give black box
+    void open_sarcophagus   ( mission *); // Reveal the sarcophagus and give access code acidia v
+    void reveal_hospital    ( mission *); // Reveal the nearest hospital
+    void find_safety        ( mission *); // Goal is set to non-spawn area
+    void point_prison       ( mission *); // Point to prison entrance
+    void point_cabin_strange ( mission *); // Point to strange cabin location
+    void recruit_tracker    ( mission *); // Recruit a tracker to help you
+    void place_book         ( mission *); // Place a book to retrieve
 };
 
 struct mission_end { // These functions are run when a mission ends
-    void standard       (game *, mission *){}; // Nothing special happens
-    void leave          (game *, mission *); // NPC leaves after the mission is complete
-    void deposit_box    (game *, mission *); // random valuable reward
-    void heal_infection (game *, mission *);
+    void standard       ( mission *){}; // Nothing special happens
+    void leave          ( mission *); // NPC leaves after the mission is complete
+    void deposit_box    ( mission *); // random valuable reward
+    void heal_infection ( mission *);
 };
 
 struct mission_fail {
-    void standard   (game *, mission *) {}; // Nothing special happens
-    void kill_npc   (game *, mission *); // Kill the NPC who assigned it!
+    void standard   ( mission *) {}; // Nothing special happens
+    void kill_npc   ( mission *); // Kill the NPC who assigned it!
 };
 
 struct mission_type {
@@ -137,17 +137,17 @@ struct mission_type {
  oter_id target_id;
  mission_id follow_up;
 
- bool (mission_place::*place)(game *g, int x, int y);
- void (mission_start::*start)(game *g, mission *);
- void (mission_end  ::*end  )(game *g, mission *);
- void (mission_fail ::*fail )(game *g, mission *);
+ bool (mission_place::*place)(int x, int y);
+ void (mission_start::*start)(mission *);
+ void (mission_end  ::*end  )(mission *);
+ void (mission_fail ::*fail )(mission *);
 
  mission_type(int ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
               bool URGENT,
-              bool (mission_place::*PLACE)(game *, int x, int y),
-              void (mission_start::*START)(game *, mission *),
-              void (mission_end  ::*END  )(game *, mission *),
-              void (mission_fail ::*FAIL )(game *, mission *)) :
+              bool (mission_place::*PLACE)(int x, int y),
+              void (mission_start::*START)(mission *),
+              void (mission_end  ::*END  )(mission *),
+              void (mission_fail ::*FAIL )(mission *)) :
   id (ID), name (NAME), goal (GOAL), difficulty (DIF), value (VAL),
   urgent(URGENT), place (PLACE), start (START), end (END), fail (FAIL)
   {
@@ -162,7 +162,7 @@ struct mission_type {
    follow_up = MISSION_NULL;
   };
 
- mission create(game *g, int npc_id = -1); // Create a mission
+ mission create(int npc_id = -1); // Create a mission
 };
 
 class mission : public JsonSerializer, public JsonDeserializer
@@ -190,7 +190,7 @@ public:
 
     std::string name();
     std::string save_info();
-    void load_info(game *g, std::ifstream &info);
+    void load_info(std::ifstream &info);
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const;
     using JsonDeserializer::deserialize;

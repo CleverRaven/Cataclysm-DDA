@@ -67,7 +67,7 @@ public:
  item(itype* it, unsigned int turn);
  item(itype* it, unsigned int turn, char let);
  void make_corpse(itype* it, mtype* mt, unsigned int turn); // Corpse
- item(std::string itemdata, game *g);
+ item(std::string itemdata);
  item(JsonObject &jo);
  virtual ~item();
  void init();
@@ -116,11 +116,11 @@ public:
 
  std::string save_info() const; // Formatted for save files
  //
- void load_legacy(game * g, std::stringstream & dump);
- void load_info(std::string data, game *g);
+ void load_legacy(std::stringstream & dump);
+ void load_info(std::string data);
  //std::string info(bool showtext = false); // Formatted for human viewing
  std::string info(bool showtext = false);
- std::string info(bool showtext, std::vector<iteminfo> *dump, game *g = NULL, bool debug = false);
+ std::string info(bool showtext, std::vector<iteminfo> *dump, bool debug = false);
  char symbol() const;
  nc_color color() const;
  int price() const;
@@ -150,8 +150,8 @@ public:
  int max_charges() const;
  bool craft_has_charges();
  int num_charges();
- bool rotten(game *g);
- bool ready_to_revive(game *g); // used for corpses
+ bool rotten();
+ bool ready_to_revive(); // used for corpses
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)
  bool getlight(float & luminance, int & width, int & direction, bool calculate_dimming = true) const;

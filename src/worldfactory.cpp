@@ -34,7 +34,7 @@ std::string world_options_header()
 }
 
 
-std::string get_next_valid_worldname(std::string test, worldfactory *factory)
+std::string get_next_valid_worldname()
 {
     std::string worldname = Name::get(nameIsWorldName);
 
@@ -172,7 +172,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
 WORLDPTR worldfactory::convert_to_world(std::string origin_path)
 {
     // prompt for worldname? Nah, just make a worldname... the user can fix it later if they really don't want this as a name...
-    std::string worldname = get_next_valid_worldname("ConvWorld", this);
+    std::string worldname = get_next_valid_worldname();
 
     // check and loop on validity
 
@@ -571,7 +571,7 @@ void worldfactory::remove_world(std::string worldname)
 std::string worldfactory::pick_random_name()
 {
     // TODO: add some random worldname parameters to name generator
-    return get_next_valid_worldname("WOOT", this);
+    return get_next_valid_worldname();
 }
 
 int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)

@@ -71,8 +71,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  std::string disp_name();
  std::string skin_name();
  void get_HP_Bar(nc_color &color, std::string &text);
- void get_Attitude(game *g, nc_color &color, std::string &text);
- int print_info(game *g, WINDOW* w, int vStart = 6, int vLines = 5, int column = 1); // Prints information to w.
+ void get_Attitude(nc_color &color, std::string &text);
+ int print_info(WINDOW* w, int vStart = 6, int vLines = 5, int column = 1); // Prints information to w.
 
  // Information on how our symbol should appear
  nc_color basic_symbol_color();
@@ -120,10 +120,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
   * This is used in pathfinding and ONLY checks the terrain. It ignores players
   * and monsters, which might only block this tile temporarily.
   */
- bool can_move_to(game *g, int x, int y);
+ bool can_move_to(int x, int y);
 
- bool will_reach(game *g, int x, int y); // Do we have plans to get to (x, y)?
- int  turns_to_reach(game *g, int x, int y); // How long will it take?
+ bool will_reach(int x, int y); // Do we have plans to get to (x, y)?
+ int  turns_to_reach(int x, int y); // How long will it take?
 
  void set_dest(int x, int y, int &t); // Go in a straight line to (x, y)
                                       // t determines WHICH Bresenham line
@@ -139,14 +139,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
   */
  void wander_to(int x, int y, int f); // Try to get to (x, y), we don't know
                                       // the route.  Give up after f steps.
- void plan(game *g, const std::vector<int> &friendlies);
- void move(game *g); // Actual movement
- void footsteps(game *g, int x, int y); // noise made by movement
- void friendly_move(game *g);
+ void plan(const std::vector<int> &friendlies);
+ void move(); // Actual movement
+ void footsteps(int x, int y); // noise made by movement
+ void friendly_move();
 
- point scent_move(game *g);
- point wander_next(game *g);
- int calc_movecost(game *g, int x1, int y1, int x2, int y2);
+ point scent_move();
+ point wander_next();
+ int calc_movecost(int x1, int y1, int x2, int y2);
 
  /**
   * Attempt to move to (x,y).
@@ -160,7 +160,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
   *
   * @return 1 if movement successful, 0 otherwise
   */
- int move_to(game *g, int x, int y, bool force=false);
+ int move_to(int x, int y, bool force=false);
 
  /**
   * Attack any enemies at the given location.
@@ -179,16 +179,16 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
   */
  int bash_at(int x, int y);
 
- void stumble(game *g, bool moved);
- void knock_back_from(game *g, int posx, int posy);
+ void stumble(bool moved);
+ void knock_back_from(int posx, int posy);
 
     // Combat
     bool is_fleeing(player &u); // True if we're fleeing
     monster_attitude attitude(player *u = NULL); // See the enum above
     int morale_level(player &u); // Looks at our HP etc.
-    void process_triggers(game *g); // Process things that anger/scare us
+    void process_triggers(); // Process things that anger/scare us
     void process_trigger(monster_trigger trig, int amount); // Single trigger
-    int trigger_sum(game *g, std::set<monster_trigger> *triggers);
+    int trigger_sum(std::set<monster_trigger> *triggers);
 
     bool is_underwater() const;
     bool is_on_ground();
@@ -196,27 +196,27 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     bool has_weapon();
     bool is_dead_state(); // check if we should be dead or not
 
-    void absorb_hit(game *g, body_part bp, int side,
+    void absorb_hit(body_part bp, int side,
             damage_instance &dam);
-    bool block_hit(game *g, body_part &bp_hit, int &side,
+    bool block_hit(body_part &bp_hit, int &side,
         damage_instance &d);
-    void melee_attack(game *g, Creature &p, bool allow_special = true);
-    virtual int deal_melee_attack(game* g, Creature* source, int hitroll, bool crit,
+    void melee_attack(Creature &p, bool allow_special = true);
+    virtual int deal_melee_attack(Creature* source, int hitroll, bool crit,
             const damage_instance& d, dealt_damage_instance &dealt_dam);
-    virtual int deal_projectile_attack(game* g, Creature* source, double missed_by,
+    virtual int deal_projectile_attack(Creature* source, double missed_by,
             const projectile& proj, dealt_damage_instance &dealt_dam);
     // TODO: this hit is not the same as the one from Creature, it hits other
     // things. Need to phase out
-    int  hit(game *g, Creature &t, body_part &bp_hit); // Returns a damage
-    void hit_monster(game *g, int i);
+    int  hit(Creature &t, body_part &bp_hit); // Returns a damage
+    void hit_monster(int i);
     // TODO: fully replace hurt with apply/deal_damage
     virtual void deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain);
-    void apply_damage(game* g, Creature* source, body_part bp, int side, int amount);
+    void apply_damage(Creature* source, body_part bp, int side, int amount);
     // Deals this dam damage; returns true if we dead
     // If real_dam is provided, caps overkill at real_dam.
     bool hurt(int dam, int real_dam = 0);
     // TODO: make this not a shim (possibly need to redo prototype)
-    void hurt(game*g, body_part bp, int side, int dam);
+    void hurt(body_part bp, int side, int dam);
     int  get_armor_cut(body_part bp);   // Natural armor, plus any worn armor
     int  get_armor_bash(body_part bp);  // Natural armor, plus any worn armor
     int  get_dodge();       // Natural dodge, or 0 if we're occupied
@@ -224,12 +224,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     int  dodge_roll();  // For the purposes of comparing to player::hit_roll()
     int  fall_damage(); // How much a fall hurts us
 
-    void die(game*g, Creature* killer); //this is the die from Creature, it calls kill_mon
-    void die(game *g); // this is the "original" die, called by kill_mon
-    void drop_items_on_death(game *g);
+    void die(Creature* killer); //this is the die from Creature, it calls kill_mon
+    void die(); // this is the "original" die, called by kill_mon
+    void drop_items_on_death();
 
     // Other
-    void process_effects(game *g); // Process long-term effects
+    void process_effects(); // Process long-term effects
     bool make_fungus();  // Makes this monster into a fungus version
                                 // Returns false if no such monster exists
     void make_friendly();

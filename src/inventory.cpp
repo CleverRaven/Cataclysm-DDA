@@ -541,7 +541,7 @@ void inventory::restack(player *p)
     }
 }
 
-void inventory::form_from_map(game *g, point origin, int range, bool assign_invlet)
+void inventory::form_from_map(point origin, int range, bool assign_invlet)
 {
  items.clear();
  for (int x = origin.x - range; x <= origin.x + range; x++) {

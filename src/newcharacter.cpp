@@ -43,12 +43,11 @@
 
 void draw_tabs(WINDOW *w, std::string sTab);
 
-int set_stats(WINDOW *w, game *g, player *u, character_type type, int &points);
-int set_traits(WINDOW *w, game *g, player *u, character_type type, int &points,
-               int max_trait_points);
-int set_profession(WINDOW *w, game *g, player *u, character_type type, int &points);
-int set_skills(WINDOW *w, game *g, player *u, character_type type, int &points);
-int set_description(WINDOW *w, game *g, player *u, character_type type, int &points);
+int set_stats(WINDOW *w, player *u, int &points);
+int set_traits(WINDOW *w, player *u, int &points, int max_trait_points);
+int set_profession(WINDOW *w, player *u, int &points);
+int set_skills(WINDOW *w, player *u, int &points);
+int set_description(WINDOW *w, player *u, character_type type, int &points);
 
 int random_skill();
 
@@ -56,7 +55,7 @@ int calc_HP(int strength, bool tough);
 
 void save_template(player *u);
 
-bool player::create(game *g, character_type type, std::string tempname)
+bool player::create(character_type type, std::string tempname)
 {
     weapon = item(itypes["null"], 0);
 
@@ -222,7 +221,7 @@ bool player::create(game *g, character_type type, std::string tempname)
                 }
                 std::string(data);
                 getline(fin, data);
-                load_info(g, data);
+                load_info(data);
                 points = 0;
             }
             break;
@@ -238,19 +237,19 @@ bool player::create(game *g, character_type type, std::string tempname)
         wrefresh(w);
         switch (tab) {
             case 0:
-                tab += set_stats      (w, g, this, type, points);
+                tab += set_stats      (w, this, points);
                 break;
             case 1:
-                tab += set_traits     (w, g, this, type, points, max_trait_points);
+                tab += set_traits     (w, this, points, max_trait_points);
                 break;
             case 2:
-                tab += set_profession (w, g, this, type, points);
+                tab += set_profession (w, this, points);
                 break;
             case 3:
-                tab += set_skills     (w, g, this, type, points);
+                tab += set_skills     (w, this, points);
                 break;
             case 4:
-                tab += set_description(w, g, this, type, points);
+                tab += set_description(w, this, type, points);
                 break;
         }
     } while (tab >= 0 && tab <= NEWCHAR_TAB_MAX);
@@ -396,7 +395,7 @@ bool player::create(game *g, character_type type, std::string tempname)
                 tmp.item_tags.insert("FIT");
             }
             // If wearing an item fails we fail silently.
-            wear_item(g, &tmp, false);
+            wear_item(&tmp, false);
         } else {
             inv.push_back(tmp);
         }
@@ -504,7 +503,7 @@ void draw_tabs(WINDOW *w, std::string sTab)
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOOX); // _|
 }
 
-int set_stats(WINDOW *w, game *g, player *u, character_type type, int &points)
+int set_stats(WINDOW *w, player *u, int &points)
 {
     unsigned char sel = 1;
     const int iSecondColumn = 27;
@@ -679,8 +678,7 @@ int set_stats(WINDOW *w, game *g, player *u, character_type type, int &points)
     } while (true);
 }
 
-int set_traits(WINDOW *w, game *g, player *u, character_type type, int &points,
-               int max_trait_points)
+int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 {
     draw_tabs(w, _("TRAITS"));
 
@@ -924,7 +922,7 @@ inline bool profession_display_sort(const profession *a, const profession *b)
     return a->name() < b->name();
 }
 
-int set_profession(WINDOW *w, game *g, player *u, character_type type, int &points)
+int set_profession(WINDOW *w, player *u, int &points)
 {
     draw_tabs(w, _("PROFESSION"));
 
@@ -1087,7 +1085,7 @@ inline bool skill_display_sort(const Skill *a, const Skill *b)
     return a->name() < b->name();
 }
 
-int set_skills(WINDOW *w, game *g, player *u, character_type type, int &points)
+int set_skills(WINDOW *w, player *u, int &points)
 {
     draw_tabs(w, _("SKILLS"));
 
@@ -1222,7 +1220,7 @@ int set_skills(WINDOW *w, game *g, player *u, character_type type, int &points)
     } while (true);
 }
 
-int set_description(WINDOW *w, game *g, player *u, character_type type, int &points)
+int set_description(WINDOW *w, player *u, character_type type, int &points)
 {
     if(PLTYPE_NOW == type) {
         return 1;

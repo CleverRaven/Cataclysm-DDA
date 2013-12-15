@@ -7,18 +7,18 @@
 
 Creature::Creature() {};
 
-Creature::Creature(const Creature &rhs) {};
+Creature::Creature(const Creature &) {};
 
-void Creature::normalize(game *g)
+void Creature::normalize()
 {
 }
 
-void Creature::reset(game *g)
+void Creature::reset()
 {
-    reset_bonuses(g);
-    reset_stats(g);
+    reset_bonuses();
+    reset_stats();
 }
-void Creature::reset_bonuses(game *g)
+void Creature::reset_bonuses()
 {
     // Reset all bonuses to 0 and mults to 1.0
     str_bonus = 0;
@@ -48,14 +48,14 @@ void Creature::reset_bonuses(game *g)
     grab_resist = 0;
     throw_resist = 0;
 }
-void Creature::reset_stats(game *g)
+void Creature::reset_stats()
 {
     // Reset our stats to normal levels
     // Any persistent buffs/debuffs will take place in disease.h,
     // player::suffer(), etc.
 
     // repopulate the stat fields
-    process_effects(g);
+    process_effects();
     str_cur = str_max + get_str_bonus();
     dex_cur = dex_max + get_dex_bonus();
     per_cur = per_max + get_per_bonus();
@@ -92,18 +92,18 @@ bool Creature::digging()
 
 // TODO: this is a shim for the currently existing calls to Creature::hit,
 // start phasing them out
-int Creature::hit(game *g, Creature *source, body_part bphurt, int side,
+int Creature::hit(Creature *source, body_part bphurt, int side,
                   int dam, int cut)
 {
     damage_instance d;
     d.add_damage(DT_BASH, dam);
     d.add_damage(DT_CUT, cut);
-    dealt_damage_instance dealt_dams = deal_damage(g, source, bphurt, side, d);
+    dealt_damage_instance dealt_dams = deal_damage(source, bphurt, side, d);
 
     return dealt_dams.total_damage();
 }
 
-int Creature::deal_melee_attack(game *g, Creature *source, int hitroll, bool critical_hit,
+int Creature::deal_melee_attack(Creature *source, int hitroll, bool critical_hit,
                                 const damage_instance &dam, dealt_damage_instance &dealt_dam)
 {
     int dodgeroll = dodge_roll();
@@ -163,10 +163,10 @@ int Creature::deal_melee_attack(game *g, Creature *source, int hitroll, bool cri
     } else {
         mod_moves(-stab_moves);
     }
-    block_hit(g, bp_hit, side, d);
+    block_hit(bp_hit, side, d);
 
-    on_gethit(g, source, bp_hit, d); // trigger on-gethit events
-    dealt_dam = deal_damage(g, source, bp_hit, side, d);
+    on_gethit(source, bp_hit, d); // trigger on-gethit events
+    dealt_dam = deal_damage(source, bp_hit, side, d);
     dealt_dam.bp_hit = bp_hit;
 
     /* TODO: add grabs n shit back in
@@ -180,17 +180,17 @@ int Creature::deal_melee_attack(game *g, Creature *source, int hitroll, bool cri
         } else if (!unarmed_attack()) {
             // Move our weapon to a temp slot, if it's not unarmed
             item tmpweap = remove_weapon();
-            melee_attack(g, t, false); // False means a second grab isn't allowed
+            melee_attack(t, false); // False means a second grab isn't allowed
             weapon = tmpweap;
         } else
-            melee_attack(g, t, false); // False means a second grab isn't allowed
+            melee_attack(t, false); // False means a second grab isn't allowed
     }
     */
 
     return hit_spread;
 }
 
-int Creature::deal_projectile_attack(game *g, Creature *source, double missed_by,
+int Creature::deal_projectile_attack(Creature *source, double missed_by,
                                      const projectile &proj, dealt_damage_instance &dealt_dam)
 {
     bool u_see_this = g->u_see(this);
@@ -246,7 +246,7 @@ int Creature::deal_projectile_attack(game *g, Creature *source, double missed_by
     damage_instance impact = proj.impact;
     impact.mult_damage(damage_mult);
 
-    dealt_dam = deal_damage(g, source, bp_hit, side, impact);
+    dealt_dam = deal_damage(source, bp_hit, side, impact);
     dealt_dam.bp_hit = bp_hit;
 
     if (u_see_this && dealt_dam.total_damage() == 0) {
@@ -265,7 +265,7 @@ int Creature::deal_projectile_attack(game *g, Creature *source, double missed_by
     return 0;
 }
 
-dealt_damage_instance Creature::deal_damage(game *g, Creature *source, body_part bp, int side,
+dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp, int side,
                                             const damage_instance &dam)
 {
     int total_damage = 0;
@@ -274,7 +274,7 @@ dealt_damage_instance Creature::deal_damage(game *g, Creature *source, body_part
 
     std::vector<int> dealt_dams(NUM_DT, 0);
 
-    absorb_hit(g, bp, side, d);
+    absorb_hit(bp, side, d);
 
     // add up all the damage units dealt
     int cur_damage;
@@ -289,10 +289,10 @@ dealt_damage_instance Creature::deal_damage(game *g, Creature *source, body_part
     }
 
     mod_pain(total_pain);
-    apply_damage(g, source, bp, side, total_damage);
+    apply_damage(source, bp, side, total_damage);
     return dealt_damage_instance(dealt_dams);
 }
-void Creature::deal_damage_handle_type(const damage_unit &du, body_part bp, int &damage, int &pain)
+void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)
 {
     switch (du.type) {
     case DT_BASH:
@@ -386,7 +386,7 @@ void Creature::add_effect(efftype_id eff_id, int dur)
         }
     }
 }
-bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur)
+bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int, int dur)
 {
     if (dice(1, 3) > dice(get_env_resist(vector), 3)) {
         add_effect(eff_id, dur);
@@ -411,7 +411,7 @@ bool Creature::has_effect(efftype_id eff_id)
     return (std::find_if(effects.begin(), effects.end(), is_id_functor(eff_id)) !=
             effects.end());
 }
-void Creature::process_effects(game *g)
+void Creature::process_effects()
 {
     for (std::vector<effect>::iterator it = effects.begin();
          it != effects.end(); ++it) {
@@ -521,23 +521,23 @@ int Creature::get_num_dodges_bonus() const
 }
 
 // currently this is expected to be overridden to actually have use
-int Creature::get_env_resist(body_part bp)
+int Creature::get_env_resist(body_part)
 {
     return 0;
 }
-int Creature::get_armor_bash(body_part bp)
+int Creature::get_armor_bash(body_part)
 {
     return armor_bash_bonus;
 }
-int Creature::get_armor_cut(body_part bp)
+int Creature::get_armor_cut(body_part)
 {
     return armor_cut_bonus;
 }
-int Creature::get_armor_bash_base(body_part bp)
+int Creature::get_armor_bash_base(body_part)
 {
     return armor_bash_bonus;
 }
-int Creature::get_armor_cut_base(body_part bp)
+int Creature::get_armor_cut_base(body_part)
 {
     return armor_cut_bonus;
 }
@@ -756,7 +756,7 @@ void Creature::set_throw_resist(int nthrowres)
  * Event handlers
  */
 
-void Creature::on_gethit(game *g, Creature *source, body_part bp_hit, damage_instance &dam)
+void Creature::on_gethit(Creature *, body_part, damage_instance &)
 {
     // does nothing by default
 }

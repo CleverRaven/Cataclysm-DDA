@@ -34,24 +34,24 @@ class Creature
             return false;
         }
 
-        virtual void normalize(game *g); // recreate the Creature from scratch
-        virtual void reset(game *g); // handle both reset steps. Call this function instead of reset_stats/bonuses
-        virtual void reset_bonuses(game *g); // reset the value of all bonus fields to 0
-        virtual void reset_stats(game *g); // prepare the Creature for the next turn
-        virtual void die(game *g, Creature *killer) = 0;
+        virtual void normalize(); // recreate the Creature from scratch
+        virtual void reset(); // handle both reset steps. Call this function instead of reset_stats/bonuses
+        virtual void reset_bonuses(); // reset the value of all bonus fields to 0
+        virtual void reset_stats(); // prepare the Creature for the next turn
+        virtual void die(Creature *killer) = 0;
 
         virtual int hit_roll() = 0;
         virtual int dodge_roll() = 0;
 
         // makes a single melee attack, with the currently equipped weapon
-        virtual void melee_attack(game *g, Creature &t, bool allow_special) = 0; // Returns a damage
+        virtual void melee_attack(Creature &t, bool allow_special) = 0; // Returns a damage
 
         // fires a projectile at target point from source point, with total_dispersion
         // dispersion. returns the rolled dispersion of the shot.
-        virtual double projectile_attack(game *g, const projectile &proj, int sourcex, int sourcey,
+        virtual double projectile_attack(const projectile &proj, int sourcex, int sourcey,
                                          int targetx, int targety, double total_dispersion);
         // overloaded version, assume it comes from this Creature's position
-        virtual double projectile_attack(game *g, const projectile &proj, int targetx, int targety,
+        virtual double projectile_attack(const projectile &proj, int targetx, int targety,
                                          double total_dispersion);
 
         /*
@@ -60,50 +60,50 @@ class Creature
                 std::set<std::string>& proj_effects);
                 */
 
-        virtual int hit(game *g, Creature *source, body_part bphurt, int side,
+        virtual int hit(Creature *source, body_part bphurt, int side,
                         int dam, int cut);
 
 
         // handles blocking of damage instance. mutates &dam
-        virtual bool block_hit(game *g, body_part &bp_hit, int &side,
+        virtual bool block_hit(body_part &bp_hit, int &side,
                                damage_instance &dam) = 0;
 
         // handles armor absorption (including clothing damage etc)
         // of damage instance. mutates &dam
-        virtual void absorb_hit(game *g, body_part bp, int side,
+        virtual void absorb_hit(body_part bp, int side,
                                 damage_instance &dam) = 0;
 
         // TODO: this is just a shim so knockbacks work
-        virtual void knock_back_from(game *g, int posx, int posy) = 0;
+        virtual void knock_back_from(int posx, int posy) = 0;
 
         // TODO: remove this function in favor of deal/apply_damage
-        virtual void hurt(game *g, body_part bp, int side, int dam) = 0;
+        virtual void hurt(body_part bp, int side, int dam) = 0;
 
         // makes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
         // returns hit - dodge (>=0 = hit, <0 = miss)
-        virtual int deal_melee_attack(game *g, Creature *source, int hitroll, bool crit,
+        virtual int deal_melee_attack(Creature *source, int hitroll, bool crit,
                                       const damage_instance &d, dealt_damage_instance &dealt_dam);
 
         // makes a ranged projectile attack against the creature
         // dodgeable determines if the dodge stat applies or not, dodge is
         // reduced for ranged attacks
-        virtual int deal_projectile_attack(game *g, Creature *source, double missed_by,
+        virtual int deal_projectile_attack(Creature *source, double missed_by,
                                            const projectile &proj, dealt_damage_instance &dealt_dam);
 
         // deals the damage via an attack. Allows armor mitigation etc.
         // Most sources of external damage should use deal_damage
         // Mutates the damage_instance& object passed in to reflect the
         // post-mitigation object
-        virtual dealt_damage_instance deal_damage(game *g,
-                Creature *source, body_part bp, int side, const damage_instance &d);
+        virtual dealt_damage_instance deal_damage(Creature *source, body_part bp, int side,
+                                                  const damage_instance &d);
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type(const damage_unit &du,
                                              body_part bp, int &damage, int &pain);
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
-        virtual void apply_damage(game *g, Creature *source,
+        virtual void apply_damage(Creature *source,
                                   body_part bp, int side, int amount) = 0;
 
         virtual bool digging();      // MF_DIGS or MF_CAN_DIG and diggable terrain
@@ -128,7 +128,7 @@ class Creature
         void clear_effects(); // remove all effects
         bool has_effect(efftype_id eff_id);
 
-        virtual void process_effects(game *g); // runs all the effects on the Creature
+        virtual void process_effects(); // runs all the effects on the Creature
 
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);
@@ -237,7 +237,7 @@ class Creature
          * Event handlers
          */
 
-        virtual void on_gethit(game *g, Creature *source, body_part bp_hit,
+        virtual void on_gethit(Creature *source, body_part bp_hit,
                                damage_instance &dam);
 
         // innate stats, slowly move these to protected as we rewrite more of

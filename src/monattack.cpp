@@ -112,7 +112,7 @@ void mattack::acid(monster *z)
     int hitx = g->u.posx + rng(-2, 2), hity = g->u.posy + rng(-2, 2);
     std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, junk);
     for (int i = 0; i < line.size(); i++) {
-        if (g->m.hit_with_acid(g, line[i].x, line[i].y)) {
+        if (g->m.hit_with_acid(line[i].x, line[i].y)) {
             if (g->u_see(line[i].x, line[i].y)) {
                 g->add_msg(_("A glob of acid hits the %s!"),
                               g->m.tername(line[i].x, line[i].y).c_str());
@@ -125,7 +125,7 @@ void mattack::acid(monster *z)
             if (g->m.move_cost(hitx + i, hity +j) > 0 &&
                  g->m.sees(hitx + i, hity + j, hitx, hity, 6, junk) &&
                  ((one_in(abs(j)) && one_in(abs(i))) || (i == 0 && j == 0))) {
-                g->m.add_field(g, hitx + i, hity + j, fd_acid, 2);
+                g->m.add_field(hitx + i, hity + j, fd_acid, 2);
             }
         }
     }
@@ -150,14 +150,14 @@ void mattack::shockstorm(monster *z)
     std::vector<point> bolt = line_to(z->posx(), z->posy(), tarx, tary, t);
     for (int i = 0; i < bolt.size(); i++) { // Fill the LOS with electricity
         if (!one_in(4)) {
-            g->m.add_field(g, bolt[i].x, bolt[i].y, fd_electricity, rng(1, 3));
+            g->m.add_field(bolt[i].x, bolt[i].y, fd_electricity, rng(1, 3));
         }
     }
     // 5x5 cloud of electricity at the square hit
     for (int i = tarx - 2; i <= tarx + 2; i++) {
         for (int j = tary - 2; j <= tary + 2; j++) {
             if (!one_in(4) || (i == 0 && j == 0)) {
-                g->m.add_field(g, i, j, fd_electricity, rng(1, 3));
+                g->m.add_field(i, j, fd_electricity, rng(1, 3));
             }
         }
     }
@@ -174,7 +174,7 @@ void mattack::smokecloud(monster *z)
         for (int j = -3; j <=3; j++) {
             if( g->m.move_cost( monx + i, mony + j ) != 0 &&
                 g->m.clear_path(monx, mony, monx + i, mony + j, 3, 1, 100, junk) ) {
-                g->m.add_field(g, monx + i, mony + j, fd_smoke, 2);
+                g->m.add_field(monx + i, mony + j, fd_smoke, 2);
             }
         }
     }
@@ -182,19 +182,19 @@ void mattack::smokecloud(monster *z)
     for (int i = -2; i <= 2; i++){
         if( g->m.move_cost( monx + i, mony + 4 ) != 0 &&
             g->m.clear_path(monx, mony, monx + i, mony + 4, 3, 1, 100, junk) ) {
-            g->m.add_field(g, monx + i, mony + 4, fd_smoke, 2);
+            g->m.add_field(monx + i, mony + 4, fd_smoke, 2);
         }
         if( g->m.move_cost( monx + i, mony - 4 ) != 0 &&
             g->m.clear_path(monx, mony, monx + i, mony - 4, 3, 1, 100, junk) ) {
-            g->m.add_field(g, monx + i, mony - 4, fd_smoke, 2);
+            g->m.add_field(monx + i, mony - 4, fd_smoke, 2);
         }
         if( g->m.move_cost( monx + 4, mony + i ) != 0 &&
             g->m.clear_path(monx, mony, monx + 4, mony + i, 3, 1, 100, junk) ) {
-            g->m.add_field(g, monx + 4, mony + i, fd_smoke, 2);
+            g->m.add_field(monx + 4, mony + i, fd_smoke, 2);
         }
         if( g->m.move_cost( monx - 4, mony + i ) != 0 &&
             g->m.clear_path(monx, mony, monx - 4, mony + i, 3, 1, 100, junk) ) {
-            g->m.add_field(g, monx - 4, mony + i, fd_smoke, 2);
+            g->m.add_field(monx - 4, mony + i, fd_smoke, 2);
         }
     }
 }
@@ -212,10 +212,10 @@ void mattack::boomer(monster *z)
  if (u_see)
   g->add_msg(_("The %s spews bile!"), z->name().c_str());
  for (int i = 0; i < line.size(); i++) {
-   g->m.add_field(g, line[i].x, line[i].y, fd_bile, 1);
+   g->m.add_field(line[i].x, line[i].y, fd_bile, 1);
 // If bile hit a solid tile, return.
   if (g->m.move_cost(line[i].x, line[i].y) == 0) {
-   g->m.add_field(g, line[i].x, line[i].y, fd_bile, 3);
+   g->m.add_field(line[i].x, line[i].y, fd_bile, 3);
    if (g->u_see(line[i].x, line[i].y))
     g->add_msg(_("Bile splatters on the %s!"),
                g->m.tername(line[i].x, line[i].y).c_str());
@@ -329,7 +329,7 @@ void mattack::science(monster *z) // I said SCIENCE again!
    if (g->u.get_dodge() > rng(0, 16) && !one_in(g->u.get_dodge()))
     g->add_msg(_("You dodge the beam!"));
    else if (one_in(6))
-    g->u.mutate(g);
+    g->u.mutate();
    else {
     g->add_msg(_("You get pins and needles all over."));
     g->u.radiation += rng(20, 50);
@@ -348,7 +348,7 @@ void mattack::science(monster *z) // I said SCIENCE again!
   g->add_msg(_("The %s drops a flask of acid!"), z->name().c_str());
   z->moves -= 100;
   for (int i = 0; i < free.size(); i++)
-   g->m.add_field(g, free[i].x, free[i].y, fd_acid, 3);
+   g->m.add_field(free[i].x, free[i].y, fd_acid, 3);
   break;
  case 5: // Flavor text
   switch (rng(1, 4)) {
@@ -404,7 +404,7 @@ void mattack::growplants(monster *z)
         hit = bp_feet;
        g->add_msg(_("A tree bursts forth from the earth and pierces your %s!"),
                   body_part_name(hit, side).c_str());
-       g->u.hit(g, z, hit, side, 0, rng(10, 30));
+       g->u.hit(z, hit, side, 0, rng(10, 30));
       }
      } else {
       int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
@@ -419,7 +419,7 @@ void mattack::growplants(monster *z)
         g->add_msg(_("A tree bursts forth from the earth and pierces %s's %s!"),
                    g->active_npc[npcdex]->name.c_str(),
                    body_part_name(hit, side).c_str());
-       g->active_npc[npcdex]->hit(g, z, hit, side, 0, rng(10, 30));
+       g->active_npc[npcdex]->hit(z, hit, side, 0, rng(10, 30));
       }
      }
      g->m.ter_set(z->posx() + i, z->posy() + j, t_tree_young);
@@ -458,7 +458,7 @@ void mattack::growplants(monster *z)
          hit = bp_feet;
         g->add_msg(_("The underbrush beneath your feet grows and pierces your %s!"),
                    body_part_name(hit, side).c_str());
-        g->u.hit(g, z, hit, side, 0, rng(10, 30));
+        g->u.hit(z, hit, side, 0, rng(10, 30));
        }
       } else {
        int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
@@ -473,7 +473,7 @@ void mattack::growplants(monster *z)
          g->add_msg(_("Underbrush grows into a tree, and it pierces %s's %s!"),
                     g->active_npc[npcdex]->name.c_str(),
                     body_part_name(hit, side).c_str());
-        g->active_npc[npcdex]->hit(g, z, hit, side, 0, rng(10, 30));
+        g->active_npc[npcdex]->hit(z, hit, side, 0, rng(10, 30));
        }
       }
      }
@@ -520,7 +520,7 @@ void mattack::vine(monster *z)
      int side = random_side(bphit);
      g->add_msg(_("The %s lashes your %s!"), z->name().c_str(),
                 body_part_name(bphit, side).c_str());
-     g->u.hit(g, z, bphit, side, 4, 4);
+     g->u.hit(z, bphit, side, 4, 4);
      z->sp_timeout = z->type->sp_freq;
      z->moves -= 100;
      return;
@@ -579,14 +579,14 @@ void mattack::spit_sap(monster *z)
   std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, 0);
   int dam = 5;
   for (int i = 0; i < line.size() && dam > 0; i++) {
-   g->m.shoot(g, line[i].x, line[i].y, dam, false, no_effects);
+   g->m.shoot(line[i].x, line[i].y, dam, false, no_effects);
    if (dam == 0 && g->u_see(line[i].x, line[i].y)) {
     g->add_msg(_("A glob of sap hits the %s!"),
                g->m.tername(line[i].x, line[i].y).c_str());
     return;
    }
   }
-  g->m.add_field(g, hitx, hity, fd_sap, (dam >= 4 ? 3 : 2));
+  g->m.add_field(hitx, hity, fd_sap, (dam >= 4 ? 3 : 2));
   return;
  }
 
@@ -596,7 +596,7 @@ void mattack::spit_sap(monster *z)
  std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
  int dam = 5;
  for (int i = 0; i < line.size() && dam > 0; i++) {
-  g->m.shoot(g, line[i].x, line[i].y, dam, false, no_effects);
+  g->m.shoot(line[i].x, line[i].y, dam, false, no_effects);
   if (dam == 0 && g->u_see(line[i].x, line[i].y)) {
    g->add_msg(_("A glob of sap hits the %s!"),
               g->m.tername(line[i].x, line[i].y).c_str());
@@ -607,7 +607,7 @@ void mattack::spit_sap(monster *z)
   return;
  if (g->u.uncanny_dodge() ) { return; }
  g->add_msg(_("A glob of sap hits you!"));
- g->u.hit(g, z, bp_torso, -1, dam, 0);
+ g->u.hit(z, bp_torso, -1, dam, 0);
  g->u.add_disease("sap", dam);
 }
 
@@ -840,7 +840,7 @@ void mattack::dermatik(monster *z)
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
     {
         g->add_msg(_("The %s tries to land on you, but you dodge."), z->name().c_str());
-        z->stumble(g, false);
+        z->stumble(false);
         g->u.practice(g->turn, "dodge", z->type->melee_skill * 2);
         g->u.ma_ondodge_effects();
         return;
@@ -859,7 +859,7 @@ void mattack::dermatik(monster *z)
             z->hurt(1);
         }
         if (player_swat > dodge_roll * 1.5) {
-            z->stumble(g, false);
+            z->stumble(false);
         }
         return;
     }
@@ -980,7 +980,7 @@ void mattack::dogthing(monster *z)
  for (int x = z->posx() - 2; x <= z->posx() + 2; x++) {
   for (int y = z->posy() - 2; y <= z->posy() + 2; y++) {
    if (rng(0, 2) >= rl_dist(z->posx(), z->posy(), x, y))
-    g->m.add_field(g, x, y, fd_blood, 2);
+    g->m.add_field(x, y, fd_blood, 2);
   }
  }
 
@@ -1004,7 +1004,7 @@ void mattack::tentacle(monster *z)
     for (int i = 0; i < line.size(); i++)
     {
         int tmpdam = 20;
-        g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, no_effects);
+        g->m.shoot(line[i].x, line[i].y, tmpdam, true, no_effects);
     }
 
     if (g->u.uncanny_dodge()) { return; }
@@ -1021,7 +1021,7 @@ void mattack::tentacle(monster *z)
     body_part hit = random_body_part();
     int dam = rng(10, 20), side = random_side(hit);
     g->add_msg(_("Your %s is hit for %d damage!"), body_part_name(hit, side).c_str(), dam);
-    g->u.hit(g, z, hit, side, dam, 0);
+    g->u.hit(z, hit, side, dam, 0);
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
 
@@ -1060,7 +1060,7 @@ void mattack::vortex(monster *z)
      int dam = (thrown.weight() / 113) / double(3 + double(thrown.volume() / 6));
      std::vector<point> traj = continue_line(from_monster, distance);
      for (int i = 0; i < traj.size() && dam > 0; i++) {
-      g->m.shoot(g, traj[i].x, traj[i].y, dam, false, no_effects);
+      g->m.shoot(traj[i].x, traj[i].y, dam, false, no_effects);
       int mondex = g->mon_at(traj[i].x, traj[i].y);
       if (mondex != -1) {
        if (g->zombie(mondex).hurt(dam))
@@ -1076,7 +1076,7 @@ void mattack::vortex(monster *z)
         int side = random_side(hit);
         g->add_msg(_("A %s hits your %s for %d damage!"), thrown.tname().c_str(),
                    body_part_name(hit, side).c_str(), dam);
-        g->u.hit(g, z, hit, side, dam, 0);
+        g->u.hit(z, hit, side, dam, 0);
         dam = 0;
        }
       }
@@ -1133,7 +1133,7 @@ void mattack::vortex(monster *z)
        thrown->setpos(traj[i - 1]);
       }
       int damage_copy = damage;
-      g->m.shoot(g, traj[i].x, traj[i].y, damage_copy, false, no_effects);
+      g->m.shoot(traj[i].x, traj[i].y, damage_copy, false, no_effects);
       if (damage_copy < damage)
        thrown->hurt(damage - damage_copy);
      }
@@ -1171,9 +1171,9 @@ void mattack::vortex(monster *z)
        g->u.posy = traj[i - 1].y;
       }
       int damage_copy = damage;
-      g->m.shoot(g, traj[i].x, traj[i].y, damage_copy, false, no_effects);
+      g->m.shoot(traj[i].x, traj[i].y, damage_copy, false, no_effects);
       if (damage_copy < damage)
-       g->u.hit(g, z, bp_torso, -1, damage - damage_copy, 0);
+       g->u.hit(z, bp_torso, -1, damage - damage_copy, 0);
      }
      if (hit_wall)
       damage *= 2;
@@ -1181,7 +1181,7 @@ void mattack::vortex(monster *z)
       g->u.posx = traj[traj.size() - 1].x;
       g->u.posy = traj[traj.size() - 1].y;
      }
-     g->u.hit(g, z, bp_torso, -1, damage, 0);
+     g->u.hit(z, bp_torso, -1, damage, 0);
      g->update_map(g->u.posx, g->u.posy);
     } // Done with checking for player
    }
@@ -1199,7 +1199,7 @@ void mattack::gene_sting(monster *z)
  z->moves -= 150;
  z->sp_timeout = z->type->sp_freq;
  g->add_msg(_("The %s shoots a dart into you!"), z->name().c_str());
- g->u.mutate(g);
+ g->u.mutate();
 }
 
 void mattack::para_sting(monster *z)
@@ -1291,7 +1291,7 @@ void mattack::tazer(monster *z)
  z->moves -= 200;   // It takes a while
  g->add_msg(_("The %s shocks you!"), z->name().c_str());
  int shock = rng(1, 5);
- g->u.hurt(g, bp_torso, -1, shock * rng(1, 3));
+ g->u.hurt(bp_torso, -1, shock * rng(1, 3));
  g->u.moves -= shock * 20;
 }
 
@@ -1589,14 +1589,14 @@ void mattack::flamethrower(monster *z)
     for (int i = 0; i < traj.size(); i++)
     {
         // break out of attack if flame hits a wall
-        if (g->m.hit_with_fire(g, traj[i].x, traj[i].y))
+        if (g->m.hit_with_fire(traj[i].x, traj[i].y))
         {
             if (g->u_see(traj[i].x, traj[i].y))
                 g->add_msg(_("The tongue of flame hits the %s!"),
             g->m.tername(traj[i].x, traj[i].y).c_str());
             return;
         }
-        g->m.add_field(g, traj[i].x, traj[i].y, fd_fire, 1);
+        g->m.add_field(traj[i].x, traj[i].y, fd_fire, 1);
     }
     if (!g->u.uncanny_dodge()) { g->u.add_effect("onfire", 8); }
 }
@@ -1773,7 +1773,7 @@ void mattack::bite(monster *z) {
 
     body_part hit = random_body_part();
     int dam = rng(5, 10), side = random_side(hit);
-    dam = g->u.hit(g, z, hit, side, dam, 0);
+    dam = g->u.hit(z, hit, side, dam, 0);
 
     if (dam > 0) {
         g->add_msg(_("The %s bites your %s!"), z->name().c_str(), body_part_name(hit, side).c_str());
@@ -1836,7 +1836,7 @@ void mattack::flesh_golem(monster *z)
     body_part hit = random_body_part();
     int dam = rng(5, 10), side = random_side(hit);
     g->add_msg(_("Your %s is battered for %d damage!"), body_part_name(hit, side).c_str(), dam);
-    g->u.hit(g, z, hit, side, dam, 0);
+    g->u.hit(z, hit, side, dam, 0);
     if (one_in(6)) {
         g->u.add_effect("downed", 30);
     }

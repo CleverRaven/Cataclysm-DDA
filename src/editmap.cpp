@@ -73,7 +73,7 @@ std::vector<std::string> fld_string ( std::string str, int width ) {
 
 
 template<class SAVEOBJ>
-void edit_json( SAVEOBJ *it, game * g )
+void edit_json( SAVEOBJ *it )
 {
 
     int tmret = -1;
@@ -147,17 +147,17 @@ void editmap_hilight::draw( editmap * hm, bool update ) {
             int y = it->first.y;
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
-            if ( ! hm->g->m.veh_at(x, y, vpart) && ( hm->g->mon_at(x, y) == -1 ) && ( hm->g->npc_at(x, y) == -1 ) ) {
-                char t_sym = terlist[hm->g->m.ter(x, y)].sym;
-                nc_color t_col = terlist[hm->g->m.ter(x, y)].color;
+            if ( ! g->m.veh_at(x, y, vpart) && ( g->mon_at(x, y) == -1 ) && ( g->npc_at(x, y) == -1 ) ) {
+                char t_sym = terlist[g->m.ter(x, y)].sym;
+                nc_color t_col = terlist[g->m.ter(x, y)].color;
 
 
-                if ( hm->g->m.furn(x, y) > 0 ) {
-                    furn_t furniture_type = furnlist[hm->g->m.furn(x, y)];
+                if ( g->m.furn(x, y) > 0 ) {
+                    furn_t furniture_type = furnlist[g->m.furn(x, y)];
                     t_sym = furniture_type.sym;
                     t_col = furniture_type.color;
                 }
-                field *t_field = &hm->g->m.field_at(x, y);
+                field *t_field = &g->m.field_at(x, y);
                 if ( t_field->fieldCount() > 0 ) {
                     field_id t_ftype = t_field->fieldSymbol();
                     field_entry *t_fld = t_field->findField( t_ftype );
@@ -170,7 +170,7 @@ void editmap_hilight::draw( editmap * hm, bool update ) {
                     t_col = getbg(t_col);
                 }
                 point scrpos = hm->pos2screen( x, y );
-                mvwputch(hm->g->w_terrain, scrpos.y, scrpos.x, t_col, t_sym);
+                mvwputch(g->w_terrain, scrpos.y, scrpos.x, t_col, t_sym);
             }
         }
     }
@@ -562,7 +562,7 @@ void editmap::update_view(bool update_info)
         }
 
         if (mon_index != -1) {
-            g->zombie(mon_index).print_info(g, w_info);
+            g->zombie(mon_index).print_info(w_info);
             off += 6;
         } else if (npc_index != -1) {
             g->active_npc[npc_index]->print_info(w_info);
@@ -1019,7 +1019,7 @@ int editmap::edit_fld()
                         if ( t_dens != 0 ) {
                             t_fld->setFieldDensity(fsel_dens);
                         } else {
-                            g->m.add_field(g, target_list[t].x, target_list[t].y, (field_id)idx, fsel_dens );
+                            g->m.add_field(target_list[t].x, target_list[t].y, (field_id)idx, fsel_dens );
                         }
                     } else {
                         if ( t_dens != 0 ) {
@@ -1245,7 +1245,7 @@ int editmap::edit_itm()
                     wrefresh(imenu.window);
                     wrefresh(g->w_terrain);
                 } else if ( imenu.ret == imenu_savetest ) {
-                    edit_json(it,g);
+                    edit_json(it);
                 }
             } while(imenu.ret != imenu_exit);
             wrefresh(w_info);
@@ -1275,7 +1275,7 @@ int editmap::edit_mon()
     int ret = 0;
     int mon_index = g->mon_at(target.x, target.y);
     monster * it=&g->zombie(mon_index);
-    edit_json(it,g);
+    edit_json(it);
     return ret;
 }
 
@@ -1285,7 +1285,7 @@ int editmap::edit_veh()
     int ret = 0;
     int veh_part = -1;
     vehicle *it = g->m.veh_at(target.x, target.y, veh_part);
-    edit_json(it,g);
+    edit_json(it);
     return ret;
 }
 
@@ -1394,7 +1394,7 @@ int editmap::edit_npc()
     int ret = 0;
     int npc_index = g->npc_at(target.x, target.y);
     npc * it=g->active_npc[npc_index];
-    edit_json(it,g);
+    edit_json(it);
     return ret;
 }
 
@@ -1525,7 +1525,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
             point omp = tz.om_pos;
             point om = tz.abs_om;
 
-            oms[omsx][omsy] = &overmap_buffer.get(g, om.x, om.y );
+            oms[omsx][omsy] = &overmap_buffer.get(om.x, om.y );
             orig_oters[omsx][omsy] = oms[omsx][omsy]->ter(omp.x, omp.y, zlevel);
         }
     }
@@ -1539,9 +1539,9 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
     oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = (int)gmenu.ret;
     tinymap tmpmap(&g->traps);
-    tmpmap.load(g, tc.om_sub.x, tc.om_sub.y, zlevel, false, oms[1][1]);
+    tmpmap.load(tc.om_sub.x, tc.om_sub.y, zlevel, false, oms[1][1]);
     // this should -not- be saved, map::save appends a dupe to mapbuffer.
-    tmpmap.generate(g, oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(g->turn));;
+    tmpmap.generate(oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(g->turn));;
 
     point pofs = pos2screen(target.x - 11, target.y - 11); //
     WINDOW *w_preview = newwin(24, 24, pofs.y, pofs.x );
@@ -1575,7 +1575,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
             lastsel = gmenu.selected;
             oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = gmenu.selected;
             cleartmpmap( tmpmap );
-            tmpmap.generate(g, oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(g->turn));;
+            tmpmap.generate(oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(g->turn));;
             showpreview = true;
         }
         if ( showpreview ) {
@@ -1600,7 +1600,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                 if ( gpmenu.ret == 0 ) {
 
                     cleartmpmap( tmpmap );
-                    tmpmap.generate(g, oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(g->turn));;
+                    tmpmap.generate(oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(g->turn));;
                     showpreview = true;
                 } else if ( gpmenu.ret == 1 ) {
                     tmpmap.rotate(1);
@@ -1660,7 +1660,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             destsm->camp = srcsm->camp;
 
                             if ( spawns_todo > 0 ) {                              // trigger spawnpoints
-                                g->m.spawn_monsters(g);
+                                g->m.spawn_monsters();
                             }
                         }
                     }

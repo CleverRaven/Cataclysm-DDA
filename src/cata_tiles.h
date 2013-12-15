@@ -182,28 +182,28 @@ class cata_tiles
         bool draw_hit(int x, int y);
 
         void init_explosion(int x, int y, int radius);
-        void draw_explosion_frame(int destx, int desty, int centerx, int centery, int width, int height);
+        void draw_explosion_frame();
         void void_explosion();
 
         void init_draw_bullet(int x, int y, std::string name);
-        void draw_bullet_frame(int destx, int desty, int centerx, int centery, int width, int height);
+        void draw_bullet_frame();
         void void_bullet();
 
         void init_draw_hit(int x, int y, std::string name);
-        void draw_hit_frame(int destx, int desty, int centerx, int centery, int width, int height);
+        void draw_hit_frame();
         void void_hit();
 
         void init_draw_footsteps(std::queue<point> steps);
-        void draw_footsteps_frame(int destx, int desty, int centerx, int centery, int width, int height);
+        void draw_footsteps_frame();
         void void_footsteps();
 
         // pseudo-animated layer, not really though.
         void init_draw_line(int x, int y, std::vector<point> trajectory, std::string line_end_name, bool target_line);
-        void draw_line(int destx, int desty, int centerx, int centery, int width, int height);
+        void draw_line();
         void void_line();
 
         void init_draw_weather(weather_printable weather, std::string name);
-        void draw_weather_frame(int destx, int desty, int centerx, int centery, int width, int height);
+        void draw_weather_frame();
         void void_weather();
 
         /** Overmap Layer : Not used for now, do later*/

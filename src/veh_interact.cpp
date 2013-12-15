@@ -817,6 +817,7 @@ void veh_interact::do_drain(task_reason reason)
  */
 void veh_interact::do_rename(task_reason reason)
 {
+    (void)reason; // unused
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
     if(name.length() > 0) {
         (veh->name = name);
@@ -1414,7 +1415,7 @@ struct candidate_vpart {
  * @param vpid The id of the vpart type to look for.
  * @return The item that was consumed.
  */
-item consume_vpart_item (game *g, std::string vpid)
+item consume_vpart_item (std::string vpid)
 {
     std::vector<candidate_vpart> candidates;
     const itype_id itid = vehicle_part_types[vpid].item;
@@ -1490,7 +1491,7 @@ item consume_vpart_item (game *g, std::string vpid)
  * Called when the activity timer for installing parts, repairing, etc times
  * out and the the action is complete.
  */
-void complete_vehicle (game *g)
+void complete_vehicle ()
 {
     if (g->u.activity.values.size() < 8) {
         debugmsg ("Invalid activity ACT_VEHICLE values:%d", g->u.activity.values.size());
@@ -1524,9 +1525,9 @@ void complete_vehicle (game *g)
         if(partnum < 0) {
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
         }
-        used_item = consume_vpart_item (g, part_id);
+        used_item = consume_vpart_item (part_id);
         batterycharges = used_item.charges;
-        veh->get_part_properties_from_item(g, partnum, used_item); //transfer damage, etc.
+        veh->get_part_properties_from_item(partnum, used_item); //transfer damage, etc.
         tools.push_back(component("welder", welder_charges));
         tools.push_back(component("welder_crude", welder_crude_charges));
         tools.push_back(component("duct_tape", DUCT_TAPE_USED));
@@ -1580,7 +1581,7 @@ void complete_vehicle (game *g)
     case 'r':
         if (veh->parts[vehicle_part].hp <= 0) {
             veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
-            used_item = consume_vpart_item (g, veh->parts[vehicle_part].id);
+            used_item = consume_vpart_item (veh->parts[vehicle_part].id);
             veh->parts[vehicle_part].bigness = used_item.bigness;
             tools.push_back(component("wrench", -1));
             g->consume_tools(&g->u, tools, true);
@@ -1659,7 +1660,7 @@ void complete_vehicle (game *g)
         }
         break;
     case 's':
-        g->u.siphon( g, veh, "gasoline" );
+        g->u.siphon( veh, "gasoline" );
         break;
     case 'c':
         parts = veh->parts_at_relative( dx, dy );
@@ -1679,8 +1680,8 @@ void complete_vehicle (game *g)
             if( partnum < 0 ) {
                 debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
             }
-            used_item = consume_vpart_item( g, part_id );
-            veh->get_part_properties_from_item( g, partnum, used_item ); //transfer damage, etc.
+            used_item = consume_vpart_item( part_id );
+            veh->get_part_properties_from_item( partnum, used_item ); //transfer damage, etc.
             // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
             if ( !broken ) {
                 g->m.add_item_or_charges( g->u.posx, g->u.posy, removed_wheel );
@@ -1688,7 +1689,7 @@ void complete_vehicle (game *g)
         }
         break;
     case 'd':
-        g->u.siphon( g, veh, "water" );
+        g->u.siphon( veh, "water" );
         break;
     }
 }

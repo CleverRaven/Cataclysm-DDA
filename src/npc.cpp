@@ -14,8 +14,8 @@
 #include "monstergenerator.h"
 #include <algorithm>
 
-std::vector<item> starting_clothes(npc_class type, bool male, game *g);
-std::list<item> starting_inv(npc *me, npc_class type, game *g);
+std::vector<item> starting_clothes(npc_class type, bool male);
+std::list<item> starting_inv(npc *me, npc_class type);
 
 npc::npc()
 {
@@ -149,7 +149,7 @@ std::string npc::save_info()
     return serialize(); // also saves contents
 }
 
-void npc::load_info(game *g, std::string data)
+void npc::load_info(std::string data)
 {
     std::stringstream dump;
     dump << data;
@@ -168,12 +168,12 @@ void npc::load_info(game *g, std::string data)
         }
         return;
     } else {
-        load_legacy(g, dump);
+        load_legacy(dump);
     }
 }
 
 
-void npc::randomize(game *g, npc_class type)
+void npc::randomize(npc_class type)
 {
  this->setID(g->assign_npc_id());
  str_max = dice(4, 3);
@@ -360,18 +360,18 @@ void npc::randomize(game *g, npc_class type)
   hp_max[i] = 60 + str_max * 3;
   hp_cur[i] = hp_max[i];
  }
- starting_weapon(g);
- worn = starting_clothes(type, male, g);
+ starting_weapon();
+ worn = starting_clothes(type, male);
  inv.clear();
- inv.add_stack(starting_inv(this, type, g));
+ inv.add_stack(starting_inv(this, type));
  update_worst_item_value();
 }
 
-void npc::randomize_from_faction(game *g, faction *fac)
+void npc::randomize_from_faction(faction *fac)
 {
 // Personality = aggression, bravery, altruism, collector
  my_fac = fac;
- randomize(g);
+ randomize();
 
  switch (fac->goal) {
   case FACGOAL_DOMINANCE:
@@ -408,7 +408,7 @@ void npc::randomize_from_faction(game *g, faction *fac)
    break;
   case FACGOAL_KNOWLEDGE:
    if (one_in(2))
-    randomize(g, NC_SCIENTIST);
+    randomize(NC_SCIENTIST);
    personality.aggression -= rng(2, 5);
    personality.bravery -= rng(1, 4);
    personality.collector += rng(2, 4);
@@ -441,7 +441,7 @@ void npc::randomize_from_faction(game *g, faction *fac)
  }
  if (fac->has_job(FACJOB_TRADE) || fac->has_job(FACJOB_CARAVANS)) {
   if (!one_in(3))
-   randomize(g, NC_TRADER);
+   randomize(NC_TRADER);
   personality.aggression -= rng(1, 5);
   personality.collector += rng(1, 4);
   personality.altruism -= rng(0, 3);
@@ -451,9 +451,9 @@ void npc::randomize_from_faction(game *g, faction *fac)
  if (fac->has_job(FACJOB_MERCENARIES)) {
   if (!one_in(3)) {
    switch (rng(1, 3)) {
-    case 1: randomize(g, NC_NINJA);  break;
-    case 2: randomize(g, NC_COWBOY);  break;
-    case 3: randomize(g, NC_BOUNTY_HUNTER); break;
+    case 1: randomize(NC_NINJA);  break;
+    case 2: randomize(NC_COWBOY);  break;
+    case 3: randomize(NC_BOUNTY_HUNTER); break;
    }
   }
   personality.aggression += rng(0, 2);
@@ -471,7 +471,7 @@ void npc::randomize_from_faction(game *g, faction *fac)
  }
  if (fac->has_job(FACJOB_RAIDERS)) {
   if (one_in(3))
-   randomize(g, NC_COWBOY);
+   randomize(NC_COWBOY);
   personality.aggression += rng(3, 5);
   personality.bravery += rng(0, 2);
   personality.altruism -= rng(3, 6);
@@ -480,7 +480,7 @@ void npc::randomize_from_faction(game *g, faction *fac)
  }
  if (fac->has_job(FACJOB_THIEVES)) {
   if (one_in(3))
-   randomize(g, NC_NINJA);
+   randomize(NC_NINJA);
   personality.aggression -= rng(2, 5);
   personality.bravery -= rng(1, 3);
   personality.altruism -= rng(1, 4);
@@ -490,7 +490,7 @@ void npc::randomize_from_faction(game *g, faction *fac)
  }
  if (fac->has_job(FACJOB_DOCTORS)) {
   if (!one_in(4))
-   randomize(g, NC_DOCTOR);
+   randomize(NC_DOCTOR);
   personality.aggression -= rng(3, 6);
   personality.bravery += rng(0, 4);
   personality.altruism += rng(0, 4);
@@ -593,7 +593,7 @@ void npc::randomize_from_faction(game *g, faction *fac)
  }
 }
 
-std::vector<item> starting_clothes(npc_class type, bool male, game *g)
+std::vector<item> starting_clothes(npc_class type, bool male)
 {
  std::vector<item> ret;
  itype_id pants = "null", shoes = "null", shirt = "null",
@@ -774,7 +774,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
  return ret;
 }
 
-std::list<item> starting_inv(npc *me, npc_class type, game *g)
+std::list<item> starting_inv(npc *me, npc_class type)
 {
  int total_space = me->volume_capacity() - 2;
  std::list<item> ret;
@@ -875,7 +875,7 @@ void npc::spawn_at(overmap *o, int x, int y, int z)
  o->npcs.push_back(this);
 }
 
-void npc::place_near(game *g, int potentialX, int potentialY)
+void npc::place_near(int potentialX, int potentialY)
 {
     //places the npc at the nearest empty spot near (potentialX, potentialY). Searches in a spiral pattern for a suitable location.
     int x = 0, y = 0, dx = 0, dy = -1;
@@ -915,7 +915,7 @@ Skill* npc::best_skill()
  return best_skills[index];
 }
 
-void npc::starting_weapon(game *g)
+void npc::starting_weapon()
 {
     // TODO add throwing weapons
 
@@ -1014,11 +1014,13 @@ bool npc::wear_if_wanted(item it)
  return false;
 }
 //to placate clang++
-bool npc::wield(game *g, signed char invlet, bool autodrop){
-    return this->wield(g,invlet);
+bool npc::wield(signed char invlet, bool autodrop)
+{
+    (void)autodrop; // ignored
+    return this->wield(invlet);
 }
 
-bool npc::wield(game *g, signed char invlet)
+bool npc::wield(signed char invlet)
 {
  if (volume_carried() + weapon.volume() <= volume_capacity()) {
   i_add(remove_weapon());
@@ -1033,7 +1035,7 @@ bool npc::wield(game *g, signed char invlet)
  return true;
 }
 
-void npc::perform_mission(game *g)
+void npc::perform_mission()
 {
  switch (mission) {
  case NPC_MISSION_RESCUE_U:
@@ -1174,6 +1176,7 @@ void npc::form_opinion(player *u)
 talk_topic npc::pick_talk_topic(player *u)
 {
  //form_opinion(u);
+ (void)u;
  if (personality.aggression > 0) {
   if (op_of_u.fear * 2 < personality.bravery && personality.altruism < 0)
    return TALK_MUG;
@@ -1234,7 +1237,7 @@ int npc::player_danger(player *u)
  return ret;
 }
 
-int npc::vehicle_danger(game *g, int radius)
+int npc::vehicle_danger(int radius)
 {
     VehicleList vehicles = g->m.get_vehicles(posx - radius, posy - radius, posx + radius, posy + radius);
 
@@ -1288,12 +1291,14 @@ void npc::make_angry()
   attitude = NPCATT_KILL; // Yeah, we think we could take you!
 }
 
+// STUB
 bool npc::wants_to_travel_with(player *p)
 {
- return true;
+    (void)p; // TODO: implement
+    return true;
 }
 
-int npc::assigned_missions_value(game *g)
+int npc::assigned_missions_value()
 {
  int ret = 0;
  for (int i = 0; i < chatbin.missions_assigned.size(); i++)
@@ -1333,7 +1338,7 @@ std::vector<itype_id> npc::styles_offered_to(player *p)
 }
 
 
-int npc::minutes_to_u(game *g)
+int npc::minutes_to_u()
 {
  int ret = abs(mapx - g->levx);
  if (abs(mapy - g->levy) < ret)
@@ -1417,7 +1422,7 @@ void npc::decide_needs()
  }
 }
 
-void npc::say(game *g, std::string line, ...)
+void npc::say(std::string line, ...)
 {
  va_list ap;
  va_start(ap, line);
@@ -1608,7 +1613,7 @@ bool npc::is_defending()
  return (attitude == NPCATT_DEFEND);
 }
 
-int npc::danger_assessment(game *g)
+int npc::danger_assessment()
 {
  int ret = 0;
  int sightdist = g->light_level(), junk;
@@ -1676,7 +1681,7 @@ bool npc::emergency(int danger)
 
 //Check if this npc is currently in the list of active npcs.
 //Active npcs are the npcs near the player that are actively simulated.
-bool npc::is_active(game *g)
+bool npc::is_active()
 {
     int npcnr = this->getID();
     for(int i = 0; i < g->active_npc.size(); i++){
@@ -1686,57 +1691,57 @@ bool npc::is_active(game *g)
     return false;
 }
 
-void npc::told_to_help(game *g)
+void npc::told_to_help()
 {
  if (!is_following() && personality.altruism < 0) {
-  say(g, _("Screw you!"));
+  say(_("Screw you!"));
   return;
  }
  if (is_following()) {
   if (personality.altruism + 4 * op_of_u.value + personality.bravery >
-      danger_assessment(g)) {
-   say(g, _("I've got your back!"));
+      danger_assessment()) {
+   say(_("I've got your back!"));
    attitude = NPCATT_DEFEND;
   }
   return;
  }
  if (int((personality.altruism + personality.bravery) / 4) >
-     danger_assessment(g)) {
-  say(g, _("Alright, I got you covered!"));
+     danger_assessment()) {
+  say(_("Alright, I got you covered!"));
   attitude = NPCATT_DEFEND;
  }
 }
 
-void npc::told_to_wait(game *g)
+void npc::told_to_wait()
 {
  if (!is_following()) {
   debugmsg("%s told to wait, but isn't following", name.c_str());
   return;
  }
  if (5 + op_of_u.value + op_of_u.trust + personality.bravery * 2 >
-     danger_assessment(g)) {
-  say(g, _("Alright, I'll wait here."));
+     danger_assessment()) {
+  say(_("Alright, I'll wait here."));
   if (one_in(3))
    op_of_u.trust--;
   attitude = NPCATT_WAIT;
  } else {
   if (one_in(2))
    op_of_u.trust--;
-  say(g, _("No way, man!"));
+  say(_("No way, man!"));
  }
 }
 
-void npc::told_to_leave(game *g)
+void npc::told_to_leave()
 {
  if (!is_following()) {
   debugmsg("%s told to leave, but isn't following", name.c_str());
   return;
  }
- if (danger_assessment(g) - personality.bravery > op_of_u.value) {
-  say(g, _("No way, I need you!"));
+ if (danger_assessment() - personality.bravery > op_of_u.value) {
+  say(_("No way, I need you!"));
   op_of_u.trust -= 2;
  } else {
-  say(g, _("Alright, see you later."));
+  say(_("Alright, see you later."));
   op_of_u.trust -= 2;
   op_of_u.value -= 1;
  }
@@ -1913,12 +1918,12 @@ void npc::shift(int sx, int sy)
  path.clear();
 }
 
-void npc::die(game* g, Creature* nkiller) {
+void npc::die(Creature* nkiller) {
     killer = nkiller;
-    die(g, nkiller != NULL && nkiller->is_player());
+    die(nkiller != NULL && nkiller->is_player());
 }
 
-void npc::die(game *g, bool your_fault)
+void npc::die(bool your_fault)
 {
     if (dead) {
         return;

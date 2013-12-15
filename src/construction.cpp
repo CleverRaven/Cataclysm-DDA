@@ -456,7 +456,7 @@ void place_construction(const std::string &desc)
     }
 
     construction *con = valid[choice];
-    g->u.assign_activity(g, ACT_BUILD, con->time * 1000, con->id);
+    g->u.assign_activity(ACT_BUILD, con->time * 1000, con->id);
     g->u.moves = 0;
     g->u.activity.placement = choice;
 }
@@ -519,7 +519,7 @@ void construct::done_tree(point p)
     y = p.y + y * 3 + rng(-1, 1);
     std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
     for (unsigned i = 0; i < tree.size(); i++) {
-        g->m.destroy(g, tree[i].x, tree[i].y, true);
+        g->m.destroy(tree[i].x, tree[i].y, true);
         g->m.ter_set(tree[i].x, tree[i].y, t_trunk);
     }
 }
@@ -548,7 +548,7 @@ void construct::done_vehicle(point p)
         name = _("Car");
     }
 
-    vehicle *veh = g->m.add_vehicle (g, "custom", p.x, p.y, 270, 0, 0);
+    vehicle *veh = g->m.add_vehicle ("custom", p.x, p.y, 270, 0, 0);
     if (!veh)
     {
         debugmsg ("error constructing vehicle");
