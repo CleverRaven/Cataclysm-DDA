@@ -121,9 +121,12 @@ void construction_menu()
     }
     nc_color color_stage = c_white;
 
-    // display difficulty
-    int pskill = g->u.skillLevel("carpentry");
+    // display required skill and difficulty
+    int pskill = g->u.skillLevel(current_con->skill);
     int diff = current_con->difficulty > 0 ? current_con->difficulty : 0;
+    posy++;
+    mvwprintz(w_con, posy, 31, c_white,
+              _("Skill: %s"), current_con->skill.c_str());
     posy++;
     mvwprintz(w_con, posy, 31, (pskill >= diff ? c_white : c_red),
               _("Difficulty: %d"), diff);
@@ -306,7 +309,7 @@ bool player_can_build(player &p, inventory pinv, const std::string &desc)
 
 bool player_can_build(player &p, inventory pinv, construction *con)
 {
-    if (p.skillLevel("carpentry") < con->difficulty) {
+    if (p.skillLevel(con->skill) < con->difficulty) {
         return false;
     }
 
@@ -460,7 +463,7 @@ void complete_construction()
 {
     construction *built = constructions[g->u.activity.index];
 
-    g->u.practice(g->turn, "carpentry", std::max(built->difficulty, 1) * 10);
+    g->u.practice(g->turn, built->skill, std::max(built->difficulty, 1) * 10);
     for (int i = 0; i < built->components.size(); i++) {
         if (!built->components[i].empty()) {
             g->consume_items(&(g->u), built->components[i]);
@@ -685,6 +688,7 @@ void load_construction(JsonObject &jo)
     JsonArray temp;
 
     con->description = _(jo.get_string("description").c_str());
+    con->skill = _(jo.get_string("skill", "carpentry").c_str());
     con->difficulty = jo.get_int("difficulty");
     con->time = jo.get_int("time");
 
