@@ -11425,11 +11425,10 @@
   "subcategory": "CSC_ELECTRONIC_OTHER",
   "skill_used": "fabrication",
   "skills_required": [ "electronics", 3 ],
-  "difficulty": 3,
+  "difficulty": 5,
   "time": 15000,
   "reversible": true,
   "autolearn": false,
-  "decomp_learn": 3,
   "book_learn": [[ "manual_electronics", 3 ], [ "textbook_electronics", 3 ]],
   "tools": [
     [
@@ -12754,7 +12753,7 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "electronics",
-  "difficulty": 6,
+  "difficulty": 8,
   "time": 50000,
   "reversible": true,
   "autolearn": true,
