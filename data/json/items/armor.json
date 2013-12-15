@@ -5937,7 +5937,7 @@
         "description" : "A skinny black and white checkered necktie.",
         "weight" : 12,
         "to_hit" : 0,
-        "color" : "light_gray",
+        "color" : "dark_gray",
         "encumbrance" : 0,
         "price" : 500,
         "material" : ["cotton", "null"],
