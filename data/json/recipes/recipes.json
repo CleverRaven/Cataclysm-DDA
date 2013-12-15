@@ -11420,6 +11420,40 @@
   ]
 },{
         "type" : "recipe",
+  "result": "rechargeable_battery",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "electronics", 3 ],
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": true,
+  "autolearn": false,
+  "decomp_learn": 3,
+  "book_learn": [[ "manual_electronics", 3 ], [ "textbook_electronics", 3 ]],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 4 ]
+    ],
+    [
+      [ "cable", 5 ]
+    ],
+    [
+      [ "small_storage_battery", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "coilgun",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -12712,6 +12746,40 @@
   "components": [
     [
       [ "burnt_out_bionic", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "recharge_station",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "difficulty": 8,
+  "time": 50000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 35 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "power_supply", 2 ]
+    ],
+    [
+      [ "processor", 2 ]
+    ],
+    [
+      [ "scrap", 5 ]
+    ],
+    [
+      [ "cable", 8 ]
     ]
   ]
 },{
