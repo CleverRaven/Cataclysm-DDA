@@ -137,13 +137,11 @@ void set_trap_ids() {
  tr_drain = trapfind("tr_drain");
  tr_snake = trapfind("tr_snake");
 
- // convert ter_t.trap from std::string* to trap_id, and cleanup temporary strings.
-    for(int i = 0; i < terlist.size(); i++) {
-        if ( terlist[i].trap != tr_null ) {
-            std::string * ptr = (std::string*)terlist[i].trap;
-            terlist[i].trap = trapfind( *ptr );
-            termap[terlist[i].id].trap = trapfind( *ptr );
-            delete ptr;
+    // Set ter_t.trap using ter_t.trap_id_str.
+    for( std::vector<ter_t>::iterator terrain = terlist.begin();
+         terrain != terlist.end(); ++terrain ) {
+        if( terrain->trap_id_str.length() != 0 ) {
+            terrain->trap = trapfind( terrain->trap_id_str );
         }
     }
 }
