@@ -28,6 +28,7 @@ struct construction
     int id; // arbitrary internal identifier
 
     std::string description; // how the action is displayed to the player
+    std::string skill;
     int difficulty; // carpentry skill level required
     int time; // time taken to construct, in minutes
     std::vector<std::vector<component> > tools; // tools required
