@@ -233,7 +233,8 @@ void load_terrain(JsonObject &jsobj)
   new_terrain.movecost = jsobj.get_int("move_cost");
 
   if(jsobj.has_member("trap")) {
-    new_terrain.trap = trap_id_from_string(jsobj.get_string("trap"));
+    // load order neutrality, so make (int)trap a temporary pointer.
+    new_terrain.trap = (trap_id)new std::string(jsobj.get_string("trap"));
   } else {
     new_terrain.trap = tr_null;
   }
