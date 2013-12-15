@@ -14830,7 +14830,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "mask_survivor",
+  "result": "mask_survivorxl",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
