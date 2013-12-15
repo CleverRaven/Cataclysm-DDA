@@ -5940,7 +5940,7 @@
         "color" : "light_gray",
         "encumbrance" : 0,
         "price" : 500,
-        "material" : ["silver", "null"],
+        "material" : ["cotton", "null"],
         "coverage" : 0,
         "symbol" : "[",
         "bashing" : 0,
