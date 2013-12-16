@@ -16874,7 +16874,8 @@
 },{
   "type" : "recipe",
   "result": "chemlab",
-  "category": "CC_MISC",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "skills_required": ["electronics",3],
   "difficulty": 4,
@@ -21973,7 +21974,8 @@
 },{
         "type" : "recipe",
   "result": "halligan",
-  "category": "CC_MISC",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_BASHING",
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 420000,
@@ -26694,7 +26696,8 @@
 },{
         "type" : "recipe",
   "result": "55gal_drum",
-  "category": "CC_MISC",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 420000,
@@ -26727,7 +26730,8 @@
 },{
         "type" : "recipe",
   "result": "30gal_drum",
-  "category": "CC_MISC",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 30000,
