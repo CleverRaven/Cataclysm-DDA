@@ -846,7 +846,7 @@
         "ugliness" : 1,
         "description" : "Your eyes have mutated, with a brilliant iris and slitted pupil similar to that of a lizard.  This is visually striking, but doesn't seem to affect your vision.",
         "leads_to" : ["LIZ_IR"],
-        "cancels" : ["ELFAEYES"],
+        "cancels" : ["ELFAEYES", "FEL_EYE"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
