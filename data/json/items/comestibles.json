@@ -9755,7 +9755,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 7,
+        "charges" : 5,
         "bashing" : 0,
         "fun" : 0
     },
@@ -9784,7 +9784,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 7,
+        "charges" : 5,
         "bashing" : 0,
         "fun" : 0
     },
