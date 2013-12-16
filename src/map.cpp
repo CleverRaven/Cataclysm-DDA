@@ -1126,7 +1126,7 @@ bool map::trans(const int x, const int y)
     vehicle *veh = veh_at(x, y, vpart);
     bool tertr;
     if (veh) {
-        tertr = !veh->part_with_feature(vpart, VPFLAG_OPAQUE) || veh->parts[vpart].hp <= 0;
+        tertr = veh->part_with_feature(vpart, VPFLAG_OPAQUE) < 0;
         if (!tertr) {
             const int dpart = veh->part_with_feature(vpart, VPFLAG_OPENABLE);
             if (dpart >= 0 && veh->parts[dpart].open) {
@@ -2543,7 +2543,7 @@ void map::process_active_items_in_vehicles(const int nonant)
                     it->fridge = (int)g->turn;
                     it->item_counter -= 10;
                 }
-                if (it->has_flag("RECHARGE") && next_vehicle->part_with_feature(*part_index, VPFLAG_RECHARGE) &&
+                if (it->has_flag("RECHARGE") && next_vehicle->part_with_feature(*part_index, VPFLAG_RECHARGE) >= 0 &&
                     next_vehicle->recharger_on) {
                         if (it->is_tool() && static_cast<it_tool*>(it->type)->max_charges > it->charges ) {
                             if (one_in(10)) {
