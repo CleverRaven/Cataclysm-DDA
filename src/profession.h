@@ -22,6 +22,7 @@ private:
     std::string _ident;
     std::string _name;
     std::string _description;
+    std::string _gender_req;
     signed int _point_cost;
     std::vector<std::string> _starting_items;
     std::vector<addiction> _starting_addictions;
@@ -56,6 +57,7 @@ public:
     std::string ident() const;
     std::string name() const;
     std::string description() const;
+    std::string gender_req() const;
     signed int point_cost() const;
     std::vector<std::string> items() const;
     std::vector<addiction> addictions() const;

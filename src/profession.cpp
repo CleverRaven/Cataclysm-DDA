@@ -31,6 +31,12 @@ void profession::load_profession(JsonObject &jsobj)
     prof._name = _(jsobj.get_string("name").c_str());
     prof._description = _(jsobj.get_string("description").c_str());
     prof._point_cost = jsobj.get_int("points");
+    if(jsobj.has_string("gender_req")) {
+        prof._gender_req = jsobj.get_string("gender_req");
+    }
+    else {
+        prof._gender_req = "none";
+    }
 
     jsarr = jsobj.get_array("items");
     while (jsarr.has_more()) {
@@ -139,6 +145,11 @@ std::string profession::description() const
     return _description;
 }
 
+std::string profession::gender_req() const
+{
+    return _gender_req;
+}
+
 signed int profession::point_cost() const
 {
     return _point_cost;
@@ -171,6 +182,11 @@ bool profession::has_flag(std::string flag) const {
 std::string profession::can_pick(player* u, int points) const {
     std::string rval = "YES";
     if(point_cost() - u->prof->point_cost() > points) rval = "INSUFFICIENT_POINTS";
+    if(gender_req() != "none") {
+        if(u->male && gender_req() != "male") rval = "WRONG_GENDER";
+        else if(!u->male && gender_req() != "female") rval = "WRONG_GENDER";
+    }
+            
     return rval;
 }
 // vim:ts=4:sw=4:et:tw=0:fdm=marker:fdl=0:

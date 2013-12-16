@@ -973,6 +973,9 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
             mvwprintz(w,  3, 20, c_ltred, _("Profession %1$s costs %2$d points (net: %3$d)"),
                       sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
+        } else if(can_pick == "WRONG_GENDER") {
+            mvwprintz(w, 3, 20, c_ltred, _("Only %1$s characters can take this profession"),
+                      sorted_profs[cur_id]->gender_req().c_str());
         }
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
                        sorted_profs[cur_id]->description().c_str());
