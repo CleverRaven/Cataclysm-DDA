@@ -1,7 +1,7 @@
 #ifndef _BUILDING_GENERATION_H_
 #define _BUILDING_GENERATION_H_
-
-#include "omdata.h"
+#include "overmap.h"
+//#include "omdata.h"
 #include "map.h"
 
 struct mapgendata
@@ -18,8 +18,10 @@ public:
   int sw_fac; // dir == 7
   oter_id t_above;
   int zlevel;
+  const regional_settings * region;
+  map * m;
   mapgendata(oter_id t_north, oter_id t_east, oter_id t_south, oter_id t_west, oter_id t_neast,
-              oter_id t_seast, oter_id t_nwest, oter_id t_swest, oter_id up, int z);
+              oter_id t_seast, oter_id t_nwest, oter_id t_swest, oter_id up, int z, const regional_settings * rsettings, map * mp );
   void set_dir(int dir_in, int val);
   void fill(int val);
   int& dir(int dir_in);
@@ -32,13 +34,13 @@ public:
   oter_id  nwest() const { return t_nesw[6]; }
   oter_id  swest() const { return t_nesw[7]; }
   oter_id  above() const { return t_above; }
-
-
+  void fill_groundcover();
+  void square_groundcover(const int x1, const int y1, const int x2, const int y2);
+  ter_id groundcover();
 };
 
 typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
 extern std::map<std::string, building_gen_pointer> mapgen_cfunction_map;
-
 ter_id grass_or_dirt();
 ter_id dirt_or_pile();
 

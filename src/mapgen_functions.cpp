@@ -7,7 +7,7 @@
 #include "overmap.h"
 #include "monstergenerator.h"
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
-                       oter_id northwest, oter_id southeast, oter_id southwest, oter_id up, int z)
+                       oter_id northwest, oter_id southeast, oter_id southwest, oter_id up, int z, const regional_settings * rsettings, map * mp)
 {
     t_nesw[0] = north;
     t_nesw[1] = east;
@@ -27,8 +27,8 @@ mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west,
     se_fac = 0;
     nw_fac = 0;
     sw_fac = 0;
-
-
+    region = rsettings;
+    m = mp;
 
 }
 
@@ -330,6 +330,23 @@ ter_id dirt_or_pile()
  return t_dirt;
 }
 
+void mapgendata::square_groundcover(const int x1, const int y1, const int x2, const int y2) {
+    m->draw_square_ter( region->default_groundcover, x1, y1, x2, y2);
+}
+void mapgendata::fill_groundcover() {
+    m->draw_fill_background( region->default_groundcover );
+}
+
+
+ter_id mapgendata::groundcover() {
+    return (ter_id)region->default_groundcover.get();
+/*
+    if ( one_in( region->default_groundcover.chance ) ) {
+        return (ter_id)region->default_groundcover.secondary;
+    }
+    return (ter_id)region->default_groundcover.primary;
+*/
+};
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
     if ( north_is_down ) {
@@ -392,7 +409,9 @@ void mapgen_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float 
     // and blueberry bushes.
     int berry_bush_factor = 200;
     int bush_factor = 120;
-    if(one_in(120)) {
+    int poppy_factor = 1000;
+    int extra_bushes_factor = 120;
+    if(one_in(extra_bushes_factor)) {
         berry_bush_factor = 2;
         bush_factor = 40;
     }
@@ -405,16 +424,16 @@ void mapgen_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float 
 
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            m->ter_set(i, j, grass_or_dirt());
+            m->ter_set(i, j, dat.groundcover() );
+//grass_or_dirt());
             if (one_in(bush_factor)) {
                 if (one_in(berry_bush_factor)) {
                     m->ter_set(i, j, bush_type);
                 } else {
                     m->ter_set(i, j, t_shrub);
                 }
-            }
-            else {
-                if (one_in(1000)) {
+            } else {
+                if (one_in(poppy_factor)) {
                     m->furn_set(i,j, f_mutpoppy);
                 }
             }

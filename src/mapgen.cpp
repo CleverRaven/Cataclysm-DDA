@@ -74,6 +74,8 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
     unsigned zones = 0;
     int overx = x / 2;
     int overy = y / 2;
+    bool edge_case = false;
+    const regional_settings * rsettings = NULL;
     if ( x >= OMAPX * 2 || x < 0 || y >= OMAPY * 2 || y < 0) {
         dbg(D_INFO) << "map::generate: In section 1";
 
@@ -98,6 +100,8 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
         }
         overmap tmp = overmap_buffer.get(g, om->pos().x + sx, om->pos().y + sy);
         terrain_type = tmp.ter(overx, overy, z);
+        rsettings = &tmp.get_settings(overx, overy, z);
+
         //zones = tmp.zones(overx, overy);
         t_above = tmp.ter(overx, overy, z + 1);
 
@@ -170,6 +174,7 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
 
         t_above = om->ter(overx, overy, z + 1);
         terrain_type = om->ter(overx, overy, z);
+        rsettings = &om->get_settings(overx, overy, z);
 
         if (overy - 1 >= 0) {
             t_north = om->ter(overx, overy - 1, z);
@@ -263,7 +268,7 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
     density = density / 100;
 
     draw_map(terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
-             t_above, turn, g, density, z);
+             t_above, turn, g, density, z, rsettings);
 
     map_extras ex = get_extras(otermap[terrain_type].extras);
     if ( one_in( ex.chance )) {
@@ -1054,7 +1059,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                    const oter_id t_south, const oter_id t_west, const oter_id t_neast,
                    const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
                    const oter_id t_above, const int turn, game *g, const float density,
-                   const int zlevel)
+                   const int zlevel, const regional_settings * rsettings)
 {
     // Big old switch statement with a case for each overmap terrain type.
     // Many of these can be copied from another type, then rotated; for instance,
@@ -1090,7 +1095,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int nesw_fac[] = {0, 0, 0, 0, 0, 0, 0, 0};
     int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
 
-    mapgendata facing_data(t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest, t_above, zlevel);
+    mapgendata dat(t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest, t_above, zlevel, rsettings, this);
 
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;
@@ -1108,13 +1113,13 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
         if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_C ) {
            void(*gfunction)(map*,oter_id,mapgendata,int,float) = dynamic_cast<mapgen_function_builtin*>( fmapit->second[fidx] )->fptr;
-           gfunction(this, terrain_type, facing_data, turn, density);
+           gfunction(this, terrain_type, dat, turn, density);
         } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_JSON ) {
            mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(fmapit->second[fidx]);
-           mf->apply( this, terrain_type, facing_data, turn, density );
+           mf->apply( this, terrain_type, dat, turn, density );
         } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_LUA ) {
            mapgen_function_lua * mf = dynamic_cast<mapgen_function_lua*>(fmapit->second[fidx]);
-           mapgen_lua(this, terrain_type, facing_data, turn, density, mf->scr );
+           mapgen_lua(this, terrain_type, dat, turn, density, mf->scr );
         } else {
            debugmsg("mapgen %s (%s): Invalid mapgen function type.",terrain_type.c_str(), function_key.c_str() );
         }
@@ -12916,6 +12921,9 @@ void fill_background(map *m, ter_id type) {
 void fill_background(map *m, ter_id (*f)()) {
     m->draw_fill_background(f);
 }
+void fill_background(map *m, const id_or_id & f) {
+    m->draw_fill_background(f);
+}
 void square(map *m, ter_id type, int x1, int y1, int x2, int y2) {
     m->draw_square_ter(type, x1, y1, x2, y2);
 }
@@ -12923,6 +12931,9 @@ void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2) {
     m->draw_square_furn(type, x1, y1, x2, y2);
 }
 void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2) {
+    m->draw_square_ter(f, x1, y1, x2, y2);
+}
+void square(map *m, const id_or_id & f, int x1, int y1, int x2, int y2) {
     m->draw_square_ter(f, x1, y1, x2, y2);
 }
 void rough_circle(map *m, ter_id type, int x, int y, int rad) {
