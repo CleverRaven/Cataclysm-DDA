@@ -1379,7 +1379,7 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "subsuit_XL",
+        "id" : "subsuit_xl",
         "name" : "subject suit",
         "weight" : 810,
         "color" : "yellow",
