@@ -40,7 +40,19 @@ void profession::load_profession(JsonObject &jsobj)
 
     jsarr = jsobj.get_array("items");
     while (jsarr.has_more()) {
-        prof.add_item(jsarr.next_string());
+        prof.add_item(jsarr.next_string(), "none");
+    }
+    if(jsobj.has_array("items_male")) {
+        jsarr=jsobj.get_array("items_male");
+        while (jsarr.has_more()) {
+            prof.add_item(jsarr.next_string(), "male");
+        }
+    }
+    if(jsobj.has_array("items_female")) {
+        jsarr=jsobj.get_array("items_female");
+        while (jsarr.has_more()) {
+            prof.add_item(jsarr.next_string(), "female");
+        }
     }
     jsarr = jsobj.get_array("skills");
     while (jsarr.has_more()) {
@@ -111,9 +123,17 @@ bool profession::has_initialized()
     return exists("unemployed");
 }
 
-void profession::add_item(std::string item)
+void profession::add_item(std::string item, std::string gender)
 {
-    _starting_items.push_back(item);
+    if(gender=="male") {
+        _starting_items_male.push_back(item);
+    }
+    else if(gender=="female") {
+        _starting_items_female.push_back(item);
+    }
+    else {
+        _starting_items.push_back(item);
+    }
 }
 
 void profession::add_CBM(std::string CBM)
@@ -158,6 +178,16 @@ signed int profession::point_cost() const
 std::vector<std::string> profession::items() const
 {
     return _starting_items;
+}
+
+std::vector<std::string> profession::items_male() const
+{
+    return _starting_items_male;
+}
+
+std::vector<std::string> profession::items_female() const
+{
+    return _starting_items_female;
 }
 
 std::vector<addiction> profession::addictions() const

@@ -343,13 +343,19 @@
         "description": "Cocaine. It is, indeed, a helluva drug. You blew your money on some dust, and before you knew it you were turning tricks behind the local CVS just to score one more line.",
         "points": -1,
         "items": [
-            "skirt",
-            "heels",
-            "tank_top",
             "crackpipe",
             "crack",
             "crack",
-            "ref_lighter"
+            "ref_lighter",
+            "tank_top"
+        ],
+        "items_male": [
+            "pants",
+            "flip_flops"
+        ],
+        "items_female": [
+            "skirt",
+            "heels"
         ],
         "addictions": [
             {
@@ -428,7 +434,7 @@
         "type": "profession",
         "ident": "salesman",
         "name": "Used Car Salesman",
-        "description": "You've been accused of being the sort of guy who'd be willing to sell his own mother for a dollar. It always left you insulted - you've been around the block a time or two, and you'd charge way more than a dollar - and get it, too!",
+        "description": "You've been accused of being the sort of person who'd be willing to sell your own mother for a dollar. It always left you insulted - you've been around the block a time or two, and you'd charge way more than a dollar - and get it, too!",
         "points": 0,
         "skills": [
             {
@@ -642,8 +648,13 @@
             }
         ],
         "items": [
-            "tux",
             "dress_shoes"
+        ],
+        "items_male": [
+            "tux"
+        ],
+        "items_female": [
+            "dress"
         ]
     },
     {
@@ -807,11 +818,17 @@
         "description": "You haven't seen this much blood since the war. The whole world's gone crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for what they've done.",
         "points": 0,
         "items": [
+            "dress_shoes",
+            "cane"
+        ],
+        "items_male": [
             "dress_shirt",
             "pants_checkered",
-            "dress_shoes",
-            "cane",
             "pocketwatch"
+        ],
+        "items_female": [
+            "dress",
+            "wristwatch"
         ]
     },
     {

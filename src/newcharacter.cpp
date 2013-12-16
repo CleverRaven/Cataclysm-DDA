@@ -401,6 +401,26 @@ bool player::create(game *g, character_type type, std::string tempname)
             inv.push_back(tmp);
         }
     }
+    
+    if(g->u.male)
+        prof_items = g->u.prof->items_male();
+    else
+        prof_items = g->u.prof->items_female();
+    
+    for (std::vector<std::string>::const_iterator iter = prof_items.begin();
+         iter != prof_items.end(); ++iter) {
+        tmp = item(item_controller->find_template(*iter), 0);
+        tmp = tmp.in_its_container(&(itypes));
+        if(tmp.is_armor()) {
+            if(tmp.has_flag("VARSIZE")) {
+                tmp.item_tags.insert("FIT");
+            }
+            // If wearing an item fails we fail silently.
+            wear_item(g, &tmp, false);
+        } else {
+            inv.push_back(tmp);
+        }
+    }
 
     std::vector<addiction> prof_addictions = g->u.prof->addictions();
     for (std::vector<addiction>::const_iterator iter = prof_addictions.begin();
@@ -1000,14 +1020,23 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
             }
         }
 
-        std::vector<std::string>  pipo = sorted_profs[cur_id]->items();
+        std::vector<std::string> prof_items = sorted_profs[cur_id]->items();
+        std::vector<std::string> prof_gender_items;
+        if(u->male)
+            prof_gender_items = sorted_profs[cur_id]->items_male();
+        else
+            prof_gender_items = sorted_profs[cur_id]->items_female();
+        int gender_offset=prof_items.size();
         mvwprintz(w_items, 0, 0, c_ltgray, _("Profession items:"));
         for (int i = 0; i < iContentHeight; i++) {
             // clean
             mvwprintz(w_items, 1 + i, 0, c_ltgray, "                                        ");
-            if (i < pipo.size()) {
+            if (i < prof_items.size()) {
                 // dirty
-                mvwprintz(w_items, 1 + i , 0, c_ltgray, itypes[pipo[i]]->name.c_str());
+                mvwprintz(w_items, 1 + i , 0, c_ltgray, itypes[prof_items[i]]->name.c_str());
+            }
+            else if(i < prof_gender_items.size() + gender_offset) {
+                mvwprintz(w_items, 1 + i, 0, c_ltgray, itypes[prof_gender_items[i-gender_offset]]->name.c_str());
             }
         }
         profession::StartingSkillList prof_skills = sorted_profs[cur_id]->skills();
