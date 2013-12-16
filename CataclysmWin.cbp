@@ -178,6 +178,7 @@
 			<Add library="winmm" />
 		</Linker>
 		<Unit filename="src/SDLMain.h" />
+		<Unit filename="src/SDLMain.m" />
 		<Unit filename="src/action.cpp" />
 		<Unit filename="src/action.h" />
 		<Unit filename="src/addiction.cpp" />
@@ -207,6 +208,8 @@
 		<Unit filename="src/catalua.h" />
 		<Unit filename="src/char_validity_check.cpp" />
 		<Unit filename="src/char_validity_check.h" />
+		<Unit filename="src/character.cpp" />
+		<Unit filename="src/character.h" />
 		<Unit filename="src/color.cpp" />
 		<Unit filename="src/color.h" />
 		<Unit filename="src/computer.cpp" />
@@ -216,8 +219,14 @@
 		<Unit filename="src/coordinates.h" />
 		<Unit filename="src/crafting.cpp" />
 		<Unit filename="src/crafting.h" />
+		<Unit filename="src/creature.cpp" />
+		<Unit filename="src/creature.h" />
+		<Unit filename="src/creature_tracker.cpp" />
+		<Unit filename="src/creature_tracker.h" />
 		<Unit filename="src/cursesdef.h" />
 		<Unit filename="src/cursesport.cpp" />
+		<Unit filename="src/damage.cpp" />
+		<Unit filename="src/damage.h" />
 		<Unit filename="src/debug.cpp" />
 		<Unit filename="src/debug.h" />
 		<Unit filename="src/defense.cpp" />
@@ -226,6 +235,8 @@
 		<Unit filename="src/disease.h" />
 		<Unit filename="src/editmap.cpp" />
 		<Unit filename="src/editmap.h" />
+		<Unit filename="src/effect.cpp" />
+		<Unit filename="src/effect.h" />
 		<Unit filename="src/enums.h" />
 		<Unit filename="src/event.cpp" />
 		<Unit filename="src/event.h" />
@@ -243,6 +254,7 @@
 		<Unit filename="src/graffiti.cpp" />
 		<Unit filename="src/graffiti.h" />
 		<Unit filename="src/help.cpp" />
+		<Unit filename="src/help.h" />
 		<Unit filename="src/helper.cpp" />
 		<Unit filename="src/helper.h" />
 		<Unit filename="src/iexamine.cpp" />
@@ -291,6 +303,7 @@
 		<Unit filename="src/mapdata.cpp" />
 		<Unit filename="src/mapdata.h" />
 		<Unit filename="src/mapgen.cpp" />
+		<Unit filename="src/mapgen.h" />
 		<Unit filename="src/mapgen_functions.cpp" />
 		<Unit filename="src/mapgen_functions.h" />
 		<Unit filename="src/mapgenformat.cpp" />
@@ -331,6 +344,8 @@
 		<Unit filename="src/name.cpp" />
 		<Unit filename="src/name.h" />
 		<Unit filename="src/newcharacter.cpp" />
+		<Unit filename="src/nonplayer.cpp" />
+		<Unit filename="src/nonplayer.h" />
 		<Unit filename="src/npc.cpp" />
 		<Unit filename="src/npc.h" />
 		<Unit filename="src/npcmove.cpp" />
@@ -359,6 +374,7 @@
 		<Unit filename="src/rng.cpp" />
 		<Unit filename="src/rng.h" />
 		<Unit filename="src/savegame.cpp" />
+		<Unit filename="src/savegame.h" />
 		<Unit filename="src/savegame_json.cpp" />
 		<Unit filename="src/savegame_legacy.cpp" />
 		<Unit filename="src/sdltiles.cpp" />
