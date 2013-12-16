@@ -721,7 +721,7 @@ void trapfunc::sinkhole(int x, int y)
  g->add_msg(_("You step into a sinkhole, and start to sink down!"));
  g->u.add_memorial_log(_("Stepped into a sinkhole."));
  if (g->u.has_amount("rope_30", 1) &&
-     query_yn(_("THere is a sinkhole here. Throw your rope down to try to catch something?"))) {
+     query_yn(_("There is a sinkhole here. Throw your rope down to try to catch something?"))) {
   int throwroll = rng(g->u.skillLevel("throw"),
                       g->u.skillLevel("throw") + g->u.str_cur + g->u.dex_cur);
   if (throwroll >= 12) {
