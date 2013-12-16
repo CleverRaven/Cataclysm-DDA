@@ -2199,7 +2199,8 @@
   "difficulty": 4,
   "time": 2000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 3 ] , [ "recipe_bullets", 3 ],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -2253,7 +2254,7 @@
   "time": 100,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [[ "textbook_gaswarfare", 4 ]],
+  "book_learn": [[ "textbook_gaswarfare", 4 ] , [ "manual_launcher", 4 ],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -2810,6 +2811,7 @@
     "time": 45000,
     "reversible": false,
     "autolearn": true,
+    "book_learn": [[ "textbook_guns", 2 ] , [ "manual_guns", 2 ],
     "tools": [
     [
       [ "press", -1 ]
@@ -3300,7 +3302,8 @@
   "difficulty" : 7,
   "time" : 7000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "tools" : [
     [
       [ "screwdriver", -1 ],
@@ -3335,7 +3338,8 @@
   "difficulty" : 7,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "tools" : [
     [
       [ "soldering_iron", 10 ],
@@ -3587,7 +3591,8 @@
   "difficulty": 4,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "tools": [
     [
         ["hacksaw", -1],
@@ -3684,7 +3689,8 @@
   "difficulty": 3,
   "time": 25000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3724,7 +3730,8 @@
   "difficulty": 4,
   "time": 12500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_pistol", 3 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3765,7 +3772,8 @@
   "difficulty": 5,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3806,7 +3814,8 @@
   "difficulty": 3,
   "time": 25000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3847,7 +3856,8 @@
   "difficulty": 4,
   "time": 12500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_pistol", 3 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3888,7 +3898,8 @@
   "difficulty": 3,
   "time": 30000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3929,7 +3940,8 @@
   "difficulty": 5,
   "time": 25000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3970,7 +3982,8 @@
   "difficulty": 4,
   "time": 25000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4010,7 +4023,8 @@
   "difficulty": 3,
   "time": 25000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4051,7 +4065,8 @@
   "difficulty": 5,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 5 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4092,7 +4107,8 @@
   "difficulty": 5,
   "time": 25000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4136,7 +4152,8 @@
   "difficulty": 7,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 6 ] , [ "manual_pistol", 7 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4180,7 +4197,8 @@
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 7 ] , [ "manual_pistol", 8 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4224,7 +4242,8 @@
   "difficulty": 4,
   "time": 50000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4265,7 +4284,8 @@
   "difficulty": 4,
   "time": 50000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4306,7 +4326,8 @@
   "difficulty": 3,
   "time": 40000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 3 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4350,7 +4371,8 @@
   "difficulty": 5,
   "time": 40000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4394,7 +4416,8 @@
   "difficulty": 3,
   "time": 20000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 1 ] , [ "mag_rifle", 2 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4439,7 +4462,8 @@
   "difficulty": 5,
   "time": 20000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4484,7 +4508,8 @@
   "difficulty": 6,
   "time": 15000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 5 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4523,7 +4548,8 @@
   "difficulty": 3,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 1 ] , [ "mag_rifle", 3 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4566,7 +4592,8 @@
   "difficulty": 5,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4610,7 +4637,8 @@
   "difficulty": 8,
   "time": 9000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 8 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4657,7 +4685,8 @@
   "difficulty": 8,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 7 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4695,7 +4724,8 @@
   "difficulty": 8,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 6 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4738,7 +4768,8 @@
   "difficulty": 7,
   "time": 2500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4776,7 +4807,8 @@
   "difficulty": 3,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4820,7 +4852,8 @@
   "difficulty": 5,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4864,7 +4897,8 @@
   "difficulty": 6,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 5 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4902,7 +4936,8 @@
   "difficulty": 3,
   "time": 12000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 3 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4940,7 +4975,8 @@
   "difficulty": 2,
   "time": 12500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 1 ] , [ "manual_shotgun", 1 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4981,7 +5017,8 @@
   "difficulty": 3,
   "time": 12500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -5022,7 +5059,8 @@
   "difficulty": 3,
   "time": 12500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -5062,7 +5100,8 @@
   "difficulty": 3,
   "time": 12500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 3 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -10742,7 +10781,8 @@
   "difficulty": 4,
   "time": 8000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 2 ] , [ "manual_shotgun", 3 ] , [ "manual_pistol", 3 ], [ "adv_chemistry", 3 ] , [ "textbook_chemistry", 3 ]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -10775,7 +10815,8 @@
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 6 ] , ["recipe_bullets" , 5 ]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -10807,7 +10848,8 @@
   "difficulty": 7,
   "time": 45000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_pistol", 10 ] , ["manual_rifle", 10 ]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -10850,7 +10892,8 @@
   "difficulty": 8,
   "time": 45000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_pistol", 10 ] , ["manual_rifle", 10 ]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -10896,7 +10939,8 @@
   "difficulty": 8,
   "time": 45000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -10939,7 +10983,8 @@
   "difficulty": 8,
   "time": 45000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -10984,7 +11029,8 @@
   "difficulty": 8,
   "time": 45000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -11028,7 +11074,8 @@
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
     "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
      [
       ["tongs", -1]
@@ -11066,7 +11113,8 @@
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
     "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
      [
       ["tongs", -1]
@@ -11104,7 +11152,8 @@
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [[ "mag_rifle", 3 ] , ["recipe_bullets" , 2]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
      [
       ["tongs", -1]
@@ -11142,7 +11191,8 @@
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [[ "mag_rifle", 3 ] , ["recipe_bullets" , 2]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
      [
       ["tongs", -1]
@@ -11180,7 +11230,8 @@
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [[ "manual_shotgun", 3 ] , ["recipe_bullets" , 2]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
      [
       ["tongs", -1]
@@ -24101,7 +24152,8 @@
     "difficulty": 4,
     "time": 30000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
     "tools": [
       [
         [ "press", -1 ]
@@ -24144,7 +24196,8 @@
     "difficulty": 4,
     "time": 30000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
     "tools": [
       [
         [ "press", -1 ]
@@ -24187,7 +24240,8 @@
     "difficulty": 4,
     "time": 35000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
     "tools": [
       [
         [ "press", -1 ]
@@ -24230,7 +24284,8 @@
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_caseless" , 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -24413,7 +24468,8 @@
     "difficulty": 5,
     "time": 25000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
     "tools": [
       [
         [ "press", -1 ]
@@ -25069,7 +25125,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [[ "manual_rifle", 2 ] , [ "manual_pistol", 2 ]],
+  "book_learn": [[ "manual_rifle", 2 ] , [ "manual_pistol", 2 ] , [ "recipe_bullets", 2 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -25170,7 +25226,8 @@
   "difficulty": 6,
   "time": 12500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["manual_launcher" , 4 ] , [ "manual_shotgun", 6 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -25210,7 +25267,8 @@
   "difficulty": 7,
   "time": 17500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["manual_launcher" , 5 ] , [ "manual_shotgun", 7 ]],
   "tools": [
     [
       [ "press", -1 ]
