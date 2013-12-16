@@ -788,7 +788,7 @@
         "description" : "Your eyes have turned...green.  It's tough to tell the exact shade as it seems to shift.  The effect is ...pleasant.",
         "leads_to" : ["ELFA_NV"],
         "valid" : false,
-        "cancels" : ["LIZ_EYE"],
+        "cancels" : ["LIZ_EYE", "FEL_EYE"],
         "category" : ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
@@ -846,7 +846,7 @@
         "ugliness" : 1,
         "description" : "Your eyes have mutated, with a brilliant iris and slitted pupil similar to that of a lizard.  This is visually striking, but doesn't seem to affect your vision.",
         "leads_to" : ["LIZ_IR"],
-        "cancels" : ["ELFAEYES"],
+        "cancels" : ["ELFAEYES", "FEL_EYE"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
@@ -855,6 +855,7 @@
         "points" : 5,
         "description" : "Your optic nerves and brain have mutated to catch up with your eyes, allowing you to see in the infrared spectrum.",
         "prereqs" : ["LIZ_EYE"],
+        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
