@@ -788,7 +788,7 @@
         "description" : "Your eyes have turned...green.  It's tough to tell the exact shade as it seems to shift.  The effect is ...pleasant.",
         "leads_to" : ["ELFA_NV"],
         "valid" : false,
-        "cancels" : ["LIZ_EYE"],
+        "cancels" : ["LIZ_EYE", "FEL_EYE"],
         "category" : ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
