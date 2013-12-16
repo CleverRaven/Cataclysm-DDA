@@ -632,6 +632,7 @@ void Item_factory::load_gunmod(JsonObject& jo)
     gunmod_template->used_on_shotgun = is_mod_target(jo, "mod_targets", "shotgun");
     gunmod_template->used_on_smg = is_mod_target(jo, "mod_targets", "smg");
     gunmod_template->used_on_rifle = is_mod_target(jo, "mod_targets", "rifle");
+    gunmod_template->used_on_crossbow = is_mod_target(jo, "mod_targets", "crossbow");
     gunmod_template->dispersion = jo.get_int("dispersion_modifier", 0);
     gunmod_template->recoil = jo.get_int("recoil_modifier", 0);
     gunmod_template->burst = jo.get_int("burst_modifier", 0);

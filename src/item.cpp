@@ -572,6 +572,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
    temp1 << _("SMGs.  ");
   if (mod->used_on_rifle)
    temp1 << _("Rifles.");
+  if (mod->used_on_crossbow)
+   temp1 << _("Crossbows.");
 
   dump->push_back(iteminfo("GUNMOD", temp1.str()));
 

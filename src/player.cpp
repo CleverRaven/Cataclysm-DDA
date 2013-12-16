@@ -595,7 +595,7 @@ void player::apply_persistent_morale()
     {
         add_morale(MORALE_PERM_OPTIMIST, 4, 4, 5, 5, true);
     }
-    
+
     // And Bad Temper works just the same way.  But in reverse.  ):
     if (has_trait("BADTEMPER"))
     {
@@ -3492,7 +3492,7 @@ int player::overmap_sight_range(int light_level)
         -1 != weapon.has_gunmod("rifle_scope") ) && has_trait("EAGLEEYED"))  {
         return 30;
     }
-    
+
     return 10;
 }
 
@@ -3698,7 +3698,7 @@ int player::rust_rate(bool real_life)
     if (has_trait("FORGETFUL")) {
         ret *= 1.33;
     }
-    
+
     if (has_trait("GOODMEMORY")) {
         ret *= .66;
     }
@@ -6826,7 +6826,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
                        comest->nutr >= 5);
-    bool hiberfood = (has_trait("HIBERNATE") && (hunger > -60 && thirst > -60 ));    
+    bool hiberfood = (has_trait("HIBERNATE") && (hunger > -60 && thirst > -60 ));
     bool spoiled = eaten->rotten();
 
     last_item = itype_id(eaten->type->id);
@@ -8280,8 +8280,7 @@ void player::use(int pos)
             return;
         }
         it_gun* guntype = dynamic_cast<it_gun*>(gun->type);
-        if (guntype->skill_used == Skill::skill("archery") ||
-            guntype->skill_used == Skill::skill("launcher")) {
+        if  (guntype->skill_used == Skill::skill("launcher")) {
             g->add_msg(_("You cannot mod your %s."), gun->tname().c_str());
             return;
         }
@@ -8299,6 +8298,10 @@ void player::use(int pos)
             return;
         } else if (guntype->skill_used == Skill::skill("rifle") && !mod->used_on_rifle) {
             g->add_msg(_("That %s cannot be attached to a rifle."),
+                       used->tname().c_str());
+            return;
+        } else if (guntype->skill_used == Skill::skill("archery") && !mod->used_on_crossbow) {
+            g->add_msg(_("That %s cannot be attached to a crossbow."),
                        used->tname().c_str());
             return;
         } else if ( mod->acceptible_ammo_types.size() &&

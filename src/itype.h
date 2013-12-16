@@ -427,6 +427,7 @@ struct it_gunmod : public itype
  bool used_on_shotgun;
  bool used_on_smg;
  bool used_on_rifle;
+ bool used_on_crossbow;
 
  virtual bool is_gunmod() { return true; }
 
@@ -440,7 +441,7 @@ struct it_gunmod : public itype
            signed int pdispersion, signed int pdamage, signed int ploudness,
            signed int pclip, signed int precoil, signed int pburst,
            ammotype pnewtype, std::set<std::string> a_a_t, bool pistol,
-           bool shotgun, bool smg, bool rifle)
+           bool shotgun, bool smg, bool rifle, bool crossbow)
 
  :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
         pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
@@ -456,6 +457,7 @@ struct it_gunmod : public itype
   used_on_shotgun = shotgun;
   used_on_smg = smg;
   used_on_rifle = rifle;
+  used_on_crossbow = crossbow;
  }
 
  it_gunmod() :itype() {
@@ -470,6 +472,7 @@ struct it_gunmod : public itype
   used_on_shotgun = false;
   used_on_smg = false;
   used_on_rifle = false;
+  used_on_crossbow = false;
  };
 };
 
