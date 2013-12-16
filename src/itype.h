@@ -427,6 +427,7 @@ struct it_gunmod : public itype
  bool used_on_shotgun;
  bool used_on_smg;
  bool used_on_rifle;
+ std::string location;
 
  virtual bool is_gunmod() { return true; }
 
@@ -470,6 +471,7 @@ struct it_gunmod : public itype
   used_on_shotgun = false;
   used_on_smg = false;
   used_on_rifle = false;
+  location = "";
  };
 };
 

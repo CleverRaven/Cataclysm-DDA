@@ -573,7 +573,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   if (mod->used_on_rifle)
    temp1 << _("Rifles.");
 
+  temp2.str("");
+  temp2 << _("Location: ");
+  temp2 << mod->location;
+   
   dump->push_back(iteminfo("GUNMOD", temp1.str()));
+  dump->push_back(iteminfo("GUNMOD", temp2.str()));
 
  } else if (is_armor()) {
   it_armor* armor = dynamic_cast<it_armor*>(type);
