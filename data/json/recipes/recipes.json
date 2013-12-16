@@ -1964,7 +1964,7 @@
   "time": 18000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "manual_shotgun", 4 ] , [ "mag_shotgun", 5 ]],
+  "book_learn": [[ "manual_smg", 4 ] , [ "mag_smg", 5 ]],
   "tools": [
     [
       [ "hacksaw", -1 ],
