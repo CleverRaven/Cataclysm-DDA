@@ -23580,7 +23580,7 @@
         "type" : "recipe",
   "result": "pants_survivor",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 2],
   "difficulty": 4,
