@@ -3480,7 +3480,7 @@
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
-        "enviromental_protection" : 0,
+        "enviromental_protection" : 5,
         "encumbrance" : 1,
         "bashing" : -2,
         "flags" : ["VARSIZE", "POCKETS", "STURDY", "WATERPROOF"],
