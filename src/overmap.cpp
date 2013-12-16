@@ -62,6 +62,10 @@ map_extras build_extras(
 std::map<std::string,oter_t> otermap;
 std::vector<oter_t> oterlist;
 
+std::map<std::string, oter_t&> obasetermap;
+//const regional_settings default_region_settings;
+std::map<std::string, regional_settings> region_settings_map;
+
 overmap_special overmap_specials[NUM_OMSPECS] = {
 
 // Terrain  MIN MAX DISTANCE
@@ -225,98 +229,44 @@ return ter.t().allow_road;
 //otermap[ter].allow_road;
 }
 
-// Likelihood to pick a specific overmap terrain.
-struct oter_weight {
-    std::string ot;
-    int weight;
-};
-
-// Local class for picking overmap terrain from a weighted list.
-struct oter_weight_list {
-    oter_weight_list() : total_weight(0) { };
-
-    void add_item(std::string id, int weight) {
-        oter_weight new_weight = { id, weight };
-        items.push_back(new_weight);
-        total_weight += weight;
-    }
-
-    // oter_id will effectively be "" if initialized as something that doesn't exist in otermap
-    std::string pick() {
-        int picked = rng(0, total_weight);
-        int accumulated_weight = 0;
-
-        int i;
-        for(i=0; i<items.size(); i++) {
-            accumulated_weight += items[i].weight;
-            if(accumulated_weight >= picked) {
-                break;
-            }
-        }
-
-        return items[i].ot;
-    }
-
-private:
-    int total_weight;
-    std::vector<oter_weight> items;
-};
-
-oter_id shop(int dir)
+/*
+ * Pick an oter_baseid from weightlist and return rotated oter_id
+ */
+oter_id shop(int dir, oter_weight_list & weightlist ) // todo: rename to something better than 'shop', make it an oter_weight_list method?
 {
-// TODO: adjust weights based on area, maybe using JSON
-//       (implies we have area types first)
-    oter_weight_list weightlist;
-    weightlist.add_item("s_gas", 5);
-    weightlist.add_item("s_pharm", 3);
-    weightlist.add_item("s_grocery", 15);
-    weightlist.add_item("s_hardware", 5);
-    weightlist.add_item("s_sports", 5);
-    weightlist.add_item("s_liquor", 5);
-    weightlist.add_item("s_gun", 5);
-    weightlist.add_item("s_clothes", 5);
-    weightlist.add_item("s_library", 4);
-    weightlist.add_item("s_restaurant", 5);
-    weightlist.add_item("sub_station", 5);
-    weightlist.add_item("bank", 3);
-    weightlist.add_item("bar", 5);
-    weightlist.add_item("s_electronics", 5);
-    weightlist.add_item("pawn", 3);
-    weightlist.add_item("mil_surplus", 2);
-    weightlist.add_item("s_garage", 5);
-    weightlist.add_item("station_radio", 5);
-    weightlist.add_item("office_doctor", 2);
-    weightlist.add_item("s_restaurant_fast", 3);
-    weightlist.add_item("s_restaurant_coffee", 3);
-    weightlist.add_item("church", 2);
-    weightlist.add_item("office_cubical", 2);
-    weightlist.add_item("furniture", 2);
-    weightlist.add_item("abstorefront", 2);
-    weightlist.add_item("police", 1);
-    weightlist.add_item("s_lot", 4);
-
-    std::string ret = weightlist.pick();
-
-    if (ret == "s_lot") { // don't need to rotate
-        return ret;
+    if ( dir > 3 ) {
+        debugmsg("Bad rotation of weightlist pick: %d.", dir);
+        return "";
     }
 
     dir = dir % 4;
     if (dir < 0) { dir += 4; }
-    switch (dir) {
-    case 0: return ret + "_north";
-    case 1: return ret + "_east";
-    case 2: return ret + "_south";
-    case 3: return ret + "_west";
-    default:
-        debugmsg("Bad rotation of shop %s: %d.", ret.c_str(), dir);
+    const int ret = weightlist.pick();
+
+    if ( oterlist[ ret ].rotates == false ) {
         return ret;
     }
+    return oterlist[ ret ].directional_peers[dir];
+/*
+    const std::string ret = weightlist.pickstr();
+
+    std::map<std::string, oter_t&>::const_iterator it_oter = obasetermap.find(ret);
+    if ( it_oter == obasetermap.end() ) {
+        debugmsg("Bad shop_list entry in region settings: overmap_terrain '%s' not found. %d", ret.c_str(),obasetermap.size() );
+        return "";
+    }
+
+    if ( it_oter->second.rotates == false ) { // don't need to rotate
+        return ret;
+    } else {
+        return oterlist[ it_oter->second.directional_peers[dir] ].id;
+    }
+*/
 }
 
-oter_id house(int dir)
+oter_id house(int dir, int chance_of_basement)
 {
-    bool base = one_in(2);
+    bool base = one_in( chance_of_basement ); // fixme use region_settings.basement_chance as a percentage
     if (dir < 0) { dir += 4; }
     switch (dir) {
     case 0: return base ? "house_base_north" : "house_north";
@@ -393,14 +343,12 @@ void load_overmap_terrain(JsonObject &jo)
 {
     oter_t oter;
     long syms[4];
-    bool rotate;
-    bool line_drawing;
 
     oter.id = jo.get_string("id");
     oter.name = _(jo.get_string("name").c_str());
-    rotate = jo.get_bool("rotate", false);
-    line_drawing = jo.get_bool("line_drawing", false);
-    if (line_drawing) {
+    oter.rotates = jo.get_bool("rotate", false);
+    oter.line_drawing = jo.get_bool("line_drawing", false);
+    if (oter.line_drawing) {
         oter.sym = jo.get_int("sym", (int)'%');
     } else if (jo.has_array("sym")) {
         JsonArray ja = jo.get_array("sym");
@@ -408,7 +356,7 @@ void load_overmap_terrain(JsonObject &jo)
             syms[i] = ja.next_int();
         }
         oter.sym = syms[0];
-    } else if (rotate) {
+    } else if (oter.rotates) {
         oter.sym = jo.get_int("sym");
         for (int i = 0; i < 4; ++i) {
             syms[i] = oter.sym;
@@ -437,13 +385,12 @@ void load_overmap_terrain(JsonObject &jo)
     oter.is_river = (id_base.compare(0,5,"river",5) == 0 || id_base.compare(0,6,"bridge",6) == 0);
 
     oter.id_mapgen = id_base; // What, another identifier? Whyyy...
-    if ( ! line_drawing ) { // ...oh
+    if ( ! oter.line_drawing ) { // ...oh
         load_overmap_terrain_mapgens(jo, id_base);
     }
 
-    if (line_drawing) {
+    if (oter.line_drawing) {
         // add variants for line drawing
-        oter.line_drawing = true;
         for( int i = start_iid; i < start_iid+12; i++ ) {
             oter.directional_peers.push_back(i);
         }
@@ -500,9 +447,8 @@ void load_overmap_terrain(JsonObject &jo)
         oter.sym = LINE_XXXX;
         load_oter(oter);
 
-    } else if (rotate) {
+    } else if (oter.rotates) {
         // add north/east/south/west variants
-        oter.rotates = true;
 
         for( int i = start_iid; i < start_iid+5; i++ ) {
             oter.directional_peers.push_back(i);
@@ -529,6 +475,77 @@ void load_overmap_terrain(JsonObject &jo)
         load_oter(oter);
     }
 }
+
+
+/*
+ * Assemble a map of overmap_terrain base ids pointing to first members of oter groups
+ * We'll do this after json loading so references can be used
+ */
+void finalize_overmap_terrain( ) {
+    int c=0;
+    for( std::vector<oter_t>::const_iterator it = oterlist.begin(); it != oterlist.end(); ++it ) {
+        if ( (*it).loadid == (*it).loadid_base ) {
+            if ( (*it).loadid != c ) { // might as well sanity check while we're here da? da.
+                debugmsg("ERROR: oterlist[%d]: mismatch with loadid (%d). (id = %s, id_base = %s)",
+                    c, (*it).loadid, (*it).id.c_str(), (*it).id_base.c_str()
+                );
+                // aaaaaaaand continue to inevitable crash
+            }
+            obasetermap.insert( std::pair<std::string, oter_t&>( (*it).id_base, oterlist[c] ) );;
+        }
+        c++;
+    }
+    // here's another sanity check, yay.
+    if ( region_settings_map.find("default") == region_settings_map.end() ) {
+        debugmsg("ERROR: can't find default overmap settings (region_map_settings 'default'), cataclysm pending. And not the fun kind.");
+    }
+
+    for( std::map<std::string, regional_settings>::iterator rsit = region_settings_map.begin(); rsit != region_settings_map.end(); ++rsit) {
+        rsit->second.setup();
+        rsit->second.city_spec.parks.setup();
+    }
+};
+
+void load_region_settings( JsonObject &jo ) { // fixme: actually load from json.
+    regional_settings new_region;
+    
+id_or_id groundcover( "t_sand", 50, "t_grass" );
+new_region.default_groundcover = groundcover;
+
+    new_region.city_spec.shops.add_item("s_gas", 5);
+    new_region.city_spec.shops.add_item("s_pharm", 3);
+    new_region.city_spec.shops.add_item("s_grocery", 15);
+    new_region.city_spec.shops.add_item("s_hardware", 5);
+    new_region.city_spec.shops.add_item("s_sports", 5);
+    new_region.city_spec.shops.add_item("s_liquor", 5);
+    new_region.city_spec.shops.add_item("s_gun", 5);
+    new_region.city_spec.shops.add_item("s_clothes", 5);
+    new_region.city_spec.shops.add_item("s_library", 4);
+    new_region.city_spec.shops.add_item("s_restaurant", 5);
+    new_region.city_spec.shops.add_item("sub_station", 5);
+    new_region.city_spec.shops.add_item("bank", 3);
+    new_region.city_spec.shops.add_item("bar", 5);
+    new_region.city_spec.shops.add_item("s_electronics", 5);
+    new_region.city_spec.shops.add_item("pawn", 3);
+    new_region.city_spec.shops.add_item("mil_surplus", 2);
+    new_region.city_spec.shops.add_item("s_garage", 5);
+    new_region.city_spec.shops.add_item("station_radio", 5);
+    new_region.city_spec.shops.add_item("office_doctor", 2);
+    new_region.city_spec.shops.add_item("s_restaurant_fast", 3);
+    new_region.city_spec.shops.add_item("s_restaurant_coffee", 3);
+    new_region.city_spec.shops.add_item("church", 2);
+    new_region.city_spec.shops.add_item("office_cubical", 2);
+    new_region.city_spec.shops.add_item("furniture", 2);
+    new_region.city_spec.shops.add_item("abstorefront", 2);
+    new_region.city_spec.shops.add_item("police", 1);
+    new_region.city_spec.shops.add_item("s_lot", 4);
+
+    new_region.city_spec.parks.add_item("park", 4);
+    new_region.city_spec.parks.add_item("pool", 1);
+
+    region_settings_map["default"] = new_region;
+};
+
 
 // *** BEGIN overmap FUNCTIONS ***
 
@@ -560,7 +577,13 @@ overmap::overmap(game *g, int x, int y)
  if (g->has_gametype()) {
   prefix = special_game_name(g->gametype());
  }
+ static const std::string str_default("default");
+ std::map<std::string, regional_settings>::const_iterator rsit = region_settings_map.find(str_default);
 
+ if ( rsit == region_settings_map.end() ) {
+    debugmsg("overmap(%d,%d): can't find region '%s'", x, y, str_default.c_str() ); // gonna die now =[
+ }
+ settings = rsit->second;
  init_layers();
  open(g);
 }
@@ -577,6 +600,7 @@ overmap::overmap(overmap const& o)
     , name(o.name)
     , layer(NULL)
 {
+    settings = o.settings;
     layer = new map_layer[OVERMAP_LAYERS];
     for(int z = 0; z < OVERMAP_LAYERS; ++z) {
         for(int i = 0; i < OMAPX; ++i) {
@@ -613,6 +637,7 @@ overmap& overmap::operator=(overmap const& o)
         delete [] layer;
         layer = NULL;
     }
+    settings = o.settings;
 
     layer = new map_layer[OVERMAP_LAYERS];
     for(int z = 0; z < OVERMAP_LAYERS; ++z) {
@@ -624,15 +649,15 @@ overmap& overmap::operator=(overmap const& o)
         }
         layer[z].notes = o.layer[z].notes;
     }
-
     return *this;
 }
 
 void overmap::init_layers()
 {
     layer = new map_layer[OVERMAP_LAYERS];
+//    region_settings = default_region_settings; // not using a ref; this will be adjusted per omap
     for(int z = 0; z < OVERMAP_LAYERS; ++z) {
-        oter_id default_type = (z < OVERMAP_DEPTH) ? "rock" : (z == OVERMAP_DEPTH) ? "field" : "";
+        oter_id default_type = (z < OVERMAP_DEPTH) ? "rock" : (z == OVERMAP_DEPTH) ? settings.default_oter : "";
         // oter_iid default_type = (z < OVERMAP_DEPTH) ? ot_rock : (z == OVERMAP_DEPTH) ? ot_field : ot_null; // todo: regional default_type
         for(int i = 0; i < OMAPX; ++i) {
             for(int j = 0; j < OMAPY; ++j) {
@@ -2143,12 +2168,12 @@ void grow_forest_oter_id(oter_id & oid, bool swampy)
 void overmap::place_forest()
 {
 
- for (int i = 0; i < NUM_FOREST; i++) {
+ for (int i = 0; i < settings.num_forests; i++) {
   // forx and fory determine the epicenter of the forest
   int forx = rng(0, OMAPX - 1);
   int fory = rng(0, OMAPY - 1);
   // fors determinds its basic size
-  int fors = rng(15, 40);
+  int fors = rng(settings.forest_size_min, settings.forest_size_max);
   int outer_tries = 1000;
   int inner_tries = 1000;
   for (int j = 0; j < cities.size(); j++) {
@@ -2158,7 +2183,7 @@ void overmap::place_forest()
           forx = rng(0, OMAPX - 1);
           fory = rng(0, OMAPY - 1);
           // Set fors to determine the size of the forest; usually won't overlap w/ cities
-          fors = rng(15, 40);
+          fors = rng(settings.forest_size_min, settings.forest_size_max);
           j = 0;
           if( 0 == --inner_tries ) { break; }
       }
@@ -2171,7 +2196,7 @@ void overmap::place_forest()
             break;
         }
 
-        int swamps = SWAMPINESS; // How big the swamp may be...
+        int swamps = settings.swamp_maxsize; // How big the swamp may be...
         int x = forx;
         int y = fory;
 
@@ -2182,20 +2207,20 @@ void overmap::place_forest()
                 for (int l = -2; l <= 2; l++) {
                     if (ter(x + k, y + l, 0) == "forest_water" ||
                         check_ot_type("river", x+k, y+l, 0)) {
-                        swamp_chance += 5;
+                        swamp_chance += settings.swamp_river_influence;
                     }
                 }
             }
             bool swampy = false;
             if (swamps > 0 && swamp_chance > 0 && !one_in(swamp_chance) &&
                 (ter(x, y, 0) == "forest" || ter(x, y, 0) == "forest_thick" ||
-                ter(x, y, 0) == "field" || one_in(SWAMPCHANCE))) {
+                ter(x, y, 0) == "field" || one_in( settings.swamp_spread_chance ))) {
                 // ...and make a swamp.
                 ter(x, y, 0) = "forest_water";
                 swampy = true;
                 swamps--;
             } else if (swamp_chance == 0) {
-                swamps = SWAMPINESS;
+                swamps = settings.swamp_maxsize;
             }
 
             // Place or embiggen forest
@@ -2299,7 +2324,7 @@ void overmap::place_cities()
   else if (one_in(3)) {
     size = village_size;
   }
-  if (ter(cx, cy, 0) == "field") {
+  if (ter(cx, cy, 0) == settings.default_oter ) {
    ter(cx, cy, 0) = "road_nesw";
    city tmp; tmp.x = cx; tmp.y = cy; tmp.s = size;
    cities.push_back(tmp);
@@ -2314,14 +2339,15 @@ void overmap::put_buildings(int x, int y, int dir, city town)
 {
  int ychange = dir % 2, xchange = (dir + 1) % 2;
  for (int i = -1; i <= 1; i += 2) {
-  if ((ter(x+i*xchange, y+i*ychange, 0) == "field") && !one_in(STREETCHANCE)) {
+  if ((ter(x+i*xchange, y+i*ychange, 0) == settings.default_oter ) && !one_in(STREETCHANCE)) {
    if (rng(0, 99) > 80 * dist(x,y,town.x,town.y) / town.s)
-    ter(x+i*xchange, y+i*ychange, 0) = shop(((dir%2)-i)%4);
+    ter(x+i*xchange, y+i*ychange, 0) = shop( ((dir % 2)-i) % 4, settings.city_spec.shops );
    else {
     if (rng(0, 99) > 130 * dist(x, y, town.x, town.y) / town.s)
-     ter(x+i*xchange, y+i*ychange, 0) = (one_in(5)?"pool":"park");
+     ter(x+i*xchange, y+i*ychange, 0) = shop( ((dir % 2)-i) % 4, settings.city_spec.parks );
+//(one_in(5)?"pool":"park"); // fixme: shop( ((dir % 2)-i) % 4, settings.city_spec.parks );
     else
-     ter(x+i*xchange, y+i*ychange, 0) = house(((dir%2)-i)%4);
+     ter(x+i*xchange, y+i*ychange, 0) = house( ((dir % 2)-i) % 4, settings.house_basement_chance );
    }
   }
  }
@@ -2333,7 +2359,7 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
     int c = cs, croad = cs;
     switch (dir) {
     case 0:
-        while (c > 0 && y > 0 && (ter(x, y-1, 0) == "field" || c == cs)) {
+        while (c > 0 && y > 0 && (ter(x, y-1, 0) == settings.default_oter || c == cs)) {
             y--;
             c--;
             ter(x, y, 0) = "road_ns";
@@ -2347,8 +2373,8 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
                 }
             }
             put_buildings(x, y, dir, town);
-            if (c < croad - 1 && c >= 2 && ter(x - 1, y, 0) == "field" &&
-                                           ter(x + 1, y, 0) == "field") {
+            if (c < croad - 1 && c >= 2 && ter(x - 1, y, 0) == settings.default_oter &&
+                                           ter(x + 1, y, 0) == settings.default_oter) {
                 croad = c;
                 make_road(x, y, cs - rng(1, 3), 1, town);
                 make_road(x, y, cs - rng(1, 3), 3, town);
@@ -2359,7 +2385,7 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
         }
         break;
     case 1:
-        while (c > 0 && x < OMAPX-1 && (ter(x+1, y, 0) == "field" || c == cs)) {
+        while (c > 0 && x < OMAPX-1 && (ter(x+1, y, 0) == settings.default_oter || c == cs)) {
             x++;
             c--;
             ter(x, y, 0) = "road_ew";
@@ -2373,8 +2399,8 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
                 }
             }
             put_buildings(x, y, dir, town);
-            if (c < croad-2 && c >= 3 && ter(x, y-1, 0) == "field" &&
-                                         ter(x, y+1, 0) == "field") {
+            if (c < croad-2 && c >= 3 && ter(x, y-1, 0) == settings.default_oter &&
+                                         ter(x, y+1, 0) == settings.default_oter) {
                 croad = c;
                 make_road(x, y, cs - rng(1, 3), 0, town);
                 make_road(x, y, cs - rng(1, 3), 2, town);
@@ -2385,7 +2411,7 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
         }
         break;
     case 2:
-        while (c > 0 && y < OMAPY-1 && (ter(x, y+1, 0) == "field" || c == cs)) {
+        while (c > 0 && y < OMAPY-1 && (ter(x, y+1, 0) == settings.default_oter || c == cs)) {
             y++;
             c--;
             ter(x, y, 0) = "road_ns";
@@ -2399,7 +2425,7 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
                 }
             }
             put_buildings(x, y, dir, town);
-            if (c < croad-2 && ter(x-1, y, 0) == "field" && ter(x+1, y, 0) == "field") {
+            if (c < croad-2 && ter(x-1, y, 0) == settings.default_oter && ter(x+1, y, 0) == settings.default_oter) {
                 croad = c;
                 make_road(x, y, cs - rng(1, 3), 1, town);
                 make_road(x, y, cs - rng(1, 3), 3, town);
@@ -2410,7 +2436,7 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
         }
         break;
     case 3:
-        while (c > 0 && x > 0 && (ter(x-1, y, 0) == "field" || c == cs)) {
+        while (c > 0 && x > 0 && (ter(x-1, y, 0) == settings.default_oter || c == cs)) {
             x--;
             c--;
             ter(x, y, 0) = "road_ew";
@@ -2424,8 +2450,8 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
                 }
             }
             put_buildings(x, y, dir, town);
-            if (c < croad - 2 && c >= 3 && ter(x, y-1, 0) == "field" &&
-                                           ter(x, y+1, 0) == "field") {
+            if (c < croad - 2 && c >= 3 && ter(x, y-1, 0) == settings.default_oter &&
+                                           ter(x, y+1, 0) == settings.default_oter) {
                 croad = c;
                 make_road(x, y, cs - rng(1, 3), 0, town);
                 make_road(x, y, cs - rng(1, 3), 2, town);
@@ -2637,7 +2663,7 @@ void overmap::build_tunnel(int x, int y, int z, int s, int dir)
                     ter(valid[i].x, valid[i].y, z) = "ants_larvae";
                 }
             } else if (one_in(5)) {
-                int dir2 = 0;
+                int dir2;// = 0;
                 if (valid[i].y == y - 1) { dir2 = 0; }
                 if (valid[i].x == x + 1) { dir2 = 1; }
                 if (valid[i].y == y + 1) { dir2 = 2; }
@@ -2872,7 +2898,7 @@ void overmap::building_on_hiway(int x, int y, int dir)
         break;
     case 3:
         if (!is_river(ter(x + xdif, y + ydif, 0))) {
-            ter(x + xdif, y + ydif, 0) = house(rot);
+            ter(x + xdif, y + ydif, 0) = house(rot, settings.house_basement_chance);
         }
         break;
     case 4:
@@ -3708,7 +3734,7 @@ std::string overmap::player_filename(int const x, int const y) const
  return filename.str();
 }
 
-// Overmap special placement functions
+// Overmap special placement functions // fixme oter_t: std::set<std::string> spec_flags;
 
 bool omspec_place::water(overmap *om, unsigned long f, tripoint p)
 {
@@ -3778,7 +3804,7 @@ bool omspec_place::wilderness(overmap *om, unsigned long f, tripoint p)
     for (int x = p.x; x < p.x + size; x++) {
         for (int y = p.y; y < p.y + size; y++) {
             oter_id oter = om->ter(x, y, p.z);
-            if (!is_ot_type("forest", oter) && !is_ot_type("field", oter)) {
+            if (!is_ot_type("forest", oter) && !is_ot_type("field", oter)) { // fixme
                 return false;
             }
         }
@@ -3857,7 +3883,7 @@ oter_iid oterfind(const std::string id) {
     return otermap[id].loadid;
 };
 
-void set_oter_ids() {
+void set_oter_ids() { // fixme constify
     ot_null = oterfind("");
 // NOT required.
     ot_crater = oterfind("crater");
@@ -3971,3 +3997,21 @@ const oter_t & oter_id::t() const {
   const char * oter_id::c_str() const {
       return std::string(oterlist[_val].id).c_str();
   }
+
+
+ter_id tmpterfind(const std::string id) {
+    if( termap.find(id) == termap.end() ) {
+         popup("Can't find %s",id.c_str());
+         return 0;
+    }
+    return termap[id].loadid;
+};
+
+void regional_settings::setup() {
+    default_groundcover.primary = tmpterfind(default_groundcover.primary_str);
+    default_groundcover.secondary = tmpterfind(default_groundcover.secondary_str);
+
+    city_spec.shops.setup();
+    city_spec.parks.setup();
+
+}
