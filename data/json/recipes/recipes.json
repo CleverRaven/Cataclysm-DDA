@@ -23324,7 +23324,7 @@
       [ "tomato", 2 ]
     ],
     [
-      [ "hflesh", 1 ]
+      [ "human_flesh", 1 ]
     ]
   ]
 },{
@@ -23428,7 +23428,7 @@
       [ "hardtack", 4]
     ],
     [
-      [ "honey", 1 ],
+      [ "honeycomb", 1 ],
       [ "honey_bottled", 2]
     ],
     [
