@@ -5049,8 +5049,13 @@ int game::mon_info(WINDOW *w)
 
     if (newseen > mostseen) {
         if (newseen - mostseen == 1) {
-            monster &critter = critter_tracker.find(new_seen_mon.back());
-            cancel_activity_query(_("%s spotted!"), critter.name().c_str());
+            if(new_seen_mon.size() > 0) {
+                monster &critter = critter_tracker.find(new_seen_mon.back());
+                cancel_activity_query(_("%s spotted!"), critter.name().c_str());
+            } else {
+                //Hostile NPC
+                cancel_activity_query(_("Hostile survivor spotted!"));
+            }
         } else {
             cancel_activity_query(_("Monsters spotted!"));
         }
