@@ -703,7 +703,7 @@ void JsonIn::skip_member()
 
 void JsonIn::skip_separator()
 {
-    char ch;
+    signed char ch;
     eat_whitespace();
     ch = peek();
     if (ch == ',') {
