@@ -1863,7 +1863,7 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 800,
-    "reload": 800,
+    "reload": 800
   },
   {
     "id": "flamethrower",
