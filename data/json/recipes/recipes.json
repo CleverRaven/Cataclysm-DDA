@@ -2207,7 +2207,7 @@
   "time": 2000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_anarch", 3 ] , [ "recipe_bullets", 3 ],
+  "book_learn": [[ "textbook_anarch", 3 ] , [ "recipe_bullets", 3 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -2261,7 +2261,7 @@
   "time": 100,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [[ "textbook_gaswarfare", 4 ] , [ "manual_launcher", 4 ],
+  "book_learn": [[ "textbook_gaswarfare", 4 ] , [ "manual_launcher", 4 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -2329,7 +2329,7 @@
   "time": 95000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mininuke_launch", 5],
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mininuke_launch", 5]],
   "tools": [
     [
       ["screwdriver", -1],
@@ -2818,7 +2818,7 @@
     "time": 45000,
     "reversible": false,
     "autolearn": true,
-    "book_learn": [[ "textbook_guns", 2 ] , [ "manual_guns", 2 ],
+    "book_learn": [[ "textbook_guns", 2 ] , [ "manual_guns", 2 ]],
     "tools": [
     [
       [ "press", -1 ]
@@ -19779,7 +19779,7 @@
   "time": 24000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[recipe_mininuke_launch", 5]],
+  "book_learn": [["recipe_mininuke_launch", 5]],
   "tools": [
     [
       ["goggles_welding", -1]
@@ -19828,7 +19828,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [[textbook_fabrication", 2]],
+  "book_learn": [["textbook_fabrication", 2]],
   "tools": [
     [
       ["goggles_welding", -1]
