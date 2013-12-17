@@ -34,12 +34,12 @@ bool connects_to(oter_id there, int dir_from_here);
 void science_room(map *m, int x1, int y1, int x2, int y2, int rotate);
 void set_science_room(map *m, int x1, int y1, bool faces_right, int turn);
 void silo_rooms(map *m);
-void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2);
+void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat);
 map_extra random_map_extra(map_extras);
 
 room_type pick_mansion_room(int x1, int y1, int x2, int y2);
-void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2);
-void mansion_room(map *m, int x1, int y1, int x2, int y2); // pick & build
+void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat);
+void mansion_room(map *m, int x1, int y1, int x2, int y2, mapgendata & dat); // pick & build
 
 void map::generate(game *g, overmap *om, const int x, const int y, const int z, const int turn)
 {
@@ -1126,7 +1126,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     // todo; make these mappable functions
     } else if (terrain_type == "apartments_con_tower_1_entrance") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
    |------|-|-|-|---|...\n\
@@ -1207,7 +1207,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     } else if (terrain_type == "apartments_con_tower_1") {
 
         // Init to grass & dirt;
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         if ((t_south == "apartments_con_tower_1_entrance" && t_east == "apartments_con_tower_1") ||
             (t_north == "apartments_con_tower_1" && t_east == "apartments_con_tower_1_entrance")
             || (t_west == "apartments_con_tower_1" && t_north == "apartments_con_tower_1_entrance") ||
@@ -1450,7 +1450,7 @@ ss                      \n",
 
     } else if (terrain_type == "apartments_mod_tower_1_entrance") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
   w.htth..FFFF..eSc|....\n\
@@ -1533,7 +1533,7 @@ ss                      \n",
     } else if (terrain_type == "apartments_mod_tower_1") {
 
         // Init to grass & dirt;
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         if ((t_south == "apartments_mod_tower_1_entrance" && t_east == "apartments_mod_tower_1") ||
             (t_north == "apartments_mod_tower_1" && t_east == "apartments_mod_tower_1_entrance")
             || (t_west == "apartments_mod_tower_1" && t_north == "apartments_mod_tower_1_entrance") ||
@@ -1784,7 +1784,7 @@ EE|.+..........e|ssR    \n\
 
     } else if (terrain_type == "office_tower_1_entrance") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 ss%|....+...|...|EEED...\n\
@@ -1858,7 +1858,7 @@ ssssss______ss______ssss\n",
     } else if (terrain_type == "office_tower_1") {
 
         // Init to grass & dirt;
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         if ((t_south == "office_tower_1_entrance" && t_east == "office_tower_1") ||
             (t_north == "office_tower_1" && t_east == "office_tower_1_entrance") ||
             (t_west == "office_tower_1" && t_north == "office_tower_1_entrance") ||
@@ -2076,7 +2076,7 @@ ssssssssssssssssssssssss\n\
 
     } else if (terrain_type == "office_tower_b_entrance") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 sss|........|...|EEED___\n\
@@ -2133,7 +2133,7 @@ ssssssssssssssssssssssss\n",
     } else if (terrain_type == "office_tower_b") {
 
         // Init to grass & dirt;
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         if ((t_south == "office_tower_b_entrance" && t_east == "office_tower_b") ||
             (t_north == "office_tower_b" && t_east == "office_tower_b_entrance") ||
             (t_west == "office_tower_b" && t_north == "office_tower_b_entrance") ||
@@ -2425,7 +2425,7 @@ ___DEEE|.R.|...,,...|sss\n",
         }
     } else if (terrain_type == "cathedral_1_entrance") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 ss         ##...........\n\
@@ -2500,7 +2500,7 @@ ssssssssssssssssssssssss\n",
     } else if (terrain_type == "cathedral_1") {
 
         // Init to grass & dirt;
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         if ((t_south == "cathedral_1_entrance" && t_east == "cathedral_1") || (t_north == "cathedral_1" &&
                 t_east == "cathedral_1_entrance") || (t_west == "cathedral_1" &&
                         t_north == "cathedral_1_entrance") ||
@@ -2723,7 +2723,7 @@ bbb...bbbb#           ss\n",
 
     } else if (terrain_type == "cathedral_b_entrance") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 ############|+|+|+|..|..\n\
@@ -2794,7 +2794,7 @@ bbb...bbbb#           ss\n",
     } else if (terrain_type == "cathedral_b") {
 
         // Init to grass & dirt;
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         if ((t_south == "cathedral_b_entrance" && t_east == "cathedral_b") || (t_north == "cathedral_b" &&
                 t_east == "cathedral_b_entrance") || (t_west == "cathedral_b" &&
                         t_north == "cathedral_b_entrance") ||
@@ -3959,7 +3959,7 @@ ff.......|....|WWWWWWWW|\n\
     } else if (terrain_type == "bunker") {
 
         if (t_above == "") { // We're on ground level
-            fill_background(this, &grass_or_dirt);
+            dat.fill_groundcover();
             //chainlink fence that surrounds bunker
             line(this, t_chainfence_v, 1, 1, 1, SEEY * 2 - 1);
             line(this, t_chainfence_v, SEEX * 2 - 1, 1, SEEX * 2 - 1, SEEY * 2 - 1);
@@ -4118,9 +4118,9 @@ ff.......|....|WWWWWWWW|\n\
 
     } else if (terrain_type == "outpost") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
 
-        square(this, t_dirt, 3, 3, 20, 20);
+        square(this, t_dirt, 3, 3, 20, 20); // fixme: restore grass_or_dirt as dat.square_groundcover() and use dat.is_groundcover instead of t_dirt for checks below.
         line(this, t_chainfence_h,  2,  2, 10,  2);
         line(this, t_chainfence_h, 13,  2, 21,  2);
         line(this, t_chaingate_l,      11,  2, 12,  2);
@@ -4299,7 +4299,7 @@ ff.......|....|WWWWWWWW|\n\
                     if (trig_dist(i, j, SEEX, SEEY) <= 6) {
                         ter_set(i, j, t_metal_floor);
                     } else {
-                        ter_set(i, j, grass_or_dirt());
+                        ter_set(i, j, dat.groundcover());
                     }
                 }
             }
@@ -4877,27 +4877,25 @@ ff.......|....|WWWWWWWW|\n\
 
     } else if (terrain_type == "mine_entrance") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         int tries = 0;
         bool build_shaft = true;
         do {
             int x1 = rng(1, SEEX * 2 - 10), y1 = rng(1, SEEY * 2 - 10);
             int x2 = x1 + rng(4, 9),        y2 = y1 + rng(4, 9);
             if (build_shaft) {
-                build_mine_room(this, room_mine_shaft, x1, y1, x2, y2);
+                build_mine_room(this, room_mine_shaft, x1, y1, x2, y2, dat);
                 build_shaft = false;
             } else {
                 bool okay = true;
                 for (int x = x1 - 1; x <= x2 + 1 && okay; x++) {
                     for (int y = y1 - 1; y <= y2 + 1 && okay; y++) {
-                        if (ter(x, y) != t_grass && ter(x, y) != t_dirt) {
-                            okay = false;
-                        }
+                        okay = dat.is_groundcover( ter(x, y) );
                     }
                 }
                 if (okay) {
                     room_type type = room_type( rng(room_mine_office, room_mine_housing) );
-                    build_mine_room(this, type, x1, y1, x2, y2);
+                    build_mine_room(this, type, x1, y1, x2, y2, dat);
                     tries = 0;
                 } else {
                     tries++;
@@ -4905,7 +4903,7 @@ ff.......|....|WWWWWWWW|\n\
             }
         } while (tries < 5);
         int ladderx = rng(0, SEEX * 2 - 1), laddery = rng(0, SEEY * 2 - 1);
-        while (ter(ladderx, laddery) != t_dirt && ter(ladderx, laddery) != t_grass) {
+        while (dat.is_groundcover( ter(ladderx, laddery) ) == false) { 
             ladderx = rng(0, SEEX * 2 - 1);
             laddery = rng(0, SEEY * 2 - 1);
         }
@@ -5407,7 +5405,7 @@ ff.......|....|WWWWWWWW|\n\
 
     } else if (terrain_type == "radio_tower") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         lw = rng(1, SEEX * 2 - 2);
         tw = rng(1, SEEY * 2 - 2);
         for (int i = lw; i < lw + 4; i++) {
@@ -5455,7 +5453,7 @@ ff.......|....|WWWWWWWW|\n\
     } else if (is_ot_type("station_radio", terrain_type)) {
 
         // Init to grass & dirt;
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         //Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
@@ -5516,7 +5514,7 @@ ff.......|....|WWWWWWWW|\n\
 
     } else if (terrain_type == "public_works_entrance") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
  f  ____________________\n\
@@ -5571,7 +5569,7 @@ ff.......|....|WWWWWWWW|\n\
     } else if (terrain_type == "public_works") {
 
         // Init to grass & dirt;
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         if ((t_south == "public_works_entrance" && t_east == "public_works") ||
             (t_north == "public_works" && t_east == "public_works_entrance") || (t_west == "public_works" &&
                     t_north == "public_works_entrance") ||
@@ -5762,7 +5760,7 @@ __________           f  \n",
 
     } else if (terrain_type == "school_1") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
  ||-------|--++----++--|\n\
@@ -5811,7 +5809,7 @@ ssssssssssssssssssssssss\n",
 
     } else if (terrain_type == "school_2") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 ........l|...|.h..x..w  \n\
@@ -5870,7 +5868,7 @@ ssssssssssssssssssssssss\n",
 
     } else if (terrain_type == "school_3") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 ssssssssssssssssssssssss\n\
@@ -5943,7 +5941,7 @@ sssssssss_______ssssssss\n",
 
     } else if (terrain_type == "school_4") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
  w..ddd...+....|.d.d.d.d\n\
@@ -6002,7 +6000,7 @@ sssssssss_______ssssssss\n",
 
     } else if (terrain_type == "school_5") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 |.oooooooo...o.o.o.o.|--\n\
@@ -6065,7 +6063,7 @@ sssssssss_______ssssssss\n",
 
     } else if (terrain_type == "school_6") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 |d.d.d.d.|....|.d.d.d.dw\n\
@@ -6124,7 +6122,7 @@ ssssssssssssssssssssssss\n",
 
     } else if (terrain_type == "school_7") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
  |--------|    |--wwww--\n\
@@ -6183,7 +6181,7 @@ ssssssssssssssssssssssss\n",
 
     } else if (terrain_type == "school_8") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 |                     |-\n\
@@ -6300,7 +6298,7 @@ wd.d.d.d.|....|----|-|-|\n\
 
     } else if (terrain_type == "prison_1") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
  %  F    |T,,,B,,,,,,B,,\n\
@@ -6362,7 +6360,7 @@ wd.d.d.d.|....|----|-|-|\n\
 
     } else if (terrain_type == "prison_2") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 ,T|s________________s|T,\n\
@@ -6425,7 +6423,7 @@ fffffffffHHHHHHfffffffff\n\
 
     } else if (terrain_type == "prison_3") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 ,,B,,,,,,B,,,T|    F  % \n\
@@ -6486,7 +6484,7 @@ fffffffffffffffff|,,| % \n\
 
     } else if (terrain_type == "prison_4") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
  %  F    |----|,,,,,,|--\n\
@@ -6551,7 +6549,7 @@ fffffffffffffffff|,,| % \n\
 
     } else if (terrain_type == "prison_5") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 --|o,,,,|------|,,,,,|--\n\
@@ -6621,7 +6619,7 @@ bb| ss____________ss |bb\n\
 
     } else if (terrain_type == "prison_6") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 --|,,,,,,|----|    F  % \n\
@@ -6686,7 +6684,7 @@ bb| ss____________ss |bb\n\
 
     } else if (terrain_type == "prison_7") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
                         \n\
@@ -6747,7 +6745,7 @@ bb| ss____________ss |bb\n\
 
     } else if (terrain_type == "prison_8") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
                         \n\
@@ -6825,7 +6823,7 @@ bb|o,,,,|,,,,,l|,,,,,|bb\n",
 
     } else if (terrain_type == "prison_9") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
                         \n\
@@ -6946,7 +6944,7 @@ bb|#####################\n\
 
     } else if (terrain_type == "prison_b") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         if (t_above == "prison_1") {
             mapf::formatted_set_simple(this, 0, 0,
                                        "\
@@ -7401,7 +7399,7 @@ ee|,,,,,,r|#############\n\
 
     } else if (terrain_type == "hotel_tower_1_1") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 s_____,_____,_____,_____\n\
@@ -7450,7 +7448,7 @@ ssssssssssssssssssssssss\n",
 
     } else if (terrain_type == "hotel_tower_1_2") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 ,_____________________,_\n\
@@ -7499,7 +7497,7 @@ s________sssss________ss\n",
 
     } else if (terrain_type == "hotel_tower_1_3") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 ____,_____,_____,_____s\n\
@@ -7572,7 +7570,7 @@ sssssssssssssssssssssss\n",
 
     } else if (terrain_type == "hotel_tower_1_4") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 s    |c..BB|c..BB|c..BB|\n\
@@ -7630,7 +7628,7 @@ s_____,_____,_____,_____\n",
 
     } else if (terrain_type == "hotel_tower_1_5") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 c..BB|t.........t|BB..c|\n\
@@ -7705,7 +7703,7 @@ ________________________\n\
 
     } else if (terrain_type == "hotel_tower_1_6") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 BB..c|BB..c|BB..c|    s\n\
@@ -7763,7 +7761,7 @@ ____,_____,_____,_____s\n",
 
     } else if (terrain_type == "hotel_tower_1_7") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
                         \n\
@@ -7827,7 +7825,7 @@ s    |c....|c....|c....|\n",
 
     } else if (terrain_type == "hotel_tower_1_8") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
                         \n\
@@ -7891,7 +7889,7 @@ c...d|t.........t|....c|\n",
 
     } else if (terrain_type == "hotel_tower_1_9") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
                         \n\
@@ -7955,7 +7953,7 @@ h....|h....|h....|    s \n\
 
     } else if (terrain_type == "hotel_tower_b_1") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 ########################\n\
@@ -8005,7 +8003,7 @@ h....|h....|h....|    s \n\
 
     } else if (terrain_type == "hotel_tower_b_2") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 ########################\n\
@@ -8062,7 +8060,7 @@ T+...|l..l...rrr.|...+T|\n\
 
     } else if (terrain_type == "hotel_tower_b_3") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 ########################\n\
@@ -8128,7 +8126,7 @@ tth.............^|..|###\n\
     } else if (is_ot_type("office_doctor", terrain_type)) {
 
         // Init to grass & dirt;
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
                         \n\
@@ -8231,7 +8229,7 @@ tth.............^|..|###\n\
     } else if (terrain_type == "haz_sar_entrance") {
 
         // Init to grass & dirt;
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
  f    |_________%..S| |.\n\
@@ -8297,7 +8295,7 @@ tth.............^|..|###\n\
 
     } else if (terrain_type == "haz_sar") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         if ((t_south == "haz_sar_entrance" && t_east == "haz_sar") || (t_north == "haz_sar" &&
                 t_east == "haz_sar_entrance") || (t_west == "haz_sar" && t_north == "haz_sar_entrance") ||
             (t_south == "haz_sar" && t_west == "haz_sar_entrance")) {
@@ -8520,7 +8518,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
     } else if (terrain_type == "haz_sar_entrance_b1") {
 
         // Init to grass & dirt;
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
 #############...........\n\
@@ -8607,7 +8605,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
 
     } else if (terrain_type == "haz_sar_b1") {
 
-        fill_background(this, &grass_or_dirt);
+        dat.fill_groundcover();
         if ((t_south == "haz_sar_entrance_b1" && t_east == "haz_sar_b1") || (t_north == "haz_sar_b1" &&
                 t_east == "haz_sar_entrance_b1") || (t_west == "haz_sar_b1" && t_north == "haz_sar_entrance_b1") ||
             (t_south == "haz_sar_b1" && t_west == "haz_sar_entrance_b1")) {
@@ -8902,7 +8900,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
     if (terrain_type == "farm") {
 
         if (!one_in(10)) {
-            fill_background(this, &grass_or_dirt);
+            dat.fill_groundcover();
             mapf::formatted_set_simple(this, 0, 0,
                                        "\
                         \n\
@@ -8952,7 +8950,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 place_spawns(g, "GROUP_DOMESTIC", 2, 10, 15, 12, 17, 1);
             }
         } else {
-            fill_background(this, &grass_or_dirt);
+            dat.fill_groundcover();
             mapf::formatted_set_simple(this, 0, 0,
                                        "\
                         \n\
@@ -9009,7 +9007,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                         place_items("camping", 20,  i,  j, i,  j, false, 0);
                         place_items("survival_tools", 20,  i,  j, i,  j, false, 0);
                     }
-                    if (this->ter(i, j) == t_grass) {
+                    if ( dat.is_groundcover( this->ter(i, j) ) ) {
                         if (one_in(20)) {
                             add_trap(i, j, tr_beartrap);
                         }
@@ -9029,7 +9027,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 
         //build barn
         if (t_east == "farm") {
-            fill_background(this, &grass_or_dirt);
+            dat.fill_groundcover();
             square(this, t_wall_wood, 3, 3, 20, 20);
             square(this, t_dirtfloor, 4, 4, 19, 19);
             line(this, t_door_metal_locked, 8, 20, 15, 20);
@@ -9770,9 +9768,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         line(this, t_wall_h,  0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
         line(this, t_door_c, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
 
-        build_mansion_room(this, room_mansion_courtyard, 1, 0, SEEX * 2 - 1, 9);
+        build_mansion_room(this, room_mansion_courtyard, 1, 0, SEEX * 2 - 1, 9, dat);
         square(this, t_floor, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2);
-        build_mansion_room(this, room_mansion_entry, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2);
+        build_mansion_room(this, room_mansion_entry, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2, dat);
         // Rotate to face the road
         if (is_ot_type("road", t_east) || is_ot_type("bridge", t_east)) {
             rotate(1);
@@ -9813,7 +9811,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         switch (rng(1, 10)) {
 
         case 1: // Just one. big. room.
-            mansion_room(this, 1, tw, rw, SEEY * 2 - 2);
+            mansion_room(this, 1, tw, rw, SEEY * 2 - 2, dat);
             if (t_west == "mansion_entrance" || t_west == "mansion") {
                 line(this, t_door_c, 0, SEEY - 1, 0, SEEY);
             }
@@ -9829,8 +9827,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_v, 14,  tw, 14, SEEY * 2 - 2);
                 line(this, t_floor, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
                 line(this, t_door_c, 0, SEEY - 1, 0, SEEY);
-                mansion_room(this, 1, tw, 8, SEEY * 2 - 2);
-                mansion_room(this, 15, tw, rw, SEEY * 2 - 2);
+                mansion_room(this, 1, tw, 8, SEEY * 2 - 2, dat);
+                mansion_room(this, 15, tw, rw, SEEY * 2 - 2, dat);
                 ter_set( 9, rng(tw + 2, SEEX * 2 - 4), t_door_c);
                 ter_set(14, rng(tw + 2, SEEX * 2 - 4), t_door_c);
             } else { // horizontal hallway
@@ -9838,8 +9836,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_h, 1, 14, rw, 14);
                 line(this, t_door_c, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
                 line(this, t_floor, 0, SEEY - 1, 0, SEEY);
-                mansion_room(this, 1, tw, rw, 8);
-                mansion_room(this, 1, 15, rw, SEEY * 2 - 2);
+                mansion_room(this, 1, tw, rw, 8, dat);
+                mansion_room(this, 1, 15, rw, SEEY * 2 - 2, dat);
                 ter_set(rng(3, rw - 2),  9, t_door_c);
                 ter_set(rng(3, rw - 2), 14, t_door_c);
             }
@@ -9889,10 +9887,10 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 ter_set(rng(15, rw - 1), 13, t_door_c);
             }
 
-            mansion_room(this,  1, tw,  9,  9);
-            mansion_room(this, 14, tw, rw,  9);
-            mansion_room(this,  1, 14,  9, SEEY * 2 - 2);
-            mansion_room(this, 14, 14, rw, SEEY * 2 - 2);
+            mansion_room(this,  1, tw,  9,  9, dat);
+            mansion_room(this, 14, tw, rw,  9, dat);
+            mansion_room(this,  1, 14,  9, SEEY * 2 - 2, dat);
+            mansion_room(this, 14, 14, rw, SEEY * 2 - 2, dat);
             if (t_west == "mansion_entrance" || t_west == "mansion") {
                 line(this, t_floor, 0, SEEY - 1, 0, SEEY);
             }
@@ -9911,17 +9909,17 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             ter_set( rng(x + 1, cw - 1), mw, t_door_c);
             line(this, t_wall_v, cw, mw + 1, cw, SEEY * 2 - 2);
             ter_set(cw, rng(y + 2, SEEY * 2 - 3) , t_door_c);
-            mansion_room(this, 1, mw + 1, cw - 1, SEEY * 2 - 2);
+            mansion_room(this, 1, mw + 1, cw - 1, SEEY * 2 - 2, dat);
             // And a couple small rooms in the UL LR corners
             line(this, t_wall_v, x, tw, x, mw - 1);
-            mansion_room(this, 1, tw, x - 1, mw - 1);
+            mansion_room(this, 1, tw, x - 1, mw - 1, dat);
             if (one_in(2)) {
                 ter_set(rng(2, x - 2), mw, t_door_c);
             } else {
                 ter_set(x, rng(tw + 2, mw - 2), t_door_c);
             }
             line(this, t_wall_h, cw + 1, y, rw, y);
-            mansion_room(this, cw + 1, y + 1, rw, SEEY * 2 - 2);
+            mansion_room(this, cw + 1, y + 1, rw, SEEY * 2 - 2, dat);
             if (one_in(2)) {
                 ter_set(rng(cw + 2, rw - 1), y, t_door_c);
             } else {
@@ -10245,7 +10243,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
                 if (i < 8 || j < 8 || i > SEEX * 2 - 9 || j > SEEY * 2 - 9) {
-                    ter_set(i, j, grass_or_dirt());
+                    ter_set(i, j, dat.groundcover());
                 } else if ((i == 11 || i == 12) && (j == 11 || j == 12)) {
                     ter_set(i, j, t_slope_down);
                 } else {
@@ -11767,7 +11765,7 @@ void silo_rooms(map *m)
     }
 }
 
-void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
+void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat)
 {
     direction door_side;
     std::vector<direction> possibilities;
@@ -11992,7 +11990,7 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2)
     return valid[ rng(0, valid.size() - 1) ];
 }
 
-void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
+void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat)
 {
     int dx = abs(x1 - x2), dy = abs(y1 - y2);
     int cx_low = (x1 + x2) / 2, cx_hi = (x1 + x2 + 1) / 2,
@@ -12009,7 +12007,7 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
     switch (type) {
 
     case room_mansion_courtyard:
-        square(m, &grass_or_dirt, x1, y1, x2, y2);
+        dat.square_groundcover( x1, y1, x2, y2);
         if (one_in(4)) { // Tree grid
             for (int x = 1; x <= dx / 2; x += 4) {
                 for (int y = 1; y <= dx / 2; y += 4) {
@@ -12025,8 +12023,8 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
                 }
             }
             if (walled_south && x1 <= SEEX && SEEX <= x2) {
-                m->ter_set(SEEX - 1, y2, grass_or_dirt());
-                m->ter_set(SEEX,     y2, grass_or_dirt());
+                m->ter_set(SEEX - 1, y2, dat.groundcover());
+                m->ter_set(SEEX,     y2, dat.groundcover());
             }
         }
         break;
@@ -12320,13 +12318,13 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
     }
 }
 
-void mansion_room(map *m, int x1, int y1, int x2, int y2)
+void mansion_room(map *m, int x1, int y1, int x2, int y2, mapgendata & dat)
 {
     room_type type = pick_mansion_room(x1, y1, x2, y2);
-    build_mansion_room(m, type, x1, y1, x2, y2);
+    build_mansion_room(m, type, x1, y1, x2, y2, dat);
 }
 
-void map::add_extra(map_extra type, game *g)
+void map::add_extra(map_extra type, game *g) // fixme: no reason why these shouldn't be mapgen_functions
 {
     item body;
     body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
