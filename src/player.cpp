@@ -8311,14 +8311,14 @@ void player::use(int pos)
 press 'U' while wielding the unloaded gun."), gun->tname().c_str());
             return;
         }
-        if ((mod->id == "clip" || mod->id == "clip2" || mod->id == "spare_mag") &&
-            gun->clip_size() <= 2) {
-            g->add_msg(_("You can not extend the ammo capacity of your %s."),
+        if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
+            g->add_msg(_("You can not use a spare magazine in your %s."),
                        gun->tname().c_str());
             return;
         }
-        if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
-            g->add_msg(_("You can not use a spare magazine with your %s."),
+        if (mod->location == "ammo" &&
+            gun->clip_size() <= 2) {
+            g->add_msg(_("You can not extend the ammo capacity of your %s."),
                        gun->tname().c_str());
             return;
         }
@@ -8335,52 +8335,40 @@ press 'U' while wielding the unloaded gun."), gun->tname().c_str());
             } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != "NULL" &&
                        !gun->contents[i].has_flag("MODE_AUX") &&
                        (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != "NULL") {
-                g->add_msg(_("Your %s's caliber has already been modified."),
+                g->add_msg(_("Your %s has already been rebored."),
                            gun->tname().c_str());
                 return;
-            } else if ((mod->id == "barrel_big" || mod->id == "barrel_small") &&
-                       (gun->contents[i].type->id == "barrel_big" ||
-                        gun->contents[i].type->id == "barrel_small")) {
-                g->add_msg(_("Your %s already has a barrel replacement."),
+            } else if (mod->location == "barrel" &&
+                       (dynamic_cast<it_gunmod*>(gun->contents[i].type))->location == "barrel") {
+                g->add_msg(_("Your %s already has a barrel modification."),
                            gun->tname().c_str());
                 return;
-            } else if ((mod->id == "barrel_ported" || mod->id == "suppressor") &&
-                       (gun->contents[i].type->id == "barrel_ported" ||
-                        gun->contents[i].type->id == "suppressor")) {
-                g->add_msg(_("Your %s cannot use a suppressor and a ported barrel at the same time."),
+            } else if (mod->location == "muzzle" &&
+                       (dynamic_cast<it_gunmod*>(gun->contents[i].type))->location == "muzzl") {
+                g->add_msg(_("Your %s can not modify the muzzle twice"),
                            gun->tname().c_str());
                 return;
-            } else if ((mod->id == "improve_sights" || mod->id == "red_dot_sight" ||
-                        mod->id == "holo_sight" || mod->id == "pistol_scope"|| mod->id == "rifle_scope") &&
-                       (gun->contents[i].type->id == "improve_sights" ||
-                        gun->contents[i].type->id == "red_dot_sight" ||
-                        gun->contents[i].type->id == "holo_sight" ||
-                        gun->contents[i].type->id == "pistol_scope" ||
-                        gun->contents[i].type->id == "rifle_scope")) {
+            } else if (mod->location == "sights" &&
+                       (dynamic_cast<it_gunmod*>(gun->contents[i].type))->location == "sights") {
                 //intentionally leaving laser_sight off the list so that it CAN be used with optics
-                g->add_msg(_("Your %s can only use one type of optical aiming device at a time."),
+                g->add_msg(_("Your %s can only use one set of sights at a time."),
+                           gun->tname().c_str());
+                return;
+            }  else if (mod->location == "rail" &&
+                       (dynamic_cast<it_gunmod*>(gun->contents[i].type))->location == "rail") {
+                //intentionally leaving laser_sight off the list so that it CAN be used with optics
+                g->add_msg(_("Your %s can only mount one thing on the rail at a time."),
                            gun->tname().c_str());
                 return;
             } else if ((mod->id == "clip" || mod->id == "clip2") &&
                        (gun->contents[i].type->id == "clip" ||
                         gun->contents[i].type->id == "clip2")) {
-                g->add_msg(_("Your %s already has its magazine size extended."),
+                g->add_msg(_("Your %s already has an extended magazine."),
                            gun->tname().c_str());
                 return;
-            } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" ||
-                        mod->id == "masterkey" || mod->id == "aux_flamer" || mod->id == "u_shotgun" ||
-                        mod->id == "bayonet" || mod->id == "gun_crossbow" || mod->id == "rm121aux" ||
-                        mod->id == "sword_bayonet") &&
-                       (gun->contents[i].type->id == "pipe_launcher40mm" ||
-                        gun->contents[i].type->id == "m203" ||
-                        gun->contents[i].type->id == "masterkey" ||
-                        gun->contents[i].type->id == "rm121aux" ||
-                        gun->contents[i].type->id == "u_shotgun" ||
-                        gun->contents[i].type->id == "bayonet" ||
-                        gun->contents[i].type->id == "sword_bayonet" ||
-                        gun->contents[i].type->id == "aux_flamer" ||
-                        gun->contents[i].type->id == "gun_crossbow")) {
-                g->add_msg(_("Your %s already has an under-barrel accessory weapon."),
+            } else if (mod->location == "auxiliary" &&
+                       (dynamic_cast<it_gunmod*>(gun->contents[i].type))->location == "auxiliary") {
+                g->add_msg(_("Your %s already has something mounted under the barrel."),
                            gun->tname().c_str());
                 return;
             }
