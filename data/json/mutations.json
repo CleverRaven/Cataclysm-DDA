@@ -1423,7 +1423,7 @@
         "ugliness" : 2,
         "description" : "You have a fin-like tail. It allows you to swim more quickly. Slightly increases wet benefits.",
         "prereqs" : ["TAIL_STUB"],
-        "cancels" : ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_THICK", "TAIL_STING", "TAIL_CLUB", "TAIL_RAT", "TAIL_CATTLE"],
+        "cancels" : ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_THICK", "TAIL_STING", "TAIL_CLUB", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
         "category" : ["MUTCAT_FISH"],
         "wet_protection":[
          {
@@ -1462,7 +1462,7 @@
         "visibility" : 6,
         "ugliness" : 4,
         "description" : "You have a long but hairless tail.  It's a pretty effective balancing aid, but does look, uh, ratty.",
-        "prereqs" : ["TAIL_LONG"],
+        "prereqs" : ["TAIL_LONG", "TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_THICK", "TAIL_RAPTOR", "TAIL_CATTLE"],
         "category" : ["MUTCAT_RAT"]
     },{
