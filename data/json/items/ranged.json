@@ -1890,7 +1890,7 @@
     "burst": 4,
     "clip_size": 1600,
     "reload": 900,
-    "valid_mod_locations": [[ "accessories", 1 ][ "grip", 1 ]]
+    "valid_mod_locations": [[ "accessories", 1 ],[ "grip", 1 ]]
   },
   {
     "id": "launcher_simple",
@@ -2075,7 +2075,7 @@
     "durability": 5,
     "burst": 0,
     "clip_size": 100,
-    "reload": 600,
+    "reload": 600
   },
   {
     "id": "hk_g80",
