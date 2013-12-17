@@ -2047,8 +2047,8 @@
         "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 60,
         "material_thickness" : 1
-    {
     },
+    {
         "type" : "ARMOR",
         "id" : "cleansuit",
         "name" : "cleansuit",
