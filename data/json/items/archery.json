@@ -787,7 +787,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 100
+      "reload" : 100,
+      "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
    {
       "id" : "crossbow",
@@ -813,7 +814,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 800
+      "reload" : 800,
+      "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
    {
       "id" : "huge_crossbow",
@@ -839,7 +841,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 6000
+      "reload" : 6000,
+      "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
    {
       "id" : "rep_crossbow",
@@ -865,7 +868,8 @@
       "durability" : 6,
       "burst" : 3,
       "clip_size" : 10,
-      "reload" : 100
+      "reload" : 100,
+      "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
    {
       "id":"shaft_plastic",
