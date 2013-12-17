@@ -585,7 +585,6 @@
     "burst": 0,
     "clip_size": 12,
     "reload": 350,
-    "valid_mod_locations": [[ "underbarrel", 1 ],[ "grip", 2 ],[ "barrel", 3 ],[ "conversion", 4 ],[ "stock", 5 ],[ "bore", 6 ],[ "accessories", 7 ],[ "rail", 8 ],[ "sights", 9 ],[ "muzzle", 10 ],[ "magazine", 11 ],[ "mechanism", 12 ]]
   },
   {
     "id": "m1911",
