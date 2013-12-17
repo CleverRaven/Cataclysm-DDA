@@ -1944,6 +1944,7 @@
         "price" : 180,
         "required_level" : 0
     },
+    {
         "type" : "BOOK",
         "id" : "recipe_melee",
         "name" : "The Streetfighter's Sidekick",
@@ -1963,6 +1964,7 @@
         "skill" : "fabrication",
         "price" : 300,
         "required_level" : 5
+    },
     {
         "type" : "BOOK",
         "id" : "manual_knives",
