@@ -371,6 +371,7 @@ struct it_gun : public itype
  int reload_time;
 
  std::set<std::string> ammo_effects;
+ std::map<std::string, int> valid_mod_locations;
 
  virtual bool is_gun() { return true; }
 

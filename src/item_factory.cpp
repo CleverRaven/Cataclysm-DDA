@@ -533,6 +533,14 @@ void Item_factory::load_gun(JsonObject& jo)
     gun_template->reload_time = jo.get_int("reload");
     gun_template->pierce = jo.get_int("pierce", 0);
     gun_template->ammo_effects = jo.get_tags("ammo_effects");
+    
+    if ( jo.has_array("valid_mod_locations") ) {
+        JsonArray jarr = jo.get_array("valid_mod_locations");
+        while (jarr.has_more()){
+            JsonArray curr = jarr.next_array();
+            gun_template->valid_mod_locations.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
+        }
+    }
 
     itype *new_item_template = gun_template;
     load_basic_info(jo, new_item_template);

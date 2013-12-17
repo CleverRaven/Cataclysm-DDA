@@ -528,6 +528,22 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   } else
    dump->push_back(iteminfo("GUN", _("Burst size: "), "", burst_size()));
 
+  if (!gun->valid_mod_locations.empty()) {
+  temp1.str("");
+  temp1 << "Mod Locations: ";
+  int iternum = 0;
+    for( std::map<std::string,int>::iterator i=gun->valid_mod_locations.begin(); i!=gun->valid_mod_locations.end(); i++) {
+      if (!(iternum % 4) && iternum > 0) {
+        temp1 << "\n+  ";
+        dump->push_back(iteminfo("GUN", temp1.str()));
+        temp1.str("");
+      }
+     temp1 << (*i).first << ": " << (*i).second << " ";
+     iternum++;
+    }
+  dump->push_back(iteminfo("GUN", temp1.str()));
+  }  
+  
   temp1.str("");
   temp1 << "Mods: ";
   for (int i = 0; i < contents.size(); i++) {
