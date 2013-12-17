@@ -74,7 +74,8 @@
     "durability": 7,
     "burst": 0,
     "clip_size": 20,
-    "reload": 500
+    "reload": 500,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "sling",
@@ -177,7 +178,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 1,
-    "reload": 250
+    "reload": 250,
+    "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "rifle_9mm",
@@ -202,7 +204,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 1,
-    "reload": 250
+    "reload": 250,
+    "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "smg_9mm",
@@ -228,7 +231,8 @@
     "durability": 5,
     "burst": 4,
     "clip_size": 10,
-    "reload": 400
+    "reload": 400,
+    "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "smg_45",
@@ -254,7 +258,8 @@
     "durability": 5,
     "burst": 3,
     "clip_size": 8,
-    "reload": 400
+    "reload": 400,
+    "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "sig_mosquito",
@@ -279,7 +284,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 10,
-    "reload": 350
+    "reload": 350,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "sw_22",
@@ -304,7 +310,8 @@
     "durability": 7,
     "burst": 0,
     "clip_size": 10,
-    "reload": 300
+    "reload": 300,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "glock_19",
@@ -329,7 +336,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 15,
-    "reload": 300
+    "reload": 300,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "usp_9mm",
@@ -354,7 +362,8 @@
     "durability": 9,
     "burst": 0,
     "clip_size": 15,
-    "reload": 350
+    "reload": 350,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "sw_619",
@@ -380,7 +389,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 7,
-    "reload": 75
+    "reload": 75,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "taurus_38",
@@ -405,7 +415,8 @@
     "durability": 7,
     "burst": 0,
     "clip_size": 10,
-    "reload": 350
+    "reload": 350,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "sig_40",
@@ -430,7 +441,8 @@
     "durability": 7,
     "burst": 0,
     "clip_size": 12,
-    "reload": 350
+    "reload": 350,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "sw_610",
@@ -456,7 +468,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 6,
-    "reload": 60
+    "reload": 60,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "sw_500",
@@ -482,7 +495,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 5,
-    "reload": 80
+    "reload": 80,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "raging_bull",
@@ -508,7 +522,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 5,
-    "reload": 80
+    "reload": 80,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "ruger_redhawk",
@@ -534,7 +549,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 6,
-    "reload": 80
+    "reload": 80,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "deagle_44",
@@ -559,7 +575,8 @@
     "durability": 7,
     "burst": 0,
     "clip_size": 8,
-    "reload": 400
+    "reload": 400,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "usp_45",
@@ -585,6 +602,7 @@
     "burst": 0,
     "clip_size": 12,
     "reload": 350,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "m1911",
@@ -609,7 +627,8 @@
     "durability": 7,
     "burst": 0,
     "clip_size": 7,
-    "reload": 300
+    "reload": 300,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "fn57",
@@ -634,7 +653,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 20,
-    "reload": 300
+    "reload": 300,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "hk_ucp",
@@ -659,7 +679,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 20,
-    "reload": 300
+    "reload": 300,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "tokarev",
@@ -684,7 +705,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 8,
-    "reload": 300
+    "reload": 300,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "shotgun_sawn",
@@ -710,7 +732,8 @@
     "durability": 4,
     "burst": 0,
     "clip_size": 2,
-    "reload": 100
+    "reload": 100,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "saiga_sawn",
@@ -736,7 +759,8 @@
     "durability": 4,
     "burst": 0,
     "clip_size": 10,
-    "reload": 100
+    "reload": 100,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "shotgun_s",
@@ -761,7 +785,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 1,
-    "reload": 100
+    "reload": 100,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "shotgun_d",
@@ -787,7 +812,8 @@
     "durability": 7,
     "burst": 2,
     "clip_size": 2,
-    "reload": 100
+    "reload": 100,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "remington_870",
@@ -813,7 +839,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 6,
-    "reload": 100
+    "reload": 100,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "mossberg_500",
@@ -839,7 +866,8 @@
     "durability": 9,
     "burst": 0,
     "clip_size": 8,
-    "reload": 80
+    "reload": 80,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "saiga_12",
@@ -865,7 +893,8 @@
     "durability": 7,
     "burst": 4,
     "clip_size": 10,
-    "reload": 500
+    "reload": 500,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "american_180",
@@ -891,7 +920,8 @@
     "durability": 6,
     "burst": 30,
     "clip_size": 165,
-    "reload": 500
+    "reload": 500,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "uzi",
@@ -917,7 +947,8 @@
     "durability": 7,
     "burst": 12,
     "clip_size": 32,
-    "reload": 450
+    "reload": 450,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "tec9",
@@ -943,7 +974,8 @@
     "durability": 6,
     "burst": 8,
     "clip_size": 32,
-    "reload": 400
+    "reload": 400,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "calico",
@@ -969,7 +1001,8 @@
     "durability": 6,
     "burst": 20,
     "clip_size": 50,
-    "reload": 500
+    "reload": 500,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "hk_mp5",
@@ -995,7 +1028,8 @@
     "durability": 8,
     "burst": 8,
     "clip_size": 30,
-    "reload": 400
+    "reload": 400,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "mac_10",
@@ -1021,7 +1055,8 @@
     "durability": 7,
     "burst": 30,
     "clip_size": 30,
-    "reload": 450
+    "reload": 450,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "hk_ump45",
@@ -1047,7 +1082,8 @@
     "durability": 8,
     "burst": 4,
     "clip_size": 25,
-    "reload": 450
+    "reload": 450,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "TDI",
@@ -1073,7 +1109,8 @@
     "durability": 7,
     "burst": 8,
     "clip_size": 30,
-    "reload": 450
+    "reload": 450,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "fn_p90",
@@ -1099,7 +1136,8 @@
     "durability": 8,
     "burst": 20,
     "clip_size": 50,
-    "reload": 500
+    "reload": 500,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "hk_mp7",
@@ -1125,7 +1163,8 @@
     "durability": 8,
     "burst": 20,
     "clip_size": 20,
-    "reload": 450
+    "reload": 450,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "ppsh",
@@ -1151,7 +1190,8 @@
     "durability": 8,
     "burst": 8,
     "clip_size": 35,
-    "reload": 400
+    "reload": 400,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "marlin_9a",
@@ -1177,7 +1217,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 19,
-    "reload": 90
+    "reload": 90,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "ruger_1022",
@@ -1202,7 +1243,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 10,
-    "reload": 500
+    "reload": 500,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cx4",
@@ -1253,7 +1295,8 @@
     "durability": 7,
     "burst": 0,
     "clip_size": 4,
-    "reload": 100
+    "reload": 100,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "remington_700",
@@ -1279,7 +1322,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 4,
-    "reload": 75
+    "reload": 75,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "sks",
@@ -1304,7 +1348,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 10,
-    "reload": 450
+    "reload": 450,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "m14a",
@@ -1329,7 +1374,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 20,
-    "reload": 500
+    "reload": 500,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "ruger_mini",
@@ -1354,7 +1400,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 10,
-    "reload": 500
+    "reload": 500,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "savage_111f",
@@ -1380,7 +1427,8 @@
     "durability": 9,
     "burst": 0,
     "clip_size": 3,
-    "reload": 100
+    "reload": 100,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "hk_g3",
@@ -1406,7 +1454,8 @@
     "durability": 8,
     "burst": 10,
     "clip_size": 20,
-    "reload": 550
+    "reload": 550,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "hk_g36",
@@ -1432,7 +1481,8 @@
     "durability": 8,
     "burst": 15,
     "clip_size": 30,
-    "reload": 500
+    "reload": 500,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "ak47",
@@ -1458,7 +1508,8 @@
     "durability": 9,
     "burst": 8,
     "clip_size": 30,
-    "reload": 475
+    "reload": 475,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "fn_fal",
@@ -1484,7 +1535,8 @@
     "durability": 8,
     "burst": 10,
     "clip_size": 20,
-    "reload": 550
+    "reload": 550,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "acr",
@@ -1510,7 +1562,8 @@
     "durability": 8,
     "burst": 3,
     "clip_size": 30,
-    "reload": 475
+    "reload": 475,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "ar15",
@@ -1536,7 +1589,8 @@
     "durability": 7,
     "burst": 10,
     "clip_size": 30,
-    "reload": 500
+    "reload": 500,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "m4a1",
@@ -1562,7 +1616,8 @@
     "durability": 6,
     "burst": 10,
     "clip_size": 30,
-    "reload": 475
+    "reload": 475,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "scar_l",
@@ -1588,7 +1643,8 @@
     "durability": 8,
     "burst": 10,
     "clip_size": 30,
-    "reload": 500
+    "reload": 500,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "scar_h",
@@ -1614,7 +1670,8 @@
     "durability": 8,
     "burst": 8,
     "clip_size": 20,
-    "reload": 550
+    "reload": 550,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "steyr_aug",
@@ -1640,7 +1697,8 @@
     "durability": 8,
     "burst": 6,
     "clip_size": 30,
-    "reload": 550
+    "reload": 550,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "m249",
@@ -1666,7 +1724,8 @@
     "durability": 7,
     "burst": 30,
     "clip_size": 200,
-    "reload": 750
+    "reload": 750,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "v29",
@@ -1694,7 +1753,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 20,
-    "reload": 200
+    "reload": 200,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cerberus_laser",
@@ -1721,7 +1781,7 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 0,
-    "reload": 200
+    "reload": 200,
   },
   {
     "id": "ftk93",
@@ -1748,7 +1808,8 @@
     "durability": 9,
     "burst": 0,
     "clip_size": 2,
-    "reload": 600
+    "reload": 600,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
 
   {
@@ -1775,7 +1836,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 10,
-    "reload": 0
+    "reload": 0,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "flamethrower_simple",
@@ -1801,7 +1863,7 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 800,
-    "reload": 800
+    "reload": 800,
   },
   {
     "id": "flamethrower",
@@ -1827,7 +1889,8 @@
     "durability": 8,
     "burst": 4,
     "clip_size": 1600,
-    "reload": 900
+    "reload": 900,
+    "valid_mod_locations": [[ "accessories", 1 ][ "grip", 1 ]]
   },
   {
     "id": "launcher_simple",
@@ -1852,7 +1915,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 1,
-    "reload": 350
+    "reload": 350,
+    "valid_mod_locations": [[ "stock", 1 ]]
   },
   {
     "id": "m79",
@@ -1877,7 +1941,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 1,
-    "reload": 250
+    "reload": 250,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "m320",
@@ -1902,7 +1967,8 @@
     "durability": 9,
     "burst": 0,
     "clip_size": 1,
-    "reload": 150
+    "reload": 150,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "mgl",
@@ -1928,7 +1994,8 @@
     "durability": 8,
     "burst": 2,
     "clip_size": 6,
-    "reload": 300
+    "reload": 300,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm802",
@@ -1954,7 +2021,8 @@
     "durability": 9,
     "burst": 0,
     "clip_size": 4,
-    "reload": 100
+    "reload": 100,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "LAW",
@@ -1980,7 +2048,8 @@
     "durability": 9,
     "burst": 0,
     "clip_size": 1,
-    "reload": 150
+    "reload": 150,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ]]
   },
   {
     "id": "coilgun",
@@ -2006,7 +2075,7 @@
     "durability": 5,
     "burst": 0,
     "clip_size": 100,
-    "reload": 600
+    "reload": 600,
   },
   {
     "id": "hk_g80",
@@ -2032,7 +2101,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 20,
-    "reload": 550
+    "reload": 550,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "plasma_rifle",
@@ -2059,7 +2129,8 @@
     "durability": 8,
     "burst": 5,
     "clip_size": 25,
-    "reload": 700
+    "reload": 700,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "revolver_shotgun",
@@ -2085,7 +2156,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 6,
-    "reload": 100
+    "reload": 100,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "pipe_shotgun",
@@ -2110,7 +2182,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 1,
-    "reload": 100
+    "reload": 100,
+    "valid_mod_locations": [[ "stock", 1 ]]
   },
   {
     "id": "pipe_shotgunsawn",
@@ -2135,7 +2208,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 1,
-    "reload": 100
+    "reload": 100,
+    "valid_mod_locations": [[ "stock", 1 ]]
   },
   {
     "id": "v29_cheap",
@@ -2163,7 +2237,8 @@
     "durability": 4,
     "burst": 0,
     "clip_size": 15,
-    "reload": 300
+    "reload": 300,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm51_assault_rifle",
@@ -2189,7 +2264,8 @@
     "durability": 9,
     "burst": 5,
     "clip_size": 50,
-    "reload": 500
+    "reload": 500,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm88_battle_rifle",
@@ -2215,7 +2291,8 @@
     "durability": 9,
     "burst": 5,
     "clip_size": 25,
-    "reload": 600
+    "reload": 600,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm614_lmg",
@@ -2241,7 +2318,8 @@
     "durability": 9,
     "burst": 10,
     "clip_size": 200,
-    "reload": 750
+    "reload": 750,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm2000_smg",
@@ -2267,7 +2345,8 @@
     "durability": 9,
     "burst": 5,
     "clip_size": 25,
-    "reload": 450
+    "reload": 450,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm99_pistol",
@@ -2293,7 +2372,8 @@
     "durability": 9,
     "burst": 0,
     "clip_size": 5,
-    "reload": 90
+    "reload": 90,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm103a_pistol",
@@ -2319,7 +2399,8 @@
     "durability": 9,
     "burst": 0,
     "clip_size": 10,
-    "reload": 400
+    "reload": 400,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "tihar",
@@ -2345,7 +2426,8 @@
     "durability": 7,
     "burst": 5,
     "clip_size": 15,
-    "reload": 280
+    "reload": 280,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "helsing",
@@ -2371,7 +2453,8 @@
     "durability": 7,
     "burst": 0,
     "clip_size": 8,
-    "reload": 500
+    "reload": 500,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "mininuke_launcher",
@@ -2423,7 +2506,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 1,
-    "reload": 80
+    "reload": 80,
+    "valid_mod_locations": [[ "grip", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "flaregun",
@@ -2449,7 +2533,8 @@
     "durability": 7,
     "burst": 0,
     "clip_size": 1,
-    "reload": 80
+    "reload": 80,
+    "valid_mod_locations": [[ "accessories", 42],[ "grip", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "laser_rifle",
@@ -2477,7 +2562,8 @@
     "durability": 8,
     "burst": 5,
     "clip_size": 20,
-    "reload": 0
+    "reload": 0,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "flamethrower_crude",
@@ -2529,7 +2615,8 @@
     "burst": 1,
     "durability": 8,
     "clip_size": 1,
-    "reload": 300
+    "reload": 300,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "m202_flash",
@@ -2555,7 +2642,8 @@
     "durability": 7,
     "burst": 4,
     "clip_size": 4,
-    "reload": 600
+    "reload": 600,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "RPG",
@@ -2581,7 +2669,8 @@
     "durability": 10,
     "burst": 0,
     "clip_size": 1,
-    "reload": 150
+    "reload": 150,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "needlegun",
@@ -2607,7 +2696,8 @@
     "durability": 9,
     "burst": 5,
     "clip_size": 100,
-    "reload": 600
+    "reload": 600,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "unbio_blaster_gun",
@@ -2634,7 +2724,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 40,
-    "reload": 600
+    "reload": 600,
+    "valid_mod_locations": [[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "rebar_rifle",
@@ -2661,7 +2752,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 1,
-    "reload": 200
+    "reload": 200,
+    "valid_mod_locations": [[ "grip", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "rm20",
@@ -2687,7 +2779,8 @@
     "durability": 9,
     "burst": 4,
     "clip_size": 20,
-    "reload": 550
+    "reload": 550,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm120c",
@@ -2713,7 +2806,8 @@
     "durability": 9,
     "burst": 0,
     "clip_size": 5,
-    "reload": 80
+    "reload": 80,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm228",
@@ -2739,7 +2833,8 @@
     "durability": 9,
     "burst": 2,
     "clip_size": 2,
-    "reload": 70
+    "reload": 70,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
    {
     "id": "m107a1",
@@ -2764,7 +2859,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 10,
-    "reload": 340
+    "reload": 340,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
  },
   {
     "id": "rifle_flintlock",
@@ -2789,7 +2885,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 1,
-    "reload": 1300
+    "reload": 1300,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
    {
     "id": "pistol_flintlock",
@@ -2814,7 +2911,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 1,
-    "reload": 1000
+    "reload": 1000,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
      {
     "id": "moss_brownie",
@@ -2840,7 +2938,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 4,
-    "reload": 100
+    "reload": 100,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
    {
     "id": "cop_38",
@@ -2866,7 +2965,8 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 4,
-    "reload": 100
+    "reload": 100,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "arx160",
@@ -2892,7 +2992,8 @@
     "durability": 9,
     "burst": 3,
     "clip_size": 30,
-    "reload": 400
+    "reload": 400,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "speargun",
@@ -2918,7 +3019,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 1,
-    "reload": 700
+    "reload": 700,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "minispeargun",
@@ -2944,7 +3046,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 1,
-    "reload": 600
+    "reload": 600,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "doublespeargun",
@@ -2970,7 +3073,8 @@
     "durability": 7,
     "burst": 0,
     "clip_size": 2,
-    "reload": 700
+    "reload": 700,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "airspeargun",
@@ -2996,7 +3100,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 4,
-    "reload": 800
+    "reload": 800,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "trex_gun",
@@ -3021,7 +3126,8 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 1,
-    "reload": 1000
+    "reload": 1000,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   }
   
 ]
