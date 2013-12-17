@@ -28,32 +28,28 @@ void profession::load_profession(JsonObject &jsobj)
     JsonArray jsarr;
 
     prof._ident = jsobj.get_string("ident");
-    prof._name = _(jsobj.get_string("name").c_str());
-    prof._description = _(jsobj.get_string("description").c_str());
-    prof._point_cost = jsobj.get_int("points");
-    if(jsobj.has_string("gender_req")) {
-        prof._gender_req = jsobj.get_string("gender_req");
+    //If the "name" is an object then we have to deal with gender-specific titles,
+    //otherwise we assume "name" is a string and use its value for prof._name
+    if(jsobj.has_object("name")) {
+        JsonObject name_obj=jsobj.get_object("name");
+        prof._name_male=name_obj.get_string("male");
+        prof._name_female=name_obj.get_string("female");
+        prof._name="";
     }
     else {
-        prof._gender_req = "none";
+        prof._name=jsobj.get_string("name");
+        prof._name_male="";
+        prof._name_female="";
     }
+    
+    prof._description = _(jsobj.get_string("description").c_str());
+    prof._point_cost = jsobj.get_int("points");
 
-    jsarr = jsobj.get_array("items");
-    while (jsarr.has_more()) {
-        prof.add_item(jsarr.next_string(), "none");
-    }
-    if(jsobj.has_array("items_male")) {
-        jsarr=jsobj.get_array("items_male");
-        while (jsarr.has_more()) {
-            prof.add_item(jsarr.next_string(), "male");
-        }
-    }
-    if(jsobj.has_array("items_female")) {
-        jsarr=jsobj.get_array("items_female");
-        while (jsarr.has_more()) {
-            prof.add_item(jsarr.next_string(), "female");
-        }
-    }
+    JsonObject items_obj=jsobj.get_object("items");
+    prof.add_items_from_jsonarray(items_obj.get_array("both"), "both");
+    prof.add_items_from_jsonarray(items_obj.get_array("male"), "male");
+    prof.add_items_from_jsonarray(items_obj.get_array("female"), "female");
+    
     jsarr = jsobj.get_array("skills");
     while (jsarr.has_more()) {
         JsonObject jo = jsarr.next_object();
@@ -123,6 +119,13 @@ bool profession::has_initialized()
     return exists("unemployed");
 }
 
+void profession::add_items_from_jsonarray(JsonArray jsarr, std::string gender)
+{
+    while (jsarr.has_more()) {
+        add_item(jsarr.next_string(), gender);
+    }
+}
+
 void profession::add_item(std::string item, std::string gender)
 {
     if(gender=="male") {
@@ -160,14 +163,22 @@ std::string profession::name() const
     return _name;
 }
 
+std::string profession::gender_appropriate_name(bool male) const
+{
+    if(_name!="") {
+        return _name;
+    }
+    else if(male) {
+        return _name_male;
+    }
+    else {
+        return _name_female;
+    }
+}
+        
 std::string profession::description() const
 {
     return _description;
-}
-
-std::string profession::gender_req() const
-{
-    return _gender_req;
 }
 
 signed int profession::point_cost() const
@@ -212,10 +223,6 @@ bool profession::has_flag(std::string flag) const {
 std::string profession::can_pick(player* u, int points) const {
     std::string rval = "YES";
     if(point_cost() - u->prof->point_cost() > points) rval = "INSUFFICIENT_POINTS";
-    if(gender_req() != "none") {
-        if(u->male && gender_req() != "male") rval = "WRONG_GENDER";
-        else if(!u->male && gender_req() != "female") rval = "WRONG_GENDER";
-    }
             
     return rval;
 }

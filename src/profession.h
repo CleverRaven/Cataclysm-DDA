@@ -21,6 +21,8 @@ public:
 private:
     std::string _ident;
     std::string _name;
+    std::string _name_male;
+    std::string _name_female;
     std::string _description;
     std::string _gender_req;
     signed int _point_cost;
@@ -32,7 +34,8 @@ private:
     std::set<std::string> flags; // flags for some special properties of the profession
     StartingSkillList  _starting_skills;
 
-    void add_item(std::string item,std::string gender);
+    void add_items_from_jsonarray(JsonArray jsarr, std::string gender);
+    void add_item(std::string item, std::string gender);
     void add_addiction(add_type, int);
     void add_CBM(std::string CBM);
     // Starting skills will boost the players level in those skills by a 
@@ -58,6 +61,7 @@ public:
 
     std::string ident() const;
     std::string name() const;
+    std::string gender_appropriate_name(bool male) const;
     std::string description() const;
     std::string gender_req() const;
     signed int point_cost() const;

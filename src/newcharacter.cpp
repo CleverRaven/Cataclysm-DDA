@@ -941,7 +941,7 @@ inline bool profession_display_sort(const profession *a, const profession *b)
         return true;
     }
 
-    return a->name() < b->name();
+    return a->point_cost() < b->point_cost();
 }
 
 int set_profession(WINDOW *w, game *g, player *u, character_type type, int &points)
@@ -959,6 +959,7 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
     WINDOW *w_items = newwin(iContentHeight, 22, 5 + getbegy(w), 21 + getbegx(w));
     WINDOW *w_skills = newwin(iContentHeight, 32, 5 + getbegy(w), 43+ getbegx(w));
     WINDOW *w_addictions = newwin(iContentHeight - 10, 32, 15 + getbegy(w), 43+ getbegx(w));
+    WINDOW *w_genderswap = newwin(1, 48, 19 + getbegy(w), 21 + getbegx(w));
 
     std::vector<const profession *> sorted_profs;
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
@@ -987,15 +988,13 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
         mvwprintz(w,  3, 40, c_ltgray, "                                      ");
         if (can_pick == "YES") {
             mvwprintz(w,  3, 20, c_green, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
+                      sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
+                      sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         } else if(can_pick == "INSUFFICIENT_POINTS") {
             mvwprintz(w,  3, 20, c_ltred, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
+                      sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
-        } else if(can_pick == "WRONG_GENDER") {
-            mvwprintz(w, 3, 20, c_ltred, _("Only %1$s characters can take this profession"),
-                      sorted_profs[cur_id]->gender_req().c_str());
         }
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
                        sorted_profs[cur_id]->description().c_str());
@@ -1008,15 +1007,14 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
              i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              "); // Clear the line
-
             if (u->prof != sorted_profs[i]) {
                 mvwprintz(w, 5 + i - iStartPos, 2, (sorted_profs[i] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
-                          sorted_profs[i]->name().c_str());
+                          sorted_profs[i]->gender_appropriate_name(u->male).c_str());
             } else {
                 mvwprintz(w, 5 + i - iStartPos, 2,
                           (sorted_profs[i] == sorted_profs[cur_id] ?
                            hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                          sorted_profs[i]->name().c_str());
+                          sorted_profs[i]->gender_appropriate_name(u->male).c_str());
             }
         }
 
@@ -1069,6 +1067,11 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
                 }
             }
         }
+        
+        if(sorted_profs[cur_id]->name()=="") {
+            mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press TAB to switch to %1$s"),
+                      sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
+        }
 
         //Draw Scrollbar
         draw_scrollbar(w, cur_id, iContentHeight, profession::count(), 5);
@@ -1078,6 +1081,7 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
         wrefresh(w_items);
         wrefresh(w_skills);
         wrefresh(w_addictions);
+        wrefresh(w_genderswap);
         switch (input()) {
             case 'j':
             case '2':
@@ -1100,7 +1104,10 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
                 u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
                 points -= netPointCost;
                 break;
-
+            case '\t':
+                if(sorted_profs[cur_id]->name()=="")
+                    u->male = !u->male;
+                break;
             case '<':
                 retval = -1;
                 break;
