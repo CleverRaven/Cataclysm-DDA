@@ -20870,7 +20870,7 @@
   "time": 480000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_weapwest", 8 ] , ["recipe_melee", 7 ],
+  "book_learn": [[ "textbook_weapwest", 8 ] , ["recipe_melee", 7 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1] ],
       [
       ["tongs", -1]
