@@ -113,7 +113,7 @@ struct jmapgen_place_group {
     jmapgen_place_group(jmapgen_int ix, jmapgen_int iy, std::string igid, jmapgen_place_group_op iop, int ichance,
         float idensity = -1.0f, jmapgen_int irepeat = jmapgen_int(1,1)
       ) : x(ix), y(iy), gid(igid), op(iop), chance(ichance), density(idensity), repeat(irepeat) { }
-    void apply( map * m, float mdensity, int t );
+    void apply( map * m, float mdensity );
 };
 
 struct jmapgen_spawn_item {
@@ -137,7 +137,8 @@ class mapgen_function_json : public virtual mapgen_function {
     void setup_place_group(JsonArray &parray );
     void setup_setmap(JsonArray &parray);
     bool setup();
-    void apply(map * m,oter_id id,mapgendata md ,int t,float d);
+    void apply( map *m, oter_id terrain_type, mapgendata md, int t, float d );
+
     mapgen_function_json(std::string s, int w = 1000) {
         ftype = MAPGENFUNC_JSON;
         weight = w;
@@ -252,6 +253,6 @@ void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
 void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2);
 void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
 void rough_circle(map *m, ter_id type, int x, int y, int rad);
-void add_corpse(game *g, map *m, int x, int y);
+void add_corpse(map *m, int x, int y);
 
 #endif

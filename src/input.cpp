@@ -163,7 +163,7 @@ void input_manager::init() {
         throw "Could not read " + file_name;
     }
 
-    JsonIn jsin(&data_file);
+    JsonIn jsin(data_file);
 
     //Crawl through once and create an entry for every definition
     jsin.start_array();
@@ -544,6 +544,7 @@ input_event input_context::get_raw_input()
 // If we're using curses, we need to provide get_input_event() here.
 input_event input_manager::get_input_event(WINDOW* win)
 {
+    (void)win; // unused
     int key = get_keypress();
     input_event rval;
     if (key == ERR) {

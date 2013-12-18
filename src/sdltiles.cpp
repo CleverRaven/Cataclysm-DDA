@@ -887,26 +887,23 @@ static std::string find_system_font(std::string name, int& faceIndex)
 static int test_face_size(std::string f, int size, int faceIndex)
 {
     TTF_Font* fnt = TTF_OpenFontIndex(f.c_str(), size, faceIndex);
-    if(fnt)
-    {
+    if(fnt) {
         char* style = TTF_FontFaceStyleName(fnt);
-        if(style != NULL)
-        {
+        if(style != NULL) {
             int faces = TTF_FontFaces(fnt);
             bool found = false;
-            for(int i = faces - 1; i >= 0 && !found; i--)
-            {
+            for(int i = faces - 1; i >= 0 && !found; i--) {
                 TTF_Font* tf = TTF_OpenFontIndex(f.c_str(), size, i);
                 char* ts = NULL;
-                if(NULL != tf && NULL != (ts = TTF_FontFaceStyleName(tf)))
-                {
-                    if(0 == strcasecmp(ts, style) && TTF_FontHeight(tf) <= size)
-                    {
-                        faceIndex = i;
-                        found = true;
-                    }
+                if(NULL != tf) {
+                   if( NULL != (ts = TTF_FontFaceStyleName(tf))) {
+                       if(0 == strcasecmp(ts, style) && TTF_FontHeight(tf) <= size) {
+                           faceIndex = i;
+                           found = true;
+                       }
+                   }
+                   TTF_CloseFont(tf);
                 }
-                TTF_CloseFont(tf);
             }
         }
         TTF_CloseFont(fnt);
@@ -916,7 +913,7 @@ static int test_face_size(std::string f, int size, int faceIndex)
 }
 
 // Calculates the new width of the window, given the number of columns.
-int projected_window_width(int column_count)
+int projected_window_width(int)
 {
 	const int SidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
 	int newWindowWidth = (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
@@ -926,7 +923,7 @@ int projected_window_width(int column_count)
 }
 
 // Calculates the new height of the window, given the number of rows.
-int projected_window_height(int row_count)
+int projected_window_height(int)
 {
 	return (OPTIONS["VIEWPORT_Y"] * 2 + 1) * fontheight;
 }
@@ -1083,7 +1080,7 @@ int curses_start_color(void)
     //Load the console colors from colors.json
     std::ifstream colorfile("data/raw/colors.json", std::ifstream::in | std::ifstream::binary);
     try{
-        JsonIn jsin(&colorfile);
+        JsonIn jsin(colorfile);
         char ch;
         // Manually load the colordef object because the json handler isn't loaded yet.
         jsin.eat_whitespace();

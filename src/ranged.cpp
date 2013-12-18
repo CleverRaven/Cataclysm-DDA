@@ -13,22 +13,21 @@
 
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
-void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon);
+void make_gun_sound_effect(player &p, bool burst, item* weapon);
 double calculate_missed_by(player &p, int trange, item* weapon);
-void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
+void shoot_monster(player &p, monster &mon, int &dam, double goodhit,
                    item* weapon, const std::set<std::string> &effects);
-void shoot_player(game *g, player &p, player *h, int &dam, double goodhit);
+void shoot_player(player &p, player *h, int &dam, double goodhit);
 
-void splatter(game *g, std::vector<point> trajectory, int dam,
-              monster* mon = NULL);
+void splatter(std::vector<point> trajectory, int dam, monster* mon = NULL);
 
-double Creature::projectile_attack(game *g, const projectile &proj, int targetx, int targety,
+double Creature::projectile_attack(const projectile &proj, int targetx, int targety,
         double shot_dispersion) {
-    return projectile_attack(g, proj, xpos(), ypos(), targetx, targety, shot_dispersion);
+    return projectile_attack(proj, xpos(), ypos(), targetx, targety, shot_dispersion);
 }
 
-double Creature::projectile_attack(game *g, const projectile &proj, int sourcex, int sourcey,
-        int targetx, int targety, double shot_dispersion) {
+double Creature::projectile_attack(const projectile &proj, int sourcex, int sourcey,
+                                   int targetx, int targety, double shot_dispersion) {
     int range = rl_dist(sourcex,sourcey,targetx,targety);
     // .013 * trange is a computationally cheap version of finding the tangent.
     // (note that .00325 * 4 = .013; .00325 is used because deviation is a number
@@ -103,7 +102,7 @@ double Creature::projectile_attack(game *g, const projectile &proj, int sourcex,
             monster &z = g->zombie(mondex);
 
             dealt_damage_instance dealt_dam;
-            z.deal_projectile_attack(g, this, missed_by, proj, dealt_dam);
+            z.deal_projectile_attack(this, missed_by, proj, dealt_dam);
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
             //splatter(this, blood_traj, dam, &z); TODO: add splatter effects
@@ -114,12 +113,12 @@ double Creature::projectile_attack(game *g, const projectile &proj, int sourcex,
         } else if (g->u.xpos() == tx && g->u.ypos() == ty
                 && cur_missed_by <= 1.0) {
             dealt_damage_instance dealt_dam;
-            g->u.deal_projectile_attack(g, this, missed_by, proj, dealt_dam);
+            g->u.deal_projectile_attack(this, missed_by, proj, dealt_dam);
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
 
         } else {
-            g->m.shoot(g, tx, ty, dam, i == trajectory.size() - 1, proj.proj_effects);
+            g->m.shoot(tx, ty, dam, i == trajectory.size() - 1, proj.proj_effects);
         }
     } // Done with the trajectory!
 
@@ -138,7 +137,7 @@ double Creature::projectile_attack(game *g, const projectile &proj, int sourcex,
         g->m.add_item_or_charges(tx, ty, ammotmp);
     }
 
-    ammo_effects(g, tx, ty, proj.proj_effects);
+    ammo_effects(tx, ty, proj.proj_effects);
 
     if (proj.proj_effects.count("BOUNCE")) {
         for (unsigned long int i = 0; i < g->num_zombies(); i++) {
@@ -148,7 +147,7 @@ double Creature::projectile_attack(game *g, const projectile &proj, int sourcex,
                 // don't hit targets that have already been hit
                 if (!z.has_effect("bounced") && !z.dead) {
                     g->add_msg(_("The attack bounced to %s!"), z.name().c_str());
-                    projectile_attack(g, proj, tx, ty, z.posx(), z.posy(), shot_dispersion);
+                    projectile_attack(proj, tx, ty, z.posx(), z.posy(), shot_dispersion);
                     break;
                 }
             }
@@ -381,17 +380,17 @@ void player::fire_gun(int tarx, int tary, bool burst) {
             // Current guns have a durability between 5 and 9.
             // Misfire chance is between 1/64 and 1/1024.
             if (is_underwater() && !weapon.has_flag("WATERPROOF_GUN") && one_in(firing->durability)) {
-                g->add_msg_player_or_npc( this, _("Your weapon misfires with a wet click!"),
-                                        _("<npcname>'s weapon misfires with a wet click!") );
+                g->add_msg_player_or_npc(this, _("Your weapon misfires with a wet click!"),
+                                         _("<npcname>'s weapon misfires with a wet click!") );
                 return;
             } else if (one_in(2 << firing->durability)) {
-                g->add_msg_player_or_npc( this, _("Your weapon misfires!"),
-                                        _("<npcname>'s weapon misfires!") );
+                g->add_msg_player_or_npc(this, _("Your weapon misfires!"),
+                                         _("<npcname>'s weapon misfires!") );
                 return;
             }
         }
 
-        make_gun_sound_effect(g, *this, burst, used_weapon);
+        make_gun_sound_effect(*this, burst, used_weapon);
 
         double total_dispersion = get_weapon_dispersion(used_weapon);
         //debugmsg("%f",total_dispersion);
@@ -420,7 +419,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
         proj.impact = damage_instance::physical(0,adjusted_damage,0);
 
-        double missed_by = projectile_attack(g, proj, mtarx, mtary, total_dispersion);
+        double missed_by = projectile_attack(proj, mtarx, mtary, total_dispersion);
         if (missed_by <= .1) { // TODO: check head existence for headshot
             practice(g->turn, firing->skill_used, 5);
             lifetime_stats()->headshots++;
@@ -440,10 +439,10 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
 }
 
-void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
-                bool burst) {
+void game::fire(player &p, int tarx, int tary, std::vector<point> &, bool burst) {
     p.fire_gun(tarx, tary, burst);
 }
+
 void game::throw_item(player &p, int tarx, int tary, item &thrown,
                       std::vector<point> &trajectory)
 {
@@ -588,7 +587,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         }
         else // No monster hit, but the terrain might be.
         {
-            m.shoot(this, tx, ty, dam, false, no_effects);
+            m.shoot(tx, ty, dam, false, no_effects);
         }
         // Collide with impassable terrain unless it's flagged as liquid
         if (m.move_cost(tx, ty) == 0 && !m.has_flag("LIQUID", tx, ty))
@@ -607,7 +606,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         }
         if (p.has_active_bionic("bio_railgun") && (thrown.made_of("iron") || thrown.made_of("steel")))
         {
-            m.add_field(this, tx, ty, fd_electricity, rng(2,3));
+            m.add_field(tx, ty, fd_electricity, rng(2,3));
         }
     }
     if (thrown.made_of("glass") && !thrown.active && // active means molotov, etc
@@ -728,8 +727,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     mvwputch(w_target, i, j, c_white, ' ');
   }
   /* Start drawing w_terrain things -- possibly move out to centralized draw_terrain_window function as they all should be roughly similar*/
-  m.build_map_cache(this); // part of the SDLTILES drawing code
-  m.draw(this, w_terrain, center); // embedded in SDL drawing code
+  m.build_map_cache(); // part of the SDLTILES drawing code
+  m.draw(w_terrain, center); // embedded in SDL drawing code
   // Draw the Monsters
   for (int i = 0; i < num_zombies(); i++) {
    if (u_see(&(zombie(i)))) {
@@ -806,7 +805,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
      mvwputch(w_terrain, POSY + y - center.y, POSX + x - center.x, c_red, '*');
    } else {
     if (u_see(&(zombie(zid)))) {
-     zombie(zid).print_info(this, w_target,2);
+     zombie(zid).print_info(w_target,2);
     }
    }
   }
@@ -1014,7 +1013,7 @@ int time_to_fire(player &p, it_gun* firing)
  return time;
 }
 
-void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
+void make_gun_sound_effect(player &p, bool burst, item* weapon)
 {
  std::string gunsound;
  // noise() doesn't suport gunmods, but it does return the right value
@@ -1139,7 +1138,7 @@ int recoil_add(player &p)
  return 0;
 }
 
-void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
+void shoot_monster(player &p, monster &mon, int &dam, double goodhit,
                    item* weapon, const std::set<std::string> &effects)
 {
 // Gunmods don't have a type, so use the player weapon type.
@@ -1230,7 +1229,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
             damage_instance d;
             d.add_damage(DT_CUT, adjusted_damage, weapon->gun_pierce(),
                     effects.count("SHOT")?rng(2,3):1); // Shot doesn't penetrate armor well
-            mon.deal_damage(g, &p, bp_torso, -1, d);
+            mon.deal_damage(&p, bp_torso, -1, d);
             if( u_see_mon ) {
                 g->draw_hit_mon(mon.posx(), mon.posy(), mon, mon.is_dead_state());
             }
@@ -1239,7 +1238,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
     dam = adjusted_damage;
 }
 
-void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
+void shoot_player(player &p, player *h, int &dam, double goodhit)
 {
     int npcdex = g->npc_at(h->posx, h->posy);
     // Gunmods don't have a type, so use the player gun type.
@@ -1300,11 +1299,11 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
                     h->name.c_str(), body_part_name(hit, side).c_str());
             }
         }
-        h->hit(g, &p, hit, side, 0, dam);
+        h->hit(&p, hit, side, 0, dam);
     }
 }
 
-void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
+void splatter(std::vector<point> trajectory, int dam, monster* mon)
 {
  if( dam <= 0 ) {
      return;
@@ -1329,7 +1328,7 @@ void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
 
  for (int i = 0; i < spurt.size(); i++) {
     int tarx = spurt[i].x, tary = spurt[i].y;
-    g->m.adjust_field_strength(g, point(tarx, tary), blood, 1 );
+    g->m.adjust_field_strength(point(tarx, tary), blood, 1 );
     if( g->m.move_cost(tarx, tary) == 0 ) {
         // Blood splatters stop at walls.
         break;

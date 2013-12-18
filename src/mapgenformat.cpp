@@ -14,6 +14,7 @@
  */
 
 void formatted_set_incredibly_simple( map * m, const ter_furn_id data[], const int width, const int height, const int startx, const int starty, const int defter ) {
+    (void)startx; (void)starty; // FIXME: unused
     for ( int y = 0; y < height; y++ ) {
         const int mul = y * height;
         for( int x = 0; x < width; x++ ) {

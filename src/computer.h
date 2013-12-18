@@ -96,8 +96,8 @@ public:
     void add_failure(computer_failure failure);
     // Basic usage
     void shutdown_terminal(); // Shutdown (free w_terminal, etc)
-    void use(game *g);
-    bool hack_attempt(game *g, player *p, int Security = -1);// -1 defaults to main security
+    void use();
+    bool hack_attempt(player *p, int Security = -1);// -1 defaults to main security
     // Save/load
     std::string save_data();
     void load_data(std::string data);
@@ -122,11 +122,11 @@ private:
     static std::vector<std::string> lab_notes;
 
     // Called by use()
-    void activate_function      (game *g, computer_action action);
+    void activate_function      (computer_action action);
     // Generally called when we fail a hack attempt
-    void activate_random_failure(game *g);
+    void activate_random_failure();
     // ...but we can also choose a specific failure.
-    void activate_failure       (game *g, computer_failure fail);
+    void activate_failure       (computer_failure fail);
 
     // OUTPUT/INPUT:
 

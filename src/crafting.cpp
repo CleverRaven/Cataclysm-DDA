@@ -182,7 +182,7 @@ bool game::crafting_allowed()
 
 bool game::crafting_can_see()
 {
-    if (u.fine_detail_vision_mod(g) > 4) {//minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light) (vs 2.5)
+    if (u.fine_detail_vision_mod() > 4) {//minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light) (vs 2.5)
         g->add_msg(_("You can't see to craft!"));
         return false;
     }
@@ -1229,7 +1229,7 @@ void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool fil
 
 inventory game::crafting_inventory(player *p){
  inventory crafting_inv;
- crafting_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE, false);
+ crafting_inv.form_from_map(point(p->posx, p->posy), PICKUP_RANGE, false);
  crafting_inv += p->inv;
  crafting_inv += p->weapon;
  if (p->has_bionic("bio_tools")) {
@@ -1287,7 +1287,7 @@ void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &cur
 
 void game::make_craft(recipe *making)
 {
- u.assign_activity(this, ACT_CRAFT, making->time, making->id);
+ u.assign_activity(ACT_CRAFT, making->time, making->id);
  u.moves = 0;
  u.lastrecipe = making;
 }
@@ -1295,7 +1295,7 @@ void game::make_craft(recipe *making)
 
 void game::make_all_craft(recipe *making)
 {
- u.assign_activity(this, ACT_LONGCRAFT, making->time, making->id);
+ u.assign_activity(ACT_LONGCRAFT, making->time, making->id);
  u.moves = 0;
  u.lastrecipe = making;
 }
@@ -1397,7 +1397,7 @@ void game::complete_craft()
  {
      if (iter->goes_bad())
      {
-            iter->rotten(g);
+            iter->rotten();
             used_age_tally += iter->rot/
                 (float)(dynamic_cast<it_comest*>(iter->type)->spoils);
          ++used_age_count;
@@ -1456,7 +1456,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
     std::vector<component> map_use;
     std::vector<component> mixed_use;
     inventory map_inv;
-    map_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE);
+    map_inv.form_from_map(point(p->posx, p->posy), PICKUP_RANGE);
 
     for (unsigned i = 0; i < components.size(); i++)
     {
@@ -1631,7 +1631,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
 {
  bool found_nocharge = false;
  inventory map_inv;
- map_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE);
+ map_inv.form_from_map(point(p->posx, p->posy), PICKUP_RANGE);
  std::vector<component> player_has;
  std::vector<component> map_has;
 // Use charges of any tools that require charges used
@@ -1788,7 +1788,7 @@ void game::disassemble(int pos)
                   {
                    return;
                   }
-                    u.assign_activity(this, ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
+                    u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
                     u.moves = 0;
                     std::vector<int> dis_items;
                     dis_items.push_back(pos);
@@ -1920,19 +1920,19 @@ void game::complete_disassemble()
   {
     if (dis->skill_used == NULL || dis->learn_by_disassembly <= u.skillLevel(dis->skill_used))
     {
-      if (rng(0,3) == 0)
+      if (one_in(4))
       {
         u.learn_recipe(dis);
-        add_msg(_("You learned a recipe from this disassembly!"));
+        add_msg(_("You learned a recipe from disassembling it!"));
       }
       else
       {
-        add_msg(_("You think you could learn a recipe from this item. Maybe you'll try again."));
+        add_msg(_("You might be able to learn a recipe if you disassemble another."));
       }
     }
     else
     {
-      add_msg(_("With some more skill, you might learn a recipe from this."));
+      add_msg(_("If you had better skills, you might learn a recipe next time."));
     }
   }
 }

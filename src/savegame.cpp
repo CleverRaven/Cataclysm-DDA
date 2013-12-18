@@ -77,7 +77,7 @@ void game::serialize(std::ofstream & fout) {
         // Header
         fout << "# version " << savegame_version << std::endl;
 
-        JsonOut json(&fout, true); // pretty-print
+        JsonOut json(fout, true); // pretty-print
 
         json.start_object();
         // basic game state information.
@@ -196,7 +196,7 @@ void game::unserialize(std::ifstream & fin)
     std::stringstream linein;
 
     int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
-    JsonIn jsin(&fin);
+    JsonIn jsin(fin);
     try {
         JsonObject data = jsin.get_object();
 
@@ -219,8 +219,8 @@ void game::unserialize(std::ifstream & fin)
         turn = tmpturn;
         nextspawn = tmpspawn;
 
-        cur_om = &overmap_buffer.get(this, comx, comy);
-        m.load(this, levx, levy, levz);
+        cur_om = &overmap_buffer.get(comx, comy);
+        m.load(levx, levy, levz);
 
         run_mode = tmprun;
         if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -294,6 +294,15 @@ void game::load_weather(std::ifstream & fin) {
        }
    }
 
+   //Check for "lightning:" marker - if absent, ignore
+   if (fin.peek() == 'l') {
+       std::string line;
+       getline(fin, line);
+       lightning_active = ((*line.end()) == '1');
+   } else {
+       lightning_active = false;
+   }
+
      while(!fin.eof()) {
         std::string data;
         getline(fin, data);
@@ -329,6 +338,7 @@ void game::load_weather(std::ifstream & fin) {
 
 void game::save_weather(std::ofstream & fout) {
     fout << "# version " << savegame_version << std::endl;
+    fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
     const int climatezone = 0;
     for( std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it ) {
       fout << it->first
@@ -338,7 +348,7 @@ void game::save_weather(std::ofstream & fout) {
     }
 }
 ///// overmap
-void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plrfilename,
+void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                           std::string const & terfilename) {
     // DEBUG VARS
     int nummg = 0;
@@ -360,7 +370,7 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
         }
     }
     if (savegame_loading_version != savegame_version) {
-        if ( unserialize_legacy(g, fin, plrfilename, terfilename) == true ) {
+        if ( unserialize_legacy(fin, plrfilename, terfilename) == true ) {
             return;
         }
     }
@@ -431,7 +441,7 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
             std::string npcdata;
             getline(fin, npcdata);
             npc * tmp = new npc();
-            tmp->load_info(g, npcdata);
+            tmp->load_info(npcdata);
             npcs.push_back(tmp);
         } else if (datatype == 'P') {
             // Chomp the invlet_cache, since the npc doesn't use it.
@@ -446,7 +456,7 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
                          loc.x, loc.y);
                 debugmsg(itemdata.c_str());
             } else {
-                item tmp(itemdata, g);
+                item tmp(itemdata);
                 npc* last = npcs.back();
                 switch (datatype) {
                 case 'I': npc_inventory.push_back(tmp);                 break;
@@ -625,7 +635,7 @@ void game::unserialize_master(std::ifstream &fin) {
    }
     try {
         // single-pass parsing example
-        JsonIn jsin(&fin);
+        JsonIn jsin(fin);
         jsin.start_object();
         while (!jsin.end_object()) {
             std::string name = jsin.get_member_name();
@@ -662,7 +672,7 @@ void game::unserialize_master(std::ifstream &fin) {
 void game::serialize_master(std::ofstream &fout) {
     fout << "# version " << savegame_version << std::endl;
     try {
-        JsonOut json(&fout, true); // pretty-print
+        JsonOut json(fout, true); // pretty-print
         json.start_object();
 
         json.member("next_mission_id", next_mission_id);

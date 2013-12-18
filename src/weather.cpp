@@ -9,7 +9,7 @@
 #define THUNDER_CHANCE 50
 #define LIGHTNING_CHANCE 600
 
-void weather_effect::glare(game *g)
+void weather_effect::glare()
 {
  if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses")
  && !g->u.is_wearing("fancy_sunglasses") && !g->u.has_bionic("bio_sunglasses")) {
@@ -77,7 +77,7 @@ std::pair<int, int> rain_or_acid_level( const int wt )
 /*
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point
  */
-void retroactively_fill_from_funnel( game * g, item *it, const trap_id t, const int endturn )
+void retroactively_fill_from_funnel( item *it, const trap_id t, const int endturn )
 {
     const int startturn = ( it->bday > 0 ? it->bday - 1 : 0 );
     if ( startturn > endturn || g->traps[t]->funnel_radius_mm < 1 ) {
@@ -213,7 +213,7 @@ double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const {
     return turns_per_charge;// / rain_depth_mm_per_hour;
 }
 
-void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
+void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
 {
     const double turns_per_charge = g->traps[t]->funnel_turns_per_charge(rain_depth_mm_per_hour);
     // Give each funnel on the map a chance to collect the rain.
@@ -245,13 +245,13 @@ void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
     }
 }
 
-void fill_water_collectors(game *g, int mmPerHour, bool acid)
+void fill_water_collectors(int mmPerHour, bool acid)
 {
-    fill_funnels(g, mmPerHour, acid, tr_funnel);
-    fill_funnels(g, mmPerHour, acid, tr_makeshift_funnel);
+    fill_funnels(mmPerHour, acid, tr_funnel);
+    fill_funnels(mmPerHour, acid, tr_makeshift_funnel);
 }
 
-void decay_fire_and_scent(game *g, int fire_amount)
+void decay_fire_and_scent(int fire_amount)
 {
     for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
         for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
@@ -264,46 +264,46 @@ void decay_fire_and_scent(game *g, int fire_amount)
     }
 }
 
-void generic_wet(game *g, bool acid)
+void generic_wet(bool acid)
 {
     if ((!g->u.worn_with_flag("RAINPROOF") || one_in(50)) &&
          (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) && !g->u.has_trait("FEATHERS") &&
          (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5) < 30 && PLAYER_OUTSIDE &&
          one_in(2)) {
-        g->u.drench(g, 30 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
+        g->u.drench(30 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
                      mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head));
     }
 
-    fill_water_collectors(g, 4, acid); // fixme; consolidate drench, this, and decay_fire_and_scent.
-    decay_fire_and_scent(g, 15);
+    fill_water_collectors(4, acid); // fixme; consolidate drench, this, and decay_fire_and_scent.
+    decay_fire_and_scent(15);
 }
 
-void generic_very_wet(game *g, bool acid)
+void generic_very_wet(bool acid)
 {
     if ((!g->u.worn_with_flag("RAINPROOF") || one_in(25)) &&
          (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(5)) && !g->u.has_trait("FEATHERS") &&
          (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5) < 60 && PLAYER_OUTSIDE) {
-        g->u.drench(g, 60 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
+        g->u.drench(60 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
                      mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head));
     }
 
-    fill_water_collectors(g, 8, acid);
-    decay_fire_and_scent(g, 45);
+    fill_water_collectors(8, acid);
+    decay_fire_and_scent(45);
 }
 
-void weather_effect::wet(game *g)
+void weather_effect::wet()
 {
-    generic_wet(g, false);
+    generic_wet(false);
 }
 
-void weather_effect::very_wet(game *g)
+void weather_effect::very_wet()
 {
-    generic_very_wet(g, false);
+    generic_very_wet(false);
 }
 
-void weather_effect::thunder(game *g)
+void weather_effect::thunder()
 {
-    very_wet(g);
+    very_wet();
     if (one_in(THUNDER_CHANCE)) {
         if (g->levz >= 0) {
             g->add_msg(_("You hear a distant rumble of thunder."));
@@ -315,14 +315,22 @@ void weather_effect::thunder(game *g)
     }
 }
 
-void weather_effect::lightning(game *g)
+void weather_effect::lightning()
 {
-    thunder(g);
+    thunder();
+    if(one_in(LIGHTNING_CHANCE)) {
+        if(g->levz >= 0) {
+            g->add_msg(_("A flash of lightning illuminates your surroundings!"));
+            g->lightning_active = true;
+        }
+    } else {
+        g->lightning_active = false;
+    }
 }
 
-void weather_effect::light_acid(game *g)
+void weather_effect::light_acid()
 {
-    generic_wet(g, true);
+    generic_wet(true);
     if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(2)) {
             g->add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.name.c_str());
@@ -342,7 +350,7 @@ void weather_effect::light_acid(game *g)
     }
 }
 
-void weather_effect::acid(game *g)
+void weather_effect::acid()
 {
     if (int(g->turn) % 2 == 0 && PLAYER_OUTSIDE) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4)) {
@@ -367,7 +375,7 @@ void weather_effect::acid(game *g)
             for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
                 if (!g->m.has_flag("DIGGABLE", x, y) && !g->m.has_flag("NOITEM", x, y) &&
                       g->m.move_cost(x, y) > 0 && g->m.is_outside(x, y) && one_in(400)) {
-                    g->m.add_field(g, x, y, fd_acid, 1);
+                    g->m.add_field(x, y, fd_acid, 1);
                 }
             }
         }
@@ -379,7 +387,7 @@ void weather_effect::acid(game *g)
             }
         }
     }
-    generic_very_wet(g, true);
+    generic_very_wet(true);
 }
 
 
@@ -408,7 +416,7 @@ void weather_effect::acid(game *g)
 // 60% or 70% – Numerous/likely
 // 80%, 90% or 100% – No additional modifiers (i.e. "showers and thunderstorms")
 
-std::string weather_forecast(game *g, radio_tower tower)
+std::string weather_forecast(radio_tower tower)
 {
     std::stringstream weather_report;
     // Local conditions

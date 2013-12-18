@@ -1,13 +1,15 @@
 #include "addiction.h"
+#include "game.h"
 
-void addict_effect(game *g, addiction &add)
+void addict_effect(addiction &add)
 {
     int in = add.intensity;
 
     switch (add.type) {
         case ADD_CIG:
             if (in > 20 || one_in((500 - 20 * in))) {
-                g->add_msg(rng(0, 6) < in ? _("You need a cigarette.") : _("You could use a cigarette."));
+                g->add_msg(rng(0, 6) < in ? _("You need a cigarette.") :
+                           _("You could use a cigarette."));
                 g->u.add_morale(MORALE_CRAVING_NICOTINE, -15, -50);
                 if (one_in(800 - 50 * in)) {
                     g->u.fatigue++;
@@ -85,7 +87,7 @@ void addict_effect(game *g, addiction &add)
                 } else if (one_in(50) && dice(3, 50) < in) {
                     g->add_msg(_("You throw up heavily!"));
                     g->cancel_activity_query(_("Throwing up."));
-                    g->u.vomit(g);
+                    g->u.vomit();
                 }
             }
             break;

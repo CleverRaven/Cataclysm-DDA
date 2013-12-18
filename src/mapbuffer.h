@@ -28,8 +28,6 @@ class mapbuffer
   mapbuffer();
   ~mapbuffer();
 
-  void set_game(game *g);
-
   /** Tells the mapbuffer that there is some unsaved change.
    *
    *  The next time save_if_dirty is called, the mapbuffer will be saved.
@@ -70,7 +68,6 @@ class mapbuffer
  private:
   std::map<tripoint, submap*, pointcomp> submaps;
   std::list<submap*> submap_list;
-  game *master_game;
   bool dirty;
 };
 

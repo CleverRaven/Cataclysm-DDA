@@ -318,6 +318,7 @@ class game
   signed char temperature;              // The air temperature
   int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;   // Weather pattern--SEE weather.h
+  bool lightning_active;
 
   std::map<int, weather_segment> weather_log;
   char nextinv; // Determines which letter the next inv item will have
@@ -355,7 +356,7 @@ class game
  //otherwise returns sentinel -1, signifies transaction fail.
  int move_liquid(item &liquid);
 
- void open_gate( game *g, const int examx, const int examy, const ter_id handle_type );
+ void open_gate( const int examx, const int examy, const ter_id handle_type );
 
  bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
 

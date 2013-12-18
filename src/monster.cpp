@@ -195,7 +195,7 @@ void monster::get_HP_Bar(nc_color &color, std::string &text)
     ::get_HP_Bar(hp, type->hp, color, text, true);
 }
 
-void monster::get_Attitude(game *g, nc_color &color, std::string &text)
+void monster::get_Attitude(nc_color &color, std::string &text)
 {
     switch (attitude(&(g->u))) {
         case MATT_FRIEND:
@@ -225,7 +225,7 @@ void monster::get_Attitude(game *g, nc_color &color, std::string &text)
     }
 }
 
-int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
+int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
 {
 // First line of w is the border; the next two are terrain info, and after that
 // is a blank line. w is 13 characters tall, and we can't use the last one
@@ -240,7 +240,7 @@ int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
  nc_color color = c_white;
  std::string attitude = "";
 
- get_Attitude(g, color, attitude);
+ get_Attitude(color, attitude);
  wprintz(w, color, attitude.c_str());
 
  if (has_effect("downed"))
@@ -396,7 +396,7 @@ void monster::load_info(std::string data)
     std::stringstream dump;
     dump << data;
     if ( dump.peek() == '{' ) {
-        JsonIn jsin(&dump);
+        JsonIn jsin(dump);
         try {
             deserialize(jsin);
         } catch (std::string jsonerr) {
@@ -510,15 +510,15 @@ monster_attitude monster::attitude(player *u)
  return MATT_ATTACK;
 }
 
-void monster::process_triggers(game *g)
+void monster::process_triggers()
 {
- anger += trigger_sum(g, &(type->anger));
- anger -= trigger_sum(g, &(type->placate));
+ anger += trigger_sum(&(type->anger));
+ anger -= trigger_sum(&(type->placate));
  if (morale < 0) {
   if (morale < type->morale && one_in(20))
   morale++;
  } else
-  morale -= trigger_sum(g, &(type->fear));
+  morale -= trigger_sum(&(type->fear));
 }
 
 // This Adjustes anger/morale levels given a single trigger.
@@ -536,7 +536,7 @@ void monster::process_trigger(monster_trigger trig, int amount)
 }
 
 
-int monster::trigger_sum(game *g, std::set<monster_trigger> *triggers)
+int monster::trigger_sum(std::set<monster_trigger> *triggers)
 {
  int ret = 0;
  bool check_terrain = false, check_meat = false, check_fire = false;
@@ -626,13 +626,11 @@ bool monster::is_dead_state() {
     return hp <= 0;
 }
 
-bool monster::block_hit(game *g, body_part &bp_hit, int &side,
-            damage_instance &d) {
+bool monster::block_hit(body_part &, int &, damage_instance &) {
     return false;
 }
 
-void monster::absorb_hit(game *g, body_part bp, int side,
-        damage_instance &dam) {
+void monster::absorb_hit(body_part, int, damage_instance &dam) {
     for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
             it != dam.damage_units.end(); ++it) {
         it->amount -= std::min(resistances(*this).get_effective_resist(*it),
@@ -641,65 +639,64 @@ void monster::absorb_hit(game *g, body_part bp, int side,
 }
 
 
-int monster::hit(game *g, Creature &p, body_part &bp_hit) {
+int monster::hit(Creature &p, body_part &bp_hit) {
  int ret = 0;
  int highest_hit = 0;
 
     //If the player is knocked down or the monster can fly, any body part is a valid target
     if(p.is_on_ground() || has_flag(MF_FLIES)){
         highest_hit = 20;
-    }
-    else {
- switch (type->size) {
- case MS_TINY:
-  highest_hit = 3;
- break;
- case MS_SMALL:
-  highest_hit = 12;
- break;
- case MS_MEDIUM:
-  highest_hit = 20;
- break;
- case MS_LARGE:
-  highest_hit = 28;
- break;
- case MS_HUGE:
-  highest_hit = 35;
- break;
- }
-         if (digging()){
-  highest_hit -= 8;
-         }
+    } else {
+        switch (type->size) {
+        case MS_TINY:
+            highest_hit = 3;
+            break;
+        case MS_SMALL:
+            highest_hit = 12;
+            break;
+        case MS_MEDIUM:
+            highest_hit = 20;
+            break;
+        case MS_LARGE:
+            highest_hit = 28;
+            break;
+        case MS_HUGE:
+            highest_hit = 35;
+            break;
+        }
+        if (digging()){
+            highest_hit -= 8;
+        }
         if (highest_hit <= 1){
-  highest_hit = 2;
+            highest_hit = 2;
         }
     }
 
     if (highest_hit > 20){
-  highest_hit = 20;
+        highest_hit = 20;
     }
 
 
- int bp_rand = rng(0, highest_hit - 1);
+    int bp_rand = rng(0, highest_hit - 1);
     if (bp_rand <=  2){
-  bp_hit = bp_legs;
+        bp_hit = bp_legs;
     } else if (bp_rand <= 10){
-  bp_hit = bp_torso;
+        bp_hit = bp_torso;
     } else if (bp_rand <= 14){
-  bp_hit = bp_arms;
+        bp_hit = bp_arms;
     } else if (bp_rand <= 16){
-  bp_hit = bp_mouth;
+        bp_hit = bp_mouth;
     } else if (bp_rand == 17){
-  bp_hit = bp_eyes;
+        bp_hit = bp_eyes;
     } else{
-  bp_hit = bp_head;
+        bp_hit = bp_head;
     }
- ret += dice(type->melee_dice, type->melee_sides);
- return ret;
+    ret += dice(type->melee_dice, type->melee_sides);
+    return ret;
 }
 
 
-void monster::melee_attack(game *g, Creature &target, bool allow_grab) {
+void monster::melee_attack(Creature &target, bool) {
     mod_moves(-100);
     if (type->melee_dice == 0) // We don't attack, so just return
         return;
@@ -774,12 +771,12 @@ void monster::melee_attack(game *g, Creature &target, bool allow_grab) {
     */
 
     dealt_damage_instance dealt_dam;
-    int hitspread = target.deal_melee_attack(g, this, hitroll, false, damage, dealt_dam);
+    int hitspread = target.deal_melee_attack(this, hitroll, false, damage, dealt_dam);
     bp_hit = dealt_dam.bp_hit;
 
     if (is_hallucination()) {
         if(one_in(7)) {
-            die(g);
+            die();
         }
         return;
     }
@@ -835,7 +832,7 @@ void monster::melee_attack(game *g, Creature &target, bool allow_grab) {
     }
 }
 
-void monster::hit_monster(game *g, int i)
+void monster::hit_monster(int i)
 {
  monster* target = &(g->zombie(i));
  moves -= 100;
@@ -865,8 +862,8 @@ void monster::hit_monster(game *g, int i)
   g->kill_mon(i, (friendly != 0));
 }
 
-int monster::deal_melee_attack(game* g, Creature* source, int hitroll, bool crit,
-        const damage_instance& d, dealt_damage_instance &dealt_dam) {
+int monster::deal_melee_attack(Creature *source, int hitroll, bool crit,
+                               const damage_instance& d, dealt_damage_instance &dealt_dam) {
     if (has_flag(MF_ELECTRIC)) { // shockers electrocute melee attackers
         if (source != NULL && source->is_player() &&
                 !g->u.wearing_something_on(bp_hands) &&
@@ -874,16 +871,16 @@ int monster::deal_melee_attack(game* g, Creature* source, int hitroll, bool crit
                 ) {
             damage_instance shock;
             shock.add_damage(DT_ELECTRIC, rng(0,1));
-            source->deal_damage(g, this, bp_arms, 1, shock);
+            source->deal_damage(this, bp_arms, 1, shock);
             g->add_msg_if_player(source, _("Contact with %s shocks you!"),
                     disp_name().c_str());
         }
     }
-    return Creature::deal_melee_attack(g, source, hitroll, crit, d, dealt_dam);
+    return Creature::deal_melee_attack(source, hitroll, crit, d, dealt_dam);
 }
 
-int monster::deal_projectile_attack(game* g, Creature* source, double missed_by,
-        const projectile& proj, dealt_damage_instance &dealt_dam) {
+int monster::deal_projectile_attack(Creature *source, double missed_by,
+                                    const projectile& proj, dealt_damage_instance &dealt_dam) {
     bool u_see_mon = g->u_see(this);
     if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && // Maxes out at 50% chance with perfect hit
             !proj.wide) {
@@ -897,7 +894,7 @@ int monster::deal_projectile_attack(game* g, Creature* source, double missed_by,
     if (missed_by < 0.2 && has_flag(MF_NOHEAD)) {
         missed_by = 0.2;
     }
-    return Creature::deal_projectile_attack(g, source, missed_by, proj, dealt_dam);
+    return Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
 }
 
 void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain) {
@@ -928,13 +925,13 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     Creature::deal_damage_handle_type(du, bp, damage, pain);
 }
 
-void monster::apply_damage(game* g, Creature* source, body_part bp, int side, int amount) {
+void monster::apply_damage(Creature* source, body_part bp, int side, int amount) {
     if (is_dead_state()) return; // don't do any more damage if we're already dead
-    hurt(g, bp, side, amount);
-    if (is_dead_state()) die(g, source);
+    hurt(bp, side, amount);
+    if (is_dead_state()) die(source);
 }
 
-void monster::hurt(game*g, body_part bp, int side, int dam) {
+void monster::hurt(body_part, int, int dam) {
     hurt(dam);
 }
 
@@ -1012,17 +1009,17 @@ int monster::fall_damage()
  return 0;
 }
 
-void monster::die(game *g, Creature* nkiller) {
+void monster::die(Creature* nkiller) {
     killer = nkiller;
     g->kill_mon(*this, nkiller != NULL && nkiller->is_player());
 }
 
-void monster::die(game *g)
+void monster::die()
 {
  if (!dead)
   dead = true;
  if (!no_extra_death_drops) {
-  drop_items_on_death(g);
+  drop_items_on_death();
  }
 
 // If we're a queen, make nearby groups of our type start to die out
@@ -1087,7 +1084,7 @@ void monster::die(game *g)
  }
 }
 
-void monster::drop_items_on_death(game *g)
+void monster::drop_items_on_death()
 {
     if(is_hallucination()) {
         return;
@@ -1129,7 +1126,7 @@ void monster::drop_items_on_death(game *g)
     }
 }
 
-void monster::process_effects(game *g)
+void monster::process_effects()
 {
     for (std::vector<effect>::iterator it = effects.begin();
             it != effects.end(); ++it) {
@@ -1150,7 +1147,7 @@ void monster::process_effects(game *g)
         }
     }
 
-    Creature::process_effects(g);
+    Creature::process_effects();
 }
 
 bool monster::make_fungus()

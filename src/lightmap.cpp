@@ -9,7 +9,7 @@
 #define LIGHTMAP_CACHE_X SEEX * MAPSIZE
 #define LIGHTMAP_CACHE_Y SEEY * MAPSIZE
 
-void map::generate_lightmap(game* g)
+void map::generate_lightmap()
 {
  memset(lm, 0, sizeof(lm));
  memset(sm, 0, sizeof(sm));
@@ -279,24 +279,24 @@ bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
  * @param starty the vertical component of the starting location
  * @param radius the maximum distance to draw the FOV
  */
-void map::build_seen_cache( game *g ) {
+void map::build_seen_cache() {
     memset(seen_cache, false, sizeof(seen_cache));
     seen_cache[g->u.posx][g->u.posy] = true;
 
-    castLight( g, 1, 1.0f, 0.0f, 0, 1, 1, 0 );
-    castLight( g, 1, 1.0f, 0.0f, 1, 0, 0, 1 );
+    castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0 );
+    castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1 );
 
-    castLight( g, 1, 1.0f, 0.0f, 0, -1, 1, 0 );
-    castLight( g, 1, 1.0f, 0.0f, -1, 0, 0, 1 );
+    castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0 );
+    castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1 );
 
-    castLight( g, 1, 1.0f, 0.0f, 0, 1, -1, 0 );
-    castLight( g, 1, 1.0f, 0.0f, 1, 0, 0, -1 );
+    castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0 );
+    castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1 );
 
-    castLight( g, 1, 1.0f, 0.0f, 0, -1, -1, 0 );
-    castLight( g, 1, 1.0f, 0.0f, -1, 0, 0, -1 );
+    castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0 );
+    castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1 );
 }
 
-void map::castLight( game *g, int row, float start, float end, int xx, int xy, int yx, int yy ) {
+void map::castLight( int row, float start, float end, int xx, int xy, int yx, int yy ) {
     float newStart = 0.0f;
     float radius = 60.0f;
     if( start < end ) {
@@ -342,7 +342,7 @@ void map::castLight( game *g, int row, float start, float end, int xx, int xy, i
                     distance < radius ) {
                     //hit a wall within sight line
                     blocked = true;
-                    castLight(g, distance + 1, start, leftSlope, xx, xy, yx, yy);
+                    castLight(distance + 1, start, leftSlope, xx, xy, yx, yy);
                     newStart = rightSlope;
                 }
             }

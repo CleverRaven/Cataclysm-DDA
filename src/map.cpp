@@ -196,7 +196,7 @@ void map::update_vehicle_list(const int to) {
  }
 }
 
-void map::board_vehicle(game *g, int x, int y, player *p)
+void map::board_vehicle(int x, int y, player *p)
 {
  if (!p) {
   debugmsg ("map::board_vehicle: null player");
@@ -280,7 +280,7 @@ void map::destroy_vehicle (vehicle *veh)
  debugmsg ("destroy_vehicle can't find it! name=%s, sm=%d", veh->name.c_str(), veh_sm);
 }
 
-bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test)
+bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool test)
 {
  const int x2 = x + dx;
  const int y2 = y + dy;
@@ -408,21 +408,21 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
  return (src_na != dst_na) || was_update;
 }
 
-void map::vehmove(game *g)
+void map::vehmove()
 {
     // give vehicles movement points
     {
         VehicleList vehs = g->m.get_vehicles();
         for(int v = 0; v < vehs.size(); ++v) {
             vehicle* veh = vehs[v].v;
-            veh->gain_moves (abs (veh->velocity));
+            veh->gain_moves();
             veh->power_parts();
             veh->idle();
         }
     }
 
     int count = 0;
-    while(vehproceed(g)) {
+    while(vehproceed()) {
         count++;// lots of movement stuff. maybe 10 is low for collisions.
         if (count > 10)
             break;
@@ -432,7 +432,7 @@ void map::vehmove(game *g)
 // find veh with the most amt of turn remaining, and move it a bit.
 // proposal:
 //  move it at most, a tenth of a turn, and at least one square.
-bool map::vehproceed(game* g){
+bool map::vehproceed(){
     VehicleList vehs = g->m.get_vehicles();
     vehicle* veh = NULL;
     float max_of_turn = 0;
@@ -825,7 +825,7 @@ bool map::vehproceed(game* g){
         }
         // accept new position
         // if submap changed, we need to process grid from the beginning.
-        displace_vehicle (g, x, y, dx, dy);
+        displace_vehicle (x, y, dx, dy);
     } else { // can_move
         veh->stop();
     }
@@ -1383,6 +1383,22 @@ bool map::has_adjacent_furniture(const int x, const int y)
  return false;
 }
 
+bool map::has_nearby_fire(int x, int y, int radius)
+{
+    for(int dx = -radius; dx <= radius; dx++) {
+        for(int dy = -radius; dy <= radius; dy++) {
+            const point p(x + dx, y + dy);
+            if (field_at(p.x, p.y).findField(fd_fire) != 0) {
+                return true;
+            }
+            if (ter(p.x, p.y) == t_lava) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void map::mop_spills(const int x, const int y) {
  for (int i = 0; i < i_at(x, y).size(); i++) {
   item *it = &(i_at(x, y)[i]);
@@ -1574,7 +1590,7 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
 }
 
 // map::destroy is only called (?) if the terrain is NOT bashable.
-void map::destroy(game *g, const int x, const int y, const bool makesound)
+void map::destroy(const int x, const int y, const bool makesound)
 {
  if (has_furn(x, y))
   furn_set(x, y, f_null);
@@ -1638,8 +1654,8 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
     if (one_in(2)) {
       if (!g->m.has_flag("NOITEM", x, y)) {
        if (!(g->m.field_at(i, j).findField(fd_rubble))) {
-        g->m.add_field(g, i, j, fd_rubble, rng(1,3));
-        g->m.field_effect(i, j, g);
+        g->m.add_field(i, j, fd_rubble, rng(1,3));
+        g->m.field_effect(i, j);
        }
       }
     }
@@ -1661,7 +1677,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
         num_supports += 2;
        }
      if (one_in(num_supports))
-      destroy (g, i, j, false);
+      destroy (i, j, false);
    }
   break;
 
@@ -1685,8 +1701,8 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
     if (one_in(2)) {
       if (!g->m.has_flag("NOITEM", x, y)) {
        if (!(g->m.field_at(i, j).findField(fd_rubble))) {
-        g->m.add_field(g, i, j, fd_rubble, rng(1,3));
-        g->m.field_effect(i, j, g);
+        g->m.add_field(i, j, fd_rubble, rng(1,3));
+        g->m.field_effect(i, j);
       }
       }
     }
@@ -1712,7 +1728,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
          num_supports += 3;
       }
      if (one_in(num_supports))
-      destroy (g, i, j, false);
+      destroy (i, j, false);
    }
   break;
 
@@ -1746,7 +1762,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   g->sound(x, y, 40, _("SMASH!!"));
 }
 
-void map::shoot(game *g, const int x, const int y, int &dam,
+void map::shoot(const int x, const int y, int &dam,
                 const bool hit_items, const std::set<std::string>& ammo_effects)
 {
     if (dam < 0)
@@ -1909,7 +1925,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                 ter_set(x, y, t_dirt);
             }
             if (ammo_effects.count("INCENDIARY"))
-                add_field(g, x, y, fd_fire, 1);
+                add_field(x, y, fd_fire, 1);
         break;
 
         case old_t_gas_pump:
@@ -1955,16 +1971,16 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     }
 
     if (ammo_effects.count("TRAIL") && !one_in(4))
-        add_field(g, x, y, fd_smoke, rng(1, 2));
+        add_field(x, y, fd_smoke, rng(1, 2));
 
     if (ammo_effects.count("LIGHTNING"))
-        add_field(g, x, y, fd_electricity, rng(2, 3));
+        add_field(x, y, fd_electricity, rng(2, 3));
 
     if (ammo_effects.count("PLASMA") && one_in(2))
-        add_field(g, x, y, fd_plasma, rng(1, 2));
+        add_field(x, y, fd_plasma, rng(1, 2));
 
     if (ammo_effects.count("LASER"))
-        add_field(g, x, y, fd_laser, 2);
+        add_field(x, y, fd_laser, 2);
 
     // Set damage to 0 if it's less
     if (dam < 0)
@@ -1978,7 +1994,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     //Removed switch for now as web is the only relevant choice to avoid a currently redundant for loop declaration for all the field types.
     if(fieldhit){
             if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"))
-                add_field(g, x, y, fd_fire, fieldhit->getFieldDensity() - 1);
+                add_field(x, y, fd_fire, fieldhit->getFieldDensity() - 1);
             else if (dam > 5 + fieldhit->getFieldDensity() * 5 &&
                      one_in(5 - fieldhit->getFieldDensity()))
             {
@@ -2017,7 +2033,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     }
 }
 
-bool map::hit_with_acid(game *g, const int x, const int y)
+bool map::hit_with_acid(const int x, const int y)
 {
  if (move_cost(x, y) != 0)
   return false; // Didn't hit the tile!
@@ -2076,7 +2092,7 @@ bool map::hit_with_acid(game *g, const int x, const int y)
 }
 
 // returns true if terrain stops fire
-bool map::hit_with_fire(game *g, const int x, const int y)
+bool map::hit_with_fire(const int x, const int y)
 {
     if (move_cost(x, y) != 0)
         return false; // Didn't hit the tile!
@@ -2084,7 +2100,7 @@ bool map::hit_with_fire(game *g, const int x, const int y)
     // non passable but flammable terrain, set it on fire
     if (has_flag("FLAMMABLE", x, y) || has_flag("FLAMMABLE_ASH", x, y))
     {
-        add_field(g, x, y, fd_fire, 3);
+        add_field(x, y, fd_fire, 3);
     }
     return true;
 }
@@ -2300,8 +2316,8 @@ point map::find_item(const item *it)
  return ret;
 }
 
-void map::spawn_item(const int x, const int y, item new_item,
-                     const int charges, const int damlevel)
+void map::spawn_an_item(const int x, const int y, item new_item,
+                        const int charges, const int damlevel)
 {
     if (charges && new_item.charges > 0)
     {
@@ -2353,7 +2369,7 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
     }
     // spawn the item
     item new_item = item_controller->create(type_id, birthday);
-    spawn_item(x, y, new_item, charges, damlevel);
+    spawn_an_item(x, y, new_item, charges, damlevel);
 }
 
 // stub for now, could vary by ter type
@@ -2476,29 +2492,29 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
   grid[nonant]->active_item_count++;
 }
 
-void map::process_active_items(game *g)
+void map::process_active_items()
 {
     for (int gx = 0; gx < my_MAPSIZE; gx++) {
         for (int gy = 0; gy < my_MAPSIZE; gy++) {
             const int nonant = gx + gy * my_MAPSIZE;
             if (grid[nonant]->active_item_count > 0) {
-                process_active_items_in_submap(g, nonant);
+                process_active_items_in_submap(nonant);
             }
             if (grid[nonant]->vehicles.size() > 0) {
-                process_active_items_in_vehicles(g, nonant);
+                process_active_items_in_vehicles(nonant);
             }
         }
     }
 }
 
-void map::process_active_items_in_submap(game *g, const int nonant)
+void map::process_active_items_in_submap(const int nonant)
 {
     for (int i = 0; i < SEEX; i++) {
         for (int j = 0; j < SEEY; j++) {
             std::vector<item> *items = &(grid[nonant]->itm[i][j]);
             //Do a count-down loop, as some items may be removed
             for (int n = items->size() - 1; n >= 0; n--) {
-                if(process_active_item(g, &((*items)[n]), nonant, i, j)) {
+                if(process_active_item(&((*items)[n]), nonant, i, j)) {
                     items->erase(items->begin() + n);
                     grid[nonant]->active_item_count--;
                 }
@@ -2507,7 +2523,7 @@ void map::process_active_items_in_submap(game *g, const int nonant)
     }
 }
 
-void map::process_active_items_in_vehicles(game *g, const int nonant)
+void map::process_active_items_in_vehicles(const int nonant)
 {
     item *it;
     std::vector<vehicle*> *vehicles = &(grid[nonant]->vehicles);
@@ -2527,7 +2543,15 @@ void map::process_active_items_in_vehicles(game *g, const int nonant)
                     it->fridge = (int)g->turn;
                     it->item_counter -= 10;
                 }
-                if(process_active_item(g, it, nonant, mapx, mapy)) {
+                if (it->has_flag("RECHARGE") && next_vehicle->part_with_feature(*part_index, VPFLAG_RECHARGE) &&
+                    next_vehicle->recharger_on) {
+                        if (it->is_tool() && static_cast<it_tool*>(it->type)->max_charges > it->charges ) {
+                            if (one_in(10)) {
+                                it->charges++;
+                            }
+                        }
+                }
+                if(process_active_item(it, nonant, mapx, mapy)) {
                     next_vehicle->remove_item(*part_index, n);
                 }
             }
@@ -2544,7 +2568,7 @@ void map::process_active_items_in_vehicles(game *g, const int nonant)
  * @param j The y-coordinate inside the submap.
  * @return true If the item needs to be removed.
  */
-bool map::process_active_item(game* g, item *it, const int nonant, const int i, const int j) {
+bool map::process_active_item(item *it, const int nonant, const int i, const int j) {
     if (it->active ||
         (it->is_container() && it->contents.size() > 0 &&
          it->contents[0].active))
@@ -2568,7 +2592,7 @@ bool map::process_active_item(game* g, item *it, const int nonant, const int i, 
                 }
             }
         } else if (it->type->id == "corpse") { // some corpses rez over time
-            if (it->ready_to_revive(g)) {
+            if (it->ready_to_revive()) {
                 if (rng(0,it->volume()) > it->burnt) {
                     int mapx = (nonant % my_MAPSIZE) * SEEX + i;
                     int mapy = (nonant / my_MAPSIZE) * SEEY + j;
@@ -2856,7 +2880,7 @@ void map::add_trap(const int x, const int y, const trap_id t)
     }
 }
 
-void map::disarm_trap(game *g, const int x, const int y)
+void map::disarm_trap(const int x, const int y)
 {
   int skillLevel = g->u.skillLevel("traps");
 
@@ -2949,8 +2973,8 @@ int map::adjust_field_age(const point p, const field_id t, const int offset) {
  * Increment/decrement strength of field type at point, creating if not present, removing if strength becomes 0
  * returns resulting strength, or 0 for not present
  */
-int map::adjust_field_strength(game *g, const point p, const field_id t, const int offset) {
-    return set_field_strength(g, p, t, offset, true);
+int map::adjust_field_strength(const point p, const field_id t, const int offset) {
+    return set_field_strength(p, t, offset, true);
 }
 
 /*
@@ -2971,7 +2995,7 @@ int map::set_field_age(const point p, const field_id t, const int age, bool isof
  * set strength of field type at point, creating if not present, removing if strength is 0
  * returns resulting strength, or 0 for not present
  */
-int map::set_field_strength(game * g, const point p, const field_id t, const int str, bool isoffset) {
+int map::set_field_strength(const point p, const field_id t, const int str, bool isoffset) {
     field_entry * field_ptr = get_field( p, t );
     if ( field_ptr != NULL ) {
         int adj = ( isoffset ? field_ptr->getFieldDensity() : 0 ) + str;
@@ -2983,7 +3007,7 @@ int map::set_field_strength(game * g, const point p, const field_id t, const int
             return 0;
         }
     } else if ( 0 + str > 0 ) {
-        return ( add_field( g, p, t, str, 0 ) ? str : 0 );
+        return ( add_field( p, t, str, 0 ) ? str : 0 );
     }
     return 0;
 }
@@ -3019,7 +3043,7 @@ field_entry * map::get_field( const point p, const field_id t ) {
 /*
  * add field type at point, or set denity if present
  */
-bool map::add_field(game *g, const point p, const field_id t, unsigned int density, const int age)
+bool map::add_field(const point p, const field_id t, unsigned int density, const int age)
 {
     if (!INBOUNDS(p.x, p.y))
         return false;
@@ -3036,17 +3060,17 @@ bool map::add_field(game *g, const point p, const field_id t, unsigned int densi
         grid[nonant]->field_count++; //Only adding it to the count if it doesn't exist.
     grid[nonant]->fld[lx][ly].addField(t, density, age); //This will insert and/or update the field.
     if(g != NULL && p.x == g->u.posx && p.y == g->u.posy)
-        step_in_field(p.x,p.y,g); //Hit the player with the field if it spawned on top of them.
+        step_in_field(p.x, p.y); //Hit the player with the field if it spawned on top of them.
     return true;
 }
 
 /*
  * add field type at xy, or set denity if present
  */
-bool map::add_field(game *g, const int x, const int y,
+bool map::add_field(const int x, const int y,
                     const field_id t, const unsigned char new_density)
 {
- return this->add_field(g,point(x,y),t,new_density,0);
+ return this->add_field(point(x,y), t, new_density, 0);
 }
 
 
@@ -3135,7 +3159,7 @@ void map::debug()
  getch();
 }
 
-void map::draw(game *g, WINDOW* w, const point center)
+void map::draw(WINDOW* w, const point center)
 {
  g->reset_light_level();
  const int g_light_level = (int)g->light_level();
@@ -3635,12 +3659,12 @@ void map::save(overmap *om, unsigned const int turn, const int x, const int y, c
  }
 }
 
-void map::load(game *g, const int wx, const int wy, const int wz, const bool update_vehicle, overmap *om)
+void map::load(const int wx, const int wy, const int wz, const bool update_vehicle, overmap *om)
 {
  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
   for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-   if (!loadn(g, wx, wy, wz, gridx, gridy, update_vehicle, om))
-    loadn(g, wx, wy, wz, gridx, gridy, update_vehicle, om);
+   if (!loadn(wx, wy, wz, gridx, gridy, update_vehicle, om))
+    loadn(wx, wy, wz, gridx, gridy, update_vehicle, om);
   }
  }
 }
@@ -3660,7 +3684,7 @@ void map::forget_traps(int gridx, int gridy)
     }
 }
 
-void map::shift(game *g, const int wx, const int wy, const int wz, const int sx, const int sy)
+void map::shift(const int wx, const int wy, const int wz, const int sx, const int sy)
 {
  set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx,
    g->cur_om->pos().y * OMAPY * 2 + wy + sy, wz
@@ -3712,8 +3736,8 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(gridx + gridy * my_MAPSIZE);
-                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                    } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(wx + sx, wy + sy, wz, gridx, gridy);
                 }
             } else { // sy < 0; work through it backwards
                 for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
@@ -3721,8 +3745,8 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(gridx + gridy * my_MAPSIZE);
-                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                    } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(wx + sx, wy + sy, wz, gridx, gridy);
                 }
             }
         }
@@ -3734,8 +3758,8 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
                         copy_grid(gridx + gridy * my_MAPSIZE,
                         gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(gridx + gridy * my_MAPSIZE);
-                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                    } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(wx + sx, wy + sy, wz, gridx, gridy);
                 }
             } else { // sy < 0; work through it backwards
                 for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
@@ -3743,8 +3767,8 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(gridx + gridy * my_MAPSIZE);
-                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                    } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(wx + sx, wy + sy, wz, gridx, gridy);
                 }
             }
         }
@@ -3785,7 +3809,7 @@ void map::saven(overmap *om, unsigned const int turn, const int worldx, const in
 // 0,0  1,0  2,0
 // 0,1  1,1  2,1
 // 0,2  1,2  2,2 etc
-bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
+bool map::loadn(const int worldx, const int worldy, const int worldz,
                 const int gridx, const int gridy, const bool update_vehicles, overmap * om) {
  if (om == NULL) {
      om = g->cur_om;
@@ -3867,7 +3891,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
               }
               if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
                   it_comest *food = dynamic_cast<it_comest*>(it->type);
-                  it->rotten(g);
+                  it->rotten();
                   if(it->rot >= (food->spoils * 600)*2) {
                       it = tmpsub->itm[x][y].erase(it);
                   } else { ++it; intidx++; }
@@ -3877,7 +3901,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
           if ( do_container_check == true && biggest_container_idx != -1 ) { // funnel: check. bucket: check
               item * it = &tmpsub->itm[x][y][biggest_container_idx];
               trap_id fun_trap_id = rain_backlog[point(x,y)];
-              retroactively_fill_from_funnel(g, it, fun_trap_id, int(g->turn) ); // bucket: what inside??
+              retroactively_fill_from_funnel(it, fun_trap_id, int(g->turn) ); // bucket: what inside??
           }
 
       }
@@ -3944,10 +3968,10 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
   }
 
   if ( shiftx != 0 || shifty != 0 ) {
-       this_om = &overmap_buffer.get(g, om->pos().x + shiftx, om->pos().y + shifty);
+       this_om = &overmap_buffer.get(om->pos().x + shiftx, om->pos().y + shifty);
   }
 
-  tmp_map.generate(g, this_om, newmapx, newmapy, worldz, int(g->turn));
+  tmp_map.generate(this_om, newmapx, newmapy, worldz, int(g->turn));
   return false;
  }
  return true;
@@ -3963,7 +3987,7 @@ void map::copy_grid(const int to, const int from)
  }
 }
 
-void map::spawn_monsters(game *g)
+void map::spawn_monsters()
 {
  for (int gx = 0; gx < my_MAPSIZE; gx++) {
   for (int gy = 0; gy < my_MAPSIZE; gy++) {
@@ -3983,7 +4007,7 @@ void map::spawn_monsters(game *g)
       tmp.friendly = -1;
      int fx = mx + gx * SEEX, fy = my + gy * SEEY;
 
-     while ((!g->is_empty(fx, fy) || !tmp.can_move_to(g, fx, fy)) &&
+     while ((!g->is_empty(fx, fy) || !tmp.can_move_to(fx, fy)) &&
             tries < 10) {
       mx = (grid[n]->spawns[i].posx + rng(-3, 3)) % SEEX;
       my = (grid[n]->spawns[i].posy + rng(-3, 3)) % SEEY;
@@ -4142,7 +4166,7 @@ float map::light_transparency(const int x, const int y) const
   return transparency_cache[x][y];
 }
 
-void map::build_outside_cache(const game *g)
+void map::build_outside_cache()
 {
     if (g->levz < 0)
     {
@@ -4221,9 +4245,9 @@ void map::build_transparency_cache()
  }
 }
 
-void map::build_map_cache(game *g)
+void map::build_map_cache()
 {
- build_outside_cache(g);
+ build_outside_cache();
 
  build_transparency_cache();
 
@@ -4247,8 +4271,8 @@ void map::build_map_cache(game *g)
   }
  }
 
- build_seen_cache(g);
- generate_lightmap(g);
+ build_seen_cache();
+ generate_lightmap();
 }
 
 std::vector<point> closest_points_first(int radius, point p)
@@ -4337,6 +4361,7 @@ tinymap::~tinymap()
 }
 ////////////////////
 ter_id find_ter_id(const std::string id, bool complain=true) {
+    (void)complain; //FIXME: complain unused
     if( termap.find(id) == termap.end() ) {
          debugmsg("Can't find termap[%s]",id.c_str());
          return 0;
@@ -4345,6 +4370,7 @@ ter_id find_ter_id(const std::string id, bool complain=true) {
 };
 
 ter_id find_furn_id(const std::string id, bool complain=true) {
+    (void)complain; //FIXME: complain unused
     if( furnmap.find(id) == furnmap.end() ) {
          debugmsg("Can't find furnmap[%s]",id.c_str());
          return 0;
@@ -4476,29 +4502,29 @@ void map::add_road_vehicles(bool city, int facing)
                 int vy = rng(0, 19);
                 int car_type = rng(1, 100);
                 if (car_type <= 25) {
-                    add_vehicle(g, "car", vx, vy, facing, -1, 1);
+                    add_vehicle("car", vx, vy, facing, -1, 1);
                 } else if (car_type <= 30) {
-                    add_vehicle(g, "policecar", vx, vy, facing, -1, 1);
+                    add_vehicle("policecar", vx, vy, facing, -1, 1);
                 } else if (car_type <= 40) {
-                    add_vehicle(g, "ambulance", vx, vy, facing, -1, 1);
+                    add_vehicle("ambulance", vx, vy, facing, -1, 1);
                 } else if (car_type <= 45) {
-                    add_vehicle(g, "beetle", vx, vy, facing, -1, 1);
+                    add_vehicle("beetle", vx, vy, facing, -1, 1);
                 } else if (car_type <= 50) {
-                    add_vehicle(g, "scooter", vx, vy, facing, -1, 1);
+                    add_vehicle("scooter", vx, vy, facing, -1, 1);
                 } else if (car_type <= 55) {
-                    add_vehicle(g, "motorcycle", vx, vy, facing, -1, 1);
+                    add_vehicle("motorcycle", vx, vy, facing, -1, 1);
                 } else if (car_type <= 65) {
-                    add_vehicle(g, "hippie_van", vx, vy, facing, -1, 1);
+                    add_vehicle("hippie_van", vx, vy, facing, -1, 1);
                 } else if (car_type <= 70) {
-                    add_vehicle(g, "cube_van", vx, vy, facing, -1, 1);
+                    add_vehicle("cube_van", vx, vy, facing, -1, 1);
                 } else if (car_type <= 80) {
-                    add_vehicle(g, "electric_car", vx, vy, facing, -1, 1);
+                    add_vehicle("electric_car", vx, vy, facing, -1, 1);
                 } else if (car_type <= 90) {
-                    add_vehicle(g, "flatbed_truck", vx, vy, facing, -1, 1);
+                    add_vehicle("flatbed_truck", vx, vy, facing, -1, 1);
                 } else if (car_type <= 95) {
-                    add_vehicle(g, "rv", vx, vy, facing, -1, 1);
+                    add_vehicle("rv", vx, vy, facing, -1, 1);
                 } else {
-                    add_vehicle(g, "motorcycle_sidecart", vx, vy, facing, -1, 1);
+                    add_vehicle("motorcycle_sidecart", vx, vy, facing, -1, 1);
                 }
             }
         } else if(spawn_type <= 66) {
@@ -4520,11 +4546,11 @@ void map::add_road_vehicles(bool city, int facing)
             }
             int veh_type = rng(0, 100);
             if(veh_type <= 70) {
-                add_vehicle(g, "car", veh_x, veh_y, facing, -1, 1);
+                add_vehicle("car", veh_x, veh_y, facing, -1, 1);
             } else if(veh_type <= 95) {
-                add_vehicle(g, "electric_car", veh_x, veh_y, facing, -1, 1);
+                add_vehicle("electric_car", veh_x, veh_y, facing, -1, 1);
             } else {
-                add_vehicle(g, "policecar", veh_x, veh_y, facing, -1, 1);
+                add_vehicle("policecar", veh_x, veh_y, facing, -1, 1);
             }
         } else if(spawn_type <= 99) {
             //Totally clear section of road
@@ -4559,8 +4585,8 @@ void map::add_road_vehicles(bool city, int facing)
                     trailer_x = semi_x - 12;
                     trailer_y = semi_y - 1;
                 }
-                add_vehicle(g, "semi_truck", semi_x, semi_y, (facing + 135) % 360, -1, 1);
-                add_vehicle(g, "truck_trailer", trailer_x, trailer_y, (facing + 90) % 360, -1, 1);
+                add_vehicle("semi_truck", semi_x, semi_y, (facing + 135) % 360, -1, 1);
+                add_vehicle("truck_trailer", trailer_x, trailer_y, (facing + 90) % 360, -1, 1);
             } else {
                 //Huge pileup of random vehicles
                 std::string next_vehicle;
@@ -4583,7 +4609,7 @@ void map::add_road_vehicles(bool city, int facing)
                             next_vehicle = "hippie_van";
                         }
                     }
-                    last_added_car = add_vehicle(g, next_vehicle, rng(4, 16), rng(4, 16), rng(0, 3) * 90, -1, 1);
+                    last_added_car = add_vehicle(next_vehicle, rng(4, 16), rng(4, 16), rng(0, 3) * 90, -1, 1);
                 }
 
                 //Hopefully by the last one we've got a giant pileup, so name it
@@ -4603,13 +4629,13 @@ void map::add_road_vehicles(bool city, int facing)
             int vy = rng(8, 16);
             int car_type = rng(1, 10);
             if (car_type <= 5) {
-                add_vehicle(g, "car", vx, vy, facing, 0, -1);
+                add_vehicle("car", vx, vy, facing, 0, -1);
             } else if (car_type <= 8) {
-                add_vehicle(g, "flatbed_truck", vx, vy, facing, 0, -1);
+                add_vehicle("flatbed_truck", vx, vy, facing, 0, -1);
             } else if (car_type <= 9) {
-                add_vehicle(g, "semi_truck", vx, vy, facing, 0, -1);
+                add_vehicle("semi_truck", vx, vy, facing, 0, -1);
             } else {
-                add_vehicle(g, "armored_car", vx, vy, facing, 0, -1);
+                add_vehicle("armored_car", vx, vy, facing, 0, -1);
             }
         }
     }

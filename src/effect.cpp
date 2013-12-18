@@ -7,7 +7,7 @@
 std::map<std::string, effect_type> effect_types;
 
 effect_type::effect_type() {}
-effect_type::effect_type(const effect_type &rhs) {}
+effect_type::effect_type(const effect_type &) {}
 
 std::string effect_type::get_name()
 {
@@ -74,7 +74,7 @@ std::string effect::disp_name()
     }
     return ret.str();
 }
-void effect::do_effect(game *g, Creature &t)
+void effect::do_effect(Creature &)
 {
     return;
 }

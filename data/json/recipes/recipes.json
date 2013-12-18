@@ -542,6 +542,30 @@
   ]
 },{
         "type" : "recipe",
+  "result": "alarmclock",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 600,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 4 ]
+    ],
+    [
+      [ "clockworks", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "television",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
@@ -1254,6 +1278,7 @@
   "time": 15000,
   "reversible": true,
   "autolearn": true,
+  "book_learn": [[ "manual_archery", 2 ] , [ "recipe_bows", 1 ] , [ "book_archery", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1306,6 +1331,7 @@
   "time": 15000,
   "reversible": true,
   "autolearn": true,
+  "book_learn": [[ "recipe_bows", 1 ] , [ "manual_archery", 2 ] , [ "book_archery", 2 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1331,7 +1357,8 @@
   "difficulty": 5,
   "time": 25000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_bows", 6 ] , [ "manual_archery", 7]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1592,6 +1619,7 @@
   "time": 6000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "manual_shotgun", 2 ] , [ "manual_pistol", 2 ]],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -1642,7 +1670,8 @@
   "difficulty": 3,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 5] , [ "book_archery", 4]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1691,7 +1720,8 @@
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_bows", 2 ] , [ "manual_archery", 4] , [ "book_archery", 3]],
   "tools": [
     [
       [ "wrench", -1 ],
@@ -1721,7 +1751,8 @@
   "difficulty": 6,
   "time": 60000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_bows", 6 ] , [ "textbook_weapwest", 6]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1781,7 +1812,8 @@
   "difficulty": 3,
   "time": 45000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn":false,
+  "book_learn" : [[ "recipe_bows", 4 ] , [ "textbook_weapeast", 6]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1931,7 +1963,8 @@
   "difficulty": 5,
   "time": 18000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_smg", 4 ] , [ "mag_smg", 5 ]],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -1970,7 +2003,8 @@
   "difficulty": 5,
   "time": 20000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_smg", 4 ] , [ "mag_smg", 5 ]],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -2038,6 +2072,7 @@
 },{
         "type" : "recipe",
   "result": "launcher_simple",
+  "note": "standalone_weapon",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
@@ -2067,6 +2102,7 @@
 },{
         "type" : "recipe",
   "result": "pipe_launcher40mm",
+  "note": "underbarrel_mount",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
@@ -2074,7 +2110,8 @@
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_launcher", 3 ] , [ "mag_launcher", 4 ]],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -2102,7 +2139,8 @@
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_shotgun", 4 ] , [ "mag_shotgun", 5 ]],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -2168,7 +2206,8 @@
   "difficulty": 4,
   "time": 2000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 3 ] , [ "recipe_bullets", 3 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -2222,7 +2261,7 @@
   "time": 100,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [[ "textbook_gaswarfare", 4 ]],
+  "book_learn": [[ "textbook_gaswarfare", 4 ] , [ "manual_launcher", 4 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -2290,7 +2329,7 @@
   "time": 95000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 8 ]],
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mininuke_launch", 5]],
   "tools": [
     [
       ["screwdriver", -1],
@@ -2779,6 +2818,7 @@
     "time": 45000,
     "reversible": false,
     "autolearn": true,
+    "book_learn": [[ "textbook_fabrication", 1 ] , [ "textbook_mechanics", 2 ] , [ "recipe_bullets", 2 ]],
     "tools": [
     [
       [ "press", -1 ]
@@ -2830,6 +2870,7 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 2 ] , [ "pocket_survival", 2] , [ "manual_archery", 1]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -2853,6 +2894,7 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 1 ]],
   "tools" : [
     [
       [ "hacksaw", -1 ],
@@ -2883,6 +2925,7 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 1 ] , [ "manual_archery", 2] , [ "book_archery", 3]],
   "tools" : [
     [
       [ "rock", -1 ],
@@ -2909,6 +2952,7 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 1 ] , [ "manual_archery", 2 ] , [ "book_archery", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -2991,6 +3035,7 @@
   "time" : 2000,
   "reversible" : false,
   "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 1 ] , [ "pocket_survival", 1]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3016,6 +3061,7 @@
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 2 ] , [ "book_archery", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3038,6 +3084,7 @@
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 1 ] , [ "book_archery", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3059,7 +3106,8 @@
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 5 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3097,7 +3145,8 @@
   "difficulty" : 5,
   "time" : 3000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3123,6 +3172,7 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
   "tools" : [
     [
       [ "hacksaw", -1 ],
@@ -3178,7 +3228,8 @@
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 2 ] , [ "pocket_survival", 2]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3207,6 +3258,7 @@
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3232,6 +3284,7 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3269,7 +3322,8 @@
   "difficulty" : 7,
   "time" : 7000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn" : [[ "recipe_arrows", 6 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "tools" : [
     [
       [ "screwdriver", -1 ],
@@ -3304,7 +3358,8 @@
   "difficulty" : 7,
   "time" : 5000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "tools" : [
     [
       [ "soldering_iron", 10 ],
@@ -3354,6 +3409,7 @@
   "time": 10000,
   "reversible": true,
   "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 1 ]],
   "tools": [
     [
       [ "needle_bone", 2 ],
@@ -3471,6 +3527,7 @@
   "time": 20000,
   "reversible": true,
   "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 2 ]],
   "tools": [
     [
       [ "needle_bone", 8 ],
@@ -3527,6 +3584,7 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 2 ]],
   "tools": [
     [
         ["hacksaw", -1],
@@ -3556,7 +3614,8 @@
   "difficulty": 4,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_arrows", 7 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "tools": [
     [
         ["hacksaw", -1],
@@ -3653,7 +3712,8 @@
   "difficulty": 3,
   "time": 25000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3693,7 +3753,8 @@
   "difficulty": 4,
   "time": 12500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_pistol", 3 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3734,7 +3795,8 @@
   "difficulty": 5,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3775,7 +3837,8 @@
   "difficulty": 3,
   "time": 25000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3816,7 +3879,8 @@
   "difficulty": 4,
   "time": 12500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_pistol", 3 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3857,7 +3921,8 @@
   "difficulty": 3,
   "time": 30000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3898,7 +3963,8 @@
   "difficulty": 5,
   "time": 25000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3939,7 +4005,8 @@
   "difficulty": 4,
   "time": 25000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -3979,7 +4046,8 @@
   "difficulty": 3,
   "time": 25000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4020,7 +4088,8 @@
   "difficulty": 5,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 5 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4061,7 +4130,8 @@
   "difficulty": 5,
   "time": 25000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4105,7 +4175,8 @@
   "difficulty": 7,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 6 ] , [ "manual_pistol", 7 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4149,7 +4220,8 @@
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 7 ] , [ "manual_pistol", 8 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4193,7 +4265,8 @@
   "difficulty": 4,
   "time": 50000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4234,7 +4307,8 @@
   "difficulty": 4,
   "time": 50000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4275,7 +4349,8 @@
   "difficulty": 3,
   "time": 40000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 3 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4319,7 +4394,8 @@
   "difficulty": 5,
   "time": 40000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4363,7 +4439,8 @@
   "difficulty": 3,
   "time": 20000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 1 ] , [ "mag_rifle", 2 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4408,7 +4485,8 @@
   "difficulty": 5,
   "time": 20000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4453,7 +4531,8 @@
   "difficulty": 6,
   "time": 15000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 5 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4492,7 +4571,8 @@
   "difficulty": 3,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 1 ] , [ "mag_rifle", 3 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4535,7 +4615,8 @@
   "difficulty": 5,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4579,7 +4660,8 @@
   "difficulty": 8,
   "time": 9000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 8 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4626,7 +4708,8 @@
   "difficulty": 8,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 7 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4664,7 +4747,8 @@
   "difficulty": 8,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 6 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4707,7 +4791,8 @@
   "difficulty": 7,
   "time": 2500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4745,7 +4830,8 @@
   "difficulty": 3,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4789,7 +4875,8 @@
   "difficulty": 5,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4833,7 +4920,8 @@
   "difficulty": 6,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 5 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4871,7 +4959,8 @@
   "difficulty": 3,
   "time": 12000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 3 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4909,7 +4998,8 @@
   "difficulty": 2,
   "time": 12500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 1 ] , [ "manual_shotgun", 1 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4950,7 +5040,8 @@
   "difficulty": 3,
   "time": 12500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -4991,7 +5082,8 @@
   "difficulty": 3,
   "time": 12500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -5031,7 +5123,8 @@
   "difficulty": 3,
   "time": 12500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 3 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -6803,7 +6896,8 @@
     ],
     [
       [ "sugar", 1 ],
-      [ "honeycomb", 1 ]
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 1]
     ],
     [
       [ "water", 1 ],
@@ -7578,6 +7672,7 @@
       [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
       [ "honeycomb", 1 ],
+      [ "honey_bottled", 1],
       [ "jam_strawberries", 1 ],
       [ "jam_blueberries", 1 ],
       [ "jam_fruit", 1 ],
@@ -8048,6 +8143,7 @@
     [
       [ "sugar", 1 ],
       [ "honeycomb", 1 ],
+      [ "honey_bottled", 1],
       [ "syrup", 1 ]
     ]
   ]
@@ -8085,6 +8181,7 @@
       [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
+      [ "honey_bottled", 1],
       [ "honeycomb", 1 ]
     ],
     [
@@ -8163,6 +8260,7 @@
     [
       [ "sugar", 1 ],
       [ "honeycomb", 1 ],
+      [ "honey_bottled", 1],
       [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
     ],
@@ -8324,6 +8422,81 @@
   ]
 },{
         "type" : "recipe",
+  "result": "curry_meat",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "veggy", 2 ],
+      [ "veggy_wild", 2 ],
+      [ "veggy_vac", 2 ],
+      [ "rehydrated_veggy", 2 ],
+      [ "dry_veggy", 2 ]
+    ],
+    [
+      [ "tomato", 1 ]
+    ],
+    [
+      [ "meat", 1]
+    ],
+    [
+      [ "sauce_red", 1 ],
+      [ "curry_powder", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "curry_veggy",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "veggy", 2 ],
+      [ "veggy_wild", 2 ],
+      [ "veggy_vac", 2 ],
+      [ "rehydrated_veggy", 2 ],
+      [ "dry_veggy", 2 ]
+    ],
+    [
+      [ "tomato", 1 ]
+    ],
+    [
+      [ "sauce_red", 1 ],
+      [ "curry_powder", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "chili",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -8361,7 +8534,8 @@
       [ "can_beans", 1]
     ],
     [
-      [ "sauce_red", 1 ]
+      [ "sauce_red", 1 ],
+      [ "chilli-p", 1]
     ]
   ]
 },{
@@ -8403,7 +8577,8 @@
       [ "can_beans", 1]
     ],
     [
-      [ "sauce_red", 1 ]
+      [ "sauce_red", 1 ],
+      [ "chilli-p", 1]
     ]
   ]
 },{
@@ -8620,6 +8795,98 @@
       [ "meat_canned", 1 ],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "lasagne",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_PASTA",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_italian", 3 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "lasagne_raw", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "seasoning_italian", 5 ],
+      [ "sauce_red", 1 ],
+      [ "tomato", 2 ]
+    ],
+    [
+      [ "meat", 2 ],
+      [ "meat_canned", 1 ],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "luigilasagne",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_PASTA",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 3 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "lasagne_raw", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "seasoning_italian", 5 ],
+      [ "sauce_red", 1 ],
+      [ "tomato", 2 ]
+    ],
+    [
+      [ "human_flesh", 2 ],
+      [ "human_canned", 1 ],
+      [ "rehydrated_hflesh", 2 ],
+      [ "dry_hflesh", 2 ]
     ]
   ]
 },{
@@ -9106,6 +9373,7 @@
       [ "mutagen", 1 ]
     ],
     [
+      [ "honey_bottled", 3],
       [ "honeycomb", 3 ],
       [ "bee_sting", 3 ],
       [ "wasp_sting", 3 ]
@@ -9410,7 +9678,7 @@
   "time": 10000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "recipe_animal", 8 ]],
+  "book_learn": [[ "recipe_animal", 7 ]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9586,6 +9854,69 @@
   "components": [
     [
       [ "mutagen_feline", 2 ]
+    ]
+  ]
+},{
+    "type" : "recipe",
+  "result": "mutagen_lupine",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 1 ],
+  "difficulty": 9,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_animal", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen", 1 ]
+    ],
+    [
+      [ "meat", 3 ]
+    ],
+    [
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
+    ]
+  ]
+},{
+    "type" : "recipe",
+  "result": "iv_mutagen_lupine",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 9,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_serum", 8 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_lupine", 2 ]
     ]
   ]
 },{
@@ -10555,6 +10886,7 @@
       [ "irradiated_watermelon", 2 ],
       [ "irradiated_melon", 2 ],
       [ "irradiated_corn", 3 ],
+      [ "honey_bottled", 1],
       [ "honeycomb", 1 ],
       [ "cola", 6 ],
       [ "rootbeer", 6 ],
@@ -10648,7 +10980,8 @@
   "difficulty": 4,
   "time": 8000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 2 ] , [ "manual_shotgun", 3 ] , [ "manual_pistol", 3 ], [ "adv_chemistry", 3 ] , [ "textbook_chemistry", 3 ]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -10681,7 +11014,8 @@
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 6 ] , ["recipe_bullets" , 5 ]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -10713,7 +11047,8 @@
   "difficulty": 7,
   "time": 45000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_pistol", 10 ] , ["manual_rifle", 10 ]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -10756,7 +11091,8 @@
   "difficulty": 8,
   "time": 45000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_pistol", 10 ] , ["manual_rifle", 10 ]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -10802,7 +11138,8 @@
   "difficulty": 8,
   "time": 45000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -10845,7 +11182,8 @@
   "difficulty": 8,
   "time": 45000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -10890,7 +11228,8 @@
   "difficulty": 8,
   "time": 45000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -10934,7 +11273,8 @@
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
     "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
      [
       ["tongs", -1]
@@ -10972,7 +11312,8 @@
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
     "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
      [
       ["tongs", -1]
@@ -11010,7 +11351,8 @@
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [[ "mag_rifle", 3 ] , ["recipe_bullets" , 2]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
      [
       ["tongs", -1]
@@ -11048,7 +11390,8 @@
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [[ "mag_rifle", 3 ] , ["recipe_bullets" , 2]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
      [
       ["tongs", -1]
@@ -11086,7 +11429,8 @@
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [[ "manual_shotgun", 3 ] , ["recipe_bullets" , 2]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
      [
       ["tongs", -1]
@@ -11150,7 +11494,8 @@
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "radio_book", 1 ] , [ "textbook_anarch", 1 ]],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -11171,7 +11516,8 @@
   "difficulty": 4,
   "time": 5000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "radio_book", 3 ] , [ "textbook_anarch", 5 ]],
   "tools": [
     [
       [ "hacksaw", -1 ], [ "toolset", -1 ]
@@ -11207,7 +11553,8 @@
   "difficulty": 1,
   "time": 4000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "radio_book", 3 ] , [ "manual_electronics", 1 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11238,7 +11585,8 @@
   "difficulty": 1,
   "time": 6500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 2 ] , [ "advanced_electronics", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11266,7 +11614,8 @@
   "difficulty": 2,
   "time": 12000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "radio_book", 1 ] , [ "textbook_electronics", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11297,7 +11646,8 @@
   "difficulty": 3,
   "time": 14000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 2 ] , [ "textbook_anarch", 3 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11328,7 +11678,8 @@
   "difficulty": 0,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ]],
   "components": [
     [
       [ "amplifier", 1 ]
@@ -11350,7 +11701,8 @@
   "time": 10000,
   "reversible": true,
   "decomp_learn": 0,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 0 ] , [ "mag_electronics", 1 ]],
   "components": [
     [
       [ "amplifier", 1 ]
@@ -11377,7 +11729,8 @@
   "time": 15000,
   "reversible": true,
   "decomp_learn": 0,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 2 ]],
   "components": [
     [
       [ "amplifier", 4 ]
@@ -11400,7 +11753,8 @@
   "time": 20000,
   "reversible": true,
   "decomp_learn": 0,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "advanced_electronics", 2 ] , [ "textbook_anarch", 2 ]],
   "components": [
     [
       [ "antenna", 1 ],
@@ -11428,7 +11782,8 @@
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ] , [ "textbook_anarch", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11466,7 +11821,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 3,
-  "book_learn": [[ "manual_electronics", 3 ], [ "textbook_electronics", 3 ]],
+  "book_learn": [[ "manual_electronics", 2 ], [ "advanced_electronics", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11487,6 +11842,39 @@
   ]
 },{
         "type" : "recipe",
+  "result": "rechargeable_battery",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "electronics", 3 ],
+  "difficulty": 5,
+  "time": 15000,
+  "reversible": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 3 ], [ "textbook_electronics", 3 ]],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 4 ]
+    ],
+    [
+      [ "cable", 5 ]
+    ],
+    [
+      [ "small_storage_battery", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "coilgun",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -11495,7 +11883,8 @@
   "difficulty": 3,
   "time": 25000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "advanced_electronics", 3 ] , [ "textbook_electronics", 3 ] , [ "textbook_anarch", 4 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11533,7 +11922,8 @@
   "difficulty": 1,
   "time": 15000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "radio_book", 1 ] , [ "textbook_anarch", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11562,7 +11952,8 @@
   "difficulty": 2,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11596,7 +11987,8 @@
   "difficulty": 2,
   "time": 25000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "radio_book", 2] , [ "textbook_anarch", 3 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11631,7 +12023,8 @@
   "difficulty": 3,
   "time": 25000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "advanced_electronics", 3 ] , [ "manual_electronics", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11665,7 +12058,8 @@
   "difficulty": 3,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "advanced_electronics", 1 ] , [ "mag_electronics", 3 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11701,7 +12095,8 @@
   "difficulty": 3,
   "time": 25000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "advanced_electronics", 2 ] , [ "textbook_electronics", 3 ] , [ "textbook_anarch", 3 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11732,7 +12127,8 @@
   "difficulty": 4,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "mag_electronics", 2 ] , [ "textbook_anarch", 4 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11807,7 +12203,8 @@
   "difficulty": 4,
   "time": 35000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 3 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11841,7 +12238,8 @@
   "difficulty": 4,
   "time": 32000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 5 ] , [ "advanced_electronics", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11881,7 +12279,8 @@
   "difficulty": 5,
   "time": 40000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_electronics", 6 ] , [ "textbook_robots", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -11916,7 +12315,8 @@
   "difficulty": 8,
   "time": 60000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_electronics", 7 ] , [ "textbook_robots", 6 ]],
   "tools": [
     [
       ["screwdriver", -1],
@@ -11995,7 +12395,7 @@
   "reversible": true,
   "decomp_learn": 4,
   "autolearn": true,
-  "book_learn": [[ "recipe_lab_elec", 4 ]],
+  "book_learn": [[ "advanced_electronics", 5] , [ "recipe_lab_elec", 4 ] , [ "textbook_anarch", 6]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12071,7 +12471,7 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 6 ]],
+  "book_learn": [[ "recipe_augs", 6 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12109,7 +12509,7 @@
   "time": 70000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 8 ]],
+  "book_learn": [[ "recipe_lab_elec", 8 ] , [ "recipe_augs", 7 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12148,7 +12548,7 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 7 ]],
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_augs", 7 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12185,7 +12585,7 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 7 ]],
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_augs", 7 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12219,7 +12619,7 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 7 ]],
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mil_augs", 6 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12253,7 +12653,7 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 8 ]],
+  "book_learn": [[ "recipe_lab_elec", 8 ] , [ "recipe_mil_augs", 7 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12291,7 +12691,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 7 ]],
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_augs", 6 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12326,7 +12726,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 7,
-  "book_learn": [[ "recipe_lab_elec", 7 ]],
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mil_augs", 8 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12364,7 +12764,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 5 ]],
+  "book_learn": [[ "recipe_lab_elec", 5 ] , [ "recipe_augs", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12402,7 +12802,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 6 ]],
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12440,7 +12840,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 6 ]],
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12481,7 +12881,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 6 ]],
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12522,7 +12922,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 6 ]],
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12563,7 +12963,7 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 6 ]],
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 6 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12779,6 +13179,40 @@
   "components": [
     [
       [ "burnt_out_bionic", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "recharge_station",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "difficulty": 8,
+  "time": 50000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 35 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "power_supply", 2 ]
+    ],
+    [
+      [ "processor", 2 ]
+    ],
+    [
+      [ "scrap", 5 ]
+    ],
+    [
+      [ "cable", 8 ]
     ]
   ]
 },{
@@ -13632,8 +14066,8 @@
 },{
         "type" : "recipe",
   "result": "towel",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_OTHER",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
@@ -14793,10 +15227,11 @@
   "result": "mask_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
-  "skill_used": "fabrication",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
   "difficulty": 5,
   "time": 20000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -14825,6 +15260,310 @@
       [
       [ "mask_bal", 1 ],
       [ "kevlar_plate", 4 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mask_survivorxl",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 5,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+      ]
+  ],
+  "components": [
+      [
+      [ "mask_filter", 2 ],
+      [ "mask_gas", 1 ],
+      [ "mask_bunker", 1 ]
+      ],
+      [
+      [ "glasses_safety", 2 ],
+      [ "glasses_bal", 1 ]
+      ],
+      [
+      [ "duct_tape", 150 ],
+      [ "superglue", 2 ]
+      ],
+      [
+      [ "mask_bal", 1 ],
+      [ "kevlar_plate", 6 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mask_wsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "skills_required" : ["tailor", 7],
+  "difficulty": 5,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "mask_filter", 2 ],
+      [ "mask_gas", 1 ],
+      [ "mask_bunker", 1 ]
+      ],
+      [
+      [ "glasses_safety", 2 ],
+      [ "glasses_bal", 1 ]
+      ],
+      [
+      [ "duct_tape", 100 ],
+      [ "superglue", 1 ]
+      ],
+      [
+      [ "mask_bal", 1 ],
+      [ "kevlar_plate", 4 ]
+      ],
+      [
+      [ "fur", 6 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mask_wsurvivorxl",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "skills_required" : ["tailor", 7],
+  "difficulty": 5,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "mask_filter", 2 ],
+      [ "mask_gas", 1 ],
+      [ "mask_bunker", 1 ]
+      ],
+      [
+      [ "glasses_safety", 2 ],
+      [ "glasses_bal", 1 ]
+      ],
+      [
+      [ "duct_tape", 100 ],
+      [ "superglue", 1 ]
+      ],
+      [
+      [ "mask_bal", 1 ],
+      [ "kevlar_plate", 4 ]
+      ],
+      [
+      [ "fur", 12 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mask_fsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 8,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "sewing_kit", 20 ]
+    ],
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "mask_bunker", 1 ]
+      ],
+      [
+      [ "nomex", 4 ]
+      ],
+      [
+      [ "duct_tape", 200 ],
+      [ "superglue", 2 ]
+      ],
+      [
+      [ "mask_bal", 1 ],
+      [ "kevlar_plate", 4 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mask_fsurvivorxl",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 8,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "sewing_kit", 20 ]
+    ],
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "mask_bunker", 1 ]
+      ],
+      [
+      [ "nomex", 8 ]
+      ],
+      [
+      [ "duct_tape", 200 ],
+      [ "superglue", 2 ]
+      ],
+      [
+      [ "mask_bal", 1 ],
+      [ "kevlar_plate", 6 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mask_h20survivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 7,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "sewing_kit", 20 ]
+    ],
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "rebreather", 1 ]
+      ],
+      [
+      [ "goggles_swim", 1 ]
+      ],
+      [
+      [ "plastic_chunk", 4 ]
+      ],
+      [
+      [ "duct_tape", 200 ],
+      [ "superglue", 2 ]
+      ],
+      [
+      [ "mask_bal", 1 ],
+      [ "kevlar_plate", 4 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mask_h20survivorxl",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 7,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "sewing_kit", 20 ]
+    ],
+    [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "rebreather", 1 ]
+      ],
+      [
+      [ "goggles_swim", 1 ]
+      ],
+      [
+      [ "plastic_chunk", 8 ]
+      ],
+      [
+      [ "duct_tape", 200 ],
+      [ "superglue", 2 ]
+      ],
+      [
+      [ "mask_bal", 1 ],
+      [ "kevlar_plate", 6 ]
       ]
   ]
 },{
@@ -16191,7 +16930,8 @@
 },{
   "type" : "recipe",
   "result": "chemlab",
-  "category": "CC_MISC",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "skills_required": ["electronics",3],
   "difficulty": 4,
@@ -16240,7 +16980,8 @@
 },{
         "type" : "recipe",
   "result": "cargo_rack",
-  "category": "CC_MISC",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "skills_required": ["mechanics",1],
   "difficulty": 4,
@@ -19037,7 +19778,8 @@
   "difficulty": 8,
   "time": 24000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_mininuke_launch", 5]],
   "tools": [
     [
       ["goggles_welding", -1]
@@ -19086,6 +19828,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [["textbook_fabrication", 2]],
   "tools": [
     [
       ["goggles_welding", -1]
@@ -19343,8 +20086,57 @@
       ["fire", -1]
     ],
     [
-     ["sheet_metal", -1],
-     ["steel_plate", -1]
+     ["pastaextruder", -1]
+    ]
+  ],
+  "components": [
+    [ ["flour", 4] ],
+    [ ["water", 1], ["water_clean", 1] ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "lasagne_raw",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_PASTA",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["hotplate", 25],
+      [ "char_smoker", 1 ],
+      ["toolset", 2],
+      ["fire", -1]
+    ],
+    [
+     ["pastaextruder", -1]
+    ]
+  ],
+  "components": [
+    [ ["flour", 4] ],
+    [ ["water", 1], ["water_clean", 1] ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "macaroni_raw",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_PASTA",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["hotplate", 25],
+      [ "char_smoker", 1 ],
+      ["toolset", 2],
+      ["fire", -1]
+    ],
+    [
+     ["pastaextruder", -1]
     ]
   ],
   "components": [
@@ -20710,7 +21502,7 @@
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used" : "fabrication",
   "skills_required" : ["throw", 1],
-  "difficulty" : 8,
+  "difficulty" : 6,
   "time" : 30000,
   "reversible" : false,
   "autolearn" : true,
@@ -20885,6 +21677,40 @@
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
      [ "scrap", 12 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "bagh_nakha",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 250], ["char_forge", 50]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_chunk", 3 ],
+     [ "scrap", 9 ]
      ]
     ]
 },{
@@ -21206,7 +22032,8 @@
 },{
         "type" : "recipe",
   "result": "halligan",
-  "category": "CC_MISC",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_BASHING",
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 420000,
@@ -22264,6 +23091,41 @@
   ]
 },{
         "type" : "recipe",
+   "result": "currywurst",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+   "skill_used": "cooking",
+   "difficulty": 2,
+   "time": 8000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+   [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sausage", 1 ]
+    ],
+    [
+      [ "curry_powder", 1]
+    ],
+    [
+      [ "ketchup", 4]
+    ]
+  ]
+},{
+        "type" : "recipe",
    "result": "chilidogs_human",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -22300,6 +23162,42 @@
     ],
     [
       [ "mustard", 4]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "h_currywurst",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+   "skill_used": "cooking",
+   "difficulty": 2,
+   "time": 8000,
+   "reversible": false,
+   "autolearn": false,
+  "book_learn": [[ "cookbook_human", 1 ]],
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+   [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mannwurst", 1 ]
+    ],
+    [
+      [ "curry_powder", 1]
+    ],
+    [
+      [ "ketchup", 4]
     ]
   ]
 },{
@@ -22415,6 +23313,82 @@
   ]
 },{
         "type" : "recipe",
+   "result": "sloppyjoe",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 8000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "sauce_red", 1],
+      [ "irradiated_tomato", 2 ],
+      [ "tomato", 2 ]
+    ],
+    [
+      [ "meat", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "manwich",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 8000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "sauce_red", 1],
+      [ "irradiated_tomato", 2 ],
+      [ "tomato", 2 ]
+    ],
+    [
+      [ "hflesh", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
    "result": "sandwich_t",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -22444,6 +23418,81 @@
     ],
     [
       [ "meat", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "sandwich_pb",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 4000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "peanutbutter", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "sandwich_pbj",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 4000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "jam_blueberries", 2 ],
+      [ "jam_strawberries", 2],
+      [ "jam_fruit", 2]
+    ],
+    [
+      [ "peanutbutter", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "sandwich_pbh",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 4000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "honey", 1 ],
+      [ "honey_bottled", 2]
+    ],
+    [
+      [ "peanutbutter", 1 ]
     ]
   ]
 },{
@@ -22481,6 +23530,29 @@
     ]
   ]
 },{
+        "type" : "recipe",
+   "result": "toasterpastry",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 5000,
+   "reversible": false,
+   "autolearn": true,
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+    ],
+  "components": [
+    [
+      [ "toasterpastryfrozen", 1 ]
+    ]
+  ]
+},{
    "type" : "recipe",
    "result": "ketchup",
    "category": "CC_FOOD",
@@ -22514,13 +23586,114 @@
   ]
 },{
         "type" : "recipe",
+  "result": "trenchcoat_survivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 2],
+  "difficulty": 4,
+  "time": 70000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 100 ],
+      [ "sewing_kit", 100 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "coat_rain", 1 ]
+     ],
+     [
+      [ "trenchcoat", 1 ],
+      [ "trenchcoat_leather", 1 ],
+      [ "jacket_army", 1 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
+      [ "kevlar_plate", 12 ]
+     ],
+     [
+      [ "rag", 14 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "pants_survivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 2],
+  "difficulty": 4,
+  "time": 70000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 100 ],
+      [ "sewing_kit", 100 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "pants_army", 1 ],
+      [ "pants_cargo", 1 ],
+      [ "shorts_cargo", 1 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
+      [ "kevlar_plate", 12 ]
+     ],
+     [
+      [ "rag", 12 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
   "result": "survivor_vest",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 1],
   "difficulty": 3,
-  "time": 80000,
+  "time": 70000,
   "reversible": false,
   "autolearn": true,
   "qualities" : [
@@ -22546,10 +23719,107 @@
       [ "tool_belt", 1 ],
       [ "ragpouch", 4 ],
       [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
       [ "fanny", 2 ]
      ],
      [
       [ "duct_tape", 50 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "survivor_pack",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 2],
+  "difficulty": 4,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 120 ],
+      [ "sewing_kit", 120 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 10 ]
+     ],
+     [
+      [ "leather", 10 ]
+     ],
+     [
+      [ "runner_bag", 1 ],
+      [ "backpack", 2 ],
+      [ "backpack_leather", 2 ],
+      [ "mbag", 4 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 120 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "survivor_rucksack",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 3],
+  "difficulty": 5,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 160 ],
+      [ "sewing_kit", 160 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 14 ]
+     ],
+     [
+      [ "leather", 16 ]
+     ],
+     [
+      [ "molle_pack", 1 ],
+      [ "duffelbag", 1 ],
+      [ "rucksack", 2 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 200 ]
      ]
   ]
 },{
@@ -22591,6 +23861,8 @@
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
       [ "fanny", 2 ]
      ],
      [
@@ -22645,6 +23917,8 @@
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
       [ "fanny", 2 ]
      ],
      [
@@ -22704,6 +23978,8 @@
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
       [ "fanny", 2 ]
      ],
      [
@@ -22761,6 +24037,8 @@
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
       [ "fanny", 2 ]
      ],
      [
@@ -22817,6 +24095,8 @@
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
       [ "fanny", 2 ]
      ],
      [
@@ -22833,6 +24113,7 @@
         "type" : "recipe",
   "result": "h20survivor_suit",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 6],
   "difficulty": 7,
@@ -22868,6 +24149,8 @@
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
       [ "fanny", 2 ]
      ],
      [
@@ -22882,12 +24165,155 @@
   ]
 },{
         "type" : "recipe",
+  "result": "hood_lsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 3],
+  "difficulty": 5,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "needle_bone", 40 ],
+      [ "sewing_kit", 40 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 8 ]
+     ],
+     [
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "hood_rain", 1 ],
+      [ "bag_plastic", 2 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "hood_survivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 4],
+  "difficulty": 6,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "needle_bone", 40 ],
+      [ "sewing_kit", 40 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "leather", 6 ]
+     ],
+     [
+      [ "rag", 2 ]
+     ],
+     [
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "hood_rain", 1 ],
+      [ "bag_plastic", 2 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
   "result": "helmet_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 4],
   "difficulty": 6,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 3 ]
+    ],
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "helmet_liner", 1 ],
+      [ "hat_cotton", 1 ],
+      [ "rag", 3 ]
+     ],
+     [
+      [ "tac_helmet", 1 ],
+      [ "tac_fullhelmet", 1 ],
+      [ "helmet_army", 1 ],
+      [ "kevlar_plate", 6 ]
+     ],
+     [
+      [ "hood_rain", 1 ],
+      [ "bag_plastic", 2 ]
+     ],
+     [
+      [ "leather", 8 ]
+     ],
+     [
+      [ "duct_tape", 150 ]
+     ],
+     [
+      [ "helmet_riot", 1 ],
+      [ "helmet_motor", 1 ],
+      [ "helmet_football", 1 ],
+      [ "helmet_ball", 1 ],
+      [ "helmet_skid", 1 ],
+      [ "helmet_bike", 1 ],
+      [ "hat_hard", 1 ],
+      [ "firehelmet", 1 ],
+      [ "pickelhaube", 1 ],
+      [ "plastic_chunk", 8 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "helmet_hsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 7,
   "time": 45000,
   "reversible": false,
   "autolearn": true,
@@ -22943,12 +24369,227 @@
   ]
 },{
         "type" : "recipe",
+  "result": "hood_wsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 7,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "needle_bone", 40 ],
+      [ "sewing_kit", 40 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "fur", 8 ]
+     ],
+     [
+      [ "rag", 2 ]
+     ],
+     [
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "hood_rain", 1 ],
+      [ "bag_plastic", 2 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "hood_fsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 8,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "needle_bone", 40 ],
+      [ "sewing_kit", 40 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "nomex", 8 ]
+     ],
+     [
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "nomex_hood", 1 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "hood_h20survivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 7,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "needle_bone", 40 ],
+      [ "sewing_kit", 40 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "plastic_chunk", 4 ]
+     ],
+     [
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "wetsuit_hood", 1 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gloves_lsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 3],
+  "difficulty": 5,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 14 ],
+      [ "soldering_iron", 14 ],
+      [ "toolset", 1 ]
+    ],
+    [
+      [ "needle_bone", 50 ],
+      [ "sewing_kit", 50 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 6 ]
+     ],
+     [
+      [ "leather", 2 ]
+     ],
+     [
+      [ "duct_tape", 80 ]
+     ],
+     [
+      [ "gloves_tactical", 1 ],
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "gloves_leather", 1 ],
+      [ "gloves_light", 1 ],
+      [ "gloves_liner", 1 ],
+      [ "wetsuit_gloves", 1 ],
+      [ "fire_gauntlets", 1 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
   "result": "gloves_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 4],
   "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 14 ],
+      [ "soldering_iron", 14 ],
+      [ "toolset", 1 ]
+    ],
+    [
+      [ "needle_bone", 50 ],
+      [ "sewing_kit", 50 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 2 ]
+     ],
+     [
+      [ "leather", 6 ]
+     ],
+     [
+      [ "duct_tape", 80 ]
+     ],
+     [
+      [ "gloves_tactical", 1 ],
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "gloves_leather", 1 ],
+      [ "gloves_light", 1 ],
+      [ "gloves_liner", 1 ],
+      [ "wetsuit_gloves", 1 ],
+      [ "fire_gauntlets", 1 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gloves_hsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 7,
   "time": 60000,
   "reversible": false,
   "autolearn": true,
@@ -22993,12 +24634,229 @@
   ]
 },{
         "type" : "recipe",
+  "result": "gloves_wsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 7,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 14 ],
+      [ "soldering_iron", 14 ],
+      [ "toolset", 1 ]
+    ],
+    [
+      [ "needle_bone", 50 ],
+      [ "sewing_kit", 50 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 2 ]
+     ],
+     [
+      [ "fur", 8 ]
+     ],
+     [
+      [ "duct_tape", 80 ]
+     ],
+     [
+      [ "gloves_tactical", 1 ],
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "gloves_leather", 1 ],
+      [ "gloves_light", 1 ],
+      [ "gloves_liner", 1 ],
+      [ "wetsuit_gloves", 1 ],
+      [ "fire_gauntlets", 1 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gloves_fsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 8,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 14 ],
+      [ "soldering_iron", 14 ],
+      [ "toolset", 1 ]
+    ],
+    [
+      [ "needle_bone", 50 ],
+      [ "sewing_kit", 50 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "nomex", 6 ]
+     ],
+     [
+      [ "leather", 2 ]
+     ],
+     [
+      [ "duct_tape", 120 ]
+     ],
+     [
+      [ "gloves_tactical", 1 ],
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "nomex_gloves", 1 ],
+      [ "fire_gauntlets", 1 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gloves_h20survivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 7,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 14 ],
+      [ "soldering_iron", 14 ],
+      [ "toolset", 1 ]
+    ],
+    [
+      [ "needle_bone", 50 ],
+      [ "sewing_kit", 50 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "plastic_chunk", 4 ]
+     ],
+     [
+      [ "duct_tape", 120 ]
+     ],
+     [
+      [ "gloves_tactical", 1 ],
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "wetsuit_gloves", 1 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "boots_lsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 3],
+  "difficulty": 5,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "needle_bone", 80 ],
+      [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 8 ]
+     ],
+     [
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ],
+     [
+      [ "boots_combat", 1 ],
+      [ "boots_steel", 1 ],
+      [ "boots_hiking", 1 ],
+      [ "boots_bunker", 1 ],
+      [ "boots", 1 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
   "result": "boots_survivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 4],
   "difficulty": 6,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "needle_bone", 80 ],
+      [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "leather", 8 ]
+     ],
+     [
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ],
+     [
+      [ "boots_combat", 1 ],
+      [ "boots_steel", 1 ],
+      [ "boots_hiking", 1 ],
+      [ "boots_bunker", 1 ],
+      [ "boots", 1 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "boots_hsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 7,
   "time": 120000,
   "reversible": false,
   "autolearn": true,
@@ -23036,6 +24894,137 @@
       [ "boots_hiking", 1 ],
       [ "boots_bunker", 1 ],
       [ "boots", 1 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "boots_wsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 7,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "needle_bone", 80 ],
+      [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "fur", 12 ]
+     ],
+     [
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ],
+     [
+      [ "boots_combat", 1 ],
+      [ "boots_steel", 1 ],
+      [ "boots_hiking", 1 ],
+      [ "boots_bunker", 1 ],
+      [ "boots", 1 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "boots_fsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 8,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "needle_bone", 80 ],
+      [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "nomex", 8 ]
+     ],
+     [
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "duct_tape", 200 ]
+     ],
+     [
+      [ "nomex_socks", 1 ]
+     ],
+     [
+      [ "boots_combat", 1 ],
+      [ "boots_steel", 1 ],
+      [ "boots_bunker", 1 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "boots_h20survivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 7,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "needle_bone", 80 ],
+      [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "plastic_chunk", 4 ]
+     ],
+     [
+      [ "kevlar_plate", 4 ]
+     ],
+     [
+      [ "duct_tape", 200 ]
+     ],
+     [
+      [ "wetsuit_booties", 1 ]
+     ],
+     [
+      [ "boots_combat", 1 ],
+      [ "boots_steel", 1 ],
+      [ "boots_bunker", 1 ]
      ]
   ]
 },{
@@ -23931,7 +25920,8 @@
   "difficulty": 6,
   "time": 30000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 5]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -23970,7 +25960,8 @@
     "difficulty": 4,
     "time": 30000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
     "tools": [
       [
         [ "press", -1 ]
@@ -24013,7 +26004,8 @@
     "difficulty": 4,
     "time": 30000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
     "tools": [
       [
         [ "press", -1 ]
@@ -24056,7 +26048,8 @@
     "difficulty": 4,
     "time": 35000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
     "tools": [
       [
         [ "press", -1 ]
@@ -24099,7 +26092,8 @@
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["recipe_caseless" , 4 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -24282,7 +26276,8 @@
     "difficulty": 5,
     "time": 25000,
     "reversible": false,
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
     "tools": [
       [
         [ "press", -1 ]
@@ -24765,7 +26760,8 @@
 },{
         "type" : "recipe",
   "result": "55gal_drum",
-  "category": "CC_MISC",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 420000,
@@ -24798,7 +26794,8 @@
 },{
         "type" : "recipe",
   "result": "30gal_drum",
-  "category": "CC_MISC",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 30000,
@@ -24938,6 +26935,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "manual_rifle", 2 ] , [ "manual_pistol", 2 ] , [ "recipe_bullets", 2 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -24971,6 +26969,7 @@
   "time": 240000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "manual_rifle", 5 ] , [ "mag_rifle", 6 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -25037,7 +27036,8 @@
   "difficulty": 6,
   "time": 12500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["manual_launcher" , 4 ] , [ "manual_shotgun", 6 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -25077,7 +27077,8 @@
   "difficulty": 7,
   "time": 17500,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["manual_launcher" , 5 ] , [ "manual_shotgun", 7 ]],
   "tools": [
     [
       [ "press", -1 ]
@@ -25221,6 +27222,7 @@
   "time": 80000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "manual_pistol", 5 ] , [ "mag_pistol", 6 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -25306,6 +27308,186 @@
     [
       [ "rag", 1 ],
       [ "duct_tape", 10]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_beef_box",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_beef", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "crackers", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "candy3", 3 ]
+    ],
+    [
+      [ "matches", 20 ]
+    ],
+    [
+      [ "gum", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_veggy_box",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_veggy", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "crackers", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "candy3", 3 ]
+    ],
+    [
+      [ "matches", 20 ]
+    ],
+    [
+      [ "gum", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_chicken_box",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_chicken", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "crackers", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "candy3", 3 ]
+    ],
+    [
+      [ "matches", 20 ]
+    ],
+    [
+      [ "gum", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_4fingers_box",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_hotdogs", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "crackers", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "candy3", 3 ]
+    ],
+    [
+      [ "matches", 20 ]
+    ],
+    [
+      [ "gum", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mre_ravioli_box",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "mre_ravioli", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "crackers", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "candy3", 3 ]
+    ],
+    [
+      [ "matches", 20 ]
+    ],
+    [
+      [ "gum", 4 ]
     ]
   ]
 }

@@ -233,11 +233,11 @@ void load_terrain(JsonObject &jsobj)
   new_terrain.movecost = jsobj.get_int("move_cost");
 
   if(jsobj.has_member("trap")) {
-    new_terrain.trap = trap_id_from_string(jsobj.get_string("trap"));
-  } else {
-    new_terrain.trap = tr_null;
+      // Store the string representation of the trap id.
+      // Overwrites the trap field in set_trap_ids() once ids are assigned..
+      new_terrain.trap_id_str = jsobj.get_string("trap");
   }
-
+  new_terrain.trap = tr_null;
 
   new_terrain.transparent = false;
   new_terrain.bitflags = 0;
