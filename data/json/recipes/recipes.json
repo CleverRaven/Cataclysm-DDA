@@ -19139,7 +19139,7 @@
   "time": 10000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "recipe_melee", 3 ]],
+  "book_learn": [[ "welding_book", 8 ], ["book_icef", 4],
   "components": [
     [
       ["leather", 5]
@@ -19163,7 +19163,8 @@
   "difficulty": 4,
   "time": 20000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "tools": [
     [
       ["goggles_welding", -1]
@@ -19197,7 +19198,8 @@
   "difficulty": 5,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "tools": [
   [
     ["goggles_welding", -1]
@@ -19231,7 +19233,8 @@
   "difficulty": 5,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "tools": [
     [
       ["goggles_welding", -1]
@@ -19265,7 +19268,8 @@
   "difficulty": 5,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "tools": [
     [
       ["goggles_welding", -1]
