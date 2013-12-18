@@ -2750,7 +2750,7 @@ void overmap::build_tunnel(int x, int y, int z, int s, int dir)
                     ter(valid[i].x, valid[i].y, z) = "ants_larvae";
                 }
             } else if (one_in(5)) {
-                int dir2;// = 0;
+                int dir2 = 0;
                 if (valid[i].y == y - 1) { dir2 = 0; }
                 if (valid[i].x == x + 1) { dir2 = 1; }
                 if (valid[i].y == y + 1) { dir2 = 2; }

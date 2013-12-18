@@ -74,7 +74,6 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
     unsigned zones = 0;
     int overx = x / 2;
     int overy = y / 2;
-    bool edge_case = false;
     const regional_settings * rsettings = NULL;
     if ( x >= OMAPX * 2 || x < 0 || y >= OMAPY * 2 || y < 0) {
         dbg(D_INFO) << "map::generate: In section 1";
@@ -11761,6 +11760,7 @@ void silo_rooms(map *m)
 
 void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat)
 {
+    (void)dat;
     direction door_side;
     std::vector<direction> possibilities;
     int midx = int( (x1 + x2) / 2), midy = int( (y1 + y2) / 2);
