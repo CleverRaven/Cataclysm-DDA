@@ -1212,7 +1212,7 @@
         "ugliness" : 3,
         "description" : "Your index fingers have grown into huge talons. After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack. They also prevent you from wearing gloves.",
         "prereqs" : ["NAILS"],
-        "cancels" : ["CLAWS"],
+        "cancels" : ["CLAWS", "CLAWS_RETRACT"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_BIRD", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
@@ -1292,7 +1292,7 @@
         "points" : 1,
         "visibility" : 1,
         "description" : "The bottoms of your feet are strongly padded. You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when running barefoot. Slightly decreases wet penalties.",
-        "cancels" : ["HOOVES", "LEG_TENTACLES"],
+        "cancels" : ["HOOVES", "LEG_TENTACLES", "RAP_TALONS"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE", "MUTCAT_FELINE", "MUTCAT_LUPINE"],
         "wet_protection" : [
             { "part" : "FEET", "neutral" : 2 }
@@ -1305,7 +1305,7 @@
         "visibility" : 4,
         "ugliness" : 2,
         "description" : "You have grown large, curved, and wickedly sharp talons in place of your big toes. Fortunately, they don't get in the way of your walking.  Unfortunately, they do prevent you from wearing footgear, which does cause some problems.",
-        "cancels" : ["PADDED_FEET", "LEG_TENTACLES"],
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES"],
         "category" : ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
@@ -1315,7 +1315,7 @@
         "visibility" : 2,
         "ugliness" : 2,
         "description" : "Your feet have fused into hooves. This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you can not wear shoes of any kind. Somewhat reduces wet effects.",
-        "cancels" : ["PADDED_FEET", "LEG_TENTACLES"],
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "RAP_TALONS"],
         "category" : ["MUTCAT_CATTLE", "MUTCAT_CHIMERA"],
         "wet_protection":[
          {
@@ -1423,7 +1423,7 @@
         "ugliness" : 2,
         "description" : "You have a fin-like tail. It allows you to swim more quickly. Slightly increases wet benefits.",
         "prereqs" : ["TAIL_STUB"],
-        "cancels" : ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_THICK", "TAIL_STING", "TAIL_CLUB", "TAIL_RAT", "TAIL_CATTLE"],
+        "cancels" : ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_THICK", "TAIL_STING", "TAIL_CLUB", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
         "category" : ["MUTCAT_FISH"],
         "wet_protection":[
          {
@@ -1462,7 +1462,7 @@
         "visibility" : 6,
         "ugliness" : 4,
         "description" : "You have a long but hairless tail.  It's a pretty effective balancing aid, but does look, uh, ratty.",
-        "prereqs" : ["TAIL_LONG"],
+        "prereqs" : ["TAIL_LONG", "TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_THICK", "TAIL_RAPTOR", "TAIL_CATTLE"],
         "category" : ["MUTCAT_RAT"]
     },{
