@@ -415,7 +415,7 @@ bool player::create(character_type type, std::string tempname)
                 tmp.item_tags.insert("FIT");
             }
             // If wearing an item fails we fail silently.
-            wear_item(g, &tmp, false);
+            wear_item(&tmp, false);
         } else {
             inv.push_back(tmp);
         }
