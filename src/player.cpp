@@ -8280,11 +8280,6 @@ void player::use(int pos)
             return;
         }
         it_gun* guntype = dynamic_cast<it_gun*>(gun->type);
-        if (guntype->skill_used == Skill::skill("archery") ||
-            guntype->skill_used == Skill::skill("launcher")) {
-            g->add_msg(_("You cannot mod your %s."), gun->tname().c_str());
-            return;
-        }
         if (guntype->skill_used == Skill::skill("pistol") && !mod->used_on_pistol) {
             g->add_msg(_("That %s cannot be attached to a handgun."),
                        used->tname().c_str());
