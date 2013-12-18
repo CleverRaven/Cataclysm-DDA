@@ -802,25 +802,28 @@ bool game::do_turn()
     }
 
     process_activity();
-    if(!u.has_disease("sleep")) {
-        while (u.moves > 0) {
-            cleanup_dead();
-            if (u.activity.type == ACT_NULL) {
-                draw();
-            }
+    if (!u.has_disease("sleep") && !u.has_disease("lying_down")) {
+        if (u.moves > 0)
+        {
+            while (u.moves > 0) {
+                cleanup_dead();
+                if (u.activity.type == ACT_NULL) {
+                    draw();
+                }
 
-            if(handle_action()) {
-                ++moves_since_last_save;
-                u.action_taken();
-            }
+                if(handle_action()) {
+                    ++moves_since_last_save;
+                    u.action_taken();
+                }
 
-            if (is_game_over()) {
-                cleanup_at_end();
-                return true;
+                if (is_game_over()) {
+                    cleanup_at_end();
+                    return true;
+                }
             }
+        } else {
+            handle_key_blocking_activity();
         }
-    } else {
-        handle_key_blocking_activity();
     }
     update_scent();
     m.vehmove();
