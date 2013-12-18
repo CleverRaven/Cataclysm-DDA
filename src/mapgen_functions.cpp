@@ -404,41 +404,51 @@ void mapgen_crater(map *m, oter_id terrain_type, mapgendata dat, int turn, float
     m->place_items("wreckage", 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 }
 
+// todo: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
+void ter_or_furn_set( map * m, const int x, const int y, const ter_furn_id & tfid ) {
+    if ( tfid.ter != t_null ) {
+        if ( tfid.ter >= terlist.size() ) {
+            debugmsg("tfid.ter %d %c",tfid.ter);
+        }
+        m->ter_set(x, y, tfid.ter );
+    } else if ( tfid.furn != f_null ) {
+        if ( tfid.furn >= furnlist.size() ) {
+            debugmsg("tfid.furn %d %c",tfid.furn);
+        }
+        m->furn_set(x, y, tfid.furn );
+    }
+}
+
+/*
+ * Default above ground non forested 'blank' area; typically a grassy field with a scattering of shrubs,
+ *  but changes according to dat->region
+ */
 void mapgen_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
-    // There's a chance this field will be thick with strawberry
-    // and blueberry bushes.
-    int berry_bush_factor = 200;
-    int bush_factor = 120;
-    int poppy_factor = 1000;
-    int extra_bushes_factor = 120;
-    if(one_in(extra_bushes_factor)) {
-        berry_bush_factor = 2;
-        bush_factor = 40;
-    }
-    ter_id bush_type;
-    if (one_in(2)) {
-        bush_type = t_shrub_blueberry;
-    } else {
-        bush_type = t_shrub_strawberry;
-    }
-// ^-- todo: use dat.region->plant_coverage
+    // random area of increased vegetation. Or lava / toxic sludge / etc
+    const bool boosted_vegetation = ( dat.region->field_coverage.boost_chance > rng( 0, 1000000 ) );
+    const int & mpercent_bush = ( boosted_vegetation ?
+       dat.region->field_coverage.boosted_mpercent_coverage :
+       dat.region->field_coverage.mpercent_coverage
+    );
+
+    ter_furn_id altbush = dat.region->field_coverage.pick( true ); // one dominant plant type ( for boosted_vegetation == true )
+
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            m->ter_set(i, j, dat.groundcover() );
-            if (one_in(bush_factor)) {
-                if (one_in(berry_bush_factor)) {
-                    m->ter_set(i, j, bush_type);
+            m->ter_set(i, j, dat.groundcover() ); // default is
+            if ( mpercent_bush > rng(0, 1000000) ) { // yay, a shrub ( or tombstone )
+                if ( boosted_vegetation && dat.region->field_coverage.boosted_other_mpercent > rng(0, 1000000) ) {
+                    // already chose the lucky terrain/furniture/plant/rock/etc
+                    ter_or_furn_set(m, i, j, altbush );
                 } else {
-                    m->ter_set(i, j, t_shrub);
-                }
-            } else {
-                if (one_in(poppy_factor)) {
-                    m->furn_set(i,j, f_mutpoppy);
+                    // pick from weighted list
+                    ter_or_furn_set(m, i, j, dat.region->field_coverage.pick( false ) );
                 }
             }
         }
     }
+
     m->place_items("field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn); // fixme: take 'rock' out and add as regional biome setting
 }
 

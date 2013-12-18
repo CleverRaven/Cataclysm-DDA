@@ -97,6 +97,7 @@ struct city_settings {
    city_settings() : zoning_type(CITY_GEN_RADIAL), shop_radius(80), park_radius(130) { }
 };
 /*
+todo: add relevent vars to regional_settings struct 
 #define STREETCHANCE 2
 #define NUM_FOREST 250
 #define TOP_HIWAY_DIST 999
@@ -109,13 +110,53 @@ struct city_settings {
 #define SETTLE_DICE 2
 #define SETTLE_SIDES 2
 #define HIVECHANCE 180 //Chance that any given forest will be a hive
-#define SWAMPINESS 4 //Affects the size of a swamp
-#define SWAMPCHANCE 8500 // Chance that a swamp will spawn instead of forest
 */
+/*
+      "plant_coverage": {                   "//": "biome settings for builtin field mapgen",
+          "percent_coverage": 0.833,        "//": "% of tiles that have a plant: one_in(120)",
+          "default": "t_shrub",             "//": "default plant",
+          "other": {
+              "t_shrub_blueberry": 0.25,
+              "t_shrub_strawberry": 0.25,
+              "f_mutpoppy": 0.1
+          },                                "//": "% of plants that aren't default",
+          "boost_chance": 0.833,            "//": "% of fields with a boosted chance for plants",
+          "boosted_percent_coverage": 2.5,  "//": "for the above: % of tiles that have a plant",
+          "boosted_other_multiplier": 100,  "//": "for the above: multiplier for 'other' percentages"
+      },
+
+*/
+
+/*
+ * template for random bushes and such.
+ * supports occasional boost to a single ter/furn type (clustered blueberry bushes for example)
+ * json: double percentages (region statistics)and str ids, runtime int % * 1mil and int ids
+ */
+struct groundcover_extra { // todo; make into something more generic for other stuff (maybe)
+   int mpercent_coverage; // % coverage where this is applied (*10000)
+   std::string default_ter_str;
+   int default_ter;
+   std::map<std::string, double> percent_str;
+   std::map<std::string, double> boosted_percent_str;
+   std::map<int, ter_furn_id> weightlist;
+   std::map<int, ter_furn_id> boosted_weightlist;
+   int boost_chance;
+   int boosted_mpercent_coverage;
+   int boosted_other_mpercent;
+   ter_furn_id pick( bool boosted = false ) const;
+   void setup();
+   groundcover_extra() : mpercent_coverage(0), default_ter_str(""), default_ter(0), boost_chance(0), boosted_mpercent_coverage(0), boosted_other_mpercent(1.0) {};
+};
+
+/*
+ * Spationally relevent overmap and mapgen variables grouped into a set of suggested defaults;
+ * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
+ */
 struct regional_settings {
-   std::string id;
+   std::string id;            //
    std::string default_oter;  // 'field'
    id_or_id default_groundcover; // ie, 'grass_or_dirt'
+   sid_or_sid * default_groundcover_str;
    int num_forests;           // amount of forest groupings per overmap
    int forest_size_min;       // size range of a forest group
    int forest_size_max;       // size range of a forest group
@@ -124,10 +165,13 @@ struct regional_settings {
    int swamp_river_influence; // voodoo number limiting spread of river through swamp
    int swamp_spread_chance;   // SWAMPCHANCE: (one in, every forest*forest size) chance of swamp extending past forest
    city_settings city_spec;   // put what where in a city of what kind
+   groundcover_extra field_coverage;
+   groundcover_extra forest_coverage;
    regional_settings() : 
        id("null"),
        default_oter("field"),
-       default_groundcover( "t_grass", 4, "t_dirt" ),
+       default_groundcover(0,0,0),
+       default_groundcover_str(NULL),
        num_forests(250),
        forest_size_min(15),
        forest_size_max(40),
@@ -136,6 +180,7 @@ struct regional_settings {
        swamp_river_influence(5),  // 
        swamp_spread_chance(8500)  // SWAMPCHANCE // Chance that a swamp will spawn instead of forest
    {
+       //default_groundcover_str = new sid_or_sid("t_grass", 4, "t_dirt");
    };
    void setup();
 };

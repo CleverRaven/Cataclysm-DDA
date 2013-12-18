@@ -237,9 +237,7 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
 
 bool road_allowed(const oter_id &ter)
 {
-return ter.t().allow_road;
-//    return oter_t(ter).allow_road;
-//otermap[ter].allow_road;
+    return ter.t().allow_road;
 }
 
 /*
@@ -260,34 +258,20 @@ oter_id shop(int dir, oter_weight_list & weightlist ) // todo: rename to somethi
         return ret;
     }
     return oterlist[ ret ].directional_peers[dir];
-/*
-    const std::string ret = weightlist.pickstr();
-
-    std::map<std::string, oter_t&>::const_iterator it_oter = obasetermap.find(ret);
-    if ( it_oter == obasetermap.end() ) {
-        debugmsg("Bad shop_list entry in region settings: overmap_terrain '%s' not found. %d", ret.c_str(),obasetermap.size() );
-        return "";
-    }
-
-    if ( it_oter->second.rotates == false ) { // don't need to rotate
-        return ret;
-    } else {
-        return oterlist[ it_oter->second.directional_peers[dir] ].id;
-    }
-*/
 }
 
 oter_id house(int dir, int chance_of_basement)
 {
-    bool base = one_in( chance_of_basement ); // fixme use region_settings.basement_chance as a percentage
-    if (dir < 0) { dir += 4; }
-    switch (dir) {
-    case 0: return base ? "house_base_north" : "house_north";
-    case 1: return base ? "house_base_east"  : "house_east";
-    case 2: return base ? "house_base_south" : "house_south";
-    case 3: return base ? "house_base_west"  : "house_west";
-    default: debugmsg("Bad rotation of house: %d.", dir); return "";
+    static const oter_id iid_house = oter_id("house_north");
+    static const oter_id iid_house_base = oter_id("house_base_north");
+
+    if (dir < 0) {
+        dir += 4;
+    } else if (dir > 3) {
+        debugmsg("Bad rotation of house: %d.", dir);
+        return "";
     }
+    return ( one_in( chance_of_basement) ? iid_house : iid_house_base ).t().directional_peers[dir];
 }
 
 map_extras& get_extras(const std::string &name)
@@ -519,44 +503,134 @@ void finalize_overmap_terrain( ) {
     }
 };
 
-void load_region_settings( JsonObject &jo ) { // fixme: actually load from json.
+
+
+void load_region_settings( JsonObject &jo ) {
     regional_settings new_region;
-    
-id_or_id groundcover( "t_sand", 50, "t_grass" );
-new_region.default_groundcover = groundcover;
+    if ( ! jo.read("id",new_region.id) ) {
+        jo.throw_error("No 'id' field.");
+    }
+    bool strict = ( new_region.id == "default" );
+    if ( ! jo.read("default_oter", new_region.default_oter) && strict ) {
+        jo.throw_error("default_oter required for default ( though it should probably remain 'field' )");
+    }
+    if ( jo.has_object("default_groundcover") ) {
+        JsonObject jio = jo.get_object("default_groundcover");
+        new_region.default_groundcover_str = new sid_or_sid("t_grass",4,"t_dirt");
+        if ( ! jio.read("primary", new_region.default_groundcover_str->primary_str) ||
+           ! jio.read("secondary", new_region.default_groundcover_str->secondary_str) ||
+           ! jio.read("ratio", new_region.default_groundcover.chance) ) {
+            jo.throw_error("'default_groundcover' missing one of:\n   { \"primary\": \"ter_id\", \"secondary\": \"ter_id\", \"ratio\": (number) }\n");
+        }
+    } else if ( strict ) {
+        jo.throw_error("'default_groundcover' required for 'default'");
+    }
+    if ( ! jo.read("num_forests", new_region.num_forests) && strict ) {
+        jo.throw_error("num_forests required for default");
+    }
+    if ( ! jo.read("forest_size_min", new_region.forest_size_min) && strict ) {
+        jo.throw_error("forest_size_min required for default");
+    }
+    if ( ! jo.read("forest_size_max", new_region.forest_size_max) && strict ) {
+        jo.throw_error("forest_size_max required for default");
+    }
+    if ( ! jo.read("house_basement_chance", new_region.house_basement_chance) && strict ) {
+        jo.throw_error("house_basement_chance required for default");
+    }
+    if ( ! jo.read("swamp_maxsize", new_region.swamp_maxsize) && strict ) {
+        jo.throw_error("swamp_maxsize required for default");
+    }
+    if ( ! jo.read("swamp_river_influence", new_region.swamp_river_influence) && strict ) {
+        jo.throw_error("swamp_river_influence required for default");
+    }
+    if ( ! jo.read("swamp_spread_chance", new_region.swamp_spread_chance) && strict ) {
+        jo.throw_error("swamp_spread_chance required for default");
+    }
 
-    new_region.city_spec.shops.add_item("s_gas", 5);
-    new_region.city_spec.shops.add_item("s_pharm", 3);
-    new_region.city_spec.shops.add_item("s_grocery", 15);
-    new_region.city_spec.shops.add_item("s_hardware", 5);
-    new_region.city_spec.shops.add_item("s_sports", 5);
-    new_region.city_spec.shops.add_item("s_liquor", 5);
-    new_region.city_spec.shops.add_item("s_gun", 5);
-    new_region.city_spec.shops.add_item("s_clothes", 5);
-    new_region.city_spec.shops.add_item("s_library", 4);
-    new_region.city_spec.shops.add_item("s_restaurant", 5);
-    new_region.city_spec.shops.add_item("sub_station", 5);
-    new_region.city_spec.shops.add_item("bank", 3);
-    new_region.city_spec.shops.add_item("bar", 5);
-    new_region.city_spec.shops.add_item("s_electronics", 5);
-    new_region.city_spec.shops.add_item("pawn", 3);
-    new_region.city_spec.shops.add_item("mil_surplus", 2);
-    new_region.city_spec.shops.add_item("s_garage", 5);
-    new_region.city_spec.shops.add_item("station_radio", 5);
-    new_region.city_spec.shops.add_item("office_doctor", 2);
-    new_region.city_spec.shops.add_item("s_restaurant_fast", 3);
-    new_region.city_spec.shops.add_item("s_restaurant_coffee", 3);
-    new_region.city_spec.shops.add_item("church", 2);
-    new_region.city_spec.shops.add_item("office_cubical", 2);
-    new_region.city_spec.shops.add_item("furniture", 2);
-    new_region.city_spec.shops.add_item("abstorefront", 2);
-    new_region.city_spec.shops.add_item("police", 1);
-    new_region.city_spec.shops.add_item("s_lot", 4);
+    if ( ! jo.has_object("field_coverage") ) {
+        if ( strict ) jo.throw_error("\"field_coverage\": { ... } required for default");
+    } else {
+        JsonObject pjo = jo.get_object("field_coverage");
+        double tmpval = 0.0f;
+        if ( ! pjo.read("percent_coverage", tmpval) ) pjo.throw_error("field_coverage: percent_coverage required");
+        new_region.field_coverage.mpercent_coverage = (int)(tmpval * 10000.0);
+        if ( ! pjo.read("default_ter", new_region.field_coverage.default_ter_str) ) pjo.throw_error("field_coverage: default_ter required");
+        tmpval = 0.0f;
+        if ( pjo.has_object("other") ) {
+            std::string tmpstr="";
+            JsonObject opjo = pjo.get_object("other");
+            std::set<std::string> keys = opjo.get_member_names();
+            for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
+                tmpval = 0.0f;
+                if ( *it != "//" ) {
+                    if ( opjo.read(*it, tmpval) ) {
+                         new_region.field_coverage.percent_str[ *it ] = tmpval;
+                    }
+                }
+            }
+        }
+        if ( pjo.read("boost_chance", tmpval) && tmpval != 0.0f ) {
+            new_region.field_coverage.boost_chance = (int)(tmpval * 10000.0);
+            if ( ! pjo.read("boosted_percent_coverage", tmpval) ) pjo.throw_error("boost_chance > 0 requires boosted_percent_coverage");
+            new_region.field_coverage.boosted_mpercent_coverage = (int)(tmpval * 10000.0);
+            if ( ! pjo.read("boosted_other_percent", tmpval) ) pjo.throw_error("boost_chance > 0 requires boosted_other_percent");
+            new_region.field_coverage.boosted_other_mpercent = (int)(tmpval * 10000.0);
+            if ( pjo.has_object("boosted_other") ) {
+                std::string tmpstr = "";
+                JsonObject opjo = pjo.get_object("boosted_other");
+                std::set<std::string> keys = opjo.get_member_names();
+                for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
+                    tmpval = 0.0f;
+                    if ( *it != "//" ) {
+                        if ( opjo.read(*it, tmpval) ) {
+                             new_region.field_coverage.boosted_percent_str[ *it ] = tmpval;
+                        }
+                    }
+                }
+            } else {
+                pjo.throw_error("boost_chance > 0 requires boosted_other { ... }");
+            }
+        }
+    }
 
-    new_region.city_spec.parks.add_item("park", 4);
-    new_region.city_spec.parks.add_item("pool", 1);
-
-    region_settings_map["default"] = new_region;
+    if ( ! jo.has_object("city") ) {
+        if ( strict ) jo.throw_error("\"city\": { ... } required for default");
+    } else {
+        JsonObject cjo = jo.get_object("city");
+        if ( ! cjo.read("shop_radius", new_region.city_spec.shop_radius) && strict ) {
+            jo.throw_error("city: shop_radius required for default");
+        }
+        if ( ! cjo.read("park_radius", new_region.city_spec.park_radius) && strict ) {
+            jo.throw_error("city: park_radius required for default");
+        }
+        if ( ! cjo.has_object("shops") && strict ) {
+            if ( strict ) jo.throw_error("city: \"shops\": { ... } required for default");
+        } else {
+            JsonObject wjo = cjo.get_object("shops");
+            std::set<std::string> keys = wjo.get_member_names();
+            for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
+                if ( *it != "//" ) {
+                    if ( wjo.has_int( *it ) ) {
+                        new_region.city_spec.shops.add_item(*it, wjo.get_int(*it) );
+                    }
+                }
+            }
+        }
+        if ( ! cjo.has_object("parks") && strict ) {
+            if ( strict ) jo.throw_error("city: \"parks\": { ... } required for default");
+        } else {
+            JsonObject wjo = cjo.get_object("parks");
+            std::set<std::string> keys = wjo.get_member_names();
+            for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
+                if ( *it != "//" ) {
+                    if ( wjo.has_int( *it ) ) {
+                        new_region.city_spec.parks.add_item(*it, wjo.get_int(*it) );
+                    }
+                }
+            }
+        }
+    }
+    region_settings_map[new_region.id] = new_region;
 };
 
 
@@ -2358,7 +2432,6 @@ void overmap::put_buildings(int x, int y, int dir, city town)
    else {
     if (rng(0, 99) > 130 * dist(x, y, town.x, town.y) / town.s)
      ter(x+i*xchange, y+i*ychange, 0) = shop( ((dir % 2)-i) % 4, settings.city_spec.parks );
-//(one_in(5)?"pool":"park"); // fixme: shop( ((dir % 2)-i) % 4, settings.city_spec.parks );
     else
      ter(x+i*xchange, y+i*ychange, 0) = house( ((dir % 2)-i) % 4, settings.house_basement_chance );
    }
@@ -4012,19 +4085,95 @@ const oter_t & oter_id::t() const {
   }
 
 
-ter_id tmpterfind(const std::string id) {
-    if( termap.find(id) == termap.end() ) {
-         popup("Can't find %s",id.c_str());
-         return 0;
+void groundcover_extra::setup() { // fixme return bool for failure
+    default_ter = terfind( default_ter_str );
+
+    ter_furn_id tf_id;
+    int wtotal = 0;
+    int btotal = 0;
+
+    for ( std::map<std::string, double>::const_iterator it = percent_str.begin(); it != percent_str.end(); ++it ) {
+        tf_id.ter = t_null;
+        tf_id.furn = f_null;
+        if ( it->second < 0.0001 ) continue;
+        if ( termap.find( it->first ) != termap.end() ) {
+            tf_id.ter = termap[ it->first ].loadid;
+        } else if ( furnmap.find( it->first ) != furnmap.end() ) { 
+            tf_id.furn = furnmap[ it->first ].loadid;
+        } else {
+            debugmsg("No clue what '%s' is! No such terrain or furniture",it->first.c_str() );
+            continue;
+        }
+        wtotal += (int)(it->second * 10000.0);
+        weightlist[ wtotal ] = tf_id;
+//        weightlist[ wtotal ].ter = tf_id.ter;
+//        weightlist[ wtotal ].furn = tf_id.furn;
     }
-    return termap[id].loadid;
+
+    for ( std::map<std::string, double>::const_iterator it = boosted_percent_str.begin(); it != boosted_percent_str.end(); ++it ) {
+        tf_id.ter = t_null;
+        tf_id.furn = f_null;
+        if ( it->second < 0.0001 ) continue;
+        if ( termap.find( it->first ) != termap.end() ) {
+            tf_id.ter = termap[ it->first ].loadid;
+        } else if ( furnmap.find( it->first ) != furnmap.end() ) { 
+            tf_id.furn = furnmap[ it->first ].loadid;
+        } else {
+            debugmsg("No clue what '%s' is! No such terrain or furniture",it->first.c_str() );
+            continue;
+        }
+        btotal += (int)(it->second * 10000.0);
+        boosted_weightlist[ btotal ] = tf_id;
+//        boosted_weightlist[ btotal ].ter = tf_id.ter;
+//        boosted_weightlist[ btotal ].furn = tf_id.furn;
+    }
+
+    if ( wtotal > 1000000 ) {
+        debugmsg("plant coverage total exceeds 100%%");
+    }
+    if ( btotal > 1000000 ) {
+        debugmsg("boosted plant coverage total exceeds 100%%");
+    }
+
+    tf_id.furn = f_null;
+    tf_id.ter = default_ter;
+    weightlist[ 1000000 ] = tf_id;
+    boosted_weightlist[ 1000000 ] = tf_id;
+
+    percent_str.clear();
+    boosted_percent_str.clear();
+//#define testingregion 1
+#ifdef testingregion
+std::string dbmsg="\nweight: ";
+for(std::map<int, ter_furn_id>::const_iterator it = weightlist.begin(); it != weightlist.end(); ++it) {
+   dbmsg=string_format("%s | [%d] = ( %d / %d )",dbmsg.c_str(), it->first,it->second.ter,it->second.furn);
 };
+dbmsg=string_format("%s\nboost: ",dbmsg.c_str());
+for(std::map<int, ter_furn_id>::const_iterator it = boosted_weightlist.begin(); it != boosted_weightlist.end(); ++it) {
+   dbmsg=string_format("%s | [%d] = ( %d / %d )",dbmsg.c_str(), it->first,it->second.ter,it->second.furn);
+};
+debugmsg("%s\n",dbmsg.c_str());
+int rn = rng( 0, 1000000 );
+std::map<int,ter_furn_id>::const_iterator it = boosted_weightlist.lower_bound( rn );
+debugmsg("rng %d end=%d sz=%d i=%d %d/%d",rn,(it == boosted_weightlist.end()),boosted_weightlist.size(),it->first,it->second.ter,it->second.furn);
+// b: 1 4 11722/3
+
+#endif
+}
+ter_furn_id groundcover_extra::pick( bool boosted ) const {
+    if ( boosted ) {
+        return boosted_weightlist.lower_bound( rng( 0, 1000000 ) )->second;
+    }
+    return weightlist.lower_bound( rng( 0, 1000000 ) )->second;
+}
 
 void regional_settings::setup() {
-    default_groundcover.primary = tmpterfind(default_groundcover.primary_str);
-    default_groundcover.secondary = tmpterfind(default_groundcover.secondary_str);
-
+  if ( default_groundcover_str != NULL ) {
+    default_groundcover.primary = terfind(default_groundcover_str->primary_str);
+    default_groundcover.secondary = terfind(default_groundcover_str->secondary_str);
+    field_coverage.setup();
     city_spec.shops.setup();
     city_spec.parks.setup();
-
+    default_groundcover_str = NULL;
+  }
 }
