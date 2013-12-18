@@ -526,7 +526,7 @@ void veh_interact::do_repair(task_reason reason)
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_%1$s>powered welder</color> or <color_%2$s>duct tape</color> to repair."),
+                       _("You need a <color_%1$s>powered welder and welding goggles</color> or <color_%2$s>duct tape</color> to repair."),
                        (has_welder && has_goggles) ? "ltgreen" : "red",
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);

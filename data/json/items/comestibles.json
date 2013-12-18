@@ -2754,7 +2754,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_feline",
-        "name" : "feine serum",
+        "name" : "feline serum",
         "weight" : 1,
         "color" : "red",
         "addiction_type" : "none",

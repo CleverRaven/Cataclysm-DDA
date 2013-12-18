@@ -802,25 +802,28 @@ bool game::do_turn()
     }
 
     process_activity();
-    if(!u.has_disease("sleep")) {
-        while (u.moves > 0) {
-            cleanup_dead();
-            if (u.activity.type == ACT_NULL) {
-                draw();
-            }
+    if (!u.has_disease("sleep") && !u.has_disease("lying_down")) {
+        if (u.moves > 0)
+        {
+            while (u.moves > 0) {
+                cleanup_dead();
+                if (u.activity.type == ACT_NULL) {
+                    draw();
+                }
 
-            if(handle_action()) {
-                ++moves_since_last_save;
-                u.action_taken();
-            }
+                if(handle_action()) {
+                    ++moves_since_last_save;
+                    u.action_taken();
+                }
 
-            if (is_game_over()) {
-                cleanup_at_end();
-                return true;
+                if (is_game_over()) {
+                    cleanup_at_end();
+                    return true;
+                }
             }
+        } else {
+            handle_key_blocking_activity();
         }
-    } else {
-        handle_key_blocking_activity();
     }
     update_scent();
     m.vehmove();
@@ -5049,8 +5052,13 @@ int game::mon_info(WINDOW *w)
 
     if (newseen > mostseen) {
         if (newseen - mostseen == 1) {
-            monster &critter = critter_tracker.find(new_seen_mon.back());
-            cancel_activity_query(_("%s spotted!"), critter.name().c_str());
+            if(new_seen_mon.size() > 0) {
+                monster &critter = critter_tracker.find(new_seen_mon.back());
+                cancel_activity_query(_("%s spotted!"), critter.name().c_str());
+            } else {
+                //Hostile NPC
+                cancel_activity_query(_("Hostile survivor spotted!"));
+            }
         } else {
             cancel_activity_query(_("Monsters spotted!"));
         }
