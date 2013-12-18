@@ -19139,7 +19139,7 @@
   "time": 10000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "welding_book", 8 ], ["book_icef", 4],
+  "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "components": [
     [
       ["leather", 5]
@@ -21778,7 +21778,7 @@
   "time": 15000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "textbook_electronics", 3 ] , ["adv_electronics", 3] , [ "recipe_melee", 4 ]],
+  "book_learn": [[ "textbook_electronics", 3 ] , ["advanced_electronics", 3] , [ "recipe_melee", 4 ]],
   "tools": [
     [
       [ "toolset", 1 ],
