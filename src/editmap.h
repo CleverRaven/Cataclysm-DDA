@@ -93,8 +93,6 @@ class editmap
         bool refresh_mplans;
         shapetype editshape;
 
-        game *g;
-
         std::string padding;
 
         std::string fids[num_fields];
@@ -109,8 +107,7 @@ class editmap
         int zlevel;
         bool uberdraw;
         std::map<oter_id, int> oter_special;
-        editmap(game *gptr) {
-            g = gptr;
+        editmap() {
             width = TERMX - TERRAIN_WINDOW_WIDTH;
             height = TERMY - TERRAIN_WINDOW_HEIGHT;
             infoHeight = 0;

@@ -332,7 +332,7 @@ bool game::opening_screen()
                 if (chInput == KEY_UP || chInput == 'k' || chInput == '\n') {
                     if (sel2 == 0 || sel2 == 2 || sel2 == 3) {
                         setup();
-                        if (!u.create(this, (sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2)?PLTYPE_RANDOM : PLTYPE_NOW))) {
+                        if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2)?PLTYPE_RANDOM : PLTYPE_NOW))) {
                             u = player();
                             delwin(w_open);
                             return (opening_screen());
@@ -505,7 +505,7 @@ bool game::opening_screen()
                             setup();
                         }
 
-                        if (world == NULL || !gamemode->init(this)) {
+                        if (world == NULL || !gamemode->init()) {
                             delete gamemode;
                             gamemode = new special_game;
                             u = player();
@@ -672,7 +672,7 @@ bool game::opening_screen()
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 } else if (input == DirectionE || input == Confirm) {
                     setup();
-                    if (!u.create(this, PLTYPE_TEMPLATE, templates[sel3])) {
+                    if (!u.create(PLTYPE_TEMPLATE, templates[sel3])) {
                         u = player();
                         delwin(w_open);
                         return (opening_screen());

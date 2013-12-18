@@ -1,69 +1,73 @@
 #include "mission.h"
 #include "game.h"
 
-mission mission_type::create(game *g, int npc_id)
+mission mission_type::create(int npc_id)
 {
- mission ret;
- ret.uid = g->assign_mission_id();
- ret.type = this;
- ret.npc_id = npc_id;
- ret.item_id = item_id;
- ret.value = value;
- ret.follow_up = follow_up;
+    mission ret;
+    ret.uid = g->assign_mission_id();
+    ret.type = this;
+    ret.npc_id = npc_id;
+    ret.item_id = item_id;
+    ret.value = value;
+    ret.follow_up = follow_up;
 
- if (deadline_low != 0 || deadline_high != 0)
-  ret.deadline = int(g->turn) + rng(deadline_low, deadline_high);
- else
-  ret.deadline = 0;
+    if (deadline_low != 0 || deadline_high != 0) {
+        ret.deadline = int(g->turn) + rng(deadline_low, deadline_high);
+    } else {
+        ret.deadline = 0;
+    }
 
- return ret;
+    return ret;
 }
 
 std::string mission::name()
 {
- if (type == NULL)
-  return "NULL";
- return type->name;
+    if (type == NULL) {
+        return "NULL";
+    }
+    return type->name;
 }
 
 std::string mission::save_info()
 {
- std::stringstream ret;
- if (type == NULL)
-  ret << -1;
- else
-  ret << type->id;
- ret << description << " <> " << (failed ? 1 : 0) << " " << value <<
+    std::stringstream ret;
+    if (type == NULL) {
+        ret << -1;
+    } else {
+        ret << type->id;
+    }
+    ret << description << " <> " << (failed ? 1 : 0) << " " << value <<
         " " << reward.type << " " << reward.value << " " << reward.item_id <<
-        " " << (reward.skill?reward.skill->id():0) << " " << uid << " " << target.x << " " <<
+        " " << (reward.skill ? reward.skill->id() : 0) << " " << uid << " " << target.x << " " <<
         target.y << " " << item_id << " " << count << " " << deadline << " " <<
         npc_id << " " << good_fac_id << " " << bad_fac_id << " " << step <<
         " " << follow_up;
 
- return ret.str();
+    return ret.str();
 }
 
-void mission::load_info(game *g, std::ifstream &data)
+void mission::load_info(std::ifstream &data)
 {
- int type_id, rewtype, reward_id, rew_skill, tmpfollow;
- std::string rew_item, itemid;
- data >> type_id;
- type = &(g->mission_types[type_id]);
- std::string tmpdesc;
- do {
-  data >> tmpdesc;
-  if (tmpdesc != "<>")
-   description += tmpdesc + " ";
- } while (tmpdesc != "<>");
- description = description.substr( 0, description.size() - 1 ); // Ending ' '
- data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
+    int type_id, rewtype, reward_id, rew_skill, tmpfollow;
+    std::string rew_item, itemid;
+    data >> type_id;
+    type = &(g->mission_types[type_id]);
+    std::string tmpdesc;
+    do {
+        data >> tmpdesc;
+        if (tmpdesc != "<>") {
+            description += tmpdesc + " ";
+        }
+    } while (tmpdesc != "<>");
+    description = description.substr( 0, description.size() - 1 ); // Ending ' '
+    data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
          uid >> target.x >> target.y >> itemid >> count >> deadline >> npc_id >>
          good_fac_id >> bad_fac_id >> step >> tmpfollow;
- follow_up = mission_id(tmpfollow);
- reward.type = npc_favor_type(reward_id);
- reward.item_id = itype_id( rew_item );
- reward.skill = Skill::skill( rew_skill );
- item_id = itype_id(itemid);
+    follow_up = mission_id(tmpfollow);
+    reward.type = npc_favor_type(reward_id);
+    reward.item_id = itype_id( rew_item );
+    reward.skill = Skill::skill( rew_skill );
+    item_id = itype_id(itemid);
 }
 
 std::string mission_dialogue (mission_id id, talk_topic state)
@@ -74,10 +78,14 @@ std::string mission_dialogue (mission_id id, talk_topic state)
         switch (state) {
         case TALK_MISSION_DESCRIBE:
             switch (rng(1, 4)) {
-            case 1: return _("Hey <name_g>... I really need your help...");
-            case 2: return _("<swear!><punc> I'm hurting...");
-            case 3: return _("This infection is bad, <very> bad...");
-            case 4: return _("Oh god, it <swear> hurts...");
+            case 1:
+                return _("Hey <name_g>... I really need your help...");
+            case 2:
+                return _("<swear!><punc> I'm hurting...");
+            case 3:
+                return _("This infection is bad, <very> bad...");
+            case 4:
+                return _("Oh god, it <swear> hurts...");
             }
             break;
         case TALK_MISSION_OFFER:

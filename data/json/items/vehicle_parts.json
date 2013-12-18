@@ -549,5 +549,21 @@
         "cutting": 0,
         "category" : "veh_parts",
         "price": 900
+    },
+    {
+        "type":"GENERIC",
+        "id": "recharge_station",
+        "name": "recharging station",
+        "description": "An induction based charging system designed to operate on vehicle power. Once installed in a vehicle storage space, it will slowly charge all tools with rechargeable batteries in that space. The system can only be installed in existing storage compartments.",
+        "weight": 2500,
+        "to_hit": 1,
+        "color": "light_blue",
+        "symbol": "-",
+        "material": ["steel", "plastic"],
+        "volume": 8,
+        "bashing": 5,
+        "cutting": 0,
+        "category" : "veh_parts",
+        "price": 900
     }
 ]

@@ -654,7 +654,7 @@
         "damage_modifier" : 0,
         "mod_targets" : ["rifle"],
         "bashing" : 2,
-        "flags" : ["MODE_AUX"],
+        "flags" : ["MODE_AUX", "RELOAD_ONE"],
         "ammo_modifier" : "shot"
     },
     {
@@ -678,7 +678,7 @@
         "damage_modifier" : 0,
         "mod_targets" : ["rifle"],
         "bashing" : 2,
-        "flags" : ["MODE_AUX"],
+        "flags" : ["MODE_AUX", "RELOAD_ONE"],
         "ammo_modifier" : "shot"
     },
     {

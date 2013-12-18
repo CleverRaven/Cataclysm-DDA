@@ -6,8 +6,8 @@
 #define START_LINE 1
 #define START_COLUMN 1
 
-live_view::live_view() : compact_view(false), w_live_view(NULL), 
-    enabled(false), inuse(false), last_height(-1)
+live_view::live_view() : compact_view(false), w_live_view(NULL),
+                         enabled(false), inuse(false), last_height(-1)
 {
 
 }
@@ -17,7 +17,7 @@ live_view::~live_view()
     delwin(w_live_view);
 }
 
-void live_view::init(game *g, int start_x, int start_y, int width, int height)
+void live_view::init(int start_x, int start_y, int width, int height)
 {
     enabled = true;
     if (w_live_view != NULL) {
@@ -26,7 +26,6 @@ void live_view::init(game *g, int start_x, int start_y, int width, int height)
 
     this->width = width;
     this->height = height;
-    this->g = g;
     w_live_view = newwin(height, width, start_y, start_x);
     hide();
 }

@@ -8,7 +8,7 @@ class overmapbuffer
 public:
     overmapbuffer();
 
-    overmap &get( game *g, const int x, const int y );
+    overmap &get( const int x, const int y );
     void save();
     void clear();
 

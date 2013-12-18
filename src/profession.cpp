@@ -6,6 +6,7 @@
 
 #include "output.h" //debugmsg
 #include "json.h"
+#include "player.h"
 
 profession::profession()
    : _ident(""), _name("null"), _description("null"), _point_cost(0)

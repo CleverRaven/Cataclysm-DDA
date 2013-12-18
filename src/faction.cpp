@@ -457,7 +457,7 @@ std::string faction::describe()
  return ret;
 }
 
-int faction::response_time(game *g)
+int faction::response_time()
 {
  int base = abs(mapx - g->levx);
  if (abs(mapy - g->levy) > base)

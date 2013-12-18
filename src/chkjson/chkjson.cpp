@@ -171,7 +171,7 @@ void load_json_dir(std::string const &dirname)
         infile.close();
         // parse it
         try {
-            JsonIn jsin(&iss);
+            JsonIn jsin(iss);
             load_all_from_json(jsin);
         } catch (std::string e) {
             throw *(it) + ": " + e;

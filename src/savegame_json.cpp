@@ -136,7 +136,7 @@ void player::json_load_common_variables(JsonObject & data)
     data.read("radiation",radiation);
     data.read("scent",scent);
     data.read("moves",moves);
-    data.read("dodges_left",dodges_left);
+    data.read("dodges_left",num_dodges);
     data.read("underwater",underwater);
     data.read("oxygen",oxygen);
     data.read("male",male);
@@ -180,6 +180,7 @@ void player::json_load_common_variables(JsonObject & data)
 
     data.read("ma_styles",ma_styles);
     data.read("illness",illness);
+    data.read("effects",effects);
     data.read("addictions",addictions);
     data.read("my_bionics",my_bionics);
 }
@@ -211,7 +212,7 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // initiative type stuff
     json.member( "moves", moves );
-    json.member( "dodges_left", dodges_left );
+    json.member( "dodges_left", num_dodges);
 
     // breathing
     json.member( "underwater", underwater );
@@ -252,6 +253,7 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // disease
     json.member( "illness", illness );
+    json.member( "effects", effects );
 
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
@@ -287,7 +289,7 @@ void player::serialize(JsonOut &json, bool save_contents) const
     json.member( "grab_type", obj_type_name[ (int)grab_type ] );
 
     // misc player specific stuff
-    json.member( "blocks_left", blocks_left );
+    json.member( "blocks_left", num_blocks );
     json.member( "focus_pool", focus_pool );
     json.member( "style_selected", style_selected );
 
@@ -384,7 +386,7 @@ void player::deserialize(JsonIn &jsin)
         grab_type = (object_type)obj_type_id[grab_typestr];
     }
 
-    data.read( "blocks_left", blocks_left);
+    data.read( "blocks_left", num_blocks);
     data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );
 
@@ -1136,6 +1138,7 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("lights_on", lights_on);
     data.read("overhead_lights_on", overhead_lights_on);
     data.read("fridge_on", fridge_on);
+    data.read("recharger_on", recharger_on);
     data.read("skidding", skidding);
     data.read("turret_mode", turret_mode);
     data.read("of_turn_carry", of_turn_carry);
@@ -1187,6 +1190,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "lights_on", lights_on );
     json.member( "overhead_lights_on", overhead_lights_on );
     json.member( "fridge_on", fridge_on );
+    json.member( "recharger_on", recharger_on );
     json.member( "skidding", skidding );
     json.member( "turret_mode", turret_mode );
     json.member( "of_turn_carry", of_turn_carry );

@@ -22,7 +22,7 @@ void mdeath::normal(monster *z) {
 
     // leave some blood if we have to
     if (isFleshy && z->has_flag(MF_WARM) && !z->has_flag(MF_VERMIN)) {
-        g->m.add_field(g, z->posx(), z->posy(), fd_blood, 1);
+        g->m.add_field(z->posx(), z->posy(), fd_blood, 1);
     }
 
     int maxHP = z->type->hp;
@@ -58,7 +58,7 @@ void mdeath::acid(monster *z) {
     if (g->u_see(z)) {
         g->add_msg(_("The %s's body dissolves into acid."), z->name().c_str());
     }
-    g->m.add_field(g, z->posx(), z->posy(), fd_acid, 3);
+    g->m.add_field(z->posx(), z->posy(), fd_acid, 3);
 }
 
 void mdeath::boomer(monster *z) {
@@ -67,10 +67,10 @@ void mdeath::boomer(monster *z) {
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             g->m.bash(z->posx() + i, z->posy() + j, 10, tmp);
-            g->m.add_field(g, z->posx() + i, z->posy() + j, fd_bile, 1);
+            g->m.add_field(z->posx() + i, z->posy() + j, fd_bile, 1);
             int mondex = g->mon_at(z->posx() + i, z->posy() +j);
             if (mondex != -1) {
-                g->zombie(mondex).stumble(g, false);
+                g->zombie(mondex).stumble(false);
                 g->zombie(mondex).moves -= 250;
             }
         }
@@ -441,10 +441,10 @@ void mdeath::smokeburst(monster *z) {
     g->sound(z->posx(), z->posy(), 24, _("a smoker explode!"));
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
-            g->m.add_field(g, z->posx() + i, z->posy() + j, fd_smoke, 3);
+            g->m.add_field(z->posx() + i, z->posy() + j, fd_smoke, 3);
             int mondex = g->mon_at(z->posx() + i, z->posy() +j);
             if (mondex != -1) {
-                g->zombie(mondex).stumble(g, false);
+                g->zombie(mondex).stumble(false);
                 g->zombie(mondex).moves -= 250;
             }
         }
@@ -529,6 +529,8 @@ void mdeath::zombie(monster *z) {
               if (one_in(3)) {
                   g->m.put_items_from("hazmat_eyes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
               }
+	    		}
+        break;
 
 	    	case 6: // mon_zombie_fireman
               g->m.put_items_from("fireman_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
@@ -541,8 +543,8 @@ void mdeath::zombie(monster *z) {
               if (one_in(3)) {
                   g->m.put_items_from("hazmat_eyes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
               }
-			}
-        break;
+            break;
+
 
         default:
             g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
@@ -596,14 +598,14 @@ void make_gibs(monster* z, int amount) {
         int junk;
         if( g->m.clear_path( zposx, zposy, gibX, gibY, 3, 1, 100, junk ) ) {
             // Only place gib if there's a clear path for it to get there.
-            g->m.add_field(g, gibX, gibY, gibType, gibDensity);
+            g->m.add_field(gibX, gibY, gibType, gibDensity);
         }
         if( warm ) {
             const int bloodX = zposx + (rng(0,2) - 1);
             const int bloodY = zposy + (rng(0,2) - 1);
             if( g->m.clear_path( zposx, zposy, bloodX, bloodY, 2, 1, 100, junk ) ) {
                 // Only place blood if there's a clear path for it to get there.
-                g->m.add_field(g, bloodX, bloodY, fd_blood, 1);
+                g->m.add_field(bloodX, bloodY, fd_blood, 1);
             }
         }
     }

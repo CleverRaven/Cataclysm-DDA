@@ -19,15 +19,15 @@
 #include <sstream>
 #include <algorithm>
 
-void iexamine::none(game *g, player *p, map *m, int examx, int examy)
+void iexamine::none(player *p, map *m, int examx, int examy)
 {
     (void)p; //unused
     g->add_msg(_("That is a %s."), m->name(examx, examy).c_str());
 };
 
-void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::gaspump(player *p, map *m, int examx, int examy) {
  if (!query_yn(_("Use the %s?"),m->tername(examx, examy).c_str())) {
-  none(g, p, m, examx, examy);
+  none(p, m, examx, examy);
   return;
  }
 
@@ -58,7 +58,7 @@ void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
  g->add_msg(_("Out of order."));
 }
 
-void iexamine::toilet(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::toilet(player *p, map *m, int examx, int examy) {
     std::vector<item>& items = m->i_at(examx, examy);
     int waterIndex = -1;
     for (int i = 0; i < items.size(); i++) {
@@ -91,7 +91,7 @@ void iexamine::toilet(game *g, player *p, map *m, int examx, int examy) {
             water_temp.charges = std::min(water_temp.charges, water.charges);
 
             p->inv.push_back(water_temp);
-            p->consume(g, p->inv.position_by_type(water_temp.typeId()));
+            p->consume(p->inv.position_by_type(water_temp.typeId()));
             p->moves -= 350;
 
             water.charges -= water_temp.charges;
@@ -106,7 +106,7 @@ void iexamine::toilet(game *g, player *p, map *m, int examx, int examy) {
     }
 }
 
-void iexamine::elevator(game *g, player *p, map *m, int examx, int examy)
+void iexamine::elevator(player *p, map *m, int examx, int examy)
 {
     (void)p; //unused
     if (!query_yn(_("Use the %s?"), m->tername(examx, examy).c_str())) {
@@ -116,15 +116,15 @@ void iexamine::elevator(game *g, player *p, map *m, int examx, int examy)
     g->vertical_move( movez, false );
 }
 
-void iexamine::controls_gate(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::controls_gate(player *p, map *m, int examx, int examy) {
  if (!query_yn(_("Use the %s?"),m->tername(examx, examy).c_str())) {
-  none(g, p, m, examx, examy);
+  none(p, m, examx, examy);
   return;
  }
- g->open_gate(g,examx,examy, (ter_id)m->ter(examx,examy));
+ g->open_gate(examx,examy, (ter_id)m->ter(examx,examy));
 }
 
-void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::cardreader(player *p, map *m, int examx, int examy) {
  itype_id card_type = (m->ter(examx, examy) == t_card_science ? "id_science" :
                        "id_military");
  if (p->has_amount(card_type, 1) && query_yn(_("Swipe your ID card?"))) {
@@ -192,7 +192,7 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
  }
 }
 
-void iexamine::rubble(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::rubble(player *p, map *m, int examx, int examy) {
     if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1)|| p->has_amount("e_tool", 1))) {
         g->add_msg(_("If only you had a shovel..."));
         return;
@@ -221,9 +221,9 @@ void iexamine::rubble(game *g, player *p, map *m, int examx, int examy) {
     }
 }
 
-void iexamine::chainfence(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::chainfence(player *p, map *m, int examx, int examy) {
  if (!query_yn(_("Climb %s?"),m->tername(examx, examy).c_str())) {
-  none(g, p, m, examx, examy);
+  none(p, m, examx, examy);
   return;
  }
  p->moves -= 400;
@@ -236,9 +236,9 @@ void iexamine::chainfence(game *g, player *p, map *m, int examx, int examy) {
  }
 }
 
-void iexamine::tent(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::tent(player *p, map *m, int examx, int examy) {
  if (!query_yn(_("Take down your tent?"))) {
-  none(g, p, m, examx, examy);
+  none(p, m, examx, examy);
   return;
  }
  p->moves -= 200;
@@ -250,9 +250,9 @@ void iexamine::tent(game *g, player *p, map *m, int examx, int examy) {
  m->add_item_or_charges(examx, examy, dropped);
 }
 
-void iexamine::shelter(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::shelter(player *p, map *m, int examx, int examy) {
  if (!query_yn(_("Take down %s?"),m->furnname(examx, examy).c_str())) {
-  none(g, p, m, examx, examy);
+  none(p, m, examx, examy);
   return;
  }
  p->moves -= 200;
@@ -264,7 +264,7 @@ void iexamine::shelter(game *g, player *p, map *m, int examx, int examy) {
  m->add_item_or_charges(examx, examy, dropped);
 }
 
-void iexamine::wreckage(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::wreckage(player *p, map *m, int examx, int examy) {
  if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1)|| p->has_amount("e_tool", 1))) {
   g->add_msg(_("If only you had a shovel..."));
   return;
@@ -286,10 +286,10 @@ void iexamine::wreckage(game *g, player *p, map *m, int examx, int examy) {
  }
 }
 
-void iexamine::pit(game *g, player *p, map *m, int examx, int examy)
+void iexamine::pit(player *p, map *m, int examx, int examy)
 {
     inventory map_inv;
-    map_inv.form_from_map(g, point(p->posx, p->posy), 1);
+    map_inv.form_from_map(point(p->posx, p->posy), 1);
 
     bool player_has = p->has_amount("2x4", 1);
     bool map_has = map_inv.has_amount("2x4", 1);
@@ -297,7 +297,7 @@ void iexamine::pit(game *g, player *p, map *m, int examx, int examy)
     // return if there is no 2x4 around
     if (!player_has && !map_has)
     {
-        none(g, p, m, examx, examy);
+        none(p, m, examx, examy);
         return;
     }
 
@@ -336,11 +336,11 @@ void iexamine::pit(game *g, player *p, map *m, int examx, int examy)
     }
 }
 
-void iexamine::pit_covered(game *g, player *p, map *m, int examx, int examy)
+void iexamine::pit_covered(player *p, map *m, int examx, int examy)
 {
     if(!query_yn(_("Remove cover?")))
     {
-        none(g, p, m, examx, examy);
+        none(p, m, examx, examy);
         return;
     }
 
@@ -358,7 +358,7 @@ void iexamine::pit_covered(game *g, player *p, map *m, int examx, int examy)
     }
 }
 
-void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::fence_post(player *p, map *m, int examx, int examy) {
 
  int ch = menu(true, _("Fence Construction:"), _("Rope Fence"),
                _("Wire Fence"), _("Barbed Wire Fence"), _("Cancel"), NULL);
@@ -396,9 +396,9 @@ void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
  }
 }
 
-void iexamine::remove_fence_rope(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::remove_fence_rope(player *p, map *m, int examx, int examy) {
  if(!query_yn(_("Remove %s?"),m->tername(examx, examy).c_str())) {
-  none(g, p, m, examx, examy);
+  none(p, m, examx, examy);
   return;
  }
  item rope(itypes["rope_6"], g->turn);
@@ -409,9 +409,9 @@ void iexamine::remove_fence_rope(game *g, player *p, map *m, int examx, int exam
 
 }
 
-void iexamine::remove_fence_wire(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::remove_fence_wire(player *p, map *m, int examx, int examy) {
  if(!query_yn(_("Remove %s?"),m->tername(examx, examy).c_str())) {
-  none(g, p, m, examx, examy);
+  none(p, m, examx, examy);
   return;
  }
 
@@ -422,9 +422,9 @@ void iexamine::remove_fence_wire(game *g, player *p, map *m, int examx, int exam
  p->moves -= 200;
 }
 
-void iexamine::remove_fence_barbed(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::remove_fence_barbed(player *p, map *m, int examx, int examy) {
  if(!query_yn(_("Remove %s?"),m->tername(examx, examy).c_str())) {
-  none(g, p, m, examx, examy);
+  none(p, m, examx, examy);
   return;
  }
 
@@ -435,7 +435,7 @@ void iexamine::remove_fence_barbed(game *g, player *p, map *m, int examx, int ex
  p->moves -= 200;
 }
 
-void iexamine::slot_machine(game *g, player *p, map *m, int examx, int examy)
+void iexamine::slot_machine(player *p, map *m, int examx, int examy)
 {
     (void)m; (void)examx; (void)examy; //unused
     if (p->cash < 10) {
@@ -461,7 +461,7 @@ void iexamine::slot_machine(game *g, player *p, map *m, int examx, int examy)
     }
 }
 
-void iexamine::safe(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::safe(player *p, map *m, int examx, int examy) {
   if (!p->has_amount("stethoscope", 1)) {
     g->add_msg(_("You need a stethoscope for safecracking."));
     return;
@@ -479,7 +479,7 @@ void iexamine::safe(game *g, player *p, map *m, int examx, int examy) {
   }
 }
 
-void iexamine::bulletin_board(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::bulletin_board(player *p, map *m, int examx, int examy) {
     (void)g; (void)p; //unused
     basecamp *camp = m->camp_at(examx, examy);
     if (camp && camp->board_x() == examx && camp->board_y() == examy) {
@@ -506,7 +506,7 @@ void iexamine::bulletin_board(game *g, player *p, map *m, int examx, int examy) 
     }
 }
 
-void iexamine::fault(game *g, player *p, map *m, int examx, int examy)
+void iexamine::fault(player *p, map *m, int examx, int examy)
 {
     (void)g; (void)p; (void)m; (void)examx; (void)examy; //unused
     popup(_("\
@@ -515,9 +515,9 @@ as far back into the solid rock as you can see.  The holes are humanoid in\n\
 shape, but with long, twisted, distended limbs."));
 }
 
-void iexamine::pedestal_wyrm(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::pedestal_wyrm(player *p, map *m, int examx, int examy) {
  if (!m->i_at(examx, examy).empty()) {
-  none(g, p, m, examx, examy);
+  none(p, m, examx, examy);
   return;
  }
  g->add_msg(_("The pedestal sinks into the ground..."));
@@ -525,7 +525,7 @@ void iexamine::pedestal_wyrm(game *g, player *p, map *m, int examx, int examy) {
  g->add_event(EVENT_SPAWN_WYRMS, int(g->turn) + rng(5, 10));
 }
 
-void iexamine::pedestal_temple(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::pedestal_temple(player *p, map *m, int examx, int examy) {
 
  if (m->i_at(examx, examy).size() == 1 &&
      m->i_at(examx, examy)[0].type->id == "petrified_eye") {
@@ -544,10 +544,10 @@ void iexamine::pedestal_temple(game *g, player *p, map *m, int examx, int examy)
 large semi-spherical indentation at the top."));
 }
 
-void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy)
+void iexamine::fswitch(player *p, map *m, int examx, int examy)
 {
     if(!query_yn(_("Flip the %s?"), m->tername(examx, examy).c_str())) {
-        none(g, p, m, examx, examy);
+        none(p, m, examx, examy);
         return;
     }
     ter_id terid = m->ter(examx, examy);
@@ -607,13 +607,13 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy)
     g->add_event(EVENT_TEMPLE_SPAWN, g->turn + 3);
 }
 
-void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
   if(!query_yn(_("Pick %s?"),m->furnname(examx, examy).c_str())) {
-    none(g, p, m, examx, examy);
+    none(p, m, examx, examy);
     return;
   }
 
-  int resist = p->resist(bp_mouth);
+  int resist = p->get_env_resist(bp_mouth);
 
   if (resist < 10) {
     // Can't smell the flowers with a gas mask on!
@@ -626,7 +626,7 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
     g->add_msg(_("You fall asleep..."));
     p->fall_asleep(1200);
     g->add_msg(_("Your legs are covered by flower's roots!"));
-    p->hurt(g,bp_legs, 0, 4);
+    p->hurt(bp_legs, 0, 4);
     p->moves -=50;
   }
 
@@ -635,7 +635,7 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
   m->spawn_item(examx, examy, "poppy_bud");
 }
 
-void iexamine::fungus(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::fungus(player *p, map *m, int examx, int examy) {
     // TODO: Infect NPCs?
     monster spore(GetMType("mon_spore"));
     int mondex;
@@ -689,7 +689,7 @@ void iexamine::fungus(game *g, player *p, map *m, int examx, int examy) {
     p->moves -=50;
 }
 
-void iexamine::dirtmound(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::dirtmound(player *p, map *m, int examx, int examy) {
 
     if (g->get_temperature() < 50) { // semi-appropriate temperature for most plants
         g->add_msg(_("It is too cold to plant anything now."));
@@ -757,11 +757,11 @@ void iexamine::dirtmound(game *g, player *p, map *m, int examx, int examy) {
     g->add_msg(_("Planted %s"), seed_names[seed_index].c_str());
 }
 
-void iexamine::aggie_plant(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::aggie_plant(player *p, map *m, int examx, int examy) {
     if (m->furn(examx, examy) == f_plant_harvest && query_yn(_("Harvest plant?"))) {
         itype_id seedType = m->i_at(examx, examy)[0].typeId();
         if (seedType == "fungal_seeds") {
-            fungus(g, p, m, examx, examy);
+            fungus(p, m, examx, examy);
             for (int k = 0; k < g->m.i_at(examx, examy).size(); k++) {
                 g->m.i_rem(examx, examy, k);
             }
@@ -794,9 +794,9 @@ void iexamine::aggie_plant(game *g, player *p, map *m, int examx, int examy) {
     }
 }
 
-void iexamine::pick_plant(game *g, player *p, map *m, int examx, int examy, std::string itemType, int new_ter, bool seeds) {
+void iexamine::pick_plant(player *p, map *m, int examx, int examy, std::string itemType, int new_ter, bool seeds) {
   if (!query_yn(_("Pick %s?"), m->tername(examx, examy).c_str())) {
-    none(g, p, m, examx, examy);
+    none(p, m, examx, examy);
     return;
   }
 
@@ -819,31 +819,31 @@ void iexamine::pick_plant(game *g, player *p, map *m, int examx, int examy, std:
   m->ter_set(examx, examy, (ter_id)new_ter);
 }
 
-void iexamine::tree_apple(game *g, player *p, map *m, int examx, int examy) {
-  pick_plant(g, p, m, examx, examy, "apple", t_tree);
+void iexamine::tree_apple(player *p, map *m, int examx, int examy) {
+  pick_plant(p, m, examx, examy, "apple", t_tree);
 }
 
-void iexamine::shrub_blueberry(game *g, player *p, map *m, int examx, int examy) {
-  pick_plant(g, p, m, examx, examy, "blueberries", t_shrub, true);
+void iexamine::shrub_blueberry(player *p, map *m, int examx, int examy) {
+  pick_plant(p, m, examx, examy, "blueberries", t_shrub, true);
 }
 
-void iexamine::shrub_strawberry(game *g, player *p, map *m, int examx, int examy) {
-  pick_plant(g, p, m, examx, examy, "strawberries", t_shrub, true);
+void iexamine::shrub_strawberry(player *p, map *m, int examx, int examy) {
+  pick_plant(p, m, examx, examy, "strawberries", t_shrub, true);
 }
 
-void iexamine::shrub_marloss(game *g, player *p, map *m, int examx, int examy) {
-  pick_plant(g, p, m, examx, examy, "marloss_berry", t_shrub_fungal);
+void iexamine::shrub_marloss(player *p, map *m, int examx, int examy) {
+  pick_plant(p, m, examx, examy, "marloss_berry", t_shrub_fungal);
 }
 
-void iexamine::shrub_wildveggies(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy) {
  if(!query_yn(_("Pick %s?"),m->tername(examx, examy).c_str())) return;
 
- p->assign_activity(g, ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
+ p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
  p->activity.placement = point(examx, examy);
  p->moves = 0;
 }
 
-void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::recycler(player *p, map *m, int examx, int examy) {
 
     if (m->i_at(examx, examy).size() == 0)
     {
@@ -963,16 +963,16 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
     }
 }
 
-void iexamine::trap(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::trap(player *p, map *m, int examx, int examy) {
  if (g->traps[m->tr_at(examx, examy)]->difficulty < 99 &&
      p->per_cur-p->encumb(bp_eyes) >= g->traps[m->tr_at(examx, examy)]->visibility &&
      query_yn(_("There is a %s there.  Disarm?"),
               g->traps[m->tr_at(examx, examy)]->name.c_str())) {
-     m->disarm_trap(g, examx, examy);
+     m->disarm_trap(examx, examy);
  }
 }
 
-void iexamine::water_source(game *g, player *p, map *m, const int examx, const int examy)
+void iexamine::water_source(player *p, map *m, const int examx, const int examy)
 {
     item water = m->water_from(examx, examy);
     // Try to handle first (bottling) drink after.
@@ -984,12 +984,12 @@ void iexamine::water_source(game *g, player *p, map *m, const int examx, const i
     else if (query_yn(_("Drink from your hands?")))
     {
         p->inv.push_back(water);
-        p->consume(g, p->inv.position_by_type(water.typeId()));
+        p->consume(p->inv.position_by_type(water.typeId()));
         p->moves -= 350;
     }
 }
 
-void iexamine::acid_source(game *g, player *p, map *m, const int examx, const int examy)
+void iexamine::acid_source(player *p, map *m, const int examx, const int examy)
 {
     item acid = m->acid_from(examx, examy);
     if (g->handle_liquid(acid, true, true))
@@ -1005,7 +1005,7 @@ void iexamine::acid_source(game *g, player *p, map *m, const int examx, const in
  * @param function_name The name of the function to get.
  * @return A function pointer to the specified function.
  */
-void (iexamine::*iexamine_function_from_string(std::string function_name))(game*, player*, map*, int, int) {
+void (iexamine::*iexamine_function_from_string(std::string function_name))(player*, map*, int, int) {
   if ("none" == function_name) {
     return &iexamine::none;
   }

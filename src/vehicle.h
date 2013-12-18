@@ -12,7 +12,6 @@
 
 class map;
 class player;
-class game;
 
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);
@@ -193,8 +192,6 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 class vehicle : public JsonSerializer, public JsonDeserializer
 {
 private:
-    game *g;
-
     bool has_structural_part(int dx, int dy);
     void open_or_close(int part_index, bool opening);
     bool is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &excluded);
@@ -211,14 +208,14 @@ private:
     void refresh();
 
 public:
-    vehicle (game *ag=0, std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
+    vehicle (std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
 
 // check if given player controls this vehicle
     bool player_in_control (player *p);
 
 // init parts state for randomly generated vehicle
-    void init_state(game* g, int veh_init_fuel, int veh_init_status);
+    void init_state(int veh_init_fuel, int veh_init_status);
 
 // damages all parts of a vehicle by a random amount
     void smash();
@@ -262,9 +259,9 @@ public:
     item item_from_part( int part );
 
 // translate item health to part health
-    void get_part_properties_from_item (game* g, int partnum, item& i);
+    void get_part_properties_from_item (int partnum, item& i);
 // translate part health to item health (very lossy.)
-    void give_part_properties_to_item (game* g, int partnum, item& i);
+    void give_part_properties_to_item (int partnum, item& i);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
     const std::vector<int> parts_at_relative (const int dx, const int dy, bool use_cache = true);
@@ -442,7 +439,7 @@ public:
 // Generates starting items in the car, should only be called when placed on the map
     void place_spawn_items();
 
-    void gain_moves (int mp);
+    void gain_moves();
 
 // reduces velocity to 0
     void stop ();
@@ -539,6 +536,7 @@ public:
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     bool overhead_lights_on; //circle lights on/off
     bool fridge_on;     //fridge on/off
+    bool recharger_on;  //recharger on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
     bool skidding;      // skidding mode
     int last_turn;      // amount of last turning (for calculate skidding due to handbrake)
@@ -550,6 +548,7 @@ public:
     int overhead_power;   // total power of components with CIRCLE_LIGHT flag
     int tracking_power; // total power consumed by tracking devices (why would you use more than one?)
     int fridge_power; // total power consumed by fridges
+    int recharger_power; // total power consumed by rechargers
 };
 
 #endif

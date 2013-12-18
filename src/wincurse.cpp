@@ -402,13 +402,13 @@ void CheckMessages()
 }
 
 // Calculates the new width of the window, given the number of columns.
-int projected_window_width(int column_count)
+int projected_window_width(int)
 {
 	return (55 + (OPTIONS["VIEWPORT_X"] * 2 + 1)) * fontwidth;
 }
 
 // Calculates the new height of the window, given the number of rows.
-int projected_window_height(int row_count)
+int projected_window_height(int)
 {
 	return (OPTIONS["VIEWPORT_Y"] * 2 + 1) * fontheight;
 }
@@ -599,7 +599,7 @@ int curses_start_color(void)
     //Load the console colors from colors.json
     std::ifstream colorfile("data/raw/colors.json", std::ifstream::in | std::ifstream::binary);
     try{
-        JsonIn jsin(&colorfile);
+        JsonIn jsin(colorfile);
         char ch;
         // Manually load the colordef object because the json handler isn't loaded yet.
         jsin.eat_whitespace();

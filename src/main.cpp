@@ -101,7 +101,6 @@ int main(int argc, char *argv[])
     }
 
     g->init_ui();
-    MAPBUFFER.set_game(g);
     if(g->game_error()) {
         exit_handler(-999);
     }

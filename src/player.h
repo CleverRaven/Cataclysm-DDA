@@ -1,11 +1,9 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
+#include "character.h"
 #include "item.h"
 #include "monster.h"
-#include "pldata.h"
-#include "skill.h"
-#include "bionics.h"
 #include "trap.h"
 #include "morale.h"
 #include "inventory.h"
@@ -14,12 +12,6 @@
 #include "crafting.h"
 #include "vehicle.h"
 #include "martialarts.h"
-#include "json.h"
-
-#include "action.h"
-#include <vector>
-#include <string>
-#include <map>
 
 class monster;
 class game;
@@ -76,7 +68,7 @@ struct stats : public JsonSerializer, public JsonDeserializer
     }
 };
 
-class player : public JsonSerializer, public JsonDeserializer
+class player : public Character, public JsonSerializer, public JsonDeserializer
 {
   std::map<Skill*,SkillLevel> _skills;
 
@@ -88,19 +80,27 @@ public:
  player& operator= (const player & rhs);
 
 // newcharacter.cpp
- bool create(game *g, character_type type, std::string tempname = "");
+ bool create(character_type type, std::string tempname = "");
  std::string random_good_trait();
  std::string random_bad_trait();
- void normalize(game *g); // Starting set up of HP and inventory
+ void normalize(); // Starting set up of HP and inventory
+
+ virtual void die(Creature* nkiller);
 // </newcharacter.cpp>
 
- void pick_name(); // Picks a name from NAMES_*
+    void pick_name(); // Picks a name from NAMES_*
+    std::string disp_name(); // what to call 'im
+    std::string skin_name(); // what to call 'im
+
+    virtual bool is_player() { return true; }
+
+    void process_effects(); // Process long-term effects
 
  virtual bool is_npc() { return false; } // Overloaded for NPCs in npc.h
  nc_color color(); // What color to draw us as
 
- virtual void load_legacy(game *g, std::stringstream & dump);  // stringstream loader for old data
- virtual void load_info(game *g, std::string data); // deserialize string when loading
+ virtual void load_legacy(std::stringstream & dump);  // stringstream loader for old data
+ virtual void load_info(std::string data); // deserialize string when loading
  virtual std::string save_info(); // output serialized json string for saving
 
     // populate variables, inventory items, and misc from json object
@@ -115,18 +115,18 @@ public:
     virtual void serialize(JsonOut &jsout, bool save_contents) const;
 
  void memorial( std::ofstream &memorial_file ); // Write out description of player.
- void disp_info(game *g); // '@' key; extended character info
- void disp_morale(game *g); // '%' key; morale info
- void disp_status(WINDOW* w, WINDOW *w2, game *g = NULL);// On-screen data
+ void disp_info(); // '@' key; extended character info
+ void disp_morale(); // '%' key; morale info
+ void disp_status(WINDOW* w, WINDOW *w2);// On-screen data
 
- void reset(game *g = NULL);// Resets movement points, stats, applies effects
+ void reset_stats();// Resets movement points, stats, applies effects
+ void recalc_speed_bonus(); // Calculate the various speed bonuses we will get from mutations etc
  void action_taken(); // Called after every action, invalidates player caches.
  void update_morale(); // Ticks down morale counters and removes them
  void apply_persistent_morale(); // Ensure persistent morale effects are up-to-date.
  void update_mental_focus();
  int calc_focus_equilibrium();
- void update_bodytemp(game *g);  // Maintains body temperature
- int  current_speed(game *g = NULL); // Number of movement points we get a turn
+ void update_bodytemp();  // Maintains body temperature
  int  run_cost(int base_cost, bool diag = false); // Adjust base_cost
  int  swim_speed(); // Our speed when swimming
 
@@ -140,15 +140,15 @@ public:
  std::string get_highest_category() const;
  std::string get_category_dream(const std::string &cat, int strength) const;
 
- bool in_climate_control(game *g);
+ bool in_climate_control();
 
  bool has_bionic(const bionic_id & b) const;
  bool has_active_bionic(const bionic_id & b) const;
  bool has_active_optcloak() const;
  void add_bionic(bionic_id b);
  void charge_power(int amount);
- void power_bionics(game *g);
- void activate_bionic(int b, game *g);
+ void power_bionics();
+ void activate_bionic(int b);
  bool remove_random_bionic();
  int num_bionics() const;
  bionic& bionic_at_index(int i);
@@ -157,13 +157,13 @@ public:
  bionic* bionic_by_invlet(char ch);
  float active_light();
 
- bool mutation_ok(game *g, std::string mutation, bool force_good, bool force_bad);
- void mutate(game *g);
- void mutate_category(game *g, std::string);
- void mutate_towards(game *g, std::string mut);
- void remove_mutation(game *g, std::string mut);
- bool has_child_flag(game *g, std::string mut);
- void remove_child_flag(game *g, std::string mut);
+ bool mutation_ok(std::string mutation, bool force_good, bool force_bad);
+ void mutate();
+ void mutate_category(std::string);
+ void mutate_towards(std::string mut);
+ void remove_mutation(std::string mut);
+ bool has_child_flag(std::string mut);
+ void remove_child_flag(std::string mut);
 
  point pos();
  int  sight_range(int light_level) const;
@@ -180,7 +180,7 @@ public:
 
  bool has_nv();
 
- void pause(game *g); // '.' command; pauses & reduces recoil
+ void pause(); // '.' command; pauses & reduces recoil
 
 // martialarts.cpp
  void ma_static_effects(); // fires all non-triggered martial arts events
@@ -207,7 +207,9 @@ public:
  bool is_quiet(); // martial arts quiet melee
 
  bool can_melee();
+ bool digging();      // always false, because players can't dig
  bool is_on_ground(); // all body parts are available to ground level damage sources
+ bool is_dead_state(); // check if we should be dead or not
 
  bool has_miss_recovery_tec(); // technique-based miss recovery, like tec_feint
  bool has_grab_break_tec(); // technique-based miss recovery, like tec_feint
@@ -217,40 +219,48 @@ public:
 
 // melee.cpp
  bool can_weapon_block(); //gear-based defensive ability
- int  hit_mon(game *g, monster *critter, bool allow_grab = true);
- void hit_player(game *g, player &p, bool allow_grab = true);
+ void melee_attack(Creature &p, bool allow_special = true);
+ double get_weapon_dispersion(item* weapon);
+ void fire_gun(int targetx, int targety, bool burst);
+ int  hit_mon(monster *critter, bool allow_grab = true);
+ void hit_player(player &p, bool allow_grab = true);
 
- bool block_hit(game *g, body_part &bp_hit, int &side,
-    int &bash_dam, int &cut_dam, int &stab_dam);
+ bool block_hit(body_part &bp_hit, int &side,
+    damage_instance &dam);
+
+ bool armor_absorb(damage_unit& du, item& armor);
+ void absorb_hit(body_part bp, int side,
+    damage_instance &dam);
+ void on_gethit(Creature *source, body_part bp_hit, damage_instance &dam);
 
  int base_damage(bool real_life = true, int stat = -999);
  int base_to_hit(bool real_life = true, int stat = -999);
 
+ int get_hit_base();     // Returns the player's to-hit, modded by clothing etc
  int  hit_roll(); // Our basic hit roll, compared to our target's dodge roll
  bool scored_crit(int target_dodge = 0); // Critical hit?
 
- int roll_bash_damage(monster *critter, bool crit);
- int roll_cut_damage(monster *critter, bool crit);
- int roll_stab_damage(monster *critter, bool crit);
+ int roll_bash_damage(bool crit);
+ int roll_cut_damage(bool crit);
+ int roll_stab_damage(bool crit);
  int roll_stuck_penalty(bool stabbing);
 
  std::vector<matec_id> get_all_techniques();
 
  bool has_technique(matec_id tec);
- matec_id pick_technique(game *g, monster *critter, player *p,
+ matec_id pick_technique(Creature &t,
                              bool crit, bool allowgrab);
- void perform_technique(ma_technique technique, game *g, monster *critter, player *p,
+ void perform_technique(ma_technique technique, Creature &t,
                        int &bash_dam, int &cut_dam, int &pierce_dam, int &pain);
 
- void perform_special_attacks(game *g, monster *critter, player *p,
-                        int &bash_dam, int &cut_dam, int &pierce_dam);
+ void perform_special_attacks(Creature &t);
 
- std::vector<special_attack> mutation_attacks(monster *critter, player *p);
- std::string melee_special_effects(game *g, monster *critter, player *p, bool crit,
-                            int &bash_dam, int &cut_dam, int &stab_dam);
+ std::vector<special_attack> mutation_attacks(Creature &t);
+ std::string melee_special_effects(Creature &t, damage_instance& d);
 
- int  dodge(game *g);     // Returns the players's dodge, modded by clothing etc
- int  dodge_roll(game *g);// For comparison to hit_roll()
+ int get_dodge_base();   // Returns the players's dodge, modded by clothing etc
+ int get_dodge();
+ int dodge_roll();// For comparison to hit_roll()
 
  bool uncanny_dodge(bool is_u = true);      // Move us to an adjacent_tile() if available. Display message if player is dodging.
  point adjacent_tile();     // Returns an unoccupied, safe adjacent point. If none exists, returns player position.
@@ -268,22 +278,26 @@ public:
  int intimidation(); // Physical intimidation
 
 // Converts bphurt to a hp_part (if side == 0, the left), then does/heals dam
-// hit() processes damage through armor
- int hit   (game *g, body_part bphurt, int side, int  dam, int  cut);
 // absorb() reduces dam and cut by your armor (and bionics, traits, etc)
- void absorb(game *g, body_part bp,               int &dam, int &cut);
+ void absorb(body_part bp,               int &dam, int &cut);
 // hurt() doesn't--effects of disease, what have you
- void hurt (game *g, body_part bphurt, int side, int  dam);
+ void hurt (body_part bphurt, int side, int  dam);
  void hurt (hp_part hurt, int dam);
+
+ dealt_damage_instance deal_damage(Creature* source, body_part bp,
+                                   int side, const damage_instance& d);
+ void apply_damage(Creature* source, body_part bp, int side, int amount);
+
+ void mod_pain(int npain);
 
  void heal(body_part healed, int side, int dam);
  void heal(hp_part healed, int dam);
  void healall(int dam);
  void hurtall(int dam);
  // checks armor. if vary > 0, then damage to parts are random within 'vary' percent (1-100)
- void hitall(game *g, int dam, int vary = 0);
+ void hitall(int dam, int vary = 0);
  // Sends us flying one tile
- void knock_back_from(game *g, int x, int y);
+ void knock_back_from(int x, int y);
 
  //Converts bp/side to hp_part and back again
  void bp_convert(hp_part &hpart, body_part bp, int side);
@@ -292,7 +306,7 @@ public:
  int hp_percentage(); // % of HP remaining, overall
  void recalc_hp(); // Change HP after a change to max strength
 
- void get_sick(game *g); // Process diseases
+ void get_sick(); // Process diseases
 // infect() gives us a chance to save (mostly from armor)
  bool infect(dis_type type, body_part vector, int strength,
               int duration, bool permanent = false, int intensity = 1,
@@ -321,52 +335,54 @@ public:
  bool has_addiction(add_type type) const;
  int  addiction_level(add_type type);
 
- bool siphon(game *g, vehicle *veh, ammotype desired_liquid);
- void suffer(game *g);
- void mend(game *g);
- void vomit(game *g);
+ bool siphon(vehicle *veh, ammotype desired_liquid);
+ void suffer();
+ void mend();
+ void vomit();
 
- void drench(game *g, int saturation, int flags); // drenches the player in water; saturation is percent
+ void drench(int saturation, int flags); // drenches the player in water; saturation is percent
  void drench_mut_calc(); //Recalculate mutation drench protection for all bodyparts (ignored/good/neutral stats)
 
  char lookup_item(char let);
- bool consume(game *g, int pos);
- bool eat(game *g, item *eat, it_comest *comest);
+ bool consume(int pos);
+ bool eat(item *eat, it_comest *comest);
  void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
- virtual bool wield(game *g, signed char invlet, bool autodrop = false);// Wield item; returns false on fail
- void pick_style(game *g); // Pick a style
- bool wear(game *g, int pos, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
- bool wear_item(game *g, item *to_wear, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
- bool takeoff(game *g, int pos, bool autodrop = false);// Take off item; returns false on fail
- void sort_armor(game *g);      // re-order armor layering
- void use(game *g, int pos); // Use a tool
- void use_wielded(game *g);
- void remove_gunmod(item *weapon, int id, game *g);
- bool install_bionics(game *g, it_bionic* type); // Install bionics
- void read(game *g, int pos); // Read a book
- void try_to_sleep(game *g); // '$' command; adds DIS_LYING_DOWN
- bool can_sleep(game *g); // Checked each turn during DIS_LYING_DOWN
+ virtual bool wield(signed char invlet, bool autodrop = false);// Wield item; returns false on fail
+ void pick_style(); // Pick a style
+ bool wear(int pos, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
+ bool wear_item(item *to_wear, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
+ bool takeoff(int pos, bool autodrop = false);// Take off item; returns false on fail
+ void sort_armor();      // re-order armor layering
+ void use(int pos); // Use a tool
+ void use_wielded();
+ void remove_gunmod(item *weapon, int id);
+ bool install_bionics(it_bionic* type); // Install bionics
+ void read(int pos); // Read a book
+ void try_to_sleep(); // '$' command; adds DIS_LYING_DOWN
+ bool can_sleep(); // Checked each turn during DIS_LYING_DOWN
  void fall_asleep(int duration);
  void wake_up(const char * message = NULL);
- std::string is_snuggling(game *g);    // Check to see if the player is using floor items to keep warm. If so, return one such item
- float fine_detail_vision_mod(game *g); // Used for things like reading and sewing, checks light level
+ std::string is_snuggling();    // Check to see if the player is using floor items to keep warm. If so, return one such item
+ float fine_detail_vision_mod(); // Used for things like reading and sewing, checks light level
 
  // helper functions meant to tell inventory display code what kind of visual feedback to give to the user
  hint_rating rate_action_use(const item *it) const; //rates usability lower for non-tools (books, etc.)
  hint_rating rate_action_wear(item *it);
  hint_rating rate_action_eat(item *it);
- hint_rating rate_action_read(item *it, game *g);
+ hint_rating rate_action_read(item *it);
  hint_rating rate_action_takeoff(item *it);
  hint_rating rate_action_reload(item *it);
  hint_rating rate_action_unload(item *it);
- hint_rating rate_action_disassemble(item *it, game *g);
+ hint_rating rate_action_disassemble(item *it);
 
  int warmth(body_part bp); // Warmth provided by armor &c
  int encumb(body_part bp); // Encumbrance from armor &c
  int encumb(body_part bp, double &layers, int &armorenc);
- int armor_bash(body_part bp); // Bashing resistance
- int armor_cut(body_part bp); // Cutting  resistance
- int resist(body_part bp); // Infection &c resistance
+ int get_armor_bash(body_part bp); // Bashing resistance, from creature
+ int get_armor_cut(body_part bp); // Cutting resistance
+ int get_armor_bash_base(body_part bp); // Bashing resistance
+ int get_armor_cut_base(body_part bp); // Cutting  resistance
+ int get_env_resist(body_part bp); // Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
  bool is_wearing_shoes();// True if wearing something on feet and it is not wool or not cotton
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
@@ -375,8 +391,8 @@ public:
  void practice(const calendar& turn, Skill *s, int amount);
  void practice(const calendar& turn, std::string s, int amount);
 
- void assign_activity(game* g, activity_type type, int moves, int index = -1, int pos = INT_MIN, std::string name = "");
- bool has_activity(game* g, const activity_type type);
+ void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN, std::string name = "");
+ bool has_activity(const activity_type type);
  void cancel_activity();
 
  int weight_carried();
@@ -397,14 +413,14 @@ public:
 
  std::string weapname(bool charges = true);
 
- item& i_add(item it, game *g = NULL);
+ item& i_add(item it);
  // Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
  // An optional qty can be provided (and will perform better than separate calls).
- bool i_add_or_drop(item& it, game *g, int qty = 1);
+ bool i_add_or_drop(item& it, int qty = 1);
  bool has_active_item(const itype_id &id) const;
  int  active_item_charges(itype_id id);
- void process_active_items(game *g);
- bool process_single_active_item(game *g, item *it); // returns false if it needs to be removed
+ void process_active_items();
+ bool process_single_active_item(item *it); // returns false if it needs to be removed
  item i_rem(char let); // Remove item from inventory; returns ret_null on fail
  item i_rem(signed char ch) { return i_rem((char) ch); }  // prevent signed char->int conversion
  item i_rem(int pos); // Remove item from inventory; returns ret_null on fail
@@ -452,12 +468,14 @@ public:
  bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
 
+ bool has_weapon();
+
  bool knows_recipe(recipe *rec);
  void learn_recipe(recipe *rec);
 
  bool can_study_recipe(it_book *book);
  bool studied_all_recipes(it_book *book);
- bool try_study_recipe(game *g, it_book *book);
+ bool try_study_recipe(it_book *book);
 
  // Auto move methods
  void set_destination(const std::vector<point> &route);
@@ -474,6 +492,8 @@ public:
 
 // ---------------VALUES-----------------
  int posx, posy;
+ inline int xpos() { return posx; }
+ inline int ypos() { return posy; }
  int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
  bool controlling_vehicle;  // Is currently in control of a vehicle
@@ -497,10 +517,6 @@ public:
 
  int next_climate_control_check;
  bool last_climate_control_ret;
-// Current--i.e. modified by disease, pain, etc.
- int str_cur, dex_cur, int_cur, per_cur;
-// Maximum--i.e. unmodified by disease
- int str_max, dex_max, int_max, per_max;
  int power_level, max_power_level;
  int hunger, thirst, fatigue, health;
  int oxygen;
@@ -508,9 +524,8 @@ public:
  unsigned int driving_recoil;
  unsigned int scent;
  int dodges_left, blocks_left;
- int stim, pain, pkill, radiation;
+ int stim, pkill, radiation;
  int cash;
- int moves;
  int movecounter;
  int hp_cur[num_hp_parts], hp_max[num_hp_parts];
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];

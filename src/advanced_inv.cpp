@@ -202,7 +202,6 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         } else if ( isall ) {
             mvwprintz(window, 6 + x, amount_column, thiscolor, "%s", squares[items[i].area].shortname.c_str());
         }
-//mvwprintz(window, 6 + x, amount_column-3, thiscolor, "%d", items[i].cat);
         int xrightcol=rightcol;
         if (g->u.convert_weight(items[i].weight) > 9.9 ) {
           xrightcol--;
@@ -317,7 +316,7 @@ void advanced_inv_print_header(advanced_inv_area* squares, advanced_inventory_pa
     }
 }
 
-void advanced_inv_update_area( advanced_inv_area &area, game *g )
+void advanced_inv_update_area( advanced_inv_area &area )
 {
     int i = area.id;
     player u = g->u;
@@ -369,9 +368,8 @@ std::string center_text(const char *str, int width)
     return spaces + std::string(str);
 }
 
-void advanced_inventory::init(game *gp, player *pp)
+void advanced_inventory::init(player *pp)
 {
-    this->g = gp;
     this->p = pp;
 
     advanced_inv_area initsquares[11] = {
@@ -389,7 +387,7 @@ void advanced_inventory::init(game *gp, player *pp)
     };
     for ( int i = 0; i < 11; i++ ) {
         squares[i] = initsquares[i];
-        advanced_inv_update_area(squares[i], g);
+        advanced_inv_update_area(squares[i]);
     }
 
     panes[left].pos = 0;
@@ -516,7 +514,7 @@ void advanced_inventory::recalc_pane(int i)
         for(int s = s1; s <= s2; s++) {
             int savolume = 0;
             int saweight = 0;
-            advanced_inv_update_area(squares[s], g);
+            advanced_inv_update_area(squares[s]);
             //mvprintw(s+(i*10), 0, "%d %d                                   ",i,s);
             if( panes[idest].area != s && squares[s].canputitems ) {
                 std::vector<item>& items = squares[s].vstor >= 0 ?
@@ -567,7 +565,7 @@ void advanced_inventory::recalc_pane(int i)
 
     } // if(panes[i].area ?? isinventory)
 
-    advanced_inv_update_area(squares[panes[i].area], g);
+    advanced_inv_update_area(squares[panes[i].area]);
 
     squares[panes[i].area].volume = avolume;
     squares[panes[i].area].weight = aweight;
@@ -666,9 +664,9 @@ void advanced_inventory::redraw_pane( int i )
 }
 
 
-void advanced_inventory::display(game * gp, player * pp)
+void advanced_inventory::display(player * pp)
 {
-    init(gp, pp);
+    init(pp);
 
     player & u=*p;
     map & m = g->m;
@@ -915,19 +913,19 @@ void advanced_inventory::display(game * gp, player * pp)
                             ++iter)
                         {
                           if ( chargeback == true ) {
-                                u.i_add(*iter,g);
+                                u.i_add(*iter);
                           } else {
                             if(squares[destarea].vstor >= 0) {
                                 if(squares[destarea].veh->add_item(squares[destarea].vstor,*iter) == false) {
                                     // testme
-                                    u.i_add(*iter,g);
+                                    u.i_add(*iter);
                                     popup(_("Destination full. %d / %d moved. Please report a bug if items have vanished."),moved,amount);
                                     chargeback=true;
                                 }
                             } else {
                                 if(m.add_item_or_charges(squares[destarea].x, squares[destarea].y, *iter, 0) == false) {
                                     // testme
-                                    u.i_add(*iter,g);
+                                    u.i_add(*iter);
                                     popup(_("Destination full. %d / %d moved. Please report a bug if items have vanished."),moved,amount);
                                     chargeback=true;
                                 }
@@ -943,14 +941,14 @@ void advanced_inventory::display(game * gp, player * pp)
                         if (squares[destarea].vstor>=0) {
                             if(squares[destarea].veh->add_item(squares[destarea].vstor,moving_item) == false) {
                                 // fixme add item back
-                                u.i_add(moving_item,g);
+                                u.i_add(moving_item);
                                 popup(_("Destination full. Please report a bug if items have vanished."));
                                 continue;
                             }
                         } else {
                             if ( m.add_item_or_charges(squares[destarea].x, squares[destarea].y, moving_item, 0) == false ) {
                                 // fixme add item back
-                                u.i_add(moving_item,g);
+                                u.i_add(moving_item);
                                 popup(_("Destination full. Please report a bug if items have vanished."));
                                 continue;
                             }
@@ -962,14 +960,14 @@ void advanced_inventory::display(game * gp, player * pp)
                     if(squares[destarea].vstor>=0) {
                         if(squares[destarea].veh->add_item(squares[destarea].vstor, moving_item) == false) {
                            // fixme add item back (test)
-                           u.i_add(moving_item,g);
+                           u.i_add(moving_item);
                            popup(_("Destination full. Please report a bug if items have vanished."));
                            continue;
                         }
                     } else {
                         if(m.add_item_or_charges(squares[destarea].x, squares[destarea].y, moving_item) == false) {
                            // fixme add item back (test)
-                           u.i_add(moving_item,g);
+                           u.i_add(moving_item);
                            popup(_("Destination full. Please report a bug if items have vanished."));
                            continue;
                         }
@@ -1086,7 +1084,7 @@ void advanced_inventory::display(game * gp, player * pp)
                     }
                     if(destarea == isinventory) {
                         u.inv.assign_empty_invlet(new_item);
-                        u.i_add(new_item,g);
+                        u.i_add(new_item);
                         u.moves -= 100;
                     } else if (squares[destarea].vstor >= 0) {
                         if( squares[destarea].veh->add_item( squares[destarea].vstor, new_item ) == false) {
@@ -1183,7 +1181,7 @@ void advanced_inventory::display(game * gp, player * pp)
                 checkshowmsg = true;
             } else {
                 std::vector<iteminfo> vThisItem, vDummy;
-                it->info(true, &vThisItem, g);
+                it->info(true, &vThisItem);
                 int rightWidth = w_width / 2;
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"), "\n"));
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"), center_text(_("[up / page up] previous"), rightWidth - 4)));

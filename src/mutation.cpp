@@ -4,13 +4,13 @@
 #include "translations.h"
 
 // mutation_effect handles things like destruction of armor, etc.
-void mutation_effect(game *g, player &p, std::string mut);
+void mutation_effect(player &p, std::string mut);
 // mutation_loss_effect handles what happens when you lose a mutation
-void mutation_loss_effect(game *g, player &p, std::string mut);
+void mutation_loss_effect(player &p, std::string mut);
 
-bool player::mutation_ok(game *g, std::string mutation, bool force_good, bool force_bad)
+bool player::mutation_ok(std::string mutation, bool force_good, bool force_bad)
 {
-    if (has_trait(mutation) || has_child_flag(g, mutation)) {
+    if (has_trait(mutation) || has_child_flag(mutation)) {
         // We already have this mutation or something that replaces it.
         return false;
     }
@@ -28,7 +28,7 @@ bool player::mutation_ok(game *g, std::string mutation, bool force_good, bool fo
     return true;
 }
 
-void player::mutate(game *g)
+void player::mutate()
 {
     bool force_bad = one_in(3);
     bool force_good = false;
@@ -58,7 +58,7 @@ void player::mutate(game *g)
             for (int i = 0; i < mutation_data[base_mutation].replacements.size(); i++) {
                 std::string mutation = mutation_data[base_mutation].replacements[i];
 
-                if (mutation_ok(g, mutation, force_good, force_bad)) {
+                if (mutation_ok(mutation, force_good, force_bad)) {
                     upgrades.push_back(mutation);
                 }
             }
@@ -67,7 +67,7 @@ void player::mutate(game *g)
             for (int i = 0; i < mutation_data[base_mutation].additions.size(); i++) {
                 std::string mutation = mutation_data[base_mutation].additions[i];
 
-                if (mutation_ok(g, mutation, force_good, force_bad)) {
+                if (mutation_ok(mutation, force_good, force_bad)) {
                     upgrades.push_back(mutation);
                 }
             }
@@ -98,7 +98,7 @@ void player::mutate(game *g)
             int roll = rng(0, upgrades.size() + 4);
             if (roll < upgrades.size()) {
                 // We got a valid upgrade index, so use it and return.
-                mutate_towards(g, upgrades[roll]);
+                mutate_towards(upgrades[roll]);
                 return;
             }
         }
@@ -107,7 +107,7 @@ void player::mutate(game *g)
       if (downgrades.size() > 0 && cat != "") {
           int roll = rng(0, downgrades.size() + 4);
           if (roll < downgrades.size()) {
-              remove_mutation(g, downgrades[roll]);
+              remove_mutation(downgrades[roll]);
               return;
           }
       }
@@ -138,7 +138,7 @@ void player::mutate(game *g)
         // Remove anything we already have, that we have a child of, or that
         // goes against our intention of a good/bad mutation
         for (int i = 0; i < valid.size(); i++) {
-            if (!mutation_ok(g, valid[i], force_good, force_bad)) {
+            if (!mutation_ok(valid[i], force_good, force_bad)) {
                 valid.erase(valid.begin() + i);
                 i--;
             }
@@ -156,10 +156,10 @@ void player::mutate(game *g)
     }
 
     std::string selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
-    mutate_towards(g, selection);
+    mutate_towards(selection);
 }
 
-void player::mutate_category(game *g, std::string cat)
+void player::mutate_category(std::string cat)
 {
     bool force_bad = one_in(3);
     bool force_good = false;
@@ -177,7 +177,7 @@ void player::mutate_category(game *g, std::string cat)
     // Remove anything we already have, that we have a child of, or that
     // goes against our intention of a good/bad mutation
     for (int i = 0; i < valid.size(); i++) {
-        if (!mutation_ok(g, valid[i], force_good, force_bad)) {
+        if (!mutation_ok(valid[i], force_good, force_bad)) {
             valid.erase(valid.begin() + i);
             i--;
         }
@@ -189,15 +189,15 @@ void player::mutate_category(game *g, std::string cat)
     }
 
     std::string selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
-    mutate_towards(g, selection);
+    mutate_towards(selection);
 
     return;
 }
 
-void player::mutate_towards(game *g, std::string mut)
+void player::mutate_towards(std::string mut)
 {
-    if (has_child_flag(g, mut)) {
-        remove_child_flag(g, mut);
+    if (has_child_flag(mut)) {
+        remove_child_flag(mut);
         return;
     }
 
@@ -220,7 +220,7 @@ void player::mutate_towards(game *g, std::string mut)
 
     if (!cancel.empty()) {
         std::string removed = cancel[ rng(0, cancel.size() - 1) ];
-        remove_mutation(g, removed);
+        remove_mutation(removed);
         return;
     }
 
@@ -232,7 +232,7 @@ void player::mutate_towards(game *g, std::string mut)
 
     if (!has_prereqs && !prereq.empty()) {
         std::string devel = prereq[ rng(0, prereq.size() - 1) ];
-        mutate_towards(g, devel);
+        mutate_towards(devel);
         return;
     }
 
@@ -255,27 +255,27 @@ void player::mutate_towards(game *g, std::string mut)
         g->add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing].name.c_str(), traits[mut].name.c_str());
         g->u.add_memorial_log(_("'%s' mutation turned into '%s'"), traits[replacing].name.c_str(), traits[mut].name.c_str());
         toggle_mutation(replacing);
-        mutation_loss_effect(g, *this, replacing);
-        mutation_effect(g, *this, mut);
+        mutation_loss_effect(*this, replacing);
+        mutation_effect(*this, mut);
 
     } else if (canceltrait != "") {
         // If this new mutation cancels a base trait, remove it and add the mutation at the same time
         g->add_msg(_("Your innate %1$s trait turns into %2$s!"), traits[canceltrait].name.c_str(), traits[mut].name.c_str());
         g->u.add_memorial_log(_("'%s' trait turned into '%s'"), traits[canceltrait].name.c_str(), traits[mut].name.c_str());
         toggle_mutation(canceltrait);
-        mutation_loss_effect(g, *this, canceltrait);
-        mutation_effect(g, *this, mut);
+        mutation_loss_effect(*this, canceltrait);
+        mutation_effect(*this, mut);
     } else {
         g->add_msg(_("You gain a mutation called %s!"), traits[mut].name.c_str());
         g->u.add_memorial_log(_("Gained the mutation '%s'."), traits[mut].name.c_str());
-        mutation_effect(g, *this, mut);
+        mutation_effect(*this, mut);
     }
 
     set_highest_cat_level();
     drench_mut_calc();
 }
 
-void player::remove_mutation(game *g, std::string mut)
+void player::remove_mutation(std::string mut)
 {
     // Check for dependant mutations first
     std::vector<std::string> dependant;
@@ -290,7 +290,7 @@ void player::remove_mutation(game *g, std::string mut)
     }
 
     if (dependant.size() > 0) {
-        remove_mutation(g, dependant[rng(0, dependant.size()-1)]);
+        remove_mutation(dependant[rng(0, dependant.size()-1)]);
         return;
     }
 
@@ -330,45 +330,46 @@ void player::remove_mutation(game *g, std::string mut)
     toggle_mutation(mut);
 
     if (replacing != "") {
-        g->add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(), traits[replacing].name.c_str());
+        g->add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
+                   traits[replacing].name.c_str());
         toggle_mutation(replacing);
-        mutation_loss_effect(g, *this, mut);
-        mutation_effect(g, *this, replacing);
+        mutation_loss_effect(*this, mut);
+        mutation_effect(*this, replacing);
     } else {
         g->add_msg(_("You lose your %s mutation."), traits[mut].name.c_str());
-        mutation_loss_effect(g, *this, mut);
+        mutation_loss_effect(*this, mut);
     }
 
     set_highest_cat_level();
     drench_mut_calc();
 }
 
-bool player::has_child_flag(game *g, std::string flag)
+bool player::has_child_flag(std::string flag)
 {
     for (int i = 0; i < mutation_data[flag].replacements.size(); i++) {
         std::string tmp = mutation_data[flag].replacements[i];
-        if (has_trait(tmp) || has_child_flag(g, tmp)) {
+        if (has_trait(tmp) || has_child_flag(tmp)) {
             return true;
         }
     }
     return false;
 }
 
-void player::remove_child_flag(game *g, std::string flag)
+void player::remove_child_flag(std::string flag)
 {
     for (int i = 0; i < mutation_data[flag].replacements.size(); i++) {
         std::string tmp = mutation_data[flag].replacements[i];
         if (has_trait(tmp)) {
-            remove_mutation(g, tmp);
+            remove_mutation(tmp);
             return;
-        } else if (has_child_flag(g, tmp)) {
-            remove_child_flag(g, tmp);
+        } else if (has_child_flag(tmp)) {
+            remove_child_flag(tmp);
             return;
         }
     }
 }
 
-void mutation_effect(game *g, player &p, std::string mut)
+void mutation_effect(player &p, std::string mut)
 {
     bool is_u = (&p == &(g->u));
     bool destroy = false;
@@ -488,7 +489,7 @@ void mutation_effect(game *g, player &p, std::string mut)
 
                     int pos = player::worn_position_to_index(i);
                     g->m.add_item_or_charges(p.posx, p.posy, p.worn[i]);
-                    p.takeoff(g, pos, true);
+                    p.takeoff(pos, true);
                     p.i_rem(pos);
                 }
                 // Reset to the start of the vector
@@ -498,7 +499,7 @@ void mutation_effect(game *g, player &p, std::string mut)
     }
 }
 
-void mutation_loss_effect(game *g, player &p, std::string mut)
+void mutation_loss_effect(player &p, std::string mut)
 {
     if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "FRAIL") {
         p.recalc_hp();

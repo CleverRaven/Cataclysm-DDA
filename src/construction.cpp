@@ -126,9 +126,12 @@ void construction_menu()
     }
     nc_color color_stage = c_white;
 
-    // display difficulty
-    int pskill = g->u.skillLevel("carpentry");
+    // display required skill and difficulty
+    int pskill = g->u.skillLevel(current_con->skill);
     int diff = current_con->difficulty > 0 ? current_con->difficulty : 0;
+    posy++;
+    mvwprintz(w_con, posy, 31, c_white,
+              _("Skill: %s"), current_con->skill.c_str());
     posy++;
     mvwprintz(w_con, posy, 31, (pskill >= diff ? c_white : c_red),
               _("Difficulty: %d"), diff);
@@ -311,7 +314,7 @@ bool player_can_build(player &p, inventory pinv, const std::string &desc)
 
 bool player_can_build(player &p, inventory pinv, construction *con)
 {
-    if (p.skillLevel("carpentry") < con->difficulty) {
+    if (p.skillLevel(con->skill) < con->difficulty) {
         return false;
     }
 
@@ -456,7 +459,7 @@ void place_construction(const std::string &desc)
     }
 
     construction *con = valid[choice];
-    g->u.assign_activity(g, ACT_BUILD, con->time * 1000, con->id);
+    g->u.assign_activity(ACT_BUILD, con->time * 1000, con->id);
     g->u.moves = 0;
     g->u.activity.placement = choice;
 }
@@ -465,7 +468,7 @@ void complete_construction()
 {
     construction *built = constructions[g->u.activity.index];
 
-    g->u.practice(g->turn, "carpentry", std::max(built->difficulty, 1) * 10);
+    g->u.practice(g->turn, built->skill, std::max(built->difficulty, 1) * 10);
     for (int i = 0; i < built->components.size(); i++) {
         if (!built->components[i].empty()) {
             g->consume_items(&(g->u), built->components[i]);
@@ -519,7 +522,7 @@ void construct::done_tree(point p)
     y = p.y + y * 3 + rng(-1, 1);
     std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
     for (unsigned i = 0; i < tree.size(); i++) {
-        g->m.destroy(g, tree[i].x, tree[i].y, true);
+        g->m.destroy(tree[i].x, tree[i].y, true);
         g->m.ter_set(tree[i].x, tree[i].y, t_trunk);
     }
 }
@@ -548,7 +551,7 @@ void construct::done_vehicle(point p)
         name = _("Car");
     }
 
-    vehicle *veh = g->m.add_vehicle (g, "custom", p.x, p.y, 270, 0, 0);
+    vehicle *veh = g->m.add_vehicle ("custom", p.x, p.y, 270, 0, 0);
     if (!veh)
     {
         debugmsg ("error constructing vehicle");
@@ -690,6 +693,7 @@ void load_construction(JsonObject &jo)
     JsonArray temp;
 
     con->description = _(jo.get_string("description").c_str());
+    con->skill = _(jo.get_string("skill", "carpentry").c_str());
     con->difficulty = jo.get_int("difficulty");
     con->time = jo.get_int("time");
 

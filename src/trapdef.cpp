@@ -136,4 +136,12 @@ void set_trap_ids() {
  tr_shadow = trapfind("tr_shadow");
  tr_drain = trapfind("tr_drain");
  tr_snake = trapfind("tr_snake");
+
+    // Set ter_t.trap using ter_t.trap_id_str.
+    for( std::vector<ter_t>::iterator terrain = terlist.begin();
+         terrain != terlist.end(); ++terrain ) {
+        if( terrain->trap_id_str.length() != 0 ) {
+            terrain->trap = trapfind( terrain->trap_id_str );
+        }
+    }
 }

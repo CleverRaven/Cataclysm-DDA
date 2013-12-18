@@ -148,9 +148,9 @@ itype * item::nullitem()
     return nullitem_m;
 }
 
-item::item(std::string itemdata, game *g)
+item::item(std::string itemdata)
 {
- load_info(itemdata, g);
+    load_info(itemdata);
 }
 
 item::item(JsonObject &jo)
@@ -285,7 +285,7 @@ std::string item::save_info() const
 {
     // doing this manually so as not to recurse
     std::stringstream s;
-    JsonOut jsout(&s);
+    JsonOut jsout(s);
     serialize(jsout, false);
     return s.str();
 }
@@ -327,7 +327,7 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
 }
 
 
-void item::load_info(std::string data, game *g)
+void item::load_info(std::string data)
 {
     std::stringstream dump;
     dump << data;
@@ -337,7 +337,7 @@ void item::load_info(std::string data, game *g)
         check=data[1];
     }
     if ( check == '{' ) {
-        JsonIn jsin(&dump);
+        JsonIn jsin(dump);
         try {
             deserialize(jsin);
         } catch (std::string jsonerr) {
@@ -345,7 +345,7 @@ void item::load_info(std::string data, game *g)
         }
         return;
     } else {
-        load_legacy(g, dump);
+        load_legacy(dump);
     }
 }
 
@@ -356,7 +356,7 @@ std::string item::info(bool showtext)
     return info(showtext, &dummy);
 }
 
-std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool debug)
+std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 {
  std::stringstream temp1, temp2;
  if ( g != NULL && debug == false &&
@@ -645,6 +645,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
    if (has_flag("DOUBLE_AMMO")) {
 
     dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges (doubled)."):string_format(_("Maximum <num> charges (doubled) of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges*2));
+   } else if (has_flag("RECHARGE")) {
+    dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges (rechargeable)."):string_format(_("Maximum <num> charges (rechargeable) of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges));
+   } else if (has_flag("DOUBLE_AMMO") && has_flag("RECHARGE")) {
+    dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges (rechargeable) (doubled)."):string_format(_("Maximum <num> charges (rechargeable) (doubled) of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges*2));
    } else {
     dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges."):string_format(_("Maximum <num> charges of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges));
    }
@@ -705,6 +709,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing is designed to protect you from harm and withstand a lot of abuse.")));
     }
+    if (is_armor() && has_flag("SWIM_GOGGLES"))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing allows you to see much further under water.")));
+    }
     if (is_armor() && type->id == "rad_badge")
     {
         int i;
@@ -722,6 +731,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has double the normal maximum charges.")));
+    }
+    if (is_tool() && has_flag("RECHARGE"))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("This tool has been modified to use a rechargeable power cell and is not compatible with standard batteries.")));
     }
     std::map<std::string, std::string>::const_iterator item_note = item_vars.find("item_note");
     std::map<std::string, std::string>::const_iterator item_note_type = item_vars.find("item_note_type");
@@ -905,17 +919,10 @@ std::string item::tname( bool with_prefix )
     {
         food = this;
         food_type = dynamic_cast<it_comest*>(type);
-    }
-    else if (is_food_container())
-    {
-        food = &contents[0];
-        food_type = dynamic_cast<it_comest*>(contents[0].type);
-    }
-    if (food != NULL && g != NULL)
-    {
+
         if (food_type->spoils != 0)
         {
-            if(food->rotten(g)) {
+            if(food->rotten()) {
                 ret << _(" (rotten)");
             } else if ( rot < 100 ) {
                 ret << _(" (fresh)");
@@ -927,6 +934,10 @@ std::string item::tname( bool with_prefix )
 
     if (has_flag("FIT")) {
         ret << _(" (fits)");
+    }
+
+    if (has_flag("RECHARGE")) {
+        ret << _(" (rechargeable)");
     }
 
     if (owned > 0)
@@ -1202,7 +1213,7 @@ int item::has_gunmod(itype_id mod_type)
     return -1;
 }
 
-bool item::rotten(game *g)
+bool item::rotten()
 {
     if (!is_food() || g == NULL)
         return false;
@@ -1230,7 +1241,7 @@ bool item::rotten(game *g)
     }
 }
 
-bool item::ready_to_revive(game *g)
+bool item::ready_to_revive()
 {
     if ( corpse == NULL || !corpse->has_flag(MF_REVIVES) || damage >= 4)
     {
@@ -2607,12 +2618,12 @@ const item_category &item::get_category() const
     return null_category;
 }
 
-bool item_matches_locator(const item& it, const itype_id& id, int item_pos) {
+bool item_matches_locator(const item &it, const itype_id &id, int) {
     return it.typeId() == id;
 }
-bool item_matches_locator(const item& it, int locator_pos, int item_pos) {
+bool item_matches_locator(const item &, int locator_pos, int item_pos) {
     return item_pos == locator_pos;
 }
-bool item_matches_locator(const item& it, char invlet, int item_pos) {
+bool item_matches_locator(const item &it, char invlet, int) {
     return it.invlet == invlet;
 }

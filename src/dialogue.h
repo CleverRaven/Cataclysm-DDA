@@ -16,7 +16,7 @@ struct dialogue {
  std::vector<talk_topic> topic_stack;
 
  int opt(std::string challenge, ...);
- talk_topic opt(talk_topic topic, game *g);
+ talk_topic opt(talk_topic topic);
 
  dialogue()
  {
@@ -29,43 +29,43 @@ struct dialogue {
 
 struct talk_function
 {
-    void nothing              (game *g, npc *p) {};
-    void assign_mission       (game *g, npc *p);
-    void mission_success      (game *g, npc *p);
-    void mission_failure      (game *g, npc *p);
-    void clear_mission        (game *g, npc *p);
-    void mission_reward       (game *g, npc *p);
-    void mission_favor        (game *g, npc *p);
-    void give_equipment       (game *g, npc *p);
-    void start_trade          (game *g, npc *p);
-    void assign_base          (game *g, npc *p);
-    void follow               (game *g, npc *p); // p follows u
-    void deny_follow          (game *g, npc *p); // p gets DI_ASKED_TO_FOLLOW
-    void deny_lead            (game *g, npc *p); // p gets DI_ASKED_TO_LEAD
-    void deny_equipment       (game *g, npc *p); // p gets DI_ASKED_FOR_ITEM
-    void enslave              (game *g, npc *p) {}; // p becomes slave of u
-    void hostile              (game *g, npc *p); // p turns hostile to u
-    void flee                 (game *g, npc *p);
-    void leave                (game *g, npc *p); // p becomes indifferant
+    void nothing              (npc*) {};
+    void assign_mission       (npc*);
+    void mission_success      (npc*);
+    void mission_failure      (npc*);
+    void clear_mission        (npc*);
+    void mission_reward       (npc*);
+    void mission_favor        (npc*);
+    void give_equipment       (npc*);
+    void start_trade          (npc*);
+    void assign_base          (npc*);
+    void follow               (npc*); // p follows u
+    void deny_follow          (npc*); // p gets DI_ASKED_TO_FOLLOW
+    void deny_lead            (npc*); // p gets DI_ASKED_TO_LEAD
+    void deny_equipment       (npc*); // p gets DI_ASKED_FOR_ITEM
+    void enslave              (npc*) {}; // p becomes slave of u
+    void hostile              (npc*); // p turns hostile to u
+    void flee                 (npc*);
+    void leave                (npc*); // p becomes indifferant
 
-    void start_mugging        (game *g, npc *p);
-    void player_leaving       (game *g, npc *p);
+    void start_mugging        (npc*);
+    void player_leaving       (npc*);
 
-    void drop_weapon          (game *g, npc *p);
-    void player_weapon_away   (game *g, npc *p);
-    void player_weapon_drop   (game *g, npc *p);
+    void drop_weapon          (npc*);
+    void player_weapon_away   (npc*);
+    void player_weapon_drop   (npc*);
 
-    void lead_to_safety       (game *g, npc *p);
-    void start_training       (game *g, npc *p);
+    void lead_to_safety       (npc*);
+    void start_training       (npc*);
 
-    void toggle_use_guns      (game *g, npc *p);
-    void toggle_use_silent    (game *g, npc *p);
-    void toggle_use_grenades  (game *g, npc *p);
-    void set_engagement_none  (game *g, npc *p);
-    void set_engagement_close (game *g, npc *p);
-    void set_engagement_weak  (game *g, npc *p);
-    void set_engagement_hit   (game *g, npc *p);
-    void set_engagement_all   (game *g, npc *p);
+    void toggle_use_guns      (npc*);
+    void toggle_use_silent    (npc*);
+    void toggle_use_grenades  (npc*);
+    void set_engagement_none  (npc*);
+    void set_engagement_close (npc*);
+    void set_engagement_weak  (npc*);
+    void set_engagement_hit   (npc*);
+    void set_engagement_all   (npc*);
 };
 
 enum talk_trial
@@ -88,8 +88,8 @@ struct talk_response
  Skill* skill;
  npc_opinion opinion_success;
  npc_opinion opinion_failure;
- void (talk_function::*effect_success)(game *, npc *);
- void (talk_function::*effect_failure)(game *, npc *);
+ void (talk_function::*effect_success)(npc*);
+ void (talk_function::*effect_failure)(npc*);
  talk_topic success;
  talk_topic failure;
 
@@ -130,9 +130,9 @@ struct talk_response
 
 struct talk_response_list
 {
- std::vector<talk_response> none(game *g, npc *p);
- std::vector<talk_response> shelter(game *g, npc *p);
- std::vector<talk_response> shopkeep(game *g, npc *p);
+ std::vector<talk_response> none(npc*);
+ std::vector<talk_response> shelter(npc*);
+ std::vector<talk_response> shopkeep(npc*);
 };
 
 /* There is a array of tag_data, "tags", at the bottom of this file.

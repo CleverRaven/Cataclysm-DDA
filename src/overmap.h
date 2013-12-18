@@ -90,7 +90,7 @@ class overmap
  public:
   overmap();
   overmap(overmap const&);
-  overmap(game *g, int x, int y);
+  overmap(int x, int y);
   ~overmap();
 
   overmap& operator=(overmap const&);
@@ -116,12 +116,12 @@ class overmap
                      int &dist, bool must_be_seen);
   std::vector<point> find_all(tripoint origin, const std::string &type,
                               int &dist, bool must_be_seen);
-  std::vector<point> find_terrain(const std::string &term, int cursx, int cursy, int zlevel);
+  std::vector<point> find_terrain(const std::string &term, int zlevel);
   int closest_city(point p);
   point random_house_in_city(int city_id);
   int dist_from_city(point p);
 // Interactive point choosing; used as the map screen
-  point draw_overmap(game *g, int z);
+  point draw_overmap(int z);
 
   oter_id& ter(const int x, const int y, const int z);
   bool&   seen(int x, int y, int z);
@@ -133,7 +133,7 @@ class overmap
   std::string const& note(int const x, int const y, int const z) const;
   void add_note(int const x, int const y, int const z, std::string const& message);
   void delete_note(int const x, int const y, int const z) { add_note(x, y, z, ""); }
-  point display_notes(game* g, int const z) const;
+  point display_notes(int const z) const;
 
   point find_note(int const x, int const y, int const z, std::string const& text) const;
   void remove_npc(int npc_id);
@@ -163,18 +163,18 @@ class overmap
   // Initialise
   void init_layers();
   // open existing overmap, or generate a new one
-  void open(game *g);
+  void open();
   // parse data in an opened overmap file
-  void unserialize(game *g, std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
+  void unserialize(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
   // parse data in an old overmap file
-  bool unserialize_legacy(game *g, std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
+  bool unserialize_legacy(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
 
-  void generate(game *g, overmap* north, overmap* east, overmap* south,
+  void generate(overmap* north, overmap* east, overmap* south,
                 overmap* west);
   bool generate_sub(int const z);
 
   //Drawing
-  void draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
+  void draw(WINDOW *w, int z, int &cursx, int &cursy,
             int &origx, int &origy, signed char &ch, bool blink,
             overmap &hori, overmap &vert, overmap &diag, input_context* inp_ctxt);
   // Overall terrain
@@ -214,10 +214,10 @@ class overmap
   std::string player_filename(int const x, int const y) const;
 
   // Map helper function.
-  bool has_npc(game *g, int const x, int const y, int const z) const;
-  void print_npcs(game *g, WINDOW *w, int const x, int const y, int const z);
-  bool has_vehicle(game *g, int const x, int const y, int const z, bool require_pda = true) const;
-  void print_vehicles(game *g, WINDOW *w, int const x, int const y, int const z);
+  bool has_npc(int const x, int const y, int const z) const;
+  void print_npcs(WINDOW *w, int const x, int const y, int const z);
+  bool has_vehicle(int const x, int const y, int const z, bool require_pda = true) const;
+  void print_vehicles(WINDOW *w, int const x, int const y, int const z);
 };
 
 // TODO: readd the stream operators

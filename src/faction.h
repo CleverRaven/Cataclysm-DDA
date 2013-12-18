@@ -112,7 +112,7 @@ public:
  bool matches_us(faction_value v);
  std::string describe();
 
- int response_time(game *g); // Time it takes for them to get to u
+ int response_time(); // Time it takes for them to get to u
 
  std::string name;
  unsigned values : NUM_FACVALS; // Bitfield of values
