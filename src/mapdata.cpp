@@ -262,28 +262,16 @@ void load_terrain(JsonObject &jsobj)
   if ( jsobj.has_member("close") ) {
       new_terrain.close = jsobj.get_string("close");
   }
-/*
-  requires copying json object
-  if( jsobj.has_member("bash") ) {
-      if( jsobj.is_object("bash") ) {
-          JsonObject delayed(jsobj.get_object("bash"));
-          delayed_json["terrain_bash"][new_terrain.id] = delayed;//jsobj.get_object("bash");
-      } else if (jsobj.is_string("bash") ) {
-//          delayed_json["terrain_bash_link"][new_terrain.id] = jsobj.get_string("bash");
-      }
-  }
-*/
   new_terrain.bash.load(jsobj, "bash", false);
-
   new_terrain.loadid=terlist.size();
   termap[new_terrain.id]=new_terrain;
   terlist.push_back(new_terrain);
 }
 
 
-ter_id terfind(const std::string id) {
+ter_id terfind(const std::string & id) {
     if( termap.find(id) == termap.end() ) {
-         popup("Can't find %s",id.c_str());
+         debugmsg("Can't find %s",id.c_str());
          return 0;
     }
     return termap[id].loadid;
@@ -549,9 +537,9 @@ void set_ter_ids() {
     num_terrain_types = terlist.size(); 
 };
 
-furn_id furnfind(const std::string id) {
+furn_id furnfind(const std::string & id) {
     if( furnmap.find(id) == furnmap.end() ) {
-         popup("Can't find %s",id.c_str());
+         debugmsg("Can't find %s",id.c_str());
          return 0;
     }
     return furnmap[id].loadid;
@@ -636,3 +624,12 @@ void set_furn_ids() {
     f_plant_harvest=furnfind("f_plant_harvest");
     num_furniture_types = furnlist.size(); 
 }
+
+/*
+ * default? N O T H I N G.
+ *
+ter_furn_id::ter_furn_id() {
+    ter = (short)t_null;
+    furn = (short)t_null;
+}
+*/

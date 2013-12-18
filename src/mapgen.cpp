@@ -475,14 +475,6 @@ int wtf_mean_nonant(const int y, const int x, const int mapsize = 24) {
     return ( y * mapsize ) + x;
 }
 
-/*
- * default? N O T H I N G.
- */
-terfurn_tile::terfurn_tile() {
-    ter = (short)t_null;
-    furn = (short)t_null;
-}
-
 bool mapgen_function_json::check_inbounds( jmapgen_int & var ) {
     const int min = 0;
     const int max = mapgensize - 1;
@@ -702,7 +694,7 @@ bool mapgen_function_json::setup() {
             tmpval = "";
         }
 
-        format = new terfurn_tile[ mapgensize * mapgensize ];
+        format = new ter_furn_id[ mapgensize * mapgensize ];
         // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
         if ( jo.has_array("rows") ) {
             std::map<int,int> format_terrain;

@@ -66,29 +66,4 @@ struct tripoint {
  ~tripoint(){}
 };
 
-/*
- * Container for custom 'grass_or_dirt' functionality. Returns int but can store str values for delayed lookup and conversion
- */
-struct id_or_id {
-   std::string primary_str;   // 32
-   std::string secondary_str; // 64
-   int chance;                // 68
-   int primary;               // 72
-   int secondary;             // 76
-   id_or_id(const std::string & s1, const int i, const::std::string s2) : primary_str(s1), secondary_str(s2), chance(i), primary(-1), secondary(-1) { }
-   id_or_id(const int id1, const int i, const int id2) : primary_str(""), secondary_str(""), chance(i), primary(id1), secondary(id2) { }
-   std::string get_str() const {
-       return ( one_in(chance) ? secondary_str : primary_str );
-   };
-   bool match( const int iid ) const {
-       if ( iid == primary || iid == secondary ) {
-           return true;
-       }
-       return false;
-   }
-   int get() const {
-       return ( one_in(chance) ? secondary : primary );
-   }
-};
-
 #endif
