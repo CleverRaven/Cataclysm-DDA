@@ -539,6 +539,7 @@ void Item_factory::load_gun(JsonObject& jo)
         while (jarr.has_more()){
             JsonArray curr = jarr.next_array();
             gun_template->valid_mod_locations.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
+            gun_template->available_mod_locations.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
         }
     }
 
@@ -641,6 +642,9 @@ void Item_factory::load_gunmod(JsonObject& jo)
     gunmod_template->used_on_shotgun = is_mod_target(jo, "mod_targets", "shotgun");
     gunmod_template->used_on_smg = is_mod_target(jo, "mod_targets", "smg");
     gunmod_template->used_on_rifle = is_mod_target(jo, "mod_targets", "rifle");
+    gunmod_template->used_on_bow = is_mod_target(jo, "mod_targets", "bow");
+    gunmod_template->used_on_crossbow = is_mod_target(jo, "mod_targets", "crossbow");
+    gunmod_template->used_on_launcher = is_mod_target(jo, "mod_targets", "launcher");
     gunmod_template->dispersion = jo.get_int("dispersion_modifier", 0);
     gunmod_template->recoil = jo.get_int("recoil_modifier", 0);
     gunmod_template->burst = jo.get_int("burst_modifier", 0);

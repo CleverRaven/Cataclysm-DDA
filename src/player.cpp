@@ -8266,7 +8266,7 @@ void player::use(int pos)
     } else if (used->is_gunmod()) {
         if (skillLevel("gun") == 0) {
             g->add_msg(_("You need to be at least level 1 in the marksmanship skill before you\
- can modify guns."));
+ can modify weapons."));
             return;
         }
         int gunpos = g->inv(_("Select gun to modify:"));
@@ -8276,7 +8276,7 @@ void player::use(int pos)
             g->add_msg(_("You do not have that item."));
             return;
         } else if (!gun->is_gun()) {
-            g->add_msg(_("That %s is not a gun."), gun->tname().c_str());
+            g->add_msg(_("That %s is not a weapon."), gun->tname().c_str());
             return;
         }
         it_gun* guntype = dynamic_cast<it_gun*>(gun->type);
@@ -8301,14 +8301,26 @@ void player::use(int pos)
             g->add_msg(_("That %s cannot be attached to a rifle."),
                        used->tname().c_str());
             return;
+        } else if (guntype->skill_used == Skill::skill("archery") && !mod->used_on_bow) {
+            g->add_msg(_("That %s cannot be attached to a bow."),
+                       used->tname().c_str());
+            return;
+        } else if (guntype->skill_used == Skill::skill("archery") && !mod->used_on_crossbow) {
+            g->add_msg(_("That %s cannot be attached to a crossbow."),
+                       used->tname().c_str());
+            return;
+        } else if (guntype->skill_used == Skill::skill("launchers") && !mod->used_on_launcher) {
+            g->add_msg(_("That %s cannot be attached to a rifle."),
+                       used->tname().c_str());
+            return;
         } else if ( mod->acceptible_ammo_types.size() &&
                     mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
-            g->add_msg(_("That %s cannot be used on a %s gun."), used->tname().c_str(),
+            g->add_msg(_("That %s cannot be used on a %s."), used->tname().c_str(),
                        ammo_name(guntype->ammo).c_str());
             return;
-        } else if (gun->contents.size() >= 4) {
-            g->add_msg(_("Your %s already has 4 mods installed!  To remove the mods, \
-press 'U' while wielding the unloaded gun."), gun->tname().c_str());
+        } else if (!guntype->available_mod_locations[mod->location] > 0) {
+            g->add_msg(_("Your %s doesn't have enough room for another %s mod.'  To remove the mods, \
+activate your weapon."), gun->tname().c_str(), mod->location.c_str());
             return;
         }
         if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
@@ -8332,33 +8344,10 @@ press 'U' while wielding the unloaded gun."), gun->tname().c_str());
                 g->add_msg(_("Your %s already has a %s."), gun->tname().c_str(),
                            used->tname().c_str());
                 return;
-            } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != "NULL" &&
-                       !gun->contents[i].has_flag("MODE_AUX") &&
-                       (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != "NULL") {
-                g->add_msg(_("Your %s has already been rebored."),
-                           gun->tname().c_str());
-                return;
-            } else if (mod->location == "barrel" &&
-                       (dynamic_cast<it_gunmod*>(gun->contents[i].type))->location == "barrel") {
-                g->add_msg(_("Your %s already has a barrel modification."),
-                           gun->tname().c_str());
-                return;
-            } else if (mod->location == "muzzle" &&
-                       (dynamic_cast<it_gunmod*>(gun->contents[i].type))->location == "muzzl") {
-                g->add_msg(_("Your %s can not modify the muzzle twice"),
-                           gun->tname().c_str());
-                return;
-            } else if (mod->location == "sights" &&
-                       (dynamic_cast<it_gunmod*>(gun->contents[i].type))->location == "sights") {
-                //intentionally leaving laser_sight off the list so that it CAN be used with optics
-                g->add_msg(_("Your %s can only use one set of sights at a time."),
-                           gun->tname().c_str());
-                return;
-            }  else if (mod->location == "rail" &&
-                       (dynamic_cast<it_gunmod*>(gun->contents[i].type))->location == "rail") {
-                //intentionally leaving laser_sight off the list so that it CAN be used with optics
-                g->add_msg(_("Your %s can only mount one thing on the rail at a time."),
-                           gun->tname().c_str());
+            }
+            else if (guntype->available_mod_locations[mod->location] == 0) {
+                g->add_msg(_("Your %s cannot hold any more %s modifications."), gun->tname().c_str(),
+                           mod->location.c_str());
                 return;
             } else if ((mod->id == "clip" || mod->id == "clip2") &&
                        (gun->contents[i].type->id == "clip" ||
@@ -8366,16 +8355,12 @@ press 'U' while wielding the unloaded gun."), gun->tname().c_str());
                 g->add_msg(_("Your %s already has an extended magazine."),
                            gun->tname().c_str());
                 return;
-            } else if (mod->location == "auxiliary" &&
-                       (dynamic_cast<it_gunmod*>(gun->contents[i].type))->location == "auxiliary") {
-                g->add_msg(_("Your %s already has something mounted under the barrel."),
-                           gun->tname().c_str());
-                return;
             }
         }
         g->add_msg(_("You attach the %s to your %s."), used->tname().c_str(),
                    gun->tname().c_str());
         gun->contents.push_back(i_rem(pos));
+        guntype->available_mod_locations[mod->location] -= 1;
         return;
 
     } else if (used->is_bionic()) {

@@ -536,13 +536,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   int iternum = 0;
     for( std::map<std::string,int>::iterator i=gun->valid_mod_locations.begin(); i!=gun->valid_mod_locations.end(); i++) {
       if (!(iternum % 2) && iternum > 0) {
-        temp1 << "\n+  ";
+        temp1 << "\n  ";
         dump->push_back(iteminfo("GUN", temp1.str()));
         temp1.str("");
       }
-      if (iternum == 0) { temp1 << (*i).first << ": " << (*i).second << " "; }
-      else if (!(iternum % 2)) { temp1 << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" << (*i).first << ": " << (*i).second << " "; }
-      else { temp1 << (*i).first << ": " << (*i).second << " "; }
+      if (iternum == 0) { temp1 << (*i).first << ": " << (*i).second << " (" << gun->available_mod_locations[(*i).first] << ") "; }
+      else if (!(iternum % 2)) { temp1 << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" << (*i).first << ": " << (*i).second << " (" << gun->available_mod_locations[(*i).first] << ") "; }
+      else { temp1 << (*i).first << ": " << (*i).second << " (" << gun->available_mod_locations[(*i).first] << ") "; }
      iternum++;
     }
   dump->push_back(iteminfo("GUN", temp1.str()));
