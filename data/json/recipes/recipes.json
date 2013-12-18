@@ -2818,7 +2818,7 @@
     "time": 45000,
     "reversible": false,
     "autolearn": true,
-    "book_learn": [[ "textbook_guns", 2 ] , [ "manual_guns", 2 ]],
+    "book_learn": [[ "textbook_fabrication", 1 ] , [ "textbook_mechanics", 2 ] , [ "recipe_bullets", 2 ]],
     "tools": [
     [
       [ "press", -1 ]
