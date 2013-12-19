@@ -8535,7 +8535,7 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "chilli-p", 1]
+      [ "chilly-p", 1]
     ]
   ]
 },{
@@ -8578,7 +8578,7 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "chilli-p", 1]
+      [ "chilly-p", 1]
     ]
   ]
 },{
@@ -23384,7 +23384,7 @@
       [ "tomato", 2 ]
     ],
     [
-      [ "hflesh", 1 ]
+      [ "human_flesh", 1 ]
     ]
   ]
 },{
@@ -23488,7 +23488,7 @@
       [ "hardtack", 4]
     ],
     [
-      [ "honey", 1 ],
+      [ "honeycomb", 2],
       [ "honey_bottled", 2]
     ],
     [

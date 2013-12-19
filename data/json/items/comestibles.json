@@ -5646,7 +5646,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "currypowder",
+        "id" : "curry_powder",
         "name" : "curry powder",
         "weight" : 46,
         "color" : "red",
