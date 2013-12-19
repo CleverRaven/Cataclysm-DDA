@@ -1675,6 +1675,10 @@ void player::add_memorial_log(const char* message, ...)
   vsprintf(buff, message, ap);
   va_end(ap);
 
+  if(strlen(buff) == 0) {
+      return;
+  }
+
   std::stringstream timestamp;
   timestamp << _("Year") << " " << (g->turn.years() + 1) << ", "
             << _(season_name[g->turn.get_season()].c_str()) << " "
