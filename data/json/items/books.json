@@ -762,7 +762,7 @@
         "id" : "news_regional",
         "name" : "Rural Digest-Examiner",
         "max_level" : 0,
-        "description" : "A newsweekly covering regional events.  There is an article on the winter's snowstorms and several letters to the editor conserning the comunity response.",
+        "description" : "A newsweekly covering regional events.  There is an article on the winter's snowstorms and several letters to the editor concerning the community response.",
         "weight" : 80,
         "to_hit" : 1,
         "color" : "pink",
@@ -774,7 +774,7 @@
         "cutting" : 0,
         "time" : 5,
         "fun" : 1,
-        "skill" : "bashing",
+        "skill" : "none",
         "price" : 35,
         "required_level" : 0
     },
