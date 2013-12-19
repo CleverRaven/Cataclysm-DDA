@@ -26,10 +26,23 @@ extern cata_tiles *tilecontext;
 
 std::map<std::string, cOpt> OPTIONS;
 std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+options_data optionsdata; // store extranious options data that doesn't need to be in OPTIONS, 
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, std::string> optionNames;
 int iWorldOptPage;
+
+options_data::options_data() {
+    enable_json("DEFAULT_REGION");
+    // to allow class based init_data functions to add values to a 'string' type option, add:
+    //   enable_json("OPTION_KEY_THAT_GETS_STRING_ENTRIES_ADDED_VIA_JSON");
+    // also, in options.h, add this before 'class options_data'
+    //   class my_class;
+    // and inside options_data above public:
+    //   friend class my_class;
+    // then, in the my_class::load_json (or post-json setup) method:
+    //   optionsdata.addme("OPTION_KEY_THAT_GETS_STRING_ENTRIES_ADDED_VIA_JSON", "thisvalue");
+}
 
 //Default constructor
 cOpt::cOpt() {
@@ -489,6 +502,13 @@ void initOptions() {
                                              _("A scaling factor that determines density of item spawns."),
                                              0.1, 1.0, 1.0, 0.1
                                             );
+    std::string region_ids("default");
+    optionNames["default"] = "default";
+
+    OPTIONS["DEFAULT_REGION"] =          cOpt("world_default", _("Default region type"),
+                                             _("(WIP feature) Determines terrain, shops, plants, and more."),
+                                             region_ids, "default"
+                                            );
 
     OPTIONS["CITY_SIZE"] =              cOpt("world_default", _("Size of cities"),
                                              _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),
@@ -897,7 +917,12 @@ void load_options()
 
         if(sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
             int iPos = sLine.find(' ');
-            OPTIONS[sLine.substr(0, iPos)].setValue(sLine.substr(iPos+1, sLine.length()));
+            const std::string loadedvar = sLine.substr(0, iPos);
+            const std::string loadedval = sLine.substr(iPos+1, sLine.length());
+            // option with values from post init() might get clobbered
+            optionsdata.add_retry(loadedvar, loadedval); // stash it until update();
+            
+            OPTIONS[ loadedvar ].setValue( loadedval );
         }
     }
 
@@ -1025,4 +1050,42 @@ std::string get_tileset_names(std::string dir_path)
     }
 
     return tileset_names;
+}
+
+void options_data::enable_json(const std::string & lvar) {
+    post_json_verify[ lvar ] = std::string( 1, 001 ); // because "" might be valid
+}
+
+void options_data::add_retry(const std::string & lvar, const::std::string & lval) {
+    static const std::string blank_value( 1, 001 ); 
+    std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
+    if ( it != post_json_verify.end() && it->second == blank_value ) { // initialized with impossible value: valid
+        post_json_verify[ lvar ] = lval;
+    }
+}
+
+void options_data::add_value( const std::string & lvar, const std::string & lval, std::string lvalname ) {
+    static const std::string blank_value( 1, 001 );
+
+    std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
+    if ( it != post_json_verify.end() ) {
+        std::map<std::string, cOpt>::iterator ot = OPTIONS.find(lvar);
+        if ( ot != OPTIONS.end() && ot->second.sType == "string" ) {
+            for(std::vector<std::string>::const_iterator eit = ot->second.vItems.begin(); eit != ot->second.vItems.end(); ++eit) {
+                if ( *eit == lval ) { // already in
+                    return;
+                }
+            }
+            ot->second.vItems.push_back(lval);
+            if ( optionNames.find(lval) == optionNames.end() ) {
+                optionNames[ lval ] = ( lvalname == "" ? lval : lvalname );
+            }
+            // std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
+            // our value was saved, then set to default, so set it again.
+            if ( it->second != blank_value ) {
+                OPTIONS[ lvar ].setValue( lval );
+            }
+        }
+
+    }
 }
