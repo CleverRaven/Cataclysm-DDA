@@ -466,6 +466,44 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                 case 'c': last->weapon.contents.push_back(tmp);         break;
                 }
             }
+        } else if ( datatype == '!' ) { // temporary holder for future sanity
+            std::string tmpstr;
+            getline(fin, tmpstr);
+            if ( tmpstr.size() > 1 && ( tmpstr[0] == '{' || tmpstr[1] == '{' ) ) {
+                std::stringstream derp;
+                derp << tmpstr;
+                JsonIn jsin(derp);
+                try {            
+                    JsonObject data = jsin.get_object();
+                    
+                    if ( data.read("region_id",tmpstr) ) { // temporary, until option DEFAULT_REGION becomes start_scenario.region_id
+                        if ( settings.id != tmpstr ) {
+                            std::map<std::string, regional_settings>::const_iterator rit = region_settings_map.find( tmpstr );
+                            if ( rit != region_settings_map.end() ) {
+                                // temporary; user changed option, this overmap should remain whatever it was set to.
+                                settings = rit->second; // todo optimize
+                            } else { // ruh-roh! user changed option and deleted the .json with this overmap's region. We'll have to become current default. And whine about it.
+                                std::string tmpopt = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
+                                rit = region_settings_map.find( tmpopt );
+                                if ( rit == region_settings_map.end() ) { // ...oy. Hopefully 'default' exists. If not, it's crashtime anyway.
+                                    debugmsg("               WARNING: overmap uses missing region settings '%s'                 \n\
+                ERROR, 'default_region' option uses missing region settings '%s'. Falling back to 'default'               \n\
+                ....... good luck.                 \n",
+                                              tmpstr.c_str(), tmpopt.c_str() );
+                                    // fallback means we already loaded default and got a warning earlier.
+                                } else {
+                                    debugmsg("               WARNING: overmap uses missing region settings '%s', falling back to '%s'                \n",
+                                              tmpstr.c_str(), tmpopt.c_str() );
+                                    // fallback means we already loaded ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"]
+                                }
+                            }
+                        }
+                    }
+                } catch(std::string jsonerr) {
+                    debugmsg("load overmap: json error\n%s", jsonerr.c_str() );
+                    // just continue with default region
+                }
+            }
         }
     }
 
@@ -588,6 +626,17 @@ void overmap::save()
         fout << count;
         fout << std::endl;
     }
+
+    try {
+        fout << "! ";
+        JsonOut json(fout, false);
+        json.start_object();
+        json.member("region_id", settings.id); // temporary, to allow user to manually switch regions during play until regionmap is done.
+        json.end_object();
+    } catch (std::string e) {
+        //debugmsg("error saving overmap: %s", e.c_str());
+    }
+    fout << std::endl;
 
     for (int i = 0; i < zg.size(); i++)
         fout << "Z " << zg[i].type << " " << zg[i].posx << " " << zg[i].posy << " " <<

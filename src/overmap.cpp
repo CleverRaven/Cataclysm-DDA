@@ -663,11 +663,13 @@ overmap::overmap(int x, int y)
     if (g->has_gametype()) {
         prefix = special_game_name(g->gametype());
     }
-    static const std::string str_default("default"); // STUB: need regions
-    std::map<std::string, regional_settings>::const_iterator rsit = region_settings_map.find(str_default);
+    // STUB: need region map:
+    // settings = regionmap->calculate_settings( loc );
+    const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
+    std::map<std::string, regional_settings>::const_iterator rsit = region_settings_map.find( rsettings_id );
 
     if ( rsit == region_settings_map.end() ) {
-        debugmsg("overmap(%d,%d): can't find region '%s'", x, y, str_default.c_str() ); // gonna die now =[
+        debugmsg("overmap(%d,%d): can't find region '%s'", x, y, rsettings_id.c_str() ); // gonna die now =[
     }
     settings = rsit->second;
 
@@ -4147,12 +4149,13 @@ ter_furn_id groundcover_extra::pick( bool boosted ) const {
 }
 
 void regional_settings::setup() {
-  if ( default_groundcover_str != NULL ) {
-    default_groundcover.primary = terfind(default_groundcover_str->primary_str);
-    default_groundcover.secondary = terfind(default_groundcover_str->secondary_str);
-    field_coverage.setup();
-    city_spec.shops.setup();
-    city_spec.parks.setup();
-    default_groundcover_str = NULL;
-  }
+    if ( default_groundcover_str != NULL ) {
+        default_groundcover.primary = terfind(default_groundcover_str->primary_str);
+        default_groundcover.secondary = terfind(default_groundcover_str->secondary_str);
+        field_coverage.setup();
+        city_spec.shops.setup();
+        city_spec.parks.setup();
+        default_groundcover_str = NULL;
+        optionsdata.addme("DEFAULT_REGION", id );
+    }
 }
