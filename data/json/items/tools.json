@@ -289,7 +289,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "name": "extra battery mod",
-    "description": "This is a patchwork capacitance device made with spare electronics. With enough electronics skill, you could attach this to your devices to increase their battery capacity.",
+    "description": "This is a homemade battery compartment made with spare electronics. With enough electronics skill, you could attach this to any electronic tool to double the amount of batteries it can hold.",
     "price": 500,
     "material": ["plastic", "iron"],
     "weight": 142,
