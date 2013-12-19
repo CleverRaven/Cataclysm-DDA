@@ -152,7 +152,8 @@ struct groundcover_extra { // todo; make into something more generic for other s
  * Spationally relevent overmap and mapgen variables grouped into a set of suggested defaults;
  * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
  */
-struct regional_settings {
+class regional_settings {
+  public:
    std::string id;            //
    std::string default_oter;  // 'field'
    id_or_id default_groundcover; // ie, 'grass_or_dirt'
