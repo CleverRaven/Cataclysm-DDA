@@ -4156,6 +4156,6 @@ void regional_settings::setup() {
         city_spec.shops.setup();
         city_spec.parks.setup();
         default_groundcover_str = NULL;
-        optionsdata.addme("DEFAULT_REGION", id );
+        optionsdata.add_value("DEFAULT_REGION", id );
     }
 }
