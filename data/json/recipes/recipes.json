@@ -2563,6 +2563,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "textbook_mechanics", 4 ] , [ "recipe_melee", 5 ]],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -19193,7 +19194,8 @@
   "difficulty": 1,
   "time": 10000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "components": [
     [
       ["leather", 5]
@@ -19217,7 +19219,8 @@
   "difficulty": 4,
   "time": 20000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "tools": [
     [
       ["goggles_welding", -1]
@@ -19251,7 +19254,8 @@
   "difficulty": 5,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "tools": [
   [
     ["goggles_welding", -1]
@@ -19285,7 +19289,8 @@
   "difficulty": 5,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "tools": [
     [
       ["goggles_welding", -1]
@@ -19319,7 +19324,8 @@
   "difficulty": 5,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "tools": [
     [
       ["goggles_welding", -1]
@@ -20368,7 +20374,8 @@
   "difficulty": 4,
   "time": 30000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_melee", 3 ] , ["textbook_weapeast", 8]],
   "tools": [ [ ["hacksaw", -1], ["toolset", -1] ],
     [ ["screwdriver", -1], ["toolset", -1] ] ],
   "components": [ [ ["2x4", 4], [ "stick", 8 ] ],
@@ -20417,7 +20424,8 @@
   "difficulty": 2,
   "time": 20000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_melee", 1 ] , ["textbook_weapeast", 7]],
   "tools": [ [ ["hacksaw", -1], ["toolset", -1] ],
     [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1],
@@ -20924,7 +20932,7 @@
   "time": 480000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_weapwest", 8 ]],
+  "book_learn": [[ "textbook_weapwest", 8 ] , ["recipe_melee", 7 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1] ],
       [
       ["tongs", -1]
@@ -20969,7 +20977,7 @@
   "time": 480000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_weapwest", 8 ]],
+  "book_learn": [[ "textbook_weapwest", 8 ] , [ "recipe_melee", 6 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1] ],
       [
       ["tongs", -1]
@@ -21188,7 +21196,8 @@
   "difficulty": 4,
   "time": 180000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapwest", 3 ] , [ "recipe_melee", 4 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]
@@ -21354,7 +21363,8 @@
   "difficulty": 6,
   "time": 360000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_knives", 4 ] , [ "recipe_melee", 5 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]
@@ -21393,7 +21403,8 @@
   "difficulty": 6,
   "time": 390000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_knives", 4 ] , [ "recipe_melee", 5 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]
@@ -21534,6 +21545,7 @@
   "time": 460000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "manual_knives", 5 ] , [ "recipe_melee", 5 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]
@@ -21565,11 +21577,13 @@
         "type" : "recipe",
   "result": "diveknife",
   "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 360000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "manual_knives", 5 ] , [ "recipe_melee", 6 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]
@@ -21654,6 +21668,7 @@
   "time": 480000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 2 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]
@@ -21688,7 +21703,8 @@
   "difficulty": 5,
   "time": 480000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapeast", 9 ] , [ "recipe_melee", 4 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]
@@ -21723,7 +21739,8 @@
   "difficulty": 4,
   "time": 30000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_melee", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -21788,6 +21805,7 @@
   "time": 24000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "textbook_weapwest", 2 ] , [ "recipe_melee", 3 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
     [
       ["tongs", -1]
@@ -21817,7 +21835,8 @@
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_electronics", 3 ] , ["advanced_electronics", 3] , [ "recipe_melee", 4 ]],
   "tools": [
     [
       [ "toolset", 1 ],
@@ -22306,7 +22325,7 @@
   "time": 420000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_fireman", 9 ]],
+  "book_learn": [[ "textbook_fireman", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
      [
       ["tongs", -1]
@@ -22869,7 +22888,8 @@
   "difficulty": 7,
   "time": 260000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 5 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
      [
       ["tongs", -1]
@@ -26438,7 +26458,8 @@
   "difficulty" : 6,
   "time" : 30000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn": [[ "recipe_melee", 4 ]],
   "tools" : [ [ ["mold_plastic", -1] ],
     [
       ["hotplate", 10],
@@ -26457,7 +26478,8 @@
   "difficulty" : 6,
   "time" : 45000,
   "reversible" : false,
-  "autolearn" : true,
+  "autolearn" : false,
+  "book_learn": [[ "recipe_melee", 5 ]],
   "tools" : [
      [ ["mold_plastic", -1] ],
      [
