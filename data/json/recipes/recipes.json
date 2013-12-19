@@ -23384,7 +23384,7 @@
       [ "tomato", 2 ]
     ],
     [
-      [ "hflesh", 1 ]
+      [ "human_flesh", 1 ]
     ]
   ]
 },{
@@ -23488,7 +23488,7 @@
       [ "hardtack", 4]
     ],
     [
-      [ "honey", 1 ],
+      [ "honeycomb", 1 ],
       [ "honey_bottled", 2]
     ],
     [
@@ -23640,7 +23640,7 @@
         "type" : "recipe",
   "result": "pants_survivor",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 2],
   "difficulty": 4,
@@ -23689,7 +23689,7 @@
         "type" : "recipe",
   "result": "survivor_vest",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_STORAGE",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 1],
   "difficulty": 3,
@@ -23731,7 +23731,7 @@
         "type" : "recipe",
   "result": "survivor_pack",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_STORAGE",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 2],
   "difficulty": 4,
@@ -23779,7 +23779,7 @@
         "type" : "recipe",
   "result": "survivor_rucksack",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_STORAGE",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 3],
   "difficulty": 5,
