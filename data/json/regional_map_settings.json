@@ -1,7 +1,7 @@
 [
    {
       "type": "region_settings",
-      "id": "zdefault",                      "//": "identifier, when region_map is in it will determine alternatives ('desert' etc)",
+      "id": "default",                      "//": "identifier, when region_map is in it will determine alternatives ('desert' etc)",
       "house_basement_chance": 2,           "//": "one_in(n) houses with basements",
       "default_oter": "field",              "//": "default oter_id (anything that isn't a house/road/etc) some become forests",
       "default_groundcover": {              "//": "biome settings for generic 'grass_or_dirt' (which is reproduced below",

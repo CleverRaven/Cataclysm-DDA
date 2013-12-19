@@ -829,8 +829,8 @@ void mapgen_spider_pit(map *m, oter_id, mapgendata dat, int turn, float)
 
 void mapgen_fungal_bloom(map *m, oter_id, mapgendata dat, int, float)
 {
+    (void)dat;
     for (int i = 0; i < SEEX * 2; i++) {
-(void)dat;
         for (int j = 0; j < SEEY * 2; j++) {
             if (one_in(rl_dist(i, j, 12, 12) * 4)) {
                 m->ter_set(i, j, t_marloss);
@@ -1281,8 +1281,7 @@ void mapgen_subway_four_way(map *m, oter_id, mapgendata dat, int, float)
 
 void mapgen_sewer_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
-
-(void)dat;
+    (void)dat;
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
                 if (i < SEEX - 2 || i > SEEX + 1) {
@@ -1300,8 +1299,8 @@ void mapgen_sewer_straight(map *m, oter_id terrain_type, mapgendata dat, int, fl
 
 void mapgen_sewer_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
+    (void)dat;
         for (int i = 0; i < SEEX * 2; i++) {
-(void)dat;
             for (int j = 0; j < SEEY * 2; j++) {
                 if ((i > SEEX + 1 && j < SEEY - 2) || i < SEEX - 2 || j > SEEY + 1) {
                     m->ter_set(i, j, t_rock);
@@ -1324,8 +1323,8 @@ void mapgen_sewer_curved(map *m, oter_id terrain_type, mapgendata dat, int, floa
 
 void mapgen_sewer_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
+    (void)dat;
         for (int i = 0; i < SEEX * 2; i++) {
-(void)dat;
             for (int j = 0; j < SEEY * 2; j++) {
                 if (i < SEEX - 2 || (i > SEEX + 1 && (j < SEEY - 2 || j > SEEY + 1))) {
                     m->ter_set(i, j, t_rock);
@@ -1348,8 +1347,7 @@ void mapgen_sewer_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
 
 void mapgen_sewer_four_way(map *m, oter_id, mapgendata dat, int, float)
 {
-
-(void)dat;
+    (void)dat;
         int rn = rng(0, 3);
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
@@ -1375,8 +1373,8 @@ void mapgen_sewer_four_way(map *m, oter_id, mapgendata dat, int, float)
 ///////////////////
 void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
+    (void)dat;
     for (int i = 0; i < SEEX * 2; i++) {
-(void)dat;
         for (int j = 0; j < SEEY * 2; j++) {
             if (i < 4 || i >= SEEX * 2 - 4) {
                 m->ter_set(i, j, t_water_dp);
@@ -1454,14 +1452,14 @@ void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, int turn, floa
 
 void mapgen_river_center(map *m, oter_id, mapgendata dat, int, float)
 {
+    (void)dat;
     fill_background(m, t_water_dp);
-(void)dat;
 }
 
 void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
+    (void)dat;
     for (int i = SEEX * 2 - 1; i >= 0; i--) {
-(void)dat;
         for (int j = 0; j < SEEY * 2; j++) {
             if (j < 4 && i >= SEEX * 2 - 4) {
                 m->ter_set(i, j, t_water_sh);
@@ -1483,8 +1481,8 @@ void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int, 
 
 void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
+    (void)dat;
     for (int i = 0; i < SEEX * 2; i++) {
-(void)dat;
         for (int j = 0; j < SEEY * 2; j++) {
             if (j < 4) {
                 m->ter_set(i, j, t_water_sh);
@@ -1506,8 +1504,8 @@ void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int, fl
 
 void mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
+    (void)dat;
     for (int i = SEEX * 2 - 1; i >= 0; i--) {
-(void)dat;
         for (int j = 0; j < SEEY * 2; j++) {
             if (i >= SEEX * 2 - 4 || j < 4) {
                 m->ter_set(i, j, t_water_sh);
@@ -1611,8 +1609,8 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
 
 void mapgen_pool(map *m, oter_id, mapgendata dat, int, float)
 {
+    (void)dat;
     fill_background(m, t_grass);
-(void)dat;
     mapf::formatted_set_simple(m, 0, 0,
 "\
 ........................\n\
@@ -1646,8 +1644,8 @@ void mapgen_pool(map *m, oter_id, mapgendata dat, int, float)
 
 void mapgen_park_playground(map *m, oter_id, mapgendata dat, int, float)
 {
+    (void)dat;
         fill_background(m, t_grass);
-(void)dat;
         mapf::formatted_set_simple(m, 0, 0,
 "\
                         \n\
@@ -1690,8 +1688,8 @@ void mapgen_park_playground(map *m, oter_id, mapgendata dat, int, float)
 
 void mapgen_park_basketball(map *m, oter_id, mapgendata dat, int, float)
 {
+    (void)dat;
         fill_background(m, t_pavement);
-(void)dat;
         mapf::formatted_set_simple(m, 0, 0,
 "\
                         \n\
@@ -4063,8 +4061,8 @@ void mapgen_cathedral_b(map *m, oter_id terrain_type, mapgendata dat, int turn, 
 
 void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
+    (void)dat;
         for (int i = 0; i < SEEX * 2; i++) {
-(void)dat;
             for (int j = 0; j < SEEY * 2; j++) {
                 if (j < 9 || j > 12 || i < 4 || i > 19) {
                     m->ter_set(i, j, t_pavement);
@@ -4300,8 +4298,7 @@ void mapgen_cabin_strange_b(map *m, oter_id, mapgendata dat, int, float)
 
 void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
 {
-
-(void)dat;
+   (void)dat;
 
         fill_background(m, t_grass);
 
@@ -6163,8 +6160,8 @@ void mapgen_hellmouth(map *m, oter_id, mapgendata dat, int, float)
 
 void mapgen_ants_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
+    (void)dat;
     int x = SEEX;
-(void)dat;
     int y = 1;
     int rn = 0;
     // First, set it all to rock
@@ -6223,8 +6220,8 @@ void mapgen_ants_curved(map *m, oter_id terrain_type, mapgendata dat, int, float
 
 void mapgen_ants_four_way(map *m, oter_id, mapgendata dat, int, float)
 {
+    (void)dat;
     fill_background(m, t_rock);
-(void)dat;
     int x = SEEX;
     for (int j = 0; j < SEEY * 2; j++) {
         for (int i = x - 2; i <= x + 3; i++) {
@@ -6265,8 +6262,8 @@ void mapgen_ants_four_way(map *m, oter_id, mapgendata dat, int, float)
 
 void mapgen_ants_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
+    (void)dat;
     int x = SEEX;
-(void)dat;
     fill_background(m, t_rock);
     for (int j = 0; j < SEEY * 2; j++) {
         for (int i = x - 2; i <= x + 3; i++) {
@@ -6292,8 +6289,8 @@ void mapgen_ants_straight(map *m, oter_id terrain_type, mapgendata dat, int, flo
 
 void mapgen_ants_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
+    (void)dat;
     fill_background(m, t_rock);
-(void)dat;
     int x = SEEX;
     for (int j = 0; j < SEEY * 2; j++) {
         for (int i = x - 2; i <= x + 3; i++) {

@@ -499,7 +499,6 @@ void finalize_overmap_terrain( ) {
 
     for( std::map<std::string, regional_settings>::iterator rsit = region_settings_map.begin(); rsit != region_settings_map.end(); ++rsit) {
         rsit->second.setup();
-        rsit->second.city_spec.parks.setup();
     }
 };
 
@@ -743,10 +742,8 @@ overmap& overmap::operator=(overmap const& o)
 void overmap::init_layers()
 {
     layer = new map_layer[OVERMAP_LAYERS];
-//    region_settings = default_region_settings; // not using a ref; this will be adjusted per omap
     for(int z = 0; z < OVERMAP_LAYERS; ++z) {
         oter_id default_type = (z < OVERMAP_DEPTH) ? "rock" : (z == OVERMAP_DEPTH) ? settings.default_oter : "";
-        // oter_iid default_type = (z < OVERMAP_DEPTH) ? ot_rock : (z == OVERMAP_DEPTH) ? ot_field : ot_null; // todo: regional default_type
         for(int i = 0; i < OMAPX; ++i) {
             for(int j = 0; j < OMAPY; ++j) {
                 layer[z].terrain[i][j] = default_type;
@@ -4108,8 +4105,6 @@ void groundcover_extra::setup() { // fixme return bool for failure
         }
         wtotal += (int)(it->second * 10000.0);
         weightlist[ wtotal ] = tf_id;
-//        weightlist[ wtotal ].ter = tf_id.ter;
-//        weightlist[ wtotal ].furn = tf_id.furn;
     }
 
     for ( std::map<std::string, double>::const_iterator it = boosted_percent_str.begin(); it != boosted_percent_str.end(); ++it ) {
@@ -4126,8 +4121,6 @@ void groundcover_extra::setup() { // fixme return bool for failure
         }
         btotal += (int)(it->second * 10000.0);
         boosted_weightlist[ btotal ] = tf_id;
-//        boosted_weightlist[ btotal ].ter = tf_id.ter;
-//        boosted_weightlist[ btotal ].furn = tf_id.furn;
     }
 
     if ( wtotal > 1000000 ) {
@@ -4144,24 +4137,8 @@ void groundcover_extra::setup() { // fixme return bool for failure
 
     percent_str.clear();
     boosted_percent_str.clear();
-//#define testingregion 1
-#ifdef testingregion
-std::string dbmsg="\nweight: ";
-for(std::map<int, ter_furn_id>::const_iterator it = weightlist.begin(); it != weightlist.end(); ++it) {
-   dbmsg=string_format("%s | [%d] = ( %d / %d )",dbmsg.c_str(), it->first,it->second.ter,it->second.furn);
-};
-dbmsg=string_format("%s\nboost: ",dbmsg.c_str());
-for(std::map<int, ter_furn_id>::const_iterator it = boosted_weightlist.begin(); it != boosted_weightlist.end(); ++it) {
-   dbmsg=string_format("%s | [%d] = ( %d / %d )",dbmsg.c_str(), it->first,it->second.ter,it->second.furn);
-};
-debugmsg("%s\n",dbmsg.c_str());
-int rn = rng( 0, 1000000 );
-std::map<int,ter_furn_id>::const_iterator it = boosted_weightlist.lower_bound( rn );
-debugmsg("rng %d end=%d sz=%d i=%d %d/%d",rn,(it == boosted_weightlist.end()),boosted_weightlist.size(),it->first,it->second.ter,it->second.furn);
-// b: 1 4 11722/3
-
-#endif
 }
+
 ter_furn_id groundcover_extra::pick( bool boosted ) const {
     if ( boosted ) {
         return boosted_weightlist.lower_bound( rng( 0, 1000000 ) )->second;
