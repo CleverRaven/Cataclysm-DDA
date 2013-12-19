@@ -5310,7 +5310,7 @@
         "symbol" : "[",
         "description" : "A grotesque, horned helmet carved from bone. Covers the entire head; very light and strong.",
         "price" : 420,
-        "material" : ["bone", "null"],
+        "material" : ["bone", "leather"],
         "volume" : 17,
         "cutting" : 0,
         "warmth" : 10,
