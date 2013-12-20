@@ -239,7 +239,7 @@
                 "boxer_shorts"
             ],
             "female": [
-                "bra",
+                "sports_bra",
                 "boxer_shorts"
             ]
         }
@@ -607,7 +607,7 @@
                 "boxer_shorts"
             ],
             "female": [
-                "bra",
+                "sports_bra",
                 "boxer_shorts"
             ]
         }
@@ -1124,7 +1124,7 @@
                 "panties",
                 "bra",
                 "dress",
-                "wristwatch"
+                "gold_watch"
             ]
         }
     },
@@ -1174,7 +1174,7 @@
                 "briefs"
             ],
             "female": [
-                "bra",
+                "sports_bra",
                 "panties"
             ]
         }
@@ -1198,7 +1198,7 @@
                 "briefs"
             ],
             "female": [
-                "bra",
+                "sports_bra",
                 "panties"
             ]
         }
@@ -1222,7 +1222,7 @@
                 "briefs"
             ],
             "female": [
-                "bra",
+                "sports_bra",
                 "panties"
             ]
         }
@@ -1245,7 +1245,7 @@
                 "briefs"
             ],
             "female": [
-                "bra",
+                "sports_bra",
                 "panties"
             ]
         }
@@ -1352,8 +1352,7 @@
             "male": "Rude Boy",
             "female": "Rude Girl"
         },
-        "gender_req": "male",
-        "description": "Your ska band broke up after the drummer became a zombie, now you're alone in the cataclysm with some cigarettes and your mp3 player",
+        "description": "Your ska band broke up after the drummer became a zombie, now you're alone in the cataclysm with some cigarettes and your mp3 player.",
         "points": 0,
         "items": {
             "both": [
