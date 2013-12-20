@@ -36,8 +36,10 @@ bool monster::wander()
 bool monster::can_move_to(int x, int y)
 {
     if (g->m.move_cost(x, y) == 0 &&
-     (!has_flag(MF_DESTROYS) || !g->m.is_destructable(x, y)) &&
-     (!can_submerge() || !g->m.has_flag("SWIMMABLE", x, y))) {
+     (!has_flag(MF_DESTROYS) || !g->m.is_destructable(x, y))) {
+        return false;
+    }
+    if (!can_submerge() && g->m.has_flag(TFLAG_DEEP_WATER, x, y)) {
         return false;
     }
     if (has_flag(MF_DIGS) && !g->m.has_flag("DIGGABLE", x, y)) {
