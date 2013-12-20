@@ -631,7 +631,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 100
+      "reload" : 100,
+      "valid_mod_locations": [["underbarrel", 1]]
    },
    {
       "id" : "compositebow",
@@ -657,7 +658,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 110
+      "reload" : 110,
+      "valid_mod_locations": [["underbarrel", 1]]
    },
    {
       "id" : "recurbow",
@@ -683,7 +685,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 100
+      "reload" : 100,
+      "valid_mod_locations": [["underbarrel", 1]]
    },
    {
       "id" : "reflexbow",
@@ -709,7 +712,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 100
+      "reload" : 100,
+      "valid_mod_locations": [["underbarrel", 1]]
    },
    {
       "id" : "longbow",
@@ -735,7 +739,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 80
+      "reload" : 80,
+      "valid_mod_locations": [["underbarrel", 1]]
    },
    {
       "id" : "reflexrecurvebow",
@@ -761,7 +766,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 80
+      "reload" : 80,
+      "valid_mod_locations": [["underbarrel", 1]]
    },
    {
       "id" : "hand_crossbow",

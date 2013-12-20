@@ -8296,23 +8296,23 @@ void player::use(int pos)
             g->add_msg(_("That %s cannot be attached to a rifle."),
                        used->tname().c_str());
             return;
-        } else if (guntype->skill_used == Skill::skill("archery") && !mod->used_on_bow) {
+        } else if (guntype->skill_used == Skill::skill("archery") && !mod->used_on_bow && guntype->ammo == "arrow") {
             g->add_msg(_("That %s cannot be attached to a bow."),
                        used->tname().c_str());
             return;
-        } else if (guntype->skill_used == Skill::skill("archery") && !mod->used_on_crossbow) {
+        } else if (guntype->skill_used == Skill::skill("archery") && !mod->used_on_crossbow && guntype->ammo == "bolt") {
             g->add_msg(_("That %s cannot be attached to a crossbow."),
                        used->tname().c_str());
             return;
         } else if (guntype->skill_used == Skill::skill("launchers") && !mod->used_on_launcher) {
-            g->add_msg(_("That %s cannot be attached to a rifle."),
+            g->add_msg(_("That %s cannot be attached to a launcher."),
                        used->tname().c_str());
             return;
         } else if ( mod->acceptible_ammo_types.size() &&
                     mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
-            g->add_msg(_("That %s cannot be used on a %s."), used->tname().c_str(),
+                g->add_msg(_("That %s cannot be used on a %s."), used->tname().c_str(),
                        ammo_name(guntype->ammo).c_str());
-            return;
+                return;
         } else if (!guntype->available_mod_locations[mod->location] > 0) {
             g->add_msg(_("Your %s doesn't have enough room for another %s mod.'  To remove the mods, \
 activate your weapon."), gun->tname().c_str(), mod->location.c_str());
@@ -8323,7 +8323,7 @@ activate your weapon."), gun->tname().c_str(), mod->location.c_str());
                        gun->tname().c_str());
             return;
         }
-        if (mod->location == "ammo" &&
+        if (mod->location == "magazine" &&
             gun->clip_size() <= 2) {
             g->add_msg(_("You can not extend the ammo capacity of your %s."),
                        gun->tname().c_str());
