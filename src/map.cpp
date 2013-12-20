@@ -3291,16 +3291,18 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   sym = terlist[curr_ter].sym;
   tercol = terlist[curr_ter].color;
  }
- if (u.has_disease("boomered"))
+ if (u.has_disease("boomered")) {
   tercol = c_magenta;
- else if ( u.has_nv() )
+ } else if ( u.has_nv() ) {
   tercol = (bright_light) ? c_white : c_ltgreen;
- else if (low_light)
+ } else if (low_light) {
   tercol = c_dkgray;
- else
+ } else {
   normal_tercol = true;
- if (move_cost(x, y) == 0 && has_flag("SWIMMABLE", x, y) && !u.is_underwater())
+ }
+ if (has_flag("SWIMMABLE", x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
   show_items = false; // Can only see underwater items if WE are underwater
+ }
 // If there's a trap here, and we have sufficient perception, draw that instead
 // todo; test using g->traps, test using global traplist
  if (curr_trap != tr_null && ((*traps)[curr_trap]->visibility == -1 ||
