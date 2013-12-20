@@ -645,9 +645,7 @@ int monster::bash_at(int x, int y) {
         g->sound(x, y, 18, bashsound);
         moves -= 100;
         return 1;
-    } else if (g->m.move_cost(x, y) == 0 &&
-            !g->m.is_divable(x, y) && //No smashing water into rubble!
-            has_flag(MF_DESTROYS)) {
+    } else if (g->m.move_cost(x, y) == 0 && has_flag(MF_DESTROYS)) {
         g->m.destroy(x, y, true); //todo: add bash info without BASHABLE flag to walls etc, balanced to these guys
         moves -= 250;
         return 1;
