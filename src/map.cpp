@@ -2107,7 +2107,8 @@ bool map::hit_with_fire(const int x, const int y)
 
 bool map::marlossify(const int x, const int y)
 {
-    if (one_in(25) && (terlist[ter(x, y)].movecost != 0 && !has_furn(x, y))) {
+    if (one_in(25) && (terlist[ter(x, y)].movecost != 0 && !has_furn(x, y))
+            && !ter_at(x, y).has_flag(TFLAG_DEEP_WATER)) {
         ter_set(x, y, t_marloss);
         return true;
     }
