@@ -4210,19 +4210,18 @@ void player::knock_back_from(int x, int y)
  }
 
 // If we're still in the function at this point, we're actually moving a tile!
- if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
-
-  if (g->m.has_flag("LIQUID", to.x, to.y)) {
-   if (!is_npc()) {
-    g->plswim(to.x, to.y);
-   }
-// TODO: NPCs can't swim!
-  } else { // It's some kind of wall.
-   hurt(bp_torso, -1, 3);
-   add_effect("stunned", 2);
-   g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
-                             g->m.tername(to.x, to.y).c_str() );
+ if (g->m.has_flag("LIQUID", to.x, to.y) && g->m.has_flag(TFLAG_DEEP_WATER, to.x, to.y)) {
+  if (!is_npc()) {
+   g->plswim(to.x, to.y);
   }
+// TODO: NPCs can't swim!
+ } else if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
+
+  // It's some kind of wall.
+  hurt(bp_torso, -1, 3);
+  add_effect("stunned", 2);
+  g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
+                             g->m.tername(to.x, to.y).c_str() );
 
  } else { // It's no wall
   posx = to.x;
