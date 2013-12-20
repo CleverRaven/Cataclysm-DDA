@@ -11456,7 +11456,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
              p->hitall (dam1, 40);
             else
                 zz->hurt(dam1);
-        } else if (m.move_cost(x, y) == 0 && !m.has_flag("SWIMMABLE", x, y)) {
+        } else if (m.move_cost(x, y) == 0) {
             slam = true;
             int vpart;
             vehicle *veh = m.veh_at(x, y, vpart);
