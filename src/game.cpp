@@ -10747,6 +10747,17 @@ bool game::plmove(int dx, int dy)
   }
  }
 
+ if (m.has_flag("SWIMMABLE", x, y) && m.has_flag(TFLAG_DEEP_WATER, x, y)) { // Dive into water!
+// Requires confirmation if we were on dry land previously
+  if ((m.has_flag("SWIMMABLE", u.posx, u.posy) &&
+      m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy)) || query_yn(_("Dive into the water?"))) {
+   if (!m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy) > 0 && u.swim_speed() < 500) {
+     add_msg(_("You start swimming.  %s to dive underwater."),
+             press_x(ACTION_MOVE_DOWN).c_str());
+   }
+   plswim(x, y);
+  }
+ }
 
  if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture ) {
     // move_cost() of 0 = impassible (e.g. a wall)
@@ -11316,16 +11327,6 @@ bool game::plmove(int dx, int dy)
   u.moves -= 100;
   add_msg (_("You open the %s's %s."), veh1->name.c_str(),
                                     veh1->part_info(dpart).name.c_str());
-
- } else if (m.has_flag("SWIMMABLE", x, y)) { // Dive into water!
-// Requires confirmation if we were on dry land previously
-  if ((m.has_flag("SWIMMABLE", u.posx, u.posy) &&
-      m.move_cost(u.posx, u.posy) == 0) || query_yn(_("Dive into the water?"))) {
-   if (m.move_cost(u.posx, u.posy) > 0 && u.swim_speed() < 500)
-     add_msg(_("You start swimming.  %s to dive underwater."),
-             press_x(ACTION_MOVE_DOWN).c_str());
-   plswim(x, y);
-  }
  } else { // Invalid move
   if (u.has_effect("blind") || u.has_effect("stunned")) {
 // Only lose movement if we're blind
