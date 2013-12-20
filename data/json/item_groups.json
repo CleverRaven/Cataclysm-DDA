@@ -240,6 +240,7 @@
       ["teapot", 15],
       ["pan", 25],
       ["waffleiron", 25],
+      ["pastaextruder", 10],
       ["knife_butter", 90],
       ["knife_steak", 85],
       ["fork", 90],
@@ -1779,6 +1780,7 @@
       ["teapot", 15],
       ["pan", 25],
       ["waffleiron", 25],
+      ["pastaextruder", 10],
       ["binoculars", 20],
       ["hotplate", 10],
       ["knife_combat", 14],
@@ -6029,7 +6031,7 @@
        "id" : "hazmat_torso",
     "items":[
      ["cleansuit", 40],
-	 ["jumpsuit", 60]
+	   ["jumpsuit", 60]
 	]
 	},{
        "type" : "item_group",
@@ -6042,13 +6044,13 @@
        "id" : "hazmat_gloves",
     "items":[
      ["gloves_medical", 60],
-	 ["gloves_rubber", 40]
+	   ["gloves_rubber", 40]
 	]
 	},{
        "type" : "item_group",
        "id" : "hazmat_full",
     "items":[
-	 ["hazmat_suit", 80],
+	   ["hazmat_suit", 80],
      ["anbc_suit", 20]
 	]
 	},{
@@ -6057,24 +6059,219 @@
     "items":[
 	 ["mask_dust", 80],
      ["mask_filter", 20],
-	 ["mask_gas", 10]
+	   ["mask_gas", 10]
 	]
 	},{
        "type" : "item_group",
        "id" : "rad_gear",
     "items":[
      ["wrapped_rad_badge", 80],
-	 ["geiger_off", 20],
-   ["oxygen_tank", 10],
-   ["smoxygen_tank", 15],
-   ["adv_UPS_off", 2],
-	 ["iodine", 50]
+	   ["geiger_off", 20],
+     ["oxygen_tank", 10],
+     ["smoxygen_tank", 15],
+     ["adv_UPS_off", 2],
+	   ["iodine", 50]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "survivorzed_suits",
+    "items":[
+	   ["survivor_suit", 8],
+     ["lsurvivor_suit", 10],
+	   ["hsurvivor_suit", 6],
+     ["wsurvivor_suit", 6],
+     ["fsurvivor_suit", 4],
+     ["h20survivor_suit", 2],
+     ["touring_suit", 16],
+     ["armor_bone", 12],
+     ["armor_larmor", 28],
+     ["armor_blarmor", 14],
+     ["armor_farmor", 8],
+     ["armor_plarmor", 2],
+     ["swat_armor", 6],
+     ["aep_suit", 4],
+     ["armor_scrapsuit", 12],
+     ["armor_chitin", 2],
+     ["armor_lightplate", 1],
+     ["armor_plate", 1],
+     ["bondage_suit", 1],
+     ["snuggie", 1]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "survivorzed_tops",
+    "items":[
+	   ["trenchcoat_survivor", 10],
+     ["vest", 40],
+	   ["kevlar", 16],
+     ["jacket_army", 28],
+     ["trenchcoat", 24],
+     ["trenchcoat_leather", 20],
+     ["trenchcoat_fur", 10],
+     ["peacoat", 14],
+     ["vest_leather", 22],
+     ["bunker_coat", 6],
+     ["bookplate", 10],
+     ["modularvest", 4],
+     ["modularvesthard", 1],
+     ["modularvestkevlar", 2],
+     ["modularvestceramic", 2],
+     ["modularveststeel", 1],
+     ["modularvestsuper", 1],
+     ["dragonskin", 1],
+     ["corset", 1],
+     ["football_armor", 18],
+     ["jacket_leather", 12],
+     ["jacket_jean", 8],
+     ["jacket_flannel", 6]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "survivorzed_bottoms",
+    "items":[
+	   ["pants_survivor", 10],
+     ["pants_cargo", 40],
+	   ["shorts_cargo", 22],
+     ["pants_army", 28],
+     ["bunker_pants", 14],
+     ["pants_leather", 18],
+     ["loincloth", 1],
+     ["skirt", 6]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "survivorzed_gloves",
+    "items":[
+	   ["gloves_lsurvivor", 10],
+     ["gloves_survivor", 8],
+	   ["gloves_hsurvivor", 4],
+     ["gloves_wsurvivor", 4],
+     ["gloves_fsurvivor", 2],
+     ["gloves_h20survivor", 1],
+     ["gloves_fingerless", 28],
+     ["gloves_fingerless_mod", 20],
+     ["gloves_tactical", 12],
+     ["gauntlets_larmor", 14],
+     ["gauntlets_chitin", 2],
+     ["gauntlets_bone", 12],
+     ["gloves_fur", 4],
+     ["gloves_leather", 22],
+     ["gloves_plate", 2],
+     ["gloves_wraps", 1]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "survivorzed_boots",
+    "items":[
+	   ["boots_lsurvivor", 10],
+     ["boots_survivor", 8],
+	   ["boots_hsurvivor", 4],
+     ["boots_wsurvivor", 4],
+     ["boots_fsurvivor", 2],
+     ["boots_h20survivor", 1],
+     ["boots", 20],
+     ["boots_steel", 28],
+     ["boots_hiking", 24],
+     ["knee_high_boots", 8],
+     ["boots_combat", 12],
+     ["boots_larmor", 14],
+     ["boots_bone", 22],
+     ["boots_fur", 22],
+     ["boots_plate", 2],
+     ["boots_bunker", 8],
+     ["footrags", 1]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "survivorzed_head",
+    "items":[
+	   ["hood_lsurvivor", 10],
+     ["hood_survivor", 8],
+     ["helmet_survivor", 8],
+	   ["helmet_hsurvivor", 4],
+     ["hood_wsurvivor", 4],
+     ["hood_fsurvivor", 2],
+     ["hood_h20survivor", 1],
+     ["helmet_army", 26],
+     ["tac_helmet", 22],
+     ["helmet_riot", 18],
+     ["tac_fullhelmet", 8],
+     ["pot_helmet", 22],
+     ["helmet_larmor", 14],
+     ["helmet_bone", 22],
+     ["pickelhaube", 1],
+     ["firehelmet", 2],
+     ["helmet_barbute", 1],
+     ["helmet_plate", 1],
+     ["bondage_mask", 1],
+     ["hood_rain", 14]
+	]
+	},{
+       "type" : "item_group",
+       "id" : "survivorzed_extra",
+    "items":[
+	   ["mask_survivor", 10],
+     ["survivor_vest", 8],
+     ["survivor_pack", 6],
+	   ["survivor_rucksack", 4],
+     ["dive_bag", 10],
+     ["runner_bag", 20],
+     ["molle_pack", 12],
+     ["backpack", 40],
+     ["backpack_leather", 32],
+     ["mbag", 26],
+     ["purse", 14],
+     ["rucksack", 12],
+     ["duffelbag", 8],
+     ["mask_h20survivor", 1],
+     ["mask_bal", 14],
+     ["mask_hockey", 26],
+     ["mask_gas", 24],
+     ["mask_filter", 12],
+     ["mask_bunker", 2],
+     ["mask_wsurvivor", 4],
+     ["mask_fsurvivor", 2],
+     ["sunglasses", 12],
+     ["glasses_bal", 18],
+     ["glasses_safety", 24],
+     ["goggles_ski", 14],
+     ["goggles_nv", 2],
+     ["chestrig", 22],
+     ["legrig", 22],
+     ["tool_belt", 16],
+     ["fanny", 12],
+     ["dump_pouch", 6],
+     ["ragpouch", 22],
+     ["leather_pouch", 16],
+     ["quiver", 14],
+     ["quiver_large", 8],
+     ["wristwatch", 24],
+     ["diving_watch", 16],
+     ["pocketwatch", 14],
+     ["holster", 14],
+     ["bandana", 18],
+     ["scarf", 26],
+     ["mask_gas_xl", 4],
+     ["hat_boonie", 16],
+     ["beret", 18],
+     ["beret_wool", 14],
+     ["balclava", 12],
+     ["mask_survivorxl", 2],
+     ["combatsaw_off", 1],
+     ["firemachete_off", 1],
+     ["shishkebab_off", 2],
+     ["helsing", 1],
+     ["tihar", 2],
+     ["ashot", 4],
+     ["makeshift_machete", 4],
+     ["flamethrower_crude", 6],
+     ["flamethrower_simple", 2]
 	]
 	},{
        "type" : "item_group",
        "id" : "hazmat_eyes",
     "items":[
-	 ["glasses_safety", 50]
+	   ["glasses_safety", 50]
 	]
 	}
 ]
