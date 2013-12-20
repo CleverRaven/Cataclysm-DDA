@@ -837,7 +837,7 @@ bool map::vehproceed(){
 
 bool map::displace_water (const int x, const int y)
 {
-    if (move_cost_ter_furn(x, y) > 0 && has_flag("SWIMMABLE", x, y)) // shallow water
+    if (has_flag("SWIMMABLE", x, y) && !has_flag(TFLAG_DEEP_WATER, x, y)) // shallow water
     { // displace it
         int dis_places = 0, sel_place = 0;
         for (int pass = 0; pass < 2; pass++)
@@ -852,7 +852,9 @@ bool map::displace_water (const int x, const int y)
             for (int tx = -1; tx <= 1; tx++)
                 for (int ty = -1; ty <= 1; ty++)
                 {
-                    if ((!tx && !ty) || move_cost_ter_furn(x + tx, y + ty) == 0)
+                    if ((!tx && !ty) 
+                            || move_cost_ter_furn(x + tx, y + ty) == 0
+                            || has_flag(TFLAG_DEEP_WATER, x + tx, y + ty))
                         continue;
                     ter_id ter0 = ter (x + tx, y + ty);
                     if (ter0 == t_water_sh ||
