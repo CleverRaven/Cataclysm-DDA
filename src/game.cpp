@@ -5530,123 +5530,139 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
     return;
 }
 
-void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
+void game::do_blast( const int x, const int y, const int power, const int radius, const bool fire )
 {
- int radius = int(sqrt(double(power / 4)));
- int dam;
- std::string junk;
- int noise = power * (has_fire ? 2 : 10);
+    std::string junk;
+    int dam;
+    for (int i = x - radius; i <= x + radius; i++) {
+        for (int j = y - radius; j <= y + radius; j++) {
+            if (i == x && j == y) {
+                dam = 3 * power;
+            } else {
+                dam = 3 * power / (rl_dist(x, y, i, j));
+            }
+            m.bash(i, j, dam, junk);
+            m.bash(i, j, dam, junk); // Double up for tough doors, etc.
+            if (m.is_destructable(i, j) && rng(25, 100) < dam) {
+                m.destroy(i, j, false);
+            }
 
- if (power >= 30)
-  sound(x, y, noise, _("a huge explosion!"));
- else
-  sound(x, y, noise, _("an explosion!"));
- for (int i = x - radius; i <= x + radius; i++) {
-  for (int j = y - radius; j <= y + radius; j++) {
-   if (i == x && j == y)
-    dam = 3 * power;
-   else
-    dam = 3 * power / (rl_dist(x, y, i, j));
-   m.bash(i, j, dam, junk);
-   m.bash(i, j, dam, junk); // Double up for tough doors, etc.
-   if (m.is_destructable(i, j) && rng(25, 100) < dam)
-    m.destroy(i, j, false);
+            int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
+            if (mon_hit != -1) {
+                monster &critter = critter_tracker.find(mon_hit);
+                if (!critter.dead && critter.hurt(rng(dam / 2, long(dam * 1.5)))) {
+                    if (critter.hp < 0 - (critter.type->size < 2? 1.5:3) * critter.type->hp) {
+                        explode_mon(mon_hit); // Explode them if it was big overkill
+                    } else {
+                        kill_mon(mon_hit); // TODO: player's fault?
+                    }
+                }
 
-   int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
-   if (mon_hit != -1) {
-    monster &critter = critter_tracker.find(mon_hit);
-    if (!critter.dead && critter.hurt(rng(dam / 2, long(dam * 1.5)))) {
-     if (critter.hp < 0 - (critter.type->size < 2? 1.5:3) * critter.type->hp)
-      explode_mon(mon_hit); // Explode them if it was big overkill
-     else
-      kill_mon(mon_hit); // TODO: player's fault?
+                int vpart;
+                vehicle *veh = m.veh_at(i, j, vpart);
+                if (veh) {
+                    veh->damage (vpart, dam, false);
+                }
+            }
 
-     int vpart;
-     vehicle *veh = m.veh_at(i, j, vpart);
-     if (veh)
-      veh->damage (vpart, dam, false);
+            if (npc_hit != -1) {
+                active_npc[npc_hit]->hit(NULL, bp_torso, -1, rng(dam / 2, long(dam * 1.5)), 0);
+                active_npc[npc_hit]->hit(NULL, bp_head,  -1, rng(dam / 3, dam),       0);
+                active_npc[npc_hit]->hit(NULL, bp_legs,  0, rng(dam / 3, dam),       0);
+                active_npc[npc_hit]->hit(NULL, bp_legs,  1, rng(dam / 3, dam),       0);
+                active_npc[npc_hit]->hit(NULL, bp_arms,  0, rng(dam / 3, dam),       0);
+                active_npc[npc_hit]->hit(NULL, bp_arms,  1, rng(dam / 3, dam),       0);
+                if (active_npc[npc_hit]->hp_cur[hp_head]  <= 0 ||
+                    active_npc[npc_hit]->hp_cur[hp_torso] <= 0   ) {
+                    active_npc[npc_hit]->die(true);
+                }
+            }
+            if (u.posx == i && u.posy == j) {
+                add_msg(_("You're caught in the explosion!"));
+                u.hit(NULL, bp_torso, -1, rng(dam / 2, dam * 1.5), 0);
+                u.hit(NULL, bp_head,  -1, rng(dam / 3, dam),       0);
+                u.hit(NULL, bp_legs,  0, rng(dam / 3, dam),       0);
+                u.hit(NULL, bp_legs,  1, rng(dam / 3, dam),       0);
+                u.hit(NULL, bp_arms,  0, rng(dam / 3, dam),       0);
+                u.hit(NULL, bp_arms,  1, rng(dam / 3, dam),       0);
+            }
+            if (fire) {
+                m.add_field(i, j, fd_fire, dam / 10);
+            }
+        }
     }
-   }
+}
 
-   if (npc_hit != -1) {
-    active_npc[npc_hit]->hit(NULL, bp_torso, -1, rng(dam / 2, long(dam * 1.5)), 0);
-    active_npc[npc_hit]->hit(NULL, bp_head,  -1, rng(dam / 3, dam),       0);
-    active_npc[npc_hit]->hit(NULL, bp_legs,  0, rng(dam / 3, dam),       0);
-    active_npc[npc_hit]->hit(NULL, bp_legs,  1, rng(dam / 3, dam),       0);
-    active_npc[npc_hit]->hit(NULL, bp_arms,  0, rng(dam / 3, dam),       0);
-    active_npc[npc_hit]->hit(NULL, bp_arms,  1, rng(dam / 3, dam),       0);
-    if (active_npc[npc_hit]->hp_cur[hp_head]  <= 0 ||
-        active_npc[npc_hit]->hp_cur[hp_torso] <= 0   ) {
-     active_npc[npc_hit]->die(true);
+void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blast)
+{
+    int radius = int(sqrt(double(power / 4)));
+    int dam;
+    int noise = power * (fire ? 2 : 10);
+
+    if (power >= 30) {
+        sound(x, y, noise, _("a huge explosion!"));
+    } else {
+        sound(x, y, noise, _("an explosion!"));
     }
-   }
-   if (u.posx == i && u.posy == j) {
-    add_msg(_("You're caught in the explosion!"));
-    u.hit(NULL, bp_torso, -1, rng(dam / 2, dam * 1.5), 0);
-    u.hit(NULL, bp_head,  -1, rng(dam / 3, dam),       0);
-    u.hit(NULL, bp_legs,  0, rng(dam / 3, dam),       0);
-    u.hit(NULL, bp_legs,  1, rng(dam / 3, dam),       0);
-    u.hit(NULL, bp_arms,  0, rng(dam / 3, dam),       0);
-    u.hit(NULL, bp_arms,  1, rng(dam / 3, dam),       0);
-   }
-   if (has_fire) {
-    m.add_field(i, j, fd_fire, dam / 10);
-   }
-  }
- }
-
-// Draw the explosion
- draw_explosion(x, y, radius, c_red);
-
-// The rest of the function is shrapnel
- if (shrapnel <= 0)
-  return;
- int sx, sy, t, tx, ty;
- std::vector<point> traj;
- timespec ts;
- ts.tv_sec = 0;
- ts.tv_nsec = BULLET_SPEED; // Reset for animation of bullets
- for (int i = 0; i < shrapnel; i++) {
-  sx = rng(x - 2 * radius, x + 2 * radius);
-  sy = rng(y - 2 * radius, y + 2 * radius);
-  if (m.sees(x, y, sx, sy, 50, t))
-   traj = line_to(x, y, sx, sy, t);
-  else
-   traj = line_to(x, y, sx, sy, 0);
-  dam = rng(20, 60);
-  for (int j = 0; j < traj.size(); j++) {
-   draw_bullet(u, traj[j].x, traj[j].y, j, traj, '`', ts);
-   tx = traj[j].x;
-   ty = traj[j].y;
-   const int zid = mon_at(tx, ty);
-   if (zid != -1) {
-    monster &critter = critter_tracker.find(zid);
-    dam -= critter.get_armor_cut(bp_torso);
-    if (critter.hurt(dam))
-     kill_mon(zid);
-   } else if (npc_at(tx, ty) != -1) {
-    body_part hit = random_body_part();
-    if (hit == bp_eyes || hit == bp_mouth || hit == bp_head)
-     dam = rng(2 * dam, 5 * dam);
-    else if (hit == bp_torso)
-     dam = rng(long(1.5 * dam), 3 * dam);
-    int npcdex = npc_at(tx, ty);
-    active_npc[npcdex]->hit(NULL, hit, rng(0, 1), 0, dam);
-    if (active_npc[npcdex]->hp_cur[hp_head] <= 0 ||
-        active_npc[npcdex]->hp_cur[hp_torso] <= 0) {
-     active_npc[npcdex]->die();
+    if( blast ) {
+        do_blast( x, y, power, radius, fire );
+        // Draw the explosion
+        draw_explosion(x, y, radius, c_red);
     }
-   } else if (tx == u.posx && ty == u.posy) {
-    body_part hit = random_body_part();
-    int side = random_side(hit);
-    add_msg(_("Shrapnel hits your %s!"), body_part_name(hit, side).c_str());
-    u.hit(NULL, hit, random_side(hit), 0, dam);
-   } else {
-       std::set<std::string> shrapnel_effects;
-       m.shoot(tx, ty, dam, j == traj.size() - 1, shrapnel_effects );
-   }
-  }
- }
+
+    // The rest of the function is shrapnel
+    if (shrapnel <= 0) {
+        return;
+    }
+    int sx, sy, t, tx, ty;
+    std::vector<point> traj;
+    timespec ts;
+    ts.tv_sec = 0;
+    ts.tv_nsec = BULLET_SPEED; // Reset for animation of bullets
+    for (int i = 0; i < shrapnel; i++) {
+        sx = rng(x - 2 * radius, x + 2 * radius);
+        sy = rng(y - 2 * radius, y + 2 * radius);
+        if (m.sees(x, y, sx, sy, 50, t)) {
+            traj = line_to(x, y, sx, sy, t);
+        } else {
+            traj = line_to(x, y, sx, sy, 0);
+        }
+        dam = rng(20, 60);
+        for (int j = 0; j < traj.size(); j++) {
+            draw_bullet(u, traj[j].x, traj[j].y, j, traj, '`', ts);
+            tx = traj[j].x;
+            ty = traj[j].y;
+            const int zid = mon_at(tx, ty);
+            if (zid != -1) {
+                monster &critter = critter_tracker.find(zid);
+                dam -= critter.get_armor_cut(bp_torso);
+                if (critter.hurt(dam)) {
+                    kill_mon(zid);
+                }
+            } else if (npc_at(tx, ty) != -1) {
+                body_part hit = random_body_part();
+                if (hit == bp_eyes || hit == bp_mouth || hit == bp_head) {
+                    dam = rng(2 * dam, 5 * dam);
+                } else if (hit == bp_torso) {
+                    dam = rng(long(1.5 * dam), 3 * dam);
+                }
+                int npcdex = npc_at(tx, ty);
+                active_npc[npcdex]->hit(NULL, hit, rng(0, 1), 0, dam);
+                if (active_npc[npcdex]->hp_cur[hp_head] <= 0 ||
+                    active_npc[npcdex]->hp_cur[hp_torso] <= 0) {
+                    active_npc[npcdex]->die();
+                }
+            } else if (tx == u.posx && ty == u.posy) {
+                body_part hit = random_body_part();
+                int side = random_side(hit);
+                add_msg(_("Shrapnel hits your %s!"), body_part_name(hit, side).c_str());
+                u.hit(NULL, hit, random_side(hit), 0, dam);
+            } else {
+                std::set<std::string> shrapnel_effects;
+                m.shoot(tx, ty, dam, j == traj.size() - 1, shrapnel_effects );
+            }
+        }
+    }
 }
 
 void game::flashbang(int x, int y, bool player_immune)
