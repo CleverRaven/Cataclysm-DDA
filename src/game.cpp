@@ -10757,9 +10757,7 @@ bool game::plmove(int dx, int dy)
    }
    plswim(x, y);
   }
- }
-
- if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture ) {
+ } else if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture ) {
     // move_cost() of 0 = impassible (e.g. a wall)
   u.set_underwater(false);
 
