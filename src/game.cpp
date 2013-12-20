@@ -10902,7 +10902,7 @@ bool game::plmove(int dx, int dy)
 
           // unfortunately, game::is_empty fails for tiles we're standing on, which will forbid pulling, so:
           bool canmove = (
-               ( m.move_cost(fdest.x, fdest.y) > 0 || m.has_flag("LIQUID", fdest.x, fdest.y) ) &&
+               ( m.move_cost(fdest.x, fdest.y) > 0) &&
                npc_at(fdest.x, fdest.y) == -1 &&
                mon_at(fdest.x, fdest.y) == -1 &&
                m.has_flag("FLAT", fdest.x, fdest.y) &&
