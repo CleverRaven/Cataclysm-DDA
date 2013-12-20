@@ -1276,14 +1276,12 @@ bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int 
 /////
 bool map::is_destructable(const int x, const int y)
 {
- return (has_flag("BASHABLE", x, y) ||
-         (move_cost(x, y) == 0 && !has_flag("LIQUID", x, y)));
+ return has_flag("BASHABLE", x, y) || move_cost(x, y) == 0;
 }
 
 bool map::is_destructable_ter_furn(const int x, const int y)
 {
- return (has_flag_ter_or_furn("BASHABLE", x, y) ||
-         (move_cost_ter_furn(x, y) == 0 && !has_flag("LIQUID", x, y)));
+ return has_flag_ter_or_furn("BASHABLE", x, y) || move_cost_ter_furn(x, y) == 0;
 }
 
 /**
