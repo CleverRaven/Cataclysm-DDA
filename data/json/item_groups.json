@@ -2047,9 +2047,7 @@
       ["rm228", 2],
       ["rm120c", 4],
       ["remington_870", 9],
-      ["mossberg_500", 5],
-      ["rm20", 2],
-      ["saiga_12", 3]
+      ["mossberg_500", 5]
     ]
     },{
         "type" : "item_group",
@@ -2060,11 +2058,9 @@
       ["cx4", 15],
       ["browning_blr", 8],
       ["remington_700", 14],
-      ["sks", 12],
+      ["sks", 6],
       ["ruger_mini", 12],
       ["savage_111f", 10],
-      ["rm51_assault_rifle", 2],
-      ["rm88_battle_rifle", 1]
     ]
     },{
         "type" : "item_group",
@@ -2089,15 +2085,16 @@
     "items":[
       ["hk_g3", 15],
       ["hk_g36", 17],
-      ["ak47", 16],
+      ["ak47", 8],
       ["fn_fal", 16],
       ["acr", 4],
       ["ar15", 9],
       ["scar_l", 6],
       ["scar_h", 5],
       ["steyr_aug", 6],
+      ["saiga_12", 3],
       ["m249", 1],
-      ["rm88_battle_rifle", 1],
+      ["rm88_battle_rifle", 2],
       ["rm51_assault_rifle", 1],
       ["rm614_lmg", 1],
       ["rm2000_smg", 1]
@@ -2627,6 +2624,24 @@
     ]
     },{
         "type" : "item_group",
+        "id" : "cop_armory",
+    "items":[
+      ["usp_9mm", 15],
+      ["m1911", 10],
+      ["fn57", 8],
+      ["hk_mp5", 8],
+      ["hk_ump45", 7],
+      ["fn_p90", 5],
+      ["remington_870", 10],
+      ["remington_700", 7],
+      ["9mm", 16],
+      ["45_acp", 12],
+      ["57mm", 10],
+      ["shot_00", 16],
+      ["3006", 10]      
+    ]
+    },{
+        "type" : "item_group",
         "id" : "cop_weapons",
     "items":[
       ["baton", 8],
@@ -2635,7 +2650,7 @@
       ["45_acp", 8],
       ["usp_9mm", 10],
       ["rm120c", 3],
-      ["remington_870", 9],
+      ["remington_700", 9],
       ["mossberg_500", 5],
       ["rm20", 1],
       ["shot_beanbag", 15],
@@ -2695,7 +2710,6 @@
      ["glasses_safety", 5],
      ["wristwatch", 10],
      ["gold_watch", 2],
-     ["sf_watch", 1],
      ["mask_bal", 1],
      ["mask_gas", 15],
      ["goggles_nv", 2],
@@ -5748,11 +5762,13 @@
       ["shot_00", 8],
       ["9mm", 8],
       ["45_acp", 7],
+      ["20x66_shot", 2],
       ["glock_19", 7],
-      ["shotgun_sawn", 1],
+      ["shotgun_sawn", 4],
       ["uzi", 8],
       ["tec9", 10],
       ["mac_10", 14],
+      ["rm228", 1],
       ["suppressor", 15],
       ["clip2", 4],
       ["autofire", 2],
