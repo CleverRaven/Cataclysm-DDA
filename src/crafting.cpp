@@ -14,23 +14,37 @@
 #include <queue>
 
 std::vector<craft_cat> craft_cat_list;
-std::vector<craft_subcat> craft_subcat_list;
+std::map<craft_cat, std::vector<craft_subcat> > craft_subcat_list;
 std::vector<std::string> recipe_names;
 recipe_map recipes;
 std::map<std::string,quality> qualities;
 std::map<std::string, std::queue<std::pair<recipe*, int> > > recipe_booksets;
 
-void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
-void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered=false);
+static void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
+static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered=false);
+static craft_cat first_craft_cat();
+static craft_cat next_craft_cat(const craft_cat cat);
+static craft_cat prev_craft_cat(const craft_cat cat);
+static craft_subcat first_craft_subcat(const craft_cat cat);
+static craft_subcat last_craft_subcat(const craft_cat cat);
+static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat);
+static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat);
 
 void load_recipe_category(JsonObject &jsobj)
 {
-    craft_cat_list.push_back(jsobj.get_string("id"));
-}
-
-void load_recipe_subcategory(JsonObject &jsobj)
-{
-    craft_subcat_list.push_back(jsobj.get_string("id"));
+    JsonArray subcats;
+    std::string category = jsobj.get_string("id");
+    // Don't store noncraft as a category.
+    // We're storing the subcategory so we can look it up in load_recipes
+    // for the fallback subcategory.
+    if( category != "CC_NONCRAFT" ) {
+        craft_cat_list.push_back( category );
+    }
+    craft_subcat_list[category] = std::vector<craft_subcat>();
+    subcats = jsobj.get_array("recipe_subcategories");
+    while (subcats.has_more()) {
+        craft_subcat_list[category].push_back( subcats.next_string() );
+    }
 }
 
 void load_recipe(JsonObject &jsobj)
@@ -41,17 +55,11 @@ void load_recipe(JsonObject &jsobj)
     std::string result = jsobj.get_string("result");
     std::string category = jsobj.get_string("category");
     std::string subcategory = "";
+
     if ( !jsobj.has_string("subcategory") ) {
-        if (category == "CC_NONCRAFT") { subcategory = "CSC_NONCRAFT"; }
-        else if (category == "CC_WEAPON") { subcategory = "CSC_WEAPON_OTHER"; }
-        else if (category == "CC_AMMO") { subcategory = "CSC_AMMO_OTHER"; }
-        else if (category == "CC_FOOD") { subcategory = "CSC_FOOD_OTHER"; }
-        else if (category == "CC_CHEM") { subcategory = "CSC_CHEM_OTHER"; }
-        else if (category == "CC_ELECTRONIC") { subcategory = "CSC_ELECTRONIC_OTHER"; }
-        else if (category == "CC_ARMOR") { subcategory = "CSC_ARMOR_OTHER"; }
-        else if (category == "CC_OTHER") { subcategory = "CSC_OTHER_OTHER"; }
+        subcategory = last_craft_subcat( category );
     } else {
-    subcategory = jsobj.get_string("subcategory");
+        subcategory = jsobj.get_string("subcategory");
     }
 
     int difficulty = jsobj.get_int("difficulty");
@@ -505,56 +513,71 @@ void game::long_craft()
     }
 }
 
-craft_cat game::next_craft_cat(craft_cat cat)
+static craft_cat first_craft_cat()
+{
+    return craft_cat_list.front();
+}
+
+static craft_cat next_craft_cat(const craft_cat cat)
 {
     for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
-         iter != craft_cat_list.end();
-         ++iter)
-    {
-        if ((*iter) == cat)
-        {
-            return *(++iter);
+         iter != craft_cat_list.end(); ++iter) {
+        if ((*iter) == cat) {
+            if( ++iter == craft_cat_list.end() ) {
+                return craft_cat_list.front();
+            }
+            return *iter;
         }
     }
     return NULL;
 }
 
-craft_cat game::prev_craft_cat(craft_cat cat)
+static craft_cat prev_craft_cat(const craft_cat cat)
 {
     for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
-         iter != craft_cat_list.end();
-         ++iter)
-    {
-        if ((*iter) == cat)
-        {
+         iter != craft_cat_list.end(); ++iter) {
+        if ((*iter) == cat) {
+            if( iter == craft_cat_list.begin() ) {
+                return craft_cat_list.back();
+            }
             return *(--iter);
         }
     }
     return NULL;
 }
 
-craft_subcat game::next_craft_subcat(craft_subcat subcat)
+static craft_subcat first_craft_subcat(const craft_cat cat)
 {
-    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list.begin();
-         iter != craft_subcat_list.end();
-         ++iter)
-    {
-        if ((*iter) == subcat)
-        {
-            return *(++iter);
+    return craft_subcat_list[cat].front();
+}
+
+static craft_subcat last_craft_subcat(const craft_cat cat)
+{
+    return craft_subcat_list[cat].back();
+}
+
+static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat)
+{
+    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list[cat].begin();
+         iter != craft_subcat_list[cat].end(); ++iter) {
+        if ((*iter) == subcat) {
+            if( ++iter == craft_subcat_list[cat].end() ) {
+                return craft_subcat_list[cat].front();
+            }
+            return *iter;
         }
     }
     return NULL;
 }
 
-craft_subcat game::prev_craft_subcat(craft_subcat subcat)
+static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat)
 {
-    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list.begin();
-         iter != craft_subcat_list.end();
-         ++iter)
-    {
-        if ((*iter) == subcat)
-        {
+    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list[cat].begin();
+         iter != craft_subcat_list[cat].end(); ++iter) {
+        if ((*iter) == subcat) {
+            if( iter == craft_subcat_list[cat].begin() ) {
+                return craft_subcat_list[cat].back();
+            }
             return *(--iter);
         }
     }
@@ -595,8 +618,8 @@ recipe* game::select_crafting_recipe()
 
     const int iInfoWidth = width - FULL_SCREEN_WIDTH - 3;
     std::vector<std::string> folded;
-    craft_cat tab = "CC_WEAPON";
-    craft_subcat subtab = "CSC_WEAPON_BASHING";
+    craft_cat tab = first_craft_cat();
+    craft_subcat subtab = first_craft_subcat( tab );
     std::vector<recipe*> current;
     std::vector<bool> available;
     item tmp;
@@ -900,97 +923,21 @@ recipe* game::select_crafting_recipe()
         switch (input)
         {
             case DirectionW:
-                if (tab == "CC_WEAPON" && subtab == "CSC_WEAPON_BASHING") {
-                    subtab = "CSC_WEAPON_OTHER";
-                }
-                else if (tab == "CC_AMMO" && subtab == "CSC_AMMO_BULLETS") {
-                    subtab = "CSC_AMMO_OTHER";
-                }
-                else if (tab == "CC_FOOD" && subtab == "CSC_FOOD_DRINKS") {
-                    subtab = "CSC_FOOD_OTHER";
-                }
-                else if (tab == "CC_CHEM" && subtab == "CSC_CHEM_DRUGS") {
-                    subtab = "CSC_CHEM_OTHER";
-                }
-                else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONIC_CBMS") {
-                    subtab = "CSC_ELECTRONIC_OTHER";
-                }
-                else if (tab == "CC_ARMOR" && subtab == "CSC_ARMOR_STORAGE") {
-                    subtab = "CSC_ARMOR_OTHER";
-                }
-                else if (tab == "CC_OTHER" && subtab == "CSC_OTHER_TOOLS") {
-                    subtab = "CSC_OTHER_OTHER";
-                }
-                else
-                {
-                    subtab = prev_craft_subcat(subtab);
-                }
+                subtab = prev_craft_subcat( tab, subtab );
                 redraw = true;
                 break;
             case DirectionUp:
-                if (tab == "CC_WEAPON")
-                {
-                    tab = "CC_OTHER";
-                    subtab = "CSC_OTHER_TOOLS";
-                }
-                else
-                {
-                    tab = prev_craft_cat(tab);
-                    if ( tab == "CC_WEAPON") { subtab = "CSC_WEAPON_BASHING"; }
-                    else if (tab == "CC_AMMO") { subtab = "CSC_AMMO_BULLETS"; }
-                    else if (tab == "CC_FOOD") { subtab = "CSC_FOOD_DRINKS"; }
-                    else if (tab == "CC_CHEM") { subtab = "CSC_CHEM_DRUGS"; }
-                    else if (tab == "CC_ELECTRONIC") { subtab = "CSC_ELECTRONIC_CBMS"; }
-                    else if (tab == "CC_ARMOR") { subtab = "CSC_ARMOR_STORAGE"; }
-                    else if (tab == "CC_OTHER") { subtab = "CSC_OTHER_TOOLS"; }
-                }
+                tab = prev_craft_cat(tab);
+                subtab = last_craft_subcat( tab );
                 redraw = true;
                 break;
             case DirectionE:
-                if (tab == "CC_WEAPON" && subtab == "CSC_WEAPON_OTHER") {
-                    subtab = "CSC_WEAPON_BASHING";
-                }
-                else if (tab == "CC_AMMO" && subtab == "CSC_AMMO_OTHER") {
-                    subtab = "CSC_AMMO_BULLETS";
-                }
-                else if (tab == "CC_FOOD" && subtab == "CSC_FOOD_OTHER") {
-                    subtab = "CSC_FOOD_DRINKS";
-                }
-                else if (tab == "CC_CHEM" && subtab == "CSC_CHEM_OTHER") {
-                    subtab = "CSC_CHEM_DRUGS";
-                }
-                else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONIC_OTHER") {
-                    subtab = "CSC_ELECTRONIC_CBMS";
-                }
-                else if (tab == "CC_ARMOR" && subtab == "CSC_ARMOR_OTHER") {
-                    subtab = "CSC_ARMOR_STORAGE";
-                }
-                else if (tab == "CC_OTHER" && subtab == "CSC_OTHER_OTHER") {
-                    subtab = "CSC_OTHER_TOOLS";
-                }
-                else
-                {
-                    subtab = next_craft_subcat(subtab);
-                }
+                subtab = next_craft_subcat( tab, subtab );
                 redraw = true;
                 break;
             case DirectionDown:
-                if (tab == "CC_OTHER")
-                {
-                    tab = "CC_WEAPON";
-                    subtab = "CSC_WEAPON_BASHING";
-                }
-                else
-                {
-                    tab = next_craft_cat(tab);
-                    if ( tab == "CC_WEAPON") { subtab = "CSC_WEAPON_BASHING"; }
-                    else if (tab == "CC_AMMO") { subtab = "CSC_AMMO_BULLETS"; }
-                    else if (tab == "CC_FOOD") { subtab = "CSC_FOOD_DRINKS"; }
-                    else if (tab == "CC_CHEM") { subtab = "CSC_CHEM_DRUGS"; }
-                    else if (tab == "CC_ELECTRONIC") { subtab = "CSC_ELECTRONIC_CBMS"; }
-                    else if (tab == "CC_ARMOR") { subtab = "CSC_ARMOR_STORAGE"; }
-                    else if (tab == "CC_OTHER") { subtab = "CSC_OTHER_TOOLS"; }
-                }
+                tab = next_craft_cat(tab);
+                subtab = first_craft_subcat( tab );
                 redraw = true;
                 break;
             case DirectionS:
@@ -1063,7 +1010,7 @@ recipe* game::select_crafting_recipe()
     return chosen;
 }
 
-void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
+static void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 {
     werase(w);
     int width = getmaxx(w);
@@ -1100,7 +1047,7 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
     wrefresh(w);
 }
 
-void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered)
+static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered)
 {
     werase(w);
     int width = getmaxx(w);
