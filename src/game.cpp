@@ -5460,7 +5460,7 @@ bool game::sound(int x, int y, int vol, std::string description)
         }
     }
 
-    if (x != u.posx || y != u.posy) {
+    if( (x != u.posx || y != u.posy) && !m.pl_sees(u.posx, u.posy, x, y, dist) ) {
         if(u.activity.ignore_trivial != true) {
             std::string query;
             if (description != "") {
