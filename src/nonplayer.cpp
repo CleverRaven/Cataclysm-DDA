@@ -5,7 +5,7 @@ Nonplayer::Nonplayer() : Character()
 {
 }
 
-Nonplayer::Nonplayer(const Nonplayer &rhs) : Character()
+Nonplayer::Nonplayer(const Nonplayer &rhs) : Character(), JsonSerializer(), JsonDeserializer()
 {
     *this = rhs;
 }
