@@ -1080,9 +1080,8 @@ void options_data::add_value( const std::string & lvar, const std::string & lval
             if ( optionNames.find(lval) == optionNames.end() ) {
                 optionNames[ lval ] = ( lvalname == "" ? lval : lvalname );
             }
-            // std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
             // our value was saved, then set to default, so set it again.
-            if ( it->second != blank_value ) {
+            if ( it->second == lval ) {
                 OPTIONS[ lvar ].setValue( lval );
             }
         }
