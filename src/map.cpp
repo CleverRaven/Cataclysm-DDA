@@ -1293,7 +1293,7 @@ bool map::is_destructable_ter_furn(const int x, const int y)
  */
 bool map::is_divable(const int x, const int y)
 {
-  return has_flag("SWIMMABLE", x, y) && move_cost(x, y) == 0;
+  return has_flag("SWIMMABLE", x, y) && has_flag(TFLAG_DEEP_WATER, x, y);
 }
 
 bool map::is_outside(const int x, const int y)
