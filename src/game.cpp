@@ -11267,13 +11267,11 @@ bool game::plmove(int dx, int dy)
       add_msg(_("There are vehicle controls here.  %s to drive."),
               press_x(ACTION_CONTROL_VEHICLE).c_str() );
 
-  } else if (!m.has_flag("SWIMMABLE", x, y) && u.has_active_bionic("bio_probability_travel") && u.power_level >= 10) {
+  } else if (u.has_active_bionic("bio_probability_travel") && u.power_level >= 10) {
   //probability travel through walls but not water
   int tunneldist = 0;
   // tile is impassable
-  while((m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0 &&
-         // but allow water tiles
-         !m.has_flag("SWIMMABLE", x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy))) ||
+  while((m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0) ||
          // a monster is there
          ((mon_at(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) != -1 ||
            // so keep tunneling
