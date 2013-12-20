@@ -6155,6 +6155,29 @@
     "use_action": "KNIFE",
     "qualities": [["CUT", 1]]
   },
+
+  {
+    "id": "inhaler",
+    "type": "TOOL",
+    "symbol": "!",
+    "color": "light_blue",
+    "name": "inhaler",
+    "description": "Albuterol inhaler.  Used in the treatment of bronchospasm, it is a lifeline for people with asthma.  A mild stimulant, it may cause nervousness or tremors.",
+    "price": 500,
+    "material": "plastic",
+    "weight": 10,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -4,
+    "max_charges": 100,
+    "initial_charges": 100,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "INHALER"
+  },
   {
     "id": "cow_bell",
     "type": "TOOL",
