@@ -5943,7 +5943,7 @@ int iuse::battletorch_lit(player *p, item *it, bool t)
         if (it->charges == 0)
         {
             g->add_msg_if_player(p,_("The Louisville Slaughterer burns out."));
-            it->make(itypes["bat"]);
+            it->make(itypes["battletorch_done"]);
             it->active = false;
         }
     }

@@ -1868,6 +1868,22 @@
     },
     {
         "type":"GENERIC",
+        "id" : "battletorch_done",
+        "name" : "burnt out Louisville Slaughterer",
+        "description" : "A sturdy wood bat, wrapped in flame-resistant Nomex fabric. Makes a great melee weapon, but would make a better one if wrapped in gasoline-soaked rags and set on fire.",
+        "weight" : 1343,
+        "to_hit" : 3,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["wood", "null"],
+        "techniques" : ["WBLOCK_1"],
+        "volume" : 7,
+        "bashing" : 19,
+        "cutting" : 0,
+        "price" : 160
+    },
+    {
+        "type":"GENERIC",
         "id" : "bat_metal",
         "name" : "aluminum bat",
         "description" : "An aluminum baseball bat, lighter than a wooden bat and a little easier to swing as a result.",
