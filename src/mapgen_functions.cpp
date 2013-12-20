@@ -3711,7 +3711,7 @@ void mapgen_lmoe_under(map *m, oter_id, mapgendata, int, float) {
         line(m, t_rubble, 15, 10, 16, 10);
         m->furn_set(19, 10, f_sink);
         m->place_toilet(20, 11);
-        m->place_items("allguns", 80, 3, 3, 6, 3, false, 0);
+        m->place_items("lmoe_guns", 80, 3, 3, 6, 3, false, 0);
         m->place_items("ammo", 80, 3, 3, 6, 3, false, 0);
         m->place_items("cannedfood", 90, 3, 9, 7, 9, false, 0);
         m->place_items("survival_tools", 80, 3, 11, 7, 11, false, 0);
