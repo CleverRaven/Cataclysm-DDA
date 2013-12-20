@@ -365,7 +365,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
  if( !is_null() )
  {
   dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
-  dump->push_back(iteminfo("BASE", _("   Weight: "), "", g->u.convert_weight(weight()), false, "", true, true));
+  dump->push_back(iteminfo("BASE", _("   Weight: "), string_format(_("<num> %s"),
+                           OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? "lbs" : "kg"),
+                           g->u.convert_weight(weight()), false, "", true, true));
   dump->push_back(iteminfo("BASE", _("Bash: "), "", damage_bash(), true, "", false));
   if (has_flag("SPEAR")) {
     dump->push_back(iteminfo("BASE", _(" Pierce: "), "", damage_cut(), true, "", false));
