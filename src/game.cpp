@@ -11572,7 +11572,7 @@ void game::vertical_move(int movez, bool force) {
     }
 
 // > and < are used for diving underwater.
- if (m.move_cost(u.posx, u.posy) == 0 && m.has_flag("SWIMMABLE", u.posx, u.posy)){
+ if (m.has_flag("SWIMMABLE", u.posx, u.posy) && m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy)){
   if (movez == -1) {
    if (u.is_underwater()) {
     add_msg(_("You are already underwater!"));
