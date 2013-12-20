@@ -10751,7 +10751,7 @@ bool game::plmove(int dx, int dy)
 // Requires confirmation if we were on dry land previously
   if ((m.has_flag("SWIMMABLE", u.posx, u.posy) &&
       m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy)) || query_yn(_("Dive into the water?"))) {
-   if (!m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy) > 0 && u.swim_speed() < 500) {
+   if (!m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy) && u.swim_speed() < 500) {
      add_msg(_("You start swimming.  %s to dive underwater."),
              press_x(ACTION_MOVE_DOWN).c_str());
    }
