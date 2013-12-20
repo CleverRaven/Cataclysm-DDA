@@ -52,7 +52,8 @@ std::vector<int> find_firsts(indexed_invslice &slice, CategoriesVector &CATEGORI
 void print_inv_weight_vol(WINDOW* w_inv, int weight_carried, int vol_carried)
 {
     // Print weight
-    mvwprintw(w_inv, 0, 39, _("Weight: "));
+    mvwprintw(w_inv, 0, 32, _("Weight (%s): "),
+              OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? "lbs" : "kg");
     if (weight_carried >= g->u.weight_capacity())
     {
         wprintz(w_inv, c_red, "%6.1f", g->u.convert_weight(weight_carried));
