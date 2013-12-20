@@ -486,15 +486,16 @@ bool map::vehproceed(){
             const int px = x + veh->parts[p].precalc_dx[0];
             const int py = y + veh->parts[p].precalc_dy[0];
             // deep water
-            if(move_cost_ter_furn(px, py) == 0 && has_flag("SWIMMABLE", px, py)) {
+            if(ter_at(px, py).has_flag(TFLAG_DEEP_WATER)) {
                 submerged_wheels++;
             }
         }
         // submerged wheels threshold is 2/3.
         if (num_wheels &&  (float)submerged_wheels / num_wheels > .666) {
             g->add_msg(_("Your %s sank."), veh->name.c_str());
-            if (pl_ctrl)
+            if (pl_ctrl) {
                 veh->unboard_all ();
+            }
             // destroy vehicle (sank to nowhere)
             destroy_vehicle(veh);
             return true;
