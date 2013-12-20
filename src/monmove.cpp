@@ -914,8 +914,7 @@ void monster::knock_back_from(int x, int y)
  }
 
 // If we're still in the function at this point, we're actually moving a tile!
- if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
-
+ if (g->m.ter_at(to.x, to.y).has_flag(TFLAG_DEEP_WATER)) {
   if (g->m.has_flag("LIQUID", to.x, to.y) && can_drown()) {
    hurt(9999);
    if (u_see) {
@@ -924,16 +923,21 @@ void monster::knock_back_from(int x, int y)
 
   } else if (has_flag(MF_AQUATIC)) { // We swim but we're NOT in water
    hurt(9999);
-   if (u_see)
+   if (u_see) {
     g->add_msg(_("The %s flops around and dies!"), name().c_str());
+   }
+  }
+ }
 
-  } else { // It's some kind of wall.
+ if (g->m.move_cost(to.x, to.y) == 0) {
+
+   // It's some kind of wall.
    hurt(type->size);
    add_effect("stunned", 2);
-   if (u_see)
+   if (u_see) {
     g->add_msg(_("The %s bounces off a %s."), name().c_str(),
                g->m.tername(to.x, to.y).c_str());
-  }
+   }
 
  } else { // It's no wall
   setpos(to);
