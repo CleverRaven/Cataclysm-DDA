@@ -592,7 +592,7 @@
     "symbol": "(",
     "color": "light_gray",
     "name": "M1911",
-    "description": "The M1911 was the standard-issue sidearm from the US Military for most of the 20th Century. It remains one of the most popular .45 pistols today.",
+    "description": "The M1911 was the US Military standard-issue sidearm for most of the 20th Century. It remains one of the most popular .45 pistols today.",
     "price": 1680,
     "material": ["steel", "plastic"],
     "skill": "pistol",
