@@ -1377,44 +1377,16 @@ bool inventory::has_artifact_with(art_effect_passive effect) const
 
 bool inventory::has_liquid(itype_id type) const
 {
+    // has_capacity_for_liquid needs an item, not an item type
+    const item liquid(itypes[type], g->turn);
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         const item& it = iter->front();
         if (it.is_container() && !it.contents.empty())
         {
-            if (it.contents[0].type->id == type)
+            if (has_capacity_for_liquid(it, liquid))
             {
-                // liquid matches
-                it_container* container = dynamic_cast<it_container*>(it.type);
-                int holding_container_charges;
-
-                if (it.contents[0].type->is_food())
-                {
-                    it_comest* tmp_comest = dynamic_cast<it_comest*>(it.contents[0].type);
-
-                    if (tmp_comest->add == ADD_ALCOHOL) // 1 contains = 20 alcohol charges
-                    {
-                        holding_container_charges = container->contains * 20;
-                    }
-                    else
-                    {
-                        holding_container_charges = container->contains;
-                    }
-                }
-                else if (it.contents[0].type->is_ammo())
-                {
-                    // gasoline?
-                    holding_container_charges = container->contains * 200;
-                }
-                else
-                {
-                    holding_container_charges = container->contains;
-                }
-
-                if (it.contents[0].charges < holding_container_charges)
-                {
-                    return true;
-                }
+                return true;
             }
         }
     }
