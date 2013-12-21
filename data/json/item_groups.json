@@ -2827,6 +2827,27 @@
     ]
     },{
         "type" : "item_group",
+        "id" : "mansion_guns",
+    "items":[
+      ["rifle_flintlock", 5],
+      ["pistol_flintlock", 9],
+      ["flintlock_ammo", 7],
+      ["shotgun_s", 6],
+      ["shotgun_d", 6],
+      ["trex_gun", 2],
+      ["700nx", 4],
+      ["moss_brownie", 8],
+      ["cop_38", 8],
+      ["calico", 7],
+      ["american_180", 5],
+      ["tokarev", 4],
+      ["sks", 6],
+      ["ppsh", 6],
+      ["saiga_12", 5],
+      ["RPG", 4]
+    ]
+    },{
+        "type" : "item_group",
         "id" : "swimmer_head",
     "items":[
       ["goggles_swim", 90],

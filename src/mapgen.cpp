@@ -12083,7 +12083,7 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
             m->furn_set(cx_hi - 1, y2, f_dresser);
             m->place_items("dresser", 80, cx_hi - 2, y2, cx_hi - 1, y2, false, 0);
             if (one_in(10)) {
-                m->place_items("homeguns", 58, cx_hi - 2, y2, cx_hi - 1, y2, false, 0);
+                m->place_items("mansion_guns", 58, cx_hi - 2, y2, cx_hi - 1, y2, false, 0);
             }
 
             m->furn_set(cx_hi + 1, y2, f_desk);
@@ -12111,7 +12111,7 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
             m->furn_set(x2, cy_hi - 1, f_dresser);
             m->place_items("dresser", 80, x2, cy_hi - 2, x2, cy_hi - 1, false, 0);
             if (one_in(10)) {
-                m->place_items("homeguns", 58, x2, cy_hi - 2, x2, cy_hi - 1, false, 0);
+                m->place_items("mansion_guns", 58, x2, cy_hi - 2, x2, cy_hi - 1, false, 0);
             }
 
             m->furn_set(x2, cy_hi + 1, f_desk);
@@ -12257,6 +12257,8 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
                     m->place_items("alcohol", 60, x, study_y, x, study_y, false, 0);
                 } else if (one_in(3)) {
                     m->place_items("church", 60, x, study_y, x, study_y, false, 0);
+                } else if (one_in(2)) {
+                    m->place_items("mansion_guns", 60, x, study_y, x, study_y, false, 0);
                 } else {
                     m->place_items("art", 60, x, study_y, x, study_y, false, 0);
                 }
@@ -12297,11 +12299,19 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
     case room_mansion_gallery:
 
         m->furn_set(x2 + 2, y2 + 2, f_rack);
+        if (one_in(3)) {
+            m->place_items("mansion_guns", 70, x2 + 2, y2 - 2, x2 + 2, y2 - 2, false, 0);
+      } else {
         m->place_items("medieval", 40, x2 + 2, y2 + 2, x2 + 2, y2 + 2, false, 0);
+      }
         m->furn_set(x2 - 2, y2 + 2, f_rack);
         m->place_items("art", 70, x2 - 2, y2 + 2, x2 - 2, y2 + 2, false, 0);
         m->furn_set(x2 + 2, y2 - 2, f_rack);
-        m->place_items("art", 70, x2 + 2, y2 - 2, x2 + 2, y2 - 2, false, 0);
+        if (one_in(3)) {
+            m->place_items("mansion_guns", 70, x2 + 2, y2 - 2, x2 + 2, y2 - 2, false, 0);
+      } else {
+            m->place_items("art", 70, x2 + 2, y2 - 2, x2 + 2, y2 - 2, false, 0);
+      }
         m->furn_set(x2 - 2, y2 - 2, f_rack);
         m->place_items("alcohol", 80, x2 - 2, y2 - 2, x2 - 2, y2 - 2, false, 0);
 
