@@ -744,8 +744,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         if(rotten()) {
-            if(g->u.has_trait("SAPROVORE")) {
-                dump->push_back(iteminfo("DESCRIPTION", _("This food has started to rot, but that just adds to the flavor.")));
+            if(g->u.has_bionic("bio_digestion")) {
+                dump->push_back(iteminfo("DESCRIPTION", _("This food has started to rot, but your bionic digestion can tolerate it.")));
+            } else if(g->u.has_trait("SAPROVORE")) {
+                dump->push_back(iteminfo("DESCRIPTION", _("This food has started to rot, but you can tolerate it.")));
             } else {
                 dump->push_back(iteminfo("DESCRIPTION", _("This food has started to rot. Eating it would be a very bad idea.")));
             }
