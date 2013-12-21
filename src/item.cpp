@@ -743,7 +743,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             (is_food_container() && contents[0].goes_bad()))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
-        dump->push_back(iteminfo("DESCRIPTION", _("This food is perishable, and will eventually rot.")));
+        if(rotten()) {
+            if(g->u.has_trait("SAPROVORE")) {
+                dump->push_back(iteminfo("DESCRIPTION", _("This food has started to rot, but that just adds to the flavor.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION", _("This food has started to rot. Eating it would be a very bad idea.")));
+            }
+        } else {
+            dump->push_back(iteminfo("DESCRIPTION", _("This food is perishable, and will eventually rot.")));
+        }
     }
     std::map<std::string, std::string>::const_iterator item_note = item_vars.find("item_note");
     std::map<std::string, std::string>::const_iterator item_note_type = item_vars.find("item_note_type");
