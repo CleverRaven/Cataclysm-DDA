@@ -233,6 +233,26 @@
             [ "fireman_gear", 1 ]
         ]
     },
+	{
+        "type": "monitems",
+        "id": "mon_zombie_survivor",
+        "item_groups": [
+            [ "allguns", 24 ],
+            [ "grenades", 10 ],
+            [ "mil_rifles", 8 ],
+            [ "mil_hw", 1 ],
+            [ "launchers", 1 ],
+            [ "gunxtras", 14 ],
+            [ "stash_food", 40 ],
+            [ "stash_ammo", 26 ],
+            [ "stash_drugs", 28 ],
+            [ "survival_tools", 18 ],
+            [ "mil_food", 22 ],
+            [ "mil_food_nodrugs", 34 ],
+            [ "shelter", 8 ],
+            [ "mil_surplus", 6 ]
+        ]
+    },
     {
         "type": "monitems",
         "id": "mon_cow",

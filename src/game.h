@@ -161,7 +161,7 @@ class game
 // visual cue to monsters moving out of the players sight
   void draw_footsteps();
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
-  void explosion(int x, int y, int power, int shrapnel, bool fire);
+  void explosion(int x, int y, int power, int shrapnel, bool fire, bool blast = true);
 // Draws an explosion with set radius and color at the given location
   /* Defined later in this file */
   //void draw_explosion(int x, int y, int radius, nc_color col);
@@ -360,6 +360,9 @@ class game
 
  bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
 
+ // Helper because explosion was getting too big.
+ void do_blast( const int x, const int y, const int power, const int radius, const bool fire );
+
  // Knockback functions: knock target at (tx,ty) along a line, either calculated
  // from source position (sx,sy) using force parameter or passed as an argument;
  // force determines how far target is knocked, if trajectory is calculated
@@ -471,10 +474,6 @@ class game
   void complete_craft();               // See crafting.cpp
   void pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &current,
                     std::vector<bool> &available, craft_cat tab, craft_subcat subtab, std::string filter);// crafting.cpp
-  craft_cat next_craft_cat(craft_cat cat); // crafting.cpp
-  craft_cat prev_craft_cat(craft_cat cat); // crafting.cpp
-  craft_subcat next_craft_subcat(craft_subcat subcat); // crafting.cpp
-  craft_subcat prev_craft_subcat(craft_subcat subcat); // crafting.cpp
   void disassemble(int pos = INT_MAX);       // See crafting.cpp
   void complete_disassemble();         // See crafting.cpp
   recipe* recipe_by_index(int index);  // See crafting.cpp

@@ -379,7 +379,7 @@ bool map::process_fields_in_submap(int gridn)
                                 // cook off ammo instead of just burning it.
                                 for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
                                     //Blow up with half the ammos damage in force, for each bullet.
-                                    g->explosion(x, y, ammo_type->damage / 2, true, false);
+                                    g->explosion(x, y, ammo_type->damage / 2, true, false, false);
                                 }
                                 it->charges -= rounds_exploded; //Get rid of the spent ammo.
                                 if(it->charges == 0) {

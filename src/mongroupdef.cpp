@@ -382,9 +382,9 @@ void init_translation() {
     monStr2monId["mon_zombie_smoker"] = mon_zombie_smoker;
     monStr2monId["mon_zombie_swimmer"] = mon_zombie_swimmer;
     monStr2monId["mon_zombie_fast"] = mon_zombie_fast;
-	monStr2monId["mon_dog_skeleton"] = mon_dog_skeleton;
-	monStr2monId["mon_dog_zombie_cop"] = mon_dog_zombie_cop;
-	monStr2monId["mon_dog_zombie_rot"] = mon_dog_zombie_rot;
+  	monStr2monId["mon_dog_skeleton"] = mon_dog_skeleton;
+  	monStr2monId["mon_dog_zombie_cop"] = mon_dog_zombie_cop;
+  	monStr2monId["mon_dog_zombie_rot"] = mon_dog_zombie_rot;
     monStr2monId["mon_zombie_brute"] = mon_zombie_brute;
     monStr2monId["mon_zombie_hulk"] = mon_zombie_hulk;
     monStr2monId["mon_zombie_fungus"] = mon_zombie_fungus;
@@ -395,6 +395,7 @@ void init_translation() {
     monStr2monId["mon_zombie_master"] = mon_zombie_master;
     monStr2monId["mon_zombie_child"] = mon_zombie_child;
     monStr2monId["mon_zombie_fireman"] = mon_zombie_fireman;
+    monStr2monId["mon_zombie_survivor"] = mon_zombie_survivor;
 }
 
 void MonsterGroupManager::check_group_definitions()

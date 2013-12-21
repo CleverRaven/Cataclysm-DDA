@@ -1675,6 +1675,10 @@ void player::add_memorial_log(const char* message, ...)
   vsprintf(buff, message, ap);
   va_end(ap);
 
+  if(strlen(buff) == 0) {
+      return;
+  }
+
   std::stringstream timestamp;
   timestamp << _("Year") << " " << (g->turn.years() + 1) << ", "
             << _(season_name[g->turn.get_season()].c_str()) << " "
@@ -6935,11 +6939,14 @@ bool player::eat(item *eaten, it_comest *comest)
         }
     }
     // At this point, we've definitely eaten the item, so use up some turns.
-    if (has_trait("GOURMAND")) {
-        moves -= 150;
-    } else {
-        moves -= 250;
-    }
+    int mealtime = 250;
+      if (has_trait("MOUTH_TENTACLES")  || has_trait ("MANDIBLES")) {
+        mealtime /= 2;
+    } if (has_trait("GOURMAND")) {
+        mealtime -= 100;
+    } 
+        moves -= (mealtime);
+    
     // If it's poisonous... poison us.  TODO: More several poison effects
     if (eaten->poison >= rng(2, 4)) {
         add_effect("poison", eaten->poison * 100);

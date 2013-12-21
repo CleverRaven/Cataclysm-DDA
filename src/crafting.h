@@ -112,7 +112,6 @@ typedef std::vector<recipe*> recipe_list;
 typedef std::map<craft_cat, recipe_list> recipe_map;
 
 void load_recipe_category(JsonObject &jsobj);
-void load_recipe_subcategory(JsonObject &jsobj);
 void load_recipe(JsonObject &jsobj);
 recipe* recipe_by_name(std::string name);
 void finalize_recipes();
