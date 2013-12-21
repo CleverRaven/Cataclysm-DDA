@@ -5608,6 +5608,13 @@ int iuse::knife(player *p, item *it, bool t)
     item *result = NULL;
     int count = amount;
 
+    //if we're going to cut up a bottle/waterskin,
+    //make sure it isn't full of liquid
+    if (cut->is_container() && !cut->contents.empty()) {
+        g->add_msg(_("That container is not empty!"));
+        return 0;
+    }
+
     if ((cut->made_of("cotton") || cut->made_of("leather") || cut->made_of("nomex")) ) {
         if (valid_fabric(p, cut, t)) {
             cut_up(p, it, cut, t);
@@ -5615,16 +5622,6 @@ int iuse::knife(player *p, item *it, bool t)
         return it->type->charges_to_use();
     } else if( cut->made_of(found_mat.c_str()) ||
                cut->made_of((found_mat = "kevlar").c_str())) { // TODO : extract a function
-        //if we're going to cut up a bottle, make sure it isn't full of liquid
-        //applies also to all of them kevlar bottles.
-
-        if(cut->is_container()) {
-            if(cut->is_food_container()) {
-                g->add_msg(_("That container has liquid in it!"));
-                return 0;
-            }
-        }
-
         if ( found_mat == "plastic" ) {
             result = new item(itypes["plastic_chunk"], int(g->turn), g->nextinv);
         } else {
