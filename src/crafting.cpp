@@ -1845,36 +1845,38 @@ void game::complete_disassemble()
   {
     if (dis->components[j].size() != 0)
     {
-      int compcount = dis->components[j][0].count;
-      bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
-        if (dis->difficulty != 0 && !comp_success) {
+        int compcount = dis->components[j][0].count;
+        bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
+        if (dis->difficulty != 0 && !comp_success)
+        {
             add_msg(_("You fail to recover a component."));
             continue;
         }
-      do
-      {
-        item newit(item_controller->find_template(dis->components[j][0].type), turn);
-        // skip item addition if component is a consumable like superglue
         if (dis->components[j][0].type == "superglue" || dis->components[j][0].type == "duct_tape")
-          compcount--;
-        else
         {
-            if (newit.count_by_charges()) {
-                newit.charges = compcount;
-                compcount = 1;
-            }
-            if (newit.made_of(LIQUID)) {
-                handle_liquid(newit, false, false);
-                break;
-            }
-            if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, newit)) {
-                compcount--;
-                continue;
-            }
-            m.add_item_or_charges(u.posx, u.posy, newit);
-            compcount--;
+            // skip item addition if component is a consumable like superglue
+            continue;
         }
-      } while (compcount > 0);
+        item newit(item_controller->find_template(dis->components[j][0].type), turn);
+        if (newit.count_by_charges())
+        {
+            newit.charges = compcount;
+            compcount = 1;
+        }
+        if (newit.made_of(LIQUID))
+        {
+            handle_liquid(newit, false, false);
+            continue;
+        }
+        do
+        {
+            if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, newit)) {
+                // add_item did put the items in the vehicle, nothing further to be done
+            } else {
+                m.add_item_or_charges(u.posx, u.posy, newit);
+            }
+            compcount--;
+        } while (compcount > 0);
     }
   }
 
