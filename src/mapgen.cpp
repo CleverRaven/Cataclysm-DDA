@@ -12036,6 +12036,7 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
             }
         }
         if (one_in(6)) { // Suits of armor
+            if (!one_in(5)) { // 80% chance for European
             int start = y1 + rng(2, 4), end = y2 - rng(0, 4), step = rng(3, 6);
             for (int y = start; y <= end; y += step) {
                 m->spawn_item(x1 + 1, y, "helmet_plate");
@@ -12062,6 +12063,40 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
                     m->spawn_item(x2 - 1, y, "morningstar");
                 }
             }
+          }
+            else {int start = y1 + rng(2, 4), end = y2 - rng(0, 4), step = rng(3, 6);
+                for (int y = start; y <= end; y += step) {
+                    m->spawn_item(x1 + 1, y, "helmet_kabuto");
+                    m->spawn_item(x1 + 1, y, "armor_samurai");
+                    if (one_in(2)) {
+                        m->spawn_item(x1 + 1, y, "katana");
+                    } else if (one_in(3)) {
+                        m->spawn_item(x1 + 1, y, "katana");
+                        m->spawn_item(x1 + 1, y, "wakazashi");
+                    } else if (one_in(6)) {
+                        m->spawn_item(x1 + 1, y, "katana");
+                        m->spawn_item(x1 + 1, y, "wakazashi");
+                        m->spawn_item(x1 + 1, y, "tanto");
+                    } else if (one_in(6)) {
+                        m->spawn_item(x1 + 1, y, "nodachi");
+                    }
+
+                    m->spawn_item(x2 - 1, y, "helmet_kabuto");
+                    m->spawn_item(x2 - 1, y, "armor_samurai");
+                    if (one_in(2)) {
+                        m->spawn_item(x2 - 1, y, "katana");
+                    } else if (one_in(3)) {
+                        m->spawn_item(x2 - 1, y, "katana");
+                        m->spawn_item(x1 + 1, y, "wakazashi");
+                    } else if (one_in(6)) {
+                        m->spawn_item(x2 - 1, y, "katana");
+                        m->spawn_item(x1 + 1, y, "wakazashi");
+                        m->spawn_item(x1 + 1, y, "tanto");
+                    } else if (one_in(6)) {
+                        m->spawn_item(x2 - 1, y, "nodachi");
+                    }
+            }
+          }
         }
         break;
 
