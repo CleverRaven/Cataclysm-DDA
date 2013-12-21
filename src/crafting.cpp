@@ -1849,6 +1849,10 @@ void game::complete_disassemble()
           compcount--;
         else
         {
+          if (newit.made_of(LIQUID)) {
+                handle_liquid(newit, false, false);
+                continue;
+          }
           if (veh != 0 && veh_part != -1) {
               if (veh->add_item(veh_part, newit)) {
                   continue;
