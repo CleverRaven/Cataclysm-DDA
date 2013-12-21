@@ -78,7 +78,7 @@ void print_inv_weight_vol(WINDOW* w_inv, int weight_carried, int vol_carried)
 }
 
 void print_inv_statics(WINDOW* w_inv, std::string title,
-                       std::vector<char> dropped_items)
+                       std::vector<char> dropped_items, int dropped_weapon)
 {
 // Print our header
  mvwprintw(w_inv, 0, 0, title.c_str());
@@ -88,15 +88,12 @@ void print_inv_statics(WINDOW* w_inv, std::string title,
 // Print our weapon
  int n_items = 0;
  mvwprintz(w_inv, 2, 45, c_magenta, _("WEAPON:"));
- int dropping_weapon = false;
- for (int i = 0; i < dropped_items.size() && !dropping_weapon; i++) {
-  if (dropped_items[i] == g->u.weapon.invlet)
-   dropping_weapon = true;
- }
+ int dropping_weapon = dropped_weapon != 0;
  if (g->u.is_armed()) {
   n_items++;
   if (dropping_weapon)
-   mvwprintz(w_inv, 3, 45, c_white, "%c + %s", g->u.weapon.invlet,
+   mvwprintz(w_inv, 3, 45, c_white, "%c %c %s", g->u.weapon.invlet,
+             dropped_weapon == -1 ? '+' : '#',
              g->u.weapname().c_str());
   else
    mvwprintz(w_inv, 3, 45, g->u.weapon.color_in_inventory(), "%c - %s",
@@ -108,12 +105,12 @@ void print_inv_statics(WINDOW* w_inv, std::string title,
   mvwprintz(w_inv, 5, 45, c_magenta, _("ITEMS WORN:"));
  for (int i = 0; i < g->u.worn.size(); i++) {
   n_items++;
-  bool dropping_armor = false;
-  for (int j = 0; j < dropped_items.size() && !dropping_armor; j++) {
+  bool dropped_armor = false;
+  for (int j = 0; j < dropped_items.size() && !dropped_armor; j++) {
    if (dropped_items[j] == g->u.worn[i].invlet)
-    dropping_armor = true;
+    dropped_armor = true;
   }
-  if (dropping_armor)
+  if (dropped_armor)
    mvwprintz(w_inv, 6 + i, 45, c_white, "%c + %s", g->u.worn[i].invlet,
              g->u.worn[i].tname().c_str());
   else
@@ -139,7 +136,7 @@ int game::display_slice(indexed_invslice& slice, const std::string& title)
     int ch = (int)'.';
     int start = 0, cur_it = 0, max_it;
     std::vector<char> null_vector;
-    print_inv_statics(w_inv, title, null_vector);
+    print_inv_statics(w_inv, title, null_vector, 0);
     // Gun, ammo, weapon, armor, food, tool, book, other
 
     CategoriesVector CATEGORIES;
@@ -358,9 +355,10 @@ std::vector<item> game::multidrop()
     const std::string drp_line_padding = ( drp_line_width > 1 ? std::string(drp_line_width, ' ') : " ");
     std::map<int, int> dropping; // Count of how many we'll drop from each position
     int count = 0; // The current count
-    std::vector<char> weapon_and_armor; // Always single, not counted
+    std::vector<char> dropped_armor; // Always single, not counted
+    int dropped_weapon = 0;
     bool warned_about_bionic = false; // Printed add_msg re: dropping bionics
-    print_inv_statics(w_inv, _("Multidrop:"), weapon_and_armor);
+    print_inv_statics(w_inv, _("Multidrop:"), dropped_armor, dropped_weapon);
     int base_weight = u.weight_carried();
     int base_volume = u.volume_carried();
 
@@ -403,10 +401,16 @@ std::vector<item> game::multidrop()
         }
 
         inventory drop_subset = u.inv.subset(dropping);
+        if (dropped_weapon == -1) {
+            drop_subset.add_item(u.weapon, false, false);
+        } else if (dropped_weapon > 0) {
+            item &tmp = drop_subset.add_item(u.weapon, false, false);
+            tmp.charges = dropped_weapon;
+        }
         int new_weight = base_weight - drop_subset.weight();
         int new_volume = base_volume - drop_subset.volume();
-        for (int i = 0; i < weapon_and_armor.size(); ++i) {
-            new_weight -= u.i_at(weapon_and_armor[i]).weight();
+        for (int i = 0; i < dropped_armor.size(); ++i) {
+            new_weight -= u.i_at(dropped_armor[i]).weight();
         }
         print_inv_weight_vol(w_inv, new_weight, new_volume);
         int cur_line = 2;
@@ -414,26 +418,22 @@ std::vector<item> game::multidrop()
         int drp_line = 1;
         // Print weapon to be dropped, the first position is reserved for high visibility
         mvwprintw(w_inv, 0, 90, "%s", drp_line_padding.c_str());
-        bool dropping_w = false;
-        for (int k = 0; k < weapon_and_armor.size() && !dropping_w; k++) {
-            if (weapon_and_armor[k] == u.weapon.invlet) {
-                dropping_w = true;
-            }
-            if (dropping_w && u.is_armed()) {
+        if (dropped_weapon != 0) {
+            if (dropped_weapon == -1) {
                 mvwprintz(w_inv, 0, 90, c_ltblue, "%c + %s", u.weapon.invlet, u.weapname().c_str());
+            } else {
+                mvwprintz(w_inv, 0, 90, c_ltblue, "%c # %s", u.weapon.invlet, u.weapname().c_str());
             }
-        }
-        // Print worn items to be dropped
-        if(dropping_w) {
             mvwprintw(w_inv, drp_line, 90, "%s", drp_line_padding.c_str());
             drp_line++;
         }
+        // Print worn items to be dropped
         bool dropping_a = false;
         if (u.worn.size() > 0){
             for (int k = 0; k < u.worn.size(); k++) {
                 bool dropping_w = false;
-                for (int j = 0; j < weapon_and_armor.size() && !dropping_w; j++) {
-                    if (weapon_and_armor[j] == u.worn[k].invlet) {
+                for (int j = 0; j < dropped_armor.size() && !dropping_w; j++) {
+                    if (dropped_armor[j] == u.worn[k].invlet) {
                         dropping_w = true;
                         dropping_a = true;
                         mvwprintw(w_inv, drp_line, 90, "%s", drp_line_padding.c_str());
@@ -601,22 +601,33 @@ std::vector<item> game::multidrop()
             }
             if (it == 0 || it->is_null()) { // Not from inventory
                 int found = false;
-                for (int i = 0; i < weapon_and_armor.size() && !found; i++) {
-                    if (weapon_and_armor[i] == ch) {
-                        weapon_and_armor.erase(weapon_and_armor.begin() + i);
+                for (int i = 0; i < dropped_armor.size() && !found; i++) {
+                    if (dropped_armor[i] == ch) {
+                        dropped_armor.erase(dropped_armor.begin() + i);
                         found = true;
-                        print_inv_statics(w_inv, _("Multidrop:"), weapon_and_armor);
+                        print_inv_statics(w_inv, _("Multidrop:"), dropped_armor, dropped_weapon);
                     }
                 }
-                if (!found) {
-                    if ( ch == u.weapon.invlet &&
-                         std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(), u.weapon.type->id) != unreal_itype_ids.end()){
-                        if (!warned_about_bionic)
+                if (!found && ch == u.weapon.invlet && !u.weapon.is_null()) {
+                    if (std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(), u.weapon.type->id) != unreal_itype_ids.end()) {
+                        if (!warned_about_bionic) {
                             add_msg(_("You cannot drop your %s."), u.weapon.tname().c_str());
-                        warned_about_bionic = true;
+                            warned_about_bionic = true;
+                        }
                     } else {
-                        weapon_and_armor.push_back(ch);
-                        print_inv_statics(w_inv, _("Multidrop:"), weapon_and_armor);
+                        if (count == 0) {
+                            if (dropped_weapon == 0) {
+                                dropped_weapon = -1;
+                            } else {
+                                dropped_weapon = 0;
+                            }
+                        } else if (u.weapon.count_by_charges() && count < u.weapon.charges) {
+                            dropped_weapon = count;
+                        } else {
+                            dropped_weapon = -1;
+                        }
+                        count = 0;
+                        print_inv_statics(w_inv, _("Multidrop:"), dropped_armor, dropped_weapon);
                     }
                 }
             } else {
@@ -675,19 +686,26 @@ std::vector<item> game::multidrop()
             for (int j = it->second; j > 0; j--)
                 ret.push_back( u.inv.remove_item( it->first));
     }
+    if (dropped_weapon == -1) {
+        ret.push_back(u.remove_weapon());
+    } else if (dropped_weapon > 0) {
+        ret.push_back(u.weapon);
+        u.weapon.charges -= dropped_weapon;
+        ret.back().charges = dropped_weapon;
+    }
 
-    for (int i = 0; i < weapon_and_armor.size(); i++)
+    for (int i = 0; i < dropped_armor.size(); i++)
     {
-        int wornpos = u.invlet_to_position(weapon_and_armor[i]);
+        int wornpos = u.invlet_to_position(dropped_armor[i]);
         if (wornpos == INT_MIN || !u.takeoff(wornpos, true))
         {
             continue;
         }
 
         // Item could have been dropped after taking it off
-        if (&u.inv.item_by_letter(weapon_and_armor[i]) != &u.inv.nullitem)
+        if (&u.inv.item_by_letter(dropped_armor[i]) != &u.inv.nullitem)
         {
-            ret.push_back(u.i_rem(weapon_and_armor[i]));
+            ret.push_back(u.i_rem(dropped_armor[i]));
         }
     }
 
@@ -730,8 +748,9 @@ void game::compare(int iCompareX, int iCompareY)
  bool bShowCompare = false;
  char cLastCh = 0;
  compare_list.resize(u.inv.size() + groundsize, 0);
- std::vector<char> weapon_and_armor; // Always single, not counted
- print_inv_statics(w_inv, "Compare:", weapon_and_armor);
+ std::vector<char> dropped_armor; // Always single, not counted
+ int dropped_weapon = 0;
+ print_inv_statics(w_inv, "Compare:", dropped_armor, dropped_weapon);
 // Gun, ammo, weapon, armor, food, tool, book, other
  CategoriesVector CATEGORIES;
  std::vector<int> first = find_firsts(stacks, CATEGORIES);
@@ -808,13 +827,19 @@ void game::compare(int iCompareX, int iCompareY)
    item& it = u.inv.item_by_letter((char)ch);
    if (it.is_null()) { // Not from inventory
     bool found = false;
-    for (int i = 0; i < weapon_and_armor.size() && !found; i++) {
-     if (weapon_and_armor[i] == ch) {
-      weapon_and_armor.erase(weapon_and_armor.begin() + i);
+    for (int i = 0; i < dropped_armor.size() && !found; i++) {
+     if (dropped_armor[i] == ch) {
+      dropped_armor.erase(dropped_armor.begin() + i);
       found = true;
       bFirst = false;
-      print_inv_statics(w_inv, "Compare:", weapon_and_armor);
+      print_inv_statics(w_inv, "Compare:", dropped_armor, dropped_weapon);
      }
+    }
+    if (!found && dropped_weapon == -1 && ch == u.weapon.invlet) {
+     found = true;
+     bFirst = false;
+     dropped_weapon = 0;
+     print_inv_statics(w_inv, "Compare:", dropped_armor, dropped_weapon);
     }
     if (!found) {
 
@@ -824,8 +849,8 @@ void game::compare(int iCompareX, int iCompareY)
      } else {
       if (!bFirst)
       {
-       weapon_and_armor.push_back(ch);
-       print_inv_statics(w_inv, "Compare:", weapon_and_armor);
+       dropped_weapon = -1;
+       print_inv_statics(w_inv, "Compare:", dropped_armor, dropped_weapon);
        bFirst = true;
        cLastCh = ch;
       } else {
@@ -915,7 +940,7 @@ void game::compare(int iCompareX, int iCompareY)
    compare_split_screen_popup((TERMX-VIEW_OFFSET_X*2)/2, (TERMX-VIEW_OFFSET_X*2)/2, TERMY-VIEW_OFFSET_Y*2, sItemCh, vItemCh, vItemLastCh);
 
    wclear(w_inv);
-   print_inv_statics(w_inv, "Compare:", weapon_and_armor);
+   print_inv_statics(w_inv, "Compare:", dropped_armor, dropped_weapon);
    bShowCompare = false;
   }
  } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
