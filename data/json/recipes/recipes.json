@@ -21099,6 +21099,96 @@
      ]
     ]
 },{
+  "type" : "recipe",
+  "result": "tanto",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 380000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapeast", 6 ], [ "manual_knives", 7 ] , [ "recipe_melee", 8 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 310],
+      [ "char_forge", 70]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 1 ],
+     [ "steel_chunk", 5 ],
+     [ "scrap", 14 ]
+     ],
+     [
+      [ "2x4", 1 ],
+      [ "stick", 1 ]
+     ],
+     [
+      [ "fur", 2 ],
+      [ "leather", 2 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "wakizashi",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 8,
+  "time": 420000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapeast", 7 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 400],
+      [ "char_forge", 80]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 6 ],
+     [ "scrap", 18 ]
+     ],
+     [
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
+     ],
+     [
+      [ "fur", 2 ],
+      [ "leather", 2 ]
+     ]
+    ]
+},{
         "type" : "recipe",
   "result": "katana",
   "category": "CC_WEAPON",
