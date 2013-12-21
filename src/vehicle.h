@@ -204,6 +204,15 @@ private:
     // get vpart powerinfo for part number, accounting for variable-sized parts.
     int part_power (int index);
 
+    // get vpart epowerinfo for part number.
+    int part_epower (int index);
+
+    // convert epower (watts) to power.
+    int epower_to_power (int epower);
+
+    // convert power to epower (watts).
+    int power_to_epower (int power);
+
     //Refresh all caches and re-locate all parts
     void refresh();
 
@@ -329,9 +338,8 @@ public:
     void update_map_x(int x);
     void update_map_y(int y);
 
-// Checks how much certain fuel left in tanks. If for_engine == true that means
-// ftype == "battery" is also takes in account "plutonium" fuel (electric motors can use both)
-    int fuel_left (const ammotype & ftype, bool for_engine = false);
+// Checks how much certain fuel left in tanks.
+    int fuel_left (const ammotype & ftype);
     int fuel_capacity (const ammotype & ftype);
 
     // refill fuel tank(s) with given type of fuel
@@ -345,11 +353,13 @@ public:
 // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
     int basic_consumption (const ammotype & ftype);
 
-    void consume_fuel ();
+    void consume_fuel (float rate);
 
     void power_parts ();
 
     void charge_battery (int amount);
+
+    int discharge_battery (int amount);
 
 // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
@@ -361,8 +371,8 @@ public:
 // vehicle have fuel for are accounted
     int total_power (bool fueled = true);
 
-// Get combined power of solar panels
-    int solar_power ();
+// Get combined epower of solar panels
+    int solar_epower ();
 
 // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
@@ -395,7 +405,7 @@ public:
 // calculate if it can move using its wheels configuration
     bool valid_wheel_config ();
 
-// idle fuel consumption and battery charge
+// idle fuel consumption
     void idle ();
 
 // thrust (1) or brake (-1) vehicle
@@ -448,7 +458,15 @@ public:
 
     void find_power ();
 
+    void find_alternators ();
+
     void find_fuel_tanks ();
+
+    void find_engines ();
+
+    void find_reactors ();
+
+    void find_solar_panels ();
 
     void find_parts();
 
@@ -507,7 +525,11 @@ public:
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
     std::vector<int> horns;            // List of horn part indices
     std::vector<int> lights;           // List of light part indices
+    std::vector<int> alternators;      // List of alternator indices
     std::vector<int> fuel;             // List of fuel tank indices
+    std::vector<int> engines;          // List of engine indices
+    std::vector<int> reactors;         // List of reactor indices
+    std::vector<int> solar_panels;     // List of solar panel indices
     std::vector<int> wheelcache;
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
@@ -520,6 +542,7 @@ public:
     bool parts_dirty;   //
     int init_veh_fuel;
     int init_veh_status;
+    float alternator_load;
 
     // save values
     int posx, posy;
@@ -529,6 +552,7 @@ public:
     int velocity;       // vehicle current velocity, mph * 100
     int cruise_velocity; // velocity vehicle's cruise control trying to acheive
     bool cruise_on;     // cruise control on/off
+    bool reactor_on;    // reactor on/off
     bool engine_on;     // engine on/off
     bool has_pedals;
     bool lights_on;     // lights on/off
@@ -544,11 +568,11 @@ public:
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
-    int lights_power;   // total power of components with LIGHT or CONE_LIGHT flag
-    int overhead_power;   // total power of components with CIRCLE_LIGHT flag
-    int tracking_power; // total power consumed by tracking devices (why would you use more than one?)
-    int fridge_power; // total power consumed by fridges
-    int recharger_power; // total power consumed by rechargers
+    int lights_epower;   // total power of components with LIGHT or CONE_LIGHT flag
+    int overhead_epower;   // total power of components with CIRCLE_LIGHT flag
+    int tracking_epower; // total power consumed by tracking devices (why would you use more than one?)
+    int fridge_epower; // total power consumed by fridges
+    int recharger_epower; // total power consumed by rechargers
 };
 
 #endif

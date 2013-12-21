@@ -597,7 +597,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
 
      if (kpart >= 0) {
        item hotplate(itypes["hotplate"], 0);
-       hotplate.charges = veh->fuel_left("battery", true);
+       hotplate.charges = veh->fuel_left("battery");
        add_item(hotplate);
 
        item water(itypes["water_clean"], 0);
@@ -611,38 +611,38 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
        }
      if (weldpart >= 0) {
        item welder(itypes["welder"], 0);
-       welder.charges = veh->fuel_left("battery", true);
+       welder.charges = veh->fuel_left("battery");
        add_item(welder);
 
        item soldering_iron(itypes["soldering_iron"], 0);
-       soldering_iron.charges = veh->fuel_left("battery", true);
+       soldering_iron.charges = veh->fuel_left("battery");
        add_item(soldering_iron);
        }
      if (craftpart >= 0) {
        item vac_sealer(itypes["vac_sealer"], 0);
-       vac_sealer.charges = veh->fuel_left("battery", true);
+       vac_sealer.charges = veh->fuel_left("battery");
        add_item(vac_sealer);
 
        item dehydrator(itypes["dehydrator"], 0);
-       dehydrator.charges = veh->fuel_left("battery", true);
+       dehydrator.charges = veh->fuel_left("battery");
        add_item(dehydrator);
 
        item press(itypes["press"], 0);
-       press.charges = veh->fuel_left("battery", true);
+       press.charges = veh->fuel_left("battery");
        add_item(press);
        }
      if (forgepart >= 0) {
        item forge(itypes["forge"], 0);
-       forge.charges = veh->fuel_left("battery", true);
+       forge.charges = veh->fuel_left("battery");
        add_item(forge);
        }
      if (chempart >= 0) {
        item hotplate(itypes["hotplate"], 0);
-       hotplate.charges = veh->fuel_left("battery", true);
+       hotplate.charges = veh->fuel_left("battery");
        add_item(hotplate);
 
        item chemistry_set(itypes["chemistry_set"], 0);
-       chemistry_set.charges = veh->fuel_left("battery", true);
+       chemistry_set.charges = veh->fuel_left("battery");
        add_item(chemistry_set);
        }
      }
