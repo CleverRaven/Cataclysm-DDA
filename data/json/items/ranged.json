@@ -2143,7 +2143,7 @@
     "symbol": "(",
     "color": "magenta",
     "name": "LACP laser pistol",
-    "description": "The LACP laser pistol was based on the v29 laser pistol designed in the mid-21st century. While little more then duct tape and electronics, it runs on a standard UPS.",
+    "description": "The LACP laser pistol was based on the v29 laser pistol designed in the mid-21st century. While little more than duct tape and electronics, it runs on a standard UPS.",
     "price": 5000,
     "material": ["steel", "plastic"],
     "ammo_effects": ["LASER","INCENDIARY"],
