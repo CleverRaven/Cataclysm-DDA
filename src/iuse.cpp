@@ -1970,7 +1970,17 @@ int iuse::scissors(player *p, item *it, bool t)
     if (!valid_fabric(p, cut, t)) {
         return 0;
     }
-
+    if (cut == &p->weapon)
+    {
+        if(!query_yn(_("You are wielding that, are you sure?"))) {
+            return 0;
+        }
+    } else if (p->has_weapon_or_armor(cut->invlet))
+    {
+        if(!query_yn(_("You're wearing that, are you sure?"))) {
+            return 0;
+        }
+    }
     return cut_up(p, it, cut, t);
 }
 
