@@ -1829,6 +1829,12 @@ void game::complete_disassemble()
    if (dis->skill_used)
     u.practice(turn, dis->skill_used, (dis->difficulty) * 2);
 
+    int veh_part = -1;
+    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+    if(veh != 0) {
+        veh_part = veh->part_with_feature(veh_part, "CARGO");
+    }
+
   for (unsigned j = 0; j < dis->components.size(); j++)
   {
     if (dis->components[j].size() != 0)
@@ -1843,6 +1849,11 @@ void game::complete_disassemble()
           compcount--;
         else
         {
+          if (veh != 0 && veh_part != -1) {
+              if (veh->add_item(veh_part, newit)) {
+                  continue;
+              }
+          }
           if (newit.count_by_charges())
           {
             if (dis->difficulty == 0 || comp_success)
