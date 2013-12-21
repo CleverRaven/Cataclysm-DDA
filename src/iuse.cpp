@@ -1906,6 +1906,10 @@ static bool valid_fabric(player *p, item *it, bool)
         g->add_msg(_("You can only slice items made of fabric or leather."));
         return false;
     }
+    if (it->is_container() && !it->contents.empty()) {
+        g->add_msg(_("That %s is not empty!"), it->tname().c_str());
+        return false;
+    }
 
     return true;
 }
