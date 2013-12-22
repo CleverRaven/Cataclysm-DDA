@@ -251,7 +251,9 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
 
     if(u_see_this) {
         if (damage_mult == 0) {
-            g->add_msg(source->is_player() ? _("You miss!") : _("The shot misses!"));
+            if(source != NULL) {
+                g->add_msg(source->is_player() ? _("You miss!") : _("The shot misses!"));
+            }
         } else if (dealt_dam.total_damage() == 0) {
             g->add_msg(_("The shot reflects off the %s!"),
                        skin_name().c_str());
