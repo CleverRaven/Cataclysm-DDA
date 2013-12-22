@@ -2602,7 +2602,7 @@
     "material": ["plastic", "null"]
   },
   {
-    "id": "mre_4fingers_box",
+    "id": "mre_hotdog_box",
     "type": "GENERIC",
     "symbol": ")",
     "color": "brown",
