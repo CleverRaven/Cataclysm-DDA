@@ -1974,7 +1974,17 @@ int iuse::scissors(player *p, item *it, bool t)
     if (!valid_fabric(p, cut, t)) {
         return 0;
     }
-
+    if (cut == &p->weapon)
+    {
+        if(!query_yn(_("You are wielding that, are you sure?"))) {
+            return 0;
+        }
+    } else if (p->has_weapon_or_armor(cut->invlet))
+    {
+        if(!query_yn(_("You're wearing that, are you sure?"))) {
+            return 0;
+        }
+    }
     return cut_up(p, it, cut, t);
 }
 
@@ -5586,12 +5596,26 @@ int iuse::knife(player *p, item *it, bool t)
 
     item *cut = &(p->i_at(pos));
 
-    if (cut->type->id == "null") {
+    if (cut->is_null())
+    {
         g->add_msg(_("You do not have that item!"));
         return 0;
-    } else if ( p->has_weapon_or_armor(cut->invlet) &&
-                menu(true, _("You're wearing that, are you sure?"), _("Yes"), _("No"), NULL ) != 1 ) {
+    }
+    if (cut == it)
+    {
+        g->add_msg(_("You can not cut the %s with itself!"), it->tname().c_str());
         return 0;
+    }
+    if (cut == &p->weapon)
+    {
+        if(!query_yn(_("You are wielding that, are you sure?"))) {
+            return 0;
+        }
+    } else if (p->has_weapon_or_armor(cut->invlet))
+    {
+        if(!query_yn(_("You're wearing that, are you sure?"))) {
+            return 0;
+        }
     }
 
     if (choice == carve_writing) {
