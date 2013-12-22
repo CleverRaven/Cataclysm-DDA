@@ -8334,6 +8334,11 @@ activate your weapon."), gun->tname().c_str(), mod->location.c_str());
                        gun->tname().c_str());
             return;
         }
+        if (guntype->id == "hand_crossbow" && !mod->used_on_pistol) {
+          g->add_msg(_("Your %s isn't big enough to use that mod.'"), gun->tname().c_str(),
+          used->tname().c_str());
+          return;
+        }
         for (int i = 0; i < gun->contents.size(); i++) {
             if (gun->contents[i].type->id == used->type->id) {
                 g->add_msg(_("Your %s already has a %s."), gun->tname().c_str(),

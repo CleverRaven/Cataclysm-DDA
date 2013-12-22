@@ -991,7 +991,7 @@
         "color" : "dark_gray",
         "symbol" : ":",
         "material" : ["plastic", "steel"],
-        "mod_targets" : ["pistol"],
+        "mod_targets" : ["pistol", "crossbow"],
         "volume" : 2,
         "bashing" : 0,
         "cutting" : 0,
