@@ -765,7 +765,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
  if (is_food()) {
       if (goes_bad()) {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
-        dump->push_back(iteminfo("DESCRIPTION", _("This food will spoil.\n")));
+        if (rotten()) {
+          dump->push_back(iteminfo("DESCRIPTION", _("This food has spoiled.\n")));
+        } else {
+          dump->push_back(iteminfo("DESCRIPTION", _("This food will spoil.\n")));
+        }
       } else {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This food will not spoil.\n")));
@@ -775,7 +779,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
       food = &contents[0];
       if (food->goes_bad()) {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
-        dump->push_back(iteminfo("DESCRIPTION", _("This food will spoil.\n")));
+        if (rotten()) {
+          dump->push_back(iteminfo("DESCRIPTION", _("This food has spoiled.\n")));
+        } else {
+          dump->push_back(iteminfo("DESCRIPTION", _("This food will spoil.\n")));
+        }
       } else {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This food will not spoil.\n")));
