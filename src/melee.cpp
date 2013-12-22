@@ -455,7 +455,7 @@ int player::roll_cut_damage(bool crit)
   if (has_trait("SLIME_HANDS"))
    ret += rng(4, 6);
  }
-
+  
  if (ret <= 0)
   return 0; // No negative damage!
 
@@ -993,14 +993,6 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
                                        weapon.tname().c_str());
     deal_damage( this, bp_hands, random_side(bp_hands),
                  damage_instance::physical( 0, weapon.damage_cut()/2, 0) );
-  if (weapon.has_flag("FIRE_WHEN_DROPPED")) {
-    //sets thing on fire when dropped unexpectedly
-    for (int x = tarposx - 1; x <= tarposx + 1; x++) {
-   for (int y = tarposy - 1; y <= tarposy + 1; y++) {
-      g->m.add_field(x, y, fd_fire, 1, 100);
-   }
-  }
-  }
   }
  } else {
   if (d.total_damage() > 20) { // TODO: change this back to "if it would kill the monster"
