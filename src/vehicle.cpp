@@ -797,6 +797,21 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         }
     }
 
+    // Alternators must be installed on a gas engine
+    if(vehicle_part_types[id].has_flag(VPFLAG_ALTERNATOR)) {
+        bool anchor_found = false;
+        for(std::vector<int>::const_iterator it = parts_in_square.begin();
+            it != parts_in_square.end(); ++it ) {
+            if(part_info(*it).has_flag(VPFLAG_ENGINE) &&
+               part_info(*it).fuel_type == fuel_type_gasoline) {
+                anchor_found = true;
+            }
+        }
+        if(!anchor_found) {
+            return false;
+        }
+    }
+
     //Seatbelts must be installed on a seat
     if(vehicle_part_types[id].has_flag("SEATBELT")) {
         bool anchor_found = false;
@@ -854,6 +869,11 @@ bool vehicle::can_unmount (int p)
     int dy = parts[p].mount_dy;
 
     std::vector<int> parts_in_square = parts_at_relative(dx, dy, false);
+
+    // Can't remove an engine if there's still an alternator there
+    if(part_flag(p, VPFLAG_ENGINE) && part_with_feature(p, VPFLAG_ALTERNATOR) >= 0) {
+        return false;
+    }
 
     //Can't remove a seat if there's still a seatbelt there
     if(part_flag(p, "BELTABLE") && part_with_feature(p, "SEATBELT") >= 0) {
@@ -2098,6 +2118,18 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     int epower = 0;
 
     // Consumers of epower
+    int gas_epower = 0;
+    if(engine_on) {
+        // Gas engines require epower to run for ignition system, ECU, etc.
+        for(int p = 0; p < engines.size(); p++) {
+            if(parts[engines[p]].hp > 0 &&
+               part_info(engines[p]).fuel_type == fuel_type_gasoline) {
+                gas_epower += part_info(engines[p]).epower;
+            }
+        }
+        epower += gas_epower;
+    }
+
     if(lights_on) epower += lights_epower;
     if(overhead_lights_on) epower += overhead_epower;
     if(tracking_on) epower += tracking_epower;
@@ -2106,6 +2138,18 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
 
     // Producers of epower
     epower += solar_epower();
+
+    if(engine_on) {
+        // Plasma engines generate epower if turned on
+        int plasma_epower = 0;
+        for(int p = 0; p < engines.size(); p++) {
+            if(parts[engines[p]].hp > 0 &&
+               part_info(engines[p]).fuel_type == fuel_type_plasma) {
+                plasma_epower += part_info(engines[p]).epower;
+            }
+        }
+        epower += plasma_epower;
+    }
 
     int battery_discharge = power_to_epower(fuel_capacity(fuel_type_battery) - fuel_left(fuel_type_battery));
     if(engine_on && (battery_discharge - epower > 0)) {
@@ -2180,10 +2224,10 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         }
         else {
             // all reactors out of fuel or destroyed
+            reactor_on = false;
             if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
                 g->add_msg(_("The %s's reactor dies!"), name.c_str());
             }
-            reactor_on = false;
         }
     }
 
@@ -2203,8 +2247,16 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         overhead_lights_on = false;
         fridge_on = false;
         recharger_on = false;
-        if(player_in_control(&g->u) || g->u_see(global_x(), global_y()) )
+        if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
             g->add_msg("The %s's battery dies!",name.c_str());
+        }
+        if(gas_epower < 0) {
+            // Not enough epower to run gas engine ignition system
+            engine_on = false;
+            if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
+                g->add_msg("The %s's engine dies!",name.c_str());
+            }
+        }
     }
 }
 
@@ -2273,7 +2325,7 @@ void vehicle::idle() {
         }
 
         idle_rate = (float)alternator_load / (float)engines_power;
-        if (idle_rate < 0.05) idle_rate = 0.05; // minimum fuel consumption at idle is 5% normal rate
+        if (idle_rate < 0.01) idle_rate = 0.01; // minimum idle is 1% of full throttle
         consume_fuel(idle_rate);
 
         if (one_in(6)) {
