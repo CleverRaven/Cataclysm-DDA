@@ -17359,6 +17359,37 @@
       [ "bat", 1 ]
     ],
     [
+      [ "nomex", 5 ]
+    ],
+    [
+      [ "gasoline", 200 ],
+      [ "vodka", 7 ],
+      [ "rum", 7 ],
+      [ "whiskey", 7 ],
+      [ "single_malt_whiskey", 7 ],
+      [ "tequila", 7 ],
+      [ "gin", 7 ],
+      [ "triple_sec", 7 ]
+    ],
+    [
+      [ "rag", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "battletorch",
+  "id_suffix": "rebuild",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_BASHING",
+  "difficulty": 0,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "battletorch_done", 1 ]
+    ],
+    [
       [ "gasoline", 200 ],
       [ "vodka", 7 ],
       [ "rum", 7 ],
