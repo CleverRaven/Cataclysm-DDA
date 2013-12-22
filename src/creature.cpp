@@ -249,16 +249,20 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     dealt_dam = deal_damage(source, bp_hit, side, impact);
     dealt_dam.bp_hit = bp_hit;
 
-    if (u_see_this && dealt_dam.total_damage() == 0) {
-        g->add_msg(_("The shot reflects off the %s!"),
-                   skin_name().c_str());
-    } else if (source != NULL && u_see_this) {
-        if (source->is_player()) {
-            g->add_msg(_("You hit the %s for %d damage."),
-                       disp_name().c_str(), dealt_dam.total_damage());
-        } else if (u_see_this) {
-            g->add_msg(_("%s shoots %s."),
-                       source->disp_name().c_str(), disp_name().c_str());
+    if(u_see_this) {
+        if (damage_mult == 0) {
+            g->add_msg(source->is_player() ? _("You miss!") : _("The shot misses!"));
+        } else if (dealt_dam.total_damage() == 0) {
+            g->add_msg(_("The shot reflects off the %s!"),
+                       skin_name().c_str());
+        } else if (source != NULL) {
+            if (source->is_player()) {
+                g->add_msg(_("You hit the %s for %d damage."),
+                           disp_name().c_str(), dealt_dam.total_damage());
+            } else if (u_see_this) {
+                g->add_msg(_("%s shoots %s."),
+                           source->disp_name().c_str(), disp_name().c_str());
+            }
         }
     }
 
