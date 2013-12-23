@@ -1317,7 +1317,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 int level = int(u->skillLevel(*aSkill));
                 profession::StartingSkillList::iterator i=list_skills.begin();
                 while(i!=list_skills.end()) {
-                    if(i->first == (*aSkill)->name()) {
+                    if(i->first == (*aSkill)->ident()) {
                         level += i->second;
                         break;
                     }
