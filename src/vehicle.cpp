@@ -2406,16 +2406,18 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         mass2 = 50;
         e=0.30;
         part_dens = 20;
-    } else if (g->m.move_cost_ter_furn(x, y) == 0 && g->m.is_destructable_ter_furn(x, y)) {
-        collision_type = veh_coll_destructable; // destructible (wall)
-        mass2 = 200;
-        e=0.30;
-        part_dens = 60;
-    } else if (g->m.move_cost_ter_furn(x, y) == 0 && !g->m.has_flag_ter_or_furn("SWIMMABLE", x, y)) {
-        collision_type = veh_coll_other; // not destructible
-        mass2 = 1000;
-        e=0.10;
-        part_dens = 80;
+    } else if (g->m.move_cost_ter_furn(x, y) == 0) {
+        if(g->m.is_destructable_ter_furn(x, y)) {
+            collision_type = veh_coll_destructable; // destructible (wall)
+            mass2 = 200;
+            e=0.30;
+            part_dens = 60;
+        } else {
+            collision_type = veh_coll_other; // not destructible
+            mass2 = 1000;
+            e=0.10;
+            part_dens = 80;
+        }
     }
 
     if (collision_type == veh_coll_nothing) {  // hit nothing
