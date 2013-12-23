@@ -965,14 +965,14 @@ void veh_interact::display_grid()
         }
         for (int i = (name_h + 1 + disp_h + 1); i < (name_h + 1 + stats_h); i++) {
             mvwputch(w_grid, i, parts_w, BORDER_COLOR, LINE_XOXO); // |
-        }     
-        
+        }
+
         // Two horizontal lines: one after name window, and another after parts window
         for (int i = 0; i < grid_w; i++) {
             mvwputch(w_grid, name_h, i, BORDER_COLOR, LINE_OXOX);
             mvwputch(w_grid, name_h + 1 + stats_h, i, BORDER_COLOR, LINE_OXOX);
         }
-        // Horizontal line between vehicle/parts windows 
+        // Horizontal line between vehicle/parts windows
         for (int i = 0; i < disp_w; i++) {
             mvwputch(w_grid, name_h + 1 + disp_h, i, BORDER_COLOR, LINE_OXOX);
         }
@@ -1164,14 +1164,14 @@ void veh_interact::display_stats()
     fold_and_print(w_stats, k_mass_y, k_mass_x, k_mass_w, c_ltgray,
                    _("K mass:       <color_ltblue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
-    
-    // "Fuel usage (safe): " is renamed to "Fuel usage: ". 
+
+    // "Fuel usage (safe): " is renamed to "Fuel usage: ".
     mvwprintz(w_stats, fuel_use_y, fuel_use_x, c_ltgray,  _("Fuel usage:     "));
     fuel_use_x += utf8_width(_("Fuel usage:     "));
-    ammotype fuel_types[3] = { "gasoline", "battery", "plasma" };
-    nc_color fuel_colors[3] = { c_ltred, c_yellow, c_ltblue };
+    ammotype fuel_types[4] = { "gasoline", "biodiesel", "battery", "plasma" };
+    nc_color fuel_colors[4] = { c_ltred, c_magenta, c_yellow, c_ltblue };
     bool first = true;
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 4; ++i) {
         int fuel_usage = veh->basic_consumption(fuel_types[i]);
         if (fuel_usage > 0) {
             fuel_usage = fuel_usage / 100;
