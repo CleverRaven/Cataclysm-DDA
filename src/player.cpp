@@ -341,7 +341,9 @@ std::string player::skin_name() {
 
 // just a shim for now since actual player death is handled in game::is_game_over
 void player::die(Creature* nkiller) {
-    killer = nkiller;
+    if( nkiller != NULL && !nkiller->is_fake() ) {
+        killer = nkiller;
+    }
 }
 
 void player::reset_stats()
@@ -4210,19 +4212,18 @@ void player::knock_back_from(int x, int y)
  }
 
 // If we're still in the function at this point, we're actually moving a tile!
- if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
-
-  if (g->m.has_flag("LIQUID", to.x, to.y)) {
-   if (!is_npc()) {
-    g->plswim(to.x, to.y);
-   }
-// TODO: NPCs can't swim!
-  } else { // It's some kind of wall.
-   hurt(bp_torso, -1, 3);
-   add_effect("stunned", 2);
-   g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
-                             g->m.tername(to.x, to.y).c_str() );
+ if (g->m.has_flag("LIQUID", to.x, to.y) && g->m.has_flag(TFLAG_DEEP_WATER, to.x, to.y)) {
+  if (!is_npc()) {
+   g->plswim(to.x, to.y);
   }
+// TODO: NPCs can't swim!
+ } else if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
+
+  // It's some kind of wall.
+  hurt(bp_torso, -1, 3);
+  add_effect("stunned", 2);
+  g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
+                             g->m.tername(to.x, to.y).c_str() );
 
  } else { // It's no wall
   posx = to.x;
@@ -6495,27 +6496,11 @@ bool player::has_matching_liquid(itype_id it)
     if (inv.has_liquid(it)) {
         return true;
     }
-    if (weapon.is_container() && !weapon.contents.empty()) {
-        if (weapon.contents[0].type->id == it) { // liquid matches
-            it_container* container = dynamic_cast<it_container*>(weapon.type);
-            int holding_container_charges;
-
-            if (weapon.contents[0].type->is_food()) {
-                it_comest* tmp_comest = dynamic_cast<it_comest*>(weapon.contents[0].type);
-
-                if (tmp_comest->add == ADD_ALCOHOL) // 1 contains = 20 alcohol charges
-                    holding_container_charges = container->contains * 20;
-                else
-                    holding_container_charges = container->contains;
-            }
-            else if (weapon.contents[0].type->is_ammo())
-                holding_container_charges = container->contains * 200;
-            else
-                holding_container_charges = container->contains;
-
-            if (weapon.contents[0].charges < holding_container_charges)
-                return true;
-        }
+    if (weapon.is_container() && !weapon.contents.empty())
+    {
+        // has_capacity_for_liquid needs an item, not an item type
+        const item liquid(itypes[it], g->turn);
+        return inventory::has_capacity_for_liquid(weapon, liquid);
     }
     return false;
 }
@@ -7795,17 +7780,18 @@ void player::sort_armor()
             int itemindex = leftListOffset + drawindex;
             each_armor = dynamic_cast<it_armor*>(tmp_worn[itemindex]->type);
 
-            if (itemindex == leftListIndex)
+            if (itemindex == leftListIndex) {
                 mvwprintz(w_sort_left, drawindex + 1, 1, c_yellow, ">>");
+            }
 
-            if (itemindex == selected)
-                mvwprintz(w_sort_left, drawindex+1, 4, dam_color[int(tmp_worn[itemindex]->damage + 1)],
+            if (itemindex == selected) {
+                mvwprintz(w_sort_left, drawindex + 1, 4, dam_color[int(tmp_worn[itemindex]->damage + 1)],
                           each_armor->name.c_str());
-            else
-                mvwprintz(w_sort_left, drawindex+1, 3, dam_color[int(tmp_worn[itemindex]->damage + 1)],
+            } else {
+                mvwprintz(w_sort_left, drawindex + 1, 3, dam_color[int(tmp_worn[itemindex]->damage + 1)],
                           each_armor->name.c_str());
-
-            mvwprintz(w_sort_left, drawindex+1, left_w-3, c_ltgray, "%2d", int(each_armor->storage));
+            }
+            mvwprintz(w_sort_left, drawindex + 1, left_w - 2, c_ltgray, "%2d", int(each_armor->storage));
         }
 
         // Left footer
@@ -7844,26 +7830,36 @@ void player::sort_armor()
             else
                 tmp_str = "";
 
-            if (tmp_worn[leftListIndex]->has_flag("SKINTIGHT"))
+            if (tmp_worn[leftListIndex]->has_flag("SKINTIGHT")) {
                 tmp_str += _("It lies close to the skin.\n");
-            if (tmp_worn[leftListIndex]->has_flag("POCKETS"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("POCKETS")) {
                 tmp_str += _("It has pockets.\n");
-                if (tmp_worn[leftListIndex]->has_flag("HOOD"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("HOOD")) {
                 tmp_str += _("It has a hood.\n");
-            if (tmp_worn[leftListIndex]->has_flag("WATERPROOF"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("WATERPROOF")) {
                 tmp_str += _("It is waterproof.\n");
-            if (tmp_worn[leftListIndex]->has_flag("WATER_FRIENDLY"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("WATER_FRIENDLY")) {
                 tmp_str += _("It is water friendly.\n");
-            if (tmp_worn[leftListIndex]->has_flag("FANCY"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("FANCY")) {
                 tmp_str += _("It looks fancy.\n");
-            if (tmp_worn[leftListIndex]->has_flag("SUPER_FANCY"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("SUPER_FANCY")) {
                 tmp_str += _("It looks really fancy.\n");
-            if (tmp_worn[leftListIndex]->has_flag("FLOATATION"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("FLOATATION")) {
                 tmp_str += _("You will not drown today.\n");
-            if (tmp_worn[leftListIndex]->has_flag("OVERSIZE"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("OVERSIZE")) {
                 tmp_str += _("It is very bulky.\n");
-            if (tmp_worn[leftListIndex]->has_flag("SWIM_GOGGLES"))
+	    }
+            if (tmp_worn[leftListIndex]->has_flag("SWIM_GOGGLES")) {
                 tmp_str += _("It helps you to see clearly underwater.\n");
+            }
                 //WATCH
                 //ALARMCLOCK
 
@@ -7900,8 +7896,8 @@ void player::sort_armor()
         }
 
         // Right header
-        mvwprintz(w_sort_right, 0, 0, c_ltgray, _("(innermost)"));
-        mvwprintz(w_sort_right, 0, right_w - utf8_width(_("Encumb")), c_ltgray, _("Encumb"));
+        mvwprintz(w_sort_right, 0, 0, c_ltgray, _("(Innermost)"));
+        mvwprintz(w_sort_right, 0, right_w - utf8_width(_("Encumbrance")), c_ltgray, _("Encumbrance"));
 
         // Right list
         rightListSize     = 0;
@@ -7931,10 +7927,10 @@ void player::sort_armor()
         }
 
         // Right footer
-        mvwprintz(w_sort_right, cont_h - 1, 0, c_ltgray, _("(outermost)"));
-        if (rightListSize > cont_h-2)
+        mvwprintz(w_sort_right, cont_h - 1, 0, c_ltgray, _("(Outermost)"));
+        if (rightListSize > cont_h-2) {
             mvwprintz(w_sort_right, cont_h-1, right_w - utf8_width(_("<more>")), c_ltblue, _("<more>"));
-
+        }
         // F5
         wrefresh(w_sort_cat);
         wrefresh(w_sort_left);

@@ -1906,6 +1906,10 @@ static bool valid_fabric(player *p, item *it, bool)
         g->add_msg(_("You can only slice items made of fabric or leather."));
         return false;
     }
+    if (it->is_container() && !it->contents.empty()) {
+        g->add_msg(_("That %s is not empty!"), it->tname().c_str());
+        return false;
+    }
 
     return true;
 }
@@ -1970,7 +1974,17 @@ int iuse::scissors(player *p, item *it, bool t)
     if (!valid_fabric(p, cut, t)) {
         return 0;
     }
-
+    if (cut == &p->weapon)
+    {
+        if(!query_yn(_("You are wielding that, are you sure?"))) {
+            return 0;
+        }
+    } else if (p->has_weapon_or_armor(cut->invlet))
+    {
+        if(!query_yn(_("You're wearing that, are you sure?"))) {
+            return 0;
+        }
+    }
     return cut_up(p, it, cut, t);
 }
 
@@ -5582,12 +5596,26 @@ int iuse::knife(player *p, item *it, bool t)
 
     item *cut = &(p->i_at(pos));
 
-    if (cut->type->id == "null") {
+    if (cut->is_null())
+    {
         g->add_msg(_("You do not have that item!"));
         return 0;
-    } else if ( p->has_weapon_or_armor(cut->invlet) &&
-                menu(true, _("You're wearing that, are you sure?"), _("Yes"), _("No"), NULL ) != 1 ) {
+    }
+    if (cut == it)
+    {
+        g->add_msg(_("You can not cut the %s with itself!"), it->tname().c_str());
         return 0;
+    }
+    if (cut == &p->weapon)
+    {
+        if(!query_yn(_("You are wielding that, are you sure?"))) {
+            return 0;
+        }
+    } else if (p->has_weapon_or_armor(cut->invlet))
+    {
+        if(!query_yn(_("You're wearing that, are you sure?"))) {
+            return 0;
+        }
     }
 
     if (choice == carve_writing) {
@@ -5608,6 +5636,13 @@ int iuse::knife(player *p, item *it, bool t)
     item *result = NULL;
     int count = amount;
 
+    //if we're going to cut up a bottle/waterskin,
+    //make sure it isn't full of liquid
+    if (cut->is_container() && !cut->contents.empty()) {
+        g->add_msg(_("That container is not empty!"));
+        return 0;
+    }
+
     if ((cut->made_of("cotton") || cut->made_of("leather") || cut->made_of("nomex")) ) {
         if (valid_fabric(p, cut, t)) {
             cut_up(p, it, cut, t);
@@ -5615,16 +5650,6 @@ int iuse::knife(player *p, item *it, bool t)
         return it->type->charges_to_use();
     } else if( cut->made_of(found_mat.c_str()) ||
                cut->made_of((found_mat = "kevlar").c_str())) { // TODO : extract a function
-        //if we're going to cut up a bottle, make sure it isn't full of liquid
-        //applies also to all of them kevlar bottles.
-
-        if(cut->is_container()) {
-            if(cut->is_food_container()) {
-                g->add_msg(_("That container has liquid in it!"));
-                return 0;
-            }
-        }
-
         if ( found_mat == "plastic" ) {
             result = new item(itypes["plastic_chunk"], int(g->turn), g->nextinv);
         } else {
@@ -5943,7 +5968,7 @@ int iuse::battletorch_lit(player *p, item *it, bool t)
         if (it->charges == 0)
         {
             g->add_msg_if_player(p,_("The Louisville Slaughterer burns out."));
-            it->make(itypes["bat"]);
+            it->make(itypes["battletorch_done"]);
             it->active = false;
         }
     }

@@ -37,7 +37,7 @@
         "type": "CONTAINER",
         "symbol": ")",
         "color": "light_cyan",
-        "name": "plastic bottle",
+        "name": "plastic cup",
         "description": "A small, vacuum sealed cup, essentially trash.",
         "price": 2,
         "weight": 6,

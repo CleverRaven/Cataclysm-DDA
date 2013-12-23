@@ -1660,10 +1660,15 @@ std::map<field_id, field_entry*>::iterator field::removeField(const field_id fie
         delete tmp;
         field_list.erase(it);
         it = next;
-        if(!field_list.empty()){
-            draw_symbol = field_list.begin()->second->getFieldType();
+        if (field_list.empty()) {
+            draw_symbol = fd_null;
         } else {
             draw_symbol = fd_null;
+            for(std::map<field_id, field_entry*>::iterator it2 = field_list.begin(); it2 != field_list.end(); ++it2) {
+                if (fieldlist[it2->first].priority >= fieldlist[draw_symbol].priority) {
+                    draw_symbol = it2->first;
+                }
+            }
         }
     };
     return it;

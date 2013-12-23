@@ -36,8 +36,10 @@ bool monster::wander()
 bool monster::can_move_to(int x, int y)
 {
     if (g->m.move_cost(x, y) == 0 &&
-     (!has_flag(MF_DESTROYS) || !g->m.is_destructable(x, y)) &&
-     (!can_submerge() || !g->m.has_flag("SWIMMABLE", x, y))) {
+     (!has_flag(MF_DESTROYS) || !g->m.is_destructable(x, y))) {
+        return false;
+    }
+    if (!can_submerge() && g->m.has_flag(TFLAG_DEEP_WATER, x, y)) {
         return false;
     }
     if (has_flag(MF_DIGS) && !g->m.has_flag("DIGGABLE", x, y)) {
@@ -643,9 +645,7 @@ int monster::bash_at(int x, int y) {
         g->sound(x, y, 18, bashsound);
         moves -= 100;
         return 1;
-    } else if (g->m.move_cost(x, y) == 0 &&
-            !g->m.is_divable(x, y) && //No smashing water into rubble!
-            has_flag(MF_DESTROYS)) {
+    } else if (g->m.move_cost(x, y) == 0 && has_flag(MF_DESTROYS)) {
         g->m.destroy(x, y, true); //todo: add bash info without BASHABLE flag to walls etc, balanced to these guys
         moves -= 250;
         return 1;
@@ -914,8 +914,7 @@ void monster::knock_back_from(int x, int y)
  }
 
 // If we're still in the function at this point, we're actually moving a tile!
- if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
-
+ if (g->m.ter_at(to.x, to.y).has_flag(TFLAG_DEEP_WATER)) {
   if (g->m.has_flag("LIQUID", to.x, to.y) && can_drown()) {
    hurt(9999);
    if (u_see) {
@@ -924,16 +923,21 @@ void monster::knock_back_from(int x, int y)
 
   } else if (has_flag(MF_AQUATIC)) { // We swim but we're NOT in water
    hurt(9999);
-   if (u_see)
+   if (u_see) {
     g->add_msg(_("The %s flops around and dies!"), name().c_str());
+   }
+  }
+ }
 
-  } else { // It's some kind of wall.
+ if (g->m.move_cost(to.x, to.y) == 0) {
+
+   // It's some kind of wall.
    hurt(type->size);
    add_effect("stunned", 2);
-   if (u_see)
+   if (u_see) {
     g->add_msg(_("The %s bounces off a %s."), name().c_str(),
                g->m.tername(to.x, to.y).c_str());
-  }
+   }
 
  } else { // It's no wall
   setpos(to);

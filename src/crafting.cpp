@@ -1771,6 +1771,12 @@ void game::complete_disassemble()
   recipe* dis = recipe_by_index(u.activity.index); // Which recipe is it?
   item* dis_item = &u.i_at(u.activity.values[0]);
 
+    int veh_part = -1;
+    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+    if(veh != 0) {
+        veh_part = veh->part_with_feature(veh_part, "CARGO");
+    }
+
   add_msg(_("You disassemble the %s into its components."), dis_item->name.c_str());
   // remove any batteries or ammo first
     if (dis_item->is_gun() && dis_item->curammo != NULL && dis_item->ammo_type() != "NULL")
@@ -1778,10 +1784,13 @@ void game::complete_disassemble()
       item ammodrop;
       ammodrop = item(dis_item->curammo, turn);
       ammodrop.charges = dis_item->charges;
-      if (ammodrop.made_of(LIQUID))
-        handle_liquid(ammodrop, false, false);
-      else
-        m.add_item_or_charges(u.posx, u.posy, ammodrop);
+        if (ammodrop.made_of(LIQUID)) {
+            handle_liquid(ammodrop, false, false);
+        } else if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, ammodrop)) {
+            // add_item did put the items in the vehicle, nothing further to be done
+        } else {
+            m.add_item_or_charges(u.posx, u.posy, ammodrop);
+        }
     }
     if (dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL")
     {
@@ -1791,10 +1800,13 @@ void game::complete_disassemble()
       if (dis_item->typeId() == "adv_UPS_off" || dis_item->typeId() == "adv_UPS_on") {
           ammodrop.charges /= 500;
       }
-      if (ammodrop.made_of(LIQUID))
-        handle_liquid(ammodrop, false, false);
-      else
-        m.add_item_or_charges(u.posx, u.posy, ammodrop);
+        if (ammodrop.made_of(LIQUID)) {
+            handle_liquid(ammodrop, false, false);
+        } else if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, ammodrop)) {
+            // add_item did put the items in the vehicle, nothing further to be done
+        } else {
+            m.add_item_or_charges(u.posx, u.posy, ammodrop);
+        }
     }
 
     if (dis_item->count_by_charges()){
@@ -1833,33 +1845,38 @@ void game::complete_disassemble()
   {
     if (dis->components[j].size() != 0)
     {
-      int compcount = dis->components[j][0].count;
-      bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
-      do
-      {
-        item newit(item_controller->find_template(dis->components[j][0].type), turn);
-        // skip item addition if component is a consumable like superglue
-        if (dis->components[j][0].type == "superglue" || dis->components[j][0].type == "duct_tape")
-          compcount--;
-        else
+        int compcount = dis->components[j][0].count;
+        bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
+        if (dis->difficulty != 0 && !comp_success)
         {
-          if (newit.count_by_charges())
-          {
-            if (dis->difficulty == 0 || comp_success)
-              m.spawn_item(u.posx, u.posy, dis->components[j][0].type, 0, compcount);
-            else
-              add_msg(_("You fail to recover a component."));
-            compcount = 0;
-          } else
-          {
-            if (dis->difficulty == 0 || comp_success)
-              m.add_item_or_charges(u.posx, u.posy, newit);
-            else
-              add_msg(_("You fail to recover a component."));
-            compcount--;
-          }
+            add_msg(_("You fail to recover a component."));
+            continue;
         }
-      } while (compcount > 0);
+        if (dis->components[j][0].type == "superglue" || dis->components[j][0].type == "duct_tape")
+        {
+            // skip item addition if component is a consumable like superglue
+            continue;
+        }
+        item newit(item_controller->find_template(dis->components[j][0].type), turn);
+        if (newit.count_by_charges())
+        {
+            newit.charges = compcount;
+            compcount = 1;
+        }
+        if (newit.made_of(LIQUID))
+        {
+            handle_liquid(newit, false, false);
+            continue;
+        }
+        do
+        {
+            if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, newit)) {
+                // add_item did put the items in the vehicle, nothing further to be done
+            } else {
+                m.add_item_or_charges(u.posx, u.posy, newit);
+            }
+            compcount--;
+        } while (compcount > 0);
     }
   }
 

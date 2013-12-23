@@ -81,6 +81,7 @@ public:
 
 // newcharacter.cpp
  bool create(character_type type, std::string tempname = "");
+ std::set<std::string> get_traits() const;
  std::string random_good_trait();
  std::string random_bad_trait();
  void normalize(); // Starting set up of HP and inventory

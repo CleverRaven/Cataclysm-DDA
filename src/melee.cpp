@@ -455,7 +455,7 @@ int player::roll_cut_damage(bool crit)
   if (has_trait("SLIME_HANDS"))
    ret += rng(4, 6);
  }
-  
+
  if (ret <= 0)
   return 0; // No negative damage!
 
@@ -986,6 +986,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
          !z->is_hallucination()*/) {
     dump << string_format(_("Your %s gets stuck in %s, pulling it our of your hands!"), weapon.tname().c_str(), target.c_str());
   // TODO: better speed debuffs for target, possibly through effects
+  remove_weapon();
   t.mod_moves(-30);
   if (weapon.has_flag("HURT_WHEN_PULLED") && one_in(3)) {
     //Sharp objects that injure wielder when pulled from hands (so cutting damage only)

@@ -589,8 +589,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         {
             m.shoot(tx, ty, dam, false, no_effects);
         }
-        // Collide with impassable terrain unless it's flagged as liquid
-        if (m.move_cost(tx, ty) == 0 && !m.has_flag("LIQUID", tx, ty))
+        // Collide with impassable terrain
+        if (m.move_cost(tx, ty) == 0)
         {
             if (i > 0)
             {
