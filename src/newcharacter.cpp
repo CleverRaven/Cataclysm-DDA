@@ -1241,7 +1241,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     WINDOW* w_traits=newwin(12,24,getbegy(w)+10,getbegx(w)+21);
     WINDOW* w_profession=newwin(1,32,getbegy(w)+10,getbegx(w)+45);
     WINDOW* w_skills=newwin(7,24,getbegy(w)+12,getbegx(w)+45);
-    WINDOW* w_guide=newwin(2,48,getbegy(w)+22,getbegx(w)+2);
+    WINDOW* w_guide=newwin(3,48,getbegy(w)+21,getbegx(w)+2);
     
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d"), points);
 
@@ -1338,6 +1338,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             
             mvwprintz(w_guide, 0, 0, c_green, _("Press > to finish character creation"));
             mvwprintz(w_guide, 1, 0, c_green, _("Press < to go back and make revisions"));
+            mvwprintz(w_guide, 2, 0, c_green, _("Press ! to save a template of this character."));
             wrefresh(w_guide);
             
             redraw=false;
