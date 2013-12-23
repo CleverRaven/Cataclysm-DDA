@@ -5780,7 +5780,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         }
         for(int i = 1; i < traj.size(); i++)
         {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag("LIQUID", traj[i].x, traj[i].y)) // oops, we hit a wall!
+            if (m.move_cost(traj[i].x, traj[i].y) == 0) // oops, we hit a wall!
             {
                 targ->setpos(traj[i-1]);
                 force_remaining = traj.size() - i;
@@ -5880,7 +5880,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         }
         for(int i = 1; i < traj.size(); i++)
         {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag("LIQUID", traj[i].x, traj[i].y)) // oops, we hit a wall!
+            if (m.move_cost(traj[i].x, traj[i].y) == 0) // oops, we hit a wall!
             {
                 targ->posx = traj[i-1].x;
                 targ->posy = traj[i-1].y;
@@ -5973,7 +5973,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         }
         for(int i = 1; i < traj.size(); i++)
         {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag("LIQUID", traj[i].x, traj[i].y)) // oops, we hit a wall!
+            if (m.move_cost(traj[i].x, traj[i].y) == 0) // oops, we hit a wall!
             {
                 u.posx = traj[i-1].x;
                 u.posy = traj[i-1].y;
@@ -10763,8 +10763,17 @@ bool game::plmove(int dx, int dy)
   }
  }
 
-
- if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture ) {
+ if (m.has_flag("SWIMMABLE", x, y) && m.has_flag(TFLAG_DEEP_WATER, x, y)) { // Dive into water!
+// Requires confirmation if we were on dry land previously
+  if ((m.has_flag("SWIMMABLE", u.posx, u.posy) &&
+      m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy)) || query_yn(_("Dive into the water?"))) {
+   if (!m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy) && u.swim_speed() < 500) {
+     add_msg(_("You start swimming.  %s to dive underwater."),
+             press_x(ACTION_MOVE_DOWN).c_str());
+   }
+   plswim(x, y);
+  }
+ } else if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture ) {
     // move_cost() of 0 = impassible (e.g. a wall)
   u.set_underwater(false);
 
@@ -10909,7 +10918,7 @@ bool game::plmove(int dx, int dy)
 
           // unfortunately, game::is_empty fails for tiles we're standing on, which will forbid pulling, so:
           bool canmove = (
-               ( m.move_cost(fdest.x, fdest.y) > 0 || m.has_flag("LIQUID", fdest.x, fdest.y) ) &&
+               ( m.move_cost(fdest.x, fdest.y) > 0) &&
                npc_at(fdest.x, fdest.y) == -1 &&
                mon_at(fdest.x, fdest.y) == -1 &&
                m.has_flag("FLAT", fdest.x, fdest.y) &&
@@ -11283,13 +11292,11 @@ bool game::plmove(int dx, int dy)
       add_msg(_("There are vehicle controls here.  %s to drive."),
               press_x(ACTION_CONTROL_VEHICLE).c_str() );
 
-  } else if (!m.has_flag("SWIMMABLE", x, y) && u.has_active_bionic("bio_probability_travel") && u.power_level >= 10) {
+  } else if (u.has_active_bionic("bio_probability_travel") && u.power_level >= 10) {
   //probability travel through walls but not water
   int tunneldist = 0;
   // tile is impassable
-  while((m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0 &&
-         // but allow water tiles
-         !m.has_flag("SWIMMABLE", x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy))) ||
+  while((m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0) ||
          // a monster is there
          ((mon_at(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) != -1 ||
            // so keep tunneling
@@ -11334,16 +11341,6 @@ bool game::plmove(int dx, int dy)
   u.moves -= 100;
   add_msg (_("You open the %s's %s."), veh1->name.c_str(),
                                     veh1->part_info(dpart).name.c_str());
-
- } else if (m.has_flag("SWIMMABLE", x, y)) { // Dive into water!
-// Requires confirmation if we were on dry land previously
-  if ((m.has_flag("SWIMMABLE", u.posx, u.posy) &&
-      m.move_cost(u.posx, u.posy) == 0) || query_yn(_("Dive into the water?"))) {
-   if (m.move_cost(u.posx, u.posy) > 0 && u.swim_speed() < 500)
-     add_msg(_("You start swimming.  %s to dive underwater."),
-             press_x(ACTION_MOVE_DOWN).c_str());
-   plswim(x, y);
-  }
  } else { // Invalid move
   if (u.has_effect("blind") || u.has_effect("stunned")) {
 // Only lose movement if we're blind
@@ -11473,7 +11470,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
              p->hitall (dam1, 40);
             else
                 zz->hurt(dam1);
-        } else if (m.move_cost(x, y) == 0 && !m.has_flag("SWIMMABLE", x, y)) {
+        } else if (m.move_cost(x, y) == 0) {
             slam = true;
             int vpart;
             vehicle *veh = m.veh_at(x, y, vpart);
@@ -11589,7 +11586,7 @@ void game::vertical_move(int movez, bool force) {
     }
 
 // > and < are used for diving underwater.
- if (m.move_cost(u.posx, u.posy) == 0 && m.has_flag("SWIMMABLE", u.posx, u.posy)){
+ if (m.has_flag("SWIMMABLE", u.posx, u.posy) && m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy)){
   if (movez == -1) {
    if (u.is_underwater()) {
     add_msg(_("You are already underwater!"));

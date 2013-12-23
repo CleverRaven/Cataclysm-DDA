@@ -486,15 +486,16 @@ bool map::vehproceed(){
             const int px = x + veh->parts[p].precalc_dx[0];
             const int py = y + veh->parts[p].precalc_dy[0];
             // deep water
-            if(move_cost_ter_furn(px, py) == 0 && has_flag("SWIMMABLE", px, py)) {
+            if(ter_at(px, py).has_flag(TFLAG_DEEP_WATER)) {
                 submerged_wheels++;
             }
         }
         // submerged wheels threshold is 2/3.
         if (num_wheels &&  (float)submerged_wheels / num_wheels > .666) {
             g->add_msg(_("Your %s sank."), veh->name.c_str());
-            if (pl_ctrl)
+            if (pl_ctrl) {
                 veh->unboard_all ();
+            }
             // destroy vehicle (sank to nowhere)
             destroy_vehicle(veh);
             return true;
@@ -836,7 +837,7 @@ bool map::vehproceed(){
 
 bool map::displace_water (const int x, const int y)
 {
-    if (move_cost_ter_furn(x, y) > 0 && has_flag("SWIMMABLE", x, y)) // shallow water
+    if (has_flag("SWIMMABLE", x, y) && !has_flag(TFLAG_DEEP_WATER, x, y)) // shallow water
     { // displace it
         int dis_places = 0, sel_place = 0;
         for (int pass = 0; pass < 2; pass++)
@@ -851,7 +852,9 @@ bool map::displace_water (const int x, const int y)
             for (int tx = -1; tx <= 1; tx++)
                 for (int ty = -1; ty <= 1; ty++)
                 {
-                    if ((!tx && !ty) || move_cost_ter_furn(x + tx, y + ty) == 0)
+                    if ((!tx && !ty) 
+                            || move_cost_ter_furn(x + tx, y + ty) == 0
+                            || has_flag(TFLAG_DEEP_WATER, x + tx, y + ty))
                         continue;
                     ter_id ter0 = ter (x + tx, y + ty);
                     if (ter0 == t_water_sh ||
@@ -1273,14 +1276,12 @@ bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int 
 /////
 bool map::is_destructable(const int x, const int y)
 {
- return (has_flag("BASHABLE", x, y) ||
-         (move_cost(x, y) == 0 && !has_flag("LIQUID", x, y)));
+ return has_flag("BASHABLE", x, y) || move_cost(x, y) == 0;
 }
 
 bool map::is_destructable_ter_furn(const int x, const int y)
 {
- return (has_flag_ter_or_furn("BASHABLE", x, y) ||
-         (move_cost_ter_furn(x, y) == 0 && !has_flag("LIQUID", x, y)));
+ return has_flag_ter_or_furn("BASHABLE", x, y) || move_cost_ter_furn(x, y) == 0;
 }
 
 /**
@@ -1292,7 +1293,7 @@ bool map::is_destructable_ter_furn(const int x, const int y)
  */
 bool map::is_divable(const int x, const int y)
 {
-  return has_flag("SWIMMABLE", x, y) && move_cost(x, y) == 0;
+  return has_flag("SWIMMABLE", x, y) && has_flag(TFLAG_DEEP_WATER, x, y);
 }
 
 bool map::is_outside(const int x, const int y)
@@ -2107,7 +2108,8 @@ bool map::hit_with_fire(const int x, const int y)
 
 bool map::marlossify(const int x, const int y)
 {
-    if (one_in(25) && (terlist[ter(x, y)].movecost != 0 && !has_furn(x, y))) {
+    if (one_in(25) && (terlist[ter(x, y)].movecost != 0 && !has_furn(x, y))
+            && !ter_at(x, y).has_flag(TFLAG_DEEP_WATER)) {
         ter_set(x, y, t_marloss);
         return true;
     }
@@ -3289,16 +3291,18 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   sym = terlist[curr_ter].sym;
   tercol = terlist[curr_ter].color;
  }
- if (u.has_disease("boomered"))
+ if (u.has_disease("boomered")) {
   tercol = c_magenta;
- else if ( u.has_nv() )
+ } else if ( u.has_nv() ) {
   tercol = (bright_light) ? c_white : c_ltgreen;
- else if (low_light)
+ } else if (low_light) {
   tercol = c_dkgray;
- else
+ } else {
   normal_tercol = true;
- if (move_cost(x, y) == 0 && has_flag("SWIMMABLE", x, y) && !u.is_underwater())
+ }
+ if (has_flag("SWIMMABLE", x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
   show_items = false; // Can only see underwater items if WE are underwater
+ }
 // If there's a trap here, and we have sufficient perception, draw that instead
 // todo; test using g->traps, test using global traplist
  if (curr_trap != tr_null && ((*traps)[curr_trap]->visibility == -1 ||

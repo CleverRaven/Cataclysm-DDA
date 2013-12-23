@@ -10872,7 +10872,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
         const int py = y + veh->parts[*part].precalc_dy[0];
 
         //Don't spawn anything in water
-        if (ter(px, py) == t_water_dp || ter(px, py) == t_water_pool) {
+        if (ter_at(px, py).has_flag(TFLAG_DEEP_WATER)) {
             delete veh;
             return NULL;
         }
