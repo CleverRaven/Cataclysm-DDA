@@ -851,6 +851,7 @@
   "difficulty": 2,
   "time": 20000,
   "reversible": true,
+  "decomp_learn": 1,
   "autolearn": true,
   "tools": [
       [
@@ -1202,6 +1203,7 @@
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
+  "decomp_learn": 1,
   "autolearn": true,
   "book_learn": [[ "manual_archery", 2 ] , [ "recipe_bows", 1 ] , [ "book_archery", 3]],
   "qualities":[
@@ -1255,6 +1257,7 @@
   "difficulty": 2,
   "time": 15000,
   "reversible": true,
+  "decomp_learn": 1,
   "autolearn": true,
   "book_learn": [[ "recipe_bows", 1 ] , [ "manual_archery", 2 ] , [ "book_archery", 2 ]],
   "qualities":[
@@ -1281,7 +1284,7 @@
   "skills_required": [[ "archery", 7 ]],
   "difficulty": 5,
   "time": 25000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": false,
   "book_learn" : [[ "recipe_bows", 6 ] , [ "manual_archery", 7]],
   "qualities":[
@@ -1595,6 +1598,7 @@
   "difficulty": 3,
   "time": 30000,
   "reversible": true,
+  "decomp_learn": 3,
   "autolearn": false,
   "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 5] , [ "book_archery", 4]],
   "qualities":[
@@ -1645,6 +1649,7 @@
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
+  "decomp_learn": 2,
   "autolearn": false,
   "book_learn" : [[ "recipe_bows", 2 ] , [ "manual_archery", 4] , [ "book_archery", 3]],
   "tools": [
@@ -1676,6 +1681,7 @@
   "difficulty": 6,
   "time": 60000,
   "reversible": true,
+  "decomp_learn": 5,
   "autolearn": false,
   "book_learn" : [[ "recipe_bows", 6 ] , [ "textbook_weapwest", 6]],
   "qualities" : [
@@ -1737,6 +1743,7 @@
   "difficulty": 3,
   "time": 45000,
   "reversible": true,
+  "decomp_learn": 4,
   "autolearn":false,
   "book_learn" : [[ "recipe_bows", 4 ] , [ "textbook_weapeast", 6]],
   "qualities":[
@@ -2093,7 +2100,9 @@
   "difficulty": 6,
   "time": 18000,
   "reversible": true,
+  "decomp_learn": 5,
   "autolearn": true,
+  "book_learn": [["book_icef", 4]],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -2621,6 +2630,7 @@
   "difficulty": 8,
   "time": 40000,
   "reversible": true,
+  "decomp_learn": 9,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 5 ]],
   "tools": [
@@ -2654,6 +2664,7 @@
   "difficulty": 10,
   "time": 40000,
   "reversible": true,
+  "decomp_learn": 10,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 5 ]],
   "tools": [
@@ -3208,7 +3219,8 @@
   "skills_required": [ "archery", 5 ],
   "difficulty" : 5,
   "time" : 5000,
-  "reversible" : false,
+  "reversible" : true,
+  "decomp_learn": 4,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 4 ]],
   "qualities" : [
@@ -3247,7 +3259,9 @@
   "skills_required": [[ "archery", 5 ], [ "mechanics", 3 ]],
   "difficulty" : 7,
   "time" : 7000,
-  "reversible" : false,
+  "reversible" : true,
+  "decomp_learn": 6,
+  "note": "you just take the warhead off or put it on, rather than making the warhead",
   "autolearn" : false,
   "book_learn" : [[ "recipe_arrows", 6 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "tools" : [
@@ -3334,6 +3348,7 @@
   "difficulty": 2,
   "time": 10000,
   "reversible": true,
+  "decomp_learn": 3,
   "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 1 ]],
   "tools": [
@@ -3452,6 +3467,7 @@
   "difficulty": 3,
   "time": 20000,
   "reversible": true,
+  "decomp_learn": 3,
   "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 2 ]],
   "tools": [
@@ -11654,7 +11670,7 @@
   "difficulty": 2,
   "time": 15000,
   "reversible": true,
-  "decomp_learn": 0,
+  "decomp_learn": 1,
   "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 2 ]],
   "components": [
@@ -11776,6 +11792,7 @@
   "difficulty": 5,
   "time": 15000,
   "reversible": true,
+  "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [[ "manual_electronics", 3 ], [ "textbook_electronics", 3 ]],
   "tools": [
@@ -11949,6 +11966,7 @@
   "difficulty": 3,
   "time": 25000,
   "reversible": true,
+  "decomp_learn": 2,
   "autolearn": false,
   "book_learn": [[ "advanced_electronics", 3 ] , [ "manual_electronics", 2 ]],
   "tools": [
@@ -11984,6 +12002,7 @@
   "difficulty": 3,
   "time": 30000,
   "reversible": true,
+  "decomp_learn": 2,
   "autolearn": false,
   "book_learn": [[ "advanced_electronics", 1 ] , [ "mag_electronics", 3 ]],
   "tools": [
@@ -12021,6 +12040,7 @@
   "difficulty": 3,
   "time": 25000,
   "reversible": true,
+  "decomp_learn": 3,
   "autolearn": false,
   "book_learn": [[ "advanced_electronics", 2 ] , [ "textbook_electronics", 3 ] , [ "textbook_anarch", 3 ]],
   "tools": [
@@ -12053,6 +12073,7 @@
   "difficulty": 4,
   "time": 30000,
   "reversible": true,
+  "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [[ "mag_electronics", 2 ] , [ "textbook_anarch", 4 ]],
   "tools": [
@@ -12129,6 +12150,7 @@
   "difficulty": 4,
   "time": 35000,
   "reversible": true,
+  "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [[ "textbook_anarch", 3 ]],
   "tools": [
@@ -12205,6 +12227,7 @@
   "difficulty": 5,
   "time": 40000,
   "reversible": true,
+  "note": "you might be able to reverse-engineer assembly, but not the music",
   "autolearn": false,
   "book_learn": [[ "textbook_electronics", 6 ] , [ "textbook_robots", 5 ]],
   "tools": [
@@ -12241,6 +12264,7 @@
   "difficulty": 8,
   "time": 60000,
   "reversible": true,
+  "note": "as with mp3, no learning how to encode the software from taking it apart",
   "autolearn": false,
   "book_learn": [[ "textbook_electronics", 7 ] , [ "textbook_robots", 6 ]],
   "tools": [
@@ -12396,8 +12420,9 @@
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
+  "decomp_learn": 5,
   "autolearn": false,
-  "book_learn": [[ "recipe_augs", 6 ]],
+  "book_learn": [[ "recipe_augs", 6 ] , [ "recipe_lab_elec", 6 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12434,6 +12459,7 @@
   "difficulty": 12,
   "time": 70000,
   "reversible": true,
+  "decomp_learn": 8,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 8 ] , [ "recipe_augs", 7 ]],
   "tools": [
@@ -12473,6 +12499,7 @@
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
+  "decomp_learn": 7,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_augs", 7 ]],
   "tools": [
@@ -12510,6 +12537,7 @@
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
+  "decomp_learn": 7,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_augs", 7 ]],
   "tools": [
@@ -12616,7 +12644,7 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "decomp_learn": 5,
+  "decomp_learn": 7,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_augs", 6 ]],
   "tools": [
     [
@@ -12727,7 +12755,7 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "decomp_learn": 5,
+  "decomp_learn": 7,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "tools": [
     [
@@ -13116,6 +13144,7 @@
   "difficulty": 8,
   "time": 50000,
   "reversible": true,
+  "decomp_learn": 6,
   "autolearn": true,
   "tools": [
     [
@@ -13150,6 +13179,7 @@
   "difficulty": 8,
   "time": 50000,
   "reversible": true,
+  "decomp_learn": 5,
   "autolearn": true,
   "tools": [
     [
@@ -15502,6 +15532,7 @@
   "difficulty": 5,
   "time": 40000,
   "reversible": true,
+  "decomp_learn": 4,
   "autolearn": true,
   "tools": [
     [
@@ -15617,7 +15648,6 @@
 },{
   "type" : "recipe",
   "result": "rebreather_xl",
-  "id_suffix": "mod_existing",
   "id_suffix": "mod_existing",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -18316,6 +18346,7 @@
   "difficulty": 3,
   "time": 10000,
   "reversible": true,
+  "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 4 ]],
   "tools": [
@@ -18342,6 +18373,7 @@
   "difficulty": 6,
   "time": 8000,
   "reversible": true,
+  "decomp_learn": 7,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
   "tools": [
@@ -18416,6 +18448,7 @@
   "difficulty": 7,
   "time": 9000,
   "reversible": true,
+  "decomp_learn": 8,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "textbook_robots", 9 ]],
   "tools": [
@@ -18460,6 +18493,7 @@
   "difficulty": 8,
   "time": 12000,
   "reversible": true,
+  "decomp_learn": 9,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 8 ]],
   "tools": [
@@ -19150,6 +19184,7 @@
   "difficulty": 1,
   "time": 10000,
   "reversible": true,
+  "decomp_learn": 3,
   "autolearn": false,
   "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "components": [
@@ -19175,6 +19210,7 @@
   "difficulty": 4,
   "time": 20000,
   "reversible": true,
+  "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "tools": [
@@ -19210,6 +19246,7 @@
   "difficulty": 5,
   "time": 30000,
   "reversible": true,
+  "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "tools": [
@@ -19245,6 +19282,7 @@
   "difficulty": 5,
   "time": 30000,
   "reversible": true,
+  "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "tools": [
@@ -19280,6 +19318,7 @@
   "difficulty": 5,
   "time": 30000,
   "reversible": true,
+  "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
   "tools": [
@@ -25588,6 +25627,7 @@
   "difficulty": 2,
   "time": 70000,
   "reversible": true,
+  "decomp_learn": 1,
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
