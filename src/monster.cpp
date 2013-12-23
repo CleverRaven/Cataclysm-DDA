@@ -1010,7 +1010,9 @@ int monster::fall_damage()
 }
 
 void monster::die(Creature* nkiller) {
-    killer = nkiller;
+    if( nkiller != NULL && !nkiller->is_fake() ) {
+        killer = nkiller;
+    }
     g->kill_mon(*this, nkiller != NULL && nkiller->is_player());
 }
 

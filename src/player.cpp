@@ -341,7 +341,9 @@ std::string player::skin_name() {
 
 // just a shim for now since actual player death is handled in game::is_game_over
 void player::die(Creature* nkiller) {
-    killer = nkiller;
+    if( nkiller != NULL && !nkiller->is_fake() ) {
+        killer = nkiller;
+    }
 }
 
 void player::reset_stats()
