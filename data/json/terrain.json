@@ -214,7 +214,7 @@
         "symbol": "#",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT"]
+        "flags": ["TRANSPARENT", "DECONSTRUCT"]
     },{
         "type" : "terrain",
         "id" : "t_slime",
@@ -271,7 +271,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT"]
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "DECONSTRUCT"]
     },{
         "type" : "terrain",
         "id" : "t_wall_log",
@@ -279,7 +279,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "DECONSTRUCT"],
         "bash": {
             "str_min": 12, "str_max": 120, "num_tests": 2,
             "sound": "crunch!",
@@ -296,7 +296,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "DECONSTRUCT"],
         "bash": {
             "str_min": 10, "str_max": 100, "num_tests": 2,
             "sound": "crunch!",
@@ -314,7 +314,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",  "DECONSTRUCT"
         ],
         "bash": {
             "str_min": 7, "str_max": 80, "num_tests": 2,
@@ -333,7 +333,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "REDUCE_SCENT" 
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "REDUCE_SCENT", "DECONSTRUCT"
         ],
         "bash": {
             "str_min": 12, "str_max": 120, "num_tests": 2,
@@ -352,7 +352,7 @@
         "color": "ltred",
         "move_cost": 0,
         "flags": [
-            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DOOR", "TRANSPARENT"
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DOOR", "TRANSPARENT", "DECONSTRUCT"
         ],
         "bash": {
             "str_min": 12, "str_max": 120, "num_tests": 2,
@@ -379,7 +379,7 @@
         "symbol": "#",
         "color": "ltred",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT"]
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "DECONSTRUCT"]
     },{
         "type" : "terrain",
         "id" : "t_wall_wood",
@@ -387,7 +387,7 @@
         "symbol": "#",
         "color": "ltred",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "DECONSTRUCT"],
         "bash": {
             "str_min": 12, "str_max": 120, "num_tests": 2,
             "sound": "crunch!",
@@ -406,7 +406,7 @@
         "symbol": "#",
         "color": "ltred",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "DECONSTRUCT"],
         "bash": {
             "str_min": 5, "str_max": 100, "num_tests": 2,
             "sound": "crunch!",
@@ -426,7 +426,7 @@
         "color": "ltred",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT"
         ],
         "bash": {
             "str_min": 4, "str_max": 80, "num_tests": 2,
@@ -447,7 +447,7 @@
         "symbol": "LINE_XOXO",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "DECONSTRUCT"]
     },{
         "type" : "terrain",
         "id" : "t_wall_h",
@@ -455,7 +455,7 @@
         "symbol": "LINE_OXOX",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "DECONSTRUCT"]
     },{
         "type" : "terrain",
         "id" : "t_concrete_v",
@@ -463,7 +463,7 @@
         "symbol": "LINE_XOXO",
         "color": "dkgray",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "DECONSTRUCT"]
     },{
         "type" : "terrain",
         "id" : "t_concrete_h",
@@ -471,7 +471,7 @@
         "symbol": "LINE_OXOX",
         "color": "dkgray",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "DECONSTRUCT"]
     },{
         "type" : "terrain",
         "id" : "t_wall_metal_v",
@@ -581,7 +581,7 @@
         "symbol": "\"",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM"]
+        "flags": ["TRANSPARENT", "NOITEM", "DECONSTRUCT"]
     },{
         "type" : "terrain",
         "id" : "t_door_c",
@@ -697,7 +697,7 @@
         "symbol": ".",
         "color": "brown",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"]
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT", "DECONSTRUCT"]
     },{
         "type" : "terrain",
         "id" : "t_chaingate_l",
@@ -723,7 +723,7 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH", "DOOR"],
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH", "DOOR", "DECONSTRUCT"],
         "open": "t_fencegate_o",
         "bash": {
             "str_min": 2, "str_max": 30, "str_min_blocked": 4, "str_max_blocked": 40,
@@ -753,7 +753,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "DOOR"],
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "DOOR", "DECONSTRUCT"],
         "open": "t_chaingate_o",
         "bash": {
             "str_min": 10, "str_max": 80, "num_tests": 2, "str_min_blocked": 15, "str_max_blocked": 100,
@@ -1053,7 +1053,7 @@
         "color": "yellow",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "BARRICADABLE_WINDOW"
+            "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "BARRICADABLE_WINDOW", "DECONSTRUCT"
         ]
     },{
         "type" : "terrain",
@@ -1267,7 +1267,7 @@
         "color": "brown",
         "move_cost": 3,
         "flags": [
-            "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT"
+            "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT", "DECONSRUCT"
         ],
         "bash": {
             "str_min": 1, "str_max": 10,
@@ -1288,7 +1288,7 @@
         "color": "brown",
         "move_cost": 3,
         "flags": [
-            "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT"
+            "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT", "DECONSTRUCT"
         ],
         "bash": {
             "str_min": 1, "str_max": 10,
@@ -1309,7 +1309,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF"
+            "TRANSPARENT", "BASHABLE", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "DECONSTRUCT"
         ],
         "examine_action": "chainfence",
         "bash": {
@@ -1329,7 +1329,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF"
+            "TRANSPARENT", "BASHABLE", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "DECONSTRUCT"
         ],
         "examine_action": "chainfence",
         "bash": {
@@ -1348,7 +1348,7 @@
         "symbol": "#",
         "color": "cyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "THIN_OBSTACLE"]
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE", "DECONSTRUCT"]
     },{
         "type" : "terrain",
         "id" : "t_fence_post",
@@ -1356,7 +1356,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE", "DECONSTRUCT"],
         "examine_action": "fence_post",
         "bash": {
             "str_min": 1, "str_max": 10,
@@ -1401,7 +1401,7 @@
         "symbol": "|",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE"]
+        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "DECONSTRUCT"]
     },{
         "type" : "terrain",
         "id" : "t_railing_h",
@@ -1409,7 +1409,7 @@
         "symbol": "-",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE"]
+        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "DECONSTRUCT"]
     },{
         "type" : "terrain",
         "id" : "t_marloss",
@@ -1677,7 +1677,7 @@
         "symbol": "6",
         "color": "cyan_red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES"],
+        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES", "DECONSTRUCT"],
         "examine_action": "controls_gate"
     },{
         "type" : "terrain",
@@ -1686,7 +1686,7 @@
         "symbol": "6",
         "color": "cyan_red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES"],
+        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES", "DECONSTRUCT"],
         "examine_action": "controls_gate"
     },{
         "type" : "terrain",
