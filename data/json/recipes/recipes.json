@@ -2518,9 +2518,6 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "goggles_welding", -1 ]
-    ],
-    [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
     ],
@@ -17631,7 +17628,9 @@
   "autolearn": true,
   "tools": [
     [
-      [ "goggles_welding", -1 ],
+      [ "goggles_welding", -1 ]
+    ],
+    [
       [ "crucible", -1 ]
     ],
     [
@@ -17680,7 +17679,9 @@
   "autolearn": true,
   "tools": [
     [
-      [ "goggles_welding", -1 ],
+      [ "goggles_welding", -1 ]
+    ],
+    [
       [ "crucible", -1 ]
     ],
     [
@@ -17733,7 +17734,9 @@
   "autolearn": true,
   "tools": [
     [
-      [ "goggles_welding", -1 ],
+      [ "goggles_welding", -1 ]
+    ],
+    [
       [ "crucible", -1 ]
     ],
     [
@@ -18910,7 +18913,9 @@
   "autolearn": true,
   "tools": [
     [
-      [ "goggles_welding", -1 ],
+      [ "goggles_welding", -1 ]
+    ],
+    [
       [ "crucible", -1 ]
     ],
     [
