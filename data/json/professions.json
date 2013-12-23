@@ -650,18 +650,23 @@
         "type" : "profession",
         "ident": "bionic_thief",
         "name": "Bionic Thief",
-        "description": "You have done many high profile heists, but your gains mean nothing in this world. All you have left is your bionic lockpick that you keep powered via batteries.",
-        "points": 2,
+        "description": "You have done many high profile heists, but your gains mean nothing in this world. All you have left are the tools of your trade and your impeccable style.",
+        "points": 3,
         "CBMs":[
             "bio_batteries",
             "bio_lockpick",
+            "bio_fingerhack",
             "bio_power_storage_mkII"
         ],
         "items":[
-            "sunglasses",
-            "jeans",
+            "waistcoat",
+            "pants",
             "dress_shirt",
-            "dress_shoes"
+            "dress_shoes",
+            "gold_watch",
+            "briefcase_smg",
+            "PDA",
+            "9mm"
         ]
     },
     {
