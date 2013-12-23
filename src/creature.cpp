@@ -5,9 +5,15 @@
 #include <algorithm>
 #include <numeric>
 
-Creature::Creature() {};
+Creature::Creature()
+{
+    fake = false;
+}
 
-Creature::Creature(const Creature &) {};
+Creature::Creature(const Creature &)
+{
+    fake = false;
+}
 
 void Creature::normalize()
 {
@@ -344,6 +350,16 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
 bool Creature::is_warm()
 {
     return true;
+}
+
+bool Creature::is_fake()
+{
+    return fake;
+}
+
+void Creature::set_fake(const bool fake_value)
+{
+    fake = fake_value;
 }
 
 /*

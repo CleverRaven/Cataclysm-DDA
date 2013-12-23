@@ -34,6 +34,11 @@ class Creature
             return false;
         }
 
+        // Fake is used to mark non-real creatures used temporarally,
+        // such as fake NPCs that fire weapons to simulate turrets.
+        virtual bool is_fake ();
+        virtual void set_fake (const bool fake_value);
+
         virtual void normalize(); // recreate the Creature from scratch
         virtual void reset(); // handle both reset steps. Call this function instead of reset_stats/bonuses
         virtual void reset_bonuses(); // reset the value of all bonus fields to 0
@@ -285,6 +290,8 @@ class Creature
 
         int grab_resist;
         int throw_resist;
+
+        bool fake;
 
         virtual nc_color symbol_color();
         virtual nc_color basic_symbol_color();
