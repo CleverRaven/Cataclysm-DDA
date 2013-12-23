@@ -126,7 +126,7 @@
             [ [ "nail", 12 ] ]
         ],
         "pre_terrain" : "t_door_b",
-        "post_terrain" : "t_door"
+        "post_terrain" : "t_door_c"
     },{
         "type" : "construction",
         "description" : "Board Up Door",
