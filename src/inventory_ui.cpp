@@ -77,6 +77,9 @@ void print_inv_weight_vol(WINDOW* w_inv, int weight_carried, int vol_carried)
     wprintw(w_inv, "/%-3d", g->u.volume_capacity() - 2);
 }
 
+// dropped_weapon==0 -> weapon is not dropped
+// dropped_weapon==-1 -> weapon is dropped (whole stack)
+// dropped_weapon>0 -> part of the weapon stack is dropped
 void print_inv_statics(WINDOW* w_inv, std::string title,
                        std::vector<char> dropped_items, int dropped_weapon)
 {
@@ -88,10 +91,9 @@ void print_inv_statics(WINDOW* w_inv, std::string title,
 // Print our weapon
  int n_items = 0;
  mvwprintz(w_inv, 2, 45, c_magenta, _("WEAPON:"));
- int dropping_weapon = dropped_weapon != 0;
  if (g->u.is_armed()) {
   n_items++;
-  if (dropping_weapon)
+  if (dropped_weapon != 0)
    mvwprintz(w_inv, 3, 45, c_white, "%c %c %s", g->u.weapon.invlet,
              dropped_weapon == -1 ? '+' : '#',
              g->u.weapname().c_str());
@@ -419,11 +421,8 @@ std::vector<item> game::multidrop()
         // Print weapon to be dropped, the first position is reserved for high visibility
         mvwprintw(w_inv, 0, 90, "%s", drp_line_padding.c_str());
         if (dropped_weapon != 0) {
-            if (dropped_weapon == -1) {
-                mvwprintz(w_inv, 0, 90, c_ltblue, "%c + %s", u.weapon.invlet, u.weapname().c_str());
-            } else {
-                mvwprintz(w_inv, 0, 90, c_ltblue, "%c # %s", u.weapon.invlet, u.weapname().c_str());
-            }
+            const char disp_char = (dropped_weapon == -1) ? '+' : '#';
+            mvwprintz(w_inv, 0, 90, c_ltblue, "%c %c %s", u.weapon.invlet, disp_char, u.weapname().c_str());
             mvwprintw(w_inv, drp_line, 90, "%s", drp_line_padding.c_str());
             drp_line++;
         }
@@ -615,13 +614,16 @@ std::vector<item> game::multidrop()
                             warned_about_bionic = true;
                         }
                     } else {
+                        // user selected weapon, which is a normal item
                         if (count == 0) {
+                            // No count given, invert the selection status: drop all <-> drop none
                             if (dropped_weapon == 0) {
                                 dropped_weapon = -1;
                             } else {
                                 dropped_weapon = 0;
                             }
                         } else if (u.weapon.count_by_charges() && count < u.weapon.charges) {
+                            // can drop part of weapon and count is valid for this
                             dropped_weapon = count;
                         } else {
                             dropped_weapon = -1;
