@@ -421,8 +421,11 @@ std::vector<item> game::multidrop()
         // Print weapon to be dropped, the first position is reserved for high visibility
         mvwprintw(w_inv, 0, 90, "%s", drp_line_padding.c_str());
         if (dropped_weapon != 0) {
-            const char disp_char = (dropped_weapon == -1) ? '+' : '#';
-            mvwprintz(w_inv, 0, 90, c_ltblue, "%c %c %s", u.weapon.invlet, disp_char, u.weapname().c_str());
+            if (dropped_weapon == -1) {
+                mvwprintz(w_inv, 0, 90, c_ltblue, "%c + %s", u.weapon.invlet, u.weapname().c_str());
+            } else {
+                mvwprintz(w_inv, 0, 90, c_ltblue, "%c # %s {%d}", u.weapon.invlet, u.weapon.tname().c_str(), dropped_weapon);
+            }
             mvwprintw(w_inv, drp_line, 90, "%s", drp_line_padding.c_str());
             drp_line++;
         }
