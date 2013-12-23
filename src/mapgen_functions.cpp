@@ -3711,7 +3711,7 @@ void mapgen_lmoe_under(map *m, oter_id, mapgendata, int, float) {
         line(m, t_rubble, 15, 10, 16, 10);
         m->furn_set(19, 10, f_sink);
         m->place_toilet(20, 11);
-        m->place_items("allguns", 80, 3, 3, 6, 3, false, 0);
+        m->place_items("lmoe_guns", 80, 3, 3, 6, 3, false, 0);
         m->place_items("ammo", 80, 3, 3, 6, 3, false, 0);
         m->place_items("cannedfood", 90, 3, 9, 7, 9, false, 0);
         m->place_items("survival_tools", 80, 3, 11, 7, 11, false, 0);
@@ -3768,7 +3768,7 @@ void mapgen_basement_guns(map *m, oter_id terrain_type, mapgendata dat, int turn
         m->furn_set(i, 5, f_rack);
         m->furn_set(i, 9, f_rack);
     }
-    m->place_items("allguns", 80, 2, 1, SEEX * 2 - 3, 1, false, 0);
+    m->place_items("allguns", 90, 2, 1, SEEX * 2 - 3, 1, false, 0);
     m->place_items("ammo",    94, 2, 5, SEEX * 2 - 3, 5, false, 0);
     m->place_items("gunxtras", 88, 2, 9, SEEX * 2 - 7, 9, false, 0);
     m->place_items("weapons", 88, SEEX * 2 - 6, 9, SEEX * 2 - 3, 9, false, 0);
@@ -3790,7 +3790,8 @@ void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, i
     }
     m->place_items("softdrugs",  86, SEEX - 1,  1, SEEX,  2, false, 0);
     m->place_items("cannedfood",  92, SEEX - 1,  3, SEEX,  6, false, 0);
-    m->place_items("homeguns",  72, SEEX - 1,  7, SEEX,  7, false, 0);
+    m->place_items("homeguns",  51, SEEX - 1,  7, SEEX,  7, false, 0);
+    m->place_items("lmoe_guns",  31, SEEX - 1,  7, SEEX,  7, false, 0);
     m->place_items("survival_tools", 83, SEEX - 1,  8, SEEX, 10, false, 0);
     m->place_items("manuals",  60, SEEX - 1, 11, SEEX, 11, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
@@ -4498,7 +4499,7 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata, int, float density)
         }
 
         m->place_items("kitchen",      40,  6,  8,  9, 11,    false, 0);
-        m->place_items("cop_weapons",  70, 20,  8, 22,  8,    false, 0);
+        m->place_items("cop_armory",  70, 20,  8, 22,  8,    false, 0);
         m->place_items("cop_gear",  70, 20,  8, 20, 11,    false, 0);
         m->place_items("cop_evidence", 60,  1, 15,  4, 15,    false, 0);
 
