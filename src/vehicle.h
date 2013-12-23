@@ -244,6 +244,9 @@ public:
 // Operate vehicle
     void use_controls();
 
+// Start the vehicle's engine, if there are any
+    void start_engine();
+
 // Honk the vehicle's horn, if there are any
     void honk_horn();
 

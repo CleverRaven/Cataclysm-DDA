@@ -585,9 +585,7 @@ void vehicle::use_controls()
               }
           }
           else {
-            engine_on = true;
-            // TODO: Make chance of success based on engine condition.
-            g->add_msg(_("You turn the engine on."));
+              start_engine();
           }
         }
         break;
@@ -641,6 +639,39 @@ void vehicle::use_controls()
         break;
     case control_cancel:
         break;
+    }
+}
+
+void vehicle::start_engine()
+{
+    // TODO: Make chance of success based on engine condition.
+    for(int p = 0; p < engines.size(); p++) {
+        if(parts[engines[p]].hp > 0) {
+            if(part_info(engines[p]).fuel_type == fuel_type_gasoline) {
+                int engine_power = part_power(engines[p]);
+                if(engine_power < 50) {
+                    // Small engines can be pull-started
+                    engine_on = true;
+                }
+                else {
+                    // Starter motor battery draw proportional to engine power
+                    if(!discharge_battery(engine_power / 10)) {
+                        engine_on = true;
+                    }
+                }
+            }
+            else {
+                // Electric & plasma engines
+                engine_on = true;
+            }
+        }
+    }
+
+    if(engine_on == true) {
+        g->add_msg(_("The %s's engine starts up."), name.c_str());
+    }
+    else {
+        g->add_msg (_("The %s's engine fails to start."), name.c_str());
     }
 }
 
