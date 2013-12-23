@@ -318,7 +318,7 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
                 dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(1), " << weight << ") = " << wtotal;
                 funcnum++;
                 continue; // rejected!
-            }            
+            }
             if ( (*fit)->function_type() == MAPGENFUNC_JSON ) {
                 mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(*fit);
                 if ( ! mf->setup() ) {
@@ -374,7 +374,7 @@ mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_bas
                     oter_mapgen[id_base][ default_idx ]->weight = 0;
                 }
             }
-        }        
+        }
         return NULL; // nothing
     } else if ( jio.has_string("method") ) {
         const std::string mgtype = jio.get_string("method");
@@ -450,7 +450,7 @@ void load_mapgen( JsonObject &jo ) {
                }
             }
         } else {
-            
+
         }
     } else if ( jo.has_string( "om_terrain" ) ) {
         load_mapgen_function(jo, jo.get_string("om_terrain"), -1);
@@ -499,7 +499,7 @@ bool load_jmapgen_int( JsonObject &jo, const std::string & tag, short & val1, sh
            val2 = tmp2;
            return true;
         }
-    } else if ( jo.read(tag, tmp1) ) { 
+    } else if ( jo.read(tag, tmp1) ) {
         val1 = tmp1;
         val2 = tmp1;
         return true;
@@ -536,7 +536,7 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
         } else {
             err = string_format("No idea what to do with:\n %s \n",pjo.str().c_str() ); throw err;
         }
-        
+
         sm_it = setmap_opmap.find( tmpval );
         if ( sm_it == setmap_opmap.end() ) {
             err = string_format("set: invalid subfunction '%s'",tmpval.c_str() ); throw err;
@@ -726,7 +726,7 @@ bool mapgen_function_json::setup() {
                         pjo.throw_error( string_format("unknown data for key '%s'", (*it).c_str() ));
                     }
                 }
-            } else { 
+            } else {
                 err=string_format("  format: no terrain map\n%s\n",jo.str().substr(0,796).c_str()); throw err;
             }
             // optional.
@@ -759,7 +759,7 @@ bool mapgen_function_json::setup() {
             if ( parray.size() != mapgensize ) {
                 parray.throw_error( string_format("  format: rows: must have %d rows, not %d",mapgensize,parray.size() ));
             }
-            
+
 
             c=0;
             while ( parray.has_more() ) { // hrm
@@ -782,7 +782,7 @@ bool mapgen_function_json::setup() {
                 c++;
             }
             qualifies = true;
-            do_format = true;   
+            do_format = true;
        }
 
        // No fill_ter? No format? GTFO.
@@ -793,7 +793,7 @@ bool mapgen_function_json::setup() {
 
        if ( jo.has_array("add") ) {
            parray = jo.get_array( "add");
-           
+
            while ( parray.has_more() ) {
                jmapgen_int tmp_x(0,0);
                jmapgen_int tmp_y(0,0);
@@ -844,7 +844,7 @@ bool mapgen_function_json::setup() {
                 throw err;
             }
        }
-       
+
 #ifdef LUA
        // silently ignore if unsupported in build
        if ( jo.has_string("lua") ) { // minified into one\nline
@@ -906,7 +906,7 @@ void jmapgen_spawn_item::apply( map * m ) {
     }
 }
 
-/* 
+/*
  * (set|line|square)_(ter|furn|trap|radiation); simple (x, y, int) or (x1,y1,x2,y2, int) functions
  * todo; optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
  */
@@ -1030,7 +1030,7 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
 #else
     (void)scr;
     mapgen_crater(m,id,md,t,d);
-    mapf::formatted_set_terrain(m, 0, 6, 
+    mapf::formatted_set_terrain(m, 0, 6,
 "\
     *   *  ***\n\
     **  * *   *\n\
@@ -1043,7 +1043,7 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
  *     *   *  ***\n\
  *     *   * *   *\n\
  *****  ***  *   *\n\
-", mapf::basic_bind("*", t_paper), mapf::end()); // should never happen: overmap loader skips lua mapgens on !LUA builds. 
+", mapf::basic_bind("*", t_paper), mapf::end()); // should never happen: overmap loader skips lua mapgens on !LUA builds.
 
 #endif
 }
@@ -8892,7 +8892,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
         terrain_type_found = false;
     }
 
-    // MSVC can't handle a single "if/else if" with this many clauses. Hack to 
+    // MSVC can't handle a single "if/else if" with this many clauses. Hack to
     // break the clause in two so MSVC compiles work, until this file is refactored.
     // "please, shoot me now" - refactorer
     if (!terrain_type_found) {
@@ -10703,11 +10703,19 @@ void map::place_toilet(int x, int y, int charges)
     furn_set(x, y, f_toilet);
 }
 
+void map::place_deep_fryer(int x, int y, int charges)
+{
+    item oil(itypes["cooking_oil"], 0);
+    oil.charges = charges;
+    add_item(x, y, oil);
+    furn_set(x, y, f_deep_fryer);
+}
+
 int map::place_items(items_location loc, int chance, int x1, int y1,
                      int x2, int y2, bool ongrass, int turn)
 {
 int lets_spawn = 100 * ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
-    
+
     if (chance >= 100 || chance <= 0) {
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
         return 0;
@@ -10725,11 +10733,11 @@ int lets_spawn = 100 * ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
     int px, py;
     int item_num = 0;
     while (rng(0, 99) < chance) {
-    
+
     if (rng(1,100) > lets_spawn) {
     continue;
-    } 
-    
+    }
+
         selected_item = item_controller->id_from(loc);
         int tries = 0;
         do {
@@ -12386,7 +12394,7 @@ void map::add_extra(map_extra type)
             } while (tries < 10 && move_cost(x, y) == 0);
 
             if (tries < 10) { // We found a valid spot!
-                if (one_in(10)) { 
+                if (one_in(10)) {
                     add_spawn("mon_zombie_soldier", 1, x, y);
                 } else {
                     add_item(x, y, body);
@@ -12402,7 +12410,7 @@ void map::add_extra(map_extra type)
                                  40, x, y, x, y, true, 0 );
                 }
             }
-            
+
         }
         place_spawns("GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1,
                      0.1f);//0.1 = 1-5
@@ -12421,7 +12429,7 @@ void map::add_extra(map_extra type)
             } while (tries < 10 && move_cost(x, y) == 0);
 
             if (tries < 10) { // We found a valid spot!
-                if (one_in(10)) { 
+                if (one_in(10)) {
                     add_spawn("mon_zombie_scientist", 1, x, y);
                 } else {
                     add_item(x, y, body);
@@ -12571,7 +12579,7 @@ void map::add_extra(map_extra type)
             } while (tries < 10 && move_cost(x, y) == 0);
 
             if (tries < 10) { // We found a valid spot!
-                if (one_in(10)) { 
+                if (one_in(10)) {
                     add_spawn("mon_zombie_spitter", 1, x, y);
                 } else {
                     add_item(x, y, body);
@@ -12616,7 +12624,7 @@ void map::add_extra(map_extra type)
             } while (tries < 10 && move_cost(x, y) == 0);
 
             if (tries < 10) { // We found a valid spot!
-                if (one_in(20)) { 
+                if (one_in(20)) {
                     add_spawn("mon_zombie_smoker", 1, x, y);
                 } else {
                     add_item(x, y, body);

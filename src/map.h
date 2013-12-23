@@ -380,6 +380,7 @@ void add_corpse(int x, int y);
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
+ void place_deep_fryer(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
  int place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
@@ -474,7 +475,7 @@ submap * getsubmap( const int grididx );
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
  void add_item(const int x, const int y, item new_item, int maxitems = 64);
- 
+
  void process_active_items_in_submap(const int nonant);
  void process_active_items_in_vehicles(const int nonant);
  bool process_active_item(item *it, const int nonant, const int i, const int j);
