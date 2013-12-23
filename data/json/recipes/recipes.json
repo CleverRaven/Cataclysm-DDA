@@ -2101,7 +2101,7 @@
   "reversible": true,
   "decomp_learn": 5,
   "autolearn": true,
-  "book_learn": [["book_icef", 4]]
+  "book_learn": [["book_icef", 4]],
   "tools": [
     [
       [ "hacksaw", -1 ],
