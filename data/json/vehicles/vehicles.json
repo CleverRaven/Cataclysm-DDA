@@ -35,7 +35,7 @@
             {"x": 1, "y": 0, "part": "wheel_bicycle"},
             {"x": -1, "y": 0, "part": "lightframe_vertical"},
             {"x": -1, "y": 0, "part": "wheel_bicycle"},
-            {"x": -1, "y": 0, "part": "box_small"}
+            {"x": -1, "y": 0, "part": "basket"}
         ]
     },{
         "type" : "vehicle",

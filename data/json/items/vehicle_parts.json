@@ -24,6 +24,22 @@
     },
     {
         "type":"GENERIC",
+        "id" : "wire_basket",
+        "name" : "wire basket",
+        "description" : "A medium size basket made from wire. Useful for crafting.",
+        "weight" : 755,
+        "to_hit" : -2,
+        "color" : "light_gray",
+        "symbol" : "o",
+        "material" : ["steel", "null"],
+        "volume" : 15,
+        "bashing" : 10,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 55
+    },
+    {
+        "type":"GENERIC",
         "id" : "seat",
         "name" : "seat",
         "description" : "A soft car seat covered with leather.",

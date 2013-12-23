@@ -1345,21 +1345,21 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "box_small",
-        "name" : "bicycle box",
+        "id" : "basket",
+        "name" : "wire basket",
         "symbol" : "o",
-        "color" : "brown",
+        "color" : "light_gray",
         "broken_symbol" : "#",
-        "broken_color" : "brown",
+        "broken_color" : "light_gray",
         "damage_modifier" : 60,
-        "durability" : 40,
-        "size" : 40,
-        "item" : "pipe",
+        "durability" : 50,
+        "size" : 50,
+        "item" : "wire_basket",
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["CARGO", "BOARDABLE"],
         "breaks_into" : [
-            {"item": "pipe", "min": 1, "max": 1}
+            {"item": "wire_basket", "min": 1, "max": 1}
         ]
     },{
         "type" : "vehicle_part",
