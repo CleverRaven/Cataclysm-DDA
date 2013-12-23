@@ -27456,6 +27456,9 @@
       [ "matches", 1 ]
     ],
     [
+      [ "protein_powder", 1 ]
+    ],
+    [
       [ "gum", 4 ]
     ]
   ]
@@ -27490,6 +27493,9 @@
     ],
     [
       [ "matches", 1 ]
+    ],
+    [
+      [ "protein_powder", 1 ]
     ],
     [
       [ "gum", 4 ]
@@ -27528,6 +27534,9 @@
       [ "matches", 1 ]
     ],
     [
+      [ "protein_powder", 1 ]
+    ],
+    [
       [ "gum", 4 ]
     ]
   ]
@@ -27564,6 +27573,9 @@
       [ "matches", 1 ]
     ],
     [
+      [ "protein_powder", 1 ]
+    ],
+    [
       [ "gum", 4 ]
     ]
   ]
@@ -27598,6 +27610,9 @@
     ],
     [
       [ "matches", 1 ]
+    ],
+    [
+      [ "protein_powder", 1 ]
     ],
     [
       [ "gum", 4 ]
