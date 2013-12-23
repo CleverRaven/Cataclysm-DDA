@@ -7778,17 +7778,18 @@ void player::sort_armor()
             int itemindex = leftListOffset + drawindex;
             each_armor = dynamic_cast<it_armor*>(tmp_worn[itemindex]->type);
 
-            if (itemindex == leftListIndex)
+            if (itemindex == leftListIndex) {
                 mvwprintz(w_sort_left, drawindex + 1, 1, c_yellow, ">>");
+            }
 
-            if (itemindex == selected)
-                mvwprintz(w_sort_left, drawindex+1, 4, dam_color[int(tmp_worn[itemindex]->damage + 1)],
+            if (itemindex == selected) {
+                mvwprintz(w_sort_left, drawindex + 1, 4, dam_color[int(tmp_worn[itemindex]->damage + 1)],
                           each_armor->name.c_str());
-            else
-                mvwprintz(w_sort_left, drawindex+1, 3, dam_color[int(tmp_worn[itemindex]->damage + 1)],
+            } else {
+                mvwprintz(w_sort_left, drawindex + 1, 3, dam_color[int(tmp_worn[itemindex]->damage + 1)],
                           each_armor->name.c_str());
-
-            mvwprintz(w_sort_left, drawindex+1, left_w-3, c_ltgray, "%2d", int(each_armor->storage));
+            }
+            mvwprintz(w_sort_left, drawindex + 1, left_w - 2, c_ltgray, "%2d", int(each_armor->storage));
         }
 
         // Left footer
@@ -7827,26 +7828,36 @@ void player::sort_armor()
             else
                 tmp_str = "";
 
-            if (tmp_worn[leftListIndex]->has_flag("SKINTIGHT"))
+            if (tmp_worn[leftListIndex]->has_flag("SKINTIGHT")) {
                 tmp_str += _("It lies close to the skin.\n");
-            if (tmp_worn[leftListIndex]->has_flag("POCKETS"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("POCKETS")) {
                 tmp_str += _("It has pockets.\n");
-                if (tmp_worn[leftListIndex]->has_flag("HOOD"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("HOOD")) {
                 tmp_str += _("It has a hood.\n");
-            if (tmp_worn[leftListIndex]->has_flag("WATERPROOF"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("WATERPROOF")) {
                 tmp_str += _("It is waterproof.\n");
-            if (tmp_worn[leftListIndex]->has_flag("WATER_FRIENDLY"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("WATER_FRIENDLY")) {
                 tmp_str += _("It is water friendly.\n");
-            if (tmp_worn[leftListIndex]->has_flag("FANCY"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("FANCY")) {
                 tmp_str += _("It looks fancy.\n");
-            if (tmp_worn[leftListIndex]->has_flag("SUPER_FANCY"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("SUPER_FANCY")) {
                 tmp_str += _("It looks really fancy.\n");
-            if (tmp_worn[leftListIndex]->has_flag("FLOATATION"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("FLOATATION")) {
                 tmp_str += _("You will not drown today.\n");
-            if (tmp_worn[leftListIndex]->has_flag("OVERSIZE"))
+            }
+            if (tmp_worn[leftListIndex]->has_flag("OVERSIZE")) {
                 tmp_str += _("It is very bulky.\n");
-            if (tmp_worn[leftListIndex]->has_flag("SWIM_GOGGLES"))
+	    }
+            if (tmp_worn[leftListIndex]->has_flag("SWIM_GOGGLES")) {
                 tmp_str += _("It helps you to see clearly underwater.\n");
+            }
                 //WATCH
                 //ALARMCLOCK
 
@@ -7883,8 +7894,8 @@ void player::sort_armor()
         }
 
         // Right header
-        mvwprintz(w_sort_right, 0, 0, c_ltgray, _("(innermost)"));
-        mvwprintz(w_sort_right, 0, right_w - utf8_width(_("Encumb")), c_ltgray, _("Encumb"));
+        mvwprintz(w_sort_right, 0, 0, c_ltgray, _("(Innermost)"));
+        mvwprintz(w_sort_right, 0, right_w - utf8_width(_("Encumbrance")), c_ltgray, _("Encumbrance"));
 
         // Right list
         rightListSize     = 0;
@@ -7914,10 +7925,10 @@ void player::sort_armor()
         }
 
         // Right footer
-        mvwprintz(w_sort_right, cont_h - 1, 0, c_ltgray, _("(outermost)"));
-        if (rightListSize > cont_h-2)
+        mvwprintz(w_sort_right, cont_h - 1, 0, c_ltgray, _("(Outermost)"));
+        if (rightListSize > cont_h-2) {
             mvwprintz(w_sort_right, cont_h-1, right_w - utf8_width(_("<more>")), c_ltblue, _("<more>"));
-
+        }
         // F5
         wrefresh(w_sort_cat);
         wrefresh(w_sort_left);
