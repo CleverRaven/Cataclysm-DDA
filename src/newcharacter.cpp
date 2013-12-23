@@ -1240,7 +1240,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     WINDOW* w_stats=newwin(6,16,getbegy(w)+10,getbegx(w)+2);
     WINDOW* w_traits=newwin(12,24,getbegy(w)+10,getbegx(w)+21);
     WINDOW* w_profession=newwin(1,32,getbegy(w)+10,getbegx(w)+45);
-    WINDOW* w_skills=newwin(7,24,getbegy(w)+12,getbegx(w)+45);
+    WINDOW* w_skills=newwin(9,24,getbegy(w)+12,getbegx(w)+45);
     WINDOW* w_guide=newwin(3,48,getbegy(w)+21,getbegx(w)+2);
     
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d"), points);
@@ -1333,6 +1333,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
             if(!has_skills) {
                 mvwprintz(w_skills, 0, utf8_width(_("Skills:"))+1, c_ltred, _("None!"));
+            }
+            else if(line > 9) {
+                mvwprintz(w_skills, 0, utf8_width(_("Skills:"))+1, c_ltgray, _("(Top 7)"));
             }
             wrefresh(w_skills);
             
