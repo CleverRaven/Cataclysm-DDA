@@ -25,19 +25,24 @@ extern worldfactory *world_generator;
 
 void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA)
 {
-    //Clear Lines
+    // Clear Lines
     werase(w_open);
 
-    for (int i = 1; i < FULL_SCREEN_WIDTH-1; ++i) {
-        mvwputch(w_open, FULL_SCREEN_HEIGHT-2, i, c_white, LINE_OXOX);
+    // Define window size
+    int window_width = getmaxx(w_open);
+    int window_height = getmaxy(w_open);
+
+    // Draw horizontal line
+    for (int i = 1; i < window_width - 1; ++i) {
+        mvwputch(w_open, window_height - 2, i, c_white, LINE_OXOX);
     }
 
-    mvwprintz(w_open, FULL_SCREEN_HEIGHT-1, 5, c_red, _("Please report bugs to kevin.granade@gmail.com or post on the forums."));
+    center_print(w_open, window_height - 1, c_red, _("Please report bugs to kevin.granade@gmail.com or post on the forums."));
 
     int iLine = 0;
-    const int iOffsetX1 = 3;
-    const int iOffsetX2 = 4;
-    const int iOffsetX3 = 18;
+    const int iOffsetX1 = 3 + (window_width - FULL_SCREEN_WIDTH) / 2;
+    const int iOffsetX2 = 4 + (window_width - FULL_SCREEN_WIDTH) / 2;
+    const int iOffsetX3 = 18 + (window_width - FULL_SCREEN_WIDTH) / 2;
 
     const nc_color cColor1 = c_ltcyan;
     const nc_color cColor2 = c_ltblue;
@@ -82,14 +87,21 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
     vMenuItems.push_back(pgettext("Main Menu", "<C>redits"));
     vMenuItems.push_back(pgettext("Main Menu", "<Q>uit"));
 
-    print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, iMenuOffsetX);
+    int menu_length = 0;
+    for (int pos = 0; pos < vMenuItems.size(); pos++) {
+        menu_length += utf8_width(vMenuItems[pos].c_str());
+    }
+    int spacing = (window_width - menu_length) / vMenuItems.size() - 1;
+    spacing = (spacing < 1 ? 1 : spacing);
+    const int adj_offset = (window_width - menu_length - spacing * vMenuItems.size() ) / 2 - 1;
+    print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, iMenuOffsetX + adj_offset, spacing);
 
     refresh();
     wrefresh(w_open);
     refresh();
 }
 
-void game::print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX)
+void game::print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX, int spacing)
 {
     mvwprintz(w_in, iOffsetY, iOffsetX, c_black, "");
 
@@ -100,7 +112,10 @@ void game::print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int i
         } else {
             shortcut_print(w_in, c_ltgray, c_white, vItems[i].c_str());
         }
-        wprintz(w_in, c_ltgray, "] ");
+        wprintz(w_in, c_ltgray, "]");
+        for (int j = 0; j < spacing; j++) {
+            wprintz(w_in, c_ltgray, " ");
+        }
     }
 }
 
@@ -117,15 +132,26 @@ bool game::opening_screen()
         worlds = world_generator->get_all_worlds();
     }
     WINDOW* w_background = newwin(TERMY, TERMX, 0, 0);
-
     werase(w_background);
     wrefresh(w_background);
 
-    WINDOW* w_open = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                            (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
-                            (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    // main window should also expand to use available display space.
+    // expanding to evenly use up half of extra space, for now.
+    int extra_w = ((TERMX - FULL_SCREEN_WIDTH) / 2) - 1;
+    int extra_h = ((TERMY - FULL_SCREEN_HEIGHT) / 2) - 1;
+    extra_w = (extra_w > 0 ? extra_w : 0);
+    extra_h = (extra_h > 0 ? extra_h : 0);
+    const int total_w = FULL_SCREEN_WIDTH + extra_w;
+    const int total_h = FULL_SCREEN_HEIGHT + extra_h;
+
+    // position of window within main display
+    const int x0 = (TERMX - total_w) / 2;
+    const int y0 = (TERMY - total_h) / 2;
+
+    WINDOW* w_open = newwin(total_h, total_w, y0, x0);
+
     const int iMenuOffsetX = 2;
-    int iMenuOffsetY = FULL_SCREEN_HEIGHT-3;
+    int iMenuOffsetY = total_h - 3;
 
     std::vector<std::string> vSubItems;
     vSubItems.push_back(pgettext("Main Menu|New Game", "<C>ustom Character"));
@@ -218,13 +244,13 @@ bool game::opening_screen()
 
             if (sel1 == 0) { // Print the MOTD.
                 for (int i = 0; i < motd.size() && i < 16; i++)
-                    mvwprintz(w_open, i + 6, 8, c_ltred, motd[i].c_str());
+                    mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, motd[i].c_str());
 
                 wrefresh(w_open);
                 refresh();
             } else if (sel1 == 7) { // Print the Credits.
                 for (int i = 0; i < credits.size() && i < 16; i++)
-                    mvwprintz(w_open, i + 6, 8, c_ltred, credits[i].c_str());
+                    mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, credits[i].c_str());
 
                 wrefresh(w_open);
                 refresh();
@@ -298,7 +324,7 @@ bool game::opening_screen()
             }
         } else if (layer == 2) {
             if (sel1 == 1) { // New Character
-                print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY-2, iMenuOffsetX);
+                print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY - 2, iMenuOffsetX);
                 wrefresh(w_open);
                 refresh();
                 chInput = getch();
@@ -360,11 +386,14 @@ bool game::opening_screen()
                 }
             } else if (sel1 == 2) { // Load Character
                 if (world_generator->all_worldnames.empty()){
-                    mvwprintz(w_open, iMenuOffsetY - 2, 19 + iMenuOffsetX, c_red, _("No Worlds found!"));
-                }else {
+                    mvwprintz(w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
+                              c_red, _("No Worlds found!"));
+                } else {
                     for (int i = 0; i < world_generator->all_worldnames.size(); ++i){
                         int line = iMenuOffsetY - 2 - i;
-                        mvwprintz(w_open, line, 19 + iMenuOffsetX, (sel2 == i ? h_white : c_white), world_generator->all_worldnames[i].c_str());
+                        mvwprintz(w_open, line, 15 + iMenuOffsetX + extra_w / 2,
+                                  (sel2 == i ? h_white : c_white),
+                                  world_generator->all_worldnames[i].c_str());
                     }
                 }
                 wrefresh(w_open);
@@ -392,21 +421,23 @@ bool game::opening_screen()
                     }
                 }
             } else if (sel1 == 3) {  // World Menu
-                // show options for Create, Destroy, Reset worlds. Create world goes directly to Make World screen. Reset and Destroy ask for world to modify.
+                // Show options for Create, Destroy, Reset worlds.
+                // Create world goes directly to Make World screen.
+                // Reset and Destroy ask for world to modify.
                 // Reset empties world of everything but options, then makes new world within it.
-                // Destroy asks for confirmation, then destroys everything in world and then removes world folder
+                // Destroy asks for confirmation, then destroys everything in world and then removes world folder.
 
                 // only show reset / destroy world if there is at least one valid world existing!
 
                 int world_subs_to_display = (world_generator->all_worldnames.size() > 0)? vWorldSubItems.size(): 1;
                 std::vector<std::string> world_subs;
-                int xoffset = 25 + iMenuOffsetX;
+                int xoffset = 25 + iMenuOffsetX + extra_w / 2;
                 int yoffset = iMenuOffsetY - 2;
                 int xlen = 0;
                 for (int i = 0; i < world_subs_to_display; ++i)
                 {
                     world_subs.push_back(vWorldSubItems[i]);
-                    xlen += vWorldSubItems[i].size()+2; // open and close brackets added
+                    xlen += vWorldSubItems[i].size() + 2; // Open and close brackets added
                 }
                 xlen += world_subs.size() - 1;
                 if (world_subs.size() > 1){
@@ -465,7 +496,7 @@ bool game::opening_screen()
                 }
             } else if (sel1 == 4) { // Special game
                 std::vector<std::string> special_names;
-                int xoffset = 32 + iMenuOffsetX;
+                int xoffset = 32 + iMenuOffsetX  + extra_w / 2;
                 int yoffset = iMenuOffsetY - 2;
                 int xlen = 0;
                 for (int i = 1; i < NUM_SPECIAL_GAMES; i++) {
@@ -519,14 +550,17 @@ bool game::opening_screen()
                 }
             }
         } else if (layer == 3) {
-            if (sel1 == 2){ // Load Game
+            if (sel1 == 2) { // Load Game
                 savegames = world_generator->all_worlds[world_generator->all_worldnames[sel2]]->world_saves;
                 if (savegames.empty()){
-                    mvwprintz(w_open, iMenuOffsetY - 2, 19+19 + iMenuOffsetX, c_red, _("No save games found!"));
-                }else{
+                    mvwprintz(w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
+                              c_red, _("No save games found!"));
+                } else {
                     for (int i = 0; i < savegames.size(); i++) {
                         int line = iMenuOffsetY - 2 - i;
-                        mvwprintz(w_open, line, 19+19 + iMenuOffsetX, (sel3 == i ? h_white : c_white), base64_decode(savegames[i]).c_str());
+                        mvwprintz(w_open, line, 19 + 19 + iMenuOffsetX + extra_w / 2,
+                                  (sel3 == i ? h_white : c_white),
+                                  base64_decode(savegames[i]).c_str());
                     }
                 }
                 wrefresh(w_open);
@@ -565,16 +599,15 @@ bool game::opening_screen()
                         start = true;
                     }
                  }
-            }else if (sel1 == 3)
-            {
-                // show world names
+            } else if (sel1 == 3) { // Show world names
                 int i = 0;
                 for (std::vector<std::string>::iterator it = world_generator->all_worldnames.begin();
                      it != world_generator->all_worldnames.end();
                      ++it)
                 {
                     int line = iMenuOffsetY - 4 - i;
-                    mvwprintz(w_open, line, 26+iMenuOffsetX, (sel3 == i ? h_white : c_white), (*it).c_str());
+                    mvwprintz(w_open, line, 26 + iMenuOffsetX + extra_w / 2,
+                              (sel3 == i ? h_white : c_white), (*it).c_str());
                     ++i;
                 }
                 wrefresh(w_open);
@@ -600,20 +633,20 @@ bool game::opening_screen()
                     if (sel3 >= 0 && sel3 < world_generator->all_worldnames.size()) {
                         bool query_yes = false;
                         bool do_delete = false;
-                        if (sel2 == 1){ // Delete World
+                        if (sel2 == 1) { // Delete World
                             if (query_yn(_("Delete the world and all saves?"))) {
                                 query_yes = true;
                                 do_delete = true;
                             }
                         }
-                        else if (sel2 == 2){ // Reset World
+                        else if (sel2 == 2) { // Reset World
                             if (query_yn(_("Remove all saves and regenerate world?"))) {
                                 query_yes = true;
                                 do_delete = false;
                             }
                         }
 
-                        if (query_yes){
+                        if (query_yes) {
                             delete_world(world_generator->all_worldnames[sel3], do_delete);
 
                             savegames.clear();
@@ -640,13 +673,15 @@ bool game::opening_screen()
                     }
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 }
-            }else{ // Character Templates
+            } else { // Character Templates
                 if (templates.size() == 0){
-                    mvwprintz(w_open, iMenuOffsetY-4, iMenuOffsetX+20, c_red, _("No templates found!"));
-                }else {
+                    mvwprintz(w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
+                              c_red, _("No templates found!"));
+                } else {
                     for (int i = 0; i < templates.size(); i++) {
                         int line = iMenuOffsetY - 4 - i;
-                        mvwprintz(w_open, line, 20 + iMenuOffsetX, (sel3 == i ? h_white : c_white), templates[i].c_str());
+                        mvwprintz(w_open, line, 20 + iMenuOffsetX + extra_w / 2,
+                                  (sel3 == i ? h_white : c_white), templates[i].c_str());
                     }
                 }
                 wrefresh(w_open);
