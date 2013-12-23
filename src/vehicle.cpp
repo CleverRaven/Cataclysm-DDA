@@ -1833,7 +1833,7 @@ int vehicle::noise (bool fueled, bool gas_only)
             else if( part_info(p).fuel_type == fuel_type_battery )   nc = 3;
             else if( part_info(p).fuel_type == fuel_type_muscle ) nc = 5;
 
-            if (!gas_only || part_info(p).fuel_type == fuel_type_gasoline)
+            if (!gas_only || (part_info(p).fuel_type == fuel_type_gasoline || part_info(p).fuel_type == fuel_type_biodiesel))
             {
                 int pwr = part_power(p) * nc / 100;
                 if (muffle < 100 && (part_info(p).fuel_type == fuel_type_gasoline || 

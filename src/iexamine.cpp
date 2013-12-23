@@ -106,6 +106,36 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
     }
 }
 
+void iexamine::deep_fryer(player *p, map *m, int examx, int examy) {
+    std::vector<item>& items = m->i_at(examx, examy);
+    int oilIndex = -1;
+    for (int i = 0; i < items.size(); i++) {
+        if (items[i].typeId() == "cooking_oil") {
+            oilIndex = i;
+            break;
+        }
+    }
+
+    if (oilIndex < 0) {
+        g->add_msg(_("This deep fryer is empty."));
+    } else {
+        bool drained = false;
+
+        item& oil = items[oilIndex];
+
+        // First try handling/bottling, then try drinking.
+        if (g->handle_liquid(oil, true, false))
+        {
+            p->moves -= 100;
+            drained = true;
+        }
+
+        if (drained) {
+            items.erase(items.begin() + oilIndex);
+        }
+    }
+}
+
 void iexamine::elevator(player *p, map *m, int examx, int examy)
 {
     (void)p; //unused
@@ -645,7 +675,7 @@ void iexamine::fungus(player *p, map *m, int examx, int examy) {
             mondex = g->mon_at(i, j);
             if (g->m.move_cost(i, j) > 0 || (i == examx && j == examy)) {
                 if (mondex != -1) { // Spores hit a monster
-                    if (g->u_see(i, j) && 
+                    if (g->u_see(i, j) &&
                             !g->zombie(mondex).type->in_species("FUNGUS")) {
                         g->add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());
@@ -1018,6 +1048,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("toilet" == function_name) {
     return &iexamine::toilet;
+  }
+  if ("deep_fryer" == function_name) {
+    return &iexamine::deep_fryer;
   }
   if ("elevator" == function_name) {
     return &iexamine::elevator;

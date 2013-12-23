@@ -6839,6 +6839,11 @@ bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
     if (part->amount == max_fuel) {
       add_msg(_("The reactor is full."));
     }
+  } else if (ftype == "biodiesel") {
+    add_msg(_("You refill %s's biodiesel tank."), veh.name.c_str());
+    if (part->amount == max_fuel) {
+      add_msg(_("The biodiesel tank is full."));
+    }
   }
 
   p_itm->charges -= used_charges;

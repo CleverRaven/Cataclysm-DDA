@@ -27436,5 +27436,28 @@
       [ "gum", 4 ]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "biodiesel",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cooking_oil", 2 ]
+    ],
+    [
+      [ "lye_powder", 50 ]
+    ]
+  ]
 }
 ]

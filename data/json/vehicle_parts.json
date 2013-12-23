@@ -1028,27 +1028,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "engine_diesel_v6",
-        "name" : "V6 diesel engine",
-        "symbol" : "*",
-        "color" : "light_red",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 400,
-        "power" : 900,
-        "fuel_type" : "gasoline",
-        "item" : "v6_combustion",
-        "difficulty" : 4,
-        "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
-        "breaks_into" : [
-            {"item": "steel_lump", "min": 30, "max": 40},
-            {"item": "steel_chunk", "min": 30, "max": 40},
-            {"item": "scrap", "min": 30, "max": 40}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "engine_biodiesel",
         "name" : "biodiesel engine",
         "symbol" : "*",
