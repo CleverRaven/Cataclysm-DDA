@@ -17667,6 +17667,34 @@
   ]
 },{
         "type" : "recipe",
+  "result": "frame_tubing",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ],
+      [ "crucible", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 2 ],
+      [ "forge", 50 ],
+      [ "char_forge", 10]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_chunk", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "wire_basket",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
