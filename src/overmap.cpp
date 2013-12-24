@@ -819,8 +819,8 @@ point overmap::display_notes(int const z) const
  mvwprintz(w_notes, 1, 1, c_ltgray, title.c_str());
  do{
   if (ch == '<' && start > 0) {
-   for (int i = 1; i < FULL_SCREEN_HEIGHT; i++)
-    mvwprintz(w_notes, i+1, 1, c_black, "                                                     ");
+   for (int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++)
+    mvwprintz(w_notes, i, 1, c_black, "                                                     ");
    start -= maxitems;
    if (start < 0)
     start = 0;
@@ -829,8 +829,8 @@ point overmap::display_notes(int const z) const
   if (ch == '>' && cur_it < layer[z + OVERMAP_DEPTH].notes.size()) {
    start = cur_it;
    mvwprintw(w_notes, maxitems + 2, 13, "            ");
-   for (int i = 1; i < FULL_SCREEN_HEIGHT; i++)
-    mvwprintz(w_notes, i, 0, c_black, "                                                     ");
+   for (int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++)
+    mvwprintz(w_notes, i, 1, c_black, "                                                     ");
   }
   int cur_line = 3;
   int last_line = -1;
