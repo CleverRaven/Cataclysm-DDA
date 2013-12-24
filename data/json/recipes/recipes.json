@@ -2305,7 +2305,9 @@
   "difficulty": 4,
   "time": 20000,
   "reversible": true,
-  "autolearn": true,
+  "decomp_learn": 4
+  "autolearn": false,
+  "book_learn": [["book_icef", 3] , ["textbook_mechanics", 3]]
   "tools": [
     [
       [ "screwdriver", -1 ],
