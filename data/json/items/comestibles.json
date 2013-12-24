@@ -5720,7 +5720,7 @@
         "quench" : 0,
         "heal" : -5,
         "addiction_potential" : 0,
-        "nutrition" : 10,
+        "nutrition" : 14,
         "description" : "Mushrooms are tasty, but be careful. Some can poison you, while others are hallucinogenic.",
         "price" : 14,
         "material" : "veggy",
@@ -5730,7 +5730,7 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT"],
+        "flags" : ["EATEN_HOT", "HIDDEN_POISON"],
         "fun" : 0
     },
     {
@@ -5741,7 +5741,7 @@
         "color" : "brown",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "HALLU",
+        "use_action" : "FUN_HALLU",
         "stim" : -4,
         "container" : "null",
         "to_hit" : 0,
@@ -5750,7 +5750,7 @@
         "quench" : 0,
         "heal" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 10,
+        "nutrition" : 14,
         "description" : "Mushrooms are tasty, but be careful. Some can poison you, while others are hallucinogenic.",
         "price" : 14,
         "material" : "veggy",
@@ -5760,8 +5760,8 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 6
+        "flags" : ["EATEN_HOT", "HIDDEN_HALLU"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",

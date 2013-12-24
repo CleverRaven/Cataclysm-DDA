@@ -843,6 +843,20 @@ int iuse::hallu(player *p, item *it, bool) {
     return it->type->charges_to_use();
 }
 
+/**
+ * Hallucinogenic with a fun effect. Specifically used to have a comestible
+ * give a morale boost without it being noticeable by examining the item (ie,
+ * for magic mushrooms).
+ */
+int iuse::fun_hallu(player *p, item *it, bool t) {
+    it_comest *comest = dynamic_cast<it_comest *>(it->type);
+
+    //Fake a normal food morale effect
+    p->add_morale(MORALE_FOOD_GOOD, 18, 36, 60, 30, false, comest);
+    hallu(p, it, t);
+    return it->type->charges_to_use();
+}
+
 int iuse::thorazine(player *p, item *it, bool) {
     p->fatigue += 5;
     p->rem_disease("hallu");
