@@ -3148,6 +3148,14 @@ bool player::has_conflicting_trait(const std::string &flag) const
     return false;
 }
 
+bool player::purifiable(const std::string &flag) const
+{
+    if(mutation_data[flag].purifiable) {
+        return true;
+    }
+    return false;
+}
+
 void toggle_str_set(std::set<std::string> &set, const std::string &str)
 {
     std::set<std::string>::iterator i = set.find(str);
