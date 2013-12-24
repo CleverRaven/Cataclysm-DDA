@@ -849,9 +849,9 @@ point overmap::display_notes(int const z) const
   if(last_line == -1)
    last_line = 23;
   if (start > 0)
-   mvwprintw(w_notes, maxitems + 4, 1, _("< Go Back"));
+   mvwprintw(w_notes, maxitems + 3, 1, _("< Go Back"));
   if (cur_it < layer[z + OVERMAP_DEPTH].notes.size())
-   mvwprintw(w_notes, maxitems + 4, 12, _("> More notes"));
+   mvwprintw(w_notes, maxitems + 3, 12, _("> More notes"));
   if(ch >= 'a' && ch <= 't'){
    int chosen_line = (int)(ch % (int)'a');
    if(chosen_line < last_line)
