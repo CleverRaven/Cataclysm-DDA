@@ -1571,7 +1571,7 @@
     "name": "crawling zombie",
     "species":"ZOMBIE",
     "symbol":"Z",
-    "color":"ltgreen_red",
+    "color":"ltgreen",
     "size":"MEDIUM",
     "material":"flesh",
     "diff":1,
