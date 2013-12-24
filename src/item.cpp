@@ -384,7 +384,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   std::string material_string = get_material(1);
   if (get_material(2) != "null")
       material_string += ", " + get_material(2);
-  dump->push_back(iteminfo("FOOD", _("Material: ") + material_string));
+  dump->push_back(iteminfo("BASE", _("Material: ") + material_string));
 
   if ( debug == true ) {
     if( g != NULL ) {
