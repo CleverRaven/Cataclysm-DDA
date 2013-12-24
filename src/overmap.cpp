@@ -820,7 +820,8 @@ point overmap::display_notes(int const z) const
  do{
   if (ch == '<' && start > 0) {
    for (int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++)
-    mvwprintz(w_notes, i, 1, c_black, "                                                     ");
+    for (int j = 1; j < FULL_SCREEN_WIDTH - 1; j++)
+     mvwputch(w_notes, i, j, c_black, ' ');
    start -= maxitems;
    if (start < 0)
     start = 0;
@@ -830,7 +831,8 @@ point overmap::display_notes(int const z) const
    start = cur_it;
    mvwprintw(w_notes, maxitems + 2, 13, "            ");
    for (int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++)
-    mvwprintz(w_notes, i, 1, c_black, "                                                     ");
+    for (int j = 1; j < FULL_SCREEN_WIDTH - 1; j++)
+     mvwputch(w_notes, i, j, c_black, ' ');
   }
   int cur_line = 3;
   int last_line = -1;
