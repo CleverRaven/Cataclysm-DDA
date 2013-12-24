@@ -3855,6 +3855,7 @@ int iuse::jacqueshammer(player *p, item *it, bool)
  if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
      g->m.ter(dirx, diry) != t_tree) {
   g->m.destroy(dirx, diry, false);
+  // This looks like 50 minutes, but seems more like 50 seconds.  Needs checked.
   p->moves -= 500;
   //~ the sound of a "jacqueshammer"
   g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
@@ -3873,10 +3874,40 @@ int iuse::jacqueshammer(player *p, item *it, bool)
 
 int iuse::pickaxe(player *p, item *, bool)
 {
-  g->add_msg_if_player(p,_("Whoa buddy! You can't go cheating in items and"));
-  g->add_msg_if_player(p,_("just expect them to work! Now put the pickaxe"));
-  g->add_msg_if_player(p,_("down and go play the game."));
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+ }
+ int dirx, diry;
+ if(!g->choose_adjacent(_("Mine where?"),dirx,diry)) {
   return 0;
+ }
+
+ if (dirx == p->posx && diry == p->posy) {
+  g->add_msg_if_player(p,_("Mining the depths of your experience,"));
+  g->add_msg_if_player(p,_("you realize that it's best not to dig"));
+  g->add_msg_if_player(p,_("yourself into a hole. You stop digging."));
+  return 0;
+ }
+ if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+     g->m.ter(dirx, diry) != t_tree) {
+        // Sound of a Pickaxe at work!
+        g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
+        g->m.destroy(dirx, diry, false);
+        p->moves -= 50000;
+        // Sounds before and after
+        g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
+ } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
+            g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+                g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
+                g->m.destroy(dirx, diry, false);
+                p->moves -= 50000;
+                g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
+ } else {
+  g->add_msg_if_player(p,_("You can't mine there."));
+  return 0;
+ }
+
 }
 int iuse::set_trap(player *p, item *it, bool)
 {
