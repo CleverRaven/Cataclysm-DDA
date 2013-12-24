@@ -396,7 +396,7 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
                m->ter_set(i, j, t_rubble);
                m->radiation(i, j) = rng(0, 4) * rng(0, 2);
            } else {
-               m->ter_set(i, j, t_dirt);
+               m->ter_set(i, j, dat.groundcover());
                m->radiation(i, j) = rng(0, 2) * rng(0, 2) * rng(0, 2);
             }
         }
