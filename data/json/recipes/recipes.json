@@ -10600,7 +10600,7 @@
   "time": 24000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [["textbook_firstaid", 3] , ["manual_firstaid", 3] , ["emergency_book", 4] , ["pocket_firstaid", 2]],
+  "book_learn": [["textbook_firstaid", 3] , ["manual_first_aid", 3] , ["emergency_book", 4] , ["pocket_firstaid", 2]],
   "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -16688,7 +16688,7 @@
   "time": 2000,
   "reversible": false,
   "autolearn": false,
-  "note": "believed removed-from-game"
+  "note": "believed removed-from-game",
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -16709,7 +16709,7 @@
   "time": 5000,
   "reversible": true,
   "autolearn": false,
-  "note": "believed removed-from-game"
+  "note": "believed removed-from-game",
   "components": [
     [
       [ "snare_trigger", 1 ]
@@ -16729,7 +16729,7 @@
   "time": 8000,
   "reversible": true,
   "autolearn": false,
-  "note": "believed removed-from-game"
+  "note": "believed removed-from-game",
   "components": [
     [
       [ "snare_trigger", 1 ]
@@ -17613,7 +17613,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [["textbook_fabrication", 3] , ["textbook_chemistry", 3] , ["advanced_chemistry", 3] , ["textbook_mechanics", 5]],
+  "book_learn": [["textbook_fabrication", 3] , ["textbook_chemistry", 3] , ["adv_chemistry", 3] , ["textbook_mechanics", 5]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -17826,7 +17826,7 @@
   "time": 12000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [["textbook_fabrication", 5] , ["advanced_chemistry", 6] , ["welding_book", 5]],
+  "book_learn": [["textbook_fabrication", 5] , ["adv_chemistry", 6] , ["welding_book", 5]],
   "tools": [
     [
       [ "goggles_welding", -1 ]
@@ -18078,7 +18078,7 @@
   "reversible": true,
   "decomp_learn": 3,
   "autolearn": false,
-  "book_learn": [["manual_mechanics", 3] , ["manual_traps", 3] , ["howto_traps", 3] , ["book_icef", 4],
+  "book_learn": [["manual_mechanics", 3] , ["manual_traps", 3] , ["howto_traps", 3] , ["book_icef", 4]],
   "tools": [
     [
       [ "wrench", -1 ],
@@ -25618,7 +25618,7 @@
   "time": 1200,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [["textbook_firstaid", 3] , ["advanced_chemistry", 4] , ["emergency_book", 4]],
+  "book_learn": [["textbook_firstaid", 3] , ["adv_chemistry", 4] , ["emergency_book", 4]],
   "tools": [
     [
       [ "hotplate", 18 ],
