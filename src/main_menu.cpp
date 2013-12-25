@@ -91,7 +91,9 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
 
     int menu_length = 0;
     for (int pos = 0; pos < vMenuItems.size(); pos++) {
-        menu_length += utf8_width(vMenuItems[pos].c_str());
+        // adds (width + 2) if there are no shortcut symbols "<" & ">", and just width otherwise
+        menu_length += utf8_width(vMenuItems[pos].c_str()) +
+                       (vMenuItems[pos].find_first_of("<") == std::string::npos ? 2 : 0);
     }
     int spacing = (window_width - menu_length) / vMenuItems.size() - 1;
     spacing = (spacing < 1 ? 1 : spacing);

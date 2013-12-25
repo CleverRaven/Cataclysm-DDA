@@ -685,9 +685,9 @@ void show_options(bool ingame)
 
     for (int i = 0; i < 78; i++) {
         if (mapLines[i]) {
-            mvwputch(w_options_header, 0, i, c_dkgray, LINE_OXXX);
+            mvwputch(w_options_header, 0, i, BORDER_COLOR, LINE_OXXX);
         } else {
-            mvwputch(w_options_header, 0, i, c_dkgray, LINE_OXOX); // Draw header line
+            mvwputch(w_options_header, 0, i, BORDER_COLOR, LINE_OXOX); // Draw header line
         }
     }
 
@@ -712,7 +712,7 @@ void show_options(bool ingame)
         for (int i = 0; i < iContentHeight; i++) {
             for (int j = 0; j < 79; j++) {
                 if (mapLines[j]) {
-                    mvwputch(w_options, i, j, c_dkgray, LINE_XOXO);
+                    mvwputch(w_options, i, j, BORDER_COLOR, LINE_XOXO);
                 } else {
                     mvwputch(w_options, i, j, c_black, ' ');
                 }
@@ -762,7 +762,7 @@ void show_options(bool ingame)
                    wprintz(w_options_header, (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, (vPages[i].second).c_str());
                 }
                 wprintz(w_options_header, c_white, "]");
-                wputch(w_options_header, c_dkgray, LINE_OXOX);
+                wputch(w_options_header, BORDER_COLOR, LINE_OXOX);
             }
         }
 

@@ -806,36 +806,52 @@ point overmap::display_notes(int const z) const
   return point(-1, -1);
  }
 
- std::string title = _("Notes:");
  WINDOW* w_notes = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                           (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
                           (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
  draw_border(w_notes);
 
- const int maxitems = 20; // Number of items to show at one time.
+ std::string title = _("Notes:");
+ std::string back_msg = _("< Prev notes");
+ std::string forward_msg = _("Next notes >");
+
+ int maxitems; // Number of items to show at one time.
+ char end_limit; // Last selectable line.
+ if (FULL_SCREEN_HEIGHT/2 == 0) {
+    maxitems = 20;
+    end_limit = 't';
+ }
+ else {
+    end_limit = 's';
+    maxitems = 19;
+ }
+    
  char ch = '.';
  int start = 0, cur_it(0);
+
+ int back_len = utf8_width(back_msg.c_str());
+
  mvwprintz(w_notes, 1, 1, c_ltgray, title.c_str());
  do{
   if (ch == '<' && start > 0) {
-   for (int i = 1; i < FULL_SCREEN_HEIGHT; i++)
-    mvwprintz(w_notes, i+1, 1, c_black, "                                                     ");
+   for (int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++)
+    for (int j = 1; j < FULL_SCREEN_WIDTH - 1; j++)
+     mvwputch(w_notes, i, j, c_black, ' ');
    start -= maxitems;
    if (start < 0)
     start = 0;
-   mvwprintw(w_notes, maxitems + 2, 1, "         ");
   }
   if (ch == '>' && cur_it < layer[z + OVERMAP_DEPTH].notes.size()) {
    start = cur_it;
-   mvwprintw(w_notes, maxitems + 2, 13, "            ");
-   for (int i = 1; i < FULL_SCREEN_HEIGHT; i++)
-    mvwprintz(w_notes, i, 0, c_black, "                                                     ");
+   for (int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++)
+    for (int j = 1; j < FULL_SCREEN_WIDTH - 1; j++)
+     mvwputch(w_notes, i, j, c_black, ' ');
   }
   int cur_line = 3;
   int last_line = -1;
   char cur_let = 'a';
-  for (cur_it = start; cur_it < start + maxitems && cur_line < 23; cur_it++) {
+  for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems + 3; cur_it++) {
    if (cur_it < layer[z + OVERMAP_DEPTH].notes.size()) {
    mvwputch (w_notes, cur_line, 1, c_white, cur_let++);
    mvwprintz(w_notes, cur_line, 3, c_ltgray, "- %s", layer[z + OVERMAP_DEPTH].notes[cur_it].text.c_str());
@@ -849,10 +865,10 @@ point overmap::display_notes(int const z) const
   if(last_line == -1)
    last_line = 23;
   if (start > 0)
-   mvwprintw(w_notes, maxitems + 4, 1, _("< Go Back"));
+   mvwprintw(w_notes, maxitems + 3, 1, back_msg.c_str());
   if (cur_it < layer[z + OVERMAP_DEPTH].notes.size())
-   mvwprintw(w_notes, maxitems + 4, 12, _("> More notes"));
-  if(ch >= 'a' && ch <= 't'){
+   mvwprintw(w_notes, maxitems + 3, 2 + back_len, forward_msg.c_str());
+  if(ch >= 'a' && ch <= end_limit) {
    int chosen_line = (int)(ch % (int)'a');
    if(chosen_line < last_line)
     return point(layer[z + OVERMAP_DEPTH].notes[start + chosen_line].x, layer[z + OVERMAP_DEPTH].notes[start + chosen_line].y);

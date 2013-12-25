@@ -1229,62 +1229,69 @@ inline bool skill_description_sort(const std::pair<Skill *, int> &a, const std::
 
 int set_description(WINDOW *w, player *u, character_type type, int &points)
 {
-    if(PLTYPE_NOW == type) {
+    if (PLTYPE_NOW == type) {
         return 1;
     }
 
     draw_tabs(w, _("DESCRIPTION"));
     
-    WINDOW* w_name=newwin(1,32,getbegy(w)+6,getbegx(w)+4);
-    WINDOW* w_gender=newwin(2,32,getbegy(w)+5,getbegx(w)+47);
-    WINDOW* w_stats=newwin(6,16,getbegy(w)+10,getbegx(w)+2);
-    WINDOW* w_traits=newwin(12,24,getbegy(w)+10,getbegx(w)+21);
-    WINDOW* w_profession=newwin(1,32,getbegy(w)+10,getbegx(w)+45);
-    WINDOW* w_skills=newwin(9,24,getbegy(w)+12,getbegx(w)+45);
-    WINDOW* w_guide=newwin(3,48,getbegy(w)+21,getbegx(w)+2);
+    WINDOW* w_name = newwin(2, 42, getbegy(w) + 6, getbegx(w) + 2);
+    WINDOW* w_gender = newwin(2, 32, getbegy(w) + 6, getbegx(w) + 47);
+    WINDOW* w_stats = newwin(6, 16, getbegy(w) + 10, getbegx(w) + 2);
+    WINDOW* w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
+    WINDOW* w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
+    WINDOW* w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
+    WINDOW* w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 22, getbegx(w) + 2);
     
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d"), points);
 
     const unsigned namebar_pos = 1 + utf8_width(_("Name:"));
     unsigned male_pos = 1 + utf8_width(_("Gender:"));
-    unsigned female_pos = 1 + male_pos + utf8_width(_("Male"));
-    bool redraw=true;
-    
-    //bool noname = false;
+    unsigned female_pos = 2 + male_pos + utf8_width(_("Male"));
+    bool redraw = true;
+
     long ch;
 
     do {        
-        if(redraw) {
+        if (redraw) {
             //Draw the line between editable and non-editable stuff.
-            for(int i=0;i<getmaxx(w);++i) {
-                if(i==0)
-                    mvwputch(w, 8, i, c_ltgray, LINE_XXXO);
-                else if(i==getmaxx(w)-1)
-                    wputch(w, c_ltgray, LINE_XOXX);
-                else
+            for (int i = 0; i < getmaxx(w); ++i) {
+                if (i == 0) {
+                    mvwputch(w, 8, i, BORDER_COLOR, LINE_XXXO);
+                } else if (i == getmaxx(w) - 1) {
+                    wputch(w, BORDER_COLOR, LINE_XOXX);
+                } else {
                     wputch(w, c_ltgray, LINE_OXOX);
+                }
             }
             wrefresh(w);
-            
+
+            std::vector<std::string> vStatNames;
             mvwprintz(w_stats, 0, 0, c_ltgray, _("Stats:"));
-            mvwprintz(w_stats, 2,  0, c_ltgray, _("Strength:"));
-            mvwprintz(w_stats, 2,  14, c_ltgray, "%2d", u->str_max);
-            mvwprintz(w_stats, 3,  0, c_ltgray, _("Dexterity:"));
-            mvwprintz(w_stats, 3,  14, c_ltgray, "%2d", u->dex_max);
-            mvwprintz(w_stats, 4,  0, c_ltgray, _("Intelligence:"));
-            mvwprintz(w_stats, 4,  14, c_ltgray, "%2d", u->int_max);
-            mvwprintz(w_stats, 5,  0, c_ltgray, _("Perception:"));
-            mvwprintz(w_stats, 5,  14, c_ltgray, "%2d", u->per_max);
+            vStatNames.push_back(_("Strength:"));
+            vStatNames.push_back(_("Dexterity:"));
+            vStatNames.push_back(_("Intelligence:"));
+            vStatNames.push_back(_("Perception:"));
+            int pos = 0;
+            for (int i = 0; i < vStatNames.size(); i++) {
+                pos = (utf8_width(vStatNames[i].c_str()) > pos ? utf8_width(vStatNames[i].c_str()) : pos);
+                mvwprintz(w_stats, i + 1, 0, c_ltgray, vStatNames[i].c_str());
+            }
+            mvwprintz(w_stats, 1, pos + 1, c_ltgray, "%2d", u->str_max);
+            mvwprintz(w_stats, 2, pos + 1, c_ltgray, "%2d", u->dex_max);
+            mvwprintz(w_stats, 3, pos + 1, c_ltgray, "%2d", u->int_max);
+            mvwprintz(w_stats, 4, pos + 1, c_ltgray, "%2d", u->per_max);
             wrefresh(w_stats);
             
-            mvwprintz(w_traits, 0, 0, c_ltgray, _("Traits:\n\n"));
-            std::set<std::string> current_traits=u->get_traits();
-            if(current_traits.size() == 0) {
-                mvwprintz(w_traits, 0, utf8_width(_("Traits:"))+1, c_ltred, _("None!"));
-            }
-            else {
-                for(std::set<std::string>::iterator i=current_traits.begin(); i != current_traits.end(); ++i) {
-                    wprintz(w_traits, (traits[*i].points > 0) ? c_ltgreen : c_ltred, traits[*i].name.c_str());
+            mvwprintz(w_traits, 0, 0, c_ltgray, _("Traits:\n"));
+            std::set<std::string> current_traits = u->get_traits();
+            if (current_traits.size() == 0) {
+                mvwprintz(w_traits, 0, utf8_width(_("Traits:")) + 1, c_ltred, _("None!"));
+            } else {
+                for (std::set<std::string>::iterator i = current_traits.begin();
+                     i != current_traits.end(); ++i) {
+                    wprintz(w_traits, (traits[*i].points > 0) ? c_ltgreen : c_ltred,
+                            traits[*i].name.c_str());
                     wprintz(w_traits, c_ltgray, "\n");
                 }
             }
@@ -1304,60 +1311,59 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 sorted.push_back(std::pair<Skill *, int>(s, sl.level() * 100 + sl.exercise()));
             }
             std::sort(sorted.begin(), sorted.end(), skill_description_sort);
-            for (std::vector<std::pair<Skill *, int> >::iterator i = sorted.begin(); i != sorted.end(); ++i) {
+            for (std::vector<std::pair<Skill *, int> >::iterator i = sorted.begin();
+                 i != sorted.end(); ++i) {
                 skillslist.push_back((*i).first);
             }
             
-            int line=2;
-            bool has_skills=false;
+            int line = 2;
+            bool has_skills = false;
             profession::StartingSkillList list_skills=u->prof->skills();
             for (std::vector<Skill*>::iterator aSkill = skillslist.begin();
-                aSkill != skillslist.end(); ++aSkill)
-            {
+                 aSkill != skillslist.end(); ++aSkill) {
                 int level = int(u->skillLevel(*aSkill));
                 profession::StartingSkillList::iterator i=list_skills.begin();
-                while(i!=list_skills.end()) {
-                    if(i->first == (*aSkill)->ident()) {
+                while (i != list_skills.end()) {
+                    if (i->first == (*aSkill)->ident()) {
                         level += i->second;
                         break;
                     }
                     ++i;
                 }
                    
-                if(level>0) {
+                if (level > 0) {
                     mvwprintz(w_skills, line, 0, c_ltgray, "%s", ((*aSkill)->name() + ":").c_str());
                     mvwprintz(w_skills, line, 17, c_ltgray, "%-2d", (int)level);
                     line++;
-                    has_skills=true;
+                    has_skills = true;
                 }
             }
-            if(!has_skills) {
-                mvwprintz(w_skills, 0, utf8_width(_("Skills:"))+1, c_ltred, _("None!"));
-            }
-            else if(line > 9) {
-                mvwprintz(w_skills, 0, utf8_width(_("Skills:"))+1, c_ltgray, _("(Top 7)"));
+            if (!has_skills) {
+                mvwprintz(w_skills, 0, utf8_width(_("Skills:")) + 1, c_ltred, _("None!"));
+            } else if (line > 10) {
+                mvwprintz(w_skills, 0, utf8_width(_("Skills:")) + 1, c_ltgray, _("(Top 8)"));
             }
             wrefresh(w_skills);
             
-            mvwprintz(w_guide, 0, 0, c_green, _("Press > to finish character creation"));
-            mvwprintz(w_guide, 1, 0, c_green, _("Press < to go back and make revisions"));
-            mvwprintz(w_guide, 2, 0, c_green, _("Press ! to save a template of this character."));
+            mvwprintz(w_guide, 0, 0, c_green, _("Press > to finish character creation or < to go back and make revisions."));
+            mvwprintz(w_guide, 1, 0, c_green, _("Press ! to save a template of this character."));
             wrefresh(w_guide);
             
-            redraw=false;
+            redraw = false;
         }
         
         //We draw this stuff every loop because this is user-editable
         mvwprintz(w_name, 0, 0, c_ltgray, _("Name:"));
-        mvwprintz(w_name, 0, namebar_pos, c_ltgray, "______________________________");
+        mvwprintz(w_name, 0, namebar_pos, c_ltgray, "_______________________________");
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "%s", u->name.c_str());
         wprintz(w_name, h_ltgray, "_");
+        mvwprintz(w_name, 1, 0, c_ltgray, _("Press ? to pick a random name."));
         wrefresh(w_name);
         
-        mvwprintz(w_gender, 0, 0, c_ltgray, _("Press TAB to switch"));
-        mvwprintz(w_gender, 1, 0, c_ltgray, _("Gender:"));
-        mvwprintz(w_gender, 1, male_pos, (u->male ? c_ltred : c_ltgray), _("Male"));
-        mvwprintz(w_gender, 1, female_pos, (u->male ? c_ltgray : c_ltred), _("Female"));
+        mvwprintz(w_gender, 0, 0, c_ltgray, _("Gender:"));
+        mvwprintz(w_gender, 0, male_pos, (u->male ? c_ltred : c_ltgray), _("Male"));
+        mvwprintz(w_gender, 0, female_pos, (u->male ? c_ltgray : c_ltred), _("Female"));
+        mvwprintz(w_gender, 1, 0, c_ltgray, _("Press TAB to switch gender"));
         wrefresh(w_gender);
 
         ch = input();
