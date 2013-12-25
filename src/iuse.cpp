@@ -3710,7 +3710,7 @@ int iuse::pickaxe(player *p, item *it, bool)
         g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
         g->m.destroy(dirx, diry, false);
         // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
-        p->moves -= (100000 - 3000 * skillLevel("carpentry"));
+        p->moves -= (100000 - 3000 * p->skillLevel("carpentry"));
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
         p->hunger += 15;
