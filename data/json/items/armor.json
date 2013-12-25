@@ -6195,7 +6195,7 @@
         "material_thickness" : 0,
         "storage" : 0,
         "description" : "A nice silver necklace. You can wear it if you like, but it won't provide any effects.",
-        "weight" : 24,
+        "weight" : 28,
         "to_hit" : 0,
         "color" : "light_gray",
         "encumbrance" : 0,
@@ -6217,7 +6217,7 @@
         "volume" : 0,
         "material_thickness" : 0,
         "storage" : 0,
-        "description" : "A small locket with a frame inside to store a photograph.",
+        "description" : "A small locket with a frame inside to store photographs or small objects.",
         "weight" : 26,
         "to_hit" : 0,
         "color" : "light_gray",
@@ -6324,6 +6324,7 @@
         "phase" : "solid",
         "flags" : ["FANCY"]
 	},
+	{
 		"type" : "ARMOR",
         "id" : "brooch",
         "name" : "jade brooch",
