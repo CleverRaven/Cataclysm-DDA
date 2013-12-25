@@ -816,7 +816,17 @@ point overmap::display_notes(int const z) const
  std::string back_msg = _("< Prev notes");
  std::string forward_msg = _("Next notes >");
 
- const int maxitems = 20; // Number of items to show at one time.
+ int maxitems; // Number of items to show at one time.
+ char end_limit; // Last selectable line.
+ if (FULL_SCREEN_HEIGHT/2 == 0) {
+    maxitems = 20;
+    end_limit = 't';
+ }
+ else {
+    end_limit = 's';
+    maxitems = 19;
+ }
+    
  char ch = '.';
  int start = 0, cur_it(0);
 
@@ -841,7 +851,7 @@ point overmap::display_notes(int const z) const
   int cur_line = 3;
   int last_line = -1;
   char cur_let = 'a';
-  for (cur_it = start; cur_it < start + maxitems && cur_line < 23; cur_it++) {
+  for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems + 3; cur_it++) {
    if (cur_it < layer[z + OVERMAP_DEPTH].notes.size()) {
    mvwputch (w_notes, cur_line, 1, c_white, cur_let++);
    mvwprintz(w_notes, cur_line, 3, c_ltgray, "- %s", layer[z + OVERMAP_DEPTH].notes[cur_it].text.c_str());
@@ -858,7 +868,7 @@ point overmap::display_notes(int const z) const
    mvwprintw(w_notes, maxitems + 3, 1, back_msg.c_str());
   if (cur_it < layer[z + OVERMAP_DEPTH].notes.size())
    mvwprintw(w_notes, maxitems + 3, 2 + back_len, forward_msg.c_str());
-  if(ch >= 'a' && ch <= 't'){
+  if(ch >= 'a' && ch <= end_limit) {
    int chosen_line = (int)(ch % (int)'a');
    if(chosen_line < last_line)
     return point(layer[z + OVERMAP_DEPTH].notes[start + chosen_line].x, layer[z + OVERMAP_DEPTH].notes[start + chosen_line].y);
