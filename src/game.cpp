@@ -1677,7 +1677,7 @@ void game::handle_key_blocking_activity() {
         )
     ) {
         timeout(1);
-        char ch = input();
+        signed char ch = input();
         if(ch != ERR) {
             timeout(-1);
             switch(action_from_key(ch)) {  // should probably make the switch in handle_action() a function
