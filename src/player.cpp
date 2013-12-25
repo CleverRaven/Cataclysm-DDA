@@ -647,10 +647,14 @@ int player::calc_focus_equilibrium()
         {
             reading = dynamic_cast<it_book *>(inv.find_item(activity.position).type);
         }
-        // apply a penalty when we're actually learning something
-        if (skillLevel(reading->type) < (int)reading->level)
-        {
-            focus_gain_rate -= 50;
+        if (reading != 0) {
+            // apply a penalty when we're actually learning something
+            if (skillLevel(reading->type) < (int)reading->level)
+            {
+                focus_gain_rate -= 50;
+            }
+        } else {
+            activity.type = ACT_NULL;
         }
     }
 

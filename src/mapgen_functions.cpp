@@ -231,8 +231,8 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["triffid_roots"] = &mapgen_triffid_roots;
     mapgen_cfunction_map["triffid_finale"] = &mapgen_triffid_finale;
 
-    mapgen_cfunction_map["tutorial"] = &mapgen_tutorial;
 */
+    mapgen_cfunction_map["tutorial"] = &mapgen_tutorial;
 //
 }
 
@@ -6384,9 +6384,51 @@ void mapgen_ants_queen(map *m, oter_id terrain_type, mapgendata dat, int turn, f
 
 void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
+    (void) density; // Not used, no normally generated zombies here
+    (void) terrain_type; // Not used, should always be "tutorial"
+    (void) turn; // Not used for tutorial
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (j == 0 || j == SEEY * 2 - 1) {
+                m->ter_set(i, j, t_wall_h);
+            } else if (i == 0 || i == SEEX * 2 - 1) {
+                m->ter_set(i, j, t_wall_v);
+            } else if (j == SEEY) {
+                if (i % 4 == 2) {
+                    m->ter_set(i, j, t_door_c);
+                } else if (i % 5 == 3) {
+                    m->ter_set(i, j, t_window_domestic);
+                } else {
+                    m->ter_set(i, j, t_wall_h);
+                }
+            } else {
+                m->ter_set(i, j, t_floor);
+            }
+        }
+    }
+    m->furn_set(7, SEEY * 2 - 4, f_rack);
+    m->place_gas_pump(SEEX * 2 - 2, SEEY * 2 - 4, rng(500, 1000));
+    if (dat.above() != "") {
+        m->ter_set(SEEX - 2, SEEY + 2, t_stairs_up);
+        m->ter_set(2, 2, t_water_sh);
+        m->ter_set(2, 3, t_water_sh);
+        m->ter_set(3, 2, t_water_sh);
+        m->ter_set(3, 3, t_water_sh);
+    } else {
+        m->spawn_item(           5, SEEY + 1, "helmet_bike");
+        m->spawn_item(           4, SEEY + 1, "backpack");
+        m->spawn_item(           3, SEEY + 1, "pants_cargo");
+        m->spawn_item(           7, SEEY * 2 - 4, "machete");
+        m->spawn_item(           7, SEEY * 2 - 4, "9mm");
+        m->spawn_item(           7, SEEY * 2 - 4, "9mmP");
+        m->spawn_item(           7, SEEY * 2 - 4, "uzi");
+        m->spawn_item(SEEX * 2 - 2, SEEY + 5, "bubblewrap");
+        m->spawn_item(SEEX * 2 - 2, SEEY + 6, "grenade");
+        m->spawn_item(SEEX * 2 - 3, SEEY + 6, "flashlight");
+        m->spawn_item(SEEX * 2 - 2, SEEY + 7, "cig");
+        m->spawn_item(SEEX * 2 - 2, SEEY + 7, "codeine");
+        m->spawn_item(SEEX * 2 - 3, SEEY + 7, "water");
+        m->ter_set(SEEX - 2, SEEY + 2, t_stairs_down);
+    }
 }
 

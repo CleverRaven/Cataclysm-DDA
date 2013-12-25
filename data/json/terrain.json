@@ -230,7 +230,7 @@
         "symbol": "#",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT"]
+        "flags": ["TRANSPARENT", "FLAT"]
     },{
         "type" : "terrain",
         "id" : "t_skylight",
@@ -1053,7 +1053,7 @@
         "color": "yellow",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "BARRICADABLE_WINDOW"
+            "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF"
         ]
     },{
         "type" : "terrain",
@@ -1078,6 +1078,24 @@
             "sound": "crash!",
             "sound_fail": "wham!",
             "ter_set": "t_window_frame",
+            "items": [
+                { "item": "splinter", "amount": 2, "minamount": 0, "chance": 50 },
+                { "item": "glass_shard", "amount": 5 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_boarded_noglass",
+        "name": "boarded up window",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 3, "str_max": 30,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_window_empty",
             "items": [
                 { "item": "splinter", "amount": 2, "minamount": 0, "chance": 50 }
             ]
