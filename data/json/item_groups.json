@@ -1465,6 +1465,7 @@
       ["hammer_sledge", 6],
       ["jackhammer", 2],
       ["jacqueshammer", 2],
+      ["pickaxe", 1],
       ["welder", 25],
       ["ax", 8],
       ["forge", 2],
@@ -3491,6 +3492,7 @@
       ["carver_off", 7],
       ["jackhammer", 2],
       ["jacqueshammer", 2],
+      ["pickaxe", 1],
       ["ring", 12],
       ["necklace", 14],
       ["usb_drive", 5],
@@ -4830,6 +4832,8 @@
         "type" : "item_group",
         "id" : "mine_storage",
     "items":[
+      ["shovel", 10],
+      ["pickaxe", 2],
       ["rock", 40],
       ["coal", 20]
     ]
@@ -4855,6 +4859,7 @@
       ["backpack_leather", 18],
       ["battery", 50],
       ["flashlight", 40],
+      ["pickaxe", 1],
       ["jackhammer", 2],
       ["jacqueshammer", 2],
       ["dynamite", 5],
@@ -4868,6 +4873,7 @@
       ["jerrycan", 10],
       ["jerrycan_big", 10],
       ["gasoline_lantern", 5],
+      ["shovel", 10],
       ["e_tool", 5],
       ["apron_leather", 10]
     ]
@@ -5654,6 +5660,7 @@
       ["armor_chitin", 1],
       ["plut_cell", 10],
       ["laser_pack", 10],
+      ["pickaxe", 1],
       ["m249", 1],
       ["v29", 1],
       ["ftk93", 1],
@@ -6359,6 +6366,7 @@
      ["helsing", 1],
      ["tihar", 2],
      ["ashot", 4],
+     ["pickaxe", 1],
      ["makeshift_machete", 4],
      ["flamethrower_crude", 6],
      ["flamethrower_simple", 2]
