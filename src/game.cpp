@@ -11554,7 +11554,7 @@ void game::vertical_move(int movez, bool force) {
 // Check if there are monsters are using the stairs.
     bool slippedpast = false;
     if (!coming_to_stairs.empty()) {
-		// TODO: Allow travel if zombie couldn't reach stairs, but spawn him when we go up.
+        // TODO: Allow travel if zombie couldn't reach stairs, but spawn him when we go up.
             add_msg(_("You try to use the stairs. Suddenly you are blocked by a %s!"), coming_to_stairs[0].name().c_str());
             // Roll.
             int dexroll = dice(6, u.dex_cur + u.skillLevel("dodge") * 2);
