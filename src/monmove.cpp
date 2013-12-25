@@ -825,6 +825,9 @@ void monster::stumble(bool moved)
    const int nx = posx() + i;
    const int ny = posy() + j;
    if ((i || j) && can_move_to(nx, ny) &&
+       /* Don't ever stumble into impassable terrain, even if we normally could
+        * smash it, as this is uncoordinated movement (and is forced). */
+       g->m.move_cost(nx, ny) != 0 &&
        //Stop zombies and other non-breathing monsters wandering INTO water
        //(Unless they can swim/are aquatic)
        //But let them wander OUT of water if they are there.
