@@ -1068,198 +1068,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
             //Should be about 40 min, less 30 sec/IN point.
             p->fall_asleep((400 - p->int_cur * 5));
         }
-    } else if( it->has_flag("MUTAGEN_URSINE") ) {
-        g->add_msg_if_player(p, _("You feel yourself quite equipped for wilderness survival."));
-        p->mutate_category("MUTCAT_URSINE");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->fatigue += 5;
-        p->thirst += 10;
-        if(!one_in(3)) {
-            p->mutate_category("MUTCAT_URSINE");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category("MUTCAT_URSINE");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-    } else if( it->has_flag("MUTAGEN_FELINE") ) {
-        g->add_msg_if_player(p, _("Your back arches as the mutagen takes hold."));
-        p->mutate_category("MUTCAT_FELINE");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->fatigue += 5;
-        p->thirst += 10;
-        if(!one_in(3)) {
-            p->mutate_category("MUTCAT_FELINE");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category("MUTCAT_FELINE");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-    } else if( it->has_flag("MUTAGEN_RAT") ) {
-        g->add_msg_if_player(p, _("You squeak as the shot hits you."));
-        p->mutate_category("MUTCAT_RAT");
-        p->pain += 2 * rng(1, 5);
-        g->sound(p->posx, p->posy, 10, _("Eep!"));
-        p->hunger += 10;
-        p->fatigue += 5;
-        p->thirst += 10;
-        if(!one_in(3)) {
-            p->mutate_category("MUTCAT_RAT");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category("MUTCAT_RAT");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-    } else if( it->has_flag("MUTAGEN_BEAST") ) {
-        g->add_msg_if_player(p, _("Your heart races wildly as the injection takes hold."));
-        p->mutate_category("MUTCAT_BEAST");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->fatigue += 5;
-        p->thirst += 10;
-        if(!one_in(3)) {
-            p->mutate_category("MUTCAT_BEAST");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category("MUTCAT_BEAST");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-    } else if( it->has_flag("MUTAGEN_LUPINE") ) {
-        g->add_msg_if_player(p, _("As the mutagen hits you, your ears twitch and you stifle a yipe."));
-        p->mutate_category("MUTCAT_LUPINE");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->fatigue += 5;
-        p->thirst += 10;
-        if(!one_in(3)) {
-            p->mutate_category("MUTCAT_LUPINE");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category("MUTCAT_LUPINE");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-    } else if( it->has_flag("MUTAGEN_CATTLE") ) {
-        g->add_msg_if_player(p, _("You wonder if this is what rBGH feels like..."));
-        p->mutate_category("MUTCAT_CATTLE");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->fatigue += 5;
-        p->thirst += 10;
-        if(!one_in(3)) {
-            p->mutate_category("MUTCAT_CATTLE");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category("MUTCAT_CATTLE");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-    } else if( it->has_flag("MUTAGEN_CEPHALOPOD") ) {
-        g->add_msg_if_player(p, _("You watch the mutagen flow through a maze of little twisty passages.\n\
-            All the same."));
-        p->mutate_category("MUTCAT_CEPHALOPOD");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->fatigue += 5;
-        p->thirst += 10;
-        if(!one_in(3)) {
-            p->mutate_category("MUTCAT_CEPHALOPOD");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category("MUTCAT_CEPHALOPOD");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-    } else if( it->has_flag("MUTAGEN_BIRD") ) {
-        g->add_msg_if_player(p, _("Your arms spasm in an oddly wavelike motion."));
-        p->mutate_category("MUTCAT_BIRD");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->fatigue += 5;
-        if(!one_in(3)) {
-            p->mutate_category("MUTCAT_BIRD");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category("MUTCAT_BIRD");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-          }
-    } else if( it->has_flag("MUTAGEN_LIZARD") ) {
-        g->add_msg_if_player(p, _("Your blood cools down. The feeling is..different."));
-        p->mutate_category("MUTCAT_LIZARD");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->fatigue += 5;
-        p->thirst += 10;
-        if(!one_in(3)) {
-            p->mutate_category("MUTCAT_LIZARD");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category("MUTCAT_LIZARD");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-          }
-    } else if( it->has_flag("MUTAGEN_TROGLOBITE") ) {
-        g->add_msg_if_player(p, _("As you press the plunger, it all goes so bright..."));
-        p->mutate_category("MUTCAT_TROGLO");
-        p->pain += 2 * rng(1, 5);
-        p->hunger += 10;
-        p->fatigue += 5;
-        p->thirst += 10;
-        if(!one_in(3)) {
-            p->mutate_category("MUTCAT_TROGLO");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-            }
-        if(one_in(2)) {
-            p->mutate_category("MUTCAT_TROGLO");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-          }
-    } else if( it->has_flag("MUTAGEN_ALPHA") ) { //5-15 pain, 66% for each of the followups, so slightly better odds (designed for injection)
+    }  else if( it->has_flag("MUTAGEN_ALPHA") ) { //5-15 pain, 66% for each of the followups, so slightly better odds (designed for injection)
         g->add_msg_if_player(p, _("You took that shot like a champ!"));
         p->mutate_category("MUTCAT_ALPHA");
         p->pain += 3 * rng(1, 5);
@@ -1356,6 +1165,12 @@ int iuse::mut_iv(player *p, item *it, bool) {
         } else if( it->has_flag("MUTAGEN_URSINE") ) {
             g->add_msg_if_player(p, _("You feel yourself quite equipped for wilderness survival."));
             mutation_category = "MUTCAT_URSINE";
+        } else if( it->has_flag("MUTAGEN_LUPINE") ) {
+            g->add_msg_if_player(p, _("As the mutagen hits you, your ears twitch and you stifle a yipe."));
+            mutation_category = "MUTCAT_LUPINE";
+        } else if( it->has_flag("MUTAGEN_FELINE") ) {
+            g->add_msg_if_player(p, _("Your back arches as the mutagen takes hold."));
+            mutation_category = "MUTCAT_FELINE";
         } else if( it->has_flag("MUTAGEN_RAT") ) {
             g->add_msg_if_player(p, _("You squeak as the shot hits you."));
             g->sound(p->posx, p->posy, 10, _("Eep!"));
@@ -3855,7 +3670,7 @@ int iuse::jacqueshammer(player *p, item *it, bool)
  if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
      g->m.ter(dirx, diry) != t_tree) {
   g->m.destroy(dirx, diry, false);
-  // This looks like 50 minutes, but seems more like 50 seconds.  Needs checked.
+  // This looked like 50 minutes, but seems more like 50 seconds.  Needs checked.
   p->moves -= 500;
   //~ the sound of a "jacqueshammer"
   g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
@@ -3872,7 +3687,7 @@ int iuse::jacqueshammer(player *p, item *it, bool)
  return it->type->charges_to_use();
 }
 
-int iuse::pickaxe(player *p, item *, bool)
+int iuse::pickaxe(player *p, item *it, bool)
 {
     if (p->is_underwater()) {
         g->add_msg_if_player(p, _("You can't do that while underwater."));
@@ -3892,22 +3707,36 @@ int iuse::pickaxe(player *p, item *, bool)
  if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
      g->m.ter(dirx, diry) != t_tree) {
         // Sound of a Pickaxe at work!
-        g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
+        g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
         g->m.destroy(dirx, diry, false);
-        p->moves -= 50000;
+        // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
+        p->moves -= (100000 - 3000 * skillLevel("carpentry"));
+        // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
+        // Betcha wish you'd opted for the J-Hammer ;P
+        p->hunger += 15;
+        p->fatigue += 30;
+        p->thirst += 15;
+        p->pain += 2 * rng(1,3);
+        // Mining is construction work!
+        p->practice(g->turn, "carpentry", 1);
         // Sounds before and after
-        g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
- } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
+        g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
+ } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
             g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
                 g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
                 g->m.destroy(dirx, diry, false);
-                p->moves -= 50000;
+                // 20 minutes to rip up the road.  Compressed a bit but so is all Cata-time.
+                p->moves -= 20000;
+                //Breaking up concrete on the surface? not nearly as bad
+                p->hunger += 5;
+                p->fatigue += 10;
+                p->thirst += 5;
                 g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
  } else {
   g->add_msg_if_player(p,_("You can't mine there."));
   return 0;
  }
-
+return it->type->charges_to_use();
 }
 int iuse::set_trap(player *p, item *it, bool)
 {
