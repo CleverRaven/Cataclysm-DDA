@@ -710,12 +710,14 @@
       ["oxygen_tank", 3],
       ["smoxygen_tank", 2],
       ["alarmclock", 30],
+      ["maid_dress", 3],
+      ["maid_hat", 3],
       ["leathersandals", 25]
     ]
-    },{
-        "type" : "item_group",
-        "id" : "homeguns",
-        "guns_with_ammo" : true,
+  },{
+    "type":"item_group",
+    "id":"homeguns",
+    "guns_with_ammo" : true,
     "items":[
       ["blowgun", 5],
       ["moss_brownie", 2],
@@ -821,8 +823,8 @@
       ["u_shotgun", 5]
     ]
     },{
-        "type" : "item_group",
-        "id" : "dresser",
+    "type" : "item_group",
+    "id" : "dresser",
     "items":[
       ["jeans", 90],
       ["pants_checkered", 5],
@@ -889,11 +891,13 @@
       ["tux", 1],
       ["dress_wedding", 1],
       ["clogs", 2],
-      ["wristwatch", 15]
+      ["wristwatch", 15],
+      ["maid_dress", 3],
+      ["maid_hat", 3]
     ]
     },{
-        "type" : "item_group",
-        "id" : "dining",
+    "type" : "item_group",
+    "id" : "dining",
     "items":[
       ["wrapper", 50],
       ["knife_butter", 90],
@@ -910,8 +914,8 @@
       ["bottle_glass", 10]
     ]
     },{
-        "type" : "item_group",
-        "id" : "snacks",
+    "type" : "item_group",
+    "id" : "snacks",
     "items":[
       ["chips", 65],
       ["pretzels", 55],
@@ -2484,11 +2488,13 @@
       ["jersey", 40],
       ["postman_shorts", 5],
       ["postman_shirt", 5],
-      ["postman_hat", 5]
+      ["postman_hat", 5],
+      ["maid_dress", 3],
+      ["maid_hat", 3]
     ]
     },{
-        "type" : "item_group",
-        "id" : "novels",
+    "type" : "item_group",
+    "id" : "novels",
     "items":[
       ["novel_romance", 30],
       ["novel_spy", 28],
@@ -3585,7 +3591,9 @@
       ["diveknife", 10],
       ["alarmclock", 5],
       ["bagh_nakha", 2],
-      ["leathersandals", 10]
+      ["leathersandals", 10],
+      ["maid_dress", 3],
+      ["maid_hat", 3]
     ]
     },{
     "type" : "item_group",

@@ -184,6 +184,30 @@
     },
     {
         "type": "profession",
+        "ident": "maid",
+        "name": "Maid",
+        "description": "You were a maid for a wealthy lady. After the apocalypse broke out, she left on a vacation to an unkown place, leaving you to fend for yourself.",
+        "points": 2,
+        "skills": [
+            {
+                "level": 1,
+                "name": "throw"
+            },
+            {
+                "level": 1,
+                "name": "cooking"
+            }
+        ],
+        "items": [
+            "maid_hat",
+            "maid_dress",
+            "boots",
+            "pocketwatch",
+            "knife_butter"
+        ]
+    },
+    {
+        "type": "profession",
         "ident": "medic",
         "name": "Medical Resident",
         "description": "Fresh out of med school, you've got little in the way of practical experience. You just hope it will be enough if the old adage of 'Doctor, heal thyself' ends up being required.",
