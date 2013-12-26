@@ -1336,9 +1336,6 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
             wrefresh(w_traits);
             
-            mvwprintz(w_profession, 0, 0, c_ltgray, _("Profession: %1$s"), u->prof->name().c_str());
-            wrefresh(w_profession);
-            
             mvwprintz(w_skills, 0, 0, c_ltgray, _("Skills:"));
             std::vector<Skill*> skillslist;
 
@@ -1404,6 +1401,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz(w_gender, 0, female_pos, (u->male ? c_ltgray : c_ltred), _("Female"));
         mvwprintz(w_gender, 1, 0, c_ltgray, _("Press TAB to switch gender"));
         wrefresh(w_gender);
+
+        mvwprintz(w_profession, 0, 0, c_ltgray, _("Profession: %1$s"), u->prof->gender_appropriate_name(u->male).c_str());
+        wrefresh(w_profession);
 
         ch = input();
 
