@@ -3409,13 +3409,14 @@ void game::debug()
                    _("Spawn a vehicle"),        // 10
                    _("Increase all skills"),    // 11
                    _("Learn all melee styles"), // 12
-                   _("Check NPC"),              // 13
-                   _("Spawn Artifact"),         // 14
-                   _("Spawn Clarivoyance Artifact"), //15
-                   _("Map editor"), // 16
-                   _("Change weather"),         // 17
+                   _("Unlock all recipes"),     // 13
+                   _("Check NPC"),              // 14
+                   _("Spawn Artifact"),         // 15
+                   _("Spawn Clarivoyance Artifact"), //16
+                   _("Map editor"), // 17
+                   _("Change weather"),         // 18
                    #ifdef LUA
-                       _("Lua Command"), // 18
+                       _("Lua Command"), // 19
                    #endif
                    _("Cancel"),
                    NULL);
@@ -3584,8 +3585,26 @@ Current turn: %d; Next spawn %d.\n\
       u.ma_styles.push_back("style_toad");
       add_msg("You now know a lot more than just 10 styles of kung fu.");
    break;
-
+  
   case 13: {
+    add_msg("Recipe debug.");
+    add_msg("Your eyes blink rapidly as knowledge floods your brain.");
+    for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter)
+    {
+        for (recipe_list::iterator list_iter = cat_iter->second.begin();
+             list_iter != cat_iter->second.end();
+             ++list_iter)
+        { recipe* cur_recipe = *list_iter;
+        if (!(u.learned_recipes.find(cur_recipe->ident) != u.learned_recipes.end()))  {
+        u.learn_recipe(cur_recipe);
+        }    
+      }
+    }
+    add_msg("You know how to craft that now.");
+  }
+    break;
+   
+  case 14: {
    point pos = look_around();
    int npcdex = npc_at(pos.x, pos.y);
    if (npcdex == -1)
@@ -3624,7 +3643,7 @@ Current turn: %d; Next spawn %d.\n\
    }
   } break;
 
-  case 14:
+  case 15:
   {
       point center = look_around();
       artifact_natural_property prop =
@@ -3634,7 +3653,7 @@ Current turn: %d; Next spawn %d.\n\
   }
   break;
 
-  case 15:
+  case 16:
   {
       std::string artifact_name(std::string type);
 
@@ -3666,12 +3685,12 @@ Current turn: %d; Next spawn %d.\n\
   }
   break;
 
-  case 16: {
+  case 17: {
       point coord = look_debug();
   }
   break;
 
-  case 17: {
+  case 18: {
       const int weather_offset = 1;
       uimenu weather_menu;
       weather_menu.text = "Select new weather pattern:";
@@ -3784,7 +3803,7 @@ Current turn: %d; Next spawn %d.\n\
   break;
 
   #ifdef LUA
-      case 18: {
+      case 19: {
           std::string luacode = string_input_popup(_("Lua:"), 60, "");
           call_lua(luacode);
       }
