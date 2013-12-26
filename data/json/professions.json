@@ -247,8 +247,11 @@
     {
         "type": "profession",
         "ident": "maid",
-        "name": "Maid",
-        "description": "You were a maid for a wealthy lady. After the apocalypse broke out, she left on a vacation to an unknown place, leaving you to fend for yourself.",
+        "name": {
+            "male": "Butler",
+            "female": "Maid"
+        },
+        "description": "You worked in a wealthy household, but after the cataclysm they took a family vacation to an unknown place, leaving you to fend for yourself.",
         "points": 2,
         "skills": [
             {
@@ -260,13 +263,24 @@
                 "name": "cooking"
             }
         ],
-        "items": [
-            "maid_hat",
-            "maid_dress",
-            "boots",
-            "pocketwatch",
-            "knife_butter"
-        ]
+        "items": {
+            "both" : [
+                "pocketwatch",
+                "knife_butter"
+            ],
+            "male": [
+                "tux",
+                "dress_shoes",
+                "briefs"
+            ],
+            "female": [
+                "maid_hat",
+                "maid_dress",
+                "boots",
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
