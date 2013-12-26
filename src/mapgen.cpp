@@ -1268,6 +1268,12 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                         place_items("novels", 40,  i,  j, i,  j, false, 0);
                         place_items("alcohol", 30,  i,  j, i,  j, false, 0);
                         place_items("manuals", 20,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
+                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
+                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
                     }
                 }
             }
@@ -1349,6 +1355,12 @@ ss                      \n",
                         place_items("novels", 40,  i,  j, i,  j, false, 0);
                         place_items("alcohol", 30,  i,  j, i,  j, false, 0);
                         place_items("manuals", 20,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
+                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
+                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
                     }
                 }
             }
@@ -1428,6 +1440,12 @@ ss                      \n",
                         place_items("novels", 40,  i,  j, i,  j, false, 0);
                         place_items("alcohol", 30,  i,  j, i,  j, false, 0);
                         place_items("manuals", 20,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
+                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
+                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
                     }
                 }
             }
@@ -1509,6 +1527,12 @@ ss                      \n",
                     place_items("novels", 40,  i,  j, i,  j, false, 0);
                     place_items("alcohol", 30,  i,  j, i,  j, false, 0);
                     place_items("manuals", 20,  i,  j, i,  j, false, 0);
+                } else if (this->furn(i, j) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
+                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+                } else if (this->furn(i, j) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
+                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
                 }
             }
         }
@@ -1596,6 +1620,12 @@ ss                      \n",
                         place_items("novels", 40,  i,  j, i,  j, false, 0);
                         place_items("alcohol", 30,  i,  j, i,  j, false, 0);
                         place_items("manuals", 20,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
+                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
+                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
                     }
                 }
             }
@@ -1679,6 +1709,12 @@ ss                      \n",
                         place_items("novels", 40,  i,  j, i,  j, false, 0);
                         place_items("alcohol", 30,  i,  j, i,  j, false, 0);
                         place_items("manuals", 20,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
+                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
+                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
                     }
                 }
             }
@@ -1762,6 +1798,12 @@ EE|.+..........e|ssR    \n\
                         place_items("novels", 40,  i,  j, i,  j, false, 0);
                         place_items("alcohol", 30,  i,  j, i,  j, false, 0);
                         place_items("manuals", 20,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
+                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
+                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
                     }
                 }
             }
