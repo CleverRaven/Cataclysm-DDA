@@ -47,6 +47,16 @@
         "tools" : [
             [ "shovel", "e_tool", "primitive_shovel" ]
         ],
+        "pre_terrain" : "t_pit_spiked",
+        "post_terrain" : "t_pit_shallow"
+    },{
+        "type" : "construction",
+        "description" : "Fill Pit",
+        "difficulty" : 0,
+        "time" : 5,
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
         "pre_terrain" : "t_pit_shallow",
         "post_terrain" : "t_dirt"
     },{
@@ -126,7 +136,7 @@
             [ [ "nail", 12 ] ]
         ],
         "pre_terrain" : "t_door_b",
-        "post_terrain" : "t_door"
+        "post_terrain" : "t_door_c"
     },{
         "type" : "construction",
         "description" : "Board Up Door",
@@ -158,6 +168,37 @@
         "pre_flags" : "BARRICADABLE_WINDOW",
         "post_terrain" : "t_window_boarded"
     },{
+        "type" : "construction",
+        "description" : "Board Up Empty Window",
+        "difficulty" : 0,
+        "time" : 5,
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer",
+              "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_terrain" : "t_window_empty",
+        "post_terrain" : "t_window_boarded_noglass"
+    },{
+        "type" : "construction",
+        "description" : "Board Up Broken Window Frame",
+        "difficulty" : 0,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer",
+              "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_terrain" : "t_window_frame",
+        "post_terrain" : "t_window_boarded_noglass"
+    },{
+
         "type" : "construction",
         "description" : "Build Wall",
         "difficulty" : 2,

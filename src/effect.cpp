@@ -46,7 +46,7 @@ effect::effect(effect_type *peff_type, int dur) :
     intensity(1)
 { }
 
-effect::effect(const effect &rhs) :
+effect::effect(const effect &rhs) : JsonSerializer(), JsonDeserializer(),
     eff_type(rhs.eff_type),
     duration(rhs.duration),
     intensity(rhs.intensity)

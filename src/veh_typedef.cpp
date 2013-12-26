@@ -53,6 +53,11 @@ void game::load_vehiclepart(JsonObject &jo)
     } else { //defaults to 0
         next_part.power = 0;
     }
+    if(jo.has_member("epower")) {
+        next_part.epower = jo.get_int("epower");
+    } else { //defaults to 0
+        next_part.epower = 0;
+    }
     //Handle the par1 union as best we can by accepting any ONE of its elements
     int element_count = (jo.has_member("par1") ? 1 : 0)
                       + (jo.has_member("size") ? 1 : 0)

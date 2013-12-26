@@ -14,23 +14,37 @@
 #include <queue>
 
 std::vector<craft_cat> craft_cat_list;
-std::vector<craft_subcat> craft_subcat_list;
+std::map<craft_cat, std::vector<craft_subcat> > craft_subcat_list;
 std::vector<std::string> recipe_names;
 recipe_map recipes;
 std::map<std::string,quality> qualities;
 std::map<std::string, std::queue<std::pair<recipe*, int> > > recipe_booksets;
 
-void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
-void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered=false);
+static void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
+static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered=false);
+static craft_cat first_craft_cat();
+static craft_cat next_craft_cat(const craft_cat cat);
+static craft_cat prev_craft_cat(const craft_cat cat);
+static craft_subcat first_craft_subcat(const craft_cat cat);
+static craft_subcat last_craft_subcat(const craft_cat cat);
+static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat);
+static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat);
 
 void load_recipe_category(JsonObject &jsobj)
 {
-    craft_cat_list.push_back(jsobj.get_string("id"));
-}
-
-void load_recipe_subcategory(JsonObject &jsobj)
-{
-    craft_subcat_list.push_back(jsobj.get_string("id"));
+    JsonArray subcats;
+    std::string category = jsobj.get_string("id");
+    // Don't store noncraft as a category.
+    // We're storing the subcategory so we can look it up in load_recipes
+    // for the fallback subcategory.
+    if( category != "CC_NONCRAFT" ) {
+        craft_cat_list.push_back( category );
+    }
+    craft_subcat_list[category] = std::vector<craft_subcat>();
+    subcats = jsobj.get_array("recipe_subcategories");
+    while (subcats.has_more()) {
+        craft_subcat_list[category].push_back( subcats.next_string() );
+    }
 }
 
 void load_recipe(JsonObject &jsobj)
@@ -41,17 +55,11 @@ void load_recipe(JsonObject &jsobj)
     std::string result = jsobj.get_string("result");
     std::string category = jsobj.get_string("category");
     std::string subcategory = "";
+
     if ( !jsobj.has_string("subcategory") ) {
-        if (category == "CC_NONCRAFT") { subcategory = "CSC_NONCRAFT"; }
-        else if (category == "CC_WEAPON") { subcategory = "CSC_WEAPON_OTHER"; }
-        else if (category == "CC_AMMO") { subcategory = "CSC_AMMO_OTHER"; }
-        else if (category == "CC_FOOD") { subcategory = "CSC_FOOD_OTHER"; }
-        else if (category == "CC_CHEM") { subcategory = "CSC_CHEM_OTHER"; }
-        else if (category == "CC_ELECTRONIC") { subcategory = "CSC_ELECTRONIC_OTHER"; }
-        else if (category == "CC_ARMOR") { subcategory = "CSC_ARMOR_OTHER"; }
-        else if (category == "CC_OTHER") { subcategory = "CSC_OTHER_OTHER"; }
+        subcategory = last_craft_subcat( category );
     } else {
-    subcategory = jsobj.get_string("subcategory");
+        subcategory = jsobj.get_string("subcategory");
     }
 
     int difficulty = jsobj.get_int("difficulty");
@@ -505,56 +513,71 @@ void game::long_craft()
     }
 }
 
-craft_cat game::next_craft_cat(craft_cat cat)
+static craft_cat first_craft_cat()
+{
+    return craft_cat_list.front();
+}
+
+static craft_cat next_craft_cat(const craft_cat cat)
 {
     for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
-         iter != craft_cat_list.end();
-         ++iter)
-    {
-        if ((*iter) == cat)
-        {
-            return *(++iter);
+         iter != craft_cat_list.end(); ++iter) {
+        if ((*iter) == cat) {
+            if( ++iter == craft_cat_list.end() ) {
+                return craft_cat_list.front();
+            }
+            return *iter;
         }
     }
     return NULL;
 }
 
-craft_cat game::prev_craft_cat(craft_cat cat)
+static craft_cat prev_craft_cat(const craft_cat cat)
 {
     for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
-         iter != craft_cat_list.end();
-         ++iter)
-    {
-        if ((*iter) == cat)
-        {
+         iter != craft_cat_list.end(); ++iter) {
+        if ((*iter) == cat) {
+            if( iter == craft_cat_list.begin() ) {
+                return craft_cat_list.back();
+            }
             return *(--iter);
         }
     }
     return NULL;
 }
 
-craft_subcat game::next_craft_subcat(craft_subcat subcat)
+static craft_subcat first_craft_subcat(const craft_cat cat)
 {
-    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list.begin();
-         iter != craft_subcat_list.end();
-         ++iter)
-    {
-        if ((*iter) == subcat)
-        {
-            return *(++iter);
+    return craft_subcat_list[cat].front();
+}
+
+static craft_subcat last_craft_subcat(const craft_cat cat)
+{
+    return craft_subcat_list[cat].back();
+}
+
+static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat)
+{
+    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list[cat].begin();
+         iter != craft_subcat_list[cat].end(); ++iter) {
+        if ((*iter) == subcat) {
+            if( ++iter == craft_subcat_list[cat].end() ) {
+                return craft_subcat_list[cat].front();
+            }
+            return *iter;
         }
     }
     return NULL;
 }
 
-craft_subcat game::prev_craft_subcat(craft_subcat subcat)
+static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat)
 {
-    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list.begin();
-         iter != craft_subcat_list.end();
-         ++iter)
-    {
-        if ((*iter) == subcat)
-        {
+    for (std::vector<craft_subcat>::iterator iter = craft_subcat_list[cat].begin();
+         iter != craft_subcat_list[cat].end(); ++iter) {
+        if ((*iter) == subcat) {
+            if( iter == craft_subcat_list[cat].begin() ) {
+                return craft_subcat_list[cat].back();
+            }
             return *(--iter);
         }
     }
@@ -595,8 +618,8 @@ recipe* game::select_crafting_recipe()
 
     const int iInfoWidth = width - FULL_SCREEN_WIDTH - 3;
     std::vector<std::string> folded;
-    craft_cat tab = "CC_WEAPON";
-    craft_subcat subtab = "CSC_WEAPON_BASHING";
+    craft_cat tab = first_craft_cat();
+    craft_subcat subtab = first_craft_subcat( tab );
     std::vector<recipe*> current;
     std::vector<bool> available;
     item tmp;
@@ -900,97 +923,21 @@ recipe* game::select_crafting_recipe()
         switch (input)
         {
             case DirectionW:
-                if (tab == "CC_WEAPON" && subtab == "CSC_WEAPON_BASHING") {
-                    subtab = "CSC_WEAPON_OTHER";
-                }
-                else if (tab == "CC_AMMO" && subtab == "CSC_AMMO_BULLETS") {
-                    subtab = "CSC_AMMO_OTHER";
-                }
-                else if (tab == "CC_FOOD" && subtab == "CSC_FOOD_DRINKS") {
-                    subtab = "CSC_FOOD_OTHER";
-                }
-                else if (tab == "CC_CHEM" && subtab == "CSC_CHEM_DRUGS") {
-                    subtab = "CSC_CHEM_OTHER";
-                }
-                else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONIC_CBMS") {
-                    subtab = "CSC_ELECTRONIC_OTHER";
-                }
-                else if (tab == "CC_ARMOR" && subtab == "CSC_ARMOR_STORAGE") {
-                    subtab = "CSC_ARMOR_OTHER";
-                }
-                else if (tab == "CC_OTHER" && subtab == "CSC_OTHER_TOOLS") {
-                    subtab = "CSC_OTHER_OTHER";
-                }
-                else
-                {
-                    subtab = prev_craft_subcat(subtab);
-                }
+                subtab = prev_craft_subcat( tab, subtab );
                 redraw = true;
                 break;
             case DirectionUp:
-                if (tab == "CC_WEAPON")
-                {
-                    tab = "CC_OTHER";
-                    subtab = "CSC_OTHER_TOOLS";
-                }
-                else
-                {
-                    tab = prev_craft_cat(tab);
-                    if ( tab == "CC_WEAPON") { subtab = "CSC_WEAPON_BASHING"; }
-                    else if (tab == "CC_AMMO") { subtab = "CSC_AMMO_BULLETS"; }
-                    else if (tab == "CC_FOOD") { subtab = "CSC_FOOD_DRINKS"; }
-                    else if (tab == "CC_CHEM") { subtab = "CSC_CHEM_DRUGS"; }
-                    else if (tab == "CC_ELECTRONIC") { subtab = "CSC_ELECTRONIC_CBMS"; }
-                    else if (tab == "CC_ARMOR") { subtab = "CSC_ARMOR_STORAGE"; }
-                    else if (tab == "CC_OTHER") { subtab = "CSC_OTHER_TOOLS"; }
-                }
+                tab = prev_craft_cat(tab);
+                subtab = last_craft_subcat( tab );
                 redraw = true;
                 break;
             case DirectionE:
-                if (tab == "CC_WEAPON" && subtab == "CSC_WEAPON_OTHER") {
-                    subtab = "CSC_WEAPON_BASHING";
-                }
-                else if (tab == "CC_AMMO" && subtab == "CSC_AMMO_OTHER") {
-                    subtab = "CSC_AMMO_BULLETS";
-                }
-                else if (tab == "CC_FOOD" && subtab == "CSC_FOOD_OTHER") {
-                    subtab = "CSC_FOOD_DRINKS";
-                }
-                else if (tab == "CC_CHEM" && subtab == "CSC_CHEM_OTHER") {
-                    subtab = "CSC_CHEM_DRUGS";
-                }
-                else if (tab == "CC_ELECTRONIC" && subtab == "CSC_ELECTRONIC_OTHER") {
-                    subtab = "CSC_ELECTRONIC_CBMS";
-                }
-                else if (tab == "CC_ARMOR" && subtab == "CSC_ARMOR_OTHER") {
-                    subtab = "CSC_ARMOR_STORAGE";
-                }
-                else if (tab == "CC_OTHER" && subtab == "CSC_OTHER_OTHER") {
-                    subtab = "CSC_OTHER_TOOLS";
-                }
-                else
-                {
-                    subtab = next_craft_subcat(subtab);
-                }
+                subtab = next_craft_subcat( tab, subtab );
                 redraw = true;
                 break;
             case DirectionDown:
-                if (tab == "CC_OTHER")
-                {
-                    tab = "CC_WEAPON";
-                    subtab = "CSC_WEAPON_BASHING";
-                }
-                else
-                {
-                    tab = next_craft_cat(tab);
-                    if ( tab == "CC_WEAPON") { subtab = "CSC_WEAPON_BASHING"; }
-                    else if (tab == "CC_AMMO") { subtab = "CSC_AMMO_BULLETS"; }
-                    else if (tab == "CC_FOOD") { subtab = "CSC_FOOD_DRINKS"; }
-                    else if (tab == "CC_CHEM") { subtab = "CSC_CHEM_DRUGS"; }
-                    else if (tab == "CC_ELECTRONIC") { subtab = "CSC_ELECTRONIC_CBMS"; }
-                    else if (tab == "CC_ARMOR") { subtab = "CSC_ARMOR_STORAGE"; }
-                    else if (tab == "CC_OTHER") { subtab = "CSC_OTHER_TOOLS"; }
-                }
+                tab = next_craft_cat(tab);
+                subtab = first_craft_subcat( tab );
                 redraw = true;
                 break;
             case DirectionS:
@@ -1063,7 +1010,7 @@ recipe* game::select_crafting_recipe()
     return chosen;
 }
 
-void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
+static void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 {
     werase(w);
     int width = getmaxx(w);
@@ -1100,7 +1047,7 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
     wrefresh(w);
 }
 
-void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered)
+static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered)
 {
     werase(w);
     int width = getmaxx(w);
@@ -1824,6 +1771,12 @@ void game::complete_disassemble()
   recipe* dis = recipe_by_index(u.activity.index); // Which recipe is it?
   item* dis_item = &u.i_at(u.activity.values[0]);
 
+    int veh_part = -1;
+    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+    if(veh != 0) {
+        veh_part = veh->part_with_feature(veh_part, "CARGO");
+    }
+
   add_msg(_("You disassemble the %s into its components."), dis_item->name.c_str());
   // remove any batteries or ammo first
     if (dis_item->is_gun() && dis_item->curammo != NULL && dis_item->ammo_type() != "NULL")
@@ -1831,10 +1784,13 @@ void game::complete_disassemble()
       item ammodrop;
       ammodrop = item(dis_item->curammo, turn);
       ammodrop.charges = dis_item->charges;
-      if (ammodrop.made_of(LIQUID))
-        handle_liquid(ammodrop, false, false);
-      else
-        m.add_item_or_charges(u.posx, u.posy, ammodrop);
+        if (ammodrop.made_of(LIQUID)) {
+            handle_liquid(ammodrop, false, false);
+        } else if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, ammodrop)) {
+            // add_item did put the items in the vehicle, nothing further to be done
+        } else {
+            m.add_item_or_charges(u.posx, u.posy, ammodrop);
+        }
     }
     if (dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL")
     {
@@ -1844,10 +1800,13 @@ void game::complete_disassemble()
       if (dis_item->typeId() == "adv_UPS_off" || dis_item->typeId() == "adv_UPS_on") {
           ammodrop.charges /= 500;
       }
-      if (ammodrop.made_of(LIQUID))
-        handle_liquid(ammodrop, false, false);
-      else
-        m.add_item_or_charges(u.posx, u.posy, ammodrop);
+        if (ammodrop.made_of(LIQUID)) {
+            handle_liquid(ammodrop, false, false);
+        } else if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, ammodrop)) {
+            // add_item did put the items in the vehicle, nothing further to be done
+        } else {
+            m.add_item_or_charges(u.posx, u.posy, ammodrop);
+        }
     }
 
     if (dis_item->count_by_charges()){
@@ -1886,33 +1845,38 @@ void game::complete_disassemble()
   {
     if (dis->components[j].size() != 0)
     {
-      int compcount = dis->components[j][0].count;
-      bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
-      do
-      {
-        item newit(item_controller->find_template(dis->components[j][0].type), turn);
-        // skip item addition if component is a consumable like superglue
-        if (dis->components[j][0].type == "superglue" || dis->components[j][0].type == "duct_tape")
-          compcount--;
-        else
+        int compcount = dis->components[j][0].count;
+        bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
+        if (dis->difficulty != 0 && !comp_success)
         {
-          if (newit.count_by_charges())
-          {
-            if (dis->difficulty == 0 || comp_success)
-              m.spawn_item(u.posx, u.posy, dis->components[j][0].type, 0, compcount);
-            else
-              add_msg(_("You fail to recover a component."));
-            compcount = 0;
-          } else
-          {
-            if (dis->difficulty == 0 || comp_success)
-              m.add_item_or_charges(u.posx, u.posy, newit);
-            else
-              add_msg(_("You fail to recover a component."));
-            compcount--;
-          }
+            add_msg(_("You fail to recover a component."));
+            continue;
         }
-      } while (compcount > 0);
+        if (dis->components[j][0].type == "superglue" || dis->components[j][0].type == "duct_tape")
+        {
+            // skip item addition if component is a consumable like superglue
+            continue;
+        }
+        item newit(item_controller->find_template(dis->components[j][0].type), turn);
+        if (newit.count_by_charges())
+        {
+            newit.charges = compcount;
+            compcount = 1;
+        }
+        if (newit.made_of(LIQUID))
+        {
+            handle_liquid(newit, false, false);
+            continue;
+        }
+        do
+        {
+            if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, newit)) {
+                // add_item did put the items in the vehicle, nothing further to be done
+            } else {
+                m.add_item_or_charges(u.posx, u.posy, newit);
+            }
+            compcount--;
+        } while (compcount > 0);
     }
   }
 

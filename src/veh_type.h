@@ -68,6 +68,7 @@ struct vpart_info
     int dmg_mod;            // damage modifier, percent
     int durability;         // durability
     int power;              // engine (top spd), solar panel/powered component (% of 1 fuel per turn, can be > 100)
+    int epower;             // electrical power in watts (positive values for generation, negative for consumption)
     union
     {
         int par1;

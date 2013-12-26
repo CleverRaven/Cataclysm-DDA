@@ -231,8 +231,8 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["triffid_roots"] = &mapgen_triffid_roots;
     mapgen_cfunction_map["triffid_finale"] = &mapgen_triffid_finale;
 
-    mapgen_cfunction_map["tutorial"] = &mapgen_tutorial;
 */
+    mapgen_cfunction_map["tutorial"] = &mapgen_tutorial;
 //
 }
 
@@ -3711,7 +3711,7 @@ void mapgen_lmoe_under(map *m, oter_id, mapgendata, int, float) {
         line(m, t_rubble, 15, 10, 16, 10);
         m->furn_set(19, 10, f_sink);
         m->place_toilet(20, 11);
-        m->place_items("allguns", 80, 3, 3, 6, 3, false, 0);
+        m->place_items("lmoe_guns", 80, 3, 3, 6, 3, false, 0);
         m->place_items("ammo", 80, 3, 3, 6, 3, false, 0);
         m->place_items("cannedfood", 90, 3, 9, 7, 9, false, 0);
         m->place_items("survival_tools", 80, 3, 11, 7, 11, false, 0);
@@ -3768,7 +3768,7 @@ void mapgen_basement_guns(map *m, oter_id terrain_type, mapgendata dat, int turn
         m->furn_set(i, 5, f_rack);
         m->furn_set(i, 9, f_rack);
     }
-    m->place_items("allguns", 80, 2, 1, SEEX * 2 - 3, 1, false, 0);
+    m->place_items("allguns", 90, 2, 1, SEEX * 2 - 3, 1, false, 0);
     m->place_items("ammo",    94, 2, 5, SEEX * 2 - 3, 5, false, 0);
     m->place_items("gunxtras", 88, 2, 9, SEEX * 2 - 7, 9, false, 0);
     m->place_items("weapons", 88, SEEX * 2 - 6, 9, SEEX * 2 - 3, 9, false, 0);
@@ -3790,7 +3790,8 @@ void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, i
     }
     m->place_items("softdrugs",  86, SEEX - 1,  1, SEEX,  2, false, 0);
     m->place_items("cannedfood",  92, SEEX - 1,  3, SEEX,  6, false, 0);
-    m->place_items("homeguns",  72, SEEX - 1,  7, SEEX,  7, false, 0);
+    m->place_items("homeguns",  51, SEEX - 1,  7, SEEX,  7, false, 0);
+    m->place_items("lmoe_guns",  31, SEEX - 1,  7, SEEX,  7, false, 0);
     m->place_items("survival_tools", 83, SEEX - 1,  8, SEEX, 10, false, 0);
     m->place_items("manuals",  60, SEEX - 1, 11, SEEX, 11, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
@@ -4498,7 +4499,7 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata, int, float density)
         }
 
         m->place_items("kitchen",      40,  6,  8,  9, 11,    false, 0);
-        m->place_items("cop_weapons",  70, 20,  8, 22,  8,    false, 0);
+        m->place_items("cop_armory",  70, 20,  8, 22,  8,    false, 0);
         m->place_items("cop_gear",  70, 20,  8, 20, 11,    false, 0);
         m->place_items("cop_evidence", 60,  1, 15,  4, 15,    false, 0);
 
@@ -6383,9 +6384,51 @@ void mapgen_ants_queen(map *m, oter_id terrain_type, mapgendata dat, int turn, f
 
 void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
+    (void) density; // Not used, no normally generated zombies here
+    (void) terrain_type; // Not used, should always be "tutorial"
+    (void) turn; // Not used for tutorial
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (j == 0 || j == SEEY * 2 - 1) {
+                m->ter_set(i, j, t_wall_h);
+            } else if (i == 0 || i == SEEX * 2 - 1) {
+                m->ter_set(i, j, t_wall_v);
+            } else if (j == SEEY) {
+                if (i % 4 == 2) {
+                    m->ter_set(i, j, t_door_c);
+                } else if (i % 5 == 3) {
+                    m->ter_set(i, j, t_window_domestic);
+                } else {
+                    m->ter_set(i, j, t_wall_h);
+                }
+            } else {
+                m->ter_set(i, j, t_floor);
+            }
+        }
+    }
+    m->furn_set(7, SEEY * 2 - 4, f_rack);
+    m->place_gas_pump(SEEX * 2 - 2, SEEY * 2 - 4, rng(500, 1000));
+    if (dat.above() != "") {
+        m->ter_set(SEEX - 2, SEEY + 2, t_stairs_up);
+        m->ter_set(2, 2, t_water_sh);
+        m->ter_set(2, 3, t_water_sh);
+        m->ter_set(3, 2, t_water_sh);
+        m->ter_set(3, 3, t_water_sh);
+    } else {
+        m->spawn_item(           5, SEEY + 1, "helmet_bike");
+        m->spawn_item(           4, SEEY + 1, "backpack");
+        m->spawn_item(           3, SEEY + 1, "pants_cargo");
+        m->spawn_item(           7, SEEY * 2 - 4, "machete");
+        m->spawn_item(           7, SEEY * 2 - 4, "9mm");
+        m->spawn_item(           7, SEEY * 2 - 4, "9mmP");
+        m->spawn_item(           7, SEEY * 2 - 4, "uzi");
+        m->spawn_item(SEEX * 2 - 2, SEEY + 5, "bubblewrap");
+        m->spawn_item(SEEX * 2 - 2, SEEY + 6, "grenade");
+        m->spawn_item(SEEX * 2 - 3, SEEY + 6, "flashlight");
+        m->spawn_item(SEEX * 2 - 2, SEEY + 7, "cig");
+        m->spawn_item(SEEX * 2 - 2, SEEY + 7, "codeine");
+        m->spawn_item(SEEX * 2 - 3, SEEY + 7, "water");
+        m->ter_set(SEEX - 2, SEEY + 2, t_stairs_down);
+    }
 }
 

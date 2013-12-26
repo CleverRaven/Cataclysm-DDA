@@ -776,7 +776,11 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy) {
             }
 
             m->spawn_item(examx, examy, seedType.substr(5), plantCount, 0, g->turn);
-            m->spawn_item(examx, examy, seedType, 1, rng(plantCount / 4, plantCount / 2));
+            if(item_controller->find_template(seedType)->count_by_charges()) {
+                m->spawn_item(examx, examy, seedType, 1, rng(plantCount / 4, plantCount / 2));
+            } else {
+                m->spawn_item(examx, examy, seedType, rng(plantCount / 4, plantCount / 2));
+            }
 
             p->moves -= 500;
         }

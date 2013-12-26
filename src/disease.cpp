@@ -1225,7 +1225,7 @@ void dis_effect(player &p, disease &dis) {
               }
             }
             break;
-            
+
         case DI_LACKSLEEP:
             p.str_cur -= 1;
             p.dex_cur -= 1;
@@ -1698,7 +1698,7 @@ std::string dis_name(disease& dis)
           return "Invalid martial arts buff";
 
     case DI_LACKSLEEP: return _("Lacking Sleep");
-          
+
     default:;
     }
     return "";
@@ -1928,7 +1928,7 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         return stream.str();
 
     case DI_SLIMED:
-        return _("Speed -40%;   Dexterity - 2");
+        return _("Speed -25%;   Dexterity - 2");
 
     case DI_DEAF: return _("Sounds will not be reported.  You cannot talk with NPCs.");
 
@@ -2113,7 +2113,7 @@ condition, and deals massive damage.");
 
     case DI_LACKSLEEP: return _("You haven't slept in a while, and it shows. \n\
     You can't move as quickly and your stats just aren't where they should be.");
-   
+
     default:;
     }
     return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
@@ -2202,7 +2202,7 @@ void manage_sleep(player& p, disease& dis) {
     // One test subject managed to get two Colds during hibernation; since those add fatigue and dry out the character,
     // the subject went for the full 10 days plus a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
     // life like that--but since there's much less fluid reserve than food reserve, simply using the same numbers won't work.
-    
+
     if((int(g->turn) % 350 == 0) && p.has_trait("HIBERNATE") && (p.hunger < -60) && !(p.thirst >= 80)) {
         int recovery_chance; // Hibernators' metabolism slows down: you heal and recover Fatigue much more slowly
         // Accelerated recovery capped to 2x over 2 hours...well, it was ;-P
@@ -2235,7 +2235,7 @@ void manage_sleep(player& p, disease& dis) {
             p.add_memorial_log(_("Awoke from hibernation."));
         }
     }
-    
+
     //If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.  See above.  No log note for you. :-/
     if((int(g->turn) % 50 == 0) && (!(p.hunger < -60) || (p.thirst >= 80))) {
         int recovery_chance;
@@ -2279,7 +2279,7 @@ void manage_sleep(player& p, disease& dis) {
         p.hunger--;
         p.thirst--;
     }
-    
+
         // Hunger and thirst advance *much* more slowly whilst we hibernate.  (int (g->turn) % 50 would be zero burn.)
         // Very Thirsty catch deliberately NOT applied here, to fend off Dehydration debuffs until the char wakes.
         // This was time-trial'd quite thoroughly, so kindly don't "rebalance" without a good explanation and taking a night

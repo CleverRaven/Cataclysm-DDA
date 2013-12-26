@@ -4,7 +4,7 @@
         "id": [
             "mon_zombie", "mon_zombie_shrieker", "mon_zombie_spitter", "mon_zombie_electric", "mon_zombie_brute",
             "mon_zombie_hulk", "mon_zombie_fungus", "mon_boomer", "mon_boomer_fungus", "mon_zombie_necro",
-            "mon_zombie_grabber", "mon_zombie_master", "mon_zombie_hunter", "mon_zombie_fat", "mon_zombie_tough", 
+            "mon_zombie_grabber", "mon_zombie_master", "mon_zombie_hunter", "mon_zombie_fat", "mon_zombie_tough", "mon_dementia", 
 			"mon_zombie_rot", "mon_zombie_crawler"
         ],
         "item_groups": [
@@ -231,6 +231,26 @@
         "id": "mon_zombie_fireman",
         "item_groups": [
             [ "fireman_gear", 1 ]
+        ]
+    },
+	{
+        "type": "monitems",
+        "id": "mon_zombie_survivor",
+        "item_groups": [
+            [ "allguns", 24 ],
+            [ "grenades", 10 ],
+            [ "mil_rifles", 8 ],
+            [ "mil_hw", 1 ],
+            [ "launchers", 1 ],
+            [ "gunxtras", 14 ],
+            [ "stash_food", 40 ],
+            [ "stash_ammo", 26 ],
+            [ "stash_drugs", 28 ],
+            [ "survival_tools", 18 ],
+            [ "mil_food", 22 ],
+            [ "mil_food_nodrugs", 34 ],
+            [ "shelter", 8 ],
+            [ "mil_surplus", 6 ]
         ]
     },
     {

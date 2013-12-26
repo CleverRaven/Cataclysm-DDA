@@ -19,10 +19,13 @@ not_json = {
 ignorable = {
     "colordef",
     "item_group",
+    "mapgen",
     "monstergroup",
+    "monitems",
     "recipe_category",
+    "recipe_subcategory",
     "recipe",
-    "SPECIES",
+    "SPECIES"
 }
 
 # these objects can have their strings automatically extracted.
@@ -47,6 +50,7 @@ automatically_convertible = {
     "GUNMOD",
     "GUN",
     "hint",
+    "ITEM_CATEGORY",
     "keybinding",
     "lab_note",
     "MONSTER",
@@ -95,10 +99,21 @@ def extract_martial_art(item):
         writestr(outfile, buff["name"])
         writestr(outfile, buff["description"])
 
+def extract_effect_type(item):
+    outfile = get_outfile("effects")
+    # writestr will not write string if it is None.
+    for f in [ "name", "desc", "apply_message"]:
+        found = item.get(f, None)
+        writestr(outfile, found)
+    for m in [ "remove_memorial_log", "apply_memorial_log"]:
+        found = item.get(m, None)
+        writestr(outfile, found, comment="Memorial file message")
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "material": extract_material,
     "martial_art": extract_martial_art,
+    "effect_type": extract_effect_type
 }
 
 ##
@@ -139,11 +154,14 @@ def gettextify(string, context=None):
     else:
         return "_(%r)\n" % string
 
-def writestr(filename, string, context=None, format_strings=False):
+def writestr(filename, string, context=None, format_strings=False, comment=None):
     "Wrap the string and write to the file."
     # no empty strings
     if not string: return
     with open(filename,'a') as fs:
+        # Append developers comment
+        if comment:
+            tlcomment(fs, comment)
         # most of the strings from json don't use string formatting.
         # we must tell xgettext this explicitly
         if not format_strings and "%" in string:
@@ -152,9 +170,10 @@ def writestr(filename, string, context=None, format_strings=False):
 
 def tlcomment(fs, string):
     "Write the string to the file as a comment for translators."
-    fs.write("#~ ")
-    fs.write(string)
-    fs.write("\n")
+    if len(string) > 0:
+        fs.write("#~ ")
+        fs.write(string)
+        fs.write("\n")
 
 def get_outfile(json_object_type):
     return os.path.join(to_dir, json_object_type + "_from_json.py")

@@ -60,6 +60,9 @@
     <ClInclude Include="..\src\char_validity_check.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\character.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -75,7 +78,16 @@
     <ClInclude Include="..\src\crafting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\creature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\creature_tracker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\cursesdef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\damage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\debug.h">
@@ -88,6 +100,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\editmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\effect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\enums.h">
@@ -232,6 +247,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\name.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\nonplayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\npc.h">
@@ -379,6 +397,9 @@
     <ClCompile Include="..\src\char_validity_check.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\color.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -391,7 +412,16 @@
     <ClCompile Include="..\src\crafting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\creature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\creature_tracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\cursesport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\damage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\debug.cpp">
@@ -404,6 +434,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\editmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\effect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\event.cpp">
@@ -575,6 +608,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\newcharacter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nonplayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\npc.cpp">

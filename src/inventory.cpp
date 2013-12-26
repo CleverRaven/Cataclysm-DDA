@@ -597,7 +597,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
 
      if (kpart >= 0) {
        item hotplate(itypes["hotplate"], 0);
-       hotplate.charges = veh->fuel_left("battery", true);
+       hotplate.charges = veh->fuel_left("battery");
        add_item(hotplate);
 
        item water(itypes["water_clean"], 0);
@@ -611,38 +611,38 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
        }
      if (weldpart >= 0) {
        item welder(itypes["welder"], 0);
-       welder.charges = veh->fuel_left("battery", true);
+       welder.charges = veh->fuel_left("battery");
        add_item(welder);
 
        item soldering_iron(itypes["soldering_iron"], 0);
-       soldering_iron.charges = veh->fuel_left("battery", true);
+       soldering_iron.charges = veh->fuel_left("battery");
        add_item(soldering_iron);
        }
      if (craftpart >= 0) {
        item vac_sealer(itypes["vac_sealer"], 0);
-       vac_sealer.charges = veh->fuel_left("battery", true);
+       vac_sealer.charges = veh->fuel_left("battery");
        add_item(vac_sealer);
 
        item dehydrator(itypes["dehydrator"], 0);
-       dehydrator.charges = veh->fuel_left("battery", true);
+       dehydrator.charges = veh->fuel_left("battery");
        add_item(dehydrator);
 
        item press(itypes["press"], 0);
-       press.charges = veh->fuel_left("battery", true);
+       press.charges = veh->fuel_left("battery");
        add_item(press);
        }
      if (forgepart >= 0) {
        item forge(itypes["forge"], 0);
-       forge.charges = veh->fuel_left("battery", true);
+       forge.charges = veh->fuel_left("battery");
        add_item(forge);
        }
      if (chempart >= 0) {
        item hotplate(itypes["hotplate"], 0);
-       hotplate.charges = veh->fuel_left("battery", true);
+       hotplate.charges = veh->fuel_left("battery");
        add_item(hotplate);
 
        item chemistry_set(itypes["chemistry_set"], 0);
-       chemistry_set.charges = veh->fuel_left("battery", true);
+       chemistry_set.charges = veh->fuel_left("battery");
        add_item(chemistry_set);
        }
      }
@@ -1377,44 +1377,16 @@ bool inventory::has_artifact_with(art_effect_passive effect) const
 
 bool inventory::has_liquid(itype_id type) const
 {
+    // has_capacity_for_liquid needs an item, not an item type
+    const item liquid(itypes[type], g->turn);
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         const item& it = iter->front();
         if (it.is_container() && !it.contents.empty())
         {
-            if (it.contents[0].type->id == type)
+            if (has_capacity_for_liquid(it, liquid))
             {
-                // liquid matches
-                it_container* container = dynamic_cast<it_container*>(it.type);
-                int holding_container_charges;
-
-                if (it.contents[0].type->is_food())
-                {
-                    it_comest* tmp_comest = dynamic_cast<it_comest*>(it.contents[0].type);
-
-                    if (tmp_comest->add == ADD_ALCOHOL) // 1 contains = 20 alcohol charges
-                    {
-                        holding_container_charges = container->contains * 20;
-                    }
-                    else
-                    {
-                        holding_container_charges = container->contains;
-                    }
-                }
-                else if (it.contents[0].type->is_ammo())
-                {
-                    // gasoline?
-                    holding_container_charges = container->contains * 200;
-                }
-                else
-                {
-                    holding_container_charges = container->contains;
-                }
-
-                if (it.contents[0].charges < holding_container_charges)
-                {
-                    return true;
-                }
+                return true;
             }
         }
     }

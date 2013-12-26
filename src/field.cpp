@@ -379,7 +379,7 @@ bool map::process_fields_in_submap(int gridn)
                                 // cook off ammo instead of just burning it.
                                 for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
                                     //Blow up with half the ammos damage in force, for each bullet.
-                                    g->explosion(x, y, ammo_type->damage / 2, true, false);
+                                    g->explosion(x, y, ammo_type->damage / 2, true, false, false);
                                 }
                                 it->charges -= rounds_exploded; //Get rid of the spent ammo.
                                 if(it->charges == 0) {
@@ -1660,10 +1660,15 @@ std::map<field_id, field_entry*>::iterator field::removeField(const field_id fie
         delete tmp;
         field_list.erase(it);
         it = next;
-        if(!field_list.empty()){
-            draw_symbol = field_list.begin()->second->getFieldType();
+        if (field_list.empty()) {
+            draw_symbol = fd_null;
         } else {
             draw_symbol = fd_null;
+            for(std::map<field_id, field_entry*>::iterator it2 = field_list.begin(); it2 != field_list.end(); ++it2) {
+                if (fieldlist[it2->first].priority >= fieldlist[draw_symbol].priority) {
+                    draw_symbol = it2->first;
+                }
+            }
         }
     };
     return it;

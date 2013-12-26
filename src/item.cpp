@@ -365,7 +365,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
  if( !is_null() )
  {
   dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
-  dump->push_back(iteminfo("BASE", _("   Weight: "), "", g->u.convert_weight(weight()), false, "", true, true));
+  dump->push_back(iteminfo("BASE", _("   Weight: "), string_format(_("<num> %s"),
+                           OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? "lbs" : "kg"),
+                           g->u.convert_weight(weight()), false, "", true, true));
   dump->push_back(iteminfo("BASE", _("Bash: "), "", damage_bash(), true, "", false));
   if (has_flag("SPEAR")) {
     dump->push_back(iteminfo("BASE", _(" Pierce: "), "", damage_cut(), true, "", false));
@@ -378,6 +380,14 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   }
   dump->push_back(iteminfo("BASE", _(" To-hit bonus: "), ((type->m_to_hit > 0) ? "+" : ""), type->m_to_hit, true, ""));
   dump->push_back(iteminfo("BASE", _("Moves per attack: "), "", attack_time(), true, "", true, true));
+
+  std::string material_string = get_material(1);
+  if (material_string != "null") {
+    if (get_material(2) != "null")
+      material_string += ", " + get_material(2);
+    dump->push_back(iteminfo("BASE", _("Material: ") + material_string));
+  }
+  
   if ( debug == true ) {
     if( g != NULL ) {
       dump->push_back(iteminfo("BASE", _("age: "), "",  (int(g->turn) - bday) / (10 * 60), true, "", true, true));
@@ -736,6 +746,14 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has been modified to use a rechargeable power cell and is not compatible with standard batteries.")));
+    }
+    if (is_food() && has_flag("HIDDEN_POISON") && g->u.skillLevel("survival").level() >= 3) {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("On closer inspection, this appears to be poisonous.")));
+    }
+    if (is_food() && has_flag("HIDDEN_HALLU") && g->u.skillLevel("survival").level() >= 5) {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("On closer inspection, this appears to be hallucinogenic.")));
     }
     std::map<std::string, std::string>::const_iterator item_note = item_vars.find("item_note");
     std::map<std::string, std::string>::const_iterator item_note_type = item_vars.find("item_note_type");

@@ -34,6 +34,7 @@ enum vehicle_controls {
  release_control,
  control_cancel,
  convert_vehicle,
+ toggle_reactor,
  toggle_engine,
  toggle_fridge,
  toggle_recharger
@@ -48,11 +49,11 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     last_turn = 0;
     of_turn_carry = 0;
     turret_mode = 0;
-    lights_power = 0;
-    overhead_power = 0;
-    fridge_power = 0;
-    recharger_power = 0;
-    tracking_power = 0;
+    lights_epower = 0;
+    overhead_epower = 0;
+    fridge_epower = 0;
+    recharger_epower = 0;
+    tracking_epower = 0;
     cruise_velocity = 0;
     skidding = false;
     cruise_on = true;
@@ -62,6 +63,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     fridge_on = false;
     recharger_on = false;
     insides_dirty = true;
+    reactor_on = false;
     engine_on = false;
     has_pedals = false;
     parts_dirty = true;
@@ -106,6 +108,7 @@ void vehicle::load (std::ifstream &stin)
     } else {
         load_legacy(stin);
     }
+    refresh(); // part index lists are lost on save??
 }
 
 /** Checks all parts to see if frames are missing (as they might be when
@@ -215,6 +218,15 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             fridge_on = true;
         }
 
+    }
+
+    // Reactor should always start out activated if present
+    std::vector<int> fuel_tanks = all_parts_with_feature(VPFLAG_FUEL_TANK);
+    for(int p = 0; p < fuel_tanks.size(); p++) {
+        if(part_info(fuel_tanks[p]).fuel_type == fuel_type_plutonium) {
+            reactor_on = true;
+            break;
+        }
     }
 
     for (int p = 0; p < parts.size(); p++)
@@ -346,6 +358,7 @@ void vehicle::use_controls()
     bool has_horn = false;
     bool has_turrets = false;
     bool has_tracker = false;
+    bool has_reactor = false;
     bool has_engine = false;
     bool has_fridge = false;
     bool has_recharger = false;
@@ -367,6 +380,10 @@ void vehicle::use_controls()
         }
         else if (part_flag(p, "TRACK")) {
             has_tracker = true;
+        }
+        else if (part_flag(p, VPFLAG_FUEL_TANK) &&
+                 part_info(p).fuel_type == fuel_type_plutonium) {
+            has_reactor = true;
         }
         else if (part_flag(p, "ENGINE")) {
             has_engine = true;
@@ -437,6 +454,14 @@ void vehicle::use_controls()
     if( !g->u.controlling_vehicle && tags.count("convertible") ) {
         options_choice.push_back(convert_vehicle);
         options_message.push_back(uimenu_entry(_("Fold bicycle"), 'f'));
+        current++;
+    }
+
+    // Turn the reactor on/off
+    if (has_reactor) {
+        options_choice.push_back(toggle_reactor);
+        options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
+                                               _("Turn on reactor"), 'm'));
         current++;
     }
 
@@ -526,6 +551,16 @@ void vehicle::use_controls()
             g->add_msg(_("The recharger won't turn on!"));
         }
         break;
+    case toggle_reactor:
+        if(!reactor_on || fuel_left(fuel_type_plutonium)) {
+            reactor_on = !reactor_on;
+            g->add_msg((reactor_on) ? _("Reactor turned on") :
+                       _("Reactor turned off"));
+        }
+        else {
+            g->add_msg(_("The reactor won't turn on!"));
+        }
+        break;
     case toggle_engine:
         if (g->u.controlling_vehicle) {
             if (engine_on) {
@@ -550,9 +585,7 @@ void vehicle::use_controls()
               }
           }
           else {
-            engine_on = true;
-            // TODO: Make chance of success based on engine condition.
-            g->add_msg(_("You turn the engine on."));
+              start_engine();
           }
         }
         break;
@@ -609,6 +642,39 @@ void vehicle::use_controls()
     }
 }
 
+void vehicle::start_engine()
+{
+    // TODO: Make chance of success based on engine condition.
+    for(int p = 0; p < engines.size(); p++) {
+        if(parts[engines[p]].hp > 0) {
+            if(part_info(engines[p]).fuel_type == fuel_type_gasoline) {
+                int engine_power = part_power(engines[p]);
+                if(engine_power < 50) {
+                    // Small engines can be pull-started
+                    engine_on = true;
+                }
+                else {
+                    // Starter motor battery draw proportional to engine power
+                    if(!discharge_battery(engine_power / 10)) {
+                        engine_on = true;
+                    }
+                }
+            }
+            else {
+                // Electric & plasma engines
+                engine_on = true;
+            }
+        }
+    }
+
+    if(engine_on == true) {
+        g->add_msg(_("The %s's engine starts up."), name.c_str());
+    }
+    else {
+        g->add_msg (_("The %s's engine fails to start."), name.c_str());
+    }
+}
+
 void vehicle::honk_horn()
 {
     for(int h = 0; h < horns.size(); h++) {
@@ -637,11 +703,11 @@ vpart_info& vehicle::part_info (int index)
     }
 }
 
-// engines & solar panels all have power.
-// engines consume, whilst panels provide.
+// engines & alternators all have power.
+// engines provide, whilst alternators consume.
 int vehicle::part_power (int index){
    if (!part_flag(index, VPFLAG_ENGINE) &&
-       !part_flag(index, VPFLAG_SOLAR_PANEL)) {
+       !part_flag(index, VPFLAG_ALTERNATOR)) {
       return 0; //not an engine.
    }
    if(parts[index].hp <= 0) {
@@ -654,6 +720,38 @@ int vehicle::part_power (int index){
    {
       return part_info(index).power;
    }
+}
+
+// alternators, solar panels, reactors, and accessories all have epower.
+// alternators, solar panels, and reactors provide, whilst accessories consume.
+int vehicle::part_epower (int index) {
+    if(parts[index].hp <= 0) {
+        return 0; //broken.
+    }
+    else {
+        return part_info(index).epower;
+    }
+}
+
+int vehicle::epower_to_power (int epower) {
+    // Convert epower units (watts) to power units
+    // Used primarily for calculating battery charge/discharge
+    // TODO: convert batteries to use energy units based on watts (watt-ticks?)
+    const int conversion_factor = 373; // 373 epower == 373 watts == 1 power == 0.5 HP
+    int power = epower / conversion_factor;
+    // epower remainder results in chance at additional charge/discharge
+    if (x_in_y(abs(epower % conversion_factor), conversion_factor)) {
+        power += epower >= 0 ? 1 : -1;
+    }
+    return power;
+}
+
+int vehicle::power_to_epower (int power) {
+    // Convert power units to epower units (watts)
+    // Used primarily for calculating battery charge/discharge
+    // TODO: convert batteries to use energy units based on watts (watt-ticks?)
+    const int conversion_factor = 373; // 373 epower == 373 watts == 1 power == 0.5 HP
+    return power * conversion_factor;
 }
 
 bool vehicle::has_structural_part(int dx, int dy)
@@ -730,6 +828,21 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         }
     }
 
+    // Alternators must be installed on a gas engine
+    if(vehicle_part_types[id].has_flag(VPFLAG_ALTERNATOR)) {
+        bool anchor_found = false;
+        for(std::vector<int>::const_iterator it = parts_in_square.begin();
+            it != parts_in_square.end(); ++it ) {
+            if(part_info(*it).has_flag(VPFLAG_ENGINE) &&
+               part_info(*it).fuel_type == fuel_type_gasoline) {
+                anchor_found = true;
+            }
+        }
+        if(!anchor_found) {
+            return false;
+        }
+    }
+
     //Seatbelts must be installed on a seat
     if(vehicle_part_types[id].has_flag("SEATBELT")) {
         bool anchor_found = false;
@@ -787,6 +900,11 @@ bool vehicle::can_unmount (int p)
     int dy = parts[p].mount_dy;
 
     std::vector<int> parts_in_square = parts_at_relative(dx, dy, false);
+
+    // Can't remove an engine if there's still an alternator there
+    if(part_flag(p, VPFLAG_ENGINE) && part_with_feature(p, VPFLAG_ALTERNATOR) >= 0) {
+        return false;
+    }
 
     //Can't remove a seat if there's still a seatbelt there
     if(part_flag(p, "BELTABLE") && part_with_feature(p, "SEATBELT") >= 0) {
@@ -1638,14 +1756,12 @@ void vehicle::center_of_mass(int &x, int &y)
     y = int(yf + 0.5);
 }
 
-int vehicle::fuel_left (const ammotype & ftype, bool for_engine)
+int vehicle::fuel_left (const ammotype & ftype)
 {
     int fl = 0;
-    for (int p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_FUEL_TANK) &&
-            (ftype == part_info(p).fuel_type ||
-            (for_engine && ftype == fuel_type_battery && part_info(p).fuel_type == fuel_type_plutonium))) {
-            fl += parts[p].amount;
+    for(int p = 0; p < fuel.size(); p++) {
+        if(ftype == part_info(fuel[p]).fuel_type) {
+            fl += parts[fuel[p]].amount;
         }
     }
     return fl;
@@ -1654,9 +1770,9 @@ int vehicle::fuel_left (const ammotype & ftype, bool for_engine)
 int vehicle::fuel_capacity (const ammotype & ftype)
 {
     int cap = 0;
-    for (int p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_FUEL_TANK) && ftype == part_info(p).fuel_type) {
-            cap += part_info(p).size;
+    for(int p = 0; p < fuel.size(); p++) {
+        if(ftype == part_info(fuel[p]).fuel_type) {
+            cap += part_info(fuel[p]).size;
         }
     }
     return cap;
@@ -1707,25 +1823,19 @@ int vehicle::drain (const ammotype & ftype, int amount) {
   return drained;
 }
 
-int vehicle::basic_consumption (const ammotype & ft)
+int vehicle::basic_consumption (const ammotype & ftype)
 {
-    //if (ftype == fuel_type_plutonium)
-    //  ftype = fuel_type_battery;
-    const ammotype & ftype = ( ft == fuel_type_plutonium ? fuel_type_battery : ft );
-
-    int cnt = 0;
     int fcon = 0;
-    for (int p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_ENGINE) &&
-            ftype == part_info(p).fuel_type &&
-            parts[p].hp > 0)
-        {
-            fcon += part_power(p);
-            cnt++;
+    for(int p = 0; p < engines.size(); p++) {
+        if(ftype == part_info(engines[p]).fuel_type && parts[engines[p]].hp > 0) {
+            if(part_info(engines[p]).fuel_type == fuel_type_battery) {
+                // electric engine - use epower instead
+                fcon += abs(epower_to_power(part_epower(engines[p])));
+            }
+            else {
+                fcon += part_power(engines[p]);
+            }
         }
-    }
-    if (fcon < 100 && cnt > 0) {
-        fcon = 100;
     }
     return fcon;
 }
@@ -1740,7 +1850,7 @@ int vehicle::total_power (bool fueled)
     bool player_controlling = player_in_control(&(g->u));
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, VPFLAG_ENGINE) &&
-            (fuel_left (part_info(p).fuel_type, true) || !fueled ||
+            (fuel_left (part_info(p).fuel_type) || !fueled ||
              ((part_info(p).fuel_type == fuel_type_muscle) && player_controlling &&
              part_with_feature(part_under_player, VPFLAG_ENGINE) == p)) &&
             parts[p].hp > 0)
@@ -1748,26 +1858,31 @@ int vehicle::total_power (bool fueled)
             pwr += part_power(p);
             cnt++;
         }
+        else if (part_flag(p, VPFLAG_ALTERNATOR) &&
+                 parts[p].hp > 0)
+        {
+            pwr += part_power(p); // alternators have negative power
+        }
     if (cnt > 1) {
         pwr = pwr * 4 / (4 + cnt -1);
     }
     return pwr;
 }
 
-int vehicle::solar_power ()
+int vehicle::solar_epower ()
 {
-    int pwr = 0;
-    for (int p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_SOLAR_PANEL) && parts[p].hp > 0) {
-            int part_x = global_x() + parts[p].precalc_dx[0];
-            int part_y = global_y() + parts[p].precalc_dy[0];
+    int epower = 0;
+    for(int p = 0; p < solar_panels.size(); p++) {
+        if(parts[solar_panels[p]].hp > 0) {
+            int part_x = global_x() + parts[solar_panels[p]].precalc_dx[0];
+            int part_y = global_y() + parts[solar_panels[p]].precalc_dy[0];
             // Can't use g->in_sunlight() because it factors in vehicle roofs.
             if( !g->m.has_flag_ter_or_furn( TFLAG_INDOORS, part_x, part_y ) ) {
-                pwr += (part_power(p) * g->natural_light_level()) / DAYLIGHT_LEVEL;
+                epower += (part_epower(solar_panels[p]) * g->natural_light_level()) / DAYLIGHT_LEVEL;
             }
         }
     }
-    return pwr;
+    return epower;
 }
 
 int vehicle::acceleration (bool fueled)
@@ -1786,7 +1901,7 @@ int vehicle::safe_velocity (bool fueled)
     int cnt = 0;
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, VPFLAG_ENGINE) &&
-            (fuel_left (part_info(p).fuel_type, true) || !fueled ||
+            (fuel_left (part_info(p).fuel_type) || !fueled ||
              part_info(p).fuel_type == fuel_type_muscle) &&
             parts[p].hp > 0)
         {
@@ -1799,6 +1914,11 @@ int vehicle::safe_velocity (bool fueled)
 
             pwrs += part_power(p) * m2c / 100;
             cnt++;
+        }
+        else if (part_flag(p, VPFLAG_ALTERNATOR) &&
+                 parts[p].hp > 0) // factor in m2c?
+        {
+            pwrs += part_power(p); // alternator parts have negative power
         }
     if (cnt > 0) {
         pwrs = pwrs * 4 / (4 + cnt -1);
@@ -1819,7 +1939,7 @@ int vehicle::noise (bool fueled, bool gas_only)
 
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, "ENGINE") &&
-            (fuel_left (part_info(p).fuel_type, true) || !fueled ||
+            (fuel_left (part_info(p).fuel_type) || !fueled ||
              part_info(p).fuel_type == fuel_type_muscle) &&
             parts[p].hp > 0)
         {
@@ -1985,78 +2105,189 @@ bool vehicle::valid_wheel_config ()
     return true;
 }
 
-void vehicle::consume_fuel ()
+void vehicle::consume_fuel (float rate = 1.0)
 {
     ammotype ftypes[3] = { fuel_type_gasoline, fuel_type_battery, fuel_type_plasma };
     for (int ft = 0; ft < 3; ft++)
     {
+        int base_amnt = basic_consumption(ftypes[ft]);
+        if (!base_amnt)
+            continue; // no consumption for engines of that type
         float st = strain() * 10;
-        int amnt = (int) (basic_consumption (ftypes[ft]) * (1.0 + st * st) /
-                          (ftypes[ft] == fuel_type_battery ? 1 : 100));
-        if (!amnt)
-            continue; // no engines of that type
-        bool elec = ftypes[ft] == fuel_type_battery;
-        bool found = false;
-        for (int j = 0; j < (elec? 2 : 1); j++)
-        {
-            for (int p = 0; p < parts.size(); p++)
-                // if this is a fuel tank
-                // and its type is same we're looking for now
-                // and for electric engines:
-                //  - if j is 0, then we're looking for plutonium (it's first)
-                //  - otherwise we're looking for batteries (second)
-                if (part_flag(p, "FUEL_TANK") &&
-                    (part_info(p).fuel_type == (elec? (j ? fuel_type_battery : fuel_type_plutonium) : ftypes[ft])) &&
-                    parts[p].amount > 0)
-                {
-                    parts[p].amount -= amnt / ((elec && !j)?100:1);
-                    if (parts[p].amount < 0)
-                        parts[p].amount = 0;
-                    found = true;
+        int amnt_precise = (int)(base_amnt * (1.0 + st * st) * rate);
+        if (amnt_precise < 1) amnt_precise = 1;
+        int amnt;
+        if (ftypes[ft] == fuel_type_battery) {
+            amnt = amnt_precise;
+        }
+        else {
+            // engine not electric - divide consumption by 100
+            amnt = amnt_precise / 100;
+            // consumption remainder results in chance at additional fuel consumption
+            if (x_in_y(amnt_precise % 100, 100)) {
+                amnt += 1;
+            }
+        }
+        for (int p = 0; p < fuel.size(); p++) {
+            if(part_info(fuel[p]).fuel_type == ftypes[ft]) {
+                if (parts[fuel[p]].amount >= amnt) {
+                    // enough fuel located in this part
+                    parts[fuel[p]].amount -= amnt;
                     break;
                 }
-            if (found)
-                break;
+                else {
+                    amnt -= parts[fuel[p]].amount;
+                    parts[fuel[p]].amount = 0;
+                }
+            }
         }
     }
 }
 
 void vehicle::power_parts ()//TODO: more categories of powered part!
 {
-    int power=0;
-    if(one_in(6)) {   // Use power at the same rate the engine makes power.
-      if(lights_on)power += lights_power;
-      if(overhead_lights_on)power += overhead_power;
-      if(tracking_on)power += tracking_power;
-      if(fridge_on) power += fridge_power;
-      if(recharger_on) power += recharger_power;
-      if(power <= 0)return;
-      for(int f=0;f<fuel.size() && power > 0;f++)
-      {
-          if(part_info(fuel[f]).fuel_type == fuel_type_battery)
-          {
-              if(parts[fuel[f]].amount < power)
-              {
-                  power -= parts[fuel[f]].amount;
-                  parts[fuel[f]].amount = 0;
-              }
-              else
-              {
-                  parts[fuel[f]].amount -= power;
-                  power = 0;
-              }
-          }
-      }
+    int epower = 0;
+
+    // Consumers of epower
+    int gas_epower = 0;
+    if(engine_on) {
+        // Gas engines require epower to run for ignition system, ECU, etc.
+        for(int p = 0; p < engines.size(); p++) {
+            if(parts[engines[p]].hp > 0 &&
+               part_info(engines[p]).fuel_type == fuel_type_gasoline) {
+                gas_epower += part_info(engines[p]).epower;
+            }
+        }
+        epower += gas_epower;
     }
-    if(power)
-    {
+
+    if(lights_on) epower += lights_epower;
+    if(overhead_lights_on) epower += overhead_epower;
+    if(tracking_on) epower += tracking_epower;
+    if(fridge_on) epower += fridge_epower;
+    if(recharger_on) epower += recharger_epower;
+
+    // Producers of epower
+    epower += solar_epower();
+
+    if(engine_on) {
+        // Plasma engines generate epower if turned on
+        int plasma_epower = 0;
+        for(int p = 0; p < engines.size(); p++) {
+            if(parts[engines[p]].hp > 0 &&
+               part_info(engines[p]).fuel_type == fuel_type_plasma) {
+                plasma_epower += part_info(engines[p]).epower;
+            }
+        }
+        epower += plasma_epower;
+    }
+
+    int battery_discharge = power_to_epower(fuel_capacity(fuel_type_battery) - fuel_left(fuel_type_battery));
+    if(engine_on && (battery_discharge - epower > 0)) {
+        // Not enough surplus epower to fully charge battery
+        // Produce additional epower from any alternators
+        int alternators_epower = 0;
+        int alternators_power = 0;
+        for(int p = 0; p < alternators.size(); p++) {
+            if(parts[alternators[p]].hp > 0) {
+                alternators_epower += part_info(alternators[p]).epower;
+                alternators_power += part_info(alternators[p]).power;
+            }
+        }
+        if(alternators_epower > 0) {
+            int alternator_output;
+            if (battery_discharge - epower > alternators_epower) {
+                alternator_output = alternators_epower;
+            }
+            else {
+                alternator_output = battery_discharge - epower;
+            }
+            alternator_load = (float)alternator_output / (float)alternators_epower *
+                (float)abs(alternators_power);
+            epower += alternator_output;
+        }
+    }
+
+    if(reactor_on && battery_discharge - epower > 0) {
+        // Still not enough surplus epower to fully charge battery
+        // Produce additional epower from any reactors
+        int reactors_epower = 0;
+        int reactors_fuel_epower = 0;
+        for(int p = 0; p < reactors.size(); p++) {
+            if(parts[reactors[p]].hp > 0) {
+                reactors_epower += part_info(reactors[p]).epower;
+                reactors_fuel_epower += power_to_epower(parts[reactors[p]].amount);
+            }
+        }
+        // check if enough fuel for full reactor output
+        if(reactors_fuel_epower < reactors_epower) {
+            // partial reactor output
+            reactors_epower = reactors_fuel_epower;
+        }
+        if(reactors_epower > 0) {
+            int reactors_output;
+            if (battery_discharge - epower > reactors_epower) {
+                reactors_output = reactors_epower;
+            }
+            else {
+                reactors_output = battery_discharge - epower;
+            }
+            // calculate battery-equivalent fuel consumption
+            int battery_consumed = epower_to_power(reactors_output);
+            // 1 plutonium == 100 battery - divide consumption by 100
+            int plutonium_consumed = battery_consumed / 100;
+            // battery remainder results in chance at additional plutonium consumption
+            if (x_in_y(battery_consumed % 100, 100)) {
+                plutonium_consumed += 1;
+            }
+            for(int p = 0; p < reactors.size() && plutonium_consumed > 0; p++) {
+                int avail_plutonium = parts[reactors[p]].amount;
+                if(avail_plutonium < plutonium_consumed) {
+                    plutonium_consumed -= avail_plutonium;
+                    parts[reactors[p]].amount = 0;
+                }
+                else {
+                    parts[reactors[p]].amount -= plutonium_consumed;
+                    plutonium_consumed = 0;
+                }
+            }
+            epower += reactors_output;
+        }
+        else {
+            // all reactors out of fuel or destroyed
+            reactor_on = false;
+            if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
+                g->add_msg(_("The %s's reactor dies!"), name.c_str());
+            }
+        }
+    }
+
+    int battery_deficit = 0;
+    if(epower > 0) {
+        // store epower surplus in battery
+        charge_battery(epower_to_power(epower));
+    }
+    else {
+        // draw epower deficit from battery
+        battery_deficit = discharge_battery(abs(epower_to_power(epower)));
+    }
+
+    if(battery_deficit) {
         lights_on = false;
         tracking_on = false;
         overhead_lights_on = false;
         fridge_on = false;
         recharger_on = false;
-        if(player_in_control(&g->u) || g->u_see(global_x(), global_y()) )
+        if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
             g->add_msg("The %s's battery dies!",name.c_str());
+        }
+        if(gas_epower < 0) {
+            // Not enough epower to run gas engine ignition system
+            engine_on = false;
+            if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
+                g->add_msg("The %s's engine dies!",name.c_str());
+            }
+        }
     }
 }
 
@@ -2081,50 +2312,73 @@ void vehicle::charge_battery (int amount)
     }
 }
 
+int vehicle::discharge_battery (int amount)
+{
+    int avail_charge;
+
+    for(int f = 0; f < fuel.size() && amount > 0; f++) {
+        if(part_info(fuel[f]).fuel_type == fuel_type_battery) {
+            avail_charge = parts[fuel[f]].amount;
+            if(avail_charge < amount) {
+                amount -= avail_charge;
+                parts[fuel[f]].amount = 0;
+            }
+            else {
+                parts[fuel[f]].amount -= amount;
+                amount = 0;
+            }
+        }
+    }
+
+    return amount; // non-zero if discharge amount exceeds available battery charge
+}
 
 void vehicle::idle() {
-  if (engine_on && total_power () > 0 && !pedals()) {
-    if(one_in(6)) {
-        int strn = (int) (strain () * strain() * 100);
+    int engines_power = 0;
+    float idle_rate;
 
-        for (int p = 0; p < parts.size(); p++)
-        {
-          if (part_flag(p, VPFLAG_ENGINE))
-          {
-              //Charge the battery if the engine has an alternator
-              if(part_flag(p,VPFLAG_ALTERNATOR)) {
-                  charge_battery(part_info(p).power);
-              }
-              if(fuel_left(part_info(p).fuel_type, true) && parts[p].hp > 0 && rng (1, 100) < strn)
-              {
-                  int dmg = rng (strn * 2, strn * 4);
-                  damage_direct (p, dmg, 0);
-                  if(one_in(2))
-                   g->add_msg(_("Your engine emits a high pitched whine."));
-                  else
-                   g->add_msg(_("Your engine emits a loud grinding sound."));
-              }
-          }
-      }
-      consume_fuel();
-      int sound = noise()/10 + 2;
-      g->sound(global_x(), global_y(), sound, "hummm.");
-
-      if (one_in(10)) {
-        int smk = noise (true, true); // Only generate smoke for gas cars.
-        if (smk > 0 && !pedals()) {
-          int rdx = rng(0, 2);
-          int rdy = rng(0, 2);
-          g->m.add_field(global_x() + rdx, global_y() + rdy, fd_smoke, (sound / 50) + 1);
+    if (engine_on && total_power() > 0 && !pedals()) {
+        int strn = (int)(strain() * strain() * 100);
+        for (int p = 0; p < parts.size(); p++) {
+            if (part_flag(p, VPFLAG_ENGINE)) {
+                if (fuel_left(part_info(p).fuel_type) && parts[p].hp > 0) {
+                    engines_power += part_info(p).power;
+                    if (one_in(6) && rng(1, 100) < strn) {
+                        int dmg = rng(strn * 2, strn * 4);
+                        damage_direct(p, dmg, 0);
+                        if(one_in(2))
+                            g->add_msg(_("Your engine emits a high pitched whine."));
+                        else
+                            g->add_msg(_("Your engine emits a loud grinding sound."));
+                    }
+                }
+            }
         }
-      }
+
+        idle_rate = (float)alternator_load / (float)engines_power;
+        if (idle_rate < 0.01) idle_rate = 0.01; // minimum idle is 1% of full throttle
+        consume_fuel(idle_rate);
+
+        if (one_in(6)) {
+            int sound = noise() / 10 + 2;
+            g->sound(global_x(), global_y(), sound, "hummm.");
+
+            if (one_in(10)) {
+                int smk = noise(true, true); // Only generate smoke for gas cars.
+                if (smk > 0 && !pedals()) {
+                    int rdx = rng(0, 2);
+                    int rdy = rng(0, 2);
+                    g->m.add_field(global_x() + rdx, global_y() + rdy, fd_smoke, (sound / 50) + 1);
+                }
+            }
+        }
     }
-  }
-  else {
-    if (g->u_see(global_x(), global_y()) && engine_on)
-        g->add_msg(_("The engine dies!"));
-    engine_on = false;
-  }
+    else {
+        if (g->u_see(global_x(), global_y()) && engine_on) {
+            g->add_msg(_("The %s's engine dies!"), name.c_str());
+        }
+        engine_on = false;
+    }
 }
 
 void vehicle::thrust (int thd) {
@@ -2186,11 +2440,7 @@ void vehicle::thrust (int thd) {
         {
             if (part_flag(p, VPFLAG_ENGINE))
             {
-                //Charge the battery if the engine has an alternator
-                if(part_flag(p, VPFLAG_ALTERNATOR)) {
-                    charge_battery(part_info(p).power);
-                }
-                if(fuel_left(part_info(p).fuel_type, true) && parts[p].hp > 0 && rng (1, 100) < strn)
+                if(fuel_left(part_info(p).fuel_type) && parts[p].hp > 0 && rng (1, 100) < strn)
                 {
                     int dmg = rng (strn * 2, strn * 4);
                     damage_direct (p, dmg, 0);
@@ -2406,16 +2656,18 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         mass2 = 50;
         e=0.30;
         part_dens = 20;
-    } else if (g->m.move_cost_ter_furn(x, y) == 0 && g->m.is_destructable_ter_furn(x, y)) {
-        collision_type = veh_coll_destructable; // destructible (wall)
-        mass2 = 200;
-        e=0.30;
-        part_dens = 60;
-    } else if (g->m.move_cost_ter_furn(x, y) == 0 && !g->m.has_flag_ter_or_furn("SWIMMABLE", x, y)) {
-        collision_type = veh_coll_other; // not destructible
-        mass2 = 1000;
-        e=0.10;
-        part_dens = 80;
+    } else if (g->m.move_cost_ter_furn(x, y) == 0) {
+        if(g->m.is_destructable_ter_furn(x, y)) {
+            collision_type = veh_coll_destructable; // destructible (wall)
+            mass2 = 200;
+            e=0.30;
+            part_dens = 60;
+        } else {
+            collision_type = veh_coll_other; // not destructible
+            mass2 = 1000;
+            e=0.10;
+            part_dens = 80;
+        }
     }
 
     if (collision_type == veh_coll_nothing) {  // hit nothing
@@ -2874,7 +3126,6 @@ void vehicle::place_spawn_items()
 
 void vehicle::gain_moves()
 {
-    static const std::string veh_str_battery(fuel_type_battery);
     if (velocity) {
         of_turn = 1 + of_turn_carry;
     } else {
@@ -2891,8 +3142,6 @@ void vehicle::gain_moves()
             thrust (cruise_velocity > velocity? 1 : -1);
         }
     }
-
-    refill (veh_str_battery, solar_power());
 
     // check for smoking parts
     for (int p = 0; p < parts.size(); p++)
@@ -2942,28 +3191,38 @@ void vehicle::find_horns ()
 void vehicle::find_power ()
 {
     lights.clear();
-    lights_power = 0;
-    overhead_power = 0;
-    tracking_power = 0;
-    fridge_power = 0;
-    recharger_power = 0;
+    lights_epower = 0;
+    overhead_epower = 0;
+    tracking_epower = 0;
+    fridge_epower = 0;
+    recharger_epower = 0;
     for (int p = 0; p < parts.size(); p++) {
         const vpart_info& vpi = part_info(p);
         if (vpi.has_flag(VPFLAG_LIGHT) || vpi.has_flag(VPFLAG_CONE_LIGHT)) {
             lights.push_back(p);
-            lights_power += vpi.power;
+            lights_epower += vpi.epower;
         }
         if (vpi.has_flag(VPFLAG_CIRCLE_LIGHT)) {
-            overhead_power += vpi.power;
+            overhead_epower += vpi.epower;
         }
         if (vpi.has_flag(VPFLAG_TRACK)) {
-            tracking_power += vpi.power;
+            tracking_epower += vpi.epower;
         }
         if (vpi.has_flag(VPFLAG_FRIDGE)) {
-            fridge_power += vpi.power;
+            fridge_epower += vpi.epower;
         }
         if (vpi.has_flag(VPFLAG_RECHARGE)) {
-            recharger_power += vpi.power;
+            recharger_epower += vpi.epower;
+        }
+    }
+}
+
+void vehicle::find_alternators ()
+{
+    alternators.clear();
+    for(int p = 0; p < parts.size(); p++) {
+        if(part_flag(p, VPFLAG_ALTERNATOR)) {
+            alternators.push_back(p);
         }
     }
 }
@@ -2974,6 +3233,37 @@ void vehicle::find_fuel_tanks ()
     for (int p = 0; p < parts.size(); p++) {
         if(part_flag( p,VPFLAG_FUEL_TANK )) {
             fuel.push_back(p);
+        }
+    }
+}
+
+void vehicle::find_engines ()
+{
+    engines.clear();
+    for(int p = 0; p < parts.size(); p++) {
+        if(part_flag(p, VPFLAG_ENGINE)) {
+            engines.push_back(p);
+        }
+    }
+}
+
+void vehicle::find_reactors ()
+{
+    reactors.clear();
+    for(int p = 0; p < parts.size(); p++) {
+        if(part_flag(p, VPFLAG_FUEL_TANK) &&
+           part_info(p).fuel_type == fuel_type_plutonium) {
+            reactors.push_back(p);
+        }
+    }
+}
+
+void vehicle::find_solar_panels ()
+{
+    solar_panels.clear();
+    for(int p = 0; p < parts.size(); p++) {
+        if(part_flag(p, VPFLAG_SOLAR_PANEL)) {
+            solar_panels.push_back(p);
         }
     }
 }
@@ -3038,7 +3328,11 @@ void vehicle::refresh()
 {
     find_horns ();
     find_power ();
+    find_alternators ();
     find_fuel_tanks ();
+    find_engines ();
+    find_reactors ();
+    find_solar_panels ();
     find_parts ();
     find_exhaust ();
     precalc_mounts (0, face.dir());
@@ -3440,6 +3734,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
         g->add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }
     npc tmp;
+    tmp.set_fake( true );
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
     tmp.skillLevel(gun.skill_used).level(8);
     tmp.skillLevel("gun").level(4);

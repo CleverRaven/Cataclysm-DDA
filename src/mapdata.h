@@ -141,6 +141,7 @@ enum ter_bitflags {
     TFLAG_DIGGABLE,
     TFLAG_ROUGH,
     TFLAG_WALL,
+    TFLAG_DEEP_WATER
 };
 extern std::map<std::string, ter_bitflags> ter_bitflags_map;
 void init_ter_bitflags_map();

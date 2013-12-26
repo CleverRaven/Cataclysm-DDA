@@ -1361,7 +1361,7 @@ void mattack::smg(monster *z)
      g->add_msg(_("The %s fires its smg!"), z->name().c_str());
     npc tmp;
     tmp.name = _("The ") + z->name();
-
+    tmp.set_fake(true);
     tmp.skillLevel("smg").level(8);
     tmp.skillLevel("gun").level(4);
 
@@ -1410,7 +1410,7 @@ void mattack::smg(monster *z)
       // Set up a temporary player to fire this gun
       npc tmp;
       tmp.name = _("The ") + z->name();
-
+      tmp.set_fake(true);
       tmp.skillLevel("smg").level(8);
       tmp.skillLevel("gun").level(4);
 
@@ -1500,7 +1500,7 @@ void mattack::laser(monster *z)
        g->add_msg(_("The %s's barrel spins and fires!"), z->name().c_str());
       npc tmp;
       tmp.name = _("The ") + z->name();
-
+      tmp.set_fake(true);
       tmp.skillLevel("rifle").level(8);
       tmp.skillLevel("gun").level(4);
 
@@ -1548,7 +1548,7 @@ void mattack::laser(monster *z)
       // Set up a temporary player to fire this gun
       npc tmp;
       tmp.name = _("The ") + z->name();
-
+      tmp.set_fake(true);
       tmp.skillLevel("rifle").level(8);
       tmp.skillLevel("gun").level(4);
 

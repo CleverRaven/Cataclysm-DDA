@@ -69,6 +69,7 @@ void Item_factory::init(){
     iuse_function_list["VACCINE"] = &iuse::vaccine;
     iuse_function_list["POISON"] = &iuse::poison;
     iuse_function_list["HALLU"] = &iuse::hallu;
+    iuse_function_list["FUN_HALLU"] = &iuse::fun_hallu;
     iuse_function_list["THORAZINE"] = &iuse::thorazine;
     iuse_function_list["PROZAC"] = &iuse::prozac;
     iuse_function_list["SLEEP"] = &iuse::sleep;
