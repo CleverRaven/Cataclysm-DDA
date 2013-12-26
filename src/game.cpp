@@ -3560,7 +3560,6 @@ Current turn: %d; Next spawn %d.\n\
     break;
 
   case 12:
-      // TODO: Give the player martial arts.
       add_msg("Martial arts debug.");
       add_msg("Your eyes blink rapidly as knowledge floods your brain.");
       u.ma_styles.push_back("style_karate");
