@@ -7843,8 +7843,15 @@ s    |c....|c....|c....|\n",
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_dresser && x_in_y(1, 2)) {
                     place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_counter && x_in_y(1, 5)) {
-                    place_items("magazines", 30,  i,  j, i,  j, false, 0);
+                } else if (this->furn(i, j) == f_counter) {
+                    if one_in(5){
+                      place_items("magazines", 30,  i,  j, i,  j, false, 0);
+                    }
+                    if one_in(8){
+                      spawn_item(i, j, "coffee_raw", 2);
+                    }
+                } else if (this->furn(i, j) == f_sink && x_in_y(2, 5)) {
+                    spawn_item(i, j, "towel", 3);
                 }
             }
         }
@@ -7907,8 +7914,15 @@ c...d|t.........t|....c|\n",
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_dresser && x_in_y(1, 2)) {
                     place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_counter && x_in_y(1, 5)) {
-                    place_items("magazines", 30,  i,  j, i,  j, false, 0);
+                } else if (this->furn(i, j) == f_counter) {
+                    if one_in(5){
+                      place_items("magazines", 30,  i,  j, i,  j, false, 0);
+                    }
+                    if one_in(8){
+                      spawn_item(i, j, "coffee_raw", 2);
+                    }
+                } else if (this->furn(i, j) == f_sink && x_in_y(2, 5)) {
+                    spawn_item(i, j, "towel", 3);
                 }
             }
         }
@@ -7971,8 +7985,15 @@ h....|h....|h....|    s \n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_dresser && x_in_y(1, 2)) {
                     place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_counter && x_in_y(1, 5)) {
-                    place_items("magazines", 30,  i,  j, i,  j, false, 0);
+                } else if (this->furn(i, j) == f_counter) {
+                    if one_in(5){
+                      place_items("magazines", 30,  i,  j, i,  j, false, 0);
+                    }
+                    if one_in(8){
+                      spawn_item(i, j, "coffee_raw", 2);
+                    }
+                } else if (this->furn(i, j) == f_sink && x_in_y(2, 5)) {
+                    spawn_item(i, j, "towel", 3);
                 }
             }
         }
