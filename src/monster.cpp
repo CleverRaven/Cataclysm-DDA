@@ -774,13 +774,6 @@ void monster::melee_attack(Creature &target, bool) {
     int hitspread = target.deal_melee_attack(this, hitroll, false, damage, dealt_dam);
     bp_hit = dealt_dam.bp_hit;
 
-    if (is_hallucination()) {
-        if(one_in(7)) {
-            die();
-        }
-        return;
-    }
-
     if (dealt_dam.total_damage() > 0) {
         if (target.is_player()) {
             if (u_see_me)
@@ -808,6 +801,13 @@ void monster::melee_attack(Creature &target, bool) {
                             target.disp_name().c_str());
         }
 
+    }
+
+    if (is_hallucination()) {
+        if(one_in(7)) {
+            die();
+        }
+        return;
     }
 
     // Adjust anger/morale of same-species monsters, if appropriate
