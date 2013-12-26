@@ -400,12 +400,14 @@ bool player::create(character_type type, std::string tempname)
             inv.push_back(tmp);
         }
     }
-    
-    if(g->u.male)
+
+    if(g->u.male) {
         prof_items = g->u.prof->items_male();
-    else
+    }
+    else {
         prof_items = g->u.prof->items_female();
-    
+    }
+
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
         tmp = item(item_controller->find_template(*iter), 0);
