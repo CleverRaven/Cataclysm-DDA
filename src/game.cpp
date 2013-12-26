@@ -3561,7 +3561,29 @@ Current turn: %d; Next spawn %d.\n\
 
   case 12:
       // TODO: Give the player martial arts.
-      add_msg("Martial arts debug disabled.");
+      add_msg("Martial arts debug.");
+      add_msg("Your eyes blink rapidly as knowledge floods your brain.");
+      u.ma_styles.push_back("style_karate");
+      u.ma_styles.push_back("style_judo");
+      u.ma_styles.push_back("style_aikido");
+      u.ma_styles.push_back("style_tai_chi");
+      u.ma_styles.push_back("style_taekwondo");
+      u.ma_styles.push_back("style_krav_maga");
+      u.ma_styles.push_back("style_muay_thai");
+      u.ma_styles.push_back("style_ninjutsu");
+      u.ma_styles.push_back("style_capoeira");
+      u.ma_styles.push_back("style_zui_quan");
+      u.ma_styles.push_back("style_tiger");
+      u.ma_styles.push_back("style_crane");
+      u.ma_styles.push_back("style_leopard");
+      u.ma_styles.push_back("style_snake");
+      u.ma_styles.push_back("style_dragon");
+      u.ma_styles.push_back("style_centipede");
+      u.ma_styles.push_back("style_venom_snake");
+      u.ma_styles.push_back("style_scorpion");
+      u.ma_styles.push_back("style_lizard");
+      u.ma_styles.push_back("style_toad");
+      add_msg("You now know a lot more than just 10 styles of kung fu.");
    break;
 
   case 13: {
