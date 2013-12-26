@@ -65,6 +65,10 @@ void load_recipe(JsonObject &jsobj)
     int difficulty = jsobj.get_int("difficulty");
     int time = jsobj.get_int("time");
     bool autolearn = jsobj.get_bool("autolearn");
+
+    if (OPTIONS["AUTOLEARN_ALL_RECIPES"])
+        autolearn = true;
+
     // optional
     bool reversible = jsobj.get_bool("reversible", false);
     std::string skill_used = jsobj.get_string("skill_used", "");

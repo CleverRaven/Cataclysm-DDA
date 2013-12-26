@@ -388,6 +388,11 @@ void initOptions() {
                                              true
                                             );
 
+    OPTIONS["AUTOLEARN_ALL_RECIPES"] =  cOpt("debug", _("Auto-learn all recipes"),
+                                             _("If true, all recipes will be available automatically when you have the skill to craft them (requires restart)"),
+                                             false
+                                            );
+
     OPTIONS["SAFEMODEPROXIMITY"] =      cOpt("general", _("Safemode proximity distance"),
                                              _("If safemode is enabled, distance to hostiles when safemode should show a warning. 0 = Max player viewdistance."),
                                              0, 50, 0
