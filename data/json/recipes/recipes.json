@@ -6532,7 +6532,7 @@
       [ "teapot", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ],
-      [ "coffeemaker", -1]
+      [ "coffeemaker", -1],
       [ "atomic_coffeepot", -1 ]
     ]
   ],
