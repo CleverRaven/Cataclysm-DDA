@@ -27725,5 +27725,173 @@
       [ "gum", 4 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "battery",
+  "id_suffix": "from GAS 1L",
+  "category": "CC_ELECTRONIC",
+  "difficulty": 0,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+	  [ "1cyl_combustion", -1 ]
+    ],
+    [
+	  [ "motor", -1 ],
+	  [ "motor_large", -1 ]
+    ],
+    [
+	  [ "power_supply", -1 ]
+    ],
+    [
+	  [ "cable", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gasoline", 150 ]
+	]
+  ]
+},{
+  "type" : "recipe",
+  "result": "battery",
+  "id_suffix": "from GAS 2L",
+  "category": "CC_ELECTRONIC",
+  "difficulty": 0,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+	  [ "v2_combustion", -1 ]
+    ],
+    [
+	  [ "motor", -1 ],
+	  [ "motor_large", -1 ]
+    ],
+    [
+	  [ "power_supply", -1 ]
+    ],
+    [
+	  [ "cable", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gasoline", 200 ]
+	]
+  ]
+},{
+  "type" : "recipe",
+  "result": "battery",
+  "id_suffix": "from GAS 4L",
+  "category": "CC_ELECTRONIC",
+  "difficulty": 0,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+	  [ "i4_combustion", -1 ]
+    ],
+    [
+	  [ "motor", -1 ],
+	  [ "motor_large", -1 ]
+    ],
+    [
+	  [ "power_supply", -1 ]
+    ],
+    [
+	  [ "cable", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gasoline", 300 ]
+	]
+  ]
+},{
+  "type" : "recipe",
+  "result": "battery",
+  "id_suffix": "from GAS 6L",
+  "category": "CC_ELECTRONIC",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+	  [ "v6_combustion", -1 ]
+    ],
+    [
+	  [ "motor_large", -1 ]
+    ],
+    [
+	  [ "power_supply", -1 ]
+    ],
+    [
+	  [ "cable", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gasoline", 450 ]
+	]
+  ]
+},{
+  "type" : "recipe",
+  "result": "battery",
+  "id_suffix": "from GAS 8L",
+  "category": "CC_ELECTRONIC",
+  "difficulty": 0,
+  "time": 400,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+	  [ "v8_combustion", -1 ]
+    ],
+    [
+	  [ "motor_large", -1 ]
+    ],
+    [
+	  [ "power_supply", -1 ]
+    ],
+    [
+	  [ "cable", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gasoline", 600 ]
+	]
+  ]
+},{
+  "type" : "recipe",
+  "result": "battery",
+  "id_suffix": "from myself",
+  "category": "CC_ELECTRONIC",
+  "difficulty": 0,
+  "time": 240000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+	  [ "foot_crank", -1 ]
+    ],
+    [
+	  [ "motor", -1 ]
+    ],
+    [
+	  [ "power_supply", -1 ]
+    ],
+    [
+	  [ "cable", -1 ]
+    ]
+  ],
+  "components": [
+  ]
 }
 ]
