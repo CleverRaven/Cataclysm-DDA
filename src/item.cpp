@@ -747,13 +747,31 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has been modified to use a rechargeable power cell and is not compatible with standard batteries.")));
     }
+
     if (is_food() && has_flag("HIDDEN_POISON") && g->u.skillLevel("survival").level() >= 3) {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("On closer inspection, this appears to be poisonous.")));
     }
+
     if (is_food() && has_flag("HIDDEN_HALLU") && g->u.skillLevel("survival").level() >= 5) {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("On closer inspection, this appears to be hallucinogenic.")));
+    }
+
+    if ((is_food() && goes_bad()) || (is_food_container() && contents[0].goes_bad())) {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        if(rotten() || (is_food_container() && contents[0].rotten())) {
+            if(g->u.has_bionic("bio_digestion")) {
+                dump->push_back(iteminfo("DESCRIPTION", _("This food has started to rot, but your bionic digestion can tolerate it.")));
+            } else if(g->u.has_trait("SAPROVORE")) {
+                dump->push_back(iteminfo("DESCRIPTION", _("This food has started to rot, but you can tolerate it.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION", _("This food has started to rot. Eating it would be a very bad idea.")));
+            }
+        } else {
+            dump->push_back(iteminfo("DESCRIPTION", _("This food is perishable, and will eventually rot.")));
+        }
+
     }
     std::map<std::string, std::string>::const_iterator item_note = item_vars.find("item_note");
     std::map<std::string, std::string>::const_iterator item_note_type = item_vars.find("item_note_type");
