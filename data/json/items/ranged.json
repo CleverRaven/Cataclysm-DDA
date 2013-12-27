@@ -744,7 +744,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "name": "sawn-off Saiga 12",
-    "description": "The Saiga-12 is a semi-automatic shotgun is designed on the same Kalashnikov pattern as the AK47 rifle. It reloads with a magazine, rather than one shell at a time like most shotguns. This one has had the barrel cut short, vastly reducing accuracy but making it more portable",
+    "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle. It reloads with a magazine, rather than one shell at a time like most shotguns. This one has had the barrel cut short, vastly reducing accuracy but making it more portable",
     "price": 700,
     "material": ["iron", "wood"],
     "skill": "shotgun",
