@@ -162,6 +162,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool destroyEngine = false;
     bool destroyTires = false;
     bool blood_covered = false;
+    bool blood_inside = false;
 
     std::map<std::string, int> consistent_bignesses;
 
@@ -213,6 +214,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             blood_covered = true;
         }
 
+        if(one_in(8)) {
+            blood_inside = true;
+        }
+
         //Fridge should always start out activated if present
         if(all_parts_with_feature("FRIDGE").size() > 0) {
             fridge_on = true;
@@ -229,6 +234,9 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         }
     }
 
+    bool blood_inside_set = false;
+    int blood_inside_x;
+    int blood_inside_y;
     for (int p = 0; p < parts.size(); p++)
     {
         if (part_flag(p, "VARIABLE_SIZE")){ // generate its bigness attribute.?
@@ -297,7 +305,25 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
            }
          }
 
+         if(blood_inside) {
+        // blood is splattered around (blood_inside_x, blood_inside_y),
+        // coords relative to mount point; the center is always a seat
+            if (blood_inside_set) {
+                int distSq = pow((blood_inside_x - parts[p].mount_dx), 2) + \
+                             pow((blood_inside_y - parts[p].mount_dy), 2);
+                if (distSq <= 1) {
+                    parts[p].blood = rng(200, 400) - distSq*100; 
+                }
+            } else if (part_flag(p, "SEAT")) {
+                // Set the center of the bloody mess inside
+                blood_inside_x = parts[p].mount_dx; 
+                blood_inside_y = parts[p].mount_dy;
+                blood_inside_set = true;
+            }
+         }
+
         }
+
     }
 }
 /**
