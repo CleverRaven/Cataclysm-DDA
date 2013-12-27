@@ -538,18 +538,56 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   } else
    dump->push_back(iteminfo("GUN", _("Burst size: "), "", burst_size()));
 
+  if (!gun->valid_mod_locations.empty()) {
+  temp1.str("\n");
+  dump->push_back(iteminfo("GUN", temp1.str()));
+  temp1.str("");
+  temp1 << "Mod Locations: ";
+  int iternum = 0;
+    for( std::map<std::string,int>::iterator i=gun->valid_mod_locations.begin(); i!=gun->valid_mod_locations.end(); i++) {
+      if (!(iternum % 2) && iternum > 0) {
+        temp1 << "\n  ";
+        dump->push_back(iteminfo("GUN", temp1.str()));
+        temp1.str("");
+      }
+      if (iternum == 0) { temp1 << (*i).first << ": " << (*i).second << " (" << gun->available_mod_locations[(*i).first] << ") "; }
+      else if (!(iternum % 2)) { temp1 << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" << (*i).first << ": " << (*i).second << " (" << gun->available_mod_locations[(*i).first] << ") "; }
+      else { temp1 << (*i).first << ": " << (*i).second << " (" << gun->available_mod_locations[(*i).first] << ") "; }
+     iternum++;
+    }
+  dump->push_back(iteminfo("GUN", temp1.str()));
+  temp1.str("\n");
+  dump->push_back(iteminfo("GUN", temp1.str()));
+  }  
+  
   temp1.str("");
   temp1 << "Mods: ";
   for (int i = 0; i < contents.size(); i++) {
-     if (i == contents.size() - 1) {
-        if (!(i % 2) && i > 0)
-          temp1 << "\n+       ";
-        temp1 << contents[i].tname() + ".";
+    it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[i].type);
+     
+     if (i == 0) {
+        if (!(i % 1) && i > 0) {
+          temp1 << "\n";
+          dump->push_back(iteminfo("GUN", temp1.str()));
+          temp1.str("");
+        }
+        temp1 << "" + contents[i].tname() + " (" + mod->location + ")" + ",";
+     }
+     else if (i == contents.size() - 1) {
+        if (!(i % 1) && i > 0) {
+          temp1 << "\n";
+          dump->push_back(iteminfo("GUN", temp1.str()));
+          temp1.str("");
+        }
+        temp1 << "\t\t\t\t\t\t" << contents[i].tname() << " (" << mod->location << ")" << ".";
      }
      else {
-        if (!(i % 2) && i > 0)
-          temp1 << "\n+       ";
-        temp1 << contents[i].tname() + ", ";
+        if (!(i % 1) && i > 0) {
+          temp1 << "\n";
+          dump->push_back(iteminfo("GUN", temp1.str()));
+          temp1.str("");
+        }
+        temp1 << "\t\t\t\t\t\t" + contents[i].tname() + " (" + mod->location + ")" + ", ";
      }
    }
 
@@ -583,7 +621,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   if (mod->used_on_rifle)
    temp1 << _("Rifles.");
 
+  temp2.str("");
+  temp2 << _("Location: ");
+  temp2 << mod->location;
+   
   dump->push_back(iteminfo("GUNMOD", temp1.str()));
+  dump->push_back(iteminfo("GUNMOD", temp2.str()));
 
  } else if (is_armor()) {
   it_armor* armor = dynamic_cast<it_armor*>(type);
