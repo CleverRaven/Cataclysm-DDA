@@ -21,6 +21,7 @@
 #include "input.h"
 #include "json.h"
 #include <queue>
+#include "mapdata.h"
 #include "mapgen.h"
 #define dbg(x) dout((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -61,6 +62,10 @@ map_extras build_extras(
 
 std::map<std::string,oter_t> otermap;
 std::vector<oter_t> oterlist;
+
+std::map<std::string, oter_t&> obasetermap;
+//const regional_settings default_region_settings;
+std::map<std::string, regional_settings> region_settings_map;
 
 overmap_special overmap_specials[NUM_OMSPECS] = {
 
@@ -198,13 +203,25 @@ double dist(int x1, int y1, int x2, int y2)
  return sqrt(double((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)));
 }
 
+
+oter_id base_oter_id( const std::string & base ) {
+    std::map<std::string, oter_t&>::const_iterator it = obasetermap.find( base );
+    if ( it == obasetermap.end() ) {
+        debugmsg("overmap_terrain: base id '%s' not found.", base.c_str() );
+        return 0;
+    } else {
+        return it->second.loadid_base;
+    }  
+}
+
+
+
 bool is_river(const oter_id &ter)
 {
     // if the id starts with "river" or "bridge", count as a river, but this
     // is done in data init.
     // return (ter.compare(0,5,"river",5) == 0 || ter.compare(0,6,"bridge",6) == 0);
     return ter.t().is_river;
-//oter_t(ter).is_river;
 }
 
 bool is_ot_type(const std::string &otype, const oter_id &oter)
@@ -220,111 +237,41 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
 
 bool road_allowed(const oter_id &ter)
 {
-return ter.t().allow_road;
-//    return oter_t(ter).allow_road;
-//otermap[ter].allow_road;
+    return ter.t().allow_road;
 }
 
-// Likelihood to pick a specific overmap terrain.
-struct oter_weight {
-    std::string ot;
-    int weight;
-};
-
-// Local class for picking overmap terrain from a weighted list.
-struct oter_weight_list {
-    oter_weight_list() : total_weight(0) { };
-
-    void add_item(std::string id, int weight) {
-        oter_weight new_weight = { id, weight };
-        items.push_back(new_weight);
-        total_weight += weight;
-    }
-
-    // oter_id will effectively be "" if initialized as something that doesn't exist in otermap
-    std::string pick() {
-        int picked = rng(0, total_weight);
-        int accumulated_weight = 0;
-
-        int i;
-        for(i=0; i<items.size(); i++) {
-            accumulated_weight += items[i].weight;
-            if(accumulated_weight >= picked) {
-                break;
-            }
-        }
-
-        return items[i].ot;
-    }
-
-private:
-    int total_weight;
-    std::vector<oter_weight> items;
-};
-
-oter_id shop(int dir)
+/*
+ * Pick an oter_baseid from weightlist and return rotated oter_id
+ */
+oter_id shop(int dir, oter_weight_list & weightlist ) // todo: rename to something better than 'shop', make it an oter_weight_list method?
 {
-// TODO: adjust weights based on area, maybe using JSON
-//       (implies we have area types first)
-    oter_weight_list weightlist;
-    weightlist.add_item("s_gas", 5);
-    weightlist.add_item("s_pharm", 3);
-    weightlist.add_item("s_grocery", 15);
-    weightlist.add_item("s_hardware", 5);
-    weightlist.add_item("s_sports", 5);
-    weightlist.add_item("s_liquor", 5);
-    weightlist.add_item("s_gun", 5);
-    weightlist.add_item("s_clothes", 5);
-    weightlist.add_item("s_library", 4);
-    weightlist.add_item("s_restaurant", 5);
-    weightlist.add_item("sub_station", 5);
-    weightlist.add_item("bank", 3);
-    weightlist.add_item("bar", 5);
-    weightlist.add_item("s_electronics", 5);
-    weightlist.add_item("pawn", 3);
-    weightlist.add_item("mil_surplus", 2);
-    weightlist.add_item("s_garage", 5);
-    weightlist.add_item("station_radio", 5);
-    weightlist.add_item("office_doctor", 2);
-    weightlist.add_item("s_restaurant_fast", 3);
-    weightlist.add_item("s_restaurant_coffee", 3);
-    weightlist.add_item("church", 2);
-    weightlist.add_item("office_cubical", 2);
-    weightlist.add_item("furniture", 2);
-    weightlist.add_item("abstorefront", 2);
-    weightlist.add_item("police", 1);
-    weightlist.add_item("s_lot", 4);
-
-    std::string ret = weightlist.pick();
-
-    if (ret == "s_lot") { // don't need to rotate
-        return ret;
+    if ( dir > 3 ) {
+        debugmsg("Bad rotation of weightlist pick: %d.", dir);
+        return "";
     }
 
     dir = dir % 4;
     if (dir < 0) { dir += 4; }
-    switch (dir) {
-    case 0: return ret + "_north";
-    case 1: return ret + "_east";
-    case 2: return ret + "_south";
-    case 3: return ret + "_west";
-    default:
-        debugmsg("Bad rotation of shop %s: %d.", ret.c_str(), dir);
+    const int ret = weightlist.pick();
+
+    if ( oterlist[ ret ].rotates == false ) {
         return ret;
     }
+    return oterlist[ ret ].directional_peers[dir];
 }
 
-oter_id house(int dir)
+oter_id house(int dir, int chance_of_basement)
 {
-    bool base = one_in(2);
-    if (dir < 0) { dir += 4; }
-    switch (dir) {
-    case 0: return base ? "house_base_north" : "house_north";
-    case 1: return base ? "house_base_east"  : "house_east";
-    case 2: return base ? "house_base_south" : "house_south";
-    case 3: return base ? "house_base_west"  : "house_west";
-    default: debugmsg("Bad rotation of house: %d.", dir); return "";
+    static const oter_id iid_house = oter_id("house_north");
+    static const oter_id iid_house_base = oter_id("house_base_north");
+
+    if (dir < 0) {
+        dir += 4;
+    } else if (dir > 3) {
+        debugmsg("Bad rotation of house: %d.", dir);
+        return "";
     }
+    return ( one_in( chance_of_basement) ? iid_house : iid_house_base ).t().directional_peers[dir];
 }
 
 map_extras& get_extras(const std::string &name)
@@ -393,14 +340,12 @@ void load_overmap_terrain(JsonObject &jo)
 {
     oter_t oter;
     long syms[4];
-    bool rotate;
-    bool line_drawing;
 
     oter.id = jo.get_string("id");
     oter.name = _(jo.get_string("name").c_str());
-    rotate = jo.get_bool("rotate", false);
-    line_drawing = jo.get_bool("line_drawing", false);
-    if (line_drawing) {
+    oter.rotates = jo.get_bool("rotate", false);
+    oter.line_drawing = jo.get_bool("line_drawing", false);
+    if (oter.line_drawing) {
         oter.sym = jo.get_int("sym", (int)'%');
     } else if (jo.has_array("sym")) {
         JsonArray ja = jo.get_array("sym");
@@ -408,7 +353,7 @@ void load_overmap_terrain(JsonObject &jo)
             syms[i] = ja.next_int();
         }
         oter.sym = syms[0];
-    } else if (rotate) {
+    } else if (oter.rotates) {
         oter.sym = jo.get_int("sym");
         for (int i = 0; i < 4; ++i) {
             syms[i] = oter.sym;
@@ -437,13 +382,12 @@ void load_overmap_terrain(JsonObject &jo)
     oter.is_river = (id_base.compare(0,5,"river",5) == 0 || id_base.compare(0,6,"bridge",6) == 0);
 
     oter.id_mapgen = id_base; // What, another identifier? Whyyy...
-    if ( ! line_drawing ) { // ...oh
+    if ( ! oter.line_drawing ) { // ...oh
         load_overmap_terrain_mapgens(jo, id_base);
     }
 
-    if (line_drawing) {
+    if (oter.line_drawing) {
         // add variants for line drawing
-        oter.line_drawing = true;
         for( int i = start_iid; i < start_iid+12; i++ ) {
             oter.directional_peers.push_back(i);
         }
@@ -500,9 +444,8 @@ void load_overmap_terrain(JsonObject &jo)
         oter.sym = LINE_XXXX;
         load_oter(oter);
 
-    } else if (rotate) {
+    } else if (oter.rotates) {
         // add north/east/south/west variants
-        oter.rotates = true;
 
         for( int i = start_iid; i < start_iid+5; i++ ) {
             oter.directional_peers.push_back(i);
@@ -529,6 +472,166 @@ void load_overmap_terrain(JsonObject &jo)
         load_oter(oter);
     }
 }
+
+
+/*
+ * Assemble a map of overmap_terrain base ids pointing to first members of oter groups
+ * We'll do this after json loading so references can be used
+ */
+void finalize_overmap_terrain( ) {
+    int c=0;
+    for( std::vector<oter_t>::const_iterator it = oterlist.begin(); it != oterlist.end(); ++it ) {
+        if ( (*it).loadid == (*it).loadid_base ) {
+            if ( (*it).loadid != c ) { // might as well sanity check while we're here da? da.
+                debugmsg("ERROR: oterlist[%d]: mismatch with loadid (%d). (id = %s, id_base = %s)",
+                    c, (*it).loadid, (*it).id.c_str(), (*it).id_base.c_str()
+                );
+                // aaaaaaaand continue to inevitable crash
+            }
+            obasetermap.insert( std::pair<std::string, oter_t&>( (*it).id_base, oterlist[c] ) );;
+        }
+        c++;
+    }
+    // here's another sanity check, yay.
+    if ( region_settings_map.find("default") == region_settings_map.end() ) {
+        debugmsg("ERROR: can't find default overmap settings (region_map_settings 'default'), cataclysm pending. And not the fun kind.");
+    }
+
+    for( std::map<std::string, regional_settings>::iterator rsit = region_settings_map.begin(); rsit != region_settings_map.end(); ++rsit) {
+        rsit->second.setup();
+    }
+};
+
+
+
+void load_region_settings( JsonObject &jo ) {
+    regional_settings new_region;
+    if ( ! jo.read("id",new_region.id) ) {
+        jo.throw_error("No 'id' field.");
+    }
+    bool strict = ( new_region.id == "default" );
+    if ( ! jo.read("default_oter", new_region.default_oter) && strict ) {
+        jo.throw_error("default_oter required for default ( though it should probably remain 'field' )");
+    }
+    if ( jo.has_object("default_groundcover") ) {
+        JsonObject jio = jo.get_object("default_groundcover");
+        new_region.default_groundcover_str = new sid_or_sid("t_grass",4,"t_dirt");
+        if ( ! jio.read("primary", new_region.default_groundcover_str->primary_str) ||
+           ! jio.read("secondary", new_region.default_groundcover_str->secondary_str) ||
+           ! jio.read("ratio", new_region.default_groundcover.chance) ) {
+            jo.throw_error("'default_groundcover' missing one of:\n   { \"primary\": \"ter_id\", \"secondary\": \"ter_id\", \"ratio\": (number) }\n");
+        }
+    } else if ( strict ) {
+        jo.throw_error("'default_groundcover' required for 'default'");
+    }
+    if ( ! jo.read("num_forests", new_region.num_forests) && strict ) {
+        jo.throw_error("num_forests required for default");
+    }
+    if ( ! jo.read("forest_size_min", new_region.forest_size_min) && strict ) {
+        jo.throw_error("forest_size_min required for default");
+    }
+    if ( ! jo.read("forest_size_max", new_region.forest_size_max) && strict ) {
+        jo.throw_error("forest_size_max required for default");
+    }
+    if ( ! jo.read("house_basement_chance", new_region.house_basement_chance) && strict ) {
+        jo.throw_error("house_basement_chance required for default");
+    }
+    if ( ! jo.read("swamp_maxsize", new_region.swamp_maxsize) && strict ) {
+        jo.throw_error("swamp_maxsize required for default");
+    }
+    if ( ! jo.read("swamp_river_influence", new_region.swamp_river_influence) && strict ) {
+        jo.throw_error("swamp_river_influence required for default");
+    }
+    if ( ! jo.read("swamp_spread_chance", new_region.swamp_spread_chance) && strict ) {
+        jo.throw_error("swamp_spread_chance required for default");
+    }
+
+    if ( ! jo.has_object("field_coverage") ) {
+        if ( strict ) jo.throw_error("\"field_coverage\": { ... } required for default");
+    } else {
+        JsonObject pjo = jo.get_object("field_coverage");
+        double tmpval = 0.0f;
+        if ( ! pjo.read("percent_coverage", tmpval) ) pjo.throw_error("field_coverage: percent_coverage required");
+        new_region.field_coverage.mpercent_coverage = (int)(tmpval * 10000.0);
+        if ( ! pjo.read("default_ter", new_region.field_coverage.default_ter_str) ) pjo.throw_error("field_coverage: default_ter required");
+        tmpval = 0.0f;
+        if ( pjo.has_object("other") ) {
+            std::string tmpstr="";
+            JsonObject opjo = pjo.get_object("other");
+            std::set<std::string> keys = opjo.get_member_names();
+            for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
+                tmpval = 0.0f;
+                if ( *it != "//" ) {
+                    if ( opjo.read(*it, tmpval) ) {
+                         new_region.field_coverage.percent_str[ *it ] = tmpval;
+                    }
+                }
+            }
+        }
+        if ( pjo.read("boost_chance", tmpval) && tmpval != 0.0f ) {
+            new_region.field_coverage.boost_chance = (int)(tmpval * 10000.0);
+            if ( ! pjo.read("boosted_percent_coverage", tmpval) ) pjo.throw_error("boost_chance > 0 requires boosted_percent_coverage");
+            new_region.field_coverage.boosted_mpercent_coverage = (int)(tmpval * 10000.0);
+            if ( ! pjo.read("boosted_other_percent", tmpval) ) pjo.throw_error("boost_chance > 0 requires boosted_other_percent");
+            new_region.field_coverage.boosted_other_mpercent = (int)(tmpval * 10000.0);
+            if ( pjo.has_object("boosted_other") ) {
+                std::string tmpstr = "";
+                JsonObject opjo = pjo.get_object("boosted_other");
+                std::set<std::string> keys = opjo.get_member_names();
+                for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
+                    tmpval = 0.0f;
+                    if ( *it != "//" ) {
+                        if ( opjo.read(*it, tmpval) ) {
+                             new_region.field_coverage.boosted_percent_str[ *it ] = tmpval;
+                        }
+                    }
+                }
+            } else {
+                pjo.throw_error("boost_chance > 0 requires boosted_other { ... }");
+            }
+        }
+    }
+
+    if ( ! jo.has_object("city") ) {
+        if ( strict ) jo.throw_error("\"city\": { ... } required for default");
+    } else {
+        JsonObject cjo = jo.get_object("city");
+        if ( ! cjo.read("shop_radius", new_region.city_spec.shop_radius) && strict ) {
+            jo.throw_error("city: shop_radius required for default");
+        }
+        if ( ! cjo.read("park_radius", new_region.city_spec.park_radius) && strict ) {
+            jo.throw_error("city: park_radius required for default");
+        }
+        if ( ! cjo.has_object("shops") && strict ) {
+            if ( strict ) jo.throw_error("city: \"shops\": { ... } required for default");
+        } else {
+            JsonObject wjo = cjo.get_object("shops");
+            std::set<std::string> keys = wjo.get_member_names();
+            for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
+                if ( *it != "//" ) {
+                    if ( wjo.has_int( *it ) ) {
+                        new_region.city_spec.shops.add_item(*it, wjo.get_int(*it) );
+                    }
+                }
+            }
+        }
+        if ( ! cjo.has_object("parks") && strict ) {
+            if ( strict ) jo.throw_error("city: \"parks\": { ... } required for default");
+        } else {
+            JsonObject wjo = cjo.get_object("parks");
+            std::set<std::string> keys = wjo.get_member_names();
+            for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
+                if ( *it != "//" ) {
+                    if ( wjo.has_int( *it ) ) {
+                        new_region.city_spec.parks.add_item(*it, wjo.get_int(*it) );
+                    }
+                }
+            }
+        }
+    }
+    region_settings_map[new_region.id] = new_region;
+};
+
 
 // *** BEGIN overmap FUNCTIONS ***
 
@@ -560,6 +663,15 @@ overmap::overmap(int x, int y)
     if (g->has_gametype()) {
         prefix = special_game_name(g->gametype());
     }
+    // STUB: need region map:
+    // settings = regionmap->calculate_settings( loc );
+    const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
+    std::map<std::string, regional_settings>::const_iterator rsit = region_settings_map.find( rsettings_id );
+
+    if ( rsit == region_settings_map.end() ) {
+        debugmsg("overmap(%d,%d): can't find region '%s'", x, y, rsettings_id.c_str() ); // gonna die now =[
+    }
+    settings = rsit->second;
 
     init_layers();
     open();
@@ -577,6 +689,7 @@ overmap::overmap(overmap const& o)
     , name(o.name)
     , layer(NULL)
 {
+    settings = o.settings;
     layer = new map_layer[OVERMAP_LAYERS];
     for(int z = 0; z < OVERMAP_LAYERS; ++z) {
         for(int i = 0; i < OMAPX; ++i) {
@@ -613,6 +726,7 @@ overmap& overmap::operator=(overmap const& o)
         delete [] layer;
         layer = NULL;
     }
+    settings = o.settings;
 
     layer = new map_layer[OVERMAP_LAYERS];
     for(int z = 0; z < OVERMAP_LAYERS; ++z) {
@@ -624,7 +738,6 @@ overmap& overmap::operator=(overmap const& o)
         }
         layer[z].notes = o.layer[z].notes;
     }
-
     return *this;
 }
 
@@ -632,8 +745,7 @@ void overmap::init_layers()
 {
     layer = new map_layer[OVERMAP_LAYERS];
     for(int z = 0; z < OVERMAP_LAYERS; ++z) {
-        oter_id default_type = (z < OVERMAP_DEPTH) ? "rock" : (z == OVERMAP_DEPTH) ? "field" : "";
-        // oter_iid default_type = (z < OVERMAP_DEPTH) ? ot_rock : (z == OVERMAP_DEPTH) ? ot_field : ot_null; // todo: regional default_type
+        oter_id default_type = (z < OVERMAP_DEPTH) ? "rock" : (z == OVERMAP_DEPTH) ? settings.default_oter : "";
         for(int i = 0; i < OMAPX; ++i) {
             for(int j = 0; j < OMAPY; ++j) {
                 layer[z].terrain[i][j] = default_type;
@@ -2159,12 +2271,12 @@ void grow_forest_oter_id(oter_id & oid, bool swampy)
 void overmap::place_forest()
 {
 
- for (int i = 0; i < NUM_FOREST; i++) {
+ for (int i = 0; i < settings.num_forests; i++) {
   // forx and fory determine the epicenter of the forest
   int forx = rng(0, OMAPX - 1);
   int fory = rng(0, OMAPY - 1);
   // fors determinds its basic size
-  int fors = rng(15, 40);
+  int fors = rng(settings.forest_size_min, settings.forest_size_max);
   int outer_tries = 1000;
   int inner_tries = 1000;
   for (int j = 0; j < cities.size(); j++) {
@@ -2174,7 +2286,7 @@ void overmap::place_forest()
           forx = rng(0, OMAPX - 1);
           fory = rng(0, OMAPY - 1);
           // Set fors to determine the size of the forest; usually won't overlap w/ cities
-          fors = rng(15, 40);
+          fors = rng(settings.forest_size_min, settings.forest_size_max);
           j = 0;
           if( 0 == --inner_tries ) { break; }
       }
@@ -2187,7 +2299,7 @@ void overmap::place_forest()
             break;
         }
 
-        int swamps = SWAMPINESS; // How big the swamp may be...
+        int swamps = settings.swamp_maxsize; // How big the swamp may be...
         int x = forx;
         int y = fory;
 
@@ -2198,20 +2310,20 @@ void overmap::place_forest()
                 for (int l = -2; l <= 2; l++) {
                     if (ter(x + k, y + l, 0) == "forest_water" ||
                         check_ot_type("river", x+k, y+l, 0)) {
-                        swamp_chance += 5;
+                        swamp_chance += settings.swamp_river_influence;
                     }
                 }
             }
             bool swampy = false;
             if (swamps > 0 && swamp_chance > 0 && !one_in(swamp_chance) &&
                 (ter(x, y, 0) == "forest" || ter(x, y, 0) == "forest_thick" ||
-                ter(x, y, 0) == "field" || one_in(SWAMPCHANCE))) {
+                ter(x, y, 0) == "field" || one_in( settings.swamp_spread_chance ))) {
                 // ...and make a swamp.
                 ter(x, y, 0) = "forest_water";
                 swampy = true;
                 swamps--;
             } else if (swamp_chance == 0) {
-                swamps = SWAMPINESS;
+                swamps = settings.swamp_maxsize;
             }
 
             // Place or embiggen forest
@@ -2315,7 +2427,7 @@ void overmap::place_cities()
   else if (one_in(3)) {
     size = village_size;
   }
-  if (ter(cx, cy, 0) == "field") {
+  if (ter(cx, cy, 0) == settings.default_oter ) {
    ter(cx, cy, 0) = "road_nesw";
    city tmp; tmp.x = cx; tmp.y = cy; tmp.s = size;
    cities.push_back(tmp);
@@ -2330,14 +2442,14 @@ void overmap::put_buildings(int x, int y, int dir, city town)
 {
  int ychange = dir % 2, xchange = (dir + 1) % 2;
  for (int i = -1; i <= 1; i += 2) {
-  if ((ter(x+i*xchange, y+i*ychange, 0) == "field") && !one_in(STREETCHANCE)) {
+  if ((ter(x+i*xchange, y+i*ychange, 0) == settings.default_oter ) && !one_in(STREETCHANCE)) {
    if (rng(0, 99) > 80 * dist(x,y,town.x,town.y) / town.s)
-    ter(x+i*xchange, y+i*ychange, 0) = shop(((dir%2)-i)%4);
+    ter(x+i*xchange, y+i*ychange, 0) = shop( ((dir % 2)-i) % 4, settings.city_spec.shops );
    else {
     if (rng(0, 99) > 130 * dist(x, y, town.x, town.y) / town.s)
-     ter(x+i*xchange, y+i*ychange, 0) = (one_in(5)?"pool":"park");
+     ter(x+i*xchange, y+i*ychange, 0) = shop( ((dir % 2)-i) % 4, settings.city_spec.parks );
     else
-     ter(x+i*xchange, y+i*ychange, 0) = house(((dir%2)-i)%4);
+     ter(x+i*xchange, y+i*ychange, 0) = house( ((dir % 2)-i) % 4, settings.house_basement_chance );
    }
   }
  }
@@ -2349,7 +2461,7 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
     int c = cs, croad = cs;
     switch (dir) {
     case 0:
-        while (c > 0 && y > 0 && (ter(x, y-1, 0) == "field" || c == cs)) {
+        while (c > 0 && y > 0 && (ter(x, y-1, 0) == settings.default_oter || c == cs)) {
             y--;
             c--;
             ter(x, y, 0) = "road_ns";
@@ -2363,8 +2475,8 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
                 }
             }
             put_buildings(x, y, dir, town);
-            if (c < croad - 1 && c >= 2 && ter(x - 1, y, 0) == "field" &&
-                                           ter(x + 1, y, 0) == "field") {
+            if (c < croad - 1 && c >= 2 && ter(x - 1, y, 0) == settings.default_oter &&
+                                           ter(x + 1, y, 0) == settings.default_oter) {
                 croad = c;
                 make_road(x, y, cs - rng(1, 3), 1, town);
                 make_road(x, y, cs - rng(1, 3), 3, town);
@@ -2375,7 +2487,7 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
         }
         break;
     case 1:
-        while (c > 0 && x < OMAPX-1 && (ter(x+1, y, 0) == "field" || c == cs)) {
+        while (c > 0 && x < OMAPX-1 && (ter(x+1, y, 0) == settings.default_oter || c == cs)) {
             x++;
             c--;
             ter(x, y, 0) = "road_ew";
@@ -2389,8 +2501,8 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
                 }
             }
             put_buildings(x, y, dir, town);
-            if (c < croad-2 && c >= 3 && ter(x, y-1, 0) == "field" &&
-                                         ter(x, y+1, 0) == "field") {
+            if (c < croad-2 && c >= 3 && ter(x, y-1, 0) == settings.default_oter &&
+                                         ter(x, y+1, 0) == settings.default_oter) {
                 croad = c;
                 make_road(x, y, cs - rng(1, 3), 0, town);
                 make_road(x, y, cs - rng(1, 3), 2, town);
@@ -2401,7 +2513,7 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
         }
         break;
     case 2:
-        while (c > 0 && y < OMAPY-1 && (ter(x, y+1, 0) == "field" || c == cs)) {
+        while (c > 0 && y < OMAPY-1 && (ter(x, y+1, 0) == settings.default_oter || c == cs)) {
             y++;
             c--;
             ter(x, y, 0) = "road_ns";
@@ -2415,7 +2527,7 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
                 }
             }
             put_buildings(x, y, dir, town);
-            if (c < croad-2 && ter(x-1, y, 0) == "field" && ter(x+1, y, 0) == "field") {
+            if (c < croad-2 && ter(x-1, y, 0) == settings.default_oter && ter(x+1, y, 0) == settings.default_oter) {
                 croad = c;
                 make_road(x, y, cs - rng(1, 3), 1, town);
                 make_road(x, y, cs - rng(1, 3), 3, town);
@@ -2426,7 +2538,7 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
         }
         break;
     case 3:
-        while (c > 0 && x > 0 && (ter(x-1, y, 0) == "field" || c == cs)) {
+        while (c > 0 && x > 0 && (ter(x-1, y, 0) == settings.default_oter || c == cs)) {
             x--;
             c--;
             ter(x, y, 0) = "road_ew";
@@ -2440,8 +2552,8 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
                 }
             }
             put_buildings(x, y, dir, town);
-            if (c < croad - 2 && c >= 3 && ter(x, y-1, 0) == "field" &&
-                                           ter(x, y+1, 0) == "field") {
+            if (c < croad - 2 && c >= 3 && ter(x, y-1, 0) == settings.default_oter &&
+                                           ter(x, y+1, 0) == settings.default_oter) {
                 croad = c;
                 make_road(x, y, cs - rng(1, 3), 0, town);
                 make_road(x, y, cs - rng(1, 3), 2, town);
@@ -2888,7 +3000,7 @@ void overmap::building_on_hiway(int x, int y, int dir)
         break;
     case 3:
         if (!is_river(ter(x + xdif, y + ydif, 0))) {
-            ter(x + xdif, y + ydif, 0) = house(rot);
+            ter(x + xdif, y + ydif, 0) = house(rot, settings.house_basement_chance);
         }
         break;
     case 4:
@@ -3724,7 +3836,7 @@ std::string overmap::player_filename(int const x, int const y) const
  return filename.str();
 }
 
-// Overmap special placement functions
+// Overmap special placement functions // fixme oter_t: std::set<std::string> spec_flags;
 
 bool omspec_place::water(overmap *om, unsigned long f, tripoint p)
 {
@@ -3794,7 +3906,7 @@ bool omspec_place::wilderness(overmap *om, unsigned long f, tripoint p)
     for (int x = p.x; x < p.x + size; x++) {
         for (int y = p.y; y < p.y + size; y++) {
             oter_id oter = om->ter(x, y, p.z);
-            if (!is_ot_type("forest", oter) && !is_ot_type("field", oter)) {
+            if (!is_ot_type("forest", oter) && !is_ot_type("field", oter)) { // fixme
                 return false;
             }
         }
@@ -3873,7 +3985,7 @@ oter_iid oterfind(const std::string id) {
     return otermap[id].loadid;
 };
 
-void set_oter_ids() {
+void set_oter_ids() { // fixme constify
     ot_null = oterfind("");
 // NOT required.
     ot_crater = oterfind("crater");
@@ -3988,3 +4100,78 @@ const oter_t & oter_id::t() const {
   const char * oter_id::c_str() const {
       return std::string(oterlist[_val].id).c_str();
   }
+
+
+void groundcover_extra::setup() { // fixme return bool for failure
+    default_ter = terfind( default_ter_str );
+
+    ter_furn_id tf_id;
+    int wtotal = 0;
+    int btotal = 0;
+
+    for ( std::map<std::string, double>::const_iterator it = percent_str.begin(); it != percent_str.end(); ++it ) {
+        tf_id.ter = t_null;
+        tf_id.furn = f_null;
+        if ( it->second < 0.0001 ) continue;
+        if ( termap.find( it->first ) != termap.end() ) {
+            tf_id.ter = termap[ it->first ].loadid;
+        } else if ( furnmap.find( it->first ) != furnmap.end() ) { 
+            tf_id.furn = furnmap[ it->first ].loadid;
+        } else {
+            debugmsg("No clue what '%s' is! No such terrain or furniture",it->first.c_str() );
+            continue;
+        }
+        wtotal += (int)(it->second * 10000.0);
+        weightlist[ wtotal ] = tf_id;
+    }
+
+    for ( std::map<std::string, double>::const_iterator it = boosted_percent_str.begin(); it != boosted_percent_str.end(); ++it ) {
+        tf_id.ter = t_null;
+        tf_id.furn = f_null;
+        if ( it->second < 0.0001 ) continue;
+        if ( termap.find( it->first ) != termap.end() ) {
+            tf_id.ter = termap[ it->first ].loadid;
+        } else if ( furnmap.find( it->first ) != furnmap.end() ) { 
+            tf_id.furn = furnmap[ it->first ].loadid;
+        } else {
+            debugmsg("No clue what '%s' is! No such terrain or furniture",it->first.c_str() );
+            continue;
+        }
+        btotal += (int)(it->second * 10000.0);
+        boosted_weightlist[ btotal ] = tf_id;
+    }
+
+    if ( wtotal > 1000000 ) {
+        debugmsg("plant coverage total exceeds 100%%");
+    }
+    if ( btotal > 1000000 ) {
+        debugmsg("boosted plant coverage total exceeds 100%%");
+    }
+
+    tf_id.furn = f_null;
+    tf_id.ter = default_ter;
+    weightlist[ 1000000 ] = tf_id;
+    boosted_weightlist[ 1000000 ] = tf_id;
+
+    percent_str.clear();
+    boosted_percent_str.clear();
+}
+
+ter_furn_id groundcover_extra::pick( bool boosted ) const {
+    if ( boosted ) {
+        return boosted_weightlist.lower_bound( rng( 0, 1000000 ) )->second;
+    }
+    return weightlist.lower_bound( rng( 0, 1000000 ) )->second;
+}
+
+void regional_settings::setup() {
+    if ( default_groundcover_str != NULL ) {
+        default_groundcover.primary = terfind(default_groundcover_str->primary_str);
+        default_groundcover.secondary = terfind(default_groundcover_str->secondary_str);
+        field_coverage.setup();
+        city_spec.shops.setup();
+        city_spec.parks.setup();
+        default_groundcover_str = NULL;
+        optionsdata.add_value("DEFAULT_REGION", id );
+    }
+}

@@ -161,10 +161,54 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
   }
 }
 
+furn_t null_furniture_t() {
+  furn_t new_furniture;
+  new_furniture.id = "f_null";
+  new_furniture.name = _("nothing");
+  new_furniture.sym = ' ';
+  new_furniture.color = c_white;
+  new_furniture.movecost = 0;
+  new_furniture.move_str_req = -1;
+  new_furniture.transparent = true;
+  new_furniture.bitflags = 0;
+  new_furniture.set_flag("TRANSPARENT");
+  new_furniture.examine = iexamine_function_from_string("none");
+  new_furniture.loadid = 0;
+  new_furniture.open = "";
+  new_furniture.close = "";
+  return new_furniture;
+};
+
+ter_t null_terrain_t() {
+  ter_t new_terrain;
+  new_terrain.id = "t_null";
+  new_terrain.name = _("nothing");
+  new_terrain.sym = ' ';
+  new_terrain.color = c_white;
+  new_terrain.movecost = 2;
+  new_terrain.transparent = true;
+  new_terrain.bitflags = 0;
+  new_terrain.set_flag("TRANSPARENT");
+  new_terrain.set_flag("DIGGABLE");
+  new_terrain.examine = iexamine_function_from_string("none");
+  new_terrain.loadid = 0;
+  new_terrain.open = "";
+  new_terrain.close = "";
+  return new_terrain;
+};
+
 void load_furniture(JsonObject &jsobj)
 {
+  if ( furnlist.empty() ) {
+      furn_t new_null = null_furniture_t();
+      furnmap[new_null.id] = new_null;
+      furnlist.push_back(new_null);
+  }
   furn_t new_furniture;
   new_furniture.id = jsobj.get_string("id");
+  if ( new_furniture.id == "f_null" ) {
+      return;
+  }
   new_furniture.name = _(jsobj.get_string("name").c_str());
   new_furniture.sym = jsobj.get_string("symbol").c_str()[0];
 
@@ -216,8 +260,16 @@ void load_furniture(JsonObject &jsobj)
 
 void load_terrain(JsonObject &jsobj)
 {
+  if ( terlist.empty() ) {
+      ter_t new_null = null_terrain_t();
+      termap[new_null.id] = new_null;
+      terlist.push_back(new_null);
+  }
   ter_t new_terrain;
   new_terrain.id = jsobj.get_string("id");
+  if ( new_terrain.id == "t_null" ) {
+      return;
+  }
   new_terrain.name = _(jsobj.get_string("name").c_str());
 
   //Special case for the LINE_ symbols
@@ -263,28 +315,16 @@ void load_terrain(JsonObject &jsobj)
   if ( jsobj.has_member("close") ) {
       new_terrain.close = jsobj.get_string("close");
   }
-/*
-  requires copying json object
-  if( jsobj.has_member("bash") ) {
-      if( jsobj.is_object("bash") ) {
-          JsonObject delayed(jsobj.get_object("bash"));
-          delayed_json["terrain_bash"][new_terrain.id] = delayed;//jsobj.get_object("bash");
-      } else if (jsobj.is_string("bash") ) {
-//          delayed_json["terrain_bash_link"][new_terrain.id] = jsobj.get_string("bash");
-      }
-  }
-*/
   new_terrain.bash.load(jsobj, "bash", false);
-
   new_terrain.loadid=terlist.size();
   termap[new_terrain.id]=new_terrain;
   terlist.push_back(new_terrain);
 }
 
 
-ter_id terfind(const std::string id) {
+ter_id terfind(const std::string & id) {
     if( termap.find(id) == termap.end() ) {
-         popup("Can't find %s",id.c_str());
+         debugmsg("Can't find %s",id.c_str());
          return 0;
     }
     return termap[id].loadid;
@@ -550,9 +590,9 @@ void set_ter_ids() {
     num_terrain_types = terlist.size(); 
 };
 
-furn_id furnfind(const std::string id) {
+furn_id furnfind(const std::string & id) {
     if( furnmap.find(id) == furnmap.end() ) {
-         popup("Can't find %s",id.c_str());
+         debugmsg("Can't find %s",id.c_str());
          return 0;
     }
     return furnmap[id].loadid;
@@ -637,3 +677,12 @@ void set_furn_ids() {
     f_plant_harvest=furnfind("f_plant_harvest");
     num_furniture_types = furnlist.size(); 
 }
+
+/*
+ * default? N O T H I N G.
+ *
+ter_furn_id::ter_furn_id() {
+    ter = (short)t_null;
+    furn = (short)t_null;
+}
+*/
