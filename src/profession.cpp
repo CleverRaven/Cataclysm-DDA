@@ -81,6 +81,27 @@ profession* profession::generic()
     return profession::prof("unemployed");
 }
 
+// Strategy: a third of the time, return the generic profession.  Otherwise, return a profession,
+// weighting 0 cost professions more likely--the weight of a profession with cost n is 2/(|n|+2),
+// e.g., cost 1 is 2/3rds as likely, cost -2 is 1/2 as likely.
+profession* profession::weighted_random() {
+    if (one_in(3)) {
+        return generic();
+    } else {
+        profession* retval = 0;
+        while(retval == 0) {
+            profmap::iterator iter = _all_profs.begin();
+            for (int i = rng(0, _all_profs.size() - 1); i > 0; --i) {
+                ++iter;
+            }
+            if (x_in_y(2, abs(iter->second.point_cost()) + 2)) {
+                retval = &(iter->second);
+            }  // else reroll in the while loop.
+        }
+        return retval;
+    }
+}
+
 bool profession::exists(std::string ident)
 {
     return _all_profs.find(ident) != _all_profs.end();
