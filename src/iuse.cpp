@@ -1269,7 +1269,11 @@ int iuse::purifier(player *p, item *it, bool)
     }
     for (int i = 0; i < num_cured && valid.size() > 0; i++) {
         int index = rng(0, valid.size() - 1);
-        p->remove_mutation(valid[index] );
+        if (p->purifiable(valid[index])) {
+            p->remove_mutation(valid[index]);
+        } else {
+            g->add_msg_if_player(p,_("You feel a slight itching inside, but it passes."));
+        }
         valid.erase(valid.begin() + index);
     }
     return it->type->charges_to_use();
