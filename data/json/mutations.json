@@ -752,16 +752,6 @@
         "cancels" : ["TOUGH"]
     },{
         "type" : "mutation",
-        "id" : "NOPE",
-        "name" : "Can't Purify This",
-        "points" : -6,
-        "description" : "Your whole body can't have this removed. Its maximum chance to be purified is 100% lower than usual. Not for actual play.",
-        "starting_trait" : false,
-        "valid" : false,
-        "purifiable" : false,
-        "cancels" : ["TOUGH"]
-    },{
-        "type" : "mutation",
         "id" : "SKIN_ROUGH",
         "name" : "Rough Skin",
         "points" : 0,
