@@ -6228,9 +6228,11 @@ void game::emp_blast(int x, int y)
    // TODO: Add flag to mob instead.
    if (critter.type->id == "mon_turret" && one_in(3)) {
      add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
-      remove_zombie(mondex);
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
-      m.spawn_item(x, y, "9mm", 1, critter.ammo, turn);
+      if( critter.ammo > 0 ) {
+          m.spawn_item(x, y, "9mm", 1, critter.ammo, turn);
+      }
+      remove_zombie(mondex);
    }
    else if (critter.type->id == "mon_laserturret" && one_in(3)) {
       add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
@@ -11122,12 +11124,12 @@ bool game::plmove(int dx, int dy)
 	  // TODO: Make there a flag, instead of hard-coded to mon_turret
           if (critter.type->id == "mon_turret") {
               if (query_yn(_("Deactivate the turret?"))) {
-                  remove_zombie(mondex);
                   u.moves -= 100;
                   m.spawn_item(x, y, "bot_turret", 1, 0, turn);
                   if (critter.ammo > 0) {
                       m.spawn_item(x, y, "9mm", 1, critter.ammo, turn);
                   }
+                  remove_zombie(mondex);
               }
               return false;
           } else if (critter.type->id == "mon_laserturret") {

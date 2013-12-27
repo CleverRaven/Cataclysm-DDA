@@ -1373,11 +1373,12 @@ void mattack::smg(monster *z)
     tmp.per_cur = 12;
     tmp.weapon = item(itypes["smg_9mm"], 0);
     tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["9mm"]);
-    tmp.weapon.charges = 10;
+    tmp.weapon.charges = std::max(z->ammo, 10);
+    z->ammo -= tmp.weapon.charges;
     std::vector<point> traj = line_to(z->posx(), z->posy(),
                                       target->posx(), target->posy(), fire_t);
     g->fire(tmp, target->posx(), target->posy(), traj, true);
-    z->ammo -= 1;
+    z->ammo += tmp.weapon.charges;
   }
   else {
     if (one_in(3)) {
@@ -1422,10 +1423,11 @@ void mattack::smg(monster *z)
       tmp.per_cur = 12;
       tmp.weapon = item(itypes["smg_9mm"], 0);
       tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["9mm"]);
-      tmp.weapon.charges = 10;
+      tmp.weapon.charges = std::max(z->ammo, 10);
+      z->ammo -= tmp.weapon.charges;
       std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
       g->fire(tmp, g->u.posx, g->u.posy, traj, true);
-      z->ammo -= 1;
+      z->ammo += tmp.weapon.charges;
       z->add_effect("targeted", 3);
     }
     else {
