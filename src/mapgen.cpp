@@ -7849,6 +7849,7 @@ s    |c....|c....|c....|\n",
                     }
                     if one_in(8){
                       spawn_item(i, j, "coffee_raw", 2);
+                      spawn_item(i, j, "coffeemaker", 1);
                     }
                 } else if (this->furn(i, j) == f_sink && x_in_y(2, 5)) {
                     spawn_item(i, j, "towel", 3);
@@ -7920,6 +7921,7 @@ c...d|t.........t|....c|\n",
                     }
                     if one_in(8){
                       spawn_item(i, j, "coffee_raw", 2);
+                      spawn_item(i, j, "coffeemaker", 1);
                     }
                 } else if (this->furn(i, j) == f_sink && x_in_y(2, 5)) {
                     spawn_item(i, j, "towel", 3);
@@ -7991,6 +7993,7 @@ h....|h....|h....|    s \n\
                     }
                     if one_in(8){
                       spawn_item(i, j, "coffee_raw", 2);
+                      spawn_item(i, j, "coffeemaker", 1);
                     }
                 } else if (this->furn(i, j) == f_sink && x_in_y(2, 5)) {
                     spawn_item(i, j, "towel", 3);
