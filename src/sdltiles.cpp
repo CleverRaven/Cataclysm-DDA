@@ -225,27 +225,27 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 static void cache_glyphs()
 {
 
-    int top=999, bottom=-999;
+    int top = 999;
+    int bottom = -999;
     start_color();
 
-    for(int ch=0; ch<128; ch++)
-    {
-        for(int color=0; color<16; color++)
-        {
-            SDL_Surface * glyph = glyph_cache[ch][color] = (fontblending?TTF_RenderGlyph_Blended:TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
+    for(int ch = 0; ch < 128; ch++) {
+        for(int color = 0; color < 16; color++) {
+            SDL_Surface * glyph = glyph_cache[ch][color] =
+              (fontblending ? TTF_RenderGlyph_Blended : TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
             int minx, maxx, miny, maxy, advance;
-            if(glyph!=NULL && color==0 && 0==TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) )
-            {
-               int t = TTF_FontAscent(font)-maxy;
-               int b = t + glyph->h;
-               if(t<top) top = t;
-               if(b>bottom) bottom = b;
+            if(glyph != NULL && color==0 &&
+               0 == TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) ) {
+                int t = TTF_FontAscent(font)-maxy;
+                int b = t + glyph->h;
+                if(t < top) top = t;
+                if(b > bottom) bottom = b;
             }
         }
     }
 
     int height = bottom - top;
-    int delta = (fontheight-height)/2;
+    int delta = (fontheight - height) / 2;
 
     ttf_height_hack =  delta - top;
 }
