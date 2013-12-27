@@ -5,14 +5,23 @@
         "name": "Survivor",
         "description": "Some would say that there's nothing particularly notable about you. But you've survived, and that's more than most could say right now.",
         "points": 0,
-        "items": [
-            "jeans",
-            "tshirt",
-            "sneakers",
-            "pockknife",
-            "water_clean",
-            "matches"
-        ]
+        "items": {
+            "both": [
+                "jeans",
+                "tshirt",
+                "sneakers",
+                "pockknife",
+                "water_clean",
+                "matches"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -26,15 +35,24 @@
                 "name": "tailor"
             }
         ],
-        "items": [
-            "polo_shirt",
-            "blazer",
-            "pants",
-            "dress_shoes",
-            "sewing_kit",
-            "thread",
-            "scissors"
-        ]
+        "items": {
+            "both": [
+                "polo_shirt",
+                "blazer",
+                "pants",
+                "dress_shoes",
+                "sewing_kit",
+                "thread",
+                "scissors"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -48,13 +66,22 @@
                 "level": 4
             }
         ],
-        "items": [
-            "knife_butcher",
-            "hat_chef",
-            "jacket_chef",
-            "pants_checkered",
-            "dress_shoes"
-        ]
+        "items": {
+            "both": [
+                "knife_butcher",
+                "hat_chef",
+                "jacket_chef",
+                "pants_checkered",
+                "dress_shoes"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -81,15 +108,24 @@
             }
         ],
 
-        "items": [
-            "dress_shirt",
-            "pants",
-            "boots",
-            "coat_lab",
-            "gloves_rubber",
-            "glasses_safety",
-            "chemistry_set"
-        ]
+        "items": {
+            "both": [
+                "dress_shirt",
+                "pants",
+                "boots",
+                "coat_lab",
+                "gloves_rubber",
+                "glasses_safety",
+                "chemistry_set"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -103,14 +139,23 @@
                 "name": "mechanics"
             }
         ],
-        "items": [
-            "tank_top",
-            "jeans",
-            "boots_steel",
-            "tool_belt",
-            "wrench",
-            "mag_cars"
-        ]
+        "items": {
+            "both": [
+                "tank_top",
+                "jeans",
+                "boots_steel",
+                "tool_belt",
+                "wrench",
+                "mag_cars"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -140,17 +185,25 @@
                 "name": "barter"
             }
         ],
-        "items": [
-            "tank_top",
-            "hoodie",
-            "pants_cargo",
-            "sneakers",
-            "weed",
-            "lighter",
-            "rolling_paper",
-            "switchblade",
-            "picklocks"
-        ]
+        "items": {
+            "both": [
+                "tank_top",
+                "hoodie",
+                "pants_cargo",
+                "sneakers",
+                "weed",
+                "lighter",
+                "rolling_paper",
+                "switchblade",
+                "picklocks"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "boxer_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -172,21 +225,33 @@
                 "name": "pistol"
             }
         ],
-        "items": [
-            "pants_army",
-            "army_top",
-            "boots_combat",
-            "m4a1",
-            "223",
-            "knife_combat",
-            "binoculars"
-        ]
+        "items": {
+            "both": [
+                "pants_army",
+                "army_top",
+                "boots_combat",
+                "m4a1",
+                "223",
+                "knife_combat",
+                "binoculars"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
         "ident": "maid",
-        "name": "Maid",
-        "description": "You were a maid for a wealthy lady. After the apocalypse broke out, she left on a vacation to an unknown place, leaving you to fend for yourself.",
+        "name": {
+            "male": "Butler",
+            "female": "Maid"
+        },
+        "description": "You worked in a wealthy household, but after the cataclysm they took a family vacation to an unknown place, leaving you to fend for yourself.",
         "points": 2,
         "skills": [
             {
@@ -198,13 +263,24 @@
                 "name": "cooking"
             }
         ],
-        "items": [
-            "maid_hat",
-            "maid_dress",
-            "boots",
-            "pocketwatch",
-            "knife_butter"
-        ]
+        "items": {
+            "both" : [
+                "pocketwatch",
+                "knife_butter"
+            ],
+            "male": [
+                "tux",
+                "dress_shoes",
+                "briefs"
+            ],
+            "female": [
+                "maid_hat",
+                "maid_dress",
+                "boots",
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -218,16 +294,25 @@
                 "name": "firstaid"
             }
         ],
-        "items": [
-            "pants",
-            "dress_shirt",
-            "dress_shoes",
-            "coat_lab",
-            "water_clean",
-            "bandages",
-            "bandages",
-            "1st_aid"
-        ]
+        "items": {
+            "both": [
+                "pants",
+                "dress_shirt",
+                "dress_shoes",
+                "coat_lab",
+                "water_clean",
+                "bandages",
+                "bandages",
+                "1st_aid"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -261,18 +346,27 @@
                 "name": "driving"
             }
         ],
-        "items": [
-            "suit",
-            "bowhat",
-            "glock_19",
-            "9mm",
-            "dress_shoes",
-            "cig",
-            "switchblade",
-            "lighter",
-            "mag_porn",
-            "sunglasses"
-        ]
+        "items": {
+            "both": [
+                "suit",
+                "bowhat",
+                "glock_19",
+                "9mm",
+                "dress_shoes",
+                "cig",
+                "switchblade",
+                "lighter",
+                "mag_porn",
+                "sunglasses"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -280,19 +374,28 @@
         "name": "Security Guard",
         "description": "A low paid security guard, things have suddenly gotten a lot more dangerous than patrolling the grounds warding off potential thieves. You don't have any particularly useful skills, but you do have some useful equipment since you were on the job when things started going south.",
         "points": 1,
-        "items": [
-            "pants",
-            "boots_combat",
-            "flashlight",
-            "longshirt",
-            "jacket_light",
-            "holster",
-            "baton",
-            "cx4",
-            "9mm",
-            "pockknife",
-            "hat_ball"
-        ]
+        "items": {
+            "both": [
+                "pants",
+                "boots_combat",
+                "flashlight",
+                "longshirt",
+                "jacket_light",
+                "holster",
+                "baton",
+                "cx4",
+                "9mm",
+                "pockknife",
+                "hat_ball"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -326,19 +429,28 @@
                 "name": "swimming"
             }
         ],
-        "items": [
-            "flashlight",
-            "shorts_cargo",
-            "boots",
-            "hat_boonie",
-            "blazer",
-            "tshirt",
-            "socks",
-            "backpack",
-            "knife_combat",
-            "lighter",
-            "rope_30"
-        ]
+        "items": {
+            "both": [
+                "flashlight",
+                "shorts_cargo",
+                "boots",
+                "hat_boonie",
+                "blazer",
+                "tshirt",
+                "socks",
+                "backpack",
+                "knife_combat",
+                "lighter",
+                "rope_30"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boxer_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -346,13 +458,22 @@
         "name": "Chain Smoker",
         "description": "Everyone at work knew you as the person who always had a cigarette or two in hand. Now, you're down to a single pack, and you hope you find more soon. You start out with a strong nicotine addiction.",
         "points": -1,
-        "items": [
-            "pants",
-            "dress_shirt",
-            "dress_shoes",
-            "cig",
-            "lighter"
-        ],
+        "items": {
+            "both": [
+                "pants",
+                "dress_shirt",
+                "dress_shoes",
+                "cig",
+                "lighter"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
         "addictions": [
             {
                 "intensity": 10,
@@ -366,15 +487,24 @@
         "name": "Crackhead",
         "description": "Cocaine. It is, indeed, a helluva drug. You blew your money on some dust, and before you knew it you were turning tricks behind the local CVS just to score one more line.",
         "points": -1,
-        "items": [
-            "skirt",
-            "heels",
-            "tank_top",
-            "crackpipe",
-            "crack",
-            "crack",
-            "ref_lighter"
-        ],
+        "items": {
+            "both" :
+            [
+                "crackpipe",
+                "crack",
+                "crack",
+                "ref_lighter",
+                "tank_top"
+            ],
+            "male": [
+                "pants",
+                "flip_flops"
+            ],
+            "female": [
+                "skirt",
+                "heels"
+            ]
+        },
         "addictions": [
             {
                 "intensity": 20,
@@ -388,16 +518,18 @@
         "name": "Hobo",
         "description": "Society drove you to the fringes and set you wandering, with no home, no family, no friends, until you could only find solace in the bottom of a bottle. But society doesn't mean a thing anymore, and for all the crap thrown your way, you're still standing. God damn, you need a drink.",
         "points": -1,
-        "items": [
-            "pants",
-            "whiskey",
-            "gin",
-            "bum_wine",
-            "ragpouch",
-            "can_beans",
-            "pockknife",
-            "matches"
-        ],
+        "items": {
+            "both": [
+                "pants",
+                "whiskey",
+                "gin",
+                "bum_wine",
+                "ragpouch",
+                "can_beans",
+                "pockknife",
+                "matches"
+            ]
+        },
         "addictions": [
             {
                 "intensity": 20,
@@ -411,9 +543,12 @@
         "name": "Tweaker",
         "description": "You're not entirely sure what happened, but everything has gone to shit, and the only thing running through your head is where you're gonna find your next hit.",
         "points": -2,
-        "items": [
-            "pants"
-        ],
+        "items": {
+            "both": [
+                "pants",
+                "boxer_shorts"
+            ]
+        },
         "addictions": [
             {
                 "intensity": 30,
@@ -437,22 +572,31 @@
                 "name": "pistol"
             }
         ],
-        "items": [
-            "pants_army",
-            "socks",
-            "badge_deputy",
-            "sheriffshirt",
-            "boots",
-            "holster",
-            "m1911",
-            "45_acp"
-        ]
+        "items": {
+            "both": [
+                "pants_army",
+                "socks",
+                "badge_deputy",
+                "sheriffshirt",
+                "boots",
+                "holster",
+                "m1911",
+                "45_acp"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
         "ident": "salesman",
         "name": "Used Car Salesman",
-        "description": "You've been accused of being the sort of guy who'd be willing to sell his own mother for a dollar. It always left you insulted - you've been around the block a time or two, and you'd charge way more than a dollar - and get it, too!",
+        "description": "You've been accused of being the sort of person who'd be willing to sell your own mother for a dollar. It always left you insulted - you've been around the block a time or two, and you'd charge way more than a dollar - and get it, too!",
         "points": 0,
         "skills": [
             {
@@ -460,10 +604,19 @@
                 "name": "barter"
             }
         ],
-        "items": [
-            "suit",
-            "dress_shoes"
-        ]
+        "items": {
+            "both": [
+                "suit",
+                "dress_shoes"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -477,16 +630,25 @@
                 "name": "archery"
             }
         ],
-        "items": [
-            "army_top",
-            "boots_steel",
-            "pants_cargo",
-            "compbow",
-            "arrow_cf",
-            "knife_combat",
-            "hat_hunting",
-            "quiver"
-        ]
+        "items": {
+            "both": [
+                "army_top",
+                "boots_steel",
+                "pants_cargo",
+                "compbow",
+                "arrow_cf",
+                "knife_combat",
+                "hat_hunting",
+                "quiver"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -500,15 +662,24 @@
                 "name": "carpentry"
             }
         ],
-        "items": [
-            "tank_top",
-            "boots_steel",
-            "jeans",
-            "hammer",
-            "nail",
-            "nail",
-            "tool_belt"
-        ]
+        "items": {
+            "both": [
+                "tank_top",
+                "boots_steel",
+                "jeans",
+                "hammer",
+                "nail",
+                "nail",
+                "tool_belt"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boxer_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -516,13 +687,22 @@
         "name": "Lumberjack",
         "description": "You're a lumberjack, and you're okay. You felled trees before before the world ended, but suspect the undead aren't nearly as tough.",
         "points": 0,
-        "items": [
-            "jeans",
-            "boots",
-            "hat_hunting",
-            "jacket_flannel",
-            "ax"
-        ]
+        "items": {
+            "both": [
+                "jeans",
+                "boots",
+                "hat_hunting",
+                "jacket_flannel",
+                "ax"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boxer_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -530,14 +710,23 @@
         "name": "Backpacker",
         "description": "You've travelled for a living, sightseeing here and there, and living off your parents' trust fund. But now they're gone, and the only thing between you and death is the open road and your backpack.",
         "points": 0,
-        "items": [
-            "backpack_leather",
-            "jeans",
-            "sneakers",
-            "tshirt",
-            "socks",
-            "fun_survival"
-        ]
+        "items": {
+            "both": [
+                "backpack_leather",
+                "jeans",
+                "sneakers",
+                "tshirt",
+                "socks",
+                "fun_survival"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -551,13 +740,22 @@
                 "name": "cooking"
             }
         ],
-        "items": [
-            "pants",
-            "sneakers",
-            "tshirt",
-            "socks",
-            "knife_steak"
-        ]
+        "items": {
+            "both": [
+                "pants",
+                "sneakers",
+                "tshirt",
+                "socks",
+                "knife_steak"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -571,12 +769,21 @@
                 "name": "electronics"
             }
         ],
-        "items": [
-            "jumpsuit",
-            "boots",
-            "tool_belt",
-            "flashlight"
-        ]
+        "items": {
+            "both": [
+                "jumpsuit",
+                "boots",
+                "tool_belt",
+                "flashlight"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -590,14 +797,22 @@
                 "name": "computer"
             }
         ],
-        "items": [
-            "pants",
-            "tshirt",
-            "sneakers",
-            "portable_game",
-            "mbag",
-            "laptop"
-        ]
+        "items": {
+            "both": [
+                "pants",
+                "tshirt",
+                "sneakers",
+                "portable_game",
+                "mbag",
+                "laptop"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -605,17 +820,26 @@
         "name": "Student",
         "description": "You were a high school student, but the tests you'll face now will have much higher stakes. There might even be something useful in one of these books you've been lugging around all year.",
         "points": 1,
-        "items": [
-            "pants",
-            "tshirt",
-            "sneakers",
-            "ZSG",
-            "backpack",
-            "textbook_speech",
-            "story_book",
-            "howto_computer",
-            "novel_coa"
-        ]
+        "items": {
+            "both": [
+                "pants",
+                "tshirt",
+                "sneakers",
+                "ZSG",
+                "backpack",
+                "textbook_speech",
+                "story_book",
+                "howto_computer",
+                "novel_coa"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -623,8 +847,8 @@
         "name": "Shower Victim",
         "description": "You were in the middle of a nice shower when the cataclysm struck! You fled without so much as a towel.",
         "points": -1,
-        "items": [
-        ]
+        "items": {
+        }
     },
     {
         "type": "profession",
@@ -643,15 +867,24 @@
             }
         ],
 
-        "items": [
-            "jeans",
-            "tank_top",
-            "chaps_leather",
-            "boots",
-            "bandana",
-            "jacket_leather",
-            "pockknife"
-        ]
+        "items": {
+            "both": [
+                "jeans",
+                "tank_top",
+                "chaps_leather",
+                "boots",
+                "bandana",
+                "jacket_leather",
+                "pockknife"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -665,10 +898,20 @@
                 "name": "dodge"
             }
         ],
-        "items": [
-            "tux",
-            "dress_shoes"
-        ]
+        "items": {
+            "both": [
+                "dress_shoes"
+            ],
+            "male": [
+                "briefs",
+                "tux"
+            ],
+            "female": [
+                "bra",
+                "panties",
+                "dress"
+            ]
+        }
     },
     {
         "type" : "profession",
@@ -682,16 +925,25 @@
             "bio_fingerhack",
             "bio_power_storage_mkII"
         ],
-        "items":[
-            "waistcoat",
-            "pants",
-            "dress_shirt",
-            "dress_shoes",
-            "gold_watch",
-            "briefcase_smg",
-            "pda",
-            "9mm"
-        ]
+        "items": {
+            "both": [
+                "waistcoat",
+                "pants",
+                "dress_shirt",
+                "dress_shoes",
+                "gold_watch",
+                "briefcase_smg",
+                "pda",
+                "9mm"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boxer_shorts"
+            ]
+        }
     },
     {
         "type" : "profession",
@@ -705,11 +957,20 @@
             "bio_blood_anal",
             "bio_power_storage_mkII"
         ],
-        "items":[
-            "jeans",
-            "tshirt",
-            "sneakers"
-        ]
+        "items":{
+            "both": [
+                "jeans",
+                "tshirt",
+                "sneakers"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type" : "profession",
@@ -724,10 +985,19 @@
             "bio_batteries",
             "bio_power_storage_mkII"
         ],
-        "items":[
-            "dress_shoes",
-            "suit"
-        ]
+        "items": {
+            "both": [
+                "dress_shoes",
+                "suit"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type" : "profession",
@@ -744,11 +1014,20 @@
             "bio_power_storage_mkII",
             "bio_power_storage_mkII"
         ],
-        "items":[
-            "sneakers",
-            "jeans",
-            "tshirt"
-        ]
+        "items": {
+            "both": [
+                "sneakers",
+                "jeans",
+                "tshirt"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type" : "profession",
@@ -756,11 +1035,20 @@
         "name" : "Hitchhiker",
         "description" : "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
         "points" : 0,
-        "items" : [
-            "house_coat",
-            "towel",
-            "guidebook"
-        ]
+        "items" : {
+            "both": [
+                "house_coat",
+                "towel",
+                "guidebook"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boxer_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -774,16 +1062,25 @@
                 "name": "traps"
             }
         ],
-        "items": [
-            "jeans",
-            "boots",
-            "hat_hunting",
-            "jacket_flannel",
-            "beartrap",
-            "pockknife",
-            "cig",
-            "matches"
-        ]
+        "items": {
+            "both": [
+                "jeans",
+                "boots",
+                "hat_hunting",
+                "jacket_flannel",
+                "beartrap",
+                "pockknife",
+                "cig",
+                "matches"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boxer_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -797,14 +1094,23 @@
                 "name": "fabrication"
             }
         ],
-        "items": [
-            "jeans",
-            "boots",
-            "tank_top",
-            "apron_leather",
-            "fire_gauntlets",
-            "hammer"
-        ]
+        "items": {
+            "both": [
+                "jeans",
+                "boots",
+                "tank_top",
+                "apron_leather",
+                "fire_gauntlets",
+                "hammer"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -812,10 +1118,19 @@
         "name": "Clown",
         "description": "All you ever wanted was to make people laugh. Dropping out of school and performing at kids' parties was a dream come true until the world ended. There's precious few balloon animals in your future now.",
         "points": 0,
-        "items": [
-            "clown_suit",
-            "clownshoes"
-        ]
+        "items": {
+            "both": [
+                "clown_suit",
+                "clownshoes"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -823,11 +1138,13 @@
         "name": "Lost Submissive",
         "description": "Early in the rush to safety, you were separated from your master by cruel fate. Now you are on your own with nothing to your name but a suit of really kinky black leather. Unfortunately, there's no safewords in the apocalypse.",
         "points": 0,
-        "items": [
-            "bondage_suit",
-            "bondage_mask",
-            "boots"
-        ]
+        "items": {
+            "both" : [
+                "bondage_suit",
+                "bondage_mask",
+                "boots"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -835,13 +1152,24 @@
         "name": "Senior Citizen",
         "description": "You haven't seen this much blood since the war. The whole world's gone crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for what they've done.",
         "points": 0,
-        "items": [
-            "dress_shirt",
-            "pants_checkered",
-            "dress_shoes",
-            "cane",
-            "pocketwatch"
-        ]
+        "items": {
+            "both": [
+                "dress_shoes",
+                "cane"
+            ],
+            "male": [
+                "briefs",
+                "dress_shirt",
+                "pants_checkered",
+                "pocketwatch"
+            ],
+            "female": [
+                "panties",
+                "bra",
+                "dress",
+                "gold_watch"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -849,17 +1177,26 @@
         "name": "Otaku",
         "description": "Late nights with friends watching anime and eating snacks has prepared you for the premier anime convention in the Northeast.  It just had to be the day of the apocalypse.  At least you were ready in case your costume tore.",
         "points": 4,
-        "items": [
-            "shorts",
-            "sneakers",
-            "tank_top",
-            "sewing_kit",
-            "mbag",
-            "fur_cat_ears",
-            "fur_cat_tail",
-            "fur_collar",
-            "cheeseburger"
-        ]
+        "items": {
+            "both": [
+                "shorts",
+                "sneakers",
+                "tank_top",
+                "sewing_kit",
+                "mbag",
+                "fur_cat_ears",
+                "fur_cat_tail",
+                "fur_collar",
+                "cheeseburger"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -867,14 +1204,23 @@
         "name": "Hockey Player",
         "description": "You were a minor-league hockey goalie before the rest of your team became zombies. It's just you and your hockey equipment versus the undead, but at least you can cross-check them now.",
         "points": 0,
-        "items": [
-            "mask_hockey",
-            "hockey_stick",
-            "jersey",
-            "pants",
-            "sneakers",
-            "puck"
-        ]
+        "items": {
+            "both": [
+                "mask_hockey",
+                "hockey_stick",
+                "jersey",
+                "pants",
+                "sneakers",
+                "puck"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -882,14 +1228,23 @@
         "name": "Baseball Player",
         "description": "You were a batter on a local minor league team before the cataclysm. You escaped with your equipment, but how long can you survive until your innings are up?",
         "points": 0,
-        "items": [
-            "bat",
-            "helmet_ball",
-            "dress_shirt",
-            "pants",
-            "cleats",
-            "baseball"
-        ]
+        "items": {
+            "both": [
+                "bat",
+                "helmet_ball",
+                "dress_shirt",
+                "pants",
+                "cleats",
+                "baseball"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -897,14 +1252,23 @@
         "name": "Football Player",
         "description": "You were the star player for the local football team, adored by teammates and fans alike. Now they just adore your brains. You've still got your bulky football gear on.",
         "points": 0,
-        "items": [
-            "football_armor",
-            "tank_top",
-            "helmet_football",
-            "pants",
-            "cleats",
-            "football"
-        ]
+        "items": {
+            "both": [
+                "football_armor",
+                "tank_top",
+                "helmet_football",
+                "pants",
+                "cleats",
+                "football"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -912,54 +1276,76 @@
         "name": "Golfer",
         "description": "A birdie is 1 under par, but how much is a zombie? Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
         "points": 0,
-        "items": [
-            "hat_ball",
-            "dress_shirt",
-            "pants",
-            "sneakers",
-            "golf_club"
-        ]
+        "items": {
+            "both": [
+                "hat_ball",
+                "dress_shirt",
+                "pants",
+                "sneakers",
+                "golf_club"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
-        "ident": "groom",
-        "name": "Groom",
-        "description": "You were about to marry your bride before the cataclysm, now you spend your days searching for her.",
+        "ident": "spouse",
+        "name": {
+            "male": "Groom",
+            "female": "Bride"
+        },
+        "description": "The cataclysm struck on the big day and you escaped with nothing but your wedding attire. Cold feet? You'd just like to keep your feet attached!",
         "points": 0,
-        "items": [
-            "tux",
-            "dress_shoes"
-        ]
+        "items" : {
+            "male": [
+                "tux",
+                "dress_shoes",
+                "briefs"
+            ],
+            "female": [
+                "dress_wedding",
+                "dress_shoes",
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
-        "ident": "bride",
-        "name": "Bride",
-        "description": "You chose a bad day for your wedding. You just barely escaped with your wedding dress intact.",
-        "points": 0,
-        "items": [
-            "dress_wedding",
-            "dress_shoes"
-        ]
-    },
-    {
-        "type": "profession",
-        "ident": "punkgirl",
-        "name": "Punk Rock Girl",
+        "ident": "punkrockgirl",
+        "name": {
+            "male": "Punk Rock Dude",
+            "female": "Punk Rock Girl"
+        },
         "description": "The apocalypse has been your psychotic dream come true. Now that the system is dead, it's time to party among the bones of the world!",
         "points": 0,
-        "items": [
-            "skirt",
-            "corset",
-            "trenchcoat",
-            "gloves_fingerless",
-            "boots_combat",
-            "weed",
-            "rolling_paper",
-            "cig",
-            "mp3",
-            "ref_lighter"
-        ]
+        "items": {
+            "both": [
+                "trenchcoat",
+                "gloves_fingerless",
+                "boots_combat",
+                "weed",
+                "rolling_paper",
+                "mp3",
+                "ref_lighter"
+            ],
+            "male": [
+                "pants_cargo",
+                "tank_top",
+                "boxer_shorts"
+            ],
+            "female": [
+                "skirt",
+                "corset",
+                "boxer_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -981,36 +1367,57 @@
                 "name": "swimming"
             }
         ],
-        "items": [
-            "bunker_pants",
-            "fireman_belt",
-            "bunker_coat",
-            "boots_bunker",
-            "fire_gauntlets",
-            "glasses_safety",
-            "firehelmet",
-            "halligan",
-            "pocketwatch"
-        ]
+        "items": {
+            "both": [
+                "bunker_pants",
+                "fireman_belt",
+                "bunker_coat",
+                "boots_bunker",
+                "fire_gauntlets",
+                "glasses_safety",
+                "firehelmet",
+                "halligan",
+                "pocketwatch"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boxer_shorts"
+            ]
+        }
     },
     {
         "type": "profession",
         "ident": "skaboy",
-        "name": "Rudeboy",
-        "description": "The apocalypse has been your psychotic dream come true. Now that the system is dead, it's time to party among the bones of the world!",
+        "name": {
+            "male": "Rude Boy",
+            "female": "Rude Girl"
+        },
+        "description": "Your ska band broke up after the drummer became a zombie, now you're alone in the cataclysm with some cigarettes and your mp3 player.",
         "points": 0,
-        "items": [
-            "dress_shirt",
-            "skinny_tie",
-            "sunglasses",
-            "pants",
-            "socks",
-            "dress_shoes",
-            "rolling_paper",
-            "cig",
-            "mp3",
-            "ref_lighter"
-        ]
+        "items": {
+            "both": [
+                "dress_shirt",
+                "skinny_tie",
+                "sunglasses",
+                "pants",
+                "socks",
+                "dress_shoes",
+                "rolling_paper",
+                "cig",
+                "mp3",
+                "ref_lighter"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",
@@ -1028,16 +1435,25 @@
                 "name": "dodge"
             }
         ],
-        "items": [
-            "postman_hat",
-            "postman_shirt",
-            "mbag",
-            "wristwatch",
-            "leather_belt",
-            "briefs",
-            "postman_shorts",
-            "socks",
-            "sneakers"
-        ]
+        "items": {
+            "both": [
+                "postman_hat",
+                "postman_shirt",
+                "mbag",
+                "wristwatch",
+                "leather_belt",
+                "briefs",
+                "postman_shorts",
+                "socks",
+                "sneakers"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     }
 ]
