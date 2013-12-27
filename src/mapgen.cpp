@@ -1264,6 +1264,12 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                         place_items("novels", 40,  i,  j, i,  j, false, 0);
                         place_items("alcohol", 30,  i,  j, i,  j, false, 0);
                         place_items("manuals", 20,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
+                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
+                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
                     }
                 }
             }
@@ -1345,6 +1351,12 @@ ss                      \n",
                         place_items("novels", 40,  i,  j, i,  j, false, 0);
                         place_items("alcohol", 30,  i,  j, i,  j, false, 0);
                         place_items("manuals", 20,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
+                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
+                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
                     }
                 }
             }
@@ -1424,6 +1436,12 @@ ss                      \n",
                         place_items("novels", 40,  i,  j, i,  j, false, 0);
                         place_items("alcohol", 30,  i,  j, i,  j, false, 0);
                         place_items("manuals", 20,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
+                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
+                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
                     }
                 }
             }
@@ -1505,6 +1523,12 @@ ss                      \n",
                     place_items("novels", 40,  i,  j, i,  j, false, 0);
                     place_items("alcohol", 30,  i,  j, i,  j, false, 0);
                     place_items("manuals", 20,  i,  j, i,  j, false, 0);
+                } else if (this->furn(i, j) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
+                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+                } else if (this->furn(i, j) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
+                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
                 }
             }
         }
@@ -1592,6 +1616,12 @@ ss                      \n",
                         place_items("novels", 40,  i,  j, i,  j, false, 0);
                         place_items("alcohol", 30,  i,  j, i,  j, false, 0);
                         place_items("manuals", 20,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
+                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
+                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
                     }
                 }
             }
@@ -1675,6 +1705,12 @@ ss                      \n",
                         place_items("novels", 40,  i,  j, i,  j, false, 0);
                         place_items("alcohol", 30,  i,  j, i,  j, false, 0);
                         place_items("manuals", 20,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
+                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
+                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
                     }
                 }
             }
@@ -1758,6 +1794,12 @@ EE|.+..........e|ssR    \n\
                         place_items("novels", 40,  i,  j, i,  j, false, 0);
                         place_items("alcohol", 30,  i,  j, i,  j, false, 0);
                         place_items("manuals", 20,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
+                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+                    } else if (this->furn(i, j) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
+                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
                     }
                 }
             }
@@ -7795,8 +7837,16 @@ s    |c....|c....|c....|\n",
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_dresser && x_in_y(1, 2)) {
                     place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_counter && x_in_y(1, 5)) {
-                    place_items("magazines", 30,  i,  j, i,  j, false, 0);
+                } else if (this->furn(i, j) == f_counter) {
+                    if one_in(5){
+                      place_items("magazines", 30,  i,  j, i,  j, false, 0);
+                    }
+                    if one_in(8){
+                      spawn_item(i, j, "coffee_raw", 2);
+                      spawn_item(i, j, "coffeemaker", 1);
+                    }
+                } else if (this->furn(i, j) == f_sink && x_in_y(2, 5)) {
+                    spawn_item(i, j, "towel", 3);
                 }
             }
         }
@@ -7859,8 +7909,16 @@ c...d|t.........t|....c|\n",
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_dresser && x_in_y(1, 2)) {
                     place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_counter && x_in_y(1, 5)) {
-                    place_items("magazines", 30,  i,  j, i,  j, false, 0);
+                } else if (this->furn(i, j) == f_counter) {
+                    if one_in(5){
+                      place_items("magazines", 30,  i,  j, i,  j, false, 0);
+                    }
+                    if one_in(8){
+                      spawn_item(i, j, "coffee_raw", 2);
+                      spawn_item(i, j, "coffeemaker", 1);
+                    }
+                } else if (this->furn(i, j) == f_sink && x_in_y(2, 5)) {
+                    spawn_item(i, j, "towel", 3);
                 }
             }
         }
@@ -7923,8 +7981,16 @@ h....|h....|h....|    s \n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_dresser && x_in_y(1, 2)) {
                     place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_counter && x_in_y(1, 5)) {
-                    place_items("magazines", 30,  i,  j, i,  j, false, 0);
+                } else if (this->furn(i, j) == f_counter) {
+                    if one_in(5){
+                      place_items("magazines", 30,  i,  j, i,  j, false, 0);
+                    }
+                    if one_in(8){
+                      spawn_item(i, j, "coffee_raw", 2);
+                      spawn_item(i, j, "coffeemaker", 1);
+                    }
+                } else if (this->furn(i, j) == f_sink && x_in_y(2, 5)) {
+                    spawn_item(i, j, "towel", 3);
                 }
             }
         }
