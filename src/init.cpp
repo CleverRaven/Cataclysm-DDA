@@ -51,6 +51,7 @@ void init_data_mappings() {
     set_furn_ids();
     set_oter_ids();
     set_trap_ids();
+    finalize_overmap_terrain();
     calculate_mapgen_weights();
 // temporary (reliable) kludge until switch statements are rewritten
     std::map<std::string, int> legacy_lookup;
@@ -152,6 +153,8 @@ void init_data_structures()
         new StaticFunctionAccessor(&load_mapgen);
 
     type_function_map["monitems"] = new ClassFunctionAccessor<game>(g, &game::load_monitem);
+
+    type_function_map["region_settings"] = new StaticFunctionAccessor(&load_region_settings);
 
     mutations_category[""].clear();
     init_body_parts();

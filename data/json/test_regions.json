@@ -1,0 +1,167 @@
+[
+   {
+      "type": "region_settings",
+      "id": "desert_test",                  "//": "identifier, when region_map is in it will determine alternatives ('desert' etc)",
+      "house_basement_chance": 2,           "//": "one_in(n) houses with basements",
+      "default_oter": "field",              "//": "default oter_id (anything that isn't a house/road/etc) some become forests",
+      "default_groundcover": {              "//": "biome settings for generic 'grass_or_dirt' (which is reproduced below",
+          "primary": "t_searth_test",       "//": "default ter_id on ground",
+          "ratio": 3,                       "//": "one_in(n) chance that it becomes...",
+          "secondary": "t_sand",            "//": "...this instead"
+      },
+      "field_coverage": {                   "//": "biome settings for builtin field mapgen",
+          "percent_coverage": 1.9333,       "//": "% of tiles that have a plant: one_in(120)",
+          "default_ter": "t_rubble",        "//": "default plant. Except this is a desert. Enjoy your rock.",
+          "other": {                        "//": "% of plants that aren't default_ter",   
+              "t_shrub": 0.4166,
+              "f_mutpoppy": 5.3333,
+              "f_mutcactus_test": 10.3333
+          },
+          "boost_chance": 2.833,            "//": "% of fields with boosted plant growth",
+          "boosted_percent_coverage": 12.5, "//": "for the above: percent coverage jumps to this amount",
+          "boosted_other": {                "//": "...and the first non-default picked from this list...",
+              "t_shrub_blueberry": 0.05,    "//": "blinkblinkwhat?",
+              "t_shrub": 4.9,
+              "f_mutcactus_test": 50.0
+          },
+          "boosted_other_percent": 20.0,    "//": "...accounts for this % of plant coverage"
+      },
+      "num_forests": 2,                     "//": "# of forest chunks",
+      "forest_size_min": 1,                 "//": "size range of forest chunk",
+      "forest_size_max": 100,               "//": "note: 32400 tiles in omap, 250*minmax = 3750-10000 default_oters become forests",
+      "swamp_maxsize": 2,                   "//": "SWAMPINESS // Affects the size of a swamp",
+      "swamp_river_influence": 5,           "//": "voodoo magic sauce: more increases swampyness of forests around rivers",
+      "swamp_spread_chance": 8500,          "//": "one_in(n) chance a swampy forest makes a swamp in a non-forest. Apparently.",
+      "city": {
+          "type": "town",
+          "shop_radius": 80,                "//": "tldr: less means more",
+          "park_radius": 130,               "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
+          "parks": {
+              "park": 2,
+              "pool": 1
+          },
+          "shops": {                        "//": "weighted list of oterrains for commercial zoning",
+              "s_gas": 5,
+              "s_liquor": 5,
+              "s_gun": 5,
+              "s_restaurant_deserted_test": 5,
+              "abstorefront": 15,
+              "station_radio": 5,
+              "office_doctor": 2,
+              "s_hardware": 2,
+              "police": 1,
+              "s_lot": 6
+          }
+      }
+   },
+   {
+      "type" : "overmap_terrain",
+      "id" : "s_restaurant_deserted_test",
+      "name" : "abandoned drive-through",
+      "rotate" : true,
+      "sym" : [94, 62, 118, 60],
+      "color" : "pink",
+      "see_cost" : 5,
+      "extras" : "build",
+      "mondensity" : 2,
+      "sidewalk" : true,
+      "mapgen": [
+          { "weight": 1000,
+              "method": "json", "object": {
+                   "fill_ter": "t_sand",
+                   "rows":[
+                       ",_____ssssssssssss_____,",
+                       ",__,__#### ss ####__,__,",
+                       ",_,,,_#ssssssssss#__,__,",
+                       ",__,__#hthsssshth#__,__,",
+                       ",__,__#ssssssssss#_,,,_,",
+                       ",__,__|-555++555-|__,__,",
+                       ",_____|.hh....hh.%_____,",
+                       ",_____%.tt....tt.%_____,",
+                       ",_____%.tt....tt.%_____,",
+                       ",_____%.hh....hh.|_____,",
+                       ",_____|..........%_____,",
+                       ",,,,,,|..........+_____,",
+                       ",_____|ccccxcc|..%_____,",
+                       ",_____w.......+..|_____,",
+                       ",_____|e.ccl.c|+-|_____,",
+                       ",_____|O.....S|.S|_____,",
+                       ",_____||erle.x|T||_____,",
+                       ",_____#|----w-|-|#_____,",
+                       ",________,_____________,",
+                       ",________,_____________,",
+                       ",________,_____________,",
+                       " ,_______,____________, ",
+                       "  ,,,,,,,,,,,,,,,,,,,,  ",
+                       "   dd                   "
+                   ],
+                   "terrain":{
+                       " ": "t_null",
+                       "d": "t_floor",
+                       "5": "t_wall_glass_h",
+                       "%": "t_wall_glass_v",
+                       "O": "t_floor",
+                       ",": "t_pavement_y",
+                       "_": "t_pavement",
+                       "r": "t_floor",
+                       "6": "t_console",
+                       "x": "t_console_broken",
+                       "^": "t_floor",
+                       ".": "t_floor",
+                       "-": "t_wall_h",
+                       "|": "t_wall_v",
+                       "#": "t_dirt",
+                       "t": "t_floor",
+                       "+": "t_door_glass_c",
+                       "=": "t_door_locked_alarm",
+                       "D": "t_door_locked",
+                       "w": "t_window_domestic",
+                       "T": "t_floor",
+                       "S": "t_floor",
+                       "e": "t_floor",
+                       "h": "t_floor",
+                       "c": "t_floor",
+                       "l": "t_floor",
+                       "s": "t_sidewalk"
+                   },
+                   "furniture":{
+                       "d": "f_dumpster",
+                       "O": "f_oven",
+                       "r": "f_rack",
+                       "t": "f_table",
+                       "T": "f_toilet",
+                       "S": "f_sink",
+                       "e": "f_fridge",
+                       "h": "f_chair",
+                       "c": "f_counter",
+                       "l": "f_locker",
+                       "#": "f_mutcactus_test"
+                   },
+                  "set": [
+                     { "point": "terrain", "x": [ 0, 23 ], "y": 23, "id": "t_dirt", "repeat": [ 5, 15 ] }
+                  ]
+              }
+          }
+      ]
+   },
+   {
+      "type" : "terrain",
+      "id" : "t_searth_test",
+      "name": "scorched earth",
+      "symbol": ".",
+      "color": "ltgray",
+      "move_cost": 2,
+      "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
+   },
+   {
+      "type" : "furniture",
+      "id" : "f_mutcactus_test",
+      "name": "mutated cactus",
+      "symbol": "f",
+      "color": "green",
+      "move_cost_mod": 4,
+      "required_str": -1,
+      "flags": ["TRANSPARENT", "FLAMMABLE_ASH" ],
+      "examine_action": "flower_poppy"
+   }
+]

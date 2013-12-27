@@ -152,7 +152,7 @@ class mapgen_function_json : public virtual mapgen_function {
     std::string jdata;
     int mapgensize;
     int fill_ter;
-    terfurn_tile * format;
+    ter_furn_id * format;
     std::vector<jmapgen_setmap> setmap_points;
     std::vector<jmapgen_spawn_item> spawnitems;
     std::vector<jmapgen_place_group> place_groups;
@@ -240,7 +240,7 @@ enum room_type {
     room_split
 };
 
-void house_room(map *m, room_type type, int x1, int y1, int x2, int y2);
+void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat);
 // helpful functions
 bool connects_to(oter_id there, int dir);
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down = false );

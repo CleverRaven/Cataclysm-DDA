@@ -205,6 +205,7 @@ void set_furn_ids();
 extern std::vector<ter_t> terlist;
 extern std::map<std::string, ter_t> termap;
 extern std::map<int,int> reverse_legacy_ter_id;
+ter_id terfind(const std::string & id); // lookup, carp and return null on error
 
 
 struct furn_t {
@@ -247,6 +248,7 @@ struct furn_t {
 extern std::vector<furn_t> furnlist;
 extern std::map<std::string, furn_t> furnmap;
 extern std::map<int,int> reverse_legacy_furn_id;
+furn_id furnfind(const std::string & id); // lookup, carp and return null on error
 
 /*
 enum: map_extra
@@ -366,6 +368,45 @@ void load_terrain(JsonObject &jsobj);
 
 void verify_furniture();
 void verify_terrain();
+
+
+/*
+ * Temporary container id_or_id. Stores str for delayed lookup and conversion.
+ */
+struct sid_or_sid {
+   std::string primary_str;   // 32
+   std::string secondary_str; // 64
+   int chance;                // 68
+   sid_or_sid(const std::string & s1, const int i, const::std::string s2) : primary_str(s1), secondary_str(s2), chance(i) { }
+};
+
+/*
+ * Container for custom 'grass_or_dirt' functionality. Returns int but can store str values for delayed lookup and conversion
+ */
+struct id_or_id {
+   int chance;                  // 8
+   short primary;               // 12
+   short secondary;             // 16
+   id_or_id(const int id1, const int i, const int id2) : chance(i), primary(id1), secondary(id2) { }
+   bool match( const int iid ) const {
+       if ( iid == primary || iid == secondary ) {
+           return true;
+       }
+       return false;
+   }
+   int get() const {
+       return ( one_in(chance) ? secondary : primary );
+   }
+};
+
+/*
+ * It's a terrain! No, it's a furniture! Wait it's both!
+ */
+struct ter_furn_id {
+   short ter;
+   short furn;
+   ter_furn_id() : ter(0), furn(0) {};
+};
 
 /*
 runtime index: ter_id
