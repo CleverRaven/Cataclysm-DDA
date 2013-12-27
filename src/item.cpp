@@ -678,7 +678,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     } else {
        dump->push_back(iteminfo("DESCRIPTION", type->description));
     }
-
     if (is_armor() && has_flag("FIT"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
@@ -778,6 +777,34 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     dump->push_back(iteminfo("DESCRIPTION", contents[0].type->description));
   }
  }
+ 
+ if (is_food()) {
+      if (goes_bad()) {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        if (rotten()) {
+          dump->push_back(iteminfo("DESCRIPTION", _("This food has spoiled.\n")));
+        } else {
+          dump->push_back(iteminfo("DESCRIPTION", _("This food will spoil.\n")));
+        }
+      } else {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("This food will not spoil.\n")));
+      }
+    } else if (is_food_container()) {
+      item* food = this;
+      food = &contents[0];
+      if (food->goes_bad()) {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        if (rotten()) {
+          dump->push_back(iteminfo("DESCRIPTION", _("This food has spoiled.\n")));
+        } else {
+          dump->push_back(iteminfo("DESCRIPTION", _("This food will spoil.\n")));
+        }
+      } else {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("This food will not spoil.\n")));
+      }
+    }
 
  temp1.str("");
  std::vector<iteminfo>& vecData = *dump; // vector is not copied here
@@ -1245,7 +1272,7 @@ bool item::rotten()
               rot += get_rot_since( since, until );
               if (g->debugmon) g->add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
           }
-          last_rot_check = int(g->turn);          
+          last_rot_check = int(g->turn);
 
           if (fridge > 0) {
             // Flat 20%
