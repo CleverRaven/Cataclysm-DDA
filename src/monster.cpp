@@ -698,12 +698,14 @@ int monster::hit(Creature &p, body_part &bp_hit) {
 
 void monster::melee_attack(Creature &target, bool) {
     mod_moves(-100);
-    if (type->melee_dice == 0) // We don't attack, so just return
+    if (type->melee_dice == 0) { // We don't attack, so just return
         return;
+    }
     add_effect("hit_by_player", 3); // Make us a valid target for a few turns
 
-    if (has_flag(MF_HIT_AND_RUN))
+    if (has_flag(MF_HIT_AND_RUN)) {
         add_effect("run", 4);
+    }
 
     bool u_see_me = g->u_see(this);
 
@@ -713,11 +715,15 @@ void monster::melee_attack(Creature &target, bool) {
     int hitroll = dice(hitstat,10);
 
     damage_instance damage;
-    if (type->melee_dice > 0)
-        damage.add_damage(DT_BASH,
-                dice(type->melee_dice,type->melee_sides));
-    if (type->melee_cut > 0)
-        damage.add_damage(DT_CUT, type->melee_cut);
+    if(!is_hallucination()) {
+        if (type->melee_dice > 0) {
+            damage.add_damage(DT_BASH,
+                    dice(type->melee_dice,type->melee_sides));
+        }
+        if (type->melee_cut > 0) {
+            damage.add_damage(DT_CUT, type->melee_cut);
+        }
+    }
 
     /* TODO: height-related bodypart selection
     //If the player is knocked down or the monster can fly, any body part is a valid target
@@ -774,40 +780,45 @@ void monster::melee_attack(Creature &target, bool) {
     int hitspread = target.deal_melee_attack(this, hitroll, false, damage, dealt_dam);
     bp_hit = dealt_dam.bp_hit;
 
+    //Hallucinations always produce messages but never actually deal damage
+    if (is_hallucination() || dealt_dam.total_damage() > 0) {
+        if (target.is_player()) {
+            if (u_see_me) {
+                g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
+                        body_part_name(bp_hit, random_side(bp_hit)).c_str());
+            } else {
+                g->add_msg(_("Something hits your %s."),
+                        body_part_name(bp_hit, random_side(bp_hit)).c_str());
+            }
+        } else {
+            if (u_see_me) {
+                g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
+                            target.disp_name().c_str(),
+                            body_part_name(bp_hit, random_side(bp_hit)).c_str());
+            }
+        }
+    } else if (hitspread < 0) { // a miss
+        // TODO: characters practice dodge when a hit misses 'em
+        if (target.is_player()) {
+            if (u_see_me) {
+                g->add_msg(_("You dodge %1$s."), disp_name().c_str());
+            } else {
+                g->add_msg(_("You dodge an attack from an unseen source."));
+            }
+        } else {
+            if (u_see_me) {
+                g->add_msg(_("The %1$s dodges %2$s's attack."), name().c_str(),
+                            target.disp_name().c_str());
+            }
+        }
+
+    }
+
     if (is_hallucination()) {
         if(one_in(7)) {
             die();
         }
         return;
-    }
-
-    if (dealt_dam.total_damage() > 0) {
-        if (target.is_player()) {
-            if (u_see_me)
-                g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
-                        body_part_name(bp_hit, random_side(bp_hit)).c_str());
-            else
-                g->add_msg(_("Something hits your %s."),
-                        body_part_name(bp_hit, random_side(bp_hit)).c_str());
-        } else {
-            if (u_see_me)
-                g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
-                            target.disp_name().c_str(),
-                            body_part_name(bp_hit, random_side(bp_hit)).c_str());
-        }
-    } else if (hitspread < 0) { // a miss
-        // TODO: characters practice dodge when a hit misses 'em
-        if (target.is_player()) {
-            if (u_see_me)
-                g->add_msg(_("You dodge %1$s."), disp_name().c_str());
-            else
-                g->add_msg(_("You dodge an attack from an unseen source."));
-        } else {
-            if (u_see_me)
-                g->add_msg(_("The %1$s dodges %2$s's attack."), name().c_str(),
-                            target.disp_name().c_str());
-        }
-
     }
 
     // Adjust anger/morale of same-species monsters, if appropriate
