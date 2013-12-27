@@ -66,6 +66,8 @@ static bool needupdate = false;
 static SDL_Color windowsPalette[256];
 static SDL_Surface *screen = NULL;
 static SDL_Surface *glyph_cache[128][16]; //cache ascii characters
+static SDL_Surface *ascii[16];
+int tilewidth = 0;
 TTF_Font* font;
 static int ttf_height_hack = 0;
 int WindowWidth;        //Width of the actual window, not the curses window
@@ -86,6 +88,7 @@ int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
 std::map< std::string,std::vector<int> > consolecolors;
+void (*OutputChar)(Uint16 t, int x, int y, unsigned char color);
 
 static SDL_Joystick *joystick; // Only one joystick for now.
 
@@ -221,51 +224,65 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 
 static void cache_glyphs()
 {
-    int top=999, bottom=-999;
 
+    int top = 999;
+    int bottom = -999;
     start_color();
 
-    for(int ch=0; ch<128; ch++)
-    {
-        for(int color=0; color<16; color++)
-        {
-            SDL_Surface * glyph = glyph_cache[ch][color] = (fontblending?TTF_RenderGlyph_Blended:TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
+    for(int ch = 0; ch < 128; ch++) {
+        for(int color = 0; color < 16; color++) {
+            SDL_Surface * glyph = glyph_cache[ch][color] =
+              (fontblending ? TTF_RenderGlyph_Blended : TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
             int minx, maxx, miny, maxy, advance;
-            if(glyph!=NULL && color==0 && 0==TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) )
-            {
-               int t = TTF_FontAscent(font)-maxy;
-               int b = t + glyph->h;
-               if(t<top) top = t;
-               if(b>bottom) bottom = b;
+            if(glyph != NULL && color==0 &&
+               0 == TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) ) {
+                int t = TTF_FontAscent(font)-maxy;
+                int b = t + glyph->h;
+                if(t < top) top = t;
+                if(b > bottom) bottom = b;
             }
         }
     }
 
     int height = bottom - top;
-    int delta = (fontheight-height)/2;
+    int delta = (fontheight - height) / 2;
 
     ttf_height_hack =  delta - top;
 }
 
-static void OutputChar(Uint16 t, int x, int y, unsigned char color)
+static void OutputFontChar(Uint16 t, int x, int y, unsigned char color)
 {
     color &= 0xf;
 
-    SDL_Surface * glyph = t<0x80?glyph_cache[t][color]:(fontblending?TTF_RenderGlyph_Blended:TTF_RenderGlyph_Solid)(font, t, windowsPalette[color]);
+    SDL_Surface * glyph = t < 0x80 ? glyph_cache[t][color] :
+      (fontblending ? TTF_RenderGlyph_Blended : TTF_RenderGlyph_Solid) (font, t, windowsPalette[color]);
 
-    if(glyph)
-    {
-        int minx=0, maxy=0, dx=0, dy = 0;
-        if( 0==TTF_GlyphMetrics(font, t, &minx, NULL, NULL, &maxy, NULL))
+    if(glyph) {
+        int minx = 0, maxy = 0, dx = 0, dy = 0;
+        if( 0 == TTF_GlyphMetrics(font, t, &minx, NULL, NULL, &maxy, NULL))
         {
             dx = minx;
-            dy = TTF_FontAscent(font)-maxy+ttf_height_hack;
+            dy = TTF_FontAscent(font) - maxy + ttf_height_hack;
             SDL_Rect rect;
-            rect.x = x+dx; rect.y = y+dy; rect.w = fontwidth; rect.h = fontheight;
+            rect.x = x + dx;
+            rect.y = y + dy;
+            rect.w = fontwidth;
+            rect.h = fontheight;
             SDL_BlitSurface(glyph, NULL, screen, &rect);
         }
-        if(t>=0x80) SDL_FreeSurface(glyph);
+        if(t >= 0x80) SDL_FreeSurface(glyph);
     }
+}
+static void OutputImageChar(Uint16 t, int x, int y, unsigned char color)
+{
+    SDL_Rect src;
+    src.x = (t % tilewidth) * fontwidth;
+    src.y = (t / tilewidth) * fontheight;
+    src.w = fontwidth;
+    src.h = fontheight;
+    SDL_Rect rect;
+    rect.x = x; rect.y = y; rect.w = fontwidth; rect.h = fontheight;
+    SDL_BlitSurface(ascii[color], &src, screen, &rect);
 }
 
 #ifdef SDLTILES
@@ -782,35 +799,31 @@ static void font_folder_list(std::ofstream& fout, std::string path)
             }
             TTF_Font* fnt = TTF_OpenFont(f.c_str(), 12);
             long nfaces = 0;
-            if(fnt)
-            {
+            if(fnt != NULL) {
                 nfaces = TTF_FontFaces(fnt);
                 TTF_CloseFont(fnt);
+                fnt = NULL;
             }
-            for(long i = 0; i < nfaces; i++)
-            {
+            for(long i = 0; i < nfaces; i++) {
                 fnt = TTF_OpenFontIndex(f.c_str(), 12, i);
-                if(fnt)
-                {
+                if(fnt != NULL) {
                     char *fami = TTF_FontFaceFamilyName(fnt);
                     char *style = TTF_FontFaceStyleName(fnt);
                     bool isbitmap = (0 == strcasecmp(".fon", f.substr(f.length() - 4).c_str()) );
-                    if(fami && (!isbitmap || i==0) )
-                    {
+                    if(fami != NULL && (!isbitmap || i == 0) ) {
                         fout << fami << std::endl;
                         fout << f << std::endl;
                         fout << i << std::endl;
                     }
-                    if(fami && style && 0 != strcasecmp(style, "Regular"))
-                    {
-                        if(!isbitmap)
-                        {
+                    if(fami != NULL && style != NULL && 0 != strcasecmp(style, "Regular")) {
+                        if(!isbitmap) {
                             fout << fami << " " << style << std::endl;
                             fout << f << std::endl;
                             fout << i << std::endl;
                         }
                     }
                     TTF_CloseFont(fnt);
+                    fnt = NULL;
                 }
             }
         }
@@ -887,7 +900,7 @@ static std::string find_system_font(std::string name, int& faceIndex)
 static int test_face_size(std::string f, int size, int faceIndex)
 {
     TTF_Font* fnt = TTF_OpenFontIndex(f.c_str(), size, faceIndex);
-    if(fnt) {
+    if(fnt != NULL) {
         char* style = TTF_FontFaceStyleName(fnt);
         if(style != NULL) {
             int faces = TTF_FontFaces(fnt);
@@ -903,10 +916,12 @@ static int test_face_size(std::string f, int size, int faceIndex)
                        }
                    }
                    TTF_CloseFont(tf);
+                   tf = NULL;
                 }
             }
         }
         TTF_CloseFont(fnt);
+        fnt = NULL;
     }
 
     return faceIndex;
@@ -915,24 +930,24 @@ static int test_face_size(std::string f, int size, int faceIndex)
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
-	const int SidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
-	int newWindowWidth = (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
-	newWindowWidth = newWindowWidth < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : newWindowWidth;
+    const int SidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+    int newWindowWidth = (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
+    newWindowWidth = newWindowWidth < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : newWindowWidth;
 
-	return newWindowWidth * fontwidth;
+    return newWindowWidth * fontwidth;
 }
 
 // Calculates the new height of the window, given the number of rows.
 int projected_window_height(int)
 {
-	return (OPTIONS["VIEWPORT_Y"] * 2 + 1) * fontheight;
+    return (OPTIONS["VIEWPORT_Y"] * 2 + 1) * fontheight;
 }
 
 //Basic Init, create the font, backbuffer, etc
 WINDOW *curses_init(void)
 {
-    lastchar=-1;
-    inputdelay=-1;
+    lastchar = -1;
+    inputdelay = -1;
 
     std::string typeface = "Terminus";
     std::string blending = "solid";
@@ -958,8 +973,8 @@ WINDOW *curses_init(void)
         fin >> fontsize;
         fin >> blending;
         if ((fontwidth <= 4) || (fontheight <= 4)) {
-            fontheight=16;
-            fontwidth=8;
+            fontheight = 16;
+            fontwidth = 8;
         }
         fin.close();
     }
@@ -977,8 +992,45 @@ WINDOW *curses_init(void)
     WindowHeight= (OPTIONS["VIEWPORT_Y"] * 2 + 1) *fontheight;
     if(!WinCreate()) {}// do something here
 
+    while(!strcasecmp(typeface.substr(typeface.length()-4).c_str(),".bmp") ||
+          !strcasecmp(typeface.substr(typeface.length()-4).c_str(),".png")) {
+        SDL_Surface *asciiload;
+        typeface = "data/font/" + typeface;
+        asciiload = IMG_Load(typeface.c_str());
+        if(!asciiload || asciiload->w*asciiload->h < (fontwidth * fontheight * 256)) {
+            SDL_FreeSurface(asciiload);
+            break;
+        }
+        Uint32 key = SDL_MapRGB(asciiload->format, 0xFF, 0, 0xFF);
+        SDL_SetColorKey(asciiload,SDL_SRCCOLORKEY,key);
+        ascii[0] = SDL_DisplayFormat(asciiload);
+        SDL_FreeSurface(asciiload);
+        for(int a = 1; a < 16; a++) {
+            ascii[a]=SDL_ConvertSurface(ascii[0],ascii[0]->format,ascii[0]->flags);
+        }
+
+        init_colors();
+        for(int a = 0; a < 15; a++) {
+            SDL_LockSurface(ascii[a]);
+            int size = ascii[a]->h * ascii[a]->w;
+            Uint32 *pixels = (Uint32 *)ascii[a]->pixels;
+            Uint32 color = (windowsPalette[a].r << 16) | (windowsPalette[a].g << 8) | windowsPalette[a].b;
+            for(int i=0;i<size;i++) {
+                if(pixels[i] == 0xFFFFFF)
+                    pixels[i] = color;
+            }
+            SDL_UnlockSurface(ascii[a]);
+        }
+        if(fontwidth)tilewidth=ascii[0]->w/fontwidth;
+        OutputChar = &OutputImageChar;
+        mainwin = newwin( (OPTIONS["VIEWPORT_Y"] * 2 + 1),
+                          (((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55) +
+                           (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
+        return mainwin;
+    }
+
     std::string sysfnt = find_system_font(typeface, faceIndex);
-    if(sysfnt!="") typeface = sysfnt;
+    if(sysfnt != "") typeface = sysfnt;
 
     //make fontdata compatible with wincurse
     if(!fexists(typeface.c_str())) {
@@ -1009,9 +1061,14 @@ WINDOW *curses_init(void)
     // this causes baseline problems for certain fonts
     // I can only guess by check a certain tall character...
     cache_glyphs();
+    init_colors();
 
-    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55) + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
+    OutputChar = &OutputFontChar;
 
+    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),
+                     (((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55) +
+                     (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
+    
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
@@ -1034,6 +1091,7 @@ int curses_getch(WINDOW* win)
 int curses_destroy(void)
 {
     TTF_CloseFont(font);
+    font = NULL;
     for (int i=0; i<128; i++) {
         for (int j=0; j<16; j++) {
             if (glyph_cache[i][j]) {
@@ -1042,6 +1100,7 @@ int curses_destroy(void)
             glyph_cache[i][j] = NULL;
         }
     }
+    for(int a=0;a<16;a++)SDL_FreeSurface(ascii[a]);
     WinDestroy();
     return 1;
 }

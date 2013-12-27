@@ -502,6 +502,8 @@ WINDOW *curses_init(void)
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
 //    WindowCount=0;
+    
+    init_colors();
 
     delete typeface_c;
     mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);

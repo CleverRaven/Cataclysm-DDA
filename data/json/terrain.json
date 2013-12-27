@@ -1,13 +1,5 @@
 [
     {
-        "type": "terrain",
-        "id" : "t_null",
-        "name": "nothing",
-        "symbol": " ",
-        "color": "white",
-        "move_cost": 2,
-        "flags": ["TRANSPARENT", "DIGGABLE"]
-    },{
         "type" : "terrain",
         "id" : "t_hole",
         "name": "empty space",

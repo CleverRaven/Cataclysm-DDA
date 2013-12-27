@@ -13,12 +13,12 @@
  * Take array of struct { short; short } and spaw it on a map
  */
 
-void formatted_set_incredibly_simple( map * m, const terfurn_tile data[], const int width, const int height, const int startx, const int starty, const int defter ) {
+void formatted_set_incredibly_simple( map * m, const ter_furn_id data[], const int width, const int height, const int startx, const int starty, const int defter ) {
     (void)startx; (void)starty; // FIXME: unused
     for ( int y = 0; y < height; y++ ) {
         const int mul = y * height;
         for( int x = 0; x < width; x++ ) {
-            const terfurn_tile tdata = data[ mul + x ];
+            const ter_furn_id tdata = data[ mul + x ];
             if ( tdata.furn != f_null ) {
                 if ( tdata.ter != t_null ) {
                     m->set(x, y, tdata.ter, tdata.furn);

@@ -10,7 +10,7 @@
       ["toastem", 10],
       ["toastem2", 10],
       ["toastem3", 12],
-      ["salmaic_powder", 40],
+      ["powder_candy", 40],
       ["neccowafers", 50],
       ["maltballs", 50],
       ["cookies", 80],
@@ -373,6 +373,7 @@
       ["lye_powder", 5],
       ["sm_extinguisher", 10],
       ["atomic_light", 1],
+      ["coffeemaker", 10],
       ["atomic_coffeepot", 2],
       ["dog_whistle", 5],
       ["dogfood", 20],
@@ -710,12 +711,14 @@
       ["oxygen_tank", 3],
       ["smoxygen_tank", 2],
       ["alarmclock", 30],
+      ["maid_dress", 3],
+      ["maid_hat", 3],
       ["leathersandals", 25]
     ]
-    },{
-        "type" : "item_group",
-        "id" : "homeguns",
-        "guns_with_ammo" : true,
+  },{
+    "type":"item_group",
+    "id":"homeguns",
+    "guns_with_ammo" : true,
     "items":[
       ["blowgun", 5],
       ["moss_brownie", 2],
@@ -821,8 +824,8 @@
       ["u_shotgun", 5]
     ]
     },{
-        "type" : "item_group",
-        "id" : "dresser",
+    "type" : "item_group",
+    "id" : "dresser",
     "items":[
       ["jeans", 90],
       ["pants_checkered", 5],
@@ -889,11 +892,13 @@
       ["tux", 1],
       ["dress_wedding", 1],
       ["clogs", 2],
-      ["wristwatch", 15]
+      ["wristwatch", 15],
+      ["maid_dress", 3],
+      ["maid_hat", 3]
     ]
     },{
-        "type" : "item_group",
-        "id" : "dining",
+    "type" : "item_group",
+    "id" : "dining",
     "items":[
       ["wrapper", 50],
       ["knife_butter", 90],
@@ -910,8 +915,8 @@
       ["bottle_glass", 10]
     ]
     },{
-        "type" : "item_group",
-        "id" : "snacks",
+    "type" : "item_group",
+    "id" : "snacks",
     "items":[
       ["chips", 65],
       ["pretzels", 55],
@@ -922,7 +927,7 @@
       ["candy", 80],
       ["candy2", 80],
       ["candy3", 80],
-      ["salmaic_powder", 60],
+      ["powder_candy", 60],
       ["neccowafers", 80],
       ["maltballs", 80],
       ["mintpatties", 80],
@@ -1016,7 +1021,7 @@
       ["candy", 80],
       ["candy2", 80],
       ["candy3", 80],
-      ["salmaic_powder", 60],
+      ["powder_candy", 60],
       ["mintpatties", 60],
       ["maltballs", 60],
       ["neccowafers", 60],
@@ -1080,7 +1085,7 @@
       ["jerky", 55],
       ["porkstick", 55],
       ["candy", 80],
-      ["salmaic_powder", 60],
+      ["powder_candy", 60],
       ["mintpatties", 80],
       ["maltballs", 80],
       ["tea_raw", 10],
@@ -1465,6 +1470,7 @@
       ["hammer_sledge", 6],
       ["jackhammer", 2],
       ["jacqueshammer", 2],
+      ["pickaxe", 1],
       ["welder", 25],
       ["ax", 8],
       ["forge", 2],
@@ -1537,6 +1543,7 @@
       ["flashlight", 40],
       ["radio", 20],
       ["hotplate", 10],
+      ["coffeemaker", 10],
       ["receiver", 10],
       ["transponder", 5],
       ["tazer", 3],
@@ -1631,6 +1638,7 @@
       ["binoculars", 20],
       ["firecracker_pack", 5],
       ["hotplate", 10],
+      ["coffeemaker", 5],
       ["tin_plate", 10],
       ["knife_combat", 14],
       ["throwing_knife", 7],
@@ -2484,11 +2492,13 @@
       ["jersey", 40],
       ["postman_shorts", 5],
       ["postman_shirt", 5],
-      ["postman_hat", 5]
+      ["postman_hat", 5],
+      ["maid_dress", 3],
+      ["maid_hat", 3]
     ]
     },{
-        "type" : "item_group",
-        "id" : "novels",
+    "type" : "item_group",
+    "id" : "novels",
     "items":[
       ["novel_romance", 30],
       ["novel_spy", 28],
@@ -3235,7 +3245,7 @@
       ["candy", 60],
       ["candy2", 60],
       ["candy3", 60],
-      ["salmaic_powder", 40],
+      ["powder_candy", 40],
       ["neccowafers", 60],
       ["mintpatties", 60],
       ["backpack", 38],
@@ -3351,7 +3361,16 @@
       ["candlestick", 20],
       ["heels", 50],
       ["ring", 12],
+	  ["diamond_ring", 1],
+	  ["gold_bracelet", 12],
+	  ["silver_bracelet", 14],
+	  ["copper_bracelet", 1],
       ["necklace", 14],
+	  ["locket", 5],
+	  ["gold_ear", 12],
+	  ["silver_ear", 14],
+	  ["copper_ear", 1],
+	  ["brooch", 2],
       ["nodachi", 1],
       ["manual_dodge", 1],
       ["fancy_sunglasses", 2],
@@ -3491,8 +3510,16 @@
       ["carver_off", 7],
       ["jackhammer", 2],
       ["jacqueshammer", 2],
+      ["pickaxe", 1],
       ["ring", 12],
+	  ["diamond_ring", 1],
       ["necklace", 14],
+	  ["gold_ear", 12],
+	  ["silver_ear", 14],
+	  ["gold_bracelet", 8],
+	  ["silver_bracelet", 10],
+	  ["brooch", 1],
+	  ["locket", 1],
       ["usb_drive", 5],
       ["broadsword", 30],
       ["zweihander", 20],
@@ -3585,7 +3612,9 @@
       ["diveknife", 10],
       ["alarmclock", 5],
       ["bagh_nakha", 2],
-      ["leathersandals", 10]
+      ["leathersandals", 10],
+      ["maid_dress", 3],
+      ["maid_hat", 3]
     ]
     },{
     "type" : "item_group",
@@ -3992,7 +4021,7 @@
       ["rag", 1],
       ["scissors", 50],
       ["boots_rubber", 20],
-      ["subsuit_XL", 4],
+      ["subsuit_xl", 4],
       ["rag_bloody", 1]
     ]
     },{
@@ -4830,6 +4859,8 @@
         "type" : "item_group",
         "id" : "mine_storage",
     "items":[
+      ["shovel", 10],
+      ["pickaxe", 2],
       ["rock", 40],
       ["coal", 20]
     ]
@@ -4855,6 +4886,7 @@
       ["backpack_leather", 18],
       ["battery", 50],
       ["flashlight", 40],
+      ["pickaxe", 1],
       ["jackhammer", 2],
       ["jacqueshammer", 2],
       ["dynamite", 5],
@@ -4868,6 +4900,7 @@
       ["jerrycan", 10],
       ["jerrycan_big", 10],
       ["gasoline_lantern", 5],
+      ["shovel", 10],
       ["e_tool", 5],
       ["apron_leather", 10]
     ]
@@ -5654,6 +5687,7 @@
       ["armor_chitin", 1],
       ["plut_cell", 10],
       ["laser_pack", 10],
+      ["pickaxe", 1],
       ["m249", 1],
       ["v29", 1],
       ["ftk93", 1],
@@ -6359,6 +6393,7 @@
      ["helsing", 1],
      ["tihar", 2],
      ["ashot", 4],
+     ["pickaxe", 1],
      ["makeshift_machete", 4],
      ["flamethrower_crude", 6],
      ["flamethrower_simple", 2]

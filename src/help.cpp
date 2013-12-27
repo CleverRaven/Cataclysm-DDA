@@ -576,8 +576,8 @@ from the driver's seat."),
             press_x(ACTION_MOVE_S, _(" "), _("'move_s'")).c_str(),
             press_x(ACTION_MOVE_W, _(" "), _("'move_w'")).c_str(),
             press_x(ACTION_MOVE_E, _(" "), _("'move_e'")).c_str(),
-			press_x(ACTION_PAUSE, _(" "), _("'pause'")).c_str(),
-			press_x(ACTION_CONTROL_VEHICLE, _("press "), _("'Vehicle Controls'")).c_str());
+            press_x(ACTION_PAUSE, _(" "), _("'pause'")).c_str(),
+            press_x(ACTION_CONTROL_VEHICLE, _("press "), _("'Vehicle Controls'")).c_str());
             for(int acty = 0; acty < 3; acty++) {
                 for(int actx = 0; actx < 3; actx++) {
                     std::vector<char> keys = keys_bound_to( movearray[acty*3+actx] );
