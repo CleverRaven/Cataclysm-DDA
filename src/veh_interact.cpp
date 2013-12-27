@@ -300,7 +300,8 @@ void veh_interact::cache_tool_availability()
                  (crafting_inv.has_amount("toolset", 1) &&
                   crafting_inv.has_charges("toolset", charges / 20));
     has_goggles = (crafting_inv.has_amount("goggles_welding",1) ||
-                   g->u.has_bionic("bio_sunglasses"));
+                   g->u.has_bionic("bio_sunglasses") ||
+                   g->u.is_wearing("goggles_welding"));
     has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED));
     has_jack = crafting_inv.has_amount("jack", 1);
     has_siphon = crafting_inv.has_amount("hose", 1);
