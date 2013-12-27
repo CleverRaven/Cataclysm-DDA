@@ -946,8 +946,8 @@ int projected_window_height(int)
 //Basic Init, create the font, backbuffer, etc
 WINDOW *curses_init(void)
 {
-    lastchar =- 1;
-    inputdelay =- 1;
+    lastchar = -1;
+    inputdelay = -1;
 
     std::string typeface = "Terminus";
     std::string blending = "solid";
