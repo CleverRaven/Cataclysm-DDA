@@ -371,6 +371,8 @@ struct it_gun : public itype
  int reload_time;
 
  std::set<std::string> ammo_effects;
+ std::map<std::string, int> valid_mod_locations;
+ std::map<std::string, int> available_mod_locations;
 
  virtual bool is_gun() { return true; }
 
@@ -427,6 +429,11 @@ struct it_gunmod : public itype
  bool used_on_shotgun;
  bool used_on_smg;
  bool used_on_rifle;
+ bool used_on_bow;
+ bool used_on_crossbow;
+ bool used_on_launcher;
+ 
+ std::string location;
 
  virtual bool is_gunmod() { return true; }
 
@@ -470,6 +477,7 @@ struct it_gunmod : public itype
   used_on_shotgun = false;
   used_on_smg = false;
   used_on_rifle = false;
+  location = "";
  };
 };
 
