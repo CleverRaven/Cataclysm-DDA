@@ -655,7 +655,28 @@
     "revert_to": "null",
     "use_action": "HOTPLATE"
   },
-
+  {
+    "id": "coffeemaker",
+    "type": "TOOL",
+    "color": "light_gray",
+    "symbol": ";",
+    "name": "coffeemaker",
+    "description": "This is a heating element with pot and frame for holding coffee or other powders. It's got a battery compartment for use when the power goes out. You can use it to make coffee, or other drinks if you so choose.",
+    "price": 400,
+    "material": ["plastic", "steel"],
+    "weight": 3100,
+    "volume": 3,
+    "to_hit": -5,
+    "cutting": 0,
+    "bashing": 2,
+    "max_charges": 200,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "HOTPLATE"
+  },
   {
     "id": "soldering_iron",
     "type": "TOOL",
