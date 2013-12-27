@@ -5106,11 +5106,13 @@
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
+      [ "coffeemaker", 3],
       [ "fire", -1 ]
     ],
     [
       [ "pan", -1 ],
       [ "pot", -1 ],
+      [ "coffeemaker", -1],
       [ "rock_pot", -1 ]
     ]
   ],
@@ -5491,10 +5493,12 @@
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
+      [ "coffeemaker", 2],
       [ "fire", -1 ]
     ],
     [
       [ "pot", -1 ],
+      [ "coffeemaker", -1],
       [ "rock_pot", -1 ]
     ]
   ],
@@ -5522,10 +5526,12 @@
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
+      [ "coffeemaker", 2],
       [ "fire", -1 ]
     ],
     [
       [ "pot", -1 ],
+      [ "coffeemaker", -1],
       [ "rock_pot", -1 ]
     ]
   ],
@@ -6519,12 +6525,14 @@
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "coffeemaker", 2]
     ],
     [
       [ "teapot", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ],
+      [ "coffeemaker", -1]
       [ "atomic_coffeepot", -1 ]
     ]
   ],
@@ -6739,12 +6747,14 @@
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "atomic_coffeepot", -1 ],
+      [ "coffeemaker", 2],
       [ "fire", -1 ]
     ],
     [
       [ "teapot", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ],
+      [ "coffeemaker", -1],
       [ "atomic_coffeepot", -1 ]
     ]
   ],
@@ -12001,7 +12011,7 @@
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
-  "book_learn": [[ "advanced_electronics", 1 ] , [ "mag_electronics", 3 ]],
+  "book_learn": [[ "advanced_electronics", 1 ] , [ "mag_electronics", 3 ] , [ "manual_electronics", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12026,6 +12036,48 @@
     ],
     [
       [ "cable", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "coffeemaker",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "electronics",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn": [[ "advanced_electronics", 1 ] , [ "mag_electronics", 3 ] , [ "manual_electronics", 2 ]],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 1 ]      
+    ]
+  ],
+  "components": [
+    [
+      [ "element", 4 ]
+    ],
+    [
+      [ "amplifier", 1 ]
+    ],
+    [
+      [ "scrap", 6 ],
+      [ "pan", 2 ],
+      [ "pot", 2 ],
+      [ "knife_butcher", 6 ],
+      [ "knife_steak", 18 ],
+      [ "knife_butter", 18 ],
+      [ "muffler", 1 ]
+    ],
+    [
+      [ "cable", 15 ]
     ]
   ]
 },{
