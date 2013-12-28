@@ -30,9 +30,11 @@ struct dream
 
 struct mutation_branch
 {
-    bool valid; // True if this is a valid mutation (only used for starting traits)
+    bool valid; // True if this is a valid mutation (False for "unavailable from generic mutagen")
     bool purifiable; // True if Purifier can remove it (False for *Special* mutations)
     std::vector<std::string> prereqs; // Prerequisites; Only one is required
+    std::vector<std::string> prereqs2; // Prerequisites; need one from here too
+    std::vector<std::string> threshreq; // Prerequisites; dedicated slot to needing thresholds
     std::vector<std::string> cancels; // Mutations that conflict with this one
     std::vector<std::string> replacements; // Mutations that replace this one
     std::vector<std::string> additions; // Mutations that add to this one

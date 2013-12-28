@@ -38,6 +38,22 @@ void load_mutation(JsonObject &jsobj)
     while (jsarr.has_more()) {
         mutation_data[id].prereqs.push_back(jsarr.next_string());
     }
+    // Helps to be able to have a trait require more than one other trait
+    // (Individual prereq-lists are "OR", not "AND".)
+    // Traits shoud NOT appear in both lists for a given mutation, unless
+    // you want that trait to satisfy both requirements.
+    // These are additional to the first list, and will likely NOT be regained
+    // if you lose the mutation they prereq'd for.
+    jsarr = jsobj.get_array("prereqs2");
+    while (jsarr.has_more()) {
+        mutation_data[id].prereqs2.push_back(jsarr.next_string());
+    }
+    // Dedicated-purpose prereq slot for Threshold mutations
+    jsarr = jsobj.get_array("threshreq");
+    // Stuff like Huge might fit in more than one mutcat post-threshold, so yeah
+    while (jsarr.has_more()) {
+        mutation_data[id].threshreq.push_back(jsarr.next_string());
+    }
     jsarr = jsobj.get_array("cancels");
     while (jsarr.has_more()) {
         mutation_data[id].cancels.push_back(jsarr.next_string());

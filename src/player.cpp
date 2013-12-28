@@ -3193,6 +3193,10 @@ void player::set_cat_level_rec(const std::string &sMut)
         for (int i = 0; i < mutation_data[sMut].prereqs.size(); i++) {
             set_cat_level_rec(mutation_data[sMut].prereqs[i]);
         }
+        
+        for (int i = 0; i < mutation_data[sMut].prereqs2.size(); i++) {
+            set_cat_level_rec(mutation_data[sMut].prereqs2[i]);
+        }
     }
 }
 
