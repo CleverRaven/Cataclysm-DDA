@@ -6271,5 +6271,27 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "BELL"
+  },
+  {
+    "id": "battery_atomic",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "atomic battery mod",
+    "description": "Electronics has been fitted to this plutonium cell and allows it to be used directly as a battery.  You can attach it to any battery-operated equipment, converting it to use power off the plutonium cell instead.",
+    "price": 500,
+    "material": ["plastic", "iron"],
+    "weight": 142,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "ATOMIC_BATTERY"
   }
 ]

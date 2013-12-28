@@ -1720,6 +1720,42 @@ int iuse::rechargeable_battery(player *p, item *, bool)
     return 1;
 }
 
+int iuse::atomic_battery(player *p, item *, bool)
+{
+    int pos = g->inv_type(_("Modify what?"), IC_TOOL);
+    item* modded = &(p->i_at(pos));
+
+    if (modded == NULL || modded->is_null())
+    {
+        g->add_msg_if_player(p,_("You do not have that item!"));
+        return 0;
+    }
+    if (!modded->is_tool())
+    {
+        g->add_msg_if_player(p,_("This mod can only be used on tools."));
+        return 0;
+    }
+
+    it_tool *tool = dynamic_cast<it_tool*>(modded->type);
+    if (tool->ammo != "battery")
+    {
+        g->add_msg_if_player(p,_("That item does not use batteries!"));
+        return 0;
+    }
+
+    if (modded->has_flag("ATOMIC_AMMO"))
+    {
+        g->add_msg_if_player(p,_("That item has already had its battery modded to accept plutonium cells."));
+        return 0;
+    }
+
+    modded->item_tags.insert("ATOMIC_AMMO");
+    modded->item_tags.insert("NO_UNLOAD");
+    g->m.spawn_item(p->posx, p->posy, "battery", 1, modded->charges);
+    g->add_msg_if_player(p,_("You modify your %s to run off plutonium cells!"), tool->name.c_str());
+    return 1;
+}
+
 static bool valid_fabric(player *p, item *it, bool)
 {
     if (it->type->id == "null") {

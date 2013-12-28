@@ -387,7 +387,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
       material_string += ", " + get_material(2);
     dump->push_back(iteminfo("BASE", _("Material: ") + material_string));
   }
-  
+
   if ( debug == true ) {
     if( g != NULL ) {
       dump->push_back(iteminfo("BASE", _("age: "), "",  (int(g->turn) - bday) / (10 * 60), true, "", true, true));
@@ -558,13 +558,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("GUN", temp1.str()));
   temp1.str("\n");
   dump->push_back(iteminfo("GUN", temp1.str()));
-  }  
-  
+  }
+
   temp1.str("");
   temp1 << "Mods: ";
   for (int i = 0; i < contents.size(); i++) {
     it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[i].type);
-     
+
      if (i == 0) {
         if (!(i % 1) && i > 0) {
           temp1 << "\n";
@@ -624,7 +624,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   temp2.str("");
   temp2 << _("Location: ");
   temp2 << mod->location;
-   
+
   dump->push_back(iteminfo("GUNMOD", temp1.str()));
   dump->push_back(iteminfo("GUNMOD", temp2.str()));
 
@@ -784,6 +784,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has double the normal maximum charges.")));
+    }
+    if (is_tool() && has_flag("ATOMIC_AMMO"))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("This tool has been modified to run off plutonium cells instead of batteries.")));
     }
     if (is_tool() && has_flag("RECHARGE"))
     {
@@ -1306,7 +1311,7 @@ bool item::rotten()
               rot += get_rot_since( since, until );
               if (g->debugmon) g->add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
           }
-          last_rot_check = int(g->turn);          
+          last_rot_check = int(g->turn);
 
           if (fridge > 0) {
             // Flat 20%
