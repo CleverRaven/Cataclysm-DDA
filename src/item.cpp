@@ -1000,6 +1000,7 @@ std::string item::tname( bool with_prefix )
     item* food = NULL;
     it_comest* food_type = NULL;
     std::string tagtext = "";
+    std::string toolmodtext = "";
     ret.str("");
     if (is_food())
     {
@@ -1026,6 +1027,10 @@ std::string item::tname( bool with_prefix )
         ret << _(" (rechargeable)");
     }
 
+    if (has_flag("ATOMIC_AMMO")) {
+        toolmodtext = _("atomic ");
+    }
+
     if (owned > 0)
         ret << _(" (owned)");
 
@@ -1033,7 +1038,7 @@ std::string item::tname( bool with_prefix )
 
     ret.str("");
 
-    ret << damtext << vehtext << burntext << maintext << tagtext;
+    ret << damtext << vehtext << burntext << toolmodtext << maintext << tagtext;
 
     if (!item_vars.empty()) {
         return "*" + ret.str() + "*";
