@@ -11544,10 +11544,6 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
             break;
         range--;
         steps++;
-        timespec ts;   // Timespec for the animation
-        ts.tv_sec = 0;
-        ts.tv_nsec = BILLION / 20;
-        nanosleep (&ts, 0);
     }
 
     if (!m.has_flag("SWIMMABLE", x, y))
