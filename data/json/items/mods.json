@@ -836,7 +836,7 @@
         "type" : "GUNMOD",
         "id" : "holo_sight",
         "name" : "holographic sight",
-        "location": "rail",
+        "location": "sights",
         "clip_size_modifier" : 0,
         "dispersion_modifier" : -6,
         "damage_modifier" : 0,
