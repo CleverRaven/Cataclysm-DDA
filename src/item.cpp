@@ -1028,7 +1028,8 @@ std::string item::tname( bool with_prefix )
 
     ret << damtext << vehtext << burntext << maintext << tagtext;
 
-    if (!item_vars.empty()) {
+    static const std::string const_str_item_note("item_note");
+    if( item_vars.find(const_str_item_note) != item_vars.end() ) {
         return "*" + ret.str() + "*";
     } else {
         return ret.str();
