@@ -200,7 +200,9 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     if(veh_status != 0) {
 
         //Leave engine running in some vehicles
-        if(veh_fuel_mult > 0 && one_in(8)) {
+        if(veh_fuel_mult > 0 
+                && all_parts_with_feature("ENGINE", true).size() > 0
+                && one_in(8)) {
             engine_on = true;
         }
 
