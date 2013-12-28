@@ -33,7 +33,8 @@ void load_mutation(JsonObject &jsobj)
 
     mutation_data[id].valid = jsobj.get_bool("valid", true);
     mutation_data[id].purifiable = jsobj.get_bool("purifiable", true);
-
+    mutation_data[id].threshold = jsobj.get_bool("threshold", false);
+    
     jsarr = jsobj.get_array("prereqs");
     while (jsarr.has_more()) {
         mutation_data[id].prereqs.push_back(jsarr.next_string());

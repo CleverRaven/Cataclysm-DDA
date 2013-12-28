@@ -257,10 +257,19 @@ void player::mutate_towards(std::string mut)
     }
     
     // Check for threshhold mutation, if needed
+    bool threshold = mutation_data[mut].threshold;
     bool has_threshreq = false;
     std::vector<std::string> threshreq = mutation_data[mut].threshreq;
     std::vector<std::string> mutcat;
     mutcat = mutation_data[mut].category;
+    
+    // It shouldn't pick a Threshold anyway (they're supposed to be non-Valid)
+    // but if it does, just reroll
+    if (threshold) {
+        g->add_msg(_("You feel something straining deep inside you, yearning to be free..."));
+        mutate();
+        return;
+    }
 
     for (int i = 0; !has_threshreq && i < threshreq.size(); i++) {
         if (has_trait(threshreq[i])) {
@@ -269,10 +278,10 @@ void player::mutate_towards(std::string mut)
     }
 
     // No crossing The Threshold by simply not having it
-    // Reroll mutation (or not)
+    // Reroll mutation, uncategorized (prevents looping)
     if (!has_threshreq && !threshreq.empty()) {
-        // If you hit the Threshold again and haven't got it, fail with notice
         g->add_msg(_("You feel something straining deep inside you, yearning to be free..."));
+        mutate();
         return;
     }
 
