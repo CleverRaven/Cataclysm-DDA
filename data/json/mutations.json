@@ -379,16 +379,16 @@
         "name": "Shaolin Adept",
         "points": 3,
         "description": "You have studied the arts of the Shaolin monks. You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
-        "starting_trait": true,
-        "valid": false
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id": "MARTIAL_ARTS4",
         "name": "Venom Mob Protege",
         "points": 3,
         "description": "You are a pupil of the Venom Clan. You start with one of the five deadly venoms: Centipede, Viper, Scorpion, Lizard, or Toad.",
-        "starting_trait": true,
-        "valid": false
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "WEAKSCENT",
@@ -740,7 +740,7 @@
         "starting_trait" : true,
         "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "changes_to" : ["DEFORMED"],
-        "categories": ["MUTCAT_RAPTOR", "MUTCAT_FELINE", "MUTCAT_LUPINE"]
+        "category": ["MUTCAT_RAPTOR", "MUTCAT_FELINE", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
         "id" : "FRAIL",
@@ -1122,7 +1122,7 @@
         "cancels" : ["FEATHERS", "LIGHTFUR", "FUR", "CHITIN", "CHITIN2", "CHITIN3", "SCALES"],
         "changes_to" : ["BARK"],
         "leads_to" : ["THORNS", "LEAVES"],
-        "categories": ["MUTCAT_ELFA"],
+        "category": ["MUTCAT_ELFA"],
         "wet_protection" : [
             { "part" : "HEAD", "neutral" : 4 },
             { "part" : "LEGS", "neutral" : 5 },
@@ -2009,7 +2009,7 @@
         "visibility" : 4,
         "ugliness" : 3,
         "description" : "Your face and jaw have begun...changing. Masks and such fit OK, but you're noticeably mutated.",
-        "changes_to" : ["MINOTAUR", "MUZZLE", "BEAR_MUZZLE", "LONG_MUZZLE", "PROBOSCIS"],
+        "changes_to" : ["MINOTAUR", "MUZZLE", "BEAR_MUZZLE", "LONG_MUZZLE"],
         "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
@@ -2019,7 +2019,7 @@
         "visibility" : 5,
         "ugliness" : 6,
         "description" : "Your face resembles that of a bull, with a significant snout.  It looks fearsome but prevents you from wearing mouthgear.",
-        "cancels" : ["MUZZLE", "LONG_MUZZLE", "PROBOSCIS"],
+        "cancels" : ["MUZZLE", "LONG_MUZZLE", "BEAR_MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_CATTLE"]
     },{
@@ -2030,7 +2030,7 @@
         "visibility" : 5,
         "ugliness" : 4,
         "description" : "Your jaw and nose have extended into a wolfish muzzle.  It lends itself to biting in combat and looks impressive, but prevents you from wearing mouthgear.",
-        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "PROBOSCIS"],
+        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "BEAR_MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
     },{
@@ -2041,7 +2041,7 @@
         "visibility" : 5,
         "ugliness" : 4,
         "description" : "Your jaw and nose have extended into a bearish muzzle.  You could bite with it, and it looks impressive, but it prevents you from wearing mouthgear.",
-        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "PROBOSCIS"],
+        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_URSINE"]
     },{
@@ -2052,7 +2052,7 @@
         "visibility" : 8,
         "ugliness" : 8,
         "description" : "Your face and jaws, well, are a shorter version of those found on alligators.  They look NASTY-as do the bite wounds they can inflict-but prevent you from wearing mouthgear.",
-        "cancels" : ["MUZZLE", "MINOTAUR", "PROBOSCIS"],
+        "cancels" : ["MUZZLE", "MINOTAUR", "BEAR_MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_LIZARD"]
     },{
@@ -2244,7 +2244,7 @@
         "points" : -2,
         "visibility" : 3,
         "ugliness" : 2,
-        "description" : "Your hands have fused into quasi-paws. You can still grip things, but fine manipulation is a challenge: permanent hand encumbrance of 1, difficulty with delicate craftwork, and you gloves don't fit. At least the paws handle water a bit better.",
+        "description" : "Your hands have fused into quasi-paws. Fine manipulation is a challenge: permanent hand encumbrance of 1, difficulty with delicate craftwork, and your gloves don't fit. But they handle water better.",
         "prereqs" : ["CLAWS", "CLAWS_RETRACT"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_FELINE"]

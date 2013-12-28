@@ -250,7 +250,7 @@ void player::mutate_towards(std::string mut)
             return;
             }
         else if (!prereq2 && !prereqs2.empty()) {
-            std::string devel = prereq[ rng(0, prereqs2.size() - 1) ];
+            std::string devel = prereqs2[ rng(0, prereqs2.size() - 1) ];
             mutate_towards(devel);
             return;
             }
