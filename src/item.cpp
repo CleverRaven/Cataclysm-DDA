@@ -702,6 +702,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges (rechargeable)."):string_format(_("Maximum <num> charges (rechargeable) of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges));
    } else if (has_flag("DOUBLE_AMMO") && has_flag("RECHARGE")) {
     dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges (rechargeable) (doubled)."):string_format(_("Maximum <num> charges (rechargeable) (doubled) of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges*2));
+   } else if (has_flag("ATOMIC_AMMO")) {
+    dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges."):string_format(_("Maximum <num> charges of %s."), ammo_name("plutonium").c_str())), tool->max_charges*100));
    } else {
     dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges."):string_format(_("Maximum <num> charges of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges));
    }
@@ -2294,7 +2296,11 @@ int item::pick_reload_ammo(player &u, bool interactive)
       am.push_back(tmpammo[j]);
    }
  } else { //non-gun.
-  am = u.has_ammo(ammo_type());
+        // this is probably a tool.  Check if it uses atomic power instead of batteries
+        if (has_flag("ATOMIC_AMMO")) {
+            am = u.has_ammo("plutonium");
+        } else
+            am = u.has_ammo(ammo_type());
  }
 
  // Check if the player is wielding ammo
@@ -2429,6 +2435,10 @@ bool item::reload(player &u, int pos)
   max_load *= 2;
  }
 
+ if (has_flag("ATOMIC_AMMO")) {
+  max_load *= 100;
+ }
+
  if (pos != INT_MIN) {
   // If the gun is currently loaded with a different type of ammo, reloading fails
   if ((reload_target->is_gun() || reload_target->is_gunmod()) &&
@@ -2447,7 +2457,7 @@ bool item::reload(player &u, int pos)
    reload_target->charges++;
    ammo_to_use->charges--;
   }
-  else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on") {
+  else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on" || reload_target->has_flag("ATOMIC_AMMO")) {
       int charges_per_plut = 500;
       int max_plut = floor( static_cast<float>((max_load - reload_target->charges) / charges_per_plut) );
       int charges_used = std::min(ammo_to_use->charges, max_plut);

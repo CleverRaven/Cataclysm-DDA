@@ -1749,9 +1749,23 @@ int iuse::atomic_battery(player *p, item *, bool)
         return 0;
     }
 
+// remove any existing battery mods
+    if (modded->has_flag("DOUBLE_AMMO"))
+    {
+        g->m.spawn_item(p->posx, p->posy, "battery_compartment", 1);
+        modded->item_tags.erase("DOUBLE_AMMO");
+    }
+
+    if (modded->has_flag("RECHARGE"))
+    {
+        g->m.spawn_item(p->posx, p->posy, "rechargeable_battery", 1);
+        modded->item_tags.erase("RECHARGE");
+    }
+
     modded->item_tags.insert("ATOMIC_AMMO");
     modded->item_tags.insert("NO_UNLOAD");
     g->m.spawn_item(p->posx, p->posy, "battery", 1, modded->charges);
+    modded->charges = 500;
     g->add_msg_if_player(p,_("You modify your %s to run off plutonium cells!"), tool->name.c_str());
     return 1;
 }
