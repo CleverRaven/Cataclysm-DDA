@@ -13263,7 +13263,7 @@
         "heal" : -7,
         "addiction_potential" : 0,
         "nutrition" : 6,
-        "description" : "Human urine. By default, a healthy urine contains 95% and 5% toxins. You may not rely on this fact always. Drink at your own risk. ",
+        "description" : "Human urine. By default, a healthy urine contains 95% and 5% toxin. You may not rely on this fact always. Drink at your own risk. ",
         "price" : 0,
         "material" : "null",
         "tool" : "null",
