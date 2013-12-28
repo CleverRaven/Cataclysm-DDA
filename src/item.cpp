@@ -1130,6 +1130,12 @@ int item::weight() const
             }
         }
     }
+
+// tool mods also add about a pound of weight
+    if (has_flag("ATOMIC_AMMO")) {
+        ret += 250;
+    }
+
     return ret;
 }
 
@@ -1206,6 +1212,12 @@ int item::volume(bool unit_value, bool precise_value ) const
             ret += contents[i].volume( false, precise_value );
         }
     }
+
+// tool mods also add volume
+    if (has_flag("ATOMIC_AMMO")) {
+        ret += 1;
+    }
+
     return ret;
 }
 
