@@ -95,6 +95,12 @@ int active_effect_cost[NUM_AEAS] = {
 -5  // AEA_SHADOWS
 };
 
+std::string mk_artifact_id() {
+    char buff[32];
+    sprintf(buff,"artifact_%d", artifact_itype_ids.size());
+    return buff;
+};
+
 //see below, move them so gettext and be applied properly
 artifact_shape_datum artifact_shape_data[ARTSHAPE_MAX];
 artifact_property_datum artifact_property_data[ARTPROP_MAX];
@@ -500,8 +506,6 @@ itype* new_artifact(itypemap &itypes)
   if (one_in(8) && num_bad + num_good >= 4)
    art->charge_type = ARTC_NULL; // 1 in 8 chance that it can't recharge!
 
-  art->id = itypes.size();
-
   itypes[art->id]=art;
   artifact_itype_ids.push_back(art->id);
   return art;
@@ -607,10 +611,6 @@ itype* new_artifact(itypemap &itypes)
    value += passive_effect_cost[passive_tmp];
    art->effects_worn.push_back(passive_tmp);
   }
-
-  std::stringstream artid;
-  artid << "artifact" << artifact_itype_ids.size();
-  art->id = artid.str();
   itypes[art->id] = art;
   artifact_itype_ids.push_back(art->id);
   return art;
@@ -723,10 +723,6 @@ itype* new_natural_artifact(itypemap &itypes, artifact_natural_property prop)
   art->def_charges = art->max_charges;
   art->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
  }
-
- std::stringstream artid;
- artid << "artifact" << artifact_itype_ids.size();
- art->id = artid.str();
  artifact_itype_ids.push_back(art->id);
  itypes[art->id] = art;
  return art;

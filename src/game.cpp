@@ -3677,9 +3677,8 @@ Current turn: %d; Next spawn %d.\n\
       // Add an extra weapon perhaps?
       art->description = _("The architect's cube.");
       art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
-      art->id = itypes.size();
-      itypes[art->name] = art;
-
+      itypes[art->id] = art;
+      artifact_itype_ids.push_back(art->id);
       item artifact( art, 0);
       u.i_add(artifact);
   }

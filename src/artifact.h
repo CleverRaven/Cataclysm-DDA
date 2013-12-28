@@ -8,6 +8,8 @@
 #include <vector>
 #include <map>
 
+std::string mk_artifact_id();
+
 enum art_effect_passive {
  AEP_NULL = 0,
 // Good
@@ -307,6 +309,7 @@ public:
     it_artifact_tool(JsonObject &jo) : it_tool() { deserialize(jo); };
 
     it_artifact_tool() : it_tool() {
+        id = mk_artifact_id();
         ammo = "NULL";
         price = 0;
         def_charges = 0;
@@ -335,7 +338,10 @@ public:
     }
 
     it_artifact_armor(JsonObject &jo) : it_armor() { deserialize(jo); };
-    it_artifact_armor() : it_armor() { price = 0; };
+    it_artifact_armor() : it_armor() {
+        id = mk_artifact_id();
+        price = 0;
+    };
 };
 
 
