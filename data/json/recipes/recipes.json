@@ -11770,7 +11770,8 @@
     [
       [ "lemon", 2 ],
       [ "acid", 1 ],
-      [ "vinegar", 2 ]
+      [ "vinegar", 2 ],
+	  [ "urine", 1 ]
     ],
     [
       [ "steel_chunk", 1 ],
@@ -20223,7 +20224,7 @@
     [ [ "water", 1 ], [ "water_clean", 1 ] ],
     [ [ "meal_bone", 2 ] ],
     [ [ "meal_chitin_piece", 1 ] ],
-    [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    [ [ "ammonia", 1 ], [ "lye_powder", 100 ], [ "urine", 1 ] ]
   ]
 },{
         "type" : "recipe",

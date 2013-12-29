@@ -2985,14 +2985,16 @@
       ["fungicide", 10],
       ["oxygen_tank", 40],
       ["smoxygen_tank", 10],
-      ["jar_3l_glass", 15]
+      ["jar_3l_glass", 15],
+	  ["urine", 15]
     ]
     },{
         "type" : "item_group",
         "id" : "hospital_samples",
     "items":[
       ["blood", 20],
-      ["vacutainer", 10]
+      ["vacutainer", 10],
+	  ["urine", 15]
     ]
     },{
     	"type" : "item_group",
