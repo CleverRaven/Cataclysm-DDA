@@ -384,7 +384,7 @@ class game
  // will do so, if bash_dmg is greater than 0, items won't stop the door
  // from closing at all.
  // If the door gets closed the items on the door tile get moved away or destroyed.
- bool forced_door_closing(int x, int y, ter_id door_type, int bash_dmg);
+ bool forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg);
  void open_gate( const int examx, const int examy, const ter_id handle_type );
 
  bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
