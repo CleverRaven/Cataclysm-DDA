@@ -6490,6 +6490,13 @@ int player::charges_of(itype_id it)
  return quantity;
 }
 
+int  player::damage_leak_level( std::string flag ) const
+{
+    int leak_level = 0;
+    leak_level = inv.damage_leak_level(flag);
+    return leak_level;
+}
+
 bool player::has_watertight_container()
 {
  if (!inv.watertight_container().is_null()) {
@@ -6941,9 +6948,9 @@ bool player::eat(item *eaten, it_comest *comest)
         mealtime /= 2;
     } if (has_trait("GOURMAND")) {
         mealtime -= 100;
-    } 
+    }
         moves -= (mealtime);
-    
+
     // If it's poisonous... poison us.  TODO: More several poison effects
     if (eaten->poison >= rng(2, 4)) {
         add_effect("poison", eaten->poison * 100);

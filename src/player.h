@@ -460,6 +460,8 @@ public:
  int  amount_of(itype_id it);
  int  charges_of(itype_id it);
 
+ int  damage_leak_level( std::string flag ) const; // damaged items may leak radiation or chemicals
+
  bool has_watertight_container();
  bool has_matching_liquid(itype_id it);
  bool has_weapon_or_armor(char let) const; // Has an item with invlet let
