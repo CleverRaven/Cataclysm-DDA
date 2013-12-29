@@ -48,6 +48,10 @@ bool monster::can_move_to(int x, int y)
     if (has_flag(MF_AQUATIC) && !g->m.has_flag("SWIMMABLE", x, y)) {
         return false;
     }
+    
+    if (has_flag(MF_SUNDEATH) && g->is_in_sunlight(x, y)) {
+        return false;
+    }
 
     // various animal behaviours
     if (has_flag(MF_ANIMAL))
