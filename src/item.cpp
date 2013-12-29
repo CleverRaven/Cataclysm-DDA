@@ -907,6 +907,8 @@ nc_color item::color(player *u) const
                 (u->skillLevel(tmp->type) >= (int)tmp->req) &&
                 (u->skillLevel(tmp->type) < (int)tmp->level))
             ret = c_ltblue;
+        else if (!u->studied_all_recipes(tmp) && !u->has_trait("ILLITERATE"))
+          ret = c_yellow;
     }
     return ret;
 }
