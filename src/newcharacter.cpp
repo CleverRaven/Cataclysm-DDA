@@ -988,16 +988,17 @@ int set_profession(WINDOW *w, player *u, int &points)
         mvwprintz(w,  3, 40, c_ltgray, "                                      ");
         if (can_pick == "YES") {
             mvwprintz(w,  3, 20, c_green, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
+                      _(sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str()),
                       sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         } else if(can_pick == "INSUFFICIENT_POINTS") {
             mvwprintz(w,  3, 20, c_ltred, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(), sorted_profs[cur_id]->point_cost(),
+                      _(sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str()),
+                      sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
-                       sorted_profs[cur_id]->description().c_str());
+                       _(sorted_profs[cur_id]->description().c_str()));
 
         calcStartPos(iStartPos, cur_id, iContentHeight, profession::count());
 
@@ -1009,12 +1010,12 @@ int set_profession(WINDOW *w, player *u, int &points)
                                              "); // Clear the line
             if (u->prof != sorted_profs[i]) {
                 mvwprintz(w, 5 + i - iStartPos, 2, (sorted_profs[i] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
-                          sorted_profs[i]->gender_appropriate_name(u->male).c_str());
+                          _(sorted_profs[i]->gender_appropriate_name(u->male).c_str()));
             } else {
                 mvwprintz(w, 5 + i - iStartPos, 2,
                           (sorted_profs[i] == sorted_profs[cur_id] ?
                            hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                          sorted_profs[i]->gender_appropriate_name(u->male).c_str());
+                          _(sorted_profs[i]->gender_appropriate_name(u->male).c_str()));
             }
         }
 
@@ -1075,7 +1076,8 @@ int set_profession(WINDOW *w, player *u, int &points)
         else
         {
             mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press TAB to switch to %1$s %2$s"),
-                      u->male ? "female" : "male", sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
+                      u->male ? "female" : "male",
+                      _(sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str()));
         }
 
         //Draw Scrollbar
@@ -1408,7 +1410,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz(w_gender, 1, 0, c_ltgray, _("Press TAB to switch gender"));
         wrefresh(w_gender);
 
-        mvwprintz(w_profession, 0, 0, c_ltgray, _("Profession: %1$s"), u->prof->gender_appropriate_name(u->male).c_str());
+        werase(w_profession);
+        mvwprintz(w_profession, 0, 0, c_ltgray, _("Profession: %1$s"),
+                  _(u->prof->gender_appropriate_name(u->male).c_str()));
         wrefresh(w_profession);
 
         ch = input();
