@@ -25,6 +25,7 @@ ignorable = {
     "recipe_category",
     "recipe_subcategory",
     "recipe",
+    "region_settings",
     "SPECIES"
 }
 
