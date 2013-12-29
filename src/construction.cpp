@@ -637,6 +637,29 @@ void construct::done_deconstruct(point p)
         g->m.spawn_item(p.x, p.y, "nail", 0, rng(12,16));
         g->m.furn_set(p.x, p.y, f_null);
       break;
+	  case old_f_washer:
+        g->m.spawn_item(p.x, p.y, "pipe", 1);
+        g->m.spawn_item(p.x, p.y, "scrap",       rng(2,6));
+		g->m.spawn_item(p.x, p.y, "steel_chunk",       rng(1,3));
+		g->m.spawn_item(p.x, p.y, "sheet_metal",       rng(2,6));
+		g->m.spawn_item(p.x, p.y, "cable",       rng(1,15));
+		g->m.spawn_item(p.x, p.y, "cu_pipe",       rng(2,5));
+        g->m.furn_set(p.x, p.y, f_null);
+		break;
+		case old_f_dryer:
+        g->m.spawn_item(p.x, p.y, "scrap",       rng(2,6));
+		g->m.spawn_item(p.x, p.y, "steel_chunk",       rng(1,3));
+		g->m.spawn_item(p.x, p.y, "sheet_metal",       rng(2,6));
+		g->m.spawn_item(p.x, p.y, "cable",       rng(1,15));
+		g->m.spawn_item(p.x, p.y, "element",       rng(1,3));
+        g->m.furn_set(p.x, p.y, f_null);
+		break;
+		case old_f_exercise:
+		g->m.spawn_item(p.x, p.y, "pipe", 1);
+		g->m.spawn_item(p.x, p.y, "steel_chunk", 1);
+        g->m.spawn_item(p.x, p.y, "scrap",       rng(2,6));
+        g->m.furn_set(p.x, p.y, f_null);
+		break;
       default:
         g->add_msg(_("You have to push away %s first."), g->m.furnname(p.x, p.y).c_str());
       break;
