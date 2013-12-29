@@ -97,7 +97,7 @@ int active_effect_cost[NUM_AEAS] = {
 
 std::string mk_artifact_id() {
     char buff[32];
-    sprintf(buff,"artifact_%ld", artifact_itype_ids.size());
+    sprintf(buff,"artifact_%d", static_cast<int>(artifact_itype_ids.size()));
     return buff;
 };
 
