@@ -1597,7 +1597,28 @@ void item::load_legacy(std::stringstream & dump) {
         }
         name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
     }
-    make(itypes[idtmp]);
+
+    bool old_itype = false;
+
+    if ( idtmp == "null" ) {
+        std::map<std::string, std::string>::const_iterator oldity = item_vars.find("_invalid_itype_");
+        if ( oldity != item_vars.end() ) {
+            old_itype = true;
+            idtmp = oldity->second;
+        }
+    }
+
+    std::map<std::string, itype*>::const_iterator ity = itypes.find(idtmp);
+    if ( ity == itypes.end() ) {
+        item_vars["_invalid_itype_"] = idtmp;
+        make(NULL);
+    } else {
+        if ( old_itype ) {
+            item_vars.erase( "_invalid_itype_" );
+        }
+        make(ity->second);
+    }
+
     invlet = char(lettmp);
     damage = damtmp;
     active = false;
