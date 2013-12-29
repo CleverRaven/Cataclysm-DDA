@@ -920,11 +920,9 @@ nc_color item::color(player *u) const
 
 nc_color item::color_in_inventory()
 {
-    // Items in our inventory get colorized specially
-    if (active && !is_food() && !is_food_container()) {
-        return c_yellow;
-    }
-    return c_white;
+    // This should be relevant only for the player,
+    // npcs don't care about the color
+    return color(&g->u);
 }
 
 /* @param with_prefix determines whether to return for more of its object, such as
