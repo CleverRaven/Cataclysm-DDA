@@ -5108,6 +5108,20 @@ void player::suffer()
  if (has_artifact_with(AEP_FORCE_TELEPORT) && one_in(600))
   g->teleport(this);
 
+// checking for damaged atomic equipment
+ if (damage_leak_level("LEAK_RAD") > 0 && damage_leak_level("LEAK_RAD") < 10) {
+  if (g->m.radiation(posx, posy) < 10 && one_in(50))
+   g->m.radiation(posx, posy)++;
+ }
+ if (damage_leak_level("LEAK_RAD") > 10 && damage_leak_level("LEAK_RAD") < 20) {
+  if (g->m.radiation(posx, posy) < 20 && one_in(25))
+   g->m.radiation(posx, posy)++;
+ }
+ if (damage_leak_level("LEAK_RAD") > 20) {
+  if (g->m.radiation(posx, posy) < 30 && one_in(10))
+   g->m.radiation(posx, posy)++;
+ }
+
  int localRadiation = g->m.radiation(posx, posy);
 
  if (localRadiation) {
@@ -6490,6 +6504,13 @@ int player::charges_of(itype_id it)
  return quantity;
 }
 
+int  player::damage_leak_level( std::string flag ) const
+{
+    int leak_level = 0;
+    leak_level = inv.damage_leak_level(flag);
+    return leak_level;
+}
+
 bool player::has_watertight_container()
 {
  if (!inv.watertight_container().is_null()) {
@@ -6941,9 +6962,9 @@ bool player::eat(item *eaten, it_comest *comest)
         mealtime /= 2;
     } if (has_trait("GOURMAND")) {
         mealtime -= 100;
-    } 
+    }
         moves -= (mealtime);
-    
+
     // If it's poisonous... poison us.  TODO: More several poison effects
     if (eaten->poison >= rng(2, 4)) {
         add_effect("poison", eaten->poison * 100);

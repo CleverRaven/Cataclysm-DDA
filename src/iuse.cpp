@@ -1763,6 +1763,7 @@ int iuse::atomic_battery(player *p, item *, bool)
     }
 
     modded->item_tags.insert("ATOMIC_AMMO");
+    modded->item_tags.insert("LEAK_RAD");
     modded->item_tags.insert("NO_UNLOAD");
     g->m.spawn_item(p->posx, p->posy, "battery", 1, modded->charges);
     modded->charges = 500;
