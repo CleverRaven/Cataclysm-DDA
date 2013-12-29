@@ -240,6 +240,7 @@ void Item_factory::init(){
     iuse_function_list["DOLLCHAT"] = &iuse::talking_doll;
     iuse_function_list["BELL"] = &iuse::bell;
     iuse_function_list["OXYGEN_BOTTLE"] = &iuse::oxygen_bottle;
+    iuse_function_list["ATOMIC_BATTERY"] = &iuse::atomic_battery;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS
@@ -534,7 +535,7 @@ void Item_factory::load_gun(JsonObject& jo)
     gun_template->reload_time = jo.get_int("reload");
     gun_template->pierce = jo.get_int("pierce", 0);
     gun_template->ammo_effects = jo.get_tags("ammo_effects");
-    
+
     if ( jo.has_array("valid_mod_locations") ) {
         JsonArray jarr = jo.get_array("valid_mod_locations");
         while (jarr.has_more()){

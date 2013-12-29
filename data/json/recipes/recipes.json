@@ -11834,6 +11834,41 @@
   ]
 },{
         "type" : "recipe",
+  "result": "battery_atomic",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_OTHER",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 6 ],
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": true,
+  "decomp_learn": 4,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 6 ]],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 6 ]
+    ],
+    [
+      [ "cable", 4 ]
+    ],
+    [
+      [ "plut_cell", 1 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
   "result": "coilgun",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -12066,7 +12101,7 @@
     ],
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]      
+      [ "toolset", 1 ]
     ]
   ],
   "components": [
