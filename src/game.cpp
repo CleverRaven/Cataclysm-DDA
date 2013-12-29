@@ -6527,8 +6527,9 @@ void game::revive_corpse(int x, int y, item *it)
 void game::open()
 {
     int openx, openy;
-    if (!choose_adjacent(_("Open where?"), openx, openy))
+    if (!choose_adjacent(_("Open where?"), openx, openy)) {
         return;
+    }
 
     u.moves -= 100;
     bool didit = false;
@@ -6539,9 +6540,9 @@ void game::open()
         int openable = veh->part_with_feature(vpart, "OPENABLE");
         if(openable >= 0) {
             const char *name = veh->part_info(openable).name.c_str();
-            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")){
+            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")) {
                 const vehicle *in_veh = m.veh_at(u.posx, u.posy);
-                if (!in_veh || in_veh != veh){
+                if (!in_veh || in_veh != veh) {
                     add_msg(_("That %s can only opened from the inside."), name);
                     return;
                 }
@@ -6556,10 +6557,11 @@ void game::open()
         return;
     }
 
-    if (m.is_outside(u.posx, u.posy))
+    if (m.is_outside(u.posx, u.posy)) {
         didit = m.open_door(openx, openy, false);
-    else
+    } else {
         didit = m.open_door(openx, openy, true);
+    }
 
     if (!didit) {
         const std::string terid = m.get_ter(openx, openy);
@@ -6595,14 +6597,13 @@ void game::close(int closex, int closey)
     if (zid != -1) {
         monster &critter = critter_tracker.find(zid);
         add_msg(_("There's a %s in the way!"), critter.name().c_str());
-    }
-    else if (veh) {
+    } else if (veh) {
         int openable = veh->part_with_feature(vpart, "OPENABLE");
         if(openable >= 0) {
             const char *name = veh->part_info(openable).name.c_str();
-            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")){
+            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")) {
                 const vehicle *in_veh = m.veh_at(u.posx, u.posy);
-                if (!in_veh || in_veh != veh){
+                if (!in_veh || in_veh != veh) {
                     add_msg(_("That %s can only closed from the inside."), name);
                     return;
                 }
@@ -6614,21 +6615,23 @@ void game::close(int closex, int closey)
                 add_msg(_("That %s is already closed."), name);
             }
         }
-    } else if (m.furn(closex, closey) != f_safe_o && m.i_at(closex, closey).size() > 0)
+    } else if (m.furn(closex, closey) != f_safe_o && m.i_at(closex, closey).size() > 0) {
         add_msg(_("There's %s in the way!"), m.i_at(closex, closey).size() == 1 ?
                 m.i_at(closex, closey)[0].tname().c_str() : _("some stuff"));
-    else if (closex == u.posx && closey == u.posy)
+    } else if (closex == u.posx && closey == u.posy) {
         add_msg(_("There's some buffoon in the way!"));
-    else if (m.ter(closex, closey) == t_window_domestic &&
-             m.is_outside(u.posx, u.posy))  {
+    } else if (m.ter(closex, closey) == t_window_domestic &&
+               m.is_outside(u.posx, u.posy)) {
         add_msg(_("You cannot close the curtains from outside. You must be inside the building."));
     } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.size() == 0 ) {
-       add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
-    } else
+        add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
+    } else {
         didit = m.close_door(closex, closey, true, false);
+    }
 
-    if (didit)
+    if (didit) {
         u.moves -= 90;
+    }
 }
 
 void game::smash()
