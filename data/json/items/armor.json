@@ -318,7 +318,7 @@
         "type" : "ARMOR",
         "id" : "boots_combat",
         "name" : "combat boots",
-        "weight" : 1360,
+        "weight" : 1060,
         "color" : "dark_gray",
         "covers" : ["FEET"],
         "to_hit" : -1,
