@@ -1083,7 +1083,7 @@
         "warmth" : 5,
         "phase" : "solid",
         "enviromental_protection" : 0,
-        "encumbrance" : 1,
+        "encumbrance" : 0,
         "bashing" : -5,
         "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 15,
