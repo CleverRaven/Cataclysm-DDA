@@ -1134,7 +1134,7 @@ std::list<item> inventory::use_charges(itype_id it, int quantity)
              stack_iter != iter->end() && quantity > 0; ++stack_iter) {
             // First, check contents
             for (int k = 0; k < stack_iter->contents.size() && quantity > 0; k++) {
-                if (stack_iter->contents[k].type->id == it) {
+                if (stack_iter->contents[k].type->id == it || stack_iter->ammo_type() == it) {
                     if (stack_iter->contents[k].charges <= quantity) {
                         ret.push_back(stack_iter->contents[k]);
                         quantity -= stack_iter->contents[k].charges;
