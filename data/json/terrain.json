@@ -49,7 +49,7 @@
         "color": "brown",
         "move_cost": 10,
         "trap": "tr_pit",
-        "flags": ["TRANSPARENT", "DIGGABLE"],
+        "flags": ["TRANSPARENT"],
         "examine_action": "pit"
     },{
         "type" : "terrain",
