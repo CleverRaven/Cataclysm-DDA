@@ -6591,6 +6591,7 @@ void game::close(int closex, int closey)
 
     bool didit = false;
 
+    std::vector<item> &items_in_way = m.i_at(closex, closey);
     int vpart;
     vehicle *veh = m.veh_at(closex, closey, vpart);
     int zid = mon_at(closex, closey);
@@ -6615,9 +6616,6 @@ void game::close(int closex, int closey)
                 add_msg(_("That %s is already closed."), name);
             }
         }
-    } else if (m.furn(closex, closey) != f_safe_o && m.i_at(closex, closey).size() > 0) {
-        add_msg(_("There's %s in the way!"), m.i_at(closex, closey).size() == 1 ?
-                m.i_at(closex, closey)[0].tname().c_str() : _("some stuff"));
     } else if (closex == u.posx && closey == u.posy) {
         add_msg(_("There's some buffoon in the way!"));
     } else if (m.ter(closex, closey) == t_window_domestic &&
@@ -6626,7 +6624,33 @@ void game::close(int closex, int closey)
     } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.size() == 0 ) {
         add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
     } else {
+        // Scoot up to 10 items up to volume 2 each out of the way.
+        if (m.furn(closex, closey) != f_safe_o && items_in_way.size() > 0) {
+            if( items_in_way.size() > 10 ) {
+                add_msg(_("Too many items to push out of the way!"));
+                return;
+            }
+            for( std::vector<item>::iterator cur_item = items_in_way.begin();
+                 cur_item != items_in_way.end(); ++cur_item ) {
+                if( cur_item->volume() > 2 ) {
+		    add_msg(_("There's a %s in the way that is to big to just nudge out of the way."),
+                            cur_item->tname().c_str());
+                    return;
+                }
+            }
+            add_msg(_("You push %s out the way."), items_in_way.size() == 1 ?
+                    items_in_way[0].tname().c_str() : _("some stuff"));
+            u.moves -= items_in_way.size() * 10;
+        }
+
         didit = m.close_door(closex, closey, true, false);
+        // Just plopping items back on their origin square will displace them to adjacent squares
+        // since the door is closed now.
+        for( std::vector<item>::iterator cur_item = items_in_way.begin();
+             cur_item != items_in_way.end(); ++cur_item ) {
+            m.add_item_or_charges( closex, closey, *cur_item );
+        }
+        items_in_way.erase( items_in_way.begin(), items_in_way.end() );
     }
 
     if (didit) {
