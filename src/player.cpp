@@ -5108,6 +5108,20 @@ void player::suffer()
  if (has_artifact_with(AEP_FORCE_TELEPORT) && one_in(600))
   g->teleport(this);
 
+// checking for damaged atomic equipment
+ if (damage_leak_level("ATOMIC_AMMO") > 0 && damage_leak_level("ATOMIC_AMMO") < 10) {
+  if (g->m.radiation(posx, posy) < 10 && one_in(50))
+   g->m.radiation(posx, posy)++;
+ }
+ if (damage_leak_level("ATOMIC_AMMO") > 10 && damage_leak_level("ATOMIC_AMMO") < 20) {
+  if (g->m.radiation(posx, posy) < 20 && one_in(25))
+   g->m.radiation(posx, posy)++;
+ }
+ if (damage_leak_level("ATOMIC_AMMO") > 20) {
+  if (g->m.radiation(posx, posy) < 30 && one_in(10))
+   g->m.radiation(posx, posy)++;
+ }
+
  int localRadiation = g->m.radiation(posx, posy);
 
  if (localRadiation) {
