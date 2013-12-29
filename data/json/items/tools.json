@@ -6278,7 +6278,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "name": "atomic battery mod",
-    "description": "Electronics has been fitted to this plutonium cell and allows it to be used directly as a battery.  You can attach it to any battery-operated equipment, converting it to use power off the plutonium cell instead.",
+    "description": "This plutonium cell has been adapted to fit conventional battery connections.  You can attach it to any battery-operated equipment, converting it to use power off the plutonium cell instead.",
     "price": 500,
     "material": ["plastic", "iron"],
     "weight": 142,

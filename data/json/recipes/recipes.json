@@ -11863,7 +11863,7 @@
   "reversible": true,
   "decomp_learn": 4,
   "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 6 ]],
+  "book_learn": [[ "recipe_atomic_battery", 6 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
