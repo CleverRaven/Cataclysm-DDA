@@ -199,6 +199,13 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     //Provide some variety to non-mint vehicles
     if(veh_status != 0) {
 
+        //Leave engine running in some vehicles
+        if(veh_fuel_mult > 0 
+                && all_parts_with_feature("ENGINE", true).size() > 0
+                && one_in(8)) {
+            engine_on = true;
+        }
+
         //Turn on lights on some vehicles
         if(one_in(20)) {
             lights_on = true;
