@@ -787,6 +787,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has double the normal maximum charges.")));
     }
+    if (has_flag("LEAK_RAD"))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("This item can leak radiation if damaged.")));
+    }
     if (is_tool() && has_flag("ATOMIC_AMMO"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));

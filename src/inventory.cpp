@@ -1305,6 +1305,23 @@ bool inventory::has_active_item(itype_id type) const
     return false;
 }
 
+int inventory::damage_leak_level(std::string flag) const
+{
+    int ret = 0;
+
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        for (std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter)
+        {
+            if (stack_iter->has_flag(flag) && stack_iter->damage > 0)
+            {
+                ret += stack_iter->damage;
+            }
+        }
+    }
+    return ret;
+}
+
 bool inventory::has_mission_item(int mission_id) const
 {
     for (invstack::const_iterator stack = items.begin(); stack != items.end(); ++stack)
