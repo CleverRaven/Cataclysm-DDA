@@ -5109,15 +5109,15 @@ void player::suffer()
   g->teleport(this);
 
 // checking for damaged atomic equipment
- if (damage_leak_level("ATOMIC_AMMO") > 0 && damage_leak_level("ATOMIC_AMMO") < 10) {
+ if (damage_leak_level("LEAK_RAD") > 0 && damage_leak_level("LEAK_RAD") < 10) {
   if (g->m.radiation(posx, posy) < 10 && one_in(50))
    g->m.radiation(posx, posy)++;
  }
- if (damage_leak_level("ATOMIC_AMMO") > 10 && damage_leak_level("ATOMIC_AMMO") < 20) {
+ if (damage_leak_level("LEAK_RAD") > 10 && damage_leak_level("LEAK_RAD") < 20) {
   if (g->m.radiation(posx, posy) < 20 && one_in(25))
    g->m.radiation(posx, posy)++;
  }
- if (damage_leak_level("ATOMIC_AMMO") > 20) {
+ if (damage_leak_level("LEAK_RAD") > 20) {
   if (g->m.radiation(posx, posy) < 30 && one_in(10))
    g->m.radiation(posx, posy)++;
  }
