@@ -313,7 +313,7 @@ void mdeath::guilt(monster *z) {
 }
 void mdeath::blobsplit(monster *z) {
     int speed = z->speed - rng(30, 50);
-    g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", 1, 0, g->turn, rng(5,10));
+    g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", 1, 0, g->turn, rng(1,4));
     if (speed <= 0) {
         if (g->u_see(z)) {
             //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)
@@ -514,7 +514,7 @@ void mdeath::zombie(monster *z) {
         break;
 
         case 4: // mon_zombie_hulk
-            g->m.spawn_item(z->posx(), z->posy(), "rag", 1, 0, g->turn, rng(5,10));
+            g->m.spawn_item(z->posx(), z->posy(), "rag", 1, 0, g->turn, rng(1,4));
             g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             break;
 			
