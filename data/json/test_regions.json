@@ -20,7 +20,7 @@
           "boost_chance": 2.833,            "//": "% of fields with boosted plant growth",
           "boosted_percent_coverage": 12.5, "//": "for the above: percent coverage jumps to this amount",
           "boosted_other": {                "//": "...and the first non-default picked from this list...",
-              "t_shrub_blueberry": 0.05,    "//": "blinkblinkwhat?",
+              "t_shrub_blueberry": 0.0001,  "//": "blinkblinkwhat?",
               "t_shrub": 4.9,
               "f_mutcactus_test": 50.0
           },
