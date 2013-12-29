@@ -242,8 +242,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     }
 
     bool blood_inside_set = false;
-    int blood_inside_x;
-    int blood_inside_y;
+    int blood_inside_x = 0;
+    int blood_inside_y = 0;
     for (int p = 0; p < parts.size(); p++)
     {
         if (part_flag(p, "VARIABLE_SIZE")){ // generate its bigness attribute.?
