@@ -5596,12 +5596,12 @@ void game::do_blast( const int x, const int y, const int power, const int radius
                         kill_mon(mon_hit); // TODO: player's fault?
                     }
                 }
+	    }
 
-                int vpart;
-                vehicle *veh = m.veh_at(i, j, vpart);
-                if (veh) {
-                    veh->damage (vpart, dam, false);
-                }
+            int vpart;
+            vehicle *veh = m.veh_at(i, j, vpart);
+            if (veh) {
+                veh->damage (vpart, dam, false);
             }
 
             if (npc_hit != -1) {
