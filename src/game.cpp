@@ -3585,7 +3585,7 @@ Current turn: %d; Next spawn %d.\n\
       u.ma_styles.push_back("style_toad");
       add_msg("You now know a lot more than just 10 styles of kung fu.");
    break;
-  
+
   case 13: {
     add_msg("Recipe debug.");
     add_msg("Your eyes blink rapidly as knowledge floods your brain.");
@@ -3597,13 +3597,13 @@ Current turn: %d; Next spawn %d.\n\
         { recipe* cur_recipe = *list_iter;
         if (!(u.learned_recipes.find(cur_recipe->ident) != u.learned_recipes.end()))  {
         u.learn_recipe(cur_recipe);
-        }    
+        }
       }
     }
     add_msg("You know how to craft that now.");
   }
     break;
-   
+
   case 14: {
    point pos = look_around();
    int npcdex = npc_at(pos.x, pos.y);
@@ -5213,6 +5213,28 @@ int game::mon_info(WINDOW *w)
                     lastrowprinted = pr.y;
                     mvwputch(w, pr.y, pr.x, GetMType(sbuff)->color, GetMType(sbuff)->sym);
                     pr.x += 2; // symbol and space
+
+                    // Include the distance to the creature below the creature compass.
+                    //
+                    std:: vector< monster> crits = critter_tracker.list();
+
+                    monster current_crit;
+
+                    for ( size_t i = 0; i < crits.size(); i++) {
+                        if (crits[i].type->name == name) {
+                            current_crit = crits[i];
+                            break;
+                        }
+                    }
+
+                    std:: string dist = helper::to_string(trig_dist(0, 0, current_crit.xpos() - u.posx,
+                         current_crit.ypos() - u.posy));
+
+                    mvwprintz( w, pr.y, pr.x, GetMType(sbuff)->color, dist.c_str());
+                    pr.x += dist.length() + 1; // distance and a space
+                    //
+                    ////
+
                     nc_color danger = c_dkgray;
                     if (GetMType(sbuff)->difficulty >= 30)
                         danger = c_red;
