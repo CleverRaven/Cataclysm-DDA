@@ -6957,7 +6957,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     refresh_all();
 }
 
-bool game::forced_door_closing(int x, int y, ter_id door_type, int bash_dmg) {
+bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg) {
     const std::string &door_name = terlist[door_type].name;
     int kbx = x; // Used when player/monsters are knocked back
     int kby = y; // and when moving items out of the way
@@ -7172,7 +7172,7 @@ void game::open_gate( const int examx, const int examy, const ter_id handle_type
            if (!open && (g->m.ter(examx+wall_x+gate_x, examy+wall_y+gate_y) == floor_type)) {  //closing the gate...
              close = true;
              while (g->m.ter(cur_x, cur_y) == floor_type) {
-               forced_door_closing(cur_x, cur_y, door_type, bash_dmg);
+               forced_gate_closing(cur_x, cur_y, door_type, bash_dmg);
                cur_x = cur_x+gate_x;
                cur_y = cur_y+gate_y;
              }
