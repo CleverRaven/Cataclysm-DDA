@@ -1708,10 +1708,10 @@ void game::handle_key_blocking_activity() {
 * @param iStartX Left coord of the item info window
 * @param iWidth width of the item info window (height = height of terminal)
 * @param position It is position of the action menu. Default 0
-* 	-2 - near the right edge of the terminal window
-* 	-1 - left before item info window
-* 	0 - right after item info window
-* 	1 - near the left edge of the terminal window
+*       -2 - near the right edge of the terminal window
+*       -1 - left before item info window
+*       0 - right after item info window
+*       1 - near the left edge of the terminal window
 * @return getch
 */
 int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
@@ -2722,7 +2722,7 @@ void game::update_scent()
         }
     } else {
         player_last_position = point( u.posx, u.posy );
-   	    player_last_moved = turn;
+        player_last_moved = turn;
     }
 
     // note: the next two intermediate variables need to be at least
@@ -11123,7 +11123,7 @@ bool game::plmove(int dx, int dy)
       monster &critter = zombie(mondex);
       if (critter.has_flag(MF_IMMOBILE)) {
           // ...except that turrets can be picked up.
-	  // TODO: Make there a flag, instead of hard-coded to mon_turret
+          // TODO: Make there a flag, instead of hard-coded to mon_turret
           if (critter.type->id == "mon_turret") {
               if (query_yn(_("Deactivate the turret?"))) {
                   u.moves -= 100;
