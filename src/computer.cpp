@@ -10,7 +10,7 @@
 #include <sstream>
 
 std::vector<std::string> computer::lab_notes;
-int extrahacks = 0;
+int alerts = 0;
 
 computer::computer(): name(DEFAULT_COMPUTER_NAME)
 {
@@ -74,7 +74,10 @@ void computer::add_failure(computer_failure failure)
 
 void computer::shutdown_terminal()
 {
-    extrahacks = 0;
+    // So yeah, you can reset the term by logging off.
+    // Otherwise, it's persistent across all terms.
+    // Decided to go easy on people for now.
+    alerts = 0;
     werase(w_terminal);
     delwin(w_terminal);
     w_terminal = NULL;
@@ -155,7 +158,8 @@ void computer::use()
         } else { // We selected an option other than quit.
             ch -= '1'; // So '1' -> 0; index in options.size()
             computer_option current = options[ch];
-            if ((current.security + (extrahacks)) > 0) {
+            // Once you trip the security, you have to roll every time you want to do something
+            if ((current.security + (alerts)) > 0) {
                 print_error(_("Password required."));
                 if (query_bool(_("Hack into system?"))) {
                     if (!hack_attempt(&(g->u), current.security)) {
@@ -184,8 +188,11 @@ bool computer::hack_attempt(player *p, int Security)
         Security = security;    // Set to main system security if no value passed
     }
     
-    if (extrahacks > 0) {
-        Security += (extrahacks * 2); 
+    // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
+    // +2 dice to the system's hack-resistance
+    // So practical max files from a given terminal = 5, at 10 Computer
+    if (alerts > 0) {
+        Security += (alerts * 2); 
     }
 
     p->practice(g->turn, "computer", 5 + Security * 2);
@@ -418,19 +425,19 @@ void computer::activate_function(computer_action action)
         if (lab_notes.empty()) {
             log = _("No data found.");
         } else {
-            log = lab_notes[(g->levx + g->levy + g->levz + (extrahacks)) % lab_notes.size()];
+            log = lab_notes[(g->levx + g->levy + g->levz + (alerts)) % lab_notes.size()];
         }
 
         print_text(log.c_str());
         // One's an anomaly
-        if (extrahacks == 0) {
+        if (alerts == 0) {
         query_any(_("Local data-access error logged, alerting helpdesk. Press any key..."));
-        extrahacks ++;
+        alerts ++;
         }
         else {
         // Two's a trend.
-            query_any(_("Warning: anomalous archive-access activity detected at this node."));
-            extrahacks ++;
+            query_any(_("Warning: anomalous archive-access activity detected at this node. Press any key..."));
+            alerts ++;
             }
     }
     break;
