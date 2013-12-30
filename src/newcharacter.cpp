@@ -922,14 +922,13 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 break;
             }
             case '<':
+                delwin(w_description);
                 return -1;
             case '>':
+                delwin(w_description);
                 return 1;
         }
     } while (true);
-
-    delwin(w_description);
-    return 1;
 }
 
 inline bool profession_display_sort(const profession *a, const profession *b)
@@ -1265,13 +1264,13 @@ int set_skills(WINDOW *w, player *u, int &points)
             	break;
             }
             case '<':
+                delwin(w_description);
                 return -1;
             case '>':
+                delwin(w_description);
                 return 1;
         }
     } while (true);
-
-    delwin(w_description);
 }
 
 inline bool skill_description_sort(const std::pair<Skill *, int> &a, const std::pair<Skill *, int> &b)
@@ -1441,9 +1440,23 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                     continue;
                 } else {
                     u->pick_name();
+                    delwin(w_name);
+                    delwin(w_gender);
+                    delwin(w_stats);
+                    delwin(w_traits);
+                    delwin(w_profession);
+                    delwin(w_skills);
+                    delwin(w_guide);
                     return 1;
                 }
             } else if (query_yn(_("Are you SURE you're finished?"))) {
+                delwin(w_name);
+                delwin(w_gender);
+                delwin(w_stats);
+                delwin(w_traits);
+                delwin(w_profession);
+                delwin(w_skills);
+                delwin(w_guide);
                 return 1;
             } else {
                 continue;
@@ -1490,14 +1503,6 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
         }
     } while (true);
-
-    delwin(w_name);
-    delwin(w_gender);
-    delwin(w_stats);
-    delwin(w_traits);
-    delwin(w_profession);
-    delwin(w_skills);
-    delwin(w_guide);
 }
 
 
