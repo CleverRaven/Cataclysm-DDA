@@ -477,7 +477,7 @@ std::vector<item> game::multidrop()
                 } else if (dropping[cur_it] > 0) {
                     icon = '#';
                 }
-                nc_color col = ( cur_it == selected ? selected_line_color : (dropping[cur_it] == 0 ? c_ltgray : c_white ) );
+                nc_color col = ( cur_it == selected ? selected_line_color : it.color_in_inventory() );
                 mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
                           it.tname().c_str());
                 if (stacks[cur_it].first->size() > 1) {
