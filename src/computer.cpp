@@ -74,6 +74,8 @@ void computer::add_failure(computer_failure failure)
 
 void computer::shutdown_terminal()
 {
+    extrahacks = 0;
+    caught = false;
     werase(w_terminal);
     delwin(w_terminal);
     w_terminal = NULL;
@@ -154,7 +156,7 @@ void computer::use()
         } else { // We selected an option other than quit.
             ch -= '1'; // So '1' -> 0; index in options.size()
             computer_option current = options[ch];
-            if (current.security > 0) {
+            if ((current.security + (extrahacks)) > 0) {
                 print_error(_("Password required."));
                 if (query_bool(_("Hack into system?"))) {
                     if (!hack_attempt(&(g->u), current.security)) {
@@ -417,7 +419,7 @@ void computer::activate_function(computer_action action)
         if (lab_notes.empty()) {
             log = _("No data found.");
         } else {
-            log = lab_notes[((g->levx + (extrahacks)) + (g->levy + (extrahacks)) + g->levz) % lab_notes.size()];
+            log = lab_notes[(g->levx + g->levy + g->levz + (extrahacks)) % lab_notes.size()];
         }
 
         print_text(log.c_str());
@@ -430,19 +432,7 @@ void computer::activate_function(computer_action action)
         // Two's a trend.
             query_any(_("Warning: anomalous archive-access activity detected at this node."));
             extrahacks ++;
-            // Quick, bypass the alarm!
-            if (!hack_attempt(&(g->u), security)) {
-                    if (!one_in(3)) {
-                        activate_failure(COMPFAIL_ALARM);
-                        }
-                    else {
-                        activate_failure(COMPFAIL_SECUBOTS);
-                        }
-                    query_any(_("Please remain where you are. Trained personnel will assist you shortly.Press any key..."));
-                    shutdown_terminal();
-                    return;
-                    }
-        }
+            }
     }
     break;
 
