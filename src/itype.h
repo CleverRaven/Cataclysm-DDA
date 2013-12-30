@@ -432,7 +432,7 @@ struct it_gunmod : public itype
  bool used_on_bow;
  bool used_on_crossbow;
  bool used_on_launcher;
- 
+ Skill *skill_used;
  std::string location;
 
  virtual bool is_gunmod() { return true; }
@@ -447,10 +447,11 @@ struct it_gunmod : public itype
            signed int pdispersion, signed int pdamage, signed int ploudness,
            signed int pclip, signed int precoil, signed int pburst,
            ammotype pnewtype, std::set<std::string> a_a_t, bool pistol,
-           bool shotgun, bool smg, bool rifle)
+           bool shotgun, bool smg, bool rifle, char *pskill_used)
 
  :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
         pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
+  
   dispersion = pdispersion;
   damage = pdamage;
   loudness = ploudness;
@@ -463,6 +464,7 @@ struct it_gunmod : public itype
   used_on_shotgun = shotgun;
   used_on_smg = smg;
   used_on_rifle = rifle;
+  skill_used = pskill_used?Skill::skill(pskill_used):NULL;
  }
 
  it_gunmod() :itype() {
@@ -478,6 +480,7 @@ struct it_gunmod : public itype
   used_on_smg = false;
   used_on_rifle = false;
   location = "";
+  skill_used = NULL;
  };
 };
 

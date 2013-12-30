@@ -261,7 +261,8 @@
         "burst_modifier" : 0,
         "recoil_modifier" : -8,
         "price" : 680,
-        "loudness_modifier" : 0
+        "loudness_modifier" : 0,
+        "skill": "archery"
     },
     {
         "type" : "GUNMOD",
@@ -533,7 +534,8 @@
         "mod_targets" : ["rifle", "crossbow"],
         "bashing" : 2,
         "flags" : ["MODE_AUX"],
-        "ammo_modifier" : "40mm"
+        "ammo_modifier" : "40mm",
+        "skill": "launcher"
     },
     {
         "type" : "GUNMOD",
@@ -558,7 +560,8 @@
         "mod_targets" : ["rifle", "shotgun", "smg", "crossbow"],
         "bashing" : 2,
         "flags" : ["MODE_AUX", "FIRE_100"],
-        "ammo_modifier" : "gasoline"
+        "ammo_modifier" : "gasoline",
+        "skill": "shotgun"
     },
     {
         "type" : "GUNMOD",
@@ -583,7 +586,8 @@
         "mod_targets" : ["rifle", "crossbow"],
         "bashing" : 4,
         "flags" : ["MODE_AUX"],
-        "ammo_modifier" : "40mm"
+        "ammo_modifier" : "40mm",
+        "skill": "launcher"
     },
     {
         "type" : "GUNMOD",
@@ -683,7 +687,8 @@
         "mod_targets" : ["rifle", "crossbow"],
         "bashing" : 2,
         "flags" : ["MODE_AUX", "RELOAD_ONE"],
-        "ammo_modifier" : "shot"
+        "ammo_modifier" : "shot",
+        "skill": "shotgun"
     },
     {
         "type" : "GUNMOD",
@@ -708,7 +713,8 @@
         "mod_targets" : ["rifle", "crossbow"],
         "bashing" : 2,
         "flags" : ["MODE_AUX", "RELOAD_ONE"],
-        "ammo_modifier" : "shot"
+        "ammo_modifier" : "shot",
+        "skill": "shotgun"
     },
     {
         "type" : "GUNMOD",
@@ -733,7 +739,8 @@
         "mod_targets" : ["rifle", "crossbow"],
         "bashing" : 2,
         "flags" : ["MODE_AUX"],
-        "ammo_modifier" : "20x66mm"
+        "ammo_modifier" : "20x66mm",
+        "skill": "shotgun"
     },
     {
         "type" : "GUNMOD",
@@ -758,7 +765,8 @@
         "mod_targets" : ["shotgun", "rifle", "crossbow"],
         "bashing" : 2,
         "flags" : ["MODE_AUX", "STR_RELOAD"],
-        "ammo_modifier" : "bolt"
+        "ammo_modifier" : "bolt",
+        "skill": "crossbow"
     },
     {
         "type" : "GUNMOD",
