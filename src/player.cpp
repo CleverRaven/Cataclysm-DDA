@@ -5108,23 +5108,13 @@ void player::suffer()
  if (has_artifact_with(AEP_FORCE_TELEPORT) && one_in(600))
   g->teleport(this);
 
-// checking for damaged atomic equipment
- if (damage_leak_level("LEAK_RAD") > 0 && damage_leak_level("LEAK_RAD") < 10) {
-  if (g->m.radiation(posx, posy) < 10 && one_in(50))
-   g->m.radiation(posx, posy)++;
- }
- if (damage_leak_level("LEAK_RAD") > 10 && damage_leak_level("LEAK_RAD") < 20) {
-  if (g->m.radiation(posx, posy) < 20 && one_in(25))
-   g->m.radiation(posx, posy)++;
- }
- if (damage_leak_level("LEAK_RAD") > 20) {
-  if (g->m.radiation(posx, posy) < 30 && one_in(10))
-   g->m.radiation(posx, posy)++;
- }
+// checking for radioactive items in inventory
+ int selfRadiation = 0;
+ selfRadiation = leak_level("RADIOACTIVE");
 
  int localRadiation = g->m.radiation(posx, posy);
 
- if (localRadiation) {
+ if (localRadiation || selfRadiation) {
    bool has_helmet = false;
 
    bool power_armored = is_wearing_power_armor(&has_helmet);
@@ -5132,9 +5122,9 @@ void player::suffer()
    if ((power_armored && has_helmet) || is_wearing("hazmat_suit")|| is_wearing("anbc_suit")) {
      radiation += 0; // Power armor protects completely from radiation
    } else if (power_armored || is_wearing("cleansuit")|| is_wearing("aep_suit")) {
-     radiation += rng(0, localRadiation / 40);
+     radiation += rng(0, localRadiation / 40) + rng(0, selfRadiation / 20);
    } else {
-     radiation += rng(0, localRadiation / 16);
+     radiation += rng(0, localRadiation / 16) + rng(0, selfRadiation / 8);;
    }
 
    // Apply rads to any radiation badges.
@@ -6504,10 +6494,10 @@ int player::charges_of(itype_id it)
  return quantity;
 }
 
-int  player::damage_leak_level( std::string flag ) const
+int  player::leak_level( std::string flag ) const
 {
     int leak_level = 0;
-    leak_level = inv.damage_leak_level(flag);
+    leak_level = inv.leak_level(flag);
     return leak_level;
 }
 
