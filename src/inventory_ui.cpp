@@ -709,6 +709,7 @@ std::vector<item> game::multidrop()
         {
             continue;
         }
+        u.moves -= 250; // same as in game::takeoff
 
         // Item could have been dropped after taking it off
         if (&u.inv.item_by_letter(dropped_armor[i]) != &u.inv.nullitem)
