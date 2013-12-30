@@ -10,6 +10,7 @@
 #include <sstream>
 
 std::vector<std::string> computer::lab_notes;
+int extrahacks = 0;
 
 computer::computer(): name(DEFAULT_COMPUTER_NAME)
 {
@@ -180,6 +181,10 @@ bool computer::hack_attempt(player *p, int Security)
 {
     if (Security == -1) {
         Security = security;    // Set to main system security if no value passed
+    }
+    
+    if (extrahacks > 0) {
+        Security += (extrahacks * 2); 
     }
 
     p->practice(g->turn, "computer", 5 + Security * 2);
@@ -412,11 +417,32 @@ void computer::activate_function(computer_action action)
         if (lab_notes.empty()) {
             log = _("No data found.");
         } else {
-            log = lab_notes[(g->levx + g->levy + g->levz) % lab_notes.size()];
+            log = lab_notes[((g->levx + (extrahacks)) + (g->levy + (extrahacks)) + g->levz) % lab_notes.size()];
         }
 
         print_text(log.c_str());
-        query_any(_("Press any key..."));
+        // One's an anomaly
+        if (extrahacks == 0) {
+        query_any(_("Local data-access error logged, alerting helpdesk. Press any key..."));
+        extrahacks ++;
+        }
+        else {
+        // Two's a trend.
+            query_any(_("Warning: anomalous archive-access activity detected at this node."));
+            extrahacks ++;
+            // Quick, bypass the alarm!
+            if (!hack_attempt(&(g->u), security)) {
+                    if (!one_in(3)) {
+                        activate_failure(COMPFAIL_ALARM);
+                        }
+                    else {
+                        activate_failure(COMPFAIL_SECUBOTS);
+                        }
+                    query_any(_("Please remain where you are. Trained personnel will assist you shortly.Press any key..."));
+                    shutdown_terminal();
+                    return;
+                    }
+        }
     }
     break;
 
