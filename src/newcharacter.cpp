@@ -385,7 +385,13 @@ bool player::create(character_type type, std::string tempname)
 
     item tmp; //gets used several times
 
-    std::vector<std::string> prof_items = g->u.prof->items();
+    std::vector<std::string> prof_items;
+    if(g->u.male) {
+        prof_items = g->u.prof->items_male();
+    } else {
+        prof_items = g->u.prof->items_female();
+    }
+
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
         tmp = item(item_controller->find_template(*iter), 0);
@@ -401,13 +407,7 @@ bool player::create(character_type type, std::string tempname)
         }
     }
 
-    if(g->u.male) {
-        prof_items = g->u.prof->items_male();
-    }
-    else {
-        prof_items = g->u.prof->items_female();
-    }
-
+    prof_items = g->u.prof->items();
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
         tmp = item(item_controller->find_template(*iter), 0);
