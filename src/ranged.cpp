@@ -1083,12 +1083,18 @@ void make_gun_sound_effect(player &p, bool burst, item* weapon)
 
 // utility functions for projectile_attack
 double player::get_weapon_dispersion(item *weapon) {
-    it_gun* firing = dynamic_cast<it_gun *>(weapon->type);
-
+    int weapon_skill_level = 0;
+    if(weapon->is_gunmod()) {
+      it_gunmod* firing = dynamic_cast<it_gunmod *>(weapon->type);
+      weapon_skill_level = skillLevel(firing->skill_used);
+    } else {
+      it_gun* firing = dynamic_cast<it_gun *>(weapon->type);
+      weapon_skill_level = skillLevel(firing->skill_used);
+    }
     double dispersion = 0.; // Measured in quarter-degrees.
     // Up to 0.75 degrees for each skill point < 8.
-    if (skillLevel(firing->skill_used) < 8) {
-        dispersion += rng(0, 3 * (8 - skillLevel(firing->skill_used)));
+    if (weapon_skill_level < 8) {
+        dispersion += rng(0, 3 * (8 - weapon_skill_level));
     }
     // Up to 0.25 deg per each skill point < 9.
     if (skillLevel("gun") < 9) {
