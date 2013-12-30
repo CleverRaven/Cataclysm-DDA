@@ -634,6 +634,9 @@ std::vector<item> game::multidrop()
                         count = 0;
                         print_inv_statics(w_inv, _("Multidrop:"), dropped_armor, dropped_weapon);
                     }
+                } else if (!found) {
+                    dropped_armor.push_back(ch);
+                    print_inv_statics(w_inv, _("Multidrop:"), dropped_armor, dropped_weapon);
                 }
             } else {
                 int index = -1;
