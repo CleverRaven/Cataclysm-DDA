@@ -494,6 +494,11 @@ class game
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items 'I'
   void drop(int pos = INT_MIN); // Drop an item  'd'
   void drop_in_direction(); // Drop w/ direction  'D'
+  // put items from the item-vector on the map/a vehicle
+  // at (dirx, diry), items are dropped into a vehicle part
+  // with the cargo flag (if ther eis one), otherwise they are
+  // droppend onto the ground.
+  void drop(std::vector<item> &dropped, int dirx, int diry);
   void reassign_item(int pos = INT_MIN); // Reassign the letter of an item  '='
   void butcher(); // Butcher a corpse  'B'
   void complete_butcher(int index); // Finish the butchering process
