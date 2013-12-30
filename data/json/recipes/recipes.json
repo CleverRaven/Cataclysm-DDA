@@ -19607,7 +19607,7 @@
   "difficulty": 2,
   "time": 20000,
   "reversible": false,
-  "autolearn": false,
+  "autolearn": true,
   "tools": [
     [
       ["hotplate", 5],
