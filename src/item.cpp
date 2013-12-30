@@ -787,11 +787,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has double the normal maximum charges.")));
     }
-    if (has_flag("LEAK_RAD"))
-    {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
-        dump->push_back(iteminfo("DESCRIPTION", _("This item can leak radiation if damaged.")));
-    }
     if (is_tool() && has_flag("ATOMIC_AMMO"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
@@ -801,6 +796,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has been modified to use a rechargeable power cell and is not compatible with standard batteries.")));
+    }
+
+    if (has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0)
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("The casing of this item has cracked, revealing an ominous green glow.")));
+    }
+
+    if (has_flag("LEAK_ALWAYS") && has_flag("RADIOACTIVE"))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("This object is surrounded by a sickly green glow.")));
     }
 
     if (is_food() && has_flag("HIDDEN_POISON") && g->u.skillLevel("survival").level() >= 3) {
