@@ -490,13 +490,13 @@ bool player::create(character_type type, std::string tempname)
 void draw_tabs(WINDOW *w, std::string sTab)
 {
     for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
-        mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
-        mvwputch(w, 4, i, c_ltgray, LINE_OXOX);
-        mvwputch(w, FULL_SCREEN_HEIGHT - 1, i, c_ltgray, LINE_OXOX);
+        mvwputch(w, 2, i, BORDER_COLOR, LINE_OXOX);
+        mvwputch(w, 4, i, BORDER_COLOR, LINE_OXOX);
+        mvwputch(w, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
 
         if (i > 2 && i < FULL_SCREEN_HEIGHT - 1) {
-            mvwputch(w, i, 0, c_ltgray, LINE_XOXO);
-            mvwputch(w, i, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOXO);
+            mvwputch(w, i, 0, BORDER_COLOR, LINE_XOXO);
+            mvwputch(w, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO);
         }
     }
     std::vector<std::string> tab_captions;
@@ -515,14 +515,14 @@ void draw_tabs(WINDOW *w, std::string sTab)
         draw_tab(w, tab_pos[i] + space * i, tab_captions[i].c_str(), (sTab == tab_captions[i]));
     }
 
-    mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
-    mvwputch(w, 2, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(w, 2,  0, BORDER_COLOR, LINE_OXXO); // |^
+    mvwputch(w, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX); // ^|
 
     mvwputch(w, 4, 0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w, 4, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOXX); // -|
+    mvwputch(w, 4, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX); // -|
 
-    mvwputch(w, FULL_SCREEN_HEIGHT - 1, 0, c_ltgray, LINE_XXOO); // |_
-    mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOOX); // _|
+    mvwputch(w, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |_
+    mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
 }
 
 int set_stats(WINDOW *w, player *u, int &points)
@@ -928,6 +928,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
         }
     } while (true);
 
+    delwin(w_description);
     return 1;
 }
 
@@ -1124,6 +1125,10 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
     } while (retval == 0);
 
+    delwin(w_description);
+    delwin(w_items);
+    delwin(w_skills);
+    delwin(w_addictions);
     return retval;
 }
 
@@ -1265,6 +1270,8 @@ int set_skills(WINDOW *w, player *u, int &points)
                 return 1;
         }
     } while (true);
+
+    delwin(w_description);
 }
 
 inline bool skill_description_sort(const std::pair<Skill *, int> &a, const std::pair<Skill *, int> &b)
@@ -1483,6 +1490,14 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
         }
     } while (true);
+
+    delwin(w_name);
+    delwin(w_gender);
+    delwin(w_stats);
+    delwin(w_traits);
+    delwin(w_profession);
+    delwin(w_skills);
+    delwin(w_guide);
 }
 
 

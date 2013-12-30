@@ -2224,7 +2224,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         for(int p = 0; p < alternators.size(); p++) {
             if(parts[alternators[p]].hp > 0) {
                 alternators_epower += part_info(alternators[p]).epower;
-                alternators_power += part_info(alternators[p]).power;
+                alternators_power += part_power(alternators[p]);
             }
         }
         if(alternators_epower > 0) {
@@ -2375,7 +2375,7 @@ void vehicle::idle() {
         for (int p = 0; p < parts.size(); p++) {
             if (part_flag(p, VPFLAG_ENGINE)) {
                 if (fuel_left(part_info(p).fuel_type) && parts[p].hp > 0) {
-                    engines_power += part_info(p).power;
+                    engines_power += part_power(p);
                     if (one_in(6) && rng(1, 100) < strn) {
                         int dmg = rng(strn * 2, strn * 4);
                         damage_direct(p, dmg, 0);
