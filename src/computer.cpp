@@ -75,7 +75,6 @@ void computer::add_failure(computer_failure failure)
 void computer::shutdown_terminal()
 {
     extrahacks = 0;
-    caught = false;
     werase(w_terminal);
     delwin(w_terminal);
     w_terminal = NULL;
