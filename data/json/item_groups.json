@@ -2383,17 +2383,27 @@
     ]
     },{
         "type" : "item_group",
-        "id" : "female_underwear",
+        "id" : "female_underwear_top",
     "items":[
-      ["bra", 90],
+      ["bra", 90]
+    ]
+    },{
+        "type" : "item_group",
+        "id" : "female_underwear_bottom",
+    "items":[
       ["panties", 70],
       ["boy_shorts", 50]
     ]
     },{
         "type" : "item_group",
-        "id" : "male_underwear",
+        "id" : "male_underwear_top",
     "items":[
-      ["undershirt", 30],
+      ["undershirt", 30]
+    ]
+    },{
+        "type" : "item_group",
+        "id" : "male_underwear_bottom",
+    "items":[
       ["boxer_shorts", 70],
       ["briefs", 30]
     ]
@@ -6271,7 +6281,6 @@
      ["pants_army", 28],
      ["bunker_pants", 14],
      ["pants_leather", 18],
-     ["loincloth", 1],
      ["skirt", 6]
 	]
 	},{

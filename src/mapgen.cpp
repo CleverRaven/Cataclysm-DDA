@@ -12506,8 +12506,13 @@ void map::add_extra(map_extra type)
                     if( one_in(8) ) {
                         spawn_item( x, y, "id_military" );
                     }
-                    place_items( one_in(2) ? "male_underwear" : "female_underwear",
-                                 40, x, y, x, y, true, 0 );
+                    if (one_in(2)) {
+                        place_items("female_underwear_top", 40, x, y, x, y, true, 0 );
+                        place_items("female_underwear_bottom", 40, x, y, x, y, true, 0 );
+                    } else {
+                        place_items("male_underwear_top", 40, x, y, x, y, true, 0 );
+                        place_items("male_underwear_bottom", 40, x, y, x, y, true, 0 );
+                    }
                 }
             }
 
@@ -12541,8 +12546,13 @@ void map::add_extra(map_extra type)
                     place_items("lab_pants", 50, x, y, x, y, true, 0);
                     place_items("lab_shoes", 50, x, y, x, y, true, 0);
                     place_items("lab_torso", 40, x, y, x, y, true, 0);
-                    place_items( one_in(2) ? "male_underwear" : "female_underwear",
-                                 50, x, y, x, y, true, 0 );
+                    if (one_in(2)) {
+                        place_items("female_underwear_top", 50, x, y, x, y, true, 0 );
+                        place_items("female_underwear_bottom", 50, x, y, x, y, true, 0 );
+                    } else {
+                        place_items("male_underwear_top", 50, x, y, x, y, true, 0 );
+                        place_items("male_underwear_bottom", 50, x, y, x, y, true, 0 );
+                    }
                 }
             }
         }
@@ -12693,8 +12703,13 @@ void map::add_extra(map_extra type)
                     place_items("lab_shoes", 50, x, y, x, y, true, 0);
                     place_items("shirts", 50, x, y, x, y, true, 0);
                     place_items("jackets", 30, x, y, x, y, true, 0);
-                    place_items( one_in(2) ? "male_underwear" : "female_underwear",
-                                 40, x, y, x, y, true, 0 );
+                    if (one_in(2)) {
+                        place_items("female_underwear_top", 40, x, y, x, y, true, 0 );
+                        place_items("female_underwear_bottom", 40, x, y, x, y, true, 0 );
+                    } else {
+                        place_items("male_underwear_top", 40, x, y, x, y, true, 0 );
+                        place_items("male_underwear_bottom", 40, x, y, x, y, true, 0 );
+                    }
                 }
                 if (a_has_drugs && num_drugs > 0) {
                     int drugs_placed = rng(2, 6);
@@ -12738,8 +12753,13 @@ void map::add_extra(map_extra type)
                     place_items("lab_shoes", 50, x, y, x, y, true, 0);
                     place_items("shirts", 50, x, y, x, y, true, 0);
                     place_items("jackets", 25, x, y, x, y, true, 0);
-                    place_items( one_in(2) ? "male_underwear" : "female_underwear",
-                                 40, x, y, x, y, true, 0 );
+                    if (one_in(2)) {
+                        place_items("female_underwear_top", 40, x, y, x, y, true, 0 );
+                        place_items("female_underwear_bottom", 40, x, y, x, y, true, 0 );
+                    } else {
+                        place_items("male_underwear_top", 40, x, y, x, y, true, 0 );
+                        place_items("male_underwear_bottom", 40, x, y, x, y, true, 0 );
+                    }
                     if (!a_has_drugs && num_drugs > 0) {
                         int drugs_placed = rng(2, 6);
                         if (drugs_placed > num_drugs) {
