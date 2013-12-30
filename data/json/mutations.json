@@ -145,7 +145,27 @@
         "description" : "It takes a lot to bring you down! You get a 20% bonus to all hit points.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["FRAIL", "GLASSJAW"]
+        "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
+        "changes_to" : ["TOUGH2"]
+    },{
+        "type" : "mutation",
+        "id" : "TOUGH2",
+        "name" : "Durable",
+        "points" : 4,
+        "description" : "You can shrug off almost anything! You get a 30% bonus to all hit points.",
+        "valid" : false,
+        "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
+        "prereqs" : ["TOUGH"],
+        "changes_to" : ["TOUGH3"]
+    },{
+        "type" : "mutation",
+        "id" : "TOUGH3",
+        "name" : "Unbreakable",
+        "points" : 5,
+        "description" : "Nothing can break you! You get a 40% bonus to all hit points.",
+        "valid" : false,
+        "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
+        "prereqs" : ["TOUGH2"]
     },{
         "type" : "mutation",
         "id" : "THICKSKIN",
@@ -743,13 +763,35 @@
         "categories": ["MUTCAT_RAPTOR", "MUTCAT_FELINE", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
-        "id" : "FRAIL",
-        "name" : "Frail",
-        "points" : -6,
-        "description" : "Your whole body can't take much abuse. Its maximum HP is 75% points lower than usual. Stacks with Glass Jaw. Not for casuals.",
+        "id" : "FLIMSY",
+        "name" : "Flimsy",
+        "points" : -3,
+        "description" : "Your body can't take much abuse. Its maximum HP is 25% lower than usual and you heal slightly slower. Stacks with Glass Jaw.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["TOUGH"]
+        "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
+        "changes_to" : ["FLIMSY2"]
+    },{
+        "type" : "mutation",
+        "id" : "FLIMSY2",
+        "name" : "Frail",
+        "points" : -5,
+        "description" : "Your body breaks very easily. Its maximum HP is 50% lower than usual and you heal slower. Stacks with Glass Jaw.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
+        "prereqs" : ["FLIMSY"],
+        "changes_to" : ["FLIMSY3"]
+    },{
+        "type" : "mutation",
+        "id" : "FLIMSY3",
+        "name" : "Fragile",
+        "points" : -7,
+        "description" : "Your body is extremely fragile. Its maximum HP is 75% lower than usual and you heal much slower. Stacks with Glass Jaw.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
+        "prereqs" : ["FLIMSY2"]
     },{
         "type" : "mutation",
         "id" : "SKIN_ROUGH",
