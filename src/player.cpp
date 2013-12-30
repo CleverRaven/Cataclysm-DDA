@@ -8286,7 +8286,10 @@ void player::use(int pos)
                     used->charges -= std::min(used->charges, charges_used);
                 } else {
                     // An item that doesn't normally expend charges is destroyed instead.
-                    i_rem(pos);
+                    /* We can't be certain the item is still in the same position,
+                     * as other items may have been consumed as well, so remove
+                     * the item directly instead of by its position (i_rem()). */
+                    inv.remove_item(used);
                 }
             }
             // We may have fiddled with the state of the item in the iuse method,
