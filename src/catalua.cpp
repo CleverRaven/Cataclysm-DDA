@@ -234,6 +234,42 @@ static int game_items_at(lua_State *L) {
     return 1; // 1 return values
 }
 
+// monster = game.monster_at(x, y)
+static int game_monster_at(lua_State *L) {
+    int parameter1 = (int) lua_tonumber(L, 1);
+    int parameter2 = (int) lua_tonumber(L, 2);
+    int monster_idx = g->mon_at(parameter1, parameter2);
+    
+    monster& mon_ref = g->zombie(monster_idx);
+    monster** monster_userdata = (monster**) lua_newuserdata(L, sizeof(monster*));
+    *monster_userdata = &mon_ref;
+    luah_setmetatable(L, "monster_metatable");
+    
+    return 1; // 1 return values
+}
+
+// type = game.item_type(item)
+static int game_item_type(lua_State *L) {
+    // Create a table of the form
+    // t["id"] = item.type.id
+    // t["name"] = item.type.name
+    // then return t
+    
+    item** item_instance = (item**) lua_touserdata(L, 1);
+
+    lua_createtable(L, 0, 2); // Preallocate enough space for all type properties.
+    
+    lua_pushstring(L, "name");
+    lua_pushstring(L, (*item_instance)->type->name.c_str());
+    lua_rawset(L, -3);
+    
+    lua_pushstring(L, "id");
+    lua_pushstring(L, (*item_instance)->type->id.c_str());
+    lua_rawset(L, -3);
+    
+    return 1; // 1 return values
+}
+
 // game.remove_item(x, y, item)
 void game_remove_item(int x, int y, item *it) {
     std::vector<item>& items = g->m.i_at(x, y);
@@ -274,6 +310,8 @@ static const struct luaL_Reg global_funcs [] = {
     {"register_iuse", game_register_iuse},
     //{"get_monsters", game_get_monsters},
     {"items_at", game_items_at},
+    {"item_type", game_item_type},
+    {"monster_at", game_monster_at},
     {NULL, NULL}
 };
 
@@ -339,7 +377,7 @@ int use_function::call(player* player_instance, item* item_instance, bool active
         lua_pushboolean(L, active);
 
         // Call the iuse function
-        int err = lua_pcall(L, 3, 1, 0);
+        int err = lua_pcall(L, 2, 1, 0);
         if(err) {
             // Error handling.
             const char* error = lua_tostring(L, -1);
