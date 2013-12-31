@@ -2216,16 +2216,19 @@ void manage_sleep(player& p, disease& dis) {
         if (p.fatigue > 0) {
             p.fatigue -= 1 + one_in(recovery_chance);
         }
-        if (p.has_trait("FASTHEALER")) {
-            p.healall(1);
-        } else if (p.has_trait("FASTHEALER2")) {
-            p.healall(1 + one_in(2));
-        } else if (p.has_trait("REGEN")) {
-            p.healall(2);
-        } else if (p.has_trait("SLOWHEALER")) {
-            p.healall(one_in(8));
-        } else {
-            p.healall(one_in(4));
+        if ((p.has_trait("FLIMSY") && x_in_y(3 , 4)) || (p.has_trait("FLIMSY2") && one_in(2)) ||
+              (p.has_trait("FLIMSY3") && one_in(4))) {
+            if (p.has_trait("FASTHEALER")) {
+                p.healall(1);
+            } else if (p.has_trait("FASTHEALER2")) {
+                p.healall(1 + one_in(2));
+            } else if (p.has_trait("REGEN")) {
+                p.healall(2);
+            } else if (p.has_trait("SLOWHEALER")) {
+                p.healall(one_in(8));
+            } else {
+                p.healall(one_in(4));
+            }
         }
 
         if (p.fatigue <= 0 && p.fatigue > -20) {
@@ -2255,22 +2258,25 @@ void manage_sleep(player& p, disease& dis) {
                 p.fatigue -=(1 + one_in(recovery_chance) / 2);
             }
         }
-        if (p.has_trait("FASTHEALER")) {
-            p.healall(1);
-        } else if (p.has_trait("FASTHEALER2")) {
-            p.healall(1 + one_in(2));
-        } else if (p.has_trait("REGEN")) {
-            p.healall(2);
-        } else if (p.has_trait("SLOWHEALER")) {
-            p.healall(one_in(8));
-        } else {
-            p.healall(one_in(4));
-        }
+        if ((p.has_trait("FLIMSY") && x_in_y(3 , 4)) || (p.has_trait("FLIMSY2") && one_in(2)) ||
+              (p.has_trait("FLIMSY3") && one_in(4))) {
+            if (p.has_trait("FASTHEALER")) {
+                p.healall(1);
+            } else if (p.has_trait("FASTHEALER2")) {
+                p.healall(1 + one_in(2));
+            } else if (p.has_trait("REGEN")) {
+                p.healall(2);
+            } else if (p.has_trait("SLOWHEALER")) {
+                p.healall(one_in(8));
+            } else {
+                p.healall(one_in(4));
+            }
 
-        if (p.fatigue <= 0 && p.fatigue > -20) {
-            p.fatigue = -25;
-            g->add_msg(_("You feel well rested."));
-            dis.duration = dice(3, 100);
+            if (p.fatigue <= 0 && p.fatigue > -20) {
+                p.fatigue = -25;
+                g->add_msg(_("You feel well rested."));
+                dis.duration = dice(3, 100);
+            }
         }
     }
 

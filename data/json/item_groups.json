@@ -176,6 +176,7 @@
       ["gloves_fingerless", 20],
       ["bandana", 35],
       ["scarf", 45],
+      ["scarf_long", 2],
       ["hat_cotton", 45],
       ["hat_knit", 25],
       ["hat_fur", 15],
@@ -806,6 +807,7 @@
       ["rm99_pistol", 1],
       ["rm103a_pistol", 1],
       ["laser_sight", 15],
+      ["rail_laser_sight", 10],
       ["rifle_scope", 17],
       ["pistol_scope", 14],
       ["improve_sights", 20],
@@ -2266,6 +2268,7 @@
       ["press", 5],
       ["puller", 5],
       ["laser_sight", 15],
+      ["rail_laser_sight", 10],
       ["red_dot_sight", 18],
       ["holo_sight", 20],
       ["rifle_scope", 16],
@@ -2359,6 +2362,7 @@
       ["gloves_liner", 25],
       ["gloves_leather", 45],
       ["scarf", 45],
+      ["scarf_long", 2],
       ["hat_cotton", 45],
       ["hat_knit", 25],
       ["hat_fur", 15],
@@ -2383,17 +2387,27 @@
     ]
     },{
         "type" : "item_group",
-        "id" : "female_underwear",
+        "id" : "female_underwear_top",
     "items":[
-      ["bra", 90],
+      ["bra", 90]
+    ]
+    },{
+        "type" : "item_group",
+        "id" : "female_underwear_bottom",
+    "items":[
       ["panties", 70],
       ["boy_shorts", 50]
     ]
     },{
         "type" : "item_group",
-        "id" : "male_underwear",
+        "id" : "male_underwear_top",
     "items":[
-      ["undershirt", 30],
+      ["undershirt", 30]
+    ]
+    },{
+        "type" : "item_group",
+        "id" : "male_underwear_bottom",
+    "items":[
       ["boxer_shorts", 70],
       ["briefs", 30]
     ]
@@ -2446,6 +2460,7 @@
       ["gloves_liner", 25],
       ["gloves_leather", 45],
       ["scarf", 45],
+      ["scarf_long", 1],
       ["hat_cotton", 45],
       ["hat_knit", 25],
       ["hat_fur", 15],
@@ -4108,7 +4123,8 @@
       ["heroin", 1],
       ["sneakers", 40],
       ["mask_hockey", 5],
-      ["jersey", 40],
+      ["scarf_long", 15],
+      ["jersey", 20],
       ["coat_lab", 40],
       ["boots_steel", 5],
       ["socks", 70],
@@ -4421,6 +4437,7 @@
       ["rm614_lmg", 1],
       ["rm2000_smg", 1],
       ["laser_sight", 15],
+      ["rail_laser_sight", 10],
       ["needlegun", 4],
       ["5x50dart", 8],
       ["rm20", 3],
@@ -5568,6 +5585,7 @@
       ["laser_rifle", 1],
       ["rm103a_pistol", 1],
       ["laser_sight", 15],
+      ["rail_laser_sight", 10],
       ["8mm_inc", 2],
       ["tac_helmet", 10],
       ["tac_fullhelmet", 5],
@@ -5906,6 +5924,7 @@
       ["spare_mag", 15],
       ["bio_blaster", 10],
       ["laser_sight", 15],
+      ["rail_laser_sight", 10],
       ["lsd", 10],
       ["gum", 60],
       ["caff_gum", 7],
@@ -6271,7 +6290,6 @@
      ["pants_army", 28],
      ["bunker_pants", 14],
      ["pants_leather", 18],
-     ["loincloth", 1],
      ["skirt", 6]
 	]
 	},{

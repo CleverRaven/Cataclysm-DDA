@@ -51,7 +51,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points);
 
 int random_skill();
 
-int calc_HP(int strength, bool tough);
+int calc_HP(int strength, int tough);
 
 void save_template(player *u);
 
@@ -260,15 +260,24 @@ bool player::create(character_type type, std::string tempname)
     }
 
     // Character is finalized.  Now just set up HP, &c
-    for (int i = 0; i < num_hp_parts; i++) {
-        hp_max[i] = calc_HP(str_max, has_trait("TOUGH"));
-        hp_cur[i] = hp_max[i];
+    int tough = 0;
+    if (has_trait("TOUGH")) {
+        tough = 1;
+    } else if (has_trait("TOUGH2")) {
+        tough = 2;
+    } else if (has_trait("TOUGH3")) {
+        tough = 3;
+    } else if (has_trait("FLIMSY")) {
+        tough = -1;
+    } else if (has_trait("FLIMSY2")) {
+        tough = -2;
+    } else if (has_trait("FLIMSY3")) {
+        tough = -3;
     }
-    if (has_trait("FRAIL")) {
-        for (int i = 0; i < num_hp_parts; i++) {
-            hp_max[i] = int(hp_max[i] * .25);
-            hp_cur[i] = hp_max[i];
-        }
+
+    for (int i = 0; i < num_hp_parts; i++) {
+        hp_max[i] = calc_HP(str_max, tough);
+        hp_cur[i] = hp_max[i];
     }
     if (has_trait("GLASSJAW")) {
         hp_max[hp_head] = int(hp_max[hp_head] * .80);
@@ -385,7 +394,13 @@ bool player::create(character_type type, std::string tempname)
 
     item tmp; //gets used several times
 
-    std::vector<std::string> prof_items = g->u.prof->items();
+    std::vector<std::string> prof_items;
+    if(g->u.male) {
+        prof_items = g->u.prof->items_male();
+    } else {
+        prof_items = g->u.prof->items_female();
+    }
+
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
         tmp = item(item_controller->find_template(*iter), 0);
@@ -401,13 +416,7 @@ bool player::create(character_type type, std::string tempname)
         }
     }
 
-    if(g->u.male) {
-        prof_items = g->u.prof->items_male();
-    }
-    else {
-        prof_items = g->u.prof->items_female();
-    }
-
+    prof_items = g->u.prof->items();
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
         tmp = item(item_controller->find_template(*iter), 0);
@@ -557,6 +566,7 @@ int set_stats(WINDOW *w, player *u, int &points)
         mvwprintz(w, 9,  2, c_ltgray, _("Perception:"));
         mvwprintz(w, 9,  16, c_ltgray, "%2d", u->per_max);
 
+        int tmp;
         switch (sel) {
             case 1:
                 mvwprintz(w, 6, 2, COL_STAT_ACT, _("Strength:"));
@@ -564,8 +574,21 @@ int set_stats(WINDOW *w, player *u, int &points)
                 if (u->str_max >= HIGH_STAT) {
                     mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Str further costs 2 points."));
                 }
+                if (u->has_trait("TOUGH")) {
+                    tmp = 1;
+                } else if (u->has_trait("TOUGH2")) {
+                    tmp = 2;
+                } else if (u->has_trait("TOUGH3")) {
+                    tmp = 3;
+                } else if (u->has_trait("FLIMSY")) {
+                    tmp = -1;
+                } else if (u->has_trait("FLIMSY2")) {
+                    tmp = -2;
+                } else if (u->has_trait("FLIMSY3")) {
+                    tmp = -3;
+                }
                 mvwprintz(w, 6, iSecondColumn, COL_STAT_NEUTRAL, _("Base HP: %d"),
-                          calc_HP(u->str_max, u->has_trait("TOUGH")));
+                          calc_HP(u->str_max, tmp));
                 mvwprintz(w, 7, iSecondColumn, COL_STAT_NEUTRAL, _("Carry weight: %.1f %s"),
                           u->convert_weight(u->weight_capacity(false)),
                           OPTIONS["USE_METRIC_WEIGHTS"] == "kg" ? _("kg") : _("lbs"));
@@ -1542,9 +1565,15 @@ int random_skill()
     return rng(1, Skill::skills.size() - 1);
 }
 
-int calc_HP(int strength, bool tough)
+int calc_HP(int strength, int tough)
 {
-    return int((60 + 3 * strength) * (tough ? 1.2 : 1));
+    if (tough > 0) {
+        return int((60 + 3 * strength) * (1.1 + tough * .1));
+    } else if (tough == 0) {
+        return int((60 + 3 * strength));
+    } else {
+        return int((60 + 3 * strength) * (1 + tough * .25));
+    }
 }
 
 void save_template(player *u)
