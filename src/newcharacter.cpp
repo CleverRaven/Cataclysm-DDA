@@ -517,10 +517,10 @@ void draw_tabs(WINDOW *w, std::string sTab)
     tab_captions.push_back(_("DESCRIPTION"));
     int tab_pos[6];   //this is actually tab_captions.size() + 1
     tab_pos[0] = 2;
-    for (int pos = 1; pos < 6; pos++) {
-        tab_pos[pos] = tab_pos[pos-1] + utf8_width(tab_captions[pos-1].c_str());
+    for (int pos = 0; pos < tab_captions.size(); pos++) {
+        tab_pos[pos + 1] = tab_pos[pos] + utf8_width(tab_captions[pos].c_str());
     }
-    int space = (FULL_SCREEN_WIDTH - tab_pos[5]) / 4 - 3;
+    int space = (FULL_SCREEN_WIDTH - tab_pos[tab_captions.size()]) / (tab_captions.size() - 1) - 3;
     for (size_t i = 0; i < tab_captions.size(); i++) {
         draw_tab(w, tab_pos[i] + space * i, tab_captions[i].c_str(), (sTab == tab_captions[i]));
     }
