@@ -347,16 +347,18 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
 }
 
 std::vector<item> game::multidrop() {
+    int dummy = 0;
     std::vector<item> dropped_worn;
-    std::vector<item> result = multidrop(dropped_worn);
+    std::vector<item> result = multidrop(dropped_worn, dummy);
     result.insert(result.end(), dropped_worn.begin(), dropped_worn.end());
     return result;
 }
 
-std::vector<item> game::multidrop(std::vector<item> &dropped_worn)
+std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_volume_capacity)
 {
     WINDOW* w_inv = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH + (use_narrow_sidebar() ? 45 : 55), VIEW_OFFSET_Y, VIEW_OFFSET_X);
     const int maxitems = TERRAIN_WINDOW_HEIGHT - 5;
+    freed_volume_capacity = 0;
 
     u.inv.restack(&u);
     u.inv.sort();
@@ -712,12 +714,15 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn)
     for (int i = 0; i < dropped_armor.size(); i++)
     {
         int wornpos = u.invlet_to_position(dropped_armor[i]);
+        const it_armor *ita = dynamic_cast<const it_armor *>(u.i_at(dropped_armor[i]).type);
         if (wornpos == INT_MIN || !u.takeoff(wornpos, true))
         {
             continue;
         }
         u.moves -= 250; // same as in game::takeoff
-
+        if(ita != 0) {
+            freed_volume_capacity += ita->storage;
+        }
         // Item could have been dropped after taking it off
         if (&u.inv.item_by_letter(dropped_armor[i]) != &u.inv.nullitem)
         {

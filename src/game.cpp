@@ -9433,8 +9433,9 @@ void game::drop(int pos)
 {
     std::vector<item> dropped;
     std::vector<item> dropped_worn;
+    int freed_volume_capacity = 0;
     if (pos == INT_MIN) {
-        dropped = multidrop(dropped_worn);
+        dropped = multidrop(dropped_worn, freed_volume_capacity);
     } else if(pos <= -2) {
         // Item is worn, must be taken off before dropping it.
         char invl = u.position_to_invlet(pos);
@@ -9451,7 +9452,7 @@ void game::drop(int pos)
     } else {
         dropped.push_back(u.i_rem(pos));
     }
-    drop(dropped, dropped_worn, u.posx, u.posy);
+    drop(dropped, dropped_worn, freed_volume_capacity, u.posx, u.posy);
 }
 
 void game::drop_in_direction()
@@ -9466,9 +9467,10 @@ void game::drop_in_direction()
         return;
     }
 
+    int freed_volume_capacity = 0;
     std::vector<item> dropped_worn;
-    std::vector<item> dropped = multidrop(dropped_worn);
-    drop(dropped, dropped_worn, dirx, diry);
+    std::vector<item> dropped = multidrop(dropped_worn, freed_volume_capacity);
+    drop(dropped, dropped_worn, freed_volume_capacity, dirx, diry);
 }
 
 bool compare_items_by_lesser_volume(const item &a, const item &b)
@@ -9479,45 +9481,35 @@ bool compare_items_by_lesser_volume(const item &a, const item &b)
 // calculate the time (in player::moves) it takes to drop the
 // items in dropped and dropped_worn.
 // Items in dropped come from the main inventory (or the wielded weapon)
-// Items in dropped_worn are cloth that hade been worn.
-// All items in dropped that fit into the storage space of the
-// items in dropped_worn do not take time to drop.
+// Items in dropped_worn are cloth that had been worn.
+// All items in dropped that fit into the removed storage space
+// (freed_volume_capacity) do not take time to drop.
 // Example: dropping five 2x4 (volume 5*6) and a worn backpack
 // (storage 40) will take only the time for dropping the backpack
 // dropping two more 2x4 takes the time for dropping the backpack and
 // dropping the remaining 2x4 that does not fit into the backpack.
-int game::calculate_drop_cost(std::vector<item> &dropped, std::vector<item> &dropped_worn) const
+int game::calculate_drop_cost(std::vector<item> &dropped, const std::vector<item> &dropped_worn, int freed_volume_capacity) const
 {
     // Prefer to put small items into the backpack
     std::sort(dropped.begin(), dropped.end(), compare_items_by_lesser_volume);
-    int drop_item_cnt = 0;
-    int total_worn_volume_dropped = 0;
-    int storage_removed = 0;
-    for(size_t i = 0; i < dropped_worn.size(); i++) {
-        const it_armor *ita = dynamic_cast<const it_armor *>(dropped_worn[i].type);
-        if(ita != 0) {
-            storage_removed += ita->storage;
-        }
-        total_worn_volume_dropped += dropped_worn[i].volume();
-        drop_item_cnt++;
-    }
+    int drop_item_cnt = dropped_worn.size();
     int total_volume_dropped = 0;
     for(size_t i = 0; i < dropped.size(); i++) {
         total_volume_dropped += dropped[i].volume();
-        if(storage_removed == 0 || total_volume_dropped > storage_removed) {
+        if(freed_volume_capacity == 0 || total_volume_dropped > freed_volume_capacity) {
             drop_item_cnt++;
         }
     }
     return drop_item_cnt * 100;
 }
 
-void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int dirx, int diry)
+void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int freed_volume_capacity, int dirx, int diry)
 {
     if (dropped.empty() && dropped_worn.empty()) {
         add_msg(_("Never mind."));
         return;
     }
-    const int drop_move_cost = calculate_drop_cost(dropped, dropped_worn);
+    const int drop_move_cost = calculate_drop_cost(dropped, dropped_worn, freed_volume_capacity);
     if (g->debugmon) {
         debugmsg("Dropping %d+%d items takes %d moves", dropped.size(), dropped_worn.size(),
                  drop_move_cost);

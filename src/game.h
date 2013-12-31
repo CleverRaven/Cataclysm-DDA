@@ -303,7 +303,10 @@ class game
   // selected).
   // Selected items that had been worn are taken off and put into dropped_worn.
   // Selected items from main inventory and the weapon are returned directly.
-  std::vector<item> multidrop(std::vector<item> &dropped_worn);
+  // removed_storage_space contains the summed up storage of the taken
+  // of armor. This includes the storage space of the items in dropped_worn
+  // and the items that have been autodropped while taking them off.
+  std::vector<item> multidrop(std::vector<item> &dropped_worn, int &removed_storage_space);
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);
   void remove_item(item *it);
@@ -506,10 +509,10 @@ class game
   // at (dirx, diry), items are dropped into a vehicle part
   // with the cargo flag (if ther eis one), otherwise they are
   // droppend onto the ground.
-  void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int dirx, int diry);
+  void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int freed_volume_capacity, int dirx, int diry);
   // calculate the time (in player::moves) it takes to drop the
   // items in dropped and dropped_worn.
-  int calculate_drop_cost(std::vector<item> &dropped, std::vector<item> &dropped_worn) const;
+  int calculate_drop_cost(std::vector<item> &dropped, const std::vector<item> &dropped_worn, int freed_volume_capacity) const;
   void reassign_item(int pos = INT_MIN); // Reassign the letter of an item  '='
   void butcher(); // Butcher a corpse  'B'
   void complete_butcher(int index); // Finish the butchering process
