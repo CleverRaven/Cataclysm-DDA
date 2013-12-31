@@ -15180,7 +15180,7 @@
 },{
     "type" : "recipe",
   "result": "scarf_fur_long",
-  "id-suffix": "merge_scarves",
+  "id_suffix": "merge_scarves",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
@@ -15212,7 +15212,7 @@
   "note": "Airtight takes some skills.",
   "time": 5000,
   "reversible": true,
-  "decomp_learn": 3
+  "decomp_learn": 3,
   "autolearn": false,
   "book_learn": [["textbook_fireman", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4] , ["emergency_book", 3] , ["textbook_gaswarfare", 3]],
   "components": [
@@ -24777,7 +24777,7 @@
   "time": 45000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [[ "textbook_firefighter", 7 ]],
+  "book_learn": [[ "textbook_fireman", 7 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
