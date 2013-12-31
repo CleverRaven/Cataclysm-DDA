@@ -72,42 +72,44 @@ worldfactory::~worldfactory()
     all_worldnames.clear();
 }
 
-WORLDPTR worldfactory::make_new_world()
+WORLDPTR worldfactory::make_new_world( bool show_prompt )
 {
-    // Window variables
-    const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
-    const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
     // World to return after generating
     WORLDPTR retworld = new WORLD();
-    // set up window
-    WINDOW *wf_win = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
-    // prepare tab display order
-    std::vector<worldgen_display> tabs;
-    std::vector<std::string> tab_strings;
+    if( show_prompt ) {
+        // Window variables
+        const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
+        const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
+        // set up window
+        WINDOW *wf_win = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+        // prepare tab display order
+        std::vector<worldgen_display> tabs;
+        std::vector<std::string> tab_strings;
 
-    tabs.push_back(&worldfactory::show_worldgen_tab_options);
-    tabs.push_back(&worldfactory::show_worldgen_tab_confirm);
+        tabs.push_back(&worldfactory::show_worldgen_tab_options);
+        tabs.push_back(&worldfactory::show_worldgen_tab_confirm);
 
-    tab_strings.push_back(_("World Gen Options"));
-    tab_strings.push_back(_("CONFIRMATION"));
+        tab_strings.push_back(_("World Gen Options"));
+        tab_strings.push_back(_("CONFIRMATION"));
 
-    int curtab = 0;
-    int lasttab; // give placement memory to menus, sorta.
-    const int numtabs = tabs.size();
-    while (curtab >= 0 && curtab < numtabs) {
-        lasttab = curtab;
-        draw_worldgen_tabs(wf_win, curtab, tab_strings);
-        curtab += (world_generator->*tabs[curtab])(wf_win, retworld);
+        int curtab = 0;
+        int lasttab; // give placement memory to menus, sorta.
+        const int numtabs = tabs.size();
+        while (curtab >= 0 && curtab < numtabs) {
+            lasttab = curtab;
+            draw_worldgen_tabs(wf_win, curtab, tab_strings);
+            curtab += (world_generator->*tabs[curtab])(wf_win, retworld);
 
-        if (curtab < 0) {
-            if (!query_yn(_("Do you want to abort World Generation?"))) {
-                curtab = lasttab;
+            if (curtab < 0) {
+                if (!query_yn(_("Do you want to abort World Generation?"))) {
+                    curtab = lasttab;
+                }
             }
         }
-    }
-    if (curtab < 0) {
-        delete retworld;
-        return NULL;
+        if (curtab < 0) {
+            delete retworld;
+            return NULL;
+        }
     }
 
     // add world to world list
@@ -374,12 +376,12 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
     return retworlds;
 }
 
-WORLDPTR worldfactory::pick_world()
+WORLDPTR worldfactory::pick_world( bool show_prompt )
 {
     std::map<std::string, WORLDPTR> worlds = get_all_worlds();
     std::vector<std::string> world_names = all_worldnames;
 
-    // filter out special worlds (TUTORIAL | DEFENSE) from world_names
+    // Filter out special worlds (TUTORIAL | DEFENSE) from world_names.
     for (std::vector<std::string>::iterator it = world_names.begin(); it != world_names.end();) {
         if (*it == "TUTORIAL" || *it == "DEFENSE") {
             it = world_names.erase(it);
@@ -387,13 +389,17 @@ WORLDPTR worldfactory::pick_world()
             ++it;
         }
     }
-    // if there is only one world to pick from, autoreturn it
+    // If there is only one world to pick from, autoreturn it.
     if (world_names.size() == 1) {
         return worlds[world_names[0]];
     }
-    // if there are no worlds to pick from, immediately try to make one
+    // If there are no worlds to pick from, immediately try to make one.
     else if (world_names.empty()) {
-        return make_new_world();
+        return make_new_world( show_prompt );
+    }
+    // If we're skipping prompts, just return the first one.
+    else if( !show_prompt ) {
+        return worlds[world_names[0]];
     }
 
     const int iTooltipHeight = 3;
@@ -592,7 +598,6 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
 
     WINDOW *w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY,
                                1 + iOffsetX);
-
     std::stringstream sTemp;
 
     std::map<int, bool> mapLines;

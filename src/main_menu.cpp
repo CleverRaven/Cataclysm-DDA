@@ -368,12 +368,14 @@ bool game::opening_screen()
                 if (chInput == KEY_UP || chInput == 'k' || chInput == '\n') {
                     if (sel2 == 0 || sel2 == 2 || sel2 == 3) {
                         setup();
-                        if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW))) {
+                        if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM :
+                                                    ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW))) {
                             u = player();
                             delwin(w_open);
                             return (opening_screen());
                         }
-                        WORLDPTR world = world_generator->pick_world();
+                        // Pick a world, supressing prompts if it's "play now" mode.
+                        WORLDPTR world = world_generator->pick_world( sel2 != 3 );
                         if (!world) {
                             u = player();
                             delwin(w_open);
