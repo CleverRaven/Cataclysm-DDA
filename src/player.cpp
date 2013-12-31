@@ -5995,7 +5995,8 @@ item player::i_rem(int pos)
 {
  item tmp;
  if (pos == -1) {
-     if (std::find(martial_arts_itype_ids.begin(), martial_arts_itype_ids.end(), weapon.type->id) != martial_arts_itype_ids.end()){
+     if (std::find(martial_arts_itype_ids.begin(), martial_arts_itype_ids.end(),
+                   weapon.type->id) != martial_arts_itype_ids.end()){
          return ret_null;
      }
      tmp = weapon;
@@ -6011,12 +6012,20 @@ item player::i_rem(int pos)
 
 item player::i_rem(itype_id type)
 {
-    item ret;
     if (weapon.type->id == type)
     {
         return remove_weapon();
     }
     return inv.remove_item(type);
+}
+
+item player::i_rem(item *it)
+{
+    if (&weapon == it)
+    {
+        return remove_weapon();
+    }
+    return inv.remove_item(it);
 }
 
 // Negative positions indicate weapon/clothing, 0 & positive indicate inventory
@@ -8305,7 +8314,10 @@ void player::use(int pos)
                     used->charges -= std::min(used->charges, charges_used);
                 } else {
                     // An item that doesn't normally expend charges is destroyed instead.
-                    i_rem(pos);
+                    /* We can't be certain the item is still in the same position,
+                     * as other items may have been consumed as well, so remove
+                     * the item directly instead of by its position. */
+                    i_rem(used);
                 }
             }
             // We may have fiddled with the state of the item in the iuse method,
