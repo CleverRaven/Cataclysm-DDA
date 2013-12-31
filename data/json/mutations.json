@@ -1610,9 +1610,9 @@
         "visibility" : 4,
         "ugliness" : 1,
         "description" : "Your ears have extended into long, pointed ones, like those of a canine. They enhance your hearing, allowing you to hear at greater distances.",
-        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"],
         "changes_to" : ["LUPINE_EARS"],
-        "cancels" : ["LUPINE_EARS", "FELINE_EARS", "URSINE_EARS"]
+        "cancels" : ["FELINE_EARS", "URSINE_EARS"]
     },{
         "type" : "mutation",
         "id" : "LUPINE_EARS",
