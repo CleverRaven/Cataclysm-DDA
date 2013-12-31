@@ -74,8 +74,6 @@ extern worldfactory *world_generator;
 
 uistatedata uistate;
 
-bool forced_door_closing(int x, int y, ter_id door_type, int bash_dmg);
-
 // This is the main game set-up process.
 game::game() :
  uquit(QUIT_NO),
@@ -6971,7 +6969,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg) {
         }
     }
     const bool can_see = u_see(x, y);
-    player *npc_or_player = 0;
+    player *npc_or_player = NULL;
     if(x == u.pos().x && y == u.pos().y) {
         npc_or_player = &u;
     } else {
@@ -6980,7 +6978,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg) {
             npc_or_player = active_npc[cindex];
         }
     }
-    if(npc_or_player != 0) {
+    if(npc_or_player != NULL) {
         if(bash_dmg <= 0) {
             return false;
         }
@@ -7022,12 +7020,12 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg) {
     }
     int vpart = -1;
     vehicle* veh = m.veh_at(x, y, vpart);
-    if (veh != 0) {
+    if (veh != NULL) {
         if(bash_dmg <= 0) {
             return false;
         }
         veh->damage(vpart, bash_dmg);
-        if (m.veh_at(x, y, vpart) != 0) {
+        if (m.veh_at(x, y, vpart) != NULL) {
             // Check again in case all parts at the door tile
             // have been destroyed, if there is still a vehicle
             // there, the door can not be closed

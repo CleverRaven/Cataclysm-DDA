@@ -356,24 +356,6 @@ class game
  //otherwise returns sentinel -1, signifies transaction fail.
  int move_liquid(item &liquid);
 
- // Forcefully close a door at (x, y).
- // The function checks for creatures/items/vehicles at that point and
- // might kill/harm/destroy them.
- // If there still remains something that prevents the door from closing
- // (e.g. a very big creatures, a vehicle) the door will not be closed and
- // the function returns false.
- // If the door gets closed the terrain at (x, y) is set to door_type and
- // true is returned.
- // bash_dmg controlls how much damage the door does to the
- // creatures/items/vehicle.
- // If bash_dmg is 0 or smaller, creatures and vehicles are not damaged
- // at all and they will prevent the door from closing.
- // If bash_dmg is smaller than 0, _every_ item on the door tile will
- // prevent the door from closing. If bash_dmg is 0, only very small items
- // will do so, if bash_dmg is greater than 0, items won't stop the door
- // from closing at all.
- // If the door gets closed the items on the door tile get moved away or destroyed.
- bool forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg);
  void open_gate( const int examx, const int examy, const ter_id handle_type );
 
  bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
@@ -496,6 +478,25 @@ class game
   void disassemble(int pos = INT_MAX);       // See crafting.cpp
   void complete_disassemble();         // See crafting.cpp
   recipe* recipe_by_index(int index);  // See crafting.cpp
+
+  // Forcefully close a door at (x, y).
+  // The function checks for creatures/items/vehicles at that point and
+  // might kill/harm/destroy them.
+  // If there still remains something that prevents the door from closing
+  // (e.g. a very big creatures, a vehicle) the door will not be closed and
+  // the function returns false.
+  // If the door gets closed the terrain at (x, y) is set to door_type and
+  // true is returned.
+  // bash_dmg controlls how much damage the door does to the
+  // creatures/items/vehicle.
+  // If bash_dmg is 0 or smaller, creatures and vehicles are not damaged
+  // at all and they will prevent the door from closing.
+  // If bash_dmg is smaller than 0, _every_ item on the door tile will
+  // prevent the door from closing. If bash_dmg is 0, only very small items
+  // will do so, if bash_dmg is greater than 0, items won't stop the door
+  // from closing at all.
+  // If the door gets closed the items on the door tile get moved away or destroyed.
+  bool forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg);
 
   bool vehicle_near ();
   void handbrake ();
