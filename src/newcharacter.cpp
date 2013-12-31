@@ -567,7 +567,7 @@ int set_stats(WINDOW *w, player *u, int &points)
         mvwprintz(w, 9,  2, c_ltgray, _("Perception:"));
         mvwprintz(w, 9,  16, c_ltgray, "%2d", u->per_max);
 
-        int tmp;
+        int tmp = 0;
         switch (sel) {
             case 1:
                 mvwprintz(w, 6, 2, COL_STAT_ACT, _("Strength:"));
