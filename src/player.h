@@ -427,6 +427,7 @@ public:
  item i_rem(signed char ch) { return i_rem((char) ch); }  // prevent signed char->int conversion
  item i_rem(int pos); // Remove item from inventory; returns ret_null on fail
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
+ item i_rem(item *it);// Remove specific item.
  item remove_weapon();
  void remove_mission_items(int mission_id);
  item reduce_charges(int position, int quantity);
