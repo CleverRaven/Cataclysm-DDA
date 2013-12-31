@@ -295,7 +295,12 @@ class game
   int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
   int display_slice(indexed_invslice&, const std::string&);
   int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
-  std::vector<item> multidrop();
+  // Select items to drop, removes those items from the players
+  // inventory, takes of the selected armor, unwields weapon (if
+  // selected).
+  // Selected items that had been worn are taken off and put into dropped_worn.
+  // Selected items from main inventory and the weapon are returned directly.
+  std::vector<item> multidrop(std::vector<item> &dropped_worn);
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);
   void remove_item(item *it);
@@ -498,7 +503,10 @@ class game
   // at (dirx, diry), items are dropped into a vehicle part
   // with the cargo flag (if ther eis one), otherwise they are
   // droppend onto the ground.
-  void drop(std::vector<item> &dropped, int dirx, int diry);
+  void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int dirx, int diry);
+  // calculate the time (in player::moves) it takes to drop the
+  // items in dropped and dropped_worn.
+  int calculate_drop_cost(std::vector<item> &dropped, std::vector<item> &dropped_worn) const;
   void reassign_item(int pos = INT_MIN); // Reassign the letter of an item  '='
   void butcher(); // Butcher a corpse  'B'
   void complete_butcher(int index); // Finish the butchering process

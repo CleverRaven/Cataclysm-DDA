@@ -346,7 +346,7 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
     return display_slice(reduced_inv, title);
 }
 
-std::vector<item> game::multidrop()
+std::vector<item> game::multidrop(std::vector<item> &dropped_worn)
 {
     WINDOW* w_inv = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH + (use_narrow_sidebar() ? 45 : 55), VIEW_OFFSET_Y, VIEW_OFFSET_X);
     const int maxitems = TERRAIN_WINDOW_HEIGHT - 5;
@@ -714,7 +714,7 @@ std::vector<item> game::multidrop()
         // Item could have been dropped after taking it off
         if (&u.inv.item_by_letter(dropped_armor[i]) != &u.inv.nullitem)
         {
-            ret.push_back(u.i_rem(dropped_armor[i]));
+            dropped_worn.push_back(u.i_rem(dropped_armor[i]));
         }
     }
 
