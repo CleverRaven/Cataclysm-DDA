@@ -11125,6 +11125,11 @@ void map::rotate(int turns)
                 tmp.posy = new_y;
                 sprot[gridto].push_back(tmp);
             }
+            // While we're at it, move vehicles to their submap
+            if(gridto < gridfrom) {
+                // Dont swap twice!
+                grid[gridto]->vehicles.swap(grid[gridfrom]->vehicles);
+            }
         }
     }
 
