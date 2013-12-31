@@ -894,7 +894,7 @@ recipe* game::select_crafting_recipe()
             if ( isWide ) {
                 if ( lastid != current[line]->id ) {
                     lastid = current[line]->id;
-                    tmp = item(item_controller->find_template(current[line]->result), 0);
+                    tmp = item(item_controller->find_template(current[line]->result), g->turn);
                     folded = foldstring(tmp.info(true), iInfoWidth);
                 }
                 int maxline = folded.size() > dataHeight ? dataHeight : folded.size();
@@ -974,7 +974,7 @@ recipe* game::select_crafting_recipe()
                 }
                 break;
             case Help:
-                tmp = item(item_controller->find_template(current[line]->result), 0);
+                tmp = item(item_controller->find_template(current[line]->result), g->turn);
                 full_screen_popup(tmp.info(true).c_str());
                 redraw = true;
                 keepline = true;
