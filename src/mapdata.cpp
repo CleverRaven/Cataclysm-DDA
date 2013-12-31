@@ -186,6 +186,7 @@ furn_t null_furniture_t() {
   new_furniture.loadid = 0;
   new_furniture.open = "";
   new_furniture.close = "";
+  new_furniture.max_volume = -1;
   return new_furniture;
 };
 
@@ -237,6 +238,7 @@ void load_furniture(JsonObject &jsobj)
 
   new_furniture.movecost = jsobj.get_int("move_cost_mod");
   new_furniture.move_str_req = jsobj.get_int("required_str");
+  new_furniture.max_volume = jsobj.get_int("max_volume", -1);
 
   new_furniture.crafting_pseudo_item = jsobj.get_string("crafting_pseudo_item", "");
 

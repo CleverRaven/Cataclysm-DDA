@@ -236,6 +236,9 @@ struct furn_t {
  iexamine_function examine;
  std::string open;
  std::string close;
+ // Maximal volume of items that can be stored in/on this furniture
+ // -1 means don't care, use MAX_VOLUME_IN_SQUARE
+ int max_volume;
 
  map_bash_info bash;
  map_deconstruct_info deconstruct;
