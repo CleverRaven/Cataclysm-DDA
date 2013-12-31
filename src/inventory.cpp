@@ -1129,33 +1129,22 @@ std::list<item> inventory::use_charges(itype_id it, int quantity)
 {
     sort();
     std::list<item> ret;
-    for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; ++iter)
-    {
+    for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; ++iter) {
         for (std::list<item>::iterator stack_iter = iter->begin();
-             stack_iter != iter->end() && quantity > 0;
-             ++stack_iter)
-        {
+             stack_iter != iter->end() && quantity > 0; ++stack_iter) {
             // First, check contents
-            for (int k = 0; k < stack_iter->contents.size() && quantity > 0; k++)
-            {
-                if (stack_iter->contents[k].type->id == it)
-                {
-                    if (stack_iter->contents[k].charges <= quantity)
-                    {
+            for (int k = 0; k < stack_iter->contents.size() && quantity > 0; k++) {
+                if (stack_iter->contents[k].type->id == it || stack_iter->ammo_type() == it) {
+                    if (stack_iter->contents[k].charges <= quantity) {
                         ret.push_back(stack_iter->contents[k]);
                         quantity -= stack_iter->contents[k].charges;
-                        if (stack_iter->contents[k].destroyed_at_zero_charges())
-                        {
+                        if (stack_iter->contents[k].destroyed_at_zero_charges()) {
                             stack_iter->contents.erase(stack_iter->contents.begin() + k);
                             k--;
-                        }
-                        else
-                        {
+                        } else {
                             stack_iter->contents[k].charges = 0;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         item tmp = stack_iter->contents[k];
                         tmp.charges = quantity;
                         ret.push_back(tmp);
@@ -1166,37 +1155,27 @@ std::list<item> inventory::use_charges(itype_id it, int quantity)
             }
 
             // Now check the item itself
-            if (stack_iter->type->id == it || stack_iter->ammo_type() == it)
-            {
-                if (stack_iter->charges <= quantity)
-                {
+            if (stack_iter->type->id == it || stack_iter->ammo_type() == it) {
+                if (stack_iter->charges <= quantity) {
                     ret.push_back(*stack_iter);
                     if (stack_iter->charges < 0) {
                         quantity--;
                     } else {
                         quantity -= stack_iter->charges;
                     }
-                    if (stack_iter->destroyed_at_zero_charges())
-                    {
+                    if (stack_iter->destroyed_at_zero_charges()) {
                         stack_iter = iter->erase(stack_iter);
-                        if (iter->empty())
-                        {
+                        if (iter->empty()) {
                             iter = items.erase(iter);
                             --iter;
                             break;
-                        }
-                        else
-                        {
+                        } else {
                             --stack_iter;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         stack_iter->charges = 0;
                     }
-                }
-                else
-                {
+                } else {
                     item tmp = *stack_iter;
                     tmp.charges = quantity;
                     ret.push_back(tmp);
@@ -1211,12 +1190,12 @@ std::list<item> inventory::use_charges(itype_id it, int quantity)
 
 bool inventory::has_amount(itype_id it, int quantity) const
 {
- return (amount_of(it) >= quantity);
+    return (amount_of(it) >= quantity);
 }
 
 bool inventory::has_charges(itype_id it, int quantity) const
 {
- return (charges_of(it) >= quantity);
+    return (charges_of(it) >= quantity);
 }
 
 bool inventory::has_flag(std::string flag) const
