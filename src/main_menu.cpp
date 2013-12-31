@@ -124,11 +124,6 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
     }
 }
 
-WORLDPTR game::pick_world_to_play()
-{
-    return world_generator->pick_world();
-}
-
 bool game::opening_screen()
 {
     std::map<std::string, WORLDPTR> worlds;
@@ -378,7 +373,7 @@ bool game::opening_screen()
                             delwin(w_open);
                             return (opening_screen());
                         }
-                        WORLDPTR world = pick_world_to_play();
+                        WORLDPTR world = world_generator->pick_world();
                         if (!world) {
                             u = player();
                             delwin(w_open);
@@ -716,7 +711,7 @@ bool game::opening_screen()
                         return (opening_screen());
                     }
                     // check world
-                    WORLDPTR world = pick_world_to_play();
+                    WORLDPTR world = world_generator->pick_world();
                     if (!world) {
                         u = player();
                         delwin(w_open);

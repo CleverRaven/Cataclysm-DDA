@@ -580,9 +580,6 @@ class game
   void mondebug();        // Debug monster behavior directly
   void groupdebug();      // Get into on monster groups
 
-  WORLDPTR pick_world_to_play();
-
-
 // ########################## DATA ################################
 
   std::map<point, int> z_at;
