@@ -13978,8 +13978,11 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 3000,
-  "reversible": false,
-  "autolearn": true,
+  "reversible": true,
+  "decomp_learn": 0,
+  "note": "OK, I sewed the shirt and pants together, now how am I going to put this on? not perfectly trivial IMO.",
+  "autolearn": false,
+  "book_learn": [[ "mag_tailor", 0 ] , ["manual_tailor", 0] , ["textbook_tailor", 0]],
   "tools": [
     [
       [ "needle_bone", 10 ],
@@ -14004,7 +14007,7 @@
   "time": 4000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ]],
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
   "tools": [
     [
       [ "needle_bone", 20 ],
@@ -14035,7 +14038,7 @@
   "time": 4000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ]],
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
   "tools": [
     [
       [ "needle_bone", 20 ],
@@ -14736,7 +14739,7 @@
   "time": 24000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_fireman", 6 ]],
+  "book_learn": [[ "textbook_fireman", 6 ] , ["tailor_portfolio", 7]],
   "tools": [
     [
       [ "needle_bone", 40 ],
@@ -14825,7 +14828,7 @@
   "time": 160000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_fireman", 8 ]],
+  "book_learn": [[ "textbook_fireman", 8 ] , ["tailor_portfolio", 8]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -24344,6 +24347,7 @@
   "time": 320000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "tailor_portfolio", 7 ] , ["textbook_fireman", 7]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -25320,6 +25324,7 @@
   "time": 180000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [["tailor_portfolio", 7] , ["textbook_tailor", 8]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -25354,6 +25359,7 @@
   "time": 220000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [["tailor_portfolio", 8] , ["textbook_fireman", 7]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
