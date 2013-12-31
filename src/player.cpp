@@ -312,17 +312,28 @@ void player::normalize()
 {
     Creature::normalize();
 
- ret_null = item(itypes["null"], 0);
- weapon   = item(itypes["null"], 0);
- style_selected = "style_none";
- for (int i = 0; i < num_hp_parts; i++) {
-  hp_max[i] = 60 + str_max * 3;
-  if (has_trait("TOUGH"))
-   hp_max[i] = int(hp_max[i] * 1.2);
-  hp_cur[i] = hp_max[i];
- }
- for (int i = 0 ; i < num_bp; i++)
-  temp_conv[i] = BODYTEMP_NORM;
+    ret_null = item(itypes["null"], 0);
+    weapon   = item(itypes["null"], 0);
+    style_selected = "style_none";
+    for (int i = 0; i < num_hp_parts; i++) {
+        hp_max[i] = 60 + str_max * 3;
+        if (has_trait("TOUGH")) {
+            hp_max[i] = int(hp_max[i] * 1.2);
+        } else if (has_trait("TOUGH2")) {
+            hp_max[i] = int(hp_max[i] * 1.3);
+        } else if (has_trait("TOUGH3")) {
+            hp_max[i] = int(hp_max[i] * 1.4);
+        } else if (has_trait("FLIMSY")) {
+            hp_max[i] = int(hp_max[i] * .75);
+        } else if (has_trait("FLIMSY2")) {
+            hp_max[i] = int(hp_max[i] * .5);
+        } else if (has_trait("FLIMSY3")) {
+            hp_max[i] = int(hp_max[i] * .25);
+        }
+        hp_cur[i] = hp_max[i];
+    }
+    for (int i = 0 ; i < num_bp; i++)
+        temp_conv[i] = BODYTEMP_NORM;
 }
 
 void player::pick_name() {
@@ -4319,13 +4330,18 @@ void player::recalc_hp()
     for (int i = 0; i < num_hp_parts; i++)
     {
         new_max_hp[i] = 60 + str_max * 3;
-        if (has_trait("TOUGH"))
-        {
+        if (has_trait("TOUGH")) {
             new_max_hp[i] *= 1.2;
-        }
-        if (has_trait("FRAIL"))
-        {
-            new_max_hp[i] *= 0.25;
+        } else if (has_trait("TOUGH2")) {
+            new_max_hp[i] *= 1.3;
+        } else if (has_trait("TOUGH3")) {
+            new_max_hp[i] *= 1.4;
+        } else if (has_trait("FLIMSY")) {
+            new_max_hp[i] *= .75;
+        } else if (has_trait("FLIMSY2")) {
+            new_max_hp[i] *= .5;
+        } else if (has_trait("FLIMSY3")) {
+            new_max_hp[i] *= .25;
         }
     }
     if (has_trait("GLASSJAW"))
