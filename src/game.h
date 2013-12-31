@@ -295,6 +295,9 @@ class game
   int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
   int display_slice(indexed_invslice&, const std::string&);
   int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
+  // Same as other multidrop, only the dropped_worn vector
+  // is merged into the result.
+  std::vector<item> multidrop();
   // Select items to drop, removes those items from the players
   // inventory, takes of the selected armor, unwields weapon (if
   // selected).

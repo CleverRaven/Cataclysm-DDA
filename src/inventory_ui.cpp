@@ -346,6 +346,13 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
     return display_slice(reduced_inv, title);
 }
 
+std::vector<item> game::multidrop() {
+    std::vector<item> dropped_worn;
+    std::vector<item> result = multidrop(dropped_worn);
+    result.insert(result.end(), dropped_worn.begin(), dropped_worn.end());
+    return result;
+}
+
 std::vector<item> game::multidrop(std::vector<item> &dropped_worn)
 {
     WINDOW* w_inv = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH + (use_narrow_sidebar() ? 45 : 55), VIEW_OFFSET_Y, VIEW_OFFSET_X);
