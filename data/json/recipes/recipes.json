@@ -14761,7 +14761,7 @@
   "time": 24000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_fireman", 6 ]],
+  "book_learn": [[ "textbook_fireman", 6 ] , ["textbook_tailor", 5] , ["tailor_portfolio", 5]],
   "tools": [
     [
       [ "needle_bone", 8 ],
@@ -14783,7 +14783,7 @@
   "time": 24000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_fireman", 6 ]],
+  "book_learn": [[ "textbook_fireman", 6 ] , ["textbook_tailor", 5] , ["tailor_portfolio", 5]],
   "tools": [
     [
       [ "needle_bone", 12 ],
@@ -14805,7 +14805,7 @@
   "time": 24000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_fireman", 6 ]],
+  "book_learn": [[ "textbook_fireman", 6 ] , ["textbook_tailor", 5] , ["tailor_portfolio", 5]],
   "tools": [
     [
       [ "needle_bone", 12 ],
@@ -15141,6 +15141,7 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
+  "book_learn": [["textbook_survival", 2] , ["trappers_companion", 3] , ["survival_book", 2]],
   "tools": [
     [
       [ "needle_bone", 3 ],
@@ -15153,15 +15154,67 @@
     ]
   ]
 },{
+    "type" : "recipe",
+  "result": "scarf_fur_long",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "note": "You try keeping 12 feet of fur sorted out!",
+  "time": 9000,
+  "reversible": true,
+  "autolearn": true,
+  "book_learn": [["textbook_survival", 2] , ["trappers_companion", 3] , ["survival_book", 2]],
+  "tools": [
+    [
+      [ "needle_bone", 9 ],
+      [ "sewing_kit", 9 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 12 ]
+    ]
+  ]
+},{
+    "type" : "recipe",
+  "result": "scarf_fur_long",
+  "id-suffix": "merge_scarves",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "book_learn": [["textbook_survival", 2] , ["trappers_companion", 3] , ["survival_book", 2]],
+  "tools": [
+    [
+      [ "needle_bone", 3 ],
+      [ "sewing_kit", 3 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scarf_fur", 3 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "mask_filter",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
-  "difficulty": 1,
+  "skills_required": ["fabrication", 1],
+  "difficulty": 2,
+  "note": "Airtight takes some skills.",
   "time": 5000,
   "reversible": true,
-  "autolearn": true,
+  "decomp_learn": 3
+  "autolearn": false,
+  "book_learn": [["textbook_fireman", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4] , ["emergency_book", 3] , ["textbook_gaswarfare", 3]],
   "components": [
     [
       [ "bag_plastic", 2 ],
@@ -15172,6 +15225,9 @@
       [ "muffler", 1 ],
       [ "bandana", 2 ],
       [ "wrapper", 4 ]
+    ],
+    [
+      [ "charcoal", 2]
     ]
   ]
 },{
@@ -15202,11 +15258,13 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
+  "skills_required": ["fabrication", 1],
   "difficulty": 3,
   "time": 20000,
   "reversible": true,
-  "autolearn": true,
-  "book_learn": [[ "textbook_gaswarfare", 2 ]],
+  "decomp_learn": 3,
+  "autolearn": false,
+  "book_learn": [["textbook_fireman", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4] , ["emergency_book", 3] , ["textbook_gaswarfare", 3]],
   "tools": [
     [
       [ "wrench", -1 ],
@@ -15224,6 +15282,9 @@
     ],
     [
       [ "hose", 1 ]
+    ],
+    [
+      ["charcoal", 4]
     ]
   ]
 },{
@@ -15232,11 +15293,12 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
+  "skills_required": ["fabrication", 1],
   "difficulty": 4,
   "time": 20000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_gaswarfare", 4 ]],
+  "book_learn": [["textbook_fireman", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4] , ["emergency_book", 3] , ["textbook_gaswarfare", 3]],
   "tools": [
     [
       [ "wrench", -1 ],
@@ -15262,6 +15324,9 @@
     ],
     [
       ["plastic_chunk", 4]
+    ],
+    [
+      ["charcoal", 4]
     ]
   ]
 },{
@@ -15275,7 +15340,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_gaswarfare", 4 ]],
+  "book_learn": [["textbook_fireman", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4] , ["emergency_book", 3] , ["textbook_gaswarfare", 3]],
   "tools": [
     [
       [ "wrench", -1 ],
@@ -15483,6 +15548,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [["textbook_fireman", 7] , ["atomic_survival", 8] , ["textbook_gaswarfare", 9]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -15524,6 +15590,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [["textbook_fireman", 7] , ["atomic_survival", 8] , ["textbook_gaswarfare", 9]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -15654,6 +15721,7 @@
   "reversible": true,
   "decomp_learn": 4,
   "autolearn": true,
+  "book_learn": [["textbook_fireman", 7] , ["advanced_electronics", 4] , ["textbook_electronics", 4]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -15944,6 +16012,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "textbook_tailor", 5 ] , [ "tailor_portfolio", 5 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -24707,6 +24776,7 @@
   "time": 45000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "textbook_firefighter", 7 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -25662,6 +25732,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "textbook_fabrication", 5 ] , [ "welding_book", 4 ]],
   "tools": [
     [
       [ "wrench", -1 ],
