@@ -464,6 +464,7 @@ void mdeath::zombie(monster *z) {
     // now generate appropriate clothing
     char dropset = -1;
     std::string zid = z->type->id;
+    bool underwear = true;
     if (zid == "mon_zombie_cop"){ dropset = 0;}
     else if (zid == "mon_zombie_swimmer"){ dropset = 1;}
     else if (zid == "mon_zombie_scientist"){ dropset = 2;}
@@ -481,20 +482,21 @@ void mdeath::zombie(monster *z) {
 
         case 1: // mon_zombie_swimmer
             if (one_in(10)) {
-              //Wetsuit zombie
-              g->m.put_items_from("swimmer_wetsuit", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                //Wetsuit zombie
+                g->m.put_items_from("swimmer_wetsuit", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
             } else {
-              if (!one_in(4)) {
-                  g->m.put_items_from("swimmer_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
-              }
-              if (one_in(3)) {
-                  g->m.put_items_from("swimmer_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
-              }
-              g->m.put_items_from("swimmer_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
-              if (one_in(4)) {
-                  g->m.put_items_from("swimmer_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
-              }
+                if (!one_in(4)) {
+                    g->m.put_items_from("swimmer_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                }
+                if (one_in(3)) {
+                    g->m.put_items_from("swimmer_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                }
+                g->m.put_items_from("swimmer_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                if (one_in(4)) {
+                    g->m.put_items_from("swimmer_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                }
             }
+            underwear = false;
         break;
 
         case 2: // mon_zombie_scientist
@@ -516,49 +518,53 @@ void mdeath::zombie(monster *z) {
         case 4: // mon_zombie_hulk
             g->m.spawn_item(z->posx(), z->posy(), "rag", 1, 0, g->turn, rng(1,4));
             g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            break;
-			
-	    	case 5: // mon_zombie_hazmat
+            underwear = false;
+        break;
+
+        case 5: // mon_zombie_hazmat
 		    if (one_in(5)) {
             g->m.put_items_from("hazmat_full", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             } else {
-              g->m.put_items_from("hazmat_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-              g->m.put_items_from("hazmat_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-              g->m.put_items_from("hazmat_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-              g->m.put_items_from("hazmat_mask", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("hazmat_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("hazmat_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("hazmat_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("hazmat_mask", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
 			  
-              if (one_in(3)) {
-                  g->m.put_items_from("hazmat_eyes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
-              }
-	    		}
+                if (one_in(3)) {
+                    g->m.put_items_from("hazmat_eyes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                }
+            }
         break;
 
-	    	case 6: // mon_zombie_fireman
-              g->m.put_items_from("fireman_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-              g->m.put_items_from("fireman_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-              g->m.put_items_from("fireman_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-              g->m.put_items_from("fireman_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-              g->m.put_items_from("fireman_mask", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-              g->m.put_items_from("fireman_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-			  
-              if (one_in(3)) {
-                  g->m.put_items_from("hazmat_eyes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
-              }
-              
-            break;
-	    	case 7: // mon_zombie_survivor
+        case 6: // mon_zombie_fireman
+            g->m.put_items_from("fireman_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("fireman_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("fireman_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("fireman_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("fireman_mask", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("fireman_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
 
-              g->m.put_items_from("survivorzed_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-              g->m.put_items_from("survivorzed_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-              g->m.put_items_from("survivorzed_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-              g->m.put_items_from("survivorzed_extra", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-		    if (one_in(4)) {
-                 g->m.put_items_from("survivorzed_suits", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            } else {
-              g->m.put_items_from("survivorzed_tops", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-              g->m.put_items_from("survivorzed_bottoms", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            if (one_in(3)) {
+                g->m.put_items_from("hazmat_eyes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
             }
-             break;
+        break;
+
+        case 7: // mon_zombie_survivor
+                g->m.put_items_from("survivorzed_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("survivorzed_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("survivorzed_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("survivorzed_extra", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+		    if (one_in(4)) {
+                g->m.put_items_from("survivorzed_suits", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            } else {
+                g->m.put_items_from("survivorzed_tops", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("survivorzed_bottoms", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            }
+            if (one_in(3)) {
+                underwear = false;
+                g->m.put_items_from("loincloth", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            }
+        break;
 
 
         default:
@@ -571,13 +577,23 @@ void mdeath::zombie(monster *z) {
             if (one_in(15)) {
                 g->m.put_items_from("bags", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             }
-            if (one_in(2)) {
-              g->m.put_items_from("female_underwear", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            }
-            else {
-              g->m.put_items_from("male_underwear", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            }
         break;
+    }
+
+    // Give underwear if needed
+    if (underwear) {
+        if (one_in(2)) {
+            g->m.put_items_from("female_underwear_bottom", 1, z->posx(), z->posy(),
+                                    g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("female_underwear_top", 1, z->posx(), z->posy(),
+                                    g->turn, 0, 0, rng(1,4));
+        }
+        else {
+            g->m.put_items_from("male_underwear_bottom", 1, z->posx(), z->posy(),
+                                    g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("male_underwear_top", 1, z->posx(), z->posy(),
+                                    g->turn, 0, 0, rng(1,4));
+        }
     }
 }
 
