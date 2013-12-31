@@ -11059,7 +11059,6 @@ void map::rotate(int turns)
     std::vector<item> itrot[SEEX * 2][SEEY * 2];
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     computer tmpcomp;
-    std::vector<vehicle *> tmpveh;
 
     //Rotate terrain first
     for (int old_x = 0; old_x < SEEX * 2; old_x++) {
@@ -11184,9 +11183,7 @@ void map::rotate(int turns)
     // change vehicles' directions
     for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
         for (int v = 0; v < grid[i]->vehicles.size(); v++) {
-            if (turns >= 1 && turns <= 3) {
-                grid[i]->vehicles[v]->turn(turns * 90);
-            }
+            grid[i]->vehicles[v]->turn(turns * 90);
         }
     }
 
