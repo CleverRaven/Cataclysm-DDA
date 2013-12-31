@@ -1993,11 +1993,30 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
  effect_win_size_y--;
 
 // Print name and header
- if (male) {
-    mvwprintw(w_tip, 0, 0, _("%s - Male"), name.c_str());
- } else {
-    mvwprintw(w_tip, 0, 0, _("%s - Female"), name.c_str());
- }
+
+    std::string gender_prof;
+    if (prof == NULL || prof == prof->generic()) {
+        if (male) {
+            gender_prof = string_format(_("%s - Male"), name.c_str());
+        } else {
+            gender_prof = string_format(_("%s - Female"), name.c_str());
+        }
+    } else {
+        const char *format;
+        if (prof->name() == "") {
+            // ~ "player name - gender specific profession name"
+            format = _("%s - %s");
+        } else if (male) {
+            // ~ "player name - a male gender unspecific profession name"
+            format = _("%s - a male %s");
+        } else {
+            // ~ "player name - a female gender unspecific profession name"
+            format = _("%s - a female %s");
+        }
+        gender_prof = string_format(format, name.c_str(), prof->gender_appropriate_name(male).c_str());
+    }
+    mvwprintw(w_tip, 0, 0, gender_prof.c_str());
+
  mvwprintz(w_tip, 0, 39, c_ltred, _("| Press TAB to cycle, ESC or q to return."));
  wrefresh(w_tip);
 
