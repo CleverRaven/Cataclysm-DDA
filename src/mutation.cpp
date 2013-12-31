@@ -512,7 +512,7 @@ void mutation_effect(player &p, std::string mut)
         p.str_max += 2;
         p.recalc_hp();
 
-    } else if (mut == "STR_UP_3" || mut == "MAYBE") {
+    } else if (mut == "STR_UP_3") {
         p.str_max += 4;
         p.recalc_hp();
 
