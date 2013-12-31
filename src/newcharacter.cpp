@@ -528,7 +528,7 @@ void draw_tabs(WINDOW *w, std::string sTab)
     mvwputch(w, 2,  0, BORDER_COLOR, LINE_OXXO); // |^
     mvwputch(w, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX); // ^|
 
-    mvwputch(w, 4, 0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w, 4, 0, BORDER_COLOR, LINE_XXXO); // |-
     mvwputch(w, 4, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX); // -|
 
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |_
@@ -982,8 +982,8 @@ int set_profession(WINDOW *w, player *u, int &points)
     int iStartPos = 0;
 
     WINDOW *w_items = newwin(iContentHeight, 22, 5 + getbegy(w), 21 + getbegx(w));
-    WINDOW *w_skills = newwin(iContentHeight, 32, 5 + getbegy(w), 43+ getbegx(w));
-    WINDOW *w_addictions = newwin(iContentHeight - 10, 32, 15 + getbegy(w), 43+ getbegx(w));
+    WINDOW *w_skills = newwin(iContentHeight, 32, 5 + getbegy(w), 43 + getbegx(w));
+    WINDOW *w_addictions = newwin(iContentHeight - 10, 32, 15 + getbegy(w), 43 + getbegx(w));
     WINDOW *w_genderswap = newwin(1, 48, 19 + getbegy(w), 21 + getbegx(w));
 
     std::vector<const profession *> sorted_profs;
@@ -1153,6 +1153,7 @@ int set_profession(WINDOW *w, player *u, int &points)
     delwin(w_items);
     delwin(w_skills);
     delwin(w_addictions);
+    delwin(w_genderswap);
     return retval;
 }
 
