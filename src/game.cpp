@@ -9435,6 +9435,19 @@ void game::drop(int pos)
     std::vector<item> dropped_worn;
     if (pos == INT_MIN) {
         dropped = multidrop(dropped_worn);
+    } else if(pos <= -2) {
+        // Item is worn, must be taken off before dropping it.
+        char invl = u.position_to_invlet(pos);
+        if(!u.takeoff(pos)) {
+            return;
+        }
+        u.moves -= 250; // same as game::takeoff
+        dropped_worn.push_back(u.i_rem(invl));
+        if(dropped_worn.back().is_null()) {
+            // item is not in the inventory because it has been dropped
+            // while taking it off
+            return;
+        }
     } else {
         dropped.push_back(u.i_rem(pos));
     }
