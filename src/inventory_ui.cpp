@@ -638,7 +638,7 @@ std::vector<item> game::multidrop()
             } else {
                 int index = -1;
                 for (int i = 0; i < stacks.size(); ++i) {
-                    if (stacks[i].first->front().invlet == it->invlet) {
+                    if (&(stacks[i].first->front()) == it) {
                         index = i;
                         break;
                     }
