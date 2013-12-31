@@ -261,17 +261,18 @@ bool player::create(character_type type, std::string tempname)
 
     // Character is finalized.  Now just set up HP, &c
     int tough = 0;
-    if (has_trait("TOUGH")) {
+    // Most extreme applies.
+    if (has_trait("TOUGH3")) {
         tough = 1;
     } else if (has_trait("TOUGH2")) {
         tough = 2;
-    } else if (has_trait("TOUGH3")) {
+    } else if (has_trait("TOUGH")) {
         tough = 3;
-    } else if (has_trait("FLIMSY")) {
+    } else if (has_trait("FLIMSY3")) {
         tough = -1;
     } else if (has_trait("FLIMSY2")) {
         tough = -2;
-    } else if (has_trait("FLIMSY3")) {
+    } else if (has_trait("FLIMSY")) {
         tough = -3;
     }
 
@@ -574,17 +575,18 @@ int set_stats(WINDOW *w, player *u, int &points)
                 if (u->str_max >= HIGH_STAT) {
                     mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Str further costs 2 points."));
                 }
-                if (u->has_trait("TOUGH")) {
+                // Most extreme applies.
+                if (u->has_trait("TOUGH3")) {
                     tmp = 1;
                 } else if (u->has_trait("TOUGH2")) {
                     tmp = 2;
-                } else if (u->has_trait("TOUGH3")) {
+                } else if (u->has_trait("TOUGH")) {
                     tmp = 3;
-                } else if (u->has_trait("FLIMSY")) {
+                } else if (u->has_trait("FLIMSY3")) {
                     tmp = -1;
                 } else if (u->has_trait("FLIMSY2")) {
                     tmp = -2;
-                } else if (u->has_trait("FLIMSY3")) {
+                } else if (u->has_trait("FLIMSY")) {
                     tmp = -3;
                 }
                 mvwprintz(w, 6, iSecondColumn, COL_STAT_NEUTRAL, _("Base HP: %d"),

@@ -317,17 +317,19 @@ void player::normalize()
     style_selected = "style_none";
     for (int i = 0; i < num_hp_parts; i++) {
         hp_max[i] = 60 + str_max * 3;
-        if (has_trait("TOUGH")) {
+        // Tough and Flimsy are exclusive.
+        // Only the most extreme of each version applies.
+        if (has_trait("TOUGH3")) {
             hp_max[i] = int(hp_max[i] * 1.2);
         } else if (has_trait("TOUGH2")) {
             hp_max[i] = int(hp_max[i] * 1.3);
-        } else if (has_trait("TOUGH3")) {
+        } else if (has_trait("TOUGH")) {
             hp_max[i] = int(hp_max[i] * 1.4);
-        } else if (has_trait("FLIMSY")) {
+        } else if (has_trait("FLIMSY3")) {
             hp_max[i] = int(hp_max[i] * .75);
         } else if (has_trait("FLIMSY2")) {
             hp_max[i] = int(hp_max[i] * .5);
-        } else if (has_trait("FLIMSY3")) {
+        } else if (has_trait("FLIMSY")) {
             hp_max[i] = int(hp_max[i] * .25);
         }
         hp_cur[i] = hp_max[i];
@@ -4330,17 +4332,18 @@ void player::recalc_hp()
     for (int i = 0; i < num_hp_parts; i++)
     {
         new_max_hp[i] = 60 + str_max * 3;
-        if (has_trait("TOUGH")) {
+        // Only the most extreme applies.
+        if (has_trait("TOUGH3")) {
             new_max_hp[i] *= 1.2;
         } else if (has_trait("TOUGH2")) {
             new_max_hp[i] *= 1.3;
-        } else if (has_trait("TOUGH3")) {
+        } else if (has_trait("TOUGH")) {
             new_max_hp[i] *= 1.4;
-        } else if (has_trait("FLIMSY")) {
+        } else if (has_trait("FLIMSY3")) {
             new_max_hp[i] *= .75;
         } else if (has_trait("FLIMSY2")) {
             new_max_hp[i] *= .5;
-        } else if (has_trait("FLIMSY3")) {
+        } else if (has_trait("FLIMSY")) {
             new_max_hp[i] *= .25;
         }
     }
