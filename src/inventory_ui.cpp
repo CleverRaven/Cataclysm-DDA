@@ -217,7 +217,8 @@ int game::display_slice(indexed_invslice& slice, const std::string& title)
            selected_pos=slice[cur_it].second;
        }
        nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
-       mvwputch(w_inv, cur_line, 0, (cur_it == selected ? selected_line_color : c_white), it.invlet);
+       const char invlet = it.invlet == 0 ? ' ' : it.invlet;
+       mvwputch(w_inv, cur_line, 0, (cur_it == selected ? selected_line_color : c_white), invlet);
        mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? selected_line_color : it.color_in_inventory()), " %s",
                  it.display_name().c_str());
        if (slice[cur_it].first->size() > 1) {
@@ -469,8 +470,9 @@ std::vector<item> game::multidrop()
                 if( cur_it == selected) {
                     selected_pos = stacks[cur_it].second;
                 }
+                const char invlet = it.invlet == 0 ? ' ' : it.invlet;
                 nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
-                mvwputch (w_inv, cur_line, 0, (cur_it == selected ? selected_line_color : c_white), it.invlet);
+                mvwputch (w_inv, cur_line, 0, (cur_it == selected ? selected_line_color : c_white), invlet);
                 char icon = '-';
                 if (dropping[cur_it] >= (it.count_by_charges() ? it.charges : stacks[cur_it].first->size())) {
                     icon = '+';
@@ -490,7 +492,7 @@ std::vector<item> game::multidrop()
                     wprintw(w_inv, " (%d)", it.contents[0].charges);
                 }
                 if (icon=='+'||icon=='#') {
-                    mvwprintz(w_inv, drp_line, 90, col, "%c %c %s", it.invlet, icon, it.tname().c_str());
+                    mvwprintz(w_inv, drp_line, 90, col, "%c %c %s", invlet, icon, it.tname().c_str());
                     if (icon=='+') {
                         if (stacks[cur_it].first->size() > 1) {
                             wprintz(w_inv, col, " x %d", stacks[cur_it].first->size());
@@ -807,7 +809,8 @@ void game::compare(int iCompareX, int iCompareY)
                grounditems[cur_it].tname().c_str());
     } else {
      item& it = stacks[cur_it-groundsize].first->front();
-     mvwputch (w_inv, cur_line, 0, c_white, it.invlet);
+     const char invlet = it.invlet == 0 ? ' ' : it.invlet;
+     mvwputch (w_inv, cur_line, 0, c_white, invlet);
      nc_color col = (compare_list[cur_it] == 0 ? c_ltgray : c_white);
      mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
                it.tname().c_str());
