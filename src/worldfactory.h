@@ -26,13 +26,7 @@ struct WORLD
     std::map<std::string, cOpt> world_options;
     std::vector<std::string> world_saves;
 
-    WORLD()
-    {
-        world_path = "";
-        world_name = "";
-        world_options.clear();
-        world_saves.clear();
-    }
+    WORLD();
 };
 
 typedef WORLD *WORLDPTR;

@@ -41,6 +41,21 @@ std::string get_next_valid_worldname()
     return worldname;
 }
 
+WORLD::WORLD()
+{
+    world_name = get_next_valid_worldname();
+    std::stringstream path;
+    path << SAVE_DIR << PATH_SEPARATOR << world_name;
+    world_path = path.str();
+    world_options.clear();
+    for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
+        if (it->second.getPage() == "world_default") {
+            world_options[it->first] = it->second;
+        }
+    }
+    world_saves.clear();
+}
+
 worldfactory::worldfactory()
 {
     active_world = NULL;
@@ -139,13 +154,6 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
     WORLDPTR special_world = new WORLD();
     special_world->world_name = worldname;
 
-    if (special_world->world_options.size() == 0) {
-        for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
-            if (it->second.getPage() == "world_default") {
-                special_world->world_options[it->first] = it->second;
-            }
-        }
-    }
     special_world->world_options["DELETE_WORLD"].setValue("yes");
 
     // add world to world list!
