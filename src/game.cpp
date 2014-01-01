@@ -6963,8 +6963,10 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg) {
         const int x_ = x + rng(-1, +1);
         const int y_ = y + rng(-1, +1);
         if (is_empty(x_, y_)) {
-            kbx = x_;
-            kby = y_;
+            // invert direction, as game::knockback needs
+            // the source of the force that knocks back
+            kbx = -x_ + x + x;
+            kby = -y_ + y + y;
             break;
         }
     }
