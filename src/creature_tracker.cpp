@@ -49,6 +49,9 @@ size_t Creature_tracker::size() const
 
 bool Creature_tracker::update_pos(const monster &critter, const int new_x_pos, const int new_y_pos)
 {
+    if (critter.posx() == new_x_pos && critter.posy() == new_y_pos) {
+        return true; // success?
+    }
     bool success = false;
     const int critter_id = mon_at(critter.posx(), critter.posy());
     const int new_critter_id = mon_at(new_x_pos, new_y_pos);
