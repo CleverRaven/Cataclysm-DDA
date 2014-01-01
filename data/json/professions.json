@@ -1487,7 +1487,7 @@
         "type": "profession",
         "ident": "lawyer",
         "name": "Lawyer",
-        "description": "Now instead of complaining about your fees, your clients try to eat your brain.",
+        "description": "Now instead of complaining about your fees, your clients try to eat your brain. You can't tell which one is worse though.",
         "points": 1,
         "skills": [
             {
