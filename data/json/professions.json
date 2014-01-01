@@ -1461,7 +1461,7 @@
         "ident": "convict",
         "name": "Convict",
         "description": "The cataclysm gave you a chance to escape, but freedom come with a steep price.",
-        "points": -1,
+        "points": 0,
         "skills": [
             {
                 "level": 1,
