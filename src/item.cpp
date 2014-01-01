@@ -688,7 +688,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("BOOK", "", _("This book takes <num> minutes to read."), book->time, true, "", true, true));
 
   if (!(book->recipes.empty())) {
-   dump->push_back(iteminfo("BOOK", "", _("This book contains <num> crafting recipes."), book->recipes.size(), true, "", true, true));
+   std::string recipes = "";
+   int index = 1;
+   for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter, ++index) {
+     recipes += itypes.at(iter->first->result)->name;
+     if(index == book->recipes.size() - 1)
+       recipes += ", and "; // oxford comma 4 lyfe
+     else if(index != book->recipes.size())
+       recipes += ", ";
+   }
+   std::string recipe_line = string_format(_("This book contains %d crafting recipes: %s"), book->recipes.size(), recipes.c_str());
+   dump->push_back(iteminfo("DESCRIPTION", recipe_line.c_str()));
+   dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
   }
 
  } else if (is_tool()) {
