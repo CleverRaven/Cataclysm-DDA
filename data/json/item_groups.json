@@ -183,6 +183,7 @@
       ["helmet_bike", 35],
       ["helmet_motor", 40],
       ["touring_suit", 15],
+	  ["briefcase", 2],
       ["mag_tv", 40],
       ["mag_dude", 40],
       ["mag_glam", 40],
@@ -602,6 +603,7 @@
       ["baseball", 5],
       ["football", 5],
       ["socks", 70],
+	  ["briefcase", 5],
       ["mocassins", 5],
       ["boots_western", 4],
       ["bandana", 35],
@@ -2386,7 +2388,8 @@
       ["purse", 40],
       ["mbag", 20],
       ["rucksack", 20],
-      ["backpack_leather", 8]
+      ["backpack_leather", 8],
+	  ["briefcase", 10]
     ]
   },{
     "type" : "item_group",
@@ -3079,6 +3082,7 @@
       ["fancy_sunglasses", 5],
       ["glasses_reading", 90],
       ["glasses_bifocal", 90],
+	  ["briefcase", 40],
       ["purse", 40],
       ["mbag", 20],
       ["battery", 50],
@@ -3144,6 +3148,7 @@
       ["glasses_reading", 90],
       ["glasses_bifocal", 90],
       ["fan", 10],
+	  ["briefcase", 40],
       ["purse", 40],
       ["mbag", 20],
       ["battery", 50],
@@ -3267,6 +3272,7 @@
       ["mintpatties", 60],
       ["backpack", 38],
       ["backpack_leather", 18],
+	  ["briefcase", 5],
       ["pockknife", 14],
       ["mag_comic", 20],
       ["umbrella", 5],
@@ -3567,6 +3573,7 @@
       ["nomex_socks", 1],
       ["picklocks", 10],
       ["rucksack", 20],
+	  ["briefcase", 5],
       ["puller", 5],
       ["press", 5],
       ["vac_sealer", 10],
@@ -3974,7 +3981,8 @@
       ["oxy_powder", 12],
       ["chemistry_set", 5],
       ["sm_extinguisher", 10],
-      ["charcoal", 10]
+      ["charcoal", 10],
+	  ["briefcase", 5]
     ]
   },{
     "type" : "item_group",
@@ -4139,6 +4147,7 @@
       ["glasses_bifocal", 90],
       ["towel", 40],
       ["hat_ball", 30],
+	  ["briefcase", 50],
       ["purse", 40],
       ["mbag", 20],
       ["fanny", 10],
@@ -4520,6 +4529,7 @@
       ["goggles_nv", 1],
       ["optical_cloak", 1],
       ["backpack", 38],
+	  ["briefcase", 10],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["armguard_hard", 20],
@@ -4906,6 +4916,7 @@
       ["hat_hard", 50],
       ["ear_plugs", 50],
       ["backpack", 38],
+	  ["briefcase", 20],
       ["backpack_leather", 18],
       ["battery", 50],
       ["flashlight", 40],
@@ -5430,7 +5441,8 @@
       ["glasses_bal", 10],
       ["55gal_drum", 1],
       ["30gal_drum", 2],
-      ["optical_cloak", 1]
+      ["optical_cloak", 1],
+	  ["briefcase", 5]
     ]
   },{
     "type" : "item_group",

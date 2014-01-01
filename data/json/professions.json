@@ -1482,5 +1482,40 @@
                 "panties"
             ]
         }
+    },
+	{
+        "type": "profession",
+        "ident": "lawyer",
+        "name": "Lawyer",
+        "description": "Now instead of complaining about your fees, your clients try to eat your brain.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 1,
+                "name": "driving"
+            },
+			{
+			    "level": 3,
+				"name": "barter"
+			}
+        ],
+        "items": {
+            "both": [
+                "suit",
+                "skinny_tie",
+				"dress_shoes",
+				"wristwatch",
+				"cell_phone",
+				"briefcase",
+				"money_bundle"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+			    "bra",
+                "panties"
+            ]
+        }
     }
 ]
