@@ -2259,7 +2259,8 @@ void manage_sleep(player& p, disease& dis) {
             }
         }
         if ((p.has_trait("FLIMSY") && x_in_y(3 , 4)) || (p.has_trait("FLIMSY2") && one_in(2)) ||
-              (p.has_trait("FLIMSY3") && one_in(4))) {
+              (p.has_trait("FLIMSY3") && one_in(4)) ||
+              (!(p.has_trait("FLIMSY")) && (!(p.has_trait("FLIMSY2"))) && (!(p.has_trait("FLIMSY3"))))) {
             if (p.has_trait("FASTHEALER")) {
                 p.healall(1);
             } else if (p.has_trait("FASTHEALER2")) {
