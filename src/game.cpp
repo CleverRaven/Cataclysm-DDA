@@ -6954,6 +6954,127 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     refresh_all();
 }
 
+bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg) {
+    const std::string &door_name = terlist[door_type].name;
+    int kbx = x; // Used when player/monsters are knocked back
+    int kby = y; // and when moving items out of the way
+    for (int i = 0; i < 20; i++) {
+        const int x_ = x + rng(-1, +1);
+        const int y_ = y + rng(-1, +1);
+        if (is_empty(x_, y_)) {
+            // invert direction, as game::knockback needs
+            // the source of the force that knocks back
+            kbx = -x_ + x + x;
+            kby = -y_ + y + y;
+            break;
+        }
+    }
+    const bool can_see = u_see(x, y);
+    player *npc_or_player = NULL;
+    if(x == u.pos().x && y == u.pos().y) {
+        npc_or_player = &u;
+    } else {
+        const int cindex = npc_at(x, y);
+        if(cindex != -1) {
+            npc_or_player = active_npc[cindex];
+        }
+    }
+    if(npc_or_player != NULL) {
+        if(bash_dmg <= 0) {
+            return false;
+        }
+        if(npc_or_player->is_npc() && can_see) {
+            add_msg(_("The %s hits the %s."), door_name.c_str(), npc_or_player->name.c_str());
+        } else if(npc_or_player->is_player()) {
+            add_msg(_("The %s hits you."), door_name.c_str());
+        }
+        // TODO: make the npc angry?
+        npc_or_player->hitall(bash_dmg);
+        knockback(kbx, kby, x, y, std::max(1, bash_dmg / 10), -1, 1);
+        // TODO: perhaps damage/destroy the gate
+        // if the npc was really big?
+    }
+    const int cindex = mon_at(x, y);
+    if (cindex != -1 && !zombie(cindex).dead) {
+        if(bash_dmg <= 0) {
+            return false;
+        }
+        if (can_see) {
+            add_msg(_("The %s hits the %s."), door_name.c_str(), zombie(cindex).name().c_str());
+        }
+        if (zombie(cindex).type->size <= MS_SMALL || zombie(cindex).has_flag(MF_VERMIN)) {
+            explode_mon(cindex);
+        } else if (zombie(cindex).hurt(bash_dmg)) {
+            kill_mon(cindex, true);
+        } else if (zombie(cindex).type->size >= MS_HUGE) {
+            // big critters simply prevent the gate from closing
+            // TODO: perhaps damage/destroy the gate
+            // if the critter was really big?
+            return false;
+        } else {
+            // Still alive? Move the critter away so the door can close
+            knockback(kbx, kby, x, y, std::max(1, bash_dmg / 10), -1, 1);
+            if (mon_at(x, y) != -1) {
+                return false;
+            }
+        }
+    }
+    int vpart = -1;
+    vehicle* veh = m.veh_at(x, y, vpart);
+    if (veh != NULL) {
+        if(bash_dmg <= 0) {
+            return false;
+        }
+        veh->damage(vpart, bash_dmg);
+        if (m.veh_at(x, y, vpart) != NULL) {
+            // Check again in case all parts at the door tile
+            // have been destroyed, if there is still a vehicle
+            // there, the door can not be closed
+            return false;
+        }
+    }
+    if(bash_dmg < 0 && !m.i_at(x, y).empty()) {
+        return false;
+    }
+    if(bash_dmg == 0) {
+        std::vector<item> &items = m.i_at(x, y);
+        for(size_t i = 0; i < items.size(); i++) {
+            if(items[i].made_of(LIQUID)) {
+                // Liquids are OK, will be destroyed later
+                continue;
+            } else if(items[i].volume() <= 0) {
+                // Dito for small items, will be moved away
+                continue;
+            }
+            // Everything else prevents the door from closing
+            return false;
+        }
+    }
+
+    m.ter_set(x, y, door_type);
+    if(m.has_flag("NOITEM", x, y)) {
+        std::vector<item> &items = m.i_at(x, y);
+        while(!items.empty()) {
+            if(items[0].made_of(LIQUID)) {
+                items.erase(items.begin());
+                continue;
+            }
+            if (items[0].made_of("glass") && one_in(2)) {
+                if (can_see) {
+                    add_msg(_("A %s shatters!"), items[0].tname().c_str());
+                } else {
+                    add_msg(_("Something shatters!"));
+                }
+                items.erase(items.begin());
+                continue;
+            }
+            m.add_item_or_charges(kbx, kby, items[0]);
+            items.erase(items.begin());
+        }
+    }
+    return true;
+}
+
 // A gate handle is adjacent to a wall section, and next to that wall section on one side or
 // another is the gate.  There may be a handle on the other side, but this is optional.
 // The gate continues until it reaches a non-floor tile, so they can be arbitrary length.
@@ -6976,6 +7097,7 @@ void game::open_gate( const int examx, const int examy, const ter_id handle_type
  const char *pull_message;
  const char *open_message;
  const char *close_message;
+ int bash_dmg;
 
  if ( handle_type == t_gates_mech_control ) {
   v_wall_type = t_wall_v;
@@ -6985,6 +7107,7 @@ void game::open_gate( const int examx, const int examy, const ter_id handle_type
   pull_message = _("You turn the handle...");
   open_message = _("The gate is opened!");
   close_message = _("The gate is closed!");
+  bash_dmg = 40;
  } else if ( handle_type == t_gates_control_concrete ) {
   v_wall_type = t_concrete_v;
   h_wall_type = t_concrete_h;
@@ -6993,6 +7116,7 @@ void game::open_gate( const int examx, const int examy, const ter_id handle_type
   pull_message = _("You turn the handle...");
   open_message = _("The gate is opened!");
   close_message = _("The gate is closed!");
+  bash_dmg = 40;
 
  } else if ( handle_type == t_barndoor ) {
   v_wall_type = t_wall_wood;
@@ -7002,6 +7126,7 @@ void game::open_gate( const int examx, const int examy, const ter_id handle_type
   pull_message = _("You pull the rope...");
   open_message = _("The barn doors opened!");
   close_message = _("The barn doors closed!");
+  bash_dmg = 40;
 
  } else if ( handle_type == t_palisade_pulley ) {
   v_wall_type = t_palisade;
@@ -7011,6 +7136,7 @@ void game::open_gate( const int examx, const int examy, const ter_id handle_type
   pull_message = _("You pull the rope...");
   open_message = _("The palisade gate swings open!");
   close_message = _("The palisade gate swings closed with a crash!");
+  bash_dmg = 30;
  } else {
    return;
  }
@@ -7045,7 +7171,7 @@ void game::open_gate( const int examx, const int examy, const ter_id handle_type
            if (!open && (g->m.ter(examx+wall_x+gate_x, examy+wall_y+gate_y) == floor_type)) {  //closing the gate...
              close = true;
              while (g->m.ter(cur_x, cur_y) == floor_type) {
-               g->m.ter_set(cur_x, cur_y, door_type);
+               forced_gate_closing(cur_x, cur_y, door_type, bash_dmg);
                cur_x = cur_x+gate_x;
                cur_y = cur_y+gate_y;
              }
