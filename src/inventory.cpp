@@ -1284,7 +1284,7 @@ bool inventory::has_active_item(itype_id type) const
     return false;
 }
 
-int inventory::damage_leak_level(std::string flag) const
+int inventory::leak_level(std::string flag) const
 {
     int ret = 0;
 
@@ -1292,9 +1292,16 @@ int inventory::damage_leak_level(std::string flag) const
     {
         for (std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter)
         {
-            if (stack_iter->has_flag(flag) && stack_iter->damage > 0)
+            if (stack_iter->has_flag(flag))
             {
-                ret += stack_iter->damage;
+                if (stack_iter->has_flag("LEAK_ALWAYS"))
+                {
+                    ret += stack_iter->volume();
+                }
+                else if (stack_iter->has_flag("LEAK_DAM") && stack_iter->damage > 0)
+                {
+                    ret += stack_iter->damage;
+                }
             }
         }
     }
