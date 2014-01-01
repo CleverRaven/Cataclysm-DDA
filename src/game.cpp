@@ -12522,40 +12522,38 @@ void game::teleport(player *p, bool add_teleglow)
         newx = p->posx + rng(0, SEEX * 2) - SEEX;
         newy = p->posy + rng(0, SEEY * 2) - SEEY;
         tries++;
-    } while (tries < 15 && !is_empty(newx, newy));
+    } while (tries < 15 && m.move_cost(newx, newy) == 0);
     bool can_see = (is_u || u_see(newx, newy));
     if (p->in_vehicle) {
         m.unboard_vehicle(p->posx, p->posy);
     }
     p->posx = newx;
     p->posy = newy;
-    if (tries == 15) {
-        if (m.move_cost(newx, newy) == 0) { // TODO: If we land in water, swim
-            if (can_see) {
-                if (is_u) {
-                    add_msg(_("You teleport into the middle of a %s!"),
-                            m.name(newx, newy).c_str());
-                    p->add_memorial_log(_("Teleported into a %s."), m.name(newx, newy).c_str());
-                } else {
-                    add_msg(_("%s teleports into the middle of a %s!"),
-                            p->name.c_str(), m.name(newx, newy).c_str());
-                }
+    if (m.move_cost(newx, newy) == 0) { //Teleported into a wall
+        if (can_see) {
+            if (is_u) {
+                add_msg(_("You teleport into the middle of a %s!"),
+                        m.name(newx, newy).c_str());
+                p->add_memorial_log(_("Teleported into a %s."), m.name(newx, newy).c_str());
+            } else {
+                add_msg(_("%s teleports into the middle of a %s!"),
+                        p->name.c_str(), m.name(newx, newy).c_str());
             }
-            p->hurt(bp_torso, 0, 500);
-        } else if (can_see) {
-            const int i = mon_at(newx, newy);
-            if (i != -1) {
-                monster &critter = zombie(i);
-                if (is_u) {
-                    add_msg(_("You teleport into the middle of a %s!"),
-                            critter.name().c_str());
-                    u.add_memorial_log(_("Telefragged a %s."), critter.name().c_str());
-                } else {
-                    add_msg(_("%s teleports into the middle of a %s!"),
-                            p->name.c_str(), critter.name().c_str());
-                }
-                explode_mon(i);
+        }
+        p->hurt(bp_torso, 0, 500);
+    } else if (can_see) {
+        const int i = mon_at(newx, newy);
+        if (i != -1) {
+            monster &critter = zombie(i);
+            if (is_u) {
+                add_msg(_("You teleport into the middle of a %s!"),
+                        critter.name().c_str());
+                u.add_memorial_log(_("Telefragged a %s."), critter.name().c_str());
+            } else {
+                add_msg(_("%s teleports into the middle of a %s!"),
+                        p->name.c_str(), critter.name().c_str());
             }
+            explode_mon(i);
         }
     }
     if (is_u) {
