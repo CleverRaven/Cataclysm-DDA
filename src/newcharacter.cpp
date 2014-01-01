@@ -517,10 +517,10 @@ void draw_tabs(WINDOW *w, std::string sTab)
     tab_captions.push_back(_("DESCRIPTION"));
     int tab_pos[6];   //this is actually tab_captions.size() + 1
     tab_pos[0] = 2;
-    for (int pos = 1; pos < 6; pos++) {
-        tab_pos[pos] = tab_pos[pos-1] + utf8_width(tab_captions[pos-1].c_str());
+    for (int pos = 0; pos < tab_captions.size(); pos++) {
+        tab_pos[pos + 1] = tab_pos[pos] + utf8_width(tab_captions[pos].c_str());
     }
-    int space = (FULL_SCREEN_WIDTH - tab_pos[5]) / 4 - 3;
+    int space = (FULL_SCREEN_WIDTH - tab_pos[tab_captions.size()]) / (tab_captions.size() - 1) - 3;
     for (size_t i = 0; i < tab_captions.size(); i++) {
         draw_tab(w, tab_pos[i] + space * i, tab_captions[i].c_str(), (sTab == tab_captions[i]));
     }
@@ -528,7 +528,7 @@ void draw_tabs(WINDOW *w, std::string sTab)
     mvwputch(w, 2,  0, BORDER_COLOR, LINE_OXXO); // |^
     mvwputch(w, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX); // ^|
 
-    mvwputch(w, 4, 0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w, 4, 0, BORDER_COLOR, LINE_XXXO); // |-
     mvwputch(w, 4, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX); // -|
 
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |_
@@ -982,8 +982,8 @@ int set_profession(WINDOW *w, player *u, int &points)
     int iStartPos = 0;
 
     WINDOW *w_items = newwin(iContentHeight, 22, 5 + getbegy(w), 21 + getbegx(w));
-    WINDOW *w_skills = newwin(iContentHeight, 32, 5 + getbegy(w), 43+ getbegx(w));
-    WINDOW *w_addictions = newwin(iContentHeight - 10, 32, 15 + getbegy(w), 43+ getbegx(w));
+    WINDOW *w_skills = newwin(iContentHeight, 32, 5 + getbegy(w), 43 + getbegx(w));
+    WINDOW *w_addictions = newwin(iContentHeight - 10, 32, 15 + getbegy(w), 43 + getbegx(w));
     WINDOW *w_genderswap = newwin(1, 48, 19 + getbegy(w), 21 + getbegx(w));
 
     std::vector<const profession *> sorted_profs;
@@ -1152,6 +1152,7 @@ int set_profession(WINDOW *w, player *u, int &points)
     delwin(w_items);
     delwin(w_skills);
     delwin(w_addictions);
+    delwin(w_genderswap);
     return retval;
 }
 

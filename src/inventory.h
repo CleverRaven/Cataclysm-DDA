@@ -113,7 +113,7 @@ class inventory
   bool has_gun_for_ammo(ammotype type) const;
   bool has_active_item(itype_id) const;
 
-  int damage_leak_level(std::string flag) const; // level of leaked stuff from damaged items
+  int leak_level(std::string flag) const; // level of leaked bad stuff from items
 
   bool has_mission_item(int mission_id) const;
   int butcher_factor() const;

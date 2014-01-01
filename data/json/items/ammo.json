@@ -164,7 +164,7 @@
         "color" : "green",
         "description" : "A nuclear-powered battery. Used to charge advanced and rare electronics.",
         "material" : "steel",
-        "flags": ["LEAK_RAD"],
+        "flags": ["LEAK_DAM", "RADIOACTIVE"],
         "volume" : 1,
         "weight" : 80,
         "bashing" : 1,

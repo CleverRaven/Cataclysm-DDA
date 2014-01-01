@@ -1763,7 +1763,8 @@ int iuse::atomic_battery(player *p, item *, bool)
     }
 
     modded->item_tags.insert("ATOMIC_AMMO");
-    modded->item_tags.insert("LEAK_RAD");
+    modded->item_tags.insert("RADIOACTIVE");
+    modded->item_tags.insert("LEAK_DAM");
     modded->item_tags.insert("NO_UNLOAD");
     g->m.spawn_item(p->posx, p->posy, "battery", 1, modded->charges);
     modded->charges = 500;
@@ -4040,7 +4041,7 @@ int iuse::geiger(player *p, item *it, bool t)
     int ch = menu(true, _("Geiger counter:"), _("Scan yourself"), _("Scan the ground"),
                   toggle_text.c_str(), _("Cancel"), NULL);
     switch (ch) {
-    case 1: g->add_msg_if_player(p,_("Your radiation level: %d"), p->radiation); break;
+    case 1: g->add_msg_if_player(p,_("Your radiation level: %d (%d from items)"), p->radiation, p->leak_level("RADIOACTIVE")); break;
     case 2: g->add_msg_if_player(p,_("The ground's radiation level: %d"),
                                  g->m.radiation(p->posx, p->posy)); break;
     case 3:
