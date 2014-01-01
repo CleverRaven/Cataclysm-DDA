@@ -402,10 +402,11 @@ bool game::opening_screen()
                               c_red, _("No Worlds found!"));
                 } else {
                     for (int i = 0; i < world_generator->all_worldnames.size(); ++i) {
-                        int line = iMenuOffsetY - 2 - i;
-                        mvwprintz(w_open, line, 15 + iMenuOffsetX + extra_w / 2,
-                                  (sel2 == i ? h_white : c_white),
-                                  world_generator->all_worldnames[i].c_str());
+		      int line = iMenuOffsetY - 2 - i;
+		      std::string world_name = world_generator->all_worldnames[i];
+		      int savegames_count = world_generator->all_worlds[world_name]->world_saves.size();
+		      mvwprintz(w_open, line, 15 + iMenuOffsetX + extra_w / 2,
+				(sel2 == i ? h_white : c_white), "%s (%d)", world_name.c_str(), savegames_count);
                     }
                 }
                 wrefresh(w_open);
@@ -602,9 +603,10 @@ bool game::opening_screen()
                 int i = 0;
                 for (std::vector<std::string>::iterator it = world_generator->all_worldnames.begin();
                      it != world_generator->all_worldnames.end(); ++it) {
+		    int savegames_count = world_generator->all_worlds[*it]->world_saves.size();
                     int line = iMenuOffsetY - 4 - i;
                     mvwprintz(w_open, line, 26 + iMenuOffsetX + extra_w / 2,
-                              (sel3 == i ? h_white : c_white), (*it).c_str());
+                              (sel3 == i ? h_white : c_white), "%s (%d)", (*it).c_str(), savegames_count);
                     ++i;
                 }
                 wrefresh(w_open);
