@@ -1693,7 +1693,48 @@
         "id" : "LARGE",
         "name" : "Inconveniently Large",
         "points" : 0,
+        "visibility" : 1,
+        "ugliness" : 1,
         "description" : "You have grown noticeably taller and broader. Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+1 Torso and Arm Encumbrance).",
+        "changes_to": ["LARGE_OK", "HUGE"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
+        "id" : "LARGE_OK",
+        "name" : "Large",
+        "points" : 2,
+        "visibility" : 1,
+        "ugliness" : 0,
+        "description" : "You carry your rugged body with the dignity you deserve. Strength +2.",
+        "prereqs" : ["LARGE"],
+        "prereqs2" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
+        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
+        "changes_to": ["HUGE"],
+        "cancels" : ["LARGE"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
+        "id" : "HUGE",
+        "name" : "Freakishly Huge",
+        "points" : -2,
+        "visibility" : 4,
+        "ugliness" : 4,
+        "description" : "You have grown even more massive, to the point where you cannot usefully fit into human-sized clothing or vehicles. Much of it is powerful muscle mass (Strength +4), but it's a real pain to haul around.",
+        "changes_to": ["LARGE_OK", "HUGE"],
+        "cancels" : ["LARGE", "LARGE_OK"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
+        "id" : "HUGE_OK",
+        "name" : "Huge",
+        "points" : 2,
+        "visibility" : 4,
+        "ugliness" : 3,
+        "description" : "Your cardiovascular system has caught up with your muscular physique, so who needs pathetic human cars? Strength +4.",
+        "prereqs" : ["HUGE"],
+        "prereqs2" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
+        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
+        "cancels" : ["LARGE", "LARGE_OK", "HUGE"],
         "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
@@ -2521,5 +2562,185 @@
             { "part" : "LEGS", "neutral" : 21 },
             { "part" : "FEET", "neutral" : 6 }
         ]
+    }.{
+        "type" : "mutation",
+        "id" : "THRESH_LIZARD",
+        "name" : "Lizard",
+        "points" : 1,
+        "description" : "You sometimes look back on your days before your tail came in. But you're better now.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_BIRD",
+        "name" : "Bird",
+        "points" : 1,
+        "description" : "You're sure you'll fly someday. In the meantime, there's still nests to build.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_FISH",
+        "name" : "Aquatic",
+        "points" : 1,
+        "description" : "Ninety percent of the planet, and it's yours to explore. And colonize. And enjoy. What was that about a surface?",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_BEAST",
+        "name" : "Beast",
+        "points" : 1,
+        "description" : "It's about time you grew out. Now that you've matured, it is time to make something of yourself.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_FELINE",
+        "name" : "Feline",
+        "points" : 1,
+        "description" : "Stalking prey, eating well, and lying in the sun. Mmm, all you could ever desire.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_LUPINE",
+        "name" : "Wolf",
+        "points" : 1,
+        "description" : "You're the perfect candidate to lead a pack.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_URSINE",
+        "name" : "Bear",
+        "points" : 1,
+        "description" : "So the humans died, what's the worry? Now they won't ruin the woods.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_CATTLE",
+        "name" : "Bovine",
+        "points" : 1,
+        "description" : "Civilization collapsed? Great! You and your kin will never have to worry about a slaughterhouse again.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_INSECT",
+        "name" : "Insect",
+        "points" : 1,
+        "description" : "It would be good to be a Queen, having workers constantly servicing your every need...but how would you keep them in line?",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_PLANT",
+        "name" : "Plant",
+        "points" : 1,
+        "description" : "Well, you still have those other walking flowers-and the mushrooms too-to deal with. But you'll manage.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_SLIME",
+        "name" : "Aqueous",
+        "points" : 1,
+        "description" : "What was that old advertisment, 'paint the planet'? That might be a good long-term goal, but for now...",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_TROGLOBITE",
+        "name" : "Subterranean",
+        "points" : 1,
+        "description" : "Not much point to rebuilding up in that horribly bright roofless wasteland. Now that you've become accustomed to your new digs, there's the beginnings of a great empire right here, underground.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_CEPHALOPOD",
+        "name" : "Cephalopod",
+        "points" : 1,
+        "description" : "Strange aeons, true, but Death seems to be slacking and you are doing just fine.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_SPIDER",
+        "name" : "Arachnid",
+        "points" : 1,
+        "description" : "Well, maybe you'll just have to make your own world wide web.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_RAT",
+        "name" : "Survivor",
+        "points" : 1,
+        "description" : "Hey. Civilization fell. You're still around. 'Rat' just isn't respectful.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_MEDICAL",
+        "name" : "Prototype",
+        "points" : 1,
+        "description" : "After all those experiments, what's a few more, hmm?",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_ALPHA",
+        "name" : "Prime",
+        "points" : 1,
+        "description" : "You're the perfect candidate to tidy this mess.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_ELFA",
+        "name" : "Fey",
+        "points" : 1,
+        "description" : "You are the tree under which humankind wil shelter during these dark times.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_CHIMERA",
+        "name" : "Chaos",
+        "points" : 1,
+        "description" : "You can't tell what you are anymore. Everything and yet nothing, like you weren't meant to exist. But you do, and you're a force, no matter what happens.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_RAPTOR",
+        "name" : "Raptor",
+        "points" : 1,
+        "description" : "The chance to undo not one but TWO extinction events. You're confident you'll do fine.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
     }
 ]
