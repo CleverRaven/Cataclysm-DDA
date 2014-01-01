@@ -10898,6 +10898,8 @@ bool game::plmove(int dx, int dy)
 
               mdir.init( dxVeh, dyVeh );
               mdir.advance( 1 );
+              grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
+              grabbed_vehicle->face = grabbed_vehicle->turn_dir;
               grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
               int imp = 0;
               std::vector<veh_collision> veh_veh_colls;
