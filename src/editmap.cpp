@@ -1581,6 +1581,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
         if ( showpreview ) {
             hilights["mapgentgt"].draw(this, true);
             wrefresh(g->w_terrain);
+            tmpmap.reset_vehicle_cache();
             for(int x = 0; x < 24; x++) {
                 for(int y = 0; y < 24; y++) {
                     tmpmap.drawsq(w_preview, g->u, x, y, false, true, 12, 12, false, true);

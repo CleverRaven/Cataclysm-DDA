@@ -11058,8 +11058,8 @@ void map::rotate(int turns)
     trap_id traprot [SEEX * 2][SEEY * 2];
     std::vector<item> itrot[SEEX * 2][SEEY * 2];
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
+    std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
     computer tmpcomp;
-    std::vector<vehicle *> tmpveh;
 
     //Rotate terrain first
     for (int old_x = 0; old_x < SEEX * 2; old_x++) {
@@ -11126,6 +11126,8 @@ void map::rotate(int turns)
                 tmp.posy = new_y;
                 sprot[gridto].push_back(tmp);
             }
+            // as vehrot starts out empty, this clears the other vehicles vector
+            vehrot[gridto].swap(grid[gridfrom]->vehicles);
         }
     }
 
@@ -11157,37 +11159,57 @@ void map::rotate(int turns)
         break;
     }
 
-    for(std::set<vehicle *>::iterator next_vehicle = vehicle_list.begin();
-        next_vehicle != vehicle_list.end(); next_vehicle++) {
-
-        int new_x = (*next_vehicle)->smx;
-        int new_y = (*next_vehicle)->smy;
-        switch(turns) {
-        case 1:
-            new_x = SEEY - 1 - (*next_vehicle)->smy;
-            new_y = (*next_vehicle)->smx;
-            break;
-        case 2:
-            new_x = SEEX - 1 - (*next_vehicle)->smx;
-            new_y = SEEY - 1 - (*next_vehicle)->smy;
-            break;
-        case 3:
-            new_x = (*next_vehicle)->smy;
-            new_y = SEEX - 1 - (*next_vehicle)->smx;
-            break;
-        }
-        (*next_vehicle)->smx = new_x;
-        (*next_vehicle)->smy = new_y;
-
-    }
-
     // change vehicles' directions
     for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
-        for (int v = 0; v < grid[i]->vehicles.size(); v++) {
-            if (turns >= 1 && turns <= 3) {
-                grid[i]->vehicles[v]->turn(turns * 90);
+        for (int v = 0; v < vehrot[i].size(); v++) {
+            vehicle *veh = vehrot[i][v];
+            // turn the steering wheel, vehicle::turn does not actually
+            // move the vehicle.
+            veh->turn(turns * 90);
+            // The the facing direction and recalculate the positions of the parts
+            veh->face = veh->turn_dir;
+            veh->precalc_mounts(0, veh->turn_dir);
+            // Update coordinates on a submap
+            int new_x = veh->posx;
+            int new_y = veh->posy;
+            switch(turns) {
+            case 1:
+                new_x = SEEY - 1 - veh->posy;
+                new_y = veh->posx;
+                break;
+            case 2:
+                new_x = SEEX - 1 - veh->posx;
+                new_y = SEEY - 1 - veh->posy;
+                break;
+            case 3:
+                new_x = veh->posy;
+                new_y = SEEX - 1 - veh->posx;
+                break;
             }
+            veh->posx = new_x;
+            veh->posy = new_y;
+            // Update submap coordinates
+            new_x = veh->smx;
+            new_y = veh->smy;
+            switch(turns) {
+            case 1:
+                new_x = 1 - veh->smy;
+                new_y = veh->smx;
+                break;
+            case 2:
+                new_x = 1 - veh->smx;
+                new_y = 1 - veh->smy;
+                break;
+            case 3:
+                new_x = veh->smy;
+                new_y = 1 - veh->smx;
+                break;
+            }
+            veh->smx = new_x;
+            veh->smy = new_y;
         }
+        // move back to the actuall submap object, vehrot is only temporary
+        vehrot[i].swap(grid[i]->vehicles);
     }
 
     // Set the spawn points
