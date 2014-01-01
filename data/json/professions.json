@@ -1507,7 +1507,8 @@
 				"wristwatch",
 				"cell_phone",
 				"briefcase",
-				"money_bundle"
+				"money_bundle",
+				"file"
             ],
             "male": [
                 "briefs"
