@@ -13575,6 +13575,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [["textbook_survival", 1] , ["trappers_companion", 3] , ["survival_book", 2] , ["pocket_survival", 2]],
   "tools": [
     [
       [ "needle_bone", 5 ],
@@ -13618,6 +13619,7 @@
   "time": 40000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [["textbook_survival", 1] , ["trappers_companion", 3] , ["survival_book", 2]],
   "tools": [
     [
       [ "needle_bone", 13 ],
@@ -13666,6 +13668,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "manual_tailor", 2 ] , ["textbook_tailor", 2]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -13693,7 +13696,8 @@
   "difficulty": 2,
   "time": 30000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , [ "tailor_portfolio", 4 ] , ["textbook_survival", 3] , ["trappers_companion", 3] , ["survival_book", 3] , ["textbook_armwest", 5]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -13718,7 +13722,8 @@
   "difficulty": 5,
   "time": 35000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "tailor_portfolio", 5 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -13789,6 +13794,7 @@
   "time": 25000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
     [
       [ "needle_bone", 10 ],
@@ -13810,6 +13816,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "manual_tailor", 1 ]],
   "tools": [
     [
       [ "needle_bone", 12 ],
@@ -13830,7 +13837,8 @@
   "difficulty": 2,
   "time": 45000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , [ "tailor_portfolio", 5 ] , ["manual_tailor", 3] , ["survival_book", 3]],
   "tools": [
     [
       [ "needle_bone", 10 ],
@@ -13872,7 +13880,8 @@
   "difficulty": 2,
   "time": 35000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
     [
       [ "needle_bone", 15 ],
@@ -13939,6 +13948,7 @@
   "time": 35000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
     [
       [ "needle_bone", 15 ],
@@ -13960,6 +13970,7 @@
   "time": 35000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
     [
       [ "needle_bone", 15 ],
@@ -14169,8 +14180,10 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 48000,
-  "reversible": false,
-  "autolearn": true,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 2 ] , ["manual_tailor", 2]],
   "tools": [
     [
       [ "needle_bone", 16 ],
@@ -14342,7 +14355,8 @@
   "difficulty": 2,
   "time": 38000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
   "tools": [
     [
       [ "needle_bone", 15 ],
@@ -14363,7 +14377,8 @@
   "difficulty": 2,
   "time": 38000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
   "tools": [
     [
       [ "needle_bone", 15 ],
@@ -14426,7 +14441,8 @@
   "difficulty": 2,
   "time": 38000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
   "tools": [
     [
       [ "needle_bone", 15 ],
@@ -14447,7 +14463,8 @@
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
   "tools": [
     [
       [ "needle_bone", 12 ],
@@ -14468,7 +14485,14 @@
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
   "components": [
     [
       [ "fur", 1 ]
@@ -14483,7 +14507,8 @@
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
   "tools": [
     [
       [ "needle_bone", 12 ],
@@ -14712,6 +14737,29 @@
   "components": [
     [
       [ "jeans", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "shorts_denim",
+  "id_suffix": "from fabric",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_tailor", 3] , ["manual_tailor", 3]],
+  "tools":[
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+    ],
+  "components": [
+    [
+      [ "rags", 4 ]
     ]
   ]
 },{
@@ -15039,6 +15087,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [["recipe_melee", 3]],
   "tools": [
     [
       [ "rock", -1 ],
@@ -15068,6 +15117,7 @@
   "time": 45000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [["textbook_armwest", 5] , ["recipe_melee", 4]],
   "tools": [
     [
       [ "rock", -1 ],
@@ -16028,7 +16078,7 @@
   "time": 90000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [["mag_tailor", 1] , ["manual_tailor", 1]],
+  "book_learn": [["mag_tailor", 1] , ["manual_tailor", 1] , ["mag_beauty", 1]],
   "tools": [
     [
       [ "needle_bone", 12 ],
@@ -16134,7 +16184,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 4,
-  "note": "Whilst the trenchcoat needs 6 skill this'll need at least 4."
+  "note": "Whilst the trenchcoat needs 6 skill this'll need at least 4.",
   "time": 28000,
   "reversible": false,
   "autolearn": true,
@@ -16344,7 +16394,9 @@
   "difficulty": 1,
   "time": 50000,
   "reversible": true,
+  "decomp_learn": 0,
   "autolearn": true,
+  "book_learn": [["textbook_survival", 1] , ["trappers_companion", 3] , ["survival_book", 2] , ["pocket_survival", 1]],
   "tools": [
     [
       [ "needle_bone", 12 ],
@@ -16477,7 +16529,9 @@
   "difficulty": 5,
   "time": 75000,
   "reversible": true,
+  "decomp_learn": 4,
   "autolearn": true,
+  "book_learn": [["textbook_survival", 1] , ["trappers_companion", 3] , ["survival_book", 2] , ["pocket_survival", 1]],
   "tools": [
     [
       [ "needle_bone", 30 ],
