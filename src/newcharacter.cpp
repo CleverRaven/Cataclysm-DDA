@@ -1093,13 +1093,12 @@ int set_profession(WINDOW *w, player *u, int &points)
                 }
             }
         }
-        
-        if(sorted_profs[cur_id]->name()=="") {
+
+        werase(w_genderswap);
+        if (sorted_profs[cur_id]->name() == "") {
             mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press TAB to switch to %1$s"),
                       sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
-        }
-        else
-        {
+        } else {
             mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press TAB to switch to %1$s %2$s"),
                       u->male ? "female" : "male",
                       _(sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str()));
