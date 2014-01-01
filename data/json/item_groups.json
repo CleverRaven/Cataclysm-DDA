@@ -1940,6 +1940,7 @@
       ["string_6", 2],
       ["chain", 20],
       ["glass_sheet", 5],
+	  ["glass_shard", 20],
       ["stick", 95],
       ["muffler", 30],
       ["seed_wheat", 5],
@@ -1972,7 +1973,9 @@
       ["talking_doll", 60],
       ["55gal_drum", 1],
       ["30gal_drum", 2],
-      ["creepy_doll", 1]
+      ["creepy_doll", 1],
+	  ["striped_shirt", 1],
+	  ["striped_pants", 1]
     ]
   },{
     "type" : "item_group",

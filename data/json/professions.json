@@ -1456,4 +1456,31 @@
             ]
         }
     }
+	{
+        "type": "profession",
+        "ident": "convict",
+        "name": "Convict",
+        "description": "The cataclysm gave you a chance to escape, but freedom come with a steep price.",
+        "points": -1,
+        "skills": [
+            {
+                "level": 1,
+                "name": "melee"
+            }
+        ],
+        "items": {
+            "both": [
+                "striped_shirt",
+                "striped_pants",
+                "glass_shiv"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+			    "bra",
+                "panties"
+            ]
+        }
+    }
 ]
