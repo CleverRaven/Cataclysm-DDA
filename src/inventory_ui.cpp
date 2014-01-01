@@ -869,7 +869,7 @@ void game::compare(int iCompareX, int iCompareY)
    } else {
     int index = -1;
     for (int i = 0; i < stacks.size(); ++i) {
-     if (&(stacks[i].first->front()) == it) {
+     if (&(stacks[i].first->front()) == &it) {
       index = i;
       break;
      }
