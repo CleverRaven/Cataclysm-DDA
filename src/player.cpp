@@ -2004,13 +2004,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     } else {
         const char *format;
         if (prof->name() == "") {
-            // ~ "player name - gender specific profession name"
+            //~ player info: "<name> - <gender specific profession>"
             format = _("%s - %s");
         } else if (male) {
-            // ~ "player name - a male gender unspecific profession name"
+            //~ player info: "<name> - a male <gender unspecific profession>"
             format = _("%s - a male %s");
         } else {
-            // ~ "player name - a female gender unspecific profession name"
+            //~ player info: "<name> - a female <gender unspecific profession>"
             format = _("%s - a female %s");
         }
         gender_prof = string_format(format, name.c_str(), prof->gender_appropriate_name(male).c_str());
