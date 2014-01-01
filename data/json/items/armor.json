@@ -8853,7 +8853,7 @@
         "color" : "white",
         "covers" : ["LEGS"],
         "to_hit" : 1,
-        "storage" : 4,
+        "storage" : 2,
         "symbol" : "[",
         "description" : "A pair of pants with horizontal black and white stripes.",
         "price" : 5,
