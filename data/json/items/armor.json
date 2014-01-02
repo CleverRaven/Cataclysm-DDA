@@ -6238,7 +6238,7 @@
         "warmth" : 0,
         "enviromental_protection" : 0,
         "phase" : "solid",
-		"flags" : ["FANCY"]
+        "flags" : ["FANCY"]
 	},
 	{
         "type" : "ARMOR",
@@ -6261,7 +6261,7 @@
         "warmth" : 0,
         "enviromental_protection" : 0,
         "phase" : "solid",
-		"flags" : ["FANCY"]
+        "flags" : ["FANCY"]
 	},		
 	{
         "type" : "ARMOR",
@@ -6390,7 +6390,7 @@
         "color" : "white",
         "encumbrance" : 0,
         "price" : 890,
-        "material" : ["silver", "null"],
+        "material" : ["stone", "null"],
         "coverage" : 0,
         "symbol" : "[",
         "bashing" : 0,
