@@ -776,7 +776,7 @@
     "type":"GENERIC",
     "id": "silver",
     "symbol": "/",
-    "color": "gray",
+    "color": "light_gray",
     "name": "silver bar",
     "description": "A large bar of silver. Before the cataclysm, this would've been worth quite a bit; now its value is greatly diminished.",
     "price": 1000,

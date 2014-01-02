@@ -2,6 +2,7 @@
 #include "cursesdef.h"
 #include "options.h"
 #include "rng.h"
+#include "output.h"
 
 #define HILIGHT COLOR_BLUE
 void init_colors()
@@ -809,6 +810,7 @@ void init_colormap()
 nc_color color_from_string(std::string new_color){
     std::map<std::string,nc_color>::iterator iter = colormap.find(new_color);
     if (iter == colormap.end()) {
+        debugmsg("couldn't parse color: %s", new_color.c_str());
         return c_unset;
     } else {
         return iter->second;
