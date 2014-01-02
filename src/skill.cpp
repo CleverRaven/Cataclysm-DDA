@@ -83,6 +83,22 @@ size_t Skill::skill_count() {
   return Skill::skills.size();
 }
 
+// used for the pacifist trait
+bool Skill::is_combat_skill() const {
+  std::string name = this->ident();
+  return (name == "archery"
+       || name == "bashing"
+       || name == "cutting"
+       || name == "gun"
+       || name == "launcher"
+       || name == "melee"
+       || name == "stabbing"
+       || name == "unarmed"
+       || name == "pistol"
+       || name == "rifle"
+       || name == "smg"
+       || name == "shotgun");
+}
 
 SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPracticed)
 {
