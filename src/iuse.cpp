@@ -1247,6 +1247,71 @@ int iuse::mut_iv(player *p, item *it, bool) {
             p->fatigue += 5;
             p->thirst += 10;
         }
+        // Threshold-check.  You only get to cross once!
+      if (p->crossed_threshold() == false) {
+          // Threshold-breaching
+          std::string primary = p->get_highest_category();
+          // Only if you were pushing for more in your primary category.
+          // You wanted to be more like it and less human.
+          // That said, you're required to have hit third-stage dreams first.
+          if ((mutation_category == primary) && (p->mutation_category_level[primary] > 50)) {
+              if (x_in_y(p->mutation_category_level[primary], 350)) {
+                  g->add_msg_if_player(p,_("Something strains mightily for a moment...and then..you're...FREE!"));
+                  if (mutation_category == "MUTCAT_LIZARD") {
+                      p->toggle_mutation("THRESH_LIZARD");
+                  } else if (mutation_category == "MUTCAT_BIRD") {
+                      p->toggle_mutation("THRESH_BIRD");
+                  } else if (mutation_category == "MUTCAT_FISH") {
+                      p->toggle_mutation("THRESH_FISH");
+                  } else if (mutation_category == "MUTCAT_BEAST") {
+                      p->toggle_mutation("THRESH_BEAST");
+                  } else if (mutation_category == "MUTCAT_FELINE") {
+                      p->toggle_mutation("THRESH_FELINE");
+                  } else if (mutation_category == "MUTCAT_LUPINE") {
+                      p->toggle_mutation("THRESH_LUPINE");
+                  } else if (mutation_category == "MUTCAT_URSINE") {
+                      p->toggle_mutation("THRESH_URSINE");
+                  } else if (mutation_category == "MUTCAT_CATTLE") {
+                      p->toggle_mutation("THRESH_CATTLE");
+                  } else if (mutation_category == "MUTCAT_INSECT") {
+                      p->toggle_mutation("THRESH_INSECT");
+                  } else if (mutation_category == "MUTCAT_PLANT") {
+                      p->toggle_mutation("THRESH_PLANT");
+                  } else if (mutation_category == "MUTCAT_SLIME") {
+                      p->toggle_mutation("THRESH_SLIME");
+                  } else if (mutation_category == "MUTCAT_TROGLOBITE") {
+                      p->toggle_mutation("THRESH_TROGLOBITE");
+                  } else if (mutation_category == "MUTCAT_CEPHALOPOD") {
+                      p->toggle_mutation("THRESH_CEPHALOPOD");
+                  } else if (mutation_category == "MUTCAT_SPIDER") {
+                      p->toggle_mutation("THRESH_SPIDER");
+                  } else if (mutation_category == "MUTCAT_RAT") {
+                      p->toggle_mutation("THRESH_RAT");
+                  } else if (mutation_category == "MUTCAT_MEDICAL") {
+                      p->toggle_mutation("THRESH_MEDICAL");
+                  } else if (mutation_category == "MUTCAT_ALPHA") {
+                      p->toggle_mutation("THRESH_ALPHA");
+                  } else if (mutation_category == "MUTCAT_ELFA") {
+                      p->toggle_mutation("THRESH_ELFA");
+                  } else if (mutation_category == "MUTCAT_CHIMERA") {
+                      p->toggle_mutation("THRESH_CHIMERA");
+                  } else if (mutation_category == "MUTCAT_RAPTOR") {
+                      p->toggle_mutation("THRESH_RAPTOR");
+                  }
+              } else if (p->mutation_category_level[primary] > 100) {
+                    g->add_msg_if_player(p,_("You stagger with a piercing headache!"));
+                    p->pain += 8;
+                    p->add_disease("stunned", rng(3, 5));
+                } else if (p->mutation_category_level[primary] > 80) {
+                    g->add_msg_if_player(p,_("Your head throbs with memories of your life, before all this..."));
+                    p->pain += 6;
+                    p->add_disease("stunned", rng(2, 4));
+                } else if (p->mutation_category_level[primary] > 60) {
+                    g->add_msg_if_player(p,_("Images of your past life flash before you."));
+                    p->add_disease("stunned", rng(2, 3));
+                }
+          }
+      }
     }
     return it->type->charges_to_use();
 }

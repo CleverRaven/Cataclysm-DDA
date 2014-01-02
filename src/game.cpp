@@ -758,6 +758,12 @@ bool game::do_turn()
         if (u.has_bionic("bio_solar") && is_in_sunlight(u.posx, u.posy)) {
             u.charge_power(1);
         }
+        // Huge folks take penalties for cramming themselves in vehicles
+        if ((u.has_trait("HUGE") || u.has_trait("HUGE_OK")) && u.in_vehicle) {
+            add_msg(_("You're cramping up from stuffing yourself in this vehicle."));
+            u.pain += 2 * rng(2, 3);
+            u.focus_pool -= 1;
+        }
     }
 
     if (turn % 300 == 0) { // Pain up/down every 30 minutes
@@ -784,6 +790,11 @@ bool game::do_turn()
             u.radiation--;
         }
         u.get_sick(  );
+        // Freakishly Huge folks tire quicker
+        if (u.has_trait("HUGE") && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
+            add_msg(_("<whew> You catch your breath."));
+            u.fatigue++;
+        }
     }
 
     // Auto-save if autosave is enabled

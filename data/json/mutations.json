@@ -1710,7 +1710,6 @@
         "prereqs2" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
         "changes_to": ["HUGE"],
-        "cancels" : ["LARGE"],
         "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
@@ -1720,8 +1719,9 @@
         "visibility" : 4,
         "ugliness" : 4,
         "description" : "You have grown even more massive, to the point where you cannot usefully fit into human-sized clothing or vehicles. Much of it is powerful muscle mass (Strength +4), but it's a real pain to haul around.",
-        "changes_to": ["LARGE_OK", "HUGE"],
-        "cancels" : ["LARGE", "LARGE_OK"],
+        "prereqs" : ["LARGE", "LARGE_OK"],
+        "prereqs2" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
+        "changes_to": ["HUGE_OK"],
         "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
@@ -1734,7 +1734,6 @@
         "prereqs" : ["HUGE"],
         "prereqs2" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
-        "cancels" : ["LARGE", "LARGE_OK", "HUGE"],
         "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
@@ -2562,7 +2561,7 @@
             { "part" : "LEGS", "neutral" : 21 },
             { "part" : "FEET", "neutral" : 6 }
         ]
-    }.{
+    },{
         "type" : "mutation",
         "id" : "THRESH_LIZARD",
         "name" : "Lizard",
