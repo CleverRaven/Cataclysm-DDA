@@ -1455,5 +1455,68 @@
                 "panties"
             ]
         }
+    },
+	{
+        "type": "profession",
+        "ident": "convict",
+        "name": "Convict",
+        "description": "The cataclysm gave you a chance to escape, but freedom come with a steep price.",
+        "points": 0,
+        "skills": [
+            {
+                "level": 1,
+                "name": "melee"
+            }
+        ],
+        "items": {
+            "both": [
+                "striped_shirt",
+                "striped_pants",
+                "glass_shiv"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+			    "bra",
+                "panties"
+            ]
+        }
+    },
+	{
+        "type": "profession",
+        "ident": "lawyer",
+        "name": "Lawyer",
+        "description": "Now instead of complaining about your fees, your clients try to eat your brain. You can't tell which one is worse though.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 1,
+                "name": "driving"
+            },
+			{
+			    "level": 3,
+				"name": "barter"
+			}
+        ],
+        "items": {
+            "both": [
+                "suit",
+                "skinny_tie",
+				"dress_shoes",
+				"wristwatch",
+				"cell_phone",
+				"briefcase",
+				"money_bundle",
+				"file"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+			    "bra",
+                "panties"
+            ]
+        }
     }
 ]
