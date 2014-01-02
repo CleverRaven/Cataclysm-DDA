@@ -571,13 +571,13 @@ If you want to get out, hit the lights, toggle cruise control, turn the\n\
 engine on or off, or otherwise use the vehicle controls, %s to bring up\n\
 the \"Vehicle Controls\" menu, which has options for things you'd do\n\
 from the driver's seat."),
-            press_x(ACTION_CONTROL_VEHICLE, _("press "), _("'Vehicle Controls'")).c_str(),
-            press_x(ACTION_MOVE_N, _(" "), _("'move_n'")).c_str(),
-            press_x(ACTION_MOVE_S, _(" "), _("'move_s'")).c_str(),
-            press_x(ACTION_MOVE_W, _(" "), _("'move_w'")).c_str(),
-            press_x(ACTION_MOVE_E, _(" "), _("'move_e'")).c_str(),
-            press_x(ACTION_PAUSE, _(" "), _("'pause'")).c_str(),
-            press_x(ACTION_CONTROL_VEHICLE, _("press "), _("'Vehicle Controls'")).c_str());
+            press_x(ACTION_CONTROL_VEHICLE, _("press "), "'Vehicle Controls'").c_str(),
+            press_x(ACTION_MOVE_N, _(" "), "'move_n'").c_str(),
+            press_x(ACTION_MOVE_S, _(" "), "'move_s'").c_str(),
+            press_x(ACTION_MOVE_W, _(" "), "'move_w'").c_str(),
+            press_x(ACTION_MOVE_E, _(" "), "'move_e'").c_str(),
+            press_x(ACTION_PAUSE, _(" "), "'pause'").c_str(),
+            press_x(ACTION_CONTROL_VEHICLE, _("press "), "'Vehicle Controls'").c_str());
             for(int acty = 0; acty < 3; acty++) {
                 for(int actx = 0; actx < 3; actx++) {
                     std::vector<char> keys = keys_bound_to( movearray[acty*3+actx] );

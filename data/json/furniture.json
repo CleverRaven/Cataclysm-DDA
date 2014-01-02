@@ -477,6 +477,8 @@
             "items": [
                 { "item": "scrap", "amount": 7, "minamount": 2},
                 { "item": "steel_chunk", "amount": 3, "minamount": 0},
+				{ "item": "sheet_metal", "amount": 6, "minamount": 2},
+				{ "item": "cable", "amount": 15, "minamount": 1},
                 { "item": "hose", "amount": 2, "minamount": 0},
                 { "item": "cu_pipe", "amount": 5, "minamount": 2 }
             ]
@@ -495,10 +497,11 @@
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "items": [
-                { "item": "scrap", "amount": 7, "minamount": 2},
+                { "item": "scrap", "amount": 6, "minamount": 0},
                 { "item": "steel_chunk", "amount": 3, "minamount": 0},
-                { "item": "hose", "amount": 2, "minamount": 0},
-                { "item": "cu_pipe", "amount": 5, "minamount": 2 }
+                { "item": "element", "amount": 3, "minamount": 1},
+                { "item": "sheet_metal", "amount": 6, "minamount": 2},
+                { "item": "cable", "amount": 15, "minamount": 1}
             ]
         }
     },{

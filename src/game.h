@@ -295,7 +295,18 @@ class game
   int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
   int display_slice(indexed_invslice&, const std::string&);
   int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
+  // Same as other multidrop, only the dropped_worn vector
+  // is merged into the result.
   std::vector<item> multidrop();
+  // Select items to drop, removes those items from the players
+  // inventory, takes of the selected armor, unwields weapon (if
+  // selected).
+  // Selected items that had been worn are taken off and put into dropped_worn.
+  // Selected items from main inventory and the weapon are returned directly.
+  // removed_storage_space contains the summed up storage of the taken
+  // of armor. This includes the storage space of the items in dropped_worn
+  // and the items that have been autodropped while taking them off.
+  std::vector<item> multidrop(std::vector<item> &dropped_worn, int &removed_storage_space);
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);
   void remove_item(item *it);
@@ -479,6 +490,25 @@ class game
   void complete_disassemble();         // See crafting.cpp
   recipe* recipe_by_index(int index);  // See crafting.cpp
 
+  // Forcefully close a door at (x, y).
+  // The function checks for creatures/items/vehicles at that point and
+  // might kill/harm/destroy them.
+  // If there still remains something that prevents the door from closing
+  // (e.g. a very big creatures, a vehicle) the door will not be closed and
+  // the function returns false.
+  // If the door gets closed the terrain at (x, y) is set to door_type and
+  // true is returned.
+  // bash_dmg controlls how much damage the door does to the
+  // creatures/items/vehicle.
+  // If bash_dmg is 0 or smaller, creatures and vehicles are not damaged
+  // at all and they will prevent the door from closing.
+  // If bash_dmg is smaller than 0, _every_ item on the door tile will
+  // prevent the door from closing. If bash_dmg is 0, only very small items
+  // will do so, if bash_dmg is greater than 0, items won't stop the door
+  // from closing at all.
+  // If the door gets closed the items on the door tile get moved away or destroyed.
+  bool forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg);
+
   bool vehicle_near ();
   void handbrake ();
   void control_vehicle(); // Use vehicle controls  '^'
@@ -494,6 +524,14 @@ class game
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items 'I'
   void drop(int pos = INT_MIN); // Drop an item  'd'
   void drop_in_direction(); // Drop w/ direction  'D'
+  // put items from the item-vector on the map/a vehicle
+  // at (dirx, diry), items are dropped into a vehicle part
+  // with the cargo flag (if ther eis one), otherwise they are
+  // droppend onto the ground.
+  void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int freed_volume_capacity, int dirx, int diry);
+  // calculate the time (in player::moves) it takes to drop the
+  // items in dropped and dropped_worn.
+  int calculate_drop_cost(std::vector<item> &dropped, const std::vector<item> &dropped_worn, int freed_volume_capacity) const;
   void reassign_item(int pos = INT_MIN); // Reassign the letter of an item  '='
   void butcher(); // Butcher a corpse  'B'
   void complete_butcher(int index); // Finish the butchering process
@@ -579,9 +617,6 @@ class game
   void display_scent();   // Displays the scent map
   void mondebug();        // Debug monster behavior directly
   void groupdebug();      // Get into on monster groups
-
-  WORLDPTR pick_world_to_play();
-
 
 // ########################## DATA ################################
 

@@ -2336,12 +2336,13 @@ void map::spawn_an_item(const int x, const int y, item new_item,
     if (damlevel < -1)
     {
         new_item.damage = -1;
-    }
-    if (damlevel > 4)
+    } else if (damlevel > 4)
     {
         new_item.damage = 4;
+    } else
+    {
+        new_item.damage = damlevel;
     }
-    new_item.damage = damlevel;
 
     // clothing with variable size flag may sometimes be generated fitted
     if (new_item.is_armor() && new_item.has_flag("VARSIZE") && one_in(3))

@@ -25,6 +25,7 @@ ignorable = {
     "recipe_category",
     "recipe_subcategory",
     "recipe",
+    "region_settings",
     "SPECIES"
 }
 
@@ -56,7 +57,6 @@ automatically_convertible = {
     "MONSTER",
     "mutation",
     "overmap_terrain",
-    "profession",
     "skill",
     "snippet",
     "speech",
@@ -109,11 +109,25 @@ def extract_effect_type(item):
         found = item.get(m, None)
         writestr(outfile, found, comment="Memorial file message")
 
+def extract_professions(item):
+    outfile = get_outfile("professions")
+    nm = item["name"]
+    if type(nm) == dict:
+        writestr(outfile, nm["male"], comment="Male profession name")
+        writestr(outfile, nm["female"], comment="Female profession name")
+        writestr(outfile, item["description"],
+         comment="Profession ({0}/{1}) description".format(nm["male"], nm["female"]))
+    else:
+        writestr(outfile, nm, comment="Profession name")
+        writestr(outfile, item["description"],
+         comment="Profession ({0}) description".format(nm))
+
 # these objects need to have their strings specially extracted
 extract_specials = {
+    "effect_type": extract_effect_type,
     "material": extract_material,
     "martial_art": extract_martial_art,
-    "effect_type": extract_effect_type
+    "profession": extract_professions
 }
 
 ##

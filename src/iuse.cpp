@@ -1763,6 +1763,8 @@ int iuse::atomic_battery(player *p, item *, bool)
     }
 
     modded->item_tags.insert("ATOMIC_AMMO");
+    modded->item_tags.insert("RADIOACTIVE");
+    modded->item_tags.insert("LEAK_DAM");
     modded->item_tags.insert("NO_UNLOAD");
     g->m.spawn_item(p->posx, p->posy, "battery", 1, modded->charges);
     modded->charges = 500;
@@ -1931,27 +1933,30 @@ int iuse::hammer(player *p, item *it, bool)
 
     int nails = 0, boards = 0;
     ter_id newter;
-    switch (g->m.oldter(x, y)) {
-        case old_t_fence_h:
-        case old_t_fence_v:
+    ter_id type = g->m.ter(x, y);
+    if (type == t_fence_h || type == t_fence_v) {
         nails = 6;
         boards = 3;
         newter = t_fence_post;
-        break;
-
-        case old_t_window_boarded:
+        g->add_msg_if_player(p,_("You pry out the fence post."));
+    } else if (type == t_window_boarded) {
+        nails =  8;
+        boards = 4;
+        newter = t_window_frame;
+        g->add_msg_if_player(p,_("You pry the boards from the window."));
+    } else if (type == t_window_boarded_noglass) {
         nails =  8;
         boards = 4;
         newter = t_window_empty;
-        break;
-
-        case old_t_door_boarded:
-        nails = 12;
+        g->add_msg_if_player(p,_("You pry the boards from the window frame."));
+    } else if (type == t_door_boarded) {
+        nails =  8;
         boards = 4;
+        // FIXME: boards go across a door FRAME;
+        // the door itself should be as good as it was before it was boarded up.
         newter = t_door_b;
-        break;
-
-        default:
+        g->add_msg_if_player(p,_("You pry the boards from the door."));
+    } else {
         g->add_msg_if_player(p,_("Hammers can only remove boards from windows, doors and fences."));
         g->add_msg_if_player(p,_("To board up a window or door, press *"));
         return 0;
@@ -2932,41 +2937,42 @@ int iuse::crowbar(player *p, item *it, bool)
     noisy = true;
     difficulty = 6;
   } else {
-   int nails = 0, boards = 0;
-   ter_id newter;
-   switch (g->m.oldter(dirx, diry)) {
-   case old_t_window_boarded:
-    nails =  8;
-    boards = 4;
-    newter = t_window_empty;
-    break;
-   case old_t_door_boarded:
-    nails = 12;
-    boards = 4;
-    newter = t_door_b;
-    break;
-   case old_t_fence_h:
-    nails = 6;
-    boards = 3;
-    newter = t_fence_post;
-    break;
-   case old_t_fence_v:
-    nails = 6;
-    boards = 3;
-    newter = t_fence_post;
-    break;
-   default:
-    g->add_msg_if_player(p,_("There's nothing to pry there."));
-    return 0;
-   }
-   if(p->skillLevel("carpentry") < 1) {
-    p->practice(g->turn, "carpentry", 1);
-   }
-   p->moves -= 500;
-   g->m.spawn_item(p->posx, p->posy, "nail", 0, nails);
-   g->m.spawn_item(p->posx, p->posy, "2x4", boards);
-   g->m.ter_set(dirx, diry, newter);
-   return it->type->charges_to_use();
+    int nails = 0, boards = 0;
+    ter_id newter;
+    if (type == t_fence_h || type == t_fence_v) {
+      nails = 6;
+      boards = 3;
+      newter = t_fence_post;
+      g->add_msg_if_player(p,_("You pry out the fence post."));
+    } else if (type == t_window_boarded) {
+      nails =  8;
+      boards = 4;
+      newter = t_window_frame;
+      g->add_msg_if_player(p,_("You pry the boards from the window."));
+    } else if (type == t_window_boarded_noglass) {
+      nails =  8;
+      boards = 4;
+      newter = t_window_empty;
+      g->add_msg_if_player(p,_("You pry the boards from the window frame."));
+    } else if (type == t_door_boarded) {
+      nails =  8;
+      boards = 4;
+      // FIXME: boards go across a door FRAME;
+      // the door itself should be as good as it was before it was boarded up.
+      newter = t_door_b;
+      g->add_msg_if_player(p,_("You pry the boards from the door."));
+    } else {
+      g->add_msg_if_player(p,_("There's nothing to pry there."));
+      return 0;
+    }
+    if(p->skillLevel("carpentry") < 1) {
+      p->practice(g->turn, "carpentry", 1);
+    }
+    p->moves -= 500;
+    g->m.spawn_item(p->posx, p->posy, "nail", 0, nails);
+    g->m.spawn_item(p->posx, p->posy, "2x4", boards);
+    g->m.ter_set(dirx, diry, newter);
+    return it->type->charges_to_use();
   }
 
   p->practice(g->turn, "mechanics", 1);
@@ -4035,7 +4041,7 @@ int iuse::geiger(player *p, item *it, bool t)
     int ch = menu(true, _("Geiger counter:"), _("Scan yourself"), _("Scan the ground"),
                   toggle_text.c_str(), _("Cancel"), NULL);
     switch (ch) {
-    case 1: g->add_msg_if_player(p,_("Your radiation level: %d"), p->radiation); break;
+    case 1: g->add_msg_if_player(p,_("Your radiation level: %d (%d from items)"), p->radiation, p->leak_level("RADIOACTIVE")); break;
     case 2: g->add_msg_if_player(p,_("The ground's radiation level: %d"),
                                  g->m.radiation(p->posx, p->posy)); break;
     case 3:

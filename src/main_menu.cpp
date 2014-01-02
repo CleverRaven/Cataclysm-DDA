@@ -124,11 +124,6 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
     }
 }
 
-WORLDPTR game::pick_world_to_play()
-{
-    return world_generator->pick_world();
-}
-
 bool game::opening_screen()
 {
     std::map<std::string, WORLDPTR> worlds;
@@ -373,12 +368,14 @@ bool game::opening_screen()
                 if (chInput == KEY_UP || chInput == 'k' || chInput == '\n') {
                     if (sel2 == 0 || sel2 == 2 || sel2 == 3) {
                         setup();
-                        if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW))) {
+                        if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM :
+                                                    ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW))) {
                             u = player();
                             delwin(w_open);
                             return (opening_screen());
                         }
-                        WORLDPTR world = pick_world_to_play();
+                        // Pick a world, supressing prompts if it's "play now" mode.
+                        WORLDPTR world = world_generator->pick_world( sel2 != 3 );
                         if (!world) {
                             u = player();
                             delwin(w_open);
@@ -405,10 +402,11 @@ bool game::opening_screen()
                               c_red, _("No Worlds found!"));
                 } else {
                     for (int i = 0; i < world_generator->all_worldnames.size(); ++i) {
-                        int line = iMenuOffsetY - 2 - i;
-                        mvwprintz(w_open, line, 15 + iMenuOffsetX + extra_w / 2,
-                                  (sel2 == i ? h_white : c_white),
-                                  world_generator->all_worldnames[i].c_str());
+                      int line = iMenuOffsetY - 2 - i;
+                      std::string world_name = world_generator->all_worldnames[i];
+                      int savegames_count = world_generator->all_worlds[world_name]->world_saves.size();
+                      mvwprintz(w_open, line, 15 + iMenuOffsetX + extra_w / 2,
+                                (sel2 == i ? h_white : c_white), "%s (%d)", world_name.c_str(), savegames_count);
                     }
                 }
                 wrefresh(w_open);
@@ -605,9 +603,10 @@ bool game::opening_screen()
                 int i = 0;
                 for (std::vector<std::string>::iterator it = world_generator->all_worldnames.begin();
                      it != world_generator->all_worldnames.end(); ++it) {
+                    int savegames_count = world_generator->all_worlds[*it]->world_saves.size();
                     int line = iMenuOffsetY - 4 - i;
                     mvwprintz(w_open, line, 26 + iMenuOffsetX + extra_w / 2,
-                              (sel3 == i ? h_white : c_white), (*it).c_str());
+                              (sel3 == i ? h_white : c_white), "%s (%d)", (*it).c_str(), savegames_count);
                     ++i;
                 }
                 wrefresh(w_open);
@@ -716,7 +715,7 @@ bool game::opening_screen()
                         return (opening_screen());
                     }
                     // check world
-                    WORLDPTR world = pick_world_to_play();
+                    WORLDPTR world = world_generator->pick_world();
                     if (!world) {
                         u = player();
                         delwin(w_open);
