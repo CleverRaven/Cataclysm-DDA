@@ -204,18 +204,6 @@ double dist(int x1, int y1, int x2, int y2)
 }
 
 
-oter_id base_oter_id( const std::string & base ) {
-    std::map<std::string, oter_t>::const_iterator it = obasetermap.find( base );
-    if ( it == obasetermap.end() ) {
-        debugmsg("overmap_terrain: base id '%s' not found.", base.c_str() );
-        return 0;
-    } else {
-        return it->second.loadid_base;
-    }  
-}
-
-
-
 bool is_river(const oter_id &ter)
 {
     // if the id starts with "river" or "bridge", count as a river, but this

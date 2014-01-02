@@ -22,7 +22,6 @@ class npc;
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
 extern std::map<std::string, oter_t> obasetermap;
-oter_id base_oter_id( const std::string & base );
 
 // Likelihood to pick a specific overmap terrain.
 struct oter_weight {
