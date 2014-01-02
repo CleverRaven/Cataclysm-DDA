@@ -63,7 +63,7 @@ map_extras build_extras(
 std::map<std::string,oter_t> otermap;
 std::vector<oter_t> oterlist;
 
-std::map<std::string, oter_t&> obasetermap;
+std::map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
 std::map<std::string, regional_settings> region_settings_map;
 
@@ -205,7 +205,7 @@ double dist(int x1, int y1, int x2, int y2)
 
 
 oter_id base_oter_id( const std::string & base ) {
-    std::map<std::string, oter_t&>::const_iterator it = obasetermap.find( base );
+    std::map<std::string, oter_t>::const_iterator it = obasetermap.find( base );
     if ( it == obasetermap.end() ) {
         debugmsg("overmap_terrain: base id '%s' not found.", base.c_str() );
         return 0;
@@ -488,7 +488,7 @@ void finalize_overmap_terrain( ) {
                 );
                 // aaaaaaaand continue to inevitable crash
             }
-            obasetermap.insert( std::pair<std::string, oter_t&>( (*it).id_base, oterlist[c] ) );;
+            obasetermap.insert( std::pair<std::string, oter_t>( (*it).id_base, oterlist[c] ) );;
         }
         c++;
     }

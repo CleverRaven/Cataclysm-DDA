@@ -21,7 +21,7 @@ class npc;
 #define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
-extern std::map<std::string, oter_t&> obasetermap;
+extern std::map<std::string, oter_t> obasetermap;
 oter_id base_oter_id( const std::string & base );
 
 // Likelihood to pick a specific overmap terrain.
@@ -44,7 +44,7 @@ struct oter_weight_list {
     void setup() { // populate iid's for faster generation and sanity check.
         for( int i=0; i < items.size(); i++ ) {
             if ( items[i].ot_iid == -1 ) {
-                std::map<std::string, oter_t&>::const_iterator it = obasetermap.find(items[i].ot_sid);
+                std::map<std::string, oter_t>::const_iterator it = obasetermap.find(items[i].ot_sid);
                 if ( it == obasetermap.end() ) {
                     debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", items[i].ot_sid.c_str() );
                     items[i].ot_iid = 0;
