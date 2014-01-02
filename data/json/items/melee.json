@@ -2652,7 +2652,7 @@
     "type":"GENERIC",
     "id" : "file",
     "name" : "file",
-    "description" : "Several documents with all kinds of information, customer's data and charts kept together, pretty useless now though",
+    "description" : "Several documents with all kinds of information, customer data and charts kept together, pretty useless now though.",
     "weight" : 15,
     "to_hit" : -3,
     "color" : "white",
