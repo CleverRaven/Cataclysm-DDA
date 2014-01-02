@@ -140,6 +140,8 @@ MOD_INFORMATION *mod_manager::load_modfile(JsonObject &jo)
     return modfile;
 }
 
+extern bool assure_dir_exist(const std::string &path);
+
 bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::string output_base_path)
 {
     if (mods_to_copy.size() == 0){
@@ -154,24 +156,10 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
     // try to make the mods directory inside of the output base path
     std::string new_mod_dir = output_base_path + mod_dir;
 
-    DIR *dir = opendir(new_mod_dir.c_str());
-
-    if (!dir) {
-        // if opendir doesn't work, the *dir pointer is empty.  If we try to close it, it creates a segfault.
-
-#if(defined _WIN32 || defined __WIN32__)
-        mkdir(new_mod_dir.c_str());
-#else
-        mkdir(new_mod_dir.c_str(), 0777);
-#endif
-        dir = opendir(new_mod_dir.c_str());
-    }
-    if (!dir){
+    if (!assure_dir_exist(new_mod_dir)) {
         DebugLog() << "Unable to create or open mod directory at [" << new_mod_dir << "] for saving\n";
         return false;
     }
-
-    closedir(dir);
 
     unsigned modlog = unsigned(log(mods_to_copy.size()));
     unsigned ilog;
@@ -200,22 +188,8 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
         }
 
         while (!dir_to_make.empty()){
-            dir = opendir(dir_to_make.front().c_str());
-
-            if (!dir) {
-                // if opendir doesn't work, the *dir pointer is empty.  If we try to close it, it creates a segfault.
-
-#if(defined _WIN32 || defined __WIN32__)
-                mkdir(dir_to_make.front().c_str());
-#else
-                mkdir(dir_to_make.front().c_str(), 0777);
-#endif
-                dir = opendir(dir_to_make.front().c_str());
-            }
-            if (!dir){
+            if (!assure_dir_exist(dir_to_make.front())) {
                 DebugLog() << "Unable to create or open mod directory at [" << dir_to_make.front() << "] for saving\n";
-            }else{
-                closedir(dir);
             }
 
             dir_to_make.pop();

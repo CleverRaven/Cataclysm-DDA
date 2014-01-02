@@ -124,6 +124,19 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
     }
 }
 
+bool assure_dir_exist(const std::string &path) {
+    DIR *dir = opendir(path.c_str());
+    if (dir != NULL) {
+        closedir(dir);
+        return true;
+    }
+#if (defined _WIN32 || defined __WIN32__)
+    return (mkdir("save") == 0);
+#else
+    return (mkdir("save", 0777) == 0);
+#endif
+}
+
 bool game::opening_screen()
 {
     world_generator->set_active_world(NULL);
@@ -169,22 +182,10 @@ bool game::opening_screen()
     dirent *dp;
     DIR *dir;
 
-    dir = opendir("save");
-    if (!dir){
-        #if (defined _WIN32 || defined __WIN32__)
-            mkdir("save");
-        #else
-            mkdir("save", 0777);
-        #endif
-        dir = opendir("save");
+    if (!assure_dir_exist("save")) {
+        popup(_("Unable to make save directory. Check permissions."));
+        return false;
     }
-    if (!dir) {
-        dbg(D_ERROR) << "game:opening_screen: Unable to make save directory.";
-        debugmsg("Could not make './save' directory");
-        endwin();
-        exit(1);
-    }
-    closedir(dir);
 
     dir = opendir("data");
     while ((dp = readdir(dir))) {
