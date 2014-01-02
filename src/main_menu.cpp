@@ -136,9 +136,9 @@ bool assure_dir_exist(const std::string &path) {
         return true;
     }
 #if (defined _WIN32 || defined __WIN32__)
-    return (mkdir("save") == 0);
+    return (mkdir(path.c_str()) == 0);
 #else
-    return (mkdir("save", 0777) == 0);
+    return (mkdir(path.c_str(), 0777) == 0);
 #endif
 }
 
@@ -251,9 +251,9 @@ bool game::opening_screen()
     u = player();
 
     while(!start) {
-        if (layer == 1) {
-            print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY, (sel1 == 0 || sel1 == 7) ? false : true);
+        print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY, (sel1 == 0 || sel1 == 7) ? false : true);
 
+        if (layer == 1) {
             if (sel1 == 0) { // Print the MOTD.
                 for (int i = 0; i < motd.size() && i < 16; i++) {
                     mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, motd[i].c_str());
@@ -381,10 +381,9 @@ bool game::opening_screen()
                         // Pick a world, supressing prompts if it's "play now" mode.
                         WORLDPTR world = world_generator->pick_world( sel2 != 3 );
                         if (world == NULL) {
-                            // TODO: makes this into a simple continue
-                            delwin(w_open);
-                            return opening_screen();
+                            continue;
                         }
+                        popup_nowait(_("Please wait while the world loads"));
                         world_generator->set_active_world(world);
                         load_world_modfiles(world->world_name);
 
@@ -392,13 +391,11 @@ bool game::opening_screen()
                         if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM :
                                                     ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW))) {
                             u = player();
-                            delwin(w_open);
-                            return (opening_screen());
+                            continue;
                         }
                         if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2)?PLTYPE_RANDOM : PLTYPE_NOW))) {
                             u = player();
-                            delwin(w_open);
-                            return (opening_screen());
+                            continue;
                         }
                         werase(w_background);
                         wrefresh(w_background);
