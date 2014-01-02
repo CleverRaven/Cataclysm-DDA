@@ -182,14 +182,6 @@ void init_data_structures()
     type_function_map["region_settings"] = new StaticFunctionAccessor(&load_region_settings);
 
     mutations_category[""].clear();
-    init_body_parts();
-    init_ter_bitflags_map();
-    init_vpart_bitflag_map();
-    init_translation();
-    init_martial_arts();
-    init_colormap();
-    init_artifacts();
-    init_mapgen_builtin_functions();
 }
 
 void release_data_structures()

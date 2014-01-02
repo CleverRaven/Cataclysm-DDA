@@ -120,7 +120,22 @@ class game
  public:
   game();
   ~game();
-  void init_data();
+
+    // TODO: decide what should be protcted and what should be public
+    // Check the consistency of the dynamicly loaded data.
+    void check_consistency();
+    // Static data, does not depend on mods or similar.
+    void load_static_data();
+    // Load core data and all mods.
+    void load_all_mod_data();
+    // Load core dynamic data
+    void load_core_data();
+    // Load dynamic data from given directory
+    void load_data_from_dir(const std::string &path);
+    // Unload _all_ dynamicly loaded data
+    void unload_dynamic_data();
+
+
   void init_ui();
   void setup();
   bool game_quit(); // True if we actually quit the game - used in main.cpp

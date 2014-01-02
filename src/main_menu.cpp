@@ -543,7 +543,7 @@ bool game::opening_screen()
 
                         if (world == NULL || !gamemode->init()) {
                             delete gamemode;
-                            gamemode = new special_game;
+                            gamemode = NULL;
                             u = player();
                             delwin(w_open);
                             return (opening_screen());

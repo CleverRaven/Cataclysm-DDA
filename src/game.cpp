@@ -98,48 +98,88 @@ game::game() :
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
 }
-void game::init_data()
-{
- dout() << "Game initialized.";
- try {
- // Removed initializers that rely on json specific information as they are getting initialized inside load_world_modfiles.
- // Has the side effect of making the game startup almost instantly, but is a little slower when loading up a world.
- // Gee, it sure is init-y around here!
-    init_data_structures(); // initialize cata data structures
- #ifdef LUA
+
+void game::check_consistency() {
+    item_controller->check_itype_definitions();
+    item_controller->check_items_of_groups_exist();
+    MonsterGenerator::generator().check_monster_definitions();
+    MonsterGroupManager::check_group_definitions();
+    check_recipe_definitions();
+}
+
+// Load everything that will not depend on any mods
+void game::load_static_data() {
+#ifdef LUA
     init_lua();                 // Set up lua                       (SEE catalua.cpp)
- #endif
-    load_json_dir("data/json"); // load it, load it all!
+#endif
+    // UI stuff, not mod-specific per definition
+    load_keyboard_settings();
+    inp_mngr.init();            // Load input config JSON
+    // Init mappings for loading the json stuff
+    init_data_structures();
+    // Only need to load names once, they do not depend on mods
     init_names();
+
+    // These functions do not load stuff from json.
+    // The content they load/initalize is hardcoded into the program.
+    // Therfor they can be loaded here.
+    // If this changes (if they load data from json), they have to
+    // be moved to game::load_mod or game::load_core_data
+    init_body_parts();
+    init_ter_bitflags_map();
+    init_vpart_bitflag_map();
+    init_translation();
+    init_martial_arts();
+    init_colormap();
+    init_artifacts();
+    init_mapgen_builtin_functions();
+    init_fields();
+    init_morale();
+    init_diseases();             // Set up disease lookup table
+    init_savedata_translation_tables();
     init_npctalk();
     init_artifacts();
     init_weather();
-    init_fields();
     init_faction_data();
-    init_morale();
-    init_itypes();               // Set up item types                (SEE itypedef.cpp)
-    item_controller->init_old(); //Item manager
-    init_missions();             // Set up mission templates         (SEE missiondef.cpp)
-    init_autosave();             // Set up autosave
-    init_diseases();             // Set up disease lookup table
-    init_savedata_translation_tables();
-    inp_mngr.init();            // Load input config JSON
 
+
+
+
+    // --- move/delete everything below
+    // TODO: move this to player class
+    moveCount = 0;
+}
+
+void game::load_all_mod_data() {
+    load_core_data();
+    // TODO: find out about all the possible mods and
+    // load them here:
+    // foreach mod {
+    //   load_mod_data(mod->name);
+    // }
+}
+
+void game::load_core_data() {
+#define CORE_JSON_DATA_DIR "data/json"
+    load_data_from_dir(CORE_JSON_DATA_DIR);
+    init_missions(); // Needs overmap terrain.
+}
+
+void game::load_data_from_dir(const std::string &path) {
+    load_json_dir(path);
+    // TODO: remove the hardoced item types, that are loaded here.
+    init_itypes();
+    // this merges the hardcoded item types into the item_controller
+    item_controller->init_old();
+
+    // TODO: After mods
     MonsterGenerator::generator().finalize_mtypes();
     finalize_vehicles();
     finalize_recipes();
+}
 
- } catch(std::string &error_message)
- {
-     uquit = QUIT_ERROR;
-     if(!error_message.empty())
-        debugmsg(error_message.c_str());
-     return;
- }
- load_keyboard_settings();
- moveCount = 0;
-
- gamemode = new special_game; // Nothing, basically.
+void game::unload_dynamic_data() {
+    // TODO :-)
 }
 
 game::~game()
@@ -385,6 +425,10 @@ void game::setup()
 // Set up all default values for a new game
 void game::start_game(std::string worldname)
 {
+    if(gamemode == NULL) {
+        gamemode = new special_game();
+    }
+
  turn = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
  if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring");
  else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer")
@@ -396,6 +440,8 @@ void game::start_game(std::string worldname)
  nextweather = turn + MINUTES(30);
  run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
  mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
+
+ init_autosave();
 
  clear();
  refresh();
