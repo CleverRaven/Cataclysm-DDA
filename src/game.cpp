@@ -6633,12 +6633,12 @@ void game::close(int closex, int closey)
             for( std::vector<item>::iterator cur_item = items_in_way.begin();
                  cur_item != items_in_way.end(); ++cur_item ) {
                 if( cur_item->volume() > 2 ) {
-		    add_msg(_("There's a %s in the way that is to big to just nudge out of the way."),
+		    add_msg(_("There's a %s in the way that is too big to just nudge out of the way."),
                             cur_item->tname().c_str());
                     return;
                 }
             }
-            add_msg(_("You push %s out the way."), items_in_way.size() == 1 ?
+            add_msg(_("You push %s out of the way."), items_in_way.size() == 1 ?
                     items_in_way[0].tname().c_str() : _("some stuff"));
             u.moves -= items_in_way.size() * 10;
         }
