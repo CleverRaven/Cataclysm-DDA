@@ -1,0 +1,129 @@
+[
+    {
+        "type" : "ARMOR",
+        "id" : "karate_gi",
+        "name" : "karate gi",
+        "weight" : 1200,
+        "color" : "white",
+        "covers" : ["ARMS", "LEGS", "TORSO"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "Plain white karate gi. Loose and flowing, it offers little protection, and little encumbrance.",
+        "price" : 100,
+        "material" : ["cotton", "null"],
+        "volume" : 6,
+        "cutting" : 0,
+        "warmth" : 0,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "encumbrance" : 0,
+        "bashing" : -5,
+        "flags" : ["VARSIZE"],
+        "coverage" : 100,
+        "material_thickness" : 1
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "judo_gi",
+        "name" : "judo gi",
+        "weight" : 2500,
+        "color" : "white",
+        "covers" : ["ARMS", "LEGS", "TORSO"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "Plain white judo gi. Thick and a little stiff, it gives minor protection from cuts and punches.",
+        "price" : 100,
+        "material" : ["cotton", "null"],
+        "volume" : 6,
+        "cutting" : 1,
+        "warmth" : 15,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "encumbrance" : 1,
+        "bashing" : -2,
+        "flags" : ["VARSIZE"],
+        "coverage" : 100,
+        "material_thickness" : 2
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "judo_belt_white",
+        "name" : "white belt",
+        "volume" : 1,
+        "material_thickness" : 0,
+        "storage" : 0,
+        "description" : "A belt worn by martial arts practicioners, advertising a novice.",
+        "weight" : 200,
+        "to_hit" : -1,
+        "color" : "white",
+        "encumbrance" : 0,
+        "price" : 90,
+        "material" : ["cotton", "null"],
+        "coverage" : 0,
+        "symbol" : "[",
+        "bashing" : -2,
+        "cutting" : 0,
+        "warmth" : 0,
+        "enviromental_protection" : 0,
+        "phase" : "solid"
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "judo_belt_black",
+        "name" : "black belt",
+        "volume" : 1,
+        "material_thickness" : 0,
+        "storage" : 0,
+        "description" : "A belt worn by martial arts practicioners, advertising a master.",
+        "weight" : 200,
+        "to_hit" : -1,
+        "color" : "black",
+        "encumbrance" : 0,
+        "price" : 90,
+        "material" : ["cotton", "null"],
+        "coverage" : 0,
+        "symbol" : "[",
+        "bashing" : -2,
+        "cutting" : 0,
+        "warmth" : 0,
+        "enviromental_protection" : 0,
+        "phase" : "solid"
+    },
+    {
+        "type": "profession",
+        "ident": "blackbelt",
+        "name": "Blackbelt",
+        "description": "On your way home from the Dojo, and the world ends. While you've achieved some measure of skill within your discipline, you find that the application in the real world is woefully inadequate.",
+        "points": 2,
+        "skills": [
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "unarmed"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "karate_gi",
+                "judo_belt_black",
+                "sneakers"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    }
+]
