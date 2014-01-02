@@ -104,6 +104,37 @@ static bool inscribe_item( player *p, std::string verb, std::string gerund, bool
     return item_inscription( p, cut, verb, gerund, carveable );
 }
 
+// For an exxplosion (which releases some kind of gas), this functions
+// calculates the points around that explosin where to create those
+// gas fields.
+// Those points must have a clear line of sight and a clear path to
+// the center of the explosion.
+// They must also be passable (move_cost > 0).
+std::vector<point> points_for_gas_cloud(const point &center, int radius)
+{
+    const std::vector<point> gas_sources = closest_points_first(radius, center.x, center.y);
+    std::vector<point> result;
+    int junk;
+    for(std::vector<point>::const_iterator a = gas_sources.begin(); a != gas_sources.end(); ++a) {
+        const point &p = *a;
+        if (g->m.move_cost(p.x, p.y) <= 0) {
+            // A wall
+            continue;
+        }
+        if (!g->m.sees(center.x, center.y, p.x, p.y, INT_MAX, junk) &&
+            !(p.x == center.x && p.y == center.y)) {
+            // No clear line of sight
+            continue;
+        }
+        if (!g->m.clear_path(center.x, center.y, p.x, p.y, radius, 1, 100, junk)) {
+            // Can not splatter gas from center to that point, something is in the way
+            continue;
+        }
+        result.push_back(p);
+    }
+    return result;
+}
+
 int iuse::none(player *, item *it, bool)
 {
   g->add_msg(_("You can't do anything interesting with your %s."),
@@ -4578,14 +4609,11 @@ int iuse::gasbomb_act(player *, item *it, bool t)
   if (it->charges > 15) {
    g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
   } else {
-   int junk;
-   for (int i = -2; i <= 2; i++) {
-    for (int j = -2; j <= 2; j++) {
-     if (g->m.sees(pos.x, pos.y, pos.x + i, pos.y + j, 3, junk) &&
-         g->m.move_cost(pos.x + i, pos.y + j) > 0)
-      g->m.add_field(pos.x + i, pos.y + j, fd_tear_gas, 3);
+    std::vector<point> gas_sources = points_for_gas_cloud(pos, 3);
+    for(size_t i = 0; i < gas_sources.size(); i++) {
+        const point &p = gas_sources[i];
+        g->m.add_field(p.x, p.y, fd_tear_gas, 3);
     }
-   }
   }
  } else if(it->charges > 0) {
   g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
@@ -4617,14 +4645,10 @@ int iuse::smokebomb_act(player *, item *it, bool t)
         g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
         return 0;
     } else {
-        int junk;
-        for (int i = -2; i <= 2; i++) {
-            for (int j = -2; j <= 2; j++) {
-                if (g->m.sees(pos.x, pos.y, pos.x + i, pos.y + j, 3, junk) &&
-                    g->m.move_cost(pos.x + i, pos.y + j) > 0) {
-                    g->m.add_field(pos.x + i, pos.y + j, fd_smoke, rng(1, 2) + rng(0, 1));
-                }
-            }
+        std::vector<point> gas_sources = points_for_gas_cloud(pos, 2);
+        for(size_t i = 0; i < gas_sources.size(); i++) {
+            const point &p = gas_sources[i];
+            g->m.add_field(p.x, p.y, fd_smoke, rng(1, 2) + rng(0, 1));
         }
     }
     return 0;
@@ -4951,14 +4975,11 @@ int iuse::mininuke_act(player *, item *it, bool t)
   return 0;
  } else { // When that timer runs down...
   g->explosion(pos.x, pos.y, 200, 0, false);
-  int junk;
-  for (int i = -4; i <= 4; i++) {
-   for (int j = -4; j <= 4; j++) {
-    if (g->m.sees(pos.x, pos.y, pos.x + i, pos.y + j, 3, junk) &&
-        g->m.move_cost(pos.x + i, pos.y + j) > 0)
-     g->m.add_field(pos.x + i, pos.y + j, fd_nuke_gas, 3);
-   }
-  }
+        std::vector<point> gas_sources = points_for_gas_cloud(pos, 4);
+        for(size_t i = 0; i < gas_sources.size(); i++) {
+            const point &p = gas_sources[i];
+            g->m.add_field(p.x, p.y, fd_nuke_gas, 3);
+        }
  }
  return 0;
 }
