@@ -859,7 +859,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
             std::string l;
             while (std::getline(ss, l, '\n')) {
                 line_num++;
-                mvwprintz(w, line_num, 2, c_white, l.c_str());
+                fold_and_print(w, line_num, 2, iWidth - 4, c_white, l.c_str());
             }
         } else {
             if (bStartNewLine) {
