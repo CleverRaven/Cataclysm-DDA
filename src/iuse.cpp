@@ -121,14 +121,15 @@ std::vector<point> points_for_gas_cloud(const point &center, int radius)
             // A wall
             continue;
         }
-        if (!g->m.sees(center.x, center.y, p.x, p.y, INT_MAX, junk) &&
-            !(p.x == center.x && p.y == center.y)) {
-            // No clear line of sight
-            continue;
-        }
-        if (!g->m.clear_path(center.x, center.y, p.x, p.y, radius, 1, 100, junk)) {
-            // Can not splatter gas from center to that point, something is in the way
-            continue;
+        if (p.x != center.x || p.y != center.y) {
+            if (!g->m.sees(center.x, center.y, p.x, p.y, radius, junk)) {
+                // No clear line of sight
+                continue;
+            }
+            if (!g->m.clear_path(center.x, center.y, p.x, p.y, radius, 1, 100, junk)) {
+                // Can not splatter gas from center to that point, something is in the way
+                continue;
+            }
         }
         result.push_back(p);
     }
