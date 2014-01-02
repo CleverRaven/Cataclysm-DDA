@@ -138,8 +138,10 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         std::vector<std::string>::iterator it = std::find(all_worldnames.begin(), all_worldnames.end(),
                                                 worldname);
         all_worldnames.erase(it);
+        if (all_worlds[worldname] != retworld) {
+            delete retworld;
+        }
         delete all_worlds[worldname];
-        delete retworld;
         all_worlds.erase(worldname);
         active_mod_order.clear();
         return NULL;
@@ -237,6 +239,8 @@ void worldfactory::set_active_world(WORLDPTR world)
     }
 }
 
+extern bool assure_dir_exist(const std::string &path);
+
 bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
 {
     // if world is NULL then change it to the active_world
@@ -253,26 +257,9 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
 
     woption << world->world_path << "/" << WORLD_OPTION_FILE;
 
-    DIR *dir = opendir(world->world_path.c_str());
-
-    if (!dir) {
-        // if opendir doesn't work, the *dir pointer is empty.  If we try to close it, it creates a segfault.
-
-#if(defined _WIN32 || defined __WIN32__)
-        mkdir(world->world_path.c_str());
-#else
-        mkdir(world->world_path.c_str(), 0777);
-#endif
-        dir = opendir(world->world_path.c_str());
-    }
-    if (!dir) {
-        // if opendir doesn't work, the *dir pointer is empty.  If we try to close it, it creates a segfault.
-
+    if (!assure_dir_exist(world->world_path)) {
         DebugLog() << "Unable to create or open world[" << world->world_name << "] directory for saving\n";
         return false;
-    }
-    if (dir) {
-        closedir(dir);    // don't need to keep the directory open
     }
 
     if (!is_conversion) {
