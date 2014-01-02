@@ -1707,10 +1707,10 @@ void game::handle_key_blocking_activity() {
 * @param iStartX Left coord of the item info window
 * @param iWidth width of the item info window (height = height of terminal)
 * @param position It is position of the action menu. Default 0
-* 	-2 - near the right edge of the terminal window
-* 	-1 - left before item info window
-* 	0 - right after item info window
-* 	1 - near the left edge of the terminal window
+*       -2 - near the right edge of the terminal window
+*       -1 - left before item info window
+*       0 - right after item info window
+*       1 - near the left edge of the terminal window
 * @return getch
 */
 int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
@@ -2721,7 +2721,7 @@ void game::update_scent()
         }
     } else {
         player_last_position = point( u.posx, u.posy );
-   	    player_last_moved = turn;
+        player_last_moved = turn;
     }
 
     // note: the next two intermediate variables need to be at least
@@ -6526,8 +6526,9 @@ void game::revive_corpse(int x, int y, item *it)
 void game::open()
 {
     int openx, openy;
-    if (!choose_adjacent(_("Open where?"), openx, openy))
+    if (!choose_adjacent(_("Open where?"), openx, openy)) {
         return;
+    }
 
     u.moves -= 100;
     bool didit = false;
@@ -6538,9 +6539,9 @@ void game::open()
         int openable = veh->part_with_feature(vpart, "OPENABLE");
         if(openable >= 0) {
             const char *name = veh->part_info(openable).name.c_str();
-            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")){
+            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")) {
                 const vehicle *in_veh = m.veh_at(u.posx, u.posy);
-                if (!in_veh || in_veh != veh){
+                if (!in_veh || in_veh != veh) {
                     add_msg(_("That %s can only opened from the inside."), name);
                     return;
                 }
@@ -6555,10 +6556,11 @@ void game::open()
         return;
     }
 
-    if (m.is_outside(u.posx, u.posy))
+    if (m.is_outside(u.posx, u.posy)) {
         didit = m.open_door(openx, openy, false);
-    else
+    } else {
         didit = m.open_door(openx, openy, true);
+    }
 
     if (!didit) {
         const std::string terid = m.get_ter(openx, openy);
@@ -6588,20 +6590,20 @@ void game::close(int closex, int closey)
 
     bool didit = false;
 
+    std::vector<item> &items_in_way = m.i_at(closex, closey);
     int vpart;
     vehicle *veh = m.veh_at(closex, closey, vpart);
     int zid = mon_at(closex, closey);
     if (zid != -1) {
         monster &critter = critter_tracker.find(zid);
         add_msg(_("There's a %s in the way!"), critter.name().c_str());
-    }
-    else if (veh) {
+    } else if (veh) {
         int openable = veh->part_with_feature(vpart, "OPENABLE");
         if(openable >= 0) {
             const char *name = veh->part_info(openable).name.c_str();
-            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")){
+            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")) {
                 const vehicle *in_veh = m.veh_at(u.posx, u.posy);
-                if (!in_veh || in_veh != veh){
+                if (!in_veh || in_veh != veh) {
                     add_msg(_("That %s can only closed from the inside."), name);
                     return;
                 }
@@ -6613,21 +6615,56 @@ void game::close(int closex, int closey)
                 add_msg(_("That %s is already closed."), name);
             }
         }
-    } else if (m.furn(closex, closey) != f_safe_o && m.i_at(closex, closey).size() > 0)
-        add_msg(_("There's %s in the way!"), m.i_at(closex, closey).size() == 1 ?
-                m.i_at(closex, closey)[0].tname().c_str() : _("some stuff"));
-    else if (closex == u.posx && closey == u.posy)
+    } else if (closex == u.posx && closey == u.posy) {
         add_msg(_("There's some buffoon in the way!"));
-    else if (m.ter(closex, closey) == t_window_domestic &&
-             m.is_outside(u.posx, u.posy))  {
+    } else if (m.ter(closex, closey) == t_window_domestic &&
+               m.is_outside(u.posx, u.posy)) {
         add_msg(_("You cannot close the curtains from outside. You must be inside the building."));
     } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.size() == 0 ) {
-       add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
-    } else
-        didit = m.close_door(closex, closey, true, false);
+        add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
+    } else {
+        // Scoot up to 10 volume of items out of the way, only counting items that are vol >= 1.
+        if (m.furn(closex, closey) != f_safe_o && items_in_way.size() > 0) {
+            int total_item_volume = 0;
+            if( items_in_way.size() > 10 ) {
+                add_msg(_("Too many items to push out of the way!"));
+                return;
+            }
+            for( std::vector<item>::iterator cur_item = items_in_way.begin();
+                 cur_item != items_in_way.end(); ++cur_item ) {
+                // Don't even count tiny items.
+                if( cur_item->volume() < 1 ) {
+                    continue;
+                }
+                if( cur_item->volume() > 10 ) {
+		    add_msg(_("There's a %s in the way that is too big to just nudge out of the way."),
+                            cur_item->tname().c_str());
+                    return;
+                }
+                total_item_volume += cur_item->volume();
+                if( total_item_volume > 10 ) {
+                    add_msg(_("There is too much stuff in the way."));
+                    return;
+                }
+            }
+            add_msg(_("You push %s out of the way."), items_in_way.size() == 1 ?
+                    items_in_way[0].tname().c_str() : _("some stuff"));
+            u.moves -= items_in_way.size() * 10;
+        }
 
-    if (didit)
+        didit = m.close_door(closex, closey, true, false);
+        // Just plopping items back on their origin square will displace them to adjacent squares
+        // since the door is closed now.
+        for( std::vector<item>::iterator cur_item = items_in_way.begin();
+             cur_item != items_in_way.end(); ++cur_item ) {
+            m.add_item_or_charges( closex, closey, *cur_item );
+        }
+        items_in_way.erase( items_in_way.begin(), items_in_way.end() );
+    }
+
+    if (didit) {
         u.moves -= 90;
+    }
 }
 
 void game::smash()
@@ -11244,7 +11281,7 @@ bool game::plmove(int dx, int dy)
       monster &critter = zombie(mondex);
       if (critter.has_flag(MF_IMMOBILE)) {
           // ...except that turrets can be picked up.
-	  // TODO: Make there a flag, instead of hard-coded to mon_turret
+          // TODO: Make there a flag, instead of hard-coded to mon_turret
           if (critter.type->id == "mon_turret") {
               if (query_yn(_("Deactivate the turret?"))) {
                   u.moves -= 100;
