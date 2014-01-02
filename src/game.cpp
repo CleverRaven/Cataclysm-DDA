@@ -6624,17 +6624,27 @@ void game::close(int closex, int closey)
     } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.size() == 0 ) {
         add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
     } else {
-        // Scoot up to 10 items up to volume 2 each out of the way.
+        // Scoot up to 10 volume of items out of the way, only counting items that are vol >= 1.
         if (m.furn(closex, closey) != f_safe_o && items_in_way.size() > 0) {
+            int total_item_volume = 0;
             if( items_in_way.size() > 10 ) {
                 add_msg(_("Too many items to push out of the way!"));
                 return;
             }
             for( std::vector<item>::iterator cur_item = items_in_way.begin();
                  cur_item != items_in_way.end(); ++cur_item ) {
-                if( cur_item->volume() > 2 ) {
+                // Don't even count tiny items.
+                if( cur_item->volume() < 1 ) {
+                    continue;
+                }
+                if( cur_item->volume() > 10 ) {
 		    add_msg(_("There's a %s in the way that is too big to just nudge out of the way."),
                             cur_item->tname().c_str());
+                    return;
+                }
+                total_item_volume += cur_item->volume();
+                if( total_item_volume > 10 ) {
+                    add_msg(_("There is too much stuff in the way."));
                     return;
                 }
             }
