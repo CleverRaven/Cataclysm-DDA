@@ -501,7 +501,7 @@ void initOptions() {
 
     OPTIONS["ITEM_SPAWNRATE"] =         cOpt("world_default", _("Item spawn scaling factor"),
                                              _("A scaling factor that determines density of item spawns."),
-                                             0.1, 1.0, 1.0, 0.1
+                                             0.01, 10.0, 1.0, 0.01
                                             );
     std::string region_ids("default");
     optionNames["default"] = "default";
