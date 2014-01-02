@@ -256,14 +256,26 @@ bool mod_manager::load_mod_info(MOD_INFORMATION *mod, std::string info_file_path
     infile.close();
     try {
         JsonIn jsin(iss);
-        char ch;
-        ch = jsin.peek();
-        if( ch == '{' ) {
+        jsin.eat_whitespace();
+        char ch = jsin.peek();
+        if (ch == '{') {
+            // find type and dispatch single object
             JsonObject jo = jsin.get_object();
             mod = load_modfile(jo);
+            mod->path = info_file_path.substr(0, info_file_path.find_last_of("/\\"));
             jo.finish();
+        } else if (ch == '[') {
+            jsin.start_array();
+            // find type and dispatch each object until array close
+            while (!jsin.end_array()) {
+                jsin.eat_whitespace();
+                JsonObject jo = jsin.get_object();
+                mod = load_modfile(jo);
+                mod->path = info_file_path.substr(0, info_file_path.find_last_of("/\\"));
+                jo.finish();
+            }
         } else {
-            // not an object?
+            // not an object or an array?
             std::stringstream err;
             err << jsin.line_number() << ": ";
             err << "expected object or array, but found '" << ch << "'";
@@ -272,6 +284,5 @@ bool mod_manager::load_mod_info(MOD_INFORMATION *mod, std::string info_file_path
     } catch(std::string e) {
         return false;
     }
-    mod->path = info_file_path.substr(0, info_file_path.find_last_of("/\\"));
     return true;
 }

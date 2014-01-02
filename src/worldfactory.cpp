@@ -97,9 +97,11 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         std::vector<worldgen_display> tabs;
         std::vector<std::string> tab_strings;
 
+        tabs.push_back(&worldfactory::show_worldgen_tab_modselection);
         tabs.push_back(&worldfactory::show_worldgen_tab_options);
         tabs.push_back(&worldfactory::show_worldgen_tab_confirm);
 
+        tab_strings.push_back(_("Mods to use"));
         tab_strings.push_back(_("World Gen Options"));
         tab_strings.push_back(_("CONFIRMATION"));
 
