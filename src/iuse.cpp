@@ -4601,27 +4601,27 @@ int iuse::gasbomb(player *p, item *it, bool)
 
 int iuse::gasbomb_act(player *, item *it, bool t)
 {
- point pos = g->find_item(it);
- if (pos.x == -999 || pos.y == -999) {
-     return 0;
- }
- if (t) {
-  if (it->charges > 15) {
-   g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
-  } else {
-    std::vector<point> gas_sources = points_for_gas_cloud(pos, 3);
-    for(size_t i = 0; i < gas_sources.size(); i++) {
-        const point &p = gas_sources[i];
-        g->m.add_field(p.x, p.y, fd_tear_gas, 3);
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
     }
-  }
- } else if(it->charges > 0) {
-  g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
-  return 0;
- } else {
-  it->make(itypes["canister_empty"]);
- }
- return 0;
+    if (t) {
+        if (it->charges > 15) {
+            g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+        } else {
+            std::vector<point> gas_sources = points_for_gas_cloud(pos, 3);
+            for(size_t i = 0; i < gas_sources.size(); i++) {
+                const point &p = gas_sources[i];
+                g->m.add_field(p.x, p.y, fd_tear_gas, 3);
+            }
+        }
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
+        return 0;
+    } else {
+        it->make(itypes["canister_empty"]);
+    }
+    return 0;
 }
 
 int iuse::smokebomb(player *p, item *it, bool)
@@ -4964,24 +4964,25 @@ int iuse::mininuke(player *p, item *it, bool)
 
 int iuse::mininuke_act(player *, item *it, bool t)
 {
- point pos = g->find_item(it);
- if (pos.x == -999 || pos.y == -999) {
-  return 0;
- }
- if (t) { // Simple timer effects
-  g->sound(pos.x, pos.y, 2, _("Tick."));
- } else if(it->charges > 0) {
-  g->add_msg(_("You've already set the %s's timer, you might want to get away from it."), it->name.c_str());
-  return 0;
- } else { // When that timer runs down...
-  g->explosion(pos.x, pos.y, 200, 0, false);
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
+    }
+    if (t) { // Simple timer effects
+        g->sound(pos.x, pos.y, 2, _("Tick."));
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already set the %s's timer, you might want to get away from it."),
+                   it->name.c_str());
+        return 0;
+    } else { // When that timer runs down...
+        g->explosion(pos.x, pos.y, 200, 0, false);
         std::vector<point> gas_sources = points_for_gas_cloud(pos, 4);
         for(size_t i = 0; i < gas_sources.size(); i++) {
             const point &p = gas_sources[i];
             g->m.add_field(p.x, p.y, fd_nuke_gas, 3);
         }
- }
- return 0;
+    }
+    return 0;
 }
 
 int iuse::pheromone(player *p, item *it, bool)
