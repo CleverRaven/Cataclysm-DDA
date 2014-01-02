@@ -689,9 +689,12 @@ void show_options(bool ingame)
 
     WINDOW* w_options_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
 
-    WINDOW* w_options_tooltip = newwin(iTooltipHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY, 1 + iOffsetX);
-    WINDOW* w_options_header = newwin(1, FULL_SCREEN_WIDTH - 2, 1 + iTooltipHeight + iOffsetY, 1 + iOffsetX);
-    WINDOW* w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
+    WINDOW* w_options_tooltip = newwin(iTooltipHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
+                                       1 + iOffsetX);
+    WINDOW* w_options_header = newwin(1, FULL_SCREEN_WIDTH - 2, 1 + iTooltipHeight + iOffsetY,
+                                      1 + iOffsetX);
+    WINDOW* w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2,
+                               iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
     draw_border(w_options_border);
     mvwputch(w_options_border, iTooltipHeight + 1,  0, BORDER_COLOR, LINE_XXXO); // |-
@@ -727,7 +730,8 @@ void show_options(bool ingame)
     used_tiles_changed = false;
 
     do {
-        std::map<std::string, cOpt> & cOPTIONS = ( ingame && iCurrentPage == iWorldOptPage ? ACTIVE_WORLD_OPTIONS : OPTIONS );
+        std::map<std::string, cOpt> & cOPTIONS = ( ingame && iCurrentPage == iWorldOptPage ?
+                                                   ACTIVE_WORLD_OPTIONS : OPTIONS );
 
         //Clear the lines
         for (int i = 0; i < iContentHeight; i++) {
@@ -747,7 +751,8 @@ void show_options(bool ingame)
         calcStartPos(iStartPos, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size());
 
         //Draw options
-        for (int i = iStartPos; i < iStartPos + ((iContentHeight > mPageItems[iCurrentPage].size()) ? mPageItems[iCurrentPage].size() : iContentHeight); i++) {
+        for (int i = iStartPos; i < iStartPos + ((iContentHeight > mPageItems[iCurrentPage].size()) ?
+                                                 mPageItems[iCurrentPage].size() : iContentHeight); i++) {
             nc_color cLineColor = c_ltgreen;
 
             sTemp.str("");
@@ -760,17 +765,20 @@ void show_options(bool ingame)
             } else {
                 wprintz(w_options, c_yellow, "   ");
             }
-            wprintz(w_options, c_white, "%s", (cOPTIONS[mPageItems[iCurrentPage][i]].getMenuText()).c_str());
+            wprintz(w_options, c_white, "%s",
+                    (cOPTIONS[mPageItems[iCurrentPage][i]].getMenuText()).c_str());
 
             if (cOPTIONS[mPageItems[iCurrentPage][i]].getValue() == "false") {
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (cOPTIONS[mPageItems[iCurrentPage][i]].getValueName()).c_str());
+            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) :
+                      cLineColor, "%s", (cOPTIONS[mPageItems[iCurrentPage][i]].getValueName()).c_str());
         }
 
         //Draw Scrollbar
-        draw_scrollbar(w_options_border, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size(), iTooltipHeight+2, 0, BORDER_COLOR);
+        draw_scrollbar(w_options_border, iCurrentLine, iContentHeight,
+                       mPageItems[iCurrentPage].size(), iTooltipHeight+2, 0, BORDER_COLOR);
 
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");
@@ -778,9 +786,11 @@ void show_options(bool ingame)
             if (mPageItems[i].size() > 0) { //skip empty pages
                 wprintz(w_options_header, c_white, "[");
                 if ( ingame && i == iWorldOptPage ) {
-                   wprintz(w_options_header, (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, _("Current world"));
+                   wprintz(w_options_header,
+                           (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, _("Current world"));
                 } else {
-                   wprintz(w_options_header, (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, (vPages[i].second).c_str());
+                   wprintz(w_options_header, (iCurrentPage == i) ?
+                           hilite(c_ltgreen) : c_ltgreen, (vPages[i].second).c_str());
                 }
                 wprintz(w_options_header, c_white, "]");
                 wputch(w_options_header, BORDER_COLOR, LINE_OXOX);
@@ -790,33 +800,44 @@ void show_options(bool ingame)
         wrefresh(w_options_header);
 
 #if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
-		if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_X") {
-			int new_viewport_x, new_window_width;
-			std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
+        if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_X") {
+            int new_viewport_x, new_window_width;
+            std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
-			value_conversion >> new_viewport_x;
-			new_window_width = projected_window_width(new_viewport_x);
+            value_conversion >> new_viewport_x;
+            new_window_width = projected_window_width(new_viewport_x);
 
-			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s -- The window will be %d pixels wide with the selected value.", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(), new_window_width);
-		} else if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_Y") {
-			int new_viewport_y, new_window_height;
-			std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
+            fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
+                           "%s #%s -- The window will be %d pixels wide with the selected value.",
+                           OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
+                           OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
+                           new_window_width);
+        } else if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_Y") {
+            int new_viewport_y, new_window_height;
+            std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
-			value_conversion >> new_viewport_y;
-			new_window_height = projected_window_height(new_viewport_y);
+            value_conversion >> new_viewport_y;
+            new_window_height = projected_window_height(new_viewport_y);
 
-			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s -- The window will be %d pixels tall with the selected value.", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(), new_window_height);
-		} else
+            fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
+                           "%s #%s -- The window will be %d pixels tall with the selected value.",
+                           OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
+                           OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
+                           new_window_height);
+        } else
 #endif
-		{
-			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str());
-		}
+        {
+            fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s",
+                           OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
+                           OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str());
+        }
 
         if ( iCurrentPage != iLastPage ) {
             iLastPage = iCurrentPage;
             if ( ingame && iCurrentPage == iWorldOptPage ) {
                 mvwprintz( w_options_tooltip, 3, 3, c_ltred, "%s", _("Note: ") );
-                wprintz(  w_options_tooltip, c_white, "%s", _("Some of these options may produce unexpected results if changed."));
+                wprintz(  w_options_tooltip, c_white, "%s",
+                          _("Some of these options may produce unexpected results if changed."));
             }
         }
         wrefresh(w_options_tooltip);
@@ -874,7 +895,8 @@ void show_options(bool ingame)
         }
     } while(ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
-    used_tiles_changed = (OPTIONS_OLD["TILES"].getValue() != OPTIONS["TILES"].getValue()) || (OPTIONS_OLD["USE_TILES"] != OPTIONS["USE_TILES"]);
+    used_tiles_changed = (OPTIONS_OLD["TILES"].getValue() != OPTIONS["TILES"].getValue()) ||
+        (OPTIONS_OLD["USE_TILES"] != OPTIONS["USE_TILES"]);
 
     if (bStuffChanged) {
         if(query_yn(_("Save changes?"))) {
@@ -1006,7 +1028,8 @@ std::string get_tileset_names(std::string dir_path)
             optionNames["hoder"] = _("Hoder's");
             return defaultTilesets;
         }
-        std::string tileset_name; // should only have 2 values inside it, otherwise is going to only load the last 2 values
+        // should only have 2 values inside it, otherwise is going to only load the last 2 values
+        std::string tileset_name;
 
         while(!fin.eof()) {
             std::string sOption;
@@ -1060,7 +1083,8 @@ void options_data::enable_json(const std::string & lvar) {
 void options_data::add_retry(const std::string & lvar, const::std::string & lval) {
     static const std::string blank_value( 1, 001 ); 
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
-    if ( it != post_json_verify.end() && it->second == blank_value ) { // initialized with impossible value: valid
+    if ( it != post_json_verify.end() && it->second == blank_value ) {
+        // initialized with impossible value: valid
         post_json_verify[ lvar ] = lval;
     }
 }
@@ -1072,7 +1096,8 @@ void options_data::add_value( const std::string & lvar, const std::string & lval
     if ( it != post_json_verify.end() ) {
         std::map<std::string, cOpt>::iterator ot = OPTIONS.find(lvar);
         if ( ot != OPTIONS.end() && ot->second.sType == "string" ) {
-            for(std::vector<std::string>::const_iterator eit = ot->second.vItems.begin(); eit != ot->second.vItems.end(); ++eit) {
+            for(std::vector<std::string>::const_iterator eit = ot->second.vItems.begin();
+                eit != ot->second.vItems.end(); ++eit) {
                 if ( *eit == lval ) { // already in
                     return;
                 }
