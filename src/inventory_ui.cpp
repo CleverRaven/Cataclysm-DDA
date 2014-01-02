@@ -413,16 +413,17 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
         }
 
         inventory drop_subset = u.inv.subset(dropping);
-        if (dropped_weapon == -1) {
-            drop_subset.add_item(u.weapon, false, false);
-        } else if (dropped_weapon > 0) {
-            item &tmp = drop_subset.add_item(u.weapon, false, false);
-            tmp.charges = dropped_weapon;
-        }
         int new_weight = base_weight - drop_subset.weight();
         int new_volume = base_volume - drop_subset.volume();
         for (int i = 0; i < dropped_armor.size(); ++i) {
             new_weight -= u.i_at(dropped_armor[i]).weight();
+        }
+        if (dropped_weapon == -1) {
+            new_weight -= u.weapon.weight();
+        } else if (dropped_weapon > 0) {
+            item tmp(u.weapon);
+            tmp.charges = dropped_weapon;
+            new_weight -= tmp.weight();
         }
         print_inv_weight_vol(w_inv, new_weight, new_volume);
         int cur_line = 2;
