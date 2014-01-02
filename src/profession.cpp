@@ -115,6 +115,11 @@ int profession::count()
     return _all_profs.size();
 }
 
+void profession::reset()
+{
+    _all_profs.clear();
+}
+
 bool profession::has_initialized()
 {
     return exists("unemployed");

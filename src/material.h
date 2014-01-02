@@ -27,6 +27,8 @@ private:
     int _fire_resist;
     int _density;   // relative to "powder", which is 1
 
+    static material_map _all_materials;
+
 public:
     material_type();
     material_type(std::string ident, std::string name,
@@ -35,7 +37,6 @@ public:
                   std::string dmg_adj[], int acid_resist, int elec_resist, int fire_resist,
                   int density);
     material_type(std::string ident);
-    static material_map _all_materials;
     static void load_material(JsonObject &jsobj);
 
     // functions
@@ -43,6 +44,8 @@ public:
 //  static material_type* find_material_from_tag(material mat);
     static material_type* base_material();  // null material
     static bool has_material(const std::string& ident);
+    // clear material map, every material pointer becames invalid!
+    static void reset();
 
     int dam_resist(damage_type damtype) const;
 

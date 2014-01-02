@@ -106,6 +106,11 @@ material_type* material_type::find_material(std::string ident)
     }
 }
 
+void material_type::reset()
+{
+    _all_materials.clear();
+}
+
 bool material_type::has_material(const std::string &ident)
 {
     return _all_materials.count(ident) > 0;

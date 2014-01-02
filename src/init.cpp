@@ -327,15 +327,15 @@ void init_names()
 
 void unload_active_json_data()
 {
-    // clear materials
-    material_type::_all_materials.clear();
+    material_type::reset();
+    profession::reset();
+
     // clear bionics
     for (std::map<bionic_id, bionic_data*>::iterator bio = bionics.begin(); bio != bionics.end(); ++bio){
         delete bio->second;
     }
     bionics.clear();
-    // clear professions
-    profession::_all_profs.clear();
+
     // clear skills
     for (int i = 0; i < Skill::skills.size(); ++i){
         delete Skill::skills[i];
