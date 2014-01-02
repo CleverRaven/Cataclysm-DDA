@@ -305,12 +305,9 @@ void cOpt::setValue(std::string sSetIn) {
         float tmpFloat;
         ssTemp >> tmpFloat;
         if(ssTemp) {
-            fSet = tmpFloat;
+            setValue(tmpFloat);
         } else {
             debugmsg("invalid floating point option: %s", sSetIn.c_str());
-        }
-        if ( fSet < fMin || fSet > fMax ) {
-            fSet = fDefault;
         }
     }
 }
