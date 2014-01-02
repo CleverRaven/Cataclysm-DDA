@@ -17704,7 +17704,7 @@
   "subcategory": "CSC_WEAPON_BASHING",
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "components": [
     [
@@ -17729,30 +17729,19 @@
   ]
 },{
         "type" : "recipe",
-  "result": "battletorch",
-  "id_suffix": "rebuild",
+  "result": "battletorch_done",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_BASHING",
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
-  "autolearn": true,
+  "reversible": true,
+  "autolearn": false,
   "components": [
     [
-      [ "battletorch_done", 1 ]
+	  [ "bat", 1 ]
     ],
     [
-      [ "gasoline", 200 ],
-      [ "vodka", 7 ],
-      [ "rum", 7 ],
-      [ "whiskey", 7 ],
-      [ "single_malt_whiskey", 7 ],
-      [ "tequila", 7 ],
-      [ "gin", 7 ],
-      [ "triple_sec", 7 ]
-    ],
-    [
-      [ "rag", 1 ]
+      [ "nomex", 5 ]
     ]
   ]
 },{
