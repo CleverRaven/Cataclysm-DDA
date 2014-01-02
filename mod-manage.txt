@@ -1,0 +1,15 @@
+Problems:
+1. unload already loaded stuff. This is currently not done at all. (at least not propperly as maps/vectors/... just get cleared, but the objects their content points to (itype) is not deleted).
+-> find out what needs unloading
+-> write propper unload methods.
+
+2. during chargen we need item data (and CBM data, and addiction data,...) this only exists after loading the mod!
+-> select the mods to use before starting char gen.
+
+3. What should go into the mod manager?
+-> Options? They can be changed before char gen. So probably not.
+
+
+
+TODO:
+move game::moveCount to class player.
