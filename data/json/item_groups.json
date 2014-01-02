@@ -1979,8 +1979,8 @@
       ["55gal_drum", 1],
       ["30gal_drum", 2],
       ["creepy_doll", 1],
-	  ["striped_shirt", 1],
-	  ["striped_pants", 1]
+      ["striped_shirt", 1],
+      ["striped_pants", 1]
     ]
   },{
     "type" : "item_group",
