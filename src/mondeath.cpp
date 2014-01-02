@@ -263,7 +263,7 @@ void mdeath::guilt(monster *z) {
     int kill_count = g->kill_count(z->type->id);
     int maxKills = 100; // this is when the player stop caring altogether.
 
-    if(g->u.has_trait("PACIFIST")
+    if(g->u.has_trait("PACIFIST"))
        kill_count = -kill_count;
 
     // different message as we kill more of the same monster
