@@ -375,7 +375,8 @@ void mutation_effect(player &p, std::string mut)
     bool destroy = false;
     std::vector<body_part> bps;
 
-    if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "FRAIL") {
+    if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
+          mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3") {
         p.recalc_hp();
 
     } else if (mut == "WEBBED" || mut == "PAWS" || mut == "ARM_TENTACLES" || mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8") {
@@ -501,7 +502,8 @@ void mutation_effect(player &p, std::string mut)
 
 void mutation_loss_effect(player &p, std::string mut)
 {
-    if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "FRAIL") {
+    if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
+          mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3") {
         p.recalc_hp();
 
     } else if (mut == "LARGE") {

@@ -290,6 +290,11 @@ global_functions = {
         args = { "cstring" },
         rval = nil
     },
+    revive_corpse = {
+        cpp_name = "g->revive_corpse",
+        args = { "int", "int", "int" },
+        rval = nil
+    },
     popup = {
         cpp_name = "popup",
         args = { "cstring" },
@@ -334,5 +339,5 @@ global_functions = {
         cpp_name = "game_remove_item",
         args = {"int", "int", "item"},
         rval = nil
-    },
+    }
 }

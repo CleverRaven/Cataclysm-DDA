@@ -103,6 +103,9 @@ void game::init_data()
  try {
  // Gee, it sure is init-y around here!
     init_data_structures(); // initialize cata data structures
+ #ifdef LUA
+    init_lua();                 // Set up lua                       (SEE catalua.cpp)
+ #endif
     load_json_dir("data/json"); // load it, load it all!
     init_names();
     init_npctalk();
@@ -122,10 +125,6 @@ void game::init_data()
     MonsterGenerator::generator().finalize_mtypes();
     finalize_vehicles();
     finalize_recipes();
-
- #ifdef LUA
-    init_lua();                 // Set up lua                       (SEE catalua.cpp)
- #endif
 
  } catch(std::string &error_message)
  {
@@ -5596,12 +5595,12 @@ void game::do_blast( const int x, const int y, const int power, const int radius
                         kill_mon(mon_hit); // TODO: player's fault?
                     }
                 }
+	    }
 
-                int vpart;
-                vehicle *veh = m.veh_at(i, j, vpart);
-                if (veh) {
-                    veh->damage (vpart, dam, false);
-                }
+            int vpart;
+            vehicle *veh = m.veh_at(i, j, vpart);
+            if (veh) {
+                veh->damage (vpart, dam, false);
             }
 
             if (npc_hit != -1) {
@@ -9558,72 +9557,27 @@ int game::move_liquid(item &liquid)
 void game::drop(int pos)
 {
     std::vector<item> dropped;
-
+    std::vector<item> dropped_worn;
+    int freed_volume_capacity = 0;
     if (pos == INT_MIN) {
-        dropped = multidrop();
+        dropped = multidrop(dropped_worn, freed_volume_capacity);
+    } else if(pos <= -2) {
+        // Item is worn, must be taken off before dropping it.
+        char invl = u.position_to_invlet(pos);
+        if(!u.takeoff(pos)) {
+            return;
+        }
+        u.moves -= 250; // same as game::takeoff
+        dropped_worn.push_back(u.i_rem(invl));
+        if(dropped_worn.back().is_null()) {
+            // item is not in the inventory because it has been dropped
+            // while taking it off
+            return;
+        }
     } else {
         dropped.push_back(u.i_rem(pos));
     }
-
-    if (dropped.size() == 0) {
-        add_msg(_("Never mind."));
-        return;
-    }
-
-    item_exchanges_since_save += dropped.size();
-
-    itype_id first = itype_id(dropped[0].type->id);
-    bool same = true;
-    for (int i = 1; i < dropped.size() && same; i++) {
-        if (dropped[i].type->id != first) {
-            same = false;
-        }
-    }
-
-    int veh_part = 0;
-    bool to_veh = false;
-    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
-    if (veh) {
-        veh_part = veh->part_with_feature (veh_part, "CARGO");
-        to_veh = veh_part >= 0;
-    }
-    if (dropped.size() == 1 || same) {
-        if (to_veh) {
-            add_msg(ngettext("You put your %1$s in the %2$s's %3$s.",
-                             "You put your %1$ss in the %2$s's %3$s.",
-                             dropped.size()),
-                    dropped[0].tname().c_str(),
-                    veh->name.c_str(),
-                    veh->part_info(veh_part).name.c_str());
-        } else {
-            add_msg(ngettext("You drop your %s.", "You drop your %ss.",
-                             dropped.size()),
-                    dropped[0].tname().c_str());
-        }
-    } else {
-        if (to_veh) {
-            add_msg(_("You put several items in the %s's %s."),
-                    veh->name.c_str(), veh->part_info(veh_part).name.c_str());
-        } else {
-            add_msg(_("You drop several items."));
-        }
-    }
-
-    if (to_veh) {
-        bool vh_overflow = false;
-        for (int i = 0; i < dropped.size(); i++) {
-            vh_overflow = vh_overflow || !veh->add_item (veh_part, dropped[i]);
-            if (vh_overflow) {
-                m.add_item_or_charges(u.posx, u.posy, dropped[i], 1);
-            }
-        }
-        if (vh_overflow) {
-            add_msg (_("The trunk is full, so some items fall on the ground."));
-        }
-    } else {
-        for (int i = 0; i < dropped.size(); i++)
-            m.add_item_or_charges(u.posx, u.posy, dropped[i], 2);
-    }
+    drop(dropped, dropped_worn, freed_volume_capacity, u.posx, u.posy);
 }
 
 void game::drop_in_direction()
@@ -9633,6 +9587,61 @@ void game::drop_in_direction()
         return;
     }
 
+    if (!m.can_put_items(dirx, diry)) {
+        add_msg(_("You can't place items there!"));
+        return;
+    }
+
+    int freed_volume_capacity = 0;
+    std::vector<item> dropped_worn;
+    std::vector<item> dropped = multidrop(dropped_worn, freed_volume_capacity);
+    drop(dropped, dropped_worn, freed_volume_capacity, dirx, diry);
+}
+
+bool compare_items_by_lesser_volume(const item &a, const item &b)
+{
+    return a.volume() < b.volume();
+}
+
+// calculate the time (in player::moves) it takes to drop the
+// items in dropped and dropped_worn.
+// Items in dropped come from the main inventory (or the wielded weapon)
+// Items in dropped_worn are cloth that had been worn.
+// All items in dropped that fit into the removed storage space
+// (freed_volume_capacity) do not take time to drop.
+// Example: dropping five 2x4 (volume 5*6) and a worn backpack
+// (storage 40) will take only the time for dropping the backpack
+// dropping two more 2x4 takes the time for dropping the backpack and
+// dropping the remaining 2x4 that does not fit into the backpack.
+int game::calculate_drop_cost(std::vector<item> &dropped, const std::vector<item> &dropped_worn, int freed_volume_capacity) const
+{
+    // Prefer to put small items into the backpack
+    std::sort(dropped.begin(), dropped.end(), compare_items_by_lesser_volume);
+    int drop_item_cnt = dropped_worn.size();
+    int total_volume_dropped = 0;
+    for(size_t i = 0; i < dropped.size(); i++) {
+        total_volume_dropped += dropped[i].volume();
+        if(freed_volume_capacity == 0 || total_volume_dropped > freed_volume_capacity) {
+            drop_item_cnt++;
+        }
+    }
+    return drop_item_cnt * 100;
+}
+
+void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int freed_volume_capacity, int dirx, int diry)
+{
+    if (dropped.empty() && dropped_worn.empty()) {
+        add_msg(_("Never mind."));
+        return;
+    }
+    const int drop_move_cost = calculate_drop_cost(dropped, dropped_worn, freed_volume_capacity);
+    if (g->debugmon) {
+        debugmsg("Dropping %d+%d items takes %d moves", dropped.size(), dropped_worn.size(),
+                 drop_move_cost);
+    }
+
+    dropped.insert(dropped.end(), dropped_worn.begin(), dropped_worn.end());
+
     int veh_part = 0;
     bool to_veh = false;
     vehicle *veh = m.veh_at(dirx, diry, veh_part);
@@ -9641,19 +9650,7 @@ void game::drop_in_direction()
         to_veh = veh_part >= 0;
     }
 
-    if (!m.can_put_items(dirx, diry)) {
-        add_msg(_("You can't place items there!"));
-        return;
-    }
-
     bool can_move_there = m.move_cost(dirx, diry) != 0;
-
-    std::vector<item> dropped = multidrop();
-
-    if (dropped.size() == 0) {
-        add_msg(_("Never mind."));
-        return;
-    }
 
     item_exchanges_since_save += dropped.size();
 
@@ -9710,9 +9707,10 @@ void game::drop_in_direction()
         }
     } else {
         for (int i = 0; i < dropped.size(); i++) {
-            m.add_item_or_charges(dirx, diry, dropped[i], 1);
+            m.add_item_or_charges(dirx, diry, dropped[i], 2);
         }
     }
+    u.moves -= drop_move_cost;
 }
 
 void game::reassign_item(int pos)
@@ -12650,40 +12648,38 @@ void game::teleport(player *p, bool add_teleglow)
         newx = p->posx + rng(0, SEEX * 2) - SEEX;
         newy = p->posy + rng(0, SEEY * 2) - SEEY;
         tries++;
-    } while (tries < 15 && !is_empty(newx, newy));
+    } while (tries < 15 && m.move_cost(newx, newy) == 0);
     bool can_see = (is_u || u_see(newx, newy));
     if (p->in_vehicle) {
         m.unboard_vehicle(p->posx, p->posy);
     }
     p->posx = newx;
     p->posy = newy;
-    if (tries == 15) {
-        if (m.move_cost(newx, newy) == 0) { // TODO: If we land in water, swim
-            if (can_see) {
-                if (is_u) {
-                    add_msg(_("You teleport into the middle of a %s!"),
-                            m.name(newx, newy).c_str());
-                    p->add_memorial_log(_("Teleported into a %s."), m.name(newx, newy).c_str());
-                } else {
-                    add_msg(_("%s teleports into the middle of a %s!"),
-                            p->name.c_str(), m.name(newx, newy).c_str());
-                }
+    if (m.move_cost(newx, newy) == 0) { //Teleported into a wall
+        if (can_see) {
+            if (is_u) {
+                add_msg(_("You teleport into the middle of a %s!"),
+                        m.name(newx, newy).c_str());
+                p->add_memorial_log(_("Teleported into a %s."), m.name(newx, newy).c_str());
+            } else {
+                add_msg(_("%s teleports into the middle of a %s!"),
+                        p->name.c_str(), m.name(newx, newy).c_str());
             }
-            p->hurt(bp_torso, 0, 500);
-        } else if (can_see) {
-            const int i = mon_at(newx, newy);
-            if (i != -1) {
-                monster &critter = zombie(i);
-                if (is_u) {
-                    add_msg(_("You teleport into the middle of a %s!"),
-                            critter.name().c_str());
-                    u.add_memorial_log(_("Telefragged a %s."), critter.name().c_str());
-                } else {
-                    add_msg(_("%s teleports into the middle of a %s!"),
-                            p->name.c_str(), critter.name().c_str());
-                }
-                explode_mon(i);
+        }
+        p->hurt(bp_torso, 0, 500);
+    } else if (can_see) {
+        const int i = mon_at(newx, newy);
+        if (i != -1) {
+            monster &critter = zombie(i);
+            if (is_u) {
+                add_msg(_("You teleport into the middle of a %s!"),
+                        critter.name().c_str());
+                u.add_memorial_log(_("Telefragged a %s."), critter.name().c_str());
+            } else {
+                add_msg(_("%s teleports into the middle of a %s!"),
+                        p->name.c_str(), critter.name().c_str());
             }
+            explode_mon(i);
         }
     }
     if (is_u) {

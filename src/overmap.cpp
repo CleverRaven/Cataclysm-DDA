@@ -930,13 +930,13 @@ point overmap::display_notes(int const z) const
 
  int maxitems; // Number of items to show at one time.
  char end_limit; // Last selectable line.
- if (FULL_SCREEN_HEIGHT/2 == 0) {
-    maxitems = 20;
-    end_limit = 't';
+ if ( (FULL_SCREEN_HEIGHT%2) == 0) {
+    maxitems = 19;
+    end_limit = 's';
  }
  else {
-    end_limit = 's';
-    maxitems = 19;
+    end_limit = 't';
+    maxitems = 20;
  }
     
  char ch = '.';

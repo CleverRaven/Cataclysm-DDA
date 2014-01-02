@@ -115,6 +115,9 @@ monster::~monster()
 
 bool monster::setpos(const int x, const int y, const bool level_change)
 {
+    if (!level_change && x == _posx && y == _posy) {
+        return true;
+    }
     bool ret = level_change ? true : g->update_zombie_pos(*this, x, y);
     _posx = x;
     _posy = y;

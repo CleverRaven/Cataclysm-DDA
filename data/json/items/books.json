@@ -3602,5 +3602,26 @@
         "bashing" : -3,
         "cutting" : 0,
         "to_hit" : 0
+    },
+    {
+        "type" : "BOOK",
+        "id" : "recipe_atomic_battery",
+        "name" : "computer printout",
+        "description" : "One side of this sheet is printed with a meaningless jumble of characters, but the other side shows a complicated, hand-drawn circuit diagram.",
+        "weight" : 10,
+        "volume" : 0,
+        "price" : 400,
+        "time" : 60,
+        "fun" : -3,
+        "skill" : "electronics",
+        "max_level" : 6,
+        "required_level" : 6,
+        "intelligence" : 12,
+        "color" : "light_gray",
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "bashing" : -3,
+        "cutting" : 0,
+        "to_hit" : 0
     }
 ]

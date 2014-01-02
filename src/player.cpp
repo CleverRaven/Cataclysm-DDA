@@ -312,17 +312,30 @@ void player::normalize()
 {
     Creature::normalize();
 
- ret_null = item(itypes["null"], 0);
- weapon   = item(itypes["null"], 0);
- style_selected = "style_none";
- for (int i = 0; i < num_hp_parts; i++) {
-  hp_max[i] = 60 + str_max * 3;
-  if (has_trait("TOUGH"))
-   hp_max[i] = int(hp_max[i] * 1.2);
-  hp_cur[i] = hp_max[i];
- }
- for (int i = 0 ; i < num_bp; i++)
-  temp_conv[i] = BODYTEMP_NORM;
+    ret_null = item(itypes["null"], 0);
+    weapon   = item(itypes["null"], 0);
+    style_selected = "style_none";
+    for (int i = 0; i < num_hp_parts; i++) {
+        hp_max[i] = 60 + str_max * 3;
+        // Tough and Flimsy are exclusive.
+        // Only the most extreme of each version applies.
+        if (has_trait("TOUGH3")) {
+            hp_max[i] = int(hp_max[i] * 1.2);
+        } else if (has_trait("TOUGH2")) {
+            hp_max[i] = int(hp_max[i] * 1.3);
+        } else if (has_trait("TOUGH")) {
+            hp_max[i] = int(hp_max[i] * 1.4);
+        } else if (has_trait("FLIMSY3")) {
+            hp_max[i] = int(hp_max[i] * .75);
+        } else if (has_trait("FLIMSY2")) {
+            hp_max[i] = int(hp_max[i] * .5);
+        } else if (has_trait("FLIMSY")) {
+            hp_max[i] = int(hp_max[i] * .25);
+        }
+        hp_cur[i] = hp_max[i];
+    }
+    for (int i = 0 ; i < num_bp; i++)
+        temp_conv[i] = BODYTEMP_NORM;
 }
 
 void player::pick_name() {
@@ -1980,11 +1993,30 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
  effect_win_size_y--;
 
 // Print name and header
- if (male) {
-    mvwprintw(w_tip, 0, 0, _("%s - Male"), name.c_str());
- } else {
-    mvwprintw(w_tip, 0, 0, _("%s - Female"), name.c_str());
- }
+
+    std::string gender_prof;
+    if (prof == NULL || prof == prof->generic()) {
+        if (male) {
+            gender_prof = string_format(_("%s - Male"), name.c_str());
+        } else {
+            gender_prof = string_format(_("%s - Female"), name.c_str());
+        }
+    } else {
+        const char *format;
+        if (prof->name() == "") {
+            //~ player info: "<name> - <gender specific profession>"
+            format = _("%s - %s");
+        } else if (male) {
+            //~ player info: "<name> - a male <gender unspecific profession>"
+            format = _("%s - a male %s");
+        } else {
+            //~ player info: "<name> - a female <gender unspecific profession>"
+            format = _("%s - a female %s");
+        }
+        gender_prof = string_format(format, name.c_str(), prof->gender_appropriate_name(male).c_str());
+    }
+    mvwprintw(w_tip, 0, 0, gender_prof.c_str());
+
  mvwprintz(w_tip, 0, 39, c_ltred, _("| Press TAB to cycle, ESC or q to return."));
  wrefresh(w_tip);
 
@@ -4319,13 +4351,19 @@ void player::recalc_hp()
     for (int i = 0; i < num_hp_parts; i++)
     {
         new_max_hp[i] = 60 + str_max * 3;
-        if (has_trait("TOUGH"))
-        {
+        // Only the most extreme applies.
+        if (has_trait("TOUGH3")) {
             new_max_hp[i] *= 1.2;
-        }
-        if (has_trait("FRAIL"))
-        {
-            new_max_hp[i] *= 0.25;
+        } else if (has_trait("TOUGH2")) {
+            new_max_hp[i] *= 1.3;
+        } else if (has_trait("TOUGH")) {
+            new_max_hp[i] *= 1.4;
+        } else if (has_trait("FLIMSY3")) {
+            new_max_hp[i] *= .75;
+        } else if (has_trait("FLIMSY2")) {
+            new_max_hp[i] *= .5;
+        } else if (has_trait("FLIMSY")) {
+            new_max_hp[i] *= .25;
         }
     }
     if (has_trait("GLASSJAW"))
@@ -5108,9 +5146,13 @@ void player::suffer()
  if (has_artifact_with(AEP_FORCE_TELEPORT) && one_in(600))
   g->teleport(this);
 
+// checking for radioactive items in inventory
+ int selfRadiation = 0;
+ selfRadiation = leak_level("RADIOACTIVE");
+
  int localRadiation = g->m.radiation(posx, posy);
 
- if (localRadiation) {
+ if (localRadiation || selfRadiation) {
    bool has_helmet = false;
 
    bool power_armored = is_wearing_power_armor(&has_helmet);
@@ -5118,9 +5160,9 @@ void player::suffer()
    if ((power_armored && has_helmet) || is_wearing("hazmat_suit")|| is_wearing("anbc_suit")) {
      radiation += 0; // Power armor protects completely from radiation
    } else if (power_armored || is_wearing("cleansuit")|| is_wearing("aep_suit")) {
-     radiation += rng(0, localRadiation / 40);
+     radiation += rng(0, localRadiation / 40) + rng(0, selfRadiation / 5);
    } else {
-     radiation += rng(0, localRadiation / 16);
+     radiation += rng(0, localRadiation / 16) + rng(0, selfRadiation);;
    }
 
    // Apply rads to any radiation badges.
@@ -5962,7 +6004,8 @@ item player::i_rem(int pos)
 {
  item tmp;
  if (pos == -1) {
-     if (std::find(martial_arts_itype_ids.begin(), martial_arts_itype_ids.end(), weapon.type->id) != martial_arts_itype_ids.end()){
+     if (std::find(martial_arts_itype_ids.begin(), martial_arts_itype_ids.end(),
+                   weapon.type->id) != martial_arts_itype_ids.end()){
          return ret_null;
      }
      tmp = weapon;
@@ -5978,12 +6021,20 @@ item player::i_rem(int pos)
 
 item player::i_rem(itype_id type)
 {
-    item ret;
     if (weapon.type->id == type)
     {
         return remove_weapon();
     }
     return inv.remove_item(type);
+}
+
+item player::i_rem(item *it)
+{
+    if (&weapon == it)
+    {
+        return remove_weapon();
+    }
+    return inv.remove_item(it);
 }
 
 // Negative positions indicate weapon/clothing, 0 & positive indicate inventory
@@ -6490,6 +6541,13 @@ int player::charges_of(itype_id it)
  return quantity;
 }
 
+int  player::leak_level( std::string flag ) const
+{
+    int leak_level = 0;
+    leak_level = inv.leak_level(flag);
+    return leak_level;
+}
+
 bool player::has_watertight_container()
 {
  if (!inv.watertight_container().is_null()) {
@@ -6941,9 +6999,9 @@ bool player::eat(item *eaten, it_comest *comest)
         mealtime /= 2;
     } if (has_trait("GOURMAND")) {
         mealtime -= 100;
-    } 
+    }
         moves -= (mealtime);
-    
+
     // If it's poisonous... poison us.  TODO: More several poison effects
     if (eaten->poison >= rng(2, 4)) {
         add_effect("poison", eaten->poison * 100);
@@ -8265,7 +8323,10 @@ void player::use(int pos)
                     used->charges -= std::min(used->charges, charges_used);
                 } else {
                     // An item that doesn't normally expend charges is destroyed instead.
-                    i_rem(pos);
+                    /* We can't be certain the item is still in the same position,
+                     * as other items may have been consumed as well, so remove
+                     * the item directly instead of by its position. */
+                    i_rem(used);
                 }
             }
             // We may have fiddled with the state of the item in the iuse method,

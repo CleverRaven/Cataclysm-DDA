@@ -217,7 +217,8 @@ int game::display_slice(indexed_invslice& slice, const std::string& title)
            selected_pos=slice[cur_it].second;
        }
        nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
-       mvwputch(w_inv, cur_line, 0, (cur_it == selected ? selected_line_color : c_white), it.invlet);
+       const char invlet = it.invlet == 0 ? ' ' : it.invlet;
+       mvwputch(w_inv, cur_line, 0, (cur_it == selected ? selected_line_color : c_white), invlet);
        mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? selected_line_color : it.color_in_inventory()), " %s",
                  it.display_name().c_str());
        if (slice[cur_it].first->size() > 1) {
@@ -346,10 +347,19 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
     return display_slice(reduced_inv, title);
 }
 
-std::vector<item> game::multidrop()
+std::vector<item> game::multidrop() {
+    int dummy = 0;
+    std::vector<item> dropped_worn;
+    std::vector<item> result = multidrop(dropped_worn, dummy);
+    result.insert(result.end(), dropped_worn.begin(), dropped_worn.end());
+    return result;
+}
+
+std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_volume_capacity)
 {
     WINDOW* w_inv = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH + (use_narrow_sidebar() ? 45 : 55), VIEW_OFFSET_Y, VIEW_OFFSET_X);
     const int maxitems = TERRAIN_WINDOW_HEIGHT - 5;
+    freed_volume_capacity = 0;
 
     u.inv.restack(&u);
     u.inv.sort();
@@ -469,15 +479,16 @@ std::vector<item> game::multidrop()
                 if( cur_it == selected) {
                     selected_pos = stacks[cur_it].second;
                 }
+                const char invlet = it.invlet == 0 ? ' ' : it.invlet;
                 nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
-                mvwputch (w_inv, cur_line, 0, (cur_it == selected ? selected_line_color : c_white), it.invlet);
+                mvwputch (w_inv, cur_line, 0, (cur_it == selected ? selected_line_color : c_white), invlet);
                 char icon = '-';
                 if (dropping[cur_it] >= (it.count_by_charges() ? it.charges : stacks[cur_it].first->size())) {
                     icon = '+';
                 } else if (dropping[cur_it] > 0) {
                     icon = '#';
                 }
-                nc_color col = ( cur_it == selected ? selected_line_color : (dropping[cur_it] == 0 ? c_ltgray : c_white ) );
+                nc_color col = ( cur_it == selected ? selected_line_color : it.color_in_inventory() );
                 mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
                           it.tname().c_str());
                 if (stacks[cur_it].first->size() > 1) {
@@ -490,7 +501,7 @@ std::vector<item> game::multidrop()
                     wprintw(w_inv, " (%d)", it.contents[0].charges);
                 }
                 if (icon=='+'||icon=='#') {
-                    mvwprintz(w_inv, drp_line, 90, col, "%c %c %s", it.invlet, icon, it.tname().c_str());
+                    mvwprintz(w_inv, drp_line, 90, col, "%c %c %s", invlet, icon, it.tname().c_str());
                     if (icon=='+') {
                         if (stacks[cur_it].first->size() > 1) {
                             wprintz(w_inv, col, " x %d", stacks[cur_it].first->size());
@@ -634,11 +645,14 @@ std::vector<item> game::multidrop()
                         count = 0;
                         print_inv_statics(w_inv, _("Multidrop:"), dropped_armor, dropped_weapon);
                     }
+                } else if (!found) {
+                    dropped_armor.push_back(ch);
+                    print_inv_statics(w_inv, _("Multidrop:"), dropped_armor, dropped_weapon);
                 }
             } else {
                 int index = -1;
                 for (int i = 0; i < stacks.size(); ++i) {
-                    if (stacks[i].first->front().invlet == it->invlet) {
+                    if (&(stacks[i].first->front()) == it) {
                         index = i;
                         break;
                     }
@@ -702,15 +716,19 @@ std::vector<item> game::multidrop()
     for (int i = 0; i < dropped_armor.size(); i++)
     {
         int wornpos = u.invlet_to_position(dropped_armor[i]);
+        const it_armor *ita = dynamic_cast<const it_armor *>(u.i_at(dropped_armor[i]).type);
         if (wornpos == INT_MIN || !u.takeoff(wornpos, true))
         {
             continue;
         }
-
+        u.moves -= 250; // same as in game::takeoff
+        if(ita != 0) {
+            freed_volume_capacity += ita->storage;
+        }
         // Item could have been dropped after taking it off
         if (&u.inv.item_by_letter(dropped_armor[i]) != &u.inv.nullitem)
         {
-            ret.push_back(u.i_rem(dropped_armor[i]));
+            dropped_worn.push_back(u.i_rem(dropped_armor[i]));
         }
     }
 
@@ -807,7 +825,8 @@ void game::compare(int iCompareX, int iCompareY)
                grounditems[cur_it].tname().c_str());
     } else {
      item& it = stacks[cur_it-groundsize].first->front();
-     mvwputch (w_inv, cur_line, 0, c_white, it.invlet);
+     const char invlet = it.invlet == 0 ? ' ' : it.invlet;
+     mvwputch (w_inv, cur_line, 0, c_white, invlet);
      nc_color col = (compare_list[cur_it] == 0 ? c_ltgray : c_white);
      mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
                it.tname().c_str());
@@ -866,7 +885,7 @@ void game::compare(int iCompareX, int iCompareY)
    } else {
     int index = -1;
     for (int i = 0; i < stacks.size(); ++i) {
-     if (stacks[i].first->front().invlet == it.invlet) {
+     if (&(stacks[i].first->front()) == &it) {
       index = i;
       break;
      }

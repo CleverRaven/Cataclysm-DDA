@@ -688,7 +688,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("BOOK", "", _("This book takes <num> minutes to read."), book->time, true, "", true, true));
 
   if (!(book->recipes.empty())) {
-   dump->push_back(iteminfo("BOOK", "", _("This book contains <num> crafting recipes."), book->recipes.size(), true, "", true, true));
+   std::string recipes = "";
+   int index = 1;
+   for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter, ++index) {
+     recipes += itypes.at(iter->first->result)->name;
+     if(index == book->recipes.size() - 1)
+       recipes += ", and "; // oxford comma 4 lyfe
+     else if(index != book->recipes.size())
+       recipes += ", ";
+   }
+   std::string recipe_line = string_format(_("This book contains %d crafting recipes: %s"), book->recipes.size(), recipes.c_str());
+   dump->push_back(iteminfo("DESCRIPTION", recipe_line.c_str()));
+   dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
   }
 
  } else if (is_tool()) {
@@ -796,6 +807,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has been modified to use a rechargeable power cell and is not compatible with standard batteries.")));
+    }
+
+    if (has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0)
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("The casing of this item has cracked, revealing an ominous green glow.")));
+    }
+
+    if (has_flag("LEAK_ALWAYS") && has_flag("RADIOACTIVE"))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("This object is surrounded by a sickly green glow.")));
     }
 
     if (is_food() && has_flag("HIDDEN_POISON") && g->u.skillLevel("survival").level() >= 3) {
@@ -907,17 +930,17 @@ nc_color item::color(player *u) const
                 (u->skillLevel(tmp->type) >= (int)tmp->req) &&
                 (u->skillLevel(tmp->type) < (int)tmp->level))
             ret = c_ltblue;
+        else if (!u->studied_all_recipes(tmp) && !u->has_trait("ILLITERATE"))
+          ret = c_yellow;
     }
     return ret;
 }
 
 nc_color item::color_in_inventory()
 {
-    // Items in our inventory get colorized specially
-    if (active && !is_food() && !is_food_container()) {
-        return c_yellow;
-    }
-    return c_white;
+    // This should be relevant only for the player,
+    // npcs don't care about the color
+    return color(&g->u);
 }
 
 /* @param with_prefix determines whether to return for more of its object, such as
