@@ -183,7 +183,9 @@
         "location" : "structure",
         "flags" : [],
         "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 4}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -292,6 +294,182 @@
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
             {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_horizontal",
+        "name" : "wooden frame",
+        "symbol" : "h",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_vertical",
+        "name" : "wooden frame",
+        "symbol" : "j",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_cross",
+        "name" : "wooden frame",
+        "symbol" : "c",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_nw",
+        "name" : "wooden frame",
+        "symbol" : "y",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_ne",
+        "name" : "wooden frame",
+        "symbol" : "u",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_se",
+        "name" : "wooden frame",
+        "symbol" : "n",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_sw",
+        "name" : "wooden frame",
+        "symbol" : "b",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_horizontal_2",
+        "name" : "wooden frame",
+        "symbol" : "=",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_vertical_2",
+        "name" : "wooden frame",
+        "symbol" : "H",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_cover",
+        "name" : "wooden frame",
+        "symbol" : "^",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_handle",
+        "name" : "wooden handle",
+        "symbol" : "^",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 150,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
         ]
     },{
         "type" : "vehicle_part",
