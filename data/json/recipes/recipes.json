@@ -16704,7 +16704,7 @@
   "result": "needle_wood",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "survival",
+  "skill_used": "fabrication",
   "difficulty": 1,
   "time": 20000,
   "reversible": false,
