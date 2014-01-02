@@ -912,6 +912,7 @@ void show_options(bool ingame)
                         if (!opt_val.empty() && opt_val != old_opt_val) {
                             if (is_float) {
                                 std::istringstream ssTemp(opt_val);
+                                ssTemp.imbue(std::locale(""));
                                 // This uses the current locale, to allow the users
                                 // to use their own decimal format.
                                 float tmpFloat;
