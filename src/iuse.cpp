@@ -4617,9 +4617,6 @@ int iuse::gasbomb_act(player *, item *it, bool t)
         }
     } else if(it->charges > 0) {
         g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
-        return 0;
-    } else {
-        it->make(itypes["canister_empty"]);
     }
     return 0;
 }
