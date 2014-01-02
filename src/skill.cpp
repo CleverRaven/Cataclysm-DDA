@@ -29,6 +29,14 @@ Skill::Skill(size_t id, std::string ident, std::string name, std::string descrip
 
 std::vector<Skill*> Skill::skills;
 
+void Skill::reset()
+{
+    for(std::vector<Skill*>::iterator a = skills.begin(); a != skills.end(); ++a) {
+        delete *a;
+    }
+    skills.clear();
+}
+
 void Skill::load_skill(JsonObject &jsobj)
 {
     std::string ident = jsobj.get_string("ident");

@@ -329,6 +329,10 @@ void unload_active_json_data()
 {
     material_type::reset();
     profession::reset();
+    Skill::reset();
+    computer::clear_lab_notes();
+    dreams.clear();
+    clear_hints();
 
     // clear bionics
     for (std::map<bionic_id, bionic_data*>::iterator bio = bionics.begin(); bio != bionics.end(); ++bio){
@@ -336,21 +340,10 @@ void unload_active_json_data()
     }
     bionics.clear();
 
-    // clear skills
-    for (int i = 0; i < Skill::skills.size(); ++i){
-        delete Skill::skills[i];
-    }
-    Skill::skills.clear();
-    // clear dreams
-    dreams.clear();
     // clear mutations (traits, mutation categories and mutation data)
     mutations_category.clear();
     mutation_data.clear();
     traits.clear();
-    // clear lab notes
-    computer::clear_lab_notes();
-    // clear hints
-    clear_hints();
     // clear furniture
     furnlist.clear();
     furnmap.clear();
