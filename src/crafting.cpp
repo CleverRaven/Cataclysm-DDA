@@ -171,6 +171,20 @@ void finalize_recipes()
     }
 }
 
+void clear_recipes_categories_qualities()
+{
+    craft_cat_list.clear();
+    for (recipe_map::iterator it = recipes.begin(); it != recipes.end(); ++it){
+        for (int i = 0; i < it->second.size(); ++i){
+            delete it->second[i];
+        }
+        it->second.clear();
+    }
+    recipes.clear();
+    qualities.clear();
+    recipe_names.clear();
+}
+
 void load_quality(JsonObject &jo)
 {
     quality qual;

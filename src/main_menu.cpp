@@ -382,6 +382,12 @@ bool game::opening_screen()
                             return opening_screen();
                         } else {
                             world_generator->set_active_world(world);
+                            load_world_modfiles(world->world_name);
+                        }
+                        if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2)?PLTYPE_RANDOM : PLTYPE_NOW))) {
+                            u = player();
+                            delwin(w_open);
+                            return (opening_screen());
                         }
                         werase(w_background);
                         wrefresh(w_background);
@@ -532,6 +538,7 @@ bool game::opening_screen()
                         if (world) {
                             world_generator->set_active_world(world);
                             setup();
+                            load_world_modfiles(world->world_name);
                         }
 
                         if (world == NULL || !gamemode->init()) {
@@ -589,6 +596,7 @@ bool game::opening_screen()
                         wrefresh(w_background);
                         WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
                         world_generator->set_active_world(world);
+                        load_world_modfiles(world->world_name);
 
                         load_artifacts(world->world_path + "/artifacts.gsav",
                                        itypes);
@@ -722,6 +730,12 @@ bool game::opening_screen()
                         return (opening_screen());
                     } else {
                         world_generator->set_active_world(world);
+                        load_world_modfiles(world->world_name);
+                    }
+                    if (!u.create(PLTYPE_TEMPLATE, templates[sel3])) {
+                        u = player();
+                        delwin(w_open);
+                        return (opening_screen());
                     }
                     werase(w_background);
                     wrefresh(w_background);

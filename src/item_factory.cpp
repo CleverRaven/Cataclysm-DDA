@@ -41,6 +41,11 @@ Item_factory::Item_factory(){
     m_templates["MISSING_ITEM"]=m_missing_item;
 }
 
+void Item_factory::reinit()
+{
+    m_templates["MISSING_ITEM"]=m_missing_item;
+}
+
 void Item_factory::init(){
     //Populate the iuse functions
     iuse_function_list["NONE"] = &iuse::none;
@@ -829,6 +834,19 @@ bool Item_factory::is_mod_target(JsonObject& jo, std::string member, std::string
     return is_included;
 }
 
+void Item_factory::clear_items_and_groups()
+{
+    // clear groups
+    for (std::map<Item_tag, Item_group*>::iterator ig = m_template_groups.begin(); ig != m_template_groups.end(); ++ig){
+        delete ig->second;
+    }
+    m_template_groups.clear();
+    for (std::map<Item_tag, itype*>::iterator it = m_templates.begin(); it != m_templates.end(); ++it){
+        itypes.erase(it->first);
+        it->second = NULL;
+    }
+    m_templates.clear();
+}
 
 // Load an item group from JSON
 void Item_factory::load_item_group(JsonObject &jsobj)

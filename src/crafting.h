@@ -115,6 +115,7 @@ void load_recipe_category(JsonObject &jsobj);
 void load_recipe(JsonObject &jsobj);
 recipe* recipe_by_name(std::string name);
 void finalize_recipes();
+void clear_recipes_categories_qualities();
 
 extern recipe_map recipes; // The list of valid recipes
 

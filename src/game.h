@@ -425,6 +425,7 @@ class game
   void start_game(std::string worldname); // Starts a new game in a world
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
+  void load_world_modfiles(std::string worldname);
   //private save functions.
   void save_factions_missions_npcs();
   void serialize_master(std::ofstream &fout);

@@ -46,6 +46,8 @@ public:
     //Setup
     Item_factory();
     void init();
+    void reinit();
+    void clear_items_and_groups();
     void init_old();
     void register_iuse_lua(const char* name, int lua_function);
 

@@ -163,8 +163,6 @@ void game::load_vehicle(JsonObject &jo)
     vproto->id = jo.get_string("id");
     vproto->name = jo.get_string("name");
 
-    std::map<point, bool> cargo_spots;
-
     JsonArray parts = jo.get_array("parts");
     point pxy;
     std::string pid;
@@ -173,9 +171,6 @@ void game::load_vehicle(JsonObject &jo)
         pxy = point(part.get_int("x"), part.get_int("y"));
         pid = part.get_string("part");
         vproto->parts.push_back(std::pair<point, std::string>(pxy, pid));
-        if ( vehicle_part_types[pid].has_flag("CARGO") ) {
-            cargo_spots[pxy] = true;
-        }
     }
 
     JsonArray items = jo.get_array("items");
@@ -187,9 +182,6 @@ void game::load_vehicle(JsonObject &jo)
         next_spawn.chance = spawn_info.get_int("chance");
         if(next_spawn.chance <= 0 || next_spawn.chance > 100) {
             debugmsg("Invalid spawn chance in %s (%d, %d): %d%%",
-                vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
-        } else if ( cargo_spots.find( point(next_spawn.x, next_spawn.y) ) == cargo_spots.end() ) {
-            debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
                 vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
         }
         if(spawn_info.has_array("items")) {
@@ -225,7 +217,10 @@ void game::finalize_vehicles()
     std::string part_id = "";
     vehicle *next_vehicle;
 
+    std::map<point, bool> cargo_spots;
+
     while (vehprototypes.size() > 0){
+        cargo_spots.clear();
         vehicle_prototype *proto = vehprototypes.front();
         vehprototypes.pop();
 
@@ -245,9 +240,16 @@ void game::finalize_vehicles()
                         next_vehicle->name.c_str(), part_id.c_str(),
                         next_vehicle->parts.size(), part_x, part_y);
             }
+            if ( vehicle_part_types[part_id].has_flag("CARGO") ) {
+                cargo_spots[p] = true;
+            }
         }
 
         for (int i = 0; i < proto->item_spawns.size(); i++) {
+            if (cargo_spots.find(point(proto->item_spawns[i].x, proto->item_spawns[i].y)) == cargo_spots.end()){
+                debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
+                         proto->name.c_str(), proto->item_spawns[i].x, proto->item_spawns[i].y, proto->item_spawns[i].chance);
+            }
             next_vehicle->item_spawns.push_back(proto->item_spawns[i]);
         }
 

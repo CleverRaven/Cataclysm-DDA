@@ -236,3 +236,8 @@ void load_tutorial_messages(JsonObject &jo)
         tut_text.push_back(_(messages.next_string().c_str()));
     }
 }
+
+void clear_tutorial_messages()
+{
+    tut_text.clear();
+}

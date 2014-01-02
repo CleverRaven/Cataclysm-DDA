@@ -59,6 +59,9 @@ WORLD::WORLD()
 worldfactory::worldfactory()
 {
     active_world = NULL;
+    mman = new mod_manager;
+    mman->refresh_mod_list();
+    mman_ui = new mod_ui(mman);
 }
 
 worldfactory::~worldfactory()
@@ -70,6 +73,14 @@ worldfactory::~worldfactory()
     }
     all_worlds.clear();
     all_worldnames.clear();
+    if (mman){
+        delete mman;
+        mman = NULL;
+    }
+    if (mman_ui){
+        delete mman_ui;
+        mman_ui = NULL;
+    }
 }
 
 WORLDPTR worldfactory::make_new_world( bool show_prompt )
@@ -128,6 +139,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         delete all_worlds[worldname];
         delete retworld;
         all_worlds.erase(worldname);
+        active_mod_order.clear();
         return NULL;
     }
     return retworld;
@@ -277,6 +289,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
         }
         fout.close();
     }
+    mman->copy_mod_contents(active_mod_order, world->world_path);
     return true;
 }
 
@@ -710,6 +723,321 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     } while (true);
 
     return 0;
+}
+
+int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
+{
+    (void) world;
+    const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
+    const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
+
+    // lots of small windows so that each section can be drawn to independently of the others as necessary
+    WINDOW *w_header1, *w_header2, *w_shift, *w_list, *w_active, *w_description;
+    w_header1 = newwin(1, FULL_SCREEN_WIDTH/2-5, 3 + iOffsetY, 1 + iOffsetX);
+    w_header2 = newwin(1, FULL_SCREEN_WIDTH/2-4, 3 + iOffsetY, FULL_SCREEN_WIDTH/2+3 + iOffsetX);
+    w_shift   = newwin(15, 5, 3 + iOffsetY, FULL_SCREEN_WIDTH/2-3 + iOffsetX);
+    w_list    = newwin(13, FULL_SCREEN_WIDTH/2-5, 5 + iOffsetY, 1 + iOffsetX);
+    w_active  = newwin(13, FULL_SCREEN_WIDTH/2-4, 5 + iOffsetY, FULL_SCREEN_WIDTH/2+3 + iOffsetX);
+    w_description = newwin(5, FULL_SCREEN_WIDTH - 2, 19 + iOffsetY, 1 + iOffsetX);
+
+    // draw the separation lines directly onto *win
+// UI LINES
+    // make appropriate lines
+    int xs[] = {1, 1, (FULL_SCREEN_WIDTH/2)+2, (FULL_SCREEN_WIDTH/2)-4, (FULL_SCREEN_WIDTH/2)+2};
+    int ys[] = {FULL_SCREEN_HEIGHT-7, 4, 4, 3, 3};
+    int ls[] = {FULL_SCREEN_WIDTH-2, (FULL_SCREEN_WIDTH/2)-4, (FULL_SCREEN_WIDTH/2)-3, FULL_SCREEN_HEIGHT - 10, FULL_SCREEN_HEIGHT - 10};
+    bool hv[] = {true, true, true, false, false};
+
+    for (int i = 0; i < 5; ++i){
+        int x = xs[i];
+        int y = ys[i];
+        int l = ls[i];
+        if (hv[i]){
+            for (int j = 0; j < l; ++j){
+                mvwputch(win, y, x + j, c_ltgray, LINE_OXOX);
+            }
+        }else{
+            for (int j = 0; j < l; ++j){
+                mvwputch(win, y + j, x, c_ltgray, LINE_XOXO);
+            }
+        }
+    }
+    // Add in connective characters
+    mvwputch(win, 4, 0, c_ltgray, LINE_XXXO);
+    mvwputch(win, FULL_SCREEN_HEIGHT - 7, 0, c_ltgray, LINE_XXXO);
+    mvwputch(win, 4, (FULL_SCREEN_WIDTH / 2) + 2, c_ltgray, LINE_XXXO);
+
+    mvwputch(win, 4, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOXX);
+    mvwputch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOXX);
+    mvwputch(win, 4, (FULL_SCREEN_WIDTH / 2) - 4, c_ltgray, LINE_XOXX);
+
+    mvwputch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH / 2 - 4, c_ltgray, LINE_XXOX);
+    mvwputch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH / 2 + 2, c_ltgray, LINE_XXOX);
+
+    wrefresh(win);
+    refresh();
+// end UI LINES
+
+    std::vector<std::string> headers;
+    headers.push_back(" Mod List ");
+    headers.push_back(" Mod Load Order ");
+    std::vector<WINDOW*> header_windows;
+    header_windows.push_back(w_header1);
+    header_windows.push_back(w_header2);
+
+    int tab_output = 0;
+    int active_header = 0, last_active_header = -1;
+    int useable_mod_count = mman_ui->usable_mods.size();
+    int startsel[2] = {0, 0};
+    int cursel[2] = {0, 0};
+
+    bool redraw_headers = true;
+    bool redraw_shift = true;
+    bool redraw_description = true;
+    bool redraw_list = true;
+    bool redraw_active = true;
+    bool selection_changed = false;
+
+    while (tab_output == 0){
+        if (redraw_headers){
+            for (int i = 0; i < headers.size(); ++i) {
+                werase(header_windows[i]);
+                const int header_x = (getmaxx(header_windows[i]) - headers[i].size()) /2;
+                mvwprintz(header_windows[i], 0, header_x , c_cyan, headers[i].c_str());
+
+                if (active_header == i) {
+                    mvwputch(header_windows[i], 0, header_x - 2, c_red, '<');
+                    mvwputch(header_windows[i], 0, header_x + headers[i].size() + 2, c_red, '>');
+                }
+                wrefresh(header_windows[i]);
+            }
+            redraw_list = true;
+            redraw_active = true;
+            redraw_shift = true;
+            redraw_headers = false;
+        }
+        if (selection_changed){
+            if (active_header == 0){
+                redraw_list = true;
+            }
+            if (active_header == 1){
+                redraw_shift = true;
+                redraw_active = true;
+            }
+            selection_changed = false;
+            redraw_description = true;
+        }
+        if (redraw_description){
+            werase(w_description);
+
+            MOD_INFORMATION *selmod = NULL;
+            if (active_header == 0){
+                selmod = mman->mods[mman->mod_map[mman_ui->usable_mods[cursel[0]]]];
+            }else if (active_mod_order.size() > 0){
+                selmod = mman->mods[mman->mod_map[active_mod_order[cursel[1]]]];
+            }
+
+            if (selmod != NULL){
+                fold_and_print(w_description, 0, 0, getmaxx(w_description), c_white, mman_ui->get_information(selmod).c_str());
+            }
+            redraw_description = false;
+            wrefresh(w_description);
+        }
+        if (redraw_list){
+            werase(w_list);
+            calcStartPos(startsel[0], cursel[0], getmaxy(w_list), useable_mod_count);
+
+            if (useable_mod_count == 0){
+                std::string error_output = "--NO AVAILABLE MODS--";
+                const int sLoc = (getmaxx(w_list) - error_output.size())/2;
+                fold_and_print(w_list, 0, sLoc, getmaxx(w_list) - sLoc, c_red, error_output.c_str());
+            }else{
+                std::stringstream list_output;
+
+                for (int i = startsel[0], c = 0; i < useable_mod_count && c < getmaxy(w_list); ++i, ++c){
+                    if (i != cursel[0]){
+                        list_output << std::string(3, ' ');
+                    }else{
+                        if (active_header == 0){
+                            list_output << "<color_yellow>";
+                        }else{
+                            list_output << "<color_blue>";
+                        }
+                        list_output<< ">></color> ";
+                    }
+                    list_output << mman->mods[mman->mod_map[mman_ui->usable_mods[i]]]->name << "\n";
+                }
+                fold_and_print(w_list, 0, 1, getmaxx(w_list)-1, c_white, list_output.str().c_str());
+            }
+            draw_scrollbar(w_list, cursel[0], getmaxy(w_list), useable_mod_count, 0, 0);
+
+            wrefresh(w_list);
+        }
+        if (redraw_active){
+            werase(w_active);
+            const int active_count = active_mod_order.size();
+            calcStartPos(startsel[1], cursel[1], getmaxy(w_active), active_count);
+
+            if (active_count == 0){
+                std::string error_output = "--NO ACTIVE MODS--";
+                const int sLoc = (getmaxx(w_active) - error_output.size())/2;
+                fold_and_print(w_active, 0, sLoc, getmaxx(w_active) - sLoc, c_red, error_output.c_str());
+            }else{
+                std::stringstream list_output;
+
+                for (int i = startsel[1], c = 0; i < active_count && c < getmaxy(w_active); ++i, ++c){
+                    if (i != cursel[1]){
+                        list_output << std::string(3, ' ');
+                    }else{
+                        if (active_header == 1){
+                            list_output << "<color_yellow>";
+                        }else{
+                            list_output << "<color_blue>";
+                        }
+                        list_output<< ">></color> ";
+                    }
+                    list_output << mman->mods[mman->mod_map[active_mod_order[i]]]->name << "\n";
+                }
+                fold_and_print(w_active, 0, 1, getmaxx(w_active)-1, c_white, list_output.str().c_str());
+            }
+
+            draw_scrollbar(w_active, cursel[1], getmaxy(w_active), active_count, 0, 0);
+
+            wrefresh(w_active);
+        }
+        if (redraw_shift){
+            werase(w_shift);
+            if (active_header == 1){
+                std::stringstream shift_display;
+                // get shift information for whatever is visible in the active list
+                for (int i = startsel[1], c = 0; i < active_mod_order.size() && c < getmaxy(w_active); ++i, ++c){
+                    if (mman_ui->can_shift_up(i, active_mod_order)){
+                        shift_display << "<color_blue>+</color> ";
+                    }else{
+                        shift_display << "<color_dkgray>+</color> ";
+                    }
+                    if (mman_ui->can_shift_down(i, active_mod_order)){
+                        shift_display << "<color_blue>-</color>";
+                    }else{
+                        shift_display << "<color_dkgray>-</color>";
+                    }
+                    shift_display<<"\n";
+                }
+                fold_and_print(w_shift, 2, 1, getmaxx(w_shift), c_white, shift_display.str().c_str());
+            }
+            redraw_shift = false;
+            wrefresh(w_shift);
+        }
+        refresh();
+
+        last_active_header = active_header;
+        const int next_header = (active_header == 1) ? 0 : 1;
+        const int prev_header = (active_header == 0) ? 1 : 0;
+
+        int selection = (active_header == 0)?cursel[0]:cursel[1];
+        int last_selection = selection;
+        int next_selection = selection + 1;
+        int prev_selection = selection - 1;
+        if (active_header == 0){
+            next_selection = (next_selection >= useable_mod_count)?0 : next_selection;
+            prev_selection = (prev_selection < 0)? useable_mod_count-1: prev_selection;
+        }else{
+            next_selection = (next_selection >= active_mod_order.size())? 0 : next_selection;
+            prev_selection = (prev_selection < 0)? active_mod_order.size() - 1 : prev_selection;
+        }
+
+    // GATHER INPUT
+        long ch = input();
+
+        switch (ch) {
+            case 'j': selection = next_selection; break;
+            case 'k': selection = prev_selection; break;
+            case 'l':
+                active_header = next_header;
+                break;
+            case 'h':
+                active_header = prev_header;
+                break;
+            case '\n':
+                if (active_header == 0 && mman_ui->usable_mods.size() > 0){
+                    // try-add
+                    mman_ui->try_add(cursel[0], mman_ui->usable_mods, active_mod_order);
+                    redraw_active = true;
+                    redraw_shift = true;
+                }else if (active_header == 1 && active_mod_order.size() > 0){
+                    // try-rem
+                    mman_ui->try_rem(cursel[1], active_mod_order);
+                    redraw_active = true;
+                    redraw_shift = true;
+                }
+                break;
+            case '+':
+            case '-':
+                if (active_header == 1 && active_mod_order.size() > 1){
+                    mman_ui->try_shift(char(ch), cursel[1], active_mod_order);
+                    redraw_active = true;
+                    redraw_shift = true;
+                }
+                break;
+            case '>': tab_output = 1; break;
+            case '<': tab_output = -1; break;
+            case 'q':
+            case 'Q':
+            case KEY_ESCAPE: // exit!
+                tab_output = -999;
+                break;
+            default: break;
+        }
+    // end GATHER INPUT
+    // RESOLVE INPUTS
+        if (last_active_header != active_header){
+            redraw_headers = true;
+            redraw_shift = true;
+            redraw_description = true;
+        }
+        if (last_selection != selection){
+            if (active_header == 0){
+                redraw_list = true;
+                cursel[0] = selection;
+            }else{
+                redraw_active = true;
+                redraw_shift = true;
+                cursel[1] = selection;
+            }
+            redraw_description = true;
+        }
+        if (active_mod_order.size() == 0){
+            redraw_active = true;
+            cursel[1] = -1;
+        }
+
+        if (active_header == 1) {
+            if (active_mod_order.size() == 0) {
+                cursel[1] = -1;
+            } else {
+                if (cursel[1] < 0) {
+                    cursel[1] = 0;
+                } else if (cursel[1] >= active_mod_order.size()) {
+                    cursel[1] = active_mod_order.size() - 1;
+                }
+            }
+        }
+    // end RESOLVE INPUTS
+    }
+    werase(w_header1);
+    werase(w_header2);
+    werase(w_shift);
+    werase(w_list);
+    werase(w_active);
+    werase(w_description);
+
+    delwin(w_header1);
+    delwin(w_header2);
+    delwin(w_shift);
+    delwin(w_list);
+    delwin(w_active);
+    delwin(w_description);
+    return tab_output;
 }
 
 int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)

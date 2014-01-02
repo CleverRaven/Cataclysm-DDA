@@ -212,6 +212,12 @@ void load_martial_art(JsonObject &jo)
     martialarts[ma.id] = ma;
 }
 
+void clear_techniques_and_martial_arts()
+{
+    martialarts.clear();
+    ma_buffs.clear();
+    ma_techniques.clear();
+}
 
 bool ma_requirements::is_valid_player(player& u) {
   for (std::set<mabuff_id>::iterator it = req_buffs.begin();

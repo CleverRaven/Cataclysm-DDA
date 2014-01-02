@@ -31,6 +31,7 @@
 #include "action.h"
 #include "monstergenerator.h"
 #include "worldfactory.h"
+#include "file_finder.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -101,6 +102,8 @@ void game::init_data()
 {
  dout() << "Game initialized.";
  try {
+ // Removed initializers that rely on json specific information as they are getting initialized inside load_world_modfiles.
+ // Has the side effect of making the game startup almost instantly, but is a little slower when loading up a world.
  // Gee, it sure is init-y around here!
     init_data_structures(); // initialize cata data structures
  #ifdef LUA
@@ -155,6 +158,7 @@ game::~game()
 
  release_traps();
  release_data_structures();
+ unload_active_json_data();
 }
 
 // Fixed window sizes
@@ -3044,6 +3048,46 @@ void game::load(std::string worldname, std::string name)
  draw();
 }
 
+void game::load_world_modfiles(std::string worldname)
+{
+    static std::string last_loaded = "";
+
+    // if our prospective worldname to get loaded is also the last_loaded worldname loaded then
+    // we don't need to load or unload anything at all.
+    if (worldname == last_loaded){
+        // This probably needs work in case of a world being deleted, then recreated with a different mod set,
+        // then loaded up under that circumstance this will fail to work as intended
+        // May be able to get around this by keeping a full manifest of files to load, and then unload/reload
+        // if any entries in the list are out of order? This would allow not needing to unload/reload if
+        // two worlds use the exact same mod set. Might/might not work...
+        return;
+    }
+    unload_active_json_data();
+
+    std::string worldpath = world_generator->all_worlds[worldname]->world_path;
+    worldpath += "/mods";
+    std::vector<std::string> worldmodfiles = file_finder::get_files_from_path(".json", worldpath, true);
+
+    if (worldmodfiles.empty()){
+        // load the base files
+        worldmodfiles = file_finder::get_files_from_path(".json", "data/json", true);
+    }
+
+    for(size_t i = 0; i < worldmodfiles.size(); i++) {
+        load_json_dir(worldmodfiles[i]);
+    }
+    init_itypes();
+    //item_controller->init(this);
+    item_controller->init_old(); //Item manager
+    init_missions();             // Set up mission templates         (SEE missiondef.cpp)
+
+    MonsterGenerator::generator().finalize_mtypes();
+    finalize_vehicles();
+    finalize_recipes();
+
+    last_loaded = worldname;
+}
+
 //Saves all factions and missions and npcs.
 void game::save_factions_missions_npcs ()
 {
@@ -3121,6 +3165,23 @@ void game::delete_world(std::string worldname, bool delete_folder)
     std::string worldpath = world_generator->all_worlds[worldname]->world_path;
     std::string filetmp = "";
     std::string world_opfile = "worldoptions.txt";
+    std::vector<std::string> modfiles;
+    std::set<std::string> mod_dirpathparts;
+
+    if (delete_folder){
+        modfiles = file_finder::get_files_from_path(".json", worldpath, true, true);
+        for (int i = 0; i < modfiles.size(); ++i){
+            // strip to path and remove worldpath from it
+            std::string part = modfiles[i].substr(worldpath.size(), modfiles[i].find_last_of("/\\") - worldpath.size());
+            int last_separator = part.find_last_of("/\\");
+            while (last_separator != std::string::npos && part.size() > 1){
+                mod_dirpathparts.insert(part);
+                part = part.substr(0, last_separator);
+                last_separator = part.find_last_of("/\\");
+            }
+        }
+    }
+
 #if (defined _WIN32 || defined __WIN32__)
       WIN32_FIND_DATA FindFileData;
       HANDLE hFind;
@@ -3138,8 +3199,15 @@ void game::delete_world(std::string worldname, bool delete_folder)
        } while(FindNextFile(hFind, &FindFileData) != 0);
        FindClose(hFind);
       }
+
       SetCurrentDirectory(Buffer);
       if (delete_folder){
+        for (int i = 0; i < modfiles.size(); ++i){
+            DeleteFile(modfiles[i].c_str());
+        }
+        for (std::set<std::string>::reverse_iterator it = mod_dirpathparts.rbegin(); it != mod_dirpathparts.rend(); ++it){
+            RemoveDirectory(std::string(worldpath + *it).c_str());
+        }
         RemoveDirectory(worldpath.c_str());
       }
 #else
@@ -3156,6 +3224,14 @@ void game::delete_world(std::string worldname, bool delete_folder)
       (void)closedir(save_dir);
      }
      if (delete_folder){
+        // delete mod files
+        for (int i = 0; i < modfiles.size(); ++i){
+            (void)unlink(modfiles[i].c_str());
+        }
+        // delete mod directories -- directories are ordered deepest to shallowest
+        for (std::set<std::string>::reverse_iterator it = mod_dirpathparts.rbegin(); it != mod_dirpathparts.rend(); ++it){
+            remove(std::string(worldpath + *it).c_str());
+        }
         remove(worldpath.c_str());
      }
 #endif
