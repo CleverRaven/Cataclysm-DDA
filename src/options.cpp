@@ -160,7 +160,8 @@ std::string cOpt::getValue() {
     } else if (sType == "float") {
         std::stringstream ssTemp;
         ssTemp.imbue(std::locale("C"));
-        ssTemp.precision(1);
+        const int precision = (fStep >= 0.09) ? 1 : (fStep >= 0.009) ? 2 : (fStep >= 0.0009) ? 3 : 4;
+        ssTemp.precision(precision);
         ssTemp << std::fixed << fSet;
         return ssTemp.str();
     }
@@ -197,7 +198,7 @@ std::string cOpt::getDefaultText() {
         return string_format(_("Default: %d - Min: %d, Max: %d"), iDefault, iMin, iMax);
 
     } else if (sType == "float") {
-        return string_format(_("Default: %.1f - Min: %.1f, Max: %.1f"), fDefault, fMin, fMax);
+        return string_format(_("Default: %.2f - Min: %.2f, Max: %.2f"), fDefault, fMin, fMax);
     }
 
     return "";
