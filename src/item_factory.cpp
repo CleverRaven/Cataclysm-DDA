@@ -289,16 +289,10 @@ void Item_factory::add_category(const std::string &id, int sort_rank, const std:
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
 void Item_factory::init_old() {
-    // Make a copy of our items loaded from JSON
-    std::map<Item_tag, itype*> new_templates = m_templates;
     //Copy the hardcoded template pointers to the factory list
     m_templates.insert(itypes.begin(), itypes.end());
     //Copy the JSON-derived items to the legacy list
-    itypes.insert(new_templates.begin(), new_templates.end());
-    //And add them to the various item lists, as needed.
-    for(std::map<Item_tag, itype*>::iterator iter = new_templates.begin(); iter != new_templates.end(); ++iter) {
-      standard_itype_ids.push_back(iter->first);
-    }
+    itypes.insert(m_templates.begin(), m_templates.end());
 }
 
 inline int ammo_type_defined(const std::string &ammo) {
@@ -674,6 +668,8 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     std::string new_id = jo.get_string("id");
     new_item_template->id = new_id;
     m_templates[new_id] = new_item_template;
+    itypes[new_id] = new_item_template;
+    standard_itype_ids.push_back(new_id);
 
     // And then proceed to assign the correct field
     new_item_template->price = jo.get_int("price");

@@ -1,0 +1,42 @@
+[
+    {
+        "type": "profession",
+        "ident": "mod_1_profession",
+        "name": "mod 1 profession",
+        "description": "description",
+        "points": 0,
+        "items": {
+            "both": [
+                "mod_1_item",
+                "jeans",
+                "tshirt",
+                "sneakers",
+                "pockknife",
+                "water_clean",
+                "matches"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type":"GENERIC",
+        "id": "mod_1_item",
+        "symbol": "t",
+        "color": "light_gray",
+        "name": "mod 1 item",
+        "description": "description",
+        "price": 1,
+        "material": "paper",
+        "weight": 20,
+        "volume": 1,
+        "bashing": -8,
+        "cutting": 0,
+        "to_hit": -2
+    }
+]

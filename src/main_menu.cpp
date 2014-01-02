@@ -126,11 +126,10 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
 
 bool game::opening_screen()
 {
-    std::map<std::string, WORLDPTR> worlds;
-    if (world_generator) {
-        world_generator->set_active_world(NULL);
-        worlds = world_generator->get_all_worlds();
-    }
+    world_generator->set_active_world(NULL);
+    // This actually _loads_ what worlds exist.
+    world_generator->get_all_worlds();
+
     WINDOW *w_background = newwin(TERMY, TERMX, 0, 0);
     werase(w_background);
     wrefresh(w_background);
@@ -367,22 +366,24 @@ bool game::opening_screen()
                 }
                 if (chInput == KEY_UP || chInput == 'k' || chInput == '\n') {
                     if (sel2 == 0 || sel2 == 2 || sel2 == 3) {
+                        // First load the mods, this is done by
+                        // loading the world.
+                        // Pick a world, supressing prompts if it's "play now" mode.
+                        WORLDPTR world = world_generator->pick_world( sel2 != 3 );
+                        if (world == NULL) {
+                            // TODO: makes this into a simple continue
+                            delwin(w_open);
+                            return opening_screen();
+                        }
+                        world_generator->set_active_world(world);
+                        load_world_modfiles(world->world_name);
+
                         setup();
                         if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM :
                                                     ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW))) {
                             u = player();
                             delwin(w_open);
                             return (opening_screen());
-                        }
-                        // Pick a world, supressing prompts if it's "play now" mode.
-                        WORLDPTR world = world_generator->pick_world( sel2 != 3 );
-                        if (!world) {
-                            u = player();
-                            delwin(w_open);
-                            return opening_screen();
-                        } else {
-                            world_generator->set_active_world(world);
-                            load_world_modfiles(world->world_name);
                         }
                         if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2)?PLTYPE_RANDOM : PLTYPE_NOW))) {
                             u = player();

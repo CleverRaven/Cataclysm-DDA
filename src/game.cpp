@@ -160,6 +160,16 @@ void game::load_all_mod_data() {
 }
 
 void game::load_core_data() {
+    // Special handling for itypes created in itypedef.cpp
+    // First load those items into the global itypes map,
+    init_itypes();
+    // Make itypes and item_controller syncron.
+    item_controller->init_old();
+    // Now item_controller and itypes have the same knowledge
+    // further loading happens through item_controller, which
+    // adds the new item types to both (its internal map and
+    // the global itypes).
+
 #define CORE_JSON_DATA_DIR "data/json"
     load_data_from_dir(CORE_JSON_DATA_DIR);
     init_missions(); // Needs overmap terrain.
@@ -167,10 +177,6 @@ void game::load_core_data() {
 
 void game::load_data_from_dir(const std::string &path) {
     load_json_dir(path);
-    // TODO: remove the hardoced item types, that are loaded here.
-    init_itypes();
-    // this merges the hardcoded item types into the item_controller
-    item_controller->init_old();
 
     // TODO: After mods
     MonsterGenerator::generator().finalize_mtypes();
@@ -179,6 +185,7 @@ void game::load_data_from_dir(const std::string &path) {
 }
 
 void game::unload_dynamic_data() {
+    unload_active_json_data();
     // TODO :-)
 }
 
@@ -3084,6 +3091,10 @@ void game::load(std::string worldname, std::string name)
  // recalculated. (This would be cleaner if u.worn were private.)
  u.recalc_sight_limits();
 
+ if(gamemode == NULL) {
+     gamemode = new special_game();
+ }
+
  load_auto_pickup(true); // Load character auto pickup rules
  load_uistate(worldname);
 // Now load up the master game data; factions (and more?)
@@ -3096,42 +3107,13 @@ void game::load(std::string worldname, std::string name)
 
 void game::load_world_modfiles(std::string worldname)
 {
-    static std::string last_loaded = "";
-
-    // if our prospective worldname to get loaded is also the last_loaded worldname loaded then
-    // we don't need to load or unload anything at all.
-    if (worldname == last_loaded){
-        // This probably needs work in case of a world being deleted, then recreated with a different mod set,
-        // then loaded up under that circumstance this will fail to work as intended
-        // May be able to get around this by keeping a full manifest of files to load, and then unload/reload
-        // if any entries in the list are out of order? This would allow not needing to unload/reload if
-        // two worlds use the exact same mod set. Might/might not work...
-        return;
-    }
-    unload_active_json_data();
+    // This is simple: unload all, load core, load mods
+    unload_dynamic_data();
+    load_core_data();
 
     std::string worldpath = world_generator->all_worlds[worldname]->world_path;
     worldpath += "/mods";
-    std::vector<std::string> worldmodfiles = file_finder::get_files_from_path(".json", worldpath, true);
-
-    if (worldmodfiles.empty()){
-        // load the base files
-        worldmodfiles = file_finder::get_files_from_path(".json", "data/json", true);
-    }
-
-    for(size_t i = 0; i < worldmodfiles.size(); i++) {
-        load_json_dir(worldmodfiles[i]);
-    }
-    init_itypes();
-    //item_controller->init(this);
-    item_controller->init_old(); //Item manager
-    init_missions();             // Set up mission templates         (SEE missiondef.cpp)
-
-    MonsterGenerator::generator().finalize_mtypes();
-    finalize_vehicles();
-    finalize_recipes();
-
-    last_loaded = worldname;
+    load_data_from_dir(worldpath);
 }
 
 //Saves all factions and missions and npcs.

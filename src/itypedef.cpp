@@ -174,6 +174,9 @@ itypes[id]=new it_macguffin(id, price, name, description,\
 
 // TODO: move the cost, color and difficulty to bionics.json
 
+#if 0
+// TODO, FIXME _must_ be loaded from json, because we need the names
+// of the bionics, those are already in json!
 // power storage
 BIO_SINGLE("bio_power_storage", 3800, c_green, 1);
 BIO_SINGLE("bio_power_storage_mkII", 10000, c_green, 1);
@@ -267,6 +270,7 @@ BIO_SINGLE("bio_chain_lightning", 2200, c_red, 3);
 // power armor
 BIO_SINGLE("bio_power_armor_interface", 1200, c_yellow, 1);
 BIO_SINGLE("bio_power_armor_interface_mkII", 10000, c_yellow, 8);
+#endif
 
 SOFTWARE("software_useless", _("misc software"), 300, SW_USELESS, 0, _("\
 A miscellaneous piece of hobby software. Probably useless."));

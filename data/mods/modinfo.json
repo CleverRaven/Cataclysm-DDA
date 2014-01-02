@@ -4,6 +4,7 @@
     "name": "testmod1",
     "type": "SUPPLEMENTAL",
     "author": "it was me",
+    "path": "d1",
     "description": "my test mod - the first"
 },
 {
@@ -11,6 +12,7 @@
     "name": "testmod2",
     "type": "SUPPLEMENTAL",
     "author": "it was me",
+    "path": "d2",
     "description": "my test mod - the second"
 },
 {
@@ -18,6 +20,7 @@
     "name": "testmod3",
     "type": "SUPPLEMENTAL",
     "author": "it was me",
+    "path": "d3",
     "description": "my test mod - the third"
 },
 {
@@ -25,6 +28,7 @@
     "name": "testmod4",
     "type": "SUPPLEMENTAL",
     "author": "it was me",
+    "path": "d4",
     "description": "my test mod - the fourth"
 }
 ]

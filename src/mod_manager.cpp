@@ -15,7 +15,7 @@
 #include <dirent.h>
 #endif
 
-#define MOD_SEARCH_PATH "./data"
+#define MOD_SEARCH_PATH "./data/mods"
 #define MOD_SEARCH_FILE "modinfo.json"
 
 mod_manager::mod_manager()
@@ -105,6 +105,7 @@ MOD_INFORMATION *mod_manager::load_modfile(JsonObject &jo)
     std::string m_author = jo.get_string("author", "Unknown Author");
     std::string m_name = jo.get_string("name", "No Name");
     std::string m_desc = jo.get_string("description", "No Description");
+    std::string m_path = jo.get_string("path", "");
     std::vector<std::string> m_dependencies;
 
     if (jo.has_member("dependencies") && jo.has_array("dependencies")) {
@@ -132,6 +133,7 @@ MOD_INFORMATION *mod_manager::load_modfile(JsonObject &jo)
     modfile->name = m_name;
     modfile->description = m_desc;
     modfile->dependencies = m_dependencies;
+    modfile->path = m_path;
 
     mods.push_back(modfile);
 
@@ -178,8 +180,8 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
         MOD_INFORMATION *mod = mods[mod_map[mods_to_copy[i]]];
 
         // now to get all of the json files inside of the mod and get them ready to copy
-        std::vector<std::string> input_files = file_finder::get_files_from_path(".json", mod->path + "/data", true, true);
-        std::vector<std::string> input_dirs  = file_finder::get_directories_with(search_extensions, mod->path + "/data", true);
+        std::vector<std::string> input_files = file_finder::get_files_from_path(".json", mod->path, true, true);
+        std::vector<std::string> input_dirs  = file_finder::get_directories_with(search_extensions, mod->path, true);
 
         if (input_files.size() == 0){
             continue;
@@ -191,10 +193,10 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
 
         std::queue<std::string> dir_to_make;
         dir_to_make.push(cur_mod_dir.str());
-        dir_to_make.push(cur_mod_dir.str() + "/data");
-        size_t start_index = (mod->path + "/data").size();
+        dir_to_make.push(cur_mod_dir.str());
+        size_t start_index = mod->path.size();
         for (int j = 0; j < input_dirs.size(); ++j){
-            dir_to_make.push(cur_mod_dir.str() + "/data" + input_dirs[j].substr(start_index));
+            dir_to_make.push(cur_mod_dir.str() + input_dirs[j].substr(start_index));
         }
 
         while (!dir_to_make.empty()){
@@ -223,7 +225,7 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
         // trim file paths from full length down to just /data forward
         for (int j = 0; j < input_files.size(); ++j){
             std::string output_path = input_files[j];
-            output_path = cur_mod_dir.str() + "/data" + output_path.substr(start_index);
+            output_path = cur_mod_dir.str() + output_path.substr(start_index);
 
             std::ifstream infile(input_files[j].c_str(), std::ifstream::in | std::ifstream::binary);
             // and stuff it into ram
@@ -262,7 +264,7 @@ bool mod_manager::load_mod_info(MOD_INFORMATION *mod, std::string info_file_path
             // find type and dispatch single object
             JsonObject jo = jsin.get_object();
             mod = load_modfile(jo);
-            mod->path = info_file_path.substr(0, info_file_path.find_last_of("/\\"));
+            mod->path = info_file_path.substr(0, info_file_path.find_last_of("/\\")) + "/" + mod->path;
             jo.finish();
         } else if (ch == '[') {
             jsin.start_array();
@@ -271,7 +273,7 @@ bool mod_manager::load_mod_info(MOD_INFORMATION *mod, std::string info_file_path
                 jsin.eat_whitespace();
                 JsonObject jo = jsin.get_object();
                 mod = load_modfile(jo);
-                mod->path = info_file_path.substr(0, info_file_path.find_last_of("/\\"));
+                mod->path = info_file_path.substr(0, info_file_path.find_last_of("/\\")) + "/" + mod->path;
                 jo.finish();
             }
         } else {

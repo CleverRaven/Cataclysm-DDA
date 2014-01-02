@@ -368,7 +368,7 @@ void unload_active_json_data()
     // FIXME
 //    parrotVector.clear();
     // clear out names
-    NameGenerator::generator().clear_names();
+//    NameGenerator::generator().clear_names();
     // clear out vehicles and vehicle parts
     vehicle_part_types.clear();
     for (std::map<std::string, vehicle*>::iterator veh = g->vtypes.begin(); veh != g->vtypes.end(); ++veh){
