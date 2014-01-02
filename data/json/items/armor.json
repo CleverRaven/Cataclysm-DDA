@@ -6194,7 +6194,7 @@
         "phase" : "solid",
         "flags" : ["FANCY"]
 	},
-    {
+	{
         "type" : "ARMOR",
         "id" : "hairpin",
         "name" : "hairpin",
@@ -6216,7 +6216,8 @@
         "enviromental_protection" : 0,
         "phase" : "solid"
 	},
-    {
+	{
+    
         "type" : "ARMOR",
         "id" : "fc_hairpin",
         "name" : "fancy hairpin",
@@ -6239,7 +6240,7 @@
         "phase" : "solid",
 		"flags" : ["FANCY"]
 	},
-    {
+	{
         "type" : "ARMOR",
         "id" : "barrette",
         "name" : "barrette",
@@ -6379,11 +6380,11 @@
 	{
         "type" : "ARMOR",
         "id" : "pearl_collar",
-        "name" : "pear collar",
+        "name" : "pearl collar",
         "volume" : 0,
         "material_thickness" : 0,
         "storage" : 0,
-        "description" : "A collar made from round and lustrous pearl, its' former owner must be a wealthy individual.",
+        "description" : "A collar made from round and lustrous pearls, its' former owner must be a wealthy individual.",
         "weight" : 30,
         "to_hit" : 0,
         "color" : "white",
