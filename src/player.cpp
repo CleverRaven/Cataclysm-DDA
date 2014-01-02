@@ -3152,6 +3152,16 @@ bool player::has_conflicting_trait(const std::string &flag) const
     return false;
 }
 
+bool player::crossed_threshold(const std::string &flag) const
+{
+    for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+        if (mutation_data[iter].threshold) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool player::purifiable(const std::string &flag) const
 {
     if(mutation_data[flag].purifiable) {

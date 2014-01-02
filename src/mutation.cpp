@@ -500,10 +500,25 @@ void mutation_effect(player &p, std::string mut)
         // Push off non-cloth helmets
         bps.push_back(bp_head);
 
-    } else if (mut == "LARGE") {
+    } else if (mut == "LARGE" || mut == "LARGE_OK") {
         p.str_max += 2;
         p.recalc_hp();
 
+    } else if (mut == "HUGE") {
+        p.str_max += 4;
+        p.recalc_hp();
+        // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
+        // so no HP bonus from the ST above/beyond that from Large
+        for (int i = 0; i < num_hp_parts; i++) {
+            p.hp_max[i] -= 6;
+        }
+
+    }  else if (mut == "HUGE_OK") {
+        p.str_max += 4;
+        p.recalc_hp();
+        // Good-Huge still can't fit places but its heart's healthy enough for
+        // going arond being Huge, so you get the HP
+        
     } else if (mut == "STR_UP") {
         p.str_max ++;
         p.recalc_hp();
@@ -590,8 +605,19 @@ void mutation_loss_effect(player &p, std::string mut)
     if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "FRAIL") {
         p.recalc_hp();
 
-    } else if (mut == "LARGE") {
+    } else if (mut == "LARGE" || mut == "LARGE_OK") {
         p.str_max -= 2;
+        p.recalc_hp();
+
+    } else if (mut == "HUGE") {
+        p.str_max -= 4;
+        p.recalc_hp();
+        // Losing Huge probably means either gaining Good-Huge or
+        // going backck to Large.  In any case, recalc_hp ought to
+        // handle it.
+
+    } else if (mut == "HUGE_OK") {
+        p.str_max -= 4;
         p.recalc_hp();
 
     } else if (mut == "STR_UP") {

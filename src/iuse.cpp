@@ -1036,9 +1036,11 @@ int iuse::mut_iv(player *p, item *it, bool) {
     if(!p->is_npc()) {
         p->add_memorial_log(_("Injected mutagen."));
     }
+    std::string mutation_category;
     if( it->has_flag("MUTAGEN_STRONG") ) {
         // 3 guaranteed mutations, 75%/66%/66% for the 4th/5th/6th,
         // 6-16 Pain per shot and potential knockdown/KO.
+        mutation_category = "";
         g->add_msg_if_player(p, _("You inject yoursel-arRGH!"));
         p->mutate();
         p->pain += 1 * rng(1, 4);
@@ -1083,6 +1085,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
             p->fall_asleep((400 - p->int_cur * 5));
         }
     }  else if( it->has_flag("MUTAGEN_ALPHA") ) { //5-15 pain, 66% for each of the followups, so slightly better odds (designed for injection)
+        mutation_category = "MUTCAT_ALPHA";
         g->add_msg_if_player(p, _("You took that shot like a champ!"));
         p->mutate_category("MUTCAT_ALPHA");
         p->pain += 3 * rng(1, 5);
@@ -1104,6 +1107,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
         }
     } else if( it->has_flag("MUTAGEN_MEDICAL") ) {
         // 2-6 pain, same as Alpha--since specifically intended for medical applications.
+        mutation_category = "MUTCAT_MEDICAL";
         g->add_msg_if_player(p, _("You can feel the blood in your medication stream. It's a strange feeling."));
         p->mutate_category("MUTCAT_MEDICAL");
         p->pain += 2 * rng(1, 3);
@@ -1126,6 +1130,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
     } else if( it->has_flag("MUTAGEN_CHIMERA") ) {
         // 24-36 pain, Scream,, -40 Morale,
         // but two guaranteed mutations and 75% each for third and fourth.
+        mutation_category = "MUTCAT_CHIMERA";
         g->add_msg_if_player(p, _("everyanimalthateverlived..bursting.from.YOU!"));
         p->mutate_category("MUTCAT_CHIMERA");
         p->pain += 4 * rng(1, 4);
@@ -1157,9 +1162,8 @@ int iuse::mut_iv(player *p, item *it, bool) {
             p->fall_asleep(800 - p->int_cur * 5);
         }
     } else {
-        std::string mutation_category;
         // These categories for the most part share their effects,
-        // so print their messages and any epecial effects,
+        // so print their messages and any special effects,
         // then handle the mutation at the end in combined code.
         if( it->has_flag("MUTAGEN_PLANT") ) {
             g->add_msg_if_player(p, _("You inject some nutrients into your phloem."));
