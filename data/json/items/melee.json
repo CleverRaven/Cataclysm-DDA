@@ -1870,7 +1870,7 @@
         "type":"GENERIC",
         "id" : "battletorch_done",
         "name" : "burnt out Louisville Slaughterer",
-        "description" : "A sturdy wood bat, wrapped in flame-resistant Nomex fabric. Makes a decent melee weapon, you can disassemble it to recycle the baseball bat and some nomex patchs.",
+        "description" : "A sturdy wood bat, wrapped in flame-resistant Nomex fabric. Makes a good melee weapon but better be disassembled to recycle the baseball bat and some Nomex patchs.",
         "weight" : 1343,
         "to_hit" : 3,
         "color" : "brown",
