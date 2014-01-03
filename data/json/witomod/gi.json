@@ -3,7 +3,7 @@
         "type" : "ARMOR",
         "id" : "karate_gi",
         "name" : "karate gi",
-        "weight" : 1200,
+        "weight" : 400,
         "color" : "white",
         "covers" : ["ARMS", "LEGS", "TORSO"],
         "to_hit" : 0,
@@ -27,7 +27,7 @@
         "type" : "ARMOR",
         "id" : "judo_gi",
         "name" : "judo gi",
-        "weight" : 2500,
+        "weight" : 1000,
         "color" : "white",
         "covers" : ["ARMS", "LEGS", "TORSO"],
         "to_hit" : 0,
@@ -46,6 +46,30 @@
         "flags" : ["VARSIZE"],
         "coverage" : 100,
         "material_thickness" : 2
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "kendo_gi",
+        "name" : "hakama",
+        "weight" : 1000,
+        "color" : "dark_gray",
+        "covers" : ["LEGS"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "Plain black hakama for use in kendo and other martial arts.",
+        "price" : 100,
+        "material" : ["cotton", "null"],
+        "volume" : 4,
+        "cutting" : 1,
+        "warmth" : 15,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "encumbrance" : 1,
+        "bashing" : -2,
+        "flags" : ["VARSIZE"],
+        "coverage" : 100,
+        "material_thickness" : 1
     },
     {
         "type" : "ARMOR",
@@ -235,5 +259,27 @@
                 "boy_shorts"
             ]
         }
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "judo_belts",
+        "items" : [
+            ["judo_belt_white", 100],
+            ["judo_belt_yellow", 50],
+            ["judo_belt_orange", 25],
+            ["judo_belt_green",  15],
+            ["judo_belt_blue",    5],
+            ["judo_belt_brown",   4],
+            ["judo_belt_black",   1]
+        ]
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "gi",
+        "items" : [
+            ["karate_gi", 100],
+            ["judo_gi", 90],
+            ["kendo_gi", 10]
+        ]
     }
 ]
