@@ -40,14 +40,11 @@ dependency_tree *mod_manager::get_tree() {
 
 void mod_manager::clear()
 {
-    mod_map.clear();
     tree->clear();
-    if (!mods.empty()) {
-        for (int i = 0; i < mods.size(); ++i) {
-            delete mods[i];
-        }
-        mods.clear();
+    for(t_mod_map::iterator a = mod_map.begin(); a != mod_map.end(); ++a) {
+        delete a->second;
     }
+    mod_map.clear();
 }
 
 void mod_manager::show_ui()
@@ -68,21 +65,15 @@ void mod_manager::refresh_mod_list()
     if (!load_mods_from(MOD_SEARCH_PATH)) {
         return;
     }
-    for (int i = 0; i < mods.size(); ++i) {
-        mod_dependency_map[mods[i]->ident] = mods[i]->dependencies;
-        mod_map[mods[i]->ident] = i;
+    for(t_mod_map::iterator a = mod_map.begin(); a != mod_map.end(); ++a) {
+        mod_dependency_map[a->second->ident] = a->second->dependencies;
     }
     tree->init(mod_dependency_map);
 }
 
 bool mod_manager::has_mod(const std::string &ident) const
 {
-    for (int i = 0; i < mods.size(); ++i) {
-        if(mods[i]->ident == ident) {
-            return true;
-        }
-    }
-    return false;
+    return mod_map.count(ident) > 0;
 }
 
 bool mod_manager::load_mods_from(std::string path)
@@ -160,7 +151,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     modfile->dependencies = m_dependencies;
     modfile->path = m_path;
 
-    mods.push_back(modfile);
+    mod_map[modfile->ident] = modfile;
 }
 
 extern bool assure_dir_exist(const std::string &path);
@@ -188,7 +179,7 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
     unsigned ilog;
     for (int i = 0; i < mods_to_copy.size(); ++i){
         ilog = unsigned(log(i + 1));
-        MOD_INFORMATION *mod = mods[mod_map[mods_to_copy[i]]];
+        MOD_INFORMATION *mod = mod_map[mods_to_copy[i]];
 
         // now to get all of the json files inside of the mod and get them ready to copy
         std::vector<std::string> input_files = file_finder::get_files_from_path(".json", mod->path, true, true);

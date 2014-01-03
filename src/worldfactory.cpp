@@ -822,9 +822,9 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
 
             MOD_INFORMATION *selmod = NULL;
             if (active_header == 0){
-                selmod = mman->mods[mman->mod_map[mman_ui->usable_mods[cursel[0]]]];
+                selmod = mman->mod_map[mman_ui->usable_mods[cursel[0]]];
             }else if (active_mod_order.size() > 0){
-                selmod = mman->mods[mman->mod_map[active_mod_order[cursel[1]]]];
+                selmod = mman->mod_map[active_mod_order[cursel[1]]];
             }
 
             if (selmod != NULL){
@@ -855,7 +855,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                         }
                         list_output<< ">></color> ";
                     }
-                    list_output << mman->mods[mman->mod_map[mman_ui->usable_mods[i]]]->name << "\n";
+                    list_output << mman->mod_map[mman_ui->usable_mods[i]]->name << "\n";
                 }
                 fold_and_print(w_list, 0, 1, getmaxx(w_list)-1, c_white, list_output.str().c_str());
             }
@@ -886,7 +886,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                         }
                         list_output<< ">></color> ";
                     }
-                    list_output << mman->mods[mman->mod_map[active_mod_order[i]]]->name << "\n";
+                    list_output << mman->mod_map[active_mod_order[i]]->name << "\n";
                 }
                 fold_and_print(w_active, 0, 1, getmaxx(w_active)-1, c_white, list_output.str().c_str());
             }

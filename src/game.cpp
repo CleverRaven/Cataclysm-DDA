@@ -154,8 +154,8 @@ void game::check_all_mod_data() {
     init_ui();
     popup_nowait("checking all mods");
     mod_manager *mm = world_generator->get_mod_manager();
-    for(size_t i = 0; i < mm->mods.size(); i++) {
-        MOD_INFORMATION *mod = mm->mods[i];
+    for(mod_manager::t_mod_map::iterator a = mm->mod_map.begin(); a != mm->mod_map.end(); ++a) {
+        MOD_INFORMATION *mod = a->second;
         popup_nowait("checking mod %s", mod->name.c_str());
         // TODO: dependencies
         load_core_data();

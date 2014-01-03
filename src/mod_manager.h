@@ -68,8 +68,8 @@ class mod_manager
 
         dependency_tree *tree;
 
-        std::vector<MOD_INFORMATION *> mods;
-        std::map<std::string, unsigned> mod_map;
+        typedef std::map<std::string, MOD_INFORMATION *> t_mod_map;
+        t_mod_map mod_map;
 };
 
 class mod_ui
