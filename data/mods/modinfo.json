@@ -1,5 +1,12 @@
 [
 {
+    "ident": "furry-test-mod",
+    "name": "furry",
+    "type": "SUPPLEMENTAL",
+    "description": "All the furry stuff from the mainline",
+    "path": "furry"
+},
+{
     "ident": "test-mod-1",
     "name": "testmod1",
     "type": "SUPPLEMENTAL",
