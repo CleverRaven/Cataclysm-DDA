@@ -1419,7 +1419,7 @@
         "type": "profession",
         "ident": "postman",
         "name": "Mail Carrier",
-        "description": "your skill at avoiding dogs and discarded children's toys while delivering the mail gives you an edge in your new role as a survivor",
+        "description": "Your skill at avoiding dogs and discarded children's toys while delivering the mail gives you an edge in your new role as a survivor.",
         "points": 1,
         "skills": [
             {
