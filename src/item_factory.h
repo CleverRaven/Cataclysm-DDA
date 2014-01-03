@@ -81,6 +81,7 @@ public:
     void load_gunmod    (JsonObject &jo);
     void load_generic   (JsonObject &jo);
     void load_bionic    (JsonObject &jo);
+    void load_veh_part  (JsonObject &jo);
 
     // Check that all items referenced in the groups
     // do actually exist (are defined)

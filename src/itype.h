@@ -278,7 +278,9 @@ struct it_var_veh_part: public itype
  // TODO? geometric mean: nth root of product
  unsigned int min_bigness; //CC's
  unsigned int max_bigness;
+ bool engine;
 
+ it_var_veh_part() { }
  it_var_veh_part(std::string pid, unsigned int pprice,
         std::string pname, std::string pdes,
         char psym, nc_color pcolor, std::string pm1, std::string pm2,
@@ -287,20 +289,17 @@ struct it_var_veh_part: public itype
 
         unsigned int big_min,
         unsigned int big_max,
-        bigness_property_aspect big_aspect)
+        bigness_property_aspect big_aspect, bool pengine)
 :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   min_bigness = big_min;
   max_bigness = big_max;
   bigness_aspect = big_aspect;
+  engine = pengine;
  }
  virtual bool is_var_veh_part(){return true;}
  virtual bool is_wheel()          { return false; }
- virtual bool is_engine() {
-  //FIX ME OH FUCKING GOD NOT EVERYTING SHOULD BE AN ENGINE
-  // TODO: glyphgryph
-  return true;
- }
+ virtual bool is_engine() { return engine; }
 };
 
 
