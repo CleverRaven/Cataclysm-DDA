@@ -2169,8 +2169,8 @@
   "difficulty": 1,
   "time": 10000,
   "reversible": false,
-  "autolearn": true,
-  "book_learn": [[ "textbook_gaswarfare", 4 ]],
+  "autolearn": false,
+  "book_learn": [[ "textbook_gaswarfare", 4 ] , [ "adv_chemistry", 4 ] , [ "textbook_chemistry", 4 ]],
   "tools": [
     [
       [ "hotplate", 5 ],
@@ -2195,7 +2195,7 @@
   "difficulty": 3,
   "time": 100,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
   "book_learn": [[ "textbook_gaswarfare", 4 ] , [ "manual_launcher", 4 ]],
   "tools": [
     [
@@ -2760,7 +2760,7 @@
     "time": 45000,
     "reversible": false,
     "autolearn": true,
-    "book_learn": [[ "textbook_fabrication", 1 ] , [ "textbook_mechanics", 2 ] , [ "recipe_bullets", 2 ]],
+    "book_learn": [[ "textbook_fabrication", 1 ]],
     "tools": [
     [
       [ "press", -1 ]
@@ -2867,7 +2867,7 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 1 ] , [ "manual_archery", 2] , [ "book_archery", 3]],
+  "book_learn" : [[ "recipe_arrows", 1 ] , [ "manual_archery", 2] , [ "book_archery", 2]],
   "tools" : [
     [
       [ "rock", -1 ],
@@ -2894,7 +2894,7 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 1 ] , [ "manual_archery", 2 ] , [ "book_archery", 3]],
+  "book_learn" : [[ "recipe_arrows", 1 ] , [ "manual_archery", 2 ] , [ "book_archery", 2]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -3003,7 +3003,7 @@
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 2 ] , [ "book_archery", 3]],
+  "book_learn" : [[ "recipe_arrows", 2 ] , [ "book_archery", 2]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -9029,7 +9029,7 @@
   "time": 5000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 3] , ["survival_book", 3]],
+  "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 2] , ["survival_book", 3]],
   "tools": [
     [
       [ "chemistry_set", -1 ],
@@ -9062,7 +9062,7 @@
   "time": 5000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 3] , ["survival_book", 3]],
+  "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 2] , ["survival_book", 3]],
   "tools": [
     [
       [ "chemistry_set", -1 ],
@@ -9095,7 +9095,7 @@
   "time": 5000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 3] , ["survival_book", 3] , [ "recipe_labchem", 2]],
+  "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 2] , ["atomic_survival", 2] , ["textbook_survival", 1] , ["survival_book", 3] , [ "recipe_labchem", 2]],
   "tools": [
     [
       [ "chemistry_set", -1 ],
@@ -10595,7 +10595,7 @@
   "time": 15000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "recipe_raptor", 10 ]],
+  "book_learn": [[ "recipe_raptor", 9 ]],
   "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -11797,7 +11797,7 @@
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
-  "autolearn": false,
+  "autolearn": true,
   "decomp_learn": 3,
   "book_learn": [[ "manual_electronics", 2 ], [ "advanced_electronics", 2 ]],
   "tools": [
@@ -12265,7 +12265,7 @@
   "reversible": true,
   "decomp_learn": 4,
   "autolearn": false,
-  "book_learn": [[ "textbook_anarch", 3 ]],
+  "book_learn": [[ "textbook_anarch", 3 ] , [ "advanced_electronics", 5 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -12460,7 +12460,7 @@
   "reversible": true,
   "decomp_learn": 4,
   "autolearn": true,
-  "book_learn": [[ "advanced_electronics", 5] , [ "recipe_lab_elec", 4 ] , [ "textbook_anarch", 6]],
+  "book_learn": [[ "advanced_electronics", 4] , [ "recipe_lab_elec", 4 ] , [ "textbook_anarch", 4]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -13575,7 +13575,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [["textbook_survival", 1] , ["trappers_companion", 3] , ["survival_book", 2] , ["pocket_survival", 2]],
+  "book_learn": [["textbook_survival", 0] , ["pocket_survival", 0]],
   "tools": [
     [
       [ "needle_bone", 5 ],
@@ -13619,7 +13619,7 @@
   "time": 40000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [["textbook_survival", 1] , ["trappers_companion", 3] , ["survival_book", 2]],
+  "book_learn": [["textbook_survival", 1]],
   "tools": [
     [
       [ "needle_bone", 13 ],
@@ -14442,6 +14442,7 @@
   "time": 38000,
   "reversible": false,
   "autolearn": false,
+  "note": "zero Encumbrance, without elastic, at skill 2? seems tricky",
   "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
   "tools": [
     [
@@ -14969,7 +14970,7 @@
   "time": 16000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [[ "manual_tailor", 2 ] , [ "textbook_tailor", 2 ]],
+  "book_learn": [[ "manual_tailor", 2 ] , [ "textbook_tailor", 2 ] ["recipe_melee", 2]],
   "tools": [
     [
       [ "needle_bone", 5 ],
@@ -15046,7 +15047,7 @@
   "time": 16000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [[ "manual_tailor", 1 ] , [ "trappers_companion", 2 ] , ["textbook_survival", 1] , ["pocket_survival", 1]],
+  "book_learn": [[ "manual_tailor", 1 ] , ["textbook_survival", 1] , ["pocket_survival", 1]],
   "tools": [
     [
       [ "needle_bone", 6 ],
@@ -15117,7 +15118,7 @@
   "time": 45000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [["textbook_armwest", 5] , ["recipe_melee", 4]],
+  "book_learn": [["textbook_armwest", 4] , ["recipe_melee", 4]],
   "tools": [
     [
       [ "rock", -1 ],
@@ -15197,8 +15198,7 @@
   "difficulty": 2,
   "time": 30000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 3 ] , [ "tailor_portfolio", 4 ] , ["textbook_survival", 3] , ["trappers_companion", 3] , ["survival_book", 3] , ["textbook_armwest", 5]],
+  "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -15246,7 +15246,6 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
-  "book_learn": [["textbook_survival", 2] , ["trappers_companion", 3] , ["survival_book", 2]],
   "tools": [
     [
       [ "needle_bone", 3 ],
@@ -15270,7 +15269,6 @@
   "time": 9000,
   "reversible": true,
   "autolearn": true,
-  "book_learn": [["textbook_survival", 2] , ["trappers_companion", 3] , ["survival_book", 2]],
   "tools": [
     [
       [ "needle_bone", 9 ],
@@ -15294,7 +15292,6 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
-  "book_learn": [["textbook_survival", 2] , ["trappers_companion", 3] , ["survival_book", 2]],
   "tools": [
     [
       [ "needle_bone", 3 ],
@@ -15826,7 +15823,7 @@
   "time": 40000,
   "reversible": true,
   "decomp_learn": 4,
-  "autolearn": true,
+  "autolearn": false,
   "book_learn": [["textbook_fireman", 7] , ["advanced_electronics", 4] , ["textbook_electronics", 4]],
   "tools": [
     [
@@ -15854,6 +15851,7 @@
         "type" : "recipe",
   "result": "rebreather",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "electronics",
   "skills_required": [ "tailor", 1 ],
   "difficulty": 9,
@@ -15898,6 +15896,7 @@
   "type" : "recipe",
   "result": "rebreather_xl",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "electronics",
   "skills_required": [ "tailor", 3 ],
   "difficulty": 9,
@@ -15944,6 +15943,7 @@
   "result": "rebreather_xl",
   "id_suffix": "mod_existing",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
   "skills_required": [ "electronics", 4 ],
   "difficulty": 3,
@@ -16396,7 +16396,6 @@
   "reversible": true,
   "decomp_learn": 0,
   "autolearn": true,
-  "book_learn": [["textbook_survival", 1] , ["trappers_companion", 3] , ["survival_book", 2] , ["pocket_survival", 1]],
   "tools": [
     [
       [ "needle_bone", 12 ],
@@ -16464,7 +16463,7 @@
   "time": 25000,
   "reversible": true,
   "autolearn": true,
-  "book_learn": [["textbook_survival", 1] , ["trappers_companion", 3] , ["survival_book", 1]],
+  "book_learn": [["textbook_survival", 1] , ["survival_book", 1]],
   "tools": [
     [
       [ "needle_bone", 18 ],
@@ -20549,6 +20548,7 @@
   "time": 100000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [["recipe_melee", 6]],
   "components": [ [ ["string_36", 2], ["string_6", 12] ],
     [ ["scrap", 15] ] ]
 },{
@@ -20624,6 +20624,7 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
+  "book_learn": [["recipe_melee", 2]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -25510,8 +25511,8 @@
   "difficulty": 6,
   "time": 180000,
   "reversible": false,
-  "autolearn": true,
-  "book_learn": [["tailor_portfolio", 7] , ["textbook_tailor", 8]],
+  "autolearn": false,
+  "book_learn": [["tailor_portfolio", 7] , ["textbook_tailor", 8] , ["textbook_fireman", 6]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -25545,8 +25546,8 @@
   "difficulty": 8,
   "time": 220000,
   "reversible": false,
-  "autolearn": true,
-  "book_learn": [["tailor_portfolio", 8] , ["textbook_fireman", 7]],
+  "autolearn": false,
+  "book_learn": [["tailor_portfolio", 7] , ["textbook_fireman", 7]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -25849,7 +25850,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [[ "textbook_fabrication", 5 ] , [ "welding_book", 4 ]],
+  "book_learn": [[ "textbook_fabrication", 3 ] , [ "welding_book", 3 ]],
   "tools": [
     [
       [ "wrench", -1 ],
@@ -25875,6 +25876,7 @@
         "type" : "recipe",
   "result": "goggles_swim",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 30000,
@@ -25898,12 +25900,14 @@
         "type" : "recipe",
   "result": "swim_fins",
   "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "fabrication",
   "skills_required" : ["tailor", 2],
   "difficulty": 4,
   "time": 30000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["mag_swimming", 3] , ["manual_swimming", 2]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
