@@ -59,6 +59,7 @@ class cOpt
         void setPrev();
         //set value
         void setValue(std::string sSetIn);
+        void setValue(float fSetIn);
 
         //Set default class behaviour to float
         operator float() const;
