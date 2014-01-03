@@ -1355,6 +1355,30 @@
     },
     {
         "type" : "ARMOR",
+        "id" : "skirt_leather",
+        "name" : "leather skirt",
+        "weight" : 230,
+        "color" : "brown",
+        "covers" : ["LEGS"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A very short leather skirt, clearly designed to look good, not be practical.",
+        "price" : 120,
+        "material" : ["leather", "null"],
+        "volume" : 1,
+        "cutting" : 0,
+        "warmth" : 10,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "encumbrance" : 1,
+        "bashing" : -5,
+        "flags" : ["VARSIZE"],
+        "coverage" : 35,
+        "material_thickness" : 1
+    },
+    {
+        "type" : "ARMOR",
         "id" : "maid_dress",
         "name" : "French maid clothes",
         "weight" : 100,
@@ -2619,7 +2643,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT"],
         "coverage" : 10,
         "material_thickness" : 1
     },
@@ -2643,7 +2667,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 10,
         "material_thickness" : 1
     },
@@ -2667,7 +2691,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 10,
         "material_thickness" : 1
     },
@@ -2691,7 +2715,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE","WATER_FRIENDLY"],
+        "flags" : ["VARSIZE","WATER_FRIENDLY", "SKINTIGHT"],
         "coverage" : 15,
         "material_thickness" : 1
     },
@@ -2715,7 +2739,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 15,
         "material_thickness" : 1
     },
@@ -2739,7 +2763,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 15,
         "material_thickness" : 1
     },
@@ -6426,7 +6450,7 @@
 	{
 		"type" : "ARMOR",
         "id" : "gold_bracelet",
-        "name" : "silver bracelet",
+        "name" : "gold bracelet",
         "volume" : 0,
         "material_thickness" : 0,
         "storage" : 0,
