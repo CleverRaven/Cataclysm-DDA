@@ -1068,7 +1068,7 @@ int set_profession(WINDOW *w, player *u, int &points)
                 Skill *skill = Skill::skill(prof_skills[i].first);
                 if (skill == NULL) {
                     continue;  // skip unrecognized skills.
-            	}
+                }
                 wprintz(w_skills, c_ltgray, _("%1$s (%2$d)\n"),
                         skill->name().c_str(), prof_skills[i].second);
             }
@@ -1236,56 +1236,56 @@ int set_skills(WINDOW *w, player *u, int &points)
         wrefresh(w);
         wrefresh(w_description);
         switch (input()) {
-            case 'j':
-            case '2':
-                cur_pos++;
-                if (cur_pos >= num_skills) {
-                    cur_pos = 0;
-                }
-                currentSkill = sorted_skills[cur_pos];
-                break;
-            case 'k':
-            case '8':
-                cur_pos--;
-                if (cur_pos < 0) {
-                    cur_pos = num_skills - 1;
-                }
-                currentSkill = sorted_skills[cur_pos];
-                break;
-            case 'h':
-            case '4': {
-            	SkillLevel& level = u->skillLevel(currentSkill);
-            	if (level) {
-            		if (level == 2) {  // lower 2->0 for 1 point
-            			level.level(0);
-            			points += 1;
-            		} else {
-            			level.level(level - 1);
-            			points += (level + 1) / 2;
-            		}
-            	}
-            	break;
+        case 'j':
+        case '2':
+            cur_pos++;
+            if (cur_pos >= num_skills) {
+                cur_pos = 0;
             }
-            case 'l':
-            case '6': {
-            	SkillLevel& level = u->skillLevel(currentSkill);
-            	if (level <= 19) {
-            		if (level == 0) {  // raise 0->2 for 1 point
-            			level.level(2);
-            			points -= 1;
-            		} else {
-            			points -= (level + 1) / 2;
-            			level.level(level + 1);
-            		}
-            	}
-            	break;
+            currentSkill = sorted_skills[cur_pos];
+            break;
+        case 'k':
+        case '8':
+            cur_pos--;
+            if (cur_pos < 0) {
+                cur_pos = num_skills - 1;
             }
-            case '<':
-                delwin(w_description);
-                return -1;
-            case '>':
-                delwin(w_description);
-                return 1;
+            currentSkill = sorted_skills[cur_pos];
+            break;
+        case 'h':
+        case '4': {
+            SkillLevel& level = u->skillLevel(currentSkill);
+            if (level) {
+                if (level == 2) {  // lower 2->0 for 1 point
+                    level.level(0);
+                    points += 1;
+                } else {
+                    level.level(level - 1);
+                    points += (level + 1) / 2;
+                }
+            }
+            break;
+        }
+        case 'l':
+        case '6': {
+            SkillLevel& level = u->skillLevel(currentSkill);
+            if (level <= 19) {
+                if (level == 0) {  // raise 0->2 for 1 point
+                    level.level(2);
+                    points -= 1;
+                } else {
+                    points -= (level + 1) / 2;
+                    level.level(level + 1);
+                }
+            }
+            break;
+        }
+        case '<':
+            delwin(w_description);
+            return -1;
+        case '>':
+            delwin(w_description);
+            return 1;
         }
     } while (true);
 }

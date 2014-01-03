@@ -10779,10 +10779,16 @@ void map::place_toilet(int x, int y, int charges)
 void map::place_vending(int x, int y, bool drinks)
 {
     bool broken = rng(0, 1);
-    if(broken)furn_set(x, y, f_vending_c);
-    else furn_set(x, y, f_vending_o);
-    if(drinks)place_items("vending_drink", broken?60:80, x, y, x, y, false, 0);
-    else place_items("vending_food", broken?60:80, x, y, x, y, false, 0);
+    if(broken) {
+        furn_set(x, y, f_vending_c);
+    } else {
+        furn_set(x, y, f_vending_o);
+    }
+    if( drinks ) {
+        place_items("vending_drink", broken ? 60 : 80, x, y, x, y, false, 0);
+    } else {
+        place_items("vending_food", broken ? 60 : 80, x, y, x, y, false, 0);
+    }
 }
 
 int map::place_items(items_location loc, int chance, int x1, int y1,

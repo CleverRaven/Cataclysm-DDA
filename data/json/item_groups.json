@@ -954,7 +954,7 @@
       ["chips3", 65],
       ["fruit_leather", 25],
       ["kernels", 25],
-	  ["candycigarette", 20]
+      ["candycigarette", 20]
     ]
     },{
     "type" : "item_group",
@@ -3693,7 +3693,7 @@
       ["pickaxe", 1],
       ["ring", 12],
       ["diamond_ring", 1],
-	  ["pearl_collar", 1],
+      ["pearl_collar", 1],
       ["necklace", 14],
       ["gold_ear", 12],
       ["silver_ear", 14],

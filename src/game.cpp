@@ -5606,7 +5606,7 @@ void game::do_blast( const int x, const int y, const int power, const int radius
                         kill_mon(mon_hit); // TODO: player's fault?
                     }
                 }
-	    }
+            }
 
             int vpart;
             vehicle *veh = m.veh_at(i, j, vpart);
@@ -6648,7 +6648,7 @@ void game::close(int closex, int closey)
                     continue;
                 }
                 if( cur_item->volume() > 10 ) {
-		    add_msg(_("There's a %s in the way that is too big to just nudge out of the way."),
+                    add_msg(_("There's a %s in the way that is too big to just nudge out of the way."),
                             cur_item->tname().c_str());
                     return;
                 }

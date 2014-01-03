@@ -3155,9 +3155,9 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     int spdx = sideStyle ?  0 : x + dx * 4;
     int spdy = sideStyle ?  5 : y + dy * 4;
     mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), spd_cur);
-		if (this->weight_carried() > this->weight_capacity() || this->volume_carried() > this->volume_capacity() - 2) {
-				col_time = c_red;
-		}
+    if (this->weight_carried() > this->weight_capacity() || this->volume_carried() > this->volume_capacity() - 2) {
+        col_time = c_red;
+    }
     wprintz(w, col_time, "  %d", movecounter);
  }
 }
@@ -7694,7 +7694,7 @@ bool player::wear_item(item *to_wear, bool interactive)
              to_wear->made_of("steel") || to_wear->made_of("kevlar") ||
              to_wear->made_of("chitin")) && is_wearing_shoes()) {
             // Checks to see if the player is wearing leather/plastic etc shoes
-           	if(interactive){
+            if(interactive){
                 g->add_msg(_("You're already wearing footwear!"));
             }
             return false;
@@ -7977,7 +7977,7 @@ void player::sort_armor()
             }
             if (tmp_worn[leftListIndex]->has_flag("OVERSIZE")) {
                 tmp_str += _("It is very bulky.\n");
-	    }
+            }
             if (tmp_worn[leftListIndex]->has_flag("SWIM_GOGGLES")) {
                 tmp_str += _("It helps you to see clearly underwater.\n");
             }
