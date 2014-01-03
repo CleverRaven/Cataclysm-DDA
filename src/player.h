@@ -134,6 +134,7 @@ public:
  bool has_trait(const std::string &flag) const;
  bool has_base_trait(const std::string &flag) const;
  bool has_conflicting_trait(const std::string &flag) const;
+ bool crossed_threshold(); // Can only cross one Threshold
  bool purifiable(const std::string &flag) const; // Purifier can/not touch this, defaults "true"
  void toggle_trait(const std::string &flag);
  void toggle_mutation(const std::string &flag);

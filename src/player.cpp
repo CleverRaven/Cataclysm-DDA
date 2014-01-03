@@ -3184,6 +3184,19 @@ bool player::has_conflicting_trait(const std::string &flag) const
     return false;
 }
 
+bool player::crossed_threshold()
+{
+  std::vector<std::string> traitslist;
+  for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+        traitslist.push_back(*iter);
+    }
+  for (int i = 0; i < traitslist.size(); i++) {
+      if (mutation_data[traitslist[i]].threshold == true)
+      return true;
+  }
+ return false;
+}
+
 bool player::purifiable(const std::string &flag) const
 {
     if(mutation_data[flag].purifiable) {
@@ -3224,6 +3237,10 @@ void player::set_cat_level_rec(const std::string &sMut)
 
         for (int i = 0; i < mutation_data[sMut].prereqs.size(); i++) {
             set_cat_level_rec(mutation_data[sMut].prereqs[i]);
+        }
+        
+        for (int i = 0; i < mutation_data[sMut].prereqs2.size(); i++) {
+            set_cat_level_rec(mutation_data[sMut].prereqs2[i]);
         }
     }
 }
