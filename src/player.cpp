@@ -3172,15 +3172,45 @@ bool player::has_base_trait(const std::string &flag) const
 
 bool player::has_conflicting_trait(const std::string &flag) const
 {
-    if(mutation_data[flag].cancels.size() > 0) {
-        std::vector<std::string> cancels = mutation_data[flag].cancels;
+    return (has_opposite_trait(flag) || has_lower_trait(flag) || has_higher_trait(flag));
+}
 
+bool player::has_opposite_trait(const std::string &flag) const
+{
+    if (mutation_data[flag].cancels.size() > 0) {
+        std::vector<std::string> cancels = mutation_data[flag].cancels;
         for (int i = 0; i < cancels.size(); i++) {
-            if ( has_trait(cancels[i]) )
+            if (has_trait(cancels[i])) {
                 return true;
+            }
         }
     }
+    return false;
+}
 
+bool player::has_lower_trait(const std::string &flag) const
+{
+    if (mutation_data[flag].prereqs.size() > 0) {
+        std::vector<std::string> prereqs = mutation_data[flag].prereqs;
+        for (int i = 0; i < prereqs.size(); i++) {
+            if (has_trait(prereqs[i]) || has_lower_trait(prereqs[i])) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool player::has_higher_trait(const std::string &flag) const
+{
+    if (mutation_data[flag].replacements.size() > 0) {
+        std::vector<std::string> replacements = mutation_data[flag].replacements;
+        for (int i = 0; i < replacements.size(); i++) {
+            if (has_trait(replacements[i]) || has_higher_trait(replacements[i])) {
+                return true;
+            }
+        }
+    }
     return false;
 }
 
