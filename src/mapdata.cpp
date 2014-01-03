@@ -120,6 +120,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         jsonint(j, "chance", chance );
         jsonstring(j, "sound", sound );
         jsonstring(j, "sound_fail", sound_fail );
+		jsonstring(j, "furn_set", furn_set );
 
         if ( jsonstring(j, "ter_set", ter_set ) == false && isfurniture == false ) {
            ter_set = "t_rubble";
@@ -612,7 +613,7 @@ furn_id f_null,
     f_fridge, f_glass_fridge, f_dresser, f_locker,
     f_rack, f_bookcase,
     f_washer, f_dryer,
-    f_dumpster, f_dive_block,
+    f_vending_c, f_vending_o, f_dumpster, f_dive_block,
     f_crate_c, f_crate_o,
     f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet,
     f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
@@ -653,6 +654,8 @@ void set_furn_ids() {
     f_bookcase=furnfind("f_bookcase");
     f_washer=furnfind("f_washer");
     f_dryer=furnfind("f_dryer");
+	f_vending_c=furnfind("f_vending_c");
+	f_vending_o=furnfind("f_vending_o");
     f_dumpster=furnfind("f_dumpster");
     f_dive_block=furnfind("f_dive_block");
     f_crate_c=furnfind("f_crate_c");

@@ -55,7 +55,8 @@ struct map_bash_info {
     std::string sound;    // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
-    map_bash_info() : str_min(-1), str_max(-1), str_min_roll(-1), str_min_blocked(-1), str_max_blocked(-1), num_tests(-1), chance(-1), ter_set("") {};
+    std::string furn_set;    // furniture to set (only used by furniture, not terrain)
+    map_bash_info() : str_min(-1), str_max(-1), str_min_roll(-1), str_min_blocked(-1), str_max_blocked(-1), num_tests(-1), chance(-1), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 
@@ -508,7 +509,7 @@ extern furn_id f_null,
     f_fridge, f_glass_fridge, f_dresser, f_locker,
     f_rack, f_bookcase,
     f_washer, f_dryer,
-    f_dumpster, f_dive_block,
+    f_vending_c, f_vending_o, f_dumpster, f_dive_block,
     f_crate_c, f_crate_o,
     f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet,
     f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,

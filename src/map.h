@@ -382,6 +382,7 @@ void add_corpse(int x, int y);
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
+ void place_vending(int x, int y, bool drinks);
  int place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
