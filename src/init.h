@@ -70,14 +70,141 @@ public:
 };
 //********** END - Functor Base, Static and Class member accessors
 
-void load_object(JsonObject &jsobj);
-void init_data_structures();
-void release_data_structures();
-void unload_active_json_data();
+/**
+ * This class is used to load (and unload) the dynamic
+ * (and modable) data from json files.
+ * There exists only one instance of this class, which
+ * can be accessed with @ref get_instance
+ *
+ * Usage is basically this:
+ * - Let user decide which world to play in.
+ * - Call @ref unload_data (to unload data from a
+ * previously loaded world, if any)
+ * - Call @ref load_data_from_dir(...) repeatedly with
+ * different pathes for the core data and all the mods
+ * of the current world.
+ * - Call @ref finalize_loaded_data when all mods have been
+ * loaded.
+ * - Play.
+ *
+ * The object initializes itself upon first usage.
+ * It also unloads everything when the program ends.
+ *
+ *
+ *
+ * Delayed loading works like this:
+ * All types in delay_order[delay_order_state] up to
+ * delay_order[delay_order.size()-1] are delayed.
+ * We start with delay_order_state=0, which means all
+ * types in any of the delay_order set are ignored.
+ * Than we increase delay_order_state, and reload everything again.
+ * This is done as long as delay_order_state<= delay_order.size()
+ *
+ *
+ * Porting stuff to json works like this:
+ * - create a function
+ *       void load_my_object(JsonObject &jo);
+ * - Or a class member function:
+ *       TMyClass::load_my_object(JsonObject &jo);
+ * - Or create a new class derived from @ref TFunctor
+ * - Add a pointer to this function to @ref type_function_map
+ * in the function @ref initialize (see there).
+ * - Inside that function load the data from the json object.
+ * You must also provide a reset function and add a call to
+ * that function in @ref unload_data
+ * - Optional: create a finalize function and call it from
+ * @ref finalize_loaded_data
+ * - Than create json files.
+ */
+class DynamicDataLoader
+{
+    public:
+        typedef std::string type_string;
+        typedef std::map<type_string, TFunctor *> t_type_function_map;
+        typedef std::set<type_string> delay_type_set;
+        typedef std::vector<delay_type_set> delay_order_vector;
+        typedef std::vector<std::string> str_vec;
 
-void load_json_dir(std::string const &dirname);
-void load_json_files(std::vector<std::string> const &files);
-void load_all_from_json(JsonIn &jsin);
+    protected:
+        /**
+         * Maps the type string (comming from json) to the
+         * functor that loads that kind of object from json.
+         */
+        t_type_function_map type_function_map;
+        /**
+         * Contains type names (keys into the @ref type_function_map),
+         * of types that get delayed while loaded.
+         * Types not in here are loaded first.
+         * The next pass loads all in types in delay_order[0] and so on.
+         * Which pass we're in is defined by @ref delay_order_state,
+         * first pass means @ref delay_order_state == 0
+         */
+        delay_order_vector delay_order;
+        /**
+         * For delayed loading, @see delay_order
+         */
+        int delay_order_state;
+        /**
+         * Load all the types from that json data.
+         * @param jsin Might contain single object,
+         * or an array of objects. Each object must have a
+         * "type", that is part of the @ref type_function_map
+         * @throws std::string on all kind of errors. The string
+         * contains the error message.
+         */
+        void load_all_from_json(JsonIn &jsin);
+        /**
+         * Determines if loading the object of the given type
+         * should be delayed in current state (delay_order_state).
+         * @param type The type (key into @ref type_function_map)
+         * of the object that is currently atttempted to load.
+         * @return true if the type should not be loaded right now.
+         */
+        bool should_loading_delay(const type_string &type) const;
+        /**
+         * Load a single object from a json object.
+         * @param jo The json object to load the C++-object from.
+         * @throws std::string on all kind of errors. The string
+         * contains the error message.
+         */
+        void load_object(JsonObject &jo);
+
+        DynamicDataLoader();
+        ~DynamicDataLoader();
+        /**
+         * Initializes @ref type_function_map and @ref delay_order
+         */
+        void initialize();
+        /**
+         * Clears and deletes the contents of @ref delay_order and
+         * @ref type_function_map
+         */
+        void reset();
+
+    public:
+        /**
+         * Returns the single instance of this class.
+         */
+        static DynamicDataLoader &get_instance();
+        /**
+         * Load all data from json files located in
+         * the path (recursive).
+         * @throws std::string on all kind of errors. The string
+         * contains the error message.
+         */
+        void load_data_from_dir(const std::string &path);
+        /**
+         * Deletes and unloads all the data previously loaded with
+         * @ref load_data_from_dir
+         */
+        void unload_data();
+        /**
+         * Called to finalize the loaded data. This should be called
+         * after all the mods have been loaded.
+         * It must be called once after loading all data.
+         */
+        void finalize_loaded_data();
+};
 
 void init_names();
 

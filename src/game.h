@@ -112,11 +112,13 @@ struct mission_type;
 class map;
 class player;
 class calendar;
+class DynamicDataLoader;
 
 class game
 {
  friend class editmap;
  friend class advanced_inventory;
+ friend class DynamicDataLoader; // To allow unloading dynamicly loaded stuff
  public:
   game();
   ~game();
@@ -133,13 +135,8 @@ protected:
     void load_core_data();
     // Load dynamic data from given directory
     void load_data_from_dir(const std::string &path);
-    // Unload _all_ dynamicly loaded data
-    void unload_dynamic_data();
     // Load core data and mods from that world
     void load_world_modfiles(WORLDPTR world);
-    // Called after core data and all mods that should
-    // be used have been loaded
-    void finalize_loaded_data();
 public:
 
 

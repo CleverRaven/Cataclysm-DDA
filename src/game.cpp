@@ -117,7 +117,7 @@ void game::load_static_data() {
     load_keyboard_settings();
     inp_mngr.init();            // Load input config JSON
     // Init mappings for loading the json stuff
-    init_data_structures();
+    DynamicDataLoader::get_instance();
     // Only need to load names once, they do not depend on mods
     init_names();
 
@@ -158,14 +158,16 @@ void game::check_all_mod_data() {
         MOD_INFORMATION *mod = mm->mods[i];
         popup_nowait("checking mod %s", mod->name.c_str());
         // TODO: dependencies
-        unload_dynamic_data();
         load_core_data();
         load_data_from_dir(mod->path + "/mods");
-        finalize_loaded_data();
+        DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 }
 
 void game::load_core_data() {
+    // core data can be loaded only once and must be first
+    // anyway.
+    DynamicDataLoader::get_instance().unload_data();
     // Special handling for itypes created in itypedef.cpp
     // First load those items into the global itypes map,
     init_itypes();
@@ -183,22 +185,10 @@ void game::load_core_data() {
 
 void game::load_data_from_dir(const std::string &path) {
     try {
-        load_json_dir(path);
+        DynamicDataLoader::get_instance().load_data_from_dir(path);
     } catch(std::string &err) {
         debugmsg("Error loading data from json: %s", err.c_str());
     }
-}
-
-extern void calculate_mapgen_weights();
-extern void init_data_mappings();
-void game::finalize_loaded_data() {
-    init_data_mappings();
-    finalize_overmap_terrain();
-    calculate_mapgen_weights();
-    MonsterGenerator::generator().finalize_mtypes();
-    finalize_vehicles();
-    finalize_recipes();
-    check_consistency();
 }
 
 game::~game()
@@ -216,8 +206,6 @@ game::~game()
  delete world_generator;
 
  release_traps();
- release_data_structures();
- unload_dynamic_data();
 }
 
 // Fixed window sizes
@@ -3133,16 +3121,12 @@ void game::load(std::string worldname, std::string name)
 void game::load_world_modfiles(WORLDPTR world)
 {
     popup_nowait(_("Please wait while the world data loads"));
-
-    // This is simple: unload all, load core, load mods
-    unload_dynamic_data();
     load_core_data();
-
     if (world != NULL) {
         load_artifacts(world->world_path + "/artifacts.gsav", itypes);
         load_data_from_dir(world->world_path + "/mods");
     }
-    finalize_loaded_data();
+    DynamicDataLoader::get_instance().finalize_loaded_data();
 }
 
 //Saves all factions and missions and npcs.

@@ -11,7 +11,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "shovel", 1 ]
+      [ "shovel", -1 ]
     ]
   ],
   "components": [
