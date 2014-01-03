@@ -2724,7 +2724,7 @@
       ["gloves_tactical", 10],
       ["armguard_hard", 20],
       ["legguard_hard", 20],
-      ["emergency_book", 1],
+      ["emergency_book", 1]
     ]
   },{
     "type" : "item_group",
