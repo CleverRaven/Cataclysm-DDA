@@ -53,6 +53,9 @@ int calc_volume_capacity(const std::vector<char> &dropped_armor) {
     if (dropped_armor.empty()) {
         return g->u.volume_capacity();
     }
+    // Make copy, remove to be dropped armor from that
+    // copy and let the copy recalculate the volume capacity
+    // (can be affected by various traits).
     player tmp = g->u;
     for(size_t i = 0; i < dropped_armor.size(); i++) {
         tmp.i_rem(dropped_armor[i]);
