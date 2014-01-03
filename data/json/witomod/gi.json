@@ -73,6 +73,54 @@
     },
     {
         "type" : "ARMOR",
+        "id" : "tabi_gi",
+        "name" : "gi tabi",
+        "weight" : 50,
+        "color" : "white",
+        "covers" : ["FEET"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A pair of white tabi, as used by martial arts practicioners.",
+        "price" : 100,
+        "material" : ["cotton", "null"],
+        "volume" : 1,
+        "cutting" : 0,
+        "warmth" : 5,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "encumbrance" : 1,
+        "bashing" : -5,
+        "flags" : ["VARSIZE", "SKINTIGHT"],
+        "coverage" : 100,
+        "material_thickness" : 1
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "tabi_dress",
+        "name" : "tabi",
+        "weight" : 50,
+        "color" : "dark_gray",
+        "covers" : ["FEET"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A pair of black tabi, as worn with traditional japanese clothes.",
+        "price" : 100,
+        "material" : ["cotton", "null"],
+        "volume" : 1,
+        "cutting" : 0,
+        "warmth" : 5,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "encumbrance" : 1,
+        "bashing" : -5,
+        "flags" : ["VARSIZE", "SKINTIGHT"],
+        "coverage" : 100,
+        "material_thickness" : 1
+    },
+    {
+        "type" : "ARMOR",
         "id" : "judo_belt_white",
         "name" : "white belt",
         "volume" : 1,
@@ -278,8 +326,9 @@
         "id"    : "gi",
         "items" : [
             ["karate_gi", 100],
-            ["judo_gi", 90],
-            ["kendo_gi", 10]
+            ["tabi_gi", 25],
+            ["judo_gi", 50],
+            ["kendo_gi", 25]
         ]
     }
 ]
