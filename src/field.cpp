@@ -160,7 +160,7 @@ void game::init_fields()
 
         { // plasma glow (for plasma weapons)
             {_("faint plasma"), _("glowing plasma"), _("burning plasma")}, '9', 4,
-            {c_magenta, c_pink, c_white}, {true, true, true}, {false, false, false}, 2,
+            {c_magenta, c_pink, c_white}, {true, true, true}, {true, true, true}, 2,
             {0,0,0}
         },
 
@@ -1191,6 +1191,14 @@ void map::step_in_field(int x, int y)
             //Stepping on an acid vent shuts it down.
             field_list_it = curfield.removeField( fd_acid_vent );
             continue;
+        case fd_plasma:
+            //Heatsink won't stop the plasma - plasma has much higher temperature than 2000F
+            //but can lower damage
+            g->add_msg(_("You're burned by plasma!"));
+            if(g->u.has_active_bionic("bio_heatsink"))
+                g->u.hurtall(5*cur->getFieldDensity());
+            else
+                g->u.hurtall(200);
         }
         ++field_list_it;
     }
