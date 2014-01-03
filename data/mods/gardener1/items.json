@@ -1,0 +1,8 @@
+[
+    {
+        "type" : "skill",
+        "ident" : "gardener",
+        "name" : "gardener",
+        "description" : "Your skill with plants."
+    }
+]

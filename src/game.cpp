@@ -182,7 +182,11 @@ void game::load_core_data() {
 }
 
 void game::load_data_from_dir(const std::string &path) {
-    load_json_dir(path);
+    try {
+        load_json_dir(path);
+    } catch(std::string &err) {
+        debugmsg("Error loading data from json: %s", err.c_str());
+    }
 }
 
 extern void calculate_mapgen_weights();

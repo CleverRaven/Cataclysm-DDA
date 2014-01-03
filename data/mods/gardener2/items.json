@@ -1,0 +1,30 @@
+[
+    {
+        "type": "profession",
+        "ident": "gardener",
+        "name": "Gardener",
+        "description": "A gardener",
+        "points": 0,
+        "items": {
+            "both": [
+                "shorts",
+                "sneakers",
+                "tank_top",
+                "shovel"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "skills": [
+            {
+                "level": 4,
+                "name": "gardener"
+            }
+        ]
+    }
+]

@@ -7,6 +7,29 @@
     "path": "furry"
 },
 {
+    "ident": "gardener1",
+    "name": "gardener 1",
+    "type": "SUPPLEMENTAL",
+    "description": "Adds the gardener skill",
+    "path": "gardener1"
+},
+{
+    "ident": "gardener2",
+    "name": "gardener 2",
+    "type": "SUPPLEMENTAL",
+    "description": "Adds the gardener profession",
+    "path": "gardener2",
+    "dependencies": ["gardener1"]
+},
+{
+    "ident": "gardener3",
+    "name": "gardener 3",
+    "type": "SUPPLEMENTAL",
+    "description": "Adds a gardener item",
+    "path": "gardener3",
+    "dependencies": ["gardener1", "gardener2"]
+},
+{
     "ident": "test-mod-1",
     "name": "testmod1",
     "type": "SUPPLEMENTAL",
