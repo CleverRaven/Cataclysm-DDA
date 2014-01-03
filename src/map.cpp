@@ -1506,7 +1506,12 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
      int bday=int(g->turn);
      sound += _(bash->sound.c_str());
      if ( jsfurn == true ) {
-        furn_set(x,y, f_null);
+		if ( bash->furn_set.size() > 0 ) {
+			furn_set(x,y, bash->furn_set);
+		}
+		else {
+			furn_set(x,y, f_null);
+		}
      }
      if ( bash->ter_set.size() > 0 ) {
         ter_set(x, y, bash->ter_set );
