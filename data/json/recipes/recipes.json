@@ -14970,7 +14970,7 @@
   "time": 16000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [[ "manual_tailor", 2 ] , [ "textbook_tailor", 2 ] ["recipe_melee", 2]],
+  "book_learn": [[ "manual_tailor", 2 ] , [ "textbook_tailor", 2 ] , ["recipe_melee", 2]],
   "tools": [
     [
       [ "needle_bone", 5 ],
