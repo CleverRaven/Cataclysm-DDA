@@ -776,7 +776,7 @@
     "type":"GENERIC",
     "id": "silver",
     "symbol": "/",
-    "color": "gray",
+    "color": "light_gray",
     "name": "silver bar",
     "description": "A large bar of silver. Before the cataclysm, this would've been worth quite a bit; now its value is greatly diminished.",
     "price": 1000,
@@ -1870,7 +1870,7 @@
         "type":"GENERIC",
         "id" : "battletorch_done",
         "name" : "burnt out Louisville Slaughterer",
-        "description" : "A sturdy wood bat, wrapped in flame-resistant Nomex fabric. Makes a great melee weapon, but would make a better one if wrapped in gasoline-soaked rags and set on fire.",
+        "description" : "A sturdy wood bat, wrapped in flame-resistant Nomex fabric. Makes a good melee weapon but better be disassembled to recycle the baseball bat and some Nomex patchs.",
         "weight" : 1343,
         "to_hit" : 3,
         "color" : "brown",
@@ -1880,7 +1880,7 @@
         "volume" : 7,
         "bashing" : 19,
         "cutting" : 0,
-        "price" : 160
+        "price" : 180
     },
     {
         "type":"GENERIC",
@@ -2518,7 +2518,7 @@
     "symbol": ",",
     "color": "light_gray",
     "name": "nomex patch",
-    "description": "A small bolt Nomex fire-resistant fabric.",
+    "description": "A small bolt of Nomex fire-resistant fabric.",
     "price": 40,
     "material": ["nomex", "null"],
     "weight": 42,
@@ -2549,7 +2549,7 @@
     "symbol": "[",
     "color": "blue",
     "name": "kevlar dog harness",
-    "description": "A blue bulletproof harness, designed to be worn by canines in service of local law enforcement.",
+    "description": "A blue bulletproof harness, designed to be worn by canines in the service of local law enforcement.",
     "price": 300,
     "material": ["kevlar", "null"],
     "weight": 4290,
@@ -2647,5 +2647,24 @@
     "cutting": 0,
     "to_hit": 0,
     "material": ["plastic", "null"]
+  },
+  {
+    "type":"GENERIC",
+    "id" : "file",
+    "name" : "file",
+    "description" : "Several documents with all kinds of information, customer data and charts kept together, pretty useless now though.",
+    "weight" : 15,
+    "to_hit" : -3,
+    "color" : "white",
+    "symbol" : ",",
+    "material" : ["paper", "null"],
+    "volume" : 1,
+    "bashing" : -8,
+    "cutting": -3,
+    "max_charges": 20,
+    "initial_charges": 20,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "price" : 0
   }
 ]

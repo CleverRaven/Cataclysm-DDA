@@ -49,7 +49,19 @@ std::vector<int> find_firsts(indexed_invslice &slice, CategoriesVector &CATEGORI
     return firsts;
 }
 
-void print_inv_weight_vol(WINDOW* w_inv, int weight_carried, int vol_carried)
+int calc_volume_capacity(const std::vector<char> &dropped_armor) {
+    int vol_capacity = g->u.volume_capacity();
+    for(size_t i = 0; i < dropped_armor.size(); i++) {
+        const item &armor = g->u.i_at(dropped_armor[i]);
+        const it_armor *ita = dynamic_cast<const it_armor*>(armor.type);
+        if(ita != 0) {
+            vol_capacity -= ita->storage;
+        }
+    }
+    return vol_capacity;
+}
+
+void print_inv_weight_vol(WINDOW* w_inv, int weight_carried, int vol_carried, int vol_capacity)
 {
     // Print weight
     mvwprintw(w_inv, 0, 32, _("Weight (%s): "),
@@ -66,7 +78,7 @@ void print_inv_weight_vol(WINDOW* w_inv, int weight_carried, int vol_carried)
 
     // Print volume
     mvwprintw(w_inv, 0, 61, _("Volume: "));
-    if (vol_carried > g->u.volume_capacity() - 2)
+    if (vol_carried > vol_capacity - 2)
     {
         wprintz(w_inv, c_red, "%3d", vol_carried);
     }
@@ -74,7 +86,7 @@ void print_inv_weight_vol(WINDOW* w_inv, int weight_carried, int vol_carried)
     {
         wprintz(w_inv, c_ltgray, "%3d", vol_carried);
     }
-    wprintw(w_inv, "/%-3d", g->u.volume_capacity() - 2);
+    wprintw(w_inv, "/%-3d", vol_capacity - 2);
 }
 
 // dropped_weapon==0 -> weapon is not dropped
@@ -86,7 +98,7 @@ void print_inv_statics(WINDOW* w_inv, std::string title,
 // Print our header
  mvwprintw(w_inv, 0, 0, title.c_str());
 
- print_inv_weight_vol(w_inv, g->u.weight_carried(), g->u.volume_carried());
+ print_inv_weight_vol(w_inv, g->u.weight_carried(), g->u.volume_carried(), calc_volume_capacity(dropped_items));
 
 // Print our weapon
  int n_items = 0;
@@ -413,18 +425,19 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
         }
 
         inventory drop_subset = u.inv.subset(dropping);
-        if (dropped_weapon == -1) {
-            drop_subset.add_item(u.weapon, false, false);
-        } else if (dropped_weapon > 0) {
-            item &tmp = drop_subset.add_item(u.weapon, false, false);
-            tmp.charges = dropped_weapon;
-        }
         int new_weight = base_weight - drop_subset.weight();
         int new_volume = base_volume - drop_subset.volume();
         for (int i = 0; i < dropped_armor.size(); ++i) {
             new_weight -= u.i_at(dropped_armor[i]).weight();
         }
-        print_inv_weight_vol(w_inv, new_weight, new_volume);
+        if (dropped_weapon == -1) {
+            new_weight -= u.weapon.weight();
+        } else if (dropped_weapon > 0) {
+            item tmp(u.weapon);
+            tmp.charges = dropped_weapon;
+            new_weight -= tmp.weight();
+        }
+        print_inv_weight_vol(w_inv, new_weight, new_volume, calc_volume_capacity(dropped_armor));
         int cur_line = 2;
         max_it = 0;
         int drp_line = 1;

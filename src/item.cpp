@@ -691,7 +691,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
    std::string recipes = "";
    int index = 1;
    for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter, ++index) {
-     if(g->u.knows_recipe(iter->first)) recipes += "<color_grey>";
+     if(g->u.knows_recipe(iter->first)) recipes += "<color_ltgray>";
      recipes += itypes.at(iter->first->result)->name;
      if(g->u.knows_recipe(iter->first)) recipes += "</color>";
      if(index == book->recipes.size() - 1)

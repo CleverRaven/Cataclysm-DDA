@@ -39,6 +39,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -71,6 +72,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -108,6 +110,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -145,6 +148,7 @@
   "tools": [
     [
       [ "needle_bone", 5 ],
+      [ "needle_wood", 5 ],
       [ "sewing_kit", 5 ]
     ],
     [
@@ -177,6 +181,7 @@
   "tools": [
     [
       [ "needle_bone", 5 ],
+      [ "needle_wood", 5 ],
       [ "sewing_kit", 5 ]
     ],
     [
