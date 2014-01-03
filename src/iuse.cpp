@@ -1247,15 +1247,37 @@ int iuse::mut_iv(player *p, item *it, bool) {
             p->fatigue += 5;
             p->thirst += 10;
         }
+    }
+        
         // Threshold-check.  You only get to cross once!
       if (p->crossed_threshold() == false) {
           // Threshold-breaching
           std::string primary = p->get_highest_category();
+          int total = ((p->mutation_category_level["MUTCAT_LIZARD"]) +
+          (p->mutation_category_level["MUTCAT_BIRD"]) +
+          (p->mutation_category_level["MUTCAT_FISH"]) +
+          (p->mutation_category_level["MUTCAT_BEAST"]) +
+          (p->mutation_category_level["MUTCAT_FELINE"]) +
+          (p->mutation_category_level["MUTCAT_LUPINE"]) +
+          (p->mutation_category_level["MUTCAT_URSINE"]) +
+          (p->mutation_category_level["MUTCAT_CATTLE"]) +
+          (p->mutation_category_level["MUTCAT_INSECT"]) +
+          (p->mutation_category_level["MUTCAT_PLANT"]) +
+          (p->mutation_category_level["MUTCAT_SLIME"]) +
+          (p->mutation_category_level["MUTCAT_TROGLOBITE"]) +
+          (p->mutation_category_level["MUTCAT_CEPHALOPOD"]) +
+          (p->mutation_category_level["MUTCAT_SPIDER"]) +
+          (p->mutation_category_level["MUTCAT_RAT"]) +
+          (p->mutation_category_level["MUTCAT_MEDICAL"]) +
+          (p->mutation_category_level["MUTCAT_ALPHA"]) +
+          (p->mutation_category_level["MUTCAT_ELFA"]) +
+          (p->mutation_category_level["MUTCAT_CHIMERA"]) +
+          (p->mutation_category_level["MUTCAT_RAPTOR"]));
           // Only if you were pushing for more in your primary category.
           // You wanted to be more like it and less human.
           // That said, you're required to have hit third-stage dreams first.
           if ((mutation_category == primary) && (p->mutation_category_level[primary] > 50)) {
-              if (x_in_y(p->mutation_category_level[primary], 350)) {
+              if (x_in_y(p->mutation_category_level[primary], total)) {
                   g->add_msg_if_player(p,_("Something strains mightily for a moment...and then..you're...FREE!"));
                   if (mutation_category == "MUTCAT_LIZARD") {
                       p->toggle_mutation("THRESH_LIZARD");
@@ -1311,7 +1333,6 @@ int iuse::mut_iv(player *p, item *it, bool) {
                     p->add_disease("stunned", rng(2, 3));
                 }
           }
-      }
     }
     return it->type->charges_to_use();
 }
