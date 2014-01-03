@@ -1239,8 +1239,12 @@ void player::recalc_speed_bonus()
  if (has_trait("QUICK")) // multiply by 1.1
   set_speed_bonus(get_speed() * 1.10 - get_speed_base());
 
- if (get_speed_bonus() < -0.75 * get_speed_base())
-  set_speed_bonus(0.75 * get_speed_base());
+ // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
+ const int min_speed_bonus = -0.75 * get_speed_base();
+ if (get_speed_bonus() < min_speed_bonus)
+ {
+  set_speed_bonus(min_speed_bonus);
+ }
 }
 
 int player::run_cost(int base_cost, bool diag)
