@@ -129,7 +129,6 @@ void game::load_static_data() {
     init_ter_bitflags_map();
     init_vpart_bitflag_map();
     init_translation();
-    init_martial_arts();
     init_colormap();
     init_artifacts();
     init_mapgen_builtin_functions();
@@ -157,6 +156,7 @@ void game::load_all_mod_data() {
     // foreach mod {
     //   load_mod_data(mod->name);
     // }
+    finalize_loaded_data();
 }
 
 void game::load_core_data() {
@@ -177,16 +177,15 @@ void game::load_core_data() {
 
 void game::load_data_from_dir(const std::string &path) {
     load_json_dir(path);
+}
 
-    // TODO: After mods
+extern void calculate_mapgen_weights();
+void game::finalize_loaded_data() {
+    finalize_overmap_terrain();
+    calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
     finalize_vehicles();
     finalize_recipes();
-}
-
-void game::unload_dynamic_data() {
-    unload_active_json_data();
-    // TODO :-)
 }
 
 game::~game()
@@ -205,7 +204,7 @@ game::~game()
 
  release_traps();
  release_data_structures();
- unload_active_json_data();
+ unload_dynamic_data();
 }
 
 // Fixed window sizes
@@ -381,6 +380,8 @@ void game::init_ui(){
 void game::setup()
 {
  m = map(&traps); // Init the root map with our vectors
+
+    load_world_modfiles(world_generator->active_world);
 
 // Even though we may already have 'd', nextinv will be incremented as needed
  nextinv = 'd';
@@ -3105,15 +3106,21 @@ void game::load(std::string worldname, std::string name)
  draw();
 }
 
-void game::load_world_modfiles(std::string worldname)
+void game::load_world_modfiles(WORLDPTR world)
 {
+    popup_nowait(_("Please wait while the world data loads"));
+
     // This is simple: unload all, load core, load mods
     unload_dynamic_data();
+    // Artifacts should already be saved
+    artifact_itype_ids.clear();
     load_core_data();
 
-    std::string worldpath = world_generator->all_worlds[worldname]->world_path;
-    worldpath += "/mods";
-    load_data_from_dir(worldpath);
+    if (world != NULL) {
+        load_artifacts(world->world_path + "/artifacts.gsav", itypes);
+        load_data_from_dir(world->world_path + "/mods");
+    }
+    finalize_loaded_data();
 }
 
 //Saves all factions and missions and npcs.

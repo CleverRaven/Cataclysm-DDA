@@ -57,8 +57,6 @@ void init_data_mappings() {
     set_furn_ids();
     set_oter_ids();
     set_trap_ids();
-    finalize_overmap_terrain();
-    calculate_mapgen_weights();
 // temporary (reliable) kludge until switch statements are rewritten
     std::map<std::string, int> legacy_lookup;
     for(int i=0; i< num_legacy_ter;i++) {
@@ -157,6 +155,7 @@ void init_data_structures()
     type_function_map["CONTAINER"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_container);
     type_function_map["GUNMOD"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gunmod);
     type_function_map["GENERIC"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_generic);
+    type_function_map["BIONIC_ITEM"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_bionic);
     type_function_map["ITEM_CATEGORY"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_item_category);
 
     type_function_map["MONSTER"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_monster);
@@ -180,6 +179,9 @@ void init_data_structures()
     type_function_map["monitems"] = new ClassFunctionAccessor<game>(g, &game::load_monitem);
 
     type_function_map["region_settings"] = new StaticFunctionAccessor(&load_region_settings);
+
+    // init maps used for loading json data
+    init_martial_arts();
 
     mutations_category[""].clear();
 }
@@ -325,7 +327,7 @@ void init_names()
 }
 #endif
 
-void unload_active_json_data()
+void game::unload_dynamic_data()
 {
     material_type::reset();
     profession::reset();
@@ -333,48 +335,41 @@ void unload_active_json_data()
     computer::clear_lab_notes();
     dreams.clear();
     clear_hints();
-
-    // clear bionics
-    for (std::map<bionic_id, bionic_data*>::iterator bio = bionics.begin(); bio != bionics.end(); ++bio){
-        delete bio->second;
-    }
-    bionics.clear();
-
-    // clear mutations (traits, mutation categories and mutation data)
+    // clear techniques, martial arts, and ma buffs
+    clear_techniques_and_martial_arts();
+    // Mission types are not loaded from json, but they depend on
+    // the overmap terrain + items and that gets loaded from json.
+    mission_types.clear();
+    item_controller->clear_items_and_groups();
     mutations_category.clear();
     mutation_data.clear();
     traits.clear();
-    // clear furniture
+    reset_bionics();
+    clear_tutorial_messages();
     furnlist.clear();
     furnmap.clear();
-    // clear terrains
     terlist.clear();
     termap.clear();
-    // clear monster groups
     MonsterGroupManager::ClearMonsterGroups();
-    // clear snippits
     SNIPPET.clear_snippets();
-    // clear item groups and items
-    item_controller->clear_items_and_groups();
+    reset_vehicles();
+    reset_vehicleparts();
+    MonsterGenerator::generator().reset();
+    reset_recipe_categories();
+    reset_recipes();
+    reset_recipes_qualities();
+    reset_monitems();
+    release_traps();
+    reset_constructions();
+    reset_overmap_terrain();
+    reset_region_settings();
+    reset_mapgens();
+    reset_effect_types();
+    reset_speech();
 
     // clear migo speech
     // FIXME
 //    parrotVector.clear();
     // clear out names
 //    NameGenerator::generator().clear_names();
-    // clear out vehicles and vehicle parts
-    vehicle_part_types.clear();
-    for (std::map<std::string, vehicle*>::iterator veh = g->vtypes.begin(); veh != g->vtypes.end(); ++veh){
-        delete veh->second;
-    }
-    g->vtypes.clear();
-    // clear recipes, recipe categories, and tool qualities
-    clear_recipes_categories_qualities();
-    // clear techniques, martial arts, and ma buffs
-    clear_techniques_and_martial_arts();
-    // clear tutorial messages
-    clear_tutorial_messages();
-    g->mission_types.clear();
-
-    item_controller->reinit();
 }

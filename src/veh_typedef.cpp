@@ -152,6 +152,12 @@ void game::load_vehiclepart(JsonObject &jo)
     vehicle_part_int_types.push_back(next_part);
 }
 
+void game::reset_vehicleparts()
+{
+    vehicle_part_types.clear();
+    vehicle_part_int_types.clear();
+}
+
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
  */
@@ -208,6 +214,16 @@ void game::load_vehicle(JsonObject &jo)
 
     vehprototypes.push(vproto);
 }
+
+void game::reset_vehicles()
+{
+    for (std::map<std::string, vehicle*>::iterator veh = vtypes.begin(); veh != vtypes.end(); ++veh){
+        delete veh->second;
+    }
+    vtypes.clear();
+}
+
+
 /**
  *Works through cached vehicle definitions and creates vehicle objects from them.
  */

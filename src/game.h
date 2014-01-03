@@ -128,12 +128,19 @@ class game
     void load_static_data();
     // Load core data and all mods.
     void load_all_mod_data();
+protected:
     // Load core dynamic data
     void load_core_data();
     // Load dynamic data from given directory
     void load_data_from_dir(const std::string &path);
     // Unload _all_ dynamicly loaded data
     void unload_dynamic_data();
+    // Load core data and mods from that world
+    void load_world_modfiles(WORLDPTR world);
+    // Called after core data and all mods that should
+    // be used have been loaded
+    void finalize_loaded_data();
+public:
 
 
   void init_ui();
@@ -416,9 +423,12 @@ class game
 // Vehicle related JSON loaders and variables
   void load_vehiclepart(JsonObject &jo);
   void load_vehicle(JsonObject &jo);
+  void reset_vehicleparts();
+  void reset_vehicles();
   void finalize_vehicles();
 
   void load_monitem(JsonObject &jo);     // Load monster inventory selection entry
+  void reset_monitems();
 
   std::queue<vehicle_prototype*> vehprototypes;
 
@@ -440,7 +450,6 @@ class game
   void start_game(std::string worldname); // Starts a new game in a world
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
-  void load_world_modfiles(std::string worldname);
   //private save functions.
   void save_factions_missions_npcs();
   void serialize_master(std::ofstream &fout);

@@ -46,7 +46,6 @@ public:
     //Setup
     Item_factory();
     void init();
-    void reinit();
     void clear_items_and_groups();
     void init_old();
     void register_iuse_lua(const char* name, int lua_function);
@@ -81,6 +80,7 @@ public:
     void load_container (JsonObject &jo);
     void load_gunmod    (JsonObject &jo);
     void load_generic   (JsonObject &jo);
+    void load_bionic    (JsonObject &jo);
 
     // Check that all items referenced in the groups
     // do actually exist (are defined)
@@ -119,6 +119,8 @@ private:
     // of this map (which has been returned by get_category).
     // The key is the id of the item_category.
     CategoryMap m_categories;
+
+    void create_inital_categories();
 
     // used to add the default categories
     void add_category(const std::string &id, int sort_rank, const std::string &name);

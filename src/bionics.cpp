@@ -798,6 +798,14 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
     }
 }
 
+void reset_bionics()
+{
+    for (std::map<bionic_id, bionic_data*>::iterator bio = bionics.begin(); bio != bionics.end(); ++bio){
+        delete bio->second;
+    }
+    bionics.clear();
+}
+
 void load_bionic(JsonObject &jsobj)
 {
     std::string id = jsobj.get_string("id");

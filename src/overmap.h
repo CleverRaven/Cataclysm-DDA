@@ -406,7 +406,9 @@ extern std::vector<oter_t> oterlist;
 extern std::map<std::string, regional_settings> region_settings_map;
 
 void load_overmap_terrain(JsonObject &jo);
+void reset_overmap_terrain();
 void load_region_settings(JsonObject &jo);
+void reset_region_settings();
 
 void finalize_overmap_terrain();
 

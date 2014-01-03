@@ -112,10 +112,12 @@ typedef std::vector<recipe*> recipe_list;
 typedef std::map<craft_cat, recipe_list> recipe_map;
 
 void load_recipe_category(JsonObject &jsobj);
+void reset_recipe_categories();
 void load_recipe(JsonObject &jsobj);
+void reset_recipes();
 recipe* recipe_by_name(std::string name);
 void finalize_recipes();
-void clear_recipes_categories_qualities();
+void reset_recipes_qualities();
 
 extern recipe_map recipes; // The list of valid recipes
 

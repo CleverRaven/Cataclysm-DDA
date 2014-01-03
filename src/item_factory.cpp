@@ -41,11 +41,6 @@ Item_factory::Item_factory(){
     m_templates["MISSING_ITEM"]=m_missing_item;
 }
 
-void Item_factory::reinit()
-{
-    m_templates["MISSING_ITEM"]=m_missing_item;
-}
-
 void Item_factory::init(){
     //Populate the iuse functions
     iuse_function_list["NONE"] = &iuse::none;
@@ -258,6 +253,10 @@ void Item_factory::init(){
     techniques_list["PRECISE"] = "tec_precise";
     techniques_list["RAPID"] = "tec_rapid";
 
+    create_inital_categories();
+}
+
+void Item_factory::create_inital_categories() {
     // Load default categories with their default sort_rank
     // Negative rank so the default categories come before all
     // the explicit defined categories from json
@@ -657,6 +656,16 @@ void Item_factory::load_gunmod(JsonObject& jo)
     load_basic_info(jo, new_item_template);
 }
 
+void Item_factory::load_bionic(JsonObject& jo)
+{
+    it_bionic* bionic_template = new it_bionic();
+    bionic_template->options.push_back(jo.get_string("id"));
+    bionic_template->m1 = "steel";
+    bionic_template->m2 = "plastic";
+    load_basic_info(jo, bionic_template);
+    bionic_template->difficulty = jo.get_int("difficulty");
+}
+
 void Item_factory::load_generic(JsonObject& jo)
 {
     itype *new_item_template = new itype();
@@ -837,11 +846,33 @@ void Item_factory::clear_items_and_groups()
         delete ig->second;
     }
     m_template_groups.clear();
-    for (std::map<Item_tag, itype*>::iterator it = m_templates.begin(); it != m_templates.end(); ++it){
-        itypes.erase(it->first);
-        it->second = NULL;
+
+    m_categories.clear();
+    create_inital_categories();
+
+    for (std::map<Item_tag, itype*>::iterator it = m_templates.begin(); it != m_templates.end(); ++it) {
+        if (m_missing_item == it->second) {
+            // No need to delete m_missing_item,
+            // it will be used again and must always exist
+            continue;
+        }
+        delete it->second;
     }
     m_templates.clear();
+
+    // These containers are defined in itypedef.cpp
+    // and initialzed there.
+    // There are updated here when an item type is loaded
+    unreal_itype_ids.clear();
+    martial_arts_itype_ids.clear();
+    artifact_itype_ids.clear();
+    standard_itype_ids.clear();
+    pseudo_itype_ids.clear();
+    itypes.clear();
+
+    // Recreate this entry, now we are in the same state as
+    // after the creation of this object
+    m_templates["MISSING_ITEM"] = m_missing_item;
 }
 
 // Load an item group from JSON

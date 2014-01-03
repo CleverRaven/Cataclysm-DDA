@@ -311,6 +311,7 @@ std::map<std::string, std::map<int, int> > oter_mapgen_weights;
  * setup oter_mapgen_weights which which mapgen uses to diceroll. Also setup mapgen_function_json
  */
 void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup too
+    oter_mapgen_weights.clear();
     for( std::map<std::string, std::vector<mapgen_function*> >::const_iterator oit = oter_mapgen.begin(); oit != oter_mapgen.end(); ++oit ) {
         int funcnum = 0;
         int wtotal = 0;
@@ -461,6 +462,23 @@ void load_mapgen( JsonObject &jo ) {
     } else {
         debugmsg("mapgen entry requires \"om_terrain\": \"something\", or \"om_terrain\": [ \"list\", \"of\" \"somethings\" ]\n%s\n", jo.str().c_str() );
     }
+}
+
+void reset_mapgens()
+{
+    // Because I don't know where that pointer is stored
+    // might be at multiple locations, but we must only delete it once!
+    typedef std::set<mapgen_function*> xset;
+    xset s;
+    for(std::map<std::string, std::vector<mapgen_function*> >::iterator a = oter_mapgen.begin(); a != oter_mapgen.end(); ++a) {
+        for(std::vector<mapgen_function*>::iterator b = a->second.begin(); b != a->second.end(); ++b) {
+            s.insert(*b);
+        }
+    }
+    for(xset::iterator a = s.begin(); a != s.end(); ++a) {
+        delete *a;
+    }
+    oter_mapgen.clear();
 }
 
 /////////////////////////////////////////////////////////////////////////////////

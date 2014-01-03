@@ -198,6 +198,7 @@ struct itype
   light_emission = 0;
   use         = &iuse::none;
  }
+ virtual ~itype() {}
 };
 
 // Includes food drink and drugs
@@ -636,7 +637,7 @@ struct it_bionic : public itype
  int difficulty;
 
  virtual bool is_bionic()    { return true; }
-
+ it_bionic() { }
  it_bionic(std::string pid, unsigned int pprice,
            std::string pname, std::string pdes,
            char psym, nc_color pcolor, std::string pm1, std::string pm2,

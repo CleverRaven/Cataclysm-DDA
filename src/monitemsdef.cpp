@@ -38,3 +38,8 @@ void game::load_monitem(JsonObject &jo) {
         }
     }
 }
+
+void game::reset_monitems()
+{
+    monitems.clear();
+}

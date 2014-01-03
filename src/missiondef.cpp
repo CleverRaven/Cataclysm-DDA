@@ -5,8 +5,6 @@
 
 void game::init_missions()
 {
-    mission_types.clear();
-
  #define MISSION(name, goal, diff, val, urgent, place, start, end, fail) \
  id++; mission_types.push_back( \
 mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )

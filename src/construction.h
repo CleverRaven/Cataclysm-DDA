@@ -47,6 +47,7 @@ struct construction
 extern std::vector<construction*> constructions;
 
 void load_construction(JsonObject &jsobj);
+void reset_constructions();
 void construction_menu();
 bool player_can_build(player &p, inventory inv, construction *con);
 bool player_can_build(player &p, inventory pinv, const std::string &desc);

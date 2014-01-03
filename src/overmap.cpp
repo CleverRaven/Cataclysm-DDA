@@ -307,6 +307,11 @@ void load_oter(oter_t & oter) {
     oterlist.push_back(oter);
 }
 
+void reset_overmap_terrain() {
+    otermap.clear();
+    oterlist.clear();
+}
+
 /*
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
@@ -631,6 +636,11 @@ void load_region_settings( JsonObject &jo ) {
     }
     region_settings_map[new_region.id] = new_region;
 };
+
+void reset_region_settings()
+{
+    region_settings_map.clear();
+}
 
 
 // *** BEGIN overmap FUNCTIONS ***
