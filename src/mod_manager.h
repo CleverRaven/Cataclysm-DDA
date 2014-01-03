@@ -14,7 +14,6 @@ class worldfactory;
 
 enum mod_type
 {
-    MT_UNKNOWN,
     MT_CORE,
     MT_SUPPLEMENTAL
 };
@@ -24,12 +23,16 @@ struct MOD_INFORMATION
     mod_type _type;
     std::vector<std::string> dependencies;
 
+    MOD_INFORMATION()
+    : _type(MT_SUPPLEMENTAL)
+    {
+    }
+
     std::string type()
     {
         switch (_type){
             case MT_CORE: return "CORE"; break;
             case MT_SUPPLEMENTAL: return "SUPPLEMENTAL"; break;
-            default: return "UNKNOWN TYPE"; break;
         }
     }
 };

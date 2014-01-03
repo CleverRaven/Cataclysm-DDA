@@ -119,7 +119,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     } else if (t_type == "SUPPLEMENTAL") {
         m_type = MT_SUPPLEMENTAL;
     } else {
-        m_type = MT_UNKNOWN;
+        throw std::string("Invalid mod type: ") + t_type;
     }
 
     modfile->ident = m_ident;
