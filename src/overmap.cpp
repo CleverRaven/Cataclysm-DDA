@@ -2040,7 +2040,7 @@ void overmap::draw(WINDOW *w, int z, int &cursx, int &cursy,
                                                  _(" - Delete a note          ")).c_str());
   mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
                                                  _(" - List notes             ")).c_str());
-  fold_and_print(w, 21, om_map_width + 1, 27, c_magenta, (inp_ctxt->get_desc("QUIT") +
+  fold_and_print(w, 21, om_map_width + 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
                                                           _(" - Return to game  ")).c_str());
   mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, string_format(_("LEVEL %i"),z).c_str());
   mvwprintz( w, getmaxy(w) - 1, om_map_width + 1, c_red, "%s, %d'%d, %d'%d",
