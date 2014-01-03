@@ -427,5 +427,116 @@
             ["hakama_gi", 10],
             ["obi_gi", 10]
         ]
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_shower",
+        "name": "shower",
+        "symbol": "~",
+        "color": "white",
+        "move_cost_mod": 0,
+        "required_str": 10,
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
+        "bash": {
+            "str_min": 2, "str_max": 30,
+            "comment": "originally result = dice(8, 4) - 8;",
+            "sound": "porcelain breaking!",
+            "sound_fail": "whunk!",
+            "items": [
+                { "item": "cu_pipe", "amount": 3, "minamount": 0 }
+            ]
+        }
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_tatami",
+        "name": "tatami mat",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost_mod": 0,
+        "required_str": 7,
+        "flags": ["TRANSPARENT"]
+    },
+    {
+        "type" : "overmap_terrain",
+        "id" : "dojo",
+        "name" : "dojo",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "brown",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true,
+        "mapgen": [
+            { "weight": 1000,
+            "method": "json", "object": {
+                "fill_ter": "t_grass",
+                "rows":[
+                    "  --------ssss--------  ",
+                    "  -,-----,ssss,-----,-  ",
+                    "  -,-----,ssss,-----,-  ",
+                    "  -,-----,ssss,-----,-  ",
+                    "  -,-----,ssss,-----,-  ",
+                    "  -,-----,ssss,-----,-  ",
+                    "  qgggggggg++ggggggggq  ",
+                    "  x..................x  ",
+                    "  x.################.x  ",
+                    "  x.################.x  ",
+                    "  x.################.x  ",
+                    "  x.################.x  ",
+                    "  x.################.x  ",
+                    "  x.################.x  ",
+                    "  x.################.x  ",
+                    "  x.################.x  ",
+                    "  x..................x  ",
+                    "  xqqqqqqqqqq''qqqqqqx  ",
+                    "  xLLLLLLLLLx..x.DC..x  ",
+                    "  xBBBBBBBBBx..x.DDD.x  ",
+                    "  x.........'..'.....x  ",
+                    "  xqqq...qqqx..x.....x  ",
+                    "  xS.'...'.Tx..xXXXXXx  ",
+                    "  qqqqqqqqqqqqqqqqqqqq  "
+                ],
+                "terrain":{
+                    " ": "t_null",
+                    "g": "t_wall_glass_h",
+                    ",": "t_pavement_y",
+                    "_": "t_pavement",
+                    "#": "t_floor",
+                    ".": "t_floor",
+                    "q": "t_wall_h",
+                    "x": "t_wall_v",
+                    "L": "t_floor",
+                    "+": "t_door_glass_c",
+                    "'": "t_door_c",
+                    "T": "t_floor",
+                    "S": "t_floor",
+                    "L": "t_floor",
+                    "B": "t_floor",
+                    "D": "t_floor",
+                    "X": "t_floor",
+                    "C": "t_floor",
+                    "s": "t_sidewalk"
+                },
+                "furniture":{
+                    "T": "f_toilet",
+                    "S": "f_shower",
+                    "L": "f_locker",
+                    "B": "f_bench",
+                    "D": "f_desk",
+                    "#": "f_tatami",
+                    "C": "f_chair",
+                    "X": "f_rack"
+                },
+                "place_groups": [
+                    { "item": "gi", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [5, 8] },
+                    { "item": "judo_belts", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [1, 2] }
+                ],
+                "add": [
+                    { "item": "judo_belt_black", "x": 17, "y": 18 }
+                ] }
+            }
+        ]
     }
 ]
