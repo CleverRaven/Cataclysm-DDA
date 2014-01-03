@@ -677,6 +677,12 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
 {
     std::string new_id = jo.get_string("id");
     new_item_template->id = new_id;
+    if(m_templates.count(new_id) > 0) {
+        // New item already exists. Because mods are loaded after
+        // core data, we override it. This allows mods to change
+        // item from core data.
+        delete m_templates[new_id];
+    }
     m_templates[new_id] = new_item_template;
     itypes[new_id] = new_item_template;
     standard_itype_ids.push_back(new_id);
@@ -880,10 +886,15 @@ void Item_factory::clear_items_and_groups()
 void Item_factory::load_item_group(JsonObject &jsobj)
 {
     Item_tag group_id = jsobj.get_string("id");
-    Item_group *current_group = new Item_group(group_id);
-    m_template_groups[group_id] = current_group;
+    Item_group *current_group;
+    if (m_template_groups.count(group_id) > 0) {
+        current_group = m_template_groups[group_id];
+    } else {
+        current_group = new Item_group(group_id);
+        m_template_groups[group_id] = current_group;
+    }
 
-    current_group->m_guns_have_ammo = jsobj.get_bool("guns_have_ammo", false );
+    current_group->m_guns_have_ammo = jsobj.get_bool("guns_have_ammo", current_group->m_guns_have_ammo);
 
     JsonArray items = jsobj.get_array("items");
     while (items.has_more()) {
@@ -896,9 +907,8 @@ void Item_factory::load_item_group(JsonObject &jsobj)
         JsonArray pair = groups.next_array();
         std::string name = pair.get_string(0);
         int frequency = pair.get_int(1);
-        // we had better have loaded it already!
-        if (m_template_groups.find(name) == m_template_groups.end()) {
-            throw jsobj.line_number() + ": unrecognized group name: " + name;
+        if (m_template_groups.count(name) == 0) {
+            m_template_groups[name] = new Item_group(name);
         }
         current_group->add_group(m_template_groups[name], frequency);
     }
