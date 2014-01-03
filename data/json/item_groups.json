@@ -2692,7 +2692,39 @@
       ["57mm", 10],
       ["shot_00", 16],
       ["shot_beanbag", 14],
-      ["3006", 10]      
+      ["3006", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "prison_weapons",
+    "items":[
+      ["tonfa", 50],
+      ["tonfa_wood", 10],
+      ["shocktonfa_off", 25],
+      ["tazer", 25],
+      ["remington_700", 5],
+      ["3006", 5],
+      ["remington_870", 10],
+      ["mossberg_500", 10],
+      ["shot_beanbag", 25],
+      ["rm120c", 5],
+      ["rm20", 2],
+      ["20x66_beanbag", 10],
+      ["m79", 8],
+      ["40mm_teargas", 20],
+      ["40mm_flashbang", 8],
+      ["40mm_beanbag", 10]
+  },{
+    "type" : "item_group",
+    "id" : "prison_armor",
+    "items":[
+      ["helmet_riot", 25],
+      ["mask_gas", 25],
+      ["modularveststeel", 20],
+      ["gloves_tactical", 10],
+      ["armguard_hard", 20],
+      ["legguard_hard", 20],
+      ["emergency_book", 1],
     ]
   },{
     "type" : "item_group",
@@ -2884,6 +2916,7 @@
       ["pda", 10],
       ["gold_watch", 5],
       ["pocketwatch", 2],
+      ["picklocks", 4],
       ["chisel", 2],
       ["scissors", 10],
       ["screwdriver", 8],
