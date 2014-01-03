@@ -256,10 +256,6 @@
         "skills": [
             {
                 "level": 1,
-                "name": "throw"
-            },
-            {
-                "level": 1,
                 "name": "cooking"
             }
         ],
@@ -894,7 +890,7 @@
         "points": 0,
         "skills": [
             {
-                "level": 2,
+                "level": 1,
                 "name": "dodge"
             }
         ],
@@ -1429,10 +1425,6 @@
             {
                 "level": 1,
                 "name": "driving"
-            },
-            {
-                "level": 1,
-                "name": "dodge"
             }
         ],
         "items": {
@@ -1462,12 +1454,6 @@
         "name": "Convict",
         "description": "The cataclysm gave you a chance to escape, but freedom comes with a steep price.",
         "points": 0,
-        "skills": [
-            {
-                "level": 1,
-                "name": "melee"
-            }
-        ],
         "items": {
             "both": [
                 "striped_shirt",
