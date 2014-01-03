@@ -143,18 +143,6 @@ color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,pierce,flags,effects,\
 skill,ammo,dmg,range,dispersion,\
 recoil,durability,burst,clip,reload_time)
 
-// BIONICS
-// These are the modules used to install new bionics in the player.  They're
-// very simple and straightforward; a difficulty, followed by a NULL-terminated
-// list of options.
-#define BIO(id, name, price, color, difficulty, des) \
-itypes[id]=new it_bionic(id, price,name,des,':',\
-color, "steel", "plastic", 10,2041, 8, 0, 0, difficulty)
-
-#define BIO_SINGLE(id,price,color,difficulty) \
-     BIO(id, std::string(_("CBM: "))+bionics[id]->name, price,color,difficulty, \
-           bionics[id]->description) \
-
 // SOFTWARE
 #define SOFTWARE(id, name, price, swtype, power, description) \
 itypes[id]=new it_software(id, price, name, description,\
@@ -166,111 +154,6 @@ itypes[id]=new it_software(id, price, name, description,\
 itypes[id]=new it_macguffin(id, price, name, description,\
     sym, color, mat1, mat2, volume, wgt, dam, cut, to_hit, readable,\
     function)
-
-// BIONIC IMPLANTS
-// Sometimes a bionic needs to set you up with a dummy weapon, or something
-// similar.  For the sake of clarity, no matter what the type of item, place
-// them all here.
-
-// TODO: move the cost, color and difficulty to bionics.json
-
-#if 0
-// TODO, FIXME _must_ be loaded from json, because we need the names
-// of the bionics, those are already in json!
-// power storage
-BIO_SINGLE("bio_power_storage", 3800, c_green, 1);
-BIO_SINGLE("bio_power_storage_mkII", 10000, c_green, 1);
-// power sources
-BIO_SINGLE("bio_solar", 3500, c_yellow, 4);
-BIO_SINGLE("bio_batteries", 800, c_yellow, 4);
-BIO_SINGLE("bio_metabolics", 700, c_yellow, 4);
-BIO_SINGLE("bio_furnace", 4500, c_yellow, 4);
-BIO_SINGLE("bio_ethanol", 1200, c_yellow, 4);
-BIO_SINGLE("bio_torsionratchet", 3800, c_yellow, 4);
-// utilities
-BIO_SINGLE("bio_tools", 8000, c_ltgray, 6);
-BIO_SINGLE("bio_storage", 4000, c_ltgray, 7);
-BIO_SINGLE("bio_flashlight", 200, c_ltgray, 2);
-BIO_SINGLE("bio_lighter", 1300, c_ltgray, 4);
-BIO_SINGLE("bio_magnet", 2000, c_ltgray, 2);
-// neurological
-BIO_SINGLE("bio_memory", 10000, c_pink, 9);
-BIO_SINGLE("bio_painkiller", 2000, c_pink, 4);
-BIO_SINGLE("bio_alarm", 250, c_pink, 1);
-BIO_SINGLE("bio_int_enhancer", 8000, c_ltblue, 11);
-// sensory
-BIO_SINGLE("bio_ears", 5000, c_ltblue, 6);
-BIO_SINGLE("bio_eye_enhancer", 8000, c_ltblue, 11);
-BIO_SINGLE("bio_night_vision", 9000, c_ltblue, 11);
-BIO_SINGLE("bio_infrared", 4500, c_ltblue, 6);
-BIO_SINGLE("bio_scent_vision", 4500, c_ltblue, 8);
-// aquatic
-BIO_SINGLE("bio_membrane", 4500, c_blue, 6);
-BIO_SINGLE("bio_gills", 4500, c_blue, 6);
-// combat augs
-BIO_SINGLE("bio_targeting", 6500, c_red, 5);
-BIO_SINGLE("bio_ground_sonar", 4500, c_red, 5);
-// hazmat
-BIO_SINGLE("bio_purifier", 4500, c_ltgreen, 4);
-BIO_SINGLE("bio_sunglasses", 4500, c_ltgreen, 4);
-BIO_SINGLE("bio_climate", 3500, c_ltgreen, 3);
-BIO_SINGLE("bio_heatsink", 3500, c_ltgreen, 3);
-BIO_SINGLE("bio_blood_filter", 3500, c_ltgreen, 3);
-BIO_SINGLE("bio_geiger", 3500, c_ltgreen, 3);
-BIO_SINGLE("bio_radscrubber", 4500, c_ltgreen, 4);
-// nutritional
-BIO_SINGLE("bio_recycler", 8500, c_green, 6);
-BIO_SINGLE("bio_digestion", 5500, c_green, 6);
-BIO_SINGLE("bio_evap", 5500, c_green, 4);
-BIO_SINGLE("bio_water_extractor", 5500, c_green, 5);
-// was: desert survival (all dupes)
-// melee:
-BIO_SINGLE("bio_shock", 5500, c_red, 5);
-BIO_SINGLE("bio_heat_absorb", 5500, c_red, 5);
-BIO_SINGLE("bio_claws", 5500, c_red, 5);
-BIO_SINGLE("bio_razors", 4500, c_red, 4);
-BIO_SINGLE("bio_shockwave", 5500, c_red, 5);
-// armor:
-BIO_SINGLE("bio_carbon", 7500, c_cyan, 9);
-BIO_SINGLE("bio_armor_head", 3500, c_cyan, 5);
-BIO_SINGLE("bio_armor_torso", 3500, c_cyan, 4);
-BIO_SINGLE("bio_armor_arms", 3500, c_cyan, 3);
-BIO_SINGLE("bio_armor_legs", 3500, c_cyan, 3);
-BIO_SINGLE("bio_armor_eyes", 5500, c_cyan, 5);
-// espionage
-BIO_SINGLE("bio_face_mask", 8500, c_magenta, 5);
-BIO_SINGLE("bio_scent_mask", 8500, c_magenta, 5);
-BIO_SINGLE("bio_cloak", 8500, c_magenta, 5);
-BIO_SINGLE("bio_fingerhack", 3500, c_magenta, 2);
-BIO_SINGLE("bio_night", 8500, c_magenta, 5);
-BIO_SINGLE("bio_lockpick", 3500, c_magenta, 2);
-// defensive
-BIO_SINGLE("bio_ads", 9500, c_ltblue, 7);
-BIO_SINGLE("bio_ods", 9500, c_ltblue, 7);
-BIO_SINGLE("bio_uncanny_dodge", 9500, c_ltblue, 11);
-// medical
-BIO_SINGLE("bio_nanobots", 9500, c_ltred, 6);
-BIO_SINGLE("bio_blood_anal", 3200, c_ltred, 2);
-// construction
-BIO_SINGLE("bio_resonator", 12000, c_dkgray, 11);
-BIO_SINGLE("bio_hydraulics", 4000, c_dkgray, 6);
-// super soldier
-BIO_SINGLE("bio_time_freeze", 14000, c_white, 11);
-BIO_SINGLE("bio_teleport", 7000, c_white, 7);
-BIO_SINGLE("bio_probability_travel", 14000, c_white, 11);
-BIO_SINGLE("bio_str_enhancer", 8000, c_ltblue, 11);
-BIO_SINGLE("bio_dex_enhancer", 8000, c_ltblue, 11);
-// ranged combat
-BIO_SINGLE("bio_blaster", 2200, c_red, 3);
-BIO_SINGLE("bio_laser", 7200, c_red, 5);
-BIO_SINGLE("bio_emp", 7200, c_red, 5);
-BIO_SINGLE("bio_flashbang", 7200, c_red, 5);
-BIO_SINGLE("bio_railgun", 2200, c_red, 3);
-BIO_SINGLE("bio_chain_lightning", 2200, c_red, 3);
-// power armor
-BIO_SINGLE("bio_power_armor_interface", 1200, c_yellow, 1);
-BIO_SINGLE("bio_power_armor_interface_mkII", 10000, c_yellow, 8);
-#endif
 
 SOFTWARE("software_useless", _("misc software"), 300, SW_USELESS, 0, _("\
 A miscellaneous piece of hobby software. Probably useless."));

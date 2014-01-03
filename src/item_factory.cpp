@@ -659,11 +659,12 @@ void Item_factory::load_gunmod(JsonObject& jo)
 void Item_factory::load_bionic(JsonObject& jo)
 {
     it_bionic* bionic_template = new it_bionic();
-    bionic_template->options.push_back(jo.get_string("id"));
-    bionic_template->m1 = "steel";
-    bionic_template->m2 = "plastic";
-    load_basic_info(jo, bionic_template);
     bionic_template->difficulty = jo.get_int("difficulty");
+    JsonArray jarr = jo.get_array("options");
+    while (jarr.has_more()){
+        bionic_template->options.push_back(jarr.next_string());
+    }
+    load_basic_info(jo, bionic_template);
 }
 
 void Item_factory::load_generic(JsonObject& jo)

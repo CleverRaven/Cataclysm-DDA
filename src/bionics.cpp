@@ -804,6 +804,9 @@ void reset_bionics()
         delete bio->second;
     }
     bionics.clear();
+    faulty_bionics.clear();
+    power_source_bionics.clear();
+    unpowered_bionics.clear();
 }
 
 void load_bionic(JsonObject &jsobj)
