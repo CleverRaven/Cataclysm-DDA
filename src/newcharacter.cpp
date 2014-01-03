@@ -262,17 +262,17 @@ bool player::create(character_type type, std::string tempname)
     // Character is finalized.  Now just set up HP, &c
     int tough = 0;
     // Most extreme applies.
-    if (has_trait("TOUGH3")) {
+    if (has_trait("TOUGH")) {
         tough = 1;
     } else if (has_trait("TOUGH2")) {
         tough = 2;
-    } else if (has_trait("TOUGH")) {
+    } else if (has_trait("TOUGH3")) {
         tough = 3;
-    } else if (has_trait("FLIMSY3")) {
+    } else if (has_trait("FLIMSY")) {
         tough = -1;
     } else if (has_trait("FLIMSY2")) {
         tough = -2;
-    } else if (has_trait("FLIMSY")) {
+    } else if (has_trait("FLIMSY3")) {
         tough = -3;
     }
 
