@@ -6250,7 +6250,7 @@
         "description" : "A barrette with with lots of ornaments.",
         "weight" : 5,
         "to_hit" : 0,
-        "color" : "",
+        "color" : "pink",
         "encumbrance" : 0,
         "price" : 28,
         "material" : ["plastic", "null"],
