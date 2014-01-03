@@ -356,7 +356,7 @@
         "to_hit":1,
         "material":"plastic",
         "contains":1,
-        "flags":[ "RIGID" ]
+        "flags":[ "RIGID", "SEALS", "WATERTIGHT"]
     },
     {
         "id": "wrapper",
