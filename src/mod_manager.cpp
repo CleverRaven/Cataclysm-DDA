@@ -16,7 +16,7 @@
 #include <dirent.h>
 #endif
 
-#define MOD_SEARCH_PATH "./data/mods"
+#define MOD_SEARCH_PATH "./data"
 #define MOD_SEARCH_FILE "modinfo.json"
 
 mod_manager::mod_manager()
@@ -96,11 +96,26 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 {
     MOD_INFORMATION *modfile = new MOD_INFORMATION;
     std::string m_ident = jo.get_string("ident");
-    std::string t_type = jo.get_string("type", "UNKNOWN");
+    std::string t_type = jo.get_string("type");
     std::string m_author = jo.get_string("author", "Unknown Author");
     std::string m_name = jo.get_string("name", "No Name");
     std::string m_desc = jo.get_string("description", "No Description");
-    std::string m_path = jo.get_string("path", "");
+    std::string m_path;
+    if (jo.has_string("path")) {
+        m_path = jo.get_string("path");
+        if (m_path.empty()) {
+            // If an empty path is given, use only the
+            // folder of the modinfo.json
+            m_path = main_path;
+        } else {
+            // prefix the folder of modinfo.json
+            m_path = main_path + "/" + m_path;
+        }
+    } else {
+        // Default if no path is given:
+        // "<folder-of-modinfo.json>/data"
+        m_path = main_path + "/data";
+    }
     std::vector<std::string> m_dependencies;
 
     if (jo.has_member("dependencies") && jo.has_array("dependencies")) {
@@ -128,11 +143,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     modfile->name = m_name;
     modfile->description = m_desc;
     modfile->dependencies = m_dependencies;
-    if(m_path.empty()) {
-        modfile->path = main_path + "/data";
-    } else {
-        modfile->path = main_path + "/" + m_path;
-    }
+    modfile->path = m_path;
 
     mods.push_back(modfile);
 }
