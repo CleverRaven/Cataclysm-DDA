@@ -4289,7 +4289,7 @@
         "material" : ["leather", "null"],
         "volume" : 3,
         "cutting" : 0,
-        "warmth" : 35,
+        "warmth" : 15,
         "phase" : "solid",
         "enviromental_protection" : 1,
         "encumbrance" : 1,
