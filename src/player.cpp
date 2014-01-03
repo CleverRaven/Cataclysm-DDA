@@ -4352,17 +4352,17 @@ void player::recalc_hp()
     {
         new_max_hp[i] = 60 + str_max * 3;
         // Only the most extreme applies.
-        if (has_trait("TOUGH3")) {
+        if (has_trait("TOUGH")) {
             new_max_hp[i] *= 1.2;
         } else if (has_trait("TOUGH2")) {
             new_max_hp[i] *= 1.3;
-        } else if (has_trait("TOUGH")) {
+        } else if (has_trait("TOUGH3")) {
             new_max_hp[i] *= 1.4;
-        } else if (has_trait("FLIMSY3")) {
+        } else if (has_trait("FLIMSY")) {
             new_max_hp[i] *= .75;
         } else if (has_trait("FLIMSY2")) {
             new_max_hp[i] *= .5;
-        } else if (has_trait("FLIMSY")) {
+        } else if (has_trait("FLIMSY3")) {
             new_max_hp[i] *= .25;
         }
     }
