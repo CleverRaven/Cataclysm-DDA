@@ -187,6 +187,8 @@ enum m_flag {
     MF_VERMIN,              // Creature is too small for normal combat, butchering, etc.
     MF_HUNTS_VERMIN,        // Creature uses vermin as a food source
     MF_SMALL_BITER,         // Creature can cause a painful, non-damaging bite
+    MF_MALE,                // Creature is always male
+    MF_FEMALE,              // Creature is always female
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
