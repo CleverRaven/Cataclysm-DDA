@@ -2212,6 +2212,10 @@ point overmap::draw_overmap(int zlevel)
   }
   else if (action == "ANY_INPUT") { // Hit timeout on input, so make characters blink
    blink = !blink;
+   input_event e = ictxt.get_raw_input();
+   if(e.type == CATA_INPUT_KEYBOARD && e.get_first_input() == 'm') {
+     action = "QUIT";
+   }
   }
  } while (action != "QUIT" && action != "CONFIRM");
  timeout(-1);
