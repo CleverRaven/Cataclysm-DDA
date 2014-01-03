@@ -60,6 +60,8 @@ class worldfactory
 
         std::vector<std::string> active_mod_order;
 
+        mod_manager *get_mod_manager();
+
         void remove_world(std::string worldname);
         bool valid_worldname(std::string name, bool automated = false);
     protected:

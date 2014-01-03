@@ -4755,7 +4755,6 @@
       ["bio_time_freeze", 10],
       ["bio_teleport", 10],
       ["bio_probability_travel", 10],
-      ["recipe_mil_bionics", 4],
       ["bio_power_armor_interface", 10],
       ["bio_power_armor_interface_mkII", 5]
     ]

@@ -127,7 +127,7 @@ class game
     // Static data, does not depend on mods or similar.
     void load_static_data();
     // Load core data and all mods.
-    void load_all_mod_data();
+    void check_all_mod_data();
 protected:
     // Load core dynamic data
     void load_core_data();

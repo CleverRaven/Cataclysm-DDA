@@ -42,6 +42,7 @@ int main(int argc, char *argv[])
 #endif
     int seed = time(NULL);
     bool verifyexit = false;
+    bool check_all_mods = false;
     // set locale to system default
     setlocale(LC_ALL, "");
 #ifdef LOCALIZE
@@ -65,6 +66,9 @@ int main(int argc, char *argv[])
         } else if(std::string(argv[0]) == "--jsonverify") {
             argc--;
             verifyexit = true;
+        } else if(std::string(argv[0]) == "--check-mods") {
+            argc--;
+            check_all_mods = true;
         } else { // ignore unknown args.
             argc--;
         }
@@ -94,10 +98,16 @@ int main(int argc, char *argv[])
     try {
         g->load_static_data();
         if (verifyexit) {
-            // Her ewe load all the mods and check their
-            // consistency.
-            g->load_all_mod_data();
             g->check_consistency();
+            if(g->game_error()) {
+                exit_handler(-999);
+            }
+            exit_handler(0);
+        }
+        if (check_all_mods) {
+            // Her we load all the mods and check their
+            // consistency (both is done in check_all_mod_data).
+            g->check_all_mod_data();
             if(g->game_error()) {
                 exit_handler(-999);
             }

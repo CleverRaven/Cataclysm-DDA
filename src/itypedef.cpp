@@ -188,37 +188,6 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
         standard_itype_ids.push_back(iter->first);
     }
 }
-
-std::set<std::string> noammo_flags;
-noammo_flags.insert("NO_AMMO");
-
-std::set<std::string> laser_effects;
-laser_effects.insert("LASER");
-laser_effects.insert("INCENDIARY");
-GUN("bio_laser_gun", _("laser finger"),  0,c_magenta, "steel", "plastic",
-// SKILL   AMMO              VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
- "pistol", "generic_no_ammo", 12,  0,  0,  0,  10, 30,  4,  0, 10,  0,  1, 500,
-//    AP
-  "", 15, noammo_flags, laser_effects);
-
-std::set<std::string> fusion_effects;
-fusion_effects.insert("PLASMA");
-fusion_effects.insert("INCENDIARY");
-//  NAME  RARE COLOR  MAT1 MAT2
-GUN("bio_blaster_gun", _("fusion blaster"),  0,c_magenta, "steel", "plastic",
-// SKILL  AMMO             VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
- "rifle", "generic_no_ammo", 12,  0,  0,  0, 22, 30,  4,  0, 10,  0,  1, 500,
-//    AP
-  "", 15, noammo_flags, fusion_effects);
-
-std::set<std::string> lightning_effects;
-lightning_effects.insert("LIGHTNING");
-lightning_effects.insert("BOUNCE");
-//  NAME  RARE COLOR  MAT1 MAT2
-GUN("bio_lightning", _("Chain Lightning"),  0,c_magenta, "steel", "plastic",
-// SKILL  AMMO              VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
- "rifle", "generic_no_ammo", 12,  0,  0,  0,  6,  10,  0,  0, 10,  1, 10, 500,
-"", 0, noammo_flags, lightning_effects);
 }
 
 std::string ammo_name(ammotype t)

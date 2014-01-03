@@ -10,6 +10,7 @@
 #include <map>
 
 class mod_ui;
+class game;
 class worldfactory;
 
 enum mod_type
@@ -56,6 +57,7 @@ class mod_manager
         // Make this accessible for now
         friend class mod_ui;
         friend class worldfactory;
+        friend class game;
         bool load_mods_from(std::string path);
         bool load_mod_info(std::string info_file_path);
         void load_modfile(JsonObject &jo, const std::string &main_path);

@@ -1244,3 +1244,7 @@ std::map<std::string, cOpt> worldfactory::get_world_options(std::string path)
 
     return retoptions;
 }
+
+mod_manager *worldfactory::get_mod_manager() {
+    return mman;
+}

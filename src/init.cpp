@@ -367,9 +367,8 @@ void game::unload_dynamic_data()
     reset_effect_types();
     reset_speech();
 
-    // clear migo speech
-    // FIXME
-//    parrotVector.clear();
-    // clear out names
+    // artifacts are not loaded from json, but must be unloaded anyway.
+    artifact_itype_ids.clear();
+    // TODO:
 //    NameGenerator::generator().clear_names();
 }

@@ -32,6 +32,7 @@
 #include "monstergenerator.h"
 #include "worldfactory.h"
 #include "file_finder.h"
+#include "mod_manager.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -149,14 +150,19 @@ void game::load_static_data() {
     moveCount = 0;
 }
 
-void game::load_all_mod_data() {
-    load_core_data();
-    // TODO: find out about all the possible mods and
-    // load them here:
-    // foreach mod {
-    //   load_mod_data(mod->name);
-    // }
-    finalize_loaded_data();
+void game::check_all_mod_data() {
+    init_ui();
+    popup_nowait("checking all mods");
+    mod_manager *mm = world_generator->get_mod_manager();
+    for(size_t i = 0; i < mm->mods.size(); i++) {
+        MOD_INFORMATION *mod = mm->mods[i];
+        popup_nowait("checking mod %s", mod->name.c_str());
+        // TODO: dependencies
+        unload_dynamic_data();
+        load_core_data();
+        load_data_from_dir(mod->path + "/mods");
+        finalize_loaded_data();
+    }
 }
 
 void game::load_core_data() {
@@ -186,6 +192,7 @@ void game::finalize_loaded_data() {
     MonsterGenerator::generator().finalize_mtypes();
     finalize_vehicles();
     finalize_recipes();
+    check_consistency();
 }
 
 game::~game()
@@ -3123,8 +3130,6 @@ void game::load_world_modfiles(WORLDPTR world)
 
     // This is simple: unload all, load core, load mods
     unload_dynamic_data();
-    // Artifacts should already be saved
-    artifact_itype_ids.clear();
     load_core_data();
 
     if (world != NULL) {
