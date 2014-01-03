@@ -757,6 +757,12 @@ bool game::do_turn()
         if (u.has_bionic("bio_solar") && is_in_sunlight(u.posx, u.posy)) {
             u.charge_power(1);
         }
+        // Huge folks take penalties for cramming themselves in vehicles
+        if ((u.has_trait("HUGE") || u.has_trait("HUGE_OK")) && u.in_vehicle) {
+            add_msg(_("You're cramping up from stuffing yourself in this vehicle."));
+            u.pain += 2 * rng(2, 3);
+            u.focus_pool -= 1;
+        }
     }
 
     if (turn % 300 == 0) { // Pain up/down every 30 minutes
@@ -783,6 +789,11 @@ bool game::do_turn()
             u.radiation--;
         }
         u.get_sick(  );
+        // Freakishly Huge folks tire quicker
+        if (u.has_trait("HUGE") && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
+            add_msg(_("<whew> You catch your breath."));
+            u.fatigue++;
+        }
     }
 
     // Auto-save if autosave is enabled
@@ -11061,6 +11072,8 @@ bool game::plmove(int dx, int dy)
 
               mdir.init( dxVeh, dyVeh );
               mdir.advance( 1 );
+              grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
+              grabbed_vehicle->face = grabbed_vehicle->turn_dir;
               grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
               int imp = 0;
               std::vector<veh_collision> veh_veh_colls;
@@ -11071,7 +11084,8 @@ bool game::plmove(int dx, int dy)
               int player_prev_y = u.posy;
               u.posx = 0;
               u.posy = 0;
-              if( grabbed_vehicle->collision( veh_veh_colls, veh_misc_colls, dxVeh, dyVeh, can_move, imp, true ) ) {
+              if( grabbed_vehicle->collision( veh_veh_colls, veh_misc_colls, dxVeh, dyVeh,
+                                              can_move, imp, true ) ) {
                   // TODO: figure out what we collided with.
                   add_msg( _("The %s collides with something."), grabbed_vehicle->name.c_str() );
                   u.moves -= 10;
@@ -11094,7 +11108,7 @@ bool game::plmove(int dx, int dy)
                                                     gy + grabbed_vehicle->parts[p].precalc_dy[0] + dyVeh, p );
                   }
               }
-              m.displace_vehicle(  gx, gy, dxVeh, dyVeh );
+              m.displace_vehicle( gx, gy, dxVeh, dyVeh );
           } else {
               //We are moving around the veh
               u.grab_point.x = (dx + dxVeh) * (-1);

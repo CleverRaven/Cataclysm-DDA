@@ -6376,6 +6376,7 @@ wd.d.d.d.|....|----|-|-|\n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6438,6 +6439,7 @@ fffffffffHHHHHHfffffffff\n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6500,6 +6502,7 @@ fffffffffffffffff|,,| % \n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6561,6 +6564,7 @@ fffffffffffffffff|,,| % \n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6625,12 +6629,13 @@ bb| ss____________ss |bb\n\
                                            f_null,         f_sink));
         add_spawn("mon_secubot", rng(1, 2), 11, 7);
         add_spawn("mon_zombie_cop", rng(0, 3), rng(12, 18), rng(4, 19));
-        place_items("pistols", 30,  11,  1, 12,  1, false, 0);
-        place_items("ammo", 50,  11,  1, 12,  1, false, 0);
+        place_items("prison_weapons", 30,  11,  1, 12,  1, false, 0);
+        place_items("prison_armor", 50,  11,  1, 12,  1, false, 0);
         for (int i = 0; i <= 23; i++) {
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6696,6 +6701,7 @@ bb| ss____________ss |bb\n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6761,6 +6767,7 @@ bb| ss____________ss |bb\n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6823,6 +6830,7 @@ bb|o,,,,|,,,,,l|,,,,,|bb\n",
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6900,6 +6908,7 @@ fffffffffffffffff|,,| % \n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6962,6 +6971,7 @@ bb|#####################\n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_toilet) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -7159,8 +7169,8 @@ bb|,,,,,,,,,,,,,,,,,,|##\n\
                                                f_null,         f_null,         f_sink));
             add_spawn("mon_zombie_cop", rng(0, 2), 2, 0);
             add_spawn("mon_zombie_cop", rng(0, 2), 2, 23);
-            place_items("pistols", 30,  11,  1, 12,  1, false, 0);
-            place_items("ammo", 40,  11,  1, 12,  1, false, 0);
+            place_items("prison_weapons", 30,  11,  1, 12,  1, false, 0);
+            place_items("prison_armor", 40,  11,  1, 12,  1, false, 0);
             for (int i = 0; i <= 23; i++) {
                 for (int j = 0; j <= 23; j++) {
                     if (this->furn(i, j) == f_chair) {
@@ -7403,13 +7413,14 @@ ee|,,,,,,r|#############\n\
                 }
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                 }
                 if (this->furn(i, j) == f_fridge) {
                     place_items("fridge", 60,  i,  j, i,  j, false, 0);
                 }
                 if (this->furn(i, j) == f_locker) {
-                    place_items("cop_weapons", 20,  i,  j, i,  j, false, 0);
-                    place_items("cop_gear", 20,  i,  j, i,  j, false, 0);
+                    place_items("prison_weapons", 30,  i,  j, i,  j, false, 0);
+                    place_items("prison_armor", 30,  i,  j, i,  j, false, 0);
                     place_items("cop_torso", 20,  i,  j, i,  j, false, 0);
                     place_items("cop_pants", 20,  i,  j, i,  j, false, 0);
                     place_items("cop_shoes", 20,  i,  j, i,  j, false, 0);
@@ -10768,7 +10779,7 @@ void map::place_toilet(int x, int y, int charges)
 int map::place_items(items_location loc, int chance, int x1, int y1,
                      int x2, int y2, bool ongrass, int turn)
 {
-int lets_spawn = 100 * ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
+    const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
 
     if (chance >= 100 || chance <= 0) {
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
@@ -10782,35 +10793,36 @@ int lets_spawn = 100 * ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
         real_coords rc( this->getabs() );
         overmap * thisom = &overmap_buffer.get(rc.abs_om.x, rc.abs_om.y );
         oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
-        debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)", loc.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
+        debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)",
+                 loc.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
     }
     int px, py;
     int item_num = 0;
     while (rng(0, 99) < chance) {
+        float lets_spawn = spawn_rate;
+        while( rng_float( 0.0, 1.0 ) <= lets_spawn ) {
+            lets_spawn -= 1.0;
 
-    if (rng(1,100) > lets_spawn) {
-    continue;
-    }
-
-        selected_item = item_controller->id_from(loc);
-        int tries = 0;
-        do {
-            px = rng(x1, x2);
-            py = rng(y1, y2);
-            tries++;
-            // Only place on valid terrain
-        } while (((terlist[ter(px, py)].movecost == 0 &&
-                   !(terlist[ter(px, py)].has_flag("PLACE_ITEM"))) ||
-                  (!ongrass && !terlist[ter(px, py)].has_flag("FLAT") )) &&
-                 tries < 20);
-        if (tries < 20) {
-            spawn_item(px, py, selected_item, 1, 0, turn);
-            item_num++;
-            // Guns in item groups with guns_have_ammo flags are generated with their ammo
-            if ( guns_have_ammo ) {
-                it_gun *maybe_gun = static_cast<it_gun *> (item_controller->find_template(selected_item));
-                if ( maybe_gun != NULL ) {
-                    spawn_item(px, py, default_ammo(maybe_gun->ammo), 1, 0, turn);
+            selected_item = item_controller->id_from(loc);
+            int tries = 0;
+            do {
+                px = rng(x1, x2);
+                py = rng(y1, y2);
+                tries++;
+                // Only place on valid terrain
+            } while (((terlist[ter(px, py)].movecost == 0 &&
+                       !(terlist[ter(px, py)].has_flag("PLACE_ITEM"))) ||
+                      (!ongrass && !terlist[ter(px, py)].has_flag("FLAT") )) &&
+                     tries < 20);
+            if (tries < 20) {
+                spawn_item(px, py, selected_item, 1, 0, turn);
+                item_num++;
+                // Guns in item groups with guns_have_ammo flags are generated with their ammo
+                if ( guns_have_ammo ) {
+                    it_gun *maybe_gun = static_cast<it_gun *> (item_controller->find_template(selected_item));
+                    if ( maybe_gun != NULL ) {
+                        spawn_item(px, py, default_ammo(maybe_gun->ammo), 1, 0, turn);
+                    }
                 }
             }
         }

@@ -8,6 +8,7 @@ long rng(long val1, long val2)
     long maxVal = (val1 < val2) ? val2 : val1;
     return minVal + long((maxVal - minVal + 1) * double(rand() / double(RAND_MAX + 1.0)));
 }
+
 double rng_float(double val1, double val2)
 {
     double minVal = (val1 < val2) ? val1 : val2;

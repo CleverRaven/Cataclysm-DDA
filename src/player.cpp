@@ -1239,8 +1239,12 @@ void player::recalc_speed_bonus()
  if (has_trait("QUICK")) // multiply by 1.1
   set_speed_bonus(get_speed() * 1.10 - get_speed_base());
 
- if (get_speed_bonus() < -0.75 * get_speed_base())
-  set_speed_bonus(0.75 * get_speed_base());
+ // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
+ const int min_speed_bonus = -0.75 * get_speed_base();
+ if (get_speed_bonus() < min_speed_bonus)
+ {
+  set_speed_bonus(min_speed_bonus);
+ }
 }
 
 int player::run_cost(int base_cost, bool diag)
@@ -3172,16 +3176,59 @@ bool player::has_base_trait(const std::string &flag) const
 
 bool player::has_conflicting_trait(const std::string &flag) const
 {
-    if(mutation_data[flag].cancels.size() > 0) {
-        std::vector<std::string> cancels = mutation_data[flag].cancels;
+    return (has_opposite_trait(flag) || has_lower_trait(flag) || has_higher_trait(flag));
+}
 
+bool player::has_opposite_trait(const std::string &flag) const
+{
+    if (mutation_data[flag].cancels.size() > 0) {
+        std::vector<std::string> cancels = mutation_data[flag].cancels;
         for (int i = 0; i < cancels.size(); i++) {
-            if ( has_trait(cancels[i]) )
+            if (has_trait(cancels[i])) {
                 return true;
+            }
         }
     }
-
     return false;
+}
+
+bool player::has_lower_trait(const std::string &flag) const
+{
+    if (mutation_data[flag].prereqs.size() > 0) {
+        std::vector<std::string> prereqs = mutation_data[flag].prereqs;
+        for (int i = 0; i < prereqs.size(); i++) {
+            if (has_trait(prereqs[i]) || has_lower_trait(prereqs[i])) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool player::has_higher_trait(const std::string &flag) const
+{
+    if (mutation_data[flag].replacements.size() > 0) {
+        std::vector<std::string> replacements = mutation_data[flag].replacements;
+        for (int i = 0; i < replacements.size(); i++) {
+            if (has_trait(replacements[i]) || has_higher_trait(replacements[i])) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool player::crossed_threshold()
+{
+  std::vector<std::string> traitslist;
+  for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+        traitslist.push_back(*iter);
+    }
+  for (int i = 0; i < traitslist.size(); i++) {
+      if (mutation_data[traitslist[i]].threshold == true)
+      return true;
+  }
+ return false;
 }
 
 bool player::purifiable(const std::string &flag) const
@@ -3224,6 +3271,10 @@ void player::set_cat_level_rec(const std::string &sMut)
 
         for (int i = 0; i < mutation_data[sMut].prereqs.size(); i++) {
             set_cat_level_rec(mutation_data[sMut].prereqs[i]);
+        }
+        
+        for (int i = 0; i < mutation_data[sMut].prereqs2.size(); i++) {
+            set_cat_level_rec(mutation_data[sMut].prereqs2[i]);
         }
     }
 }
@@ -4352,17 +4403,17 @@ void player::recalc_hp()
     {
         new_max_hp[i] = 60 + str_max * 3;
         // Only the most extreme applies.
-        if (has_trait("TOUGH3")) {
+        if (has_trait("TOUGH")) {
             new_max_hp[i] *= 1.2;
         } else if (has_trait("TOUGH2")) {
             new_max_hp[i] *= 1.3;
-        } else if (has_trait("TOUGH")) {
+        } else if (has_trait("TOUGH3")) {
             new_max_hp[i] *= 1.4;
-        } else if (has_trait("FLIMSY3")) {
+        } else if (has_trait("FLIMSY")) {
             new_max_hp[i] *= .75;
         } else if (has_trait("FLIMSY2")) {
             new_max_hp[i] *= .5;
-        } else if (has_trait("FLIMSY")) {
+        } else if (has_trait("FLIMSY3")) {
             new_max_hp[i] *= .25;
         }
     }
