@@ -576,17 +576,17 @@ int set_stats(WINDOW *w, player *u, int &points)
                     mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Str further costs 2 points."));
                 }
                 // Most extreme applies.
-                if (u->has_trait("TOUGH3")) {
+                if (u->has_trait("TOUGH")) {
                     tmp = 1;
                 } else if (u->has_trait("TOUGH2")) {
                     tmp = 2;
-                } else if (u->has_trait("TOUGH")) {
+                } else if (u->has_trait("TOUGH3")) {
                     tmp = 3;
-                } else if (u->has_trait("FLIMSY3")) {
+                } else if (u->has_trait("FLIMSY")) {
                     tmp = -1;
                 } else if (u->has_trait("FLIMSY2")) {
                     tmp = -2;
-                } else if (u->has_trait("FLIMSY")) {
+                } else if (u->has_trait("FLIMSY3")) {
                     tmp = -3;
                 }
                 mvwprintz(w, 6, iSecondColumn, COL_STAT_NEUTRAL, _("Base HP: %d"),
