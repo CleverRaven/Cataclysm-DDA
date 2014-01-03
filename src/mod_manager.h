@@ -50,6 +50,10 @@ class mod_manager
 
         dependency_tree *get_tree();
         void clear();
+        /**
+         * @returns true if the mod anager knows a mod with this ident.
+         */
+        bool has_mod(const std::string &ident) const;
 
         bool copy_mod_contents(std::vector<std::string> mods_to_copy, std::string output_base_path);
     protected:

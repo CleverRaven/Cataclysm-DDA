@@ -75,6 +75,16 @@ void mod_manager::refresh_mod_list()
     tree->init(mod_dependency_map);
 }
 
+bool mod_manager::has_mod(const std::string &ident) const
+{
+    for (int i = 0; i < mods.size(); ++i) {
+        if(mods[i]->ident == ident) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool mod_manager::load_mods_from(std::string path)
 {
     std::vector<std::string> mod_files = file_finder::get_files_from_path(MOD_SEARCH_FILE, path, true);
@@ -94,9 +104,14 @@ bool mod_manager::load_mods_from(std::string path)
 
 void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 {
-    MOD_INFORMATION *modfile = new MOD_INFORMATION;
     std::string m_ident = jo.get_string("ident");
-    std::string t_type = jo.get_string("type");
+    if (has_mod(m_ident)) {
+        // TODO: change this to make uniqe ident for the mod
+        // (instead of discarding it?)
+        debugmsg("there is already a mod with ident %s", m_ident.c_str());
+        return;
+    }
+    std::string t_type = jo.get_string("type", "SUPPLEMENTAL");
     std::string m_author = jo.get_string("author", "Unknown Author");
     std::string m_name = jo.get_string("name", "No Name");
     std::string m_desc = jo.get_string("description", "No Description");
@@ -120,7 +135,6 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 
     if (jo.has_member("dependencies") && jo.has_array("dependencies")) {
         JsonArray jarr = jo.get_array("dependencies");
-
         for (int i = 0; i < jarr.size(); ++i) {
             if (jarr.has_string(i)) {
                 m_dependencies.push_back(jarr.get_string(i));
@@ -137,6 +151,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         throw std::string("Invalid mod type: ") + t_type;
     }
 
+    MOD_INFORMATION *modfile = new MOD_INFORMATION;
     modfile->ident = m_ident;
     modfile->_type = m_type;
     modfile->author = m_author;
