@@ -137,6 +137,8 @@ void game::init_data()
  moveCount = 0;
 
  gamemode = new special_game; // Nothing, basically.
+ fullscreen = false;
+ was_fullscreen = false;
 }
 
 game::~game()
@@ -160,6 +162,27 @@ game::~game()
 // Fixed window sizes
 #define MINIMAP_HEIGHT 7
 #define MINIMAP_WIDTH 7
+
+void game::toggle_fullscreen(void) {
+  fullscreen = !fullscreen;
+  if(fullscreen) was_fullscreen = true;
+  init_ui();
+  refresh_all();
+}
+
+// temporarily switch out of fullscreen for functions that rely
+// on displaying some part of the sidebar
+void game::temp_exit_fullscreen(void) {
+  if(fullscreen) {
+    was_fullscreen = true;
+    toggle_fullscreen();
+  }
+}
+
+void game::reenter_fullscreen(void) {
+  if(was_fullscreen && !fullscreen)
+    toggle_fullscreen();
+}
 
 void game::init_ui(){
     // clear the screen
@@ -216,7 +239,12 @@ void game::init_ui(){
     #endif
 
     // Set up the main UI windows.
-    w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
+    if(fullscreen) {
+      w_terrain = newwin(TERMY, TERMX, 0, 0);
+    }
+    else {
+      w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
+    }
     werase(w_terrain);
 
     int minimapX, minimapY; // always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
@@ -2131,7 +2159,10 @@ bool game::handle_action()
 
         int ch = ctxt.get_raw_input().get_first_input();
         // Hack until new input system is fully implemented
-        if (ch == KEY_UP) {
+        if (ch == '\t') {
+            toggle_fullscreen();
+            return false;
+        } else if (ch == KEY_UP) {
             act = ACTION_MOVE_N;
         } else if (ch == KEY_RIGHT) {
             act = ACTION_MOVE_E;
@@ -2352,6 +2383,7 @@ bool game::handle_action()
     int iRetItems = -1;
     int iRetMonsters = -1;
     int startas = uistate.list_item_mon;
+    temp_exit_fullscreen();
     do {
         if ( startas != 2 ) { // last mode 2 = list_monster
             startas = 0;      // but only for the first bit of the loop
@@ -2376,6 +2408,7 @@ bool game::handle_action()
         refresh_all();
         plfire(false);
     }
+    reenter_fullscreen();
   } break;
 
 
@@ -4165,6 +4198,8 @@ void game::draw()
     werase(w_terrain);
     draw_ter();
     draw_footsteps();
+    if(fullscreen)
+      return;
 
     // Draw Status
     draw_HP();
@@ -4371,7 +4406,6 @@ void game::draw_ter(int posx, int posy)
         mvwputch(w_terrain, POSY + (final_destination.y - (u.posy + u.view_offset_y)),
             POSX + (final_destination.x - (u.posx + u.view_offset_x)), c_white, 'X');
     }
-
     wrefresh(w_terrain);
 
     if (u.has_disease("visuals") || (u.has_disease("hot_head") &&
@@ -4384,10 +4418,12 @@ void game::refresh_all()
 {
  m.reset_vehicle_cache();
  draw();
- draw_HP();
- wrefresh(w_messages);
+ if(!fullscreen) {
+   draw_HP();
+   wrefresh(w_messages);
+   draw_minimap();
+ }
  refresh();
- draw_minimap();
 }
 
 void game::draw_HP()
@@ -12067,7 +12103,8 @@ void game::update_map(int &x, int &y) {
  m.build_map_cache();
 // Update what parts of the world map we can see
  update_overmap_seen();
- draw_minimap();
+ if(!fullscreen)
+   draw_minimap();
 }
 
 void game::set_adjacent_overmaps(bool from_scratch)
