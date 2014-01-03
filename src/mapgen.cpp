@@ -6376,6 +6376,7 @@ wd.d.d.d.|....|----|-|-|\n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6438,6 +6439,7 @@ fffffffffHHHHHHfffffffff\n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6500,6 +6502,7 @@ fffffffffffffffff|,,| % \n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6561,6 +6564,7 @@ fffffffffffffffff|,,| % \n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6631,6 +6635,7 @@ bb| ss____________ss |bb\n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6696,6 +6701,7 @@ bb| ss____________ss |bb\n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6761,6 +6767,7 @@ bb| ss____________ss |bb\n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6823,6 +6830,7 @@ bb|o,,,,|,,,,,l|,,,,,|bb\n",
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6900,6 +6908,7 @@ fffffffffffffffff|,,| % \n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -6962,6 +6971,7 @@ bb|#####################\n\
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_toilet) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                     if (!one_in(3)) {
                         add_spawn("mon_zombie", rng(0, 1), i, j);
                     } else {
@@ -7403,6 +7413,7 @@ ee|,,,,,,r|#############\n\
                 }
                 if (this->furn(i, j) == f_bed) {
                     place_items("novels", 30,  i,  j, i,  j, false, 0);
+                    place_items("contraband", 10,  i,  j, i,  j, false, 0);
                 }
                 if (this->furn(i, j) == f_fridge) {
                     place_items("fridge", 60,  i,  j, i,  j, false, 0);
