@@ -279,7 +279,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
         }
         fout.close();
     }
-    mman->copy_mod_contents(active_mod_order, world->world_path);
+    mman->copy_mod_contents(active_mod_order, world->world_path + "/mods");
     return true;
 }
 

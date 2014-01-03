@@ -21,26 +21,20 @@
 
 mod_manager::mod_manager()
 {
-    tree = new dependency_tree();
-    clear();
 }
 
 mod_manager::~mod_manager()
 {
-    //dtor
     clear();
-    if (tree) {
-        delete tree;
-    }
 }
 
-dependency_tree *mod_manager::get_tree() {
+dependency_tree &mod_manager::get_tree() {
     return tree;
 }
 
 void mod_manager::clear()
 {
-    tree->clear();
+    tree.clear();
     for(t_mod_map::iterator a = mod_map.begin(); a != mod_map.end(); ++a) {
         delete a->second;
     }
@@ -62,13 +56,11 @@ void mod_manager::refresh_mod_list()
     clear();
 
     std::map<std::string, std::vector<std::string> > mod_dependency_map;
-    if (!load_mods_from(MOD_SEARCH_PATH)) {
-        return;
-    }
+    load_mods_from(MOD_SEARCH_PATH);
     for(t_mod_map::iterator a = mod_map.begin(); a != mod_map.end(); ++a) {
         mod_dependency_map[a->second->ident] = a->second->dependencies;
     }
-    tree->init(mod_dependency_map);
+    tree.init(mod_dependency_map);
 }
 
 bool mod_manager::has_mod(const std::string &ident) const
@@ -76,21 +68,12 @@ bool mod_manager::has_mod(const std::string &ident) const
     return mod_map.count(ident) > 0;
 }
 
-bool mod_manager::load_mods_from(std::string path)
+void mod_manager::load_mods_from(std::string path)
 {
     std::vector<std::string> mod_files = file_finder::get_files_from_path(MOD_SEARCH_FILE, path, true);
-    if (mod_files.empty()) {
-        return false;
-    }
-    unsigned num_loaded = 0;
-    const std::string mod_file_input = std::string("/") + MOD_SEARCH_FILE;
     for (int i = 0; i < mod_files.size(); ++i) {
-        if (!load_mod_info(mod_files[i])) {
-            continue;
-        }
-        ++num_loaded;
+        load_mod_info(mod_files[i]);
     }
-    return num_loaded != 0;
 }
 
 void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
@@ -126,10 +109,17 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 
     if (jo.has_member("dependencies") && jo.has_array("dependencies")) {
         JsonArray jarr = jo.get_array("dependencies");
-        for (int i = 0; i < jarr.size(); ++i) {
-            if (jarr.has_string(i)) {
-                m_dependencies.push_back(jarr.get_string(i));
+        while(jarr.has_more()) {
+            const std::string dep = jarr.next_string();
+            if (dep == m_ident) {
+                debugmsg("mod %s has itself as dependency", m_ident.c_str());
+                continue;
             }
+            if (std::find(m_dependencies.begin(), m_dependencies.end(), dep) != m_dependencies.end()) {
+                // Some dependency listed twice, ignore it, what else can be done?
+                continue;
+            }
+            m_dependencies.push_back(dep);
         }
     }
 
@@ -139,7 +129,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     } else if (t_type == "SUPPLEMENTAL") {
         m_type = MT_SUPPLEMENTAL;
     } else {
-        throw std::string("Invalid mod type: ") + t_type;
+        throw std::string("Invalid mod type: ") + t_type + " for mod " + m_ident;
     }
 
     MOD_INFORMATION *modfile = new MOD_INFORMATION;
@@ -154,6 +144,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     mod_map[modfile->ident] = modfile;
 }
 
+// TODO: move this declaration into a header, but which?
 extern bool assure_dir_exist(const std::string &path);
 
 bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::string output_base_path)
@@ -164,21 +155,20 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
     }
     std::vector<std::string> search_extensions;
     search_extensions.push_back(".json");
-    const std::string mod_dir = "/mods";
 
     DebugLog() << "Copying mod contents into directory: "<<output_base_path<<"\n";
-    // try to make the mods directory inside of the output base path
-    std::string new_mod_dir = output_base_path + mod_dir;
 
-    if (!assure_dir_exist(new_mod_dir)) {
-        DebugLog() << "Unable to create or open mod directory at [" << new_mod_dir << "] for saving\n";
+    if (!assure_dir_exist(output_base_path)) {
+        DebugLog() << "Unable to create or open mod directory at [" << output_base_path << "] for saving\n";
         return false;
     }
 
-    unsigned modlog = unsigned(log(mods_to_copy.size()));
-    unsigned ilog;
+    std::ostringstream number_stream;
     for (int i = 0; i < mods_to_copy.size(); ++i){
-        ilog = unsigned(log(i + 1));
+        number_stream.str(std::string());
+        number_stream.width(5);
+        number_stream.fill('0');
+        number_stream << (i + 1);
         MOD_INFORMATION *mod = mod_map[mods_to_copy[i]];
 
         // now to get all of the json files inside of the mod and get them ready to copy
@@ -191,14 +181,13 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
 
         // create needed directories
         std::stringstream cur_mod_dir;
-        cur_mod_dir << new_mod_dir << "/mod_"<<std::string(modlog - ilog, '0') << i + 1;
+        cur_mod_dir << output_base_path << "/mod_" << number_stream.str();
 
         std::queue<std::string> dir_to_make;
         dir_to_make.push(cur_mod_dir.str());
-        dir_to_make.push(cur_mod_dir.str());
         size_t start_index = mod->path.size();
         for (int j = 0; j < input_dirs.size(); ++j){
-            dir_to_make.push(cur_mod_dir.str() + input_dirs[j].substr(start_index));
+            dir_to_make.push(cur_mod_dir.str() + "/" + input_dirs[j].substr(start_index));
         }
 
         while (!dir_to_make.empty()){
@@ -233,7 +222,7 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
     return true;
 }
 
-bool mod_manager::load_mod_info(std::string info_file_path)
+void mod_manager::load_mod_info(std::string info_file_path)
 {
     // info_file_path is the fully qualified path to the information file for this mod
     std::ifstream infile(info_file_path.c_str(), std::ifstream::in | std::ifstream::binary);
@@ -272,7 +261,5 @@ bool mod_manager::load_mod_info(std::string info_file_path)
         }
     } catch(std::string e) {
         debugmsg("%s", e.c_str());
-        return false;
     }
-    return true;
 }

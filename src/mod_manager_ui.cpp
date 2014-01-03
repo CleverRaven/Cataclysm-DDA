@@ -7,7 +7,7 @@ mod_ui::mod_ui(mod_manager *mman)
 {
     if (mman) {
         active_manager = mman;
-        mm_tree = active_manager->get_tree();
+        mm_tree = &active_manager->get_tree();
         set_usable_mods();
         DebugLog() << "mod_ui initialized\n";
     } else {
