@@ -165,7 +165,6 @@ game::~game()
 
 void game::toggle_fullscreen(void) {
   fullscreen = !fullscreen;
-  if(fullscreen) was_fullscreen = true;
   init_ui();
   refresh_all();
 }
@@ -175,13 +174,18 @@ void game::toggle_fullscreen(void) {
 void game::temp_exit_fullscreen(void) {
   if(fullscreen) {
     was_fullscreen = true;
+  } else {
+    was_fullscreen = false;
+  }
+  if(fullscreen) {
     toggle_fullscreen();
   }
 }
 
 void game::reenter_fullscreen(void) {
-  if(was_fullscreen && !fullscreen)
+  if(was_fullscreen) {
     toggle_fullscreen();
+  }
 }
 
 void game::init_ui(){
@@ -1972,7 +1976,12 @@ input_context game::get_player_input(std::string &action)
         int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
         int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
         int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT-(TERRAIN_WINDOW_HEIGHT-121)/2: TERRAIN_WINDOW_HEIGHT;
-
+        if(fullscreen) {
+          iStartX = 0;
+          iStartY = 0;
+          iEndX = TERMX;
+          iEndY = TERMY;
+        }
         //x% of the Viewport, only shown on visible areas
         int dropCount = int(iEndX * iEndY * fFactor);
         //std::vector<std::pair<int, int> > vDrops;
@@ -4198,9 +4207,9 @@ void game::draw()
     werase(w_terrain);
     draw_ter();
     draw_footsteps();
-    if(fullscreen)
+    if(fullscreen) {
       return;
-
+    }
     // Draw Status
     draw_HP();
     werase(w_status);
@@ -12103,8 +12112,9 @@ void game::update_map(int &x, int &y) {
  m.build_map_cache();
 // Update what parts of the world map we can see
  update_overmap_seen();
- if(!fullscreen)
+ if(!fullscreen) {
    draw_minimap();
+ }
 }
 
 void game::set_adjacent_overmaps(bool from_scratch)
