@@ -1093,7 +1093,7 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
-  "skills_required": [ "traps", 1 ],
+  "skills_required": [ "throw", 2 ],
   "difficulty": 2,
   "time": 60000,
   "reversible": false,
