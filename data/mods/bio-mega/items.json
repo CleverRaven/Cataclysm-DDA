@@ -1,0 +1,27 @@
+[
+    {
+        "type": "profession",
+        "ident": "bionic-mega-person",
+        "name": "Bionics Mega Person",
+        "description": "Has all the bionics",
+        "points": 0,
+        "items": {
+            "both": [
+                "shorts"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "CBMs": [
+"bio_power_storage","bio_power_storage_mkII","bio_batteries","bio_metabolics","bio_solar","bio_torsionratchet","bio_furnace","bio_ethanol","bio_memory","bio_ears","bio_eye_enhancer","bio_dex_enhancer","bio_str_enhancer","bio_int_enhancer","bio_membrane","bio_sunglasses","bio_targeting","bio_gills","bio_purifier","bio_climate","bio_storage","bio_recycler","bio_digestion","bio_tools","bio_shock",
+"bio_heat_absorb","bio_carbon","bio_armor_head","bio_armor_torso","bio_armor_arms","bio_armor_legs","bio_armor_eyes","bio_flashlight","bio_night_vision","bio_infrared","bio_face_mask","bio_ads","bio_ods","bio_scent_mask","bio_scent_vision","bio_cloak","bio_painkiller","bio_nanobots","bio_heatsink","bio_resonator","bio_time_freeze","bio_teleport","bio_blood_anal","bio_geiger","bio_radscrubber",
+"bio_blood_filter","bio_alarm","bio_evap","bio_lighter","bio_claws","bio_razors","bio_blaster","bio_laser","bio_emp","bio_hydraulics","bio_water_extractor","bio_magnet","bio_fingerhack","bio_lockpick","bio_ground_sonar","bio_power_armor_interface","bio_power_armor_interface_mkII","bio_flashbang","bio_railgun",
+"bio_probability_travel","bio_shockwave","bio_chain_lightning","bio_night","bio_uncanny_dodge","bio_dis_shock","bio_dis_acid","bio_drain","bio_noise","bio_power_weakness","bio_stiff"
+        ]
+    }
+]

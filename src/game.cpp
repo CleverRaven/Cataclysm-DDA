@@ -159,7 +159,7 @@ void game::check_all_mod_data() {
         popup_nowait("checking mod %s", mod->name.c_str());
         // TODO: dependencies
         load_core_data();
-        load_data_from_dir(mod->path + "/mods");
+        load_data_from_dir(mod->path);
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 }

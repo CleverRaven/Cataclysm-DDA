@@ -38,6 +38,13 @@
     "description": "my test mod - the first"
 },
 {
+    "ident": "bio-mega",
+    "name": "Bionics Mega Person",
+    "type": "SUPPLEMENTAL",
+    "path": "bio-mega",
+    "description": "Has Bionics Mega Person profession"
+},
+{
     "ident": "test-mod-2",
     "name": "testmod2",
     "type": "SUPPLEMENTAL",
