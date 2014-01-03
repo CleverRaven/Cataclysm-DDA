@@ -121,6 +121,22 @@
     },
     {
         "type":"GENERIC",
+        "id" : "biodiesel_engine",
+        "name" : "biodiesel engine",
+        "description" : "Standard diesel engine which, after a few modifications, has been made to run on biodiesel.",
+        "weight" : 39689,
+        "to_hit" : -2,
+        "color" : "light_cyan",
+        "symbol" : ":",
+        "material" : ["steel", "null"],
+        "volume" : 12,
+        "bashing" : 7,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 900
+    },
+    {
+        "type":"GENERIC",
         "id" : "plasma_engine",
         "name" : "plasma engine",
         "description" : "High technology engine, working on hydrogen fuel.",

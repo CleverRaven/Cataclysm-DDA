@@ -365,6 +365,7 @@ std::string ammo_name(ammotype t)
     if( t == "84x246mm" )   return _("84mm recoilless projectile");
     if( t == "m235" )       return _("M235 Incendiary TPA");
     if( t == "gasoline" )   return _("gasoline");
+    if( t == "biodiesel" )  return _("biodiesel");
     if( t == "thread" )     return _("thread");
     if( t == "battery" )    return _("batteries");
     if( t == "laser_capacitor")return _("charge");
@@ -424,6 +425,7 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "plasma" )       return "plasma";
     if( guntype == "plutonium" )    return "plut_cell";
     if( guntype == "gasoline" )     return "gasoline";
+    if( guntype == "biodiesel" )    return "biodiesel";
     if( guntype == "thread" )       return "thread";
     if( guntype == "water" )        return "water_clean";
     if( guntype == "charcoal"  )    return "charcoal";

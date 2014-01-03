@@ -10765,6 +10765,14 @@ void map::place_toilet(int x, int y, int charges)
     furn_set(x, y, f_toilet);
 }
 
+void map::place_deep_fryer(int x, int y, int charges)
+{
+    item oil(itypes["cooking_oil"], 0);
+    oil.charges = charges;
+    add_item(x, y, oil);
+    furn_set(x, y, f_deep_fryer);
+}
+
 int map::place_items(items_location loc, int chance, int x1, int y1,
                      int x2, int y2, bool ongrass, int turn)
 {

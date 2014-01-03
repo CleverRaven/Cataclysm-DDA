@@ -39,7 +39,7 @@ struct map_bash_item_drop {
     std::string itemtype; // item id
     int amount;           // number dropped
     int minamount;        // optional: if >= amount drop is random # between minamount and amount
-    int chance;           // 
+    int chance;           //
     map_bash_item_drop(std::string str, int i) : itemtype(str), amount(i), minamount(-1), chance(-1) {};
     map_bash_item_drop(std::string str, int i1, int i2) : itemtype(str), amount(i1), minamount(i2), chance(-1) {};
 };
@@ -48,7 +48,7 @@ struct map_bash_info {
     int str_max;          // max str required: bash succeeds if str >= random # between str_min_roll & str_max
     int str_min_roll;     // lower bound of success check; defaults to str_min ( may set default to 0 )
     int str_min_blocked;  // same as above; alternate values for has_adjacent_furniture(...) == true
-    int str_max_blocked;  
+    int str_max_blocked;
     int num_tests;        // how many tests must succeed
     int chance;
     std::vector<map_bash_item_drop> items; // list of items: map_bash_item_drop
@@ -175,7 +175,7 @@ struct ter_t {
  std::string close;         // close action: transform into terrain with matching id
 
  map_bash_info bash;
- 
+
  bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
  }
@@ -190,7 +190,7 @@ struct ter_t {
          transparent = true;
      }
      if ( ter_bitflags_map.find( flag ) != ter_bitflags_map.end() ) {
-         bitflags |= mfb ( ter_bitflags_map.find( flag )->second ); 
+         bitflags |= mfb ( ter_bitflags_map.find( flag )->second );
      }
  }
  bool transparent;
@@ -223,7 +223,7 @@ struct furn_t {
  std::string close;
 
  map_bash_info bash;
- 
+
  bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
  }
@@ -238,7 +238,7 @@ struct furn_t {
          transparent = true;
      }
      if ( ter_bitflags_map.find( flag ) != ter_bitflags_map.end() ) {
-         bitflags |= mfb ( ter_bitflags_map.find( flag )->second ); 
+         bitflags |= mfb ( ter_bitflags_map.find( flag )->second );
      }
  }
  bool transparent;
@@ -515,6 +515,7 @@ extern furn_id f_null,
     f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
+    f_deep_fryer,
     num_furniture_types;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -614,6 +615,7 @@ old_f_skin_wall, old_f_skin_door, old_f_skin_door_o, old_f_skin_groundsheet,
 old_f_mutpoppy,
 old_f_safe_c, old_f_safe_l, old_f_safe_o,
 old_f_plant_seed, old_f_plant_seedling, old_f_plant_mature, old_f_plant_harvest,
+old_f_deep_fryer,
 old_num_furniture_types
 };
 

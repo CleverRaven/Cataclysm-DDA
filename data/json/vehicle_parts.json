@@ -1028,6 +1028,27 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "engine_biodiesel",
+        "name" : "biodiesel engine",
+        "symbol" : "*",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "power" : 900,
+        "fuel_type" : "biodiesel",
+        "item" : "biodiesel_engine",
+        "difficulty" : 4,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "ALTERNATOR"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 40, "max": 50},
+            {"item": "steel_chunk", "min": 40, "max": 50},
+            {"item": "scrap", "min": 40, "max": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "engine_electric",
         "name" : "electric motor",
         "symbol" : "*",
@@ -1124,6 +1145,27 @@
         "durability" : 150,
         "size" : 3000,
         "fuel_type" : "gasoline",
+        "item" : "metal_tank",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 1, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "biodiesel_tank",
+        "name" : "biodiesel tank",
+        "symbol" : "O",
+        "color" : "magenta",
+        "broken_symbol" : "#",
+        "broken_color" : "dkgrey",
+        "damage_modifier" : 80,
+        "durability" : 150,
+        "size" : 3000,
+        "fuel_type" : "biodiesel",
         "item" : "metal_tank",
         "difficulty" : 1,
         "location" : "fuel_source",

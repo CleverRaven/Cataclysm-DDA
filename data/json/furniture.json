@@ -59,9 +59,9 @@
         "id" : "f_toilet",
         "name": "toilet",
         "symbol": "&",
-        "color": "white",
         "move_cost_mod": 2,
         "required_str": 18,
+        "color": "white",
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD"],
         "examine_action": "toilet",
         "bash": {
@@ -73,6 +73,16 @@
                 { "item": "cu_pipe", "amount": 1, "minamount": 0 }
             ]
         }
+    },{
+        "type" : "furniture",
+        "id" : "f_deep_fryer",
+        "name": "deep fryer",
+        "symbol": "&",
+        "move_cost_mod": 2,
+        "required_str": 18,
+        "color": "dkgrey",
+        "flags": ["TRANSPARENT", "FLAMMABLE_HARD"],
+        "examine_action": "deep_fryer"
     },{
         "type" : "furniture",
         "id" : "f_makeshift_bed",

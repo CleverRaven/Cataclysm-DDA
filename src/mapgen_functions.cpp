@@ -840,7 +840,7 @@ void mapgen_fungal_bloom(map *m, oter_id, mapgendata dat, int, float)
                 } else {
                     m->ter_set(i, j, t_tree_fungal_young);
                 }
-            
+
             } else if (one_in(5)) {
                 m->ter_set(i, j, t_shrub_fungal);
             } else if (one_in(10)) {
@@ -3527,7 +3527,7 @@ void mapgen_s_restaurant_fast(map *m, oter_id terrain_type, mapgendata dat, int,
 ,_____#|----w-|-|#_____,\n\
 ,_____||erle.x|T||_____,\n\
 ,_____|O.....S|.S|_____,\n\
-,_____|e.ccl.c|+-|_____,\n\
+,_____|e.ffl.c|+-|_____,\n\
 ,_____w.......+..|_____,\n\
 ,_____|ccccxcc|..%_____,\n\
 ,,,,,,|..........+_____,\n\
@@ -3542,19 +3542,21 @@ void mapgen_s_restaurant_fast(map *m, oter_id terrain_type, mapgendata dat, int,
 ,_,,,_#ssssssssss#__,__,\n\
 ,__,__#### ss ####__,__,\n\
 ,_____ssssssssssss_____,\n",
-                                   mapf::basic_bind("d 5 % O , _ r 6 x $ ^ . - | # t + = D w T S e h c l s", t_floor,
+                                   mapf::basic_bind("d 5 % O , _ r 6 x $ ^ . - | # t + = D w T S e h c l s f", t_floor,
                                            t_wall_glass_h, t_wall_glass_v, t_floor, t_pavement_y, t_pavement, t_floor, t_console,
                                            t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_shrub, t_floor,
                                            t_door_glass_c, t_door_locked_alarm, t_door_locked, t_window_domestic, t_floor,  t_floor, t_floor,
-                                           t_floor, t_floor,   t_floor,  t_sidewalk),
-                                   mapf::basic_bind("d 5 % O , _ r 6 x $ ^ . - | # t + = D w T S e h c l s", f_dumpster, f_null,
+                                           t_floor, t_floor,   t_floor,  t_sidewalk, t_floor),
+                                   mapf::basic_bind("d 5 % O , _ r 6 x $ ^ . - | # t + = D w T S e h c l s f", f_dumpster, f_null,
                                            f_null,         f_oven,  f_null,       f_null,     f_rack,  f_null,    f_null,           f_null,
                                            f_indoor_plant, f_null,  f_null,   f_null,   f_null,  f_table, f_null,         f_null,
                                            f_null,        f_null,            f_toilet, f_sink,  f_fridge, f_chair, f_counter, f_locker,
-                                           f_null));
+                                           f_null, f_null));
         m->place_items("fast_food", 80,  8,  7, 8,  7, false, 0);
         m->place_items("fast_food", 70,  7,  9, 7,  9, false, 0);
         m->place_items("fast_food", 60,  11,  7, 11,  7, false, 0);
+        m->place_deep_fryer(9, 9, rng(0,4));
+        m->place_deep_fryer(10, 9, rng(0,4));
         autorotate(true);
 }
 
