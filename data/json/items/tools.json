@@ -4683,6 +4683,30 @@
     "revert_to": "null",
     "use_action": "SEW"
   },
+  
+   {
+    "id": "needle_wood",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "wood needle",
+    "description": "This is a wooden needle whittled down to a sharp point. It has a narrow hole bored into the head for threading.",
+    "price": 0,
+    "material": "wood",
+    "flags": "STAB",
+    "weight": 85,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 200,
+    "initial_charges": 0,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "thread",
+    "revert_to": "null",
+    "use_action": "SEW"
+  },
 
   {
     "id": "primitive_hammer",

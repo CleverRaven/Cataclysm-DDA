@@ -3359,6 +3359,7 @@
   "tools": [
     [
       [ "needle_bone", 2 ],
+      [ "needle_wood", 2 ],
       [ "sewing_kit", 2 ]
     ]
   ],
@@ -3478,6 +3479,7 @@
   "tools": [
     [
       [ "needle_bone", 8 ],
+      [ "needle_wood", 8 ],
       [ "sewing_kit", 8 ]
     ],
     [
@@ -10933,6 +10935,7 @@
     ],
     [
       [ "needle_bone", 1 ],
+      [ "needle_wood", 1 ],
       [ "sewing_kit", 1 ]
     ]
   ],
@@ -13450,6 +13453,7 @@
   "tools": [
     [
       [ "needle_bone", 4 ],
+      [ "needle_wood", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -13471,6 +13475,7 @@
   "tools": [
     [
       [ "needle_bone", 6 ],
+      [ "needle_wood", 6 ],
       [ "sewing_kit", 6 ]
     ]
   ],
@@ -13492,6 +13497,7 @@
   "tools": [
     [
       [ "needle_bone", 36 ],
+      [ "needle_wood", 36 ],
       [ "sewing_kit", 36 ]
     ]
   ],
@@ -13514,6 +13520,7 @@
   "tools": [
     [
       [ "needle_bone", 6 ],
+      [ "needle_wood", 6 ],
       [ "sewing_kit", 6 ]
     ]
   ],
@@ -13535,6 +13542,7 @@
   "tools": [
     [
       [ "needle_bone", 48 ],
+      [ "needle_wood", 48 ],
       [ "sewing_kit", 48 ]
     ]
   ],
@@ -13557,6 +13565,7 @@
   "tools": [
     [
       [ "needle_bone", 8 ],
+      [ "needle_wood", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -13579,6 +13588,7 @@
   "tools": [
     [
       [ "needle_bone", 5 ],
+      [ "needle_wood", 5 ],
       [ "sewing_kit", 5 ]
     ]
   ],
@@ -13600,6 +13610,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -13623,6 +13634,7 @@
   "tools": [
     [
       [ "needle_bone", 13 ],
+      [ "needle_wood", 13 ],
       [ "sewing_kit", 13 ]
     ]
   ],
@@ -13675,6 +13687,7 @@
   "tools": [
     [
       [ "needle_bone", 18 ],
+      [ "needle_wood", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -13704,6 +13717,7 @@
   "tools": [
     [
       [ "needle_bone", 24 ],
+      [ "needle_wood", 24 ],
       [ "sewing_kit", 24 ]
     ]
   ],
@@ -13730,6 +13744,7 @@
   "tools": [
     [
       [ "needle_bone", 100 ],
+      [ "needle_wood", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -13754,6 +13769,7 @@
   "tools": [
     [
       [ "needle_bone", 18 ],
+      [ "needle_wood", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -13776,6 +13792,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -13798,6 +13815,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -13820,6 +13838,7 @@
   "tools": [
     [
       [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -13842,6 +13861,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -13863,6 +13883,7 @@
   "tools": [
     [
       [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -13885,6 +13906,7 @@
   "tools": [
     [
       [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -13906,6 +13928,7 @@
   "tools": [
     [
       [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -13930,6 +13953,7 @@
   "tools": [
     [
       [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -13952,6 +13976,7 @@
   "tools": [
     [
       [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -13974,6 +13999,7 @@
   "tools": [
     [
       [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -13998,6 +14024,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -14023,6 +14050,7 @@
   "tools": [
     [
       [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -14054,6 +14082,7 @@
   "tools": [
     [
       [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -14078,6 +14107,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -14099,6 +14129,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -14121,6 +14152,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -14143,6 +14175,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -14164,6 +14197,7 @@
   "tools": [
     [
       [ "needle_bone", 5 ],
+      [ "needle_wood", 5 ],
       [ "sewing_kit", 5 ]
     ]
   ],
@@ -14187,6 +14221,7 @@
   "tools": [
     [
       [ "needle_bone", 16 ],
+      [ "needle_wood", 16 ],
       [ "sewing_kit", 16 ]
     ]
   ],
@@ -14208,6 +14243,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -14230,6 +14266,7 @@
   "tools": [
     [
       [ "needle_bone", 18 ],
+      [ "needle_wood", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -14254,6 +14291,7 @@
   "tools": [
     [
       [ "needle_bone", 4 ],
+      [ "needle_wood", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -14275,6 +14313,7 @@
   "tools": [
     [
       [ "needle_bone", 4 ],
+      [ "needle_wood", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -14296,6 +14335,7 @@
   "tools": [
     [
       [ "needle_bone", 4 ],
+      [ "needle_wood", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -14317,6 +14357,7 @@
   "tools": [
     [
       [ "needle_bone", 8 ],
+      [ "needle_wood", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -14338,6 +14379,7 @@
   "tools": [
     [
       [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -14360,6 +14402,7 @@
   "tools": [
     [
       [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -14382,6 +14425,7 @@
   "tools": [
     [
       [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -14403,6 +14447,7 @@
   "tools": [
     [
       [ "needle_bone", 14 ],
+      [ "needle_wood", 14 ],
       [ "sewing_kit", 14 ]
     ]
   ],
@@ -14424,6 +14469,7 @@
   "tools": [
     [
       [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -14446,6 +14492,7 @@
   "tools": [
     [
       [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -14468,6 +14515,7 @@
   "tools": [
     [
       [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -14490,6 +14538,7 @@
   "tools": [
     [
       [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -14512,6 +14561,7 @@
   "tools": [
     [
       [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -14533,6 +14583,7 @@
   "tools": [
     [
       [ "needle_bone", 24 ],
+      [ "needle_wood", 24 ],
       [ "sewing_kit", 24 ]
     ]
   ],
@@ -14599,6 +14650,7 @@
   "tools": [
     [
       [ "needle_bone", 45 ],
+      [ "needle_wood", 45 ],
       [ "sewing_kit", 45 ]
     ]
   ],
@@ -14621,6 +14673,7 @@
   "tools": [
     [
       [ "needle_bone", 45 ],
+      [ "needle_wood", 45 ],
       [ "sewing_kit", 45 ]
     ]
   ],
@@ -14644,6 +14697,7 @@
   "tools": [
     [
       [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -14666,6 +14720,7 @@
   "tools": [
     [
       [ "needle_bone", 30 ],
+      [ "needle_wood", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -14707,6 +14762,7 @@
   "tools": [
     [
       [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -14731,6 +14787,7 @@
   "tools":[
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
     ],
@@ -14754,6 +14811,7 @@
   "tools":[
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
     ],
@@ -14776,6 +14834,7 @@
   "tools": [
     [
       [ "needle_bone", 2 ],
+      [ "needle_wood", 2 ],
       [ "sewing_kit", 2 ]
     ]
   ],
@@ -14797,6 +14856,7 @@
   "tools": [
     [
       [ "needle_bone", 4 ],
+      [ "needle_wood", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -14819,6 +14879,7 @@
   "tools": [
     [
       [ "needle_bone", 40 ],
+      [ "needle_wood", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -14841,6 +14902,7 @@
   "tools": [
     [
       [ "needle_bone", 8 ],
+      [ "needle_wood", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -14863,6 +14925,7 @@
   "tools": [
     [
       [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -14885,6 +14948,7 @@
   "tools": [
     [
       [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -14916,6 +14980,7 @@
      ],
      [
       [ "needle_bone", 200 ],
+      [ "needle_wood", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -14973,6 +15038,7 @@
   "tools": [
     [
       [ "needle_bone", 5 ],
+      [ "needle_wood", 5 ],
       [ "sewing_kit", 5 ]
     ]
   ],
@@ -15002,6 +15068,7 @@
     ],
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -15027,6 +15094,7 @@
   "tools": [
     [
       [ "needle_bone", 6 ],
+      [ "needle_wood", 6 ],
       [ "sewing_kit", 6 ]
     ]
   ],
@@ -15050,6 +15118,7 @@
   "tools": [
     [
       [ "needle_bone", 6 ],
+      [ "needle_wood", 6 ],
       [ "sewing_kit", 6 ]
     ]
   ],
@@ -15173,6 +15242,7 @@
   "tools": [
     [
       [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -15205,6 +15275,7 @@
   "tools": [
     [
       [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -15227,6 +15298,7 @@
   "tools": [
     [
       [ "needle_bone", 2 ],
+      [ "needle_wood", 2 ],
       [ "sewing_kit", 2 ]
     ]
   ],
@@ -15250,6 +15322,7 @@
   "tools": [
     [
       [ "needle_bone", 3 ],
+      [ "needle_wood", 3 ],
       [ "sewing_kit", 3 ]
     ]
   ],
@@ -15274,6 +15347,7 @@
   "tools": [
     [
       [ "needle_bone", 9 ],
+      [ "needle_wood", 9 ],
       [ "sewing_kit", 9 ]
     ]
   ],
@@ -15298,6 +15372,7 @@
   "tools": [
     [
       [ "needle_bone", 3 ],
+      [ "needle_wood", 3 ],
       [ "sewing_kit", 3 ]
     ]
   ],
@@ -15566,6 +15641,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -15613,6 +15689,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -15661,6 +15738,7 @@
   "tools": [
     [
       [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
       [ "sewing_kit", 20 ]
     ],
     [
@@ -15703,6 +15781,7 @@
   "tools": [
     [
       [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
       [ "sewing_kit", 20 ]
     ],
     [
@@ -15744,6 +15823,7 @@
   "tools": [
     [
       [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
       [ "sewing_kit", 20 ]
     ],
     [
@@ -15788,6 +15868,7 @@
   "tools": [
     [
       [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
       [ "sewing_kit", 20 ]
     ],
     [
@@ -15994,6 +16075,7 @@
   "tools": [
     [
       [ "needle_bone", 8 ],
+      [ "needle_wood", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -16015,6 +16097,7 @@
   "tools": [
     [
       [ "needle_bone", 8 ],
+      [ "needle_wood", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -16036,6 +16119,7 @@
   "tools": [
     [
       [ "needle_bone", 8 ],
+      [ "needle_wood", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -16060,6 +16144,7 @@
   "tools": [
     [
       [ "needle_bone", 16 ],
+      [ "needle_wood", 16 ],
       [ "sewing_kit", 16 ]
     ]
   ],
@@ -16082,6 +16167,7 @@
   "tools": [
     [
       [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -16165,6 +16251,7 @@
   "tools": [
     [
       [ "needle_bone", 54 ],
+      [ "needle_wood", 54 ],
       [ "sewing_kit", 54 ]
     ]
   ],
@@ -16194,6 +16281,7 @@
   "tools": [
     [
       [ "needle_bone", 68 ],
+      [ "needle_wood", 68 ],
       [ "sewing_kit", 68 ]
     ]
   ],
@@ -16219,6 +16307,7 @@
   "tools": [
     [
       [ "needle_bone", 68 ],
+      [ "needle_wood", 68 ],
       [ "sewing_kit", 68 ]
     ]
   ],
@@ -16281,6 +16370,7 @@
   "tools": [
     [
       [ "needle_bone", 22 ],
+      [ "needle_wood", 22 ],
       [ "sewing_kit", 22 ]
     ]
   ],
@@ -16306,6 +16396,7 @@
   "tools": [
     [
       [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -16329,6 +16420,7 @@
   "tools": [
     [
       [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -16353,6 +16445,7 @@
   "tools": [
     [
       [ "needle_bone", 30 ],
+      [ "needle_wood", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -16376,6 +16469,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -16400,6 +16494,7 @@
   "tools": [
     [
       [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -16424,6 +16519,7 @@
   "tools": [
     [
       [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -16445,6 +16541,7 @@
   "tools": [
     [
       [ "needle_bone", 18 ],
+      [ "needle_wood", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -16468,6 +16565,7 @@
   "tools": [
     [
       [ "needle_bone", 18 ],
+      [ "needle_wood", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -16489,6 +16587,7 @@
   "tools": [
     [
       [ "needle_bone", 18 ],
+      [ "needle_wood", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -16511,6 +16610,7 @@
   "tools": [
     [
       [ "needle_bone", 30 ],
+      [ "needle_wood", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -16535,6 +16635,7 @@
   "tools": [
     [
       [ "needle_bone", 30 ],
+      [ "needle_wood", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -16596,6 +16697,25 @@
   "components": [
     [
       [ "bone", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "needle_wood",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "skewer", 1 ],
+	  [ "splinter", 1 ]
     ]
   ]
 },{
@@ -16665,6 +16785,7 @@
   "tools": [
     [
       [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -16694,6 +16815,7 @@
   "tools": [
     [
       [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -16842,8 +16964,9 @@
   "autolearn": true,
   "tools": [
     [
-      [ "sewing_kit", 60 ],
-      [ "needle_bone", 60 ]
+      [ "needle_bone", 60 ],
+      [ "needle_wood", 60 ],
+      [ "sewing_kit", 60 ]
     ]
   ],
   "components": [
@@ -16890,8 +17013,9 @@
   "autolearn": true,
   "tools": [
     [
-      [ "sewing_kit", 200 ],
-      [ "needle_bone", 200 ]
+      [ "needle_bone", 200 ],
+      [ "needle_wood", 200 ],
+      [ "sewing_kit", 200 ]
     ]
   ],
   "components": [
@@ -16923,8 +17047,9 @@
   "autolearn": true,
   "tools": [
     [
-      [ "sewing_kit", 50 ],
-      [ "needle_bone", 50 ]
+      [ "needle_bone", 50 ],
+      [ "needle_wood", 50 ],
+      [ "sewing_kit", 50 ]
     ]
   ],
   "components": [
@@ -17392,8 +17517,9 @@
       [ "toolset", 2 ]
     ],
     [
-      [ "sewing_kit", 50 ],
-      [ "needle_bone", 50 ]
+      [ "needle_bone", 50 ],
+      [ "needle_wood", 50 ],
+      [ "sewing_kit", 50 ]
     ]
   ],
   "components": [
@@ -17448,6 +17574,7 @@
   "tools": [
     [
     [ "needle_bone", 50 ],
+	[ "needle_wood", 50 ],
     [ "sewing_kit", 50 ]
     ]
   ],
@@ -18641,6 +18768,7 @@
   "tools": [
     [
       [ "needle_bone", 4 ],
+      [ "needle_wood", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -23322,6 +23450,7 @@
   "tools": [
     [
       [ "needle_bone", 30 ],
+      [ "needle_wood", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -24072,6 +24201,7 @@
   "tools": [
       [
       [ "needle_bone", 100 ],
+      [ "needle_wood", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -24124,6 +24254,7 @@
   "tools": [
       [
       [ "needle_bone", 100 ],
+      [ "needle_wood", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -24173,6 +24304,7 @@
   "tools": [
       [
       [ "needle_bone", 100 ],
+      [ "needle_wood", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -24215,6 +24347,7 @@
   "tools": [
       [
       [ "needle_bone", 120 ],
+      [ "needle_wood", 120 ],
       [ "sewing_kit", 120 ]
     ]
   ],
@@ -24263,6 +24396,7 @@
   "tools": [
       [
       [ "needle_bone", 160 ],
+      [ "needle_wood", 160 ],
       [ "sewing_kit", 160 ]
     ]
   ],
@@ -24315,6 +24449,7 @@
      ],
      [
       [ "needle_bone", 100 ],
+      [ "needle_wood", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -24368,6 +24503,7 @@
      ],
      [
       [ "needle_bone", 150 ],
+      [ "needle_wood", 150 ],
       [ "sewing_kit", 150 ]
      ]
   ],
@@ -24425,6 +24561,7 @@
     ],
     [
       [ "needle_bone", 200 ],
+      [ "needle_wood", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -24485,6 +24622,7 @@
     ],
     [
       [ "needle_bone", 200 ],
+      [ "needle_wood", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -24545,6 +24683,7 @@
      ],
      [
       [ "needle_bone", 200 ],
+      [ "needle_wood", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -24603,6 +24742,7 @@
     ],
     [
       [ "needle_bone", 200 ],
+      [ "needle_wood", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -24657,6 +24797,7 @@
     ],
     [
       [ "needle_bone", 40 ],
+      [ "needle_wood", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -24697,6 +24838,7 @@
     ],
     [
       [ "needle_bone", 40 ],
+      [ "needle_wood", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -24740,6 +24882,7 @@
     ],
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -24800,6 +24943,7 @@
     ],
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -24861,6 +25005,7 @@
     ],
     [
       [ "needle_bone", 40 ],
+      [ "needle_wood", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -24905,6 +25050,7 @@
     ],
     [
       [ "needle_bone", 40 ],
+      [ "needle_wood", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -24944,6 +25090,7 @@
     ],
     [
       [ "needle_bone", 40 ],
+      [ "needle_wood", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -24983,6 +25130,7 @@
     ],
     [
       [ "needle_bone", 50 ],
+      [ "needle_wood", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -25030,6 +25178,7 @@
     ],
     [
       [ "needle_bone", 50 ],
+      [ "needle_wood", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -25077,6 +25226,7 @@
     ],
     [
       [ "needle_bone", 40 ],
+      [ "needle_wood", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -25127,6 +25277,7 @@
     ],
     [
       [ "needle_bone", 50 ],
+      [ "needle_wood", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -25174,6 +25325,7 @@
     ],
     [
       [ "needle_bone", 50 ],
+      [ "needle_wood", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -25218,6 +25370,7 @@
     ],
     [
       [ "needle_bone", 50 ],
+      [ "needle_wood", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -25258,6 +25411,7 @@
     ],
     [
       [ "needle_bone", 80 ],
+      [ "needle_wood", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -25301,6 +25455,7 @@
     ],
     [
       [ "needle_bone", 80 ],
+      [ "needle_wood", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -25344,6 +25499,7 @@
     ],
     [
       [ "needle_bone", 60 ],
+      [ "needle_wood", 60 ],
       [ "sewing_kit", 60 ]
     ]
   ],
@@ -25391,6 +25547,7 @@
     ],
     [
       [ "needle_bone", 80 ],
+      [ "needle_wood", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -25434,6 +25591,7 @@
     ],
     [
       [ "needle_bone", 80 ],
+      [ "needle_wood", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -25478,6 +25636,7 @@
     ],
     [
       [ "needle_bone", 80 ],
+      [ "needle_wood", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -25915,6 +26074,7 @@
     ],
     [
       [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -26208,6 +26368,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -26237,6 +26398,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -26269,6 +26431,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -26306,6 +26469,7 @@
   "tools": [
     [
       [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -26343,6 +26507,7 @@
   "tools": [
     [
       [ "needle_bone", 5 ],
+      [ "needle_wood", 5 ],
       [ "sewing_kit", 5 ]
     ],
     [
@@ -26375,6 +26540,7 @@
   "tools": [
     [
       [ "needle_bone", 5 ],
+      [ "needle_wood", 5 ],
       [ "sewing_kit", 5 ]
     ],
     [
@@ -27359,6 +27525,7 @@
   "tools": [
     [
       [ "needle_bone", 5 ],
+      [ "needle_wood", 5 ],
       [ "sewing_kit", 5 ]
     ]
   ],
