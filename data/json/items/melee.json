@@ -2647,5 +2647,24 @@
     "cutting": 0,
     "to_hit": 0,
     "material": ["plastic", "null"]
+  },
+  {
+    "type":"GENERIC",
+    "id" : "file",
+    "name" : "file",
+    "description" : "Several documents with all kinds of information, customer data and charts kept together, pretty useless now though.",
+    "weight" : 15,
+    "to_hit" : -3,
+    "color" : "white",
+    "symbol" : ",",
+    "material" : ["paper", "null"],
+    "volume" : 1,
+    "bashing" : -8,
+    "cutting": -3,
+    "max_charges": 20,
+    "initial_charges": 20,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "price" : 0
   }
 ]
