@@ -726,9 +726,9 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     w_header1 = newwin(1, FULL_SCREEN_WIDTH/2-5, 3 + iOffsetY, 1 + iOffsetX);
     w_header2 = newwin(1, FULL_SCREEN_WIDTH/2-4, 3 + iOffsetY, FULL_SCREEN_WIDTH/2+3 + iOffsetX);
     w_shift   = newwin(15, 5, 3 + iOffsetY, FULL_SCREEN_WIDTH/2-3 + iOffsetX);
-    w_list    = newwin(13, FULL_SCREEN_WIDTH/2-5, 5 + iOffsetY, 1 + iOffsetX);
-    w_active  = newwin(13, FULL_SCREEN_WIDTH/2-4, 5 + iOffsetY, FULL_SCREEN_WIDTH/2+3 + iOffsetX);
-    w_description = newwin(5, FULL_SCREEN_WIDTH - 2, 19 + iOffsetY, 1 + iOffsetX);
+    w_list    = newwin(12, FULL_SCREEN_WIDTH/2-5, 5 + iOffsetY, 1 + iOffsetX);
+    w_active  = newwin(12, FULL_SCREEN_WIDTH/2-4, 5 + iOffsetY, FULL_SCREEN_WIDTH/2+3 + iOffsetX);
+    w_description = newwin(4, FULL_SCREEN_WIDTH - 2, 18 + iOffsetY, 1 + iOffsetX);
 
     // draw the separation lines directly onto *win
 // UI LINES
