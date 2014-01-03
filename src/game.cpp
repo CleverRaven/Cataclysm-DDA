@@ -186,7 +186,9 @@ void game::load_data_from_dir(const std::string &path) {
 }
 
 extern void calculate_mapgen_weights();
+extern void init_data_mappings();
 void game::finalize_loaded_data() {
+    init_data_mappings();
     finalize_overmap_terrain();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();

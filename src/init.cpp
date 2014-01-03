@@ -27,9 +27,6 @@
 #include "construction.h"
 #include "name.h"
 
-// need data initialized
-#include "bodypart.h"
-
 #include <string>
 #include <vector>
 #include <fstream>
@@ -39,13 +36,31 @@
 #include "savegame.h"
 #include "file_finder.h"
 
-
 typedef std::string type_string;
-std::map<type_string, unsigned> type_counts;
-std::map<type_string, TFunctor*> type_function_map;
-std::map<type_string, int> type_delayed_order;
-std::vector<std::vector<std::string> > type_delayed;
-std::set<std::string> type_ignored;
+typedef std::map<type_string, TFunctor*> t_type_function_map;
+t_type_function_map type_function_map;
+// Delayed loading works like this:
+// All types in delay_order[delay_order_state] up to
+// delay_order[delay_order.size()-1] are delayed.
+// We start with delay_order_state=0, which means all
+// types in any of the delay_order set are ignored.
+// Than we increase delay_order_state, and reload everything again.
+typedef std::set<type_string> delay_type_set;
+typedef std::vector<delay_type_set> delay_order_vector;
+delay_order_vector delay_order;
+int delay_order_state = 0;
+
+bool should_delay(const type_string &type) {
+    for(int i = delay_order_state; i < delay_order.size(); i++) {
+        if(delay_order[i].count(type) > 0) {
+            return true;
+        }
+    }
+    // types that are not listed in any of the delay_order sets
+    // can be loaded always. Types that are in a set before
+    // delay_order_state be can be loaded now.
+    return false;
+}
 
 std::map<int,int> reverse_legacy_ter_id;
 std::map<int,int> reverse_legacy_furn_id;
@@ -87,41 +102,29 @@ void init_data_mappings() {
 void load_object(JsonObject &jo)
 {
     std::string type = jo.get_string("type");
-
-    type_counts[type]++;
-
-    if (type_function_map.find(type) != type_function_map.end())
+    if (type_function_map.find(type) == type_function_map.end())
     {
-        /*
-        if ( initialrun && type_delayed_order.find(type) != type_delayed_order.end() ) {
-            type_delayed[ type_delayed_order[type] ].push_back( jo.dump_input() );
-            return;
-        }
-        */
-        (*type_function_map[type])(jo);
-    } else if ( type_ignored.count(type) == 0) {
         std::stringstream err;
         err << jo.line_number() << ": ";
         err << "unrecognized JSON object, type: \"" << type << "\"";
         throw err.str();
     }
+    if (should_delay(type)) {
+        return;
+    }
+    (*type_function_map[type])(jo);
+}
+
+void load_ingored_type(JsonObject &jo)
+{
+    // This does nothing!
+    // This function is used for types that are to be ignored
+    // (for example for testing or for unimplemented types)
+    (void) jo;
 }
 
 void init_data_structures()
 {
-    type_ignored.insert("colordef");   // loaded earlier.
-    type_ignored.insert("INSTRUMENT"); // ...unimplemented?
-
-    const int delayed_queue_size = 3;      // for now this is only 1 depth, then mods + mods delayed (likely overkill);
-    //type_delayed_order["vehicle"] = 0;     // after vehicle_parts
-    //type_delayed_order["recipe"] = 0;      // after items
-    //type_delayed_order["martial_art"] = 0; //
-
-    type_delayed.resize(delayed_queue_size);
-    for(int i = 0; i < delayed_queue_size; i++ ) {
-        type_delayed[i].clear();
-    }
-
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
@@ -180,72 +183,81 @@ void init_data_structures()
 
     type_function_map["region_settings"] = new StaticFunctionAccessor(&load_region_settings);
 
+    // ...unimplemented?
+    type_function_map["INSTRUMENT"] = new StaticFunctionAccessor(&load_ingored_type);
+    // loaded earlier.
+    type_function_map["colordef"] = new StaticFunctionAccessor(&load_ingored_type);
+
     // init maps used for loading json data
     init_martial_arts();
 
     mutations_category[""].clear();
+
+    // Recipes need to know the items
+    // Vehicles need vparts
+    // -- make a first set of delayed types
+    delay_order.push_back(delay_type_set());
+    delay_order.back().insert("recipe");
+    delay_order.back().insert("vehicle");
+    // currently not needed but for documentation:
+    // assume we have another type (vehicle_type_list),
+    // that needs to know every vehicle. For this we
+    // create another set of delayed types.
+    // This second set will be loaded after the
+    // previously defined set.
+    //delay_order.push_back(delay_type_set());
+    //delay_order.back().insert("vehicle_type_list");
 }
 
 void release_data_structures()
 {
-    std::map<type_string, TFunctor*>::iterator it;
+    t_type_function_map::iterator it;
     for (it = type_function_map.begin(); it != type_function_map.end(); it++) {
         if (it->second != NULL)
             delete it->second;
     }
     type_function_map.clear();
-
-    std::stringstream counts;
-    for (std::map<std::string, unsigned>::iterator it = type_counts.begin(); it != type_counts.end(); ++it){
-        counts << it->first << " -- " << it->second << "\n";
-    }
-    DebugLog() << counts.str();
 }
 
 void load_json_dir(std::string const &dirname)
 {
-    //    load_overlay("data/overlay.json");
+    // We assume that each folder is consistent in itself,
+    // and all the previously loaded folders.
+    // E.g. the core might provide a vpart "frame-x"
+    // the first loaded mode might provide a vehicle that uses that frame
+    // But not the other way round.
+    
+    typedef std::vector<std::string> str_vec;
+    
+    str_vec json_datas;
     // get a list of all files in the directory
-    std::vector<std::string> dir =
-        file_finder::get_files_from_path(".json", dirname, true, true);
+    str_vec dir = file_finder::get_files_from_path(".json", dirname, true, true);
     // iterate over each file
-    std::vector<std::string>::iterator it;
-    for (it = dir.begin(); it != dir.end(); it++) {
+    for (str_vec::iterator it = dir.begin(); it != dir.end(); it++) {
         // open the file as a stream
         std::ifstream infile(it->c_str(), std::ifstream::in | std::ifstream::binary);
         // and stuff it into ram
-        std::istringstream iss(
+        json_datas.push_back(
             std::string(
                 (std::istreambuf_iterator<char>(infile)),
                 std::istreambuf_iterator<char>()
             )
         );
-        infile.close();
-        // parse it
-        try {
-            JsonIn jsin(iss);
-            load_all_from_json(jsin);
-        } catch (std::string e) {
-            DebugLog() << *(it) << ": " << e << "\n";
-            throw *(it) + ": " + e;
-        }
     }
-
-    for( int i = 0; i < type_delayed.size(); i++ ) {
-        for ( int d = 0; d < type_delayed[i].size(); d++ ) {
-            std::istringstream iss( type_delayed[i][d] );
+    delay_order_state = 0;
+    while(delay_order_state <= delay_order.size()) {
+        for (str_vec::iterator it = json_datas.begin(); it != json_datas.end(); it++) {
+            std::istringstream iss(*it);
             try {
+                // parse it
                 JsonIn jsin(iss);
                 load_all_from_json(jsin);
             } catch (std::string e) {
+                DebugLog() << *(it) << ": " << e << "\n";
                 throw *(it) + ": " + e;
             }
         }
-        type_delayed[i].clear();
-    }
-
-    if ( t_floor != termap["t_floor"].loadid ) {
-        init_data_mappings(); // this should only kick off once
+        delay_order_state++;
     }
 }
 
