@@ -1,6 +1,7 @@
 #include "worldfactory.h"
 #include "file_finder.h"
 #include "char_validity_check.h"
+#include "mod_manager.h"
 
 #include "name.h"
 

@@ -1,6 +1,7 @@
 #include "mod_manager.h"
 #include "file_finder.h"
 #include "debug.h"
+#include "output.h"
 
 #include <math.h>
 #include <queue>
@@ -33,6 +34,10 @@ mod_manager::~mod_manager()
     }
 }
 
+dependency_tree *mod_manager::get_tree() {
+    return tree;
+}
+
 void mod_manager::clear()
 {
     mod_map.clear();
@@ -61,7 +66,7 @@ void mod_manager::refresh_mod_list()
 
     std::map<std::string, std::vector<std::string> > mod_dependency_map;
     if (!load_mods_from(MOD_SEARCH_PATH)) {
-        // no mods loaded! oh noes!
+        return;
     }
     for (int i = 0; i < mods.size(); ++i) {
         mod_dependency_map[mods[i]->ident] = mods[i]->dependencies;
@@ -79,26 +84,16 @@ bool mod_manager::load_mods_from(std::string path)
     unsigned num_loaded = 0;
     const std::string mod_file_input = std::string("/") + MOD_SEARCH_FILE;
     for (int i = 0; i < mod_files.size(); ++i) {
-        int path_index = mod_files[i].find(mod_file_input);
-
-        MOD_INFORMATION *modinfo = new MOD_INFORMATION;
-
-        if (!load_mod_info(modinfo, mod_files[i])) {
-            delete modinfo;
+        if (!load_mod_info(mod_files[i])) {
             continue;
         }
-        modinfo->path = mod_files[i].substr(0, path_index);
         ++num_loaded;
     }
-    return num_loaded; // false if 0 loaded, true otherwise
+    return num_loaded != 0;
 }
 
-MOD_INFORMATION *mod_manager::load_modfile(JsonObject &jo)
+void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 {
-    if (!jo.has_member("ident")) {
-        return NULL;
-    }
-
     MOD_INFORMATION *modfile = new MOD_INFORMATION;
     std::string m_ident = jo.get_string("ident");
     std::string t_type = jo.get_string("type", "UNKNOWN");
@@ -133,11 +128,13 @@ MOD_INFORMATION *mod_manager::load_modfile(JsonObject &jo)
     modfile->name = m_name;
     modfile->description = m_desc;
     modfile->dependencies = m_dependencies;
-    modfile->path = m_path;
+    if(m_path.empty()) {
+        modfile->path = main_path + "/data";
+    } else {
+        modfile->path = main_path + "/" + m_path;
+    }
 
     mods.push_back(modfile);
-
-    return modfile;
 }
 
 extern bool assure_dir_exist(const std::string &path);
@@ -219,7 +216,7 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
     return true;
 }
 
-bool mod_manager::load_mod_info(MOD_INFORMATION *mod, std::string info_file_path)
+bool mod_manager::load_mod_info(std::string info_file_path)
 {
     // info_file_path is the fully qualified path to the information file for this mod
     std::ifstream infile(info_file_path.c_str(), std::ifstream::in | std::ifstream::binary);
@@ -230,6 +227,7 @@ bool mod_manager::load_mod_info(MOD_INFORMATION *mod, std::string info_file_path
         )
     );
     infile.close();
+    const std::string main_path = info_file_path.substr(0, info_file_path.find_last_of("/\\"));
     try {
         JsonIn jsin(iss);
         jsin.eat_whitespace();
@@ -237,8 +235,7 @@ bool mod_manager::load_mod_info(MOD_INFORMATION *mod, std::string info_file_path
         if (ch == '{') {
             // find type and dispatch single object
             JsonObject jo = jsin.get_object();
-            mod = load_modfile(jo);
-            mod->path = info_file_path.substr(0, info_file_path.find_last_of("/\\")) + "/" + mod->path;
+            load_modfile(jo, main_path);
             jo.finish();
         } else if (ch == '[') {
             jsin.start_array();
@@ -246,8 +243,7 @@ bool mod_manager::load_mod_info(MOD_INFORMATION *mod, std::string info_file_path
             while (!jsin.end_array()) {
                 jsin.eat_whitespace();
                 JsonObject jo = jsin.get_object();
-                mod = load_modfile(jo);
-                mod->path = info_file_path.substr(0, info_file_path.find_last_of("/\\")) + "/" + mod->path;
+                load_modfile(jo, main_path);
                 jo.finish();
             }
         } else {
@@ -258,6 +254,7 @@ bool mod_manager::load_mod_info(MOD_INFORMATION *mod, std::string info_file_path
             throw err.str();
         }
     } catch(std::string e) {
+        debugmsg("%s", e.c_str());
         return false;
     }
     return true;

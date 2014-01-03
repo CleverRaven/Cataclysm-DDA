@@ -1,7 +1,6 @@
 #ifndef WORLDFACTORY_H
 #define WORLDFACTORY_H
 
-#include "mod_manager.h"
 #include "options.h"
 #include "output.h"
 #include "debug.h"
@@ -29,6 +28,9 @@ struct WORLD
 
     WORLD();
 };
+
+class mod_manager;
+class mod_ui;
 
 typedef WORLD *WORLDPTR;
 

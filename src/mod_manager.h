@@ -9,6 +9,9 @@
 #include <vector>
 #include <map>
 
+class mod_ui;
+class worldfactory;
+
 enum mod_type
 {
     MT_UNKNOWN,
@@ -34,29 +37,30 @@ struct MOD_INFORMATION
 class mod_manager
 {
     public:
-        /** Default constructor */
         mod_manager();
-        /** Default destructor */
         virtual ~mod_manager();
 
         void refresh_mod_list();
 
-        std::vector<MOD_INFORMATION*> mods;
-        std::map<std::string, unsigned> mod_map;
-
-        MOD_INFORMATION *load_modfile(JsonObject &jo);
         void show_ui();
 
-        dependency_tree *get_tree(){ return tree;}
+        dependency_tree *get_tree();
         void clear();
 
         bool copy_mod_contents(std::vector<std::string> mods_to_copy, std::string output_base_path);
     protected:
     private:
+        // Make this accessible for now
+        friend class mod_ui;
+        friend class worldfactory;
         bool load_mods_from(std::string path);
-        bool load_mod_info(MOD_INFORMATION *mod, std::string info_file_path);
+        bool load_mod_info(std::string info_file_path);
+        void load_modfile(JsonObject &jo, const std::string &main_path);
 
         dependency_tree *tree;
+
+        std::vector<MOD_INFORMATION *> mods;
+        std::map<std::string, unsigned> mod_map;
 };
 
 class mod_ui

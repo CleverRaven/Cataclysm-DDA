@@ -368,6 +368,10 @@ int mod_ui::gather_input(int &active_header, int &selection, std::vector<std::st
 
 void mod_ui::try_add(int selection, std::vector<std::string> modlist, std::vector<std::string> &active_list)
 {
+    if (std::find(active_list.begin(), active_list.end(), modlist[selection]) != active_list.end()) {
+        // The same mod can not be added twice. That makes no sense.
+        return;
+    }
     MOD_INFORMATION &mod = *active_manager->mods[active_manager->mod_map[modlist[selection]]];
     bool errs;
     try {
@@ -395,14 +399,9 @@ void mod_ui::try_add(int selection, std::vector<std::string> modlist, std::vecto
             try_rem(0, active_list);
         }
 
-        if (std::find(active_list.begin(), active_list.end(), modlist[selection]) == active_list.end()) {
-            // add to start of active_list if it doesn't already exist in it
-            active_list.insert(active_list.begin(), modlist[selection]);
-        }
+        // add to start of active_list if it doesn't already exist in it
+        active_list.insert(active_list.begin(), modlist[selection]);
     } else { // _type == MT_SUPPLEMENTAL
-        // see if this mod has already been added to the list
-        std::vector<std::string>::iterator it = std::find(active_list.begin(), active_list.end(), mod.ident);
-
         // now check dependencies and add them as necessary
         std::vector<std::string> mods_to_add;
         bool new_core = false;

@@ -296,7 +296,7 @@ dependency_tree::dependency_tree()
 
 dependency_tree::~dependency_tree()
 {
-    //dtor
+    clear();
 }
 
 void dependency_tree::init(std::map<std::string, std::vector<std::string> > key_dependency_map)
