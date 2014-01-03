@@ -128,21 +128,6 @@ VAR_VEH_PART("v8_combustion", _("V8 engine"), 250, ':', c_ltcyan,  "iron",   "nu
     25,144000, 15,  0, -5,       500,     800, BIGNESS_ENGINE_DISPLACEMENT,
     _("A large and very powerful 8-cylinder combustion engine."));
 
-// GUNS
-// ammo_type matches one of the ammo_types above.
-// dmg is ADDED to the damage of the corresponding ammo.  +/-, should be small.
-// aim affects chances of hitting; low for handguns, hi for rifles, etc, small.
-// Durability is rated 1-10; 10 near perfect, 1 it breaks every few shots
-// Burst is the # of rounds fired, 0 if no burst ability.
-// clip is how many shots we get before reloading.
-
-#define GUN(id,name,price,color,mat1,mat2,skill,ammo,volume,wgt,melee_dam,\
-to_hit,dmg,range,dispersion,recoil,durability,burst,clip,reload_time,des,pierce,flags,effects) \
-itypes[id]=new it_gun(id,price,name,des,'(',\
-color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,pierce,flags,effects,\
-skill,ammo,dmg,range,dispersion,\
-recoil,durability,burst,clip,reload_time)
-
 // SOFTWARE
 #define SOFTWARE(id, name, price, swtype, power, description) \
 itypes[id]=new it_software(id, price, name, description,\

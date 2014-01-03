@@ -5,7 +5,7 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_OTHER",
   "skill_used": "gardener",
-  "difficulty": 0,
+  "difficulty": 3,
   "time": 200,
   "reversible": true,
   "autolearn": true,
