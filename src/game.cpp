@@ -11061,6 +11061,8 @@ bool game::plmove(int dx, int dy)
 
               mdir.init( dxVeh, dyVeh );
               mdir.advance( 1 );
+              grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
+              grabbed_vehicle->face = grabbed_vehicle->turn_dir;
               grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
               int imp = 0;
               std::vector<veh_collision> veh_veh_colls;
@@ -11071,7 +11073,8 @@ bool game::plmove(int dx, int dy)
               int player_prev_y = u.posy;
               u.posx = 0;
               u.posy = 0;
-              if( grabbed_vehicle->collision( veh_veh_colls, veh_misc_colls, dxVeh, dyVeh, can_move, imp, true ) ) {
+              if( grabbed_vehicle->collision( veh_veh_colls, veh_misc_colls, dxVeh, dyVeh,
+                                              can_move, imp, true ) ) {
                   // TODO: figure out what we collided with.
                   add_msg( _("The %s collides with something."), grabbed_vehicle->name.c_str() );
                   u.moves -= 10;
@@ -11094,7 +11097,7 @@ bool game::plmove(int dx, int dy)
                                                     gy + grabbed_vehicle->parts[p].precalc_dy[0] + dyVeh, p );
                   }
               }
-              m.displace_vehicle(  gx, gy, dxVeh, dyVeh );
+              m.displace_vehicle( gx, gy, dxVeh, dyVeh );
           } else {
               //We are moving around the veh
               u.grab_point.x = (dx + dxVeh) * (-1);
