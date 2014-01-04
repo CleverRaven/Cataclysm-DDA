@@ -1,3 +1,4 @@
+#include "action.h"
 #include "cursesdef.h"
 #include "input.h"
 #include "json.h"
@@ -13,6 +14,29 @@ InputEvent get_input(int ch)
 {
     if (ch == '\0')
         ch = getch();
+
+    const action_id act = action_from_key(ch);
+    switch(act)
+    {
+        case ACTION_MOVE_N:
+	    return DirectionN;
+        case ACTION_MOVE_NE:
+	    return DirectionNE;
+        case ACTION_MOVE_E:
+	    return DirectionE;
+        case ACTION_MOVE_SE:
+	    return DirectionSE;
+        case ACTION_MOVE_S:
+	    return DirectionS;
+        case ACTION_MOVE_SW:
+	    return DirectionSW;
+        case ACTION_MOVE_W:
+	    return DirectionW;
+        case ACTION_MOVE_NW:
+	    return DirectionNW;
+        default:
+	    break;
+    }
 
     switch(ch)
     {
