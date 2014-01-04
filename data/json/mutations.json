@@ -1738,6 +1738,7 @@
         "visibility" : 1,
         "ugliness" : 1,
         "description" : "You have grown noticeably taller and broader. Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+1 Torso and Arm Encumbrance).",
+        "prereqs" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
         "changes_to": ["LARGE_OK", "HUGE"],
         "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
     },{
@@ -1762,7 +1763,7 @@
         "ugliness" : 4,
         "description" : "You have grown even more massive, to the point where you cannot usefully fit into human-sized clothing or vehicles. Much of it is powerful muscle mass (Strength +4), but it's a real pain to haul around.",
         "prereqs" : ["LARGE", "LARGE_OK"],
-        "prereqs2" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
+        "prereqs2" : ["STR_UP_3", "STR_UP_4"],
         "changes_to": ["HUGE_OK"],
         "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
     },{
@@ -1774,7 +1775,7 @@
         "ugliness" : 3,
         "description" : "Your cardiovascular system has caught up with your muscular physique, so who needs pathetic human cars? Strength +4.",
         "prereqs" : ["HUGE"],
-        "prereqs2" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
+        "prereqs2" : ["STR_UP_3", "STR_UP_4"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
         "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
     },{
