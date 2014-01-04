@@ -23,13 +23,15 @@
     "revert_to": "null"
   },
 
-    {
-        "type" : "ITEM_CATEGORY",
-        "id" : "spare_parts",
-        "name" : "spare parts",
-        "sort_rank" : 8
-    },
-  { "id":"lighter",
+  {
+    "type" : "ITEM_CATEGORY",
+    "id" : "spare_parts",
+    "name" : "spare parts",
+    "sort_rank" : 8
+  },
+
+  {
+    "id":"lighter",
     "type": "TOOL",
     "symbol": ",",
     "color": "blue",
