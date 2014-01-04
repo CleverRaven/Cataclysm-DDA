@@ -3812,6 +3812,7 @@ int iuse::pickaxe(player *p, item *it, bool)
  }
 return it->type->charges_to_use();
 }
+
 int iuse::set_trap(player *p, item *it, bool)
 {
     if (p->is_underwater()) {
@@ -4113,6 +4114,29 @@ int iuse::can_goo(player *p, item *it, bool)
  return it->type->charges_to_use();
 }
 
+int iuse::throwable_extinguisher_act(player *p, item *it, bool)
+{
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
+    }
+
+    field &fld = g->m.field_at(pos.x, pos.y);
+    if (fld.findField(fd_fire) != 0) {
+        // Reduce the strength of fire (if any) in the target tile.
+        g->m.adjust_field_strength(pos, fd_fire, 0 - rng(1, 2));
+        // Slightly reduce the strength of fire near the target tile.
+        for (int x = -1; x <= 1; x += 2) {
+            for (int y = -1; y <= 1; y += 2) {
+                if (g->m.move_cost(pos.x + x, pos.y + y) != 0) {
+                    g->m.adjust_field_strength(point(pos.x + x, pos.y + y), fd_fire, 0 - rng(0, 2));
+                }
+            }
+        }
+        return 1;
+    }
+    return 0;
+}
 
 int iuse::pipebomb(player *p, item *it, bool)
 {
@@ -4133,24 +4157,24 @@ int iuse::pipebomb(player *p, item *it, bool)
 
 int iuse::pipebomb_act(player *, item *it, bool t)
 {
- point pos = g->find_item(it);
- if (pos.x == -999 || pos.y == -999) {
-  return 0;
- }
- if (t) { // Simple timer effects
-  //~ the sound of a lit fuse
-  g->sound(pos.x, pos.y, 0, _("ssss...")); // Vol 0 = only heard if you hold it
- } else if(it->charges > 0) {
-  g->add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
-  return 0;
- } else { // The timer has run down
-  if (one_in(10) && g->u_see(pos.x, pos.y)) {
-   g->add_msg(_("The pipe bomb fizzles out."));
-  } else {
-   g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
-  }
- }
- return 0;
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
+    }
+    if (t) { // Simple timer effects
+        //~ the sound of a lit fuse
+        g->sound(pos.x, pos.y, 0, _("ssss...")); // Vol 0 = only heard if you hold it
+    } else if (it->charges > 0) {
+        g->add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
+        return 0;
+    } else { // The timer has run down
+        if (one_in(10) && g->u_see(pos.x, pos.y)) {
+            g->add_msg(_("The pipe bomb fizzles out."));
+        } else {
+            g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
+        }
+    }
+    return 0;
 }
 
 int iuse::grenade(player *p, item *it, bool)
