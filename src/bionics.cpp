@@ -633,6 +633,10 @@ bool player::install_bionics(it_bionic *type)
         debugmsg("Tried to install NULL bionic");
         return false;
     }
+    if (bionics.count(type->id) == 0) {
+        popup("invalid / unknown bionic id %s", type->id.c_str());
+        return false;
+    }
     if (has_bionic(type->id)) {
         if (!(type->id == "bio_power_storage" || type->id == "bio_power_storage_mkII")) {
             popup(_("You have already installed this bionic."));

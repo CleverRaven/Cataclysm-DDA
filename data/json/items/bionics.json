@@ -13,8 +13,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 7,
-        "options": ["bio_ads"]
+        "difficulty": 7
     },
     {
         "type": "BIONIC_ITEM",
@@ -30,8 +29,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 1,
-        "options": ["bio_alarm"]
+        "difficulty": 1
     },
     {
         "type": "BIONIC_ITEM",
@@ -47,8 +45,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 3,
-        "options": ["bio_armor_arms"]
+        "difficulty": 3
     },
     {
         "type": "BIONIC_ITEM",
@@ -64,8 +61,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_armor_eyes"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -81,8 +77,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_armor_head"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -98,8 +93,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 3,
-        "options": ["bio_armor_legs"]
+        "difficulty": 3
     },
     {
         "type": "BIONIC_ITEM",
@@ -115,8 +109,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 4,
-        "options": ["bio_armor_torso"]
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -132,8 +125,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 4,
-        "options": ["bio_batteries"]
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -149,8 +141,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 3,
-        "options": ["bio_blaster"]
+        "difficulty": 3
     },
     {
         "type": "BIONIC_ITEM",
@@ -166,8 +157,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 2,
-        "options": ["bio_blood_anal"]
+        "difficulty": 2
     },
     {
         "type": "BIONIC_ITEM",
@@ -183,8 +173,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 3,
-        "options": ["bio_blood_filter"]
+        "difficulty": 3
     },
     {
         "type": "BIONIC_ITEM",
@@ -200,8 +189,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 9,
-        "options": ["bio_carbon"]
+        "difficulty": 9
     },
     {
         "type": "BIONIC_ITEM",
@@ -217,8 +205,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 3,
-        "options": ["bio_chain_lightning"]
+        "difficulty": 3
     },
     {
         "type": "BIONIC_ITEM",
@@ -234,8 +221,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_claws"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -251,8 +237,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 3,
-        "options": ["bio_climate"]
+        "difficulty": 3
     },
     {
         "type": "BIONIC_ITEM",
@@ -268,8 +253,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_cloak"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -285,8 +269,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 11,
-        "options": ["bio_dex_enhancer"]
+        "difficulty": 11
     },
     {
         "type": "BIONIC_ITEM",
@@ -302,8 +285,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 6,
-        "options": ["bio_digestion"]
+        "difficulty": 6
     },
     {
         "type": "BIONIC_ITEM",
@@ -319,8 +301,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 6,
-        "options": ["bio_ears"]
+        "difficulty": 6
     },
     {
         "type": "BIONIC_ITEM",
@@ -336,8 +317,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_emp"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -353,8 +333,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 4,
-        "options": ["bio_ethanol"]
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -370,8 +349,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 4,
-        "options": ["bio_evap"]
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -387,8 +365,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 11,
-        "options": ["bio_eye_enhancer"]
+        "difficulty": 11
     },
     {
         "type": "BIONIC_ITEM",
@@ -404,8 +381,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_face_mask"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -421,8 +397,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 2,
-        "options": ["bio_fingerhack"]
+        "difficulty": 2
     },
     {
         "type": "BIONIC_ITEM",
@@ -438,8 +413,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_flashbang"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -455,8 +429,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 2,
-        "options": ["bio_flashlight"]
+        "difficulty": 2
     },
     {
         "type": "BIONIC_ITEM",
@@ -472,8 +445,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 4,
-        "options": ["bio_furnace"]
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -489,8 +461,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 3,
-        "options": ["bio_geiger"]
+        "difficulty": 3
     },
     {
         "type": "BIONIC_ITEM",
@@ -506,8 +477,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 6,
-        "options": ["bio_gills"]
+        "difficulty": 6
     },
     {
         "type": "BIONIC_ITEM",
@@ -523,8 +493,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_ground_sonar"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -540,8 +509,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_heat_absorb"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -557,8 +525,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 3,
-        "options": ["bio_heatsink"]
+        "difficulty": 3
     },
     {
         "type": "BIONIC_ITEM",
@@ -574,8 +541,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 6,
-        "options": ["bio_hydraulics"]
+        "difficulty": 6
     },
     {
         "type": "BIONIC_ITEM",
@@ -591,8 +557,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 6,
-        "options": ["bio_infrared"]
+        "difficulty": 6
     },
     {
         "type": "BIONIC_ITEM",
@@ -608,8 +573,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 11,
-        "options": ["bio_int_enhancer"]
+        "difficulty": 11
     },
     {
         "type": "BIONIC_ITEM",
@@ -625,8 +589,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_laser"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -642,8 +605,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 4,
-        "options": ["bio_lighter"]
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -659,8 +621,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 2,
-        "options": ["bio_lockpick"]
+        "difficulty": 2
     },
     {
         "type": "BIONIC_ITEM",
@@ -676,8 +637,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 2,
-        "options": ["bio_magnet"]
+        "difficulty": 2
     },
     {
         "type": "BIONIC_ITEM",
@@ -693,8 +653,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 6,
-        "options": ["bio_membrane"]
+        "difficulty": 6
     },
     {
         "type": "BIONIC_ITEM",
@@ -710,8 +669,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 9,
-        "options": ["bio_memory"]
+        "difficulty": 9
     },
     {
         "type": "BIONIC_ITEM",
@@ -727,8 +685,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 4,
-        "options": ["bio_metabolics"]
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -744,8 +701,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 6,
-        "options": ["bio_nanobots"]
+        "difficulty": 6
     },
     {
         "type": "BIONIC_ITEM",
@@ -761,8 +717,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_night"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -778,8 +733,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 11,
-        "options": ["bio_night_vision"]
+        "difficulty": 11
     },
     {
         "type": "BIONIC_ITEM",
@@ -795,8 +749,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 7,
-        "options": ["bio_ods"]
+        "difficulty": 7
     },
     {
         "type": "BIONIC_ITEM",
@@ -812,8 +765,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 4,
-        "options": ["bio_painkiller"]
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -829,8 +781,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 1,
-        "options": ["bio_power_armor_interface"]
+        "difficulty": 1
     },
     {
         "type": "BIONIC_ITEM",
@@ -846,8 +797,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 8,
-        "options": ["bio_power_armor_interface_mkII"]
+        "difficulty": 8
     },
     {
         "type": "BIONIC_ITEM",
@@ -863,8 +813,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 1,
-        "options": ["bio_power_storage"]
+        "difficulty": 1
     },
     {
         "type": "BIONIC_ITEM",
@@ -880,8 +829,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 1,
-        "options": ["bio_power_storage_mkII"]
+        "difficulty": 1
     },
     {
         "type": "BIONIC_ITEM",
@@ -897,8 +845,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 11,
-        "options": ["bio_probability_travel"]
+        "difficulty": 11
     },
     {
         "type": "BIONIC_ITEM",
@@ -914,8 +861,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 4,
-        "options": ["bio_purifier"]
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -931,8 +877,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 4,
-        "options": ["bio_radscrubber"]
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -948,8 +893,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 3,
-        "options": ["bio_railgun"]
+        "difficulty": 3
     },
     {
         "type": "BIONIC_ITEM",
@@ -965,8 +909,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 4,
-        "options": ["bio_razors"]
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -982,8 +925,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 6,
-        "options": ["bio_recycler"]
+        "difficulty": 6
     },
     {
         "type": "BIONIC_ITEM",
@@ -999,8 +941,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 11,
-        "options": ["bio_resonator"]
+        "difficulty": 11
     },
     {
         "type": "BIONIC_ITEM",
@@ -1016,8 +957,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_scent_mask"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -1033,8 +973,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 8,
-        "options": ["bio_scent_vision"]
+        "difficulty": 8
     },
     {
         "type": "BIONIC_ITEM",
@@ -1050,8 +989,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_shock"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -1067,8 +1005,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_shockwave"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -1084,8 +1021,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 4,
-        "options": ["bio_solar"]
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -1101,8 +1037,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 7,
-        "options": ["bio_storage"]
+        "difficulty": 7
     },
     {
         "type": "BIONIC_ITEM",
@@ -1118,8 +1053,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 11,
-        "options": ["bio_str_enhancer"]
+        "difficulty": 11
     },
     {
         "type": "BIONIC_ITEM",
@@ -1135,8 +1069,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 4,
-        "options": ["bio_sunglasses"]
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -1152,8 +1085,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_targeting"]
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -1169,8 +1101,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 7,
-        "options": ["bio_teleport"]
+        "difficulty": 7
     },
     {
         "type": "BIONIC_ITEM",
@@ -1186,8 +1117,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 11,
-        "options": ["bio_time_freeze"]
+        "difficulty": 11
     },
     {
         "type": "BIONIC_ITEM",
@@ -1203,8 +1133,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 6,
-        "options": ["bio_tools"]
+        "difficulty": 6
     },
     {
         "type": "BIONIC_ITEM",
@@ -1220,8 +1149,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 4,
-        "options": ["bio_torsionratchet"]
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -1237,8 +1165,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 11,
-        "options": ["bio_uncanny_dodge"]
+        "difficulty": 11
     },
     {
         "type": "BIONIC_ITEM",
@@ -1254,7 +1181,6 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5,
-        "options": ["bio_water_extractor"]
+        "difficulty": 5
     }
 ]

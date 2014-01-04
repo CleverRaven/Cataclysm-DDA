@@ -632,7 +632,6 @@ struct it_tool : public itype
 
 struct it_bionic : public itype
 {
- std::vector<bionic_id> options;
  int difficulty;
 
  virtual bool is_bionic()    { return true; }
@@ -643,12 +642,10 @@ struct it_bionic : public itype
            unsigned int pvolume, unsigned int pweight,
            signed char pmelee_dam, signed char pmelee_cut,
            signed char pm_to_hit,
-
            int pdifficulty)
  :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
         pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
    difficulty = pdifficulty;
-   options.push_back(id);
  }
 };
 

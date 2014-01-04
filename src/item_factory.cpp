@@ -376,6 +376,12 @@ void Item_factory::check_itype_definitions() const {
                 msg << string_format("invalid revert_to property %s", tool->revert_to.c_str()) << "\n";
             }
         }
+        const it_bionic* bionic = dynamic_cast<const it_bionic*>(type);
+        if(bionic != 0) {
+            if (bionics.count(bionic->id) == 0) {
+                msg << string_format("there is no bionic with id %s", bionic->id.c_str()) << "\n";
+            }
+        }
         if(msg.str().empty()) {
             continue;
         }
@@ -660,10 +666,6 @@ void Item_factory::load_bionic(JsonObject& jo)
 {
     it_bionic* bionic_template = new it_bionic();
     bionic_template->difficulty = jo.get_int("difficulty");
-    JsonArray jarr = jo.get_array("options");
-    while (jarr.has_more()){
-        bionic_template->options.push_back(jarr.next_string());
-    }
     load_basic_info(jo, bionic_template);
 }
 
