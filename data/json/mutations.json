@@ -713,7 +713,7 @@
         "id" : "PACIFIST",
         "name" : "Pacifist",
         "points" : -4,
-        "description" : "You don't like thinking about violence. Your combat skills advance much slower than usual, and instead of adapting to killing, the more you do it, the worse you feel.",
+        "description" : "You don't like thinking about violence. Your combat skills advance much slower than usual, and you feel more guilt about killing.",
         "starting_trait" : true,
         "valid" : false
     },{
