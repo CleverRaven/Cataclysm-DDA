@@ -2295,12 +2295,12 @@
             {"x": -4, "y": -1, "chance": 8, "items": ["flashlight", "oxygen_tank", "smoxygen_tank", "1st_aid"]},
             {"x": -4, "y": -2, "chance": 4, "item_groups": "fireman_gear"},
             {"x": -5, "y": -1, "chance": 1, "items": ["bunker_coat", "bunker_pants", "boots_bunker", "fire_gauntlets", "firehelmet", "mask_bunker"]},
-            {"x": -5, "y": -2, "chance": 7, "items": ["fire_ax", "hammer_sledge", "shovel"]},
-            {"x": -5, "y": 2, "chance": 1, "items": ["fire_ax", "chainsaw_off", "halligan"]},
+            {"x": -5, "y": -2, "chance": 7, "items": ["fire_ax", "hammer_sledge", "shovel", "throw_extinguisher"]},
+            {"x": -5, "y": 2, "chance": 1, "items": ["fire_ax", "chainsaw_off", "halligan", "throw_extinguisher"]},
             {"x": -6, "y": -1, "chance": 1, "items": ["nomex_suit", "nomex_hood", "nomex_gloves", "nomex_socks"]},
             {"x": -6, "y": -2, "chance": 5, "items": ["halligan", "crowbar", "hammer_sledge"]},
             {"x": -6, "y": 1, "chance": 1, "items": ["entry_suit", "mask_gas", "smoxygen_tank"]},
-            {"x": -6, "y": 2, "chance": 5, "items": ["halligan", "crowbar", "shovel", "rope_30"]}
+            {"x": -6, "y": 2, "chance": 5, "items": ["halligan", "crowbar", "shovel", "rope_30", "throw_extinguisher"]}
         ]
     }
 ]
