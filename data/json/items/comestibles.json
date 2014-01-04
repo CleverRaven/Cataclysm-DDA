@@ -3953,7 +3953,7 @@
         "heal" : -2,
         "addiction_potential" : 0,
         "nutrition" : 20,
-        "description" : "Heavily processed sausage, dipped in batter and deep fried. Cooked, this corndog now tastes much better but will spoil.",
+        "description" : "Heavily processed sausages, dipped in batter and deep fried. Cooked, this corndog now tastes much better but will spoil.",
         "price" : 80,
         "material" : "flesh",
         "tool" : "null",
@@ -8814,7 +8814,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mre_hotdogs",
-        "name" : "irradiated hotdog course",
+        "name" : "irradiated hotdogs course",
         "weight" : 125,
         "color" : "red",
         "addiction_type" : "none",
