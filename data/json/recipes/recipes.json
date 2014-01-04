@@ -28167,6 +28167,211 @@
   ]
 },{
         "type" : "recipe",
+  "result": "jar_3l_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 5 ]],
+  "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 150], ["char_forge", 30]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 48 ],
+     [ "flask_glass", 12 ],
+     [ "jar_glass", 6 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "bottle_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 5 ]],
+  "tools": [ 
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 75], ["char_forge", 15]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 12 ],
+     [ "flask_glass", 3 ],
+     [ "jar_glass", 2 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "jar_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 4 ]],
+  "tools": [ 
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 8 ],
+     [ "flask_glass", 2 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "flask_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 4 ]],
+  "tools": [ 
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 25], ["char_forge", 5]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 4 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "pipe_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 6 ]],
+  "tools": [ 
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 25], ["char_forge", 5]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 4 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "glass_sheet",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ 
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      [ "sheet_metal", 1 ]
+     ],
+     [
+      ["forge", 75], ["char_forge", 15]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 16 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "mre_ravioli_box",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
