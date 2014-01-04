@@ -269,6 +269,9 @@ void game::finalize_vehicles()
             next_vehicle->item_spawns.push_back(proto->item_spawns[i]);
         }
 
+        if (vtypes.count(next_vehicle->type) > 0) {
+            delete vtypes[next_vehicle->type];
+        }
         vtypes[next_vehicle->type] = next_vehicle;
         delete proto;
     }
