@@ -9225,6 +9225,17 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         line(this, t_wall_glass_h, 0, 0, SEEX * 2 - 1, 0);
         ter_set(SEEX, 0, t_door_glass_c);
         ter_set(SEEX + 1, 0, t_door_glass_c);
+        //Vending
+        std::vector<int> vset;
+        int vnum = rng(2,6);
+        for(int a=0;a<21;a++)vset.push_back(a);
+        std::random_shuffle(vset.begin(),vset.end());
+        for(int a = 0; a < vnum; a++)
+        {
+            if (vset[a] < 12) place_vending(vset[a], 1, rng(0,1));
+            else place_vending(vset[a] + 2, 1, rng(0,1));
+        }
+        vset.clear();
         // Long checkout lanes
         for (int x = 2; x <= 18; x += 4) {
             line_furn(this, f_counter, x, 4, x, 14);
@@ -9405,20 +9416,20 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         line_furn(this, f_bench, 20, 7, 22,  7);
         line_furn(this, f_bench, 22, 8, 22, 10);
         place_items("magazines", 70, 8, 7, 22, 10, false, 0);
-		//Vending
-		std::vector<int> vset;
-		int vnum = rng(1,3);
-		for(int a=0;a<17;a++)vset.push_back(a);
-		std::random_shuffle(vset.begin(),vset.end());
-		for(int a = 0; a < vnum; a++)
-		{
-			if (vset[a] < 3) place_vending(5 + vset[a], 7, rng(0,1));
-			else if (vset[a] < 5) place_vending(1 + vset[a] - 3, 7, rng(0,1));
-			else if (vset[a] < 8) place_vending(1, 8 + vset[a] - 5, rng(0,1));
-			else if (vset[a] < 13) place_vending(10 + vset[a] - 8, 12, rng(0,1));
-			else place_vending(17 + vset[a] - 13, 12, rng(0,1));
-		}
-		vset.clear();
+        //Vending
+        std::vector<int> vset;
+        int vnum = rng(1,3);
+        for(int a=0;a<17;a++)vset.push_back(a);
+        std::random_shuffle(vset.begin(),vset.end());
+        for(int a = 0; a < vnum; a++)
+        {
+            if (vset[a] < 3) place_vending(5 + vset[a], 7, rng(0,1));
+            else if (vset[a] < 5) place_vending(1 + vset[a] - 3, 7, rng(0,1));
+            else if (vset[a] < 8) place_vending(1, 8 + vset[a] - 5, rng(0,1));
+            else if (vset[a] < 13) place_vending(10 + vset[a] - 8, 12, rng(0,1));
+            else place_vending(17 + vset[a] - 13, 12, rng(0,1));
+        }
+        vset.clear();
         // Reception and examination rooms
         line_furn(this, f_counter, 8, 13, 9, 13);
         line(this, t_wall_h, 10, 13, SEEX * 2 - 1, 13);
