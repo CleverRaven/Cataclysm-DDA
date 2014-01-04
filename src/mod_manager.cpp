@@ -78,6 +78,10 @@ void mod_manager::load_mods_from(std::string path)
 
 void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 {
+    if (!jo.has_string("type") || jo.get_string("type") != "MOD_INFO") {
+        // Ignore anything that is not a mod-info
+        return;
+    }
     std::string m_ident = jo.get_string("ident");
     if (has_mod(m_ident)) {
         // TODO: change this to make uniqe ident for the mod
@@ -85,7 +89,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         debugmsg("there is already a mod with ident %s", m_ident.c_str());
         return;
     }
-    std::string t_type = jo.get_string("type", "SUPPLEMENTAL");
+    std::string t_type = jo.get_string("mod-type", "SUPPLEMENTAL");
     std::string m_author = jo.get_string("author", "Unknown Author");
     std::string m_name = jo.get_string("name", "");
     if (m_name.empty()) {
@@ -174,10 +178,20 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
         number_stream.fill('0');
         number_stream << (i + 1);
         MOD_INFORMATION *mod = mod_map[mods_to_copy[i]];
+        size_t start_index = mod->path.size();
 
         // now to get all of the json files inside of the mod and get them ready to copy
         std::vector<std::string> input_files = file_finder::get_files_from_path(".json", mod->path, true, true);
         std::vector<std::string> input_dirs  = file_finder::get_directories_with(search_extensions, mod->path, true);
+
+        if (input_files.empty() && mod->path.find(MOD_SEARCH_FILE) != std::string::npos) {
+            // Self contained mod, all data is inside the modinfo.json file
+            input_files.push_back(mod->path);
+            start_index = mod->path.find_last_of("/\\");
+            if (start_index == std::string::npos) {
+                start_index = 0;
+            }
+        }
 
         if (input_files.size() == 0){
             continue;
@@ -189,7 +203,6 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
 
         std::queue<std::string> dir_to_make;
         dir_to_make.push(cur_mod_dir.str());
-        size_t start_index = mod->path.size();
         for (int j = 0; j < input_dirs.size(); ++j){
             dir_to_make.push(cur_mod_dir.str() + "/" + input_dirs[j].substr(start_index));
         }

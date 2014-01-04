@@ -214,6 +214,8 @@ void DynamicDataLoader::initialize()
     type_function_map["INSTRUMENT"] = new StaticFunctionAccessor(&load_ingored_type);
     // loaded earlier.
     type_function_map["colordef"] = new StaticFunctionAccessor(&load_ingored_type);
+    // mod information, ignored, handled by the mod manager
+    type_function_map["MOD_INFO"] = new StaticFunctionAccessor(&load_ingored_type);
 
     // Recipes need to know the items
     // Vehicles need vparts
