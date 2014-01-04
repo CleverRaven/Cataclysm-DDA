@@ -3803,7 +3803,7 @@
         "heal" : -2,
         "addiction_potential" : 0,
         "nutrition" : 4,
-        "description" : "A heavily processed sausage, commonplace at baseball games before the cataclysm. It would taste much better prepared.",
+        "description" : "Heavily processed sausages, commonplace at baseball games before the cataclysm. They would taste much better prepared.",
         "price" : 80,
         "material" : "flesh",
         "tool" : "null",
