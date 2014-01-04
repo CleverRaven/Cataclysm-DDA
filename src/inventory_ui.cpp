@@ -50,15 +50,17 @@ std::vector<int> find_firsts(indexed_invslice &slice, CategoriesVector &CATEGORI
 }
 
 int calc_volume_capacity(const std::vector<char> &dropped_armor) {
-    int vol_capacity = g->u.volume_capacity();
-    for(size_t i = 0; i < dropped_armor.size(); i++) {
-        const item &armor = g->u.i_at(dropped_armor[i]);
-        const it_armor *ita = dynamic_cast<const it_armor*>(armor.type);
-        if(ita != 0) {
-            vol_capacity -= ita->storage;
-        }
+    if (dropped_armor.empty()) {
+        return g->u.volume_capacity();
     }
-    return vol_capacity;
+    // Make copy, remove to be dropped armor from that
+    // copy and let the copy recalculate the volume capacity
+    // (can be affected by various traits).
+    player tmp = g->u;
+    for(size_t i = 0; i < dropped_armor.size(); i++) {
+        tmp.i_rem(dropped_armor[i]);
+    }
+    return tmp.volume_capacity();
 }
 
 void print_inv_weight_vol(WINDOW* w_inv, int weight_carried, int vol_carried, int vol_capacity)
