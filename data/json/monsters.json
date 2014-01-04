@@ -1199,7 +1199,7 @@
     "name": "soldier ant",
     "species":"INSECT",
     "symbol":"a",
-    "color":"dkred",
+    "color":"red",
     "size":"MEDIUM",
     "material":"flesh",
     "diff":16,

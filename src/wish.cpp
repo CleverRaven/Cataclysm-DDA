@@ -78,6 +78,26 @@ class wish_mutate_callback: public uimenu_callback
                     line2++;
                 }
             }
+            
+            if ( mutation_data[vTraits[ entnum ]].prereqs2.size() > 0 ) {
+                line2++;
+                mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs, 2d:"));
+                for (int j = 0; j < mutation_data[vTraits[ entnum ]].prereqs2.size(); j++) {
+                    std::string mstr=mutation_data[vTraits[ entnum ]].prereqs2[j];
+                    mvwprintz(menu->window, line2, startx + 15, mcolor(mstr), traits[ mstr ].name.c_str());
+                    line2++;
+                }
+            }
+            
+            if ( mutation_data[vTraits[ entnum ]].threshreq.size() > 0 ) {
+                line2++;
+                mvwprintz(menu->window, line2, startx, c_ltgray, _("Thresholds required:"));
+                for (int j = 0; j < mutation_data[vTraits[ entnum ]].threshreq.size(); j++) {
+                    std::string mstr=mutation_data[vTraits[ entnum ]].threshreq[j];
+                    mvwprintz(menu->window, line2, startx + 21, mcolor(mstr), traits[ mstr ].name.c_str());
+                    line2++;
+                }
+            }
 
             if ( mutation_data[vTraits[ entnum ]].cancels.size() > 0 ) {
                 line2++;

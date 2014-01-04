@@ -202,8 +202,11 @@ void player::mutate_towards(std::string mut)
     }
 
     bool has_prereqs = false;
+    bool prereq1 = false;
+    bool prereq2 = false;
     std::string canceltrait = "";
     std::vector<std::string> prereq = mutation_data[mut].prereqs;
+    std::vector<std::string> prereqs2 = mutation_data[mut].prereqs2;
     std::vector<std::string> cancel = mutation_data[mut].cancels;
 
     for (int i = 0; i < cancel.size(); i++) {
@@ -224,15 +227,61 @@ void player::mutate_towards(std::string mut)
         return;
     }
 
-    for (int i = 0; !has_prereqs && i < prereq.size(); i++) {
+    for (int i = 0; (!prereq1) && i < prereq.size(); i++) {
         if (has_trait(prereq[i])) {
-            has_prereqs = true;
+            prereq1 = true;
+        }
+    }
+    
+    for (int i = 0; (!prereq2) && i < prereqs2.size(); i++) {
+        if (has_trait(prereqs2[i])) {
+            prereq2 = true;
         }
     }
 
-    if (!has_prereqs && !prereq.empty()) {
-        std::string devel = prereq[ rng(0, prereq.size() - 1) ];
-        mutate_towards(devel);
+    if (prereq1 && prereq2) {
+        has_prereqs = true;
+    }
+    
+    if (!has_prereqs && (!prereq.empty() || !prereqs2.empty())) {
+        if (!prereq1 && !prereq.empty()) {
+            std::string devel = prereq[ rng(0, prereq.size() - 1) ];
+            mutate_towards(devel);
+            return;
+            }
+        else if (!prereq2 && !prereqs2.empty()) {
+            std::string devel = prereqs2[ rng(0, prereqs2.size() - 1) ];
+            mutate_towards(devel);
+            return;
+            }
+    }
+    
+    // Check for threshhold mutation, if needed
+    bool threshold = mutation_data[mut].threshold;
+    bool has_threshreq = false;
+    std::vector<std::string> threshreq = mutation_data[mut].threshreq;
+    std::vector<std::string> mutcat;
+    mutcat = mutation_data[mut].category;
+    
+    // It shouldn't pick a Threshold anyway (they're supposed to be non-Valid)
+    // but if it does, just reroll
+    if (threshold) {
+        g->add_msg(_("You feel something straining deep inside you, yearning to be free..."));
+        mutate();
+        return;
+    }
+
+    for (int i = 0; !has_threshreq && i < threshreq.size(); i++) {
+        if (has_trait(threshreq[i])) {
+            has_threshreq = true;
+        }
+    }
+
+    // No crossing The Threshold by simply not having it
+    // Reroll mutation, uncategorized (prevents looping)
+    if (!has_threshreq && !threshreq.empty()) {
+        g->add_msg(_("You feel something straining deep inside you, yearning to be free..."));
+        mutate();
         return;
     }
 
@@ -305,6 +354,17 @@ void player::remove_mutation(std::string mut)
             }
         }
     }
+    
+    std::string replacing2 = "";
+    std::vector<std::string> originals2 = mutation_data[mut].prereqs2;
+    for (int i = 0; replacing2 == "" && i < originals2.size(); i++) {
+        std::string pre2 = originals2[i];
+        for (int j = 0; replacing2 == "" && j < mutation_data[pre2].replacements.size(); j++) {
+            if (mutation_data[pre2].replacements[j] == mut) {
+                replacing2 = pre2;
+            }
+        }
+    }
 
     // See if this mutation is cancelled by a base trait
     //Only if there's no prereq to shrink to, thus we're at the bottom of the trait line
@@ -325,7 +385,26 @@ void player::remove_mutation(std::string mut)
             }
         }
     }
-
+    
+    // Duplicated for prereq2
+    if (replacing2 == "") {
+        //Check each mutation until we reach the end or find a trait to revert to
+        for (std::map<std::string, trait>::iterator iter = traits.begin(); replacing2 == "" && iter != traits.end(); ++iter) {
+            //See if it's in our list of base traits but not active
+            if (has_base_trait(iter->first) && !has_trait(iter->first)) {
+                //See if that base trait cancels the mutation we are using
+                std::vector<std::string> traitcheck = mutation_data[iter->first].cancels;
+                if (!traitcheck.empty()) {
+                    for (int j = 0; replacing2 == "" && j < traitcheck.size(); j++) {
+                        if (traitcheck[j] == mut) {
+                            replacing2 = (iter->first);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     // This should revert back to a removed base trait rather than simply removing the mutation
     toggle_mutation(mut);
 
@@ -335,6 +414,13 @@ void player::remove_mutation(std::string mut)
         toggle_mutation(replacing);
         mutation_loss_effect(*this, mut);
         mutation_effect(*this, replacing);
+    }
+    if (replacing2 != "") {
+        g->add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
+                   traits[replacing2].name.c_str());
+        toggle_mutation(replacing2);
+        mutation_loss_effect(*this, mut);
+        mutation_effect(*this, replacing2);
     } else {
         g->add_msg(_("You lose your %s mutation."), traits[mut].name.c_str());
         mutation_loss_effect(*this, mut);
@@ -375,7 +461,8 @@ void mutation_effect(player &p, std::string mut)
     bool destroy = false;
     std::vector<body_part> bps;
 
-    if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "FRAIL") {
+    if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
+          mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3") {
         p.recalc_hp();
 
     } else if (mut == "WEBBED" || mut == "PAWS" || mut == "ARM_TENTACLES" || mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8") {
@@ -414,10 +501,25 @@ void mutation_effect(player &p, std::string mut)
         // Push off non-cloth helmets
         bps.push_back(bp_head);
 
-    } else if (mut == "LARGE") {
+    } else if (mut == "LARGE" || mut == "LARGE_OK") {
         p.str_max += 2;
         p.recalc_hp();
 
+    } else if (mut == "HUGE") {
+        p.str_max += 4;
+        p.recalc_hp();
+        // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
+        // so no HP bonus from the ST above/beyond that from Large
+        for (int i = 0; i < num_hp_parts; i++) {
+            p.hp_max[i] -= 6;
+        }
+
+    }  else if (mut == "HUGE_OK") {
+        p.str_max += 4;
+        p.recalc_hp();
+        // Good-Huge still can't fit places but its heart's healthy enough for
+        // going arond being Huge, so you get the HP
+        
     } else if (mut == "STR_UP") {
         p.str_max ++;
         p.recalc_hp();
@@ -501,11 +603,23 @@ void mutation_effect(player &p, std::string mut)
 
 void mutation_loss_effect(player &p, std::string mut)
 {
-    if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "FRAIL") {
+    if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
+          mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3") {
         p.recalc_hp();
 
-    } else if (mut == "LARGE") {
+    } else if (mut == "LARGE" || mut == "LARGE_OK") {
         p.str_max -= 2;
+        p.recalc_hp();
+
+    } else if (mut == "HUGE") {
+        p.str_max -= 4;
+        p.recalc_hp();
+        // Losing Huge probably means either gaining Good-Huge or
+        // going backck to Large.  In any case, recalc_hp ought to
+        // handle it.
+
+    } else if (mut == "HUGE_OK") {
+        p.str_max -= 4;
         p.recalc_hp();
 
     } else if (mut == "STR_UP") {

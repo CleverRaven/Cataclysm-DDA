@@ -103,6 +103,9 @@ void game::init_data()
  try {
  // Gee, it sure is init-y around here!
     init_data_structures(); // initialize cata data structures
+ #ifdef LUA
+    init_lua();                 // Set up lua                       (SEE catalua.cpp)
+ #endif
     load_json_dir("data/json"); // load it, load it all!
     init_names();
     init_npctalk();
@@ -122,10 +125,6 @@ void game::init_data()
     MonsterGenerator::generator().finalize_mtypes();
     finalize_vehicles();
     finalize_recipes();
-
- #ifdef LUA
-    init_lua();                 // Set up lua                       (SEE catalua.cpp)
- #endif
 
  } catch(std::string &error_message)
  {
@@ -758,6 +757,12 @@ bool game::do_turn()
         if (u.has_bionic("bio_solar") && is_in_sunlight(u.posx, u.posy)) {
             u.charge_power(1);
         }
+        // Huge folks take penalties for cramming themselves in vehicles
+        if ((u.has_trait("HUGE") || u.has_trait("HUGE_OK")) && u.in_vehicle) {
+            add_msg(_("You're cramping up from stuffing yourself in this vehicle."));
+            u.pain += 2 * rng(2, 3);
+            u.focus_pool -= 1;
+        }
     }
 
     if (turn % 300 == 0) { // Pain up/down every 30 minutes
@@ -784,6 +789,11 @@ bool game::do_turn()
             u.radiation--;
         }
         u.get_sick(  );
+        // Freakishly Huge folks tire quicker
+        if (u.has_trait("HUGE") && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
+            add_msg(_("<whew> You catch your breath."));
+            u.fatigue++;
+        }
     }
 
     // Auto-save if autosave is enabled
@@ -1708,10 +1718,10 @@ void game::handle_key_blocking_activity() {
 * @param iStartX Left coord of the item info window
 * @param iWidth width of the item info window (height = height of terminal)
 * @param position It is position of the action menu. Default 0
-* 	-2 - near the right edge of the terminal window
-* 	-1 - left before item info window
-* 	0 - right after item info window
-* 	1 - near the left edge of the terminal window
+*       -2 - near the right edge of the terminal window
+*       -1 - left before item info window
+*       0 - right after item info window
+*       1 - near the left edge of the terminal window
 * @return getch
 */
 int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
@@ -2722,7 +2732,7 @@ void game::update_scent()
         }
     } else {
         player_last_position = point( u.posx, u.posy );
-   	    player_last_moved = turn;
+        player_last_moved = turn;
     }
 
     // note: the next two intermediate variables need to be at least
@@ -5596,12 +5606,12 @@ void game::do_blast( const int x, const int y, const int power, const int radius
                         kill_mon(mon_hit); // TODO: player's fault?
                     }
                 }
+            }
 
-                int vpart;
-                vehicle *veh = m.veh_at(i, j, vpart);
-                if (veh) {
-                    veh->damage (vpart, dam, false);
-                }
+            int vpart;
+            vehicle *veh = m.veh_at(i, j, vpart);
+            if (veh) {
+                veh->damage (vpart, dam, false);
             }
 
             if (npc_hit != -1) {
@@ -6527,8 +6537,9 @@ void game::revive_corpse(int x, int y, item *it)
 void game::open()
 {
     int openx, openy;
-    if (!choose_adjacent(_("Open where?"), openx, openy))
+    if (!choose_adjacent(_("Open where?"), openx, openy)) {
         return;
+    }
 
     u.moves -= 100;
     bool didit = false;
@@ -6539,9 +6550,9 @@ void game::open()
         int openable = veh->part_with_feature(vpart, "OPENABLE");
         if(openable >= 0) {
             const char *name = veh->part_info(openable).name.c_str();
-            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")){
+            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")) {
                 const vehicle *in_veh = m.veh_at(u.posx, u.posy);
-                if (!in_veh || in_veh != veh){
+                if (!in_veh || in_veh != veh) {
                     add_msg(_("That %s can only opened from the inside."), name);
                     return;
                 }
@@ -6556,10 +6567,11 @@ void game::open()
         return;
     }
 
-    if (m.is_outside(u.posx, u.posy))
+    if (m.is_outside(u.posx, u.posy)) {
         didit = m.open_door(openx, openy, false);
-    else
+    } else {
         didit = m.open_door(openx, openy, true);
+    }
 
     if (!didit) {
         const std::string terid = m.get_ter(openx, openy);
@@ -6589,20 +6601,20 @@ void game::close(int closex, int closey)
 
     bool didit = false;
 
+    std::vector<item> &items_in_way = m.i_at(closex, closey);
     int vpart;
     vehicle *veh = m.veh_at(closex, closey, vpart);
     int zid = mon_at(closex, closey);
     if (zid != -1) {
         monster &critter = critter_tracker.find(zid);
         add_msg(_("There's a %s in the way!"), critter.name().c_str());
-    }
-    else if (veh) {
+    } else if (veh) {
         int openable = veh->part_with_feature(vpart, "OPENABLE");
         if(openable >= 0) {
             const char *name = veh->part_info(openable).name.c_str();
-            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")){
+            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")) {
                 const vehicle *in_veh = m.veh_at(u.posx, u.posy);
-                if (!in_veh || in_veh != veh){
+                if (!in_veh || in_veh != veh) {
                     add_msg(_("That %s can only closed from the inside."), name);
                     return;
                 }
@@ -6614,21 +6626,56 @@ void game::close(int closex, int closey)
                 add_msg(_("That %s is already closed."), name);
             }
         }
-    } else if (m.furn(closex, closey) != f_safe_o && m.i_at(closex, closey).size() > 0)
-        add_msg(_("There's %s in the way!"), m.i_at(closex, closey).size() == 1 ?
-                m.i_at(closex, closey)[0].tname().c_str() : _("some stuff"));
-    else if (closex == u.posx && closey == u.posy)
+    } else if (closex == u.posx && closey == u.posy) {
         add_msg(_("There's some buffoon in the way!"));
-    else if (m.ter(closex, closey) == t_window_domestic &&
-             m.is_outside(u.posx, u.posy))  {
+    } else if (m.ter(closex, closey) == t_window_domestic &&
+               m.is_outside(u.posx, u.posy)) {
         add_msg(_("You cannot close the curtains from outside. You must be inside the building."));
     } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.size() == 0 ) {
-       add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
-    } else
-        didit = m.close_door(closex, closey, true, false);
+        add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
+    } else {
+        // Scoot up to 10 volume of items out of the way, only counting items that are vol >= 1.
+        if (m.furn(closex, closey) != f_safe_o && items_in_way.size() > 0) {
+            int total_item_volume = 0;
+            if( items_in_way.size() > 10 ) {
+                add_msg(_("Too many items to push out of the way!"));
+                return;
+            }
+            for( std::vector<item>::iterator cur_item = items_in_way.begin();
+                 cur_item != items_in_way.end(); ++cur_item ) {
+                // Don't even count tiny items.
+                if( cur_item->volume() < 1 ) {
+                    continue;
+                }
+                if( cur_item->volume() > 10 ) {
+                    add_msg(_("There's a %s in the way that is too big to just nudge out of the way."),
+                            cur_item->tname().c_str());
+                    return;
+                }
+                total_item_volume += cur_item->volume();
+                if( total_item_volume > 10 ) {
+                    add_msg(_("There is too much stuff in the way."));
+                    return;
+                }
+            }
+            add_msg(_("You push %s out of the way."), items_in_way.size() == 1 ?
+                    items_in_way[0].tname().c_str() : _("some stuff"));
+            u.moves -= items_in_way.size() * 10;
+        }
 
-    if (didit)
+        didit = m.close_door(closex, closey, true, false);
+        // Just plopping items back on their origin square will displace them to adjacent squares
+        // since the door is closed now.
+        for( std::vector<item>::iterator cur_item = items_in_way.begin();
+             cur_item != items_in_way.end(); ++cur_item ) {
+            m.add_item_or_charges( closex, closey, *cur_item );
+        }
+        items_in_way.erase( items_in_way.begin(), items_in_way.end() );
+    }
+
+    if (didit) {
         u.moves -= 90;
+    }
 }
 
 void game::smash()
@@ -6955,6 +7002,127 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     refresh_all();
 }
 
+bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg) {
+    const std::string &door_name = terlist[door_type].name;
+    int kbx = x; // Used when player/monsters are knocked back
+    int kby = y; // and when moving items out of the way
+    for (int i = 0; i < 20; i++) {
+        const int x_ = x + rng(-1, +1);
+        const int y_ = y + rng(-1, +1);
+        if (is_empty(x_, y_)) {
+            // invert direction, as game::knockback needs
+            // the source of the force that knocks back
+            kbx = -x_ + x + x;
+            kby = -y_ + y + y;
+            break;
+        }
+    }
+    const bool can_see = u_see(x, y);
+    player *npc_or_player = NULL;
+    if(x == u.pos().x && y == u.pos().y) {
+        npc_or_player = &u;
+    } else {
+        const int cindex = npc_at(x, y);
+        if(cindex != -1) {
+            npc_or_player = active_npc[cindex];
+        }
+    }
+    if(npc_or_player != NULL) {
+        if(bash_dmg <= 0) {
+            return false;
+        }
+        if(npc_or_player->is_npc() && can_see) {
+            add_msg(_("The %s hits the %s."), door_name.c_str(), npc_or_player->name.c_str());
+        } else if(npc_or_player->is_player()) {
+            add_msg(_("The %s hits you."), door_name.c_str());
+        }
+        // TODO: make the npc angry?
+        npc_or_player->hitall(bash_dmg);
+        knockback(kbx, kby, x, y, std::max(1, bash_dmg / 10), -1, 1);
+        // TODO: perhaps damage/destroy the gate
+        // if the npc was really big?
+    }
+    const int cindex = mon_at(x, y);
+    if (cindex != -1 && !zombie(cindex).dead) {
+        if(bash_dmg <= 0) {
+            return false;
+        }
+        if (can_see) {
+            add_msg(_("The %s hits the %s."), door_name.c_str(), zombie(cindex).name().c_str());
+        }
+        if (zombie(cindex).type->size <= MS_SMALL || zombie(cindex).has_flag(MF_VERMIN)) {
+            explode_mon(cindex);
+        } else if (zombie(cindex).hurt(bash_dmg)) {
+            kill_mon(cindex, true);
+        } else if (zombie(cindex).type->size >= MS_HUGE) {
+            // big critters simply prevent the gate from closing
+            // TODO: perhaps damage/destroy the gate
+            // if the critter was really big?
+            return false;
+        } else {
+            // Still alive? Move the critter away so the door can close
+            knockback(kbx, kby, x, y, std::max(1, bash_dmg / 10), -1, 1);
+            if (mon_at(x, y) != -1) {
+                return false;
+            }
+        }
+    }
+    int vpart = -1;
+    vehicle* veh = m.veh_at(x, y, vpart);
+    if (veh != NULL) {
+        if(bash_dmg <= 0) {
+            return false;
+        }
+        veh->damage(vpart, bash_dmg);
+        if (m.veh_at(x, y, vpart) != NULL) {
+            // Check again in case all parts at the door tile
+            // have been destroyed, if there is still a vehicle
+            // there, the door can not be closed
+            return false;
+        }
+    }
+    if(bash_dmg < 0 && !m.i_at(x, y).empty()) {
+        return false;
+    }
+    if(bash_dmg == 0) {
+        std::vector<item> &items = m.i_at(x, y);
+        for(size_t i = 0; i < items.size(); i++) {
+            if(items[i].made_of(LIQUID)) {
+                // Liquids are OK, will be destroyed later
+                continue;
+            } else if(items[i].volume() <= 0) {
+                // Dito for small items, will be moved away
+                continue;
+            }
+            // Everything else prevents the door from closing
+            return false;
+        }
+    }
+
+    m.ter_set(x, y, door_type);
+    if(m.has_flag("NOITEM", x, y)) {
+        std::vector<item> &items = m.i_at(x, y);
+        while(!items.empty()) {
+            if(items[0].made_of(LIQUID)) {
+                items.erase(items.begin());
+                continue;
+            }
+            if (items[0].made_of("glass") && one_in(2)) {
+                if (can_see) {
+                    add_msg(_("A %s shatters!"), items[0].tname().c_str());
+                } else {
+                    add_msg(_("Something shatters!"));
+                }
+                items.erase(items.begin());
+                continue;
+            }
+            m.add_item_or_charges(kbx, kby, items[0]);
+            items.erase(items.begin());
+        }
+    }
+    return true;
+}
+
 // A gate handle is adjacent to a wall section, and next to that wall section on one side or
 // another is the gate.  There may be a handle on the other side, but this is optional.
 // The gate continues until it reaches a non-floor tile, so they can be arbitrary length.
@@ -6977,6 +7145,7 @@ void game::open_gate( const int examx, const int examy, const ter_id handle_type
  const char *pull_message;
  const char *open_message;
  const char *close_message;
+ int bash_dmg;
 
  if ( handle_type == t_gates_mech_control ) {
   v_wall_type = t_wall_v;
@@ -6986,6 +7155,7 @@ void game::open_gate( const int examx, const int examy, const ter_id handle_type
   pull_message = _("You turn the handle...");
   open_message = _("The gate is opened!");
   close_message = _("The gate is closed!");
+  bash_dmg = 40;
  } else if ( handle_type == t_gates_control_concrete ) {
   v_wall_type = t_concrete_v;
   h_wall_type = t_concrete_h;
@@ -6994,6 +7164,7 @@ void game::open_gate( const int examx, const int examy, const ter_id handle_type
   pull_message = _("You turn the handle...");
   open_message = _("The gate is opened!");
   close_message = _("The gate is closed!");
+  bash_dmg = 40;
 
  } else if ( handle_type == t_barndoor ) {
   v_wall_type = t_wall_wood;
@@ -7003,6 +7174,7 @@ void game::open_gate( const int examx, const int examy, const ter_id handle_type
   pull_message = _("You pull the rope...");
   open_message = _("The barn doors opened!");
   close_message = _("The barn doors closed!");
+  bash_dmg = 40;
 
  } else if ( handle_type == t_palisade_pulley ) {
   v_wall_type = t_palisade;
@@ -7012,6 +7184,7 @@ void game::open_gate( const int examx, const int examy, const ter_id handle_type
   pull_message = _("You pull the rope...");
   open_message = _("The palisade gate swings open!");
   close_message = _("The palisade gate swings closed with a crash!");
+  bash_dmg = 30;
  } else {
    return;
  }
@@ -7046,7 +7219,7 @@ void game::open_gate( const int examx, const int examy, const ter_id handle_type
            if (!open && (g->m.ter(examx+wall_x+gate_x, examy+wall_y+gate_y) == floor_type)) {  //closing the gate...
              close = true;
              while (g->m.ter(cur_x, cur_y) == floor_type) {
-               g->m.ter_set(cur_x, cur_y, door_type);
+               forced_gate_closing(cur_x, cur_y, door_type, bash_dmg);
                cur_x = cur_x+gate_x;
                cur_y = cur_y+gate_y;
              }
@@ -9432,72 +9605,27 @@ int game::move_liquid(item &liquid)
 void game::drop(int pos)
 {
     std::vector<item> dropped;
-
+    std::vector<item> dropped_worn;
+    int freed_volume_capacity = 0;
     if (pos == INT_MIN) {
-        dropped = multidrop();
+        dropped = multidrop(dropped_worn, freed_volume_capacity);
+    } else if(pos <= -2) {
+        // Item is worn, must be taken off before dropping it.
+        char invl = u.position_to_invlet(pos);
+        if(!u.takeoff(pos)) {
+            return;
+        }
+        u.moves -= 250; // same as game::takeoff
+        dropped_worn.push_back(u.i_rem(invl));
+        if(dropped_worn.back().is_null()) {
+            // item is not in the inventory because it has been dropped
+            // while taking it off
+            return;
+        }
     } else {
         dropped.push_back(u.i_rem(pos));
     }
-
-    if (dropped.size() == 0) {
-        add_msg(_("Never mind."));
-        return;
-    }
-
-    item_exchanges_since_save += dropped.size();
-
-    itype_id first = itype_id(dropped[0].type->id);
-    bool same = true;
-    for (int i = 1; i < dropped.size() && same; i++) {
-        if (dropped[i].type->id != first) {
-            same = false;
-        }
-    }
-
-    int veh_part = 0;
-    bool to_veh = false;
-    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
-    if (veh) {
-        veh_part = veh->part_with_feature (veh_part, "CARGO");
-        to_veh = veh_part >= 0;
-    }
-    if (dropped.size() == 1 || same) {
-        if (to_veh) {
-            add_msg(ngettext("You put your %1$s in the %2$s's %3$s.",
-                             "You put your %1$ss in the %2$s's %3$s.",
-                             dropped.size()),
-                    dropped[0].tname().c_str(),
-                    veh->name.c_str(),
-                    veh->part_info(veh_part).name.c_str());
-        } else {
-            add_msg(ngettext("You drop your %s.", "You drop your %ss.",
-                             dropped.size()),
-                    dropped[0].tname().c_str());
-        }
-    } else {
-        if (to_veh) {
-            add_msg(_("You put several items in the %s's %s."),
-                    veh->name.c_str(), veh->part_info(veh_part).name.c_str());
-        } else {
-            add_msg(_("You drop several items."));
-        }
-    }
-
-    if (to_veh) {
-        bool vh_overflow = false;
-        for (int i = 0; i < dropped.size(); i++) {
-            vh_overflow = vh_overflow || !veh->add_item (veh_part, dropped[i]);
-            if (vh_overflow) {
-                m.add_item_or_charges(u.posx, u.posy, dropped[i], 1);
-            }
-        }
-        if (vh_overflow) {
-            add_msg (_("The trunk is full, so some items fall on the ground."));
-        }
-    } else {
-        for (int i = 0; i < dropped.size(); i++)
-            m.add_item_or_charges(u.posx, u.posy, dropped[i], 2);
-    }
+    drop(dropped, dropped_worn, freed_volume_capacity, u.posx, u.posy);
 }
 
 void game::drop_in_direction()
@@ -9507,6 +9635,61 @@ void game::drop_in_direction()
         return;
     }
 
+    if (!m.can_put_items(dirx, diry)) {
+        add_msg(_("You can't place items there!"));
+        return;
+    }
+
+    int freed_volume_capacity = 0;
+    std::vector<item> dropped_worn;
+    std::vector<item> dropped = multidrop(dropped_worn, freed_volume_capacity);
+    drop(dropped, dropped_worn, freed_volume_capacity, dirx, diry);
+}
+
+bool compare_items_by_lesser_volume(const item &a, const item &b)
+{
+    return a.volume() < b.volume();
+}
+
+// calculate the time (in player::moves) it takes to drop the
+// items in dropped and dropped_worn.
+// Items in dropped come from the main inventory (or the wielded weapon)
+// Items in dropped_worn are cloth that had been worn.
+// All items in dropped that fit into the removed storage space
+// (freed_volume_capacity) do not take time to drop.
+// Example: dropping five 2x4 (volume 5*6) and a worn backpack
+// (storage 40) will take only the time for dropping the backpack
+// dropping two more 2x4 takes the time for dropping the backpack and
+// dropping the remaining 2x4 that does not fit into the backpack.
+int game::calculate_drop_cost(std::vector<item> &dropped, const std::vector<item> &dropped_worn, int freed_volume_capacity) const
+{
+    // Prefer to put small items into the backpack
+    std::sort(dropped.begin(), dropped.end(), compare_items_by_lesser_volume);
+    int drop_item_cnt = dropped_worn.size();
+    int total_volume_dropped = 0;
+    for(size_t i = 0; i < dropped.size(); i++) {
+        total_volume_dropped += dropped[i].volume();
+        if(freed_volume_capacity == 0 || total_volume_dropped > freed_volume_capacity) {
+            drop_item_cnt++;
+        }
+    }
+    return drop_item_cnt * 100;
+}
+
+void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int freed_volume_capacity, int dirx, int diry)
+{
+    if (dropped.empty() && dropped_worn.empty()) {
+        add_msg(_("Never mind."));
+        return;
+    }
+    const int drop_move_cost = calculate_drop_cost(dropped, dropped_worn, freed_volume_capacity);
+    if (g->debugmon) {
+        debugmsg("Dropping %d+%d items takes %d moves", dropped.size(), dropped_worn.size(),
+                 drop_move_cost);
+    }
+
+    dropped.insert(dropped.end(), dropped_worn.begin(), dropped_worn.end());
+
     int veh_part = 0;
     bool to_veh = false;
     vehicle *veh = m.veh_at(dirx, diry, veh_part);
@@ -9515,19 +9698,7 @@ void game::drop_in_direction()
         to_veh = veh_part >= 0;
     }
 
-    if (!m.can_put_items(dirx, diry)) {
-        add_msg(_("You can't place items there!"));
-        return;
-    }
-
     bool can_move_there = m.move_cost(dirx, diry) != 0;
-
-    std::vector<item> dropped = multidrop();
-
-    if (dropped.size() == 0) {
-        add_msg(_("Never mind."));
-        return;
-    }
 
     item_exchanges_since_save += dropped.size();
 
@@ -9584,9 +9755,10 @@ void game::drop_in_direction()
         }
     } else {
         for (int i = 0; i < dropped.size(); i++) {
-            m.add_item_or_charges(dirx, diry, dropped[i], 1);
+            m.add_item_or_charges(dirx, diry, dropped[i], 2);
         }
     }
+    u.moves -= drop_move_cost;
 }
 
 void game::reassign_item(int pos)
@@ -10900,6 +11072,8 @@ bool game::plmove(int dx, int dy)
 
               mdir.init( dxVeh, dyVeh );
               mdir.advance( 1 );
+              grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
+              grabbed_vehicle->face = grabbed_vehicle->turn_dir;
               grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
               int imp = 0;
               std::vector<veh_collision> veh_veh_colls;
@@ -10910,7 +11084,8 @@ bool game::plmove(int dx, int dy)
               int player_prev_y = u.posy;
               u.posx = 0;
               u.posy = 0;
-              if( grabbed_vehicle->collision( veh_veh_colls, veh_misc_colls, dxVeh, dyVeh, can_move, imp, true ) ) {
+              if( grabbed_vehicle->collision( veh_veh_colls, veh_misc_colls, dxVeh, dyVeh,
+                                              can_move, imp, true ) ) {
                   // TODO: figure out what we collided with.
                   add_msg( _("The %s collides with something."), grabbed_vehicle->name.c_str() );
                   u.moves -= 10;
@@ -10933,7 +11108,7 @@ bool game::plmove(int dx, int dy)
                                                     gy + grabbed_vehicle->parts[p].precalc_dy[0] + dyVeh, p );
                   }
               }
-              m.displace_vehicle(  gx, gy, dxVeh, dyVeh );
+              m.displace_vehicle( gx, gy, dxVeh, dyVeh );
           } else {
               //We are moving around the veh
               u.grab_point.x = (dx + dxVeh) * (-1);
@@ -11120,7 +11295,7 @@ bool game::plmove(int dx, int dy)
       monster &critter = zombie(mondex);
       if (critter.has_flag(MF_IMMOBILE)) {
           // ...except that turrets can be picked up.
-	  // TODO: Make there a flag, instead of hard-coded to mon_turret
+          // TODO: Make there a flag, instead of hard-coded to mon_turret
           if (critter.type->id == "mon_turret") {
               if (query_yn(_("Deactivate the turret?"))) {
                   u.moves -= 100;
@@ -12524,40 +12699,38 @@ void game::teleport(player *p, bool add_teleglow)
         newx = p->posx + rng(0, SEEX * 2) - SEEX;
         newy = p->posy + rng(0, SEEY * 2) - SEEY;
         tries++;
-    } while (tries < 15 && !is_empty(newx, newy));
+    } while (tries < 15 && m.move_cost(newx, newy) == 0);
     bool can_see = (is_u || u_see(newx, newy));
     if (p->in_vehicle) {
         m.unboard_vehicle(p->posx, p->posy);
     }
     p->posx = newx;
     p->posy = newy;
-    if (tries == 15) {
-        if (m.move_cost(newx, newy) == 0) { // TODO: If we land in water, swim
-            if (can_see) {
-                if (is_u) {
-                    add_msg(_("You teleport into the middle of a %s!"),
-                            m.name(newx, newy).c_str());
-                    p->add_memorial_log(_("Teleported into a %s."), m.name(newx, newy).c_str());
-                } else {
-                    add_msg(_("%s teleports into the middle of a %s!"),
-                            p->name.c_str(), m.name(newx, newy).c_str());
-                }
+    if (m.move_cost(newx, newy) == 0) { //Teleported into a wall
+        if (can_see) {
+            if (is_u) {
+                add_msg(_("You teleport into the middle of a %s!"),
+                        m.name(newx, newy).c_str());
+                p->add_memorial_log(_("Teleported into a %s."), m.name(newx, newy).c_str());
+            } else {
+                add_msg(_("%s teleports into the middle of a %s!"),
+                        p->name.c_str(), m.name(newx, newy).c_str());
             }
-            p->hurt(bp_torso, 0, 500);
-        } else if (can_see) {
-            const int i = mon_at(newx, newy);
-            if (i != -1) {
-                monster &critter = zombie(i);
-                if (is_u) {
-                    add_msg(_("You teleport into the middle of a %s!"),
-                            critter.name().c_str());
-                    u.add_memorial_log(_("Telefragged a %s."), critter.name().c_str());
-                } else {
-                    add_msg(_("%s teleports into the middle of a %s!"),
-                            p->name.c_str(), critter.name().c_str());
-                }
-                explode_mon(i);
+        }
+        p->hurt(bp_torso, 0, 500);
+    } else if (can_see) {
+        const int i = mon_at(newx, newy);
+        if (i != -1) {
+            monster &critter = zombie(i);
+            if (is_u) {
+                add_msg(_("You teleport into the middle of a %s!"),
+                        critter.name().c_str());
+                u.add_memorial_log(_("Telefragged a %s."), critter.name().c_str());
+            } else {
+                add_msg(_("%s teleports into the middle of a %s!"),
+                        p->name.c_str(), critter.name().c_str());
             }
+            explode_mon(i);
         }
     }
     if (is_u) {

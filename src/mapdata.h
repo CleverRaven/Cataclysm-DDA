@@ -55,7 +55,8 @@ struct map_bash_info {
     std::string sound;    // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
-    map_bash_info() : str_min(-1), str_max(-1), str_min_roll(-1), str_min_blocked(-1), str_max_blocked(-1), num_tests(-1), chance(-1), ter_set("") {};
+    std::string furn_set;    // furniture to set (only used by furniture, not terrain)
+    map_bash_info() : str_min(-1), str_max(-1), str_min_roll(-1), str_min_blocked(-1), str_max_blocked(-1), num_tests(-1), chance(-1), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 
@@ -449,7 +450,7 @@ extern ter_id t_null,
     t_door_glass_c, t_door_glass_o,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
-    t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
+    t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded, t_window_boarded_noglass,
     t_window_stained_green, t_window_stained_red, t_window_stained_blue,
     t_rock, t_fault,
     t_paper,
@@ -508,7 +509,7 @@ extern furn_id f_null,
     f_fridge, f_glass_fridge, f_dresser, f_locker,
     f_rack, f_bookcase,
     f_washer, f_dryer,
-    f_dumpster, f_dive_block,
+    f_vending_c, f_vending_o, f_dumpster, f_dive_block,
     f_crate_c, f_crate_o,
     f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet,
     f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,

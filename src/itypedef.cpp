@@ -101,31 +101,31 @@ VAR_VEH_PART("wheel_caster", _("casters"),140,  ']', c_dkgray,  "steel",   "plas
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("1cyl_combustion", _("1-cylinder engine"), 100, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
-    6, 20000,  4,  0,  -1,        28,         75,   BIGNESS_ENGINE_DISPLACEMENT, _("\
+    6, 20000,  4,  0,  -1,        35,         75,   BIGNESS_ENGINE_DISPLACEMENT, _("\
 A single-cylinder 4-stroke combustion engine."));
 
 //                              NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("v2_combustion", _("V-twin engine"), 100, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
-    6, 45000,  4,  0,  -1,        65,        260, BIGNESS_ENGINE_DISPLACEMENT, _("\
+    6, 45000,  4,  0,  -1,        75,        150, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A 2-cylinder 4-stroke combustion engine."));
 
 //                                NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("i4_combustion", _("Inline-4 engine"), 150, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
-    6, 70000,  8,  0,  -2,        220,       350, BIGNESS_ENGINE_DISPLACEMENT, _("\
+    6, 70000,  8,  0,  -2,        150,       300, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A small, yet powerful 4-cylinder combustion engine."));
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("v6_combustion", _("V6 engine"), 180, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
-    14,100000, 12,  0, -3,      250,        520, BIGNESS_ENGINE_DISPLACEMENT,
+    14,100000, 12,  0, -3,      300,        500, BIGNESS_ENGINE_DISPLACEMENT,
     _("A powerful 6-cylinder combustion engine."));
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("v8_combustion", _("V8 engine"), 250, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
-    25,144000, 15,  0, -5,       380,     700, BIGNESS_ENGINE_DISPLACEMENT,
+    25,144000, 15,  0, -5,       500,     800, BIGNESS_ENGINE_DISPLACEMENT,
     _("A large and very powerful 8-cylinder combustion engine."));
 
 // GUNS

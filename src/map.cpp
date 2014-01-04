@@ -1506,10 +1506,14 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
      int bday=int(g->turn);
      sound += _(bash->sound.c_str());
      if ( jsfurn == true ) {
-        furn_set(x,y, f_null);
+         if ( bash->furn_set.size() > 0 ) {
+             furn_set( x, y, bash->furn_set );
+         } else {
+             furn_set( x, y, f_null );
+         }
      }
      if ( bash->ter_set.size() > 0 ) {
-        ter_set(x, y, bash->ter_set );
+        ter_set( x, y, bash->ter_set );
      } else if ( jster == true ) {
         debugmsg("data/json/terrain.json does not have %s.bash.ter_set set!",ter_at(x,y).id.c_str());
      }
@@ -2336,12 +2340,13 @@ void map::spawn_an_item(const int x, const int y, item new_item,
     if (damlevel < -1)
     {
         new_item.damage = -1;
-    }
-    if (damlevel > 4)
+    } else if (damlevel > 4)
     {
         new_item.damage = 4;
+    } else
+    {
+        new_item.damage = damlevel;
     }
-    new_item.damage = damlevel;
 
     // clothing with variable size flag may sometimes be generated fitted
     if (new_item.is_armor() && new_item.has_flag("VARSIZE") && one_in(3))

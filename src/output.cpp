@@ -854,13 +854,8 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
                 line_num++;
             }
         } else if (vItemDisplay[i].sType == "DESCRIPTION") {
-            std::string sText = word_rewrap(vItemDisplay[i].sName, iWidth - 4);
-            std::stringstream ss(sText);
-            std::string l;
-            while (std::getline(ss, l, '\n')) {
-                line_num++;
-                mvwprintz(w, line_num, 2, c_white, l.c_str());
-            }
+            line_num++;
+            line_num += fold_and_print(w, line_num, 2, iWidth - 4, c_white, "%s", vItemDisplay[i].sName.c_str());
         } else {
             if (bStartNewLine) {
                 mvwprintz(w, line_num, 2, c_white, "%s", (vItemDisplay[i].sName).c_str());

@@ -1512,6 +1512,10 @@ void complete_vehicle ()
     std::vector<component> tools;
     int welder_charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
     int welder_crude_charges = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
+    inventory crafting_inv = g->crafting_inventory(&g->u);
+    const bool has_goggles = crafting_inv.has_amount("goggles_welding", 1) ||
+                   g->u.has_bionic("bio_sunglasses") ||
+                   g->u.is_wearing("goggles_welding");
     int partnum;
     item used_item;
     bool broken;
@@ -1529,10 +1533,14 @@ void complete_vehicle ()
         used_item = consume_vpart_item (part_id);
         batterycharges = used_item.charges;
         veh->get_part_properties_from_item(partnum, used_item); //transfer damage, etc.
-        tools.push_back(component("welder", welder_charges));
-        tools.push_back(component("welder_crude", welder_crude_charges));
+        if (has_goggles) {
+            // Need welding goggles to use any of these tools,
+            // without the goggles one _must_ use the duct tape
+            tools.push_back(component("welder", welder_charges));
+            tools.push_back(component("welder_crude", welder_crude_charges));
+            tools.push_back(component("toolset", welder_charges / 20));
+        }
         tools.push_back(component("duct_tape", DUCT_TAPE_USED));
-        tools.push_back(component("toolset", welder_charges / 20));
         g->consume_tools(&g->u, tools, true);
 
         if ( vehicle_part_types[part_id].has_flag("CONE_LIGHT") ) {

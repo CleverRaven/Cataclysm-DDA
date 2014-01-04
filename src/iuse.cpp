@@ -1036,9 +1036,11 @@ int iuse::mut_iv(player *p, item *it, bool) {
     if(!p->is_npc()) {
         p->add_memorial_log(_("Injected mutagen."));
     }
+    std::string mutation_category;
     if( it->has_flag("MUTAGEN_STRONG") ) {
         // 3 guaranteed mutations, 75%/66%/66% for the 4th/5th/6th,
         // 6-16 Pain per shot and potential knockdown/KO.
+        mutation_category = "";
         g->add_msg_if_player(p, _("You inject yoursel-arRGH!"));
         p->mutate();
         p->pain += 1 * rng(1, 4);
@@ -1083,6 +1085,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
             p->fall_asleep((400 - p->int_cur * 5));
         }
     }  else if( it->has_flag("MUTAGEN_ALPHA") ) { //5-15 pain, 66% for each of the followups, so slightly better odds (designed for injection)
+        mutation_category = "MUTCAT_ALPHA";
         g->add_msg_if_player(p, _("You took that shot like a champ!"));
         p->mutate_category("MUTCAT_ALPHA");
         p->pain += 3 * rng(1, 5);
@@ -1104,6 +1107,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
         }
     } else if( it->has_flag("MUTAGEN_MEDICAL") ) {
         // 2-6 pain, same as Alpha--since specifically intended for medical applications.
+        mutation_category = "MUTCAT_MEDICAL";
         g->add_msg_if_player(p, _("You can feel the blood in your medication stream. It's a strange feeling."));
         p->mutate_category("MUTCAT_MEDICAL");
         p->pain += 2 * rng(1, 3);
@@ -1126,6 +1130,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
     } else if( it->has_flag("MUTAGEN_CHIMERA") ) {
         // 24-36 pain, Scream,, -40 Morale,
         // but two guaranteed mutations and 75% each for third and fourth.
+        mutation_category = "MUTCAT_CHIMERA";
         g->add_msg_if_player(p, _("everyanimalthateverlived..bursting.from.YOU!"));
         p->mutate_category("MUTCAT_CHIMERA");
         p->pain += 4 * rng(1, 4);
@@ -1157,9 +1162,8 @@ int iuse::mut_iv(player *p, item *it, bool) {
             p->fall_asleep(800 - p->int_cur * 5);
         }
     } else {
-        std::string mutation_category;
         // These categories for the most part share their effects,
-        // so print their messages and any epecial effects,
+        // so print their messages and any special effects,
         // then handle the mutation at the end in combined code.
         if( it->has_flag("MUTAGEN_PLANT") ) {
             g->add_msg_if_player(p, _("You inject some nutrients into your phloem."));
@@ -1244,6 +1248,92 @@ int iuse::mut_iv(player *p, item *it, bool) {
             p->thirst += 10;
         }
     }
+        
+        // Threshold-check.  You only get to cross once!
+      if (p->crossed_threshold() == false) {
+          // Threshold-breaching
+          std::string primary = p->get_highest_category();
+          int total = ((p->mutation_category_level["MUTCAT_LIZARD"]) +
+          (p->mutation_category_level["MUTCAT_BIRD"]) +
+          (p->mutation_category_level["MUTCAT_FISH"]) +
+          (p->mutation_category_level["MUTCAT_BEAST"]) +
+          (p->mutation_category_level["MUTCAT_FELINE"]) +
+          (p->mutation_category_level["MUTCAT_LUPINE"]) +
+          (p->mutation_category_level["MUTCAT_URSINE"]) +
+          (p->mutation_category_level["MUTCAT_CATTLE"]) +
+          (p->mutation_category_level["MUTCAT_INSECT"]) +
+          (p->mutation_category_level["MUTCAT_PLANT"]) +
+          (p->mutation_category_level["MUTCAT_SLIME"]) +
+          (p->mutation_category_level["MUTCAT_TROGLOBITE"]) +
+          (p->mutation_category_level["MUTCAT_CEPHALOPOD"]) +
+          (p->mutation_category_level["MUTCAT_SPIDER"]) +
+          (p->mutation_category_level["MUTCAT_RAT"]) +
+          (p->mutation_category_level["MUTCAT_MEDICAL"]) +
+          (p->mutation_category_level["MUTCAT_ALPHA"]) +
+          (p->mutation_category_level["MUTCAT_ELFA"]) +
+          (p->mutation_category_level["MUTCAT_CHIMERA"]) +
+          (p->mutation_category_level["MUTCAT_RAPTOR"]));
+          // Only if you were pushing for more in your primary category.
+          // You wanted to be more like it and less human.
+          // That said, you're required to have hit third-stage dreams first.
+          if ((mutation_category == primary) && (p->mutation_category_level[primary] > 50)) {
+              if (x_in_y(p->mutation_category_level[primary], total)) {
+                  g->add_msg_if_player(p,_("Something strains mightily for a moment...and then..you're...FREE!"));
+                  if (mutation_category == "MUTCAT_LIZARD") {
+                      p->toggle_mutation("THRESH_LIZARD");
+                  } else if (mutation_category == "MUTCAT_BIRD") {
+                      p->toggle_mutation("THRESH_BIRD");
+                  } else if (mutation_category == "MUTCAT_FISH") {
+                      p->toggle_mutation("THRESH_FISH");
+                  } else if (mutation_category == "MUTCAT_BEAST") {
+                      p->toggle_mutation("THRESH_BEAST");
+                  } else if (mutation_category == "MUTCAT_FELINE") {
+                      p->toggle_mutation("THRESH_FELINE");
+                  } else if (mutation_category == "MUTCAT_LUPINE") {
+                      p->toggle_mutation("THRESH_LUPINE");
+                  } else if (mutation_category == "MUTCAT_URSINE") {
+                      p->toggle_mutation("THRESH_URSINE");
+                  } else if (mutation_category == "MUTCAT_CATTLE") {
+                      p->toggle_mutation("THRESH_CATTLE");
+                  } else if (mutation_category == "MUTCAT_INSECT") {
+                      p->toggle_mutation("THRESH_INSECT");
+                  } else if (mutation_category == "MUTCAT_PLANT") {
+                      p->toggle_mutation("THRESH_PLANT");
+                  } else if (mutation_category == "MUTCAT_SLIME") {
+                      p->toggle_mutation("THRESH_SLIME");
+                  } else if (mutation_category == "MUTCAT_TROGLOBITE") {
+                      p->toggle_mutation("THRESH_TROGLOBITE");
+                  } else if (mutation_category == "MUTCAT_CEPHALOPOD") {
+                      p->toggle_mutation("THRESH_CEPHALOPOD");
+                  } else if (mutation_category == "MUTCAT_SPIDER") {
+                      p->toggle_mutation("THRESH_SPIDER");
+                  } else if (mutation_category == "MUTCAT_RAT") {
+                      p->toggle_mutation("THRESH_RAT");
+                  } else if (mutation_category == "MUTCAT_MEDICAL") {
+                      p->toggle_mutation("THRESH_MEDICAL");
+                  } else if (mutation_category == "MUTCAT_ALPHA") {
+                      p->toggle_mutation("THRESH_ALPHA");
+                  } else if (mutation_category == "MUTCAT_ELFA") {
+                      p->toggle_mutation("THRESH_ELFA");
+                  } else if (mutation_category == "MUTCAT_CHIMERA") {
+                      p->toggle_mutation("THRESH_CHIMERA");
+                  } else if (mutation_category == "MUTCAT_RAPTOR") {
+                      p->toggle_mutation("THRESH_RAPTOR");
+                  }
+              } else if (p->mutation_category_level[primary] > 100) {
+                    g->add_msg_if_player(p,_("You stagger with a piercing headache!"));
+                    p->pain += 8;
+                    p->add_disease("stunned", rng(3, 5));
+                } else if (p->mutation_category_level[primary] > 80) {
+                    g->add_msg_if_player(p,_("Your head throbs with memories of your life, before all this..."));
+                    p->pain += 6;
+                    p->add_disease("stunned", rng(2, 4));
+                } else if (p->mutation_category_level[primary] > 60) {
+                    g->add_msg_if_player(p,_("Images of your past life flash before you."));
+                    p->add_disease("stunned", rng(2, 3));
+                }
+          }
+    }
     return it->type->charges_to_use();
 }
 
@@ -1301,7 +1391,11 @@ int iuse::purify_iv(player *p, item *it, bool)
     }
     for (int i = 0; i < num_cured && valid.size() > 0; i++) {
         int index = rng(0, valid.size() - 1);
-        p->remove_mutation(valid[index] );
+        if (p->purifiable(valid[index])) {
+            p->remove_mutation(valid[index]);
+        } else {
+            g->add_msg_if_player(p,_("You feel a distinct burning inside, but it passes."));
+        }
         valid.erase(valid.begin() + index);
         p->pain += 2 * num_cured; //Hurts worse as it fixes more
         p->thirst += 2 * num_cured;
@@ -1763,6 +1857,8 @@ int iuse::atomic_battery(player *p, item *, bool)
     }
 
     modded->item_tags.insert("ATOMIC_AMMO");
+    modded->item_tags.insert("RADIOACTIVE");
+    modded->item_tags.insert("LEAK_DAM");
     modded->item_tags.insert("NO_UNLOAD");
     g->m.spawn_item(p->posx, p->posy, "battery", 1, modded->charges);
     modded->charges = 500;
@@ -1931,27 +2027,30 @@ int iuse::hammer(player *p, item *it, bool)
 
     int nails = 0, boards = 0;
     ter_id newter;
-    switch (g->m.oldter(x, y)) {
-        case old_t_fence_h:
-        case old_t_fence_v:
+    ter_id type = g->m.ter(x, y);
+    if (type == t_fence_h || type == t_fence_v) {
         nails = 6;
         boards = 3;
         newter = t_fence_post;
-        break;
-
-        case old_t_window_boarded:
+        g->add_msg_if_player(p,_("You pry out the fence post."));
+    } else if (type == t_window_boarded) {
+        nails =  8;
+        boards = 4;
+        newter = t_window_frame;
+        g->add_msg_if_player(p,_("You pry the boards from the window."));
+    } else if (type == t_window_boarded_noglass) {
         nails =  8;
         boards = 4;
         newter = t_window_empty;
-        break;
-
-        case old_t_door_boarded:
-        nails = 12;
+        g->add_msg_if_player(p,_("You pry the boards from the window frame."));
+    } else if (type == t_door_boarded) {
+        nails =  8;
         boards = 4;
+        // FIXME: boards go across a door FRAME;
+        // the door itself should be as good as it was before it was boarded up.
         newter = t_door_b;
-        break;
-
-        default:
+        g->add_msg_if_player(p,_("You pry the boards from the door."));
+    } else {
         g->add_msg_if_player(p,_("Hammers can only remove boards from windows, doors and fences."));
         g->add_msg_if_player(p,_("To board up a window or door, press *"));
         return 0;
@@ -2932,41 +3031,42 @@ int iuse::crowbar(player *p, item *it, bool)
     noisy = true;
     difficulty = 6;
   } else {
-   int nails = 0, boards = 0;
-   ter_id newter;
-   switch (g->m.oldter(dirx, diry)) {
-   case old_t_window_boarded:
-    nails =  8;
-    boards = 4;
-    newter = t_window_empty;
-    break;
-   case old_t_door_boarded:
-    nails = 12;
-    boards = 4;
-    newter = t_door_b;
-    break;
-   case old_t_fence_h:
-    nails = 6;
-    boards = 3;
-    newter = t_fence_post;
-    break;
-   case old_t_fence_v:
-    nails = 6;
-    boards = 3;
-    newter = t_fence_post;
-    break;
-   default:
-    g->add_msg_if_player(p,_("There's nothing to pry there."));
-    return 0;
-   }
-   if(p->skillLevel("carpentry") < 1) {
-    p->practice(g->turn, "carpentry", 1);
-   }
-   p->moves -= 500;
-   g->m.spawn_item(p->posx, p->posy, "nail", 0, nails);
-   g->m.spawn_item(p->posx, p->posy, "2x4", boards);
-   g->m.ter_set(dirx, diry, newter);
-   return it->type->charges_to_use();
+    int nails = 0, boards = 0;
+    ter_id newter;
+    if (type == t_fence_h || type == t_fence_v) {
+      nails = 6;
+      boards = 3;
+      newter = t_fence_post;
+      g->add_msg_if_player(p,_("You pry out the fence post."));
+    } else if (type == t_window_boarded) {
+      nails =  8;
+      boards = 4;
+      newter = t_window_frame;
+      g->add_msg_if_player(p,_("You pry the boards from the window."));
+    } else if (type == t_window_boarded_noglass) {
+      nails =  8;
+      boards = 4;
+      newter = t_window_empty;
+      g->add_msg_if_player(p,_("You pry the boards from the window frame."));
+    } else if (type == t_door_boarded) {
+      nails =  8;
+      boards = 4;
+      // FIXME: boards go across a door FRAME;
+      // the door itself should be as good as it was before it was boarded up.
+      newter = t_door_b;
+      g->add_msg_if_player(p,_("You pry the boards from the door."));
+    } else {
+      g->add_msg_if_player(p,_("There's nothing to pry there."));
+      return 0;
+    }
+    if(p->skillLevel("carpentry") < 1) {
+      p->practice(g->turn, "carpentry", 1);
+    }
+    p->moves -= 500;
+    g->m.spawn_item(p->posx, p->posy, "nail", 0, nails);
+    g->m.spawn_item(p->posx, p->posy, "2x4", boards);
+    g->m.ter_set(dirx, diry, newter);
+    return it->type->charges_to_use();
   }
 
   p->practice(g->turn, "mechanics", 1);
@@ -4035,7 +4135,7 @@ int iuse::geiger(player *p, item *it, bool t)
     int ch = menu(true, _("Geiger counter:"), _("Scan yourself"), _("Scan the ground"),
                   toggle_text.c_str(), _("Cancel"), NULL);
     switch (ch) {
-    case 1: g->add_msg_if_player(p,_("Your radiation level: %d"), p->radiation); break;
+    case 1: g->add_msg_if_player(p,_("Your radiation level: %d (%d from items)"), p->radiation, p->leak_level("RADIOACTIVE")); break;
     case 2: g->add_msg_if_player(p,_("The ground's radiation level: %d"),
                                  g->m.radiation(p->posx, p->posy)); break;
     case 3:

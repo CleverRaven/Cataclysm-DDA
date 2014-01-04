@@ -48,6 +48,10 @@ bool monster::can_move_to(int x, int y)
     if (has_flag(MF_AQUATIC) && !g->m.has_flag("SWIMMABLE", x, y)) {
         return false;
     }
+    
+    if (has_flag(MF_SUNDEATH) && g->is_in_sunlight(x, y)) {
+        return false;
+    }
 
     // various animal behaviours
     if (has_flag(MF_ANIMAL))
@@ -228,15 +232,34 @@ void monster::move()
     }
     //If this monster has the ability to heal in combat, do it now.
     if (has_flag(MF_REGENERATES_50)) {
-        hp += 50;
-        if(hp > type->hp) {
-            hp = type->hp;
+        if (hp < type->hp) {
+            if (one_in(2)) {
+                g->add_msg(_("The %s is visibly regenerating!"), name().c_str());
+            }
+            hp += 50;
+            if(hp > type->hp) {
+                hp = type->hp;
+            }
         }
     }
     if (has_flag(MF_REGENERATES_10)) {
-        hp += 10;
-        if(hp > type->hp) {
-            hp = type->hp;
+        if (hp < type->hp) {
+            if (one_in(2)) {
+                g->add_msg(_("The %s seems a little healthier."), name().c_str());
+            }
+            hp += 10;
+            if(hp > type->hp) {
+                hp = type->hp;
+            }
+        }
+    }
+    
+    // If this critter dies in sunlight, check & assess damage.
+    if (g->is_in_sunlight(posx(), posy()) && has_flag(MF_SUNDEATH)) {
+        g->add_msg(_("The %s burns horribly in the sunlight!"), name().c_str());
+        hp -= 100;
+        if(hp < 0) {
+            hp = 0  ;
         }
     }
 

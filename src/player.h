@@ -134,6 +134,10 @@ public:
  bool has_trait(const std::string &flag) const;
  bool has_base_trait(const std::string &flag) const;
  bool has_conflicting_trait(const std::string &flag) const;
+ bool has_opposite_trait(const std::string &flag) const;
+ bool has_lower_trait(const std::string &flag) const;
+ bool has_higher_trait(const std::string &flag) const;
+ bool crossed_threshold(); // Can only cross one Threshold
  bool purifiable(const std::string &flag) const; // Purifier can/not touch this, defaults "true"
  void toggle_trait(const std::string &flag);
  void toggle_mutation(const std::string &flag);
@@ -427,6 +431,7 @@ public:
  item i_rem(signed char ch) { return i_rem((char) ch); }  // prevent signed char->int conversion
  item i_rem(int pos); // Remove item from inventory; returns ret_null on fail
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
+ item i_rem(item *it);// Remove specific item.
  item remove_weapon();
  void remove_mission_items(int mission_id);
  item reduce_charges(int position, int quantity);
@@ -459,6 +464,8 @@ public:
  bool has_charges(itype_id it, int quantity);
  int  amount_of(itype_id it);
  int  charges_of(itype_id it);
+
+ int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
  bool has_watertight_container();
  bool has_matching_liquid(itype_id it);

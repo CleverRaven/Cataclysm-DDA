@@ -120,6 +120,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         jsonint(j, "chance", chance );
         jsonstring(j, "sound", sound );
         jsonstring(j, "sound_fail", sound_fail );
+        jsonstring(j, "furn_set", furn_set );
 
         if ( jsonstring(j, "ter_set", ter_set ) == false && isfurniture == false ) {
            ter_set = "t_rubble";
@@ -363,6 +364,7 @@ ter_id t_null,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
+    t_window_boarded_noglass,
     t_window_stained_green, t_window_stained_red, t_window_stained_blue,
     t_rock, t_fault,
     t_paper,
@@ -492,6 +494,7 @@ void set_ter_ids() {
     t_window_empty=terfind("t_window_empty");
     t_window_frame=terfind("t_window_frame");
     t_window_boarded=terfind("t_window_boarded");
+    t_window_boarded_noglass=terfind("t_window_boarded_noglass");
     t_window_stained_green=terfind("t_window_stained_green");
     t_window_stained_red=terfind("t_window_stained_red");
     t_window_stained_blue=terfind("t_window_stained_blue");
@@ -610,7 +613,7 @@ furn_id f_null,
     f_fridge, f_glass_fridge, f_dresser, f_locker,
     f_rack, f_bookcase,
     f_washer, f_dryer,
-    f_dumpster, f_dive_block,
+    f_vending_c, f_vending_o, f_dumpster, f_dive_block,
     f_crate_c, f_crate_o,
     f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet,
     f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
@@ -651,6 +654,8 @@ void set_furn_ids() {
     f_bookcase=furnfind("f_bookcase");
     f_washer=furnfind("f_washer");
     f_dryer=furnfind("f_dryer");
+    f_vending_c=furnfind("f_vending_c");
+    f_vending_o=furnfind("f_vending_o");
     f_dumpster=furnfind("f_dumpster");
     f_dive_block=furnfind("f_dive_block");
     f_crate_c=furnfind("f_crate_c");

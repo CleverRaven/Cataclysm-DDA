@@ -145,7 +145,27 @@
         "description" : "It takes a lot to bring you down! You get a 20% bonus to all hit points.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["FRAIL", "GLASSJAW"]
+        "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
+        "changes_to" : ["TOUGH2"]
+    },{
+        "type" : "mutation",
+        "id" : "TOUGH2",
+        "name" : "Durable",
+        "points" : 4,
+        "description" : "You can shrug off almost anything! You get a 30% bonus to all hit points.",
+        "valid" : false,
+        "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
+        "prereqs" : ["TOUGH"],
+        "changes_to" : ["TOUGH3"]
+    },{
+        "type" : "mutation",
+        "id" : "TOUGH3",
+        "name" : "Unbreakable",
+        "points" : 5,
+        "description" : "Nothing can break you! You get a 40% bonus to all hit points.",
+        "valid" : false,
+        "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
+        "prereqs" : ["TOUGH2"]
     },{
         "type" : "mutation",
         "id" : "THICKSKIN",
@@ -379,16 +399,16 @@
         "name": "Shaolin Adept",
         "points": 3,
         "description": "You have studied the arts of the Shaolin monks. You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
-        "starting_trait": true,
-        "valid": false
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id": "MARTIAL_ARTS4",
         "name": "Venom Mob Protege",
         "points": 3,
         "description": "You are a pupil of the Venom Clan. You start with one of the five deadly venoms: Centipede, Viper, Scorpion, Lizard, or Toad.",
-        "starting_trait": true,
-        "valid": false
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "WEAKSCENT",
@@ -740,16 +760,38 @@
         "starting_trait" : true,
         "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "changes_to" : ["DEFORMED"],
-        "categories": ["MUTCAT_RAPTOR", "MUTCAT_FELINE", "MUTCAT_LUPINE"]
+        "category": ["MUTCAT_RAPTOR", "MUTCAT_FELINE", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
-        "id" : "FRAIL",
-        "name" : "Frail",
-        "points" : -6,
-        "description" : "Your whole body can't take much abuse. Its maximum HP is 75% points lower than usual. Stacks with Glass Jaw. Not for casuals.",
+        "id" : "FLIMSY",
+        "name" : "Flimsy",
+        "points" : -3,
+        "description" : "Your body can't take much abuse. Its maximum HP is 25% lower than usual and you heal slightly slower. Stacks with Glass Jaw.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["TOUGH"]
+        "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
+        "changes_to" : ["FLIMSY2"]
+    },{
+        "type" : "mutation",
+        "id" : "FLIMSY2",
+        "name" : "Frail",
+        "points" : -5,
+        "description" : "Your body breaks very easily. Its maximum HP is 50% lower than usual and you heal slower. Stacks with Glass Jaw.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
+        "prereqs" : ["FLIMSY"],
+        "changes_to" : ["FLIMSY3"]
+    },{
+        "type" : "mutation",
+        "id" : "FLIMSY3",
+        "name" : "Fragile",
+        "points" : -7,
+        "description" : "Your body is extremely fragile. Its maximum HP is 75% lower than usual and you heal much slower. Stacks with Glass Jaw.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
+        "prereqs" : ["FLIMSY2"]
     },{
         "type" : "mutation",
         "id" : "SKIN_ROUGH",
@@ -1122,7 +1164,7 @@
         "cancels" : ["FEATHERS", "LIGHTFUR", "FUR", "CHITIN", "CHITIN2", "CHITIN3", "SCALES"],
         "changes_to" : ["BARK"],
         "leads_to" : ["THORNS", "LEAVES"],
-        "categories": ["MUTCAT_ELFA"],
+        "category": ["MUTCAT_ELFA"],
         "wet_protection" : [
             { "part" : "HEAD", "neutral" : 4 },
             { "part" : "LEGS", "neutral" : 5 },
@@ -1610,9 +1652,9 @@
         "visibility" : 4,
         "ugliness" : 1,
         "description" : "Your ears have extended into long, pointed ones, like those of a canine. They enhance your hearing, allowing you to hear at greater distances.",
-        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"],
         "changes_to" : ["LUPINE_EARS"],
-        "cancels" : ["LUPINE_EARS", "FELINE_EARS", "URSINE_EARS"]
+        "cancels" : ["FELINE_EARS", "URSINE_EARS"]
     },{
         "type" : "mutation",
         "id" : "LUPINE_EARS",
@@ -1693,7 +1735,47 @@
         "id" : "LARGE",
         "name" : "Inconveniently Large",
         "points" : 0,
+        "visibility" : 1,
+        "ugliness" : 1,
         "description" : "You have grown noticeably taller and broader. Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+1 Torso and Arm Encumbrance).",
+        "changes_to": ["LARGE_OK", "HUGE"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
+        "id" : "LARGE_OK",
+        "name" : "Large",
+        "points" : 2,
+        "visibility" : 1,
+        "ugliness" : 0,
+        "description" : "You carry your rugged body with the dignity you deserve. Strength +2.",
+        "prereqs" : ["LARGE"],
+        "prereqs2" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
+        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
+        "changes_to": ["HUGE"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
+        "id" : "HUGE",
+        "name" : "Freakishly Huge",
+        "points" : -2,
+        "visibility" : 4,
+        "ugliness" : 4,
+        "description" : "You have grown even more massive, to the point where you cannot usefully fit into human-sized clothing or vehicles. Much of it is powerful muscle mass (Strength +4), but it's a real pain to haul around.",
+        "prereqs" : ["LARGE", "LARGE_OK"],
+        "prereqs2" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
+        "changes_to": ["HUGE_OK"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
+        "id" : "HUGE_OK",
+        "name" : "Huge",
+        "points" : 2,
+        "visibility" : 4,
+        "ugliness" : 3,
+        "description" : "Your cardiovascular system has caught up with your muscular physique, so who needs pathetic human cars? Strength +4.",
+        "prereqs" : ["HUGE"],
+        "prereqs2" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
+        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
         "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
@@ -2009,7 +2091,7 @@
         "visibility" : 4,
         "ugliness" : 3,
         "description" : "Your face and jaw have begun...changing. Masks and such fit OK, but you're noticeably mutated.",
-        "changes_to" : ["MINOTAUR", "MUZZLE", "BEAR_MUZZLE", "LONG_MUZZLE", "PROBOSCIS"],
+        "changes_to" : ["MINOTAUR", "MUZZLE", "BEAR_MUZZLE", "LONG_MUZZLE"],
         "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
@@ -2019,7 +2101,7 @@
         "visibility" : 5,
         "ugliness" : 6,
         "description" : "Your face resembles that of a bull, with a significant snout.  It looks fearsome but prevents you from wearing mouthgear.",
-        "cancels" : ["MUZZLE", "LONG_MUZZLE", "PROBOSCIS"],
+        "cancels" : ["MUZZLE", "LONG_MUZZLE", "BEAR_MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_CATTLE"]
     },{
@@ -2030,7 +2112,7 @@
         "visibility" : 5,
         "ugliness" : 4,
         "description" : "Your jaw and nose have extended into a wolfish muzzle.  It lends itself to biting in combat and looks impressive, but prevents you from wearing mouthgear.",
-        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "PROBOSCIS"],
+        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "BEAR_MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
     },{
@@ -2041,7 +2123,7 @@
         "visibility" : 5,
         "ugliness" : 4,
         "description" : "Your jaw and nose have extended into a bearish muzzle.  You could bite with it, and it looks impressive, but it prevents you from wearing mouthgear.",
-        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "PROBOSCIS"],
+        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_URSINE"]
     },{
@@ -2052,7 +2134,7 @@
         "visibility" : 8,
         "ugliness" : 8,
         "description" : "Your face and jaws, well, are a shorter version of those found on alligators.  They look NASTY-as do the bite wounds they can inflict-but prevent you from wearing mouthgear.",
-        "cancels" : ["MUZZLE", "MINOTAUR", "PROBOSCIS"],
+        "cancels" : ["MUZZLE", "MINOTAUR", "BEAR_MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_LIZARD"]
     },{
@@ -2244,7 +2326,7 @@
         "points" : -2,
         "visibility" : 3,
         "ugliness" : 2,
-        "description" : "Your hands have fused into quasi-paws. You can still grip things, but fine manipulation is a challenge: permanent hand encumbrance of 1, difficulty with delicate craftwork, and you gloves don't fit. At least the paws handle water a bit better.",
+        "description" : "Your hands have fused into quasi-paws. Fine manipulation is a challenge: permanent hand encumbrance of 1, difficulty with delicate craftwork, and your gloves don't fit. But they handle water better.",
         "prereqs" : ["CLAWS", "CLAWS_RETRACT"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_FELINE"]
@@ -2521,5 +2603,185 @@
             { "part" : "LEGS", "neutral" : 21 },
             { "part" : "FEET", "neutral" : 6 }
         ]
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_LIZARD",
+        "name" : "Lizard",
+        "points" : 1,
+        "description" : "You sometimes look back on your days before your tail came in. But you're better now.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_BIRD",
+        "name" : "Bird",
+        "points" : 1,
+        "description" : "You're sure you'll fly someday. In the meantime, there's still nests to build.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_FISH",
+        "name" : "Aquatic",
+        "points" : 1,
+        "description" : "Ninety percent of the planet, and it's yours to explore. And colonize. And enjoy. What was that about a surface?",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_BEAST",
+        "name" : "Beast",
+        "points" : 1,
+        "description" : "It's about time you grew out. Now that you've matured, it is time to make something of yourself.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_FELINE",
+        "name" : "Feline",
+        "points" : 1,
+        "description" : "Stalking prey, eating well, and lying in the sun. Mmm, all you could ever desire.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_LUPINE",
+        "name" : "Wolf",
+        "points" : 1,
+        "description" : "You're the perfect candidate to lead a pack.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_URSINE",
+        "name" : "Bear",
+        "points" : 1,
+        "description" : "So the humans died, what's the worry? Now they won't ruin the woods.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_CATTLE",
+        "name" : "Bovine",
+        "points" : 1,
+        "description" : "Civilization collapsed? Great! You and your kin will never have to worry about a slaughterhouse again.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_INSECT",
+        "name" : "Insect",
+        "points" : 1,
+        "description" : "It would be good to be a Queen, having workers constantly servicing your every need...but how would you keep them in line?",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_PLANT",
+        "name" : "Plant",
+        "points" : 1,
+        "description" : "Well, you still have those other walking flowers-and the mushrooms too-to deal with. But you'll manage.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_SLIME",
+        "name" : "Aqueous",
+        "points" : 1,
+        "description" : "What was that old advertisment, 'paint the planet'? That might be a good long-term goal, but for now...",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_TROGLOBITE",
+        "name" : "Subterranean",
+        "points" : 1,
+        "description" : "Not much point to rebuilding up in that horribly bright roofless wasteland. Now that you've become accustomed to your new digs, there's the beginnings of a great empire right here, underground.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_CEPHALOPOD",
+        "name" : "Cephalopod",
+        "points" : 1,
+        "description" : "Strange aeons, true, but Death seems to be slacking and you are doing just fine.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_SPIDER",
+        "name" : "Arachnid",
+        "points" : 1,
+        "description" : "Well, maybe you'll just have to make your own world wide web.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_RAT",
+        "name" : "Survivor",
+        "points" : 1,
+        "description" : "Hey. Civilization fell. You're still around. 'Rat' just isn't respectful.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_MEDICAL",
+        "name" : "Prototype",
+        "points" : 1,
+        "description" : "After all those experiments, what's a few more, hmm?",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_ALPHA",
+        "name" : "Prime",
+        "points" : 1,
+        "description" : "You're the perfect candidate to tidy this mess.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_ELFA",
+        "name" : "Fey",
+        "points" : 1,
+        "description" : "You are the tree under which humankind wil shelter during these dark times.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_CHIMERA",
+        "name" : "Chaos",
+        "points" : 1,
+        "description" : "You can't tell what you are anymore. Everything and yet nothing, like you weren't meant to exist. But you do, and you're a force, no matter what happens.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_RAPTOR",
+        "name" : "Raptor",
+        "points" : 1,
+        "description" : "The chance to undo not one but TWO extinction events. You're confident you'll do fine.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
     }
 ]
