@@ -611,6 +611,8 @@
       ["hairpin", 20],
       ["fc_hairpin", 5],
       ["barrette", 10],
+      ["tieclip", 3],
+      ["collarpin", 3],
       ["socks", 70],
       ["briefcase", 5],
       ["mocassins", 5],
@@ -857,6 +859,8 @@
       ["hairpin", 30],
       ["fc_hairpin", 5],
       ["barrette", 15],
+	  ["tieclip", 10],
+	  ["collarpin", 10],
       ["undershirt", 70],
       ["boxer_shorts", 50],
       ["briefs", 40],
@@ -2405,6 +2409,9 @@
       ["under_armor", 20],
       ["jersey", 40],
       ["camisole", 60],
+      ["skinny_tie", 10],
+      ["tieclip", 5],
+      ["collarpin", 5],
       ["postman_shirt", 5]
     ]
   },{
@@ -2418,6 +2425,8 @@
       ["coat_rain", 50],
       ["trenchcoat", 25],
       ["skinny_tie", 5],
+      ["tieclip", 2],
+      ["collarpin", 2],
       ["apron_leather", 1]
     ]
   },{
@@ -2577,6 +2586,8 @@
       ["dress_wedding", 1],
       ["porkpie", 5],
       ["skinny_tie", 5],
+      ["tieclip", 2],
+      ["collarpin", 2],
       ["jersey", 40],
       ["postman_shorts", 5],
       ["postman_shirt", 5],
@@ -3578,6 +3589,8 @@
       ["waistcoat", 30],
       ["gold_watch", 20],
       ["sf_watch", 10],
+      ["tieclip", 3],
+      ["collarpin", 3],
       ["mask_gas", 10],
       ["goggles_welding", 70],
       ["goggles_nv", 1],
@@ -4392,7 +4405,9 @@
       ["bondage_suit", 5],
       ["bondage_mask", 5],
       ["flask_hip", 5],
-      ["corset", 15]
+      ["corset", 15],
+      ["tieclip", 3],
+      ["collarpin", 3]
     ]
   },{
     "type" : "item_group",
@@ -5224,6 +5239,8 @@
       ["hairpin", 3],
       ["fc_hairpin", 1],
       ["barrette", 2],
+      ["tieclip", 1],
+      ["collarpin", 1],
       ["umbrella", 1],
       ["teleumbrella",1],
       ["pocketwatch", 1]
