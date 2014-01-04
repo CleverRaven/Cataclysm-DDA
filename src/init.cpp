@@ -413,6 +413,7 @@ void DynamicDataLoader::unload_data()
 extern void calculate_mapgen_weights();
 extern void init_data_mappings();
 void DynamicDataLoader::finalize_loaded_data() {
+    g->init_missions(); // Needs overmap terrain.
     init_data_mappings();
     finalize_overmap_terrain();
     calculate_mapgen_weights();

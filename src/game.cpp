@@ -171,7 +171,6 @@ void game::load_core_data() {
 
 #define CORE_JSON_DATA_DIR "data/json"
     load_data_from_dir(CORE_JSON_DATA_DIR);
-    init_missions(); // Needs overmap terrain.
 }
 
 void game::load_data_from_dir(const std::string &path) {
