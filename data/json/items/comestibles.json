@@ -8814,7 +8814,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mre_hotdogs",
-        "name" : "irradiated hotdog course",
+        "name" : "irradiated hot dog course",
         "weight" : 125,
         "color" : "red",
         "addiction_type" : "none",
@@ -10425,7 +10425,7 @@
         "symbol": "~",
         "color": "red",
         "name": "ketchup",
-        "description": "Good old ketchup, tastes great on hotdogs.",
+        "description": "Good old ketchup, tastes great on hot dogs.",
         "price": 50,
         "weight": 253,
         "volume": 2,
