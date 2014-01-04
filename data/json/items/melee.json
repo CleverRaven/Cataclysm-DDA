@@ -2221,10 +2221,6 @@
     "volume" : 1,
     "bashing" : -8,
     "cutting": -3,
-    "max_charges": 20,
-    "initial_charges": 20,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
     "price" : 0
   },
   {
@@ -2661,10 +2657,6 @@
     "volume" : 1,
     "bashing" : -8,
     "cutting": -3,
-    "max_charges": 20,
-    "initial_charges": 20,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
     "price" : 0
   }
 ]
