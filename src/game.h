@@ -141,6 +141,7 @@ class game
   void toggle_fullscreen(void);
   void temp_exit_fullscreen(void);
   void reenter_fullscreen(void);
+  void toggle_sidebar_style(void);
   void draw();
   void draw_ter(int posx = -999, int posy = -999);
   void advance_nextinv(); // Increment the next inventory letter
@@ -333,6 +334,7 @@ class game
   int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;   // Weather pattern--SEE weather.h
   bool lightning_active;
+  bool narrow_sidebar;
 
   std::map<int, weather_segment> weather_log;
   char nextinv; // Determines which letter the next inv item will have

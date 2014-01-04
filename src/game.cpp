@@ -139,6 +139,7 @@ void game::init_data()
  gamemode = new special_game; // Nothing, basically.
  fullscreen = false;
  was_fullscreen = false;
+ narrow_sidebar = OPTIONS["SIDEBAR_STYLE"] == "narrow";
 }
 
 game::~game()
@@ -174,17 +175,23 @@ void game::toggle_fullscreen(void) {
 void game::temp_exit_fullscreen(void) {
   if(fullscreen) {
     was_fullscreen = true;
+    toggle_fullscreen();
   } else {
     was_fullscreen = false;
-  }
-  if(fullscreen) {
-    toggle_fullscreen();
   }
 }
 
 void game::reenter_fullscreen(void) {
   if(was_fullscreen) {
     toggle_fullscreen();
+  }
+}
+
+void game::toggle_sidebar_style(void) {
+  if(!fullscreen) {
+    narrow_sidebar = !narrow_sidebar;
+    init_ui();
+    refresh_all();
   }
 }
 
@@ -197,7 +204,7 @@ void game::init_ui(){
     // print an intro screen, making sure the terminal is the correct size
     intro();
 
-    int sidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+    int sidebarWidth = narrow_sidebar ? 45 : 55;
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
         TERMX = sidebarWidth + ((int)OPTIONS["VIEWPORT_X"] * 2 + 1);
@@ -231,6 +238,9 @@ void game::init_ui(){
         // now that TERMX and TERMY are set,
         // check if sidebar style needs to be overridden
         sidebarWidth = use_narrow_sidebar() ? 45 : 55;
+        if(fullscreen) {
+          sidebarWidth = 0;
+        }
 
         TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
         TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
@@ -2171,6 +2181,8 @@ bool game::handle_action()
         if (ch == '\t') {
             toggle_fullscreen();
             return false;
+        } else if (ch == KEY_F(1)) {
+          toggle_sidebar_style();
         } else if (ch == KEY_UP) {
             act = ACTION_MOVE_N;
         } else if (ch == KEY_RIGHT) {
@@ -7592,6 +7604,7 @@ void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x)
 
 point game::look_around()
 {
+ temp_exit_fullscreen();
  draw_ter();
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  std::string action;
@@ -7687,6 +7700,7 @@ point game::look_around()
 
  werase(w_look);
  delwin(w_look);
+ reenter_fullscreen();
  if (action == "CONFIRM")
   return point(lx, ly);
  return point(-1, -1);
