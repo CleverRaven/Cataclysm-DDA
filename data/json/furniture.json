@@ -259,7 +259,7 @@
         "move_cost_mod": 1,
         "required_str": 8,
         "flags": ["TRANSPARENT", "DECONSTRUCT", "BASHABLE"],
-		"bash": {
+        "bash": {
             "str_min": 3, "str_max": 45,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
@@ -477,8 +477,8 @@
             "items": [
                 { "item": "scrap", "amount": 7, "minamount": 2},
                 { "item": "steel_chunk", "amount": 3, "minamount": 0},
-				{ "item": "sheet_metal", "amount": 6, "minamount": 2},
-				{ "item": "cable", "amount": 15, "minamount": 1},
+                { "item": "sheet_metal", "amount": 6, "minamount": 2},
+                { "item": "cable", "amount": 15, "minamount": 1},
                 { "item": "hose", "amount": 2, "minamount": 0},
                 { "item": "cu_pipe", "amount": 5, "minamount": 2 }
             ]
@@ -502,6 +502,41 @@
                 { "item": "element", "amount": 3, "minamount": 1},
                 { "item": "sheet_metal", "amount": 6, "minamount": 2},
                 { "item": "cable", "amount": 15, "minamount": 1}
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_vending_c",
+        "name": "vending machine",
+        "symbol": "{",
+        "color": "ltcyan",
+        "move_cost_mod": -1,
+        "required_str": 10,
+        "flags": ["BASHABLE", "SEALED", "DECONSTRUCT", "PLACE_ITEM", "BLOCKSDOOR"],
+        "bash": {
+            "str_min": 2, "str_max": 20,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "furn_set": "f_vending_o"
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_vending_o",
+        "name": "broken vending machine",
+        "symbol": "{",
+        "color": "dkgray",
+        "move_cost_mod": -1,
+        "required_str": 10,
+        "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "BLOCKSDOOR"],
+        "bash": {
+            "str_min": 2, "str_max": 30,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 8, "minamount": 2},
+                { "item": "steel_chunk", "amount": 3, "minamount": 0},
+                { "item": "hose", "amount": 1},
+                { "item": "cu_pipe", "amount": 5, "minamount": 2 }
             ]
         }
     },{

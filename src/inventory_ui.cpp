@@ -50,15 +50,17 @@ std::vector<int> find_firsts(indexed_invslice &slice, CategoriesVector &CATEGORI
 }
 
 int calc_volume_capacity(const std::vector<char> &dropped_armor) {
-    int vol_capacity = g->u.volume_capacity();
-    for(size_t i = 0; i < dropped_armor.size(); i++) {
-        const item &armor = g->u.i_at(dropped_armor[i]);
-        const it_armor *ita = dynamic_cast<const it_armor*>(armor.type);
-        if(ita != 0) {
-            vol_capacity -= ita->storage;
-        }
+    if (dropped_armor.empty()) {
+        return g->u.volume_capacity();
     }
-    return vol_capacity;
+    // Make copy, remove to be dropped armor from that
+    // copy and let the copy recalculate the volume capacity
+    // (can be affected by various traits).
+    player tmp = g->u;
+    for(size_t i = 0; i < dropped_armor.size(); i++) {
+        tmp.i_rem(dropped_armor[i]);
+    }
+    return tmp.volume_capacity();
 }
 
 void print_inv_weight_vol(WINDOW* w_inv, int weight_carried, int vol_carried, int vol_capacity)
@@ -198,17 +200,14 @@ int game::display_slice(indexed_invslice& slice, const std::string& title)
 
   // Find the inventory position of the first item in the previous and next category (in relation
   // to the currently selected category).
-  for (int i = 0; i < category_order.size(); ++i)
-  {
-	  if (selected > firsts[category_order[i]] && prev_category_at <= firsts[category_order[i]])
-	  {
-		  prev_category_at = firsts[category_order[i]];
-	  }
+  for (int i = 0; i < category_order.size(); ++i) {
+      if (selected > firsts[category_order[i]] && prev_category_at <= firsts[category_order[i]]) {
+          prev_category_at = firsts[category_order[i]];
+      }
 
-	  if (selected < firsts[category_order[i]] && next_category_at <= selected)
-	  {
-		  next_category_at = firsts[category_order[i]];
-	  }
+      if (selected < firsts[category_order[i]] && next_category_at <= selected) {
+          next_category_at = firsts[category_order[i]];
+      }
   }
 
   for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++) {
@@ -241,13 +240,10 @@ int game::display_slice(indexed_invslice& slice, const std::string& title)
    }
   }
 
-  if (inCategoryMode)
-  {
-	  mvwprintz(w_inv, maxitems + 4, 32, c_white_red, _("In category select mode! Press [TAB] to enter item select mode."));
-  }
-  else
-  {
-	  mvwprintz(w_inv, maxitems + 4, 32, h_white, _("In item select mode! Press [TAB] to enter category select mode."));
+  if (inCategoryMode) {
+      mvwprintz(w_inv, maxitems + 4, 32, c_white_red, _("In category select mode! Press [TAB] to enter item select mode."));
+  } else {
+      mvwprintz(w_inv, maxitems + 4, 32, h_white, _("In item select mode! Press [TAB] to enter category select mode."));
   }
 
   if (start > 0)
@@ -263,22 +259,22 @@ int game::display_slice(indexed_invslice& slice, const std::string& title)
 
   if (ch == '\t')
   {
-	  inCategoryMode = !inCategoryMode;
+    inCategoryMode = !inCategoryMode;
   }
   else if ( ch == KEY_DOWN ) {
     if ( selected < 0 ) {
       selected = start;
     } else {
-		if (inCategoryMode)
-		{
-			selected < firsts[category_order[category_order.size() - 1]] ? selected = next_category_at : 0;
-		}
-		else
-		{
-			selected++;
-		}
-		
-		next_category_at = prev_category_at = 0;
+  if (inCategoryMode)
+  {
+    selected < firsts[category_order[category_order.size() - 1]] ? selected = next_category_at : 0;
+  }
+  else
+  {
+    selected++;
+  }
+
+  next_category_at = prev_category_at = 0;
     }
 
     if ( selected > max_it ) {
@@ -289,8 +285,8 @@ int game::display_slice(indexed_invslice& slice, const std::string& title)
       }
     }
   } else if ( ch == KEY_UP ) {
-	inCategoryMode ? selected = prev_category_at : selected--;
-	next_category_at = prev_category_at = 0;
+ inCategoryMode ? selected = prev_category_at : selected--;
+ next_category_at = prev_category_at = 0;
 
     if ( selected < -1 ) {
       selected = -1; // wraparound?

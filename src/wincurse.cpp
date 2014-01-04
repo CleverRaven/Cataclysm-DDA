@@ -404,13 +404,13 @@ void CheckMessages()
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
-	return (55 + (OPTIONS["VIEWPORT_X"] * 2 + 1)) * fontwidth;
+    return (55 + (OPTIONS["VIEWPORT_X"] * 2 + 1)) * fontwidth;
 }
 
 // Calculates the new height of the window, given the number of rows.
 int projected_window_height(int)
 {
-	return (OPTIONS["VIEWPORT_Y"] * 2 + 1) * fontheight;
+    return (OPTIONS["VIEWPORT_Y"] * 2 + 1) * fontheight;
 }
 
 //***********************************

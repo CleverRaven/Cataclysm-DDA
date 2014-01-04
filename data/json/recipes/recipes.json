@@ -17572,9 +17572,9 @@
   "autolearn": true,
   "tools": [
     [
-    [ "needle_bone", 50 ],
-	[ "needle_wood", 50 ],
-    [ "sewing_kit", 50 ]
+      [ "needle_bone", 50 ],
+      [ "needle_wood", 50 ],
+      [ "sewing_kit", 50 ]
     ]
   ],
   "components": [
@@ -18134,7 +18134,7 @@
   ],
   "components": [
     [
-      [ "steel_lump", 3 ]
+      [ "steel_lump", 10 ]
     ]
   ]
 },{

@@ -6647,8 +6647,8 @@ bb| ss____________ss |bb\n\
                                            f_null,         f_sink));
         add_spawn("mon_secubot", rng(1, 2), 11, 7);
         add_spawn("mon_zombie_cop", rng(0, 3), rng(12, 18), rng(4, 19));
-        place_items("pistols", 30,  11,  1, 12,  1, false, 0);
-        place_items("ammo", 50,  11,  1, 12,  1, false, 0);
+        place_items("prison_weapons", 30,  11,  1, 12,  1, false, 0);
+        place_items("prison_armor", 50,  11,  1, 12,  1, false, 0);
         for (int i = 0; i <= 23; i++) {
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_bed) {
@@ -7187,8 +7187,8 @@ bb|,,,,,,,,,,,,,,,,,,|##\n\
                                                f_null,         f_null,         f_sink));
             add_spawn("mon_zombie_cop", rng(0, 2), 2, 0);
             add_spawn("mon_zombie_cop", rng(0, 2), 2, 23);
-            place_items("pistols", 30,  11,  1, 12,  1, false, 0);
-            place_items("ammo", 40,  11,  1, 12,  1, false, 0);
+            place_items("prison_weapons", 30,  11,  1, 12,  1, false, 0);
+            place_items("prison_armor", 40,  11,  1, 12,  1, false, 0);
             for (int i = 0; i <= 23; i++) {
                 for (int j = 0; j <= 23; j++) {
                     if (this->furn(i, j) == f_chair) {
@@ -7437,8 +7437,8 @@ ee|,,,,,,r|#############\n\
                     place_items("fridge", 60,  i,  j, i,  j, false, 0);
                 }
                 if (this->furn(i, j) == f_locker) {
-                    place_items("cop_weapons", 20,  i,  j, i,  j, false, 0);
-                    place_items("cop_gear", 20,  i,  j, i,  j, false, 0);
+                    place_items("prison_weapons", 30,  i,  j, i,  j, false, 0);
+                    place_items("prison_armor", 30,  i,  j, i,  j, false, 0);
                     place_items("cop_torso", 20,  i,  j, i,  j, false, 0);
                     place_items("cop_pants", 20,  i,  j, i,  j, false, 0);
                     place_items("cop_shoes", 20,  i,  j, i,  j, false, 0);
@@ -10792,6 +10792,21 @@ void map::place_toilet(int x, int y, int charges)
     water.charges = charges;
     add_item(x, y, water);
     furn_set(x, y, f_toilet);
+}
+
+void map::place_vending(int x, int y, bool drinks)
+{
+    bool broken = rng(0, 1);
+    if(broken) {
+        furn_set(x, y, f_vending_c);
+    } else {
+        furn_set(x, y, f_vending_o);
+    }
+    if( drinks ) {
+        place_items("vending_drink", broken ? 60 : 80, x, y, x, y, false, 0);
+    } else {
+        place_items("vending_food", broken ? 60 : 80, x, y, x, y, false, 0);
+    }
 }
 
 int map::place_items(items_location loc, int chance, int x1, int y1,

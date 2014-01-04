@@ -271,6 +271,18 @@ void cOpt::setPrev() {
 }
 
 //set value
+void cOpt::setValue(float fSetIn) {
+    if (sType != "float") {
+        debugmsg("tried to set a float value to a %s option", sType.c_str());
+        return;
+    }
+    fSet = fSetIn;
+    if ( fSet < fMin || fSet > fMax ) {
+        fSet = fDefault;
+    }
+}
+
+//set value
 void cOpt::setValue(std::string sSetIn) {
     if (sType == "string") {
         if (getItemPos(sSetIn) != -1) {
@@ -293,12 +305,9 @@ void cOpt::setValue(std::string sSetIn) {
         float tmpFloat;
         ssTemp >> tmpFloat;
         if(ssTemp) {
-            fSet = tmpFloat;
+            setValue(tmpFloat);
         } else {
             debugmsg("invalid floating point option: %s", sSetIn.c_str());
-        }
-        if ( fSet < fMin || fSet > fMax ) {
-            fSet = fDefault;
         }
     }
 }
@@ -847,6 +856,8 @@ void show_options(bool ingame)
         ch = input();
 
         if (mPageItems[iCurrentPage].size() > 0 || ch == '\t') {
+            cOpt &cur_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
+            bool bChangedSomething = false;
             switch(ch) {
                 case 'j': //move down
                     iCurrentLine++;
@@ -862,17 +873,11 @@ void show_options(bool ingame)
                     break;
                 case 'l': //set to prev value
                     cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
-                    bStuffChanged = true;
-                    if ( iCurrentPage == iWorldOptPage ) {
-                        bWorldStuffChanged = true;
-                    }
+                    bChangedSomething = true;
                     break;
                 case 'h': //set to next value
                     cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setPrev();
-                    bStuffChanged = true;
-                    if ( iCurrentPage == iWorldOptPage ) {
-                        bWorldStuffChanged = true;
-                    }
+                    bChangedSomething = true;
                     break;
                 case '>':
                 case '\t': //Switch to next Page
@@ -891,6 +896,46 @@ void show_options(bool ingame)
                         iCurrentPage = vPages.size()-1;
                     }
                     break;
+                case '\n':
+                    if (cur_opt.getType() == "bool" || cur_opt.getType() == "string") {
+                        cur_opt.setNext();
+                        bChangedSomething = true;
+                    } else {
+                        const bool is_int = cur_opt.getType() == "int";
+                        const bool is_float = cur_opt.getType() == "float";
+                        const std::string old_opt_val = cur_opt.getValueName();
+                        const std::string opt_val = string_input_popup(
+                            cur_opt.getMenuText(), 80, old_opt_val, "", "", -1, is_int);
+                        if (!opt_val.empty() && opt_val != old_opt_val) {
+                            if (is_float) {
+                                std::istringstream ssTemp(opt_val);
+                                ssTemp.imbue(std::locale(""));
+                                // This uses the current locale, to allow the users
+                                // to use their own decimal format.
+                                float tmpFloat;
+                                ssTemp >> tmpFloat;
+                                if (ssTemp) {
+                                    cur_opt.setValue(tmpFloat);
+                                    bChangedSomething = true;
+                                } else {
+                                    popup(_("Invalid input: not a number"));
+                                }
+                            } else {
+                                // option is of type "int": string_input_popup
+                                // has taken care that the string contains
+                                // only digits, parsing is done in setValue
+                                cur_opt.setValue(opt_val);
+                                bChangedSomething = true;
+                            }
+                        }
+                    }
+                    break;
+            }
+            if(bChangedSomething) {
+                bStuffChanged = true;
+                if ( iCurrentPage == iWorldOptPage ) {
+                    bWorldStuffChanged = true;
+                }
             }
         }
     } while(ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);

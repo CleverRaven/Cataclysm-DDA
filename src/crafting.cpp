@@ -1088,8 +1088,8 @@ static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, b
 
     if(!filtered)
     {
-		int pos_x = 2;//draw the tabs on each other
-		int tab_step = 3;//step between tabs, two for tabs border
+        int pos_x = 2;//draw the tabs on each other
+        int tab_step = 3;//step between tabs, two for tabs border
         if (tab == "CC_WEAPON") {
             draw_subtab(w, pos_x, _("BASHING"), (subtab == "CSC_WEAPON_BASHING") ? true : false);
             pos_x += utf8_width(_("BASHING")) + tab_step;

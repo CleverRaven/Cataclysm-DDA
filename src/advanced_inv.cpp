@@ -114,25 +114,23 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     bool compact=(TERMX<=100);
 
     if(isinventory) {
-        int hrightcol = columns//right align
-			- helper::to_string(g->u.convert_weight(g->u.weight_carried())).length() - 3//"xxx.y/"
-			- helper::to_string(g->u.convert_weight(g->u.weight_capacity())).length() - 3//"xxx.y_"
-			- helper::to_string(g->u.volume_carried()).length() - 1//"xxx/"
-			- helper::to_string(g->u.volume_capacity() - 2).length() - 1;//"xxx|"
+        //right align
+        int hrightcol = columns -
+            helper::to_string(g->u.convert_weight(g->u.weight_carried())).length() - 3 - //"xxx.y/"
+            helper::to_string(g->u.convert_weight(g->u.weight_capacity())).length() - 3 - //"xxx.y_"
+            helper::to_string(g->u.volume_carried()).length() - 1 - //"xxx/"
+            helper::to_string(g->u.volume_capacity() - 2).length() - 1;//"xxx|"
         nc_color color = c_ltgreen;//red color if overload
         if (g->u.weight_carried() > g->u.weight_capacity()) {
-        	color = c_red;
+            color = c_red;
         }
         mvwprintz( window, 4, hrightcol, color, "%.1f", g->u.convert_weight(g->u.weight_carried()) );
         wprintz(window, c_ltgray, "/%.1f ", g->u.convert_weight(g->u.weight_capacity()) );
-		if (g->u.volume_carried() > g->u.volume_capacity() - 2)
-		{
-			color = c_red;
-		}
-		else
-		{
-			color = c_ltgreen;
-		}
+        if (g->u.volume_carried() > g->u.volume_capacity() - 2) {
+            color = c_red;
+        } else {
+            color = c_ltgreen;
+        }
         wprintz(window, color, "%d", g->u.volume_carried() );
         wprintz(window, c_ltgray, "/%d ", g->u.volume_capacity() - 2 );
     } else {
@@ -180,7 +178,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
 
         if(active && selected_index == x)
         {
-			thiscolor = (inCategoryMode && panes[src].sortby == SORTBY_CATEGORY) ? c_white_red : hilite(thiscolor);
+            thiscolor = (inCategoryMode && panes[src].sortby == SORTBY_CATEGORY) ? c_white_red : hilite(thiscolor);
             thiscolordark = hilite(thiscolordark);
             if ( compact ) {
                 mvwprintz(window,6+x,1,thiscolor, "  %s", spaces.c_str());
@@ -269,15 +267,15 @@ struct advanced_inv_sorter {
         // secondary sort by name
         std::string n1;
         std::string n2;
-		if (d1.name_without_prefix == d2.name_without_prefix){//if names without prefix equal, compare full name
-			n1 = d1.name;
-			n2 = d2.name;
-		} else {//else compare name without prefix
-			n1 = d1.name_without_prefix;
-			n2 = d2.name_without_prefix;
-		}
+        if (d1.name_without_prefix == d2.name_without_prefix){//if names without prefix equal, compare full name
+            n1 = d1.name;
+            n2 = d2.name;
+        } else {//else compare name without prefix
+            n1 = d1.name_without_prefix;
+            n2 = d2.name_without_prefix;
+        }
         return std::lexicographical_compare( n1.begin(), n1.end(),
-				n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
+                n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
     };
 };
 
@@ -524,7 +522,7 @@ void advanced_inventory::recalc_pane(int i)
                     advanced_inv_listitem it;
                     it.idx = x;
                     it.name = items[x].tname();
-		               			it.name_without_prefix = items[x].tname( false );
+                    it.name_without_prefix = items[x].tname( false );
                     if ( filtering && ! cached_lcmatch(it.name, panes[i].filter, panes[i].filtercache ) ) {
                         continue;
                     }
@@ -1184,10 +1182,14 @@ void advanced_inventory::display(player * pp)
                 it->info(true, &vThisItem);
                 int rightWidth = w_width / 2;
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"), "\n"));
-                vThisItem.push_back(iteminfo(_("DESCRIPTION"), center_text(_("[up / page up] previous"), rightWidth - 4)));
-                vThisItem.push_back(iteminfo(_("DESCRIPTION"), center_text(_("[down / page down] next"), rightWidth - 4)));
-                ret=compare_split_screen_popup(colstart + ( src == left ? w_width/2 : 0 ),
-                    rightWidth, 0, it->tname(), vThisItem, vDummy );
+                vThisItem.push_back(iteminfo(_("DESCRIPTION"),
+                                             center_text(_("[up / page up] previous"),
+                                                         rightWidth - 4)));
+                vThisItem.push_back(iteminfo(_("DESCRIPTION"),
+                                             center_text(_("[down / page down] next"),
+                                                         rightWidth - 4)));
+                ret = compare_split_screen_popup(colstart + ( src == left ? w_width/2 : 0 ),
+                                                 rightWidth, 0, it->tname(), vThisItem, vDummy );
             }
             if ( ret == KEY_NPAGE || ret == KEY_DOWN ) {
                 changey += 1;
@@ -1198,27 +1200,20 @@ void advanced_inventory::display(player * pp)
             } else {
                 lastCh = 0; redraw = true;
             };
-        }
-        else if( 'q' == c || KEY_ESCAPE == c)
-        {
+        } else if( 'q' == c || KEY_ESCAPE == c) {
             exit = true;
-        }
-        else if('>' == c || KEY_NPAGE == c)
-        {
+        } else if('>' == c || KEY_NPAGE == c) {
             panes[src].page++;
             if( panes[src].page >= panes[src].max_page ) panes[src].page = 0;
             redraw = true;
-        }
-        else if('<' == c || KEY_PPAGE == c)
-        {
+        } else if('<' == c || KEY_PPAGE == c) {
             panes[src].page--;
-            if( panes[src].page < 0 ) panes[src].page = panes[src].max_page;
+            if( panes[src].page < 0 ) {
+                panes[src].page = panes[src].max_page;
+            }
             redraw = true;
-        }
-        else
-        {
-            switch(c)
-            {
+        } else {
+            switch(c) {
                 case 'j':
                 case KEY_DOWN:
                     changey = 1;
@@ -1243,49 +1238,46 @@ void advanced_inventory::display(player * pp)
                     break;
             }
         }
-        if(!donothing)
-        {
+        if(!donothing) {
           if ( changey != 0 ) {
             for ( int l=2; l > 0; l-- ) {
-			  int new_index = panes[src].index;
+              int new_index = panes[src].index;
 
-			  if (panes[src].sortby == SORTBY_CATEGORY && category_index_start.size() > 0 && inCategoryMode)
-			  {
-				int prev_cat = 0, next_cat = 0, selected_cat = 0;
+              if (panes[src].sortby == SORTBY_CATEGORY &&
+                  category_index_start.size() > 0 && inCategoryMode) {
+                int prev_cat = 0, next_cat = 0, selected_cat = 0;
 
-				for (int curr_cat = 0; curr_cat < category_index_start.size(); ++curr_cat)
-				{
-					int next_cat_start = curr_cat + 1 < category_index_start.size() ? curr_cat + 1 : panes[src].items.size() - 1;
-					int actual_index = panes[src].index + panes[src].page * itemsPerPage;
+                for (int curr_cat = 0; curr_cat < category_index_start.size(); ++curr_cat) {
+                    int next_cat_start = curr_cat + 1 < category_index_start.size() ?
+                        curr_cat + 1 : panes[src].items.size() - 1;
+                    int actual_index = panes[src].index + panes[src].page * itemsPerPage;
 
-					if (actual_index >= category_index_start[curr_cat] && actual_index <= category_index_start[next_cat_start])
-					{
-						selected_cat = curr_cat;
+                    if (actual_index >= category_index_start[curr_cat] &&
+                        actual_index <= category_index_start[next_cat_start]) {
+                        selected_cat = curr_cat;
 
-						prev_cat = (curr_cat - 1) >= 0 ? curr_cat - 1 : category_index_start.size() - 1;
-						prev_cat = category_index_start[selected_cat] < actual_index ? selected_cat : prev_cat;
+                        prev_cat = (curr_cat - 1) >= 0 ? curr_cat - 1 :
+                            category_index_start.size() - 1;
+                        prev_cat = category_index_start[selected_cat] < actual_index ?
+                            selected_cat : prev_cat;
 
-						next_cat = (curr_cat + 1) < category_index_start.size() ? curr_cat + 1 : 0;
-					}
-				}
+                        next_cat = (curr_cat + 1) < category_index_start.size() ? curr_cat + 1 : 0;
+                    }
+                }
 
-				if (changey > 0)
-				{
-					panes[src].page = category_index_start[next_cat] / itemsPerPage;
-					new_index = category_index_start[next_cat] % itemsPerPage;
-				}
-				else
-				{
-					panes[src].page = category_index_start[prev_cat] / itemsPerPage;
-					new_index = category_index_start[prev_cat] % itemsPerPage;
+                if (changey > 0) {
+                    panes[src].page = category_index_start[next_cat] / itemsPerPage;
+                    new_index = category_index_start[next_cat] % itemsPerPage;
+                } else {
+                    panes[src].page = category_index_start[prev_cat] / itemsPerPage;
+                    new_index = category_index_start[prev_cat] % itemsPerPage;
 
-					panes[src].max_index = panes[src].page < panes[src].max_page - 1 ? itemsPerPage : panes[src].items.size() % itemsPerPage;
-				}
-			  }
-			  else
-			  {
-				  new_index = panes[src].index + changey;
-			  }
+                    panes[src].max_index = panes[src].page < panes[src].max_page - 1 ?
+                        itemsPerPage : panes[src].items.size() % itemsPerPage;
+                }
+              } else {
+                  new_index = panes[src].index + changey;
+              }
 
               panes[src].index = new_index;
               if ( panes[src].index < 0 ) {

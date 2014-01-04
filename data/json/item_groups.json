@@ -932,6 +932,56 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "vending_food",
+    "items":[
+      ["chips", 65],
+      ["pretzels", 55],
+      ["chocpretzels", 40],
+      ["chocolate", 50],
+      ["jerky", 55],
+      ["porkstick", 55],
+      ["candy", 80],
+      ["candy2", 80],
+      ["candy3", 80],
+      ["powder_candy", 60],
+      ["neccowafers", 80],
+      ["maltballs", 80],
+      ["mintpatties", 80],
+      ["cookies", 80],
+      ["choco_coffee_beans", 10],
+      ["nachos", 50],
+      ["chips2", 65],
+      ["chips3", 65],
+      ["fruit_leather", 25],
+      ["kernels", 25],
+      ["candycigarette", 20]
+    ]
+    },{
+    "type" : "item_group",
+    "id" : "vending_drink",
+    "items":[
+      ["water_clean", 90],
+      ["water_mineral", 10],
+      ["oj", 50],
+      ["juice", 50],
+      ["cranberry_juice", 50],
+      ["sports_drink", 50],
+      ["apple_cider", 50],
+      ["lemonade", 50],
+      ["energy_drink", 55],
+      ["energy_drink_atomic", 4],
+      ["cola", 70],
+      ["creamsoda", 60],
+      ["lemonlime", 60],
+      ["colamdew", 60],
+      ["choc_drink", 30],
+      ["rootbeer", 65],
+      ["purple_drink", 45],
+      ["milk", 50],
+      ["V8", 15]
+    ]
+    },{
+    "type" : "item_group",
     "id" : "snacks",
     "items":[
       ["chips", 65],
@@ -2332,6 +2382,7 @@
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["skirt", 75],
+      ["skirt_leather", 5],
       ["leggings", 15],
       ["under_armor_shorts", 20],
       ["dress", 70],
@@ -2453,6 +2504,7 @@
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["skirt", 75],
+      ["skirt_leather", 5],
       ["tshirt", 80],
       ["longshirt", 80],
       ["polo_shirt", 65],
@@ -2692,7 +2744,40 @@
       ["57mm", 10],
       ["shot_00", 16],
       ["shot_beanbag", 14],
-      ["3006", 10]      
+      ["3006", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "prison_weapons",
+    "items":[
+      ["tonfa", 50],
+      ["tonfa_wood", 10],
+      ["shocktonfa_off", 25],
+      ["tazer", 25],
+      ["remington_700", 5],
+      ["3006", 5],
+      ["remington_870", 10],
+      ["mossberg_500", 10],
+      ["shot_beanbag", 25],
+      ["rm120c", 5],
+      ["rm20", 2],
+      ["20x66_beanbag", 10],
+      ["m79", 8],
+      ["40mm_teargas", 20],
+      ["40mm_flashbang", 8],
+      ["40mm_beanbag", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "prison_armor",
+    "items":[
+      ["helmet_riot", 25],
+      ["mask_gas", 25],
+      ["modularveststeel", 20],
+      ["gloves_tactical", 10],
+      ["armguard_hard", 20],
+      ["legguard_hard", 20],
+      ["emergency_book", 1]
     ]
   },{
     "type" : "item_group",
@@ -2884,6 +2969,7 @@
       ["pda", 10],
       ["gold_watch", 5],
       ["pocketwatch", 2],
+      ["picklocks", 4],
       ["chisel", 2],
       ["scissors", 10],
       ["screwdriver", 8],
@@ -3548,6 +3634,7 @@
       ["jacket_army", 30],
       ["army_top", 30],
       ["skirt", 75],
+      ["skirt_leather", 5],
       ["jumpsuit", 20],
       ["dress", 70],
       ["sundress", 50],
@@ -3606,7 +3693,7 @@
       ["pickaxe", 1],
       ["ring", 12],
       ["diamond_ring", 1],
-	  ["pearl_collar", 1],
+      ["pearl_collar", 1],
       ["necklace", 14],
       ["gold_ear", 12],
       ["silver_ear", 14],
