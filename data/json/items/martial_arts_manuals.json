@@ -438,5 +438,31 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "MA_MANUAL"
+  },
+  {
+    "type" : "item_group",
+    "id"   : "ma_manuals",
+    "items":[
+      ["manual_karate", 5],
+      ["manual_aikido", 5],
+      ["manual_judo", 5],
+      ["manual_tai_chi", 5],
+      ["manual_capoeira", 5],
+      ["manual_krav_maga", 5],
+      ["manual_muay_thai", 5],
+      ["manual_ninjutsu", 5],
+      ["manual_taekwondo", 5],
+      ["manual_zui_quan", 5],
+      ["manual_crane", 5],
+      ["manual_dragon", 5],
+      ["manual_leopard", 5],
+      ["manual_tiger", 5],
+      ["manual_snake", 5],
+      ["manual_centipede", 5],
+      ["manual_scorpion", 5],
+      ["manual_toad", 5],
+      ["manual_lizard", 5],
+      ["manual_venom_snake", 5]
+    ]
   }
 ]
