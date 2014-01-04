@@ -53,7 +53,7 @@
         "color": "magenta",
         "move_cost_mod": 3,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC"]
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC"]
     },{
         "type" : "furniture",
         "id" : "f_toilet",

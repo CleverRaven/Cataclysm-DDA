@@ -9540,10 +9540,13 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             }
             square_furn(this, f_rack, 16, 16, 21, 17);
             place_items("hospital_samples", 68, 16, 16, 21, 17, false, 0);
+            place_items("bionics_common", 12, 16, 16, 21, 17, false, 0);
             square_furn(this, f_rack, 16, 19, 21, 20);
             place_items("hospital_samples", 68, 16, 19, 21, 20, false, 0);
+            place_items("bionics_common", 12, 16, 19, 21, 20, false, 0);
             line_furn(this, f_rack, 14, 22, 23, 22);
             place_items("hospital_samples", 62, 14, 22, 23, 22, false, 0);
+            place_items("bionics_common", 12, 14, 22, 23, 22, false, 0);
 
         } else { // We're NOT in the center; a random hospital type!
 
@@ -9710,10 +9713,12 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 // Next, the contents of each operating room
                 line_furn(this, f_counter, 1, 0, 1, 9);
                 place_items("surgery", 70, 1, 1, 1, 9, false, 0);
+                place_items("bionics_common", 5, 1, 1, 1, 9, false, 0);
                 square_furn(this, f_bed, 5, 4, 6, 5);
 
                 line_furn(this, f_counter, 1, 14, 1, 22);
                 place_items("surgery", 70, 1, 14, 1, 22, false, 0);
+                place_items("bionics_common", 5, 1, 14, 1, 22, false, 0);
                 square_furn(this, f_bed, 5, 18, 6, 19);
 
                 line_furn(this, f_counter, 14, 6, 14, 9);
