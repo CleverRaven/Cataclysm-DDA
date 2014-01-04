@@ -2796,6 +2796,7 @@ void mapgen_office_cubical(map *m, oter_id terrain_type, mapgendata dat, int, fl
                                            f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,
                                            f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
                                            f_locker, f_null, f_safe_l));
+		m->place_vending(7, 13, rng(0, 1));
         m->place_items("fridge", 50,  2,  12, 2,  13, false, 0);
         m->place_items("cleaning", 50,  2,  15, 3,  16, false, 0);
         m->place_items("office", 80, 11,  7, 13,  7, false, 0);
@@ -4097,7 +4098,7 @@ void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float
         if (vset < 3) m->place_vending(5, vset+9, drinks);
         else if (vset < 15) m->place_vending(5 + (vset - 3), 11, drinks);
         else m->place_vending(18, 11 - (vset - 15), drinks);
-        if(rng(0,1))
+        if(one_in(3))
         {
             int vset2 = rng(0,16);
             if(vset2 >= vset) vset2++;
