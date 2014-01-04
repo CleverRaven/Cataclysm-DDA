@@ -369,9 +369,30 @@
     },
     {
         "type": "profession",
-        "ident": "blackbelt",
-        "name": "Blackbelt",
-        "description": "On your way home from the Dojo, and the world ends. While you've achieved some measure of skill within your discipline, you find that the application in the real world is woefully inadequate.",
+        "ident": "blackbelt_novice",
+        "name": "Novice Martial Artist",
+        "description": "You were on your way to the dojo for your first lesson when the world ended. And you really wanted to learn how to swim, too.",
+        "points": -1,
+        "items": {
+            "both": [
+                "karate_gi",
+                "judo_belt_white",
+                "sneakers"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "blackbelt_intermediate",
+        "name": "Martial Artist",
+        "description": "'Drop the martial arts!', they said. 'Learn a skill for the REAL world!', they said. Well, you're about to show them! SHOW THEM ALL!",
         "points": 2,
         "skills": [
             {
@@ -390,8 +411,43 @@
         "items": {
             "both": [
                 "karate_gi",
-                "judo_belt_black",
+                "judo_belt_orange",
                 "sneakers"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "blackbelt",
+        "name": "Blackbelt",
+        "description": "As the world ends, you alone stand against the coming darkness with your fists of steel.",
+        "points": 8,
+        "skills": [
+            {
+                "level": 8,
+                "name": "melee"
+            },
+            {
+                "level": 8,
+                "name": "unarmed"
+            },
+            {
+                "level": 8,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "karate_gi",
+                "judo_belt_black",
+                "geta"
             ],
             "male": [
                 "boxer_shorts"
