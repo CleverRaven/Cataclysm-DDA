@@ -9869,7 +9869,7 @@ void game::plthrow(int pos)
   add_msg(_("That's part of your body, you can't throw that!"));
   return;
  }
-
+ temp_exit_fullscreen();
  m.draw(w_terrain, point(u.posx, u.posy));
 
  std::vector <monster> mon_targets;
@@ -9896,8 +9896,10 @@ void game::plthrow(int pos)
  std::vector <point> trajectory = target(x, y, u.posx - range, u.posy - range,
                                          u.posx + range, u.posy + range,
                                          mon_targets, passtarget, &thrown);
- if (trajectory.size() == 0)
+ if (trajectory.size() == 0) {
+  reenter_fullscreen();
   return;
+ }
  if (passtarget != -1)
   last_target = targetindices[passtarget];
 
@@ -9933,6 +9935,7 @@ void game::plthrow(int pos)
  u.practice(turn, "throw", 10);
 
  throw_item(u, x, y, thrown, trajectory);
+ reenter_fullscreen();
 }
 
 void game::plfire(bool burst, int default_target_x, int default_target_y)
@@ -10015,7 +10018,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  }
 
  int range = u.weapon.range(&u);
-
+ temp_exit_fullscreen();
  m.draw(w_terrain, point(u.posx, u.posy));
 
 // Populate a list of targets with the zombies in range and visible
@@ -10053,6 +10056,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
       unload(u.weapon);
       u.moves += u.weapon.reload_time(u) / 2; // unloading time
   }
+  reenter_fullscreen();
   return;
  }
  if (passtarget != -1) { // We picked a real live target
@@ -10078,6 +10082,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
      u.practice(turn, "gun", 5);
 
  u.fire_gun(x,y,burst);
+ reenter_fullscreen();
  //fire(u, x, y, trajectory, burst);
 }
 
