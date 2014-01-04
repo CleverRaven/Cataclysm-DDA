@@ -40,6 +40,13 @@ void Skill::reset()
 void Skill::load_skill(JsonObject &jsobj)
 {
     std::string ident = jsobj.get_string("ident");
+    for(std::vector<Skill*>::iterator a = skills.begin(); a != skills.end(); ++a) {
+        if ((*a)->_ident == ident) {
+            delete *a;
+            skills.erase(a);
+            break;
+        }
+    }
     std::string name = _(jsobj.get_string("name").c_str());
     std::string description = _(jsobj.get_string("description").c_str());
 
