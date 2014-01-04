@@ -3519,6 +3519,14 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
  return false; // Shouldn't ever be reached, but there it is.
 }
 
+bool map::accessable_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
+{
+    int junk = 0;
+    return g->m.has_flag("SEALED", Tx, Ty) ||
+        ((Fx != Tx || Fy != Ty) &&
+         !g->m.clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
+}
+
 // Bash defaults to true.
 std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const int Ty, const bool can_bash)
 {
