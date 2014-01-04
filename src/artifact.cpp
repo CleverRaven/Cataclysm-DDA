@@ -500,6 +500,7 @@ itype* new_artifact(itypemap &itypes)
    art->max_charges += rng(1, 3);
   }
   art->def_charges = art->max_charges;
+  art->rand_charges.push_back(art->max_charges);
 // If we have charges, pick a recharge mechanism
   if (art->max_charges > 0)
    art->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
@@ -721,6 +722,7 @@ itype* new_natural_artifact(itypemap &itypes, artifact_natural_property prop)
  if (!art->effects_activated.empty()) {
   art->max_charges = rng(1, 4);
   art->def_charges = art->max_charges;
+  art->rand_charges.push_back(art->max_charges);
   art->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
  }
  artifact_itype_ids.push_back(art->id);
@@ -837,6 +839,13 @@ void it_artifact_tool::deserialize(JsonObject &jo)
 
     max_charges = jo.get_int("max_charges");
     def_charges = jo.get_int("def_charges");
+
+    std::vector<int> rand_charges;
+    JsonArray jarr = jo.get_array("rand_charges");
+    while (jarr.has_more()){
+        rand_charges.push_back(jarr.next_int());
+    }
+
     charges_per_use = jo.get_int("charges_per_use");
     turns_per_charge = jo.get_int("turns_per_charge");
     ammo = jo.get_string("ammo");
@@ -920,6 +929,7 @@ void it_artifact_tool::serialize(JsonOut &json) const
     json.member("ammo", ammo);
     json.member("max_charges", max_charges);
     json.member("def_charges", def_charges);
+    json.member("rand_charges", rand_charges);
     json.member("charges_per_use", charges_per_use);
     json.member("turns_per_charge", turns_per_charge);
     json.member("revert_to", revert_to);

@@ -53,7 +53,12 @@ item::item(itype* it, unsigned int turn)
         if (tool->max_charges == 0) {
             charges = -1;
         } else {
-            charges = tool->def_charges;
+            if (tool->rand_charges.size() > 1) {
+                int charge_roll = rng(1, tool->rand_charges.size() - 1);
+                charges = rng(tool->rand_charges[charge_roll - 1], tool->rand_charges[charge_roll]);
+            } else {
+                charges = tool->def_charges;
+            }
             if (tool->ammo != "NULL") {
                 curammo = dynamic_cast<it_ammo*>(item_controller->find_template(default_ammo(tool->ammo)));
             }
@@ -102,7 +107,12 @@ item::item(itype *it, unsigned int turn, char let)
             if (tool->max_charges == 0)
                 charges = -1;
             else {
-                charges = tool->def_charges;
+                if (tool->rand_charges.size() > 1) {
+                    int charge_roll = rng(1, tool->rand_charges.size() - 1);
+                    charges = rng(tool->rand_charges[charge_roll - 1], tool->rand_charges[charge_roll]);
+                } else {
+                    charges = tool->def_charges;
+                }
                 if (tool->ammo != "NULL") {
                     curammo = dynamic_cast<it_ammo*>(item_controller->find_template(default_ammo(tool->ammo)));
                 }

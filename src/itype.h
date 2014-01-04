@@ -589,6 +589,7 @@ struct it_tool : public itype
  ammotype ammo;
  unsigned int max_charges;
  unsigned int def_charges;
+ std::vector<int> rand_charges;
  unsigned char charges_per_use;
  unsigned char turns_per_charge;
  itype_id revert_to;
@@ -614,7 +615,7 @@ struct it_tool : public itype
          unsigned int pvolume, unsigned int pweight,
          signed int pmelee_dam, signed int pmelee_cut, signed int pm_to_hit,
 
-         unsigned int pmax_charges, unsigned int pdef_charges,
+         unsigned int pmax_charges, unsigned int pdef_charges, std::vector<int> prand_charges,
          unsigned char pcharges_per_use, unsigned char pturns_per_charge,
          ammotype pammo, itype_id prevert_to,
          int (iuse::*puse)(player *, item *, bool))
@@ -622,6 +623,7 @@ struct it_tool : public itype
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   max_charges = pmax_charges;
   def_charges = pdef_charges;
+  rand_charges = prand_charges;
   ammo = pammo;
   charges_per_use = pcharges_per_use;
   turns_per_charge = pturns_per_charge;

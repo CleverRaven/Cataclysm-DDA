@@ -313,6 +313,7 @@ public:
         ammo = "NULL";
         price = 0;
         def_charges = 0;
+        std::vector<int> rand_charges;
         charges_per_use = 1;
         charge_type = ARTC_NULL;
         turns_per_charge = 0;

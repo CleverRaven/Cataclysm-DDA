@@ -1367,8 +1367,14 @@ void game::complete_craft()
             newit.item_counter = 600;
         }
   }
- if (!newit.craft_has_charges())
-  newit.charges = 0;
+
+    if (!newit.craft_has_charges()) {
+        newit.charges = 0;
+    } else {
+        it_tool* tool = dynamic_cast<it_tool*>(newit.type);
+        newit.charges = tool->def_charges;
+    }
+
  u.inv.assign_empty_invlet(newit);
  //newit = newit.in_its_container(&itypes);
  if (newit.made_of(LIQUID))
