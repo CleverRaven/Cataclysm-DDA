@@ -595,6 +595,11 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
      const int forgepart = veh->part_with_feature(vpart, "FORGE");
      const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
 
+     const int cargo = veh->part_with_feature(vpart, "CARGO");
+     if (cargo >= 0){
+       *this += std::list<item>(veh->parts[cargo].items.begin(), veh->parts[cargo].items.end());
+     }
+
      if (kpart >= 0) {
        item hotplate(itypes["hotplate"], 0);
        hotplate.charges = veh->fuel_left("battery");

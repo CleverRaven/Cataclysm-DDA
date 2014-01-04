@@ -2644,10 +2644,44 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
 {
  std::list<item> ret;
  int quantity = amount;
+
+ printf("use_container=%d, amount=%d\n", use_container, amount);
+
  for (int radius = 0; radius <= range && quantity > 0; radius++) {
   for (int x = origin.x - radius; x <= origin.x + radius; x++) {
    for (int y = origin.y - radius; y <= origin.y + radius; y++) {
     if (rl_dist(origin.x, origin.y, x, y) >= radius) {
+     int vpart = -1;
+     vehicle *veh = veh_at(x,y, vpart);
+
+     if (veh) {
+      const int cargo = veh->part_with_feature(vpart, "CARGO");
+      if (cargo >= 0) {
+
+	for (int n = 0; n < veh->parts[cargo].items.size() && quantity > 0; n++) {
+	  item* curit = &(veh->parts[cargo].items[n]);
+	  bool used_contents = false;
+	  for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
+	    if (curit->contents[m].type->id == type) {
+	      ret.push_back(curit->contents[m]);
+	      quantity--;
+	      curit->contents.erase(curit->contents.begin() + m);
+	      m--;
+	      used_contents = true;
+	    }
+	  }
+	  if (use_container && used_contents) {
+	    veh->remove_item(cargo, n);
+	    n--;
+	  } else if (curit->type->id == type && quantity > 0 && curit->contents.size() == 0) {
+	    ret.push_back(*curit);
+	    quantity--;
+	    veh->remove_item(cargo, n);
+	    n--;
+	  }
+	}
+      }
+    }
      for (int n = 0; n < i_at(x, y).size() && quantity > 0; n++) {
       item* curit = &(i_at(x, y)[n]);
       bool used_contents = false;
@@ -2694,6 +2728,7 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
         const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
         const int forgepart = veh->part_with_feature(vpart, "FORGE");
         const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
+	const int cargo = veh->part_with_feature(vpart, "CARGO");
 
         if (kpart >= 0) { // we have a kitchen, now to see what to drain
           ammotype ftype = "NULL";
@@ -2779,49 +2814,99 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           if (quantity == 0)
             return ret;
         }
-      }
 
-     for (int n = 0; n < i_at(x, y).size(); n++) {
-      item* curit = &(i_at(x, y)[n]);
+	if (cargo >= 0) {
+	  for (int n = 0; n < veh->parts[cargo].items.size(); n++) {
+	    item* curit = &(veh->parts[cargo].items[n]);
 // Check contents first
-      for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
-       if (curit->contents[m].type->id == type) {
-        if (curit->contents[m].charges <= quantity) {
-         ret.push_back(curit->contents[m]);
-         quantity -= curit->contents[m].charges;
-         if (curit->contents[m].destroyed_at_zero_charges()) {
-          curit->contents.erase(curit->contents.begin() + m);
-          m--;
-         } else
-          curit->contents[m].charges = 0;
-        } else {
+	    for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
+	      if (curit->contents[m].type->id == type) {
+		if (curit->contents[m].charges <= quantity) {
+		  ret.push_back(curit->contents[m]);
+		  quantity -= curit->contents[m].charges;
+		  if (curit->contents[m].destroyed_at_zero_charges()) {
+		    curit->contents.erase(curit->contents.begin() + m);
+		    m--;
+		  } else
+		    curit->contents[m].charges = 0;
+		} else {
+		  item tmp = curit->contents[m];
+		  tmp.charges = quantity;
+		  ret.push_back(tmp);
+		  curit->contents[m].charges -= quantity;
+	
+		  return ret;
+		}
+	      }
+	    }
+      
+// Now check the actual item
+	    if (curit->type->id == type) {
+	      if (curit->charges <= quantity) {
+		ret.push_back(*curit);
+		quantity -= curit->charges;
+		if (curit->destroyed_at_zero_charges()) {
+		  veh->remove_item(cargo, n);
+		  n--;
+		} else
+		  curit->charges = 0;
+	      } else {
+		item tmp = *curit;
+		tmp.charges = quantity;
+		ret.push_back(tmp);
+		curit->charges -= quantity;
+		
+		return ret;
+	      }
+	    }
+	  }
+	}
+      }
+      for (int n = 0; n < i_at(x,y).size(); n++) {
+       item* curit = &(i_at(x,y)[n]);
+// Check contents first
+       for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
+        if (curit->contents[m].type->id == type) {
+         if (curit->contents[m].charges <= quantity) {
+	  ret.push_back(curit->contents[m]);
+	  quantity -= curit->contents[m].charges;
+	  if (curit->contents[m].destroyed_at_zero_charges()) {
+	   curit->contents.erase(curit->contents.begin() + m);
+	   m--;
+	  } else
+	   curit->contents[m].charges = 0;
+         } else {
          item tmp = curit->contents[m];
          tmp.charges = quantity;
          ret.push_back(tmp);
          curit->contents[m].charges -= quantity;
+	
          return ret;
-        }
+	 }
+	}
        }
-      }
+      
 // Now check the actual item
-      if (curit->type->id == type) {
-       if (curit->charges <= quantity) {
-        ret.push_back(*curit);
-        quantity -= curit->charges;
-        if (curit->destroyed_at_zero_charges()) {
-         i_rem(x, y, n);
-         n--;
-        } else
-         curit->charges = 0;
-       } else {
+       if (curit->type->id == type) {
+        if (curit->charges <= quantity) {
+         ret.push_back(*curit);
+         quantity -= curit->charges;
+         if (curit->destroyed_at_zero_charges()) {
+	  i_rem(x, y, n);
+	  n--;
+         } else
+	  curit->charges = 0;
+        } else {
         item tmp = *curit;
         tmp.charges = quantity;
         ret.push_back(tmp);
         curit->charges -= quantity;
+	
         return ret;
+	}
        }
       }
-     }
+         
     }
    }
   }
