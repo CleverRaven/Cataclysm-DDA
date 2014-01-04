@@ -2647,7 +2647,7 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
     for (int radius = 0; radius <= range && quantity > 0; radius++) {
         for (int x = origin.x - radius; x <= origin.x + radius; x++) {
             for (int y = origin.y - radius; y <= origin.y + radius; y++) {
-                if(g->m.accessable_items( origin.x, origin.y, x, y, range) ) {
+                if(accessable_items( origin.x, origin.y, x, y, range) ) {
                     continue;
                 }
                 if (rl_dist(origin.x, origin.y, x, y) >= radius) {
@@ -2689,7 +2689,7 @@ std::list<item> map::use_charges(const point origin, const int range,
     for (int radius = 0; radius <= range && quantity > 0; radius++) {
         for (int x = origin.x - radius; x <= origin.x + radius; x++) {
             for (int y = origin.y - radius; y <= origin.y + radius; y++) {
-                if(g->m.accessable_items( origin.x, origin.y, x, y, range) ) {
+                if(accessable_items( origin.x, origin.y, x, y, range) ) {
                     continue;
                 }
                 if (rl_dist(origin.x, origin.y, x, y) >= radius) {
