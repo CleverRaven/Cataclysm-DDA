@@ -28367,7 +28367,9 @@
   "components":
     [
      [
-     [ "glass_shard", 16 ]
+     [ "glass_shard", 16 ],
+     [ "flask_glass", 4 ],
+     [ "jar_glass", 2 ]
      ]
     ]
 },{
