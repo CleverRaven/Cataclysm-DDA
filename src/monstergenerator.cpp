@@ -274,6 +274,9 @@ void MonsterGenerator::load_monster(JsonObject &jo)
     std::string mid;
     if (jo.has_member("id")){
         mid = jo.get_string("id");
+        if (mon_templates.count(mid) > 0) {
+            delete mon_templates[mid];
+        }
 
         mtype *newmon = new mtype;
 
@@ -330,6 +333,9 @@ void MonsterGenerator::load_species(JsonObject &jo)
     std::string sid;
     if (jo.has_member("id")){
         sid = jo.get_string("id");
+        if (mon_species.count(sid) > 0) {
+            delete mon_species[sid];
+        }
 
         std::set<std::string> sflags, sanger, sfear, splacate;
         sflags = jo.get_tags("flags");

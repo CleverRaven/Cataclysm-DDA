@@ -123,9 +123,6 @@ class game
   game();
   ~game();
 
-    // TODO: decide what should be protcted and what should be public
-    // Check the consistency of the dynamicly loaded data.
-    void check_consistency();
     // Static data, does not depend on mods or similar.
     void load_static_data();
     // Load core data and all mods.

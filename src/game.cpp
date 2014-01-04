@@ -100,14 +100,6 @@ game::game() :
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
 }
 
-void game::check_consistency() {
-    item_controller->check_itype_definitions();
-    item_controller->check_items_of_groups_exist();
-    MonsterGenerator::generator().check_monster_definitions();
-    MonsterGroupManager::check_group_definitions();
-    check_recipe_definitions();
-}
-
 // Load everything that will not depend on any mods
 void game::load_static_data() {
 #ifdef LUA
@@ -131,7 +123,6 @@ void game::load_static_data() {
     init_vpart_bitflag_map();
     init_translation();
     init_colormap();
-    init_artifacts();
     init_mapgen_builtin_functions();
     init_fields();
     init_morale();

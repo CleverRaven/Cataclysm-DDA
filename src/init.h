@@ -114,6 +114,8 @@ public:
  * that function in @ref unload_data
  * - Optional: create a finalize function and call it from
  * @ref finalize_loaded_data
+ * - Optional: create a function to check the consistency of
+ * the loaded data and call this function from @ref check_consistency
  * - Than create json files.
  */
 class DynamicDataLoader
@@ -180,6 +182,11 @@ class DynamicDataLoader
          * @ref type_function_map
          */
         void reset();
+        /**
+         * Check the consistency of all the loaded data.
+         * May print a debugmsg if something seems wrong.
+         */
+        void check_consistency();
 
     public:
         /**
@@ -202,6 +209,8 @@ class DynamicDataLoader
          * Called to finalize the loaded data. This should be called
          * after all the mods have been loaded.
          * It must be called once after loading all data.
+         * It also checks the consistency of the loaded data with
+         * @ref check_consistency
          */
         void finalize_loaded_data();
 };

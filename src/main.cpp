@@ -98,7 +98,6 @@ int main(int argc, char *argv[])
     try {
         g->load_static_data();
         if (verifyexit) {
-            g->check_consistency();
             if(g->game_error()) {
                 exit_handler(-999);
             }

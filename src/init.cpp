@@ -232,7 +232,6 @@ void DynamicDataLoader::initialize()
 
     // init maps used for loading json data
     init_martial_arts();
-    mutations_category[""].clear();
 }
 
 void DynamicDataLoader::reset()
@@ -420,5 +419,13 @@ void DynamicDataLoader::finalize_loaded_data() {
     MonsterGenerator::generator().finalize_mtypes();
     g->finalize_vehicles();
     finalize_recipes();
-    g->check_consistency();
+    check_consistency();
+}
+
+void DynamicDataLoader::check_consistency() {
+    item_controller->check_itype_definitions();
+    item_controller->check_items_of_groups_exist();
+    MonsterGenerator::generator().check_monster_definitions();
+    MonsterGroupManager::check_group_definitions();
+    check_recipe_definitions();
 }

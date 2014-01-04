@@ -19,7 +19,7 @@
     "type": "SUPPLEMENTAL",
     "description": "Adds the gardener profession",
     "path": "gardener2",
-    "dependencies": ["gardener1"]
+    "dependencies": ["gardener3", "gardener1"]
 },
 {
     "ident": "gardener3",
@@ -27,7 +27,7 @@
     "type": "SUPPLEMENTAL",
     "description": "Adds a gardener item",
     "path": "gardener3",
-    "dependencies": ["gardener1", "gardener2"]
+    "dependencies": ["gardener1"]
 },
 {
     "ident": "test-mod-1",
