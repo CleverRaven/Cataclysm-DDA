@@ -2,6 +2,7 @@
 #include "output.h"
 #include "keypress.h"
 #include "debug.h"
+#include <algorithm>
 
 mod_ui::mod_ui(mod_manager *mman)
 {
@@ -21,13 +22,24 @@ mod_ui::~mod_ui()
     mm_tree = NULL;
 }
 
+bool compare_mod_by_name(const MOD_INFORMATION *a, const MOD_INFORMATION *b) {
+    return a->name < b->name;
+}
+
 void mod_ui::set_usable_mods()
 {
     std::vector<std::string> available_cores, available_supplementals;
     std::vector<std::string> ordered_mods;
 
+    typedef std::vector<MOD_INFORMATION*> mod_vector;
+    mod_vector mods;
     for(mod_manager::t_mod_map::iterator a = active_manager->mod_map.begin(); a != active_manager->mod_map.end(); ++a) {
-        MOD_INFORMATION *mod = a->second;
+        mods.push_back(a->second);
+    }
+    std::sort(mods.begin(), mods.end(), &compare_mod_by_name);
+
+    for(mod_vector::iterator a = mods.begin(); a != mods.end(); ++a) {
+        MOD_INFORMATION *mod = *a;
 
         switch(mod->_type) {
             case MT_CORE:
