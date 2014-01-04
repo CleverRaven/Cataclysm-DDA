@@ -86,6 +86,7 @@ public:
   int militarymap      (player *, item *, bool);
   int restaurantmap    (player *, item *, bool);
   int touristmap       (player *, item *, bool);
+  int ma_manual        (player *, item *, bool);
   int picklock         (player *, item *, bool);
   int crowbar          (player *, item *, bool);
   int makemound        (player *, item *, bool);
