@@ -149,6 +149,7 @@ public:
     // data parsing
     std::string get_string(); // get the next value as a string
     int get_int(); // get the next value as an int
+    long get_long(); // get the next value as an long
     bool get_bool(); // get the next value as a bool
     double get_float(); // get the next value as a double
     std::string get_member_name(); // also strips the ':'
@@ -423,6 +424,8 @@ public:
     bool get_bool(const std::string &name, const bool fallback);
     int get_int(const std::string &name);
     int get_int(const std::string &name, const int fallback);
+    long get_long(const std::string &name);
+    long get_long(const std::string &name, const long fallback);
     double get_float(const std::string &name);
     double get_float(const std::string &name, const double fallback);
     std::string get_string(const std::string &name);
@@ -571,6 +574,7 @@ public:
     // static access
     bool get_bool(int index);
     int get_int(int index);
+    long get_long(int index);
     double get_float(int index);
     std::string get_string(int index);
     JsonArray get_array(int index);

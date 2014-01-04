@@ -215,6 +215,23 @@ int JsonObject::get_int(const std::string &name, const int fallback)
     return jsin->get_int();
 }
 
+long JsonObject::get_long(const std::string &name)
+{
+    int pos = verify_position(name);
+    jsin->seek(pos);
+    return jsin->get_long();
+}
+
+long JsonObject::get_long(const std::string &name, const long fallback)
+{
+    long pos = positions[name];
+    if (pos <= start) {
+        return fallback;
+    }
+    jsin->seek(pos);
+    return jsin->get_long();
+}
+
 double JsonObject::get_float(const std::string &name)
 {
     int pos = verify_position(name);
@@ -520,6 +537,13 @@ int JsonArray::get_int(int i)
     verify_index(i);
     jsin->seek(positions[i]);
     return jsin->get_int();
+}
+
+long JsonArray::get_long(int i)
+{
+    verify_index(i);
+    jsin->seek(positions[i]);
+    return jsin->get_long();
 }
 
 double JsonArray::get_float(int i)
@@ -970,6 +994,13 @@ int JsonIn::get_int()
     // get float value and then convert to int,
     // because "1.359e3" is technically a valid integer.
     return (int)get_float();
+}
+
+long JsonIn::get_long()
+{
+    // get float value and then convert to int,
+    // because "1.359e3" is technically a valid integer.
+    return (long)get_float();
 }
 
 double JsonIn::get_float()
