@@ -565,6 +565,7 @@ public:
     // iterative access
     bool next_bool();
     int next_int();
+    long next_long();
     double next_float();
     std::string next_string();
     JsonArray next_array();

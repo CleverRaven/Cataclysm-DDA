@@ -489,6 +489,13 @@ int JsonArray::next_int()
     return jsin->get_int();
 }
 
+long JsonArray::next_long()
+{
+    verify_index(index);
+    jsin->seek(positions[index++]);
+    return jsin->get_long();
+}
+
 double JsonArray::next_float()
 {
     verify_index(index);
