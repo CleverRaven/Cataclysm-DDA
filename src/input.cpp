@@ -19,23 +19,23 @@ InputEvent get_input(int ch)
     switch(act)
     {
         case ACTION_MOVE_N:
-	    return DirectionN;
+            return DirectionN;
         case ACTION_MOVE_NE:
-	    return DirectionNE;
+            return DirectionNE;
         case ACTION_MOVE_E:
-	    return DirectionE;
+            return DirectionE;
         case ACTION_MOVE_SE:
-	    return DirectionSE;
+            return DirectionSE;
         case ACTION_MOVE_S:
-	    return DirectionS;
+            return DirectionS;
         case ACTION_MOVE_SW:
-	    return DirectionSW;
+            return DirectionSW;
         case ACTION_MOVE_W:
-	    return DirectionW;
+            return DirectionW;
         case ACTION_MOVE_NW:
-	    return DirectionNW;
+            return DirectionNW;
         default:
-	    break;
+            break;
     }
 
     switch(ch)
