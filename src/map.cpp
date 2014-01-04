@@ -2642,191 +2642,211 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
 std::list<item> map::use_amount(const point origin, const int range, const itype_id type,
                                 const int amount, const bool use_container)
 {
- std::list<item> ret;
- int quantity = amount;
- for (int radius = 0; radius <= range && quantity > 0; radius++) {
-  for (int x = origin.x - radius; x <= origin.x + radius; x++) {
-   for (int y = origin.y - radius; y <= origin.y + radius; y++) {
-    if (rl_dist(origin.x, origin.y, x, y) >= radius) {
-     for (int n = 0; n < i_at(x, y).size() && quantity > 0; n++) {
-      item* curit = &(i_at(x, y)[n]);
-      bool used_contents = false;
-      for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
-       if (curit->contents[m].type->id == type) {
-        ret.push_back(curit->contents[m]);
-        quantity--;
-        curit->contents.erase(curit->contents.begin() + m);
-        m--;
-        used_contents = true;
-       }
-      }
-      if (use_container && used_contents) {
-       i_rem(x, y, n);
-       n--;
-      } else if (curit->type->id == type && quantity > 0 && curit->contents.size() == 0) {
-       ret.push_back(*curit);
-       quantity--;
-       i_rem(x, y, n);
-       n--;
-      }
-     }
+    std::list<item> ret;
+    int quantity = amount;
+    for (int radius = 0; radius <= range && quantity > 0; radius++) {
+        for (int x = origin.x - radius; x <= origin.x + radius; x++) {
+            for (int y = origin.y - radius; y <= origin.y + radius; y++) {
+                if(g->m.accessable_items( origin.x, origin.y, x, y, range) ) {
+                    continue;
+                }
+                if (rl_dist(origin.x, origin.y, x, y) >= radius) {
+                    for (int n = 0; n < i_at(x, y).size() && quantity > 0; n++) {
+                        item* curit = &(i_at(x, y)[n]);
+                        bool used_contents = false;
+                        for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
+                            if (curit->contents[m].type->id == type) {
+                                ret.push_back(curit->contents[m]);
+                                quantity--;
+                                curit->contents.erase(curit->contents.begin() + m);
+                                m--;
+                                used_contents = true;
+                            }
+                        }
+                        if (use_container && used_contents) {
+                            i_rem(x, y, n);
+                            n--;
+                        } else if (curit->type->id == type && quantity > 0 &&
+                                   curit->contents.size() == 0) {
+                            ret.push_back(*curit);
+                            quantity--;
+                            i_rem(x, y, n);
+                            n--;
+                        }
+                    }
+                }
+            }
+        }
     }
-   }
-  }
- }
- return ret;
+    return ret;
 }
 
-std::list<item> map::use_charges(const point origin, const int range, const itype_id type, const int amount)
+std::list<item> map::use_charges(const point origin, const int range,
+                                 const itype_id type, const int amount)
 {
- std::list<item> ret;
- int quantity = amount;
- for (int radius = 0; radius <= range && quantity > 0; radius++) {
-  for (int x = origin.x - radius; x <= origin.x + radius; x++) {
-   for (int y = origin.y - radius; y <= origin.y + radius; y++) {
-    if (rl_dist(origin.x, origin.y, x, y) >= radius) {
-      int vpart = -1;
-      vehicle *veh = veh_at(x, y, vpart);
+    std::list<item> ret;
+    int quantity = amount;
+    for (int radius = 0; radius <= range && quantity > 0; radius++) {
+        for (int x = origin.x - radius; x <= origin.x + radius; x++) {
+            for (int y = origin.y - radius; y <= origin.y + radius; y++) {
+                if(g->m.accessable_items( origin.x, origin.y, x, y, range) ) {
+                    continue;
+                }
+                if (rl_dist(origin.x, origin.y, x, y) >= radius) {
+                    int vpart = -1;
+                    vehicle *veh = veh_at(x, y, vpart);
 
-      if (veh) { // check if a vehicle part is present to provide water/power
-        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
-        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
-        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
-        const int forgepart = veh->part_with_feature(vpart, "FORGE");
-        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
+                    if (veh) { // check if a vehicle part is present to provide water/power
+                        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+                        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
+                        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
+                        const int forgepart = veh->part_with_feature(vpart, "FORGE");
+                        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
 
-        if (kpart >= 0) { // we have a kitchen, now to see what to drain
-          ammotype ftype = "NULL";
+                        if (kpart >= 0) { // we have a kitchen, now to see what to drain
+                            ammotype ftype = "NULL";
 
-          if (type == "water_clean")
-            ftype = "water";
-          else if (type == "hotplate")
-            ftype = "battery";
+                            if (type == "water_clean") {
+                                ftype = "water";
+                            } else if (type == "hotplate") {
+                                ftype = "battery";
+                            }
 
-          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
-          tmp.charges = veh->drain(ftype, quantity);
-          quantity -= tmp.charges;
-          ret.push_back(tmp);
+                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            tmp.charges = veh->drain(ftype, quantity);
+                            quantity -= tmp.charges;
+                            ret.push_back(tmp);
 
-          if (quantity == 0)
-            return ret;
-        }
+                            if (quantity == 0) {
+                                return ret;
+                            }
+                        }
 
-        if (weldpart >= 0) { // we have a weldrig, now to see what to drain
-          ammotype ftype = "NULL";
+                        if (weldpart >= 0) { // we have a weldrig, now to see what to drain
+                            ammotype ftype = "NULL";
 
-          if (type == "welder")
-            ftype = "battery";
-          else if (type == "soldering_iron")
-            ftype = "battery";
+                            if (type == "welder") {
+                                ftype = "battery";
+                            } else if (type == "soldering_iron") {
+                                ftype = "battery";
+                            }
 
-          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
-          tmp.charges = veh->drain(ftype, quantity);
-          quantity -= tmp.charges;
-          ret.push_back(tmp);
+                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            tmp.charges = veh->drain(ftype, quantity);
+                            quantity -= tmp.charges;
+                            ret.push_back(tmp);
 
-          if (quantity == 0)
-            return ret;
-        }
+                            if (quantity == 0) {
+                                return ret;
+                            }
+                        }
 
-        if (craftpart >= 0) { // we have a craftrig, now to see what to drain
-          ammotype ftype = "NULL";
+                        if (craftpart >= 0) { // we have a craftrig, now to see what to drain
+                            ammotype ftype = "NULL";
 
-          if (type == "press")
-            ftype = "battery";
-          else if (type == "vac_sealer")
-            ftype = "battery";
-          else if (type == "dehydrator")
-            ftype = "battery";
+                            if (type == "press") {
+                                ftype = "battery";
+                            } else if (type == "vac_sealer") {
+                                ftype = "battery";
+                            } else if (type == "dehydrator") {
+                                ftype = "battery";
+                            }
 
-          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
-          tmp.charges = veh->drain(ftype, quantity);
-          quantity -= tmp.charges;
-          ret.push_back(tmp);
+                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            tmp.charges = veh->drain(ftype, quantity);
+                            quantity -= tmp.charges;
+                            ret.push_back(tmp);
 
-          if (quantity == 0)
-            return ret;
-        }
+                            if (quantity == 0) {
+                                return ret;
+                            }
+                        }
 
-        if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
-          ammotype ftype = "NULL";
+                        if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
+                            ammotype ftype = "NULL";
 
-          if (type == "forge")
-            ftype = "battery";
+                            if (type == "forge") {
+                                ftype = "battery";
+                            }
 
-          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
-          tmp.charges = veh->drain(ftype, quantity);
-          quantity -= tmp.charges;
-          ret.push_back(tmp);
+                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            tmp.charges = veh->drain(ftype, quantity);
+                            quantity -= tmp.charges;
+                            ret.push_back(tmp);
 
-          if (quantity == 0)
-            return ret;
-        }
+                            if (quantity == 0) {
+                                return ret;
+                            }
+                        }
 
-        if (chempart >= 0) { // we have a chem_lab, now to see what to drain
-          ammotype ftype = "NULL";
+                        if (chempart >= 0) { // we have a chem_lab, now to see what to drain
+                            ammotype ftype = "NULL";
 
-          if (type == "chemistry_set")
-            ftype = "battery";
-          else if (type == "hotplate")
-            ftype = "battery";
+                            if (type == "chemistry_set") {
+                                ftype = "battery";
+                            } else if (type == "hotplate") {
+                                ftype = "battery";
+                            }
 
-          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
-          tmp.charges = veh->drain(ftype, quantity);
-          quantity -= tmp.charges;
-          ret.push_back(tmp);
+                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            tmp.charges = veh->drain(ftype, quantity);
+                            quantity -= tmp.charges;
+                            ret.push_back(tmp);
 
-          if (quantity == 0)
-            return ret;
-        }
-      }
+                            if (quantity == 0) {
+                                return ret;
+                            }
+                        }
+                    }
 
-     for (int n = 0; n < i_at(x, y).size(); n++) {
-      item* curit = &(i_at(x, y)[n]);
+                    for (int n = 0; n < i_at(x, y).size(); n++) {
+                        item* curit = &(i_at(x, y)[n]);
 // Check contents first
-      for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
-       if (curit->contents[m].type->id == type) {
-        if (curit->contents[m].charges <= quantity) {
-         ret.push_back(curit->contents[m]);
-         quantity -= curit->contents[m].charges;
-         if (curit->contents[m].destroyed_at_zero_charges()) {
-          curit->contents.erase(curit->contents.begin() + m);
-          m--;
-         } else
-          curit->contents[m].charges = 0;
-        } else {
-         item tmp = curit->contents[m];
-         tmp.charges = quantity;
-         ret.push_back(tmp);
-         curit->contents[m].charges -= quantity;
-         return ret;
-        }
-       }
-      }
+                        for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
+                            if (curit->contents[m].type->id == type) {
+                                if (curit->contents[m].charges <= quantity) {
+                                    ret.push_back(curit->contents[m]);
+                                    quantity -= curit->contents[m].charges;
+                                    if (curit->contents[m].destroyed_at_zero_charges()) {
+                                        curit->contents.erase(curit->contents.begin() + m);
+                                        m--;
+                                    } else {
+                                        curit->contents[m].charges = 0;
+                                    }
+                                } else {
+                                    item tmp = curit->contents[m];
+                                    tmp.charges = quantity;
+                                    ret.push_back(tmp);
+                                    curit->contents[m].charges -= quantity;
+                                    return ret;
+                                }
+                            }
+                        }
 // Now check the actual item
-      if (curit->type->id == type) {
-       if (curit->charges <= quantity) {
-        ret.push_back(*curit);
-        quantity -= curit->charges;
-        if (curit->destroyed_at_zero_charges()) {
-         i_rem(x, y, n);
-         n--;
-        } else
-         curit->charges = 0;
-       } else {
-        item tmp = *curit;
-        tmp.charges = quantity;
-        ret.push_back(tmp);
-        curit->charges -= quantity;
-        return ret;
-       }
-      }
-     }
+                        if (curit->type->id == type) {
+                            if (curit->charges <= quantity) {
+                                ret.push_back(*curit);
+                                quantity -= curit->charges;
+                                if (curit->destroyed_at_zero_charges()) {
+                                    i_rem(x, y, n);
+                                    n--;
+                                } else {
+                                    curit->charges = 0;
+                                }
+                            } else {
+                                item tmp = *curit;
+                                tmp.charges = quantity;
+                                ret.push_back(tmp);
+                                curit->charges -= quantity;
+                                return ret;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-   }
-  }
- }
- return ret;
+    return ret;
 }
 
 std::string map::trap_get(const int x, const int y) const {

@@ -1422,6 +1422,9 @@ item consume_vpart_item (std::string vpid)
     const itype_id itid = vehicle_part_types[vpid].item;
     for (int x = g->u.posx - PICKUP_RANGE; x <= g->u.posx + PICKUP_RANGE; x++) {
         for (int y = g->u.posy - PICKUP_RANGE; y <= g->u.posy + PICKUP_RANGE; y++) {
+            if(g->m.accessable_items(g->u.posx, g->u.posy, x, y, PICKUP_RANGE)) {
+                continue;
+            }
             for(int i = 0; i < g->m.i_at(x, y).size(); i++) {
                 item *ith_item = &(g->m.i_at(x, y)[i]);
                 if (ith_item->type->id == itid) {
