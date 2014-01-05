@@ -129,7 +129,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Guaranteed to make you run faster and jump higher!",
+        "description" : "Some athletic sneakers. Guaranteed to make you run faster and jump higher!",
         "price" : 100,
         "material" : ["cotton", "leather"],
         "volume" : 6,
@@ -153,7 +153,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Sport shoes with hard undersides, and studs on the bottom designed to dig into the grass.",
+        "description" : "These are sport shoes with hard undersides, and studs on the bottom designed to dig into the grass.",
         "price" : 150,
         "material" : ["cotton", "leather"],
         "volume": 6,
@@ -177,7 +177,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Heavy plastic armor for your upper torso. Normally worn by football players.",
+        "description" : "This is heavy plastic armor worn on your upper torso. It's normally worn by football players. Now you can become the bucking bronco of tackles this season.",
         "price" : 180,
         "material" : ["plastic", "cotton"],
         "volume" : 28,
@@ -200,7 +200,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A heavy plastic helmet normally worn by football players.",
+        "description" : "A heavy plastic helmet normally worn by football players. Now you can become the bucking bronco of tackles this season.",
         "price" : 100,
         "material" : ["plastic", "null"],
         "volume" : 9,
@@ -224,7 +224,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Tough leather boots. Very durable.",
+        "description" : "A pair of tough leather boots. They are designed to be very durable.",
         "price" : 120,
         "material" : ["leather", "null"],
         "volume" : 10,
@@ -274,7 +274,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Boots lined with fur for warmth.",
+        "description" : "This are boots lined internally with fur for warmth.",
         "price" : 120,
         "material" : ["leather", "fur"],
         "volume" : 18,
@@ -299,7 +299,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Leather boots with a steel toe. Extremely durable.",
+        "description" : "A pair of leather boots with steel-shod toes. They are extremely durable.",
         "price" : 135,
         "material" : ["leather", "steel"],
         "volume" : 12,
@@ -324,7 +324,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Modern reinforced tactical combat boots. Very durable.",
+        "description" : "A pair of modern, reinforced tactical combat boots. They are very durable, and designed to protect your feet without inhibiting mobility.",
         "price" : 180,
         "material" : ["kevlar", "leather"],
         "volume" : 8,
@@ -349,7 +349,11 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A tough, yet light pair of leather boots. They are very durable and comfortable.",
+=======
         "description" : "Tough yet light leather boots. Durable and comfortable.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "price" : 160,
         "material" : ["leather", "plastic"],
         "volume" : 8,
@@ -374,7 +378,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Cumbersome boots designed for warmth.",
+        "description" : "These cumbersome boots are designed for warmth in cold conditions.",
         "price" : 140,
         "material" : ["wool", "plastic"],
         "volume" : 22,
@@ -424,7 +428,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Simple shoes made from animal pelts.",
+        "description" : "These are simple shoes made from animal pelts.",
         "price" : 80,
         "material" : ["fur", "leather"],
         "volume" : 2,
@@ -448,7 +452,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Simple sandals. Very difficult to run in.",
+        "description" : "A simple pair of sandals. They are very difficult to run in, but would be good to wear at the beach.",
         "price" : 25,
         "material" : ["plastic", "null"],
         "volume" : 1,
@@ -544,7 +548,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Fancy patent leather shoes. Not designed for running in.",
+        "description" : "A fancy patent leather shoes. They are not designed for running in.",
         "price" : 45,
         "material" : ["leather", "null"],
         "volume" : 6,
@@ -568,7 +572,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A pair of high heels. Difficult to even walk in.",
+        "description" : "A pair of high heels. They are difficult to even walk in.",
         "price" : 50,
         "material" : ["leather", "null"],
         "volume" : 3,
@@ -592,7 +596,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Boots made from the exoskeletons of insects. Light and durable.",
+        "description" : "A boots made from the exoskeletons of insects. They are light and durable.",
         "price" : 135,
         "material" : ["chitin", "null"],
         "volume" : 17,
@@ -617,7 +621,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Leather boots armored with reinforcements made from bone. Light and strong.",
+        "description" : "A leather boots, armored with reinforcements made from bone. They are light and strong.",
         "price" : 135,
         "material" : ["bone", "leather"],
         "volume" : 17,
@@ -642,7 +646,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Thick leather boots made specifically to protect the feet. Light and tough.",
+        "description" : "A thick leather boots made specifically to protect the feet. They are light and tough.",
         "price" : 125,
         "material" : ["leather", "null"],
         "volume" : 8,
@@ -811,7 +815,7 @@
         "to_hit" : 1,
         "storage" : 4,
         "symbol" : "[",
-        "description" : "A pair of khaki pants. Slightly warmer than jeans.",
+        "description" : "A pair of khaki pants. They are slightly warmer than jeans.",
         "price" : 185,
         "material" : ["cotton", "null"],
         "volume" : 8,
@@ -835,7 +839,7 @@
         "to_hit" : 1,
         "storage" : 2,
         "symbol" : "[",
-        "description" : "A pair of black leather pants. Very tough, but cumbersome and without much storage.",
+        "description" : "A pair of black leather pants. They are very tough, but cumbersome and provides little storage.",
         "price" : 210,
         "material" : ["leather", "null"],
         "volume" : 10,
@@ -859,7 +863,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A pair of black leather chaps. Very tough, and light, but doesn't offer any storage.",
+        "description" : "A pair of black leather chaps. Very tough, and light, but they don't offer any storage.",
         "price" : 210,
         "material" : ["leather", "null"],
         "volume" : 5,
@@ -883,7 +887,7 @@
         "to_hit" : 0,
         "storage" : 12,
         "symbol" : "[",
-        "description" : "A pair of pants lined with pockets, offering lots of storage.",
+        "description" : "A pair of pants lined with many pockets, offering lots of storage.",
         "price" : 280,
         "material" : ["cotton", "null"],
         "volume" : 9,
@@ -907,7 +911,7 @@
         "to_hit" : 0,
         "storage" : 14,
         "symbol" : "[",
-        "description" : "A tough pair of pants lined with pockets. Favored by the military.",
+        "description" : "A tough pair of pants lined with pockets. The strength, light material, and design indicate it's favored by the military.",
         "price" : 315,
         "material" : ["cotton", "plastic"],
         "volume" : 10,
@@ -931,7 +935,7 @@
         "to_hit" : 0,
         "storage" : 14,
         "symbol" : "[",
-        "description" : "A tough jacket with lots of pockets. Favored by the military.",
+        "description" : A tough jacket with lots of pockets. The strength, light material, and design indicate it's favored by the military.",
         "price" : 315,
         "material" : ["cotton", "plastic"],
         "volume" : 12,
@@ -1075,8 +1079,13 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "These are snug, soft cloth sleeves to keep your arms warm.",
+        "price" : 200,
+=======
         "description" : "A simple bra. For protecting those bits you don't want zombies to look at.",
         "price" : 60,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["cotton", "null"],
         "volume" : 1,
         "cutting" : 0,
@@ -1099,8 +1108,13 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "These are snug, soft cloth sleeves to keep your legs warm.",
+        "price" : 200,
+=======
         "description" : "A simple white undershirt. Worn beneath your regular clothes, it provides a little extra warmth.",
         "price" : 60,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["cotton", "null"],
         "volume" : 1,
         "cutting" : 0,
@@ -1123,10 +1137,17 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A short, breezy cotton skirt. It's easy to move in, but only has a single small pocket.",
+        "price" : 120,
+        "material" : ["cotton", "null"],
+        "volume" : 1,
+=======
         "description" : "A sturdy nylon bra to provide additional support during physical movement. Typically worn when exercising, it clings to the skin and is easy to wear.",
         "price" : 152,
         "material" : ["cotton", "plastic"],
         "volume" : 2,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 5,
         "phase" : "solid",
@@ -1147,10 +1168,17 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A thin, short-sleeved jumpsuit; similar to those worn by prisoners. It provides decent storage and is not very encumbering.",
+        "price" : 200,
+        "material" : ["cotton", "plastic"],
+        "volume" : 14,
+=======
         "description" : "Underwear designed to be worn by women. Preserves your modesty in desperate times.",
         "price" : 60,
         "material" : ["cotton", "null"],
         "volume" : 1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 5,
         "phase" : "solid",
@@ -1174,7 +1202,34 @@
         "description" : "Female underwear similar to men's boxer shorts but much more close fitting.",
         "price" : 100,
         "material" : ["cotton", "null"],
+<<<<<<< HEAD
+        "volume" : 48,
+        "cutting" : 0,
+        "warmth" : 50,
+        "phase" : "solid",
+        "enviromental_protection" : 2,
+        "encumbrance" : 3,
+        "bashing" : -3,
+        "coverage" : 100,
+        "material_thickness" : 7
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "clown_suit",
+        "name" : "clown suit",
+        "weight" : 1420,
+        "color" : "pink",
+        "covers" : ["LEGS", "TORSO", "ARMS"],
+        "to_hit" : -3,
+        "storage" : 16,
+        "symbol" : "[",
+        "description" : "A colorful and ridiculous costume fit for a clown. It provides decent storage.",
+        "price" : 20,
+        "material" : ["cotton", "plastic"],
+        "volume" : 23,
+=======
         "volume" : 1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 5,
         "phase" : "solid",
@@ -1195,10 +1250,17 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "These are gigantic shoes fit for a clown. They are incredibly difficult to walk in.",
+        "price" : 5,
+        "material" : ["leather", "null"],
+        "volume" : 14,
+=======
         "description" : "A pair of briefs. Comfortable underwear worn by men.",
         "price" : 60,
         "material" : ["cotton", "null"],
         "volume" : 1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 5,
         "phase" : "solid",
@@ -1219,10 +1281,17 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A suit of snug, black leather. It has no pockets, but does feature an abundance of unusually located zippers.",
+        "price" : 110,
+        "material" : ["leather", "null"],
+        "volume" : 13,
+=======
         "description" : "Men's boxer shorts. More fashionable than briefs and just as comfortable.",
         "price" : 100,
         "material" : ["cotton", "null"],
         "volume" : 1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 5,
         "phase" : "solid",
@@ -1243,10 +1312,17 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A tight fitting mask made of black leather. The eyes and mouth can be closed using zippers.",
+        "price" : 110,
+        "material" : ["leather", "null"],
+        "volume" : 4,
+=======
         "description" : "Snug, soft cloth sleeves to keep your arms warm.",
         "price" : 200,
         "material" : ["cotton", "null"],
         "volume" : 1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
@@ -1267,10 +1343,17 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A snug, black leather corset. It has no pockets, but its thick material provides good protection from harm.",
+        "price" : 110,
+        "material" : ["leather", "null"],
+        "volume" : 5,
+=======
         "description" : "Snug, soft cloth sleeves to keep your legs warm.",
         "price" : 200,
         "material" : ["cotton", "null"],
         "volume" : 2,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
@@ -1291,7 +1374,11 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A full-body neoprene wetsuit, designed for diving and other aquatic activities.",
+=======
         "description" : "Large, soft, snug cloth sleeves to keep your exotic anatomy warm.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "price" : 200,
         "material" : ["cotton", "null"],
         "volume" : 3,
@@ -1363,10 +1450,17 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A long-sleeved spring wetsuit with pink color details and cleavage-enhancing, hip-accentuating construction. It's not as protective as a full-body suit, but less oppressive and constricting.",
+        "price" : 200,
+        "material" : ["plastic", "null"],
+        "volume" : 25,
+=======
         "description" : "A very short leather skirt, clearly designed to look good, not be practical.",
         "price" : 120,
         "material" : ["leather", "null"],
         "volume" : 1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
@@ -1387,8 +1481,13 @@
         "to_hit" : 0,
         "storage" : 2,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A long cotton dress. Although comfortable to wear, it lacks any storage space.",
+        "price" : 180,
+=======
         "description" : "The French maid dress, blue with a frilly white apron.",
         "price" : 150,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["cotton", "null"],
         "volume" : 1,
         "cutting" : 0,
@@ -1435,10 +1534,17 @@
         "to_hit" : -3,
         "storage" : 8,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "This is leg and body armor made from the exoskeletons of insects. It's light and durable.",
+        "price" : 1200,
+        "material" : ["chitin", "null"],
+        "volume" : 70,
+=======
         "description" : "A thin, short-sleeved jumpsuit; similar to those worn by prisoners. Provides decent storage and is not very encumbering.",
         "price" : 200,
         "material" : ["cotton", "plastic"],
         "volume" : 14,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -1459,10 +1565,17 @@
         "to_hit" : -3,
         "storage" : 4,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "This is body armor consisting of a leather backing suit with bone reinforcement. It's light and strong.",
+        "price" : 1200,
+        "material" : ["bone", "leather"],
+        "volume" : 62,
+=======
         "description" : "A thin, short-sleeved and short-legged one-piece suit.  Judging by the odd tailoring and adjustment points....maybe you don't want to know who wore it. Provides nominal storage and is not very encumbering.",
         "price" : 200,
         "material" : ["cotton", "plastic"],
         "volume" : 20,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -1483,10 +1596,17 @@
         "to_hit" : -3,
         "storage" : 10,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "This is thick leather body armor. It's light and comfortable.",
+        "price" : 1000,
+        "material" : ["leather", "null"],
+        "volume" : 36,
+=======
         "description" : "A thin, short-sleeved jumpsuit updated for the transhuman who needs full-body clothing.  Provides some storage and adjustable to minimize encumbrance.",
         "price" : 200,
         "material" : ["cotton", "plastic"],
         "volume" : 20,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -1507,10 +1627,17 @@
         "to_hit" : -3,
         "storage" : 4,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "This is thick leather body armor that has been hardened via chemical treatment. It's light and strong.",
+        "price" : 1600,
+        "material" : ["leather", "null"],
+        "volume" : 38,
+=======
         "description" : "A full body fursuit in the form of an anthropomorphic wolf. It is quite encumbering and has little storage but is very warm.",
         "price" : 200,
         "material" : ["cotton", "null"],
         "volume" : 48,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 50,
         "phase" : "solid",
@@ -1530,10 +1657,17 @@
         "to_hit" : -3,
         "storage" : 16,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "This is thick body armor made from furs. It's warm and comfortable.",
+        "price" : 1000,
+        "material" : ["fur", "leather"],
+        "volume" : 40,
+=======
         "description" : "A colorful and ridiculous costume fit for a clown. Provides decent storage.",
         "price" : 20,
         "material" : ["cotton", "plastic"],
         "volume" : 23,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
@@ -1554,10 +1688,17 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "This is thick leather body armor that has been reinforced with strategically-placed metal plates. It's strong and comfortable.",
+        "price" : 1100,
+        "material" : ["leather", "iron"],
+        "volume" : 36,
+=======
         "description" : "Gigantic shoes fit for a clown. Incredibly difficult to walk in.",
         "price" : 5,
         "material" : ["leather", "null"],
         "volume" : 14,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
@@ -1578,10 +1719,17 @@
         "to_hit" : -3,
         "storage" : 4,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A thick leather body suit made for protection while riding motorcycles. It's light and very comfortable.",
+        "price" : 1200,
+        "material" : ["leather", "plastic"],
+        "volume" : 26,
+=======
         "description" : "A full-body costume in the form of an anthropomorphic dinosaur. It is quite encumbering and has little storage but is very warm.",
         "price" : 200,
         "material" : ["cotton", "null"],
         "volume" : 48,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 50,
         "phase" : "solid",
@@ -1601,10 +1749,17 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A finely tailored full-body cotton suit. It makes the apocalypse a truly gentle(wo)manly experience.",
+        "price" : 180,
+        "material" : ["cotton", "null"],
+        "volume" : 19,
+=======
         "description" : "A suit of snug, black leather. Has no pockets, but does feature an abundance of unusually located zippers.",
         "price" : 110,
         "material" : ["leather", "null"],
         "volume" : 13,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 30,
         "phase" : "solid",
@@ -1625,10 +1780,17 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A suave, full-body tuxedo. It makes the apocalypse feel a little more classy.",
+        "price" : 180,
+        "material" : ["cotton", "null"],
+        "volume" : 22,
+=======
         "description" : "A tight mask made of black leather. The eyes and mouth can be closed using zippers.",
         "price" : 110,
         "material" : ["leather", "null"],
         "volume" : 4,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 30,
         "phase" : "solid",
@@ -1673,10 +1835,17 @@
         "to_hit" : -3,
         "storage" : 4,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "An armored environmental protection suit. It's been custom-built from a cleansuit and body armor, so it provides excellent protection against both physical harm and ambient radiation.",
+        "price" : 1400,
+        "material" : ["kevlar", "plastic"],
+        "volume" : 36,
+=======
         "description" : "A full-body neoprene wetsuit.",
         "price" : 200,
         "material" : ["plastic", "null"],
         "volume" : 37,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 50,
         "phase" : "solid",
@@ -1697,8 +1866,13 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "An impermeable whole-body garment worn as protection against hazardous materials. Although very restrictive and fragile, wearing it will provide complete protection against ambient radiation and some other environmental hazards.",
+        "price" : 4000,
+=======
         "description" : "A neoprene hood, commonly worn by divers.",
         "price" : 100,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["plastic", "null"],
         "volume" : 3,
         "cutting" : 0,
@@ -1745,10 +1919,17 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A custom-built, reinforced gas mask that covers the face and eyes. It provides excellent protection from smoke, teargas, and shrapnel.",
+        "price" : 240,
+        "material" : ["kevlar", "plastic"],
+        "volume" : 5,
+=======
         "description" : "A pair of very flexible neoprene-silicon rubber gloves, suitable for underwater use.",
         "price" : 100,
         "material" : ["plastic", "null"],
         "volume" : 1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 30,
         "phase" : "solid",
@@ -1769,7 +1950,11 @@
         "to_hit" : -3,
         "storage" : 4,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A custom-built light vest covered with pockets and pouches. It's carefully crafted to be durable and comfortable to wear.",
+=======
         "description" : "A long-sleeved spring wetsuit with pink color details and cleavage-enhancing, hip-accentuating construction. Not as protective as a full-body suit, but also less oppressive.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "price" : 200,
         "material" : ["plastic", "null"],
         "volume" : 25,
@@ -1913,8 +2098,13 @@
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A white button-down shirt with long sleeves. It looks professional!",
+        "price" : 115,
+=======
         "description" : "A beautiful white wedding dress. What good will it be now?",
         "price" : 1000,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["cotton", "null"],
         "volume" : 72,
         "cutting" : 0,
@@ -1961,10 +2151,17 @@
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A sleeveless cotton shirt with camouflage dye. It's very easy to move in.",
+        "price" : 75,
+        "material" : ["cotton", "null"],
+        "volume" : 1,
+=======
         "description" : "Body armor consisting of a leather backing suit with bone reinforcement. Light and strong.",
         "price" : 1200,
         "material" : ["bone", "leather"],
         "volume" : 62,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
@@ -1977,6 +2174,39 @@
     },
     {
         "type" : "ARMOR",
+<<<<<<< HEAD
+        "id" : "tank_top",
+        "name" : "tank top",
+        "weight" : 78,
+        "color" : "light_gray",
+        "covers" : ["TORSO"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A sleeveless cotton shirt. It's very easy to move in.",
+        "price" : 75,
+        "material" : ["cotton", "null"],
+        "volume" : 1,
+        "cutting" : 0,
+        "warmth" : 0,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "encumbrance" : 0,
+        "bashing" : -5,
+        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
+        "coverage" : 60,
+        "material_thickness" : 1
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "bikini_top",
+        "name" : "bikini top",
+        "weight" : 32,
+        "color" : "light_red",
+        "covers" : ["TORSO"],
+        "to_hit" : 0,
+        "storage" : 0,
+=======
         "id" : "armor_larmor",
         "name" : "leather body armor",
         "weight" : 1928,
@@ -1984,6 +2214,7 @@
         "covers" : ["LEGS", "TORSO", "ARMS"],
         "to_hit" : -5,
         "storage" : 8,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "symbol" : "[",
         "description" : "Thick leather body armor. Light and comfortable.",
         "price" : 1000,
@@ -2129,8 +2360,13 @@
         "to_hit" : -5,
         "storage" : 8,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A thick cotton shirt. It provides warmth and a bit of padding.",
+        "price" : 110,
+=======
         "description" : "A full-body tuxedo. Makes the apocalypse feel a little more classy.",
         "price" : 180,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["cotton", "null"],
         "volume" : 22,
         "cutting" : 0,
@@ -2153,10 +2389,17 @@
         "to_hit" : 0,
         "storage" : 6,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A wool shirt. It provides some warmth.",
+        "price" : 105,
+        "material" : ["wool", "null"],
+        "volume" : 12,
+=======
         "description" : "An elegant waistcoat. Ideal for those occasions when wearing only a shirt would be too casual and a suit would be just overdoing it.",
         "price" : 200,
         "material" : ["cotton", "null"],
         "volume" : 4,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 5,
         "phase" : "solid",
@@ -2249,10 +2492,17 @@
         "to_hit" : -8,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "An athletic under-shirt that clings to your chest to maintain body temperature.",
+        "price" : 200,
+        "material" : ["cotton", "plastic"],
+        "volume" : 1,
+=======
         "description" : "An armored, impermeable whole-body garment worn as protection against danger of all sorts, functioning as body armor as well as protecting from nuclear, biological, and chemical hazards.",
         "price" : 4000,
         "material" : ["kevlar", "plastic"],
         "volume" : 80,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 50,
         "phase" : "solid",
@@ -2297,10 +2547,17 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A thin cotton jacket with a hood. It's good for brisk weather.",
+        "price" : 105,
+        "material" : ["cotton", "null"],
+        "volume" : 9,
+=======
         "description" : "A custom-built, reinforced gas mask that covers the face and eyes regardless of your state of mutation. Provides excellent protection from smoke, teargas, and shrapnel.",
         "price" : 240,
         "material" : ["kevlar", "plastic"],
         "volume" : 5,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -2321,10 +2578,17 @@
         "to_hit" : 0,
         "storage" : 24,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A jacket made from denim. It provides decent protection from cuts.",
+        "price" : 120,
+        "material" : ["cotton", "null"],
+        "volume" : 13,
+=======
         "description" : "A custom-built light harness covered with pockets and pouches. Durable and carefully crafted to be comfortable to wear.",
         "price" : 200,
         "material" : ["leather", "cotton"],
         "volume" : 7,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
@@ -2345,10 +2609,17 @@
         "to_hit" : 0,
         "storage" : 36,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A jacket made from flannel style denim, popular with forestry and grunge types. It provides decent protection from cuts.",
+        "price" : 120,
+        "material" : ["cotton", "null"],
+        "volume" : 17,
+=======
         "description" : "A custom-built backpack with extra pockets. Durable and carefully crafted to be comfortable to wear.",
         "price" : 240,
         "material" : ["leather", "cotton"],
         "volume" : 8,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
@@ -2369,10 +2640,17 @@
         "to_hit" : 0,
         "storage" : 64,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A professional-looking wool blazer. It's quite cumbersome.",
+        "price" : 120,
+        "material" : ["wool", "null"],
+        "volume" : 14,
+=======
         "description" : "A custom-built heavy backpack with extra pockets. Durable and carefully crafted to be comfortable to wear.",
         "price" : 240,
         "material" : ["leather", "cotton"],
         "volume" : 8,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
@@ -2393,10 +2671,17 @@
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A jacket made from thick leather. It's cumbersome, but offers excellent protection from cuts.",
+        "price" : 150,
+        "material" : ["leather", "null"],
+        "volume" : 18,
+=======
         "description" : "An extremely heavy ornamental suit of armor.",
         "price" : 700,
         "material" : ["iron", "null"],
         "volume" : 120,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
@@ -2441,10 +2726,17 @@
         "to_hit" : 0,
         "storage" : 4,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A heavy bulletproof vest. It provides excellent protection from cuts and bullets.",
+        "price" : 800,
+        "material" : ["kevlar", "null"],
+        "volume" : 24,
+=======
         "description" : "A light blue button down shirt with a couple of pockets in front and the US postal service logo embroidered on it.",
         "price" : 80,
         "material" : ["cotton", "null"],
         "volume" : 2,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 5,
         "phase" : "solid",
@@ -2465,7 +2757,11 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A plastic coat with two very large pockets. It provides protection from rain and some protection from acid rain.",
+=======
         "description" : "A long-sleeved cotton shirt.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "price" : 100,
         "material" : ["cotton", "null"],
         "volume" : 3,
@@ -2489,10 +2785,17 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A waterproof hood made to be worn in bad weather. It provides extra protection from rain.",
+        "price" : 100,
+        "material" : ["plastic", "cotton"],
+        "volume" : 3,
+=======
         "description" : "A t-shirt embroidered with the pattern of an American flag.",
         "price" : 300,
         "material" : ["cotton", "null"],
         "volume" : 2,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
@@ -2513,10 +2816,17 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A waterproof plastic fishing waders with a single large front pocket.",
+        "price" : 100,
+        "material" : ["plastic", "null"],
+        "volume" : 38,
+=======
         "description" : "A short-sleeved cotton shirt, slightly thicker than a t-shirt.",
         "price" : 95,
         "material" : ["cotton", "null"],
         "volume" : 3,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -2537,10 +2847,17 @@
         "to_hit" : 0,
         "storage" : 1,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A simple wool garment worn over the torso. It provides a bit of protection.",
+        "price" : 120,
+        "material" : ["wool", "null"],
+        "volume" : 5,
+=======
         "description" : "A white button-down shirt with long sleeves. Looks professional!",
         "price" : 115,
         "material" : ["cotton", "null"],
         "volume" : 3,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
@@ -2561,8 +2878,13 @@
         "to_hit" : 0,
         "storage" : 2,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A thin cotton trenchcoat, lined with pockets. It's great for storage.",
+        "price" : 225,
+=======
         "description" : "A tan button-down shirt with long sleeves.",
         "price" : 115,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["cotton", "null"],
         "volume" : 3,
         "cutting" : 0,
@@ -2601,6 +2923,44 @@
     },
     {
         "type" : "ARMOR",
+<<<<<<< HEAD
+        "id" : "trenchcoat_leather",
+        "name" : "leather trenchcoat",
+        "weight" : 1967,
+        "color" : "brown",
+        "covers" : ["TORSO", "ARMS"],
+        "to_hit" : -1,
+        "storage" : 24,
+        "symbol" : "[",
+        "description" : "A thick leather trenchcoat, lined with pockets. It's great for storage.",
+        "price" : 225,
+        "material" : ["leather", "null"],
+        "volume" : 21,
+        "cutting" : 0,
+        "warmth" : 30,
+        "phase" : "solid",
+        "enviromental_protection" : 1,
+        "encumbrance" : 2,
+        "bashing" : -5,
+        "flags" : ["VARSIZE", "POCKETS"],
+        "coverage" : 90,
+        "material_thickness" : 3
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "trenchcoat_fur",
+        "name" : "fur trenchcoat",
+        "weight" : 1750,
+        "color" : "brown",
+        "covers" : ["TORSO", "ARMS"],
+        "to_hit" : -1,
+        "storage" : 24,
+        "symbol" : "[",
+        "description" : "A thick fur trenchcoat, lined with pockets. It's great for storage.",
+        "price" : 225,
+        "material" : ["fur", "null"],
+        "volume" : 29,
+=======
         "id" : "tank_top",
         "name" : "tank top",
         "weight" : 78,
@@ -2613,6 +2973,7 @@
         "price" : 75,
         "material" : ["cotton", "null"],
         "volume" : 1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
@@ -2633,8 +2994,13 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A padded coat with deep pockets and a hood. It's very warm.",
+        "price" : 160,
+=======
         "description" : "A simple bikini top.",
         "price" : 75,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["cotton", "null"],
         "volume" : 0,
         "cutting" : 0,
@@ -2657,10 +3023,17 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A fur coat with a couple small pockets. It's extremely warm.",
+        "price" : 550,
+        "material" : ["fur", "leather"],
+        "volume" : 23,
+=======
         "description" : "A simple leather bikini top.",
         "price" : 75,
         "material" : ["leather", "null"],
         "volume" : 0,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 5,
         "phase" : "solid",
@@ -2681,10 +3054,17 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A heavy wool coat. It's cumbersome, but warm and with deep pockets.",
+        "price" : 180,
+        "material" : ["wool", "null"],
+        "volume" : 12,
+=======
         "description" : "A simple fur bikini top.",
         "price" : 75,
         "material" : ["fur", "null"],
         "volume" : 0,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
@@ -2729,8 +3109,13 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A vest made from thick leather. It offers excellent protection from cuts.",
+        "price" : 100,
+=======
         "description" : "A simple pair of leather short shorts.",
         "price" : 75,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["leather", "null"],
         "volume" : 0,
         "cutting" : 0,
@@ -2753,10 +3138,17 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A common belt with pockets widely used by handymen and electricians.",
+        "price" : 200,
+        "material" : ["leather", "null"],
+        "volume" : 7,
+=======
         "description" : "A simple pair of fur short shorts.",
         "price" : 75,
         "material" : ["fur", "null"],
         "volume" : 0,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
@@ -2777,8 +3169,13 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A light vest covered in webbing, pockets and straps. The strength, light material, and design indicate it's favored by the military.",
+        "price" : 200,
+=======
         "description" : "Rags stitched together and tied into a makeshift loincloth. Covers your modesty, but not much else.",
         "price" : 25,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["cotton", "null"],
         "volume" : 1,
         "cutting" : 0,
@@ -2920,10 +3317,17 @@
         "to_hit" : 0,
         "storage" : 9,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A pair of arm guards made from the exoskeletons of insects. They're light and durable.",
+        "price" : 200,
+        "material" : ["chitin", "null"],
+        "volume" : 10,
+=======
         "description" : "A sweatshirt with a hood and a \"kangaroo pocket\" in front for storage.",
         "price" : 130,
         "material" : ["cotton", "null"],
         "volume" : 17,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 30,
         "phase" : "solid",
@@ -2944,10 +3348,17 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A pair of arm guards hammered out from metal. They're a very stylish example of post-apocalypse armor.",
+        "price" : 400,
+        "material" : ["iron", "null"],
+        "volume" : 11,
+=======
         "description" : "A shirt made of thick material imprinted with the name and logo of a sports team.",
         "price" : 130,
         "material" : ["cotton", "null"],
         "volume" : 15,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 25,
         "phase" : "solid",
@@ -2968,9 +3379,15 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A pair of thin cotton gloves. They're often used as a liner beneath other gloves.",
+        "price" : 100,
+        "material" : ["cotton", "null"],
+=======
         "description" : "Nylon sportswear that clings to your chest and maintains body temperature.",
         "price" : 200,
         "material" : ["cotton", "plastic"],
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "volume" : 1,
         "cutting" : 0,
         "warmth" : 20,
@@ -3064,10 +3481,17 @@
         "to_hit" : 0,
         "storage" : 4,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A thick pair of wool gloves. They are cumbersome, but warm.",
+        "price" : 50,
+        "material" : ["wool", "null"],
+        "volume" : 1,
+=======
         "description" : "A thin cotton jacket with a hood. Good for brisk weather.",
         "price" : 105,
         "material" : ["cotton", "null"],
         "volume" : 9,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 25,
         "phase" : "solid",
@@ -3088,8 +3512,13 @@
         "to_hit" : 0,
         "storage" : 3,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A pair of padded gloves. They are cumbersome, but warm.",
+        "price" : 65,
+=======
         "description" : "A jacket made from denim. Provides decent protection from cuts.",
         "price" : 120,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["cotton", "null"],
         "volume" : 13,
         "cutting" : 0,
@@ -3136,7 +3565,11 @@
         "to_hit" : 0,
         "storage" : 2,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A pair of reinforced kevlar tactical gloves. This type of glove is commonly used by police and military units.",
+=======
         "description" : "A professional-looking wool blazer. Quite cumbersome.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "price" : 120,
         "material" : ["wool", "null"],
         "volume" : 14,
@@ -3304,10 +3737,17 @@
         "to_hit" : -3,
         "storage" : 4,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "Gauntlets made from the exoskeletons of insects. A very light and durable.",
+        "price" : 380,
+        "material" : ["chitin", "null"],
+        "volume" : 7,
+=======
         "description" : "A Modular Bullet Resistant Vest. Ceramic plates have been inserted to improve it's protection. The ceramic plates cannot be repaired, only replaced.",
         "price" : 1200,
         "material" : ["nofixkevlar", "ceramic"],
         "volume" : 24,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -3328,10 +3768,17 @@
         "to_hit" : -3,
         "storage" : 4,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "These are leather gauntlets with incorporating bone reinforcement. They are very light and strong.",
+        "price" : 380,
+        "material" : ["bone", "leather"],
+        "volume" : 5,
+=======
         "description" : "A Modular Bullet Resistant Vest. Kevlar plates have been inserted to improve its protection.",
         "price" : 1200,
         "material" : ["kevlar", "null"],
         "volume" : 24,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -3352,10 +3799,17 @@
         "to_hit" : -3,
         "storage" : 4,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "Heavily padded fingerless leather gloves. Very flexible and comfortable.",
+        "price" : 340,
+        "material" : ["leather", "null"],
+        "volume" : 3,
+=======
         "description" : "A Modular Bullet Resistant Vest. Hardened Steel plates have been inserted, greatly increasing it's protection at the cost of a great deal of weight and loss of flexibility.",
         "price" : 1200,
         "material" : ["kevlar", "hardsteel"],
         "volume" : 24,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -3376,10 +3830,17 @@
         "to_hit" : 0,
         "storage" : 7,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A simple piece of cotton that straps over the mouth. It provides a small amount of protection from air-borne pathogens and dust.",
+        "price" : 20,
+        "material" : ["cotton", "iron"],
+        "volume" : 0,
+=======
         "description" : "A plastic coat with a hood and two very large pockets. Provides protection from rain and some protection from acid rain.",
         "price" : 100,
         "material" : ["plastic", "cotton"],
         "volume" : 7,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
@@ -3400,10 +3861,17 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A cotton bandana, folded and tied to be worn over the mouth for warmth and minor protection from dust and other particulate.",
+        "price" : 28,
+        "material" : ["cotton", "null"],
+        "volume" : 1,
+=======
         "description" : "A waterproof hood made to be worn in bad weather. Provides extra protection from rain.",
         "price" : 100,
         "material" : ["plastic", "cotton"],
         "volume" : 3,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
@@ -3424,10 +3892,17 @@
         "to_hit" : 0,
         "storage" : 6,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A long wool scarf, to be worn over the mouth for warmth.",
+        "price" : 40,
+        "material" : ["wool", "null"],
+        "volume" : 2,
+=======
         "description" : "Waterproof plastic fishing waders with a single large front pocket.",
         "price" : 100,
         "material" : ["plastic", "null"],
         "volume" : 38,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 5,
         "phase" : "solid",
@@ -3448,10 +3923,17 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A long fur scarf, to be worn over the mouth for warmth.",
+        "price" : 40,
+        "material" : ["fur", "null"],
+        "volume" : 4,
+=======
         "description" : "A simple wool garment worn over the torso. Provides a bit of protection.",
         "price" : 120,
         "material" : ["wool", "null"],
         "volume" : 5,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 35,
         "phase" : "solid",
@@ -3472,10 +3954,17 @@
         "to_hit" : -1,
         "storage" : 24,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A mask that straps over your mouth and nose and filters the surrounding air. It protects from smoke, dust, and other airborne contaminants quite well.",
+        "price" : 80,
+        "material" : ["plastic", "null"],
+        "volume" : 6,
+=======
         "description" : "A thin cotton trenchcoat, lined with pockets. Great for storage.",
         "price" : 225,
         "material" : ["cotton", "null"],
         "volume" : 17,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -3496,10 +3985,17 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A full gas mask that covers the face and eyes. It provides excellent protection from smoke, teargas, and other airborne contaminants.",
+        "price" : 240,
+        "material" : ["plastic", "null"],
+        "volume" : 10,
+=======
         "description" : "A brightly-colored vest designed to keep you upright and floating in water.",
         "price" : 100,
         "material" : ["plastic", "cotton"],
         "volume" : 36,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 5,
         "phase" : "solid",
@@ -3520,10 +4016,17 @@
         "to_hit" : -1,
         "storage" : 24,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A pair of glasses for the near-sighted. They would be useless for anyone else.",
+        "price" : 150,
+        "material" : ["glass", "plastic"],
+        "volume" : 1,
+=======
         "description" : "A thick leather trenchcoat, lined with pockets. Great for storage.",
         "price" : 225,
         "material" : ["leather", "null"],
         "volume" : 21,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 30,
         "phase" : "solid",
@@ -3544,10 +4047,17 @@
         "to_hit" : -1,
         "storage" : 24,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A pair of glasses for the far-sighted. They would be useless for anyone else.",
+        "price" : 80,
+        "material" : ["glass", "plastic"],
+        "volume" : 1,
+=======
         "description" : "A thick fur trenchcoat, lined with pockets. Great for storage.",
         "price" : 225,
         "material" : ["fur", "null"],
         "volume" : 29,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 50,
         "phase" : "solid",
@@ -3592,10 +4102,17 @@
         "to_hit" : 0,
         "storage" : 20,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A pair of plastic glasses, which find use in workshops, sports, chemistry labs, and many other places. Provides great protection from damage.",
+        "price" : 100,
+        "material" : ["plastic", "null"],
+        "volume" : 1,
+=======
         "description" : "A pair of kevlar armored pants covered with pouches and pockets. Custom built to be durable, comfortable, and easy to wear.",
         "price" : 380,
         "material" : ["cotton", "kevlar"],
         "volume" : 12,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
@@ -3640,10 +4157,17 @@
         "to_hit" : -5,
         "storage" : 4,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A large pair of goggles that completely seal off your eyes. They provide excellent protection from environmental dangers.",
+        "price" : 175,
+        "material" : ["plastic", "null"],
+        "volume" : 2,
+=======
         "description" : "A fur coat with a couple small pockets. Extremely warm.",
         "price" : 550,
         "material" : ["fur", "leather"],
         "volume" : 23,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 80,
         "phase" : "solid",
@@ -3711,12 +4235,21 @@
         "to_hit" : 1,
         "storage" : 4,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "This is modern tactical eyewear that protects from small projectiles and fragments. It provides excellent protection from environmental dangers.",
+        "price" : 275,
+        "material" : ["kevlar", "plastic"],
+        "volume" : 1,
+        "cutting" : 0,
+        "warmth" : 5,
+=======
         "description" : "A vest made from thick leather. Offers excellent protection from cuts.",
         "price" : 100,
         "material" : ["leather", "null"],
         "volume" : 10,
         "cutting" : -5,
         "warmth" : 20,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "phase" : "solid",
         "enviromental_protection" : 1,
         "encumbrance" : 1,
@@ -3735,7 +4268,11 @@
         "to_hit" : 0,
         "storage" : 10,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "An essential article of the gentleman's apparel. It also negates near-sightedness.",
+=======
         "description" : "A common belt with pockets widely used by handymen, and electricians.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "price" : 200,
         "material" : ["leather", "null"],
         "volume" : 7,
@@ -3783,8 +4320,13 @@
         "to_hit" : -2,
         "storage" : 14,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A Red Sox baseball cap. It provides a little bit of warmth.",
+        "price" : 35,
+=======
         "description" : "A long white coat with several large pockets.",
         "price" : 155,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["cotton", "null"],
         "volume" : 9,
         "cutting" : 0,
@@ -3807,10 +4349,17 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "This hat is also called a \"bucket hat.\" It's often used in the military.",
+        "price" : 55,
+        "material" : ["cotton", "null"],
+        "volume" : 2,
+=======
         "description" : "A pair of soft neoprene arm sleeves, often used in contact sports.",
         "price" : 65,
         "material" : ["plastic", "null"],
         "volume" : 6,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
@@ -3831,10 +4380,17 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A snug-fitting cotton hat. It's quite warm.",
+        "price" : 40,
+        "material" : ["cotton", "null"],
+        "volume" : 1,
+=======
         "description" : "A pair of neoprene arm sleeves covered with molded plastic sheaths.",
         "price" : 130,
         "material" : ["plastic", "cotton"],
         "volume" : 12,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
@@ -3855,10 +4411,17 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A snug-fitting wool hat. It's very warm.",
+        "price" : 50,
+        "material" : ["wool", "null"],
+        "volume" : 1,
+=======
         "description" : "A pair of elbow pads made of stout plastic and cloth.",
         "price" : 160,
         "material" : ["plastic", "cotton"],
         "volume" : 3,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
@@ -3879,10 +4442,17 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A red plaid hunting cap with ear flaps. It's notably warm.",
+        "price" : 80,
+        "material" : ["wool", "null"],
+        "volume" : 3,
+=======
         "description" : "A pair of arm guards made from the exoskeletons of insects. Light and durable.",
         "price" : 200,
         "material" : ["chitin", "null"],
         "volume" : 10,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
@@ -3903,10 +4473,17 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A hat made from the pelts of animals. It's extremely warm.",
+        "price" : 120,
+        "material" : ["fur", "leather"],
+        "volume" : 5,
+=======
         "description" : "A pair of arm guards hammered out from metal. Very stylish.",
         "price" : 400,
         "material" : ["iron", "null"],
         "volume" : 11,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
@@ -3950,10 +4527,17 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A hard plastic hat worn in constructions sites. It provides excellent protection from cuts and percussion.",
+        "price" : 125,
+        "material" : ["plastic", "null"],
+        "volume" : 10,
+=======
         "description" : "A pair of cotton gloves.",
         "price" : 65,
         "material" : ["cotton", "null"],
         "volume" : 1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
@@ -4044,10 +4628,17 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A thick foam helmet. It's designed to protect against concussion.",
+        "price" : 140,
+        "material" : ["plastic", "null"],
+        "volume" : 10,
+=======
         "description" : "A pair of padded gloves. Cumbersome but warm.",
         "price" : 65,
         "material" : ["cotton", "null"],
         "volume" : 3,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 70,
         "phase" : "solid",
@@ -4091,10 +4682,17 @@
         "to_hit" : 2,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A hard plastic helmet that covers the head and ears. It's designed to protect against a baseball to the head.",
+        "price" : 195,
+        "material" : ["plastic", "iron"],
+        "volume" : 14,
+=======
         "description" : "A pair of reinforced kevlar tactical gloves. Commonly used by police and military units.",
         "price" : 120,
         "material" : ["kevlar", "leather"],
         "volume" : 2,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
@@ -4115,10 +4713,17 @@
         "to_hit" : 2,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A heavy helmet that provides excellent protection from all sorts of damage. The strength, light material, and design indicate it's favored by the military.",
+        "price" : 480,
+        "material" : ["kevlar", "plastic"],
+        "volume" : 12,
+=======
         "description" : "A pair of leather gloves with no fingers, allowing greater manual dexterity.",
         "price" : 90,
         "material" : ["leather", "null"],
         "volume" : 1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
@@ -4187,10 +4792,17 @@
         "to_hit" : 2,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A helmet with a plastic shield that covers your entire face. The strength, light material, and design indicate it's favored by police forces.",
+        "price" : 420,
+        "material" : ["plastic", "steel"],
+        "volume" : 20,
+=======
         "description" : "A pair of rubber boots, often used while cleaning with caustic materials.",
         "price" : 70,
         "material" : ["plastic", "null"],
         "volume" : 14,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
@@ -4260,7 +4872,11 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A helmet made from the exoskeletons of insects. It covers the entire head; it's very light and durable.",
+=======
         "description" : "Gauntlets made from the exoskeletons of insects. Very light and durable.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "price" : 380,
         "material" : ["chitin", "null"],
         "volume" : 7,
@@ -4284,10 +4900,17 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A grotesque, horned helmet carved from bone. It covers the entire head; it's very light and strong.",
+        "price" : 420,
+        "material" : ["bone", "null"],
+        "volume" : 27,
+=======
         "description" : "Leather gauntlets with bone armor reinforcement. Very light and strong.",
         "price" : 380,
         "material" : ["bone", "leather"],
         "volume" : 5,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
@@ -4332,10 +4955,17 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "The only hat for a gentleman (or a lady). Wear it to look exquisite while laughing in the face of danger!",
+        "price" : 55,
+        "material" : ["cotton", "null"],
+        "volume" : 10,
+=======
         "description" : "A simple piece of cotton that straps over the mouth. Provides a small amount of protection from air-borne illness and dust.",
         "price" : 20,
         "material" : ["cotton", "iron"],
         "volume" : 0,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 5,
         "phase" : "solid",
@@ -4355,8 +4985,13 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "The only hat for a made man (or lady). Wear it to look like a real good fella while laughing in the face of your foes!",
+        "price" : 55,
+=======
         "description" : "A cotton bandana, worn over the mouth for warmth and minor protection from dust and other contaminants.",
         "price" : 28,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["cotton", "null"],
         "volume" : 1,
         "cutting" : 0,
@@ -4401,10 +5036,17 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A small backpack, providing good storage for a little encumbrance.",
+        "price" : 210,
+        "material" : ["cotton", "plastic"],
+        "volume" : 8,
+=======
         "description" : "A really long wool scarf in an interesting brown, red, yellow, grey, purple, and olive striped pattern, worn over the mouth for warmth.  It would probably be long enough to wrap about your mouth and hands withh plenty of length left over, too.",
         "price" : 40,
         "material" : ["wool", "null"],
         "volume" : 4,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 50,
         "phase" : "solid",
@@ -4426,6 +5068,11 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A small leather backpack, providing good storage for a little encumbrance.",
+        "price" : 290,
+        "material" : ["leather", "null"],
+=======
         "description" : "A long fur scarf, worn over the mouth for warmth.",
         "price" : 40,
         "material" : ["fur", "null"],
@@ -4452,6 +5099,7 @@
         "description" : "An exceptionally long fur scarf, worn over the mouth for warmth. With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.",
         "price" : 40,
         "material" : ["fur", "null"],
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "volume" : 8,
         "cutting" : 0,
         "warmth" : 65,
@@ -4474,10 +5122,17 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A huge military style rucksack with many pockets and pouches. It provides a lot of storage.",
+        "price" : 210,
+        "material" : ["cotton", "plastic"],
+        "volume" : 16,
+=======
         "description" : "A mask that straps over your mouth and nose and filters air. Protects from smoke, dust, and other contaminants quite well.",
         "price" : 80,
         "material" : ["plastic", "null"],
         "volume" : 2,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -4497,10 +5152,17 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A huge duffel bag. It provides plenty of storage but it's hard to wear and severely encumbering.",
+        "price" : 210,
+        "material" : ["cotton", "plastic"],
+        "volume" : 24,
+=======
         "description" : "A full gas mask that covers the face and eyes. Provides excellent protection from smoke, teargas, and other contaminants.",
         "price" : 240,
         "material" : ["plastic", "null"],
         "volume" : 4,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
@@ -4520,10 +5182,17 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "This is a large purse, the type you wear over your shoulder. It's a bit cumbersome to wear, but provides some storage.",
+        "price" : 75,
+        "material" : ["leather", "null"],
+        "volume" : 4,
+=======
         "description" : "A rather roomy mask with filters attached, designed to accommodate exotic anatomy. Provides excellent protection from smoke, teargas, and other contaminants.",
         "price" : 250,
         "material" : ["plastic", "null"],
         "volume" : 6,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
@@ -4544,10 +5213,17 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "This is bag worn over the chest and shoulder, commonly used by bicycle couriers. It's light and easy to wear, but doesn't offer much storage.",
+        "price" : 110,
+        "material" : ["cotton", "plastic"],
+        "volume" : 4,
+=======
         "description" : "A pair of glasses for the near-sighted. Useless for anyone else.",
         "price" : 150,
         "material" : ["glass", "plastic"],
         "volume" : 1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
@@ -4560,6 +5236,21 @@
     },
     {
         "type" : "ARMOR",
+<<<<<<< HEAD
+        "id" : "fanny",
+        "name" : "fanny pack",
+        "volume" : 1,
+        "material_thickness" : 0,
+        "storage" : 6,
+        "description" : "This a pouch affixed to a belt that fits easily over your clothing. It provides a bit of extra storage without encumbering you at all.",
+        "weight" : 272,
+        "to_hit" : 2,
+        "color" : "green",
+        "encumbrance" : 0,
+        "price" : 100,
+        "material" : ["cotton", "plastic"],
+        "coverage" : 0,
+=======
         "id" : "glasses_reading",
         "name" : "reading glasses",
         "weight" : 30,
@@ -4567,6 +5258,7 @@
         "covers" : ["EYES"],
         "to_hit" : -2,
         "storage" : 0,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "symbol" : "[",
         "description" : "A pair of glasses for the far-sighted. Useless for anyone else.",
         "price" : 80,
@@ -4574,8 +5266,25 @@
         "volume" : 1,
         "cutting" : 0,
         "warmth" : 0,
+<<<<<<< HEAD
+        "enviromental_protection" : 0,
+        "phase" : "solid"
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "dump_pouch",
+        "name" : "tactical dump pouch",
+        "volume" : 2,
+        "material_thickness" : 1,
+        "storage" : 12,
+        "description" : "An expandable pouch secured with straps, worn on the belt. It provides a bit of extra storage without encumbering you at all.",
+        "weight" : 288,
+        "to_hit" : 2,
+        "color" : "dark_gray",
+=======
         "phase" : "solid",
         "enviromental_protection" : 1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "encumbrance" : 0,
         "bashing" : -3,
         "flags" : ["WATER_FRIENDLY"],
@@ -4584,6 +5293,21 @@
     },
     {
         "type" : "ARMOR",
+<<<<<<< HEAD
+        "id" : "holster",
+        "name" : "holster",
+        "volume" : 1,
+        "material_thickness" : 0,
+        "storage" : 3,
+        "description" : "A holster, worn either on the upper leg or belt, that is usually meant for holding a pistol. It provides a bit of extra storage without encumbering you at all.",
+        "weight" : 186,
+        "to_hit" : -1,
+        "color" : "dark_gray",
+        "encumbrance" : 0,
+        "price" : 90,
+        "material" : ["leather", "null"],
+        "coverage" : 0,
+=======
         "id" : "glasses_bifocal",
         "name" : "bifocal glasses",
         "weight" : 30,
@@ -4591,6 +5315,7 @@
         "covers" : ["EYES"],
         "to_hit" : -2,
         "storage" : 0,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "symbol" : "[",
         "bashing_protection" : 0,
         "description" : "A pair of bifocal glasses for those who are both near-sighted and far-sighted.",
@@ -4641,12 +5366,22 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A leather quiver worn on the back or at the hip that can hold 20 arrows. Its small size won't encumber you, and you could hold other small items with it in a pinch.",
+        "price" : 80,
+        "material" : ["leather", "null"],
+        "volume" : 2,
+        "cutting" : -4,
+        "bashing" : 2,
+        "warmth" : 0,
+=======
         "description" : "A small pair of goggles made for swimming.",
         "price" : 110,
         "material" : ["plastic", "null"],
         "volume" : 1,
         "cutting" : 0,
         "warmth" : 10,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "phase" : "solid",
         "enviromental_protection" : 4,
         "encumbrance" : 2,
@@ -4665,12 +5400,22 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A large leather quiver trimmed with metal, worn on the back, that can hold 80 arrows. You could hold other small items with it in a pinch. Historically it has used by horse archers, rather than foot archers, but neither of THEM had to fight zombies.",
+        "price" : 310,
+        "material" : ["leather", "steel"],
+        "volume" : 8,
+        "cutting" : -4,
+        "bashing" : 4,
+        "warmth" : 0,
+=======
         "description" : "A large pair of goggles that completely seal off your eyes. Excellent protection from environmental dangers.",
         "price" : 175,
         "material" : ["plastic", "null"],
         "volume" : 2,
         "cutting" : 0,
         "warmth" : 50,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "phase" : "solid",
         "enviromental_protection" : 6,
         "encumbrance" : 1,
@@ -4688,10 +5433,17 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A makeshift bag, cobbled together from rags and string. It really gets in the way, but at least it provides a decent amount of storage.",
+        "price" : 110,
+        "material" : ["cotton", "null"],
+        "volume" : 2,
+=======
         "description" : "A dark pair of goggles. They make seeing very difficult, but protect you from bright flashes.",
         "price" : 240,
         "material" : ["glass", "steel"],
         "volume" : 1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
@@ -7247,10 +7999,17 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A bag stitched together from leather scraps. It doesn't hold an awful lot, but it is easy to wear.",
+        "price" : 110,
+        "material" : ["leather", "null"],
+        "volume" : 2,
+=======
         "description" : "A pair of knee pads made of stout plastic and cloth.",
         "price" : 160,
         "material" : ["plastic", "cotton"],
         "volume" : 6,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
@@ -7314,10 +8073,17 @@
         "volume" : 1,
         "material_thickness" : 0,
         "storage" : 0,
+<<<<<<< HEAD
+        "description" : "A small relic from a forgotten saint.  As extraordinary as the world has become, this reliquary may have some power yet.",
+        "weight" : 50,
+        "to_hit" : 0,
+        "color" : "white",
+=======
         "description" : "This watch has a nifty underwater-duration ring.  (Too bad you don't know how to use it.) Tells the time and is impervious to water.",
         "weight" : 65,
         "to_hit" : -1,
         "color" : "light_gray",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "encumbrance" : 0,
         "price" : 75,
         "material" : ["steel", "null"],
@@ -7337,10 +8103,17 @@
         "volume" : 1,
         "material_thickness" : 0,
         "storage" : 0,
+<<<<<<< HEAD
+        "description" : "A plastic badge with an embedded film strip. The film strip changes color as it is exposed to radiation. Wear on your lapel so you can notice if it changes.",
+        "weight" : 20,
+        "to_hit" : 0,
+        "color" : "light_blue",
+=======
         "description" : "A gold-plated wristwatch, suitable for a retirement present. Tells the time and looks good.",
         "weight" : 65,
         "to_hit" : -1,
         "color" : "yellow",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "encumbrance" : 0,
         "price" : 100,
         "material" : ["steel", "gold"],
@@ -7360,9 +8133,15 @@
         "volume" : 1,
         "material_thickness" : 0,
         "storage" : 0,
+<<<<<<< HEAD
+        "description" : "A tarnished gold star that gives an air of authority to the wearer.",
+        "weight" : 60,
+        "to_hit" : 0,
+=======
         "description" : "A rather large and expensively made wristwatch. Tells the time in elegantly wrought gold with silver detailing.  It's really the only timepiece suitable for someone of your exquisitely discerning tastes.",
         "weight" : 80,
         "to_hit" : -1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "color" : "yellow",
         "encumbrance" : 0,
         "price" : 200,
@@ -7378,12 +8157,141 @@
     },
     {
         "type" : "ARMOR",
+<<<<<<< HEAD
+        "id" : "american_flag",
+        "name" : "american flag",
+        "weight" : 3404,
+        "color" : "light_red",
+        "covers" : ["TORSO", "ARMS", "HANDS", "LEGS", "FEET"],
+        "to_hit" : -1,
+        "storage" : 0,
+        "symbol" : "[",
+        "coverage" : 60,
+        "description" : "A large American flag, made to fly in even the worst conditions.",
+        "price" : 500,
+        "material" : ["cotton", "null"],
+        "volume" : 8,
+        "cutting" : 0,
+        "warmth" : 20,
+        "phase" : "solid",
+        "enviromental_protection" : 1,
+        "encumbrance" : 5,
+        "bashing" : -5,
+        "flags" : ["OVERSIZE"],
+        "material_thickness" : 2
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "blanket",
+        "name" : "blanket",
+        "weight" : 1123,
+        "color" : "blue",
+        "covers" : ["TORSO", "ARMS", "HANDS", "LEGS", "FEET"],
+        "to_hit" : -1,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A warm and comfy blanket. But, hiding under here will not protect you from the monsters.",
+        "price" : 225,
+        "material" : ["cotton", "null"],
+        "volume" : 10,
+        "cutting" : 0,
+        "warmth" : 50,
+        "phase" : "solid",
+        "enviromental_protection" : 1,
+        "encumbrance" : 5,
+        "bashing" : -5,
+        "coverage" : 100,
+        "flags" : ["OVERSIZE"],
+        "material_thickness" : 4
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "fur_blanket",
+        "name" : "fur blanket",
+        "weight" : 1986,
+        "color" : "brown",
+        "covers" : ["TORSO", "ARMS", "HANDS", "LEGS", "FEET"],
+        "to_hit" : -1,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A heavy fur blanket that covers most of your body.",
+        "price" : 225,
+        "material" : ["cotton", "fur"],
+        "volume" : 14,
+        "cutting" : 0,
+        "warmth" : 80,
+        "phase" : "solid",
+        "enviromental_protection" : 1,
+        "encumbrance" : 5,
+        "bashing" : -5,
+        "coverage" : 100,
+        "flags" : ["OVERSIZE"],
+        "material_thickness" : 5
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "emer_blanket",
+        "name" : "emergency blanket",
+        "weight" : 633,
+        "color" : "light_gray",
+        "covers" : ["TORSO", "ARMS", "LEGS"],
+        "to_hit" : -1,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A compact wool blanket that covers your most important body parts, meant to keep you warm in emergency situations.",
+        "price" : 225,
+        "material" : ["wool", "null"],
+        "volume" : 6,
+        "cutting" : 0,
+        "warmth" : 55,
+        "phase" : "solid",
+        "enviromental_protection" : 1,
+        "encumbrance" : 4,
+        "bashing" : -5,
+        "coverage" : 90,
+        "flags" : ["OVERSIZE"],
+        "material_thickness" : 3
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "sleeping_bag",
+        "name" : "sleeping bag",
+        "weight" : 981,
+        "color" : "light_red",
+        "covers" : ["TORSO", "HEAD", "MOUTH", "ARMS", "HANDS", "LEGS", "FEET"],
+        "to_hit" : -1,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A large sleeping bag that covers you head to toe.",
+        "price" : 225,
+        "material" : ["cotton", "null"],
+        "volume" : 14,
+        "cutting" : 0,
+        "warmth" : 80,
+        "phase" : "solid",
+        "enviromental_protection" : 1,
+        "encumbrance" : 10,
+        "bashing" : -5,
+        "coverage" : 100,
+        "flags" : ["OVERSIZE"],
+        "material_thickness" : 5
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "sleeping_bag_fur",
+        "name" : "fur sleeping bag",
+        "weight" : 1175,
+        "color" : "brown",
+        "covers" : ["TORSO", "HEAD", "MOUTH", "ARMS", "HANDS", "LEGS", "FEET"],
+        "to_hit" : -1,
+=======
         "id" : "hat_chef",
         "name" : "toque",
         "weight" : 140,
         "color" : "white",
         "covers" : ["HEAD"],
         "to_hit" : 0,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "storage" : 0,
         "symbol" : "[",
         "description" : "A traditional chefs hat, standing tall and proud against the vulgarities of the world.",
@@ -7409,8 +8317,13 @@
         "to_hit" : 0,
         "storage" : 5,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A soft bathrobe. It makes you wish you had running water to take a shower.",
+        "price" : 225,
+=======
         "description" : "This double-breasted uniform is unusually thick to protect against the heat of the kitchen.",
         "price" : 80,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["cotton", "null"],
         "volume" : 7,
         "cutting" : 0,
@@ -7433,8 +8346,13 @@
         "to_hit" : 0,
         "storage" : 3,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A bathrobe with longer sleeves and thicker material to keep you nice and toasty. It's perfect to relax in and read all those books you stole.",
+        "price" : 225,
+=======
         "description" : "In a pinch, these pants can be used for an impromptu game of checkers.",
         "price" : 80,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["cotton", "null"],
         "volume" : 5,
         "cutting" : 0,
@@ -7516,7 +8434,22 @@
         "encumbrance" : 3,
         "bashing" : 8,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A heavy leather cloak that is thrown over your body. It provides decent protection.",
+        "price" : 225,
+        "material" : ["leather", "null"],
+        "volume" : 14,
+        "cutting" : 0,
+        "warmth" : 40,
+        "phase" : "solid",
+        "enviromental_protection" : 3,
+        "encumbrance" : 1,
+        "bashing" : -5,
+        "coverage" : 65,
+        "flags" : ["OVERSIZE", "HOOD"],
+=======
         "coverage" : 75,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material_thickness" : 3
     },
     {
@@ -7552,8 +8485,13 @@
         "to_hit" : 2,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "This stylish cloak is perfect for master and padawan alike.",
+        "price" : 225,
+=======
         "description" : "Long pieces of cloth that are meant to be wrapped around your hands to provide small amounts of protection while punching and performing other general mischief.",
         "price" : 90,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["cotton", "null"],
         "volume" : 1,
         "cutting" : 0,
@@ -7568,6 +8506,14 @@
     },
     {
         "type" : "ARMOR",
+<<<<<<< HEAD
+        "id" : "power_armor_basic",
+        "name" : "basic power armor",
+        "description" : "This is DoubleTech Power Armor, Mk. I. A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.",
+        "weight" : 20339,
+        "enviromental_protection" : 10,
+        "color" : "light_gray",
+=======
         "id" : "lsurvivor_suit",
         "name" : "light survivor suit",
         "weight" : 5100,
@@ -7575,6 +8521,7 @@
         "covers" : ["LEGS", "TORSO", "ARMS"],
         "to_hit" : -3,
         "storage" : 50,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "symbol" : "[",
         "description" : "A lightweight home built combination armor made from a cut down bulletproof vest and a reinforced jumpsuit made out of fabric. Protects from the elements as well as from harm.",
         "price" : 1100,
@@ -7616,9 +8563,17 @@
     },
     {
         "type" : "ARMOR",
+<<<<<<< HEAD
+        "id" : "power_armor_helmet_basic",
+        "name" : "basic power armor helmet",
+        "description" : "A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I. It offers excellent protection from both attacks and environmental hazards.",
+        "weight" : 3628,
+        "enviromental_protection" : 10,
+=======
         "id" : "boots_plate",
         "name" : "armored boots",
         "weight" : 1890,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "color" : "light_gray",
         "covers" : ["FEET"],
         "to_hit" : -2,
@@ -7641,6 +8596,14 @@
     },
     {
         "type" : "ARMOR",
+<<<<<<< HEAD
+        "id" : "power_armor_light",
+        "name" : "light power armor",
+        "description" : "A suit of DoubleTech Power Armor, Mk. II-L. This model offers several improvements over the Mk. I, most notably a lighter weight.",
+        "weight" : 7670,
+        "enviromental_protection" : 8,
+        "color" : "dark_gray",
+=======
         "id" : "gloves_plate",
         "name" : "armored gauntlets",
         "weight" : 980,
@@ -7648,6 +8611,7 @@
         "covers" : ["HANDS"],
         "to_hit" : -2,
         "storage" : 0,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "symbol" : "[",
         "description" : "An extremely heavy set of armor plated gloves.",
         "price" : 400,
@@ -7689,6 +8653,14 @@
     },
     {
         "type" : "ARMOR",
+<<<<<<< HEAD
+        "id" : "power_armor_heavy",
+        "name" : "heavy power armor",
+        "description" : "A suit of DoubleTech Power Armor, Mk. II-H. This model offers several improvements over the Mk. I, most notably providing additional protection in hazardous environments.",
+        "weight" : 29009,
+        "enviromental_protection" : 16,
+        "color" : "dark_gray",
+=======
         "id" : "wsurvivor_suit",
         "name" : "winter survivor suit",
         "weight" : 7800,
@@ -7696,6 +8668,7 @@
         "covers" : ["LEGS", "TORSO", "ARMS"],
         "to_hit" : -3,
         "storage" : 40,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "symbol" : "[",
         "description" : "A warm and heavy, home built combination armor made from a reinforced bulletproof vest and an insulated jumpsuit made out of leather. Protects from the elements as well as from harm.",
         "price" : 2000,
@@ -7762,9 +8735,17 @@
     },
     {
         "type" : "ARMOR",
+<<<<<<< HEAD
+        "id" : "depowered_armor",
+        "name" : "salvaged power armor",
+        "description" : "A suit of DoubleTech Power Armor, Mk. I. A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in. This suit has had its servos and cooling system stripped out, meaning it no longer requires power, but also encumbers you greatly and doesn't provide internal thermal regulation.",
+        "weight" : 12214,
+        "enviromental_protection" : 6,
+=======
         "id" : "hood_wsurvivor",
         "name" : "winter survivor hood",
         "weight" : 870,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "color" : "light_gray",
         "covers" : ["HEAD"],
         "to_hit" : -1,
@@ -7786,9 +8767,17 @@
     },
     {
         "type" : "ARMOR",
+<<<<<<< HEAD
+        "id" : "depowered_helmet",
+        "name" : "salvaged power armor helmet",
+        "description" : "A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I. It offers excellent protection from both attacks and environmental hazards. This suit has had its internal computer and cooling system stripped out, meaning it no longer requires power, but it has no internal chronometer and doesn't provide internal thermal regulation.",
+        "weight" : 2416,
+        "enviromental_protection" : 6,
+=======
         "id" : "mask_wsurvivor",
         "name" : "winter survivor mask",
         "weight" : 682,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "color" : "light_gray",
         "covers" : ["MOUTH", "EYES"],
         "to_hit" : -3,
@@ -7810,6 +8799,17 @@
     },
     {
         "type" : "ARMOR",
+<<<<<<< HEAD
+        "id" : "arm_splint",
+        "name" : "arm splint",
+        "description" : "A tool to help set bones and hold them in place. This splint has a brace and sling sized for an arm.",
+        "weight" : 300,
+        "color" : "white",
+        "covers" : ["ARMS"],
+        "price" : 200,
+        "material" : ["wood", "cotton"],
+        "volume" : 4,
+=======
         "id" : "mask_wsurvivorxl",
         "name" : "XL winter survivor mask",
         "weight" : 1062,
@@ -7822,6 +8822,7 @@
         "price" : 240,
         "material" : ["kevlar", "fur"],
         "volume" : 5,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 75,
         "phase" : "solid",
@@ -7834,6 +8835,17 @@
     },
     {
         "type" : "ARMOR",
+<<<<<<< HEAD
+        "id" : "leg_splint",
+        "name" : "leg splint",
+        "description" : "A tool to help set bones and hold them in place. This splint has a brace and sling sized for an leg.",
+        "weight" : 500,
+        "color" : "white",
+        "covers" : ["LEGS"],
+        "price" : 200,
+        "material" : ["wood", "cotton"],
+        "volume" : 4,
+=======
         "id" : "fsurvivor_suit",
         "name" : "survivor firesuit",
         "weight" : 6800,
@@ -7846,6 +8858,7 @@
         "price" : 2000,
         "material" : ["kevlar", "nomex"],
         "volume" : 46,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -7939,10 +8952,17 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A pair of leg guards hammered out from metal. It's a very stylish example of post-apocalypse armor.",
+        "price" : 400,
+        "material" : ["iron", "null"],
+        "volume" : 22,
+=======
         "description" : "A custom-built, Nomex-insulated gas mask that covers the face and eyes. It provides excellent protection from heat, smoke, teargas, and shrapnel.",
         "price" : 240,
         "material" : ["kevlar", "nomex"],
         "volume" : 5,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -7962,6 +8982,18 @@
         "covers" : ["MOUTH", "EYES"],
         "to_hit" : -3,
         "storage" : 0,
+<<<<<<< HEAD
+        "description" : "A simple wristwatch. It tells the time and has an alarm clock feature.",
+        "weight" : 50,
+        "to_hit" : -1,
+        "color" : "dark_gray",
+        "encumbrance" : 0,
+        "price" : 50,
+        "material" : ["plastic", "steel"],
+        "flags" : ["WATCH", "ALARMCLOCK"],
+        "coverage" : 1,
+=======
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "symbol" : "[",
         "description" : "A custom-built, Nomex-insulated gas mask that covers the face and eyes regardless of your state of mutation. It provides excellent protection from heat, smoke, teargas, and shrapnel.",
         "price" : 240,
@@ -8060,10 +9092,17 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A pair of checkered pants. In a pinch, these pants can be used for an impromptu game of checkers.",
+        "price" : 80,
+        "material" : ["cotton", "null"],
+        "volume" : 5,
+=======
         "description" : "A customized armored neoprene and kevlar hood, very strong and durable.",
         "price" : 580,
         "material" : ["kevlar", "plastic"],
         "volume" : 7,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -8084,12 +9123,21 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A suit of armor forged from scraps of metal; it provides decent protection, but the loose collection of plates jangles and clangs as you walk, attracting the attention of all nearby.",
+        "price" : 700,
+        "material" : ["steel", "null"],
+        "volume" : 62,
+        "cutting" : 8,
+        "warmth" : 20,
+=======
         "description" : "A custom-built, armored rebreather mask that covers the face and eyes. It provides excellent protection from harm as well as operating in conjunction with an active UPS to provide breathing gas while underwater.",
         "price" : 400,
         "material" : ["kevlar", "plastic"],
         "volume" : 6,
         "cutting" : 0,
         "warmth" : 15,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "phase" : "solid",
         "enviromental_protection" : 10,
         "encumbrance" : 3,
@@ -8107,6 +9155,15 @@
         "covers" : ["MOUTH", "EYES"],
         "to_hit" : -3,
         "storage" : 0,
+<<<<<<< HEAD
+        "symbol" : "O",
+        "description" : "A crude form of armor made from stacked paper and rolls of duct tape. This breastplate offers a surprising amount of protection.",
+        "price" : 420,
+        "material" : ["paper", "null"],
+        "volume" : 38,
+        "cutting" : -10,
+        "warmth" : 10,
+=======
         "symbol" : "[",
         "description" : "A custom-built, armored rebreather mask that covers the face and eyes regardless of your state of mutation. It provides excellent protection from harm as well as operating in conjunction with an active UPS to provide breathing gas while underwater.",
         "price" : 400,
@@ -8114,6 +9171,7 @@
         "volume" : 6,
         "cutting" : 0,
         "warmth" : 15,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "phase" : "solid",
         "enviromental_protection" : 10,
         "encumbrance" : 3,
@@ -8132,8 +9190,13 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A lightweight home built combination armor made from a cut down bulletproof vest and a reinforced jumpsuit made out of fabric. It protects from the elements as well as from harm.",
+        "price" : 1100,
+=======
         "description" : "A pair of customized, kevlar armored cloth boots, modified to provide maximum protection from harm and the elements, even when knee-deep in the dead.",
         "price" : 240,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["kevlar", "cotton"],
         "volume" : 8,
         "cutting" : 0,
@@ -8157,8 +9220,13 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A home built combination armor made from a bulletproof vest and a reinforced jumpsuit made out of leather. It protects from the elements as well as from harm.",
+        "price" : 1500,
+=======
         "description" : "A pair of customized leather boots, armored with kevlar and modified to provide maximum protection from harm and the elements, even when knee-deep in the dead.",
         "price" : 240,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["kevlar", "leather"],
         "volume" : 10,
         "cutting" : 0,
@@ -8255,8 +9323,13 @@
         "to_hit" : 2,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A heavy home built combination armor made from a reinforced bulletproof vest and a metal armor plated jumpsuit made out of leather. It protects from the elements as well as from harm.",
+        "price" : 2000,
+=======
         "description" : "A pair of heavily customized, steel-backed armored kevlar gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
         "price" : 180,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "material" : ["kevlar", "steel"],
         "volume" : 4,
         "cutting" : 0,
@@ -8279,10 +9352,17 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A warm and heavy, home built combination armor made from a reinforced bulletproof vest and an insulated jumpsuit made out of leather. It protects from the elements as well as from harm.",
+        "price" : 2000,
+        "material" : ["kevlar", "fur"],
+        "volume" : 56,
+=======
         "description" : "A customized armored cloth and kevlar hood, very light and durable.",
         "price" : 580,
         "material" : ["kevlar", "cotton"],
         "volume" : 3,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -8329,10 +9409,17 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
+<<<<<<< HEAD
+        "description" : "A pair of heavily customized, armored gloves, modified to be easy to wear and leave your dexterity unimpaired while providing maximum protection in extreme conditions.",
+        "price" : 180,
+        "material" : ["kevlar", "steel"],
+        "volume" : 4,
+=======
         "description" : "A customized, heavily armored kevlar helmet, modified with leather reinforcements to provide maximum comfort and protection from harm.",
         "price" : 580,
         "material" : ["kevlar", "leather"],
         "volume" : 10,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
@@ -8378,7 +9465,7 @@
         "to_hit" : -3,
         "storage" : 20,
         "symbol" : "[",
-        "description" : "A suit of black bulletproof armor with lots of pockets. The word SWAT is emblazoned across the back.",
+        "description" : "A police suit of black bulletproof armor with lots of pockets. The word SWAT is emblazoned across the back.",
         "price" : 1300,
         "material" : ["kevlar", "cotton"],
         "volume" : 52,
@@ -8403,7 +9490,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A lightweight black helmet that provides excellent protection from all sorts of damage.",
+        "description" : "A black helmet that provides excellent protection from all sorts of damage. The strength, light material, and design indicate it's favored by police forces.",
         "price" : 600,
         "material" : ["kevlar", "plastic"],
         "volume" : 8,
@@ -8576,7 +9663,7 @@
         "to_hit" : 1,
         "storage" : 8,
         "symbol" : "[",
-        "description" : "An apron made of thick leather. Cumbersome, but offers excellent protection from cuts.",
+        "description" : "An apron made of thick leather. It's cumbersome, but offers excellent protection from cuts.",
         "price" : 150,
         "material" : ["leather", "null"],
         "volume" : 9,
@@ -8600,7 +9687,7 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A protective reinforced kevlar mask that covers the face. Provides excellent protection from ballistic threats.",
+        "description" : "A protective reinforced kevlar mask that covers the face without impairing your vision. It provides excellent protection from ballistic threats.",
         "price" : 560,
         "material" : ["kevlar", "plastic"],
         "volume" : 3,
@@ -8624,7 +9711,7 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A protective face mask made of thick plastic. Commonly worn by hockey goalies.",
+        "description" : "A protective face mask made of thick plastic. It's commonly worn by hockey goalies and unstoppable serial killers.",
         "price" : 110,
         "material" : ["plastic", "null"],
         "volume" : 3,
@@ -8648,7 +9735,7 @@
         "to_hit" : 0,
         "storage" : 18,
         "symbol" : "[",
-        "description" : "A set of pouches that can be worn on the thighs using buckled straps. This variety is favored by the military.",
+        "description" : "A set of pouches that can be worn on the thighs using buckled straps. The strength, light material, and design indicate it's favored by the military.",
         "price" : 200,
         "material" : ["cotton", "null"],
         "volume" : 2,
@@ -8713,7 +9800,7 @@
         "volume" : 1,
         "material_thickness" : 0,
         "storage" : 0,
-        "description" : "A glossy black leather tail weighted down with tiny beads of plastic. Sways behind you when you walk.",
+        "description" : "A glossy black leather tail weighted down with tiny beads of plastic. It sways behind you when you walk.",
         "weight" : 80,
         "to_hit" : 0,
         "color" : "dark_gray",
@@ -8735,7 +9822,7 @@
         "volume" : 1,
         "material_thickness" : 0,
         "storage" : 0,
-        "description" : "A fuzzy tawny tail weighted down with tiny beads of plastic. Sways behind you when you walk.",
+        "description" : "A fuzzy tawny tail weighted down with tiny beads of plastic. It sways behind you when you walk.",
         "weight" : 80,
         "to_hit" : 0,
         "color" : "brown",
