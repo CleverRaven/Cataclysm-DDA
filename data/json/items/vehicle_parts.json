@@ -1,5 +1,11 @@
 [
     {
+        "type" : "ITEM_CATEGORY",
+        "id" : "veh_parts",
+        "name" : "vehicle parts",
+        "sort_rank" : 10
+    },
+    {
         "type":"GENERIC",
         "id" : "frame",
         "name" : "steel frame",
@@ -13,6 +19,7 @@
         "volume" : 60,
         "bashing" : 20,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 55
     },
     {
@@ -28,6 +35,7 @@
         "volume" : 30,
         "bashing" : 4,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 250
     },
     {
@@ -43,6 +51,7 @@
         "volume" : 5,
         "bashing" : 2,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 25
     },
     {
@@ -59,6 +68,7 @@
         "volume" : 14,
         "bashing" : 19,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 30
     },
     {
@@ -74,6 +84,7 @@
         "volume" : 12,
         "bashing" : 2,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 400
     },
     {
@@ -89,6 +100,7 @@
         "volume" : 6,
         "bashing" : 4,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 120
     },
     {
@@ -104,6 +116,7 @@
         "volume" : 15,
         "bashing" : 9,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 220
     },
     {
@@ -119,6 +132,7 @@
         "volume" : 12,
         "bashing" : 7,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 900
     },
     {
@@ -134,10 +148,12 @@
         "volume" : 2,
         "bashing" : 10,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 90
     },
     {
         "type":"GENERIC",
+<<<<<<< HEAD
         "id" : "metal_tank",
         "name" : "metal tank",
         "description" : "A metal tank for holding liquids. This could be useful for crafting.",
@@ -153,6 +169,8 @@
     },
     {
         "type":"GENERIC",
+=======
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "id" : "small_storage_battery",
         "name" : "small storage battery",
         "description" : "A small storage battery. This could be useful for crafting.",
@@ -164,6 +182,7 @@
         "volume" : 2,
         "bashing" : 1,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 50
     },
     {
@@ -179,6 +198,7 @@
         "volume" : 3,
         "bashing" : 2,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 20
     },
     {
@@ -194,6 +214,7 @@
         "volume" : 4,
         "bashing" : 3,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 40
     },
     {
@@ -209,7 +230,56 @@
         "volume" : 6,
         "bashing" : 5,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 60
+    },
+    {
+        "type":"GENERIC",
+        "id" : "alternator_motorbike",
+        "name" : "motorbike alternator",
+        "description" : "A small alternator used to power small vehicle electrical systems.",
+        "weight" : 6000,
+        "to_hit" : -2,
+        "color" : "light_cyan",
+        "symbol" : ",",
+        "material" : ["iron", "null"],
+        "volume" : 5,
+        "bashing" : 4,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 60
+    },
+    {
+        "type":"GENERIC",
+        "id" : "alternator_car",
+        "name" : "car alternator",
+        "description" : "An alternator used to power car electrical systems.",
+        "weight" : 9000,
+        "to_hit" : -3,
+        "color" : "light_cyan",
+        "symbol" : ",",
+        "material" : ["iron", "null"],
+        "volume" : 6,
+        "bashing" : 4,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 90
+    },
+    {
+        "type":"GENERIC",
+        "id" : "alternator_truck",
+        "name" : "truck alternator",
+        "description" : "A large alternator used to power truck electrical systems.",
+        "weight" : 12000,
+        "to_hit" : -4,
+        "color" : "light_cyan",
+        "symbol" : ",",
+        "material" : ["iron", "null"],
+        "volume" : 7,
+        "bashing" : 4,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 120
     },
     {
         "type":"GENERIC",
@@ -224,6 +294,7 @@
         "volume" : 8,
         "bashing" : 6,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 80
     },
     {
@@ -239,6 +310,7 @@
         "volume" : 6,
         "bashing" : 7,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 900
     },
     {
@@ -254,6 +326,7 @@
         "volume" : 12,
         "bashing" : 1,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 900
     },
     {
@@ -269,13 +342,14 @@
         "volume" : 26,
         "bashing" : 1,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 900
     },
     {
         "type": "GENERIC",
         "id": "minifridge",
         "name": "minifridge",
-        "description": "A very small fridge for keeping food cool, but without electricity it's just a very heavy box with shelves inside.",
+        "description": "A very small fridge for keeping food cool.",
         "weight": 31752,
         "to_hit": -8,
         "color": "light_blue",
@@ -284,6 +358,7 @@
         "volume": 20,
         "bashing": 8,
         "cutting": 0,
+        "category" : "veh_parts",
         "price": 600
     },
     {
@@ -299,6 +374,7 @@
         "volume" : 1,
         "bashing" : 1,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 50
     },
     {
@@ -314,6 +390,7 @@
         "volume" : 4,
         "bashing" : 5,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 60
     },
     {
@@ -329,6 +406,7 @@
         "volume" : 12,
         "bashing" : 6,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 120
     },
     {
@@ -340,10 +418,11 @@
         "to_hit" : -1,
         "color" : "light_cyan",
         "symbol" : "]",
-        "material" : ["steel", "null"],
+        "material" : ["superalloy", "null"],
         "volume" : 12,
         "bashing" : 6,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 185
     },
     {
@@ -355,10 +434,11 @@
         "to_hit" : -2,
         "color" : "light_cyan",
         "symbol" : ",",
-        "material" : ["steel", "null"],
+        "material" : ["superalloy", "null"],
         "volume" : 2,
         "bashing" : -2,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 85
     },
     {
@@ -375,6 +455,7 @@
         "bashing" : 6,
         "cutting" : 3,
         "flags" : ["STAB"],
+        "category" : "veh_parts",
         "price" : 185
     },
     {
@@ -386,10 +467,11 @@
         "to_hit" : -1,
         "color" : "light_cyan",
         "symbol" : "]",
-        "material" : ["steel", "null"],
+        "material" : ["hardsteel", "null"],
         "volume" : 12,
         "bashing" : 6,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 160
     },
     {
@@ -405,6 +487,7 @@
         "volume" : 80,
         "bashing" : 0,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 400
     },
     {
@@ -420,6 +503,7 @@
         "volume" : 80,
         "bashing" : 0,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 400
     },
     {
@@ -435,7 +519,39 @@
         "volume" : 111,
         "bashing" : 0,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 400
+    },
+    {
+        "type":"GENERIC",
+        "id" : "chemlab",
+        "name" : "onboard chemistry lab",
+        "description" : "Assembled from a chemistry set attached to a complex wiring harness, it is well suited to most any chemistry project you could imagine. Unable to utilize standard batteries, it requires an external supply of electricity to operate.",
+        "weight" : 19124,
+        "to_hit" : -2,
+        "color" : "yellow",
+        "symbol" : "&",
+        "material" : ["steel", "glass"],
+        "volume" : 92,
+        "bashing" : 0,
+        "cutting" : 0,
+        "price" : 400
+    },
+    {
+        "type":"GENERIC",
+        "id": "veh_tracker",
+        "name": "vehicle tracking device",
+        "description": "A vehicle tracking device, when installed on a vehicle allows you track the vehicle through your PDA",
+        "weight": 400,
+        "to_hit": 0,
+        "color": "red",
+        "symbol": ";",
+        "material": ["plastic", "iron"],
+        "volume": 2,
+        "bashing": 1,
+        "cutting": 0,
+        "category" : "veh_parts",
+        "price": 800
     },
     {
         "type":"GENERIC",
@@ -450,6 +566,7 @@
         "volume": 4,
         "bashing": 1,
         "cutting": 0,
+        "category" : "veh_parts",
         "price": 400
     },
     {
@@ -465,6 +582,54 @@
         "volume": 4,
         "bashing": 1,
         "cutting": 0,
+        "category" : "veh_parts",
         "price": 400
+    },
+    {
+        "type":"GENERIC",
+        "id" : "cargo_rack",
+        "name" : "cargo carrier",
+        "description" : "A heavy frame outfitted with tie-downs and attachment points for carrying cargo.",
+        "weight" : 28813,
+        "to_hit" : -4,
+        "color" : "cyan",
+        "symbol" : "]",
+        "material" : ["steel", "plastic"],
+        "volume" : 200,
+        "bashing" : 2,
+        "cutting" : 0,
+        "price" : 400
+    },
+    {
+        "type":"GENERIC",
+        "id": "floodlight",
+        "name": "floodlight",
+        "description": "A large and heavy light designed to illuminate wide areas.",
+        "weight": 2500,
+        "to_hit": 1,
+        "color": "white",
+        "symbol": ";",
+        "material": ["iron", "plastic"],
+        "volume": 8,
+        "bashing": 5,
+        "cutting": 0,
+        "category" : "veh_parts",
+        "price": 900
+    },
+    {
+        "type":"GENERIC",
+        "id": "recharge_station",
+        "name": "recharging station",
+        "description": "An induction based charging system designed to operate on vehicle power. Once installed in a vehicle storage space, it will slowly charge all tools with rechargeable batteries in that space. The system can only be installed in existing storage compartments.",
+        "weight": 2500,
+        "to_hit": 1,
+        "color": "light_blue",
+        "symbol": "-",
+        "material": ["steel", "plastic"],
+        "volume": 8,
+        "bashing": 5,
+        "cutting": 0,
+        "category" : "veh_parts",
+        "price": 900
     }
 ]

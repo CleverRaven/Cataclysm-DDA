@@ -28,6 +28,7 @@
     "volume": 1,
     "bashing": -8,
     "cutting": 0,
+    "category": "spare_parts",
     "to_hit": 0
   },
 
@@ -133,7 +134,7 @@
     "symbol": ",",
     "color": "light_gray",
     "name": "string - 3 ft",
-    "description": "A long piece of cotton string. Use scissors on it to cut it into smaller pieces.",
+    "description": "A long piece of cotton string. Disassemble it to cut it into smaller pieces.",
     "price": 30,
     "material": "cotton",
     "weight": 36,
@@ -188,6 +189,7 @@
     "volume": 1,
     "bashing": -5,
     "cutting": 0,
+    "category": "spare_parts",
     "to_hit": -1
   },
 
@@ -293,7 +295,11 @@
     "symbol": ",",
     "color": "dark_gray",
     "name": "burnt out bionic",
+<<<<<<< HEAD
     "description": "While this was once a valuable bionic implant, it hasn't held up well under repeated use. This object has been destroyed by excessive electric current and is now useless.",
+=======
+    "description": "Once a valuable bionic implant, it has not held up well under repeated use. This object has been destroyed by excessive electric current and is now useless.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
     "price": 135,
     "material": ["steel", "plastic"],
     "weight": 317,
@@ -348,6 +354,7 @@
     "volume": 0,
     "bashing": -6,
     "cutting": 0,
+    "category" : "spare_parts",
     "to_hit": 2
   },
 
@@ -364,6 +371,7 @@
     "volume": 2,
     "bashing": 8,
     "cutting": 0,
+    "category" : "spare_parts",
     "to_hit": -2
   },
 
@@ -396,7 +404,25 @@
     "volume": 1,
     "bashing": 1,
     "cutting": 0,
+    "category" : "spare_parts",
     "to_hit": -2
+  },
+
+  {
+    "type":"GENERIC",
+    "id": "glass_shard",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "glass shard",
+    "description": "A broken shard of glass covered in sharp edges. You could use it as a weapon, but you might want to wear gloves.",
+    "price": 0,
+    "material": "glass",
+    "weight": 89,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 6,
+    "flags": ["HURT_WHEN_WIELDED", "HURT_WHEN_PULLED"],
+    "to_hit": -1
   },
 
   {
@@ -430,7 +456,7 @@
     "cutting": 0,
     "to_hit": -6
   },
-  
+
   {
     "type":"GENERIC",
     "id": "reinforced_glass_pane",
@@ -480,6 +506,40 @@
   },
 
   {
+        "type":"GENERIC",
+        "id": "spear_rebar",
+        "symbol": "/",
+        "color": "dark_gray",
+        "name": "sharpened rebar",
+        "description": "A somewhat sharpened piece of rebar, it is still better at bashing than stabbing but the added flexibility is nice",
+        "price": 75,
+        "material": "iron",
+        "weight": 908,
+        "volume": 6,
+        "bashing": 12,
+        "flags" : ["SPEAR"],
+        "cutting": 6,
+        "to_hit": 0
+  },
+
+  {
+    "type":"GENERIC",
+    "id" : "cudgel",
+    "name" : "cudgel",
+    "description" : "A slender long rod of wood, while traditionally intended as a training tool for many dueling moves, it still makes a good melee weapon in a pinch.",
+    "weight" : 875,
+    "to_hit" : 2,
+    "color" : "brown",
+    "symbol" : "/",
+    "material" : ["wood", "null"],
+    "techniques" : ["WBLOCK_1", "RAPID", "PRECISE"],
+    "volume" : 8,
+    "bashing" : 8,
+    "cutting" : 0,
+    "price" : 195
+  },
+
+  {
     "type":"GENERIC",
     "id": "q_staff",
     "symbol": "/",
@@ -493,6 +553,7 @@
     "volume": 12,
     "bashing": 23,
     "cutting": 0,
+    "category" : "weapons",
     "to_hit": 3
   },
 
@@ -510,7 +571,25 @@
     "volume": 12,
     "bashing": 30,
     "cutting": 0,
+    "category" : "weapons",
     "to_hit": 3
+  },
+
+  {
+     "type":"GENERIC",
+     "id": "lajatang",
+     "symbol": "/",
+     "color": "brown",
+     "name": "lajatang",
+     "description": "An exotic weapon comprised of a long pole of wood with curved blades on each end. It can be deadly in skilled hands.",
+     "price": 60,
+     "material": ["wood", "iron"],
+     "techniques" : ["WBLOCK_1", "WIDE"],
+     "weight": 2500,
+     "volume": 26,
+     "bashing": 4,
+     "cutting": 26,
+     "to_hit": 2
   },
 
   {
@@ -528,6 +607,7 @@
     "cutting": 6,
     "flags" : ["CHOP"],
     "to_hit": 1,
+    "category" : "weapons",
     "qualities": [["CUT", 1]]
   },
 
@@ -544,6 +624,7 @@
     "volume": 8,
     "bashing": 6,
     "cutting": 0,
+    "category" : "tools",
     "to_hit": 1
   },
 
@@ -559,6 +640,57 @@
     "weight": 2628,
     "volume": 4,
     "bashing": 10,
+    "cutting": 0,
+    "category" : "tools",
+    "to_hit": 2
+  },
+
+  {
+    "type":"GENERIC",
+    "id": "waffleiron",
+    "symbol": ")",
+    "color": "dark_gray",
+    "name": "waffle iron",
+    "description": "A waffle iron. For making waffles.",
+    "price": 50,
+    "material": "iron",
+    "weight": 2628,
+    "volume": 4,
+    "bashing": 10,
+    "cutting": 0,
+    "category" : "tools",
+    "to_hit": 2
+  },
+
+  {
+    "type":"GENERIC",
+    "id": "pastaextruder",
+    "symbol": ")",
+    "color": "dark_gray",
+    "name": "pasta extruder",
+    "description": "A pasta extruder run by a hand-crank. Useful in making pasta. It comes with various heads to make various kinds of pasta.",
+    "price": 50,
+    "material": "iron",
+    "weight": 2628,
+    "volume": 4,
+    "bashing": 10,
+    "cutting": 0,
+    "category" : "tools",
+    "to_hit": 2
+  },
+
+  {
+    "type":"GENERIC",
+    "id": "teapot",
+    "symbol": ")",
+    "color": "dark_gray",
+    "name": "teapot",
+    "description": "A small metal teapot. Teatime wouldn't be complete without one.",
+    "price": 30,
+    "material": "iron",
+    "weight": 229,
+    "volume": 2,
+    "bashing": 3,
     "cutting": 0,
     "to_hit": 2
   },
@@ -642,6 +774,22 @@
     "bashing": 14,
     "cutting": 0,
     "to_hit": -8
+  },
+
+  {
+    "type":"GENERIC",
+    "id": "silver",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "silver bar",
+    "description": "A large bar of silver. Before the cataclysm, this would've been worth quite a bit; now its value is greatly diminished.",
+    "price": 1000,
+    "material": "silver",
+    "weight": 4825,
+    "volume": 2,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -1
   },
 
   {
@@ -770,6 +918,23 @@
     "bashing": 6,
     "cutting": 8,
     "to_hit": -2
+  },
+
+  {
+    "type":"GENERIC",
+    "id": "circsaw_blade",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "circular sawblade",
+    "description": "An 8\" circular sawblade. You could make a saw with it, or throw it. Wielding it without sturdy gloves is a bad idea.",
+    "price": 200,
+    "material": "iron",
+    "weight": 349,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 14,
+    "flags": ["HURT_WHEN_WIELDED"],
+    "to_hit": -4
   },
 
   {
@@ -1046,6 +1211,22 @@
 
   {
     "type":"GENERIC",
+    "id": "broken_manhack",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken manhack",
+    "description": "A broken manhack. Much less threatening now that it lies limp on solid ground. Could be gutted for parts.",
+    "price": 300,
+    "material": ["steel", "plastic"],
+    "weight": 300,
+    "volume": 1,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3
+  },
+
+  {
+    "type":"GENERIC",
     "id": "fan",
     "symbol": ",",
     "color": "light_gray",
@@ -1062,13 +1243,29 @@
 
   {
     "type":"GENERIC",
+    "id": "ceramic_armor",
+    "symbol": ",",
+    "color": "yellow",
+    "name": "ceramic armor plate",
+    "description": "A ceramic armor plate, specifically engineered for use in a bullet resistant vest.",
+    "price": 80,
+    "material": "ceramic",
+    "weight": 362,
+    "volume": 2,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "type":"GENERIC",
     "id": "ceramic_plate",
     "symbol": ",",
     "color": "yellow",
     "name": "ceramic plate",
     "description": "A ceramic dinner plate; you could probably play frisbee with it!",
     "price": 10,
-    "material": "glass",
+    "material": "ceramic",
     "weight": 362,
     "volume": 1,
     "bashing": 1,
@@ -1084,7 +1281,7 @@
     "name": "ceramic bowl",
     "description": "A shallow dessert bowl; there isn't a lot of use for it now, really.",
     "price": 10,
-    "material": "glass",
+    "material": "ceramic",
     "weight": 400,
     "volume": 1,
     "bashing": 1,
@@ -1100,7 +1297,7 @@
     "name": "ceramic cup",
     "description": "A ceramic teacup, pinky out!",
     "price": 10,
-    "material": "glass",
+    "material": "ceramic",
     "weight": 300,
     "volume": 1,
     "bashing": 1,
@@ -1194,8 +1391,13 @@
     "id": "spoon",
     "symbol": ";",
     "color": "light_gray",
+<<<<<<< HEAD
     "name": "fork",
     "description": "Do not try to bend this spoon. That is impossible.",
+=======
+    "name": "spoon",
+    "description": "Do not try to bend the spoon. That is impossible.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
     "price": 15,
     "material": "steel",
     "weight": 48,
@@ -1303,7 +1505,7 @@
     "to_hit": -1
   },
 
-  { 
+  {
     "type":"GENERIC",
     "id":"rock",
     "symbol": "*",
@@ -1369,7 +1571,7 @@
     "cutting": 0,
     "to_hit": 5
   },
-  { 
+  {
     "type":"GENERIC",
     "id":"fertilizer",
     "symbol": "*",
@@ -1384,7 +1586,7 @@
     "cutting": 0,
     "to_hit": 0
   },
-  { 
+  {
     "type":"GENERIC",
     "id": "syringe",
     "symbol": ",",
@@ -1544,6 +1746,22 @@
     },
     {
         "type":"GENERIC",
+        "id" : "warhammer",
+        "name" : "war hammer",
+        "description" : "A medieval hammer made for battle. Its odd shape and balance make it an excellent weapon, but an ineffective tool.",
+        "weight" : 1231,
+        "to_hit" : 1,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["wood", "steel"],
+        "techniques" : ["BRUTAL"],
+        "volume" : 5,
+        "bashing" : 30,
+        "cutting" : 0,
+        "price" : 160
+    },
+    {
+        "type":"GENERIC",
         "id" : "nailboard",
         "name" : "nail board",
         "description" : "A long piece of wood with several nails through one end; essentially it is a simple mace. It makes a great melee weapon.",
@@ -1577,6 +1795,39 @@
         "price" : 160
     },
     {
+    "type":"GENERIC",
+    "id": "knuckle_nail",
+    "symbol" : "]",
+    "color": "brown",
+    "name": "nail knuckles",
+    "description": "A pair of knuckles consisting of two small squares of wood with several nails coming through them. Useful in nasty street fights.",
+    "material": "wood",
+    "price": 0,
+    "volume": 1,
+    "weight": 430,
+    "bashing": 2,
+    "cutting": 8,
+    "flags" : ["UNARMED_WEAPON"],
+    "to_hit": 0
+    },
+    {
+        "type":"GENERIC",
+        "id" : "homewrecker",
+        "name" : "homewrecker",
+        "description" : "A long piece of wood with several chunks of steel firmly tied to it. The resulting weapon is unwieldy and slow but very heavy hitting.",
+        "weight" : 3024,
+        "to_hit" : -3,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["wood", "steel"],
+        "techniques" : ["WBLOCK_1"],
+        "volume" : 5,
+        "bashing" : 22,
+        "cutting" : 4,
+        "flags" : ["STAB"],
+        "price" : 80
+    },
+    {
         "type":"GENERIC",
         "id" : "2x4",
         "name" : "two by four",
@@ -1596,15 +1847,21 @@
         "type":"GENERIC",
         "id" : "pipe",
         "name" : "pipe",
+<<<<<<< HEAD
         "description" : "A length of steel pipe. It makes a good melee weapon, and is useful in a few crafting recipes.",
         "weight" : 762,
         "to_hit" : 3,
+=======
+        "description" : "A steel pipe, makes a good melee weapon. Useful in a few crafting recipes.",
+        "weight" : 1262,
+        "to_hit" : 1,
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "color" : "dark_gray",
         "symbol" : "/",
         "material" : ["steel", "null"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 4,
-        "bashing" : 16,
+        "bashing" : 12,
         "cutting" : 0,
         "price" : 75
     },
@@ -1626,9 +1883,30 @@
     },
     {
         "type":"GENERIC",
+        "id" : "battletorch_done",
+        "name" : "burnt out Louisville Slaughterer",
+        "description" : "A sturdy wood bat, wrapped in flame-resistant Nomex fabric. Makes a good melee weapon but better be disassembled to recycle the baseball bat and some Nomex patchs.",
+        "weight" : 1343,
+        "to_hit" : 3,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["wood", "null"],
+        "techniques" : ["WBLOCK_1"],
+        "volume" : 7,
+        "bashing" : 19,
+        "cutting" : 0,
+        "price" : 180
+    },
+    {
+        "type":"GENERIC",
         "id" : "bat_metal",
+<<<<<<< HEAD
         "name" : "aluminium bat",
         "description" : "An aluminium baseball bat. It's smaller and lighter than a wooden bat, and therefore a little less damaging as a result.",
+=======
+        "name" : "aluminum bat",
+        "description" : "An aluminum baseball bat, lighter than a wooden bat and a little easier to swing as a result.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
         "weight" : 765,
         "to_hit" : 3,
         "color" : "light_gray",
@@ -1656,6 +1934,23 @@
         "cutting" : 12,
         "flags" : ["SPEAR"],
         "price" : 40
+    },
+    {
+        "type":"GENERIC",
+        "id" : "spear_steel",
+        "name" : "steel spear",
+        "description" : "A stout metal pole with a sharp point.",
+        "weight" : 1398,
+        "to_hit" : 1,
+        "color" : "light_gray",
+        "symbol" : "/",
+        "material" : ["steel", "null"],
+        "techniques" : ["WBLOCK_1", "RAPID"],
+        "volume" : 5,
+        "bashing" : 6,
+        "cutting" : 18,
+        "flags" : ["SPEAR"],
+        "price" : 80
     },
     {
         "type":"GENERIC",
@@ -1824,6 +2119,23 @@
     },
     {
         "type":"GENERIC",
+        "id" : "javelin_iron",
+        "name" : "iron javelin",
+        "description" : "An iron-tipped wooden throwing spear. The grip area has also be carved and covered for better grip.",
+        "weight" : 960,
+        "to_hit" : 2,
+        "color" : "light_gray",
+        "symbol" : "/",
+        "material" : ["wood", "iron"],
+        "techniques" : ["WBLOCK_1", "RAPID"],
+        "volume" : 4,
+        "bashing" : 5,
+        "cutting" : 15,
+        "flags" : ["SPEAR"],
+        "price" : 90
+    },
+    {
+        "type":"GENERIC",
         "id" : "poppy_flower",
         "name" : "poppy flower",
         "description" : "A poppy stalk with some petals.",
@@ -1882,7 +2194,24 @@
         "bashing" : 2,
         "cutting" : 10,
         "flags" : ["STAB", "UNARMED_WEAPON"],
-        "price" : 0
+        "price" : 100
+    },
+    {
+        "type":"GENERIC",
+        "id" : "bagh_nakha",
+        "name" : "tiger claws",
+        "description" : "Also called bagh nakha or iron paw, this is a small claw-like bladed weapon from India designed to be concealed under and against the palm.",
+        "weight" : 92,
+        "to_hit" : 3,
+        "color" : "dark_gray",
+        "symbol" : "{",
+        "material" : ["steel", "null"],
+        "volume" : 0,
+        "bashing" : 1,
+        "cutting" : 6,
+        "flags" : ["SLICE", "UNARMED_WEAPON"],
+        "price" : 200,
+        "qualities": [["CUT", 1]]
     },
   {
     "type":"GENERIC",
@@ -1948,7 +2277,7 @@
     "bashing" : -8,
     "cutting" : 0,
     "price" : 250,
-    "flags" : ["WATCH"]
+    "flags" : ["WATCH", "FANCY"]
   },
   {
     "type":"GENERIC",
@@ -1969,11 +2298,33 @@
   },
   {
     "type":"GENERIC",
+    "id" : "teleumbrella",
+    "symbol" : ",",
+    "color": "dark_gray",
+    "name": "telescoping umbrella",
+    "description": "A telescoping umbrella which collapses down for easy storage, useful for keeping dry when wielded.",
+    "material": ["plastic", "null"],
+    "price": 120,
+    "volume": 2,
+    "weight": 118,
+    "bashing": 1,
+    "cutting": 0,
+    "to_hit": 1,
+    "flags": ["RAIN_PROTECT"],
+    "techniques": ["WBLOCK_1"]
+  },
+  {
+    "type":"GENERIC",
     "id": "fish_bowl",
     "symbol": "u",
     "color": "light_cyan",
+<<<<<<< HEAD
     "name": "A fish bowl",
     "description": "A filled fish bowl, the tag says to Ed and the fish's name Hoss. It appears the fish has tiny antlers.",
+=======
+    "name": "a fish bowl",
+    "description": "A filled fish bowl, the tag says to Ed and the fish's name Hoss. It appears the fish has tiny antlers",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
     "price": 1,
     "material": "glass",
     "weight": 7042,
@@ -1983,7 +2334,7 @@
     "to_hit": -6
   },
   { "type":"GENERIC",
- "id": "knuckle_steel",
+    "id": "knuckle_steel",
     "symbol" : "3",
     "color": "dark_gray",
     "name": "steel knuckles",
@@ -1999,7 +2350,7 @@
   },
 
   { "type":"GENERIC",
- "id": "knuckle_katar",
+    "id": "knuckle_katar",
     "symbol" : "!",
     "color": "dark_gray",
     "name": "razorbar katar",
@@ -2011,11 +2362,11 @@
     "bashing": 0,
     "cutting": 16,
     "to_hit": 2,
-    "flags" : ["UNARMED_WEAPON"],
+    "flags" : ["UNARMED_WEAPON", "CHOP"],
     "techniques": ["WBLOCK_1"]
   },
   { "type":"GENERIC",
- "id": "cestus",
+    "id": "cestus",
     "symbol" : "3",
     "color": "light_gray",
     "name": "cestus",
@@ -2030,7 +2381,7 @@
     "to_hit": 0
   },
   { "type":"GENERIC",
- "id": "knuckle_brass",
+    "id": "knuckle_brass",
     "symbol" : "3",
     "color": "yellow",
     "name": "brass knuckles",
@@ -2120,6 +2471,22 @@
     "cutting" : 0,
     "price" : 195
   },
+  {
+    "type":"GENERIC",
+    "id" : "tonfa_wood",
+    "name" : "wooden tonfa",
+    "description" : "A stout wooden truncheon of the sort commonly employed by police. Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",
+    "weight" : 921,
+    "to_hit" : 2,
+    "color" : "brown",
+    "symbol" : "/",
+    "material" : ["wood", "null"],
+    "techniques" : ["WBLOCK_2", "RAPID"],
+    "volume" : 8,
+    "bashing" : 14,
+    "cutting" : 0,
+    "price" : 195
+  },
 
   {
     "type":"GENERIC",
@@ -2130,7 +2497,7 @@
     "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic nightlight, and feel confident that you won't have to worry about depleting its power supply for at least 160 million years of its faithful service.",
     "price": 1250,
     "material": ["plastic", "steel"],
-    "flags": ["LIGHT_2"],
+    "flags": ["LIGHT_2", "LEAK_DAM", "RADIOACTIVE"],
     "weight": 3714,
     "volume": 1,
     "bashing": 4,
@@ -2147,6 +2514,7 @@
     "description": "Never sacrifice taste for convenience, when you can have both with the Rivtech atomic coffee maker! Its simple and robust atomic-age construction guarantees a service life of at least 160 million years.",
     "price": 1000,
     "material": ["plastic", "steel"],
+    "flags": ["LEAK_DAM", "RADIOACTIVE"],
     "weight": 4102,
     "volume": 3,
     "bashing": 5,
@@ -2157,7 +2525,11 @@
     "type":"GENERIC",
     "id" : "cu_pipe",
     "name" : "copper tubing",
+<<<<<<< HEAD
     "description" : "A copper tube, too thin to be effective as a melee weapon, but will do if nothing else is available. It'd be useful in a few crafting recipes.",
+=======
+    "description" : "A copper tube, too thin to be much use as a melee weapon, but will do if nothing else is available. Useful in a few crafting recipes.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
     "weight" : 345,
     "to_hit" : -1,
     "color" : "light_red",
@@ -2168,5 +2540,160 @@
     "bashing" : 5,
     "cutting" : 0,
     "price" : 75
+  },
+  {
+    "type":"GENERIC",
+    "id": "nomex",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "nomex patch",
+    "description": "A small bolt of Nomex fire-resistant fabric.",
+    "price": 40,
+    "material": ["nomex", "null"],
+    "weight": 42,
+    "volume": 1,
+    "bashing": -8,
+    "cutting": 0,
+    "to_hit": 0
+  },
+  {
+    "type":"GENERIC",
+    "id" : "alarmclock",
+    "name" : "alarm clock",
+    "description" : "A wind-up alarm clock. Though the noise it makes is unpleasant to wake up to, it's always good to get an early start to your day. Can also be disassembled into some useful parts.",
+    "weight" : 562,
+    "to_hit" : -3,
+    "color" : "yellow",
+    "symbol" : ",",
+    "material" : ["steel", "glass"],
+    "volume" : 1,
+    "bashing" : 3,
+    "cutting" : 0,
+    "price" : 50,
+    "flags" : ["WATCH", "ALARMCLOCK"]
+  },
+  {
+    "type":"GENERIC",
+    "id": "kevlar_harness",
+    "symbol": "[",
+    "color": "blue",
+    "name": "kevlar dog harness",
+    "description": "A blue bulletproof harness, designed to be worn by canines in the service of local law enforcement.",
+    "price": 300,
+    "material": ["kevlar", "null"],
+    "weight": 4290,
+    "volume": 18,
+    "bashing": 5,
+    "cutting": 0,
+    "to_hit": -1
+  },
+  {
+    "type":"GENERIC",
+    "id": "glass_shiv",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "glass shiv",
+    "description": "A glass shard with wrapping at one end so it can be safely wielded.",
+    "price": 0,
+    "material": ["glass", "cotton"],
+    "weight": 129,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 6,
+    "to_hit": 0
+  },
+  {
+    "id": "mre_beef_box",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "brown",
+    "name": "MRE - Beef",
+    "description": "A 'Meal Ready to Eat' with an irradiated beef main course and everything a hungry soldier needs. The contents will begin to rot once they're removed from this sealed bag. Disassemble it to get to its contents.",
+    "price": 300,
+    "weight": 350,
+    "volume": 3,
+    "bashing": -2,
+    "cutting": 0,
+    "to_hit": 0,
+    "material": ["plastic", "null"]
+  },
+  {
+    "id": "mre_veggy_box",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "brown",
+    "name": "MRE - Vegetarian",
+    "description": "A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and everything a hungry soldier needs. The contents will begin to rot once they're removed from this sealed bag. Disassemble it to get to its contents.",
+    "price": 300,
+    "weight": 350,
+    "volume": 3,
+    "bashing": -2,
+    "cutting": 0,
+    "to_hit": 0,
+    "material": ["plastic", "null"]
+  },
+  {
+    "id": "mre_chicken_box",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "brown",
+    "name": "MRE - Chicken",
+    "description": "A 'Meal Ready to Eat' with an irradiated chicken course and everything a hungry soldier needs. The contents will begin to rot once they're removed from this sealed bag. Disassemble it to get to its contents.",
+    "price": 300,
+    "weight": 350,
+    "volume": 3,
+    "bashing": -2,
+    "cutting": 0,
+    "to_hit": 0,
+    "material": ["plastic", "null"]
+  },
+  {
+    "id": "mre_hotdog_box",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "brown",
+    "name": "MRE - Hotdogs",
+    "description": "A 'Meal Rejected by the Enemy' with a hotdog main course and everything a desperate survivor needs. The contents will begin to rot once they're removed from this sealed bag. Disassemble it to get to its contents.",
+    "price": 1750,
+    "weight": 350,
+    "volume": 3,
+    "bashing": -2,
+    "cutting": 0,
+    "to_hit": 0,
+    "material": ["plastic", "null"]
+  },
+  {
+    "id": "mre_ravioli_box",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "brown",
+    "name": "MRE - Ravioli",
+    "description": "A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier needs. The contents will begin to rot once they're removed from this sealed bag. Disassemble it to get to its contents.",
+    "price": 300,
+    "weight": 350,
+    "volume": 3,
+    "bashing": -2,
+    "cutting": 0,
+    "to_hit": 0,
+    "material": ["plastic", "null"]
+  },
+  {
+    "type":"GENERIC",
+    "id" : "file",
+    "name" : "file",
+    "description" : "Several documents with all kinds of information, customer data and charts kept together, pretty useless now though.",
+    "weight" : 15,
+    "to_hit" : -3,
+    "color" : "white",
+    "symbol" : ",",
+    "material" : ["paper", "null"],
+    "volume" : 1,
+    "bashing" : -8,
+    "cutting": -3,
+    "max_charges": 20,
+    "initial_charges": 20,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "price" : 0
   }
 ]

@@ -15,672 +15,711 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\action.cpp">
+    <ClCompile Include="..\src\wcwidth.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\addiction.cpp">
+    <ClCompile Include="..\src\action.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\advanced_inv.cpp">
+    <ClCompile Include="..\src\addiction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\animation_curses.cpp">
+    <ClCompile Include="..\src\advanced_inv.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\animation_tiles.cpp">
+    <ClCompile Include="..\src\animation_curses.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\artifact.cpp">
+    <ClCompile Include="..\src\animation_tiles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\auto_pickup.cpp">
+    <ClCompile Include="..\src\artifact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\basecamp.cpp">
+    <ClCompile Include="..\src\auto_pickup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\bionics.cpp">
+    <ClCompile Include="..\src\basecamp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\bodypart.cpp">
+    <ClCompile Include="..\src\bionics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\building_generation.cpp">
+    <ClCompile Include="..\src\bodypart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\calendar.cpp">
+    <ClCompile Include="..\src\calendar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cata_tiles.cpp">
+    <ClCompile Include="..\src\cata_tiles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\catacharset.cpp">
+    <ClCompile Include="..\src\catacharset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\catajson.cpp">
+    <ClCompile Include="..\src\catalua.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\color.cpp">
+    <ClCompile Include="..\src\char_validity_check.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\computer.cpp">
+    <ClCompile Include="..\src\color.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\construction.cpp">
+    <ClCompile Include="..\src\computer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\crafting.cpp">
+    <ClCompile Include="..\src\construction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cursesport.cpp">
+    <ClCompile Include="..\src\crafting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\debug.cpp">
+    <ClCompile Include="..\src\cursesport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\defense.cpp">
+    <ClCompile Include="..\src\debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\disease.cpp">
+    <ClCompile Include="..\src\defense.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\editmap.cpp">
+    <ClCompile Include="..\src\disease.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\event.cpp">
+    <ClCompile Include="..\src\editmap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\faction.cpp">
+    <ClCompile Include="..\src\event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\field.cpp">
+    <ClCompile Include="..\src\faction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\game.cpp">
+    <ClCompile Include="..\src\field.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\gamemode.cpp">
+    <ClCompile Include="..\src\file_finder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\gamesave.cpp">
+    <ClCompile Include="..\src\game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\graffiti.cpp">
+    <ClCompile Include="..\src\gamemode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\help.cpp">
+    <ClCompile Include="..\src\graffiti.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\helper.cpp">
+    <ClCompile Include="..\src\help.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\iexamine.cpp">
+    <ClCompile Include="..\src\helper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\input.cpp">
+    <ClCompile Include="..\src\iexamine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\inventory.cpp">
+    <ClCompile Include="..\src\init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\inventory_ui.cpp">
+    <ClCompile Include="..\src\input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\item.cpp">
+    <ClCompile Include="..\src\inventory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\item_factory.cpp">
+    <ClCompile Include="..\src\inventory_ui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\item_group.cpp">
+    <ClCompile Include="..\src\item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\itypedef.cpp">
+    <ClCompile Include="..\src\item_factory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\iuse.cpp">
+    <ClCompile Include="..\src\item_group.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\iuse_software.cpp">
+    <ClCompile Include="..\src\itypedef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\iuse_software_kitten.cpp">
+    <ClCompile Include="..\src\iuse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\iuse_software_snake.cpp">
+    <ClCompile Include="..\src\iuse_software.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\iuse_software_sokoban.cpp">
+    <ClCompile Include="..\src\iuse_software_kitten.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\keypress.cpp">
+    <ClCompile Include="..\src\iuse_software_snake.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lightmap.cpp">
+    <ClCompile Include="..\src\iuse_software_sokoban.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\line.cpp">
+    <ClCompile Include="..\src\json.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\main.cpp">
+    <ClCompile Include="..\src\keypress.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\main_menu.cpp">
+    <ClCompile Include="..\src\lightmap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\map.cpp">
+    <ClCompile Include="..\src\line.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\mapbuffer.cpp">
+    <ClCompile Include="..\src\live_view.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\mapdata.cpp">
+    <ClCompile Include="..\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\mapgen.cpp">
+    <ClCompile Include="..\src\main_menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\mapgenformat.cpp">
+    <ClCompile Include="..\src\map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\material.cpp">
+    <ClCompile Include="..\src\mapbuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\melee.cpp">
+    <ClCompile Include="..\src\mapdata.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\mission.cpp">
+    <ClCompile Include="..\src\mapgen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\mission_end.cpp">
+    <ClCompile Include="..\src\mapgen_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\mission_fail.cpp">
+    <ClCompile Include="..\src\mapgenformat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\mission_place.cpp">
+    <ClCompile Include="..\src\martialarts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\mission_start.cpp">
+    <ClCompile Include="..\src\material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\missiondef.cpp">
+    <ClCompile Include="..\src\melee.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\monattack.cpp">
+    <ClCompile Include="..\src\mission.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\mondeath.cpp">
+    <ClCompile Include="..\src\mission_end.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\mongroupdef.cpp">
+    <ClCompile Include="..\src\mission_fail.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\monitemsdef.cpp">
+    <ClCompile Include="..\src\mission_place.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\monmove.cpp">
+    <ClCompile Include="..\src\mission_start.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\monster.cpp">
+    <ClCompile Include="..\src\missiondef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\mtypedef.cpp">
+    <ClCompile Include="..\src\monattack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\mutation.cpp">
+    <ClCompile Include="..\src\mondeath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\mutation_data.cpp">
+    <ClCompile Include="..\src\mongroupdef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\name.cpp">
+    <ClCompile Include="..\src\monitemsdef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\newcharacter.cpp">
+    <ClCompile Include="..\src\monmove.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\npc.cpp">
+    <ClCompile Include="..\src\monster.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\npcmove.cpp">
+    <ClCompile Include="..\src\monstergenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\npctalk.cpp">
+    <ClCompile Include="..\src\mtypedef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\options.cpp">
+    <ClCompile Include="..\src\mutation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\output.cpp">
+    <ClCompile Include="..\src\mutation_data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\overmap.cpp">
+    <ClCompile Include="..\src\name.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\overmapbuffer.cpp">
+    <ClCompile Include="..\src\newcharacter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\picofunc.cpp">
+    <ClCompile Include="..\src\npc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\player.cpp">
+    <ClCompile Include="..\src\npcmove.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\posix_time.cpp">
+    <ClCompile Include="..\src\npctalk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\profession.cpp">
+    <ClCompile Include="..\src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ranged.cpp">
+    <ClCompile Include="..\src\output.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\rng.cpp">
+    <ClCompile Include="..\src\overmap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\sdltiles.cpp">
+    <ClCompile Include="..\src\overmapbuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\settlement.cpp">
+    <ClCompile Include="..\src\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\setvector.cpp">
+    <ClCompile Include="..\src\posix_time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\skill.cpp">
+    <ClCompile Include="..\src\profession.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\text_snippets.cpp">
+    <ClCompile Include="..\src\ranged.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\tileray.cpp">
+    <ClCompile Include="..\src\rng.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\trapdef.cpp">
+    <ClCompile Include="..\src\savegame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\trapfunc.cpp">
+    <ClCompile Include="..\src\savegame_json.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\tutorial.cpp">
+    <ClCompile Include="..\src\savegame_legacy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ui.cpp">
+    <ClCompile Include="..\src\sdltiles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\veh_interact.cpp">
+    <ClCompile Include="..\src\setvector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\veh_typedef.cpp">
+    <ClCompile Include="..\src\skill.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\vehicle.cpp">
+    <ClCompile Include="..\src\speech.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\version.cpp">
+    <ClCompile Include="..\src\text_snippets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\weather.cpp">
+    <ClCompile Include="..\src\tileray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\weather_data.cpp">
+    <ClCompile Include="..\src\translations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\wincurse.cpp">
+    <ClCompile Include="..\src\trapdef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\wish.cpp">
+    <ClCompile Include="..\src\trapfunc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\wcwidth.c">
+    <ClCompile Include="..\src\tutorial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\file_finder.cpp">
+    <ClCompile Include="..\src\ui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\init.cpp">
+    <ClCompile Include="..\src\veh_interact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\json.cpp">
+    <ClCompile Include="..\src\veh_typedef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\martialarts.cpp">
+    <ClCompile Include="..\src\vehicle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\monstergenerator.cpp">
+    <ClCompile Include="..\src\version.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\savegame_json.cpp">
+    <ClCompile Include="..\src\weather.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\savegame_legacy.cpp">
+    <ClCompile Include="..\src\weather_data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\translations.cpp">
+    <ClCompile Include="..\src\wincurse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\wish.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\worldfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\creature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\creature_tracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\damage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\effect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nonplayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\action.h">
+    <ClInclude Include="..\src\action.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\addiction.h">
+    <ClInclude Include="..\src\addiction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\advanced_inv.h">
+    <ClInclude Include="..\src\advanced_inv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\artifact.h">
+    <ClInclude Include="..\src\artifact.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\artifactdata.h">
+    <ClInclude Include="..\src\auto_pickup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\auto_pickup.h">
+    <ClInclude Include="..\src\basecamp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\basecamp.h">
+    <ClInclude Include="..\src\bionics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\bionics.h">
+    <ClInclude Include="..\src\bodypart.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\bodypart.h">
+    <ClInclude Include="..\src\calendar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\building_generation.h">
+    <ClInclude Include="..\src\cata_tiles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\calendar.h">
+    <ClInclude Include="..\src\catacharset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\cata_tiles.h">
+    <ClInclude Include="..\src\catacurse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\catacharset.h">
+    <ClInclude Include="..\src\catalua.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\catacurse.h">
+    <ClInclude Include="..\src\char_validity_check.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\catajson.h">
+    <ClInclude Include="..\src\color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\color.h">
+    <ClInclude Include="..\src\computer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\computer.h">
+    <ClInclude Include="..\src\construction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\construction.h">
+    <ClInclude Include="..\src\coordinates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\crafting.h">
+    <ClInclude Include="..\src\crafting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\cursesdef.h">
+    <ClInclude Include="..\src\cursesdef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\debug.h">
+    <ClInclude Include="..\src\debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\dialogue.h">
+    <ClInclude Include="..\src\dialogue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\disease.h">
+    <ClInclude Include="..\src\disease.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\editmap.h">
+    <ClInclude Include="..\src\editmap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\enums.h">
+    <ClInclude Include="..\src\enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\event.h">
+    <ClInclude Include="..\src\event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\faction.h">
+    <ClInclude Include="..\src\faction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\field.h">
+    <ClInclude Include="..\src\field.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\game.h">
+    <ClInclude Include="..\src\file_finder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\gamemode.h">
+    <ClInclude Include="..\src\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\get_version.h">
+    <ClInclude Include="..\src\gamemode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\graffiti.h">
+    <ClInclude Include="..\src\get_version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\helper.h">
+    <ClInclude Include="..\src\graffiti.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\iexamine.h">
+    <ClInclude Include="..\src\help.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\input.h">
+    <ClInclude Include="..\src\helper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\inventory.h">
+    <ClInclude Include="..\src\iexamine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\item.h">
+    <ClInclude Include="..\src\init.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\item_factory.h">
+    <ClInclude Include="..\src\input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\item_group.h">
+    <ClInclude Include="..\src\inventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\itype.h">
+    <ClInclude Include="..\src\item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\iuse.h">
+    <ClInclude Include="..\src\item_factory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\iuse_software.h">
+    <ClInclude Include="..\src\item_group.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\iuse_software_kitten.h">
+    <ClInclude Include="..\src\itype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\iuse_software_snake.h">
+    <ClInclude Include="..\src\iuse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\iuse_software_sokoban.h">
+    <ClInclude Include="..\src\iuse_software.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\keypress.h">
+    <ClInclude Include="..\src\iuse_software_kitten.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lightmap.h">
+    <ClInclude Include="..\src\iuse_software_snake.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\line.h">
+    <ClInclude Include="..\src\iuse_software_sokoban.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\map.h">
+    <ClInclude Include="..\src\json.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\mapbuffer.h">
+    <ClInclude Include="..\src\keypress.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\mapdata.h">
+    <ClInclude Include="..\src\lightmap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\mapgenformat.h">
+    <ClInclude Include="..\src\line.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\mapitems.h">
+    <ClInclude Include="..\src\live_view.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\material.h">
+    <ClInclude Include="..\src\map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\mission.h">
+    <ClInclude Include="..\src\mapbuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\monattack.h">
+    <ClInclude Include="..\src\mapdata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\mondeath.h">
+    <ClInclude Include="..\src\mapgen_functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\mongroup.h">
+    <ClInclude Include="..\src\mapgenformat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\monster.h">
+    <ClInclude Include="..\src\mapitems.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\morale.h">
+    <ClInclude Include="..\src\martialarts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\moraledata.h">
+    <ClInclude Include="..\src\material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\mtype.h">
+    <ClInclude Include="..\src\mission.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\mutation.h">
+    <ClInclude Include="..\src\monattack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\name.h">
+    <ClInclude Include="..\src\mondeath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\npc.h">
+    <ClInclude Include="..\src\mongroup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\omdata.h">
+    <ClInclude Include="..\src\monster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\options.h">
+    <ClInclude Include="..\src\monstergenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\output.h">
+    <ClInclude Include="..\src\morale.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\overmap.h">
+    <ClInclude Include="..\src\moraledata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\overmapbuffer.h">
+    <ClInclude Include="..\src\mtype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\picofunc.h">
+    <ClInclude Include="..\src\mutation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\picojson.h">
+    <ClInclude Include="..\src\name.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\player.h">
+    <ClInclude Include="..\src\npc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\pldata.h">
+    <ClInclude Include="..\src\omdata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\posix_time.h">
+    <ClInclude Include="..\src\options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\profession.h">
+    <ClInclude Include="..\src\output.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\rng.h">
+    <ClInclude Include="..\src\overmap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SDLMain.h">
+    <ClInclude Include="..\src\overmapbuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\settlement.h">
+    <ClInclude Include="..\src\player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\setvector.h">
+    <ClInclude Include="..\src\pldata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\skill.h">
+    <ClInclude Include="..\src\posix_time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\text_snippets.h">
+    <ClInclude Include="..\src\profession.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\tile_id_data.h">
+    <ClInclude Include="..\src\rng.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\tileray.h">
+    <ClInclude Include="..\src\savegame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\translations.h">
+    <ClInclude Include="..\src\SDLMain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\trap.h">
+    <ClInclude Include="..\src\setvector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\tutorial.h">
+    <ClInclude Include="..\src\skill.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\ui.h">
+    <ClInclude Include="..\src\speech.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\uistate.h">
+    <ClInclude Include="..\src\text_snippets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\veh_interact.h">
+    <ClInclude Include="..\src\tile_id_data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\veh_type.h">
+    <ClInclude Include="..\src\tileray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\vehicle.h">
+    <ClInclude Include="..\src\translations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\version.h">
+    <ClInclude Include="..\src\trap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\wdirent.h">
+    <ClInclude Include="..\src\tutorial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\weather.h">
+    <ClInclude Include="..\src\ui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\coordinates.h">
+    <ClInclude Include="..\src\uistate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\file_finder.h">
+    <ClInclude Include="..\src\veh_interact.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\help.h">
+    <ClInclude Include="..\src\veh_type.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\init.h">
+    <ClInclude Include="..\src\vehicle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\json.h">
+    <ClInclude Include="..\src\wdirent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\martialarts.h">
+    <ClInclude Include="..\src\weather.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\monstergenerator.h">
+    <ClInclude Include="..\src\worldfactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\savegame.h">
+    <ClInclude Include="..\src\character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\input_defs.h">
+    <ClInclude Include="..\src\creature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\damage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\creature_tracker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\effect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mapgen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\nonplayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\resource.rc">
+    <None Include="..\src\SDLMain.m" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\src\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\CataclysmWin.cbp" />
   </ItemGroup>
 </Project>

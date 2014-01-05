@@ -102,8 +102,8 @@
         },
         {
             "id":"lighting_hidden",
-            "fg":00,
-            "bg":00,
+            "fg":0,
+            "bg":0,
             "rotates":false
         },
         {
@@ -634,7 +634,7 @@
         {
             "id":"t_underbrush",
             "fg":8,
-            "bg":1	,
+            "bg":1,
             "rotates":false
         },
         {
@@ -2802,14 +2802,14 @@
          "multitile" : false
       }, 
       { 
-         "id" : 223, 
+         "id" : "223", 
          "fg" : 555, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
       }, 
       { 
-         "id" : 556, 
+         "id" : "556", 
          "fg" : 556, 
          "bg" : -1, 
          "rotates" : false, 
@@ -2823,14 +2823,14 @@
          "multitile" : false
       }, 
       { 
-         "id" : 270, 
+         "id" : "270", 
          "fg" : 558, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
       }, 
       { 
-         "id" : 3006, 
+         "id" : "3006", 
          "fg" : 559, 
          "bg" : -1, 
          "rotates" : false, 
@@ -2851,7 +2851,7 @@
          "multitile" : false
       }, 
       { 
-         "id" : 308, 
+         "id" : "308", 
          "fg" : 562, 
          "bg" : -1, 
          "rotates" : false, 

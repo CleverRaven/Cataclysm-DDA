@@ -97,8 +97,8 @@
         },
         {
             "id":"lighting_hidden",
-            "fg":00,
-            "bg":00,
+            "fg":0,
+            "bg":0,
             "rotates":false
         },
         {

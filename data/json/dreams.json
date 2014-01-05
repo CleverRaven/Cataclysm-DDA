@@ -10,6 +10,14 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You have a strange dream about being a patient in a frightening hospital.",
+            "Your dreams give you an oddly medicated feeling."
+            ],
+        "category" : "MUTCAT_MEDICAL",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
             "You have a strange dream about birds.",
             "Your dreams give you a strange feathered feeling."
             ],
@@ -30,6 +38,30 @@
             "Your dreams give you a strange furry feeling."
             ],
         "category" : "MUTCAT_BEAST",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about bears.",
+            "Your dreams give you a rough furry feeling."
+            ],
+        "category" : "MUTCAT_URSINE",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about cats.",
+            "Your dreams give you a sleek furry feeling."
+            ],
+        "category" : "MUTCAT_FELINE",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about wolves.",
+            "Your dreams give you a thick furry feeling."
+            ],
+        "category" : "MUTCAT_LUPINE",
         "strength" : 1
     },{
         "type" : "dream",
@@ -98,10 +130,50 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You have a strange dream.",
+            "You feel...OK."
+            ],
+        "category" : "MUTCAT_ALPHA",
+        "strength" : 1
+	},{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream.",
+            "You feel a yearning..."
+            ],
+        "category" : "MUTCAT_ELFA",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream about the zoo, for some reason.",
+            "Your dreams...are complex and multifaceted."
+            ],
+        "category" : "MUTCAT_CHIMERA",
+        "strength" : 1
+	},{
+        "type" : "dream",
+        "messages" : [
+            "You dream of the tropics.",
+            "You feel warm."
+            ],
+        "category" : "MUTCAT_RAPTOR",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
             "You have a disturbing dream of bathing in the sun on a rock.",
             "While dreaming, you see a distinctively lizard-like reflection of yourself."
             ],
         "category" : "MUTCAT_LIZARD",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a disturbing dream of undergoing strange medical procedures.",
+            "While dreaming, you see yourself dressed in a hospital gown, receiving treatment."
+            ],
+        "category" : "MUTCAT_MEDICAL",
         "strength" : 2
     },{
         "type" : "dream",
@@ -126,6 +198,30 @@
             "Whilst dreaming, you see a disturbingly bestial version of yourself."
             ],
         "category" : "MUTCAT_BEAST",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of foraging in the woods...mouth-first?",
+            "Your dream-reflection is rather bearish."
+            ],
+        "category" : "MUTCAT_URSINE",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You easily bound from the street to a roof..oh, only a dream.",
+            "As you dream, your reflection looks rather catlike."
+            ],
+        "category" : "MUTCAT_FELINE",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a disturbing dream of someone invading your territory.",
+            "Your dream-self's muzzle looks...wait, muzzle?"
+            ],
+        "category" : "MUTCAT_LUPINE",
         "strength" : 2
     },{
         "type" : "dream",
@@ -194,10 +290,50 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You dream of having that success you knew you deserved, back before all this.",
+            "Your dream-self looks competent and in control."
+            ],
+        "category" : "MUTCAT_ALPHA",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of a home in the forests.",
+            "You feel beautiful, and yet riven with worry..."
+            ],
+        "category" : "MUTCAT_ELFA",
+        "strength" : 2
+	},{
+        "type" : "dream",
+        "messages" : [
+            "You can't quite work out what the dream is about...it just keeps changing.",
+            "Your dream is filled with creatures, and yet all seem like you."
+            ],
+        "category" : "MUTCAT_CHIMERA",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of stalking some sort of lizard...no, that can't be right, can it?",
+            "For some reason you dream of your shoes.  They don't fit, and nothing seems to help..."
+            ],
+        "category" : "MUTCAT_RAPTOR",
+        "strength" : 2
+	},{
+        "type" : "dream",
+        "messages" : [
             "You are terrified by a dream of becoming a lizard hybrid.",
             "You have a disturbingly lifelike dream of living as a lizard."
             ],
         "category" : "MUTCAT_LIZARD",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a dream of doctors and nurses doing unnatural things to your body, which brings you perverse pleasure.",
+            "You have a vivid dream of being a medical anomaly, as your heartbeat syncs with the steady drip of an IV line."
+            ],
+        "category" : "MUTCAT_MEDICAL",
         "strength" : 3
     },{
         "type" : "dream",
@@ -222,6 +358,30 @@
             "A terrifyingly real dream has you killing game with your bare teeth."
             ],
         "category" : "MUTCAT_BEAST",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "Your dream of raiding a giant beehive has you licking your...muzzle in anticipation.",
+            "In your dream, you stalk and kill a young wolf, using only your teeth and claws."
+            ],
+        "category" : "MUTCAT_URSINE",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "A warm, sunny spot high up where you can watch your prey. What a great dream!",
+            "You dream of pursuing and killing a rat, for some reason."
+            ],
+        "category" : "MUTCAT_FELINE",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of tearing into a fresh kill.",
+            "You dream of finally finding the perfect place to make your den."
+            ],
+        "category" : "MUTCAT_LUPINE",
         "strength" : 3
     },{
         "type" : "dream",
@@ -287,5 +447,37 @@
             ],
         "category" : "MUTCAT_RAT",
         "strength" : 3
-    }
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You see yourself, five years from now, as the leader of a successful city.",
+            "Your success in restoring civilization was only a dream.  For now."
+            ],
+        "category" : "MUTCAT_ALPHA",
+        "strength" : 3
+	},{
+        "type" : "dream",
+        "messages" : [
+            "NO! You will not allow this corruption to prevail!",
+            "You see yourself reflected in the beauty of the forest."
+            ],
+        "category" : "MUTCAT_ELFA",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You are many animals, and yet one.",
+            "Hoof. Talon. Tooth. Fight. Feed. Forward."
+            ],
+        "category" : "MUTCAT_CHIMERA",
+        "strength" : 3
+	},{
+        "type" : "dream",
+        "messages" : [
+            "You've never felt so lithe and powerful.",
+            "After an exciting and tasty hunt, you retire to your nest.  Mmm, yes, nest."
+            ],
+        "category" : "MUTCAT_RAPTOR",
+        "strength" : 3
+   }
 ]

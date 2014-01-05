@@ -29,7 +29,7 @@
         "type" : "martial_art",
         "id" : "style_aikido",
         "name" : "Aikido",
-        "description" : "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker. It uses defense throws and disarms. Damage done while using this technique is halved, but pain inflicted is doubled.",
+        "description" : "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker. It uses defensive throws and disarms. Damage done while using this technique is halved, but pain inflicted is doubled.",
         "static_buffs" : [
             {
                 "id" : "aikido_half_damage",
@@ -103,7 +103,7 @@
             {
                 "id" : "capoeira_move_buff",
                 "name" : "Capoeira Momentum",
-                "description" : "+2 bash and +1 hit per stack",
+                "description" : "+2 bash and +1 acc per stack",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,
                 "buff_duration" : 3,
@@ -123,12 +123,18 @@
         "static_buffs" : [
             {
                 "id" : "krav_maga_static",
-                "name" : "Krav Maga",
+                "name" : "Krav Maga Hand-to-Hand",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
-                "buff_duration" : 2,
                 "bash_str" : 0.15,
-                "description" : "Slightly increased unarmed damage"
+                "description" : "Increased unarmed power"
+            },{
+                "id" : "krav_maga_static_edged",
+                "name" : "Krav Maga Edged",
+                "melee_allowed" : true,
+                "min_unarmed" : 0,
+                "cut_mult" : 1.2,
+                "description" : "Increased cutting damage"
             }
         ],
         "techniques" : [
@@ -164,7 +170,7 @@
         "type" : "martial_art",
         "id" : "style_ninjutsu",
         "name" : "Ninjutsu",
-        "description" : "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan. It focuses on rapid, precise, silent strikes. Ninjutsu is entirely silent. It also provides small combat bonuses the turn after moving a tile.",
+        "description" : "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan. It focuses on rapid, precise, silent strikes. Ninjutsu is almost entirely silent. It also provides small combat bonuses every time you move.",
         "arm_block" : 3,
         "static_buffs" : [
             {
@@ -174,6 +180,19 @@
                 "melee_allowed" : true,
                 "quiet" : true,
                 "description" : "Silent melee attacks"
+            }
+        ],
+        "onmove_buffs" : [
+            {
+                "id" : "ninjutsu_momentum",
+                "name" : "Momentum shift",
+                "description" : "Bonus dodges and increased to-hit",
+                "unarmed_allowed" : true,
+                "melee_allowed" : true,
+                "buff_duration" : 2,
+                "max_stacks" : 1,
+                "bonus_dodges" : 1,
+                "hit_dex" : 0.17
             }
         ],
         "techniques" : ["tec_ninjutsu_precise"]
@@ -198,5 +217,321 @@
             "tec_taekwondo_push",
             "tec_taekwondo_sweep"
         ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_zui_quan",
+        "name" : "Zui Quan",
+        "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy, giving you a passive dodge bonus based on your intelligence.  The turn after you attack, you may dodge any number of attacks with no penalty, and successfully dodging an attack gives you bonus damage and to-hit based on your intelligence.",
+        "static_buffs" : [
+            {
+                "id" : "zuiquan_static",
+                "name" : "Zui Quan",
+                "description" : "Intelligence increases dodging ability",
+                "unarmed_allowed" : true,
+                "dodge_int": 0.12
+            }
+        ],
+        "onattack_buffs" : [
+            {
+                "id" : "zuiquan_attack_buff",
+                "name" : "Drunken Dodging",
+                "description" : "Unlimited dodges after attacking",
+                "buff_duration" : 4,
+                "unarmed_allowed" : true,
+                "dodges_bonus" : 100
+            }
+        ],
+        "ondodge_buffs" : [
+            {
+                "id" : "zuiquan_dodge_buff",
+                "name" : "Counter Strike",
+                "description" : "Extra damage and to-hit after successful dodge",
+                "unarmed_allowed" : true,
+                "max_stacks": 2,
+                "bash_int": 0.2,
+                "hit_int": 0.2
+            }
+        ],
+        "techniques" : [
+            "tec_zuiquan_feint",
+            "tec_counter"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_crane",
+        "name" : "Crane Kung Fu",
+        "description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines the majority of your damage, rather than Strength; you also receive a dodge bonus the turn after moving a tile.",
+        "arm_block" : 3,
+        "static_buffs" : [
+            {
+                "id" : "crane_static",
+                "name" : "Crane's Precision",
+                "description" : "Damage bonus from dexterity at the cost of damage from strength.",
+                "unarmed_allowed" : true,
+                "bash_str" : -0.2,
+                "bash_dex" : 0.8
+            }
+        ],
+        "onmove_buffs" : [
+                  {
+                      "id" : "crane_move_buff",
+                      "name" : "Crane's Flight",
+                      "description" : "+2 Dodge",
+                      "unarmed_allowed" : true,
+                      "min_unarmed" : 2,
+                      "buff_duration" : 1,
+                      "dodge" : 2
+                  }
+        ],
+        "techniques" : [
+            "tec_crane_feint",
+            "tec_crane_break",
+            "tec_crane_precise"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_dragon",
+        "name" : "Dragon Kung Fu",
+        "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes. Intelligence improves your accuracy and damage dealt, as does moving.",
+        "arm_block" : 2,
+        "static_buffs" : [
+            {
+                "id" : "dragon_static",
+                "name" : "Dragon Style",
+                "description" : "Bonus damage from intelligence.",
+                "unarmed_allowed" : true,
+                "bash_int" : 0.8
+            }
+        ],
+        "onmove_buffs" : [
+            {
+                "id" : "dragon_move_buff",
+                "name" : "Dragon's Flight",
+                "description" : "+2 Acc/Dam",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 2,
+                "buff_duration" : 1,
+                "hit" : 2,
+                "bash" : 2
+            }
+        ],
+        "techniques" : [
+            "tec_dragon_grab",
+            "tec_counter",
+            "tec_dragon_sweep",
+            "tec_dragon_brutal"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_leopard",
+        "name" : "Leopard Kung Fu",
+        "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Inteligence both boost accuracy, and moving further boosts your accuracy.",
+        "static_buffs" : [
+            {
+                "id" : "leopard_static",
+                "name" : "Leopard Strategy",
+                "description" : "Perception and intelligence provide a bonus to hit.",
+                "unarmed_allowed" : true,
+                "hit_per" : 0.2,
+                "hit_int" : 0.2
+            }
+        ],
+        "onmove_buffs" : [
+            {
+                "id" : "leopard_move_buff",
+                "name" : "Leopard Stalk",
+                "description" : "+2 Accuracy",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 2,
+                "buff_duration" : 1,
+                "hit" : 2
+            }
+        ],
+        "techniques" : [
+            "tec_leopard_rapid",
+            "tec_counter",
+            "tec_leopard_precise"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_tiger",
+        "name" : "Tiger Kung Fu",
+        "description": "One of the five Shaolin animal styles.  The Tiger focuses on relentless attacks above all else.  Your Strength determines your accuracy, and your attacks do increasing damage as you continue attacking.",
+        "static_buffs" : [
+            {
+                "id" : "tiger_static",
+                "name" : "Tiger Strength",
+                "description" : "Strength provides additional damage bonus.",
+                "unarmed_allowed" : true,
+                "hit_str" : 0.8
+            }
+        ],
+        "onhit_buffs" : [
+            {
+                "id" : "tiger_hit_buff",
+                "name" : "Tiger Fury",
+                "description" : "+3 Bash/atk",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 2,
+                "buff_duration" : 3,
+                "max_stacks" : 8,
+                "bash" : 3
+            }
+        ],
+        "techniques" : [
+            "tec_tiger_grab"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_snake",
+        "name" : "Snake Kung Fu",
+        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes. Your Perception improves your accuracy and your damage.",
+        "static_buffs" : [
+            {
+                "id" : "snake_static",
+                "name" : "Snake Sight",
+                "description" : "Perception provides a bonus to hit.",
+                "unarmed_allowed" : true,
+                "hit_per" : 0.8
+            }
+        ],
+        "techniques" : [
+            "tec_snake_rapid",
+            "tec_snake_feint",
+            "tec_snake_break",
+            "tec_snake_precise"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_centipede",
+        "name" : "Centipede Kung Fu",
+        "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land reduces the cost of attacking by 4.",
+        "arm_block" : 3,
+        "onhit_buffs" : [
+            {
+                "id" : "centipede_hit_buff",
+                "name" : "Hundred-Hitter",
+                "description" : "+4 Atk Speed",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 1,
+                "buff_duration" : 3,
+                "max_stacks" : 8,
+                "rapid" : 4
+            }
+        ],
+        "techniques" : [
+            "tec_centipede_rapid"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_scorpion",
+        "name" : "Scorpion Kung Fu",
+        "description": "One of the Five Deadly Venoms.  Scorpion Style is a mysterious art which uses pincer-like hands and a stinger kick.  Critical hits do massive damage and knock your target back.",
+        "arm_block" : 3,
+        "static_buffs" : [
+            {
+                "id" : "scorpion_static",
+                "name" : "Scorpion Venom",
+                "description" : "+2 bashing damage.",
+                "unarmed_allowed" : true,
+                "bash" : 2
+            }
+        ],
+        "techniques" : [
+            "tec_scorpion_precise",
+            "tec_scorpion_brutal"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_toad",
+        "name" : "Toad Kung Fu",
+        "description": "One of the Five Deadly Venoms.  Masters of Toad Style can focus themselves against all attacks.  You can meditate by pausing, giving you armor, though you will lose focus when you move.",
+        "arm_block" : 3,
+        "static_buffs" : [
+            {
+                "id" : "toad_static",
+                "name" : "Toad's Iron Skin",
+                "description" : "Gain +2 armor while standing still",
+                "unarmed_allowed" : true,
+                "arm_bash": 2,
+                "arm_cut": 2
+            }
+        ],
+        "onmove_buffs": [
+            {
+                "id" : "toad_armor_dissipate",
+                "name" : "Iron Skin Dissipation",
+                "description" : "Iron skin loses half its bonus per stack",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 0,
+                "buff_duration" : 2,
+                "max_stacks" : 2,
+                "arm_bash" : -1,
+                "arm_cut" : -1
+            }
+        ],
+        "techniques" : [
+            "tec_toad_grab"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_lizard",
+        "name" : "Lizard Kung Fu",
+        "description": "One of the Five Deadly Venoms, and likely to be refactored to a mutation at the next save-compatibility breaker. Lizard Style focuses on using walls to your advantage.",
+        "arm_block" : 2,
+        "techniques" : [
+            "tec_counter"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_venom_snake",
+        "name" : "Viper Kung Fu",
+        "description": "A legacy of the Five Deadly Venoms.  Viper Style has a uniqe three-part combo, which initiates on a dodge, then counters with a stunning chop and the legendary Viper Strike.",
+        "static_buffs" : [
+            {
+                "id" : "venom_snake_static",
+                "name" : "Viper Patience",
+                "description" : "You are trained to stick close and stay cool in a fight, waiting for the opportunity to strike...",
+                "unarmed_allowed" : true,
+                "dodge" : 2
+            }
+        ],
+        "ondodge_buffs": [
+            {
+                "id" : "venom_snake_combo_initiate",
+                "name" : "Viper Ambush",
+                "description" : "You've lured 'em in! Your next attack will be a Viper Bite.",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 0,
+                "buff_duration" : 2,
+                "max_stacks" : 1,
+                "bash_mult" : 1.5,
+                "stun_dur" : 2
+            }
+        ],
+        "onhit_buffs": [
+            {
+                "id" : "venom_snake_combo_continue",
+                "name" : "Viper Lock",
+                "description" : "You bit true! Your next attack will be the Viper Strike!",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 0,
+                "req_buffs" : [
+                  "venom_snake_combo_initiate"
+                  ],
+                "buff_duration" : 2,
+                "max_stacks" : 1,
+                "bash_mult" : 3
+            }
+        ],
+        "techniques" : [
+            "tec_venom_snake_rapid",
+            "tec_venom_snake_feint",
+            "tec_venom_snake_break",
+            "tec_venom_snake_bite",
+            "tec_venom_snake_strike"
+        ]
     }
 ]
+
+

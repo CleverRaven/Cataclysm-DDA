@@ -1,3 +1,97 @@
+0.9
+
+Highlights:
+---
+World Factory: Multiple worlds managed at once.
+New mutation categories.
+TsuTiles.
+Basic mouse support in SDL builds.
+Vehicle constructon system rework.
+Backward compatability with 0.8 saves.
+Unbielievable amount of new content.
+
+Features:
+---
+New mutation categories.
+Blob drops are semi-useful.
+World Factory: Multiple worlds managed at once.
+Single keypress pulping.
+Better Basements.
+Dynamically swap between text and tiles, and amoung tilesets.
+Funnels catch water when the player is far away.
+TsuTiles.
+Curvy roads.
+Zombears.
+V menu now lists monsters too.
+Emergency vehicles.
+Shia's back.
+Doors tougher, but zombies can pile on when trying to bash through them.
+Spawning monsters in packs.
+Shopping carts are driveable.
+Basic mouse support in SDL builds.
+Food dehydrator.
+Some clothes have hoods that are used automaticlly if there's no hat in the way.
+Only prompt to confirm butchering if there are hostiles nearby.
+Books have chapters.
+Better furniture dragging interface with 'G'rab.
+More cart types, hot dog, welding, luggage; swivel chairs.
+Track more stuff for memorial file.
+Basic tool quality support for more streamlined crafting recipes.
+Fungaloid rework.
+Vehicle workbench like components act like tools.
+Huge pile o books.
+Furniture and terrain definitions moved to json.
+Survivor armor.
+Large numbers of wild animals.
+Power system for vehicles and battery components.
+Reinforced vehicle components.
+Vehicle constructon system rework.
+Multi-square vehicle doors.
+Make vehicles more resilient to damage and better able to smash through obstacles.
+Vehicle spawns have personality added in various ways.
+Removed action interruption from drug cravings.
+Ludricrous numbers of new foods.
+Vehicle horns.
+Backward compatability with 0.8 saves.
+Stylish trait.
+Pickup partial stacks.
+Flaming weapons.
+Too many new professions to list.
+Diseases can now be bodypart specific (bleeding, bites).
+Reworked martial arts framework. Arts are no longer pseudo-items, and can be mostly defined in json.
+RPG-7.
+Reworked and streamlined bionics failure chance and install UI.
+Streamlined continuous reading.
+
+Bugfixes:
+---
+Monsters that don't take damage no longer leave blood trails.
+Broken gas tanks act broken.
+Highlighting lines in tiles mode.
+Show all sounds made by player.
+Dissasemble items with charges properly.
+Supress smoke warning when you have a gas mask.
+Stims work again.
+Menu cleanups all over.
+Better in-city detection for roads.
+Funnel filling.
+Step on visible trap warning.
+Vomiting lethality nerfed.
+Better ignore monster for now feature.
+Massive audit of item values by Rivet.
+Prevent input overbuffering when it's raining.
+Eating related bugs.
+Hallucination fixes.
+Vehicle mounted turrets.
+Crafting conuming containers with contents.
+Prevents many actions from passing through walls.
+Weird handling of cancelled item use.
+Gunmods with firing modes.
+Stabilized monster coordinates.
+Many fixes in defense mode.
+Charge rifle charging.
+
+
 0.8
 
 Highlights:
@@ -570,7 +664,7 @@ The player now spawns with a pocket knife and lighter.
 Sledge hammer is usable to board windows and doors up.
 Heartless trait has been removed, replaced with the Cannibal trait, which allows you to eat human meat with no morale penalty.
 Braziers are now craftable. They contain fire and can be set up indoors.
-Bulletin Boards can be built to set an area as your home base. NPCs can 
+Bulletin Boards can be built to set an area as your home base. NPCs can
 be told to wait there and will defend the area.
 Bear traps have been increased in weight and volume.
 Carboys have been renamed to Gallon jugs.
@@ -581,7 +675,7 @@ Kills can now be accessed from in-game. Default key is ).
 The game now accepts wielded items when checking for containers.
 Sunny and Clear weather now provide warmth.
 Internal Climate Control bionic consumes power to cool or warm you.
-Crash bug caused by the screen being larger than the loaded overmap has 
+Crash bug caused by the screen being larger than the loaded overmap has
 been fixed.
 Crash bug when going down stairs near cities has been fixed.
 Hunger now affects body temperature.
@@ -592,7 +686,7 @@ Added a digging stick. Can be used to dig shallow pits, and level construction e
 Got angry at other developers for not updating changelog.
 
 0.2
-Reworked spawning option which places zombies at world generation 
+Reworked spawning option which places zombies at world generation
 rather than generating them dynamically in play.
 Implementation of a context menu when examining inventory items.
 Machine added to hospitals to regrow limbs.

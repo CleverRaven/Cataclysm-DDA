@@ -146,7 +146,11 @@
       "name" : "field point wood arrow",
       "symbol" : "=",
       "color" : "green",
+<<<<<<< HEAD
       "description" : "A simple arrow shaft that has a crude arrow head. Its useful for hunting small woodland creatures.",
+=======
+      "description" : "A simple arrow shaft that has a crude arrowhead. Useful for hunting small woodland creatures.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
       "material" : "wood",
       "volume" : 1,
       "weight" : 44,
@@ -193,7 +197,11 @@
       "name" : "fletched fire hardened wood arrow",
       "symbol" : "=",
       "color" : "green",
+<<<<<<< HEAD
       "description" : "A simple arrow that has a fire hardened point and fletching.",
+=======
+      "description" : "This simple arrow has a fire hardened point and fletching.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
       "material" : "wood",
       "volume" : 1,
       "weight" : 43,
@@ -216,7 +224,11 @@
       "name" : "fletched field point wood arrow",
       "symbol" : "=",
       "color" : "green",
+<<<<<<< HEAD
       "description" : "A simple arrow shaft that has a crude arrow head and fletching. Its useful for hunting small woodland creatures or as a last ditch defense against zombies.",
+=======
+      "description" : "A simple arrow shaft that has a crude arrowhead and fletching. Useful for hunting small woodland creatures or as a last ditch defense against zombies.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
       "material" : "wood",
       "volume" : 1,
       "weight" : 46,
@@ -239,7 +251,11 @@
       "name" : "wood arrow",
       "symbol" : "=",
       "color" : "green",
+<<<<<<< HEAD
       "description" : "A basic wooden arrow, with a metal arrow head and fletching. It's light-weight, does some damage, and is so-so on accuracy. It stands a good chance of remaining intact once fired.",
+=======
+      "description" : "A basic wooden arrow, it has a metal arrowhead and fletching. It's light-weight, does some damage, and is so-so on accuracy. Stands a good chance of remaining intact once fired.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
       "material" : "wood",
       "volume" : 1,
       "weight" : 51,
@@ -262,7 +278,11 @@
       "name" : "heavy fletched fire hardened arrow",
       "symbol" : "=",
       "color" : "green",
+<<<<<<< HEAD
       "description" : "A heavy wooden arrow, with a fire hardened point and fletching. This arrow is significantly sturdier than other wooden arrows.",
+=======
+      "description" : "This arrow is significantly sturdier than other wooden arrows. It has a fire hardened point and fletching.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
       "material" : "plastic",
       "volume" : 1,
       "weight" : 64,
@@ -285,7 +305,11 @@
       "name" : "heavy fletched field point arrow",
       "symbol" : "=",
       "color" : "green",
+<<<<<<< HEAD
       "description" : "A heavy wooden arrow, with a crude field point arrowhead and fletching. This arrow is significantly sturdier than other wooden arrows.",
+=======
+      "description" : "This arrow is significantly sturdier than other wooden arrows. It has a crude field point head and fletching.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
       "material" : "plastic",
       "volume" : 1,
       "weight" : 67,
@@ -308,7 +332,11 @@
       "name" : "heavy wood arrow",
       "symbol" : "=",
       "color" : "green",
+<<<<<<< HEAD
       "description" : "A heavy wooden arrow, with a metal arrow head and fletching. It's much heavier than other wooden arrows. As a result, it does more damage, and is more stable in flight, resulting in better accuracy over a longer range. It stands a very good chance of remaining intact once fired.",
+=======
+      "description" : "A heavy wooden arrow, it has a metal arrowhead and fletching. It's much heavier than other wooden arrows, as a result it does more damage and is more stable in flight, resulting in better accuracy over a longer range. Stands a very good chance of remaining intact once fired.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
       "material" : "plastic",
       "volume" : 1,
       "weight" : 71,
@@ -354,7 +382,11 @@
       "name" : "metal arrow",
       "symbol" : "=",
       "color" : "green",
+<<<<<<< HEAD
       "description" : "A metal arrow with a steel arrow head and fletching.",
+=======
+      "description" : "This metal arrow has a steel arrowhead and fletching.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
       "material" : "steel",
       "volume" : 1,
       "weight" : 442,
@@ -631,7 +663,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 100
+      "reload" : 100,
+      "valid_mod_locations": [["underbarrel", 1]]
    },
    {
       "id" : "compositebow",
@@ -657,7 +690,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 110
+      "reload" : 110,
+      "valid_mod_locations": [["underbarrel", 1]]
    },
    {
       "id" : "recurbow",
@@ -683,7 +717,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 100
+      "reload" : 100,
+      "valid_mod_locations": [["underbarrel", 1]]
    },
    {
       "id" : "reflexbow",
@@ -709,7 +744,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 100
+      "reload" : 100,
+      "valid_mod_locations": [["underbarrel", 1]]
    },
    {
       "id" : "longbow",
@@ -735,7 +771,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 80
+      "reload" : 80,
+      "valid_mod_locations": [["underbarrel", 1]]
    },
    {
       "id" : "reflexrecurvebow",
@@ -761,7 +798,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 80
+      "reload" : 80,
+      "valid_mod_locations": [["underbarrel", 1]]
    },
    {
       "id" : "hand_crossbow",
@@ -787,7 +825,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 100
+      "reload" : 100,
+      "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
    {
       "id" : "crossbow",
@@ -813,7 +852,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 800
+      "reload" : 800,
+      "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
    {
       "id" : "huge_crossbow",
@@ -839,7 +879,8 @@
       "durability" : 6,
       "burst" : 0,
       "clip_size" : 1,
-      "reload" : 6000
+      "reload" : 6000,
+      "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
    {
       "id" : "rep_crossbow",
@@ -865,7 +906,8 @@
       "durability" : 6,
       "burst" : 3,
       "clip_size" : 10,
-      "reload" : 100
+      "reload" : 100,
+      "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
    {
       "id":"shaft_plastic",
@@ -924,7 +966,7 @@
         "bashing" : 1,
         "cutting" : 12,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "thrown",
         "casing" : "NULL",
         "damage" : 0,
         "pierce" : 0,
@@ -933,13 +975,130 @@
         "recoil" : 0,
         "count" : 5
     },
+    {   "type" : "AMMO",
+        "id" : "throwing_axe",
+        "price" : 110,
+        "name" : "throwing axe",
+        "symbol" : ";",
+        "color" : "light_gray",
+        "description" : "A lightweight hatchet made for throwing. Its ineffective cutting edge and light weight makes it unsuitable for use as a tool.",
+        "material" : ["iron", "wood"],
+        "volume" : 3,
+        "weight" : 792,
+        "bashing" : 6,
+        "cutting" : 16,
+        "to_hit" : 0,
+        "ammo_type" : "thrown",
+        "casing" : "NULL",
+        "damage" : 0,
+        "pierce" : 0,
+        "range" : 0,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 3
+    },
+    {   "type" : "AMMO",
+        "id" : "lawn_dart",
+        "price" : 100,
+        "name" : "lawn dart",
+        "symbol" : ";",
+        "color" : "yellow",
+        "description" : "A large plastic dart made for outdoor games.",
+        "material" : ["plastic", "iron"],
+        "volume" : 2,
+        "weight" : 175,
+        "bashing" : 0,
+        "cutting" : 16,
+        "to_hit" : -1,
+        "ammo_type" : "thrown",
+        "casing" : "NULL",
+        "damage" : 0,
+        "pierce" : 0,
+        "range" : 0,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 2
+    },
+   {
+      "type" : "AMMO",
+      "id" : "fishspear",
+      "price" : 100,
+      "name" : "wood spearfishing spear",
+      "symbol" : "=",
+      "color" : "brown",
+      "description" : "An underwater fishing spear made from wood tipped with steel. It's very light, but doesn't have much range. Stands a good chance of remaining intact once fired.",
+      "material" : "wood",
+      "volume" : 1,
+      "weight" : 18,
+      "bashing" : 1,
+      "cutting" : 0,
+      "to_hit" : 0,
+      "ammo_type" : "fishspear",
+      "casing" : "NULL",
+      "damage" : 12,
+      "pierce" : 4,
+      "range" : 6,
+      "dispersion" : 10,
+      "recoil" : 0,
+      "count" : 4
+   },
+   {
+      "type" : "AMMO",
+      "id" : "m_fishspear",
+      "price" : 100,
+      "name" : "metal spearfishing spear",
+      "symbol" : "=",
+      "color" : "light_gray",
+      "description" : "An underwater fishing spear made from metal. It's light, but doesn't have much range. Stands a good chance of remaining intact once fired.",
+      "material" : "iron",
+      "volume" : 1,
+      "weight" : 28,
+      "bashing" : 1,
+      "cutting" : 0,
+      "to_hit" : 0,
+      "ammo_type" : "fishspear",
+      "casing" : "NULL",
+      "damage" : 14,
+      "pierce" : 8,
+      "range" : 6,
+      "dispersion" : 8,
+      "recoil" : 0,
+      "count" : 4
+   },
+   {
+      "type" : "AMMO",
+      "id" : "c_fishspear",
+      "price" : 100,
+      "name" : "carbon fiber spearfishing spear",
+      "symbol" : "=",
+      "color" : "dark_gray",
+      "description" : "An underwater fishing spear made from carbon fiber. It's very light, but doesn't have much range. Stands a good chance of remaining intact once fired.",
+      "material" : "plastic",
+      "volume" : 1,
+      "weight" : 12,
+      "bashing" : 1,
+      "cutting" : 0,
+      "to_hit" : 0,
+      "ammo_type" : "fishspear",
+      "casing" : "NULL",
+      "damage" : 14,
+      "pierce" : 12,
+      "range" : 10,
+      "dispersion" : 6,
+      "recoil" : 0,
+      "count" : 4
+   },
    {
       "id":"arrow_plastic",
       "type":"AMMO",
       "symbol":"=",
       "color":"green",
       "name":"plastic arrow",
+<<<<<<< HEAD
       "description":"A plastic arrow with a plastic arrow head and fletching.",
+=======
+      "description":"This plastic arrow has a plastic arrowhead and fletching.",
+>>>>>>> 82f1986ec8f5df59af9421830c2ac41305489910
       "price":20,
       "material":"plastic",
       "volume":1,
