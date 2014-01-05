@@ -956,6 +956,10 @@ int iuse::mutagen(player *p, item *it, bool) {
     if(!p->is_npc()) {
       p->add_memorial_log(_("Consumed mutagen."));
     }
+    if(p->has_trait("MUT_JUNKIE")) {
+      g->add_msg_if_player(p, _("You quiver with anticipation..."));
+      p->add_morale(MORALE_MUTAGEN, 20, 200);
+    }
     if( it->has_flag("MUTAGEN_STRONG") ) {
          p->mutate();
          if (!one_in(3)) {
@@ -1036,15 +1040,25 @@ int iuse::mut_iv(player *p, item *it, bool) {
     if(!p->is_npc()) {
         p->add_memorial_log(_("Injected mutagen."));
     }
+    if(p->has_trait("MUT_JUNKIE")) {
+      g->add_msg_if_player(p, _("You quiver with anticipation..."));
+      p->add_morale(MORALE_MUTAGEN, 40, 400);
+    }
     std::string mutation_category;
     if( it->has_flag("MUTAGEN_STRONG") ) {
         // 3 guaranteed mutations, 75%/66%/66% for the 4th/5th/6th,
         // 6-16 Pain per shot and potential knockdown/KO.
         mutation_category = "";
-        g->add_msg_if_player(p, _("You inject yoursel-arRGH!"));
+        if(p->has_trait("MUT_JUNKIE")) {
+            g->add_msg_if_player(p, _("Oh, yeah! That's the stuff!"));
+            g->sound(p->posx, p->posy, 15 + 3 * p->str_cur, _("YES! YES! YESSS!!!"));
+        }
+        else if (!(p->has_trait("MUT_JUNKIE"))) {
+            g->add_msg_if_player(p, _("You inject yoursel-arRGH!"));
+            g->sound(p->posx, p->posy, 15 + 3 * p->str_cur, _("You scream in agony!!"));
+        }
         p->mutate();
         p->pain += 1 * rng(1, 4);
-        g->sound(p->posx, p->posy, 15 + 3 * p->str_cur, _("You scream in agony!!"));
         //Standard IV-mutagen effect: 10 hunger/thirst & 5 Fatigue *per mutation*.
         // Numbers may vary based on mutagen.
         p->hunger += 10;
@@ -1108,7 +1122,12 @@ int iuse::mut_iv(player *p, item *it, bool) {
     } else if( it->has_flag("MUTAGEN_MEDICAL") ) {
         // 2-6 pain, same as Alpha--since specifically intended for medical applications.
         mutation_category = "MUTCAT_MEDICAL";
-        g->add_msg_if_player(p, _("You can feel the blood in your medication stream. It's a strange feeling."));
+        if(p->has_trait("MUT_JUNKIE")) {
+            g->add_msg_if_player(p, _("Ahh, there it is. You can feel the mutagen again."));
+        }
+        else if(!(p->has_trait("MUT_JUNKIE"))) {
+            g->add_msg_if_player(p, _("You can feel the blood in your medication stream. It's a strange feeling."));
+        }
         p->mutate_category("MUTCAT_MEDICAL");
         p->pain += 2 * rng(1, 3);
         //Medical's are pretty much all physiology, IIRC
@@ -1175,7 +1194,12 @@ int iuse::mut_iv(player *p, item *it, bool) {
             g->add_msg_if_player(p, _("Mmm...the *special* venom."));
             mutation_category = "MUTCAT_SPIDER";
         } else if( it->has_flag("MUTAGEN_SLIME") ) {
+            if(p->has_trait("MUT_JUNKIE")) {
+            g->add_msg_if_player(p, _("Maybe if you drank enough, you'd become mutagen..."));
+            }
+            else if(!(p->has_trait("MUT_JUNKIE"))) {
             g->add_msg_if_player(p, _("This stuff takes you back. Downright primordial!"));
+            }
             mutation_category = "MUTCAT_SLIME";
         } else if( it->has_flag("MUTAGEN_FISH") ) {
             g->add_msg_if_player(p, _("Your pulse pounds as the waves."));

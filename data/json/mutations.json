@@ -1922,6 +1922,17 @@
         "category" : ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
+        "id" : "MUT_JUNKIE",
+        "name" : "Metallassomaiphile",
+        "note" : "name courtesy of wiktionary's Greek for 'mutate'. Greek-speakers, feel free to correct the term",
+        "points" : 0,
+        "visibility" : 0,
+        "ugliness" : 0,
+        "description" : "Just thinking of mutagen (such a lovely word! 'mutagen'. Perfect!) makes you thirsty. And you so love your new parts...you simply must have more mutagen.",
+        "threshreq" : ["THRESH_MEDICAL", "THRESH_CHIMERA"],
+        "category" : ["MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
+    },{
+        "type" : "mutation",
         "id" : "HEADBUMPS",
         "name" : "Head Bumps",
         "points" : 0,

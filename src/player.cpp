@@ -58,6 +58,7 @@ void game::init_morale()
     _("Music"),
     _("Played Video Game"),
     _("Marloss Bliss"),
+    _("Mutagenic Anticipation"),
     _("Good Feeling"),
 
     _("Nicotine Craving"),
@@ -67,6 +68,7 @@ void game::init_morale()
     _("Speed Craving"),
     _("Cocaine Craving"),
     _("Crack Cocaine Craving"),
+    _("Mutagen Craving"),
 
     _("Disliked %i"),
     _("Ate Human Flesh"),
