@@ -513,6 +513,15 @@ void mutation_effect(player &p, std::string mut)
         for (int i = 0; i < num_hp_parts; i++) {
             p.hp_max[i] -= 6;
         }
+        // And there goes your clothing; by now you shouldn't need it anymore
+        g->add_msg(_("You rip out of your clothing!"));
+        destroy = true;
+        bps.push_back(bp_torso);
+        bps.push_back(bp_legs);
+        bps.push_back(bp_arms);
+        bps.push_back(bp_hands);
+        bps.push_back(bp_head);
+        bps.push_back(bp_feet);
 
     }  else if (mut == "HUGE_OK") {
         p.str_max += 4;
@@ -615,7 +624,7 @@ void mutation_loss_effect(player &p, std::string mut)
         p.str_max -= 4;
         p.recalc_hp();
         // Losing Huge probably means either gaining Good-Huge or
-        // going backck to Large.  In any case, recalc_hp ought to
+        // going back to Large.  In any case, recalc_hp ought to
         // handle it.
 
     } else if (mut == "HUGE_OK") {

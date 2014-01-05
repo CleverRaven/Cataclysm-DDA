@@ -7563,6 +7563,16 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
+        
+        if ((armor->covers & (mfb(bp_hands) | mfb(bp_arms) | mfb(bp_torso) | mfb(bp_legs) | mfb(bp_feet) | mfb(bp_head))) &&
+        (has_trait("HUGE") || has_trait("HUGE_OK")))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("The %s is much too small to fit your huge body!"), armor->name.c_str());
+            }
+            return false;
+        }
 
         if (armor->covers & mfb(bp_hands) && has_trait("WEBBED"))
         {
