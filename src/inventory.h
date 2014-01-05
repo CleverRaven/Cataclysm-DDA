@@ -56,7 +56,7 @@ class inventory
   void push_back(std::list<item> newits);
   char get_invlet_for_item( std::string item_type );
   item& add_item (item newit, bool keep_invlet = false, bool assign_invlet = true); //returns a ref to the added item
-  void add_item_by_type(itype_id type, int count = 1, int charges = -1);
+  void add_item_by_type(itype_id type, int count = 1, long charges = -1);
   void add_item_keep_invlet(item newit);
   void push_back(item newit);
 
@@ -75,13 +75,13 @@ class inventory
   std::list<item> reduce_stack(int position, int quantity);
   std::list<item> reduce_stack(char ch, int quantity);
   std::list<item> reduce_stack(const itype_id& type, int quantity);
-  item reduce_charges(int position, int quantity);
-  item reduce_charges(char ch, int quantity);
-  item reduce_charges(const itype_id& type, int quantity);
+  item reduce_charges(int position, long quantity);
+  item reduce_charges(char ch, long quantity);
+  item reduce_charges(const itype_id& type, long quantity);
 
   // amount of -1 removes the entire stack.
   template<typename Locator> std::list<item> reduce_stack(const Locator& type, int amount);
-  template<typename Locator> item reduce_charges(const Locator& type, int quantity);
+  template<typename Locator> item reduce_charges(const Locator& type, long quantity);
 
   std::vector<item>  remove_mission_items(int mission_id);
   item& find_item(int position);
@@ -100,13 +100,13 @@ class inventory
 // Below, "amount" refers to quantity
 //        "charges" refers to charges
   int  amount_of (itype_id it) const;
-  int  charges_of(itype_id it) const;
+  long charges_of(itype_id it) const;
 
   std::list<item> use_amount (itype_id it, int quantity, bool use_container = false);
-  std::list<item> use_charges(itype_id it, int quantity);
+  std::list<item> use_charges(itype_id it, long quantity);
 
   bool has_amount (itype_id it, int quantity) const;
-  bool has_charges(itype_id it, int quantity) const;
+  bool has_charges(itype_id it, long quantity) const;
   bool has_flag(std::string flag) const; //Inventory item has flag
   bool has_item(item *it) const; // Looks for a specific item
   bool has_items_with_quality(std::string id, int level, int amount) const;
@@ -132,7 +132,7 @@ class inventory
 
   int weight() const;
   int volume() const;
-  int max_active_item_charges(itype_id id) const;
+  long max_active_item_charges(itype_id id) const;
 
   void dump(std::vector<item*>& dest); // dumps contents into dest (does not delete contents)
 
@@ -162,7 +162,7 @@ class inventory
   // we back those functions with a single internal function templated on the type of Locator.
   template<typename Locator> item remove_item_internal(const Locator& locator);
   template<typename Locator> std::list<item> reduce_stack_internal(const Locator& type, int amount);
-  template<typename Locator> item reduce_charges_internal(const Locator& type, int quantity);
+  template<typename Locator> item reduce_charges_internal(const Locator& type, long quantity);
 
   invstack items;
   bool sorted;

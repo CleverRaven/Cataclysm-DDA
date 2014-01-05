@@ -374,7 +374,7 @@ bool map::process_fields_in_submap(int gridn)
                                 ammo_type->ammo_effects.count("FLASHBANG") ||
                                 ammo_type->ammo_effects.count("COOKOFF"))) {
                                 //Any kind of explosive ammo (IE: not arrows and pebbles and such)
-                                const int rounds_exploded = rng(1, it->charges);
+                                const long rounds_exploded = rng(1, it->charges);
                                 // TODO: Vary the effect based on the ammo flag instead of just exploding them all.
                                 // cook off ammo instead of just burning it.
                                 for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {

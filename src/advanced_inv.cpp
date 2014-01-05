@@ -856,7 +856,7 @@ void advanced_inventory::display(player * pp)
                 const std::list<item>& stack = u.inv.const_stack(item_pos);
                 const item* it = &stack.front();
 
-                int amount = 1;
+                long amount = 1;
                 int volume = it->precise_unit_volume();
                 bool askamount = false;
                 if ( stack.size() > 1) {
@@ -1004,7 +1004,7 @@ void advanced_inventory::display(player * pp)
                 }
                 else // from veh/map
                 {
-                    int trycharges = -1;
+                    long trycharges = -1;
                     if ( destarea == isinventory ) // if destination is inventory
                     {
                         if(squares[destarea].size >= MAX_ITEM_IN_SQUARE) {

@@ -2323,7 +2323,7 @@ point map::find_item(const item *it)
 }
 
 void map::spawn_an_item(const int x, const int y, item new_item,
-                        const int charges, const int damlevel)
+                        const long charges, const int damlevel)
 {
     if (charges && new_item.charges > 0)
     {
@@ -2366,7 +2366,7 @@ void map::spawn_artifact(const int x, const int y, itype* type, const int bday)
 //New spawn_item method, using item factory
 // added argument to spawn at various damage levels
 void map::spawn_item(const int x, const int y, const std::string &type_id,
-                     const unsigned quantity, const int charges,
+                     const unsigned quantity, const long charges,
                      const unsigned birthday, const int damlevel)
 {
     // recurse to spawn (quantity - 1) items

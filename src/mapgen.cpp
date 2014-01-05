@@ -10846,7 +10846,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
 }
 
 void map::put_items_from(items_location loc, int num, int x, int y, int turn, int quantity,
-                         int charges, int damlevel)
+                         long charges, int damlevel)
 {
     for (int i = 0; i < num; i++) {
         Item_tag selected_item = item_controller->id_from(loc);

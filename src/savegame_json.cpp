@@ -1029,7 +1029,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
     json.member( "typeid", typeId() );
     json.member( "bday", bday );
 
-    if ( charges != -1 )     json.member( "charges", int(charges) );
+    if ( charges != -1 )     json.member( "charges", long(charges) );
     if ( damage != 0 )       json.member( "damage", int(damage) );
     if ( burnt != 0 )        json.member( "burnt", burnt );
     if ( poison != 0 )       json.member( "poison", poison );

@@ -424,7 +424,7 @@ public:
  // An optional qty can be provided (and will perform better than separate calls).
  bool i_add_or_drop(item& it, int qty = 1);
  bool has_active_item(const itype_id &id) const;
- int  active_item_charges(itype_id id);
+ long active_item_charges(itype_id id);
  void process_active_items();
  bool process_single_active_item(item *it); // returns false if it needs to be removed
  item i_rem(char let); // Remove item from inventory; returns ret_null on fail
@@ -434,7 +434,7 @@ public:
  item i_rem(item *it);// Remove specific item.
  item remove_weapon();
  void remove_mission_items(int mission_id);
- item reduce_charges(int position, int quantity);
+ item reduce_charges(int position, long quantity);
  item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
  item &i_at(char let); // Returns the item with inventory letter let
  item &i_at(int position);  // Returns the item with a given inventory position.
@@ -458,12 +458,12 @@ public:
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.
  std::list<item> use_amount(itype_id it, int quantity, bool use_container = false);
- bool use_charges_if_avail(itype_id it, int quantity);// Uses up charges
- std::list<item> use_charges(itype_id it, int quantity);// Uses up charges
+ bool use_charges_if_avail(itype_id it, long quantity);// Uses up charges
+ std::list<item> use_charges(itype_id it, long quantity);// Uses up charges
  bool has_amount(itype_id it, int quantity);
- bool has_charges(itype_id it, int quantity);
+ bool has_charges(itype_id it, long quantity);
  int  amount_of(itype_id it);
- int  charges_of(itype_id it);
+ long  charges_of(itype_id it);
 
  int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 

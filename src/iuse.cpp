@@ -4766,7 +4766,7 @@ int iuse::firecracker_pack(player *p, item *it, bool)
  shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<C>ancel"));
  wrefresh(w);
  bool close = false;
- int charges = 1;
+ long charges = 1;
  char ch = getch();
  while(!close) {
   if(ch == 'I') {
@@ -5009,7 +5009,7 @@ int iuse::turret(player *p, item *, bool)
 
  p->moves -= 100;
  monster mturret(GetMType("mon_turret"), dirx, diry);
- int ammo = std::min(p->inv.charges_of("9mm"), 500);
+ int ammo = std::min(p->inv.charges_of("9mm"), long(500));
  if (ammo > 0) {
     p->inv.reduce_charges(p->inv.position_by_type("9mm"), ammo);
     if (ammo == 1) {

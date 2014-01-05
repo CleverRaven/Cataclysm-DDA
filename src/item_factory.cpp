@@ -371,7 +371,7 @@ void Item_factory::check_itype_definitions() const {
         }
         const it_tool* tool = dynamic_cast<const it_tool*>(type);
         if(tool != 0) {
-            if(tool->max_charges != 0 || tool->def_charges != 0 || tool->rand_charges != std::vector<int> (1,0) ) {
+            if(tool->max_charges != 0 || tool->def_charges != 0 || tool->rand_charges != std::vector<long> (1,0) ) {
                 check_ammo_type(msg, tool->ammo);
             }
             if(tool->revert_to != "null" && !has_template(tool->revert_to)) {
@@ -571,13 +571,13 @@ void Item_factory::load_tool(JsonObject& jo)
 {
     it_tool* tool_template = new it_tool();
     tool_template->ammo = jo.get_string("ammo");
-    tool_template->max_charges = jo.get_int("max_charges");
-    tool_template->def_charges = jo.get_int("initial_charges");
+    tool_template->max_charges = jo.get_long("max_charges");
+    tool_template->def_charges = jo.get_long("initial_charges");
 
     if (jo.has_array("rand_charges")) {
         JsonArray jarr = jo.get_array("rand_charges");
         while (jarr.has_more()){
-            tool_template->rand_charges.push_back(jarr.next_int());
+            tool_template->rand_charges.push_back(jarr.next_long());
         }
     } else {
         tool_template->rand_charges.push_back(tool_template->def_charges);
@@ -618,9 +618,9 @@ void Item_factory::load_comestible(JsonObject& jo)
     comest_template->nutr = jo.get_int("nutrition", 0);
     comest_template->spoils = jo.get_int("spoils_in", 0);
     comest_template->addict = jo.get_int("addiction_potential", 0);
-    comest_template->charges = jo.get_int("charges", 0);
+    comest_template->charges = jo.get_long("charges", 0);
     if(jo.has_member("stack_size")) {
-      comest_template->stack_size = jo.get_int("stack_size");
+      comest_template->stack_size = jo.get_long("stack_size");
     } else {
       comest_template->stack_size = comest_template->charges;
     }

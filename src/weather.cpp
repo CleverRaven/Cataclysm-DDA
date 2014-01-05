@@ -133,9 +133,9 @@ void item::add_rain_to_container(bool acid, int charges)
         return;
     }
     const char *typeId = acid ? "water_acid" : "water";
-    int max = dynamic_cast<it_container*>(type)->contains;
-    int orig = 0;
-    int added = charges;
+    long max = dynamic_cast<it_container*>(type)->contains;
+    long orig = 0;
+    long added = charges;
     if (contents.empty()) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         item ret(item_controller->find_template(typeId), 0);
@@ -178,9 +178,9 @@ void item::add_rain_to_container(bool acid, int charges)
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
                 // charge of acid would act like a charge of water with poison 5.
-                int total_poison = liq.poison * (orig) + (5*added);
+                long total_poison = liq.poison * (orig) + (5*added);
                 liq.poison = total_poison / liq.charges;
-                int leftover_poison = total_poison - liq.poison * liq.charges;
+                long leftover_poison = total_poison - liq.poison * liq.charges;
                 if (leftover_poison > rng(0, liq.charges)) {
                     liq.poison++;
                 }

@@ -837,13 +837,13 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     m_to_hit = jo.get_int("m_to_hit");
     item_tags = jo.get_tags("item_flags");
 
-    max_charges = jo.get_int("max_charges");
-    def_charges = jo.get_int("def_charges");
+    max_charges = jo.get_long("max_charges");
+    def_charges = jo.get_long("def_charges");
 
     std::vector<int> rand_charges;
     JsonArray jarr = jo.get_array("rand_charges");
     while (jarr.has_more()){
-        rand_charges.push_back(jarr.next_int());
+        rand_charges.push_back(jarr.next_long());
     }
 
     charges_per_use = jo.get_int("charges_per_use");

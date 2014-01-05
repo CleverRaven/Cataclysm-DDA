@@ -1265,6 +1265,15 @@ bool JsonIn::read(unsigned int &u)
     return true;
 }
 
+bool JsonIn::read(long &l)
+{
+    if (!test_number()) {
+        return false;
+    }
+    l = get_long();
+    return true;
+}
+
 bool JsonIn::read(float &f)
 {
     if (!test_number()) {
@@ -1590,6 +1599,16 @@ void JsonOut::write(const unsigned &u)
     }
     // format specified in constructor, let's hope it hasn't changed
     *stream << u;
+    need_separator = true;
+}
+
+void JsonOut::write(const long &l)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    // format specified in constructor, let's hope it hasn't changed
+    *stream << l;
     need_separator = true;
 }
 

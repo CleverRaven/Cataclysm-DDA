@@ -1422,7 +1422,7 @@ bool item::count_by_charges() const
     return false;
 }
 
-int item::max_charges() const
+long item::max_charges() const
 {
     if(count_by_charges()) {
         return type->stack_size;
@@ -1441,7 +1441,7 @@ bool item::craft_has_charges()
     return false;
 }
 
-int item::num_charges()
+long item::num_charges()
 {
     if (is_gun()) {
         if (mode == "MODE_AUX") {
@@ -2514,9 +2514,9 @@ bool item::reload(player &u, int pos)
    ammo_to_use->charges--;
   }
   else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on" || reload_target->has_flag("ATOMIC_AMMO")) {
-      int charges_per_plut = 500;
-      int max_plut = floor( static_cast<float>((max_load - reload_target->charges) / charges_per_plut) );
-      int charges_used = std::min(ammo_to_use->charges, max_plut);
+      long charges_per_plut = 500;
+      long max_plut = floor( static_cast<float>((max_load - reload_target->charges) / charges_per_plut) );
+      long charges_used = std::min(ammo_to_use->charges, max_plut);
       reload_target->charges += (charges_used * charges_per_plut);
       ammo_to_use->charges -= charges_used;
   } else {
