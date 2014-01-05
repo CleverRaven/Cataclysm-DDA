@@ -73,17 +73,20 @@
         "type" : "skill",
         "ident" : "archery",
         "name" : "archery",
-        "description" : "Your skill in using bow weapons, from hand-carved self bows to complex hunting crossbows. Quiet and effective, they require strength of body and sight to wield, and are not terribly accurate over a long distance."
+        "description" : "Your skill in using bow weapons, from hand-carved self bows to complex hunting crossbows. Quiet and effective, they require strength of body and sight to wield, and are not terribly accurate over a long distance.",
+        "tags" : ["combat_skill"]
     },{
         "type" : "skill",
         "ident" : "bashing",
         "name" : "bashing weapons",
-        "description" : "Your skill in fighting with blunt weaponry, from rocks and sticks to baseball bats and the butts of rifles. Skill increases damage, and higher levels will improve the accuracy of an attack."
+        "description" : "Your skill in fighting with blunt weaponry, from rocks and sticks to baseball bats and the butts of rifles. Skill increases damage, and higher levels will improve the accuracy of an attack.",
+        "tags" : ["combat_skill"]
     },{
         "type" : "skill",
         "ident" : "cutting",
         "name" : "cutting weapons",
-        "description" : "Your skill in fighting with weaponry designed to cut, hack and slash an opponent. Lower levels of skill increase accuracy and damage, while higher levels will help to bypass heavy armor and thick hides."
+        "description" : "Your skill in fighting with weaponry designed to cut, hack and slash an opponent. Lower levels of skill increase accuracy and damage, while higher levels will help to bypass heavy armor and thick hides.",
+        "tags" : ["combat_skill"]
     },{
         "type" : "skill",
         "ident" : "dodge",
@@ -93,55 +96,61 @@
         "type" : "skill",
         "ident" : "gun",
         "name" : "marksmanship",
-        "description" : "Your overall skill in using bows and firearms. With higher levels, this general experience increases accuracy with any bows or firearms, but is secondary to practice with the type of ranged weapon in question."
+        "description" : "Your overall skill in using bows and firearms. With higher levels, this general experience increases accuracy with any bows or firearms, but is secondary to practice with the type of ranged weapon in question.",
+        "tags" : ["combat_skill"]
     },{
         "type" : "skill",
         "ident" : "launcher",
         "name" : "launchers",
-        "description" : "Your skill in using heavy weapons like rocket, grenade or missile launchers. These weapons have a variety of applications and may carry immense destructive power, but they are cumbersome and hard to manage."
+        "description" : "Your skill in using heavy weapons like rocket, grenade or missile launchers. These weapons have a variety of applications and may carry immense destructive power, but they are cumbersome and hard to manage.",
+        "tags" : ["combat_skill"]
     },{
         "type" : "skill",
         "ident" : "melee",
         "name" : "melee",
-        "description" : "Your skill and finesse in personal combat, both with and without a weapon. Higher levels can significantly increase the accuracy and effectiveness of your physical attacks."
+        "description" : "Your skill and finesse in personal combat, both with and without a weapon. Higher levels can significantly increase the accuracy and effectiveness of your physical attacks.",
+        "tags" : ["combat_skill"]
     },{
         "type" : "skill",
         "ident" : "stabbing",
         "name" : "piercing weapons",
-        "description" : "Your skill in fighting with knives, spears and other such stabbing implements. Skill increases attack accuracy as well as the chance of inflicting a deadly and critical blow."
+        "description" : "Your skill in fighting with knives, spears and other such stabbing implements. Skill increases attack accuracy as well as the chance of inflicting a deadly and critical blow.",
+        "tags" : ["combat_skill"]
     },{
         "type" : "skill",
         "ident" : "throw",
         "name" : "throwing",
-        "description" : "Your skill in throwing objects over a distance. Skill increases accuracy, and at higher levels, the range of a throw."
+        "description" : "Your skill in throwing objects over a distance. Skill increases accuracy, and at higher levels, the range of a throw.",
+        "tags" : ["combat_skill"]
     },{
         "type" : "skill",
         "ident" : "unarmed",
         "name" : "unarmed combat",
-        "description" : "Your skill in hand-to-hand fighting. For the unskilled, it's a good way to get hurt, but those with enough practice can perform special blows and techniques to quickly dispatch enemies."
+        "description" : "Your skill in hand-to-hand fighting. For the unskilled, it's a good way to get hurt, but those with enough practice can perform special blows and techniques to quickly dispatch enemies.",
+        "tags" : ["combat_skill"]
     },{
         "type" : "skill",
         "ident" : "pistol",
         "name" : "handguns",
         "description" : "Handguns have poor accuracy compared to rifles, but are usually quick to fire and reload faster than other guns. They are very effective at close quarters, though unsuited for long range engagement.",
-        "tags" : ["gun_type"]
+        "tags" : ["gun_type", "combat_skill"]
     },{
         "type" : "skill",
         "ident" : "rifle",
         "name" : "rifles",
         "description" : "Rifles have terrific range and accuracy compared to other firearms, but may be slow to fire and reload, and can prove difficult to use in close quarters. Fully automatic rifles can fire rapidly, but are harder to handle properly.",
-        "tags" : ["gun_type"]
+        "tags" : ["gun_type", "combat_skill"]
     },{
         "type" : "skill",
         "ident" : "shotgun",
         "name" : "shotguns",
         "description" : "Shotguns are easy to shoot and can inflict massive damage, but their effectiveness and accuracy decline rapidly with range. Slugs can be loaded into shotguns to provide greater range, though they are somewhat inaccurate.",
-        "tags" : ["gun_type"]
+        "tags" : ["gun_type", "combat_skill"]
     },{
         "type" : "skill",
         "ident" : "smg",
         "name" : "submachine guns",
         "description" : "Comprised of an automatic rifle carbine designed to fire a pistol cartridge, submachine guns can reload and fire quickly, sometimes in bursts, but they are relatively inaccurate and may be prone to mechanical failures.",
-        "tags" : ["gun_type"]
+        "tags" : ["gun_type", "combat_skill"]
     }
 ]

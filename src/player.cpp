@@ -9606,6 +9606,11 @@ void player::practice (const calendar& turn, Skill *s, int amount)
     }
 
     amount = adjust_for_focus(amount);
+
+    if (has_trait("PACIFIST") && s->is_combat_skill())
+      if(!one_in(3))
+        amount = 0;
+
     if (isSavant && s != savantSkill)
     {
         amount /= 2;

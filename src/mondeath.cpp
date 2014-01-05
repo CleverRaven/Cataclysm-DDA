@@ -270,7 +270,6 @@ void mdeath::guilt(monster *z) {
     guilt_tresholds[50] = "You regret killing %s.";
     guilt_tresholds[25] = "You feel remorse for killing %s.";
 
-
     if (g->u.has_trait("PSYCHOPATH")) {
         return;
     }
@@ -307,6 +306,9 @@ void mdeath::guilt(monster *z) {
     int decayDelay = 30 * (1.0 - ((float) kill_count / maxKills));
     if (z->type->in_species("ZOMBIE")) {
         moraleMalus /= 10;
+        if(g->u.has_trait("PACIFIST")) {
+            moraleMalus *= 5;
+        }
     }
     g->u.add_morale(MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay);
 

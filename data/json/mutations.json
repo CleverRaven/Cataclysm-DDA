@@ -710,6 +710,14 @@
         "valid" : false
     },{
         "type" : "mutation",
+        "id" : "PACIFIST",
+        "name" : "Pacifist",
+        "points" : -4,
+        "description" : "You don't like thinking about violence. Your combat skills advance much slower than usual, and you feel more guilt about killing.",
+        "starting_trait" : true,
+        "valid" : false
+    },{
+        "type" : "mutation",
         "id" : "MOODSWINGS",
         "name" : "Mood Swings",
         "points" : -1,

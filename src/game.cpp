@@ -5252,10 +5252,11 @@ void game::cleanup_dead()
                                            critter.hp, critter.type->name.c_str() );
             critter.die(); // dies at the very end
             Creature* killer = critter.get_killer();
-            if (killer != NULL && killer->is_player() &&
-                    critter.has_flag(MF_GUILT)) {
-                mdeath tmpdeath;
-                tmpdeath.guilt(&critter);
+            if (killer != NULL && killer->is_player() && // killed by player and
+                (critter.has_flag(MF_GUILT) || // has guilt flag or
+                 (u.has_trait("PACIFIST") && critter.has_flag(MF_HUMAN)))) { // pacifist player && humanoid
+              mdeath tmpdeath;
+              tmpdeath.guilt(&critter);
             }
             remove_zombie(i);
             if( last_target == i ) {
