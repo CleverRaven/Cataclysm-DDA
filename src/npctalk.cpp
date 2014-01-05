@@ -1991,24 +1991,36 @@ talk_topic dialogue::opt(talk_topic topic)
  std::vector<std::string> options;
  std::vector<nc_color>    colors;
  for (int i = 0; i < responses.size(); i++) {
-  options.push_back(
-      rmp_format(
-        responses[i].trial>0?
-        _("<talk option>%1$c: [%2$s %3$d%%] %4$s"):
-        (std::string(_("<talk option>%1$c: %4$s"))+"\003<%2$c%3$c>").c_str(),
-        char('a' + i), talk_trial_text[responses[i].trial],
-        trial_chance(responses[i], alpha, beta), responses[i].text.c_str()
-      )
-  );
-  parse_tags(options.back(), alpha, beta);
-  if (responses[i].text[0] == '!')
-   colors.push_back(c_red);
-  else if (responses[i].text[0] == '*')
-   colors.push_back(c_ltred);
-  else if (responses[i].text[0] == '&')
-   colors.push_back(c_green);
-  else
-   colors.push_back(c_white);
+     if (responses[i].trial > 0) {  // dialogue w/ a % chance to work
+         options.push_back(
+             rmp_format(
+                 _("<talk option>%1$c: [%2$s %3$d%%] %4$s"),
+                 char('a' + i),                           // option letter
+                 talk_trial_text[responses[i].trial],     // trial type
+                 trial_chance(responses[i], alpha, beta), // trial % chance
+                 responses[i].text.c_str()                // response
+             )
+         );
+     }
+     else { // regular dialogue
+         options.push_back(
+             rmp_format(
+                 _("<talk option>%1$c: %2$s"),
+                 char('a' + i),            // option letter
+                 responses[i].text.c_str() // response
+             )
+         );
+     }
+
+     parse_tags(options.back(), alpha, beta);
+     if (responses[i].text[0] == '!')
+         colors.push_back(c_red);
+     else if (responses[i].text[0] == '*')
+         colors.push_back(c_ltred);
+     else if (responses[i].text[0] == '&')
+         colors.push_back(c_green);
+     else
+         colors.push_back(c_white);
  }
 
  for (int i = 2; i < 24; i++) {
