@@ -9,6 +9,9 @@
 #include <vector>
 #include <map>
 
+struct WORLD;
+typedef WORLD *WORLDPTR;
+
 class mod_ui;
 class game;
 class worldfactory;
@@ -78,12 +81,28 @@ class mod_manager
          * retained.
          */
         bool copy_mod_contents(std::vector<std::string> mods_to_copy, std::string output_base_path);
+
+        /**
+         * Save list of mods that are active in that world to
+         * the world folder.
+         */
+        void save_mods_list(WORLDPTR world) const;
+        /**
+         * Load list of mods that should be active in that
+         * world.
+         */
+        void load_mods_list(WORLDPTR world) const;
     protected:
     private:
         // Make this accessible for now
         friend class mod_ui;
         friend class worldfactory;
         friend class game;
+        /**
+         * @returns path of a file in the world folder that contains
+         * the list of mods that should be loaded for this world.
+         */
+        static std::string get_mods_list_file(const WORLDPTR world);
         /**
          * Load all modinfo.json files (recursively) from the
          * given root.

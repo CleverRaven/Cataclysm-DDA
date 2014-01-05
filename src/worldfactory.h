@@ -25,6 +25,11 @@ struct WORLD
     std::string world_name;
     std::map<std::string, cOpt> world_options;
     std::vector<std::string> world_saves;
+    /**
+     * A (possibly empty) list of (idents of) mods that
+     * should be loaded for this world.
+     */
+    std::vector<std::string> active_mod_order;
 
     WORLD();
 };
@@ -57,8 +62,6 @@ class worldfactory
 
         std::map<std::string, WORLDPTR> all_worlds;
         std::vector<std::string> all_worldnames;
-
-        std::vector<std::string> active_mod_order;
 
         mod_manager *get_mod_manager();
 

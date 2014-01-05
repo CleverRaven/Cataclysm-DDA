@@ -80,7 +80,7 @@ public:
  * - Let user decide which world to play in.
  * - Call @ref unload_data (to unload data from a
  * previously loaded world, if any)
- * - Call @ref load_data_from_dir(...) repeatedly with
+ * - Call @ref load_data_from_path(...) repeatedly with
  * different pathes for the core data and all the mods
  * of the current world.
  * - Call @ref finalize_loaded_data when all mods have been
@@ -164,13 +164,16 @@ class DynamicDataLoader
         /**
          * Load all data from json files located in
          * the path (recursive).
+         * @param path Either a folder (recursively load all
+         * files with the extension .json), or a file (load only
+         * that file, don't check extension).
          * @throws std::string on all kind of errors. The string
          * contains the error message.
          */
-        void load_data_from_dir(const std::string &path);
+        void load_data_from_path(const std::string &path);
         /**
          * Deletes and unloads all the data previously loaded with
-         * @ref load_data_from_dir
+         * @ref load_data_from_path
          */
         void unload_data();
         /**

@@ -144,7 +144,6 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         }
         delete all_worlds[worldname];
         all_worlds.erase(worldname);
-        active_mod_order.clear();
         return NULL;
     }
     return retworld;
@@ -279,7 +278,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
         }
         fout.close();
     }
-    mman->copy_mod_contents(active_mod_order, world->world_path + "/mods");
+    mman->save_mods_list(world);
     return true;
 }
 
@@ -341,6 +340,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
             }
             // set world path
             retworlds[worldname]->world_path = world_dirs[i];
+            mman->load_mods_list(retworlds[worldname]);
 
             // load options into the world
             if ( no_options ) {
@@ -717,7 +717,10 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
 
 int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
 {
-    (void) world;
+    // Use active_mod_order of the world,
+    // saves us from writting 'world->active_mod_order' all the time.
+    std::vector<std::string> &active_mod_order = world->active_mod_order;
+
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 

@@ -2,12 +2,15 @@
 #include "file_finder.h"
 #include "debug.h"
 #include "output.h"
+#include "worldfactory.h"
 
 #include <math.h>
 #include <queue>
 #include <iostream>
 #include <fstream>
 // FILE I/O
+#include "json.h"
+#include <fstream>
 #include <sys/stat.h>
 #ifdef _MSC_VER
 #include "wdirent.h"
@@ -278,5 +281,54 @@ void mod_manager::load_mod_info(std::string info_file_path)
         }
     } catch(std::string e) {
         debugmsg("%s", e.c_str());
+    }
+}
+
+std::string mod_manager::get_mods_list_file(const WORLDPTR world)
+{
+    return world->world_path + "/mods.json";
+}
+
+void mod_manager::save_mods_list(WORLDPTR world) const
+{
+    if (world == NULL || world->active_mod_order.empty()) {
+        return;
+    }
+    std::ofstream mods_list_file(get_mods_list_file(world).c_str(), std::ios::out | std::ios::binary);
+    if(!mods_list_file) {
+        DebugLog() << "worldfactory: can not write to " << get_mods_list_file(world) << "\n";
+        return;
+    }
+    try {
+        JsonOut json(mods_list_file, true); // pretty-print
+        json.write(world->active_mod_order);
+    } catch (std::string e) {
+        DebugLog() << "worldfactory: failed to write list of mods to world folder\n";
+    }
+}
+
+void mod_manager::load_mods_list(WORLDPTR world) const
+{
+    if (world == NULL) {
+        return;
+    }
+    std::vector<std::string> &amo = world->active_mod_order;
+    amo.clear();
+    std::ifstream mods_list_file(get_mods_list_file(world).c_str(), std::ios::in | std::ios::binary);
+    if (!mods_list_file) {
+        return;
+    }
+    try {
+        JsonIn jsin(mods_list_file);
+        JsonArray ja = jsin.get_array();
+        while (ja.has_more()) {
+            const std::string mod = ja.next_string();
+            if (mod.empty() || std::find(amo.begin(), amo.end(), mod) != amo.end()) {
+                continue;
+            }
+            amo.push_back(mod);
+        }
+    } catch (std::string e) {
+        DebugLog() << "worldfactory: loading mods list failed: " << e;
     }
 }

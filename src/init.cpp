@@ -212,7 +212,7 @@ void DynamicDataLoader::reset()
     type_function_map.clear();
 }
 
-void DynamicDataLoader::load_data_from_dir(const std::string &dirname)
+void DynamicDataLoader::load_data_from_path(const std::string &path)
 {
     // We assume that each folder is consistent in itself,
     // and all the previously loaded folders.
@@ -221,7 +221,15 @@ void DynamicDataLoader::load_data_from_dir(const std::string &dirname)
     // But not the other way round.
 
     // get a list of all files in the directory
-    str_vec files = file_finder::get_files_from_path(".json", dirname, true, true);
+    str_vec files = file_finder::get_files_from_path(".json", path, true, true);
+    if (files.empty()) {
+        std::ifstream tmp(path.c_str(), std::ios::in);
+        if (tmp) {
+            // path is actually a file, don't checking the extension,
+            // assume we want to load this file anyway
+            files.push_back(path);
+        }
+    }
     // iterate over each file
     for (size_t i = 0; i < files.size(); i++) {
         const std::string &file = files[i];

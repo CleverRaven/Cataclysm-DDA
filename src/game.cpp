@@ -160,11 +160,13 @@ void game::check_all_mod_data() {
             continue;
         }
         popup_nowait("checking mod %s", mod->name.c_str());
+        // Reset & load core data, than load dependencies
+        // and the actual mod and finally finalize all.
         load_core_data();
         deps = dtree.get_dependencies_of_X_as_strings(mod->ident);
         for(size_t i = 0; i < deps.size(); i++) {
             // assert(mm->has_mod(deps[i]));
-            // ^^ dependcy tree takes care of that case
+            // ^^ dependency tree takes care of that case
             MOD_INFORMATION *dmod = mm->mod_map[deps[i]];
             load_data_from_dir(dmod->path);
         }
@@ -193,7 +195,7 @@ void game::load_core_data() {
 
 void game::load_data_from_dir(const std::string &path) {
     try {
-        DynamicDataLoader::get_instance().load_data_from_dir(path);
+        DynamicDataLoader::get_instance().load_data_from_path(path);
     } catch(std::string &err) {
         debugmsg("Error loading data from json: %s", err.c_str());
     }
@@ -3132,6 +3134,22 @@ void game::load_world_modfiles(WORLDPTR world)
     load_core_data();
     if (world != NULL) {
         load_artifacts(world->world_path + "/artifacts.gsav", itypes);
+        mod_manager *mm = world_generator->get_mod_manager();
+        // this code does not care about mod dependencies,
+        // it assumes that those dependencies are static and
+        // are resolved during the creation of the world.
+        // That means world->active_mod_order contains a list
+        // of mods in the correct order.
+        for (size_t i = 0; i < world->active_mod_order.size(); i++) {
+            const std::string &mod_ident = world->active_mod_order[i];
+            if (mm->has_mod(mod_ident)) {
+                MOD_INFORMATION *mod = mm->mod_map[mod_ident];
+                load_data_from_dir(mod->path);
+            } else {
+                debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
+            }
+        }
+        // Load additional mods from that world-specific folder
         load_data_from_dir(world->world_path + "/mods");
     }
     DynamicDataLoader::get_instance().finalize_loaded_data();
