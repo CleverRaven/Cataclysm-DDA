@@ -178,6 +178,7 @@ public:
     bool read(int &i);
     bool read(unsigned int &u);
     bool read(long &l);
+    bool read(unsigned long &ul);
     bool read(float &f);
     bool read(double &d);
     bool read(std::string &s);
@@ -288,6 +289,7 @@ public:
     void write(const int &i);
     void write(const unsigned &u);
     void write(const long &l);
+    void write(const unsigned long &ul);
     void write(const double &f);
     void write(const std::string &s);
     void write(const char *cstr) { write(std::string(cstr)); }

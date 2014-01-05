@@ -534,7 +534,7 @@ public:
  unsigned int scent;
  int dodges_left, blocks_left;
  int stim, pkill, radiation;
- int cash;
+ unsigned long cash;
  int movecounter;
  int hp_cur[num_hp_parts], hp_max[num_hp_parts];
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];

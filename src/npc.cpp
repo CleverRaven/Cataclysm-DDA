@@ -250,7 +250,7 @@ void npc::randomize(npc_class type)
   personality.aggression -= rng(0, 4);
   if (one_in(4))
    flags |= mfb(NF_DRUGGIE);
-  cash += 100 * rng(0, 3) * rng(0, 3);
+  cash += 10000 * rng(0, 3) * rng(0, 3);
   break;
 
  case NC_TRADER:
@@ -269,7 +269,7 @@ void npc::randomize(npc_class type)
   int_max += rng(0, 1) * rng(0, 1);
   per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
-  cash += 250 * rng(1, 10);
+  cash += 25000 * rng(1, 10);
   break;
 
  case NC_NINJA:

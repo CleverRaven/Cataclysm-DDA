@@ -2169,7 +2169,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
   getting_yours[i] = false;
  }
 
- int  cash = cost;// How much cash you get in the deal (negative = losing money)
+ long cash = cost;// How much cash you get in the deal (negative = losing money)
  bool focus_them = true; // Is the focus on them?
  bool update = true;  // Re-draw the screen?
  int  them_off = 0, you_off = 0;// Offset from the start of the list
