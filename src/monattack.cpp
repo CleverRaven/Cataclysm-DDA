@@ -1518,7 +1518,6 @@ void mattack::laser(monster *z)
       std::vector<point> traj = line_to(z->posx(), z->posy(),
                                         target->posx(), target->posy(), fire_t);
       g->fire(tmp, target->posx(), target->posy(), traj, true);
-    return;
   }
   else {
     if (one_in(3)) {
@@ -1529,6 +1528,7 @@ void mattack::laser(monster *z)
       g->sound(z->posx(), z->posy(), 6, _("boop-boop!"));
     }
   }
+  return;
  }
 
 // Not friendly; hence, firing at the player
