@@ -92,15 +92,6 @@ public:
  *
  *
  *
- * Delayed loading works like this:
- * All types in delay_order[delay_order_state] up to
- * delay_order[delay_order.size()-1] are delayed.
- * We start with delay_order_state=0, which means all
- * types in any of the delay_order set are ignored.
- * Than we increase delay_order_state, and reload everything again.
- * This is done as long as delay_order_state<= delay_order.size()
- *
- *
  * Porting stuff to json works like this:
  * - create a function
  *       void load_my_object(JsonObject &jo);
@@ -123,8 +114,6 @@ class DynamicDataLoader
     public:
         typedef std::string type_string;
         typedef std::map<type_string, TFunctor *> t_type_function_map;
-        typedef std::set<type_string> delay_type_set;
-        typedef std::vector<delay_type_set> delay_order_vector;
         typedef std::vector<std::string> str_vec;
 
     protected:
@@ -134,19 +123,6 @@ class DynamicDataLoader
          */
         t_type_function_map type_function_map;
         /**
-         * Contains type names (keys into the @ref type_function_map),
-         * of types that get delayed while loaded.
-         * Types not in here are loaded first.
-         * The next pass loads all in types in delay_order[0] and so on.
-         * Which pass we're in is defined by @ref delay_order_state,
-         * first pass means @ref delay_order_state == 0
-         */
-        delay_order_vector delay_order;
-        /**
-         * For delayed loading, @see delay_order
-         */
-        int delay_order_state;
-        /**
          * Load all the types from that json data.
          * @param jsin Might contain single object,
          * or an array of objects. Each object must have a
@@ -155,14 +131,6 @@ class DynamicDataLoader
          * contains the error message.
          */
         void load_all_from_json(JsonIn &jsin);
-        /**
-         * Determines if loading the object of the given type
-         * should be delayed in current state (delay_order_state).
-         * @param type The type (key into @ref type_function_map)
-         * of the object that is currently atttempted to load.
-         * @return true if the type should not be loaded right now.
-         */
-        bool should_loading_delay(const type_string &type) const;
         /**
          * Load a single object from a json object.
          * @param jo The json object to load the C++-object from.
@@ -174,11 +142,11 @@ class DynamicDataLoader
         DynamicDataLoader();
         ~DynamicDataLoader();
         /**
-         * Initializes @ref type_function_map and @ref delay_order
+         * Initializes @ref type_function_map
          */
         void initialize();
         /**
-         * Clears and deletes the contents of @ref delay_order and
+         * Clears and deletes the contents of
          * @ref type_function_map
          */
         void reset();

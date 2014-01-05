@@ -37,7 +37,6 @@
 #include "file_finder.h"
 
 DynamicDataLoader::DynamicDataLoader()
-: delay_order_state(INT_MAX)
 {
 }
 
@@ -53,20 +52,6 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
         theDynamicDataLoader.initialize();
     }
     return theDynamicDataLoader;
-}
-
-bool DynamicDataLoader::should_loading_delay(const type_string &type) const
-{
-    for(int i = 0; i < delay_order.size(); i++) {
-        if(delay_order[i].count(type) > 0) {
-            // Delay loading if type is in current state
-            // or above
-            return i >= delay_order_state;
-        }
-    }
-    // types that are not listed in any of the delay_order sets
-    // can be loaded in state 0, but must not be loaded later
-    return delay_order_state > 0;
 }
 
 std::map<int, int> reverse_legacy_ter_id;
@@ -116,9 +101,6 @@ void DynamicDataLoader::load_object(JsonObject &jo)
         err << jo.line_number() << ": ";
         err << "unrecognized JSON object, type: \"" << type << "\"";
         throw err.str();
-    }
-    if (should_loading_delay(type)) {
-        return;
     }
     (*it->second)(jo);
 }
@@ -217,21 +199,6 @@ void DynamicDataLoader::initialize()
     // mod information, ignored, handled by the mod manager
     type_function_map["MOD_INFO"] = new StaticFunctionAccessor(&load_ingored_type);
 
-    // Recipes need to know the items
-    // Vehicles need vparts
-    // -- make a first set of delayed types
-    delay_order.push_back(delay_type_set());
-    delay_order.back().insert("recipe");
-    delay_order.back().insert("vehicle");
-    // currently not needed but for documentation:
-    // assume we have another type (vehicle_type_list),
-    // that needs to know every vehicle. For this we
-    // create another set of delayed types.
-    // This second set will be loaded after the
-    // previously defined set.
-    //delay_order.push_back(delay_type_set());
-    //delay_order.back().insert("vehicle_type_list");
-
     // init maps used for loading json data
     init_martial_arts();
 }
@@ -243,7 +210,6 @@ void DynamicDataLoader::reset()
         delete a->second;
     }
     type_function_map.clear();
-    delay_order.clear();
 }
 
 void DynamicDataLoader::load_data_from_dir(const std::string &dirname)
@@ -256,35 +222,26 @@ void DynamicDataLoader::load_data_from_dir(const std::string &dirname)
 
     // get a list of all files in the directory
     str_vec files = file_finder::get_files_from_path(".json", dirname, true, true);
-    str_vec json_datas(files.size());
     // iterate over each file
     for (size_t i = 0; i < files.size(); i++) {
+        const std::string &file = files[i];
         // open the file as a stream
-        std::ifstream infile(files[i].c_str(), std::ifstream::in | std::ifstream::binary);
+        std::ifstream infile(file.c_str(), std::ifstream::in | std::ifstream::binary);
         // and stuff it into ram
-        json_datas[i] = std::string(
-                            std::istreambuf_iterator<char>(infile),
-                            std::istreambuf_iterator<char>()
-                        );
-    }
-    // not all types might be in delay_order, those that aren't are loaded
-    // first anyway. Than all in delay_order[0], than all in delay_order[1]
-    // and so on.
-    delay_order_state = 0;
-    while(delay_order_state <= delay_order.size()) {
-        for (size_t i = 0; i < files.size(); i++) {
-            const std::string &file = files[i];
-            std::istringstream iss(json_datas[i]);
-            try {
-                // parse it
-                JsonIn jsin(iss);
-                load_all_from_json(jsin);
-            } catch (std::string e) {
-                DebugLog() << file << ": " << e << "\n";
-                throw file + ": " + e;
-            }
+        std::istringstream iss(
+            std::string(
+                (std::istreambuf_iterator<char>(infile)),
+                std::istreambuf_iterator<char>()
+            )
+        );
+        try {
+            // parse it
+            JsonIn jsin(iss);
+            load_all_from_json(jsin);
+        } catch (std::string e) {
+            DebugLog() << file << ": " << e << "\n";
+            throw file + ": " + e;
         }
-        delay_order_state++;
     }
 }
 
