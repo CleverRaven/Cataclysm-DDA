@@ -1220,10 +1220,15 @@ void player::recalc_speed_bonus()
  // add martial arts speed bonus
  mod_speed_bonus(mabuff_speed_bonus());
 
+ // Not sure why Sunlight Dependent is here, but OK
+ // Ectothermic/COLDBLOOD4 is intended to buff folks in the Summer
+ // Threshold-crossing has its charms ;-)
  if (g != NULL) {
   if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy))
    mod_speed_bonus(-(g->light_level() >= 12 ? 5 : 10));
-  if (has_trait("COLDBLOOD3") && g->get_temperature() < 60)
+  if ((has_trait("COLDBLOOD4")) && g->get_temperature() > 60)
+  mod_speed_bonus(+int( (g->get_temperature() - 65) / 2));
+  if ((has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) && g->get_temperature() < 60)
    mod_speed_bonus(-int( (65 - g->get_temperature()) / 2));
   else if (has_trait("COLDBLOOD2") && g->get_temperature() < 60)
    mod_speed_bonus(-int( (65 - g->get_temperature()) / 3));
@@ -2276,9 +2281,16 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             (pen < 10 ? " " : ""), pen);
   line++;
  }
- if ((has_trait("COLDBLOOD") || has_trait("COLDBLOOD2") ||
-      has_trait("COLDBLOOD3")) && g->get_temperature() < 65) {
-  if (has_trait("COLDBLOOD3"))
+ if (has_trait ("COLDBLOOD4") && g->get_temperature() > 65) {
+  pen = int( (g->get_temperature() - 65) / 2);
+  mvwprintz(w_speed, line, 1, c_green, _("Cold-Blooded        +%s%d%%"),
+            (pen < 10 ? " " : ""), pen);
+  line++;
+ }
+  if ((has_trait("COLDBLOOD") || has_trait("COLDBLOOD2") ||
+      has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) &&
+      g->get_temperature() < 65) {
+  if (has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4"))
    pen = int( (65 - g->get_temperature()) / 2);
   else if (has_trait("COLDBLOOD2"))
    pen = int( (65 - g->get_temperature()) / 3);

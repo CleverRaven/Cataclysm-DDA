@@ -2471,6 +2471,16 @@
         "category" : ["MUTCAT_INSECT", "MUTCAT_LIZARD"]
     },{
         "type" : "mutation",
+        "id" : "COLDBLOOD4",
+        "name" : "Ectothermic",
+        "points" : -2,
+        "description" : "Your body has become permanently cold-blooded. Your speed lowers--or raises--for every two degrees below or above 65 F.",
+        "prereqs" : ["COLDBLOOD3"],
+        "threshreq" : ["THRESH_LIZARD"],
+        "purifiable" : false,
+        "category" : ["MUTCAT_LIZARD"]
+    },{
+        "type" : "mutation",
         "id" : "GROWL",
         "name" : "Growling Voice",
         "points" : -1,
