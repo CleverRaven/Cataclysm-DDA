@@ -138,6 +138,10 @@ class game
   void write_memorial_file();
   void cleanup_at_end();
   bool do_turn();
+  void toggle_fullscreen(void);
+  void temp_exit_fullscreen(void);
+  void reenter_fullscreen(void);
+  void toggle_sidebar_style(void);
   void draw();
   void draw_ter(int posx = -999, int posy = -999);
   void advance_nextinv(); // Increment the next inventory letter
@@ -330,6 +334,7 @@ class game
   int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;   // Weather pattern--SEE weather.h
   bool lightning_active;
+  bool narrow_sidebar;
 
   std::map<int, weather_segment> weather_log;
   char nextinv; // Determines which letter the next inv item will have
@@ -643,6 +648,8 @@ class game
   int nulscent;    // Returned for OOB scent checks
   std::vector<event> events;         // Game events to be processed
   std::map<std::string, int> kills;         // Player's kill count
+  bool fullscreen;
+  bool was_fullscreen;
   int moves_since_last_save;
   int item_exchanges_since_save;
   time_t last_save_timestamp;
