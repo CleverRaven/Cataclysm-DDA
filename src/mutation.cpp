@@ -39,7 +39,7 @@ void player::mutate()
         force_good = true;
     }
 
-    // Determine the highest mutation categorie
+    // Determine the highest mutation category
     std::string cat = get_highest_category();
 
     // See if we should ugrade/extend an existing mutation...
@@ -51,6 +51,7 @@ void player::mutate()
     // For each mutation...
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
         std::string base_mutation = iter->first;
+        bool thresh_save = mutation_data[base_mutation].threshold;
 
         // ...that we have...
         if (has_trait(base_mutation)) {
@@ -84,7 +85,8 @@ void player::mutate()
                 }
 
                 // mark for removal
-                if(!in_cat) {
+                // no removing Thresholds this way!
+                if(!in_cat && !thresh_save) {
                     downgrades.push_back(base_mutation);
                 }
             }
