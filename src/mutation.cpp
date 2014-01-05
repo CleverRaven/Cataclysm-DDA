@@ -42,7 +42,7 @@ void player::mutate()
     // Determine the highest mutation categorie
     std::string cat = get_highest_category();
 
-    // See if we should ugrade/extend an existing mutation...
+    // See if we should upgrade/extend an existing mutation...
     std::vector<std::string> upgrades;
 
     // ... or remove one that is not in our highest category
@@ -518,7 +518,7 @@ void mutation_effect(player &p, std::string mut)
         p.str_max += 4;
         p.recalc_hp();
         // Good-Huge still can't fit places but its heart's healthy enough for
-        // going arond being Huge, so you get the HP
+        // going around being Huge, so you get the HP
         
     } else if (mut == "STR_UP") {
         p.str_max ++;
@@ -615,7 +615,7 @@ void mutation_loss_effect(player &p, std::string mut)
         p.str_max -= 4;
         p.recalc_hp();
         // Losing Huge probably means either gaining Good-Huge or
-        // going backck to Large.  In any case, recalc_hp ought to
+        // going back to Large.  In any case, recalc_hp ought to
         // handle it.
 
     } else if (mut == "HUGE_OK") {

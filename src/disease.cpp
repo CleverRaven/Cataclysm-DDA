@@ -272,7 +272,7 @@ void dis_remove_memorial(dis_type type_string) {
       g->u.add_memorial_log(_("Cured the fungal infection."));
       break;
     case DI_BITE:
-      g->u.add_memorial_log(_("Recoverd from a bite wound."));
+      g->u.add_memorial_log(_("Recovered from a bite wound."));
       break;
     case DI_INFECTED:
       g->u.add_memorial_log(_("Recovered from an infection... this time."));
@@ -1001,7 +1001,7 @@ void dis_effect(player &p, disease &dis) {
 
         case DI_ASTHMA:
             if (dis.duration > 1200) {
-                g->add_msg_if_player(&p,_("Your asthma overcomes you.\nYou asphixiate."));
+                g->add_msg_if_player(&p,_("Your asthma overcomes you.\nYou asphyxiate."));
                 g->u.add_memorial_log(_("Succumbed to an asthma attack."));
                 p.hurtall(500);
             } else if (dis.duration > 700) {
@@ -1841,7 +1841,7 @@ Your legs are frostbitten from prolonged exposure to the cold. It is extremely p
                 switch (dis.intensity) {
                 case 1: return _("Your hands feel warm.");
                 case 2: return _("Your hands feel hot and uncoordinated.");
-                case 3: return _("Your hands feel disgustinly hot and are very uncoordinated.");
+                case 3: return _("Your hands feel disgustingly hot and are very uncoordinated.");
                 }
             case bp_legs:
                 switch (dis.intensity) {
@@ -1991,7 +1991,7 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         intpen = int(dis.duration / 20);
         perpen = int(dis.duration / 25);
         strpen = int(dis.duration / 50);
-        stream << _("You feal nauseated and rat-like.\n");
+        stream << _("You feel nauseated and rat-like.\n");
         if (intpen > 0) {
             stream << string_format(_("Intelligence - %d;   "), intpen);
         }
