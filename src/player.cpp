@@ -8187,36 +8187,37 @@ void player::use_wielded() {
 }
 
 hint_rating player::rate_action_reload(item *it) {
- if (it->is_gun()) {
-  if (it->has_flag("RELOAD_AND_SHOOT") || it->ammo_type() == "NULL") {
-   return HINT_CANT;
-  }
-  if (it->charges == it->clip_size()) {
-   int alternate_magazine = -1;
-   for (int i = 0; i < it->contents.size(); i++)
-   {
-       if ((it->contents[i].is_gunmod() &&
-            (it->contents[i].typeId() == "spare_mag" &&
-             it->contents[i].charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
-           (it->contents[i].has_flag("MODE_AUX") &&
-            it->contents[i].charges < it->contents[i].clip_size()))
-       {
-           alternate_magazine = i;
-       }
-   }
-   if(alternate_magazine == -1) {
-    return HINT_IFFY;
-   }
-  }
-  return HINT_GOOD;
- } else if (it->is_tool()) {
-  it_tool* tool = dynamic_cast<it_tool*>(it->type);
-  if (tool->ammo == "NULL") {
-   return HINT_CANT;
-  }
-  return HINT_GOOD;
- }
- return HINT_CANT;
+    if (it->has_flag("NO_RELOAD")) {
+        return HINT_CANT;
+    }
+    if (it->is_gun()) {
+        if (it->has_flag("RELOAD_AND_SHOOT") || it->ammo_type() == "NULL") {
+            return HINT_CANT;
+        }
+        if (it->charges == it->clip_size()) {
+            int alternate_magazine = -1;
+            for (int i = 0; i < it->contents.size(); i++) {
+                if ((it->contents[i].is_gunmod() &&
+                      (it->contents[i].typeId() == "spare_mag" &&
+                      it->contents[i].charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
+                      (it->contents[i].has_flag("MODE_AUX") &&
+                      it->contents[i].charges < it->contents[i].clip_size())) {
+                    alternate_magazine = i;
+                }
+            }
+            if(alternate_magazine == -1) {
+                return HINT_IFFY;
+            }
+        }
+        return HINT_GOOD;
+    } else if (it->is_tool()) {
+        it_tool* tool = dynamic_cast<it_tool*>(it->type);
+        if (tool->ammo == "NULL") {
+            return HINT_CANT;
+        }
+        return HINT_GOOD;
+    }
+    return HINT_CANT;
 }
 
 hint_rating player::rate_action_unload(item *it) {

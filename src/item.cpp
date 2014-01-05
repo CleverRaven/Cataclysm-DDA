@@ -719,7 +719,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
   if ((tool->max_charges)!=0) {
    if (has_flag("DOUBLE_AMMO")) {
-
     dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges (doubled)."):string_format(_("Maximum <num> charges (doubled) of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges*2));
    } else if (has_flag("RECHARGE")) {
     dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges (rechargeable)."):string_format(_("Maximum <num> charges (rechargeable) of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges));

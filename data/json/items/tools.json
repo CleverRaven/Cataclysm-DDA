@@ -31,6 +31,31 @@
   },
 
   {
+    "id": "cash_card",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "yellow",
+    "name": "cash card",
+    "description": "A yellow plastic card used to store money. These became popular once the government officialy moved to all electronic money. Holds up to 2 million dollars.",
+    "price": 10,
+    "material": "plastic",
+    "flags": ["NO_UNLOAD", "NO_RELOAD"],
+    "weight": 6,
+    "volume": 0,
+    "bashing": -8,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 200000000,
+    "initial_charges": 0,
+    "rand_charges": [0,1,2,3,4,5,6,7,8,9,10,50,100,200,300,500,800,1000,1200,1400,1600,1800,2000,3000,4000,5000,6000,7000,8000,9000,10000,12000,14000,16000,18000,20000,50000,100000],
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "money",
+    "revert_to": "null",
+    "use_action": "NONE"
+  },
+
+  {
     "id":"lighter",
     "type": "TOOL",
     "symbol": ",",

@@ -367,6 +367,7 @@ std::string ammo_name(ammotype t)
     if( t == "gasoline" )   return _("gasoline");
     if( t == "thread" )     return _("thread");
     if( t == "battery" )    return _("batteries");
+    if( t == "money" )      return _("cents");
     if( t == "laser_capacitor")return _("charge");
     if( t == "plutonium" )  return _("plutonium");
     if( t == "muscle" )     return _("muscle");

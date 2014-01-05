@@ -10410,6 +10410,9 @@ void game::reload(int pos)
      if (tool->ammo == "NULL") {
          add_msg(_("You can't reload a %s!"), it->tname().c_str());
          return;
+     } else if (it->has_flag("NO_RELOAD")) {
+         add_msg(_("You can't reload a %s!"), it->tname().c_str());
+         return;
      }
 
     // pick ammo
