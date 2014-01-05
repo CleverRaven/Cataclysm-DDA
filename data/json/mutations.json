@@ -17,6 +17,7 @@
         "points" : 2,
         "description" : "Your hearing is better than average, and you can hear distant sounds more easily.",
         "starting_trait" : true,
+        "category" : ["MUTCAT_ALPHA"],
         "cancels" : ["BADHEARING"]
     },{
         "type" : "mutation",
@@ -416,6 +417,7 @@
         "points" : 1,
         "description" : "Your scent is quite weak. Animals that track your scent will do so with more difficulty.",
         "starting_trait" : true,
+        "category" : ["MUTCAT_ALPHA"],
         "cancels" : ["SMELLY"]
     },{
         "type" : "mutation",
