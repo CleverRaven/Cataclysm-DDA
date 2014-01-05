@@ -4,6 +4,9 @@
 #include "game.h"
 #include <algorithm>
 #include <numeric>
+#include <cmath>
+
+std::map<m_size, std::map<body_part, double> > Creature::default_hit_weights;
 
 Creature::Creature()
 {
@@ -124,20 +127,20 @@ int Creature::deal_melee_attack(Creature *source, int hitroll, bool critical_hit
 
     //bool critical_hit = hit_spread > 30; //scored_crit(dodgeroll);
 
-    body_part bp_hit;
+    body_part bp_hit = select_body_part(source, hitroll);
     int side = rng(0, 1);
-    int hit_value = hit_spread + dice(10, 6) - 35;
-    if (hit_value >= 40) {
-        bp_hit = bp_eyes;
-    } else if (hit_value >= 30) {
-        bp_hit = bp_head;
-    } else if (hit_value >= 5) {
-        bp_hit = bp_torso;
-    } else if (one_in(4)) {
-        bp_hit = bp_legs;
-    } else {
-        bp_hit = bp_arms;
-    }
+//    int hit_value = hit_spread + dice(10, 6) - 35;
+//    if (hit_value >= 40) {
+//        bp_hit = bp_eyes;
+//    } else if (hit_value >= 30) {
+//        bp_hit = bp_head;
+//    } else if (hit_value >= 5) {
+//        bp_hit = bp_torso;
+//    } else if (one_in(4)) {
+//        bp_hit = bp_legs;
+//    } else {
+//        bp_hit = bp_arms;
+//    }
 
     // Bashing crit
     if (critical_hit) {
@@ -817,6 +820,71 @@ bool Creature::is_symbol_highlighted()
 char Creature::symbol()
 {
     return '?';
+}
+
+body_part Creature::select_body_part(Creature *source, int hit_roll) {
+    std::map<body_part, double> hit_weights = default_hit_weights[source->size];
+    std::map<body_part, double>::iterator iter;
+
+    // If the target is on the ground, even small/tiny creatures may target eyes/head. Also increases chances of larger creatures.
+    if(is_on_ground()) {
+        hit_weights[bp_eyes] += 5;
+        hit_weights[bp_head] += 10;
+    }
+
+    //Adjust based on hit roll: Eyes, Head & Torso get higher, while Arms and Legs get lower.
+    //This should eventually be replaced with targeted attacks and this being miss chances.
+    hit_weights[bp_eyes] = floor(hit_weights[bp_eyes] * std::max(log(pow(hit_roll,2)),2.0) * 100);
+    hit_weights[bp_head] = floor(hit_weights[bp_head] * std::max(log(pow(hit_roll,3)),3.0) * 100);
+    hit_weights[bp_torso] = floor(hit_weights[bp_torso] * std::max(log(pow(hit_roll,4)),4.0) * 100);
+    hit_weights[bp_arms] = floor(hit_weights[bp_arms] / std::max(log(pow(hit_roll,2)),2.0) * 100);
+    hit_weights[bp_legs] = floor(hit_weights[bp_legs] / std::max(log(pow(hit_roll,3)),3.0) * 100);
+
+    double totalWeight = 0;
+    std::set<weight_pair, weight_compare> adjusted_weights;
+    for(iter = hit_weights.begin(); iter != hit_weights.end(); ++iter) {
+        totalWeight += iter->second;
+        adjusted_weights.insert(*iter);
+    }
+
+//    sort(adjusted_weights.begin(), adjusted_weights.end());
+
+    double roll = rng_float(0, totalWeight);
+    body_part selected_part;
+
+    std::set<weight_pair, weight_compare>::iterator adj_iter;
+    for(adj_iter = adjusted_weights.begin(); adj_iter != adjusted_weights.end(); ++adj_iter) {
+        roll-= adj_iter->second;
+        if(roll <= 0) {
+            selected_part = adj_iter->first;
+            break;
+        }
+    }
+
+    return selected_part;
+}
+
+void Creature::init_hit_weights() {
+    std::map<body_part, double> medium_higher_weights;
+    std::map<body_part, double> small_tiny_weights;
+
+    medium_higher_weights[bp_eyes] = 5.f;
+    medium_higher_weights[bp_head] = 10.f;
+    medium_higher_weights[bp_torso] = 50.f;
+    medium_higher_weights[bp_arms] = 30.f;
+    medium_higher_weights[bp_legs] = 15.f;
+
+    small_tiny_weights[bp_eyes] = 0.f;
+    small_tiny_weights[bp_head] = 0.f;
+    small_tiny_weights[bp_torso] = 40.f;
+    small_tiny_weights[bp_arms] = 20.f;
+    small_tiny_weights[bp_legs] = 50.f;
+
+    default_hit_weights[MS_TINY] = small_tiny_weights;
+    default_hit_weights[MS_SMALL] = small_tiny_weights;
+    default_hit_weights[MS_MEDIUM] = medium_higher_weights;
+    default_hit_weights[MS_MEDIUM] = medium_higher_weights;
+    default_hit_weights[MS_MEDIUM] = medium_higher_weights;
 }
 
 Creature& Creature::operator= (const Creature& rhs)

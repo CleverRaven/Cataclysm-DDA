@@ -57,6 +57,7 @@ monster::monster(mtype *t)
  type = t;
  moves = type->speed;
  speed = type->speed;
+ size = type->size;
  Creature::set_speed_base(speed);
  hp = type->hp;
  sp_timeout = rng(0, type->sp_freq);
@@ -88,6 +89,7 @@ monster::monster(mtype *t, int x, int y)
  type = t;
  moves = type->speed;
  speed = type->speed;
+ size = type->size;
  Creature::set_speed_base(speed);
  hp = type->hp;
  sp_timeout = type->sp_freq;
@@ -902,7 +904,7 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
             g->add_msg(_("The shot passes through the %s without hitting."),
             disp_name().c_str());
         return 0;
-    } 
+    }
     // Not HARDTOSHOOT
     // if it's a headshot with no head, make it not a headshot
     if (missed_by < 0.2 && has_flag(MF_NOHEAD)) {

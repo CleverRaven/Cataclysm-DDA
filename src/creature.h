@@ -9,6 +9,7 @@
 #include "effect.h"
 #include "bodypart.h"
 #include "color.h"
+#include "mtype.h"
 #include <stdlib.h>
 #include <string>
 #include <vector>
@@ -254,10 +255,13 @@ class Creature
 
         void draw(WINDOW *w, int plx, int ply, bool inv);
 
+        static void init_hit_weights();
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
         std::vector<effect> effects;
+
+
 
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately
@@ -290,6 +294,7 @@ class Creature
 
         int grab_resist;
         int throw_resist;
+        m_size size;
 
         bool fake;
 
@@ -299,6 +304,18 @@ class Creature
         virtual nc_color basic_symbol_color();
         virtual char symbol();
         virtual bool is_symbol_highlighted();
+
+
+        //Hit weight work.
+        static std::map<m_size, std::map<body_part, double> > default_hit_weights;
+
+        typedef std::pair<body_part, double> weight_pair;
+
+        struct weight_compare {
+            bool operator() (const weight_pair &left, const weight_pair &right) { return left.second < right.second;}
+        };
+
+        body_part select_body_part(Creature *source, int hitroll);
 };
 
 #endif
