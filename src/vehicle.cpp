@@ -1992,7 +1992,8 @@ int vehicle::noise (bool fueled, bool gas_only)
                                      part_info(p).fuel_type == fuel_type_plasma)) {
                     pwr = pwr * muffle / 100;
                 }
-                pwrs += pwr;
+                // Only the loudest engine counts.
+                pwrs = std::max(pwrs, pwr);
             }
         }
     }
