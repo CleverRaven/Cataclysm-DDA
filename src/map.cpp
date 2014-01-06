@@ -2668,6 +2668,24 @@ std::list<item> use_amount_map_or_vehicle(std::vector<item> &vec, const itype_id
   return ret;
 }
 
+std::list<item> map::use_amount_square(const int x, const int y, const itype_id type, int &quantity, const bool use_container)
+{
+  std::list<item> ret;
+  int vpart = -1;
+  vehicle *veh = veh_at(x,y, vpart);
+
+  if (veh) {
+    const int cargo = veh->part_with_feature(vpart, "CARGO");
+    if (cargo >= 0) {
+      std::list<item> tmp = use_amount_map_or_vehicle(veh->parts[cargo].items, type, quantity, use_container);
+      ret.splice(ret.end(), tmp);
+    }
+  }
+  std::list<item> tmp = use_amount_map_or_vehicle(i_at(x,y), type, quantity, use_container);
+  ret.splice(ret.end(), tmp);
+  return ret;
+}
+
 std::list<item> map::use_amount(const point origin, const int range, const itype_id type,
                                 const int amount, const bool use_container)
 {
@@ -2677,17 +2695,8 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
     for (int x = origin.x - radius; x <= origin.x + radius; x++) {
       for (int y = origin.y - radius; y <= origin.y + radius; y++) {
         if (rl_dist(origin.x, origin.y, x, y) >= radius) {
-          int vpart = -1;
-          vehicle *veh = veh_at(x,y, vpart);
-
-          if (veh) {
-            const int cargo = veh->part_with_feature(vpart, "CARGO");
-            if (cargo >= 0) {
-              std::list<item> tmp = use_amount_map_or_vehicle(veh->parts[cargo].items, type, quantity, use_container);
-              ret.splice(ret.end(), tmp);
-            }
-          }
-          std::list<item> tmp = use_amount_map_or_vehicle(i_at(x,y), type, quantity, use_container);
+          std::list<item> tmp;
+          tmp = use_amount_square(x, y, type, quantity, use_container);
           ret.splice(ret.end(), tmp);
         }
       }
