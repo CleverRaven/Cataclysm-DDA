@@ -408,12 +408,15 @@ void player::remove_mutation(std::string mut)
     // This should revert back to a removed base trait rather than simply removing the mutation
     toggle_mutation(mut);
 
+    bool mutation_replaced = false;
+    
     if (replacing != "") {
         g->add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
                    traits[replacing].name.c_str());
         toggle_mutation(replacing);
         mutation_loss_effect(*this, mut);
         mutation_effect(*this, replacing);
+        mutation_replaced = true;
     }
     if (replacing2 != "") {
         g->add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
@@ -421,7 +424,9 @@ void player::remove_mutation(std::string mut)
         toggle_mutation(replacing2);
         mutation_loss_effect(*this, mut);
         mutation_effect(*this, replacing2);
-    } else {
+        mutation_replaced = true;
+    }
+    if(!mutation_replaced) {
         g->add_msg(_("You lose your %s mutation."), traits[mut].name.c_str());
         mutation_loss_effect(*this, mut);
     }
