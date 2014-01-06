@@ -1658,7 +1658,7 @@
     "name": "survivor zombie",
     "species":"ZOMBIE",
     "symbol":"Z",
-    "color":"magenta_green",
+    "color":"ltred_green",
     "size":"MEDIUM",
     "material":"flesh",
     "diff":8,
