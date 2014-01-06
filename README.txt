@@ -33,3 +33,6 @@ Frequently Asked Questions
 4)I've found a bug / I would like to make a suggestion. What should I do?
     Please submit an issue on our GitHub page at https://github.com/CleverRaven/Cataclysm-DDA/issues/.
     If you're not able to, send an email to `kevin.granade@gmail.com`.
+    
+5)I'm running Cataclysm on OSX, and some colours aren't showing up correctly.
+    Open the Terminal Preferences, go to the Settings, then the Text section, and enable "Use bright colors for bold text".
