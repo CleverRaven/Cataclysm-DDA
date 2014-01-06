@@ -2194,7 +2194,7 @@
     "name": "zombie scientist",
     "species":"ZOMBIE",
     "symbol":"Z",
-    "color":"white",
+    "color":"white_cyan",
     "size":"MEDIUM",
     "material":"flesh",
     "diff":3,
