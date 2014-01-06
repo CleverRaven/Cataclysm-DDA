@@ -1459,7 +1459,7 @@
         "to_hit" : -3,
         "storage" : 4,
         "symbol" : "[",
-        "description" : "A thin, short-sleeved and short-legged one-piece suit. Judging by the odd tailoring and adjustment points....maybe you don't want to know who wore it. Provides nominal storage and is not very encumbering.",
+        "description" : "A thin, short-sleeved and short-legged one-piece suit. Judging by the odd tailoring and adjustment points... maybe you don't want to know who wore it. Provides nominal storage and is not very encumbering.",
         "price" : 200,
         "material" : ["cotton", "plastic"],
         "volume" : 20,
