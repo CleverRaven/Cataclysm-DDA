@@ -1300,6 +1300,25 @@
         "category" : ["MUTCAT_PLANT", "MUTCAT_SLIME", "MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
+        "id" : "INFRESIST",
+        "name" : "Infection Resistant",
+        "points" : 3,
+        "description" : "Your immune system is particularly good at resisting infections.",
+        "starting_trait" : true,
+        "changes_to" : ["INFIMMUNE"],
+        "category" : ["MUTCAT_TROGLO", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "INFIMMUNE",
+        "name" : "Infection Immune",
+        "points" : 5,
+        "description" : "Your bloodstream has developed antibiotic properties. Your wounds will never become infected.",
+        "prereqs" : ["DISRESISTANT"],
+        "prereqs2" : ["INFRESIST"],
+        "threshreq" : ["THRESH_MEDICAL],
+        "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
         "id" : "POISONOUS",
         "name" : "Poisonous",
         "points" : 8,

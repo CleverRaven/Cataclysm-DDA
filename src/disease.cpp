@@ -1620,7 +1620,7 @@ std::string dis_name(disease& dis)
     case DI_BITE:
     {
         std::string status = "";
-        if (dis.duration > 2401) {status = _("Bite - ");
+        if (dis.duration > 2401 || (g->u.has_trait("INFIMMUNE"))) {status = _("Bite - ");
         } else { status = _("Painful Bite - ");
         }
         switch (dis.bp) {
@@ -2396,13 +2396,16 @@ static void handle_bite_wound(player& p, disease& dis) {
         if (p.has_disease("recover")) {
             recover_factor -= std::min(p.disease_duration("recover") / 720, 100);
         }
+        // Infection Resist is exactly that: doesn't make the Deep Bites go away
+        // but it does make it much more likely they won't progress
+        if (p.has_trait("INFRESIST")) { recover_factor += 20000; }
         recover_factor += p.health; // Health still helps if factor is zero
         recover_factor = std::max(recover_factor, 0); // but can't hurt
 
-        if (x_in_y(recover_factor, 108000)) {
+        if ((x_in_y(recover_factor, 108000)) || (p.has_trait("INFIMMUNE"))) {
             g->add_msg_if_player(&p,_("Your %s wound begins to feel better."),
                                  body_part_name(dis.bp, dis.side).c_str());
-            if ((3601 - dis.duration) > 2400) { //No recovery time threshold
+            if (((3601 - dis.duration) > 2400) && (!(p.has_trait("INFRESIST")))) { //No recovery time threshold
                 p.add_disease("recover", 2 * (3601 - dis.duration) - 4800);
             }
             p.rem_disease("bite", dis.bp, dis.side);
