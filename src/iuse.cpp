@@ -958,7 +958,7 @@ int iuse::mutagen(player *p, item *it, bool) {
     }
     if(p->has_trait("MUT_JUNKIE")) {
       g->add_msg_if_player(p, _("You quiver with anticipation..."));
-      p->add_morale(MORALE_MUTAGEN, 20, 200);
+      p->add_morale(MORALE_MUTAGEN, 5, 50);
     }
     if( it->has_flag("MUTAGEN_STRONG") ) {
          p->mutate();
@@ -1042,7 +1042,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
     }
     if(p->has_trait("MUT_JUNKIE")) {
       g->add_msg_if_player(p, _("You quiver with anticipation..."));
-      p->add_morale(MORALE_MUTAGEN, 40, 400);
+      p->add_morale(MORALE_MUTAGEN, 10, 100);
     }
     std::string mutation_category;
     if( it->has_flag("MUTAGEN_STRONG") ) {
