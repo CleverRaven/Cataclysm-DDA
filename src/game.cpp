@@ -9948,13 +9948,22 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
   !u.has_charges("adv_UPS_on", 12)) {
   add_msg(_("You need a UPS with at least 20 charges or an advanced UPS with at least 12 charges to fire that!"));
   return;
- } else if (u.weapon.has_flag("USE_UPS_40") && !u.has_charges("UPS_off", 40) &&
+} else if (u.weapon.has_flag("USE_UPS_40") && !u.has_charges("UPS_off", 40) &&
   !u.has_charges("UPS_on", 40) && !u.has_charges("adv_UPS_off", 24) &&
   !u.has_charges("adv_UPS_on", 24)) {
   add_msg(_("You need a UPS with at least 40 charges or an advanced UPS with at least 24 charges to fire that!"));
   return;
  }
-
+ 
+    if (u.weapon.has_flag("MOUNTED_GUN")) {
+        int vpart = -1;
+        vehicle *veh = m.veh_at (u.posx, u.posy, vpart);
+            if (!m.has_flag_ter_or_furn("MOUNTABLE", u.posx, u.posy) || (veh && veh->part_with_feature (vpart, "MOUNTABLE") >= 0)) {
+             add_msg(_("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
+             return;
+        }
+    }
+ 
  int range = u.weapon.range(&u);
 
  m.draw(w_terrain, point(u.posx, u.posy));
