@@ -14511,8 +14511,7 @@
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
+  "autolearn": true,
   "tools": [
     [
       [ "needle_bone", 12 ],
@@ -14534,8 +14533,7 @@
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
+  "autolearn": true,
   "tools": [
     [
       [ "needle_bone", 12 ],
@@ -14557,8 +14555,7 @@
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
+  "autolearn": true,
   "tools": [
     [
       [ "needle_bone", 12 ],
