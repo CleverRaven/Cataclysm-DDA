@@ -3005,7 +3005,8 @@
 	  ["matches", 10],
 	  ["gum", 10],
 	  ["cable", 5],
-	  ["panties", 2]
+	  ["panties", 2],
+	  ["sharp_toothbrush", 10]
     ]
   },{
     "type" : "item_group",

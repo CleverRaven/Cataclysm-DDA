@@ -2666,5 +2666,20 @@
     "charges_per_use": 1,
     "turns_per_charge": 0,
     "price" : 0
+  },
+  {
+    "type":"GENERIC",
+    "id": "sharp_toothbrush",
+    "symbol": ",",
+    "color": "light_blue",
+    "name": "sharpened toothbrush",
+    "description": "A personal hygiene item turned into a shank.",
+    "price": 3,
+    "material": ["plastic", "null"],
+    "weight": 128,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 5,
+    "to_hit": 0
   }
 ]
