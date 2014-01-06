@@ -26,7 +26,7 @@ extern cata_tiles *tilecontext;
 
 std::map<std::string, cOpt> OPTIONS;
 std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
-options_data optionsdata; // store extranious options data that doesn't need to be in OPTIONS, 
+options_data optionsdata; // store extranious options data that doesn't need to be in OPTIONS,
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, std::string> optionNames;
@@ -609,6 +609,11 @@ void initOptions() {
                                              true
                                             );
 
+    OPTIONS["DISTANCE_INITIAL_VISIBILITY"] =      cOpt("debug", _("Distance initial visibility"),
+                                             _("Determines the scope, which is known in the beginning of the game."),
+                                             3, 20, 3
+                                            );
+
     OPTIONS["SAVE_SLEEP"] =             cOpt("interface", _("Ask to save before sleeping"),
                                              _("If true, game will ask to save the map before sleeping."),
                                              false
@@ -989,7 +994,7 @@ void load_options()
             const std::string loadedval = sLine.substr(iPos+1, sLine.length());
             // option with values from post init() might get clobbered
             optionsdata.add_retry(loadedvar, loadedval); // stash it until update();
-            
+
             OPTIONS[ loadedvar ].setValue( loadedval );
         }
     }
@@ -1126,7 +1131,7 @@ void options_data::enable_json(const std::string & lvar) {
 }
 
 void options_data::add_retry(const std::string & lvar, const::std::string & lval) {
-    static const std::string blank_value( 1, 001 ); 
+    static const std::string blank_value( 1, 001 );
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
     if ( it != post_json_verify.end() && it->second == blank_value ) {
         // initialized with impossible value: valid
