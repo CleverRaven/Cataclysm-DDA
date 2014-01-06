@@ -9556,7 +9556,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_h, 1, 5, 9, 5);
                 for (int i = 1; i <= 7; i += 3) {
                     line_furn(this, f_bed, i, 1, i, 2);
-                    place_items("hospital_bed", 50, i, 1, i, 2, false, 0);
+                    place_items("hospital_bed", 50, i + 1, 1, i + 1, 3, false, 0);
                     line(this, t_wall_v, i + 2, 0, i + 2, 4);
                     ter_set(rng(i, i + 1), 5, t_door_c);
                 }
@@ -9564,15 +9564,15 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_h, 14, 5, 23, 5);
                 line(this, t_wall_v, 14, 0, 14, 4);
                 line_furn(this, f_bed, 15, 1, 15, 2);
-                place_items("hospital_bed", 50, 15, 1, 15, 2, false, 0);
+                place_items("hospital_bed", 50, 16, 1, 16, 2, false, 0);
                 ter_set(rng(15, 16), 5, t_door_c);
                 line(this, t_wall_v, 17, 0, 17, 4);
                 line_furn(this, f_bed, 18, 1, 18, 2);
-                place_items("hospital_bed", 50, 18, 1, 18, 2, false, 0);
+                place_items("hospital_bed", 50, 19, 1, 19, 2, false, 0);
                 ter_set(rng(18, 19), 5, t_door_c);
                 line(this, t_wall_v, 20, 0, 20, 4);
                 line_furn(this, f_bed, 21, 1, 21, 2);
-                place_items("hospital_bed", 50, 21, 1, 21, 2, false, 0);
+                place_items("hospital_bed", 50, 22, 1, 22, 2, false, 0);
                 ter_set(rng(21, 22), 5, t_door_c);
                 // Waiting area
                 for (int i = 1; i <= 9; i += 4) {
@@ -9588,9 +9588,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_h, 15, 10, 23, 10);
                 line(this, t_wall_v, 19, 8, 19, 9);
                 line_furn(this, f_bed, 18, 8, 18, 9);
-                place_items("hospital_bed", 50, 18, 8, 18, 9, false, 0);
+                place_items("hospital_bed", 50, 17, 8, 17, 9, false, 0);
                 line_furn(this, f_bed, 20, 8, 20, 9);
-                place_items("hospital_bed", 50, 20, 8, 20, 9, false, 0);
+                place_items("hospital_bed", 50, 21, 8, 21, 9, false, 0);
                 if (one_in(3)) { // Doors to north
                     ter_set(rng(15, 16), 7, t_door_c);
                     ter_set(rng(21, 22), 7, t_door_c);
@@ -9603,9 +9603,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_h, 15, 16, 23, 16);
                 line(this, t_wall_v, 19, 14, 19, 15);
                 line_furn(this, f_bed, 18, 14, 18, 15);
-                place_items("hospital_bed", 50, 18, 14, 18, 15, false, 0);
+                place_items("hospital_bed", 50, 17, 14, 17, 15, false, 0);
                 line_furn(this, f_bed, 20, 14, 20, 15);
-                place_items("hospital_bed", 50, 20, 14, 20, 15, false, 0);
+                place_items("hospital_bed", 50, 21, 14, 21, 15, false, 0);
                 if (one_in(3)) { // Doors to south
                     ter_set(rng(15, 16), 16, t_door_c);
                     ter_set(rng(21, 22), 16, t_door_c);
@@ -9617,13 +9617,13 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_v, 5, 13, 5, 22);
                 line(this, t_wall_h, 1, 13, 4, 13);
                 line_furn(this, f_bed, 1, 14, 1, 15);
-                place_items("hospital_bed", 50, 1, 14, 1, 15, false, 0);
+                place_items("hospital_bed", 50, 2, 14, 2, 15, false, 0);
                 line(this, t_wall_h, 1, 17, 4, 17);
                 line_furn(this, f_bed, 1, 18, 1, 19);
-                place_items("hospital_bed", 50, 1, 18, 1, 19, false, 0);
+                place_items("hospital_bed", 50, 2, 18, 2, 19, false, 0);
                 line(this, t_wall_h, 1, 20, 4, 20);
                 line_furn(this, f_bed, 1, 21, 1, 22);
-                place_items("hospital_bed", 50, 1, 21, 1, 22, false, 0);
+                place_items("hospital_bed", 50, 2, 21, 2, 22, false, 0);
                 ter_set(5, rng(14, 16), t_door_c);
                 ter_set(5, rng(18, 19), t_door_c);
                 ter_set(5, rng(21, 22), t_door_c);
@@ -9632,9 +9632,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_v, 10, 14, 10, 22);
                 line(this, t_wall_h, 8, 18, 9, 18);
                 line_furn(this, f_bed, 8, 17, 9, 17);
-                place_items("hospital_bed", 50, 8, 17, 9, 17, false, 0);
+                place_items("hospital_bed", 50, 8, 16, 9, 16, false, 0);
                 line_furn(this, f_bed, 8, 22, 9, 22);
-                place_items("hospital_bed", 50, 8, 22, 9, 22, false, 0);
+                place_items("hospital_bed", 50, 8, 21, 9, 21, false, 0);
                 if (one_in(3)) { // Doors to west
                     ter_set(7, rng(14, 16), t_door_c);
                     ter_set(7, rng(19, 21), t_door_c);
@@ -9647,7 +9647,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 for (int i = 14; i <= 20; i += 3) {
                     line(this, t_wall_v, i, 19, i, 22);
                     line_furn(this, f_bed, i + 1, 21, i + 1, 22);
-                    place_items("hospital_bed", 50, i + 1, 21, i + 1, 22, false, 0);
+                    place_items("hospital_bed", 50, i + 2, 21, i + 2, 22, false, 0);
                     ter_set(rng(i + 1, i + 2), 18, t_door_c);
                 }
                 break;
