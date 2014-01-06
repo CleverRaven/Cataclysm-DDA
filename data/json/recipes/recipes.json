@@ -14534,7 +14534,7 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ ]
+  "tools": [ ],
   "components": [
     [
       [ "fur", 2 ]
