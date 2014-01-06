@@ -10300,12 +10300,25 @@ void game::forage()
 
 void game::eat(int pos)
 {
- if (u.has_trait("RUMINANT") && m.ter(u.posx, u.posy) == t_underbrush &&
+ if ((u.has_trait("RUMINANT") || u.has_trait("GRAZER")) && m.ter(u.posx, u.posy) == t_underbrush &&
      query_yn(_("Eat underbrush?"))) {
   u.moves -= 400;
   u.hunger -= 10;
   m.ter_set(u.posx, u.posy, t_grass);
   add_msg(_("You eat the underbrush."));
+  return;
+ }
+  if (u.has_trait("GRAZER") && m.ter(u.posx, u.posy) == t_grass &&
+     query_yn(_("Graze?"))) {
+  u.moves -= 400;
+    if ((u.hunger < 10) || one_in(20 - u.int_cur)) {
+        add_msg(_("You eat some of the taller grass, careful to leave some growing."));
+        u.hunger -= 2;
+      }
+    else { add_msg(_("You eat the grass."));
+      u.hunger -= 5;
+      m.ter_set(u.posx, u.posy, t_dirt);
+      }
   return;
  }
  if (pos == INT_MIN)

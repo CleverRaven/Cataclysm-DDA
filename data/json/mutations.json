@@ -640,7 +640,7 @@
         "description" : "Your scent is particularly strong. It's not offensive to humans, but animals that track your scent will do so more easily.",
         "starting_trait" : true,
         "changes_to" : ["SMELLY2"],
-        "cancels" : ["INODOROUS"],
+        "cancels" : ["WEAKSCENT"],
         "category" : ["MUTCAT_FELINE", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
@@ -1384,6 +1384,17 @@
         "points" : 5,
         "description" : "Your digestive system is capable of digesting cellulose and other rough plant material. You can eat underbrush by standing over it and pressing E.",
         "prereqs" : ["HERBIVORE"],
+        "changes_to" : ["GRAZER"],
+        "cancels" : ["CARNIVORE", "SAPROVORE"],
+        "category" : ["MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
+        "id" : "GRAZER",
+        "name" : "Grazer",
+        "points" : 10,
+        "description" : "You're accustomed to eating plants directly, and can get nutrition from grass as well as underbrush.  Eat either one by standing over it and pressing E.",
+        "prereqs" : ["RUMINANT"],
+        "threshreq" : ["THRESH_CATTLE"],
         "cancels" : ["CARNIVORE", "SAPROVORE"],
         "category" : ["MUTCAT_CATTLE"]
     },{
