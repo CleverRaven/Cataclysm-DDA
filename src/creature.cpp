@@ -823,7 +823,7 @@ char Creature::symbol()
 }
 
 body_part Creature::select_body_part(Creature *source, int hit_roll) {
-    std::map<body_part, double> hit_weights = default_hit_weights[source->size];
+    std::map<body_part, double> hit_weights = default_hit_weights[source->get_size()];
     std::map<body_part, double>::iterator iter;
 
     // If the target is on the ground, even small/tiny creatures may target eyes/head. Also increases chances of larger creatures.
@@ -834,11 +834,18 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) {
 
     //Adjust based on hit roll: Eyes, Head & Torso get higher, while Arms and Legs get lower.
     //This should eventually be replaced with targeted attacks and this being miss chances.
-    hit_weights[bp_eyes] = floor(hit_weights[bp_eyes] * std::max(log(pow(hit_roll,2)),2.0) * 100);
-    hit_weights[bp_head] = floor(hit_weights[bp_head] * std::max(log(pow(hit_roll,3)),3.0) * 100);
-    hit_weights[bp_torso] = floor(hit_weights[bp_torso] * std::max(log(pow(hit_roll,4)),4.0) * 100);
-    hit_weights[bp_arms] = floor(hit_weights[bp_arms] / std::max(log(pow(hit_roll,2)),2.0) * 100);
-    hit_weights[bp_legs] = floor(hit_weights[bp_legs] / std::max(log(pow(hit_roll,3)),3.0) * 100);
+    hit_weights[bp_eyes] = floor(hit_weights[bp_eyes] * std::max(log(hit_roll*2.5),2.0) * 10);
+    hit_weights[bp_head] = floor(hit_weights[bp_head] * std::max(log(hit_roll*3.5),3.0) * 10);
+    hit_weights[bp_torso] = floor(hit_weights[bp_torso] * std::max(log(hit_roll*1.5),3.0) * 10);
+    hit_weights[bp_arms] = floor(hit_weights[bp_arms] * std::max(log(hit_roll*0.5),1.5) * 10);
+    hit_weights[bp_legs] = floor(hit_weights[bp_legs] * std::max(log(hit_roll*0.5),1.25) * 10);
+
+// Debug for seeing weights.
+//    g->add_msg("eyes = %f", hit_weights.at(bp_eyes));
+//    g->add_msg("head = %f", hit_weights.at(bp_head));
+//    g->add_msg("torso = %f", hit_weights.at(bp_torso));
+//    g->add_msg("arms = %f", hit_weights.at(bp_arms));
+//    g->add_msg("legs = %f", hit_weights.at(bp_legs));
 
     double totalWeight = 0;
     std::set<weight_pair, weight_compare> adjusted_weights;
@@ -847,9 +854,7 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) {
         adjusted_weights.insert(*iter);
     }
 
-//    sort(adjusted_weights.begin(), adjusted_weights.end());
-
-    double roll = rng_float(0, totalWeight);
+    double roll = rng_float(1, totalWeight);
     body_part selected_part;
 
     std::set<weight_pair, weight_compare>::iterator adj_iter;

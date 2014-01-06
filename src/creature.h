@@ -182,6 +182,7 @@ class Creature
         virtual int get_speed();
         virtual int get_dodge();
         virtual int get_hit();
+        virtual m_size get_size()=0;
 
         virtual int get_speed_base();
         virtual int get_dodge_base();
@@ -294,7 +295,6 @@ class Creature
 
         int grab_resist;
         int throw_resist;
-        m_size size;
 
         bool fake;
 

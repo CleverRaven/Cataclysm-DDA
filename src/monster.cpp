@@ -57,7 +57,6 @@ monster::monster(mtype *t)
  type = t;
  moves = type->speed;
  speed = type->speed;
- size = type->size;
  Creature::set_speed_base(speed);
  hp = type->hp;
  sp_timeout = rng(0, type->sp_freq);
@@ -89,7 +88,6 @@ monster::monster(mtype *t, int x, int y)
  type = t;
  moves = type->speed;
  speed = type->speed;
- size = type->size;
  Creature::set_speed_base(speed);
  hp = type->hp;
  sp_timeout = type->sp_freq;
@@ -1225,4 +1223,8 @@ bool monster::getkeep()
 void monster::setkeep(bool r)
 {
     keep = r;
+}
+
+m_size monster::get_size() {
+    return type->size;
 }
