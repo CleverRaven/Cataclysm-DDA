@@ -164,11 +164,10 @@ void addict_effect(addiction &add)
             }
             if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
                 g->u.focus_pool -= (in);
-                g->add_msg(_("You daydream what it'd be like if you were *different*.\n\
-                Different is good."));
+                g->add_msg(_("You daydream what it'd be like if you were *different*. Different is good."));
             }
         }
-        else if (in > 5 || one_in((500 - 20 * in))) {
+        else if (in > 5 || one_in((500 - 15 * in))) {
             g->add_msg(rng(0, 6) < in ? _("You haven't had any mutagen lately.") :
                        _("You could use some new parts..."));
             g->u.add_morale(MORALE_CRAVING_MUTAGEN, -5, -50);
@@ -316,8 +315,7 @@ Movement rate reduction.  Depression.  Weak immune system.  Frequent cravings.")
     case ADD_CRACK:
         return _("Perception - 2;   Intelligence - 2;  Frequent cravings.");
     case ADD_MUTAGEN:
-        return _("You've gotten a taste for mutating and the chemicals that cause it.\n\
-        But you can stop, yeah, any time you want.");
+        return _("You've gotten a taste for mutating and the chemicals that cause it. But you can stop, yeah, any time you want.");
     default:
         return "";
     }
