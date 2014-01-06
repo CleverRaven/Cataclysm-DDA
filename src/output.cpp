@@ -47,7 +47,7 @@ std::vector<std::string> foldstring ( std::string str, int width )
         std::stringstream swrapped(wrapped);
         std::string wline;
         while (std::getline(swrapped, wline, '\n')) {
-          lines.push_back(wline);
+            lines.push_back(wline);
         }
     }
     return lines;

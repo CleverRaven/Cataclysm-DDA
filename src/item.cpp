@@ -668,7 +668,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("ARMOR", _("Storage: "), "", armor->storage));
 
 } else if (is_book()) {
-   dump->push_back(iteminfo("DESCRIPTION", "--"));
+
+  dump->push_back(iteminfo("DESCRIPTION", "--"));
   it_book* book = dynamic_cast<it_book*>(type);
   if (!book->type)
    dump->push_back(iteminfo("BOOK", _("Just for fun.")));
