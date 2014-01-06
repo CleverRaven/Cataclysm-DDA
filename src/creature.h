@@ -293,6 +293,8 @@ class Creature
 
         bool fake;
 
+        Creature& operator= (const Creature& rhs);
+
         virtual nc_color symbol_color();
         virtual nc_color basic_symbol_color();
         virtual char symbol();

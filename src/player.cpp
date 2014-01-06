@@ -194,6 +194,7 @@ player::~player()
 
 player& player::operator= (const player & rhs)
 {
+ Character::operator=(rhs);
  id = rhs.id;
  posx = rhs.posx;
  posy = rhs.posy;
@@ -225,16 +226,6 @@ player& player::operator= (const player & rhs)
 
  my_bionics = rhs.my_bionics;
 
- str_cur = rhs.str_cur;
- dex_cur = rhs.dex_cur;
- int_cur = rhs.int_cur;
- per_cur = rhs.per_cur;
-
- str_max = rhs.str_max;
- dex_max = rhs.dex_max;
- int_max = rhs.int_max;
- per_max = rhs.per_max;
-
  power_level = rhs.power_level;
  max_power_level = rhs.max_power_level;
 
@@ -255,12 +246,10 @@ player& player::operator= (const player & rhs)
  blocks_left = rhs.blocks_left;
 
  stim = rhs.stim;
- pain = rhs.pain;
  pkill = rhs.pkill;
  radiation = rhs.radiation;
 
  cash = rhs.cash;
- moves = rhs.moves;
  movecounter = rhs.movecounter;
 
  for (int i = 0; i < num_hp_parts; i++)
