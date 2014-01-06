@@ -1447,7 +1447,8 @@
       ["lye_powder", 5],
       ["oxy_powder", 5],
       ["boots_rubber", 20],
-      ["charcoal", 5]
+      ["charcoal", 5],
+	  ["soap", 20]
     ]
   },{
     "type" : "item_group",
