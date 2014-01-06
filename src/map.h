@@ -159,6 +159,17 @@ class map
  bool clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
                  const int range, const int cost_min, const int cost_max, int &tc);
 
+
+ /**
+  * Check whether items in the target square are accessable from the source square
+  * `(Fx, Fy)` and `(Tx, Ty)`.
+  *
+  * Checks two things:
+  * 1. The `sees()` algorithm between `(Fx, Fy)` and `(Tx, Ty)` OR origin and target match.
+  * 2. That the target location isn't sealed.
+  */
+ bool accessable_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
+
  /**
   * Calculate a best path using A*
   *
