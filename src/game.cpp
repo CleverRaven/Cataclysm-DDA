@@ -1781,6 +1781,8 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
         case 1: popup_x = TERMX - popup_width; break; //near the left edge of the terminal window
         }
 
+        int skip = 0;
+        const int step = 3;
         do {
             cMenu = compare_split_screen_popup(popup_x, popup_width, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
                 iSelected >= iOffsetX && iSelected <= iMenuItems ? iSelected : -1
@@ -1829,6 +1831,12 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
                 case KEY_DOWN:
                  iSelected++;
                  break;
+                case '>':
+                 if(skip + step < vThisItem.size() - 1) { skip += step; }
+                 break;
+                case '<':
+                 if(skip > 0) { skip -= step; }
+                 break;
                 case '+':
                  if (!bHPR) {
                   addPickupRule(oThisItem.tname());
@@ -1844,12 +1852,16 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
                 default:
                  break;
             }
+            std::vector<iteminfo> slice = vThisItem;
+            slice.erase(slice.begin(), slice.begin() + skip);
+            compare_split_screen_popup(iStartX, iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(), slice, vDummy, -1, true);
+
             if( iSelected < iMenuStart-1 ) { // wraparound, but can be hidden
                 iSelected = iMenuItems;
             } else if ( iSelected > iMenuItems + 1 ) {
                 iSelected = iMenuStart;
             }
-        } while (cMenu == KEY_DOWN || cMenu == KEY_UP );
+        } while (cMenu == KEY_DOWN || cMenu == KEY_UP || cMenu == '<' || cMenu == '>');
     }
     return cMenu;
 }
