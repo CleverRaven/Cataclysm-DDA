@@ -2996,7 +2996,16 @@
       ["hatchet", 1],
       ["throwing_knife", 5],
       ["throwing_axe", 1],
-      ["tazer", 1]
+      ["tazer", 1],
+	  ["cig", 30],
+	  ["rope_6", 5],
+	  ["rope_30", 2],
+	  ["duct_tape", 10],
+	  ["battery", 15],
+	  ["matches", 10],
+	  ["gum", 10],
+	  ["cable", 5],
+	  ["panties", 2]
     ]
   },{
     "type" : "item_group",
