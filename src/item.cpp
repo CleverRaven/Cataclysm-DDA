@@ -701,7 +701,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
    }
    std::string recipe_line = string_format(_("This book contains %d crafting recipes: %s"), book->recipes.size(), recipes.c_str());
    dump->push_back(iteminfo("DESCRIPTION", recipe_line.c_str()));
-   dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
   }
 
  } else if (is_tool()) {
@@ -739,47 +738,38 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
     if (is_armor() && has_flag("FIT"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
     }
     if (is_armor() && has_flag("SKINTIGHT"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing lies close to the skin and layers easily.")));
     }
     if (is_armor() && has_flag("POCKETS"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing has pockets to warm your hands.")));
     }
     if (is_armor() && has_flag("HOOD"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing has a hood to keep your head warm.")));
     }
     if (is_armor() && has_flag("RAINPROOF"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing is designed to keep you dry in the rain.")));
     }
     if (is_armor() && has_flag("WATER_FRIENDLY"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing performs well even when soaking wet. This can feel good.")));
     }
     if (is_armor() && has_flag("WATERPROOF"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing won't let water through.")));
     }
     if (is_armor() && has_flag("STURDY"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing is designed to protect you from harm and withstand a lot of abuse.")));
     }
     if (is_armor() && has_flag("SWIM_GOGGLES"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing allows you to see much further under water.")));
     }
     if (is_armor() && type->id == "rad_badge")
@@ -792,49 +782,40 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                 break;
             }
         }
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", string_format(_("The film strip on the badge is %s."), rad_threshold_colors[i - 1].c_str())));
     }
     if (is_tool() && has_flag("DOUBLE_AMMO"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has double the normal maximum charges.")));
     }
     if (is_tool() && has_flag("ATOMIC_AMMO"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has been modified to run off plutonium cells instead of batteries.")));
     }
     if (is_tool() && has_flag("RECHARGE"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has been modified to use a rechargeable power cell and is not compatible with standard batteries.")));
     }
 
     if (has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0)
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("The casing of this item has cracked, revealing an ominous green glow.")));
     }
 
     if (has_flag("LEAK_ALWAYS") && has_flag("RADIOACTIVE"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This object is surrounded by a sickly green glow.")));
     }
 
     if (is_food() && has_flag("HIDDEN_POISON") && g->u.skillLevel("survival").level() >= 3) {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("On closer inspection, this appears to be poisonous.")));
     }
 
     if (is_food() && has_flag("HIDDEN_HALLU") && g->u.skillLevel("survival").level() >= 5) {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("On closer inspection, this appears to be hallucinogenic.")));
     }
 
     if ((is_food() && goes_bad()) || (is_food_container() && contents[0].goes_bad())) {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         if(rotten() || (is_food_container() && contents[0].rotten())) {
             if(g->u.has_bionic("bio_digestion")) {
                 dump->push_back(iteminfo("DESCRIPTION", _("This food has started to rot, but your bionic digestion can tolerate it.")));

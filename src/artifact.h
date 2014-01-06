@@ -306,7 +306,10 @@ public:
         deserialize(jo);
     }
 
-    it_artifact_tool(JsonObject &jo) : it_tool() { deserialize(jo); };
+    it_artifact_tool(JsonObject &jo) : it_tool() {
+        use = &iuse::artifact;
+        deserialize(jo);
+    };
 
     it_artifact_tool() : it_tool() {
         id = mk_artifact_id();
