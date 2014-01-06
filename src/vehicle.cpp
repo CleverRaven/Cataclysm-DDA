@@ -1962,7 +1962,6 @@ int vehicle::safe_velocity (bool fueled)
 int vehicle::noise (bool fueled, bool gas_only)
 {
     int pwrs = 0;
-    int cnt = 0;
     int muffle = 100;
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, "MUFFLER") && parts[p].hp > 0 && part_info(p).bonus < muffle) {
@@ -1994,7 +1993,6 @@ int vehicle::noise (bool fueled, bool gas_only)
                     pwr = pwr * muffle / 100;
                 }
                 pwrs += pwr;
-                cnt++;
             }
         }
     }
