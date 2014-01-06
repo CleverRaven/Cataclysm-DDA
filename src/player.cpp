@@ -2292,12 +2292,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
   if ((has_trait("COLDBLOOD") || has_trait("COLDBLOOD2") ||
       has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) &&
       g->get_temperature() < 65) {
-  if (has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4"))
+  if (has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) {
    pen = int( (65 - g->get_temperature()) / 2);
-  else if (has_trait("COLDBLOOD2"))
+   }
+  else if (has_trait("COLDBLOOD2")) {
    pen = int( (65 - g->get_temperature()) / 3);
-  else
-   pen = int( (65 - g->get_temperature()) / 2);
+   }
+  else pen = int( (65 - g->get_temperature()) / 2);
   mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;

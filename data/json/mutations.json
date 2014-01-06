@@ -1861,6 +1861,7 @@
         "points" : 4,
         "description" : "You are much nimbler than before. Dexterity + 7",
         "prereqs" : ["DEX_UP_3"],
+        "threshreq" : ["THRESH_CEPHALOPOD"],
         "category" : ["MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
@@ -1898,6 +1899,7 @@
         "ugliness" : 3,
         "description" : "Your skull bulges noticeably with your impressive brain. Intelligence + 7",
         "prereqs" : ["INT_UP_3"],
+        "threshreq" : ["THRESH_CEPHALOPOD"],
         "category" : ["MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
@@ -1931,6 +1933,7 @@
         "points" : 4,
         "description" : "You can sense things you never imagined. Perception + 7",
         "prereqs" : ["PER_UP_3"],
+        "threshreq" : ["THRESH_BIRD"],
         "category" : ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
@@ -1940,7 +1943,7 @@
         "points" : 0,
         "visibility" : 0,
         "ugliness" : 0,
-        "description" : "Just thinking of mutagen (such a lovely word! 'mutagen'. Perfect!) makes you thirsty. And you so love your new parts...you simply must have more mutagen.",
+        "description" : "Just thinking of mutagen (such a lovely word! 'mutagen'. Perfect!) makes you thirsty. And you so love your new parts... you simply must have more mutagen.",
         "threshreq" : ["THRESH_MEDICAL", "THRESH_CHIMERA"],
         "category" : ["MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
     },{
