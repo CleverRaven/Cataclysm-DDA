@@ -1766,8 +1766,18 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
         length = utf8_width(_("<+> Autopickup")); if (length > max_text_length) max_text_length = length;
         vMenu.push_back(iteminfo("MENU", (bHPR) ? "-":"+", (bHPR) ? _("<-> Autopickup") : _("<+> Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
 
-        oThisItem.info(true, &vThisItem);
-        compare_split_screen_popup(iStartX, iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(), vThisItem, vDummy, -1, true);
+        int offset_line = 0;
+        int max_line = 0;
+        std::string str;
+        str = oThisItem.tname() + "\n";
+        str += oThisItem.info(true, &vThisItem);
+        WINDOW *w = newwin(TERMY-VIEW_OFFSET_Y*2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
+        // src/output.h:int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);
+        max_line = fold_and_print_from(w, 1, 2, iWidth - 4, offset_line, c_white, str.c_str());
+        draw_border(w);
+        wrefresh(w);
+        //        compare_split_screen_popup(iStartX, iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(), vThisItem, vDummy, -1, true);
+        //        WINDOW *w = newwin(iHeight, iWidth, VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
         const int iMenuStart = iOffsetX;
         const int iMenuItems = vMenu.size() - 1;
@@ -1829,6 +1839,12 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
                 case KEY_DOWN:
                  iSelected++;
                  break;
+            case '>':
+              if(offset_line < max_line - 1) { offset_line++; }
+              break;
+            case '<':
+              if(offset_line > 0) { offset_line--; }
+              break;
                 case '+':
                  if (!bHPR) {
                   addPickupRule(oThisItem.tname());
@@ -1849,7 +1865,11 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
             } else if ( iSelected > iMenuItems + 1 ) {
                 iSelected = iMenuStart;
             }
-        } while (cMenu == KEY_DOWN || cMenu == KEY_UP );
+            wclear(w);
+            fold_and_print_from(w, 2, 2, iWidth - 4, offset_line, c_white, str.c_str());
+            draw_border(w);
+            wrefresh(w);
+        } while (cMenu == KEY_DOWN || cMenu == KEY_UP || cMenu == '>' || cMenu == '<');
     }
     return cMenu;
 }

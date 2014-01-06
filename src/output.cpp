@@ -47,7 +47,7 @@ std::vector<std::string> foldstring ( std::string str, int width )
         std::stringstream swrapped(wrapped);
         std::string wline;
         while (std::getline(swrapped, wline, '\n')) {
-            lines.push_back(wline);
+          lines.push_back(wline);
         }
     }
     return lines;
@@ -92,6 +92,37 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
                 color = get_color_from_tag(*it, base_color);
             }
             wprintz(w, color, "%s", rm_prefix(*it).c_str());
+        }
+    }
+    return textformatted.size();
+};
+int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line, nc_color base_color,
+                   const char *mes, ...)
+{
+    va_list ap;
+    va_start(ap, mes);
+    char buff[6000];    //TODO replace Magic Number
+    vsprintf(buff, mes, ap);
+    va_end(ap);
+
+    nc_color color = base_color;
+    std::vector<std::string> textformatted;
+    textformatted = foldstring(buff, width);
+    for (int line_num = 0; line_num < textformatted.size(); line_num++) {
+        if (line_num >= begin_line) {
+            wmove(w, line_num + begin_y - begin_line, begin_x);
+        }
+        // split into colourable sections
+        std::vector<std::string> color_segments = split_by_color(textformatted[line_num]);
+        // for each section, get the colour, and print it
+        std::vector<std::string>::iterator it;
+        for (it = color_segments.begin(); it != color_segments.end(); ++it) {
+            if (!it->empty() && it->at(0) == '<') {
+                color = get_color_from_tag(*it, base_color);
+            }
+            if (line_num >= begin_line) {
+                wprintz(w, color, "%s", rm_prefix(*it).c_str());
+            }
         }
     }
     return textformatted.size();
