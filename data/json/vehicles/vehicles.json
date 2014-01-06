@@ -14,7 +14,7 @@
         "name" : "Unicycle",
         "blueprint" : "#",
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_handle"},
+            {"x": 0, "y": 0, "part": "lightframe_handle"},
             {"x": 0, "y": 0, "part": "saddle"},
             {"x": 0, "y": 0, "part": "controls"},
             {"x": 0, "y": 0, "part": "foot_pedals"},
@@ -26,16 +26,16 @@
         "name" : "Bicycle",
         "blueprint" : "o#o",
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "lightframe_vertical_2"},
             {"x": 0, "y": 0, "part": "saddle"},
             {"x": 0, "y": 0, "part": "controls"},
             {"x": 0, "y": 0, "part": "horn_bicycle"},
             {"x": 0, "y": 0, "part": "foot_pedals"},
-            {"x": 1, "y": 0, "part": "frame_vertical"},
+            {"x": 1, "y": 0, "part": "lightframe_vertical"},
             {"x": 1, "y": 0, "part": "wheel_bicycle"},
-            {"x": -1, "y": 0, "part": "frame_vertical"},
+            {"x": -1, "y": 0, "part": "lightframe_vertical"},
             {"x": -1, "y": 0, "part": "wheel_bicycle"},
-            {"x": -1, "y": 0, "part": "box"}
+            {"x": -1, "y": 0, "part": "basket"}
         ]
     },{
         "type" : "vehicle",
@@ -1678,7 +1678,7 @@
         "name" : "Shopping Cart",
         "blueprint" : "o",
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "lightframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "box"}
         ]
@@ -1688,7 +1688,7 @@
         "name" : "Welding Cart",
         "blueprint" : "&",
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "lightframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "small_storage_battery"},
             {"x": 0, "y": 0, "part": "welding_rig"}
@@ -1702,7 +1702,7 @@
         "name" : "Ice Cream Cart",
         "blueprint" : "#",
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "lightframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "small_storage_battery"},
             {"x": 0, "y": 0, "part": "minifridge"},
@@ -1717,11 +1717,11 @@
             ["H"]
         ],
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "lightframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "small_storage_battery"},
             {"x": 0, "y": 0, "part": "kitchen_unit"},
-            {"x": 0, "y": 1, "part": "frame_vertical_2"},
+            {"x": 0, "y": 1, "part": "lightframe_vertical_2"},
             {"x": 0, "y": 1, "part": "wheel_caster"},
             {"x": 0, "y": 1, "part": "minifridge"},
             {"x": 0, "y": 1, "part": "controls"}
@@ -1732,7 +1732,7 @@
         "name" : "Wheelbarrow",
         "blueprint" : "o",
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_handle"},
+            {"x": 0, "y": 0, "part": "lightframe_handle"},
             {"x": 0, "y": 0, "part": "wheel_small"},
             {"x": 0, "y": 0, "part": "box"}
         ]
@@ -1742,7 +1742,7 @@
         "name" : "Luggage Cart",
         "blueprint" : "o",
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "lightframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "box"}
         ]
@@ -1752,7 +1752,7 @@
         "name" : "Swivel Chair",
         "blueprint" : "#",
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "lightframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "seat"}
         ]

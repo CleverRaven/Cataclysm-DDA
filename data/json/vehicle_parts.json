@@ -295,6 +295,54 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "lightframe_handle",
+        "name" : "handle (light)",
+        "symbol" : "^",
+        "color" : "light_cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "light_cyan",
+        "durability" : 30,
+        "item" : "frame_tubing",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "frame_tubing", "min": 1, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "lightframe_vertical",
+        "name" : "frame (light)",
+        "symbol" : "^",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 30,
+        "item" : "frame_tubing",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "pipe", "min": 1, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "lightframe_vertical_2",
+        "name" : "frame (light)",
+        "symbol" : "^",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 30,
+        "item" : "frame_tubing",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "frame_tubing", "min": 1, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "board_horizontal",
         "name" : "board",
         "symbol" : "h",
@@ -1102,7 +1150,7 @@
         "broken_color" : "red",
         "damage_modifier" : 50,
         "durability" : 50,
-        "power" : 70,
+        "power" : 40,
         "fuel_type" : "muscle",
         "item" : "foot_crank",
         "difficulty" : 1,
@@ -1298,6 +1346,24 @@
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
             {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "basket",
+        "name" : "wire basket",
+        "symbol" : "o",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 60,
+        "durability" : 50,
+        "size" : 50,
+        "item" : "wire_basket",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["CARGO", "BOARDABLE"],
+        "breaks_into" : [
+            {"item": "wire_basket", "min": 1, "max": 1}
         ]
     },{
         "type" : "vehicle_part",

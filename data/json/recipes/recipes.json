@@ -18139,6 +18139,95 @@
   ]
 },{
         "type" : "recipe",
+  "result": "frame_tubing",
+  "id_suffix": "from scratch",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "crucible", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 2 ],
+      [ "forge", 50 ],
+      [ "char_forge", 10]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_chunk", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "frame_tubing",
+  "id_suffix": "from a pipe",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "hacksaw", -1 ]
+    ],
+    [
+      [ "welder", 20 ],
+      [ "welder_crude", 35 ],
+      [ "toolset", 1 ],
+      [ "forge", 20 ],
+      [ "char_forge", 1]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "wire_basket",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 20 ],
+      [ "welder_crude", 35 ],
+      [ "toolset", 1 ],
+      [ "forge", 20 ],
+      [ "char_forge", 1]
+    ]
+  ],
+  "components": [
+    [
+      [ "wire", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "sheet_metal",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
