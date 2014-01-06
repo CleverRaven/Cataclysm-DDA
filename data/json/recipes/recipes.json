@@ -18088,6 +18088,36 @@
   ]
 },{
         "type" : "recipe",
+  "result": "hdframe",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 14000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "crucible", -1 ]
+    ],
+    [
+      [ "welder", 75 ],
+      [ "welder_crude", 125 ],
+      [ "toolset", 3 ],
+      [ "forge", 80 ],
+      [ "char_forge", 25]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_lump", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "sheet_metal",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -18120,7 +18150,6 @@
   "difficulty": 2,
   "time": 6000,
   "reversible": true,
-  "note": "melting it down doesn't teach anythig useful",
   "autolearn": true,
   "components": [
     [
@@ -18139,7 +18168,7 @@
   "difficulty": 4,
   "time": 12000,
   "reversible": true,
-  "note": "melting it down doesn't teach anythig useful",
+  "note": "melting it down doesn't teach anything useful",
   "autolearn": true,
   "tools": [
     [

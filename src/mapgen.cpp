@@ -2412,8 +2412,8 @@ ___DEEE|.R.|...,,...|sss\n",
             }
             if (t_west == "office_tower_b" && t_north == "office_tower_b") {
                 rotate(1);
-                if (x_in_y(1, 5)) {
-                    if (one_in(3)) {
+                if (x_in_y(1, 5)) 
+                {   if (one_in(3)) {
                         add_vehicle ("cube_van", 17, 4, 180);
                         }
                     else
@@ -2427,8 +2427,8 @@ ___DEEE|.R.|...,,...|sss\n",
                 }
             } else if (t_east == "office_tower_b" && t_north == "office_tower_b") {
                 rotate(2);
-                if (x_in_y(1, 5)) {
-                    if (one_in(3)) {
+                if (x_in_y(1, 5)) 
+                {   if (one_in(3)) {
                         add_vehicle ("cube_van", 6, 17, 270);
                         }
                     else
