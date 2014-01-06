@@ -135,3 +135,7 @@ See below (quoted form https://wiki.gnome.org/GTK+/OSX/Building)
 
 Workaround: install XCode 3 like that article describes, or disable localization support in Cataclysm so gettext/libint are not dependencies. Or else simply don't support OS X versions below 10.7. 
 
+ISSUE: Colours don't show up correctly.
+
+Open Terminal's preferences, turn on "Use bright colors for bold text" in "Preferences -> Settings -> Text"
+
