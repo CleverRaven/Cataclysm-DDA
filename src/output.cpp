@@ -110,7 +110,7 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
     textformatted = foldstring(buff, width);
     for (int line_num = 0; line_num < textformatted.size(); line_num++) {
         if (line_num >= begin_line) {
-            wmove(w, line_num + begin_y - begin_line, begin_x);
+          wmove(w, line_num + begin_y - begin_line, begin_x);
         }
         // split into colourable sections
         std::vector<std::string> color_segments = split_by_color(textformatted[line_num]);
@@ -121,7 +121,10 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
                 color = get_color_from_tag(*it, base_color);
             }
             if (line_num >= begin_line) {
+              std::string l = rm_prefix(*it);
+              if(l != "--") { // -- is a newline!
                 wprintz(w, color, "%s", rm_prefix(*it).c_str());
+              }
             }
         }
     }
