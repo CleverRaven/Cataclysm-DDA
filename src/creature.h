@@ -307,7 +307,7 @@ class Creature
 
 
         //Hit weight work.
-        static std::map<m_size, std::map<body_part, double> > default_hit_weights;
+        static std::map<int, std::map<body_part, double> > default_hit_weights;
 
         typedef std::pair<body_part, double> weight_pair;
 

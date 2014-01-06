@@ -6,7 +6,7 @@
 #include <numeric>
 #include <cmath>
 
-std::map<m_size, std::map<body_part, double> > Creature::default_hit_weights;
+std::map<int, std::map<body_part, double> > Creature::default_hit_weights;
 
 Creature::Creature()
 {
@@ -127,20 +127,8 @@ int Creature::deal_melee_attack(Creature *source, int hitroll, bool critical_hit
 
     //bool critical_hit = hit_spread > 30; //scored_crit(dodgeroll);
 
-    body_part bp_hit = select_body_part(source, hitroll);
+    body_part bp_hit = select_body_part(source, hit_spread);
     int side = rng(0, 1);
-//    int hit_value = hit_spread + dice(10, 6) - 35;
-//    if (hit_value >= 40) {
-//        bp_hit = bp_eyes;
-//    } else if (hit_value >= 30) {
-//        bp_hit = bp_head;
-//    } else if (hit_value >= 5) {
-//        bp_hit = bp_torso;
-//    } else if (one_in(4)) {
-//        bp_hit = bp_legs;
-//    } else {
-//        bp_hit = bp_arms;
-//    }
 
     // Bashing crit
     if (critical_hit) {
@@ -822,30 +810,49 @@ char Creature::symbol()
     return '?';
 }
 
-body_part Creature::select_body_part(Creature *source, int hit_roll) {
-    std::map<body_part, double> hit_weights = default_hit_weights[source->get_size()];
+body_part Creature::select_body_part(Creature *source, int hit_roll)
+{
+    // Get size difference (-1,0,1);
+    int szdif = source->get_size() - get_size();
+    if(szdif < -1) {
+        szdif = -1;
+    } else if (szdif > 1) {
+        szdif = 1;
+    }
+
+    if(g->debugmon) {
+        g->add_msg("source size = %d", source->get_size());
+        g->add_msg("target size = %d", get_size());
+        g->add_msg("difference = %d", szdif);
+    }
+
+    std::map<body_part, double> hit_weights = default_hit_weights[szdif];
     std::map<body_part, double>::iterator iter;
 
     // If the target is on the ground, even small/tiny creatures may target eyes/head. Also increases chances of larger creatures.
+    // Any hit modifiers to locations should go here. (Tags, attack style, etc)
     if(is_on_ground()) {
-        hit_weights[bp_eyes] += 5;
-        hit_weights[bp_head] += 10;
+        hit_weights[bp_eyes] += 10;
+        hit_weights[bp_head] += 20;
     }
 
     //Adjust based on hit roll: Eyes, Head & Torso get higher, while Arms and Legs get lower.
     //This should eventually be replaced with targeted attacks and this being miss chances.
-    hit_weights[bp_eyes] = floor(hit_weights[bp_eyes] * std::max(log(hit_roll*2.5),2.0) * 10);
-    hit_weights[bp_head] = floor(hit_weights[bp_head] * std::max(log(hit_roll*3.5),3.0) * 10);
-    hit_weights[bp_torso] = floor(hit_weights[bp_torso] * std::max(log(hit_roll*1.5),3.0) * 10);
-    hit_weights[bp_arms] = floor(hit_weights[bp_arms] * std::max(log(hit_roll*0.5),1.5) * 10);
-    hit_weights[bp_legs] = floor(hit_weights[bp_legs] * std::max(log(hit_roll*0.5),1.25) * 10);
+    hit_weights[bp_eyes] = floor(hit_weights[bp_eyes] * pow(hit_roll, 1.15) * 10);
+    hit_weights[bp_head] = floor(hit_weights[bp_head] * pow(hit_roll, 1.15) * 10);
+    hit_weights[bp_torso] = floor(hit_weights[bp_torso] * pow(hit_roll, 1) * 10);
+    hit_weights[bp_arms] = floor(hit_weights[bp_arms] * pow(hit_roll, 0.95) * 10);
+    hit_weights[bp_legs] = floor(hit_weights[bp_legs] * pow(hit_roll, 0.975) * 10);
 
-// Debug for seeing weights.
-//    g->add_msg("eyes = %f", hit_weights.at(bp_eyes));
-//    g->add_msg("head = %f", hit_weights.at(bp_head));
-//    g->add_msg("torso = %f", hit_weights.at(bp_torso));
-//    g->add_msg("arms = %f", hit_weights.at(bp_arms));
-//    g->add_msg("legs = %f", hit_weights.at(bp_legs));
+
+    // Debug for seeing weights.
+    if(g->debugmon) {
+        g->add_msg("eyes = %f", hit_weights.at(bp_eyes));
+        g->add_msg("head = %f", hit_weights.at(bp_head));
+        g->add_msg("torso = %f", hit_weights.at(bp_torso));
+        g->add_msg("arms = %f", hit_weights.at(bp_arms));
+        g->add_msg("legs = %f", hit_weights.at(bp_legs));
+    }
 
     double totalWeight = 0;
     std::set<weight_pair, weight_compare> adjusted_weights;
@@ -855,11 +862,11 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) {
     }
 
     double roll = rng_float(1, totalWeight);
-    body_part selected_part;
+    body_part selected_part = bp_torso;
 
     std::set<weight_pair, weight_compare>::iterator adj_iter;
     for(adj_iter = adjusted_weights.begin(); adj_iter != adjusted_weights.end(); ++adj_iter) {
-        roll-= adj_iter->second;
+        roll -= adj_iter->second;
         if(roll <= 0) {
             selected_part = adj_iter->first;
             break;
@@ -869,27 +876,33 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) {
     return selected_part;
 }
 
-void Creature::init_hit_weights() {
-    std::map<body_part, double> medium_higher_weights;
-    std::map<body_part, double> small_tiny_weights;
+void Creature::init_hit_weights()
+{
+    std::map<body_part, double> attacker_equal_weights;
+    std::map<body_part, double> attacker_smaller_weights;
+    std::map<body_part, double> attacker_bigger_weights;
 
-    medium_higher_weights[bp_eyes] = 5.f;
-    medium_higher_weights[bp_head] = 10.f;
-    medium_higher_weights[bp_torso] = 50.f;
-    medium_higher_weights[bp_arms] = 30.f;
-    medium_higher_weights[bp_legs] = 15.f;
+    attacker_equal_weights[bp_eyes] = 10.f;
+    attacker_equal_weights[bp_head] = 20.f;
+    attacker_equal_weights[bp_torso] = 55.f;
+    attacker_equal_weights[bp_arms] = 55.f;
+    attacker_equal_weights[bp_legs] = 35.f;
 
-    small_tiny_weights[bp_eyes] = 0.f;
-    small_tiny_weights[bp_head] = 0.f;
-    small_tiny_weights[bp_torso] = 40.f;
-    small_tiny_weights[bp_arms] = 20.f;
-    small_tiny_weights[bp_legs] = 50.f;
+    attacker_smaller_weights[bp_eyes] = 0.f;
+    attacker_smaller_weights[bp_head] = 0.f;
+    attacker_smaller_weights[bp_torso] = 55.f;
+    attacker_smaller_weights[bp_arms] = 35.f;
+    attacker_smaller_weights[bp_legs] = 55.f;
 
-    default_hit_weights[MS_TINY] = small_tiny_weights;
-    default_hit_weights[MS_SMALL] = small_tiny_weights;
-    default_hit_weights[MS_MEDIUM] = medium_higher_weights;
-    default_hit_weights[MS_MEDIUM] = medium_higher_weights;
-    default_hit_weights[MS_MEDIUM] = medium_higher_weights;
+    attacker_bigger_weights[bp_eyes] = 5.f;
+    attacker_bigger_weights[bp_head] = 25.f;
+    attacker_bigger_weights[bp_torso] = 55.f;
+    attacker_bigger_weights[bp_arms] = 55.f;
+    attacker_bigger_weights[bp_legs] = 20.f;
+
+    default_hit_weights[-1] = attacker_smaller_weights;
+    default_hit_weights[0] = attacker_equal_weights;
+    default_hit_weights[1] = attacker_bigger_weights;
 }
 
 Creature& Creature::operator= (const Creature& rhs)
