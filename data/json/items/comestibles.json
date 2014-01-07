@@ -12039,7 +12039,7 @@
         "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 8,
-        "description" : "A box of fast-food fried potatoes.  Somehow, they're still edible.",
+        "description" : "A box of fast-food fried potatoes.",
         "price" : 6,
         "material" : "veggy",
         "tool" : "null",
