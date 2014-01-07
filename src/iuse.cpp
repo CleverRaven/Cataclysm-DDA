@@ -4120,21 +4120,21 @@ int iuse::throwable_extinguisher_act(player *p, item *it, bool)
     if (pos.x == -999 || pos.y == -999) {
         return 0;
     }
-
     field &fld = g->m.field_at(pos.x, pos.y);
     if (fld.findField(fd_fire) != 0) {
         // Reduce the strength of fire (if any) in the target tile.
-        g->m.adjust_field_strength(pos, fd_fire, 0 - rng(1, 2));
-        // Slightly reduce the strength of fire near the target tile.
-        for (int x = -1; x <= 1; x += 2) {
-            for (int y = -1; y <= 1; y += 2) {
-                if (g->m.move_cost(pos.x + x, pos.y + y) != 0) {
-                    g->m.adjust_field_strength(point(pos.x + x, pos.y + y), fd_fire, 0 - rng(0, 2));
+        g->m.adjust_field_strength(pos, fd_fire, 0 - 1);
+        // Slightly reduce the strength of fire around and in the target tile.
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                if ((g->m.move_cost(pos.x + x, pos.y + y) != 0) && (x == 0 || y == 0)) {
+                    g->m.adjust_field_strength(point(pos.x + x, pos.y + y), fd_fire, 0 - rng(0, 1));
                 }
             }
         }
         return 1;
     }
+    it->active = false;
     return 0;
 }
 
@@ -4357,63 +4357,64 @@ int iuse::flashbang_act(player *, item *it, bool t)
 
 int iuse::c4(player *p, item *it, bool)
 {
- int time = query_int(_("Set the timer to (0 to cancel)?"));
- if (time <= 0) {
-  g->add_msg_if_player(p,_("Never mind."));
-  return 0;
- }
- g->add_msg_if_player(p,_("You set the timer to %d."), time);
- it->make(itypes["c4armed"]);
- it->charges = time;
- it->active = true;
- return it->type->charges_to_use();
+    int time = query_int(_("Set the timer to (0 to cancel)?"));
+    if (time <= 0) {
+        g->add_msg_if_player(p,_("Never mind."));
+        return 0;
+    }
+    g->add_msg_if_player(p,_("You set the timer to %d."), time);
+    it->make(itypes["c4armed"]);
+    it->charges = time;
+    it->active = true;
+    return it->type->charges_to_use();
 }
 
 int iuse::c4armed(player *, item *it, bool t)
 {
- point pos = g->find_item(it);
- if (pos.x == -999 || pos.y == -999) {
-  return 0;
- }
- if (t) { // Simple timer effects
-  g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
- } else if(it->charges > 0) {
-  g->add_msg(_("You've already set the %s's timer, you might want to get away from it."), it->name.c_str());
-  return 0;
- } else { // When that timer runs down...
-  g->explosion(pos.x, pos.y, 40, 3, false);
- }
- return 0;
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
+    }
+    if (t) { // Simple timer effects
+        g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already set the %s's timer, you might want to get away from it."), it->name.c_str());
+        return 0;
+    } else { // When that timer runs down...
+        g->explosion(pos.x, pos.y, 40, 3, false);
+    }
+    return 0;
 }
 
 int iuse::EMPbomb(player *p, item *it, bool)
 {
- g->add_msg_if_player(p,_("You pull the pin on the EMP grenade."));
- it->make(itypes["EMPbomb_act"]);
- it->charges = 3;
- it->active = true;
- return it->type->charges_to_use();
+    g->add_msg_if_player(p,_("You pull the pin on the EMP grenade."));
+    it->make(itypes["EMPbomb_act"]);
+    it->charges = 3;
+    it->active = true;
+    return it->type->charges_to_use();
 }
 
 int iuse::EMPbomb_act(player *, item *it, bool t)
 {
- point pos = g->find_item(it);
- if (pos.x == -999 || pos.y == -999) {
-  return 0;
- }
- if (t) { // Simple timer effects
-  g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
- } else if(it->charges > 0) {
-  g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
-  return 0;
- } else { // When that timer runs down...
-  g->draw_explosion(pos.x, pos.y, 4, c_ltblue);
-  for (int x = pos.x - 4; x <= pos.x + 4; x++) {
-   for (int y = pos.y - 4; y <= pos.y + 4; y++)
-    g->emp_blast(x, y);
-  }
- }
- return 0;
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
+    }
+    if (t) { // Simple timer effects
+        g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
+        return 0;
+    } else { // When that timer runs down...
+        g->draw_explosion(pos.x, pos.y, 4, c_ltblue);
+        for (int x = pos.x - 4; x <= pos.x + 4; x++) {
+            for (int y = pos.y - 4; y <= pos.y + 4; y++) {
+                g->emp_blast(x, y);
+            }
+        }
+    }
+    return 0;
 }
 
 int iuse::scrambler(player *p, item *it, bool)
@@ -4519,13 +4520,13 @@ int iuse::smokebomb_act(player *, item *it, bool t)
 
 int iuse::acidbomb(player *p, item *it, bool)
 {
- g->add_msg_if_player(p,_("You remove the divider, and the chemicals mix."));
- p->moves -= 150;
- it->make(itypes["acidbomb_act"]);
- it->charges = 1;
- it->bday = int(g->turn);
- it->active = true;
- return it->type->charges_to_use();
+    g->add_msg_if_player(p,_("You remove the divider, and the chemicals mix."));
+    p->moves -= 150;
+    it->make(itypes["acidbomb_act"]);
+    it->charges = 1;
+    it->bday = int(g->turn);
+    it->active = true;
+    return it->type->charges_to_use();
 }
 
 int iuse::acidbomb_act(player *p, item *it, bool)
