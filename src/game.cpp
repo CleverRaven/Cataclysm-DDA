@@ -1777,12 +1777,12 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
 
         int offset_line = 0;
         int max_line = 0;
-        std::string str;
-        str += oThisItem.info(true, &vThisItem);
+        const std::string str = oThisItem.info(true, &vThisItem);
+        const std::string item_name = oThisItem.tname();
         WINDOW *w = newwin(TERMY-VIEW_OFFSET_Y*2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
 
         wmove(w, 1, 2);
-        wprintz(w, c_white, "%s", oThisItem.tname().c_str());
+        wprintz(w, c_white, "%s", item_name.c_str());
         max_line = fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str.c_str());
         if(max_line > TERMY-VIEW_OFFSET_Y*2 - 5) {
           wmove(w, 1, iWidth - 3);
@@ -1894,7 +1894,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
               }
             }
             wmove(w, 1, 2);
-            wprintz(w, c_white, "%s", oThisItem.tname().c_str());
+            wprintz(w, c_white, "%s", item_name.c_str());
             fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str.c_str());
             draw_border(w);
             wrefresh(w);
