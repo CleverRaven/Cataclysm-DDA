@@ -1425,173 +1425,186 @@ void map::mop_spills(const int x, const int y) {
 
 bool map::bash(const int x, const int y, const int str, std::string &sound, int *res)
 {
- sound = "";
- bool smashed_web = false;
- if (field_at(x, y).findField(fd_web)) {
-  smashed_web = true;
-  remove_field(x, y, fd_web);
- }
-
- for (int i = 0; i < i_at(x, y).size(); i++) { // Destroy glass items (maybe)
-    // the check for active supresses molotovs smashing themselves with their own explosion
-    if (i_at(x, y)[i].made_of("glass") && !i_at(x, y)[i].active && one_in(2)) {
-        if (sound == "") {
-            sound = string_format(_("A %s shatters!  "), i_at(x,y)[i].tname().c_str());
-        } else {
-            sound = _("Some items shatter!  ");
-        }
-        for (int j = 0; j < i_at(x, y)[i].contents.size(); j++) {
-            i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
-        }
-        i_rem(x, y, i);
-        i--;
+    sound = "";
+    bool smashed_web = false;
+    if (field_at(x, y).findField(fd_web)) {
+        smashed_web = true;
+        remove_field(x, y, fd_web);
     }
- }
 
- int result = -1;
- int vpart;
- vehicle *veh = veh_at(x, y, vpart);
- if (veh) {
-  veh->damage (vpart, str, 1);
-  sound += _("crash!");
-  return true;
- }
+    for (int i = 0; i < i_at(x, y).size(); i++) { // Destroy glass items (maybe)
+        // the check for active supresses molotovs smashing themselves with their own explosion
+        if (i_at(x, y)[i].made_of("glass") && !i_at(x, y)[i].active && one_in(2)) {
+            if (sound == "") {
+                sound = string_format(_("A %s shatters!  "), i_at(x,y)[i].tname().c_str());
+            } else {
+                sound = _("Some items shatter!  ");
+            }
+            for (int j = 0; j < i_at(x, y)[i].contents.size(); j++) {
+                i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
+            }
+            i_rem(x, y, i);
+            i--;
+        }
+    }
 
-/////
-bool jsfurn = false;
-bool jster = false;
-map_bash_info * bash = NULL;
+    // Smash vehicle if present
+    int result = -1;
+    int vpart;
+    vehicle *veh = veh_at(x, y, vpart);
+    if (veh) {
+        veh->damage (vpart, str, 1);
+        sound += _("crash!");
+        return true;
+    }
 
-if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
-  bash = &(furn_at(x,y).bash);
-  jsfurn = true;
-} else if ( ter_at(x, y).bash.str_max != -1 ) {
-  bash = &(ter_at(x,y).bash);
-  jster = true;
-}
+    // Else smash furniture or terrain
+    bool jsfurn = false;
+    bool jster = false;
+    map_bash_info * bash = NULL;
 
-if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
-  bool success = ( bash->chance == -1 || rng(0, 100) >= bash->chance );
-  if ( success == true ) {
-     int smin = bash->str_min;
-     int smax = bash->str_max;
-     if ( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
-         if( has_adjacent_furniture(x, y) ) {
-             if ( bash->str_min_blocked != -1 ) smin = bash->str_min_blocked;
-             if ( bash->str_max_blocked != -1 ) smax = bash->str_max_blocked;
-         }
-     }
-     if ( str >= smin ) {
-        // roll min_str-max_str;
-        smin = ( bash->str_min_roll != -1 ? bash->str_min_roll : smin );
-        // min_str is a qualifier, but roll 0-max; same delay as before
-        //   smin = ( bash->str_min_roll != -1 ? bash->str_min_roll : 0 );
+    if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
+        bash = &(furn_at(x,y).bash);
+        jsfurn = true;
+    } else if ( ter_at(x, y).bash.str_max != -1 ) {
+        bash = &(ter_at(x,y).bash);
+        jster = true;
+    }
 
-        for( int i=0; i < bash->num_tests; i++ ) {
-            result = rng(smin, smax);
-            // g->add_msg("bash[%d/%d]: %d >= %d (%d/%d)", i+1,bash->num_tests, str, result,smin,smax);
-            if (i == 0 && res) *res = result;
-            if (str < result) {
+    if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
+        bool success = ( bash->chance == -1 || rng(0, 100) >= bash->chance );
+        if ( success == true ) {
+            int smin = bash->str_min;
+            int smax = bash->str_max;
+            if ( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
+                if( has_adjacent_furniture(x, y) ) {
+                    if ( bash->str_min_blocked != -1 ) {
+                        smin = bash->str_min_blocked;
+                    }
+                    if ( bash->str_max_blocked != -1 ) {
+                        smax = bash->str_max_blocked;
+                    }
+                }
+            }
+            if ( str >= smin ) {
+                // roll min_str-max_str;
+                smin = ( bash->str_min_roll != -1 ? bash->str_min_roll : smin );
+                // min_str is a qualifier, but roll 0-max; same delay as before
+                //   smin = ( bash->str_min_roll != -1 ? bash->str_min_roll : 0 );
+
+                for( int i=0; i < bash->num_tests; i++ ) {
+                    result = rng(smin, smax);
+                    if (i == 0 && res) {
+                        *res = result;
+                    }
+                    if (str < result) {
+                        success = false;
+                        break;
+                    }
+                }
+            } else {
+                // todo; bash->sound_too_weak = "feeble whump" ?
                 success = false;
-                break;
             }
         }
-     } else {
-        // g->add_msg("bash[%d]: %d >= (%d/%d)", bash->num_tests, str,smin,smax);
-        // todo; bash->sound_too_weak = "feeble whump" ?
-        success = false;
-     }
-  }
-  if ( success == true ) {
-     int bday=int(g->turn);
-     sound += _(bash->sound.c_str());
-     if ( jsfurn == true ) {
-         if ( bash->furn_set.size() > 0 ) {
-             furn_set( x, y, bash->furn_set );
-         } else {
-             furn_set( x, y, f_null );
-         }
-     }
-     if ( bash->ter_set.size() > 0 ) {
-        ter_set( x, y, bash->ter_set );
-     } else if ( jster == true ) {
-        debugmsg("data/json/terrain.json does not have %s.bash.ter_set set!",ter_at(x,y).id.c_str());
-     }
-     for (int i = 0; i < bash->items.size(); i++) {
-        int chance = bash->items[i].chance;
-        if ( chance == -1 || rng(0, 100) >= chance ) {
-           int numitems = bash->items[i].amount;
+        if ( success == true ) {
+            int bday=int(g->turn);
+            sound += _(bash->sound.c_str());
+            if ( jsfurn == true ) {
+                if ( bash->furn_set.size() > 0 ) {
+                    furn_set( x, y, bash->furn_set );
+                } else {
+                    furn_set( x, y, f_null );
+                }
+            }
+            if ( bash->ter_set.size() > 0 ) {
+                ter_set( x, y, bash->ter_set );
+            } else if ( jster == true ) {
+                debugmsg("data/json/terrain.json does not have %s.bash.ter_set set!",ter_at(x,y).id.c_str());
+            }
+            for (int i = 0; i < bash->items.size(); i++) {
+                int chance = bash->items[i].chance;
+                if ( chance == -1 || rng(0, 100) >= chance ) {
+                    int numitems = bash->items[i].amount;
 
-           if ( bash->items[i].minamount != -1 ) {
-              numitems = rng( bash->items[i].minamount, bash->items[i].amount );
-           }
-           // g->add_msg(" it: %d/%d, == %d",bash->items[i].minamount, bash->items[i].amount,numitems);
-           if ( numitems > 0 ) {
-              // spawn_item(x,y, bash->items[i].itemtype, numitems); // doesn't abstract amount || charges
-              item new_item = item_controller->create(bash->items[i].itemtype, bday);
-              if ( new_item.count_by_charges() ) {
-                  new_item.charges = numitems;
-                  numitems = 1;
-              }
-              for(int a = 0; a < numitems; a++ ) {
-                  add_item_or_charges(x, y, new_item);
-              }
-           }
+                    if ( bash->items[i].minamount != -1 ) {
+                        numitems = rng( bash->items[i].minamount, bash->items[i].amount );
+                    }
+                    if ( numitems > 0 ) {
+                        // spawn_item(x,y, bash->items[i].itemtype, numitems); // doesn't abstract amount || charges
+                        item new_item = item_controller->create(bash->items[i].itemtype, bday);
+                        if ( new_item.count_by_charges() ) {
+                            new_item.charges = numitems;
+                            numitems = 1;
+                        }
+                        for(int a = 0; a < numitems; a++ ) {
+                            add_item_or_charges(x, y, new_item);
+                        }
+                    }
+                }
+            }
+            return true;
+        } else {
+            sound += _(bash->sound_fail.c_str());
+            return true;
         }
-     }
-     return true;
-  } else {
-     sound += _(bash->sound_fail.c_str());
-     return true;
-  }
-} else {
- furn_id furnid = furn(x, y);
- if ( furnid == old_f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
-      furnid == f_skin_groundsheet || furnid == f_canvas_wall || furnid == f_canvas_door ||
-      furnid == f_canvas_door_o || furnid == f_groundsheet ) {
-  result = rng(0, 6);
-  if (res) *res = result;
-  if (str >= result)
-  {
-   // Special code to collapse the tent if destroyed
-   int tentx = -1, tenty = -1;
-   // Find the center of the tent
-   for (int i = -1; i <= 1; i++)
-    for (int j = -1; j <= 1; j++)
-     if (furn(x + i, y + j) == f_groundsheet ||
-         furn(x + i, y + j) == f_fema_groundsheet ||
-         furn(x + i, y + j) == f_skin_groundsheet)  {
-       tentx = x + i;
-       tenty = y + j;
-       break;
-     }
-   // Never found tent center, bail out
-   if (tentx == -1 && tenty == -1)
-    return true;
-   // Take the tent down
-   for (int i = -1; i <= 1; i++)
-    for (int j = -1; j <= 1; j++) {
-     if (furn(tentx + i, tenty + j) == f_groundsheet)
-      spawn_item(tentx + i, tenty + j, "broketent");
-     if (furn(tentx + i, tenty + j) == f_skin_groundsheet)
-      spawn_item(tentx + i, tenty + j, "damaged_shelter_kit");
-     furn_set(tentx + i, tenty + j, f_null);
-    }
+    } else {
+        furn_id furnid = furn(x, y);
+        if ( furnid == old_f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
+              furnid == f_skin_groundsheet || furnid == f_canvas_wall || furnid == f_canvas_door ||
+              furnid == f_canvas_door_o || furnid == f_groundsheet ) {
+            result = rng(0, 6);
+            if (res) {
+                *res = result;
+            }
+            if (str >= result) {
+                // Special code to collapse the tent if destroyed
+                int tentx = -1, tenty = -1;
+                // Find the center of the tent
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        if (furn(x + i, y + j) == f_groundsheet ||
+                              furn(x + i, y + j) == f_fema_groundsheet ||
+                              furn(x + i, y + j) == f_skin_groundsheet)  {
+                            tentx = x + i;
+                            tenty = y + j;
+                            break;
+                        }
+                    }
+                }
+                // Never found tent center, bail out
+                if (tentx == -1 && tenty == -1) {
+                    return true;
+                }
+                // Take the tent down
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        if (furn(tentx + i, tenty + j) == f_groundsheet) {
+                            spawn_item(tentx + i, tenty + j, "broketent");
+                        }
+                        if (furn(tentx + i, tenty + j) == f_skin_groundsheet) {
+                            spawn_item(tentx + i, tenty + j, "damaged_shelter_kit");
+                        }
+                        furn_set(tentx + i, tenty + j, f_null);
+                    }
+                }
 
-   sound += _("rrrrip!");
-   return true;
-  } else {
-   sound += _("slap!");
-   return true;
-  }
- }
-}
- if (res) *res = result;
- if (move_cost(x, y) <= 0) {
-  sound += _("thump!");
-  return true;
- }
- return smashed_web;// If we kick empty space, the action is cancelled
+                sound += _("rrrrip!");
+                return true;
+            } else {
+                sound += _("slap!");
+                return true;
+            }
+        }
+    }
+    if (res) {
+        *res = result;
+    }
+    if (move_cost(x, y) <= 0) {
+        sound += _("thump!");
+        return true;
+    }
+    return smashed_web;// If we kick empty space, the action is cancelled
 }
 
 // map::destroy is only called (?) if the terrain is NOT bashable.
