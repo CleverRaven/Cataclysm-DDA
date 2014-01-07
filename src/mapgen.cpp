@@ -2412,8 +2412,12 @@ ___DEEE|.R.|...,,...|sss\n",
             }
             if (t_west == "office_tower_b" && t_north == "office_tower_b") {
                 rotate(1);
-                if (x_in_y(1, 5)) {
-                    add_vehicle ("cube_van", 17, 4, 180);
+                if (x_in_y(1, 5)) 
+                {   if (one_in(3)) {
+                        add_vehicle ("cube_van", 17, 4, 180);
+                        }
+                    else
+                    add_vehicle ("cube_van_cheap", 17, 4, 180);
                 }
                 if (x_in_y(1, 5)) {
                     add_vehicle ("flatbed_truck", 17, 10, 180);
@@ -2423,8 +2427,12 @@ ___DEEE|.R.|...,,...|sss\n",
                 }
             } else if (t_east == "office_tower_b" && t_north == "office_tower_b") {
                 rotate(2);
-                if (x_in_y(1, 5)) {
-                    add_vehicle ("cube_van", 6, 17, 270);
+                if (x_in_y(1, 5)) 
+                {   if (one_in(3)) {
+                        add_vehicle ("cube_van", 6, 17, 270);
+                        }
+                    else
+                    add_vehicle ("cube_van_cheap", 6, 17, 270);
                 }
                 if (x_in_y(1, 5)) {
                     add_vehicle ("flatbed_truck", 12, 17, 270);
@@ -2435,7 +2443,7 @@ ___DEEE|.R.|...,,...|sss\n",
             } else if (t_east == "office_tower_b" && t_south == "office_tower_b") {
                 rotate(3);
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("cube_van", 6, 6, 0);
+                    add_vehicle ("cube_van_cheap", 6, 6, 0);
                 }
                 if (x_in_y(1, 5)) {
                     if (one_in(3)) {
@@ -2452,7 +2460,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     add_vehicle ("flatbed_truck", 16, 6, 90);
                 }
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("cube_van", 10, 6, 90);
+                    add_vehicle ("cube_van_cheap", 10, 6, 90);
                 }
                 if (x_in_y(1, 3)) {
                     add_vehicle ("car", 4, 6, 90);

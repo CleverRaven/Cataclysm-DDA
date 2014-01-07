@@ -34,6 +34,7 @@ enum vpart_bitflags {
     VPFLAG_OPENABLE,
     VPFLAG_SEATBELT,
     VPFLAG_WHEEL,
+    VPFLAG_MOUNTABLE,
 
     VPFLAG_ALTERNATOR,
     VPFLAG_ENGINE,
@@ -55,6 +56,7 @@ enum vpart_bitflags {
  * ANCHOR_POINT - Allows secure seatbelt attachment
  * OVER - Can be mounted over other parts
  * VARIABLE_SIZE - Has 'bigness' for power, wheel radius, etc
+ * MOUNTABLE - Usable as a point to fire a mountable weapon from.
  * Other flags are self-explanatory in their names. */
 struct vpart_info
 {

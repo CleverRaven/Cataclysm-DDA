@@ -308,6 +308,7 @@ void veh_interact::cache_tool_availability()
 
     has_wheel = crafting_inv.has_amount( "wheel", 1 ) ||
                 crafting_inv.has_amount( "wheel_wide", 1 ) ||
+                crafting_inv.has_amount( "wheel_armor", 1 ) ||
                 crafting_inv.has_amount( "wheel_bicycle", 1 ) ||
                 crafting_inv.has_amount( "wheel_motorbike", 1 ) ||
                 crafting_inv.has_amount( "wheel_small", 1 );

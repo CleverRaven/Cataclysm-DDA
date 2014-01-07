@@ -77,6 +77,11 @@ VAR_VEH_PART("wheel_wide", _("wide wheel"), 340, ']', c_dkgray,  "steel",   "pla
 //  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
     70,22600, 17,  0,  -1,        17,         36,  BIGNESS_WHEEL_DIAMETER,
   _("A wide wheel. \\o/ This wide."));
+//           NAME         RAR PRC  SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("wheel_armor", _("armored wheel"), 340, ']', c_green,  "hardsteel",   "ceramic",
+//  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    70,24500, 17,  0,  -1,        16,         36,  BIGNESS_WHEEL_DIAMETER,
+  _("A wide military grade wheel."));
 //           NAME            RAR  PRC  SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel_bicycle", _("bicycle wheel"), 40,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
@@ -127,6 +132,12 @@ VAR_VEH_PART("v8_combustion", _("V8 engine"), 250, ':', c_ltcyan,  "iron",   "nu
 //  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
     25,144000, 15,  0, -5,       500,     800, BIGNESS_ENGINE_DISPLACEMENT,
     _("A large and very powerful 8-cylinder combustion engine."));
+
+//                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("v12_combustion", _("V12 engine"), 360, ':', c_ltcyan,  "iron",   "null",
+//  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    32,165000, 18,  0, -8,       800,     1600, BIGNESS_ENGINE_DISPLACEMENT,
+    _("A massive and extremely powerful V12 engine, usually built into high end sports cars."));
 
 // GUNS
 // ammo_type matches one of the ammo_types above.

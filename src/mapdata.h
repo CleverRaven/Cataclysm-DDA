@@ -79,6 +79,7 @@ struct map_bash_info {
  * ROUGH - May hurt the player's feet
  * SEALED - Can't use 'e' to retrieve items, must smash open first
  * NOITEM - Items 'fall off' this space
+ * MOUNTABLE - Player can fire mounted weapons from here (EG: M2 Browning)
  * DESTROY_ITEM - Items that land here are destroyed
  * GOES_DOWN - Can use '>' to go down a level
  * GOES_UP - Can use '<' to go up a level

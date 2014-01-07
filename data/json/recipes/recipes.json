@@ -13363,6 +13363,42 @@
   ]
 },{
         "type" : "recipe",
+  "result": "reinforced_headlight",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_fabrication", 3] , ["textbook_mechanics", 3] , ["welding_book", 5]],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 15 ],
+      [ "welder_crude", 30 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flashlight", 1 ]
+    ],
+    [
+      [ "wire", 2 ]
+    ],
+    [
+      [ "superglue", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "reinforced_solar_panel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -17423,6 +17459,34 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "v_table",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "construction",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 1,
+  "autolearn": true,
+  "tools": [
+      [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+      ]
+      ],
+  "components": [
+    [
+      [ "2x4", 6 ]
+    ],
+    [
+      [ "nail", 8 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "foot_crank",
   "category": "CC_OTHER",
@@ -18139,6 +18203,36 @@
   ]
 },{
         "type" : "recipe",
+  "result": "hdframe",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 14000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "crucible", -1 ]
+    ],
+    [
+      [ "welder", 75 ],
+      [ "welder_crude", 125 ],
+      [ "toolset", 3 ],
+      [ "forge", 80 ],
+      [ "char_forge", 25]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_lump", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "sheet_metal",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -18164,6 +18258,24 @@
   ]
 },{
         "type" : "recipe",
+  "result": "wood_plate",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 6000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "2x4", 6 ]
+    ],
+    [
+      [ "rope_6", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "steel_plate",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -18171,7 +18283,7 @@
   "difficulty": 4,
   "time": 12000,
   "reversible": true,
-  "note": "melting it down doesn't teach anythig useful",
+  "note": "melting it down doesn't teach anything useful",
   "autolearn": true,
   "tools": [
     [
