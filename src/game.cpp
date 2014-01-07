@@ -10313,14 +10313,14 @@ void game::eat(int pos)
  }
   if (u.has_trait("GRAZER") && m.ter(u.posx, u.posy) == t_grass &&
      query_yn(_("Graze?"))) {
-  u.moves -= 400;
-    if ((u.hunger < 10) || one_in(20 - u.int_cur)) {
-        add_msg(_("You eat some of the taller grass, careful to leave some growing."));
-        u.hunger -= 2;
+      u.moves -= 400;
+      if ((u.hunger < 10) || one_in(20 - u.int_cur)) {
+          add_msg(_("You eat some of the taller grass, careful to leave some growing."));
+          u.hunger -= 2;
       }
-    else { add_msg(_("You eat the grass."));
-      u.hunger -= 5;
-      m.ter_set(u.posx, u.posy, t_dirt);
+  else{ add_msg(_("You eat the grass."));
+        u.hunger -= 5;
+        m.ter_set(u.posx, u.posy, t_dirt);
       }
   return;
  }

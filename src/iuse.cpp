@@ -1217,10 +1217,10 @@ int iuse::mut_iv(player *p, item *it, bool) {
             mutation_category = "MUTCAT_SPIDER";
         } else if( it->has_flag("MUTAGEN_SLIME") ) {
             if(p->has_trait("MUT_JUNKIE")) {
-            g->add_msg_if_player(p, _("Maybe if you drank enough, you'd become mutagen..."));
+                g->add_msg_if_player(p, _("Maybe if you drank enough, you'd become mutagen..."));
             }
             else if(!(p->has_trait("MUT_JUNKIE"))) {
-            g->add_msg_if_player(p, _("This stuff takes you back. Downright primordial!"));
+                g->add_msg_if_player(p, _("This stuff takes you back. Downright primordial!"));
             }
             mutation_category = "MUTCAT_SLIME";
         } else if( it->has_flag("MUTAGEN_FISH") ) {
@@ -1375,8 +1375,8 @@ int iuse::mut_iv(player *p, item *it, bool) {
                   // NOPAIN is a post-Threshold trait, so you shouldn't
                   // legitimately have it and get here!
                         if (g->u.has_trait("NOPAIN")) {
-                              g->add_msg_if_player(p,_("You feel extremely Bugged."));
-                        }
+                            g->add_msg_if_player(p,_("You feel extremely Bugged."));
+                          }
                     else {
                         g->add_msg_if_player(p,_("You stagger with a piercing headache!"));
                         p->pain += 8;
@@ -1384,8 +1384,8 @@ int iuse::mut_iv(player *p, item *it, bool) {
                     }
                 } else if (p->mutation_category_level[primary] > 80) {
                     if (g->u.has_trait("NOPAIN")) {
-                              g->add_msg_if_player(p,_("You feel very Bugged."));
-                        }
+                        g->add_msg_if_player(p,_("You feel very Bugged."));
+                      }
                     else {
                         g->add_msg_if_player(p,_("Your head throbs with memories of your life, before all this..."));
                         p->pain += 6;
@@ -1393,8 +1393,8 @@ int iuse::mut_iv(player *p, item *it, bool) {
                     }
                 } else if (p->mutation_category_level[primary] > 60) {
                     if (g->u.has_trait("NOPAIN")) {
-                              g->add_msg_if_player(p,_("You feel Bugged."));
-                        }
+                        g->add_msg_if_player(p,_("You feel Bugged."));
+                       }
                     else {
                         g->add_msg_if_player(p,_("Images of your past life flash before you."));
                         p->add_disease("stunned", rng(2, 3));

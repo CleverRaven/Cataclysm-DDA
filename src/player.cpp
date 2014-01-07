@@ -5300,9 +5300,9 @@ void player::suffer()
 // Negative bionics effects
  if (has_bionic("bio_dis_shock") && one_in(1200)) {
   g->add_msg(_("You suffer a painful electrical discharge!"));
-  if (!(has_trait("NOPAIN"))) {
-  pain++;
-  }
+    if (!(has_trait("NOPAIN"))) {
+      pain++;
+    }
   moves -= 150;
  }
  if (has_bionic("bio_dis_acid") && one_in(1500)) {

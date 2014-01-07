@@ -162,7 +162,7 @@ void addict_effect(addiction &add)
             if (one_in(600 - 50 * in)) {
                 g->add_msg(rng(0, 6) < in ? _("You so miss the exquisite rainbow of post-humanity.") :
                        _("Your body is SOO booorrrring. Just a little sip to liven things up?"));
-            g->u.add_morale(MORALE_CRAVING_MUTAGEN, -20, -200);
+                g->u.add_morale(MORALE_CRAVING_MUTAGEN, -20, -200);
             }
             if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
                 g->u.focus_pool -= (in);
@@ -173,7 +173,7 @@ void addict_effect(addiction &add)
             g->add_msg(rng(0, 6) < in ? _("You haven't had any mutagen lately.") :
                        _("You could use some new parts..."));
             g->u.add_morale(MORALE_CRAVING_MUTAGEN, -5, -50);
-            }
+        }
         break;
     }
 }
@@ -307,10 +307,12 @@ Risk of delirium tremens");
                                  "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
                                  "Depression.  Frequent cravings.  Vomiting."), strpen);
     }
-        else return string_format(_(
-                                 "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
-                                 "Depression and physical pain to some degree.  Frequent cravings.  Vomiting."), strpen);
+    else {
+        return string_format(_(
+                             "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
+                             "Depression and physical pain to some degree.  Frequent cravings.  Vomiting."), strpen);
     }
+  }
 
     case ADD_SPEED:
         return _("Strength - 1;   Intelligence - 1;\n\
