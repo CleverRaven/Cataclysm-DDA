@@ -614,7 +614,10 @@ bool game::do_turn()
         u.hp_cur[hp_torso] = 0;
     } else if (u.has_disease("jetinjector") &&
             u.disease_duration("jetinjector") > 400) {
-        add_msg(_("Your heart spasms painfully and stops."));
+            if (!(u.has_trait("NOPAIN"))) {
+                add_msg(_("Your heart spasms painfully and stops."));
+            }
+        else { add_msg(_("Your heart spasms and stops.")); }
         u.add_memorial_log(_("Died of a healing stimulant overdose."));
         u.hp_cur[hp_torso] = 0;
     }
@@ -11171,7 +11174,9 @@ bool game::plmove(int dx, int dy)
                      one_in(std::max(20 - furntype.move_str_req - u.str_cur, 2)) ) {
               add_msg(_("You strain yourself trying to move the heavy %s!"), furntype.name.c_str() );
               u.moves -= 100;
-              u.pain++; // Hurt ourself.
+              if (!(u.has_trait("NOPAIN"))) {
+                  u.pain++; // Hurt ourself.
+              }
               return false; // furniture and or obstacle wins.
           } else if ( ! src_item_ok && dst_items > 0 ) {
               add_msg( _("There's stuff in the way.") );
@@ -13108,6 +13113,8 @@ void game::process_artifact(item *it, player *p, bool wielded)
                     it->charges++;
                 }
                 break;
+                // Artifacts can inflict pain even on Deadened folks.
+                // Some weird Lovecraftian thing.  ;P
             case ARTC_PAIN:
                 if (turn.seconds() == 0) {
                     add_msg(_("You suddenly feel sharp pain for no reason."));

@@ -1638,6 +1638,20 @@
         "prereqs" : ["MASOCHIST", "PAINRESIST", "ADDICT"],
         "prereqs2" : ["PAINREC2", "PAINREC3"],
         "threshreq" : ["THRESH_MEDICAL"],
+        "note" : "CENOBITE and NOPAIN don't cancel each other.  By design.  Poor painless cenobite...",
+        "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "NOPAIN",
+        "name" : "Deadened",
+        "points" : 4,
+        "description" : "Nothing hurts any more. Those bites tickle and the wounds itch a bit, but that's it.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["MASOCHIST", "PAINRESIST"],
+        "prereqs2" : ["PAINREC3"],
+        "threshreq" : ["THRESH_MEDICAL"],
+        "note" : "CENOBITE and NOPAIN don't cancel each other.  By design.  Poor painless cenobite...",
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",

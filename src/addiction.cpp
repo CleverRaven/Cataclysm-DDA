@@ -71,8 +71,10 @@ void addict_effect(addiction &add)
             g->u.str_cur -= 1 + int(in / 7);
             g->u.per_cur--;
             g->u.dex_cur--;
-            if (g->u.pain < in * 3) {
-                g->u.pain++;
+            if (!(g->u.has_trait("NOPAIN"))) {
+                if (g->u.pain < in * 3) {
+                    g->u.pain++;
+                }
             }
             if ((in >= 40 || one_in(1200 - 30 * in)) && g->u.health > -100) {
                 g->u.health--;
@@ -300,7 +302,12 @@ Risk of delirium tremens");
         return _("You may find it difficult to sleep without medication.");
 
     case ADD_PKILLER: {
+    if (g->u.has_trait("NOPAIN")) {
         return string_format(_(
+                                 "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
+                                 "Depression.  Frequent cravings.  Vomiting."), strpen);
+    }
+        else return string_format(_(
                                  "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
                                  "Depression and physical pain to some degree.  Frequent cravings.  Vomiting."), strpen);
     }
