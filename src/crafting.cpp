@@ -1022,7 +1022,7 @@ static void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
     mvwputch(w, 2, width-1, c_ltgray, LINE_OOXX); // ^|
      mvwprintz(w, 0, width - utf8_width(_("Lighting:")), c_ltgray, _("Lighting:"));//Lighting info
     int light = g->u.fine_detail_vision_mod();
-    char* str;
+    const char* str;
     nc_color color;
     if (light <= 1) {
         str = _("brightly"); color = c_yellow;
