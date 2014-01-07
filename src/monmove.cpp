@@ -745,7 +745,9 @@ int monster::move_to(int x, int y, bool force)
         plans.erase(plans.begin());
     }
 
-    moves -= calc_movecost(posx(), posy(), x, y);
+    if (!force) {
+        moves -= calc_movecost(posx(), posy(), x, y);
+    }
 
     //Check for moving into/out of water
     bool was_water = g->m.is_divable(posx(), posy());
