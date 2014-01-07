@@ -1966,7 +1966,7 @@
     },{
         "type" : "MONSTER",
         "id" : "mon_dog_zombie_rot",
-    "name": "rot-weiler",
+    "name": "Zombie rot-weiler",
     "species":"ZOMBIE",
     "symbol":"d",
     "color":"yellow",
