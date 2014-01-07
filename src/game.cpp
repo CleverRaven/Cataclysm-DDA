@@ -4845,9 +4845,9 @@ bool game::sees_u(int x, int y, int &t)
         const monster &critter = critter_tracker.find(mondex);
         return critter.sees_player(t);
     }
-    // range = 0 = unlimited, proceeding sans critter
+    // range = -1 = unlimited, proceeding sans critter
     return (
-        m.sees(x, y, u.posx, u.posy, 0, t) &&
+        m.sees(x, y, u.posx, u.posy, -1, t) &&
         ! u.is_invisible()
     );
 }
