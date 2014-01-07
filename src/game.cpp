@@ -1766,9 +1766,27 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
         length = utf8_width(_("<+> Autopickup")); if (length > max_text_length) max_text_length = length;
         vMenu.push_back(iteminfo("MENU", (bHPR) ? "-":"+", (bHPR) ? _("<-> Autopickup") : _("<+> Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
 
-        oThisItem.info(true, &vThisItem);
-        compare_split_screen_popup(iStartX, iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(), vThisItem, vDummy, -1, true);
+        int offset_line = 0;
+        int max_line = 0;
+        std::string str;
+        str += oThisItem.info(true, &vThisItem);
+        WINDOW *w = newwin(TERMY-VIEW_OFFSET_Y*2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
 
+        wmove(w, 1, 2);
+        wprintz(w, c_white, "%s", oThisItem.tname().c_str());
+        max_line = fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str.c_str());
+        if(max_line > TERMY-VIEW_OFFSET_Y*2 - 5) {
+          wmove(w, 1, iWidth - 3);
+          if(offset_line == 0) {
+            wprintz(w, c_white, "vv");
+          } else if (offset_line > 0 && offset_line + (TERMY-VIEW_OFFSET_Y*2) - 5 < max_line) {
+            wprintz(w, c_white, "^v");
+          } else {
+            wprintz(w, c_white, "^^");
+          }
+        }
+        draw_border(w);
+        wrefresh(w);
         const int iMenuStart = iOffsetX;
         const int iMenuItems = vMenu.size() - 1;
         int iSelected = iOffsetX - 1;
@@ -1829,6 +1847,12 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
                 case KEY_DOWN:
                  iSelected++;
                  break;
+                case '>':
+                 if(offset_line + (TERMY-VIEW_OFFSET_Y*2) - 5 < max_line) { offset_line++; }
+                 break;
+                case '<':
+                 if(offset_line > 0) { offset_line--; }
+                 break;
                 case '+':
                  if (!bHPR) {
                   addPickupRule(oThisItem.tname());
@@ -1849,7 +1873,23 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
             } else if ( iSelected > iMenuItems + 1 ) {
                 iSelected = iMenuStart;
             }
-        } while (cMenu == KEY_DOWN || cMenu == KEY_UP );
+            werase(w);
+            if(max_line > TERMY-VIEW_OFFSET_Y*2 - 5) {
+              wmove(w, 1, iWidth - 3);
+              if(offset_line == 0) {
+                wprintz(w, c_white, "vv");
+              } else if (offset_line > 0 && offset_line + (TERMY-VIEW_OFFSET_Y*2) - 5 < max_line) {
+                wprintz(w, c_white, "^v");
+              } else {
+                wprintz(w, c_white, "^^");
+              }
+            }
+            wmove(w, 1, 2);
+            wprintz(w, c_white, "%s", oThisItem.tname().c_str());
+            fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str.c_str());
+            draw_border(w);
+            wrefresh(w);
+        } while (cMenu == KEY_DOWN || cMenu == KEY_UP || cMenu == '>' || cMenu == '<');
     }
     return cMenu;
 }
