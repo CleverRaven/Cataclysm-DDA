@@ -633,19 +633,31 @@ void vehicle::use_controls()
         item bicycle;
         bicycle.make( itypes["folding_bicycle"] );
 
-        std::ostringstream part_hps;
-        // Stash part HP in item
+        // Drop stuff in containers on ground
         for (int p = 0; p < parts.size(); p++)
         {
-            part_hps << parts[p].hp << " ";
             if( part_flag( p, "CARGO" ) ) {
                 for( std::vector<item>::iterator it = parts[p].items.begin();
                      it != parts[p].items.end(); ++it ) {
                     g->m.add_item_or_charges( g->u.posx, g->u.posy, *it );
                 }
+                parts[p].items.clear();
             }
         }
-        bicycle.item_vars["folding_bicycle_parts"] = part_hps.str();
+
+        // Store data of all parts, iuse::unfold_bicyle only loads
+        // some of them (like bigness), some are expect to be
+        // vehicle specific and therefor constant (like id, mount_dx).
+        // Writing everything here is easier to manage, as only
+        // iuse::unfold_bicyle has to adopt to changes.
+        try {
+            std::ostringstream veh_data;
+            JsonOut json(veh_data);
+            json.write(parts);
+            bicycle.item_vars["folding_bicycle_parts"] = veh_data.str();
+        } catch(std::string e) {
+            debugmsg("Error storing vehicle: %s", e.c_str());
+        }
 
         g->m.add_item_or_charges(g->u.posx, g->u.posy, bicycle);
         // Remove vehicle
