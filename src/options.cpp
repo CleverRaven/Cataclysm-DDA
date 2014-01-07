@@ -1054,7 +1054,7 @@ void save_options(bool ingame)
 
 bool use_narrow_sidebar()
 {
-    return TERMY < 25 || g->narrow_sidebar;
+    return (TERMY < 25 || OPTIONS["SIDEBAR_STYLE"] == "narrow");
 }
 
 std::string get_tileset_names(std::string dir_path)

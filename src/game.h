@@ -321,7 +321,6 @@ class game
   std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
   void load_trap(JsonObject &jo);
-  void toggle_sidebar_style(void);
 
   std::map<std::string, std::vector <items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
@@ -414,7 +413,6 @@ class game
   bool opening_screen();// Warn about screen size, then present the main menu
 
   const int dangerous_proximity;
-  bool narrow_sidebar;
 
  private:
 // Game-start procedures
