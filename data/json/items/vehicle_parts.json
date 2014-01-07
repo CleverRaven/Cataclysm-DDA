@@ -24,6 +24,23 @@
     },
     {
         "type":"GENERIC",
+        "id" : "frame_wood",
+        "name" : "wooden frame",
+        "description" : "A large frame made of wood. Useful for crafting.",
+        "weight" : 7000,
+        "to_hit" : -5,
+        "color" : "brown",
+        "symbol" : "]",
+        "material" : ["wood", "null"],
+        "techniques" : ["DEF_DISARM"],
+        "volume" : 60,
+        "bashing" : 16,
+        "cutting" : 4,
+        "category" : "veh_parts",
+        "price" : 35
+    },
+    {
+        "type":"GENERIC",
         "id" : "seat",
         "name" : "seat",
         "description" : "A soft car seat covered with leather.",

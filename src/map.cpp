@@ -2555,12 +2555,12 @@ void map::process_active_items_in_vehicles(const int nonant)
                     int full_charge = static_cast<it_tool*>(it->type)->max_charges;
                     if (it->has_flag("DOUBLE_AMMO")) {
                         full_charge = full_charge * 2;
-                        }
+                    }
                     if (it->is_tool() && full_charge > it->charges ) {
-                            if (one_in(10)) {
-                                it->charges++;
-                            }
+                        if (one_in(10)) {
+                            it->charges++;
                         }
+                    }
                 }
                 if(process_active_item(it, nonant, mapx, mapy)) {
                     next_vehicle->remove_item(*part_index, n);
@@ -2643,42 +2643,120 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
     return false;
 }
 
-std::list<item> map::use_amount(const point origin, const int range, const itype_id type,
-                                const int amount, const bool use_container)
+
+std::list<item> use_amount_map_or_vehicle(std::vector<item> &vec, const itype_id type, int &quantity, const bool use_container)
 {
- std::list<item> ret;
- int quantity = amount;
- for (int radius = 0; radius <= range && quantity > 0; radius++) {
-  for (int x = origin.x - radius; x <= origin.x + radius; x++) {
-   for (int y = origin.y - radius; y <= origin.y + radius; y++) {
-    if (rl_dist(origin.x, origin.y, x, y) >= radius) {
-     for (int n = 0; n < i_at(x, y).size() && quantity > 0; n++) {
-      item* curit = &(i_at(x, y)[n]);
-      bool used_contents = false;
-      for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
-       if (curit->contents[m].type->id == type) {
+  std::list<item> ret;
+  for (int n = 0; n < vec.size() && quantity > 0; n++) {
+    item* curit = &(vec[n]);
+    bool used_contents = false;
+    for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
+      if (curit->contents[m].type->id == type) {
         ret.push_back(curit->contents[m]);
         quantity--;
         curit->contents.erase(curit->contents.begin() + m);
         m--;
         used_contents = true;
-       }
       }
-      if (use_container && used_contents) {
-       i_rem(x, y, n);
-       n--;
-      } else if (curit->type->id == type && quantity > 0 && curit->contents.size() == 0) {
-       ret.push_back(*curit);
-       quantity--;
-       i_rem(x, y, n);
-       n--;
-      }
-     }
     }
-   }
+    if (use_container && used_contents) {
+      vec.erase(vec.begin() + n);
+      n--;
+    } else if (curit->type->id == type && quantity > 0 && curit->contents.size() == 0) {
+      ret.push_back(*curit);
+      quantity--;
+      vec.erase(vec.begin() + n);
+      n--;
+    }
   }
- }
- return ret;
+  return ret;
+}
+
+std::list<item> map::use_amount_square(const int x, const int y, const itype_id type, int &quantity, const bool use_container)
+{
+  std::list<item> ret;
+  int vpart = -1;
+  vehicle *veh = veh_at(x,y, vpart);
+
+  if (veh) {
+    const int cargo = veh->part_with_feature(vpart, "CARGO");
+    if (cargo >= 0) {
+      std::list<item> tmp = use_amount_map_or_vehicle(veh->parts[cargo].items, type, quantity, use_container);
+      ret.splice(ret.end(), tmp);
+    }
+  }
+  std::list<item> tmp = use_amount_map_or_vehicle(i_at(x,y), type, quantity, use_container);
+  ret.splice(ret.end(), tmp);
+  return ret;
+}
+
+std::list<item> map::use_amount(const point origin, const int range, const itype_id type,
+                                const int amount, const bool use_container)
+{
+  std::list<item> ret;
+  int quantity = amount;
+  for (int radius = 0; radius <= range && quantity > 0; radius++) {
+    for (int x = origin.x - radius; x <= origin.x + radius; x++) {
+      for (int y = origin.y - radius; y <= origin.y + radius; y++) {
+        if (rl_dist(origin.x, origin.y, x, y) >= radius) {
+          std::list<item> tmp;
+          tmp = use_amount_square(x, y, type, quantity, use_container);
+          ret.splice(ret.end(), tmp);
+        }
+      }
+    }
+  }
+  return ret;
+}
+
+std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const itype_id type, int &quantity)
+{
+  std::list<item> ret;
+  for (int n = 0; n < vec.size(); n++) {
+    item* curit = &(vec[n]);
+    // Check contents first
+    for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
+      if (curit->contents[m].type->id == type) {
+        if (curit->contents[m].charges <= quantity) {
+          ret.push_back(curit->contents[m]);
+          quantity -= curit->contents[m].charges;
+          if (curit->contents[m].destroyed_at_zero_charges()) {
+            curit->contents.erase(curit->contents.begin() + m);
+            m--;
+          } else
+            curit->contents[m].charges = 0;
+        } else {
+          item tmp = curit->contents[m];
+          tmp.charges = quantity;
+          ret.push_back(tmp);
+          curit->contents[m].charges -= quantity;
+          quantity = 0;
+          return ret;
+        }
+      }
+    }
+      
+    // Now check the actual item
+    if (curit->type->id == type) {
+      if (curit->charges <= quantity) {
+        ret.push_back(*curit);
+        quantity -= curit->charges;
+        if (curit->destroyed_at_zero_charges()) {
+          vec.erase(vec.begin() + n);
+          n--;
+        } else
+          curit->charges = 0;
+      } else {
+        item tmp = *curit;
+        tmp.charges = quantity;
+        ret.push_back(tmp);
+        curit->charges -= quantity;
+        quantity = 0;
+        return ret;
+      }
+    }
+  }
+  return ret;
 }
 
 std::list<item> map::use_charges(const point origin, const int range, const itype_id type, const int amount)
@@ -2698,6 +2776,7 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
         const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
         const int forgepart = veh->part_with_feature(vpart, "FORGE");
         const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
+        const int cargo = veh->part_with_feature(vpart, "CARGO");
 
         if (kpart >= 0) { // we have a kitchen, now to see what to drain
           ammotype ftype = "NULL";
@@ -2783,49 +2862,18 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           if (quantity == 0)
             return ret;
         }
-      }
 
-     for (int n = 0; n < i_at(x, y).size(); n++) {
-      item* curit = &(i_at(x, y)[n]);
-// Check contents first
-      for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
-       if (curit->contents[m].type->id == type) {
-        if (curit->contents[m].charges <= quantity) {
-         ret.push_back(curit->contents[m]);
-         quantity -= curit->contents[m].charges;
-         if (curit->contents[m].destroyed_at_zero_charges()) {
-          curit->contents.erase(curit->contents.begin() + m);
-          m--;
-         } else
-          curit->contents[m].charges = 0;
-        } else {
-         item tmp = curit->contents[m];
-         tmp.charges = quantity;
-         ret.push_back(tmp);
-         curit->contents[m].charges -= quantity;
-         return ret;
+        if (cargo >= 0) {
+          std::list<item> tmp = use_charges_from_map_or_vehicle(veh->parts[cargo].items, type, quantity);
+          ret.splice(ret.end(), tmp);
+          if (quantity <= 0)
+            return ret;
         }
-       }
       }
-// Now check the actual item
-      if (curit->type->id == type) {
-       if (curit->charges <= quantity) {
-        ret.push_back(*curit);
-        quantity -= curit->charges;
-        if (curit->destroyed_at_zero_charges()) {
-         i_rem(x, y, n);
-         n--;
-        } else
-         curit->charges = 0;
-       } else {
-        item tmp = *curit;
-        tmp.charges = quantity;
-        ret.push_back(tmp);
-        curit->charges -= quantity;
+      std::list<item> tmp = use_charges_from_map_or_vehicle(i_at(x,y), type, quantity);
+      ret.splice(ret.end(), tmp);
+      if (quantity <= 0)
         return ret;
-       }
-      }
-     }
     }
    }
   }

@@ -137,6 +137,7 @@ void game::init_data()
  moveCount = 0;
 
  gamemode = new special_game; // Nothing, basically.
+ narrow_sidebar = OPTIONS["SIDEBAR_STYLE"] == "narrow";
 }
 
 game::~game()
@@ -170,7 +171,7 @@ void game::init_ui(){
     // print an intro screen, making sure the terminal is the correct size
     intro();
 
-    int sidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+    int sidebarWidth = narrow_sidebar ? 45 : 55;
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
         TERMX = sidebarWidth + ((int)OPTIONS["VIEWPORT_X"] * 2 + 1);
@@ -324,6 +325,12 @@ void game::init_ui(){
     werase(w_status2);
 }
 
+void game::toggle_sidebar_style(void) {
+  narrow_sidebar = !narrow_sidebar;
+  init_ui();
+  refresh_all();
+}
+
 /*
  * Initialize more stuff after mapbuffer is loaded.
  */
@@ -407,8 +414,10 @@ void game::start_game(std::string worldname)
  levy -= int(int(MAPSIZE / 2) / 2);
  levz = 0;
 // Start the overmap with out immediate neighborhood visible
- for (int i = -15; i <= 15; i++) {
-  for (int j = -15; j <= 15; j++)
+ int begin_vis = 2 - OPTIONS["DISTANCE_INITIAL_VISIBILITY"];
+ int end_vis = 2 + OPTIONS["DISTANCE_INITIAL_VISIBILITY"];
+ for (int i = begin_vis; i <= end_vis; i++) {
+  for (int j = begin_vis; j <= end_vis; j++)
    cur_om->seen(levx + i, levy + j, 0) = true;
  }
 // Convert the overmap coordinates to submap coordinates
@@ -1766,9 +1775,27 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
         length = utf8_width(_("<+> Autopickup")); if (length > max_text_length) max_text_length = length;
         vMenu.push_back(iteminfo("MENU", (bHPR) ? "-":"+", (bHPR) ? _("<-> Autopickup") : _("<+> Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
 
-        oThisItem.info(true, &vThisItem);
-        compare_split_screen_popup(iStartX, iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(), vThisItem, vDummy, -1, true);
+        int offset_line = 0;
+        int max_line = 0;
+        std::string str;
+        str += oThisItem.info(true, &vThisItem);
+        WINDOW *w = newwin(TERMY-VIEW_OFFSET_Y*2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
 
+        wmove(w, 1, 2);
+        wprintz(w, c_white, "%s", oThisItem.tname().c_str());
+        max_line = fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str.c_str());
+        if(max_line > TERMY-VIEW_OFFSET_Y*2 - 5) {
+          wmove(w, 1, iWidth - 3);
+          if(offset_line == 0) {
+            wprintz(w, c_white, "vv");
+          } else if (offset_line > 0 && offset_line + (TERMY-VIEW_OFFSET_Y*2) - 5 < max_line) {
+            wprintz(w, c_white, "^v");
+          } else {
+            wprintz(w, c_white, "^^");
+          }
+        }
+        draw_border(w);
+        wrefresh(w);
         const int iMenuStart = iOffsetX;
         const int iMenuItems = vMenu.size() - 1;
         int iSelected = iOffsetX - 1;
@@ -1829,6 +1856,12 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
                 case KEY_DOWN:
                  iSelected++;
                  break;
+                case '>':
+                 if(offset_line + (TERMY-VIEW_OFFSET_Y*2) - 5 < max_line) { offset_line++; }
+                 break;
+                case '<':
+                 if(offset_line > 0) { offset_line--; }
+                 break;
                 case '+':
                  if (!bHPR) {
                   addPickupRule(oThisItem.tname());
@@ -1849,7 +1882,23 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
             } else if ( iSelected > iMenuItems + 1 ) {
                 iSelected = iMenuStart;
             }
-        } while (cMenu == KEY_DOWN || cMenu == KEY_UP );
+            werase(w);
+            if(max_line > TERMY-VIEW_OFFSET_Y*2 - 5) {
+              wmove(w, 1, iWidth - 3);
+              if(offset_line == 0) {
+                wprintz(w, c_white, "vv");
+              } else if (offset_line > 0 && offset_line + (TERMY-VIEW_OFFSET_Y*2) - 5 < max_line) {
+                wprintz(w, c_white, "^v");
+              } else {
+                wprintz(w, c_white, "^^");
+              }
+            }
+            wmove(w, 1, 2);
+            wprintz(w, c_white, "%s", oThisItem.tname().c_str());
+            fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str.c_str());
+            draw_border(w);
+            wrefresh(w);
+        } while (cMenu == KEY_DOWN || cMenu == KEY_UP || cMenu == '>' || cMenu == '<');
     }
     return cMenu;
 }
@@ -2681,6 +2730,10 @@ bool game::handle_action()
 
   case ACTION_DEBUG:
    debug();
+   break;
+
+  case ACTION_TOGGLE_SIDEBAR_STYLE:
+   toggle_sidebar_style();
    break;
 
   case ACTION_DISPLAY_SCENT:
@@ -3595,7 +3648,7 @@ Current turn: %d; Next spawn %d.\n\
       u.ma_styles.push_back("style_toad");
       add_msg("You now know a lot more than just 10 styles of kung fu.");
    break;
-  
+
   case 13: {
     add_msg("Recipe debug.");
     add_msg("Your eyes blink rapidly as knowledge floods your brain.");
@@ -3607,13 +3660,13 @@ Current turn: %d; Next spawn %d.\n\
         { recipe* cur_recipe = *list_iter;
         if (!(u.learned_recipes.find(cur_recipe->ident) != u.learned_recipes.end()))  {
         u.learn_recipe(cur_recipe);
-        }    
+        }
       }
     }
     add_msg("You know how to craft that now.");
   }
     break;
-   
+
   case 14: {
    point pos = look_around();
    int npcdex = npc_at(pos.x, pos.y);
@@ -13061,7 +13114,6 @@ make the terminal just a smidgen taller?"),
         getmaxyx(stdscr, maxy, maxx);
  }
  werase(tmp);
- mvwprintz(tmp, 0, 0, c_ltblue, ":)");
  wrefresh(tmp);
  delwin(tmp);
  erase();

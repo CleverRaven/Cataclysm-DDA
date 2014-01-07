@@ -3144,8 +3144,15 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     int spdx = sideStyle ?  0 : x + dx * 4;
     int spdy = sideStyle ?  5 : y + dy * 4;
     mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), spd_cur);
-    if (this->weight_carried() > this->weight_capacity() || this->volume_carried() > this->volume_capacity() - 2) {
-        col_time = c_red;
+    if (this->weight_carried() > this->weight_capacity()) {
+        col_time = h_black;
+    }
+    if (this->volume_carried() > this->volume_capacity() - 2) {
+        if (this->weight_carried() > this->weight_capacity()) {
+            col_time = c_dkgray_magenta;
+        } else {
+            col_time = c_dkgray_red;
+        }
     }
     wprintz(w, col_time, "  %d", movecounter);
  }
@@ -3261,7 +3268,7 @@ void player::set_cat_level_rec(const std::string &sMut)
         for (int i = 0; i < mutation_data[sMut].prereqs.size(); i++) {
             set_cat_level_rec(mutation_data[sMut].prereqs[i]);
         }
-        
+
         for (int i = 0; i < mutation_data[sMut].prereqs2.size(); i++) {
             set_cat_level_rec(mutation_data[sMut].prereqs2[i]);
         }
@@ -7552,7 +7559,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if ((armor->covers & (mfb(bp_hands) | mfb(bp_arms) | mfb(bp_torso) | mfb(bp_legs) | mfb(bp_feet) | mfb(bp_head))) &&
         (has_trait("HUGE") || has_trait("HUGE_OK")))
         {

@@ -329,6 +329,7 @@ void add_corpse(int x, int y);
  void process_active_items();
  void process_vehicles();
 
+ std::list<item> use_amount_square(const int x, const int y, const itype_id type, int &quantity, const bool use_container);
  std::list<item> use_amount(const point origin, const int range, const itype_id type, const int amount,
                               const bool use_container = false);
  std::list<item> use_charges(const point origin, const int range, const itype_id type, const int amount);

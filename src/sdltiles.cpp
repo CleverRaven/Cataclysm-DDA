@@ -930,7 +930,7 @@ static int test_face_size(std::string f, int size, int faceIndex)
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
-    const int SidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+    const int SidebarWidth = g->narrow_sidebar ? 45 : 55;
     int newWindowWidth = (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
     newWindowWidth = newWindowWidth < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : newWindowWidth;
 
@@ -984,7 +984,7 @@ WINDOW *curses_init(void)
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
 
-    const int SidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+    const int SidebarWidth = g->narrow_sidebar ? 45 : 55;
 
     WindowWidth= (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
     if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
@@ -1024,7 +1024,7 @@ WINDOW *curses_init(void)
         if(fontwidth)tilewidth=ascii[0]->w/fontwidth;
         OutputChar = &OutputImageChar;
         mainwin = newwin( (OPTIONS["VIEWPORT_Y"] * 2 + 1),
-                          (((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55) +
+                          ((g->narrow_sidebar ? 45 : 55) +
                            (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
         return mainwin;
     }
@@ -1066,7 +1066,7 @@ WINDOW *curses_init(void)
     OutputChar = &OutputFontChar;
 
     mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),
-                     (((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55) +
+                     ((g->narrow_sidebar ? 45 : 55) +
                      (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
     
     return mainwin;   //create the 'stdscr' window and return its ref
