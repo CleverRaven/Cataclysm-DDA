@@ -407,8 +407,10 @@ void game::start_game(std::string worldname)
  levy -= int(int(MAPSIZE / 2) / 2);
  levz = 0;
 // Start the overmap with out immediate neighborhood visible
- for (int i = -15; i <= 15; i++) {
-  for (int j = -15; j <= 15; j++)
+ int begin_vis = 2 - OPTIONS["DISTANCE_INITIAL_VISIBILITY"];
+ int end_vis = 2 + OPTIONS["DISTANCE_INITIAL_VISIBILITY"];
+ for (int i = begin_vis; i <= end_vis; i++) {
+  for (int j = begin_vis; j <= end_vis; j++)
    cur_om->seen(levx + i, levy + j, 0) = true;
  }
 // Convert the overmap coordinates to submap coordinates
@@ -3595,7 +3597,7 @@ Current turn: %d; Next spawn %d.\n\
       u.ma_styles.push_back("style_toad");
       add_msg("You now know a lot more than just 10 styles of kung fu.");
    break;
-  
+
   case 13: {
     add_msg("Recipe debug.");
     add_msg("Your eyes blink rapidly as knowledge floods your brain.");
@@ -3607,13 +3609,13 @@ Current turn: %d; Next spawn %d.\n\
         { recipe* cur_recipe = *list_iter;
         if (!(u.learned_recipes.find(cur_recipe->ident) != u.learned_recipes.end()))  {
         u.learn_recipe(cur_recipe);
-        }    
+        }
       }
     }
     add_msg("You know how to craft that now.");
   }
     break;
-   
+
   case 14: {
    point pos = look_around();
    int npcdex = npc_at(pos.x, pos.y);

@@ -730,43 +730,42 @@ recipe* game::select_crafting_recipe()
         if (!current.empty())
         {
             nc_color col = (available[line] ? c_white : c_ltgray);
-            mvwprintz(w_data, 0, 30, col, _("Skills used: %s"),
+            ypos = 0;
+            mvwprintz(w_data, ypos++, 30, col, _("Skills used: %s"),
                 (current[line]->skill_used == NULL ? "N/A" :
                 current[line]->skill_used->name().c_str()));
 
-            mvwprintz(w_data, 1, 30, col, _("Required skills: %s"),
+            mvwprintz(w_data, ypos++, 30, col, _("Required skills: %s"),
                 (current[line]->required_skills_string().c_str()));
-            mvwprintz(w_data, 2, 30, col, _("Difficulty: %d"), current[line]->difficulty);
+            mvwprintz(w_data, ypos++, 30, col, _("Difficulty: %d"), current[line]->difficulty);
             if (current[line]->skill_used == NULL)
             {
-                mvwprintz(w_data, 3, 30, col, _("Your skill level: N/A"));
+                mvwprintz(w_data, ypos++, 30, col, _("Your skill level: N/A"));
             }
             else
             {
-                mvwprintz(w_data, 3, 30, col, _("Your skill level: %d"),
+                mvwprintz(w_data, ypos++, 30, col, _("Your skill level: %d"),
                 // Macs don't seem to like passing this as a class, so force it to int
                 (int)u.skillLevel(current[line]->skill_used));
             }
             if (current[line]->time >= 1000)
             {
-                mvwprintz(w_data, 4, 30, col, _("Time to complete: %d minutes"),
+                mvwprintz(w_data, ypos++, 30, col, _("Time to complete: %d minutes"),
                 int(current[line]->time / 1000));
             }
             else
             {
-                mvwprintz(w_data, 4, 30, col, _("Time to complete: %d turns"),
+                mvwprintz(w_data, ypos++, 30, col, _("Time to complete: %d turns"),
                 int(current[line]->time / 100));
             }
-            mvwprintz(w_data, 5, 30, col, _("Tools required:"));
+            mvwprintz(w_data, ypos++, 30, col, _("Tools required:"));
             if (current[line]->tools.size() == 0 && current[line]->qualities.size() == 0)
             {
-                mvwputch(w_data, 6, 30, col, '>');
-                mvwprintz(w_data, 6, 32, c_green, _("NONE"));
-                ypos = 6;
+                mvwputch(w_data, ypos, 30, col, '>');
+                mvwprintz(w_data, ypos, 32, c_green, _("NONE"));
             }
             else
             {
-                ypos = 6;
                 // Loop to print the required tool qualities
                 for(std::vector<quality_requirement>::const_iterator iter = current[line]->qualities.begin();
                         iter != current[line]->qualities.end(); ++iter){
@@ -928,7 +927,7 @@ recipe* game::select_crafting_recipe()
                 break;
             case DirectionUp:
                 tab = prev_craft_cat(tab);
-                subtab = last_craft_subcat( tab );
+                subtab = first_craft_subcat( tab );//default ALL
                 redraw = true;
                 break;
             case DirectionE:
@@ -937,7 +936,7 @@ recipe* game::select_crafting_recipe()
                 break;
             case DirectionDown:
                 tab = next_craft_cat(tab);
-                subtab = first_craft_subcat( tab );
+                subtab = first_craft_subcat( tab );//default ALL
                 redraw = true;
                 break;
             case DirectionS:
@@ -1021,6 +1020,22 @@ static void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 
     mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
     mvwputch(w, 2, width-1, c_ltgray, LINE_OOXX); // ^|
+     mvwprintz(w, 0, width - utf8_width(_("Lighting:")), c_ltgray, _("Lighting:"));//Lighting info
+    int light = g->u.fine_detail_vision_mod();
+    char* str;
+    nc_color color;
+    if (light <= 1) {
+    	str = _("brightly"); color = c_yellow;
+    } else if (light <= 2) {
+    	str = _("cloudy"); color = c_white;
+    } else if (light <= 3) {
+    	str = _("shady"); color = c_ltgray;
+    } else if (light <= 4) {
+    	str = _("dark"); color = c_dkgray;
+    } else {
+    	str = _("very dark"); color = c_black_white;
+    }
+    mvwprintz(w, 1, width - 1 - utf8_width(str), color, str);
     if(!filtered)
     {
         int pos_x = 2;//draw the tabs on each other
@@ -1067,6 +1082,8 @@ static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, b
     {
         int pos_x = 2;//draw the tabs on each other
         int tab_step = 3;//step between tabs, two for tabs border
+		draw_subtab(w, pos_x, _("ALL"), (subtab == "CSC_ALL") ? true : false);//Add ALL subcategory to all tabs;
+		pos_x += utf8_width(_("ALL")) + tab_step;
         if (tab == "CC_WEAPON") {
             draw_subtab(w, pos_x, _("BASHING"), (subtab == "CSC_WEAPON_BASHING") ? true : false);
             pos_x += utf8_width(_("BASHING")) + tab_step;
@@ -1131,8 +1148,6 @@ static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, b
             pos_x += utf8_width(_("SUIT")) + tab_step;
             draw_subtab(w, pos_x, _("HEAD"), (subtab == "CSC_ARMOR_HEAD") ? true : false);
             pos_x += utf8_width(_("HEAD")) + tab_step;
-            draw_subtab(w, pos_x, _("BACK"), (subtab == "CSC_ARMOR_BACK") ? true : false);
-            pos_x += utf8_width(_("BACK")) + tab_step;
             draw_subtab(w, pos_x, _("TORSO"), (subtab == "CSC_ARMOR_TORSO") ? true : false);
             pos_x += utf8_width(_("TORSO")) + tab_step;
             draw_subtab(w, pos_x, _("ARMS"), (subtab == "CSC_ARMOR_ARMS") ? true : false);
@@ -1208,7 +1223,7 @@ void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &cur
 
     for (recipe_list::iterator iter = available_recipes.begin();
          iter != available_recipes.end(); ++iter) {
-        if ((*iter)->subcat == subtab || filter != "") {
+        if (subtab == "CSC_ALL" || (*iter)->subcat == subtab || filter != "") {
             if (!u.knows_recipe(*iter)) {
                 continue;
             }
@@ -1279,7 +1294,7 @@ void game::complete_craft()
   }
   skill_dice -= paws_rank_penalty * 4;
  }
- 
+
 // Sides on dice is 16 plus your current intelligence
  int skill_sides = 16 + u.int_cur;
 

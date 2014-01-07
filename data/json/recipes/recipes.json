@@ -3,6 +3,7 @@
     "type" : "recipe_category",
     "id" : "CC_WEAPON",
     "recipe_subcategories" : [
+	  "CSC_ALL",
       "CSC_WEAPON_BASHING",
       "CSC_WEAPON_CUTTING",
       "CSC_WEAPON_PIERCING",
@@ -15,6 +16,7 @@
     "type" : "recipe_category",
     "id" : "CC_AMMO",
     "recipe_subcategories" : [
+	  "CSC_ALL",
       "CSC_AMMO_BULLETS",
       "CSC_AMMO_ARROWS",
       "CSC_AMMO_COMPONENTS",
@@ -24,6 +26,7 @@
     "type" : "recipe_category",
     "id" : "CC_FOOD",
     "recipe_subcategories" : [
+	  "CSC_ALL",
       "CSC_FOOD_DRINKS",
       "CSC_FOOD_MEAT",
       "CSC_FOOD_VEGGI",
@@ -36,6 +39,7 @@
     "type" : "recipe_category",
     "id" : "CC_CHEM",
     "recipe_subcategories" : [
+	  "CSC_ALL",
       "CSC_CHEM_DRUGS",
       "CSC_CHEM_MUTAGEN",
       "CSC_CHEM_CHEMICALS",
@@ -45,6 +49,7 @@
     "type" : "recipe_category",
     "id" : "CC_ELECTRONIC",
     "recipe_subcategories" : [
+	  "CSC_ALL",
       "CSC_ELECTRONIC_CBMS",
       "CSC_ELECTRONIC_LIGHTING",
       "CSC_ELECTRONIC_COMPONENTS",
@@ -54,10 +59,10 @@
     "type" : "recipe_category",
     "id" : "CC_ARMOR",
     "recipe_subcategories" : [
+	  "CSC_ALL",
       "CSC_ARMOR_STORAGE",
       "CSC_ARMOR_SUIT",
       "CSC_ARMOR_HEAD",
-      "CSC_ARMOR_BACK",
       "CSC_ARMOR_TORSO",
       "CSC_ARMOR_ARMS",
       "CSC_ARMOR_HANDS",
@@ -69,6 +74,7 @@
     "type" : "recipe_category",
     "id" : "CC_OTHER",
     "recipe_subcategories" : [
+	  "CSC_ALL",
       "CSC_OTHER_TOOLS",
       "CSC_OTHER_MEDICAL",
       "CSC_OTHER_CONTAINERS",
@@ -16531,7 +16537,7 @@
         "type" : "recipe",
   "result": "cloak",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_BACK",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 25000,
@@ -16553,7 +16559,7 @@
         "type" : "recipe",
   "result": "cloak_fur",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_BACK",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "skills_required": [ "survival", 1 ],
   "difficulty": 2,
@@ -16577,7 +16583,7 @@
         "type" : "recipe",
   "result": "cloak_leather",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_BACK",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 25000,
