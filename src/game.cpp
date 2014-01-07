@@ -137,7 +137,6 @@ void game::init_data()
  moveCount = 0;
 
  gamemode = new special_game; // Nothing, basically.
- narrow_sidebar = OPTIONS["SIDEBAR_STYLE"] == "narrow";
 }
 
 game::~game()
@@ -171,7 +170,7 @@ void game::init_ui(){
     // print an intro screen, making sure the terminal is the correct size
     intro();
 
-    int sidebarWidth = narrow_sidebar ? 45 : 55;
+    int sidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
         TERMX = sidebarWidth + ((int)OPTIONS["VIEWPORT_X"] * 2 + 1);
@@ -323,12 +322,6 @@ void game::init_ui(){
 
     w_status2 = newwin(stat2H, stat2W, _y + stat2Y, _x + stat2X);
     werase(w_status2);
-}
-
-void game::toggle_sidebar_style(void) {
-  narrow_sidebar = !narrow_sidebar;
-  init_ui();
-  refresh_all();
 }
 
 /*
@@ -2730,10 +2723,6 @@ bool game::handle_action()
 
   case ACTION_DEBUG:
    debug();
-   break;
-
-  case ACTION_TOGGLE_SIDEBAR_STYLE:
-   toggle_sidebar_style();
    break;
 
   case ACTION_DISPLAY_SCENT:
@@ -13114,6 +13103,7 @@ make the terminal just a smidgen taller?"),
         getmaxyx(stdscr, maxy, maxx);
  }
  werase(tmp);
+ mvwprintz(tmp, 0, 0, c_ltblue, ":)");
  wrefresh(tmp);
  delwin(tmp);
  erase();
