@@ -920,19 +920,19 @@ void iexamine::recycler(player *p, map *m, int examx, int examy) {
     double recover_factor = rng(6, 9) / 10.0;
     steel_weight = (int)(steel_weight * recover_factor);
 
-    if (steel_weight < 113)
-    {
-        g->add_msg(_("The recycler chews up all the items in its hopper."));
-        g->add_msg(_("The recycler beeps: \"No steel to process!\""));
-        return;
-    }
-
     g->sound(examx, examy, 80, _("Ka-klunk!"));
 
     int lump_weight = item_controller->find_template("steel_lump")->weight;
     int sheet_weight = item_controller->find_template("sheet_metal")->weight;
     int chunk_weight = item_controller->find_template("steel_chunk")->weight;
     int scrap_weight = item_controller->find_template("scrap")->weight;
+
+    if (steel_weight < scrap_weight)
+    {
+        g->add_msg(_("The recycler chews up all the items in its hopper."));
+        g->add_msg(_("The recycler beeps: \"No steel to process!\""));
+        return;
+    }
 
     switch(ch)
     {
