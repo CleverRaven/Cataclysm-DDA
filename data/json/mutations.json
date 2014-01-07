@@ -327,7 +327,8 @@
         "points" : 2,
         "description" : "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "changes_to" : ["CENOBITE"]
     },{
         "type" : "mutation",
         "id" : "STYLISH",
@@ -1626,6 +1627,17 @@
         "points" : 8,
         "description" : "You recover from pain much faster than normal.",
         "prereqs" : ["PAINREC2"],
+        "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "MASOCHIST_MED",
+        "name" : "Cenobite",
+        "points" : 5,
+        "description" : "You positively adore pain, in all its varied forms.",
+        "valid" : false,
+        "prereqs" : ["MASOCHIST", "PAINRESIST", "ADDICT"],
+        "prereqs2" : ["PAINREC2", "PAINREC3"],
+        "threshreq" : ["THRESH_MEDICAL"],
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",

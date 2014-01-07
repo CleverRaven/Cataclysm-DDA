@@ -589,10 +589,11 @@ void player::apply_persistent_morale()
     }
 
     // Masochists get a morale bonus from pain.
-    if (has_trait("MASOCHIST"))
+    if (has_trait("MASOCHIST") || has_trait("MASOCHIST_MED"))
     {
         int bonus = pain / 2.5;
-        if (bonus > 25)
+        // Cenobites really get a morale bonus from pain.
+        if (has_trait("MASOCHIST") && (bonus > 25))
         {
             bonus = 25;
         }
