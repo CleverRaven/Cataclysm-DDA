@@ -18139,6 +18139,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "frame_wood",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "2x4", 5 ]
+    ],
+    [
+      [ "nail", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "sheet_metal",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
