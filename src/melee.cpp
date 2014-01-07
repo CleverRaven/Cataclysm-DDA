@@ -953,8 +953,13 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
 // Glass weapons shatter sometimes
  if (weapon.made_of("glass") &&
      rng(0, weapon.volume() + 8) < weapon.volume() + str_cur) {
-     g->add_msg_player_or_npc( &t, _("Your %s shatters!"), _("<npcname>'s %s shatters!"),
-                               weapon.tname().c_str() );
+        if (is_player()) {
+            dump << string_format(_("Your %s shatters!"), weapon.tname().c_str()) << std::endl;
+        } else {
+            g->add_msg_player_or_npc(this, _("Your %s shatters!"),
+                                        _("<npcname>'s %s shatters!"),
+                                        weapon.tname().c_str());
+        }
 
   g->sound(posx, posy, 16, "");
 // Dump its contents on the ground
