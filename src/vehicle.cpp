@@ -1962,7 +1962,6 @@ int vehicle::safe_velocity (bool fueled)
 int vehicle::noise (bool fueled, bool gas_only)
 {
     int pwrs = 0;
-    int cnt = 0;
     int muffle = 100;
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, "MUFFLER") && parts[p].hp > 0 && part_info(p).bonus < muffle) {
@@ -1974,23 +1973,27 @@ int vehicle::noise (bool fueled, bool gas_only)
         if (part_flag(p, "ENGINE") &&
             (fuel_left (part_info(p).fuel_type) || !fueled ||
              part_info(p).fuel_type == fuel_type_muscle) &&
-            parts[p].hp > 0)
-        {
+            parts[p].hp > 0)  {
             int nc = 10;
 
-            if( part_info(p).fuel_type == fuel_type_gasoline )    nc = 25;
-            else if( part_info(p).fuel_type == fuel_type_plasma ) nc = 10;
-            else if( part_info(p).fuel_type == fuel_type_battery )   nc = 3;
-            else if( part_info(p).fuel_type == fuel_type_muscle ) nc = 5;
+            if( part_info(p).fuel_type == fuel_type_gasoline ) {
+                nc = 25; 
+            } else if( part_info(p).fuel_type == fuel_type_plasma ) {
+                nc = 10;
+            } else if( part_info(p).fuel_type == fuel_type_battery ) {
+                nc = 3;
+            } else if( part_info(p).fuel_type == fuel_type_muscle ) {
+                nc = 5;
+            }
 
-            if (!gas_only || part_info(p).fuel_type == fuel_type_gasoline)
-            {
+            if (!gas_only || part_info(p).fuel_type == fuel_type_gasoline) {
                 int pwr = part_power(p) * nc / 100;
                 if (muffle < 100 && (part_info(p).fuel_type == fuel_type_gasoline ||
-                    part_info(p).fuel_type == fuel_type_plasma))
+                                     part_info(p).fuel_type == fuel_type_plasma)) {
                     pwr = pwr * muffle / 100;
-                pwrs += pwr;
-                cnt++;
+                }
+                // Only the loudest engine counts.
+                pwrs = std::max(pwrs, pwr);
             }
         }
     }
