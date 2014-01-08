@@ -31,7 +31,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "DIGGABLE"],
+        "flags": ["TRANSPARENT", "DIGGABLE", "MOUNTABLE"],
         "examine_action": "dirtmound"
     },{
         "type" : "terrain",
@@ -103,7 +103,7 @@
         "symbol": "^",
         "color": "ltgray",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "ROUGH", "DIGGABLE"],
+        "flags": ["TRANSPARENT", "ROUGH", "DIGGABLE", "MOUNTABLE"],
         "examine_action": "rubble"
     },{
         "type" : "terrain",
@@ -130,7 +130,7 @@
         "symbol": "#",
         "color": "cyan",
         "move_cost": 5,
-        "flags": ["TRANSPARENT", "ROUGH", "SHARP", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE"],
         "examine_action": "wreckage"
     },{
         "type" : "terrain",
@@ -264,7 +264,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT"]
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"]
     },{
         "type" : "terrain",
         "id" : "t_wall_log",
@@ -372,7 +372,7 @@
         "symbol": "#",
         "color": "ltred",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT"]
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"]
     },{
         "type" : "terrain",
         "id" : "t_wall_wood",
@@ -716,7 +716,7 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH", "DOOR"],
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH", "DOOR", "MOUNTABLE"],
         "open": "t_fencegate_o",
         "bash": {
             "str_min": 2, "str_max": 30, "str_min_blocked": 4, "str_max_blocked": 40,
@@ -978,7 +978,7 @@
         "symbol": "'",
         "color": "ltcyan",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE" ],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "MOUNTABLE" ],
         "close": "t_window_domestic"
     },{
         "type" : "terrain",
@@ -1046,7 +1046,7 @@
         "color": "yellow",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF"
+            "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE"
         ]
     },{
         "type" : "terrain",
@@ -1056,7 +1056,7 @@
         "color": "ltcyan",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"
+            "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "MOUNTABLE"
         ]
     },{
         "type" : "terrain",
@@ -1245,7 +1245,7 @@
         "symbol": "1",
         "color": "brown",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT"]
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE"]
     },{
         "type" : "terrain",
         "id" : "t_root_wall",
@@ -1278,7 +1278,7 @@
         "color": "brown",
         "move_cost": 3,
         "flags": [
-            "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT"
+            "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT", "MOUNTABLE"
         ],
         "bash": {
             "str_min": 1, "str_max": 10,
@@ -1299,7 +1299,7 @@
         "color": "brown",
         "move_cost": 3,
         "flags": [
-            "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT"
+            "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT", "MOUNTABLE"
         ],
         "bash": {
             "str_min": 1, "str_max": 10,
@@ -1412,7 +1412,7 @@
         "symbol": "|",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE"]
+        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE"]
     },{
         "type" : "terrain",
         "id" : "t_railing_h",
@@ -1420,7 +1420,7 @@
         "symbol": "-",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE"]
+        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE"]
     },{
         "type" : "terrain",
         "id" : "t_marloss",
@@ -1504,7 +1504,7 @@
         "symbol": "#",
         "color": "ltgray",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "THIN_OBSTACLE", "FLAMMABLE_ASH", "FUNGUS"]
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE"]
     },{
         "type" : "terrain",
         "id" : "t_shrub_fungal",
@@ -1591,7 +1591,7 @@
         "symbol": "#",
         "color": "ltcyan",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "DECONSTRUCT"]
+        "flags": ["TRANSPARENT", "DECONSTRUCT", "MOUNTABLE"]
     },{
         "type" : "terrain",
         "id" : "t_monkey_bars",
@@ -1599,7 +1599,7 @@
         "symbol": "#",
         "color": "cyan",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "DECONSTRUCT"]
+        "flags": ["TRANSPARENT", "DECONSTRUCT", "MOUNTABLE"]
     },{
         "type" : "terrain",
         "id" : "t_backboard",
@@ -1632,7 +1632,7 @@
         "symbol": "&",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT"]
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"]
     },{
         "type" : "terrain",
         "id" : "t_missile",
@@ -1724,7 +1724,7 @@
         "symbol": "1",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT"]
+        "flags": ["TRANSPARENT", "MOUNTABLE"]
     },{
         "type" : "terrain",
         "id" : "t_sewage_pump",
@@ -1732,7 +1732,7 @@
         "symbol": "&",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["NOITEM", "REDUCE_SCENT"]
+        "flags": ["NOITEM", "REDUCE_SCENT", "MOUNTABLE"]
     },{
         "type" : "terrain",
         "id" : "t_centrifuge",
@@ -1904,7 +1904,7 @@
         "symbol": "&",
         "color": "dkgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT", "MOUNTABLE"],
         "examine_action": "pedestal_wyrm"
     },{
         "type" : "terrain",
@@ -1913,7 +1913,7 @@
         "symbol": "&",
         "color": "white",
         "move_cost": 0,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT", "MOUNTABLE"],
         "examine_action": "pedestal_temple"
     },{
         "type" : "terrain",

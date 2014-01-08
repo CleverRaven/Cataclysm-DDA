@@ -4570,13 +4570,19 @@ void map::add_road_vehicles(bool city, int facing)
                     add_vehicle("ambulance", vx, vy, facing, -1, 1);
                 } else if (car_type <= 45) {
                     add_vehicle("beetle", vx, vy, facing, -1, 1);
+                } else if (car_type <= 48) {
+                    add_vehicle("car_sports", vx, vy, facing, -1, 1);
                 } else if (car_type <= 50) {
                     add_vehicle("scooter", vx, vy, facing, -1, 1);
+                } else if (car_type <= 53) {
+                    add_vehicle("scooter_electric", vx, vy, facing, -1, 1);
                 } else if (car_type <= 55) {
                     add_vehicle("motorcycle", vx, vy, facing, -1, 1);
                 } else if (car_type <= 65) {
                     add_vehicle("hippie_van", vx, vy, facing, -1, 1);
                 } else if (car_type <= 70) {
+                    add_vehicle("cube_van_cheap", vx, vy, facing, -1, 1);
+                } else if (car_type <= 75) {
                     add_vehicle("cube_van", vx, vy, facing, -1, 1);
                 } else if (car_type <= 80) {
                     add_vehicle("electric_car", vx, vy, facing, -1, 1);
@@ -4584,6 +4590,12 @@ void map::add_road_vehicles(bool city, int facing)
                     add_vehicle("flatbed_truck", vx, vy, facing, -1, 1);
                 } else if (car_type <= 95) {
                     add_vehicle("rv", vx, vy, facing, -1, 1);
+                } else if (car_type <= 96) {
+                    add_vehicle("lux_rv", vx, vy, facing, -1, 1);
+                } else if (car_type <= 98) {
+                    add_vehicle("meth_lab", vx, vy, facing, -1, 1);
+                } else if (car_type <= 99) {
+                    add_vehicle("apc", vx, vy, facing, -1, 1);
                 } else {
                     add_vehicle("motorcycle_sidecart", vx, vy, facing, -1, 1);
                 }
@@ -4691,10 +4703,16 @@ void map::add_road_vehicles(bool city, int facing)
             int car_type = rng(1, 10);
             if (car_type <= 5) {
                 add_vehicle("car", vx, vy, facing, 0, -1);
+            } else if (car_type <= 7) {
+                add_vehicle("car_sports", vx, vy, facing, 0, -1);
             } else if (car_type <= 8) {
                 add_vehicle("flatbed_truck", vx, vy, facing, 0, -1);
             } else if (car_type <= 9) {
                 add_vehicle("semi_truck", vx, vy, facing, 0, -1);
+            } else if (car_type <= 10) {
+                add_vehicle("humvee", vx, vy, facing, 0, -1);
+            } else if (car_type <= 12) {
+                add_vehicle("apc", vx, vy, facing, 0, -1);
             } else {
                 add_vehicle("armored_car", vx, vy, facing, 0, -1);
             }
