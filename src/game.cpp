@@ -9270,6 +9270,10 @@ void game::grab()
             u.grab_type = OBJECT_VEHICLE;
             add_msg(_("You grab the %s."), veh->name.c_str());
         } else if ( m.has_furn( grabx, graby ) ) { // If not, grab furniture if present
+            if (m.furn_at(grabx, graby).move_str_req < 0) {
+                add_msg(_("You can not grab the %s"), m.furnname( grabx, graby).c_str());
+                return;
+            }
             u.grab_point.x = grabx - u.posx;
             u.grab_point.y = graby - u.posy;
             u.grab_type = OBJECT_FURNITURE;
