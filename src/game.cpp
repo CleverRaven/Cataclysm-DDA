@@ -4436,7 +4436,7 @@ void game::draw_ter(int posx, int posy)
             POSX + (final_destination.x - (u.posx + u.view_offset_x)), c_white, 'X');
     }
 
-    if(OPTIONS["VEHICLE_DIR_INDICATOR"]) {
+    if(u.controlling_vehicle) {
       draw_veh_dir_indicator();
     }
     wrefresh(w_terrain);
@@ -4448,7 +4448,7 @@ void game::draw_ter(int posx, int posy)
 }
 
 void game::draw_veh_dir_indicator(void) {
-  if(u.controlling_vehicle) {
+  if(OPTIONS["VEHICLE_DIR_INDICATOR"]) {
     vehicle *veh = m.veh_at(u.posx, u.posy);
     if(!veh) {
       debugmsg("game::draw_veh_dir_indicator: no vehicle!");
