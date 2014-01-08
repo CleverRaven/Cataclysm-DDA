@@ -1866,7 +1866,7 @@
         "symbol" : "#",
         "color" : "red",
         "broken_symbol" : "#",
-        "broken_color" : "light_grey",
+        "broken_color" : "light_gray",
         "damage_modifier" : 60,
         "durability" : 145,
         "size" : 15,

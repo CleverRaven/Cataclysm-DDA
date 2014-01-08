@@ -4208,7 +4208,7 @@ int iuse::can_goo(player *p, item *it, bool)
  return it->type->charges_to_use();
 }
 
-int iuse::throwable_extinguisher_act(player *p, item *it, bool)
+int iuse::throwable_extinguisher_act(player *, item *it, bool)
 {
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999) {
