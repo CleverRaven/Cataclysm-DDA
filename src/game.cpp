@@ -7374,7 +7374,7 @@ void game::examine(int examx, int examy)
         } else if (u.controlling_vehicle) {
             add_msg (_("You can't do that while driving."));
         } else if (abs(veh->velocity) > 0) {
-            add_msg (_("You can't do that on moving vehicle."));
+            add_msg (_("You can't do that on a moving vehicle."));
         } else {
             exam_vehicle (*veh, examx, examy);
         }
