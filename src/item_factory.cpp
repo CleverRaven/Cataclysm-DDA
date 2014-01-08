@@ -153,6 +153,7 @@ void Item_factory::init(){
     iuse_function_list["GEIGER"] = &iuse::geiger;
     iuse_function_list["TELEPORT"] = &iuse::teleport;
     iuse_function_list["CAN_GOO"] = &iuse::can_goo;
+    iuse_function_list["THROWABLE_EXTINGUISHER_ACT"] = &iuse::throwable_extinguisher_act;
     iuse_function_list["PIPEBOMB"] = &iuse::pipebomb;
     iuse_function_list["PIPEBOMB_ACT"] = &iuse::pipebomb_act;
     iuse_function_list["GRENADE"] = &iuse::grenade;
