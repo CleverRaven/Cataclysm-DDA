@@ -2343,7 +2343,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
  }
 
  // Check if the player is wielding ammo
- if (g->u.is_armed() && g->u.weapon.is_ammo()){
+ if (u.is_armed() && u.weapon.is_ammo()){
      // if it is compatible then include it.
      it_ammo* w_ammo = dynamic_cast<it_ammo*>(u.weapon.type);
      if (w_ammo->type == ammo_type())
@@ -2385,13 +2385,13 @@ int item::pick_reload_ammo(player &u, bool interactive)
      }
      amenu.query();
      if ( amenu.ret >= 0 ) {
-        am_pos = g->u.get_item_position(am[ amenu.ret ]);
+        am_pos = u.get_item_position(am[ amenu.ret ]);
         uistate.lastreload[ ammo_type() ] = am[ amenu.ret ]->typeId();
      }
  }
  // Either only one valid choice or chosing for a NPC, just return the first.
  else if (am.size() > 0){
-     am_pos = g->u.get_item_position(am[0]);
+     am_pos = u.get_item_position(am[0]);
  }
  return am_pos;
 }

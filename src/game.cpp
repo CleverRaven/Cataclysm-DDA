@@ -1777,12 +1777,12 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
 
         int offset_line = 0;
         int max_line = 0;
-        std::string str;
-        str += oThisItem.info(true, &vThisItem);
+        const std::string str = oThisItem.info(true, &vThisItem);
+        const std::string item_name = oThisItem.tname();
         WINDOW *w = newwin(TERMY-VIEW_OFFSET_Y*2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
 
         wmove(w, 1, 2);
-        wprintz(w, c_white, "%s", oThisItem.tname().c_str());
+        wprintz(w, c_white, "%s", item_name.c_str());
         max_line = fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str.c_str());
         if(max_line > TERMY-VIEW_OFFSET_Y*2 - 5) {
           wmove(w, 1, iWidth - 3);
@@ -1894,7 +1894,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
               }
             }
             wmove(w, 1, 2);
-            wprintz(w, c_white, "%s", oThisItem.tname().c_str());
+            wprintz(w, c_white, "%s", item_name.c_str());
             fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str.c_str());
             draw_border(w);
             wrefresh(w);
@@ -4845,9 +4845,9 @@ bool game::sees_u(int x, int y, int &t)
         const monster &critter = critter_tracker.find(mondex);
         return critter.sees_player(t);
     }
-    // range = 0 = unlimited, proceeding sans critter
+    // range = -1 = unlimited, proceeding sans critter
     return (
-        m.sees(x, y, u.posx, u.posy, 0, t) &&
+        m.sees(x, y, u.posx, u.posy, -1, t) &&
         ! u.is_invisible()
     );
 }
@@ -9270,6 +9270,10 @@ void game::grab()
             u.grab_type = OBJECT_VEHICLE;
             add_msg(_("You grab the %s."), veh->name.c_str());
         } else if ( m.has_furn( grabx, graby ) ) { // If not, grab furniture if present
+            if (m.furn_at(grabx, graby).move_str_req < 0) {
+                add_msg(_("You can not grab the %s"), m.furnname( grabx, graby).c_str());
+                return;
+            }
             u.grab_point.x = grabx - u.posx;
             u.grab_point.y = graby - u.posy;
             u.grab_type = OBJECT_FURNITURE;
