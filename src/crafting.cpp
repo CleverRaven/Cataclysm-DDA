@@ -291,6 +291,7 @@ bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
             itype_id type = tool.type;
             int req = tool.count;
             if ( (req<= 0 && crafting_inv.has_amount(type, 1)) ||
+                 (req<= 0 && (type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses"))) ||
                  (req > 0 && crafting_inv.has_charges(type, req))) {
                 has_tool_in_set = true;
                 tool.available = 1;
@@ -806,6 +807,10 @@ recipe* game::select_crafting_recipe()
                         {
                             toolcol = c_green;
                         }
+                        else if ((type == "goggles_welding") && u.has_bionic("bio_sunglasses"))
+                        {
+                            toolcol = c_cyan;
+                        }
 
                         std::stringstream toolinfo;
                         toolinfo << item_controller->find_template(type)->name << " ";
@@ -1282,7 +1287,8 @@ void game::complete_craft()
   skill_dice -= main_rank_penalty * 4;
  }
 
- //It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor, not inability to see what you're doing
+ // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
+ // not inability to see what you're doing
  if (u.has_trait("PAWS")) {
   int paws_rank_penalty = 0;
   if (making->skill_used == Skill::skill("electronics")) {

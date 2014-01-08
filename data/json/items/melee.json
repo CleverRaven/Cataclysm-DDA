@@ -1371,7 +1371,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "fork",
-    "description": "A fork, if you stab something with it you eat it right away. Wait.. nevermind.",
+    "description": "A fork, if you stab something with it you eat it right away. Wait... nevermind.",
     "price": 15,
     "material": "steel",
     "weight": 48,

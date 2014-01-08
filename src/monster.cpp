@@ -267,7 +267,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
   damage_info = _("It is heavily injured");
   col = c_yellow;
  } else if (hp >= type->hp * .1) {
-  damage_info = _("It is severly injured");
+  damage_info = _("It is severely injured");
   col = c_ltred;
  } else {
   damage_info = _("it is nearly dead");
