@@ -91,10 +91,10 @@
     },{
         "type" : "bionic",
         "id" : "bio_sunglasses",
-    "name"       :    "Transition lenses",
+    "name"       :    "Anti-glare Compensators",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "Your eyes have quick-reacting transition lenses installed over them, negating any glare penalties and partially protecting you from bright flashes."
+    "description":    "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding."
     },{
         "type" : "bionic",
         "id" : "bio_targeting",
