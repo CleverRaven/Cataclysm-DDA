@@ -1323,9 +1323,19 @@
         "id" : "POISONOUS",
         "name" : "Poisonous",
         "points" : 8,
-        "description" : "Your body produces a potent venom. Any special attacks from mutations have a chance to poison your target.",
+        "description" : "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
         "prereqs" : ["POISRESIST"],
+        "changes_to" : ["POISONOUS2"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
+        "id" : "POISONOUS2",
+        "name" : "Venomous",
+        "points" : 10,
+        "description" : "Your venom has become particularly strong.  You're confident that your bites or other cutting/stabbing natural attacks will take your target down quickly.",
+        "prereqs" : ["POISONOUS"],
+        "threshreq" : ["THRESH_SPIDER"],
+        "category" : ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "SLIME_HANDS",
