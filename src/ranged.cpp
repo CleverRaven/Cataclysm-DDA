@@ -45,7 +45,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
 
     std::vector<point> trajectory;
     int tart = 0;
-    if (g->m.sees(sourcex, sourcey, targetx, targety, 0, tart)) {
+    if (g->m.sees(sourcex, sourcey, targetx, targety, -1, tart)) {
         trajectory = line_to(sourcex,sourcey,targetx,targety,tart);
     } else {
         trajectory = line_to(sourcex,sourcey,targetx,targety,0);
