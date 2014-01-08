@@ -2900,6 +2900,24 @@ int iuse::touristmap(player *p, item *it, bool t)
  return 1;
 }
 
+int iuse::ma_manual (player *p, item *it, bool) {
+  std::string style_to_learn = "style_" + it->type->id.substr(7); // strip "manual_" from the start of the item id, add the rest to "style_"
+
+  for (std::vector<matype_id>::iterator style = p->ma_styles.begin(); style != p->ma_styles.end(); style++) {
+    if (style_to_learn == *style) {
+      g->add_msg_if_player(p, _("You already know all this book has to teach."));
+
+      return 0;
+    }
+  }
+
+  p->ma_styles.push_back(style_to_learn);
+
+  g->add_msg_if_player(p, _("You learn what you can, and stow the book for further study."));
+
+  return 1;
+}
+
 int iuse::picklock(player *p, item *it, bool)
 {
  int dirx, diry;
