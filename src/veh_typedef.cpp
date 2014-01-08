@@ -277,7 +277,7 @@ void init_vpart_bitflag_map() {
     vpart_bitflag_map["FUEL_TANK"]= VPFLAG_FUEL_TANK;
     vpart_bitflag_map["LIGHT"]=     VPFLAG_LIGHT;
     vpart_bitflag_map["WINDOW"]=     VPFLAG_WINDOW;
-    vpart_bitflag_map["CURTIAN"]=     VPFLAG_CURTIAN;
+    vpart_bitflag_map["CURTAIN"]=     VPFLAG_CURTAIN;
     vpart_bitflag_map["CARGO"]=     VPFLAG_CARGO;
     vpart_bitflag_map["INTERNAL"]=     VPFLAG_INTERNAL;
     vpart_bitflag_map["SOLAR_PANEL"]=     VPFLAG_SOLAR_PANEL;
