@@ -1093,11 +1093,11 @@ double player::get_weapon_dispersion(item *weapon) {
     }
     double dispersion = 0.; // Measured in quarter-degrees.
     // Up to 0.75 degrees for each skill point < 8.
-    if (weapon_skill_level < 8) {
+    if ( (weapon_skill_level + weapon->skill_mod()) < 8) {
         dispersion += rng(0, 3 * (8 - (weapon_skill_level + weapon->skill_mod())));
     }
     // Up to 0.25 deg per each skill point < 9.
-    if (skillLevel("gun") < 9) {
+    if ( (skillLevel("gun") + weapon->skill_mod()) < 9) {
         dispersion += rng(0, 9 - (skillLevel("gun") + weapon->skill_mod()));
     }
 
