@@ -3172,7 +3172,7 @@
             {"x": -2, "y": 2, "part": "hdframe_vertical"},
             {"x": -2, "y": 2, "part": "door"},
             {"x": -2, "y": 2, "part": "roof"},
-            {"x": -3, "y": -2, "part": "frame_sw"},
+            {"x": -3, "y": -2, "part": "hdframe_sw"},
             {"x": -3, "y": -2, "part": "board_sw"},
             {"x": -3, "y": -2, "part": "roof"},
             {"x": -3, "y": -1, "part": "hdframe_horizontal"},
