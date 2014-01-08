@@ -2317,10 +2317,16 @@ int item::pick_reload_ammo(player &u, bool interactive)
   // or the spare mag is loaded and we're doing a tactical reload.
   if (charges < clip_size() ||
       (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
-   std::vector<item*> tmpammo = u.has_ammo(ammo_type());
-   for (int i = 0; i < tmpammo.size(); i++)
-    if (charges <= 0 || tmpammo[i]->typeId() == curammo->id)
-      am.push_back(tmpammo[i]);
+        std::vector<item*> tmpammo = u.has_ammo(ammo_type());
+        for (int i = 0; i < tmpammo.size(); i++)
+        {
+            if (charges <= 0 || tmpammo[i]->typeId() == curammo->id ) {
+                am.push_back(tmpammo[i]);
+            } else if (tmpammo[i]->is_container() && !tmpammo[i]->contents.empty() &&
+                    tmpammo[i]->contents[0].typeId() == curammo->id) {
+                am.push_back(tmpammo[i]);
+            }
+        }
   }
 
   // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
@@ -2402,10 +2408,13 @@ bool item::reload(player &u, int pos)
  int max_load = 1;
  item *reload_target = NULL;
  item *ammo_to_use = &u.i_at(pos);
+ item *ammo_container = NULL;
 
- // Handle ammo in containers, currently only gasoline
- if(ammo_to_use && ammo_to_use->is_container())
-   ammo_to_use = &ammo_to_use->contents[0];
+    // Handle ammo in containers, currently only gasoline
+    if (ammo_to_use->is_container()) {
+        ammo_container = ammo_to_use;
+        ammo_to_use = &ammo_to_use->contents[0];
+    }
 
  if (is_gun()) {
   // Reload using a spare magazine
@@ -2511,16 +2520,14 @@ bool item::reload(player &u, int pos)
     reload_target->charges = max_load;
    }
   }
-  if (ammo_to_use->charges == 0)
-  {
-      if (ammo_to_use->is_container())
-      {
-          ammo_to_use->contents.erase(ammo_to_use->contents.begin());
-      }
-      else {
+    if (ammo_to_use->charges == 0)
+    {
+        if (ammo_container != NULL) {
+            ammo_container->contents.erase(ammo_container->contents.begin());
+        } else {
           u.i_rem(pos);
-      }
-  }
+        }
+    }
   return true;
  } else
   return false;
