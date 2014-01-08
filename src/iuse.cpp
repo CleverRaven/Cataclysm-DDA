@@ -6980,27 +6980,36 @@ int iuse::unfold_bicycle(player *p, item *it, bool)
         // Restore HP of parts if we stashed them previously.
         if( it->item_vars.count("folding_bicycle_parts") ) {
             std::istringstream veh_data;
-            veh_data.str(it->item_vars["folding_bicycle_parts"]);
-            try {
-                JsonIn json(veh_data);
-                // Load parts into a temporary vector to not override
-                // cached values (like precalc_dx, passenger_id, ...)
-                std::vector<vehicle_part> parts;
-                json.read(parts);
-                for(size_t i = 0; i < parts.size() && i < bicycle->parts.size(); i++) {
-                    const vehicle_part &src = parts[i];
-                    vehicle_part &dst = bicycle->parts[i];
-                    // and now only copy values, that are
-                    // expected to be consistent.
-                    dst.hp = src.hp;
-                    dst.blood = src.blood;
-                    dst.bigness = src.bigness;
-                    // door state/amount of fuel/direction of headlight
-                    dst.amount = src.amount;
-                    dst.flags = src.flags;
+            const std::string &data = it->item_vars["folding_bicycle_parts"];
+            veh_data.str(data);
+            if (!data.empty() && data[0] >= '0' && data[0] <= '9') {
+                // starts with a digit -> old format
+                for (int p = 0; p < bicycle->parts.size(); p++)
+                {
+                    veh_data >> bicycle->parts[p].hp;
                 }
-            } catch(std::string e) {
-                debugmsg("Error restoring vehicle: %s", e.c_str());
+            } else {
+                try {
+                    JsonIn json(veh_data);
+                    // Load parts into a temporary vector to not override
+                    // cached values (like precalc_dx, passenger_id, ...)
+                    std::vector<vehicle_part> parts;
+                    json.read(parts);
+                    for(size_t i = 0; i < parts.size() && i < bicycle->parts.size(); i++) {
+                        const vehicle_part &src = parts[i];
+                        vehicle_part &dst = bicycle->parts[i];
+                        // and now only copy values, that are
+                        // expected to be consistent.
+                        dst.hp = src.hp;
+                        dst.blood = src.blood;
+                        dst.bigness = src.bigness;
+                        // door state/amount of fuel/direction of headlight
+                        dst.amount = src.amount;
+                        dst.flags = src.flags;
+                    }
+                } catch(std::string e) {
+                    debugmsg("Error restoring vehicle: %s", e.c_str());
+                }
             }
         }
         g->add_msg_if_player(p, _("You painstakingly unfold the bicycle and make it ready to ride."));
