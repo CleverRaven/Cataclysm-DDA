@@ -31,16 +31,20 @@ const char * pgettext(const char *context, const char *msgid)
 #else // !LOCALIZE
 
 // sanitized message cache
-std::map<const char*,std::string> sanitized_messages;
+std::map<const char *, std::string> &sanitized_messages()
+{
+    static std::map<const char *, std::string> sanitized_messages;
+    return sanitized_messages;
+}
 
 const char * strip_positional_formatting(const char *msgid)
 {
     // first check if we have it cached
-    if (sanitized_messages.find(msgid) != sanitized_messages.end()) {
-        if (sanitized_messages[msgid] == "") {
+    if (sanitized_messages().find(msgid) != sanitized_messages().end()) {
+        if (sanitized_messages()[msgid] == "") {
             return msgid;
         } else {
-            return sanitized_messages[msgid].c_str();
+            return sanitized_messages()[msgid].c_str();
         }
     }
     std::string s(msgid);
@@ -74,11 +78,11 @@ const char * strip_positional_formatting(const char *msgid)
     }
 
     if (!changed) {
-        sanitized_messages[msgid] = "";
+        sanitized_messages()[msgid] = "";
         return msgid;
     } else {
-        sanitized_messages[msgid] = s;
-        return sanitized_messages[msgid].c_str();
+        sanitized_messages()[msgid] = s;
+        return sanitized_messages()[msgid].c_str();
     }
     return msgid;
 }

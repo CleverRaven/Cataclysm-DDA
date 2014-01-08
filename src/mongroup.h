@@ -94,6 +94,9 @@ class MonsterGroupManager {
         static std::string Monster2Group(std::string);
         static std::vector<std::string> GetMonstersFromGroup(std::string);
         static MonsterGroup GetMonsterGroup(std::string group);
+        static bool isValidMonsterGroup(std::string group);
+
+        static void check_group_definitions();
 
     private:
         static std::map<std::string, MonsterGroup> monsterGroupMap;

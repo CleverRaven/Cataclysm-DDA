@@ -9,7 +9,7 @@
 #define LIGHTMAP_CACHE_X SEEX * MAPSIZE
 #define LIGHTMAP_CACHE_Y SEEY * MAPSIZE
 
-void map::generate_lightmap(game* g)
+void map::generate_lightmap()
 {
  memset(lm, 0, sizeof(lm));
  memset(sm, 0, sizeof(sm));
@@ -142,7 +142,7 @@ void map::generate_lightmap(game* g)
   int mx = g->zombie(i).posx();
   int my = g->zombie(i).posy();
   if (INBOUNDS(mx, my)) {
-   if (g->zombie(i).has_effect(ME_ONFIRE)) {
+   if (g->zombie(i).has_effect("onfire")) {
      apply_light_source(mx, my, 3, trigdist);
    }
    // TODO: [lightmap] Attach natural light brightness to creatures
@@ -161,7 +161,7 @@ void map::generate_lightmap(game* g)
      int dir = vehs[v].v->face.dir();
      float veh_luminance=0.0;
      float iteration=1.0;
-     std::vector<int> light_indices = vehs[v].v->all_parts_with_feature("CONE_LIGHT");
+     std::vector<int> light_indices = vehs[v].v->all_parts_with_feature(VPFLAG_CONE_LIGHT);
      for (std::vector<int>::iterator part = light_indices.begin();
           part != light_indices.end(); ++part) {
              veh_luminance += ( vehs[v].v->part_info(*part).bonus / iteration );
@@ -179,13 +179,13 @@ void map::generate_lightmap(game* g)
      }
    }
    if(vehs[v].v->overhead_lights_on) {
-       std::vector<int> light_indices = vehs[v].v->all_parts_with_feature("CIRCLE_LIGHT");
+       std::vector<int> light_indices = vehs[v].v->all_parts_with_feature(VPFLAG_CIRCLE_LIGHT);
        for (std::vector<int>::iterator part = light_indices.begin();
             part != light_indices.end(); ++part) {
-           if((g->turn % 2 && vehs[v].v->part_info(*part).has_flag("ODDTURN")) ||
-              (!(g->turn % 2) && vehs[v].v->part_info(*part).has_flag("EVENTURN")) ||
-              (!vehs[v].v->part_info(*part).has_flag("EVENTURN") &&
-               !vehs[v].v->part_info(*part).has_flag("ODDTURN"))) {
+           if((g->turn % 2 && vehs[v].v->part_info(*part).has_flag(VPFLAG_ODDTURN)) ||
+              (!(g->turn % 2) && vehs[v].v->part_info(*part).has_flag(VPFLAG_EVENTURN)) ||
+              (!vehs[v].v->part_info(*part).has_flag(VPFLAG_EVENTURN) &&
+               !vehs[v].v->part_info(*part).has_flag(VPFLAG_ODDTURN))) {
                int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
                int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
                if(INBOUNDS(px, py)) {
@@ -279,24 +279,24 @@ bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
  * @param starty the vertical component of the starting location
  * @param radius the maximum distance to draw the FOV
  */
-void map::build_seen_cache( game *g ) {
+void map::build_seen_cache() {
     memset(seen_cache, false, sizeof(seen_cache));
     seen_cache[g->u.posx][g->u.posy] = true;
 
-    castLight( g, 1, 1.0f, 0.0f, 0, 1, 1, 0 );
-    castLight( g, 1, 1.0f, 0.0f, 1, 0, 0, 1 );
+    castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0 );
+    castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1 );
 
-    castLight( g, 1, 1.0f, 0.0f, 0, -1, 1, 0 );
-    castLight( g, 1, 1.0f, 0.0f, -1, 0, 0, 1 );
+    castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0 );
+    castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1 );
 
-    castLight( g, 1, 1.0f, 0.0f, 0, 1, -1, 0 );
-    castLight( g, 1, 1.0f, 0.0f, 1, 0, 0, -1 );
+    castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0 );
+    castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1 );
 
-    castLight( g, 1, 1.0f, 0.0f, 0, -1, -1, 0 );
-    castLight( g, 1, 1.0f, 0.0f, -1, 0, 0, -1 );
+    castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0 );
+    castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1 );
 }
 
-void map::castLight( game *g, int row, float start, float end, int xx, int xy, int yx, int yy ) {
+void map::castLight( int row, float start, float end, int xx, int xy, int yx, int yy ) {
     float newStart = 0.0f;
     float radius = 60.0f;
     if( start < end ) {
@@ -342,7 +342,7 @@ void map::castLight( game *g, int row, float start, float end, int xx, int xy, i
                     distance < radius ) {
                     //hit a wall within sight line
                     blocked = true;
-                    castLight(g, distance + 1, start, leftSlope, xx, xy, yx, yy);
+                    castLight(distance + 1, start, leftSlope, xx, xy, yx, yy);
                     newStart = rightSlope;
                 }
             }
@@ -352,7 +352,7 @@ void map::castLight( game *g, int row, float start, float end, int xx, int xy, i
 
 void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc )
 {
- bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
+ static bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
  memset(lit, 0, sizeof(lit));
 
  if (INBOUNDS(x, y)) {
@@ -411,7 +411,7 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
  if (luminance <= LIGHT_SOURCE_LOCAL)
   return;
 
- bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
+ static bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
  memset(lit, 0, sizeof(lit));
 
  #define lum_mult 3.0
@@ -504,7 +504,8 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
 
 
  float transparency = LIGHT_TRANSPARENCY_CLEAR;
-
+ float light=0.0;
+ int td = 0;
  // TODO: [lightmap] Pull out the common code here rather than duplication
  if (ax > ay) {
   int t = ay - (ax >> 1);
@@ -517,23 +518,23 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
    x += dx;
    t += ay;
 
-   if (INBOUNDS(x, y) && !lit[x][y]) {
+ if (INBOUNDS(x, y)) {
+  if (!lit[x][y]) {
     // Multiple rays will pass through the same squares so we need to record that
     lit[x][y] = true;
 
     // We know x is the longest angle here and squares can ignore the abs calculation
-    float light=0.0;
+    light=0.0;
     if ( trig_brightcalc ) {
-      int td = trig_dist(sx, sy, x, y);
+      td = trig_dist(sx, sy, x, y);
       light = luminance / ( td * td );
     } else {
       light = luminance / ((sx - x) * (sx - x));
     }
     lm[x][y] += light * transparency;
-   }
-
-   if (INBOUNDS(x, y))
-     transparency *= light_transparency(x, y);
+  }
+  transparency *= light_transparency(x, y);
+ }
 
    if (transparency <= LIGHT_TRANSPARENCY_SOLID)
     break;
@@ -550,23 +551,23 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
    y += dy;
    t += ax;
 
-   if (INBOUNDS(x, y) && !lit[x][y]) {
+ if (INBOUNDS(x, y)) {
+  if(!lit[x][y]) {
     // Multiple rays will pass through the same squares so we need to record that
     lit[x][y] = true;
 
     // We know y is the longest angle here and squares can ignore the abs calculation
-    float light=0.0;
+    light=0.0;
     if ( trig_brightcalc ) {
-      int td = trig_dist(sx, sy, x, y);
+      td = trig_dist(sx, sy, x, y);
       light = luminance / ( td * td );
     } else {
       light = luminance / ((sy - y) * (sy - y));
     }
     lm[x][y] += light * transparency;
-   }
-
-   if (INBOUNDS(x, y))
-    transparency *= light_transparency(x, y);
+  }
+  transparency *= light_transparency(x, y);
+ }
 
    if (transparency <= LIGHT_TRANSPARENCY_SOLID)
     break;

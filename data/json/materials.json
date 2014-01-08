@@ -73,6 +73,42 @@
         "density" : 1
     },{
         "type" : "material",
+        "ident" : "water",
+        "name" : "Water",
+        "bash_resist" : 0,
+        "cut_resist" : 0,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "lightly damaged",
+            "damaged",
+            "very damaged",
+            "thoroughly damaged"
+        ],
+        "acid_resist" : 0,
+        "elec_resist" : 0,
+        "fire_resist" : 0,
+        "density" : 1
+    },{
+        "type" : "material",
+        "ident" : "milk",
+        "name" : "Milk",
+        "bash_resist" : 0,
+        "cut_resist" : 0,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "lightly damaged",
+            "damaged",
+            "very damaged",
+            "thoroughly damaged"
+        ],
+        "acid_resist" : 0,
+        "elec_resist" : 0,
+        "fire_resist" : 0,
+        "density" : 1
+    },{
+        "type" : "material",
         "ident" : "hflesh",
         "name" : "Human Flesh",
         "bash_resist" : 1,
@@ -161,6 +197,42 @@
         "elec_resist" : 2,
         "fire_resist" : 1,
         "density" : 10
+    },{
+        "type" : "material",
+        "ident" : "nofixkevlar",
+        "name" : "Kevlar",
+        "bash_resist" : 2,
+        "cut_resist" : 4,
+        "bash_dmg_verb" : "ripped",
+        "cut_dmg_verb" : "cut",
+        "dmg_adj" : [
+            "marked",
+            "dented",
+            "scarred",
+            "broken"
+        ],
+        "acid_resist" : 2,
+        "elec_resist" : 2,
+        "fire_resist" : 1,
+        "density" : 10
+    },{
+        "type" : "material",
+        "ident" : "ceramic",
+        "name" : "Ceramic",
+        "bash_resist" : 2,
+        "cut_resist" : 6,
+        "bash_dmg_verb" : "cracked",
+        "cut_dmg_verb" : "cut",
+        "dmg_adj" : [
+            "chipped",
+            "cracked",
+            "split",
+            "broken"
+        ],
+        "acid_resist" : 6,
+        "elec_resist" : 10,
+        "fire_resist" : 10,
+        "density" : 8
     },{
         "type" : "material",
         "ident" : "fur",
@@ -340,7 +412,43 @@
         "acid_resist" : 0,
         "elec_resist" : 0,
         "fire_resist" : 2,
-        "density" : 52
+        "density" : 30
+    },{
+        "type" : "material",
+        "ident" : "superalloy",
+        "name" : "Superalloy",
+        "bash_resist" : 6,
+        "cut_resist" : 6,
+        "bash_dmg_verb" : "dented",
+        "cut_dmg_verb" : "scratched",
+        "dmg_adj" : [
+            "marked",
+            "dented",
+            "smashed",
+            "shattered"
+        ],
+        "acid_resist" : 0,
+        "elec_resist" : 0,
+        "fire_resist" : 2,
+        "density" : 26
+    },{
+        "type" : "material",
+        "ident" : "hardsteel",
+        "name" : "Hard Steel",
+        "bash_resist" : 10,
+        "cut_resist" : 16,
+        "bash_dmg_verb" : "dented",
+        "cut_dmg_verb" : "scratched",
+        "dmg_adj" : [
+            "marked",
+            "dented",
+            "smashed",
+            "shattered"
+        ],
+        "acid_resist" : 1,
+        "elec_resist" : 0,
+        "fire_resist" : 2,
+        "density" : 40
     },{
         "type" : "material",
         "ident" : "silver",
@@ -359,6 +467,24 @@
         "elec_resist" : 0,
         "fire_resist" : 2,
         "density" : 70
+    },{
+        "type" : "material",
+        "ident" : "nomex",
+        "name" : "Nomex",
+        "bash_resist" : 1,
+        "cut_resist" : 1,
+        "bash_dmg_verb" : "ripped",
+        "cut_dmg_verb" : "cut",
+        "dmg_adj" : [
+            "ripped",
+            "torn",
+            "shredded",
+            "tattered"
+        ],
+        "acid_resist" : 2,
+        "elec_resist" : 4,
+        "fire_resist" : 20,
+        "density" : 4
     },{
         "type" : "material",
         "ident" : "gold",

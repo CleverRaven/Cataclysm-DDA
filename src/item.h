@@ -1,6 +1,7 @@
 #ifndef _ITEM_H_
 #define _ITEM_H_
 
+#include <climits>
 #include <string>
 #include <vector>
 #include "itype.h"
@@ -33,7 +34,7 @@ struct iteminfo{
   std::string sPlus; //number +
   bool bNewLine; //New line at the end
   bool bLowerIsBetter; //Lower values are better (red <-> green)
-  
+
   //Inputs are: ItemType, main text, text between main text and value, value, if the value should be an int instead of a double, text after number, if there should be a newline after this item, if lower values are better
   iteminfo(std::string sIn0, std::string sIn1, std::string sIn2 = "", double dIn0 = -999, bool bIn0 = true, std::string sIn3 = "", bool bIn1 = true, bool bIn2 = false) {
     sType = sIn0;
@@ -56,7 +57,7 @@ struct iteminfo{
   }
 };
 
-enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT, 
+enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
     L_ERR_NOT_SEALED, L_ERR_FULL};
 
 class item : public JsonSerializer, public JsonDeserializer
@@ -66,7 +67,7 @@ public:
  item(itype* it, unsigned int turn);
  item(itype* it, unsigned int turn, char let);
  void make_corpse(itype* it, mtype* mt, unsigned int turn); // Corpse
- item(std::string itemdata, game *g);
+ item(std::string itemdata);
  item(JsonObject &jo);
  virtual ~item();
  void init();
@@ -76,11 +77,15 @@ public:
 // returns the default container of this item, with this item in it
  item in_its_container(std::map<std::string, itype*> *itypes);
 
- nc_color color(player *u) const;
- nc_color color_in_inventory();
- std::string tname(game *g = NULL); // g needed for rotten-test
- void use();
- bool burn(int amount = 1); // Returns true if destroyed
+    nc_color color(player *u) const;
+    nc_color color_in_inventory();
+    std::string tname(bool with_prefix = true); // item name (includes damage, freshness, etc)
+    std::string display_name(); // name for display (includes charges, etc)
+    void use();
+    bool burn(int amount = 1); // Returns true if destroyed
+
+ // Returns the category of this item.
+ const item_category &get_category() const;
 
 // Firearm specifics
  int reload_time(player &u);
@@ -94,8 +99,8 @@ public:
  int recoil(bool with_ammo = true);
  int range(player *p = NULL);
  ammotype ammo_type() const;
- char pick_reload_ammo(player &u, bool interactive);
- bool reload(player &u, char invlet);
+ int pick_reload_ammo(player &u, bool interactive);
+ bool reload(player &u, int pos);
  void next_mode();
 
     using JsonSerializer::serialize;
@@ -112,11 +117,11 @@ public:
 
  std::string save_info() const; // Formatted for save files
  //
- void load_legacy(game * g, std::stringstream & dump);
- void load_info(std::string data, game *g);
+ void load_legacy(std::stringstream & dump);
+ void load_info(std::string data);
  //std::string info(bool showtext = false); // Formatted for human viewing
  std::string info(bool showtext = false);
- std::string info(bool showtext, std::vector<iteminfo> *dump, game *g = NULL, bool debug = false);
+ std::string info(bool showtext, std::vector<iteminfo> *dump, bool debug = false);
  char symbol() const;
  nc_color color() const;
  int price() const;
@@ -146,8 +151,8 @@ public:
  int max_charges() const;
  bool craft_has_charges();
  int num_charges();
- bool rotten(game *g);
- bool ready_to_revive(game *g); // used for corpses
+ bool rotten();
+ bool ready_to_revive(); // used for corpses
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)
  bool getlight(float & luminance, int & width, int & direction, bool calculate_dimming = true) const;
@@ -191,7 +196,7 @@ public:
  bool is_container() const;
  bool is_watertight_container() const;
  int is_funnel_container(int bigger_than) const;
- 
+
  bool is_tool() const;
  bool is_software() const;
  bool is_macguffin() const;
@@ -215,6 +220,9 @@ public:
  char invlet;           // Inventory letter
  int charges;
  bool active;           // If true, it has active effects to be processed
+ int fridge;            // The turn we entered a fridge.
+ int rot;               // decay; same as turn-bday at 65 degrees, but doubles/halves every 18 degrees. can be negative (start game fridges)
+ int last_rot_check;    // last turn we calculated rot
  signed char damage;    // How much damage it's sustained; generally, max is 5
  int burnt;             // How badly we're burnt
  int bday;              // The turn on which it was created
@@ -302,6 +310,13 @@ class map_item_stack
             totalcount++;
         }
 };
+
+// Commonly used convenience functions that match an item to one of the 3 common types of locators:
+// invlet (char), type_id (itype_id, a typedef of string), or position (int).
+// The item's position is optional, if not passed in we expect the item to fail position match.
+bool item_matches_locator(const item& it, const itype_id& id, int item_pos = INT_MIN);
+bool item_matches_locator(const item& it, int locator_pos, int item_pos = INT_MIN);
+bool item_matches_locator(const item& it, char invlet, int item_pos = INT_MIN);
 
 //this is an attempt for functional programming
 bool is_edible(item i, player const*u);

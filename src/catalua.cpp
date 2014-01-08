@@ -4,6 +4,9 @@
 #include "item_factory.h"
 #include "item.h"
 #include "pldata.h"
+#include "mapgen.h"
+#include "mapgen_functions.h"
+#include "map.h"
 
 #ifdef LUA
 extern "C" {
@@ -78,13 +81,49 @@ int call_lua(std::string tocall) {
     lua_State* L = lua_state;
 
     update_globals(L);
-
     int err = luaL_dostring(L, tocall.c_str());
     if(err) {
         // Error handling.
         const char* error = lua_tostring(L, -1);
         debugmsg("Error in lua command: %s", error);
     }
+    return err;
+}
+
+//
+int lua_mapgen(map * m, std::string terrain_type, mapgendata, int t, float, const std::string & scr) {
+    lua_State* L = lua_state;
+    {
+        map** map_userdata = (map**) lua_newuserdata(L, sizeof(map*));
+        *map_userdata = m;
+        luah_setmetatable(L, "map_metatable");
+        luah_setglobal(L, "map", -1);
+    }
+
+    int err = luaL_loadstring(L, scr.c_str() );
+    if(err) {
+        // Error handling.
+        const char* error = lua_tostring(L, -1);
+        debugmsg("Error loading lua mapgen: %s", error);
+        return err;
+    }
+//    int function_index = luaL_ref(L, LUA_REGISTRYINDEX); // todo; make use of this
+//    lua_rawgeti(L, LUA_REGISTRYINDEX, function_index);
+
+    lua_pushstring(L, terrain_type.c_str());
+    lua_setglobal(L, "tertype");
+    lua_pushinteger(L, t);
+    lua_setglobal(L, "turn");
+
+    err=lua_pcall(L, 0 , LUA_MULTRET, 0);
+    if(err) {
+        // Error handling.
+        const char* error = lua_tostring(L, -1);
+        debugmsg("Error running lua mapgen: %s", error);
+    }
+
+//    luah_remove_from_registry(L, function_index); // todo: make use of this
+
     return err;
 }
 
@@ -195,6 +234,42 @@ static int game_items_at(lua_State *L) {
     return 1; // 1 return values
 }
 
+// monster = game.monster_at(x, y)
+static int game_monster_at(lua_State *L) {
+    int parameter1 = (int) lua_tonumber(L, 1);
+    int parameter2 = (int) lua_tonumber(L, 2);
+    int monster_idx = g->mon_at(parameter1, parameter2);
+    
+    monster& mon_ref = g->zombie(monster_idx);
+    monster** monster_userdata = (monster**) lua_newuserdata(L, sizeof(monster*));
+    *monster_userdata = &mon_ref;
+    luah_setmetatable(L, "monster_metatable");
+    
+    return 1; // 1 return values
+}
+
+// type = game.item_type(item)
+static int game_item_type(lua_State *L) {
+    // Create a table of the form
+    // t["id"] = item.type.id
+    // t["name"] = item.type.name
+    // then return t
+    
+    item** item_instance = (item**) lua_touserdata(L, 1);
+
+    lua_createtable(L, 0, 2); // Preallocate enough space for all type properties.
+    
+    lua_pushstring(L, "name");
+    lua_pushstring(L, (*item_instance)->type->name.c_str());
+    lua_rawset(L, -3);
+    
+    lua_pushstring(L, "id");
+    lua_pushstring(L, (*item_instance)->type->id.c_str());
+    lua_rawset(L, -3);
+    
+    return 1; // 1 return values
+}
+
 // game.remove_item(x, y, item)
 void game_remove_item(int x, int y, item *it) {
     std::vector<item>& items = g->m.i_at(x, y);
@@ -235,6 +310,8 @@ static const struct luaL_Reg global_funcs [] = {
     {"register_iuse", game_register_iuse},
     //{"get_monsters", game_get_monsters},
     {"items_at", game_items_at},
+    {"item_type", game_item_type},
+    {"monster_at", game_monster_at},
     {NULL, NULL}
 };
 
@@ -300,7 +377,7 @@ int use_function::call(player* player_instance, item* item_instance, bool active
         lua_pushboolean(L, active);
 
         // Call the iuse function
-        int err = lua_pcall(L, 3, 1, 0);
+        int err = lua_pcall(L, 2, 1, 0);
         if(err) {
             // Error handling.
             const char* error = lua_tostring(L, -1);

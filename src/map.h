@@ -27,7 +27,7 @@
 class player;
 class item;
 struct itype;
-
+struct mapgendata;
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
  int x;
@@ -82,7 +82,7 @@ class map
   * @param center The coordinate of the center of the viewport, this can
   *               be different from the player coordinate.
   */
- void draw(game *g, WINDOW* w, const point center);
+ void draw(WINDOW* w, const point center);
 
  /** Draw the map tile at the given coordinate. Called by `map::draw()`.
   *
@@ -95,9 +95,9 @@ class map
 
 // File I/O
  virtual void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);
- virtual void load(game *g, const int wx, const int wy, const int wz, const bool update_vehicles = true, overmap *om = NULL);
- void shift(game *g, const int wx, const int wy, const int wz, const int x, const int y);
- void spawn_monsters(game *g);
+ virtual void load(const int wx, const int wy, const int wz, const bool update_vehicles = true, overmap *om = NULL);
+ void shift(const int wx, const int wy, const int wz, const int x, const int y);
+ void spawn_monsters();
  void clear_spawns();
  void clear_traps();
 
@@ -117,13 +117,13 @@ class map
   * 0         | Impassable
   * n > 0     | x*n turns to move past this
   */
- int move_cost(const int x, const int y, const vehicle *ignored_vehicle = NULL);
+ int move_cost(const int x, const int y, const vehicle *ignored_vehicle = NULL) const;
 
 
  /**
   * Similar behavior to `move_cost()`, but ignores vehicles.
   */
- int move_cost_ter_furn(const int x, const int y);
+ int move_cost_ter_furn(const int x, const int y) const;
 
  /**
   * Cost to move out of one tile and into the next.
@@ -190,7 +190,7 @@ class map
  vehicle* veh_at(const int x, const int y);// checks, if tile is occupied by vehicle
 
  // put player on vehicle at x,y
- void board_vehicle(game *g, int x, int y, player *p);
+ void board_vehicle(int x, int y, player *p);
  void unboard_vehicle(const int x, const int y);//remove player from vehicle at x,y
  void update_vehicle_cache(vehicle *, const bool brand_new = false);
  void reset_vehicle_cache();
@@ -202,9 +202,9 @@ class map
 // Returns true, if there was a submap change.
 // If test is true, function only checks for submap change, no displacement
 // WARNING: not checking collisions!
- bool displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test = false);
- void vehmove(game* g);          // Vehicle movement
- bool vehproceed(game* g);
+ bool displace_vehicle (int &x, int &y, const int dx, const int dy, bool test = false);
+ void vehmove();          // Vehicle movement
+ bool vehproceed();
 // move water under wheels. true if moved
  bool displace_water (const int x, const int y);
 
@@ -236,13 +236,25 @@ class map
 
  std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
 
+ // Check for terrain/furniture/field that provide a
+ // "fire" item to be used for example when crafting or when
+ // a iuse function needs fire.
+ bool has_nearby_fire(int x, int y, int radius = 1);
+
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
- bool has_flag(std::string flag, const int x, const int y);  // checks terrain, furniture and vehicles
+ bool has_flag(const std::string & flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
  bool can_put_items(const int x, const int y); // True if items can be placed in this tile
- bool has_flag_ter(std::string flag, const int x, const int y);  // checks terrain
- bool has_flag_furn(std::string flag, const int x, const int y);  // checks furniture
- bool has_flag_ter_or_furn(std::string flag, const int x, const int y); // checks terrain or furniture
- bool has_flag_ter_and_furn(std::string flag, const int x, const int y); // checks terrain and furniture
+ bool has_flag_ter(const std::string & flag, const int x, const int y) const;  // checks terrain
+ bool has_flag_furn(const std::string & flag, const int x, const int y) const;  // checks furniture
+ bool has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const; // checks terrain or furniture
+ bool has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const; // checks terrain and furniture
+ // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
+ bool has_flag(const ter_bitflags flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
+ bool has_flag_ter(const ter_bitflags flag, const int x, const int y) const;  // checks terrain
+ bool has_flag_furn(const ter_bitflags flag, const int x, const int y) const;  // checks furniture
+ bool has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain or furniture
+ bool has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain and furniture
+
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
  bool is_destructable_ter_furn(const int x, const int y);       // only checks terrain
  bool is_divable(const int x, const int y);
@@ -250,7 +262,30 @@ class map
  bool flammable_items_at(const int x, const int y);
  bool moppable_items_at(const int x, const int y);
  point random_outdoor_tile();
+// mapgen
 
+void draw_line_ter(const ter_id type, int x1, int y1, int x2, int y2);
+void draw_line_ter(const std::string type, int x1, int y1, int x2, int y2);
+void draw_line_furn(furn_id type, int x1, int y1, int x2, int y2);
+void draw_line_furn(const std::string type, int x1, int y1, int x2, int y2);
+void draw_fill_background(ter_id type);
+void draw_fill_background(std::string type);
+void draw_fill_background(ter_id (*f)());
+void draw_fill_background(const id_or_id & f);
+
+void draw_square_ter(ter_id type, int x1, int y1, int x2, int y2);
+void draw_square_ter(std::string type, int x1, int y1, int x2, int y2);
+void draw_square_furn(furn_id type, int x1, int y1, int x2, int y2);
+void draw_square_furn(std::string type, int x1, int y1, int x2, int y2);
+void draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2);
+void draw_square_ter(const id_or_id & f, int x1, int y1, int x2, int y2);
+void draw_rough_circle(ter_id type, int x, int y, int rad);
+void draw_rough_circle(std::string type, int x, int y, int rad);
+
+void add_corpse(int x, int y);
+
+
+//
  void translate(const std::string terfrom, const std::string terto); // Change all instances of $from->$to
  void translate_radius(const std::string terfrom, const std::string terto, const float radi, const int uX, const int uY);
  void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to
@@ -259,11 +294,11 @@ class map
  bool open_door(const int x, const int y, const bool inside);
  // bash: if res pointer is supplied, res will contain absorbed impact or -1
  bool bash(const int x, const int y, const int str, std::string &sound, int *res = 0);
- void destroy(game *g, const int x, const int y, const bool makesound);
- void shoot(game *g, const int x, const int y, int &dam, const bool hit_items,
+ void destroy(const int x, const int y, const bool makesound);
+ void shoot(const int x, const int y, int &dam, const bool hit_items,
             const std::set<std::string>& ammo_effects);
- bool hit_with_acid(game *g, const int x, const int y);
- bool hit_with_fire(game *g, const int x, const int y);
+ bool hit_with_acid(const int x, const int y);
+ bool hit_with_fire(const int x, const int y);
  bool marlossify(const int x, const int y);
  bool has_adjacent_furniture(const int x, const int y);
  void mop_spills(const int x, const int y);
@@ -291,17 +326,22 @@ class map
  int stored_volume(const int x, const int y);
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
- void process_active_items(game *g);
- void process_vehicles(game *g);
+ void process_active_items();
+ void process_vehicles();
 
+ std::list<item> use_amount_square(const int x, const int y, const itype_id type, int &quantity, const bool use_container);
  std::list<item> use_amount(const point origin, const int range, const itype_id type, const int amount,
                               const bool use_container = false);
  std::list<item> use_charges(const point origin, const int range, const itype_id type, const int amount);
 
 // Traps
- trap_id tr_at(const int x, const int y);
+ std::string trap_get(const int x, const int y) const;
+ void trap_set(const int x, const int y, const std::string & sid);
+ void trap_set(const int x, const int y, const trap_id id);
+
+ trap_id tr_at(const int x, const int y) const;
  void add_trap(const int x, const int y, const trap_id t);
- void disarm_trap( game *g, const int x, const int y);
+ void disarm_trap( const int x, const int y);
  void remove_trap(const int x, const int y);
  std::set<point> trap_locations(trap_id t);
 
@@ -311,18 +351,18 @@ class map
  int get_field_age(const point p, const field_id t);
  int get_field_strength(const point p, const field_id t);
  int adjust_field_age(const point p, const field_id t, const int offset);
- int adjust_field_strength(game *g, const point p, const field_id t, const int offset);
+ int adjust_field_strength(const point p, const field_id t, const int offset);
  int set_field_age(const point p, const field_id t, const int age, bool isoffset = false);
- int set_field_strength(game *g, const point p, const field_id t, const int str, bool isoffset = false);
+ int set_field_strength(const point p, const field_id t, const int str, bool isoffset = false);
  field_entry * get_field( const point p, const field_id t );
- bool add_field(game *g, const point p, const field_id t, unsigned int density, const int age);
- bool add_field(game *g, const int x, const int y, const field_id t, const unsigned char density);
+ bool add_field(const point p, const field_id t, unsigned int density, const int age);
+ bool add_field(const int x, const int y, const field_id t, const unsigned char density);
  void remove_field(const int x, const int y, const field_id field_to_remove);
- bool process_fields(game *g); // See fields.cpp
- bool process_fields_in_submap(game *g, const int gridn); // See fields.cpp
- void step_in_field(const int x, const int y, game *g); // See fields.cpp
- void mon_in_field(const int x, const int y, game *g, monster *z); // See fields.cpp
- void field_effect(int x, int y, game *g); //See fields.cpp
+ bool process_fields(); // See fields.cpp
+ bool process_fields_in_submap(const int gridn); // See fields.cpp
+ void step_in_field(const int x, const int y); // See fields.cpp
+ void mon_in_field(const int x, const int y, monster *z); // See fields.cpp
+ void field_effect(int x, int y); //See fields.cpp
 
 // Computers
  computer* computer_at(const int x, const int y);
@@ -337,29 +377,30 @@ class map
  bool add_graffiti(int x, int y, std::string contents);
 
 // mapgen.cpp functions
- void generate(game *g, overmap *om, const int x, const int y, const int z, const int turn);
- void post_process(game *g, unsigned zones);
- void place_spawns(game *g, std::string group, const int chance,
+ void generate(overmap *om, const int x, const int y, const int z, const int turn);
+ void post_process(unsigned zones);
+ void place_spawns(std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
+ void place_vending(int x, int y, bool drinks);
  int place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
  void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0, const int quantity = 0, const int charges = 0, const int damlevel = 0);
-    void spawn_item(const int x, const int y, item new_item,
+ void spawn_an_item(const int x, const int y, item new_item,
                     const int charges, const int damlevel);
  void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
  void add_spawn(monster *mon);
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
- vehicle *add_vehicle(game *g, std::string type, const int x, const int y, const int dir,
+ vehicle *add_vehicle(std::string type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
  computer* add_computer(const int x, const int y, std::string name, const int security);
  float light_transparency(const int x, const int y) const;
- void build_map_cache(game *g);
+ void build_map_cache();
  lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
  float ambient_light_at(int dx, int dy); // Raw values for tilesets
  bool pl_sees(int fx, int fy, int tx, int ty, int max_range);
@@ -372,7 +413,7 @@ class map
  };
  point getabs(const int x=0, const int y=0 );
  point getlocal(const int x, const int y );
- point getlocal( const point p ) { return getlocal(p.x, p.y); } 
+ point getlocal( const point p ) { return getlocal(p.x, p.y); }
  bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y);
 
@@ -386,20 +427,20 @@ class map
 protected:
  void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
             const int gridx, const int gridy);
- bool loadn(game *g, const int x, const int y, const int z, const int gridx, const int gridy,
+ bool loadn(const int x, const int y, const int z, const int gridx, const int gridy,
             const  bool update_vehicles = true, overmap *om = NULL);
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,
                 const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
-                const oter_id t_above, const int turn, game *g, const float density,
-                const int zlevel);
- void add_extra(map_extra type, game *g);
+                const oter_id t_above, const int turn, const float density,
+                const int zlevel, const regional_settings * rsettings);
+ void add_extra(map_extra type);
  void build_transparency_cache();
- void build_outside_cache(const game *g);
- void generate_lightmap(game *g);
- void build_seen_cache(game *g);
- void castLight( game *g, int row, float start, float end, int xx, int xy, int yx, int yy );
+ void build_outside_cache();
+ void generate_lightmap();
+ void build_seen_cache();
+ void castLight( int row, float start, float end, int xx, int xy, int yx, int yy );
 
  int my_MAPSIZE;
  virtual bool is_tiny() { return false; };
@@ -438,9 +479,9 @@ submap * getsubmap( const int grididx );
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
  void add_item(const int x, const int y, item new_item, int maxitems = 64);
  
- void process_active_items_in_submap(game *g, const int nonant);
- void process_active_items_in_vehicles(game *g, const int nonant);
- bool process_active_item(game *g, item *it, const int nonant, const int i, const int j);
+ void process_active_items_in_submap(const int nonant);
+ void process_active_items_in_vehicles(const int nonant);
+ bool process_active_item(item *it, const int nonant, const int i, const int j);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];

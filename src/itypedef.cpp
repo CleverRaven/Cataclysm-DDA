@@ -101,31 +101,31 @@ VAR_VEH_PART("wheel_caster", _("casters"),140,  ']', c_dkgray,  "steel",   "plas
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("1cyl_combustion", _("1-cylinder engine"), 100, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
-    6, 20000,  4,  0,  -1,        28,         75,   BIGNESS_ENGINE_DISPLACEMENT, _("\
+    6, 20000,  4,  0,  -1,        35,         75,   BIGNESS_ENGINE_DISPLACEMENT, _("\
 A single-cylinder 4-stroke combustion engine."));
 
 //                              NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("v2_combustion", _("V-twin engine"), 100, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
-    6, 45000,  4,  0,  -1,        65,        260, BIGNESS_ENGINE_DISPLACEMENT, _("\
+    6, 45000,  4,  0,  -1,        75,        150, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A 2-cylinder 4-stroke combustion engine."));
 
 //                                NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("i4_combustion", _("Inline-4 engine"), 150, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
-    6, 70000,  8,  0,  -2,        220,       350, BIGNESS_ENGINE_DISPLACEMENT, _("\
+    6, 70000,  8,  0,  -2,        150,       300, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A small, yet powerful 4-cylinder combustion engine."));
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("v6_combustion", _("V6 engine"), 180, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
-    14,100000, 12,  0, -3,      250,        520, BIGNESS_ENGINE_DISPLACEMENT,
+    14,100000, 12,  0, -3,      300,        500, BIGNESS_ENGINE_DISPLACEMENT,
     _("A powerful 6-cylinder combustion engine."));
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("v8_combustion", _("V8 engine"), 250, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
-    25,144000, 15,  0, -5,       380,     700, BIGNESS_ENGINE_DISPLACEMENT,
+    25,144000, 15,  0, -5,       500,     800, BIGNESS_ENGINE_DISPLACEMENT,
     _("A large and very powerful 8-cylinder combustion engine."));
 
 // GUNS
@@ -240,6 +240,7 @@ BIO_SINGLE("bio_scent_mask", 8500, c_magenta, 5);
 BIO_SINGLE("bio_cloak", 8500, c_magenta, 5);
 BIO_SINGLE("bio_fingerhack", 3500, c_magenta, 2);
 BIO_SINGLE("bio_night", 8500, c_magenta, 5);
+BIO_SINGLE("bio_lockpick", 3500, c_magenta, 2);
 // defensive
 BIO_SINGLE("bio_ads", 9500, c_ltblue, 7);
 BIO_SINGLE("bio_ods", 9500, c_ltblue, 7);
@@ -335,6 +336,8 @@ GUN("bio_lightning", _("Chain Lightning"),  0,c_magenta, "steel", "plastic",
 
 std::string ammo_name(ammotype t)
 {
+    if( t == "700nx")       return _(".700 Nitro Express");
+    if( t == "ammo_flintlock")  return _("paper cartidge");
     if( t == "50")          return _(".50 BMG");
     if( t == "nail")        return _("nails");
     if( t == "BB" )         return _("BBs");
@@ -364,6 +367,7 @@ std::string ammo_name(ammotype t)
     if( t == "gasoline" )   return _("gasoline");
     if( t == "thread" )     return _("thread");
     if( t == "battery" )    return _("batteries");
+    if( t == "laser_capacitor")return _("charge");
     if( t == "plutonium" )  return _("plutonium");
     if( t == "muscle" )     return _("muscle");
     if( t == "fusion" )     return _("fusion cell");
@@ -379,7 +383,11 @@ std::string ammo_name(ammotype t)
     if( t == "metal_rail" ) return _("ferrous rail projectile");
     if( t == "UPS" )        return _("UPS");
     if( t == "thrown" )     return _("throwing weapon");
+    if( t == "ampoule" )    return _("chemical ampoule");
     if( t == "components" ) return _("components");
+    if( t == "RPG-7" )      return _("RPG-7");
+    if( t == "dart" )       return _("dart");
+    if( t == "fishspear" )  return _("speargun spear");
     return "XXX";
 }
 
@@ -428,6 +436,8 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "UPS"  )         return "UPS";
     if( guntype == "components"  )  return "components";
     if( guntype == "thrown"  )      return "thrown";
+    if( guntype == "ampoule"  )     return "ampoule";
     if( guntype == "50"  )          return "50bmg";
+    if( guntype == "fishspear"  )   return "fishspear";
     return "null";
 }

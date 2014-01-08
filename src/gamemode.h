@@ -7,7 +7,6 @@
 #include "itype.h"
 #include "mtype.h"
 
-class game;
 struct special_game;
 
 enum special_game_id {
@@ -25,16 +24,16 @@ struct special_game
  virtual ~special_game() { return; };
  virtual special_game_id id() { return SGAME_NULL; };
 // init is run when the game begins
- virtual bool init(game *) { return true; };
+ virtual bool init() { return true; };
 // per_turn is run every turn--before any player actions
- virtual void per_turn(game *) { };
+ virtual void per_turn() { };
 // pre_action is run after a keypress, but before the game handles the action
 // It may modify the action, e.g. to cancel it
- virtual void pre_action(game *, action_id &) { };
+ virtual void pre_action( action_id &) { };
 // post_action is run after the game handles the action
- virtual void post_action(game *, action_id) { };
+ virtual void post_action( action_id) { };
 // game_over is run when the player dies (or the game otherwise ends)
- virtual void game_over(game *) { };
+ virtual void game_over() { };
 
 };
 
@@ -68,14 +67,14 @@ NUM_LESSONS
 struct tutorial_game : public special_game
 {
  virtual special_game_id id() { return SGAME_TUTORIAL; };
- virtual bool init(game *g);
- virtual void per_turn(game *g);
- virtual void pre_action(game *g, action_id &act);
- virtual void post_action(game *g, action_id act);
- virtual void game_over(game *) { };
+ virtual bool init();
+ virtual void per_turn();
+ virtual void pre_action(action_id &act);
+ virtual void post_action(action_id act);
+ virtual void game_over() { };
 
 private:
- void add_message(game *g, tut_lesson lesson);
+ void add_message(tut_lesson lesson);
 
  bool tutorials_seen[NUM_LESSONS];
 };
@@ -100,6 +99,7 @@ NUM_DEFENSE_STYLES
 enum defense_location {
 DEFLOC_NULL = 0,
 DEFLOC_HOSPITAL,
+DEFLOC_WORKS,
 DEFLOC_MALL,
 DEFLOC_BAR,
 DEFLOC_MANSION,
@@ -128,11 +128,11 @@ struct defense_game : public special_game
  defense_game();
 
  virtual special_game_id id() { return SGAME_DEFENSE; };
- virtual bool init(game *g);
- virtual void per_turn(game *g);
- virtual void pre_action(game *g, action_id &act);
- virtual void post_action(game *g, action_id act);
- virtual void game_over(game *g);
+ virtual bool init();
+ virtual void per_turn();
+ virtual void pre_action(action_id &act);
+ virtual void post_action(action_id act);
+ virtual void game_over();
 
 private:
  void init_to_style(defense_style new_style);
@@ -140,21 +140,21 @@ private:
 
  void setup();
  void refresh_setup(WINDOW *w, int selection);
- void init_itypes(game *g);
+ void init_itypes();
  void reset_itypes();
- void init_mtypes(game *g);
+ void init_mtypes();
  void reset_mtypes();
- void init_constructions(game *g);
+ void init_constructions();
  void reset_constructions();
- void init_recipes(game *g);
+ void init_recipes();
  void reset_recipes();
- void init_map(game *g);
+ void init_map();
  std::vector<itype_id> carvan_items(caravan_category cat);
 
- void spawn_wave(game *g);
- void caravan(game *g);
- std::vector<std::string> pick_monster_wave(game *g);
- void spawn_wave_monster(game *g, mtype *type);
+ void spawn_wave();
+ void caravan();
+ std::vector<std::string> pick_monster_wave();
+ void spawn_wave_monster(mtype *type);
 
  std::string special_wave_message(std::string name);
 

@@ -22,7 +22,7 @@ void mdeath::normal(monster *z) {
 
     // leave some blood if we have to
     if (isFleshy && z->has_flag(MF_WARM) && !z->has_flag(MF_VERMIN)) {
-        g->m.add_field(g, z->posx(), z->posy(), fd_blood, 1);
+        g->m.add_field(z->posx(), z->posy(), fd_blood, 1);
     }
 
     int maxHP = z->type->hp;
@@ -58,7 +58,7 @@ void mdeath::acid(monster *z) {
     if (g->u_see(z)) {
         g->add_msg(_("The %s's body dissolves into acid."), z->name().c_str());
     }
-    g->m.add_field(g, z->posx(), z->posy(), fd_acid, 3);
+    g->m.add_field(z->posx(), z->posy(), fd_acid, 3);
 }
 
 void mdeath::boomer(monster *z) {
@@ -67,10 +67,10 @@ void mdeath::boomer(monster *z) {
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             g->m.bash(z->posx() + i, z->posy() + j, 10, tmp);
-            g->m.add_field(g, z->posx() + i, z->posy() + j, fd_bile, 1);
+            g->m.add_field(z->posx() + i, z->posy() + j, fd_bile, 1);
             int mondex = g->mon_at(z->posx() + i, z->posy() +j);
             if (mondex != -1) {
-                g->zombie(mondex).stumble(g, false);
+                g->zombie(mondex).stumble(false);
                 g->zombie(mondex).moves -= 250;
             }
         }
@@ -179,6 +179,10 @@ void mdeath::fungus(monster *z) {
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
                     // Spores hit the player
+                        if (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee"))) {
+                        g->add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
+                        return;
+                        }
                     bool hit = false;
                     if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
@@ -197,6 +201,10 @@ void mdeath::fungus(monster *z) {
                     }
                     if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 0)) {
                         hit = true;
+                    }
+                    if (hit && (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee")))) {
+                        g->add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
+                        hit = false;
                     }
                     if (hit) {
                         g->add_msg(_("You're covered in tiny spores!"));
@@ -262,11 +270,7 @@ void mdeath::guilt(monster *z) {
     guilt_tresholds[50] = "You regret killing %s.";
     guilt_tresholds[25] = "You feel remorse for killing %s.";
 
-    /*  TODO:   Replace default cannibal checks with more elaborate conditions,
-                 and add a "PSYCHOPATH" trait for terminally guilt-free folk.
-                 Guilty cannibals could make for good drama!
-    */
-    if (g->u.has_trait("CANNIBAL")) {
+    if (g->u.has_trait("PSYCHOPATH")) {
         return;
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > MAX_GUILT_DISTANCE) {
@@ -302,19 +306,22 @@ void mdeath::guilt(monster *z) {
     int decayDelay = 30 * (1.0 - ((float) kill_count / maxKills));
     if (z->type->in_species("ZOMBIE")) {
         moraleMalus /= 10;
+        if(g->u.has_trait("PACIFIST")) {
+            moraleMalus *= 5;
+        }
     }
     g->u.add_morale(MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay);
 
 }
 void mdeath::blobsplit(monster *z) {
     int speed = z->speed - rng(30, 50);
-    g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", 1, 0, g->turn, rng(5,10));
+    g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", 1, 0, g->turn, rng(1,4));
     if (speed <= 0) {
         if (g->u_see(z)) {
             //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)
             g->add_msg(_("The %s splatters apart."), z->name().c_str());
-            return;
         }
+        return;
     }
     monster blob(GetMType((speed < 50 ? "mon_blob_small" : "mon_blob")));
     blob.speed = speed;
@@ -394,6 +401,15 @@ void mdeath::explode(monster *z) {
     g->explosion(z->posx(), z->posy(), size, 0, false);
 }
 
+void mdeath::broken(monster *z) {
+  if (z->type->id == "mon_manhack") {
+    g->m.spawn_item(z->posx(), z->posy(), "broken_manhack", 1, 0, g->turn);
+  }
+  else {
+    debugmsg("Tried to create a broken %s but it does not exist.", z->type->name.c_str());
+  }
+}
+
 void mdeath::ratking(monster *z) {
     g->u.rem_disease("rat");
     if (g->u_see(z)) {
@@ -427,10 +443,10 @@ void mdeath::smokeburst(monster *z) {
     g->sound(z->posx(), z->posy(), 24, _("a smoker explode!"));
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
-            g->m.add_field(g, z->posx() + i, z->posy() + j, fd_smoke, 3);
+            g->m.add_field(z->posx() + i, z->posy() + j, fd_smoke, 3);
             int mondex = g->mon_at(z->posx() + i, z->posy() +j);
             if (mondex != -1) {
-                g->zombie(mondex).stumble(g, false);
+                g->zombie(mondex).stumble(false);
                 g->zombie(mondex).moves -= 250;
             }
         }
@@ -450,11 +466,15 @@ void mdeath::zombie(monster *z) {
     // now generate appropriate clothing
     char dropset = -1;
     std::string zid = z->type->id;
+    bool underwear = true;
     if (zid == "mon_zombie_cop"){ dropset = 0;}
     else if (zid == "mon_zombie_swimmer"){ dropset = 1;}
     else if (zid == "mon_zombie_scientist"){ dropset = 2;}
     else if (zid == "mon_zombie_soldier"){ dropset = 3;}
     else if (zid == "mon_zombie_hulk"){ dropset = 4;}
+    else if (zid == "mon_zombie_hazmat"){ dropset = 5;}
+    else if (zid == "mon_zombie_fireman"){ dropset = 6;}
+    else if (zid == "mon_zombie_survivor"){ dropset = 7;}
     switch(dropset) {
         case 0: // mon_zombie_cop
             g->m.put_items_from("cop_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
@@ -464,20 +484,21 @@ void mdeath::zombie(monster *z) {
 
         case 1: // mon_zombie_swimmer
             if (one_in(10)) {
-              //Wetsuit zombie
-              g->m.put_items_from("swimmer_wetsuit", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                //Wetsuit zombie
+                g->m.put_items_from("swimmer_wetsuit", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
             } else {
-              if (!one_in(4)) {
-                  g->m.put_items_from("swimmer_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
-              }
-              if (one_in(3)) {
-                  g->m.put_items_from("swimmer_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
-              }
-              g->m.put_items_from("swimmer_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
-              if (one_in(4)) {
-                  g->m.put_items_from("swimmer_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
-              }
+                if (!one_in(4)) {
+                    g->m.put_items_from("swimmer_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                }
+                if (one_in(3)) {
+                    g->m.put_items_from("swimmer_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                }
+                g->m.put_items_from("swimmer_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                if (one_in(4)) {
+                    g->m.put_items_from("swimmer_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                }
             }
+            underwear = false;
         break;
 
         case 2: // mon_zombie_scientist
@@ -497,13 +518,61 @@ void mdeath::zombie(monster *z) {
         break;
 
         case 4: // mon_zombie_hulk
-            g->m.spawn_item(z->posx(), z->posy(), "rag", 1, 0, g->turn, rng(5,10));
+            g->m.spawn_item(z->posx(), z->posy(), "rag", 1, 0, g->turn, rng(1,4));
             g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            break;
+            underwear = false;
+        break;
+
+        case 5: // mon_zombie_hazmat
+            if (one_in(5)) {
+            g->m.put_items_from("hazmat_full", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            } else {
+                g->m.put_items_from("hazmat_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("hazmat_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("hazmat_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("hazmat_mask", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+
+                if (one_in(3)) {
+                    g->m.put_items_from("hazmat_eyes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                }
+            }
+        break;
+
+        case 6: // mon_zombie_fireman
+            g->m.put_items_from("fireman_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("fireman_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("fireman_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("fireman_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("fireman_mask", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("fireman_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+
+            if (one_in(3)) {
+                g->m.put_items_from("hazmat_eyes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+            }
+        break;
+
+        case 7: // mon_zombie_survivor
+            g->m.put_items_from("survivorzed_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("survivorzed_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("survivorzed_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("survivorzed_extra", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            if (one_in(4)) {
+                g->m.put_items_from("survivorzed_suits", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            } else {
+                g->m.put_items_from("survivorzed_tops", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("survivorzed_bottoms", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            }
+            if (one_in(3)) {
+                underwear = false;
+                g->m.put_items_from("loincloth", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            }
+        break;
+
 
         default:
             g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             g->m.put_items_from("shirts", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             if (one_in(5)) {
                 g->m.put_items_from("jackets", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             }
@@ -511,6 +580,22 @@ void mdeath::zombie(monster *z) {
                 g->m.put_items_from("bags", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             }
         break;
+    }
+
+    // Give underwear if needed
+    if (underwear) {
+        if (one_in(2)) {
+            g->m.put_items_from("female_underwear_bottom", 1, z->posx(), z->posy(),
+                                    g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("female_underwear_top", 1, z->posx(), z->posy(),
+                                    g->turn, 0, 0, rng(1,4));
+        }
+        else {
+            g->m.put_items_from("male_underwear_bottom", 1, z->posx(), z->posy(),
+                                    g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("male_underwear_top", 1, z->posx(), z->posy(),
+                                    g->turn, 0, 0, rng(1,4));
+        }
     }
 }
 
@@ -546,14 +631,14 @@ void make_gibs(monster* z, int amount) {
         int junk;
         if( g->m.clear_path( zposx, zposy, gibX, gibY, 3, 1, 100, junk ) ) {
             // Only place gib if there's a clear path for it to get there.
-            g->m.add_field(g, gibX, gibY, gibType, gibDensity);
+            g->m.add_field(gibX, gibY, gibType, gibDensity);
         }
         if( warm ) {
             const int bloodX = zposx + (rng(0,2) - 1);
             const int bloodY = zposy + (rng(0,2) - 1);
             if( g->m.clear_path( zposx, zposy, bloodX, bloodY, 2, 1, 100, junk ) ) {
                 // Only place blood if there's a clear path for it to get there.
-                g->m.add_field(g, bloodX, bloodY, fd_blood, 1);
+                g->m.add_field(bloodX, bloodY, fd_blood, 1);
             }
         }
     }

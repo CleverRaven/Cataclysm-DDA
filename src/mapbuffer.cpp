@@ -5,7 +5,6 @@
 #include "translations.h"
 #include <fstream>
 #include "savegame.h"
-#include "picofunc.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 const int savegame_minver_map = 11;
@@ -32,12 +31,6 @@ void mapbuffer::reset(){
  submap_list.clear();
 }
 
-// game g's existance does not imply that it has been identified, started, or loaded.
-void mapbuffer::set_game(game *g)
-{
- master_game = g;
-}
-
 // set to dirty right before the game starts & the player starts changing stuff.
 void mapbuffer::set_dirty()
 {
@@ -58,8 +51,7 @@ bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
  if (submaps.count(p) != 0)
   return false;
 
- if (master_game)
-  sm->turn_last_touched = int(master_game->turn);
+ sm->turn_last_touched = int(g->turn);
  submap_list.push_back(sm);
  submaps[p] = sm;
 
@@ -95,24 +87,37 @@ void mapbuffer::save()
  fout.open(mapfile.str().c_str());
  fout << "# version " << savegame_version << std::endl;
 
- std::map<std::string, picojson::value> metadata;
- metadata["listsize"] = pv ( static_cast<unsigned int>(submap_list.size()) );
+    JsonOut jsout(fout);
+    jsout.start_object();
+    jsout.member("listsize", (unsigned int)submap_list.size());
 
- // To keep load speedy, we're saving ints, but since these are ints that will change with
- // revisions and loaded mods, we're also including a rosetta stone.
- std::vector<picojson::value> ter_key;
- for( int i=0; i < terlist.size(); i++ ) {
-     ter_key.push_back( pv( terlist[i].id ) );
- }
- metadata["terrain_key"] = pv( ter_key );
+    // To keep load speedy, we're saving ints, but since these are ints
+    // that will change with revisions and loaded mods, we're also
+    // including a rosetta stone.
+    jsout.member("terrain_key");
+    jsout.start_array();
+    for (int i=0; i < terlist.size(); i++) {
+        jsout.write(terlist[i].id);
+    }
+    jsout.end_array();
 
- std::vector<picojson::value> furn_key;
- for( int i=0; i < furnlist.size(); i++ ) {
-     furn_key.push_back( pv( furnlist[i].id ) );
- }
- metadata["furniture_key"] = pv( furn_key );
+    jsout.member("furniture_key");
+    jsout.start_array();
+    for (int i=0; i < furnlist.size(); i++) {
+        jsout.write(furnlist[i].id);
+    }
+    jsout.end_array();
 
- fout << pv( metadata ).serialize() << std::endl;
+    jsout.member("trap_key");
+    jsout.start_array();
+    for (int i=0; i < g->traps.size(); i++) {
+        jsout.write(g->traps[i]->id);
+    }
+    jsout.end_array();
+
+    jsout.end_object();
+
+    fout << std::endl;
 
  int num_saved_submaps = 0;
  int num_total_submaps = submap_list.size();
@@ -199,7 +204,7 @@ void mapbuffer::save()
  }
  radout << count << std::endl;
 
- fout << terout.str() << radout.str() << furnout.str() << itemout.str() << trapout.str() << graffout.str();
+ fout << terout.str() << radout.str() << furnout.str() << itemout.str() << trapout.str() << fieldout.str() << graffout.str();
 
  // Output the spawn points
   spawn_point tmpsp;
@@ -233,10 +238,6 @@ void mapbuffer::save()
 
 void mapbuffer::load(std::string worldname)
 {
- if (!master_game) {
-  debugmsg("Can't load mapbuffer without a master_game");
-  return;
- }
  std::ifstream fin;
  std::stringstream worldmap;
  worldmap << world_generator->all_worlds[worldname]->world_path << "/maps.txt";
@@ -250,7 +251,7 @@ void mapbuffer::load(std::string worldname)
 
 void mapbuffer::unserialize(std::ifstream & fin) {
  std::map<tripoint, submap*>::iterator it;
- int itx, ity, t, d, a, num_submaps, num_loaded = 0;
+ int itx, ity, t, d, a, num_submaps = 0, num_loaded = 0;
  item it_tmp;
  std::string databuff;
  std::string st;
@@ -274,50 +275,73 @@ void mapbuffer::unserialize(std::ifstream & fin) {
        }
    }
 
- std::stringstream jsonbuff;
- getline(fin, databuff);
- jsonbuff.str(databuff);
- picojson::value jdata;
- jsonbuff >> jdata;
- std::string jsonerr = picojson::get_last_error();
- if ( ! jsonerr.empty() ) {
-     popup("Bad mapbuffer metadata\n%s", jsonerr.c_str() );
- }
- picojson::object &metadata = jdata.get<picojson::object>();
+    std::stringstream jsonbuff;
+    getline(fin, databuff);
+    jsonbuff.str(databuff);
+    JsonIn jsin(jsonbuff);
 
- picoint(metadata,"listsize",num_submaps);
+    std::map<int, int> ter_key;
+    std::map<int, int> furn_key;
+    std::map<int, int> trap_key;
 
- std::map<int, int> ter_key;
- std::string tstr;
- picojson::array * pvect = pgetarray(metadata,"terrain_key");
- int ind=0;
- for( picojson::array::const_iterator pt = pvect->begin(); pt != pvect->end(); ++pt) {
-     if ( (*pt).is<std::string>() ) {
-         tstr=(*pt).get<std::string>();
-         if ( termap.find(tstr) == termap.end() ) {
-            debugmsg("Can't find terrain '%s' (%d)",tstr.c_str(), ind );
-         } else {
-            ter_key[ind] = termap[tstr].loadid;
-         }
-     }
-     ind++;
- }
+    jsin.start_object();
+    while (!jsin.end_object()) {
+        std::string name = jsin.get_member_name();
+        if (name == "listsize") {
+            num_submaps = jsin.get_int();
+        } else if (name == "terrain_key") {
+            int i = 0;
+            jsin.start_array();
+            while (!jsin.end_array()) {
+                std::string tstr = jsin.get_string();
+                if ( termap.find(tstr) == termap.end() ) {
+                    debugmsg("Can't find terrain '%s' (%d)", tstr.c_str(), i);
+                } else {
+                    ter_key[i] = termap[tstr].loadid;
+                }
+                ++i;
+            }
+        } else if (name == "furniture_key") {
+            int i = 0;
+            jsin.start_array();
+            while (!jsin.end_array()) {
+                std::string fstr = jsin.get_string();
+                if ( furnmap.find(fstr) == furnmap.end() ) {
+                    debugmsg("Can't find furniture '%s' (%d)", fstr.c_str(), i);
+                } else {
+                    furn_key[i] = furnmap[fstr].loadid;
+                }
+                ++i;
+            }
+        } else if (name == "trap_key") {
+            int i = 0;
+            jsin.start_array();
+            while (!jsin.end_array()) {
+                std::string trstr = jsin.get_string();
+                if ( trapmap.find(trstr) == trapmap.end() ) {
+                    debugmsg("Can't find trap '%s' (%d)", trstr.c_str(), i);
+                } else {
+                    trap_key[i] = trapmap[trstr];
+                }
+                ++i;
+            }
+        } else {
+            debugmsg("unrecognized mapbuffer json member '%s'", name.c_str());
+            jsin.skip_value();
+        }
+    }
 
- std::map<int, int> furn_key;
- std::string fstr;
- pvect = pgetarray(metadata,"furniture_key");
- ind=0;
- for( picojson::array::const_iterator pt = pvect->begin(); pt != pvect->end(); ++pt) {
-     if ( (*pt).is<std::string>() ) {
-         fstr=(*pt).get<std::string>();
-         if ( furnmap.find(fstr) == furnmap.end() ) {
-            debugmsg("Can't find furniture '%s' (%d)",fstr.c_str(), ind );
-         } else {
-            furn_key[ind] = furnmap[fstr].loadid;
-         }
-     }
-     ind++;
- }
+    if (trap_key.empty()) { // old, snip when this moves to legacy
+        for (int i = 0; i < num_legacy_trap; i++) {
+            std::string trstr = legacy_trap_id[i];
+            if ( trapmap.find( trstr ) == trapmap.end() ) {
+                debugmsg("Can't find trap '%s' (%d)", trstr.c_str(), i);
+                trap_key[i] = trapmap["tr_null"];
+            } else { 
+                trap_key[i] = trapmap[trstr];
+            }
+        }
+    }
 
  while (!fin.eof()) {
   if (num_loaded % 100 == 0)
@@ -331,7 +355,7 @@ void mapbuffer::unserialize(std::ifstream & fin) {
   }
   sm->turn_last_touched = turn;
   sm->temperature = temperature;
-  int turndif = (master_game ? int(master_game->turn) - turn : 0);
+  int turndif = int(g->turn) - turn;
   if (turndif < 0)
    turndif = 0;
 // Load terrain
@@ -375,7 +399,7 @@ void mapbuffer::unserialize(std::ifstream & fin) {
     fin >> itx >> ity;
     getline(fin, databuff); // Clear out the endline
     getline(fin, databuff);
-    it_tmp.load_info(databuff, master_game);
+    it_tmp.load_info(databuff);
     sm->itm[itx][ity].push_back(it_tmp);
     if (it_tmp.active)
      sm->active_item_count++;
@@ -383,13 +407,13 @@ void mapbuffer::unserialize(std::ifstream & fin) {
     getline(fin, databuff); // Clear out the endline
     getline(fin, databuff);
     int index = sm->itm[itx][ity].size() - 1;
-    it_tmp.load_info(databuff, master_game);
+    it_tmp.load_info(databuff);
     sm->itm[itx][ity][index].put_in(it_tmp);
     if (it_tmp.active)
      sm->active_item_count++;
    } else if (string_identifier == "T") {
     fin >> itx >> ity >> t;
-    sm->trp[itx][ity] = trap_id(t);
+    sm->trp[itx][ity] = trap_id(trap_key[t]);
    } else if (string_identifier == "f") {
     fin >> itx >> ity >> t;
     sm->frn[itx][ity] = furn_id(furn_key[t]);
@@ -407,11 +431,9 @@ void mapbuffer::unserialize(std::ifstream & fin) {
                     spawnname);
     sm->spawns.push_back(tmp);
    } else if (string_identifier == "V") {
-    vehicle * veh = new vehicle(master_game);
+    vehicle * veh = new vehicle();
     veh->load (fin);
-    //veh.smx = gridx;
-    //veh.smy = gridy;
-    master_game->m.vehicle_list.insert(veh);
+    g->m.vehicle_list.insert(veh);
     sm->vehicles.push_back(veh);
    } else if (string_identifier == "c") {
     getline(fin, databuff);

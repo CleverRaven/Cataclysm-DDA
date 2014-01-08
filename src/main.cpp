@@ -11,6 +11,8 @@
 #include "options.h"
 #include "mapbuffer.h"
 #include "debug.h"
+#include "item_factory.h"
+#include "monstergenerator.h"
 #include <sys/stat.h>
 #include <cstdlib>
 #include <signal.h>
@@ -73,13 +75,14 @@ int main(int argc, char *argv[])
     initOptions();
     load_options(); // For getting size options
     initscr(); // Initialize ncurses
-#ifdef SDLTILES
-    init_tiles();
-#endif // SDLTILES
+    init_interface();
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad(stdscr, true); // Numpad is numbers
-    init_colors(); // See color.cpp
+#if !(defined TILES || defined _WIN32 || defined WINDOWS)
+    // For tiles or windows, this is handled already in initscr().
+    init_colors();
+#endif
     // curs_set(0); // Invisible cursor
     set_escdelay(10); // Make escape actually responsive
 
@@ -92,11 +95,15 @@ int main(int argc, char *argv[])
         exit_handler(-999);
     }
     if ( verifyexit ) {
+        item_controller->check_itype_definitions();
+        item_controller->check_items_of_groups_exist();
+        MonsterGenerator::generator().check_monster_definitions();
+        MonsterGroupManager::check_group_definitions();
+        check_recipe_definitions();
         exit_handler(0);
     }
 
     g->init_ui();
-    MAPBUFFER.set_game(g);
     if(g->game_error()) {
         exit_handler(-999);
     }

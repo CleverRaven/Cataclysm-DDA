@@ -1,8 +1,10 @@
+#include "action.h"
 #include "cursesdef.h"
 #include "input.h"
 #include "json.h"
 #include "output.h"
 #include "keypress.h"
+#include "game.h"
 #include <fstream>
 
 /* TODO Replace the hardcoded values with an abstraction layer.
@@ -12,6 +14,29 @@ InputEvent get_input(int ch)
 {
     if (ch == '\0')
         ch = getch();
+
+    const action_id act = action_from_key(ch);
+    switch(act)
+    {
+        case ACTION_MOVE_N:
+            return DirectionN;
+        case ACTION_MOVE_NE:
+            return DirectionNE;
+        case ACTION_MOVE_E:
+            return DirectionE;
+        case ACTION_MOVE_SE:
+            return DirectionSE;
+        case ACTION_MOVE_S:
+            return DirectionS;
+        case ACTION_MOVE_SW:
+            return DirectionSW;
+        case ACTION_MOVE_W:
+            return DirectionW;
+        case ACTION_MOVE_NW:
+            return DirectionNW;
+        default:
+            break;
+    }
 
     switch(ch)
     {
@@ -80,7 +105,7 @@ InputEvent get_input(int ch)
 
 bool is_mouse_enabled()
 {
-#if !(defined TILES || defined SDLTILES)
+#if ((defined _WIN32 || defined WINDOWS) && !(defined SDLTILES || defined TILES))
     return false;
 #else
     return true;
@@ -162,7 +187,7 @@ void input_manager::init() {
         throw "Could not read " + file_name;
     }
 
-    JsonIn jsin(&data_file);
+    JsonIn jsin(data_file);
 
     //Crawl through once and create an entry for every definition
     jsin.start_array();
@@ -334,7 +359,7 @@ void input_manager::set_timeout(int delay)
 {
     timeout(delay);
     // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
-    should_timeout = delay > 0;
+    input_timeout = delay;
 }
 
 
@@ -389,7 +414,6 @@ const std::string& input_context::handle_input() {
     next_action.type = CATA_INPUT_ERROR;
     while(1) {
         next_action = inp_mngr.get_input_event(NULL);
-
         if (next_action.type == CATA_INPUT_TIMEOUT) {
             return TIMEOUT;
         }
@@ -399,7 +423,7 @@ const std::string& input_context::handle_input() {
         // Special help action
         if(action == "HELP_KEYBINDINGS") {
             display_help();
-            continue;
+            return ANY_INPUT;
         }
 
         if(next_action.type == CATA_INPUT_MOUSE) {
@@ -491,14 +515,18 @@ void input_context::display_help() {
 
     werase(w_help);
 
+    // Draw win header and borders
+    draw_border(w_help, c_white);
+    mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings")))/2 - 1,
+              c_ltred, " %s ", _("Keybindings"));
     mvwprintz(w_help, 1, 51, c_ltred, _("Unbound keys"));
     mvwprintz(w_help, 2, 51, c_ltgreen, _("Keybinding active only"));
     mvwprintz(w_help, 3, 51, c_ltgreen, _("on this screen"));
     mvwprintz(w_help, 4, 51, c_ltgray, _("Keybinding active globally"));
 
-    // Clear the lines
-    for (int i = 0; i < FULL_SCREEN_HEIGHT-2; i++)
-    mvwprintz(w_help, i, 0, c_black, "                                                ");
+    // Clear the lines. Don't touch borders
+    for (int i = 1; i < FULL_SCREEN_HEIGHT-3; i++)
+    mvwprintz(w_help, i, 1, c_black, "                                               ");
 
     for (int i=0; i<registered_actions.size(); i++) {
         const std::string& action_id = registered_actions[i];
@@ -527,6 +555,8 @@ void input_context::display_help() {
     while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE) { ch = getch(); };
 
     werase(w_help);
+    wrefresh(w_help);
+    delwin(w_help);
 }
 
 input_event input_context::get_raw_input()
@@ -535,32 +565,85 @@ input_event input_context::get_raw_input()
 }
 
 #ifndef TILES
-    // If we're using curses, we need to provide get_input_event() here.
-    input_event input_manager::get_input_event(WINDOW* win) {
-        int key = get_keypress();
-        input_event rval;
-
-        if(key == ERR) {
-            if (should_timeout) {
-                rval.type = CATA_INPUT_TIMEOUT;
+// If we're using curses, we need to provide get_input_event() here.
+input_event input_manager::get_input_event(WINDOW* win)
+{
+    (void)win; // unused
+    int key = get_keypress();
+    input_event rval;
+    if (key == ERR) {
+        if (input_timeout > 0) {
+            rval.type = CATA_INPUT_TIMEOUT;
+        } else {
+            rval.type = CATA_INPUT_ERROR;
+        }
+#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+    // ncurses mouse handling
+    } else if (key == KEY_MOUSE) {
+        MEVENT event;
+        if (getmouse(&event) == OK) {
+            rval.type = CATA_INPUT_MOUSE;
+            rval.mouse_x = event.x - VIEW_OFFSET_X;
+            rval.mouse_y = event.y - VIEW_OFFSET_Y;
+            if (event.bstate & BUTTON1_CLICKED) {
+                rval.add_input(MOUSE_BUTTON_LEFT);
+            } else if (event.bstate & BUTTON3_CLICKED) {
+                rval.add_input(MOUSE_BUTTON_RIGHT);
+            } else if (event.bstate & REPORT_MOUSE_POSITION) {
+                rval.add_input(MOUSE_MOVE);
+                if (input_timeout > 0) {
+                    // Mouse movement seems to clear ncurses timeout
+                    set_timeout(input_timeout);
+                }
             } else {
                 rval.type = CATA_INPUT_ERROR;
             }
         } else {
-            rval.type = CATA_INPUT_KEYBOARD;
-            rval.sequence.push_back(key);
+            rval.type = CATA_INPUT_ERROR;
         }
-        should_timeout = false;
-        return rval;
+#endif
+    } else {
+        rval.type = CATA_INPUT_KEYBOARD;
+        rval.add_input(key);
     }
 
-    // Also specify that we don't have a gamepad plugged in.
-    bool gamepad_available() {
-        return false;
-    }
+    return rval;
+}
 
-    // Coordinates just never happen(no mouse input)
-    bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
+// Also specify that we don't have a gamepad plugged in.
+bool gamepad_available()
+{
+    return false;
+}
+
+bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y)
+{
+    if (!coordinate_input_received) {
         return false;
     }
+    int view_columns = getmaxx(capture_win);
+    int view_rows = getmaxy(capture_win);
+    int win_left = getbegx(capture_win) - VIEW_OFFSET_X;
+    int win_right = win_left + view_columns - 1;
+    int win_top = getbegy(capture_win) - VIEW_OFFSET_Y;
+    int win_bottom = win_top + view_rows - 1;
+    if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
+        return false;
+    }
+    
+    x = g->ter_view_x - ((view_columns/2) - coordinate_x);
+    y = g->ter_view_y - ((view_rows/2) - coordinate_y);
+    
+    return true;
+}
+#endif
+
+#ifndef SDLTILES
+void init_interface()
+{
+#if !(defined TILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+    // ncurses mouse registration
+    mousemask(BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL);
+#endif
+}
 #endif

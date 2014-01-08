@@ -10,48 +10,7 @@
 * the end it will just not be shown                                             *
 *********************************************************************************
 */
-const std::string trap_names[num_trap_types] =
-{
-    toString(tr_null),
-    toString(tr_bubblewrap),
-    toString(tr_cot),
-    toString(tr_brazier),
-    toString(tr_funnel),
-    toString(tr_makeshift_funnel),
-    toString(tr_rollmat),
-    toString(tr_fur_rollmat),
-    toString(tr_beartrap),
-    toString(tr_beartrap_buried),
-    toString(tr_nailboard),
-    toString(tr_caltrops),
-    toString(tr_tripwire),
-    toString(tr_crossbow),
-    toString(tr_shotgun_2),
-    toString(tr_shotgun_1),
-    toString(tr_engine),
-    toString(tr_blade),
-    toString(tr_light_snare),
-    toString(tr_heavy_snare),
-    toString(tr_landmine),
-    toString(tr_landmine_buried),
-    toString(tr_telepad),
-    toString(tr_goo),
-    toString(tr_dissector),
-    toString(tr_sinkhole),
-    toString(tr_pit),
-    toString(tr_spike_pit),
-    toString(tr_lava),
-    toString(tr_portal),
-    toString(tr_ledge),
-    toString(tr_boobytrap),
-    toString(tr_temple_flood),
-    toString(tr_temple_toggle),
-    toString(tr_glow),
-    toString(tr_hum),
-    toString(tr_shadow),
-    toString(tr_drain),
-    toString(tr_snake)
-};
+
 const std::string field_names[num_fields] =
 {
     toString(fd_null),
@@ -135,6 +94,8 @@ const std::string monster_names[num_monsters] =
     toString(mon_zombie_master),
     toString(mon_beekeeper),
     toString(mon_zombie_child),
+    toString(mon_zombie_fireman),
+    toString(mon_zombie_survivor),
 
     toString(mon_jabberwock),
 

@@ -47,7 +47,7 @@
         "durability": 20,
         "item": "veh_tracker",
         "difficulty": 3,
-        "power": 6,
+        "epower": -63,
         "flags": [
             "TRACK", "UNMOUNT_ON_DAMAGE"
             ],
@@ -183,7 +183,9 @@
         "location" : "structure",
         "flags" : [],
         "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 4}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -292,6 +294,182 @@
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
             {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_horizontal",
+        "name" : "wooden frame",
+        "symbol" : "h",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_vertical",
+        "name" : "wooden frame",
+        "symbol" : "j",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_cross",
+        "name" : "wooden frame",
+        "symbol" : "c",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_nw",
+        "name" : "wooden frame",
+        "symbol" : "y",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_ne",
+        "name" : "wooden frame",
+        "symbol" : "u",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_se",
+        "name" : "wooden frame",
+        "symbol" : "n",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_sw",
+        "name" : "wooden frame",
+        "symbol" : "b",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_horizontal_2",
+        "name" : "wooden frame",
+        "symbol" : "=",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_vertical_2",
+        "name" : "wooden frame",
+        "symbol" : "H",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_cover",
+        "name" : "wooden frame",
+        "symbol" : "^",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_handle",
+        "name" : "wooden handle",
+        "symbol" : "^",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 150,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
         ]
     },{
         "type" : "vehicle_part",
@@ -735,7 +913,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OVER", "OBSTACLE", "WINDOW"],
-        "breaks_into" : []
+        "breaks_into" : [
+            {"item": "glass_shard", "min": 3, "max": 6}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "blade_horizontal",
@@ -930,12 +1110,12 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 150,
-        "power" : 40,
+        "epower" : 0,
         "fuel_type" : "gasoline",
         "item" : "1cyl_combustion",
         "difficulty" : 2,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
+        "flags" : ["ENGINE", "VARIABLE_SIZE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 5, "max": 10},
             {"item": "steel_chunk", "min": 5, "max": 10},
@@ -951,12 +1131,12 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 200,
-        "power" : 120,
+        "epower" : -50,
         "fuel_type" : "gasoline",
         "item" : "v2_combustion",
         "difficulty" : 2,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
+        "flags" : ["ENGINE", "VARIABLE_SIZE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 10, "max": 20},
             {"item": "steel_chunk", "min": 10, "max": 20},
@@ -971,12 +1151,12 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 300,
-        "power" : 300,
+        "epower" : -100,
         "fuel_type" : "gasoline",
         "item" : "i4_combustion",
         "difficulty" : 3,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
+        "flags" : ["ENGINE", "VARIABLE_SIZE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 20, "max": 30},
             {"item": "steel_chunk", "min": 20, "max": 30},
@@ -992,12 +1172,12 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 400,
-        "power" : 800,
+        "epower" : -150,
         "fuel_type" : "gasoline",
         "item" : "v6_combustion",
         "difficulty" : 4,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
+        "flags" : ["ENGINE", "VARIABLE_SIZE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 30, "max": 40},
             {"item": "steel_chunk", "min": 30, "max": 40},
@@ -1013,12 +1193,12 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 400,
-        "power" : 800,
+        "epower" : -200,
         "fuel_type" : "gasoline",
         "item" : "v8_combustion",
         "difficulty" : 4,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
+        "flags" : ["ENGINE", "VARIABLE_SIZE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 40, "max": 50},
             {"item": "steel_chunk", "min": 40, "max": 50},
@@ -1035,6 +1215,7 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "power" : 70,
+        "epower" : -29000,
         "fuel_type" : "battery",
         "item" : "motor",
         "difficulty" : 3,
@@ -1056,6 +1237,7 @@
         "damage_modifier" : 80,
         "durability" : 400,
         "power" : 350,
+        "epower" : -137000,
         "fuel_type" : "battery",
         "item" : "motor_large",
         "difficulty" : 4,
@@ -1077,11 +1259,12 @@
         "damage_modifier" : 80,
         "durability" : 250,
         "power" : 400,
+        "epower" : 2238,
         "fuel_type" : "plasma",
         "item" : "plasma_engine",
         "difficulty" : 6,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "ALTERNATOR"],
+        "flags" : ["ENGINE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 10, "max": 15},
             {"item": "steel_chunk", "min": 10, "max": 15},
@@ -1090,7 +1273,7 @@
     },{
         "type" : "vehicle_part",
         "id" : "foot_pedals",
-        "name" : "Foot pedals",
+        "name" : "foot pedals",
         "symbol" : "*",
         "color" : "light_gray",
         "broken_symbol" : "#",
@@ -1102,7 +1285,7 @@
         "item" : "foot_crank",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["ENGINE"],
+        "flags" : ["PEDALS", "ENGINE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -1179,6 +1362,7 @@
         "damage_modifier" : 80,
         "durability" : 700,
         "size" : 10000,
+        "epower" : 149200,
         "fuel_type" : "plutonium",
         "item" : "minireactor",
         "difficulty" : 7,
@@ -1241,11 +1425,12 @@
         "broken_color" : "light_blue",
         "damage_modifier" : 80,
         "durability" : 100,
+        "epower" : -249,
         "size" : 400,
         "item" : "minifridge",
         "difficulty" : 3,
         "location" : "center",
-        "flags" : ["CARGO", "OBSTACLE"],
+        "flags" : ["CARGO", "OBSTACLE", "FRIDGE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 8, "max": 13},
             {"item": "steel_chunk", "min": 8, "max": 13},
@@ -1373,7 +1558,7 @@
         "broken_color" : "yellow",
         "damage_modifier" : 10,
         "durability" : 20,
-        "power" : 30,
+        "epower" : 1119,
         "item" : "solar_panel",
         "difficulty" : 6,
         "location" : "on_roof",
@@ -1393,7 +1578,7 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 80,
         "durability" : 300,
-        "power" : 30,
+        "epower" : 1119,
         "item" : "reinforced_solar_panel",
         "difficulty" : 6,
         "location" : "on_roof",
@@ -1471,6 +1656,28 @@
             {"item": "vac_sealer", "min": 0, "max": 1},
             {"item": "dehydrator", "min": 0, "max": 1},
             {"item": "press", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "chemlab",
+        "name" : "onboard chemistry lab",
+        "symbol" : "&",
+        "color" : "yellow",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 10,
+        "durability" : 20,
+        "size" : 400,
+        "item" : "chemlab",
+        "difficulty" : 4,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "CHEMLAB"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 4, "max": 7},
+            {"item": "scrap", "min": 4, "max": 7},
+            {"item": "chemistry_set", "min": 0, "max": 1},
+            {"item": "hotplate", "min": 0, "max": 1}
         ]
     },{
         "type" : "vehicle_part",
@@ -1567,6 +1774,24 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "laser_gun",
+        "name" : "mounted NX17",
+        "symbol" : "t",
+        "color" : "magenta",
+        "broken_symbol" : "#",
+        "broken_color" : "magenta",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "fuel_type" : "battery",
+        "item" : "nx17",
+        "difficulty" : 7,
+        "location" : "on_roof",
+        "flags" : ["TURRET"],
+        "breaks_into" : [
+            {"item": "nx17", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "plating_steel",
         "name" : "steel plating",
         "symbol" : ")",
@@ -1649,7 +1874,7 @@
         "broken_color" : "white",
         "damage_modifier" : 10,
         "durability" : 20,
-        "power" : 3,
+        "epower" : -187,
         "bonus" : 480,
         "item" : "flashlight",
         "difficulty" : 1,
@@ -1671,7 +1896,10 @@
         "difficulty" : 6,
         "location" : "center",
         "flags" : ["OBSTACLE", "WINDOW"],
-        "breaks_into" : []
+        "breaks_into" : [
+            {"item": "glass_shard", "min": 3, "max": 6},
+            {"item": "wire", "min": 4, "max": 8}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "horn_bicycle",
@@ -1785,6 +2013,67 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "alternator_motorbike",
+        "name" : "motorbike alternator",
+        "symbol" : "*",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 150,
+        "power" : -4,
+        "epower" : 746,
+        "fuel_type" : "battery",
+        "item" : "alternator_motorbike",
+        "difficulty" : 3,
+        "flags" : ["ALTERNATOR"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 2, "max": 5},
+            {"item": "steel_chunk", "min": 2, "max": 5},
+            {"item": "scrap", "min": 2, "max": 5}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "alternator_car",
+        "name" : "car alternator",
+        "symbol" : "*",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 200,
+        "power" : -7,
+        "epower" : 1492,
+        "item" : "alternator_car",
+        "difficulty" : 3,
+        "flags" : ["ALTERNATOR"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 3, "max": 6},
+            {"item": "steel_chunk", "min": 3, "max": 6},
+            {"item": "scrap", "min": 3, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "alternator_truck",
+        "name" : "truck alternator",
+        "symbol" : "*",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 250,
+        "power" : -10,
+        "epower" : 2238,
+        "item" : "alternator_truck",
+        "difficulty" : 3,
+        "flags" : ["ALTERNATOR"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 4, "max": 7},
+            {"item": "scrap", "min": 4, "max": 7}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "door_trunk",
         "name" : "trunk door",
         "symbol" : "+",
@@ -1847,10 +2136,10 @@
         "symbol" : "*",
         "color" : "red",
         "broken_symbol" : "-",
-        "broken_color" : "dark_red",
+        "broken_color" : "red",
         "damage_modifier" : 10,
         "durability" : 20,
-        "power" : 2,
+        "epower" : -125,
         "bonus" : 350,
         "item" : "light_emergency_red",
         "difficulty" : 1,
@@ -1867,10 +2156,10 @@
         "symbol" : "*",
         "color" : "blue",
         "broken_symbol" : "-",
-        "broken_color" : "dark_blue",
+        "broken_color" : "blue",
         "damage_modifier" : 10,
         "durability" : 20,
-        "power" : 2,
+        "epower" : -125,
         "bonus" : 350,
         "item" : "light_emergency_blue",
         "difficulty" : 1,
@@ -1879,6 +2168,66 @@
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 1},
             {"item": "scrap", "min": 1, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "cargo_space",
+        "name" : "cargo space",
+        "symbol" : "=",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 250,
+        "size" : 1000,
+        "item" : "cargo_rack",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE", "CARGO"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 6, "max": 8},
+            {"item": "steel_chunk", "min": 6, "max": 8},
+            {"item": "scrap", "min": 6, "max": 8}
+        ]
+    },{
+            "type" : "vehicle_part",
+        "id" : "floodlight",
+        "name" : "floodlight",
+        "symbol" : "*",
+        "color" : "white",
+        "broken_symbol" : "-",
+        "broken_color" : "blue",
+        "damage_modifier" : 10,
+        "durability" : 20,
+        "epower" : -187,
+        "bonus" : 600,
+        "item" : "floodlight",
+        "difficulty" : 1,
+        "location" : "on_roof",
+        "flags" : ["CIRCLE_LIGHT"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "min": 0, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+            "type" : "vehicle_part",
+        "id" : "recharge_station",
+        "name" : "recharging station",
+        "symbol" : "#",
+        "color" : "light_green",
+        "broken_symbol" : "0",
+        "broken_color" : "blue",
+        "damage_modifier" : 10,
+        "durability" : 20,
+        "epower" : -187,
+        "bonus" : 600,
+        "item" : "recharge_station",
+        "difficulty" : 3,
+        "location" : "on_cargo",
+        "flags" : ["INTERNAL", "RECHARGE"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "min": 0, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 1, "max": 3}
         ]
     }
 ]

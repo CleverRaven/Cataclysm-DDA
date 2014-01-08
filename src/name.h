@@ -12,7 +12,8 @@ typedef enum {
   nameIsGivenName = 4,
   nameIsFamilyName = 8,
   nameIsTownName = 16,
-  nameIsFullName = 32
+  nameIsFullName = 32,
+  nameIsWorldName = 64
 } nameFlags;
 
 class NameGenerator;
@@ -63,5 +64,7 @@ class NameGenerator {
 
   std::vector<Name> names;
 };
+
+void load_names_from_file(const std::string &filename);
 
 #endif

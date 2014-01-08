@@ -6,7 +6,7 @@
 #include "translations.h"
 #include "monstergenerator.h"
 
-void event::actualize(game *g)
+void event::actualize()
 {
  switch (type) {
 
@@ -19,11 +19,11 @@ void event::actualize(game *g)
     if (faction_id != -1) {
      faction* fac = g->faction_by_id(faction_id);
      if (fac)
-      tmp.randomize_from_faction(g, fac);
+      tmp.randomize_from_faction(fac);
      else
       debugmsg("EVENT_HELP run with invalid faction_id");
     } else
-     tmp.randomize(g);
+     tmp.randomize();
     tmp.attitude = NPCATT_DEFEND;
     tmp.posx = g->u.posx - SEEX * 2 + rng(-5, 5);
     tmp.posy = g->u.posy - SEEY * 2 + rng(-5, 5);
@@ -226,7 +226,7 @@ void event::actualize(game *g)
  }
 }
 
-void event::per_turn(game *g)
+void event::per_turn()
 {
  switch (type) {
   case EVENT_WANTED: {

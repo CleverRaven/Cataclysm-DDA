@@ -7,8 +7,21 @@
 #include <vector>
 #include <algorithm> //atoi
 
+class regional_settings;
+class options_data {
+    friend class regional_settings;
+  public:
+    void add_retry(const std::string & var, const std::string & val);
+    void add_value(const std::string & myoption, const std::string & myval, std::string myvaltxt = "" );
+    options_data();
+  private:
+    void enable_json(const std::string & var);
+    std::map<std::string, std::string> post_json_verify;
+};
+
 class cOpt
 {
+    friend class options_data;
     public:
         //Default constructor
         cOpt();
@@ -46,6 +59,7 @@ class cOpt
         void setPrev();
         //set value
         void setValue(std::string sSetIn);
+        void setValue(float fSetIn);
 
         //Set default class behaviour to float
         operator float() const;
@@ -86,10 +100,11 @@ class cOpt
 extern std::map<std::string, cOpt> OPTIONS;
 extern std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 
+extern options_data optionsdata;
 void initOptions();
 void load_options();
-void save_options();
-void show_options();
+void save_options(bool ingame=false);
+void show_options(bool ingame=false);
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
 

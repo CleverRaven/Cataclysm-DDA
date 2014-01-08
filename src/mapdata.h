@@ -55,7 +55,8 @@ struct map_bash_info {
     std::string sound;    // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
-    map_bash_info() : str_min(-1), str_max(-1), str_min_roll(-1), str_min_blocked(-1), str_max_blocked(-1), num_tests(-1), chance(-1), ter_set("") {};
+    std::string furn_set;    // furniture to set (only used by furniture, not terrain)
+    map_bash_info() : str_min(-1), str_max(-1), str_min_roll(-1), str_min_blocked(-1), str_max_blocked(-1), num_tests(-1), chance(-1), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 
@@ -107,6 +108,45 @@ struct map_bash_info {
  * Furniture only:
  * BLOCKSDOOR - This will boost map terrain's resistance to bashing if str_*_blocked is set (see map_bash_info)
  */
+
+/*
+ * Note; All flags are defined as strings dynamically in data/json/terrain.json and furniture.json. The list above
+ * represent the common builtins. The enum below is an alternative means of fast-access, for those flags that are checked
+ * so much that strings produce a significant performance penalty. The following are equivalent:
+ *  m->has_flag("FLAMMABLE");     //
+ *  m->has_flag(TFLAG_FLAMMABLE); // ~ 20 x faster than the above, ( 2.5 x faster if the above uses static const std::string str_flammable("FLAMMABLE");
+ * To add a new ter_bitflag, add below and add to init_ter_bitflag_map() in mapdata.cpp
+ * Order does not matter.
+ */
+enum ter_bitflags {
+    TFLAG_NONE,
+    TFLAG_TRANSPARENT,
+    TFLAG_FLAMMABLE,
+    TFLAG_BASHABLE,
+    TFLAG_REDUCE_SCENT,
+    TFLAG_SWIMMABLE,
+    TFLAG_SUPPORTS_ROOF,
+    TFLAG_NOITEM,
+    TFLAG_SEALED,
+    TFLAG_LIQUID,
+    TFLAG_COLLAPSES,
+    TFLAG_EXPLODES,
+    TFLAG_FLAMMABLE_ASH,
+    TFLAG_DESTROY_ITEM,
+    TFLAG_INDOORS,
+    TFLAG_PLANT,
+    TFLAG_FIRE_CONTAINER,
+    TFLAG_FLAMMABLE_HARD,
+    TFLAG_SUPPRESS_SMOKE,
+    TFLAG_SHARP,
+    TFLAG_DIGGABLE,
+    TFLAG_ROUGH,
+    TFLAG_WALL,
+    TFLAG_DEEP_WATER
+};
+extern std::map<std::string, ter_bitflags> ter_bitflags_map;
+void init_ter_bitflags_map();
+
 typedef int ter_id;
 typedef int furn_id;
 /*
@@ -128,21 +168,30 @@ struct ter_t {
  nc_color color;//The color the sym will draw in on the GUI.
  unsigned char movecost; //The amount of movement points required to pass this terrain by default.
  trap_id trap; //The id of the trap located at this terrain. Limit one trap per tile currently.
- std::set<std::string> flags;// : num_t_flags; This refers to enum t_flag defined above.
+ std::string trap_id_str; // String storing the id string of the trap.
+ std::set<std::string> flags;// string flags which may or may not refer to what's documented above.
+ unsigned long bitflags; // bitfield of -certian- string flags which are heavily checked
  iexamine_function examine; //What happens when the terrain is examined
  std::string open;          // open action: transform into terrain with matching id
  std::string close;         // close action: transform into terrain with matching id
 
  map_bash_info bash;
  
- bool has_flag(std::string flag) {
+ bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
+ }
+
+ bool has_flag(const ter_bitflags flag) const {
+     return (bitflags & mfb(flag));
  }
 
  void set_flag(std::string flag) {
      flags.insert(flag);
      if("TRANSPARENT" == flag) {
          transparent = true;
+     }
+     if ( ter_bitflags_map.find( flag ) != ter_bitflags_map.end() ) {
+         bitflags |= mfb ( ter_bitflags_map.find( flag )->second ); 
      }
  }
  bool transparent;
@@ -157,6 +206,7 @@ void set_furn_ids();
 extern std::vector<ter_t> terlist;
 extern std::map<std::string, ter_t> termap;
 extern std::map<int,int> reverse_legacy_ter_id;
+ter_id terfind(const std::string & id); // lookup, carp and return null on error
 
 
 struct furn_t {
@@ -167,21 +217,29 @@ struct furn_t {
  nc_color color;
  int movecost; // Penalty to terrain
  int move_str_req; //The amount of strength required to move through this terrain easily.
- std::set<std::string> flags;
+ std::set<std::string> flags;// string flags which may or may not refer to what's documented above.
+ unsigned long bitflags; // bitfield of -certian- string flags which are heavily checked
  iexamine_function examine;
  std::string open;
  std::string close;
 
  map_bash_info bash;
  
- bool has_flag(std::string flag) {
+ bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
+ }
+
+ bool has_flag(const ter_bitflags flag) const {
+     return (bitflags & mfb(flag));
  }
 
  void set_flag(std::string flag) {
      flags.insert(flag);
      if("TRANSPARENT" == flag) {
          transparent = true;
+     }
+     if ( ter_bitflags_map.find( flag ) != ter_bitflags_map.end() ) {
+         bitflags |= mfb ( ter_bitflags_map.find( flag )->second ); 
      }
  }
  bool transparent;
@@ -191,6 +249,7 @@ struct furn_t {
 extern std::vector<furn_t> furnlist;
 extern std::map<std::string, furn_t> furnmap;
 extern std::map<int,int> reverse_legacy_furn_id;
+furn_id furnfind(const std::string & id); // lookup, carp and return null on error
 
 /*
 enum: map_extra
@@ -311,6 +370,45 @@ void load_terrain(JsonObject &jsobj);
 void verify_furniture();
 void verify_terrain();
 
+
+/*
+ * Temporary container id_or_id. Stores str for delayed lookup and conversion.
+ */
+struct sid_or_sid {
+   std::string primary_str;   // 32
+   std::string secondary_str; // 64
+   int chance;                // 68
+   sid_or_sid(const std::string & s1, const int i, const::std::string s2) : primary_str(s1), secondary_str(s2), chance(i) { }
+};
+
+/*
+ * Container for custom 'grass_or_dirt' functionality. Returns int but can store str values for delayed lookup and conversion
+ */
+struct id_or_id {
+   int chance;                  // 8
+   short primary;               // 12
+   short secondary;             // 16
+   id_or_id(const int id1, const int i, const int id2) : chance(i), primary(id1), secondary(id2) { }
+   bool match( const int iid ) const {
+       if ( iid == primary || iid == secondary ) {
+           return true;
+       }
+       return false;
+   }
+   int get() const {
+       return ( one_in(chance) ? secondary : primary );
+   }
+};
+
+/*
+ * It's a terrain! No, it's a furniture! Wait it's both!
+ */
+struct ter_furn_id {
+   short ter;
+   short furn;
+   ter_furn_id() : ter(0), furn(0) {};
+};
+
 /*
 runtime index: ter_id
 ter_id refers to a position in the terlist[] where the ter_t struct is stored. These global
@@ -352,7 +450,7 @@ extern ter_id t_null,
     t_door_glass_c, t_door_glass_o,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
-    t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
+    t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded, t_window_boarded_noglass,
     t_window_stained_green, t_window_stained_red, t_window_stained_blue,
     t_rock, t_fault,
     t_paper,
@@ -411,7 +509,7 @@ extern furn_id f_null,
     f_fridge, f_glass_fridge, f_dresser, f_locker,
     f_rack, f_bookcase,
     f_washer, f_dryer,
-    f_dumpster, f_dive_block,
+    f_vending_c, f_vending_o, f_dumpster, f_dive_block,
     f_crate_c, f_crate_o,
     f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet,
     f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,

@@ -39,7 +39,8 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
 }
 /* Bullet Animation -- Maybe change this to animate the ammo itself flying through the air?*/
 // need to have a version where there is no player defined, possibly. That way shrapnel works as intended
-void game::draw_bullet(player &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet_char, timespec &ts)
+void game::draw_bullet(Creature &p, int tx, int ty, int i,
+                       std::vector<point> trajectory, char bullet_char, timespec &ts)
 {
     (void)i; //unused
     (void)trajectory; //unused
@@ -57,8 +58,9 @@ void game::draw_bullet(player &p, int tx, int ty, int i, std::vector<point> traj
         // pass to tilecontext
         tilecontext->init_draw_bullet(tx, ty, bullet);
         wrefresh(w_terrain);
-        if (&p == &u)
-         nanosleep(&ts, NULL);
+        if (p.is_player()) {
+            nanosleep(&ts, NULL);
+        }
         tilecontext->void_bullet();
    }
 }
@@ -139,9 +141,9 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
             npcdex = npc_at(ret[i].x, ret[i].y);
 
             // NPCs and monsters get drawn with inverted colors
-            if (mondex != -1 && u_see(&(_active_monsters[mondex])))
+            if (mondex != -1 && u_see(&(critter_tracker.find(mondex))))
             {
-                _active_monsters[mondex].draw(w_terrain, center_point.x, center_point.y, true);
+                critter_tracker.find(mondex).draw(w_terrain, center_point.x, center_point.y, true);
             }
             else if (npcdex != -1)
             {

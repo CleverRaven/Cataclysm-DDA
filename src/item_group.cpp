@@ -4,7 +4,16 @@
 #include <map>
 #include <algorithm>
 
-Item_group::Item_group(const Item_tag id) : m_id(id), m_max_odds(0){
+Item_group::Item_group(const Item_tag id) : m_id(id), m_max_odds(0), m_guns_have_ammo(false) {
+}
+
+void Item_group::check_items_exist() const {
+    for(std::vector<Item_group_entry*>::const_iterator iter = m_entries.begin(); iter != m_entries.end(); ++iter){
+        const Item_tag itag = (*iter)->get();
+        if(!item_controller->has_template(itag)) {
+            debugmsg("%s in group %s is not a valid item type", itag.c_str(), m_id.c_str());
+        }
+    }
 }
 
 // When selecting an id from this group, the value returned is determined based on the odds
@@ -13,6 +22,11 @@ const Item_tag Item_group::get_id(){
     //Create a list of visited groups - in case of recursion, this will be needed to throw an error.
     std::vector<Item_tag> recursion_list;
     return get_id(recursion_list);
+}
+
+// true if guns in this group and subgroups have ammo. (Non recursively recursive). Yet_another_taglist_one_day
+bool Item_group::guns_have_ammo() {
+    return (m_guns_have_ammo == true);
 }
 
 const Item_tag Item_group::get_id(std::vector<Item_tag> recursion_list){

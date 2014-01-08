@@ -12,6 +12,7 @@
 #define MAX_DISPLAYED_RECIPES 18
 
 typedef std::string craft_cat;
+typedef std::string craft_subcat;
 
 struct component
 {
@@ -50,6 +51,7 @@ struct recipe {
   int id;
   itype_id result;
   craft_cat cat;
+  craft_subcat subcat;
   Skill *skill_used;
   std::map<Skill*,int> required_skills;
   int difficulty;
@@ -92,10 +94,10 @@ struct recipe {
     learn_by_disassembly = -1;
   }
 
-recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, std::string &to_use,
+recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, craft_subcat psubcat, std::string &to_use,
        std::map<std::string,int> &to_require, int pdiff, int ptime, bool preversible, bool pautolearn,
        int plearn_dis) :
-  ident (pident), id (pid), result (pres), cat(pcat), difficulty (pdiff), time (ptime),
+  ident (pident), id (pid), result (pres), cat(pcat), subcat(psubcat), difficulty (pdiff), time (ptime),
   reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis) {
     skill_used = to_use.size()?Skill::skill(to_use):NULL;
     if(!to_require.empty()){
@@ -118,5 +120,7 @@ extern recipe_map recipes; // The list of valid recipes
 
 void load_quality(JsonObject &jo);
 extern std::map<std::string,quality> qualities;
+
+void check_recipe_definitions();
 
 #endif

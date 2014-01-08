@@ -1,6 +1,7 @@
 #ifndef _ENUMS_H_
 #define _ENUMS_H_
 
+#include "rng.h"
 #include "json.h" // (de)serialization for points
 
 #ifndef sgn
@@ -29,23 +30,12 @@ enum object_type {
   NUM_OBJECTS,
 };
 
-enum damage_type
-{
-    DNULL = 0,
-    BASH,
-    CUT,
-    ACID,
-    ELECTRICITY,
-    FIRE,
-    NUM_DAM_TYPES
-};
-
 struct point : public JsonSerializer, public JsonDeserializer
 {
     int x;
     int y;
     point(int X = 0, int Y = 0) : x (X), y (Y) {}
-    point(const point &p) : x (p.x), y (p.y) {}
+    point(const point &p) : JsonSerializer(), JsonDeserializer(), x (p.x), y (p.y) {}
     ~point(){}
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const {

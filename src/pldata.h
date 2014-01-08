@@ -8,6 +8,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <climits>
 
 typedef std::string matype_id;
 
@@ -15,6 +16,7 @@ typedef std::string mabuff_id;
 
 typedef std::string matec_id;
 
+typedef std::string efftype_id;
 
 enum character_type {
  PLTYPE_CUSTOM,
@@ -118,7 +120,7 @@ enum activity_type {
  ACT_NULL = 0,
  ACT_RELOAD, ACT_READ, ACT_GAME, ACT_WAIT, ACT_CRAFT, ACT_LONGCRAFT,
  ACT_DISASSEMBLE, ACT_BUTCHER, ACT_FORAGE, ACT_BUILD, ACT_VEHICLE, ACT_REFILL_VEHICLE,
- ACT_TRAIN,
+ ACT_TRAIN, ACT_WAIT_WEATHER, ACT_FIRSTAID,
  NUM_ACTIVITIES
 };
 
@@ -128,7 +130,7 @@ public:
  activity_type type;
  int moves_left;
  int index;
- char invlet;
+ int position;
  std::string name;
  bool continuous;
  bool ignore_trivial;
@@ -137,26 +139,26 @@ public:
  point placement;
  bool warned_of_proximity; // True if player has been warned of dangerously close monsters
 
- player_activity() : name(""), placement(point(-1,-1)) { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
+ player_activity() : name(""), placement(point(-1,-1)) { type = ACT_NULL; moves_left = 0; index = -1; position = INT_MIN;
                      continuous = false; ignore_trivial = true; }
 
- player_activity(activity_type t, int turns, int Index, char ch, std::string name_in) : name(name_in), placement(point(-1,-1))
+ player_activity(activity_type t, int turns, int Index, int pos, std::string name_in) : name(name_in), placement(point(-1,-1))
  {
   type = t;
   moves_left = turns;
   index = Index;
-  invlet = ch;
+  position = pos;
   continuous = false;
   ignore_trivial = false;
   warned_of_proximity = false;
  }
 
- player_activity(const player_activity &copy) : name(copy.name), placement(copy.placement)
+ player_activity(const player_activity &copy) : JsonSerializer(), JsonDeserializer(), name(copy.name), placement(copy.placement)
  {
   type = copy.type;
   moves_left = copy.moves_left;
   index = copy.index;
-  invlet = copy.invlet;
+  position = copy.position;
   continuous = copy.continuous;
   ignore_trivial = copy.ignore_trivial;
   warned_of_proximity = false;
@@ -183,6 +185,7 @@ struct trait {
     int visibility; // How visible it is
     int ugliness; // How ugly it is
     bool startingtrait; // Starting Trait True/False
+    bool purifiable; // Whether it's vulnerable to Purifier
     std::string description;
 };
 

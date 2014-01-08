@@ -53,17 +53,17 @@ struct weather_printable
 };
 struct weather_effect
 {
-    void none       (game *) {};
-    void glare      (game *);
-    void wet        (game *);
-    void very_wet   (game *);
-    void thunder    (game *);
-    void lightning  (game *);
-    void light_acid (game *);
-    void acid       (game *);
-    void flurry     (game *) {};
-    void snow       (game *) {};
-    void snowstorm  (game *) {};
+    void none       () {};
+    void glare      ();
+    void wet        ();
+    void very_wet   ();
+    void thunder    ();
+    void lightning  ();
+    void light_acid ();
+    void acid       ();
+    void flurry     () {};
+    void snow       () {};
+    void snowstorm  () {};
 };
 
 // All the weather conditions at some time
@@ -84,14 +84,14 @@ struct weather_datum
  int light_modifier; // Modification to ambient light
  int mintime, maxtime; // min/max time it lasts, in minutes
  bool dangerous; // If true, our activity gets interrupted
- void (weather_effect::*effect)(game *);
+ void (weather_effect::*effect)();
 };
 
 extern std::string season_name[4];
 extern weather_datum weather_data[NUM_WEATHER_TYPES];
 extern int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES];
 
-std::string weather_forecast(game *g, radio_tower tower);
+std::string weather_forecast(radio_tower tower);
 
 // Returns input value (in fahrenheit) converted to whatever temperature scale set in options.
 //
@@ -101,7 +101,9 @@ std::string weather_forecast(game *g, radio_tower tower);
 // Use the decimals parameter to set number of decimal places returned in string.
 std::string print_temperature(float fahrenheit, int decimals = 0);
 
-void retroactively_fill_from_funnel( game * g, item *it, const trap_id t, const int endturn );
+void retroactively_fill_from_funnel( item *it, const trap_id t, const int endturn );
 
-
+extern const std::vector<int> rot_chart;
+int get_hourly_rotpoints_at_temp (const int & temp);
+int get_rot_since( const int since, const int endturn );
 #endif // _WEATHER_H_

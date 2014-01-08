@@ -12,7 +12,6 @@
 
 class map;
 class player;
-class game;
 
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);
@@ -71,7 +70,7 @@ struct vehicle_prototype
  */
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
-    vehicle_part() : id("null"), mount_dx(0), mount_dy(0), hp(0),
+    vehicle_part() : id("null"), iid(0), mount_dx(0), mount_dy(0), hp(0),
       blood(0), bigness(0), inside(false), flags(0), passenger_id(0), amount(0)
     {
         precalc_dx[0] = precalc_dx[1] = -1;
@@ -84,6 +83,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     static const int passenger_flag = 1;
 
     std::string id;         // id in map of parts (vehicle_part_types key)
+    int iid;                // same as above, for lookup via int
     int mount_dx;           // mount point on the forward/backward axis
     int mount_dy;           // mount point on the left/right axis
     int precalc_dx[2];      // mount_dx translated to face.dir [0] and turn_dir [1]
@@ -101,6 +101,16 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
         int direction;      // direction the part is facing
     };
     std::vector<item> items;// inventory
+
+    bool setid(const std::string str) {
+        std::map<std::string, vpart_info>::const_iterator vpit = vehicle_part_types.find(str);
+        if ( vpit == vehicle_part_types.end() ) {
+            return false;
+        }
+        id = str;
+        iid = vpit->second.loadid;
+        return true;
+    }
 
     // json saving/loading
     using JsonSerializer::serialize;
@@ -182,8 +192,6 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 class vehicle : public JsonSerializer, public JsonDeserializer
 {
 private:
-    game *g;
-
     bool has_structural_part(int dx, int dy);
     void open_or_close(int part_index, bool opening);
     bool is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &excluded);
@@ -193,15 +201,30 @@ private:
     // returns damage bypassed
     int damage_direct (int p, int dmg, int type = 1);
 
+    // get vpart powerinfo for part number, accounting for variable-sized parts.
+    int part_power (int index);
+
+    // get vpart epowerinfo for part number.
+    int part_epower (int index);
+
+    // convert epower (watts) to power.
+    int epower_to_power (int epower);
+
+    // convert power to epower (watts).
+    int power_to_epower (int power);
+
+    //Refresh all caches and re-locate all parts
+    void refresh();
+
 public:
-    vehicle (game *ag=0, std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
+    vehicle (std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
 
 // check if given player controls this vehicle
     bool player_in_control (player *p);
 
 // init parts state for randomly generated vehicle
-    void init_state(game* g, int veh_init_fuel, int veh_init_status);
+    void init_state(int veh_init_fuel, int veh_init_status);
 
 // damages all parts of a vehicle by a random amount
     void smash();
@@ -221,14 +244,14 @@ public:
 // Operate vehicle
     void use_controls();
 
+// Start the vehicle's engine, if there are any
+    void start_engine();
+
 // Honk the vehicle's horn, if there are any
     void honk_horn();
 
 // get vpart type info for part number (part at given vector index)
     vpart_info& part_info (int index);
-
-// get vpart powerinfo for part number, accounting for variable-sized parts.
-    int part_power (int index);
 
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, std::string id);
@@ -248,24 +271,26 @@ public:
     item item_from_part( int part );
 
 // translate item health to part health
-    void get_part_properties_from_item (game* g, int partnum, item& i);
+    void get_part_properties_from_item (int partnum, item& i);
 // translate part health to item health (very lossy.)
-    void give_part_properties_to_item (game* g, int partnum, item& i);
+    void give_part_properties_to_item (int partnum, item& i);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
-    std::vector<int> parts_at_relative (int dx, int dy);
+    const std::vector<int> parts_at_relative (const int dx, const int dy, bool use_cache = true);
 
 // returns index of part, inner to given, with certain flag, or -1
     int part_with_feature (int p, const std::string &f, bool unbroken = true);
-
+    int part_with_feature (int p, const vpart_bitflags &f, bool unbroken = true);
 // returns indices of all parts in the vehicle with the given flag
     std::vector<int> all_parts_with_feature(const std::string &feature, bool unbroken = true);
+    std::vector<int> all_parts_with_feature(const vpart_bitflags &f, bool unbroken = true);
 
 // returns indices of all parts in the given location slot
     std::vector<int> all_parts_at_location(const std::string &location);
 
 // returns true if given flag is present for given part index
     bool part_flag (int p, const std::string &f);
+    bool part_flag (int p, const vpart_bitflags &f);
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -316,27 +341,28 @@ public:
     void update_map_x(int x);
     void update_map_y(int y);
 
-// Checks how much certain fuel left in tanks. If for_engine == true that means
-// ftype == "battery" is also takes in account "plutonium" fuel (electric motors can use both)
-    int fuel_left (ammotype ftype, bool for_engine = false);
-    int fuel_capacity (ammotype ftype);
+// Checks how much certain fuel left in tanks.
+    int fuel_left (const ammotype & ftype);
+    int fuel_capacity (const ammotype & ftype);
 
     // refill fuel tank(s) with given type of fuel
     // returns amount of leftover fuel
-    int refill (ammotype ftype, int amount);
+    int refill (const ammotype & ftype, int amount);
 
     // drains a fuel type (e.g. for the kitchen unit)
     // returns amount actually drained, does not engage reactor
-    int drain (ammotype ftype, int amount);
+    int drain (const ammotype & ftype, int amount);
 
 // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
-    int basic_consumption (ammotype ftype);
+    int basic_consumption (const ammotype & ftype);
 
-    void consume_fuel ();
+    void consume_fuel (float rate);
 
     void power_parts ();
 
     void charge_battery (int amount);
+
+    int discharge_battery (int amount);
 
 // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
@@ -348,8 +374,8 @@ public:
 // vehicle have fuel for are accounted
     int total_power (bool fueled = true);
 
-// Get combined power of solar panels
-    int solar_power ();
+// Get combined epower of solar panels
+    int solar_epower ();
 
 // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
@@ -382,6 +408,9 @@ public:
 // calculate if it can move using its wheels configuration
     bool valid_wheel_config ();
 
+// idle fuel consumption
+    void idle ();
+
 // thrust (1) or brake (-1) vehicle
     void thrust (int thd);
 
@@ -397,7 +426,8 @@ public:
 // turn vehicle left (negative) or right (positive), degrees
     void turn (int deg);
 
-    bool collision( std::vector<veh_collision> &veh_veh_colls, int dx, int dy,
+    bool collision( std::vector<veh_collision> &veh_veh_colls,
+                    std::vector<veh_collision> &veh_misc_colls, int dx, int dy,
                     bool &can_move, int &imp, bool just_detect = false );
 
 // handle given part collision with vehicle, monster/NPC/player or terrain obstacle
@@ -422,20 +452,32 @@ public:
 // Generates starting items in the car, should only be called when placed on the map
     void place_spawn_items();
 
-    void gain_moves (int mp);
+    void gain_moves();
 
 // reduces velocity to 0
     void stop ();
 
     void find_horns ();
 
-    void find_lights ();
+    void find_power ();
+
+    void find_alternators ();
 
     void find_fuel_tanks ();
+
+    void find_engines ();
+
+    void find_reactors ();
+
+    void find_solar_panels ();
+
+    void find_parts();
 
     void find_exhaust ();
 
     void refresh_insides ();
+
+    bool pedals();
 
     bool is_inside (int p);
 
@@ -454,13 +496,17 @@ public:
     // damage all parts (like shake from strong collision), range from dmg1 to dmg2
     void damage_all (int dmg1, int dmg2, int type, const point &impact);
 
+    //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
+    void shift_parts(const int dx, const int dy);
+
     void leak_fuel (int p);
 
     // fire the turret which is part p
     void fire_turret (int p, bool burst = true);
 
     // internal procedure of turret firing
-    bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges);
+    bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges,
+                               const std::string &firing_sound = "");
 
     // opens/closes doors or multipart doors
     void open(int part_index);
@@ -479,9 +525,15 @@ public:
     std::string name;   // vehicle name
     std::string type;           // vehicle type
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
+    std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
     std::vector<int> horns;            // List of horn part indices
     std::vector<int> lights;           // List of light part indices
+    std::vector<int> alternators;      // List of alternator indices
     std::vector<int> fuel;             // List of fuel tank indices
+    std::vector<int> engines;          // List of engine indices
+    std::vector<int> reactors;         // List of reactor indices
+    std::vector<int> solar_panels;     // List of solar panel indices
+    std::vector<int> wheelcache;
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
     int exhaust_dx;
@@ -490,8 +542,10 @@ public:
     // temp values
     int smx, smy;   // submap coords. WARNING: must ALWAYS correspond to sumbap coords in grid, or i'm out
     bool insides_dirty; // if true, then parts' "inside" flags are outdated and need refreshing
+    bool parts_dirty;   //
     int init_veh_fuel;
     int init_veh_status;
+    float alternator_load;
 
     // save values
     int posx, posy;
@@ -501,10 +555,15 @@ public:
     int velocity;       // vehicle current velocity, mph * 100
     int cruise_velocity; // velocity vehicle's cruise control trying to acheive
     bool cruise_on;     // cruise control on/off
+    bool reactor_on;    // reactor on/off
+    bool engine_on;     // engine on/off
+    bool has_pedals;
     bool lights_on;     // lights on/off
     bool tracking_on;        // vehicle tracking on/off
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
-    bool overhead_lights_on; //emergency vehicle flasher lights on/off
+    bool overhead_lights_on; //circle lights on/off
+    bool fridge_on;     //fridge on/off
+    bool recharger_on;  //recharger on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
     bool skidding;      // skidding mode
     int last_turn;      // amount of last turning (for calculate skidding due to handbrake)
@@ -512,8 +571,11 @@ public:
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
-    int lights_power;   // total power of components with LIGHT flag
-    int tracking_power; // total power consumed by tracking devices (why would you use more than one?)
+    int lights_epower;   // total power of components with LIGHT or CONE_LIGHT flag
+    int overhead_epower;   // total power of components with CIRCLE_LIGHT flag
+    int tracking_epower; // total power consumed by tracking devices (why would you use more than one?)
+    int fridge_epower; // total power consumed by fridges
+    int recharger_epower; // total power consumed by rechargers
 };
 
 #endif

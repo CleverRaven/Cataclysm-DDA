@@ -1,0 +1,9 @@
+#THUZTOR'S TILESET @
+#Name of the tileset
+NAME: Boardgame-Style@
+#Viewing (Option) name of the tileset
+VIEW: Thuztor'@
+#JSON Path - Default of gfx/tile_config.json
+JSON: gfx/ThuztorTileset@/tile_config.json
+#Tileset Path - Default of gfx/tinytile.png
+TILESET: gfx/ThuztorTileset@/thuztortiles@.png

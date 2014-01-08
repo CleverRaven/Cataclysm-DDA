@@ -1,47 +1,165 @@
 #!/usr/bin/env python
-"Extract translatable strings from the .json files in data/raw."
+"Extract translatable strings from the .json files in data/json."
 
 from __future__ import print_function
 
 import json
 import os
 
-## DATA
+##
+##  DATA
+##
 
-# some .json files have no translatable strings. ignore them.
-ignore = ["item_groups.json", "monstergroups.json", "recipes.json",
-          "sokoban.txt", "colors.json", "species.json",
-          "halloween_special.json"]
+# there may be some non-json files in data/raw
+not_json = {
+    "sokoban.txt",
+}
 
-# keep a list of the files that have been extracted
-extracted = []
+# these objects have no translatable strings
+ignorable = {
+    "colordef",
+    "item_group",
+    "mapgen",
+    "monstergroup",
+    "monitems",
+    "recipe_category",
+    "recipe_subcategory",
+    "recipe",
+    "region_settings",
+    "SPECIES"
+}
 
-## PREPARATION
+# these objects can have their strings automatically extracted.
+# insert object "type" here IF AND ONLY IF
+# all of their translatable strings are in the following form:
+#   "name" member
+#   "description" member
+#   "text" member
+#   "sound" member
+#   "messages" member containing an array of translatable strings
+automatically_convertible = {
+    "AMMO",
+    "ARMOR",
+    "bionic",
+    "BOOK",
+    "COMESTIBLE",
+    "construction",
+    "CONTAINER",
+    "dream",
+    "furniture",
+    "GENERIC",
+    "GUNMOD",
+    "GUN",
+    "hint",
+    "ITEM_CATEGORY",
+    "keybinding",
+    "lab_note",
+    "MONSTER",
+    "mutation",
+    "overmap_terrain",
+    "skill",
+    "snippet",
+    "speech",
+    "terrain",
+    "tool_quality",
+    "TOOL",
+    "trap",
+    "tutorial_messages",
+    "vehicle_part",
+    "vehicle",
+}
+
+# these objects can be automatically converted, but use format strings
+use_format_strings = {
+    "technique",
+}
+
+##
+##  SPECIALIZED EXTRACTION FUNCTIONS
+##
+
+def extract_material(item):
+    outfile = get_outfile("material")
+    writestr(outfile, item["name"])
+    writestr(outfile, item["bash_dmg_verb"])
+    writestr(outfile, item["cut_dmg_verb"])
+    writestr(outfile, item["dmg_adj"][0])
+    writestr(outfile, item["dmg_adj"][1])
+    writestr(outfile, item["dmg_adj"][2])
+    writestr(outfile, item["dmg_adj"][3])
+
+def extract_martial_art(item):
+    outfile = get_outfile("martial_art")
+    writestr(outfile, item["name"])
+    writestr(outfile, item["description"])
+    onhit_buffs = item.get("onhit_buffs", list())
+    static_buffs = item.get("static_buffs", list())
+    buffs = onhit_buffs + static_buffs
+    for buff in buffs:
+        writestr(outfile, buff["name"])
+        writestr(outfile, buff["description"])
+
+def extract_effect_type(item):
+    outfile = get_outfile("effects")
+    # writestr will not write string if it is None.
+    for f in [ "name", "desc", "apply_message"]:
+        found = item.get(f, None)
+        writestr(outfile, found)
+    for m in [ "remove_memorial_log", "apply_memorial_log"]:
+        found = item.get(m, None)
+        writestr(outfile, found, comment="Memorial file message")
+
+def extract_professions(item):
+    outfile = get_outfile("professions")
+    nm = item["name"]
+    if type(nm) == dict:
+        writestr(outfile, nm["male"], comment="Male profession name")
+        writestr(outfile, nm["female"], comment="Female profession name")
+        writestr(outfile, item["description"],
+         comment="Profession ({0}/{1}) description".format(nm["male"], nm["female"]))
+    else:
+        writestr(outfile, nm, comment="Profession name")
+        writestr(outfile, item["description"],
+         comment="Profession ({0}) description".format(nm))
+
+# these objects need to have their strings specially extracted
+extract_specials = {
+    "effect_type": extract_effect_type,
+    "material": extract_material,
+    "martial_art": extract_martial_art,
+    "profession": extract_professions
+}
+
+##
+##  PREPARATION
+##
 
 # allow running from main directory, or from script subdirectory
 if os.path.exists("data/json"):
-    raw_folder = "data/raw"
-    json_folder = "data/json"
-    to_folder = "lang/json"
+    raw_dir = "data/raw"
+    json_dir = "data/json"
+    to_dir = "lang/json"
 elif os.path.exists("../data/json"):
-    raw_folder = "../data/raw"
-    json_folder = "../data/json"
-    to_folder = "../lang/json"
+    raw_dir = "../data/raw"
+    json_dir = "../data/json"
+    to_dir = "../lang/json"
 else:
     print("Error: Couldn't find the 'data/json' subdirectory.")
     exit(1)
 
 # create the output directory, if it does not already exist
-if not os.path.exists(to_folder):
-    os.mkdir(to_folder)
+if not os.path.exists(to_dir):
+    os.mkdir(to_dir)
 
 # clean any old extracted strings, it will all be redone
-for filename in os.listdir(to_folder):
+for filename in os.listdir(to_dir):
     if not filename.endswith(".py"): continue
-    f = os.path.join(to_folder, filename)
+    f = os.path.join(to_dir, filename)
     os.remove(f)
 
-## FUNCTIONS
+##
+##  FUNCTIONS
+##
 
 def gettextify(string, context=None):
     "Put the string in a fake gettext call, and add a newline."
@@ -50,176 +168,99 @@ def gettextify(string, context=None):
     else:
         return "_(%r)\n" % string
 
-def writestr(fs, string, context=None, format_strings=False):
+def writestr(filename, string, context=None, format_strings=False, comment=None):
     "Wrap the string and write to the file."
     # no empty strings
     if not string: return
-    # none of the strings from json use string formatting.
-    # we must tell xgettext this explicitly
-    if not format_strings and "%" in string:
-        fs.write("# xgettext:no-python-format\n")
-    fs.write(gettextify(string,context=context))
+    with open(filename,'a') as fs:
+        # Append developers comment
+        if comment:
+            tlcomment(fs, comment)
+        # most of the strings from json don't use string formatting.
+        # we must tell xgettext this explicitly
+        if not format_strings and "%" in string:
+            fs.write("# xgettext:no-python-format\n")
+        fs.write(gettextify(string,context=context))
 
 def tlcomment(fs, string):
     "Write the string to the file as a comment for translators."
-    fs.write("#~ ")
-    fs.write(string)
-    fs.write("\n")
+    if len(string) > 0:
+        fs.write("#~ ")
+        fs.write(string)
+        fs.write("\n")
+
+def get_outfile(json_object_type):
+    return os.path.join(to_dir, json_object_type + "_from_json.py")
 
 # extract commonly translatable data from json to fake-python
-def convert(infilename, outfile, **kwargs):
-    "Open infilename, read data, write translatables to outfile."
-    jsondata = json.loads(open(infilename).read())
-    for item in jsondata:
-        wrote = False
-        if "name" in item:
-            writestr(outfile, item["name"], **kwargs)
+def extract(item):
+    """Find any extractable strings in the given json object,
+    and write them to the appropriate file."""
+    object_type = item["type"]
+    outfile = get_outfile(object_type)
+    kwargs = {}
+    if object_type in ignorable:
+        return
+    elif object_type in use_format_strings:
+        kwargs["format_strings"] = True
+    elif object_type in extract_specials:
+        extract_specials[object_type](item)
+        return
+    elif object_type not in automatically_convertible:
+        print(item)
+        print("ERROR: Unrecognized object type %r!" % object_type)
+        exit(1)
+    wrote = False
+    if "name" in item:
+        writestr(outfile, item["name"], **kwargs)
+        wrote = True
+    if "description" in item:
+        writestr(outfile, item["description"], **kwargs)
+        wrote = True
+    if "sound" in item:
+        writestr(outfile, item["sound"], **kwargs)
+        wrote = True
+    if "text" in item:
+        writestr(outfile, item["text"], **kwargs)
+        wrote = True
+    if "messages" in item:
+        for message in item["messages"]:
+            writestr(outfile, message, **kwargs)
             wrote = True
-        if "description" in item:
-            writestr(outfile, item["description"], **kwargs)
-            wrote = True
-        if "sound" in item:
-            writestr(outfile, item["sound"], **kwargs)
-            wrote = True
-        if "text" in item:
-            writestr(outfile, item["text"], **kwargs)
-            wrote = True
-        if "messages" in item:
-            for message in item["messages"]:
-                writestr(outfile, message, **kwargs)
-                wrote = True
-        if not wrote:
-            print("WARNING: %s: nothing translatable found in item: %r" % (infilename, item))
+    if not wrote:
+        print("WARNING: %s: nothing translatable found in item: %r" % (infilename, item))
 
-def autoextract(name, **kwargs):
-    "Automatically extract from the named json file in data/json."
-    infilename = name + ".json"
-    outfilename = os.path.join(to_folder, "json_" + name + ".py")
-    with open(outfilename, 'w') as py_out:
-        jsonfile = os.path.join(json_folder, infilename)
-        convert(jsonfile, py_out, **kwargs)
-    extracted.append(infilename)
+def extract_all_from_dir(json_dir):
+    """Extract strings from every json file in the specified directory,
+    recursing into any subdirectories."""
+    allfiles = os.listdir(json_dir)
+    allfiles.sort()
+    dirs = []
+    for f in allfiles:
+        if os.path.isdir(os.path.join(json_dir, f)):
+            dirs.append(f)
+        elif f.endswith(".json"):
+            extract_all_from_file(os.path.join(json_dir, f))
+        elif f not in not_json:
+            print("skipping file: %r" % f)
+    for d in dirs:
+        extract_all_from_dir(os.path.join(json_dir, d))
 
-## EXTRACTION
-
-# automatically extractable files in data/json
-autoextract("skills")
-autoextract("professions")
-autoextract("bionics")
-autoextract("snippets")
-autoextract("mutations")
-autoextract("dreams")
-autoextract("migo_speech")
-autoextract("lab_notes")
-autoextract("hints")
-autoextract("furniture")
-autoextract("terrain")
-autoextract("monsters")
-autoextract("vehicle_parts")
-autoextract("vehicles")
-autoextract("techniques", format_strings=True)
-autoextract("tutorial")
-autoextract("tool_qualities")
-autoextract("doll_speech")
-autoextract("overmap_terrain")
-
-# data/json/items/*
-with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
-    for filename in os.listdir(os.path.join(json_folder,"items")):
-        try:
-            jsonfile = os.path.join(json_folder, "items", filename)
-            convert(jsonfile, items_jtl)
-        except ValueError:
-            print(filename)
-            raise
-extracted.append("items")
-
-# data/json/materials.json
-with open(os.path.join(to_folder,"json_materials.py"), 'w') as mat_jtl:
-    jsonfile = os.path.join(json_folder, "materials.json")
-    jsondata = json.loads(open(jsonfile).read())
-    names = [item["name"] for item in jsondata]
-    verb1 = [item["bash_dmg_verb"] for item in jsondata]
-    verb2 = [item["cut_dmg_verb"] for item in jsondata]
-    dmgs = [item["dmg_adj"] for item in jsondata]
-    for n,v1,v2,d in zip(names,verb1,verb2,dmgs):
-        writestr(mat_jtl, n)
-        writestr(mat_jtl, v1)
-        writestr(mat_jtl, v2)
-        writestr(mat_jtl, d[0])
-        writestr(mat_jtl, d[1])
-        writestr(mat_jtl, d[2])
-        writestr(mat_jtl, d[3])
-extracted.append("materials.json")
-
-# data/json/names.json
-with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
-    jsonfile = os.path.join(json_folder, "names.json")
-    jsondata = json.loads(open(jsonfile).read())
-    for item in jsondata:
-        if not "name" in item: continue # it probably is
-        tlinfo = ["proper name"]
-        context = None
-        if "gender" in item:
-            tlinfo.append("gender=" + item["gender"])
-        if "usage" in item:
-            u = item["usage"]
-            tlinfo.append("usage=" + u)
-            # note: these must match the context ids in name.cpp
-            if u == "given": context = "Given Name"
-            elif u == "family": context = "Family Name"
-            elif u == "universal": context = "Either Name"
-            elif u == "backer": context = "Full Name"
-            elif u == "city": context = "City Name"
-        # add the translator comment
-        if len(tlinfo) > 1:
-            tlcomment(name_jtl, '; '.join(tlinfo))
-        writestr(name_jtl, item["name"], context=context)
-extracted.append("names.json")
-
-# data/raw/keybindings.json
-with open(os.path.join(to_folder,"json_keybindings.py"),'w') as keys_jtl:
-    jsonfile = os.path.join(raw_folder, "keybindings.json")
-    convert(jsonfile, keys_jtl)
-extracted.append("keybindings.json")
-
-# data/json/martialarts.json
-with open(os.path.join(to_folder,"json_martialarts.py"),'w') as martial_jtl:
-    jsonfile = os.path.join(json_folder, "martialarts.json")
-    jsondata = json.loads(open(jsonfile).read())
-    for item in jsondata:
-        writestr(martial_jtl, item["name"])
-        writestr(martial_jtl, item["description"])
-        onhit_buffs = item.get("onhit_buffs", list())
-        static_buffs = item.get("static_buffs", list())
-        buffs = onhit_buffs + static_buffs
-        for buff in buffs:
-            writestr(martial_jtl, buff["name"])
-            writestr(martial_jtl, buff["description"])
-extracted.append("martialarts.json")
-
-
-## please add any new .json files to extract just above here.
-## make sure you extract the right thing from the right place.
-
-# SANITY
-
-all_files = os.listdir(raw_folder) + os.listdir(json_folder)
-not_found = []
-for f in all_files:
-    if not f in extracted and not f in ignore:
-        not_found.append(f)
-
-if not_found:
-    if len(not_found) == 1:
-        print("WARNING: Unrecognized raw file!")
-        print(not_found)
-        print("Does it have translatable strings in it?")
-        print("Add it to lang/extract_json_strings.py then try again.")
+def extract_all_from_file(json_file):
+    "Extract translatable strings from every object in the specified file."
+    jsondata = json.loads(open(json_file).read())
+    # it's either an array of objects, or a single object
+    if hasattr(jsondata, "keys"):
+        extract(jsondata)
     else:
-        print("WARNING: Unrecognized raw files!")
-        print(not_found)
-        print("Do they have translatable strings in them?")
-        print("Add them to lang/extract_json_strings.py then try again.")
-    exit(1)
+        for jsonobject in jsondata:
+            extract(jsonobject)
 
+##
+##  EXTRACTION
+##
+
+extract_all_from_dir(json_dir)
+extract_all_from_dir(raw_dir)
+
+# done.

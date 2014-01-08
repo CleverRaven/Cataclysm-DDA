@@ -6,8 +6,8 @@
 #define START_LINE 1
 #define START_COLUMN 1
 
-live_view::live_view() : compact_view(false), w_live_view(NULL), 
-    enabled(false), inuse(false), last_height(-1)
+live_view::live_view() : compact_view(false), w_live_view(NULL),
+                         enabled(false), inuse(false), last_height(-1)
 {
 
 }
@@ -17,7 +17,7 @@ live_view::~live_view()
     delwin(w_live_view);
 }
 
-void live_view::init(game *g, int start_x, int start_y, int width, int height)
+void live_view::init(int start_x, int start_y, int width, int height)
 {
     enabled = true;
     if (w_live_view != NULL) {
@@ -26,7 +26,6 @@ void live_view::init(game *g, int start_x, int start_y, int width, int height)
 
     this->width = width;
     this->height = height;
-    this->g = g;
     w_live_view = newwin(height, width, start_y, start_x);
     hide();
 }
@@ -74,8 +73,7 @@ void live_view::show(const int x, const int y)
     last_height = w_live_view->height;
 #endif
 
-    wborder(w_live_view, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w_live_view);
 
 #if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
     w_live_view->height = full_height;
@@ -119,7 +117,7 @@ void live_view::print_items(std::vector<item> &items, int &line) const
 {
     std::map<std::string, int> item_names;
     for (int i = 0; i < items.size(); i++) {
-        std::string name = items[i].tname(g);
+        std::string name = items[i].tname();
         if (item_names.find(name) == item_names.end()) {
             item_names[name] = 0;
         }

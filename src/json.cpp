@@ -1,65 +1,18 @@
 #include "json.h"
 
-#include "catacharset.h" // utf32_to_utf8
-
+#include <cmath> // pow
 #include <cstdlib> // strtoul
 #include <cstring> // strcmp
-#include <cmath> // pow
-#include <istream>
 #include <fstream>
-#include <vector>
-#include <string>
-#include <sstream>
-#include <set>
+#include <istream>
 #include <locale> // ensure user's locale doesn't interfere with output
+#include <set>
+#include <sstream>
+#include <string>
+#include <vector>
 
-/* JSON parsing and serialization tools for Cataclysm-DDA
- * ~
- * These tools are intended to support the following use cases:
- * (1) loading game data from .json files,
- * (2) serializing data to JSON for game saving,
- * (3) loading JSON data from game save files.
- * ~
- * For (1), files are assumed to be either a single object,
- * or an array of objects. Each object must have a "type" member,
- * indicating the internal data type it is intended to represent.
- * Object members should be named in accord with the names used
- * in the equivalent C++ struct or class.
- * ~
- * An example object might look something like the following:
- * {
- *     "type" : "tool",
- *     "id" : "mop",
- *     "name" : "mop",
- *     "description": "An unwieldy mop. Good for cleaning up spills."
- * }
- * ~
- * A central dispatcher (init.cpp) will load each .json file,
- * construct a JsonObject instance to represent each object in the file,
- * then send the JsonObject to the appropriate data constructor,
- * according to its "type" member.
- * ~
- * Object constructors can use the JsonObject class to construct from JSON.
- * The type of each member must be inferrable from the object "type",
- * and each should be parsed expecting the correct datatype.
- * If it fails, it's an error.
- * ~
- * Members not present in JSON should be left with their default values.
- * ~
- * Members named "name", "description", "sound", "text" and "message"
- * will be automatically made available for translation.
- * ~
- * Other members that need translating must be special-cased in
- * lang/extract_json_strings.py.
- * ~
- * For (2), objects will be serialized to a compatible format,
- * for use within player save files.
- * ~
- * For (3), objects will be loaded in a similar fashion to (1).
- * ~
- * For (2) and (3), a similar parser/dispatcher can be used,
- * but the container format needn't be pure JSON.
- */
+// JSON parsing and serialization tools for Cataclysm-DDA.
+// For documentation, see the included header, json.h.
 
 bool is_whitespace(char ch)
 {
@@ -71,14 +24,52 @@ bool is_whitespace(char ch)
     }
 }
 
+// for parsing \uxxxx escapes
+std::string utf16_to_utf8(unsigned ch) {
+    char out[5];
+    char* buf = out;
+    static const unsigned char utf8FirstByte[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
+    int utf8Bytes;
+    if (ch < 0x80) {
+        utf8Bytes = 1;
+    } else if (ch < 0x800) {
+        utf8Bytes = 2;
+    } else if (ch < 0x10000) {
+        utf8Bytes = 3;
+    } else if (ch <= 0x10FFFF) {
+        utf8Bytes = 4;
+    } else {
+        std::stringstream err;
+        err << "unknown unicode: " << ch;
+        throw err.str();
+    }
+
+    buf += utf8Bytes;
+    switch (utf8Bytes) {
+        case 4: 
+            *--buf = (ch|0x80)&0xBF;
+            ch >>= 6;
+        case 3:
+            *--buf = (ch|0x80)&0xBF;
+            ch >>= 6;
+        case 2: 
+            *--buf = (ch|0x80)&0xBF;
+            ch >>= 6;
+        case 1: 
+            *--buf = ch|utf8FirstByte[utf8Bytes];
+    }
+    out[utf8Bytes] = '\0';
+    return out;
+}
+
 
 /* class JsonObject
  * represents a JSON object,
  * providing access to the underlying data.
  */
-JsonObject::JsonObject(JsonIn *j) : positions()
+JsonObject::JsonObject(JsonIn &j) : positions()
 {
-    jsin = j;
+    jsin = &j;
     start = jsin->tell();
     // cache the position of the value for each member
     jsin->start_object();
@@ -157,6 +148,27 @@ std::string JsonObject::str()
     } else {
         return "{}";
     }
+}
+
+
+void JsonObject::throw_error(std::string err, const std::string & name) {
+    jsin->seek(verify_position(name,false));
+    jsin->error(err);
+}
+
+void JsonArray::throw_error(std::string err) {
+    jsin->error(err);
+}
+
+void JsonArray::throw_error(std::string err, int idx) {
+    if (idx >= 0 && idx < positions.size() ) {
+        jsin->seek( positions[idx] );
+    }
+    jsin->error(err);
+}
+
+void JsonObject::throw_error(std::string err) {
+    jsin->error(err);
 }
 
 JsonIn* JsonObject::get_raw(const std::string &name)
@@ -246,7 +258,7 @@ JsonArray JsonObject::get_array(const std::string &name)
         return JsonArray(); // empty array
     }
     jsin->seek(pos);
-    return JsonArray(jsin);
+    return JsonArray(*jsin);
 }
 
 std::vector<int> JsonObject::get_int_array(const std::string &name)
@@ -328,27 +340,14 @@ bool JsonObject::has_bool(const std::string &name)
     return false;
 }
 
-bool JsonObject::has_int(const std::string &name)
+bool JsonObject::has_number(const std::string &name)
 {
     int pos = verify_position(name, false);
     if (!pos) {
         return false;
     }
     jsin->seek(pos);
-    if (jsin->test_int()) {
-        return true;
-    }
-    return false;
-}
-
-bool JsonObject::has_float(const std::string &name)
-{
-    int pos = verify_position(name, false);
-    if (!pos) {
-        return false;
-    }
-    jsin->seek(pos);
-    if (jsin->test_float()) {
+    if (jsin->test_number()) {
         return true;
     }
     return false;
@@ -393,88 +392,14 @@ bool JsonObject::has_object(const std::string &name)
     return false;
 }
 
-/* non-fatal value setting by reference */
-
-bool JsonObject::read_into(const std::string &name, bool &b)
-{
-    if (!has_bool(name)) {
-        return false;
-    }
-    b = get_bool(name);
-    return true;
-}
-
-bool JsonObject::read_into(const std::string &name, int &i)
-{
-    if (!has_number(name)) {
-        return false;
-    }
-    i = get_int(name);
-    return true;
-}
-
-bool JsonObject::read_into(const std::string &name, unsigned int &u)
-{
-    if (!has_number(name)) {
-        return false;
-    }
-    u = get_int(name);
-    return true;
-}
-
-bool JsonObject::read_into(const std::string &name, float &f)
-{
-    if (!has_number(name)) {
-        return false;
-    }
-    f = get_float(name);
-    return true;
-}
-
-bool JsonObject::read_into(const std::string &name, double &d)
-{
-    if (!has_number(name)) {
-        return false;
-    }
-    d = get_float(name);
-    return true;
-}
-
-bool JsonObject::read_into(const std::string &name, std::string &s)
-{
-    if (!has_string(name)) {
-        return false;
-    }
-    s = get_string(name);
-    return true;
-}
-
-bool JsonObject::read_into(const std::string &name, JsonDeserializer &j)
-{
-    // can't know what type of json object it will deserialize from,
-    // so just try to deserialize, catching any error.
-    // TODO: non-verbose flag for JsonIn errors so try/catch is faster here
-    int pos = verify_position(name, false);
-    if (!pos) {
-        return false;
-    }
-    try {
-        jsin->seek(pos);
-        j.deserialize(*jsin);
-        return true;
-    } catch (std::string e) {
-        return false;
-    }
-}
-
 
 /* class JsonArray
  * represents a JSON array,
  * providing access to the underlying data.
  */
-JsonArray::JsonArray(JsonIn *j) : positions()
+JsonArray::JsonArray(JsonIn &j) : positions()
 {
-    jsin = j;
+    jsin = &j;
     start = jsin->tell();
     index = 0;
     // cache the position of each element
@@ -645,22 +570,13 @@ bool JsonArray::test_bool()
     return jsin->test_bool();
 }
 
-bool JsonArray::test_int()
+bool JsonArray::test_number()
 {
     if (!has_more()) {
         return false;
     }
     jsin->seek(positions[index]);
-    return jsin->test_int();
-}
-
-bool JsonArray::test_float()
-{
-    if (!has_more()) {
-        return false;
-    }
-    jsin->seek(positions[index]);
-    return jsin->test_float();
+    return jsin->test_number();
 }
 
 bool JsonArray::test_string()
@@ -706,18 +622,11 @@ bool JsonArray::has_bool(int i)
     return jsin->test_bool();
 }
 
-bool JsonArray::has_int(int i)
+bool JsonArray::has_number(int i)
 {
     verify_index(i);
     jsin->seek(positions[i]);
-    return jsin->test_int();
-}
-
-bool JsonArray::has_float(int i)
-{
-    verify_index(i);
-    jsin->seek(positions[i]);
-    return jsin->test_float();
+    return jsin->test_number();
 }
 
 bool JsonArray::has_string(int i)
@@ -741,87 +650,13 @@ bool JsonArray::has_object(int i)
     return jsin->test_object();
 }
 
-/* iterative value setting by reference */
-
-bool JsonArray::read_into(bool &b)
-{
-    if (!test_bool()) {
-        skip_value();
-        return false;
-    }
-    b = next_bool();
-    return true;
-}
-
-bool JsonArray::read_into(int &i)
-{
-    if (!test_number()) {
-        skip_value();
-        return false;
-    }
-    i = next_int();
-    return true;
-}
-
-bool JsonArray::read_into(unsigned &u)
-{
-    if (!test_number()) {
-        skip_value();
-        return false;
-    }
-    u = next_int();
-    return true;
-}
-
-bool JsonArray::read_into(float &f)
-{
-    if (!test_number()) {
-        skip_value();
-        return false;
-    }
-    f = next_float();
-    return true;
-}
-
-bool JsonArray::read_into(double &d)
-{
-    if (!test_number()) {
-        skip_value();
-        return false;
-    }
-    d = next_float();
-    return true;
-}
-
-bool JsonArray::read_into(std::string &s)
-{
-    if (!test_string()) {
-        skip_value();
-        return false;
-    }
-    s = next_string();
-    return true;
-}
-
-bool JsonArray::read_into(JsonDeserializer &j)
-{
-    try {
-        verify_index(index);
-        jsin->seek(positions[index++]);
-        j.deserialize(*jsin);
-        return true;
-    } catch (std::string e) {
-        return false;
-    }
-}
-
 
 /* class JsonIn
  * represents an istream of JSON data,
  * allowing easy extraction into c++ datatypes.
  */
-JsonIn::JsonIn(std::istream *s, bool strict) :
-    stream(s), strict(strict), ate_separator(false)
+JsonIn::JsonIn(std::istream &s, bool strict) :
+    stream(&s), strict(strict), ate_separator(false)
 {
 }
 
@@ -868,7 +703,7 @@ void JsonIn::skip_member()
 
 void JsonIn::skip_separator()
 {
-    char ch;
+    signed char ch;
     eat_whitespace();
     ch = peek();
     if (ch == ',') {
@@ -1102,7 +937,7 @@ std::string JsonIn::get_string()
                 // TODO: verify that unihex is in fact 4 hex digits.
                 char** endptr = 0;
                 unsigned u = (unsigned)strtoul(unihex, endptr, 16);
-                s += utf32_to_utf8(u);
+                s += utf16_to_utf8(u);
             } else {
                 // for anything else, just add the character, i suppose
                 s += ch;
@@ -1238,6 +1073,9 @@ bool JsonIn::get_bool()
     throw (std::string)"warnings are silly";
 }
 
+JsonObject JsonIn::get_object() { return JsonObject(*this); }
+JsonArray JsonIn::get_array() { return JsonArray(*this); }
+
 void JsonIn::start_array()
 {
     eat_whitespace();
@@ -1323,35 +1161,8 @@ bool JsonIn::test_bool()
     return false;
 }
 
-bool JsonIn::test_int()
+bool JsonIn::test_number()
 {
-    // we have to parse it to know if it's an integer or not.
-    // well...
-    // technically we could test for the existance of a decimal point,
-    // then add the number of digits after it,
-    // then subtract this from the exponent,
-    // and test if the exponent is greater than -1,
-    // but then we'd /still/ have to adjust for silly cases like 0.000300e4,
-    // which, technically, is an integer.
-    // feel free to implement.
-    eat_whitespace();
-    const int startpos = tell();
-    const char ch = peek();
-    if (ch != '-' && ch != '+' && ch != '.' && (ch < '0' || ch > '9')) {
-        return false;
-    }
-    const double f = get_float();
-    seek(startpos);
-    if (int(f) == f) {
-        return true;
-    }
-    return false;
-}
-
-bool JsonIn::test_float()
-{
-    // considering all numbers to be valid floats.
-    // note that this is thus much easier than testing for an int.
     eat_whitespace();
     const char ch = peek();
     if (ch != '-' && ch != '+' && ch != '.' && (ch < '0' || ch > '9')) {
@@ -1385,6 +1196,75 @@ bool JsonIn::test_object()
         return true;
     }
     return false;
+}
+
+/* non-fatal value setting by reference */
+
+bool JsonIn::read(bool &b)
+{
+    if (!test_bool()) {
+        return false;
+    }
+    b = get_bool();
+    return true;
+}
+
+bool JsonIn::read(int &i)
+{
+    if (!test_number()) {
+        return false;
+    }
+    i = get_int();
+    return true;
+}
+
+bool JsonIn::read(unsigned int &u)
+{
+    if (!test_number()) {
+        return false;
+    }
+    u = get_int();
+    return true;
+}
+
+bool JsonIn::read(float &f)
+{
+    if (!test_number()) {
+        return false;
+    }
+    f = get_float();
+    return true;
+}
+
+bool JsonIn::read(double &d)
+{
+    if (!test_number()) {
+        return false;
+    }
+    d = get_float();
+    return true;
+}
+
+bool JsonIn::read(std::string &s)
+{
+    if (!test_string()) {
+        return false;
+    }
+    s = get_string();
+    return true;
+}
+
+bool JsonIn::read(JsonDeserializer &j)
+{
+    // can't know what type of json object it will deserialize from,
+    // so just try to deserialize, catching any error.
+    // TODO: non-verbose flag for JsonIn errors so try/catch is faster here
+    try {
+        j.deserialize(*this);
+        return true;
+    } catch (std::string e) {
+        return false;
+    }
 }
 
 /* error display */
@@ -1542,10 +1422,9 @@ std::string JsonIn::substr(size_t pos, size_t len)
  * represents an ostream of JSON data,
  * allowing easy serialization of c++ datatypes.
  */
-JsonOut::JsonOut(std::ostream *s)
+JsonOut::JsonOut(std::ostream &s, bool pretty)
+    :   stream(&s), pretty_print(pretty), need_separator(false), indent_level(0)
 {
-    stream = s;
-    need_separator = false;
     // ensure user's locale doesn't interfere with number format
     stream->imbue(std::locale::classic());
     // scientific format for floating-point numbers
@@ -1556,15 +1435,31 @@ JsonOut::JsonOut(std::ostream *s)
     // but it currently doesn't matter.
 }
 
+void JsonOut::write_indent()
+{
+    const char indent[5] = "    ";
+    for (int i = 0; i < indent_level; ++i) {
+        stream->write(indent, 4);
+    }
+}
+
 void JsonOut::write_separator()
 {
     stream->put(',');
+    if (pretty_print) {
+        stream->put('\n');
+        write_indent();
+    }
     need_separator = false;
 }
 
 void JsonOut::write_member_separator()
 {
-    stream->put(':');
+    if (pretty_print) {
+        stream->write(" : ", 3);
+    } else {
+        stream->put(':');
+    }
     need_separator = false;
 }
 
@@ -1574,11 +1469,21 @@ void JsonOut::start_object()
         write_separator();
     }
     stream->put('{');
+    if (pretty_print) {
+        indent_level += 1;
+        stream->put('\n');
+        write_indent();
+    }
     need_separator = false;
 }
 
 void JsonOut::end_object()
 {
+    if (pretty_print) {
+        indent_level -= 1;
+        stream->put('\n');
+        write_indent();
+    }
     stream->put('}');
     need_separator = true;
 }
@@ -1589,11 +1494,21 @@ void JsonOut::start_array()
         write_separator();
     }
     stream->put('[');
+    if (pretty_print) {
+        indent_level += 1;
+        stream->put('\n');
+        write_indent();
+    }
     need_separator = false;
 }
 
 void JsonOut::end_array()
 {
+    if (pretty_print) {
+        indent_level -= 1;
+        stream->put('\n');
+        write_indent();
+    }
     stream->put(']');
     need_separator = true;
 }

@@ -33,6 +33,23 @@
         "flags": ["RIGID", "WATERTIGHT", "SEALS"]
     },
     {
+        "id": "cup_plastic",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_cyan",
+        "name": "plastic cup",
+        "description": "A small, vacuum sealed cup, essentially trash.",
+        "price": 2,
+        "weight": 6,
+        "volume": 1,
+        "bashing": -8,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "plastic",
+        "contains": 1,
+        "flags": ["RIGID", "WATERTIGHT"]
+    },
+    {
         "id": "bottle_glass",
         "type": "CONTAINER",
         "symbol": ")",
@@ -339,7 +356,7 @@
         "to_hit":1,
         "material":"plastic",
         "contains":1,
-        "flags":[ "RIGID" ]
+        "flags":[ "RIGID", "SEALS", "WATERTIGHT"]
     },
     {
         "id": "wrapper",
@@ -356,6 +373,40 @@
         "to_hit": -2,
         "contains": 10,
         "material": "paper"
+    },
+    {
+        "id": "55gal_drum",
+        "type": "CONTAINER",
+        "symbol": "0",
+        "color": "dark_gray",
+        "name": "55 gallon drum",
+        "description": "A massive steel barrel with a resealable lid.",
+        "price": 5000,
+        "weight": 20000,
+        "volume": 825,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "steel",
+        "contains": 825,
+        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+    },
+    {
+        "id": "30gal_drum",
+        "type": "CONTAINER",
+        "symbol": "0",
+        "color": "light_blue",
+        "name": "30 gallon barrel",
+        "description": "A huge plastic barrel with a resealable lid.",
+        "price": 5000,
+        "weight": 6800,
+        "volume": 450,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "plastic",
+        "contains": 450,
+        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
     },
     {
         "id": "wooden_barrel",

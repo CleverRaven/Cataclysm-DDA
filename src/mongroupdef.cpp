@@ -175,6 +175,10 @@ std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(std::string g
     return monsters;
 }
 
+bool MonsterGroupManager::isValidMonsterGroup(std::string group) {
+    return ( monsterGroupMap.find(group) != monsterGroupMap.end() );
+}
+
 MonsterGroup MonsterGroupManager::GetMonsterGroup(std::string group)
 {
     std::map<std::string, MonsterGroup>::iterator it = monsterGroupMap.find(group);
@@ -378,6 +382,9 @@ void init_translation() {
     monStr2monId["mon_zombie_smoker"] = mon_zombie_smoker;
     monStr2monId["mon_zombie_swimmer"] = mon_zombie_swimmer;
     monStr2monId["mon_zombie_fast"] = mon_zombie_fast;
+    monStr2monId["mon_dog_skeleton"] = mon_dog_skeleton;
+    monStr2monId["mon_dog_zombie_cop"] = mon_dog_zombie_cop;
+    monStr2monId["mon_dog_zombie_rot"] = mon_dog_zombie_rot;
     monStr2monId["mon_zombie_brute"] = mon_zombie_brute;
     monStr2monId["mon_zombie_hulk"] = mon_zombie_hulk;
     monStr2monId["mon_zombie_fungus"] = mon_zombie_fungus;
@@ -387,5 +394,26 @@ void init_translation() {
     monStr2monId["mon_zombie_grabber"] = mon_zombie_grabber;
     monStr2monId["mon_zombie_master"] = mon_zombie_master;
     monStr2monId["mon_zombie_child"] = mon_zombie_child;
+    monStr2monId["mon_zombie_fireman"] = mon_zombie_fireman;
+    monStr2monId["mon_zombie_survivor"] = mon_zombie_survivor;
 }
 
+void MonsterGroupManager::check_group_definitions()
+{
+    const MonsterGenerator &gen = MonsterGenerator::generator();
+    for(std::map<std::string, MonsterGroup>::const_iterator a = monsterGroupMap.begin();
+        a != monsterGroupMap.end(); ++a) {
+        const MonsterGroup &mg = a->second;
+        if(mg.defaultMonster != "mon_null" && !gen.has_mtype(mg.defaultMonster)) {
+            debugmsg("monster group %s has unknown default monster %s", a->first.c_str(),
+                     mg.defaultMonster.c_str());
+        }
+        for(FreqDef::const_iterator fd = mg.monsters.begin(); fd != mg.monsters.end(); ++fd) {
+            const MonsterGroupEntry &mge = *fd;
+            if(mge.name == "mon_null" || !gen.has_mtype(mge.name)) {
+                // mon_null should not be valid here
+                debugmsg("monster group %s contains unknown monster %s", a->first.c_str(), mge.name.c_str());
+            }
+        }
+    }
+}

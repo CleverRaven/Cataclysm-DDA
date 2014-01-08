@@ -117,10 +117,6 @@ inline void addedchar(WINDOW *win)
 int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
             chtype bl, chtype br)
 {
-    /*
-    ncurses does not do this, and this prevents: wattron(win, c_customBordercolor); wborder(win, ...); wattroff(win, c_customBorderColor);
-        wattron(win, c_white);
-    */
     int i, j;
     int oldx = win->cursorx; //methods below move the cursor, save the value!
     int oldy = win->cursory; //methods below move the cursor, save the value!
@@ -575,7 +571,7 @@ int start_color(void)
     return curses_start_color();
 }
 
-int keypad(WINDOW *faux, bool bf)
+int keypad(WINDOW*, bool)
 {
     return 1;
 }
@@ -584,11 +580,11 @@ int cbreak(void)
 {
     return 1;
 }
-int keypad(int faux, bool bf)
+int keypad(int, bool)
 {
     return 1;
 }
-int curs_set(int visibility)
+int curs_set(int)
 {
     return 1;
 }
@@ -613,7 +609,7 @@ int wattron(WINDOW *win, int attrs)
     }
     return 1;
 }
-int wattroff(WINDOW *win, int attrs)
+int wattroff(WINDOW *win, int)
 {
     win->FG = 8;                                //reset to white
     win->BG = 0;                                //reset to black
@@ -711,7 +707,7 @@ void timeout(int delay)
 {
     curses_timeout(delay);
 }
-void set_escdelay(int delay) { } //PORTABILITY, DUMMY FUNCTION
+void set_escdelay(int) { } //PORTABILITY, DUMMY FUNCTION
 
 
 int echo()

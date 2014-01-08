@@ -55,7 +55,10 @@ function retrieve_lua_value(out_variable, value_type, stack_position)
     elseif value_type == "string" or value_type == "cstring" then
         return cpp_value_type .. " "..out_variable.." = ("..cpp_value_type..") lua_tostring(L, "..stack_position..");"
     elseif member_type_to_lua_type(value_type) == "LUA_TUSERDATA" then
-        return cpp_value_type .. " "..out_variable.." = ("..cpp_value_type..") lua_touserdata(L, "..stack_position..");"
+        -- a little complex: first have to extract the value as a double pointer, e.g. map**, then have to retrieve the pointer, e.g. map*
+        local rval = cpp_value_type .. "* "..out_variable.."_pointer = ("..cpp_value_type.."*) lua_touserdata(L, "..stack_position.."); "
+        rval = rval .. cpp_value_type .. " "..out_variable.." = *" .. out_variable.."_pointer;"
+        return rval
     end
 end
 
@@ -189,6 +192,7 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
 
     local stack_index = 1
     for i, arg in ipairs(args) do
+        -- fixme; non hardcoded userdata to class thingy
         if arg ~= "game" then
             text = text .. tab .. retrieve_lua_value("parameter"..i, arg, stack_index+1)..br
             stack_index = stack_index + 1
@@ -246,7 +250,11 @@ end
 
 function generate_class_function_wrappers(functions, class)
     for name, func in pairs(functions) do
-        cpp_output = cpp_output .. generate_class_function_wrapper(class, name, name, func.args, func.rval)
+        if func.cpp_name == nil then
+            cpp_output = cpp_output .. generate_class_function_wrapper(class, name, name, func.args, func.rval)
+        else
+            cpp_output = cpp_output .. generate_class_function_wrapper(class, name, func.cpp_name, func.args, func.rval)
+        end
     end
 end
 

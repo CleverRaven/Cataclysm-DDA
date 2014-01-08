@@ -9,8 +9,7 @@
             "You swing in a wide arc through %s",
             "<npcname> swings in a wide arc through %s"
         ],
-        "aoe" : "wide",
-        "quick" : true
+        "aoe" : "wide"
     },{
         "type" : "technique",
         "id" : "BRUTAL",
@@ -30,6 +29,7 @@
         "name" : "Rapid Strike",
         "min_unarmed" : 0,
         "unarmed_allowed" : true,
+        "melee_allowed" : true,
         "quick" : true,
         "messages" : [
             "You quickly strike %s",
@@ -383,15 +383,40 @@
     },{
         "type" : "technique",
         "id" : "tec_venom_snake_rapid",
-        "name" : "Viper Bite",
-        "min_unarmed" : 0,
+        "name" : "Viper Fist",
+        "min_unarmed" : 3,
         "unarmed_allowed" : true,
         "quick" : true,
         "messages" : [
+            "You quickly chop %s",
+            "<npcname> quickly chops %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_venom_snake_bite",
+        "name" : "Viper Bite",
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
+        "req_buffs" : [
+            "venom_snake_combo_initiate"
+            ],
+        "messages" : [
             "You Snakebite %s",
             "<npcname> Snakebites %s"
-        ],
-        "bash_mult" : 2
+            ]
+    },{
+        "type" : "technique",
+        "id" : "tec_venom_snake_strike",
+        "name" : "Viper Strike",
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
+        "req_buffs" : [
+            "venom_snake_combo_continue"
+            ],
+        "messages" : [
+            "You VIPER STRIKE %s!",
+            "<npcname> Viper Strikes %s!"
+            ]
     },{
         "type" : "technique",
         "id" : "tec_venom_snake_break",
@@ -417,7 +442,7 @@
         "type" : "technique",
         "id" : "tec_scorpion_precise",
         "name" : "Pincer Strike",
-        "min_unarmed" : 0,
+        "min_unarmed" : 4,
         "unarmed_allowed" : true,
         "messages" : [
             "You punch %s with your Pincer Fist!",
@@ -432,12 +457,11 @@
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
         "quick" : true,
-        "down_dur" : 3,
+        "down_dur" : 1,
         "messages" : [
-            "You snatch and clobber %s",
-            "<npcname> snatches and clobbers %s"
-        ],
-        "bash_mult" : 1.5
+            "You snatch and slug %s",
+            "<npcname> snatches and slug %s"
+        ]
     },{
         "type" : "technique",
         "id" : "tec_centipede_rapid",

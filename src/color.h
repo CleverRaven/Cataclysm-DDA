@@ -190,6 +190,6 @@ void setattr(nc_color &col, col_attribute attr);
 void load_colors(JsonObject &jo);
 void init_colormap();
 
-#endif
+#endif // _COLOR_LIST_
 
-#endif
+#endif // _COLOR_H_

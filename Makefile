@@ -33,7 +33,7 @@
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
 # PROFILE is for use with gprof or a similar program -- don't bother generally
-WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-narrowing -Wno-maybe-uninitialized
+WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-narrowing
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUG = -g
@@ -63,6 +63,7 @@ TARGET = cataclysm
 TILESTARGET = cataclysm-tiles
 W32TILESTARGET = cataclysm-tiles.exe
 W32TARGET = cataclysm.exe
+CHKJSON_BIN = chkjson
 BINDIST_DIR = bindist
 BUILD_DIR = $(CURDIR)
 SRC_DIR = src
@@ -77,7 +78,7 @@ W32ODIR = objwin
 W32ODIRTILES = objwin/tiles
 DDIR = .deps
 
-OS  = $(shell uname -o)
+OS  = $(shell uname -s)
 CXX = $(CROSS)g++
 LD  = $(CROSS)g++
 RC  = $(CROSS)windres
@@ -91,7 +92,7 @@ endif
 ifdef CLANG
   CXX = $(CROSS)clang++
   LD  = $(CROSS)clang++
-  OTHERS = --std=c++98 --analyze -fixit
+  OTHERS = --std=c++98
   WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-type-limits -Wno-narrowing
 endif
 
@@ -103,13 +104,6 @@ W32BINDIST = cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
 W32BINDIST_CMD = cd $(BINDIST_DIR) && zip -r ../$(W32BINDIST) * && cd $(BUILD_DIR)
 
-# is this section even being used anymore?
-# SOMEBODY PLEASE CHECK
-#ifeq ($(OS), Msys)
-#  LDFLAGS = -static -lpdcurses
-#else
-#  LDFLAGS += -lncurses
-#endif
 
 # Check if called without a special build target
 ifeq ($(NATIVE),)
@@ -142,7 +136,7 @@ ifeq ($(NATIVE), osx)
     LDFLAGS += -lintl
   endif
   TARGETSYSTEM=LINUX
-  ifneq ($(OS), GNU/Linux)
+  ifneq ($(OS), Linux)
     BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
   endif
 endif
@@ -160,6 +154,7 @@ endif
 
 # Global settings for Windows targets
 ifeq ($(TARGETSYSTEM),WINDOWS)
+  CHKJSON_BIN = chkjson.exe
   TARGET = $(W32TARGET)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
@@ -245,7 +240,7 @@ else
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(TARGETSYSTEM),LINUX)
     ifeq ($(LOCALIZE),1)
-      ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Darwin)
+      ifeq ($(OS), Darwin)
         LDFLAGS += -lncurses
       else
         ifeq ($(NATIVE), osx)
@@ -332,11 +327,18 @@ $(SRC_DIR)/catalua.cpp: $(LUA_DEPENDENCIES)
 localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
+$(CHKJSON_BIN): src/chkjson/chkjson.cpp src/json.cpp
+	$(CXX) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
+
+json-check: $(CHKJSON_BIN)
+	./$(CHKJSON_BIN)
+
 clean: clean-tests
 	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET)
 	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
 	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
 	rm -f $(SRC_DIR)/version.h $(LUA_DIR)/catabindings.cpp
+	rm -f $(CHKJSON_BIN)
 
 distclean:
 	rm -rf $(BINDIST_DIR)

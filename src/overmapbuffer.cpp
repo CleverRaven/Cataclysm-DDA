@@ -6,7 +6,7 @@ overmapbuffer::overmapbuffer()
 {
 }
 
-overmap &overmapbuffer::get( game *g, const int x, const int y )
+overmap &overmapbuffer::get( const int x, const int y )
 {
     // Check list first
     for(std::list<overmap>::iterator candidate = overmap_list.begin();
@@ -18,7 +18,7 @@ overmap &overmapbuffer::get( game *g, const int x, const int y )
         }
     }
     // If we don't have one, make it, stash it in the list, and return it.
-    overmap new_overmap(g, x, y);
+    overmap new_overmap(x, y);
     overmap_list.push_back( new_overmap );
     return overmap_list.back();
 }

@@ -19,7 +19,6 @@ class wish_mutate_callback: public uimenu_callback
         bool started;
         std::vector<std::string> vTraits;
         std::map<std::string, bool> pTraits;
-        game *g;
         player *p;
         std::string padding;
 
@@ -76,6 +75,26 @@ class wish_mutate_callback: public uimenu_callback
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].prereqs.size(); j++) {
                     std::string mstr=mutation_data[vTraits[ entnum ]].prereqs[j];
                     mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
+                    line2++;
+                }
+            }
+            
+            if ( mutation_data[vTraits[ entnum ]].prereqs2.size() > 0 ) {
+                line2++;
+                mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs, 2d:"));
+                for (int j = 0; j < mutation_data[vTraits[ entnum ]].prereqs2.size(); j++) {
+                    std::string mstr=mutation_data[vTraits[ entnum ]].prereqs2[j];
+                    mvwprintz(menu->window, line2, startx + 15, mcolor(mstr), traits[ mstr ].name.c_str());
+                    line2++;
+                }
+            }
+            
+            if ( mutation_data[vTraits[ entnum ]].threshreq.size() > 0 ) {
+                line2++;
+                mvwprintz(menu->window, line2, startx, c_ltgray, _("Thresholds required:"));
+                for (int j = 0; j < mutation_data[vTraits[ entnum ]].threshreq.size(); j++) {
+                    std::string mstr=mutation_data[vTraits[ entnum ]].threshreq[j];
+                    mvwprintz(menu->window, line2, startx + 21, mcolor(mstr), traits[ mstr ].name.c_str());
                     line2++;
                 }
             }
@@ -171,8 +190,7 @@ void game::wishmutate( player *p )
     wmenu.return_invalid = true;
     wmenu.selected = uistate.wishmutate_selected;
     wish_mutate_callback *cb = new wish_mutate_callback();
-    cb->g=this;
-    cb->p=p;
+    cb->p = p;
     wmenu.callback = cb;
     do {
         wmenu.query();
@@ -181,12 +199,12 @@ void game::wishmutate( player *p )
             std::string mstr=cb->vTraits[ wmenu.ret ];
             if ( p->has_trait( mstr ) ) {
                 do {
-                    p->remove_mutation(this, mstr );
+                    p->remove_mutation(mstr );
                     rc++;
                 } while (p->has_trait( mstr ) && rc < 10);
             } else {
                 do {
-                    p->mutate_towards(this, mstr );
+                    p->mutate_towards(mstr );
                     rc++;
                 } while (!p->has_trait( mstr ) && rc < 10);
             }
@@ -241,6 +259,7 @@ class wish_monster_callback: public uimenu_callback
         }
 
         virtual bool key(int key, int entnum, uimenu *menu) {
+            (void)entnum; (void)menu; // unused
             if ( key == 'f' ) {
                 friendly = !friendly;
                 lastent = -2; // force tmp monster regen
@@ -263,7 +282,7 @@ class wish_monster_callback: public uimenu_callback
             }
 
             werase(w_info);
-            tmp.print_info(g, w_info);
+            tmp.print_info(w_info);
 
             std::string header = string_format("#%d: %s", entnum, GetMType(entnum)->name.c_str()
                                               );
@@ -278,6 +297,7 @@ class wish_monster_callback: public uimenu_callback
         }
 
         virtual void refresh(uimenu *menu) {
+            (void)menu; // unused
             wrefresh(w_info);
         }
 
@@ -345,6 +365,7 @@ class wish_item_callback: public uimenu_callback
             incontainer = false;
         }
         virtual bool key(int key, int entnum, uimenu *menu) {
+            (void)entnum; (void)menu; // unused
             if ( key == 'f' ) {
                 incontainer = !incontainer;
                 return true;

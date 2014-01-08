@@ -33,13 +33,13 @@ void show_auto_pickup()
     const int iTotalCols = mapLines.size()-1;
 
     WINDOW* w_auto_pickup_options = newwin(FULL_SCREEN_HEIGHT/2, FULL_SCREEN_WIDTH/2, iOffsetY + (FULL_SCREEN_HEIGHT/2)/2, iOffsetX + (FULL_SCREEN_WIDTH/2)/2);
-    WINDOW* w_auto_pickup_help = newwin((FULL_SCREEN_HEIGHT/2)-2, FULL_SCREEN_WIDTH * 3/4, 8 + iOffsetY + (FULL_SCREEN_HEIGHT/2)/2, iOffsetX + 19/2);
+    WINDOW* w_auto_pickup_help = newwin((FULL_SCREEN_HEIGHT/2)-2, FULL_SCREEN_WIDTH * 3/4, 7 + iOffsetY + (FULL_SCREEN_HEIGHT/2)/2, iOffsetX + 19/2);
 
     WINDOW* w_auto_pickup_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
     WINDOW* w_auto_pickup_header = newwin(iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY, 1 + iOffsetX);
     WINDOW* w_auto_pickup = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY, 1 + iOffsetX);
 
-    wborder(w_auto_pickup_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+    draw_border(w_auto_pickup_border);
     mvwputch(w_auto_pickup_border, 3,  0, c_ltgray, LINE_XXXO); // |-
     mvwputch(w_auto_pickup_border, 3, 79, c_ltgray, LINE_XOXX); // -|
 
@@ -92,6 +92,13 @@ void show_auto_pickup()
         locx += shortcut_print(w_auto_pickup_header, 2, locx, c_white, (iCurrentPage == 1) ? hilite(c_white) : c_white, _("[<Global>]"))+1;
         shortcut_print(w_auto_pickup_header, 2, locx, c_white, (iCurrentPage == 2) ? hilite(c_white) : c_white, _("[<Character>]"));
 
+        locx = 55;
+        mvwprintz(w_auto_pickup_header, 0, locx, c_white, _("Auto pickup enabled:"));
+        locx += shortcut_print(w_auto_pickup_header, 1, locx, ((OPTIONS["AUTO_PICKUP"]) ? c_ltgreen : c_ltred), c_white, ((OPTIONS["AUTO_PICKUP"]) ? _("True") : _("False")));
+        locx += shortcut_print(w_auto_pickup_header, 1, locx, c_white, c_ltgreen, "  ");
+        locx += shortcut_print(w_auto_pickup_header, 1, locx, c_white, c_ltgreen, _("<S>witch"));
+        shortcut_print(w_auto_pickup_header, 1, locx, c_white, c_ltgreen, "  ");
+
         wrefresh(w_auto_pickup_header);
 
         // Clear the lines
@@ -141,7 +148,7 @@ void show_auto_pickup()
             wrefresh(w_auto_pickup);
 
         } else if (iCurrentPage == 3) {
-            wborder(w_auto_pickup_options, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+            draw_border(w_auto_pickup_options);
 
             mvwprintz(w_auto_pickup_options, 5, 10, c_white, _("Under construction!"));
 
@@ -164,7 +171,7 @@ void show_auto_pickup()
         } else if (iCurrentPage == 1 || iCurrentPage == 2) {
             if (iCurrentPage == 2 && g->u.name == "" && ch != '\t') {
                 //Only allow loaded games to use the char sheet
-            } else if (vAutoPickupRules[iCurrentPage].size() > 0 || ch == 'a' || ch == '\t') {
+            } else if (vAutoPickupRules[iCurrentPage].size() > 0 || ch == 'a' || ch == 'A' || ch == 's' || ch == 'S' || ch == '\t') {
                 switch(ch) {
                     case 'j': //move down
                         iCurrentLine++;
@@ -235,7 +242,7 @@ void show_auto_pickup()
                                 "")
                             );
 
-                            wborder(w_auto_pickup_help, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+                            draw_border(w_auto_pickup_help);
                             wrefresh(w_auto_pickup_help);
                             vAutoPickupRules[iCurrentPage][iCurrentLine].sRule = trim_rule(string_input_popup(_("Pickup Rule:"), 30, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule));
                         } else if (iCurrentCol == 2) {
@@ -283,6 +290,11 @@ void show_auto_pickup()
                     case 't': //test rule
                     case 'T':
                         test_pattern(iCurrentPage, iCurrentLine);
+                        break;
+                    case 'S': //Switch auto pickup option (enabled/disabled)
+                    case 's':
+                        OPTIONS["AUTO_PICKUP"].setNext();
+                        save_options((g->u.name != ""));
                         break;
                 }
             }
@@ -338,7 +350,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     WINDOW* w_test_rule_border = newwin(iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX);
     WINDOW* w_test_rule_content = newwin(iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX);
 
-    wborder(w_test_rule_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+    draw_border(w_test_rule_border);
 
     int nmatch = vMatchingItems.size();
     std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s", nmatch), nmatch, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule.c_str());
@@ -514,6 +526,11 @@ void addPickupRule(std::string sRule)
     vAutoPickupRules[2].push_back(cPickupRules(sRule, true, false));
     merge_vector();
     createPickupRules();
+
+    if (!OPTIONS["AUTO_PICKUP"] && query_yn(_("Autopickup is not enabled in the options. Enable it now?")) ) {
+        OPTIONS["AUTO_PICKUP"].setNext();
+        save_options(true);
+    }
 }
 
 void removePickupRule(std::string sRule)

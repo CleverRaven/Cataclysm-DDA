@@ -77,7 +77,7 @@ void game::serialize(std::ofstream & fout) {
         // Header
         fout << "# version " << savegame_version << std::endl;
 
-        JsonOut json(&fout);
+        JsonOut json(fout, true); // pretty-print
 
         json.start_object();
         // basic game state information.
@@ -120,7 +120,7 @@ void game::serialize(std::ofstream & fout) {
         json.member( "grscent", rle_out.str() );
 
         // Then each monster
-        json.member( "active_monsters", _active_monsters );
+        json.member( "active_monsters", critter_tracker.list() );
         json.member( "stair_monsters", coming_to_stairs );
 
         // save killcounts.
@@ -196,41 +196,42 @@ void game::unserialize(std::ifstream & fin)
     std::stringstream linein;
 
     int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
-    JsonIn jsin(&fin);
+    JsonIn jsin(fin);
     try {
         JsonObject data = jsin.get_object();
 
-        data.read_into("turn",tmpturn);
-        data.read_into("last_target",tmptar);
-        data.read_into("run_mode", tmprun);
-        data.read_into("mostseen", mostseen);
-        data.read_into("nextinv", tmpinv);
+        data.read("turn",tmpturn);
+        data.read("last_target",tmptar);
+        data.read("run_mode", tmprun);
+        data.read("mostseen", mostseen);
+        data.read("nextinv", tmpinv);
         nextinv = (char)tmpinv;
-        data.read_into("next_npc_id", next_npc_id);
-        data.read_into("next_faction_id", next_faction_id);
-        data.read_into("next_mission_id", next_mission_id);
-        data.read_into("nextspawn",tmpspawn);
-        data.read_into("levx",levx);
-        data.read_into("levy",levy);
-        data.read_into("levz",levz);
-        data.read_into("om_x",comx);
-        data.read_into("om_y",comy);
+        data.read("next_npc_id", next_npc_id);
+        data.read("next_faction_id", next_faction_id);
+        data.read("next_mission_id", next_mission_id);
+        data.read("nextspawn",tmpspawn);
+        data.read("levx",levx);
+        data.read("levy",levy);
+        data.read("levz",levz);
+        data.read("om_x",comx);
+        data.read("om_y",comy);
 
         turn = tmpturn;
         nextspawn = tmpspawn;
 
-        cur_om = &overmap_buffer.get(this, comx, comy);
-        m.load(this, levx, levy, levz);
+        cur_om = &overmap_buffer.get(comx, comy);
+        m.load(levx, levy, levz);
 
         run_mode = tmprun;
         if (OPTIONS["SAFEMODE"] && run_mode == 0) {
             run_mode = 1;
         }
         autosafemode = OPTIONS["AUTOSAFEMODE"];
+        safemodeveh = OPTIONS["SAFEMODEVEH"];
         last_target = tmptar;
 
         linebuf="";
-        if ( data.read_into("grscent",linebuf) ) {
+        if ( data.read("grscent",linebuf) ) {
             linein.clear();
             linein.str(linebuf);
 
@@ -251,7 +252,7 @@ void game::unserialize(std::ifstream & fin)
         clear_zombies();
         while (vdata.has_more()) {
             monster montmp;
-            vdata.read_into(montmp);
+            vdata.read_next(montmp);
             montmp.setkeep(true);
             add_zombie(montmp);
         }
@@ -260,7 +261,7 @@ void game::unserialize(std::ifstream & fin)
         coming_to_stairs.clear();
         while (vdata.has_more()) {
             monster stairtmp;
-            vdata.read_into(stairtmp);
+            vdata.read_next(stairtmp);
             coming_to_stairs.push_back(stairtmp);
         }
 
@@ -271,7 +272,7 @@ void game::unserialize(std::ifstream & fin)
             kills[*it] = odata.get_int(*it);
         }
 
-        data.read_into("player", u);
+        data.read("player", u);
 
     } catch (std::string jsonerr) {
         debugmsg("Bad save json\n%s", jsonerr.c_str() );
@@ -291,6 +292,15 @@ void game::load_weather(std::ifstream & fin) {
        if ( tmpver == "version" && savedver != -1 ) {
            savegame_loading_version = savedver;
        }
+   }
+
+   //Check for "lightning:" marker - if absent, ignore
+   if (fin.peek() == 'l') {
+       std::string line;
+       getline(fin, line);
+       lightning_active = ((*line.end()) == '1');
+   } else {
+       lightning_active = false;
    }
 
      while(!fin.eof()) {
@@ -328,6 +338,7 @@ void game::load_weather(std::ifstream & fin) {
 
 void game::save_weather(std::ofstream & fout) {
     fout << "# version " << savegame_version << std::endl;
+    fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
     const int climatezone = 0;
     for( std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it ) {
       fout << it->first
@@ -337,7 +348,7 @@ void game::save_weather(std::ofstream & fout) {
     }
 }
 ///// overmap
-void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plrfilename,
+void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                           std::string const & terfilename) {
     // DEBUG VARS
     int nummg = 0;
@@ -359,7 +370,7 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
         }
     }
     if (savegame_loading_version != savegame_version) {
-        if ( unserialize_legacy(g, fin, plrfilename, terfilename) == true ) {
+        if ( unserialize_legacy(fin, plrfilename, terfilename) == true ) {
             return;
         }
     }
@@ -430,7 +441,7 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
             std::string npcdata;
             getline(fin, npcdata);
             npc * tmp = new npc();
-            tmp->load_info(g, npcdata);
+            tmp->load_info(npcdata);
             npcs.push_back(tmp);
         } else if (datatype == 'P') {
             // Chomp the invlet_cache, since the npc doesn't use it.
@@ -445,7 +456,7 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
                          loc.x, loc.y);
                 debugmsg(itemdata.c_str());
             } else {
-                item tmp(itemdata, g);
+                item tmp(itemdata);
                 npc* last = npcs.back();
                 switch (datatype) {
                 case 'I': npc_inventory.push_back(tmp);                 break;
@@ -453,6 +464,44 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
                 case 'W': last->worn.push_back(tmp);                    break;
                 case 'w': last->weapon = tmp;                           break;
                 case 'c': last->weapon.contents.push_back(tmp);         break;
+                }
+            }
+        } else if ( datatype == '!' ) { // temporary holder for future sanity
+            std::string tmpstr;
+            getline(fin, tmpstr);
+            if ( tmpstr.size() > 1 && ( tmpstr[0] == '{' || tmpstr[1] == '{' ) ) {
+                std::stringstream derp;
+                derp << tmpstr;
+                JsonIn jsin(derp);
+                try {            
+                    JsonObject data = jsin.get_object();
+                    
+                    if ( data.read("region_id",tmpstr) ) { // temporary, until option DEFAULT_REGION becomes start_scenario.region_id
+                        if ( settings.id != tmpstr ) {
+                            std::map<std::string, regional_settings>::const_iterator rit = region_settings_map.find( tmpstr );
+                            if ( rit != region_settings_map.end() ) {
+                                // temporary; user changed option, this overmap should remain whatever it was set to.
+                                settings = rit->second; // todo optimize
+                            } else { // ruh-roh! user changed option and deleted the .json with this overmap's region. We'll have to become current default. And whine about it.
+                                std::string tmpopt = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
+                                rit = region_settings_map.find( tmpopt );
+                                if ( rit == region_settings_map.end() ) { // ...oy. Hopefully 'default' exists. If not, it's crashtime anyway.
+                                    debugmsg("               WARNING: overmap uses missing region settings '%s'                 \n\
+                ERROR, 'default_region' option uses missing region settings '%s'. Falling back to 'default'               \n\
+                ....... good luck.                 \n",
+                                              tmpstr.c_str(), tmpopt.c_str() );
+                                    // fallback means we already loaded default and got a warning earlier.
+                                } else {
+                                    debugmsg("               WARNING: overmap uses missing region settings '%s', falling back to '%s'                \n",
+                                              tmpstr.c_str(), tmpopt.c_str() );
+                                    // fallback means we already loaded ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"]
+                                }
+                            }
+                        }
+                    }
+                } catch(std::string jsonerr) {
+                    debugmsg("load overmap: json error\n%s", jsonerr.c_str() );
+                    // just continue with default region
                 }
             }
         }
@@ -578,6 +627,17 @@ void overmap::save()
         fout << std::endl;
     }
 
+    try {
+        fout << "! ";
+        JsonOut json(fout, false);
+        json.start_object();
+        json.member("region_id", settings.id); // temporary, to allow user to manually switch regions during play until regionmap is done.
+        json.end_object();
+    } catch (std::string e) {
+        //debugmsg("error saving overmap: %s", e.c_str());
+    }
+    fout << std::endl;
+
     for (int i = 0; i < zg.size(); i++)
         fout << "Z " << zg[i].type << " " << zg[i].posx << " " << zg[i].posy << " " <<
             zg[i].posz << " " << int(zg[i].radius) << " " << zg[i].population << " " <<
@@ -624,7 +684,7 @@ void game::unserialize_master(std::ifstream &fin) {
    }
     try {
         // single-pass parsing example
-        JsonIn jsin(&fin);
+        JsonIn jsin(fin);
         jsin.start_object();
         while (!jsin.end_object()) {
             std::string name = jsin.get_member_name();
@@ -661,7 +721,7 @@ void game::unserialize_master(std::ifstream &fin) {
 void game::serialize_master(std::ofstream &fout) {
     fout << "# version " << savegame_version << std::endl;
     try {
-        JsonOut json(&fout);
+        JsonOut json(fout, true); // pretty-print
         json.start_object();
 
         json.member("next_mission_id", next_mission_id);

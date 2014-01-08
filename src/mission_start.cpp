@@ -8,17 +8,17 @@
  * updating *miss with the target and any other important information.
  */
 
-void mission_start::standard(game *, mission *)
+void mission_start::standard( mission *)
 {
 }
 
-void mission_start::join(game *g, mission *miss)
+void mission_start::join(mission *miss)
 {
  npc *p = g->find_npc(miss->npc_id);
  p->attitude = NPCATT_FOLLOW;
 }
 
-void mission_start::infect_npc(game *g, mission *miss)
+void mission_start::infect_npc(mission *miss)
 {
  npc *p = g->find_npc(miss->npc_id);
  if (p == NULL) {
@@ -27,10 +27,10 @@ void mission_start::infect_npc(game *g, mission *miss)
  }
  p->add_disease("infection", 1, true);
  // make sure they don't have any antibiotics
- while ( !p->inv.remove_item_by_type("antibiotics").is_null() ) { /* empty */ }
+ while ( !p->inv.remove_item("antibiotics").is_null() ) { /* empty */ }
 }
 
-void mission_start::place_dog(game *g, mission *miss)
+void mission_start::place_dog(mission *miss)
 {
  int city_id = g->cur_om->closest_city( g->om_location() );
  point house = g->cur_om->random_house_in_city(city_id);
@@ -50,12 +50,12 @@ void mission_start::place_dog(game *g, mission *miss)
  }
 
  tinymap doghouse(&(g->traps));
- doghouse.load(g, house.x * 2, house.y * 2, 0, false);
+ doghouse.load(house.x * 2, house.y * 2, 0, false);
  doghouse.add_spawn("mon_dog", 1, SEEX, SEEY, true, -1, miss->uid);
  doghouse.save(g->cur_om, int(g->turn), house.x * 2, house.y * 2, 0);
 }
 
-void mission_start::place_zombie_mom(game *g, mission *miss)
+void mission_start::place_zombie_mom(mission *miss)
 {
  int city_id = g->cur_om->closest_city( g->om_location() );
  point house = g->cur_om->random_house_in_city(city_id);
@@ -68,12 +68,12 @@ void mission_start::place_zombie_mom(game *g, mission *miss)
  }
 
  tinymap zomhouse(&(g->traps));
- zomhouse.load(g, house.x * 2, house.y * 2,  0, false);
+ zomhouse.load(house.x * 2, house.y * 2,  0, false);
  zomhouse.add_spawn("mon_zombie", 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
  zomhouse.save(g->cur_om, int(g->turn), house.x * 2, house.y * 2, 0);
 }
 
-void mission_start::place_jabberwock(game *g, mission *miss)
+void mission_start::place_jabberwock(mission *miss)
 {
  int dist = 0;
  point site = g->cur_om->find_closest(g->om_location(), "forest_thick", dist, false);
@@ -84,12 +84,12 @@ void mission_start::place_jabberwock(game *g, mission *miss)
    g->cur_om->seen(x, y, 0) = true;
  }
  tinymap grove(&(g->traps));
- grove.load(g, site.x * 2, site.y * 2,  0, false);
+ grove.load(site.x * 2, site.y * 2,  0, false);
  grove.add_spawn("mon_jabberwock", 1, SEEX, SEEY, false, -1, miss->uid, "NONE");
  grove.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
 }
 
-void mission_start::kill_100_z(game *g, mission *miss)
+void mission_start::kill_100_z(mission *miss)
 {
  npc *p = g->find_npc(miss->npc_id);
  p->attitude = NPCATT_FOLLOW;//npc joins you
@@ -99,7 +99,7 @@ void mission_start::kill_100_z(game *g, mission *miss)
  miss->monster_kill_goal = 100+killed;//your kill score must increase by 100
 }
 
-void mission_start::kill_horde_master(game *g, mission *miss)
+void mission_start::kill_horde_master(mission *miss)
 {
  npc *p = g->find_npc(miss->npc_id);
  p->attitude = NPCATT_FOLLOW;//npc joins you
@@ -118,7 +118,7 @@ void mission_start::kill_horde_master(game *g, mission *miss)
    g->cur_om->seen(x, y, 0) = true;
  }
  tinymap tile(&(g->traps));
- tile.load(g, site.x * 2, site.y * 2,  0, false);
+ tile.load(site.x * 2, site.y * 2,  0, false);
  tile.add_spawn("mon_zombie_master", 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul");
  tile.add_spawn("mon_zombie_brute",3,SEEX,SEEY);
  tile.add_spawn("mon_zombie_fast",3,SEEX,SEEY);
@@ -134,7 +134,7 @@ void mission_start::kill_horde_master(game *g, mission *miss)
  tile.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
 }
 
-void mission_start::place_npc_software(game *g, mission *miss)
+void mission_start::place_npc_software(mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
  if (dev == NULL) {
@@ -178,7 +178,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
    g->cur_om->seen(x, y, 0) = true;
  }
  tinymap compmap(&(g->traps));
- compmap.load(g, place.x * 2, place.y * 2, 0, false);
+ compmap.load(place.x * 2, place.y * 2, 0, false);
  point comppoint;
 
     oter_id oter = g->cur_om->ter(place.x, place.y, 0);
@@ -255,7 +255,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
  compmap.save(g->cur_om, int(g->turn), place.x * 2, place.y * 2, 0);
 }
 
-void mission_start::place_priest_diary(game *g, mission *miss)
+void mission_start::place_priest_diary(mission *miss)
 {
  point place;
  int city_id = g->cur_om->closest_city( g->om_location() );
@@ -266,7 +266,7 @@ void mission_start::place_priest_diary(game *g, mission *miss)
    g->cur_om->seen(x, y, 0) = true;
  }
  tinymap compmap(&(g->traps));
- compmap.load(g, place.x * 2, place.y * 2, 0, false);
+ compmap.load(place.x * 2, place.y * 2, 0, false);
  point comppoint;
 
   std::vector<point> valid;
@@ -285,7 +285,7 @@ void mission_start::place_priest_diary(game *g, mission *miss)
  compmap.save(g->cur_om, int(g->turn), place.x * 2, place.y * 2, 0);
 }
 
-void mission_start::place_deposit_box(game *g, mission *miss)
+void mission_start::place_deposit_box(mission *miss)
 {
     npc *p = g->find_npc(miss->npc_id);
     p->attitude = NPCATT_FOLLOW;//npc joins you
@@ -301,7 +301,7 @@ void mission_start::place_deposit_box(game *g, mission *miss)
    g->cur_om->seen(x, y, 0) = true;
  }
  tinymap compmap(&(g->traps));
- compmap.load(g, site.x * 2, site.y * 2, 0, false);
+ compmap.load(site.x * 2, site.y * 2, 0, false);
  point comppoint;
   std::vector<point> valid;
   for (int x = 0; x < SEEX * 2; x++) {
@@ -327,7 +327,7 @@ compmap.spawn_item(comppoint.x, comppoint.y, "safe_box");
 compmap.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
 }
 
-void mission_start::reveal_lab_black_box(game *g, mission *miss)
+void mission_start::reveal_lab_black_box(mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
  if (dev != NULL) {
@@ -344,7 +344,7 @@ void mission_start::reveal_lab_black_box(game *g, mission *miss)
  miss->target = place;
 }
 
-void mission_start::open_sarcophagus(game *g, mission *miss)
+void mission_start::open_sarcophagus(mission *miss)
 {
  npc *p = g->find_npc(miss->npc_id);
  p->attitude = NPCATT_FOLLOW;
@@ -362,7 +362,7 @@ void mission_start::open_sarcophagus(game *g, mission *miss)
  miss->target = place;
 }
 
-void mission_start::reveal_hospital(game *g, mission *miss)
+void mission_start::reveal_hospital(mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
  if (dev != NULL) {
@@ -379,7 +379,7 @@ void mission_start::reveal_hospital(game *g, mission *miss)
  miss->target = place;
 }
 
-void mission_start::find_safety(game *g, mission *miss)
+void mission_start::find_safety(mission *miss)
 {
  point place = g->om_location();
  bool done = false;
@@ -411,7 +411,7 @@ void mission_start::find_safety(game *g, mission *miss)
  }
 }
 
-void mission_start::point_prison(game *g, mission *miss)
+void mission_start::point_prison(mission *miss)
 {
  int dist = 0;
  point place = g->cur_om->find_closest(g->om_location(), "prison_5", dist,
@@ -423,7 +423,7 @@ void mission_start::point_prison(game *g, mission *miss)
  miss->target = place;
 }
 
-void mission_start::point_cabin_strange(game *g, mission *miss)
+void mission_start::point_cabin_strange(mission *miss)
 {
  int dist = 0;
  point place = g->cur_om->find_closest(g->om_location(), "cabin_strange", dist,
@@ -435,7 +435,7 @@ void mission_start::point_cabin_strange(game *g, mission *miss)
  miss->target = place;
 }
 
-void mission_start::recruit_tracker(game *g, mission *miss)
+void mission_start::recruit_tracker(mission *miss)
 {
  npc *p = g->find_npc(miss->npc_id);
  p->attitude = NPCATT_FOLLOW;//npc joins you
@@ -451,8 +451,8 @@ for (int x = site.x - 2; x <= site.x + 2; x++) {
    g->cur_om->seen(x, y, 0) = true;
  }
  npc * temp = new npc();
- temp->normalize(g);
- temp->randomize(g, NC_COWBOY);
+ temp->normalize();
+ temp->randomize(NC_COWBOY);
  temp->omx = site.x*2;
  temp->omy = site.y*2;
  temp->mapx = site.x*2;
@@ -468,6 +468,6 @@ for (int x = site.x - 2; x <= site.x + 2; x++) {
  g->cur_om->npcs.push_back(temp);
 }
 
-void mission_start::place_book(game *, mission *)
+void mission_start::place_book( mission *)
 {
 }

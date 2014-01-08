@@ -103,16 +103,34 @@ classes = {
     },
     item = {
         attributes = {
+            charges = {
+                type = "int",
+                writable = true
+            }
         },
         functions = {
             tname = {
-                args = { "game" },
+                args = { },
                 rval = "string"
             },
             made_of = {
                 args = { "string" },
                 rval = "bool"
             }
+        }
+    },
+    point = {
+        attributes = {
+            x = {
+                type = "int",
+                writable = true
+            },
+            y = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
         }
     },
     uimenu = {
@@ -148,6 +166,58 @@ classes = {
             ter = {
                 args = {"int", "int"},
                 rval = "int"
+            },
+            ter_set = {
+                args = {"int", "int", "string"},
+                rval = nil
+            },
+            ter_iset = {
+                cpp_name = "ter_set",
+                args = {"int", "int", "int"},
+                rval = nil
+            },
+
+            furn = {
+                args = {"int", "int"},
+                rval = "int"
+            },
+            furn_set = {
+                args = {"int", "int", "string"},
+                rval = nil
+            },
+            line_ter = {
+                cpp_name = "draw_line_ter",
+                args = {"string", "int", "int", "int", "int"},
+                rval = nil
+            },
+            line_furn = {
+                cpp_name = "draw_line_furn",
+                args = {"string", "int", "int", "int", "int"},
+                rval = nil
+            },
+            fill_background = {
+                cpp_name = "draw_fill_background",
+                args = {"string"},
+                rval = nil
+            },
+            square_ter = {
+                cpp_name = "draw_square_ter",
+                args = {"string", "int", "int", "int", "int"},
+                rval = nil
+            },
+            square_furn = {
+                cpp_name = "draw_square_furn",
+                args = {"string", "int", "int", "int", "int"},
+                rval = nil
+            },
+            rough_circle = {
+                cpp_name = "draw_rough_circle",
+                args = {"string", "int", "int", "int"},
+                rval = nil
+            },
+            place_items = {
+                args = {"string", "int", "int", "int", "int",  "int", "bool", "int"},
+                rval = nil
             }
         }
     },
@@ -155,6 +225,14 @@ classes = {
         attributes = {
             name = {
                 type = "string",
+                writable = false
+            },
+            id = {
+                type = "string",
+                writable = false
+            },
+            loadid = {
+                type = "int",
                 writable = false
             },
             movecost = {
@@ -212,6 +290,16 @@ global_functions = {
         args = { "cstring" },
         rval = nil
     },
+    revive_corpse = {
+        cpp_name = "g->revive_corpse",
+        args = { "int", "int", "int" },
+        rval = nil
+    },
+    popup = {
+        cpp_name = "popup",
+        args = { "cstring" },
+        rval = nil
+    },
     string_input_popup = {
         cpp_name = "string_input_popup",
         args = { "string", "int", "string" },
@@ -231,6 +319,11 @@ global_functions = {
         cpp_name = "rng",
         args = {"int", "int"},
         rval = "int"
+    },
+    one_in = {
+        cpp_name = "one_in",
+        args = {"int"},
+        rval = "bool"
     },
     distance = {
         cpp_name = "rl_dist",

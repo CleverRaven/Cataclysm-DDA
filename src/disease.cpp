@@ -15,7 +15,6 @@
 enum dis_type_enum {
  DI_NULL,
 // Weather
- DI_GLARE, DI_WET,
 // Temperature, the order is important (dependant on bodypart.h)
  DI_COLD,
  DI_FROSTBITE,
@@ -24,20 +23,20 @@ enum dis_type_enum {
 // Diseases
  DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER,
-// Fields
- DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
+// Fields - onfire moved to effects
+ DI_CRUSHED, DI_BOULDERING,
 // Monsters
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
- DI_DEAF, DI_BLIND,
+ DI_DEAF,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
- DI_POISON, DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
+ DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
  DI_WEBBED,
  DI_RAT, DI_BITE,
 // Food & Drugs
  DI_PKILL1, DI_PKILL2, DI_PKILL3, DI_PKILL_L, DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
-  DI_TOOK_FLUMED, DI_ADRENALINE, DI_ASTHMA, DI_GRACK, DI_METH,
+  DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH,
 // Traps
  DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
 // Martial Arts
@@ -50,14 +49,17 @@ enum dis_type_enum {
 // Martial arts-related buffs
  DI_MA_BUFF,
 // NPC-only
- DI_CATCH_UP
+ DI_CATCH_UP,
+ // Contact lenses
+ DI_CONTACTS,
+ // Lack/sleep
+ DI_LACKSLEEP
 };
 
 std::map<std::string, dis_type_enum> disease_type_lookup;
 
 // Todo: Move helper functions into a DiseaseHandler Class.
 // Should standardize parameters so we can make function pointers.
-static void manage_fire_exposure(player& p, int fireStrength = 1);
 static void manage_fungal_infection(player& p, disease& dis);
 static void manage_sleep(player& p, disease& dis);
 
@@ -65,7 +67,7 @@ static void handle_alcohol(player& p, disease& dis);
 static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
 static void handle_recovery(player& p, disease& dis);
-static void handle_cough(player& p, int volume = 12);
+static void handle_cough(player& p, int intensity = 1, int volume = 12);
 static void handle_deliriant(player& p, disease& dis);
 static void handle_evil(player& p, disease& dis);
 static void handle_insect_parasites(player& p, disease& dis);
@@ -76,8 +78,6 @@ void game::init_diseases() {
     // Initialize the disease lookup table.
 
     disease_type_lookup["null"] = DI_NULL;
-    disease_type_lookup["glare"] = DI_GLARE;
-    disease_type_lookup["wet"] = DI_WET;
     disease_type_lookup["cold"] = DI_COLD;
     disease_type_lookup["frostbite"] = DI_FROSTBITE;
     disease_type_lookup["hot"] = DI_HOT;
@@ -86,9 +86,6 @@ void game::init_diseases() {
     disease_type_lookup["common_cold"] = DI_COMMON_COLD;
     disease_type_lookup["flu"] = DI_FLU;
     disease_type_lookup["recover"] = DI_RECOVER;
-    disease_type_lookup["smoke"] = DI_SMOKE;
-    disease_type_lookup["onfire"] = DI_ONFIRE;
-    disease_type_lookup["teargas"] = DI_TEARGAS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
     disease_type_lookup["boomered"] = DI_BOOMERED;
@@ -97,11 +94,9 @@ void game::init_diseases() {
     disease_type_lookup["fungus"] = DI_FUNGUS;
     disease_type_lookup["slimed"] = DI_SLIMED;
     disease_type_lookup["deaf"] = DI_DEAF;
-    disease_type_lookup["blind"] = DI_BLIND;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
-    disease_type_lookup["poison"] = DI_POISON;
     disease_type_lookup["bleed"] = DI_BLEED;
     disease_type_lookup["badpoison"] = DI_BADPOISON;
     disease_type_lookup["paralyzepoison"] = DI_PARALYZEPOISON;
@@ -126,6 +121,7 @@ void game::init_diseases() {
     disease_type_lookup["took_prozac"] = DI_TOOK_PROZAC;
     disease_type_lookup["took_flumed"] = DI_TOOK_FLUMED;
     disease_type_lookup["adrenaline"] = DI_ADRENALINE;
+    disease_type_lookup["jetinjector"] = DI_JETINJECTOR;
     disease_type_lookup["asthma"] = DI_ASTHMA;
     disease_type_lookup["grack"] = DI_GRACK;
     disease_type_lookup["meth"] = DI_METH;
@@ -153,17 +149,13 @@ void game::init_diseases() {
     disease_type_lookup["catch_up"] = DI_CATCH_UP;
     disease_type_lookup["weed_high"] = DI_WEED_HIGH;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
+    disease_type_lookup["contacts"] = DI_CONTACTS;
+    disease_type_lookup["lack_sleep"] = DI_LACKSLEEP;
 }
 
 void dis_msg(dis_type type_string) {
     dis_type_enum type = disease_type_lookup[type_string];
     switch (type) {
-    case DI_GLARE:
-        g->add_msg(_("The sunlight's glare makes it hard to see."));
-        break;
-    case DI_WET:
-        g->add_msg(_("You're getting soaked!"));
-        break;
     case DI_COMMON_COLD:
         g->add_msg(_("You feel a cold coming on..."));
         g->u.add_memorial_log(_("Caught a cold."));
@@ -171,16 +163,6 @@ void dis_msg(dis_type type_string) {
     case DI_FLU:
         g->add_msg(_("You feel a flu coming on..."));
         g->u.add_memorial_log(_("Caught the flu."));
-        break;
-    case DI_ONFIRE:
-        g->add_msg(_("You're on fire!"));
-        g->u.add_memorial_log(_("Caught on fire."));
-        break;
-    case DI_SMOKE:
-        g->add_msg(_("You inhale a lungful of thick smoke."));
-        break;
-    case DI_TEARGAS:
-        g->add_msg(_("You inhale a lungful of tear gas."));
         break;
     case DI_CRUSHED:
         g->add_msg(_("The ceiling collapses on you!"));
@@ -214,14 +196,14 @@ void dis_msg(dis_type type_string) {
     case DI_ADRENALINE:
         g->add_msg(_("You feel a surge of adrenaline!"));
         break;
+    case DI_JETINJECTOR:
+        g->add_msg(_("You feel a rush as the chemicals flow through your body!"));
+        break;
     case DI_ASTHMA:
         g->add_msg(_("You can't breathe... asthma attack!"));
         break;
     case DI_DEAF:
         g->add_msg(_("You're deafened!"));
-        break;
-    case DI_BLIND:
-        g->add_msg(_("You're blinded!"));
         break;
     case DI_STUNNED:
         g->add_msg(_("You're stunned!"));
@@ -250,6 +232,26 @@ void dis_msg(dis_type type_string) {
     case DI_HEAVYSNARE:
         g->add_msg(_("You are snared."));
         break;
+    case DI_CONTACTS:
+        g->add_msg(_("You can see more clearly."));
+        break;
+    case DI_LACKSLEEP:
+        g->add_msg(_("You are too tired to function well."));
+        break;
+    default:
+        break;
+    }
+}
+
+void dis_end_msg(player &p, disease &dis)
+{
+    switch (disease_type_lookup[dis.type]) {
+    case DI_SLEEP:
+        g->add_msg_if_player(&p, _("You wake up."));
+        break;
+    case DI_CONTACTS:
+        g->add_msg_if_player(&p, _("Your vision starts to blur."));
+        break;
     default:
         break;
     }
@@ -265,9 +267,6 @@ void dis_remove_memorial(dis_type type_string) {
       break;
     case DI_FLU:
       g->u.add_memorial_log(_("Got over the flu."));
-      break;
-    case DI_ONFIRE:
-      g->u.add_memorial_log(_("Put out the fire."));
       break;
     case DI_FUNGUS:
       g->u.add_memorial_log(_("Cured the fungal infection."));
@@ -285,23 +284,12 @@ void dis_remove_memorial(dis_type type_string) {
 void dis_effect(player &p, disease &dis) {
     bool sleeping = p.has_disease("sleep");
     bool tempMsgTrigger = one_in(400);
-    int bonus, psnChance;
+    int bonus;
     dis_type_enum disType = disease_type_lookup[dis.type];
     int grackPower = 500;
     bool inflictBadPsnPain = (!p.has_trait("POISRESIST") && one_in(100)) ||
                                 (p.has_trait("POISRESIST") && one_in(500));
     switch(disType) {
-        case DI_GLARE:
-            p.per_cur -= 1;
-            if (one_in(200)) {
-                g->add_msg(_("The sunlight's glare makes it hard to see."));
-            }
-            break;
-
-        case DI_WET:
-            p.add_morale(MORALE_WET, -1, -50, 60, 10);
-            break;
-
         case DI_COLD:
             switch(dis.bp) {
                 case bp_head:
@@ -506,7 +494,7 @@ void dis_effect(player &p, disease &dis) {
                             }
                             // Hallucinations handled in game.cpp
                             if (one_in(std::min(14500, 15000 - p.temp_cur[bp_head]))) {
-                                p.vomit(g);
+                                p.vomit();
                             }
                             if (p.pain < 20) {
                                 p.pain++;
@@ -666,35 +654,9 @@ void dis_effect(player &p, disease &dis) {
             }
             if (!p.has_disease("took_flumed") || one_in(2)) {
                 if (one_in(3600) || will_vomit(p)) {
-                    p.vomit(g);
+                    p.vomit();
                 }
             }
-            break;
-
-        case DI_SMOKE:
-        // A hard limit on the duration of the smoke disease.
-            if( dis.duration >= 600) {
-                dis.duration = 600;
-            }
-            p.str_cur--;
-            p.dex_cur--;
-            p.per_cur--;
-            if (dis.duration >= 10 && one_in(6)) {
-                handle_cough(p);
-            }
-            break;
-
-        case DI_TEARGAS:
-            p.str_cur -= 2;
-            p.dex_cur -= 2;
-            p.per_cur -= 5;
-            if (one_in(3)) {
-                handle_cough(p);
-            }
-            break;
-
-        case DI_ONFIRE:
-            manage_fire_exposure(p, 1);
             break;
 
         case DI_CRUSHED:
@@ -726,7 +688,7 @@ void dis_effect(player &p, disease &dis) {
         case DI_BOOMERED:
             p.per_cur -= 5;
             if (will_vomit(p)) {
-                p.vomit(g);
+                p.vomit();
             } else if (one_in(3600)) {
                 g->add_msg_if_player(&p,_("You gag and retch."));
             }
@@ -751,7 +713,7 @@ void dis_effect(player &p, disease &dis) {
         case DI_SLIMED:
             p.dex_cur -= 2;
             if (will_vomit(p, 2100)) {
-                p.vomit(g);
+                p.vomit();
             } else if (one_in(4800)) {
                 g->add_msg_if_player(&p,_("You gag and retch."));
             }
@@ -759,11 +721,11 @@ void dis_effect(player &p, disease &dis) {
 
         case DI_LYING_DOWN:
             p.moves = 0;
-            if (p.can_sleep(g)) {
+            if (p.can_sleep()) {
                 dis.duration = 1;
                 g->add_msg_if_player(&p,_("You fall asleep."));
                 // Communicate to the player that he is using items on the floor
-                std::string item_name = p.is_snuggling(g);
+                std::string item_name = p.is_snuggling();
                 if (item_name == "many") {
                     if (one_in(15) ) {
                         g->add_msg(_("You nestle your pile of clothes for warmth."));
@@ -777,7 +739,14 @@ void dis_effect(player &p, disease &dis) {
                         g->add_msg(_("You use your %s to keep warm."), item_name.c_str());
                     }
                 }
-                p.add_disease("sleep", 6000);
+                if (p.has_trait("HIBERNATE") && (p.hunger < -60)) {
+                p.add_memorial_log(_("Entered hibernation."));
+                p.fall_asleep(144000); // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
+                }                     // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
+                                     // In practice, the fatigue from filling the tank from (no msg) to Time For Bed will last about 8 days.
+                if (p.hunger >= -60) {
+                p.fall_asleep(6000); //10 hours, default max sleep time.
+                }
             }
             if (dis.duration == 1 && !p.has_disease("sleep")) {
                 g->add_msg_if_player(&p,_("You try to sleep, but can't..."));
@@ -868,7 +837,7 @@ void dis_effect(player &p, disease &dis) {
                 p.str_cur--;
                 p.dex_cur--;
                 if (dis.duration >= 1200 && (one_in(50) || will_vomit(p, 10))) {
-                    p.vomit(g);
+                    p.vomit();
                 }
             } else {
                 // p.dex_cur++;
@@ -888,32 +857,15 @@ void dis_effect(player &p, disease &dis) {
             p.per_cur--;
             break;
 
-        case DI_POISON:
-            psnChance = 150;
-            if (p.has_trait("POISRESIST")) {
-                psnChance *= 6;
-            } else {
-                p.str_cur -= 2;
-                p.dex_cur--;
-            }
-            if (one_in(psnChance)) {
-                g->add_msg_if_player(&p,_("You're suddenly wracked with pain!"));
-                p.pain++;
-                p.hurt(g, bp_torso, -1, rng(0, 2) * rng(0, 1));
-            }
-            p.per_cur--;
-            p.dex_cur--;
-            break;
-
         case DI_BLEED:
             if (one_in(6 / dis.intensity)) {
                 g->add_msg_player_or_npc( &p, _("You lose some blood."),
                                          _("<npcname> loses some blood.") );
                 p.pain++;
-                p.hurt(g, dis.bp, dis.side == -1 ? 0 : dis.side, 1);
+                p.hurt(dis.bp, dis.side == -1 ? 0 : dis.side, 1);
                 p.per_cur--;
                 p.str_cur--;
-                g->m.add_field(g, p.posx, p.posy, fd_blood, 1);
+                g->m.add_field(p.posx, p.posy, fd_blood, 1);
             }
             break;
 
@@ -921,7 +873,7 @@ void dis_effect(player &p, disease &dis) {
             if (inflictBadPsnPain) {
                 g->add_msg_if_player(&p,_("You're suddenly wracked with pain!"));
                 p.pain += 2;
-                p.hurt(g, bp_torso, -1, rng(0, 2));
+                p.hurt(bp_torso, -1, rng(0, 2));
             }
             p.per_cur -= 2;
             p.dex_cur -= 2;
@@ -947,10 +899,10 @@ void dis_effect(player &p, disease &dis) {
             }
             if (one_in(300 + bonus)) {
                 g->add_msg_if_player(&p,_("You're suddenly wracked with pain and nausea!"));
-                p.hurt(g, bp_torso, -1, 1);
+                p.hurt(bp_torso, -1, 1);
             }
             if (will_vomit(p, 100+bonus) || one_in(600 + bonus)) {
-                p.vomit(g);
+                p.vomit();
             }
             break;
 
@@ -974,15 +926,15 @@ void dis_effect(player &p, disease &dis) {
             p.per_cur -= int(dis.duration / 25);
             if (rng(0, 100) < dis.duration / 10) {
                 if (!one_in(5)) {
-                    p.mutate_category(g, "MUTCAT_RAT");
+                    p.mutate_category("MUTCAT_RAT");
                     dis.duration /= 5;
                 } else {
-                    p.mutate_category(g, "MUTCAT_TROGLO");
+                    p.mutate_category("MUTCAT_TROGLO");
                     dis.duration /= 3;
                 }
             } else if (rng(0, 100) < dis.duration / 8) {
                 if (one_in(3)) {
-                    p.vomit(g);
+                    p.vomit();
                     dis.duration -= 10;
                 } else {
                     g->add_msg(_("You feel nauseous!"));
@@ -1004,7 +956,7 @@ void dis_effect(player &p, disease &dis) {
                                        body_part_name(dis.bp, dis.side).c_str());
                 }
                 p.moves -= 150;
-                p.hurt(g, dis.bp, dis.side, 1);
+                p.hurt(dis.bp, dis.side, 1);
             }
             break;
 
@@ -1027,6 +979,23 @@ void dis_effect(player &p, disease &dis) {
                 p.dex_cur -= 1;
                 p.int_cur -= 1;
                 p.per_cur -= 1;
+            }
+            break;
+
+        case DI_JETINJECTOR:
+            if (dis.duration > 50) {
+                // 15 minutes positive effects
+                p.str_cur += 1;
+                p.dex_cur += 1;
+                p.per_cur += 1;
+            } else if (dis.duration == 50) {
+                // 5 minutes come-down
+                g->add_msg_if_player(&p,_("The jet injector's chemicals wear off.  You feel AWFUL!"));
+            } else {
+                p.str_cur -= 1;
+                p.dex_cur -= 2;
+                p.int_cur -= 1;
+                p.per_cur -= 2;
             }
             break;
 
@@ -1076,7 +1045,7 @@ void dis_effect(player &p, disease &dis) {
                 p.fatigue += 1;
             }
             if (will_vomit(p, 2000)) {
-                p.vomit(g);
+                p.vomit();
             }
             break;
 
@@ -1115,7 +1084,7 @@ void dis_effect(player &p, disease &dis) {
                     if (!p.is_npc()) {
                         g->add_msg(_("You pass out."));
                     }
-                    p.add_disease("sleep", 1200);
+                    p.fall_asleep(1200);
                     if (one_in(6)) {
                         p.rem_disease("teleglow");
                     }
@@ -1153,7 +1122,7 @@ void dis_effect(player &p, disease &dis) {
                 }
                 if (one_in(3500 - int(.25 * (dis.duration - 3600)))) {
                     g->add_msg_if_player(&p,_("You shudder suddenly."));
-                    p.mutate(g);
+                    p.mutate();
                     if (one_in(4))
                     p.rem_disease("teleglow");
                 }
@@ -1164,7 +1133,7 @@ void dis_effect(player &p, disease &dis) {
                 }
                 if (one_in(12000 - dis.duration)) {
                     g->add_msg_if_player(&p,_("Your vision is filled with bright lights..."));
-                    p.add_disease("blind", rng(10, 20));
+                    p.add_effect("blind", rng(10, 20));
                     if (one_in(8)) {
                         p.rem_disease("teleglow");
                     }
@@ -1251,7 +1220,17 @@ void dis_effect(player &p, disease &dis) {
               if (b.is_valid_player(p)) {
                 b.apply_player(p);
               }
+              else {
+                p.rem_disease(dis.type);
+              }
             }
+            break;
+
+        case DI_LACKSLEEP:
+            p.str_cur -= 1;
+            p.dex_cur -= 1;
+            p.int_cur -= 2;
+            p.per_cur -= 2;
             break;
     }
 }
@@ -1349,6 +1328,7 @@ int disease_speed_boost(disease dis)
         case DI_GRACK:      return +20000;
         case DI_METH:       return (dis.duration > 600 ? 50 : -40);
         case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
+        case DI_LACKSLEEP:  return -5;
         default:;
    }
     return 0;
@@ -1360,7 +1340,6 @@ std::string dis_name(disease& dis)
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
     case DI_NULL: return "";
-    case DI_GLARE: return _("Glare");
     case DI_COLD:
         switch (dis.bp) {
             case bp_head:
@@ -1474,9 +1453,6 @@ std::string dis_name(disease& dis)
 
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
-    case DI_SMOKE: return _("Smoke");
-    case DI_TEARGAS: return _("Tear gas");
-    case DI_ONFIRE: return _("On Fire");
     case DI_BOOMERED: return _("Boomered");
     case DI_SAP: return _("Sap-coated");
 
@@ -1515,10 +1491,8 @@ std::string dis_name(disease& dis)
 
     case DI_SLIMED: return _("Slimed");
     case DI_DEAF: return _("Deaf");
-    case DI_BLIND: return _("Blind");
     case DI_STUNNED: return _("Stunned");
     case DI_DOWNED: return _("Downed");
-    case DI_POISON: return _("Poisoned");
     case DI_BLEED:
     {
         std::string status = "";
@@ -1615,6 +1589,10 @@ std::string dis_name(disease& dis)
         if (dis.duration > 150) return _("Adrenaline Rush");
         else return _("Adrenaline Comedown");
 
+    case DI_JETINJECTOR:
+        if (dis.duration > 150) return _("Chemical Rush");
+        else return _("Chemical Comedown");
+
     case DI_ASTHMA:
         if (dis.duration > 800) return _("Heavy Asthma");
         else return _("Asthma");
@@ -1702,17 +1680,24 @@ std::string dis_name(disease& dis)
     }
     case DI_RECOVER: return _("Recovering From Infection");
 
+    case DI_CONTACTS: return _("Contact lenses");
+
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
+          std::stringstream buf;
           if (ma_buffs[dis.buff_id].max_stacks > 1) {
             std::stringstream buf;
             buf << ma_buffs[dis.buff_id].name
               << " (" << dis.intensity << ")";
             return buf.str().c_str();
-          } else
-            return ma_buffs[dis.buff_id].name.c_str();
+          } else {
+             buf << ma_buffs[dis.buff_id].name.c_str();
+             return buf.str().c_str();
+          }
         } else
           return "Invalid martial arts buff";
+
+    case DI_LACKSLEEP: return _("Lacking Sleep");
 
     default:;
     }
@@ -1745,10 +1730,6 @@ std::string dis_description(disease& dis)
 
     case DI_NULL:
         return _("None");
-
-    case DI_GLARE:
-        stream << _("Perception - 1");
-        return stream.str();
 
     case DI_COLD:
         switch(dis.bp) {
@@ -1910,23 +1891,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         "Strength - 4;   Dexterity - 2;   Intelligence - 2;   Perception - 1\n"
         "Symptoms alleviated by medication (Dayquil or Nyquil).");
 
-    case DI_SMOKE:
-        return _(
-        "Strength - 1;   Dexterity - 1;\n"
-        "Occasionally you will cough, costing movement and creating noise.\n"
-        "Loss of health - Torso");
-
-    case DI_TEARGAS:
-        return _(
-        "Strength - 2;   Dexterity - 2;   Intelligence - 1;   Perception - 4\n"
-        "Occasionally you will cough, costing movement and creating noise.\n"
-        "Loss of health - Torso");
-
-    case DI_ONFIRE:
-        return _(
-        "Loss of health - Entire Body\n"
-        "Your clothing and other equipment may be consumed by the flames.");
-
     case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 
     case DI_BOULDERING:
@@ -1964,21 +1928,13 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         return stream.str();
 
     case DI_SLIMED:
-        return _("Speed -40%;   Dexterity - 2");
+        return _("Speed -25%;   Dexterity - 2");
 
     case DI_DEAF: return _("Sounds will not be reported.  You cannot talk with NPCs.");
-
-    case DI_BLIND:
-        return _("Range of Sight: 0");
 
     case DI_STUNNED: return _("Your movement is randomized.");
 
     case DI_DOWNED: return _("You're knocked to the ground.  You have to get up before you can move.");
-
-    case DI_POISON:
-        return _(
-        "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\n"
-        "Occasional pain and/or damage.");
 
     case DI_BLEED:
         switch (dis.intensity) {
@@ -2094,6 +2050,14 @@ Your feet are blistering from the intense heat. It is extremely painful.");
             return _(
             "Strength - 2;   Dexterity - 1;   Intelligence - 1;   Perception - 1");
 
+    case DI_JETINJECTOR:
+        if (dis.duration > 50)
+            return _(
+            "Strength + 1;   Dexterity + 1; Perception + 1");
+        else
+            return _(
+            "Strength - 1;   Dexterity - 2;   Intelligence - 1;   Perception - 2");
+
     case DI_ASTHMA:
         return string_format(_("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
 
@@ -2139,30 +2103,20 @@ condition, and deals massive damage.");
     case DI_INFECTED: return _("You have an infected wound.");
     case DI_RECOVER: return _("You are recovering from an infection.");
 
+    case DI_CONTACTS: return _("You are wearing contact lenses.");
+
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end())
           return ma_buffs[dis.buff_id].description.c_str();
         else
           return "This is probably a bug.";
 
+    case DI_LACKSLEEP: return _("You haven't slept in a while, and it shows. \n\
+    You can't move as quickly and your stats just aren't where they should be.");
+
     default:;
     }
     return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
-}
-
-void manage_fire_exposure(player &p, int fireStrength) {
-    // TODO: this should be determined by material properties
-    p.hurtall(3*fireStrength);
-    for (int i = 0; i < p.worn.size(); i++) {
-        item tmp = p.worn[i];
-        bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
-        bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10*fireStrength));
-        bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50*fireStrength));
-        if (burnVeggy || burnFabric || burnPlastic) {
-            p.worn.erase(p.worn.begin() + i);
-            i--;
-        }
-    }
 }
 
 void manage_fungal_infection(player& p, disease& dis) {
@@ -2185,7 +2139,7 @@ void manage_fungal_infection(player& p, disease& dis) {
             if (one_in(600 + bonus * 3)) {
                 g->add_msg_if_player(&p, _("You spasm suddenly!"));
                 p.moves -= 100;
-                p.hurt(g, bp_torso, -1, 5);
+                p.hurt(bp_torso, -1, 5);
             }
             if (will_vomit(p, 800 + bonus * 4) || one_in(2000 + bonus * 10)) {
                 g->add_msg_player_or_npc( &p, _("You vomit a thick, gray goop."),
@@ -2195,7 +2149,7 @@ void manage_fungal_infection(player& p, disease& dis) {
                 p.moves = -200;
                 p.hunger += awfulness;
                 p.thirst += awfulness;
-                p.hurt(g, bp_torso, -1, awfulness / p.str_cur);  // can't be healthy
+                p.hurt(bp_torso, -1, awfulness / p.str_cur);  // can't be healthy
             }
         } else {
             p.add_disease("fungus", 1, true, 1, 1, 0, -1);
@@ -2237,14 +2191,57 @@ void manage_fungal_infection(player& p, disease& dis) {
         g->add_msg_player_or_npc(&p,
             _("Your hands bulge. Fungus stalks burst through the bulge!"),
             _("<npcname>'s hands bulge. Fungus stalks burst through the bulge!"));
-        p.hurt(g, bp_arms, 0, 999);
-        p.hurt(g, bp_arms, 1, 999);
+        p.hurt(bp_arms, 0, 999);
+        p.hurt(bp_arms, 1, 999);
     }
 }
 
 void manage_sleep(player& p, disease& dis) {
     p.moves = 0;
-    if(int(g->turn) % 50 == 0) {
+    // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here as a safety catch
+    // One test subject managed to get two Colds during hibernation; since those add fatigue and dry out the character,
+    // the subject went for the full 10 days plus a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
+    // life like that--but since there's much less fluid reserve than food reserve, simply using the same numbers won't work.
+
+    if((int(g->turn) % 350 == 0) && p.has_trait("HIBERNATE") && (p.hunger < -60) && !(p.thirst >= 80)) {
+        int recovery_chance; // Hibernators' metabolism slows down: you heal and recover Fatigue much more slowly
+        // Accelerated recovery capped to 2x over 2 hours...well, it was ;-P
+        // After 16 hours of activity, equal to 7.25 hours of rest
+        if (dis.intensity < 24) {
+            dis.intensity++;
+        } else if (dis.intensity < 1) {
+            dis.intensity = 1;
+        }
+        recovery_chance = 24 - dis.intensity + 1;
+        if (p.fatigue > 0) {
+            p.fatigue -= 1 + one_in(recovery_chance);
+        }
+        if ((p.has_trait("FLIMSY") && x_in_y(3 , 4)) || (p.has_trait("FLIMSY2") && one_in(2)) ||
+              (p.has_trait("FLIMSY3") && one_in(4)) ||
+              (!(p.has_trait("FLIMSY")) && (!(p.has_trait("FLIMSY2"))) && (!(p.has_trait("FLIMSY3"))))) {
+            if (p.has_trait("FASTHEALER")) {
+                p.healall(1);
+            } else if (p.has_trait("FASTHEALER2")) {
+                p.healall(1 + one_in(2));
+            } else if (p.has_trait("REGEN")) {
+                p.healall(2);
+            } else if (p.has_trait("SLOWHEALER")) {
+                p.healall(one_in(8));
+            } else {
+                p.healall(one_in(4));
+            }
+        }
+
+        if (p.fatigue <= 0 && p.fatigue > -20) {
+            p.fatigue = -25;
+            g->add_msg(_("You feel well rested."));
+            dis.duration = dice(3, 100);
+            p.add_memorial_log(_("Awoke from hibernation."));
+        }
+    }
+
+    //If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.  See above.  No log note for you. :-/
+    if((int(g->turn) % 50 == 0) && (!(p.hunger < -60) || (p.thirst >= 80))) {
         int recovery_chance;
         // Accelerated recovery capped to 2x over 2 hours
         // After 16 hours of activity, equal to 7.25 hours of rest
@@ -2256,26 +2253,46 @@ void manage_sleep(player& p, disease& dis) {
         recovery_chance = 24 - dis.intensity + 1;
         if (p.fatigue > 0) {
             p.fatigue -= 1 + one_in(recovery_chance);
+            // You fatigue & recover faster with Sleepy
+            // Very Sleepy, you just fatigue faster
+            if (p.has_trait("SLEEPY")) {
+                p.fatigue -=(1 + one_in(recovery_chance) / 2);
+            }
         }
-        if (p.has_trait("FASTHEALER")) {
-            p.healall(1);
-        } else if (p.has_trait("FASTHEALER2")) {
-            p.healall(1 + one_in(2));
-        } else if (p.has_trait("REGEN")) {
-            p.healall(2);
-        } else {
-            p.healall(one_in(4));
-        }
+        if ((p.has_trait("FLIMSY") && x_in_y(3 , 4)) || (p.has_trait("FLIMSY2") && one_in(2)) ||
+              (p.has_trait("FLIMSY3") && one_in(4)) ||
+              (!(p.has_trait("FLIMSY")) && (!(p.has_trait("FLIMSY2"))) && (!(p.has_trait("FLIMSY3"))))) {
+            if (p.has_trait("FASTHEALER")) {
+                p.healall(1);
+            } else if (p.has_trait("FASTHEALER2")) {
+                p.healall(1 + one_in(2));
+            } else if (p.has_trait("REGEN")) {
+                p.healall(2);
+            } else if (p.has_trait("SLOWHEALER")) {
+                p.healall(one_in(8));
+            } else {
+                p.healall(one_in(4));
+            }
 
-        if (p.fatigue <= 0 && p.fatigue > -20) {
-            p.fatigue = -25;
-            g->add_msg(_("You feel well rested."));
-            dis.duration = dice(3, 100);
+            if (p.fatigue <= 0 && p.fatigue > -20) {
+                p.fatigue = -25;
+                g->add_msg(_("You feel well rested."));
+                dis.duration = dice(3, 100);
+            }
         }
     }
 
-    if (int(g->turn) % 100 == 0 && !p.has_bionic("bio_recycler")) {
-        // Hunger and thirst advance more slowly while we sleep.
+    if (int(g->turn) % 100 == 0 && !p.has_bionic("bio_recycler") && !(p.hunger < -60)) {
+        // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
+        p.hunger--;
+        p.thirst--;
+    }
+
+        // Hunger and thirst advance *much* more slowly whilst we hibernate.  (int (g->turn) % 50 would be zero burn.)
+        // Very Thirsty catch deliberately NOT applied here, to fend off Dehydration debuffs until the char wakes.
+        // This was time-trial'd quite thoroughly, so kindly don't "rebalance" without a good explanation and taking a night
+        // to make sure it works with the extended sleep duration, OK?
+    if (int(g->turn) % 70 == 0 && !p.has_bionic("bio_recycler") && (p.hunger < -60)) {
         p.hunger--;
         p.thirst--;
     }
@@ -2305,6 +2322,18 @@ void manage_sleep(player& p, disease& dis) {
     }
 
     int tirednessVal = rng(5, 200) + rng(0,abs(p.fatigue * 2 * 5));
+    if (p.has_trait("HEAVYSLEEPER2") && !p.has_trait("HIBERNATE")) { // So you can too sleep through noon
+        if ((tirednessVal * 1.25) < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
+        g->add_msg(_("The light wakes you up."));
+        dis.duration = 1;
+        }
+        return;}
+    if (p.has_trait("HIBERNATE")) { // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
+        if ((tirednessVal * 5) < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
+        g->add_msg(_("The light wakes you up."));
+        dis.duration = 1;
+        }
+        return;}
     if (tirednessVal < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
         g->add_msg(_("The light wakes you up."));
         dis.duration = 1;
@@ -2351,12 +2380,12 @@ static void handle_alcohol(player& p, disease& dis) {
     }
     if (dis.duration > 2000 + 100 * dice(2, 100) &&
         (will_vomit(p, 1) || one_in(20))) {
-        p.vomit(g);
+        p.vomit();
     }
     bool readyForNap = one_in(500 - int(dis.duration / 80));
     if (!p.has_disease("sleep") && dis.duration >= 4500 && readyForNap) {
         g->add_msg_if_player(&p,_("You pass out."));
-        p.add_disease("sleep", dis.duration / 2);
+        p.fall_asleep(dis.duration / 2);
     }
 }
 
@@ -2391,8 +2420,7 @@ static void handle_bite_wound(player& p, disease& dis) {
         // Then some pain for 4 hours
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-                p.rem_disease("sleep");
-                g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
             }
             g->add_msg_if_player(&p,_("Your %s wound feels swollen and painful."),
                                  body_part_name(dis.bp, dis.side).c_str());
@@ -2411,13 +2439,6 @@ static void handle_bite_wound(player& p, disease& dis) {
 static void handle_infected_wound(player& p, disease& dis) {
     // Recovery chance
     if(int(g->turn) % 10 == 1) {
-        int recover_factor = 100;
-        if (p.has_disease("recover")) {
-            recover_factor -= std::min(p.disease_duration("recover") / 720, 100);
-        }
-        recover_factor += p.health; // Health still helps if factor is zero
-        recover_factor = std::max(recover_factor, 0); // but can't hurts
-
         if(x_in_y(100 + p.health, 864000)) {
             g->add_msg_if_player(&p,_("Your %s wound begins to feel better."),
                                  body_part_name(dis.bp, dis.side).c_str());
@@ -2434,8 +2455,7 @@ static void handle_infected_wound(player& p, disease& dis) {
         // 10 hours bad pain
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-            p.rem_disease("sleep");
-            g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
             }
             g->add_msg_if_player(&p,_("Your %s wound is incredibly painful."),
                                  body_part_name(dis.bp, dis.side).c_str());
@@ -2449,13 +2469,12 @@ static void handle_infected_wound(player& p, disease& dis) {
         // 8 hours of vomiting + pain
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-            p.rem_disease("sleep");
-            g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
             }
             g->add_msg_if_player(&p,
                 _("You feel feverish and nauseous, your %s wound has begun to turn green."),
                   body_part_name(dis.bp, dis.side).c_str());
-            p.vomit(g);
+            p.vomit();
             if(p.pain < 50) {
                 p.pain++;
             }
@@ -2466,14 +2485,13 @@ static void handle_infected_wound(player& p, disease& dis) {
         // 6 hours extreme symptoms
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-                p.rem_disease("sleep");
-                g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
                 g->add_msg_if_player(&p,
                         _("You feel terribly weak, standing up is nearly impossible."));
             } else {
                 g->add_msg_if_player(&p,_("You can barely remain standing."));
             }
-            p.vomit(g);
+            p.vomit();
             if(p.pain < 100)
             {
                 p.pain++;
@@ -2481,12 +2499,9 @@ static void handle_infected_wound(player& p, disease& dis) {
         }
         p.str_cur -= 3;
         p.dex_cur -= 3;
-        if(one_in(100)) {
-            if (p.has_disease("sleep")) {
-                p.rem_disease("sleep");
-                g->add_msg(_("You pass out."));
-            }
-            p.add_disease("sleep", 60);
+        if (!p.has_disease("sleep") && one_in(100)) {
+            g->add_msg(_("You pass out."));
+            p.fall_asleep(60);
         }
     } else {
         // Death. 24 hours after infection. Total time, 30 hours including bite.
@@ -2503,14 +2518,13 @@ static void handle_recovery(player& p, disease& dis) {
     if (dis.duration > 52800) {
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-                p.rem_disease("sleep");
-                g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
                 g->add_msg_if_player(&p,
                         _("You feel terribly weak, standing up is nearly impossible."));
             } else {
                 g->add_msg_if_player(&p,_("You can barely remain standing."));
             }
-            p.vomit(g);
+            p.vomit();
             if(p.pain < 80)
             {
                 p.pain++;
@@ -2518,22 +2532,18 @@ static void handle_recovery(player& p, disease& dis) {
         }
         p.str_cur -= 3;
         p.dex_cur -= 3;
-        if(one_in(100)) {
-            if (p.has_disease("sleep")) {
-                p.rem_disease("sleep");
-                g->add_msg(_("You pass out."));
-                p.add_disease("sleep", 60);
-            }
+        if (!p.has_disease("sleep") && one_in(100)) {
+            g->add_msg(_("You pass out."));
+            p.fall_asleep(60);
         }
     } else if (dis.duration > 33600) {
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-            p.rem_disease("sleep");
-            g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
             }
             g->add_msg_if_player(&p,
                 _("You feel feverish and nauseous."));
-            p.vomit(g);
+            p.vomit();
             if(p.pain < 40) {
                 p.pain++;
             }
@@ -2543,8 +2553,7 @@ static void handle_recovery(player& p, disease& dis) {
     } else if (dis.duration > 9600) {
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-            p.rem_disease("sleep");
-            g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
             }
             g->add_msg_if_player(&p,_("Your healing wound is incredibly painful."));
             if(p.pain < 24) {
@@ -2556,8 +2565,7 @@ static void handle_recovery(player& p, disease& dis) {
     } else {
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-                p.rem_disease("sleep");
-                g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
             }
             g->add_msg_if_player(&p,_("Your healing wound feels swollen and painful."));
             if(p.pain < 8) {
@@ -2568,7 +2576,7 @@ static void handle_recovery(player& p, disease& dis) {
     }
 }
 
-static void handle_cough(player &p, int loudness) {
+static void handle_cough(player &p, int, int loudness) {
     if (!p.is_npc()) {
         g->add_msg(_("You cough heavily."));
         g->sound(p.posx, p.posy, loudness, "");
@@ -2577,11 +2585,10 @@ static void handle_cough(player &p, int loudness) {
     }
     p.moves -= 80;
     if (!one_in(4)) {
-        p.hurt(g, bp_torso, -1, 1);
+        p.hurt(bp_torso, -1, 1);
     }
     if (p.has_disease("sleep")) {
-        p.rem_disease("sleep");
-        g->add_msg_if_player(&p,_("You wake up coughing."));
+        p.wake_up(_("You wake up coughing."));
     }
 }
 
@@ -2613,7 +2620,7 @@ static void handle_deliriant(player& p, disease& dis) {
             g->add_msg_if_player(&p,_("You feel sick to your stomach."));
             p.hunger -= 2;
             if (one_in(6)) {
-                p.vomit(g);
+                p.vomit();
                 if (one_in(2)) {
                     // we've vomited enough for now
                     puked = true;
@@ -2718,13 +2725,13 @@ static void handle_insect_parasites(player& p, disease& dis) {
         p.add_disease("formication", 600, false, 1, 3, 0, 1, dis.bp, dis.side, true);
     }
     if (dis.duration > 1 && one_in(2400)) {
-        p.vomit(g);
+        p.vomit();
     }
     if (dis.duration == 1) {
         // Spawn some larvae!
         // Choose how many insects; more for large characters
         int num_insects = rng(1, std::min(3, p.str_max / 3));
-        p.hurt(g, dis.bp, dis.side, rng(2, 4) * num_insects);
+        p.hurt(dis.bp, dis.side, rng(2, 4) * num_insects);
         // Figure out where they may be placed
         g->add_msg_player_or_npc( &p,
             _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
@@ -2763,6 +2770,6 @@ bool will_vomit(player& p, int chance) {
     bool antiEmetics = p.has_disease("weed_high");
     bool hasNausea = p.has_trait("NAUSEA") && one_in(chance*2);
     bool stomachUpset = p.has_trait("WEAKSTOMACH") && one_in(chance*3);
-    bool suppressed = antiEmetics && !drunk && !one_in(chance);
+    bool suppressed = (p.has_trait("STRONGSTOMACH") && one_in(2)) || (antiEmetics && !drunk && !one_in(chance));
     return ((stomachUpset || hasNausea) && !suppressed);
 }

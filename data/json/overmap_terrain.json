@@ -49,7 +49,10 @@
         "color" : "green",
         "see_cost" : 4,
         "extras" : "field",
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "forest" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "forest_water",
@@ -58,7 +61,10 @@
         "color" : "cyan",
         "see_cost" : 4,
         "extras" : "field",
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "forest" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "hiway_ns",
@@ -67,7 +73,10 @@
         "color" : "dark_gray",
         "see_cost" : 2,
         "extras" : "road",
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "highway" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "hiway_ew",
@@ -76,7 +85,10 @@
         "color" : "dark_gray",
         "see_cost" : 2,
         "extras" : "road",
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "highway" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "road_null",
@@ -93,7 +105,20 @@
         "color" : "dark_gray",
         "see_cost" : 2,
         "extras" : "road",
-        "allow_road" : true
+        "allow_road" : true,
+        "comment" : "the entries below are optional and serve as an example of mapgen for line_drawing tiles",
+        "mapgen_straight": [
+            { "method": "builtin", "name": "road_straight" }
+        ],
+        "mapgen_curved": [
+            { "method": "builtin", "name": "road_curved" }
+        ],
+        "mapgen_tee": [
+            { "method": "builtin", "name": "road_tee" }
+        ],
+        "mapgen_four_way": [
+            { "method": "builtin", "name": "road_four_way" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "road_nesw_manhole",
@@ -103,7 +128,10 @@
         "see_cost" : 2,
         "extras" : "road",
         "known_down" : true,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "road_four_way" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "bridge_ns",
@@ -111,7 +139,10 @@
         "sym" : 124,
         "color" : "dark_gray",
         "see_cost" : 2,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "bridge" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "bridge_ew",
@@ -119,7 +150,10 @@
         "sym" : 45,
         "color" : "dark_gray",
         "see_cost" : 2,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "bridge" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_center",
@@ -127,7 +161,10 @@
         "sym" : 82,
         "color" : "blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "river_center" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river",
@@ -136,7 +173,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "river_straight" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_ne",
@@ -144,7 +184,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "river_curved_not" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_nw",
@@ -152,7 +195,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "river_curved_not" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_se",
@@ -160,7 +206,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "river_curved_not" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_sw",
@@ -168,7 +217,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "river_curved_not" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_ne",
@@ -176,7 +228,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "river_curved" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_se",
@@ -184,7 +239,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "river_curved" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_sw",
@@ -192,7 +250,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "river_curved" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_nw",
@@ -200,7 +261,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "river_curved" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "house",
@@ -211,7 +275,12 @@
         "see_cost" : 2,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "sidewalk" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "house_generic_boxy" },
+            { "method": "builtin", "name": "house_generic_big_livingroom" },
+            { "method": "builtin", "name": "house_generic_center_hallway" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "house_base",
@@ -222,7 +291,12 @@
         "see_cost" : 2,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "sidewalk" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "house_generic_boxy" },
+            { "method": "builtin", "name": "house_generic_big_livingroom" },
+            { "method": "builtin", "name": "house_generic_center_hallway" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "s_lot",
@@ -232,7 +306,10 @@
         "see_cost" : 1,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "sidewalk" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "parking_lot" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "park",
@@ -242,13 +319,17 @@
         "see_cost" : 2,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "sidewalk" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "park_playground", "weight": 500 },
+            { "method": "builtin", "name": "park_basketball", "weight": 1000, "comment": "1000 is default" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "pool",
         "name" : "pool",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "blue",
         "see_cost" : 2,
         "mondensity" : 2,
         "sidewalk" : true
@@ -378,7 +459,11 @@
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "sidewalk" : true,
+        "mapgen": [
+            { "method": "builtin", "name": "church_new_england" },
+            { "method": "builtin", "name": "church_gothic" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "cathedral_1_entrance",
@@ -524,7 +609,113 @@
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "sidewalk" : true,
+        "mapgen": [
+            { "weight": 250,
+                "comment": "Weight defaults to 1000, so 1/5 fast food joints will be this one unless more are added",
+                "method": "json", "object": {
+                     "fill_ter": "t_grass",
+                     "rows":[
+                         ",_____ssssssssssss_____,",
+                         ",__,__#### ss ####__,__,",
+                         ",_,,,_#ssssssssss#__,__,",
+                         ",__,__#hthsssshth#__,__,",
+                         ",__,__#ssssssssss#_,,,_,",
+                         ",__,__|-555++555-|__,__,",
+                         ",_____|.hh....hh.%_____,",
+                         ",_____%.tt....tt.%_____,",
+                         ",_____%.tt....tt.%_____,",
+                         ",_____%.hh....hh.|_____,",
+                         ",_____|..........%_____,",
+                         ",,,,,,|..........+_____,",
+                         ",_____|ccccxcc|..%_____,",
+                         ",_____w.......+..|_____,",
+                         ",_____|e.ccl.c|+-|_____,",
+                         ",_____|O.....S|.S|_____,",
+                         ",_____||erle.x|T||_____,",
+                         ",_____#|----w-|-|#_____,",
+                         ",________,_____________,",
+                         ",________,_____________,",
+                         ",________,_____________,",
+                         " ,_______,____________, ",
+                         "  ,,,,,,,,,,,,,,,,,,,,  ",
+                         "   dd                   "
+                     ],
+                     "terrain":{
+                         " ": "t_null",
+                         "d": "t_floor",
+                         "5": "t_wall_glass_h",
+                         "%": "t_wall_glass_v",
+                         "O": "t_floor",
+                         ",": "t_pavement_y",
+                         "_": "t_pavement",
+                         "r": "t_floor",
+                         "6": "t_console",
+                         "x": "t_console_broken",
+                         "$": "t_shrub",
+                         "^": "t_floor",
+                         ".": "t_floor",
+                         "-": "t_wall_h",
+                         "|": "t_wall_v",
+                         "#": "t_shrub",
+                         "t": "t_floor",
+                         "+": "t_door_glass_c",
+                         "=": "t_door_locked_alarm",
+                         "D": "t_door_locked",
+                         "w": "t_window_domestic",
+                         "T": "t_floor",
+                         "S": "t_floor",
+                         "e": "t_floor",
+                         "h": "t_floor",
+                         "c": "t_floor",
+                         "l": "t_floor",
+                         "s": "t_sidewalk"
+                     },
+                     "furniture":{
+                         "d": "f_dumpster",
+                         "5": "f_null",
+                         "%": "f_null",
+                         "O": "f_oven",
+                         ",": "f_null",
+                         "_": "f_null",
+                         "r": "f_rack",
+                         "6": "f_null",
+                         "x": "f_null",
+                         "$": "f_null",
+                         "^": "f_indoor_plant",
+                         ".": "f_null",
+                         "-": "f_null",
+                         "|": "f_null",
+                         "#": "f_null",
+                         "t": "f_table",
+                         "+": "f_null",
+                         "=": "f_null",
+                         "D": "f_null",
+                         "w": "f_null",
+                         "T": "f_toilet",
+                         "S": "f_sink",
+                         "e": "f_fridge",
+                         "h": "f_chair",
+                         "c": "f_counter",
+                         "l": "f_locker",
+                         "s": "f_null"
+                     },
+                    "place_groups": [
+                       { "item": "fast_food", "x": [ 8, 8 ], "y": [ 7, 7 ], "chance": 80 },
+                       { "item": "fast_food", "x": [ 7, 7 ], "y": [ 9, 9 ], "chance": 70 },
+                       { "item": "fast_food", "x": [ 11, 11 ], "y": [ 7, 7 ], "chance": 60 },
+                       { "monster": "GROUP_ZOMBIE", "x": 15, "y": 15, "chance": 10 }
+                    ],
+                    "add": [
+                       { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1, 3], "chance": 2 }
+                    ],
+                    "set": [
+                       { "point": "terrain", "x": [ 0, 23 ], "y": 23, "id": "t_dirt", "repeat": [ 5, 15 ] },
+                       { "line": "trap", "x": 14, "y": 13, "x2": 16, "y2": 13, "id": "tr_beartrap", "chance": 5 }
+                    ]
+                }
+            }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "s_restaurant_coffee",
@@ -1445,7 +1636,14 @@
         "color" : "dark_gray",
         "see_cost" : 5,
         "known_up" : true,
-        "mondensity" : 2
+        "mondensity" : 2,
+        "mapgen": [
+            { "method": "builtin", "name": "basement_junk" },
+            { "method": "builtin", "name": "basement_guns" },
+            { "method": "builtin", "name": "basement_survivalist" },
+            { "method": "builtin", "name": "basement_chemlab" },
+            { "method": "builtin", "name": "basement_weed" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "cavern",

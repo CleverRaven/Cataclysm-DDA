@@ -1,7 +1,10 @@
 #include "init.h"
 
 #include "json.h"
+#include "file_finder.h"
 
+// can load from json
+#include "effect.h"
 #include "material.h"
 #include "bionics.h"
 #include "profession.h"
@@ -19,12 +22,19 @@
 #include "tutorial.h"
 #include "overmap.h"
 #include "artifact.h"
+#include "mapgen.h"
 #include "speech.h"
+#include "construction.h"
+#include "name.h"
+
+// need data initialized
+#include "bodypart.h"
 
 #include <string>
 #include <vector>
 #include <fstream>
 #include <sstream> // for throwing errors
+#include <locale> // for loading names
 
 #include "savegame.h"
 
@@ -40,6 +50,9 @@ void init_data_mappings() {
     set_ter_ids();
     set_furn_ids();
     set_oter_ids();
+    set_trap_ids();
+    finalize_overmap_terrain();
+    calculate_mapgen_weights();
 // temporary (reliable) kludge until switch statements are rewritten
     std::map<std::string, int> legacy_lookup;
     for(int i=0; i< num_legacy_ter;i++) {
@@ -65,55 +78,6 @@ void init_data_mappings() {
              reverse_legacy_furn_id[ i ] = 0;
         }
     }
-}
-
-/* Currently just for loading JSON data from files in data/raw */
-
-// TODO: make this actually load files from the named directory
-std::vector<std::string> listfiles(std::string const &dirname)
-{
-    (void)dirname; //not used yet
-    std::vector<std::string> ret;
-
-    ret.push_back("data/json/materials.json");
-    ret.push_back("data/json/bionics.json");
-    ret.push_back("data/json/professions.json");
-    ret.push_back("data/json/skills.json");
-    ret.push_back("data/json/dreams.json");
-    ret.push_back("data/json/mutations.json");
-    ret.push_back("data/json/snippets.json");
-    ret.push_back("data/json/item_groups.json");
-    ret.push_back("data/json/lab_notes.json");
-    ret.push_back("data/json/hints.json");
-    ret.push_back("data/json/furniture.json");
-    ret.push_back("data/json/terrain.json");
-    ret.push_back("data/json/migo_speech.json");
-    ret.push_back("data/json/doll_speech.json");
-    ret.push_back("data/json/names.json");
-    ret.push_back("data/json/vehicle_parts.json");
-    ret.push_back("data/json/vehicles.json");
-    ret.push_back("data/json/species.json");
-    ret.push_back("data/json/monsters.json");
-    ret.push_back("data/json/monstergroups.json");
-    ret.push_back("data/json/items/ammo.json");
-    ret.push_back("data/json/items/archery.json");
-    ret.push_back("data/json/items/armor.json");
-    ret.push_back("data/json/items/books.json");
-    ret.push_back("data/json/items/comestibles.json");
-    ret.push_back("data/json/items/containers.json");
-    ret.push_back("data/json/items/melee.json");
-    ret.push_back("data/json/items/mods.json");
-    ret.push_back("data/json/items/ranged.json");
-    ret.push_back("data/json/items/tools.json");
-    ret.push_back("data/json/items/vehicle_parts.json");
-    ret.push_back("data/json/techniques.json");
-    ret.push_back("data/json/martialarts.json");
-    ret.push_back("data/json/tutorial.json");
-    ret.push_back("data/json/tool_qualities.json");
-    ret.push_back("data/json/overmap_terrain.json");
-    ret.push_back("data/json/recipes.json");
-
-    return ret;
 }
 
 void load_object(JsonObject &jo)
@@ -155,10 +119,10 @@ void init_data_structures()
     // Non Static Function Access
     type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET, &snippet_library::load_snippet);
     type_function_map["item_group"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_item_group);
-    type_function_map["NAME"] = new ClassFunctionAccessor<NameGenerator>(&NameGenerator::generator(), &NameGenerator::load_name);
 
     type_function_map["vehicle_part"] = new ClassFunctionAccessor<game>(g, &game::load_vehiclepart);
     type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle);
+    type_function_map["trap"] = new ClassFunctionAccessor<game>(g, &game::load_trap);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_ammo);
     type_function_map["GUN"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gun);
     type_function_map["ARMOR"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_armor);
@@ -168,6 +132,7 @@ void init_data_structures()
     type_function_map["CONTAINER"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_container);
     type_function_map["GUNMOD"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gunmod);
     type_function_map["GENERIC"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_generic);
+    type_function_map["ITEM_CATEGORY"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_item_category);
 
     type_function_map["MONSTER"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_monster);
     type_function_map["SPECIES"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_species);
@@ -177,18 +142,29 @@ void init_data_structures()
     type_function_map["tool_quality"] = new StaticFunctionAccessor(&load_quality);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
+    type_function_map["effect_type"] = new StaticFunctionAccessor(&load_effect_type);
     type_function_map["tutorial_messages"] =
         new StaticFunctionAccessor(&load_tutorial_messages);
     type_function_map["overmap_terrain"] =
         new StaticFunctionAccessor(&load_overmap_terrain);
+    type_function_map["construction"] =
+        new StaticFunctionAccessor(&load_construction);
+    type_function_map["mapgen"] =
+        new StaticFunctionAccessor(&load_mapgen);
+
+    type_function_map["monitems"] = new ClassFunctionAccessor<game>(g, &game::load_monitem);
+
+    type_function_map["region_settings"] = new StaticFunctionAccessor(&load_region_settings);
 
     mutations_category[""].clear();
-    init_mutation_parts();
+    init_body_parts();
+    init_ter_bitflags_map();
+    init_vpart_bitflag_map();
     init_translation();
     init_martial_arts();
-    init_inventory_categories();
     init_colormap();
     init_artifacts();
+    init_mapgen_builtin_functions();
 }
 
 void release_data_structures()
@@ -204,7 +180,8 @@ void release_data_structures()
 void load_json_dir(std::string const &dirname)
 {
     // get a list of all files in the directory
-    std::vector<std::string> dir = listfiles(dirname);
+    std::vector<std::string> dir =
+        file_finder::get_files_from_path(".json", dirname, true, true);
     // iterate over each file
     std::vector<std::string>::iterator it;
     for (it = dir.begin(); it != dir.end(); it++) {
@@ -220,7 +197,7 @@ void load_json_dir(std::string const &dirname)
         infile.close();
         // parse it
         try {
-            JsonIn jsin(&iss);
+            JsonIn jsin(iss);
             load_all_from_json(jsin);
         } catch (std::string e) {
             throw *(it) + ": " + e;
@@ -276,4 +253,34 @@ void load_all_from_json(JsonIn &jsin)
     }
 }
 
+#if defined LOCALIZE && ! defined __CYGWIN__
+// load names depending on current locale
+void init_names()
+{
+    std::locale loc("");
+    std::string loc_name = loc.name();
+    if (loc_name == "C") {
+        loc_name = "en";
+    }
+    size_t dotpos = loc_name.find('.');
+    if (dotpos != std::string::npos) {
+        loc_name = loc_name.substr(0, dotpos);
+    }
+    // test if a local version exists
+    std::string filename = "data/names/" + loc_name + ".json";
+    std::ifstream fin(filename.c_str(), std::ifstream::in | std::ifstream::binary);
+    if (!fin.good()) {
+        // if not, use "en.json"
+        filename = "data/names/en.json";
+    }
+    fin.close();
+
+    load_names_from_file(filename);
+}
+#else
+void init_names()
+{
+    load_names_from_file("data/names/en.json");
+}
+#endif
 

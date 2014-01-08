@@ -25,6 +25,9 @@
 // If you use wrong config, installation of part will fail
 
 std::map<std::string, vpart_info> vehicle_part_types;
+std::vector<vpart_info> vehicle_part_int_types; // rapid lookup, for part_info etc
+
+std::map<std::string, vpart_bitflags> vpart_bitflag_map; // for data/json loading
 
 // Note on the 'symbol' flag in vehicle parts -
 // the following symbols will be translated:
@@ -49,6 +52,11 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.power = jo.get_int("power");
     } else { //defaults to 0
         next_part.power = 0;
+    }
+    if(jo.has_member("epower")) {
+        next_part.epower = jo.get_int("epower");
+    } else { //defaults to 0
+        next_part.epower = 0;
     }
     //Handle the par1 union as best we can by accepting any ONE of its elements
     int element_count = (jo.has_member("par1") ? 1 : 0)
@@ -82,9 +90,15 @@ void game::load_vehiclepart(JsonObject &jo)
     next_part.difficulty = jo.get_int("difficulty");
     next_part.location = jo.has_member("location") ? jo.get_string("location") : "";
 
+    next_part.bitflags = 0;
     JsonArray jarr = jo.get_array("flags");
+    std::string nstring="";
     while (jarr.has_more()){
-        next_part.flags.insert(jarr.next_string());
+        nstring=jarr.next_string();
+        next_part.flags.insert(nstring);
+        if ( vpart_bitflag_map.find(nstring) != vpart_bitflag_map.end() ) {
+            next_part.bitflags |= mfb( vpart_bitflag_map.find(nstring)->second );
+        }
     }
 
     JsonArray breaks_into = jo.get_array("breaks_into");
@@ -103,11 +117,10 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.breaks_into.push_back(next_break_entry);
     }
 
-    //Plating shouldn't actually be shown; another part will be.
     //Calculate and cache z-ordering based off of location
-    if(next_part.has_flag("ARMOR")) {
-        next_part.z_order = -2;
-    } else if(next_part.location == "on_roof") {
+    if(next_part.location == "on_roof") {
+        next_part.z_order = 9;
+    } else if(next_part.location == "on_cargo") {
         next_part.z_order = 8;
     } else if(next_part.location == "center") {
         next_part.z_order = 7;
@@ -125,12 +138,18 @@ void game::load_vehiclepart(JsonObject &jo)
     } else if(next_part.location == "roof") {
         //Shouldn't be displayed
         next_part.z_order = -1;
+    } else if(next_part.location == "armor") {
+        //Shouldn't be displayed (the color is used, but not the symbol)
+        next_part.z_order = -2;
     } else {
         //Everything else
         next_part.z_order = 0;
     }
 
+    next_part.loadid = vehicle_part_int_types.size();
+
     vehicle_part_types[next_part.id] = next_part;
+    vehicle_part_int_types.push_back(next_part);
 }
 
 /**
@@ -210,7 +229,7 @@ void game::finalize_vehicles()
         vehicle_prototype *proto = vehprototypes.front();
         vehprototypes.pop();
 
-        next_vehicle = new vehicle(this, proto->id.c_str());
+        next_vehicle = new vehicle(proto->id.c_str());
         next_vehicle->name = _(proto->name.c_str());
 
         for (int i = 0; i < proto->parts.size(); ++i)
@@ -235,4 +254,35 @@ void game::finalize_vehicles()
         vtypes[next_vehicle->type] = next_vehicle;
         delete proto;
     }
+}
+
+void init_vpart_bitflag_map() {
+    vpart_bitflag_map["ARMOR"]=VPFLAG_ARMOR;               // (!!!) map::draw
+    vpart_bitflag_map["TRANSPARENT"]=VPFLAG_TRANSPARENT;   // (!!!) map::draw
+    vpart_bitflag_map["EVENTURN"]=VPFLAG_EVENTURN;         // (!!!) lightmap
+    vpart_bitflag_map["ODDTURN"]=VPFLAG_ODDTURN;           // ""
+    vpart_bitflag_map["CONE_LIGHT"]=VPFLAG_CONE_LIGHT;     // ""
+    vpart_bitflag_map["CIRCLE_LIGHT"]=VPFLAG_CIRCLE_LIGHT; // ""
+    vpart_bitflag_map["BOARDABLE"]=VPFLAG_BOARDABLE;
+    vpart_bitflag_map["AISLE"]=VPFLAG_AISLE;               // (!!!) map::move_cost
+    vpart_bitflag_map["CONTROLS"]=VPFLAG_CONTROLS;
+    vpart_bitflag_map["OBSTACLE"]=VPFLAG_OBSTACLE;         // (!!!) map::move_cost
+    vpart_bitflag_map["OPAQUE"]=VPFLAG_OPAQUE;             // (!!!) map::trans
+    vpart_bitflag_map["OPENABLE"]=VPFLAG_OPENABLE;
+    vpart_bitflag_map["SEATBELT"]=VPFLAG_SEATBELT;         // crashes
+    vpart_bitflag_map["WHEEL"]=VPFLAG_WHEEL;
+    vpart_bitflag_map["ALTERNATOR"]=VPFLAG_ALTERNATOR;
+    vpart_bitflag_map["ENGINE"]=VPFLAG_ENGINE;
+    vpart_bitflag_map["FRIDGE"]=    VPFLAG_FRIDGE;
+    vpart_bitflag_map["FUEL_TANK"]= VPFLAG_FUEL_TANK;
+    vpart_bitflag_map["LIGHT"]=     VPFLAG_LIGHT;
+    vpart_bitflag_map["WINDOW"]=     VPFLAG_WINDOW;
+    vpart_bitflag_map["CURTIAN"]=     VPFLAG_CURTIAN;
+    vpart_bitflag_map["CARGO"]=     VPFLAG_CARGO;
+    vpart_bitflag_map["INTERNAL"]=     VPFLAG_INTERNAL;
+    vpart_bitflag_map["SOLAR_PANEL"]=     VPFLAG_SOLAR_PANEL;
+    vpart_bitflag_map["VARIABLE_SIZE"] = VPFLAG_VARIABLE_SIZE;
+    vpart_bitflag_map["VPFLAG_TRACK"] = VPFLAG_TRACK;      // find_power -> game::finalize_vehicles
+/*    vpart_bitflag_map["SWIMMABLE"] = VPFLAG_SWIMMABLE; */ // only relevent for cars in water
+    vpart_bitflag_map["RECHARGE"] = VPFLAG_RECHARGE;
 }

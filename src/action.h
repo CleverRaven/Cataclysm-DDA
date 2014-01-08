@@ -89,6 +89,7 @@ ACTION_MORALE,
 ACTION_MESSAGES,
 ACTION_HELP,
 // Debug Functions
+ACTION_TOGGLE_SIDEBAR_STYLE,
 ACTION_DEBUG,
 ACTION_DISPLAY_SCENT,
 ACTION_TOGGLE_DEBUGMON,
@@ -109,6 +110,8 @@ void clear_bindings(action_id act);
 action_id look_up_action(std::string ident);
 std::string action_ident(action_id);
 std::string action_name(action_id);
+// Lookup key in keymap, return the mapped action or ACTION_NULL
+action_id action_from_key(char ch);
 // Use the keymap to figure out direction properly
 void get_direction(int &x, int &y, char ch);
 // (Press X (or Y)|Try) to Z

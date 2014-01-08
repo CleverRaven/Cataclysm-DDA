@@ -24,8 +24,7 @@ void display_help()
                              ACTION_MOVE_W, ACTION_PAUSE, ACTION_MOVE_E,
                              ACTION_MOVE_SW,ACTION_MOVE_S,ACTION_MOVE_SE};
     do {
-        wborder(w_help_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                               LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+        draw_border(w_help_border);
 
         mvwprintz(w_help_border, 0, 38, c_ltred, _(" HELP "));
         wrefresh(w_help_border);
@@ -558,25 +557,27 @@ You control vehicles using the numpad, or vikeys. However, you control their\n\
                     controls, rather than the vehicle directly. In order to\n\
                     assume control of the vehicle, get to a location with\n\
  \\ | /     \\ | /    \"vehicle controls\" and %s. Once you are in control,\n\
-  \\|/       \\|/     %s accelerates, %s slows or reverses, and %s & %s turn\n\
- -- --     -- --      left or right, respectively.  Your diagonals both turn\n\
-  /|\\       /|\\     and adjust speed. Typically, you will be using \"cruise\n\
- / | \\     / | \\    control\", so the gas/brake adjust the speed which\n\
-                    the vehicle will attempt to maintain. 10-30 MPH, or 16-48\n\
-                    KPH, is a good speed for beginning drivers, who have a\n\
-tendency to fumble the controls. As your Driving skill improves, you will\n\
+  \\|/       \\|/     %s accelerates, %s slows or reverses, &\n\
+ -- --     -- --      %s & %s turn left or right.\n\
+  /|\\       /|\\     Diagonals adjust course and speed. You default to\n\
+ / | \\     / | \\    cruise control, so the gas/brake adjust the speed\n\
+                    which the vehicle will attempt to maintain. 10-30 MPH,\n\
+                    or 16-48 KPH, is a good speed for beginning drivers,\n\
+who tend to fumble the controls. As your Driving skill improves, you will\n\
 fumble less and less. To simply maintain course and speed, hit %s.\n\
 \n\
 It's a good idea to pull the handbrake-\"s\"-when parking, just to be safe.\n\
-If you want to get out, hit the lights, toggle cruise control, or otherwise\n\
-use the vehicle controls, %s to bring up the \"Vehicle Controls\" menu."),
-            press_x(ACTION_CONTROL_VEHICLE, _("press "), _("'Vehicle Controls'")).c_str(),
-            press_x(ACTION_MOVE_N, _(" "), _("'move_n'")).c_str(),
-            press_x(ACTION_MOVE_S, _(" "), _("'move_s'")).c_str(),
-            press_x(ACTION_MOVE_W, _(" "), _("'move_w'")).c_str(),
-            press_x(ACTION_MOVE_E, _(" "), _("'move_e'")).c_str(),
-			press_x(ACTION_PAUSE, _(" "), _("'pause'")).c_str(),
-			press_x(ACTION_CONTROL_VEHICLE, _("press "), _("'Vehicle Controls'")).c_str());
+If you want to get out, hit the lights, toggle cruise control, turn the\n\
+engine on or off, or otherwise use the vehicle controls, %s to bring up\n\
+the \"Vehicle Controls\" menu, which has options for things you'd do\n\
+from the driver's seat."),
+            press_x(ACTION_CONTROL_VEHICLE, _("press "), "'Vehicle Controls'").c_str(),
+            press_x(ACTION_MOVE_N, _(" "), "'move_n'").c_str(),
+            press_x(ACTION_MOVE_S, _(" "), "'move_s'").c_str(),
+            press_x(ACTION_MOVE_W, _(" "), "'move_w'").c_str(),
+            press_x(ACTION_MOVE_E, _(" "), "'move_e'").c_str(),
+            press_x(ACTION_PAUSE, _(" "), "'pause'").c_str(),
+            press_x(ACTION_CONTROL_VEHICLE, _("press "), "'Vehicle Controls'").c_str());
             for(int acty = 0; acty < 3; acty++) {
                 for(int actx = 0; actx < 3; actx++) {
                     std::vector<char> keys = keys_bound_to( movearray[acty*3+actx] );
@@ -696,7 +697,7 @@ use the vehicle controls, %s to bring up the \"Vehicle Controls\" menu."),
             } break;
 
         case '2':
-            show_options();
+            show_options(true);
             werase(w_help);
             break;
 

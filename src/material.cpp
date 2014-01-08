@@ -1,7 +1,7 @@
 #include "material.h"
 
 #include "output.h" // debugmsg
-#include "enums.h" // damage_type
+#include "damage.h" // damage_type
 #include "json.h"
 #include "translations.h"
 
@@ -101,32 +101,38 @@ material_type* material_type::find_material(std::string ident)
         return &(found->second);
     } else {
         debugmsg("Tried to get invalid material: %s", ident.c_str());
-        return NULL;
+        static material_type null_material;
+        return &null_material;
     }
+}
+
+bool material_type::has_material(const std::string &ident)
+{
+    return _all_materials.count(ident) > 0;
 }
 
 material_type* material_type::base_material()
 {
-    return material_type::find_material("");
+    return material_type::find_material("null");
 }
 
 int material_type::dam_resist(damage_type damtype) const
 {
     switch (damtype)
     {
-        case BASH:
+        case DT_BASH:
             return _bash_resist;
             break;
-        case CUT:
+        case DT_CUT:
             return _cut_resist;
             break;
-        case ACID:
+        case DT_ACID:
             return _acid_resist;
             break;
-        case ELECTRICITY:
+        case DT_ELECTRIC:
             return _elec_resist;
             break;
-        case FIRE:
+        case DT_HEAT:
             return _fire_resist;
             break;
         default:
