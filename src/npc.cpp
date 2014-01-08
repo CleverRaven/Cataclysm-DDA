@@ -324,7 +324,7 @@ void npc::randomize(npc_class type)
   boost_skill_level("computer", rng(0, 3));
   boost_skill_level("electronics", rng(0, 3));
   boost_skill_level("firstaid", rng(0, 1));
-  switch (rng(1, 3)) { // pick a specialty
+  switch (rng(1, 3)) { // pick a speciality
    case 1: boost_skill_level("computer", rng(2, 6)); break;
    case 2: boost_skill_level("electronics", rng(2, 6)); break;
    case 3: boost_skill_level("firstaid", rng(2, 6)); break;

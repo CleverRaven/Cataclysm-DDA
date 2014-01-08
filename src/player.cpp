@@ -977,7 +977,7 @@ void player::update_bodytemp()
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 500 : 1000);
         }
-        // Disintergration
+        // Disintegration
         if (has_trait("ROT1")) { temp_conv[i] -= 250;}
         else if (has_trait("ROT2")) { temp_conv[i] -= 750;}
         else if (has_trait("ROT3")) { temp_conv[i] -= 1500;}
@@ -986,7 +986,7 @@ void player::update_bodytemp()
         else if (has_trait("RADIOACTIVE2")) { temp_conv[i] += 750; }
         else if (has_trait("RADIOACTIVE3")) { temp_conv[i] += 1500; }
         // Chemical Imbalance
-        // Added linse in player::suffer()
+        // Added line in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergant.
         if ( has_disease("sleep") ) {
             int sleep_bonus = floor_bedding_warmth + floor_item_warmth;
@@ -1154,7 +1154,7 @@ void player::update_bodytemp()
 void player::temp_equalizer(body_part bp1, body_part bp2)
 {
  // Body heat is moved around.
- // Shift in one direction only, will be shifted in the other direction seperately.
+ // Shift in one direction only, will be shifted in the other direction separately.
  int diff = (temp_cur[bp2] - temp_cur[bp1])*0.0001; // If bp1 is warmer, it will lose heat
  temp_cur[bp1] += diff;
 }
@@ -5216,7 +5216,7 @@ void player::suffer()
    std::vector<item *> possessions = inv_dump();
    for( std::vector<item *>::iterator it = possessions.begin(); it != possessions.end(); ++it ) {
        if( (*it)->type->id == "rad_badge" ) {
-           // Actual irridation levels of badges and the player aren't precisely matched.
+           // Actual irradiation levels of badges and the player aren't precisely matched.
            // This is intentional.
            int before = (*it)->irridation;
            (*it)->irridation += rng(0, localRadiation / 16);
@@ -9572,7 +9572,7 @@ int player::adjust_for_focus(int amount)
 void player::practice (const calendar& turn, Skill *s, int amount)
 {
     SkillLevel& level = skillLevel(s);
-    // Double amount, but only if level.exercise isn't a amall negative number?
+    // Double amount, but only if level.exercise isn't a small negative number?
     if (level.exercise() < 0)
     {
         if (amount >= -level.exercise())
