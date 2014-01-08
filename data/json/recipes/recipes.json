@@ -13369,7 +13369,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "reinforced_headlight",
+  "result": "headlight_reinforced",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
