@@ -2411,7 +2411,7 @@ bool item::reload(player &u, int pos)
  item *ammo_container = NULL;
 
     // Handle ammo in containers, currently only gasoline
-    if (ammo_to_use->is_container()) {
+    if (ammo_to_use->is_container() && !ammo_to_use->contents.empty()) {
         ammo_container = ammo_to_use;
         ammo_to_use = &ammo_to_use->contents[0];
     }
@@ -2524,8 +2524,12 @@ bool item::reload(player &u, int pos)
     {
         if (ammo_container != NULL) {
             ammo_container->contents.erase(ammo_container->contents.begin());
+            // We just emptied a container, which might be part of stack,
+            // but empty and non-empty containers should not stack, force
+            // a re-stacking.
+            u.inv.restack(&u);
         } else {
-          u.i_rem(pos);
+            u.i_rem(pos);
         }
     }
   return true;
