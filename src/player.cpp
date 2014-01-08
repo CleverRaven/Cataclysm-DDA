@@ -8563,24 +8563,31 @@ activate your weapon."), gun->tname().c_str(), mod->location.c_str());
     }
 }
 
-void player::remove_gunmod(item *weapon, int id) {
+void player::remove_gunmod(item *weapon, int id)
+{
     item *gunmod = &weapon->contents[id];
-    it_gun *guntype = dynamic_cast<it_gun*>(weapon->type);
+    it_gun *guntype = dynamic_cast<it_gun *>(weapon->type);
     item newgunmod;
     item ammo;
     if (gunmod != NULL && gunmod->charges > 0) {
-      if (gunmod->curammo != NULL) {
-        ammo = item(gunmod->curammo, g->turn);
-      } else {
-        ammo = item(itypes[default_ammo(weapon->ammo_type())], g->turn);
-      }
-      ammo.charges = gunmod->charges;
-      i_add_or_drop(ammo);
+        if (gunmod->curammo != NULL) {
+            ammo = item(gunmod->curammo, g->turn);
+        } else {
+            ammo = item(itypes[default_ammo(weapon->ammo_type())], g->turn);
+        }
+        ammo.charges = gunmod->charges;
+        if (ammo.made_of(LIQUID)) {
+            while(!g->handle_liquid(ammo, false, false)) {
+                // handled only part of it, retry
+            }
+        } else {
+            i_add_or_drop(ammo);
+        }
     }
     newgunmod = item(itypes[gunmod->type->id], g->turn);
     i_add_or_drop(newgunmod);
-    weapon->contents.erase(weapon->contents.begin()+id);
-    guntype->available_mod_locations[static_cast<it_gunmod*>(gunmod->type)->location] += 1;
+    weapon->contents.erase(weapon->contents.begin() + id);
+    guntype->available_mod_locations[static_cast<it_gunmod *>(gunmod->type)->location] += 1;
     return;
 }
 
