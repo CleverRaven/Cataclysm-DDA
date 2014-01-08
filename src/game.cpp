@@ -4455,7 +4455,7 @@ void game::draw_veh_dir_indicator(void) {
       return;
     }
     rl_vec2d face = veh->face_vec();
-    int r = 10;
+    float r = 10.0;
     int x = static_cast<int>(r * face.x);
     int y = static_cast<int>(r * face.y);
     int centerx = TERRAIN_WINDOW_WIDTH / 2;
