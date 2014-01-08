@@ -91,6 +91,7 @@ public:
  int reload_time(player &u);
  int clip_size();
  int dispersion();
+ int skill_mod();
  int gun_damage(bool with_ammo = true);
  int gun_pierce(bool with_ammo = true);
  int noise() const;

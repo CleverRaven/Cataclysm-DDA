@@ -3745,8 +3745,8 @@ int player::ranged_dex_mod(bool real_life)
 
 int player::ranged_per_mod(bool real_life)
 {
- const int per = (real_life ? per_cur : per_max);
-
+ int per = (real_life ? per_cur : per_max);
+ if(weapon.skill_mod() > 0) { per += weapon.skill_mod(); }
  if (per >= 12) { return 0; }
  return 12 - per;
 }

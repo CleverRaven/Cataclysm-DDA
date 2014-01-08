@@ -531,6 +531,7 @@ void Item_factory::load_gun(JsonObject& jo)
     gun_template->recoil = jo.get_int("recoil");
     gun_template->durability = jo.get_int("durability");
     gun_template->burst = jo.get_int("burst");
+    gun_template->skill_mod = jo.get_int("skill_modifier", 0);
     gun_template->clip = jo.get_int("clip_size");
     gun_template->reload_time = jo.get_int("reload");
     gun_template->pierce = jo.get_int("pierce", 0);
@@ -650,6 +651,7 @@ void Item_factory::load_gunmod(JsonObject& jo)
     gunmod_template->dispersion = jo.get_int("dispersion_modifier", 0);
     gunmod_template->recoil = jo.get_int("recoil_modifier", 0);
     gunmod_template->burst = jo.get_int("burst_modifier", 0);
+    gunmod_template->skill_mod = jo.get_int("skill_modifier", 0);
     gunmod_template->clip = jo.get_int("clip_size_modifier", 0);
     gunmod_template->acceptible_ammo_types = jo.get_tags("acceptable_ammo");
     gunmod_template->skill_used = Skill::skill(jo.get_string("skill", "gun"));

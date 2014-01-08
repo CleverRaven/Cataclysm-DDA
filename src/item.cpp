@@ -515,6 +515,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
   dump->push_back(iteminfo("GUN", _("Dispersion: "), "", dispersion(), true, "", true, true));
 
+  if (gun->skill_mod != 0)
+   dump->push_back(iteminfo("GUN", _("Skill bonus: "), "", gun->skill_mod, true, (gun->skill_mod > 0 ? "+" : "-")));
 
   temp1.str("");
   if (has_ammo)
@@ -606,6 +608,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
    dump->push_back(iteminfo("GUNMOD", _("Recoil: "), "", mod->recoil, true, ((mod->recoil > 0) ? "+" : ""), true, true));
   if (mod->burst != 0)
    dump->push_back(iteminfo("GUNMOD", _("Burst: "), "", mod->burst, true, (mod->burst > 0 ? "+" : "")));
+  if (mod->skill_mod != 0)
+   dump->push_back(iteminfo("GUNMOD", _("Skill bonus: "), "", mod->skill_mod, true, (mod->skill_mod > 0 ? "+" : "-")));
 
   if (mod->newtype != "NULL")
    dump->push_back(iteminfo("GUNMOD", "" + ammo_name(mod->newtype)));
@@ -2106,6 +2110,21 @@ int item::dispersion()
     }
     ret += damage * 2;
     if (ret < 0) ret = 0;
+    return ret;
+}
+
+int item::skill_mod()
+{
+    if (!is_gun() && !is_gunmod())
+        return 0;
+    if(is_gunmod())
+        return (dynamic_cast<it_gunmod*>(type))->skill_mod;
+    it_gun* gun = dynamic_cast<it_gun*>(type);
+    int ret = gun->skill_mod;
+    for (int i = 0; i < contents.size(); i++) {
+        if (contents[i].is_gunmod())
+            ret += (dynamic_cast<it_gunmod*>(contents[i].type))->skill_mod;
+    }
     return ret;
 }
 
