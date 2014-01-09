@@ -997,6 +997,19 @@ void item::deserialize(JsonObject &data)
     }
 
     data.read("contents", contents);
+
+    if (type->is_gun()) {//increase occupied_mod_locations for guns
+    	it_gun* gun = dynamic_cast<it_gun*>(type);
+    	for(std::map<std::string,int>::iterator i = gun->occupied_mod_locations.begin();
+		  i!=gun->occupied_mod_locations.end(); i++) {//correct available=0 for reload game without program closing
+			(*i).second = 0;
+    	}
+    	for (int mn = 0; mn < contents.size(); mn++)
+    	{//increase
+    		it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[mn].type);
+    		gun->occupied_mod_locations[mod->location] += 1;
+    	}
+    }
 }
 
 void item::serialize(JsonOut &json, bool save_contents) const
