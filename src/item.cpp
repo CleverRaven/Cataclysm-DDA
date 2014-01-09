@@ -2311,8 +2311,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
   if (charges < clip_size() ||
       (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
         std::vector<item*> tmpammo = u.has_ammo(ammo_type());
-        for (int i = 0; i < tmpammo.size(); i++)
-        {
+        for (int i = 0; i < tmpammo.size(); i++) {
             if (charges <= 0 || tmpammo[i]->typeId() == curammo->id ) {
                 am.push_back(tmpammo[i]);
             } else if (tmpammo[i]->is_container() && !tmpammo[i]->contents.empty() &&
@@ -2513,8 +2512,7 @@ bool item::reload(player &u, int pos)
     reload_target->charges = max_load;
    }
   }
-    if (ammo_to_use->charges == 0)
-    {
+    if (ammo_to_use->charges == 0) {
         if (ammo_container != NULL) {
             ammo_container->contents.erase(ammo_container->contents.begin());
             // We just emptied a container, which might be part of stack,
