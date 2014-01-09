@@ -9674,9 +9674,10 @@ void player::learn_recipe(recipe *rec)
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
 {
     if (backlog.type == type && backlog.index == index && backlog.position == pos &&
-        backlog.name == name && query_yn(_("Resume task?"))) {
-            activity = backlog;
-            backlog = player_activity();
+        backlog.name == name) {
+        g->add_msg_if_player(this, _("You resume your task."));
+        activity = backlog;
+        backlog = player_activity();
     } else {
         activity = player_activity(type, moves, index, pos, name);
     }
