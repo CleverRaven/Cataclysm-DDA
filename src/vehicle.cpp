@@ -1526,7 +1526,7 @@ nc_color vehicle::part_color (int p)
     }
 
     // curtains turn windshields gray
-    int curtains = part_with_feature(p, VPFLAG_CURTIAN, false);
+    int curtains = part_with_feature(p, VPFLAG_CURTAIN, false);
     if (curtains >= 0) {
         if (part_with_feature(p, VPFLAG_WINDOW, true) >= 0 && !parts[curtains].open)
             col = part_info(curtains).color;
