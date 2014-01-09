@@ -140,6 +140,7 @@ class game
   bool do_turn();
   void draw();
   void draw_ter(int posx = -999, int posy = -999);
+  void draw_veh_dir_indicator(void);
   void advance_nextinv(); // Increment the next inventory letter
   void decrease_nextinv(); // Decrement the next inventory letter
   void vadd_msg(const char* msg, va_list ap );
