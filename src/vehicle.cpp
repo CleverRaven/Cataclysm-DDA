@@ -201,7 +201,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     if(veh_status != 0) {
 
         //Leave engine running in some vehicles
-        if(veh_fuel_mult > 0 
+        if(veh_fuel_mult > 0
                 && all_parts_with_feature("ENGINE", true).size() > 0
                 && one_in(8)) {
             engine_on = true;
@@ -319,11 +319,11 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
                 int distSq = pow((blood_inside_x - parts[p].mount_dx), 2) + \
                              pow((blood_inside_y - parts[p].mount_dy), 2);
                 if (distSq <= 1) {
-                    parts[p].blood = rng(200, 400) - distSq*100; 
+                    parts[p].blood = rng(200, 400) - distSq*100;
                 }
             } else if (part_flag(p, "SEAT")) {
                 // Set the center of the bloody mess inside
-                blood_inside_x = parts[p].mount_dx; 
+                blood_inside_x = parts[p].mount_dx;
                 blood_inside_y = parts[p].mount_dy;
                 blood_inside_set = true;
             }
@@ -1977,7 +1977,7 @@ int vehicle::noise (bool fueled, bool gas_only)
             int nc = 10;
 
             if( part_info(p).fuel_type == fuel_type_gasoline ) {
-                nc = 25; 
+                nc = 25;
             } else if( part_info(p).fuel_type == fuel_type_plasma ) {
                 nc = 10;
             } else if( part_info(p).fuel_type == fuel_type_battery ) {
