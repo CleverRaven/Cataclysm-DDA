@@ -542,7 +542,7 @@ void Item_factory::load_gun(JsonObject& jo)
         while (jarr.has_more()){
             JsonArray curr = jarr.next_array();
             gun_template->valid_mod_locations.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
-            gun_template->available_mod_locations.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
+            gun_template->occupied_mod_locations.insert(std::pair<std::string, int>(curr.get_string(0), 0));
         }
     }
 
@@ -654,7 +654,7 @@ void Item_factory::load_gunmod(JsonObject& jo)
     gunmod_template->clip = jo.get_int("clip_size_modifier", 0);
     gunmod_template->acceptible_ammo_types = jo.get_tags("acceptable_ammo");
     gunmod_template->skill_used = Skill::skill(jo.get_string("skill", "gun"));
-    
+
     itype *new_item_template = gunmod_template;
     load_basic_info(jo, new_item_template);
 }

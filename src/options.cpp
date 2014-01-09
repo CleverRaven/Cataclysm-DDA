@@ -611,7 +611,7 @@ void initOptions() {
 
     OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),
                                                   _("Determines the scope, which is known in the beginning of the game."),
-                                                  15, 20, 3
+                                                  3, 20, 15
                                                   );
 
     OPTIONS["SAVE_SLEEP"] =             cOpt("interface", _("Ask to save before sleeping"),
