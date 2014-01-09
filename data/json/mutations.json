@@ -259,7 +259,7 @@
         "points" : 1,
         "description" : "You can handle intoxicants well.  Their effects clear up more quickly for you.",
         "starting_trait" : true,
-        "changes_to" : ["ALCMET"],
+        "leads_to" : ["ALCMET"],
         "cancels" : ["LIGHTWEIGHT"]
     },{
         "type" : "mutation",
