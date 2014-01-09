@@ -18257,36 +18257,6 @@
   ]
 },{
         "type" : "recipe",
-  "result": "hdframe",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 14000,
-  "reversible": true,
-  "autolearn": true,
-  "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
-    [
-      [ "crucible", -1 ]
-    ],
-    [
-      [ "welder", 75 ],
-      [ "welder_crude", 125 ],
-      [ "toolset", 3 ],
-      [ "forge", 80 ],
-      [ "char_forge", 25]
-    ]
-  ],
-  "components": [
-    [
-      [ "steel_lump", 5 ]
-    ]
-  ]
-},{
-        "type" : "recipe",
   "result": "sheet_metal",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
