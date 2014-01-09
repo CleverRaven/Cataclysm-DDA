@@ -2360,7 +2360,7 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "reinforced_headlight",
+        "id" : "headlight_reinforced",
         "name" : "reinforced head light",
         "symbol" : "*",
         "color" : "light_blue",
