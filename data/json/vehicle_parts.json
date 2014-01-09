@@ -386,7 +386,7 @@
     },{
         "type" : "vehicle_part",
         "id" : "hdframe_sw",
-        "name" : "heavy duty frames",
+        "name" : "heavy duty frame",
         "symbol" : "b",
         "color" : "dark_gray",
         "broken_symbol" : "#",
