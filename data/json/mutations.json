@@ -254,6 +254,15 @@
         "cancels" : ["LIGHTWEIGHT"]
     },{
         "type" : "mutation",
+        "id" : "TOLERANCE",
+        "name" : "Substance Tolerance",
+        "points" : 1,
+        "description" : "You can handle intoxicants well.  Their effects clear up more quickly for you.",
+        "starting_trait" : true,
+        "changes_to" : ["ALCMET"],
+        "cancels" : ["LIGHTWEIGHT"]
+    },{
+        "type" : "mutation",
         "id" : "GOURMAND",
         "name" : "Gourmand",
         "points" : 2,
@@ -1398,6 +1407,17 @@
             "ignored" : 6
          }
       ]
+    },{
+        "type" : "mutation",
+        "id" : "ALCMET",
+        "name" : "Alcohol Metabolism",
+        "points" : 4,
+        "description" : "So it's fermented?  Whatever, it's still good drinking.  You've developed the ability to metabolize alcohol as a food source.",
+        "prereqs" : ["TOLERANCE"],
+        "prereqs2" : ["SAPROVORE"],
+        "threshreq" : ["THRESH_TROGLOBITE"],
+        "category" : ["MUTCAT_TROGLO"],
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "SAPROVORE",

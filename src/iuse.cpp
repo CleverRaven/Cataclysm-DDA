@@ -608,10 +608,29 @@ int iuse::atomic_caff(player *p, item *it, bool)
 int iuse::alcohol(player *p, item *it, bool)
 {
     int duration = 680 - (10 * p->str_max); // Weaker characters are cheap drunks
-    if (p->has_trait("LIGHTWEIGHT")) {
+    it_comest *food = dynamic_cast<it_comest*> (it->type);
+    if (p->has_trait("ALCMET")) {
+        duration = 180 - (10 * p->str_max);
+        // Metabolizing the booze improves the nutritional
+        // value; might not be healthy, and still
+        // cuses Thirst problems, though
+        p->hunger -= (abs(food->stim));
+        // Metabolizing it cancels out the depressant
+        // except for Irish coffee, which already
+        // has a postive stim value
+        if (!(it->type->id == "irish_coffee")) {
+            p->stim += (abs(food->stim));
+        }
+    }
+    else if (p->has_trait("TOLERANCE")) {
+        duration -= 300;
+    }
+    else if (p->has_trait("LIGHTWEIGHT")) {
         duration += 300;
     }
-    p->pkill += 8;
+    if (!(p->has_trait("ALCMET"))) {
+        p->pkill += 8;
+    }
     p->add_disease("drunk", duration);
     return it->type->charges_to_use();
 }
@@ -619,10 +638,25 @@ int iuse::alcohol(player *p, item *it, bool)
 int iuse::alcohol_weak(player *p, item *it, bool)
 {
     int duration = 340 - (6 * p->str_max);
-    if (p->has_trait("LIGHTWEIGHT")) {
+    it_comest *food = dynamic_cast<it_comest*> (it->type);
+    if (p->has_trait("ALCMET")) {
+        duration = 90 - (6 * p->str_max);
+        // Metabolizing the booze improves the nutritional
+        // value; might not be healthy, and still
+        // cuses Thirst problems, though
+        p->hunger -= (abs(food->stim));
+        // Metabolizing it cancels out the depressant
+        p->stim += (abs(food->stim));
+    }
+    else if (p->has_trait("TOLERANCE")) {
+        duration -= 120;
+    }
+    else if (p->has_trait("LIGHTWEIGHT")) {
         duration += 120;
     }
-    p->pkill += 4;
+    if (!(p->has_trait("ALCMET"))) {
+        p->pkill += 4;
+    }
     p->add_disease("drunk", duration);
     return it->type->charges_to_use();
 }
@@ -735,7 +769,13 @@ int iuse::weed(player *p, item *it, bool) {
         } else {
             g->add_msg_if_player(p,_("You smoke some more weed."));
         }
-        int duration = (p->has_trait("LIGHTWEIGHT") ? 120 : 90);
+        int duration = 90;
+        if (p->has_trait("TOLERANCE")) {
+            duration = 60;
+        }
+        else if (p->has_trait("LIGHTWEIGHT")) {
+            duration = 120;
+        }
         p->add_disease("weed_high", duration);
     } else {
         g->add_msg_if_player(p,_("You need something to light it."));
@@ -747,6 +787,9 @@ int iuse::weed(player *p, item *it, bool) {
 int iuse::coke(player *p, item *it, bool) {
     g->add_msg_if_player(p,_("You snort a bump of coke."));
     int duration = 21 - p->str_cur + rng(0,10);
+    if (p->has_trait("TOLERANCE")) {
+            duration -= 10; // Symmetry would cause problems :-/
+        }
     if (p->has_trait("LIGHTWEIGHT")) {
         duration += 20;
     }
@@ -759,7 +802,10 @@ int iuse::crack(player *p, item *it, bool) {
     // Crack requires a fire source and a pipe.
     if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
         int duration = 15;
-        if (p->has_trait("LIGHTWEIGHT")) {
+        if (p->has_trait("TOLERANCE")) {
+            duration -= 10; // Symmetry would make crack a sobering agent! :-P
+        }
+        else if (p->has_trait("LIGHTWEIGHT")) {
             duration += 20;
         }
         g->add_msg_if_player(p,_("You smoke your crack rocks.  Mother would be proud."));
@@ -775,7 +821,10 @@ int iuse::grack(player *p, item *it, bool) {
     if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
         g->add_msg_if_player(p,_("You smoke some Grack Cocaine. Time seems to stop."));
         int duration = 1000;
-        if (p->has_trait("LIGHTWEIGHT")) {
+        if (p->has_trait("TOLERANCE")) {
+            duration -= 10;
+        }
+        else if (p->has_trait("LIGHTWEIGHT")) {
             duration += 10;
         }
         p->hunger -= 10;
@@ -789,7 +838,12 @@ int iuse::meth(player *p, item *it, bool) {
     int duration = 10 * (40 - p->str_cur);
     if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
         g->add_msg_if_player(p,_("You smoke your meth.  The world seems to sharpen."));
-        duration *= (p->has_trait("LIGHTWEIGHT") ? 1.8 : 1.5);
+        if (p->has_trait("TOLERANCE")) {
+            duration *= 1.2;
+        }
+        else {
+            duration *= (p->has_trait("LIGHTWEIGHT") ? 1.8 : 1.5);
+        }
     } else {
         g->add_msg_if_player(p,_("You snort some crystal meth."));
     }
@@ -1193,7 +1247,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
             p->mutate_category("MUTCAT_CHIMERA");
             p->hunger += 20;
             p->thirst += 10;
-            
+
             if (!(g->u.has_trait("NOPAIN"))) {
             p->pain += 5;
             }
@@ -1263,7 +1317,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
             g->add_msg_if_player(p, _("Everything goes green for a second.\n\
         It's painfully beautiful..."));
             p->fall_asleep(20); //Should be out for two minutes.  Ecstasy Of Green
-            // Extra helping of pain. 
+            // Extra helping of pain.
           if (!(g->u.has_trait("NOPAIN"))) {
             p->pain += rng(1, 5);
           }
@@ -1277,7 +1331,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
         }
 
         p->mutate_category(mutation_category);
-        
+
         if (!(g->u.has_trait("NOPAIN"))) {
             p->pain += 2 * rng(1, 5);
         }
@@ -1299,7 +1353,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
             p->thirst += 10;
         }
     }
-        
+
         // Threshold-check.  You only get to cross once!
       if (p->crossed_threshold() == false) {
           // Threshold-breaching
