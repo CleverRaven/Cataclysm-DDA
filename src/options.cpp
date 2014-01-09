@@ -411,6 +411,11 @@ void initOptions() {
                                              true
                                             );
 
+    OPTIONS["VEHICLE_DIR_INDICATOR"] =  cOpt("interface", _("Draw vehicle facing indicator"),
+                                             _("If true, when controlling a vehicle, a white 'X' at distance 10 from the center will display its current facing."),
+                                             false
+                                            );
+
     OPTIONS["SAFEMODEPROXIMITY"] =      cOpt("general", _("Safemode proximity distance"),
                                              _("If safemode is enabled, distance to hostiles when safemode should show a warning. 0 = Max player viewdistance."),
                                              0, 50, 0

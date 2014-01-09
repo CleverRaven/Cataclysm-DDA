@@ -4436,12 +4436,32 @@ void game::draw_ter(int posx, int posy)
             POSX + (final_destination.x - (u.posx + u.view_offset_x)), c_white, 'X');
     }
 
+    if(u.controlling_vehicle) {
+      draw_veh_dir_indicator();
+    }
     wrefresh(w_terrain);
 
     if (u.has_disease("visuals") || (u.has_disease("hot_head") &&
             u.disease_intensity("hot_head") != 1)) {
         hallucinate(posx, posy);
     }
+}
+
+void game::draw_veh_dir_indicator(void) {
+  if(OPTIONS["VEHICLE_DIR_INDICATOR"]) {
+    vehicle *veh = m.veh_at(u.posx, u.posy);
+    if(!veh) {
+      debugmsg("game::draw_veh_dir_indicator: no vehicle!");
+      return;
+    }
+    rl_vec2d face = veh->face_vec();
+    float r = 10.0;
+    int x = static_cast<int>(r * face.x);
+    int y = static_cast<int>(r * face.y);
+    int centerx = TERRAIN_WINDOW_WIDTH / 2;
+    int centery = TERRAIN_WINDOW_HEIGHT / 2;
+    mvwputch(w_terrain, centery + y , centerx + x, c_white, 'X');
+  }
 }
 
 void game::refresh_all()

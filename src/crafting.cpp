@@ -290,8 +290,8 @@ bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
             component &tool = *tool_it;
             itype_id type = tool.type;
             int req = tool.count;
-            if ( (req<= 0 && crafting_inv.has_amount(type, 1)) ||
-                 (req<= 0 && (type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses"))) ||
+            if ( (req <= 0 && crafting_inv.has_amount(type, 1)) ||
+                 (req <= 0 && (type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses"))) ||
                  (req > 0 && crafting_inv.has_charges(type, req))) {
                 has_tool_in_set = true;
                 tool.available = 1;
@@ -1695,6 +1695,7 @@ void game::disassemble(int pos)
                         int req = cur_recipe->tools[j][k].count; // -1 => 1
 
                         if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
+                            (req <= 0 && type == ("goggles_welding")) || // no welding, no goggles needed
                             (req >  0 && crafting_inv.has_charges(type, req)))
                         {
                             have_this_tool = true;
