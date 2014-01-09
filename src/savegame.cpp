@@ -323,13 +323,10 @@ void game::load_weather(std::ifstream & fin) {
      }
     std::map<int, weather_segment>::iterator w_it = weather_log.lower_bound(int(turn));
     if ( w_it != weather_log.end() ) {
+        // lower_bound returns the smallest key, that
+        // is >= turn. (The key in that map is the deadline
+        // of the weather segment.) That is the current weather.
         weather_segment cur = w_it->second;
-        if ( w_it->first > int(turn) ) {
-            --w_it;
-            if ( w_it != weather_log.end() ) {
-                cur = w_it->second;
-            }
-        }
         weather = cur.weather;
         temperature = cur.temperature;
         nextweather = cur.deadline;
