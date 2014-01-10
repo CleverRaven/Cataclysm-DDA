@@ -119,6 +119,7 @@ void Item_factory::init(){
     iuse_function_list["MILITARYMAP"] = &iuse::militarymap;
     iuse_function_list["RESTAURANTMAP"] = &iuse::restaurantmap;
     iuse_function_list["TOURISTMAP"] = &iuse::touristmap;
+    iuse_function_list["MA_MANUAL"] = &iuse::ma_manual;
     iuse_function_list["PICKLOCK"] = &iuse::picklock;
     iuse_function_list["CROWBAR"] = &iuse::crowbar;
     iuse_function_list["MAKEMOUND"] = &iuse::makemound;

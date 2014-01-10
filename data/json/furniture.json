@@ -143,6 +143,24 @@
         "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"]
     },{
         "type" : "furniture",
+        "id" : "f_shower",
+        "name": "shower",
+        "symbol": "~",
+        "color": "white",
+        "move_cost_mod": 0,
+        "required_str": 10,
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
+        "bash": {
+            "str_min": 2, "str_max": 30,
+            "comment": "originally result = dice(8, 4) - 8;",
+            "sound": "porcelain breaking!",
+            "sound_fail": "whunk!",
+            "items": [
+                { "item": "cu_pipe", "amount": 3, "minamount": 0 }
+            ]
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_bathtub",
         "name": "bathtub",
         "symbol": "~",
