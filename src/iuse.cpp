@@ -1911,11 +1911,6 @@ int iuse::cut_up(player *p, item *it, item *cut, bool)
         count -= cut->damage;
     }
 
-    // If the item is damaged, we wont get as much material from it.
-    if(it->damage >= 1) {
-        count /= it->damage;
-    }
-
     //scrap_text is result string of worthless scraps
     //sliced_text is result on a success
     std::string scrap_text, sliced_text, type;
