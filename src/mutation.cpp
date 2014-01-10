@@ -52,6 +52,7 @@ void player::mutate()
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
         std::string base_mutation = iter->first;
         bool thresh_save = mutation_data[base_mutation].threshold;
+        bool purify_save = mutation_data[base_mutation].purifiable;
 
         // ...that we have...
         if (has_trait(base_mutation)) {
@@ -87,7 +88,12 @@ void player::mutate()
                 // mark for removal
                 // no removing Thresholds this way!
                 if(!in_cat && !thresh_save) {
-                    downgrades.push_back(base_mutation);
+                    // non-purifiable stuff should be pretty tenacious
+                    // category-enforcement only targets it 25% of the time
+                    // (purify_save defaults true, = false for non-purifiable)
+                    if((purify_save) || ((one_in(4)) && (!(purify_save))) ) {
+                        downgrades.push_back(base_mutation);
+                    }
                 }
             }
         }
@@ -538,6 +544,14 @@ void mutation_effect(player &p, std::string mut)
         p.str_max += 7;
         p.recalc_hp();
 
+    } else if (mut == "STR_ALPHA") {
+        if (p.str_max <= 7) {
+            p.str_max = 11;
+        }
+        else {
+            p.str_max = 15;
+        }
+        p.recalc_hp();
     } else if (mut == "DEX_UP") {
         p.dex_max ++;
 
@@ -550,6 +564,13 @@ void mutation_effect(player &p, std::string mut)
     } else if (mut == "DEX_UP_4") {
         p.dex_max += 7;
 
+    } else if (mut == "DEX_ALPHA") {
+        if (p.dex_max <= 7) {
+            p.dex_max = 11;
+        }
+        else {
+            p.dex_max = 15;
+        }
     } else if (mut == "INT_UP") {
         p.int_max ++;
 
@@ -562,6 +583,13 @@ void mutation_effect(player &p, std::string mut)
     } else if (mut == "INT_UP_4") {
         p.int_max += 7;
 
+    } else if (mut == "INT_ALPHA") {
+        if (p.int_max <= 7) {
+            p.int_max = 11;
+        }
+        else {
+            p.int_max = 15;
+        }
     } else if (mut == "PER_UP") {
         p.per_max ++;
 
@@ -573,6 +601,14 @@ void mutation_effect(player &p, std::string mut)
 
     } else if (mut == "PER_UP_4") {
         p.per_max += 7;
+        
+    } else if (mut == "PER_ALPHA") {
+        if (p.per_max <= 7) {
+            p.per_max = 11;
+        }
+        else {
+            p.per_max = 15;
+        }
     }
 
     for (int i = 0; i < p.worn.size(); i++) {
@@ -640,6 +676,14 @@ void mutation_loss_effect(player &p, std::string mut)
         p.str_max -= 7;
         p.recalc_hp();
 
+    } else if (mut == "STR_ALPHA") {
+        if (p.str_max == 15) {
+            p.str_max = 8;
+        }
+        else {
+            p.str_max = 7;
+        }
+        p.recalc_hp();
     } else if (mut == "DEX_UP") {
         p.dex_max --;
 
@@ -652,6 +696,13 @@ void mutation_loss_effect(player &p, std::string mut)
     } else if (mut == "DEX_UP_4") {
         p.dex_max -= 7;
 
+    } else if (mut == "DEX_ALPHA") {
+        if (p.dex_max == 15) {
+            p.dex_max = 8;
+        }
+        else {
+            p.dex_max = 7;
+        }
     } else if (mut == "INT_UP") {
         p.int_max --;
 
@@ -664,6 +715,13 @@ void mutation_loss_effect(player &p, std::string mut)
     } else if (mut == "INT_UP_4") {
         p.int_max -= 7;
 
+    } else if (mut == "INT_ALPHA") {
+        if (p.int_max == 15) {
+            p.int_max = 8;
+        }
+        else {
+            p.int_max = 7;
+        }
     } else if (mut == "PER_UP") {
         p.per_max --;
 
@@ -675,5 +733,13 @@ void mutation_loss_effect(player &p, std::string mut)
 
     } else if (mut == "PER_UP_4") {
         p.per_max -= 7;
+        
+    } else if (mut == "PER_ALPHA") {
+        if (p.per_max == 15) {
+            p.per_max = 8;
+        }
+        else {
+            p.per_max = 7;
+        }
     }
 }

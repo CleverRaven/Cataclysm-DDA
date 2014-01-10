@@ -1881,7 +1881,7 @@
         "points" : 2,
         "description" : "Your muscles are stronger. Strength + 2",
         "prereqs" : ["STR_UP"],
-        "changes_to" : ["STR_UP_3"],
+        "changes_to" : ["STR_UP_3", "STR_ALPHA"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_PLANT", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
@@ -1906,11 +1906,22 @@
         "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
+        "id" : "STR_ALPHA",
+        "name" : "Prime Strength",
+        "points" : 6,
+        "description" : "Your muscles are perfectly developed.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["STR_UP_2"],
+        "threshreq" : ["THRESH_ALPHA"],
+        "category" : ["MUTCAT_ALPHA"]
+    },{
+        "type" : "mutation",
         "id" : "DEX_UP",
         "name" : "Dextrous",
         "points" : 1,
         "description" : "You are a little nimbler. Dexterity + 1",
-        "changes_to" : ["DEX_UP_2"],
+        "changes_to" : ["DEX_UP_2", "DEX_ALPHA"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
@@ -1941,11 +1952,22 @@
         "category" : ["MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
+        "id" : "DEX_ALPHA",
+        "name" : "Prime Dexterity",
+        "points" : 6,
+        "description" : "You're perfectly coordinated.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["DEX_UP"],
+        "threshreq" : ["THRESH_ALPHA"],
+        "category" : ["MUTCAT_ALPHA"]
+    },{
+        "type" : "mutation",
         "id" : "INT_UP",
         "name" : "Smart",
         "points" : 1,
         "description" : "You are a little smarter. Intelligence + 1",
-        "changes_to" : ["INT_UP_2"],
+        "changes_to" : ["INT_UP_2", "INT_ALPHA"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
@@ -1979,6 +2001,17 @@
         "category" : ["MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
+        "id" : "INT_ALPHA",
+        "name" : "Prime Intelligence",
+        "points" : 6,
+        "description" : "You understand almost everything about which you think, with minimal effort.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["INT_UP"],
+        "threshreq" : ["THRESH_ALPHA"],
+        "category" : ["MUTCAT_ALPHA"]
+    },{
+        "type" : "mutation",
         "id" : "PER_UP",
         "name" : "Perceptive",
         "points" : 1,
@@ -1991,7 +2024,7 @@
         "points" : 2,
         "description" : "Your senses are keener. Perception + 2",
         "prereqs" : ["PER_UP"],
-        "changes_to" : ["PER_UP_3"],
+        "changes_to" : ["PER_UP_3", "PER_ALPHA"],
         "category" : ["MUTCAT_ALPHA", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
@@ -2011,6 +2044,17 @@
         "prereqs" : ["PER_UP_3"],
         "threshreq" : ["THRESH_BIRD"],
         "category" : ["MUTCAT_BIRD"]
+    },{
+        "type" : "mutation",
+        "id" : "PER_ALPHA",
+        "name" : "Prime Perception",
+        "points" : 6,
+        "description" : "Your senses are keenly honed.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["PER_UP_2"],
+        "threshreq" : ["THRESH_ALPHA"],
+        "category" : ["MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "MUT_JUNKIE",
