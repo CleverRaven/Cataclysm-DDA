@@ -2382,7 +2382,7 @@ electronics crafting. It also affects how much skill you can pick up from readin
 
        mvwprintz(w_stats, 6, 1,  c_magenta, _("Ranged penalty: -%d"),
              abs(ranged_per_mod(false)),"          ");
-    mvwprintz(w_stats, 7, 1, c_magenta, _("Trap dection level: %d       "),
+    mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level: %d       "),
              per_cur);
     mvwprintz(w_stats, 8, 1, c_magenta, "                             ");
     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
