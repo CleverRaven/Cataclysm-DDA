@@ -8446,9 +8446,9 @@ void player::use(int pos)
                 g->add_msg(_("That %s cannot be used on a %s."), used->tname().c_str(),
                        ammo_name(guntype->ammo).c_str());
                 return;
-        } else if (!guntype->available_mod_locations[mod->location] > 0) {
-            g->add_msg(_("Your %s doesn't have enough room for another %s mod.'  To remove the mods, \
-activate your weapon."), gun->tname().c_str(), mod->location.c_str());
+        } else if (guntype->occupied_mod_locations[mod->location] == guntype->valid_mod_locations[mod->location]) {
+            g->add_msg(_("Your %s doesn't have enough room for another %s mod. To remove the mods, \
+activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
             return;
         }
         if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
@@ -8477,11 +8477,6 @@ activate your weapon."), gun->tname().c_str(), mod->location.c_str());
                 g->add_msg(_("Your %s already has a %s."), gun->tname().c_str(),
                            used->tname().c_str());
                 return;
-            }
-            else if (guntype->available_mod_locations[mod->location] == 0) {
-                g->add_msg(_("Your %s cannot hold any more %s modifications."), gun->tname().c_str(),
-                           mod->location.c_str());
-                return;
             } else if ((mod->id == "clip" || mod->id == "clip2") &&
                        (gun->contents[i].type->id == "clip" ||
                         gun->contents[i].type->id == "clip2")) {
@@ -8493,7 +8488,7 @@ activate your weapon."), gun->tname().c_str(), mod->location.c_str());
         g->add_msg(_("You attach the %s to your %s."), used->tname().c_str(),
                    gun->tname().c_str());
         gun->contents.push_back(i_rem(pos));
-        guntype->available_mod_locations[mod->location] -= 1;
+        guntype->occupied_mod_locations[mod->location] += 1;
         return;
 
     } else if (used->is_bionic()) {
@@ -8563,24 +8558,31 @@ activate your weapon."), gun->tname().c_str(), mod->location.c_str());
     }
 }
 
-void player::remove_gunmod(item *weapon, int id) {
+void player::remove_gunmod(item *weapon, int id)
+{
     item *gunmod = &weapon->contents[id];
-    it_gun *guntype = dynamic_cast<it_gun*>(weapon->type);
+    it_gun *guntype = dynamic_cast<it_gun *>(weapon->type);
     item newgunmod;
     item ammo;
     if (gunmod != NULL && gunmod->charges > 0) {
-      if (gunmod->curammo != NULL) {
-        ammo = item(gunmod->curammo, g->turn);
-      } else {
-        ammo = item(itypes[default_ammo(weapon->ammo_type())], g->turn);
-      }
-      ammo.charges = gunmod->charges;
-      i_add_or_drop(ammo);
+        if (gunmod->curammo != NULL) {
+            ammo = item(gunmod->curammo, g->turn);
+        } else {
+            ammo = item(itypes[default_ammo(weapon->ammo_type())], g->turn);
+        }
+        ammo.charges = gunmod->charges;
+        if (ammo.made_of(LIQUID)) {
+            while(!g->handle_liquid(ammo, false, false)) {
+                // handled only part of it, retry
+            }
+        } else {
+            i_add_or_drop(ammo);
+        }
     }
     newgunmod = item(itypes[gunmod->type->id], g->turn);
     i_add_or_drop(newgunmod);
+    guntype->occupied_mod_locations[(static_cast<it_gunmod*>(gunmod->type))->location] -= 1;
     weapon->contents.erase(weapon->contents.begin()+id);
-    guntype->available_mod_locations[static_cast<it_gunmod*>(gunmod->type)->location] += 1;
     return;
 }
 
@@ -9672,9 +9674,10 @@ void player::learn_recipe(recipe *rec)
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
 {
     if (backlog.type == type && backlog.index == index && backlog.position == pos &&
-        backlog.name == name && query_yn(_("Resume task?"))) {
-            activity = backlog;
-            backlog = player_activity();
+        backlog.name == name) {
+        g->add_msg_if_player(this, _("You resume your task."));
+        activity = backlog;
+        backlog = player_activity();
     } else {
         activity = player_activity(type, moves, index, pos, name);
     }

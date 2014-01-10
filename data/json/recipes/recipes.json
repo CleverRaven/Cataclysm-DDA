@@ -13369,7 +13369,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "reinforced_headlight",
+  "result": "headlight_reinforced",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
@@ -18200,6 +18200,36 @@
   ]
 },{
         "type" : "recipe",
+  "result": "hdframe",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "crucible", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 2 ],
+      [ "forge", 50 ],
+      [ "char_forge", 10]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_lump", 18 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "frame_wood",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -18223,36 +18253,6 @@
     ],
     [
       [ "nail", 20 ]
-    ]
-  ]
-},{
-        "type" : "recipe",
-  "result": "hdframe",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 14000,
-  "reversible": true,
-  "autolearn": true,
-  "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
-    [
-      [ "crucible", -1 ]
-    ],
-    [
-      [ "welder", 75 ],
-      [ "welder_crude", 125 ],
-      [ "toolset", 3 ],
-      [ "forge", 80 ],
-      [ "char_forge", 25]
-    ]
-  ],
-  "components": [
-    [
-      [ "steel_lump", 5 ]
     ]
   ]
 },{

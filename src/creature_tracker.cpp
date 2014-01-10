@@ -28,6 +28,17 @@ int Creature_tracker::mon_at(point coords) const
     return -1;
 }
 
+int Creature_tracker::dead_mon_at(point coords) const
+{
+    std::map<point, int>::const_iterator iter = _old_monsters_by_location.find(coords);
+    if (iter != _old_monsters_by_location.end()) {
+        const int critter_id = iter->second;
+        if (_old_monsters_list[critter_id].dead) {
+            return critter_id;
+        }
+    }
+    return -1;
+}
 
 bool Creature_tracker::add(monster &critter)
 {
@@ -53,7 +64,9 @@ bool Creature_tracker::update_pos(const monster &critter, const int new_x_pos, c
         return true; // success?
     }
     bool success = false;
-    const int critter_id = mon_at(critter.posx(), critter.posy());
+    const int dead_critter_id = dead_mon_at(point(critter.posx(), critter.posy()));
+    const int live_critter_id = mon_at(point(critter.posx(), critter.posy()));
+    const int critter_id = critter.dead ? dead_critter_id : live_critter_id;
     const int new_critter_id = mon_at(new_x_pos, new_y_pos);
     if (new_critter_id >= 0 && !_old_monsters_list[new_critter_id].dead) {
         debugmsg("update_zombie_pos: new location %d,%d already has zombie %d",

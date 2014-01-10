@@ -290,8 +290,8 @@ bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
             component &tool = *tool_it;
             itype_id type = tool.type;
             int req = tool.count;
-            if ( (req<= 0 && crafting_inv.has_amount(type, 1)) ||
-                 (req<= 0 && (type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses"))) ||
+            if ( (req <= 0 && crafting_inv.has_amount(type, 1)) ||
+                 (req <= 0 && (type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses"))) ||
                  (req > 0 && crafting_inv.has_charges(type, req))) {
                 has_tool_in_set = true;
                 tool.available = 1;
@@ -628,6 +628,7 @@ recipe* game::select_crafting_recipe()
     bool redraw = true;
     bool keepline = false;
     bool done = false;
+    int display_mode = 0;
     recipe *chosen = NULL;
     InputEvent input;
 
@@ -658,15 +659,15 @@ recipe* game::select_crafting_recipe()
             mvwprintz(w_data, dataLines+1, 5, c_white, _("Press <ENTER> to attempt to craft object."));
             wprintz(w_data, c_white, "  ");
             if (filterstring != "") {
-                wprintz(w_data, c_white, _("[?/E]: Describe, [F]ind , [R]eset"));
+                wprintz(w_data, c_white, _("[?/E]: Describe, [F]ind, [R]eset, [m]ode"));
             } else {
-                wprintz(w_data, c_white, _("[?/E]: Describe, [F]ind"));
+                wprintz(w_data, c_white, _("[?/E]: Describe, [F]ind, [m]ode"));
             }
         } else {
             if (filterstring != "") {
-                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind , [R]eset"));
+                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind, [R]eset, [m]ode"));
             } else {
-                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind"));
+                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind, [m]ode"));
             }
             mvwprintz(w_data, dataLines+2, 5, c_white, _("Press <ENTER> to attempt to craft object."));
         }
@@ -732,6 +733,7 @@ recipe* game::select_crafting_recipe()
         {
             nc_color col = (available[line] ? c_white : c_ltgray);
             ypos = 0;
+          if(display_mode == 0) {
             mvwprintz(w_data, ypos++, 30, col, _("Skills used: %s"),
                 (current[line]->skill_used == NULL ? "N/A" :
                 current[line]->skill_used->name().c_str()));
@@ -759,6 +761,10 @@ recipe* game::select_crafting_recipe()
                 mvwprintz(w_data, ypos++, 30, col, _("Time to complete: %d turns"),
                 int(current[line]->time / 100));
             }
+          }
+          if(display_mode == 0 ||
+             display_mode == 1)
+          {
             mvwprintz(w_data, ypos++, 30, col, _("Tools required:"));
             if (current[line]->tools.size() == 0 && current[line]->qualities.size() == 0)
             {
@@ -840,8 +846,9 @@ recipe* game::select_crafting_recipe()
                     }
                 }
             }
-        // Loop to print the required components
             ypos++;
+          }
+        // Loop to print the required components
             mvwprintz(w_data, ypos, 30, col, _("Components required:"));
             for (unsigned i = 0; i < current[line]->components.size(); i++)
             {
@@ -922,6 +929,9 @@ recipe* game::select_crafting_recipe()
             ch=(int)'<';
         } else if(ch == KEY_NPAGE || ch == '\t' ) {
             ch=(int)'>';
+        } else if(ch == 'm') {
+            display_mode = display_mode + 1;
+            if(display_mode >= 3 || display_mode <= 0) display_mode = 0;
         }
         input = get_input(ch);
         switch (input)
@@ -1695,6 +1705,7 @@ void game::disassemble(int pos)
                         int req = cur_recipe->tools[j][k].count; // -1 => 1
 
                         if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
+                            (req <= 0 && type == ("goggles_welding")) || // no welding, no goggles needed
                             (req >  0 && crafting_inv.has_charges(type, req)))
                         {
                             have_this_tool = true;
