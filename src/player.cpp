@@ -9254,12 +9254,12 @@ void player::absorb_hit(body_part bp, int, damage_instance &dam) {
             if (it->amount < 0) it->amount = 0;
         }
 
-        // TODO: do this properly, with std::remove_if or something
-        int offset = 0;
-        for (std::vector<int>::iterator armor_it = armor_indices.begin();
-                armor_it != armor_indices.end(); ++armor_it) {
+        // The worn vector has the innermost item first, so
+        // iterate reverse to damage the outermost (last in worn vector) first.
+        for (std::vector<int>::reverse_iterator armor_it = armor_indices.rbegin();
+                armor_it != armor_indices.rend(); ++armor_it) {
 
-            int index = *armor_it + offset;
+            const int index = *armor_it;
 
             armor_absorb(*it, worn[index]);
 
@@ -9271,7 +9271,6 @@ void player::absorb_hit(body_part bp, int, damage_instance &dam) {
                                             _("<npcname>'s %s is completely destroyed!"),
                                             worn[index].tname().c_str() );
                 worn.erase(worn.begin() + index);
-                offset--;
             }
         }
         if (it->type == DT_BASH) {
