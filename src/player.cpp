@@ -3110,40 +3110,44 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
  } else {  // Not in vehicle
   nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
            col_per = c_white, col_spd = c_white, col_time = c_white;
-  if (str_cur < str_max)
+  int str_bonus = get_str_bonus();
+  int dex_bonus = get_dex_bonus();
+  int int_bonus = get_int_bonus();
+  int per_bonus = get_per_bonus();
+  int spd_bonus = get_speed_bonus();
+  if (str_bonus < 0)
    col_str = c_red;
-  if (str_cur > str_max)
+  if (str_bonus > 0)
    col_str = c_green;
-  if (dex_cur < dex_max)
+  if (dex_bonus  < 0)
    col_dex = c_red;
-  if (dex_cur > dex_max)
+  if (dex_bonus  > 0)
    col_dex = c_green;
-  if (int_cur < int_max)
+  if (int_bonus  < 0)
    col_int = c_red;
-  if (int_cur > int_max)
+  if (int_bonus  > 0)
    col_int = c_green;
-  if (per_cur < per_max)
+  if (per_bonus  < 0)
    col_per = c_red;
-  if (per_cur > per_max)
+  if (per_bonus  > 0)
    col_per = c_green;
-  int spd_cur = get_speed();
-  if (spd_cur < 100)
+  if (spd_bonus < 0)
    col_spd = c_red;
-  if (spd_cur > 100)
+  if (spd_bonus > 0)
    col_spd = c_green;
 
     int x  = sideStyle ? 18 : 13;
     int y  = sideStyle ?  0 :  3;
     int dx = sideStyle ?  0 :  7;
     int dy = sideStyle ?  1 :  0;
-    mvwprintz(w, y + dy * 0, x + dx * 0, col_str, _("Str %2d"), str_cur);
-    mvwprintz(w, y + dy * 1, x + dx * 1, col_dex, _("Dex %2d"), dex_cur);
-    mvwprintz(w, y + dy * 2, x + dx * 2, col_int, _("Int %2d"), int_cur);
-    mvwprintz(w, y + dy * 3, x + dx * 3, col_per, _("Per %2d"), per_cur);
+    mvwprintz(w, y + dy * 0, x + dx * 0, col_str, _("Str %2d"), get_str());
+    mvwprintz(w, y + dy * 1, x + dx * 1, col_dex, _("Dex %2d"), get_dex());
+    mvwprintz(w, y + dy * 2, x + dx * 2, col_int, _("Int %2d"), get_int());
+    mvwprintz(w, y + dy * 3, x + dx * 3, col_per, _("Per %2d"), get_per());
 
     int spdx = sideStyle ?  0 : x + dx * 4;
     int spdy = sideStyle ?  5 : y + dy * 4;
-    mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), spd_cur);
+    mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), get_speed());
     if (this->weight_carried() > this->weight_capacity()) {
         col_time = h_black;
     }
