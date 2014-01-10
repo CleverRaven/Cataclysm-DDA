@@ -1676,6 +1676,10 @@ void game::disassemble(int pos)
 
     item* dis_item = &u.i_at(pos);
 
+    if(dis_item->damage > 0) {
+        add_msg(_("That item is too damaged to take apart."));
+        return;
+    }
 
     for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter)
     {
