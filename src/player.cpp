@@ -3739,29 +3739,32 @@ int player::throw_range(int pos)
  return ret;
 }
 
-int player::ranged_dex_mod(bool real_life)
+int player::ranged_dex_mod(bool return_stat_effect)
 {
-    const int dex = (real_life ? dex_cur : dex_max);
+  // Stat window shows stat effects on based on current stat
+    const int dex = (return_stat_effect ? get_dex() : get_dex());
 
     if (dex >= 12) { return 0; }
     return 12 - dex;
 }
 
-int player::ranged_per_mod(bool real_life)
+int player::ranged_per_mod(bool return_stat_effect)
 {
- const int per = (real_life ? per_cur : per_max);
+  // Stat window shows stat effects on based on current stat
+ const int per = (return_stat_effect ? get_per() : get_per());
 
  if (per >= 12) { return 0; }
  return 12 - per;
 }
 
-int player::throw_dex_mod(bool real_life)
+int player::throw_dex_mod(bool return_stat_effect)
 {
- int dex = (real_life ? dex_cur : dex_max);
+  // Stat window shows stat effects on based on current stat
+ int dex = (return_stat_effect ? get_dex() : get_dex());
  if (dex == 8 || dex == 9)
   return 0;
  if (dex >= 10)
-  return (real_life ? 0 - rng(0, dex - 9) : 9 - dex);
+  return (return_stat_effect ? 0 - rng(0, dex - 9) : 9 - dex);
 
  int deviation = 0;
  if (dex < 4)
@@ -3771,12 +3774,14 @@ int player::throw_dex_mod(bool real_life)
  else
   deviation = 2 * (8 - dex);
 
- return (real_life ? rng(0, deviation) : deviation);
+ // return_stat_effect actually matters here
+ return (return_stat_effect ? rng(0, deviation) : deviation);
 }
 
-int player::read_speed(bool real_life)
+int player::read_speed(bool return_stat_effect)
 {
- int intel = (real_life ? int_cur : int_max);
+  // Stat window shows stat effects on based on current stat
+ int intel = (return_stat_effect ? get_int() : get_int());
  int ret = 1000 - 50 * (intel - 8);
  if (has_trait("FASTREADER"))
   ret *= .8;
@@ -3784,16 +3789,18 @@ int player::read_speed(bool real_life)
   ret *= 1.3;
  if (ret < 100)
   ret = 100;
- return (real_life ? ret : ret / 10);
+ // return_stat_effect actually matters here
+ return (return_stat_effect ? ret : ret / 10);
 }
 
-int player::rust_rate(bool real_life)
+int player::rust_rate(bool return_stat_effect)
 {
     if (OPTIONS["SKILL_RUST"] == "off") {
         return 0;
     }
 
-    int intel = (real_life ? int_cur : int_max);
+    // Stat window shows stat effects on based on current stat
+    int intel = (return_stat_effect ? get_int() : get_int());
     int ret = ((OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "capped") ? 500 : 500 - 35 * (intel - 8));
 
     if (has_trait("FORGETFUL")) {
@@ -3808,12 +3815,13 @@ int player::rust_rate(bool real_life)
         ret = 0;
     }
 
-    return (real_life ? ret : ret / 10);
+    // return_stat_effect actually matters here
+    return (return_stat_effect ? ret : ret / 10);
 }
 
 int player::talk_skill()
 {
-    int ret = int_cur + per_cur + skillLevel("speech") * 3;
+    int ret = get_int() + get_per() + skillLevel("speech") * 3;
     if (has_trait("UGLY"))
         ret -= 3;
     else if (has_trait("DEFORMED"))
@@ -3835,7 +3843,7 @@ int player::talk_skill()
 
 int player::intimidation()
 {
- int ret = str_cur * 2;
+ int ret = get_str() * 2;
  if (weapon.is_gun())
   ret += 10;
  if (weapon.damage_bash() >= 12 || weapon.damage_cut() >= 12)
@@ -5530,9 +5538,13 @@ int player::volume_carried()
     return inv.volume();
 }
 
-int player::weight_capacity(bool real_life)
+int player::weight_capacity(bool return_stat_effect)
 {
- int str = (real_life ? str_cur : str_max);
+  // return_stat_effect is effectively pointless
+  // player info window shows current stat effects
+  // current str is used anyway (probably) always.
+  // int str = return_stat_effect ? get_str() : get_str();
+ int str = get_str();
  int ret = 13000 + str * 4000;
  if (has_trait("BADBACK"))
   ret = int(ret * .65);
