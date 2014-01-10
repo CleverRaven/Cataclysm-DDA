@@ -18256,7 +18256,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sheet_metal",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -18307,7 +18307,7 @@
   "difficulty": 4,
   "time": 12000,
   "reversible": true,
-  "note": "melting it down doesn't teach anything useful",
+  "note": "sawing it down doesn't teach anything useful",
   "autolearn": true,
   "tools": [
     [
@@ -21192,7 +21192,7 @@
   "difficulty": 3,
   "time": 240000,
   "reversible": true,
-  "note": "melting the anvil back down seems unlikely to teach anything useful",
+  "note": "hacking the anvil back down seems unlikely to teach anything useful",
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
