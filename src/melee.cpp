@@ -991,7 +991,12 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
          !z->is_hallucination()*/) {
     dump << string_format(_("Your %s gets stuck in %s, pulling it our of your hands!"), weapon.tname().c_str(), target.c_str());
   // TODO: better speed debuffs for target, possibly through effects
-  remove_weapon();
+  if (monster *m = dynamic_cast<monster*>(&t)) {
+    m->add_item(remove_weapon());
+  } else {
+    // Happens if 't' is not of 'monster' origin (this shouldn't happen)
+    g->m.add_item_or_charges(tarposx, tarposy, remove_weapon(), 1);
+  }
   t.mod_moves(-30);
   if (weapon.has_flag("HURT_WHEN_PULLED") && one_in(3)) {
     //Sharp objects that injure wielder when pulled from hands (so cutting damage only)
