@@ -902,7 +902,7 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
             g->add_msg(_("The shot passes through the %s without hitting."),
             disp_name().c_str());
         return 0;
-    } 
+    }
     // Not HARDTOSHOOT
     // if it's a headshot with no head, make it not a headshot
     if (missed_by < 0.2 && has_flag(MF_NOHEAD)) {
@@ -1223,4 +1223,8 @@ bool monster::getkeep()
 void monster::setkeep(bool r)
 {
     keep = r;
+}
+
+m_size monster::get_size() {
+    return type->size;
 }

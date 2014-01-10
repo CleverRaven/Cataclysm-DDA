@@ -64,6 +64,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  bool getkeep();
  void setkeep(bool r);
 
+m_size get_size();
+
 // Access
  std::string name(); // Returns the monster's formal name
  std::string name_with_armor(); // Name, with whatever our armor is called
