@@ -1,0 +1,120 @@
+[
+    {
+        "type"  : "item_group",
+        "id"    : "judo_belts",
+        "items" : [
+            ["judo_belt_white", 100],
+            ["judo_belt_yellow", 50],
+            ["judo_belt_orange", 25],
+            ["judo_belt_green",  15],
+            ["judo_belt_blue",    5],
+            ["judo_belt_brown",   4],
+            ["judo_belt_black",   1]
+        ]
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "gi",
+        "items" : [
+            ["karate_gi", 100],
+            ["tabi_gi", 25],
+            ["judo_gi", 50],
+            ["keikogi", 25],
+            ["zubon_gi", 25],
+            ["hakama_gi", 10],
+            ["obi_gi", 10]
+        ]
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_tatami",
+        "name": "tatami mat",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost_mod": 0,
+        "required_str": 7,
+        "flags": ["TRANSPARENT"]
+    },
+    {
+        "type" : "overmap_terrain",
+        "id" : "dojo",
+        "name" : "dojo",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "brown",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true,
+        "mapgen": [
+            { "weight": 1000,
+            "method": "json", "object": {
+                "fill_ter": "t_grass",
+                "rows":[
+                    "  --------ssss--------  ",
+                    "  -,-----,ssss,-----,-  ",
+                    "  -,-----,ssss,-----,-  ",
+                    "  -,-----,ssss,-----,-  ",
+                    "  -,-----,ssss,-----,-  ",
+                    "  -,-----,ssss,-----,-  ",
+                    "  qgggggggg++ggggggggq  ",
+                    "  x..................x  ",
+                    "  x.################.x  ",
+                    "  x.################.x  ",
+                    "  x.################.x  ",
+                    "  x.################.x  ",
+                    "  x.################.x  ",
+                    "  x.################.x  ",
+                    "  x.################.x  ",
+                    "  x.################.x  ",
+                    "  x..................x  ",
+                    "  xqqqqqqqqqq''qqqqqqx  ",
+                    "  xLLLLLLLLLx..x.DC..x  ",
+                    "  xBBBBBBBBBx..x.DDD.x  ",
+                    "  x.........'..'.....x  ",
+                    "  xqqq...qqqx..x.....x  ",
+                    "  xS.'...'.Tx..xXXXXXx  ",
+                    "  qqqqqqqqqqqqqqqqqqqq  "
+                ],
+                "terrain":{
+                    " ": "t_null",
+                    "g": "t_wall_glass_h",
+                    ",": "t_pavement_y",
+                    "_": "t_pavement",
+                    "#": "t_floor",
+                    ".": "t_floor",
+                    "q": "t_wall_h",
+                    "x": "t_wall_v",
+                    "L": "t_floor",
+                    "+": "t_door_glass_c",
+                    "'": "t_door_c",
+                    "T": "t_floor",
+                    "S": "t_floor",
+                    "L": "t_floor",
+                    "B": "t_floor",
+                    "D": "t_floor",
+                    "X": "t_floor",
+                    "C": "t_floor",
+                    "s": "t_sidewalk"
+                },
+                "furniture":{
+                    "T": "f_toilet",
+                    "S": "f_shower",
+                    "L": "f_locker",
+                    "B": "f_bench",
+                    "D": "f_desk",
+                    "#": "f_tatami",
+                    "C": "f_chair",
+                    "X": "f_rack"
+                },
+                "place_groups": [
+                    { "item": "gi", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [5, 8] },
+                    { "item": "judo_belts", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [1, 2] }
+                ],
+                "add": [
+                    { "item": "judo_belt_black", "x": 17, "y": 18 }
+                ] }
+            }
+        ]
+    }
+]
