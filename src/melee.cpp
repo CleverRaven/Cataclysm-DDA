@@ -989,7 +989,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
  }
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) /* && TODO: put is_halluc check back in
          !z->is_hallucination()*/) {
-    dump << string_format(_("Your %s gets stuck in %s, pulling it our of your hands!"), weapon.tname().c_str(), target.c_str());
+    dump << string_format(_("Your %s gets stuck in %s, pulling it out of your hands!"), weapon.tname().c_str(), target.c_str());
   // TODO: better speed debuffs for target, possibly through effects
   if (monster *m = dynamic_cast<monster*>(&t)) {
     m->add_item(remove_weapon());
