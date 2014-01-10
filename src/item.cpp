@@ -381,12 +381,14 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("BASE", _(" To-hit bonus: "), ((type->m_to_hit > 0) ? "+" : ""), type->m_to_hit, true, ""));
   dump->push_back(iteminfo("BASE", _("Moves per attack: "), "", attack_time(), true, "", true, true));
 
-  std::string material_string = get_material(1);
-  if (material_string != "null") {
-    if (get_material(2) != "null")
-      material_string += ", " + get_material(2);
-    dump->push_back(iteminfo("BASE", _("Material: ") + material_string));
-  }
+	if (get_material(1) != "null") {
+		std::string material_string = _(get_material(1).c_str());
+		if (get_material(2) != "null") {
+			material_string += ", ";
+			material_string += _(get_material(2).c_str());
+		}
+		dump->push_back(iteminfo("BASE", _("Material: ") + material_string));
+	}
 
   if ( debug == true ) {
     if( g != NULL ) {
@@ -539,59 +541,32 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
    dump->push_back(iteminfo("GUN", _("Burst size: "), "", burst_size()));
 
   if (!gun->valid_mod_locations.empty()) {
-  temp1.str("\n");
-  dump->push_back(iteminfo("GUN", temp1.str()));
-  temp1.str("");
-  temp1 << "Mod Locations: ";
-  int iternum = 0;
-    for( std::map<std::string,int>::iterator i=gun->valid_mod_locations.begin(); i!=gun->valid_mod_locations.end(); i++) {
-      if (!(iternum % 2) && iternum > 0) {
-        temp1 << "\n  ";
-        dump->push_back(iteminfo("GUN", temp1.str()));
-        temp1.str("");
-      }
-      if (iternum == 0) { temp1 << (*i).first << ": " << (*i).second << " (" << gun->available_mod_locations[(*i).first] << ") "; }
-      else if (!(iternum % 2)) { temp1 << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" << (*i).first << ": " << (*i).second << " (" << gun->available_mod_locations[(*i).first] << ") "; }
-      else { temp1 << (*i).first << ": " << (*i).second << " (" << gun->available_mod_locations[(*i).first] << ") "; }
-     iternum++;
-    }
-  dump->push_back(iteminfo("GUN", temp1.str()));
-  temp1.str("\n");
-  dump->push_back(iteminfo("GUN", temp1.str()));
+	temp1.str("");
+	temp1 << _("Mod Locations:") << "\n";
+	int iternum = 0;
+	for( std::map<std::string,int>::iterator i=gun->valid_mod_locations.begin(); i!=gun->valid_mod_locations.end(); i++) {
+		if (iternum != 0) {
+			temp1 << "; ";
+		}
+		temp1 << gun->occupied_mod_locations[(*i).first] << "/" << (*i).second << " " << _((*i).first.c_str());
+		bool first_mods = true;
+		for (int mn = 0; mn < contents.size(); mn++) {
+			it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[mn].type);
+			if (mod->location == (*i).first) {//if mod for this location
+				if (first_mods) {
+					temp1 << ": ";
+					first_mods = false;
+				}else{
+					temp1 << ", ";
+				}
+				temp1 << _(contents[mn].tname().c_str());
+			}
+		}
+		iternum++;
+	}
+	temp1 << ".";
+	dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
   }
-
-  temp1.str("");
-  temp1 << "Mods: ";
-  for (int i = 0; i < contents.size(); i++) {
-    it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[i].type);
-
-     if (i == 0) {
-        if (!(i % 1) && i > 0) {
-          temp1 << "\n";
-          dump->push_back(iteminfo("GUN", temp1.str()));
-          temp1.str("");
-        }
-        temp1 << "" + contents[i].tname() + " (" + mod->location + ")" + ",";
-     }
-     else if (i == contents.size() - 1) {
-        if (!(i % 1) && i > 0) {
-          temp1 << "\n";
-          dump->push_back(iteminfo("GUN", temp1.str()));
-          temp1.str("");
-        }
-        temp1 << "\t\t\t\t\t\t" << contents[i].tname() << " (" << mod->location << ")" << ".";
-     }
-     else {
-        if (!(i % 1) && i > 0) {
-          temp1 << "\n";
-          dump->push_back(iteminfo("GUN", temp1.str()));
-          temp1.str("");
-        }
-        temp1 << "\t\t\t\t\t\t" + contents[i].tname() + " (" + mod->location + ")" + ", ";
-     }
-   }
-
-  dump->push_back(iteminfo("GUN", temp1.str()));
 
  } else if (is_gunmod()) {
   it_gunmod* mod = dynamic_cast<it_gunmod*>(type);
@@ -607,23 +582,36 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   if (mod->burst != 0)
    dump->push_back(iteminfo("GUNMOD", _("Burst: "), "", mod->burst, true, (mod->burst > 0 ? "+" : "")));
 
-  if (mod->newtype != "NULL")
-   dump->push_back(iteminfo("GUNMOD", "" + ammo_name(mod->newtype)));
+  if (mod->newtype != "NULL") {
+	dump->push_back(iteminfo("GUNMOD", _("New ammo: ") + ammo_name(mod->newtype)));
+  }
 
   temp1.str("");
   temp1 << _("Used on: ");
-  if (mod->used_on_pistol)
-   temp1 << _("Pistols.  ");
-  if (mod->used_on_shotgun)
-   temp1 << _("Shotguns.  ");
-  if (mod->used_on_smg)
-   temp1 << _("SMGs.  ");
-  if (mod->used_on_rifle)
-   temp1 << _("Rifles.");
+  bool first = true;
+  if (mod->used_on_pistol){
+	temp1 << _("Pistols");
+	first = false;
+  }
+  if (mod->used_on_shotgun) {
+  	if (!first) temp1 << ", ";
+	temp1 << _("Shotguns");
+	first = false;
+  }
+  if (mod->used_on_smg){
+  	if (!first) temp1 << ", ";
+	temp1 << _("SMGs");
+	first = false;
+  }
+  if (mod->used_on_rifle){
+  	if (!first) temp1 << ", ";
+	temp1 << _("Rifles");
+	first = false;
+  }
 
   temp2.str("");
   temp2 << _("Location: ");
-  temp2 << mod->location;
+  temp2 << _(mod->location.c_str());
 
   dump->push_back(iteminfo("GUNMOD", temp1.str()));
   dump->push_back(iteminfo("GUNMOD", temp2.str()));
@@ -669,6 +657,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
 } else if (is_book()) {
 
+  dump->push_back(iteminfo("DESCRIPTION", "--"));
   it_book* book = dynamic_cast<it_book*>(type);
   if (!book->type)
    dump->push_back(iteminfo("BOOK", _("Just for fun.")));
@@ -700,8 +689,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
        recipes += ", ";
    }
    std::string recipe_line = string_format(_("This book contains %d crafting recipes: %s"), book->recipes.size(), recipes.c_str());
+   dump->push_back(iteminfo("DESCRIPTION", "--"));
    dump->push_back(iteminfo("DESCRIPTION", recipe_line.c_str()));
-   dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
   }
 
  } else if (is_tool()) {
@@ -730,6 +719,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
  }
 
  if ( showtext && !is_null() ) {
+    dump->push_back(iteminfo("DESCRIPTION", "--"));
     if (is_stationary()) {
        // Just use the dynamic description
         dump->push_back( iteminfo("DESCRIPTION", SNIPPET.get(note)) );
@@ -739,47 +729,47 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
     if (is_armor() && has_flag("FIT"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "--"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
     }
     if (is_armor() && has_flag("SKINTIGHT"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "--"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing lies close to the skin and layers easily.")));
     }
     if (is_armor() && has_flag("POCKETS"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "--"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing has pockets to warm your hands.")));
     }
     if (is_armor() && has_flag("HOOD"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "--"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing has a hood to keep your head warm.")));
     }
     if (is_armor() && has_flag("RAINPROOF"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "--"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing is designed to keep you dry in the rain.")));
     }
     if (is_armor() && has_flag("WATER_FRIENDLY"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "--"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing performs well even when soaking wet. This can feel good.")));
     }
     if (is_armor() && has_flag("WATERPROOF"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "--"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing won't let water through.")));
     }
     if (is_armor() && has_flag("STURDY"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "--"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing is designed to protect you from harm and withstand a lot of abuse.")));
     }
     if (is_armor() && has_flag("SWIM_GOGGLES"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "--"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing allows you to see much further under water.")));
     }
     if (is_armor() && type->id == "rad_badge")
@@ -792,49 +782,40 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                 break;
             }
         }
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", string_format(_("The film strip on the badge is %s."), rad_threshold_colors[i - 1].c_str())));
     }
     if (is_tool() && has_flag("DOUBLE_AMMO"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has double the normal maximum charges.")));
     }
     if (is_tool() && has_flag("ATOMIC_AMMO"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has been modified to run off plutonium cells instead of batteries.")));
     }
     if (is_tool() && has_flag("RECHARGE"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This tool has been modified to use a rechargeable power cell and is not compatible with standard batteries.")));
     }
 
     if (has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0)
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("The casing of this item has cracked, revealing an ominous green glow.")));
     }
 
     if (has_flag("LEAK_ALWAYS") && has_flag("RADIOACTIVE"))
     {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This object is surrounded by a sickly green glow.")));
     }
 
     if (is_food() && has_flag("HIDDEN_POISON") && g->u.skillLevel("survival").level() >= 3) {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("On closer inspection, this appears to be poisonous.")));
     }
 
     if (is_food() && has_flag("HIDDEN_HALLU") && g->u.skillLevel("survival").level() >= 5) {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("On closer inspection, this appears to be hallucinogenic.")));
     }
 
     if ((is_food() && goes_bad()) || (is_food_container() && contents[0].goes_bad())) {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         if(rotten() || (is_food_container() && contents[0].rotten())) {
             if(g->u.has_bionic("bio_digestion")) {
                 dump->push_back(iteminfo("DESCRIPTION", _("This food has started to rot, but your bionic digestion can tolerate it.")));
@@ -864,9 +845,14 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("DESCRIPTION", ntext + item_note->second ));
     }
   if (contents.size() > 0) {
-   if (is_gun()) {
-    for (int i = 0; i < contents.size(); i++)
+   if (is_gun()) {//Mods description
+	for (int i = 0; i < contents.size(); i++) {
+	 it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[i].type);
+	 temp1.str("");
+	 temp1 << " " << _(contents[i].tname().c_str()) << " (" << _(mod->location.c_str()) << ")";
+	 dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
      dump->push_back(iteminfo("DESCRIPTION", contents[i].type->description));
+    }
    } else
     dump->push_back(iteminfo("DESCRIPTION", contents[0].type->description));
   }
@@ -2324,10 +2310,15 @@ int item::pick_reload_ammo(player &u, bool interactive)
   // or the spare mag is loaded and we're doing a tactical reload.
   if (charges < clip_size() ||
       (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
-   std::vector<item*> tmpammo = u.has_ammo(ammo_type());
-   for (int i = 0; i < tmpammo.size(); i++)
-    if (charges <= 0 || tmpammo[i]->typeId() == curammo->id)
-      am.push_back(tmpammo[i]);
+        std::vector<item*> tmpammo = u.has_ammo(ammo_type());
+        for (int i = 0; i < tmpammo.size(); i++) {
+            if (charges <= 0 || tmpammo[i]->typeId() == curammo->id ) {
+                am.push_back(tmpammo[i]);
+            } else if (tmpammo[i]->is_container() && !tmpammo[i]->contents.empty() &&
+                    tmpammo[i]->contents[0].typeId() == curammo->id) {
+                am.push_back(tmpammo[i]);
+            }
+        }
   }
 
   // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
@@ -2350,7 +2341,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
  }
 
  // Check if the player is wielding ammo
- if (g->u.is_armed() && g->u.weapon.is_ammo()){
+ if (u.is_armed() && u.weapon.is_ammo()){
      // if it is compatible then include it.
      it_ammo* w_ammo = dynamic_cast<it_ammo*>(u.weapon.type);
      if (w_ammo->type == ammo_type())
@@ -2392,13 +2383,13 @@ int item::pick_reload_ammo(player &u, bool interactive)
      }
      amenu.query();
      if ( amenu.ret >= 0 ) {
-        am_pos = g->u.get_item_position(am[ amenu.ret ]);
+        am_pos = u.get_item_position(am[ amenu.ret ]);
         uistate.lastreload[ ammo_type() ] = am[ amenu.ret ]->typeId();
      }
  }
  // Either only one valid choice or chosing for a NPC, just return the first.
  else if (am.size() > 0){
-     am_pos = g->u.get_item_position(am[0]);
+     am_pos = u.get_item_position(am[0]);
  }
  return am_pos;
 }
@@ -2409,10 +2400,13 @@ bool item::reload(player &u, int pos)
  int max_load = 1;
  item *reload_target = NULL;
  item *ammo_to_use = &u.i_at(pos);
+ item *ammo_container = NULL;
 
- // Handle ammo in containers, currently only gasoline
- if(ammo_to_use && ammo_to_use->is_container())
-   ammo_to_use = &ammo_to_use->contents[0];
+    // Handle ammo in containers, currently only gasoline
+    if (ammo_to_use->is_container() && !ammo_to_use->contents.empty()) {
+        ammo_container = ammo_to_use;
+        ammo_to_use = &ammo_to_use->contents[0];
+    }
 
  if (is_gun()) {
   // Reload using a spare magazine
@@ -2518,16 +2512,17 @@ bool item::reload(player &u, int pos)
     reload_target->charges = max_load;
    }
   }
-  if (ammo_to_use->charges == 0)
-  {
-      if (ammo_to_use->is_container())
-      {
-          ammo_to_use->contents.erase(ammo_to_use->contents.begin());
-      }
-      else {
-          u.i_rem(pos);
-      }
-  }
+    if (ammo_to_use->charges == 0) {
+        if (ammo_container != NULL) {
+            ammo_container->contents.erase(ammo_container->contents.begin());
+            // We just emptied a container, which might be part of stack,
+            // but empty and non-empty containers should not stack, force
+            // a re-stacking.
+            u.inv.restack(&u);
+        } else {
+            u.i_rem(pos);
+        }
+    }
   return true;
  } else
   return false;

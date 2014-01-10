@@ -745,11 +745,21 @@
         "post_special" : "done_deconstruct"
     },{
         "type" : "construction",
-        "description" : "Start vehicle construction",
+        "description" : "Start vehicle construction with standard frame",
         "difficulty" : 0,
         "time" : 10,
         "components" : [
             [ [ "frame", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_special" : "done_vehicle"
+    },{
+        "type" : "construction",
+        "description" : "Start vehicle construction with heavy duty frame",
+        "difficulty" : 0,
+        "time" : 10,
+        "components" : [
+            [ [ "hdframe", 1 ] ]
         ],
         "pre_special" : "check_empty",
         "post_special" : "done_vehicle"

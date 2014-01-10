@@ -119,6 +119,7 @@ void Item_factory::init(){
     iuse_function_list["MILITARYMAP"] = &iuse::militarymap;
     iuse_function_list["RESTAURANTMAP"] = &iuse::restaurantmap;
     iuse_function_list["TOURISTMAP"] = &iuse::touristmap;
+    iuse_function_list["MA_MANUAL"] = &iuse::ma_manual;
     iuse_function_list["PICKLOCK"] = &iuse::picklock;
     iuse_function_list["CROWBAR"] = &iuse::crowbar;
     iuse_function_list["MAKEMOUND"] = &iuse::makemound;
@@ -153,6 +154,7 @@ void Item_factory::init(){
     iuse_function_list["GEIGER"] = &iuse::geiger;
     iuse_function_list["TELEPORT"] = &iuse::teleport;
     iuse_function_list["CAN_GOO"] = &iuse::can_goo;
+    iuse_function_list["THROWABLE_EXTINGUISHER_ACT"] = &iuse::throwable_extinguisher_act;
     iuse_function_list["PIPEBOMB"] = &iuse::pipebomb;
     iuse_function_list["PIPEBOMB_ACT"] = &iuse::pipebomb_act;
     iuse_function_list["GRENADE"] = &iuse::grenade;
@@ -545,7 +547,7 @@ void Item_factory::load_gun(JsonObject& jo)
         while (jarr.has_more()){
             JsonArray curr = jarr.next_array();
             gun_template->valid_mod_locations.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
-            gun_template->available_mod_locations.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
+            gun_template->occupied_mod_locations.insert(std::pair<std::string, int>(curr.get_string(0), 0));
         }
     }
 
@@ -657,7 +659,7 @@ void Item_factory::load_gunmod(JsonObject& jo)
     gunmod_template->clip = jo.get_int("clip_size_modifier", 0);
     gunmod_template->acceptible_ammo_types = jo.get_tags("acceptable_ammo");
     gunmod_template->skill_used = Skill::skill(jo.get_string("skill", "gun"));
-    
+
     itype *new_item_template = gunmod_template;
     load_basic_info(jo, new_item_template);
 }

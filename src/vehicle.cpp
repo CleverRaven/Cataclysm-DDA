@@ -201,7 +201,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     if(veh_status != 0) {
 
         //Leave engine running in some vehicles
-        if(veh_fuel_mult > 0 
+        if(veh_fuel_mult > 0
                 && all_parts_with_feature("ENGINE", true).size() > 0
                 && one_in(8)) {
             engine_on = true;
@@ -319,11 +319,11 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
                 int distSq = pow((blood_inside_x - parts[p].mount_dx), 2) + \
                              pow((blood_inside_y - parts[p].mount_dy), 2);
                 if (distSq <= 1) {
-                    parts[p].blood = rng(200, 400) - distSq*100; 
+                    parts[p].blood = rng(200, 400) - distSq*100;
                 }
             } else if (part_flag(p, "SEAT")) {
                 // Set the center of the bloody mess inside
-                blood_inside_x = parts[p].mount_dx; 
+                blood_inside_x = parts[p].mount_dx;
                 blood_inside_y = parts[p].mount_dy;
                 blood_inside_set = true;
             }
@@ -633,19 +633,31 @@ void vehicle::use_controls()
         item bicycle;
         bicycle.make( itypes["folding_bicycle"] );
 
-        std::ostringstream part_hps;
-        // Stash part HP in item
+        // Drop stuff in containers on ground
         for (int p = 0; p < parts.size(); p++)
         {
-            part_hps << parts[p].hp << " ";
             if( part_flag( p, "CARGO" ) ) {
                 for( std::vector<item>::iterator it = parts[p].items.begin();
                      it != parts[p].items.end(); ++it ) {
                     g->m.add_item_or_charges( g->u.posx, g->u.posy, *it );
                 }
+                parts[p].items.clear();
             }
         }
-        bicycle.item_vars["folding_bicycle_parts"] = part_hps.str();
+
+        // Store data of all parts, iuse::unfold_bicyle only loads
+        // some of them (like bigness), some are expect to be
+        // vehicle specific and therefor constant (like id, mount_dx).
+        // Writing everything here is easier to manage, as only
+        // iuse::unfold_bicyle has to adopt to changes.
+        try {
+            std::ostringstream veh_data;
+            JsonOut json(veh_data);
+            json.write(parts);
+            bicycle.item_vars["folding_bicycle_parts"] = veh_data.str();
+        } catch(std::string e) {
+            debugmsg("Error storing vehicle: %s", e.c_str());
+        }
 
         g->m.add_item_or_charges(g->u.posx, g->u.posy, bicycle);
         // Remove vehicle
@@ -1526,7 +1538,7 @@ nc_color vehicle::part_color (int p)
     }
 
     // curtains turn windshields gray
-    int curtains = part_with_feature(p, VPFLAG_CURTIAN, false);
+    int curtains = part_with_feature(p, VPFLAG_CURTAIN, false);
     if (curtains >= 0) {
         if (part_with_feature(p, VPFLAG_WINDOW, true) >= 0 && !parts[curtains].open)
             col = part_info(curtains).color;
@@ -1962,7 +1974,6 @@ int vehicle::safe_velocity (bool fueled)
 int vehicle::noise (bool fueled, bool gas_only)
 {
     int pwrs = 0;
-    int cnt = 0;
     int muffle = 100;
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, "MUFFLER") && parts[p].hp > 0 && part_info(p).bonus < muffle) {
@@ -1974,23 +1985,27 @@ int vehicle::noise (bool fueled, bool gas_only)
         if (part_flag(p, "ENGINE") &&
             (fuel_left (part_info(p).fuel_type) || !fueled ||
              part_info(p).fuel_type == fuel_type_muscle) &&
-            parts[p].hp > 0)
-        {
+            parts[p].hp > 0)  {
             int nc = 10;
 
-            if( part_info(p).fuel_type == fuel_type_gasoline )    nc = 25;
-            else if( part_info(p).fuel_type == fuel_type_plasma ) nc = 10;
-            else if( part_info(p).fuel_type == fuel_type_battery )   nc = 3;
-            else if( part_info(p).fuel_type == fuel_type_muscle ) nc = 5;
+            if( part_info(p).fuel_type == fuel_type_gasoline ) {
+                nc = 25;
+            } else if( part_info(p).fuel_type == fuel_type_plasma ) {
+                nc = 10;
+            } else if( part_info(p).fuel_type == fuel_type_battery ) {
+                nc = 3;
+            } else if( part_info(p).fuel_type == fuel_type_muscle ) {
+                nc = 5;
+            }
 
-            if (!gas_only || part_info(p).fuel_type == fuel_type_gasoline)
-            {
+            if (!gas_only || part_info(p).fuel_type == fuel_type_gasoline) {
                 int pwr = part_power(p) * nc / 100;
                 if (muffle < 100 && (part_info(p).fuel_type == fuel_type_gasoline ||
-                    part_info(p).fuel_type == fuel_type_plasma))
+                                     part_info(p).fuel_type == fuel_type_plasma)) {
                     pwr = pwr * muffle / 100;
-                pwrs += pwr;
-                cnt++;
+                }
+                // Only the loudest engine counts.
+                pwrs = std::max(pwrs, pwr);
             }
         }
     }

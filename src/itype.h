@@ -372,7 +372,7 @@ struct it_gun : public itype
 
  std::set<std::string> ammo_effects;
  std::map<std::string, int> valid_mod_locations;
- std::map<std::string, int> available_mod_locations;
+ std::map<std::string, int> occupied_mod_locations;
 
  virtual bool is_gun() { return true; }
 
@@ -451,7 +451,7 @@ struct it_gunmod : public itype
 
  :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
         pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
-  
+
   dispersion = pdispersion;
   damage = pdamage;
   loudness = ploudness;

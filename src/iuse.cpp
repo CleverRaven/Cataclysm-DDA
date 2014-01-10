@@ -2900,6 +2900,24 @@ int iuse::touristmap(player *p, item *it, bool t)
  return 1;
 }
 
+int iuse::ma_manual (player *p, item *it, bool) {
+  std::string style_to_learn = "style_" + it->type->id.substr(7); // strip "manual_" from the start of the item id, add the rest to "style_"
+
+  for (std::vector<matype_id>::iterator style = p->ma_styles.begin(); style != p->ma_styles.end(); style++) {
+    if (style_to_learn == *style) {
+      g->add_msg_if_player(p, _("You already know all this book has to teach."));
+
+      return 0;
+    }
+  }
+
+  p->ma_styles.push_back(style_to_learn);
+
+  g->add_msg_if_player(p, _("You learn what you can, and stow the book for further study."));
+
+  return 1;
+}
+
 int iuse::picklock(player *p, item *it, bool)
 {
  int dirx, diry;
@@ -3906,6 +3924,7 @@ int iuse::pickaxe(player *p, item *it, bool)
  }
 return it->type->charges_to_use();
 }
+
 int iuse::set_trap(player *p, item *it, bool)
 {
     if (p->is_underwater()) {
@@ -4207,6 +4226,29 @@ int iuse::can_goo(player *p, item *it, bool)
  return it->type->charges_to_use();
 }
 
+int iuse::throwable_extinguisher_act(player *, item *it, bool)
+{
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
+    }
+    field &fld = g->m.field_at(pos.x, pos.y);
+    if (fld.findField(fd_fire) != 0) {
+        // Reduce the strength of fire (if any) in the target tile.
+        g->m.adjust_field_strength(pos, fd_fire, 0 - 1);
+        // Slightly reduce the strength of fire around and in the target tile.
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                if ((g->m.move_cost(pos.x + x, pos.y + y) != 0) && (x == 0 || y == 0)) {
+                    g->m.adjust_field_strength(point(pos.x + x, pos.y + y), fd_fire, 0 - rng(0, 1));
+                }
+            }
+        }
+        return 1;
+    }
+    it->active = false;
+    return 0;
+}
 
 int iuse::pipebomb(player *p, item *it, bool)
 {
@@ -4227,24 +4269,24 @@ int iuse::pipebomb(player *p, item *it, bool)
 
 int iuse::pipebomb_act(player *, item *it, bool t)
 {
- point pos = g->find_item(it);
- if (pos.x == -999 || pos.y == -999) {
-  return 0;
- }
- if (t) { // Simple timer effects
-  //~ the sound of a lit fuse
-  g->sound(pos.x, pos.y, 0, _("ssss...")); // Vol 0 = only heard if you hold it
- } else if(it->charges > 0) {
-  g->add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
-  return 0;
- } else { // The timer has run down
-  if (one_in(10) && g->u_see(pos.x, pos.y)) {
-   g->add_msg(_("The pipe bomb fizzles out."));
-  } else {
-   g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
-  }
- }
- return 0;
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
+    }
+    if (t) { // Simple timer effects
+        //~ the sound of a lit fuse
+        g->sound(pos.x, pos.y, 0, _("ssss...")); // Vol 0 = only heard if you hold it
+    } else if (it->charges > 0) {
+        g->add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
+        return 0;
+    } else { // The timer has run down
+        if (one_in(10) && g->u_see(pos.x, pos.y)) {
+            g->add_msg(_("The pipe bomb fizzles out."));
+        } else {
+            g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
+        }
+    }
+    return 0;
 }
 
 int iuse::grenade(player *p, item *it, bool)
@@ -4427,63 +4469,64 @@ int iuse::flashbang_act(player *, item *it, bool t)
 
 int iuse::c4(player *p, item *it, bool)
 {
- int time = query_int(_("Set the timer to (0 to cancel)?"));
- if (time <= 0) {
-  g->add_msg_if_player(p,_("Never mind."));
-  return 0;
- }
- g->add_msg_if_player(p,_("You set the timer to %d."), time);
- it->make(itypes["c4armed"]);
- it->charges = time;
- it->active = true;
- return it->type->charges_to_use();
+    int time = query_int(_("Set the timer to (0 to cancel)?"));
+    if (time <= 0) {
+        g->add_msg_if_player(p,_("Never mind."));
+        return 0;
+    }
+    g->add_msg_if_player(p,_("You set the timer to %d."), time);
+    it->make(itypes["c4armed"]);
+    it->charges = time;
+    it->active = true;
+    return it->type->charges_to_use();
 }
 
 int iuse::c4armed(player *, item *it, bool t)
 {
- point pos = g->find_item(it);
- if (pos.x == -999 || pos.y == -999) {
-  return 0;
- }
- if (t) { // Simple timer effects
-  g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
- } else if(it->charges > 0) {
-  g->add_msg(_("You've already set the %s's timer, you might want to get away from it."), it->name.c_str());
-  return 0;
- } else { // When that timer runs down...
-  g->explosion(pos.x, pos.y, 40, 3, false);
- }
- return 0;
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
+    }
+    if (t) { // Simple timer effects
+        g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already set the %s's timer, you might want to get away from it."), it->name.c_str());
+        return 0;
+    } else { // When that timer runs down...
+        g->explosion(pos.x, pos.y, 40, 3, false);
+    }
+    return 0;
 }
 
 int iuse::EMPbomb(player *p, item *it, bool)
 {
- g->add_msg_if_player(p,_("You pull the pin on the EMP grenade."));
- it->make(itypes["EMPbomb_act"]);
- it->charges = 3;
- it->active = true;
- return it->type->charges_to_use();
+    g->add_msg_if_player(p,_("You pull the pin on the EMP grenade."));
+    it->make(itypes["EMPbomb_act"]);
+    it->charges = 3;
+    it->active = true;
+    return it->type->charges_to_use();
 }
 
 int iuse::EMPbomb_act(player *, item *it, bool t)
 {
- point pos = g->find_item(it);
- if (pos.x == -999 || pos.y == -999) {
-  return 0;
- }
- if (t) { // Simple timer effects
-  g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
- } else if(it->charges > 0) {
-  g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
-  return 0;
- } else { // When that timer runs down...
-  g->draw_explosion(pos.x, pos.y, 4, c_ltblue);
-  for (int x = pos.x - 4; x <= pos.x + 4; x++) {
-   for (int y = pos.y - 4; y <= pos.y + 4; y++)
-    g->emp_blast(x, y);
-  }
- }
- return 0;
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
+    }
+    if (t) { // Simple timer effects
+        g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
+        return 0;
+    } else { // When that timer runs down...
+        g->draw_explosion(pos.x, pos.y, 4, c_ltblue);
+        for (int x = pos.x - 4; x <= pos.x + 4; x++) {
+            for (int y = pos.y - 4; y <= pos.y + 4; y++) {
+                g->emp_blast(x, y);
+            }
+        }
+    }
+    return 0;
 }
 
 int iuse::scrambler(player *p, item *it, bool)
@@ -4589,13 +4632,13 @@ int iuse::smokebomb_act(player *, item *it, bool t)
 
 int iuse::acidbomb(player *p, item *it, bool)
 {
- g->add_msg_if_player(p,_("You remove the divider, and the chemicals mix."));
- p->moves -= 150;
- it->make(itypes["acidbomb_act"]);
- it->charges = 1;
- it->bday = int(g->turn);
- it->active = true;
- return it->type->charges_to_use();
+    g->add_msg_if_player(p,_("You remove the divider, and the chemicals mix."));
+    p->moves -= 150;
+    it->make(itypes["acidbomb_act"]);
+    it->charges = 1;
+    it->bday = int(g->turn);
+    it->active = true;
+    return it->type->charges_to_use();
 }
 
 int iuse::acidbomb_act(player *p, item *it, bool)
@@ -6979,11 +7022,37 @@ int iuse::unfold_bicycle(player *p, item *it, bool)
         bicycle->tags.insert("convertible");
         // Restore HP of parts if we stashed them previously.
         if( it->item_vars.count("folding_bicycle_parts") ) {
-            std::istringstream part_hps;
-            part_hps.str(it->item_vars["folding_bicycle_parts"]);
-            for (int p = 0; p < bicycle->parts.size(); p++)
-            {
-                part_hps >> bicycle->parts[p].hp;
+            std::istringstream veh_data;
+            const std::string &data = it->item_vars["folding_bicycle_parts"];
+            veh_data.str(data);
+            if (!data.empty() && data[0] >= '0' && data[0] <= '9') {
+                // starts with a digit -> old format
+                for (int p = 0; p < bicycle->parts.size(); p++)
+                {
+                    veh_data >> bicycle->parts[p].hp;
+                }
+            } else {
+                try {
+                    JsonIn json(veh_data);
+                    // Load parts into a temporary vector to not override
+                    // cached values (like precalc_dx, passenger_id, ...)
+                    std::vector<vehicle_part> parts;
+                    json.read(parts);
+                    for(size_t i = 0; i < parts.size() && i < bicycle->parts.size(); i++) {
+                        const vehicle_part &src = parts[i];
+                        vehicle_part &dst = bicycle->parts[i];
+                        // and now only copy values, that are
+                        // expected to be consistent.
+                        dst.hp = src.hp;
+                        dst.blood = src.blood;
+                        dst.bigness = src.bigness;
+                        // door state/amount of fuel/direction of headlight
+                        dst.amount = src.amount;
+                        dst.flags = src.flags;
+                    }
+                } catch(std::string e) {
+                    debugmsg("Error restoring vehicle: %s", e.c_str());
+                }
             }
         }
         g->add_msg_if_player(p, _("You painstakingly unfold the bicycle and make it ready to ride."));

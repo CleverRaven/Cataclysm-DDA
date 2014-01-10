@@ -112,6 +112,7 @@ void game::load_static_data() {
     DynamicDataLoader::get_instance();
     // Only need to load names once, they do not depend on mods
     init_names();
+    narrow_sidebar = OPTIONS["SIDEBAR_STYLE"] == "narrow";
 
     // These functions do not load stuff from json.
     // The content they load/initalize is hardcoded into the program.
@@ -231,7 +232,7 @@ void game::init_ui(){
     // print an intro screen, making sure the terminal is the correct size
     intro();
 
-    int sidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+    int sidebarWidth = narrow_sidebar ? 45 : 55;
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
         TERMX = sidebarWidth + ((int)OPTIONS["VIEWPORT_X"] * 2 + 1);
@@ -385,6 +386,12 @@ void game::init_ui(){
     werase(w_status2);
 }
 
+void game::toggle_sidebar_style(void) {
+  narrow_sidebar = !narrow_sidebar;
+  init_ui();
+  refresh_all();
+}
+
 /*
  * Initialize more stuff after mapbuffer is loaded.
  */
@@ -476,8 +483,10 @@ void game::start_game(std::string worldname)
  levy -= int(int(MAPSIZE / 2) / 2);
  levz = 0;
 // Start the overmap with out immediate neighborhood visible
- for (int i = -15; i <= 15; i++) {
-  for (int j = -15; j <= 15; j++)
+ int begin_vis = 2 - OPTIONS["DISTANCE_INITIAL_VISIBILITY"];
+ int end_vis = 2 + OPTIONS["DISTANCE_INITIAL_VISIBILITY"];
+ for (int i = begin_vis; i <= end_vis; i++) {
+  for (int j = begin_vis; j <= end_vis; j++)
    cur_om->seen(levx + i, levy + j, 0) = true;
  }
 // Convert the overmap coordinates to submap coordinates
@@ -1835,9 +1844,27 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
         length = utf8_width(_("<+> Autopickup")); if (length > max_text_length) max_text_length = length;
         vMenu.push_back(iteminfo("MENU", (bHPR) ? "-":"+", (bHPR) ? _("<-> Autopickup") : _("<+> Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
 
-        oThisItem.info(true, &vThisItem);
-        compare_split_screen_popup(iStartX, iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(), vThisItem, vDummy, -1, true);
+        int offset_line = 0;
+        int max_line = 0;
+        const std::string str = oThisItem.info(true, &vThisItem);
+        const std::string item_name = oThisItem.tname();
+        WINDOW *w = newwin(TERMY-VIEW_OFFSET_Y*2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
 
+        wmove(w, 1, 2);
+        wprintz(w, c_white, "%s", item_name.c_str());
+        max_line = fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str.c_str());
+        if(max_line > TERMY-VIEW_OFFSET_Y*2 - 5) {
+          wmove(w, 1, iWidth - 3);
+          if(offset_line == 0) {
+            wprintz(w, c_white, "vv");
+          } else if (offset_line > 0 && offset_line + (TERMY-VIEW_OFFSET_Y*2) - 5 < max_line) {
+            wprintz(w, c_white, "^v");
+          } else {
+            wprintz(w, c_white, "^^");
+          }
+        }
+        draw_border(w);
+        wrefresh(w);
         const int iMenuStart = iOffsetX;
         const int iMenuItems = vMenu.size() - 1;
         int iSelected = iOffsetX - 1;
@@ -1898,6 +1925,12 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
                 case KEY_DOWN:
                  iSelected++;
                  break;
+                case '>':
+                 if(offset_line + (TERMY-VIEW_OFFSET_Y*2) - 5 < max_line) { offset_line++; }
+                 break;
+                case '<':
+                 if(offset_line > 0) { offset_line--; }
+                 break;
                 case '+':
                  if (!bHPR) {
                   addPickupRule(oThisItem.tname());
@@ -1918,7 +1951,23 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
             } else if ( iSelected > iMenuItems + 1 ) {
                 iSelected = iMenuStart;
             }
-        } while (cMenu == KEY_DOWN || cMenu == KEY_UP );
+            werase(w);
+            if(max_line > TERMY-VIEW_OFFSET_Y*2 - 5) {
+              wmove(w, 1, iWidth - 3);
+              if(offset_line == 0) {
+                wprintz(w, c_white, "vv");
+              } else if (offset_line > 0 && offset_line + (TERMY-VIEW_OFFSET_Y*2) - 5 < max_line) {
+                wprintz(w, c_white, "^v");
+              } else {
+                wprintz(w, c_white, "^^");
+              }
+            }
+            wmove(w, 1, 2);
+            wprintz(w, c_white, "%s", item_name.c_str());
+            fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str.c_str());
+            draw_border(w);
+            wrefresh(w);
+        } while (cMenu == KEY_DOWN || cMenu == KEY_UP || cMenu == '>' || cMenu == '<');
     }
     return cMenu;
 }
@@ -2750,6 +2799,10 @@ bool game::handle_action()
 
   case ACTION_DEBUG:
    debug();
+   break;
+
+  case ACTION_TOGGLE_SIDEBAR_STYLE:
+   toggle_sidebar_style();
    break;
 
   case ACTION_DISPLAY_SCENT:
@@ -3727,7 +3780,7 @@ Current turn: %d; Next spawn %d.\n\
       u.ma_styles.push_back("style_toad");
       add_msg("You now know a lot more than just 10 styles of kung fu.");
    break;
-  
+
   case 13: {
     add_msg("Recipe debug.");
     add_msg("Your eyes blink rapidly as knowledge floods your brain.");
@@ -3739,13 +3792,13 @@ Current turn: %d; Next spawn %d.\n\
         { recipe* cur_recipe = *list_iter;
         if (!(u.learned_recipes.find(cur_recipe->ident) != u.learned_recipes.end()))  {
         u.learn_recipe(cur_recipe);
-        }    
+        }
       }
     }
     add_msg("You know how to craft that now.");
   }
     break;
-   
+
   case 14: {
    point pos = look_around();
    int npcdex = npc_at(pos.x, pos.y);
@@ -4515,12 +4568,32 @@ void game::draw_ter(int posx, int posy)
             POSX + (final_destination.x - (u.posx + u.view_offset_x)), c_white, 'X');
     }
 
+    if(u.controlling_vehicle) {
+      draw_veh_dir_indicator();
+    }
     wrefresh(w_terrain);
 
     if (u.has_disease("visuals") || (u.has_disease("hot_head") &&
             u.disease_intensity("hot_head") != 1)) {
         hallucinate(posx, posy);
     }
+}
+
+void game::draw_veh_dir_indicator(void) {
+  if(OPTIONS["VEHICLE_DIR_INDICATOR"]) {
+    vehicle *veh = m.veh_at(u.posx, u.posy);
+    if(!veh) {
+      debugmsg("game::draw_veh_dir_indicator: no vehicle!");
+      return;
+    }
+    rl_vec2d face = veh->face_vec();
+    float r = 10.0;
+    int x = static_cast<int>(r * face.x);
+    int y = static_cast<int>(r * face.y);
+    int centerx = TERRAIN_WINDOW_WIDTH / 2;
+    int centery = TERRAIN_WINDOW_HEIGHT / 2;
+    mvwputch(w_terrain, centery + y , centerx + x, c_white, 'X');
+  }
 }
 
 void game::refresh_all()
@@ -4924,9 +4997,9 @@ bool game::sees_u(int x, int y, int &t)
         const monster &critter = critter_tracker.find(mondex);
         return critter.sees_player(t);
     }
-    // range = 0 = unlimited, proceeding sans critter
+    // range = -1 = unlimited, proceeding sans critter
     return (
-        m.sees(x, y, u.posx, u.posy, 0, t) &&
+        m.sees(x, y, u.posx, u.posy, -1, t) &&
         ! u.is_invisible()
     );
 }
@@ -5384,10 +5457,11 @@ void game::cleanup_dead()
                                            critter.hp, critter.type->name.c_str() );
             critter.die(); // dies at the very end
             Creature* killer = critter.get_killer();
-            if (killer != NULL && killer->is_player() &&
-                    critter.has_flag(MF_GUILT)) {
-                mdeath tmpdeath;
-                tmpdeath.guilt(&critter);
+            if (killer != NULL && killer->is_player() && // killed by player and
+                (critter.has_flag(MF_GUILT) || // has guilt flag or
+                 (u.has_trait("PACIFIST") && critter.has_flag(MF_HUMAN)))) { // pacifist player && humanoid
+              mdeath tmpdeath;
+              tmpdeath.guilt(&critter);
             }
             remove_zombie(i);
             if( last_target == i ) {
@@ -7452,7 +7526,7 @@ void game::examine(int examx, int examy)
         } else if (u.controlling_vehicle) {
             add_msg (_("You can't do that while driving."));
         } else if (abs(veh->velocity) > 0) {
-            add_msg (_("You can't do that on moving vehicle."));
+            add_msg (_("You can't do that on a moving vehicle."));
         } else {
             exam_vehicle (*veh, examx, examy);
         }
@@ -9348,6 +9422,10 @@ void game::grab()
             u.grab_type = OBJECT_VEHICLE;
             add_msg(_("You grab the %s."), veh->name.c_str());
         } else if ( m.has_furn( grabx, graby ) ) { // If not, grab furniture if present
+            if (m.furn_at(grabx, graby).move_str_req < 0) {
+                add_msg(_("You can not grab the %s"), m.furnname( grabx, graby).c_str());
+                return;
+            }
             u.grab_point.x = grabx - u.posx;
             u.grab_point.y = graby - u.posy;
             u.grab_type = OBJECT_FURNITURE;
@@ -10098,6 +10176,16 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
   return;
  }
 
+ if (u.weapon.has_flag("MOUNTED_GUN")) {
+     int vpart = -1;
+     vehicle *veh = m.veh_at (u.posx, u.posy, vpart);
+     if (!m.has_flag_ter_or_furn("MOUNTABLE", u.posx, u.posy) &&
+         (veh == NULL || veh->part_with_feature (vpart, "MOUNTABLE") < 0)) {
+         add_msg(_("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
+         return;
+     }
+ }
+ 
  int range = u.weapon.range(&u);
 
  m.draw(w_terrain, point(u.posx, u.posy));
@@ -13192,7 +13280,6 @@ make the terminal just a smidgen taller?"),
         getmaxyx(stdscr, maxy, maxx);
  }
  werase(tmp);
- mvwprintz(tmp, 0, 0, c_ltblue, ":)");
  wrefresh(tmp);
  delwin(tmp);
  erase();

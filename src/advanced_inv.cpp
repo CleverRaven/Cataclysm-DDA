@@ -733,17 +733,21 @@ void advanced_inventory::display(player * pp)
                     }
                 }
                 if ( ! showmsg ) {
-                    mvwprintz(head,0,w_width-18,c_white,_("< [?] show log >"));
-                    mvwprintz(head,1,2, c_white, _("hjkl or arrow keys to move cursor, [m]ove item between panes ([M]: all)"));
-                    mvwprintz(head,2,2, c_white, _("1-9 (or GHJKLYUBNI) to select square for active tab, 0 for inventory,"));
-                    mvwprintz(head,3,2, c_white, _("[e]xamine item, [s]ort display, toggle auto[p]ickup, [q]uit."));
+                    mvwprintz(head, 0, w_width - utf8_width(_("< [?] show log >")) - 1,
+                              c_white, _("< [?] show log >"));
+                    mvwprintz(head, 1, 2, c_white,
+                              _("hjkl or arrow keys to move cursor, [m]ove item between panes ([M]: all)"));
+                    mvwprintz(head, 2, 2, c_white,
+                              _("1-9 (or GHJKLYUBNI) to select square for active tab, 0 for inventory,"));
+                    mvwprintz(head, 3, 2, c_white,
+                              _("[e]xamine item, [s]ort display, toggle auto[p]ickup, [q]uit."));
                     if (panes[src].sortby == SORTBY_CATEGORY) {
                         nc_color highlight_color = inCategoryMode ? c_white_red : h_ltgray;
                         mvwprintz(head, 3, 3 + utf8_width(_("[e]xamine item, [s]ort display, toggle auto[p]ickup, [q]uit.")),
                                   highlight_color, _("[space] toggles selection modes"));
                     }
                 } else {
-                    mvwprintz(head, 0, w_width - utf8_width(_("< [?] show help >")),
+                    mvwprintz(head, 0, w_width - utf8_width(_("< [?] show help >")) - 1,
                               c_white, _("< [?] show help >"));
                 }
                 wrefresh(head);

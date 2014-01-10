@@ -43,6 +43,8 @@ class Skill {
   bool operator< (const Skill& b) const { return this->_ident <  b._ident; } // Only here for the benefit of std::map<Skill,T>
 
   bool operator!=(const Skill& b) const { return !(*this == b); }
+
+  bool is_combat_skill() const;
 };
 
 class SkillLevel : public JsonSerializer, public JsonDeserializer

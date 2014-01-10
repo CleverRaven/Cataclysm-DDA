@@ -156,6 +156,7 @@ public:
   bool do_turn();
   void draw();
   void draw_ter(int posx = -999, int posy = -999);
+  void draw_veh_dir_indicator(void);
   void advance_nextinv(); // Increment the next inventory letter
   void decrease_nextinv(); // Decrement the next inventory letter
   void vadd_msg(const char* msg, va_list ap );
@@ -337,6 +338,7 @@ public:
   std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
   void load_trap(JsonObject &jo);
+  void toggle_sidebar_style(void);
 
   std::map<std::string, std::vector <items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
@@ -432,6 +434,7 @@ public:
   bool opening_screen();// Warn about screen size, then present the main menu
 
   const int dangerous_proximity;
+  bool narrow_sidebar;
 
  private:
 // Game-start procedures

@@ -194,6 +194,7 @@ player::~player()
 
 player& player::operator= (const player & rhs)
 {
+ Character::operator=(rhs);
  id = rhs.id;
  posx = rhs.posx;
  posy = rhs.posy;
@@ -225,16 +226,6 @@ player& player::operator= (const player & rhs)
 
  my_bionics = rhs.my_bionics;
 
- str_cur = rhs.str_cur;
- dex_cur = rhs.dex_cur;
- int_cur = rhs.int_cur;
- per_cur = rhs.per_cur;
-
- str_max = rhs.str_max;
- dex_max = rhs.dex_max;
- int_max = rhs.int_max;
- per_max = rhs.per_max;
-
  power_level = rhs.power_level;
  max_power_level = rhs.max_power_level;
 
@@ -255,12 +246,10 @@ player& player::operator= (const player & rhs)
  blocks_left = rhs.blocks_left;
 
  stim = rhs.stim;
- pain = rhs.pain;
  pkill = rhs.pkill;
  radiation = rhs.radiation;
 
  cash = rhs.cash;
- moves = rhs.moves;
  movecounter = rhs.movecounter;
 
  for (int i = 0; i < num_hp_parts; i++)
@@ -988,7 +977,7 @@ void player::update_bodytemp()
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 500 : 1000);
         }
-        // Disintergration
+        // Disintegration
         if (has_trait("ROT1")) { temp_conv[i] -= 250;}
         else if (has_trait("ROT2")) { temp_conv[i] -= 750;}
         else if (has_trait("ROT3")) { temp_conv[i] -= 1500;}
@@ -997,7 +986,7 @@ void player::update_bodytemp()
         else if (has_trait("RADIOACTIVE2")) { temp_conv[i] += 750; }
         else if (has_trait("RADIOACTIVE3")) { temp_conv[i] += 1500; }
         // Chemical Imbalance
-        // Added linse in player::suffer()
+        // Added line in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergant.
         if ( has_disease("sleep") ) {
             int sleep_bonus = floor_bedding_warmth + floor_item_warmth;
@@ -1165,7 +1154,7 @@ void player::update_bodytemp()
 void player::temp_equalizer(body_part bp1, body_part bp2)
 {
  // Body heat is moved around.
- // Shift in one direction only, will be shifted in the other direction seperately.
+ // Shift in one direction only, will be shifted in the other direction separately.
  int diff = (temp_cur[bp2] - temp_cur[bp1])*0.0001; // If bp1 is warmer, it will lose heat
  temp_cur[bp1] += diff;
 }
@@ -3155,8 +3144,15 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     int spdx = sideStyle ?  0 : x + dx * 4;
     int spdy = sideStyle ?  5 : y + dy * 4;
     mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), spd_cur);
-    if (this->weight_carried() > this->weight_capacity() || this->volume_carried() > this->volume_capacity() - 2) {
-        col_time = c_red;
+    if (this->weight_carried() > this->weight_capacity()) {
+        col_time = h_black;
+    }
+    if (this->volume_carried() > this->volume_capacity() - 2) {
+        if (this->weight_carried() > this->weight_capacity()) {
+            col_time = c_dkgray_magenta;
+        } else {
+            col_time = c_dkgray_red;
+        }
     }
     wprintz(w, col_time, "  %d", movecounter);
  }
@@ -3272,7 +3268,7 @@ void player::set_cat_level_rec(const std::string &sMut)
         for (int i = 0; i < mutation_data[sMut].prereqs.size(); i++) {
             set_cat_level_rec(mutation_data[sMut].prereqs[i]);
         }
-        
+
         for (int i = 0; i < mutation_data[sMut].prereqs2.size(); i++) {
             set_cat_level_rec(mutation_data[sMut].prereqs2[i]);
         }
@@ -5220,7 +5216,7 @@ void player::suffer()
    std::vector<item *> possessions = inv_dump();
    for( std::vector<item *>::iterator it = possessions.begin(); it != possessions.end(); ++it ) {
        if( (*it)->type->id == "rad_badge" ) {
-           // Actual irridation levels of badges and the player aren't precisely matched.
+           // Actual irradiation levels of badges and the player aren't precisely matched.
            // This is intentional.
            int before = (*it)->irridation;
            (*it)->irridation += rng(0, localRadiation / 16);
@@ -7564,6 +7560,16 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
+        if ((armor->covers & (mfb(bp_hands) | mfb(bp_arms) | mfb(bp_torso) | mfb(bp_legs) | mfb(bp_feet) | mfb(bp_head))) &&
+        (has_trait("HUGE") || has_trait("HUGE_OK")))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("The %s is much too small to fit your huge body!"), armor->name.c_str());
+            }
+            return false;
+        }
+
         if (armor->covers & mfb(bp_hands) && has_trait("WEBBED"))
         {
             if(interactive)
@@ -8440,9 +8446,9 @@ void player::use(int pos)
                 g->add_msg(_("That %s cannot be used on a %s."), used->tname().c_str(),
                        ammo_name(guntype->ammo).c_str());
                 return;
-        } else if (!guntype->available_mod_locations[mod->location] > 0) {
-            g->add_msg(_("Your %s doesn't have enough room for another %s mod.'  To remove the mods, \
-activate your weapon."), gun->tname().c_str(), mod->location.c_str());
+        } else if (guntype->occupied_mod_locations[mod->location] == guntype->valid_mod_locations[mod->location]) {
+            g->add_msg(_("Your %s doesn't have enough room for another %s mod. To remove the mods, \
+activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
             return;
         }
         if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
@@ -8471,11 +8477,6 @@ activate your weapon."), gun->tname().c_str(), mod->location.c_str());
                 g->add_msg(_("Your %s already has a %s."), gun->tname().c_str(),
                            used->tname().c_str());
                 return;
-            }
-            else if (guntype->available_mod_locations[mod->location] == 0) {
-                g->add_msg(_("Your %s cannot hold any more %s modifications."), gun->tname().c_str(),
-                           mod->location.c_str());
-                return;
             } else if ((mod->id == "clip" || mod->id == "clip2") &&
                        (gun->contents[i].type->id == "clip" ||
                         gun->contents[i].type->id == "clip2")) {
@@ -8487,7 +8488,7 @@ activate your weapon."), gun->tname().c_str(), mod->location.c_str());
         g->add_msg(_("You attach the %s to your %s."), used->tname().c_str(),
                    gun->tname().c_str());
         gun->contents.push_back(i_rem(pos));
-        guntype->available_mod_locations[mod->location] -= 1;
+        guntype->occupied_mod_locations[mod->location] += 1;
         return;
 
     } else if (used->is_bionic()) {
@@ -8557,24 +8558,31 @@ activate your weapon."), gun->tname().c_str(), mod->location.c_str());
     }
 }
 
-void player::remove_gunmod(item *weapon, int id) {
+void player::remove_gunmod(item *weapon, int id)
+{
     item *gunmod = &weapon->contents[id];
-    it_gun *guntype = dynamic_cast<it_gun*>(weapon->type);
+    it_gun *guntype = dynamic_cast<it_gun *>(weapon->type);
     item newgunmod;
     item ammo;
     if (gunmod != NULL && gunmod->charges > 0) {
-      if (gunmod->curammo != NULL) {
-        ammo = item(gunmod->curammo, g->turn);
-      } else {
-        ammo = item(itypes[default_ammo(weapon->ammo_type())], g->turn);
-      }
-      ammo.charges = gunmod->charges;
-      i_add_or_drop(ammo);
+        if (gunmod->curammo != NULL) {
+            ammo = item(gunmod->curammo, g->turn);
+        } else {
+            ammo = item(itypes[default_ammo(weapon->ammo_type())], g->turn);
+        }
+        ammo.charges = gunmod->charges;
+        if (ammo.made_of(LIQUID)) {
+            while(!g->handle_liquid(ammo, false, false)) {
+                // handled only part of it, retry
+            }
+        } else {
+            i_add_or_drop(ammo);
+        }
     }
     newgunmod = item(itypes[gunmod->type->id], g->turn);
     i_add_or_drop(newgunmod);
+    guntype->occupied_mod_locations[(static_cast<it_gunmod*>(gunmod->type))->location] -= 1;
     weapon->contents.erase(weapon->contents.begin()+id);
-    guntype->available_mod_locations[static_cast<it_gunmod*>(gunmod->type)->location] += 1;
     return;
 }
 
@@ -9566,7 +9574,7 @@ int player::adjust_for_focus(int amount)
 void player::practice (const calendar& turn, Skill *s, int amount)
 {
     SkillLevel& level = skillLevel(s);
-    // Double amount, but only if level.exercise isn't a amall negative number?
+    // Double amount, but only if level.exercise isn't a small negative number?
     if (level.exercise() < 0)
     {
         if (amount >= -level.exercise())
@@ -9596,6 +9604,11 @@ void player::practice (const calendar& turn, Skill *s, int amount)
     }
 
     amount = adjust_for_focus(amount);
+
+    if (has_trait("PACIFIST") && s->is_combat_skill())
+      if(!one_in(3))
+        amount = 0;
+
     if (isSavant && s != savantSkill)
     {
         amount /= 2;
@@ -9661,9 +9674,10 @@ void player::learn_recipe(recipe *rec)
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
 {
     if (backlog.type == type && backlog.index == index && backlog.position == pos &&
-        backlog.name == name && query_yn(_("Resume task?"))) {
-            activity = backlog;
-            backlog = player_activity();
+        backlog.name == name) {
+        g->add_msg_if_player(this, _("You resume your task."));
+        activity = backlog;
+        backlog = player_activity();
     } else {
         activity = player_activity(type, moves, index, pos, name);
     }
@@ -10012,6 +10026,10 @@ void player::shift_destination(int shiftx, int shifty)
 
 bool player::has_weapon() {
     return !unarmed_attack();
+}
+
+m_size player::get_size() {
+    return MS_MEDIUM;
 }
 
 // --- End ---

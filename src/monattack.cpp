@@ -238,7 +238,7 @@ void mattack::resurrect(monster *z)
   return; // We can only resurrect so many times!
  std::vector<point> corpses;
  int junk;
-// Find all corposes that we can see within 4 tiles.
+// Find all corpses that we can see within 4 tiles.
  for (int x = z->posx() - 4; x <= z->posx() + 4; x++) {
   for (int y = z->posy() - 4; y <= z->posy() + 4; y++) {
    if (g->is_empty(x, y) && g->m.sees(z->posx(), z->posy(), x, y, -1, junk)) {
@@ -429,7 +429,7 @@ void mattack::growplants(monster *z)
   }
  }
 
- if (one_in(5)) { // 1 in 5 chance of making exisiting vegetation grow larger
+ if (one_in(5)) { // 1 in 5 chance of making existing vegetation grow larger
   for (int i = -5; i <= 5; i++) {
    for (int j = -5; j <= 5; j++) {
     if (i != 0 || j != 0) {
@@ -870,7 +870,7 @@ void mattack::dermatik(monster *z)
     if (4 < g->u.get_armor_cut(targeted) / 3) {
         g->add_msg(_("The %s lands on your %s, but can't penetrate your armor."),
                      z->name().c_str(), body_part_name(targeted, side).c_str());
-        z->moves -= 150; // Attemped laying takes a while
+        z->moves -= 150; // Attempted laying takes a while
         return;
     }
 
@@ -1518,7 +1518,6 @@ void mattack::laser(monster *z)
       std::vector<point> traj = line_to(z->posx(), z->posy(),
                                         target->posx(), target->posy(), fire_t);
       g->fire(tmp, target->posx(), target->posy(), traj, true);
-    return;
   }
   else {
     if (one_in(3)) {
@@ -1529,6 +1528,7 @@ void mattack::laser(monster *z)
       g->sound(z->posx(), z->posy(), 6, _("boop-boop!"));
     }
   }
+  return;
  }
 
 // Not friendly; hence, firing at the player

@@ -3,6 +3,7 @@
     "type" : "recipe_category",
     "id" : "CC_WEAPON",
     "recipe_subcategories" : [
+      "CSC_ALL",
       "CSC_WEAPON_BASHING",
       "CSC_WEAPON_CUTTING",
       "CSC_WEAPON_PIERCING",
@@ -15,6 +16,7 @@
     "type" : "recipe_category",
     "id" : "CC_AMMO",
     "recipe_subcategories" : [
+      "CSC_ALL",
       "CSC_AMMO_BULLETS",
       "CSC_AMMO_ARROWS",
       "CSC_AMMO_COMPONENTS",
@@ -24,6 +26,7 @@
     "type" : "recipe_category",
     "id" : "CC_FOOD",
     "recipe_subcategories" : [
+      "CSC_ALL",
       "CSC_FOOD_DRINKS",
       "CSC_FOOD_MEAT",
       "CSC_FOOD_VEGGI",
@@ -36,6 +39,7 @@
     "type" : "recipe_category",
     "id" : "CC_CHEM",
     "recipe_subcategories" : [
+      "CSC_ALL",
       "CSC_CHEM_DRUGS",
       "CSC_CHEM_MUTAGEN",
       "CSC_CHEM_CHEMICALS",
@@ -45,6 +49,7 @@
     "type" : "recipe_category",
     "id" : "CC_ELECTRONIC",
     "recipe_subcategories" : [
+      "CSC_ALL",
       "CSC_ELECTRONIC_CBMS",
       "CSC_ELECTRONIC_LIGHTING",
       "CSC_ELECTRONIC_COMPONENTS",
@@ -54,10 +59,10 @@
     "type" : "recipe_category",
     "id" : "CC_ARMOR",
     "recipe_subcategories" : [
+      "CSC_ALL",
       "CSC_ARMOR_STORAGE",
       "CSC_ARMOR_SUIT",
       "CSC_ARMOR_HEAD",
-      "CSC_ARMOR_BACK",
       "CSC_ARMOR_TORSO",
       "CSC_ARMOR_ARMS",
       "CSC_ARMOR_HANDS",
@@ -69,6 +74,7 @@
     "type" : "recipe_category",
     "id" : "CC_OTHER",
     "recipe_subcategories" : [
+      "CSC_ALL",
       "CSC_OTHER_TOOLS",
       "CSC_OTHER_MEDICAL",
       "CSC_OTHER_CONTAINERS",
@@ -9280,7 +9286,7 @@
     ],
     [
       [ "veggy_tainted", 3 ],
-	  [ "biollante_bud", 1 ]
+      [ "biollante_bud", 1 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -10357,7 +10363,7 @@
   ],
   "components": [
     [
-      [ "mutagen_alpha", 2 ]
+      [ "purifier", 2 ]
     ]
   ]
 },{
@@ -10450,13 +10456,13 @@
   ],
   "components": [
     [
-	  [ "mutagen_slime", 2 ]
-	],
+      [ "mutagen_slime", 2 ]
+    ],
     [
       [ "mutagen_plant", 1 ]
     ],
     [
-	  [ "mutagen_bird", 1 ]
+      [ "mutagen_bird", 1 ]
     ]
   ]
 },{
@@ -10577,10 +10583,10 @@
   ],
   "components": [
     [
-	  [ "mutagen_lizard", 1 ]
-	],
+      [ "mutagen_lizard", 1 ]
+    ],
     [
-	  [ "mutagen_bird", 1 ]
+      [ "mutagen_bird", 1 ]
     ],
     [
       [ "purifier", 1 ]
@@ -13363,6 +13369,42 @@
   ]
 },{
         "type" : "recipe",
+  "result": "headlight_reinforced",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_fabrication", 3] , ["textbook_mechanics", 3] , ["welding_book", 5]],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 15 ],
+      [ "welder_crude", 30 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flashlight", 1 ]
+    ],
+    [
+      [ "wire", 2 ]
+    ],
+    [
+      [ "superglue", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "reinforced_solar_panel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -14511,8 +14553,7 @@
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
+  "autolearn": true,
   "tools": [
     [
       [ "needle_bone", 12 ],
@@ -14534,18 +14575,11 @@
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
-  "tools": [
-    [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "sewing_kit", 12 ]
-    ]
-  ],
+  "autolearn": true,
+  "tools": [ ],
   "components": [
     [
-      [ "fur", 1 ]
+      [ "fur", 2 ]
     ]
   ]
 },{
@@ -14557,8 +14591,7 @@
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
+  "autolearn": true,
   "tools": [
     [
       [ "needle_bone", 12 ],
@@ -16531,7 +16564,7 @@
         "type" : "recipe",
   "result": "cloak",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_BACK",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 25000,
@@ -16553,7 +16586,7 @@
         "type" : "recipe",
   "result": "cloak_fur",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_BACK",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "skills_required": [ "survival", 1 ],
   "difficulty": 2,
@@ -16577,7 +16610,7 @@
         "type" : "recipe",
   "result": "cloak_leather",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_BACK",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 25000,
@@ -16714,7 +16747,7 @@
   "components": [
     [
       [ "skewer", 1 ],
-	  [ "splinter", 1 ]
+      [ "splinter", 1 ]
     ]
   ]
 },{
@@ -16740,7 +16773,7 @@
     [
       [ "stick", 1 ],
       [ "2x4", 1 ],
-	  [ "bone", 1 ]
+      [ "bone", 1 ]
     ],
     [
       [ "rock", 1 ]
@@ -17423,6 +17456,34 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "v_table",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "construction",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 1,
+  "autolearn": true,
+  "tools": [
+      [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+      ]
+      ],
+  "components": [
+    [
+      [ "2x4", 6 ]
+    ],
+    [
+      [ "nail", 8 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "foot_crank",
   "category": "CC_OTHER",
@@ -17864,7 +17925,7 @@
   "autolearn": false,
   "components": [
     [
-	  [ "bat", 1 ]
+      [ "bat", 1 ]
     ],
     [
       [ "nomex", 5 ]
@@ -18008,7 +18069,7 @@
       [ "bleach", 1 ],
       [ "lye_powder", 100 ],
       [ "bone", 20 ],
-	  [ "biollante_bud", 1],
+      [ "biollante_bud", 1],
       [ "ant_egg", 1 ],
       [ "slime_scrap", 1 ]
     ]
@@ -18139,6 +18200,63 @@
   ]
 },{
         "type" : "recipe",
+  "result": "hdframe",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "crucible", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 2 ],
+      [ "forge", 50 ],
+      [ "char_forge", 10]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_lump", 18 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "frame_wood",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "2x4", 5 ]
+    ],
+    [
+      [ "nail", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "sheet_metal",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -18164,6 +18282,24 @@
   ]
 },{
         "type" : "recipe",
+  "result": "wood_plate",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 6000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "2x4", 6 ]
+    ],
+    [
+      [ "rope_6", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "steel_plate",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -18171,7 +18307,7 @@
   "difficulty": 4,
   "time": 12000,
   "reversible": true,
-  "note": "melting it down doesn't teach anythig useful",
+  "note": "sawing it down doesn't teach anything useful",
   "autolearn": true,
   "tools": [
     [
@@ -21056,7 +21192,7 @@
   "difficulty": 3,
   "time": 240000,
   "reversible": true,
-  "note": "melting the anvil back down seems unlikely to teach anything useful",
+  "note": "hacking the anvil back down seems unlikely to teach anything useful",
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
@@ -27964,7 +28100,214 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "jar_3l_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 5 ]],
+  "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 150], ["char_forge", 30]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 48 ],
+     [ "flask_glass", 12 ],
+     [ "jar_glass", 6 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "bottle_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 5 ]],
+  "tools": [ 
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 75], ["char_forge", 15]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 12 ],
+     [ "flask_glass", 3 ],
+     [ "jar_glass", 2 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "jar_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 4 ]],
+  "tools": [ 
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 8 ],
+     [ "flask_glass", 2 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "flask_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 4 ]],
+  "tools": [ 
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 25], ["char_forge", 5]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 4 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "pipe_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 6 ]],
+  "tools": [ 
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 25], ["char_forge", 5]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 4 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "glass_sheet",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ 
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      [ "sheet_metal", -1 ]
+     ],
+     [
+      ["forge", 75], ["char_forge", 15]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 16 ],
+     [ "flask_glass", 4 ],
+     [ "jar_glass", 2 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
   "result": "mre_ravioli_box",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",

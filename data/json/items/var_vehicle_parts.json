@@ -109,6 +109,24 @@
     },
     {
         "type":"VAR_VEH_PART",
+        "id": "wheel_armor",
+        "symbol": "]",
+        "color": "green",
+        "name": "armored wheel",
+        "description": "A wide military grade wheel.",
+        "price": 340,
+        "material": ["hardsteel", "ceramic"],
+        "weight": 24500,
+        "volume": 70,
+        "bashing": 17,
+        "cutting": 0,
+        "to_hit": -1,
+        "min-bigness": 16,
+        "max-bigness": 36,
+        "bigness-aspect": "WHEEL_DIAMETER"
+    },
+    {
+        "type":"VAR_VEH_PART",
         "id": "1cyl_combustion",
         "symbol": ":",
         "color": "light_cyan",
@@ -195,6 +213,24 @@
         "to_hit": -5,
         "min-bigness": 500,
         "max-bigness": 800,
+        "bigness-aspect": "ENGINE_DISPLACEMENT"
+    },
+    {
+        "type":"VAR_VEH_PART",
+        "id": "v12_combustion",
+        "symbol": ":",
+        "color": "light_cyan",
+        "name": "V12 engine",
+        "description": "A massive and extremely powerful V12 engine, usually built into high end sports cars.",
+        "price": 360,
+        "material": ["iron", "null"],
+        "weight": 165000,
+        "volume": 32,
+        "bashing": 18,
+        "cutting": 0,
+        "to_hit": -8,
+        "min-bigness": 800,
+        "max-bigness": 1600,
         "bigness-aspect": "ENGINE_DISPLACEMENT"
     }
 ]

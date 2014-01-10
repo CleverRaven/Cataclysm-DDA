@@ -26,7 +26,7 @@ extern cata_tiles *tilecontext;
 
 std::map<std::string, cOpt> OPTIONS;
 std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
-options_data optionsdata; // store extranious options data that doesn't need to be in OPTIONS, 
+options_data optionsdata; // store extranious options data that doesn't need to be in OPTIONS,
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, std::string> optionNames;
@@ -411,6 +411,11 @@ void initOptions() {
                                              true
                                             );
 
+    OPTIONS["VEHICLE_DIR_INDICATOR"] =  cOpt("interface", _("Draw vehicle facing indicator"),
+                                             _("If true, when controlling a vehicle, a white 'X' at distance 10 from the center will display its current facing."),
+                                             false
+                                            );
+
     OPTIONS["SAFEMODEPROXIMITY"] =      cOpt("general", _("Safemode proximity distance"),
                                              _("If safemode is enabled, distance to hostiles when safemode should show a warning. 0 = Max player viewdistance."),
                                              0, 50, 0
@@ -608,6 +613,11 @@ void initOptions() {
                                              _("If true, radiation causes the player to mutate."),
                                              true
                                             );
+
+    OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),
+                                                  _("Determines the scope, which is known in the beginning of the game."),
+                                                  3, 20, 15
+                                                  );
 
     OPTIONS["SAVE_SLEEP"] =             cOpt("interface", _("Ask to save before sleeping"),
                                              _("If true, game will ask to save the map before sleeping."),
@@ -989,7 +999,7 @@ void load_options()
             const std::string loadedval = sLine.substr(iPos+1, sLine.length());
             // option with values from post init() might get clobbered
             optionsdata.add_retry(loadedvar, loadedval); // stash it until update();
-            
+
             OPTIONS[ loadedvar ].setValue( loadedval );
         }
     }
@@ -1049,7 +1059,7 @@ void save_options(bool ingame)
 
 bool use_narrow_sidebar()
 {
-    return (TERMY < 25 || OPTIONS["SIDEBAR_STYLE"] == "narrow");
+    return TERMY < 25 || g->narrow_sidebar;
 }
 
 std::string get_tileset_names(std::string dir_path)
@@ -1126,7 +1136,7 @@ void options_data::enable_json(const std::string & lvar) {
 }
 
 void options_data::add_retry(const std::string & lvar, const::std::string & lval) {
-    static const std::string blank_value( 1, 001 ); 
+    static const std::string blank_value( 1, 001 );
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
     if ( it != post_json_verify.end() && it->second == blank_value ) {
         // initialized with impossible value: valid

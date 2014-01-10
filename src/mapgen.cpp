@@ -2431,7 +2431,11 @@ ___DEEE|.R.|...,,...|sss\n",
             if (t_west == "office_tower_b" && t_north == "office_tower_b") {
                 rotate(1);
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("cube_van", 17, 4, 180);
+                    if (one_in(3)) {
+                        add_vehicle ("cube_van", 17, 4, 180);
+                    } else {
+                        add_vehicle ("cube_van_cheap", 17, 4, 180);
+                    }
                 }
                 if (x_in_y(1, 5)) {
                     add_vehicle ("flatbed_truck", 17, 10, 180);
@@ -2442,7 +2446,11 @@ ___DEEE|.R.|...,,...|sss\n",
             } else if (t_east == "office_tower_b" && t_north == "office_tower_b") {
                 rotate(2);
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("cube_van", 6, 17, 270);
+                    if (one_in(3)) {
+                        add_vehicle ("cube_van", 6, 17, 270);
+                    } else {
+                        add_vehicle ("cube_van_cheap", 6, 17, 270);
+                    }
                 }
                 if (x_in_y(1, 5)) {
                     add_vehicle ("flatbed_truck", 12, 17, 270);
@@ -2453,14 +2461,14 @@ ___DEEE|.R.|...,,...|sss\n",
             } else if (t_east == "office_tower_b" && t_south == "office_tower_b") {
                 rotate(3);
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("cube_van", 6, 6, 0);
+                    add_vehicle ("cube_van_cheap", 6, 6, 0);
                 }
                 if (x_in_y(1, 5)) {
                     if (one_in(3)) {
                         add_vehicle ("fire_truck", 6, 13, 0);
-                        }
-                    else
-                    add_vehicle ("flatbed_truck", 6, 13, 0);
+                    } else {
+                        add_vehicle ("flatbed_truck", 6, 13, 0);
+                    }
                 }
                 if (x_in_y(1, 3)) {
                     add_vehicle ("car", 5, 19, 180);
@@ -2470,7 +2478,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     add_vehicle ("flatbed_truck", 16, 6, 90);
                 }
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("cube_van", 10, 6, 90);
+                    add_vehicle ("cube_van_cheap", 10, 6, 90);
                 }
                 if (x_in_y(1, 3)) {
                     add_vehicle ("car", 4, 6, 90);
@@ -9254,6 +9262,21 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         line(this, t_wall_glass_h, 0, 0, SEEX * 2 - 1, 0);
         ter_set(SEEX, 0, t_door_glass_c);
         ter_set(SEEX + 1, 0, t_door_glass_c);
+        //Vending
+        std::vector<int> vset;
+        int vnum = rng( 2, 6 );
+        for(int a = 0; a < 21; a++ ) {
+            vset.push_back(a);
+        }
+        std::random_shuffle(vset.begin(), vset.end());
+        for(int a = 0; a < vnum; a++) {
+            if (vset[a] < 12) {
+                place_vending(vset[a], 1, rng(0,1));
+            } else {
+                place_vending(vset[a] + 2, 1, rng(0,1));
+            }
+        }
+        vset.clear();
         // Long checkout lanes
         for (int x = 2; x <= 18; x += 4) {
             line_furn(this, f_counter, x, 4, x, 14);
@@ -9434,6 +9457,27 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         line_furn(this, f_bench, 20, 7, 22,  7);
         line_furn(this, f_bench, 22, 8, 22, 10);
         place_items("magazines", 70, 8, 7, 22, 10, false, 0);
+        //Vending
+        std::vector<int> vset;
+        int vnum = rng(1, 3);
+        for(int a = 0; a < 17; a++) {
+            vset.push_back(a);
+        }
+        std::random_shuffle(vset.begin(), vset.end());
+        for(int a = 0; a < vnum; a++) {
+            if (vset[a] < 3) {
+                place_vending(5 + vset[a], 7, rng(0,1));
+            } else if (vset[a] < 5) {
+                place_vending(1 + vset[a] - 3, 7, rng(0,1));
+            } else if (vset[a] < 8) {
+                place_vending(1, 8 + vset[a] - 5, rng(0,1));
+            } else if (vset[a] < 13) {
+                place_vending(10 + vset[a] - 8, 12, rng(0,1));
+            } else {
+                place_vending(17 + vset[a] - 13, 12, rng(0,1));
+            }
+        }
+        vset.clear();
         // Reception and examination rooms
         line_furn(this, f_counter, 8, 13, 9, 13);
         line(this, t_wall_h, 10, 13, SEEX * 2 - 1, 13);
@@ -9569,10 +9613,13 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             }
             square_furn(this, f_rack, 16, 16, 21, 17);
             place_items("hospital_samples", 68, 16, 16, 21, 17, false, 0);
+            place_items("bionics_common", 12, 16, 16, 21, 17, false, 0);
             square_furn(this, f_rack, 16, 19, 21, 20);
             place_items("hospital_samples", 68, 16, 19, 21, 20, false, 0);
+            place_items("bionics_common", 12, 16, 19, 21, 20, false, 0);
             line_furn(this, f_rack, 14, 22, 23, 22);
             place_items("hospital_samples", 62, 14, 22, 23, 22, false, 0);
+            place_items("bionics_common", 12, 14, 22, 23, 22, false, 0);
 
         } else { // We're NOT in the center; a random hospital type!
 
@@ -9582,6 +9629,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_h, 1, 5, 9, 5);
                 for (int i = 1; i <= 7; i += 3) {
                     line_furn(this, f_bed, i, 1, i, 2);
+                    place_items("hospital_bed", 50, i + 1, 1, i + 1, 3, false, 0);
                     line(this, t_wall_v, i + 2, 0, i + 2, 4);
                     ter_set(rng(i, i + 1), 5, t_door_c);
                 }
@@ -9589,12 +9637,15 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_h, 14, 5, 23, 5);
                 line(this, t_wall_v, 14, 0, 14, 4);
                 line_furn(this, f_bed, 15, 1, 15, 2);
+                place_items("hospital_bed", 50, 16, 1, 16, 2, false, 0);
                 ter_set(rng(15, 16), 5, t_door_c);
                 line(this, t_wall_v, 17, 0, 17, 4);
                 line_furn(this, f_bed, 18, 1, 18, 2);
+                place_items("hospital_bed", 50, 19, 1, 19, 2, false, 0);
                 ter_set(rng(18, 19), 5, t_door_c);
                 line(this, t_wall_v, 20, 0, 20, 4);
                 line_furn(this, f_bed, 21, 1, 21, 2);
+                place_items("hospital_bed", 50, 22, 1, 22, 2, false, 0);
                 ter_set(rng(21, 22), 5, t_door_c);
                 // Waiting area
                 for (int i = 1; i <= 9; i += 4) {
@@ -9610,7 +9661,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_h, 15, 10, 23, 10);
                 line(this, t_wall_v, 19, 8, 19, 9);
                 line_furn(this, f_bed, 18, 8, 18, 9);
+                place_items("hospital_bed", 50, 17, 8, 17, 9, false, 0);
                 line_furn(this, f_bed, 20, 8, 20, 9);
+                place_items("hospital_bed", 50, 21, 8, 21, 9, false, 0);
                 if (one_in(3)) { // Doors to north
                     ter_set(rng(15, 16), 7, t_door_c);
                     ter_set(rng(21, 22), 7, t_door_c);
@@ -9623,7 +9676,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_h, 15, 16, 23, 16);
                 line(this, t_wall_v, 19, 14, 19, 15);
                 line_furn(this, f_bed, 18, 14, 18, 15);
+                place_items("hospital_bed", 50, 17, 14, 17, 15, false, 0);
                 line_furn(this, f_bed, 20, 14, 20, 15);
+                place_items("hospital_bed", 50, 21, 14, 21, 15, false, 0);
                 if (one_in(3)) { // Doors to south
                     ter_set(rng(15, 16), 16, t_door_c);
                     ter_set(rng(21, 22), 16, t_door_c);
@@ -9635,10 +9690,13 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_v, 5, 13, 5, 22);
                 line(this, t_wall_h, 1, 13, 4, 13);
                 line_furn(this, f_bed, 1, 14, 1, 15);
+                place_items("hospital_bed", 50, 2, 14, 2, 15, false, 0);
                 line(this, t_wall_h, 1, 17, 4, 17);
                 line_furn(this, f_bed, 1, 18, 1, 19);
+                place_items("hospital_bed", 50, 2, 18, 2, 19, false, 0);
                 line(this, t_wall_h, 1, 20, 4, 20);
                 line_furn(this, f_bed, 1, 21, 1, 22);
+                place_items("hospital_bed", 50, 2, 21, 2, 22, false, 0);
                 ter_set(5, rng(14, 16), t_door_c);
                 ter_set(5, rng(18, 19), t_door_c);
                 ter_set(5, rng(21, 22), t_door_c);
@@ -9647,7 +9705,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_v, 10, 14, 10, 22);
                 line(this, t_wall_h, 8, 18, 9, 18);
                 line_furn(this, f_bed, 8, 17, 9, 17);
+                place_items("hospital_bed", 50, 8, 16, 9, 16, false, 0);
                 line_furn(this, f_bed, 8, 22, 9, 22);
+                place_items("hospital_bed", 50, 8, 21, 9, 21, false, 0);
                 if (one_in(3)) { // Doors to west
                     ter_set(7, rng(14, 16), t_door_c);
                     ter_set(7, rng(19, 21), t_door_c);
@@ -9660,6 +9720,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 for (int i = 14; i <= 20; i += 3) {
                     line(this, t_wall_v, i, 19, i, 22);
                     line_furn(this, f_bed, i + 1, 21, i + 1, 22);
+                    place_items("hospital_bed", 50, i + 2, 21, i + 2, 22, false, 0);
                     ter_set(rng(i + 1, i + 2), 18, t_door_c);
                 }
                 break;
@@ -9725,10 +9786,12 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 // Next, the contents of each operating room
                 line_furn(this, f_counter, 1, 0, 1, 9);
                 place_items("surgery", 70, 1, 1, 1, 9, false, 0);
+                place_items("bionics_common", 5, 1, 1, 1, 9, false, 0);
                 square_furn(this, f_bed, 5, 4, 6, 5);
 
                 line_furn(this, f_counter, 1, 14, 1, 22);
                 place_items("surgery", 70, 1, 14, 1, 22, false, 0);
+                place_items("bionics_common", 5, 1, 14, 1, 22, false, 0);
                 square_furn(this, f_bed, 5, 18, 6, 19);
 
                 line_furn(this, f_counter, 14, 6, 14, 9);
@@ -10796,16 +10859,16 @@ void map::place_toilet(int x, int y, int charges)
 
 void map::place_vending(int x, int y, bool drinks)
 {
-    bool broken = rng(0, 1);
-    if(broken) {
-        furn_set(x, y, f_vending_c);
-    } else {
+    const bool broken = x_in_y(2,3);
+    if( broken ) {
         furn_set(x, y, f_vending_o);
+    } else {
+        furn_set(x, y, f_vending_c);
     }
     if( drinks ) {
-        place_items("vending_drink", broken ? 60 : 80, x, y, x, y, false, 0);
+        place_items("vending_drink", broken ? 40 : 99, x, y, x, y, false, 0);
     } else {
-        place_items("vending_food", broken ? 60 : 80, x, y, x, y, false, 0);
+        place_items("vending_food", broken ? 40 : 99, x, y, x, y, false, 0);
     }
 }
 

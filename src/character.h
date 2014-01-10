@@ -11,6 +11,7 @@ class Character : public Creature
     public:
         Character();
         Character(const Creature &rhs);
+        Character &operator= (const Character &rhs);
 };
 
 #endif
