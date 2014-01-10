@@ -3384,7 +3384,7 @@
   "time": 5000,
   "reversible": true,
   "autolearn": false,
-  "decomp_learn": 6,
+  "decomp_learn": 0,
   "components": [
     [
       [ "modularvest", 1 ]
@@ -3403,7 +3403,7 @@
   "time": 5000,
   "reversible": true,
   "autolearn": false,
-  "decomp_learn": 6,
+  "decomp_learn": 0,
   "components": [
     [
       [ "modularvest", 1 ]
@@ -3422,7 +3422,7 @@
   "time": 5000,
   "reversible": true,
   "autolearn": false,
-  "decomp_learn": 6,
+  "decomp_learn": 0,
   "components": [
     [
       [ "modularvest", 1 ]
@@ -3441,7 +3441,7 @@
   "time": 5000,
   "reversible": true,
   "autolearn": false,
-  "decomp_learn": 6,
+  "decomp_learn": 0,
   "components": [
     [
       [ "modularvest", 1 ]
@@ -3460,7 +3460,7 @@
   "time": 5000,
   "reversible": true,
   "autolearn": false,
-  "decomp_learn": 6,
+  "decomp_learn": 0,
   "components": [
     [
       [ "modularvest", 1 ]
@@ -3475,7 +3475,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
-  "difficulty": 0,
+  "difficulty": 4,
   "time": 5000,
   "reversible": true,
   "autolearn": false,
