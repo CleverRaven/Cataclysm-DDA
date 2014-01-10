@@ -589,10 +589,12 @@ void player::apply_persistent_morale()
     }
 
     // Masochists get a morale bonus from pain.
-    if (has_trait("MASOCHIST") || has_trait("MASOCHIST_MED"))
+    if (has_trait("MASOCHIST") || has_trait("MASOCHIST_MED") ||
+    has_trait("CENOBITE"))
     {
         int bonus = pain / 2.5;
-        // Cenobites really get a morale bonus from pain.
+        // Advanced masochists really get a morale bonus from pain.
+        // (It's not capped.)
         if (has_trait("MASOCHIST") && (bonus > 25))
         {
             bonus = 25;
@@ -650,6 +652,10 @@ int player::calc_focus_equilibrium()
 {
     // Factor in pain, since it's harder to rest your mind while your body hurts.
     int eff_morale = morale_level() - pain;
+    // Cenobites don't mind, though
+    if (has_trait("CENOBITE")) {
+        eff_morale = eff_morale + pain;
+    }
     int focus_gain_rate = 100;
 
     if (activity.type == ACT_READ)
@@ -1183,6 +1189,10 @@ void player::recalc_speed_bonus()
 
  if (pain > pkill) {
   int pain_penalty = int((pain - pkill) * .7);
+  // Cenobites aren't slowed nearly as much by pain
+  if (has_trait("CENOBITE")) {
+      pain_penalty /= 4;
+  }
   if (pain_penalty > 60)
    pain_penalty = 60;
   mod_speed_bonus(-pain_penalty);
@@ -1820,9 +1830,13 @@ void player::disp_info()
  if (pain - pkill > 0) {
   effect_name.push_back(_("Pain"));
   std::stringstream pain_text;
-  if (pain - pkill >= 15)
+  // Cenobites aren't markedly physically impaired by pain.
+  if ((pain - pkill >= 15) && (!(has_trait("CENOBITE")))) {
    pain_text << "Strength" << " -" << int((pain - pkill) / 15) << "   " << _("Dexterity") << " -" <<
                 int((pain - pkill) / 15) << "   ";
+  }
+  // They do find the sensations distracting though.
+  // Pleasurable...but distracting.
   if (pain - pkill >= 20)
    pain_text << _("Perception") << " -" << int((pain - pkill) / 15) << "   ";
   pain_text << _("Intelligence") << " -" << 1 + int((pain - pkill) / 25);
@@ -2243,6 +2257,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
   line++;
  }
  pen = int((pain - pkill) * .7);
+ if (has_trait("CENOBITE")) {
+      pen /= 4;
+  }
  if (pen > 60)
   pen = 60;
  if (pen >= 1) {
