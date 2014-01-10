@@ -430,6 +430,7 @@ void game::start_game(std::string worldname)
 // Start us off somewhere in the shelter.
  u.posx = SEEX * int(MAPSIZE / 2) + 5;
  u.posy = SEEY * int(MAPSIZE / 2) + 6;
+ u.reset();
  u.str_cur = u.str_max;
  u.per_cur = u.per_max;
  u.int_cur = u.int_max;
