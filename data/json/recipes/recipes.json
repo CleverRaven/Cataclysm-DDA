@@ -28494,7 +28494,7 @@
       ["crucible", -1]
      ],
      [
-      [ "sheet_metal", 1 ]
+      [ "sheet_metal", -1 ]
      ],
      [
       ["forge", 75], ["char_forge", 15]
