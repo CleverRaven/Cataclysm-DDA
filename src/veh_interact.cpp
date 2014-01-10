@@ -292,6 +292,8 @@ void veh_interact::cache_tool_availability()
     has_wrench = crafting_inv.has_amount("wrench", 1) ||
                  crafting_inv.has_amount("toolset", 1);
     has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
+                  crafting_inv.has_amount("circsaw_off", 1) ||
+                  crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED) ||
                   crafting_inv.has_amount("toolset", 1);
     has_welder = (crafting_inv.has_amount("welder", 1) &&
                   crafting_inv.has_charges("welder", charges)) ||
@@ -636,7 +638,7 @@ void veh_interact::do_remove(task_reason reason)
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw</color> to remove parts."),
+                       _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw or circular saw (off)</color> to remove parts."),
                        has_wrench ? "ltgreen" : "red",
                        has_hacksaw ? "ltgreen" : "red");
         if(wheel) {
@@ -678,7 +680,7 @@ void veh_interact::do_remove(task_reason reason)
                     return;
                 } else {
                     fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                                   _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw</color> to remove parts."),
+                                   _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw or circular saw (off)</color> to remove parts."),
                                    has_wrench ? "ltgreen" : "red",
                                    has_hacksaw ? "ltgreen" : "red");
                     wrefresh (w_msg);
@@ -1616,6 +1618,9 @@ void complete_vehicle ()
         g->pl_refill_vehicle(*veh, vehicle_part);
         break;
     case 'o':
+        tools.push_back(component("hacksaw", -1));
+        tools.push_back(component("circsaw_off", 20));
+        g->consume_tools(&g->u, tools, true);
         // Dump contents of part at player's feet, if any.
         for (int i = 0; i < veh->parts[vehicle_part].items.size(); i++) {
             g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[vehicle_part].items[i]);
