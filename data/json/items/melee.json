@@ -2127,7 +2127,7 @@
         "volume" : 1,
         "bashing" : -8,
         "cutting" : 0,
-        "price" : 400
+        "price" : 0
     },
     {
         "type":"GENERIC",
@@ -2142,7 +2142,7 @@
         "volume" : 1,
         "bashing" : -8,
         "cutting" : 0,
-        "price" : 400
+        "price" : 2
     },
     {
         "type":"GENERIC",
