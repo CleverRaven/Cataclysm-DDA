@@ -81,7 +81,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Six long cotton tubes sized to fit over tentacles and help protect them from the cold.",
+        "description" : "Long cotton tubes sized to fit over tentacles and help protect them from the cold.",
         "price" : 400,
         "material" : ["cotton", "null"],
         "volume" : 6,
