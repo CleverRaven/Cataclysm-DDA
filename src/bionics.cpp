@@ -20,7 +20,8 @@ std::vector<bionic_id> unpowered_bionics;
 void bionics_install_failure(player *u, it_bionic *type, int success);
 
 bionic_data::bionic_data(std::string new_name, bool new_power_source, bool new_activated,
-                         int new_power_cost, int new_charge_time, std::string new_description, bool new_faulty) : description(new_description)
+                         int new_power_cost, int new_charge_time, std::string new_description,
+                         bool new_faulty) : description(new_description)
 {
     name = new_name;
     power_source = new_power_source;
@@ -44,18 +45,28 @@ bionic_id game::random_good_bionic() const
 void show_bionics_titlebar(WINDOW *window, player *p, bool activating, bool reassigning)
 {
     werase(window);
-    mvwprintz(window, 0,  0, c_blue, _("BIONICS -"));
+
+    std::string caption = _("BIONICS -");
+    int cap_offset = utf8_width(caption.c_str()) + 1;
+    mvwprintz(window, 0,  0, c_blue, caption.c_str());
+
+    std::stringstream pwr;
+    pwr << _("Power: ") << int(p->power_level) << _("/") << int(p->max_power_level);
+    int pwr_length = utf8_width(pwr.str().c_str()) + 1;
+    mvwprintz(window, 0, getmaxx(window) - pwr_length, c_white, pwr.str().c_str());
+
+    std::string desc;
+    int desc_length = getmaxx(window) - cap_offset - pwr_length;
+
     if(reassigning) {
-        mvwprintz(window, 0, 10, c_white, _("Reassigning. Press SPACE to cancel or"));
-        mvwprintz(window, 1, 10, c_white, _("select a bionic to reassign."));
+        desc = _("Reassigning.\nSelect a bionic to reassign or press SPACE to cancel.");
     } else if(activating) {
-        mvwprintz(window, 0, 10, c_white, _("Activating. Press '!' to examine your implants."));
-        mvwprintz(window, 1, 10, c_white, _("Press '=' to reassign a key."));
+        desc = _("Activating. Press <color_yellow>!</color> to examine your implants.\nPress <color_yellow>=</color> to reassign a key.");
     } else {
-        mvwprintz(window, 0, 10, c_white, _("Examining. Press '!' to activate your implants."));
-        mvwprintz(window, 1, 10, c_white, _("Press '=' to reassign a key."));
+        desc = _("Examining. Press <color_yellow>!</color> to activate your implants.\nPress <color_yellow>=</color> to reassign a key.");
     }
-    mvwprintz(window, 0, 61, c_white, _("Power: %d/%d"), p->power_level, p->max_power_level);
+    fold_and_print(window, 0, cap_offset, desc_length, c_white, desc.c_str());
+
     wrefresh(window);
 }
 
@@ -78,8 +89,7 @@ void player::power_bionics()
     int TITLE_HEIGHT = 2;
     int TITLE_START_X = DESCRIPTION_START_X;
     int TITLE_START_Y = START_Y + 1;
-    WINDOW *w_title = newwin(TITLE_HEIGHT, TITLE_WIDTH, TITLE_START_Y,
-                             TITLE_START_X);
+    WINDOW *w_title = newwin(TITLE_HEIGHT, TITLE_WIDTH, TITLE_START_Y, TITLE_START_X);
 
     int scroll_position = 0;
     bool redraw = true;
@@ -101,7 +111,7 @@ void player::power_bionics()
 
     // maximal number of rows in both columns
     const int bionic_count = std::max(passive.size(), active.size());
-    // number of rows with bionics shown (+1 for displaying "Passiv:"/"Active:")
+    // number of rows with bionics shown (+1 for displaying "Passive:"/"Active:")
     const int bionic_display_height = DESCRIPTION_LINE_Y - HEADER_LINE_Y - 2;
     int max_scroll_position = bionic_count - bionic_display_height;
 
@@ -117,19 +127,19 @@ void player::power_bionics()
             draw_border(wBio);
 
             for (int i = 1; i < WIDTH - 1; i++) {
-                mvwputch(wBio, HEADER_LINE_Y, i, c_ltgray, LINE_OXOX); // Draw line under title
-                mvwputch(wBio, DESCRIPTION_LINE_Y, i, c_ltgray, LINE_OXOX); // Draw line above description
+                mvwputch(wBio, HEADER_LINE_Y, i, BORDER_COLOR, LINE_OXOX); // Draw line under title
+                mvwputch(wBio, DESCRIPTION_LINE_Y, i, BORDER_COLOR, LINE_OXOX); // Draw line above description
             }
 
             // Draw symbols to connect additional lines to border
-            mvwputch(wBio, HEADER_LINE_Y,  0, c_ltgray, LINE_XXXO); // |-
-            mvwputch(wBio, HEADER_LINE_Y, WIDTH - 1, c_ltgray, LINE_XOXX); // -|
+            mvwputch(wBio, HEADER_LINE_Y, 0, BORDER_COLOR, LINE_XXXO); // |-
+            mvwputch(wBio, HEADER_LINE_Y, WIDTH - 1, BORDER_COLOR, LINE_XOXX); // -|
 
-            mvwputch(wBio, DESCRIPTION_LINE_Y,  0, c_ltgray, LINE_XXXO); // |-
-            mvwputch(wBio, DESCRIPTION_LINE_Y, WIDTH - 1, c_ltgray, LINE_XOXX); // -|
+            mvwputch(wBio, DESCRIPTION_LINE_Y, 0, BORDER_COLOR, LINE_XXXO); // |-
+            mvwputch(wBio, DESCRIPTION_LINE_Y, WIDTH - 1, BORDER_COLOR, LINE_XOXX); // -|
 
             nc_color type;
-            mvwprintz(wBio, HEADER_LINE_Y + 1, 1, c_ltblue, _("Passive:"));
+            mvwprintz(wBio, HEADER_LINE_Y + 1, 2, c_ltblue, _("Passive:"));
             for (unsigned i = scroll_position; i < passive.size(); i++) {
                 if (list_start_y + i == DESCRIPTION_LINE_Y) {
                     break;
@@ -349,7 +359,8 @@ void player::activate_bionic(int b)
     }
     // TODO: More stuff here (and bio_blood_filter)
     else if(bio.id == "bio_blood_anal") {
-        WINDOW *w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY - 25) / 2 : 0), 10 + ((TERMX > 80) ? (TERMX - 80) / 2 : 0));
+        WINDOW *w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY - 25) / 2 : 0),
+                    10 + ((TERMX > 80) ? (TERMX - 80) / 2 : 0));
         draw_border(w);
         if (has_disease("fungus")) {
             bad.push_back(_("Fungal Parasite"));
@@ -465,9 +476,6 @@ void player::activate_bionic(int b)
     }
     if(bio.id == "bio_geiger") {
         g->add_msg(_("Your radiation level: %d"), radiation);
-
-
-
     }
     if(bio.id == "bio_radscrubber") {
         if (radiation > 4) {
@@ -658,7 +666,8 @@ bool player::install_bionics(it_bionic *type)
     int chance_of_success = int((100 * skill_difficulty_parameter) /
                                 (skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter)));
 
-    if (!query_yn(_("WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Install anyway?"), 100 - chance_of_success)) {
+    if (!query_yn(_("WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Install anyway?"),
+                  100 - chance_of_success)) {
         return false;
     }
     int pow_up = 0;
@@ -820,6 +829,4 @@ void load_bionic(JsonObject &jsobj)
     }
 
     bionics[id] = new bionic_data(name, power_source, active, cost, time, description, faulty);
-    //dout(D_INFO) << "Loaded bionic: " << name << "\n";
 }
-
