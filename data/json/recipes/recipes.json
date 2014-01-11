@@ -13533,41 +13533,19 @@
   "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 60000,
+  "time": 30000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 36 ],
-      [ "needle_wood", 36 ],
-      [ "sewing_kit", 36 ]
+      [ "needle_bone", 18 ],
+      [ "needle_wood", 18 ],
+      [ "sewing_kit", 18 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 48 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "stockings_tent_legs",
-  "id_suffix": "collection",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_LEGS",
-  "skill_used": "tailor",
-  "difficulty": 1,
-  "time": 10000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [
-    [
-      [ "needle_bone", 6 ],
-      [ "needle_wood", 6 ],
-      [ "sewing_kit", 6 ]
-    ]
-  ],
-  "components": [
-    [
+      [ "rag", 24 ],
       [ "stockings", 3 ]
     ]
   ]
@@ -13578,41 +13556,19 @@
   "subcategory": "CSC_ARMOR_ARMS",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 80000,
+  "time": 40000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 48 ],
-      [ "needle_wood", 48 ],
-      [ "sewing_kit", 48 ]
+      [ "needle_bone", 24 ],
+      [ "needle_wood", 24 ],
+      [ "sewing_kit", 24 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 64 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "stockings_tent_arms",
-  "id_suffix": "collection",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_ARMS",
-  "skill_used": "tailor",
-  "difficulty": 1,
-  "time": 12000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [
-    [
-      [ "needle_bone", 8 ],
-      [ "needle_wood", 8 ],
-      [ "sewing_kit", 8 ]
-    ]
-  ],
-  "components": [
-    [
+      [ "rag", 32 ],
       [ "stockings", 4 ]
     ]
   ]
@@ -16501,14 +16457,14 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "sewing_kit", 10 ]
+      [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
+      [ "sewing_kit", 20 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 20 ]
+      [ "rag", 40 ]
     ]
   ]
 },{
