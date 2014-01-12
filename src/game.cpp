@@ -430,10 +430,7 @@ void game::start_game(std::string worldname)
 // Start us off somewhere in the shelter.
  u.posx = SEEX * int(MAPSIZE / 2) + 5;
  u.posy = SEEY * int(MAPSIZE / 2) + 6;
- u.str_cur = u.str_max;
- u.per_cur = u.per_max;
- u.int_cur = u.int_max;
- u.dex_cur = u.dex_max;
+ u.reset();
  nextspawn = int(turn);
  temperature = 65; // Springtime-appropriate?
  u.next_climate_control_check=0;  // Force recheck at startup
@@ -3106,6 +3103,8 @@ void game::load(std::string worldname, std::string name)
  update_map(u.posx, u.posy);
  set_adjacent_overmaps(true);
  MAPBUFFER.set_dirty();
+
+ u.reset();
  draw();
 }
 
