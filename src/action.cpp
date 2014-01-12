@@ -300,6 +300,8 @@ std::string action_ident(action_id act)
         return "debug_mode";
     case ACTION_TOGGLE_SIDEBAR_STYLE:
         return "toggle_sidebar_style";
+    case ACTION_TOGGLE_FULLSCREEN:
+        return "toggle_fullscreen";
     case ACTION_NULL:
         return "null";
     default:
@@ -477,7 +479,9 @@ std::string action_name(action_id act)
     case ACTION_TOGGLE_DEBUGMON:
         return _("Toggle Debug Messages");
     case ACTION_TOGGLE_SIDEBAR_STYLE:
-        return "Switch Sidebar Style";
+        return _("Switch Sidebar Style");
+    case ACTION_TOGGLE_FULLSCREEN:
+        return _("Toggle Fullscreen mode");
     case ACTION_NULL:
         return _("No Action");
     default:
