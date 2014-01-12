@@ -17,6 +17,7 @@
         "points" : 2,
         "description" : "Your hearing is better than average, and you can hear distant sounds more easily.",
         "starting_trait" : true,
+        "category" : ["MUTCAT_ALPHA"],
         "cancels" : ["BADHEARING"]
     },{
         "type" : "mutation",
@@ -253,6 +254,15 @@
         "cancels" : ["LIGHTWEIGHT"]
     },{
         "type" : "mutation",
+        "id" : "TOLERANCE",
+        "name" : "Substance Tolerance",
+        "points" : 1,
+        "description" : "You can handle intoxicants well.  Their effects clear up more quickly for you.",
+        "starting_trait" : true,
+        "leads_to" : ["ALCMET"],
+        "cancels" : ["LIGHTWEIGHT"]
+    },{
+        "type" : "mutation",
         "id" : "GOURMAND",
         "name" : "Gourmand",
         "points" : 2,
@@ -326,7 +336,8 @@
         "points" : 2,
         "description" : "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "changes_to" : ["CENOBITE"]
     },{
         "type" : "mutation",
         "id" : "STYLISH",
@@ -416,6 +427,7 @@
         "points" : 1,
         "description" : "Your scent is quite weak. Animals that track your scent will do so with more difficulty.",
         "starting_trait" : true,
+        "category" : ["MUTCAT_ALPHA"],
         "cancels" : ["SMELLY"]
     },{
         "type" : "mutation",
@@ -638,7 +650,7 @@
         "description" : "Your scent is particularly strong. It's not offensive to humans, but animals that track your scent will do so more easily.",
         "starting_trait" : true,
         "changes_to" : ["SMELLY2"],
-        "cancels" : ["INODOROUS"],
+        "cancels" : ["WEAKSCENT"],
         "category" : ["MUTCAT_FELINE", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
@@ -1306,12 +1318,41 @@
         "category" : ["MUTCAT_PLANT", "MUTCAT_SLIME", "MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
+        "id" : "INFRESIST",
+        "name" : "Infection Resistant",
+        "points" : 3,
+        "description" : "Your immune system is particularly good at resisting infections.",
+        "starting_trait" : true,
+        "changes_to" : ["INFIMMUNE"],
+        "category" : ["MUTCAT_TROGLO", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "INFIMMUNE",
+        "name" : "Infection Immune",
+        "points" : 5,
+        "description" : "Your bloodstream has developed antibiotic properties. Your wounds will never become infected.",
+        "prereqs" : ["DISRESISTANT"],
+        "prereqs2" : ["INFRESIST"],
+        "threshreq" : ["THRESH_MEDICAL"],
+        "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
         "id" : "POISONOUS",
         "name" : "Poisonous",
         "points" : 8,
-        "description" : "Your body produces a potent venom. Any special attacks from mutations have a chance to poison your target.",
+        "description" : "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
         "prereqs" : ["POISRESIST"],
+        "changes_to" : ["POISONOUS2"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
+        "id" : "POISONOUS2",
+        "name" : "Venomous",
+        "points" : 10,
+        "description" : "Your venom has become particularly strong.  You're confident that your bites or other cutting/stabbing natural attacks will take your target down quickly.",
+        "prereqs" : ["POISONOUS"],
+        "threshreq" : ["THRESH_SPIDER"],
+        "category" : ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "SLIME_HANDS",
@@ -1355,6 +1396,7 @@
         "visibility" : 4,
         "ugliness" : 2,
         "description" : "You have grown large, curved, and wickedly sharp talons in place of your big toes. Fortunately, they don't get in the way of your walking.  Unfortunately, they do prevent you from wearing footgear, which does cause some problems.",
+        "valid" : false,
         "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES"],
         "category" : ["MUTCAT_RAPTOR"]
     },{
@@ -1375,6 +1417,17 @@
       ]
     },{
         "type" : "mutation",
+        "id" : "ALCMET",
+        "name" : "Alcohol Metabolism",
+        "points" : 4,
+        "description" : "So it's fermented?  Whatever, it's still good drinking.  You've developed the ability to metabolize alcohol as a food source.",
+        "prereqs" : ["TOLERANCE"],
+        "prereqs2" : ["SAPROVORE"],
+        "threshreq" : ["THRESH_TROGLOBITE"],
+        "category" : ["MUTCAT_TROGLO"],
+        "valid" : false
+    },{
+        "type" : "mutation",
         "id" : "SAPROVORE",
         "name" : "Saprovore",
         "points" : 4,
@@ -1389,6 +1442,17 @@
         "points" : 5,
         "description" : "Your digestive system is capable of digesting cellulose and other rough plant material. You can eat underbrush by standing over it and pressing E.",
         "prereqs" : ["HERBIVORE"],
+        "changes_to" : ["GRAZER"],
+        "cancels" : ["CARNIVORE", "SAPROVORE"],
+        "category" : ["MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
+        "id" : "GRAZER",
+        "name" : "Grazer",
+        "points" : 10,
+        "description" : "You're accustomed to eating plants directly, and can get nutrition from grass as well as underbrush.  Eat either one by standing over it and pressing E.",
+        "prereqs" : ["RUMINANT"],
+        "threshreq" : ["THRESH_CATTLE"],
         "cancels" : ["CARNIVORE", "SAPROVORE"],
         "category" : ["MUTCAT_CATTLE"]
     },{
@@ -1604,6 +1668,49 @@
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
+        "id" : "MASOCHIST_MED",
+        "name" : "Pain Junkie",
+        "points" : 4,
+        "visibility" : 3,
+        "ugliness" : 2,
+        "description" : "You've developed a serious appetite for pain, and take pride in your scars.",
+        "valid" : false,
+        "prereqs" : ["MASOCHIST", "PAINRESIST", "ADDICT"],
+        "prereqs2" : ["PAINREC2", "PAINREC3"],
+        "threshreq" : ["THRESH_MEDICAL"],
+        "changes_to" : ["CENOBITE"],
+        "note" : "MASOCHIST_MED and NOPAIN don't cancel each other.  By design.  Poor painless folks...",
+        "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "CENOBITE",
+        "name" : "Cenobite",
+        "points" : 6,
+        "visibility" : 4,
+        "ugliness" : 10,
+        "description" : "You positively adore pain, in all its varied forms.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["MASOCHIST_MED"],
+        "prereqs2" : ["PAINREC3", "ADDICT"],
+        "threshreq" : ["THRESH_MEDICAL"],
+        "note" : "CENOBITE and NOPAIN also don't cancel each other.  By design.  Poor painless cenobites...",
+        "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "NOPAIN",
+        "name" : "Deadened",
+        "points" : 2,
+        "description" : "Nothing hurts any more. Those bites tickle and the wounds itch a bit, but that's it.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["MASOCHIST", "PAINRESIST"],
+        "prereqs2" : ["PAINREC3"],
+        "threshreq" : ["THRESH_MEDICAL"],
+        "note" : "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people...",
+        "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
         "id" : "WINGS_BIRD",
         "name" : "Bird Wings",
         "points" : 2,
@@ -1801,7 +1908,7 @@
         "points" : 2,
         "description" : "Your muscles are stronger. Strength + 2",
         "prereqs" : ["STR_UP"],
-        "changes_to" : ["STR_UP_3"],
+        "changes_to" : ["STR_UP_3", "STR_ALPHA"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_PLANT", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
@@ -1822,14 +1929,26 @@
         "ugliness" : 2,
         "description" : "Your muscles are noticeably bulging. Strength + 7",
         "prereqs" : ["STR_UP_3"],
+        "threshreq" : ["THRESH_BEAST", "THRESH_URSINE"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
+        "id" : "STR_ALPHA",
+        "name" : "Prime Strength",
+        "points" : 6,
+        "description" : "Your muscles are perfectly developed.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["STR_UP_2"],
+        "threshreq" : ["THRESH_ALPHA"],
+        "category" : ["MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "DEX_UP",
         "name" : "Dextrous",
         "points" : 1,
         "description" : "You are a little nimbler. Dexterity + 1",
-        "changes_to" : ["DEX_UP_2"],
+        "changes_to" : ["DEX_UP_2", "DEX_ALPHA"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
@@ -1856,14 +1975,26 @@
         "points" : 4,
         "description" : "You are much nimbler than before. Dexterity + 7",
         "prereqs" : ["DEX_UP_3"],
+        "threshreq" : ["THRESH_CEPHALOPOD"],
         "category" : ["MUTCAT_CEPHALOPOD"]
+    },{
+        "type" : "mutation",
+        "id" : "DEX_ALPHA",
+        "name" : "Prime Dexterity",
+        "points" : 6,
+        "description" : "You're perfectly coordinated.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["DEX_UP"],
+        "threshreq" : ["THRESH_ALPHA"],
+        "category" : ["MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "INT_UP",
         "name" : "Smart",
         "points" : 1,
         "description" : "You are a little smarter. Intelligence + 1",
-        "changes_to" : ["INT_UP_2"],
+        "changes_to" : ["INT_UP_2", "INT_ALPHA"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
@@ -1893,7 +2024,19 @@
         "ugliness" : 3,
         "description" : "Your skull bulges noticeably with your impressive brain. Intelligence + 7",
         "prereqs" : ["INT_UP_3"],
+        "threshreq" : ["THRESH_CEPHALOPOD"],
         "category" : ["MUTCAT_CEPHALOPOD"]
+    },{
+        "type" : "mutation",
+        "id" : "INT_ALPHA",
+        "name" : "Prime Intelligence",
+        "points" : 6,
+        "description" : "You understand almost everything about which you think, with minimal effort.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["INT_UP"],
+        "threshreq" : ["THRESH_ALPHA"],
+        "category" : ["MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "PER_UP",
@@ -1908,7 +2051,7 @@
         "points" : 2,
         "description" : "Your senses are keener. Perception + 2",
         "prereqs" : ["PER_UP"],
-        "changes_to" : ["PER_UP_3"],
+        "changes_to" : ["PER_UP_3", "PER_ALPHA"],
         "category" : ["MUTCAT_ALPHA", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
@@ -1926,7 +2069,30 @@
         "points" : 4,
         "description" : "You can sense things you never imagined. Perception + 7",
         "prereqs" : ["PER_UP_3"],
+        "threshreq" : ["THRESH_BIRD"],
         "category" : ["MUTCAT_BIRD"]
+    },{
+        "type" : "mutation",
+        "id" : "PER_ALPHA",
+        "name" : "Prime Perception",
+        "points" : 6,
+        "description" : "Your senses are keenly honed.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["PER_UP_2"],
+        "threshreq" : ["THRESH_ALPHA"],
+        "category" : ["MUTCAT_ALPHA"]
+    },{
+        "type" : "mutation",
+        "id" : "MUT_JUNKIE",
+        "name" : "Metallassomaiphile",
+        "note" : "name courtesy of wiktionary's Greek for 'mutate'. Greek-speakers, feel free to correct the term",
+        "points" : 0,
+        "visibility" : 0,
+        "ugliness" : 0,
+        "description" : "Just thinking of mutagen (such a lovely word! 'mutagen'. Perfect!) makes you thirsty. And you so love your new parts... you simply must have more mutagen.",
+        "threshreq" : ["THRESH_MEDICAL", "THRESH_CHIMERA"],
+        "category" : ["MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "HEADBUMPS",
@@ -2478,6 +2644,16 @@
         "description" : "You are cold-blooded and rely on heat to keep moving. Your lose 1% of your speed for every 2 degrees below 65 F.",
         "prereqs" : ["COLDBLOOD2"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_LIZARD"]
+    },{
+        "type" : "mutation",
+        "id" : "COLDBLOOD4",
+        "name" : "Ectothermic",
+        "points" : -2,
+        "description" : "Your body has become permanently cold-blooded. Your speed lowers--or raises--for every two degrees below or above 65 F.",
+        "prereqs" : ["COLDBLOOD3"],
+        "threshreq" : ["THRESH_LIZARD"],
+        "purifiable" : false,
+        "category" : ["MUTCAT_LIZARD"]
     },{
         "type" : "mutation",
         "id" : "GROWL",
