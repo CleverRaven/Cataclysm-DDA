@@ -197,7 +197,22 @@ void game::wishmutate( player *p )
         if ( wmenu.ret > 0 ) {
             int rc=0;
             std::string mstr=cb->vTraits[ wmenu.ret ];
-            if ( p->has_trait( mstr ) ) {
+            bool threshold = mutation_data[mstr].threshold;
+            //Manual override for the threshold-gaining
+            if (threshold) {
+              if ( p->has_trait( mstr ) ) {
+                do {
+                    p->remove_mutation(mstr );
+                    rc++;
+                } while (p->has_trait( mstr ) && rc < 10);
+            } else {
+                do {
+                    p->toggle_mutation(mstr );
+                    rc++;
+                } while (!p->has_trait( mstr ) && rc < 10);
+              }
+            }
+            else if ( p->has_trait( mstr ) ) {
                 do {
                     p->remove_mutation(mstr );
                     rc++;

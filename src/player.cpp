@@ -58,6 +58,7 @@ void game::init_morale()
     _("Music"),
     _("Played Video Game"),
     _("Marloss Bliss"),
+    _("Mutagenic Anticipation"),
     _("Good Feeling"),
 
     _("Nicotine Craving"),
@@ -67,6 +68,7 @@ void game::init_morale()
     _("Speed Craving"),
     _("Cocaine Craving"),
     _("Crack Cocaine Craving"),
+    _("Mutagen Craving"),
 
     _("Disliked %i"),
     _("Ate Human Flesh"),
@@ -576,10 +578,13 @@ void player::apply_persistent_morale()
     }
 
     // Masochists get a morale bonus from pain.
-    if (has_trait("MASOCHIST"))
+    if (has_trait("MASOCHIST") || has_trait("MASOCHIST_MED") ||
+    has_trait("CENOBITE"))
     {
         int bonus = pain / 2.5;
-        if (bonus > 25)
+        // Advanced masochists really get a morale bonus from pain.
+        // (It's not capped.)
+        if (has_trait("MASOCHIST") && (bonus > 25))
         {
             bonus = 25;
         }
@@ -636,6 +641,10 @@ int player::calc_focus_equilibrium()
 {
     // Factor in pain, since it's harder to rest your mind while your body hurts.
     int eff_morale = morale_level() - pain;
+    // Cenobites don't mind, though
+    if (has_trait("CENOBITE")) {
+        eff_morale = eff_morale + pain;
+    }
     int focus_gain_rate = 100;
 
     if (activity.type == ACT_READ)
@@ -1169,6 +1178,10 @@ void player::recalc_speed_bonus()
 
  if (pain > pkill) {
   int pain_penalty = int((pain - pkill) * .7);
+  // Cenobites aren't slowed nearly as much by pain
+  if (has_trait("CENOBITE")) {
+      pain_penalty /= 4;
+  }
   if (pain_penalty > 60)
    pain_penalty = 60;
   mod_speed_bonus(-pain_penalty);
@@ -1209,10 +1222,15 @@ void player::recalc_speed_bonus()
  // add martial arts speed bonus
  mod_speed_bonus(mabuff_speed_bonus());
 
+ // Not sure why Sunlight Dependent is here, but OK
+ // Ectothermic/COLDBLOOD4 is intended to buff folks in the Summer
+ // Threshold-crossing has its charms ;-)
  if (g != NULL) {
   if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy))
    mod_speed_bonus(-(g->light_level() >= 12 ? 5 : 10));
-  if (has_trait("COLDBLOOD3") && g->get_temperature() < 60)
+  if ((has_trait("COLDBLOOD4")) && g->get_temperature() > 60)
+  mod_speed_bonus(+int( (g->get_temperature() - 65) / 2));
+  if ((has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) && g->get_temperature() < 60)
    mod_speed_bonus(-int( (65 - g->get_temperature()) / 2));
   else if (has_trait("COLDBLOOD2") && g->get_temperature() < 60)
    mod_speed_bonus(-int( (65 - g->get_temperature()) / 3));
@@ -1801,9 +1819,13 @@ void player::disp_info()
  if (pain - pkill > 0) {
   effect_name.push_back(_("Pain"));
   std::stringstream pain_text;
-  if (pain - pkill >= 15)
+  // Cenobites aren't markedly physically impaired by pain.
+  if ((pain - pkill >= 15) && (!(has_trait("CENOBITE")))) {
    pain_text << "Strength" << " -" << int((pain - pkill) / 15) << "   " << _("Dexterity") << " -" <<
                 int((pain - pkill) / 15) << "   ";
+  }
+  // They do find the sensations distracting though.
+  // Pleasurable...but distracting.
   if (pain - pkill >= 20)
    pain_text << _("Perception") << " -" << int((pain - pkill) / 15) << "   ";
   pain_text << _("Intelligence") << " -" << 1 + int((pain - pkill) / 25);
@@ -2224,6 +2246,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
   line++;
  }
  pen = int((pain - pkill) * .7);
+ if (has_trait("CENOBITE")) {
+      pen /= 4;
+  }
  if (pen > 60)
   pen = 60;
  if (pen >= 1) {
@@ -2265,14 +2290,22 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             (pen < 10 ? " " : ""), pen);
   line++;
  }
- if ((has_trait("COLDBLOOD") || has_trait("COLDBLOOD2") ||
-      has_trait("COLDBLOOD3")) && g->get_temperature() < 65) {
-  if (has_trait("COLDBLOOD3"))
+ if (has_trait ("COLDBLOOD4") && g->get_temperature() > 65) {
+  pen = int( (g->get_temperature() - 65) / 2);
+  mvwprintz(w_speed, line, 1, c_green, _("Cold-Blooded        +%s%d%%"),
+            (pen < 10 ? " " : ""), pen);
+  line++;
+ }
+  if ((has_trait("COLDBLOOD") || has_trait("COLDBLOOD2") ||
+      has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) &&
+      g->get_temperature() < 65) {
+  if (has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) {
    pen = int( (65 - g->get_temperature()) / 2);
-  else if (has_trait("COLDBLOOD2"))
+   }
+  else if (has_trait("COLDBLOOD2")) {
    pen = int( (65 - g->get_temperature()) / 3);
-  else
-   pen = int( (65 - g->get_temperature()) / 2);
+   }
+  else pen = int( (65 - g->get_temperature()) / 2);
   mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
@@ -3968,7 +4001,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     int cut_dam = dealt_dams.type_damage(DT_CUT);
     switch (bp) {
     case bp_eyes:
+      if (!(has_trait("NOPAIN"))) {
         mod_pain(1);
+        }
         if (dam > 5 || cut_dam > 0) {
             int minblind = int((dam + cut_dam) / 10);
             if (minblind < 1)
@@ -3980,7 +4015,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         }
     case bp_mouth: // Fall through to head damage
     case bp_head:
+      if (!(has_trait("NOPAIN"))) {
         mod_pain(1);
+        }
         hp_cur[hp_head] -= dam;
         if (hp_cur[hp_head] < 0)
         {
@@ -4077,9 +4114,11 @@ void player::apply_damage(Creature* source, body_part bp, int side, int dam) {
 }
 
 void player::mod_pain(int npain) {
+    if (!(has_trait("NOPAIN"))) {
     if (has_trait("PAINRESIST") && npain > 1) // if it's 1 it'll just become 0, which is bad
         npain = npain * 4 / rng(4,8);
     Creature::mod_pain(npain);
+    }
 }
 
 void player::hurt(body_part, int, int dam)
@@ -4096,9 +4135,13 @@ void player::hurt(body_part, int, int dam)
 
  if (!is_npc())
   g->cancel_activity_query(_("You were hurt!"));
-
- if (has_trait("PAINRESIST"))
+ 
+ if (has_trait("NOPAIN")) {
+      painadd = 0;
+  }
+ else if (has_trait("PAINRESIST")) {
   painadd = dam / 3;
+  }
  else
   painadd = dam / 2;
  pain += painadd;
@@ -4125,8 +4168,11 @@ void player::hurt(hp_part hurt, int dam)
     if (!is_npc()) {
         g->cancel_activity_query(_("You were hurt!"));
     }
-
-    if (has_trait("PAINRESIST")) {
+    
+    if (has_trait("NOPAIN")) {
+      painadd = 0;
+    }
+    else if (has_trait("PAINRESIST")) {
         painadd = dam / 3;
     } else {
         painadd = dam / 2;
@@ -4220,8 +4266,12 @@ void player::hurtall(int dam)
      lifetime_stats()->damage_taken+=hp_cur[i];
      hp_cur[i] = 0;
    }
-  if (has_trait("PAINRESIST"))
+  if (has_trait("NOPAIN")) {
+      painadd = 0;
+  }
+  else if (has_trait("PAINRESIST")) {
    painadd = dam / 3;
+  }
   else
    painadd = dam / 2;
   pain += painadd;
@@ -4248,8 +4298,12 @@ void player::hitall(int dam, int vary)
      lifetime_stats()->damage_taken+=hp_cur[i];
      hp_cur[i] = 0;
    }
-  if (has_trait("PAINRESIST"))
-   painadd = dam / 3 / 4;
+  if (has_trait("NOPAIN")) {
+      painadd = 0;
+  }
+  else if (has_trait("PAINRESIST")) {
+      painadd = dam / 3 / 4;
+   }
   else
    painadd = dam / 2 / 4;
   pain += painadd;
@@ -4763,7 +4817,7 @@ void player::process_effects() {
                 mod_str_bonus(-2);
                 mod_per_bonus(-1);
             }
-            if (one_in(psnChance)) {
+            if ((one_in(psnChance)) && (!(has_trait("NOPAIN")))) {
                 g->add_msg_if_player(this,_("You're suddenly wracked with pain!"));
                 mod_pain(1);
                 hurt(bp_torso, -1, rng(0, 2) * rng(0, 1));
@@ -4862,7 +4916,8 @@ void player::suffer()
             if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))){
                 g->add_msg_if_player(this, _("Your body strains under the weight!"));
                 // 1 more pain for every 800 grams more (5 per extra STR needed)
-                if ( (weight_carried() - weight_capacity()) / 800 > pain && pain < 100) {
+                if ( ((weight_carried() - weight_capacity()) / 800 > pain && pain < 100) &&
+                (!(g->u.has_trait("NOPAIN")))) {
                     pain += 1;
                 }
             }
@@ -4912,7 +4967,7 @@ void player::suffer()
         }
         if (has_trait("CHEMIMBALANCE"))
         {
-            if (one_in(3600))
+            if (one_in(3600) && (!(has_trait("NOPAIN"))))
             {
                 g->add_msg(_("You suddenly feel sharp pain for no reason."));
                 pain += 3 * rng(1, 3);
@@ -4924,7 +4979,7 @@ void player::suffer()
                 {
                     g->add_msg(_("You suddenly feel numb."));
                 }
-                else if (pkilladd < 0)
+                else if ((pkilladd < 0) && (!(has_trait("NOPAIN"))))
                 {
                     g->add_msg(_("You suddenly ache."));
                 }
@@ -5155,7 +5210,7 @@ void player::suffer()
 
  if (has_trait("SORES")) {
   for (int i = bp_head; i < num_bp; i++) {
-   if (pain < 5 + 4 * abs(encumb(body_part(i))))
+   if ((pain < 5 + 4 * abs(encumb(body_part(i)))) && (!(has_trait("NOPAIN"))))
     pain = 5 + 4 * abs(encumb(body_part(i)));
   }
  }
@@ -5258,7 +5313,9 @@ void player::suffer()
 // Negative bionics effects
  if (has_bionic("bio_dis_shock") && one_in(1200)) {
   g->add_msg(_("You suffer a painful electrical discharge!"));
-  pain++;
+    if (!(has_trait("NOPAIN"))) {
+      pain++;
+    }
   moves -= 150;
  }
  if (has_bionic("bio_dis_acid") && one_in(1500)) {

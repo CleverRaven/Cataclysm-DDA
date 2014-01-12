@@ -624,7 +624,10 @@ bool game::do_turn()
         u.hp_cur[hp_torso] = 0;
     } else if (u.has_disease("jetinjector") &&
             u.disease_duration("jetinjector") > 400) {
-        add_msg(_("Your heart spasms painfully and stops."));
+            if (!(u.has_trait("NOPAIN"))) {
+                add_msg(_("Your heart spasms painfully and stops."));
+            }
+        else { add_msg(_("Your heart spasms and stops.")); }
         u.add_memorial_log(_("Died of a healing stimulant overdose."));
         u.hp_cur[hp_torso] = 0;
     }
@@ -10389,12 +10392,25 @@ void game::forage()
 
 void game::eat(int pos)
 {
- if (u.has_trait("RUMINANT") && m.ter(u.posx, u.posy) == t_underbrush &&
+ if ((u.has_trait("RUMINANT") || u.has_trait("GRAZER")) && m.ter(u.posx, u.posy) == t_underbrush &&
      query_yn(_("Eat underbrush?"))) {
   u.moves -= 400;
   u.hunger -= 10;
   m.ter_set(u.posx, u.posy, t_grass);
   add_msg(_("You eat the underbrush."));
+  return;
+ }
+  if (u.has_trait("GRAZER") && m.ter(u.posx, u.posy) == t_grass &&
+     query_yn(_("Graze?"))) {
+      u.moves -= 400;
+      if ((u.hunger < 10) || one_in(20 - u.int_cur)) {
+          add_msg(_("You eat some of the taller grass, careful to leave some growing."));
+          u.hunger -= 2;
+      }
+  else{ add_msg(_("You eat the grass."));
+        u.hunger -= 5;
+        m.ter_set(u.posx, u.posy, t_dirt);
+      }
   return;
  }
  if (pos == INT_MIN)
@@ -11247,7 +11263,9 @@ bool game::plmove(int dx, int dy)
                      one_in(std::max(20 - furntype.move_str_req - u.str_cur, 2)) ) {
               add_msg(_("You strain yourself trying to move the heavy %s!"), furntype.name.c_str() );
               u.moves -= 100;
-              u.pain++; // Hurt ourself.
+              if (!(u.has_trait("NOPAIN"))) {
+                  u.pain++; // Hurt ourself.
+              }
               return false; // furniture and or obstacle wins.
           } else if ( ! src_item_ok && dst_items > 0 ) {
               add_msg( _("There's stuff in the way.") );
@@ -13183,6 +13201,8 @@ void game::process_artifact(item *it, player *p, bool wielded)
                     it->charges++;
                 }
                 break;
+                // Artifacts can inflict pain even on Deadened folks.
+                // Some weird Lovecraftian thing.  ;P
             case ARTC_PAIN:
                 if (turn.seconds() == 0) {
                     add_msg(_("You suddenly feel sharp pain for no reason."));
