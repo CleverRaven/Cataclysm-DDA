@@ -101,6 +101,8 @@ void game::init_morale()
 
 player::player() : Character(), name("")
 {
+ posx = 0;
+ posy = 0;
  id = 0; // Player is 0. NPCs are different.
  view_offset_x = 0;
  view_offset_y = 0;
