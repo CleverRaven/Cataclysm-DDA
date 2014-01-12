@@ -543,6 +543,15 @@ int set_stats(WINDOW *w, player *u, int &points)
     char ch;
     int read_spd;
 
+    // There is no map loaded currently, so any access to the map will
+    // fail (player::suffer, called from player::reset_stats), might access
+    // the map:
+    // There are traits that check/change the radioactivity on the map,
+    // that check if in sunlight...
+    // Setting the position to -1 ensures that the INBOUNDS check in
+    // map.cpp is triggered. This check prevents access to invalid position
+    // on the map (like -1,0) and instead returns a dummy default value.
+    u->posx = -1;
     u->reset();
 
     draw_tabs(w, _("STATS"));
