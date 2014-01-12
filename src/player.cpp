@@ -3853,7 +3853,7 @@ int player::intimidation()
 }
 
 bool player::is_dead_state() {
-    return hp_cur[hp_head] <= 0 || hp_cur[hp_head] <= 0;
+    return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
 }
 
 void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {

@@ -5712,7 +5712,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                 break;
             case 3:
                 // bat corpses
-                for (int i = rng(1, 12); i < 0; i--) {
+                for (int i = rng(1, 12); i > 0; i--) {
                     body.make_corpse(itypes["corpse"], GetMType("mon_bat"), g->turn);
                     m->add_item_or_charges(rng(1, SEEX * 2 - 1), rng(1, SEEY * 2 - 1), body);
                 }

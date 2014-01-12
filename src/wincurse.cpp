@@ -505,7 +505,7 @@ WINDOW *curses_init(void)
     
     init_colors();
 
-    delete typeface_c;
+    delete[] typeface_c;
     mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
