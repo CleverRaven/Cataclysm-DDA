@@ -93,10 +93,10 @@ void addict_effect(addiction &add)
         break;
 
     case ADD_SPEED: {
-        int move_pen = in * 5;
-        if (move_pen > 30) {
-            move_pen = 30;
-        }
+        // Minimal speed of PC is 0.25 * base speed, that is
+        // usually 25 moves, this ensures that even at minimal speed
+        // the PC gets 5 moves per turn.
+        int move_pen = std::min(in * 5, 20);
         g->u.moves -= move_pen;
         g->u.int_cur--;
         g->u.str_cur--;
