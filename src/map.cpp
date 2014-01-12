@@ -2714,11 +2714,12 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
   return ret;
 }
 
-std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const itype_id type, int &quantity)
+std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const itype_id type,
+        int &quantity)
 {
     std::list<item> ret;
     for (int n = 0; n < vec.size() && quantity > 0; n++) {
-        item& curit = vec[n];
+        item &curit = vec[n];
         if (curit.contents.empty()) {
             if (curit.type->id == type || curit.ammo_type() == type) {
                 // curit is empty, has the required type or
