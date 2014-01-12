@@ -13545,34 +13545,35 @@
 },{
   "type" : "recipe",
   "result": "stockings_tent_legs",
+  "id_suffix": "from_rags",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 60000,
+  "time": 50000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 36 ],
-      [ "needle_wood", 36 ],
-      [ "sewing_kit", 36 ]
+      [ "needle_bone", 24 ],
+      [ "needle_wood", 24 ],
+      [ "sewing_kit", 24 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 48 ]
+      [ "rag", 30 ]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "stockings_tent_legs",
-  "id_suffix": "collection",
+  "id_suffix": "from_stockings",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 10000,
+  "time": 15000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -13585,39 +13586,43 @@
   "components": [
     [
       [ "stockings", 3 ]
+    ],
+    [
+      [ "rag", 6]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "stockings_tent_arms",
+  "id_suffix": "from_rags",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 80000,
+  "time": 60000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 48 ],
-      [ "needle_wood", 48 ],
-      [ "sewing_kit", 48 ]
+      [ "needle_bone", 32 ],
+      [ "needle_wood", 32 ],
+      [ "sewing_kit", 32 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 64 ]
+      [ "rag", 40 ]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "stockings_tent_arms",
-  "id_suffix": "collection",
+  "id_suffix": "from_stockings",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 12000,
+  "time": 20000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -13630,6 +13635,9 @@
   "components": [
     [
       [ "stockings", 4 ]
+    ],
+    [
+      [ "rag", 8 ]
     ]
   ]
 },{
