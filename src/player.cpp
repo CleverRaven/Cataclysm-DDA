@@ -579,35 +579,29 @@ void player::apply_persistent_morale()
 
     // Masochists get a morale bonus from pain.
     if (has_trait("MASOCHIST") || has_trait("MASOCHIST_MED") ||
-    has_trait("CENOBITE"))
-    {
+        has_trait("CENOBITE")) {
         int bonus = pain / 2.5;
         // Advanced masochists really get a morale bonus from pain.
         // (It's not capped.)
-        if (has_trait("MASOCHIST") && (bonus > 25))
-        {
+        if (has_trait("MASOCHIST") && (bonus > 25)) {
             bonus = 25;
         }
-        if (has_disease("took_prozac"))
-        {
+        if (has_disease("took_prozac")) {
             bonus = int(bonus / 3);
         }
-        if (bonus != 0)
-        {
+        if (bonus != 0) {
             add_morale(MORALE_PERM_MASOCHIST, bonus, bonus, 5, 5, true);
         }
     }
 
     // Optimist gives a base +4 to morale.
     // The +25% boost from optimist also applies here, for a net of +5.
-    if (has_trait("OPTIMISTIC"))
-    {
+    if (has_trait("OPTIMISTIC")) {
         add_morale(MORALE_PERM_OPTIMIST, 4, 4, 5, 5, true);
     }
 
     // And Bad Temper works just the same way.  But in reverse.  ):
-    if (has_trait("BADTEMPER"))
-    {
+    if (has_trait("BADTEMPER")) {
         add_morale(MORALE_PERM_BADTEMPER, -4, -4, 5, 5, true);
     }
 }
@@ -647,21 +641,16 @@ int player::calc_focus_equilibrium()
     }
     int focus_gain_rate = 100;
 
-    if (activity.type == ACT_READ)
-    {
+    if (activity.type == ACT_READ) {
         it_book* reading;
-        if (this->activity.index == -2)
-        {
+        if (this->activity.index == -2) {
             reading = dynamic_cast<it_book *>(weapon.type);
-        }
-        else
-        {
+        } else {
             reading = dynamic_cast<it_book *>(inv.find_item(activity.position).type);
         }
         if (reading != 0) {
             // apply a penalty when we're actually learning something
-            if (skillLevel(reading->type) < (int)reading->level)
-            {
+            if (skillLevel(reading->type) < (int)reading->level) {
                 focus_gain_rate -= 50;
             }
         } else {
@@ -669,18 +658,13 @@ int player::calc_focus_equilibrium()
         }
     }
 
-    if (eff_morale < -99)
-    {
+    if (eff_morale < -99) {
         // At very low morale, focus goes up at 1% of the normal rate.
         focus_gain_rate = 1;
-    }
-    else if (eff_morale <= 50)
-    {
+    } else if (eff_morale <= 50) {
         // At -99 to +50 morale, each point of morale gives 1% of the normal rate.
         focus_gain_rate += eff_morale;
-    }
-    else
-    {
+    } else {
         /* Above 50 morale, we apply strong diminishing returns.
          * Each block of 50% takes twice as many morale points as the previous one:
          * 150% focus gain at 50 morale (as before)
@@ -692,17 +676,13 @@ int player::calc_focus_equilibrium()
 
         int block_multiplier = 1;
         int morale_left = eff_morale;
-        while (focus_gain_rate < 400)
-        {
-            if (morale_left > 50 * block_multiplier)
-            {
+        while (focus_gain_rate < 400) {
+            if (morale_left > 50 * block_multiplier) {
                 // We can afford the entire block.  Get it and continue.
                 morale_left -= 50 * block_multiplier;
                 focus_gain_rate += 50;
                 block_multiplier *= 2;
-            }
-            else
-            {
+            } else {
                 // We can't afford the entire block.  Each block_multiplier morale
                 // points give 1% focus gain, and then we're done.
                 focus_gain_rate += morale_left / block_multiplier;
@@ -712,12 +692,9 @@ int player::calc_focus_equilibrium()
     }
 
     // This should be redundant, but just in case...
-    if (focus_gain_rate < 1)
-    {
+    if (focus_gain_rate < 1) {
         focus_gain_rate = 1;
-    }
-    else if (focus_gain_rate > 400)
-    {
+    } else if (focus_gain_rate > 400) {
         focus_gain_rate = 400;
     }
 
@@ -1162,96 +1139,109 @@ void player::update_bodytemp()
 
 void player::temp_equalizer(body_part bp1, body_part bp2)
 {
- // Body heat is moved around.
- // Shift in one direction only, will be shifted in the other direction separately.
- int diff = (temp_cur[bp2] - temp_cur[bp1])*0.0001; // If bp1 is warmer, it will lose heat
- temp_cur[bp1] += diff;
+    // Body heat is moved around.
+    // Shift in one direction only, will be shifted in the other direction separately.
+    int diff = (temp_cur[bp2] - temp_cur[bp1])*0.0001; // If bp1 is warmer, it will lose heat
+    temp_cur[bp1] += diff;
 }
 
 void player::recalc_speed_bonus()
 {
-// Minus some for weight...
- int carry_penalty = 0;
- if (weight_carried() > weight_capacity())
-  carry_penalty = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
- mod_speed_bonus(-carry_penalty);
+    // Minus some for weight...
+    int carry_penalty = 0;
+    if (weight_carried() > weight_capacity()) {
+        carry_penalty = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
+    }
+    mod_speed_bonus(-carry_penalty);
 
- if (pain > pkill) {
-  int pain_penalty = int((pain - pkill) * .7);
-  // Cenobites aren't slowed nearly as much by pain
-  if (has_trait("CENOBITE")) {
-      pain_penalty /= 4;
-  }
-  if (pain_penalty > 60)
-   pain_penalty = 60;
-  mod_speed_bonus(-pain_penalty);
- }
- if (pkill >= 10) {
-  int pkill_penalty = int(pkill * .1);
-  if (pkill_penalty > 30)
-   pkill_penalty = 30;
-  mod_speed_bonus(-pkill_penalty);
- }
+    if (pain > pkill) {
+        int pain_penalty = int((pain - pkill) * .7);
+        // Cenobites aren't slowed nearly as much by pain
+        if (has_trait("CENOBITE")) {
+            pain_penalty /= 4;
+        }
+        if (pain_penalty > 60) {
+            pain_penalty = 60;
+        }
+        mod_speed_bonus(-pain_penalty);
+    }
+    if (pkill >= 10) {
+        int pkill_penalty = int(pkill * .1);
+        if (pkill_penalty > 30) {
+            pkill_penalty = 30;
+        }
+        mod_speed_bonus(-pkill_penalty);
+    }
 
- if (abs(morale_level()) >= 100) {
-  int morale_bonus = int(morale_level() / 25);
-  if (morale_bonus < -10)
-   morale_bonus = -10;
-  else if (morale_bonus > 10)
-   morale_bonus = 10;
-  mod_speed_bonus(morale_bonus);
- }
+    if (abs(morale_level()) >= 100) {
+        int morale_bonus = int(morale_level() / 25);
+        if (morale_bonus < -10) {
+            morale_bonus = -10;
+        } else if (morale_bonus > 10) {
+            morale_bonus = 10;
+        }
+        mod_speed_bonus(morale_bonus);
+    }
 
- if (radiation >= 40) {
-  int rad_penalty = radiation / 40;
-  if (rad_penalty > 20)
-   rad_penalty = 20;
-  mod_speed_bonus(-rad_penalty);
- }
+    if (radiation >= 40) {
+        int rad_penalty = radiation / 40;
+        if (rad_penalty > 20) {
+            rad_penalty = 20;
+        }
+        mod_speed_bonus(-rad_penalty);
+    }
 
- if (thirst > 40)
-  mod_speed_bonus(-int((thirst - 40) / 10));
- if (hunger > 100)
-  mod_speed_bonus(-int((hunger - 100) / 10));
+    if (thirst > 40) {
+        mod_speed_bonus(-int((thirst - 40) / 10));
+    }
+    if (hunger > 100) {
+        mod_speed_bonus(-int((hunger - 100) / 10));
+    }
 
- mod_speed_bonus(stim > 40 ? 40 : stim);
+    mod_speed_bonus(stim > 40 ? 40 : stim);
 
- for (int i = 0; i < illness.size(); i++)
-  mod_speed_bonus(disease_speed_boost(illness[i]));
+    for (int i = 0; i < illness.size(); i++) {
+        mod_speed_bonus(disease_speed_boost(illness[i]));
+    }
 
- // add martial arts speed bonus
- mod_speed_bonus(mabuff_speed_bonus());
+    // add martial arts speed bonus
+    mod_speed_bonus(mabuff_speed_bonus());
 
- // Not sure why Sunlight Dependent is here, but OK
- // Ectothermic/COLDBLOOD4 is intended to buff folks in the Summer
- // Threshold-crossing has its charms ;-)
- if (g != NULL) {
-  if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy))
-   mod_speed_bonus(-(g->light_level() >= 12 ? 5 : 10));
-  if ((has_trait("COLDBLOOD4")) && g->get_temperature() > 60)
-  mod_speed_bonus(+int( (g->get_temperature() - 65) / 2));
-  if ((has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) && g->get_temperature() < 60)
-   mod_speed_bonus(-int( (65 - g->get_temperature()) / 2));
-  else if (has_trait("COLDBLOOD2") && g->get_temperature() < 60)
-   mod_speed_bonus(-int( (65 - g->get_temperature()) / 3));
-  else if (has_trait("COLDBLOOD") && g->get_temperature() < 60)
-   mod_speed_bonus(-int( (65 - g->get_temperature()) / 5));
- }
+    // Not sure why Sunlight Dependent is here, but OK
+    // Ectothermic/COLDBLOOD4 is intended to buff folks in the Summer
+    // Threshold-crossing has its charms ;-)
+    if (g != NULL) {
+        if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy)) {
+            mod_speed_bonus(-(g->light_level() >= 12 ? 5 : 10));
+        }
+        if ((has_trait("COLDBLOOD4")) && g->get_temperature() > 60) {
+            mod_speed_bonus(+int( (g->get_temperature() - 65) / 2));
+        }
+        if ((has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) && g->get_temperature() < 60) {
+            mod_speed_bonus(-int( (65 - g->get_temperature()) / 2));
+        } else if (has_trait("COLDBLOOD2") && g->get_temperature() < 60) {
+            mod_speed_bonus(-int( (65 - g->get_temperature()) / 3));
+        } else if (has_trait("COLDBLOOD") && g->get_temperature() < 60) {
+            mod_speed_bonus(-int( (65 - g->get_temperature()) / 5));
+        }
+    }
 
- if (has_artifact_with(AEP_SPEED_UP))
-  mod_speed_bonus(20);
- if (has_artifact_with(AEP_SPEED_DOWN))
-  mod_speed_bonus(-20);
+    if (has_artifact_with(AEP_SPEED_UP)) {
+        mod_speed_bonus(20);
+    }
+    if (has_artifact_with(AEP_SPEED_DOWN)) {
+        mod_speed_bonus(-20);
+    }
 
- if (has_trait("QUICK")) // multiply by 1.1
-  set_speed_bonus(get_speed() * 1.10 - get_speed_base());
+    if (has_trait("QUICK")) { // multiply by 1.1
+        set_speed_bonus(get_speed() * 1.10 - get_speed_base());
+    }
 
- // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
- const int min_speed_bonus = -0.75 * get_speed_base();
- if (get_speed_bonus() < min_speed_bonus)
- {
-  set_speed_bonus(min_speed_bonus);
- }
+    // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
+    const int min_speed_bonus = -0.75 * get_speed_base();
+    if (get_speed_bonus() < min_speed_bonus) {
+        set_speed_bonus(min_speed_bonus);
+    }
 }
 
 int player::run_cost(int base_cost, bool diag)
@@ -4867,33 +4857,24 @@ void player::process_effects() {
 
 void player::suffer()
 {
-    for (int i = 0; i < my_bionics.size(); i++)
-    {
-        if (my_bionics[i].powered)
-        {
+    for (int i = 0; i < my_bionics.size(); i++) {
+        if (my_bionics[i].powered) {
             activate_bionic(i);
         }
     }
-    if (underwater)
-    {
-        if (!has_trait("GILLS"))
-        {
+    if (underwater) {
+        if (!has_trait("GILLS")) {
             oxygen--;
         }
         if (oxygen < 12 && worn_with_flag("REBREATHER") &&
-            (has_active_item("UPS_on") || has_active_item("adv_UPS_on")))
-            {
+            (has_active_item("UPS_on") || has_active_item("adv_UPS_on"))) {
                 oxygen += 12;
             }
-        if (oxygen < 0)
-        {
-            if (has_bionic("bio_gills") && power_level > 0)
-            {
+        if (oxygen < 0) {
+            if (has_bionic("bio_gills") && power_level > 0) {
                 oxygen += 5;
                 power_level--;
-            }
-            else
-            {
+            } else {
                 g->add_msg(_("You're drowning!"));
                 hurt(bp_torso, -1, rng(1, 4));
             }
@@ -4920,16 +4901,14 @@ void player::suffer()
         }
     }
 
-    if (!has_disease("sleep"))
-    {
-        if (weight_carried() > weight_capacity())
-        {
+    if (!has_disease("sleep")) {
+        if (weight_carried() > weight_capacity()) {
             // Starts at 1 in 25, goes down by 5 for every 50% more carried
-            if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))){
+            if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))) {
                 g->add_msg_if_player(this, _("Your body strains under the weight!"));
                 // 1 more pain for every 800 grams more (5 per extra STR needed)
                 if ( ((weight_carried() - weight_capacity()) / 800 > pain && pain < 100) &&
-                (!(g->u.has_trait("NOPAIN")))) {
+                     (!(g->u.has_trait("NOPAIN")))) {
                     pain += 1;
                 }
             }
@@ -4942,146 +4921,106 @@ void player::suffer()
             }
         }
         int timer = -3600;
-        if (has_trait("ADDICTIVE"))
-        {
+        if (has_trait("ADDICTIVE")) {
             timer = -4000;
         }
-        if (has_trait("NONADDICTIVE"))
-        {
+        if (has_trait("NONADDICTIVE")) {
             timer = -3200;
         }
-        for (int i = 0; i < addictions.size(); i++)
-        {
+        for (int i = 0; i < addictions.size(); i++) {
             if (addictions[i].sated <= 0 &&
-                addictions[i].intensity >= MIN_ADDICTION_LEVEL)
-            {
+                addictions[i].intensity >= MIN_ADDICTION_LEVEL) {
                 addict_effect(addictions[i]);
             }
             addictions[i].sated--;
-            if (!one_in(addictions[i].intensity - 2) && addictions[i].sated > 0)
-            {
+            if (!one_in(addictions[i].intensity - 2) && addictions[i].sated > 0) {
                 addictions[i].sated -= 1;
             }
-            if (addictions[i].sated < timer - (100 * addictions[i].intensity))
-            {
-                if (addictions[i].intensity <= 2)
-                {
+            if (addictions[i].sated < timer - (100 * addictions[i].intensity)) {
+                if (addictions[i].intensity <= 2) {
                     addictions.erase(addictions.begin() + i);
                     i--;
-                }
-                else
-                {
+                } else {
                     addictions[i].intensity = int(addictions[i].intensity / 2);
                     addictions[i].intensity--;
                     addictions[i].sated = 0;
                 }
             }
         }
-        if (has_trait("CHEMIMBALANCE"))
-        {
-            if (one_in(3600) && (!(has_trait("NOPAIN"))))
-            {
+        if (has_trait("CHEMIMBALANCE")) {
+            if (one_in(3600) && (!(has_trait("NOPAIN")))) {
                 g->add_msg(_("You suddenly feel sharp pain for no reason."));
                 pain += 3 * rng(1, 3);
             }
-            if (one_in(3600))
-            {
+            if (one_in(3600)) {
                 int pkilladd = 5 * rng(-1, 2);
-                if (pkilladd > 0)
-                {
+                if (pkilladd > 0) {
                     g->add_msg(_("You suddenly feel numb."));
-                }
-                else if ((pkilladd < 0) && (!(has_trait("NOPAIN"))))
-                {
+                } else if ((pkilladd < 0) && (!(has_trait("NOPAIN")))) {
                     g->add_msg(_("You suddenly ache."));
                 }
                 pkill += pkilladd;
             }
-            if (one_in(3600))
-            {
+            if (one_in(3600)) {
                 g->add_msg(_("You feel dizzy for a moment."));
                 moves -= rng(10, 30);
             }
-            if (one_in(3600))
-            {
+            if (one_in(3600)) {
                 int hungadd = 5 * rng(-1, 3);
-                if (hungadd > 0)
-                {
+                if (hungadd > 0) {
                     g->add_msg(_("You suddenly feel hungry."));
-                }
-                else
-                {
+                } else {
                     g->add_msg(_("You suddenly feel a little full."));
                 }
                 hunger += hungadd;
             }
-            if (one_in(3600))
-            {
+            if (one_in(3600)) {
                 g->add_msg(_("You suddenly feel thirsty."));
                 thirst += 5 * rng(1, 3);
             }
-            if (one_in(3600))
-            {
+            if (one_in(3600)) {
                 g->add_msg(_("You feel fatigued all of a sudden."));
                 fatigue += 10 * rng(2, 4);
             }
-            if (one_in(4800))
-            {
-                if (one_in(3))
-                {
+            if (one_in(4800)) {
+                if (one_in(3)) {
                     add_morale(MORALE_FEELING_GOOD, 20, 100);
-                }
-                else
-                {
+                } else {
                     add_morale(MORALE_FEELING_BAD, -20, -100);
                 }
             }
-            if (one_in(3600))
-            {
-                if (one_in(3))
-                {
+            if (one_in(3600)) {
+                if (one_in(3)) {
                     g->add_msg(_("You suddenly feel very cold."));
-                    for (int i = 0 ; i < num_bp ; i++)
-                    {
+                    for (int i = 0 ; i < num_bp ; i++) {
                         temp_cur[i] = BODYTEMP_VERY_COLD;
                     }
-                }
-                else
-                {
+                } else {
                     g->add_msg(_("You suddenly feel cold."));
-                    for (int i = 0 ; i < num_bp ; i++)
-                    {
+                    for (int i = 0 ; i < num_bp ; i++) {
                         temp_cur[i] = BODYTEMP_COLD;
                     }
                 }
             }
-            if (one_in(3600))
-            {
-                if (one_in(3))
-                {
+            if (one_in(3600)) {
+                if (one_in(3)) {
                     g->add_msg(_("You suddenly feel very hot."));
-                    for (int i = 0 ; i < num_bp ; i++)
-                    {
+                    for (int i = 0 ; i < num_bp ; i++) {
                         temp_cur[i] = BODYTEMP_VERY_HOT;
                     }
-                }
-                else
-                {
+                } else {
                     g->add_msg(_("You suddenly feel hot."));
-                    for (int i = 0 ; i < num_bp ; i++)
-                    {
+                    for (int i = 0 ; i < num_bp ; i++) {
                         temp_cur[i] = BODYTEMP_HOT;
                     }
                 }
             }
         }
         if ((has_trait("SCHIZOPHRENIC") || has_artifact_with(AEP_SCHIZO)) &&
-            one_in(2400))
-        { // Every 4 hours or so
+            one_in(2400)) { // Every 4 hours or so
             monster phantasm;
             int i;
-            switch(rng(0, 11))
-            {
+            switch(rng(0, 11)) {
                 case 0:
                     add_disease("hallu", 3600);
                     break;
@@ -5109,8 +5048,7 @@ void player::suffer()
                     add_disease("shakes", 10 * rng(2, 5));
                     break;
                 case 7:
-                    for (i = 0; i < 10; i++)
-                    {
+                    for (i = 0; i < 10; i++) {
                         g->spawn_hallucination();
                     }
                     break;
@@ -5134,63 +5072,73 @@ void player::suffer()
                     break;
             }
         }
-  if (has_trait("JITTERY") && !has_disease("shakes")) {
-   if (stim > 50 && one_in(300 - stim))
-    add_disease("shakes", 300 + stim);
-   else if (hunger > 80 && one_in(500 - hunger))
-    add_disease("shakes", 400);
-  }
+        if (has_trait("JITTERY") && !has_disease("shakes")) {
+            if (stim > 50 && one_in(300 - stim)) {
+                add_disease("shakes", 300 + stim);
+            } else if (hunger > 80 && one_in(500 - hunger)) {
+                add_disease("shakes", 400);
+            }
+        }
 
-  if (has_trait("MOODSWINGS") && one_in(3600)) {
-   if (rng(1, 20) > 9) // 55% chance
-    add_morale(MORALE_MOODSWING, -100, -500);
-   else   // 45% chance
-    add_morale(MORALE_MOODSWING, 100, 500);
-  }
+        if (has_trait("MOODSWINGS") && one_in(3600)) {
+            if (rng(1, 20) > 9) { // 55% chance
+                add_morale(MORALE_MOODSWING, -100, -500);
+            } else {  // 45% chance
+                add_morale(MORALE_MOODSWING, 100, 500);
+            }
+        }
 
-  if (has_trait("VOMITOUS") && one_in(4200))
-   vomit();
+        if (has_trait("VOMITOUS") && one_in(4200)) {
+            vomit();
+        }
+        if (has_trait("SHOUT1") && one_in(3600)) {
+            g->sound(posx, posy, 10 + 2 * str_cur, _("You shout loudly!"));
+        }
+        if (has_trait("SHOUT2") && one_in(2400)) {
+            g->sound(posx, posy, 15 + 3 * str_cur, _("You scream loudly!"));
+        }
+        if (has_trait("SHOUT3") && one_in(1800)) {
+            g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
+        }
+    } // Done with while-awake-only effects
 
-  if (has_trait("SHOUT1") && one_in(3600))
-   g->sound(posx, posy, 10 + 2 * str_cur, _("You shout loudly!"));
-  if (has_trait("SHOUT2") && one_in(2400))
-   g->sound(posx, posy, 15 + 3 * str_cur, _("You scream loudly!"));
-  if (has_trait("SHOUT3") && one_in(1800))
-   g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
- } // Done with while-awake-only effects
-
- if (has_trait("ASTHMA") && one_in(3600 - stim * 50)) {
-  bool auto_use = has_charges("inhaler", 1);
-  if (underwater) {
-   oxygen = int(oxygen / 2);
-   auto_use = false;
-  }
+    if (has_trait("ASTHMA") && one_in(3600 - stim * 50)) {
+        bool auto_use = has_charges("inhaler", 1);
+        if (underwater) {
+            oxygen = int(oxygen / 2);
+            auto_use = false;
+        }
 
         if (has_disease("sleep")) {
             wake_up(_("Your asthma wakes you up!"));
             auto_use = false;
         }
 
-  if (auto_use)
-   use_charges("inhaler", 1);
-  else {
-   add_disease("asthma", 50 * rng(1, 4));
-   if (!is_npc())
-    g->cancel_activity_query(_("You have an asthma attack!"));
-  }
- }
+        if (auto_use) {
+            use_charges("inhaler", 1);
+        } else {
+            add_disease("asthma", 50 * rng(1, 4));
+            if (!is_npc()) {
+                g->cancel_activity_query(_("You have an asthma attack!"));
+            }
+        }
+    }
 
- if (has_trait("LEAVES") && g->is_in_sunlight(posx, posy) && one_in(600))
-  hunger--;
+    if (has_trait("LEAVES") && g->is_in_sunlight(posx, posy) && one_in(600)) {
+        hunger--;
+    }
 
- if (pain > 0) {
-  if (has_trait("PAINREC1") && one_in(600))
-   pain--;
-  if (has_trait("PAINREC2") && one_in(300))
-   pain--;
-  if (has_trait("PAINREC3") && one_in(150))
-   pain--;
- }
+    if (pain > 0) {
+        if (has_trait("PAINREC1") && one_in(600)) {
+            pain--;
+        }
+        if (has_trait("PAINREC2") && one_in(300)) {
+            pain--;
+        }
+        if (has_trait("PAINREC3") && one_in(150)) {
+            pain--;
+        }
+    }
 
     if (has_trait("ALBINO") && g->is_in_sunlight(posx, posy) && one_in(20)) {
         g->add_msg(_("The sunlight burns your skin!"));
@@ -5200,169 +5148,181 @@ void player::suffer()
         hurtall(1);
     }
 
- if ((has_trait("TROGLO") || has_trait("TROGLO2")) &&
-     g->is_in_sunlight(posx, posy) && g->weather == WEATHER_SUNNY) {
-  str_cur--;
-  dex_cur--;
-  int_cur--;
-  per_cur--;
- }
- if (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy)) {
-  str_cur--;
-  dex_cur--;
-  int_cur--;
-  per_cur--;
- }
- if (has_trait("TROGLO3") && g->is_in_sunlight(posx, posy)) {
-  str_cur -= 4;
-  dex_cur -= 4;
-  int_cur -= 4;
-  per_cur -= 4;
- }
-
- if (has_trait("SORES")) {
-  for (int i = bp_head; i < num_bp; i++) {
-   if ((pain < 5 + 4 * abs(encumb(body_part(i)))) && (!(has_trait("NOPAIN"))))
-    pain = 5 + 4 * abs(encumb(body_part(i)));
-  }
- }
-
- if (has_trait("SLIMY") && !in_vehicle) {
-   g->m.add_field(posx, posy, fd_slime, 1);
- }
-
- if (has_trait("WEB_SPINNER") && !in_vehicle && one_in(3)) {
-   g->m.add_field(posx, posy, fd_web, 1); //this adds density to if its not already there.
- }
-
- if (has_trait("RADIOGENIC") && int(g->turn) % 50 == 0 && radiation >= 10) {
-  radiation -= 10;
-  healall(1);
- }
-
- if (has_trait("RADIOACTIVE1")) {
-  if (g->m.radiation(posx, posy) < 10 && one_in(50))
-   g->m.radiation(posx, posy)++;
- }
- if (has_trait("RADIOACTIVE2")) {
-  if (g->m.radiation(posx, posy) < 20 && one_in(25))
-   g->m.radiation(posx, posy)++;
- }
- if (has_trait("RADIOACTIVE3")) {
-  if (g->m.radiation(posx, posy) < 30 && one_in(10))
-   g->m.radiation(posx, posy)++;
- }
-
- if (has_trait("UNSTABLE") && one_in(28800)) // Average once per 2 days
-  mutate();
- if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800))
-  mutate();
- if (has_artifact_with(AEP_FORCE_TELEPORT) && one_in(600))
-  g->teleport(this);
-
-// checking for radioactive items in inventory
- int selfRadiation = 0;
- selfRadiation = leak_level("RADIOACTIVE");
-
- int localRadiation = g->m.radiation(posx, posy);
-
- if (localRadiation || selfRadiation) {
-   bool has_helmet = false;
-
-   bool power_armored = is_wearing_power_armor(&has_helmet);
-
-   if ((power_armored && has_helmet) || is_wearing("hazmat_suit")|| is_wearing("anbc_suit")) {
-     radiation += 0; // Power armor protects completely from radiation
-   } else if (power_armored || is_wearing("cleansuit")|| is_wearing("aep_suit")) {
-     radiation += rng(0, localRadiation / 40) + rng(0, selfRadiation / 5);
-   } else {
-     radiation += rng(0, localRadiation / 16) + rng(0, selfRadiation);;
-   }
-
-   // Apply rads to any radiation badges.
-   std::vector<item *> possessions = inv_dump();
-   for( std::vector<item *>::iterator it = possessions.begin(); it != possessions.end(); ++it ) {
-       if( (*it)->type->id == "rad_badge" ) {
-           // Actual irradiation levels of badges and the player aren't precisely matched.
-           // This is intentional.
-           int before = (*it)->irridation;
-           (*it)->irridation += rng(0, localRadiation / 16);
-           if( inv.has_item(*it) ) { continue; }
-           for( int i = 0; i < sizeof(rad_dosage_thresholds)/sizeof(rad_dosage_thresholds[0]); i++ ){
-               if( before < rad_dosage_thresholds[i] &&
-                   (*it)->irridation >= rad_dosage_thresholds[i] ) {
-                   g->add_msg_if_player( this, _("Your radiation badge changes from %s to %s!"),
-                                         rad_threshold_colors[i - 1].c_str(),
-                                         rad_threshold_colors[i].c_str() );
-               }
-           }
-       }
-   }
- }
-
- if( int(g->turn) % 150 == 0 )
- {
-     if (radiation < 0) radiation = 0;
-     else if (radiation > 2000) radiation = 2000;
-     if (OPTIONS["RAD_MUTATION"] && rng(60, 2500) < radiation)
-     {
-         mutate();
-         radiation /= 2;
-         radiation -= 5;
-     }
-     else if (radiation > 100 && rng(1, 1500) < radiation)
-     {
-         vomit();
-         radiation -= 50;
-     }
- }
-
- if( radiation > 150 && !(int(g->turn) % 90) )
- {
-     hurtall(radiation / 100);
- }
-
-// Negative bionics effects
- if (has_bionic("bio_dis_shock") && one_in(1200)) {
-  g->add_msg(_("You suffer a painful electrical discharge!"));
-    if (!(has_trait("NOPAIN"))) {
-      pain++;
+    if ((has_trait("TROGLO") || has_trait("TROGLO2")) &&
+        g->is_in_sunlight(posx, posy) && g->weather == WEATHER_SUNNY) {
+        str_cur--;
+        dex_cur--;
+        int_cur--;
+        per_cur--;
     }
-  moves -= 150;
- }
- if (has_bionic("bio_dis_acid") && one_in(1500)) {
-  g->add_msg(_("You suffer a burning acidic discharge!"));
-  hurtall(1);
- }
- if (has_bionic("bio_drain") && power_level > 0 && one_in(600)) {
-  g->add_msg(_("Your batteries discharge slightly."));
-  power_level--;
- }
- if (has_bionic("bio_noise") && one_in(500)) {
-  g->add_msg(_("A bionic emits a crackle of noise!"));
-  g->sound(posx, posy, 60, "");
- }
- if (has_bionic("bio_power_weakness") && max_power_level > 0 &&
-     power_level >= max_power_level * .75)
-  str_cur -= 3;
+    if (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy)) {
+        str_cur--;
+        dex_cur--;
+        int_cur--;
+        per_cur--;
+    }
+    if (has_trait("TROGLO3") && g->is_in_sunlight(posx, posy)) {
+        str_cur -= 4;
+        dex_cur -= 4;
+        int_cur -= 4;
+        per_cur -= 4;
+    }
 
-// Artifact effects
- if (has_artifact_with(AEP_ATTENTION))
-  add_disease("attention", 3);
+    if (has_trait("SORES")) {
+        for (int i = bp_head; i < num_bp; i++) {
+            if ((pain < 5 + 4 * abs(encumb(body_part(i)))) && (!(has_trait("NOPAIN")))) {
+                pain = 5 + 4 * abs(encumb(body_part(i)));
+            }
+        }
+    }
 
- if (dex_cur < 0)
-  dex_cur = 0;
- if (str_cur < 0)
-  str_cur = 0;
- if (per_cur < 0)
-  per_cur = 0;
- if (int_cur < 0)
-  int_cur = 0;
+    if (has_trait("SLIMY") && !in_vehicle) {
+        g->m.add_field(posx, posy, fd_slime, 1);
+    }
 
- // check for limb mending every 1000 turns (~1.6 hours)
- if(g->turn.get_turn() % 1000 == 0) {
-  mend();
- }
+    if (has_trait("WEB_SPINNER") && !in_vehicle && one_in(3)) {
+        g->m.add_field(posx, posy, fd_web, 1); //this adds density to if its not already there.
+    }
+
+    if (has_trait("RADIOGENIC") && int(g->turn) % 50 == 0 && radiation >= 10) {
+        radiation -= 10;
+        healall(1);
+    }
+
+    if (has_trait("RADIOACTIVE1")) {
+        if (g->m.radiation(posx, posy) < 10 && one_in(50)) {
+            g->m.radiation(posx, posy)++;
+        }
+    }
+    if (has_trait("RADIOACTIVE2")) {
+        if (g->m.radiation(posx, posy) < 20 && one_in(25)) {
+            g->m.radiation(posx, posy)++;
+        }
+    }
+    if (has_trait("RADIOACTIVE3")) {
+        if (g->m.radiation(posx, posy) < 30 && one_in(10)) {
+            g->m.radiation(posx, posy)++;
+        }
+    }
+
+    if (has_trait("UNSTABLE") && one_in(28800)) { // Average once per 2 days
+        mutate();
+    }
+    if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800)) {
+        mutate();
+    }
+    if (has_artifact_with(AEP_FORCE_TELEPORT) && one_in(600)) {
+        g->teleport(this);
+    }
+
+    // checking for radioactive items in inventory
+    int selfRadiation = 0;
+    selfRadiation = leak_level("RADIOACTIVE");
+
+    int localRadiation = g->m.radiation(posx, posy);
+
+    if (localRadiation || selfRadiation) {
+        bool has_helmet = false;
+
+        bool power_armored = is_wearing_power_armor(&has_helmet);
+
+        if ((power_armored && has_helmet) || is_wearing("hazmat_suit")|| is_wearing("anbc_suit")) {
+            radiation += 0; // Power armor protects completely from radiation
+        } else if (power_armored || is_wearing("cleansuit")|| is_wearing("aep_suit")) {
+            radiation += rng(0, localRadiation / 40) + rng(0, selfRadiation / 5);
+        } else {
+            radiation += rng(0, localRadiation / 16) + rng(0, selfRadiation);;
+        }
+
+        // Apply rads to any radiation badges.
+        std::vector<item *> possessions = inv_dump();
+        for( std::vector<item *>::iterator it = possessions.begin(); it != possessions.end(); ++it ) {
+            if( (*it)->type->id == "rad_badge" ) {
+                // Actual irradiation levels of badges and the player aren't precisely matched.
+                // This is intentional.
+                int before = (*it)->irridation;
+                (*it)->irridation += rng(0, localRadiation / 16);
+                if( inv.has_item(*it) ) { continue; }
+                for( int i = 0; i < sizeof(rad_dosage_thresholds) / sizeof(rad_dosage_thresholds[0]);
+                     i++ ){
+                    if( before < rad_dosage_thresholds[i] &&
+                        (*it)->irridation >= rad_dosage_thresholds[i] ) {
+                        g->add_msg_if_player( this, _("Your radiation badge changes from %s to %s!"),
+                                              rad_threshold_colors[i - 1].c_str(),
+                                              rad_threshold_colors[i].c_str() );
+                    }
+                }
+            }
+        }
+    }
+
+    if( int(g->turn) % 150 == 0 ) {
+        if (radiation < 0) {
+            radiation = 0;
+        } else if (radiation > 2000) {
+            radiation = 2000;
+        }
+        if (OPTIONS["RAD_MUTATION"] && rng(60, 2500) < radiation) {
+            mutate();
+            radiation /= 2;
+            radiation -= 5;
+        } else if (radiation > 100 && rng(1, 1500) < radiation) {
+            vomit();
+            radiation -= 50;
+        }
+    }
+
+    if( radiation > 150 && !(int(g->turn) % 90) ) {
+        hurtall(radiation / 100);
+    }
+
+    // Negative bionics effects
+    if (has_bionic("bio_dis_shock") && one_in(1200)) {
+        g->add_msg(_("You suffer a painful electrical discharge!"));
+        if (!(has_trait("NOPAIN"))) {
+            pain++;
+        }
+        moves -= 150;
+    }
+    if (has_bionic("bio_dis_acid") && one_in(1500)) {
+        g->add_msg(_("You suffer a burning acidic discharge!"));
+        hurtall(1);
+    }
+    if (has_bionic("bio_drain") && power_level > 0 && one_in(600)) {
+        g->add_msg(_("Your batteries discharge slightly."));
+        power_level--;
+    }
+    if (has_bionic("bio_noise") && one_in(500)) {
+        g->add_msg(_("A bionic emits a crackle of noise!"));
+        g->sound(posx, posy, 60, "");
+    }
+    if (has_bionic("bio_power_weakness") && max_power_level > 0 &&
+        power_level >= max_power_level * .75) {
+        str_cur -= 3;
+    }
+
+    // Artifact effects
+    if (has_artifact_with(AEP_ATTENTION)) {
+        add_disease("attention", 3);
+    }
+
+    if (dex_cur < 0) {
+        dex_cur = 0;
+    }
+    if (str_cur < 0) {
+        str_cur = 0;
+    }
+    if (per_cur < 0) {
+        per_cur = 0;
+    }
+    if (int_cur < 0) {
+        int_cur = 0;
+    }
+
+    // check for limb mending every 1000 turns (~1.6 hours)
+    if(g->turn.get_turn() % 1000 == 0) {
+        mend();
+    }
 }
 
 void player::mend()
