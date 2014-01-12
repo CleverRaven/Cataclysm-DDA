@@ -147,6 +147,11 @@ void game::check_all_mod_data() {
     popup_nowait("checking all mods");
     mod_manager *mm = world_generator->get_mod_manager();
     dependency_tree &dtree = mm->get_tree();
+    if (mm->mod_map.empty()) {
+        // If we don't have any mods, test core data only
+        load_core_data();
+        DynamicDataLoader::get_instance().finalize_loaded_data();
+    }
     for(mod_manager::t_mod_map::iterator a = mm->mod_map.begin(); a != mm->mod_map.end(); ++a) {
         MOD_INFORMATION *mod = a->second;
         if (!dtree.is_available(mod->ident)) {

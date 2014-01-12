@@ -824,9 +824,11 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             werase(w_description);
 
             MOD_INFORMATION *selmod = NULL;
-            if (active_header == 0){
+            if (mman_ui->usable_mods.empty()) {
+                // Do nothing, leave selmod == NULL
+            } else if (active_header == 0) {
                 selmod = mman->mod_map[mman_ui->usable_mods[cursel[0]]];
-            }else if (active_mod_order.size() > 0){
+            } else if (active_mod_order.size() > 0){
                 selmod = mman->mod_map[active_mod_order[cursel[1]]];
             }
 
