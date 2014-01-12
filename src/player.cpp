@@ -5538,7 +5538,7 @@ int player::volume_carried()
     return inv.volume();
 }
 
-int player::weight_capacity(bool return_stat_effect)
+int player::weight_capacity(bool /* return_stat_effect */)
 {
   // return_stat_effect is effectively pointless
   // player info window shows current stat effects
