@@ -3383,7 +3383,7 @@
   "difficulty": 0,
   "time": 5000,
   "reversible": true,
-  "autolearn": false,
+  "autolearn": true,
   "decomp_learn": 0,
   "components": [
     [
@@ -3402,7 +3402,7 @@
   "difficulty": 0,
   "time": 5000,
   "reversible": true,
-  "autolearn": false,
+  "autolearn": true,
   "decomp_learn": 0,
   "components": [
     [
@@ -3421,7 +3421,7 @@
   "difficulty": 0,
   "time": 5000,
   "reversible": true,
-  "autolearn": false,
+  "autolearn": true,
   "decomp_learn": 0,
   "components": [
     [
@@ -3440,7 +3440,7 @@
   "difficulty": 0,
   "time": 5000,
   "reversible": true,
-  "autolearn": false,
+  "autolearn": true,
   "decomp_learn": 0,
   "components": [
     [
@@ -3459,7 +3459,7 @@
   "difficulty": 0,
   "time": 5000,
   "reversible": true,
-  "autolearn": false,
+  "autolearn": true,
   "decomp_learn": 0,
   "components": [
     [
