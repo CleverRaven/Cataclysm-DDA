@@ -786,7 +786,7 @@ int iuse::grack(player *p, item *it, bool) {
 }
 
 int iuse::meth(player *p, item *it, bool) {
-    int duration = 10 * (60 - p->str_cur);
+    int duration = 10 * (40 - p->str_cur);
     if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
         g->add_msg_if_player(p,_("You smoke your meth.  The world seems to sharpen."));
         duration *= (p->has_trait("LIGHTWEIGHT") ? 1.8 : 1.5);
@@ -797,7 +797,7 @@ int iuse::meth(player *p, item *it, bool) {
         duration += 600;
     }
     if (duration > 0) {
-        int hungerpen = (p->str_cur < 10 ? 20 : 40 - p->str_cur);
+        int hungerpen = (p->str_cur < 10 ? 20 : 30 - p->str_cur);
         p->hunger -= hungerpen;
         p->add_disease("meth", duration);
     }
