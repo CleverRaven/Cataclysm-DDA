@@ -2382,7 +2382,7 @@ electronics crafting. It also affects how much skill you can pick up from readin
 
        mvwprintz(w_stats, 6, 1,  c_magenta, _("Ranged penalty: -%d"),
              abs(ranged_per_mod(false)),"          ");
-    mvwprintz(w_stats, 7, 1, c_magenta, _("Trap dection level: %d       "),
+    mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level: %d       "),
              per_cur);
     mvwprintz(w_stats, 8, 1, c_magenta, "                             ");
     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
@@ -3110,40 +3110,44 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
  } else {  // Not in vehicle
   nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
            col_per = c_white, col_spd = c_white, col_time = c_white;
-  if (str_cur < str_max)
+  int str_bonus = get_str_bonus();
+  int dex_bonus = get_dex_bonus();
+  int int_bonus = get_int_bonus();
+  int per_bonus = get_per_bonus();
+  int spd_bonus = get_speed_bonus();
+  if (str_bonus < 0)
    col_str = c_red;
-  if (str_cur > str_max)
+  if (str_bonus > 0)
    col_str = c_green;
-  if (dex_cur < dex_max)
+  if (dex_bonus  < 0)
    col_dex = c_red;
-  if (dex_cur > dex_max)
+  if (dex_bonus  > 0)
    col_dex = c_green;
-  if (int_cur < int_max)
+  if (int_bonus  < 0)
    col_int = c_red;
-  if (int_cur > int_max)
+  if (int_bonus  > 0)
    col_int = c_green;
-  if (per_cur < per_max)
+  if (per_bonus  < 0)
    col_per = c_red;
-  if (per_cur > per_max)
+  if (per_bonus  > 0)
    col_per = c_green;
-  int spd_cur = get_speed();
-  if (spd_cur < 100)
+  if (spd_bonus < 0)
    col_spd = c_red;
-  if (spd_cur > 100)
+  if (spd_bonus > 0)
    col_spd = c_green;
 
     int x  = sideStyle ? 18 : 13;
     int y  = sideStyle ?  0 :  3;
     int dx = sideStyle ?  0 :  7;
     int dy = sideStyle ?  1 :  0;
-    mvwprintz(w, y + dy * 0, x + dx * 0, col_str, _("Str %2d"), str_cur);
-    mvwprintz(w, y + dy * 1, x + dx * 1, col_dex, _("Dex %2d"), dex_cur);
-    mvwprintz(w, y + dy * 2, x + dx * 2, col_int, _("Int %2d"), int_cur);
-    mvwprintz(w, y + dy * 3, x + dx * 3, col_per, _("Per %2d"), per_cur);
+    mvwprintz(w, y + dy * 0, x + dx * 0, col_str, _("Str %2d"), get_str());
+    mvwprintz(w, y + dy * 1, x + dx * 1, col_dex, _("Dex %2d"), get_dex());
+    mvwprintz(w, y + dy * 2, x + dx * 2, col_int, _("Int %2d"), get_int());
+    mvwprintz(w, y + dy * 3, x + dx * 3, col_per, _("Per %2d"), get_per());
 
     int spdx = sideStyle ?  0 : x + dx * 4;
     int spdy = sideStyle ?  5 : y + dy * 4;
-    mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), spd_cur);
+    mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), get_speed());
     if (this->weight_carried() > this->weight_capacity()) {
         col_time = h_black;
     }
@@ -3735,29 +3739,32 @@ int player::throw_range(int pos)
  return ret;
 }
 
-int player::ranged_dex_mod(bool real_life)
+int player::ranged_dex_mod(bool return_stat_effect)
 {
-    const int dex = (real_life ? dex_cur : dex_max);
+  // Stat window shows stat effects on based on current stat
+    const int dex = (return_stat_effect ? get_dex() : get_dex());
 
     if (dex >= 12) { return 0; }
     return 12 - dex;
 }
 
-int player::ranged_per_mod(bool real_life)
+int player::ranged_per_mod(bool return_stat_effect)
 {
- const int per = (real_life ? per_cur : per_max);
+  // Stat window shows stat effects on based on current stat
+ const int per = (return_stat_effect ? get_per() : get_per());
 
  if (per >= 12) { return 0; }
  return 12 - per;
 }
 
-int player::throw_dex_mod(bool real_life)
+int player::throw_dex_mod(bool return_stat_effect)
 {
- int dex = (real_life ? dex_cur : dex_max);
+  // Stat window shows stat effects on based on current stat
+ int dex = (return_stat_effect ? get_dex() : get_dex());
  if (dex == 8 || dex == 9)
   return 0;
  if (dex >= 10)
-  return (real_life ? 0 - rng(0, dex - 9) : 9 - dex);
+  return (return_stat_effect ? 0 - rng(0, dex - 9) : 9 - dex);
 
  int deviation = 0;
  if (dex < 4)
@@ -3767,12 +3774,14 @@ int player::throw_dex_mod(bool real_life)
  else
   deviation = 2 * (8 - dex);
 
- return (real_life ? rng(0, deviation) : deviation);
+ // return_stat_effect actually matters here
+ return (return_stat_effect ? rng(0, deviation) : deviation);
 }
 
-int player::read_speed(bool real_life)
+int player::read_speed(bool return_stat_effect)
 {
- int intel = (real_life ? int_cur : int_max);
+  // Stat window shows stat effects on based on current stat
+ int intel = (return_stat_effect ? get_int() : get_int());
  int ret = 1000 - 50 * (intel - 8);
  if (has_trait("FASTREADER"))
   ret *= .8;
@@ -3780,16 +3789,18 @@ int player::read_speed(bool real_life)
   ret *= 1.3;
  if (ret < 100)
   ret = 100;
- return (real_life ? ret : ret / 10);
+ // return_stat_effect actually matters here
+ return (return_stat_effect ? ret : ret / 10);
 }
 
-int player::rust_rate(bool real_life)
+int player::rust_rate(bool return_stat_effect)
 {
     if (OPTIONS["SKILL_RUST"] == "off") {
         return 0;
     }
 
-    int intel = (real_life ? int_cur : int_max);
+    // Stat window shows stat effects on based on current stat
+    int intel = (return_stat_effect ? get_int() : get_int());
     int ret = ((OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "capped") ? 500 : 500 - 35 * (intel - 8));
 
     if (has_trait("FORGETFUL")) {
@@ -3804,12 +3815,13 @@ int player::rust_rate(bool real_life)
         ret = 0;
     }
 
-    return (real_life ? ret : ret / 10);
+    // return_stat_effect actually matters here
+    return (return_stat_effect ? ret : ret / 10);
 }
 
 int player::talk_skill()
 {
-    int ret = int_cur + per_cur + skillLevel("speech") * 3;
+    int ret = get_int() + get_per() + skillLevel("speech") * 3;
     if (has_trait("UGLY"))
         ret -= 3;
     else if (has_trait("DEFORMED"))
@@ -3831,7 +3843,7 @@ int player::talk_skill()
 
 int player::intimidation()
 {
- int ret = str_cur * 2;
+ int ret = get_str() * 2;
  if (weapon.is_gun())
   ret += 10;
  if (weapon.damage_bash() >= 12 || weapon.damage_cut() >= 12)
@@ -5526,9 +5538,13 @@ int player::volume_carried()
     return inv.volume();
 }
 
-int player::weight_capacity(bool real_life)
+int player::weight_capacity(bool return_stat_effect)
 {
- int str = (real_life ? str_cur : str_max);
+  // return_stat_effect is effectively pointless
+  // player info window shows current stat effects
+  // current str is used anyway (probably) always.
+  // int str = return_stat_effect ? get_str() : get_str();
+ int str = get_str();
  int ret = 13000 + str * 4000;
  if (has_trait("BADBACK"))
   ret = int(ret * .65);

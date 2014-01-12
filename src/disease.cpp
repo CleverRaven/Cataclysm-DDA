@@ -295,12 +295,12 @@ void dis_effect(player &p, disease &dis) {
                 case bp_head:
                     switch(dis.intensity) {
                         case 3:
-                            p.int_cur -= 2;
+                            p.mod_int_bonus(-2);
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("Your thoughts are unclear."));
                             }
                         case 2 :
-                            p.int_cur--;
+                            p.mod_int_bonus(-1);
                         default:
                             break;
                     }
@@ -308,9 +308,9 @@ void dis_effect(player &p, disease &dis) {
                 case bp_mouth:
                     switch(dis.intensity) {
                         case 3:
-                            p.per_cur -= 2;
+                            p.mod_per_bonus(-2);
                         case 2:
-                            p.per_cur--;
+                            p.mod_per_bonus(-1);
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("Your face is stiff from the cold."));
                             }
@@ -322,21 +322,21 @@ void dis_effect(player &p, disease &dis) {
                     switch(dis.intensity) {
                         case 3:
                             // Speed -20
-                            p.dex_cur -= 2;
+                            p.mod_dex_bonus(-2);
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("Your torso is freezing cold. \
                                      You should put on a few more layers."));
                             }
                         case 2:
-                            p.dex_cur -= 2;
+                            p.mod_dex_bonus(-2);
                     }
                     break;
                 case bp_arms:
                     switch(dis.intensity) {
                         case 3:
-                            p.dex_cur -= 2;
+                            p.mod_dex_bonus(-2);
                         case 2:
-                            p.dex_cur--;
+                            p.mod_dex_bonus(-1);
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("Your arms are shivering."));
                             }
@@ -347,9 +347,9 @@ void dis_effect(player &p, disease &dis) {
                 case bp_hands:
                     switch(dis.intensity) {
                         case 3:
-                            p.dex_cur -= 2;
+                            p.mod_dex_bonus(-2);
                         case 2:
-                            p.dex_cur -= 1;
+                            p.mod_dex_bonus(-1);
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("Your hands feel like ice."));
                             }
@@ -360,14 +360,14 @@ void dis_effect(player &p, disease &dis) {
                 case bp_legs:
                     switch(dis.intensity) {
                         case 3:
-                            p.dex_cur--;
-                            p.str_cur--;
+                            p.mod_dex_bonus(-1);
+                            p.mod_str_bonus(-1);
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("Your legs tremble against the relentless cold."));
                             }
                         case 2:
-                            p.dex_cur--;
-                            p.str_cur--;
+                            p.mod_dex_bonus(-1);
+                            p.mod_str_bonus(-1);
                         default:
                             break;
                     }
@@ -375,11 +375,11 @@ void dis_effect(player &p, disease &dis) {
                 case bp_feet:
                     switch(dis.intensity) {
                         case 3:
-                            p.dex_cur--;
-                            p.str_cur--;
+                            p.mod_dex_bonus(-1);
+                            p.mod_str_bonus(-1);
                             break;
                         case 2:
-                            p.dex_cur--;
+                            p.mod_dex_bonus(-1);
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("Your feet feel frigid."));
                             }
@@ -395,7 +395,7 @@ void dis_effect(player &p, disease &dis) {
                 case bp_hands:
                     switch(dis.intensity) {
                         case 2:
-                            p.dex_cur -= 3;
+                            p.mod_dex_bonus(-3);
                         case 1:
                             if (p.temp_cur[bp_hands] > BODYTEMP_COLD && p.pain < 40) {
                                 p.pain++;
@@ -424,12 +424,12 @@ void dis_effect(player &p, disease &dis) {
                 case bp_mouth:
                     switch(dis.intensity) {
                         case 2:
-                            p.per_cur -= 2;
+                            p.mod_per_bonus(-2);
                             if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) {
                                 p.pain++;
                             }
                         case 1:
-                            p.per_cur--;
+                            p.mod_per_bonus(-1);
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("Your face feels numb."));
                             }
@@ -443,7 +443,7 @@ void dis_effect(player &p, disease &dis) {
         case DI_BLISTERS:
             switch(dis.bp) {
                 case bp_hands:
-                    p.dex_cur--;
+                    p.mod_dex_bonus(-1);
                     if (p.pain < 35) {
                         p.pain++;
                     }
@@ -454,7 +454,7 @@ void dis_effect(player &p, disease &dis) {
                     }
                     break;
                 case bp_feet:
-                    p.str_cur--;
+                    p.mod_str_bonus(-1);
                     if (p.pain < 35) {
                         p.pain++;
                     }
@@ -465,7 +465,7 @@ void dis_effect(player &p, disease &dis) {
                     }
                     break;
                 case bp_mouth:
-                    p.per_cur--;
+                    p.mod_per_bonus(-1);
                     p.hp_cur[hp_head]--;
                     if (p.pain < 35) {
                         p.pain++;
@@ -525,7 +525,7 @@ void dis_effect(player &p, disease &dis) {
                             if (int(g->turn) % 150 == 0) {
                                 p.thirst++;
                             }
-                            p.str_cur--;
+                            p.mod_str_bonus(-1);
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("You are sweating profusely."));
                             }
@@ -533,7 +533,7 @@ void dis_effect(player &p, disease &dis) {
                             if (int(g->turn) % 300 == 0) {
                                 p.thirst++;
                             }
-                            p.str_cur--;
+                            p.mod_str_bonus(-1);
                         default:
                             break;
                     }
@@ -558,9 +558,9 @@ void dis_effect(player &p, disease &dis) {
                 case bp_hands:
                     switch(dis.intensity) {
                         case 3:
-                            p.dex_cur--;
+                            p.mod_dex_bonus(-1);
                         case 2:
-                            p.dex_cur--;
+                            p.mod_dex_bonus(-1);
                         default:
                             break;
                     }
@@ -604,13 +604,13 @@ void dis_effect(player &p, disease &dis) {
                 p.fatigue++;
             }
             if (p.has_disease("took_flumed")) {
-            p.str_cur--;
-            p.int_cur--;
+            p.mod_str_bonus(-1);
+            p.mod_int_bonus(-1);
             } else {
-                p.str_cur -= 3;
-                p.dex_cur--;
-                p.int_cur -= 2;
-                p.per_cur--;
+                p.mod_str_bonus(-3);
+                p.mod_dex_bonus(-1);
+                p.mod_int_bonus(-2);
+                p.mod_per_bonus(-1);
             }
 
             if (one_in(300)) {
@@ -632,13 +632,13 @@ void dis_effect(player &p, disease &dis) {
                 p.fatigue++;
             }
             if (p.has_disease("took_flumed")) {
-                p.str_cur -= 2;
-                p.int_cur--;
+                p.mod_str_bonus(-2);
+                p.mod_int_bonus(-1);
                 } else {
-                    p.str_cur -= 4;
-                    p.dex_cur -= 2;
-                    p.int_cur -= 2;
-                    p.per_cur--;
+                    p.mod_str_bonus(-4);
+                    p.mod_dex_bonus(-2);
+                    p.mod_int_bonus(-2);
+                    p.mod_per_bonus(-1);
                     if (p.pain < 15) {
                         p.pain++;
                     }
@@ -670,23 +670,24 @@ void dis_effect(player &p, disease &dis) {
         case DI_BOULDERING:
             switch(dis.intensity) {
                 case 3:
-                    p.dex_cur -= 2;
+                    p.mod_dex_bonus(-2);
                 case 2:
-                    p.dex_cur -= 2;
+                    p.mod_dex_bonus(-2);
                 case 1:
-                    p.dex_cur -= 1;
+                    p.mod_dex_bonus(-1);
                     break;
                 default:
                     debugmsg("Something went wrong with DI_BOULDERING.");
                     debugmsg("Check disease.cpp");
             }
-            if (p.dex_cur < 1) {
-                p.dex_cur = 1;
+            if (p.get_dex() < 1) {
+                // Add to dexterity current + 1 so it's at least 1
+                p.mod_dex_bonus(abs(p.get_dex())+1);
             }
             break;
 
         case DI_BOOMERED:
-            p.per_cur -= 5;
+            p.mod_per_bonus(-5);
             if (will_vomit(p)) {
                 p.vomit();
             } else if (one_in(3600)) {
@@ -695,7 +696,7 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_SAP:
-            p.dex_cur -= 3;
+            p.mod_dex_bonus(-3);
             break;
 
         case DI_SPORES:
@@ -711,7 +712,7 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_SLIMED:
-            p.dex_cur -= 2;
+            p.mod_dex_bonus(-2);
             if (will_vomit(p, 2100)) {
                 p.vomit();
             } else if (one_in(4800)) {
@@ -834,27 +835,27 @@ void dis_effect(player &p, disease &dis) {
 
         case DI_CIG:
             if (dis.duration >= 600) { // Smoked too much
-                p.str_cur--;
-                p.dex_cur--;
+                p.mod_str_bonus(-1);
+                p.mod_dex_bonus(-1);
                 if (dis.duration >= 1200 && (one_in(50) || will_vomit(p, 10))) {
                     p.vomit();
                 }
             } else {
                 // p.dex_cur++;
-                p.int_cur++;
-                p.per_cur++;
+                p.mod_int_bonus(1);
+                p.mod_per_bonus(1);
             }
             break;
 
         case DI_HIGH:
-            p.int_cur--;
-            p.per_cur--;
+            p.mod_int_bonus(-1);
+            p.mod_per_bonus(-1);
             break;
 
         case DI_WEED_HIGH:
-            p.str_cur--;
-            p.dex_cur--;
-            p.per_cur--;
+            p.mod_str_bonus(-1);
+            p.mod_dex_bonus(-1);
+            p.mod_per_bonus(-1);
             break;
 
         case DI_BLEED:
@@ -863,8 +864,8 @@ void dis_effect(player &p, disease &dis) {
                                          _("<npcname> loses some blood.") );
                 p.pain++;
                 p.hurt(dis.bp, dis.side == -1 ? 0 : dis.side, 1);
-                p.per_cur--;
-                p.str_cur--;
+                p.mod_per_bonus(-1);
+                p.mod_str_bonus(-1);
                 g->m.add_field(p.posx, p.posy, fd_blood, 1);
             }
             break;
@@ -875,27 +876,27 @@ void dis_effect(player &p, disease &dis) {
                 p.pain += 2;
                 p.hurt(bp_torso, -1, rng(0, 2));
             }
-            p.per_cur -= 2;
-            p.dex_cur -= 2;
+            p.mod_per_bonus(-2);
+            p.mod_dex_bonus(-2);
             if (!p.has_trait("POISRESIST")) {
-                p.str_cur -= 3;
+                p.mod_str_bonus(-3);
             } else {
-                p.str_cur--;
+                p.mod_str_bonus(-1);
             }
             break;
 
         case DI_PARALYZEPOISON:
-            p.dex_cur -= dis.intensity / 3;
+            p.mod_dex_bonus(-(dis.intensity / 3));
             break;
 
         case DI_FOODPOISON:
             bonus = 0;
-            p.str_cur -= 3;
-            p.dex_cur--;
-            p.per_cur--;
+            p.mod_str_bonus(-3);
+            p.mod_dex_bonus(-1);
+            p.mod_per_bonus(-1);
             if (p.has_trait("POISRESIST")) {
                 bonus += 600;
-                p.str_cur += 2;
+                p.mod_str_bonus(2);
             }
             if (one_in(300 + bonus)) {
                 g->add_msg_if_player(&p,_("You're suddenly wracked with pain and nausea!"));
@@ -907,8 +908,8 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_SHAKES:
-            p.dex_cur -= 4;
-            p.str_cur--;
+            p.mod_dex_bonus(-4);
+            p.mod_str_bonus(-1);
             break;
 
         case DI_DERMATIK:
@@ -916,14 +917,14 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_WEBBED:
-            p.str_cur -= 2;
-            p.dex_cur -= 4;
+            p.mod_str_bonus(-2);
+            p.mod_dex_bonus(-4);
             break;
 
         case DI_RAT:
-            p.int_cur -= int(dis.duration / 20);
-            p.str_cur -= int(dis.duration / 50);
-            p.per_cur -= int(dis.duration / 25);
+            p.mod_int_bonus(-(int(dis.duration / 20)));
+            p.mod_str_bonus(-(int(dis.duration / 50)));
+            p.mod_per_bonus(-(int(dis.duration / 25)));
             if (rng(0, 100) < dis.duration / 10) {
                 if (!one_in(5)) {
                     p.mutate_category("MUTCAT_RAT");
@@ -944,9 +945,9 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_FORMICATION:
-            p.int_cur -= dis.intensity;
-            p.str_cur -= int(dis.intensity / 3);
-            if (x_in_y(dis.intensity, 100 + 50 * p.int_cur)) {
+            p.mod_int_bonus(-(dis.intensity));
+            p.mod_str_bonus(-(int(dis.intensity / 3)));
+            if (x_in_y(dis.intensity, 100 + 50 * p.get_int())) {
                 if (!p.is_npc()) {
                      g->add_msg(_("You start scratching your %s!"),
                                               body_part_name(dis.bp, dis.side).c_str());
@@ -967,35 +968,35 @@ void dis_effect(player &p, disease &dis) {
         case DI_ADRENALINE:
             if (dis.duration > 150) {
                 // 5 minutes positive effects
-                p.str_cur += 5;
-                p.dex_cur += 3;
-                p.int_cur -= 8;
-                p.per_cur += 1;
+                p.mod_str_bonus(5);
+                p.mod_dex_bonus(3);
+                p.mod_int_bonus(-8);
+                p.mod_per_bonus(1);
             } else if (dis.duration == 150) {
                 // 15 minutes come-down
                 g->add_msg_if_player(&p,_("Your adrenaline rush wears off.  You feel AWFUL!"));
             } else {
-                p.str_cur -= 2;
-                p.dex_cur -= 1;
-                p.int_cur -= 1;
-                p.per_cur -= 1;
+                p.mod_str_bonus(-2);
+                p.mod_dex_bonus(-1);
+                p.mod_int_bonus(-1);
+                p.mod_per_bonus(-1);
             }
             break;
 
         case DI_JETINJECTOR:
             if (dis.duration > 50) {
                 // 15 minutes positive effects
-                p.str_cur += 1;
-                p.dex_cur += 1;
-                p.per_cur += 1;
+                p.mod_str_bonus(1);
+                p.mod_dex_bonus(1);
+                p.mod_per_bonus(1);
             } else if (dis.duration == 50) {
                 // 5 minutes come-down
                 g->add_msg_if_player(&p,_("The jet injector's chemicals wear off.  You feel AWFUL!"));
             } else {
-                p.str_cur -= 1;
-                p.dex_cur -= 2;
-                p.int_cur -= 1;
-                p.per_cur -= 2;
+                p.mod_str_bonus(-1);
+                p.mod_dex_bonus(-2);
+                p.mod_int_bonus(-1);
+                p.mod_per_bonus(-2);
             }
             break;
 
@@ -1009,28 +1010,28 @@ void dis_effect(player &p, disease &dis) {
                     g->add_msg_if_player(&p,_("You wheeze and gasp for air."));
                 }
             }
-            p.str_cur -= 2;
-            p.dex_cur -= 3;
+            p.mod_str_bonus(-2);
+            p.mod_dex_bonus(-3);
             break;
 
         case DI_GRACK:
-            p.str_cur += grackPower;
-            p.dex_cur += grackPower;
-            p.int_cur += grackPower;
-            p.per_cur += grackPower;
+            p.mod_str_bonus(grackPower);
+            p.mod_dex_bonus(grackPower);
+            p.mod_int_bonus(grackPower);
+            p.mod_per_bonus(grackPower);
             break;
 
         case DI_METH:
             if (dis.duration > 600) {
-                p.str_cur += 1;
-                p.dex_cur += 2;
-                p.int_cur += 2;
-                p.per_cur += 3;
+                p.mod_str_bonus(1);
+                p.mod_dex_bonus(2);
+                p.mod_int_bonus(2);
+                p.mod_per_bonus(3);
             } else {
-                p.str_cur -= 3;
-                p.dex_cur -= 2;
-                p.int_cur -= 1;
-                p.per_cur -= 2;
+                p.mod_str_bonus(-3);
+                p.mod_dex_bonus(-2);
+                p.mod_int_bonus(-1);
+                p.mod_per_bonus(-2);
                 if (one_in(150)) {
                     g->add_msg_if_player(&p,_("Your head aches."));
                     p.pain++;
@@ -1227,10 +1228,10 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_LACKSLEEP:
-            p.str_cur -= 1;
-            p.dex_cur -= 1;
-            p.int_cur -= 2;
-            p.per_cur -= 2;
+            p.mod_str_bonus(-1);
+            p.mod_dex_bonus(-1);
+            p.mod_int_bonus(-2);
+            p.mod_per_bonus(-2);
             break;
     }
 }
