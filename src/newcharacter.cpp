@@ -543,8 +543,6 @@ int set_stats(WINDOW *w, player *u, int &points)
     char ch;
     int read_spd;
 
-    u->reset();
-
     draw_tabs(w, _("STATS"));
 
     mvwprintz(w, 16, 2, COL_NOTE_MINOR, _("j/k, 8/2, or up/down arrows to select a statistic."));
