@@ -12,6 +12,8 @@
 #include "item_factory.h"
 #include "catacharset.h"
 #include <queue>
+#include <math.h>    //sqrt
+#include <algorithm> //std::min
 
 std::vector<craft_cat> craft_cat_list;
 std::map<craft_cat, std::vector<craft_subcat> > craft_subcat_list;
@@ -1676,7 +1678,6 @@ void game::disassemble(int pos)
 
     item* dis_item = &u.i_at(pos);
 
-
     for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter)
     {
         for (recipe_list::iterator list_iter = cat_iter->second.begin();
@@ -1803,6 +1804,7 @@ void game::complete_disassemble()
   // which recipe was it?
   recipe* dis = recipe_by_index(u.activity.index); // Which recipe is it?
   item* dis_item = &u.i_at(u.activity.values[0]);
+  float component_success_chance = std::min((float)pow(0.8f, dis_item->damage), 1.f);
 
     int veh_part = -1;
     vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
@@ -1880,7 +1882,8 @@ void game::complete_disassemble()
     {
         int compcount = dis->components[j][0].count;
         bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
-        if (dis->difficulty != 0 && !comp_success)
+
+        if ((dis->difficulty != 0 && !comp_success))
         {
             add_msg(_("You fail to recover a component."));
             continue;
@@ -1903,12 +1906,19 @@ void game::complete_disassemble()
         }
         do
         {
+            compcount--;
+
+            bool dmg_success = component_success_chance > rng_float(0,1);
+            if(!dmg_success) {
+                add_msg(_("You fail to recover a component."));
+                continue;
+            }
+
             if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, newit)) {
                 // add_item did put the items in the vehicle, nothing further to be done
             } else {
                 m.add_item_or_charges(u.posx, u.posy, newit);
             }
-            compcount--;
         } while (compcount > 0);
     }
   }

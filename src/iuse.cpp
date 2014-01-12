@@ -1248,7 +1248,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
             p->thirst += 10;
         }
     }
-        
+
         // Threshold-check.  You only get to cross once!
       if (p->crossed_threshold() == false) {
           // Threshold-breaching
@@ -1907,8 +1907,14 @@ int iuse::cut_up(player *p, item *it, item *cut, bool)
         count -= rng(1, 3);
     }
 
-    if (cut->damage > 2 || cut->damage < 0) {
-        count -= cut->damage;
+    // damaged clothing has a chance to lose material
+    if(count>0) {
+        float component_success_chance = std::min((float)pow(0.8f, cut->damage), 1.f);
+        for(int i = count; i > 0; i--) {
+            if(component_success_chance < rng_float(0,1)) {
+                count--;
+            }
+        }
     }
 
     //scrap_text is result string of worthless scraps
@@ -5742,6 +5748,16 @@ int iuse::knife(player *p, item *it, bool t)
     if ( cut->typeId() == result->typeId() ) {
         g->add_msg(_("There's no point in cutting a %s."), cut->tname().c_str());
         return 0;
+    }
+
+    // damaged items has a chance to lose material
+    if(count>0) {
+        float component_success_chance = std::min((float)pow(0.8f, cut->damage), 1.f);
+        for(int i = count; i > 0; i--) {
+            if(component_success_chance < rng_float(0,1)) {
+                count--;
+            }
+        }
     }
 
     if (action == "carve") {

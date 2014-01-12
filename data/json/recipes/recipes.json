@@ -3382,15 +3382,15 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
+  "decomp_learn": 0,
   "components": [
     [
-      [ "modularvest", 1 ],
-      [ "modularvestsuper", 1]
+      [ "modularvest", 1 ]
     ],
     [
-      [ "alloy_plate", 1 ]
+      [ "alloy_plate", 2 ]
     ]
   ]
 },{
@@ -3401,15 +3401,15 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
+  "decomp_learn": 0,
   "components": [
     [
-      [ "modularvest", 1 ],
-      [ "modularveststeel", 1]
+      [ "modularvest", 1 ]
     ],
     [
-      [ "steel_plate", 1 ]
+      [ "steel_plate", 2 ]
     ]
   ]
 },{
@@ -3420,12 +3420,12 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
+  "decomp_learn": 0,
   "components": [
     [
-      [ "modularvest", 1 ],
-      [ "modularvestceramic", 1]
+      [ "modularvest", 1 ]
     ],
     [
       [ "ceramic_armor", 4 ]
@@ -3439,12 +3439,12 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
+  "decomp_learn": 0,
   "components": [
     [
-      [ "modularvest", 1 ],
-      [ "modularvestkevlar", 1]
+      [ "modularvest", 1 ]
     ],
     [
       [ "kevlar_plate", 8 ]
@@ -3458,15 +3458,31 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
+  "decomp_learn": 0,
   "components": [
     [
-      [ "modularvest", 1 ],
-      [ "modularvesthard", 1]
+      [ "modularvest", 1 ]
     ],
     [
-      [ "hard_plate", 1 ]
+      [ "hard_plate", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "modularvest",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": false,
+  "decomp_learn": 4,
+  "components": [
+    [
+      [ "kevlar_plate", 24 ]
     ]
   ]
 },{
