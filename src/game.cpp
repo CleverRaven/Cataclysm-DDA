@@ -8976,8 +8976,9 @@ and you can't unwield your %s."),
             if ( idx < here.size()) {
                 if (idx != -1) {
                     if (itemcount != 0 || pickup_count[idx] == 0) {
-                        if (itemcount >= here[idx].charges) {
+                        if (itemcount >= here[idx].charges || !here[idx].count_by_charges()) {
                             // Ignore the count if we pickup the whole stack anyway
+                            // or something that is not counted by charges (tools)
                             itemcount = 0;
                         }
                         pickup_count[idx] = itemcount;
