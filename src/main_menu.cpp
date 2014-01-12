@@ -367,7 +367,6 @@ bool game::opening_screen()
                 }
                 if (chInput == KEY_UP || chInput == 'k' || chInput == '\n') {
                     if (sel2 == 0 || sel2 == 2 || sel2 == 3) {
-                        u = player();
                         setup();
                         if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM :
                                                     ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW))) {
@@ -709,7 +708,6 @@ bool game::opening_screen()
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 } else if (input == DirectionE || input == Confirm) {
-                    u = player();
                     setup();
                     if (!u.create(PLTYPE_TEMPLATE, templates[sel3])) {
                         u = player();
