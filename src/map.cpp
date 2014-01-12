@@ -2716,52 +2716,43 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
 
 std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const itype_id type, int &quantity)
 {
-  std::list<item> ret;
-  for (int n = 0; n < vec.size(); n++) {
-    item* curit = &(vec[n]);
-    // Check contents first
-    for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
-      if (curit->contents[m].type->id == type) {
-        if (curit->contents[m].charges <= quantity) {
-          ret.push_back(curit->contents[m]);
-          quantity -= curit->contents[m].charges;
-          if (curit->contents[m].destroyed_at_zero_charges()) {
-            curit->contents.erase(curit->contents.begin() + m);
-            m--;
-          } else
-            curit->contents[m].charges = 0;
+    std::list<item> ret;
+    for (int n = 0; n < vec.size() && quantity > 0; n++) {
+        item& curit = vec[n];
+        if (curit.contents.empty()) {
+            if (curit.type->id == type || curit.ammo_type() == type) {
+                // curit is empty, has the required type or
+                // the required ammo type
+                ret.push_back(curit);
+                if (curit.charges < 0) {
+                    quantity--;
+                    vec.erase(vec.begin() + n);
+                    n--;
+                } else {
+                    if (curit.charges > quantity) {
+                        // push only quantity charges to ret,
+                        // remove quantity charges from curit
+                        ret.back().charges = quantity;
+                        curit.charges -= quantity;
+                        quantity = 0;
+                    } else {
+                        // remove all charges, destroy the item (perhaps)
+                        quantity = -curit.charges;
+                        curit.charges = 0;
+                        if (curit.destroyed_at_zero_charges()) {
+                            vec.erase(vec.begin() + n);
+                            n--;
+                        }
+                    }
+                }
+            }
         } else {
-          item tmp = curit->contents[m];
-          tmp.charges = quantity;
-          ret.push_back(tmp);
-          curit->contents[m].charges -= quantity;
-          quantity = 0;
-          return ret;
+            // Not empty, process contents, ignore the item itself.
+            std::list<item> tmp = use_charges_from_map_or_vehicle(curit.contents, type, quantity);
+            ret.splice(ret.end(), tmp);
         }
-      }
     }
-      
-    // Now check the actual item
-    if (curit->type->id == type) {
-      if (curit->charges <= quantity) {
-        ret.push_back(*curit);
-        quantity -= curit->charges;
-        if (curit->destroyed_at_zero_charges()) {
-          vec.erase(vec.begin() + n);
-          n--;
-        } else
-          curit->charges = 0;
-      } else {
-        item tmp = *curit;
-        tmp.charges = quantity;
-        ret.push_back(tmp);
-        curit->charges -= quantity;
-        quantity = 0;
-        return ret;
-      }
-    }
-  }
-  return ret;
+    return ret;
 }
 
 std::list<item> map::use_charges(const point origin, const int range, const itype_id type, const int amount)
