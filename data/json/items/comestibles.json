@@ -11608,7 +11608,7 @@
         "nutrition" : 2,
         "description" : "Candy sticks, slightly more healthy than tobacco cigarettes, but with no possibility of addiction.",
         "price" : 20,
-        "material" : "veggy",
+        "material" : "null",
         "tool" : "null",
         "volume" : 0,
         "cutting" : 0,
