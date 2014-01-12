@@ -1169,6 +1169,33 @@
     },
     {
         "type": "profession",
+        "ident": "cosplay",
+        "name": "Otaku",
+        "description": "Late nights with friends watching anime and eating snacks has prepared you for the premier anime convention in the Northeast.  It just had to be the day of the apocalypse.  At least you were ready in case your costume tore.",
+        "points": 4,
+        "items": {
+            "both": [
+                "shorts",
+                "sneakers",
+                "tank_top",
+                "sewing_kit",
+                "mbag",
+                "fur_cat_ears",
+                "fur_cat_tail",
+                "fur_collar",
+                "cheeseburger"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "goalie",
         "name": "Hockey Player",
         "description": "You were a minor-league hockey goalie before the rest of your team became zombies. It's just you and your hockey equipment versus the undead, but at least you can cross-check them now.",

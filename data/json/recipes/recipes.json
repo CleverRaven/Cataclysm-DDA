@@ -26486,6 +26486,208 @@
   ]
 },{
         "type" : "recipe",
+  "result": "leather_cat_ears",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "hotplate", 5],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 3]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fur_cat_ears",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "hotplate", 5],
+      [ "toolset", 1],
+      [ "fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 3]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "leather_cat_tail",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "hotplate", 5],
+      [ "toolset", 1],
+      [ "fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 4 ]
+    ],
+    [
+      [ "string_36", 1]
+    ],
+    [
+      [ "plastic_chunk", 10],
+      [ "bottle_plastic", 5],
+      [ "jug_plastic", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fur_cat_tail",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "hotplate", 5],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 4 ]
+    ],
+    [
+      [ "string_36", 1]
+    ],
+    [
+      [ "plastic_chunk", 10],
+      [ "bottle_plastic", 5],
+      [ "jug_plastic", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fur_collar",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 5 ],
+      [ "needle_wood", 5 ],
+      [ "sewing_kit", 5 ]
+    ],
+    [
+      [ "soldering_iron", 10],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 2 ]
+    ],
+    [
+      [ "scrap", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "leather_collar",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 5 ],
+      [ "needle_wood", 5 ],
+      [ "sewing_kit", 5 ]
+    ],
+    [
+      [ "soldering_iron", 10],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ]
+    ],
+    [
+      [ "scrap", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "baseball",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
