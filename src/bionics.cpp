@@ -143,7 +143,7 @@ void player::power_bionics()
             } else {
                 for (size_t i = scroll_position; i < passive.size(); i++) {
                     if (list_start_y + i == ((!activating && !reassigning) ?
-                                            DESCRIPTION_LINE_Y : HEIGHT - 1)) {
+                                             DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
                     if (bionics[passive[i]->id]->power_source) {
@@ -162,7 +162,7 @@ void player::power_bionics()
             } else {
                 for (size_t i = scroll_position; i < active.size(); i++) {
                     if (list_start_y + i == ((!activating && !reassigning) ?
-                                            DESCRIPTION_LINE_Y : HEIGHT - 1)) {
+                                             DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
                     if (active[i]->powered && !bionics[active[i]->id]->power_source) {
@@ -394,7 +394,7 @@ void player::activate_bionic(int b)
     // TODO: More stuff here (and bio_blood_filter)
     else if(bio.id == "bio_blood_anal") {
         WINDOW *w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY - 25) / 2 : 0),
-                    10 + ((TERMX > 80) ? (TERMX - 80) / 2 : 0));
+                           10 + ((TERMX > 80) ? (TERMX - 80) / 2 : 0));
         draw_border(w);
         if (has_disease("fungus")) {
             bad.push_back(_("Fungal Parasite"));
@@ -688,7 +688,8 @@ bool player::install_bionics(it_bionic *type)
                    skillLevel("mechanics")   * 1;
 
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
-    float adjusted_skill = float (pl_skill) - std::min( float (40), float (pl_skill) - float (pl_skill) / float (10.0));
+    float adjusted_skill = float (pl_skill) - std::min( float (40),
+                           float (pl_skill) - float (pl_skill) / float (10.0));
 
     // we will base chance_of_success on a ratio of skill and difficulty
     // when skill=difficulty, this gives us 1.  skill < difficulty gives a fraction.
@@ -748,7 +749,8 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
                    u->skillLevel("mechanics")   * 1;
 
     // for failure_level calculation, shift skill down to a float between ~0.4 - 30
-    float adjusted_skill = float (pl_skill) - std::min( float (40), float (pl_skill) - float (pl_skill) / float (10.0));
+    float adjusted_skill = float (pl_skill) - std::min( float (40),
+                           float (pl_skill) - float (pl_skill) / float (10.0));
 
     // failure level is decided by how far off the character was from a successful install, and
     // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
