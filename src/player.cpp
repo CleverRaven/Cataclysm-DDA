@@ -6983,13 +6983,6 @@ bool player::eat(item *eaten, it_comest *comest)
         }
     }
 
-    if (comest->use != &iuse::none) {
-        to_eat = comest->use.call(this, eaten, false);
-        if( to_eat == 0 ) {
-            return false;
-        }
-    }
-
     //not working directly in the equation... can't imagine why
     int temp_hunger = hunger - comest->nutr;
     int temp_thirst = thirst - comest->quench;
@@ -7021,6 +7014,13 @@ bool player::eat(item *eaten, it_comest *comest)
             if (!query_yn(_("You will not be able to finish it all. Consume it?"))) {
                 return false;
             }
+        }
+    }
+
+    if (comest->use != &iuse::none) {
+        to_eat = comest->use.call(this, eaten, false);
+        if( to_eat == 0 ) {
+            return false;
         }
     }
 
