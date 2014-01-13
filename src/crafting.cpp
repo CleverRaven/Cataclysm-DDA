@@ -658,7 +658,7 @@ recipe* game::select_crafting_recipe()
         werase(w_data);
 
         if ( isWide ) {
-            mvwprintz(w_data, dataLines+1, 5, c_white, _("Press <ENTER> to attempt to craft object."));
+            mvwprintz(w_data, dataLines + 1, 5, c_white, _("Press <ENTER> to attempt to craft object."));
             wprintz(w_data, c_white, "  ");
             if (filterstring != "") {
                 wprintz(w_data, c_white, _("[?/E]: Describe, [F]ind, [R]eset, [m]ode"));
@@ -667,22 +667,22 @@ recipe* game::select_crafting_recipe()
             }
         } else {
             if (filterstring != "") {
-                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind, [R]eset, [m]ode"));
+                mvwprintz(w_data, dataLines + 1, 5, c_white, _("[?/E]: Describe, [F]ind, [R]eset, [m]ode"));
             } else {
-                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind, [m]ode"));
+                mvwprintz(w_data, dataLines + 1, 5, c_white, _("[?/E]: Describe, [F]ind, [m]ode"));
             }
-            mvwprintz(w_data, dataLines+2, 5, c_white, _("Press <ENTER> to attempt to craft object."));
+            mvwprintz(w_data, dataLines + 2, 5, c_white, _("Press <ENTER> to attempt to craft object."));
         }
         // Draw borders
-        for (int i = 1; i < width-1; ++i) { // _
-            mvwputch(w_data, dataHeight-1, i, c_ltgray, LINE_OXOX);
+        for (int i = 1; i < width - 1; ++i) { // _
+            mvwputch(w_data, dataHeight - 1, i, BORDER_COLOR, LINE_OXOX);
         }
-        for (int i = 0; i < dataHeight-1; ++i) { // |
-            mvwputch(w_data, i, 0, c_ltgray, LINE_XOXO);
-            mvwputch(w_data, i, width-1, c_ltgray, LINE_XOXO);
+        for (int i = 0; i < dataHeight - 1; ++i) { // |
+            mvwputch(w_data, i, 0, BORDER_COLOR, LINE_XOXO);
+            mvwputch(w_data, i, width - 1, BORDER_COLOR, LINE_XOXO);
         }
-        mvwputch(w_data, dataHeight-1,  0, c_ltgray, LINE_XXOO); // _|
-        mvwputch(w_data, dataHeight-1, width-1, c_ltgray, LINE_XOOX); // |_
+        mvwputch(w_data, dataHeight - 1,  0, BORDER_COLOR, LINE_XXOO); // _|
+        mvwputch(w_data, dataHeight - 1, width - 1, BORDER_COLOR, LINE_XOOX); // |_
 
         int recmin = 0, recmax = current.size();
         if (recmax > dataLines) {
@@ -712,11 +712,13 @@ recipe* game::select_crafting_recipe()
                 for (int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i) {
                     mvwprintz(w_data, dataHalfLines + i - line, 2, c_ltgray, ""); // Clear the line
                     if (i == line) {
-                        mvwprintz(w_data, dataHalfLines + i - line, 2, (available[i] ? h_white : h_dkgray),
-                        item_controller->find_template(current[i]->result)->name.c_str());
+                        mvwprintz(w_data, dataHalfLines + i - line, 2,
+                                  (available[i] ? h_white : h_dkgray),
+                                  item_controller->find_template(current[i]->result)->name.c_str());
                     } else {
-                        mvwprintz(w_data, dataHalfLines + i - line, 2, (available[i] ? c_white : c_dkgray),
-                        item_controller->find_template(current[i]->result)->name.c_str());
+                        mvwprintz(w_data, dataHalfLines + i - line, 2,
+                                  (available[i] ? c_white : c_dkgray),
+                                  item_controller->find_template(current[i]->result)->name.c_str());
                     }
                 }
             }
@@ -731,8 +733,7 @@ recipe* game::select_crafting_recipe()
                 }
             }
         }
-        if (!current.empty())
-        {
+        if (!current.empty()) {
             nc_color col = (available[line] ? c_white : c_ltgray);
             ypos = 0;
           if(display_mode == 0) {
@@ -741,40 +742,29 @@ recipe* game::select_crafting_recipe()
                 current[line]->skill_used->name().c_str()));
 
             mvwprintz(w_data, ypos++, 30, col, _("Required skills: %s"),
-                (current[line]->required_skills_string().c_str()));
+                      (current[line]->required_skills_string().c_str()));
             mvwprintz(w_data, ypos++, 30, col, _("Difficulty: %d"), current[line]->difficulty);
-            if (current[line]->skill_used == NULL)
-            {
+            if (current[line]->skill_used == NULL) {
                 mvwprintz(w_data, ypos++, 30, col, _("Your skill level: N/A"));
-            }
-            else
-            {
+            } else {
                 mvwprintz(w_data, ypos++, 30, col, _("Your skill level: %d"),
                 // Macs don't seem to like passing this as a class, so force it to int
                 (int)u.skillLevel(current[line]->skill_used));
             }
-            if (current[line]->time >= 1000)
-            {
+            if (current[line]->time >= 1000) {
                 mvwprintz(w_data, ypos++, 30, col, _("Time to complete: %d minutes"),
-                int(current[line]->time / 1000));
-            }
-            else
-            {
+                          int(current[line]->time / 1000));
+            } else {
                 mvwprintz(w_data, ypos++, 30, col, _("Time to complete: %d turns"),
-                int(current[line]->time / 100));
+                          int(current[line]->time / 100));
             }
           }
-          if(display_mode == 0 ||
-             display_mode == 1)
-          {
+          if(display_mode == 0 || display_mode == 1) {
             mvwprintz(w_data, ypos++, 30, col, _("Tools required:"));
-            if (current[line]->tools.size() == 0 && current[line]->qualities.size() == 0)
-            {
+            if (current[line]->tools.size() == 0 && current[line]->qualities.size() == 0) {
                 mvwputch(w_data, ypos, 30, col, '>');
                 mvwprintz(w_data, ypos, 32, c_green, _("NONE"));
-            }
-            else
-            {
+            } else {
                 // Loop to print the required tool qualities
                 for(std::vector<quality_requirement>::const_iterator iter = current[line]->qualities.begin();
                         iter != current[line]->qualities.end(); ++iter){
@@ -786,8 +776,11 @@ recipe* game::select_crafting_recipe()
                     }
 
                     std::stringstream qualinfo;
-                    qualinfo << string_format(_("Requires %d tools with %s of %d or more."), iter->count, qualities[iter->id].name.c_str(), iter->level);
-                    ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH-xpos-1, toolcol, qualinfo.str().c_str());
+                    qualinfo << string_format(_("Requires %d tools with %s of %d or more."),
+                                              iter->count, qualities[iter->id].name.c_str(),
+                                              iter->level);
+                    ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH - xpos - 1,
+                                           toolcol, qualinfo.str().c_str());
                 }
                 ypos--;
                 // Loop to print the required tools
@@ -843,7 +836,7 @@ recipe* game::select_crafting_recipe()
                             ypos++;
                             }
                             mvwprintz(w_data, ypos, xpos, c_white, _("%s "), _("OR"));
-                            xpos += utf8_width(_("OR"))+1;
+                            xpos += utf8_width(_("OR")) + 1;
                         }
                     }
                 }
@@ -1032,11 +1025,11 @@ static void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
     int width = getmaxx(w);
     for (int i = 0; i < width; i++)
     {
-        mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
+        mvwputch(w, 2, i, BORDER_COLOR, LINE_OXOX);
     }
 
-    mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
-    mvwputch(w, 2, width-1, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(w, 2,  0, BORDER_COLOR, LINE_OXXO); // |^
+    mvwputch(w, 2, width-1, BORDER_COLOR, LINE_OOXX); // ^|
      mvwprintz(w, 0, width - utf8_width(_("Lighting:")), c_ltgray, _("Lighting:"));//Lighting info
     int light = g->u.fine_detail_vision_mod();
     const char* str;
@@ -1057,23 +1050,23 @@ static void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
     {
         int pos_x = 2;//draw the tabs on each other
         int tab_step = 3;//step between tabs, two for tabs border
-        draw_tab(w,  pos_x, _("WEAPONS"), (tab == "CC_WEAPON") ? true : false);
+        draw_tab(w,  pos_x, _("WEAPONS"),     (tab == "CC_WEAPON")     ? true : false);
         pos_x += utf8_width(_("WEAPONS")) + tab_step;
-        draw_tab(w, pos_x, _("AMMO"),    (tab == "CC_AMMO")   ? true : false);
+        draw_tab(w, pos_x,  _("AMMO"),        (tab == "CC_AMMO")       ? true : false);
         pos_x += utf8_width(_("AMMO")) + tab_step;
-        draw_tab(w, pos_x, _("FOOD"),    (tab == "CC_FOOD")   ? true : false);
+        draw_tab(w, pos_x,  _("FOOD"),        (tab == "CC_FOOD")       ? true : false);
         pos_x += utf8_width(_("FOOD")) + tab_step;
-        draw_tab(w, pos_x, _("CHEMS"),   (tab == "CC_CHEM")   ? true : false);
+        draw_tab(w, pos_x,  _("CHEMS"),       (tab == "CC_CHEM")       ? true : false);
         pos_x += utf8_width(_("CHEMS")) + tab_step;
-        draw_tab(w, pos_x, _("ELECTRONICS"), (tab == "CC_ELECTRONIC") ? true : false);
+        draw_tab(w, pos_x,  _("ELECTRONICS"), (tab == "CC_ELECTRONIC") ? true : false);
         pos_x += utf8_width(_("ELECTRONICS")) + tab_step;
-        draw_tab(w, pos_x, _("ARMOR"),   (tab == "CC_ARMOR")  ? true : false);
+        draw_tab(w, pos_x,  _("ARMOR"),       (tab == "CC_ARMOR")      ? true : false);
         pos_x += utf8_width(_("ARMOR")) + tab_step;
-        draw_tab(w, pos_x, _("OTHER"),    (tab == "CC_OTHER") ? true : false);
+        draw_tab(w, pos_x,  _("OTHER"),       (tab == "CC_OTHER")      ? true : false);
     }
     else
     {
-        draw_tab(w,  2, _("Searched"), true);
+        draw_tab(w, 2, _("Searched"), true);
     }
 
     wrefresh(w);
@@ -1085,14 +1078,14 @@ static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, b
     int width = getmaxx(w);
     for (int i = 0; i < width; i++)
     {
-        if (i == 0) { mvwputch(w, 2, i, c_ltgray, LINE_XXXO); }
-        else if (i == width) { mvwputch(w, 2, i, c_ltgray, LINE_XOXX); }
-        else { mvwputch(w, 2, i, c_ltgray, LINE_OXOX); }
+        if (i == 0) { mvwputch(w, 2, i, BORDER_COLOR, LINE_XXXO); }
+        else if (i == width) { mvwputch(w, 2, i, BORDER_COLOR, LINE_XOXX); }
+        else { mvwputch(w, 2, i, BORDER_COLOR, LINE_OXOX); }
     }
 
     for (int i = 0; i < 3; i++) {
-        mvwputch(w, i,  0, c_ltgray, LINE_XOXO); // |^
-        mvwputch(w, i, width-1, c_ltgray,  LINE_XOXO); // ^|
+        mvwputch(w, i,  0, BORDER_COLOR, LINE_XOXO); // |^
+        mvwputch(w, i, width-1, BORDER_COLOR,  LINE_XOXO); // ^|
     }
 
     if(!filtered)
@@ -1198,8 +1191,8 @@ static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, b
         werase(w);
 
         for (int i = 0; i < 3; i++) {
-            mvwputch(w, i,  0, c_ltgray, LINE_XOXO); // |^
-            mvwputch(w, i, width-1, c_ltgray,  LINE_XOXO); // ^|
+            mvwputch(w, i,  0, BORDER_COLOR, LINE_XOXO); // |^
+            mvwputch(w, i, width-1, BORDER_COLOR,  LINE_XOXO); // ^|
         }
     }
 
@@ -1714,17 +1707,9 @@ void game::disassemble(int pos)
                             k = cur_recipe->tools[j].size();
                         }
                         // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
-                        if (type == "welder")
-                        {
-                            if (crafting_inv.has_amount("hacksaw", 1) ||
-                                crafting_inv.has_amount("toolset", 1))
-                            {
-                                have_this_tool = true;
-                            }
-                            else
-                            {
-                                have_this_tool = false;
-                            }
+                        if (type == "welder") {
+                             have_this_tool = (crafting_inv.has_amount("hacksaw", 1) ||
+                                               crafting_inv.has_amount("toolset", 1));
                         }
                     }
                     if (!have_this_tool)
