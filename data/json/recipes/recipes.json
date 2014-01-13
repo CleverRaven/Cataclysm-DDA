@@ -14257,19 +14257,19 @@
   "subcategory": "CSC_OTHER_OTHER",
   "skill_used": "tailor",
   "difficulty": 0,
-  "time": 5000,
+  "time": 6000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 5 ],
-      [ "needle_wood", 5 ],
-      [ "sewing_kit", 5 ]
+      [ "needle_bone", 7 ],
+      [ "needle_wood", 7 ],
+      [ "sewing_kit", 7 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 2 ]
+      [ "rag", 5 ]
     ]
   ]
 },{
@@ -16520,19 +16520,19 @@
   "subcategory": "CSC_ARMOR_OTHER",
   "skill_used": "tailor",
   "difficulty": 0,
-  "time": 50000,
+  "time": 80000,
   "reversible": true,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "sewing_kit", 10 ]
+      [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
+      [ "sewing_kit", 20 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 20 ]
+      [ "rag", 35 ]
     ]
   ]
 },{
@@ -16543,20 +16543,20 @@
   "skill_used": "tailor",
   "skills_required": [ "survival", 1 ],
   "difficulty": 1,
-  "time": 50000,
+  "time": 80000,
   "reversible": true,
   "decomp_learn": 0,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "sewing_kit", 12 ]
+      [ "needle_bone", 24 ],
+      [ "needle_wood", 24 ],
+      [ "sewing_kit", 24 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 10 ]
+      [ "rag", 30 ]
     ],
     [
       [ "fur", 10 ]
