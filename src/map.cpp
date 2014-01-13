@@ -2876,9 +2876,9 @@ std::list<item> map::use_charges(const point origin, const int range,
 
                     for (int n = 0; n < i_at(x, y).size(); n++) {
                         item* curit = &(i_at(x, y)[n]);
-// Check contents first
+                        // Check contents first
                         for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
-                            if (curit->contents[m].type->id == type) {
+                            if (curit->contents[m].type->id == type || curit->contents[m].ammo_type() == type) {
                                 if (curit->contents[m].charges <= quantity) {
                                     ret.push_back(curit->contents[m]);
                                     quantity -= curit->contents[m].charges;
@@ -2897,8 +2897,8 @@ std::list<item> map::use_charges(const point origin, const int range,
                                 }
                             }
                         }
-// Now check the actual item
-                        if (curit->type->id == type) {
+                        // Now check the actual item
+                        if (curit->type->id == type || curit->ammo_type() == type) {
                             if (curit->charges <= quantity) {
                                 ret.push_back(*curit);
                                 quantity -= curit->charges;
