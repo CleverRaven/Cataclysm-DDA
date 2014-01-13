@@ -7761,16 +7761,15 @@ bool game::list_items_match(item &item, std::string sPattern)
 
         if(pat.find("{",0) != std::string::npos) {
             std::string adv_pat_type = pat.substr(1, pat.find(":")-1);
-            std::string adv_pat_search = pat.substr(3, pat.find("}")-3);
-            if(adv_pat_type == "c") {
-                std::string cName = item.get_category().name;
-                if(cName.find(adv_pat_search,0) != std::string::npos) {
-                    return exclude?false:true;
-                }
-            } else if (adv_pat_type == "m") {
-                if(item.made_of(adv_pat_search)) {
-                    return exclude?false:true;
-                }
+            std::string adv_pat_search = pat.substr(pat.find(":")+1, (pat.find("}")-pat.find(":"))-1);
+            if(adv_pat_type == "c" && item.get_category().name.find(adv_pat_search,0) != std::string::npos) {
+                return exclude?false:true;
+            } else if (adv_pat_type == "m" && item.made_of(adv_pat_search)) {
+                return exclude?false:true;
+            } else if (adv_pat_type == "dgt" && item.damage > atoi(adv_pat_search.c_str())) {
+                return exclude?false:true;
+            } else if (adv_pat_type == "dlt" && item.damage < atoi(adv_pat_search.c_str())) {
+                return exclude?false:true;
             }
         }
 
