@@ -399,9 +399,8 @@ void dis_effect(player &p, disease &dis) {
                         case 2:
                             p.mod_dex_bonus(-3);
                         case 1:
-                            if ((p.temp_cur[bp_hands] > BODYTEMP_COLD && p.pain < 40) &&
-                                (!(p.has_trait("NOPAIN")))) {
-                                p.pain++;
+                            if ((p.temp_cur[bp_hands] > BODYTEMP_COLD && p.pain < 40)) {
+                                p.mod_pain(1);
                             }
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("Your fingers itch."));
@@ -413,9 +412,8 @@ void dis_effect(player &p, disease &dis) {
                 case bp_feet:
                     switch(dis.intensity) {
                         case 2:
-                            if ((p.temp_cur[bp_feet] > BODYTEMP_COLD && p.pain < 40) &&
-                                (!(p.has_trait("NOPAIN")))) {
-                                p.pain++;
+                            if ((p.temp_cur[bp_feet] > BODYTEMP_COLD && p.pain < 40)) {
+                                p.mod_pain(1);
                             }
                         case 1:
                             if (!sleeping && tempMsgTrigger) {
@@ -429,9 +427,8 @@ void dis_effect(player &p, disease &dis) {
                     switch(dis.intensity) {
                         case 2:
                             p.mod_per_bonus(-2);
-                            if ((p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) &&
-                                (!(p.has_trait("NOPAIN")))) {
-                                p.pain++;
+                            if ((p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40)) {
+                                p.mod_pain(1);
                             }
                         case 1:
                             p.mod_per_bonus(-1);
@@ -449,8 +446,8 @@ void dis_effect(player &p, disease &dis) {
             switch(dis.bp) {
                 case bp_hands:
                     p.mod_dex_bonus(-1);
-                    if ((p.pain < 35) && (!(p.has_trait("NOPAIN")))) {
-                        p.pain++;
+                    if ( p.pain < 35 ) {
+                        p.mod_pain(1);
                     }
                     if (one_in(2)) {
                         p.hp_cur[hp_arm_r]--;
@@ -460,8 +457,8 @@ void dis_effect(player &p, disease &dis) {
                     break;
                 case bp_feet:
                     p.mod_str_bonus(-1);
-                    if ((p.pain < 35) && (!(p.has_trait("NOPAIN")))) {
-                        p.pain++;
+                    if (p.pain < 35) {
+                        p.mod_pain(1);
                     }
                     if (one_in(2)) {
                         p.hp_cur[hp_leg_r]--;
@@ -472,8 +469,8 @@ void dis_effect(player &p, disease &dis) {
                 case bp_mouth:
                     p.mod_per_bonus(-1);
                     p.hp_cur[hp_head]--;
-                    if ((p.pain < 35) && (!(p.has_trait("NOPAIN")))) {
-                        p.pain++;
+                    if (p.pain < 35) {
+                        p.mod_pain(1);
                     }
                     break;
             }
@@ -487,8 +484,8 @@ void dis_effect(player &p, disease &dis) {
                             if (int(g->turn) % 150 == 0) {
                                 p.thirst++;
                             }
-                            if ((p.pain < 40) && (!(p.has_trait("NOPAIN")))) {
-                                p.pain++;
+                            if (p.pain < 40) {
+                                p.mod_pain(1);
                             }
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("Your head is pounding from the heat."));
@@ -501,8 +498,8 @@ void dis_effect(player &p, disease &dis) {
                             if (one_in(std::min(14500, 15000 - p.temp_cur[bp_head]))) {
                                 p.vomit();
                             }
-                            if ((p.pain < 20) && (!(p.has_trait("NOPAIN")))) {
-                                p.pain++;
+                            if (p.pain < 20) {
+                                p.mod_pain(1);
                             }
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("The heat is making you see things."));
@@ -515,8 +512,8 @@ void dis_effect(player &p, disease &dis) {
                             if (int(g->turn) % 150 == 0) {
                                 p.thirst++;
                             }
-                            if ((p.pain < 30) && (!(p.has_trait("NOPAIN")))) {
-                                p.pain++;
+                            if (p.pain < 30) {
+                                p.mod_pain(1);
                             }
                         case 2:
                             if (int(g->turn) % 300 == 0) {
@@ -549,8 +546,8 @@ void dis_effect(player &p, disease &dis) {
                             if (int(g->turn) % 150 == 0) {
                                 p.thirst++;
                             }
-                            if ((p.pain < 30) && (!(p.has_trait("NOPAIN")))) {
-                                p.pain++;
+                            if (p.pain < 30) {
+                                p.mod_pain(1);
                             }
                         case 2:
                             if (int(g->turn) % 300 == 0) {
@@ -576,8 +573,8 @@ void dis_effect(player &p, disease &dis) {
                             if (int(g->turn) % 150 == 0) {
                                 p.thirst++;
                             }
-                            if ((p.pain < 30) && (!(p.has_trait("NOPAIN")))) {
-                                p.pain++;
+                            if (p.pain < 30) {
+                                p.mod_pain(1);
                             }
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("Your legs are cramping up."));
@@ -591,8 +588,8 @@ void dis_effect(player &p, disease &dis) {
                 case bp_feet:
                     switch (dis.intensity) {
                         case 3 :
-                            if ((p.pain < 30) && (!(p.has_trait("NOPAIN")))) {
-                                p.pain++;
+                            if (p.pain < 30) {
+                                p.mod_pain(1);
                             }
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("Your feet are swelling in the heat."));
@@ -644,8 +641,8 @@ void dis_effect(player &p, disease &dis) {
                     p.mod_dex_bonus(-2);
                     p.mod_int_bonus(-2);
                     p.mod_per_bonus(-1);
-                    if ((p.pain < 15) && (!(p.has_trait("NOPAIN")))) {
-                        p.pain++;
+                    if (p.pain < 15) {
+                        p.mod_pain(1);
                     }
                 }
             if (one_in(300)) {
@@ -870,9 +867,7 @@ void dis_effect(player &p, disease &dis) {
             if (one_in(6 / dis.intensity)) {
                 g->add_msg_player_or_npc( &p, _("You lose some blood."),
                                          _("<npcname> loses some blood.") );
-                if (!(p.has_trait("NOPAIN"))) {
-                    p.pain++;
-                }
+                p.mod_pain(1);
                 p.hurt(dis.bp, dis.side == -1 ? 0 : dis.side, 1);
                 p.mod_per_bonus(-1);
                 p.mod_str_bonus(-1);
@@ -881,9 +876,9 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_BADPOISON:
-            if ((inflictBadPsnPain) && (!(p.has_trait("NOPAIN")))) {
+            if( inflictBadPsnPain && !p.has_trait("NOPAIN") ) {
                 g->add_msg_if_player(&p,_("You're suddenly wracked with pain!"));
-                p.pain += 2;
+                p.mod_pain( 2 );
                 p.hurt(bp_torso, -1, rng(0, 2));
             }
             p.mod_per_bonus(-2);
@@ -1045,14 +1040,12 @@ void dis_effect(player &p, disease &dis) {
                 if (one_in(150)) {
                     if (!(p.has_trait("NOPAIN"))) {
                         g->add_msg_if_player(&p,_("Your head aches."));
-                        p.pain++;
+                        p.mod_pain(1);
                     }
                 } else if (one_in(500)) {
                     g->add_msg_if_player(&p,_("You feel completely rundown."));
                     p.fatigue += dice(1,6);
-                    if (!(p.has_trait("NOPAIN"))) {
-                        p.pain++;
-                    }
+                    p.mod_pain(1);
                 } else if (one_in(500)) {
                     g->add_msg_if_player(&p,_("You feel an urge to take more meth."));
                     p.fatigue += dice(1,6);
@@ -1826,8 +1819,8 @@ Your arms are frostbitten from prolonged exposure to the cold.");
                 return _("\
 Your legs are frostbitten from prolonged exposure to the cold.");
           }
-        }
-        else switch(dis.bp) {
+        } else {
+            switch(dis.bp) {
             case bp_hands:
                 switch (dis.intensity) {
                 case 1: return _("\
@@ -1858,6 +1851,7 @@ Your arms are frostbitten from prolonged exposure to the cold. It is extremely p
             case bp_legs:
                 return _("\
 Your legs are frostbitten from prolonged exposure to the cold. It is extremely painful.");
+            }
         }
 
     case DI_HOT:
@@ -1929,8 +1923,8 @@ Your legs are blistering from the intense heat.");
                 return _("\
 Your feet are blistering from the intense heat.");
         }
-      }
-       else switch (dis.bp) {
+      } else {
+          switch (dis.bp) {
             case bp_mouth:
                 return _("\
 Your face is blistering from the intense heat. It is extremely painful.");
@@ -1949,7 +1943,8 @@ Your legs are blistering from the intense heat. It is extremely painful.");
             case bp_feet:
                 return _("\
 Your feet are blistering from the intense heat. It is extremely painful.");
-        }
+          }
+      }
 
     case DI_COMMON_COLD:
         return _(
@@ -2027,25 +2022,23 @@ Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_BADPOISON:
         if (g->u.has_trait("NOPAIN")) {
-            return _(
-            "Perception - 2;   Dexterity - 2;\n"
-            "Strength - 3 IF not resistant, -1 otherwise\n"
-            "Frequent damage.");
+            return _("Perception - 2;   Dexterity - 2;\n"
+                     "Strength - 3 IF not resistant, -1 otherwise\n"
+                     "Frequent damage.");
+        } else {
+            return _("Perception - 2;   Dexterity - 2;\n"
+                     "Strength - 3 IF not resistant, -1 otherwise\n"
+                     "Frequent pain and/or damage.");
         }
-        else return _(
-        "Perception - 2;   Dexterity - 2;\n"
-        "Strength - 3 IF not resistant, -1 otherwise\n"
-        "Frequent pain and/or damage.");
 
     case DI_FOODPOISON:
         if (g->u.has_trait("NOPAIN")) {
-            return _(
-        "Speed - 35%;   Strength - 3;   Dexterity - 1;   Perception - 1\n"
-        "Your stomach is extremely upset, and you are quite nauseous.");
+            return _("Speed - 35%;   Strength - 3;   Dexterity - 1;   Perception - 1\n"
+                     "Your stomach is extremely upset, and you are quite nauseous.");
+        } else {
+            return _("Speed - 35%;   Strength - 3;   Dexterity - 1;   Perception - 1\n"
+                     "Your stomach is extremely upset, and you keep having pangs of pain and nausea.");
         }
-        else return _(
-        "Speed - 35%;   Strength - 3;   Dexterity - 1;   Perception - 1\n"
-        "Your stomach is extremely upset, and you keep having pangs of pain and nausea.");
 
     case DI_SHAKES:
         return _("Strength - 1;   Dexterity - 4");
@@ -2521,7 +2514,7 @@ static void handle_bite_wound(player& p, disease& dis) {
             g->add_msg_if_player(&p,_("Your %s wound feels swollen and painful."),
                                  body_part_name(dis.bp, dis.side).c_str());
             if (p.pain < 10) {
-                p.pain++;
+                p.mod_pain(1);
             }
         }
         p.dex_cur-= 1;
@@ -2557,7 +2550,7 @@ static void handle_infected_wound(player& p, disease& dis) {
             g->add_msg_if_player(&p,_("Your %s wound is incredibly painful."),
                                  body_part_name(dis.bp, dis.side).c_str());
             if(p.pain < 30) {
-                p.pain++;
+                p.mod_pain(1);
             }
         }
         p.str_cur -= 1;
@@ -2574,7 +2567,7 @@ static void handle_infected_wound(player& p, disease& dis) {
             p.vomit();
             if (!(p.has_trait("NOPAIN"))) {
                 if(p.pain < 50) {
-                    p.pain++;
+                    p.mod_pain(1);
                 }
             }
         }
@@ -2591,11 +2584,8 @@ static void handle_infected_wound(player& p, disease& dis) {
                 g->add_msg_if_player(&p,_("You can barely remain standing."));
             }
             p.vomit();
-            if (!(p.has_trait("NOPAIN"))) {
-                if(p.pain < 100)
-                {
-                    p.pain++;
-                }
+            if(p.pain < 100) {
+                p.mod_pain(1);
             }
         }
         p.str_cur -= 3;
@@ -2626,12 +2616,10 @@ static void handle_recovery(player& p, disease& dis) {
                 g->add_msg_if_player(&p,_("You can barely remain standing."));
             }
             p.vomit();
-            if (!(p.has_trait("NOPAIN"))) {
-                if(p.pain < 80) {
-                  p.pain++;
-                }
-              }
+            if(p.pain < 80) {
+                p.mod_pain(1);
             }
+        }
         p.str_cur -= 3;
         p.dex_cur -= 3;
         if (!p.has_disease("sleep") && one_in(100)) {
@@ -2646,10 +2634,8 @@ static void handle_recovery(player& p, disease& dis) {
             g->add_msg_if_player(&p,
                 _("You feel feverish and nauseous."));
             p.vomit();
-            if (!(p.has_trait("NOPAIN"))) {
-              if(p.pain < 40) {
-                p.pain++;
-              }
+            if(p.pain < 40) {
+                p.mod_pain(1);
             }
         }
         p.str_cur -= 2;
@@ -2661,7 +2647,7 @@ static void handle_recovery(player& p, disease& dis) {
             }
             g->add_msg_if_player(&p,_("Your healing wound is incredibly painful."));
             if(p.pain < 24) {
-                p.pain++;
+                p.mod_pain(1);
             }
         }
         p.str_cur -= 1;
@@ -2673,7 +2659,7 @@ static void handle_recovery(player& p, disease& dis) {
             }
             g->add_msg_if_player(&p,_("Your healing wound feels swollen and painful."));
             if(p.pain < 8) {
-                p.pain++;
+                p.mod_pain(1);
             }
         }
         p.dex_cur-= 1;

@@ -4006,9 +4006,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     int cut_dam = dealt_dams.type_damage(DT_CUT);
     switch (bp) {
     case bp_eyes:
-      if (!(has_trait("NOPAIN"))) {
         mod_pain(1);
-        }
         if (dam > 5 || cut_dam > 0) {
             int minblind = int((dam + cut_dam) / 10);
             if (minblind < 1)
@@ -4020,12 +4018,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         }
     case bp_mouth: // Fall through to head damage
     case bp_head:
-      if (!(has_trait("NOPAIN"))) {
         mod_pain(1);
-        }
         hp_cur[hp_head] -= dam;
-        if (hp_cur[hp_head] < 0)
-        {
+        if (hp_cur[hp_head] < 0) {
             lifetime_stats()->damage_taken+=hp_cur[hp_head];
             hp_cur[hp_head] = 0;
         }
@@ -4119,169 +4114,145 @@ void player::apply_damage(Creature* source, body_part bp, int side, int dam) {
 }
 
 void player::mod_pain(int npain) {
-    if (!(has_trait("NOPAIN"))) {
-    if (has_trait("PAINRESIST") && npain > 1) // if it's 1 it'll just become 0, which is bad
-        npain = npain * 4 / rng(4,8);
-    Creature::mod_pain(npain);
+    if ((has_trait("NOPAIN"))) {
+        return;
     }
+    if (has_trait("PAINRESIST") && npain > 1) {// if it's 1 it'll just become 0, which is bad
+        npain = npain * 4 / rng(4,8);
+    }
+    Creature::mod_pain(npain);
 }
 
 void player::hurt(body_part, int, int dam)
 {
-    int painadd = 0;
     if (has_disease("sleep") && rng(0, dam) > 2) {
         wake_up(_("You wake up!"));
     } else if (has_disease("lying_down")) {
         rem_disease("lying_down");
     }
 
- if (dam <= 0)
-  return;
+    if (dam <= 0) {
+        return;
+    }
 
- if (!is_npc())
-  g->cancel_activity_query(_("You were hurt!"));
- 
- if (has_trait("NOPAIN")) {
-      painadd = 0;
-  }
- else if (has_trait("PAINRESIST")) {
-  painadd = dam / 3;
-  }
- else
-  painadd = dam / 2;
- pain += painadd;
+    if (!is_npc()) {
+        g->cancel_activity_query(_("You were hurt!"));
+    }
 
+    mod_pain( dam /2 );
 
- if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
-     (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
-  add_disease("adrenaline", 200);
-  lifetime_stats()->damage_taken+=dam;
+    if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
+        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
+        add_disease("adrenaline", 200);
+    }
+    lifetime_stats()->damage_taken += dam;
 }
 
 void player::hurt(hp_part hurt, int dam)
 {
-    int painadd = 0;
     if (has_disease("sleep") && rng(0, dam) > 2) {
         wake_up(_("You wake up!"));
     } else if (has_disease("lying_down")) {
         rem_disease("lying_down");
     }
 
-    if (dam <= 0)
+    if (dam <= 0) {
         return;
+    }
 
     if (!is_npc()) {
         g->cancel_activity_query(_("You were hurt!"));
     }
     
-    if (has_trait("NOPAIN")) {
-      painadd = 0;
-    }
-    else if (has_trait("PAINRESIST")) {
-        painadd = dam / 3;
-    } else {
-        painadd = dam / 2;
-    }
-        pain += painadd;
+    mod_pain( dam / 2 );
 
     hp_cur[hurt] -= dam;
     if (hp_cur[hurt] < 0) {
-        lifetime_stats()->damage_taken+=hp_cur[hurt];
+        lifetime_stats()->damage_taken += hp_cur[hurt];
         hp_cur[hurt] = 0;
     }
-    lifetime_stats()->damage_taken+=dam;
+    lifetime_stats()->damage_taken += dam;
 }
 
 void player::heal(body_part healed, int side, int dam)
 {
- hp_part healpart;
- switch (healed) {
- case bp_eyes: // Fall through to head damage
- case bp_mouth: // Fall through to head damage
- case bp_head:
-  healpart = hp_head;
- break;
- case bp_torso:
-  healpart = hp_torso;
- break;
- case bp_hands:
-// Shouldn't happen, but fall through to arms
-  debugmsg("Heal against hands!");
- case bp_arms:
-  if (side == 0)
-   healpart = hp_arm_l;
-  else
-   healpart = hp_arm_r;
- break;
- case bp_feet:
-// Shouldn't happen, but fall through to legs
-  debugmsg("Heal against feet!");
- case bp_legs:
-  if (side == 0)
-   healpart = hp_leg_l;
-  else
-   healpart = hp_leg_r;
- break;
- default:
-  debugmsg("Wacky body part healed!");
-  healpart = hp_torso;
- }
- hp_cur[healpart] += dam;
- if (hp_cur[healpart] > hp_max[healpart])
- {
-  lifetime_stats()->damage_healed-=hp_cur[healpart]-hp_max[healpart];
-  hp_cur[healpart] = hp_max[healpart];
- }
- lifetime_stats()->damage_healed+=dam;
+    hp_part healpart;
+    switch (healed) {
+        case bp_eyes: // Fall through to head damage
+        case bp_mouth: // Fall through to head damage
+        case bp_head:
+            healpart = hp_head;
+            break;
+        case bp_torso:
+            healpart = hp_torso;
+            break;
+        case bp_hands:
+            // Shouldn't happen, but fall through to arms
+            debugmsg("Heal against hands!");
+        case bp_arms:
+            if (side == 0) {
+                healpart = hp_arm_l;
+            } else {
+                healpart = hp_arm_r;
+            }
+            break;
+        case bp_feet:
+            // Shouldn't happen, but fall through to legs
+            debugmsg("Heal against feet!");
+        case bp_legs:
+            if (side == 0) {
+                healpart = hp_leg_l;
+            } else {
+                healpart = hp_leg_r;
+            }
+            break;
+        default:
+            debugmsg("Wacky body part healed!");
+            healpart = hp_torso;
+    }
+    hp_cur[healpart] += dam;
+    if (hp_cur[healpart] > hp_max[healpart]) {
+        lifetime_stats()->damage_healed -= hp_cur[healpart] - hp_max[healpart];
+        hp_cur[healpart] = hp_max[healpart];
+    }
+    lifetime_stats()->damage_healed+=dam;
 }
 
 void player::heal(hp_part healed, int dam)
 {
- hp_cur[healed] += dam;
- if (hp_cur[healed] > hp_max[healed])
- {
-  lifetime_stats()->damage_healed-=hp_cur[healed]-hp_max[healed];
-  hp_cur[healed] = hp_max[healed];
- }
- lifetime_stats()->damage_healed+=dam;
+    hp_cur[healed] += dam;
+    if (hp_cur[healed] > hp_max[healed]) {
+        lifetime_stats()->damage_healed -= hp_cur[healed] - hp_max[healed];
+        hp_cur[healed] = hp_max[healed];
+    }
+    lifetime_stats()->damage_healed += dam;
 }
 
 void player::healall(int dam)
 {
- for (int i = 0; i < num_hp_parts; i++) {
-  if (hp_cur[i] > 0) {
-   hp_cur[i] += dam;
-   if (hp_cur[i] > hp_max[i])
-   {
-    lifetime_stats()->damage_healed-=hp_cur[i]-hp_max[i];
-    hp_cur[i] = hp_max[i];
-   }
-   lifetime_stats()->damage_healed+=dam;
-  }
- }
+    for (int i = 0; i < num_hp_parts; i++) {
+        if (hp_cur[i] > 0) {
+            hp_cur[i] += dam;
+            if (hp_cur[i] > hp_max[i]) {
+                lifetime_stats()->damage_healed -= hp_cur[i] - hp_max[i];
+                hp_cur[i] = hp_max[i];
+            }
+            lifetime_stats()->damage_healed += dam;
+        }
+    }
 }
 
 void player::hurtall(int dam)
 {
- for (int i = 0; i < num_hp_parts; i++) {
-  int painadd = 0;
-  hp_cur[i] -= dam;
-   if (hp_cur[i] < 0)
-   {
-     lifetime_stats()->damage_taken+=hp_cur[i];
-     hp_cur[i] = 0;
-   }
-  if (has_trait("NOPAIN")) {
-      painadd = 0;
-  }
-  else if (has_trait("PAINRESIST")) {
-   painadd = dam / 3;
-  }
-  else
-   painadd = dam / 2;
-  pain += painadd;
-  lifetime_stats()->damage_taken+=dam;
- }
+    for (int i = 0; i < num_hp_parts; i++) {
+        hp_cur[i] -= dam;
+        if (hp_cur[i] < 0) {
+            lifetime_stats()->damage_taken += hp_cur[i];
+            hp_cur[i] = 0;
+        }
+        mod_pain( dam / 2 );
+        lifetime_stats()->damage_taken += dam;
+    }
 }
 
 void player::hitall(int dam, int vary)
@@ -4292,28 +4263,20 @@ void player::hitall(int dam, int vary)
         rem_disease("lying_down");
     }
 
- for (int i = 0; i < num_hp_parts; i++) {
-  int ddam = vary? dam * rng (100 - vary, 100) / 100 : dam;
-  int cut = 0;
-  absorb((body_part) i, ddam, cut);
-  int painadd = 0;
-  hp_cur[i] -= ddam;
-   if (hp_cur[i] < 0)
-   {
-     lifetime_stats()->damage_taken+=hp_cur[i];
-     hp_cur[i] = 0;
-   }
-  if (has_trait("NOPAIN")) {
-      painadd = 0;
-  }
-  else if (has_trait("PAINRESIST")) {
-      painadd = dam / 3 / 4;
-   }
-  else
-   painadd = dam / 2 / 4;
-  pain += painadd;
-  lifetime_stats()->damage_taken+=dam;
- }
+    for (int i = 0; i < num_hp_parts; i++) {
+        int ddam = vary? dam * rng (100 - vary, 100) / 100 : dam;
+        int cut = 0;
+        absorb((body_part) i, ddam, cut);
+        hp_cur[i] -= ddam;
+        if (hp_cur[i] < 0)
+        {
+            lifetime_stats()->damage_taken+=hp_cur[i];
+            hp_cur[i] = 0;
+        }
+
+        mod_pain( dam / 2 / 4 );
+        lifetime_stats()->damage_taken+=dam;
+    }
 }
 
 void player::knock_back_from(int x, int y)
@@ -4912,7 +4875,7 @@ void player::suffer()
                 // 1 more pain for every 800 grams more (5 per extra STR needed)
                 if ( ((weight_carried() - weight_capacity()) / 800 > pain && pain < 100) &&
                      (!(g->u.has_trait("NOPAIN")))) {
-                    pain += 1;
+                    mod_pain(1);
                 }
             }
         }
@@ -4953,7 +4916,7 @@ void player::suffer()
         if (has_trait("CHEMIMBALANCE")) {
             if (one_in(3600) && (!(has_trait("NOPAIN")))) {
                 g->add_msg(_("You suddenly feel sharp pain for no reason."));
-                pain += 3 * rng(1, 3);
+                mod_pain( 3 * rng(1, 3) );
             }
             if (one_in(3600)) {
                 int pkilladd = 5 * rng(-1, 2);
@@ -5174,7 +5137,8 @@ void player::suffer()
     if (has_trait("SORES")) {
         for (int i = bp_head; i < num_bp; i++) {
             if ((pain < 5 + 4 * abs(encumb(body_part(i)))) && (!(has_trait("NOPAIN")))) {
-                pain = 5 + 4 * abs(encumb(body_part(i)));
+                pain = 0;
+                mod_pain( 5 + 4 * abs(encumb(body_part(i))) );
             }
         }
     }
@@ -5282,9 +5246,7 @@ void player::suffer()
     // Negative bionics effects
     if (has_bionic("bio_dis_shock") && one_in(1200)) {
         g->add_msg(_("You suffer a painful electrical discharge!"));
-        if (!(has_trait("NOPAIN"))) {
-            pain++;
-        }
+        mod_pain(1);
         moves -= 150;
     }
     if (has_bionic("bio_dis_acid") && one_in(1500)) {

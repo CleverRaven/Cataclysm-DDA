@@ -746,7 +746,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
     case 1:
         if (!(u->has_trait("NOPAIN"))) {
             g->add_msg(_("It really hurts!"));
-            u->pain += rng(failure_level * 3, failure_level * 6);
+            u->mod_pain( rng(failure_level * 3, failure_level * 6) );
         }
         break;
 
