@@ -2391,7 +2391,7 @@ static int cauterize_elec(player *p, item *it)
         g->add_msg_if_player(p,_("You need batteries to cauterize wounds."));
         return 0;
     } else if (!p->has_disease("bite") && !p->has_disease("bleed") && !p->is_underwater()) {
-        if ((p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) && query_yn(_("Cauterize yourself for fun?"))) {
+        if ((p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED")) && query_yn(_("Cauterize yourself for fun?"))) {
             return cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
         }
         else {
@@ -2420,8 +2420,7 @@ int iuse::solder_weld(player *p, item *it, bool)
     if ((p->has_disease("bite") || p->has_disease("bleed")) && !p->is_underwater()) {
         choice = menu(true, ("Using soldering item:"), _("Cauterize wound"),
                       _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
-    } else if ((p->has_trait("MASOCHIST")) || (p->has_trait("MASOCHIST_MED")) ||
-    (p->has_trait("CENOBITE"))) {
+    } else if ((p->has_trait("MASOCHIST")) || (p->has_trait("MASOCHIST_MED"))) {
         // Masochists might be wounded too, let's not ask twice.
         choice = menu(true, ("Using soldering item:"), _("Cauterize yourself for fun"),
                       _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
@@ -5790,7 +5789,7 @@ int iuse::knife(player *p, item *it, bool t)
     kmenu.addentry( cut_fabric, true, -1, _("Cut up fabric/plastic/kevlar/wood") );
     kmenu.addentry( carve_writing, true, -1, _("Carve writing on item") );
     if( (p->has_disease("bite") || p->has_disease("bleed") || (p->has_trait("MASOCHIST") ||
-    p->has_trait("MASOCHIST_MED") || (p->has_trait("CENOBITE"))) ) &&
+    p->has_trait("MASOCHIST_MED")) ) &&
         !p->is_underwater() ) {
         if ( !p->has_charges("fire", 4) ) {
             kmenu.addentry( cauterize, false, -1,
@@ -7075,8 +7074,7 @@ int iuse::hotplate(player *p, item *it, bool)
   }
 
   int choice = 1;
-  if ((p->has_disease("bite") || p->has_disease("bleed") || (p->has_trait("MASOCHIST") || (p->has_trait("MASOCHIST_MED")) ||
-  (p->has_trait("CENOBITE")))) && !p->is_underwater() ) {
+  if ((p->has_disease("bite") || p->has_disease("bleed") || (p->has_trait("MASOCHIST") || (p->has_trait("MASOCHIST_MED")))) && !p->is_underwater() ) {
     //Might want to cauterize
     choice = menu(true, ("Using hotplate:"), _("Heat food"), _("Cauterize wound"), _("Cancel"), NULL);
   }
