@@ -9638,9 +9638,23 @@ void player::practice (const calendar& turn, Skill *s, int amount)
 
     amount = adjust_for_focus(amount);
 
-    if (has_trait("PACIFIST") && s->is_combat_skill())
-      if(!one_in(3))
-        amount = 0;
+    if (has_trait("PACIFIST") && s->is_combat_skill()) {
+        if(!one_in(3)) {
+          amount = 0;
+        }
+    }
+    if (has_trait("PRED2") && s->is_combat_skill()) {
+        if(one_in(3)) {
+          amount *= 2;
+        }
+    }
+    if (has_trait("PRED3") && s->is_combat_skill()) {
+      amount *= 2;
+    }
+    
+    if (has_trait("PRED4") && s->is_combat_skill()) {
+      amount *= 3;
+    }
 
     if (isSavant && s != savantSkill)
     {
@@ -9653,7 +9667,9 @@ void player::practice (const calendar& turn, Skill *s, int amount)
 
         int chance_to_drop = focus_pool;
         focus_pool -= chance_to_drop / 100;
-        if (rng(1, 100) <= (chance_to_drop % 100))
+        // Apex Predators don't think about much other than killing.
+        // They don't lose Focus when practicing combat skills.
+        if ((rng(1, 100) <= (chance_to_drop % 100)) && (!(has_trait("PRED4") && s->is_combat_skill())))
         {
             focus_pool--;
         }
