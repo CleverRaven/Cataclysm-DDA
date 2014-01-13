@@ -795,3 +795,10 @@ void load_construction(JsonObject &jo)
     constructions_by_desc[con->description].push_back(con);
 }
 
+void reset_constructions() {
+    for(std::vector<construction*>::iterator a = constructions.begin(); a != constructions.end(); ++a) {
+        delete *a;
+    }
+    constructions.clear();
+    constructions_by_desc.clear();
+}

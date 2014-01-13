@@ -80,6 +80,7 @@ std::vector<std::string> file_finder::get_files_from_path(std::string extension,
                 std::string tmp = root_file->d_name;
                 if ( tmp.find(c_extension, match_extension ? tmp.size()-extsz : 0 ) != std::string::npos )
                 {
+                    if(tmp[tmp.size() - 1] == '~') { continue; }
                     std::string fullpath = path + "/" + tmp;
                     files.push_back(fullpath);
                 }

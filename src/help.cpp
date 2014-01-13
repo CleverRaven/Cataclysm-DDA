@@ -1053,6 +1053,11 @@ void load_hint(JsonObject &jsobj)
     hints.push_back(_(jsobj.get_string("text").c_str()));
 }
 
+void clear_hints()
+{
+    hints.clear();
+}
+
 std::string get_hint()
 {
     if (hints.empty()) {

@@ -26,6 +26,11 @@ void load_speech(JsonObject &jo)
     speech_type->second.push_back(speech);
 }
 
+void reset_speech()
+{
+    speech.clear();
+}
+
 const SpeechBubble& get_speech( const std::string label ) {
     const std::map<std::string, std::vector<SpeechBubble> >::iterator speech_type = speech.find( label );
 

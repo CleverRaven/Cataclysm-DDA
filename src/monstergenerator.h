@@ -47,6 +47,9 @@ class MonsterGenerator
         /** Default destructor */
         virtual ~MonsterGenerator();
 
+        // clear monster & species definitions
+        void reset();
+
         // JSON loading functions
         void load_monster(JsonObject &jo);
         void load_species(JsonObject &jo);

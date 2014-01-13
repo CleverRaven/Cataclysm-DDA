@@ -1313,7 +1313,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     WINDOW* w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
     WINDOW* w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
     WINDOW* w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
-    WINDOW* w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 22, getbegx(w) + 2);
+    WINDOW* w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 21, getbegx(w) + 2);
     
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d"), points);
 

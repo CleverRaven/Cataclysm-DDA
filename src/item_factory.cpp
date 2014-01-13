@@ -255,6 +255,10 @@ void Item_factory::init(){
     techniques_list["PRECISE"] = "tec_precise";
     techniques_list["RAPID"] = "tec_rapid";
 
+    create_inital_categories();
+}
+
+void Item_factory::create_inital_categories() {
     // Load default categories with their default sort_rank
     // Negative rank so the default categories come before all
     // the explicit defined categories from json
@@ -286,16 +290,10 @@ void Item_factory::add_category(const std::string &id, int sort_rank, const std:
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
 void Item_factory::init_old() {
-    // Make a copy of our items loaded from JSON
-    std::map<Item_tag, itype*> new_templates = m_templates;
     //Copy the hardcoded template pointers to the factory list
     m_templates.insert(itypes.begin(), itypes.end());
     //Copy the JSON-derived items to the legacy list
-    itypes.insert(new_templates.begin(), new_templates.end());
-    //And add them to the various item lists, as needed.
-    for(std::map<Item_tag, itype*>::iterator iter = new_templates.begin(); iter != new_templates.end(); ++iter) {
-      standard_itype_ids.push_back(iter->first);
-    }
+    itypes.insert(m_templates.begin(), m_templates.end());
 }
 
 inline int ammo_type_defined(const std::string &ammo) {
@@ -378,6 +376,12 @@ void Item_factory::check_itype_definitions() const {
             }
             if(tool->revert_to != "null" && !has_template(tool->revert_to)) {
                 msg << string_format("invalid revert_to property %s", tool->revert_to.c_str()) << "\n";
+            }
+        }
+        const it_bionic* bionic = dynamic_cast<const it_bionic*>(type);
+        if(bionic != 0) {
+            if (bionics.count(bionic->id) == 0) {
+                msg << string_format("there is no bionic with id %s", bionic->id.c_str()) << "\n";
             }
         }
         if(msg.str().empty()) {
@@ -660,6 +664,31 @@ void Item_factory::load_gunmod(JsonObject& jo)
     load_basic_info(jo, new_item_template);
 }
 
+void Item_factory::load_bionic(JsonObject& jo)
+{
+    it_bionic* bionic_template = new it_bionic();
+    bionic_template->difficulty = jo.get_int("difficulty");
+    load_basic_info(jo, bionic_template);
+}
+
+void Item_factory::load_veh_part(JsonObject& jo)
+{
+    it_var_veh_part* veh_par_template = new it_var_veh_part();
+    veh_par_template->min_bigness = jo.get_int("min-bigness");
+    veh_par_template->max_bigness = jo.get_int("max-bigness");
+    const std::string big_aspect = jo.get_string("bigness-aspect");
+    if (big_aspect == "WHEEL_DIAMETER") {
+        veh_par_template->bigness_aspect = BIGNESS_WHEEL_DIAMETER;
+        veh_par_template->engine = false;
+    } else if (big_aspect == "ENGINE_DISPLACEMENT") {
+        veh_par_template->bigness_aspect = BIGNESS_ENGINE_DISPLACEMENT;
+        veh_par_template->engine = true;
+    } else {
+        throw std::string("invalid bigness-aspect: ") + big_aspect;
+    }
+    load_basic_info(jo, veh_par_template);
+}
+
 void Item_factory::load_generic(JsonObject& jo)
 {
     itype *new_item_template = new itype();
@@ -670,7 +699,15 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
 {
     std::string new_id = jo.get_string("id");
     new_item_template->id = new_id;
+    if(m_templates.count(new_id) > 0) {
+        // New item already exists. Because mods are loaded after
+        // core data, we override it. This allows mods to change
+        // item from core data.
+        delete m_templates[new_id];
+    }
     m_templates[new_id] = new_item_template;
+    itypes[new_id] = new_item_template;
+    standard_itype_ids.push_back(new_id);
 
     // And then proceed to assign the correct field
     new_item_template->price = jo.get_int("price");
@@ -831,15 +868,55 @@ bool Item_factory::is_mod_target(JsonObject& jo, std::string member, std::string
     return is_included;
 }
 
+void Item_factory::clear_items_and_groups()
+{
+    // clear groups
+    for (std::map<Item_tag, Item_group*>::iterator ig = m_template_groups.begin(); ig != m_template_groups.end(); ++ig){
+        delete ig->second;
+    }
+    m_template_groups.clear();
+
+    m_categories.clear();
+    create_inital_categories();
+
+    for (std::map<Item_tag, itype*>::iterator it = m_templates.begin(); it != m_templates.end(); ++it) {
+        if (m_missing_item == it->second) {
+            // No need to delete m_missing_item,
+            // it will be used again and must always exist
+            continue;
+        }
+        delete it->second;
+    }
+    m_templates.clear();
+
+    // These containers are defined in itypedef.cpp
+    // and initialzed there.
+    // There are updated here when an item type is loaded
+    unreal_itype_ids.clear();
+    martial_arts_itype_ids.clear();
+    artifact_itype_ids.clear();
+    standard_itype_ids.clear();
+    pseudo_itype_ids.clear();
+    itypes.clear();
+
+    // Recreate this entry, now we are in the same state as
+    // after the creation of this object
+    m_templates["MISSING_ITEM"] = m_missing_item;
+}
 
 // Load an item group from JSON
 void Item_factory::load_item_group(JsonObject &jsobj)
 {
     Item_tag group_id = jsobj.get_string("id");
-    Item_group *current_group = new Item_group(group_id);
-    m_template_groups[group_id] = current_group;
+    Item_group *current_group;
+    if (m_template_groups.count(group_id) > 0) {
+        current_group = m_template_groups[group_id];
+    } else {
+        current_group = new Item_group(group_id);
+        m_template_groups[group_id] = current_group;
+    }
 
-    current_group->m_guns_have_ammo = jsobj.get_bool("guns_have_ammo", false );
+    current_group->m_guns_have_ammo = jsobj.get_bool("guns_have_ammo", current_group->m_guns_have_ammo);
 
     JsonArray items = jsobj.get_array("items");
     while (items.has_more()) {
@@ -852,9 +929,8 @@ void Item_factory::load_item_group(JsonObject &jsobj)
         JsonArray pair = groups.next_array();
         std::string name = pair.get_string(0);
         int frequency = pair.get_int(1);
-        // we had better have loaded it already!
-        if (m_template_groups.find(name) == m_template_groups.end()) {
-            throw jsobj.line_number() + ": unrecognized group name: " + name;
+        if (m_template_groups.count(name) == 0) {
+            m_template_groups[name] = new Item_group(name);
         }
         current_group->add_group(m_template_groups[name], frequency);
     }

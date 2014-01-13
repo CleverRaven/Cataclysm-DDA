@@ -11,6 +11,11 @@ NameGenerator::NameGenerator() {
 
 }
 
+void NameGenerator::clear_names()
+{
+    names.clear();
+}
+
 void NameGenerator::load_name(JsonObject &jo)
 {
     std::string name = jo.get_string("name");

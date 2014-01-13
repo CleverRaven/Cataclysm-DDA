@@ -4,7 +4,11 @@
 #include <map>
 #include <algorithm>
 
-Item_group::Item_group(const Item_tag id) : m_id(id), m_max_odds(0), m_guns_have_ammo(false) {
+Item_group::Item_group(const Item_tag id)
+: m_id(id)
+, m_max_odds(0)
+, m_guns_have_ammo(false)
+{
 }
 
 void Item_group::check_items_exist() const {
@@ -29,7 +33,7 @@ bool Item_group::guns_have_ammo() {
     return (m_guns_have_ammo == true);
 }
 
-const Item_tag Item_group::get_id(std::vector<Item_tag> recursion_list){
+const Item_tag Item_group::get_id(std::vector<Item_tag> &recursion_list){
     int rolled_value = rng(1,m_max_odds)-1;
 
     //Insure we haven't already visited this group
@@ -97,7 +101,7 @@ bool Item_group_group::check(int value) const{
     return (value < m_upper_bound);
 }
 
-const Item_tag Item_group_group::get(std::vector<Item_tag> recursion_list){
+const Item_tag Item_group_group::get(std::vector<Item_tag> &recursion_list){
     return m_group->get_id(recursion_list);
 }
 

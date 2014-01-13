@@ -41,6 +41,7 @@ void game::release_traps()
   }
  }
  traps.clear();
+ trapmap.clear();
 }
 
 std::map<std::string, int> trapmap;
