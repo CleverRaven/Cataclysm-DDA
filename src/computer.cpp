@@ -711,9 +711,7 @@ INITIATING STANDARD TREMOR TEST..."));
         print_line(_("The machine injects your eyeball with the solution \n\
 of pureed bone & LSD."));
         query_any(_("Press any key..."));
-        if (!(g->u.has_trait("NOPAIN"))) {
-            g->u.pain += rng(40, 90);
-        }
+        g->u.mod_pain( rng(40, 90) );
         break;
 
     case COMPACT_DOWNLOAD_SOFTWARE:
