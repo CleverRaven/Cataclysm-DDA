@@ -645,12 +645,12 @@ int iuse::alcohol(player *p, item *it, bool)
         duration = 180 - (10 * p->str_max);
         // Metabolizing the booze improves the nutritional
         // value; might not be healthy, and still
-        // cuses Thirst problems, though
+        // causes Thirst problems, though
         p->hunger -= (abs(food->stim));
-        // Metabolizing it cancels out the depressant
-        // except for Irish coffee, which already
-        // has a postive stim value
-        if (!(it->type->id == "irish_coffee")) {
+        // Metabolizing it cancels out depressant
+        // effects, but doesn't make it any more
+        // stimulating
+        if ((food->stim) < 0) {
             p->stim += (abs(food->stim));
         }
     }

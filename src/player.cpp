@@ -391,8 +391,10 @@ void player::reset_stats()
 
     // Pain
     if (pain > pkill) {
-        mod_str_bonus(-int((pain - pkill) / 15));
-        mod_dex_bonus(-int((pain - pkill) / 15));
+        if (!(has_trait("CENOBITE"))) {
+            mod_str_bonus(-int((pain - pkill) / 15));
+            mod_dex_bonus(-int((pain - pkill) / 15));
+        }
         mod_per_bonus(-int((pain - pkill) / 20));
         mod_int_bonus(-(1 + int((pain - pkill) / 25)));
     }
