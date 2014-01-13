@@ -707,6 +707,13 @@ void mutation_loss_effect(player &p, std::string mut)
         p.str_max -= 4;
         p.recalc_hp();
 
+    } else if (mut == "PRED3") {
+        // Mostly for the Debug.
+        p.int_max ++;
+
+    } else if (mut == "PRED4") {
+        p.int_max += 3;
+
     } else if (mut == "STR_UP") {
         p.str_max --;
         p.recalc_hp();

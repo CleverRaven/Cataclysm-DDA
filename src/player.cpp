@@ -3846,44 +3846,66 @@ int player::rust_rate(bool return_stat_effect)
 int player::talk_skill()
 {
     int ret = get_int() + get_per() + skillLevel("speech") * 3;
-    if (has_trait("UGLY"))
+    if (has_trait("SAPIOVORE")) {
+        ret -= 20; // Friendly convo with your prey? unlikely
+    }
+    else if (has_trait("UGLY")) {
         ret -= 3;
-    else if (has_trait("DEFORMED"))
+    }
+    else if (has_trait("DEFORMED")) {
         ret -= 6;
-    else if (has_trait("DEFORMED2"))
+    }
+    else if (has_trait("DEFORMED2")) {
         ret -= 12;
-    else if (has_trait("DEFORMED3"))
+    }
+    else if (has_trait("DEFORMED3")) {
         ret -= 18;
-    else if (has_trait("PRETTY"))
+    }
+    else if (has_trait("PRETTY")) {
         ret += 1;
-    else if (has_trait("BEAUTIFUL"))
+    }
+    else if (has_trait("BEAUTIFUL")) {
         ret += 2;
-    else if (has_trait("BEAUTIFUL2"))
+    }
+    else if (has_trait("BEAUTIFUL2")) {
         ret += 4;
-    else if (has_trait("BEAUTIFUL3"))
+    }
+    else if (has_trait("BEAUTIFUL3")) {
         ret += 6;
+    }
     return ret;
 }
 
 int player::intimidation()
 {
  int ret = get_str() * 2;
- if (weapon.is_gun())
-  ret += 10;
- if (weapon.damage_bash() >= 12 || weapon.damage_cut() >= 12)
-  ret += 5;
- if (has_trait("DEFORMED2"))
-  ret += 3;
- else if (has_trait("DEFORMED3"))
-  ret += 6;
- else if (has_trait("PRETTY"))
-  ret -= 1;
- else if (has_trait("BEAUTIFUL") || has_trait("BEAUTIFUL2") || has_trait("BEAUTIFUL3"))
-  ret -= 4;
- if (stim > 20)
-  ret += 2;
- if (has_disease("drunk"))
-  ret -= 4;
+ if (weapon.is_gun()) {
+      ret += 10;
+  }
+ if (weapon.damage_bash() >= 12 || weapon.damage_cut() >= 12) {
+      ret += 5;
+  }
+ if (has_trait("SAPIOVORE")) {
+        ret += 5; // Scaring one's prey, on the other claw...
+    }
+ else if (has_trait("DEFORMED2")) {
+      ret += 3;
+  }
+ else if (has_trait("DEFORMED3")) {
+      ret += 6;
+  }
+ else if (has_trait("PRETTY")) {
+      ret -= 1;
+  }
+ else if (has_trait("BEAUTIFUL") || has_trait("BEAUTIFUL2") || has_trait("BEAUTIFUL3")) {
+      ret -= 4;
+  }
+ if (stim > 20) {
+      ret += 2;
+  }
+ if (has_disease("drunk")) {
+      ret -= 4;
+  }
 
  return ret;
 }
@@ -6991,11 +7013,11 @@ bool player::eat(item *eaten, it_comest *comest)
         g->add_msg_if_player(this, _("You can't stand the thought of eating veggies."));
         return false;
     }
-    if ((!has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&& !is_npc() &&
-        !query_yn(_("The thought of eating that makes you feel sick. Really do it?"))) {
+    if ((!has_trait("SAPIOVORE") && !has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&&
+        !is_npc() && !query_yn(_("The thought of eating that makes you feel sick. Really do it?"))) {
         return false;
     }
-    if ((has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&& !is_npc() &&
+    if ((!has_trait("SAPIOVORE") && has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&& !is_npc() &&
         !query_yn(_("The thought of eating that makes you feel both guilty and excited. Go through with it?"))) {
         return false;
     }
@@ -7110,7 +7132,9 @@ bool player::eat(item *eaten, it_comest *comest)
         charge_power(rng(1, 4));
     }
 
-    if (eaten->made_of("hflesh")) {
+    if (eaten->made_of("hflesh") && !has_trait("SAPIOVORE")) {
+    // Sapiovores don't recognize humans as the same species.
+    // It's not cannibalism if you're not eating your own kind.
       if (has_trait("CANNIBAL") && has_trait("PSYCHOPATH")) {
           g->add_msg_if_player(this, _("You feast upon the human flesh."));
           add_morale(MORALE_CANNIBAL, 15, 200);

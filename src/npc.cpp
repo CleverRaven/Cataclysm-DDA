@@ -1090,6 +1090,9 @@ void npc::form_opinion(player *u)
    op_of_u.fear++;
  }
 
+ if (has_trait("SAPIOVORE")) {
+    op_of_u.fear += 10; // Sapiovores = Scary
+ }
  if (u->has_trait("PRETTY"))
   op_of_u.fear += 1;
  else if (u->has_trait("BEAUTIFUL"))
@@ -1939,7 +1942,10 @@ void npc::die(bool your_fault)
     }
     if (your_fault){
         if (is_friend()) {
-            if(!g->u.has_trait("PSYCHOPATH")) {
+            if (g->u.has_trait("SAPIOVORE")) {
+                g->u.add_memorial_log(_("Killed a friendly ape, %s.  Better eaten than eating."), name.c_str());
+            }
+            else if(!g->u.has_trait("PSYCHOPATH")) {
                 // Very long duration, about 7d, decay starts after 10h.
                 g->u.add_memorial_log(_("Killed a friend, %s."), name.c_str());
                 g->u.add_morale(MORALE_KILLED_FRIEND, -500, 0, 10000, 600);
@@ -1949,7 +1955,10 @@ void npc::die(bool your_fault)
                 g->u.add_memorial_log(_("Killed a delicious-looking friend, %s, in cold blood."), name.c_str());
             }
         } else if (!is_enemy() || this->hit_by_player){
-            if(!g->u.has_trait("CANNIBAL") && !g->u.has_trait("PSYCHOPATH")) {
+            if (g->u.has_trait("SAPIOVORE")) {
+                    g->u.add_memorial_log(_("Caught and killed an ape.  Prey doesn't have a name."));
+                }
+            else if(!g->u.has_trait("CANNIBAL") && !g->u.has_trait("PSYCHOPATH")) {
                 // Very long duration, about 3.5d, decay starts after 5h.
                 g->u.add_memorial_log("Killed an innocent person, %s, in cold blood and felt terrible afterwards.", name.c_str());
                 g->u.add_morale(MORALE_KILLED_INNOCENT, -100, 0, 5000, 300);
