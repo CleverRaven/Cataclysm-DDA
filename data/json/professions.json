@@ -1246,7 +1246,7 @@
         "type": "profession",
         "ident": "linebacker",
         "name": "Football Player",
-        "description": "You were the star player for the local football team, adored by teammates and fans alike. Now they just adore your brains. You've still got your bulky football gear on.",
+        "description": "You were the star player for the local football team, adored by teammates and fans alike. Now they just adore your brain. You've still got your bulky football gear on.",
         "points": 0,
         "items": {
             "both": [
@@ -1270,7 +1270,7 @@
         "type": "profession",
         "ident": "golfer",
         "name": "Golfer",
-        "description": "A birdie is 1 under par, but how much is a zombie? Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
+        "description": "A birdie is one under par, but how much is a zombie? Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
         "points": 0,
         "items": {
             "both": [
