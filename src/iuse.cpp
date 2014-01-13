@@ -912,9 +912,7 @@ int iuse::vaccine(player *p, item *it, bool) {
     } else {
         p->health += 100;
     }
-    if (!(g->u.has_trait("NOPAIN"))) {
-        p->pain += 3;
-    }
+    p->mod_pain( 3 );
     return it->type->charges_to_use();
 }
 
@@ -1149,18 +1147,14 @@ int iuse::mut_iv(player *p, item *it, bool) {
             g->sound(p->posx, p->posy, 15 + 3 * p->str_cur, _("You scream in agony!!"));
         }
         p->mutate();
-        if (!(g->u.has_trait("NOPAIN"))) {
-            p->pain += 1 * rng(1, 4);
-        }
+        p->mod_pain( 1 * rng(1, 4) );
         //Standard IV-mutagen effect: 10 hunger/thirst & 5 Fatigue *per mutation*.
         // Numbers may vary based on mutagen.
         p->hunger += 10;
         p->fatigue += 5;
         p->thirst += 10;
         p->mutate();
-        if (!(g->u.has_trait("NOPAIN"))) {
-            p->pain += 2 * rng(1, 3);
-        }
+        p->mod_pain( 2 * rng(1, 3) );
         p->hunger += 10;
         p->fatigue += 5;
         p->thirst += 10;
@@ -1168,9 +1162,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
         p->hunger += 10;
         p->fatigue += 5;
         p->thirst += 10;
-        if (!(g->u.has_trait("NOPAIN"))) {
-            p->pain += 3 * rng(1, 2);
-        }
+        p->mod_pain( 3 * rng(1, 2) );
         if (!one_in(4)) {
             p->mutate();
             p->hunger += 10;
@@ -1195,13 +1187,12 @@ int iuse::mut_iv(player *p, item *it, bool) {
             //Should be about 40 min, less 30 sec/IN point.
             p->fall_asleep((400 - p->int_cur * 5));
         }
-    }  else if( it->has_flag("MUTAGEN_ALPHA") ) { //5-15 pain, 66% for each of the followups, so slightly better odds (designed for injection)
+    }  else if( it->has_flag("MUTAGEN_ALPHA") ) {
+        //5-15 pain, 66% for each of the followups, so slightly better odds (designed for injection).
         mutation_category = "MUTCAT_ALPHA";
         g->add_msg_if_player(p, _("You took that shot like a champ!"));
         p->mutate_category("MUTCAT_ALPHA");
-        if (!(g->u.has_trait("NOPAIN"))) {
-            p->pain += 3 * rng(1, 5);
-        }
+        p->mod_pain( 3 * rng(1, 5));
         //Alpha doesn't make a lot of massive morphologial changes, so less nutrients needed.
         p->hunger += 3;
         p->fatigue += 5;
@@ -1228,9 +1219,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
             g->add_msg_if_player(p, _("You can feel the blood in your medication stream. It's a strange feeling."));
         }
         p->mutate_category("MUTCAT_MEDICAL");
-        if (!(g->u.has_trait("NOPAIN"))) {
-            p->pain += 2 * rng(1, 3);
-        }
+        p->mod_pain( 2 * rng(1, 3) );
         //Medical's are pretty much all physiology, IIRC
         p->hunger += 3;
         p->fatigue += 5;
@@ -1240,29 +1229,27 @@ int iuse::mut_iv(player *p, item *it, bool) {
             p->hunger += 3;
             p->fatigue += 5;
             p->thirst += 3;
-            }
+        }
         if(!one_in(3)) {
             p->mutate_category("MUTCAT_MEDICAL");
             p->hunger += 3;
             p->fatigue += 5;
             p->thirst += 3;
-          }
+        }
     } else if( it->has_flag("MUTAGEN_CHIMERA") ) {
         // 24-36 pain, Scream,, -40 Morale,
         // but two guaranteed mutations and 75% each for third and fourth.
         mutation_category = "MUTCAT_CHIMERA";
         g->add_msg_if_player(p, _("everyanimalthateverlived..bursting.from.YOU!"));
         p->mutate_category("MUTCAT_CHIMERA");
-        if (!(g->u.has_trait("NOPAIN"))) {
-            p->pain += 4 * rng(1, 4);
-        }
+        p->mod_pain( 4 * rng(1, 4) );
         //Chimera's all about the massive morphological changes Done Quick, so lotsa nutrition needed.
         p->hunger += 20;
         p->fatigue += 20;
         p->thirst += 20;
         p->mutate_category("MUTCAT_CHIMERA");
         if (!(g->u.has_trait("NOPAIN"))) {
-            p->pain += 20;
+            p->mod_pain( 20 );
             g->sound(p->posx, p->posy, 25 + 3 * p->str_cur, _("You roar in agony!!"));
             p->add_morale(MORALE_MUTAGEN_CHIMERA, -40, -200);
         }
@@ -1279,10 +1266,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
             p->mutate_category("MUTCAT_CHIMERA");
             p->hunger += 20;
             p->thirst += 10;
-
-            if (!(g->u.has_trait("NOPAIN"))) {
-            p->pain += 5;
-            }
+            p->mod_pain( 5 );
             // Out for a while--long enough to receive another two injections
             // and wake up in hostile territory.
             g->add_msg_if_player(p, _("With a final *pop*, you go out like a light."));
@@ -1350,9 +1334,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
         It's painfully beautiful..."));
             p->fall_asleep(20); //Should be out for two minutes.  Ecstasy Of Green
             // Extra helping of pain.
-          if (!(g->u.has_trait("NOPAIN"))) {
-            p->pain += rng(1, 5);
-          }
+            p->mod_pain( rng(1, 5) );
             p->add_morale(MORALE_MUTAGEN_ELFA, 25, 100);
             mutation_category = "MUTCAT_ELFA";
         } else if( it->has_flag("MUTAGEN_RAPTOR") ) {
@@ -1363,10 +1345,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
         }
 
         p->mutate_category(mutation_category);
-
-        if (!(g->u.has_trait("NOPAIN"))) {
-            p->pain += 2 * rng(1, 5);
-        }
+        p->mod_pain( 2 * rng(1, 5) );
         p->hunger += 10;
         // EkarusRyndren had the idea to add Fatigue and knockout,
         // though that's a bit much for every case
@@ -1386,107 +1365,104 @@ int iuse::mut_iv(player *p, item *it, bool) {
         }
     }
 
-        // Threshold-check.  You only get to cross once!
-      if (p->crossed_threshold() == false) {
-          // Threshold-breaching
-          std::string primary = p->get_highest_category();
-          int total = ((p->mutation_category_level["MUTCAT_LIZARD"]) +
-          (p->mutation_category_level["MUTCAT_BIRD"]) +
-          (p->mutation_category_level["MUTCAT_FISH"]) +
-          (p->mutation_category_level["MUTCAT_BEAST"]) +
-          (p->mutation_category_level["MUTCAT_FELINE"]) +
-          (p->mutation_category_level["MUTCAT_LUPINE"]) +
-          (p->mutation_category_level["MUTCAT_URSINE"]) +
-          (p->mutation_category_level["MUTCAT_CATTLE"]) +
-          (p->mutation_category_level["MUTCAT_INSECT"]) +
-          (p->mutation_category_level["MUTCAT_PLANT"]) +
-          (p->mutation_category_level["MUTCAT_SLIME"]) +
-          (p->mutation_category_level["MUTCAT_TROGLOBITE"]) +
-          (p->mutation_category_level["MUTCAT_CEPHALOPOD"]) +
-          (p->mutation_category_level["MUTCAT_SPIDER"]) +
-          (p->mutation_category_level["MUTCAT_RAT"]) +
-          (p->mutation_category_level["MUTCAT_MEDICAL"]) +
-          (p->mutation_category_level["MUTCAT_ALPHA"]) +
-          (p->mutation_category_level["MUTCAT_ELFA"]) +
-          (p->mutation_category_level["MUTCAT_CHIMERA"]) +
-          (p->mutation_category_level["MUTCAT_RAPTOR"]));
-          // Only if you were pushing for more in your primary category.
-          // You wanted to be more like it and less human.
-          // That said, you're required to have hit third-stage dreams first.
-          if ((mutation_category == primary) && (p->mutation_category_level[primary] > 50)) {
-              if (x_in_y(p->mutation_category_level[primary], total)) {
-                  g->add_msg_if_player(p,_("Something strains mightily for a moment...and then..you're...FREE!"));
-                  if (mutation_category == "MUTCAT_LIZARD") {
-                      p->toggle_mutation("THRESH_LIZARD");
-                  } else if (mutation_category == "MUTCAT_BIRD") {
-                      p->toggle_mutation("THRESH_BIRD");
-                  } else if (mutation_category == "MUTCAT_FISH") {
-                      p->toggle_mutation("THRESH_FISH");
-                  } else if (mutation_category == "MUTCAT_BEAST") {
-                      p->toggle_mutation("THRESH_BEAST");
-                  } else if (mutation_category == "MUTCAT_FELINE") {
-                      p->toggle_mutation("THRESH_FELINE");
-                  } else if (mutation_category == "MUTCAT_LUPINE") {
-                      p->toggle_mutation("THRESH_LUPINE");
-                  } else if (mutation_category == "MUTCAT_URSINE") {
-                      p->toggle_mutation("THRESH_URSINE");
-                  } else if (mutation_category == "MUTCAT_CATTLE") {
-                      p->toggle_mutation("THRESH_CATTLE");
-                  } else if (mutation_category == "MUTCAT_INSECT") {
-                      p->toggle_mutation("THRESH_INSECT");
-                  } else if (mutation_category == "MUTCAT_PLANT") {
-                      p->toggle_mutation("THRESH_PLANT");
-                  } else if (mutation_category == "MUTCAT_SLIME") {
-                      p->toggle_mutation("THRESH_SLIME");
-                  } else if (mutation_category == "MUTCAT_TROGLOBITE") {
-                      p->toggle_mutation("THRESH_TROGLOBITE");
-                  } else if (mutation_category == "MUTCAT_CEPHALOPOD") {
-                      p->toggle_mutation("THRESH_CEPHALOPOD");
-                  } else if (mutation_category == "MUTCAT_SPIDER") {
-                      p->toggle_mutation("THRESH_SPIDER");
-                  } else if (mutation_category == "MUTCAT_RAT") {
-                      p->toggle_mutation("THRESH_RAT");
-                  } else if (mutation_category == "MUTCAT_MEDICAL") {
-                      p->toggle_mutation("THRESH_MEDICAL");
-                  } else if (mutation_category == "MUTCAT_ALPHA") {
-                      p->toggle_mutation("THRESH_ALPHA");
-                  } else if (mutation_category == "MUTCAT_ELFA") {
-                      p->toggle_mutation("THRESH_ELFA");
-                  } else if (mutation_category == "MUTCAT_CHIMERA") {
-                      p->toggle_mutation("THRESH_CHIMERA");
-                  } else if (mutation_category == "MUTCAT_RAPTOR") {
-                      p->toggle_mutation("THRESH_RAPTOR");
-                  }
-              } else if (p->mutation_category_level[primary] > 100) {
-                  // NOPAIN is a post-Threshold trait, so you shouldn't
-                  // legitimately have it and get here!
-                        if (g->u.has_trait("NOPAIN")) {
-                            g->add_msg_if_player(p,_("You feel extremely Bugged."));
-                          }
-                    else {
-                        g->add_msg_if_player(p,_("You stagger with a piercing headache!"));
-                        p->pain += 8;
-                        p->add_disease("stunned", rng(3, 5));
-                    }
-                } else if (p->mutation_category_level[primary] > 80) {
-                    if (g->u.has_trait("NOPAIN")) {
-                        g->add_msg_if_player(p,_("You feel very Bugged."));
-                      }
-                    else {
-                        g->add_msg_if_player(p,_("Your head throbs with memories of your life, before all this..."));
-                        p->pain += 6;
-                        p->add_disease("stunned", rng(2, 4));
-                    }
-                } else if (p->mutation_category_level[primary] > 60) {
-                    if (g->u.has_trait("NOPAIN")) {
-                        g->add_msg_if_player(p,_("You feel Bugged."));
-                       }
-                    else {
-                        g->add_msg_if_player(p,_("Images of your past life flash before you."));
-                        p->add_disease("stunned", rng(2, 3));
-                    }
+    // Threshold-check.  You only get to cross once!
+    if (p->crossed_threshold() == false) {
+        // Threshold-breaching
+        std::string primary = p->get_highest_category();
+        int total = ((p->mutation_category_level["MUTCAT_LIZARD"]) +
+                     (p->mutation_category_level["MUTCAT_BIRD"]) +
+                     (p->mutation_category_level["MUTCAT_FISH"]) +
+                     (p->mutation_category_level["MUTCAT_BEAST"]) +
+                     (p->mutation_category_level["MUTCAT_FELINE"]) +
+                     (p->mutation_category_level["MUTCAT_LUPINE"]) +
+                     (p->mutation_category_level["MUTCAT_URSINE"]) +
+                     (p->mutation_category_level["MUTCAT_CATTLE"]) +
+                     (p->mutation_category_level["MUTCAT_INSECT"]) +
+                     (p->mutation_category_level["MUTCAT_PLANT"]) +
+                     (p->mutation_category_level["MUTCAT_SLIME"]) +
+                     (p->mutation_category_level["MUTCAT_TROGLOBITE"]) +
+                     (p->mutation_category_level["MUTCAT_CEPHALOPOD"]) +
+                     (p->mutation_category_level["MUTCAT_SPIDER"]) +
+                     (p->mutation_category_level["MUTCAT_RAT"]) +
+                     (p->mutation_category_level["MUTCAT_MEDICAL"]) +
+                     (p->mutation_category_level["MUTCAT_ALPHA"]) +
+                     (p->mutation_category_level["MUTCAT_ELFA"]) +
+                     (p->mutation_category_level["MUTCAT_CHIMERA"]) +
+                     (p->mutation_category_level["MUTCAT_RAPTOR"]));
+        // Only if you were pushing for more in your primary category.
+        // You wanted to be more like it and less human.
+        // That said, you're required to have hit third-stage dreams first.
+        if ((mutation_category == primary) && (p->mutation_category_level[primary] > 50)) {
+            if (x_in_y(p->mutation_category_level[primary], total)) {
+                g->add_msg_if_player(p,_("Something strains mightily for a moment...and then..you're...FREE!"));
+                if (mutation_category == "MUTCAT_LIZARD") {
+                    p->toggle_mutation("THRESH_LIZARD");
+                } else if (mutation_category == "MUTCAT_BIRD") {
+                    p->toggle_mutation("THRESH_BIRD");
+                } else if (mutation_category == "MUTCAT_FISH") {
+                    p->toggle_mutation("THRESH_FISH");
+                } else if (mutation_category == "MUTCAT_BEAST") {
+                    p->toggle_mutation("THRESH_BEAST");
+                } else if (mutation_category == "MUTCAT_FELINE") {
+                    p->toggle_mutation("THRESH_FELINE");
+                } else if (mutation_category == "MUTCAT_LUPINE") {
+                    p->toggle_mutation("THRESH_LUPINE");
+                } else if (mutation_category == "MUTCAT_URSINE") {
+                    p->toggle_mutation("THRESH_URSINE");
+                } else if (mutation_category == "MUTCAT_CATTLE") {
+                    p->toggle_mutation("THRESH_CATTLE");
+                } else if (mutation_category == "MUTCAT_INSECT") {
+                    p->toggle_mutation("THRESH_INSECT");
+                } else if (mutation_category == "MUTCAT_PLANT") {
+                    p->toggle_mutation("THRESH_PLANT");
+                } else if (mutation_category == "MUTCAT_SLIME") {
+                    p->toggle_mutation("THRESH_SLIME");
+                } else if (mutation_category == "MUTCAT_TROGLOBITE") {
+                    p->toggle_mutation("THRESH_TROGLOBITE");
+                } else if (mutation_category == "MUTCAT_CEPHALOPOD") {
+                    p->toggle_mutation("THRESH_CEPHALOPOD");
+                } else if (mutation_category == "MUTCAT_SPIDER") {
+                    p->toggle_mutation("THRESH_SPIDER");
+                } else if (mutation_category == "MUTCAT_RAT") {
+                    p->toggle_mutation("THRESH_RAT");
+                } else if (mutation_category == "MUTCAT_MEDICAL") {
+                    p->toggle_mutation("THRESH_MEDICAL");
+                } else if (mutation_category == "MUTCAT_ALPHA") {
+                    p->toggle_mutation("THRESH_ALPHA");
+                } else if (mutation_category == "MUTCAT_ELFA") {
+                    p->toggle_mutation("THRESH_ELFA");
+                } else if (mutation_category == "MUTCAT_CHIMERA") {
+                    p->toggle_mutation("THRESH_CHIMERA");
+                } else if (mutation_category == "MUTCAT_RAPTOR") {
+                    p->toggle_mutation("THRESH_RAPTOR");
                 }
-          }
+            } else if (p->mutation_category_level[primary] > 100) {
+                // NOPAIN is a post-Threshold trait, so you shouldn't
+                // legitimately have it and get here!
+                if (g->u.has_trait("NOPAIN")) {
+                    g->add_msg_if_player(p,_("You feel extremely Bugged."));
+                } else {
+                    g->add_msg_if_player(p,_("You stagger with a piercing headache!"));
+                    p->pain += 8;
+                    p->add_disease("stunned", rng(3, 5));
+                }
+            } else if (p->mutation_category_level[primary] > 80) {
+                if (g->u.has_trait("NOPAIN")) {
+                    g->add_msg_if_player(p,_("You feel very Bugged."));
+                } else {
+                    g->add_msg_if_player(p,_("Your head throbs with memories of your life, before all this..."));
+                    p->pain += 6;
+                    p->add_disease("stunned", rng(2, 4));
+                }
+            } else if (p->mutation_category_level[primary] > 60) {
+                if (g->u.has_trait("NOPAIN")) {
+                    g->add_msg_if_player(p,_("You feel Bugged."));
+                } else {
+                    g->add_msg_if_player(p,_("Images of your past life flash before you."));
+                    p->add_disease("stunned", rng(2, 3));
+                }
+            }
+        }
     }
     return it->type->charges_to_use();
 }
@@ -1552,7 +1528,7 @@ int iuse::purify_iv(player *p, item *it, bool)
         }
         valid.erase(valid.begin() + index);
         if (!(g->u.has_trait("NOPAIN"))) {
-            p->pain += 2 * num_cured; //Hurts worse as it fixes more
+            p->mod_pain( 2 * num_cured ); //Hurts worse as it fixes more
             g->add_msg_if_player(p,_("Feels like you're on fire, but you're OK."));
         }
         p->thirst += 2 * num_cured;
@@ -2370,10 +2346,11 @@ static bool cauterize_effect(player *p, item *it, bool force = true)
     hp_part hpart = use_healing_item(p, it, -2, -2, -2, it->name, 100, 50, 0, force);
     if (hpart != num_hp_parts) {
         if (!(g->u.has_trait("NOPAIN"))) {
-            p->pain += 15;
+            p->mod_pain( 15 );
             g->add_msg_if_player(p, _("You cauterize yourself. It hurts like hell!"));
+        } else {
+            g->add_msg_if_player(p, _("You cauterize yourself. It itches a little."));
         }
-        else { g->add_msg_if_player(p, _("You cauterize yourself. It itches a little.")); }
         body_part bp = num_bp;
         int side = -1;
         p->hp_convert(hpart, bp, side);
@@ -4042,20 +4019,20 @@ int iuse::pickaxe(player *p, item *it, bool)
     if (p->is_underwater()) {
         g->add_msg_if_player(p, _("You can't do that while underwater."));
         return 0;
- }
- int dirx, diry;
- if(!g->choose_adjacent(_("Mine where?"),dirx,diry)) {
-  return 0;
- }
+    }
+    int dirx, diry;
+    if(!g->choose_adjacent(_("Mine where?"),dirx,diry)) {
+        return 0;
+    }
 
- if (dirx == p->posx && diry == p->posy) {
-  g->add_msg_if_player(p,_("Mining the depths of your experience,"));
-  g->add_msg_if_player(p,_("you realize that it's best not to dig"));
-  g->add_msg_if_player(p,_("yourself into a hole. You stop digging."));
-  return 0;
- }
- if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
-     g->m.ter(dirx, diry) != t_tree) {
+    if (dirx == p->posx && diry == p->posy) {
+        g->add_msg_if_player(p,_("Mining the depths of your experience,"));
+        g->add_msg_if_player(p,_("you realize that it's best not to dig"));
+        g->add_msg_if_player(p,_("yourself into a hole. You stop digging."));
+        return 0;
+    }
+    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+        g->m.ter(dirx, diry) != t_tree) {
         // Sound of a Pickaxe at work!
         g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
         g->m.destroy(dirx, diry, false);
@@ -4066,29 +4043,27 @@ int iuse::pickaxe(player *p, item *it, bool)
         p->hunger += 15;
         p->fatigue += 30;
         p->thirst += 15;
-        if (!(g->u.has_trait("NOPAIN"))) {
-            p->pain += 2 * rng(1,3);
-        }
+        p->mod_pain( 2 * rng(1, 3) );
         // Mining is construction work!
         p->practice(g->turn, "carpentry", 1);
         // Sounds before and after
         g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
- } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
-            g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-                g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
-                g->m.destroy(dirx, diry, false);
-                // 20 minutes to rip up the road.  Compressed a bit but so is all Cata-time.
-                p->moves -= 20000;
-                //Breaking up concrete on the surface? not nearly as bad
-                p->hunger += 5;
-                p->fatigue += 10;
-                p->thirst += 5;
-                g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
- } else {
-  g->add_msg_if_player(p,_("You can't mine there."));
-  return 0;
- }
-return it->type->charges_to_use();
+    } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
+               g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+        g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
+        g->m.destroy(dirx, diry, false);
+        // 20 minutes to rip up the road.  Compressed a bit but so is all Cata-time.
+        p->moves -= 20000;
+        //Breaking up concrete on the surface? not nearly as bad
+        p->hunger += 5;
+        p->fatigue += 10;
+        p->thirst += 5;
+        g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
+    } else {
+        g->add_msg_if_player(p,_("You can't mine there."));
+        return 0;
+    }
+    return it->type->charges_to_use();
 }
 
 int iuse::set_trap(player *p, item *it, bool)
