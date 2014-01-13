@@ -7735,24 +7735,52 @@ point game::look_around()
  return point(-1, -1);
 }
 
-bool game::list_items_match(std::string sText, std::string sPattern)
+bool game::list_items_match(item &item, std::string sPattern)
 {
     size_t iPos;
+    bool hasExclude = false;
+
+    if(sPattern.find("-") != std::string::npos) {
+        hasExclude = true;
+    }
 
     do {
         iPos = sPattern.find(",");
+        std::string pat = (iPos == std::string::npos) ? sPattern : sPattern.substr(0, iPos);
+        bool exclude = false;
+        if (pat.substr(0, 1) == "-") {
+            exclude = true;
+            pat = pat.substr(1, pat.size() - 1);
+        } else if (hasExclude) {
+            hasExclude = false; //If there are non exclusive items to filter, we flip this back to false.
+        }
 
-        if (sText.find((iPos == std::string::npos) ? sPattern : sPattern.substr(0, iPos)) != std::string::npos) {
-            return true;
+        if (item.tname().find(pat) != std::string::npos) {
+            return exclude?false:true;
+        }
+
+        if(pat.find("{",0) != std::string::npos) {
+            std::string adv_pat_type = pat.substr(1, pat.find(":")-1);
+            std::string adv_pat_search = pat.substr(3, pat.find("}")-3);
+            if(adv_pat_type == "c") {
+                std::string cName = item.get_category().name;
+                if(cName.find(adv_pat_search,0) != std::string::npos) {
+                    return exclude?false:true;
+                }
+            } else if (adv_pat_type == "m") {
+                if(item.made_of(adv_pat_search)) {
+                    return exclude?false:true;
+                }
+            }
         }
 
         if (iPos != std::string::npos) {
-            sPattern = sPattern.substr(iPos+1, sPattern.size());
+            sPattern = sPattern.substr(iPos + 1, sPattern.size());
         }
 
     } while(iPos != std::string::npos);
 
-    return false;
+    return hasExclude?true:false;
 }
 
 std::vector<map_item_stack> game::find_nearby_items(int iRadius)
@@ -7809,15 +7837,14 @@ std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack>
 
     std::string sFilterPre = "";
     std::string sFilterTemp = filter;
-    if (sFilterTemp != "" && filter.substr(0, 1) == "-") {
-        sFilterPre = "-";
-        sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
-    }
+//    if (sFilterTemp != "" && filter.substr(0, 1) == "-") {
+//        sFilterPre = "-";
+//        sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
+//    }
 
     for (std::vector<map_item_stack>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
         std::string name = iter->example.tname();
-        if (sFilterTemp == "" || ((sFilterPre != "-" && list_items_match(name, sFilterTemp)) ||
-                                  (sFilterPre == "-" && !list_items_match(name, sFilterTemp)))) {
+        if (sFilterTemp == "" || list_items_match(iter->example, sFilterTemp) ) {
             ret.push_back(*iter);
         }
     }
@@ -7831,16 +7858,57 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
                                                      ");
     }
 
-    mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to see"));
-    mvwprintz(window, 3, 2, c_white, "%s", _("nearby matching items."));
-    mvwprintz(window, 5, 2, c_white, "%s", _("Seperate multiple items with ,"));
-    mvwprintz(window, 6, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
+    mvwprintz(window, 0, 2, c_white, "%s", _("Type part of an item's name to see"));
+    mvwprintz(window, 1, 2, c_white, "%s", _("nearby matching items."));
+    mvwprintz(window, 3, 2, c_white, "%s", _("Seperate multiple items with ,"));
+    mvwprintz(window, 4, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
     //TODO: fix up the filter code so that "-" applies to each comma-separated bit
     //or, failing that, make the description sound more like what the current behavior does
-    mvwprintz(window, 8, 2, c_white, "%s", _("To exclude items, place - in front"));
-    mvwprintz(window, 9, 2, c_white, "%s", _("Example: -pipe,chunk,steel"));
+    mvwprintz(window, 6, 2, c_white, "%s", _("To exclude items, place - in front"));
+    mvwprintz(window, 7, 2, c_white, "%s", _("Example: -pipe,chunk,steel"));
+
+    mvwprintz(window, 9, 2, c_white, "%s", _("Search [c]ategory or [m]aterial:"));
+    mvwprintz(window, 10, 2, c_white, "%s", _("Example: {c:food},{m:iron}"));
     wrefresh(window);
     return string_input_popup(_("Filter:"), 55, sFilter, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "item_filter", 256);
+}
+
+std::string game::ask_item_priority_high(WINDOW* window, int rows)
+{
+    for (int i = 0; i < rows-1; i++) {
+        mvwprintz(window, i, 1, c_black, "%s", "\
+                                                     ");
+    }
+
+    mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
+    mvwprintz(window, 3, 2, c_white, "%s", _("nearby items to the top."));
+
+    mvwprintz(window, 5, 2, c_white, "%s", _("Seperate multiple items with ,"));
+    mvwprintz(window, 6, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
+
+    mvwprintz(window, 8, 2, c_white, "%s", _("Search [c]ategory or [m]aterial:"));
+    mvwprintz(window, 9, 2, c_white, "%s", _("Example: {c:food},{m:iron}"));
+    wrefresh(window);
+    return string_input_popup(_("High Priority:"), 55, list_item_upvote, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_priority", 256);
+}
+
+std::string game::ask_item_priority_low(WINDOW* window, int rows)
+{
+    for (int i = 0; i < rows-1; i++) {
+        mvwprintz(window, i, 1, c_black, "%s", "\
+                                                     ");
+    }
+
+    mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
+    mvwprintz(window, 3, 2, c_white, "%s", _("nearby items to the bottom."));
+
+    mvwprintz(window, 5, 2, c_white, "%s", _("Seperate multiple items with ,"));
+    mvwprintz(window, 6, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
+
+    mvwprintz(window, 8, 2, c_white, "%s", _("Search [c]ategory or [m]aterial:"));
+    mvwprintz(window, 9, 2, c_white, "%s", _("Example: {c:food},{m:iron}"));
+    wrefresh(window);
+    return string_input_popup(_("Low Priority:"), 55, list_item_downvote, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_downvote", 256);
 }
 
 
@@ -7924,7 +7992,7 @@ int game::list_filter_high_priority(std::vector<map_item_stack> &stack, std::str
     std::vector<map_item_stack> tempstack; // temp
     for(int i = 0 ; i < stack.size() ; i++) {
         std::string name = stack[i].example.tname();
-        if(prorities == "" || !list_items_match(name,prorities)) {
+        if(prorities == "" || !list_items_match(stack[i].example,prorities)) {
             tempstack.push_back(stack[i]);
             stack.erase(stack.begin()+i);
             i--;
@@ -7943,7 +8011,7 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
     std::vector<map_item_stack> tempstack; // temp
     for(int i = start ; i < stack.size() ; i++) {
         std::string name = stack[i].example.tname();
-        if(prorities != "" && list_items_match(name,prorities)) {
+        if(prorities != "" && list_items_match(stack[i].example,prorities)) {
             tempstack.push_back(stack[i]);
             stack.erase(stack.begin()+i);
             i--;
@@ -8077,12 +8145,12 @@ int game::list_items(const int iLastState)
                 iLastActiveY = -1;
                 reset = true;
             } else if(ch == '+') {
-                std::string temp = string_input_popup(_("High Priority:"), width, list_item_upvote, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_priority", 256);
+                std::string temp = ask_item_priority_high(w_item_info, iInfoHeight);
                 list_item_upvote = temp;
                 refilter = true;
                 reset = true;
             } else if(ch == '-') {
-                std::string temp = string_input_popup(_("Low Priority:"), width, list_item_downvote, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_downvote", 256);
+                std::string temp = ask_item_priority_low(w_item_info, iInfoHeight);
                 list_item_downvote = temp;
                 refilter = true;
                 reset = true;
@@ -10057,7 +10125,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
          return;
      }
  }
- 
+
  int range = u.weapon.range(&u);
 
  m.draw(w_terrain, point(u.posx, u.posy));

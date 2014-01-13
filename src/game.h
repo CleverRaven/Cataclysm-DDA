@@ -278,13 +278,15 @@ class game
   // Shared method to print "look around" info
   void print_all_tile_info(int lx, int ly, WINDOW* w_look, int column, int &line, bool mouse_hover);
 
-  bool list_items_match(std::string sText, std::string sPattern);
+  bool list_items_match(item &item, std::string sPattern);
   int list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities);
   int list_filter_low_priority(std::vector<map_item_stack> &stack,int start, std::string prorities);
   std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack, std::string filter);
   std::vector<map_item_stack> find_nearby_items(int iRadius);
   std::vector<int> find_nearby_monsters(int iRadius);
   std::string ask_item_filter(WINDOW* window, int rows);
+  std::string ask_item_priority_high(WINDOW* window, int rows);
+  std::string ask_item_priority_low(WINDOW* window, int rows);
   void draw_trail_to_square(int x, int y, bool bDrawX);
   void reset_item_list_state(WINDOW* window, int height);
   std::string sFilter; // this is a member so that it's remembered over time
