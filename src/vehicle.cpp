@@ -689,6 +689,7 @@ void vehicle::use_controls()
 
 void vehicle::start_engine()
 {
+    bool muscle_powered = false;
     // TODO: Make chance of success based on engine condition.
     for(int p = 0; p < engines.size(); p++) {
         if(parts[engines[p]].hp > 0) {
@@ -705,6 +706,9 @@ void vehicle::start_engine()
                     }
                 }
             }
+            else if (part_info(engines[p]).fuel_type == fuel_type_muscle) {
+              muscle_powered = true;
+            }
             else {
                 // Electric & plasma engines
                 engine_on = true;
@@ -715,7 +719,7 @@ void vehicle::start_engine()
     if(engine_on == true) {
         g->add_msg(_("The %s's engine starts up."), name.c_str());
     }
-    else {
+    else if (!muscle_powered) {
         g->add_msg (_("The %s's engine fails to start."), name.c_str());
     }
 }
