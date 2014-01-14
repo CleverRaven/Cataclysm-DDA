@@ -157,7 +157,7 @@ class map
   *    `cost_min` and `cost_max`.
   */
  bool clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
-                 const int range, const int cost_min, const int cost_max, int &tc);
+                 const int range, const int cost_min, const int cost_max, int &tc) const;
 
 
  /**
