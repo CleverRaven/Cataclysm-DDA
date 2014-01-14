@@ -71,10 +71,8 @@ void addict_effect(addiction &add)
             g->u.str_cur -= 1 + int(in / 7);
             g->u.per_cur--;
             g->u.dex_cur--;
-            if (!(g->u.has_trait("NOPAIN"))) {
-                if (g->u.pain < in * 3) {
-                    g->u.pain++;
-                }
+            if (g->u.pain < in * 3) {
+                g->u.mod_pain(1);
             }
             if ((in >= 40 || one_in(1200 - 30 * in)) && g->u.health > -100) {
                 g->u.health--;

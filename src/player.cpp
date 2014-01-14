@@ -4895,8 +4895,7 @@ void player::suffer()
             if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))) {
                 g->add_msg_if_player(this, _("Your body strains under the weight!"));
                 // 1 more pain for every 800 grams more (5 per extra STR needed)
-                if ( ((weight_carried() - weight_capacity()) / 800 > pain && pain < 100) &&
-                     (!(g->u.has_trait("NOPAIN")))) {
+                if ( ((weight_carried() - weight_capacity()) / 800 > pain && pain < 100)) {
                     mod_pain(1);
                 }
             }

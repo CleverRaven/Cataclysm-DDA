@@ -314,6 +314,16 @@
         "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
+        "id" : "WAKEFUL",
+        "name" : "Less Sleep",
+        "points" : 1,
+        "description" : "You need less sleep than the average person.",
+        "changes_to" : ["WAKEFUL2"],
+        "cancels" : ["SLEEPY", "SLEEPY2"],
+        "starting_trait" : true,
+        "category" : ["MUTCAT_ALPHA", "MUTCAT_ELFA"]
+    },{
+        "type" : "mutation",
         "id" : "SELFAWARE",
         "name" : "Self-aware",
         "points" : 1,
@@ -498,6 +508,7 @@
         "description" : "You need sleep more often, but still spend most of your time awake.",
         "changes_to" : ["SLEEPY2"],
         "starting_trait" : true,
+        "cancels" : ["WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
@@ -938,6 +949,30 @@
         "cancels" : ["ROT1", "ROT2", "ROT3"],
         "prereqs" : ["FASTHEALER2"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLO"]
+    },{
+        "type" : "mutation",
+        "id" : "WAKEFUL2",
+        "name" : "Very Little Sleep",
+        "points" : 3,
+        "description" : "You don't sleep often.  But when you do, you need very little of it.",
+        "valid" : false,
+        "cancels" : ["SLEEPY", "SLEEPY2"],
+        "prereqs" : ["WAKEFUL"],
+        "changes_to" : ["WAKEFUL3"],
+        "threshreq" : ["THRESH_ALPHA", "THRESH_ELFA"],
+        "category" : ["MUTCAT_ALPHA", "MUTCAT_ELFA"]
+    },{
+        "type" : "mutation",
+        "id" : "WAKEFUL3",
+        "name" : "Tireless",
+        "points" : 5,
+        "description" : "You defend the realm all night and all day.",
+        "valid" : false,
+        "purifiable" : false,
+        "cancels" : ["SLEEPY", "SLEEPY2"],
+        "prereqs" : ["WAKEFUL2"],
+        "threshreq" : ["THRESH_ELFA"],
+        "category" : ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "FANGS",
@@ -2469,6 +2504,7 @@
         "points" : -3,
         "description" : "You find yourself needing to sleep quite often.  You'll spend about half your time in or around bed.",
         "prereqs" : ["SLEEPY"],
+        "cancels" : ["WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
         "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
