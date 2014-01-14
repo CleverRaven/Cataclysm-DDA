@@ -6677,6 +6677,7 @@ void game::close(int closex, int closey)
     }
 
     bool didit = false;
+    const bool inside = !m.is_outside(u.posx, u.posy);
 
     std::vector<item> &items_in_way = m.i_at(closex, closey);
     int vpart;
@@ -6705,11 +6706,25 @@ void game::close(int closex, int closey)
         }
     } else if (closex == u.posx && closey == u.posy) {
         add_msg(_("There's some buffoon in the way!"));
-    } else if (m.ter(closex, closey) == t_window_domestic &&
-               m.is_outside(u.posx, u.posy)) {
-        add_msg(_("You cannot close the curtains from outside. You must be inside the building."));
     } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.size() == 0 ) {
         add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
+    } else if (!m.close_door(closex, closey, inside, true)) {
+        // ^^ That checks if the PC could close something there, it
+        // does not actually do anything.
+        std::string door_name;
+        if (m.has_furn(closex, closey)) {
+            door_name = furnlist[m.furn(closex, closey)].name;
+        } else {
+            door_name = terlist[m.ter(closex, closey)].name;
+        }
+        // Print a message that we either can not close whatever is there
+        // or (if we're outside) that we can only close it from the
+        // inside.
+        if (!inside && m.close_door(closex, closey, true, true)) {
+            add_msg(_("You cannot close the %s from outside. You must be inside the building."), door_name.c_str());
+        } else {
+            add_msg(_("You cannot close the %s."), door_name.c_str());
+        }
     } else {
         // Scoot up to 10 volume of items out of the way, only counting items that are vol >= 1.
         if (m.furn(closex, closey) != f_safe_o && items_in_way.size() > 0) {
@@ -6740,14 +6755,16 @@ void game::close(int closex, int closey)
             u.moves -= items_in_way.size() * 10;
         }
 
-        didit = m.close_door(closex, closey, true, false);
-        // Just plopping items back on their origin square will displace them to adjacent squares
-        // since the door is closed now.
-        for( std::vector<item>::iterator cur_item = items_in_way.begin();
-             cur_item != items_in_way.end(); ++cur_item ) {
-            m.add_item_or_charges( closex, closey, *cur_item );
+        didit = m.close_door(closex, closey, inside, false);
+        if (didit && m.has_flag_ter_or_furn("NOITEM", closex, closey)) {
+            // Just plopping items back on their origin square will displace them to adjacent squares
+            // since the door is closed now.
+            for( std::vector<item>::iterator cur_item = items_in_way.begin();
+                cur_item != items_in_way.end(); ++cur_item ) {
+                m.add_item_or_charges( closex, closey, *cur_item );
+            }
+            items_in_way.erase( items_in_way.begin(), items_in_way.end() );
         }
-        items_in_way.erase( items_in_way.begin(), items_in_way.end() );
     }
 
     if (didit) {
