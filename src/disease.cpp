@@ -2338,9 +2338,10 @@ void manage_sleep(player& p, disease& dis) {
             if (p.has_trait("SLEEPY")) {
                 p.fatigue -=(1 + one_in(recovery_chance) / 2);
             }
-            // Very Little Sleep folks recover fatigue really fast
+            // Tireless folks recover fatigue really fast
+            // as well as gaining it really slowly
             // (Doesn't speed healing any, though...)
-            if (p.has_trait("WAKEFUL2")) {
+            if (p.has_trait("WAKEFUL3")) {
                 p.fatigue -=(2 + one_in(recovery_chance) / 2);
             }
         }

@@ -734,6 +734,23 @@ bool game::do_turn()
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
         if (u.fatigue < 1050 && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
             u.fatigue++;
+            // Wakeful folks don't always gain fatigue!
+            if (u.has_trait("WAKEFUL")) {
+                if (one_in(6)) {
+                    u.fatigue--;
+                }
+            }
+            if (u.has_trait("WAKEFUL2")) {
+                if (one_in(4)) {
+                    u.fatigue--;
+                }
+            }
+            // You're looking at over 24 hours to hit Tired here
+            if (u.has_trait("WAKEFUL3")) {
+                if (one_in(2)) {
+                    u.fatigue--;
+                }
+            }
             // Sleepy folks gain fatigue faster; Very Sleepy is twice as fast as typical
             if (u.has_trait("SLEEPY")) {
                 if (one_in(3)) {
@@ -11263,9 +11280,7 @@ bool game::plmove(int dx, int dy)
                      one_in(std::max(20 - furntype.move_str_req - u.str_cur, 2)) ) {
               add_msg(_("You strain yourself trying to move the heavy %s!"), furntype.name.c_str() );
               u.moves -= 100;
-              if (!(u.has_trait("NOPAIN"))) {
-                  u.pain++; // Hurt ourself.
-              }
+              u.mod_pain(1); // Hurt ourself.
               return false; // furniture and or obstacle wins.
           } else if ( ! src_item_ok && dst_items > 0 ) {
               add_msg( _("There's stuff in the way.") );
@@ -13203,6 +13218,7 @@ void game::process_artifact(item *it, player *p, bool wielded)
                 break;
                 // Artifacts can inflict pain even on Deadened folks.
                 // Some weird Lovecraftian thing.  ;P
+                // (So DON'T route them through mod_pain!)
             case ARTC_PAIN:
                 if (turn.seconds() == 0) {
                     add_msg(_("You suddenly feel sharp pain for no reason."));
