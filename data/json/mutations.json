@@ -1711,6 +1711,68 @@
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
+        "id" : "PRED1",
+        "name" : "Culler",
+        "points" : 2,
+        "description" : "You've had a revelation: by killing the weaker creatures, who would only die anyway, you preserve resources for those better able to survive.",
+        "purifiable" : false,
+        "changes_to" : ["PRED2"],
+        "prereqs" : ["CARNIVORE"],
+        "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
+        "id" : "PRED2",
+        "name" : "Hunter",
+        "points" : 3,
+        "description" : "You're getting quite used to hunting and killing ...game.  For food.",
+        "note" : "That ellipsis is placed correctly: it indicates that the thinker takes a second to decide on that term.  Hasn't gone all-out Monster yet, but xe's getting there.",
+        "purifiable" : false,
+        "prereqs" : ["CARNIVORE"],
+        "prereqs2" : ["PRED1"],
+        "changes_to" : ["PRED3"],
+        "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
+        "id" : "PRED3",
+        "name" : "Predator",
+        "points" : 3,
+        "description" : "Let's not overthink things.  You get hungry, you find prey, you kill it and you eat it.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["CARNIVORE"],
+        "prereqs2" : ["PRED2"],
+        "leads_to" : ["SAPIOVORE"],
+        "changes_to" : ["PRED4"],
+        "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
+        "id" : "PRED4",
+        "name" : "Apex Predator",
+        "points" : 2,
+        "description" : "It's good to be on top of the food chain.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["CARNIVORE"],
+        "prereqs2" : ["PRED3"],
+        "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
+        "id" : "SAPIOVORE",
+        "name" : "Sapiovore",
+        "points" : 4,
+        "description" : "The hairless apes are as good eating as any other meat.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["CARNIVORE"],
+        "prereqs2" : ["PRED3"],
+        "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
         "id" : "WINGS_BIRD",
         "name" : "Bird Wings",
         "points" : 2,
