@@ -484,7 +484,7 @@ void vehicle::use_controls()
         current++;
     }
 
-    if( !g->u.controlling_vehicle && tags.count("convertible") ) {
+    if( tags.count("convertible") ) {
         options_choice.push_back(convert_vehicle);
         options_message.push_back(uimenu_entry(_("Fold bicycle"), 'f'));
         current++;
@@ -628,6 +628,10 @@ void vehicle::use_controls()
         break;
     case convert_vehicle:
     {
+        if(g->u.controlling_vehicle) {
+          g->add_msg("You can't do that while on the bicycle!");
+          break;
+        }
         g->add_msg(_("You painstakingly pack the bicycle into a portable configuration."));
         // create a folding bicycle item
         item bicycle;
