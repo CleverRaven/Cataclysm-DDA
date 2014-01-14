@@ -271,8 +271,8 @@ void player::mutate_towards(std::string mut)
     std::vector<std::string> mutcat;
     mutcat = mutation_data[mut].category;
     
-    // It shouldn't pick a Threshold anyway (they're supposed to be non-Valid)
-    // but if it does, just reroll
+    // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
+    // and aren't categorized--but if it does, just reroll
     if (threshold) {
         g->add_msg(_("You feel something straining deep inside you, yearning to be free..."));
         mutate();
@@ -306,6 +306,20 @@ void player::mutate_towards(std::string mut)
             }
         }
     }
+    
+    // Loop through again for prereqs2
+    std::string replacing2 = "";
+    prereq = mutation_data[mut].prereqs2; // Reset it
+    for (int i = 0; i < prereq.size(); i++) {
+        if (has_trait(prereq[i])) {
+            std::string pre2 = prereq[i];
+            for (int j = 0; replacing2 == "" && j < mutation_data[pre2].replacements.size(); j++) {
+                if (mutation_data[pre2].replacements[j] == mut) {
+                    replacing2 = pre2;
+                }
+            }
+        }
+    }
 
     toggle_mutation(mut);
     if (replacing != "") {
@@ -313,6 +327,13 @@ void player::mutate_towards(std::string mut)
         g->u.add_memorial_log(_("'%s' mutation turned into '%s'"), traits[replacing].name.c_str(), traits[mut].name.c_str());
         toggle_mutation(replacing);
         mutation_loss_effect(*this, replacing);
+        mutation_effect(*this, mut);
+
+    } if (replacing2 != "") {
+        g->add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing2].name.c_str(), traits[mut].name.c_str());
+        g->u.add_memorial_log(_("'%s' mutation turned into '%s'"), traits[replacing2].name.c_str(), traits[mut].name.c_str());
+        toggle_mutation(replacing2);
+        mutation_loss_effect(*this, replacing2);
         mutation_effect(*this, mut);
 
     } else if (canceltrait != "") {
@@ -542,6 +563,18 @@ void mutation_effect(player &p, std::string mut)
         // Good-Huge still can't fit places but its heart's healthy enough for
         // going around being Huge, so you get the HP
         
+    } else if (mut == "PRED3") {
+        // Not so much "better at learning combat skills"
+        // as "brain changes to focus on their development".
+        // We are talking post-humanity here.
+        p.int_max --;
+
+    } else if (mut == "PRED4") {
+        // Might be a bit harsh, but on the other claw
+        // we are talking folks who really wanted to
+        // transcend their humanity by this point.
+        p.int_max -= 3;
+
     } else if (mut == "STR_UP") {
         p.str_max ++;
         p.recalc_hp();
@@ -673,6 +706,13 @@ void mutation_loss_effect(player &p, std::string mut)
     } else if (mut == "HUGE_OK") {
         p.str_max -= 4;
         p.recalc_hp();
+
+    } else if (mut == "PRED3") {
+        // Mostly for the Debug.
+        p.int_max ++;
+
+    } else if (mut == "PRED4") {
+        p.int_max += 3;
 
     } else if (mut == "STR_UP") {
         p.str_max --;

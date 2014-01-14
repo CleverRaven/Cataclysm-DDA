@@ -314,6 +314,16 @@
         "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
+        "id" : "WAKEFUL",
+        "name" : "Less Sleep",
+        "points" : 1,
+        "description" : "You need less sleep than the average person.",
+        "changes_to" : ["WAKEFUL2"],
+        "cancels" : ["SLEEPY", "SLEEPY2"],
+        "starting_trait" : true,
+        "category" : ["MUTCAT_ALPHA", "MUTCAT_ELFA"]
+    },{
+        "type" : "mutation",
         "id" : "SELFAWARE",
         "name" : "Self-aware",
         "points" : 1,
@@ -498,6 +508,7 @@
         "description" : "You need sleep more often, but still spend most of your time awake.",
         "changes_to" : ["SLEEPY2"],
         "starting_trait" : true,
+        "cancels" : ["WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
@@ -938,6 +949,30 @@
         "cancels" : ["ROT1", "ROT2", "ROT3"],
         "prereqs" : ["FASTHEALER2"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLO"]
+    },{
+        "type" : "mutation",
+        "id" : "WAKEFUL2",
+        "name" : "Very Little Sleep",
+        "points" : 3,
+        "description" : "You don't sleep often.  But when you do, you need very little of it.",
+        "valid" : false,
+        "cancels" : ["SLEEPY", "SLEEPY2"],
+        "prereqs" : ["WAKEFUL"],
+        "changes_to" : ["WAKEFUL3"],
+        "threshreq" : ["THRESH_ALPHA", "THRESH_ELFA"],
+        "category" : ["MUTCAT_ALPHA", "MUTCAT_ELFA"]
+    },{
+        "type" : "mutation",
+        "id" : "WAKEFUL3",
+        "name" : "Tireless",
+        "points" : 5,
+        "description" : "You defend the realm all night and all day.",
+        "valid" : false,
+        "purifiable" : false,
+        "cancels" : ["SLEEPY", "SLEEPY2"],
+        "prereqs" : ["WAKEFUL2"],
+        "threshreq" : ["THRESH_ELFA"],
+        "category" : ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "FANGS",
@@ -1711,6 +1746,68 @@
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
+        "id" : "PRED1",
+        "name" : "Culler",
+        "points" : 2,
+        "description" : "You've had a revelation: by killing the weaker creatures, who would only die anyway, you preserve resources for those better able to survive.",
+        "purifiable" : false,
+        "changes_to" : ["PRED2"],
+        "prereqs" : ["CARNIVORE"],
+        "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
+        "id" : "PRED2",
+        "name" : "Hunter",
+        "points" : 3,
+        "description" : "You're getting quite used to hunting and killing ...game.  For food.",
+        "note" : "That ellipsis is placed correctly: it indicates that the thinker takes a second to decide on that term.  Hasn't gone all-out Monster yet, but xe's getting there.",
+        "purifiable" : false,
+        "prereqs" : ["CARNIVORE"],
+        "prereqs2" : ["PRED1"],
+        "changes_to" : ["PRED3"],
+        "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
+        "id" : "PRED3",
+        "name" : "Predator",
+        "points" : 3,
+        "description" : "Let's not overthink things.  You get hungry, you find prey, you kill it and you eat it.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["CARNIVORE"],
+        "prereqs2" : ["PRED2"],
+        "leads_to" : ["SAPIOVORE"],
+        "changes_to" : ["PRED4"],
+        "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
+        "id" : "PRED4",
+        "name" : "Apex Predator",
+        "points" : 2,
+        "description" : "It's good to be on top of the food chain.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["CARNIVORE"],
+        "prereqs2" : ["PRED3"],
+        "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
+        "id" : "SAPIOVORE",
+        "name" : "Sapiovore",
+        "points" : 4,
+        "description" : "The hairless apes are as good eating as any other meat.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["CARNIVORE"],
+        "prereqs2" : ["PRED3"],
+        "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
         "id" : "WINGS_BIRD",
         "name" : "Bird Wings",
         "points" : 2,
@@ -2407,6 +2504,7 @@
         "points" : -3,
         "description" : "You find yourself needing to sleep quite often.  You'll spend about half your time in or around bed.",
         "prereqs" : ["SLEEPY"],
+        "cancels" : ["WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
         "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",

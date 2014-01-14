@@ -131,7 +131,7 @@ void construction_menu()
     int diff = current_con->difficulty > 0 ? current_con->difficulty : 0;
     posy++;
     mvwprintz(w_con, posy, 31, c_white,
-              _("Skill: %s"), current_con->skill.c_str());
+              _("Skill: %s"), Skill::skill(current_con->skill)->name().c_str());
     posy++;
     mvwprintz(w_con, posy, 31, (pskill >= diff ? c_white : c_red),
               _("Difficulty: %d"), diff);

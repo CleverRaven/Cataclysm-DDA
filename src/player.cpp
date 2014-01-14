@@ -3848,44 +3848,66 @@ int player::rust_rate(bool return_stat_effect)
 int player::talk_skill()
 {
     int ret = get_int() + get_per() + skillLevel("speech") * 3;
-    if (has_trait("UGLY"))
+    if (has_trait("SAPIOVORE")) {
+        ret -= 20; // Friendly convo with your prey? unlikely
+    }
+    else if (has_trait("UGLY")) {
         ret -= 3;
-    else if (has_trait("DEFORMED"))
+    }
+    else if (has_trait("DEFORMED")) {
         ret -= 6;
-    else if (has_trait("DEFORMED2"))
+    }
+    else if (has_trait("DEFORMED2")) {
         ret -= 12;
-    else if (has_trait("DEFORMED3"))
+    }
+    else if (has_trait("DEFORMED3")) {
         ret -= 18;
-    else if (has_trait("PRETTY"))
+    }
+    else if (has_trait("PRETTY")) {
         ret += 1;
-    else if (has_trait("BEAUTIFUL"))
+    }
+    else if (has_trait("BEAUTIFUL")) {
         ret += 2;
-    else if (has_trait("BEAUTIFUL2"))
+    }
+    else if (has_trait("BEAUTIFUL2")) {
         ret += 4;
-    else if (has_trait("BEAUTIFUL3"))
+    }
+    else if (has_trait("BEAUTIFUL3")) {
         ret += 6;
+    }
     return ret;
 }
 
 int player::intimidation()
 {
  int ret = get_str() * 2;
- if (weapon.is_gun())
-  ret += 10;
- if (weapon.damage_bash() >= 12 || weapon.damage_cut() >= 12)
-  ret += 5;
- if (has_trait("DEFORMED2"))
-  ret += 3;
- else if (has_trait("DEFORMED3"))
-  ret += 6;
- else if (has_trait("PRETTY"))
-  ret -= 1;
- else if (has_trait("BEAUTIFUL") || has_trait("BEAUTIFUL2") || has_trait("BEAUTIFUL3"))
-  ret -= 4;
- if (stim > 20)
-  ret += 2;
- if (has_disease("drunk"))
-  ret -= 4;
+ if (weapon.is_gun()) {
+      ret += 10;
+  }
+ if (weapon.damage_bash() >= 12 || weapon.damage_cut() >= 12) {
+      ret += 5;
+  }
+ if (has_trait("SAPIOVORE")) {
+        ret += 5; // Scaring one's prey, on the other claw...
+    }
+ else if (has_trait("DEFORMED2")) {
+      ret += 3;
+  }
+ else if (has_trait("DEFORMED3")) {
+      ret += 6;
+  }
+ else if (has_trait("PRETTY")) {
+      ret -= 1;
+  }
+ else if (has_trait("BEAUTIFUL") || has_trait("BEAUTIFUL2") || has_trait("BEAUTIFUL3")) {
+      ret -= 4;
+  }
+ if (stim > 20) {
+      ret += 2;
+  }
+ if (has_disease("drunk")) {
+      ret -= 4;
+  }
 
  return ret;
 }
@@ -4873,8 +4895,7 @@ void player::suffer()
             if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))) {
                 g->add_msg_if_player(this, _("Your body strains under the weight!"));
                 // 1 more pain for every 800 grams more (5 per extra STR needed)
-                if ( ((weight_carried() - weight_capacity()) / 800 > pain && pain < 100) &&
-                     (!(g->u.has_trait("NOPAIN")))) {
+                if ( ((weight_carried() - weight_capacity()) / 800 > pain && pain < 100)) {
                     mod_pain(1);
                 }
             }
@@ -6955,11 +6976,11 @@ bool player::eat(item *eaten, it_comest *comest)
         g->add_msg_if_player(this, _("You can't stand the thought of eating veggies."));
         return false;
     }
-    if ((!has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&& !is_npc() &&
-        !query_yn(_("The thought of eating that makes you feel sick. Really do it?"))) {
+    if ((!has_trait("SAPIOVORE") && !has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&&
+        !is_npc() && !query_yn(_("The thought of eating that makes you feel sick. Really do it?"))) {
         return false;
     }
-    if ((has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&& !is_npc() &&
+    if ((!has_trait("SAPIOVORE") && has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&& !is_npc() &&
         !query_yn(_("The thought of eating that makes you feel both guilty and excited. Go through with it?"))) {
         return false;
     }
@@ -6979,13 +7000,6 @@ bool player::eat(item *eaten, it_comest *comest)
         }
         if (!has_trait("SAPROVORE") &&
             !query_yn(_("This %s smells awful!  Eat it?"), eaten->tname().c_str())) {
-            return false;
-        }
-    }
-
-    if (comest->use != &iuse::none) {
-        to_eat = comest->use.call(this, eaten, false);
-        if( to_eat == 0 ) {
             return false;
         }
     }
@@ -7021,6 +7035,13 @@ bool player::eat(item *eaten, it_comest *comest)
             if (!query_yn(_("You will not be able to finish it all. Consume it?"))) {
                 return false;
             }
+        }
+    }
+
+    if (comest->use != &iuse::none) {
+        to_eat = comest->use.call(this, eaten, false);
+        if( to_eat == 0 ) {
+            return false;
         }
     }
 
@@ -7074,7 +7095,9 @@ bool player::eat(item *eaten, it_comest *comest)
         charge_power(rng(1, 4));
     }
 
-    if (eaten->made_of("hflesh")) {
+    if (eaten->made_of("hflesh") && !has_trait("SAPIOVORE")) {
+    // Sapiovores don't recognize humans as the same species.
+    // It's not cannibalism if you're not eating your own kind.
       if (has_trait("CANNIBAL") && has_trait("PSYCHOPATH")) {
           g->add_msg_if_player(this, _("You feast upon the human flesh."));
           add_morale(MORALE_CANNIBAL, 15, 200);
@@ -9602,9 +9625,23 @@ void player::practice (const calendar& turn, Skill *s, int amount)
 
     amount = adjust_for_focus(amount);
 
-    if (has_trait("PACIFIST") && s->is_combat_skill())
-      if(!one_in(3))
-        amount = 0;
+    if (has_trait("PACIFIST") && s->is_combat_skill()) {
+        if(!one_in(3)) {
+          amount = 0;
+        }
+    }
+    if (has_trait("PRED2") && s->is_combat_skill()) {
+        if(one_in(3)) {
+          amount *= 2;
+        }
+    }
+    if (has_trait("PRED3") && s->is_combat_skill()) {
+      amount *= 2;
+    }
+    
+    if (has_trait("PRED4") && s->is_combat_skill()) {
+      amount *= 3;
+    }
 
     if (isSavant && s != savantSkill)
     {
@@ -9617,7 +9654,9 @@ void player::practice (const calendar& turn, Skill *s, int amount)
 
         int chance_to_drop = focus_pool;
         focus_pool -= chance_to_drop / 100;
-        if (rng(1, 100) <= (chance_to_drop % 100))
+        // Apex Predators don't think about much other than killing.
+        // They don't lose Focus when practicing combat skills.
+        if ((rng(1, 100) <= (chance_to_drop % 100)) && (!(has_trait("PRED4") && s->is_combat_skill())))
         {
             focus_pool--;
         }

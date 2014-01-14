@@ -2338,6 +2338,12 @@ void manage_sleep(player& p, disease& dis) {
             if (p.has_trait("SLEEPY")) {
                 p.fatigue -=(1 + one_in(recovery_chance) / 2);
             }
+            // Tireless folks recover fatigue really fast
+            // as well as gaining it really slowly
+            // (Doesn't speed healing any, though...)
+            if (p.has_trait("WAKEFUL3")) {
+                p.fatigue -=(2 + one_in(recovery_chance) / 2);
+            }
         }
         if ((p.has_trait("FLIMSY") && x_in_y(3 , 4)) || (p.has_trait("FLIMSY2") && one_in(2)) ||
               (p.has_trait("FLIMSY3") && one_in(4)) ||
@@ -2565,10 +2571,8 @@ static void handle_infected_wound(player& p, disease& dis) {
                 _("You feel feverish and nauseous, your %s wound has begun to turn green."),
                   body_part_name(dis.bp, dis.side).c_str());
             p.vomit();
-            if (!(p.has_trait("NOPAIN"))) {
-                if(p.pain < 50) {
-                    p.mod_pain(1);
-                }
+            if(p.pain < 50) {
+                p.mod_pain(1);
             }
         }
         p.str_cur -= 2;
