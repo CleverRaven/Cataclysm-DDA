@@ -96,4 +96,5 @@ class effect : public JsonSerializer, public JsonDeserializer
 };
 
 void load_effect_type(JsonObject &jo);
+void reset_effect_types();
 #endif

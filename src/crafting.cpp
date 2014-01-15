@@ -49,6 +49,12 @@ void load_recipe_category(JsonObject &jsobj)
     }
 }
 
+void reset_recipe_categories()
+{
+    craft_cat_list.clear();
+    craft_subcat_list.clear();
+}
+
 void load_recipe(JsonObject &jsobj)
 {
     JsonArray jsarr;
@@ -158,6 +164,17 @@ void load_recipe(JsonObject &jsobj)
     recipes[category].push_back(rec);
 }
 
+void reset_recipes()
+{
+    for (recipe_map::iterator it = recipes.begin(); it != recipes.end(); ++it){
+        for (int i = 0; i < it->second.size(); ++i){
+            delete it->second[i];
+        }
+    }
+    recipes.clear();
+    recipe_names.clear();
+}
+
 void finalize_recipes()
 {
     for (std::map<std::string, std::queue<std::pair<recipe*, int> > >::iterator book_ref_it = recipe_booksets.begin();
@@ -171,6 +188,12 @@ void finalize_recipes()
             }
         }
     }
+    recipe_booksets.clear();
+}
+
+void reset_recipes_qualities()
+{
+    qualities.clear();
 }
 
 void load_quality(JsonObject &jo)

@@ -14,9 +14,9 @@ friend class Item_factory;
 public:
     Item_group(Item_tag id);
 
+    const Item_tag get_id(std::vector<Item_tag> &recursion_list);
     const Item_tag get_id();
     bool guns_have_ammo();
-    const Item_tag get_id(std::vector<Item_tag> recursion_list);
     void add_entry(const Item_tag item_id, int chance);
     void add_group(Item_group*, int chance);
 
@@ -26,6 +26,7 @@ public:
     // this is not recursive
     void check_items_exist() const;
 private:
+
     const Item_tag m_id;
     int m_max_odds;
     bool m_guns_have_ammo;
@@ -54,7 +55,7 @@ public:
     Item_group_group(Item_group* group, int upper_bound);
 
     bool check(int value) const;
-    const Item_tag get(std::vector<Item_tag> recursion_list);
+    const Item_tag get(std::vector<Item_tag> &recursion_list);
 private:
     Item_group* m_group;
     int m_upper_bound;

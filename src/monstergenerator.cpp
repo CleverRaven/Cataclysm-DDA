@@ -19,19 +19,20 @@ MonsterGenerator::MonsterGenerator()
 
 MonsterGenerator::~MonsterGenerator()
 {
-    //dtor
-    if (mon_templates.size() > 0){
-        for (std::map<std::string, mtype*>::iterator types = mon_templates.begin(); types != mon_templates.end(); ++types){
-            delete types->second;
-        }
-        mon_templates.clear();
+    reset();
+}
+
+void MonsterGenerator::reset() {
+    for (std::map<std::string, mtype*>::iterator types = mon_templates.begin(); types != mon_templates.end(); ++types){
+        delete types->second;
     }
-    if (mon_species.size() > 0){
-        for (std::map<std::string, species_type*>::iterator specs = mon_species.begin(); specs != mon_species.end(); ++specs){
-            delete specs->second;
-        }
-        mon_species.clear();
+    mon_templates.clear();
+    for (std::map<std::string, species_type*>::iterator specs = mon_species.begin(); specs != mon_species.end(); ++specs){
+        delete specs->second;
     }
+    mon_species.clear();
+    mon_templates["mon_null"] = new mtype();
+    mon_species["spec_null"] = new species_type();
 }
 
 void MonsterGenerator::finalize_mtypes()
@@ -273,6 +274,9 @@ void MonsterGenerator::load_monster(JsonObject &jo)
     std::string mid;
     if (jo.has_member("id")){
         mid = jo.get_string("id");
+        if (mon_templates.count(mid) > 0) {
+            delete mon_templates[mid];
+        }
 
         mtype *newmon = new mtype;
 
@@ -329,6 +333,9 @@ void MonsterGenerator::load_species(JsonObject &jo)
     std::string sid;
     if (jo.has_member("id")){
         sid = jo.get_string("id");
+        if (mon_species.count(sid) > 0) {
+            delete mon_species[sid];
+        }
 
         std::set<std::string> sflags, sanger, sfear, splacate;
         sflags = jo.get_tags("flags");

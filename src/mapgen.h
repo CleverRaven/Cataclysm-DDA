@@ -22,6 +22,7 @@ class mapgen_function {
     int weight;
     virtual void dummy_() = 0;
     virtual mapgen_function_type function_type() { return ftype;/*MAPGENFUNC_ERROR;*/ };
+    virtual ~mapgen_function() { }
 };
 
 
@@ -185,6 +186,7 @@ mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_bas
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( ie, [ "house", "house_base" ] )
  */
 void load_mapgen ( JsonObject &jio );
+void reset_mapgens();
 /*
  * stores function ref and/or required data
  */
