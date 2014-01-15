@@ -675,6 +675,10 @@ bool player::install_bionics(it_bionic *type)
         debugmsg("Tried to install NULL bionic");
         return false;
     }
+    if (bionics.count(type->id) == 0) {
+        popup("invalid / unknown bionic id %s", type->id.c_str());
+        return false;
+    }
     if (has_bionic(type->id)) {
         if (!(type->id == "bio_power_storage" || type->id == "bio_power_storage_mkII")) {
             popup(_("You have already installed this bionic."));
@@ -843,6 +847,17 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
     }
     break;
     }
+}
+
+void reset_bionics()
+{
+    for (std::map<bionic_id, bionic_data*>::iterator bio = bionics.begin(); bio != bionics.end(); ++bio){
+        delete bio->second;
+    }
+    bionics.clear();
+    faulty_bionics.clear();
+    power_source_bionics.clear();
+    unpowered_bionics.clear();
 }
 
 void load_bionic(JsonObject &jsobj)

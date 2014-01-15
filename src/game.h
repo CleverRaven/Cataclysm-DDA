@@ -112,15 +112,31 @@ struct mission_type;
 class map;
 class player;
 class calendar;
+class DynamicDataLoader;
 
 class game
 {
  friend class editmap;
  friend class advanced_inventory;
+ friend class DynamicDataLoader; // To allow unloading dynamicly loaded stuff
  public:
   game();
   ~game();
-  void init_data();
+
+    // Static data, does not depend on mods or similar.
+    void load_static_data();
+    // Load core data and all mods.
+    void check_all_mod_data();
+protected:
+    // Load core dynamic data
+    void load_core_data();
+    // Load dynamic data from given directory
+    void load_data_from_dir(const std::string &path);
+    // Load core data and mods from that world
+    void load_world_modfiles(WORLDPTR world);
+public:
+
+
   void init_ui();
   void setup();
   bool game_quit(); // True if we actually quit the game - used in main.cpp
@@ -403,9 +419,12 @@ class game
 // Vehicle related JSON loaders and variables
   void load_vehiclepart(JsonObject &jo);
   void load_vehicle(JsonObject &jo);
+  void reset_vehicleparts();
+  void reset_vehicles();
   void finalize_vehicles();
 
   void load_monitem(JsonObject &jo);     // Load monster inventory selection entry
+  void reset_monitems();
 
   std::queue<vehicle_prototype*> vehprototypes;
 

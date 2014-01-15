@@ -98,6 +98,7 @@ class MonsterGroupManager {
 
         static void check_group_definitions();
 
+        static void ClearMonsterGroups();
     private:
         static std::map<std::string, MonsterGroup> monsterGroupMap;
 };

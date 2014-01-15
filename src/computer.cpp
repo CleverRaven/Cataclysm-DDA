@@ -1407,3 +1407,7 @@ void computer::load_lab_note(JsonObject &jsobj)
     lab_notes.push_back(_(jsobj.get_string("text").c_str()));
 }
 
+void computer::clear_lab_notes()
+{
+    lab_notes.clear();
+}

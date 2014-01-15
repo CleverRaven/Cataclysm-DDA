@@ -121,3 +121,8 @@ void load_effect_type(JsonObject &jo)
 
     effect_types[new_etype.id] = new_etype;
 }
+
+void reset_effect_types()
+{
+    effect_types.clear();
+}

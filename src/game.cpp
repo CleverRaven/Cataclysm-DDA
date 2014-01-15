@@ -31,6 +31,8 @@
 #include "action.h"
 #include "monstergenerator.h"
 #include "worldfactory.h"
+#include "file_finder.h"
+#include "mod_manager.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -97,48 +99,112 @@ game::game() :
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
 }
-void game::init_data()
-{
- dout() << "Game initialized.";
- try {
- // Gee, it sure is init-y around here!
-    init_data_structures(); // initialize cata data structures
- #ifdef LUA
+
+// Load everything that will not depend on any mods
+void game::load_static_data() {
+#ifdef LUA
     init_lua();                 // Set up lua                       (SEE catalua.cpp)
- #endif
-    load_json_dir("data/json"); // load it, load it all!
+#endif
+    // UI stuff, not mod-specific per definition
+    load_keyboard_settings();
+    inp_mngr.init();            // Load input config JSON
+    // Init mappings for loading the json stuff
+    DynamicDataLoader::get_instance();
+    // Only need to load names once, they do not depend on mods
     init_names();
+    narrow_sidebar = OPTIONS["SIDEBAR_STYLE"] == "narrow";
+
+    // These functions do not load stuff from json.
+    // The content they load/initalize is hardcoded into the program.
+    // Therfor they can be loaded here.
+    // If this changes (if they load data from json), they have to
+    // be moved to game::load_mod or game::load_core_data
+    init_body_parts();
+    init_ter_bitflags_map();
+    init_vpart_bitflag_map();
+    init_translation();
+    init_colormap();
+    init_mapgen_builtin_functions();
+    init_fields();
+    init_morale();
+    init_diseases();             // Set up disease lookup table
+    init_savedata_translation_tables();
     init_npctalk();
     init_artifacts();
     init_weather();
-    init_fields();
     init_faction_data();
-    init_morale();
-    init_itypes();               // Set up item types                (SEE itypedef.cpp)
-    item_controller->init_old(); //Item manager
-    init_missions();             // Set up mission templates         (SEE missiondef.cpp)
-    init_autosave();             // Set up autosave
-    init_diseases();             // Set up disease lookup table
-    init_savedata_translation_tables();
-    inp_mngr.init();            // Load input config JSON
 
-    MonsterGenerator::generator().finalize_mtypes();
-    finalize_vehicles();
-    finalize_recipes();
-    Creature::init_hit_weights();
 
- } catch(std::string &error_message)
- {
-     uquit = QUIT_ERROR;
-     if(!error_message.empty())
-        debugmsg(error_message.c_str());
-     return;
- }
- load_keyboard_settings();
- moveCount = 0;
 
- gamemode = new special_game; // Nothing, basically.
- narrow_sidebar = OPTIONS["SIDEBAR_STYLE"] == "narrow";
+
+    // --- move/delete everything below
+    // TODO: move this to player class
+    moveCount = 0;
+}
+
+void game::check_all_mod_data() {
+    init_ui();
+    popup_nowait("checking all mods");
+    mod_manager *mm = world_generator->get_mod_manager();
+    dependency_tree &dtree = mm->get_tree();
+    if (mm->mod_map.empty()) {
+        // If we don't have any mods, test core data only
+        load_core_data();
+        DynamicDataLoader::get_instance().finalize_loaded_data();
+    }
+    for(mod_manager::t_mod_map::iterator a = mm->mod_map.begin(); a != mm->mod_map.end(); ++a) {
+        MOD_INFORMATION *mod = a->second;
+        if (!dtree.is_available(mod->ident)) {
+            debugmsg("Skipping mod %s (%s)", mod->name.c_str(), dtree.get_node(mod->ident)->s_errors().c_str());
+            continue;
+        }
+        std::vector<std::string> deps = dtree.get_dependents_of_X_as_strings(mod->ident);
+        if (!deps.empty()) {
+            // mod is dependency of another mod(s)
+            // When those mods get checked, they will pull in
+            // this mod, so there is no need to check this mod now.
+            continue;
+        }
+        popup_nowait("checking mod %s", mod->name.c_str());
+        // Reset & load core data, than load dependencies
+        // and the actual mod and finally finalize all.
+        load_core_data();
+        deps = dtree.get_dependencies_of_X_as_strings(mod->ident);
+        for(size_t i = 0; i < deps.size(); i++) {
+            // assert(mm->has_mod(deps[i]));
+            // ^^ dependency tree takes care of that case
+            MOD_INFORMATION *dmod = mm->mod_map[deps[i]];
+            load_data_from_dir(dmod->path);
+        }
+        load_data_from_dir(mod->path);
+        DynamicDataLoader::get_instance().finalize_loaded_data();
+    }
+}
+
+void game::load_core_data() {
+    // core data can be loaded only once and must be first
+    // anyway.
+    DynamicDataLoader::get_instance().unload_data();
+    // Special handling for itypes created in itypedef.cpp
+    // First load those items into the global itypes map,
+    init_itypes();
+    // Make itypes and item_controller syncron.
+    item_controller->init_old();
+    // Now item_controller and itypes have the same knowledge
+    // further loading happens through item_controller, which
+    // adds the new item types to both (its internal map and
+    // the global itypes).
+
+#define CORE_JSON_DATA_DIR "data/json"
+    load_data_from_dir(CORE_JSON_DATA_DIR);
+}
+
+void game::load_data_from_dir(const std::string &path) {
+    try {
+        DynamicDataLoader::get_instance().load_data_from_path(path);
+    } catch(std::string &err) {
+        debugmsg("Error loading data from json: %s", err.c_str());
+    }
 }
 
 game::~game()
@@ -156,7 +222,6 @@ game::~game()
  delete world_generator;
 
  release_traps();
- release_data_structures();
 }
 
 // Fixed window sizes
@@ -339,6 +404,8 @@ void game::setup()
 {
  m = map(&traps); // Init the root map with our vectors
 
+    load_world_modfiles(world_generator->active_world);
+
 // Even though we may already have 'd', nextinv will be incremented as needed
  nextinv = 'd';
  next_npc_id = 1;
@@ -389,6 +456,10 @@ void game::setup()
 // Set up all default values for a new game
 void game::start_game(std::string worldname)
 {
+    if(gamemode == NULL) {
+        gamemode = new special_game();
+    }
+
  turn = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
  if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring");
  else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer")
@@ -400,6 +471,8 @@ void game::start_game(std::string worldname)
  nextweather = turn + MINUTES(30);
  run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
  mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
+
+ init_autosave();
 
  clear();
  refresh();
@@ -3116,6 +3189,10 @@ void game::load(std::string worldname, std::string name)
  // recalculated. (This would be cleaner if u.worn were private.)
  u.recalc_sight_limits();
 
+ if(gamemode == NULL) {
+     gamemode = new special_game();
+ }
+
  load_auto_pickup(true); // Load character auto pickup rules
  load_uistate(worldname);
 // Now load up the master game data; factions (and more?)
@@ -3126,6 +3203,33 @@ void game::load(std::string worldname, std::string name)
 
  u.reset();
  draw();
+}
+
+void game::load_world_modfiles(WORLDPTR world)
+{
+    popup_nowait(_("Please wait while the world data loads"));
+    load_core_data();
+    if (world != NULL) {
+        load_artifacts(world->world_path + "/artifacts.gsav", itypes);
+        mod_manager *mm = world_generator->get_mod_manager();
+        // this code does not care about mod dependencies,
+        // it assumes that those dependencies are static and
+        // are resolved during the creation of the world.
+        // That means world->active_mod_order contains a list
+        // of mods in the correct order.
+        for (size_t i = 0; i < world->active_mod_order.size(); i++) {
+            const std::string &mod_ident = world->active_mod_order[i];
+            if (mm->has_mod(mod_ident)) {
+                MOD_INFORMATION *mod = mm->mod_map[mod_ident];
+                load_data_from_dir(mod->path);
+            } else {
+                debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
+            }
+        }
+        // Load additional mods from that world-specific folder
+        load_data_from_dir(world->world_path + "/mods");
+    }
+    DynamicDataLoader::get_instance().finalize_loaded_data();
 }
 
 //Saves all factions and missions and npcs.
@@ -3205,6 +3309,23 @@ void game::delete_world(std::string worldname, bool delete_folder)
     std::string worldpath = world_generator->all_worlds[worldname]->world_path;
     std::string filetmp = "";
     std::string world_opfile = "worldoptions.txt";
+    std::vector<std::string> modfiles;
+    std::set<std::string> mod_dirpathparts;
+
+    if (delete_folder){
+        modfiles = file_finder::get_files_from_path(".json", worldpath, true, true);
+        for (int i = 0; i < modfiles.size(); ++i){
+            // strip to path and remove worldpath from it
+            std::string part = modfiles[i].substr(worldpath.size(), modfiles[i].find_last_of("/\\") - worldpath.size());
+            int last_separator = part.find_last_of("/\\");
+            while (last_separator != std::string::npos && part.size() > 1){
+                mod_dirpathparts.insert(part);
+                part = part.substr(0, last_separator);
+                last_separator = part.find_last_of("/\\");
+            }
+        }
+    }
+
 #if (defined _WIN32 || defined __WIN32__)
       WIN32_FIND_DATA FindFileData;
       HANDLE hFind;
@@ -3222,8 +3343,15 @@ void game::delete_world(std::string worldname, bool delete_folder)
        } while(FindNextFile(hFind, &FindFileData) != 0);
        FindClose(hFind);
       }
+
       SetCurrentDirectory(Buffer);
       if (delete_folder){
+        for (int i = 0; i < modfiles.size(); ++i){
+            DeleteFile(modfiles[i].c_str());
+        }
+        for (std::set<std::string>::reverse_iterator it = mod_dirpathparts.rbegin(); it != mod_dirpathparts.rend(); ++it){
+            RemoveDirectory(std::string(worldpath + *it).c_str());
+        }
         RemoveDirectory(worldpath.c_str());
       }
 #else
@@ -3240,6 +3368,14 @@ void game::delete_world(std::string worldname, bool delete_folder)
       (void)closedir(save_dir);
      }
      if (delete_folder){
+        // delete mod files
+        for (int i = 0; i < modfiles.size(); ++i){
+            (void)unlink(modfiles[i].c_str());
+        }
+        // delete mod directories -- directories are ordered deepest to shallowest
+        for (std::set<std::string>::reverse_iterator it = mod_dirpathparts.rbegin(); it != mod_dirpathparts.rend(); ++it){
+            remove(std::string(worldpath + *it).c_str());
+        }
         remove(worldpath.c_str());
      }
 #endif
