@@ -2697,5 +2697,20 @@
     "bashing": 1,
     "cutting": 0,
     "to_hit": 0
+  },
+  {
+    "type":"GENERIC",
+    "id": "razor_blade",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "razor blade",
+    "description": "A double edged razor blade. Use it to shave, or slit your wrists.",
+    "price": 6,
+    "material": "steel",
+    "weight": 10,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 1,
+    "to_hit": 0
   }
 ]
