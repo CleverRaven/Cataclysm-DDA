@@ -394,38 +394,42 @@ void game::init_ui(){
     werase(w_status2);
 }
 
-void game::toggle_sidebar_style(void) {
-  narrow_sidebar = !narrow_sidebar;
-  init_ui();
-  refresh_all();
+void game::toggle_sidebar_style(void)
+{
+    narrow_sidebar = !narrow_sidebar;
+    init_ui();
+    refresh_all();
 }
 
-void game::toggle_fullscreen(void) {
+void game::toggle_fullscreen(void)
+{
 #ifndef TILES
-  if(TERMX > 121 || TERMY > 121) { return; }
-  fullscreen = !fullscreen;
-  init_ui();
-  refresh_all();
+    if(TERMX > 121 || TERMY > 121) { return; }
+    fullscreen = !fullscreen;
+    init_ui();
+    refresh_all();
 #endif
 }
 
 // temporarily switch out of fullscreen for functions that rely
 // on displaying some part of the sidebar
-void game::temp_exit_fullscreen(void) {
-  if(fullscreen) {
-    was_fullscreen = true;
-    toggle_fullscreen();
-  } else {
-    was_fullscreen = false;
-  }
+void game::temp_exit_fullscreen(void)
+{
+    if(fullscreen) {
+        was_fullscreen = true;
+        toggle_fullscreen();
+    } else {
+        was_fullscreen = false;
+    }
 }
 
-void game::reenter_fullscreen(void) {
-  if(was_fullscreen) {
-    if(!fullscreen) {
-      toggle_fullscreen();
+void game::reenter_fullscreen(void)
+{
+    if(was_fullscreen) {
+        if(!fullscreen) {
+            toggle_fullscreen();
+        }
     }
-  }
 }
 
 /*
@@ -561,60 +565,65 @@ void game::start_game(std::string worldname)
 
 void game::create_factions()
 {
- int num = dice(4, 3);
- faction tmp(0);
- tmp.make_army();
- factions.push_back(tmp);
- for (int i = 0; i < num; i++) {
-  tmp = faction(assign_faction_id());
-  tmp.randomize();
-  tmp.likes_u = 100;
-  tmp.respects_u = 100;
-  tmp.known_by_u = true;
-  factions.push_back(tmp);
- }
+    int num = dice(4, 3);
+    faction tmp(0);
+    tmp.make_army();
+    factions.push_back(tmp);
+    for (int i = 0; i < num; i++) {
+        tmp = faction(assign_faction_id());
+        tmp.randomize();
+        tmp.likes_u = 100;
+        tmp.respects_u = 100;
+        tmp.known_by_u = true;
+        factions.push_back(tmp);
+    }
 }
 
 //Make any nearby overmap npcs active, and put them in the right location.
 void game::load_npcs()
 {
-    for (int i = 0; i < cur_om->npcs.size(); i++)
-    {
+    for (int i = 0; i < cur_om->npcs.size(); i++) {
+        const int npc_offset = square_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
+                                           cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy);
+        if (npc_offset <= int(MAPSIZE / 2) + 1 && !cur_om->npcs[i]->is_active() &&
+            cur_om->npcs[i]->omz == levz) {
 
-        if (square_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
-              cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy) <=
-              int(MAPSIZE / 2) + 1 && !cur_om->npcs[i]->is_active() &&
-              cur_om->npcs[i]->omz == levz)
-        {
-            int dx = cur_om->npcs[i]->mapx - levx, dy = cur_om->npcs[i]->mapy - levy;
-            if (debugmon)debugmsg("game::load_npcs: Spawning static NPC, %d:%d (%d:%d)", levx, levy, cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy);
+            int dx = cur_om->npcs[i]->mapx - levx;
+            int dy = cur_om->npcs[i]->mapy - levy;
+            if (debugmon) {
+                debugmsg("game::load_npcs: Spawning static NPC, %d:%d (%d:%d)",
+                         levx, levy, cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy);
+            }
 
-            npc * temp = cur_om->npcs[i];
+            npc *temp = cur_om->npcs[i];
 
-            if (temp->posx == -1 || temp->posy == -1)
-            {
+            if (temp->posx == -1 || temp->posy == -1) {
                 dbg(D_ERROR) << "game::load_npcs: Static NPC with no fine location "
                     "data (" << temp->posx << ":" << temp->posy << ").";
-                debugmsg("game::load_npcs Static NPC with no fine location data (%d:%d) New loc data (%d:%d).",
+                debugmsg("game::load_npcs Static NPC with no fine location data "
+                         "(%d:%d) New loc data (%d:%d).",
                          temp->posx, temp->posy, SEEX * 2 * (temp->mapx - levx) + rng(0 - SEEX, SEEX),
                          SEEY * 2 * (temp->mapy - levy) + rng(0 - SEEY, SEEY));
                 temp->posx = SEEX * 2 * (temp->mapx - levx) + rng(0 - SEEX, SEEX);
                 temp->posy = SEEY * 2 * (temp->mapy - levy) + rng(0 - SEEY, SEEY);
             } else {
-                if (debugmon) debugmsg("game::load_npcs Static NPC fine location %d:%d (%d:%d)", temp->posx, temp->posy, temp->posx + dx * SEEX, temp->posy + dy * SEEY);
+                if (debugmon) debugmsg("game::load_npcs Static NPC fine location %d:%d (%d:%d)",
+                                       temp->posx, temp->posy, temp->posx + dx * SEEX,
+                                       temp->posy + dy * SEEY);
                 temp->posx += dx * SEEX;
                 temp->posy += dy * SEEY;
             }
 
-        //check if the loaded position doesn't already contain an object, monster or npc.
-        //If it isn't free, spiralsearch for a free spot.
-        temp->place_near(temp->posx, temp->posy);
+            //check if the loaded position doesn't already contain an object, monster or npc.
+            //If it isn't free, spiralsearch for a free spot.
+            temp->place_near(temp->posx, temp->posy);
 
-        //In the rare case the npc was marked for death while it was on the overmap. Kill it.
-        if (temp->marked_for_death)
-            temp->die(false);
-        else
-            active_npc.push_back(temp);
+            //In the rare case the npc was marked for death while it was on the overmap. Kill it.
+            if (temp->marked_for_death) {
+                temp->die(false);
+            } else {
+                active_npc.push_back(temp);
+            }
         }
     }
 }
@@ -631,10 +640,12 @@ void game::create_starting_npcs()
     tmp->place_near(SEEX * int(MAPSIZE / 2) + SEEX, SEEY * int(MAPSIZE / 2) + 6);
     tmp->form_opinion(&u);
     tmp->attitude = NPCATT_NULL;
-    tmp->mission = NPC_MISSION_SHELTER; //This sets the npc mission. This NPC remains in the shelter.
+    //This sets the npc mission. This NPC remains in the shelter.
+    tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = TALK_SHELTER;
+     //one random shelter mission.
     tmp->chatbin.missions.push_back(
-        reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp->getID()) ); //one random shelter mission/
+        reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp->getID()) );
 
     active_npc.push_back(tmp);
 }
@@ -667,13 +678,15 @@ void game::cleanup_at_end(){
         u.memorial_log.clear();
         std::vector<std::string> characters = list_active_characters();
         // remove current player from the active characters list, as they are dead
-        std::vector<std::string>::iterator curchar = std::find(characters.begin(), characters.end(), u.name);
+        std::vector<std::string>::iterator curchar = std::find(characters.begin(),
+                                                               characters.end(), u.name);
         if (curchar != characters.end()){
             characters.erase(curchar);
         }
         if (characters.empty()) {
             if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "yes" ||
-            (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "query" && query_yn(_("Delete saved world?")))) {
+                (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "query" &&
+                 query_yn(_("Delete saved world?")))) {
                 if (gamemode->id() == SGAME_NULL) {
                     delete_world(world_generator->active_world->world_name, false);
                 } else {
@@ -711,8 +724,9 @@ bool game::do_turn()
     turn.increment();
     process_events();
     process_missions();
-    if (turn.hours() == 0 && turn.minutes() == 0 && turn.seconds() == 0) // Midnight!
+    if (turn.hours() == 0 && turn.minutes() == 0 && turn.seconds() == 0) { // Midnight!
         cur_om->process_mongroups();
+    }
 
     // Check if we've overdosed... in any deadly way.
     if (u.stim > 250) {
@@ -724,11 +738,10 @@ bool game::do_turn()
         u.add_memorial_log(_("Died of a drug overdose."));
         u.hp_cur[hp_torso] = 0;
     } else if (u.has_disease("jetinjector") &&
-            u.disease_duration("jetinjector") > 400) {
-            if (!(u.has_trait("NOPAIN"))) {
-                add_msg(_("Your heart spasms painfully and stops."));
-            }
-        else { add_msg(_("Your heart spasms and stops.")); }
+               u.disease_duration("jetinjector") > 400) {
+        if (!(u.has_trait("NOPAIN"))) {
+            add_msg(_("Your heart spasms painfully and stops."));
+        } else { add_msg(_("Your heart spasms and stops.")); }
         u.add_memorial_log(_("Died of a healing stimulant overdose."));
         u.hp_cur[hp_torso] = 0;
     }
