@@ -22,7 +22,8 @@ mod_ui::~mod_ui()
     mm_tree = NULL;
 }
 
-bool compare_mod_by_name(const MOD_INFORMATION *a, const MOD_INFORMATION *b) {
+bool compare_mod_by_name(const MOD_INFORMATION *a, const MOD_INFORMATION *b)
+{
     return a->name < b->name;
 }
 
@@ -31,9 +32,10 @@ void mod_ui::set_usable_mods()
     std::vector<std::string> available_cores, available_supplementals;
     std::vector<std::string> ordered_mods;
 
-    typedef std::vector<MOD_INFORMATION*> mod_vector;
+    typedef std::vector<MOD_INFORMATION *> mod_vector;
     mod_vector mods;
-    for(mod_manager::t_mod_map::iterator a = active_manager->mod_map.begin(); a != active_manager->mod_map.end(); ++a) {
+    for(mod_manager::t_mod_map::iterator a = active_manager->mod_map.begin();
+        a != active_manager->mod_map.end(); ++a) {
         mods.push_back(a->second);
     }
     std::sort(mods.begin(), mods.end(), &compare_mod_by_name);
@@ -69,12 +71,14 @@ int mod_ui::show_layering_ui()
     const int shift_y = list_y + 1;
 
     DebugLog() << "iOffsetX <" << iOffsetX << ">\tiOffsetY <" << iOffsetY << ">\n";
-    DebugLog() << "TERMX, TERMY  <" << TERMX << ", " << TERMY << ">\nFULL_SCREEN_[WIDTH|HEIGHT] <" << FULL_SCREEN_WIDTH << ", " << FULL_SCREEN_HEIGHT << ">\n";
+    DebugLog() << "TERMX, TERMY  <" << TERMX << ", " << TERMY << ">\nFULL_SCREEN_[WIDTH|HEIGHT] <" <<
+               FULL_SCREEN_WIDTH << ", " << FULL_SCREEN_HEIGHT << ">\n";
 
     std::vector<std::string> available_cores, available_supplementals;
     std::vector<std::string> ordered_mods, active_mods;
 
-    for(mod_manager::t_mod_map::iterator a = active_manager->mod_map.begin(); a != active_manager->mod_map.end(); ++a) {
+    for(mod_manager::t_mod_map::iterator a = active_manager->mod_map.begin();
+        a != active_manager->mod_map.end(); ++a) {
         MOD_INFORMATION *mod = a->second;
 
         switch(mod->_type) {
@@ -107,7 +111,8 @@ int mod_ui::show_layering_ui()
         draw_layering_ui_lines(mod_screen);
         draw_headers(mod_screen, header_y, headers, active_header);
         draw_modlist(mod_screen, list_y, 0, ordered_mods, active_header == 0, selection[0]);
-        draw_modlist(mod_screen, list_y, FULL_SCREEN_WIDTH / 2 + 2, active_mods, active_header == 1, selection[1]);
+        draw_modlist(mod_screen, list_y, FULL_SCREEN_WIDTH / 2 + 2, active_mods, active_header == 1,
+                     selection[1]);
 
         if (active_header == 1) {
             draw_shift_information(mod_screen, shift_y, FULL_SCREEN_WIDTH / 2 - 2, active_mods, selection[1]);
@@ -154,7 +159,8 @@ void mod_ui::draw_layering_ui_lines(WINDOW *win)
     mvwaddch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH / 2 + 2, LINE_XXOX);
 }
 
-void mod_ui::draw_headers(WINDOW *win, int sy, const std::vector<std::string> headers, unsigned char selected_header)
+void mod_ui::draw_headers(WINDOW *win, int sy, const std::vector<std::string> headers,
+                          unsigned char selected_header)
 {
     const int header_space = FULL_SCREEN_WIDTH / headers.size();
 
@@ -168,7 +174,8 @@ void mod_ui::draw_headers(WINDOW *win, int sy, const std::vector<std::string> he
     }
 }
 
-void mod_ui::draw_modlist(WINDOW *win, int sy, int sx, const std::vector<std::string> modlist, bool header_active, int last_selection)
+void mod_ui::draw_modlist(WINDOW *win, int sy, int sx, const std::vector<std::string> modlist,
+                          bool header_active, int last_selection)
 {
     // draw the mod list!
     for (int i = 0; i < modlist.size(); ++i) {
@@ -194,7 +201,8 @@ void mod_ui::draw_modlist(WINDOW *win, int sy, int sx, const std::vector<std::st
     }
     if (header_active && last_selection < modlist.size()) {
         MOD_INFORMATION *selmod = active_manager->mod_map[modlist[last_selection]];
-        std::string note = (!mm_tree->is_available(modlist[last_selection])) ? mm_tree->get_node(modlist[last_selection])->s_errors() : "";
+        std::string note = (!mm_tree->is_available(modlist[last_selection])) ? mm_tree->get_node(
+                               modlist[last_selection])->s_errors() : "";
 
         show_mod_information(win, FULL_SCREEN_WIDTH - 1, selmod, note);
     }
@@ -202,11 +210,12 @@ void mod_ui::draw_modlist(WINDOW *win, int sy, int sx, const std::vector<std::st
 
 std::string mod_ui::get_information(MOD_INFORMATION *mod)
 {
-    if (mod == NULL){
+    if (mod == NULL) {
         return "";
     }
     std::string modident = mod->ident;
-    std::string note = (!mm_tree->is_available(modident)) ? mm_tree->get_node(modident)->s_errors() : "";
+    std::string note = (!mm_tree->is_available(modident)) ? mm_tree->get_node(
+                           modident)->s_errors() : "";
 
     std::stringstream info;
 
@@ -226,10 +235,10 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
             if (i > 0) {
                 dependency_string += ", ";
             }
-            DebugLog() << "\t"<<dependencies[i];
-            if (active_manager->mod_map.find(dependencies[i]) != active_manager->mod_map.end()){
+            DebugLog() << "\t" << dependencies[i];
+            if (active_manager->mod_map.find(dependencies[i]) != active_manager->mod_map.end()) {
                 dependency_string += "[" + active_manager->mod_map[dependencies[i]]->name + "]";
-            }else{
+            } else {
                 dependency_string += "[<color_red>" + dependencies[i] + "</color>]";
             }
         }
@@ -279,7 +288,8 @@ void mod_ui::show_mod_information(WINDOW *win, int width, MOD_INFORMATION *mod, 
     fold_and_print(win, infopanel_start_y, infopanel_start_x, width, c_white, info.str().c_str());
 }
 
-void mod_ui::draw_shift_information(WINDOW *win, int sy, int sx, const std::vector<std::string> mod_list, const int selection)
+void mod_ui::draw_shift_information(WINDOW *win, int sy, int sx,
+                                    const std::vector<std::string> mod_list, const int selection)
 {
     const std::string can_shift_true = "<color_cyan>";
     const std::string can_shift_false = "<color_magenta>";
@@ -304,7 +314,8 @@ void mod_ui::draw_shift_information(WINDOW *win, int sy, int sx, const std::vect
     fold_and_print(win, sy, sx, 4, c_black, shift_string.c_str());
 }
 
-int mod_ui::gather_input(int &active_header, int &selection, std::vector<std::string> mod_list, std::vector<std::string> &active_mods_list)
+int mod_ui::gather_input(int &active_header, int &selection, std::vector<std::string> mod_list,
+                         std::vector<std::string> &active_mods_list)
 {
     char ch = input();
     const int next_header = (active_header == 1) ? 0 : 1;
@@ -378,7 +389,8 @@ int mod_ui::gather_input(int &active_header, int &selection, std::vector<std::st
     return 0;
 }
 
-void mod_ui::try_add(int selection, std::vector<std::string> modlist, std::vector<std::string> &active_list)
+void mod_ui::try_add(int selection, std::vector<std::string> modlist,
+                     std::vector<std::string> &active_list)
 {
     if (std::find(active_list.begin(), active_list.end(), modlist[selection]) != active_list.end()) {
         // The same mod can not be added twice. That makes no sense.
@@ -406,7 +418,8 @@ void mod_ui::try_add(int selection, std::vector<std::string> modlist, std::vecto
     // check to see if mod is a core, and if so check to see if there is already a core in the mod list
     if (mod._type == MT_CORE) {
         //  (more than 0 active elements) && (active[0] is a CORE)                            &&    active[0] is not the add candidate
-        if ((active_list.size() > 0) && (active_manager->mod_map[active_list[0]]->_type == MT_CORE) && (active_list[0] != modlist[selection])) {
+        if ((active_list.size() > 0) && (active_manager->mod_map[active_list[0]]->_type == MT_CORE) &&
+            (active_list[0] != modlist[selection])) {
             // remove existing core
             try_rem(0, active_list);
         }
@@ -457,13 +470,15 @@ void mod_ui::try_rem(int selection, std::vector<std::string> &active_list)
     // search through the rest of the active list for mods that depend on this one
     if (dependents.size() > 0) {
         for (int i = 0; i < dependents.size(); ++i) {
-            std::vector<std::string>::iterator rem = std::find(active_list.begin(), active_list.end(), dependents[i]);
+            std::vector<std::string>::iterator rem = std::find(active_list.begin(), active_list.end(),
+                    dependents[i]);
             if (rem != active_list.end()) {
                 active_list.erase(rem);
             }
         }
     }
-    std::vector<std::string>::iterator rem = std::find(active_list.begin(), active_list.end(), sel_string);
+    std::vector<std::string>::iterator rem = std::find(active_list.begin(), active_list.end(),
+            sel_string);
     if (rem != active_list.end()) {
         active_list.erase(rem);
     }
@@ -519,7 +534,8 @@ bool mod_ui::can_shift_up(int selection, std::vector<std::string> active_list)
         return false;
     }
     // dependencies of this active element
-    std::vector<std::string> dependencies = mm_tree->get_dependencies_of_X_as_strings(active_list[selection]);
+    std::vector<std::string> dependencies = mm_tree->get_dependencies_of_X_as_strings(
+            active_list[selection]);
 
     int newsel;
     int oldsel;
@@ -539,7 +555,7 @@ bool mod_ui::can_shift_up(int selection, std::vector<std::string> active_list)
     selstring = active_list[oldsel];
 
     if (active_manager->mod_map[modstring]->_type == MT_CORE ||
-            std::find(dependencies.begin(), dependencies.end(), modstring) != dependencies.end()) {
+        std::find(dependencies.begin(), dependencies.end(), modstring) != dependencies.end()) {
         // can't move up due to a blocker
         return false;
     } else {
@@ -553,7 +569,8 @@ bool mod_ui::can_shift_down(int selection, std::vector<std::string> active_list)
     if (selection < 0 || selection >= active_list.size()) {
         return false;
     }
-    std::vector<std::string> dependents = mm_tree->get_dependents_of_X_as_strings(active_list[selection]);
+    std::vector<std::string> dependents = mm_tree->get_dependents_of_X_as_strings(
+            active_list[selection]);
 
     int newsel;
     int oldsel;
@@ -572,7 +589,7 @@ bool mod_ui::can_shift_down(int selection, std::vector<std::string> active_list)
     selstring = active_list[oldsel];
 
     if (active_manager->mod_map[modstring]->_type == MT_CORE ||
-            std::find(dependents.begin(), dependents.end(), selstring) != dependents.end()) {
+        std::find(dependents.begin(), dependents.end(), selstring) != dependents.end()) {
         // can't move down due to a blocker
         return false;
     } else {

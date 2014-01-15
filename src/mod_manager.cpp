@@ -31,7 +31,8 @@ mod_manager::~mod_manager()
     clear();
 }
 
-dependency_tree &mod_manager::get_tree() {
+dependency_tree &mod_manager::get_tree()
+{
     return tree;
 }
 
@@ -158,16 +159,17 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 // TODO: move this declaration into a header, but which?
 extern bool assure_dir_exist(const std::string &path);
 
-bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::string output_base_path)
+bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy,
+                                    std::string output_base_path)
 {
-    if (mods_to_copy.size() == 0){
+    if (mods_to_copy.size() == 0) {
         // nothing to copy, so technically we succeeded already!
         return true;
     }
     std::vector<std::string> search_extensions;
     search_extensions.push_back(".json");
 
-    DebugLog() << "Copying mod contents into directory: "<<output_base_path<<"\n";
+    DebugLog() << "Copying mod contents into directory: " << output_base_path << "\n";
 
     if (!assure_dir_exist(output_base_path)) {
         DebugLog() << "Unable to create or open mod directory at [" << output_base_path << "] for saving\n";
@@ -175,7 +177,7 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
     }
 
     std::ostringstream number_stream;
-    for (int i = 0; i < mods_to_copy.size(); ++i){
+    for (int i = 0; i < mods_to_copy.size(); ++i) {
         number_stream.str(std::string());
         number_stream.width(5);
         number_stream.fill('0');
@@ -184,8 +186,10 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
         size_t start_index = mod->path.size();
 
         // now to get all of the json files inside of the mod and get them ready to copy
-        std::vector<std::string> input_files = file_finder::get_files_from_path(".json", mod->path, true, true);
-        std::vector<std::string> input_dirs  = file_finder::get_directories_with(search_extensions, mod->path, true);
+        std::vector<std::string> input_files = file_finder::get_files_from_path(".json", mod->path, true,
+                                               true);
+        std::vector<std::string> input_dirs  = file_finder::get_directories_with(search_extensions,
+                                               mod->path, true);
 
         if (input_files.empty() && mod->path.find(MOD_SEARCH_FILE) != std::string::npos) {
             // Self contained mod, all data is inside the modinfo.json file
@@ -196,7 +200,7 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
             }
         }
 
-        if (input_files.size() == 0){
+        if (input_files.size() == 0) {
             continue;
         }
 
@@ -206,13 +210,14 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
 
         std::queue<std::string> dir_to_make;
         dir_to_make.push(cur_mod_dir.str());
-        for (int j = 0; j < input_dirs.size(); ++j){
+        for (int j = 0; j < input_dirs.size(); ++j) {
             dir_to_make.push(cur_mod_dir.str() + "/" + input_dirs[j].substr(start_index));
         }
 
-        while (!dir_to_make.empty()){
+        while (!dir_to_make.empty()) {
             if (!assure_dir_exist(dir_to_make.front())) {
-                DebugLog() << "Unable to create or open mod directory at [" << dir_to_make.front() << "] for saving\n";
+                DebugLog() << "Unable to create or open mod directory at [" << dir_to_make.front() <<
+                           "] for saving\n";
             }
 
             dir_to_make.pop();
@@ -220,7 +225,7 @@ bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::
 
         std::ofstream fout;
         // trim file paths from full length down to just /data forward
-        for (int j = 0; j < input_files.size(); ++j){
+        for (int j = 0; j < input_files.size(); ++j) {
             std::string output_path = input_files[j];
             output_path = cur_mod_dir.str() + output_path.substr(start_index);
 

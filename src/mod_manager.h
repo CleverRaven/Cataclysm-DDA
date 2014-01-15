@@ -30,10 +30,12 @@ struct MOD_INFORMATION {
     std::vector<std::string> dependencies;
 
     MOD_INFORMATION()
-        : _type(MT_SUPPLEMENTAL) {
+        : _type(MT_SUPPLEMENTAL)
+    {
     }
 
-    std::string type() {
+    std::string type()
+    {
         switch (_type) {
             case MT_CORE:
                 return "CORE";
