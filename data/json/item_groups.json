@@ -3011,7 +3011,8 @@
 	  ["cable", 5],
 	  ["panties", 2],
 	  ["sharp_toothbrush", 10],
-	  ["razor_blade", 20]
+	  ["razor_blade", 20],
+	  ["soap", 5]
     ]
   },{
     "type" : "item_group",
