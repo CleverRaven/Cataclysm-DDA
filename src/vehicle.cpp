@@ -629,7 +629,7 @@ void vehicle::use_controls()
     case convert_vehicle:
     {
         if(g->u.controlling_vehicle) {
-            g->add_msg("You can't do that while on the bicycle!");
+            g->add_msg(_("As the pitiless metal bars close on your nether regions, you reconsider trying to fold the bicycle while riding it."));
             break;
         }
         g->add_msg(_("You painstakingly pack the bicycle into a portable configuration."));
