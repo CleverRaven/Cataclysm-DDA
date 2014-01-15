@@ -5865,7 +5865,7 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
             knockback(x, y, active_npc[i]->posx, active_npc[i]->posy, force, stun, dam_mult);
         }
     }
-    if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player)
+    if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player && (!(u.has_trait("LEG_TENT_BRACE"))))
     {
         add_msg(_("You're caught in the shockwave!"));
         knockback(x, y, u.posx, u.posy, force, stun, dam_mult);
@@ -6097,8 +6097,13 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                         add_msg(_("%s collided with someone else and sent her flying!"),
                                 targ->name.c_str());
                     }
-                } else if (u.posx == traj.front().x && u.posy == traj.front().y) {
+                } else if ((u.posx == traj.front().x && u.posy == traj.front().y) &&
+                (!(u.has_trait("LEG_TENT_BRACE")))) {
                     add_msg(_("%s collided with you and sent you flying!"), targ->name.c_str());
+                } else if ((u.posx == traj.front().x && u.posy == traj.front().y) &&
+                (u.has_trait("LEG_TENT_BRACE"))) {
+                    add_msg(_("%s collided with you, and barely dislodges your tentacles!"), targ->name.c_str());
+                    force_remaining = 1;
                 }
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
@@ -11413,6 +11418,16 @@ bool game::plmove(int dx, int dy)
      add_msg(_("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
    }
   }
+  if (u.has_trait("LEG_TENT_BRACE")) {
+      // DX and IN are long suits for Cephalopods,
+      // so this shouldn't cause too much hardship
+      // Presumed that if it's swimmable, they're
+      // swimming and won't stick
+      if ((!(m.has_flag("SWIMMABLE", x, y)) && (one_in(80 + u.dex_cur + u.int_cur)))) {
+          add_msg(_("Your tentacles stick to the ground, but you pull them free."));
+          u.fatigue++;
+      }
+  }
   if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES")) {
    if (u.has_trait("LIGHTSTEP"))
     sound(x, y, 2, ""); // Sound of footsteps may awaken nearby monsters
@@ -12407,8 +12422,8 @@ void game::update_stair_monsters() {
                             u.posx += pushx;
                             u.posy += pushy;
                             u.moves -= 100;
-                            // Stumble.
-                            if (u.get_dodge() < 12)
+                            // Stumble.  Unless your tentacles can latch on!
+                            if ((u.get_dodge() < 12) && (!(u.has_trait("LEG_TENT_BRACE"))))
                                 u.add_effect("downed", 2);
                             return;
                         }

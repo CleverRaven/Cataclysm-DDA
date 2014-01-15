@@ -1302,6 +1302,17 @@
         "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
+        "id" : "CLAWS_TENTACLE",
+        "name" : "Tentacle Rakes",
+        "points" : 0,
+        "visibility" : 4,
+        "ugliness" : 4,
+        "description" : "Your upper tentacles have grown large, hook-barbed rakes on the ends.  They're quite vicious, but really aren't suited for fine manipulation.",
+        "prereqs" : ["ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "threshreq" : ["THRESH_CEPHALOPOD"],
+        "category" : ["MUTCAT_CEPHALOPOD"]
+    },{
+        "type" : "mutation",
         "id" : "TALONS",
         "name" : "Large Talons",
         "points" : 2,
@@ -2822,6 +2833,7 @@
         "visibility" : 7,
         "ugliness" : 4,
         "description" : "Your arms have transformed into tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. Somewhat decreases wet penalties.",
+        "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_4"],
         "cancels" : ["PAWS"],
         "wet_protection" : [
@@ -2837,6 +2849,7 @@
         "ugliness" : 5,
         "description" : "Your arms have transformed into four tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. You can make up to 3 extra attacks with them. Somewhat decreases wet penalties.",
         "prereqs" : ["ARM_TENTACLES"],
+        "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_8"],
         "cancels" : ["PAWS"],
         "wet_protection" : [
@@ -2853,6 +2866,7 @@
         "description" : "Your arms have transformed into eight tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. You can make up to 7 extra attacks with them. Somewhat decreases wet penalties.",
         "prereqs" : ["ARM_TENTACLES_4"],
         "cancels" : ["PAWS"],
+        "leads_to" : ["CLAWS_TENTACLE"],
         "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "ARMS", "neutral" : 19 },
@@ -2879,13 +2893,25 @@
         "points" : -3,
         "visibility" : 8,
         "ugliness" : 4,
-        "description" : "Your legs have transformed into six tentacles. This decreases your speed on land by 20%, but makes your movement silent. However, they also increase your swimming speed. Somewhat decreases wet penalties.",
+        "description" : "Your legs have transformed into six tentacles. This decreases your speed on land by 20%, but makes your movement silent. However, they also increase your swimming speed and reduce wet penalties.",
         "cancels" : ["PADDED_FEET", "HOOVES"],
+        "leads_to" : ["LEG_TENT_BRACE"],
         "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "LEGS", "neutral" : 21 },
             { "part" : "FEET", "neutral" : 6 }
         ]
+    },{
+        "type" : "mutation",
+        "id" : "LEG_TENT_BRACE",
+        "name" : "Tentacle Bracing",
+        "points" : -1,
+        "visibility" : 4,
+        "ugliness" : 2,
+        "description" : "Your lower-tentacles have developed suckers.  They make land movement marginally more tiring, but do a good job of keeping you set in place.",
+        "prereqs" : ["LEG_TENTACLES"],
+        "threshreq" : ["THRESH_CEPHALOPOD"],
+        "category" : ["MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
         "id" : "THRESH_LIZARD",

@@ -1306,17 +1306,33 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
 
         for (int i = 0; i < num_attacks; i++) {
             special_attack tmp;
-            tmp.bash = str_cur / 3 + 1;
+            // Tentacle Rakes add additional cutting damage
             if (is_player()) {
-                tmp.text = string_format(_("You slap %s with your tentacle!"),
+                if (has_trait("CLAWS_TENTACLE")) {
+                    tmp.text = string_format(_("You rake %s with your tentacle!"),
+                                            target.c_str());
+                }
+                else tmp.text = string_format(_("You slap %s with your tentacle!"),
                                             target.c_str());
             } else if (male) {
-                tmp.text = string_format(_("%s slaps %s with his tentacle!"),
+                if (has_trait("CLAWS_TENTACLE")) {
+                    tmp.text = string_format(_("&s rakes %s with his tentacle!"),
+                                            name.c_str(), target.c_str());
+                }
+                else tmp.text = string_format(_("%s slaps %s with his tentacle!"),
                                             name.c_str(), target.c_str());
             } else {
-                tmp.text = string_format(_("%s slaps %s with her tentacle!"),
+                if (has_trait("CLAWS_TENTACLE")) {
+                    tmp.text = string_format(_("%s rakes %s with her tentacle!"),
+                                            name.c_str(), target.c_str());
+                }
+                else tmp.text = string_format(_("%s slaps %s with her tentacle!"),
                                             name.c_str(), target.c_str());
             }
+            if (has_trait("CLAWS_TENTACLE")) {
+                tmp.cut = str_cur / 2 + 1;
+            }
+            else tmp.bash = str_cur / 3 + 1;
             ret.push_back(tmp);
         }
      }

@@ -4901,6 +4901,9 @@ void player::suffer()
             }
         }
         if (weight_carried() > 4 * weight_capacity()) {
+            if (has_trait("LEG_TENT_BRACE")){
+                g->add_msg_if_player(this, _("Your tentacles buckle under the weight!"));
+            }
             if (has_effect("downed")) {
                 add_effect("downed", 1);
             } else {
@@ -9121,6 +9124,10 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
          has_trait("ARM_TENTACLES_8")) ) {
         ret += 3;
+    }
+    if (bp == bp_hands &&
+        (has_trait("CLAWS_TENTACLE") )) {
+        ret += 2;
     }
     if ( ret < 0 ) {
       ret = 0;
