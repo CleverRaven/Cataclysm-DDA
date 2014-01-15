@@ -590,7 +590,7 @@
         "description" : "You have problems with eating meat. It's possible for you to eat it, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["CANNIBAL", "CARNIVORE", "SAPROVORE", "MEATARIAN"]
+        "cancels" : ["CANNIBAL", "CARNIVORE", "SAPROVORE", "MEATARIAN", "ANTIFRUIT"]
     },{
         "type" : "mutation",
         "id" : "THINSKIN",
@@ -603,11 +603,41 @@
         "type" : "mutation",
         "id" : "MEATARIAN",
         "name" : "Hates Vegetables",
-        "points" : -3,
-        "description" : "You despise eating plant-based foods. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "points" : -2,
+        "description" : "You like many children hated eating your vegetables you also didn't outgrow it. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT"]
+    },{
+        "type" : "mutation",
+        "id" : "ANTIFRUIT",
+        "name" : "Hates Fruit",
+        "points" : -3,
+        "description" : "You despise eating fruits. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT"]
+    },{
+        "type" : "mutation",
+        "id" : "LACTOSE",
+        "name" : "Lactose Intolerance",
+        "points" : -1,
+        "description" : "You like 75 percent of the world, cannot tolerate milk or milk based products. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "starting_trait" : true
+    },{
+        "type" : "mutation",
+        "id" : "ANTIJUNK",
+        "name" : "Junkfood Intolerance",
+        "points" : -1,
+        "description" : "Something in those heavily processed foods doesn't agree with you. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "starting_trait" : true
+    },{
+        "type" : "mutation",
+        "id" : "ANTIWHEAT",
+        "name" : "Wheat Allergy",
+        "points" : -2,
+        "description" : "You have a rare allergen that prevents you from eating wheat. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "starting_trait" : true
     },{
         "type" : "mutation",
         "id" : "GLASSJAW",

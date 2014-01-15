@@ -6001,7 +6001,7 @@
     [
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
-      [ "noodles_fast", 3]
+      [ "noodles_fast", 1]
     ],
     [
       [ "water", 1 ],
@@ -6080,7 +6080,7 @@
     [
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
-      [ "noodles_fast", 3]
+      [ "noodles_fast", 1]
     ],
     [
       [ "cheese", 1 ],
@@ -6117,7 +6117,7 @@
     [
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
-      [ "noodles_fast", 3]
+      [ "noodles_fast", 1]
     ],
     [
       [ "meat", 1 ],
@@ -6160,7 +6160,7 @@
     [
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
-      [ "noodles_fast", 3]
+      [ "noodles_fast", 1]
     ],
     [
       [ "human_flesh", 1 ],
@@ -7252,7 +7252,7 @@
     [
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
-      [ "noodles_fast", 3],
+      [ "noodles_fast", 1],
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "powder_eggs", 5 ]
@@ -7297,7 +7297,7 @@
     [
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
-      [ "noodles_fast", 3],
+      [ "noodles_fast", 1],
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "powder_eggs", 5 ]
@@ -7380,7 +7380,7 @@
     [
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
-      [ "noodles_fast", 3],
+      [ "noodles_fast", 1],
       [ "potato_irradiated", 1 ],
       [ "potato_raw", 1 ]
     ],

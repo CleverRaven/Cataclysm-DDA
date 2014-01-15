@@ -1027,7 +1027,7 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_METH:
-            if (dis.duration > 600) {
+            if (dis.duration > 200) {
                 p.mod_str_bonus(1);
                 p.mod_dex_bonus(2);
                 p.mod_int_bonus(2);
@@ -1038,16 +1038,21 @@ void dis_effect(player &p, disease &dis) {
                 p.mod_int_bonus(-1);
                 p.mod_per_bonus(-2);
                 if (one_in(150)) {
-                    if (!(p.has_trait("NOPAIN"))) {
-                        g->add_msg_if_player(&p,_("Your head aches."));
-                        p.mod_pain(1);
-                    }
-                } else if (one_in(500)) {
-                    g->add_msg_if_player(&p,_("You feel completely rundown."));
+                    g->add_msg_if_player(&p,_("You feel paranoid. They're watching you."));
+                    p.mod_pain(1);
                     p.fatigue += dice(1,6);
+                } else if (one_in(500)) {
+                    g->add_msg_if_player(&p,_("You feel like you need less teeth. You pull one out, and it is rotten to the core."));
                     p.mod_pain(1);
                 } else if (one_in(500)) {
-                    g->add_msg_if_player(&p,_("You feel an urge to take more meth."));
+                    g->add_msg_if_player(&p,_("You notice a large abscess. You pick at it."));
+                    body_part bp = random_body_part(true);
+                    int side = random_side(bp);
+                    p.add_disease("formication", 600, false, 1, 3, 0, 1, bp, side, true);
+                    p.mod_pain(1);
+                } else if (one_in(500)) {
+                    g->add_msg_if_player(&p,_("You feel so sick, like you've been poisoned, but you need more. So much more."));
+                    p.vomit();
                     p.fatigue += dice(1,6);
                 }
                 p.fatigue += 1;
@@ -1608,7 +1613,7 @@ std::string dis_name(disease& dis)
     case DI_GRACK: return _("RELEASE THE GRACKEN!!!!");
 
     case DI_METH:
-        if (dis.duration > 600) return _("High on Meth");
+        if (dis.duration > 200) return _("High on Meth");
         else return _("Meth Comedown");
 
     case DI_IN_PIT: return _("Stuck in Pit");
@@ -2140,7 +2145,7 @@ Your feet are blistering from the intense heat. It is extremely painful.");
     case DI_GRACK: return _("Unleashed the Gracken.");
 
     case DI_METH:
-        if (dis.duration > 600)
+        if (dis.duration > 200)
             return _(
             "Speed +50;   Strength + 2;   Dexterity + 2;\n"
             "Intelligence + 3;   Perception + 3");
