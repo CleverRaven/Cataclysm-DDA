@@ -32,15 +32,6 @@ enum advanced_inv_sortby {
     SORTBY_NONE = 1, SORTBY_NAME, SORTBY_WEIGHT, SORTBY_VOLUME, SORTBY_CHARGES, SORTBY_CATEGORY, NUM_SORTBY
 };
 
-int getSquareFromOffset(int off_x, int off_y, advanced_inv_area *squares) {
-    for(int n=0;n<=10;++n) {
-        if(squares[n].offx == off_x && squares[n].offy == off_y) {
-            return n;
-        }
-    }
-    return -1;
-}
-
 int getsquare(int c, int &off_x, int &off_y, std::string &areastring, advanced_inv_area *squares) {
     int ret=-1;
     if (!( c >= 0 && c <= 11 )) return ret;
