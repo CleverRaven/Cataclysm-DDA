@@ -339,6 +339,9 @@ public:
   std::vector <trap*> traps;
   void load_trap(JsonObject &jo);
   void toggle_sidebar_style(void);
+  void toggle_fullscreen(void);
+  void temp_exit_fullscreen(void);
+  void reenter_fullscreen(void);
 
   std::map<std::string, std::vector <items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
@@ -435,6 +438,8 @@ public:
 
   const int dangerous_proximity;
   bool narrow_sidebar;
+  bool fullscreen;
+  bool was_fullscreen;
 
  private:
 // Game-start procedures

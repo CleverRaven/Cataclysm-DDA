@@ -113,6 +113,8 @@ void game::load_static_data() {
     // Only need to load names once, they do not depend on mods
     init_names();
     narrow_sidebar = OPTIONS["SIDEBAR_STYLE"] == "narrow";
+    fullscreen = false;
+    was_fullscreen = false;
 
     // These functions do not load stuff from json.
     // The content they load/initalize is hardcoded into the program.
@@ -133,9 +135,6 @@ void game::load_static_data() {
     init_artifacts();
     init_weather();
     init_faction_data();
-
-
-
 
     // --- move/delete everything below
     // TODO: move this to player class
@@ -231,6 +230,7 @@ game::~game()
 void game::init_ui(){
     // clear the screen
     clear();
+
     // set minimum FULL_SCREEN sizes
     FULL_SCREEN_WIDTH = 80;
     FULL_SCREEN_HEIGHT = 24;
@@ -271,6 +271,9 @@ void game::init_ui(){
         // now that TERMX and TERMY are set,
         // check if sidebar style needs to be overridden
         sidebarWidth = use_narrow_sidebar() ? 45 : 55;
+        if(fullscreen) {
+          sidebarWidth = 0;
+        }
 
         TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
         TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
@@ -395,6 +398,34 @@ void game::toggle_sidebar_style(void) {
   narrow_sidebar = !narrow_sidebar;
   init_ui();
   refresh_all();
+}
+
+void game::toggle_fullscreen(void) {
+#ifndef TILES
+  if(TERMX > 121 || TERMY > 121) { return; }
+  fullscreen = !fullscreen;
+  init_ui();
+  refresh_all();
+#endif
+}
+
+// temporarily switch out of fullscreen for functions that rely
+// on displaying some part of the sidebar
+void game::temp_exit_fullscreen(void) {
+  if(fullscreen) {
+    was_fullscreen = true;
+    toggle_fullscreen();
+  } else {
+    was_fullscreen = false;
+  }
+}
+
+void game::reenter_fullscreen(void) {
+  if(was_fullscreen) {
+    if(!fullscreen) {
+      toggle_fullscreen();
+    }
+  }
 }
 
 /*
@@ -2096,6 +2127,12 @@ input_context game::get_player_input(std::string &action)
         int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
         int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT-(TERRAIN_WINDOW_HEIGHT-121)/2: TERRAIN_WINDOW_HEIGHT;
 
+        if(fullscreen) {
+          iStartX = 0;
+          iStartY = 0;
+          iEndX = TERMX;
+          iEndY = TERMY;
+        }
         //x% of the Viewport, only shown on visible areas
         int dropCount = int(iEndX * iEndY * fFactor);
         //std::vector<std::pair<int, int> > vDrops;
@@ -2503,6 +2540,7 @@ bool game::handle_action()
     int iRetItems = -1;
     int iRetMonsters = -1;
     int startas = uistate.list_item_mon;
+    temp_exit_fullscreen();
     do {
         if ( startas != 2 ) { // last mode 2 = list_monster
             startas = 0;      // but only for the first bit of the loop
@@ -2527,6 +2565,7 @@ bool game::handle_action()
         refresh_all();
         plfire(false);
     }
+    reenter_fullscreen();
   } break;
 
 
@@ -2825,6 +2864,10 @@ bool game::handle_action()
 
   case ACTION_TOGGLE_SIDEBAR_STYLE:
    toggle_sidebar_style();
+   break;
+
+ case ACTION_TOGGLE_FULLSCREEN:
+   toggle_fullscreen();
    break;
 
   case ACTION_DISPLAY_SCENT:
@@ -4386,6 +4429,9 @@ void game::draw()
     draw_ter();
     draw_footsteps();
 
+    if(fullscreen) {
+      return;
+    }
     // Draw Status
     draw_HP();
     werase(w_status);
@@ -4624,10 +4670,12 @@ void game::refresh_all()
 {
  m.reset_vehicle_cache();
  draw();
- draw_HP();
- wrefresh(w_messages);
+ if(!fullscreen) {
+   draw_HP();
+   wrefresh(w_messages);
+   draw_minimap();
+ }
  refresh();
- draw_minimap();
 }
 
 void game::draw_HP()
@@ -7805,6 +7853,7 @@ void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x)
 
 point game::look_around()
 {
+ temp_exit_fullscreen();
  draw_ter();
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  std::string action;
@@ -7900,6 +7949,7 @@ point game::look_around()
 
  werase(w_look);
  delwin(w_look);
+ reenter_fullscreen();
  if (action == "CONFIRM")
   return point(lx, ly);
  return point(-1, -1);
@@ -8999,6 +9049,9 @@ and you can't unwield your %s."),
         return;
     }
 
+    if(min != -1) { // don't bother if we're just autopickup-ing
+      temp_exit_fullscreen();
+    }
     bool sideStyle = use_narrow_sidebar();
 
     // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
@@ -9087,6 +9140,7 @@ and you can't unwield your %s."),
             return;
         }
     } else {
+        if(was_fullscreen) { draw_ter(); write_msg(); }
         // Now print the two lists; those on the ground and about to be added to inv
         // Continue until we hit return or space
         do {
@@ -9297,6 +9351,7 @@ and you can't unwield your %s."),
             delwin(w_pickup);
             delwin(w_item_info);
             add_msg(_("Never mind."));
+            reenter_fullscreen();
             refresh_all();
             return;
         }
@@ -9431,6 +9486,7 @@ and you can't unwield your %s."),
     if (volume_is_okay && u.volume_carried() > u.volume_capacity() - 2) {
         add_msg(_("You struggle to carry such a large volume!"));
     }
+    reenter_fullscreen();
     werase(w_pickup);
     wrefresh(w_pickup);
     werase(w_item_info);
@@ -10074,6 +10130,7 @@ void game::plthrow(int pos)
   return;
  }
 
+ temp_exit_fullscreen();
  m.draw(w_terrain, point(u.posx, u.posy));
 
  std::vector <monster> mon_targets;
@@ -10137,6 +10194,7 @@ void game::plthrow(int pos)
  u.practice(turn, "throw", 10);
 
  throw_item(u, x, y, thrown, trajectory);
+ reenter_fullscreen();
 }
 
 void game::plfire(bool burst, int default_target_x, int default_target_y)
@@ -10230,6 +10288,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  
  int range = u.weapon.range(&u);
 
+ temp_exit_fullscreen();
  m.draw(w_terrain, point(u.posx, u.posy));
 
 // Populate a list of targets with the zombies in range and visible
@@ -10267,6 +10326,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
       unload(u.weapon);
       u.moves += u.weapon.reload_time(u) / 2; // unloading time
   }
+  reenter_fullscreen();
   return;
  }
  if (passtarget != -1) { // We picked a real live target
@@ -10292,6 +10352,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
      u.practice(turn, "gun", 5);
 
  u.fire_gun(x,y,burst);
+ reenter_fullscreen();
  //fire(u, x, y, trajectory, burst);
 }
 
@@ -12356,7 +12417,9 @@ void game::update_map(int &x, int &y) {
  m.build_map_cache();
 // Update what parts of the world map we can see
  update_overmap_seen();
- draw_minimap();
+ if(!fullscreen) {
+   draw_minimap();
+ }
 }
 
 void game::set_adjacent_overmaps(bool from_scratch)
@@ -12861,6 +12924,9 @@ bool game::game_error() { return (uquit == QUIT_ERROR); }
 
 void game::write_msg()
 {
+    if(fullscreen) {
+        return;
+    }
     werase(w_messages);
     int maxlength = getmaxx(w_messages);
 
