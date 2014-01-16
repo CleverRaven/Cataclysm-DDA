@@ -2160,7 +2160,7 @@
     },{
         "type" : "vehicle_part",
         "id" : "basketsm",
-        "name" : "bike basket",
+        "name" : "wire bike basket",
         "symbol" : "o",
         "color" : "brown",
         "broken_symbol" : "#",

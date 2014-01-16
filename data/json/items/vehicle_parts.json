@@ -43,7 +43,7 @@
         "type":"GENERIC",
         "id" : "basket",
         "name" : "wire basket",
-        "description" : "A large wire basket from a shopping cart",
+        "description" : "A large wire basket from a shopping cart.",
         "weight" : 4500,
         "to_hit" : -5,
         "color" : "cyan",
