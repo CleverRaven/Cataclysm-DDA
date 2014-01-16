@@ -281,6 +281,22 @@ void game_remove_item(int x, int y, item *it) {
     }
 }
 
+// x, y = choose_adjacent(query_string, x, y)
+static int game_choose_adjacent(lua_State *L) {
+    const char* parameter1 = (const char*) lua_tostring(L, 1);
+    int parameter2 = (int) lua_tonumber(L, 2);
+    int parameter3 = (int) lua_tonumber(L, 3);
+    bool success = (bool) g->choose_adjacent(parameter1, parameter2, parameter3);
+    if(success) {
+        // parameter2 and parameter3 were updated by the call
+        lua_pushnumber(L, parameter2);
+        lua_pushnumber(L, parameter3);
+        return 2; // 2 return values
+    } else {
+        return 0; // 0 return values
+    }
+}
+
 // game.register_iuse(string, function_object)
 static int game_register_iuse(lua_State *L) {
     // Make sure the first argument is a string.
@@ -312,6 +328,7 @@ static const struct luaL_Reg global_funcs [] = {
     {"items_at", game_items_at},
     {"item_type", game_item_type},
     {"monster_at", game_monster_at},
+    {"choose_adjacent", game_choose_adjacent},
     {NULL, NULL}
 };
 
