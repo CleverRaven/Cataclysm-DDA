@@ -7050,7 +7050,8 @@ bool player::eat(item *eaten, it_comest *comest)
 
     if( spoiled ) {
         g->add_msg(_("Ick, this %s doesn't taste so good..."), eaten->tname().c_str());
-        if (!has_trait("SAPROVORE") && (!has_bionic("bio_digestion") || one_in(3))) {
+        if (!has_trait("SAPROVORE") && !has_trait("EATDEAD") &&
+       (!has_bionic("bio_digestion") || one_in(3))) {
             add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60));
         }
         consume_effects(eaten, comest, spoiled);
@@ -7072,10 +7073,12 @@ bool player::eat(item *eaten, it_comest *comest)
         moves -= (mealtime);
 
     // If it's poisonous... poison us.  TODO: More several poison effects
-    if (eaten->poison >= rng(2, 4)) {
+    if ((eaten->poison >= rng(2, 4)) && !has_trait("EATPOISON") &&
+    !has_trait("EATDEAD")) {
         add_effect("poison", eaten->poison * 100);
     }
-    if (eaten->poison > 0) {
+    if ((eaten->poison > 0) && !has_trait("EATPOISON") &&
+    !has_trait("EATDEAD")) {
         add_disease("foodpoison", eaten->poison * 300);
     }
 

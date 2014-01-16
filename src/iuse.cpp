@@ -917,6 +917,12 @@ int iuse::vaccine(player *p, item *it, bool) {
 }
 
 int iuse::poison(player *p, item *it, bool) {
+    if ((p->has_trait("EATDEAD"))) {
+        return it->type->charges_to_use();
+    }
+    else if ((p->has_trait("EATPOISON")) && (!(one_in(p->str_cur / 2)))) {
+        return it->type->charges_to_use();
+    }
     p->add_effect("poison", 600);
     p->add_disease("foodpoison", 1800);
     return it->type->charges_to_use();

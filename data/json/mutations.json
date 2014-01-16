@@ -115,6 +115,7 @@
         "points" : 1,
         "description" : "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
         "starting_trait" : true,
+        "leads_to" : ["EATPOISON"],
         "category" : [
             "MUTCAT_INSECT",
             "MUTCAT_SLIME",
@@ -225,6 +226,7 @@
         "description" : "You are less likely to throw up from food poisoning, alcohol, etc.",
         "starting_trait" : true,
         "changes_to" : ["NAUSEA"],
+        "note" : "nope. This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics.",
         "cancels" : ["WEAKSTOMACH"]
     },{
         "type" : "mutation",
@@ -259,7 +261,7 @@
         "points" : 1,
         "description" : "You can handle intoxicants well.  Their effects clear up more quickly for you.",
         "starting_trait" : true,
-        "leads_to" : ["ALCMET"],
+        "leads_to" : ["ALCMET", "EATPOISON"],
         "cancels" : ["LIGHTWEIGHT"]
     },{
         "type" : "mutation",
@@ -1388,6 +1390,7 @@
         "points" : 8,
         "description" : "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
         "prereqs" : ["POISRESIST"],
+        "leads_to" : ["EATPOISON"],
         "changes_to" : ["POISONOUS2"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
     },{
@@ -1467,8 +1470,9 @@
         "name" : "Alcohol Metabolism",
         "points" : 4,
         "description" : "So it's fermented?  Whatever, it's still good drinking.  You've developed the ability to metabolize alcohol as a food source.",
-        "prereqs" : ["TOLERANCE"],
-        "prereqs2" : ["SAPROVORE"],
+        "prereqs" : ["TOLERANCE", "EATPOISON"],
+        "prereqs2" : ["SAPROVORE", "EATPOISON"],
+        "note" : "It's unlikely but possible that a Dwarf would get EATPOISON without ALCMET.  Since EATPOISON's arguably a stronger version, it serves as both prereqs.",
         "threshreq" : ["THRESH_TROGLOBITE"],
         "category" : ["MUTCAT_TROGLO"],
         "valid" : false
@@ -1501,6 +1505,29 @@
         "threshreq" : ["THRESH_CATTLE"],
         "cancels" : ["CARNIVORE", "SAPROVORE"],
         "category" : ["MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
+        "id" : "EATPOISON",
+        "name" : "Intestinal Fortitude",
+        "points" : 6,
+        "description" : "Your guts have developed the ability to handle poisonous food.  Mostly.",
+        "changes_to" : ["EATDEAD"],
+        "prereqs" : ["NAUSEA", "VOMITOUS", "POISRESIST", "POISONOUS"],
+        "note" : "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
+        "prereqs2" : ["SAPROVORE", "TOLERANCE"],
+        "threshreq" : ["THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT"],
+        "category" : ["MUTCAT_TROGLO", "MUTCAT_RAPTOR", "MUTCAT_RAT", "MUTCAT_CHIMERA"],
+        "valid" : false
+    },{
+        "type" : "mutation",
+        "id" : "EATDEAD",
+        "name" : "Eater Of The Dead",
+        "points" : 10,
+        "description" : "Eating rotting, long-dead flesh is good for the struggle, and safe--if still completely unappealing--for you.",
+        "prereqs" : ["EATPOISON"],
+        "threshreq" : ["THRESH_CHIMERA", "THRESH_RAT"],
+        "category" : ["MUTCAT_RAT", "MUTCAT_CHIMERA"],
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "HORNS",
@@ -2435,7 +2462,7 @@
         "points" : -3,
         "description" : "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.",
         "prereqs" : ["WEAKSTOMACH"],
-        "changes_to" : ["VOMITOUS"],
+        "changes_to" : ["VOMITOUS", "EATPOISON"],
         "category" : ["MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
@@ -2444,6 +2471,7 @@
         "points" : -8,
         "description" : "You have a major digestive disorder, which causes you to vomit frequently.",
         "prereqs" : ["NAUSEA"],
+        "changes_to" : ["EATPOISON"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
