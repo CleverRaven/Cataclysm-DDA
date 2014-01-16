@@ -279,6 +279,160 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "xlframe_horizontal",
+        "name" : "extra light frame",
+        "symbol" : "h",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 175,
+        "item" : "xlframe",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["MOUNTABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 4},
+            {"item": "scrap", "min": 2, "max": 4}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "xlframe_vertical",
+        "name" : "extra light frame",
+        "symbol" : "j",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 175,
+        "item" : "xlframe",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["MOUNTABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "xlframe_cross",
+        "name" : "extra light frame",
+        "symbol" : "c",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 175,
+        "item" : "xlframe",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["MOUNTABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 4},
+            {"item": "scrap", "min": 2, "max": 4}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdframe_nw",
+        "name" : "extra light frame",
+        "symbol" : "y",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 175,
+        "item" : "xlframe",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["MOUNTABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 4},
+            {"item": "scrap", "min": 2, "max": 4}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdframe_ne",
+        "name" : "extra light frame",
+        "symbol" : "u",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 175,
+        "item" : "xlframe",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["MOUNTABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 4},
+            {"item": "scrap", "min": 2, "max": 4}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "xlframe_se",
+        "name" : "extra light frame",
+        "symbol" : "n",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 175,
+        "item" : "xlframe",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["MOUNTABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 4},
+            {"item": "scrap", "min": 2, "max": 4}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdframe_sw",
+        "name" : "heavy duty frame",
+        "symbol" : "b",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 175,
+        "item" : "xlframe",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["MOUNTABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 4},
+            {"item": "scrap", "min": 2, "max": 4}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "xlframe_horizontal_2",
+        "name" : "extra light frame",
+        "symbol" : "=",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 175,
+        "item" : "xlframe",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["MOUNTABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 4},
+            {"item": "scrap", "min": 2, "max": 4}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "xlframe_vertical_2",
+        "name" : "extra light frame",
+        "symbol" : "H",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 175,
+        "item" : "xlframe",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["MOUNTABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 4},
+            {"item": "scrap", "min": 2, "max": 4}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "hdframe_horizontal",
         "name" : "heavy duty frame",
         "symbol" : "h",
@@ -1011,6 +1165,134 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "xlhalfboard_horizontal",
+        "name" : "extra light quarterpanel",
+        "symbol" : "h",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 100,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "xlhalfboard_vertical",
+        "name" : "extra light quarterpanel",
+        "symbol" : "j",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 100,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "xlhalfboard_nw",
+        "name" : "extra light quarterpanel",
+        "symbol" : "y",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 100,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "xlhalfboard_ne",
+        "name" : "extra light quarterpanel",
+        "symbol" : "u",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 100,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "xlhalfboard_se",
+        "name" : "extra light quarterpanel",
+        "symbol" : "n",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 100,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "xlhalfboard_sw",
+        "name" : "extra light quarterpanel",
+        "symbol" : "b",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 100,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "xlhalfboard_horizontal_2",
+        "name" : "extra light quarterpanel",
+        "symbol" : "=",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 100,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "xlhalfboard_vertical_2",
+        "name" : "extra light quarterpanel",
+        "symbol" : "H",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 100,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "pipe", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "halfboard_cover",
         "name" : "quarterpanel",
         "symbol" : "^",
@@ -1110,6 +1392,22 @@
         "difficulty" : 3,
         "location" : "center",
         "flags" : ["OBSTACLE", "OPAQUE", "CARGO"]
+    },{
+        "type" : "vehicle_part",
+        "id" : "roof_cloth",
+        "name" : "cloth roof",
+        "symbol" : "#",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "roof",
+        "flags" : ["ROOF"],
+        "breaks_into" : [
+            {"item": "rag", "min": 3, "max": 6}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "roof",
@@ -1625,7 +1923,7 @@
         "broken_color" : "red",
         "damage_modifier" : 50,
         "durability" : 50,
-        "power" : 70,
+        "power" : 60,
         "fuel_type" : "muscle",
         "item" : "foot_crank",
         "difficulty" : 1,
@@ -1859,6 +2157,36 @@
             {"item": "steel_chunk", "min": 4, "max": 6},
             {"item": "scrap", "min": 4, "max": 6}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "basketsm",
+        "name" : "wire bike basket",
+        "symbol" : "o",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 60,
+        "durability" : 75,
+        "size" : 60,
+        "item" : "wire",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["CARGO", "BOARDABLE"]
+    },{
+        "type" : "vehicle_part",
+        "id" : "basketlg",
+        "name" : "shopping cart basket",
+        "symbol" : "o",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 60,
+        "durability" : 75,
+        "size" : 200,
+        "item" : "basket",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["CARGO", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
         "id" : "veh_table",

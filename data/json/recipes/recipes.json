@@ -18194,6 +18194,56 @@
   ]
 },{
         "type" : "recipe",
+  "result": "basket",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "wire", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "xlframe",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 60 ],
+      [ "welder_crude", 90 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "frame",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
