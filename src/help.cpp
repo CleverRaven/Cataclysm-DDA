@@ -433,7 +433,7 @@ Currently Available tokens:\n\
             from_sentence_case(press_x(ACTION_WIELD)).c_str(),
             from_sentence_case(press_x(ACTION_WEAR)).c_str(),
             from_sentence_case(press_x(ACTION_TAKE_OFF)).c_str(),
-            press_x(ACTION_LIST_ITEMS, _("view")).c_str()/*,
+            press_x(ACTION_LIST_ITEMS, _("view")).c_str());
             wrefresh(w_help);
             refresh();
             getch();
