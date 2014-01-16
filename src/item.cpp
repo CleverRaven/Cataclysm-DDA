@@ -478,67 +478,55 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("GUN", _("Skill used: "), gun->skill_used->name()));
   dump->push_back(iteminfo("GUN", _("Ammunition: "), string_format(_("<num> rounds of %s"), ammo_name(ammo_type()).c_str()), clip_size(), true));
 
-  temp1.str("");
-  if (has_ammo)
-   temp1 << ammo_dam;
-
-  temp1 << (gun_damage(false) >= 0 ? "+" : "" );
-
-  temp2.str("");
-  if (has_ammo)
-   temp2 << string_format(_("<num> = %d"), gun_damage());
-
-  dump->push_back(iteminfo("GUN", _("Damage: "), temp2.str(), gun_damage(false), true, temp1.str(), true, false));
-
-  temp1.str("");
-  if (has_ammo)
-   temp1 << ammo_pierce;
-
-  temp1 << (gun_pierce(false) >= 0 ? "+" : "" );
-
-  temp2.str("");
-  if (has_ammo)
-   temp2 << string_format(_("<num> = %d"), gun_pierce());
-
-  dump->push_back(iteminfo("GUN", _("Armor-pierce: "), temp2.str(), gun_pierce(false), true, temp1.str(), true, false));
-
-  temp1.str("");
+  //damage of gun
+  dump->push_back(iteminfo("GUN", _("Damage: "), "", gun_damage(false), true, "", !has_ammo, false));
   if (has_ammo) {
-   temp1 << ammo_range;
-  }
-  temp1 << (range(NULL) >= 0 ? "+" : "");
-
-  temp2.str("");
-  if (has_ammo) {
-   temp2 << string_format(_("<num> = %d"), range(NULL));
+      temp1.str("");
+      temp1 << (ammo_dam >= 0 ? "+" : "" );//ammo_damage and sum_of_damage don't need to translate
+      dump->push_back(iteminfo("GUN", "ammo_damage", "", ammo_dam, true, temp1.str(), false, false, false));
+      dump->push_back(iteminfo("GUN", "sum_of_damage", _(" = <num>"), gun_damage(), true, "", true, false, false));
   }
 
-  dump->push_back(iteminfo("GUN", _("Range: "), temp2.str(), gun->range, true, temp1.str(), true, false));
+  //armor-pierce of gun
+  dump->push_back(iteminfo("GUN", _("Armor-pierce: "), "", gun_pierce(false), true, "", !has_ammo, false));
+  if (has_ammo) {
+      temp1.str("");
+      temp1 << (ammo_pierce >= 0 ? "+" : "" );//ammo_armor_pierce and sum_of_armor_pierce don't need to translate
+      dump->push_back(iteminfo("GUN", "ammo_armor_pierce", "", ammo_pierce, true, temp1.str(), false, false, false));
+      dump->push_back(iteminfo("GUN", "sum_of_armor_pierce", _(" = <num>"), gun_pierce(), true, "", true, false, false));
+  }
+
+  //range of gun
+  dump->push_back(iteminfo("GUN", _("Range: "), "", gun->range, true, "", !has_ammo, false));
+  if (has_ammo) {
+      temp1.str("");
+      temp1 << (ammo_range >= 0 ? "+" : "" );//ammo_range and sum_of_rangev don't need to translate
+      dump->push_back(iteminfo("GUN", "ammo_range", "", ammo_range, true, temp1.str(), false, false, false));
+      dump->push_back(iteminfo("GUN", "sum_of_range", _(" = <num>"), range(NULL), true, "", true, false, false));
+  }
 
   dump->push_back(iteminfo("GUN", _("Dispersion: "), "", dispersion(), true, "", true, true));
 
-
-  temp1.str("");
-  if (has_ammo)
-   temp1 << ammo_recoil;
-
-  temp1 << (recoil(false) >= 0 ? "+" : "" );
-
-  temp2.str("");
-  if (has_ammo)
-   temp2 << string_format(_("<num> = %d"), recoil());
-
-  dump->push_back(iteminfo("GUN",_("Recoil: "), temp2.str(), recoil(false), true, temp1.str(), true, true));
+  //recoil of gun
+  dump->push_back(iteminfo("GUN", _("Recoil: "), "", recoil(false), true, "", !has_ammo, true));
+  if (has_ammo) {
+      temp1.str("");
+      temp1 << (ammo_recoil >= 0 ? "+" : "" );//ammo_recoil and sum_of_recoil don't need to translate
+      dump->push_back(iteminfo("GUN", "ammo_recoil", "", ammo_recoil, true, temp1.str(), false, true, false));
+      dump->push_back(iteminfo("GUN", "sum_of_recoil", _(" = <num>"), recoil(), true, "", true, true, false));
+  }
 
   dump->push_back(iteminfo("GUN", _("Reload time: "), ((has_flag("RELOAD_ONE")) ? _("<num> per round") : ""), gun->reload_time, true, "", true, true));
 
   if (burst_size() == 0) {
-   if (gun->skill_used == Skill::skill("pistol") && has_flag("RELOAD_ONE"))
-    dump->push_back(iteminfo("GUN", _("Revolver.")));
-   else
-    dump->push_back(iteminfo("GUN", _("Semi-automatic.")));
-  } else
-   dump->push_back(iteminfo("GUN", _("Burst size: "), "", burst_size()));
+    if (gun->skill_used == Skill::skill("pistol") && has_flag("RELOAD_ONE")) {
+        dump->push_back(iteminfo("GUN", _("Revolver.")));
+    } else {
+        dump->push_back(iteminfo("GUN", _("Semi-automatic.")));
+    }
+  } else {
+    dump->push_back(iteminfo("GUN", _("Burst size: "), "", burst_size()));
+  }
 
   if (!gun->valid_mod_locations.empty()) {
 	temp1.str("");
@@ -583,7 +571,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
    dump->push_back(iteminfo("GUNMOD", _("Burst: "), "", mod->burst, true, (mod->burst > 0 ? "+" : "")));
 
   if (mod->newtype != "NULL") {
-	dump->push_back(iteminfo("GUNMOD", _("New ammo: ") + ammo_name(mod->newtype)));
+	dump->push_back(iteminfo("GUNMOD", _("Ammo: ") + ammo_name(mod->newtype)));
   }
 
   temp1.str("");
@@ -864,7 +852,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   if (vecData[i].sType == "DESCRIPTION")
    temp1 << "\n";
 
-  temp1 << vecData[i].sName;
+  if (vecData[i].bDrawName) {
+    temp1 << vecData[i].sName;
+  }
   size_t pos = vecData[i].sFmt.find("<num>");
   std::string sPost = "";
   if(pos != std::string::npos)
@@ -877,7 +867,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
       temp1 << vecData[i].sFmt.c_str(); //string_format(vecData[i].sFmt.c_str(), vecData[i].iValue)
   }
   if (vecData[i].sValue != "-999")
-      temp1 << vecData[i].sValue;
+      temp1 << vecData[i].sPlus << vecData[i].sValue;
   temp1 << sPost;
   temp1 << ((vecData[i].bNewLine) ? "\n" : "");
  }
