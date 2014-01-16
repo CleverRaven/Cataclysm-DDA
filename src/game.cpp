@@ -7989,20 +7989,20 @@ bool game::list_items_match(item &item, std::string sPattern)
         }
 
         if (item.tname().find(pat) != std::string::npos) {
-            return exclude?false:true;
+            return !exclude;
         }
 
         if(pat.find("{",0) != std::string::npos) {
             std::string adv_pat_type = pat.substr(1, pat.find(":")-1);
             std::string adv_pat_search = pat.substr(pat.find(":")+1, (pat.find("}")-pat.find(":"))-1);
             if(adv_pat_type == "c" && item.get_category().name.find(adv_pat_search,0) != std::string::npos) {
-                return exclude?false:true;
+                return !exclude;
             } else if (adv_pat_type == "m" && item.made_of(adv_pat_search)) {
-                return exclude?false:true;
+                return !exclude;
             } else if (adv_pat_type == "dgt" && item.damage > atoi(adv_pat_search.c_str())) {
-                return exclude?false:true;
+                return !exclude;
             } else if (adv_pat_type == "dlt" && item.damage < atoi(adv_pat_search.c_str())) {
-                return exclude?false:true;
+                return !exclude;
             }
         }
 
@@ -8012,7 +8012,7 @@ bool game::list_items_match(item &item, std::string sPattern)
 
     } while(iPos != std::string::npos);
 
-    return hasExclude?true:false;
+    return hasExclude;
 }
 
 std::vector<map_item_stack> game::find_nearby_items(int iRadius)
