@@ -32,9 +32,9 @@ enum advanced_inv_sortby {
     SORTBY_NONE = 1, SORTBY_NAME, SORTBY_WEIGHT, SORTBY_VOLUME, SORTBY_CHARGES, SORTBY_CATEGORY, NUM_SORTBY
 };
 
-int getsquare(int c , int &off_x, int &off_y, std::string &areastring, advanced_inv_area *squares) {
+int getsquare(int c, int &off_x, int &off_y, std::string &areastring, advanced_inv_area *squares) {
     int ret=-1;
-    if (!( c >= 0 && c <= 10 )) return ret;
+    if (!( c >= 0 && c <= 11 )) return ret;
     ret=c;
     off_x = squares[ret].offx;
     off_y = squares[ret].offy;
@@ -89,6 +89,9 @@ int getsquare(char c , int &off_x, int &off_y, std::string &areastring, advanced
             break;
         case 'a':
             ret=10;
+            break;
+        case 'D':
+            ret=11;
             break;
         default :
             return -1;
@@ -302,8 +305,8 @@ void advanced_inv_print_header(advanced_inv_area* squares, advanced_inventory_pa
     int area=pane.area;
     int wwidth=getmaxx(window);
     int ofs=wwidth-25-2-14;
-    for ( int i=0; i < 11; i++ ) {
-        char key=( i == 0 ? 'I' : ( i == 10 ? 'A' : (char)(i+48) ) );
+    for ( int i=0; i < 12; i++ ) {
+        char key=( i == 0 ? 'I' : ( i == 10 ? 'A' : ( i == 11 ? 'D' : (char)(i+48) ) ) );
         char bracket[3]="[]";
         if ( squares[i].vstor >= 0 ) strcpy(bracket,"<>");
         nc_color bcolor = ( squares[i].canputitems ? ( area == i || ( area == 10 && i != 0 ) ? c_cyan : c_ltgray ) : c_red );
@@ -348,6 +351,22 @@ void advanced_inv_update_area( advanced_inv_area &area )
     } else if ( i == 0 ) {
         area.size=u.inv.size();
         area.canputitems=true;
+    } else if (i == 11 ) {
+        int vp = 0;
+        area.veh = g->m.veh_at( u.posx+u.grab_point.x, u.posy+u.grab_point.y, vp);
+        if( area.veh ) {
+            area.vstor = area.veh->part_with_feature(vp, "CARGO", false);
+        }
+        if( area.vstor >= 0 ) {
+            area.desc = area.veh->name;
+            area.canputitems = true;
+            area.size = area.veh->parts[area.vstor].items.size();
+            area.max_size = MAX_ITEM_IN_VEHICLE_STORAGE;
+            area.max_volume = area.veh->max_volume(area.vstor);
+        } else {
+            area.canputitems = false;
+            area.desc = _("No dragged vehicle");
+        }
     } else {
         area.desc = _("All 9 squares");
         area.canputitems=true;
@@ -370,7 +389,7 @@ void advanced_inventory::init(player *pp)
 {
     this->p = pp;
 
-    advanced_inv_area initsquares[11] = {
+    advanced_inv_area initsquares[12] = {
         {0, 2, 25, 0, 0, 0, 0, _("Inventory"), "IN", false, NULL, -1, 0, "", 0, 0, 0, 0 },
         {1, 3, 30, -1, 1, 0, 0, _("South West"), "SW", false, NULL, -1, 0, "", 0, 0, 0, 0 },
         {2, 3, 33, 0, 1, 0, 0, _("South"), "S", false, NULL, -1, 0, "", 0, 0, 0, 0 },
@@ -381,9 +400,10 @@ void advanced_inventory::init(player *pp)
         {7, 1, 30, -1, -1, 0, 0, _("North West"), "NW", false, NULL, -1, 0, "", 0, 0, 0, 0 },
         {8, 1, 33, 0, -1, 0, 0, _("North"), "N", false, NULL, -1, 0, "", 0, 0, 0, 0 },
         {9, 1, 36, 1, -1, 0, 0, _("North East"), "NE", false, NULL, -1, 0, "", 0, 0, 0, 0 },
-        {10, 3, 25, 0, 0, 0, 0, _("Surrounding area"), "AL", false, NULL, -1, 0, "", 0, 0, 0, 0 }
+        {10, 3, 25, 0, 0, 0, 0, _("Surrounding area"), "AL", false, NULL, -1, 0, "", 0, 0, 0, 0 },
+        {11, 1, 25, 0, 0, 0, 0, _("Grabbed Vehicle"), "GR", false, NULL, -1, 0, "", 0, 0, 0, 0 }
     };
-    for ( int i = 0; i < 11; i++ ) {
+    for ( int i = 0; i < 12; i++ ) {
         squares[i] = initsquares[i];
         advanced_inv_update_area(squares[i]);
     }
@@ -738,7 +758,7 @@ void advanced_inventory::display(player * pp)
                     mvwprintz(head, 1, 2, c_white,
                               _("hjkl or arrow keys to move cursor, [m]ove item between panes ([M]: all)"));
                     mvwprintz(head, 2, 2, c_white,
-                              _("1-9 (or GHJKLYUBNI) to select square for active tab, 0 for inventory,"));
+                              _("1-9 (or GHJKLYUBNID) to select square for active tab, 0 for inventory, D for dragged item"));
                     mvwprintz(head, 3, 2, c_white,
                               _("[e]xamine item, [s]ort display, toggle auto[p]ickup, [q]uit."));
                     if (panes[src].sortby == SORTBY_CATEGORY) {
@@ -1050,7 +1070,7 @@ void advanced_inventory::display(player * pp)
                                         )
                                     );
                                     if ( amount > max ) amount = max;
-                                } else { 
+                                } else {
                                     amount = max;
                                 }
                                 if ( amount != it->charges ) {
