@@ -7836,10 +7836,6 @@ std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack>
 
     std::string sFilterPre = "";
     std::string sFilterTemp = filter;
-//    if (sFilterTemp != "" && filter.substr(0, 1) == "-") {
-//        sFilterPre = "-";
-//        sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
-//    }
 
     for (std::vector<map_item_stack>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
         std::string name = iter->example.tname();
@@ -7859,10 +7855,9 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
 
     mvwprintz(window, 0, 2, c_white, "%s", _("Type part of an item's name to see"));
     mvwprintz(window, 1, 2, c_white, "%s", _("nearby matching items."));
-    mvwprintz(window, 3, 2, c_white, "%s", _("Seperate multiple items with ,"));
+    mvwprintz(window, 3, 2, c_white, "%s", _("Separate multiple items with ,"));
     mvwprintz(window, 4, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
-    //TODO: fix up the filter code so that "-" applies to each comma-separated bit
-    //or, failing that, make the description sound more like what the current behavior does
+
     mvwprintz(window, 6, 2, c_white, "%s", _("To exclude items, place - in front"));
     mvwprintz(window, 7, 2, c_white, "%s", _("Example: -pipe,chunk,steel"));
 
@@ -7882,7 +7877,7 @@ std::string game::ask_item_priority_high(WINDOW* window, int rows)
     mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
     mvwprintz(window, 3, 2, c_white, "%s", _("nearby items to the top."));
 
-    mvwprintz(window, 5, 2, c_white, "%s", _("Seperate multiple items with ,"));
+    mvwprintz(window, 5, 2, c_white, "%s", _("Separate multiple items with ,"));
     mvwprintz(window, 6, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
 
     mvwprintz(window, 8, 2, c_white, "%s", _("Search [c]ategory or [m]aterial:"));
@@ -7901,7 +7896,7 @@ std::string game::ask_item_priority_low(WINDOW* window, int rows)
     mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
     mvwprintz(window, 3, 2, c_white, "%s", _("nearby items to the bottom."));
 
-    mvwprintz(window, 5, 2, c_white, "%s", _("Seperate multiple items with ,"));
+    mvwprintz(window, 5, 2, c_white, "%s", _("Separate multiple items with ,"));
     mvwprintz(window, 6, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
 
     mvwprintz(window, 8, 2, c_white, "%s", _("Search [c]ategory or [m]aterial:"));
