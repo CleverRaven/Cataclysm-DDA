@@ -889,13 +889,19 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
             }
         } else if (vItemDisplay[i].sType == "DESCRIPTION") {
             line_num++;
-            line_num += fold_and_print(w, line_num, 2, iWidth - 4, c_white, "%s", vItemDisplay[i].sName.c_str());
+            if (vItemDisplay[i].bDrawName) {
+                line_num += fold_and_print(w, line_num, 2, iWidth - 4, c_white, "%s", vItemDisplay[i].sName.c_str());
+            }
         } else {
             if (bStartNewLine) {
-                mvwprintz(w, line_num, 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
+                if (vItemDisplay[i].bDrawName) {
+                    mvwprintz(w, line_num, 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
+                }
                 bStartNewLine = false;
             } else {
-                wprintz(w, c_white, "%s", (vItemDisplay[i].sName).c_str());
+                if (vItemDisplay[i].bDrawName) {
+                    wprintz(w, c_white, "%s", (vItemDisplay[i].sName).c_str());
+                }
             }
 
             std::string sPlus = vItemDisplay[i].sPlus;

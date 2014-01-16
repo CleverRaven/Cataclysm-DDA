@@ -34,26 +34,28 @@ struct iteminfo{
   std::string sPlus; //number +
   bool bNewLine; //New line at the end
   bool bLowerIsBetter; //Lower values are better (red <-> green)
+  bool bDrawName; //If false then compares sName, but don't print sName.
 
   //Inputs are: ItemType, main text, text between main text and value, value, if the value should be an int instead of a double, text after number, if there should be a newline after this item, if lower values are better
-  iteminfo(std::string sIn0, std::string sIn1, std::string sIn2 = "", double dIn0 = -999, bool bIn0 = true, std::string sIn3 = "", bool bIn1 = true, bool bIn2 = false) {
-    sType = sIn0;
-    sName = sIn1;
-    sFmt = sIn2;
-    is_int = bIn0;
-    dValue = dIn0;
+  iteminfo(std::string Type, std::string Name, std::string Fmt = "", double Value = -999, bool _is_int = true, std::string Plus = "", bool NewLine = true, bool LowerIsBetter = false, bool DrawName = true) {
+    sType = Type;
+    sName = Name;
+    sFmt = Fmt;
+    is_int = _is_int;
+    dValue = Value;
     std::stringstream convert;
-    if (bIn0 == true) {
-    int dIn0i = int(dIn0);
-    convert << dIn0i;
+    if (_is_int == true) {
+        int dIn0i = int(Value);
+        convert << dIn0i;
     } else {
-    convert.precision(1);
-    convert << std::fixed << dIn0;
+        convert.precision(1);
+        convert << std::fixed << Value;
     }
     sValue = convert.str();
-    sPlus = sIn3;
-    bNewLine = bIn1;
-    bLowerIsBetter = bIn2;
+    sPlus = Plus;
+    bNewLine = NewLine;
+    bLowerIsBetter = LowerIsBetter;
+    bDrawName = DrawName;
   }
 };
 
