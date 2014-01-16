@@ -26,16 +26,16 @@
         "name" : "Bicycle",
         "blueprint" : "o#o",
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
             {"x": 0, "y": 0, "part": "saddle"},
             {"x": 0, "y": 0, "part": "controls"},
             {"x": 0, "y": 0, "part": "horn_bicycle"},
             {"x": 0, "y": 0, "part": "foot_pedals"},
-            {"x": 1, "y": 0, "part": "frame_vertical"},
+            {"x": 1, "y": 0, "part": "xlframe_vertical"},
             {"x": 1, "y": 0, "part": "wheel_bicycle"},
-            {"x": -1, "y": 0, "part": "frame_vertical"},
+            {"x": -1, "y": 0, "part": "xlframe_vertical"},
             {"x": -1, "y": 0, "part": "wheel_bicycle"},
-            {"x": -1, "y": 0, "part": "box"}
+            {"x": -1, "y": 0, "part": "basketsm"}
         ]
     },{
         "type" : "vehicle",
@@ -1310,9 +1310,9 @@
             {"x": 0, "y": 0, "part": "battery_motorbike"},
             {"x": 0, "y": 0, "part": "gas_tank_small"},
             {"x": 0, "y": 0, "part": "controls"},
-            {"x": 1, "y": 0, "part": "frame_vertical"},
+            {"x": 1, "y": 0, "part": "xlframe_vertical"},
             {"x": 1, "y": 0, "part": "wheel_small"},
-            {"x": -1, "y": 0, "part": "frame_vertical"},
+            {"x": -1, "y": 0, "part": "xlframe_vertical"},
             {"x": -1, "y": 0, "part": "wheel_small"}
         ]
     },{
@@ -1327,9 +1327,9 @@
             {"x": 0, "y": 0, "part": "engine_electric"},
             {"x": 0, "y": 0, "part": "battery_motorbike"},
             {"x": 0, "y": 0, "part": "controls"},
-            {"x": 1, "y": 0, "part": "frame_vertical"},
+            {"x": 1, "y": 0, "part": "xlframe_vertical"},
             {"x": 1, "y": 0, "part": "wheel_small"},
-            {"x": -1, "y": 0, "part": "frame_vertical"},
+            {"x": -1, "y": 0, "part": "xlframe_vertical"},
             {"x": -1, "y": 0, "part": "wheel_small"}
         ]
     },{
@@ -2453,9 +2453,9 @@
         "name" : "Shopping Cart",
         "blueprint" : "o",
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
-            {"x": 0, "y": 0, "part": "box"}
+            {"x": 0, "y": 0, "part": "basketlg"}
         ]
     },{
         "type" : "vehicle",
@@ -2463,7 +2463,7 @@
         "name" : "Welding Cart",
         "blueprint" : "&",
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "small_storage_battery"},
             {"x": 0, "y": 0, "part": "welding_rig"}
@@ -2477,7 +2477,7 @@
         "name" : "Ice Cream Cart",
         "blueprint" : "#",
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "small_storage_battery"},
             {"x": 0, "y": 0, "part": "minifridge"},
@@ -2492,11 +2492,11 @@
             ["H"]
         ],
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "small_storage_battery"},
             {"x": 0, "y": 0, "part": "kitchen_unit"},
-            {"x": 0, "y": 1, "part": "frame_vertical_2"},
+            {"x": 0, "y": 1, "part": "xlframe_vertical_2"},
             {"x": 0, "y": 1, "part": "wheel_caster"},
             {"x": 0, "y": 1, "part": "minifridge"},
             {"x": 0, "y": 1, "part": "controls"}
@@ -2560,11 +2560,11 @@
         "type" : "vehicle",
         "id" : "luggage_cart",
         "name" : "Luggage Cart",
-        "blueprint" : "o",
+        "blueprint" : "H",
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
-            {"x": 0, "y": 0, "part": "box"}
+            {"x": 0, "y": 0, "part": "trunk"}
         ]
     },{
         "type" : "vehicle",
@@ -2572,7 +2572,7 @@
         "name" : "Swivel Chair",
         "blueprint" : "#",
         "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "seat"}
         ]
