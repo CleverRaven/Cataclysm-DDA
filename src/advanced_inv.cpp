@@ -42,7 +42,7 @@ int getsquare(int c, int &off_x, int &off_y, std::string &areastring, advanced_i
     return ret;
 }
 
-int getsquare(player *p, char c , int &off_x, int &off_y, std::string &areastring, advanced_inv_area *squares)
+int getsquare(char c , int &off_x, int &off_y, std::string &areastring, advanced_inv_area *squares)
 {
     int ret=-1;
     switch(c)
@@ -792,7 +792,7 @@ void advanced_inventory::display(player * pp)
 
         if(c == 'a' ) c = (char)'a';
 
-        changeSquare = getsquare(pp, (char)c, panes[src].offx, panes[src].offy, panes[src].area_string, squares);
+        changeSquare = getsquare((char)c, panes[src].offx, panes[src].offy, panes[src].area_string, squares);
 
         category_index_start.clear();
 
