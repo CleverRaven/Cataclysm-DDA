@@ -5865,7 +5865,8 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
             knockback(x, y, active_npc[i]->posx, active_npc[i]->posy, force, stun, dam_mult);
         }
     }
-    if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player && (!(u.has_trait("LEG_TENT_BRACE"))))
+    if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player && ( (!(u.has_trait("LEG_TENT_BRACE"))) ||
+    (u.wearing_something_on(bp_feet))) ) 
     {
         add_msg(_("You're caught in the shockwave!"));
         knockback(x, y, u.posx, u.posy, force, stun, dam_mult);
@@ -6098,10 +6099,10 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                                 targ->name.c_str());
                     }
                 } else if ((u.posx == traj.front().x && u.posy == traj.front().y) &&
-                (!(u.has_trait("LEG_TENT_BRACE")))) {
+                ( (!(u.has_trait("LEG_TENT_BRACE"))) || (u.wearing_something_on(bp_feet))) ) {
                     add_msg(_("%s collided with you and sent you flying!"), targ->name.c_str());
                 } else if ((u.posx == traj.front().x && u.posy == traj.front().y) &&
-                (u.has_trait("LEG_TENT_BRACE"))) {
+                ((u.has_trait("LEG_TENT_BRACE")) && (!(u.wearing_something_on(bp_feet)))) ) {
                     add_msg(_("%s collided with you, and barely dislodges your tentacles!"), targ->name.c_str());
                     force_remaining = 1;
                 }
@@ -11418,7 +11419,7 @@ bool game::plmove(int dx, int dy)
      add_msg(_("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
    }
   }
-  if (u.has_trait("LEG_TENT_BRACE")) {
+  if (u.has_trait("LEG_TENT_BRACE") && (!(u.wearing_something_on(bp_feet))) ) {
       // DX and IN are long suits for Cephalopods,
       // so this shouldn't cause too much hardship
       // Presumed that if it's swimmable, they're
@@ -12423,6 +12424,8 @@ void game::update_stair_monsters() {
                             u.posy += pushy;
                             u.moves -= 100;
                             // Stumble.  Unless your tentacles can latch on!
+                            // As with the knockback-pushing, decided not to
+                            // the system any more than necessary.
                             if ((u.get_dodge() < 12) && (!(u.has_trait("LEG_TENT_BRACE"))))
                                 u.add_effect("downed", 2);
                             return;
