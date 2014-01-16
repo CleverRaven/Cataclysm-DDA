@@ -564,6 +564,27 @@ void construct::done_vehicle(point p)
 
 }
 
+void construct::done_vehicle_hd(point p)
+{
+    std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
+    if(name.empty())
+    {
+        name = _("Car");
+    }
+
+    vehicle *veh = g->m.add_vehicle ("custom_hd", p.x, p.y, 270, 0, 0);
+    if (!veh)
+    {
+        debugmsg ("error constructing vehicle");
+        return;
+    }
+    veh->name = name;
+
+    //Update the vehicle cache immediately, or the vehicle will be invisible for the first couple of turns.
+    g->m.update_vehicle_cache(veh, true);
+
+}
+
 void construct::done_deconstruct(point p)
 {
   if (g->m.has_furn(p.x, p.y)) {
@@ -783,6 +804,8 @@ void load_construction(JsonObject &jo)
         con->post_special = &construct::done_trunk_plank;
     } else if (postfunc == "done_vehicle") {
         con->post_special = &construct::done_vehicle;
+    } else if (postfunc == "done_vehicle_hd") {
+        con->post_special = &construct::done_vehicle_hd;
     } else if (postfunc == "done_deconstruct") {
         con->post_special = &construct::done_deconstruct;
     } else {
