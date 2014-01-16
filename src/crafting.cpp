@@ -1618,13 +1618,12 @@ void game::disassemble(int pos)
 
     for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter) {
         for (recipe_list::iterator list_iter = cat_iter->second.begin();
-             list_iter != cat_iter->second.end();
-             ++list_iter) {
+             list_iter != cat_iter->second.end(); ++list_iter) {
             recipe *cur_recipe = *list_iter;
-            if (dis_item->type == item_controller->find_template(cur_recipe->result) && cur_recipe->reversible)
+            if (dis_item->type == item_controller->find_template(cur_recipe->result) &&
+                cur_recipe->reversible) {
                 // ok, a valid recipe exists for the item, and it is reversible
                 // assign the activity
-            {
                 // check tools are available
                 // loop over the tools and see what's required...again
                 inventory crafting_inv = crafting_inventory(&u);
@@ -1639,13 +1638,18 @@ void game::disassemble(int pos)
                         int req = cur_recipe->tools[j][k].count; // -1 => 1
 
                         if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
-                            (req <= 0 && type == ("goggles_welding")) || // no welding, no goggles needed
-                            (req <= 0 && (type == ("crucible")) && (!((cur_recipe->result) == ("anvil")))) ||
+                            // No welding, no goggles needed.
+                            (req <= 0 && type == ("goggles_welding")) ||
+                            (req <= 0 && (type == ("crucible")) &&
+                             (!((cur_recipe->result) == ("anvil")))) ||
+                            // No mold needed for disassembly.
+                            (req <= 0 && (type == "mold_plastic")) ||
                             (req >  0 && crafting_inv.has_charges(type, req))) {
                             have_this_tool = true;
                             k = cur_recipe->tools[j].size();
                         }
-                        // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
+                        // If crafting recipe required a welder,
+                        // disassembly requires a hacksaw or super toolkit.
                         if (type == "welder") {
                             have_this_tool = (crafting_inv.has_amount("hacksaw", 1) ||
                                               crafting_inv.has_amount("toolset", 1));
