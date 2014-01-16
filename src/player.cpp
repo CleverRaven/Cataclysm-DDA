@@ -8768,7 +8768,8 @@ void player::read(int pos)
     {
         return;
     }
-    else if (!activity.continuous && !query_yn("Study %s?", tmp->type->name().c_str()))
+    else if (!activity.continuous && !query_yn("Study %s until you learn something? (gain a level)",
+                                               tmp->type->name().c_str()))
     {
         study = false;
     }
