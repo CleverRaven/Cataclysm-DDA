@@ -211,7 +211,7 @@ void map::board_vehicle(int x, int y, player *p)
  }
 
  const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE);
- if (part < 0) {
+ if (seat_part < 0) {
   debugmsg ("map::board_vehicle: boarding %s (not boardable)",
             veh->part_info(part).name.c_str());
   return;
@@ -244,7 +244,7 @@ void map::unboard_vehicle(const int x, const int y)
   return;
  }
  const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE, false);
- if (part < 0) {
+ if (seat_part < 0) {
   debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
             veh->part_info(part).name.c_str());
   return;
