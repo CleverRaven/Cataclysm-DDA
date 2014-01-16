@@ -32,6 +32,15 @@ enum advanced_inv_sortby {
     SORTBY_NONE = 1, SORTBY_NAME, SORTBY_WEIGHT, SORTBY_VOLUME, SORTBY_CHARGES, SORTBY_CATEGORY, NUM_SORTBY
 };
 
+bool advanced_inventory::isDirectionalDragged(int area1, int area2) {
+
+    if(!(area1 == isdrag || area2 == isdrag)) { return false; }
+    // one of the areas is drag square
+    advanced_inv_area other = (area1 == isdrag ? squares[area2] : squares[area1]);
+    if(other.offx == p->grab_point.x && other.offy == p->grab_point.y) { return true; }
+    return false;
+}
+
 int getsquare(int c, int &off_x, int &off_y, std::string &areastring, advanced_inv_area *squares) {
     int ret=-1;
     if (!( c >= 0 && c <= 11 )) return ret;
@@ -533,8 +542,8 @@ void advanced_inventory::recalc_pane(int i)
             int savolume = 0;
             int saweight = 0;
             advanced_inv_update_area(squares[s]);
-            //mvprintw(s+(i*10), 0, "%d %d                                   ",i,s);
-            if( panes[idest].area != s && squares[s].canputitems ) {
+
+            if( panes[idest].area != s && squares[s].canputitems && !isDirectionalDragged(s, panes[idest].area)) {
                 std::vector<item>& items = squares[s].vstor >= 0 ?
                                            squares[s].veh->parts[squares[s].vstor].items :
                                            m.i_at(squares[s].x , squares[s].y );
@@ -790,7 +799,13 @@ void advanced_inventory::display(player * pp)
             c = (char)'0';
         }
 
-        if(c == 'a' ) c = (char)'a';
+        if(c == 'a') {
+            c = (char)'a';
+        }
+
+        if(c == 'D') {
+            c = (char)'D';
+        }
 
         changeSquare = getsquare((char)c, panes[src].offx, panes[src].offy, panes[src].area_string, squares);
 
@@ -810,7 +825,8 @@ void advanced_inventory::display(player * pp)
         }
         else if(changeSquare != -1) {
              // do nthing
-            if(panes[left].area == changeSquare || panes[right].area == changeSquare) {
+            if(panes[left].area == changeSquare || panes[right].area == changeSquare
+               || isDirectionalDragged(panes[left].area, changeSquare) || isDirectionalDragged(panes[right].area, changeSquare)) {
                 lastCh = (int)popup_getkey(_("same square!"));
                 if(lastCh == 'q' || lastCh == KEY_ESCAPE || lastCh == ' ' ) lastCh = 0;
             } else if(squares[changeSquare].canputitems) {
