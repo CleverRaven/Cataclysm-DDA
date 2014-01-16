@@ -560,6 +560,11 @@ void player::apply_persistent_morale()
             if(worn[i].has_flag(bonus_flag)) {
               bonus+=2;
             }
+            if ((!(worn[i].has_flag(bonus_flag))) && (worn[i].has_flag(basic_flag))) {
+                if (!covered) {
+                    bonus += 1;
+                }
+            }
         }
         if(covered & mfb(bp_torso)) {
             bonus += 6;
