@@ -2980,7 +2980,7 @@
       ["mag_stabbing", 20],
       ["mag_melee", 10],
       ["mag_traps", 10],
-      ["mp3", 15],
+      ["mp3", 9],
       ["cell_phone", 20],
       ["pda", 10],
       ["gold_watch", 5],
