@@ -615,7 +615,7 @@ void dis_effect(player &p, disease &dis) {
                 p.mod_per_bonus(-1);
             }
 
-            if (one_in(300)) {
+            if (!p.has_disease("sleep") && one_in(300)) {
                 p.moves -= 80;
                 if (!p.is_npc()) {
                     g->add_msg(_("You cough noisily."));
