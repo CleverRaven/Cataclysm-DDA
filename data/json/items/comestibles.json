@@ -11497,7 +11497,7 @@
         "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 0,
-        "description" : "Intended for the clarification and disinfection of unsafe drinking water, these halazone-based purification tablets remove dangerous contaminants using powerful chemicals.",
+        "description" : "Intended for the clarification and disinfection of unsafe drinking water, these halazone-based purification tablets remove dangerous contaminants using powerful chemicals.  The label says to use one tablet per unit of water.",
         "price" : 1000,
         "material" : "null",
         "tool" : "null",
