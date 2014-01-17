@@ -5134,11 +5134,14 @@ void player::suffer()
         // Umbrellas and rain gear can also keep the sun off!
         // (No, really, I know someone who uses an umbrella when it's sunny out.)
         if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
-        g->add_msg(_("The sunlight hurts!"));
-        if (has_disease("sleep")) {
-            wake_up(_("You wake up!"));
-        }
-        mod_pain(1);
+            g->add_msg(_("The sunlight is really irritating."));
+            if (has_disease("sleep")) {
+                wake_up(_("You wake up!"));
+            }
+            if (one_in(10)) {
+                mod_pain(1);
+            }
+            else focus_pool --;
         }
     }
     
