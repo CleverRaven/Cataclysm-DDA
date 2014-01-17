@@ -756,7 +756,7 @@ void overmap::init_layers()
 oter_id& overmap::ter(const int x, const int y, const int z)
 {
     if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
-        nullret = 0;
+        nullret = "";
         return nullret;
     }
 
