@@ -802,7 +802,7 @@ void advanced_inventory::display(player * pp)
             c = (char)'a';
         }
 
-        if(c == 'D') {
+        if(c == 'd') {
             c = (char)'D';
         }
 
