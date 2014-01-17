@@ -1840,85 +1840,23 @@ void overmap::draw(WINDOW *w, int z, int &cursx, int &cursy,
   for (int i = -(om_map_width / 2); i < (om_map_width / 2); i++) {
    for (int j = -(om_map_height / 2);
          j <= (om_map_height / 2) + (ch == 'j' ? 1 : 0); j++) {
-    omx = cursx + i;
-    omy = cursy + j;
+    omx = cursx + i + pos().x * OMAPX;
+    omy = cursy + j + pos().x * OMAPY;
     see = false;
     npc_here = false;
     veh_here = false;
-    if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) { // It's in-bounds
-     cur_ter = ter(omx, omy, z);
-     see = seen(omx, omy, z);
-     note_here = has_note(omx, omy, z);
-     if (note_here) {
-         note_text = note(omx, omy, z);
-     }
-     //Check if there is an npc.
-     npc_here = has_npc(omx,omy,z);
-     // and a vehicle
-     veh_here = has_vehicle(omx,omy,z);
-// <Out of bounds placement>
-    } else if (omx < 0) {
-     omx += OMAPX;
-     if (omy < 0 || omy >= OMAPY) {
-      omy += (omy < 0 ? OMAPY : 0 - OMAPY);
-      cur_ter = diag.ter(omx, omy, z);
-      see = diag.seen(omx, omy, z);
-      veh_here = diag.has_vehicle(omx, omy, z);
-      note_here = diag.has_note(omx, omy, z);
-      if (note_here) {
-          note_text = diag.note(omx, omy, z);
-      }
-     } else {
-      cur_ter = hori.ter(omx, omy, z);
-      see = hori.seen(omx, omy, z);
-      veh_here = hori.has_vehicle(omx, omy, z);
-      note_here = hori.has_note(omx, omy, z);
-      if (note_here) {
-          note_text = hori.note(omx, omy, z);
-      }
-     }
-    } else if (omx >= OMAPX) {
-     omx -= OMAPX;
-     if (omy < 0 || omy >= OMAPY) {
-      omy += (omy < 0 ? OMAPY : 0 - OMAPY);
-      cur_ter = diag.ter(omx, omy, z);
-      see = diag.seen(omx, omy, z);
-      veh_here = diag.has_vehicle(omx, omy, z);
-      note_here = diag.has_note(omx, omy, z);
-      if (note_here) {
-          note_text = diag.note(omx, omy, z);
-      }
-     } else {
-      cur_ter = hori.ter(omx, omy, z);
-      see = hori.seen(omx, omy, z);
-      veh_here = hori.has_vehicle(omx, omy, z);
-      note_here = hori.has_note(omx, omy, z);
-      if (note_here) {
-          note_text = hori.note(omx, omy, z);
-      }
-     }
-    } else if (omy < 0) {
-     omy += OMAPY;
-     cur_ter = vert.ter(omx, omy, z);
-     see = vert.seen(omx, omy, z);
-     veh_here = vert.has_vehicle(omx, omy, z);
-     note_here = vert.has_note(omx, omy, z);
-     if (note_here) {
-         note_text = vert.note(omx, omy, z);
-     }
-    } else if (omy >= OMAPY) {
-     omy -= OMAPY;
-     cur_ter = vert.ter(omx, omy, z);
-     see = vert.seen(omx, omy, z);
-     veh_here = vert.has_vehicle(omx, omy, z);
-     note_here = vert.has_note(omx, omy, z);
-     if (note_here) {
-         note_text = vert.note(omx, omy, z);
-     }
-    } else {
-        debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
+    if (see) {
+        cur_ter = overmap_buffer.ter(omx, omy, z);
     }
-// </Out of bounds replacement>
+    see = overmap_buffer.seen(omx, omy, z);
+    note_here = overmap_buffer.has_note(omx, omy, z);
+    if (note_here) {
+        note_text = overmap_buffer.note(omx, omy, z);
+    }
+    //Check if there is an npc.
+    npc_here = overmap_buffer.has_npc(omx,omy,z);
+    // and a vehicle
+    veh_here = overmap_buffer.has_vehicle(omx,omy,z);
     if (see) {
      if (note_here && blink) {
       ter_color = c_yellow;
@@ -1927,7 +1865,7 @@ void overmap::draw(WINDOW *w, int z, int &cursx, int &cursy,
       } else {
        ter_sym = 'N';
       }
-     } else if (omx == origx && omy == origy && blink) {
+     } else if (cursx + i == origx && cursy + j == origy && blink) {
       ter_color = g->u.color();
       ter_sym = '@';
      } else if (npc_here && blink) {
