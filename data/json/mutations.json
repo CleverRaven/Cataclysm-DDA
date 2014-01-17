@@ -796,6 +796,15 @@
         "category": ["MUTCAT_RAPTOR", "MUTCAT_FELINE", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
+        "id" : "ALBINO",
+        "name" : "Albino",
+        "points" : -2,
+        "description" : "You lack skin pigmentation due to a genetic problem.  You sunburn extremely easily, and typically use an umbrella when going out in the sun.",
+        "starting_trait" : true,
+        "changes_to" : ["SUNBURN"],
+        "category" : ["MUTCAT_TROGLO"]
+    },{
+        "type" : "mutation",
         "id" : "FLIMSY",
         "name" : "Flimsy",
         "points" : -3,
@@ -2575,11 +2584,12 @@
         "category": ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
-        "id" : "ALBINO",
-        "name" : "Albino",
-        "points" : -2,
-        "description" : "Your skin lacks pigment, and is nearly transparent. You suffer serious burns in direct sunlight.",
-        "prereqs" : ["PALE"],
+        "id" : "SUNBURN",
+        "name" : "Solar Sensitivity",
+        "points" : -3,
+        "description" : "Your skin simply cannot handle ultraviolet radiation, such as sunlight.  It will seriously burn you.",
+        "prereqs" : ["ALBINO"],
+        "prereqs2" : ["TROGLO2", "TROGLO3"],
         "category" : ["MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
