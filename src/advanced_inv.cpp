@@ -32,8 +32,17 @@ enum advanced_inv_sortby {
     SORTBY_NONE = 1, SORTBY_NAME, SORTBY_WEIGHT, SORTBY_VOLUME, SORTBY_CHARGES, SORTBY_CATEGORY, NUM_SORTBY
 };
 
+bool advanced_inventory::isDirectionalDragged(int area1, int area2) {
+
+    if(!(area1 == isdrag || area2 == isdrag)) { return false; }
+    // one of the areas is drag square
+    advanced_inv_area other = (area1 == isdrag ? squares[area2] : squares[area1]);
+    if(other.offx == p->grab_point.x && other.offy == p->grab_point.y) { return true; }
+    return false;
+}
+
 int getsquare(int c, int &off_x, int &off_y, std::string &areastring, advanced_inv_area *squares) {
-    int ret=-1;
+    int ret =- 1;
     if (!( c >= 0 && c <= 11 )) return ret;
     ret=c;
     off_x = squares[ret].offx;
@@ -44,59 +53,58 @@ int getsquare(int c, int &off_x, int &off_y, std::string &areastring, advanced_i
 
 int getsquare(char c , int &off_x, int &off_y, std::string &areastring, advanced_inv_area *squares)
 {
-    int ret=-1;
-    switch(c)
-    {
+    int ret =- 1;
+    switch(c) {
         case '0':
         case 'I':
-            ret=0;
+            ret = 0;
             break;
         case '1':
         case 'B':
-            ret=1;
+            ret = 1;
             break;
         case '2':
         case 'J':
-            ret=2;
+            ret = 2;
             break;
         case '3':
         case 'N':
-            ret=3;
+            ret = 3;
             break;
         case '4':
         case 'H':
-            ret=4;
+            ret = 4;
             break;
         case '5':
         case 'G':
-            ret=5;
+            ret = 5;
             break;
         case '6':
         case 'L':
-            ret=6;
+            ret = 6;
             break;
         case '7':
         case 'Y':
-            ret=7;
+            ret = 7;
             break;
         case '8':
         case 'K':
-            ret=8;
+            ret = 8;
             break;
         case '9':
         case 'U':
-            ret=9;
+            ret = 9;
             break;
         case 'a':
-            ret=10;
+            ret = 10;
             break;
         case 'D':
-            ret=11;
+            ret = 11;
             break;
         default :
             return -1;
     }
-    return getsquare(ret,off_x,off_y,areastring, squares);
+    return getsquare(ret, off_x, off_y, areastring, squares);
 }
 
 void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
@@ -113,8 +121,8 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     int rightcol = columns - 8;
     int amount_column = columns - 15;
     nc_color norm = active ? c_white : c_dkgray;
-    std::string spaces(getmaxx(window)-4, ' ');
-    bool compact=(TERMX<=100);
+    std::string spaces(getmaxx(window) - 4, ' ');
+    bool compact = (TERMX <= 100);
 
     if(isinventory) {
         //right align
@@ -533,8 +541,8 @@ void advanced_inventory::recalc_pane(int i)
             int savolume = 0;
             int saweight = 0;
             advanced_inv_update_area(squares[s]);
-            //mvprintw(s+(i*10), 0, "%d %d                                   ",i,s);
-            if( panes[idest].area != s && squares[s].canputitems ) {
+
+            if( panes[idest].area != s && squares[s].canputitems && !isDirectionalDragged(s, panes[idest].area)) {
                 std::vector<item>& items = squares[s].vstor >= 0 ?
                                            squares[s].veh->parts[squares[s].vstor].items :
                                            m.i_at(squares[s].x , squares[s].y );
@@ -790,14 +798,22 @@ void advanced_inventory::display(player * pp)
             c = (char)'0';
         }
 
-        if(c == 'a' ) c = (char)'a';
+        if(c == 'a') {
+            c = (char)'a';
+        }
 
-        changeSquare = getsquare((char)c, panes[src].offx, panes[src].offy, panes[src].area_string, squares);
+        if(c == 'D') {
+            c = (char)'D';
+        }
+
+        changeSquare = getsquare((char)c, panes[src].offx, panes[src].offy,
+                                 panes[src].area_string, squares);
 
         category_index_start.clear();
 
         // Finds the index of the first item in each category.
-        for (int current_item_index = 0; current_item_index < panes[src].items.size(); ++current_item_index) {
+        for (int current_item_index = 0; current_item_index < panes[src].items.size();
+             ++current_item_index) {
              // Found a category header.
             if (panes[src].items[current_item_index].volume == -8) {
                 category_index_start.push_back(current_item_index + 1);
@@ -810,7 +826,9 @@ void advanced_inventory::display(player * pp)
         }
         else if(changeSquare != -1) {
              // do nthing
-            if(panes[left].area == changeSquare || panes[right].area == changeSquare) {
+            if(panes[left].area == changeSquare || panes[right].area == changeSquare ||
+               isDirectionalDragged(panes[left].area, changeSquare) ||
+               isDirectionalDragged(panes[right].area, changeSquare)) {
                 lastCh = (int)popup_getkey(_("same square!"));
                 if(lastCh == 'q' || lastCh == KEY_ESCAPE || lastCh == ' ' ) lastCh = 0;
             } else if(squares[changeSquare].canputitems) {

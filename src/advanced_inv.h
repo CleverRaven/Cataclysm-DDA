@@ -124,6 +124,7 @@ class advanced_inventory
         void redraw_pane(int i);
         void init(player *pp);
     private:
+        bool isDirectionalDragged(int area1, int area2);
 };
 
 #endif

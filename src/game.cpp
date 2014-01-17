@@ -11890,7 +11890,9 @@ bool game::plmove(int dx, int dy)
             }
             for (int i = 0; i < names.size(); ++i) {
                 std::string fmt;
-                if (counts[i] == 1) {
+                if (names[i].at(names[i].length() - 1) == 's') {
+                    names[i] = string_format("%d %s", counts[i], names[i].c_str());
+                } else if (counts[i] == 1) {
                     //~ one item (e.g. "a dress")
                     fmt = _("a %s");
                     names[i] = string_format(fmt, names[i].c_str());

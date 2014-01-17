@@ -3929,18 +3929,18 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
     bool u_see = g->u_see(this);
     if (is_player())
     {
-        if (g->u.activity.type == ACT_RELOAD)
+        if (activity.type == ACT_RELOAD)
         {
             g->add_msg(_("You stop reloading."));
         }
-        else if (g->u.activity.type == ACT_READ)
+        else if (activity.type == ACT_READ)
         {
             g->add_msg(_("You stop reading."));
         }
-        else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
+        else if (activity.type == ACT_CRAFT || activity.type == ACT_LONGCRAFT)
         {
             g->add_msg(_("You stop crafting."));
-            g->u.activity.type = ACT_NULL;
+            activity.type = ACT_NULL;
         }
     }
     if (source != NULL) {
@@ -3964,12 +3964,12 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             if (!is_player()) {
                 if( u_see ) {
                     g->add_msg(_("%1$s's %2$s puncture %s in mid-attack!"), name.c_str(),
-                                (g->u.has_trait("QUILLS") ? _("quills") : _("spines")),
+                                (has_trait("QUILLS") ? _("quills") : _("spines")),
                                 source->disp_name().c_str());
                 }
             } else {
                 g->add_msg(_("Your %s puncture %s in mid-attack!"),
-                            (g->u.has_trait("QUILLS") ? _("quills") : _("spines")),
+                            (has_trait("QUILLS") ? _("quills") : _("spines")),
                             source->disp_name().c_str());
             }
             damage_instance spine_damage;
@@ -8958,7 +8958,7 @@ float player::fine_detail_vision_mod()
         return 1.5;
     }
     // flashlight is handled by the light level check below
-    if (g->u.has_active_item("lightstrip"))
+    if (has_active_item("lightstrip"))
     {
         return 1;
     }
@@ -8971,9 +8971,9 @@ float player::fine_detail_vision_mod()
     if (g->m.light_at(posx, posy) == LL_LOW) { vision_ii = 4; }
     else if (g->m.light_at(posx, posy) == LL_DARK) { vision_ii = 5; }
 
-    if (g->u.has_item_with_flag("LIGHT_2")){
+    if (has_item_with_flag("LIGHT_2")){
         vision_ii -= 2;
-    } else if (g->u.has_item_with_flag("LIGHT_1")){
+    } else if (has_item_with_flag("LIGHT_1")){
         vision_ii -= 1;
     }
 
@@ -9963,7 +9963,7 @@ void player::environmental_revert_effect()
     morale.clear();
 
     for (int part = 0; part < num_hp_parts; part++) {
-        g->u.hp_cur[part] = g->u.hp_max[part];
+        hp_cur[part] = hp_max[part];
     }
     hunger = 0;
     thirst = 0;

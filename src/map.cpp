@@ -211,7 +211,7 @@ void map::board_vehicle(int x, int y, player *p)
  }
 
  const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE);
- if (part < 0) {
+ if (seat_part < 0) {
   debugmsg ("map::board_vehicle: boarding %s (not boardable)",
             veh->part_info(part).name.c_str());
   return;
@@ -244,7 +244,7 @@ void map::unboard_vehicle(const int x, const int y)
   return;
  }
  const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE, false);
- if (part < 0) {
+ if (seat_part < 0) {
   debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
             veh->part_info(part).name.c_str());
   return;
@@ -412,7 +412,7 @@ void map::vehmove()
 {
     // give vehicles movement points
     {
-        VehicleList vehs = g->m.get_vehicles();
+        VehicleList vehs = get_vehicles();
         for(int v = 0; v < vehs.size(); ++v) {
             vehicle* veh = vehs[v].v;
             veh->gain_moves();
@@ -433,7 +433,7 @@ void map::vehmove()
 // proposal:
 //  move it at most, a tenth of a turn, and at least one square.
 bool map::vehproceed(){
-    VehicleList vehs = g->m.get_vehicles();
+    VehicleList vehs = get_vehicles();
     vehicle* veh = NULL;
     float max_of_turn = 0;
     int x; int y;
@@ -751,7 +751,7 @@ bool map::vehproceed(){
                     g->add_msg(_("%s is hurled from the %s's seat by the power of the impact!"),
                                psg->name.c_str(), veh->name.c_str());
                 }
-                g->m.unboard_vehicle(x + veh->parts[ppl[ps]].precalc_dx[0],
+                unboard_vehicle(x + veh->parts[ppl[ps]].precalc_dx[0],
                                      y + veh->parts[ppl[ps]].precalc_dy[0]);
                 g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
                                            (vel1 - psg->str_cur < 10 ? 10 :
@@ -1657,10 +1657,10 @@ void map::destroy(const int x, const int y, const bool makesound)
   for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++) {
     if (one_in(2)) {
-      if (!g->m.has_flag("NOITEM", x, y)) {
-       if (!(g->m.field_at(i, j).findField(fd_rubble))) {
-        g->m.add_field(i, j, fd_rubble, rng(1,3));
-        g->m.field_effect(i, j);
+      if (!has_flag("NOITEM", x, y)) {
+       if (!(field_at(i, j).findField(fd_rubble))) {
+        add_field(i, j, fd_rubble, rng(1,3));
+        field_effect(i, j);
        }
       }
     }
@@ -1704,10 +1704,10 @@ void map::destroy(const int x, const int y, const bool makesound)
   for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++) {
     if (one_in(2)) {
-      if (!g->m.has_flag("NOITEM", x, y)) {
-       if (!(g->m.field_at(i, j).findField(fd_rubble))) {
-        g->m.add_field(i, j, fd_rubble, rng(1,3));
-        g->m.field_effect(i, j);
+      if (!has_flag("NOITEM", x, y)) {
+       if (!(field_at(i, j).findField(fd_rubble))) {
+        add_field(i, j, fd_rubble, rng(1,3));
+        field_effect(i, j);
       }
       }
     }
@@ -3550,7 +3550,7 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
 }
 
 bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
-                     const int range, const int cost_min, const int cost_max, int &tc)
+                     const int range, const int cost_min, const int cost_max, int &tc) const
 {
  const int dx = Tx - Fx;
  const int dy = Ty - Fy;
@@ -3617,9 +3617,9 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
 bool map::accessable_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
 {
     int junk = 0;
-    return g->m.has_flag("SEALED", Tx, Ty) ||
+    return has_flag("SEALED", Tx, Ty) ||
         ((Fx != Tx || Fy != Ty) &&
-         !g->m.clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
+         !clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
 }
 
 // Bash defaults to true.

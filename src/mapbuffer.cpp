@@ -433,7 +433,6 @@ void mapbuffer::unserialize(std::ifstream & fin) {
    } else if (string_identifier == "V") {
     vehicle * veh = new vehicle();
     veh->load (fin);
-    g->m.vehicle_list.insert(veh);
     sm->vehicles.push_back(veh);
    } else if (string_identifier == "c") {
     getline(fin, databuff);
