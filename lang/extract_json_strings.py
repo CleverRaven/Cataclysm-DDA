@@ -41,6 +41,7 @@ automatically_convertible = {
     "AMMO",
     "ARMOR",
     "bionic",
+    "BIONIC_ITEM",
     "BOOK",
     "COMESTIBLE",
     "construction",
@@ -65,6 +66,7 @@ automatically_convertible = {
     "TOOL",
     "trap",
     "tutorial_messages",
+    "VAR_VEH_PART",
     "vehicle_part",
     "vehicle",
 }
