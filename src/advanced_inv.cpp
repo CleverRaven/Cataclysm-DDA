@@ -798,7 +798,7 @@ void advanced_inventory::display(player * pp)
             c = (char)'0';
         }
 
-        if(c == 'a') {
+        if(c == 'A') {
             c = (char)'a';
         }
 
