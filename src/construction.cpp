@@ -543,46 +543,33 @@ void construct::done_trunk_plank(point p)
 }
 
 
-void construct::done_vehicle(point p)
+static void make_vehicle(point p, std::string frame_type)
 {
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
-    if(name.empty())
-    {
+    if(name.empty()) {
         name = _("Car");
     }
 
-    vehicle *veh = g->m.add_vehicle ("custom", p.x, p.y, 270, 0, 0);
-    if (!veh)
-    {
+    vehicle *veh = g->m.add_vehicle (frame_type, p.x, p.y, 270, 0, 0);
+    if (!veh) {
         debugmsg ("error constructing vehicle");
         return;
     }
     veh->name = name;
 
-    //Update the vehicle cache immediately, or the vehicle will be invisible for the first couple of turns.
+    // Update the vehicle cache immediately,
+    // or the vehicle will be invisible for the first couple of turns.
     g->m.update_vehicle_cache(veh, true);
+}
 
+void construct::done_vehicle(point p)
+{
+    make_vehicle( p, "custom" );
 }
 
 void construct::done_vehicle_hd(point p)
 {
-    std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
-    if(name.empty())
-    {
-        name = _("Car");
-    }
-
-    vehicle *veh = g->m.add_vehicle ("custom_hd", p.x, p.y, 270, 0, 0);
-    if (!veh)
-    {
-        debugmsg ("error constructing vehicle");
-        return;
-    }
-    veh->name = name;
-
-    //Update the vehicle cache immediately, or the vehicle will be invisible for the first couple of turns.
-    g->m.update_vehicle_cache(veh, true);
-
+    make_vehicle( p, "custom_hd" );
 }
 
 void construct::done_deconstruct(point p)
