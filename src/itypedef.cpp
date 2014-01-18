@@ -4,22 +4,6 @@
 #include "monstergenerator.h"
 #include <fstream>
 
-// Armor colors
-#define C_SHOES  c_blue
-#define C_PANTS  c_brown
-#define C_BODY   c_yellow
-#define C_TORSO  c_ltred
-#define C_ARMS   c_blue
-#define C_GLOVES c_ltblue
-#define C_MOUTH  c_white
-#define C_EYES   c_cyan
-#define C_HAT    c_dkgray
-#define C_STORE  c_green
-#define C_DECOR  c_ltgreen
-
-// Special function for setting melee techniques
-#define TECH(id, t) itypes[id]->techniques = t
-
 std::vector<std::string> artifact_itype_ids;
 std::vector<std::string> standard_itype_ids;
 
