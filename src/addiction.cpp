@@ -277,6 +277,9 @@ add_type addiction_type(std::string name)
     } else if (name == "mutagen") {
         return ADD_MUTAGEN;
     } else {
+        if (name != "none") {
+            debugmsg("unknown addiction type: %s. For no addictive potential, use \"none\"", name.c_str());
+        }
         return ADD_NULL;
     }
 }
