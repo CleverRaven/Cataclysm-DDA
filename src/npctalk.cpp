@@ -90,6 +90,10 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
                                  ret.back().text = txt;\
                                  ret.back().skill = skillIn;
 
+#define SELECT_STYLE(txt, styleIn)  ret.push_back(talk_response());\
+                                 ret.back().text = txt;\
+                                 ret.back().style = styleIn;
+
 #define TRIAL(tr, diff) ret.back().trial = tr;\
                         ret.back().difficulty = diff
 
@@ -575,7 +579,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
   if (g->u.backlog.type == ACT_TRAIN)
    return _("Shall we resume?");
   std::vector<Skill*> trainable = p->skills_offered_to( &(g->u) );
-  std::vector<itype_id> styles = p->styles_offered_to( &(g->u) );
+  std::vector<matype_id> styles = p->styles_offered_to( &(g->u) );
   if (trainable.empty() && styles.empty())
    return _("Sorry, but it doesn't seem I have anything to teach you.");
   else
@@ -1108,16 +1112,20 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
 
  case TALK_TRAIN: {
   if (g->u.backlog.type == ACT_TRAIN) {
-   std::stringstream resume;
-   resume << _("Yes, let's resume training ") <<
-             (g->u.backlog.name != "" ?
-              Skill::skill(g->u.backlog.name)->name() :
-              itypes[ martial_arts_itype_ids[0-g->u.backlog.index] ]->name);
-   SELECT_TEMP( resume.str(), g->u.backlog.index);
+    std::stringstream resume;
+    resume << _("Yes, let's resume training ");
+    Skill *skillt = Skill::skill(g->u.backlog.name);
+    if(skillt == NULL) {
+        resume << martialarts[g->u.backlog.name].name;
+        SELECT_STYLE(resume.str(), g->u.backlog.name);
+    } else {
+        resume << skillt->name();
+        SELECT_SKIL(resume.str(), skillt);
+    }
     SUCCESS(TALK_TRAIN_START);
   }
+  std::vector<matype_id> styles = p->styles_offered_to( &(g->u) );
   std::vector<Skill*> trainable = p->skills_offered_to( &(g->u) );
-  std::vector<itype_id> styles = p->styles_offered_to( &(g->u) );
   if (trainable.empty() && styles.empty()) {
    RESPONSE(_("Oh, okay.")); // Nothing to learn here
     SUCCESS(TALK_NONE);
@@ -1131,7 +1139,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    printed++;
    Skill* trained = trainable[i];
    SELECT_SKIL(
-    string_format(_("%s: %d ->  (cost %d)"), trained->name().c_str(), static_cast<int>(g->u.skillLevel(trained)), g->u.skillLevel(trained) + 1, 200 * (g->u.skillLevel(trained) + 1)),
+    string_format(_("%s: %d -> %d (cost %d)"), trained->name().c_str(), static_cast<int>(g->u.skillLevel(trained)), g->u.skillLevel(trained) + 1, 200 * (g->u.skillLevel(trained) + 1)),
     trainable[i] );
     SUCCESS(TALK_TRAIN_START);
   }
@@ -1139,8 +1147,9 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    shift = 0;
   for (int i = 0; i < styles.size() && printed < 9; i++) {
    printed++;
-   SELECT_TEMP( string_format(_("%s (cost 800)"), itypes[styles[i]]->name.c_str()) ,
-                0 - i );
+   SELECT_STYLE(
+    string_format(_("%s (cost 800)"), martialarts[styles[i]].name.c_str()),
+    styles[i] );
     SUCCESS(TALK_TRAIN_START);
   }
   if (more) {
@@ -1882,14 +1891,17 @@ void talk_function::start_training(npc *p)
 {
  int cost = 0, time = 0;
  Skill* sk_used = NULL;
+ std::string name;
  if (p->chatbin.skill == NULL) {
   // we're training a martial art style
   cost = -800;
   time = 30000;
+  name = p->chatbin.style;
  } else {
    sk_used = p->chatbin.skill;
    cost = -200 * (1 + g->u.skillLevel(sk_used));
    time = 10000 + 5000 * g->u.skillLevel(sk_used);
+   name = p->chatbin.skill->ident();
  }
 
 // Pay for it
@@ -1898,7 +1910,7 @@ void talk_function::start_training(npc *p)
  else if (!trade(p, cost, _("Pay for training:")))
   return;
 // Then receive it
- g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue, 0, p->chatbin.skill->ident());
+ g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue, 0, name);
 }
 
 void parse_tags(std::string &phrase, player *u, npc *me)
@@ -2092,6 +2104,8 @@ talk_topic dialogue::opt(talk_topic topic)
   beta->chatbin.tempvalue = chosen.tempvalue;
  if (chosen.skill != NULL)
   beta->chatbin.skill = chosen.skill;
+ if (!chosen.style.empty())
+  beta->chatbin.style = chosen.style;
 
  talk_function effect;
  if (chosen.trial == TALK_TRIAL_NONE ||

@@ -892,7 +892,6 @@ void Item_factory::clear_items_and_groups()
     // These containers are defined in itypedef.cpp
     // and initialzed there.
     // There are updated here when an item type is loaded
-    martial_arts_itype_ids.clear();
     artifact_itype_ids.clear();
     standard_itype_ids.clear();
     itypes.clear();

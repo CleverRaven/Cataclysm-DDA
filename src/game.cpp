@@ -1296,14 +1296,21 @@ void game::process_activity()
    case ACT_TRAIN:
     {
     Skill* skill = Skill::skill(u.activity.name);
-    int new_skill_level = u.skillLevel(skill) + 1;
-    u.skillLevel(skill).level(new_skill_level);
-    add_msg(_("You finish training %s to level %d."),
+    if (skill == NULL) {
+        // Trained martial arts,
+        add_msg(_("You learn %s."), martialarts[u.activity.name].name.c_str());
+        u.add_memorial_log(_("Learned %s."), martialarts[u.activity.name].name.c_str()),
+        u.ma_styles.push_back(u.activity.name);
+    } else {
+        int new_skill_level = u.skillLevel(skill) + 1;
+        u.skillLevel(skill).level(new_skill_level);
+        add_msg(_("You finish training %s to level %d."),
             skill->name().c_str(),
             new_skill_level);
-    if(new_skill_level % 4 == 0) {
-      u.add_memorial_log(_("Reached skill level %d in %s."),
-                     new_skill_level, skill->name().c_str());
+        if(new_skill_level % 4 == 0) {
+            u.add_memorial_log(_("Reached skill level %d in %s."),
+                new_skill_level, skill->name().c_str());
+        }
     }
     }
 
@@ -10870,15 +10877,11 @@ void game::unload(int pos)
     {
         item ite;
         if (pos == -1) { // item is wielded as weapon.
-            if (std::find(martial_arts_itype_ids.begin(), martial_arts_itype_ids.end(), u.weapon.type->id) != martial_arts_itype_ids.end()){
-                return; //ABORT!
-            } else {
-                ite = u.weapon;
-                u.weapon = item(itypes["null"], 0); //ret_null;
-                unload(ite);
-                u.weapon = ite;
-                return;
-            }
+            ite = u.weapon;
+            u.weapon = item(itypes["null"], 0); //ret_null;
+            unload(ite);
+            u.weapon = ite;
+            return;
         } else { //this is that opportunity for reselection where the original container is worn, see issue #808
             item& itm = u.i_at(pos);
             if (!itm.is_null())
