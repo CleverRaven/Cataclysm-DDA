@@ -3011,7 +3011,7 @@
         "id" : "THRESH_SLIME",
         "name" : "Aqueous",
         "points" : 1,
-        "description" : "What was that old advertisment, 'paint the planet'? That might be a good long-term goal, but for now...",
+        "description" : "What was that old advertisement, 'paint the planet'? That might be a good long-term goal, but for now...",
         "valid": false,
         "purifiable": false,
         "threshold": true
@@ -3074,7 +3074,7 @@
         "id" : "THRESH_ELFA",
         "name" : "Fey",
         "points" : 1,
-        "description" : "You are the tree under which humankind wil shelter during these dark times.",
+        "description" : "You are the tree under which humankind will shelter during these dark times.",
         "valid": false,
         "purifiable": false,
         "threshold": true
