@@ -23,7 +23,6 @@
 std::vector<std::string> martial_arts_itype_ids;
 std::vector<std::string> artifact_itype_ids;
 std::vector<std::string> standard_itype_ids;
-std::vector<std::string> pseudo_itype_ids;
 
 std::map<std::string, itype*> itypes;
 
@@ -100,7 +99,7 @@ STATIONARY("flyer", _("flyer"), 1, "flier", _("A scrap of paper."));
 // Finally, add all the keys from the map to a vector of all possible items
 for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes.end(); ++iter){
     if(iter->first == "null" || iter->first == "corpse" || iter->first == "toolset" || iter->first == "fire" || iter->first == "apparatus"){
-        pseudo_itype_ids.push_back(iter->first);
+        // pseudo item, do not add to standard_itype_ids
     } else {
         standard_itype_ids.push_back(iter->first);
     }

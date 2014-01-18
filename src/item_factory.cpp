@@ -895,7 +895,6 @@ void Item_factory::clear_items_and_groups()
     martial_arts_itype_ids.clear();
     artifact_itype_ids.clear();
     standard_itype_ids.clear();
-    pseudo_itype_ids.clear();
     itypes.clear();
 
     // Recreate this entry, now we are in the same state as
