@@ -1209,7 +1209,8 @@
       ["gum", 30],
       ["caff_gum", 10],
       ["sm_extinguisher", 10],
-      ["nic_gum", 2]
+      ["nic_gum", 2],
+	  ["razor_blade", 3]
     ]
   },{
     "type" : "item_group",
@@ -1447,7 +1448,8 @@
       ["lye_powder", 5],
       ["oxy_powder", 5],
       ["boots_rubber", 20],
-      ["charcoal", 5]
+      ["charcoal", 5],
+	  ["soap", 20]
     ]
   },{
     "type" : "item_group",
@@ -1806,7 +1808,8 @@
       ["signal_flare", 25],
       ["airhorn", 20],
       ["charcoal", 20],
-      ["leathersandals", 10]
+      ["leathersandals", 10],
+	  ["razor_blade", 9]
     ]
   },{
     "type" : "item_group",
@@ -2048,7 +2051,8 @@
       ["30gal_drum", 2],
       ["creepy_doll", 1],
       ["striped_shirt", 1],
-      ["striped_pants", 1]
+      ["striped_pants", 1],
+	  ["razor_blade", 10]
     ]
   },{
     "type" : "item_group",
@@ -2978,7 +2982,7 @@
       ["mag_stabbing", 20],
       ["mag_melee", 10],
       ["mag_traps", 10],
-      ["mp3", 15],
+      ["mp3", 9],
       ["cell_phone", 20],
       ["pda", 10],
       ["gold_watch", 5],
@@ -2995,10 +2999,20 @@
       ["switchblade", 4],
       ["blowgun", 4],
       ["dart", 4],
-      ["hatchet", 1],
       ["throwing_knife", 5],
-      ["throwing_axe", 1],
-      ["tazer", 1]
+      ["tazer", 1],
+	  ["cig", 30],
+	  ["rope_6", 5],
+	  ["rope_30", 2],
+	  ["duct_tape", 10],
+	  ["battery", 15],
+	  ["matches", 10],
+	  ["gum", 10],
+	  ["cable", 5],
+	  ["panties", 2],
+	  ["sharp_toothbrush", 10],
+	  ["razor_blade", 20],
+	  ["soap", 5]
     ]
   },{
     "type" : "item_group",
@@ -3855,7 +3869,8 @@
       ["bagh_nakha", 2],
       ["leathersandals", 10],
       ["maid_dress", 3],
-      ["maid_hat", 3]
+      ["maid_hat", 3],
+	  ["razor_blade", 6]
     ]
   },{
     "type" : "item_group",
@@ -4024,7 +4039,8 @@
       ["flaregun", 5],
       ["signal_flare", 10],
       ["survivormap", 1],
-      ["pur_tablets", 5]
+      ["pur_tablets", 5],
+	  ["razor_blade", 5]
     ]
   },{
     "type" : "item_group",
