@@ -10200,8 +10200,8 @@ void game::plthrow(int pos)
   return;
  }
  item thrown = u.i_at(pos);
-  if( std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(),
-    thrown.type->id) != unreal_itype_ids.end()) {
+ if (pos == -1 && thrown.has_flag("NO_UNWIELD")) {
+  // pos == -1 is the weapon, NO_UNWIELD is used for bio_claws_weapon
   add_msg(_("That's part of your body, you can't throw that!"));
   return;
  }
