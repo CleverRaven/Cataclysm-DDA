@@ -382,10 +382,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("BASE", _("Moves per attack: "), "", attack_time(), true, "", true, true));
 
 	if (get_material(1) != "null") {
-		std::string material_string = _(get_material(1).c_str());
+		std::string material_string = material_type::find_material(get_material(1))->name();
 		if (get_material(2) != "null") {
 			material_string += ", ";
-			material_string += _(get_material(2).c_str());
+			material_string += material_type::find_material(get_material(2))->name();
 		}
 		dump->push_back(iteminfo("BASE", _("Material: ") + material_string));
 	}
