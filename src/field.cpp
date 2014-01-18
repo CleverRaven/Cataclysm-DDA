@@ -159,7 +159,7 @@ void game::init_fields()
         },
 
         { // plasma glow (for plasma weapons)
-            {_("faint plasma"), _("glowing plasma"), _("burning plasma")}, '9', 4,
+            {_("faint plasma"), _("glowing plasma"), _("glaring plasma")}, '9', 4,
             {c_magenta, c_pink, c_white}, {true, true, true}, {false, false, false}, 2,
             {0,0,0}
         },

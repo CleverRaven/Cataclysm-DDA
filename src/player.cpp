@@ -560,6 +560,11 @@ void player::apply_persistent_morale()
             if(worn[i].has_flag(bonus_flag)) {
               bonus+=2;
             }
+            if ((!(worn[i].has_flag(bonus_flag))) && (worn[i].has_flag(basic_flag))) {
+                if (!covered) {
+                    bonus += 1;
+                }
+            }
         }
         if(covered & mfb(bp_torso)) {
             bonus += 6;
@@ -3924,18 +3929,18 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
     bool u_see = g->u_see(this);
     if (is_player())
     {
-        if (g->u.activity.type == ACT_RELOAD)
+        if (activity.type == ACT_RELOAD)
         {
             g->add_msg(_("You stop reloading."));
         }
-        else if (g->u.activity.type == ACT_READ)
+        else if (activity.type == ACT_READ)
         {
             g->add_msg(_("You stop reading."));
         }
-        else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
+        else if (activity.type == ACT_CRAFT || activity.type == ACT_LONGCRAFT)
         {
             g->add_msg(_("You stop crafting."));
-            g->u.activity.type = ACT_NULL;
+            activity.type = ACT_NULL;
         }
     }
     if (source != NULL) {
@@ -3959,12 +3964,12 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             if (!is_player()) {
                 if( u_see ) {
                     g->add_msg(_("%1$s's %2$s puncture %s in mid-attack!"), name.c_str(),
-                                (g->u.has_trait("QUILLS") ? _("quills") : _("spines")),
+                                (has_trait("QUILLS") ? _("quills") : _("spines")),
                                 source->disp_name().c_str());
                 }
             } else {
                 g->add_msg(_("Your %s puncture %s in mid-attack!"),
-                            (g->u.has_trait("QUILLS") ? _("quills") : _("spines")),
+                            (has_trait("QUILLS") ? _("quills") : _("spines")),
                             source->disp_name().c_str());
             }
             damage_instance spine_damage;
@@ -6817,6 +6822,7 @@ bool player::consume(int pos)
         return false;
     }
 
+    int amount_used = 1;
     bool was_consumed = false;
     if (comest != NULL) {
         if (comest->comesttype == "FOOD" || comest->comesttype == "DRINK") {
@@ -6841,8 +6847,8 @@ bool player::consume(int pos)
             }
             if (comest->use != &iuse::none) {
                 //Check special use
-                int was_used = comest->use.call(this, to_eat, false);
-                if( was_used == 0 ) {
+                amount_used = comest->use.call(this, to_eat, false);
+                if( amount_used == 0 ) {
                     return false;
                 }
             }
@@ -6892,7 +6898,7 @@ bool player::consume(int pos)
     }
 
     // Actions after consume
-    to_eat->charges--;
+    to_eat->charges -= amount_used;
     if (to_eat->charges <= 0) {
         if (which == -1) {
             weapon = ret_null;
@@ -8661,24 +8667,21 @@ hint_rating player::rate_action_read(item *it)
 void player::read(int pos)
 {
     vehicle *veh = g->m.veh_at (posx, posy);
-    if (veh && veh->player_in_control (this))
-    {
+    if (veh && veh->player_in_control (this)) {
         g->add_msg(_("It's a bad idea to read while driving!"));
         return;
     }
 
     // Check if reading is okay
     // check for light level
-    if (fine_detail_vision_mod() > 4)//minimum LL_LOW or LL_DARK + (ELFA_NV or atomic_light)
-    {
+    if (fine_detail_vision_mod() > 4) { //minimum LL_LOW or LL_DARK + (ELFA_NV or atomic_light)
         g->add_msg(_("You can't see to read!"));
         return;
     }
 
     // check for traits
-    if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
-        && !is_wearing("glasses_bifocal") && !has_disease("contacts"))
-    {
+    if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading") &&
+        !is_wearing("glasses_bifocal") && !has_disease("contacts")) {
         g->add_msg(_("Your eyes won't focus without reading glasses."));
         return;
     }
@@ -8686,39 +8689,32 @@ void player::read(int pos)
     // Find the object
     int index = -1;
     item* it = NULL;
-    if (pos == -1)
-    {
+    if (pos == -1) {
         index = -2;
         it = &weapon;
-    }
-    else
-    {
+    } else {
         it = &inv.find_item(pos);
     }
 
-    if (it == NULL || it->is_null())
-    {
+    if (it == NULL || it->is_null()) {
         g->add_msg(_("You do not have that item."));
         return;
     }
 
 // Some macguffins can be read, but they aren't treated like books.
     it_macguffin* mac = NULL;
-    if (it->is_macguffin())
-    {
+    if (it->is_macguffin()) {
         mac = dynamic_cast<it_macguffin*>(it->type);
     }
-    if (mac != NULL)
-    {
+    if (mac != NULL) {
         mac->use.call(this, it, false);
         return;
     }
 
-    if (!it->is_book())
-    {
+    if (!it->is_book()) {
         g->add_msg(_("Your %s is not good reading material."),
         it->tname().c_str());
-    return;
+        return;
     }
 
     it_book* tmp = dynamic_cast<it_book*>(it->type);
@@ -8727,9 +8723,7 @@ void player::read(int pos)
     if (tmp->intel > 0 && has_trait("ILLITERATE")) {
         g->add_msg(_("You're illiterate!"));
         return;
-    }
-    else if (tmp->type == NULL)
-    {
+    } else if (tmp->type == NULL) {
         // special guidebook effect: print a misc. hint when read
         if (tmp->id == "guidebook") {
             g->add_msg(get_hint().c_str());
@@ -8737,38 +8731,27 @@ void player::read(int pos)
             return;
         }
         // otherwise do nothing as there's no associated skill
-    }
-    else if (skillLevel(tmp->type) < (int)tmp->req)
-    {
+    } else if (skillLevel(tmp->type) < (int)tmp->req) {
         g->add_msg(_("The %s-related jargon flies over your head!"),
-         tmp->type->name().c_str());
-        if (tmp->recipes.empty())
-        {
+                   tmp->type->name().c_str());
+        if (tmp->recipes.empty()) {
             return;
-        }
-        else
-        {
+        } else {
             g->add_msg(_("But you might be able to learn a recipe or two."));
         }
-    }
-    else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) // See morale.h
-    {
+    } else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) { // See morale.h
         g->add_msg(_("What's the point of reading?  (Your morale is too low!)"));
         return;
-    }
-    else if (skillLevel(tmp->type) >= (int)tmp->level && !can_study_recipe(tmp) &&
-            !query_yn(_(tmp->fun > 0 ? "It would be fun, but your %s skill won't be improved.  Read anyway?"
-                        : "Your %s skill won't be improved.  Read anyway?"),
-                      tmp->type->name().c_str()))
-    {
+    } else if (skillLevel(tmp->type) >= (int)tmp->level && !can_study_recipe(tmp) &&
+               !query_yn(_(tmp->fun > 0 ?
+                           "It would be fun, but your %s skill won't be improved.  Read anyway?"
+                           : "Your %s skill won't be improved.  Read anyway?"),
+                         tmp->type->name().c_str())) {
         return;
-    }
-    else if (!activity.continuous && !query_yn("Study %s?", tmp->type->name().c_str()))
-    {
+    } else if (!activity.continuous && !query_yn("Study %s until you learn something? (gain a level)",
+                                                 tmp->type->name().c_str())) {
         study = false;
-    }
-    else
-    {
+    } else {
         //If we just started studying, tell the player how to stop
         if(!activity.continuous) {
             g->add_msg(_("Now studying %s, %s to stop early."),
@@ -8777,28 +8760,22 @@ void player::read(int pos)
         study = true;
     }
 
-    if (!tmp->recipes.empty() && !(activity.continuous))
-    {
-        if (can_study_recipe(tmp))
-        {
+    if (!tmp->recipes.empty() && !(activity.continuous)) {
+        if (can_study_recipe(tmp)) {
             g->add_msg(_("This book has more recipes for you to learn."));
-        }
-        else if (studied_all_recipes(tmp))
-        {
+        } else if (studied_all_recipes(tmp)) {
             g->add_msg(_("You know all the recipes this book has to offer."));
-        }
-        else
-        {
+        } else {
             g->add_msg(_("This book has more recipes, but you don't have the skill to learn them yet."));
         }
     }
 
  // Base read_speed() is 1000 move points (1 minute per tmp->time)
     time = tmp->time * read_speed() * (fine_detail_vision_mod());
-    if (tmp->intel > int_cur)
-    {
+    if (tmp->intel > int_cur) {
         g->add_msg(_("This book is too complex for you to easily understand. It will take longer to read."));
-        time += (tmp->time * (tmp->intel - int_cur) * 100); // Lower int characters can read, at a speed penalty
+        // Lower int characters can read, at a speed penalty
+        time += (tmp->time * (tmp->intel - int_cur) * 100);
     }
 
     activity = player_activity(ACT_READ, time, index, pos, "");
@@ -8808,17 +8785,15 @@ void player::read(int pos)
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
     // away while you read more.
     int minutes = time / 1000;
-    add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false,
-               tmp);
+    add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, tmp);
 }
 
 bool player::can_study_recipe(it_book* book)
 {
-    for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter)
-    {
+    for (std::map<recipe*, int>::iterator iter = book->recipes.begin();
+         iter != book->recipes.end(); ++iter) {
         if (!knows_recipe(iter->first) &&
-            (iter->first->skill_used == NULL || skillLevel(iter->first->skill_used) >= iter->second))
-        {
+            (iter->first->skill_used == NULL || skillLevel(iter->first->skill_used) >= iter->second)) {
             return true;
         }
     }
@@ -8827,10 +8802,9 @@ bool player::can_study_recipe(it_book* book)
 
 bool player::studied_all_recipes(it_book* book)
 {
-    for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter)
-    {
-        if (!knows_recipe(iter->first))
-        {
+    for (std::map<recipe*, int>::iterator iter = book->recipes.begin();
+         iter != book->recipes.end(); ++iter) {
+        if (!knows_recipe(iter->first)) {
             return false;
         }
     }
@@ -8839,20 +8813,18 @@ bool player::studied_all_recipes(it_book* book)
 
 bool player::try_study_recipe(it_book *book)
 {
-    for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter)
-    {
+    for (std::map<recipe*, int>::iterator iter = book->recipes.begin();
+         iter != book->recipes.end(); ++iter) {
         if (!knows_recipe(iter->first) &&
-            (iter->first->skill_used == NULL || skillLevel(iter->first->skill_used) >= iter->second))
-        {
-            if (iter->first->skill_used == NULL || rng(0, 4) <= skillLevel(iter->first->skill_used) - iter->second)
-            {
+            (iter->first->skill_used == NULL ||
+             skillLevel(iter->first->skill_used) >= iter->second)) {
+            if (iter->first->skill_used == NULL ||
+                rng(0, 4) <= skillLevel(iter->first->skill_used) - iter->second) {
                 learn_recipe(iter->first);
                 g->add_msg(_("Learned a recipe for %s from the %s."),
                            itypes[iter->first->result]->name.c_str(), book->name.c_str());
                 return true;
-            }
-            else
-            {
+            } else {
                 g->add_msg(_("Failed to learn a recipe from the %s."), book->name.c_str());
                 return false;
             }
@@ -8987,7 +8959,7 @@ float player::fine_detail_vision_mod()
         return 1.5;
     }
     // flashlight is handled by the light level check below
-    if (g->u.has_active_item("lightstrip"))
+    if (has_active_item("lightstrip"))
     {
         return 1;
     }
@@ -9000,9 +8972,9 @@ float player::fine_detail_vision_mod()
     if (g->m.light_at(posx, posy) == LL_LOW) { vision_ii = 4; }
     else if (g->m.light_at(posx, posy) == LL_DARK) { vision_ii = 5; }
 
-    if (g->u.has_item_with_flag("LIGHT_2")){
+    if (has_item_with_flag("LIGHT_2")){
         vision_ii -= 2;
-    } else if (g->u.has_item_with_flag("LIGHT_1")){
+    } else if (has_item_with_flag("LIGHT_1")){
         vision_ii -= 1;
     }
 
@@ -9992,7 +9964,7 @@ void player::environmental_revert_effect()
     morale.clear();
 
     for (int part = 0; part < num_hp_parts; part++) {
-        g->u.hp_cur[part] = g->u.hp_max[part];
+        hp_cur[part] = hp_max[part];
     }
     hunger = 0;
     thirst = 0;

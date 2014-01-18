@@ -419,12 +419,20 @@ your inventory, or will be dropped on the ground if there is no space.\n\
 \n\
 To wear a piece of clothing, %s then the proper letter. Armor reduces\n\
 damage and helps you resist things like smoke. To take off an item, %s\n\
-then the proper letter."),
+then the proper letter.\n\
+\n\
+Also available in the %s nearby items menu is the ability to filter or \n\
+prioritize items. You can enter item names, or various advanced filter \n\
+strings: {<token>:<search param>}\n\
+Currently Available tokens:\n\
+\tc = category (books, food, etc) | {c:books}\n\
+\tm = material (cotton, kevlar, etc) | {m:iron}\n\
+\tdgt = damage greater than (0-5 | {dgt:2})\n\
+\tdlt = damage less than (0-5) | {dlt:1}"),
             from_sentence_case(press_x(ACTION_WIELD)).c_str(),
             from_sentence_case(press_x(ACTION_WEAR)).c_str(),
-            from_sentence_case(press_x(ACTION_TAKE_OFF)).c_str()/*,
-            press_x(ACTION_SORT_ARMOR).c_str(),
-            press_x(ACTION_PICK_STYLE).c_str()*/);
+            from_sentence_case(press_x(ACTION_TAKE_OFF)).c_str(),
+            press_x(ACTION_LIST_ITEMS, _("view")).c_str());
             wrefresh(w_help);
             refresh();
             getch();

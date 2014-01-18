@@ -394,38 +394,42 @@ void game::init_ui(){
     werase(w_status2);
 }
 
-void game::toggle_sidebar_style(void) {
-  narrow_sidebar = !narrow_sidebar;
-  init_ui();
-  refresh_all();
+void game::toggle_sidebar_style(void)
+{
+    narrow_sidebar = !narrow_sidebar;
+    init_ui();
+    refresh_all();
 }
 
-void game::toggle_fullscreen(void) {
+void game::toggle_fullscreen(void)
+{
 #ifndef TILES
-  if(TERMX > 121 || TERMY > 121) { return; }
-  fullscreen = !fullscreen;
-  init_ui();
-  refresh_all();
+    if(TERMX > 121 || TERMY > 121) { return; }
+    fullscreen = !fullscreen;
+    init_ui();
+    refresh_all();
 #endif
 }
 
 // temporarily switch out of fullscreen for functions that rely
 // on displaying some part of the sidebar
-void game::temp_exit_fullscreen(void) {
-  if(fullscreen) {
-    was_fullscreen = true;
-    toggle_fullscreen();
-  } else {
-    was_fullscreen = false;
-  }
+void game::temp_exit_fullscreen(void)
+{
+    if(fullscreen) {
+        was_fullscreen = true;
+        toggle_fullscreen();
+    } else {
+        was_fullscreen = false;
+    }
 }
 
-void game::reenter_fullscreen(void) {
-  if(was_fullscreen) {
-    if(!fullscreen) {
-      toggle_fullscreen();
+void game::reenter_fullscreen(void)
+{
+    if(was_fullscreen) {
+        if(!fullscreen) {
+            toggle_fullscreen();
+        }
     }
-  }
 }
 
 /*
@@ -561,60 +565,65 @@ void game::start_game(std::string worldname)
 
 void game::create_factions()
 {
- int num = dice(4, 3);
- faction tmp(0);
- tmp.make_army();
- factions.push_back(tmp);
- for (int i = 0; i < num; i++) {
-  tmp = faction(assign_faction_id());
-  tmp.randomize();
-  tmp.likes_u = 100;
-  tmp.respects_u = 100;
-  tmp.known_by_u = true;
-  factions.push_back(tmp);
- }
+    int num = dice(4, 3);
+    faction tmp(0);
+    tmp.make_army();
+    factions.push_back(tmp);
+    for (int i = 0; i < num; i++) {
+        tmp = faction(assign_faction_id());
+        tmp.randomize();
+        tmp.likes_u = 100;
+        tmp.respects_u = 100;
+        tmp.known_by_u = true;
+        factions.push_back(tmp);
+    }
 }
 
 //Make any nearby overmap npcs active, and put them in the right location.
 void game::load_npcs()
 {
-    for (int i = 0; i < cur_om->npcs.size(); i++)
-    {
+    for (int i = 0; i < cur_om->npcs.size(); i++) {
+        const int npc_offset = square_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
+                                           cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy);
+        if (npc_offset <= int(MAPSIZE / 2) + 1 && !cur_om->npcs[i]->is_active() &&
+            cur_om->npcs[i]->omz == levz) {
 
-        if (square_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
-              cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy) <=
-              int(MAPSIZE / 2) + 1 && !cur_om->npcs[i]->is_active() &&
-              cur_om->npcs[i]->omz == levz)
-        {
-            int dx = cur_om->npcs[i]->mapx - levx, dy = cur_om->npcs[i]->mapy - levy;
-            if (debugmon)debugmsg("game::load_npcs: Spawning static NPC, %d:%d (%d:%d)", levx, levy, cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy);
+            int dx = cur_om->npcs[i]->mapx - levx;
+            int dy = cur_om->npcs[i]->mapy - levy;
+            if (debugmon) {
+                debugmsg("game::load_npcs: Spawning static NPC, %d:%d (%d:%d)",
+                         levx, levy, cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy);
+            }
 
-            npc * temp = cur_om->npcs[i];
+            npc *temp = cur_om->npcs[i];
 
-            if (temp->posx == -1 || temp->posy == -1)
-            {
+            if (temp->posx == -1 || temp->posy == -1) {
                 dbg(D_ERROR) << "game::load_npcs: Static NPC with no fine location "
                     "data (" << temp->posx << ":" << temp->posy << ").";
-                debugmsg("game::load_npcs Static NPC with no fine location data (%d:%d) New loc data (%d:%d).",
+                debugmsg("game::load_npcs Static NPC with no fine location data "
+                         "(%d:%d) New loc data (%d:%d).",
                          temp->posx, temp->posy, SEEX * 2 * (temp->mapx - levx) + rng(0 - SEEX, SEEX),
                          SEEY * 2 * (temp->mapy - levy) + rng(0 - SEEY, SEEY));
                 temp->posx = SEEX * 2 * (temp->mapx - levx) + rng(0 - SEEX, SEEX);
                 temp->posy = SEEY * 2 * (temp->mapy - levy) + rng(0 - SEEY, SEEY);
             } else {
-                if (debugmon) debugmsg("game::load_npcs Static NPC fine location %d:%d (%d:%d)", temp->posx, temp->posy, temp->posx + dx * SEEX, temp->posy + dy * SEEY);
+                if (debugmon) debugmsg("game::load_npcs Static NPC fine location %d:%d (%d:%d)",
+                                       temp->posx, temp->posy, temp->posx + dx * SEEX,
+                                       temp->posy + dy * SEEY);
                 temp->posx += dx * SEEX;
                 temp->posy += dy * SEEY;
             }
 
-        //check if the loaded position doesn't already contain an object, monster or npc.
-        //If it isn't free, spiralsearch for a free spot.
-        temp->place_near(temp->posx, temp->posy);
+            //check if the loaded position doesn't already contain an object, monster or npc.
+            //If it isn't free, spiralsearch for a free spot.
+            temp->place_near(temp->posx, temp->posy);
 
-        //In the rare case the npc was marked for death while it was on the overmap. Kill it.
-        if (temp->marked_for_death)
-            temp->die(false);
-        else
-            active_npc.push_back(temp);
+            //In the rare case the npc was marked for death while it was on the overmap. Kill it.
+            if (temp->marked_for_death) {
+                temp->die(false);
+            } else {
+                active_npc.push_back(temp);
+            }
         }
     }
 }
@@ -631,10 +640,12 @@ void game::create_starting_npcs()
     tmp->place_near(SEEX * int(MAPSIZE / 2) + SEEX, SEEY * int(MAPSIZE / 2) + 6);
     tmp->form_opinion(&u);
     tmp->attitude = NPCATT_NULL;
-    tmp->mission = NPC_MISSION_SHELTER; //This sets the npc mission. This NPC remains in the shelter.
+    //This sets the npc mission. This NPC remains in the shelter.
+    tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = TALK_SHELTER;
+     //one random shelter mission.
     tmp->chatbin.missions.push_back(
-        reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp->getID()) ); //one random shelter mission/
+        reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp->getID()) );
 
     active_npc.push_back(tmp);
 }
@@ -667,13 +678,15 @@ void game::cleanup_at_end(){
         u.memorial_log.clear();
         std::vector<std::string> characters = list_active_characters();
         // remove current player from the active characters list, as they are dead
-        std::vector<std::string>::iterator curchar = std::find(characters.begin(), characters.end(), u.name);
+        std::vector<std::string>::iterator curchar = std::find(characters.begin(),
+                                                               characters.end(), u.name);
         if (curchar != characters.end()){
             characters.erase(curchar);
         }
         if (characters.empty()) {
             if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "yes" ||
-            (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "query" && query_yn(_("Delete saved world?")))) {
+                (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "query" &&
+                 query_yn(_("Delete saved world?")))) {
                 if (gamemode->id() == SGAME_NULL) {
                     delete_world(world_generator->active_world->world_name, false);
                 } else {
@@ -711,8 +724,9 @@ bool game::do_turn()
     turn.increment();
     process_events();
     process_missions();
-    if (turn.hours() == 0 && turn.minutes() == 0 && turn.seconds() == 0) // Midnight!
+    if (turn.hours() == 0 && turn.minutes() == 0 && turn.seconds() == 0) { // Midnight!
         cur_om->process_mongroups();
+    }
 
     // Check if we've overdosed... in any deadly way.
     if (u.stim > 250) {
@@ -724,11 +738,10 @@ bool game::do_turn()
         u.add_memorial_log(_("Died of a drug overdose."));
         u.hp_cur[hp_torso] = 0;
     } else if (u.has_disease("jetinjector") &&
-            u.disease_duration("jetinjector") > 400) {
-            if (!(u.has_trait("NOPAIN"))) {
-                add_msg(_("Your heart spasms painfully and stops."));
-            }
-        else { add_msg(_("Your heart spasms and stops.")); }
+               u.disease_duration("jetinjector") > 400) {
+        if (!(u.has_trait("NOPAIN"))) {
+            add_msg(_("Your heart spasms painfully and stops."));
+        } else { add_msg(_("Your heart spasms and stops.")); }
         u.add_memorial_log(_("Died of a healing stimulant overdose."));
         u.hp_cur[hp_torso] = 0;
     }
@@ -2684,10 +2697,7 @@ bool game::handle_action()
    break;
 
   case ACTION_DISASSEMBLE:
-   if (u.in_vehicle)
-    add_msg(_("You can't disassemble items while in vehicle."));
-   else
-    disassemble();
+   disassemble();
    break;
 
   case ACTION_CONSTRUCT:
@@ -7955,24 +7965,51 @@ point game::look_around()
  return point(-1, -1);
 }
 
-bool game::list_items_match(std::string sText, std::string sPattern)
+bool game::list_items_match(item &item, std::string sPattern)
 {
     size_t iPos;
+    bool hasExclude = false;
+
+    if(sPattern.find("-") != std::string::npos) {
+        hasExclude = true;
+    }
 
     do {
         iPos = sPattern.find(",");
+        std::string pat = (iPos == std::string::npos) ? sPattern : sPattern.substr(0, iPos);
+        bool exclude = false;
+        if (pat.substr(0, 1) == "-") {
+            exclude = true;
+            pat = pat.substr(1, pat.size() - 1);
+        } else if (hasExclude) {
+            hasExclude = false; //If there are non exclusive items to filter, we flip this back to false.
+        }
 
-        if (sText.find((iPos == std::string::npos) ? sPattern : sPattern.substr(0, iPos)) != std::string::npos) {
-            return true;
+        if (item.tname().find(pat) != std::string::npos) {
+            return !exclude;
+        }
+
+        if(pat.find("{",0) != std::string::npos) {
+            std::string adv_pat_type = pat.substr(1, pat.find(":")-1);
+            std::string adv_pat_search = pat.substr(pat.find(":")+1, (pat.find("}")-pat.find(":"))-1);
+            if(adv_pat_type == "c" && item.get_category().name.find(adv_pat_search,0) != std::string::npos) {
+                return !exclude;
+            } else if (adv_pat_type == "m" && item.made_of(adv_pat_search)) {
+                return !exclude;
+            } else if (adv_pat_type == "dgt" && item.damage > atoi(adv_pat_search.c_str())) {
+                return !exclude;
+            } else if (adv_pat_type == "dlt" && item.damage < atoi(adv_pat_search.c_str())) {
+                return !exclude;
+            }
         }
 
         if (iPos != std::string::npos) {
-            sPattern = sPattern.substr(iPos+1, sPattern.size());
+            sPattern = sPattern.substr(iPos + 1, sPattern.size());
         }
 
     } while(iPos != std::string::npos);
 
-    return false;
+    return hasExclude;
 }
 
 std::vector<map_item_stack> game::find_nearby_items(int iRadius)
@@ -8029,15 +8066,10 @@ std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack>
 
     std::string sFilterPre = "";
     std::string sFilterTemp = filter;
-    if (sFilterTemp != "" && filter.substr(0, 1) == "-") {
-        sFilterPre = "-";
-        sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
-    }
 
     for (std::vector<map_item_stack>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
         std::string name = iter->example.tname();
-        if (sFilterTemp == "" || ((sFilterPre != "-" && list_items_match(name, sFilterTemp)) ||
-                                  (sFilterPre == "-" && !list_items_match(name, sFilterTemp)))) {
+        if (sFilterTemp == "" || list_items_match(iter->example, sFilterTemp) ) {
             ret.push_back(*iter);
         }
     }
@@ -8051,16 +8083,56 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
                                                      ");
     }
 
-    mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to see"));
-    mvwprintz(window, 3, 2, c_white, "%s", _("nearby matching items."));
-    mvwprintz(window, 5, 2, c_white, "%s", _("Seperate multiple items with ,"));
-    mvwprintz(window, 6, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
-    //TODO: fix up the filter code so that "-" applies to each comma-separated bit
-    //or, failing that, make the description sound more like what the current behavior does
-    mvwprintz(window, 8, 2, c_white, "%s", _("To exclude items, place - in front"));
-    mvwprintz(window, 9, 2, c_white, "%s", _("Example: -pipe,chunk,steel"));
+    mvwprintz(window, 0, 2, c_white, "%s", _("Type part of an item's name to see"));
+    mvwprintz(window, 1, 2, c_white, "%s", _("nearby matching items."));
+    mvwprintz(window, 3, 2, c_white, "%s", _("Separate multiple items with ,"));
+    mvwprintz(window, 4, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
+
+    mvwprintz(window, 6, 2, c_white, "%s", _("To exclude items, place - in front"));
+    mvwprintz(window, 7, 2, c_white, "%s", _("Example: -pipe,chunk,steel"));
+
+    mvwprintz(window, 9, 2, c_white, "%s", _("Search [c]ategory or [m]aterial:"));
+    mvwprintz(window, 10, 2, c_white, "%s", _("Example: {c:food},{m:iron}"));
     wrefresh(window);
     return string_input_popup(_("Filter:"), 55, sFilter, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "item_filter", 256);
+}
+
+std::string game::ask_item_priority_high(WINDOW* window, int rows)
+{
+    for (int i = 0; i < rows-1; i++) {
+        mvwprintz(window, i, 1, c_black, "%s", "\
+                                                     ");
+    }
+
+    mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
+    mvwprintz(window, 3, 2, c_white, "%s", _("nearby items to the top."));
+
+    mvwprintz(window, 5, 2, c_white, "%s", _("Separate multiple items with ,"));
+    mvwprintz(window, 6, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
+
+    mvwprintz(window, 8, 2, c_white, "%s", _("Search [c]ategory or [m]aterial:"));
+    mvwprintz(window, 9, 2, c_white, "%s", _("Example: {c:food},{m:iron}"));
+    wrefresh(window);
+    return string_input_popup(_("High Priority:"), 55, list_item_upvote, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_priority", 256);
+}
+
+std::string game::ask_item_priority_low(WINDOW* window, int rows)
+{
+    for (int i = 0; i < rows-1; i++) {
+        mvwprintz(window, i, 1, c_black, "%s", "\
+                                                     ");
+    }
+
+    mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
+    mvwprintz(window, 3, 2, c_white, "%s", _("nearby items to the bottom."));
+
+    mvwprintz(window, 5, 2, c_white, "%s", _("Separate multiple items with ,"));
+    mvwprintz(window, 6, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
+
+    mvwprintz(window, 8, 2, c_white, "%s", _("Search [c]ategory or [m]aterial:"));
+    mvwprintz(window, 9, 2, c_white, "%s", _("Example: {c:food},{m:iron}"));
+    wrefresh(window);
+    return string_input_popup(_("Low Priority:"), 55, list_item_downvote, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_downvote", 256);
 }
 
 
@@ -8144,7 +8216,7 @@ int game::list_filter_high_priority(std::vector<map_item_stack> &stack, std::str
     std::vector<map_item_stack> tempstack; // temp
     for(int i = 0 ; i < stack.size() ; i++) {
         std::string name = stack[i].example.tname();
-        if(prorities == "" || !list_items_match(name,prorities)) {
+        if(prorities == "" || !list_items_match(stack[i].example,prorities)) {
             tempstack.push_back(stack[i]);
             stack.erase(stack.begin()+i);
             i--;
@@ -8163,7 +8235,7 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
     std::vector<map_item_stack> tempstack; // temp
     for(int i = start ; i < stack.size() ; i++) {
         std::string name = stack[i].example.tname();
-        if(prorities != "" && list_items_match(name,prorities)) {
+        if(prorities != "" && list_items_match(stack[i].example,prorities)) {
             tempstack.push_back(stack[i]);
             stack.erase(stack.begin()+i);
             i--;
@@ -8297,12 +8369,12 @@ int game::list_items(const int iLastState)
                 iLastActiveY = -1;
                 reset = true;
             } else if(ch == '+') {
-                std::string temp = string_input_popup(_("High Priority:"), width, list_item_upvote, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_priority", 256);
+                std::string temp = ask_item_priority_high(w_item_info, iInfoHeight);
                 list_item_upvote = temp;
                 refilter = true;
                 reset = true;
             } else if(ch == '-') {
-                std::string temp = string_input_popup(_("Low Priority:"), width, list_item_downvote, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_downvote", 256);
+                std::string temp = ask_item_priority_low(w_item_info, iInfoHeight);
                 list_item_downvote = temp;
                 refilter = true;
                 reset = true;
@@ -10285,7 +10357,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
          return;
      }
  }
- 
+
  int range = u.weapon.range(&u);
 
  temp_exit_fullscreen();
@@ -11815,7 +11887,9 @@ bool game::plmove(int dx, int dy)
             }
             for (int i = 0; i < names.size(); ++i) {
                 std::string fmt;
-                if (counts[i] == 1) {
+                if (names[i].at(names[i].length() - 1) == 's') {
+                    names[i] = string_format("%d %s", counts[i], names[i].c_str());
+                } else if (counts[i] == 1) {
                     //~ one item (e.g. "a dress")
                     fmt = _("a %s");
                     names[i] = string_format(fmt, names[i].c_str());

@@ -20,11 +20,6 @@
 #include <dirent.h>
 #endif
 
-// Template are disabled, as they might need
-// mods to be loaded to work correctly (professions can be
-// part of a mod)
-#define ENABLE_CHAR_TEMPLATES 0
-
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 extern worldfactory *world_generator;
 
@@ -184,17 +179,14 @@ bool game::opening_screen()
     print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
 
     std::vector<std::string> savegames, templates;
-#if ENABLE_CHAR_TEMPLATES
     dirent *dp;
     DIR *dir;
-#endif
 
     if (!assure_dir_exist("save")) {
         popup(_("Unable to make save directory. Check permissions."));
         return false;
     }
 
-#if ENABLE_CHAR_TEMPLATES
     dir = opendir("data");
     while ((dp = readdir(dir))) {
         std::string tmp = dp->d_name;
@@ -203,7 +195,6 @@ bool game::opening_screen()
         }
     }
     closedir(dir);
-#endif
 
     int sel1 = 1, sel2 = 1, sel3 = 1, layer = 1;
     InputEvent input;
