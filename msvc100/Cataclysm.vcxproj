@@ -777,6 +777,7 @@
     <ClInclude Include="..\src\creature.h" />
     <ClInclude Include="..\src\creature_tracker.h" />
     <ClInclude Include="..\src\cursesdef.h" />
+    <ClInclude Include="..\src\damage.h" />
     <ClInclude Include="..\src\debug.h" />
     <ClInclude Include="..\src\dependency_tree.h" />
     <ClInclude Include="..\src\dialogue.h" />
@@ -891,6 +892,7 @@
     <ClCompile Include="..\src\creature.cpp" />
     <ClCompile Include="..\src\creature_tracker.cpp" />
     <ClCompile Include="..\src\cursesport.cpp" />
+    <ClCompile Include="..\src\damage.cpp" />
     <ClCompile Include="..\src\debug.cpp" />
     <ClCompile Include="..\src\defense.cpp" />
     <ClCompile Include="..\src\dependency_tree.cpp" />
