@@ -42,6 +42,10 @@ class overmapbuffer
 public:
     overmapbuffer();
 
+    /**
+     * Uses overmap coordinates, that means x and y are directly
+     * compared with the position of the overmap.
+     */
     overmap &get( const int x, const int y );
     void save();
     void clear();
@@ -55,8 +59,14 @@ public:
     /**
      * Uses global overmap terrain coordinates.
      */
+    bool has_note(int x, int y, int z) const;
+    bool has_note(const tripoint& p) const { return has_note(p.x, p.y, p.z); }
+    const std::string& note(int x, int y, int z) const;
+    const std::string& note(const tripoint& p) const { return note(p.x, p.y, p.z); }
     bool seen(int x, int y, int z) const;
     void set_seen(int x, int y, int z, bool seen = true);
+    bool has_npc(int x, int y, int z) const;
+    bool has_vehicle(int x, int y, int z, bool require_pda = true) const;
 
     /**
      * Mark a square area around center on z-level z

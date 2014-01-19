@@ -77,6 +77,34 @@ const overmap *overmapbuffer::get_existing_om_global(const point& p) const
     return get_existing(om_pos.x, om_pos.y);
 }
 
+bool overmapbuffer::has_note(int x, int y, int z) const
+{
+    const overmap *om = get_existing_om_global(x, y);
+    return (om != NULL) && om->has_note(x, y, z);
+}
+
+const std::string& overmapbuffer::note(int x, int y, int z) const
+{
+    const overmap *om = get_existing_om_global(x, y);
+    if (om == NULL) {
+        static const std::string empty_string;
+        return empty_string;
+    }
+    return om->note(x, y, z);
+}
+
+bool overmapbuffer::has_npc(int x, int y, int z) const
+{
+    const overmap *om = get_existing_om_global(x, y);
+    return (om != NULL) && om->has_npc(x, y, z);
+}
+
+bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda) const
+{
+    const overmap *om = get_existing_om_global(x, y);
+    return (om != NULL) && om->has_vehicle(x, y, z, require_pda);
+}
+
 bool overmapbuffer::seen(int x, int y, int z) const
 {
     const overmap *om = get_existing_om_global(x, y);

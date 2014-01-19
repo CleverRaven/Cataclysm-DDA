@@ -4815,59 +4815,18 @@ void game::draw_minimap()
   for (int j = -2; j <= 2; j++) {
    int omx = cursx + i;
    int omy = cursy + j;
-   bool seen = false;
-   oter_id cur_ter;// = "";
    long note_sym = 0;
-   bool note = false;
-   if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) {
-    cur_ter = cur_om->ter(omx, omy, levz);
-    seen    = cur_om->seen(omx, omy, levz);
-    if (cur_om->has_note(omx,omy,levz))
-    {
-        if (cur_om->note(omx,omy,levz)[1] == ':')
-            note_sym = cur_om->note(omx,omy,levz)[0];
-        note = true;
+    const int absx = omx + cur_om->pos().x * OMAPX;
+    const int absy = omy + cur_om->pos().y * OMAPY;
+    const oter_id &cur_ter = overmap_buffer.ter(absx, absy, levz);
+    const bool seen = overmap_buffer.seen(absx, absy, levz);
+    const bool note = overmap_buffer.has_note(absx, absy, levz);
+    if (note) {
+        const std::string &n = overmap_buffer.note(absx, absy, levz);
+        if (n.length() >= 2 && n[1] == ':') {
+            note_sym = n[0];
+        }
     }
-   } else if ((omx < 0 || omx >= OMAPX) && (omy < 0 || omy >= OMAPY)) {
-    if (omx < 0) omx += OMAPX;
-    else         omx -= OMAPX;
-    if (omy < 0) omy += OMAPY;
-    else         omy -= OMAPY;
-    cur_ter = om_diag->ter(omx, omy, levz);
-    seen    = om_diag->seen(omx, omy, levz);
-    if (om_diag->has_note(omx,omy,levz))
-    {
-        if (om_diag->note(omx,omy,levz)[1] == ':')
-            note_sym = om_diag->note(omx,omy,levz)[0];
-        note = true;
-    }
-   } else if (omx < 0 || omx >= OMAPX) {
-    if (omx < 0) omx += OMAPX;
-    else         omx -= OMAPX;
-    cur_ter = om_hori->ter(omx, omy, levz);
-    seen    = om_hori->seen(omx, omy, levz);
-    if (om_hori->has_note(omx,omy,levz))
-    {
-        if (om_hori->note(omx,omy,levz)[1] == ':')
-            note_sym = om_hori->note(omx,omy,levz)[0];
-        note = true;
-    }
-   } else if (omy < 0 || omy >= OMAPY) {
-    if (omy < 0) omy += OMAPY;
-    else         omy -= OMAPY;
-    cur_ter = om_vert->ter(omx, omy, levz);
-    seen    = om_vert->seen(omx, omy, levz);
-    if (om_vert->has_note(omx,omy,levz))
-    {
-        if (om_vert->note(omx,omy,levz)[1] == ':')
-            note_sym = om_vert->note(omx,omy,levz)[0];
-        note = true;
-    }
-   } else {
-    dbg(D_ERROR) << "game:draw_minimap: No data loaded! omx: "
-                 << omx << " omy: " << omy;
-    debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
-   }
    nc_color ter_color = otermap[cur_ter].color;
    long ter_sym = otermap[cur_ter].sym;
    if (note)

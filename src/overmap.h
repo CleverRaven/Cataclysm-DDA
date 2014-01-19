@@ -13,6 +13,7 @@
 #include "name.h"
 #include "input.h"
 #include "json.h"
+#include "overmapbuffer.h"
 
 class npc;
 
@@ -323,6 +324,7 @@ class overmap
   std::vector<city> roads_out;
 
  private:
+  friend class overmapbuffer;
   point loc;
   std::string prefix;
   std::string name;
@@ -389,9 +391,9 @@ class overmap
 
   // Map helper function.
   bool has_npc(int const x, int const y, int const z) const;
-  void print_npcs(WINDOW *w, int const x, int const y, int const z);
+  void print_npcs(WINDOW *w, int const x, int const y, int const z) const;
   bool has_vehicle(int const x, int const y, int const z, bool require_pda = true) const;
-  void print_vehicles(WINDOW *w, int const x, int const y, int const z);
+  void print_vehicles(WINDOW *w, int const x, int const y, int const z) const;
 };
 
 // TODO: readd the stream operators
