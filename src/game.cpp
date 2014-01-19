@@ -2675,6 +2675,11 @@ bool game::handle_action()
     refresh_all();
     break;
 
+  case ACTION_MUT_ACTION:
+    u.choose_action();
+    refresh_all();
+    break;
+
   case ACTION_WAIT:
    wait();
    if (veh_ctrl) {

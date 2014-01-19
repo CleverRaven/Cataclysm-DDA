@@ -1,0 +1,15 @@
+[
+    {
+        "type": "mut_action",
+        "id": "act_null",
+        "name": "NULL action",
+        "description": "If you're seeing this, it's a bug.",
+        "active": false
+    },{
+        "type": "mut_action",
+        "id": "shout",
+        "name": "Shout",
+        "description": "That's simple: you have a mouth, so you can shout.",
+        "active": false
+    }
+]

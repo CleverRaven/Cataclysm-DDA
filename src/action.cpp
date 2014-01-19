@@ -248,6 +248,8 @@ std::string action_ident(action_id act)
         return "bionics";
     case ACTION_SORT_ARMOR:
         return "sort_armor";
+    case ACTION_MUT_ACTION:
+        return "mut_action";
     case ACTION_WAIT:
         return "wait";
     case ACTION_CRAFT:
@@ -428,6 +430,8 @@ std::string action_name(action_id act)
         return _("View/Activate Bionics");
     case ACTION_SORT_ARMOR:
         return _("Re-layer armour/clothing");
+    case ACTION_MUT_ACTION:
+        return _("View/Activate Super-Power");
     case ACTION_WAIT:
         return _("Wait for Several Minutes");
     case ACTION_CRAFT:
