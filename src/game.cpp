@@ -1664,7 +1664,7 @@ bool game::mission_complete(int id, int npc_id)
   } break;
 
   case MGOAL_GO_TO_TYPE: {
-   oter_id cur_ter = cur_om->ter((levx + int (MAPSIZE / 2)) / 2, (levy + int (MAPSIZE / 2)) / 2, levz);
+   oter_id cur_ter = overmap_buffer.ter(om_global_location());
    if (cur_ter == miss->type->target_id){
     return true;}
    return false;
@@ -3780,7 +3780,7 @@ Current turn: %d; Next spawn %d.\n\
 %d currently active NPC's.\n\
 %d events planned."),
              u.posx, u.posy, levx, levy,
-             otermap[cur_om->ter(levx / 2, levy / 2, levz)].name.c_str(),
+             otermap[overmap_buffer.ter(om_global_location())].name.c_str(),
              int(turn), int(nextspawn), (!ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] ? _("NPCs are going to spawn.") :
                                          _("NPCs are NOT going to spawn.")),
              num_zombies(), active_npc.size(), events.size());
@@ -4504,17 +4504,7 @@ void game::draw()
         wprintz(time_window, c_white, "]");
     }
 
-    point cur_loc = om_location();
-    oter_id cur_ter = cur_om->ter(cur_loc.x, cur_loc.y, levz);
-    if (cur_ter == "")
-    {
-        if (cur_loc.x >= OMAPX && cur_loc.y >= OMAPY)
-            cur_ter = om_diag->ter(cur_loc.x - OMAPX, cur_loc.y - OMAPY, levz);
-        else if (cur_loc.x >= OMAPX)
-            cur_ter = om_hori->ter(cur_loc.x - OMAPX, cur_loc.y, levz);
-        else if (cur_loc.y >= OMAPY)
-            cur_ter = om_vert->ter(cur_loc.x, cur_loc.y - OMAPY, levz);
-    }
+    const oter_id &cur_ter = overmap_buffer.ter(om_global_location());
 
     std::string tername = otermap[cur_ter].name;
     werase(w_location);
@@ -12526,6 +12516,13 @@ void game::set_adjacent_overmaps(bool from_scratch)
  }
 }
 
+tripoint game::om_global_location() const
+{
+    const int cursx = (levx + int(MAPSIZE / 2)) / 2 + cur_om->pos().x * OMAPX;
+    const int cursy = (levy + int(MAPSIZE / 2)) / 2 + cur_om->pos().y * OMAPY;
+    return tripoint(cursx, cursy, levz);
+}
+
 void game::update_overmap_seen()
 {
  int omx = (levx + int(MAPSIZE / 2)) / 2, omy = (levy + int(MAPSIZE / 2)) / 2;
@@ -12583,7 +12580,7 @@ void game::update_overmap_seen()
  }
 }
 
-point game::om_location()
+point game::om_location() const
 {
  point ret;
  ret.x = int( (levx + int(MAPSIZE / 2)) / 2);
