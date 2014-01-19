@@ -27,6 +27,7 @@
 #include "help.h" // get_hint
 #include "martialarts.h"
 #include "output.h"
+#include "overmapbuffer.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -1450,16 +1451,7 @@ void player::memorial( std::ofstream &memorial_file )
 
     //Figure out the location
     point cur_loc = g->om_location();
-    oter_id cur_ter = g->cur_om->ter(cur_loc.x, cur_loc.y, g->levz);
-    if (cur_ter == "") {
-        if (cur_loc.x >= OMAPX && cur_loc.y >= OMAPY) {
-            cur_ter = g->om_diag->ter(cur_loc.x - OMAPX, cur_loc.y - OMAPY, g->levz);
-        } else if (cur_loc.x >= OMAPX) {
-            cur_ter = g->om_hori->ter(cur_loc.x - OMAPX, cur_loc.y, g->levz);
-        } else if (cur_loc.y >= OMAPY) {
-            cur_ter = g->om_vert->ter(cur_loc.x, cur_loc.y - OMAPY, g->levz);
-        }
-    }
+    oter_id cur_ter = overmap_buffer.ter(g->om_global_location());
     std::string tername = otermap[cur_ter].name;
 
     //Were they in a town, or out in the wilderness?
@@ -1716,7 +1708,7 @@ void player::add_memorial_log(const char* message, ...)
             << _(season_name[g->turn.get_season()].c_str()) << " "
             << (g->turn.days() + 1) << ", " << g->turn.print_time();
 
-  oter_id cur_ter = g->cur_om->ter((g->levx + int(MAPSIZE / 2)) / 2, (g->levy + int(MAPSIZE / 2)) / 2, g->levz);
+  const oter_id &cur_ter = overmap_buffer.ter(g->om_global_location());
   std::string location = otermap[cur_ter].name;
 
   std::stringstream log_message;

@@ -323,6 +323,7 @@ class overmap
   std::vector<city> roads_out;
 
  private:
+    friend class overmapbuffer;
   point loc;
   std::string prefix;
   std::string name;
