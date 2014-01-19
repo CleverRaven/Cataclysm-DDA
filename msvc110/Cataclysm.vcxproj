@@ -166,6 +166,7 @@
     <ClCompile Include="..\src\monstergenerator.cpp" />
     <ClCompile Include="..\src\mtypedef.cpp" />
     <ClCompile Include="..\src\mutation.cpp" />
+    <ClCompile Include="..\src\mutation_actions.cpp" />
     <ClCompile Include="..\src\mutation_data.cpp" />
     <ClCompile Include="..\src\name.cpp" />
     <ClCompile Include="..\src\newcharacter.cpp" />
@@ -285,6 +286,7 @@
     <ClInclude Include="..\src\moraledata.h" />
     <ClInclude Include="..\src\mtype.h" />
     <ClInclude Include="..\src\mutation.h" />
+    <ClInclude Include="..\src\mutation_actions.h" />
     <ClInclude Include="..\src\name.h" />
     <ClInclude Include="..\src\nonplayer.h" />
     <ClInclude Include="..\src\npc.h" />
