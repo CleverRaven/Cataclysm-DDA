@@ -67,6 +67,7 @@ public:
     void set_seen(int x, int y, int z, bool seen = true);
     bool has_npc(int x, int y, int z) const;
     bool has_vehicle(int x, int y, int z, bool require_pda = true) const;
+    const regional_settings& get_settings(int x, int y, int z);
 
     /**
      * Mark a square area around center on z-level z
@@ -115,6 +116,15 @@ public:
     static void omt_to_om(tripoint& p) { omt_to_om(p.x, p.y); }
     static point omt_to_om_remain(int &x, int &y);
     static point omt_to_om_remain(point& p) { return omt_to_om_remain(p.x, p.y); }
+    // submap to overmap terrain
+    static point sm_to_omt_copy(int x, int y);
+    static point sm_to_omt_copy(const point& p) { return sm_to_omt_copy(p.x, p.y); }
+    static tripoint sm_to_omt_copy(const tripoint& p);
+    static void sm_to_omt(int &x, int &y);
+    static void sm_to_omt(point& p) { sm_to_omt(p.x, p.y); }
+    static void sm_to_omt(tripoint& p) { sm_to_omt(p.x, p.y); }
+    static point sm_to_omt_remain(int &x, int &y);
+    static point sm_to_omt_remain(point& p) { return sm_to_omt_remain(p.x, p.y); }
 
 private:
     std::list<overmap> overmap_list;

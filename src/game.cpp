@@ -86,9 +86,6 @@ game::game() :
  w_location(NULL),
  w_status(NULL),
  w_status2(NULL),
- om_hori(NULL),
- om_vert(NULL),
- om_diag(NULL),
  dangerous_proximity(5),
  run_mode(1),
  mostseen(0),
@@ -527,7 +524,6 @@ void game::start_game(std::string worldname)
 // Convert the overmap coordinates to submap coordinates
  levx = levx * 2 - 1;
  levy = levy * 2 - 1;
- set_adjacent_overmaps(true);
 // Init the starting map at this location.
  m.load(levx, levy, levz);
 // Start us off somewhere in the shelter.
@@ -3250,7 +3246,6 @@ void game::load(std::string worldname, std::string name)
 // Now load up the master game data; factions (and more?)
  load_master(worldname);
  update_map(u.posx, u.posy);
- set_adjacent_overmaps(true);
  MAPBUFFER.set_dirty();
 
  u.reset();
@@ -3726,7 +3721,6 @@ void game::debug()
             clear_zombies();
             levx = tmp.x * 2 - int(MAPSIZE / 2);
             levy = tmp.y * 2 - int(MAPSIZE / 2);
-            set_adjacent_overmaps(true);
             m.load(levx, levy, levz);
             load_npcs();
             m.spawn_monsters(); // Static monsters
@@ -12345,7 +12339,6 @@ void game::vertical_move(int movez, bool force) {
   }
  }
 
- set_adjacent_overmaps(true);
  // Clear currently active npcs and reload them
  active_npc.clear();
  load_npcs();
@@ -12393,7 +12386,6 @@ void game::update_map(int &x, int &y) {
   cur_om->save();
   cur_om = &overmap_buffer.get(cur_om->pos().x + olevx, cur_om->pos().y + olevy);
  }
- set_adjacent_overmaps();
 
  // Shift monsters if we're actually shifting
  if (shiftx || shifty) {
@@ -12441,32 +12433,6 @@ void game::update_map(int &x, int &y) {
  update_overmap_seen();
  if(!fullscreen) {
    draw_minimap();
- }
-}
-
-void game::set_adjacent_overmaps(bool from_scratch)
-{
- bool do_h = false, do_v = false, do_d = false;
- int hori_disp = (levx > OMAPX) ? 1 : -1;
- int vert_disp = (levy > OMAPY) ? 1 : -1;
- int diag_posx = cur_om->pos().x + hori_disp;
- int diag_posy = cur_om->pos().y + vert_disp;
-
- if(!om_hori || om_hori->pos().x != diag_posx || om_hori->pos().y != cur_om->pos().y || from_scratch)
-  do_h = true;
- if(!om_vert || om_vert->pos().x != cur_om->pos().x || om_vert->pos().y != diag_posy || from_scratch)
-  do_v = true;
- if(!om_diag || om_diag->pos().x != diag_posx || om_diag->pos().y != diag_posy || from_scratch)
-  do_d = true;
-
- if(do_h){
-  om_hori = &overmap_buffer.get(diag_posx, cur_om->pos().y);
- }
- if(do_v){
-  om_vert = &overmap_buffer.get(cur_om->pos().x, diag_posy);
- }
- if(do_d){
-  om_diag = &overmap_buffer.get(diag_posx, diag_posy);
  }
 }
 

@@ -37,6 +37,12 @@ void overmapbuffer::clear()
     overmap_list.clear();
 }
 
+const regional_settings& overmapbuffer::get_settings(int x, int y, int z)
+{
+    overmap &om = get_om_global(x, y);
+    return om.get_settings(x, y, z);
+}
+
 const overmap *overmapbuffer::get_existing(int x, int y) const
 {
     static const overmap *last_one = NULL;
@@ -177,4 +183,23 @@ void overmapbuffer::omt_to_om(int &x, int &y) {
 
 point overmapbuffer::omt_to_om_remain(int &x, int &y) {
     return point(divide(x, OMAPX, x), divide(y, OMAPY, y));
+}
+
+
+
+point overmapbuffer::sm_to_omt_copy(int x, int y) {
+    return point(divide(x, 2), divide(y, 2));
+}
+
+tripoint overmapbuffer::sm_to_omt_copy(const tripoint& p) {
+    return tripoint(divide(p.x, 2), divide(p.y, 2), p.z);
+}
+
+void overmapbuffer::sm_to_omt(int &x, int &y) {
+    x = divide(x, 2);
+    y = divide(y, 2);
+}
+
+point overmapbuffer::sm_to_omt_remain(int &x, int &y) {
+    return point(divide(x, 2, x), divide(y, 2, y));
 }

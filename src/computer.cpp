@@ -451,28 +451,14 @@ void computer::activate_function(computer_action action)
     break;
 
     case COMPACT_MAP_SEWER: {
-        int minx = int((g->levx + int(MAPSIZE / 2)) / 2) - 60;
-        int maxx = int((g->levx + int(MAPSIZE / 2)) / 2) + 60;
-        int miny = int((g->levy + int(MAPSIZE / 2)) / 2) - 60;
-        int maxy = int((g->levy + int(MAPSIZE / 2)) / 2) + 60;
-        if (minx < 0) {
-            minx = 0;
-        }
-        if (maxx >= OMAPX) {
-            maxx = OMAPX - 1;
-        }
-        if (miny < 0) {
-            miny = 0;
-        }
-        if (maxy >= OMAPY) {
-            maxy = OMAPY - 1;
-        }
-        for (int i = minx; i <= maxx; i++) {
-            for (int j = miny; j <= maxy; j++)
-                if (is_ot_type("sewer", g->cur_om->ter(i, j, g->levz)) ||
-                    is_ot_type("sewage", g->cur_om->ter(i, j, g->levz))) {
-                    g->cur_om->seen(i, j, g->levz) = true;
+        const tripoint center = g->om_global_location();
+        for (int i = -60; i <= 60; i++) {
+            for (int j = -60; j <= 60; j++) {
+                const oter_id &oter = overmap_buffer.ter(center.x + i, center.y + j, center.z);
+                if (is_ot_type("sewer", oter) || is_ot_type("sewage", oter)) {
+                    overmap_buffer.set_seen(center.x + i, center.y + j, center.z, true);
                 }
+            }
         }
         query_any(_("Sewage map data downloaded.  Press any key..."));
     }

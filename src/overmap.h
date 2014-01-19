@@ -13,8 +13,8 @@
 #include "name.h"
 #include "input.h"
 #include "json.h"
-#include "overmapbuffer.h"
 
+class overmapbuffer;
 class npc;
 
 #define OVERMAP_DEPTH 10

@@ -69,199 +69,30 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
         }
     }
 
-    oter_id terrain_type, t_north, t_neast, t_east, t_seast, t_south,
-            t_nwest, t_west, t_swest, t_above;
     unsigned zones = 0;
-    int overx = x / 2;
-    int overy = y / 2;
-    const regional_settings * rsettings = NULL;
-    if ( x >= OMAPX * 2 || x < 0 || y >= OMAPY * 2 || y < 0) {
-        dbg(D_INFO) << "map::generate: In section 1";
-
-        // This happens when we're at the very edge of the overmap, and are generating
-        // terrain for the adjacent overmap.
-        int sx = 0, sy = 0;
-        overx = (x % (OMAPX * 2)) / 2;
-        if (x >= OMAPX * 2) {
-            sx = 1;
-        }
-        if (x < 0) {
-            sx = -1;
-            overx = (OMAPX * 2 + x) / 2;
-        }
-        overy = (y % (OMAPY * 2)) / 2;
-        if (y >= OMAPY * 2) {
-            sy = 1;
-        }
-        if (y < 0) {
-            overy = (OMAPY * 2 + y) / 2;
-            sy = -1;
-        }
-        overmap tmp = overmap_buffer.get(om->pos().x + sx, om->pos().y + sy);
-        terrain_type = tmp.ter(overx, overy, z);
-        rsettings = &tmp.get_settings(overx, overy, z);
-
-        //zones = tmp.zones(overx, overy);
-        t_above = tmp.ter(overx, overy, z + 1);
-
-        if (overy - 1 >= 0) {
-            t_north = tmp.ter(overx, overy - 1, z);
-        } else {
-            t_north = om->ter(overx, OMAPY - 1, z);
-        }
-
-        if (overy - 1 >= 0 && overx + 1 < OMAPX) {
-            t_neast = tmp.ter(overx + 1, overy - 1, z);
-        } else if (overy - 1 >= 0) {
-            t_neast = om->ter(0, overy - 1, z);
-        } else if (overx + 1 < OMAPX) {
-            t_neast = om->ter(overx + 1, OMAPY - 1, z);
-        } else {
-            t_neast = om->ter(0, OMAPY - 1, z);
-        }
-
-        if (overx + 1 < OMAPX) {
-            t_east = tmp.ter(overx + 1, overy, z);
-        } else {
-            t_east = om->ter(0, overy, z);
-        }
-
-        if (overy + 1 < OMAPY && overx + 1 < OMAPX) {
-            t_seast = tmp.ter(overx + 1, overy + 1, z);
-        } else if (overy + 1 < OMAPY) {
-            t_seast = om->ter(0, overy + 1, z);
-        } else if (overx + 1 < OMAPX) {
-            t_seast = om->ter(overx + 1, 0, z);
-        } else {
-            t_seast = om->ter(0, 0, z);
-        }
-
-        if (overy + 1 < OMAPY) {
-            t_south = tmp.ter(overx, overy + 1, z);
-        } else {
-            t_south = om->ter(overx, 0, z);
-        }
-
-        if (overy - 1 >= 0 && overx - 1 >= 0) {
-            t_nwest = tmp.ter(overx - 1, overy - 1, z);
-        } else if (overy - 1 >= 0) {
-            t_nwest = om->ter(OMAPX - 1, overy - 1, z);
-        } else if (overx - 1 >= 0) {
-            t_nwest = om->ter(overx - 1, OMAPY - 1, z);
-        } else {
-            t_nwest = om->ter(OMAPX - 1, OMAPY - 1, z);
-        }
-
-        if (overx - 1 >= 0) {
-            t_west = tmp.ter(overx - 1, overy, z);
-        } else {
-            t_west = om->ter(OMAPX - 1, overy, z);
-        }
-
-        if (overy + 1 < OMAPY && overx - 1 >= 0) {
-            t_swest = tmp.ter(overx - 1, overy + 1, z);
-        } else if (overy + 1 < OMAPY) {
-            t_swest = om->ter(OMAPX - 1, overy + 1, z);
-        } else if (overx - 1 >= 0) {
-            t_swest = om->ter(overx - 1, 0, z);
-        } else {
-            t_swest = om->ter(OMAPX - 1, 0, z);
-        }
-
-    } else {
-        dbg(D_INFO) << "map::generate: In section 2";
-
-        t_above = om->ter(overx, overy, z + 1);
-        terrain_type = om->ter(overx, overy, z);
-        rsettings = &om->get_settings(overx, overy, z);
-
-        if (overy - 1 >= 0) {
-            t_north = om->ter(overx, overy - 1, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y - 1);
-            t_north = tmp.ter(overx, OMAPY - 1, z);
-        }
-
-        if (overy - 1 >= 0 && overx + 1 < OMAPX) {
-            t_neast = om->ter(overx + 1, overy - 1, z);
-        } else if (overy - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y - 1);
-            t_neast = tmp.ter(0, overy - 1, z);
-        } else if (overx + 1 < OMAPX) {
-            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y);
-            t_neast = tmp.ter(overx + 1, OMAPY - 1, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y - 1);
-            t_neast = tmp.ter(0, OMAPY - 1, z);
-        }
-
-        if (overx + 1 < OMAPX) {
-            t_east = om->ter(overx + 1, overy, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y);
-            t_east = tmp.ter(0, overy, z);
-        }
-
-        if (overy + 1 < OMAPY && overx + 1 < OMAPX) {
-            t_seast = om->ter(overx + 1, overy + 1, z);
-        } else if (overy + 1 < OMAPY) {
-            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y + 1);
-            t_seast = tmp.ter(0, overy + 1, z);
-        } else if (overx + 1 < OMAPX) {
-            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y);
-            t_seast = tmp.ter(overx + 1, 0, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y + 1);
-            t_seast = tmp.ter(0, 0, z);
-        }
-
-        if (overy + 1 < OMAPY) {
-            t_south = om->ter(overx, overy + 1, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y + 1);
-            t_south = tmp.ter(overx, 0, z);
-        }
-
-        if (overy - 1 >= 0 && overx - 1 >= 0) {
-            t_nwest = om->ter(overx - 1, overy - 1, z);
-        } else if (overy - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y - 1);
-            t_nwest = tmp.ter(OMAPX - 1, overy - 1, z);
-        } else if (overx - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y);
-            t_nwest = tmp.ter(overx - 1, OMAPY - 1, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y - 1);
-            t_nwest = tmp.ter(OMAPX - 1, OMAPY - 1, z);
-        }
-
-        if (overx - 1 >= 0) {
-            t_west = om->ter(overx - 1, overy, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y);
-            t_west = tmp.ter(OMAPX - 1, overy, z);
-        }
-
-        if (overy + 1 < OMAPY && overx - 1 >= 0) {
-            t_swest = om->ter(overx - 1, overy + 1, z);
-        } else if (overy + 1 < OMAPY) {
-            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y + 1);
-            t_swest = tmp.ter(OMAPX - 1, overy + 1, z);
-        } else if (overx - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y);
-            t_swest = tmp.ter(overx - 1, 0, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y + 1);
-            t_swest = tmp.ter(OMAPX - 1, 0, z);
-        }
-    }
+    // x, and y are submap coordinates, local to om -> make them global,
+    // than convert to overmap terrain coordinates
+    int overx = x + om->pos().x * OMAPX * 2;
+    int overy = y + om->pos().y * OMAPY * 2;
+    overmapbuffer::sm_to_omt(overx, overy);
+    const regional_settings *rsettings = &overmap_buffer.get_settings(overx, overy, z);
+    oter_id t_above = overmap_buffer.ter(overx, overy, z + 1);
+    oter_id terrain_type = overmap_buffer.ter(overx, overy, z);
+    oter_id t_north = overmap_buffer.ter(overx, overy - 1, z);
+    oter_id t_neast = overmap_buffer.ter(overx + 1, overy - 1, z);
+    oter_id t_east = overmap_buffer.ter(overx + 1, overy, z);
+    oter_id t_seast = overmap_buffer.ter(overx + 1, overy + 1, z);
+    oter_id t_south = overmap_buffer.ter(overx, overy + 1, z);
+    oter_id t_nwest = overmap_buffer.ter(overx - 1, overy - 1, z);
+    oter_id t_west = overmap_buffer.ter(overx - 1, overy, z);
+    oter_id t_swest = overmap_buffer.ter(overx - 1, overy + 1, z);
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimiters sparse.
     float density = 0.0;
     for (int i = overx - MON_RADIUS; i <= overx + MON_RADIUS; i++) {
         for (int j = overy - MON_RADIUS; j <= overy + MON_RADIUS; j++) {
-            density += otermap[om->ter(i, j, z)].mondensity;
+            density += otermap[overmap_buffer.ter(i, j, z)].mondensity;
         }
     }
     density = density / 100;
