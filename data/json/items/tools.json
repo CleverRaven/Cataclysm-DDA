@@ -1872,6 +1872,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "flags": "ACT_IN_FIRE",
+    "category": "tools",
     "use_action": "THROWABLE_EXTINGUISHER_ACT"
   },
 
@@ -1895,6 +1896,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "PIPEBOMB"
   },
 
@@ -1918,6 +1920,7 @@
     "turns_per_charge": 1,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "PIPEBOMB_ACT"
   },
 
@@ -1941,6 +1944,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "GRENADE"
   },
 
@@ -1964,6 +1968,7 @@
     "turns_per_charge": 1,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "GRENADE_ACT"
   },
 
@@ -1987,6 +1992,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "GRANADE"
   },
 
@@ -2010,6 +2016,7 @@
     "turns_per_charge": 1,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "GRANADE_ACT"
   },
 
@@ -2033,6 +2040,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "FLASHBANG"
   },
 
@@ -2056,6 +2064,7 @@
     "turns_per_charge": 1,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "FLASHBANG_ACT"
   },
 
@@ -2125,6 +2134,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "SCRAMBLER"
   },
 
@@ -2148,6 +2158,7 @@
     "turns_per_charge": 1,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "SCRAMBLER_ACT"
   },
 
@@ -2171,6 +2182,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "GASBOMB"
   },
 
@@ -2194,6 +2206,7 @@
     "turns_per_charge": 1,
     "ammo": "NULL",
     "revert_to": "canister_empty",
+    "category": "weapons",
     "use_action": "GASBOMB_ACT"
   },
 
@@ -2217,6 +2230,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "SMOKEBOMB"
   },
 
@@ -2240,6 +2254,7 @@
     "turns_per_charge": 1,
     "ammo": "NULL",
     "revert_to": "canister_empty",
+    "category": "weapons",
     "use_action": "SMOKEBOMB_ACT"
   },
 
@@ -2262,6 +2277,7 @@
       "turns_per_charge": 0,
       "ammo": "NULL",
       "revert_to": "null",
+      "category": "ammo",
       "use_action": "ARROW_FLAMABLE"
    },
 
@@ -2285,6 +2301,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "MOLOTOV"
   },
 
@@ -2309,6 +2326,7 @@
     "turns_per_charge": 1,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "MOLOTOV_LIT"
   },
 
@@ -2332,6 +2350,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "ACIDBOMB"
   },
 
@@ -2355,6 +2374,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "ACIDBOMB_ACT"
   },
 
@@ -2378,6 +2398,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "DYNAMITE"
   },
 
@@ -2401,6 +2422,7 @@
     "turns_per_charge": 1,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "DYNAMITE_ACT"
   },
 
@@ -2517,6 +2539,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "MININUKE"
   },
 
@@ -2541,6 +2564,7 @@
     "turns_per_charge": 1,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "MININUKE_ACT"
   },
 
@@ -2792,6 +2816,7 @@
     "turns_per_charge" : 0,
     "ammo" : "battery",
     "revert_to" : "null",
+    "category": "weapons",
     "use_action" : "SHOCKTONFA_OFF"
   },
 
@@ -2817,6 +2842,7 @@
     "turns_per_charge" : 15,
     "ammo" : "battery",
     "revert_to" : "shocktonfa_off",
+    "category": "weapons",
     "use_action" : "SHOCKTONFA_ON"
   },
 
@@ -3263,6 +3289,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "KNIFE",
     "qualities": [["CUT", 1]]
   },
@@ -3289,6 +3316,7 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "FIREMACHETE_OFF"
   },
 
@@ -3315,6 +3343,7 @@
     "turns_per_charge": 30,
     "ammo": "gasoline",
     "revert_to": "firemachete_off",
+    "category": "weapon",
     "use_action": "FIREMACHETE_ON"
   },
   {
@@ -3339,6 +3368,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "KNIFE",
     "qualities": [["CUT", 1]]
   },
@@ -3417,6 +3447,7 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "FIREKATANA_OFF"
   },
 
@@ -3442,6 +3473,7 @@
     "turns_per_charge": 30,
     "ammo": "gasoline",
     "revert_to": "firekatana_off",
+    "category": "weapons",
     "use_action": "FIREKATANA_ON"
   },
 
@@ -3703,6 +3735,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": "KNIFE",
     "qualities": [["CUT", 1]]
   },
@@ -6251,6 +6284,7 @@
     "turns_per_charge" : 0,
     "ammo" : "battery",
     "revert_to" : "null",
+    "category": "weapons",
     "use_action" : "TAZER"
   },
   {
@@ -6298,6 +6332,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "drugs",
     "use_action": "INHALER"
   },
   {
