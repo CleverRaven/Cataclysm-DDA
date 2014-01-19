@@ -3,7 +3,8 @@
         "type": "mut_action",
         "id": "act_null",
         "name": "NULL action",
-        "description": "If you're seeing this, it's a bug."
+        "description": "If you're seeing this, it's a bug.",
+        "active": false
     },{
         "type": "mut_action",
         "id": "shout",

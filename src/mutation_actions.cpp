@@ -11,7 +11,8 @@
 
 std::map<std::string, mut_action_data *> mut_actions;
 
-mut_action_data::mut_action_data(std::string new_name, bool new_activated, std::string new_description) : description(new_description)
+mut_action_data::mut_action_data(std::string new_name, bool new_activated,
+                                 std::string new_description) : description(new_description)
 {
     name = new_name;
     activated = new_activated;
@@ -52,7 +53,7 @@ void player::choose_action()
     int DESCRIPTION_WIDTH = WIDTH - 2; // -2 for the borders
     int DESCRIPTION_HEIGHT = 5;
     int DESCRIPTION_START_X = getbegx(wAct) + 1; // +1 to avoid border
-    int DESCRIPTION_START_Y = getmaxy(wAct) - DESCRIPTION_HEIGHT - 1; // At the bottom of the bio window, -1 to avoid border
+    int DESCRIPTION_START_Y = getmaxy(wAct) - DESCRIPTION_HEIGHT - 1; // At the bottom of the window, -1 to avoid border
     WINDOW *w_description = newwin(DESCRIPTION_HEIGHT, DESCRIPTION_WIDTH, DESCRIPTION_START_Y,
                                    DESCRIPTION_START_X);
 
@@ -67,19 +68,14 @@ void player::choose_action()
     bool reassigning = false;
     bool activating = true; // examination mode if activating = false and reassigning = false
 
-
-    this->add_mut_action("shout");
-
-    std::vector <mut_action *> state;
     std::vector <mut_action *> action;
+    std::vector <mut_action *> state;
+
     for (size_t i = 0; i < my_mut_actions.size(); i++) {
         if (!mut_actions[my_mut_actions[i].id]->activated) {
             action.push_back(&my_mut_actions[i]);
         } else {
             state.push_back(&my_mut_actions[i]);
-
-            //for debug purpose only:
-            action.push_back(&my_mut_actions[i]);
         }
     }
 
@@ -260,5 +256,4 @@ void load_mut_action(JsonObject &jsobj)
     bool active = jsobj.get_bool("active", false);
 
     mut_actions[id] = new mut_action_data(name, active, description);
-    dout(D_INFO) << "Loaded action: " << name << "\n";
 }
