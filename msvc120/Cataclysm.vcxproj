@@ -109,6 +109,7 @@
     <ClCompile Include="..\src\damage.cpp" />
     <ClCompile Include="..\src\debug.cpp" />
     <ClCompile Include="..\src\defense.cpp" />
+    <ClCompile Include="..\src\dependency_tree.cpp" />
     <ClCompile Include="..\src\disease.cpp" />
     <ClCompile Include="..\src\editmap.cpp" />
     <ClCompile Include="..\src\effect.cpp" />
@@ -157,6 +158,8 @@
     <ClCompile Include="..\src\mission_fail.cpp" />
     <ClCompile Include="..\src\mission_place.cpp" />
     <ClCompile Include="..\src\mission_start.cpp" />
+    <ClCompile Include="..\src\mod_manager.cpp" />
+    <ClCompile Include="..\src\mod_manager_ui.cpp" />
     <ClCompile Include="..\src\monattack.cpp" />
     <ClCompile Include="..\src\mondeath.cpp" />
     <ClCompile Include="..\src\mongroupdef.cpp" />
@@ -233,6 +236,7 @@
     <ClInclude Include="..\src\cursesdef.h" />
     <ClInclude Include="..\src\damage.h" />
     <ClInclude Include="..\src\debug.h" />
+    <ClInclude Include="..\src\dependency_tree.h" />
     <ClInclude Include="..\src\dialogue.h" />
     <ClInclude Include="..\src\disease.h" />
     <ClInclude Include="..\src\editmap.h" />
@@ -275,6 +279,7 @@
     <ClInclude Include="..\src\martialarts.h" />
     <ClInclude Include="..\src\material.h" />
     <ClInclude Include="..\src\mission.h" />
+    <ClInclude Include="..\src\mod_manager.h" />
     <ClInclude Include="..\src\monattack.h" />
     <ClInclude Include="..\src\mondeath.h" />
     <ClInclude Include="..\src\mongroup.h" />
