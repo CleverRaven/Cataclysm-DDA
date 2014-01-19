@@ -21,6 +21,7 @@ Creature::Creature()
     moves = 0;
     pain = 0;
     killer = NULL;
+    speed_base = 100;
 
     reset_bonuses();
 
@@ -40,6 +41,7 @@ Creature::Creature(const Creature &rhs)
     moves = rhs.moves;
     pain = rhs.pain;
     killer = rhs.killer;
+    speed_base = rhs.speed_base;
 
     str_bonus = rhs.str_bonus;
     dex_bonus = rhs.dex_bonus;
