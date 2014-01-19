@@ -909,87 +909,74 @@ int overmap::add_vehicle(vehicle *veh)
     return id;
 }
 
-point overmap::display_notes(int const z) const
+point overmap::display_notes(int z)
 {
- if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
-  debugmsg("overmap::display_notes: Attempting to display notes on overmap for blank layer %d", z);
-  return point(-1, -1);
- }
+    const overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes(z);
+    WINDOW* w_notes = newwin(
+        FULL_SCREEN_HEIGHT,
+        FULL_SCREEN_WIDTH,
+        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
- WINDOW* w_notes = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                          (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
-                          (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    draw_border(w_notes);
 
- draw_border(w_notes);
+    const std::string title = _("Notes:");
+    const std::string back_msg = _("< Prev notes");
+    const std::string forward_msg = _("Next notes >");
 
- std::string title = _("Notes:");
- std::string back_msg = _("< Prev notes");
- std::string forward_msg = _("Next notes >");
+    // Number of items to show at one time, 2 rows for border, 2 for title & bottom text
+    const int maxitems = FULL_SCREEN_HEIGHT - 4;
+    int ch = '.';
+    int start = 0;
+    const int back_len = utf8_width(back_msg.c_str());
+    bool redraw = true;
+    point result(-1, -1);
 
- int maxitems; // Number of items to show at one time.
- char end_limit; // Last selectable line.
- if ( (FULL_SCREEN_HEIGHT%2) == 0) {
-    maxitems = 19;
-    end_limit = 's';
- }
- else {
-    end_limit = 't';
-    maxitems = 20;
- }
-    
- char ch = '.';
- int start = 0, cur_it(0);
-
- int back_len = utf8_width(back_msg.c_str());
-
- mvwprintz(w_notes, 1, 1, c_ltgray, title.c_str());
- do{
-  if (ch == '<' && start > 0) {
-   for (int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++)
-    for (int j = 1; j < FULL_SCREEN_WIDTH - 1; j++)
-     mvwputch(w_notes, i, j, c_black, ' ');
-   start -= maxitems;
-   if (start < 0)
-    start = 0;
-  }
-  if (ch == '>' && cur_it < layer[z + OVERMAP_DEPTH].notes.size()) {
-   start = cur_it;
-   for (int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++)
-    for (int j = 1; j < FULL_SCREEN_WIDTH - 1; j++)
-     mvwputch(w_notes, i, j, c_black, ' ');
-  }
-  int cur_line = 3;
-  int last_line = -1;
-  char cur_let = 'a';
-  for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems + 3; cur_it++) {
-   if (cur_it < layer[z + OVERMAP_DEPTH].notes.size()) {
-   mvwputch (w_notes, cur_line, 1, c_white, cur_let++);
-   mvwprintz(w_notes, cur_line, 3, c_ltgray, "- %s", layer[z + OVERMAP_DEPTH].notes[cur_it].text.c_str());
-   } else{
-    last_line = cur_line - 2;
-    break;
-   }
-   cur_line++;
-  }
-
-  if(last_line == -1)
-   last_line = 23;
-  if (start > 0)
-   mvwprintw(w_notes, maxitems + 3, 1, back_msg.c_str());
-  if (cur_it < layer[z + OVERMAP_DEPTH].notes.size())
-   mvwprintw(w_notes, maxitems + 3, 2 + back_len, forward_msg.c_str());
-  if(ch >= 'a' && ch <= end_limit) {
-   int chosen_line = (int)(ch % (int)'a');
-   if(chosen_line < last_line)
-    return point(layer[z + OVERMAP_DEPTH].notes[start + chosen_line].x, layer[z + OVERMAP_DEPTH].notes[start + chosen_line].y);
-  }
-  mvwprintz(w_notes, 1, 40, c_white, _("Press letter to center on note"));
-  mvwprintz(w_notes, FULL_SCREEN_HEIGHT-2, 40, c_white, _("Spacebar - Return to map  "));
-  wrefresh(w_notes);
-  ch = getch();
- } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
- delwin(w_notes);
- return point(-1,-1);
+    mvwprintz(w_notes, 1, 1, c_ltgray, title.c_str());
+    do {
+        if (redraw) {
+            for (int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++) {
+                for (int j = 1; j < FULL_SCREEN_WIDTH - 1; j++) {
+                    mvwputch(w_notes, i, j, c_black, ' ');
+                }
+            }
+            for (int i = 0; i < maxitems; i++) {
+                const int cur_it = start + i;
+                if (cur_it >= notes.size()) {
+                    continue;
+                }
+                // Print letter ('a' <=> cur_it == start)
+                mvwputch (w_notes, i + 2, 1, c_white, 'a' + i);
+                mvwprintz(w_notes, i + 2, 3, c_ltgray, "- %s", notes[cur_it].second.c_str());
+            }
+            if (start >= maxitems) {
+                mvwprintw(w_notes, maxitems + 2, 1, back_msg.c_str());
+            }
+            if (start + maxitems < notes.size()) {
+                mvwprintw(w_notes, maxitems + 2, 2 + back_len, forward_msg.c_str());
+            }
+            mvwprintz(w_notes, 1, 40, c_white, _("Press letter to center on note"));
+            mvwprintz(w_notes, FULL_SCREEN_HEIGHT - 2, 40, c_white, _("Spacebar - Return to map  "));
+            wrefresh(w_notes);
+            redraw = false;
+        }
+        ch = getch();
+        if (ch == '<' && start >= maxitems) {
+            start -= maxitems;
+            redraw = true;
+        } else if (ch == '>' && start + maxitems < notes.size()) {
+            start += maxitems;
+            redraw = true;
+        } else if(ch >= 'a' && ch <= 'z') {
+            const int chosen = ch - 'a' + start;
+            if (chosen >= 0 && chosen < notes.size()) {
+                result = notes[chosen].first;
+                break; // -> return result
+            }
+        }
+    } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+    delwin(w_notes);
+    return result;
 }
 
 bool overmap::has_npc(int const x, int const y, int const z) const
@@ -2030,13 +2017,11 @@ point overmap::draw_overmap(int zlevel)
    timeout(BLINK_SPEED);
   } else if (action == "LIST_NOTES"){
    timeout(-1);
-   point p = center_om.display_notes(zlevel);
-   if (p.x != -1) {
-    // Translate coords relative to center_om back to relative to this
-    real_coords rct;
-    rct.fromomap(center_om.pos().x, center_om.pos().y, p.x, p.y);
-    cursx = rct.abs_pos.x / (2 * SEEX);
-    cursy = rct.abs_pos.y / (2 * SEEX);
+   point p = display_notes(zlevel);
+   if (p.x != invalid_point) {
+    // Translate absolute coords back to relative to this
+    cursx = p.x - pos().x * OMAPX;
+    cursy = p.y - pos().y * OMAPY;
    }
    timeout(BLINK_SPEED);
    wrefresh(w_map);
@@ -4075,3 +4060,5 @@ void regional_settings::setup() {
         optionsdata.add_value("DEFAULT_REGION", id );
     }
 }
+
+const point overmap::invalid_point(INT_MIN, INT_MIN);

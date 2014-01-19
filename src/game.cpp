@@ -12276,29 +12276,34 @@ void game::vertical_move(int movez, bool force) {
     }
   }
 
-// Figure out where we know there are up/down connectors
- std::vector<point> discover;
- for (int x = 0; x < OMAPX; x++) {
-  for (int y = 0; y < OMAPY; y++) {
-   if (cur_om->seen(x, y, levz) &&
-       ((movez ==  1 && otermap[ cur_om->ter(x, y, levz) ].known_up) ||
-        (movez == -1 && otermap[ cur_om->ter(x, y, levz) ].known_down) ))
-    discover.push_back( point(x, y) );
-  }
- }
-
- int z_coord = levz + movez;
- // Fill in all the tiles we know about (e.g. subway stations)
- for (int i = 0; i < discover.size(); i++) {
-  int x = discover[i].x, y = discover[i].y;
-  cur_om->seen(x, y, z_coord) = true;
-  if (movez ==  1 && !otermap[ cur_om->ter(x, y, z_coord) ].known_down &&
-      !cur_om->has_note(x, y, z_coord))
-   cur_om->add_note(x, y, z_coord, _("AUTO: goes down"));
-  if (movez == -1 && !otermap[ cur_om->ter(x, y, z_coord) ].known_up &&
-      !cur_om->has_note(x, y, z_coord))
-   cur_om->add_note(x, y, z_coord, _("AUTO: goes up"));
- }
+    // Figure out where we know there are up/down connectors
+    // Fill in all the tiles we know about (e.g. subway stations)
+    static const int REVEAL_RADIUS = 40;
+    const tripoint gpos = om_global_location();
+    int z_coord = levz + movez;
+    for (int x = -REVEAL_RADIUS; x <= REVEAL_RADIUS; x++) {
+        for (int y = -REVEAL_RADIUS; y <= REVEAL_RADIUS; y++) {
+            const int cursx = gpos.x + x;
+            const int cursy = gpos.y + y;
+            if(!overmap_buffer.seen(cursx, cursy, levz)) {
+                continue;
+            }
+            if(overmap_buffer.has_note(cursx, cursy, z_coord)) {
+                // Already has a note -> never add an AUTO-note
+                continue;
+            }
+            const oter_id &ter = overmap_buffer.ter(cursx, cursy, levz);
+            const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_coord);
+            if(movez == +1 && otermap[ter].known_up && !otermap[ter2].known_down) {
+                overmap_buffer.set_seen(cursx, cursy, z_coord, true);
+                overmap_buffer.add_note(cursx, cursy, z_coord, _("AUTO: goes down"));
+            }
+            if(movez == -1 && otermap[ter].known_down && !otermap[ter2].known_up) {
+                overmap_buffer.set_seen(cursx, cursy, z_coord, true);
+                overmap_buffer.add_note(cursx, cursy, z_coord, _("AUTO: goes up"));
+            }
+        }
+    }
 
  levz += movez;
  u.moves -= 100;

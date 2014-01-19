@@ -43,6 +43,20 @@ const regional_settings& overmapbuffer::get_settings(int x, int y, int z)
     return om.get_settings(x, y, z);
 }
 
+void overmapbuffer::add_note(int x, int y, int z, const std::string& message)
+{
+    overmap &om = get_om_global(x, y);
+    om.add_note(x, y, z, message);
+}
+
+void overmapbuffer::delete_note(int x, int y, int z)
+{
+    if (has_note(x, y, z)) {
+        overmap &om = get_om_global(x, y);
+        om.delete_note(x, y, z);
+    }
+}
+
 const overmap *overmapbuffer::get_existing(int x, int y) const
 {
     static const overmap *last_one = NULL;
@@ -142,6 +156,35 @@ bool overmapbuffer::reveal(const point &center, int radius, int z)
             if(!seen(center.x + i, center.y + j, z)) {
                 result = true;
                 set_seen(center.x + i, center.y + j, z, true);
+            }
+        }
+    }
+    return result;
+}
+
+overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string* pattern) const
+{
+    t_notes_vector result;
+    for(std::list<overmap>::const_iterator it = overmap_list.begin();
+        it != overmap_list.end(); ++it)
+    {
+        const overmap &om = *it;
+        const int offset_x = om.pos().x * OMAPX;
+        const int offset_y = om.pos().y * OMAPY;
+        for (int i = 0; i < OMAPX; i++) {
+            for (int j = 0; j < OMAPY; j++) {
+                const std::string &note = om.note(i, j, z);
+                if (note.empty()) {
+                    continue;
+                }
+                if (pattern != NULL && note.find(*pattern) == std::string::npos) {
+                    // pattern not found in note text
+                    continue;
+                }
+                result.push_back(t_point_with_note(
+                    point(offset_x + i, offset_y + j),
+                    om.note(i, j, z)
+                ));
             }
         }
     }
