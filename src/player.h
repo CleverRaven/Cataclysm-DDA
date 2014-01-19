@@ -9,6 +9,7 @@
 #include "inventory.h"
 #include "artifact.h"
 #include "mutation.h"
+#include "mutation_actions.h"
 #include "crafting.h"
 #include "vehicle.h"
 #include "martialarts.h"
@@ -18,6 +19,7 @@ class game;
 struct trap;
 class mission;
 class profession;
+class mut_action;
 
 struct special_attack
 {
@@ -161,6 +163,8 @@ public:
  // returns the bionic with the given invlet, or NULL if no
  // bionic has that invlet.
  bionic* bionic_by_invlet(char ch);
+ void add_mut_action(std::string ident);
+ mut_action *mut_action_by_invlet(char ch);
  float active_light();
 
  bool mutation_ok(std::string mutation, bool force_good, bool force_bad);
@@ -170,7 +174,9 @@ public:
  void remove_mutation(std::string mut);
  bool has_child_flag(std::string mut);
  void remove_child_flag(std::string mut);
-
+ void choose_action();
+ void use_feature(std::string id);
+ 
  point pos();
  int  sight_range(int light_level) const;
  void recalc_sight_limits();
@@ -612,6 +618,7 @@ protected:
     std::set<std::string> my_traits;
     std::set<std::string> my_mutations;
     std::vector<bionic> my_bionics;
+    std::vector<mut_action> my_mut_actions;
     std::vector<disease> illness;
     bool underwater;
 

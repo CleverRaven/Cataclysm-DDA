@@ -1,6 +1,7 @@
 #include "player.h"
 #include "profession.h"
 #include "bionics.h"
+#include "mutation_actions.h"
 #include "mission.h"
 #include "game.h"
 #include "disease.h"
@@ -229,6 +230,7 @@ player& player::operator= (const player & rhs)
  mutation_category_level = rhs.mutation_category_level;
 
  my_bionics = rhs.my_bionics;
+ my_mut_actions = rhs.my_mut_actions;
 
  power_level = rhs.power_level;
  max_power_level = rhs.max_power_level;
@@ -3443,6 +3445,36 @@ void player::add_bionic(bionic_id b)
  recalc_sight_limits();
 }
 
+void player::add_mut_action(std::string ident)
+{
+    for (size_t i = 0; i < my_mut_actions.size(); i++) {
+        if (my_mut_actions[i].id == ident) {
+            return; // No duplicates!
+        }
+    }
+    char newinv;
+    if (my_mut_actions.size() == 0) {
+       newinv = 'a';
+    } else if (my_mut_actions.size() == 26) {
+       newinv = 'A';
+    } else if (my_mut_actions.size() == 52) {
+       newinv = '0';
+    } else if (my_mut_actions.size() == 62) {
+       newinv = '"';
+    } else if (my_mut_actions.size() == 76) {
+        newinv = ':';
+    } else if (my_mut_actions.size() == 83) {
+        newinv = '[';
+    } else if (my_mut_actions.size() == 89) {
+        newinv = '{';
+    } else {
+        newinv = my_mut_actions[my_mut_actions.size() - 1].invlet + 1;
+    }
+    my_mut_actions.push_back(mut_action(ident, newinv));
+    recalc_sight_limits();
+}
+
+
 int player::num_bionics() const
 {
     return my_bionics.size();
@@ -3461,6 +3493,17 @@ bionic* player::bionic_by_invlet(char ch) {
     }
     return 0;
 }
+
+mut_action *player::mut_action_by_invlet(char ch) {
+    for (size_t i = 0; i < my_mut_actions.size(); i++) {
+        if (my_mut_actions[i].invlet == ch) {
+            return &my_mut_actions[i];
+        }
+    }
+    return 0;
+}
+
+
 
 // Returns true if a bionic was removed.
 bool player::remove_random_bionic() {

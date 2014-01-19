@@ -10,6 +10,7 @@
 #include "profession.h"
 #include "skill.h"
 #include "mutation.h"
+#include "mutation_actions.h"
 #include "text_snippets.h"
 #include "item_factory.h"
 #include "crafting.h"
@@ -103,6 +104,7 @@ void init_data_structures()
     // Static Function Access
     type_function_map["material"] = new StaticFunctionAccessor(&material_type::load_material);
     type_function_map["bionic"] = new StaticFunctionAccessor(&load_bionic);
+    type_function_map["mut_action"] = new StaticFunctionAccessor(&load_mut_action);
     type_function_map["profession"] = new StaticFunctionAccessor(&profession::load_profession);
     type_function_map["skill"] = new StaticFunctionAccessor(&Skill::load_skill);
     type_function_map["dream"] = new StaticFunctionAccessor(&load_dream);
