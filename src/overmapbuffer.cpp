@@ -77,6 +77,18 @@ const overmap *overmapbuffer::get_existing_om_global(const point& p) const
     return get_existing(om_pos.x, om_pos.y);
 }
 
+bool overmapbuffer::seen(int x, int y, int z) const
+{
+    const overmap *om = get_existing_om_global(x, y);
+    return (om != NULL) && const_cast<overmap*>(om)->seen(x, y, z);
+}
+
+void overmapbuffer::set_seen(int x, int y, int z, bool seen)
+{
+    overmap &om = get_om_global(x, y);
+    om.seen(x, y, z) = seen;
+}
+
 overmap &overmapbuffer::get_om_global(const point& p)
 {
     const point om_pos = omt_to_om_copy(p);
@@ -86,6 +98,20 @@ overmap &overmapbuffer::get_om_global(const point& p)
 oter_id& overmapbuffer::ter(int x, int y, int z) {
     overmap &om = get_om_global(x, y);
     return om.ter(x, y, z);
+}
+
+bool overmapbuffer::reveal(const point &center, int radius, int z)
+{
+    bool result = false;
+    for (int i = -radius; i <= radius; i++) {
+        for (int j = -radius; j <= radius; j++) {
+            if(!seen(center.x + i, center.y + j, z)) {
+                result = true;
+                set_seen(center.x + i, center.y + j, z, true);
+            }
+        }
+    }
+    return result;
 }
 
 inline int modulo(int v, int m) {

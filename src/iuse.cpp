@@ -13,6 +13,7 @@
 #include "action.h"
 #include "monstergenerator.h"
 #include "speech.h"
+#include "overmapbuffer.h"
 #include <sstream>
 #include <algorithm>
 
@@ -6702,15 +6703,9 @@ int iuse::artifact(player *p, item *it, bool)
    break;
 
   case AEA_MAP: {
-   bool new_map = false;
-   for (int x = int(g->levx / 2) - 20; x <= int(g->levx / 2) + 20; x++) {
-    for (int y = int(g->levy / 2) - 20; y <= int(g->levy / 2) + 20; y++) {
-     if (!g->cur_om->seen(x, y, g->levz)) {
-      new_map = true;
-      g->cur_om->seen(x, y, g->levz) = true;
-     }
-    }
-   }
+   const tripoint center = g->om_global_location();
+   const bool new_map = overmap_buffer.reveal(
+       point(center.x, center.y), 20, center.z);
    if (new_map) {
     g->add_msg_if_player(p,_("You have a vision of the surrounding area..."));
     p->moves -= 100;

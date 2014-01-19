@@ -52,6 +52,22 @@ public:
      */
     oter_id& ter(int x, int y, int z);
     oter_id& ter(const tripoint& p) { return ter(p.x, p.y, p.z); }
+    /**
+     * Uses global overmap terrain coordinates.
+     */
+    bool seen(int x, int y, int z) const;
+    void set_seen(int x, int y, int z, bool seen = true);
+
+    /**
+     * Mark a square area around center on z-level z
+     * as seen.
+     * center is in absolute overmap terrain coords.
+     * @param radius The half size of the square to make visible.
+     * A value of 0 makes only center visible, radius 1 makes a
+     * square 3x3 visible.
+     * @return true if something has actually been revealed.
+     */
+    bool reveal(const point &center, int radius, int z);
 
     /* These 4 functions return the overmap that contains the given
      * overmap terrain coordinate.

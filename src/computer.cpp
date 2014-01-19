@@ -5,6 +5,7 @@
 #include "output.h"
 #include "json.h"
 #include "monstergenerator.h"
+#include "overmapbuffer.h"
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -443,27 +444,8 @@ void computer::activate_function(computer_action action)
     break;
 
     case COMPACT_MAPS: {
-        int minx = int((g->levx + int(MAPSIZE / 2)) / 2) - 40;
-        int maxx = int((g->levx + int(MAPSIZE / 2)) / 2) + 40;
-        int miny = int((g->levy + int(MAPSIZE / 2)) / 2) - 40;
-        int maxy = int((g->levy + int(MAPSIZE / 2)) / 2) + 40;
-        if (minx < 0) {
-            minx = 0;
-        }
-        if (maxx >= OMAPX) {
-            maxx = OMAPX - 1;
-        }
-        if (miny < 0) {
-            miny = 0;
-        }
-        if (maxy >= OMAPY) {
-            maxy = OMAPY - 1;
-        }
-        for (int i = minx; i <= maxx; i++) {
-            for (int j = miny; j <= maxy; j++) {
-                g->cur_om->seen(i, j, 0) = true;
-            }
-        }
+        const tripoint center = g->om_global_location();
+        overmap_buffer.reveal(point(center.x, center.y), 40, 0);
         query_any(_("Surface map data downloaded.  Press any key..."));
     }
     break;

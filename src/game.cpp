@@ -523,12 +523,7 @@ void game::start_game(std::string worldname)
  levy -= int(int(MAPSIZE / 2) / 2);
  levz = 0;
 // Start the overmap with out immediate neighborhood visible
- int begin_vis = 2 - OPTIONS["DISTANCE_INITIAL_VISIBILITY"];
- int end_vis = 2 + OPTIONS["DISTANCE_INITIAL_VISIBILITY"];
- for (int i = begin_vis; i <= end_vis; i++) {
-  for (int j = begin_vis; j <= end_vis; j++)
-   cur_om->seen(levx + i, levy + j, 0) = true;
- }
+ overmap_buffer.reveal(point(levx, levy), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
 // Convert the overmap coordinates to submap coordinates
  levx = levx * 2 - 1;
  levy = levy * 2 - 1;
@@ -12525,59 +12520,24 @@ tripoint game::om_global_location() const
 
 void game::update_overmap_seen()
 {
- int omx = (levx + int(MAPSIZE / 2)) / 2, omy = (levy + int(MAPSIZE / 2)) / 2;
- int dist = u.overmap_sight_range(light_level());
- cur_om->seen(omx, omy, levz) = true; // We can always see where we're standing
- if (dist == 0)
-  return; // No need to run the rest!
- for (int x = omx - dist; x <= omx + dist; x++) {
-  for (int y = omy - dist; y <= omy + dist; y++) {
-   std::vector<point> line = line_to(omx, omy, x, y, 0);
-   int sight_points = dist;
-   int cost = 0;
-   for (int i = 0; i < line.size() && sight_points >= 0; i++) {
-    int lx = line[i].x, ly = line[i].y;
-    if (lx >= 0 && lx < OMAPX && ly >= 0 && ly < OMAPY)
-     cost = otermap[cur_om->ter(lx, ly, levz)].see_cost;
-    else if ((lx < 0 || lx >= OMAPX) && (ly < 0 || ly >= OMAPY)) {
-     if (lx < 0) lx += OMAPX;
-     else        lx -= OMAPX;
-     if (ly < 0) ly += OMAPY;
-     else        ly -= OMAPY;
-     cost = otermap[om_diag->ter(lx, ly, levz)].see_cost;
-    } else if (lx < 0 || lx >= OMAPX) {
-     if (lx < 0) lx += OMAPX;
-     else        lx -= OMAPX;
-     cost = otermap[om_hori->ter(lx, ly, levz)].see_cost;
-    } else if (ly < 0 || ly >= OMAPY) {
-     if (ly < 0) ly += OMAPY;
-     else        ly -= OMAPY;
-     cost = otermap[om_vert->ter(lx, ly, levz)].see_cost;
+    const tripoint ompos = om_global_location();
+    const int dist = u.overmap_sight_range(light_level());
+    // We can always see where we're standing
+    overmap_buffer.set_seen(ompos.x, ompos.y, ompos.z, true);
+    for (int x = ompos.x - dist; x <= ompos.x + dist; x++) {
+        for (int y = ompos.y - dist; y <= ompos.y + dist; y++) {
+            const std::vector<point> line = line_to(ompos.x, ompos.y, x, y, 0);
+            int sight_points = dist;
+            for (int i = 0; i < line.size() && sight_points >= 0; i++) {
+                const oter_id &ter = overmap_buffer.ter(line[i].x, line[i].y, ompos.z);
+                const int cost = otermap[ter].see_cost;
+                sight_points -= cost;
+            }
+            if (sight_points >= 0) {
+                overmap_buffer.set_seen(x, y, ompos.z, true);
+            }
+        }
     }
-    sight_points -= cost;
-   }
-   if (sight_points >= 0) {
-    int tmpx = x, tmpy = y;
-    if (tmpx >= 0 && tmpx < OMAPX && tmpy >= 0 && tmpy < OMAPY)
-     cur_om->seen(tmpx, tmpy, levz) = true;
-    else if ((tmpx < 0 || tmpx >= OMAPX) && (tmpy < 0 || tmpy >= OMAPY)) {
-     if (tmpx < 0) tmpx += OMAPX;
-     else          tmpx -= OMAPX;
-     if (tmpy < 0) tmpy += OMAPY;
-     else          tmpy -= OMAPY;
-     om_diag->seen(tmpx, tmpy, levz) = true;
-    } else if (tmpx < 0 || tmpx >= OMAPX) {
-     if (tmpx < 0) tmpx += OMAPX;
-     else          tmpx -= OMAPX;
-     om_hori->seen(tmpx, tmpy, levz) = true;
-    } else if (tmpy < 0 || tmpy >= OMAPY) {
-     if (tmpy < 0) tmpy += OMAPY;
-     else          tmpy -= OMAPY;
-     om_vert->seen(tmpx, tmpy, levz) = true;
-    }
-   }
-  }
- }
 }
 
 point game::om_location() const
