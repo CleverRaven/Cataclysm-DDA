@@ -3261,6 +3261,31 @@
     "clip_size": 1,
     "reload": 1000,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },
+    {
+    "id": "sr3",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "SR-3 Vikhr",
+    "description": "The SR-3 Vikhr is a Russian compact fully automatic assault rifle chambered for the 9x39mm subsonic round." ,
+    "price": 6780,
+    "material": "steel",
+    "skill": "rifle",
+    "ammo": "939mm",
+    "weight": 3175,
+    "volume": 4,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": 0,
+    "ranged_damage": 5,
+    "range": 20,
+    "dispersion": 14,
+    "recoil": 13,
+    "durability": 8,
+    "burst": 4,
+    "clip_size": 20,
+    "reload": 200,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   }
-  
 ]
