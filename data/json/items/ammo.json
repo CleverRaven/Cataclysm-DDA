@@ -3333,9 +3333,9 @@
         "effects" : ["COOKOFF"]
     }
     {   "type" : "AMMO",
-        "id" : "939mm",
+        "id" : "939mm_casing",
         "price" : 140,
-        "name" : "9x39mm SP6",
+        "name" : "9x39mm casing",
         "symbol" : "=",
         "color" : "yellow",
         "description" : "An empty casing from a 9x39 round.",
@@ -3346,7 +3346,6 @@
         "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "939mm",
-        "casing" : "939_casing",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
