@@ -38,7 +38,8 @@
           "park_radius": 130,               "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
           "parks": {                        "//": "weighted list for park overmap terrains",
               "park": 4,
-              "pool": 1
+              "pool": 1,
+              "fieldoffice": 1
           },
           "shops": {                        "//": "weighted list of oterrains for commercial zoning",
               "s_gas": 5,
@@ -68,8 +69,7 @@
               "furniture": 2,
               "abstorefront": 2,
               "police": 1,
-              "s_lot": 4,
-              "fieldoffice": 2
+              "s_lot": 4
           }
       }
    }
