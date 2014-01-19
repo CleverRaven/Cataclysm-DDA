@@ -362,8 +362,6 @@ void player::reset_stats()
     blocks_left = get_num_blocks();
     dodges_left = get_num_dodges();
 
-    suffer();
-
     // Didn't just pick something up
     last_item = itype_id("null");
 
@@ -427,6 +425,8 @@ void player::reset_stats()
         mod_per_bonus(-int(abs(stim - 15) / 12));
         mod_int_bonus(-int(abs(stim - 15) / 14));
     }
+
+    suffer();
 
     // Dodge-related effects
     mod_dodge_bonus(
@@ -3859,29 +3859,21 @@ int player::talk_skill()
     int ret = get_int() + get_per() + skillLevel("speech") * 3;
     if (has_trait("SAPIOVORE")) {
         ret -= 20; // Friendly convo with your prey? unlikely
-    }
-    else if (has_trait("UGLY")) {
+    } else if (has_trait("UGLY")) {
         ret -= 3;
-    }
-    else if (has_trait("DEFORMED")) {
+    } else if (has_trait("DEFORMED")) {
         ret -= 6;
-    }
-    else if (has_trait("DEFORMED2")) {
+    } else if (has_trait("DEFORMED2")) {
         ret -= 12;
-    }
-    else if (has_trait("DEFORMED3")) {
+    } else if (has_trait("DEFORMED3")) {
         ret -= 18;
-    }
-    else if (has_trait("PRETTY")) {
+    } else if (has_trait("PRETTY")) {
         ret += 1;
-    }
-    else if (has_trait("BEAUTIFUL")) {
+    } else if (has_trait("BEAUTIFUL")) {
         ret += 2;
-    }
-    else if (has_trait("BEAUTIFUL2")) {
+    } else if (has_trait("BEAUTIFUL2")) {
         ret += 4;
-    }
-    else if (has_trait("BEAUTIFUL3")) {
+    } else if (has_trait("BEAUTIFUL3")) {
         ret += 6;
     }
     return ret;
@@ -3889,36 +3881,32 @@ int player::talk_skill()
 
 int player::intimidation()
 {
- int ret = get_str() * 2;
- if (weapon.is_gun()) {
-      ret += 10;
-  }
- if (weapon.damage_bash() >= 12 || weapon.damage_cut() >= 12) {
-      ret += 5;
-  }
- if (has_trait("SAPIOVORE")) {
-        ret += 5; // Scaring one's prey, on the other claw...
+    int ret = get_str() * 2;
+    if (weapon.is_gun()) {
+        ret += 10;
     }
- else if (has_trait("DEFORMED2")) {
-      ret += 3;
-  }
- else if (has_trait("DEFORMED3")) {
-      ret += 6;
-  }
- else if (has_trait("PRETTY")) {
-      ret -= 1;
-  }
- else if (has_trait("BEAUTIFUL") || has_trait("BEAUTIFUL2") || has_trait("BEAUTIFUL3")) {
-      ret -= 4;
-  }
- if (stim > 20) {
-      ret += 2;
-  }
- if (has_disease("drunk")) {
-      ret -= 4;
-  }
+    if (weapon.damage_bash() >= 12 || weapon.damage_cut() >= 12) {
+        ret += 5;
+    }
+    if (has_trait("SAPIOVORE")) {
+        ret += 5; // Scaring one's prey, on the other claw...
+    } else if (has_trait("DEFORMED2")) {
+        ret += 3;
+    } else if (has_trait("DEFORMED3")) {
+        ret += 6;
+    } else if (has_trait("PRETTY")) {
+        ret -= 1;
+    } else if (has_trait("BEAUTIFUL") || has_trait("BEAUTIFUL2") || has_trait("BEAUTIFUL3")) {
+        ret -= 4;
+    }
+    if (stim > 20) {
+        ret += 2;
+    }
+    if (has_disease("drunk")) {
+        ret -= 4;
+    }
 
- return ret;
+    return ret;
 }
 
 bool player::is_dead_state() {
@@ -3927,25 +3915,18 @@ bool player::is_dead_state() {
 
 void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
     bool u_see = g->u_see(this);
-    if (is_player())
-    {
-        if (activity.type == ACT_RELOAD)
-        {
+    if (is_player()) {
+        if (activity.type == ACT_RELOAD) {
             g->add_msg(_("You stop reloading."));
-        }
-        else if (activity.type == ACT_READ)
-        {
+        } else if (activity.type == ACT_READ) {
             g->add_msg(_("You stop reading."));
-        }
-        else if (activity.type == ACT_CRAFT || activity.type == ACT_LONGCRAFT)
-        {
+        } else if (activity.type == ACT_CRAFT || activity.type == ACT_LONGCRAFT) {
             g->add_msg(_("You stop crafting."));
             activity.type = ACT_NULL;
         }
     }
     if (source != NULL) {
-        if (has_active_bionic("bio_ods"))
-        {
+        if (has_active_bionic("bio_ods")) {
             if (is_player()) {
                 g->add_msg(_("Your offensive defense system shocks %s in mid-attack!"),
                             source->disp_name().c_str());
@@ -3958,8 +3939,7 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             ods_shock_damage.add_damage(DT_ELECTRIC, rng(10,40));
             source->deal_damage(this, bp_torso, 3, ods_shock_damage);
         }
-        if (encumb(bp_hit) == 0 &&(has_trait("SPINES") || has_trait("QUILLS")))
-        {
+        if (encumb(bp_hit) == 0 &&(has_trait("SPINES") || has_trait("QUILLS"))) {
             int spine = rng(1, (has_trait("QUILLS") ? 20 : 8));
             if (!is_player()) {
                 if( u_see ) {
@@ -3991,8 +3971,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         rem_disease("lying_down");
     }
 
-    if (is_player())
+    if (is_player()) {
         g->cancel_activity_query(_("You were hurt!"));
+    }
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
     if( g->u_see( this->posx, this->posy ) ) {
@@ -4005,16 +3986,19 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         std::vector<point> valid;
         for (int x = posx - 1; x <= posx + 1; x++) {
             for (int y = posy - 1; y <= posy + 1; y++) {
-                if (g->is_empty(x, y))
-                valid.push_back( point(x, y) );
+                if (g->is_empty(x, y)) {
+                    valid.push_back( point(x, y) );
+                }
             }
         }
-        if (snakes > valid.size())
+        if (snakes > valid.size()) {
             snakes = valid.size();
-        if (snakes == 1)
+        }
+        if (snakes == 1) {
             g->add_msg(_("A snake sprouts from your body!"));
-        else if (snakes >= 2)
+        } else if (snakes >= 2) {
             g->add_msg(_("Some snakes sprout from your body!"));
+        }
         monster snake(GetMType("mon_shadow_snake"));
         for (int i = 0; i < snakes; i++) {
             int index = rng(0, valid.size() - 1);
@@ -4031,8 +4015,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     }
 
     if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
-        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
-    add_disease("adrenaline", 200);
+        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
+        add_disease("adrenaline", 200);
+    }
 
     int cut_dam = dealt_dams.type_damage(DT_CUT);
     switch (bp) {
@@ -4040,11 +4025,13 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         mod_pain(1);
         if (dam > 5 || cut_dam > 0) {
             int minblind = int((dam + cut_dam) / 10);
-            if (minblind < 1)
+            if (minblind < 1) {
                 minblind = 1;
+            }
             int maxblind = int((dam + cut_dam) /  4);
-            if (maxblind > 5)
+            if (maxblind > 5) {
                 maxblind = 5;
+            }
             add_effect("blind", rng(minblind, maxblind));
         }
     case bp_mouth: // Fall through to head damage
@@ -4063,8 +4050,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     case bp_hands: // Fall through to arms
     case bp_arms:
         // getting hit in the arms throws off our shooting
-        if (side == 1 || weapon.is_two_handed(this))
+        if (side == 1 || weapon.is_two_handed(this)) {
             recoil += int(dam / 3);
+        }
         break;
     case bp_feet: // Fall through to legs
     case bp_legs:
@@ -4077,22 +4065,24 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
 }
 
 void player::apply_damage(Creature* source, body_part bp, int side, int dam) {
-    if (is_dead_state()) return; // don't do any more damage if we're already dead
+    if (is_dead_state()) {
+        // don't do any more damage if we're already dead
+        return;
+    }
+
     switch (bp) {
     case bp_eyes: // Fall through to head damage
     case bp_mouth: // Fall through to head damage
     case bp_head:
         hp_cur[hp_head] -= dam;
-        if (hp_cur[hp_head] < 0)
-        {
+        if (hp_cur[hp_head] < 0) {
             lifetime_stats()->damage_taken+=hp_cur[hp_head];
             hp_cur[hp_head] = 0;
         }
         break;
     case bp_torso:
         hp_cur[hp_torso] -= dam;
-        if (hp_cur[hp_torso] < 0)
-        {
+        if (hp_cur[hp_torso] < 0) {
             lifetime_stats()->damage_taken+=hp_cur[hp_torso];
             hp_cur[hp_torso] = 0;
         }
@@ -4101,16 +4091,14 @@ void player::apply_damage(Creature* source, body_part bp, int side, int dam) {
     case bp_arms:
         if (side == 0) {
             hp_cur[hp_arm_l] -= dam;
-            if (hp_cur[hp_arm_l] < 0)
-            {
+            if (hp_cur[hp_arm_l] < 0) {
                 lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
                 hp_cur[hp_arm_l] = 0;
             }
         }
         if (side == 1) {
             hp_cur[hp_arm_r] -= dam;
-            if (hp_cur[hp_arm_r] < 0)
-            {
+            if (hp_cur[hp_arm_r] < 0) {
                 lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
                 hp_cur[hp_arm_r] = 0;
             }
@@ -4120,16 +4108,14 @@ void player::apply_damage(Creature* source, body_part bp, int side, int dam) {
     case bp_legs:
         if (side == 0) {
             hp_cur[hp_leg_l] -= dam;
-            if (hp_cur[hp_leg_l] < 0)
-            {
+            if (hp_cur[hp_leg_l] < 0) {
                 lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
                 hp_cur[hp_leg_l] = 0;
             }
         }
         if (side == 1) {
             hp_cur[hp_leg_r] -= dam;
-            if (hp_cur[hp_leg_r] < 0)
-            {
+            if (hp_cur[hp_leg_r] < 0) {
                 lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
                 hp_cur[hp_leg_r] = 0;
             }
@@ -4140,15 +4126,17 @@ void player::apply_damage(Creature* source, body_part bp, int side, int dam) {
     }
     lifetime_stats()->damage_taken+=dam;
 
-    if (is_dead_state())
+    if (is_dead_state()) {
         die(source);
+    }
 }
 
 void player::mod_pain(int npain) {
     if ((has_trait("NOPAIN"))) {
         return;
     }
-    if (has_trait("PAINRESIST") && npain > 1) {// if it's 1 it'll just become 0, which is bad
+    if (has_trait("PAINRESIST") && npain > 1) {
+        // if it's 1 it'll just become 0, which is bad
         npain = npain * 4 / rng(4,8);
     }
     Creature::mod_pain(npain);
@@ -4194,7 +4182,7 @@ void player::hurt(hp_part hurt, int dam)
     if (!is_npc()) {
         g->cancel_activity_query(_("You were hurt!"));
     }
-    
+
     mod_pain( dam / 2 );
 
     hp_cur[hurt] -= dam;
@@ -9638,7 +9626,7 @@ void player::practice (const calendar& turn, Skill *s, int amount)
     if (has_trait("PRED3") && s->is_combat_skill()) {
       amount *= 2;
     }
-    
+
     if (has_trait("PRED4") && s->is_combat_skill()) {
       amount *= 3;
     }

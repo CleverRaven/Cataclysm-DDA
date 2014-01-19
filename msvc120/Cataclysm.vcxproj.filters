@@ -93,6 +93,9 @@
     <ClCompile Include="..\src\defense.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\dependency_tree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\disease.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -235,6 +238,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\missiondef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mod_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mod_manager_ui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\monattack.cpp">
@@ -458,6 +467,9 @@
     <ClInclude Include="..\src\damage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\dependency_tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\dialogue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -586,6 +598,9 @@
     </ClInclude>
     <ClInclude Include="..\src\mission.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mod_manager.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\monattack.h">
       <Filter>Header Files</Filter>

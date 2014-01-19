@@ -1393,24 +1393,6 @@ std::string veh_interact::getDurabilityDescription(const int &dur)
     return std::string(_("error"));
 }
 
-
-/** Used by consume_vpart_item to track items that could be consumed. */
-struct candidate_vpart {
-    bool in_inventory;
-    int mapx;
-    int mapy;
-    int index;
-    item vpart_item;
-    candidate_vpart(int x, int y, int i, item vpitem):
-        in_inventory(false), mapx(x), mapy(y), index(i) {
-        vpart_item = vpitem;
-    }
-    candidate_vpart(int position, item vpitem):
-        in_inventory(true), mapx(-1), mapy(-1), index(position) {
-        vpart_item = vpitem;
-    }
-};
-
 /**
  * Given a vpart id, gives the choice of inventory and nearby items to consume
  * for install/repair/etc. Doesn't use consume_items in crafting.cpp, as it got
@@ -1421,37 +1403,21 @@ struct candidate_vpart {
  */
 item consume_vpart_item (std::string vpid)
 {
-    std::vector<candidate_vpart> candidates;
+    std::vector<bool> candidates;
     const itype_id itid = vehicle_part_types[vpid].item;
-    for (int x = g->u.posx - PICKUP_RANGE; x <= g->u.posx + PICKUP_RANGE; x++) {
-        for (int y = g->u.posy - PICKUP_RANGE; y <= g->u.posy + PICKUP_RANGE; y++) {
-            if(g->m.accessable_items(g->u.posx, g->u.posy, x, y, PICKUP_RANGE)) {
-                continue;
-            }
-            for(int i = 0; i < g->m.i_at(x, y).size(); i++) {
-                item *ith_item = &(g->m.i_at(x, y)[i]);
-                if (ith_item->type->id == itid) {
-                    candidates.push_back (candidate_vpart(x, y, i, *ith_item));
-                }
-            }
-        }
-    }
+    inventory map_inv;
+    map_inv.form_from_map( point(g->u.posx, g->u.posy), PICKUP_RANGE );
 
-    std::vector<std::pair<item*, int> > cand_from_inv = g->u.inv.all_items_by_type(itid);
-    for (int i = 0; i < cand_from_inv.size(); i++) {
-        item *ith_item = cand_from_inv[i].first;
-        if (ith_item->type->id  == itid) {
-            // TODO: Adapt this to position.
-            candidates.push_back (candidate_vpart(cand_from_inv[i].second, *ith_item));
-        }
+    if( g->u.has_amount( itid, 1) ) {
+        candidates.push_back( true );
     }
-    if (g->u.weapon.type->id == itid) {
-        candidates.push_back (candidate_vpart(-1, g->u.weapon));
+    if( map_inv.has_amount( itid, 1 ) ) {
+        candidates.push_back( false );
     }
 
     // bug?
     if(candidates.size() == 0) {
-        debugmsg("part not found");
+        debugmsg("Part not found!");
         return item();
     }
 
@@ -1463,35 +1429,26 @@ item consume_vpart_item (std::string vpid)
         // popup menu!?
         std::vector<std::string> options;
         for(int i = 0; i < candidates.size(); i++) {
-            if(candidates[i].in_inventory) {
-                if (candidates[i].index == -1) {
-                    options.push_back(candidates[i].vpart_item.tname() + _(" (wielded)"));
-                } else {
-                    options.push_back(candidates[i].vpart_item.tname());
-                }
+            if( candidates[i] ) {
+                // In inventory.
+                options.push_back(vehicle_part_types[vpid].name);
             } else {
-                //nearby.
-                options.push_back(candidates[i].vpart_item.tname() + _(" (nearby)"));
+                // Nearby.
+                options.push_back(vehicle_part_types[vpid].name + _(" (nearby)"));
             }
         }
         selection = menu_vec(false, _("Use which gizmo?"), options);
         selection -= 1;
     }
+    std::list<item> item_used;
     //remove item from inventory. or map.
-    if(candidates[selection].in_inventory) {
-        if(candidates[selection].index == -1) { //weapon
-            g->u.remove_weapon();
-        } else { //non-weapon inventory
-            g->u.inv.remove_item(candidates[selection].index);
-        }
+    if( candidates[selection] ) {
+        item_used = g->u.use_amount( itid, 1 );
     } else {
-        //map.
-        int x = candidates[selection].mapx;
-        int y = candidates[selection].mapy;
-        int i = candidates[selection].index;
-        g->m.i_rem(x, y, i);
+        item_used = g->m.use_amount( point(g->u.posx, g->u.posy), PICKUP_RANGE, itid, 1 );
     }
-    return candidates[selection].vpart_item;
+
+    return item_used.front();
 }
 
 /**
