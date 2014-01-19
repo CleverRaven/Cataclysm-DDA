@@ -110,6 +110,7 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
 
 std::string ammo_name(ammotype t)
 {
+    if( t == "939mm")       return_("9x39");
     if( t == "700nx")       return _(".700 Nitro Express");
     if( t == "ammo_flintlock")  return _("paper cartidge");
     if( t == "50")          return _(".50 BMG");
@@ -213,5 +214,6 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "ampoule"  )     return "ampoule";
     if( guntype == "50"  )          return "50bmg";
     if( guntype == "fishspear"  )   return "fishspear";
+    if( guntype == "939mm" )      return "9x39";
     return "null";
 }

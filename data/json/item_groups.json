@@ -2058,6 +2058,7 @@
     "type" : "item_group",
     "id" : "ammo",
     "items":[
+      ["939mm", 4],
       ["shot_bird", 8],
       ["shot_00", 8],
       ["shot_flechette", 3],
@@ -2149,6 +2150,7 @@
     "type" : "item_group",
     "id" : "rifles",
     "items":[
+      ["sr3", 2],
       ["marlin_9a", 14],
       ["ruger_1022", 12],
       ["cx4", 15],
