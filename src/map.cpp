@@ -2677,7 +2677,8 @@ std::list<item> use_amount_map_or_vehicle(std::vector<item> &vec, const itype_id
   return ret;
 }
 
-std::list<item> map::use_amount_square(const int x, const int y, const itype_id type, int &quantity, const bool use_container)
+std::list<item> map::use_amount_square(const int x, const int y, const itype_id type,
+                                       int &quantity, const bool use_container)
 {
   std::list<item> ret;
   int vpart = -1;
@@ -2686,7 +2687,8 @@ std::list<item> map::use_amount_square(const int x, const int y, const itype_id 
   if (veh) {
     const int cargo = veh->part_with_feature(vpart, "CARGO");
     if (cargo >= 0) {
-      std::list<item> tmp = use_amount_map_or_vehicle(veh->parts[cargo].items, type, quantity, use_container);
+      std::list<item> tmp = use_amount_map_or_vehicle(veh->parts[cargo].items, type,
+                                                      quantity, use_container);
       ret.splice(ret.end(), tmp);
     }
   }
@@ -2715,7 +2717,7 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
 }
 
 std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const itype_id type,
-        int &quantity)
+                                                int &quantity)
 {
     std::list<item> ret;
     for (int n = 0; n < vec.size() && quantity > 0; n++) {
