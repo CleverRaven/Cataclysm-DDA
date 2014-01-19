@@ -362,8 +362,6 @@ void player::reset_stats()
     blocks_left = get_num_blocks();
     dodges_left = get_num_dodges();
 
-    suffer();
-
     // Didn't just pick something up
     last_item = itype_id("null");
 
@@ -427,6 +425,8 @@ void player::reset_stats()
         mod_per_bonus(-int(abs(stim - 15) / 12));
         mod_int_bonus(-int(abs(stim - 15) / 14));
     }
+
+    suffer();
 
     // Dodge-related effects
     mod_dodge_bonus(
@@ -4182,7 +4182,7 @@ void player::hurt(hp_part hurt, int dam)
     if (!is_npc()) {
         g->cancel_activity_query(_("You were hurt!"));
     }
-    
+
     mod_pain( dam / 2 );
 
     hp_cur[hurt] -= dam;
@@ -9626,7 +9626,7 @@ void player::practice (const calendar& turn, Skill *s, int amount)
     if (has_trait("PRED3") && s->is_combat_skill()) {
       amount *= 2;
     }
-    
+
     if (has_trait("PRED4") && s->is_combat_skill()) {
       amount *= 3;
     }
