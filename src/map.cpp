@@ -2677,7 +2677,8 @@ std::list<item> use_amount_map_or_vehicle(std::vector<item> &vec, const itype_id
   return ret;
 }
 
-std::list<item> map::use_amount_square(const int x, const int y, const itype_id type, int &quantity, const bool use_container)
+std::list<item> map::use_amount_square(const int x, const int y, const itype_id type,
+                                       int &quantity, const bool use_container)
 {
   std::list<item> ret;
   int vpart = -1;
@@ -2686,7 +2687,8 @@ std::list<item> map::use_amount_square(const int x, const int y, const itype_id 
   if (veh) {
     const int cargo = veh->part_with_feature(vpart, "CARGO");
     if (cargo >= 0) {
-      std::list<item> tmp = use_amount_map_or_vehicle(veh->parts[cargo].items, type, quantity, use_container);
+      std::list<item> tmp = use_amount_map_or_vehicle(veh->parts[cargo].items, type,
+                                                      quantity, use_container);
       ret.splice(ret.end(), tmp);
     }
   }
@@ -2715,7 +2717,7 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
 }
 
 std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const itype_id type,
-        int &quantity)
+                                                int &quantity)
 {
     std::list<item> ret;
     for (int n = 0; n < vec.size() && quantity > 0; n++) {
@@ -2777,6 +2779,7 @@ std::list<item> map::use_charges(const point origin, const int range,
                         const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
                         const int forgepart = veh->part_with_feature(vpart, "FORGE");
                         const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
+                        const int cargo = veh->part_with_feature(vpart, "CARGO");
 
                         if (kpart >= 0) { // we have a kitchen, now to see what to drain
                             ammotype ftype = "NULL";
@@ -2872,50 +2875,21 @@ std::list<item> map::use_charges(const point origin, const int range,
                                 return ret;
                             }
                         }
-                    }
 
-                    for (int n = 0; n < i_at(x, y).size(); n++) {
-                        item* curit = &(i_at(x, y)[n]);
-                        // Check contents first
-                        for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
-                            if (curit->contents[m].type->id == type || curit->contents[m].ammo_type() == type) {
-                                if (curit->contents[m].charges <= quantity) {
-                                    ret.push_back(curit->contents[m]);
-                                    quantity -= curit->contents[m].charges;
-                                    if (curit->contents[m].destroyed_at_zero_charges()) {
-                                        curit->contents.erase(curit->contents.begin() + m);
-                                        m--;
-                                    } else {
-                                        curit->contents[m].charges = 0;
-                                    }
-                                } else {
-                                    item tmp = curit->contents[m];
-                                    tmp.charges = quantity;
-                                    ret.push_back(tmp);
-                                    curit->contents[m].charges -= quantity;
-                                    return ret;
-                                }
-                            }
-                        }
-                        // Now check the actual item
-                        if (curit->type->id == type || curit->ammo_type() == type) {
-                            if (curit->charges <= quantity) {
-                                ret.push_back(*curit);
-                                quantity -= curit->charges;
-                                if (curit->destroyed_at_zero_charges()) {
-                                    i_rem(x, y, n);
-                                    n--;
-                                } else {
-                                    curit->charges = 0;
-                                }
-                            } else {
-                                item tmp = *curit;
-                                tmp.charges = quantity;
-                                ret.push_back(tmp);
-                                curit->charges -= quantity;
+                        if (cargo >= 0) {
+                            std::list<item> tmp =
+                                use_charges_from_map_or_vehicle(veh->parts[cargo].items, type, quantity);
+                            ret.splice(ret.end(), tmp);
+                            if (quantity <= 0) {
                                 return ret;
                             }
                         }
+                    }
+
+                    std::list<item> tmp = use_charges_from_map_or_vehicle(i_at(x,y), type, quantity);
+                    ret.splice(ret.end(), tmp);
+                    if (quantity <= 0) {
+                        return ret;
                     }
                 }
             }
