@@ -322,28 +322,35 @@ void player::mutate_towards(std::string mut)
     }
 
     toggle_mutation(mut);
+
+    bool mutation_replaced = false;
+    
     if (replacing != "") {
         g->add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing].name.c_str(), traits[mut].name.c_str());
         g->u.add_memorial_log(_("'%s' mutation turned into '%s'"), traits[replacing].name.c_str(), traits[mut].name.c_str());
         toggle_mutation(replacing);
         mutation_loss_effect(*this, replacing);
         mutation_effect(*this, mut);
-
-    } if (replacing2 != "") {
+        mutation_replaced = true;
+    }
+    if (replacing2 != "") {
         g->add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing2].name.c_str(), traits[mut].name.c_str());
         g->u.add_memorial_log(_("'%s' mutation turned into '%s'"), traits[replacing2].name.c_str(), traits[mut].name.c_str());
         toggle_mutation(replacing2);
         mutation_loss_effect(*this, replacing2);
         mutation_effect(*this, mut);
-
-    } else if (canceltrait != "") {
+        mutation_replaced = true;
+    }
+    if (canceltrait != "") {
         // If this new mutation cancels a base trait, remove it and add the mutation at the same time
         g->add_msg(_("Your innate %1$s trait turns into %2$s!"), traits[canceltrait].name.c_str(), traits[mut].name.c_str());
         g->u.add_memorial_log(_("'%s' trait turned into '%s'"), traits[canceltrait].name.c_str(), traits[mut].name.c_str());
         toggle_mutation(canceltrait);
         mutation_loss_effect(*this, canceltrait);
         mutation_effect(*this, mut);
-    } else {
+        mutation_replaced = true;
+    }
+    if (!mutation_replaced) {
         g->add_msg(_("You gain a mutation called %s!"), traits[mut].name.c_str());
         g->u.add_memorial_log(_("Gained the mutation '%s'."), traits[mut].name.c_str());
         mutation_effect(*this, mut);
