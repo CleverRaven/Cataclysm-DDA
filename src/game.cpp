@@ -5671,7 +5671,8 @@ void game::monmove()
                 int group = valid_group((critter->type->id), levx, levy, levz);
                 if (group != -1) {
                     cur_om->zg[group].population++;
-                    if (cur_om->zg[group].population / (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
+                    if (cur_om->zg[group].population /
+                        (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
                         !cur_om->zg[group].diffuse ) {
                         cur_om->zg[group].radius++;
                     }
@@ -5684,27 +5685,27 @@ void game::monmove()
         }
     }
 
- cleanup_dead();
+    cleanup_dead();
 
-// Now, do active NPCs.
- for (int i = 0; i < active_npc.size(); i++) {
-  int turns = 0;
-  if(active_npc[i]->hp_cur[hp_head] <= 0 || active_npc[i]->hp_cur[hp_torso] <= 0)
-   active_npc[i]->die();
-  else {
-   active_npc[i]->reset();
-   while (!active_npc[i]->dead && active_npc[i]->moves > 0 && turns < 10) {
-    turns++;
-    active_npc[i]->move();
-    //build_monmap();
-   }
-   if (turns == 10) {
-    add_msg(_("%s's brain explodes!"), active_npc[i]->name.c_str());
-    active_npc[i]->die();
-   }
-  }
- }
- cleanup_dead();
+    // Now, do active NPCs.
+    for (int i = 0; i < active_npc.size(); i++) {
+        int turns = 0;
+        if(active_npc[i]->hp_cur[hp_head] <= 0 || active_npc[i]->hp_cur[hp_torso] <= 0) {
+            active_npc[i]->die();
+        } else {
+            active_npc[i]->reset();
+            while (!active_npc[i]->dead && active_npc[i]->moves > 0 && turns < 10) {
+                turns++;
+                active_npc[i]->move();
+                //build_monmap();
+            }
+            if (turns == 10) {
+                add_msg(_("%s's brain explodes!"), active_npc[i]->name.c_str());
+                active_npc[i]->die();
+            }
+        }
+    }
+    cleanup_dead();
 }
 
 bool game::sound(int x, int y, int vol, std::string description)
