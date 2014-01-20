@@ -1320,6 +1320,17 @@ void game::process_activity()
 
     break;
 
+   case ACT_FISH:
+     {
+       item& it = u.i_at(u.activity.position);
+
+       if (it.has_flag("FISH_POOR")) {
+         g->add_msg_if_player(&u, _("You catch nothing."));
+       }
+     }
+
+     break;
+
    case ACT_VEHICLE:
     //Grab this now, in case the vehicle gets shifted
     veh = m.veh_at(u.activity.values[0], u.activity.values[1]);

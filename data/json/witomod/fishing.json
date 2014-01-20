@@ -17,10 +17,10 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "use_action": "DIG",
     "flags" : ["CHOP"],
     "to_hit": 1,
+    "revert_to": "null",
     "qualities": [["CUT", 1]]
   },
   {
@@ -42,8 +42,9 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["FISH_POOR"],
+    "use_action": "FISHING_BASIC",
     "revert_to": "null",
-    "use_action": "DIG",
     "to_hit": 1
   },
   {
