@@ -1034,7 +1034,7 @@ bool overmap::has_vehicle(int const x, int const y, int const z, bool require_pd
 //     cursy = (g->levy + int(MAPSIZE / 2)) / 2;
 
 //Helper function for the overmap::draw function.
-void overmap::print_npcs(WINDOW *w, int const x, int const y, int const z)
+void overmap::print_npcs(WINDOW *w, int const x, int const y, int const z) const
 {
     int i = 0, maxnamelength = 0;
     //Check the max namelength of the npcs in the target
@@ -1087,7 +1087,7 @@ void overmap::print_npcs(WINDOW *w, int const x, int const y, int const z)
     mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
 }
 
-void overmap::print_vehicles(WINDOW *w, int const x, int const y, int const z)
+void overmap::print_vehicles(WINDOW *w, int const x, int const y, int const z) const
 {
     if (!z==0) // vehicles only exist on zlevel 0
         return;
@@ -1783,9 +1783,8 @@ int overmap::dist_from_city(point p)
 
 void overmap::draw(WINDOW *w, int z, int &cursx, int &cursy,
                    int &origx, int &origy, signed char &ch, bool blink,
-                   overmap &hori, overmap &vert, overmap &diag, input_context* inp_ctxt)
+                   overmap &, overmap &, overmap &, input_context* inp_ctxt)
 {
- bool note_here = false, npc_here = false, veh_here = false;
  std::string note_text;
  int om_map_width = TERMX-28;
  int om_map_height = TERMY;
@@ -1795,44 +1794,9 @@ void overmap::draw(WINDOW *w, int z, int &cursx, int &cursy,
  if (g->u.active_mission >= 0 &&
      g->u.active_mission < g->u.active_missions.size())
   target = g->find_mission(g->u.active_missions[g->u.active_mission])->target;
-  bool see;
   oter_id cur_ter = ot_null;
   nc_color ter_color;
   long ter_sym;
-  /* First, determine if we're close enough to the edge to need an
-   * adjacent overmap, and record the offsets. */
-  int offx = 0;
-  int offy = 0;
-  if (cursx < om_map_width / 2)
-  {
-      offx = -1;
-  }
-  else if (cursx > OMAPX - 2 - (om_map_width / 2))
-  {
-      offx = 1;
-  }
-  if (cursy < (om_map_height / 2))
-  {
-      offy = -1;
-  }
-  else if (cursy > OMAPY - 2 - (om_map_height / 2))
-  {
-      offy = 1;
-  }
-
-  // If the offsets don't match the previously loaded ones, load the new adjacent overmaps.
-  if( offx && loc.x + offx != hori.loc.x )
-  {
-      hori = overmap_buffer.get( loc.x + offx, loc.y );
-  }
-  if( offy && loc.y + offy != vert.loc.y )
-  {
-      vert = overmap_buffer.get( loc.x, loc.y + offy );
-  }
-  if( offx && offy && (loc.x + offx != diag.loc.x || loc.y + offy != diag.loc.y ) )
-  {
-      diag = overmap_buffer.get( loc.x + offx, loc.y + offy );
-  }
 
 // Now actually draw the map
   bool csee = false;
@@ -1842,83 +1806,17 @@ void overmap::draw(WINDOW *w, int z, int &cursx, int &cursy,
          j <= (om_map_height / 2) + (ch == 'j' ? 1 : 0); j++) {
     omx = cursx + i;
     omy = cursy + j;
-    see = false;
-    npc_here = false;
-    veh_here = false;
-    if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) { // It's in-bounds
-     cur_ter = ter(omx, omy, z);
-     see = seen(omx, omy, z);
-     note_here = has_note(omx, omy, z);
-     if (note_here) {
-         note_text = note(omx, omy, z);
-     }
-     //Check if there is an npc.
-     npc_here = has_npc(omx,omy,z);
-     // and a vehicle
-     veh_here = has_vehicle(omx,omy,z);
-// <Out of bounds placement>
-    } else if (omx < 0) {
-     omx += OMAPX;
-     if (omy < 0 || omy >= OMAPY) {
-      omy += (omy < 0 ? OMAPY : 0 - OMAPY);
-      cur_ter = diag.ter(omx, omy, z);
-      see = diag.seen(omx, omy, z);
-      veh_here = diag.has_vehicle(omx, omy, z);
-      note_here = diag.has_note(omx, omy, z);
-      if (note_here) {
-          note_text = diag.note(omx, omy, z);
-      }
-     } else {
-      cur_ter = hori.ter(omx, omy, z);
-      see = hori.seen(omx, omy, z);
-      veh_here = hori.has_vehicle(omx, omy, z);
-      note_here = hori.has_note(omx, omy, z);
-      if (note_here) {
-          note_text = hori.note(omx, omy, z);
-      }
-     }
-    } else if (omx >= OMAPX) {
-     omx -= OMAPX;
-     if (omy < 0 || omy >= OMAPY) {
-      omy += (omy < 0 ? OMAPY : 0 - OMAPY);
-      cur_ter = diag.ter(omx, omy, z);
-      see = diag.seen(omx, omy, z);
-      veh_here = diag.has_vehicle(omx, omy, z);
-      note_here = diag.has_note(omx, omy, z);
-      if (note_here) {
-          note_text = diag.note(omx, omy, z);
-      }
-     } else {
-      cur_ter = hori.ter(omx, omy, z);
-      see = hori.seen(omx, omy, z);
-      veh_here = hori.has_vehicle(omx, omy, z);
-      note_here = hori.has_note(omx, omy, z);
-      if (note_here) {
-          note_text = hori.note(omx, omy, z);
-      }
-     }
-    } else if (omy < 0) {
-     omy += OMAPY;
-     cur_ter = vert.ter(omx, omy, z);
-     see = vert.seen(omx, omy, z);
-     veh_here = vert.has_vehicle(omx, omy, z);
-     note_here = vert.has_note(omx, omy, z);
-     if (note_here) {
-         note_text = vert.note(omx, omy, z);
-     }
-    } else if (omy >= OMAPY) {
-     omy -= OMAPY;
-     cur_ter = vert.ter(omx, omy, z);
-     see = vert.seen(omx, omy, z);
-     veh_here = vert.has_vehicle(omx, omy, z);
-     note_here = vert.has_note(omx, omy, z);
-     if (note_here) {
-         note_text = vert.note(omx, omy, z);
-     }
-    } else {
-        debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
+    const int absx = omx + pos().x * OMAPX;
+    const int absy = omy + pos().y * OMAPY;
+    cur_ter = overmap_buffer.ter(absx, absy, z);
+    const bool see = overmap_buffer.seen(absx, absy, z);
+    const bool note_here = overmap_buffer.has_note(absx, absy, z);
+    if (note_here) {
+        note_text = overmap_buffer.note(absx, absy, z);
     }
-// </Out of bounds replacement>
+    const bool npc_here = overmap_buffer.has_npc(absx, absy, z);
+    // and a vehicle
+    const bool veh_here = overmap_buffer.has_vehicle(absx, absy, z);
     if (see) {
      if (note_here && blink) {
       ter_color = c_yellow;

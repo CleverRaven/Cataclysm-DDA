@@ -278,7 +278,12 @@ public:
   void refresh_all();
   void update_map(int &x, int &y);  // Called by plmove when the map updates
   void update_overmap_seen(); // Update which overmap tiles we can see
-  point om_location(); // levx and levy converted to overmap coordinates
+  // Position of the player in overmap terrain coordinates, relative
+  // to the current overmap (@ref cur_om).
+  point om_location() const;
+  // Position of the player in overmap terrain coordinates,
+  // in global overmap terrain coordinates.
+  tripoint om_global_location() const;
 
   faction* random_good_faction();
   faction* random_evil_faction();
@@ -381,7 +386,6 @@ public:
   WINDOW *w_location;
   WINDOW *w_status;
   WINDOW *w_status2;
-  overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
   live_view liveview;
 
   bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL, item *cont = NULL);
@@ -603,7 +607,6 @@ public:
   void force_save_monster(monster &critter);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   int valid_group(std::string type, int x, int y, int z);// Picks a group from cur_om
-  void set_adjacent_overmaps(bool from_scratch = false);
   void rebuild_mon_at_cache();
 
 // Routine loop functions, approximately in order of execution
