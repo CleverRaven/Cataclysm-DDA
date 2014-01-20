@@ -86,9 +86,6 @@ game::game() :
  w_location(NULL),
  w_status(NULL),
  w_status2(NULL),
- om_hori(NULL),
- om_vert(NULL),
- om_diag(NULL),
  dangerous_proximity(5),
  run_mode(1),
  mostseen(0),
@@ -523,16 +520,10 @@ void game::start_game(std::string worldname)
  levy -= int(int(MAPSIZE / 2) / 2);
  levz = 0;
 // Start the overmap with out immediate neighborhood visible
- int begin_vis = 2 - OPTIONS["DISTANCE_INITIAL_VISIBILITY"];
- int end_vis = 2 + OPTIONS["DISTANCE_INITIAL_VISIBILITY"];
- for (int i = begin_vis; i <= end_vis; i++) {
-  for (int j = begin_vis; j <= end_vis; j++)
-   cur_om->seen(levx + i, levy + j, 0) = true;
- }
+ overmap_buffer.reveal(point(levx, levy), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
 // Convert the overmap coordinates to submap coordinates
  levx = levx * 2 - 1;
  levy = levy * 2 - 1;
- set_adjacent_overmaps(true);
 // Init the starting map at this location.
  m.load(levx, levy, levz);
 // Start us off somewhere in the shelter.
@@ -1671,7 +1662,7 @@ bool game::mission_complete(int id, int npc_id)
   } break;
 
   case MGOAL_GO_TO_TYPE: {
-   oter_id cur_ter = cur_om->ter((levx + int (MAPSIZE / 2)) / 2, (levy + int (MAPSIZE / 2)) / 2, levz);
+   oter_id cur_ter = overmap_buffer.ter(om_global_location());
    if (cur_ter == miss->type->target_id){
     return true;}
    return false;
@@ -3262,7 +3253,6 @@ void game::load(std::string worldname, std::string name)
 // Now load up the master game data; factions (and more?)
  load_master(worldname);
  update_map(u.posx, u.posy);
- set_adjacent_overmaps(true);
  MAPBUFFER.set_dirty();
 
  u.reset();
@@ -3738,7 +3728,6 @@ void game::debug()
             clear_zombies();
             levx = tmp.x * 2 - int(MAPSIZE / 2);
             levy = tmp.y * 2 - int(MAPSIZE / 2);
-            set_adjacent_overmaps(true);
             m.load(levx, levy, levz);
             load_npcs();
             m.spawn_monsters(); // Static monsters
@@ -3787,7 +3776,7 @@ Current turn: %d; Next spawn %d.\n\
 %d currently active NPC's.\n\
 %d events planned."),
              u.posx, u.posy, levx, levy,
-             otermap[cur_om->ter(levx / 2, levy / 2, levz)].name.c_str(),
+             otermap[overmap_buffer.ter(om_global_location())].name.c_str(),
              int(turn), int(nextspawn), (!ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] ? _("NPCs are going to spawn.") :
                                          _("NPCs are NOT going to spawn.")),
              num_zombies(), active_npc.size(), events.size());
@@ -4511,17 +4500,7 @@ void game::draw()
         wprintz(time_window, c_white, "]");
     }
 
-    point cur_loc = om_location();
-    oter_id cur_ter = cur_om->ter(cur_loc.x, cur_loc.y, levz);
-    if (cur_ter == "")
-    {
-        if (cur_loc.x >= OMAPX && cur_loc.y >= OMAPY)
-            cur_ter = om_diag->ter(cur_loc.x - OMAPX, cur_loc.y - OMAPY, levz);
-        else if (cur_loc.x >= OMAPX)
-            cur_ter = om_hori->ter(cur_loc.x - OMAPX, cur_loc.y, levz);
-        else if (cur_loc.y >= OMAPY)
-            cur_ter = om_vert->ter(cur_loc.x, cur_loc.y - OMAPY, levz);
-    }
+    const oter_id &cur_ter = overmap_buffer.ter(om_global_location());
 
     std::string tername = otermap[cur_ter].name;
     werase(w_location);
@@ -4837,59 +4816,18 @@ void game::draw_minimap()
   for (int j = -2; j <= 2; j++) {
    int omx = cursx + i;
    int omy = cursy + j;
-   bool seen = false;
-   oter_id cur_ter;// = "";
    long note_sym = 0;
-   bool note = false;
-   if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) {
-    cur_ter = cur_om->ter(omx, omy, levz);
-    seen    = cur_om->seen(omx, omy, levz);
-    if (cur_om->has_note(omx,omy,levz))
-    {
-        if (cur_om->note(omx,omy,levz)[1] == ':')
-            note_sym = cur_om->note(omx,omy,levz)[0];
-        note = true;
+    const int absx = omx + cur_om->pos().x * OMAPX;
+    const int absy = omy + cur_om->pos().y * OMAPY;
+    const oter_id &cur_ter = overmap_buffer.ter(absx, absy, levz);
+    const bool seen = overmap_buffer.seen(absx, absy, levz);
+    const bool note = overmap_buffer.has_note(absx, absy, levz);
+    if (note) {
+        const std::string &n = overmap_buffer.note(absx, absy, levz);
+        if (n.length() >= 2 && n[1] == ':') {
+            note_sym = n[0];
+        }
     }
-   } else if ((omx < 0 || omx >= OMAPX) && (omy < 0 || omy >= OMAPY)) {
-    if (omx < 0) omx += OMAPX;
-    else         omx -= OMAPX;
-    if (omy < 0) omy += OMAPY;
-    else         omy -= OMAPY;
-    cur_ter = om_diag->ter(omx, omy, levz);
-    seen    = om_diag->seen(omx, omy, levz);
-    if (om_diag->has_note(omx,omy,levz))
-    {
-        if (om_diag->note(omx,omy,levz)[1] == ':')
-            note_sym = om_diag->note(omx,omy,levz)[0];
-        note = true;
-    }
-   } else if (omx < 0 || omx >= OMAPX) {
-    if (omx < 0) omx += OMAPX;
-    else         omx -= OMAPX;
-    cur_ter = om_hori->ter(omx, omy, levz);
-    seen    = om_hori->seen(omx, omy, levz);
-    if (om_hori->has_note(omx,omy,levz))
-    {
-        if (om_hori->note(omx,omy,levz)[1] == ':')
-            note_sym = om_hori->note(omx,omy,levz)[0];
-        note = true;
-    }
-   } else if (omy < 0 || omy >= OMAPY) {
-    if (omy < 0) omy += OMAPY;
-    else         omy -= OMAPY;
-    cur_ter = om_vert->ter(omx, omy, levz);
-    seen    = om_vert->seen(omx, omy, levz);
-    if (om_vert->has_note(omx,omy,levz))
-    {
-        if (om_vert->note(omx,omy,levz)[1] == ':')
-            note_sym = om_vert->note(omx,omy,levz)[0];
-        note = true;
-    }
-   } else {
-    dbg(D_ERROR) << "game:draw_minimap: No data loaded! omx: "
-                 << omx << " omy: " << omy;
-    debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
-   }
    nc_color ter_color = otermap[cur_ter].color;
    long ter_sym = otermap[cur_ter].sym;
    if (note)
@@ -12404,7 +12342,6 @@ void game::vertical_move(int movez, bool force) {
   }
  }
 
- set_adjacent_overmaps(true);
  // Clear currently active npcs and reload them
  active_npc.clear();
  load_npcs();
@@ -12452,7 +12389,6 @@ void game::update_map(int &x, int &y) {
   cur_om->save();
   cur_om = &overmap_buffer.get(cur_om->pos().x + olevx, cur_om->pos().y + olevy);
  }
- set_adjacent_overmaps();
 
  // Shift monsters if we're actually shifting
  if (shiftx || shifty) {
@@ -12503,90 +12439,36 @@ void game::update_map(int &x, int &y) {
  }
 }
 
-void game::set_adjacent_overmaps(bool from_scratch)
+tripoint game::om_global_location() const
 {
- bool do_h = false, do_v = false, do_d = false;
- int hori_disp = (levx > OMAPX) ? 1 : -1;
- int vert_disp = (levy > OMAPY) ? 1 : -1;
- int diag_posx = cur_om->pos().x + hori_disp;
- int diag_posy = cur_om->pos().y + vert_disp;
-
- if(!om_hori || om_hori->pos().x != diag_posx || om_hori->pos().y != cur_om->pos().y || from_scratch)
-  do_h = true;
- if(!om_vert || om_vert->pos().x != cur_om->pos().x || om_vert->pos().y != diag_posy || from_scratch)
-  do_v = true;
- if(!om_diag || om_diag->pos().x != diag_posx || om_diag->pos().y != diag_posy || from_scratch)
-  do_d = true;
-
- if(do_h){
-  om_hori = &overmap_buffer.get(diag_posx, cur_om->pos().y);
- }
- if(do_v){
-  om_vert = &overmap_buffer.get(cur_om->pos().x, diag_posy);
- }
- if(do_d){
-  om_diag = &overmap_buffer.get(diag_posx, diag_posy);
- }
+    const int cursx = (levx + int(MAPSIZE / 2)) / 2 + cur_om->pos().x * OMAPX;
+    const int cursy = (levy + int(MAPSIZE / 2)) / 2 + cur_om->pos().y * OMAPY;
+    return tripoint(cursx, cursy, levz);
 }
 
 void game::update_overmap_seen()
 {
- int omx = (levx + int(MAPSIZE / 2)) / 2, omy = (levy + int(MAPSIZE / 2)) / 2;
- int dist = u.overmap_sight_range(light_level());
- cur_om->seen(omx, omy, levz) = true; // We can always see where we're standing
- if (dist == 0)
-  return; // No need to run the rest!
- for (int x = omx - dist; x <= omx + dist; x++) {
-  for (int y = omy - dist; y <= omy + dist; y++) {
-   std::vector<point> line = line_to(omx, omy, x, y, 0);
-   int sight_points = dist;
-   int cost = 0;
-   for (int i = 0; i < line.size() && sight_points >= 0; i++) {
-    int lx = line[i].x, ly = line[i].y;
-    if (lx >= 0 && lx < OMAPX && ly >= 0 && ly < OMAPY)
-     cost = otermap[cur_om->ter(lx, ly, levz)].see_cost;
-    else if ((lx < 0 || lx >= OMAPX) && (ly < 0 || ly >= OMAPY)) {
-     if (lx < 0) lx += OMAPX;
-     else        lx -= OMAPX;
-     if (ly < 0) ly += OMAPY;
-     else        ly -= OMAPY;
-     cost = otermap[om_diag->ter(lx, ly, levz)].see_cost;
-    } else if (lx < 0 || lx >= OMAPX) {
-     if (lx < 0) lx += OMAPX;
-     else        lx -= OMAPX;
-     cost = otermap[om_hori->ter(lx, ly, levz)].see_cost;
-    } else if (ly < 0 || ly >= OMAPY) {
-     if (ly < 0) ly += OMAPY;
-     else        ly -= OMAPY;
-     cost = otermap[om_vert->ter(lx, ly, levz)].see_cost;
+    const tripoint ompos = om_global_location();
+    const int dist = u.overmap_sight_range(light_level());
+    // We can always see where we're standing
+    overmap_buffer.set_seen(ompos.x, ompos.y, ompos.z, true);
+    for (int x = ompos.x - dist; x <= ompos.x + dist; x++) {
+        for (int y = ompos.y - dist; y <= ompos.y + dist; y++) {
+            const std::vector<point> line = line_to(ompos.x, ompos.y, x, y, 0);
+            int sight_points = dist;
+            for (int i = 0; i < line.size() && sight_points >= 0; i++) {
+                const oter_id &ter = overmap_buffer.ter(line[i].x, line[i].y, ompos.z);
+                const int cost = otermap[ter].see_cost;
+                sight_points -= cost;
+            }
+            if (sight_points >= 0) {
+                overmap_buffer.set_seen(x, y, ompos.z, true);
+            }
+        }
     }
-    sight_points -= cost;
-   }
-   if (sight_points >= 0) {
-    int tmpx = x, tmpy = y;
-    if (tmpx >= 0 && tmpx < OMAPX && tmpy >= 0 && tmpy < OMAPY)
-     cur_om->seen(tmpx, tmpy, levz) = true;
-    else if ((tmpx < 0 || tmpx >= OMAPX) && (tmpy < 0 || tmpy >= OMAPY)) {
-     if (tmpx < 0) tmpx += OMAPX;
-     else          tmpx -= OMAPX;
-     if (tmpy < 0) tmpy += OMAPY;
-     else          tmpy -= OMAPY;
-     om_diag->seen(tmpx, tmpy, levz) = true;
-    } else if (tmpx < 0 || tmpx >= OMAPX) {
-     if (tmpx < 0) tmpx += OMAPX;
-     else          tmpx -= OMAPX;
-     om_hori->seen(tmpx, tmpy, levz) = true;
-    } else if (tmpy < 0 || tmpy >= OMAPY) {
-     if (tmpy < 0) tmpy += OMAPY;
-     else          tmpy -= OMAPY;
-     om_vert->seen(tmpx, tmpy, levz) = true;
-    }
-   }
-  }
- }
 }
 
-point game::om_location()
+point game::om_location() const
 {
  point ret;
  ret.x = int( (levx + int(MAPSIZE / 2)) / 2);
