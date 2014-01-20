@@ -1,0 +1,112 @@
+[
+  {
+    "type": "TOOL",
+    "id": "g_shovel",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": "gardening shovel",
+    "description": "A small, sharp gardening shovel, perfect for digging up grubs and worms.",
+    "price": 20,
+    "material": "steel",
+    "weight": 280,
+    "volume": 2,
+    "bashing": 3,
+    "cutting": 5,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "DIG",
+    "flags" : ["CHOP"],
+    "to_hit": 1,
+    "qualities": [["CUT", 1]]
+  },
+  {
+    "type":"TOOL",
+    "id": "fishing_rod_basic",
+    "symbol": "/",
+    "color": "brown",
+    "name": "basic fishing rod",
+    "description": "'Fishing rod' might be a bit too charitable of a description. In truth, this is a stick with a piece of string and a hook.",
+    "price": 0,
+    "material": "wood",
+    "weight": 1700,
+    "volume": 5,
+    "bashing": 14,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "DIG",
+    "to_hit": 1
+  },
+  {
+    "type" : "GENERIC",
+    "id" : "fishing_hook_basic",
+    "symbol" : "J",
+    "color" : "cyan",
+    "name" : "fishing hook",
+    "description" : "A simple fishing hook.",
+    "price" : 25,
+    "material" : "steel",
+    "weight" : 1,
+    "volume" : 0,
+    "bashing" : -3,
+    "cutting" : 3,
+    "to_hit" : 0
+  },
+  {
+    "type" : "recipe",
+    "result": "fishing_rod_basic",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ ],
+    "components": [
+      [
+        [ "stick", 1 ]
+      ],
+      [
+        [ "string_36", 6 ]
+      ],
+      [
+        [ "fishing_hook_basic", 1 ]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "fishing_hook_basic",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "rock", -1 ],
+        [ "primitive_hammer", -1 ],
+        [ "hammer", -1 ],
+        [ "hatchet", -1 ],
+        [ "toolset", -1 ]
+      ]
+    ],
+    "components": [
+      [
+        [ "nail", 1 ]
+      ]
+    ]
+  }
+]
