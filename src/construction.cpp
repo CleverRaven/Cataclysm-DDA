@@ -572,6 +572,16 @@ void construct::done_vehicle_hd(point p)
     make_vehicle( p, "custom_hd" );
 }
 
+void construct::done_vehicle_wood(point p)
+{
+    make_vehicle( p, "custom_wood" );
+}
+
+void construct::done_vehicle_light(point p)
+{
+    make_vehicle( p, "custom_light" );
+}
+
 void construct::done_deconstruct(point p)
 {
   if (g->m.has_furn(p.x, p.y)) {

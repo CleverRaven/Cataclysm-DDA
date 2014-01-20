@@ -763,5 +763,25 @@
         ],
         "pre_special" : "check_empty",
         "post_special" : "done_vehicle_hd"
+    },{
+        "type" : "construction",
+        "description" : "Start vehicle construction with wooden frame",
+        "difficulty" : 0,
+        "time" : 10,
+        "components" : [
+            [ [ "frame_wood", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_special" : "done_vehicle_wood"
+    },{
+        "type" : "construction",
+        "description" : "Start vehicle construction with extra light frame",
+        "difficulty" : 0,
+        "time" : 10,
+        "components" : [
+            [ [ "xlframe", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_special" : "done_vehicle_light"
     }
 ]
