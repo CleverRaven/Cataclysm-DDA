@@ -98,6 +98,22 @@ classes = {
             is_npc = {
                 args = {},
                 rval = "bool"
+            },
+            weight_carried = {
+                args = {},
+                rval = "int"
+            },
+            weight_capacity = {
+                args = { "bool" },
+                rval = "int"
+            },
+            volume_carried = {
+                args = {},
+                rval = "int"
+            },
+            volume_capacity = {
+                args = {},
+                rval = "int"
             }
         }
     },
