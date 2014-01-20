@@ -8,32 +8,13 @@
         "parts" : [
             {"x": 0, "y": 0, "part": "frame_vertical_2"}
         ]
-    },{
+    },{        
         "type" : "vehicle",
-        "id" : "custom_hd",
-        "name" : "custom_hdframe",
+        "id" : "none",
+        "name" : "custom_empty",
         "blueprint" : "H",
         "warning" : "Don't remove this vehicle definition!",
         "parts" : [
-            {"x": 0, "y": 0, "part": "hdframe_vertical_2"}
-        ]
-    },{
-        "type" : "vehicle",
-        "id" : "custom_wood",
-        "name" : "custom_woodframe",
-        "blueprint" : "H",
-        "warning" : "Don't remove this vehicle definition!",
-        "parts" : [
-            {"x": 0, "y": 0, "part": "frame_wood_vertical_2"}
-        ]
-    },{
-        "type" : "vehicle",
-        "id" : "custom_light",
-        "name" : "custom_lightframe",
-        "blueprint" : "H",
-        "warning" : "Don't remove this vehicle definition!",
-        "parts" : [
-            {"x": 0, "y": 0, "part": "xlframe_vertical_2"}
         ]
     },{
         "type" : "vehicle",

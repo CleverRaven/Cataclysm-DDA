@@ -11,6 +11,7 @@
 #include "catacharset.h"
 #include "action.h"
 #include "translations.h"
+#include "veh_interact.h"
 
 #include <algorithm>
 
@@ -543,43 +544,35 @@ void construct::done_trunk_plank(point p)
 }
 
 
-static void make_vehicle(point p, std::string frame_type)
+void construct::done_vehicle(point p)
 {
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
     if(name.empty()) {
         name = _("Car");
     }
 
-    vehicle *veh = g->m.add_vehicle (frame_type, p.x, p.y, 270, 0, 0);
+    vehicle *veh = g->m.add_vehicle ("none", p.x, p.y, 270, 0, 0);
+
     if (!veh) {
         debugmsg ("error constructing vehicle");
         return;
     }
-    veh->name = name;
+	
+	veh->name = name;
+
+	if (g->u.lastconsumed == "hdframe") {
+	veh->install_part (0, 0, "hdframe_vertical_2");
+	} else if (g->u.lastconsumed == "frame_wood") {
+	veh->install_part (0, 0, "frame_wood_vertical_2");
+	} else if (g->u.lastconsumed == "xlframe") {
+	veh->install_part (0, 0, "xlframe_vertical_2");
+	} else {
+	veh->install_part (0, 0, "frame_vertical_2");
+	} 
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
     g->m.update_vehicle_cache(veh, true);
-}
-
-void construct::done_vehicle(point p)
-{
-    make_vehicle( p, "custom" );
-}
-
-void construct::done_vehicle_hd(point p)
-{
-    make_vehicle( p, "custom_hd" );
-}
-
-void construct::done_vehicle_wood(point p)
-{
-    make_vehicle( p, "custom_wood" );
-}
-
-void construct::done_vehicle_light(point p)
-{
-    make_vehicle( p, "custom_light" );
 }
 
 void construct::done_deconstruct(point p)
@@ -800,9 +793,7 @@ void load_construction(JsonObject &jo)
     } else if (postfunc == "done_trunk_plank") {
         con->post_special = &construct::done_trunk_plank;
     } else if (postfunc == "done_vehicle") {
-        con->post_special = &construct::done_vehicle;
-    } else if (postfunc == "done_vehicle_hd") {
-        con->post_special = &construct::done_vehicle_hd;
+        con->post_special = &construct::done_vehicle;	
     } else if (postfunc == "done_deconstruct") {
         con->post_special = &construct::done_deconstruct;
     } else {
