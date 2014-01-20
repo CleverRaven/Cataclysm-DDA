@@ -3668,7 +3668,7 @@ bool game::event_queued(event_type type)
 #include "savegame.h"
 void game::debug()
 {
- int action = menu(true, // cancelable
+ int action = menu(false, // cancelable
                    _("Debug Functions - Using these is CHEATING!"),
                    _("Wish for an item"),       // 1
                    _("Teleport - Short Range"), // 2
