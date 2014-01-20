@@ -112,6 +112,7 @@ void Creature::reset_bonuses()
     grab_resist = 0;
     throw_resist = 0;
 }
+
 void Creature::reset_stats()
 {
     // Reset our stats to normal levels
