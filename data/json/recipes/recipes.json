@@ -17760,6 +17760,20 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "rolling_paper",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "paper", 5 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "string_6",
   "category": "CC_OTHER",
