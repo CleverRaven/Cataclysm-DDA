@@ -342,6 +342,7 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
  int mission_selected;
  int tempvalue; //No clue what this value does, but it is used all over the place. So it is NOT temp.
  Skill* skill;
+ matype_id style;
  talk_topic first_topic;
 
  npc_chatbin()
@@ -349,6 +350,7 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
   mission_selected = -1;
   tempvalue = -1;
   skill = NULL;
+  style = "";
   first_topic = TALK_NONE;
  }
 

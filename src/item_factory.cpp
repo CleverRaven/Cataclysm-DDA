@@ -892,11 +892,8 @@ void Item_factory::clear_items_and_groups()
     // These containers are defined in itypedef.cpp
     // and initialzed there.
     // There are updated here when an item type is loaded
-    unreal_itype_ids.clear();
-    martial_arts_itype_ids.clear();
     artifact_itype_ids.clear();
     standard_itype_ids.clear();
-    pseudo_itype_ids.clear();
     itypes.clear();
 
     // Recreate this entry, now we are in the same state as
