@@ -3246,6 +3246,7 @@ void map::draw(WINDOW* w, const point center)
  const bool u_is_boomered = g->u.has_disease("boomered");
  const int u_clairvoyance = g->u.clairvoyance();
  const bool u_sight_impaired = g->u.sight_impaired();
+ const bool bio_night_active = g->u.has_active_bionic("bio_night");
 
  for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
   if (!grid[i])
@@ -3296,7 +3297,7 @@ void map::draw(WINDOW* w, const point center)
        real_max_sight_range = distance_to_look;
    }
 
-   if ((g->u.has_active_bionic("bio_night") && dist < 15 && dist > natural_sight_range) || // if bio_night active, blackout 15 tile radius around player
+   if ((bio_night_active && dist < 15 && dist > natural_sight_range) || // if bio_night active, blackout 15 tile radius around player
        dist > real_max_sight_range ||
        (dist > light_sight_range &&
          (lit == LL_DARK ||
