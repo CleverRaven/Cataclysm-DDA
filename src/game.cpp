@@ -5680,8 +5680,6 @@ void game::monmove()
                                                 levx, levy, levz, 1, 1));
                 }
                 critter->dead = true;
-            } else {
-                critter->receive_moves();
             }
         }
     }

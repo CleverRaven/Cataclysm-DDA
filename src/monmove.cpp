@@ -23,11 +23,6 @@
 
 #define MONSTER_FOLLOW_DIST 8
 
-void monster::receive_moves()
-{
- moves += speed;
-}
-
 bool monster::wander()
 {
  return (plans.empty());
