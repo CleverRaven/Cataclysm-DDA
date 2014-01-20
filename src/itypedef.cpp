@@ -4,27 +4,8 @@
 #include "monstergenerator.h"
 #include <fstream>
 
-// Armor colors
-#define C_SHOES  c_blue
-#define C_PANTS  c_brown
-#define C_BODY   c_yellow
-#define C_TORSO  c_ltred
-#define C_ARMS   c_blue
-#define C_GLOVES c_ltblue
-#define C_MOUTH  c_white
-#define C_EYES   c_cyan
-#define C_HAT    c_dkgray
-#define C_STORE  c_green
-#define C_DECOR  c_ltgreen
-
-// Special function for setting melee techniques
-#define TECH(id, t) itypes[id]->techniques = t
-
-std::vector<std::string> unreal_itype_ids;
-std::vector<std::string> martial_arts_itype_ids;
 std::vector<std::string> artifact_itype_ids;
 std::vector<std::string> standard_itype_ids;
-std::vector<std::string> pseudo_itype_ids;
 
 std::map<std::string, itype*> itypes;
 
@@ -101,7 +82,7 @@ STATIONARY("flyer", _("flyer"), 1, "flier", _("A scrap of paper."));
 // Finally, add all the keys from the map to a vector of all possible items
 for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes.end(); ++iter){
     if(iter->first == "null" || iter->first == "corpse" || iter->first == "toolset" || iter->first == "fire" || iter->first == "apparatus"){
-        pseudo_itype_ids.push_back(iter->first);
+        // pseudo item, do not add to standard_itype_ids
     } else {
         standard_itype_ids.push_back(iter->first);
     }

@@ -2868,7 +2868,7 @@
     },{
         "type" : "MONSTER",
         "id" : "mon_chud",
-    "name": "subwayman",
+    "name": "C.H.U.D.",
     "species":"MUTANT",
     "symbol":"@",
     "color":"white",

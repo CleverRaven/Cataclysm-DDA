@@ -1029,13 +1029,6 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if (curammo != NULL) {
         ammotmp = curammo->id;
     }
-    if( std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(),
-                  ammotmp) != unreal_itype_ids.end()  &&
-        std::find(artifact_itype_ids.begin(), artifact_itype_ids.end(),
-                  ammotmp) != artifact_itype_ids.end()
-      ) {
-        ammotmp = "null"; //Saves us from some bugs, apparently?
-    }
 
     /////
     json.member( "invlet", int(invlet) );

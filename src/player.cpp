@@ -6044,9 +6044,6 @@ item player::i_rem(char let)
 {
  item tmp;
  if (weapon.invlet == let) {
-  if (std::find(martial_arts_itype_ids.begin(), martial_arts_itype_ids.end(), weapon.type->id) != martial_arts_itype_ids.end()){
-   return ret_null;
-  }
   tmp = weapon;
   weapon = ret_null;
   return tmp;
@@ -6067,10 +6064,6 @@ item player::i_rem(int pos)
 {
  item tmp;
  if (pos == -1) {
-     if (std::find(martial_arts_itype_ids.begin(), martial_arts_itype_ids.end(),
-                   weapon.type->id) != martial_arts_itype_ids.end()){
-         return ret_null;
-     }
      tmp = weapon;
      weapon = ret_null;
      return tmp;

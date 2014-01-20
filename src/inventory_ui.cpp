@@ -631,7 +631,7 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
                     }
                 }
                 if (!found && ch == u.weapon.invlet && !u.weapon.is_null()) {
-                    if (std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(), u.weapon.type->id) != unreal_itype_ids.end()) {
+                    if (u.weapon.has_flag("NO_UNWIELD")) {
                         if (!warned_about_bionic) {
                             add_msg(_("You cannot drop your %s."), u.weapon.tname().c_str());
                             warned_about_bionic = true;
@@ -875,11 +875,6 @@ void game::compare(int iCompareX, int iCompareY)
      print_inv_statics(w_inv, "Compare:", dropped_armor, dropped_weapon);
     }
     if (!found) {
-
-     if ( ch == u.weapon.invlet &&
-          std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(), u.weapon.type->id) != unreal_itype_ids.end()){
-      //Do Bionic stuff here?!
-     } else {
       if (!bFirst)
       {
        dropped_weapon = -1;
@@ -889,7 +884,6 @@ void game::compare(int iCompareX, int iCompareY)
       } else {
        bShowCompare = true;
       }
-     }
     }
    } else {
     int index = -1;
