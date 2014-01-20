@@ -461,7 +461,7 @@ void game::wishitem( player *p, int x, int y)
 
     for (int i = 0; i < standard_itype_ids.size(); i++) {
         itype *ity = item_controller->find_template(standard_itype_ids[i]);
-        wmenu.addentry( i, true, 0, string_format(_("%s"), ity->name.c_str()) ); //%s ity->category
+        wmenu.addentry( i, true, 0, string_format(_("%s"), ity->name.c_str()) );
         wmenu.entries[i].extratxt.txt = string_format("%c", ity->sym);
         wmenu.entries[i].extratxt.color = ity->color;
         wmenu.entries[i].extratxt.left = 1;
@@ -470,9 +470,8 @@ void game::wishitem( player *p, int x, int y)
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
             amount = helper::to_int(
-                         string_input_popup( _("How many?"), 20, helper::to_string( amount ),
-                                             item_controller->find_template(standard_itype_ids[wmenu.ret])->name.c_str(),
-                                             "", 5, true));
+                         string_input_popup(_("How many?"), 20, helper::to_string( amount ),
+                                            item_controller->find_template(standard_itype_ids[wmenu.ret])->name.c_str()));
             item granted = item_controller->create(standard_itype_ids[wmenu.ret], turn);
             int incontainer = dynamic_cast<wish_item_callback *>(wmenu.callback)->incontainer;
             if ( p != NULL ) {
