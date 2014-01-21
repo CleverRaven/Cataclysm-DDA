@@ -1325,8 +1325,8 @@ void game::process_activity()
        item& it = u.i_at(u.activity.position);
 
        if (it.has_flag("FISH_POOR")) {
-         int sSkillLevel = u.skillLevel("survival") + dice(1,4);
-         int fishChance = dice(1, 12);
+         int sSkillLevel = u.skillLevel("survival") + dice(1,6);
+         int fishChance = dice(1, 20);
 
          if (sSkillLevel > fishChance) {
            item fish;
