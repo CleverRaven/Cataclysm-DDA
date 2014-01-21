@@ -3698,8 +3698,8 @@ void game::debug()
    break;
 
   case 3: {
-        point tmp = cur_om->draw_overmap(levz);
-        if (tmp.x != -1)
+        point tmp = overmap::draw_overmap();
+        if (tmp != overmap::invalid_point)
         {
             //First offload the active npcs.
             for (int i = 0; i < active_npc.size(); i++)
@@ -3719,11 +3719,14 @@ void game::debug()
                 force_save_monster(zombie(i));
             }
             clear_zombies();
+            cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
             levx = tmp.x * 2 - int(MAPSIZE / 2);
             levy = tmp.y * 2 - int(MAPSIZE / 2);
             m.load(levx, levy, levz);
             load_npcs();
             m.spawn_monsters(); // Static monsters
+            update_overmap_seen();
+            draw_minimap();
         }
     } break;
   case 4:
@@ -4113,7 +4116,7 @@ void game::groupdebug()
 
 void game::draw_overmap()
 {
-    cur_om->draw_overmap(levz);
+    overmap::draw_overmap();
 }
 
 void game::disp_kills()
@@ -13047,28 +13050,31 @@ void game::teleport(player *p, bool add_teleglow)
 void game::nuke(int x, int y)
 {
     // TODO: nukes hit above surface, not critter = 0
-    if (x < 0 || y < 0 || x >= OMAPX || y >= OMAPY)
-        return;
-    int mapx = x * 2, mapy = y * 2;
+    overmap &om = overmap_buffer.get_om_global(x, y);
+    // ^^ crops x,y to point inside om now., but map::load
+    // and map::save needs submap coordinates.
+    const point smc = overmapbuffer::omt_to_sm_copy(x, y);
     map tmpmap(&traps);
-    tmpmap.load(mapx, mapy, 0, false);
-    for (int i = 0; i < SEEX * 2; i++)
-    {
-        for (int j = 0; j < SEEY * 2; j++)
-        {
-            if (!one_in(10))
+    tmpmap.load(smc.x, smc.y, 0, false, &om);
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (!one_in(10)) {
                 tmpmap.ter_set(i, j, t_rubble);
-            if (one_in(3))
+            }
+            if (one_in(3)) {
                 tmpmap.add_field(i, j, fd_nuke_gas, 3);
+            }
             tmpmap.radiation(i, j) += rng(20, 80);
         }
     }
-    tmpmap.save(cur_om, turn, mapx, mapy, 0);
-    cur_om->ter(x, y, 0) = "crater";
+    tmpmap.save(&om, turn, smc.x, smc.y, 0);
+    om.ter(x, y, 0) = "crater";
     //Kill any npcs on that omap location.
-    for(int i = 0; i < cur_om->npcs.size();i++)
-        if(cur_om->npcs[i]->mapx/2== x && cur_om->npcs[i]->mapy/2 == y && cur_om->npcs[i]->omz == 0)
-            cur_om->npcs[i]->marked_for_death = true;
+    for(int i = 0; i < om.npcs.size(); i++) {
+        if(om.npcs[i]->mapx / 2 == x && om.npcs[i]->mapy / 2 == y && om.npcs[i]->omz == 0) {
+            om.npcs[i]->marked_for_death = true;
+        }
+    }
 }
 
 bool game::spread_fungus(int x, int y)

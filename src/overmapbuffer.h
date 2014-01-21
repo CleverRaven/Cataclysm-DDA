@@ -138,6 +138,13 @@ public:
     static void sm_to_omt(tripoint& p) { sm_to_omt(p.x, p.y); }
     static point sm_to_omt_remain(int &x, int &y);
     static point sm_to_omt_remain(point& p) { return sm_to_omt_remain(p.x, p.y); }
+    // overmap terrain to submap, basically: x *= 2
+    static point omt_to_sm_copy(int x, int y);
+    static point omt_to_sm_copy(const point& p) { return omt_to_sm_copy(p.x, p.y); }
+    static tripoint omt_to_sm_copy(const tripoint& p);
+    static void omt_to_sm(int &x, int &y);
+    static void omt_to_sm(point& p) { omt_to_sm(p.x, p.y); }
+    static void omt_to_sm(tripoint& p) { omt_to_sm(p.x, p.y); }
 
 private:
     std::list<overmap> overmap_list;

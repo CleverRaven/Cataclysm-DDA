@@ -467,8 +467,8 @@ void computer::activate_function(computer_action action)
 
     case COMPACT_MISS_LAUNCH: {
         // Target Acquisition.
-        point target = g->cur_om->draw_overmap(0);
-        if (target.x == -1) {
+        point target = overmap::draw_overmap(0);
+        if (target == overmap::invalid_point) {
             g->add_msg(_("Target acquisition canceled"));
             return;
         }
@@ -505,10 +505,10 @@ void computer::activate_function(computer_action action)
             tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, level);
         }
 
-        g->u.add_memorial_log(_("Launched a nuke at a %s."),
-                              otermap[g->cur_om->ter(target.x, target.y, 0)].name.c_str());
+        const oter_id oter = overmap_buffer.ter(target.x, target.y, 0);
+        g->u.add_memorial_log(_("Launched a nuke at a %s."), otermap[oter].name.c_str());
         for(int x = target.x - 2; x <= target.x + 2; x++) {
-            for(int y = target.y -  2; y <= target.y + 2; y++) {
+            for(int y = target.y - 2; y <= target.y + 2; y++) {
                 g->nuke(x, y);
             }
         }
