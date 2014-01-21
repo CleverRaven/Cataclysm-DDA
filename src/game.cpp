@@ -1325,7 +1325,24 @@ void game::process_activity()
        item& it = u.i_at(u.activity.position);
 
        if (it.has_flag("FISH_POOR")) {
-         g->add_msg_if_player(&u, _("You catch nothing."));
+         int sSkillLevel = u.skillLevel("survival") + dice(1,4);
+         int fishChance = dice(1, 12);
+
+         if (sSkillLevel > fishChance) {
+           item fish;
+
+           std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+           std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+
+           fish.make_corpse(itypes["corpse"], GetMType(fish_mon), 0);
+           m.add_item_or_charges(u.posx, u.posy, fish);
+
+           g->add_msg_if_player(&u, _("You catch a fish!"));
+         } else {
+           g->add_msg_if_player(&u, _("You catch nothing."));
+         }
+
+         u.practice(turn, "survival", rng(5,15));
        }
      }
 
@@ -10608,6 +10625,8 @@ void game::complete_butcher(int index)
    if (corpse->mat == "flesh" || corpse->mat == "hflesh") {
     if(corpse->has_flag(MF_HUMAN)) {
      meat = "human_flesh";
+    } else if (corpse->has_flag(MF_AQUATIC)) {
+     meat = "fish";
     } else {
      meat = "meat";
     }
