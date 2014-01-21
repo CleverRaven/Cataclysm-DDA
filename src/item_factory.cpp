@@ -547,7 +547,6 @@ void Item_factory::load_gun(JsonObject& jo)
         while (jarr.has_more()){
             JsonArray curr = jarr.next_array();
             gun_template->valid_mod_locations.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
-            gun_template->occupied_mod_locations.insert(std::pair<std::string, int>(curr.get_string(0), 0));
         }
     }
 
