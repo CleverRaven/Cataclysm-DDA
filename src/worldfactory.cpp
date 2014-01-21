@@ -623,10 +623,10 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
 
     for (std::map<int, bool>::iterator mLine = mapLines.begin(); mLine != mapLines.end(); ++mLine) {
         if (mLine->second) {
-            mvwputch(win, FULL_SCREEN_HEIGHT - 1, mLine->first + 1, c_ltgray, LINE_XXOX); // _|_
+            mvwputch(win, 2, mLine->first + 1, BORDER_COLOR, LINE_OXXX); // -.-
+            mvwputch(win, FULL_SCREEN_HEIGHT - 1, mLine->first + 1, BORDER_COLOR, LINE_XXOX); // _|_
         }
     }
-    mvwputch(win, 2, 61, c_ltgray, LINE_OXXX); //TODO: replace 61 by mapLines stuff, like above
     wrefresh(win);
     refresh();
 
@@ -637,7 +637,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
         for (int i = 0; i < iContentHeight; i++) {
             for (int j = 0; j < 79; j++) {
                 if (mapLines[j]) {
-                    mvwputch(w_options, i, j, c_ltgray, LINE_XOXO);
+                    mvwputch(w_options, i, j, BORDER_COLOR, LINE_XOXO);
                 } else {
                     mvwputch(w_options, i, j, c_black, ' ');
                 }
@@ -733,14 +733,15 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     w_list    = newwin(12, FULL_SCREEN_WIDTH / 2 - 5, 5 + iOffsetY, 1 + iOffsetX);
     w_active  = newwin(12, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY,
                        FULL_SCREEN_WIDTH / 2 + 3 + iOffsetX);
-    w_description = newwin(4, FULL_SCREEN_WIDTH - 2, 18 + iOffsetY, 1 + iOffsetX);
+    w_description = newwin(4, FULL_SCREEN_WIDTH - 2, 19 + iOffsetY, 1 + iOffsetX);
 
     // draw the separation lines directly onto *win
     // UI LINES
     // make appropriate lines
     int xs[] = {1, 1, (FULL_SCREEN_WIDTH / 2) + 2, (FULL_SCREEN_WIDTH / 2) - 4, (FULL_SCREEN_WIDTH / 2) + 2};
     int ys[] = {FULL_SCREEN_HEIGHT - 7, 4, 4, 3, 3};
-    int ls[] = {FULL_SCREEN_WIDTH - 2, (FULL_SCREEN_WIDTH / 2) - 4, (FULL_SCREEN_WIDTH / 2) - 3, FULL_SCREEN_HEIGHT - 10, FULL_SCREEN_HEIGHT - 10};
+    int ls[] = {FULL_SCREEN_WIDTH - 2, (FULL_SCREEN_WIDTH / 2) - 4, (FULL_SCREEN_WIDTH / 2) - 3,
+                FULL_SCREEN_HEIGHT - 10, FULL_SCREEN_HEIGHT - 10};
     bool hv[] = {true, true, true, false, false};
 
     for (int i = 0; i < 5; ++i) {
@@ -749,33 +750,36 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         int l = ls[i];
         if (hv[i]) {
             for (int j = 0; j < l; ++j) {
-                mvwputch(win, y, x + j, c_ltgray, LINE_OXOX);
+                mvwputch(win, y, x + j, BORDER_COLOR, LINE_OXOX);
             }
         } else {
             for (int j = 0; j < l; ++j) {
-                mvwputch(win, y + j, x, c_ltgray, LINE_XOXO);
+                mvwputch(win, y + j, x, BORDER_COLOR, LINE_XOXO);
             }
         }
     }
     // Add in connective characters
-    mvwputch(win, 4, 0, c_ltgray, LINE_XXXO);
-    mvwputch(win, FULL_SCREEN_HEIGHT - 7, 0, c_ltgray, LINE_XXXO);
-    mvwputch(win, 4, (FULL_SCREEN_WIDTH / 2) + 2, c_ltgray, LINE_XXXO);
+    mvwputch(win, 4, 0, BORDER_COLOR, LINE_XXXO);
+    mvwputch(win, FULL_SCREEN_HEIGHT - 7, 0, BORDER_COLOR, LINE_XXXO);
+    mvwputch(win, 4, FULL_SCREEN_WIDTH / 2 + 2, BORDER_COLOR, LINE_XXXO);
 
-    mvwputch(win, 4, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOXX);
-    mvwputch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOXX);
-    mvwputch(win, 4, (FULL_SCREEN_WIDTH / 2) - 4, c_ltgray, LINE_XOXX);
+    mvwputch(win, 4, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX);
+    mvwputch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX);
+    mvwputch(win, 4, FULL_SCREEN_WIDTH / 2 - 4, BORDER_COLOR, LINE_XOXX);
 
-    mvwputch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH / 2 - 4, c_ltgray, LINE_XXOX);
-    mvwputch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH / 2 + 2, c_ltgray, LINE_XXOX);
+    mvwputch(win, 2, FULL_SCREEN_WIDTH / 2 - 4, BORDER_COLOR, LINE_OXXX); // -.-
+    mvwputch(win, 2, FULL_SCREEN_WIDTH / 2 + 2, BORDER_COLOR, LINE_OXXX); // -.-
+
+    mvwputch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH / 2 - 4, BORDER_COLOR, LINE_XXOX); // _|_
+    mvwputch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH / 2 + 2, BORDER_COLOR, LINE_XXOX); // _|_
 
     wrefresh(win);
     refresh();
     // end UI LINES
 
     std::vector<std::string> headers;
-    headers.push_back(" Mod List ");
-    headers.push_back(" Mod Load Order ");
+    headers.push_back(_(" Mod List "));
+    headers.push_back(_(" Mod Load Order "));
     std::vector<WINDOW *> header_windows;
     header_windows.push_back(w_header1);
     header_windows.push_back(w_header2);
@@ -835,8 +839,8 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             }
 
             if (selmod != NULL) {
-                fold_and_print(w_description, 0, 0, getmaxx(w_description), c_white,
-                               mman_ui->get_information(selmod).c_str());
+                fold_and_print(w_description, 0, 1, getmaxx(w_description) - 1,
+                               c_white, mman_ui->get_information(selmod).c_str());
             }
             redraw_description = false;
             wrefresh(w_description);
@@ -846,7 +850,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             calcStartPos(startsel[0], cursel[0], getmaxy(w_list), useable_mod_count);
 
             if (useable_mod_count == 0) {
-                std::string error_output = "--NO AVAILABLE MODS--";
+                std::string error_output = _("--NO AVAILABLE MODS--");
                 const int sLoc = (getmaxx(w_list) - error_output.size()) / 2;
                 fold_and_print(w_list, 0, sLoc, getmaxx(w_list) - sLoc, c_red, error_output.c_str());
             } else {
@@ -877,7 +881,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             calcStartPos(startsel[1], cursel[1], getmaxy(w_active), active_count);
 
             if (active_count == 0) {
-                std::string error_output = "--NO ACTIVE MODS--";
+                std::string error_output = _("--NO ACTIVE MODS--");
                 const int sLoc = (getmaxx(w_active) - error_output.size()) / 2;
                 fold_and_print(w_active, 0, sLoc, getmaxx(w_active) - sLoc, c_red, error_output.c_str());
             } else {
@@ -1058,7 +1062,8 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
     WINDOW *w_confirmation = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2,
                                     iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
-    unsigned namebar_pos = 3 + utf8_width(_("World Name:"));
+    unsigned namebar_y = 1;
+    unsigned namebar_x = 3 + utf8_width(_("World Name:"));
 
     int line = 1;
     bool noname = false;
@@ -1066,17 +1071,15 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
 
     std::string worldname = world->world_name;
     do {
-        mvwprintz(w_confirmation, 2, 2, c_ltgray, _("World Name:"));
-        mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "______________________________");
-
-        fold_and_print(w_confirmation, 10, 2, 76, c_ltgray,
-                       _("When you are satisfied with the world as it is and are ready to continue, press >"));
-        fold_and_print(w_confirmation, 12, 2, 76, c_ltgray, _("To go back and review your world, press <"));
-        fold_and_print(w_confirmation, 14, 2, 76, c_green,
-                       _("To pick a random name for your world, press ?."));
-
+        mvwprintz(w_confirmation, namebar_y, 2, c_white, _("World Name:"));
+        mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "______________________________");
+        fold_and_print(w_confirmation, 3, 2, 76, c_ltgray,
+                       _("Press <color_yellow>?</color> to pick a random name for your world."));
+        fold_and_print(w_confirmation, FULL_SCREEN_HEIGHT / 2 - 2, 2, 76, c_ltgray, _("\
+Press <color_yellow>\></color> when you are satisfied with the world as it is and are ready \
+to continue, or <color_yellow>\<</color> to go back and review your world."));
         if (!noname) {
-            mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "%s", worldname.c_str());
+            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "%s", worldname.c_str());
             if (line == 1) {
                 wprintz(w_confirmation, h_ltgray, "_");
             }
@@ -1087,14 +1090,14 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
         refresh();
         ch = input();
         if (noname) {
-            mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "______________________________");
+            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "______________________________");
             noname = false;
         }
 
 
         if (ch == '>') {
             if (worldname.size() == 0) {
-                mvwprintz(w_confirmation, 2, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!!_____"));
+                mvwprintz(w_confirmation, namebar_y, namebar_x, h_ltgray, _("______NO NAME ENTERED!!!!_____"));
                 noname = true;
                 wrefresh(w_confirmation);
                 if (!query_yn(_("Are you SURE you're finished? World name will be randomly generated."))) {
@@ -1122,7 +1125,7 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
             delwin(w_confirmation);
             return -1;
         } else if (ch == '?') {
-            mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "______________________________");
+            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "______________________________");
             world->world_name = worldname = pick_random_name();
         } else if (ch == KEY_ESCAPE) {
             world->world_name =
@@ -1134,13 +1137,16 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
                     if (ch == KEY_BACKSPACE || ch == 127) {
                         if (worldname.size() > 0) {
                             //erase utf8 character TODO: make a function
-                            while(worldname.size() > 0 && ((unsigned char)worldname[worldname.size() - 1]) >= 128 &&
+                            while(worldname.size() > 0 &&
+                                  ((unsigned char)worldname[worldname.size() - 1]) >= 128 &&
                                   ((unsigned char)worldname[(int)worldname.size() - 1]) <= 191) {
                                 worldname.erase(worldname.size() - 1);
                             }
                             worldname.erase(worldname.size() - 1);
-                            mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "______________________________ ");
-                            mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "%s", worldname.c_str());
+                            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray,
+                                      "______________________________ ");
+                            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray,
+                                      "%s", worldname.c_str());
                             wprintz(w_confirmation, h_ltgray, "_");
                         }
                     } else if (is_char_allowed(ch) && utf8_width(worldname.c_str()) < 30) {
@@ -1172,30 +1178,30 @@ void worldfactory::draw_worldgen_tabs(WINDOW *w, int current, std::vector<std::s
 {
     wclear(w);
 
-    for (int i = 1; i < 79; i++) {
-        mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
-        mvwputch(w, 24, i, c_ltgray, LINE_OXOX);
+    for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
+        mvwputch(w, 2, i, BORDER_COLOR, LINE_OXOX);
+        mvwputch(w, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
 
-        if (i > 2 && i < 24) {
-            mvwputch(w, i, 0, c_ltgray, LINE_XOXO);
-            mvwputch(w, i, 79, c_ltgray, LINE_XOXO);
+        if (i > 2 && i < FULL_SCREEN_HEIGHT - 1) {
+            mvwputch(w, i, 0, BORDER_COLOR, LINE_XOXO);
+            mvwputch(w, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO);
         }
     }
 
     int x = 2;
-    for (int i = 0; i < tabs.size(); ++i) {
+    for (size_t i = 0; i < tabs.size(); ++i) {
         draw_tab(w, x, tabs[i], (i == current) ? true : false);
-        x += utf8_width(tabs[i].c_str()) + 5;
+        x += utf8_width(tabs[i].c_str()) + 7;
     }
 
-    mvwputch(w, 2, 0, c_ltgray, LINE_OXXO); // |^
-    mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(w, 2, 0, BORDER_COLOR, LINE_OXXO); // |^
+    mvwputch(w, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX); // ^|
 
-    mvwputch(w, 4, 0, c_ltgray, LINE_XOXO); // |
-    mvwputch(w, 4, 79, c_ltgray, LINE_XOXO); // |
+    mvwputch(w, 4, 0, BORDER_COLOR, LINE_XOXO); // |
+    mvwputch(w, 4, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO); // |
 
-    mvwputch(w, 24, 0, c_ltgray, LINE_XXOO); // |_
-    mvwputch(w, 24, 79, c_ltgray, LINE_XOOX);// _|
+    mvwputch(w, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |_
+    mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
 }
 
 bool worldfactory::valid_worldname(std::string name, bool automated)
