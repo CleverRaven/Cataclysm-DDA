@@ -743,45 +743,20 @@
         ],
         "pre_flags" : "DECONSTRUCT",
         "post_special" : "done_deconstruct"
-    },{
+	},{
         "type" : "construction",
-        "description" : "Start vehicle construction with standard frame",
+        "description" : "Start Vehicle Construction",
         "difficulty" : 0,
         "time" : 10,
         "components" : [
-            [ [ "frame", 1 ] ]
+            [			  
+			  [ "frame", 1 ],
+			  [ "hdframe", 1 ],
+			  [ "frame_wood", 1 ],
+			  [ "xlframe", 1 ]
+			]
         ],
         "pre_special" : "check_empty",
-        "post_special" : "done_vehicle"
-    },{
-        "type" : "construction",
-        "description" : "Start vehicle construction with heavy duty frame",
-        "difficulty" : 0,
-        "time" : 10,
-        "components" : [
-            [ [ "hdframe", 1 ] ]
-        ],
-        "pre_special" : "check_empty",
-        "post_special" : "done_vehicle_hd"
-    },{
-        "type" : "construction",
-        "description" : "Start vehicle construction with wooden frame",
-        "difficulty" : 0,
-        "time" : 10,
-        "components" : [
-            [ [ "frame_wood", 1 ] ]
-        ],
-        "pre_special" : "check_empty",
-        "post_special" : "done_vehicle_wood"
-    },{
-        "type" : "construction",
-        "description" : "Start vehicle construction with extra light frame",
-        "difficulty" : 0,
-        "time" : 10,
-        "components" : [
-            [ [ "xlframe", 1 ] ]
-        ],
-        "pre_special" : "check_empty",
-        "post_special" : "done_vehicle_light"
+        "post_special" : "done_vehicle"	
     }
 ]

@@ -1502,6 +1502,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
             std::list<item> tmp = p->use_amount(player_use[i].type, abs(player_use[i].count),
                                                 (player_use[i].count < 0));
             ret.splice(ret.end(), tmp);
+			u.lastconsumed = player_use[i].type;
         }
     }
     for (unsigned i = 0; i < map_use.size(); i++) {
@@ -1515,6 +1516,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
                                                 map_use[i].type, abs(map_use[i].count),
                                                 (map_use[i].count < 0));
             ret.splice(ret.end(), tmp);
+			u.lastconsumed =  map_use[i].type;
         }
     }
     for (unsigned i = 0; i < mixed_use.size(); i++) {
