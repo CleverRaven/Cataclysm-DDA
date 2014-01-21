@@ -1796,7 +1796,28 @@ inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair
 }
 
 void player::disp_appearance () {
-  
+    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    draw_border(w);
+
+    mvwprintz(w, 0, 2, c_white, _(" Appearance "));
+
+    std::vector<std::string> toPrint = foldstring("The quick brown fox jumps over the lazy dog. Loret ipsum dolor sit amet. Nu ani anquietas.", FULL_SCREEN_WIDTH - 4);
+
+    for (int i = 0; i < FULL_SCREEN_HEIGHT - 4 && i < toPrint.size(); i++) {
+      mvwprintz(w, 2 + i, 2, c_white, toPrint[i].c_str());
+    }
+
+    // Make sure the changes are shown.
+    wrefresh(w);
+
+    // Wait for any keystroke.
+    getch();
+
+    // Close the window.
+    werase(w);
+    delwin(w);
 }
 
 void player::disp_info()
