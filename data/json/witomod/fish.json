@@ -1,6 +1,35 @@
 [
   {
     "type"            : "MONSTER",
+    "id"              : "mon_fish_blinky",
+    "name"            : "Blinky",
+    "species"         : "FISH",
+    "symbol"          : "a",
+    "color"           : "cyan",
+    "size"            : "SMALL",
+    "material"        : "flesh",
+    "diff"            : 0,
+    "aggression"      : 0,
+    "morale"          : 0,
+    "speed"           : 100,
+    "melee_skill"     : 0,
+    "melee_dice"      : 1,
+    "melee_dice_sides": 4,
+    "melee_cut"       : 1,
+    "dodge"           : 0,
+    "armor_bash"      : 0,
+    "armor_cut"       : 0,
+    "item_chance"     : 0,
+    "luminance"       : 0,
+    "hp"              : 20,
+    "special_freq"    : 0,
+    "death_function"  : "NORMAL",
+    "special_attack"  : "NONE",
+    "description"     : "A strange three-eyed fish.",
+    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
+  },
+  {
+    "type"            : "MONSTER",
     "id"              : "mon_fish_eel",
     "name"            : "freshwater eel",
     "species"         : "FISH",
@@ -25,7 +54,7 @@
     "special_freq"    : 0,
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
-    "description"     : "A golden-yellow common carp.",
+    "description"     : "An eel.",
     "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
   },
   {
@@ -54,7 +83,7 @@
     "special_freq"    : 0,
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
-    "description"     : "A golden-yellow common carp.",
+    "description"     : "A bowfin.",
     "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
   },
   {
@@ -83,7 +112,7 @@
     "special_freq"    : 0,
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
-    "description"     : "A golden-yellow common carp.",
+    "description"     : "A bullhead.",
     "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
   },
   {
@@ -112,7 +141,7 @@
     "special_freq"    : 0,
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
-    "description"     : "A golden-yellow common carp.",
+    "description"     : "A trout",
     "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
   },
   {
@@ -170,7 +199,7 @@
     "special_freq"    : 0,
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
-    "description"     : "A golden-yellow common carp.",
+    "description"     : "A pike.",
     "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
   },
   {
@@ -199,7 +228,7 @@
     "special_freq"    : 0,
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
-    "description"     : "A golden-yellow common carp.",
+    "description"     : "A river bass.",
     "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
   },
   {
@@ -228,7 +257,7 @@
     "special_freq"    : 0,
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
-    "description"     : "A golden-yellow common carp.",
+    "description"     : "A small spritely perch.",
     "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
   },
   {
@@ -257,7 +286,7 @@
     "special_freq"    : 0,
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
-    "description"     : "A golden-yellow common carp.",
+    "description"     : "A salmon.",
     "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
   },
   {
@@ -286,7 +315,7 @@
     "special_freq"    : 0,
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
-    "description"     : "A golden-yellow common carp.",
+    "description"     : "A sunfish.",
     "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
   },
   {
@@ -303,7 +332,8 @@
       { "monster" : "mon_fish_bass", "freq": 50, "cost_multiplier": 1, "pack_size": [1, 3] },
       { "monster" : "mon_fish_perch", "freq": 50, "cost_multiplier": 1, "pack_size": [1, 3] },
       { "monster" : "mon_fish_salmon", "freq": 50, "cost_multiplier": 1, "pack_size": [1, 3] },
-      { "monster" : "mon_fish_sunfish", "freq": 50, "cost_multiplier": 1, "pack_size": [1, 3] }
+      { "monster" : "mon_fish_sunfish", "freq": 50, "cost_multiplier": 1, "pack_size": [1, 3] },
+      { "monster" : "mon_fish_blinky", "freq": 1, "cost_multiplier": 1, "pack_size": [1, 3] }
     ]
   }
 ]
