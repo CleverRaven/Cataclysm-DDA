@@ -890,6 +890,13 @@ void Creature::GeneratePersonalityValue (int str_inn, int dex_inn, int per_inn, 
     pv |= 0x1;
 }
 
+uint64_t Creature::PersonalityValueBits (size_t start, size_t width) const {
+  uint64_t retval = pv >> start;
+  uint64_t filter = 0xFFFFFFFFFFFFFFFF >> (64 - width);
+
+  return retval & filter;
+}
+
 /*
  * Drawing-related functions
  */
