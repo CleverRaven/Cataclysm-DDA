@@ -15,6 +15,7 @@
         "to_hit": -1,
         "min-bigness": 13,
         "max-bigness": 20,
+        "category": "veh_parts",
         "bigness-aspect": "WHEEL_DIAMETER"
     },
     {
@@ -33,6 +34,7 @@
         "to_hit": -1,
         "min-bigness": 17,
         "max-bigness": 36,
+        "category": "veh_parts",
         "bigness-aspect": "WHEEL_DIAMETER"
     },
     {
@@ -51,6 +53,7 @@
         "to_hit": -1,
         "min-bigness": 9,
         "max-bigness": 18,
+        "category": "veh_parts",
         "bigness-aspect": "WHEEL_DIAMETER"
     },
     {
@@ -69,6 +72,7 @@
         "to_hit": -1,
         "min-bigness": 9,
         "max-bigness": 14,
+        "category": "veh_parts",
         "bigness-aspect": "WHEEL_DIAMETER"
     },
     {
@@ -87,6 +91,7 @@
         "to_hit": -1,
         "min-bigness": 6,
         "max-bigness": 14,
+        "category": "veh_parts",
         "bigness-aspect": "WHEEL_DIAMETER"
     },
     {
@@ -105,6 +110,7 @@
         "to_hit": -1,
         "min-bigness": 4,
         "max-bigness": 6,
+        "category": "veh_parts",
         "bigness-aspect": "WHEEL_DIAMETER"
     },
     {
@@ -123,6 +129,7 @@
         "to_hit": -1,
         "min-bigness": 16,
         "max-bigness": 36,
+        "category": "veh_parts",
         "bigness-aspect": "WHEEL_DIAMETER"
     },
     {
@@ -141,6 +148,7 @@
         "to_hit": -1,
         "min-bigness": 35,
         "max-bigness": 75,
+        "category": "veh_parts",
         "bigness-aspect": "ENGINE_DISPLACEMENT"
     },
     {
@@ -159,6 +167,7 @@
         "to_hit": -1,
         "min-bigness": 75,
         "max-bigness": 150,
+        "category": "veh_parts",
         "bigness-aspect": "ENGINE_DISPLACEMENT"
     },
     {
@@ -177,6 +186,7 @@
         "to_hit": -2,
         "min-bigness": 150,
         "max-bigness": 300,
+        "category": "veh_parts",
         "bigness-aspect": "ENGINE_DISPLACEMENT"
     },
     {
@@ -195,6 +205,7 @@
         "to_hit": -3,
         "min-bigness": 300,
         "max-bigness": 500,
+        "category": "veh_parts",
         "bigness-aspect": "ENGINE_DISPLACEMENT"
     },
     {
@@ -213,6 +224,7 @@
         "to_hit": -5,
         "min-bigness": 500,
         "max-bigness": 800,
+        "category": "veh_parts",
         "bigness-aspect": "ENGINE_DISPLACEMENT"
     },
     {
@@ -231,6 +243,7 @@
         "to_hit": -8,
         "min-bigness": 800,
         "max-bigness": 1600,
+        "category": "veh_parts",
         "bigness-aspect": "ENGINE_DISPLACEMENT"
     }
 ]
