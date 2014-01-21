@@ -109,7 +109,8 @@ def extract_effect_type(item):
         writestr(outfile, found)
     for m in [ "remove_memorial_log", "apply_memorial_log"]:
         found = item.get(m, None)
-        writestr(outfile, found, comment="Memorial file message")
+        writestr(outfile, found, context="memorial_male")
+        writestr(outfile, found, context="memorial_female")
 
 def extract_professions(item):
     outfile = get_outfile("professions")
