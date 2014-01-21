@@ -1811,6 +1811,11 @@ void game::complete_disassemble()
                 continue;
             }
             item newit(item_controller->find_template(dis->components[j][0].type), turn);
+
+            if (newit.has_flag("UNRECOVERABLE")) {
+                continue;
+            }
+
             if (newit.count_by_charges()) {
                 newit.charges = compcount;
                 compcount = 1;

@@ -751,6 +751,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     STURDY - Clothing is made to be armor. Prevents damage to armor unless it is penetrated.
     SWIM_GOGGLES - Allows you to see much further under water.
     REBREATHER - Works with an active UPS to supply you with oxygen while underwater.
+    UNRECOVERABLE - Prevents the item from being recovered when deconstructing another item that uses this one.
 
     Container-only flags:
     SEALS

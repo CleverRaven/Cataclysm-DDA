@@ -1610,7 +1610,8 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 25,
-        "effects" : ["INCENDIARY"]
+        "effects" : ["INCENDIARY"],
+        "flags" : ["UNRECOVERABLE"]
     },
     {   "type" : "AMMO",
         "id" : "charge_shot",
