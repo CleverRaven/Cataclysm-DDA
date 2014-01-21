@@ -1697,7 +1697,7 @@ void player::add_memorial_log(const char* message, ...)
     char buff[1024];
     va_list ap;
     va_start(ap, message);
-    vsprintf(buff, message, ap);
+    vsnprintf(buff, sizeof(buff), message, ap);
     va_end(ap);
 
     if(strlen(buff) == 0) {
