@@ -1796,28 +1796,113 @@ inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair
 }
 
 void player::disp_appearance () {
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
-                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
-    draw_border(w);
+  std::string appearance_string = "";
 
-    mvwprintz(w, 0, 2, c_white, _(" Appearance "));
+  int melanin_skin, melanin_hair, melanin_eyes, thickness_hair;
 
-    std::vector<std::string> toPrint = foldstring("The quick brown fox jumps over the lazy dog. Loret ipsum dolor sit amet. Nu ani anquietas.", FULL_SCREEN_WIDTH - 4);
+  melanin_skin   = PersonalityValueBits(24, 4);
+  melanin_eyes   = PersonalityValueBits(26, 4);
+  melanin_hair   = PersonalityValueBits(28, 4);
+  thickness_hair = PersonalityValueBits(36, 4);
 
-    for (int i = 0; i < FULL_SCREEN_HEIGHT - 4 && i < toPrint.size(); i++) {
-      mvwprintz(w, 2 + i, 2, c_white, toPrint[i].c_str());
-    }
+  appearance_string.append("You have ");
 
-    // Make sure the changes are shown.
-    wrefresh(w);
+  switch (melanin_skin) {
+  case 0:
+    appearance_string.append("ivory white");
+    break;
+  case 1:
+    appearance_string.append("pallid");
+    break;
+  case 2:
+    appearance_string.append("very ");
+  case 3:
+    appearance_string.append("fair");
+    break;
+  case 4:
+    appearance_string.append("beige");
+    break;
+  case 5:
+    appearance_string.append("cream");
+    break;
+  case 6:
+    appearance_string.append("light ");
+  case 7:
+    appearance_string.append("golden");
+    break;
+  case 8:
+    appearance_string.append("tan");
+    break;
+  case 9:
+    appearance_string.append("light ");
+  case 10:
+    appearance_string.append("brown");
+    break;
+  case 11:
+    appearance_string.append("caramel");
+    break;
+  case 12:
+    appearance_string.append("dark brown");
+    break;
+  case 13:
+    appearance_string.append("very dark brown");
+    break;
+  case 14:
+    appearance_string.append("black");
+    break;
+  case 15:
+    appearance_string.append("ebony black");
+    break;
+  }
 
-    // Wait for any keystroke.
-    getch();
+  appearance_string.append(" skin and ");
 
-    // Close the window.
-    werase(w);
-    delwin(w);
+  switch (melanin_skin) {
+  case 0:
+    appearance_string.append("green");
+    break;
+  case 1:
+  case 2:
+  case 3:
+  case 4:
+  case 5:
+    appearance_string.append("blue");
+    break;
+  case 6:
+  case 7:
+  case 8:
+  case 9:
+  case 10:
+  case 11:
+  case 12:
+  case 13:
+    appearance_string.append("brown");
+    break;
+  case 14:
+  case 15:
+    appearance_string.append("gray");
+    break;
+  }
+
+  appearance_string.append(" eyes.");
+
+  WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+  draw_border(w);
+
+  mvwprintz(w, 0, 2, c_white, _(" Appearance "));
+
+  std::vector<std::string> toPrint = foldstring(appearance_string, FULL_SCREEN_WIDTH - 4);
+
+  for (int i = 0; i < FULL_SCREEN_HEIGHT - 4 && i < toPrint.size(); i++) {
+    mvwprintz(w, 2 + i, 2, c_white, toPrint[i].c_str());
+  }
+
+  wrefresh(w);
+
+  getch();
+
+  werase(w);
+  delwin(w);
 }
 
 void player::disp_info()
