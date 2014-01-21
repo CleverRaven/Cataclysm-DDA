@@ -1334,7 +1334,7 @@ void game::process_activity()
            std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
            std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
 
-           fish.make_corpse(itypes["corpse"], GetMType(fish_mon), 0);
+           fish.make_corpse(itypes["corpse"], GetMType(fish_mon), g->turn);
            m.add_item_or_charges(u.posx, u.posy, fish);
 
            g->add_msg_if_player(&u, _("You catch a fish!"));
