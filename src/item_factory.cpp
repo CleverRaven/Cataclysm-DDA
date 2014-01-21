@@ -25,6 +25,7 @@ static const std::string category_id_drugs("drugs");
 static const std::string category_id_food("food");
 static const std::string category_id_books("books");
 static const std::string category_id_mods("mods");
+static const std::string category_id_cbm("bionics");
 static const std::string category_id_other("other");
 
 Item_factory* item_controller = new Item_factory();
@@ -38,7 +39,7 @@ Item_factory::Item_factory(){
     // and if this appears it's a bug anyway.
     m_missing_item->name = "Error: Item Missing.";
     m_missing_item->description = "There is only the space where an object should be, but isn't. No item template of this type exists.";
-    m_templates["MISSING_ITEM"]=m_missing_item;
+    m_templates["MISSING_ITEM"] = m_missing_item;
 }
 
 void Item_factory::init(){
@@ -267,16 +268,17 @@ void Item_factory::create_inital_categories() {
     // (simply define a category in json with the id
     // taken from category_id_* and that definition will get
     // used - see load_item_category)
-    add_category(category_id_guns, -20, _("guns"));
-    add_category(category_id_ammo, -19, _("ammo"));
-    add_category(category_id_weapons, -18, _("weapons"));
-    add_category(category_id_tools, -17, _("tools"));
+    add_category(category_id_guns,     -20, _("guns"));
+    add_category(category_id_ammo,     -19, _("ammo"));
+    add_category(category_id_weapons,  -18, _("weapons"));
+    add_category(category_id_tools,    -17, _("tools"));
     add_category(category_id_clothing, -16, _("clothing"));
-    add_category(category_id_food, -15, _("food"));
-    add_category(category_id_drugs, -14, _("drugs"));
-    add_category(category_id_books, -13, _("books"));
-    add_category(category_id_mods, -12, _("mods"));
-    add_category(category_id_other, -11, _("other"));
+    add_category(category_id_food,     -15, _("food"));
+    add_category(category_id_drugs,    -14, _("drugs"));
+    add_category(category_id_books,    -13, _("books"));
+    add_category(category_id_mods,     -12, _("mods"));
+    add_category(category_id_mods,     -11, _("bionics"));
+    add_category(category_id_other,    -10, _("other"));
 }
 
 void Item_factory::add_category(const std::string &id, int sort_rank, const std::string &name) {
@@ -328,7 +330,7 @@ void Item_factory::check_ammo_type(std::ostream& msg, const std::string &ammo) c
             return;
         }
     }
-    msg << string_format("there is no actuall ammo of type %s defined", ammo.c_str()) << "\n";
+    msg << string_format("there is no actual ammo of type %s defined", ammo.c_str()) << "\n";
 }
 
 void Item_factory::check_itype_definitions() const {
