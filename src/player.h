@@ -119,6 +119,7 @@ public:
 
  void memorial( std::ofstream &memorial_file ); // Write out description of player.
  void disp_info(); // '@' key; extended character info
+ void disp_appearance(); // undetermined key; appearance info
  void disp_morale(); // '%' key; morale info
  void disp_status(WINDOW* w, WINDOW *w2);// On-screen data
 

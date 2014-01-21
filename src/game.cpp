@@ -1840,6 +1840,10 @@ void game::handle_key_blocking_activity() {
                     u.disp_info();
                     refresh_all();
                     break;
+                case ACTION_APPEARANCE:
+                    u.disp_appearance();
+                    refresh_all();
+                    break;
                 case ACTION_MESSAGES:
                     msg_buffer();
                     break;
@@ -2837,6 +2841,11 @@ bool game::handle_action()
 
   case ACTION_PL_INFO:
    u.disp_info();
+   refresh_all();
+   break;
+
+  case ACTION_APPEARANCE:
+   u.disp_appearance();
    refresh_all();
    break;
 

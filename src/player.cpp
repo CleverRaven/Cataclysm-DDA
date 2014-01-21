@@ -1795,6 +1795,10 @@ inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair
     return levelA > levelB || (levelA == levelB && a.first->name() < b.first->name());
 }
 
+void player::disp_appearance () {
+  
+}
+
 void player::disp_info()
 {
  int line;
