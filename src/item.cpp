@@ -536,7 +536,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 		if (iternum != 0) {
 			temp1 << "; ";
 		}
-		temp1 << get_free_mod_locations((*i).first) << "/" << (*i).second << " " << _((*i).first.c_str());
+		const int free_slots = (*i).second - get_free_mod_locations((*i).first);
+		temp1 << free_slots << "/" << (*i).second << " " << _((*i).first.c_str());
 		bool first_mods = true;
 		for (int mn = 0; mn < contents.size(); mn++) {
 			it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[mn].type);
