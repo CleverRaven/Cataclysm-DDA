@@ -9558,6 +9558,7 @@
       [ "mutagen", 1 ]
     ],
     [
+      [ "fish", 2 ],
       [ "can_sardine", 1 ],
       [ "can_tuna", 1 ],
       [ "can_salmon", 1 ],
