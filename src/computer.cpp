@@ -352,7 +352,8 @@ void computer::activate_function(computer_action action)
         break;
 
     case COMPACT_RELEASE:
-        g->u.add_memorial_log(_("Released subspace specimens."));
+        g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
+                              pgettext("memorial_female", "Released subspace specimens."));
         g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
         g->m.translate(t_reinforced_glass_h, t_floor);
         g->m.translate(t_reinforced_glass_v, t_floor);
@@ -360,7 +361,8 @@ void computer::activate_function(computer_action action)
         break;
 
     case COMPACT_TERMINATE:
-        g->u.add_memorial_log(_("Terminated subspace specimens."));
+        g->u.add_memorial_log(pgettext("memorial_male","Terminated subspace specimens."),
+                              pgettext("memorial_female","Terminated subspace specimens."));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 int mondex = g->mon_at(x, y);
@@ -377,7 +379,8 @@ void computer::activate_function(computer_action action)
         break;
 
     case COMPACT_PORTAL:
-        g->u.add_memorial_log(_("Opened a portal."));
+        g->u.add_memorial_log(pgettext("memorial_male", "Opened a portal."),
+                              pgettext("memorial_female", "Opened a portal."));
         for (int i = 0; i < SEEX * MAPSIZE; i++) {
             for (int j = 0; j < SEEY * MAPSIZE; j++) {
                 int numtowers = 0;
@@ -403,7 +406,8 @@ void computer::activate_function(computer_action action)
         if (!query_bool(_("WARNING: Resonance cascade carries severe risk!  Continue?"))) {
             return;
         }
-        g->u.add_memorial_log(_("Caused a resonance cascade."));
+        g->u.add_memorial_log(pgettext("memorial_male", "Caused a resonance cascade."),
+                              pgettext("memorial_female", "Caused a resonance cascade."));
         std::vector<point> cascade_points;
         for (int i = g->u.posx - 10; i <= g->u.posx + 10; i++) {
             for (int j = g->u.posy - 10; j <= g->u.posy + 10; j++) {
@@ -505,7 +509,9 @@ void computer::activate_function(computer_action action)
             tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, level);
         }
 
-        g->u.add_memorial_log(_("Launched a nuke at a %s."),
+        //~ %s is terrain name
+        g->u.add_memorial_log(pgettext("memorial_male", "Launched a nuke at a %s."),
+                              pgettext("memorial_female", "Launched a nuke at a %s."),
                               otermap[g->cur_om->ter(target.x, target.y, 0)].name.c_str());
         for(int x = target.x - 2; x <= target.x + 2; x++) {
             for(int y = target.y -  2; y <= target.y + 2; y++) {
@@ -520,7 +526,8 @@ void computer::activate_function(computer_action action)
 
     case COMPACT_MISS_DISARM: // TODO: stop the nuke from creating radioactive clouds.
         if(query_yn(_("Disarm missile."))) {
-            g->u.add_memorial_log(_("Disarmed a nuclear missile."));
+            g->u.add_memorial_log(pgettext("memorial_male", "Disarmed a nuclear missile."),
+                                  pgettext("memorial_female", "Disarmed a nuclear missile."));
             g->add_msg(_("Nuclear missile disarmed!"));
             options.clear();//disable missile.
             activate_failure(COMPFAIL_SHUTDOWN);
@@ -1004,7 +1011,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         break;
 
     case COMPACT_SRCF_SEAL:
-        g->u.add_memorial_log(_("Sealed a Hazardous Material Sarcophagus."));
+        g->u.add_memorial_log(pgettext("memorial_male", "Sealed a Hazardous Material Sarcophagus."),
+                              pgettext("memorial_female", "Sealed a Hazardous Material Sarcophagus."));
         g->add_msg(_("Evacuate Immediately!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
@@ -1074,7 +1082,8 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     case COMPFAIL_ALARM:
-        g->u.add_memorial_log(_("Set off an alarm."));
+        g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
+                              pgettext("memorial_female", "Set off an alarm."));
         g->sound(g->u.posx, g->u.posy, 60, _("An alarm sounds!"));
         if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
             g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);

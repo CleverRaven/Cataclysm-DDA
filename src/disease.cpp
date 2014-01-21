@@ -158,11 +158,13 @@ void dis_msg(dis_type type_string) {
     switch (type) {
     case DI_COMMON_COLD:
         g->add_msg(_("You feel a cold coming on..."));
-        g->u.add_memorial_log(_("Caught a cold."));
+        g->u.add_memorial_log(pgettext("memorial_male", "Caught a cold."),
+                              pgettext("memorial_female", "Caught a cold."));
         break;
     case DI_FLU:
         g->add_msg(_("You feel a flu coming on..."));
-        g->u.add_memorial_log(_("Caught the flu."));
+        g->u.add_memorial_log(pgettext("memorial_male", "Caught the flu."),
+                              pgettext("memorial_female", "Caught the flu."));
         break;
     case DI_CRUSHED:
         g->add_msg(_("The ceiling collapses on you!"));
@@ -222,11 +224,13 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_BITE:
         g->add_msg(_("The bite wound feels really deep..."));
-        g->u.add_memorial_log(_("Received a deep bite wound."));
+        g->u.add_memorial_log(pgettext("memorial_male", "Received a deep bite wound."),
+                              pgettext("memorial_female", "Received a deep bite wound."));
         break;
     case DI_INFECTED:
         g->add_msg(_("Your bite wound feels infected."));
-        g->u.add_memorial_log(_("Contracted an infection."));
+        g->u.add_memorial_log(pgettext("memorial_male", "Contracted an infection."),
+                              pgettext("memorial_female", "Contracted an infection."));
         break;
     case DI_LIGHTSNARE:
         g->add_msg(_("You are snared."));
@@ -265,19 +269,24 @@ void dis_remove_memorial(dis_type type_string) {
 
   switch(type) {
     case DI_COMMON_COLD:
-      g->u.add_memorial_log(_("Got over the cold."));
+      g->u.add_memorial_log(pgettext("memorial_male", "Got over the cold."),
+                            pgettext("memorial_female", "Got over the cold."));
       break;
     case DI_FLU:
-      g->u.add_memorial_log(_("Got over the flu."));
+      g->u.add_memorial_log(pgettext("memorial_male", "Got over the flu."),
+                            pgettext("memorial_female", "Got over the flu."));
       break;
     case DI_FUNGUS:
-      g->u.add_memorial_log(_("Cured the fungal infection."));
+      g->u.add_memorial_log(pgettext("memorial_male", "Cured the fungal infection."),
+                            pgettext("memorial_female", "Cured the fungal infection."));
       break;
     case DI_BITE:
-      g->u.add_memorial_log(_("Recovered from a bite wound."));
+      g->u.add_memorial_log(pgettext("memorial_male", "Recovered from a bite wound."),
+                            pgettext("memorial_female", "Recovered from a bite wound."));
       break;
     case DI_INFECTED:
-      g->u.add_memorial_log(_("Recovered from an infection... this time."));
+      g->u.add_memorial_log(pgettext("memorial_male", "Recovered from an infection... this time."),
+                            pgettext("memorial_female", "Recovered from an infection... this time."));
       break;
   }
 
@@ -705,7 +714,8 @@ void dis_effect(player &p, disease &dis) {
             // Equivalent to X in 150000 + health * 1000
             if (one_in(100) && x_in_y(dis.intensity, 150 + p.health)) {
                 p.add_disease("fungus", 3601, false, 1, 1, 0, -1);
-                g->u.add_memorial_log(_("Contracted a fungal infection."));
+                g->u.add_memorial_log(pgettext("memorial_male", "Contracted a fungal infection."),
+                                      pgettext("memorial_female", "Contracted a fungal infection."));
             }
             break;
 
@@ -743,7 +753,8 @@ void dis_effect(player &p, disease &dis) {
                     }
                 }
                 if (p.has_trait("HIBERNATE") && (p.hunger < -60)) {
-                    p.add_memorial_log(_("Entered hibernation."));
+                    p.add_memorial_log(pgettext("memorial_male", "Entered hibernation."),
+                                       pgettext("memorial_female", "Entered hibernation."));
                     // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
                     p.fall_asleep(144000);
                 }
@@ -1008,7 +1019,8 @@ void dis_effect(player &p, disease &dis) {
         case DI_ASTHMA:
             if (dis.duration > 1200) {
                 g->add_msg_if_player(&p,_("Your asthma overcomes you.\nYou asphyxiate."));
-                g->u.add_memorial_log(_("Succumbed to an asthma attack."));
+                g->u.add_memorial_log(pgettext("memorial_male", "Succumbed to an asthma attack."),
+                                      pgettext("memorial_female", "Succumbed to an asthma attack."));
                 p.hurtall(500);
             } else if (dis.duration > 700) {
                 if (one_in(20)) {
@@ -1086,7 +1098,8 @@ void dis_effect(player &p, disease &dis) {
                 if (one_in(1000 - ((dis.duration - 6000) / 10))) {
                     if (!p.is_npc()) {
                         g->add_msg(_("Glowing lights surround you, and you teleport."));
-                        g->u.add_memorial_log(_("Spontaneous teleport."));
+                        g->u.add_memorial_log(pgettext("memorial_male", "Spontaneous teleport."),
+                                              pgettext("memorial_female", "Spontaneous teleport."));
                     }
                     g->teleport();
                     if (one_in(10)) {
@@ -2320,7 +2333,8 @@ void manage_sleep(player& p, disease& dis) {
             p.fatigue = -25;
             g->add_msg(_("You feel well rested."));
             dis.duration = dice(3, 100);
-            p.add_memorial_log(_("Awoke from hibernation."));
+            p.add_memorial_log(pgettext("memorial_male", "Awoke from hibernation."),
+                               pgettext("memorial_female", "Awoke from hibernation."));
         }
     }
 
@@ -2609,7 +2623,8 @@ static void handle_infected_wound(player& p, disease& dis) {
             p.rem_disease("sleep");
         }
         g->add_msg(_("You succumb to the infection."));
-        g->u.add_memorial_log(_("Succumbed to the infection."));
+        g->u.add_memorial_log(pgettext("memorial_male", "Succumbed to the infection."),
+                              pgettext("memorial_female", "Succumbed to the infection."));
         p.hurtall(500);
     }
 }
@@ -2858,7 +2873,8 @@ static void handle_insect_parasites(player& p, disease& dis) {
                 break;
             }
         }
-        p.add_memorial_log(_("Dermatik eggs hatched."));
+        p.add_memorial_log(pgettext("memorial_male", "Dermatik eggs hatched."),
+                           pgettext("memorial_female", "Dermatik eggs hatched."));
         p.rem_disease("formication", dis.bp, dis.side);
         p.moves -= 600;
     }

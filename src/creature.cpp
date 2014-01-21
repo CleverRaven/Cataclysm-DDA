@@ -426,7 +426,8 @@ bool is_expired_effect(effect &e)   // utility function for process_effects
 {
     if (e.get_duration() <= 0) {
         g->add_msg_string(e.get_effect_type()->get_remove_message());
-        g->u.add_memorial_log(e.get_effect_type()->get_remove_memorial_log().c_str());
+        g->u.add_memorial_log(e.get_effect_type()->get_remove_memorial_log().c_str(),
+                              e.get_effect_type()->get_remove_memorial_log().c_str());
         return true;
     } else {
         return false;
@@ -451,7 +452,8 @@ void Creature::add_effect(efftype_id eff_id, int dur)
         effects.push_back(new_eff);
         if (is_player()) { // only print the message if we didn't already have it
             g->add_msg_string(effect_types[eff_id].get_apply_message());
-            g->u.add_memorial_log(effect_types[eff_id].get_apply_memorial_log().c_str());
+            g->u.add_memorial_log(effect_types[eff_id].get_apply_memorial_log().c_str(),
+                                  effect_types[eff_id].get_apply_memorial_log().c_str());
         }
     }
 }
