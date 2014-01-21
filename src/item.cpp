@@ -536,7 +536,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 		if (iternum != 0) {
 			temp1 << "; ";
 		}
-		temp1 << gun->occupied_mod_locations[(*i).first] << "/" << (*i).second << " " << _((*i).first.c_str());
+		const int free_slots = (*i).second - get_free_mod_locations((*i).first);
+		temp1 << free_slots << "/" << (*i).second << " " << _((*i).first.c_str());
 		bool first_mods = true;
 		for (int mn = 0; mn < contents.size(); mn++) {
 			it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[mn].type);
@@ -873,6 +874,27 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
  }
 
  return temp1.str();
+}
+
+int item::get_free_mod_locations(const std::string &location) const
+{
+    if(!is_gun()) {
+        return 0;
+    }
+    const it_gun *gt = dynamic_cast<const it_gun*>(type);
+    std::map<std::string, int>::const_iterator loc =
+        gt->valid_mod_locations.find(location);
+    if(loc == gt->valid_mod_locations.end()) {
+        return 0;
+    }
+    int result = loc->second;
+    for(std::vector<item>::const_iterator a = contents.begin(); a != contents.end(); ++a) {
+        const it_gunmod *mod = dynamic_cast<const it_gunmod*>(a->type);
+        if(mod != NULL && mod->location == location) {
+            result--;
+        }
+    }
+    return result;
 }
 
 char item::symbol() const

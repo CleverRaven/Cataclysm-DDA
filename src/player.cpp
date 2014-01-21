@@ -8477,7 +8477,7 @@ void player::use(int pos)
                 g->add_msg(_("That %s cannot be used on a %s."), used->tname().c_str(),
                        ammo_name(guntype->ammo).c_str());
                 return;
-        } else if (guntype->occupied_mod_locations[mod->location] == guntype->valid_mod_locations[mod->location]) {
+        } else if (gun->get_free_mod_locations(mod->location) <= 0) {
             g->add_msg(_("Your %s doesn't have enough room for another %s mod. To remove the mods, \
 activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
             return;
@@ -8519,7 +8519,6 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         g->add_msg(_("You attach the %s to your %s."), used->tname().c_str(),
                    gun->tname().c_str());
         gun->contents.push_back(i_rem(pos));
-        guntype->occupied_mod_locations[mod->location] += 1;
         return;
 
     } else if (used->is_bionic()) {
@@ -8592,7 +8591,6 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
 void player::remove_gunmod(item *weapon, int id)
 {
     item *gunmod = &weapon->contents[id];
-    it_gun *guntype = dynamic_cast<it_gun *>(weapon->type);
     item newgunmod;
     item ammo;
     if (gunmod != NULL && gunmod->charges > 0) {
@@ -8612,7 +8610,6 @@ void player::remove_gunmod(item *weapon, int id)
     }
     newgunmod = item(itypes[gunmod->type->id], g->turn);
     i_add_or_drop(newgunmod);
-    guntype->occupied_mod_locations[(static_cast<it_gunmod*>(gunmod->type))->location] -= 1;
     weapon->contents.erase(weapon->contents.begin()+id);
     return;
 }
