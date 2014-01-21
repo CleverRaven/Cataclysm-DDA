@@ -61,7 +61,8 @@
     "volume": 1,
     "bashing": -2,
     "cutting": 0,
-    "to_hit": -2
+    "to_hit": -2,
+    "flags" : ["UNRECOVERABLE"]
   },
 
   {
