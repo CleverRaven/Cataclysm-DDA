@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-17 10:48+0400\n"
+"POT-Creation-Date: 2014-01-21 22:59+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1741,6 +1741,14 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "Some wheat seeds."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "tomato seeds"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "Some tomato seeds."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -11163,7 +11171,8 @@ msgstr ""
 msgid ""
 "Intended for the clarification and disinfection of unsafe drinking water, "
 "these halazone-based purification tablets remove dangerous contaminants "
-"using powerful chemicals."
+"using powerful chemicals.  The label says to use one tablet per unit of "
+"water."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -13472,11 +13481,51 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "sharpened toothbrush"
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A personal hygiene item turned into a shank."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "soap bar"
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A cleansing agent made into bars. Don't drop it!."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "razor blade"
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A double edged razor blade. Use it to shave, or slit your wrists."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "extra-light frame"
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A small lightweight frame made from pipework. Useful for crafting."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "steel frame"
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "A large frame made of steel. Useful for crafting."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "wire basket"
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A large wire basket from a shopping cart."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
@@ -16764,7 +16813,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "subwayman"
+msgid "C.H.U.D."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -21128,11 +21177,7 @@ msgid "Deconstruct Furniture"
 msgstr ""
 
 #: lang/json/construction_from_json.py
-msgid "Start vehicle construction with standard frame"
-msgstr ""
-
-#: lang/json/construction_from_json.py
-msgid "Start vehicle construction with heavy duty frame"
+msgid "Start Vehicle Construction"
 msgstr ""
 
 #: lang/json/dream_from_json.py
@@ -21721,13 +21766,23 @@ msgstr ""
 msgid "You're on fire!"
 msgstr ""
 
-#. ~ Memorial file message
 #: lang/json/effects_from_json.py
+msgctxt "memorial_male"
 msgid "Put out the fire."
 msgstr ""
 
-#. ~ Memorial file message
 #: lang/json/effects_from_json.py
+msgctxt "memorial_female"
+msgid "Put out the fire."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgctxt "memorial_male"
+msgid "Caught on fire."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgctxt "memorial_female"
 msgid "Caught on fire."
 msgstr ""
 
@@ -21841,13 +21896,23 @@ msgstr ""
 msgid "Your bite wound feels infected"
 msgstr ""
 
-#. ~ Memorial file message
 #: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_male"
 msgid "Recovered from an infection... this time."
 msgstr ""
 
-#. ~ Memorial file message
 #: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_female"
+msgid "Recovered from an infection... this time."
+msgstr ""
+
+#: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_male"
+msgid "Contracted an infection."
+msgstr ""
+
+#: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_female"
 msgid "Contracted an infection."
 msgstr ""
 
@@ -21855,13 +21920,23 @@ msgstr ""
 msgid "The bite wound feels really deep..."
 msgstr ""
 
-#. ~ Memorial file message
 #: lang/json/effects_from_json.py
+msgctxt "memorial_male"
 msgid "Recoverd from a bite wound."
 msgstr ""
 
-#. ~ Memorial file message
+#: lang/json/effects_from_json.py
+msgctxt "memorial_female"
+msgid "Recoverd from a bite wound."
+msgstr ""
+
 #: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_male"
+msgid "Received a deep bite wound."
+msgstr ""
+
+#: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_female"
 msgid "Received a deep bite wound."
 msgstr ""
 
@@ -21877,13 +21952,23 @@ msgstr ""
 msgid "You feel a cold coming on..."
 msgstr ""
 
-#. ~ Memorial file message
 #: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_male"
 msgid "Got over the cold."
 msgstr ""
 
-#. ~ Memorial file message
 #: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_female"
+msgid "Got over the cold."
+msgstr ""
+
+#: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_male"
+msgid "Caught a cold."
+msgstr ""
+
+#: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_female"
 msgid "Caught a cold."
 msgstr ""
 
@@ -21895,8 +21980,13 @@ msgstr ""
 msgid "You feel a surge of adrenaline!"
 msgstr ""
 
-#. ~ Memorial file message
 #: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_male"
+msgid "Cured the fungal infection."
+msgstr ""
+
+#: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_female"
 msgid "Cured the fungal infection."
 msgstr ""
 
@@ -21912,13 +22002,23 @@ msgstr ""
 msgid "You feel a flu coming on..."
 msgstr ""
 
-#. ~ Memorial file message
 #: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_male"
 msgid "Got over the flu."
 msgstr ""
 
-#. ~ Memorial file message
 #: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_female"
+msgid "Got over the flu."
+msgstr ""
+
+#: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_male"
+msgid "Caught the flu."
+msgstr ""
+
+#: lang/json/effects_from_json.py src/disease.cpp
+msgctxt "memorial_female"
 msgid "Caught the flu."
 msgstr ""
 
@@ -31414,7 +31514,7 @@ msgid "custom"
 msgstr ""
 
 #: lang/json/vehicle_from_json.py
-msgid "custom_hdframe"
+msgid "custom_empty"
 msgstr ""
 
 #: lang/json/vehicle_from_json.py
@@ -31442,7 +31542,6 @@ msgid "Quad Bike Chassis"
 msgstr ""
 
 #: lang/json/vehicle_from_json.py src/construction.cpp
-#: src/construction.cpp
 msgid "Car"
 msgstr ""
 
@@ -31598,6 +31697,18 @@ msgid "frame"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+msgid "extra light frame"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "handle"
 msgstr ""
 
@@ -31637,6 +31748,17 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 #: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+msgid "extra light quarterpanel"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "aisle"
 msgstr ""
 
@@ -31647,6 +31769,10 @@ msgstr ""
 #: lang/json/vehicle_part_from_json.py
 #: lang/json/vehicle_part_from_json.py
 msgid "stow board"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "cloth roof"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -31711,6 +31837,14 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "box"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "wire bike basket"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "shopping cart basket"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -33657,6 +33791,13 @@ msgstr ""
 
 #: src/bionics.cpp
 #, c-format
+msgctxt "memorial_male"
+msgid "Lost %d units of power capacity."
+msgstr ""
+
+#: src/bionics.cpp
+#, c-format
+msgctxt "memorial_female"
 msgid "Lost %d units of power capacity."
 msgstr ""
 
@@ -33916,6 +34057,12 @@ msgid "Bohm... Bohm... Bohm..."
 msgstr ""
 
 #: src/computer.cpp
+msgctxt "memorial_male"
+msgid "Released subspace specimens."
+msgstr ""
+
+#: src/computer.cpp
+msgctxt "memorial_female"
 msgid "Released subspace specimens."
 msgstr ""
 
@@ -33929,6 +34076,12 @@ msgid "Containment shields opened.  Press any key..."
 msgstr ""
 
 #: src/computer.cpp
+msgctxt "memorial_male"
+msgid "Terminated subspace specimens."
+msgstr ""
+
+#: src/computer.cpp
+msgctxt "memorial_female"
 msgid "Terminated subspace specimens."
 msgstr ""
 
@@ -33937,6 +34090,12 @@ msgid "Subjects terminated.  Press any key..."
 msgstr ""
 
 #: src/computer.cpp
+msgctxt "memorial_male"
+msgid "Opened a portal."
+msgstr ""
+
+#: src/computer.cpp
+msgctxt "memorial_female"
 msgid "Opened a portal."
 msgstr ""
 
@@ -33945,6 +34104,12 @@ msgid "WARNING: Resonance cascade carries severe risk!  Continue?"
 msgstr ""
 
 #: src/computer.cpp
+msgctxt "memorial_male"
+msgid "Caused a resonance cascade."
+msgstr ""
+
+#: src/computer.cpp
+msgctxt "memorial_female"
 msgid "Caused a resonance cascade."
 msgstr ""
 
@@ -33986,8 +34151,16 @@ msgstr ""
 msgid "Nuclear missile launch aborted."
 msgstr ""
 
+#. ~ %s is terrain name
 #: src/computer.cpp
 #, c-format
+msgctxt "memorial_male"
+msgid "Launched a nuke at a %s."
+msgstr ""
+
+#: src/computer.cpp
+#, c-format
+msgctxt "memorial_female"
 msgid "Launched a nuke at a %s."
 msgstr ""
 
@@ -33996,6 +34169,12 @@ msgid "Disarm missile."
 msgstr ""
 
 #: src/computer.cpp
+msgctxt "memorial_male"
+msgid "Disarmed a nuclear missile."
+msgstr ""
+
+#: src/computer.cpp
+msgctxt "memorial_female"
 msgid "Disarmed a nuclear missile."
 msgstr ""
 
@@ -34446,6 +34625,12 @@ msgid ""
 msgstr ""
 
 #: src/computer.cpp
+msgctxt "memorial_male"
+msgid "Sealed a Hazardous Material Sarcophagus."
+msgstr ""
+
+#: src/computer.cpp
+msgctxt "memorial_female"
 msgid "Sealed a Hazardous Material Sarcophagus."
 msgstr ""
 
@@ -34467,6 +34652,12 @@ msgid ""
 msgstr ""
 
 #: src/computer.cpp src/game.cpp src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Set off an alarm."
+msgstr ""
+
+#: src/computer.cpp src/game.cpp src/iuse.cpp
+msgctxt "memorial_female"
 msgid "Set off an alarm."
 msgstr ""
 
@@ -35444,6 +35635,12 @@ msgid "Your vision starts to blur."
 msgstr ""
 
 #: src/disease.cpp
+msgctxt "memorial_male"
+msgid "Recovered from a bite wound."
+msgstr ""
+
+#: src/disease.cpp
+msgctxt "memorial_female"
 msgid "Recovered from a bite wound."
 msgstr ""
 
@@ -35522,6 +35719,12 @@ msgid "You gag and retch."
 msgstr ""
 
 #: src/disease.cpp
+msgctxt "memorial_male"
+msgid "Contracted a fungal infection."
+msgstr ""
+
+#: src/disease.cpp
+msgctxt "memorial_female"
 msgid "Contracted a fungal infection."
 msgstr ""
 
@@ -35548,6 +35751,12 @@ msgid "You use your %s to keep warm."
 msgstr ""
 
 #: src/disease.cpp
+msgctxt "memorial_male"
+msgid "Entered hibernation."
+msgstr ""
+
+#: src/disease.cpp
+msgctxt "memorial_female"
 msgid "Entered hibernation."
 msgstr ""
 
@@ -35616,6 +35825,12 @@ msgid ""
 msgstr ""
 
 #: src/disease.cpp
+msgctxt "memorial_male"
+msgid "Succumbed to an asthma attack."
+msgstr ""
+
+#: src/disease.cpp
+msgctxt "memorial_female"
 msgid "Succumbed to an asthma attack."
 msgstr ""
 
@@ -35647,6 +35862,12 @@ msgid "Glowing lights surround you, and you teleport."
 msgstr ""
 
 #: src/disease.cpp
+msgctxt "memorial_male"
+msgid "Spontaneous teleport."
+msgstr ""
+
+#: src/disease.cpp
+msgctxt "memorial_female"
 msgid "Spontaneous teleport."
 msgstr ""
 
@@ -36781,6 +37002,12 @@ msgid "You feel well rested."
 msgstr ""
 
 #: src/disease.cpp
+msgctxt "memorial_male"
+msgid "Awoke from hibernation."
+msgstr ""
+
+#: src/disease.cpp
+msgctxt "memorial_female"
 msgid "Awoke from hibernation."
 msgstr ""
 
@@ -36842,6 +37069,12 @@ msgid "You succumb to the infection."
 msgstr ""
 
 #: src/disease.cpp
+msgctxt "memorial_male"
+msgid "Succumbed to the infection."
+msgstr ""
+
+#: src/disease.cpp
+msgctxt "memorial_female"
 msgid "Succumbed to the infection."
 msgstr ""
 
@@ -36914,6 +37147,12 @@ msgid "Insects begin to emerge from <npcname>'s skin!"
 msgstr ""
 
 #: src/disease.cpp
+msgctxt "memorial_male"
+msgid "Dermatik eggs hatched."
+msgstr ""
+
+#: src/disease.cpp
+msgctxt "memorial_female"
 msgid "Dermatik eggs hatched."
 msgstr ""
 
@@ -36992,22 +37231,52 @@ msgid "-clear-"
 msgstr ""
 
 #: src/event.cpp
+msgctxt "memorial_male"
 msgid "Became wanted by the police!"
 msgstr ""
 
 #: src/event.cpp
+msgctxt "memorial_female"
+msgid "Became wanted by the police!"
+msgstr ""
+
+#: src/event.cpp
+msgctxt "memorial_male"
 msgid "Awoke a group of dark wyrms!"
 msgstr ""
 
 #: src/event.cpp
+msgctxt "memorial_female"
+msgid "Awoke a group of dark wyrms!"
+msgstr ""
+
+#: src/event.cpp
+msgctxt "memorial_male"
 msgid "Angered a group of amigara horrors!"
 msgstr ""
 
 #: src/event.cpp
+msgctxt "memorial_female"
+msgid "Angered a group of amigara horrors!"
+msgstr ""
+
+#: src/event.cpp
+msgctxt "memorial_male"
 msgid "Destroyed a triffid grove."
 msgstr ""
 
 #: src/event.cpp
+msgctxt "memorial_female"
+msgid "Destroyed a triffid grove."
+msgstr ""
+
+#: src/event.cpp
+msgctxt "memorial_male"
+msgid "Opened a strange temple."
+msgstr ""
+
+#: src/event.cpp
+msgctxt "memorial_female"
 msgid "Opened a strange temple."
 msgstr ""
 
@@ -37020,6 +37289,12 @@ msgid "Water quickly floods up to your knees."
 msgstr ""
 
 #: src/event.cpp
+msgctxt "memorial_male"
+msgid "Water level reached knees."
+msgstr ""
+
+#: src/event.cpp
+msgctxt "memorial_female"
 msgid "Water level reached knees."
 msgstr ""
 
@@ -37028,6 +37303,12 @@ msgid "Water fills nearly to the ceiling!"
 msgstr ""
 
 #: src/event.cpp
+msgctxt "memorial_male"
+msgid "Water level reached the ceiling."
+msgstr ""
+
+#: src/event.cpp
+msgctxt "memorial_female"
 msgid "Water level reached the ceiling."
 msgstr ""
 
@@ -38480,8 +38761,16 @@ msgstr ""
 msgid "Please wait as we build your world"
 msgstr ""
 
+#. ~ %s is player name
 #: src/game.cpp
 #, c-format
+msgctxt "memorial_male"
+msgid "%s began their journey into the Cataclysm."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgctxt "memorial_female"
 msgid "%s began their journey into the Cataclysm."
 msgstr ""
 
@@ -38490,11 +38779,27 @@ msgid "Game over! Press spacebar..."
 msgstr ""
 
 #: src/game.cpp
-msgid "committed suicide."
+#, c-format
+msgctxt "memorial_male"
+msgid "%s committed suicide."
 msgstr ""
 
 #: src/game.cpp
-msgid "was killed."
+#, c-format
+msgctxt "memorial_female"
+msgid "%s committed suicide."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgctxt "memorial_male"
+msgid "%s was killed."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgctxt "memorial_female"
+msgid "%s was killed."
 msgstr ""
 
 #: src/game.cpp
@@ -38510,6 +38815,12 @@ msgid "You have a sudden heart attack!"
 msgstr ""
 
 #: src/game.cpp
+msgctxt "memorial_male"
+msgid "Died of a drug overdose."
+msgstr ""
+
+#: src/game.cpp
+msgctxt "memorial_female"
 msgid "Died of a drug overdose."
 msgstr ""
 
@@ -38526,6 +38837,12 @@ msgid "Your heart spasms and stops."
 msgstr ""
 
 #: src/game.cpp
+msgctxt "memorial_male"
+msgid "Died of a healing stimulant overdose."
+msgstr ""
+
+#: src/game.cpp
+msgctxt "memorial_female"
 msgid "Died of a healing stimulant overdose."
 msgstr ""
 
@@ -38534,6 +38851,12 @@ msgid "You have starved to death."
 msgstr ""
 
 #: src/game.cpp
+msgctxt "memorial_male"
+msgid "Died of starvation."
+msgstr ""
+
+#: src/game.cpp
+msgctxt "memorial_female"
 msgid "Died of starvation."
 msgstr ""
 
@@ -38554,6 +38877,12 @@ msgid "You have died of dehydration."
 msgstr ""
 
 #: src/game.cpp
+msgctxt "memorial_male"
+msgid "Died of thirst."
+msgstr ""
+
+#: src/game.cpp
+msgctxt "memorial_female"
 msgid "Died of thirst."
 msgstr ""
 
@@ -38574,6 +38903,12 @@ msgid "Survivor sleep now."
 msgstr ""
 
 #: src/game.cpp
+msgctxt "memorial_male"
+msgid "Succumbed to lack of sleep."
+msgstr ""
+
+#: src/game.cpp
+msgctxt "memorial_female"
 msgid "Succumbed to lack of sleep."
 msgstr ""
 
@@ -38666,9 +39001,18 @@ msgstr ""
 msgid "You increase %s to level %d."
 msgstr ""
 
+#. ~ %s is skill name. %d is skill level
+#. ~ %d is skill level %s is skill name
 #: src/game.cpp
 #, c-format
-msgid "Reached skill level %d in %s."
+msgctxt "memorial_male"
+msgid "Reached skill level %1$d in %2$s."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgctxt "memorial_female"
+msgid "Reached skill level %1$d in %2$s."
 msgstr ""
 
 #: src/game.cpp
@@ -38683,6 +39027,24 @@ msgstr ""
 
 #: src/game.cpp
 msgid "You finish waiting."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "You learn %s."
+msgstr ""
+
+#. ~ %s is martial art
+#: src/game.cpp
+#, c-format
+msgctxt "memorial_male"
+msgid "Learned %s."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgctxt "memorial_female"
+msgid "Learned %s."
 msgstr ""
 
 #: src/game.cpp
@@ -38860,7 +39222,7 @@ msgid "Inventory:"
 msgstr ""
 
 #: src/game.cpp
-msgid "You can't disassemble items while in vehicle."
+msgid "You can't disassemble items while driving."
 msgstr ""
 
 #: src/game.cpp
@@ -41119,6 +41481,13 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
+msgctxt "memorial_male"
+msgid "Teleported into a %s."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgctxt "memorial_female"
 msgid "Teleported into a %s."
 msgstr ""
 
@@ -41129,6 +41498,13 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
+msgctxt "memorial_male"
+msgid "Telefragged a %s."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgctxt "memorial_female"
 msgid "Telefragged a %s."
 msgstr ""
 
@@ -43692,6 +44068,12 @@ msgid "You can't do anything interesting with your %s."
 msgstr ""
 
 #: src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Ate a sewage sample."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
 msgid "Ate a sewage sample."
 msgstr ""
 
@@ -43935,6 +44317,12 @@ msgid "You chew your %s."
 msgstr ""
 
 #: src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Consumed mutagen."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
 msgid "Consumed mutagen."
 msgstr ""
 
@@ -44026,6 +44414,12 @@ msgid "Mmm...sweet, bloody flavor...tastes like victory."
 msgstr ""
 
 #: src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Injected mutagen."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
 msgid "Injected mutagen."
 msgstr ""
 
@@ -44193,6 +44587,12 @@ msgid "Images of your past life flash before you."
 msgstr ""
 
 #: src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Consumed purifier."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
 msgid "Consumed purifier."
 msgstr ""
 
@@ -44205,6 +44605,12 @@ msgid "You feel a slight itching inside, but it passes."
 msgstr ""
 
 #: src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Injected purifier."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
 msgid "Injected purifier."
 msgstr ""
 
@@ -44214,6 +44620,16 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "Feels like you're on fire, but you're OK."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Ate a marloss berry."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
+msgid "Ate a marloss berry."
 msgstr ""
 
 #: src/iuse.cpp
@@ -44699,8 +45115,16 @@ msgstr ""
 msgid "They reply, \"Help is on the way!\""
 msgstr ""
 
+#. ~ %s is faction name
 #: src/iuse.cpp
 #, c-format
+msgctxt "memorial_male"
+msgid "Called for help from %s."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgctxt "memorial_female"
 msgid "Called for help from %s."
 msgstr ""
 
@@ -45761,6 +46185,12 @@ msgid "You light the firecracker."
 msgstr ""
 
 #: src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Activated a mininuke."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
 msgid "Activated a mininuke."
 msgstr ""
 
@@ -46335,8 +46765,16 @@ msgstr ""
 msgid "You pull the activating lever, readying the LAW to fire."
 msgstr ""
 
+#. ~ %s is atrifact name
 #: src/iuse.cpp
 #, c-format
+msgctxt "memorial_male"
+msgid "Activated the %s."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgctxt "memorial_female"
 msgid "Activated the %s."
 msgstr ""
 
@@ -49137,6 +49575,12 @@ msgid "The %s sinks its ovipositor into your %s!"
 msgstr ""
 
 #: src/monattack.cpp
+msgctxt "memorial_male"
+msgid "Injected with dermatik eggs."
+msgstr ""
+
+#: src/monattack.cpp
+msgctxt "memorial_female"
 msgid "Injected with dermatik eggs."
 msgstr ""
 
@@ -49976,7 +50420,8 @@ msgstr ""
 msgid "Upgrading %s costs %d point(s)"
 msgstr ""
 
-#: src/newcharacter.cpp src/player.cpp
+#: src/newcharacter.cpp src/player.cpp src/wish.cpp
+#: src/wish.cpp
 #, c-format
 msgid "%s"
 msgstr ""
@@ -50256,40 +50701,109 @@ msgstr ""
 
 #: src/npc.cpp
 #, c-format
+msgctxt "memorial_male"
 msgid "Killed a friendly ape, %s.  Better eaten than eating."
 msgstr ""
 
 #: src/npc.cpp
 #, c-format
+msgctxt "memorial_female"
+msgid "Killed a friendly ape, %s.  Better eaten than eating."
+msgstr ""
+
+#: src/npc.cpp
+#, c-format
+msgctxt "memorial_male"
 msgid "Killed a friend, %s."
 msgstr ""
 
 #: src/npc.cpp
 #, c-format
+msgctxt "memorial_female"
+msgid "Killed a friend, %s."
+msgstr ""
+
+#: src/npc.cpp
+#, c-format
+msgctxt "memorial_male"
 msgid "Killed someone foolish enough to call you friend, %s. Didn't care."
 msgstr ""
 
 #: src/npc.cpp
 #, c-format
+msgctxt "memorial_female"
+msgid "Killed someone foolish enough to call you friend, %s. Didn't care."
+msgstr ""
+
+#: src/npc.cpp
+#, c-format
+msgctxt "memorial_male"
 msgid "Killed a delicious-looking friend, %s, in cold blood."
 msgstr ""
 
 #: src/npc.cpp
+#, c-format
+msgctxt "memorial_female"
+msgid "Killed a delicious-looking friend, %s, in cold blood."
+msgstr ""
+
+#: src/npc.cpp
+msgctxt "memorial_male"
+msgid "Caught and killed an ape.  Prey doesn't have a name."
+msgstr ""
+
+#: src/npc.cpp
+msgctxt "memorial_female"
 msgid "Caught and killed an ape.  Prey doesn't have a name."
 msgstr ""
 
 #: src/npc.cpp
 #, c-format
+msgctxt "memorial_male"
+msgid ""
+"Killed an innocent person, %s, in cold blood and felt terrible afterwards."
+msgstr ""
+
+#: src/npc.cpp
+#, c-format
+msgctxt "memorial_female"
+msgid ""
+"Killed an innocent person, %s, in cold blood and felt terrible afterwards."
+msgstr ""
+
+#: src/npc.cpp
+#, c-format
+msgctxt "memorial_male"
 msgid "Killed an innocent, %s, in cold blood. They were weak."
 msgstr ""
 
 #: src/npc.cpp
 #, c-format
+msgctxt "memorial_female"
+msgid "Killed an innocent, %s, in cold blood. They were weak."
+msgstr ""
+
+#: src/npc.cpp
+#, c-format
+msgctxt "memorial_male"
 msgid "Killed an innocent, %s."
 msgstr ""
 
 #: src/npc.cpp
 #, c-format
+msgctxt "memorial_female"
+msgid "Killed an innocent, %s."
+msgstr ""
+
+#: src/npc.cpp
+#, c-format
+msgctxt "memorial_male"
+msgid "Killed a delicious-looking innocent, %s, in cold blood."
+msgstr ""
+
+#: src/npc.cpp
+#, c-format
+msgctxt "memorial_female"
 msgid "Killed a delicious-looking innocent, %s, in cold blood."
 msgstr ""
 
@@ -52276,7 +52790,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "%s: %d ->  (cost %d)"
+msgid "%s: %d -> %d (cost %d)"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -54548,13 +55062,29 @@ msgstr ""
 msgid "You bounce off %s!"
 msgstr ""
 
+#. ~ %s is addiction name
 #: src/player.cpp
 #, c-format
+msgctxt "memorial_male"
 msgid "Became addicted to %s."
 msgstr ""
 
 #: src/player.cpp
 #, c-format
+msgctxt "memorial_female"
+msgid "Became addicted to %s."
+msgstr ""
+
+#. ~ %s is addiction name
+#: src/player.cpp
+#, c-format
+msgctxt "memorial_male"
+msgid "Overcame addiction to %s."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgctxt "memorial_female"
 msgid "Overcame addiction to %s."
 msgstr ""
 
@@ -54684,8 +55214,16 @@ msgstr ""
 msgid "A bionic emits a crackle of noise!"
 msgstr ""
 
+#. ~ %s is bodypart
 #: src/player.cpp
 #, c-format
+msgctxt "memorial_male"
+msgid "Broken %s began to mend."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgctxt "memorial_female"
 msgid "Broken %s began to mend."
 msgstr ""
 
@@ -54695,11 +55233,25 @@ msgid "Your %s has started to mend!"
 msgstr ""
 
 #: src/player.cpp
+msgctxt "memorial_male"
 msgid "Threw up."
 msgstr ""
 
 #: src/player.cpp
+msgctxt "memorial_female"
+msgid "Threw up."
+msgstr ""
+
+#. ~ %s is weapon name
+#: src/player.cpp
 #, c-format
+msgctxt "memorial_male"
+msgid "Accidental discharge of %s."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgctxt "memorial_female"
 msgid "Accidental discharge of %s."
 msgstr ""
 
@@ -54722,8 +55274,16 @@ msgstr ""
 msgid "Your optical cloak flickers for a moment!"
 msgstr ""
 
+#. ~ %s is corpse name
 #: src/player.cpp
 #, c-format
+msgctxt "memorial_male"
+msgid "Had a %s revive while carrying it."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgctxt "memorial_female"
 msgid "Had a %s revive while carrying it."
 msgstr ""
 
@@ -54793,6 +55353,12 @@ msgid "You're adequately fueled. Prepare for hibernation?"
 msgstr ""
 
 #: src/player.cpp
+msgctxt "memorial_male"
+msgid "Began preparing for hibernation."
+msgstr ""
+
+#: src/player.cpp
+msgctxt "memorial_female"
 msgid "Began preparing for hibernation."
 msgstr ""
 
@@ -55417,8 +55983,16 @@ msgstr ""
 msgid "Your %s is %s!"
 msgstr ""
 
+#. ~ %s is armor name
 #: src/player.cpp
 #, c-format
+msgctxt "memorial_male"
+msgid "Worn %s was completely destroyed."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgctxt "memorial_female"
 msgid "Worn %s was completely destroyed."
 msgstr ""
 
@@ -55658,6 +56232,12 @@ msgid "You step on some bubble wrap!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Stepped on bubble wrap."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Stepped on bubble wrap."
 msgstr ""
 
@@ -55675,6 +56255,12 @@ msgid "A bear trap closes on your foot!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Caught by a beartrap."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Caught by a beartrap."
 msgstr ""
 
@@ -55687,6 +56273,12 @@ msgid "You step on a spiked board!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Stepped on a spiked board."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Stepped on a spiked board."
 msgstr ""
 
@@ -55700,6 +56292,12 @@ msgid "You step on a sharp metal caltrop!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Stepped on a caltrop."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Stepped on a caltrop."
 msgstr ""
 
@@ -55713,6 +56311,12 @@ msgid "You trip over a tripwire!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Tripped on a tripwire."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Tripped on a tripwire."
 msgstr ""
 
@@ -55726,6 +56330,12 @@ msgid "You trigger a crossbow trap!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Triggered a crossbow trap."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Triggered a crossbow trap."
 msgstr ""
 
@@ -55753,6 +56363,12 @@ msgid "You trigger a shotgun trap!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Triggered a shotgun trap."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Triggered a shotgun trap."
 msgstr ""
 
@@ -55766,6 +56382,12 @@ msgid "A blade swings out and hacks your torso!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Triggered a blade trap."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Triggered a blade trap."
 msgstr ""
 
@@ -55784,6 +56406,12 @@ msgid "A snare closes on your leg."
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Triggered a light snare."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Triggered a light snare."
 msgstr ""
 
@@ -55805,6 +56433,12 @@ msgid "A snare closes on your %s."
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Triggered a heavy snare."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Triggered a heavy snare."
 msgstr ""
 
@@ -55813,6 +56447,12 @@ msgid "You trigger a land mine!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Stepped on a land mine."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Stepped on a land mine."
 msgstr ""
 
@@ -55826,6 +56466,12 @@ msgid "You trigger a booby trap!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Triggered a booby trap."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Triggered a booby trap."
 msgstr ""
 
@@ -55844,6 +56490,12 @@ msgid "The air shimmers around you..."
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Triggered a teleport trap."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Triggered a teleport trap."
 msgstr ""
 
@@ -55857,6 +56509,12 @@ msgid "You step in a puddle of thick goo."
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Stepped into thick goo."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Stepped into thick goo."
 msgstr ""
 
@@ -55869,6 +56527,12 @@ msgid "Electrical beams emit from the floor and slice your flesh!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Stepped into a dissector."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Stepped into a dissector."
 msgstr ""
 
@@ -55882,6 +56546,12 @@ msgid "You fall in a pit!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Fell in a pit."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Fell in a pit."
 msgstr ""
 
@@ -55899,6 +56569,12 @@ msgid "The %s falls in a pit!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Fell into a spiked pit."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Fell into a spiked pit."
 msgstr ""
 
@@ -55926,6 +56602,12 @@ msgid "The %s burns you horribly!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Stepped into lava."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Stepped into lava."
 msgstr ""
 
@@ -55939,6 +56621,12 @@ msgid "You step into a sinkhole, and start to sink down!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Stepped into a sinkhole."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Stepped into a sinkhole."
 msgstr ""
 
@@ -55976,6 +56664,12 @@ msgid "You fall down a level!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Fell down a ledge."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Fell down a ledge."
 msgstr ""
 
@@ -55989,6 +56683,12 @@ msgid "You step on a loose tile, and water starts to flood the room!"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Triggered a flood trap."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Triggered a flood trap."
 msgstr ""
 
@@ -56029,10 +56729,22 @@ msgid "VRMMMMMM"
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
 msgid "Triggered a shadow trap."
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_female"
+msgid "Triggered a shadow trap."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Triggered a life-draining trap."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Triggered a life-draining trap."
 msgstr ""
 
@@ -56041,6 +56753,12 @@ msgid "You feel your life force sapping away."
 msgstr ""
 
 #: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Triggered a shadow snake trap."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
 msgid "Triggered a shadow snake trap."
 msgstr ""
 
@@ -56317,10 +57035,6 @@ msgstr ""
 
 #: src/veh_interact.cpp
 msgid "error"
-msgstr ""
-
-#: src/veh_interact.cpp
-msgid " (wielded)"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -56882,7 +57596,28 @@ msgid "Category:"
 msgstr ""
 
 #: src/wish.cpp
+msgid "[/] find, [q]uit"
+msgstr ""
+
+#: src/wish.cpp
+#, c-format
+msgid "%s Mutation changes: %d"
+msgstr ""
+
+#: src/wish.cpp
+msgid "[/] find, [f] friendly, [q]uit"
+msgstr ""
+
+#: src/wish.cpp
 msgid "Monster spawned, choose another or 'q' to quit."
+msgstr ""
+
+#: src/wish.cpp
+msgid " (contained)"
+msgstr ""
+
+#: src/wish.cpp
+msgid "[/] find, [f] container, [q]uit"
 msgstr ""
 
 #: src/wish.cpp
@@ -56891,6 +57626,53 @@ msgstr ""
 
 #: src/wish.cpp
 msgid "Item granted, choose another or 'q' to quit."
+msgstr ""
+
+#: src/wish.cpp
+msgid "Select a skill to modify"
+msgstr ""
+
+#: src/wish.cpp
+msgid "Set all skills to..."
+msgstr ""
+
+#: src/wish.cpp
+#, c-format
+msgid "@ %d: %s  "
+msgstr ""
+
+#: src/wish.cpp
+#, c-format
+msgid "Set '%s' to.."
+msgstr ""
+
+#: src/wish.cpp
+msgid " (current)"
+msgstr ""
+
+#: src/wish.cpp
+#, c-format
+msgid "%s set to %d             "
+msgstr ""
+
+#: src/wish.cpp
+msgid "Set all skills..."
+msgstr ""
+
+#: src/wish.cpp
+msgid "To 0"
+msgstr ""
+
+#: src/wish.cpp
+msgid "(Reset changes)"
+msgstr ""
+
+#: src/wish.cpp
+msgid "To 10"
+msgstr ""
+
+#: src/wish.cpp
+msgid "To 5"
 msgstr ""
 
 #: src/worldfactory.cpp
