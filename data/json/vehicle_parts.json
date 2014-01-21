@@ -829,7 +829,7 @@
         "color" : "light_gray",
         "broken_symbol" : "#",
         "broken_color" : "light_gray",
-        "durability" : 2400,
+        "durability" : 240,
         "item" : "sheet_metal",
         "difficulty" : 1,
         "location" : "center",
