@@ -188,6 +188,9 @@ void player::json_load_common_variables(JsonObject & data)
 
     data.read("pv", PV);
     Creature::SetPersonalityValue(PV);
+
+    if (pv == 0)
+      GeneratePersonalityValue(str_max, dex_max, per_max, int_max, male);
 }
 
 /*
