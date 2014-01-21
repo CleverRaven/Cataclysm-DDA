@@ -1691,13 +1691,18 @@ void player::memorial( std::ofstream &memorial_file )
  * the character dies. The message should contain only the informational string,
  * as the timestamp and location will be automatically prepended.
  */
-void player::add_memorial_log(const char* message, ...)
+void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
 {
 
     char buff[1024];
     va_list ap;
-    va_start(ap, message);
-    vsnprintf(buff, sizeof(buff), message, ap);
+
+    va_start(ap, female_msg);
+    if(this->male) {
+        vsnprintf(buff, sizeof(buff), male_msg, ap);
+    } else {
+        vsnprintf(buff, sizeof(buff),female_msg, ap);
+    }
     va_end(ap);
 
     if(strlen(buff) == 0) {
