@@ -1694,28 +1694,28 @@ void player::memorial( std::ofstream &memorial_file )
 void player::add_memorial_log(const char* message, ...)
 {
 
-  va_list ap;
-  va_start(ap, message);
-  char buff[1024];
-  vsprintf(buff, message, ap);
-  va_end(ap);
+    char buff[1024];
+    va_list ap;
+    va_start(ap, message);
+    vsprintf(buff, message, ap);
+    va_end(ap);
 
-  if(strlen(buff) == 0) {
-      return;
-  }
+    if(strlen(buff) == 0) {
+        return;
+    }
 
-  std::stringstream timestamp;
-  timestamp << _("Year") << " " << (g->turn.years() + 1) << ", "
-            << _(season_name[g->turn.get_season()].c_str()) << " "
-            << (g->turn.days() + 1) << ", " << g->turn.print_time();
+    std::stringstream timestamp;
+    timestamp << _("Year") << " " << (g->turn.years() + 1) << ", "
+              << _(season_name[g->turn.get_season()].c_str()) << " "
+              << (g->turn.days() + 1) << ", " << g->turn.print_time();
 
-  const oter_id &cur_ter = overmap_buffer.ter(g->om_global_location());
-  std::string location = otermap[cur_ter].name;
+    const oter_id &cur_ter = overmap_buffer.ter(g->om_global_location());
+    std::string location = otermap[cur_ter].name;
 
-  std::stringstream log_message;
-  log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << buff;
+    std::stringstream log_message;
+    log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << buff;
 
-  memorial_log.push_back(log_message.str());
+    memorial_log.push_back(log_message.str());
 
 }
 
