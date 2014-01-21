@@ -578,6 +578,7 @@ public:
  std::vector <addiction> addictions;
 
  recipe* lastrecipe;
+ itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
  //Dumps all memorial events into a single newline-delimited string
  std::string dump_memorial();
