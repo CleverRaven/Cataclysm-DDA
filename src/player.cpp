@@ -7925,7 +7925,7 @@ void player::sort_armor()
                     tmp_worn.push_back(&worn[i]);
             }
         }
-        leftListSize = (tmp_worn.size() < cont_h-2) ? tmp_worn.size() : cont_h-2;
+        leftListSize = (tmp_worn.size() < cont_h-2) ? tmp_worn.size() : cont_h - 2;
 
         // Left header
         mvwprintz(w_sort_left, 0, 0, c_ltgray, _("(Innermost)"));
@@ -7937,25 +7937,27 @@ void player::sort_armor()
             each_armor = dynamic_cast<it_armor*>(tmp_worn[itemindex]->type);
 
             if (itemindex == leftListIndex) {
-                mvwprintz(w_sort_left, drawindex + 1, 1, c_yellow, ">>");
+                mvwprintz(w_sort_left, drawindex + 1, 0, c_yellow, ">>");
             }
 
             if (itemindex == selected) {
-                mvwprintz(w_sort_left, drawindex + 1, 4, dam_color[int(tmp_worn[itemindex]->damage + 1)],
-                          each_armor->name.c_str());
-            } else {
                 mvwprintz(w_sort_left, drawindex + 1, 3, dam_color[int(tmp_worn[itemindex]->damage + 1)],
                           each_armor->name.c_str());
+            } else {
+                mvwprintz(w_sort_left, drawindex + 1, 2, dam_color[int(tmp_worn[itemindex]->damage + 1)],
+                          each_armor->name.c_str());
             }
-            mvwprintz(w_sort_left, drawindex + 1, left_w - 2, c_ltgray, "%2d", int(each_armor->storage));
+            mvwprintz(w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d", int(each_armor->storage));
         }
 
         // Left footer
         mvwprintz(w_sort_left, cont_h-1, 0, c_ltgray, _("(Outermost)"));
-        if (leftListSize > tmp_worn.size())
-            mvwprintz(w_sort_left, cont_h-1, left_w - utf8_width(_("<more>")), c_ltblue, _("<more>"));
-        if (leftListSize == 0)
-            mvwprintz(w_sort_left, cont_h-1, left_w - utf8_width(_("<empty>")), c_ltblue, _("<empty>"));
+        if (leftListSize > tmp_worn.size()) {
+            mvwprintz(w_sort_left, cont_h - 1, left_w - utf8_width(_("<more>")), c_ltblue, _("<more>"));
+        }
+        if (leftListSize == 0) {
+            mvwprintz(w_sort_left, cont_h - 1, left_w - utf8_width(_("<empty>")), c_ltblue, _("<empty>"));
+        }
 
         // Items stats
         if (leftListSize){
@@ -8066,10 +8068,10 @@ void player::sort_armor()
                 pos++;
             }
             rightListSize++;
-            for (int i=0; i<worn.size(); i++){
+            for (int i = 0; i < worn.size(); i++){
                 each_armor = dynamic_cast<it_armor*>(worn[i].type);
                 if (each_armor->covers & mfb(cover)){
-                    if (rightListSize >= rightListOffset && pos <= cont_h-2){
+                    if (rightListSize >= rightListOffset && pos <= cont_h - 2){
                         mvwprintz(w_sort_right, pos, 2, dam_color[int(worn[i].damage + 1)],
                                   each_armor->name.c_str());
                         mvwprintz(w_sort_right, pos, right_w - 2, c_ltgray, "%d",
