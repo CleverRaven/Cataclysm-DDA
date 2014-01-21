@@ -1182,5 +1182,21 @@
         "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
+    },
+        {
+        "type": "BIONIC_ITEM",
+        "id": "bio_fusion",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "CBM: Fusion Reactor",
+        "description": "You have a micro fusion reactor embedded in your chest. Be careful that you don't damage it, the radiation could be fatal.",
+        "price": 35000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 0,
+        "difficulty": 11
     }
 ]

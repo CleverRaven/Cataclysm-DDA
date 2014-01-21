@@ -4235,6 +4235,7 @@
       ["glasses_safety", 40],
       ["goggles_welding", 70],
       ["recipe_lab_elec", 15],
+      ["recipe_fusion", 5],
       ["recipe_mininuke_launch", 5],
       ["teleporter", 10],
       ["usb_drive", 5]
@@ -4565,7 +4566,8 @@
       ["bio_flashbang", 10],
       ["bio_chain_lightning", 10],
       ["bio_power_armor_interface", 10],
-      ["bio_power_armor_interface_mkII", 5]
+      ["bio_power_armor_interface_mkII", 5],
+      ["bio_fusion", 1]
     ]
   },{
     "type" : "item_group",
@@ -4925,7 +4927,8 @@
       ["bio_teleport", 10],
       ["bio_probability_travel", 10],
       ["bio_power_armor_interface", 10],
-      ["bio_power_armor_interface_mkII", 5]
+      ["bio_power_armor_interface_mkII", 5],
+      ["bio_fusion", 1]
     ]
   },{
     "type" : "item_group",

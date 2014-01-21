@@ -532,5 +532,12 @@
     "name"       :    "Wire-induced Stiffness",
     "faulty"     :    true,
     "description":    "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance."
+    },
+    {
+        "type" : "bionic",
+        "id" : "bio_fusion",
+    "name"       :    "Fusion Reactor",
+    "power_source" :  true,
+    "description":    "You have a fusion reactor embedded in your chest. While it isn't fragile, you should be wary of letting the containment shell crack."
     }
 ]

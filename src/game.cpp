@@ -892,6 +892,7 @@ bool game::do_turn()
         if (u.has_bionic("bio_solar") && is_in_sunlight(u.posx, u.posy)) {
             u.charge_power(1);
         }
+
         // Huge folks take penalties for cramming themselves in vehicles
         if ((u.has_trait("HUGE") || u.has_trait("HUGE_OK")) && u.in_vehicle) {
             add_msg(_("You're cramping up from stuffing yourself in this vehicle."));
@@ -928,6 +929,18 @@ bool game::do_turn()
         if (u.has_trait("HUGE") && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
             add_msg(_("<whew> You catch your breath."));
             u.fatigue++;
+        }
+    }
+
+    if (u.has_bionic("bio_fusion")) {
+        u.charge_power(u.max_power_level);
+        if(turn % 10 == 0 && u.hp_cur[hp_torso] < u.hp_max[hp_torso]) {
+            float damaged = 100.f - ((u.hp_cur[hp_torso] * 100.f) / u.hp_max[hp_torso]);
+            float chance = pow(std::max(damaged, 20.f) - 20.f, 0.75);
+            if(rng_float(1, 100) <= chance) {
+                g->add_msg("Your fusion reactor is leaking radiation.");
+                u.radiation += rng(15, 20);
+            }
         }
     }
 

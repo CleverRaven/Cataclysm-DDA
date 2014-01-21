@@ -3644,5 +3644,25 @@
         "bashing" : -3,
         "cutting" : 0,
         "to_hit" : 0
+    },{
+        "type" : "BOOK",
+        "id" : "recipe_fusion",
+        "name" : "fusion journal",
+        "description" : "This massive hand-bound journal contains complex formulas and designs for igniting and containing a fusion reaction",
+        "weight" : 1620,
+        "volume" : 10,
+        "price" : 12000,
+        "time" : 60,
+        "fun" : -3,
+        "skill" : "electronics",
+        "max_level" : 12,
+        "required_level" : 10,
+        "intelligence" : 14,
+        "color" : "light_gray",
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "bashing" : -3,
+        "cutting" : 0,
+        "to_hit" : 0
     }
 ]

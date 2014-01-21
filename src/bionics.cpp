@@ -714,6 +714,8 @@ bool player::install_bionics(it_bionic *type)
         pow_up = BATTERY_AMOUNT;
         if (type->id == "bio_power_storage_mkII") {
             pow_up = 10;
+        } else if (type->id == "bio_fusion") {
+            pow_up = 25;
         }
     }
 
