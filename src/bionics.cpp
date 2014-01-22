@@ -836,7 +836,9 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
                 int old_power = u->max_power_level;
                 g->add_msg(_("You lose power capacity!"));
                 u->max_power_level = rng(0, u->max_power_level - 1);
-                g->u.add_memorial_log(_("Lost %d units of power capacity."), old_power - u->max_power_level);
+                g->u.add_memorial_log(pgettext("memorial_male","Lost %d units of power capacity."),
+                                      pgettext("memorial_female", "Lost %d units of power capacity."),
+                                      old_power - u->max_power_level);
             }
             // TODO: What if we can't lose power capacity?  No penalty?
         } else {
