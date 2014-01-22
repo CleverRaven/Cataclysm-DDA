@@ -4525,8 +4525,9 @@ void game::draw()
     } else if (display_temp >  32) {
         col_temp = c_ltblue;
     }
-
-    wprintz(w_location, col_temp, (std::string(" ") + print_temperature((float)display_temp)).c_str());
+    if(u.has_item_with_flag("THERMOMETER")) {
+        wprintz(w_location, col_temp, (std::string(" ") + print_temperature((float)display_temp)).c_str());
+    }
     wrefresh(w_location);
 
     //Safemode coloring

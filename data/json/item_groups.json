@@ -1713,6 +1713,7 @@
       ["binoculars", 20],
       ["firecracker_pack", 5],
       ["hotplate", 10],
+      ["thermometer", 10],
       ["coffeemaker", 5],
       ["tin_plate", 10],
       ["knife_combat", 14],
@@ -3183,7 +3184,8 @@
       ["fungicide", 10],
       ["oxygen_tank", 40],
       ["smoxygen_tank", 10],
-      ["jar_3l_glass", 15]
+      ["jar_3l_glass", 15],
+      ["thermometer", 15]
     ]
   },{
     "type" : "item_group",
@@ -4474,7 +4476,8 @@
       ["flask_hip", 5],
       ["corset", 15],
       ["tieclip", 3],
-      ["collarpin", 3]
+      ["collarpin", 3],
+      ["thermometer", 15]
     ]
   },{
     "type" : "item_group",
@@ -5180,7 +5183,8 @@
       ["gasoline_lantern", 5],
       ["shovel", 10],
       ["e_tool", 5],
-      ["apron_leather", 10]
+      ["apron_leather", 10],
+      ["thermometer", 15]
     ]
   },{
     "type" : "item_group",
@@ -5960,7 +5964,8 @@
       ["fungicide", 10],
       ["pur_tablets", 10],
       ["optical_cloak", 1],
-      ["bot_laserturret", 1]
+      ["bot_laserturret", 1],
+      ["thermometer"]
     ]
   },{
     "type" : "item_group",
