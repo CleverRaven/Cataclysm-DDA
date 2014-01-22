@@ -1076,8 +1076,8 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
         fold_and_print(w_confirmation, 3, 2, 76, c_ltgray,
                        _("Press <color_yellow>?</color> to pick a random name for your world."));
         fold_and_print(w_confirmation, FULL_SCREEN_HEIGHT / 2 - 2, 2, 76, c_ltgray, _("\
-Press <color_yellow>\></color> when you are satisfied with the world as it is and are ready \
-to continue, or <color_yellow>\<</color> to go back and review your world."));
+Press <color_yellow>></color> when you are satisfied with the world as it is and are ready \
+to continue, or <color_yellow><</color> to go back and review your world."));
         if (!noname) {
             mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "%s", worldname.c_str());
             if (line == 1) {
