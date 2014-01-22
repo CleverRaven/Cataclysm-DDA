@@ -1,6 +1,7 @@
 [
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_ads",
         "symbol": ":",
         "color": "yellow",
@@ -17,6 +18,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_alarm",
         "symbol": ":",
         "color": "yellow",
@@ -33,6 +35,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_armor_arms",
         "symbol": ":",
         "color": "yellow",
@@ -49,6 +52,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_armor_eyes",
         "symbol": ":",
         "color": "yellow",
@@ -65,6 +69,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_armor_head",
         "symbol": ":",
         "color": "yellow",
@@ -81,6 +86,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_armor_legs",
         "symbol": ":",
         "color": "yellow",
@@ -97,6 +103,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_armor_torso",
         "symbol": ":",
         "color": "yellow",
@@ -113,6 +120,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_batteries",
         "symbol": ":",
         "color": "yellow",
@@ -129,6 +137,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_blaster",
         "symbol": ":",
         "color": "yellow",
@@ -145,6 +154,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_blood_anal",
         "symbol": ":",
         "color": "yellow",
@@ -161,6 +171,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_blood_filter",
         "symbol": ":",
         "color": "yellow",
@@ -177,6 +188,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_carbon",
         "symbol": ":",
         "color": "yellow",
@@ -193,6 +205,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_chain_lightning",
         "symbol": ":",
         "color": "yellow",
@@ -209,6 +222,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_claws",
         "symbol": ":",
         "color": "yellow",
@@ -225,6 +239,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_climate",
         "symbol": ":",
         "color": "yellow",
@@ -241,6 +256,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_cloak",
         "symbol": ":",
         "color": "yellow",
@@ -257,6 +273,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_dex_enhancer",
         "symbol": ":",
         "color": "yellow",
@@ -273,6 +290,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_digestion",
         "symbol": ":",
         "color": "yellow",
@@ -289,6 +307,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_ears",
         "symbol": ":",
         "color": "yellow",
@@ -305,6 +324,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_emp",
         "symbol": ":",
         "color": "yellow",
@@ -321,6 +341,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_ethanol",
         "symbol": ":",
         "color": "yellow",
@@ -337,6 +358,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_evap",
         "symbol": ":",
         "color": "yellow",
@@ -353,6 +375,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_eye_enhancer",
         "symbol": ":",
         "color": "yellow",
@@ -369,6 +392,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_face_mask",
         "symbol": ":",
         "color": "yellow",
@@ -385,6 +409,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_fingerhack",
         "symbol": ":",
         "color": "yellow",
@@ -401,6 +426,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_flashbang",
         "symbol": ":",
         "color": "yellow",
@@ -417,6 +443,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_flashlight",
         "symbol": ":",
         "color": "yellow",
@@ -433,6 +460,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_furnace",
         "symbol": ":",
         "color": "yellow",
@@ -449,6 +477,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_geiger",
         "symbol": ":",
         "color": "yellow",
@@ -465,6 +494,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_gills",
         "symbol": ":",
         "color": "yellow",
@@ -481,6 +511,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_ground_sonar",
         "symbol": ":",
         "color": "yellow",
@@ -497,6 +528,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_heat_absorb",
         "symbol": ":",
         "color": "yellow",
@@ -513,6 +545,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_heatsink",
         "symbol": ":",
         "color": "yellow",
@@ -529,6 +562,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_hydraulics",
         "symbol": ":",
         "color": "yellow",
@@ -545,6 +579,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_infrared",
         "symbol": ":",
         "color": "yellow",
@@ -561,6 +596,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_int_enhancer",
         "symbol": ":",
         "color": "yellow",
@@ -577,6 +613,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_laser",
         "symbol": ":",
         "color": "yellow",
@@ -593,6 +630,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_lighter",
         "symbol": ":",
         "color": "yellow",
@@ -609,6 +647,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_lockpick",
         "symbol": ":",
         "color": "yellow",
@@ -625,6 +664,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_magnet",
         "symbol": ":",
         "color": "yellow",
@@ -641,6 +681,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_membrane",
         "symbol": ":",
         "color": "yellow",
@@ -657,6 +698,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_memory",
         "symbol": ":",
         "color": "yellow",
@@ -673,6 +715,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_metabolics",
         "symbol": ":",
         "color": "yellow",
@@ -689,6 +732,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_nanobots",
         "symbol": ":",
         "color": "yellow",
@@ -705,6 +749,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_night",
         "symbol": ":",
         "color": "yellow",
@@ -721,6 +766,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_night_vision",
         "symbol": ":",
         "color": "yellow",
@@ -737,6 +783,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_ods",
         "symbol": ":",
         "color": "yellow",
@@ -753,6 +800,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_painkiller",
         "symbol": ":",
         "color": "yellow",
@@ -769,6 +817,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_power_armor_interface",
         "symbol": ":",
         "color": "yellow",
@@ -785,6 +834,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_power_armor_interface_mkII",
         "symbol": ":",
         "color": "yellow",
@@ -801,6 +851,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_power_storage",
         "symbol": ":",
         "color": "yellow",
@@ -817,6 +868,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_power_storage_mkII",
         "symbol": ":",
         "color": "yellow",
@@ -833,6 +885,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_probability_travel",
         "symbol": ":",
         "color": "yellow",
@@ -849,6 +902,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_purifier",
         "symbol": ":",
         "color": "yellow",
@@ -865,6 +919,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_radscrubber",
         "symbol": ":",
         "color": "yellow",
@@ -881,6 +936,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_railgun",
         "symbol": ":",
         "color": "yellow",
@@ -897,6 +953,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_razors",
         "symbol": ":",
         "color": "yellow",
@@ -913,6 +970,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_recycler",
         "symbol": ":",
         "color": "yellow",
@@ -929,6 +987,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_resonator",
         "symbol": ":",
         "color": "yellow",
@@ -945,6 +1004,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_scent_mask",
         "symbol": ":",
         "color": "yellow",
@@ -961,6 +1021,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_scent_vision",
         "symbol": ":",
         "color": "yellow",
@@ -977,6 +1038,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_shock",
         "symbol": ":",
         "color": "yellow",
@@ -993,6 +1055,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_shockwave",
         "symbol": ":",
         "color": "yellow",
@@ -1009,6 +1072,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_solar",
         "symbol": ":",
         "color": "yellow",
@@ -1025,6 +1089,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_storage",
         "symbol": ":",
         "color": "yellow",
@@ -1041,6 +1106,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_str_enhancer",
         "symbol": ":",
         "color": "yellow",
@@ -1057,6 +1123,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_sunglasses",
         "symbol": ":",
         "color": "yellow",
@@ -1073,6 +1140,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_targeting",
         "symbol": ":",
         "color": "yellow",
@@ -1089,6 +1157,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_teleport",
         "symbol": ":",
         "color": "yellow",
@@ -1105,6 +1174,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_time_freeze",
         "symbol": ":",
         "color": "yellow",
@@ -1121,6 +1191,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_tools",
         "symbol": ":",
         "color": "yellow",
@@ -1137,6 +1208,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_torsionratchet",
         "symbol": ":",
         "color": "yellow",
@@ -1153,6 +1225,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_uncanny_dodge",
         "symbol": ":",
         "color": "yellow",
@@ -1169,6 +1242,7 @@
     },
     {
         "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_water_extractor",
         "symbol": ":",
         "color": "yellow",

@@ -1943,32 +1943,49 @@ void npc::die(bool your_fault)
     if (your_fault){
         if (is_friend()) {
             if (g->u.has_trait("SAPIOVORE")) {
-                g->u.add_memorial_log(_("Killed a friendly ape, %s.  Better eaten than eating."), name.c_str());
+                g->u.add_memorial_log(pgettext("memorial_male", "Killed a friendly ape, %s.  Better eaten than eating."),
+                                      pgettext("memorial_female", "Killed a friendly ape, %s.  Better eaten than eating."),
+                                      name.c_str());
             }
             else if(!g->u.has_trait("PSYCHOPATH")) {
                 // Very long duration, about 7d, decay starts after 10h.
-                g->u.add_memorial_log(_("Killed a friend, %s."), name.c_str());
+                g->u.add_memorial_log(pgettext("memorial_male", "Killed a friend, %s."),
+                                      pgettext("memorial_female", "Killed a friend, %s."),
+                                      name.c_str());
                 g->u.add_morale(MORALE_KILLED_FRIEND, -500, 0, 10000, 600);
             } else if(!g->u.has_trait("CANNIBAL") && g->u.has_trait("PSYCHOPATH")) {
-                g->u.add_memorial_log(_("Killed someone foolish enough to call you friend, %s. Didn't care."), name.c_str());
+                g->u.add_memorial_log(pgettext("memorial_male", "Killed someone foolish enough to call you friend, %s. Didn't care."),
+                                      pgettext("memorial_female", "Killed someone foolish enough to call you friend, %s. Didn't care."),
+                                      name.c_str());
             } else {
-                g->u.add_memorial_log(_("Killed a delicious-looking friend, %s, in cold blood."), name.c_str());
+                g->u.add_memorial_log(pgettext("memorial_male", "Killed a delicious-looking friend, %s, in cold blood."),
+                                      pgettext("memorial_female", "Killed a delicious-looking friend, %s, in cold blood."),
+                                      name.c_str());
             }
-        } else if (!is_enemy() || this->hit_by_player){
+        } else if (!is_enemy() || this->hit_by_player) {
             if (g->u.has_trait("SAPIOVORE")) {
-                    g->u.add_memorial_log(_("Caught and killed an ape.  Prey doesn't have a name."));
-                }
+                g->u.add_memorial_log(pgettext("memorial_male", "Caught and killed an ape.  Prey doesn't have a name."),
+                                      pgettext("memorial_female", "Caught and killed an ape.  Prey doesn't have a name."));
+            }
             else if(!g->u.has_trait("CANNIBAL") && !g->u.has_trait("PSYCHOPATH")) {
                 // Very long duration, about 3.5d, decay starts after 5h.
-                g->u.add_memorial_log("Killed an innocent person, %s, in cold blood and felt terrible afterwards.", name.c_str());
+                g->u.add_memorial_log(pgettext("memorial_male","Killed an innocent person, %s, in cold blood and felt terrible afterwards."),
+                                      pgettext("memorial_female","Killed an innocent person, %s, in cold blood and felt terrible afterwards."),
+                                      name.c_str());
                 g->u.add_morale(MORALE_KILLED_INNOCENT, -100, 0, 5000, 300);
             } else if(!g->u.has_trait("CANNIBAL") && g->u.has_trait("PSYCHOPATH")) {
-                g->u.add_memorial_log(_("Killed an innocent, %s, in cold blood. They were weak."), name.c_str());
+                g->u.add_memorial_log(pgettext("memorial_male", "Killed an innocent, %s, in cold blood. They were weak."),
+                                      pgettext("memorial_female", "Killed an innocent, %s, in cold blood. They were weak."),
+                                      name.c_str());
             } else if(g->u.has_trait("CANNIBAL") && !g->u.has_trait("PSYCHOPATH")) {
-                g->u.add_memorial_log(_("Killed an innocent, %s."), name.c_str());
+                g->u.add_memorial_log(pgettext("memorial_male", "Killed an innocent, %s."),
+                                      pgettext("memorial_female", "Killed an innocent, %s."),
+                                      name.c_str());
                 g->u.add_morale(MORALE_KILLED_INNOCENT, -5, 0, 500, 300);
             } else {
-                g->u.add_memorial_log(_("Killed a delicious-looking innocent, %s, in cold blood."), name.c_str());
+                g->u.add_memorial_log(pgettext("memorial_male", "Killed a delicious-looking innocent, %s, in cold blood."),
+                                      pgettext("memorial_female", "Killed a delicious-looking innocent, %s, in cold blood."),
+                                      name.c_str());
             }
         }
     }

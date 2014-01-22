@@ -369,7 +369,6 @@ struct it_gun : public itype
 
  std::set<std::string> ammo_effects;
  std::map<std::string, int> valid_mod_locations;
- std::map<std::string, int> occupied_mod_locations;
 
  virtual bool is_gun() { return true; }
 

@@ -551,7 +551,10 @@ void game::start_game(std::string worldname)
 
  MAPBUFFER.set_dirty();
 
- u.add_memorial_log(_("%s began their journey into the Cataclysm."), u.name.c_str());
+ //~ %s is player name
+ u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
+                    pgettext("memorial_female", "%s began their journey into the Cataclysm."),
+                    u.name.c_str());
 }
 
 void game::create_factions()
@@ -663,8 +666,15 @@ void game::cleanup_at_end(){
     }
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
         death_screen();
-        u.add_memorial_log("%s %s", u.name.c_str(),
-                uquit == QUIT_SUICIDE ? _("committed suicide.") : _("was killed."));
+        if (uquit == QUIT_SUICIDE) {
+            u.add_memorial_log(pgettext("memorial_male", "%s committed suicide."),
+                               pgettext("memorial_female", "%s committed suicide."),
+                               u.name.c_str());
+        } else {
+            u.add_memorial_log(pgettext("memorial_male", "%s was killed."),
+                               pgettext("memorial_female", "%s was killed."),
+                               u.name.c_str());
+        }
         write_memorial_file();
         u.memorial_log.clear();
         std::vector<std::string> characters = list_active_characters();
@@ -722,25 +732,29 @@ bool game::do_turn()
     // Check if we've overdosed... in any deadly way.
     if (u.stim > 250) {
         add_msg(_("You have a sudden heart attack!"));
-        u.add_memorial_log(_("Died of a drug overdose."));
+        u.add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
+                           pgettext("memorial_female", "Died of a drug overdose."));
         u.hp_cur[hp_torso] = 0;
     } else if (u.stim < -200 || u.pkill > 240) {
         add_msg(_("Your breathing stops completely."));
-        u.add_memorial_log(_("Died of a drug overdose."));
+        u.add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
+                           pgettext("memorial_female", "Died of a drug overdose."));
         u.hp_cur[hp_torso] = 0;
     } else if (u.has_disease("jetinjector") &&
                u.disease_duration("jetinjector") > 400) {
         if (!(u.has_trait("NOPAIN"))) {
             add_msg(_("Your heart spasms painfully and stops."));
         } else { add_msg(_("Your heart spasms and stops.")); }
-        u.add_memorial_log(_("Died of a healing stimulant overdose."));
+        u.add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
+                           pgettext("memorial_female", "Died of a healing stimulant overdose."));
         u.hp_cur[hp_torso] = 0;
     }
     // Check if we're starving or have starved
     if (u.hunger >= 3000){
         if (u.hunger >= 6000){
             add_msg(_("You have starved to death."));
-            u.add_memorial_log(_("Died of starvation."));
+            u.add_memorial_log(pgettext("memorial_male", "Died of starvation."),
+                               pgettext("memorial_female", "Died of starvation."));
             u.hp_cur[hp_torso] = 0;
         } else if (u.hunger >= 5000 && turn % 20 == 0){
             add_msg(_("Food..."));
@@ -755,7 +769,8 @@ bool game::do_turn()
     if (u.thirst >= 600){
         if (u.thirst >= 1200){
             add_msg(_("You have died of dehydration."));
-            u.add_memorial_log(_("Died of thirst."));
+            u.add_memorial_log(pgettext("memorial_male", "Died of thirst."),
+                               pgettext("memorial_female", "Died of thirst."));
             u.hp_cur[hp_torso] = 0;
         } else if (u.thirst >= 1000 && turn % 20 == 0){
             add_msg(_("Even your eyes feel dry..."));
@@ -770,7 +785,8 @@ bool game::do_turn()
     if (u.fatigue >= 600 && !u.has_disease("sleep")){
         if (u.fatigue >= 1000){
             add_msg(_("Survivor sleep now."));
-            u.add_memorial_log(_("Succumbed to lack of sleep."));
+            u.add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
+                               pgettext("memorial_female", "Succumbed to lack of sleep."));
             u.fatigue -= 10;
             u.try_to_sleep();
         } else if (u.fatigue >= 800 && turn % 10 == 0){
@@ -1242,8 +1258,10 @@ void game::process_activity()
               new_skill_level);
 
       if(new_skill_level % 4 == 0) {
-       u.add_memorial_log(_("Reached skill level %d in %s."),
-                      new_skill_level, reading->type->name().c_str());
+       //~ %s is skill name. %d is skill level
+       u.add_memorial_log(pgettext("memorial_male", "Reached skill level %1$d in %2$s."),
+                          pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
+                          new_skill_level, reading->type->name().c_str());
       }
      }
 
@@ -1290,7 +1308,10 @@ void game::process_activity()
     if (skill == NULL) {
         // Trained martial arts,
         add_msg(_("You learn %s."), martialarts[u.activity.name].name.c_str());
-        u.add_memorial_log(_("Learned %s."), martialarts[u.activity.name].name.c_str()),
+        //~ %s is martial art
+        u.add_memorial_log(pgettext("memorial_male", "Learned %s."),
+                           pgettext("memorial_female", "Learned %s."),
+                           martialarts[u.activity.name].name.c_str()),
         u.ma_styles.push_back(u.activity.name);
     } else {
         int new_skill_level = u.skillLevel(skill) + 1;
@@ -1299,8 +1320,10 @@ void game::process_activity()
             skill->name().c_str(),
             new_skill_level);
         if(new_skill_level % 4 == 0) {
-            u.add_memorial_log(_("Reached skill level %d in %s."),
-                new_skill_level, skill->name().c_str());
+            //~ %d is skill level %s is skill name
+            u.add_memorial_log(pgettext("memorial_male", "Reached skill level %1$d in %2$s."),
+                               pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
+                               new_skill_level, skill->name().c_str());
         }
     }
     }
@@ -7032,7 +7055,8 @@ void game::smash()
             !event_queued(EVENT_WANTED))
         {
             sound(smashx, smashy, 40, _("An alarm sounds!"));
-            u.add_memorial_log(_("Set off an alarm."));
+            u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
+                               pgettext("memorial_female", "Set off an alarm."));
             add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
         }
         u.moves -= move_cost;
@@ -13023,7 +13047,9 @@ void game::teleport(player *p, bool add_teleglow)
             if (is_u) {
                 add_msg(_("You teleport into the middle of a %s!"),
                         m.name(newx, newy).c_str());
-                p->add_memorial_log(_("Teleported into a %s."), m.name(newx, newy).c_str());
+                p->add_memorial_log(pgettext("memorial_male", "Teleported into a %s."),
+                                    pgettext("memorial_female", "Teleported into a %s."),
+                                    m.name(newx, newy).c_str());
             } else {
                 add_msg(_("%s teleports into the middle of a %s!"),
                         p->name.c_str(), m.name(newx, newy).c_str());
@@ -13037,7 +13063,9 @@ void game::teleport(player *p, bool add_teleglow)
             if (is_u) {
                 add_msg(_("You teleport into the middle of a %s!"),
                         critter.name().c_str());
-                u.add_memorial_log(_("Telefragged a %s."), critter.name().c_str());
+                u.add_memorial_log(pgettext("memorial_male", "Telefragged a %s."),
+                                   pgettext("memorial_female", "Telefragged a %s."),
+                                   critter.name().c_str());
             } else {
                 add_msg(_("%s teleports into the middle of a %s!"),
                         p->name.c_str(), critter.name().c_str());

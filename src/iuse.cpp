@@ -152,7 +152,8 @@ int iuse::none(player *, item *it, bool)
 int iuse::sewage(player *p, item *it, bool)
 {
   if(!p->is_npc()) {
-    p->add_memorial_log(_("Ate a sewage sample."));
+    p->add_memorial_log(pgettext("memorial_male", "Ate a sewage sample."),
+                        pgettext("memorial_female", "Ate a sewage sample."));
   }
   p->vomit();
   if (one_in(4)) {
@@ -1041,7 +1042,8 @@ int iuse::chew(player *p, item *it, bool) {
 
 int iuse::mutagen(player *p, item *it, bool) {
     if(!p->is_npc()) {
-      p->add_memorial_log(_("Consumed mutagen."));
+      p->add_memorial_log(pgettext("memorial_male", "Consumed mutagen."),
+                          pgettext("memorial_female", "Consumed mutagen."));
     }
     if(p->has_trait("MUT_JUNKIE")) {
       g->add_msg_if_player(p, _("You quiver with anticipation..."));
@@ -1125,7 +1127,8 @@ int iuse::mutagen(player *p, item *it, bool) {
 
 int iuse::mut_iv(player *p, item *it, bool) {
     if(!p->is_npc()) {
-        p->add_memorial_log(_("Injected mutagen."));
+        p->add_memorial_log(pgettext("memorial_male", "Injected mutagen."),
+                            pgettext("memorial_female", "Injected mutagen."));
     }
     if(p->has_trait("MUT_JUNKIE")) {
       g->add_msg_if_player(p, _("You quiver with anticipation..."));
@@ -1471,7 +1474,8 @@ int iuse::mut_iv(player *p, item *it, bool) {
 int iuse::purifier(player *p, item *it, bool)
 {
     if(!p->is_npc()) {
-        p->add_memorial_log(_("Consumed purifier."));
+        p->add_memorial_log(pgettext("memorial_male", "Consumed purifier."),
+                            pgettext("memorial_female", "Consumed purifier."));
     }
     std::vector<std::string> valid; // Which flags the player has
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
@@ -1503,7 +1507,8 @@ int iuse::purifier(player *p, item *it, bool)
 int iuse::purify_iv(player *p, item *it, bool)
 {
     if(!p->is_npc()) {
-        p->add_memorial_log(_("Injected purifier."));
+        p->add_memorial_log(pgettext("memorial_male", "Injected purifier."),
+                            pgettext("memorial_female", "Injected purifier."));
     }
     std::vector<std::string> valid; // Which flags the player has
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
@@ -1546,7 +1551,8 @@ int iuse::marloss(player *p, item *it, bool t)
     }
     // If we have the marloss in our veins, we are a "breeder" and will spread
     // the fungus.
-    p->add_memorial_log("Ate a marloss berry.");
+    p->add_memorial_log(pgettext("memorial_male", "Ate a marloss berry."),
+                        pgettext("memorial_female", "Ate a marloss berry."));
 
     if (p->has_trait("MARLOSS")) {
         g->add_msg_if_player(p,_("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."));
@@ -2636,7 +2642,10 @@ _(
   bonus += fac->respects_u + 3 * fac->likes_u;
   if (bonus >= 25) {
    popup(_("They reply, \"Help is on the way!\""));
-   g->u.add_memorial_log(_("Called for help from %s."), fac->name.c_str());
+   //~ %s is faction name
+   g->u.add_memorial_log(pgettext("memorial_male", "Called for help from %s."),
+                         pgettext("memorial_female", "Called for help from %s."),
+                         fac->name.c_str());
    g->add_event(EVENT_HELP, int(g->turn) + fac->response_time(), fac->id, -1, -1);
    fac->respects_u -= rng(0, 8);
    fac->likes_u -= rng(3, 5);
@@ -2663,7 +2672,9 @@ _(
    npc* coming = in_range[rng(0, in_range.size() - 1)];
    popup(_("A reply!  %s says, \"I'm on my way; give me %d minutes!\""),
          coming->name.c_str(), coming->minutes_to_u());
-   g->u.add_memorial_log(_("Called for help from %s."), coming->name.c_str());
+   g->u.add_memorial_log(pgettext("memorial_male", "Called for help from %s."),
+                         pgettext("memorial_female", "Called for help from %s."),
+                         coming->name.c_str());
    coming->mission = NPC_MISSION_RESCUE_U;
   } else
    popup(_("No-one seems to reply..."));
@@ -3246,7 +3257,8 @@ int iuse::crowbar(player *p, item *it, bool)
      g->m.spawn_item(dirx, diry, "manhole_cover");
    }
    if ( type == t_door_locked_alarm ) {
-     g->u.add_memorial_log(_("Set off an alarm."));
+     g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
+                           pgettext("memorial_female", "Set off an alarm."));
     g->sound(p->posx, p->posy, 40, _("An alarm sounds!"));
     if (!g->event_queued(EVENT_WANTED)) {
      g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
@@ -5062,7 +5074,8 @@ int iuse::mininuke(player *p, item *it, bool)
  }
  g->add_msg_if_player(p,_("You set the timer to %d."), time);
  if(!p->is_npc()) {
-   p->add_memorial_log(_("Activated a mininuke."));
+   p->add_memorial_log(pgettext("memorial_male", "Activated a mininuke."),
+                       pgettext("memorial_female", "Activated a mininuke."));
  }
  it->make(itypes["mininuke_act"]);
  it->charges = time;
@@ -6646,7 +6659,10 @@ int iuse::artifact(player *p, item *it, bool)
   return 0;
  }
  if(!p->is_npc()) {
-   p->add_memorial_log(_("Activated the %s."), it->name.c_str());
+   //~ %s is atrifact name
+   p->add_memorial_log(pgettext("memorial_male", "Activated the %s."),
+                       pgettext("memorial_female", "Activated the %s."),
+                       it->name.c_str());
  }
  it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(it->type);
  int num_used = rng(1, art->effects_activated.size());

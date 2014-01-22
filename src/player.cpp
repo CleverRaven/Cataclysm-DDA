@@ -1708,31 +1708,36 @@ void player::memorial( std::ofstream &memorial_file )
  * the character dies. The message should contain only the informational string,
  * as the timestamp and location will be automatically prepended.
  */
-void player::add_memorial_log(const char* message, ...)
+void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
 {
 
-  va_list ap;
-  va_start(ap, message);
-  char buff[1024];
-  vsprintf(buff, message, ap);
-  va_end(ap);
+    char buff[1024];
+    va_list ap;
 
-  if(strlen(buff) == 0) {
-      return;
-  }
+    va_start(ap, female_msg);
+    if(this->male) {
+        vsnprintf(buff, sizeof(buff), male_msg, ap);
+    } else {
+        vsnprintf(buff, sizeof(buff),female_msg, ap);
+    }
+    va_end(ap);
 
-  std::stringstream timestamp;
-  timestamp << _("Year") << " " << (g->turn.years() + 1) << ", "
-            << _(season_name[g->turn.get_season()].c_str()) << " "
-            << (g->turn.days() + 1) << ", " << g->turn.print_time();
+    if(strlen(buff) == 0) {
+        return;
+    }
 
-  const oter_id &cur_ter = overmap_buffer.ter(g->om_global_location());
-  std::string location = otermap[cur_ter].name;
+    std::stringstream timestamp;
+    timestamp << _("Year") << " " << (g->turn.years() + 1) << ", "
+              << _(season_name[g->turn.get_season()].c_str()) << " "
+              << (g->turn.days() + 1) << ", " << g->turn.print_time();
 
-  std::stringstream log_message;
-  log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << buff;
+    const oter_id &cur_ter = overmap_buffer.ter(g->om_global_location());
+    std::string location = otermap[cur_ter].name;
 
-  memorial_log.push_back(log_message.str());
+    std::stringstream log_message;
+    log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << buff;
+
+    memorial_log.push_back(log_message.str());
 
 }
 
@@ -4821,7 +4826,10 @@ void player::add_addiction(add_type type, int strength)
  }
  //Add a new addiction
  if (rng(0, 100) < strength) {
-  add_memorial_log(_("Became addicted to %s."), addiction_type_name(type).c_str());
+  //~ %s is addiction name
+  add_memorial_log(pgettext("memorial_male", "Became addicted to %s."),
+                   pgettext("memorial_female", "Became addicted to %s."),
+                   addiction_type_name(type).c_str());
   addiction tmp(type, 1);
   addictions.push_back(tmp);
  }
@@ -4841,7 +4849,10 @@ void player::rem_addiction(add_type type)
 {
  for (int i = 0; i < addictions.size(); i++) {
   if (addictions[i].type == type) {
-   add_memorial_log(_("Overcame addiction to %s."), addiction_type_name(type).c_str());
+   //~ %s is addiction name
+   add_memorial_log(pgettext("memorial_male", "Overcame addiction to %s."),
+                    pgettext("memorial_female", "Overcame addiction to %s."),
+                    addiction_type_name(type).c_str());
    addictions.erase(addictions.begin() + i);
    return;
   }
@@ -5503,7 +5514,10 @@ void player::mend()
    }
    if(mended) {
     hp_cur[i] = 1;
-    add_memorial_log(_("Broken %s began to mend."), body_part_name(part, side).c_str());
+    //~ %s is bodypart
+    add_memorial_log(pgettext("memorial_male", "Broken %s began to mend."),
+                     pgettext("memorial_female", "Broken %s began to mend."),
+                     body_part_name(part, side).c_str());
     g->add_msg(_("Your %s has started to mend!"),
       body_part_name(part, side).c_str());
    }
@@ -5513,7 +5527,8 @@ void player::mend()
 
 void player::vomit()
 {
-    add_memorial_log(_("Threw up."));
+    add_memorial_log(pgettext("memorial_male", "Threw up."),
+                     pgettext("memorial_female", "Threw up."));
     g->add_msg(_("You throw up heavily!"));
     int nut_loss = 100 / (1 + exp(.15 * (hunger / 100)));
     int quench_loss = 100 / (1 + exp(.025 * (thirst / 10)));
@@ -5950,7 +5965,10 @@ void player::process_active_items()
                     weapon.poison--;
                 }
                 if ( (weapon.poison >= 3) && (one_in(20)) ) { // 3 turns leeway, then it may discharge.
-                    add_memorial_log(_("Accidental discharge of %s."), weapon.tname().c_str());
+                    //~ %s is weapon name
+                    add_memorial_log(pgettext("memorial_male", "Accidental discharge of %s."),
+                                     pgettext("memorial_female", "Accidental discharge of %s."),
+                                     weapon.tname().c_str());
                     g->add_msg(_("Your %s discharges!"), weapon.tname().c_str());
                     point target(posx + rng(-12, 12), posy + rng(-12, 12));
                     std::vector<point> traj = line_to(posx, posy, target.x, target.y, 0);
@@ -6084,7 +6102,10 @@ bool player::process_single_active_item(item *it)
         {
             if (it->ready_to_revive())
             {
-                add_memorial_log(_("Had a %s revive while carrying it."), it->name.c_str());
+                //~ %s is corpse name
+                add_memorial_log(pgettext("memorial_male", "Had a %s revive while carrying it."),
+                                 pgettext("memorial_female", "Had a %s revive while carrying it."),
+                                 it->name.c_str());
                 g->add_msg_if_player(this, _("Oh dear god, a corpse you're carrying has started moving!"));
                 g->revive_corpse(posx, posy, it);
                 return false;
@@ -7078,7 +7099,8 @@ bool player::eat(item *eaten, it_comest *comest)
         return false;
        }
        else
-       if(!is_npc()) {add_memorial_log(_("Began preparing for hibernation."));
+       if(!is_npc()) {add_memorial_log(pgettext("memorial_male", "Began preparing for hibernation."),
+                                       pgettext("memorial_female", "Began preparing for hibernation."));
                       g->add_msg(_("You've begun stockpiling calories and liquid for hibernation. You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW."));
       }
     }
@@ -8604,7 +8626,7 @@ void player::use(int pos)
                 g->add_msg(_("That %s cannot be used on a %s."), used->tname().c_str(),
                        ammo_name(guntype->ammo).c_str());
                 return;
-        } else if (guntype->occupied_mod_locations[mod->location] == guntype->valid_mod_locations[mod->location]) {
+        } else if (gun->get_free_mod_locations(mod->location) <= 0) {
             g->add_msg(_("Your %s doesn't have enough room for another %s mod. To remove the mods, \
 activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
             return;
@@ -8646,7 +8668,6 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         g->add_msg(_("You attach the %s to your %s."), used->tname().c_str(),
                    gun->tname().c_str());
         gun->contents.push_back(i_rem(pos));
-        guntype->occupied_mod_locations[mod->location] += 1;
         return;
 
     } else if (used->is_bionic()) {
@@ -8719,7 +8740,6 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
 void player::remove_gunmod(item *weapon, int id)
 {
     item *gunmod = &weapon->contents[id];
-    it_gun *guntype = dynamic_cast<it_gun *>(weapon->type);
     item newgunmod;
     item ammo;
     if (gunmod != NULL && gunmod->charges > 0) {
@@ -8739,7 +8759,6 @@ void player::remove_gunmod(item *weapon, int id)
     }
     newgunmod = item(itypes[gunmod->type->id], g->turn);
     i_add_or_drop(newgunmod);
-    guntype->occupied_mod_locations[(static_cast<it_gunmod*>(gunmod->type))->location] -= 1;
     weapon->contents.erase(weapon->contents.begin()+id);
     return;
 }
@@ -9390,7 +9409,10 @@ void player::absorb_hit(body_part bp, int, damage_instance &dam) {
             // now check if armour was completely destroyed and display relevant messages
             // TODO: use something less janky than the old code for this check
             if (worn[index].damage >= 5) {
-                add_memorial_log(_("Worn %s was completely destroyed."), worn[index].tname().c_str());
+                //~ %s is armor name
+                add_memorial_log(pgettext("memorial_male", "Worn %s was completely destroyed."),
+                                 pgettext("memorial_female", "Worn %s was completely destroyed."),
+                                 worn[index].tname().c_str());
                 g->add_msg_player_or_npc( this, _("Your %s is completely destroyed!"),
                                             _("<npcname>'s %s is completely destroyed!"),
                                             worn[index].tname().c_str() );
@@ -9499,7 +9521,10 @@ void player::absorb(body_part bp, int &dam, int &cut)
                     // now check if armour was completely destroyed and display relevant messages
                     if (worn[i].damage >= 5)
                     {
-                      add_memorial_log(_("Worn %s was completely destroyed."), worn[i].tname().c_str());
+                      //~ %s is armor name
+                      add_memorial_log(pgettext("memorial_male", "Worn %s was completely destroyed."),
+                                       pgettext("memorial_female", "Worn %s was completely destroyed."),
+                                       worn[i].tname().c_str());
                         g->add_msg_player_or_npc( this, _("Your %s is completely destroyed!"),
                                                   _("<npcname>'s %s is completely destroyed!"),
                                                   worn[i].tname().c_str() );

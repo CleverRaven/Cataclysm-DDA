@@ -586,7 +586,7 @@ public:
  //Dumps all memorial events into a single newline-delimited string
  std::string dump_memorial();
  //Log an event, to be later written to the memorial file
- void add_memorial_log(const char* message, ...);
+ void add_memorial_log(const char* male_msg, const char* female_msg, ...);
  //Loads the memorial log from a file
  void load_memorial_file(std::ifstream &fin);
  //Notable events, to be printed in memorial
