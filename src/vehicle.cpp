@@ -1635,33 +1635,34 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
     return y;
 }
 
-void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool verbose)
+void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool verbose, bool desc)
 {
     WINDOW *win = (WINDOW *) w;
     const nc_color fcs[num_fuel_types] = { c_ltred, c_yellow, c_ltgreen, c_ltblue, c_ltcyan };
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_ltgray;
-    int yofs=0;
-    for (int i = 0; i < num_fuel_types; i++)
-    {
+    int yofs = 0;
+    for (int i = 0; i < num_fuel_types; i++) {
         int cap = fuel_capacity(fuel_types[i]);
-        if (cap > 0 && ( basic_consumption(fuel_types[i]) > 0 || fullsize ) )
-        {
-            mvwprintz(win, y+yofs, x, col_indf1, "E...F");
+        if (cap > 0 && ( basic_consumption(fuel_types[i]) > 0 || fullsize ) ) {
+            mvwprintz(win, y + yofs, x, col_indf1, "E...F");
             int amnt = cap > 0? fuel_left(fuel_types[i]) * 99 / cap : 0;
             int indf = (amnt / 20) % 5;
-            mvwprintz(win, y+yofs, x + indf, fcs[i], "%c", fsyms[indf]);
-            if(verbose) {
-              if(g->debugmon) {
-                mvwprintz(win, y+yofs, x+6, fcs[i], "%d/%d",fuel_left(fuel_types[i]),cap);
-              } else {
-                mvwprintz(win, y+yofs, x+6, fcs[i], "%d",(fuel_left(fuel_types[i])*100)/cap);
-                wprintz(win, c_ltgray, "%c",045);
-              }
-              wprintz(win, c_ltgray, " - %s", ammo_name(fuel_types[i]).c_str() );
-
+            mvwprintz(win, y + yofs, x + indf, fcs[i], "%c", fsyms[indf]);
+            if (verbose) {
+                if (g->debugmon) {
+                    mvwprintz(win, y + yofs, x + 6, fcs[i], "%d/%d", fuel_left(fuel_types[i]), cap);
+                } else {
+                    mvwprintz(win, y + yofs, x + 6, fcs[i], "%d", (fuel_left(fuel_types[i]) * 100) / cap);
+                    wprintz(win, c_ltgray, "%c", 045);
+                }
             }
-            if(fullsize) yofs++;
+            if (desc) {
+                wprintz(win, c_ltgray, " - %s", ammo_name(fuel_types[i]).c_str() );
+            }
+            if (fullsize) {
+                yofs++;
+            }
         }
     }
 }
