@@ -4782,102 +4782,100 @@ nc_color game::limb_color(player *p, body_part bp, int side, bool bleed, bool bi
 
 void game::draw_minimap()
 {
- // Draw the box
- werase(w_minimap);
- mvwputch(w_minimap, 0, 0, c_white, LINE_OXXO);
- mvwputch(w_minimap, 0, 6, c_white, LINE_OOXX);
- mvwputch(w_minimap, 6, 0, c_white, LINE_XXOO);
- mvwputch(w_minimap, 6, 6, c_white, LINE_XOOX);
- for (int i = 1; i < 6; i++) {
-  mvwputch(w_minimap, i, 0, c_white, LINE_XOXO);
-  mvwputch(w_minimap, i, 6, c_white, LINE_XOXO);
-  mvwputch(w_minimap, 0, i, c_white, LINE_OXOX);
-  mvwputch(w_minimap, 6, i, c_white, LINE_OXOX);
- }
+    // Draw the box
+    werase(w_minimap);
+    draw_border(w_minimap);
 
- int cursx = (levx + int(MAPSIZE / 2)) / 2;
- int cursy = (levy + int(MAPSIZE / 2)) / 2;
+    const tripoint curs = om_global_location();
+    const int cursx = curs.x;
+    const int cursy = curs.y;
+    bool drew_mission = false;
+    point targ;
+    if (u.active_mission >= 0 && u.active_mission < u.active_missions.size()) {
+        targ = find_mission(u.active_missions[u.active_mission])->target;
+        if (targ.x == -1) {
+            drew_mission = true;
+        }
+    } else {
+        drew_mission = true;
+    }
 
- bool drew_mission = false;
- point targ(-1, -1);
- if (u.active_mission >= 0 && u.active_mission < u.active_missions.size())
-  targ = find_mission(u.active_missions[u.active_mission])->target;
- else
-  drew_mission = true;
-
- if (targ.x == -1)
-  drew_mission = true;
-
- for (int i = -2; i <= 2; i++) {
-  for (int j = -2; j <= 2; j++) {
-   int omx = cursx + i;
-   int omy = cursy + j;
-   long note_sym = 0;
-    const int absx = omx + cur_om->pos().x * OMAPX;
-    const int absy = omy + cur_om->pos().y * OMAPY;
-    const oter_id &cur_ter = overmap_buffer.ter(absx, absy, levz);
-    const bool seen = overmap_buffer.seen(absx, absy, levz);
-    const bool note = overmap_buffer.has_note(absx, absy, levz);
-    if (note) {
-        const std::string &n = overmap_buffer.note(absx, absy, levz);
-        if (n.length() >= 2 && n[1] == ':') {
-            note_sym = n[0];
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2; j <= 2; j++) {
+            const int omx = cursx + i;
+            const int omy = cursy + j;
+            nc_color ter_color;
+            long ter_sym;
+            const bool seen = overmap_buffer.seen(omx, omy, levz);
+            if (overmap_buffer.has_note(omx, omy, levz)) {
+                const std::string& note = overmap_buffer.note(omx, omy, levz);
+                if (note.length() >= 2 && note[1] == ':') {
+                    ter_sym = note[0];
+                } else {
+                    ter_sym = 'N';
+                }
+                ter_color = c_yellow;
+            } else if (!seen) {
+                ter_sym = ' ';
+                ter_color = c_black;
+            } else {
+                const oter_id &cur_ter = overmap_buffer.ter(omx, omy, levz);
+                ter_sym = otermap[cur_ter].sym;
+                ter_color = otermap[cur_ter].color;
+            }
+            if (!drew_mission && targ.x == omx && targ.y == omy) {
+                // If there is a mission target, and it's not on the same
+                // overmap terrain as the player character, mark it.
+                drew_mission = true;
+                if (i != 0 || j != 0) {
+                    ter_color = red_background(ter_color);
+                }
+            }
+            if (i == 0 && j == 0) {
+                mvwputch_hi(w_minimap, 3, 3, ter_color, ter_sym);
+            } else {
+                mvwputch(w_minimap, 3 + j, 3 + i, ter_color, ter_sym);
+            }
         }
     }
-   nc_color ter_color = otermap[cur_ter].color;
-   long ter_sym = otermap[cur_ter].sym;
-   if (note)
-   {
-       ter_sym = note_sym ? note_sym : 'N';
-       ter_color = c_yellow;
-   }
-   if (seen) {
-    if (!drew_mission && targ.x == omx && targ.y == omy) {
-     drew_mission = true;
-     if (i != 0 || j != 0)
-      mvwputch   (w_minimap, 3 + j, 3 + i, red_background(ter_color), ter_sym);
-     else
-      mvwputch_hi(w_minimap, 3,     3,     ter_color, ter_sym);
-    } else if (i == 0 && j == 0)
-     mvwputch_hi(w_minimap, 3,     3,     ter_color, ter_sym);
-    else
-     mvwputch   (w_minimap, 3 + j, 3 + i, ter_color, ter_sym);
-   }
-  }
- }
 
-// Print arrow to mission if we have one!
- if (!drew_mission) {
-  double slope;
-  if (cursx != targ.x)
-   slope = double(targ.y - cursy) / double(targ.x - cursx);
-  if (cursx == targ.x || abs(slope) > 3.5 ) { // Vertical slope
-   if (targ.y > cursy)
-    mvwputch(w_minimap, 6, 3, c_red, '*');
-   else
-    mvwputch(w_minimap, 0, 3, c_red, '*');
-  } else {
-   int arrowx = 3, arrowy = 3;
-   if (abs(slope) >= 1.) { // y diff is bigger!
-    arrowy = (targ.y > cursy ? 6 : 0);
-    arrowx = int(3 + 3 * (targ.y > cursy ? slope : (0 - slope)));
-    if (arrowx < 0)
-     arrowx = 0;
-    if (arrowx > 6)
-     arrowx = 6;
-   } else {
-    arrowx = (targ.x > cursx ? 6 : 0);
-    arrowy = int(3 + 3 * (targ.x > cursx ? slope : (0 - slope)));
-    if (arrowy < 0)
-     arrowy = 0;
-    if (arrowy > 6)
-     arrowy = 6;
-   }
-   mvwputch(w_minimap, arrowy, arrowx, c_red, '*');
-  }
- }
-
- wrefresh(w_minimap);
+    // Print arrow to mission if we have one!
+    if (!drew_mission) {
+        double slope;
+        if (cursx != targ.x) {
+            slope = double(targ.y - cursy) / double(targ.x - cursx);
+        }
+        if (cursx == targ.x || abs(slope) > 3.5 ) { // Vertical slope
+            if (targ.y > cursy) {
+                mvwputch(w_minimap, 6, 3, c_red, '*');
+            } else {
+                mvwputch(w_minimap, 0, 3, c_red, '*');
+            }
+        } else {
+            int arrowx = 3, arrowy = 3;
+            if (abs(slope) >= 1.) { // y diff is bigger!
+                arrowy = (targ.y > cursy ? 6 : 0);
+                arrowx = int(3 + 3 * (targ.y > cursy ? slope : (0 - slope)));
+                if (arrowx < 0) {
+                    arrowx = 0;
+                }
+                if (arrowx > 6) {
+                    arrowx = 6;
+                }
+            } else {
+                arrowx = (targ.x > cursx ? 6 : 0);
+                arrowy = int(3 + 3 * (targ.x > cursx ? slope : (0 - slope)));
+                if (arrowy < 0) {
+                    arrowy = 0;
+                }
+                if (arrowy > 6) {
+                    arrowy = 6;
+                }
+            }
+            mvwputch(w_minimap, arrowy, arrowx, c_red, '*');
+        }
+    }
+    wrefresh(w_minimap);
 }
 
 void game::hallucinate(const int x, const int y)
