@@ -7660,6 +7660,7 @@ void game::peek()
     look_around();
     u.posx = prevx;
     u.posy = prevy;
+    draw_ter();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 point game::look_debug() {
