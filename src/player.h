@@ -96,6 +96,8 @@ public:
  virtual std::string base_color_hair() const;
  virtual std::string base_thickness_hair() const;
 
+ void grow_hair();
+
     void pick_name(); // Picks a name from NAMES_*
     std::string disp_name(); // what to call 'im
     std::string skin_name(); // what to call 'im

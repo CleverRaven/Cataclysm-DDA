@@ -1927,6 +1927,11 @@ std::string player::base_thickness_hair () const {
   return "shaggy";
 }
 
+void player::grow_hair () {
+  headHairLength += 1;
+  headHairCare += 30;
+}
+
 void player::disp_appearance () {
   std::stringstream appStream;
 
@@ -4782,6 +4787,9 @@ void player::add_disease(dis_type type, int duration, bool permanent,
 
 void player::rem_disease(dis_type type, body_part part, int side)
 {
+  if (type == "sleep")
+    grow_hair(); // ugly hack alert. A midnight alarm is needed.
+
     for (int i = 0; i < illness.size();) {
         if (illness[i].type == type &&
             ( part == num_bp || illness[i].bp == part ) &&
