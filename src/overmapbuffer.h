@@ -1,6 +1,7 @@
 #ifndef _OVERMAPBUFFER_H_
 #define _OVERMAPBUFFER_H_
 
+#include <set>
 #include "overmap.h"
 
 /**
@@ -148,6 +149,11 @@ public:
 
 private:
     std::list<overmap> overmap_list;
+    /**
+     * Set of overmap coordinates of overmaps that are known
+     * to not exist on disk. See @ref get_existing for usage.
+     */
+    mutable std::set<point> known_non_existing;
 
     /**
      * Get a list of notes in the (loaded) overmaps.

@@ -1,4 +1,7 @@
+#include <stdlib.h>
+
 #include "overmapbuffer.h"
+#include "file_finder.h"
 
 overmapbuffer overmap_buffer;
 
@@ -35,6 +38,7 @@ void overmapbuffer::save()
 void overmapbuffer::clear()
 {
     overmap_list.clear();
+    known_non_existing.clear();
 }
 
 const regional_settings& overmapbuffer::get_settings(int x, int y, int z)
@@ -71,6 +75,30 @@ const overmap *overmapbuffer::get_existing(int x, int y) const
             return last_one = &*candidate;
         }
     }
+    if (known_non_existing.count(point(x, y)) > 0) {
+        // This overmap does not exist on disk (this has already been
+        // checked in a previous call of this function).
+        return NULL;
+    }
+    // Check if the overmap exist on disk,
+    // overmap(0,0) should always exist, we need it for the proper
+    // overmap file name.
+    overmap &om = overmap_buffer.get(0, 0);
+    const std::string filename = om.terrain_filename(x, y);
+    std::ifstream tmp(filename.c_str(), std::ios::in);
+    if(tmp) {
+        // File exists, load it normally (the get function
+        // indirectly call overmap::open to do so).
+        tmp.close();
+        return &const_cast<overmapbuffer*>(this)->get(x, y);
+    }
+    // File does not exist (or not readable which is essentially
+    // the same for our usage). A second call of this function with
+    // the same coordinates will not check the file system, and
+    // return early.
+    // If the overmap had been created in the mean time, the previous
+    // loop would have found and returned it.
+    known_non_existing.insert(point(x, y));
     return NULL;
 }
 
