@@ -1897,6 +1897,33 @@ std::string player::base_color_hair () const {
 }
 
 std::string player::base_thickness_hair () const {
+  switch (thickness_hair()) {
+  case 0:
+  case 1:
+    return "very thin";
+  case 2:
+  case 3:
+    return "thin";
+  case 4:
+  case 5:
+    return "somewhat thin";
+  case 6:
+  case 7:
+    return "normal";
+  case 8:
+  case 9:
+    return "somewhat thick";
+  case 10:
+  case 11:
+    return "thick";
+  case 12:
+  case 13:
+    return "very thick";
+  case 14:
+  case 15:
+    return "shaggy";
+  }
+
   return "shaggy";
 }
 
