@@ -548,7 +548,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 				}else{
 					temp1 << ", ";
 				}
-				temp1 << _(contents[mn].tname().c_str());
+				temp1 << contents[mn].tname();
 			}
 		}
 		iternum++;
@@ -838,7 +838,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 	for (int i = 0; i < contents.size(); i++) {
 	 it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[i].type);
 	 temp1.str("");
-	 temp1 << " " << _(contents[i].tname().c_str()) << " (" << _(mod->location.c_str()) << ")";
+	 temp1 << " " << contents[i].tname() << " (" << _(mod->location.c_str()) << ")";
 	 dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
      dump->push_back(iteminfo("DESCRIPTION", contents[i].type->description));
     }
