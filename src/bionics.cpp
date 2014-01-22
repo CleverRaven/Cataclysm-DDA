@@ -710,10 +710,12 @@ bool player::install_bionics(it_bionic *type)
         return false;
     }
     int pow_up = 0;
-    if (type->id == "bio_power_storage" || type->id == "bio_power_storage_mkII") {
+    if (type->id == "bio_power_storage" || type->id == "bio_power_storage_mkII" || type->id == "bio_fusion") {
         pow_up = BATTERY_AMOUNT;
         if (type->id == "bio_power_storage_mkII") {
             pow_up = 10;
+        } else if (type->id == "bio_fusion") {
+            pow_up = 25;
         }
     }
 
@@ -723,11 +725,12 @@ bool player::install_bionics(it_bionic *type)
     int success = chance_of_success - rng(1, 100);
     if (success > 0) {
         g->u.add_memorial_log(_("Installed bionic: %s."), bionics[type->id]->name.c_str());
+        g->add_msg(_("Successfully installed %s."), bionics[type->id]->name.c_str());
         if (pow_up) {
             max_power_level += pow_up;
             g->add_msg_if_player(this, _("Increased storage capacity by %i"), pow_up);
-        } else {
-            g->add_msg(_("Successfully installed %s."), bionics[type->id]->name.c_str());
+        }
+        if(type->id != "bio_power_storage" && type->id != "bio_power_storage_mkII") {
             add_bionic(type->id);
         }
     } else {

@@ -12704,6 +12704,47 @@
   ]
 },{
         "type" : "recipe",
+  "result": "bio_fusion",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_CBMS",
+  "skill_used": "electronics",
+  "skills_required": [ "firstaid", 5 ],
+  "difficulty": 11,
+  "time": 50000,
+  "reversible": true,
+  "decomp_learn": 11,
+  "autolearn": false,
+  "book_learn": [[ "recipe_fusion", 11 ]],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "power_supply", 16 ]
+    ],
+    [
+      [ "alloy_plate",1 ]
+    ],
+    [
+      [ "amplifier", 16 ]
+    ],
+    [
+      [ "plasma", 100 ]
+    ],
+    [
+      [ "burnt_out_bionic", 1 ],
+      [ "processor", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "bio_power_armor_interface",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
