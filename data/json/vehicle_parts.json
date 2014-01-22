@@ -1406,6 +1406,134 @@
             {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
+    },{
+        "type" : "vehicle_part",
+        "id" : "woodhalfboard_horizontal",
+        "name" : "wooden quarterpanel",
+        "symbol" : "h",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 75,
+        "item" : "wood_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "woodhalfboard_vertical",
+        "name" : "wooden quarterpanel",
+        "symbol" : "j",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 75,
+        "item" : "wood_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "woodhalfboard_nw",
+        "name" : "wooden quarterpanel",
+        "symbol" : "y",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 75,
+        "item" : "wood_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "woodhalfboard_ne",
+        "name" : "wooden quarterpanel",
+        "symbol" : "u",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 75,
+        "item" : "wood_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "woodhalfboard_se",
+        "name" : "wooden quarterpanel",
+        "symbol" : "n",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 75,
+        "item" : "wood_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "woodhalfboard_sw",
+        "name" : "wooden quarterpanel",
+        "symbol" : "b",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 75,
+        "item" : "wood_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "woodhalfboard_horizontal_2",
+        "name" : "wooden quarterpanel",
+        "symbol" : "=",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 75,
+        "item" : "wood_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "woodhalfboard_vertical_2",
+        "name" : "wooden quarterpanel",
+        "symbol" : "H",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 75,
+        "item" : "wood_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
         "type" : "vehicle_part",
         "id" : "aisle_horizontal",
         "name" : "aisle",
