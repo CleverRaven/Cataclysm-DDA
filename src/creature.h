@@ -248,6 +248,8 @@ class Creature
         virtual void on_gethit(Creature *source, body_part bp_hit,
                                damage_instance &dam);
 
+        // Personality values
+
         uint64_t personality_value() const;
         std::string PersonalityValue() const;
         void SetPersonalityValue(std::string);
@@ -255,6 +257,18 @@ class Creature
         virtual void GeneratePersonalityValue(int str_inn, int dex_inn, int per_inn, int int_inn, int male);
 
         uint64_t PersonalityValueBits(size_t start, size_t width) const;
+
+        // Appearance
+
+        virtual unsigned int melanin_skin() const;
+        virtual unsigned int melanin_eyes() const;
+        virtual unsigned int melanin_hair() const;
+        virtual unsigned int thickness_hair() const;
+
+        virtual std::string base_color_skin() const;
+        virtual std::string base_color_eyes() const;
+        virtual std::string base_color_hair() const;
+        virtual std::string base_thickness_hair() const;
 
         // innate stats, slowly move these to protected as we rewrite more of
         // the codebase

@@ -91,6 +91,11 @@ public:
 
  virtual void GeneratePersonalityValue(int str_inn, int dex_inn, int per_inn, int int_inn, int male);
 
+ virtual std::string base_color_skin() const;
+ virtual std::string base_color_eyes() const;
+ virtual std::string base_color_hair() const;
+ virtual std::string base_thickness_hair() const;
+
     void pick_name(); // Picks a name from NAMES_*
     std::string disp_name(); // what to call 'im
     std::string skin_name(); // what to call 'im

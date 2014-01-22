@@ -899,6 +899,41 @@ uint64_t Creature::PersonalityValueBits (size_t start, size_t width) const {
   return retval & filter;
 }
 
+unsigned int Creature::melanin_skin () const {
+  return PersonalityValueBits(24, 4);
+}
+
+unsigned int Creature::melanin_eyes () const {
+  return PersonalityValueBits(26, 4);
+}
+
+unsigned int Creature::melanin_hair () const {
+  return PersonalityValueBits(28, 4);
+}
+
+unsigned int Creature::thickness_hair () const {
+  return PersonalityValueBits(32, 4);
+}
+
+
+std::string Creature::base_color_skin () const {
+  return "pink";
+}
+
+std::string Creature::base_color_eyes () const {
+  return "brown";
+}
+
+std::string Creature::base_color_hair () const {
+  return "brown";
+}
+
+std::string Creature::base_thickness_hair () const {
+  return "shaggy";
+}
+
+
+
 /*
  * Drawing-related functions
  */

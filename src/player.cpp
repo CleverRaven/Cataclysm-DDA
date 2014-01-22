@@ -1800,96 +1800,124 @@ inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair
     return levelA > levelB || (levelA == levelB && a.first->name() < b.first->name());
 }
 
+std::string player::base_color_skin () const {
+  switch (melanin_skin()) {
+  case 0:
+    return "ivory white";
+  case 1:
+    return "pallid";
+  case 2:
+    return "very fair";
+  case 3:
+    return "fair";
+  case 4:
+    return "beige";
+  case 5:
+  default:
+    return "cream";
+  case 6:
+    return "light golden";
+  case 7:
+    return "golden";
+  case 8:
+    return "tan";
+  case 9:
+    return "light brown";
+  case 10:
+    return "brown";
+  case 11:
+    return "caramel";
+  case 12:
+    return "dark brown";
+  case 13:
+    return "very dark brown";
+  case 14:
+    return "black";
+  case 15:
+    return "ebony black";
+  }
+}
+
+std::string player::base_color_eyes () const {
+  switch (melanin_eyes()) {
+  case 0:
+    return "green";
+  case 1:
+  case 2:
+  case 3:
+  case 4:
+  case 5:
+    return "blue";
+  case 6:
+  case 7:
+  case 8:
+  case 9:
+  case 10:
+  case 11:
+  case 12:
+  case 13:
+    return "brown";
+  case 14:
+  case 15:
+  default:
+    return "gray";
+  }
+}
+
+std::string player::base_color_hair () const {
+  switch (melanin_hair()) {
+  case 0:
+  case 1:
+    return "white";
+  case 2:
+  case 3:
+    return "pale blonde";
+  case 4:
+  case 5:
+    return "blonde";
+  case 6:
+  case 7:
+    return "dark blonde";
+  case 8:
+    return "red";
+  case 9:
+  case 10:
+    return "light brown";
+  case 12:
+    return "red";
+  case 11:
+  case 13:
+    return "brown";
+  case 14:
+  case 15:
+    return "black";
+  }
+
+  return "brown";
+}
+
+std::string player::base_thickness_hair () const {
+  return "shaggy";
+}
+
 void player::disp_appearance () {
   std::string appearance_string = "";
 
-  int melanin_skin, melanin_hair, melanin_eyes, thickness_hair;
-
-  melanin_skin   = PersonalityValueBits(24, 4);
-  melanin_eyes   = PersonalityValueBits(26, 4);
-  melanin_hair   = PersonalityValueBits(28, 4);
-  thickness_hair = PersonalityValueBits(36, 4);
-
   appearance_string.append("You have ");
 
-  switch (melanin_skin) {
-  case 0:
-    appearance_string.append("ivory white");
-    break;
-  case 1:
-    appearance_string.append("pallid");
-    break;
-  case 2:
-    appearance_string.append("very ");
-  case 3:
-    appearance_string.append("fair");
-    break;
-  case 4:
-    appearance_string.append("beige");
-    break;
-  case 5:
-    appearance_string.append("cream");
-    break;
-  case 6:
-    appearance_string.append("light ");
-  case 7:
-    appearance_string.append("golden");
-    break;
-  case 8:
-    appearance_string.append("tan");
-    break;
-  case 9:
-    appearance_string.append("light ");
-  case 10:
-    appearance_string.append("brown");
-    break;
-  case 11:
-    appearance_string.append("caramel");
-    break;
-  case 12:
-    appearance_string.append("dark brown");
-    break;
-  case 13:
-    appearance_string.append("very dark brown");
-    break;
-  case 14:
-    appearance_string.append("black");
-    break;
-  case 15:
-    appearance_string.append("ebony black");
-    break;
-  }
+  appearance_string.append(base_color_skin());
 
   appearance_string.append(" skin and ");
 
-  switch (melanin_skin) {
-  case 0:
-    appearance_string.append("green");
-    break;
-  case 1:
-  case 2:
-  case 3:
-  case 4:
-  case 5:
-    appearance_string.append("blue");
-    break;
-  case 6:
-  case 7:
-  case 8:
-  case 9:
-  case 10:
-  case 11:
-  case 12:
-  case 13:
-    appearance_string.append("brown");
-    break;
-  case 14:
-  case 15:
-    appearance_string.append("gray");
-    break;
-  }
+  appearance_string.append(base_color_eyes());
 
   appearance_string.append(" eyes.");
+
+  appearance_string.append("\n \nYour ");
+  appearance_string.append(base_thickness_hair());
+  appearance_string.append(" ");
+  appearance_string.append(base_color_hair());
+  appearance_string.append(" hair is unkempt.");
 
   WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
   draw_border(w);
