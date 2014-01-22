@@ -1406,7 +1406,6 @@
             {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
-    },{
         "type" : "vehicle_part",
         "id" : "woodhalfboard_horizontal",
         "name" : "wooden quarterpanel",
@@ -1534,6 +1533,7 @@
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
+    },{
         "type" : "vehicle_part",
         "id" : "aisle_horizontal",
         "name" : "aisle",
