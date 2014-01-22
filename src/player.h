@@ -526,6 +526,9 @@ public:
  int active_mission;
  int volume;
 
+ int headHairLength;
+ int headHairCare;
+
  std::string name;
  bool male;
  profession* prof;

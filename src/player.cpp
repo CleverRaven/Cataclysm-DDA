@@ -1928,30 +1928,49 @@ std::string player::base_thickness_hair () const {
 }
 
 void player::disp_appearance () {
-  std::string appearance_string = "";
+  std::stringstream appStream;
 
-  appearance_string.append("You have ");
+  appStream << "You have " << base_color_skin() << " skin, " << base_color_eyes() << " eyes, and " << base_color_hair() << " hair.\n \n";
 
-  appearance_string.append(base_color_skin());
+  std::string careString, lengthString;
 
-  appearance_string.append(" skin and ");
+  if (headHairCare < 50) {
+    careString = "clean";
+  } else if (headHairCare < 100) {
+    careString = "\b";
+  } else if (headHairCare < 200) {
+    careString = "unkempt";
+  } else if (headHairCare < 200) {
+    careString = "tangled";
+  } else if (headHairCare >= 500) {
+    careString = "tangled and frayed";
+  }
 
-  appearance_string.append(base_color_eyes());
+  if (headHairLength < 25) {
+    lengthString = "cropped";
+  } else if (headHairLength < 50) {
+    lengthString = "short";
+  } else if (headHairLength < 100) {
+    lengthString = "tousled";
+  } else if (headHairLength < 200) {
+    lengthString = "shoulder length";
+  } else if (headHairLength < 350) {
+    lengthString = "long";
+  } else if (headHairLength >= 500) {
+    lengthString = "very long";
+  }
 
-  appearance_string.append(" eyes.");
-
-  appearance_string.append("\n \nYour ");
-  appearance_string.append(base_thickness_hair());
-  appearance_string.append(" ");
-  appearance_string.append(base_color_hair());
-  appearance_string.append(" hair is unkempt.");
+  if (headHairLength < 3)
+    appStream << "Your head is shorn.";
+  else
+    appStream << "Your " << careString << " hair is " << lengthString << ".";
 
   WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
   draw_border(w);
 
   mvwprintz(w, 0, 2, c_white, _(" Appearance "));
 
-  std::vector<std::string> toPrint = foldstring(appearance_string, FULL_SCREEN_WIDTH - 4);
+  std::vector<std::string> toPrint = foldstring(appStream.str(), FULL_SCREEN_WIDTH - 4);
 
   for (int i = 0; i < FULL_SCREEN_HEIGHT - 4 && i < toPrint.size(); i++) {
     mvwprintz(w, 2 + i, 2, c_white, toPrint[i].c_str());

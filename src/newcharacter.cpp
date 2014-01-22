@@ -260,6 +260,9 @@ bool player::create(character_type type, std::string tempname)
         return false;
     }
 
+    headHairCare = 0;
+    headHairLength = rng(25, 250);
+
     GeneratePersonalityValue(str_max, dex_max, per_max, int_max, g->u.male);
 
     // Character is finalized.  Now just set up HP, &c

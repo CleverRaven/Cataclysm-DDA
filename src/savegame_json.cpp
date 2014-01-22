@@ -191,6 +191,9 @@ void player::json_load_common_variables(JsonObject & data)
 
     if (pv == 0)
       GeneratePersonalityValue(str_max, dex_max, per_max, int_max, male);
+
+    data.read("hair_head", headHairLength);
+    data.read("hair_care", headHairCare);
 }
 
 /*
@@ -270,6 +273,9 @@ void player::json_save_common_variables(JsonOut &json) const
     json.member( "my_bionics", my_bionics );
 
     json.member ( "pv", Creature::PersonalityValue() );
+
+    json.member ( "hair_head", headHairLength );
+    json.member ( "hair_care", headHairCare );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
