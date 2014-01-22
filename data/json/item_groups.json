@@ -5965,7 +5965,7 @@
       ["pur_tablets", 10],
       ["optical_cloak", 1],
       ["bot_laserturret", 1],
-      ["thermometer"]
+      ["thermometer", 10]
     ]
   },{
     "type" : "item_group",
