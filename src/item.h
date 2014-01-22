@@ -175,6 +175,10 @@ public:
  bool conductive() const; // Electricity
  bool flammable() const;
 
+ // umber of mods that can still be installed into the given
+ // mod location, for non-guns it returns always 0
+ int get_free_mod_locations(const std::string &location) const;
+
  bool destroyed_at_zero_charges();
 // Most of the is_whatever() functions call the same function in our itype
  bool is_null() const; // True if type is NULL, or points to the null item (id == 0)

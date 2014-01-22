@@ -649,6 +649,7 @@
         "volume" : 92,
         "bashing" : 0,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 400
     },
     {
@@ -712,6 +713,7 @@
         "volume" : 200,
         "bashing" : 2,
         "cutting" : 0,
+        "category" : "veh_parts",
         "price" : 400
     },
     {
