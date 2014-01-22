@@ -1336,7 +1336,28 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
             ret.push_back(tmp);
         }
      }
-
+  
+  if (has_trait("VINES2") || has_trait("VINES3")) {
+      int num_attacks = 2;
+      if (has_trait("VINES3")) {
+          num_attacks = 3;
+      }
+      for (int i = 0; i < num_attacks; i++) {
+          special_attack tmp;
+          if (is_player()) {
+              tmp.text = string_format(_("You lash %s with a vine!"),
+                                          target.c_str());
+          } else if (male) {
+              tmp.text = string_format(_("%s lashes %s with his vines!"),
+                                          name.c_str(), target.c_str());
+          } else {
+              tmp.text = string_format(_("%s lashes %s with her vines!"),
+                                          name.c_str(), target.c_str());
+          }
+      tmp.bash = str_cur / 2;
+      ret.push_back(tmp);
+      }
+  }
     return ret;
 }
 

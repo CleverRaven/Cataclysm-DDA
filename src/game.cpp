@@ -12036,12 +12036,34 @@ void game::vertical_move(int movez, bool force) {
     if (tmpmap.move_cost(u.posx, u.posy) == 0) {
      popup(_("Halfway down, the way down becomes blocked off."));
      return;
-    } else if (u.has_amount("rope_30", 1)) {
+    } else if (u.has_trait("VINES2") || ("VINES3")) {
+        if (query_yn(_("There is a sheer drop halfway down.  Use your vines to descend?"))){
+            if (u.has_trait("VINES2")) {
+                if (query_yn(_("Detach a vine?  It'll hurt, but you'll be able to climb back up..."))){
+                    rope_ladder = true;
+                    add_msg(_("You descend on your vines, though leaving a part of you behind stings."));
+                    u.mod_pain(5);
+                    u.hurt(bp_torso, 1, 5);
+                    u.hunger += 5;
+                    u.thirst += 5;
+                }
+                else {
+                    add_msg(_("You gingerly descend using your vines."));
+                }
+            }
+            else {
+                add_msg(_("You effortlessly lower yourself and leave a vine rooted for future use."));
+                rope_ladder = true;
+                u.hunger += 5;
+                u.thirst += 5;
+            }
+        }
+     } else if (u.has_amount("rope_30", 1)) {
      if (query_yn(_("There is a sheer drop halfway down. Climb your rope down?"))){
       rope_ladder = true;
       u.use_amount("rope_30", 1);
-     } else
-      return;
+     }
+     else return;
     } else if (!query_yn(_("There is a sheer drop halfway down.  Jump?")))
      return;
    }

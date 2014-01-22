@@ -2762,14 +2762,54 @@
     },{
         "type" : "mutation",
         "id" : "SUNLIGHT_DEPENDENT",
-        "name" : "Sunlight dependent",
+        "name" : "Sunlight Dependent",
         "points" : -5,
         "description" : "You feel very sluggish when not in direct sunlight. You suffer a 5% drop in speed when in shade, and a 10% drop in speed when in the dark.",
-        "cancels" : ["TROGLO", "TROGLO2", "TROGLO3"]
+        "cancels" : ["TROGLO", "TROGLO2", "TROGLO3"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "VINES1",
+        "name" : "Vines",
+        "points" : -2,
+        "visibility" : 8,
+        "ugliness" : 5,
+        "description" : "You have developed several vines sprouting from your shoulder area.  They're bulky and get in the way.",
+        "prereqs" : ["PLANTSKIN", "BARK"],
+        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB"],
+        "changes_to" : ["VINES2"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "VINES2",
+        "name" : "Vine Limbs",
+        "points" : 2,
+        "visibility" : 8,
+        "ugliness" : 5,
+        "description" : "You've developed the ability to control your vines; they make good lashes.  You can even rappel down sheer drops using them, but disconnecting HURTS.",
+        "prereqs" : ["PLANTSKIN", "BARK"],
+        "prereqs2" : ["VINES1"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB"],
+        "changes_to" : ["VINES3"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "VINES3",
+        "name" : "Vine Sprouter",
+        "points" : 5,
+        "visibility" : 10,
+        "ugliness" : 6,
+        "description" : "You have full control of your vines, and can grow new ones and detach old ones more or less at will.",
+        "prereqs" : ["PLANTSKIN", "BARK"],
+        "prereqs2" : ["VINES2"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB"],
+        "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD",
-        "name" : "Heat dependent",
+        "name" : "Heat Dependent",
         "points" : -2,
         "description" : "Your muscle response is dependent on ambient temperatures. You lose 1% of your speed for every 5 degrees below 65 F.",
         "changes_to" : ["COLDBLOOD2"],
@@ -2777,7 +2817,7 @@
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD2",
-        "name" : "Very Heat dependent",
+        "name" : "Very Heat Dependent",
         "points" : -3,
         "description" : "Your muscle response is highly dependent on ambient temperatures. You lose 1% of your speed for every 3 degrees below 65 F.",
         "prereqs" : ["COLDBLOOD"],
