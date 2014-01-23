@@ -300,7 +300,18 @@ class overmap
   std::string const& note(int const x, int const y, int const z) const;
   void add_note(int const x, int const y, int const z, std::string const& message);
   void delete_note(int const x, int const y, int const z) { add_note(x, y, z, ""); }
-  point display_notes(int const z) const;
+    /**
+     * Display a list of all notes on this z-level. Let the user choose
+     * one or none of them.
+     * @returns The location of the chosen note (absolute overmap terrain
+     * coordinates), or invalid_point if the user did not choose a note.
+     */
+    static point display_notes(int z);
+    /**
+     * Dummy value, used to indicate that a point returned by a function
+     * is invalid.
+     */
+    static const point invalid_point;
 
   point find_note(int const x, int const y, int const z, std::string const& text) const;
   void remove_npc(int npc_id);
