@@ -722,7 +722,9 @@ bool player::install_bionics(it_bionic *type)
     practice(g->turn, "mechanics", int((100 - chance_of_success) * 0.5));
     int success = chance_of_success - rng(1, 100);
     if (success > 0) {
-        g->u.add_memorial_log(_("Installed bionic: %s."), bionics[type->id]->name.c_str());
+        add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
+            pgettext("memorial_female", "Installed bionic: %s."),
+            bionics[type->id]->name.c_str());
         if (pow_up) {
             max_power_level += pow_up;
             g->add_msg_if_player(this, _("Increased storage capacity by %i"), pow_up);
@@ -731,7 +733,9 @@ bool player::install_bionics(it_bionic *type)
             add_bionic(type->id);
         }
     } else {
-        g->u.add_memorial_log(_("Failed to install bionic: %s."), bionics[type->id]->name.c_str());
+        add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
+            pgettext("memorial_female", "Installed bionic: %s."),
+            bionics[type->id]->name.c_str());
         bionics_install_failure(this, type, success);
     }
     g->refresh_all();
@@ -844,7 +848,9 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
         } else {
             int index = rng(0, valid.size() - 1);
             u->add_bionic(valid[index]);
-            g->u.add_memorial_log(_("Installed bad bionic: %s."), bionics[valid[index]]->name.c_str());
+            u->add_memorial_log(pgettext("memorial_male", "Installed bad bionic: %s."),
+                pgettext("memorial_female", "Installed bad bionic: %s."),
+                bionics[valid[index]]->name.c_str());
         }
     }
     break;

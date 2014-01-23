@@ -2005,6 +2005,27 @@ int iuse::atomic_battery(player *p, item *, bool)
     return 1;
 }
 
+int iuse::fishing_rod_basic (player *p, item *it, bool) {
+  int dirx, diry;
+
+  if (!g->choose_adjacent(_("Fish where?"), dirx, diry)) {
+    return 0;
+  }
+
+  if (!g->m.has_flag("FISHABLE", dirx, diry)) {
+    g->add_msg_if_player(p, _("You can't fish there!"));
+
+    return 0;
+  }
+
+  g->add_msg_if_player(p, _("You throw your fishing line and wait to hook something..."));
+
+  p->assign_activity(ACT_FISH, 30000, 0, p->get_item_position(it), it->name);
+  p->moves = 0;
+
+  return 0;
+}
+
 static bool valid_fabric(player *p, item *it, bool)
 {
     if (it->type->id == "null") {

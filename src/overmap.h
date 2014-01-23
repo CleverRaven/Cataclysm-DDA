@@ -287,8 +287,6 @@ class overmap
   int closest_city(point p);
   point random_house_in_city(int city_id);
   int dist_from_city(point p);
-// Interactive point choosing; used as the map screen
-  point draw_overmap(int z);
 
   oter_id& ter(const int x, const int y, const int z);
   bool&   seen(int x, int y, int z);
@@ -300,9 +298,42 @@ class overmap
   std::string const& note(int const x, int const y, int const z) const;
   void add_note(int const x, int const y, int const z, std::string const& message);
   void delete_note(int const x, int const y, int const z) { add_note(x, y, z, ""); }
-  point display_notes(int const z) const;
-
-  point find_note(int const x, int const y, int const z, std::string const& text) const;
+    /**
+     * Display a list of all notes on this z-level. Let the user choose
+     * one or none of them.
+     * @returns The location of the chosen note (absolute overmap terrain
+     * coordinates), or invalid_point if the user did not choose a note.
+     */
+    static point display_notes(int z);
+    /**
+     * Dummy value, used to indicate that a point returned by a function
+     * is invalid.
+     */
+    static const point invalid_point;
+    /**
+     * Search for the nearest note that contains the given pattern.
+     * (x,y) are in global overmap terrain coordinates.
+     * @returns The location of the chosen note (absolute overmap terrain
+     * coordinates), or invalid_point if no note has been found.
+     */
+    static point find_note(int const x, int const y, int const z, std::string const& text);
+    /**
+     * Interactive point choosing; used as the map screen.
+     * The map is initially center at the players position.
+     * @returns The absolute coordinates of the chosen point or
+     * @ref invalid_point if canceled with escape (or similar key).
+     */
+    static point draw_overmap();
+    /**
+     * Same as @ref draw_overmap() but starts at center
+     * instead of players location.
+     */
+    static point draw_overmap(const tripoint& center);
+    /**
+     * Same as above but start at z-level z instead of players
+     * current z-level, x and y are taken from the players position.
+     */
+    static point draw_overmap(int z);
   void remove_npc(int npc_id);
   void remove_vehicle(int id);
   int add_vehicle(vehicle *veh);
@@ -349,10 +380,17 @@ class overmap
                 overmap* west);
   bool generate_sub(int const z);
 
-  //Drawing
-  void draw(WINDOW *w, int z, int &cursx, int &cursy,
-            int &origx, int &origy, signed char &ch, bool blink,
-            overmap &hori, overmap &vert, overmap &diag, input_context* inp_ctxt);
+  /**
+   * Draws the overmap terrain.
+   * @param w The window to draw in.
+   * @param center The global overmap terrain coordinate of the center
+   * of the view. The z-component is used to determine the z-level.
+   * @param orig The global overmap terrain coordinates of the player.
+   * It will be marked specially.
+   */
+  static void draw(WINDOW *w, const tripoint &center,
+            const tripoint &orig, bool blink,
+            input_context* inp_ctxt);
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();

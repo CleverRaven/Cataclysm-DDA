@@ -132,7 +132,8 @@
         "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
-        "count" : 200
+        "count" : 200,
+        "flags" : ["UNRECOVERABLE"]
     },
     {   "type" : "AMMO",
         "id" : "cable",
@@ -1610,7 +1611,8 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 25,
-        "effects" : ["INCENDIARY"]
+        "effects" : ["INCENDIARY"],
+        "flags" : ["UNRECOVERABLE"]
     },
     {   "type" : "AMMO",
         "id" : "charge_shot",
