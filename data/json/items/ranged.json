@@ -2757,7 +2757,7 @@
     "symbol": "(",
     "color": "brown",
     "name": "RPG-7",
-    "description": "The famous RPG-7 rocket launcher. This ubiquitous rocket launcher is cheap to maufacture and is easy to handle. Often used by terrorists, it's not as precise as other weapons.",
+    "description": "The famous RPG-7 rocket launcher. This ubiquitous rocket launcher is cheap to manufacture and is easy to handle. Often used by terrorists, it's not as precise as other weapons.",
     "price": 6000,
     "material": "wood",
     "flags": ["BACKBLAST", "RELOAD_ONE"],
