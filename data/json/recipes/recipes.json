@@ -28718,11 +28718,11 @@
   "type" : "recipe",
   "result": "blockbuster",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_BASING",
+  "subcategory": "CSC_WEAPON_BASHING",
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 200000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": 
     [
