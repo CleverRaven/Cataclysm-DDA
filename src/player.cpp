@@ -3361,13 +3361,10 @@ bool player::in_climate_control()
     bool regulated_area=false;
     // Check
     if(has_active_bionic("bio_climate")) { return true; }
-    for (int i = 0; i < worn.size(); i++)
+    if (is_wearing_power_armor() &&
+        (has_active_item("UPS_on") || has_active_item("adv_UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII")))
     {
-        if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
-            (has_active_item("UPS_on") || has_active_item("adv_UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII")))
-        {
-            return true;
-        }
+        return true;
     }
     if(int(g->turn) >= next_climate_control_check)
     {
@@ -7377,12 +7374,12 @@ hint_rating player::rate_action_wear(item *it)
  if (armor->is_power_armor() && worn.size()) {
   if (armor->covers & mfb(bp_torso)) {
    return HINT_IFFY;
-  } else if (armor->covers & mfb(bp_head) && !((it_armor *)worn[0].type)->is_power_armor()) {
+  } else if (armor->covers & mfb(bp_head) && !worn[0].type->is_power_armor()) {
    return HINT_IFFY;
   }
  }
  // are we trying to wear something over power armor? We can't have that, unless it's a backpack, or similar.
- if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & mfb(bp_head))) {
+ if (worn.size() && worn[0].type->is_power_armor() && !(armor->covers & mfb(bp_head))) {
   if (!(armor->covers & mfb(bp_torso) && armor->color == c_green)) {
    return HINT_IFFY;
   }
@@ -7522,7 +7519,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             {
                 for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); ++it)
                 {
-                    if (dynamic_cast<it_armor*>(it->type)->power_armor)
+                    if (it->type->is_power_armor())
                     {
                         power_armor = true;
                         break;
@@ -7542,7 +7539,7 @@ bool player::wear_item(item *to_wear, bool interactive)
 
         for (int i = 0; i < worn.size(); i++)
         {
-            if (((it_armor *)worn[i].type)->is_power_armor() && worn[i].type == armor)
+            if (worn[i].type->is_power_armor() && worn[i].type == armor)
             {
                 if(interactive)
                 {
@@ -7558,7 +7555,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         if( armor->covers & ~(mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) ) ) {
             for (int i = 0; i < worn.size(); i++)
             {
-                if( ((it_armor *)worn[i].type)->is_power_armor() )
+                if( worn[i].type->is_power_armor() )
                 {
                     if(interactive)
                     {
@@ -7819,11 +7816,11 @@ bool player::takeoff(int pos, bool autodrop)
             item &w = worn[worn_index];
 
             // Handle power armor.
-            if ((reinterpret_cast<it_armor*>(w.type))->is_power_armor() &&
+            if (w.type->is_power_armor() &&
                     ((reinterpret_cast<it_armor*>(w.type))->covers & mfb(bp_torso))) {
                 // We're trying to take off power armor, but cannot do that if we have a power armor component on!
                 for (int j = worn.size() - 1; j >= 0; j--) {
-                    if ((reinterpret_cast<it_armor*>(worn[j].type))->is_power_armor() &&
+                    if (worn[j].type->is_power_armor() &&
                             j != worn_index) {
                         if (autodrop) {
                             g->m.add_item_or_charges(posx, posy, worn[j]);
@@ -9343,7 +9340,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
                 cut_reduction = arm_cut / 3;
 
                 // power armour first  - to depreciate eventually
-                if (((it_armor *)worn[i].type)->is_power_armor())
+                if (worn[i].type->is_power_armor())
                 {
                     if (cut > arm_cut * 2 || dam > arm_bash * 2)
                     {
@@ -9544,26 +9541,24 @@ bool player::is_wearing_shoes() {
 }
 
 bool player::is_wearing_power_armor(bool *hasHelmet) const {
-  if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor()) {
-    if (hasHelmet) {
-      *hasHelmet = false;
-
-      if (worn.size() > 1) {
-        for (size_t i = 1; i < worn.size(); i++) {
-          it_armor *candidate = dynamic_cast<it_armor*>(worn[i].type);
-
-          if (candidate->is_power_armor() && candidate->covers & mfb(bp_head)) {
-            *hasHelmet = true;
-            break;
-          }
+    bool result = false;
+    for (size_t i = 0; i < worn.size(); i++) {
+        it_armor *armor = dynamic_cast<it_armor*>(worn[i].type);
+        if (armor == NULL || !armor->is_power_armor()) {
+            continue;
         }
-      }
+        if (hasHelmet == NULL) {
+            // found power armor, helmet not requested, cancel loop
+            return true;
+        }
+        // found power armor, continue search for helmet
+        result = true;
+        if (armor->covers & mfb(bp_head)) {
+            *hasHelmet = true;
+            return true;
+        }
     }
-
-    return true;
-  } else {
-    return false;
-  }
+    return result;
 }
 
 int player::adjust_for_focus(int amount)
