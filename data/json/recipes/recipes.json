@@ -22012,6 +22012,50 @@
       [ "leather", 3 ]
      ]
     ]
+},
+{
+        "type" : "recipe",
+  "result": "flail",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_BASHING",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapwest", 3 ] , [ "recipe_melee", 4 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["forge", 200], ["char_forge", 40]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 12 ],
+     [ "scrap", 36 ]
+     ],
+     [
+      [ "2x4", 3 ],
+      [ "stick", 6 ]
+     ],
+     [
+      [ "fur", 3 ],
+      [ "leather", 3 ]
+     ],
+	 [
+	 [ "chain", 1 ]
+    ]
 },{
         "type" : "recipe",
   "result": "morningstar",
@@ -28639,5 +28683,63 @@
       [ "gum", 4 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "vierhander",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": 
+    [
+     [
+      [ "welder", 28 ],
+      [ "soldering_iron", 28 ],
+      [ "toolset", 2 ]
+     ]
+	 ],
+  "components":
+    [
+     [
+	 [ "zweihander", 2]
+	 ],
+	 [
+	 [ "sword_wood", 1]
+	 ],
+	 [
+	 [ "scrap", 8]
+	 ]
+    ]
+},
+{
+  "type" : "recipe",
+  "result": "blockbuster",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_BASING",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 200000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": 
+    [
+     [
+      [ "welder", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 3 ]
+     ]
+	],
+  "components":
+    [
+     [
+	 [ "v6_combustion", 1]
+	 ],
+	 [
+	 [ "chain", 10]
+	 ]
+    ]
 }
 ]
