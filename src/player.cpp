@@ -1959,7 +1959,7 @@ void player::disp_appearance () {
     careString = "\b";
   } else if (headHairCare < 200) {
     careString = "unkempt";
-  } else if (headHairCare < 200) {
+  } else if (headHairCare < 350) {
     careString = "tangled";
   } else if (headHairCare >= 500) {
     careString = "tangled and frayed";

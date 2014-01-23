@@ -841,7 +841,7 @@ uint64_t Creature::personality_value () const {
 }
 
 std::string Creature::PersonalityValue () const {
-  std::ostringstream stringStream;
+  std::stringstream stringStream;
   stringStream.width(16);
   stringStream.fill('0');
   stringStream.flags(std::ios::right | std::ios::hex);
@@ -850,7 +850,8 @@ std::string Creature::PersonalityValue () const {
 }
 
 void Creature::SetPersonalityValue (std::string PV) {
-  std::istringstream stringStream;
+  std::stringstream stringStream;
+  stringStream.str(PV);
   stringStream.flags(std::ios::hex);
   stringStream >> pv;
 }
