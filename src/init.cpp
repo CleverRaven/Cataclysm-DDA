@@ -26,6 +26,7 @@
 #include "speech.h"
 #include "construction.h"
 #include "name.h"
+#include "ammo.h"
 
 #include <string>
 #include <vector>
@@ -132,6 +133,7 @@ void DynamicDataLoader::initialize()
     type_function_map["monstergroup"] = new StaticFunctionAccessor(
         &MonsterGroupManager::LoadMonsterGroup);
     type_function_map["speech"] = new StaticFunctionAccessor(&load_speech);
+    type_function_map["ammunition_type"] = new StaticFunctionAccessor(&ammunition_type::load_ammunition_type);
 
     //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
     // Non Static Function Access
