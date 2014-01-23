@@ -1461,7 +1461,7 @@ void npc::load_legacy(std::stringstream & dump) {
 // Special NPC stuff
  int misstmp, flagstmp, tmpatt, agg, bra, col, alt;
  dump >> agg >> bra >> col >> alt >> wandx >> wandy >> wandf >> omx >> omy >>
-         omz >> mapx >> mapy >> plx >> ply >> goalx >> goaly >> goalz >> misstmp >>
+         omz >> mapx >> mapy >> plx >> ply >> goal.x >> goal.y >> goal.z >> misstmp >>
          flagstmp >> fac_id >> tmpatt;
  personality.aggression = agg;
  personality.bravery = bra;

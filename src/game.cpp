@@ -3889,8 +3889,8 @@ Current turn: %d; Next spawn %d.\n\
     data << npc_class_name(p->myclass) << "; " <<
             npc_attitude_name(p->attitude) << std::endl;
     if (p->has_destination()) {
-     data << _("Destination: ") << p->goalx << ":" << p->goaly << "(" <<
-             otermap[ cur_om->ter(p->goalx, p->goaly, p->goalz) ].name << ")" << std::endl;
+     data << _("Destination: ") << p->goal.x << ":" << p->goal.y << "(" <<
+             otermap[ overmap_buffer.ter(p->goal) ].name << ")" << std::endl;
     } else {
      data << _("No destination.") << std::endl;
     }

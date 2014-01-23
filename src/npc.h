@@ -543,7 +543,9 @@ public:
  int mapx, mapy;// Which square in that overmap (e.g., m.0.0)
  int plx, ply, plt;// Where we last saw the player, timeout to forgetting
  int itx, ity; // The square containing an item we want
- int goalx, goaly, goalz;// Which mapx:mapy square we want to get to
+ // Global overmap terrain coordinate, where we want to get to
+ // if no goal exist, this no_goal_point
+ tripoint goal;
 
  bool fetching_item;
  bool has_new_items; // If true, we have something new and should re-equip
@@ -566,6 +568,8 @@ public:
  bool hit_by_player;
  std::vector<npc_need> needs;
  unsigned flags : NF_MAX;
+ // Dummy point that indicates that the goal is invalid.
+ static const tripoint no_goal_point;
 private:
     void setID (int id);
 };

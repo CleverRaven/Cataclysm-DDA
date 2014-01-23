@@ -1621,64 +1621,6 @@ void overmap::make_tutorial()
     zg.clear();
 }
 
-point overmap::find_closest(point origin, const std::string &type,
-                            int &dist, bool must_be_seen)
-{
-    //does origin qualify?
-    if (check_ot_type(type, origin.x, origin.y, 0)) {
-        if (!must_be_seen || seen(origin.x, origin.y, 0)) {
-            return point(origin.x, origin.y);
-        }
-    }
-
-    int max = (dist == 0 ? OMAPX : dist);
-    // expanding box
-    for (dist = 0; dist <= max; dist++) {
-        // each edge length is 2*dist-2, because corners belong to one edge
-        // south is +y, north is -y
-        for (int i = 0; i < dist*2-1; i++) {
-            //start at northwest, scan north edge
-            int x = origin.x - dist + i;
-            int y = origin.y - dist;
-            if (check_ot_type(type, x, y, 0)) {
-                if (!must_be_seen || seen(x, y, 0)) {
-                    return point(x, y);
-                }
-            }
-
-            //start at southeast, scan south
-            x = origin.x + dist - i;
-            y = origin.y + dist;
-            if (check_ot_type(type, x, y, 0)) {
-                if (!must_be_seen || seen(x, y, 0)) {
-                    return point(x, y);
-                }
-            }
-
-            //start at southwest, scan west
-            x = origin.x - dist;
-            y = origin.y + dist - i;
-            if (check_ot_type(type, x, y, 0)) {
-                if (!must_be_seen || seen(x, y, 0)) {
-                    return point(x, y);
-                }
-            }
-
-            //start at northeast, scan east
-            x = origin.x + dist;
-            y = origin.y - dist + i;
-            if (check_ot_type(type, x, y, 0)) {
-                if (!must_be_seen || seen(x, y, 0)) {
-                    return point(x, y);
-                }
-            }
-        }
-    }
-
-    dist = -1;
-    return point(-1, -1);
-}
-
 std::vector<point> overmap::find_all(tripoint origin, const std::string &type,
                                      int &dist, bool must_be_seen)
 {
