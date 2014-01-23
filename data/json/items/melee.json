@@ -859,6 +859,7 @@
   {
     "type":"GENERIC",
     "id": "binoculars",
+    "category" : "tools",
     "symbol": ";",
     "color": "dark_gray",
     "name": "binoculars",
