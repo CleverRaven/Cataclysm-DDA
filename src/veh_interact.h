@@ -128,8 +128,8 @@ private:
      * Updated whenever the cursor moves. */
     std::vector<int> parts_here;
 
-    /* Refers to the fuel tank (if any) in the currently selected square. */
-    struct vehicle_part *ptank;
+    /* Refers to the fuel tanks (if any) in the currently selected square. */
+    std::vector<vehicle_part*> ptanks;
 
     /* Refers to the wheel (if any) in the currently selected square. */
     struct vehicle_part *wheel;

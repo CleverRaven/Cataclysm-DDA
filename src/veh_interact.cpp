@@ -352,7 +352,23 @@ task_reason veh_interact::cant_do (char mode)
         has_tools = (has_welder && has_goggles) || has_duct_tape;
         break;
     case 'f': // refill mode
-        valid_target = (ptank != NULL && ptank->hp > 0);
+        valid_target = false;
+        if (!ptanks.empty()) {
+            bool pass_checks = false;
+            std::vector<vehicle_part*>::iterator iter;
+            for (iter = ptanks.begin(); iter != ptanks.end(); ) {
+                if ((*iter)->hp > 0 &&
+                    g->refill_vehicle_part(*veh, *iter, true)) {
+                    pass_checks = true;
+                    iter++;
+                } else {
+                    iter = ptanks.erase(iter);
+                }
+            }
+            // We didn't find any refillable fuel tanks.
+            // TODO make this piece of code nicer.
+            valid_target = pass_checks;
+        }
         has_tools = has_fuel;
         break;
     case 'o': // remove mode
@@ -605,12 +621,40 @@ void veh_interact::do_refill(task_reason reason)
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("You need <color_red>%s</color>."),
-                       ammo_name(vehicle_part_types[ptank->id].fuel_type).c_str());
+                       ammo_name(vehicle_part_types[ptanks[0]->id].fuel_type).c_str()); 
         wrefresh (w_msg);
         return;
     }
+
+    if (ptanks.empty()) {
+        debugmsg("veh_interact::do_refill: Refillable parts list is empty.\n"
+                 "veh_interact::cant_do() should control this before.");
+        return;
+    }
+    // Now at least one of "fuel tank" is can be refilled.
+    // If we have more that one tank we need to create choosing menu
+    if (ptanks.size() > 1) {
+        int pt_choise;
+        unsigned int entry_num;
+        uimenu fuel_choose;
+        fuel_choose.text = _("What to refill:");
+        for( entry_num = 0; entry_num < ptanks.size(); entry_num++) {
+            fuel_choose.addentry(entry_num, true, -1, "%s -> %s",
+                                 ammo_name(vehicle_part_types[ptanks[entry_num]->id].fuel_type).c_str(),
+                                 vehicle_part_types[ptanks[entry_num]->id].name.c_str());
+        }
+        fuel_choose.addentry(entry_num, true, 'q', "Cancel");
+        fuel_choose.query();
+        pt_choise = fuel_choose.ret;
+        if(pt_choise == entry_num) { // Select canceled
+            // TODO
+            return;
+        }
+        sel_vehicle_part = ptanks[pt_choise];
+    } else {
+        sel_vehicle_part = ptanks.front();
+    }
     sel_cmd = 'f';
-    sel_vehicle_part = ptank;
 }
 
 /**
@@ -920,9 +964,10 @@ void veh_interact::move_cursor (int dx, int dy)
 
     need_repair.clear();
     parts_here.clear();
-    ptank = NULL;
+    ptanks.clear();
     wheel = NULL;
     if (cpart >= 0) {
+        has_fuel = false;
         parts_here = veh->parts_at_relative(veh->parts[cpart].mount_dx, veh->parts[cpart].mount_dy);
         for (int i = 0; i < parts_here.size(); i++) {
             int p = parts_here[i];
@@ -930,14 +975,16 @@ void veh_interact::move_cursor (int dx, int dy)
                 need_repair.push_back (i);
             }
             if (veh->part_flag(p, "FUEL_TANK") && veh->parts[p].amount < veh->part_info(p).size) {
-                ptank = &veh->parts[p];
+                ptanks.push_back(&veh->parts[p]);
+                if (g->refill_vehicle_part(*veh, ptanks.back(), true)) {
+                    has_fuel = true;
+                }
             }
             if (veh->part_flag(p, "WHEEL")) {
                 wheel = &veh->parts[p];
             }
         }
     }
-    has_fuel = ptank != NULL ? g->refill_vehicle_part(*veh, ptank, true) : false;
     werase (w_msg);
     wrefresh (w_msg);
     display_mode (' ');
