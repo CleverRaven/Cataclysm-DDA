@@ -1929,7 +1929,14 @@ std::string player::base_thickness_hair () const {
 
 void player::grow_hair () {
   headHairLength += 1;
+
+  if (headHairLenght > 1500)
+    headHairLength = 1500;
+
   headHairCare += 30;
+
+  if (headHairCare > 1500)
+    headHairCare = 1500;
 }
 
 void player::disp_appearance () {
