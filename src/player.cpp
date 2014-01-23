@@ -9544,26 +9544,24 @@ bool player::is_wearing_shoes() {
 }
 
 bool player::is_wearing_power_armor(bool *hasHelmet) const {
-  if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor()) {
-    if (hasHelmet) {
-      *hasHelmet = false;
-
-      if (worn.size() > 1) {
-        for (size_t i = 1; i < worn.size(); i++) {
-          it_armor *candidate = dynamic_cast<it_armor*>(worn[i].type);
-
-          if (candidate->is_power_armor() && candidate->covers & mfb(bp_head)) {
-            *hasHelmet = true;
-            break;
-          }
+    bool result = false;
+    for (size_t i = 0; i < worn.size(); i++) {
+        it_armor *armor = dynamic_cast<it_armor*>(worn[i].type);
+        if (armor == NULL || !armor->is_power_armor()) {
+            continue;
         }
-      }
+        if (hasHelmet == NULL) {
+            // found power armor, helmet not requested, cancel loop
+            return true;
+        }
+        // found power armor, continue search for helmet
+        result = true;
+        if (armor->covers & mfb(bp_head)) {
+            *hasHelmet = true;
+            return true;
+        }
     }
-
-    return true;
-  } else {
-    return false;
-  }
+    return result;
 }
 
 int player::adjust_for_focus(int amount)
