@@ -194,6 +194,7 @@ void player::json_load_common_variables(JsonObject & data)
 
     data.read("hair_head", headHairLength);
     data.read("hair_care", headHairCare);
+    data.read("beard_length", beardLength);
 }
 
 /*
@@ -276,6 +277,7 @@ void player::json_save_common_variables(JsonOut &json) const
 
     json.member ( "hair_head", headHairLength );
     json.member ( "hair_care", headHairCare );
+    json.member ( "beard_length", beardLength );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1930,13 +1930,20 @@ std::string player::base_thickness_hair () const {
 void player::grow_hair () {
   headHairLength += 1;
 
-  if (headHairLenght > 1500)
+  if (headHairLength > 1500)
     headHairLength = 1500;
 
   headHairCare += 30;
 
   if (headHairCare > 1500)
     headHairCare = 1500;
+
+  if (male) {
+    beardLength += 1;
+
+    if (beardLength > 500)
+      beardLength = 500;
+  }
 }
 
 void player::disp_appearance () {
@@ -1976,6 +1983,49 @@ void player::disp_appearance () {
     appStream << "Your head is shorn.";
   else
     appStream << "Your " << careString << " hair is " << lengthString << ".";
+
+  appStream << "\n \n";
+
+  if (male) {
+    if (beardLength == 0) {
+      appStream << "You are clean-shaven.";
+    } else if (beardLength < 3) {
+      appStream << "You have some stubble.";
+    } else {
+      appStream << "Your ";
+
+      switch (thickness_hair() / 4) {
+      case 0:
+        appStream << "thin";
+        break;
+      case 1:
+        appStream << "wavy";
+        break;
+      case 2:
+        appStream << "thick";
+        break;
+      case 3:
+        appStream << "scraggly";
+        break;
+      }
+
+      appStream << " " << base_color_hair() << " beard is ";
+
+      if (beardLength < 25) {
+        appStream << "cropped";
+      } else if (beardLength < 50) {
+        appStream << "short";
+      } else if (beardLength < 100) {
+        appStream << "getting long";
+      } else if (beardLength < 250) {
+        appStream << "long";
+      } else {
+        appStream << "very long";
+      }
+
+      appStream << ".";
+    }
+  }
 
   WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
   draw_border(w);

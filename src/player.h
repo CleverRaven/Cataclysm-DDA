@@ -529,6 +529,7 @@ public:
  int volume;
 
  int headHairLength;
+ int beardLength;
  int headHairCare;
 
  std::string name;
