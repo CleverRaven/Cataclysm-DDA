@@ -1648,10 +1648,9 @@ bool game::mission_complete(int id, int npc_id)
  mission_type* type = miss->type;
  switch (type->goal) {
   case MGOAL_GO_TO: {
-   point cur_pos(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2));
-   if (rl_dist(cur_pos.x, cur_pos.y, miss->target.x, miss->target.y) <= 1)
-    return true;
-   return false;
+   // TODO: target does not contain a z-component, targets are assume to be on z=0
+   const tripoint cur_pos = om_global_location();
+   return (rl_dist(cur_pos.x, cur_pos.y, miss->target.x, miss->target.y) <= 1);
   } break;
 
   case MGOAL_GO_TO_TYPE: {
@@ -1775,13 +1774,16 @@ void game::mission_step_complete(int id, int step)
   case MGOAL_KILL_MONSTER: {
    bool npc_found = false;
    for (int i = 0; i < cur_om->npcs.size(); i++) {
-    if (cur_om->npcs[i]->getID() == miss->npc_id) {
-     miss->target = point(cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy);
+    npc *p = cur_om->npcs[i];
+    if (p->getID() == miss->npc_id) {
+     // proper global coordinates, map(x/y) are submaps coordinates
+     miss->target.x = p->mapx / 2 + p->omx * OMAPX;
+     miss->target.y = p->mapy / 2 + p->omy * OMAPY;
      npc_found = true;
     }
    }
    if (!npc_found)
-    miss->target = point(-1, -1);
+    miss->target = overmap::invalid_point;
   } break;
  }
 }
@@ -4370,9 +4372,12 @@ void game::list_missions()
             if (miss->deadline != 0)
                 mvwprintz(w_missions, 5, 31, c_white, _("Deadline: %d (%d)"),
                           miss->deadline, int(turn));
-            mvwprintz(w_missions, 6, 31, c_white, _("Target: (%d, %d)   You: (%d, %d)"),
-                      miss->target.x, miss->target.y,
-                      (levx + int (MAPSIZE / 2)) / 2, (levy + int (MAPSIZE / 2)) / 2);
+            if (miss->target != overmap::invalid_point) {
+                const tripoint pos = om_global_location();
+                // TODO: target does not contain a z-component, targets are assumed to be on z=0
+                mvwprintz(w_missions, 6, 31, c_white, _("Target: (%d, %d)   You: (%d, %d)"),
+                    miss->target.x, miss->target.y, pos.x, pos.y);
+            }
         } else {
             std::string nope;
             switch (tab) {
@@ -4793,7 +4798,7 @@ void game::draw_minimap()
     point targ;
     if (u.active_mission >= 0 && u.active_mission < u.active_missions.size()) {
         targ = find_mission(u.active_missions[u.active_mission])->target;
-        if (targ.x == -1) {
+        if (targ == overmap::invalid_point) {
             drew_mission = true;
         }
     } else {
@@ -4826,6 +4831,7 @@ void game::draw_minimap()
             if (!drew_mission && targ.x == omx && targ.y == omy) {
                 // If there is a mission target, and it's not on the same
                 // overmap terrain as the player character, mark it.
+                // TODO: target does not contain a z-component, targets are assume to be on z=0
                 drew_mission = true;
                 if (i != 0 || j != 0) {
                     ter_color = red_background(ter_color);

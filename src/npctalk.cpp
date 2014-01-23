@@ -1833,6 +1833,10 @@ void talk_function::lead_to_safety(npc *p)
  g->give_mission(MISSION_REACH_SAFETY);
  int missid = g->u.active_missions[g->u.active_mission];
  point target = g->find_mission( missid )->target;
+ // goalx,y,z is local to the overmap of the npc, but the mission
+ // target is global, transform to local
+ target.x -= p->omx * OMAPX;
+ target.y -= p->omy * OMAPY;
  p->goalx = target.x;
  p->goaly = target.y;
  p->goalz = g->levz;

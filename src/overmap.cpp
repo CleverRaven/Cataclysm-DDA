@@ -1777,8 +1777,8 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     point target;
     bool has_target = false;
     if (g->u.active_mission >= 0 && g->u.active_mission < g->u.active_missions.size()) {
-        has_target = true;
         target = g->find_mission(g->u.active_missions[g->u.active_mission])->target;
+        has_target = target != overmap::invalid_point;
     }
     // seen status & terrain of center position
     bool csee = false;
@@ -1804,7 +1804,8 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                 // Display player pos, should always be visible
                 ter_color = g->u.color();
                 ter_sym = '@';
-            } else if (blink && has_target && omx == target.x && omy == target.y) {
+            } else if (blink && has_target && omx == target.x && omy == target.y && z == 0) {
+                // TODO: mission targets currently have no z-component, are assumed to be on z=0
                 // Mission target, display always, player should know where it is anyway.
                 ter_color = c_red;
                 ter_sym = '*';
@@ -1856,6 +1857,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         target.y < cursy - om_map_width / 2 ||
         target.y > cursy + om_map_width / 2))
     {
+        // TODO: mission targets currently have no z-component, are assumed to be on z=0
         switch (direction_from(cursx, cursy, target.x, target.y)) {
         case NORTH:
             mvwputch(w, 0, om_map_width / 2, c_red, '^');
@@ -1934,6 +1936,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     }
 
     if (has_target) {
+        // TODO: mission targets currently have no z-component, are assumed to be on z=0
         int distance = rl_dist(orig.x, orig.y, target.x, target.y);
         mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
     }
@@ -2065,6 +2068,7 @@ point overmap::draw_overmap(const tripoint& orig)
             do {
                 tmp.x = om.pos().x * OMAPX + terlist[i].x;
                 tmp.y = om.pos().y * OMAPY + terlist[i].y;
+                timeout(BLINK_SPEED); // Enable blinking!
                 draw(w_map, tmp, orig, blink, &ictxt);
                 //Draw search box
                 draw_border(w_search);
@@ -2076,6 +2080,7 @@ point overmap::draw_overmap(const tripoint& orig)
                 mvwprintz(w_search, 11, 1, c_white, _("q or ESC to return."));
                 wrefresh(w_search);
                 ch = input();
+                timeout(-1);
                 if (ch == ERR) {
                     blink = !blink;
                 } else if (ch == '<') {

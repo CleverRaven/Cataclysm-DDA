@@ -190,6 +190,62 @@ bool overmapbuffer::reveal(const point &center, int radius, int z)
     return result;
 }
 
+bool overmapbuffer::check_ot_type(const std::string& type, int x, int y, int z)
+{
+    overmap& om = get_om_global(x, y);
+    return om.check_ot_type(type, x, y, z);
+}
+
+point overmapbuffer::find_closest(const tripoint& origin, const std::string& type, int& dist, bool must_be_seen)
+{
+    int max = (dist == 0 ? OMAPX : dist);
+    const int z = origin.z;
+    // expanding box
+    for (dist = 0; dist <= max; dist++) {
+        // each edge length is 2*dist-2, because corners belong to one edge
+        // south is +y, north is -y
+        for (int i = 0; i < dist*2-1; i++) {
+            //start at northwest, scan north edge
+            int x = origin.x - dist + i;
+            int y = origin.y - dist;
+            if (check_ot_type(type, x, y, z)) {
+                if (!must_be_seen || seen(x, y, z)) {
+                    return point(x, y);
+                }
+            }
+
+            //start at southeast, scan south
+            x = origin.x + dist - i;
+            y = origin.y + dist;
+            if (check_ot_type(type, x, y, z)) {
+                if (!must_be_seen || seen(x, y, z)) {
+                    return point(x, y);
+                }
+            }
+
+            //start at southwest, scan west
+            x = origin.x - dist;
+            y = origin.y + dist - i;
+            if (check_ot_type(type, x, y, z)) {
+                if (!must_be_seen || seen(x, y, z)) {
+                    return point(x, y);
+                }
+            }
+
+            //start at northeast, scan east
+            x = origin.x + dist;
+            y = origin.y - dist + i;
+            if (check_ot_type(type, x, y, z)) {
+                if (!must_be_seen || seen(x, y, z)) {
+                    return point(x, y);
+                }
+            }
+        }
+    }
+    dist = -1;
+    return overmap::invalid_point;
+}
+
 overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string* pattern) const
 {
     t_notes_vector result;
@@ -217,6 +273,12 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string*
         }
     }
     return result;
+}
+
+bool overmapbuffer::is_safe(int x, int y, int z)
+{
+    overmap &om = get_om_global(x, y);
+    return om.is_safe(x, y, z);
 }
 
 inline int modulo(int v, int m) {
