@@ -2098,6 +2098,7 @@ point overmap::draw_overmap(const tripoint& orig)
         }
     } while (action != "QUIT" && action != "CONFIRM");
     delwin(w_map);
+    erase();
     g->refresh_all();
     return ret;
 }
