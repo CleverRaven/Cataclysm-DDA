@@ -2025,14 +2025,16 @@ void npc::set_destination()
 
 void npc::go_to_destination()
 {
- int sx = (goalx > mapx ? 1 : -1), sy = (goaly > mapy ? 1 : -1);
- if (goalx == mapx && goaly == mapy) { // We're at our desired map square!
+ // current position in overmap terrain coordinates.
+ const point map_ovt((mapx + 1) / 2, (mapx + 1) / 2);
+ int sx = (goalx > map_ovt.x ? 1 : -1), sy = (goaly > map_ovt.y ? 1 : -1);
+ if (goalx == map_ovt.x && goaly == map_ovt.y) { // We're at our desired map square!
   move_pause();
   reach_destination();
  } else {
-  if (goalx == mapx)
+  if (goalx == map_ovt.x)
    sx = 0;
-  if (goaly == mapy)
+  if (goaly == map_ovt.y)
    sy = 0;
 // sx and sy are now equal to the direction we need to move in
   int x = posx + 8 * sx, y = posy + 8 * sy, linet, light = g->light_level();
