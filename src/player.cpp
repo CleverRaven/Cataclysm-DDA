@@ -7099,6 +7099,8 @@ bool player::eat(item *eaten, it_comest *comest)
         mealtime /= 2;
     } if (has_trait("GOURMAND")) {
         mealtime -= 100;
+    } if (has_trait("SABER_TEETH")) {
+        mealtime += 250; // They get In The Way
     }
         moves -= (mealtime);
 
