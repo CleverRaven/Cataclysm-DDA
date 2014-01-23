@@ -1343,6 +1343,34 @@ void game::process_activity()
 
     break;
 
+   case ACT_FISH:
+     {
+       item& it = u.i_at(u.activity.position);
+
+       if (it.has_flag("FISH_POOR")) {
+         int sSkillLevel = u.skillLevel("survival") + dice(1,6);
+         int fishChance = dice(1, 20);
+
+         if (sSkillLevel > fishChance) {
+           item fish;
+
+           std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+           std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+
+           fish.make_corpse(itypes["corpse"], GetMType(fish_mon), g->turn);
+           m.add_item_or_charges(u.posx, u.posy, fish);
+
+           g->add_msg_if_player(&u, _("You catch a fish!"));
+         } else {
+           g->add_msg_if_player(&u, _("You catch nothing."));
+         }
+
+         u.practice(turn, "survival", rng(5,15));
+       }
+     }
+
+     break;
+
    case ACT_VEHICLE:
     //Grab this now, in case the vehicle gets shifted
     veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
@@ -3737,8 +3765,8 @@ void game::debug()
    break;
 
   case 3: {
-        point tmp = cur_om->draw_overmap(levz);
-        if (tmp.x != -1)
+        point tmp = overmap::draw_overmap();
+        if (tmp != overmap::invalid_point)
         {
             //First offload the active npcs.
             for (int i = 0; i < active_npc.size(); i++)
@@ -3758,11 +3786,14 @@ void game::debug()
                 force_save_monster(zombie(i));
             }
             clear_zombies();
+            cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
             levx = tmp.x * 2 - int(MAPSIZE / 2);
             levy = tmp.y * 2 - int(MAPSIZE / 2);
             m.load(levx, levy, levz);
             load_npcs();
             m.spawn_monsters(); // Static monsters
+            update_overmap_seen();
+            draw_minimap();
         }
     } break;
   case 4:
@@ -4152,7 +4183,7 @@ void game::groupdebug()
 
 void game::draw_overmap()
 {
-    cur_om->draw_overmap(levz);
+    overmap::draw_overmap();
 }
 
 void game::disp_kills()
@@ -7669,6 +7700,7 @@ void game::peek()
     look_around();
     u.posx = prevx;
     u.posy = prevy;
+    draw_ter();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 point game::look_debug() {
@@ -10630,6 +10662,8 @@ void game::complete_butcher(int index)
    if (corpse->mat == "flesh" || corpse->mat == "hflesh") {
     if(corpse->has_flag(MF_HUMAN)) {
      meat = "human_flesh";
+    } else if (corpse->has_flag(MF_AQUATIC)) {
+     meat = "fish";
     } else {
      meat = "meat";
     }
@@ -12311,29 +12345,34 @@ void game::vertical_move(int movez, bool force) {
     }
   }
 
-// Figure out where we know there are up/down connectors
- std::vector<point> discover;
- for (int x = 0; x < OMAPX; x++) {
-  for (int y = 0; y < OMAPY; y++) {
-   if (cur_om->seen(x, y, levz) &&
-       ((movez ==  1 && otermap[ cur_om->ter(x, y, levz) ].known_up) ||
-        (movez == -1 && otermap[ cur_om->ter(x, y, levz) ].known_down) ))
-    discover.push_back( point(x, y) );
-  }
- }
-
- int z_coord = levz + movez;
- // Fill in all the tiles we know about (e.g. subway stations)
- for (int i = 0; i < discover.size(); i++) {
-  int x = discover[i].x, y = discover[i].y;
-  cur_om->seen(x, y, z_coord) = true;
-  if (movez ==  1 && !otermap[ cur_om->ter(x, y, z_coord) ].known_down &&
-      !cur_om->has_note(x, y, z_coord))
-   cur_om->add_note(x, y, z_coord, _("AUTO: goes down"));
-  if (movez == -1 && !otermap[ cur_om->ter(x, y, z_coord) ].known_up &&
-      !cur_om->has_note(x, y, z_coord))
-   cur_om->add_note(x, y, z_coord, _("AUTO: goes up"));
- }
+    // Figure out where we know there are up/down connectors
+    // Fill in all the tiles we know about (e.g. subway stations)
+    static const int REVEAL_RADIUS = 40;
+    const tripoint gpos = om_global_location();
+    int z_coord = levz + movez;
+    for (int x = -REVEAL_RADIUS; x <= REVEAL_RADIUS; x++) {
+        for (int y = -REVEAL_RADIUS; y <= REVEAL_RADIUS; y++) {
+            const int cursx = gpos.x + x;
+            const int cursy = gpos.y + y;
+            if(!overmap_buffer.seen(cursx, cursy, levz)) {
+                continue;
+            }
+            if(overmap_buffer.has_note(cursx, cursy, z_coord)) {
+                // Already has a note -> never add an AUTO-note
+                continue;
+            }
+            const oter_id &ter = overmap_buffer.ter(cursx, cursy, levz);
+            const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_coord);
+            if(movez == +1 && otermap[ter].known_up && !otermap[ter2].known_down) {
+                overmap_buffer.set_seen(cursx, cursy, z_coord, true);
+                overmap_buffer.add_note(cursx, cursy, z_coord, _("AUTO: goes down"));
+            }
+            if(movez == -1 && otermap[ter].known_down && !otermap[ter2].known_up) {
+                overmap_buffer.set_seen(cursx, cursy, z_coord, true);
+                overmap_buffer.add_note(cursx, cursy, z_coord, _("AUTO: goes up"));
+            }
+        }
+    }
 
  levz += movez;
  u.moves -= 100;
@@ -13081,28 +13120,31 @@ void game::teleport(player *p, bool add_teleglow)
 void game::nuke(int x, int y)
 {
     // TODO: nukes hit above surface, not critter = 0
-    if (x < 0 || y < 0 || x >= OMAPX || y >= OMAPY)
-        return;
-    int mapx = x * 2, mapy = y * 2;
+    overmap &om = overmap_buffer.get_om_global(x, y);
+    // ^^ crops x,y to point inside om now., but map::load
+    // and map::save needs submap coordinates.
+    const point smc = overmapbuffer::omt_to_sm_copy(x, y);
     map tmpmap(&traps);
-    tmpmap.load(mapx, mapy, 0, false);
-    for (int i = 0; i < SEEX * 2; i++)
-    {
-        for (int j = 0; j < SEEY * 2; j++)
-        {
-            if (!one_in(10))
+    tmpmap.load(smc.x, smc.y, 0, false, &om);
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (!one_in(10)) {
                 tmpmap.ter_set(i, j, t_rubble);
-            if (one_in(3))
+            }
+            if (one_in(3)) {
                 tmpmap.add_field(i, j, fd_nuke_gas, 3);
+            }
             tmpmap.radiation(i, j) += rng(20, 80);
         }
     }
-    tmpmap.save(cur_om, turn, mapx, mapy, 0);
-    cur_om->ter(x, y, 0) = "crater";
+    tmpmap.save(&om, turn, smc.x, smc.y, 0);
+    om.ter(x, y, 0) = "crater";
     //Kill any npcs on that omap location.
-    for(int i = 0; i < cur_om->npcs.size();i++)
-        if(cur_om->npcs[i]->mapx/2== x && cur_om->npcs[i]->mapy/2 == y && cur_om->npcs[i]->omz == 0)
-            cur_om->npcs[i]->marked_for_death = true;
+    for(int i = 0; i < om.npcs.size(); i++) {
+        if(om.npcs[i]->mapx / 2 == x && om.npcs[i]->mapy / 2 == y && om.npcs[i]->omz == 0) {
+            om.npcs[i]->marked_for_death = true;
+        }
+    }
 }
 
 bool game::spread_fungus(int x, int y)

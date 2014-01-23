@@ -301,7 +301,7 @@ void veh_interact::cache_tool_availability()
                   crafting_inv.has_charges("welder_crude", charges_crude)) ||
                  (crafting_inv.has_amount("toolset", 1) &&
                   crafting_inv.has_charges("toolset", charges / 20));
-    has_goggles = (crafting_inv.has_amount("goggles_welding",1) ||
+    has_goggles = (crafting_inv.has_amount("goggles_welding", 1) ||
                    g->u.has_bionic("bio_sunglasses") ||
                    g->u.is_wearing("goggles_welding"));
     has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED));
@@ -1046,10 +1046,8 @@ void veh_interact::display_stats()
 
     if (vertical_menu) {
         // Vertical menu
-        //const int second_column = 29 + (extraw / 3);
-        //const int third_column = 56 + (2 * extraw / 3);
-        const int second_column = 34 + (extraw / 3);
-        const int third_column = 63 + (2 * extraw / 3);
+        const int second_column = 34 + (extraw / 4); // 29
+        const int third_column = 63 + (extraw / 2);  // 56
         // Y-coordinates for vertical menu
         safe_vel_y = 0;
         top_vel_y  = safe_vel_y + 1;
@@ -1175,9 +1173,11 @@ void veh_interact::display_stats()
     ammotype fuel_types[3] = { "gasoline", "battery", "plasma" };
     nc_color fuel_colors[3] = { c_ltred, c_yellow, c_ltblue };
     bool first = true;
+    int fuel_name_length = 0;
     for (int i = 0; i < 3; ++i) {
         int fuel_usage = veh->basic_consumption(fuel_types[i]);
         if (fuel_usage > 0) {
+            fuel_name_length = std::max(fuel_name_length, utf8_width(ammo_name(fuel_types[i]).c_str()));
             fuel_usage = fuel_usage / 100;
             if (fuel_usage < 1) {
                 fuel_usage = 1;
@@ -1198,7 +1198,11 @@ void veh_interact::display_stats()
             mvwprintz(w_stats, fuel_use_y, fuel_use_x, c_ltgray, "-"); // no engines
         }
     }
-    veh->print_fuel_indicator (w_stats, fuel_ind_y, fuel_ind_x, true, true);
+
+    // Print fuel percentage & type name only if it fits in the window, 13 is width of "E...F 100% - "
+    veh->print_fuel_indicator (w_stats, fuel_ind_y, fuel_ind_x, true,
+                               (fuel_ind_x + 13 < stats_w),
+                               (fuel_ind_x + 13 + fuel_name_length < stats_w));
 
     // Write the overall damage
     mvwprintz(w_stats, status_y, status_x, c_ltgray, _("Status:  "));

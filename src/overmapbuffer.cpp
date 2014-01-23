@@ -1,4 +1,7 @@
+#include <stdlib.h>
+
 #include "overmapbuffer.h"
+#include "file_finder.h"
 
 overmapbuffer overmap_buffer;
 
@@ -35,12 +38,27 @@ void overmapbuffer::save()
 void overmapbuffer::clear()
 {
     overmap_list.clear();
+    known_non_existing.clear();
 }
 
 const regional_settings& overmapbuffer::get_settings(int x, int y, int z)
 {
     overmap &om = get_om_global(x, y);
     return om.get_settings(x, y, z);
+}
+
+void overmapbuffer::add_note(int x, int y, int z, const std::string& message)
+{
+    overmap &om = get_om_global(x, y);
+    om.add_note(x, y, z, message);
+}
+
+void overmapbuffer::delete_note(int x, int y, int z)
+{
+    if (has_note(x, y, z)) {
+        overmap &om = get_om_global(x, y);
+        om.delete_note(x, y, z);
+    }
 }
 
 const overmap *overmapbuffer::get_existing(int x, int y) const
@@ -57,6 +75,30 @@ const overmap *overmapbuffer::get_existing(int x, int y) const
             return last_one = &*candidate;
         }
     }
+    if (known_non_existing.count(point(x, y)) > 0) {
+        // This overmap does not exist on disk (this has already been
+        // checked in a previous call of this function).
+        return NULL;
+    }
+    // Check if the overmap exist on disk,
+    // overmap(0,0) should always exist, we need it for the proper
+    // overmap file name.
+    overmap &om = overmap_buffer.get(0, 0);
+    const std::string filename = om.terrain_filename(x, y);
+    std::ifstream tmp(filename.c_str(), std::ios::in);
+    if(tmp) {
+        // File exists, load it normally (the get function
+        // indirectly call overmap::open to do so).
+        tmp.close();
+        return &const_cast<overmapbuffer*>(this)->get(x, y);
+    }
+    // File does not exist (or not readable which is essentially
+    // the same for our usage). A second call of this function with
+    // the same coordinates will not check the file system, and
+    // return early.
+    // If the overmap had been created in the mean time, the previous
+    // loop would have found and returned it.
+    known_non_existing.insert(point(x, y));
     return NULL;
 }
 
@@ -148,6 +190,35 @@ bool overmapbuffer::reveal(const point &center, int radius, int z)
     return result;
 }
 
+overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string* pattern) const
+{
+    t_notes_vector result;
+    for(std::list<overmap>::const_iterator it = overmap_list.begin();
+        it != overmap_list.end(); ++it)
+    {
+        const overmap &om = *it;
+        const int offset_x = om.pos().x * OMAPX;
+        const int offset_y = om.pos().y * OMAPY;
+        for (int i = 0; i < OMAPX; i++) {
+            for (int j = 0; j < OMAPY; j++) {
+                const std::string &note = om.note(i, j, z);
+                if (note.empty()) {
+                    continue;
+                }
+                if (pattern != NULL && note.find(*pattern) == std::string::npos) {
+                    // pattern not found in note text
+                    continue;
+                }
+                result.push_back(t_point_with_note(
+                    point(offset_x + i, offset_y + j),
+                    om.note(i, j, z)
+                ));
+            }
+        }
+    }
+    return result;
+}
+
 inline int modulo(int v, int m) {
     if (v >= 0) {
         return v % m;
@@ -202,4 +273,19 @@ void overmapbuffer::sm_to_omt(int &x, int &y) {
 
 point overmapbuffer::sm_to_omt_remain(int &x, int &y) {
     return point(divide(x, 2, x), divide(y, 2, y));
+}
+
+
+
+point overmapbuffer::omt_to_sm_copy(int x, int y) {
+    return point(x * 2, y * 2);
+}
+
+tripoint overmapbuffer::omt_to_sm_copy(const tripoint& p) {
+    return tripoint(p.x * 2, p.y * 2, p.z);
+}
+
+void overmapbuffer::omt_to_sm(int &x, int &y) {
+    x *= 2;
+    y *= 2;
 }

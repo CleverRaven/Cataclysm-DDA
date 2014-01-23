@@ -1,6 +1,7 @@
 #ifndef _OVERMAPBUFFER_H_
 #define _OVERMAPBUFFER_H_
 
+#include <set>
 #include "overmap.h"
 
 /**
@@ -63,6 +64,10 @@ public:
     bool has_note(const tripoint& p) const { return has_note(p.x, p.y, p.z); }
     const std::string& note(int x, int y, int z) const;
     const std::string& note(const tripoint& p) const { return note(p.x, p.y, p.z); }
+    void add_note(int x, int y, int z, const std::string& message);
+    void add_note(const tripoint& p, const std::string& message) { add_note(p.x, p.y, p.z, message); }
+    void delete_note(int x, int y, int z);
+    void delete_note(const tripoint& p) { delete_note(p.x, p.y, p.z); }
     bool seen(int x, int y, int z) const;
     void set_seen(int x, int y, int z, bool seen = true);
     bool has_npc(int x, int y, int z) const;
@@ -107,6 +112,15 @@ public:
      */
     const overmap *get_existing(int x, int y) const;
 
+    typedef std::pair<point, std::string> t_point_with_note;
+    typedef std::vector<t_point_with_note> t_notes_vector;
+    t_notes_vector get_all_notes(int z) const {
+        return get_notes(z, NULL); // NULL => don't filter notes
+    }
+    t_notes_vector find_notes(int z, const std::string& pattern) const {
+        return get_notes(z, &pattern); // filter with pattern
+    }
+
     // overmap terrain to overmap
     static point omt_to_om_copy(int x, int y);
     static point omt_to_om_copy(const point& p) { return omt_to_om_copy(p.x, p.y); }
@@ -125,9 +139,29 @@ public:
     static void sm_to_omt(tripoint& p) { sm_to_omt(p.x, p.y); }
     static point sm_to_omt_remain(int &x, int &y);
     static point sm_to_omt_remain(point& p) { return sm_to_omt_remain(p.x, p.y); }
+    // overmap terrain to submap, basically: x *= 2
+    static point omt_to_sm_copy(int x, int y);
+    static point omt_to_sm_copy(const point& p) { return omt_to_sm_copy(p.x, p.y); }
+    static tripoint omt_to_sm_copy(const tripoint& p);
+    static void omt_to_sm(int &x, int &y);
+    static void omt_to_sm(point& p) { omt_to_sm(p.x, p.y); }
+    static void omt_to_sm(tripoint& p) { omt_to_sm(p.x, p.y); }
 
 private:
     std::list<overmap> overmap_list;
+    /**
+     * Set of overmap coordinates of overmaps that are known
+     * to not exist on disk. See @ref get_existing for usage.
+     */
+    mutable std::set<point> known_non_existing;
+
+    /**
+     * Get a list of notes in the (loaded) overmaps.
+     * @param z only this specific z-level is search for notes.
+     * @param pattern only notes that contain this pattern are returned.
+     * If the pattern is NULL, every note matches.
+     */
+    t_notes_vector get_notes(int z, const std::string* pattern) const;
 };
 
 extern overmapbuffer overmap_buffer;

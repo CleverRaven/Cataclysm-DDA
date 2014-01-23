@@ -8703,7 +8703,7 @@ void player::use(int pos)
             g->add_msg(_("That %s cannot be attached to a launcher."),
                        used->tname().c_str());
             return;
-        } else if ( mod->acceptible_ammo_types.size() &&
+        } else if ( mod->acceptible_ammo_types.size() > 0 &&
                     mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
                 g->add_msg(_("That %s cannot be used on a %s."), used->tname().c_str(),
                        ammo_name(guntype->ammo).c_str());
@@ -8768,13 +8768,12 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         wear(pos);
         return;
     } else if (used->is_gun()) {
-      // Get weapon mod names.
-      std::vector<std::string> mods;
-      for (int i = 0; i < used->contents.size(); i++) {
-        item tmp = used->contents[i];
-        mods.push_back(tmp.name);
-      }
-      if (!used->contents.empty()) {
+        std::vector<item> &mods = used->contents;
+        // Get weapon mod names.
+        if (mods.empty()) {
+            g->add_msg(_("Your %s doesn't appear to be modded."), used->name.c_str());
+            return;
+        }
         // Create menu.
         int choice = -1;
 
@@ -8782,36 +8781,31 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         kmenu.selected = 0;
         kmenu.text = _("Remove which modification?");
         for (int i = 0; i < mods.size(); i++) {
-          kmenu.addentry( i, true, -1, mods[i] );
+            kmenu.addentry( i, true, -1, mods[i].tname() );
         }
-        kmenu.addentry( 4, true, 'r', _("Remove all") );
-        kmenu.addentry( 5, true, 'q', _("Cancel") );
+        kmenu.addentry( mods.size(), true, 'r', _("Remove all") );
+        kmenu.addentry( mods.size() + 1, true, 'q', _("Cancel") );
         kmenu.query();
         choice = kmenu.ret;
 
-        item *weapon = used;
-        if (choice < 4) {
-          remove_gunmod(weapon, choice);
-          g->add_msg(_("You remove your %s from your %s."), weapon->contents[choice].name.c_str(), weapon->name.c_str());
+        if (choice < mods.size()) {
+            const std::string mod = used->contents[choice].tname();
+            remove_gunmod(used, choice);
+            g->add_msg(_("You remove your %s from your %s."), mod.c_str(), used->name.c_str());
         }
-        else if (choice == 4) {
-          for (int i = 0; i < weapon->contents.size(); i++) {
-            remove_gunmod(weapon, i);
-            i--;
-          }
-          g->add_msg(_("You remove all the modifications from your %s."), weapon->name.c_str());
+        else if (choice == mods.size()) {
+            for (int i = used->contents.size() - 1; i >= 0; i--) {
+                remove_gunmod(used, i);
+            }
+            g->add_msg(_("You remove all the modifications from your %s."), used->name.c_str());
         }
         else {
-          g->add_msg(_("Never mind."));
-          return;
+            g->add_msg(_("Never mind."));
+            return;
         }
         // Removing stuff from a gun takes time.
         moves -= int(used->reload_time(*this) / 2);
         return;
-    }
-    else
-        g->add_msg(_("Your %s doesn't appear to be modded."), used->name.c_str());
-      return;
     } else {
         g->add_msg(_("You can't do anything interesting with your %s."),
                    used->tname().c_str());

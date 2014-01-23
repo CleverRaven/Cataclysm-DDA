@@ -9558,6 +9558,7 @@
       [ "mutagen", 1 ]
     ],
     [
+      [ "fish", 2 ],
       [ "can_sardine", 1 ],
       [ "can_tuna", 1 ],
       [ "can_salmon", 1 ],
@@ -24021,7 +24022,7 @@
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "difficulty": 2,
-   "time": 6500,
+   "time": 3500,
    "reversible": false,
    "autolearn": true,
    "qualities" : [
