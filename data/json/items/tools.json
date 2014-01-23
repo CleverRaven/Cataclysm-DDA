@@ -3617,7 +3617,32 @@
     "category" : "weapons",
     "use_action": "KNIFE"
   },
-
+  
+  {
+    "id": "vierhander",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "vierhänder",
+    "description": "Crudely crafted from two Zweihänders, a two-by-sword and scrap metal, other than the impressive size it's not a practical weapon in the hand of a normal human.",
+    "price": 2600,
+    "material": ["iron", "wood"],
+    "flags": "CHOP",
+    "techniques": ["WIDE", "BRUTAL"],
+    "weight": 7200,
+    "volume": 40,
+    "bashing": 43,
+    "cutting": 45,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "weapons"
+  },
+  
   {
     "id": "zweifire_off",
     "type": "TOOL",
