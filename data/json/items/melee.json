@@ -2099,7 +2099,7 @@
         "material" : ["iron", "wood"],
         "techniques" : ["SWEEP", "BRUTAL"],
         "volume" : 100,
-        "bashing" : 80,
+        "bashing" : 89,
         "cutting" : 0,
         "price" : 12000
     },
