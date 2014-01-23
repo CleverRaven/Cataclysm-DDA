@@ -1935,7 +1935,7 @@ void player::grow_hair () {
 void player::disp_appearance () {
   std::stringstream appStream;
 
-  appStream << "You have " << base_color_skin() << " skin, " << base_color_eyes() << " eyes, and " << base_color_hair() << " hair.\n \n";
+  appStream << "You have " << base_color_skin() << " skin, " << base_color_eyes() << " eyes, and " << base_thickness_hair() << " " << base_color_hair() << " hair.\n \n";
 
   std::string careString, lengthString;
 
