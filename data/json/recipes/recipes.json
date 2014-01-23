@@ -22012,9 +22012,8 @@
       [ "leather", 3 ]
      ]
     ]
-},
-{
-        "type" : "recipe",
+},{
+  "type" : "recipe",
   "result": "flail",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_BASHING",
@@ -22055,7 +22054,8 @@
      ],
 	 [
 	 [ "chain", 1 ]
-    ]
+     ]
+	]
 },{
         "type" : "recipe",
   "result": "morningstar",
