@@ -303,6 +303,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "spare_parts",
     "use_action": "EXTRA_BATTERY"
   },
 
@@ -326,6 +327,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "spare_parts",
     "use_action": "RECHARGEABLE_BATTERY"
   },
 
@@ -4113,6 +4115,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "BATTLETORCH"
   },
 
@@ -4138,6 +4141,7 @@
     "turns_per_charge": 20,
     "ammo": "NULL",
     "revert_to": "battletorch_done",
+    "category" : "weapons",
     "use_action": "BATTLETORCH_LIT"
   },
 
@@ -4486,6 +4490,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "other",
     "use_action": "NONE"
   },
 
@@ -5392,6 +5397,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "drugs",
     "use_action": "RAG"
   },
 
@@ -6092,6 +6098,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "KNIFE",
     "qualities": [["CUT", 1]]
   },
@@ -6214,6 +6221,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "NONE",
+    "category" : "weapons",
     "qualities": [["CUT", 1]]
   },
 
