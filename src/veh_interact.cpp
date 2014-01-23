@@ -623,9 +623,9 @@ void veh_interact::do_refill(task_reason reason)
         wrefresh (w_msg);
         return;
     case CANT_REFILL:
-        mvwprintz(w_msg, 0, 1, c_white, _("All refillable part's here can't be refilled."));
-        mvwprintz(w_msg, 1, 2, c_white, _("May be all of them is broken or"));
-        mvwprintz(w_msg, 2, 2, c_white, _("you don't have properly fuel type"));
+        mvwprintz(w_msg, 1, 1, c_ltred, _("All refillable part's here can't be refilled."));
+        mvwprintz(w_msg, 2, 1, c_white, _("May be all of them is broken or "
+                                          "you don't have properly fuel."));
         wrefresh (w_msg);
         return;
     }
