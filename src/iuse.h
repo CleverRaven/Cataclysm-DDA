@@ -215,6 +215,7 @@ public:
     int hair_clipper        (player *, item *, bool);
     int hair_brush          (player *, item *, bool);
     int hair_scissors       (player *, item *, bool);
+    int hair_razor          (player *, item *, bool);
 // MACGUFFINS
     int mcg_note            (player *, item *, bool);
 

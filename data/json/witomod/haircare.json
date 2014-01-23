@@ -66,5 +66,30 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HAIRCARE_BRUSH"
+  },
+  {
+    "id": "hair_razor",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "straight razor",
+    "description": "A straight razor, used to shave hair. It could cause decent damage, but is difficult to hit things with it. Its small, sharp blade allows for precision strikes in the hands of the skilled. It is too small to butcher corpses with.",
+    "price": 40,
+    "material": ["steel", "plastic"],
+    "flags": "SPEAR",
+    "techniques": "PRECISE",
+    "weight": 23,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 7,
+    "to_hit": -4,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "HAIRCARE_RAZOR",
+    "qualities": [["CUT", 1]]
   }
 ]

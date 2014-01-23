@@ -248,6 +248,7 @@ void Item_factory::init(){
     iuse_function_list["HAIRCARE_CLIPPER"]  = &iuse::hair_clipper;
     iuse_function_list["HAIRCARE_BRUSH"]  = &iuse::hair_brush;
     iuse_function_list["HAIRCARE_SCISSORS"]  = &iuse::hair_scissors;
+    iuse_function_list["HAIRCARE_RAZOR"] = &iuse::hair_razor;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS

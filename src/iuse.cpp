@@ -2033,7 +2033,7 @@ int iuse::hair_clipper  (player *p, item *it, bool) {
 
   if (p->headHairLength < 100)
     as_m.entries.push_back(uimenu_entry(1, true, '1', _("Shave hair") ));
-  if (p->beardLength < 100)
+  if (p->beardLength < 100 && p->male)
     as_m.entries.push_back(uimenu_entry(2, true, '2', _("Shave beard") ));
   as_m.entries.push_back(uimenu_entry(0, true, 'q', _("Cancel") ));
 
@@ -2079,7 +2079,7 @@ int iuse::hair_scissors (player *p, item *it, bool) {
     as_m.entries.push_back(uimenu_entry(1, true, '1', _("Trim hair") ));
   if (p->headHairLength > 40)
     as_m.entries.push_back(uimenu_entry(2, true, '2', _("Cut hair") ));
-  if (p->beardLength > 40)
+  if (p->beardLength > 40 && p->male)
     as_m.entries.push_back(uimenu_entry(3, true, '3', _("Cut beard") ));
   as_m.entries.push_back(uimenu_entry(0, true, 'q', _("Cancel") ));
 
@@ -2106,6 +2106,35 @@ int iuse::hair_scissors (player *p, item *it, bool) {
   return 0;
 }
 
+int iuse::hair_razor (player *p, item *it, bool) {
+  uimenu as_m;
+
+  as_m.text = _("Do what with your clippers?");
+
+  if (p->headHairLength < 100)
+    as_m.entries.push_back(uimenu_entry(1, true, '1', _("Shave hair") ));
+  if (p->beardLength < 100 && p->male)
+    as_m.entries.push_back(uimenu_entry(2, true, '2', _("Shave beard") ));
+  as_m.entries.push_back(uimenu_entry(0, true, 'q', _("Cancel") ));
+
+  as_m.query();
+
+  switch (as_m.ret) {
+  case 1:
+    p->moves -= 5000;
+    p->headHairLength = 0;
+    p->headHairCare = 50;
+    g->add_msg_if_player(p, _("You shave your hair."));
+    break;
+  case 2:
+    p->moves -= 2500;
+    p->beardLength = 0;
+    g->add_msg_if_player(p, _("You shave your beard."));
+    break;
+  }
+
+  return 0;
+}
 
 static bool valid_fabric(player *p, item *it, bool)
 {
