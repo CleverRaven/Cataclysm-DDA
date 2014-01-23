@@ -184,6 +184,8 @@
 		<Unit filename="src/addiction.h" />
 		<Unit filename="src/advanced_inv.cpp" />
 		<Unit filename="src/advanced_inv.h" />
+		<Unit filename="src/ammo.cpp" />
+		<Unit filename="src/ammo.h" />
 		<Unit filename="src/animation_curses.cpp" />
 		<Unit filename="src/animation_tiles.cpp" />
 		<Unit filename="src/artifact.cpp" />
