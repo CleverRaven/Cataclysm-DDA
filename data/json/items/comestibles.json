@@ -7388,6 +7388,7 @@
         "type" : "COMESTIBLE",
         "id" : "royal_jelly",
         "name" : "royal jelly",
+        "category" : "drugs",
         "weight" : 110,
         "color" : "white",
         "addiction_type" : "none",

@@ -836,6 +836,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "other",
     "use_action": "NONE"
   },
 
@@ -1389,6 +1390,7 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
+    "category" : "weapons",
     "use_action": "COMBATSAW_OFF"
   },{
     "id": "combatsaw_on",
@@ -1412,6 +1414,7 @@
     "turns_per_charge": 1,
     "ammo": "gasoline",
     "revert_to": "combatsaw_off",
+    "category" : "weapons",
     "use_action": "COMBATSAW_ON"
   },{
     "id": "cs_lajatang_off",
@@ -6396,6 +6399,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category" : "spare_parts",
     "use_action": "ATOMIC_BATTERY"
   }
 ]
