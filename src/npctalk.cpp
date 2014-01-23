@@ -1560,7 +1560,7 @@ int trial_chance(talk_response response, player *u, npc *p)
     chance += 15;
    if (u->has_trait("MUZZLE"))
     chance += 6;
-   if (u->has_trait("LONG_MUZZLE"))
+   if (u->has_trait("MUZZLE_LONG"))
     chance += 20;
    if (u->has_trait("TERRIFYING"))
     chance += 15;

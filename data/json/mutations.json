@@ -1539,6 +1539,28 @@
         "valid" : false
     },{
         "type" : "mutation",
+        "id" : "SABER_TEETH",
+        "name" : "Saber Teeth",
+        "points" : -2,
+        "visibility" : 10,
+        "ugliness" : 8,
+        "description" : "Your fangs have grown extremely large and incredibly sharp.  They make it impossible to wear mouthgear and difficult to eat... but leave nasty wounds when you bite.",
+        "prereqs" : ["FANGS"],
+        "threshreq" : ["THRESH_FELINE", "THRESH_CHIMERA"],
+        "cancels" : ["BEAK", "MANDIBLES", "MUZZLE_LONG", "MUZZLE", "MINOTAUR"],
+        "category" : ["MUTCAT_FELINE", "MUTCAT_CHIMERA"]
+    },{
+        "type" : "mutation",
+        "id" : "EATHEALTH",
+        "name" : "Hyper-Metabolism",
+        "points" : 15,
+        "description" : "You metabolize nutrients so rapidly that you can convert food directly into useful tissue.  Excess nutrition will convert to HP, rather than being wasted.",
+        "prereqs" : ["HUNGER3"],
+        "threshreq" : ["THRESH_CHIMERA"],
+        "category" : ["MUTCAT_CHIMERA"],
+        "valid" : false
+    },{
+        "type" : "mutation",
         "id" : "HORNS",
         "name" : "Horns",
         "points" : 2,
@@ -2410,7 +2432,7 @@
         "visibility" : 4,
         "ugliness" : 3,
         "description" : "Your face and jaw have begun...changing. Masks and such fit OK, but you're noticeably mutated.",
-        "changes_to" : ["MINOTAUR", "MUZZLE", "BEAR_MUZZLE", "LONG_MUZZLE"],
+        "changes_to" : ["MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG"],
         "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
@@ -2420,7 +2442,7 @@
         "visibility" : 5,
         "ugliness" : 6,
         "description" : "Your face resembles that of a bull, with a significant snout.  It looks fearsome but prevents you from wearing mouthgear.",
-        "cancels" : ["MUZZLE", "LONG_MUZZLE", "BEAR_MUZZLE"],
+        "cancels" : ["MUZZLE", "MUZZLE_LONG", "MUZZLE_BEAR"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_CATTLE"]
     },{
@@ -2431,29 +2453,29 @@
         "visibility" : 5,
         "ugliness" : 4,
         "description" : "Your jaw and nose have extended into a wolfish muzzle.  It lends itself to biting in combat and looks impressive, but prevents you from wearing mouthgear.",
-        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "BEAR_MUZZLE"],
+        "cancels" : ["MINOTAUR", "MUZZLE_LONG", "MUZZLE_BEAR"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
-        "id" : "BEAR_MUZZLE",
+        "id" : "MUZZLE_BEAR",
         "name" : "Ursine Muzzle",
         "points" : -1,
         "visibility" : 5,
         "ugliness" : 4,
         "description" : "Your jaw and nose have extended into a bearish muzzle.  You could bite with it, and it looks impressive, but it prevents you from wearing mouthgear.",
-        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "MUZZLE"],
+        "cancels" : ["MINOTAUR", "MUZZLE_LONG", "MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
-        "id" : "LONG_MUZZLE",
+        "id" : "MUZZLE_LONG",
         "name" : "Reptilian Muzzle",
         "points" : -2,
         "visibility" : 8,
         "ugliness" : 8,
         "description" : "Your face and jaws, well, are a shorter version of those found on alligators.  They look NASTY-as do the bite wounds they can inflict-but prevent you from wearing mouthgear.",
-        "cancels" : ["MUZZLE", "MINOTAUR", "BEAR_MUZZLE"],
+        "cancels" : ["MUZZLE", "MINOTAUR", "MUZZLE_BEAR"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_LIZARD"]
     },{
@@ -2506,11 +2528,12 @@
         "type" : "mutation",
         "id" : "HUNGER3",
         "name" : "Extreme Metabolism",
-        "points" : -4,
+        "points" : -6,
         "description" : "You burn calories like gasoline-soaked tinder.  You consume three times as much food as the average human.",
         "trans_note" : "The simile there is intended for a Really Quick Burn--BAM burned.",
         "cancels" : ["LIGHTEATER"],
         "prereqs" : ["HUNGER2"],
+        "leads_to" : ["EATHEALTH"],
         "category" : ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
@@ -2533,7 +2556,7 @@
         "type" : "mutation",
         "id" : "THIRST3",
         "name" : "Extremely Thirsty",
-        "points" : -5,
+        "points" : -8,
         "description" : "You dry out seriously quickly, requiring three times as much liquid to stay hydrated.",
         "prereqs" : ["THIRST2"]
     },{
