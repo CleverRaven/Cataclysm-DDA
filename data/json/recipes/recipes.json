@@ -24022,7 +24022,7 @@
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "difficulty": 2,
-   "time": 6500,
+   "time": 3500,
    "reversible": false,
    "autolearn": true,
    "qualities" : [

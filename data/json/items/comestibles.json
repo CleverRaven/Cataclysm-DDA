@@ -3967,7 +3967,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "corndogs_cooked",
-        "name" : "cooked corn dogs",
+        "name" : "cooked corn dog",
         "weight" : 90,
         "color" : "yellow",
         "addiction_type" : "none",
@@ -3989,7 +3989,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 4,
+        "charges" : 1,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 18
