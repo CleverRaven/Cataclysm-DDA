@@ -1419,8 +1419,8 @@ int iuse::mut_iv(player *p, item *it, bool) {
                           pgettext("memorial_female", "Went deep."));
                 } else if (mutation_category == "MUTCAT_BEAST") {
                     p->toggle_mutation("THRESH_BEAST");
-                    p->add_memorial_log(pgettext("memorial_male", "Embraced xyr bestial nature."),
-                          pgettext("memorial_female", "Embraced xyr bestial nature."));
+                    p->add_memorial_log(pgettext("memorial_male", "Embraced his bestial nature."),
+                          pgettext("memorial_female", "Embraced her bestial nature."));
                 } else if (mutation_category == "MUTCAT_FELINE") {
                     p->toggle_mutation("THRESH_FELINE");
                     p->add_memorial_log(pgettext("memorial_male", "Realized the dream."),
