@@ -8927,7 +8927,9 @@ void game::pickup(int posx, int posy, int min)
                 add_msg(_("The battery is dead."));
             }
             return;
-        } else if(menu_items[choice]==_("Fill a container with water"))
+        } 
+        
+        if(menu_items[choice]==_("Fill a container with water"))
         {
             int amt = veh->drain("water", veh->fuel_left("water"));
             item fill_water(itypes[default_ammo("water")], g->turn);
@@ -8939,14 +8941,18 @@ void game::pickup(int posx, int posy, int min)
                 veh->refill("water", amt);
             }
             return;
-        } else if(menu_items[choice]==_("Have a drink"))
+        } 
+        
+        if(menu_items[choice]==_("Have a drink"))
         {
             veh->drain("water", 1);
             item water(itypes["water_clean"], 0);
             u.eat(&water, dynamic_cast<it_comest*>(water.type));
             u.moves -= 250;
             return;
-        } else if(menu_items[choice]==_("Use the welding rig?"))
+        }
+        
+        if(menu_items[choice]==_("Use the welding rig?"))
         {
             if (veh->fuel_left("battery") > 0) {
                 //Will be -1 if no battery at all
@@ -8965,7 +8971,9 @@ void game::pickup(int posx, int posy, int min)
                 add_msg(_("The battery is dead."));
             }
             return;
-        } else if(menu_items[choice]==_("Use the water purifier?"))
+        } 
+        
+        if(menu_items[choice]==_("Use the water purifier?"))
         {
             if (veh->fuel_left("battery") > 0) {
                 //Will be -1 if no battery at all
@@ -8984,7 +8992,9 @@ void game::pickup(int posx, int posy, int min)
                 add_msg(_("The battery is dead."));
             }
             return;
-        } else if(menu_items[choice]==_("Examine vehicle"))
+        } 
+        
+        if(menu_items[choice]==_("Examine vehicle"))
         {
             exam_vehicle(*veh, posx, posy);
             return;
