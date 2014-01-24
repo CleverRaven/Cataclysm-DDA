@@ -8903,7 +8903,11 @@ void game::pickup(int posx, int posy, int min)
           menu_items.push_back(_("Use the water purifier?"));
         }
 
-        int choice = menu_vec(true, _("Select an action"), menu_items)-1;
+        int choice;
+        if( menu_items.size() == 1 )
+          choice = 0;
+        else
+          choice = menu_vec(true, _("Select an action"), menu_items)-1;
         if(choice<0)
         {
           return;
