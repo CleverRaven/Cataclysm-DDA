@@ -1487,6 +1487,24 @@
         "valid" : false
     },{
         "type" : "mutation",
+        "id" : "PAINRESIST_TROGLO",
+        "name" : "Subterranean Fortitude",
+        "points" : 2,
+        "description" : "The aches and pains of living underground don't bother you as much.",
+        "prereq" : ["PAINRESIST"],
+        "prereq2" : ["STOCKY_TROGLO"],
+        "threshreq" : ["THRESH_TROGLOBITE"],
+        "category" : ["MUTCAT_TROGLO"]
+    },{
+        "type" : "mutation",
+        "id" : "STOCKY_TROGLO",
+        "name" : "Subterranean Build",
+        "points" : 0,
+        "description" : "Your frame has adapted for life in confined spaces.  You seem a little shorter and bulkier, tradiing muscle mass for mobility.  (+2 Strength, -2 Dexterity)",
+        "threshreq" : ["THRESH_TROGLOBITE"],
+        "category" : ["MUTCAT_TROGLO"]
+    },{
+        "type" : "mutation",
         "id" : "SAPROVORE",
         "name" : "Saprovore",
         "points" : 4,

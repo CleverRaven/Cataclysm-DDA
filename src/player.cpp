@@ -2003,6 +2003,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 // Print name and header
 
     std::string gender_prof;
+    // Post-humanity trumps your pre-Cataclysm life.
     if (crossed_threshold()) {
         std::vector<std::string> traitslist;
         std::string race;
@@ -4159,6 +4160,10 @@ void player::mod_pain(int npain) {
     }
     if (has_trait("PAINRESIST") && npain > 1) {// if it's 1 it'll just become 0, which is bad
         npain = npain * 4 / rng(4,8);
+    }
+    // Dwarves get better pain-resist, what with mining and all
+    if (has_trait("PAINRESIST_TROGLO") && npain > 1) {
+        npain = npain * 4 / rng(6,9);
     }
     Creature::mod_pain(npain);
 }

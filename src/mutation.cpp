@@ -563,6 +563,11 @@ void mutation_effect(player &p, std::string mut)
         // Good-Huge still can't fit places but its heart's healthy enough for
         // going around being Huge, so you get the HP
         
+    } else if (mut == "STOCKY_TROGLO") {
+        p.dex_max -= 2;
+        p.str_max += 2;
+        p.recalc_hp();
+
     } else if (mut == "PRED3") {
         // Not so much "better at learning combat skills"
         // as "brain changes to focus on their development".
@@ -705,6 +710,11 @@ void mutation_loss_effect(player &p, std::string mut)
 
     } else if (mut == "HUGE_OK") {
         p.str_max -= 4;
+        p.recalc_hp();
+
+    } else if (mut == "STOCKY_TROGLO") {
+        p.dex_max += 2;
+        p.str_max -= 2;
         p.recalc_hp();
 
     } else if (mut == "PRED3") {

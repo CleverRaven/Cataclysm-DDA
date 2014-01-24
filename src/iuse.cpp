@@ -4067,11 +4067,15 @@ int iuse::pickaxe(player *p, item *it, bool)
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
         p->hunger += 15;
-        p->fatigue += 30;
+        if (p->has_trait("STOCKY_TROGLO")) {
+            p->fatigue += 20; // Yep, dwarves can dig longer before tiring
+        } else {
+            p->fatigue += 30;
+        }
         p->thirst += 15;
         p->mod_pain( 2 * rng(1, 3) );
         // Mining is construction work!
-        p->practice(g->turn, "carpentry", 1);
+        p->practice(g->turn, "carpentry", 5);
         // Sounds before and after
         g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
