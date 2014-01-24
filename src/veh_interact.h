@@ -16,6 +16,7 @@ enum sel_types {
 enum task_reason {
     UNKNOWN_TASK = -1, //No such task
     CAN_DO, //Task can be done
+    CANT_REFILL, // All fuel tanks are broken or player don't have properly fuel
     INVALID_TARGET, //No valid target ie can't "change tire" if no tire present
     LACK_TOOLS, //Player doesn't have all the tools they need
     NOT_FREE, //Part is attached to something else and can't be unmounted
@@ -107,6 +108,11 @@ private:
     /** Store the most damaged part's index, or -1 if they're all healthy. */
     int mostDamagedPart;
 
+    /* true if current selected square has part with "FUEL_TANK flag and 
+     * they are not full. Otherwise will be false.
+     */
+    bool has_ptank;
+
     /* Vector of all vpart TYPES that can be mounted in the current square.
      * Can be converted to a vector<vpart_info>.
      * Updated whenever the cursor moves. */
@@ -128,15 +134,11 @@ private:
      * Updated whenever the cursor moves. */
     std::vector<int> parts_here;
 
-    /* Refers to the fuel tank (if any) in the currently selected square. */
-    struct vehicle_part *ptank;
+    /* Refers to the fuel tanks (if any) in the currently selected square. */
+    std::vector<vehicle_part*> ptanks;
 
     /* Refers to the wheel (if any) in the currently selected square. */
     struct vehicle_part *wheel;
-
-    /* Whether or not the player can refuel the vehicle. Probably doesn't need
-     * to be precalculated, but can be kept around harmlessly enough. */
-    bool has_fuel;
 
     /* called by exec() */
     void cache_tool_availability();
