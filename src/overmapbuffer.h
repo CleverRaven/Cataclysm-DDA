@@ -73,6 +73,8 @@ public:
     bool has_npc(int x, int y, int z) const;
     bool has_vehicle(int x, int y, int z, bool require_pda = true) const;
     const regional_settings& get_settings(int x, int y, int z);
+    bool is_safe(int x, int y, int z);
+    bool is_safe(const tripoint& p) { return is_safe(p.x, p.y, p.z); }
 
     /**
      * Mark a square area around center on z-level z
@@ -84,6 +86,18 @@ public:
      * @return true if something has actually been revealed.
      */
     bool reveal(const point &center, int radius, int z);
+    /**
+     * Returns the closest point of terrain type.
+     * dist is set to the distance between the origin and the returned point.
+     * You can give dist a value, which will be used as the maximum distance;
+     * a value of 0 will search an entire overmap area.
+     * Use must_be_seen=true if only terrain seen by the player
+     * should be searched.
+     * If no such tile can be found, overmap::invalid_point is returned.
+     * This function may greate a new overmap if needed.
+     * @param origin uses overmap terrain coordinates.
+     */
+    point find_closest(const tripoint& origin, const std::string& type, int& dist, bool must_be_seen);
 
     /* These 4 functions return the overmap that contains the given
      * overmap terrain coordinate.
@@ -162,6 +176,12 @@ private:
      * If the pattern is NULL, every note matches.
      */
     t_notes_vector get_notes(int z, const std::string* pattern) const;
+    /**
+     * See overmap::check_ot_type, this uses global
+     * overmap terrain coordinates.
+     * This function may greate a new overmap if needed.
+     */
+    bool check_ot_type(const std::string& otype, int x, int y, int z);
 };
 
 extern overmapbuffer overmap_buffer;

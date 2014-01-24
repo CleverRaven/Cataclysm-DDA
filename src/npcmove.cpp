@@ -4,6 +4,7 @@
 #include "game.h"
 #include "line.h"
 #include "debug.h"
+#include "overmapbuffer.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_PLAYER -2
@@ -1956,13 +1957,12 @@ bool npc::saw_player_recently()
 
 bool npc::has_destination()
 {
- return (goalx >= 0 && goalx < OMAPX && goaly >= 0 && goaly < OMAPY);
+    return goal != no_goal_point;
 }
 
 void npc::reach_destination()
 {
- goalx = -1;
- goaly = -1;
+    goal = no_goal_point;
 }
 
 void npc::set_destination()
@@ -1982,8 +1982,7 @@ void npc::set_destination()
  // all of the following luxuries are at ground level.
  // so please wallow in hunger & fear if below ground.
  if(g->levz != 0){
-  goalx = -1;
-  goaly = -1;
+  goal = no_goal_point;
   return;
  }
 
@@ -2017,22 +2016,35 @@ void npc::set_destination()
  std::string dest_type = options[rng(0, options.size() - 1)];
 
  int dist = 0;
- point p = g->cur_om->find_closest(point(mapx, mapy), dest_type, dist, false);
- goalx = p.x;
- goaly = p.y;
- goalz = g->levz;
+ // Need a global overmap terrain for find_closest
+ tripoint cur_pos(mapx, mapy);
+ overmapbuffer::sm_to_omt(cur_pos.x, cur_pos.y);
+ cur_pos.x += omx * OMAPX;
+ cur_pos.y += omy * OMAPY;
+ cur_pos.z = omz;
+ const point p = overmap_buffer.find_closest(cur_pos, dest_type, dist, false);
+ // find_closest returns a global overmap terrain coordinate
+ goal.x = p.x;
+ goal.y = p.y;
+ goal.z = g->levz;
 }
 
 void npc::go_to_destination()
 {
- int sx = (goalx > mapx ? 1 : -1), sy = (goaly > mapy ? 1 : -1);
- if (goalx == mapx && goaly == mapy) { // We're at our desired map square!
+ // current position in overmap terrain coordinates.
+ // mapx is submap coordinate and local to current overmap,
+ // but goal is global
+ point map_ovt = overmapbuffer::sm_to_omt_copy(mapx, mapy);
+ map_ovt.x += omx * OMAPX;
+ map_ovt.y += omy * OMAPY;
+ int sx = (goal.x > map_ovt.x ? 1 : -1), sy = (goal.y > map_ovt.y ? 1 : -1);
+ if (goal.x == map_ovt.x && goal.y == map_ovt.y) { // We're at our desired map square!
   move_pause();
   reach_destination();
  } else {
-  if (goalx == mapx)
+  if (goal.x == map_ovt.x)
    sx = 0;
-  if (goaly == mapy)
+  if (goal.y == map_ovt.y)
    sy = 0;
 // sx and sy are now equal to the direction we need to move in
   int x = posx + 8 * sx, y = posy + 8 * sy, linet, light = g->light_level();

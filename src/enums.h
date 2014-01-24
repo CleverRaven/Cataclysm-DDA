@@ -74,4 +74,13 @@ struct tripoint {
  ~tripoint(){}
 };
 
+inline bool operator==(const tripoint& a, const tripoint& b)
+{
+  return a.x == b.x && a.y == b.y && a.z == b.z;
+}
+inline bool operator!=(const tripoint& a, const tripoint& b)
+{
+  return !(a == b);
+}
+
 #endif
