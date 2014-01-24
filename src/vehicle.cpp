@@ -2482,6 +2482,11 @@ void vehicle::thrust (int thd) {
           g->add_msg (_("The %s's engine isn't on!"), name.c_str());
           cruise_velocity = 0;
           return;
+        } else if (pedals()) {
+            if (g->u.has_bionic("bio_torsionratchet")
+                && g->turn.get_turn() % 60 == 0) {
+                g->u.charge_power(1);
+            }
         }
 
         consume_fuel ();
