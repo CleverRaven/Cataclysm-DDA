@@ -2749,7 +2749,7 @@
     "id":"diamond",
     "symbol": "*",
     "color": "white",
-    "name":"rock",
+    "name":"diamond",
     "description":"A sparkling diamond.",
     "price": 10000,
     "material": "stone",
