@@ -532,7 +532,7 @@
         "id" : "spezi",
         "name" : "spezi",
         "weight" : 260,
-        "color" : "orange",
+        "color" : "brown",
         "addiction_type" : "caffeine",
         "spoils_in" : 0,
         "use_action" : "none",
