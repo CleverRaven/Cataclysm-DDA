@@ -560,7 +560,7 @@
     },{
         "type" : "material",
         "ident" : "aluminum",
-        "name" : "aluminum",
+        "name" : "Aluminum",
         "bash_resist" : 0,
         "cut_resist" : 4,
         "bash_dmg_verb" : "dented",
