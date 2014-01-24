@@ -8885,9 +8885,12 @@ void game::pickup(int posx, int posy, int min)
         if (from_veh) {
             menu_items.push_back(_("Get items"));
         }
-        if(k_part >= 0)
+        if(k_part >= 0 || chempart >= 0)
         {
           menu_items.push_back(_("Use the hotplate"));
+        }
+        if(k_part >= 0) 
+        {
           menu_items.push_back(_("Fill a container with water"));
           menu_items.push_back(_("Have a drink"));
         }
@@ -8898,10 +8901,6 @@ void game::pickup(int posx, int posy, int min)
         if(craft_part >= 0)
         {
           menu_items.push_back(_("Use the water purifier?"));
-        }
-        if(chempart >= 0)
-        {
-          menu_items.push_back(_("Use the chemistry lab's hotplate?"));
         }
 
         int choice = menu_vec(true, _("Select an action"), menu_items)-1;
@@ -8987,25 +8986,6 @@ void game::pickup(int posx, int posy, int min)
                         tmptool->use.call( &u, &tmp_purifier, false );
                         tmp_purifier.charges -= tmptool->charges_per_use;
                         veh->refill( "battery", tmp_purifier.charges );
-                    }
-                }
-            } else {
-                add_msg(_("The battery is dead."));
-            }
-            return;
-        } else if(menu_items[choice]==_("Use the chemistry lab's hotplate?"))
-        {
-            if (veh->fuel_left("battery") > 0) {
-                //Will be -1 if no battery at all
-                item tmp_hotplate( itypes["hotplate"], 0 );
-                // Drain a ton of power
-                tmp_hotplate.charges = veh->drain( "battery", 100 );
-                if( tmp_hotplate.is_tool() ) {
-                    it_tool * tmptool = static_cast<it_tool*>((&tmp_hotplate)->type);
-                    if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
-                        tmptool->use.call(&u, &tmp_hotplate, false);
-                        tmp_hotplate.charges -= tmptool->charges_per_use;
-                        veh->refill( "battery", tmp_hotplate.charges );
                     }
                 }
             } else {
