@@ -8885,7 +8885,7 @@ void game::pickup(int posx, int posy, int min)
         if (from_veh) {
             menu_items.push_back(_("Get items"));
         }
-        if(k_part >= 0 || chempart >= 0)
+        if((k_part >= 0 || chempart >= 0) && veh->fuel_left("battery") > 0)
         {
           menu_items.push_back(_("Use the hotplate"));
         }
@@ -8894,11 +8894,11 @@ void game::pickup(int posx, int posy, int min)
           menu_items.push_back(_("Fill a container with water"));
           menu_items.push_back(_("Have a drink"));
         }
-        if(w_part >= 0)
+        if(w_part >= 0 && veh->fuel_left("battery") > 0)
         {
           menu_items.push_back(_("Use the welding rig?"));
         }
-        if(craft_part >= 0)
+        if(craft_part >= 0 && veh->fuel_left("battery") > 0)
         {
           menu_items.push_back(_("Use the water purifier?"));
         }
@@ -8910,21 +8910,17 @@ void game::pickup(int posx, int posy, int min)
         }
         if(menu_items[choice]==_("Use the hotplate")) 
         {
-            if (veh->fuel_left("battery") > 0) {
-                //Will be -1 if no battery at all
-                item tmp_hotplate( itypes["hotplate"], 0 );
-                // Drain a ton of power
-                tmp_hotplate.charges = veh->drain( "battery", 100 );
-                if( tmp_hotplate.is_tool() ) {
-                    it_tool * tmptool = static_cast<it_tool*>((&tmp_hotplate)->type);
-                    if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
-                        tmptool->use.call(&u, &tmp_hotplate, false);
-                        tmp_hotplate.charges -= tmptool->charges_per_use;
-                        veh->refill( "battery", tmp_hotplate.charges );
-                    }
+            //Will be -1 if no battery at all
+            item tmp_hotplate( itypes["hotplate"], 0 );
+            // Drain a ton of power
+            tmp_hotplate.charges = veh->drain( "battery", 100 );
+            if( tmp_hotplate.is_tool() ) {
+                it_tool * tmptool = static_cast<it_tool*>((&tmp_hotplate)->type);
+                if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
+                    tmptool->use.call(&u, &tmp_hotplate, false);
+                    tmp_hotplate.charges -= tmptool->charges_per_use;
+                    veh->refill( "battery", tmp_hotplate.charges );
                 }
-            } else {
-                add_msg(_("The battery is dead."));
             }
             return;
         } 
@@ -8954,42 +8950,34 @@ void game::pickup(int posx, int posy, int min)
         
         if(menu_items[choice]==_("Use the welding rig?"))
         {
-            if (veh->fuel_left("battery") > 0) {
-                //Will be -1 if no battery at all
-                item tmp_welder( itypes["welder"], 0 );
-                // Drain a ton of power
-                tmp_welder.charges = veh->drain( "battery", 1000 );
-                if( tmp_welder.is_tool() ) {
-                    it_tool * tmptool = static_cast<it_tool*>((&tmp_welder)->type);
-                    if ( tmp_welder.charges >= tmptool->charges_per_use ) {
-                        tmptool->use.call( &u, &tmp_welder, false );
-                        tmp_welder.charges -= tmptool->charges_per_use;
-                        veh->refill( "battery", tmp_welder.charges );
-                    }
+            //Will be -1 if no battery at all
+            item tmp_welder( itypes["welder"], 0 );
+            // Drain a ton of power
+            tmp_welder.charges = veh->drain( "battery", 1000 );
+            if( tmp_welder.is_tool() ) {
+                it_tool * tmptool = static_cast<it_tool*>((&tmp_welder)->type);
+                if ( tmp_welder.charges >= tmptool->charges_per_use ) {
+                    tmptool->use.call( &u, &tmp_welder, false );
+                    tmp_welder.charges -= tmptool->charges_per_use;
+                    veh->refill( "battery", tmp_welder.charges );
                 }
-            } else {
-                add_msg(_("The battery is dead."));
             }
             return;
         } 
         
         if(menu_items[choice]==_("Use the water purifier?"))
         {
-            if (veh->fuel_left("battery") > 0) {
-                //Will be -1 if no battery at all
-                item tmp_purifier( itypes["water_purifier"], 0 );
-                // Drain a ton of power
-                tmp_purifier.charges = veh->drain( "battery", 100 );
-                if( tmp_purifier.is_tool() ) {
-                    it_tool * tmptool = static_cast<it_tool*>((&tmp_purifier)->type);
-                    if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
-                        tmptool->use.call( &u, &tmp_purifier, false );
-                        tmp_purifier.charges -= tmptool->charges_per_use;
-                        veh->refill( "battery", tmp_purifier.charges );
-                    }
+            //Will be -1 if no battery at all
+            item tmp_purifier( itypes["water_purifier"], 0 );
+            // Drain a ton of power
+            tmp_purifier.charges = veh->drain( "battery", 100 );
+            if( tmp_purifier.is_tool() ) {
+                it_tool * tmptool = static_cast<it_tool*>((&tmp_purifier)->type);
+                if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
+                    tmptool->use.call( &u, &tmp_purifier, false );
+                    tmp_purifier.charges -= tmptool->charges_per_use;
+                    veh->refill( "battery", tmp_purifier.charges );
                 }
-            } else {
-                add_msg(_("The battery is dead."));
             }
             return;
         } 
