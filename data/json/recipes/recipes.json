@@ -6975,7 +6975,7 @@
   "autolearn": true,
   "components": [
     [
-      [ "orangesoda", 1 ],
+      [ "orangesoda", 1 ]
     ],
     [
       [ "cola", 1 ]
@@ -6993,7 +6993,7 @@
   "autolearn": true,
   "components": [
     [
-      [ "lemonlime", 1 ],
+      [ "lemonlime", 1 ]
     ],
     [
       [ "cranberry_juice", 1 ]
