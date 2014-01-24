@@ -7166,6 +7166,42 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "spezi",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 7000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "orangesoda", 1 ],
+    ],
+    [
+      [ "cola", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "crispycran",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 7000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "lemonlime", 1 ],
+    ],
+    [
+      [ "cranberry_juice", 1 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "irish_coffee",
   "category": "CC_FOOD",
