@@ -1543,6 +1543,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
                     }
                 }
             }
+            if (bash->explosive > 0) {
+                g->explosion(x, y, bash->explosive, 0, false);
+            }
             return true;
         } else {
             sound += _(bash->sound_fail.c_str());

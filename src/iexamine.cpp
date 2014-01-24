@@ -16,6 +16,8 @@
 #include "player.h"
 #include "translations.h"
 #include "monstergenerator.h"
+#include "helper.h"
+#include "uistate.h"
 #include <sstream>
 #include <algorithm>
 
@@ -56,6 +58,192 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy) {
   }
  }
  g->add_msg(_("Out of order."));
+}
+
+void iexamine::atm(player *p, map *m, int examx, int examy) {
+    (void)m; //unused
+    (void)examx; //unused
+    (void)examy; //unused
+    int choice = -1;
+    const int purchase_cash_card = 0;
+    const int deposit_money = 1;
+    const int withdraw_money = 2;
+    const int transfer_money = 3;
+    const int cancel = 4;
+    long amount = 0;
+    long max = 0;
+    std::string popupmsg;
+    int pos;
+    int pos2;
+    item *dep;
+    item *with;
+
+    uimenu amenu;
+    amenu.selected = uistate.iexamine_atm_selected;
+    amenu.text = _("Welcome to the C.C.B.o.t.T. ATM. What would you like to do?");
+    if (p->cash >= 100) {
+        amenu.addentry( purchase_cash_card, true, -1, _("Purchase cash card?") );
+    } else {
+        amenu.addentry( purchase_cash_card, false, -1,
+                        _("You need $1.00 in your account to purchase a card.") );
+    }
+
+    if (p->has_amount("cash_card", 1) && p->cash > 0) {
+        amenu.addentry( withdraw_money, true, -1, _("Withdraw Money") );
+    } else if (p->cash > 0) {
+        amenu.addentry( withdraw_money, false, -1,
+                        _("You need a cash card before you can withdraw money!") );
+    } else {
+        amenu.addentry( withdraw_money, false, -1,
+                        _("You need money in your account before you can withdraw money!") );
+    }
+
+    if (p->has_charges("cash_card", 1)) {
+        amenu.addentry( deposit_money, true, -1, _("Deposit Money") );
+    } else {
+        amenu.addentry( deposit_money, false, -1,
+                        _("You need a charged cash card before you can deposit money!") );
+    }
+
+    if (p->has_amount("cash_card", 2) && p->has_charges("cash_card", 1)) {
+        amenu.addentry( transfer_money, true, -1, _("Transfer Money") );
+    } else if (p->has_charges("cash_card", 1)) {
+        amenu.addentry( transfer_money, false, -1,
+                        _("You need two cash cards before you can move money!") );
+    } else {
+        amenu.addentry( transfer_money, false, -1,
+                        _("One of your cash cards must be charged before you can move money!") );
+    }
+
+    amenu.addentry( cancel, true, 'q', _("Cancel") );
+    amenu.query();
+    choice = amenu.ret;
+    uistate.iexamine_atm_selected = choice;
+
+    if (choice == deposit_money) {
+        pos = g->inv(_("Insert card for deposit."));
+        dep = &(p->i_at(pos));
+
+        if (dep->is_null()) {
+            popup(_("You do not have that item!"));
+            return;
+        }
+        if (dep->type->id != "cash_card") {
+            popup(_("Please insert cash cards only!"));
+            return;
+        }
+        if (dep->charges == 0) {
+            popup(_("You can only deposit money from charged cash cards!"));
+            return;
+        }
+
+        max = dep->charges;
+        std::string popupmsg=string_format(_("Deposit how much? Max:%d cents. (0 to cancel) "), max);
+        amount = helper::to_int( string_input_popup( popupmsg, 20,
+                   "", "", "", -1, true)
+                );
+        if (amount <= 0) {
+            return;
+        }
+        if (amount > max) {
+            amount = max;
+        }
+        p->cash += amount;
+        dep->charges -= amount;
+        g->add_msg(_("Cash: %d, Charges: %d"), p->cash, dep->charges);
+        p->moves -= 100;
+        return;
+
+    } else if (choice == withdraw_money) {
+        pos = g->inv(_("Insert card for withdrawal."));
+        with = &(p->i_at(pos));
+
+        if (with->is_null()) {
+            popup(_("You do not have that item!"));
+            return;
+        }
+        if (with->type->id != "cash_card") {
+            popup(_("Please insert cash cards only!"));
+            return;
+        }
+
+        max = p->cash;
+        std::string popupmsg=string_format(_("Withdraw how much? Max:%d cents. (0 to cancel) "), max);
+        amount = helper::to_int( string_input_popup( popupmsg, 20,
+                   "", "", "", -1, true)
+                );
+        if (amount <= 0) {
+            return;
+        }
+        if (amount > max) {
+            amount = max;
+        }
+        p->cash -= amount;
+        with->charges += amount;
+        g->add_msg(_("Cash: %d, Charges: %d"), p->cash, with->charges);
+        p->moves -= 100;
+        return;
+
+    } else if (choice == transfer_money) {
+        pos = g->inv(_("Insert card for deposit."));
+        dep = &(p->i_at(pos));
+        if (dep->is_null()) {
+            g->add_msg(_("You do not have that item!"));
+            return;
+        }
+        if (dep->type->id != "cash_card") {
+            g->add_msg(_("Please insert cash cards only!"));
+            return;
+        }
+
+        pos2 = g->inv(_("Insert card for withdrawal."));
+        with = &(p->i_at(pos2));
+        if (with->is_null()) {
+            popup(_("You do not have that item!"));
+            return;
+        }
+        if (with->type->id != "cash_card") {
+            popup(_("Please insert cash cards only!"));
+            return;
+        }
+        if (with == dep) {
+            popup(_("You must select a different card to move from!"));
+            return;
+        }
+        if (with->charges == 0) {
+            popup(_("You can only move money from charged cash cards!"));
+            return;
+        }
+
+        max = with->charges;
+        std::string popupmsg=string_format(_("Transfer how much? Max:%d cents. (0 to cancel) "), max);
+        amount = helper::to_int( string_input_popup( popupmsg, 20,
+                   "", "", "", -1, true)
+                );
+        if (amount <= 0) {
+            return;
+        }
+        if (amount > max) {
+            amount = max;
+        }
+        with->charges -= amount;
+        dep->charges += amount;
+        g->add_msg(_("Deposit: %d, Withdrawal: %d"), dep->charges, with->charges);
+        p->moves -= 100;
+        return;
+
+    } else if (choice == purchase_cash_card) {
+        if(query_yn(_("This will automatically deduct $1.00 from your bank account. Continue?"))) {
+            item card(itypes["cash_card"], g->turn);
+            it_tool* tool = dynamic_cast<it_tool*>(card.type);
+            card.charges = tool->def_charges;
+            p->i_add(card);
+            p->cash -= 100;
+            p->moves -= 100;
+        }
+    } else {
+        return;
+    }
 }
 
 void iexamine::toilet(player *p, map *m, int examx, int examy) {
@@ -1015,6 +1203,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("gaspump" == function_name) {
     return &iexamine::gaspump;
+  }
+  if ("atm" == function_name) {
+    return &iexamine::atm;
   }
   if ("toilet" == function_name) {
     return &iexamine::toilet;

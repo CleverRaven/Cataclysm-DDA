@@ -1216,7 +1216,7 @@ int editmap::edit_itm()
                             break;
                     }
                     int retval = helper::to_int (
-                                     string_input_popup( "set: ", 20, helper::to_string(  intval ) )
+                                     string_input_popup( "set: ", 20, helper::to_string_int(  intval ) )
                                  );
                     if ( intval != retval ) {
                         if (imenu.ret == imenu_bday ) {

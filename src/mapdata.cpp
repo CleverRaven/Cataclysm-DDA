@@ -117,6 +117,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         jsonint(j, "str_min_blocked", str_min_blocked );
         jsonint(j, "str_max_blocked", str_max_blocked );
         jsonint(j, "str_min_roll", str_min_roll );
+        jsonint(j, "explosive", explosive );
         jsonint(j, "chance", chance );
         jsonstring(j, "sound", sound );
         jsonstring(j, "sound_fail", sound_fail );

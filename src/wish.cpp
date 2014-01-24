@@ -458,7 +458,7 @@ void game::wishitem( player *p, int x, int y)
         if ( wmenu.ret >= 0 ) {
             amount = helper::to_int(
                          string_input_popup( _("How many?"), 20,
-                                             helper::to_string( amount ),
+                                             helper::to_string_int( amount ),
                                              item_controller->find_template(standard_itype_ids[wmenu.ret])->name.c_str()
                                            )
                      );
