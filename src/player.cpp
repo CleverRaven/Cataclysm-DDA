@@ -2003,7 +2003,25 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 // Print name and header
 
     std::string gender_prof;
-    if (prof == NULL || prof == prof->generic()) {
+    if (crossed_threshold()) {
+        std::vector<std::string> traitslist;
+        std::string race;
+        for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+            traitslist.push_back(*iter);
+        }
+        for (int i = 0; i < traitslist.size(); i++) {
+            if (mutation_data[traitslist[i]].threshold == true)
+                race = traits[traitslist[i]].name;
+            }
+            const char *format;
+            if (male) {
+                format = _("%s - a male %s");
+            }
+            else {
+                format = _("%s - a female %s");
+            }
+            gender_prof = string_format(format, name.c_str(), race.c_str());
+    } else if (prof == NULL || prof == prof->generic()) {
         if (male) {
             gender_prof = string_format(_("%s - Male"), name.c_str());
         } else {

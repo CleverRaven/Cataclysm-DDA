@@ -1403,44 +1403,64 @@ int iuse::mut_iv(player *p, item *it, bool) {
                 g->add_msg_if_player(p,_("Something strains mightily for a moment...and then..you're...FREE!"));
                 if (mutation_category == "MUTCAT_LIZARD") {
                     p->toggle_mutation("THRESH_LIZARD");
+                    p->add_memorial_log(_("Shed the ugly human skin."));
                 } else if (mutation_category == "MUTCAT_BIRD") {
                     p->toggle_mutation("THRESH_BIRD");
+                    p->add_memorial_log(_("Broke free of humanity."));
                 } else if (mutation_category == "MUTCAT_FISH") {
                     p->toggle_mutation("THRESH_FISH");
+                    p->add_memorial_log(_("Went deep."));
                 } else if (mutation_category == "MUTCAT_BEAST") {
                     p->toggle_mutation("THRESH_BEAST");
+                    p->add_memorial_log(_("Embraced xyr bestial nature."));
                 } else if (mutation_category == "MUTCAT_FELINE") {
                     p->toggle_mutation("THRESH_FELINE");
+                    p->add_memorial_log(_("Realized the dream."));
                 } else if (mutation_category == "MUTCAT_LUPINE") {
                     p->toggle_mutation("THRESH_LUPINE");
+                    p->add_memorial_log(_("Wolfed out."));
                 } else if (mutation_category == "MUTCAT_URSINE") {
                     p->toggle_mutation("THRESH_URSINE");
+                    p->add_memorial_log(_("Became one with the bears."));
                 } else if (mutation_category == "MUTCAT_CATTLE") {
                     p->toggle_mutation("THRESH_CATTLE");
+                    p->add_memorial_log(_("Stopped worrying and learned to love the cowbell."));
                 } else if (mutation_category == "MUTCAT_INSECT") {
                     p->toggle_mutation("THRESH_INSECT");
+                    p->add_memorial_log(_("Metamorphosed."));
                 } else if (mutation_category == "MUTCAT_PLANT") {
                     p->toggle_mutation("THRESH_PLANT");
+                    p->add_memorial_log(_("Bloomed forth."));
                 } else if (mutation_category == "MUTCAT_SLIME") {
                     p->toggle_mutation("THRESH_SLIME");
+                    p->add_memorial_log(_("Gave up on rigid human norms."));
                 } else if (mutation_category == "MUTCAT_TROGLOBITE") {
                     p->toggle_mutation("THRESH_TROGLOBITE");
+                    p->add_memorial_log(_("Adapted to underground living."));
                 } else if (mutation_category == "MUTCAT_CEPHALOPOD") {
                     p->toggle_mutation("THRESH_CEPHALOPOD");
+                    p->add_memorial_log(_("Began living the dreams."));
                 } else if (mutation_category == "MUTCAT_SPIDER") {
                     p->toggle_mutation("THRESH_SPIDER");
+                    p->add_memorial_log(_("Found a place in the web of life."));
                 } else if (mutation_category == "MUTCAT_RAT") {
                     p->toggle_mutation("THRESH_RAT");
+                    p->add_memorial_log(_("Found that survival *is* everything."));
                 } else if (mutation_category == "MUTCAT_MEDICAL") {
                     p->toggle_mutation("THRESH_MEDICAL");
+                    p->add_memorial_log(_("Resumed clinical trials."));
                 } else if (mutation_category == "MUTCAT_ALPHA") {
                     p->toggle_mutation("THRESH_ALPHA");
+                    p->add_memorial_log(_("Started representing."));
                 } else if (mutation_category == "MUTCAT_ELFA") {
                     p->toggle_mutation("THRESH_ELFA");
+                    p->add_memorial_log(_("Accepted a more natural way of life."));
                 } else if (mutation_category == "MUTCAT_CHIMERA") {
                     p->toggle_mutation("THRESH_CHIMERA");
+                    p->add_memorial_log(_("United disunity."));
                 } else if (mutation_category == "MUTCAT_RAPTOR") {
                     p->toggle_mutation("THRESH_RAPTOR");
+                    p->add_memorial_log(_("Hatched."));
                 }
             } else if (p->mutation_category_level[primary] > 100) {
                 // NOPAIN is a post-Threshold trait, so you shouldn't

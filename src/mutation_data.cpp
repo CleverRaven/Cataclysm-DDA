@@ -43,8 +43,7 @@ void load_mutation(JsonObject &jsobj)
     // (Individual prereq-lists are "OR", not "AND".)
     // Traits shoud NOT appear in both lists for a given mutation, unless
     // you want that trait to satisfy both requirements.
-    // These are additional to the first list, and will likely NOT be regained
-    // if you lose the mutation they prereq'd for.
+    // These are additional to the first list.
     jsarr = jsobj.get_array("prereqs2");
     while (jsarr.has_more()) {
         mutation_data[id].prereqs2.push_back(jsarr.next_string());
