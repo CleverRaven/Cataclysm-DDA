@@ -486,6 +486,14 @@ bool player::create(character_type type, std::string tempname)
         tmp = item(itypes["inhaler"], 0);
         inv.push_back(tmp);
     }
+    
+    // Albinoes have their umbrella handy.
+    // Since they have to wield it, I don't think it breaks things
+    // too badly to issue one.
+    if (has_trait("ALBINO")) {
+        tmp = item(itypes["teleumbrella"], 0);
+        inv.push_back(tmp);
+    }
 
     // make sure we have no mutations
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter)

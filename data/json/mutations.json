@@ -115,6 +115,7 @@
         "points" : 1,
         "description" : "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
         "starting_trait" : true,
+        "leads_to" : ["EATPOISON"],
         "category" : [
             "MUTCAT_INSECT",
             "MUTCAT_SLIME",
@@ -225,6 +226,7 @@
         "description" : "You are less likely to throw up from food poisoning, alcohol, etc.",
         "starting_trait" : true,
         "changes_to" : ["NAUSEA"],
+        "note" : "nope. This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics.",
         "cancels" : ["WEAKSTOMACH"]
     },{
         "type" : "mutation",
@@ -259,7 +261,7 @@
         "points" : 1,
         "description" : "You can handle intoxicants well.  Their effects clear up more quickly for you.",
         "starting_trait" : true,
-        "leads_to" : ["ALCMET"],
+        "leads_to" : ["ALCMET", "EATPOISON"],
         "cancels" : ["LIGHTWEIGHT"]
     },{
         "type" : "mutation",
@@ -824,6 +826,15 @@
         "category": ["MUTCAT_RAPTOR", "MUTCAT_FELINE", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
+        "id" : "ALBINO",
+        "name" : "Albino",
+        "points" : -2,
+        "description" : "You lack skin pigmentation due to a genetic problem.  You sunburn extremely easily, and typically use an umbrella when going out in the sun.",
+        "starting_trait" : true,
+        "changes_to" : ["SUNBURN"],
+        "category" : ["MUTCAT_TROGLO"]
+    },{
+        "type" : "mutation",
         "id" : "FLIMSY",
         "name" : "Flimsy",
         "points" : -3,
@@ -1332,6 +1343,17 @@
         "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
+        "id" : "CLAWS_TENTACLE",
+        "name" : "Tentacle Rakes",
+        "points" : 0,
+        "visibility" : 4,
+        "ugliness" : 4,
+        "description" : "Your upper tentacles have grown large, hook-barbed rakes on the ends.  They're quite vicious, but really aren't suited for fine manipulation.",
+        "prereqs" : ["ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "threshreq" : ["THRESH_CEPHALOPOD"],
+        "category" : ["MUTCAT_CEPHALOPOD"]
+    },{
+        "type" : "mutation",
         "id" : "TALONS",
         "name" : "Large Talons",
         "points" : 2,
@@ -1407,6 +1429,7 @@
         "points" : 8,
         "description" : "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
         "prereqs" : ["POISRESIST"],
+        "leads_to" : ["EATPOISON"],
         "changes_to" : ["POISONOUS2"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
     },{
@@ -1486,11 +1509,30 @@
         "name" : "Alcohol Metabolism",
         "points" : 4,
         "description" : "So it's fermented?  Whatever, it's still good drinking.  You've developed the ability to metabolize alcohol as a food source.",
-        "prereqs" : ["TOLERANCE"],
-        "prereqs2" : ["SAPROVORE"],
+        "prereqs" : ["TOLERANCE", "EATPOISON"],
+        "prereqs2" : ["SAPROVORE", "EATPOISON"],
+        "note" : "It's unlikely but possible that a Dwarf would get EATPOISON without ALCMET.  Since EATPOISON's arguably a stronger version, it serves as both prereqs.",
         "threshreq" : ["THRESH_TROGLOBITE"],
         "category" : ["MUTCAT_TROGLO"],
         "valid" : false
+    },{
+        "type" : "mutation",
+        "id" : "PAINRESIST_TROGLO",
+        "name" : "Subterranean Fortitude",
+        "points" : 2,
+        "description" : "The aches and pains of living underground don't bother you as much.",
+        "prereq" : ["PAINRESIST"],
+        "prereq2" : ["STOCKY_TROGLO"],
+        "threshreq" : ["THRESH_TROGLOBITE"],
+        "category" : ["MUTCAT_TROGLO"]
+    },{
+        "type" : "mutation",
+        "id" : "STOCKY_TROGLO",
+        "name" : "Subterranean Build",
+        "points" : 0,
+        "description" : "Your frame has adapted for life in confined spaces.  You seem a little shorter and bulkier, tradiing muscle mass for mobility.  (+2 Strength, -2 Dexterity)",
+        "threshreq" : ["THRESH_TROGLOBITE"],
+        "category" : ["MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
         "id" : "SAPROVORE",
@@ -1520,6 +1562,51 @@
         "threshreq" : ["THRESH_CATTLE"],
         "cancels" : ["CARNIVORE", "SAPROVORE"],
         "category" : ["MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
+        "id" : "EATPOISON",
+        "name" : "Intestinal Fortitude",
+        "points" : 6,
+        "description" : "Your guts have developed the ability to handle poisonous food.  Mostly.",
+        "changes_to" : ["EATDEAD"],
+        "prereqs" : ["NAUSEA", "VOMITOUS", "POISRESIST", "POISONOUS"],
+        "note" : "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
+        "prereqs2" : ["SAPROVORE", "TOLERANCE"],
+        "threshreq" : ["THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT"],
+        "category" : ["MUTCAT_TROGLO", "MUTCAT_RAPTOR", "MUTCAT_RAT", "MUTCAT_CHIMERA"],
+        "valid" : false
+    },{
+        "type" : "mutation",
+        "id" : "EATDEAD",
+        "name" : "Eater Of The Dead",
+        "points" : 10,
+        "description" : "Eating rotting, long-dead flesh is good for the struggle, and safe--if still completely unappealing--for you.",
+        "prereqs" : ["EATPOISON"],
+        "threshreq" : ["THRESH_CHIMERA", "THRESH_RAT"],
+        "category" : ["MUTCAT_RAT", "MUTCAT_CHIMERA"],
+        "valid" : false
+    },{
+        "type" : "mutation",
+        "id" : "SABER_TEETH",
+        "name" : "Saber Teeth",
+        "points" : -2,
+        "visibility" : 10,
+        "ugliness" : 8,
+        "description" : "Your fangs have grown extremely large and incredibly sharp.  They make it impossible to wear mouthgear and difficult to eat... but leave nasty wounds when you bite.",
+        "prereqs" : ["FANGS"],
+        "threshreq" : ["THRESH_FELINE", "THRESH_CHIMERA"],
+        "cancels" : ["BEAK", "MANDIBLES", "MUZZLE_LONG", "MUZZLE", "MINOTAUR"],
+        "category" : ["MUTCAT_FELINE", "MUTCAT_CHIMERA"]
+    },{
+        "type" : "mutation",
+        "id" : "EATHEALTH",
+        "name" : "Hyper-Metabolism",
+        "points" : 15,
+        "description" : "You metabolize nutrients so rapidly that you can convert food directly into useful tissue.  Excess nutrition will convert to HP, rather than being wasted.",
+        "prereqs" : ["HUNGER3"],
+        "threshreq" : ["THRESH_CHIMERA"],
+        "category" : ["MUTCAT_CHIMERA"],
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "HORNS",
@@ -2393,7 +2480,7 @@
         "visibility" : 4,
         "ugliness" : 3,
         "description" : "Your face and jaw have begun...changing. Masks and such fit OK, but you're noticeably mutated.",
-        "changes_to" : ["MINOTAUR", "MUZZLE", "BEAR_MUZZLE", "LONG_MUZZLE"],
+        "changes_to" : ["MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG"],
         "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
@@ -2403,7 +2490,7 @@
         "visibility" : 5,
         "ugliness" : 6,
         "description" : "Your face resembles that of a bull, with a significant snout.  It looks fearsome but prevents you from wearing mouthgear.",
-        "cancels" : ["MUZZLE", "LONG_MUZZLE", "BEAR_MUZZLE"],
+        "cancels" : ["MUZZLE", "MUZZLE_LONG", "MUZZLE_BEAR"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_CATTLE"]
     },{
@@ -2414,29 +2501,29 @@
         "visibility" : 5,
         "ugliness" : 4,
         "description" : "Your jaw and nose have extended into a wolfish muzzle.  It lends itself to biting in combat and looks impressive, but prevents you from wearing mouthgear.",
-        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "BEAR_MUZZLE"],
+        "cancels" : ["MINOTAUR", "MUZZLE_LONG", "MUZZLE_BEAR"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
-        "id" : "BEAR_MUZZLE",
+        "id" : "MUZZLE_BEAR",
         "name" : "Ursine Muzzle",
         "points" : -1,
         "visibility" : 5,
         "ugliness" : 4,
         "description" : "Your jaw and nose have extended into a bearish muzzle.  You could bite with it, and it looks impressive, but it prevents you from wearing mouthgear.",
-        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "MUZZLE"],
+        "cancels" : ["MINOTAUR", "MUZZLE_LONG", "MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
-        "id" : "LONG_MUZZLE",
+        "id" : "MUZZLE_LONG",
         "name" : "Reptilian Muzzle",
         "points" : -2,
         "visibility" : 8,
         "ugliness" : 8,
         "description" : "Your face and jaws, well, are a shorter version of those found on alligators.  They look NASTY-as do the bite wounds they can inflict-but prevent you from wearing mouthgear.",
-        "cancels" : ["MUZZLE", "MINOTAUR", "BEAR_MUZZLE"],
+        "cancels" : ["MUZZLE", "MINOTAUR", "MUZZLE_BEAR"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_LIZARD"]
     },{
@@ -2454,7 +2541,7 @@
         "points" : -3,
         "description" : "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.",
         "prereqs" : ["WEAKSTOMACH"],
-        "changes_to" : ["VOMITOUS"],
+        "changes_to" : ["VOMITOUS", "EATPOISON"],
         "category" : ["MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
@@ -2463,6 +2550,7 @@
         "points" : -8,
         "description" : "You have a major digestive disorder, which causes you to vomit frequently.",
         "prereqs" : ["NAUSEA"],
+        "changes_to" : ["EATPOISON"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
@@ -2488,11 +2576,12 @@
         "type" : "mutation",
         "id" : "HUNGER3",
         "name" : "Extreme Metabolism",
-        "points" : -4,
+        "points" : -6,
         "description" : "You burn calories like gasoline-soaked tinder.  You consume three times as much food as the average human.",
         "trans_note" : "The simile there is intended for a Really Quick Burn--BAM burned.",
         "cancels" : ["LIGHTEATER"],
         "prereqs" : ["HUNGER2"],
+        "leads_to" : ["EATHEALTH"],
         "category" : ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
@@ -2515,7 +2604,7 @@
         "type" : "mutation",
         "id" : "THIRST3",
         "name" : "Extremely Thirsty",
-        "points" : -5,
+        "points" : -8,
         "description" : "You dry out seriously quickly, requiring three times as much liquid to stay hydrated.",
         "prereqs" : ["THIRST2"]
     },{
@@ -2566,11 +2655,12 @@
         "category": ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
-        "id" : "ALBINO",
-        "name" : "Albino",
-        "points" : -2,
-        "description" : "Your skin lacks pigment, and is nearly transparent. You suffer serious burns in direct sunlight.",
-        "prereqs" : ["PALE"],
+        "id" : "SUNBURN",
+        "name" : "Solar Sensitivity",
+        "points" : -3,
+        "description" : "Your skin simply cannot handle ultraviolet radiation, such as sunlight.  It will seriously burn you.",
+        "prereqs" : ["ALBINO"],
+        "prereqs2" : ["TROGLO2", "TROGLO3"],
         "category" : ["MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
@@ -2743,14 +2833,54 @@
     },{
         "type" : "mutation",
         "id" : "SUNLIGHT_DEPENDENT",
-        "name" : "Sunlight dependent",
+        "name" : "Sunlight Dependent",
         "points" : -5,
         "description" : "You feel very sluggish when not in direct sunlight. You suffer a 5% drop in speed when in shade, and a 10% drop in speed when in the dark.",
-        "cancels" : ["TROGLO", "TROGLO2", "TROGLO3"]
+        "cancels" : ["TROGLO", "TROGLO2", "TROGLO3"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "VINES1",
+        "name" : "Vines",
+        "points" : -2,
+        "visibility" : 8,
+        "ugliness" : 5,
+        "description" : "You have developed several vines sprouting from your shoulder area.  They're bulky and get in the way.",
+        "prereqs" : ["PLANTSKIN", "BARK"],
+        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB"],
+        "changes_to" : ["VINES2"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "VINES2",
+        "name" : "Vine Limbs",
+        "points" : 2,
+        "visibility" : 8,
+        "ugliness" : 5,
+        "description" : "You've developed the ability to control your vines; they make good lashes.  You can even rappel down sheer drops using them, but disconnecting HURTS.",
+        "prereqs" : ["PLANTSKIN", "BARK"],
+        "prereqs2" : ["VINES1"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB"],
+        "changes_to" : ["VINES3"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "VINES3",
+        "name" : "Vine Sprouter",
+        "points" : 5,
+        "visibility" : 10,
+        "ugliness" : 6,
+        "description" : "You have full control of your vines, and can grow new ones and detach old ones more or less at will.",
+        "prereqs" : ["PLANTSKIN", "BARK"],
+        "prereqs2" : ["VINES2"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB"],
+        "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD",
-        "name" : "Heat dependent",
+        "name" : "Heat Dependent",
         "points" : -2,
         "description" : "Your muscle response is dependent on ambient temperatures. You lose 1% of your speed for every 5 degrees below 65 F.",
         "changes_to" : ["COLDBLOOD2"],
@@ -2758,7 +2888,7 @@
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD2",
-        "name" : "Very Heat dependent",
+        "name" : "Very Heat Dependent",
         "points" : -3,
         "description" : "Your muscle response is highly dependent on ambient temperatures. You lose 1% of your speed for every 3 degrees below 65 F.",
         "prereqs" : ["COLDBLOOD"],
@@ -2852,6 +2982,7 @@
         "visibility" : 7,
         "ugliness" : 4,
         "description" : "Your arms have transformed into tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. Somewhat decreases wet penalties.",
+        "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_4"],
         "cancels" : ["PAWS"],
         "wet_protection" : [
@@ -2867,6 +2998,7 @@
         "ugliness" : 5,
         "description" : "Your arms have transformed into four tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. You can make up to 3 extra attacks with them. Somewhat decreases wet penalties.",
         "prereqs" : ["ARM_TENTACLES"],
+        "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_8"],
         "cancels" : ["PAWS"],
         "wet_protection" : [
@@ -2883,6 +3015,7 @@
         "description" : "Your arms have transformed into eight tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. You can make up to 7 extra attacks with them. Somewhat decreases wet penalties.",
         "prereqs" : ["ARM_TENTACLES_4"],
         "cancels" : ["PAWS"],
+        "leads_to" : ["CLAWS_TENTACLE"],
         "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "ARMS", "neutral" : 19 },
@@ -2909,13 +3042,25 @@
         "points" : -3,
         "visibility" : 8,
         "ugliness" : 4,
-        "description" : "Your legs have transformed into six tentacles. This decreases your speed on land by 20%, but makes your movement silent. However, they also increase your swimming speed. Somewhat decreases wet penalties.",
+        "description" : "Your legs have transformed into six tentacles. This decreases your speed on land by 20%, makes your movement silent, increases your swimming speed, and reduces wet penalties.",
         "cancels" : ["PADDED_FEET", "HOOVES"],
+        "leads_to" : ["LEG_TENT_BRACE"],
         "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "LEGS", "neutral" : 21 },
             { "part" : "FEET", "neutral" : 6 }
         ]
+    },{
+        "type" : "mutation",
+        "id" : "LEG_TENT_BRACE",
+        "name" : "Tentacle Bracing",
+        "points" : -1,
+        "visibility" : 4,
+        "ugliness" : 2,
+        "description" : "Your lower-tentacles have developed suckers.  They make land movement marginally more tiring, but do a good job of keeping you set in place.",
+        "prereqs" : ["LEG_TENTACLES"],
+        "threshreq" : ["THRESH_CEPHALOPOD"],
+        "category" : ["MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
         "id" : "THRESH_LIZARD",

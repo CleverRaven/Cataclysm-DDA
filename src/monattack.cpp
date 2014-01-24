@@ -1149,7 +1149,11 @@ void mattack::vortex(monster *z)
    } // if (mondex != -1)
 
    if (g->u.posx == x && g->u.posy == y) { // Throw... the player?! D:
-    if (!g->u.uncanny_dodge()) {
+      if ((g->u.has_trait("LEG_TENT_BRACE")) && (!(g->u.wearing_something_on(bp_feet))) ) {
+          g->add_msg(_("You secure yourself using your tentacles!"));
+      }
+    if (!((g->u.uncanny_dodge()) || ( (g->u.has_trait("LEG_TENT_BRACE")) &&
+    (!(g->u.wearing_something_on(bp_feet))) ) )) {
      std::vector<point> traj = continue_line(from_monster, rng(2, 3));
      g->add_msg(_("You're thrown by winds!"));
      bool hit_wall = false;
@@ -1840,7 +1844,8 @@ void mattack::flesh_golem(monster *z)
     int dam = rng(5, 10), side = random_side(hit);
     g->add_msg(_("Your %s is battered for %d damage!"), body_part_name(hit, side).c_str(), dam);
     g->u.hit(z, hit, side, dam, 0);
-    if (one_in(6)) {
+    if ((one_in(6)) && ( (!(g->u.has_trait("LEG_TENT_BRACE"))) ||
+    (g->u.wearing_something_on(bp_feet))) ) {
         g->u.add_effect("downed", 30);
     }
     g->u.practice(g->turn, "dodge", z->type->melee_skill);

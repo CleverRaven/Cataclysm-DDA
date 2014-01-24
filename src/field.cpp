@@ -1478,14 +1478,14 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
       g->u.hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
       g->add_msg(_("You are hit by the falling debris!"));
      }
-     if (one_in(g->u.dex_cur)) {
+     if ((one_in(g->u.dex_cur)) && (((!(g->u.has_trait("LEG_TENT_BRACE")))) || (g->u.wearing_something_on(bp_feet))) ) {
       g->u.add_effect("downed", 2);
      }
      if (one_in(g->u.str_cur)) {
       g->u.add_effect("stunned", 2);
      }
     }
-    else if (one_in(g->u.str_cur)) {
+    else if ((one_in(g->u.str_cur)) && ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.wearing_something_on(bp_feet))) ) {
      g->add_msg(_("You trip as you evade the falling debris!"));
      g->u.add_effect("downed", 1);
     }
@@ -1506,14 +1506,15 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
       for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
        me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
       }
-      if (one_in(me->dex_cur)) {
+      // Not sure how to track what NPCs are wearing, and they're under revision anyway so leaving it checking player. :-/
+      if ((one_in(me->dex_cur)) && ( ((!(g->u.has_trait("LEG_TENT_BRACE")))) || (g->u.wearing_something_on(bp_feet)) ) ) {
        me->add_effect("downed", 2);
       }
       if (one_in(me->str_cur)) {
        me->add_effect("stunned", 2);
       }
      }
-     else if (me && one_in(me->str_cur)) {
+     else if (me && (one_in(me->str_cur)) && ( ((!(g->u.has_trait("LEG_TENT_BRACE")))) || (g->u.wearing_something_on(bp_feet)) ) ) {
       me->add_effect("downed", 1);
      }
     }
