@@ -27,6 +27,9 @@
     <ClCompile Include="..\src\advanced_inv.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ammo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\animation_curses.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -399,6 +402,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\advanced_inv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ammo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\artifact.h">
