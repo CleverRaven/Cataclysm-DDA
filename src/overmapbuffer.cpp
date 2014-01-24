@@ -5,6 +5,9 @@
 
 overmapbuffer overmap_buffer;
 
+// Cached result of previous call to overmapbuffer::get_existing
+static const overmap *last_requested_overmap = NULL;
+
 overmapbuffer::overmapbuffer()
 {
 }
@@ -39,6 +42,7 @@ void overmapbuffer::clear()
 {
     overmap_list.clear();
     known_non_existing.clear();
+    last_requested_overmap = NULL;
 }
 
 const regional_settings& overmapbuffer::get_settings(int x, int y, int z)
@@ -63,16 +67,15 @@ void overmapbuffer::delete_note(int x, int y, int z)
 
 const overmap *overmapbuffer::get_existing(int x, int y) const
 {
-    static const overmap *last_one = NULL;
-    if (last_one != NULL && last_one->pos().x == x && last_one->pos().y == y) {
-        return last_one;
+    if (last_requested_overmap != NULL && last_requested_overmap->pos().x == x && last_requested_overmap->pos().y == y) {
+        return last_requested_overmap;
     }
     for(std::list<overmap>::const_iterator candidate = overmap_list.begin();
         candidate != overmap_list.end(); ++candidate)
     {
         if(candidate->pos().x == x && candidate->pos().y == y)
         {
-            return last_one = &*candidate;
+            return last_requested_overmap = &*candidate;
         }
     }
     if (known_non_existing.count(point(x, y)) > 0) {
