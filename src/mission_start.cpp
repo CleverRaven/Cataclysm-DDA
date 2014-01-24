@@ -3,10 +3,28 @@
 #include "name.h"
 #include <sstream>
 #include "omdata.h"
+#include "overmapbuffer.h"
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
  */
+
+/**
+ * Set target of mission to closest overmap terrain of that type,
+ * reveal the area around it (uses overmapbuffer::reveal with reveal_rad),
+ * and returns the mission target.
+ */
+point target_om_ter(const std::string &omter, int reveal_rad, mission *miss, bool must_see)
+{
+    int dist = 0;
+    const point place = overmap_buffer.find_closest(
+        g->om_global_location(), omter, dist, must_see);
+    if(place != overmap::invalid_point && reveal_rad >= 0) {
+        overmap_buffer.reveal(place, reveal_rad, g->levz);
+    }
+    miss->target = place;
+    return place;
+}
 
 void mission_start::standard( mission *)
 {
@@ -34,6 +52,9 @@ void mission_start::place_dog(mission *miss)
 {
  int city_id = g->cur_om->closest_city( g->om_location() );
  point house = g->cur_om->random_house_in_city(city_id);
+ // make it global coordinates
+ house.x += g->cur_om->pos().x * OMAPX;
+ house.y += g->cur_om->pos().y * OMAPY;
  npc* dev = g->find_npc(miss->npc_id);
  if (dev == NULL) {
   debugmsg("Couldn't find NPC! %d", miss->npc_id);
@@ -43,50 +64,44 @@ void mission_start::place_dog(mission *miss)
  g->add_msg(_("%s gave you a dog whistle."), dev->name.c_str());
 
  miss->target = house;
-// Make it seen on our map
- for (int x = house.x - 6; x <= house.x + 6; x++) {
-  for (int y = house.y - 6; y <= house.y + 6; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
+ overmap_buffer.reveal(house, 6, g->levz);
 
  tinymap doghouse(&(g->traps));
- doghouse.load(house.x * 2, house.y * 2, 0, false);
+ // Get overmap, crop house coords to be valid inside that overmap
+ overmap &om = overmap_buffer.get_om_global(house.x, house.y);
+ doghouse.load(house.x * 2, house.y * 2, g->levz, false, &om);
  doghouse.add_spawn("mon_dog", 1, SEEX, SEEY, true, -1, miss->uid);
- doghouse.save(g->cur_om, int(g->turn), house.x * 2, house.y * 2, 0);
+ doghouse.save(&om, int(g->turn), house.x * 2, house.y * 2, g->levz);
 }
 
 void mission_start::place_zombie_mom(mission *miss)
 {
  int city_id = g->cur_om->closest_city( g->om_location() );
  point house = g->cur_om->random_house_in_city(city_id);
+ // make it global coordinates
+ house.x += g->cur_om->pos().x * OMAPX;
+ house.y += g->cur_om->pos().y * OMAPY;
 
  miss->target = house;
-// Make it seen on our map
- for (int x = house.x - 6; x <= house.x + 6; x++) {
-  for (int y = house.y - 6; y <= house.y + 6; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
+ overmap_buffer.reveal(house, 6, g->levz);
 
  tinymap zomhouse(&(g->traps));
- zomhouse.load(house.x * 2, house.y * 2,  0, false);
+ // Get overmap, crop house coords to be valid inside that overmap
+ overmap &om = overmap_buffer.get_om_global(house.x, house.y);
+ zomhouse.load(house.x * 2, house.y * 2, g->levz, false, &om);
  zomhouse.add_spawn("mon_zombie", 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
- zomhouse.save(g->cur_om, int(g->turn), house.x * 2, house.y * 2, 0);
+ zomhouse.save(&om, int(g->turn), house.x * 2, house.y * 2, g->levz);
 }
 
 void mission_start::place_jabberwock(mission *miss)
 {
- int dist = 0;
- point site = g->cur_om->find_closest(g->om_location(), "forest_thick", dist, false);
- miss->target = site;
-// Make it seen on our map
- for (int x = site.x - 6; x <= site.x + 6; x++) {
-  for (int y = site.y - 6; y <= site.y + 6; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
+    point site = target_om_ter("forest_thick", 6, miss, false);
  tinymap grove(&(g->traps));
- grove.load(site.x * 2, site.y * 2,  0, false);
+ // Get overmap, crop site coords to be valid inside that overmap
+ overmap &om = overmap_buffer.get_om_global(site.x, site.y);
+ grove.load(site.x * 2, site.y * 2, g->levz, false, &om);
  grove.add_spawn("mon_jabberwock", 1, SEEX, SEEY, false, -1, miss->uid, "NONE");
- grove.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
+ grove.save(&om, int(g->turn), site.x * 2, site.y * 2, g->levz);
 }
 
 void mission_start::kill_100_z(mission *miss)
@@ -104,21 +119,19 @@ void mission_start::kill_horde_master(mission *miss)
  npc *p = g->find_npc(miss->npc_id);
  p->attitude = NPCATT_FOLLOW;//npc joins you
  int dist = 0;//pick one of the below locations for the horde to haunt
- point site = g->cur_om->find_closest(g->om_location(), "office_tower_1", dist, false);
- if (site.x == -1 && site.y == -1 )
-    site = g->cur_om->find_closest(g->om_location(), "hotel_tower_1_8", dist, false);
- if (site.x == -1 && site.y == -1)
-    site = g->cur_om->find_closest(g->om_location(), "school_5", dist, false);
- if (site.x == -1 && site.y == -1)
-    site = g->cur_om->find_closest(g->om_location(), "forest_thick", dist, false);
+ point site = overmap_buffer.find_closest(g->om_global_location(), "office_tower_1", dist, false);
+ if (site == overmap::invalid_point)
+    site = overmap_buffer.find_closest(g->om_global_location(), "hotel_tower_1_8", dist, false);
+ if (site == overmap::invalid_point)
+    site = overmap_buffer.find_closest(g->om_global_location(), "school_5", dist, false);
+ if (site == overmap::invalid_point)
+    site = overmap_buffer.find_closest(g->om_global_location(), "forest_thick", dist, false);
  miss->target = site;
-// Make it seen on our map
- for (int x = site.x - 6; x <= site.x + 6; x++) {
-  for (int y = site.y - 6; y <= site.y + 6; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
+ overmap_buffer.reveal(site, 6, g->levz);
  tinymap tile(&(g->traps));
- tile.load(site.x * 2, site.y * 2,  0, false);
+ // Get overmap, crop site coords to be valid inside that overmap
+ overmap &om = overmap_buffer.get_om_global(site.x, site.y);
+ tile.load(site.x * 2, site.y * 2, g->levz, false, &om);
  tile.add_spawn("mon_zombie_master", 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul");
  tile.add_spawn("mon_zombie_brute",3,SEEX,SEEY);
  tile.add_spawn("mon_zombie_fast",3,SEEX,SEEY);
@@ -131,7 +144,7 @@ void mission_start::kill_horde_master(mission *miss)
 }
  tile.add_spawn("mon_zombie_necro",2,SEEX,SEEY);
  tile.add_spawn("mon_zombie_hulk",1,SEEX,SEEY);
- tile.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
+ tile.save(&om, int(g->turn), site.x * 2, site.y * 2, g->levz);
 }
 
 void mission_start::place_npc_software(mission *miss)
@@ -167,18 +180,19 @@ void mission_start::place_npc_software(mission *miss)
     if (type == "house") {
         int city_id = g->cur_om->closest_city( g->om_location() );
         place = g->cur_om->random_house_in_city(city_id);
+        // make it global coordinates
+        place.x += g->cur_om->pos().x * OMAPX;
+        place.y += g->cur_om->pos().y * OMAPY;
     } else {
-        place = g->cur_om->find_closest(g->om_location(), type, dist, false);
+        place = overmap_buffer.find_closest(g->om_global_location(), type, dist, false);
     }
     miss->target = place;
+    overmap_buffer.reveal(place, 6, g->levz);
 
-// Make it seen on our map
- for (int x = place.x - 6; x <= place.x + 6; x++) {
-  for (int y = place.y - 6; y <= place.y + 6; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
  tinymap compmap(&(g->traps));
- compmap.load(place.x * 2, place.y * 2, 0, false);
+ // Get overmap, crop place coords to be valid inside that overmap
+ overmap &om = overmap_buffer.get_om_global(place.x, place.y);
+ compmap.load(place.x * 2, place.y * 2, g->levz, false, &om);
  point comppoint;
 
     oter_id oter = g->cur_om->ter(place.x, place.y, 0);
@@ -252,7 +266,7 @@ void mission_start::place_npc_software(mission *miss)
  tmpcomp->mission_id = miss->uid;
  tmpcomp->add_option(_("Download Software"), COMPACT_DOWNLOAD_SOFTWARE, 0);
 
- compmap.save(g->cur_om, int(g->turn), place.x * 2, place.y * 2, 0);
+ compmap.save(&om, int(g->turn), place.x * 2, place.y * 2, g->levz);
 }
 
 void mission_start::place_priest_diary(mission *miss)
@@ -260,13 +274,15 @@ void mission_start::place_priest_diary(mission *miss)
  point place;
  int city_id = g->cur_om->closest_city( g->om_location() );
  place = g->cur_om->random_house_in_city(city_id);
+ // make it global coordinates
+ place.x += g->cur_om->pos().x * OMAPX;
+ place.y += g->cur_om->pos().y * OMAPY;
  miss->target = place;
- for (int x = place.x - 2; x <= place.x + 2; x++) {
-  for (int y = place.y - 2; y <= place.y + 2; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
+ overmap_buffer.reveal(place, 2, g->levz);
  tinymap compmap(&(g->traps));
- compmap.load(place.x * 2, place.y * 2, 0, false);
+ // Get overmap, crop place coords to be valid inside that overmap
+ overmap &om = overmap_buffer.get_om_global(place.x, place.y);
+ compmap.load(place.x * 2, place.y * 2, g->levz, false, &om);
  point comppoint;
 
   std::vector<point> valid;
@@ -282,7 +298,7 @@ void mission_start::place_priest_diary(mission *miss)
   else
    comppoint = valid[rng(0, valid.size() - 1)];
  compmap.spawn_item(comppoint.x, comppoint.y, "priest_diary");
- compmap.save(g->cur_om, int(g->turn), place.x * 2, place.y * 2, 0);
+ compmap.save(&om, int(g->turn), place.x * 2, place.y * 2, g->levz);
 }
 
 void mission_start::place_deposit_box(mission *miss)
@@ -290,18 +306,17 @@ void mission_start::place_deposit_box(mission *miss)
     npc *p = g->find_npc(miss->npc_id);
     p->attitude = NPCATT_FOLLOW;//npc joins you
     int dist = 0;
-    point site = g->cur_om->find_closest(g->om_location(), "bank", dist, false);
-    if (site.x == -1 && site.y == -1) {
-        site = g->cur_om->find_closest(g->om_location(), "office_tower_1", dist, false);
+    point site = overmap_buffer.find_closest(g->om_global_location(), "bank", dist, false);
+    if (site == overmap::invalid_point) {
+        site = overmap_buffer.find_closest(g->om_global_location(), "office_tower_1", dist, false);
     }
     miss->target = site;
+    overmap_buffer.reveal(site, 2, g->levz);
 
- for (int x = site.x - 2; x <= site.x + 2; x++) {
-  for (int y = site.y - 2; y <= site.y + 2; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
  tinymap compmap(&(g->traps));
- compmap.load(site.x * 2, site.y * 2, 0, false);
+ // Get overmap, crop site coords to be valid inside that overmap
+ overmap &om = overmap_buffer.get_om_global(site.x, site.y);
+ compmap.load(site.x * 2, site.y * 2, g->levz, false, &om);
  point comppoint;
   std::vector<point> valid;
   for (int x = 0; x < SEEX * 2; x++) {
@@ -324,7 +339,7 @@ void mission_start::place_deposit_box(mission *miss)
   else
    comppoint = valid[rng(0, valid.size() - 1)];
 compmap.spawn_item(comppoint.x, comppoint.y, "safe_box");
-compmap.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
+compmap.save(&om, int(g->turn), site.x * 2, site.y * 2, g->levz);
 }
 
 void mission_start::reveal_lab_black_box(mission *miss)
@@ -334,14 +349,7 @@ void mission_start::reveal_lab_black_box(mission *miss)
   g->u.i_add( item(itypes["black_box"], 0) );
   g->add_msg(_("%s gave you back the black box."), dev->name.c_str());
  }
- int dist = 0;
- point place = g->cur_om->find_closest(g->om_location(), "lab", dist,
-                                      false);
- for (int x = place.x - 3; x <= place.x + 3; x++) {
-  for (int y = place.y - 3; y <= place.y + 3; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
- miss->target = place;
+    target_om_ter("lab", 3, miss, false);
 }
 
 void mission_start::open_sarcophagus(mission *miss)
@@ -352,14 +360,7 @@ void mission_start::open_sarcophagus(mission *miss)
   g->u.i_add( item(itypes["sarcophagus_access_code"], 0) );
   g->add_msg(_("%s gave you sarcophagus access code."), p->name.c_str());
  }
- int dist = 0;
- point place = g->cur_om->find_closest(g->om_location(), "haz_sar", dist,
-                                      false);
- for (int x = place.x - 3; x <= place.x + 3; x++) {
-  for (int y = place.y - 3; y <= place.y + 3; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
- miss->target = place;
+    target_om_ter("haz_sar", 3, miss, false);
 }
 
 void mission_start::reveal_hospital(mission *miss)
@@ -369,70 +370,47 @@ void mission_start::reveal_hospital(mission *miss)
   g->u.i_add( item(itypes["vacutainer"], 0) );
   g->add_msg(_("%s gave you a vacutainer."), dev->name.c_str());
  }
- int dist = 0;
- point place = g->cur_om->find_closest(g->om_location(), "hospital", dist,
-                                      false);
- for (int x = place.x - 3; x <= place.x + 3; x++) {
-  for (int y = place.y - 3; y <= place.y + 3; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
- miss->target = place;
+    target_om_ter("hospital", 3, miss, false);
 }
 
 void mission_start::find_safety(mission *miss)
 {
- point place = g->om_location();
- bool done = false;
- for (int radius = 0; radius <= 20 && !done; radius++) {
-  for (int dist = 0 - radius; dist <= radius && !done; dist++) {
+ const tripoint place = g->om_global_location();
+ for (int radius = 0; radius <= 20; radius++) {
+  for (int dist = 0 - radius; dist <= radius; dist++) {
    int offset = rng(0, 3); // Randomizes the direction we check first
-   for (int i = 0; i <= 3 && !done; i++) { // Which direction?
-    point check = place;
+   for (int i = 0; i <= 3; i++) { // Which direction?
+    tripoint check = place;
     switch ( (offset + i) % 4 ) {
      case 0: check.x += dist; check.y -= radius; break;
      case 1: check.x += dist; check.y += radius; break;
      case 2: check.y += dist; check.x -= radius; break;
      case 3: check.y += dist; check.x += radius; break;
     }
-    if (g->cur_om->is_safe(check.x, check.y, g->levz)) {
-     miss->target = check;
-     done = true;
+    if (overmap_buffer.is_safe(check)) {
+     miss->target = point(check.x, check.y);
+     return;
     }
    }
   }
  }
- if (!done) { // Couldn't find safety; so just set the target to far away
-  switch ( rng(0, 3) ) {
+ // Couldn't find safety; so just set the target to far away
+ switch ( rng(0, 3) ) {
    case 0: miss->target = point(place.x - 20, place.y - 20); break;
    case 1: miss->target = point(place.x - 20, place.y + 20); break;
    case 2: miss->target = point(place.x + 20, place.y - 20); break;
    case 3: miss->target = point(place.x + 20, place.y + 20); break;
-  }
  }
 }
 
 void mission_start::point_prison(mission *miss)
 {
- int dist = 0;
- point place = g->cur_om->find_closest(g->om_location(), "prison_5", dist,
-                                      false);
- for (int x = place.x - 3; x <= place.x + 3; x++) {
-  for (int y = place.y - 3; y <= place.y + 3; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
- miss->target = place;
+    target_om_ter("prison_5", 3, miss, false);
 }
 
 void mission_start::point_cabin_strange(mission *miss)
 {
- int dist = 0;
- point place = g->cur_om->find_closest(g->om_location(), "cabin_strange", dist,
-                                      false);
- for (int x = place.x - 3; x <= place.x + 3; x++) {
-  for (int y = place.y - 3; y <= place.y + 3; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
- miss->target = place;
+    target_om_ter("cabin_strange", 3, miss, false);
 }
 
 void mission_start::recruit_tracker(mission *miss)
@@ -440,23 +418,19 @@ void mission_start::recruit_tracker(mission *miss)
  npc *p = g->find_npc(miss->npc_id);
  p->attitude = NPCATT_FOLLOW;//npc joins you
 
- int dist = 0;
- point site = g->cur_om->find_closest(g->om_location(), "cabin", dist, false);
- miss->target = site;
+ point site = target_om_ter("cabin", 2, miss, false);
  miss->recruit_class = NC_COWBOY;
+ // get  the overmap of the new npc, crop site to valid values inside that overmap
+ overmap &om = overmap_buffer.get_om_global(site.x, site.y);
 
-// Make it seen on our map
-for (int x = site.x - 2; x <= site.x + 2; x++) {
-  for (int y = site.y - 2; y <= site.y + 2; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
  npc * temp = new npc();
  temp->normalize();
  temp->randomize(NC_COWBOY);
- temp->omx = site.x*2;
- temp->omy = site.y*2;
- temp->mapx = site.x*2;
- temp->mapy = site.y*2;
+ temp->omx = om.pos().x;
+ temp->omy = om.pos().y;
+ // mapx/y is in submap coordinates, site is in overmap terrain coords
+ temp->mapx = site.x * 2;
+ temp->mapy = site.y * 2;
  temp->posx = 11;
  temp->posy = 11;
  temp->attitude = NPCATT_TALK;
@@ -465,7 +439,7 @@ for (int x = site.x - 2; x <= site.x + 2; x++) {
  temp->op_of_u.owed = 10; int mission_index = g->reserve_mission(MISSION_JOIN_TRACKER, temp->getID());
  if (mission_index != -1)
     temp->chatbin.missions.push_back(mission_index);
- g->cur_om->npcs.push_back(temp);
+ om.npcs.push_back(temp);
 }
 
 void mission_start::place_book( mission *)

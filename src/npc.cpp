@@ -34,9 +34,7 @@ npc::npc()
  plt = 999;
  itx = -1;
  ity = -1;
- goalx = 999;
- goaly = 999;
- goalz = 999;
+ goal = no_goal_point;
  fatigue = 0;
  hunger = 0;
  thirst = 0;
@@ -87,9 +85,7 @@ npc& npc::operator= (const npc & rhs)
  plt = rhs.plt;
  itx = rhs.itx;
  ity = rhs.ity;
- goalx = rhs.goalx;
- goaly = rhs.goaly;
- goalz = rhs.goalz;
+ goal = rhs.goal;
 
  path = rhs.path;
 
@@ -2080,3 +2076,5 @@ void npc::setID (int i)
 {
     this->player::setID(i);
 }
+
+const tripoint npc::no_goal_point(INT_MIN, INT_MIN, INT_MIN);
