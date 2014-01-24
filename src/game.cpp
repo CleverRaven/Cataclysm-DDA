@@ -8889,7 +8889,7 @@ void game::pickup(int posx, int posy, int min)
         {
           menu_items.push_back(_("Use the hotplate"));
         }
-        if(k_part >= 0) 
+        if(k_part >= 0 && veh->fuel_left("water") > 0)
         {
           menu_items.push_back(_("Fill a container with water"));
           menu_items.push_back(_("Have a drink"));
@@ -8929,30 +8929,22 @@ void game::pickup(int posx, int posy, int min)
             return;
         } else if(menu_items[choice]==_("Fill a container with water"))
         {
-            if (veh->fuel_left("water") > 0) { // -1 if no water at all
-                int amt = veh->drain("water", veh->fuel_left("water"));
-                item fill_water(itypes[default_ammo("water")], g->turn);
-                fill_water.charges = amt;
-                int back = g->move_liquid(fill_water);
-                if (back >= 0) {
-                    veh->refill("water", back);
-                } else {
-                    veh->refill("water", amt);
-                }
+            int amt = veh->drain("water", veh->fuel_left("water"));
+            item fill_water(itypes[default_ammo("water")], g->turn);
+            fill_water.charges = amt;
+            int back = g->move_liquid(fill_water);
+            if (back >= 0) {
+                veh->refill("water", back);
             } else {
-                add_msg(_("The water tank is empty."));
+                veh->refill("water", amt);
             }
             return;
         } else if(menu_items[choice]==_("Have a drink"))
         {
-            if (veh->fuel_left("water") > 0) { // -1 if no water at all
-                veh->drain("water", 1);
-                item water(itypes["water_clean"], 0);
-                u.eat(&water, dynamic_cast<it_comest*>(water.type));
-                u.moves -= 250;
-            } else {
-                add_msg(_("The water tank is empty."));
-            }
+            veh->drain("water", 1);
+            item water(itypes["water_clean"], 0);
+            u.eat(&water, dynamic_cast<it_comest*>(water.type));
+            u.moves -= 250;
             return;
         } else if(menu_items[choice]==_("Use the welding rig?"))
         {
