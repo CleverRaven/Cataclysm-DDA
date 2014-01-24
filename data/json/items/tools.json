@@ -3162,7 +3162,7 @@
     "symbol": ";",
     "color": "green",
     "name": "cot",
-    "description": "This is a military style fold up cot. While it may not be quite as comfortable as a bed,its better than slumming it on the ground.",
+    "description": "This is a military style fold up cot. While it may not be quite as comfortable as a bed, it's better than slumming it on the ground.",
     "price": 1000,
     "material": ["aluminium", "cotton"],
     "weight": 6164,
