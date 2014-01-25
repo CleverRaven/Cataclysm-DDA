@@ -385,6 +385,7 @@
       ["jar_veggy_pickled", 8],
       ["jar_meat_pickled", 4],
       ["jar_fish_pickled", 6],
+      ["lutefisk", 1],
       ["tongs", 25],
       ["char_smoker", 25],
       ["lawn_dart", 10],
@@ -538,6 +539,7 @@
       ["bologna", 45],
       ["jar_meat_pickled", 2],
       ["jar_fish_pickled", 6],
+      ["lutefisk", 1],
       ["protein_shake", 10],
       ["fries", 8],
       ["cheese_fries", 6],
@@ -1406,6 +1408,7 @@
       ["dogfood", 5],
       ["catfood", 5],
       ["jar_fish_pickled", 8],
+      ["lutefisk", 1],
       ["jar_meat_pickled", 6]
     ]
   },{
@@ -6089,6 +6092,7 @@
       ["jar_veggy_pickled", 30],
       ["con_milk", 20],
       ["jar_fish_pickled", 26],
+      ["lutefisk", 1],
       ["jar_meat_pickled", 20]
     ]
   },{
