@@ -266,12 +266,19 @@ void decay_fire_and_scent(int fire_amount)
 
 void generic_wet(bool acid)
 {
-    if ((!g->u.worn_with_flag("RAINPROOF") || one_in(50)) &&
-         (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) && !g->u.has_trait("FEATHERS") &&
+    if ((!g->u.worn_with_flag("RAINPROOF") || one_in(100)) &&
+         (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(20)) && !g->u.has_trait("FEATHERS") &&
          (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5) < 30 && PLAYER_OUTSIDE &&
          one_in(2)) {
-        g->u.drench(30 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
+            if (g->u.weapon.has_flag("RAIN_PROTECT")) {
+            // Umbrellas tend to protect one's head and torso pretty well
+                g->u.drench(30 - (g->u.warmth(bp_legs) * 4/5 + g->u.warmth(bp_feet) / 5),
+                     mfb(bp_legs));
+            }
+            else {
+                g->u.drench(30 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
                      mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head));
+            }
     }
 
     fill_water_collectors(4, acid); // fixme; consolidate drench, this, and decay_fire_and_scent.
@@ -280,11 +287,18 @@ void generic_wet(bool acid)
 
 void generic_very_wet(bool acid)
 {
-    if ((!g->u.worn_with_flag("RAINPROOF") || one_in(25)) &&
-         (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(5)) && !g->u.has_trait("FEATHERS") &&
+    if ((!g->u.worn_with_flag("RAINPROOF") || one_in(50)) &&
+         (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) && !g->u.has_trait("FEATHERS") &&
          (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5) < 60 && PLAYER_OUTSIDE) {
-        g->u.drench(60 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
+            if (g->u.weapon.has_flag("RAIN_PROTECT")) {
+            // Umbrellas tend to protect one's head and torso pretty well
+                g->u.drench(60 - (g->u.warmth(bp_legs) * 4/5 + g->u.warmth(bp_feet) / 5),
+                     mfb(bp_legs));
+            }
+            else {
+                g->u.drench(60 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
                      mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head));
+            }
     }
 
     fill_water_collectors(8, acid);
@@ -332,10 +346,10 @@ void weather_effect::light_acid()
 {
     generic_wet(true);
     if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE) {
-        if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(2)) {
+        if (g->u.weapon.has_flag("RAIN_PROTECT") && !one_in(3)) {
             g->add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.name.c_str());
         } else {
-            if (g->u.worn_with_flag("RAINPROOF") && !one_in(3)) {
+            if (g->u.worn_with_flag("RAINPROOF") && !one_in(4)) {
                 g->add_msg(_("Your clothing protects you from the acidic drizzle."));
             } else {
                 bool has_helmet = false;
@@ -363,7 +377,7 @@ void weather_effect::acid()
             } else {
                 bool has_helmet = false;
                 if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(2))) {
-                    g->add_msg(_("Your power armor protects you from the acidic drizzle."));
+                    g->add_msg(_("Your power armor protects you from the acid rain."));
                 } else {
                     g->add_msg(_("The acid rain burns!"));
                     if (one_in(2) && (g->u.pain < 100)) {
