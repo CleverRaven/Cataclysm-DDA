@@ -666,7 +666,7 @@
         "description" : "Alcohol and drugs go straight to your head. You suffer the negative effects of these for longer.",
         "starting_trait" : true,
         "category" : ["MUTCAT_MEDICAL"],
-        "cancels" : ["DRUNKEN"]
+        "cancels" : ["DRUNKEN", "TOLERANCE"]
     },{
         "type" : "mutation",
         "id" : "ADDICTIVE",
