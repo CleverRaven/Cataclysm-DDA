@@ -167,6 +167,9 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
     std::vector<int> category_order;
     category_order.reserve(firsts.size());
 
+    std::string str_back = _("< Go Back");
+    std::string str_more = _("> More items");
+
     // Items are not guaranteed to be in the same order as their categories, in fact they almost never are.
     // So we sort the categories by which items actually show up first in the inventory.
     for (int current_item = 0; current_item < slice.size(); ++current_item) {
@@ -186,14 +189,18 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
             if (start < 0) {
                 start = 0;
             }
-            mvwprintw(w_inv, maxitems + 4, 0, "         ");
+            for (int i = 0; i < utf8_width(str_back.c_str()); i++) {
+                mvwputch(w_inv, maxitems + 4, i, c_black, ' ');
+            }
             if ( selected > -1 ) {
                 selected = start;    // oy, the cheese
             }
         }
         if (( ch == '>' || ch == KEY_NPAGE ) && cur_it < slice.size()) { // Clear lines and shift
             start = cur_it;
-            mvwprintw(w_inv, maxitems + 4, 12, "            ");
+            for (int i = 0; i < utf8_width(str_more.c_str()); i++) {
+                mvwputch(w_inv, maxitems + 4, i + utf8_width(str_back.c_str()) + 2, c_black, ' ');
+            }
             for (int i = 1; i < maxitems + 4; i++) {
                 mvwprintz(w_inv, i, 0, c_black, "                                             ");
             }
@@ -236,8 +243,7 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
                 const char invlet = it.invlet == 0 ? ' ' : it.invlet;
                 mvwputch(w_inv, cur_line, 0, (cur_it == selected ? selected_line_color : c_white), invlet);
                 mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? selected_line_color : it.color_in_inventory()),
-                          " %s",
-                          it.display_name().c_str());
+                          _(" %s"), it.display_name().c_str());
                 if (slice[cur_it].first->size() > 1) {
                     wprintw(w_inv, " x %d", slice[cur_it].first->size());
                 }
@@ -249,21 +255,24 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
         std::string msg_str;
         nc_color msg_color;
         if (inCategoryMode) {
-            msg_str = _("In category select mode! Press [TAB] to enter item select mode.");
+            msg_str = _("Category selection; Press [TAB] to switch the mode.");
             msg_color = c_white_red;
         } else {
-            msg_str = _("In item select mode! Press [TAB] to enter category select mode.");
+            msg_str = _("Item selection; Press [TAB] to switch the mode.");
             msg_color = h_white;
         }
-        mvwprintz(w_inv, maxitems + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str.c_str()), msg_color,
-                  msg_str.c_str());
+        for (int i = utf8_width(str_back.c_str()) + 2 + utf8_width(str_more.c_str());
+             i < FULL_SCREEN_WIDTH; i++) {
+                 mvwputch(w_inv, maxitems + 4, i, c_black, ' ');
+        }
+        mvwprintz(w_inv, maxitems + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str.c_str()),
+                  msg_color, msg_str.c_str());
 
-        msg_str = _("< Go Back");
         if (start > 0) {
-            mvwprintw(w_inv, maxitems + 4, 0, msg_str.c_str());
+            mvwprintw(w_inv, maxitems + 4, 0, str_back.c_str());
         }
         if (cur_it < slice.size()) {
-            mvwprintw(w_inv, maxitems + 4, utf8_width(msg_str.c_str()) + 2, _("> More items"));
+            mvwprintw(w_inv, maxitems + 4, utf8_width(str_back.c_str()) + 2, str_more.c_str());
         }
         wrefresh(w_inv);
 
@@ -309,7 +318,9 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
                     if (start < 0) {
                         start = 0;
                     }
-                    mvwprintw(w_inv, maxitems + 4, 0, "         ");
+                    for (int i = 0; i < utf8_width(str_back.c_str()); i++) {
+                        mvwputch(w_inv, maxitems + 4, i, c_black, ' ');
+                    }
                 }
             }
         } else if ( ch == '\n' || ch == KEY_RIGHT ) {
