@@ -729,19 +729,20 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     w_header1 = newwin(1, FULL_SCREEN_WIDTH / 2 - 5, 3 + iOffsetY, 1 + iOffsetX);
     w_header2 = newwin(1, FULL_SCREEN_WIDTH / 2 - 4, 3 + iOffsetY,
                        FULL_SCREEN_WIDTH / 2 + 3 + iOffsetX);
-    w_shift   = newwin(15, 5, 3 + iOffsetY, FULL_SCREEN_WIDTH / 2 - 3 + iOffsetX);
-    w_list    = newwin(12, FULL_SCREEN_WIDTH / 2 - 5, 5 + iOffsetY, 1 + iOffsetX);
+    w_shift   = newwin(14, 5, 3 + iOffsetY, FULL_SCREEN_WIDTH / 2 - 3 + iOffsetX);
+    w_list    = newwin(12, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY, iOffsetX);
     w_active  = newwin(12, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY,
-                       FULL_SCREEN_WIDTH / 2 + 3 + iOffsetX);
-    w_description = newwin(4, FULL_SCREEN_WIDTH - 2, 19 + iOffsetY, 1 + iOffsetX);
+                       FULL_SCREEN_WIDTH / 2 + 2 + iOffsetX);
+    w_description = newwin(6, FULL_SCREEN_WIDTH - 2, 18 + iOffsetY, 1 + iOffsetX);
 
     // draw the separation lines directly onto *win
     // UI LINES
     // make appropriate lines
     int xs[] = {1, 1, (FULL_SCREEN_WIDTH / 2) + 2, (FULL_SCREEN_WIDTH / 2) - 4, (FULL_SCREEN_WIDTH / 2) + 2};
-    int ys[] = {FULL_SCREEN_HEIGHT - 7, 4, 4, 3, 3};
+    int ys[] = {FULL_SCREEN_HEIGHT - 8, 4, 4, 3, 3};
     int ls[] = {FULL_SCREEN_WIDTH - 2, (FULL_SCREEN_WIDTH / 2) - 4, (FULL_SCREEN_WIDTH / 2) - 3,
-                FULL_SCREEN_HEIGHT - 10, FULL_SCREEN_HEIGHT - 10};
+                FULL_SCREEN_HEIGHT - 11, 1};
+    //horizontal line?
     bool hv[] = {true, true, true, false, false};
 
     for (int i = 0; i < 5; ++i) {
@@ -750,36 +751,36 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         int l = ls[i];
         if (hv[i]) {
             for (int j = 0; j < l; ++j) {
-                mvwputch(win, y, x + j, BORDER_COLOR, LINE_OXOX);
+                mvwputch(win, y, x + j, BORDER_COLOR, LINE_OXOX); // _
             }
         } else {
             for (int j = 0; j < l; ++j) {
-                mvwputch(win, y + j, x, BORDER_COLOR, LINE_XOXO);
+                mvwputch(win, y + j, x, BORDER_COLOR, LINE_XOXO); // |
             }
         }
     }
     // Add in connective characters
     mvwputch(win, 4, 0, BORDER_COLOR, LINE_XXXO);
-    mvwputch(win, FULL_SCREEN_HEIGHT - 7, 0, BORDER_COLOR, LINE_XXXO);
+    mvwputch(win, FULL_SCREEN_HEIGHT - 8, 0, BORDER_COLOR, LINE_XXXO);
     mvwputch(win, 4, FULL_SCREEN_WIDTH / 2 + 2, BORDER_COLOR, LINE_XXXO);
 
     mvwputch(win, 4, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX);
-    mvwputch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX);
+    mvwputch(win, FULL_SCREEN_HEIGHT - 8, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX);
     mvwputch(win, 4, FULL_SCREEN_WIDTH / 2 - 4, BORDER_COLOR, LINE_XOXX);
 
     mvwputch(win, 2, FULL_SCREEN_WIDTH / 2 - 4, BORDER_COLOR, LINE_OXXX); // -.-
     mvwputch(win, 2, FULL_SCREEN_WIDTH / 2 + 2, BORDER_COLOR, LINE_OXXX); // -.-
 
-    mvwputch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH / 2 - 4, BORDER_COLOR, LINE_XXOX); // _|_
-    mvwputch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH / 2 + 2, BORDER_COLOR, LINE_XXOX); // _|_
+    mvwputch(win, FULL_SCREEN_HEIGHT - 8, FULL_SCREEN_WIDTH / 2 - 4, BORDER_COLOR, LINE_XXOX); // _|_
+    mvwputch(win, FULL_SCREEN_HEIGHT - 8, FULL_SCREEN_WIDTH / 2 + 2, BORDER_COLOR, LINE_XXOX); // _|_
 
     wrefresh(win);
     refresh();
     // end UI LINES
 
     std::vector<std::string> headers;
-    headers.push_back(_(" Mod List "));
-    headers.push_back(_(" Mod Load Order "));
+    headers.push_back(_("Mod List"));
+    headers.push_back(_("Mod Load Order"));
     std::vector<WINDOW *> header_windows;
     header_windows.push_back(w_header1);
     header_windows.push_back(w_header2);
@@ -805,7 +806,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 mvwprintz(header_windows[i], 0, header_x , c_cyan, headers[i].c_str());
 
                 if (active_header == i) {
-                    mvwputch(header_windows[i], 0, header_x - 2, c_red, '<');
+                    mvwputch(header_windows[i], 0, header_x - 3, c_red, '<');
                     mvwputch(header_windows[i], 0, header_x + headers[i].size() + 2, c_red, '>');
                 }
                 wrefresh(header_windows[i]);
@@ -850,9 +851,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             calcStartPos(startsel[0], cursel[0], getmaxy(w_list), useable_mod_count);
 
             if (useable_mod_count == 0) {
-                std::string error_output = _("--NO AVAILABLE MODS--");
-                const int sLoc = (getmaxx(w_list) - error_output.size()) / 2;
-                fold_and_print(w_list, 0, sLoc, getmaxx(w_list) - sLoc, c_red, error_output.c_str());
+                center_print(w_list, 0, c_red, _("--NO AVAILABLE MODS--"));
             } else {
                 std::stringstream list_output;
 
@@ -881,9 +880,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             calcStartPos(startsel[1], cursel[1], getmaxy(w_active), active_count);
 
             if (active_count == 0) {
-                std::string error_output = _("--NO ACTIVE MODS--");
-                const int sLoc = (getmaxx(w_active) - error_output.size()) / 2;
-                fold_and_print(w_active, 0, sLoc, getmaxx(w_active) - sLoc, c_red, error_output.c_str());
+                center_print(w_active, 0, c_red, _("--NO ACTIVE MODS--"));
             } else {
                 std::stringstream list_output;
 
