@@ -423,6 +423,8 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
     std::vector<int> category_order;
     category_order.reserve(firsts.size());
 
+    std::string str_back = _("< Go Back");
+    std::string str_more = _("> More items");
     // Items are not guaranteed to be in the same order as their categories, in fact they almost never are.
     // So we sort the categories by which items actually show up first in the inventory.
     for (int current_item = 0; current_item < u.inv.size(); ++current_item) {
@@ -527,8 +529,7 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
                     icon = '#';
                 }
                 nc_color col = ( cur_it == selected ? selected_line_color : it.color_in_inventory() );
-                mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
-                          it.tname().c_str());
+                mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon, it.tname().c_str());
                 if (stacks[cur_it].first->size() > 1) {
                     wprintz(w_inv, col, " x %d", stacks[cur_it].first->size());
                 }
@@ -558,24 +559,29 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
             max_it = cur_it;
         }
 
+        std::string msg_str;
+        nc_color msg_color;
         if (inCategoryMode) {
-            mvwprintz(w_inv, maxitems + 4, 32, c_white_red,
-                      _("In category select mode! Press [TAB] to enter item select mode."));
+            msg_str = _("Category selection; Press [TAB] to switch the mode.");
+            msg_color = c_white_red;
         } else {
-            mvwprintz(w_inv, maxitems + 4, 32, h_white,
-                      _("In item select mode! Press [TAB] to enter category select mode."));
+            msg_str = _("Item selection; Press [TAB] to switch the mode.");
+            msg_color = h_white;
         }
+        for (int i = utf8_width(str_back.c_str()) + 2 + utf8_width(str_more.c_str());
+             i < FULL_SCREEN_WIDTH; i++) {
+                 mvwputch(w_inv, maxitems + 4, i, c_black, ' ');
+        }
+        mvwprintz(w_inv, maxitems + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str.c_str()),
+                  msg_color, msg_str.c_str());
 
         if (start > 0) {
-            mvwprintw(w_inv, maxitems + 4, 0, _("< Go Back"));
+            mvwprintw(w_inv, maxitems + 4, 0, str_back.c_str());
         }
         if (cur_it < u.inv.size()) {
-            mvwprintw(w_inv, maxitems + 4, 12, _("> More items"));
+            mvwprintw(w_inv, maxitems + 4, utf8_width(str_back.c_str()) + 2, str_more.c_str());
         }
         wrefresh(w_inv);
-        /* back to (int)getch() as input() mangles arrow keys
-          ch = input();
-        */
         ch = getch();
 
         if (ch == '\t') {
@@ -589,7 +595,9 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
                 if (start < 0) {
                     start = 0;
                 }
-                mvwprintw(w_inv, maxitems + 4, 0, "         ");
+                for (int i = 0; i < utf8_width(str_back.c_str()); i++) {
+                    mvwputch(w_inv, maxitems + 4, i, c_black, ' ');
+                }
                 if ( selected > -1 ) {
                     selected = start;    // oy, the cheese
                 }
@@ -597,7 +605,9 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
         } else if ( ch == '>' || ch == KEY_NPAGE ) {
             if ( cur_it < u.inv.size()) {
                 start = cur_it;
-                mvwprintw(w_inv, maxitems + 4, 12, "            ");
+                for (int i = 0; i < utf8_width(str_more.c_str()); i++) {
+                    mvwputch(w_inv, maxitems + 4, i + utf8_width(str_back.c_str()) + 2, c_black, ' ');
+                }
                 for (int i = 1; i < maxitems + 4; i++) {
                     mvwprintz(w_inv, i, 0, c_black, "                                             ");
                 }
@@ -621,7 +631,9 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
             if ( selected > max_it ) {
                 if( cur_it < u.inv.size() ) {
                     start = cur_it;
-                    mvwprintw(w_inv, maxitems + 4, 12, "            ");
+                    for (int i = 0; i < utf8_width(str_more.c_str()); i++) {
+                        mvwputch(w_inv, maxitems + 4, i + utf8_width(str_back.c_str()) + 2, c_black, ' ');
+                    }
                     for (int i = 1; i < maxitems + 4; i++) {
                         mvwprintz(w_inv, i, 0, c_black, "                                             ");
                     }
@@ -644,7 +656,9 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
                     if (start < 0) {
                         start = 0;
                     }
-                    mvwprintw(w_inv, maxitems + 4, 0, "         ");
+                    for (int i = 0; i < utf8_width(str_back.c_str()); i++) {
+                        mvwputch(w_inv, maxitems + 4, i, c_black, ' ');
+                    }
                 }
             }
         } else if (ch >= '0' && ch <= '9') {
@@ -812,8 +826,8 @@ void game::compare(int iCompareX, int iCompareY)
 
     indexed_invslice stacks = u.inv.slice_filter();
 
-    WINDOW *w_inv = newwin(TERMY - VIEW_OFFSET_Y * 2, TERMX - VIEW_OFFSET_X * 2, VIEW_OFFSET_Y,
-                           VIEW_OFFSET_X);
+    WINDOW *w_inv = newwin(TERMY - VIEW_OFFSET_Y * 2, TERMX - VIEW_OFFSET_X * 2,
+                           VIEW_OFFSET_Y, VIEW_OFFSET_X);
     int maxitems = TERMY - 5 - VIEW_OFFSET_Y * 2; // Number of items to show at one time.
     std::vector<int> compare_list; // Count of how many we'll drop from each stack
     bool bFirst = false; // First Item selected
@@ -822,11 +836,15 @@ void game::compare(int iCompareX, int iCompareY)
     compare_list.resize(u.inv.size() + groundsize, 0);
     std::vector<char> dropped_armor; // Always single, not counted
     int dropped_weapon = 0;
-    print_inv_statics(w_inv, "Compare:", dropped_armor, dropped_weapon);
+    print_inv_statics(w_inv, _("Compare:"), dropped_armor, dropped_weapon);
     // Gun, ammo, weapon, armor, food, tool, book, other
     CategoriesVector CATEGORIES;
     std::vector<int> first = find_firsts(stacks, CATEGORIES);
     std::vector<int> firsts;
+
+    std::string str_back = _("< Go Back");
+    std::string str_more = _("> More items");
+
     if (groundsize > 0) {
         firsts.push_back(0);
     }
@@ -844,11 +862,15 @@ void game::compare(int iCompareX, int iCompareY)
             if (start < 0) {
                 start = 0;
             }
-            mvwprintw(w_inv, maxitems + 4, 0, "         ");
+            for (int i = 0; i < utf8_width(str_back.c_str()); i++) {
+                mvwputch(w_inv, maxitems + 4, i, c_black, ' ');
+            }
         }
         if (( ch == '>' || ch == KEY_NPAGE ) && cur_it < u.inv.size() + groundsize) {
             start = cur_it;
-            mvwprintw(w_inv, maxitems + 4, 12, "            ");
+            for (int i = 0; i < utf8_width(str_more.c_str()); i++) {
+                mvwputch(w_inv, maxitems + 4, i + utf8_width(str_back.c_str()) + 2, c_black, ' ');
+            }
             for (int i = 1; i < maxitems + 4; i++) {
                 mvwprintz(w_inv, i, 0, c_black, "                                             ");
             }
@@ -897,10 +919,10 @@ void game::compare(int iCompareX, int iCompareY)
             cur_line++;
         }
         if (start > 0) {
-            mvwprintw(w_inv, maxitems + 4, 0, _("< Go Back"));
+            mvwprintw(w_inv, maxitems + 4, 0, str_back.c_str());
         }
         if (cur_it < u.inv.size() + groundsize) {
-            mvwprintw(w_inv, maxitems + 4, 12, _("> More items"));
+            mvwprintw(w_inv, maxitems + 4, utf8_width(str_back.c_str()) + 2, str_more.c_str());
         }
         wrefresh(w_inv);
         ch = getch();
@@ -913,19 +935,19 @@ void game::compare(int iCompareX, int iCompareY)
                         dropped_armor.erase(dropped_armor.begin() + i);
                         found = true;
                         bFirst = false;
-                        print_inv_statics(w_inv, "Compare:", dropped_armor, dropped_weapon);
+                        print_inv_statics(w_inv, _("Compare:"), dropped_armor, dropped_weapon);
                     }
                 }
                 if (!found && dropped_weapon == -1 && ch == u.weapon.invlet) {
                     found = true;
                     bFirst = false;
                     dropped_weapon = 0;
-                    print_inv_statics(w_inv, "Compare:", dropped_armor, dropped_weapon);
+                    print_inv_statics(w_inv, _("Compare:"), dropped_armor, dropped_weapon);
                 }
                 if (!found) {
                     if (!bFirst) {
                         dropped_weapon = -1;
-                        print_inv_statics(w_inv, "Compare:", dropped_armor, dropped_weapon);
+                        print_inv_statics(w_inv, _("Compare:"), dropped_armor, dropped_weapon);
                         bFirst = true;
                         cLastCh = ch;
                     } else {
@@ -1006,13 +1028,12 @@ void game::compare(int iCompareX, int iCompareY)
             }
 
             compare_split_screen_popup(0, (TERMX - VIEW_OFFSET_X * 2) / 2, TERMY - VIEW_OFFSET_Y * 2,
-                                       sItemLastCh, vItemLastCh, vItemCh
-                                       , -1, true);//without getch()
+                                       sItemLastCh, vItemLastCh, vItemCh, -1, true); //without getch()
             compare_split_screen_popup((TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2) / 2,
                                        TERMY - VIEW_OFFSET_Y * 2, sItemCh, vItemCh, vItemLastCh);
 
             wclear(w_inv);
-            print_inv_statics(w_inv, "Compare:", dropped_armor, dropped_weapon);
+            print_inv_statics(w_inv, _("Compare:"), dropped_armor, dropped_weapon);
             bShowCompare = false;
         }
     } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
