@@ -714,7 +714,7 @@ void monster::melee_attack(Creature &target, bool) {
 
     body_part bp_hit;
     //int highest_hit = 0;
-    int hitstat = std::max(type->melee_skill - 2,0);
+    int hitstat = type->melee_skill;
     int hitroll = dice(hitstat,10);
 
     damage_instance damage;
