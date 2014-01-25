@@ -353,15 +353,16 @@ void uimenu::setup() {
     }
 
     if (h_auto) {
-        w_height = 2 + textformatted.size() + entries.size();
+        w_height = 3 + textformatted.size() + entries.size();
     }
 
-    vmax = entries.size();
     if ( w_height > TERMY ) {
         w_height = TERMY;
     }
-    if ( vmax + 2 + textformatted.size() > w_height ) {
-        vmax = w_height - 2 - textformatted.size();
+
+    vmax = entries.size();
+    if ( vmax + 3 + textformatted.size() > w_height ) {
+        vmax = w_height - 3 - textformatted.size();
         if ( vmax < 1 ) {
             popup("Can't display menu options, %d %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
                textformatted.size(),TERMY,textformatted[0].c_str(),textformatted[textformatted.size()-1].c_str()
@@ -458,9 +459,12 @@ void uimenu::show() {
     for ( int i = 0; i < textformatted.size(); i++ ) {
         mvwprintz(window, 1+i, 2, text_color, "%s", textformatted[i].c_str());
     }
+    
+    for ( int i = 1; i < w_width - 1; ++i) {
+        mvwputch(window, textformatted.size() + 1, i, border_color, LINE_OXOX);
+    }
 
-
-    int estart = textformatted.size() + 1;
+    int estart = textformatted.size() + 2;
 
     if( OPTIONS["MENU_SCROLL"] ) {
         if (fentries.size() > vmax) {
