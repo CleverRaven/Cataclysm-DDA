@@ -376,15 +376,17 @@ void vehicle::use_controls()
 {
     std::vector<vehicle_controls> options_choice;
     std::vector<uimenu_entry> options_message;
+    int vpart;
     // Always have this option
-    int current = 0;
-    int letgoent = 0;
 
-    options_choice.push_back(toggle_cruise_control);
-    options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
-                                           _("Enable cruise control"), 'c'));
 
-    current++;
+    // Let go without turning the engine off.
+    if (g->u.controlling_vehicle &&
+        g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
+        options_choice.push_back(release_control);
+        options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
+    }
+
 
     bool has_lights = false;
     bool has_overhead_lights = false;
@@ -429,77 +431,7 @@ void vehicle::use_controls()
         }
     }
 
-    // Lights if they are there - Note you can turn them on even when damaged, they just don't work
-    if (has_lights) {
-        options_choice.push_back(toggle_lights);
-        options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") :
-                                               _("Turn on headlights"), 'h'));
-        current++;
-    }
-
-   if (has_overhead_lights) {
-       options_choice.push_back(toggle_overhead_lights);
-       options_message.push_back(uimenu_entry(overhead_lights_on ? _("Turn off overhead lights") :
-                                              _("Turn on overhead lights"), 'v'));
-       current++;
-   }
-
-    //Honk the horn!
-    if (has_horn) {
-        options_choice.push_back(activate_horn);
-        options_message.push_back(uimenu_entry(_("Honk horn"), 'o'));
-        current++;
-    }
-
-    // Turrets: off or burst mode
-    if (has_turrets) {
-        options_choice.push_back(toggle_turrets);
-        options_message.push_back(uimenu_entry((0 == turret_mode) ? _("Switch turrets to burst mode") :
-                                               _("Disable turrets"), 't'));
-        current++;
-    }
-
-    // Turn the fridge on/off
-    if (has_fridge) {
-        options_choice.push_back(toggle_fridge);
-        options_message.push_back(uimenu_entry(fridge_on ? _("Turn off fridge") :
-                                               _("Turn on fridge"), 'f'));
-        current++;
-    }
-
-    // Turn the recharging station on/off
-    if (has_recharger) {
-        options_choice.push_back(toggle_recharger);
-        options_message.push_back(uimenu_entry(recharger_on ? _("Turn off recharger") :
-                                               _("Turn on recharger"), 'r'));
-        current++;
-    }
-
-    // Tracking on the overmap
-    if (has_tracker) {
-        options_choice.push_back(toggle_tracker);
-        options_message.push_back(uimenu_entry((tracking_on) ? _("Disable tracking device") :
-                                                _("Enable tracking device"), 'g'));
-
-        current++;
-    }
-
-    if( tags.count("convertible") ) {
-        options_choice.push_back(convert_vehicle);
-        options_message.push_back(uimenu_entry(_("Fold bicycle"), 'f'));
-        current++;
-    }
-
-    // Turn the reactor on/off
-    if (has_reactor) {
-        options_choice.push_back(toggle_reactor);
-        options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
-                                               _("Turn on reactor"), 'm'));
-        current++;
-    }
-
     // Toggle engine on/off, stop driving if we are driving.
-    int vpart;
     if (!pedals() && has_engine) {
         options_choice.push_back(toggle_engine);
         if (g->u.controlling_vehicle) {
@@ -508,15 +440,71 @@ void vehicle::use_controls()
             options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
                                                    _("Turn on the engine"), 'e'));
         }
-        current++;
     }
 
-    // Let go without turning the engine off.
-    if (g->u.controlling_vehicle &&
-        g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
-        options_choice.push_back(release_control);
-        options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
-        letgoent = current;
+    options_choice.push_back(toggle_cruise_control);
+    options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
+                                           _("Enable cruise control"), 'c'));
+
+
+    // Lights if they are there - Note you can turn them on even when damaged, they just don't work
+    if (has_lights) {
+        options_choice.push_back(toggle_lights);
+        options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") :
+                                               _("Turn on headlights"), 'h'));
+    }
+
+   if (has_overhead_lights) {
+       options_choice.push_back(toggle_overhead_lights);
+       options_message.push_back(uimenu_entry(overhead_lights_on ? _("Turn off overhead lights") :
+                                              _("Turn on overhead lights"), 'v'));
+   }
+
+    //Honk the horn!
+    if (has_horn) {
+        options_choice.push_back(activate_horn);
+        options_message.push_back(uimenu_entry(_("Honk horn"), 'o'));
+    }
+
+    // Turrets: off or burst mode
+    if (has_turrets) {
+        options_choice.push_back(toggle_turrets);
+        options_message.push_back(uimenu_entry((0 == turret_mode) ? _("Switch turrets to burst mode") :
+                                               _("Disable turrets"), 't'));
+    }
+
+    // Turn the fridge on/off
+    if (has_fridge) {
+        options_choice.push_back(toggle_fridge);
+        options_message.push_back(uimenu_entry(fridge_on ? _("Turn off fridge") :
+                                               _("Turn on fridge"), 'f'));
+    }
+
+    // Turn the recharging station on/off
+    if (has_recharger) {
+        options_choice.push_back(toggle_recharger);
+        options_message.push_back(uimenu_entry(recharger_on ? _("Turn off recharger") :
+                                               _("Turn on recharger"), 'r'));
+    }
+
+    // Tracking on the overmap
+    if (has_tracker) {
+        options_choice.push_back(toggle_tracker);
+        options_message.push_back(uimenu_entry((tracking_on) ? _("Disable tracking device") :
+                                                _("Enable tracking device"), 'g'));
+
+    }
+
+    if( tags.count("convertible") ) {
+        options_choice.push_back(convert_vehicle);
+        options_message.push_back(uimenu_entry(_("Fold bicycle"), 'f'));
+    }
+
+    // Turn the reactor on/off
+    if (has_reactor) {
+        options_choice.push_back(toggle_reactor);
+        options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
+                                               _("Turn on reactor"), 'm'));
     }
 
     options_choice.push_back(control_cancel);
@@ -526,7 +514,6 @@ void vehicle::use_controls()
     selectmenu.return_invalid = true;
     selectmenu.text = _("Vehicle controls");
     selectmenu.entries = options_message;
-    selectmenu.selected = letgoent;
     selectmenu.query();
     int select = selectmenu.ret;
 
