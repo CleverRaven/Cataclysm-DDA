@@ -749,7 +749,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     if (is_armor() && has_flag("WATERPROOF"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "--"));
-        dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing won't let water through.")));
+        dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing won't let water through.  Unless you jump in the river or something like that.")));
     }
     if (is_armor() && has_flag("STURDY"))
     {
