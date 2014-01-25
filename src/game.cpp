@@ -7615,7 +7615,7 @@ void game::control_vehicle()
 void game::examine(int examx, int examy)
 {
     int veh_part = 0;
-    vehicle *veh;
+    vehicle *veh = NULL;
 
     if (examx == -1) {
         // if we are driving a vehicle, examine the 
