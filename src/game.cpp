@@ -7616,6 +7616,7 @@ void game::examine(int examx, int examy)
 {
     int veh_part = 0;
     vehicle *veh;
+    veh = m.veh_at (examx, examy, veh_part);
 
     if (examx == -1) {
         // if we are driving a vehicle, examine the 
@@ -7629,8 +7630,6 @@ void game::examine(int examx, int examy)
         }
     }
 
-    if(!veh)
-        veh = m.veh_at (examx, examy, veh_part);
     if (veh) {
         int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
         int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
