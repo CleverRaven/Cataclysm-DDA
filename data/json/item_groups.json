@@ -295,6 +295,7 @@
       ["powder_eggs", 20],
       ["protein_powder", 15],
       ["dry_meat", 10],
+      ["dry_fish", 10],
       ["dry_veggy", 10],
       ["dry_fruit", 10],
       ["fchicken", 25],
@@ -383,6 +384,7 @@
       ["vinegar", 15],
       ["jar_veggy_pickled", 8],
       ["jar_meat_pickled", 4],
+      ["jar_fish_pickled", 6],
       ["tongs", 25],
       ["char_smoker", 25],
       ["lawn_dart", 10],
@@ -396,6 +398,7 @@
       ["dog_whistle", 5],
       ["dogfood", 20],
       ["catfood", 20],
+      ["salted_fish", 15],
       ["charcoal", 5]
     ]
   },{
@@ -534,6 +537,7 @@
       ["lunchmeat", 45],
       ["bologna", 45],
       ["jar_meat_pickled", 2],
+      ["jar_fish_pickled", 6],
       ["protein_shake", 10],
       ["fries", 8],
       ["cheese_fries", 6],
@@ -1125,6 +1129,7 @@
       ["salt", 20],
       ["pepper", 20],
       ["meat_smoked", 4],
+      ["fish_smoked", 4],
       ["cheeseburger", 35],
       ["hotdogs_frozen", 12],
       ["hotdogs_cooked", 35],
@@ -1175,6 +1180,7 @@
       ["chocpretzels", 50],
       ["chocolate", 50],
       ["jerky", 55],
+      ["salted_fish", 15],
       ["porkstick", 55],
       ["candy", 80],
       ["powder_candy", 60],
@@ -1379,6 +1385,7 @@
       ["powder_eggs", 20],
       ["protein_powder", 15],
       ["dry_meat", 10],
+      ["dry_fish", 10],
       ["dry_veggy", 10],
       ["dry_fruit", 10],
       ["oatmeal", 40],
@@ -1398,6 +1405,7 @@
       ["protein_shake", 10],
       ["dogfood", 5],
       ["catfood", 5],
+      ["jar_fish_pickled", 8],
       ["jar_meat_pickled", 6]
     ]
   },{
@@ -6069,6 +6077,7 @@
       ["colamdew", 60],
       ["choc_drink", 30],
       ["jerky", 55],
+      ["salted_fish", 35],
       ["porkstick", 55],
       ["ravioli", 25],
       ["can_beans", 40],
@@ -6079,6 +6088,7 @@
       ["vinegar", 10],
       ["jar_veggy_pickled", 30],
       ["con_milk", 20],
+      ["jar_fish_pickled", 26],
       ["jar_meat_pickled", 20]
     ]
   },{
