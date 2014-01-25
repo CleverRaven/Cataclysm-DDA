@@ -3774,7 +3774,7 @@
         "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 22,
-        "description" : "fish fillets cured in brine and vacuum-packed.  Salty but tasty in a pinch. ",
+        "description" : "Fish fillets cured in brine and vacuum-packed.  Salty but tasty in a pinch. ",
         "price" : 50,
         "material" : "flesh",
         "tool" : "null",
