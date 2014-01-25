@@ -1001,10 +1001,10 @@ int set_profession(WINDOW *w, player *u, int &points)
     WINDOW *w_description = newwin(4, FULL_SCREEN_WIDTH - 2,
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
 
-    WINDOW *w_items =       newwin(iContentHeight - 1, 26,  6 + getbegy(w), 21 + getbegx(w));
-    WINDOW *w_skills =      newwin(iContentHeight - 5, 30,  6 + getbegy(w), 48 + getbegx(w));
-    WINDOW *w_addictions =  newwin(4,                  30, 15 + getbegy(w), 48 + getbegx(w));
-    WINDOW *w_genderswap =  newwin(1,                  48,  5 + getbegy(w), 21 + getbegx(w));
+    WINDOW *w_items =       newwin(iContentHeight - 1, 25,  6 + getbegy(w), 24 + getbegx(w));
+    WINDOW *w_skills =      newwin(iContentHeight - 5, 30,  6 + getbegy(w), 49 + getbegx(w));
+    WINDOW *w_addictions =  newwin(5,                  30, 15 + getbegy(w), 49 + getbegx(w));
+    WINDOW *w_genderswap =  newwin(1,                  55,  5 + getbegy(w), 24 + getbegx(w));
 
     std::vector<const profession *> sorted_profs;
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
@@ -1030,7 +1030,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d"), points);
         // Clear the bottom of the screen.
         werase(w_description);
-        mvwprintz(w, 3, 40, c_ltgray, "                                      ");
+        mvwprintz(w, 3, 40, c_ltgray, "                                       ");
         if (can_pick == "YES") {
             mvwprintz(w, 3, 21, c_green, _("Profession %1$s costs %2$d points (net: %3$d)"),
                       _(sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str()),
@@ -1099,9 +1099,11 @@ int set_profession(WINDOW *w, player *u, int &points)
         std::vector<addiction> prof_addictions = sorted_profs[cur_id]->addictions();
         if (prof_addictions.size() > 0) {
             mvwprintz(w_addictions, 0, 0, COL_HEADER, _("Addictions:"));
-            for (int i = 0; i < prof_addictions.size(); i++) {
-                wprintz(w_addictions, c_ltgray, _("\n%1$s (%2$d)"),
-                        addiction_name(prof_addictions[i]).c_str(), prof_addictions[i].intensity);
+            int add_y = 1;
+            for (size_t i = 0; i < prof_addictions.size(); i++) {
+                add_y += fold_and_print(w_addictions, i + add_y, 0, getmaxx(w_addictions), c_ltgray,
+                                        _("%1$s (%2$d)"), addiction_name(prof_addictions[i]).c_str(),
+                                        prof_addictions[i].intensity) - 1;
             }
         }
 
