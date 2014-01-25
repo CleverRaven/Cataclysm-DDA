@@ -3873,7 +3873,7 @@
         "charges" : 4,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : -4
+        "fun" : -15
     },
     {
         "type" : "COMESTIBLE",
