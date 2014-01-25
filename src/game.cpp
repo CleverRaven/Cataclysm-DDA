@@ -688,11 +688,7 @@ void game::cleanup_at_end(){
             if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "yes" ||
                 (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "query" &&
                  query_yn(_("Delete saved world?")))) {
-                if (gamemode->id() == SGAME_NULL) {
-                    delete_world(world_generator->active_world->world_name, false);
-                } else {
-                    delete_world(world_generator->active_world->world_name, true);
-                }
+                delete_world(world_generator->active_world->world_name, true);
             }
         } else if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] != "no") {
             std::stringstream message;
