@@ -8871,6 +8871,7 @@ void game::pickup(int posx, int posy, int min)
     int craft_part = 0;
     int chempart = 0;
     std::vector<std::string> menu_items;
+    std::vector<uimenu_entry> options_message;
 
     vehicle *veh = m.veh_at (posx, posy, veh_part);
     if (min != -1 && veh) {
@@ -8882,32 +8883,49 @@ void game::pickup(int posx, int posy, int min)
         from_veh = veh && veh_part >= 0 && veh->parts[veh_part].items.size() > 0;
 
         menu_items.push_back(_("Examine vehicle"));
+        options_message.push_back(uimenu_entry(_("Examine vehicle"), 'e'));
+
         if (from_veh) {
             menu_items.push_back(_("Get items"));
+            options_message.push_back(uimenu_entry(_("Get items"), 'g'));
         }
         if((k_part >= 0 || chempart >= 0) && veh->fuel_left("battery") > 0)
         {
           menu_items.push_back(_("Use the hotplate"));
+          options_message.push_back(uimenu_entry(_("Use the hotplate"), 'h'));
         }
         if(k_part >= 0 && veh->fuel_left("water") > 0)
         {
           menu_items.push_back(_("Fill a container with water"));
+          options_message.push_back(uimenu_entry(_("Fill a container with water"), 'c'));
+
           menu_items.push_back(_("Have a drink"));
+          options_message.push_back(uimenu_entry(_("Have a drink"), 'd'));
         }
         if(w_part >= 0 && veh->fuel_left("battery") > 0)
         {
           menu_items.push_back(_("Use the welding rig?"));
+          options_message.push_back(uimenu_entry(_("Use the welding rig?"), 'w'));
         }
         if(craft_part >= 0 && veh->fuel_left("battery") > 0)
         {
           menu_items.push_back(_("Use the water purifier?"));
+          options_message.push_back(uimenu_entry(_("Use the water purifier?"), 'p'));
         }
 
         int choice;
         if( menu_items.size() == 1 )
           choice = 0;
-        else
-          choice = menu_vec(true, _("Select an action"), menu_items)-1;
+        else {
+          uimenu selectmenu;
+          selectmenu.return_invalid = true;
+          selectmenu.text = _("Select an action");
+          selectmenu.entries = options_message;
+          selectmenu.selected = 0;
+          selectmenu.query();
+          choice = selectmenu.ret;
+        }
+
         if(choice<0)
         {
           return;
