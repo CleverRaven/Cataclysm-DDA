@@ -5470,7 +5470,8 @@ void player::vomit()
 
 void player::drench(int saturation, int flags)
 {
-    if (is_waterproof(flags)) {
+    // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
+    if ( (is_waterproof(flags)) && (!(g->m.has_flag(TFLAG_DEEP_WATER, posx, posy))) ) {
         return;
     }
 

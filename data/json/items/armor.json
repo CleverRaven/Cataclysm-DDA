@@ -5017,7 +5017,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A hard plastic hat worn in constructions sites. Excellent protection from cuts and percussion.",
+        "description" : "A hard plastic hat worn in construction sites. Excellent protection from cuts and percussion.",
         "price" : 125,
         "material" : ["plastic", "null"],
         "volume" : 10,
