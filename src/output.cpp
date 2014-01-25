@@ -1050,7 +1050,6 @@ std::string word_rewrap (const std::string &ins, int width)
 {
     std::ostringstream o;
     std::string in = ins;
-    std::replace(in.begin(), in.end(), '\n', ' ');
 
     // find non-printing tags
     std::vector<size_t> tag_positions = get_tag_positions(in);
@@ -1086,7 +1085,7 @@ std::string word_rewrap (const std::string &ins, int width)
 
         x += mk_wcwidth(uc);
 
-        if (x >= width) {
+        if (x > width) {
             if (lastwb == lastout) {
                 lastwb = j;
             }
