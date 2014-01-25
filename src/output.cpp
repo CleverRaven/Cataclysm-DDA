@@ -1161,6 +1161,11 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
                     const int iNumEntries, const int iOffsetY, const int iOffsetX,
                     nc_color bar_color)
 {
+    if (iContentHeight >= iNumEntries) {
+        //scrollbar is not required
+        bar_color = BORDER_COLOR;
+    }
+
     //Clear previous scrollbar
     for(int i = iOffsetY; i < iOffsetY + iContentHeight; i++) {
         mvwputch(window, i, iOffsetX, bar_color, LINE_XOXO);
