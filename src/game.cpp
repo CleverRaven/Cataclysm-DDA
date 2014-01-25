@@ -7614,22 +7614,32 @@ void game::control_vehicle()
 
 void game::examine(int examx, int examy)
 {
+    int veh_part = 0;
+    vehicle *veh;
+
     if (examx == -1) {
-        if (!choose_adjacent(_("Examine where?"), examx, examy)) {
+        // if we are driving a vehicle, examine the 
+        // current tile without asking.
+        veh = m.veh_at(u.posx, u.posy, veh_part);
+        if (veh && veh->player_in_control(&u)) {
+            examx = u.posx;
+            examy = u.posy;
+        } else  if (!choose_adjacent(_("Examine where?"), examx, examy)) {
             return;
         }
     }
 
-    int veh_part = 0;
-    vehicle *veh = m.veh_at (examx, examy, veh_part);
+    if(!veh)
+        veh = m.veh_at (examx, examy, veh_part);
     if (veh) {
         int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
         int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
         int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
         int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
         int vpchemlab = veh->part_with_feature(veh_part, "CHEMLAB", true);
+        int vpcontrols = veh->part_with_feature(veh_part, "CONTROLS", true);
         if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
-                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0 || vpchemlab >=0) {
+                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0 || vpchemlab >=0 || vpcontrols) {
             pickup(examx, examy, 0);
         } else if (u.controlling_vehicle) {
             add_msg (_("You can't do that while driving."));
@@ -8866,6 +8876,7 @@ void game::pickup(int posx, int posy, int min)
     int w_part = 0;
     int craft_part = 0;
     int chempart = 0;
+    int ctrl_part = 0;
     std::vector<std::string> menu_items;
     std::vector<uimenu_entry> options_message;
 
@@ -8876,10 +8887,15 @@ void game::pickup(int posx, int posy, int min)
         craft_part = veh->part_with_feature(veh_part, "CRAFTRIG");
         chempart = veh->part_with_feature(veh_part, "CHEMLAB");
         veh_part = veh->part_with_feature(veh_part, "CARGO", false);
+        ctrl_part = veh->part_with_feature(veh_part, "CONTROLS");    
         from_veh = veh && veh_part >= 0 && veh->parts[veh_part].items.size() > 0;
 
         menu_items.push_back(_("Examine vehicle"));
         options_message.push_back(uimenu_entry(_("Examine vehicle"), 'e'));
+        if (ctrl_part >= 0) {
+            menu_items.push_back(_("Control vehicle"));
+            options_message.push_back(uimenu_entry(_("Control vehicle"), 'v'));
+        }
 
         if (from_veh) {
             menu_items.push_back(_("Get items"));
@@ -9000,6 +9016,12 @@ void game::pickup(int posx, int posy, int min)
             return;
         } 
         
+        if(menu_items[choice]==_("Control vehicle"))
+        {
+          veh->use_controls();
+          return;
+        }
+
         if(menu_items[choice]==_("Examine vehicle"))
         {
             exam_vehicle(*veh, posx, posy);
