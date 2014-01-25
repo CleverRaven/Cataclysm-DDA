@@ -387,10 +387,6 @@ void vehicle::use_controls()
         options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
     }
 
-    options_choice.push_back(toggle_cruise_control);
-    options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
-                                           _("Enable cruise control"), 'c'));
-
 
     bool has_lights = false;
     bool has_overhead_lights = false;
@@ -434,6 +430,22 @@ void vehicle::use_controls()
             has_recharger = true;
         }
     }
+
+    // Toggle engine on/off, stop driving if we are driving.
+    if (!pedals() && has_engine) {
+        options_choice.push_back(toggle_engine);
+        if (g->u.controlling_vehicle) {
+            options_message.push_back(uimenu_entry(_("Stop driving."), 's'));
+        } else {
+            options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
+                                                   _("Turn on the engine"), 'e'));
+        }
+    }
+
+    options_choice.push_back(toggle_cruise_control);
+    options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
+                                           _("Enable cruise control"), 'c'));
+
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
     if (has_lights) {
@@ -493,17 +505,6 @@ void vehicle::use_controls()
         options_choice.push_back(toggle_reactor);
         options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
                                                _("Turn on reactor"), 'm'));
-    }
-
-    // Toggle engine on/off, stop driving if we are driving.
-    if (!pedals() && has_engine) {
-        options_choice.push_back(toggle_engine);
-        if (g->u.controlling_vehicle) {
-            options_message.push_back(uimenu_entry(_("Stop driving."), 's'));
-        } else {
-            options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
-                                                   _("Turn on the engine"), 'e'));
-        }
     }
 
     options_choice.push_back(control_cancel);
