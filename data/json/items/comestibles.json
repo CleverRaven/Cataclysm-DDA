@@ -838,7 +838,7 @@
         "quench" : 100,
         "heal" : 2,
         "addiction_potential" : 0,
-        "nutrition" : 160,
+        "nutrition" : 150,
         "description" : "A nutritious and delicious hearty fish soup.",
         "price" : 60,
         "material" : "flesh",
@@ -3802,15 +3802,15 @@
         "quench" : 0,
         "heal" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 26,
-        "description" : "A delicious serving of crispy fried fish.",
+        "nutrition" : 28,
+        "description" : "A delicious golden brown serving of crispy fried fish.",
         "price" : 75,
         "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 4,
+        "charges" : 6,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
@@ -3873,7 +3873,7 @@
         "charges" : 4,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : -8
+        "fun" : -4
     },
     {
         "type" : "COMESTIBLE",

@@ -5811,9 +5811,10 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 3,
-  "time": 8000,
+  "time": 16000,
   "reversible": false,
   "autolearn": true,
+   "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the fish",
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -5826,26 +5827,28 @@
     ],
     [
       [ "pot", -1 ],
-      [ "pan", -1 ]
+      [ "pan", -1 ],
+      [ "rock_pot", -1 ]
     ],
     [
       [ "tongs", -1 ],
       [ "skewer", -1 ]
+    ],
+    [
+      [ "cooking_oil", -1 ]
     ]
   ],
   "components": [
     [
-      [ "fish", 2 ]
-    ],
-    [
-      [ "cooking_oil", 2 ]
+      [ "fish", 3 ]
     ],
     [
       [ "flour", 1 ],
       [ "cornmeal", 1 ],
       [ "bread", 1 ],
+      [ "cornbread", 1 ],
       [ "hardtack", 1 ],
-      [ "crackers", 2 ]
+      [ "crackers", 1 ]
     ]
   ]
 },{
@@ -7773,6 +7776,20 @@
       [ "noodles_fast", 1],
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
+      [ "corn", 1 ],
+      [ "can_corn", 1 ],
+      [ "onion", 1 ],
+      [ "carrot", 1 ],
+      [ "veggy_wild", 1 ],
+      [ "veggy", 1 ],
+      [ "dry_veggy", 1 ],
+      [ "con_milk", 1 ],
+      [ "bread", 1 ],
+      [ "hardtack", 1 ],
+      [ "flour", 1 ],
+      [ "cornmeal", 1 ],
+      [ "milk_powder", 1 ],
+      [ "crackers", 2 ],
       [ "powder_eggs", 5 ]
     ],
     [
