@@ -28756,10 +28756,10 @@
   "components":
     [
      [
-	 [ "v6_combustion", 1]
+	  [ "i4_combustion", 1]
 	 ],
 	 [
-	 [ "chain", 10]
+	  [ "chain", 18]
 	 ]
     ]
 }
