@@ -1658,13 +1658,7 @@ int game::reserve_random_mission(mission_origin origin, point p, int npc_id)
 
 npc* game::find_npc(int id)
 {
-    //All the active NPCS are listed in the overmap.
-    for (int i = 0; i < cur_om->npcs.size(); i++)
-    {
-        if (cur_om->npcs[i]->getID() == id)
-            return (cur_om->npcs[i]);
-    }
-    return NULL;
+    return overmap_buffer.find_npc(id);
 }
 
 int game::kill_count(std::string mon){
@@ -1734,13 +1728,10 @@ bool game::mission_complete(int id, int npc_id)
    return false;
 
   case MGOAL_RECRUIT_NPC:
-   for (int i = 0; i < cur_om->npcs.size(); i++) {
-    if (cur_om->npcs[i]->getID() == miss->recruit_npc_id) {
-        if (cur_om->npcs[i]->attitude == NPCATT_FOLLOW)
-            return true;
+    {
+        npc *p = find_npc(miss->recruit_npc_id);
+        return (p != NULL && p->attitude == NPCATT_FOLLOW);
     }
-   }
-   return false;
 
   case MGOAL_RECRUIT_NPC_CLASS:
     {
@@ -1829,19 +1820,18 @@ void game::mission_step_complete(int id, int step)
   case MGOAL_FIND_ITEM:
   case MGOAL_FIND_MONSTER:
   case MGOAL_KILL_MONSTER: {
-   bool npc_found = false;
-   for (int i = 0; i < cur_om->npcs.size(); i++) {
-    npc *p = cur_om->npcs[i];
-    if (p->getID() == miss->npc_id) {
-     // proper global coordinates, map(x/y) are submaps coordinates
-     miss->target.x = p->mapx / 2 + p->omx * OMAPX;
-     miss->target.y = p->mapy / 2 + p->omy * OMAPY;
-     npc_found = true;
+    npc *p = find_npc(miss->npc_id);
+    if (p != NULL) {
+        // proper overmap terrain coordinates, map(x/y) are submaps coordinates
+        miss->target = overmapbuffer::sm_to_omt_copy(p->mapx, p->mapy);
+        // and global, too
+        miss->target.x += p->omx * OMAPX;
+        miss->target.y += p->omy * OMAPY;
+    } else {
+        miss->target = overmap::invalid_point;
     }
-   }
-   if (!npc_found)
-    miss->target = overmap::invalid_point;
-  } break;
+    break;
+  }
  }
 }
 

@@ -88,6 +88,12 @@ public:
      * player position as center.
      */
     std::vector<npc*> get_npcs_near_player(int radius);
+    /**
+     * Find the npc with the given ID.
+     * Returns NULL if the npc could not be found.
+     * Searches all loaded overmaps.
+     */
+    npc* find_npc(int id);
 
     /**
      * Find all places with the specific overmap terrain type.

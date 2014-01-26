@@ -268,6 +268,17 @@ std::vector<point> overmapbuffer::find_all(const tripoint& origin, const std::st
     return result;
 }
 
+npc* overmapbuffer::find_npc(int id) {
+    for (std::list<overmap>::iterator it = overmap_list.begin(); it != overmap_list.end(); ++it) {
+        for (int i = 0; i < it->npcs.size(); i++) {
+            if (it->npcs[i]->getID() == id) {
+                return it->npcs[i];
+            }
+        }
+    }
+    return NULL;
+}
+
 std::vector<npc*> overmapbuffer::get_npcs_near_player(int radius)
 {
     tripoint plpos = g->om_global_location();
