@@ -127,12 +127,6 @@ bool fexists(const char *filename)
   return (bool)ifile;
 }
 
-/** Developer: Joakim "Kuxe" Thorén
- ** Date: 2014-01-26
- ** E-mail: joakimthoren93@gmail.com
- ** Name: Toggle fullscreen
- ** Description: Enables toggling the SDL screen to fullscreen
- **/
 #ifdef SDLTILES
 static void toggleFullscreen()
 {
@@ -143,8 +137,6 @@ static void toggleFullscreen()
     if(screen == NULL) exit(1); /* If you can't switch back for some reason, then epic fail */
 }
 #endif
-/** End of Toggle fullscreen**/
-
 
 //Registers, creates, and shows the Window!!
 bool WinCreate()
@@ -723,15 +715,9 @@ void CheckMessages()
                 else if( ev.key.keysym.sym == SDLK_PAGEDOWN ) {
                     lc = KEY_NPAGE;
                 }
-                /** Developer: Joakim "Kuxe" Thorén
-                 ** Date: 2014-01-26
-                 ** Name:
-                 ** Description:
-                 **/
                 else if( ev.key.keysym.sym == SDLK_F11) {
                     toggleFullscreen();
                 }
-                /** End of **/
                 if( !lc ) { break; }
                 if( alt_down ) {
                     add_alt_code( lc );
