@@ -249,6 +249,25 @@ point overmapbuffer::find_closest(const tripoint& origin, const std::string& typ
     return overmap::invalid_point;
 }
 
+std::vector<point> overmapbuffer::find_all(const tripoint& origin, const std::string& type, int dist, bool must_be_seen)
+{
+    std::vector<point> result;
+    int max = (dist == 0 ? OMAPX / 2 : dist);
+    for (dist = 0; dist <= max; dist++) {
+        for (int x = origin.x - dist; x <= origin.x + dist; x++) {
+            for (int y = origin.y - dist; y <= origin.y + dist; y++) {
+                if (must_be_seen && !seen(x, y, origin.z)) {
+                    continue;
+                }
+                if (check_ot_type(type, x, y, origin.z)) {
+                    result.push_back(point(x, y));
+                }
+            }
+        }
+    }
+    return result;
+}
+
 overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string* pattern) const
 {
     t_notes_vector result;

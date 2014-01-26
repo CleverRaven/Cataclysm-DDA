@@ -1621,24 +1621,6 @@ void overmap::make_tutorial()
     zg.clear();
 }
 
-std::vector<point> overmap::find_all(tripoint origin, const std::string &type,
-                                     int &dist, bool must_be_seen)
-{
-    std::vector<point> res;
-    int max = (dist == 0 ? OMAPX / 2 : dist);
-    for (dist = 0; dist <= max; dist++) {
-        for (int x = origin.x - dist; x <= origin.x + dist; x++) {
-            for (int y = origin.y - dist; y <= origin.y + dist; y++) {
-                if (check_ot_type(type, x, y, origin.z)
-                        && (!must_be_seen || seen(x, y, origin.z))) {
-                    res.push_back(point(x, y));
-                }
-            }
-        }
-    }
-    return res;
-}
-
 std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
 {
     std::vector<point> found;

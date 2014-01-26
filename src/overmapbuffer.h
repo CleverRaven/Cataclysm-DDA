@@ -77,6 +77,19 @@ public:
     bool is_safe(const tripoint& p) { return is_safe(p.x, p.y, p.z); }
 
     /**
+     * Find all places with the specific overmap terrain type.
+     * The function only searches on the z-level indicated by
+     * origin.
+     * This function may greate a new overmap if needed.
+     * @param dist The maximum search distance.
+     * If 0, OMAPX is used.
+     * @param must_be_seen If true, only terrain seen by the player
+     * should be searched.
+     */
+    std::vector<point> find_all(const tripoint& origin, const std::string& type,
+        int dist, bool must_be_seen);
+
+    /**
      * Mark a square area around center on z-level z
      * as seen.
      * center is in absolute overmap terrain coords.
@@ -88,14 +101,17 @@ public:
     bool reveal(const point &center, int radius, int z);
     /**
      * Returns the closest point of terrain type.
-     * dist is set to the distance between the origin and the returned point.
-     * You can give dist a value, which will be used as the maximum distance;
-     * a value of 0 will search an entire overmap area.
-     * Use must_be_seen=true if only terrain seen by the player
-     * should be searched.
-     * If no such tile can be found, overmap::invalid_point is returned.
      * This function may greate a new overmap if needed.
+     * @param dist This gets set to the distance between the origin
+     * and the returned point.
+     * You can give dist an initial value, which will be used as
+     * the maximum distance for point to be searched.
+     * A value of 0 will search an entire overmap area.
+     * @returns If no matching tile can be found,
+     * overmap::invalid_point is returned.
      * @param origin uses overmap terrain coordinates.
+     * @param must_be_seen If true, only terrain seen by the player
+     * should be searched.
      */
     point find_closest(const tripoint& origin, const std::string& type, int& dist, bool must_be_seen);
 
