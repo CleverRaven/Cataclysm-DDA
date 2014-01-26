@@ -2729,11 +2729,11 @@ _(
  } else if (ch == '3') { // General S.O.S.
   p->moves -= 150;
   std::vector<npc*> in_range;
-  for (int i = 0; i < g->cur_om->npcs.size(); i++) {
-   if (g->cur_om->npcs[i]->op_of_u.value >= 4 &&
-       rl_dist(g->levx, g->levy, g->cur_om->npcs[i]->mapx,
-                                   g->cur_om->npcs[i]->mapy) <= 30)
-    in_range.push_back((g->cur_om->npcs[i]));
+  std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(30);
+  for (int i = 0; i < npcs.size(); i++) {
+   if (npcs[i]->op_of_u.value >= 4) {
+    in_range.push_back(npcs[i]);
+   }
   }
   if (in_range.size() > 0) {
    npc* coming = in_range[rng(0, in_range.size() - 1)];

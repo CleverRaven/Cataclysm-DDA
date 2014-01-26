@@ -576,21 +576,21 @@ void game::create_factions()
 //Make any nearby overmap npcs active, and put them in the right location.
 void game::load_npcs()
 {
-    for (int i = 0; i < cur_om->npcs.size(); i++) {
-        const int npc_offset = square_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
-                                           cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy);
-        if (npc_offset <= int(MAPSIZE / 2) + 1 && !cur_om->npcs[i]->is_active() &&
-            cur_om->npcs[i]->omz == levz) {
-
-            int dx = cur_om->npcs[i]->mapx - levx;
-            int dy = cur_om->npcs[i]->mapy - levy;
-            if (debugmon) {
-                debugmsg("game::load_npcs: Spawning static NPC, %d:%d (%d:%d)",
-                         levx, levy, cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy);
-            }
-
-            npc *temp = cur_om->npcs[i];
-
+    // get_npcs_near_player uses submap coordinates, load all npcs
+    // that are near enough to go onto one of the loaded submaps
+    const int radius = int(MAPSIZE / 2) + 1;
+    std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(radius);
+    for (int i = 0; i < npcs.size(); i++) {
+        npc *temp = npcs[i];
+        if (temp->is_active()) {
+            continue;
+        }
+        int dx = temp->mapx - levx;
+        int dy = temp->mapy - levy;
+        if (debugmon) {
+            debugmsg("game::load_npcs: Spawning static NPC, %d:%d (%d:%d)",
+                levx, levy, temp->mapx, temp->mapy);
+        }
             if (temp->posx == -1 || temp->posy == -1) {
                 dbg(D_ERROR) << "game::load_npcs: Static NPC with no fine location "
                     "data (" << temp->posx << ":" << temp->posy << ").";
@@ -618,7 +618,6 @@ void game::load_npcs()
             } else {
                 active_npc.push_back(temp);
             }
-        }
     }
 }
 
@@ -1744,13 +1743,17 @@ bool game::mission_complete(int id, int npc_id)
    return false;
 
   case MGOAL_RECRUIT_NPC_CLASS:
-   for (int i = 0; i < cur_om->npcs.size(); i++) {
-    if (cur_om->npcs[i]->myclass == miss->recruit_class) {
-            if (cur_om->npcs[i]->attitude == NPCATT_FOLLOW)
-                return true;
+    {
+        std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(100);
+        for (int i = 0; i < npcs.size(); i++) {
+            if (npcs[i]->myclass == miss->recruit_class) {
+                if (npcs[i]->attitude == NPCATT_FOLLOW) {
+                    return true;
+                }
+            }
+        }
     }
-   }
-   return false;
+    return false;
 
   case MGOAL_FIND_NPC:
    return (miss->npc_id == npc_id);
@@ -4246,17 +4249,18 @@ void game::disp_NPCs()
                     (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
  mvwprintz(w, 0, 0, c_white, _("Your position: %d:%d"), levx, levy);
+ std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(100);
  std::vector<npc*> closest;
- closest.push_back(cur_om->npcs[0]);
- for (int i = 1; i < cur_om->npcs.size(); i++) {
+ closest.push_back(npcs[0]);
+ for (int i = 1; i < npcs.size(); i++) {
   if (closest.size() < 20)
-   closest.push_back(cur_om->npcs[i]);
-  else if (rl_dist(levx, levy, cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy) <
+   closest.push_back(npcs[i]);
+  else if (rl_dist(levx, levy, npcs[i]->mapx, npcs[i]->mapy) <
            rl_dist(levx, levy, closest[19]->mapx, closest[19]->mapy)) {
    for (int j = 0; j < 20; j++) {
     if (rl_dist(levx, levy, closest[j]->mapx, closest[j]->mapy) >
-        rl_dist(levx, levy, cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy)) {
-     closest.insert(closest.begin() + j, cur_om->npcs[i]);
+        rl_dist(levx, levy, npcs[i]->mapx, npcs[i]->mapy)) {
+     closest.insert(closest.begin() + j, npcs[i]);
      closest.erase(closest.end() - 1);
      j = 20;
     }

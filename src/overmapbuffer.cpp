@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include "overmapbuffer.h"
-#include "file_finder.h"
+#include "game.h"
 
 overmapbuffer overmap_buffer;
 
@@ -268,6 +268,38 @@ std::vector<point> overmapbuffer::find_all(const tripoint& origin, const std::st
     return result;
 }
 
+std::vector<npc*> overmapbuffer::get_npcs_near_player(int radius)
+{
+    tripoint plpos = g->om_global_location();
+    // get_npcs_near needs submap coordinates
+    omt_to_sm(plpos.x, plpos.y);
+    return get_npcs_near(plpos.x, plpos.y, plpos.z, radius);
+}
+
+std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
+{
+    std::vector<npc*> result;
+    for(std::list<overmap>::iterator it = overmap_list.begin(); it != overmap_list.end(); ++it)
+    {
+        // Offset in submaps for the npcs on that overmap
+        const point offset = om_to_sm_copy(it->pos());
+        for (int i = 0; i < it->npcs.size(); i++) {
+            npc *p = it->npcs[i];
+            if (p->omz != z) {
+                continue;
+            }
+            // npc::mapx are submap coords, local to overmap where the
+            // NPC is currently on, make them global
+            point pos(p->mapx + offset.x, p->mapy + offset.y);
+            const int npc_offset = square_dist(x, y, pos.x, pos.y);
+            if (npc_offset <= radius) {
+                result.push_back(p);
+            }
+        }
+    }
+    return result;
+}
+
 overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string* pattern) const
 {
     t_notes_vector result;
@@ -372,4 +404,19 @@ tripoint overmapbuffer::omt_to_sm_copy(const tripoint& p) {
 void overmapbuffer::omt_to_sm(int &x, int &y) {
     x *= 2;
     y *= 2;
+}
+
+
+
+point overmapbuffer::om_to_sm_copy(int x, int y) {
+    return point(x * 2 * OMAPX, y * 2 * OMAPX);
+}
+
+tripoint overmapbuffer::om_to_sm_copy(const tripoint& p) {
+    return tripoint(p.x * 2 * OMAPX, p.y * 2 * OMAPX, p.z);
+}
+
+void overmapbuffer::om_to_sm(int &x, int &y) {
+    x *= 2 * OMAPX;
+    y *= 2 * OMAPY;
 }

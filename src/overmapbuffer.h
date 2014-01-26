@@ -77,6 +77,19 @@ public:
     bool is_safe(const tripoint& p) { return is_safe(p.x, p.y, p.z); }
 
     /**
+     * Get all npcs in a area with given radius around (x, y).
+     * Only npcs on the given z-level are considered.
+     * Uses square_dist for distance calculation.
+     * x,y are submap coordinates.
+     */
+    std::vector<npc*> get_npcs_near(int x, int y, int z, int radius);
+    /**
+     * Same as @ref get_npcs_near(int,int,int,int) but uses
+     * player position as center.
+     */
+    std::vector<npc*> get_npcs_near_player(int radius);
+
+    /**
      * Find all places with the specific overmap terrain type.
      * The function only searches on the z-level indicated by
      * origin.
@@ -176,6 +189,13 @@ public:
     static void omt_to_sm(int &x, int &y);
     static void omt_to_sm(point& p) { omt_to_sm(p.x, p.y); }
     static void omt_to_sm(tripoint& p) { omt_to_sm(p.x, p.y); }
+    // overmap to submap, basically: x *= 2 * OMAPX
+    static point om_to_sm_copy(int x, int y);
+    static point om_to_sm_copy(const point& p) { return om_to_sm_copy(p.x, p.y); }
+    static tripoint om_to_sm_copy(const tripoint& p);
+    static void om_to_sm(int &x, int &y);
+    static void om_to_sm(point& p) { om_to_sm(p.x, p.y); }
+    static void om_to_sm(tripoint& p) { om_to_sm(p.x, p.y); }
 
 private:
     std::list<overmap> overmap_list;
