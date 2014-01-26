@@ -72,6 +72,7 @@ TTF_Font* font;
 static int ttf_height_hack = 0;
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
+unsigned const short int WindowBPP = 32; //BitsPerPixel
 int lastchar;          //the last character that was pressed, resets in getch
 bool lastchar_isbutton; // Whether lastchar was a gamepad button press rather than a keypress.
 bool lastchar_is_mouse; // Mouse button pressed
@@ -126,6 +127,25 @@ bool fexists(const char *filename)
   return (bool)ifile;
 }
 
+/** Developer: Joakim "Kuxe" Thorén
+ ** Date: 2014-01-26
+ ** E-mail: joakimthoren93@gmail.com
+ ** Name: Toggle fullscreen
+ ** Description: Enables toggling the SDL screen to fullscreen
+ **/
+#ifdef SDLTILES
+static void toggleFullscreen()
+{
+    //Code from http://sdl.beuc.net/sdl.wiki/SDL_WM_ToggleFullScreen
+    Uint32 flags = screen->flags; /* Save the current flags in case toggling fails */
+    screen = SDL_SetVideoMode(WindowWidth, WindowHeight, WindowBPP, screen->flags ^ SDL_FULLSCREEN); /*Toggles FullScreen Mode */
+    if(screen == NULL) screen = SDL_SetVideoMode(WindowWidth, WindowHeight, WindowBPP, flags); /* If toggle FullScreen failed, then switch back */
+    if(screen == NULL) exit(1); /* If you can't switch back for some reason, then epic fail */
+}
+#endif
+/** End of Toggle fullscreen**/
+
+
 //Registers, creates, and shows the Window!!
 bool WinCreate()
 {
@@ -151,7 +171,7 @@ bool WinCreate()
 
     char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
     SDL_putenv(center_string);
-    screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
+    screen = SDL_SetVideoMode(WindowWidth, WindowHeight, WindowBPP, (SDL_SWSURFACE|SDL_DOUBLEBUF));
     //SDL_SetColors(screen,windowsPalette,0,256);
 
     if (screen == NULL) return false;
@@ -702,8 +722,16 @@ void CheckMessages()
                 }
                 else if( ev.key.keysym.sym == SDLK_PAGEDOWN ) {
                     lc = KEY_NPAGE;
-
                 }
+                /** Developer: Joakim "Kuxe" Thorén
+                 ** Date: 2014-01-26
+                 ** Name:
+                 ** Description:
+                 **/
+                else if( ev.key.keysym.sym == SDLK_F11) {
+                    toggleFullscreen();
+                }
+                /** End of **/
                 if( !lc ) { break; }
                 if( alt_down ) {
                     add_alt_code( lc );
@@ -1068,7 +1096,7 @@ WINDOW *curses_init(void)
     mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),
                      (SidebarWidth +
                      (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
-    
+
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
