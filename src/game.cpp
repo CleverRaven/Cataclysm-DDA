@@ -6144,8 +6144,6 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     }
                     add_msg(_("%s took %d damage!"), targ->name().c_str(), dam_mult*force_remaining);
                     targ->hp -= dam_mult*force_remaining;
-                    if (targ->hp <= 0)
-                        targ->die();
                 }
                 m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
                 sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
