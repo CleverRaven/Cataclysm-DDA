@@ -6119,24 +6119,18 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                              "%s was stunned for %d turns!", stun),
                     targ->name().c_str(), stun);
         }
-        for(int i = 1; i < traj.size(); i++)
-        {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0) // oops, we hit a wall!
-            {
+        for(int i = 1; i < traj.size(); i++) {
+            if (m.move_cost(traj[i].x, traj[i].y) == 0) {
                 targ->setpos(traj[i-1]);
                 force_remaining = traj.size() - i;
-                if (stun != 0)
-                {
-                    if (targ->has_effect("stunned"))
-                    {
+                if (stun != 0) {
+                    if (targ->has_effect("stunned")) {
                         targ->add_effect("stunned", force_remaining);
                         add_msg(ngettext("%s was stunned AGAIN for %d turn!",
                                          "%s was stunned AGAIN for %d turns!",
                                          force_remaining),
                                 targ->name().c_str(), force_remaining);
-                    }
-                    else
-                    {
+                    } else {
                         targ->add_effect("stunned", force_remaining);
                         add_msg(ngettext("%s was stunned for %d turn!",
                                          "%s was stunned for %d turns!",
@@ -6146,27 +6140,21 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     add_msg(_("%s slammed into an obstacle!"), targ->name().c_str() );
                     targ->hurt( dam_mult * force_remaining );
                 }
-                m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
-                sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
+                m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining, junk);
+                sound(traj[i].x, traj[i].y, (dam_mult * force_remaining * force_remaining) / 2, junk);
                 break;
-            }
-            else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1 ||
-                      (u.posx == traj[i].x && u.posy == traj[i].y))
-            {
-                targ->setpos(traj[i-1]);
+            } else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1 ||
+                       (u.posx == traj[i].x && u.posy == traj[i].y)) {
+                targ->setpos(traj[i - 1]);
                 force_remaining = traj.size() - i;
-                if (stun != 0)
-                {
-                    if (targ->has_effect("stunned"))
-                    {
+                if (stun != 0) {
+                    if (targ->has_effect("stunned")) {
                         targ->add_effect("stunned", force_remaining);
                         add_msg(ngettext("%s was stunned AGAIN for %d turn!",
                                          "%s was stunned AGAIN for %d turns!",
                                          force_remaining),
                                 targ->name().c_str(), force_remaining);
-                    }
-                    else
-                    {
+                    } else {
                         targ->add_effect("stunned", force_remaining);
                         add_msg(ngettext("%s was stunned for %d turn!",
                                          "%s was stunned for %d turns!",
