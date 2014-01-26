@@ -77,7 +77,7 @@
             { "monster" : "mon_zombie_tough", "freq" : 40, "cost_multiplier": 3},
             { "monster" : "mon_zombie_rot", "freq" : 20, "cost_multiplier": 2},
             { "monster" : "mon_zombie_crawler", "freq" : 10, "cost_multiplier": 2},
-            { "monster" : "mon_zombie_fast", "freq" : 10, "cost_multiplier" : 2 },
+            { "monster" : "mon_zombie_dog", "freq" : 10, "cost_multiplier" : 2 },
             { "monster" : "mon_zombie_grabber", "freq" : 70, "cost_multiplier" : 1 },
             { "monster" : "mon_skeleton", "freq" : 30, "cost_multiplier" : 2 },
             { "monster" : "mon_zombie_shrieker", "freq" : 30, "cost_multiplier" : 5 },
