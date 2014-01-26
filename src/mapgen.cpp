@@ -8513,7 +8513,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         if (one_in(10)) {
                             add_spawn("mon_zombie_child", 1, i, j);
                         } else if (one_in(15)) {
-                            add_spawn("mon_zombie_fast", 1, i, j);
+                            add_spawn("mon_zombie_dog", 1, i, j);
                         } else {
                             add_spawn("mon_zombie", 1, i, j);
                         }
@@ -8606,7 +8606,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                             if (one_in(10)) {
                                 add_spawn("mon_zombie_child", 1, i, j);
                             } else if (one_in(15)) {
-                                add_spawn("mon_zombie_fast", 1, i, j);
+                                add_spawn("mon_zombie_dog", 1, i, j);
                             } else {
                                 add_spawn("mon_zombie", 1, i, j);
                             }
@@ -8692,7 +8692,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                             if (one_in(10)) {
                                 add_spawn("mon_zombie_child", 1, i, j);
                             } else if (one_in(15)) {
-                                add_spawn("mon_zombie_fast", 1, i, j);
+                                add_spawn("mon_zombie_dog", 1, i, j);
                             } else {
                                 add_spawn("mon_zombie", 1, i, j);
                             }
@@ -8787,7 +8787,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                             if (one_in(10)) {
                                 add_spawn("mon_zombie_child", 1, i, j);
                             } else if (one_in(15)) {
-                                add_spawn("mon_zombie_fast", 1, i, j);
+                                add_spawn("mon_zombie_dog", 1, i, j);
                             } else {
                                 add_spawn("mon_zombie", 1, i, j);
                             }
