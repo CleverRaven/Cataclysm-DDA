@@ -6574,7 +6574,7 @@
         "color" : "white",
         "encumbrance" : 0,
         "price" : 10,
-        "material" : ["silver", "null"],
+        "material" : ["bone", "silver"],
         "coverage" : 0,
         "symbol" : "[",
         "bashing" : 0,
