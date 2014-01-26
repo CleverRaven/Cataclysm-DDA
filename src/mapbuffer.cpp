@@ -1,10 +1,14 @@
-#include "mapbuffer.h"
 #include "game.h"
 #include "output.h"
 #include "debug.h"
 #include "translations.h"
 #include <fstream>
+#include "unistd.h"
 #include "savegame.h"
+#include "file_wrapper.h"
+#include "file_finder.h"
+#include "overmapbuffer.h"
+#include "mapbuffer.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 const int savegame_minver_map = 11;
@@ -88,9 +92,19 @@ void mapbuffer::save()
 {
     std::map<tripoint, submap *, pointcomp>::iterator it;
     std::ofstream fout;
+
+    std::stringstream map_directory;
+    map_directory << world_generator->active_world->world_path << "/maps";
+    assure_dir_exist( map_directory.str().c_str() );
+
     std::stringstream mapfile;
-    mapfile << world_generator->active_world->world_path << "/maps.txt";
+    mapfile << map_directory.str() << "/map.key";
     fout.open(mapfile.str().c_str());
+    if( !fout.is_open() ) {
+        debugmsg( "Can't open %s.", mapfile.str().c_str() );
+        return;
+    }
+
     fout << "# version " << savegame_version << std::endl;
 
     JsonOut jsout(fout);
@@ -124,18 +138,68 @@ void mapbuffer::save()
     jsout.end_object();
 
     fout << std::endl;
+    fout.close();
 
     int num_saved_submaps = 0;
     int num_total_submaps = submap_list.size();
 
+    // A set of already-saved submaps, in global overmap coordinates.
+    std::set<tripoint, pointcomp> saved_submaps;
     for (it = submaps.begin(); it != submaps.end(); it++) {
         if (num_saved_submaps % 100 == 0) {
             popup_nowait(_("Please wait as the map saves [%d/%d]"),
                          num_saved_submaps, num_total_submaps);
         }
+        // Whatever the coordinates of the current submap are,
+        // we're saving a 2x2 quad of submaps at a time.
+        // Submaps are generated in quads, so we know if we have one member of a quad,
+        // we have the rest of it, if that assumtion is broken we have REAL problems.
+        const tripoint om_addr = overmapbuffer::sm_to_omt_copy( it->first );
+        if( saved_submaps.count( om_addr ) != 0 ) {
+            // Already handled this one.
+            continue;
+        }
+        saved_submaps.insert( om_addr );
 
-        fout << it->first.x << " " << it->first.y << " " << it->first.z << std::endl;
-        submap *sm = it->second;
+        // A segment is a chunk of 32x32 submap quads.
+        // We're breaking them into subdirectories so there aren't too many files per directory.
+        // Might want to make a set for this one too so it's only checked once per save().
+        // Have to manually adjust for negative values here since we don't have a method predefined.
+        std::stringstream segment_path;
+        tripoint segment_addr( (om_addr.x - ((om_addr.x < 0) * 33)) / 32,
+                               (om_addr.y - ((om_addr.y < 0) * 33)) / 32, om_addr.z );
+        segment_path << map_directory.str() << "/" << segment_addr.x << "." <<
+            segment_addr.y << "." << segment_addr.z;
+        assure_dir_exist( segment_path.str().c_str() );
+
+        std::stringstream quad_path;
+        quad_path << segment_path.str() << "/" << om_addr.x * 2 << "." <<
+            om_addr.y * 2 << "." << om_addr.z << ".map";
+        fout.open( quad_path.str().c_str() );
+
+        save_quad( fout, om_addr );
+
+        num_saved_submaps += 4;
+        fout.close();
+    }
+}
+
+void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr )
+{
+    std::vector<point> offsets;
+    offsets.push_back(point(0, 0));
+    offsets.push_back(point(0, 1));
+    offsets.push_back(point(1, 0));
+    offsets.push_back(point(1, 1));
+    for( std::vector<point>::iterator offset = offsets.begin();
+         offset != offsets.end(); ++offset ) {
+        tripoint submap_addr = overmapbuffer::omt_to_sm_copy( om_addr );
+        submap_addr.x += offset->x;
+        submap_addr.y += offset->y;
+
+        fout << submap_addr.x << " " << submap_addr.y << " " << submap_addr.z << std::endl;
+        submap *sm = lookup_submap( submap_addr.x, submap_addr.y, submap_addr.z );
+
         fout << sm->turn_last_touched << std::endl;
         fout << sm->temperature << std::endl;
 
@@ -235,36 +299,61 @@ void mapbuffer::save()
         if (sm->camp.is_valid()) {
             fout << "B " << sm->camp.save_data() << std::endl;
         }
-
         fout << "----" << std::endl;
-        num_saved_submaps++;
     }
-    // Close the file; that's all we need.
-    fout.close();
 }
 
 void mapbuffer::load(std::string worldname)
 {
     std::ifstream fin;
     std::stringstream worldmap;
+    std::map<int, int> ter_key;
+    std::map<int, int> furn_key;
+    std::map<int, int> trap_key;
+    int num_submaps = 0;
+
     worldmap << world_generator->all_worlds[worldname]->world_path << "/maps.txt";
 
-    fin.open(worldmap.str().c_str());
-    if (!fin.is_open()) {
+    // Handle older monolithic map file.
+    fin.open( worldmap.str().c_str() );
+    if( fin.is_open() ) {
+        // If we have a maps.txt, load it, then get rid of it.
+        num_submaps = unserialize_keys( fin, ter_key, furn_key, trap_key );
+        unserialize_submaps( fin, num_submaps, ter_key, furn_key, trap_key );
+        fin.close();
+        unlink( worldmap.str().c_str() );
         return;
     }
-    unserialize(fin);
+
+    // If we don't have a monolithic maps.txt, we either have a maps directory or nothing.
+    std::stringstream world_map_path;
+    world_map_path << world_generator->all_worlds[worldname]->world_path << "/maps";
+    std::stringstream map_key_file;
+    map_key_file << world_map_path.str() << "/map.key";
+    fin.open( map_key_file.str().c_str() );
+    if( !fin.is_open() ) {
+        // Currently not having a key file is fatal.
+        return;
+    }
+    num_submaps = unserialize_keys( fin, ter_key, furn_key, trap_key );
     fin.close();
+
+    std::vector<std::string> map_files = file_finder::get_files_from_path( ".map", world_map_path.str(),
+                                                                           true, true );
+    if( map_files.empty() ) {
+        return;
+    }
+    for( std::vector<std::string>::iterator file = map_files.begin();
+         file != map_files.end(); ++file ) {
+        fin.open( file->c_str() );
+        unserialize_submaps( fin, num_submaps, ter_key, furn_key, trap_key );
+        fin.close();
+    }
 }
 
-void mapbuffer::unserialize(std::ifstream &fin)
+int mapbuffer::unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
+                                  std::map<int, int> &furn_key, std::map<int, int> &trap_key )
 {
-    std::map<tripoint, submap *>::iterator it;
-    int itx, ity, t, d, a, num_submaps = 0, num_loaded = 0;
-    item it_tmp;
-    std::string databuff;
-    std::string st;
-
     if ( fin.peek() == '#' ) {
         std::string vline;
         getline(fin, vline);
@@ -280,7 +369,7 @@ void mapbuffer::unserialize(std::ifstream &fin)
         savegame_loading_version < savegame_minver_map) {
         // We're version x but this is a save from version y, let's check to see if there's a loader
         if ( unserialize_legacy(fin) == true ) { // loader returned true, we're done.
-            return;
+            return 0;
         } else {
             // no unserialize_legacy for version y, continuing onwards towards possible disaster.
             // Or not?
@@ -291,13 +380,11 @@ void mapbuffer::unserialize(std::ifstream &fin)
     }
 
     std::stringstream jsonbuff;
+    std::string databuff;
+    int num_submaps = 0;
     getline(fin, databuff);
     jsonbuff.str(databuff);
     JsonIn jsin(jsonbuff);
-
-    std::map<int, int> ter_key;
-    std::map<int, int> furn_key;
-    std::map<int, int> trap_key;
 
     jsin.start_object();
     while (!jsin.end_object()) {
@@ -357,6 +444,19 @@ void mapbuffer::unserialize(std::ifstream &fin)
             }
         }
     }
+    return num_submaps;
+}
+
+void mapbuffer::unserialize_submaps( std::ifstream &fin, const int num_submaps,
+                                     std::map<int, int> &ter_key,
+                                     std::map<int, int> &furn_key,
+                                     std::map<int, int> &trap_key )
+{
+    std::map<tripoint, submap *>::iterator it;
+    int num_loaded = 0;
+    item it_tmp;
+    std::string databuff;
+    std::string st;
 
     while (!fin.eof()) {
         if (num_loaded % 100 == 0) {
@@ -409,9 +509,16 @@ void mapbuffer::unserialize(std::ifstream &fin)
         }
         // Load items and traps and fields and spawn points and vehicles
         std::string string_identifier;
+        // Parts of the loop seem to rely on these variables NOT being reset.
+        // INSANITY!
+        int itx = 0;
+        int ity = 0;
+        int d = 0;
+        int a = 0;
         do {
             fin >> string_identifier; // "----" indicates end of this submap
-            t = 0;
+            int t = 0;
+
             st = "";
             if (string_identifier == "I") {
                 fin >> itx >> ity;

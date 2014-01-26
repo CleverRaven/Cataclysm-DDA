@@ -3,8 +3,6 @@
 #include <map>
 #include <list>
 
-class game;
-
 struct pointcomp {
     bool operator() (const tripoint &lhs, const tripoint &rhs) const
     {
@@ -50,8 +48,6 @@ class mapbuffer
 
         /** Load the entire world from savefiles into submaps in this instance. **/
         void load(std::string worldname);
-        void unserialize(std::ifstream &fin);
-        bool unserialize_legacy(std::ifstream &fin);
         /** Store all submaps in this instance into savefiles. **/
         void save();
 
@@ -77,6 +73,14 @@ class mapbuffer
         int size();
 
     private:
+        int unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
+                              std::map<int, int> &furn_key, std::map<int, int> &trap_key );
+        void unserialize_submaps( std::ifstream &fin, const int num_submaps,
+                                  std::map<int, int> &ter_key,
+                                  std::map<int, int> &furn_key,
+                                  std::map<int, int> &trap_key );
+        bool unserialize_legacy(std::ifstream &fin);
+        void save_quad( std::ofstream &fout, const tripoint &om_addr );
         std::map<tripoint, submap *, pointcomp> submaps;
         std::list<submap *> submap_list;
         bool dirty;
