@@ -144,10 +144,9 @@ const std::string& overmapbuffer::note(int x, int y, int z) const
     return om->note(x, y, z);
 }
 
-bool overmapbuffer::has_npc(int x, int y, int z) const
+bool overmapbuffer::has_npc(int x, int y, int z)
 {
-    const overmap *om = get_existing_om_global(x, y);
-    return (om != NULL) && om->has_npc(x, y, z);
+    return !get_npcs_near_omt(x, y, z, 0).empty();
 }
 
 bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda) const
@@ -279,6 +278,24 @@ npc* overmapbuffer::find_npc(int id) {
     return NULL;
 }
 
+void overmapbuffer::remove_npc(int id)
+{
+    for (std::list<overmap>::iterator it = overmap_list.begin(); it != overmap_list.end(); ++it) {
+        for (int i = 0; i < it->npcs.size(); i++) {
+            npc *p = it->npcs[i];
+            if (p->getID() == id) {
+                if(!p->dead) {
+                    debugmsg("overmapbuffer::remove_npc: NPC (%d) is not dead.", id);
+                }
+                it->npcs.erase(it->npcs.begin() + i);
+                delete p;
+                return;
+            }
+        }
+    }
+    debugmsg("overmapbuffer::remove_npc: NPC (%d) not found.", id);
+}
+
 std::vector<npc*> overmapbuffer::get_npcs_near_player(int radius)
 {
     tripoint plpos = g->om_global_location();
@@ -292,16 +309,34 @@ std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
     std::vector<npc*> result;
     for(std::list<overmap>::iterator it = overmap_list.begin(); it != overmap_list.end(); ++it)
     {
-        // Offset in submaps for the npcs on that overmap
-        const point offset = om_to_sm_copy(it->pos());
         for (int i = 0; i < it->npcs.size(); i++) {
             npc *p = it->npcs[i];
-            if (p->omz != z) {
+            // Global position of NPC, in submap coordiantes
+            const tripoint pos = p->global_sm_location();
+            if (pos.z != z) {
                 continue;
             }
-            // npc::mapx are submap coords, local to overmap where the
-            // NPC is currently on, make them global
-            point pos(p->mapx + offset.x, p->mapy + offset.y);
+            const int npc_offset = square_dist(x, y, pos.x, pos.y);
+            if (npc_offset <= radius) {
+                result.push_back(p);
+            }
+        }
+    }
+    return result;
+}
+
+std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radius)
+{
+    std::vector<npc*> result;
+    for(std::list<overmap>::iterator it = overmap_list.begin(); it != overmap_list.end(); ++it)
+    {
+        for (int i = 0; i < it->npcs.size(); i++) {
+            npc *p = it->npcs[i];
+            // Global position of NPC, in submap coordiantes
+            tripoint pos = p->global_omt_location();
+            if (pos.z != z) {
+                continue;
+            }
             const int npc_offset = square_dist(x, y, pos.x, pos.y);
             if (npc_offset <= radius) {
                 result.push_back(p);
@@ -430,4 +465,42 @@ tripoint overmapbuffer::om_to_sm_copy(const tripoint& p) {
 void overmapbuffer::om_to_sm(int &x, int &y) {
     x *= 2 * OMAPX;
     y *= 2 * OMAPY;
+}
+
+
+
+point overmapbuffer::ms_to_sm_copy(int x, int y) {
+    return point(divide(x, SEEX), divide(y, SEEY));
+}
+
+tripoint overmapbuffer::ms_to_sm_copy(const tripoint& p) {
+    return tripoint(divide(p.x, SEEX), divide(p.y, SEEY), p.z);
+}
+
+void overmapbuffer::ms_to_sm(int &x, int &y) {
+    x = divide(x, SEEX);
+    y = divide(y, SEEY);
+}
+
+point overmapbuffer::ms_to_sm_remain(int &x, int &y) {
+    return point(divide(x, SEEX, x), divide(y, SEEY, y));
+}
+
+
+
+point overmapbuffer::ms_to_omt_copy(int x, int y) {
+    return point(divide(x, SEEX * 2), divide(y, SEEY * 2));
+}
+
+tripoint overmapbuffer::ms_to_omt_copy(const tripoint& p) {
+    return tripoint(divide(p.x, SEEX * 2), divide(p.y, SEEY * 2), p.z);
+}
+
+void overmapbuffer::ms_to_omt(int &x, int &y) {
+    x = divide(x, SEEX * 2);
+    y = divide(y, SEEY * 2);
+}
+
+point overmapbuffer::ms_to_omt_remain(int &x, int &y) {
+    return point(divide(x, SEEX * 2, x), divide(y, SEEY * 2, y));
 }

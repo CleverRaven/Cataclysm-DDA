@@ -24,6 +24,10 @@
  * sm.x /= 2
  * sm.y /= 2
  *
+ * map square (ms): used by @ref map, each map square may contain a single
+ * piece of furniture, it has a terrain (ter_t).
+ * There are SEEX*SEEY map squares in each submap.
+ *
  * The class provides static translation functions, named like this:
     static point <from>_to_<to>_copy(int x, int y);
     static point <from>_to_<to>_copy(const point& p);
@@ -70,7 +74,7 @@ public:
     void delete_note(const tripoint& p) { delete_note(p.x, p.y, p.z); }
     bool seen(int x, int y, int z) const;
     void set_seen(int x, int y, int z, bool seen = true);
-    bool has_npc(int x, int y, int z) const;
+    bool has_npc(int x, int y, int z);
     bool has_vehicle(int x, int y, int z, bool require_pda = true) const;
     const regional_settings& get_settings(int x, int y, int z);
     bool is_safe(int x, int y, int z);
@@ -81,8 +85,19 @@ public:
      * Only npcs on the given z-level are considered.
      * Uses square_dist for distance calculation.
      * x,y are submap coordinates.
+     * @radius Maximal distance of npc from (x,y). If the npc
+     * is at most this far away from (x,y) it will be returned.
+     * A radius of 0 returns only those npcs that are on the
+     * specifc submap.
      */
     std::vector<npc*> get_npcs_near(int x, int y, int z, int radius);
+    /**
+     * Uses overmap terrain coords, this also means radius is
+     * in overmap terrain.
+     * A radius of 0 returns all npcs that are on that specifc
+     * overmap terrain tile.
+     */
+    std::vector<npc*> get_npcs_near_omt(int x, int y, int z, int radius);
     /**
      * Same as @ref get_npcs_near(int,int,int,int) but uses
      * player position as center.
@@ -94,6 +109,12 @@ public:
      * Searches all loaded overmaps.
      */
     npc* find_npc(int id);
+    /**
+     * Find npc by id and if found, erase it from the npc list
+     * and delete the npc object. This assumes that the npc is
+     * already dead and not contained in game::active_npc anymore.
+     */
+    void remove_npc(int id);
 
     /**
      * Find all places with the specific overmap terrain type.
@@ -202,6 +223,24 @@ public:
     static void om_to_sm(int &x, int &y);
     static void om_to_sm(point& p) { om_to_sm(p.x, p.y); }
     static void om_to_sm(tripoint& p) { om_to_sm(p.x, p.y); }
+    // map squares to submap, basically: x /= SEEX
+    static point ms_to_sm_copy(int x, int y);
+    static point ms_to_sm_copy(const point& p) { return ms_to_sm_copy(p.x, p.y); }
+    static tripoint ms_to_sm_copy(const tripoint& p);
+    static void ms_to_sm(int &x, int &y);
+    static void ms_to_sm(point& p) { ms_to_sm(p.x, p.y); }
+    static void ms_to_sm(tripoint& p) { ms_to_sm(p.x, p.y); }
+    static point ms_to_sm_remain(int &x, int &y);
+    static point ms_to_sm_remain(point& p) { return ms_to_sm_remain(p.x, p.y); }
+    // map squares to overmap terrain, basically: x /= SEEX * 2
+    static point ms_to_omt_copy(int x, int y);
+    static point ms_to_omt_copy(const point& p) { return ms_to_omt_copy(p.x, p.y); }
+    static tripoint ms_to_omt_copy(const tripoint& p);
+    static void ms_to_omt(int &x, int &y);
+    static void ms_to_omt(point& p) { ms_to_omt(p.x, p.y); }
+    static void ms_to_omt(tripoint& p) { ms_to_omt(p.x, p.y); }
+    static point ms_to_omt_remain(int &x, int &y);
+    static point ms_to_omt_remain(point& p) { return ms_to_omt_remain(p.x, p.y); }
 
 private:
     std::list<overmap> overmap_list;
