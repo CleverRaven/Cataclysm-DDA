@@ -25,24 +25,26 @@ void construction_menu()
 {
     // only display constructions the player can theoretically perform
     std::vector<std::string> available;
-    for (unsigned i = 0; i < constructions.size(); ++i) {
+    std::list<std::string> craftable;
+    std::list<std::string> uncraftable;
+    inventory total_inv = g->crafting_inventory(&(g->u));
+    for(int i = 0; i < constructions.size(); i++) {
         construction *c = constructions[i];
-        if (can_construct(c)) {
-            bool already_have_it = false;
-            for (unsigned j = 0; j < available.size(); ++j) {
-                if (available[j] == c->description) {
-                    already_have_it = true;
-                    break;
-                }
-            }
-            if (!already_have_it) {
-                available.push_back(c->description);
-            }
+        if(can_construct(c) && player_can_build(g->u, total_inv, c)) {
+            craftable.push_back(c->description);
+        } else {
+            uncraftable.push_back(c->description);
         }
     }
 
+    craftable.unique();
+    uncraftable.unique();
+
+    available.insert(available.end(), craftable.begin(), craftable.end());
+    available.insert(available.end(), uncraftable.begin(), uncraftable.end());
+
     if(available.empty()) {
-        popup(_("You can not construct anything here."));
+        popup(_("you can not construct anything here."));
         return;
     }
 
@@ -72,8 +74,6 @@ void construction_menu()
  long ch;
  bool exit = false;
 
- inventory total_inv = g->crafting_inventory(&(g->u));
-
  do {
 // Erase existing list of constructions
   for (int i = 1; i < iMaxY-1; i++) {
@@ -90,7 +90,8 @@ void construction_menu()
   // Print the constructions between offset and max (or how many will fit)
   for (int i = 0; i < iMaxY-2 && (i + offset) < available.size(); i++) {
    int current = i + offset;
-   nc_color col = (player_can_build(g->u, total_inv, available[current]) ?
+   construction *c = constructions_by_desc[ available[current] ][0];
+   nc_color col = (player_can_build(g->u, total_inv, available[current]) && can_construct(c) ?
                    c_white : c_dkgray);
    // Map menu items to hotkey letters, skipping j, k, l, and q.
    unsigned char hotkey = 97 + current;
