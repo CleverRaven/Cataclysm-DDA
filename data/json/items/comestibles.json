@@ -10635,7 +10635,7 @@
         "nutrition" : 0,
         "description" : "A profoundly addictive and powerful stimulant. While extremely effective at enhancing alertness, it is hazardous to health and the risk of an adverse reaction is great.",
         "price" : 800,
-        "material" : "stone",
+        "material" : "powder",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
