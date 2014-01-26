@@ -96,6 +96,7 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
     }
     return textformatted.size();
 };
+
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line, nc_color base_color,
                    const char *mes, ...)
 {
@@ -130,6 +131,37 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
     }
     return textformatted.size();
 };
+
+void multipage(WINDOW *w, std::vector<std::string> text, int begin_y)
+{
+    werase(w);
+    int height = getmaxy(w);
+    int width = getmaxx(w);
+
+    /* TODO:
+        issue:     # of lines in the paragraph > height -> inf. loop;
+        solution:  split this paragraph in two pieces;
+    */
+    for (size_t i = 0; i < text.size(); i++) {
+        std::vector<std::string> next_paragraph;
+        next_paragraph = foldstring(text[i].c_str(), width);
+        if (begin_y + next_paragraph.size() > height) {
+            // Next page
+            i--;
+            mvwprintw(w, height - 1, 1, _("Press any key for more..."));
+            wrefresh(w);
+            refresh();
+            getch();
+            werase(w);
+            begin_y = 0;
+        } else {
+            begin_y += fold_and_print(w, begin_y, 1, width - 2, c_white, text[i].c_str()) + 1;
+        }
+    }
+    wrefresh(w);
+    refresh();
+    getch();
+}
 
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
 {
