@@ -8411,6 +8411,8 @@
     ],
     [
       [ "candy", 3 ],
+      [ "candy2", 3 ],
+      [ "choco_coffee_beans", 1 ],
       [ "chocolate", 1 ],
       [ "jam_strawberries", 1 ],
       [ "jam_blueberries", 1 ],
