@@ -2016,14 +2016,7 @@ void npc::set_destination()
  std::string dest_type = options[rng(0, options.size() - 1)];
 
  int dist = 0;
- // Need a global overmap terrain for find_closest
- tripoint cur_pos(mapx, mapy);
- overmapbuffer::sm_to_omt(cur_pos.x, cur_pos.y);
- cur_pos.x += omx * OMAPX;
- cur_pos.y += omy * OMAPY;
- cur_pos.z = omz;
- const point p = overmap_buffer.find_closest(cur_pos, dest_type, dist, false);
- // find_closest returns a global overmap terrain coordinate
+ const point p = overmap_buffer.find_closest(global_omt_location(), dest_type, dist, false);
  goal.x = p.x;
  goal.y = p.y;
  goal.z = g->levz;
@@ -2031,20 +2024,15 @@ void npc::set_destination()
 
 void npc::go_to_destination()
 {
- // current position in overmap terrain coordinates.
- // mapx is submap coordinate and local to current overmap,
- // but goal is global
- point map_ovt = overmapbuffer::sm_to_omt_copy(mapx, mapy);
- map_ovt.x += omx * OMAPX;
- map_ovt.y += omy * OMAPY;
- int sx = (goal.x > map_ovt.x ? 1 : -1), sy = (goal.y > map_ovt.y ? 1 : -1);
- if (goal.x == map_ovt.x && goal.y == map_ovt.y) { // We're at our desired map square!
+ const tripoint omt_pos = global_omt_location();
+ int sx = (goal.x > omt_pos.x ? 1 : -1), sy = (goal.y > omt_pos.y ? 1 : -1);
+ if (goal.x == omt_pos.x && goal.y == omt_pos.y) { // We're at our desired map square!
   move_pause();
   reach_destination();
  } else {
-  if (goal.x == map_ovt.x)
+  if (goal.x == omt_pos.x)
    sx = 0;
-  if (goal.y == map_ovt.y)
+  if (goal.y == omt_pos.y)
    sy = 0;
 // sx and sy are now equal to the direction we need to move in
   int x = posx + 8 * sx, y = posy + 8 * sy, linet, light = g->light_level();
