@@ -6143,7 +6143,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                                          force_remaining),
                                 targ->name().c_str(), force_remaining);
                     }
-                    add_msg(_("%s took %d damage!"), targ->name().c_str(), dam_mult*force_remaining);
+                    add_msg(_("%s slammed into an obstacle!"), targ->name().c_str() );
                     targ->hurt( dam_mult * force_remaining );
                 }
                 m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
