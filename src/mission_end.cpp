@@ -4,24 +4,31 @@
 
 void mission_end::heal_infection(mission *miss)
 {
-    bool found_npc = false;
-    for (int i = 0; !found_npc && i < g->cur_om->npcs.size(); i++) {
-        if (g->cur_om->npcs[i]->getID() == miss->npc_id) {
-            g->cur_om->npcs[i]->rem_disease("infection");
-            found_npc = true;
-        }
+    npc *p = g->find_npc(miss->npc_id);
+    if (p == NULL) {
+        debugmsg("could not find mission NPC %d", miss->npc_id);
+        return;
     }
+    p->rem_disease("infection");
 }
 
 void mission_end::leave(mission *miss)
 {
     npc *p = g->find_npc(miss->npc_id);
+    if (p == NULL) {
+        debugmsg("could not find mission NPC %d", miss->npc_id);
+        return;
+    }
     p->attitude = NPCATT_NULL;
 }
 
 void mission_end::deposit_box(mission *miss)
 {
     npc *p = g->find_npc(miss->npc_id);
+    if (p == NULL) {
+        debugmsg("could not find mission NPC %d", miss->npc_id);
+        return;
+    }
     p->attitude = NPCATT_NULL;//npc leaves your party
     std::string itemName = "deagle_44";
     if (one_in(4)) {
