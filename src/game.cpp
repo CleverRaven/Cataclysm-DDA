@@ -3829,7 +3829,7 @@ Current turn: %d; Next spawn %d.\n\
 %d events planned."),
              u.posx, u.posy, levx, levy,
              otermap[overmap_buffer.ter(om_global_location())].name.c_str(),
-             int(turn), int(nextspawn), (!ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] ? _("NPCs are going to spawn.") :
+             int(turn), int(nextspawn), (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] == "true" ? _("NPCs are going to spawn.") :
                                          _("NPCs are NOT going to spawn.")),
              num_zombies(), active_npc.size(), events.size());
    if( !active_npc.empty() ) {
@@ -4662,6 +4662,7 @@ void game::draw_ter(int posx, int posy)
                 && my < TERRAIN_WINDOW_HEIGHT
                 && u_see(active_npc[i]->posx, active_npc[i]->posy)) {
             active_npc[i]->draw(w_terrain, posx, posy, false);
+            mapRain[my][mx] = false;
         }
     }
 
