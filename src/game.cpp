@@ -4250,6 +4250,7 @@ void game::disp_NPCs()
 
  mvwprintz(w, 0, 0, c_white, _("Your position: %d:%d"), levx, levy);
  std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(100);
+ // TODO: This does not always work (think npcs empty)
  std::vector<npc*> closest;
  closest.push_back(npcs[0]);
  for (int i = 1; i < npcs.size(); i++) {
@@ -4870,6 +4871,7 @@ void game::draw_minimap()
             nc_color ter_color;
             long ter_sym;
             const bool seen = overmap_buffer.seen(omx, omy, levz);
+            const bool vehicle_here = overmap_buffer.has_vehicle(omx, omy, levz);
             if (overmap_buffer.has_note(omx, omy, levz)) {
                 const std::string& note = overmap_buffer.note(omx, omy, levz);
                 if (note.length() >= 2 && note[1] == ':') {
@@ -4881,6 +4883,9 @@ void game::draw_minimap()
             } else if (!seen) {
                 ter_sym = ' ';
                 ter_color = c_black;
+            } else if (vehicle_here) {
+                ter_color = c_cyan;
+                ter_sym = 'c';
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter(omx, omy, levz);
                 ter_sym = otermap[cur_ter].sym;
