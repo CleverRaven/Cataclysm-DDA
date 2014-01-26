@@ -1880,7 +1880,7 @@
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "BLEED", "SWIMS", "REVIVES"]
     },{
         "type" : "MONSTER",
-        "id" : "mon_zombie_fast",
+        "id" : "mon_zombie_dog",
     "name": "zombie dog",
     "species":"ZOMBIE",
     "symbol":"d",
@@ -2820,7 +2820,7 @@
     "aggression":100,
     "morale":100,
     "speed":80,
-    "melee_skill":6,
+    "melee_skill":5,
     "melee_dice":2,
     "melee_dice_sides":4,
     "melee_cut":0,

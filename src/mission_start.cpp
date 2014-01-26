@@ -134,12 +134,12 @@ void mission_start::kill_horde_master(mission *miss)
  tile.load(site.x * 2, site.y * 2, g->levz, false, &om);
  tile.add_spawn("mon_zombie_master", 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul");
  tile.add_spawn("mon_zombie_brute",3,SEEX,SEEY);
- tile.add_spawn("mon_zombie_fast",3,SEEX,SEEY);
+ tile.add_spawn("mon_zombie_dog",3,SEEX,SEEY);
  if (SEEX > 1 && SEEX < OMAPX && SEEY > 1 && SEEY < OMAPY){
  for (int x = SEEX - 1; x <= SEEX + 1; x++) {
   for (int y = SEEY - 1; y <= SEEY + 1; y++)
    tile.add_spawn("mon_zombie",rng(3,10),x,y);
-   tile.add_spawn("mon_zombie_fast",rng(0,2),SEEX,SEEY);
+   tile.add_spawn("mon_zombie_dog",rng(0,2),SEEX,SEEY);
  }
 }
  tile.add_spawn("mon_zombie_necro",2,SEEX,SEEY);

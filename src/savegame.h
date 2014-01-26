@@ -11,7 +11,7 @@ const std::string legacy_mon_id[126] = {"mon_null", "mon_squirrel", "mon_rabbit"
     "mon_cat", "mon_ant_larva", "mon_ant", "mon_ant_soldier", "mon_ant_queen", "mon_ant_fungus",
     "mon_fly", "mon_bee", "mon_wasp", "mon_graboid", "mon_worm", "mon_halfworm", "mon_sludge_crawler", "mon_zombie",
     "mon_zombie_cop", "mon_zombie_shrieker", "mon_zombie_spitter", "mon_zombie_electric",
-    "mon_zombie_smoker", "mon_zombie_swimmer", "mon_zombie_fast", "mon_zombie_brute",
+    "mon_zombie_smoker", "mon_zombie_swimmer", "mon_zombie_dog", "mon_zombie_brute",
     "mon_zombie_hulk", "mon_zombie_fungus", "mon_boomer", "mon_boomer_fungus", "mon_skeleton",
     "mon_zombie_necro", "mon_zombie_scientist", "mon_zombie_soldier", "mon_zombie_grabber",
     "mon_zombie_master", "mon_beekeeper", "mon_zombie_child", "mon_jabberwock", "mon_triffid", "mon_triffid_young",

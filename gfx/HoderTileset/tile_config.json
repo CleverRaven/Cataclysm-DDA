@@ -2383,7 +2383,7 @@
 			"multitile":false
 		},
         {
-            "id":"mon_zombie_fast",
+            "id":"mon_zombie_dog",
             "fg": 237,
 		"bg":192,
             "rotates":false
