@@ -101,9 +101,9 @@ void construction_menu()
    if (current == select)
     col = hilite(col);
    // print construction name with limited length.
-   // limit(28) = 30(column len) - 2(letter + ' ').
+   // limit(28) = 30(column len) - 3(letter + ' ' + border).
    mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey,
-             utf8_substr(available[current].c_str(), 0, 28).c_str());
+             utf8_substr(available[current].c_str(), 0, 27).c_str());
   }
 
   if (update_info) {

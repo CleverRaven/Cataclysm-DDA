@@ -393,6 +393,12 @@
     <ClCompile Include="..\src\worldfactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\damage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\construction2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\action.h">
@@ -584,9 +590,6 @@
     <ClInclude Include="..\src\mapdata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\mapgen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\mapgen_functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -729,6 +732,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\worldfactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\construction2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -118,6 +118,7 @@ class game
 {
  friend class editmap;
  friend class advanced_inventory;
+ friend class construct_ui;
  friend class DynamicDataLoader; // To allow unloading dynamicly loaded stuff
  public:
   game();
@@ -550,6 +551,7 @@ public:
   void control_vehicle(); // Use vehicle controls  '^'
   void examine(int examx = -1, int examy = -1);// Examine nearby terrain  'e'
   void advanced_inv();
+  void construction_ui( );
   // open vehicle interaction screen
   void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()

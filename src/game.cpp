@@ -33,6 +33,7 @@
 #include "worldfactory.h"
 #include "file_finder.h"
 #include "mod_manager.h"
+#include "construction2.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -2754,8 +2755,11 @@ bool game::handle_action()
   case ACTION_CONSTRUCT:
    if (u.in_vehicle)
     add_msg(_("You can't construct while in vehicle."));
-   else
-    construction_menu();
+   else {
+       //construction_menu();
+       //construct_ui
+       construction_ui();
+   }
    break;
 
   case ACTION_SLEEP:
@@ -7685,6 +7689,11 @@ void game::advanced_inv()
 {
     advanced_inventory advinv;
     advinv.display(&u);
+}
+
+void game::construction_ui() {
+    construct_ui constui;
+    constui.display( &u );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.

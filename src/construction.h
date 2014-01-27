@@ -53,6 +53,7 @@ bool player_can_build(player &p, inventory inv, construction *con);
 bool player_can_build(player &p, inventory pinv, const std::string &desc);
 bool can_construct(construction *con, int x, int y);
 bool can_construct(construction *con);
+bool can_construct(std::string desc);
 void place_construction(const std::string &desc);
 void complete_construction();
 

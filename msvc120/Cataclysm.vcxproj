@@ -103,6 +103,7 @@
     <ClCompile Include="..\src\color.cpp" />
     <ClCompile Include="..\src\computer.cpp" />
     <ClCompile Include="..\src\construction.cpp" />
+    <ClCompile Include="..\src\construction2.cpp" />
     <ClCompile Include="..\src\crafting.cpp" />
     <ClCompile Include="..\src\creature.cpp" />
     <ClCompile Include="..\src\creature_tracker.cpp" />
@@ -231,6 +232,7 @@
     <ClInclude Include="..\src\color.h" />
     <ClInclude Include="..\src\computer.h" />
     <ClInclude Include="..\src\construction.h" />
+    <ClInclude Include="..\src\construction2.h" />
     <ClInclude Include="..\src\coordinates.h" />
     <ClInclude Include="..\src\crafting.h" />
     <ClInclude Include="..\src\creature.h" />
@@ -551,6 +553,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release TILES Localized|Win32'">
     <OutDir>..\</OutDir>
+    <TargetName>$(ProjectName)-Tiles</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug TILES Localized|Win32'">
     <OutDir>..\</OutDir>
@@ -857,13 +860,16 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release TILES Localized|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4100;4127;4996;4018</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;TILES;SDLTILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>..\3rdparty\include;..\3rdparty\include\SDL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -872,6 +878,7 @@
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <SubSystem>Windows</SubSystem>
       <AdditionalDependencies>winmm.lib;libintl.lib;libiconv.lib;SDLMain.lib;SDL.lib;SDL_ttf.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\3rdparty\lib;..\3rdparty\include;..\3rdparty\include\SDL;..\3rdparty\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>getversion.cmd</Command>
