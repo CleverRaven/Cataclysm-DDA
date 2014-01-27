@@ -97,7 +97,7 @@
                 { "item": "dresser", "chance": 50, "x": [ 21,21 ], "y": [ 21,21 ] },
                 { "item": "kitchen", "chance": 75, "x": [ 1,12 ], "y": [ 8,11 ] },
                 { "item": "fridge", "chance": 50, "x": [ 4,4 ], "y": [ 11,11 ] },
-                { "item": "mischw", "chance": 90, "x": [ 13,20 ], "y": [ 2,11 ], },
+                { "item": "mischw", "chance": 90, "x": [ 13,20 ], "y": [ 2,11 ] },
                 { "item": "oven", "chance": 50, "x": [ 3,3 ], "y": 11 },
                 { "item": "softdrugs", "chance": 75, "x": [ 2,4 ], "y": [ 13,16 ] },
                 { "item": "cleaning", "chance": 75, "x": [ 2,4 ], "y": [ 13,16] },
