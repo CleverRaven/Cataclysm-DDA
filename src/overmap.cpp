@@ -1760,25 +1760,21 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         mvwprintz(w, 0, 0, c_yellow, "%s", note_text.c_str());
         mvwputch(w, 1, length, c_white, LINE_XOOX);
         mvwputch(w, 0, length, c_white, LINE_XOXO);
-    } else if (overmap_buffer.has_npc(cursx, cursy, z))
-    {
+    } else if (overmap_buffer.has_npc(cursx, cursy, z)) {
         print_npcs(w, cursx, cursy, z);
-    } else if (overmap_buffer.has_vehicle(cursx, cursy, z))
-    {
-        int x = cursx; // get_om_global changes its arguments
+    } else if (overmap_buffer.has_vehicle(cursx, cursy, z)) {
+        int x = cursx;
         int y = cursy;
         const overmap &om = overmap_buffer.get_om_global(x, y);
         om.print_vehicles(w, x, y, z);
     }
 
     // Draw the vertical line
-    for (int j = 0; j < om_map_height; j++)
-    {
+    for (int j = 0; j < om_map_height; j++) {
         mvwputch(w, j, om_map_width, c_white, LINE_XOXO);
     }
     // Clear the legend
-    for (int i = om_map_width + 1; i < om_map_width + 55; i++)
-    {
+    for (int i = om_map_width + 1; i < om_map_width + 55; i++) {
         for (int j = 0; j < om_map_height; j++) {
             mvwputch(w, j, i, c_black, ' ');
         }
