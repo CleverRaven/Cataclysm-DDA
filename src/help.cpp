@@ -428,13 +428,19 @@ There are a wide variety of items available for your use. You may find them \
 lying on the ground; if so, simply %s to pick up items on the \
 same square. Some items are found inside a container, drawn as a { with a \
 blue background. %s, then a direction, will allow you to examine \
-these containers and loot their contents.\n\
-\n\
+these containers and loot their contents."),
+            from_sentence_case(press_x(ACTION_PICKUP)).c_str(),
+            press_x(ACTION_EXAMINE, _("Pressing "), _("'Examine Nearby Terrain'")).c_str()));
+
+    text.push_back(string_format(_("\
 %s opens a comparison menu, where you can see two items \
 side-by-side with their attributes highlighted to indicate which is superior. \
 You can also access the item comparison menu by pressing 'C' when the %s \
-nearby items menu is open and an item is selected.\n\
-\n\
+nearby items menu is open and an item is selected."),
+            press_x(ACTION_COMPARE, _("Pressing "), _("'Compare two Items'")).c_str(),
+            press_x(ACTION_LIST_ITEMS, _("view")).c_str()));
+
+    text.push_back(string_format(_("\
 All items may be used as a melee weapon, though some are better than others. \
 You can check the melee attributes of an item you're carrying by %s \
 to enter your inventory, then pressing the letter of the item. There are 3 \
@@ -442,32 +448,32 @@ melee values, bashing, cutting, and to-hit bonus (or penalty). \
 Bashing damage is universally effective, but is capped by low strength. \
 Cutting damage is a guaranteed increase in damage, but it may be reduced by \
 a monster's natural armor."),
-            from_sentence_case(press_x(ACTION_PICKUP)).c_str(),
-            press_x(ACTION_EXAMINE, _("Pressing "), _("'Examine Nearby Terrain'")).c_str(),
-            press_x(ACTION_COMPARE, _("Pressing "), _("'Compare two Items'")).c_str(),
-            press_x(ACTION_LIST_ITEMS, _("view")).c_str(),
             press_x(ACTION_INVENTORY, _("hitting "), _("trying")).c_str()));
 
     text.push_back(string_format(_("\
 To wield an item as a weapon, %s then the proper letter. Pressing '-' in lieu of a letter will \
 make you wield nothing. A wielded weapon will not contribute to your volume carried, so holding \
 a large item in your hands may be a good option for travel. When unwielding your weapon, it will \
-go back in your inventory, or will be dropped on the ground if there is no space. \
-\n\
+go back in your inventory, or will be dropped on the ground if there is no space."),
+            from_sentence_case(press_x(ACTION_WIELD)).c_str()));
+
+    text.push_back(string_format(_("\
 To wear a piece of clothing, %s then the proper letter. Armor reduces damage and helps you \
-resist things like smoke. To take off an item, %s then the proper letter.\n\
-\n\
-Also available in the %s nearby items menu is the ability to filter or prioritize items. You can \
-enter item names, or various advanced filter strings: {<token>:<search param>}\n\
-Currently Available tokens:\n\
-\tc = category (books, food, etc) | {c:books}\n\
-\tm = material (cotton, kevlar, etc) | {m:iron}\n\
-\tdgt = damage greater than (0-5 | {dgt:2})\n\
-\tdlt = damage less than (0-5) | {dlt:1}"),
-            from_sentence_case(press_x(ACTION_WIELD)).c_str(),
+resist things like smoke. To take off an item, %s then the proper letter."),
             from_sentence_case(press_x(ACTION_WEAR)).c_str(),
-            from_sentence_case(press_x(ACTION_TAKE_OFF)).c_str(),
+            from_sentence_case(press_x(ACTION_TAKE_OFF)).c_str()));
+
+    text.push_back(string_format(_("\
+Also available in the %s nearby items menu is the ability to filter or prioritize items. \
+You can enter item names, or various advanced filter strings: {<token>:<search param>}"),
             press_x(ACTION_LIST_ITEMS, _("view")).c_str()));
+
+    text.push_back(_("\
+Currently Available tokens:\n\
+\t c = category (books, food, etc)    | {c:books}\n\
+\t m = material (cotton, kevlar, etc) | {m:iron}\n\
+\t dgt = damage greater than (0-5)    | {dgt:2}\n\
+\t dlt = damage less than (0-5)       | {dlt:1}"));
 
     return text;
 }
@@ -476,29 +482,31 @@ std::vector<std::string> text_combat()
 { //fix-it
     std::vector<std::string> text;
 
-    text.push_back(string_format(_("\
+    text.push_back(_("\
 After 30 minutes of warmup time, monsters will begin to appear. They are \
 represented by letters on your screen; a list of monster names, and their \
-positions relative to you, is displayed on the right side of the screen. \
-\n\
+positions relative to you, is displayed on the right side of the screen."));
+
+    text.push_back(_("\
 To attack a monster with a melee weapon, simply move into them. The time it takes to attack \
 depends on the size and weight of your weapon. Small, light weapons are the fastest; unarmed \
 attacks increase in speed with your Unarmed Combat skill, and will eventually be VERY fast. \
 A successful hit with a bashing weapon may stun the monster temporarily, while cutting weapons \
 may get stuck, possibly pulling the weapon from your hands-- but a monster with a weapon stuck \
 in it will move much more slowly. A miss may make you stumble and lose movement points. If a \
-monster hits you, your clothing may absorb some damage, but you will absorb the excess. \n\
-\n\
-Swarms of monsters may call for firearms. If you find one, wield it first, then reload%s. If you \
-wish to change ammo, you must unload the weapon%s, then reload again. To fire%s, move the cursor \
-to the relevant space, then hit '.' or 'f'. Some guns have alternate firing modes, such as burst \
-fire; to cycle modes%s. Firing continuously, especially in bursts, will severely reduce accuracy.\n\
-Press any key for more..."),
+monster hits you, your clothing may absorb some damage, but you will absorb the excess."));
+
+    text.push_back(string_format(_("\
+Swarms of monsters may call for firearms. If you find one, wield it first, then reload%s. \
+If you wish to change ammo, you must unload the weapon%s, then reload again. \
+To fire%s, move the cursor to the relevant space, then hit '.' or 'f'. \
+Some guns have alternate firing modes, such as burst fire; to cycle modes%s. \
+Firing continuously, especially in bursts, will severely reduce accuracy."),
             press_x(ACTION_RELOAD, _(" by pressing "), "").c_str(),
             press_x(ACTION_UNLOAD, _(" by pressing "), "").c_str(),
             press_x(ACTION_FIRE, _(", press "), "").c_str(),
-            press_x(ACTION_SELECT_FIRE_MODE, _(", press "), _(" 'Toggle attack mode of Wielded Item'")).c_str()));
-
+            press_x(ACTION_SELECT_FIRE_MODE, _(", press "),
+                    _(" 'Toggle attack mode of Wielded Item'")).c_str()));
 
     text.push_back(_("\
 Unlike most roguelikes, fleeing will often be your best option, especially when \
@@ -512,25 +520,28 @@ std::vector<std::string> text_styles()
 { //fix-it
     std::vector<std::string> text;
 
+    text.push_back(_("\
+For the unarmed fighter, a variety of fighting styles are available. \
+You can start with your choice of a single, commonly-taught style by starting with \
+the Martial Arts Training trait. Many, many more can be taught by wandering masters."));
+
     text.push_back(string_format(_("\
-For the unarmed fighter, a variety of fighting styles are available. You can start \
-with your choice of a single, commonly-taught style by starting with the \
-Martial Arts Training trait. Many, many more can be taught by wandering masters.\n\
-\n\
-To select a fighting style%s. If you are already unarmed \
-this will make you start using the style. Otherwise, it will be locked in as \
-your default unarmed style; to start using it, %s '-'.\n\
-\n\
+To select a fighting style%s. If you are already unarmed this will make you start using the style. \
+Otherwise, it will be locked in as your default unarmed style; to start using it, %s '-'."),
+                    press_x(ACTION_PICK_STYLE, _(", press "), "").c_str(),
+                    press_x(ACTION_WIELD, _("press "), _(" then"), 
+                            _("'Select Wielded Item' then press")).c_str()));
+
+    text.push_back(string_format(_("\
 Most styles have a variety of special moves associated with them. Most have a skill requirement, \
 and will be unavailable until you reach a level of unarmed skill. You can check the moves by \
-examining your style via the inventory screen%s.\n\
-\n\
+examining your style via the inventory screen%s."),
+                   press_x(ACTION_INVENTORY, " (", _(" key)"), "").c_str()));
+
+    text.push_back(_("\
 Many styles also have special effects unlocked under certain conditions. \
 These are varied and unique to each style, and range from special combo moves to bonuses \
-depending on the situation you are in. You can check these by examining your style."),
-    press_x(ACTION_PICK_STYLE, _(", press "), "").c_str(),
-    press_x(ACTION_WIELD, _("press "), _(" then"), _("'Select Wielded Item' then press")).c_str(),
-    press_x(ACTION_INVENTORY, " (", _(" key)"), "").c_str()));
+depending on the situation you are in. You can check these by examining your style."));
 
     return text;
 }
@@ -582,68 +593,65 @@ ITEM TYPES:\n\
 ~       Liquid\n\
 %%%%       Food\n\
 !       Medication\n\
-These are all consumed by %s. They provide a certain amount of \
-nutrition, quench your thirst, may be a stimulant or a depressant, and may \
-provide morale. There may also be more subtle effects.\n\
-\n\
+These are all consumed by %s. They provide a certain amount of nutrition, quench your thirst, may \
+be a stimulant or a depressant, and may provide morale. There may also be more subtle effects."),
+    press_x(ACTION_EAT, _("using "), _("eating")).c_str()));
+
+    text.push_back(string_format(_("\
 /       Large weapon\n\
 ;       Small weapon or tool\n\
 ,       Tiny item\n\
     These are all generic items, useful only to be wielded as a weapon. \
  However, some have special uses; they will show up under the TOOLS section \
- in your inventory. %s to use these.\n\
-\n\
+ in your inventory. %s to use these."),
+                    press_x(ACTION_USE).c_str()));
+
+    text.push_back(string_format(_("\
 )       Container\n\
 These items may hold other items. Some are passable weapons.\n\
 Many will be listed with their contents, e.g. \"plastic bottle of water\".\n\
 Those containing comestibles may be eaten%s; this may leave an empty container."),
-    press_x(ACTION_EAT, _("using "), _("eating")).c_str(),
-    press_x(ACTION_USE).c_str(),
     press_x(ACTION_EAT, _(" with "), "").c_str()));
 
     text.push_back(string_format(_("\
-ITEM TYPES:\n\
 [       Clothing\n\
-This may be worn%s or removed%s. It may\n\
-cover one or more body parts; you can wear multiple articles of clothing on \
-any given body part, but this will encumber you severely. Each article of \
-clothing may provide storage space, warmth, an encumberment, and a resistance \
-to bashing and/or cutting attacks. Some may protect against environmental effects. \
-\n\
-(       Firearm\n\
-This weapon may be loaded with ammunition%s, unloaded%s, and \
-fired%s. Some have automatic fire, which may be used%s at a \
-penalty to accuracy. The color refers to the type; handguns are gray, \
-shotguns are red, submachine guns are cyan, rifles are brown, assault rifles \
-are blue, and heavy machine guns are light red. Each has a dispersion rating, \
-a bonus to damage, a rate of fire, and a maximum load. Note that most \
-firearms load fully in one action, while shotguns must be loaded one \
-shell at a time.\n\
-\n\
-=       Ammunition\n\
-Ammunition is worthless without a gun to load it into. Generally, \
-there are several variants for any particular calibre. Ammunition has \
-damage, dispersion, and range ratings, and an armor-piercing quality."),
+This may be worn%s or removed%s. It may cover one or more body parts; you can wear \
+multiple articles of clothing on any given body part, but this will encumber you severely. \
+Each article of clothing may provide storage space, warmth, an encumberment, and a resistance \
+to bashing and/or cutting attacks. Some may protect against environmental effects."),
             press_x(ACTION_WEAR, _(" with the "), _(" key"),"").c_str(),
-            press_x(ACTION_TAKE_OFF, _(" with the "),_(" key"),"").c_str(),
+            press_x(ACTION_TAKE_OFF, _(" with the "),_(" key"),"").c_str()));
+
+    text.push_back(string_format(_("\
+(       Firearm\n\
+This weapon may be loaded with ammunition%s, unloaded%s, and fired%s. \
+Some have automatic fire, which may be used%s at a penalty to accuracy. \
+The color refers to the type; handguns are gray, shotguns are red, submachine guns are cyan, \
+rifles are brown, assault rifles are blue, and heavy machine guns are light red. Each has \
+a dispersion rating, a bonus to damage, a rate of fire, and a maximum load. Note that most firearms \
+load fully in one action, while shotguns must be loaded one shell at a time."),
             press_x(ACTION_RELOAD, _(" with "), "").c_str(),
             press_x(ACTION_UNLOAD, _(" with "), "").c_str(),
             press_x(ACTION_FIRE, _(" with "), "").c_str(),
             press_x(ACTION_SELECT_FIRE_MODE, _(" with "), "").c_str()));
 
+    text.push_back(_("\
+=       Ammunition\n\
+Ammunition is worthless without a gun to load it into. Generally, \
+there are several variants for any particular calibre. Ammunition has \
+damage, dispersion, and range ratings, and an armor-piercing quality."));
+
     text.push_back(string_format(_("\
-ITEM TYPES:\n\
-\n\
 *       Thrown weapon; simple projectile or grenade\n\
-These items are suited for throwing, and many are only useful when\n\
-thrown, such as grenades, molotov cocktails, or tear gas. Once activated\n\
-be certain to throw these items%s.\n\
-\n\
+These items are suited for throwing, and many are only useful when thrown, such as grenades, \
+molotov cocktails, or tear gas. Once activated be certain to throw these items%s."),
+        press_x(ACTION_THROW, _(" by pressing "), _(", then the letter of the item to throw."),
+                ".").c_str()));
+
+    text.push_back(string_format(_("\
 ?       Book or magazine\n\
-This can be read for training or entertainment%s. Most\n\
-require a basic level of intelligence; some require some base knowledge in\n\
-the relevant subject."),
-    press_x(ACTION_THROW, _(" by pressing "),_(", then the letter of the item to throw."),".").c_str(),
+This can be read for training or entertainment%s. Most require a basic level of intelligence; \
+some require some base knowledge in the relevant subject."),
     press_x(ACTION_READ, _(" by pressing "), "").c_str()));
 
     return text;
