@@ -321,6 +321,7 @@ void mapbuffer::load(std::string worldname)
         num_submaps = unserialize_keys( fin, ter_key, furn_key, trap_key );
         unserialize_submaps( fin, num_submaps, ter_key, furn_key, trap_key );
         fin.close();
+        save();
         unlink( worldmap.str().c_str() );
         return;
     }
