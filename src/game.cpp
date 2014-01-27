@@ -76,6 +76,11 @@ extern worldfactory *world_generator;
 
 uistatedata uistate;
 
+#ifdef SDLTILES
+#include "cata_tiles.h"
+extern cata_tiles *tilecontext;
+#endif // SDLTILES
+
 // This is the main game set-up process.
 game::game() :
  uquit(QUIT_NO),
@@ -226,35 +231,40 @@ game::~game()
 
 void game::init_ui(){
     // clear the screen
-    clear();
+    static bool first_init = true;
 
-    // set minimum FULL_SCREEN sizes
-    FULL_SCREEN_WIDTH = 80;
-    FULL_SCREEN_HEIGHT = 24;
-    // print an intro screen, making sure the terminal is the correct size
-    intro();
+    if(first_init) {
+        clear();
+
+        // set minimum FULL_SCREEN sizes
+        FULL_SCREEN_WIDTH = 80;
+        FULL_SCREEN_HEIGHT = 24;
+        // print an intro screen, making sure the terminal is the correct size
+        intro();
+
+        first_init = false;
+    }
 
     int sidebarWidth = narrow_sidebar ? 45 : 55;
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
-        TERMX = sidebarWidth + ((int)OPTIONS["VIEWPORT_X"] * 2 + 1);
-        TERMY = (int)OPTIONS["VIEWPORT_Y"] * 2 + 1;
-        POSX = (OPTIONS["VIEWPORT_X"] > 60) ? 60 : OPTIONS["VIEWPORT_X"];
-        POSY = (OPTIONS["VIEWPORT_Y"] > 60) ? 60 : OPTIONS["VIEWPORT_Y"];
-        // TERMY is always odd, so make FULL_SCREEN_HEIGHT odd too
-        FULL_SCREEN_HEIGHT = 25;
+        TERMX = OPTIONS["TERMINAL_X"];
+        TERMY = OPTIONS["TERMINAL_Y"];
 
-        // If we've chosen the narrow sidebar, we might need to make the
-        // viewport wider to fill an 80-column window.
-        while (TERMX < FULL_SCREEN_WIDTH) {
-            TERMX += 2;
-            POSX += 1;
+        if(OPTIONS["USE_TILES"]) {
+            VIEW_OFFSET_X = ((int)(TERMX/tilecontext->tile_ratiox) - sidebarWidth > 121) ? (TERMX - sidebarWidth - 121)/2 * tilecontext->tile_ratiox : 0;
+            VIEW_OFFSET_Y = ((int)(TERMY/tilecontext->tile_ratioy) > 121) ? (TERMY - 121)/2 : 0;
+            TERRAIN_WINDOW_WIDTH  = (int)((TERMX - sidebarWidth)/tilecontext->tile_ratiox);
+            TERRAIN_WINDOW_HEIGHT = (int)(TERMY/tilecontext->tile_ratioy);
+        } else {
+            VIEW_OFFSET_X = (TERMX - sidebarWidth > 121) ? (TERMX - sidebarWidth - 121)/2 : 0;
+            VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
+            TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
+            TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
         }
 
-        VIEW_OFFSET_X = (OPTIONS["VIEWPORT_X"] > 60) ? (int)OPTIONS["VIEWPORT_X"]-60 : 0;
-        VIEW_OFFSET_Y = (OPTIONS["VIEWPORT_Y"] > 60) ? (int)OPTIONS["VIEWPORT_Y"]-60 : 0;
-        TERRAIN_WINDOW_WIDTH  = (POSX * 2) + 1;
-        TERRAIN_WINDOW_HEIGHT = (POSY * 2) + 1;
+        POSX = TERRAIN_WINDOW_WIDTH / 2;
+        POSY = TERRAIN_WINDOW_HEIGHT / 2;
     #else
         getmaxyx(stdscr, TERMY, TERMX);
 
@@ -6024,7 +6034,7 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
         }
     }
     if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player && ( (!(u.has_trait("LEG_TENT_BRACE"))) ||
-    (u.wearing_something_on(bp_feet))) ) 
+    (u.wearing_something_on(bp_feet))) )
     {
         add_msg(_("You're caught in the shockwave!"));
         knockback(x, y, u.posx, u.posy, force, stun, dam_mult);
@@ -7566,7 +7576,7 @@ void game::examine(int examx, int examy)
     vehicle *veh = NULL;
 
     if (examx == -1) {
-        // if we are driving a vehicle, examine the 
+        // if we are driving a vehicle, examine the
         // current tile without asking.
         veh = m.veh_at(u.posx, u.posy, veh_part);
         if (veh && veh->player_in_control(&u)) {
@@ -8268,9 +8278,9 @@ int game::list_items(const int iLastState)
 {
     int iInfoHeight = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
-    WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
-    WINDOW* w_item_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
-    WINDOW* w_item_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
+    WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERMX - width);
+    WINDOW* w_item_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width + 1);
+    WINDOW* w_item_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width);
 
     //Area to search +- of players position.
     const int iRadius = 12 + (u.per_cur * 2);
@@ -8560,9 +8570,9 @@ int game::list_monsters(const int iLastState)
 {
     int iInfoHeight = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
-    WINDOW* w_monsters = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
-    WINDOW* w_monster_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
-    WINDOW* w_monster_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
+    WINDOW* w_monsters = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERMX - width);
+    WINDOW* w_monster_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width + 1);
+    WINDOW* w_monster_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width);
 
     uistate.list_item_mon = 2; // remember we've tabbed here
     //this stores the monsters found
@@ -8835,7 +8845,7 @@ void game::pickup(int posx, int posy, int min)
         craft_part = veh->part_with_feature(veh_part, "CRAFTRIG");
         chempart = veh->part_with_feature(veh_part, "CHEMLAB");
         veh_part = veh->part_with_feature(veh_part, "CARGO", false);
-        ctrl_part = veh->part_with_feature(veh_part, "CONTROLS");    
+        ctrl_part = veh->part_with_feature(veh_part, "CONTROLS");
         from_veh = veh && veh_part >= 0 && veh->parts[veh_part].items.size() > 0;
 
         menu_items.push_back(_("Examine vehicle"));
@@ -8890,7 +8900,7 @@ void game::pickup(int posx, int posy, int min)
         {
           return;
         }
-        if(menu_items[choice]==_("Use the hotplate")) 
+        if(menu_items[choice]==_("Use the hotplate"))
         {
             //Will be -1 if no battery at all
             item tmp_hotplate( itypes["hotplate"], 0 );
@@ -8905,8 +8915,8 @@ void game::pickup(int posx, int posy, int min)
                 }
             }
             return;
-        } 
-        
+        }
+
         if(menu_items[choice]==_("Fill a container with water"))
         {
             int amt = veh->drain("water", veh->fuel_left("water"));
@@ -8919,8 +8929,8 @@ void game::pickup(int posx, int posy, int min)
                 veh->refill("water", amt);
             }
             return;
-        } 
-        
+        }
+
         if(menu_items[choice]==_("Have a drink"))
         {
             veh->drain("water", 1);
@@ -8929,7 +8939,7 @@ void game::pickup(int posx, int posy, int min)
             u.moves -= 250;
             return;
         }
-        
+
         if(menu_items[choice]==_("Use the welding rig?"))
         {
             //Will be -1 if no battery at all
@@ -8945,8 +8955,8 @@ void game::pickup(int posx, int posy, int min)
                 }
             }
             return;
-        } 
-        
+        }
+
         if(menu_items[choice]==_("Use the water purifier?"))
         {
             //Will be -1 if no battery at all
@@ -8962,8 +8972,8 @@ void game::pickup(int posx, int posy, int min)
                 }
             }
             return;
-        } 
-        
+        }
+
         if(menu_items[choice]==_("Control vehicle"))
         {
           veh->use_controls();
