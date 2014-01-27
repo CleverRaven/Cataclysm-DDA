@@ -257,9 +257,6 @@ public:
   // when player is thrown (by impact or something)
   void fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled = false);
 
-  /**
-   * Nuke the area at (x,y) - global overmap terrain coordinates!
-   */
   void nuke(int x, int y);
   bool spread_fungus(int x, int y);
   std::vector<faction *> factions_at(int x, int y);

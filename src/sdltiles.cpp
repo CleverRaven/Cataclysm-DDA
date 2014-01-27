@@ -101,13 +101,7 @@ static bool fontblending = false;
 
 void init_interface()
 {
-
-    DebugLog() << "Initializing SDL Tiles context\n";
-    IMG_Init(IMG_INIT_PNG);
-    tilecontext = new cata_tiles;
-    if (OPTIONS["USE_TILES"]){
-        tilecontext->init(screen, "gfx");
-    }
+    return; // dummy function, we have nothing to do here
 }
 #endif
 //***********************************
@@ -126,16 +120,17 @@ bool fexists(const char *filename)
   return (bool)ifile;
 }
 
-//Registers, creates, and shows the Window!!
-bool WinCreate()
+bool InitSDL()
 {
     int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
 
     if (SDL_Init(init_flags) < 0) {
         return false;
     }
-
     if (TTF_Init() < 0) {
+        return false;
+    }
+    if (IMG_Init(IMG_INIT_PNG) < 0) {
         return false;
     }
 
@@ -145,6 +140,13 @@ bool WinCreate()
     SDL_EnableKeyRepeat(500, OPTIONS["INPUT_DELAY"]);
 
     atexit(SDL_Quit);
+
+    return true;
+};
+
+//Registers, creates, and shows the Window!!
+bool WinCreate()
+{
 
     std::string version = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
     SDL_WM_SetCaption(version.c_str(), NULL);
@@ -406,10 +408,12 @@ void curses_drawwindow(WINDOW *win)
 
     if (g && win == g->w_terrain && use_tiles)
     {
-        update_rect.y = win->y*fontheight;
-        update_rect.h = win->height*fontheight;
+        update_rect.y = win->y*tilecontext->tile_height;
+        update_rect.h = win->height*tilecontext->tile_height;
+        update_rect.x = win->y*tilecontext->tile_width;
+        update_rect.w = win->width*tilecontext->tile_width;
         //GfxDraw(thegame, win->x*fontwidth, win->y*fontheight, thegame->terrain_view_x, thegame->terrain_view_y, win->width*fontwidth, win->height*fontheight);
-        tilecontext->draw(win->x * fontwidth, win->y * fontheight, g->ter_view_x, g->ter_view_y, win->width * fontwidth, win->height * fontheight);
+        tilecontext->draw(win->x * fontwidth, win->y * fontheight, g->ter_view_x, g->ter_view_y, tilecontext->terrain_term_x * fontwidth, tilecontext->terrain_term_y * fontheight);
     }
 //*/
     if (update_rect.y != 9999)
@@ -667,14 +671,7 @@ void CheckMessages()
                     quit = true;
                     break;
                 }
-                else if( ev.key.keysym.sym == SDLK_RSHIFT || ev.key.keysym.sym == SDLK_LSHIFT ||
-                         ev.key.keysym.sym == SDLK_RCTRL || ev.key.keysym.sym == SDLK_LCTRL ||
-                         ev.key.keysym.sym == SDLK_RALT ) {
-                    break; // temporary fix for unwanted keys
-                } else if( ev.key.keysym.sym == SDLK_LALT ) {
-                    begin_alt_code();
-                    break;
-                } else if( ev.key.keysym.unicode != 0 ) {
+                if( ev.key.keysym.unicode != 0 ) {
                     lc = ev.key.keysym.unicode;
                     switch (lc){
                         case 13:            //Reroute ENTER key for compatilbity purposes
@@ -685,24 +682,31 @@ void CheckMessages()
                             break;
                     }
                 }
-                if( ev.key.keysym.sym == SDLK_LEFT ) {
-                    lc = KEY_LEFT;
-                }
-                else if( ev.key.keysym.sym == SDLK_RIGHT ) {
-                    lc = KEY_RIGHT;
-                }
-                else if( ev.key.keysym.sym == SDLK_UP ) {
-                    lc = KEY_UP;
-                }
-                else if( ev.key.keysym.sym == SDLK_DOWN ) {
-                    lc = KEY_DOWN;
-                }
-                else if( ev.key.keysym.sym == SDLK_PAGEUP ) {
-                    lc = KEY_PPAGE;
-                }
-                else if( ev.key.keysym.sym == SDLK_PAGEDOWN ) {
-                    lc = KEY_NPAGE;
-
+                switch (ev.key.keysym.sym) {
+                    case SDLK_RSHIFT||SDLK_LSHIFT||SDLK_RCTRL||SDLK_LCTRL||SDLK_RALT:
+                        lc= 0;
+                        break; // temporary fix for unwanted keys
+                    case SDLK_LALT:
+                        begin_alt_code();
+                        break;
+                    case SDLK_LEFT:
+                        lc = KEY_LEFT;
+                        break;
+                    case SDLK_RIGHT:
+                        lc = KEY_RIGHT;
+                        break;
+                    case SDLK_UP:
+                        lc = KEY_UP;
+                        break;
+                    case SDLK_DOWN:
+                        lc = KEY_DOWN;
+                        break;
+                    case SDLK_PAGEUP:
+                        lc = KEY_PPAGE;
+                        break;
+                    case SDLK_PAGEDOWN:
+                        lc = KEY_NPAGE;
+                        break;
                 }
                 if( !lc ) { break; }
                 if( alt_down ) {
@@ -742,15 +746,20 @@ void CheckMessages()
 
             case SDL_MOUSEBUTTONUP:
                 lastchar_is_mouse = true;
-                if (ev.button.button == SDL_BUTTON_LEFT) {
-                    lastchar = MOUSE_BUTTON_LEFT;
-                } else if (ev.button.button == SDL_BUTTON_RIGHT) {
-                    lastchar = MOUSE_BUTTON_RIGHT;
-                } else if (ev.button.button == SDL_BUTTON_WHEELUP) {
-                    lastchar = SCROLLWHEEL_UP;
-                } else if (ev.button.button == SDL_BUTTON_WHEELDOWN) {
-                    lastchar = SCROLLWHEEL_DOWN;
-                }
+                switch (ev.button.button) {
+                    case SDL_BUTTON_LEFT:
+                        lastchar = MOUSE_BUTTON_LEFT;
+                        break;
+                    case SDL_BUTTON_RIGHT:
+                        lastchar = MOUSE_BUTTON_RIGHT;
+                        break;
+                    case SDL_BUTTON_WHEELUP:
+                        lastchar = SCROLLWHEEL_UP;
+                        break;
+                    case SDL_BUTTON_WHEELDOWN:
+                        lastchar = SCROLLWHEEL_DOWN;
+                        break;
+                    }
                 break;
 
             case SDL_QUIT:
@@ -930,8 +939,7 @@ static int test_face_size(std::string f, int size, int faceIndex)
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
-    const int SidebarWidth = g->narrow_sidebar ? 45 : 55;
-    int newWindowWidth = (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
+    int newWindowWidth = OPTIONS["TERMINAL_X"];
     newWindowWidth = newWindowWidth < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : newWindowWidth;
 
     return newWindowWidth * fontwidth;
@@ -940,7 +948,7 @@ int projected_window_width(int)
 // Calculates the new height of the window, given the number of rows.
 int projected_window_height(int)
 {
-    return (OPTIONS["VIEWPORT_Y"] * 2 + 1) * fontheight;
+    return OPTIONS["TERMINAL_Y"] * fontheight;
 }
 
 //Basic Init, create the font, backbuffer, etc
@@ -984,13 +992,23 @@ WINDOW *curses_init(void)
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
 
-    const int SidebarWidth = (g != NULL && g->narrow_sidebar) ? 45 : 55;
+    if(!InitSDL()) {
+        DebugLog() << (std::string)"Failed to initialize SDL!\n";
+    }
 
-    WindowWidth= (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
+    DebugLog() << "Initializing SDL Tiles context\n";
+    tilecontext = new cata_tiles;
+    tilecontext->init("gfx");
+    DebugLog() << (std::string)"Tiles initialized successfully.\n";
+    WindowWidth= OPTIONS["TERMINAL_X"];
     if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
     WindowWidth *= fontwidth;
-    WindowHeight= (OPTIONS["VIEWPORT_Y"] * 2 + 1) *fontheight;
-    if(!WinCreate()) {}// do something here
+    WindowHeight = OPTIONS["TERMINAL_Y"] * fontheight;
+    if(!WinCreate()) {
+        DebugLog() << (std::string)"Failed to create game window!\n";
+        return NULL;
+    }
+    tilecontext->set_screen(screen);
 
     while(!strcasecmp(typeface.substr(typeface.length()-4).c_str(),".bmp") ||
           !strcasecmp(typeface.substr(typeface.length()-4).c_str(),".png")) {
@@ -1023,9 +1041,9 @@ WINDOW *curses_init(void)
         }
         if(fontwidth)tilewidth=ascii[0]->w/fontwidth;
         OutputChar = &OutputImageChar;
-        mainwin = newwin( (OPTIONS["VIEWPORT_Y"] * 2 + 1),
-                          (SidebarWidth +
-                           (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
+
+
+        mainwin = newwin(OPTIONS["TERMINAL_Y"], OPTIONS["TERMINAL_X"],0,0);
         return mainwin;
     }
 
@@ -1065,10 +1083,7 @@ WINDOW *curses_init(void)
 
     OutputChar = &OutputFontChar;
 
-    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),
-                     (SidebarWidth +
-                     (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
-    
+    mainwin = newwin(OPTIONS["TERMINAL_Y"], OPTIONS["TERMINAL_X"],0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
