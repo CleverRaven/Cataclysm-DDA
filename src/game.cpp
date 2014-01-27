@@ -251,17 +251,22 @@ void game::init_ui(){
         TERMX = OPTIONS["TERMINAL_X"];
         TERMY = OPTIONS["TERMINAL_Y"];
 
+        #ifdef SDLTILES
         if(OPTIONS["USE_TILES"]) {
-            VIEW_OFFSET_X = ((int)(TERMX/tilecontext->tile_ratiox) - sidebarWidth > 121) ? (TERMX - sidebarWidth - 121)/2 * tilecontext->tile_ratiox : 0;
+            VIEW_OFFSET_X = ((int)(TERMX/tilecontext->tile_ratiox) - sidebarWidth > 121) ?
+                                (TERMX - sidebarWidth - 121)/2 * tilecontext->tile_ratiox : 0;
             VIEW_OFFSET_Y = ((int)(TERMY/tilecontext->tile_ratioy) > 121) ? (TERMY - 121)/2 : 0;
             TERRAIN_WINDOW_WIDTH  = (int)((TERMX - sidebarWidth)/tilecontext->tile_ratiox);
             TERRAIN_WINDOW_HEIGHT = (int)(TERMY/tilecontext->tile_ratioy);
         } else {
+        #endif // SDLTILES
             VIEW_OFFSET_X = (TERMX - sidebarWidth > 121) ? (TERMX - sidebarWidth - 121)/2 : 0;
             VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
             TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
             TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
+        #ifdef SDLTILES
         }
+        #endif // SDLTILES
 
         POSX = TERRAIN_WINDOW_WIDTH / 2;
         POSY = TERRAIN_WINDOW_HEIGHT / 2;
@@ -6034,7 +6039,7 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
         }
     }
     if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player && ( (!(u.has_trait("LEG_TENT_BRACE"))) ||
-    (u.wearing_something_on(bp_feet))) ) 
+    (u.wearing_something_on(bp_feet))) )
     {
         add_msg(_("You're caught in the shockwave!"));
         knockback(x, y, u.posx, u.posy, force, stun, dam_mult);
@@ -7576,7 +7581,7 @@ void game::examine(int examx, int examy)
     vehicle *veh = NULL;
 
     if (examx == -1) {
-        // if we are driving a vehicle, examine the 
+        // if we are driving a vehicle, examine the
         // current tile without asking.
         veh = m.veh_at(u.posx, u.posy, veh_part);
         if (veh && veh->player_in_control(&u)) {
@@ -8914,8 +8919,8 @@ void game::pickup(int posx, int posy, int min)
                 }
             }
             return;
-        } 
-        
+        }
+
         if(menu_items[choice]==_("Fill a container with water"))
         {
             int amt = veh->drain("water", veh->fuel_left("water"));
@@ -8928,8 +8933,8 @@ void game::pickup(int posx, int posy, int min)
                 veh->refill("water", amt);
             }
             return;
-        } 
-        
+        }
+
         if(menu_items[choice]==_("Have a drink"))
         {
             veh->drain("water", 1);
@@ -8938,7 +8943,7 @@ void game::pickup(int posx, int posy, int min)
             u.moves -= 250;
             return;
         }
-        
+
         if(menu_items[choice]==_("Use the welding rig?"))
         {
             //Will be -1 if no battery at all
@@ -8954,8 +8959,8 @@ void game::pickup(int posx, int posy, int min)
                 }
             }
             return;
-        } 
-        
+        }
+
         if(menu_items[choice]==_("Use the water purifier?"))
         {
             //Will be -1 if no battery at all
@@ -8971,8 +8976,8 @@ void game::pickup(int posx, int posy, int min)
                 }
             }
             return;
-        } 
-        
+        }
+
         if(menu_items[choice]==_("Control vehicle"))
         {
           veh->use_controls();
