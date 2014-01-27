@@ -1648,7 +1648,8 @@
         "type" : "vehicle",
         "id" : "lux_rv",
         "name" : "Luxury RV",
-        "parts" : [		    {"x": 1, "y": -1, "part": "frame_nw"},
+        "parts" : [
+            {"x": 1, "y": -1, "part": "frame_nw"},
             {"x": 1, "y": -1, "part": "windshield"},
             {"x": 1, "y": 0, "part": "frame_horizontal"},
             {"x": 1, "y": 0, "part": "headlight"},
