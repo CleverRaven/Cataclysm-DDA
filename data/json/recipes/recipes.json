@@ -10777,12 +10777,10 @@
       [ "poppy_sleep", 15 ]
     ],
     [
-      [ "vitamins", 10 ],
-      [ "protein_powder", 10 ]
-    ],
-    [
+      [ "vitamins", 5 ],
       [ "iodine", 5 ],
-      [ "disinfectant", 5 ]
+      [ "disinfectant", 5 ],
+      [ "protein_powder", 10 ]
     ]
   ]
 },{
