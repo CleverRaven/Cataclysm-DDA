@@ -10768,7 +10768,8 @@
       [ "heroin", 5 ]
     ],
     [
-      [ "vitamins", 10 ]
+      [ "vitamins", 10 ],
+      [ "protein_powder", 10 ]
     ],
     [
       [ "prozac", 5 ],
@@ -10779,7 +10780,8 @@
       [ "poppy_sleep", 10 ]
     ],
     [
-      [ "iodine", 5 ]
+      [ "iodine", 5 ],
+      [ "disinfectant", 5 ]
     ]
   ]
 },{
