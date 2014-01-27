@@ -1758,8 +1758,8 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             mvwputch(w, 1, i, c_white, LINE_OXOX);
         }
         mvwprintz(w, 0, 0, c_yellow, "%s", note_text.c_str());
-        mvwputch(w, 1, length + 1, c_white, LINE_XOOX);
-        mvwputch(w, 0, length + 1, c_white, LINE_XOXO);
+        mvwputch(w, 1, length, c_white, LINE_XOOX);
+        mvwputch(w, 0, length, c_white, LINE_XOXO);
     } else if (overmap_buffer.has_npc(cursx, cursy, z))
     {
         print_npcs(w, cursx, cursy, z);
