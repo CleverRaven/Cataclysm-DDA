@@ -2729,11 +2729,11 @@ _(
  } else if (ch == '3') { // General S.O.S.
   p->moves -= 150;
   std::vector<npc*> in_range;
-  for (int i = 0; i < g->cur_om->npcs.size(); i++) {
-   if (g->cur_om->npcs[i]->op_of_u.value >= 4 &&
-       rl_dist(g->levx, g->levy, g->cur_om->npcs[i]->mapx,
-                                   g->cur_om->npcs[i]->mapy) <= 30)
-    in_range.push_back((g->cur_om->npcs[i]));
+  std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(30);
+  for (int i = 0; i < npcs.size(); i++) {
+   if (npcs[i]->op_of_u.value >= 4) {
+    in_range.push_back(npcs[i]);
+   }
   }
   if (in_range.size() > 0) {
    npc* coming = in_range[rng(0, in_range.size() - 1)];
@@ -2962,24 +2962,11 @@ static void roadmap_targets(player *, item *, bool,
                             const std::string &target, int distance,
                             int reveal_distance)
 {
-    point place;
-    point origin = g->om_location();
-    std::vector<point> places = g->cur_om->find_all(tripoint(origin.x, origin.y, g->levz),
-                                                    target, distance, false);
-
+    std::vector<point> places = overmap_buffer.find_all(
+        g->om_global_location(), target, distance, false);
     for (std::vector<point>::iterator iter = places.begin(); iter != places.end(); ++iter) {
-        place = *iter;
-        if (place.x >= 0 && place.y >= 0) {
-            if (reveal_distance == 0) {
-                g->cur_om->seen(place.x,place.y,g->levz) = true;
-            } else {
-                for (int x = place.x - reveal_distance; x <= place.x + reveal_distance; x++) {
-                    for (int y = place.y - reveal_distance; y <= place.y + reveal_distance; y++) {
-                        g->cur_om->seen(x, y,g->levz) = true;
-                    }
-                }
-            }
-        }
+        const point &place = *iter;
+        overmap_buffer.reveal(place, reveal_distance, g->levz);
     }
 }
 
