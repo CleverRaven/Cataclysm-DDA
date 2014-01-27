@@ -10768,16 +10768,16 @@
       [ "heroin", 5 ]
     ],
     [
-      [ "vitamins", 10 ],
-      [ "protein_powder", 10 ]
-    ],
-    [
       [ "prozac", 5 ],
       [ "thorazine", 5 ],
       [ "adderall", 5 ],
       [ "xanax", 5 ],
       [ "pills_sleep", 5 ],
       [ "poppy_sleep", 10 ]
+    ],
+    [
+      [ "vitamins", 10 ],
+      [ "protein_powder", 10 ]
     ],
     [
       [ "iodine", 5 ],
