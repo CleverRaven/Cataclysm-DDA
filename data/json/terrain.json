@@ -1412,7 +1412,18 @@
         "symbol": "|",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE"]
+        "flags": ["BASHABLE", "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE"],
+        "bash": {
+            "str_min": 1, "str_max": 10,
+            "sound": "crack.",
+            "sound_fail": "whump.",
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 1},
+                { "item": "nail", "amount": 6, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_railing_h",
@@ -1420,7 +1431,18 @@
         "symbol": "-",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE"]
+        "flags": ["BASHABLE", "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE"],
+        "bash": {
+            "str_min": 1, "str_max": 10,
+            "sound": "crack.",
+            "sound_fail": "whump.",
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 1},
+                { "item": "nail", "amount": 6, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_marloss",
