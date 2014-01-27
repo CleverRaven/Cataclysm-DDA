@@ -374,9 +374,7 @@ void Item_factory::check_itype_definitions() const {
         }
         const it_tool* tool = dynamic_cast<const it_tool*>(type);
         if(tool != 0) {
-            if(tool->max_charges != 0 || tool->def_charges != 0) {
-                check_ammo_type(msg, tool->ammo);
-            }
+            check_ammo_type(msg, tool->ammo);
             if(tool->revert_to != "null" && !has_template(tool->revert_to)) {
                 msg << string_format("invalid revert_to property %s", tool->revert_to.c_str()) << "\n";
             }

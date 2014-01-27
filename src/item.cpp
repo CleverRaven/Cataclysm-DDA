@@ -445,7 +445,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   // added charge display for debugging
   it_ammo* ammo = dynamic_cast<it_ammo*>(type);
 
-  dump->push_back(iteminfo("AMMO", _("Type: "), ammo_name(ammo->type)));
+  if (ammo->type != "NULL") {
+    dump->push_back(iteminfo("AMMO", _("Type: "), ammo_name(ammo->type)));
+  }
   dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage));
   dump->push_back(iteminfo("AMMO", _("Armor-pierce: "), "", ammo->pierce));
   dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range));

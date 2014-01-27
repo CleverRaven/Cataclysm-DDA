@@ -1,6 +1,12 @@
 [
     {
         "type" : "ammunition_type",
+        "id" : "NULL",
+        "name" : "none",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "700nx",
         "name" : ".700 Nitro Express",
         "default" : ""
