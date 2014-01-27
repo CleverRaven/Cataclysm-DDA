@@ -10761,11 +10761,11 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "codeine", 20 ],
-      [ "poppy_pain", 20 ],
-      [ "tramadol", 15 ],
       [ "oxycodone", 5 ],
-      [ "heroin", 5 ]
+      [ "heroin", 5 ],
+      [ "tramadol", 15 ],
+      [ "codeine", 20 ],
+      [ "poppy_pain", 20 ]
     ],
     [
       [ "prozac", 5 ],
