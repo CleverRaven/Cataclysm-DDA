@@ -11058,6 +11058,7 @@
         "type" : "COMESTIBLE",
         "id" : "paper",
         "name" : "paper",
+       "category" : "spare_parts",
         "weight" : 3,
         "color" : "white",
         "addiction_type" : "none",

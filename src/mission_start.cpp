@@ -426,11 +426,8 @@ void mission_start::recruit_tracker(mission *miss)
  npc * temp = new npc();
  temp->normalize();
  temp->randomize(NC_COWBOY);
- temp->omx = om.pos().x;
- temp->omy = om.pos().y;
- // mapx/y is in submap coordinates, site is in overmap terrain coords
- temp->mapx = site.x * 2;
- temp->mapy = site.y * 2;
+ // NPCs spawn with submap coordinates, site is in overmap terrain coords
+ temp->spawn_at(&om, site.x * 2, site.y * 2, g->levz);
  temp->posx = 11;
  temp->posy = 11;
  temp->attitude = NPCATT_TALK;
@@ -439,7 +436,6 @@ void mission_start::recruit_tracker(mission *miss)
  temp->op_of_u.owed = 10; int mission_index = g->reserve_mission(MISSION_JOIN_TRACKER, temp->getID());
  if (mission_index != -1)
     temp->chatbin.missions.push_back(mission_index);
- om.npcs.push_back(temp);
 }
 
 void mission_start::place_book( mission *)

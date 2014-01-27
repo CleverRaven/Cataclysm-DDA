@@ -2980,7 +2980,7 @@
     "flags": ["MODE_BURST", "MOUNTED_GUN"],
     "skill": "rifle",
     "ammo": "50",
-    "weight": 13000,
+    "weight": 38000,
     "volume": 18,
     "bashing": 12,
     "cutting": 0,
