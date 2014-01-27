@@ -130,9 +130,11 @@ bool InitSDL()
     if (TTF_Init() < 0) {
         return false;
     }
+    #ifdef SDLTILES
     if (IMG_Init(IMG_INIT_PNG) < 0) {
         return false;
     }
+    #endif // SDLTILES
 
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 
@@ -996,9 +998,11 @@ WINDOW *curses_init(void)
         DebugLog() << (std::string)"Failed to initialize SDL!\n";
     }
 
+    #ifdef SDLTILES
     DebugLog() << "Initializing SDL Tiles context\n";
     tilecontext = new cata_tiles;
     tilecontext->init("gfx");
+    #endif // SDLTILES
     DebugLog() << (std::string)"Tiles initialized successfully.\n";
     WindowWidth= OPTIONS["TERMINAL_X"];
     if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
@@ -1008,6 +1012,7 @@ WINDOW *curses_init(void)
         DebugLog() << (std::string)"Failed to create game window!\n";
         return NULL;
     }
+    #ifdef SDLTILES
     tilecontext->set_screen(screen);
 
     while(!strcasecmp(typeface.substr(typeface.length()-4).c_str(),".bmp") ||
@@ -1045,6 +1050,7 @@ WINDOW *curses_init(void)
         mainwin = newwin(OPTIONS["TERMINAL_Y"], OPTIONS["TERMINAL_X"],0,0);
         return mainwin;
     }
+    #endif // SDLTILES
 
     std::string sysfnt = find_system_font(typeface, faceIndex);
     if(sysfnt != "") typeface = sysfnt;

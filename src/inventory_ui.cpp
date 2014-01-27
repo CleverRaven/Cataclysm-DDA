@@ -143,9 +143,9 @@ void print_inv_statics(WINDOW *w_inv, std::string title,
 
 int game::display_slice(indexed_invslice &slice, const std::string &title)
 {
-    WINDOW* w_inv = newwin(mainwin->height, mainwin->width,
+    WINDOW* w_inv = newwin(TERMY, TERMX,
 							VIEW_OFFSET_Y, VIEW_OFFSET_X);
-    const int maxitems = mainwin->height - 5;
+    const int maxitems = TERMY - 5;
 
     int ch = (int)'.';
     int start = 0, cur_it = 0, max_it;
@@ -389,9 +389,9 @@ std::vector<item> game::multidrop()
 
 std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_volume_capacity)
 {
-    WINDOW* w_inv = newwin(mainwin->height, mainwin->width,
+    WINDOW* w_inv = newwin(TERMY, TERMX,
 							VIEW_OFFSET_Y, VIEW_OFFSET_X);
-    const int maxitems = mainwin->height - 5;
+    const int maxitems = TERMY - 5;
     freed_volume_capacity = 0;
 
     u.inv.restack(&u);
