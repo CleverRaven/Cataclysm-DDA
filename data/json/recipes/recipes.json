@@ -10768,12 +10768,13 @@
       [ "poppy_pain", 20 ]
     ],
     [
-      [ "prozac", 5 ],
-      [ "thorazine", 5 ],
-      [ "adderall", 5 ],
-      [ "xanax", 5 ],
-      [ "pills_sleep", 5 ],
-      [ "poppy_sleep", 10 ]
+      [ "lsd", 5 ],
+      [ "prozac", 10 ],
+      [ "thorazine", 10 ],
+      [ "adderall", 10 ],
+      [ "xanax", 10 ],
+      [ "pills_sleep", 10 ],
+      [ "poppy_sleep", 15 ]
     ],
     [
       [ "vitamins", 10 ],
