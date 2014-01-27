@@ -543,14 +543,14 @@ void initOptions() {
                                              _("Initial starting season of day on character generation."),
                                              "spring,summer,autumn,winter", "spring");
 
-    OPTIONS["VIEWPORT_X"] =             cOpt("graphics", _("Viewport width"),
-                                             _("SDL ONLY: Set the expansion of the viewport along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                             12, 93, 12
+    OPTIONS["TERMINAL_X"] =             cOpt("graphics", _("Terminal width"),
+                                             _("SDL ONLY: Set the size of the terminal along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
+                                             80, 242, 80
                                             );
 
-    OPTIONS["VIEWPORT_Y"] =             cOpt("graphics", _("Viewport height"),
-                                             _("SDL ONLY: Set the expansion of the viewport along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                             12, 93, 12
+    OPTIONS["TERMINAL_Y"] =             cOpt("graphics", _("Terminal height"),
+                                             _("SDL ONLY: Set the size of the terminal along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
+                                             25, 187, 25
                                             );
 
     OPTIONS["INPUT_DELAY"] =             cOpt("graphics", _("Input delay"),
@@ -819,24 +819,24 @@ void show_options(bool ingame)
         wrefresh(w_options_header);
 
 #if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
-        if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_X") {
-            int new_viewport_x, new_window_width;
+        if (mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_X") {
+            int new_terminal_x, new_window_width;
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
-            value_conversion >> new_viewport_x;
-            new_window_width = projected_window_width(new_viewport_x);
+            value_conversion >> new_terminal_x;
+            new_window_width = projected_window_width(new_terminal_x);
 
             fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
                            "%s #%s -- The window will be %d pixels wide with the selected value.",
                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
                            new_window_width);
-        } else if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_Y") {
-            int new_viewport_y, new_window_height;
+        } else if (mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_Y") {
+            int new_terminal_y, new_window_height;
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
-            value_conversion >> new_viewport_y;
-            new_window_height = projected_window_height(new_viewport_y);
+            value_conversion >> new_terminal_y;
+            new_window_height = projected_window_height(new_terminal_y);
 
             fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
                            "%s #%s -- The window will be %d pixels tall with the selected value.",
@@ -967,6 +967,8 @@ void show_options(bool ingame)
 #ifdef SDLTILES
     if (used_tiles_changed){
         tilecontext->reinit("gfx");
+        g->init_ui();
+        g->refresh_all();
     }
 #endif // SDLTILES
     delwin(w_options);
