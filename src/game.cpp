@@ -7587,8 +7587,7 @@ void game::examine(int examx, int examy)
         }
     }
 
-    if(!veh)
-        veh = m.veh_at (examx, examy, veh_part);
+    veh = m.veh_at (examx, examy, veh_part);
     if (veh) {
         int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
         int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
@@ -7597,7 +7596,7 @@ void game::examine(int examx, int examy)
         int vpchemlab = veh->part_with_feature(veh_part, "CHEMLAB", true);
         int vpcontrols = veh->part_with_feature(veh_part, "CONTROLS", true);
         if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
-                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0 || vpchemlab >=0 || vpcontrols) {
+                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0 || vpchemlab >=0 || vpcontrols >=0) {
             pickup(examx, examy, 0);
         } else if (u.controlling_vehicle) {
             add_msg (_("You can't do that while driving."));
