@@ -72,7 +72,6 @@ TTF_Font* font;
 static int ttf_height_hack = 0;
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
-unsigned const short int WindowBPP = 32; //BitsPerPixel
 int lastchar;          //the last character that was pressed, resets in getch
 bool lastchar_isbutton; // Whether lastchar was a gamepad button press rather than a keypress.
 bool lastchar_is_mouse; // Mouse button pressed
@@ -127,17 +126,6 @@ bool fexists(const char *filename)
   return (bool)ifile;
 }
 
-#ifdef SDLTILES
-static void toggleFullscreen()
-{
-    //Code from http://sdl.beuc.net/sdl.wiki/SDL_WM_ToggleFullScreen
-    Uint32 flags = screen->flags; /* Save the current flags in case toggling fails */
-    screen = SDL_SetVideoMode(WindowWidth, WindowHeight, WindowBPP, screen->flags ^ SDL_FULLSCREEN); /*Toggles FullScreen Mode */
-    if(screen == NULL) screen = SDL_SetVideoMode(WindowWidth, WindowHeight, WindowBPP, flags); /* If toggle FullScreen failed, then switch back */
-    if(screen == NULL) exit(1); /* If you can't switch back for some reason, then epic fail */
-}
-#endif
-
 //Registers, creates, and shows the Window!!
 bool WinCreate()
 {
@@ -163,7 +151,16 @@ bool WinCreate()
 
     char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
     SDL_putenv(center_string);
-    screen = SDL_SetVideoMode(WindowWidth, WindowHeight, WindowBPP, (SDL_SWSURFACE|SDL_DOUBLEBUF));
+
+    //Flags used for setting up SDL VideoMode
+    int screen_flags = SDL_SWSURFACE | SDL_DOUBLEBUF;
+
+    //If FULLSCREEN was selected in options add SDL_FULLSCREEN flag to screen_flags, causing screen to go fullscreen.
+    if(OPTIONS["FULLSCREEN"]) {
+        screen_flags = screen_flags | SDL_FULLSCREEN;
+    }
+
+    screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, screen_flags);
     //SDL_SetColors(screen,windowsPalette,0,256);
 
     if (screen == NULL) return false;
@@ -714,9 +711,6 @@ void CheckMessages()
                 }
                 else if( ev.key.keysym.sym == SDLK_PAGEDOWN ) {
                     lc = KEY_NPAGE;
-                }
-                else if( ev.key.keysym.sym == SDLK_F11) {
-                    toggleFullscreen();
                 }
                 if( !lc ) { break; }
                 if( alt_down ) {

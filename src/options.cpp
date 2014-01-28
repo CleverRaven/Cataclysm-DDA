@@ -676,7 +676,12 @@ void initOptions() {
     OPTIONS["TILES"] =                  cOpt("graphics", _("Choose tileset"),
                                              _("Choose the tileset you want to use. Only applicable on SDL builds."),
                                              tileset_names, "hoder"
-                                            );   // populate the options dynamically
+                                            );
+
+    OPTIONS["FULLSCREEN"] =             cOpt("graphics", _("Fullscreen"),
+                                             _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Restart to apply."),
+                                             false
+                                            );  // populate the options dynamically
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
         for (unsigned i=0; i < vPages.size(); ++i) {
