@@ -10761,13 +10761,26 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "blood", 1 ]
+      [ "heroin", 5 ],
+      [ "oxycodone", 10 ],
+      [ "tramadol", 15 ],
+      [ "codeine", 20 ],
+      [ "poppy_pain", 20 ]
     ],
     [
-      [ "vitamins", 10 ]
+      [ "lsd", 5 ],
+      [ "prozac", 10 ],
+      [ "thorazine", 10 ],
+      [ "adderall", 10 ],
+      [ "xanax", 10 ],
+      [ "pills_sleep", 10 ],
+      [ "poppy_sleep", 15 ]
     ],
     [
-      [ "iodine", 10 ]
+      [ "vitamins", 5 ],
+      [ "iodine", 5 ],
+      [ "disinfectant", 5 ],
+      [ "protein_powder", 10 ]
     ]
   ]
 },{
