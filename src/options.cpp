@@ -966,6 +966,8 @@ void show_options(bool ingame)
     }
 #ifdef SDLTILES
     if (used_tiles_changed){
+        SDL_FillRect(tilecontext->buffer, NULL, 0x000000);
+        SDL_BlitSurface(tilecontext->buffer, NULL, tilecontext->display_screen, NULL);
         tilecontext->reinit("gfx");
         g->init_ui();
         g->refresh_all();
