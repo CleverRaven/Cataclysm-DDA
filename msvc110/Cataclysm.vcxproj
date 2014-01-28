@@ -86,6 +86,7 @@
     <ClCompile Include="..\src\action.cpp" />
     <ClCompile Include="..\src\addiction.cpp" />
     <ClCompile Include="..\src\advanced_inv.cpp" />
+    <ClCompile Include="..\src\ammo.cpp" />
     <ClCompile Include="..\src\animation_curses.cpp" />
     <ClCompile Include="..\src\animation_tiles.cpp" />
     <ClCompile Include="..\src\artifact.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="..\src\action.h" />
     <ClInclude Include="..\src\addiction.h" />
     <ClInclude Include="..\src\advanced_inv.h" />
+    <ClInclude Include="..\src\ammo.h" />
     <ClInclude Include="..\src\artifact.h" />
     <ClInclude Include="..\src\auto_pickup.h" />
     <ClInclude Include="..\src\basecamp.h" />

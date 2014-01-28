@@ -2010,7 +2010,26 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 // Print name and header
 
     std::string gender_prof;
-    if (prof == NULL || prof == prof->generic()) {
+    // Post-humanity trumps your pre-Cataclysm life.
+    if (crossed_threshold()) {
+        std::vector<std::string> traitslist;
+        std::string race;
+        for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+            traitslist.push_back(*iter);
+        }
+        for (int i = 0; i < traitslist.size(); i++) {
+            if (mutation_data[traitslist[i]].threshold == true)
+                race = traits[traitslist[i]].name;
+            }
+            const char *format;
+            if (male) {
+                format = _("%s - a male %s");
+            }
+            else {
+                format = _("%s - a female %s");
+            }
+            gender_prof = string_format(format, name.c_str(), race.c_str());
+    } else if (prof == NULL || prof == prof->generic()) {
         if (male) {
             gender_prof = string_format(_("%s - Male"), name.c_str());
         } else {
@@ -3361,13 +3380,10 @@ bool player::in_climate_control()
     bool regulated_area=false;
     // Check
     if(has_active_bionic("bio_climate")) { return true; }
-    for (int i = 0; i < worn.size(); i++)
+    if (is_wearing_power_armor() &&
+        (has_active_item("UPS_on") || has_active_item("adv_UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII")))
     {
-        if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
-            (has_active_item("UPS_on") || has_active_item("adv_UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII")))
-        {
-            return true;
-        }
+        return true;
     }
     if(int(g->turn) >= next_climate_control_check)
     {
@@ -4137,6 +4153,10 @@ void player::mod_pain(int npain) {
         // if it's 1 it'll just become 0, which is bad
         npain = npain * 4 / rng(4,8);
     }
+    // Dwarves get better pain-resist, what with mining and all
+    if (has_trait("PAINRESIST_TROGLO") && npain > 1) {
+        npain = npain * 4 / rng(6,9);
+    }
     Creature::mod_pain(npain);
 }
 
@@ -4902,6 +4922,9 @@ void player::suffer()
             }
         }
         if (weight_carried() > 4 * weight_capacity()) {
+            if (has_trait("LEG_TENT_BRACE")){
+                g->add_msg_if_player(this, _("Your tentacles buckle under the weight!"));
+            }
             if (has_effect("downed")) {
                 add_effect("downed", 1);
             } else {
@@ -5128,12 +5151,30 @@ void player::suffer()
         }
     }
 
-    if (has_trait("ALBINO") && g->is_in_sunlight(posx, posy) && one_in(20)) {
+    if (has_trait("ALBINO") && g->is_in_sunlight(posx, posy) && one_in(10)) {
+        // Umbrellas and rain gear can also keep the sun off!
+        // (No, really, I know someone who uses an umbrella when it's sunny out.)
+        if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
+            g->add_msg(_("The sunlight is really irritating."));
+            if (has_disease("sleep")) {
+                wake_up(_("You wake up!"));
+            }
+            if (one_in(10)) {
+                mod_pain(1);
+            }
+            else focus_pool --;
+        }
+    }
+    
+    if (has_trait("SUNBURN") && g->is_in_sunlight(posx, posy) && one_in(10)) {
+        if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
         g->add_msg(_("The sunlight burns your skin!"));
         if (has_disease("sleep")) {
             wake_up(_("You wake up!"));
         }
+        mod_pain(1);
         hurtall(1);
+        }
     }
 
     if ((has_trait("TROGLO") || has_trait("TROGLO2")) &&
@@ -5429,7 +5470,8 @@ void player::vomit()
 
 void player::drench(int saturation, int flags)
 {
-    if (is_waterproof(flags)) {
+    // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
+    if ( (is_waterproof(flags)) && (!(g->m.has_flag(TFLAG_DEEP_WATER, posx, posy))) ) {
         return;
     }
 
@@ -6961,7 +7003,7 @@ bool player::eat(item *eaten, it_comest *comest)
 
     last_item = itype_id(eaten->type->id);
 
-    if (overeating && !has_trait("HIBERNATE") && !is_npc() &&
+    if (overeating && !has_trait("HIBERNATE") && !has_trait("EATHEALTH") && !is_npc() &&
         !query_yn(_("You're full.  Force yourself to eat?"))) {
         return false;
     }
@@ -7043,6 +7085,18 @@ bool player::eat(item *eaten, it_comest *comest)
     if( has_trait("HIBERNATE") ) {
         capacity = -620;
     }
+    
+    if ( (has_trait("EATHEALTH")) && ( comest->nutr > 0 && temp_hunger < capacity ) ) {
+        int room = (capacity - temp_hunger);
+        int excess_food = ((comest->nutr) - room);
+        // Guaranteed 1 HP healing, no matter what.  You're welcome.  ;-)
+        if (excess_food <= 5) {
+            healall(1);
+        }
+        // Straight conversion, except it's divided amongst all your body parts.
+        else healall(excess_food /= 5);
+    }
+    
     if( ( comest->nutr > 0 && temp_hunger < capacity ) ||
         ( comest->quench > 0 && temp_thirst < capacity ) ) {
         if (spoiled){//rotten get random nutrification
@@ -7065,13 +7119,14 @@ bool player::eat(item *eaten, it_comest *comest)
 
     if( spoiled ) {
         g->add_msg(_("Ick, this %s doesn't taste so good..."), eaten->tname().c_str());
-        if (!has_trait("SAPROVORE") && (!has_bionic("bio_digestion") || one_in(3))) {
+        if (!has_trait("SAPROVORE") && !has_trait("EATDEAD") &&
+       (!has_bionic("bio_digestion") || one_in(3))) {
             add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60));
         }
         consume_effects(eaten, comest, spoiled);
     } else {
         consume_effects(eaten, comest);
-        if (!(has_trait("GOURMAND") || has_trait("HIBERNATE"))) {
+        if (!(has_trait("GOURMAND") || has_trait("HIBERNATE") || has_trait("EATHEALTH"))) {
             if ((overeating && rng(-200, 0) > hunger)) {
                 vomit();
             }
@@ -7083,14 +7138,18 @@ bool player::eat(item *eaten, it_comest *comest)
         mealtime /= 2;
     } if (has_trait("GOURMAND")) {
         mealtime -= 100;
+    } if (has_trait("SABER_TEETH")) {
+        mealtime += 250; // They get In The Way
     }
         moves -= (mealtime);
 
     // If it's poisonous... poison us.  TODO: More several poison effects
-    if (eaten->poison >= rng(2, 4)) {
+    if ((eaten->poison >= rng(2, 4)) && !has_trait("EATPOISON") &&
+    !has_trait("EATDEAD")) {
         add_effect("poison", eaten->poison * 100);
     }
-    if (eaten->poison > 0) {
+    if ((eaten->poison > 0) && !has_trait("EATPOISON") &&
+    !has_trait("EATDEAD")) {
         add_disease("foodpoison", eaten->poison * 300);
     }
 
@@ -7377,12 +7436,12 @@ hint_rating player::rate_action_wear(item *it)
  if (armor->is_power_armor() && worn.size()) {
   if (armor->covers & mfb(bp_torso)) {
    return HINT_IFFY;
-  } else if (armor->covers & mfb(bp_head) && !((it_armor *)worn[0].type)->is_power_armor()) {
+  } else if (armor->covers & mfb(bp_head) && !worn[0].type->is_power_armor()) {
    return HINT_IFFY;
   }
  }
  // are we trying to wear something over power armor? We can't have that, unless it's a backpack, or similar.
- if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & mfb(bp_head))) {
+ if (worn.size() && worn[0].type->is_power_armor() && !(armor->covers & mfb(bp_head))) {
   if (!(armor->covers & mfb(bp_torso) && armor->color == c_green)) {
    return HINT_IFFY;
   }
@@ -7522,7 +7581,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             {
                 for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); ++it)
                 {
-                    if (dynamic_cast<it_armor*>(it->type)->power_armor)
+                    if (it->type->is_power_armor())
                     {
                         power_armor = true;
                         break;
@@ -7542,7 +7601,7 @@ bool player::wear_item(item *to_wear, bool interactive)
 
         for (int i = 0; i < worn.size(); i++)
         {
-            if (((it_armor *)worn[i].type)->is_power_armor() && worn[i].type == armor)
+            if (worn[i].type->is_power_armor() && worn[i].type == armor)
             {
                 if(interactive)
                 {
@@ -7558,7 +7617,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         if( armor->covers & ~(mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) ) ) {
             for (int i = 0; i < worn.size(); i++)
             {
-                if( ((it_armor *)worn[i].type)->is_power_armor() )
+                if( worn[i].type->is_power_armor() )
                 {
                     if(interactive)
                     {
@@ -7669,7 +7728,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         if (armor->covers & mfb(bp_mouth) &&
-            (has_trait("MUZZLE") || has_trait("BEAR_MUZZLE") || has_trait("LONG_MUZZLE")))
+            (has_trait("MUZZLE") || has_trait("MUZZLE_BEAR") || has_trait("MUZZLE_LONG")))
         {
             if(interactive)
             {
@@ -7683,6 +7742,15 @@ bool player::wear_item(item *to_wear, bool interactive)
             if(interactive)
             {
                 g->add_msg(_("You cannot fit the %s over your snout."), armor->name.c_str());
+            }
+            return false;
+        }
+        
+        if (armor->covers & mfb(bp_mouth) && has_trait("SABER_TEETH"))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("Your saber teeth are simply too large for %s to fit."), armor->name.c_str());
             }
             return false;
         }
@@ -7819,11 +7887,11 @@ bool player::takeoff(int pos, bool autodrop)
             item &w = worn[worn_index];
 
             // Handle power armor.
-            if ((reinterpret_cast<it_armor*>(w.type))->is_power_armor() &&
+            if (w.type->is_power_armor() &&
                     ((reinterpret_cast<it_armor*>(w.type))->covers & mfb(bp_torso))) {
                 // We're trying to take off power armor, but cannot do that if we have a power armor component on!
                 for (int j = worn.size() - 1; j >= 0; j--) {
-                    if ((reinterpret_cast<it_armor*>(worn[j].type))->is_power_armor() &&
+                    if (worn[j].type->is_power_armor() &&
                             j != worn_index) {
                         if (autodrop) {
                             g->m.add_item_or_charges(posx, posy, worn[j]);
@@ -9111,6 +9179,10 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
          has_trait("ARM_TENTACLES_8")) ) {
         ret += 3;
     }
+    if (bp == bp_hands &&
+        (has_trait("CLAWS_TENTACLE") )) {
+        ret += 2;
+    }
     if ( ret < 0 ) {
       ret = 0;
     }
@@ -9343,7 +9415,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
                 cut_reduction = arm_cut / 3;
 
                 // power armour first  - to depreciate eventually
-                if (((it_armor *)worn[i].type)->is_power_armor())
+                if (worn[i].type->is_power_armor())
                 {
                     if (cut > arm_cut * 2 || dam > arm_bash * 2)
                     {
@@ -9544,26 +9616,24 @@ bool player::is_wearing_shoes() {
 }
 
 bool player::is_wearing_power_armor(bool *hasHelmet) const {
-  if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor()) {
-    if (hasHelmet) {
-      *hasHelmet = false;
-
-      if (worn.size() > 1) {
-        for (size_t i = 1; i < worn.size(); i++) {
-          it_armor *candidate = dynamic_cast<it_armor*>(worn[i].type);
-
-          if (candidate->is_power_armor() && candidate->covers & mfb(bp_head)) {
-            *hasHelmet = true;
-            break;
-          }
+    bool result = false;
+    for (size_t i = 0; i < worn.size(); i++) {
+        it_armor *armor = dynamic_cast<it_armor*>(worn[i].type);
+        if (armor == NULL || !armor->is_power_armor()) {
+            continue;
         }
-      }
+        if (hasHelmet == NULL) {
+            // found power armor, helmet not requested, cancel loop
+            return true;
+        }
+        // found power armor, continue search for helmet
+        result = true;
+        if (armor->covers & mfb(bp_head)) {
+            *hasHelmet = true;
+            return true;
+        }
     }
-
-    return true;
-  } else {
-    return false;
-  }
+    return result;
 }
 
 int player::adjust_for_focus(int amount)

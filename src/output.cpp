@@ -1050,7 +1050,6 @@ std::string word_rewrap (const std::string &ins, int width)
 {
     std::ostringstream o;
     std::string in = ins;
-    std::replace(in.begin(), in.end(), '\n', ' ');
 
     // find non-printing tags
     std::vector<size_t> tag_positions = get_tag_positions(in);
@@ -1086,7 +1085,7 @@ std::string word_rewrap (const std::string &ins, int width)
 
         x += mk_wcwidth(uc);
 
-        if (x >= width) {
+        if (x > width) {
             if (lastwb == lastout) {
                 lastwb = j;
             }
@@ -1161,6 +1160,11 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
                     const int iNumEntries, const int iOffsetY, const int iOffsetX,
                     nc_color bar_color)
 {
+    if (iContentHeight >= iNumEntries) {
+        //scrollbar is not required
+        bar_color = BORDER_COLOR;
+    }
+
     //Clear previous scrollbar
     for(int i = iOffsetY; i < iOffsetY + iContentHeight; i++) {
         mvwputch(window, i, iOffsetX, bar_color, LINE_XOXO);

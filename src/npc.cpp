@@ -12,6 +12,7 @@
 #include "item_factory.h"
 #include "translations.h"
 #include "monstergenerator.h"
+#include "overmapbuffer.h"
 #include <algorithm>
 
 std::vector<item> starting_clothes(npc_class type, bool male);
@@ -22,7 +23,7 @@ npc::npc()
  omx = 0;
  omy = 0;
  omz = 0;
- mapx = 0; //If these values are used for omap comparisons, add one and /2.
+ mapx = 0;
  mapy = 0;
  posx = -1;
  posy = -1;
@@ -34,9 +35,7 @@ npc::npc()
  plt = 999;
  itx = -1;
  ity = -1;
- goalx = 999;
- goaly = 999;
- goalz = 999;
+ goal = no_goal_point;
  fatigue = 0;
  hunger = 0;
  thirst = 0;
@@ -87,9 +86,7 @@ npc& npc::operator= (const npc & rhs)
  plt = rhs.plt;
  itx = rhs.itx;
  ity = rhs.ity;
- goalx = rhs.goalx;
- goaly = rhs.goaly;
- goalz = rhs.goalz;
+ goal = rhs.goal;
 
  path = rhs.path;
 
@@ -856,31 +853,77 @@ std::list<item> starting_inv(npc *me, npc_class type)
 
 void npc::spawn_at(overmap *o, int x, int y, int z)
 {
-// First, specify that we are in this overmap!
- omx = o->pos().x;
- omy = o->pos().y;
- omz = z;
- mapx = x;
- mapy = y;
- if (x == -1 || y == -1) { //<soy> not sure what this is supposed to do. If you do, please update this comment.
-  int city_index = rng(0, o->cities.size() - 1);
-  int x = o->cities[city_index].x;
-  int y = o->cities[city_index].y;
-  int s = o->cities[city_index].s;
-  if (x == -1)
-   mapx = rng(x - s, x + s);
-  if (y == -1)
-   mapy = rng(y - s, y + s);
- }
- o->npcs.push_back(this);
+    omx = o->pos().x;
+    omy = o->pos().y;
+    omz = z;
+    mapx = x;
+    mapy = y;
+    posx = rng(0, SEEX - 1);
+    posy = rng(0, SEEY - 1);
+    o->npcs.push_back(this);
 }
 
-void npc::place_near(int potentialX, int potentialY)
+void npc::spawn_at_random_city(overmap *o)
 {
-    //places the npc at the nearest empty spot near (potentialX, potentialY). Searches in a spiral pattern for a suitable location.
+    int x, y;
+    if(o->cities.empty()) {
+        x = rng(0, OMAPX * 2 - 1);
+        y = rng(0, OMAPY * 2 - 1);
+    } else {
+        int city_index = rng(0, o->cities.size() - 1);
+        int s = o->cities[city_index].s;
+        x = o->cities[city_index].x + rng(-s, +s);
+        y = o->cities[city_index].y + rng(-s, +s);
+    }
+    spawn_at(o, x, y, 0);
+}
+
+tripoint npc::global_sm_location() const
+{
+    tripoint t = global_square_location();
+    overmapbuffer::ms_to_sm(t.x, t.y);
+    return t;
+}
+
+tripoint npc::global_omt_location() const
+{
+    tripoint t = global_square_location();
+    overmapbuffer::ms_to_omt(t.x, t.y);
+    return t;
+}
+
+tripoint npc::global_square_location() const
+{
+    return tripoint(
+        ((omx * OMAPX * 2) + mapx) * SEEX + posx,
+        ((omy * OMAPY * 2) + mapy) * SEEY + posy,
+        omz
+    );
+}
+
+void npc::place_on_map()
+{
+    point pos_sm(
+        mapx + omx * OMAPX * 2,
+        mapy + omy * OMAPY * 2);
+    point pos_lev(
+        g->levx + g->cur_om->pos().x * OMAPX * 2,
+        g->levy + g->cur_om->pos().y * OMAPY * 2);
+    // posx is used by the map, which assumes that it's relative
+    // to g->levx, therefore this makes pos_sm equal to pos_lev
+    // And because posx is relative to mapx (and pos_sm),
+    // posx is now relative to g->levx (pos_lev), too.
+    const int dmx = pos_sm.x - pos_lev.x;
+    const int dmy = pos_sm.y - pos_lev.y;
+    mapx -= dmx;
+    mapy -= dmy;
+    posx += dmx * SEEX;
+    posy += dmy * SEEY;
+
+    //places the npc at the nearest empty spot near (posx, posy). Searches in a spiral pattern for a suitable location.
     int x = 0, y = 0, dx = 0, dy = -1;
     int temp;
-    while(!g->is_empty(potentialX + x, potentialY + y))
+    while(!g->is_empty(posx + x, posy + y))
     {
         if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y)))
         {//change direction
@@ -890,10 +933,10 @@ void npc::place_near(int potentialX, int potentialY)
         }
         x += dx;
         y += dy;
-    }//end search, potentialX + x , potentialY + y contains a free spot.
+    }//end search, posx + x , posy + y contains a free spot.
     //place the npc at the free spot.
-    posx = potentialX + x;
-    posy = potentialY + y;
+    posx += x;
+    posy += y;
 }
 
 Skill* npc::best_skill()
@@ -1686,12 +1729,7 @@ bool npc::emergency(int danger)
 //Active npcs are the npcs near the player that are actively simulated.
 bool npc::is_active()
 {
-    int npcnr = this->getID();
-    for(int i = 0; i < g->active_npc.size(); i++){
-        if(g->active_npc[i]->getID() == npcnr)
-            return true;
-    }
-    return false;
+    return std::find(g->active_npc.begin(), g->active_npc.end(), this) != g->active_npc.end();
 }
 
 void npc::told_to_help()
@@ -1908,17 +1946,46 @@ std::string npc::opinion_text()
  return ret.str();
 }
 
+void npc::update_overmap_pos()
+{
+    tripoint pos_omt = global_omt_location();
+    // coordinate of the overmap the NPC should be on
+    point pos_om = overmapbuffer::omt_to_om_copy(pos_omt.x, pos_omt.y);
+    const int odx = pos_om.x - omx;
+    const int ody = pos_om.y - omy;
+    if (odx == 0 && ody == 0) {
+        // still one the same overmap, nothing to change
+        return;
+    }
+    overmap &new_om = overmap_buffer.get(pos_om.x, pos_om.y);
+    // remove this from old overmap
+    overmap &old_om = overmap_buffer.get(omx, omy);
+    std::vector<npc*>::iterator a = std::find(old_om.npcs.begin(), old_om.npcs.end(), this);
+    if (a != old_om.npcs.end()) {
+        old_om.npcs.erase(a);
+    }
+    // add this to new overmap
+    new_om.npcs.push_back(this);
+    // adjust omx, omy and mapx,mapy
+    // remember omx*OMAPX*2 + mapx must stay the same
+    mapx -= odx * OMAPX * 2;
+    mapy -= ody * OMAPY * 2;
+    omx += odx;
+    omy += ody;
+}
+
 void npc::shift(int sx, int sy)
 {
- posx -= sx * SEEX;
- posy -= sy * SEEY;
- mapx += sx;
- mapy += sy;
- itx -= sx * SEEX;
- ity -= sy * SEEY;
- plx -= sx * SEEX;
- ply -= sy * SEEY;
- path.clear();
+    posx -= sx * SEEX;
+    posy -= sy * SEEY;
+    mapx += sx;
+    mapy += sy;
+    update_overmap_pos();
+    itx -= sx * SEEX;
+    ity -= sy * SEEY;
+    plx -= sx * SEEX;
+    ply -= sy * SEEY;
+    path.clear();
 }
 
 void npc::die(Creature* nkiller) {
@@ -2080,3 +2147,5 @@ void npc::setID (int i)
 {
     this->player::setID(i);
 }
+
+const tripoint npc::no_goal_point(INT_MIN, INT_MIN, INT_MIN);

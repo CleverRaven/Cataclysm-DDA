@@ -353,15 +353,16 @@ void uimenu::setup() {
     }
 
     if (h_auto) {
-        w_height = 2 + textformatted.size() + entries.size();
+        w_height = 3 + textformatted.size() + entries.size();
     }
 
-    vmax = entries.size();
     if ( w_height > TERMY ) {
         w_height = TERMY;
     }
-    if ( vmax + 2 + textformatted.size() > w_height ) {
-        vmax = w_height - 2 - textformatted.size();
+
+    vmax = entries.size();
+    if ( vmax + 3 + textformatted.size() > w_height ) {
+        vmax = w_height - 3 - textformatted.size();
         if ( vmax < 1 ) {
             popup("Can't display menu options, %d %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
                textformatted.size(),TERMY,textformatted[0].c_str(),textformatted[textformatted.size()-1].c_str()
@@ -455,12 +456,18 @@ void uimenu::show() {
         setup();
     }
     std::string padspaces = std::string(w_width - 2 - pad_left - pad_right, ' ');
-    for ( int i = 0; i < textformatted.size(); i++ ) {
+    const int text_lines = textformatted.size();
+    for ( int i = 0; i < text_lines; i++ ) {
         mvwprintz(window, 1+i, 2, text_color, "%s", textformatted[i].c_str());
     }
+    
+    mvwputch(window, text_lines + 1, 0, border_color, LINE_XXXO);
+    for ( int i = 1; i < w_width - 1; ++i) {
+        mvwputch(window, text_lines + 1, i, border_color, LINE_OXOX);
+    }
+    mvwputch(window, text_lines + 1, w_width - 1, border_color, LINE_XOXX);
 
-
-    int estart = textformatted.size() + 1;
+    int estart = text_lines + 2;
 
     if( OPTIONS["MENU_SCROLL"] ) {
         if (fentries.size() > vmax) {

@@ -2043,7 +2043,7 @@
 			"multitile":false
 		},
 		{
-			"id": "mon_zombie_fast",
+			"id": "mon_zombie_dog",
 			"fg":-1,
 			"bg":-1,
 			"rotates":false,

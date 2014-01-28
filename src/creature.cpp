@@ -203,7 +203,7 @@ int Creature::deal_melee_attack(Creature *source, int hitroll, bool critical_hit
         stab_moves *= 1.5;
     }
     if (stab_moves >= 150) {
-        if (is_player()) {
+        if ((is_player()) && ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.wearing_something_on(bp_feet))) ) {
             // can the player force their self to the ground? probably not.
             g->add_msg_if_npc(source, _("<npcname> forces you to the ground!"));
         } else {
@@ -211,8 +211,10 @@ int Creature::deal_melee_attack(Creature *source, int hitroll, bool critical_hit
                                      _("<npcname> forces %s to the ground!"),
                                      disp_name().c_str() );
         }
-        add_effect("downed", 1);
-        mod_moves(-stab_moves / 2);
+        if ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.wearing_something_on(bp_feet)) ) {
+            add_effect("downed", 1);
+            mod_moves(-stab_moves / 2);
+        }
     } else {
         mod_moves(-stab_moves);
     }

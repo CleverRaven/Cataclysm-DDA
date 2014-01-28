@@ -1402,7 +1402,7 @@
             "rotates":false
         },
         {
-            "id":"mon_zombie_fast",
+            "id":"mon_zombie_dog",
 			"fg":225,
             "rotates":false
         },

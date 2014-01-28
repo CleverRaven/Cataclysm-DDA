@@ -714,7 +714,7 @@ void monster::melee_attack(Creature &target, bool) {
 
     body_part bp_hit;
     //int highest_hit = 0;
-    int hitstat = std::max(type->melee_skill - 2,0);
+    int hitstat = type->melee_skill;
     int hitroll = dice(hitstat,10);
 
     damage_instance damage;
@@ -1176,7 +1176,7 @@ bool monster::make_fungus()
     if (tid == "mon_ant" || tid == "mon_ant_soldier" || tid == "mon_ant_queen" || tid == "mon_fly" || tid == "mon_bee" || tid == "mon_dermatik")
     {
         polypick = 1;
-    }else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" || tid == "mon_zombie_spitter" || tid == "mon_zombie_fast" ||
+    }else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" || tid == "mon_zombie_spitter" || tid == "mon_zombie_dog" ||
               tid == "mon_zombie_brute" || tid == "mon_zombie_hulk"){
         polypick = 2;
     }else if (tid == "mon_boomer"){

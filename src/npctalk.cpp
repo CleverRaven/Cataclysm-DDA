@@ -622,7 +622,9 @@ std::string dynamic_line(talk_topic topic, npc *p)
   return _("No.  I'm the leader here.");
 
  case TALK_HOW_MUCH_FURTHER: {
-  int dist = rl_dist(g->om_location(), point(p->goalx, p->goaly));
+  // TODO: this ignores the z-component
+  const tripoint player_pos = g->om_global_location();
+  int dist = rl_dist(player_pos.x, player_pos.y, p->goal.x, p->goal.y);
   std::stringstream response;
   dist *= 100;
   if (dist >= 1300) {
@@ -1571,8 +1573,10 @@ int trial_chance(talk_response response, player *u, npc *p)
     chance += 15;
    if (u->has_trait("MUZZLE"))
     chance += 6;
-   if (u->has_trait("LONG_MUZZLE"))
+   if (u->has_trait("MUZZLE_LONG"))
     chance += 20;
+   if (u->has_trait("SABER_TEETH"))
+    chance += 15;
    if (u->has_trait("TERRIFYING"))
     chance += 15;
    if (u->has_trait("ELFAEYES"))
@@ -1844,9 +1848,10 @@ void talk_function::lead_to_safety(npc *p)
  g->give_mission(MISSION_REACH_SAFETY);
  int missid = g->u.active_missions[g->u.active_mission];
  point target = g->find_mission( missid )->target;
- p->goalx = target.x;
- p->goaly = target.y;
- p->goalz = g->levz;
+ // TODO: the target has no z-component
+ p->goal.x = target.x;
+ p->goal.y = target.y;
+ p->goal.z = g->levz;
  p->attitude = NPCATT_LEAD;
 }
 

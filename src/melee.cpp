@@ -1036,13 +1036,29 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
 
     std::string target = t.disp_name();
 
+    if ( (has_trait("SABER_TEETH")) && !wearing_something_on(bp_mouth) &&
+    one_in(20 - dex_cur - skillLevel("unarmed")) ) {
+        special_attack tmp;
+        tmp.stab = (25 + str_cur);
+        if (is_player()) {
+            tmp.text = string_format(_("You tear into %s with your saber teeth!"),
+                                     target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s tears into %s with his saber teeth!"),
+                                     name.c_str(), target.c_str());
+        } else {
+            tmp.text = string_format(_("%s tears into %s with her saber teeth!"),
+                                     name.c_str(), target.c_str());
+        }
+        ret.push_back(tmp);
+    }
+    
  //Having lupine or croc jaws makes it much easier to sink your fangs into people; Ursine/Feline, not so much
-    if (has_trait("FANGS") && (
-            (!wearing_something_on(bp_mouth) && !has_trait("MUZZLE") && !has_trait("LONG_MUZZLE") &&
-            one_in(20 - dex_cur - skillLevel("unarmed"))) ||
-            (has_trait("MUZZLE") && one_in(18 - dex_cur - skillLevel("unarmed"))) ||
-            (has_trait("LONG_MUZZLE") && one_in(15 - dex_cur - skillLevel("unarmed"))) ||
-            (has_trait("BEAR_MUZZLE") && one_in(20 - dex_cur - skillLevel("unarmed"))))) {
+    if (has_trait("FANGS") && (!wearing_something_on(bp_mouth)) &&
+        ((!has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") &&
+        one_in(20 - dex_cur - skillLevel("unarmed"))) ||
+        (has_trait("MUZZLE") && one_in(18 - dex_cur - skillLevel("unarmed"))) ||
+        (has_trait("MUZZLE_LONG") && one_in(15 - dex_cur - skillLevel("unarmed"))))) {
         special_attack tmp;
         tmp.stab = 20;
         if (is_player()) {
@@ -1076,7 +1092,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (!has_trait("FANGS") && has_trait("BEAR_MUZZLE") &&
+    if (!has_trait("FANGS") && has_trait("MUZZLE_BEAR") &&
             one_in(20 - dex_cur - skillLevel("unarmed")) &&
             (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
@@ -1094,7 +1110,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (!has_trait("FANGS") && has_trait("LONG_MUZZLE") &&
+    if (!has_trait("FANGS") && has_trait("MUZZLE_LONG") &&
             one_in(18 - dex_cur - skillLevel("unarmed")) &&
             (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
@@ -1306,21 +1322,58 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
 
         for (int i = 0; i < num_attacks; i++) {
             special_attack tmp;
-            tmp.bash = str_cur / 3 + 1;
+            // Tentacle Rakes add additional cutting damage
             if (is_player()) {
-                tmp.text = string_format(_("You slap %s with your tentacle!"),
+                if (has_trait("CLAWS_TENTACLE")) {
+                    tmp.text = string_format(_("You rake %s with your tentacle!"),
+                                            target.c_str());
+                }
+                else tmp.text = string_format(_("You slap %s with your tentacle!"),
                                             target.c_str());
             } else if (male) {
-                tmp.text = string_format(_("%s slaps %s with his tentacle!"),
+                if (has_trait("CLAWS_TENTACLE")) {
+                    tmp.text = string_format(_("&s rakes %s with his tentacle!"),
+                                            name.c_str(), target.c_str());
+                }
+                else tmp.text = string_format(_("%s slaps %s with his tentacle!"),
                                             name.c_str(), target.c_str());
             } else {
-                tmp.text = string_format(_("%s slaps %s with her tentacle!"),
+                if (has_trait("CLAWS_TENTACLE")) {
+                    tmp.text = string_format(_("%s rakes %s with her tentacle!"),
+                                            name.c_str(), target.c_str());
+                }
+                else tmp.text = string_format(_("%s slaps %s with her tentacle!"),
                                             name.c_str(), target.c_str());
             }
+            if (has_trait("CLAWS_TENTACLE")) {
+                tmp.cut = str_cur / 2 + 1;
+            }
+            else tmp.bash = str_cur / 3 + 1;
             ret.push_back(tmp);
         }
      }
-
+  
+  if (has_trait("VINES2") || has_trait("VINES3")) {
+      int num_attacks = 2;
+      if (has_trait("VINES3")) {
+          num_attacks = 3;
+      }
+      for (int i = 0; i < num_attacks; i++) {
+          special_attack tmp;
+          if (is_player()) {
+              tmp.text = string_format(_("You lash %s with a vine!"),
+                                          target.c_str());
+          } else if (male) {
+              tmp.text = string_format(_("%s lashes %s with his vines!"),
+                                          name.c_str(), target.c_str());
+          } else {
+              tmp.text = string_format(_("%s lashes %s with her vines!"),
+                                          name.c_str(), target.c_str());
+          }
+      tmp.bash = str_cur / 2;
+      ret.push_back(tmp);
+      }
+  }
     return ret;
 }
 

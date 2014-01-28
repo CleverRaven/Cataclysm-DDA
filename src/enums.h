@@ -56,6 +56,14 @@ inline bool operator<(const point& a, const point& b)
 {
   return a.x < b.x || (a.x == b.x && a.y < b.y);
 }
+inline bool operator==(const point& a, const point& b)
+{
+  return a.x == b.x && a.y == b.y;
+}
+inline bool operator!=(const point& a, const point& b)
+{
+  return !(a == b);
+}
 
 struct tripoint {
  int x;
@@ -65,5 +73,14 @@ struct tripoint {
  tripoint(const tripoint &p) : x (p.x), y (p.y), z (p.z) {}
  ~tripoint(){}
 };
+
+inline bool operator==(const tripoint& a, const tripoint& b)
+{
+  return a.x == b.x && a.y == b.y && a.z == b.z;
+}
+inline bool operator!=(const tripoint& a, const tripoint& b)
+{
+  return !(a == b);
+}
 
 #endif

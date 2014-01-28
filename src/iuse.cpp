@@ -919,6 +919,12 @@ int iuse::vaccine(player *p, item *it, bool) {
 }
 
 int iuse::poison(player *p, item *it, bool) {
+    if ((p->has_trait("EATDEAD"))) {
+        return it->type->charges_to_use();
+    }
+    else if ((p->has_trait("EATPOISON")) && (!(one_in(p->str_cur / 2)))) {
+        return it->type->charges_to_use();
+    }
     p->add_effect("poison", 600);
     p->add_disease("foodpoison", 1800);
     return it->type->charges_to_use();
@@ -1401,44 +1407,84 @@ int iuse::mut_iv(player *p, item *it, bool) {
                 g->add_msg_if_player(p,_("Something strains mightily for a moment...and then..you're...FREE!"));
                 if (mutation_category == "MUTCAT_LIZARD") {
                     p->toggle_mutation("THRESH_LIZARD");
+                    p->add_memorial_log(pgettext("memorial_male", "Shed the ugly human skin."),
+                          pgettext("memorial_female", "Shed the ugly human skin."));
                 } else if (mutation_category == "MUTCAT_BIRD") {
                     p->toggle_mutation("THRESH_BIRD");
+                    p->add_memorial_log(pgettext("memorial_male", "Broke free of humanity."),
+                          pgettext("memorial_female", "Broke free of humanity."));
                 } else if (mutation_category == "MUTCAT_FISH") {
                     p->toggle_mutation("THRESH_FISH");
+                    p->add_memorial_log(pgettext("memorial_male", "Went deep."),
+                          pgettext("memorial_female", "Went deep."));
                 } else if (mutation_category == "MUTCAT_BEAST") {
                     p->toggle_mutation("THRESH_BEAST");
+                    p->add_memorial_log(pgettext("memorial_male", "Embraced his bestial nature."),
+                          pgettext("memorial_female", "Embraced her bestial nature."));
                 } else if (mutation_category == "MUTCAT_FELINE") {
                     p->toggle_mutation("THRESH_FELINE");
+                    p->add_memorial_log(pgettext("memorial_male", "Realized the dream."),
+                          pgettext("memorial_female", "Realized the dream."));
                 } else if (mutation_category == "MUTCAT_LUPINE") {
                     p->toggle_mutation("THRESH_LUPINE");
+                    p->add_memorial_log(pgettext("memorial_male", "Wolfed out."),
+                          pgettext("memorial_female", "Wolfed out."));
                 } else if (mutation_category == "MUTCAT_URSINE") {
                     p->toggle_mutation("THRESH_URSINE");
+                    p->add_memorial_log(pgettext("memorial_male", "Became one with the bears."),
+                          pgettext("memorial_female", "Became one with the bears."));
                 } else if (mutation_category == "MUTCAT_CATTLE") {
                     p->toggle_mutation("THRESH_CATTLE");
+                    p->add_memorial_log(pgettext("memorial_male", "Stopped worrying and learned to love the cowbell."),
+                          pgettext("memorial_female", "Stopped worrying and learned to love the cowbell."));
                 } else if (mutation_category == "MUTCAT_INSECT") {
                     p->toggle_mutation("THRESH_INSECT");
+                    p->add_memorial_log(pgettext("memorial_male", "Metamorphosed."),
+                          pgettext("memorial_female", "Metamorphosed."));
                 } else if (mutation_category == "MUTCAT_PLANT") {
                     p->toggle_mutation("THRESH_PLANT");
+                    p->add_memorial_log(pgettext("memorial_male", "Bloomed forth."),
+                          pgettext("memorial_female", "Bloomed forth."));
                 } else if (mutation_category == "MUTCAT_SLIME") {
                     p->toggle_mutation("THRESH_SLIME");
+                    p->add_memorial_log(pgettext("memorial_male", "Gave up on rigid human norms."),
+                          pgettext("memorial_female", "Gave up on rigid human norms."));
                 } else if (mutation_category == "MUTCAT_TROGLOBITE") {
                     p->toggle_mutation("THRESH_TROGLOBITE");
+                    p->add_memorial_log(pgettext("memorial_male", "Adapted to underground living."),
+                          pgettext("memorial_female", "Adapted to underground living."));
                 } else if (mutation_category == "MUTCAT_CEPHALOPOD") {
                     p->toggle_mutation("THRESH_CEPHALOPOD");
+                    p->add_memorial_log(pgettext("memorial_male", "Began living the dreams."),
+                          pgettext("memorial_female", "Began living the dreams."));
                 } else if (mutation_category == "MUTCAT_SPIDER") {
                     p->toggle_mutation("THRESH_SPIDER");
+                    p->add_memorial_log(pgettext("memorial_male", "Found a place in the web of life."),
+                          pgettext("memorial_female", "Found a place in the web of life."));
                 } else if (mutation_category == "MUTCAT_RAT") {
                     p->toggle_mutation("THRESH_RAT");
+                    p->add_memorial_log(pgettext("memorial_male", "Found that survival *is* everything."),
+                          pgettext("memorial_female", "Found that survival *is* everything."));
                 } else if (mutation_category == "MUTCAT_MEDICAL") {
                     p->toggle_mutation("THRESH_MEDICAL");
+                    p->add_memorial_log(pgettext("memorial_male", "Resumed clinical trials."),
+                          pgettext("memorial_female", "Resumed clinical trials."));
                 } else if (mutation_category == "MUTCAT_ALPHA") {
                     p->toggle_mutation("THRESH_ALPHA");
+                    p->add_memorial_log(pgettext("memorial_male", "Started representing."),
+                          pgettext("memorial_female", "Started representing."));
                 } else if (mutation_category == "MUTCAT_ELFA") {
                     p->toggle_mutation("THRESH_ELFA");
+                    p->add_memorial_log(pgettext("memorial_male", "Accepted a more natural way of life."),
+                          pgettext("memorial_female", "Accepted a more natural way of life."));
                 } else if (mutation_category == "MUTCAT_CHIMERA") {
                     p->toggle_mutation("THRESH_CHIMERA");
+                    p->add_memorial_log(pgettext("memorial_male", "United disunity."),
+                          pgettext("memorial_female", "United disunity."));
                 } else if (mutation_category == "MUTCAT_RAPTOR") {
                     p->toggle_mutation("THRESH_RAPTOR");
+                    p->add_memorial_log(pgettext("memorial_male", "Hatched."),
+                          pgettext("memorial_female", "Hatched."));
                 }
             } else if (p->mutation_category_level[primary] > 100) {
                 // NOPAIN is a post-Threshold trait, so you shouldn't
@@ -2683,11 +2729,11 @@ _(
  } else if (ch == '3') { // General S.O.S.
   p->moves -= 150;
   std::vector<npc*> in_range;
-  for (int i = 0; i < g->cur_om->npcs.size(); i++) {
-   if (g->cur_om->npcs[i]->op_of_u.value >= 4 &&
-       rl_dist(g->levx, g->levy, g->cur_om->npcs[i]->mapx,
-                                   g->cur_om->npcs[i]->mapy) <= 30)
-    in_range.push_back((g->cur_om->npcs[i]));
+  std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(30);
+  for (int i = 0; i < npcs.size(); i++) {
+   if (npcs[i]->op_of_u.value >= 4) {
+    in_range.push_back(npcs[i]);
+   }
   }
   if (in_range.size() > 0) {
    npc* coming = in_range[rng(0, in_range.size() - 1)];
@@ -2916,24 +2962,11 @@ static void roadmap_targets(player *, item *, bool,
                             const std::string &target, int distance,
                             int reveal_distance)
 {
-    point place;
-    point origin = g->om_location();
-    std::vector<point> places = g->cur_om->find_all(tripoint(origin.x, origin.y, g->levz),
-                                                    target, distance, false);
-
+    std::vector<point> places = overmap_buffer.find_all(
+        g->om_global_location(), target, distance, false);
     for (std::vector<point>::iterator iter = places.begin(); iter != places.end(); ++iter) {
-        place = *iter;
-        if (place.x >= 0 && place.y >= 0) {
-            if (reveal_distance == 0) {
-                g->cur_om->seen(place.x,place.y,g->levz) = true;
-            } else {
-                for (int x = place.x - reveal_distance; x <= place.x + reveal_distance; x++) {
-                    for (int y = place.y - reveal_distance; y <= place.y + reveal_distance; y++) {
-                        g->cur_om->seen(x, y,g->levz) = true;
-                    }
-                }
-            }
-        }
+        const point &place = *iter;
+        overmap_buffer.reveal(place, reveal_distance, g->levz);
     }
 }
 
@@ -4075,11 +4108,15 @@ int iuse::pickaxe(player *p, item *it, bool)
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
         p->hunger += 15;
-        p->fatigue += 30;
+        if (p->has_trait("STOCKY_TROGLO")) {
+            p->fatigue += 20; // Yep, dwarves can dig longer before tiring
+        } else {
+            p->fatigue += 30;
+        }
         p->thirst += 15;
         p->mod_pain( 2 * rng(1, 3) );
         // Mining is construction work!
-        p->practice(g->turn, "carpentry", 1);
+        p->practice(g->turn, "carpentry", 5);
         // Sounds before and after
         g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
@@ -5280,7 +5317,7 @@ int iuse::UPS_off(player *p, item *it, bool)
    g->add_msg_if_player(p,_("Your light amp goggles power on."));
   if (p->is_wearing("optical_cloak"))
    g->add_msg_if_player(p,_("Your optical cloak flickers as it becomes transparent."));
-  if (p->worn.size() && p->worn[0].type->is_power_armor())
+  if (p->is_wearing_power_armor())
     g->add_msg_if_player(p, _("Your power armor engages."));
   it->make(itypes["UPS_on"]);
   it->active = true;
@@ -5291,7 +5328,7 @@ int iuse::UPS_off(player *p, item *it, bool)
 int iuse::UPS_on(player *p, item *it, bool t)
 {
  if (t) { // Normal use
-   if (p->worn.size() && p->worn[0].type->is_power_armor() &&
+   if (p->is_wearing_power_armor() &&
        !p->has_active_bionic("bio_power_armor_interface") &&
        !p->has_active_bionic("bio_power_armor_interface_mkII") &&
        !p->has_active_item("adv_UPS_on")) { // Use better power sources first
@@ -5303,7 +5340,7 @@ int iuse::UPS_on(player *p, item *it, bool t)
    }
  } else { // Turning it off
   g->add_msg_if_player(p,_("The UPS powers off with a soft hum."));
-  if (p->worn.size() && p->worn[0].type->is_power_armor())
+  if (p->is_wearing_power_armor())
     g->add_msg_if_player(p, _("Your power armor disengages."));
   if (p->is_wearing("optical_cloak"))
    g->add_msg_if_player(p,_("Your optical cloak flickers for a moment as it becomes opaque."));
@@ -5326,7 +5363,7 @@ int iuse::adv_UPS_off(player *p, item *it, bool)
   if (p->is_wearing("optical_cloak")) {
    g->add_msg_if_player(p,_("Your optical cloak becomes transparent."));
   }
-  if (p->worn.size() && p->worn[0].type->is_power_armor()) {
+  if (p->is_wearing_power_armor()) {
     g->add_msg_if_player(p, _("Your power armor engages."));
   }
   it->make(itypes["adv_UPS_on"]);
@@ -5338,7 +5375,7 @@ int iuse::adv_UPS_off(player *p, item *it, bool)
 int iuse::adv_UPS_on(player *p, item *it, bool t)
 {
  if (t) { // Normal use
-   if (p->worn.size() && p->worn[0].type->is_power_armor() &&
+   if (p->is_wearing_power_armor() &&
        !p->has_active_bionic("bio_power_armor_interface") &&
        !p->has_active_bionic("bio_power_armor_interface_mkII")) {
      it->charges -= 2; // Use better power sources first
@@ -5349,7 +5386,7 @@ int iuse::adv_UPS_on(player *p, item *it, bool t)
    }
  } else { // Turning it off
   g->add_msg_if_player(p,_("The advanced UPS powers off with a soft hum."));
-  if (p->worn.size() && p->worn[0].type->is_power_armor())
+  if (p->is_wearing_power_armor())
     g->add_msg_if_player(p, _("Your power armor disengages."));
   if (p->is_wearing("optical_cloak"))
    g->add_msg_if_player(p,_("Your optical cloak becomes opaque."));
