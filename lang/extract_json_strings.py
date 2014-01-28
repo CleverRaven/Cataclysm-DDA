@@ -40,6 +40,7 @@ ignorable = {
 automatically_convertible = {
     "AMMO",
     "ARMOR",
+    "ammunition_type",
     "bionic",
     "BIONIC_ITEM",
     "BOOK",
