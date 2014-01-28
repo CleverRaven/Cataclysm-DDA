@@ -49,11 +49,11 @@ extern int TERRAIN_WINDOW_HEIGHT; // height of terrain window
 extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 
-std::vector<std::string> foldstring ( std::string str, int width );
+std::vector<std::string> foldstring (std::string str, int width);
 int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);
 int fold_and_print_from(WINDOW* w, int begin_y, int begin_x, int width, int begin_line, nc_color color, const char *mes, ...);
-void multipage(WINDOW *w, std::vector<std::string> text, int begin_y = 0);
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
+void multipage(WINDOW *w, std::vector<std::string> text, int begin_y = 0); // TODO: how about std::string caption =""?
 
 void mvputch(int y, int x, nc_color FG, long ch);
 void wputch(WINDOW* w, nc_color FG, long ch);
@@ -83,8 +83,16 @@ std::vector<std::string> split_by_color(const std::string &s);
 void realDebugmsg(const char* name, const char* line, const char *mes, ...);
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
-std::string string_input_popup(std::string title, int width = 0, std::string input = "", std::string desc = "", std::string identifier = "", int max_length = -1, bool only_digits = false);
-std::string string_input_win (WINDOW * w, std::string input, int max_length, int startx, int starty, int endx, bool loop, long & key, int & pos, std::string identifier="", int w_x=-1, int w_y=-1, bool dorefresh=true, bool only_digits = false );
+
+std::string string_input_popup(std::string title, int width = 0, std::string input = "",
+                               std::string desc = "", std::string identifier = "",
+                               int max_length = -1, bool only_digits = false);
+
+std::string string_input_win (WINDOW *w, std::string input, int max_length, int startx,
+                              int starty, int endx, bool loop, long &key, int &pos,
+                              std::string identifier = "", int w_x = -1, int w_y = -1,
+                              bool dorefresh = true, bool only_digits = false);
+
 char popup_getkey(const char *mes, ...);
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec(bool cancelable, const char *mes, std::vector<std::string> options);
@@ -93,7 +101,9 @@ void popup_top(const char *mes, ...); // Displayed at the top of the screen
 void popup(const char *mes, ...);
 void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
 void full_screen_popup(const char *mes, ...);
-int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected = -1, bool without_getch = false);
+int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName,
+                               std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare,
+                               int selected = -1, bool without_getch = false);
 
 char rand_char();
 long special_symbol (long sym);
@@ -102,20 +112,21 @@ long special_symbol (long sym);
 // string manipulations.
 std::string from_sentence_case (const std::string &kingston);
 std::string string_format(std::string pattern, ...);
-std::string& capitalize_letter(std::string &pattern, size_t n=0);
-std::string rm_prefix(std::string str, char c1='<', char c2='>');
+std::string &capitalize_letter(std::string &pattern, size_t n = 0);
+std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');
 #define rmp_format(...) rm_prefix(string_format(__VA_ARGS__))
 size_t shortcut_print(WINDOW* w, int y, int x, nc_color color, nc_color colork, const char* fmt, ...);
 size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fmt, ...);
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout = 70);
-
-void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::string &health_bar, const bool bMonster = false);
+void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color,
+                std::string &health_bar, const bool bMonster = false);
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
-void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight, const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0, nc_color bar_color = c_white);
+void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight, const int iNumEntries,
+                    const int iOffsetY = 0, const int iOffsetX = 0, nc_color bar_color = c_white);
 void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeight, const int iNumEntries);
-void clear_window(WINDOW* w);
+void clear_window(WINDOW *w);
 
 #endif

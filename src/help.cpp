@@ -2,45 +2,71 @@
 
 #include "action.h"
 #include "auto_pickup.h"
+#include "catacharset.h"
 #include "keypress.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
+#include <cmath>  // max
 
 std::vector<std::string> hints;
 
+//ready, checked
 void help_main(WINDOW *win)
 {
     werase(win);
-    int pos_y = 0;
-    pos_y += fold_and_print(win, 1, pos_y, getmaxx(win) - 2, c_white, _("\
+    int y = fold_and_print(win, 1, 1, getmaxx(win) - 2, c_white, _("\
 Please press one of the following for help on that topic:\n\
-Press q or ESC to return to the game.")) + 1;
+Press q or ESC to return to the game.")) + 2;
 
-    pos_y += fold_and_print(win, pos_y, 0, getmaxx(win) - 2, c_white, _("\
-a: Introduction                      i: Bionics\n\
-b: Movement                          j: Crafting\n\
-c: Viewing                           k: Traps\n\
-d: Hunger, Thirst, and Sleep         l: Items overview\n\
-e: Pain and Stimulants               m: Combat\n\
-f: Addiction                         n: Unarmed Styles\n\
-g: Morale and Learning               o: Survival tips\n\
-h: Radioactivity and Mutation        p: Driving")) + 1;
+    std::vector<std::string> headers;
+    headers.push_back(_("a: Introduction"));
+    headers.push_back(_("b: Movement"));
+    headers.push_back(_("c: Viewing"));
+    headers.push_back(_("d: Hunger, Thirst, and Sleep"));
+    headers.push_back(_("e: Pain and Stimulants"));
+    headers.push_back(_("f: Addiction"));
+    headers.push_back(_("g: Morale and Learning"));
+    headers.push_back(_("h: Radioactivity and Mutation"));
+    headers.push_back(_("i: Bionics"));
+    headers.push_back(_("j: Crafting"));
+    headers.push_back(_("k: Traps"));
+    headers.push_back(_("l: Items overview"));
+    headers.push_back(_("m: Combat"));
+    headers.push_back(_("n: Unarmed Styles"));
+    headers.push_back(_("o: Survival tips"));
+    headers.push_back(_("p: Driving"));
 
-    pos_y += fold_and_print(win, pos_y, 0, getmaxx(win) - 2, c_white, _("\
-1: List of all commands (you can change key commands here)\n\
-2: List of all options  (you can change options here)\n\
-3: Auto pickup manager  (you can change pickup rules here)\n\
-4: List of item types and data\n\
-5: Description of map symbols\n\
-6: Description of gun types\n\
-7: Frequently Asked Questions (Some spoilers!)\n\
-\n\
-q: Return to game"));
+    int half_size = headers.size() / 2;
+    int second_column = getmaxx(win) / 2;
+    for (size_t i = 0; i < headers.size(); i++) {
+        if (i < half_size) {
+            second_column = std::max(second_column, utf8_width(headers[i].c_str()) + 4);
+        }
+        mvwprintz(win, y + i % half_size, (i < half_size ? 1 : second_column),
+                  c_white, headers[i].c_str());
+    }
+
+    headers.clear();
+    headers.push_back(_("1: List of all commands (you can change key commands here)"));
+    headers.push_back(_("2: List of all options  (you can change options here)"));
+    headers.push_back(_("3: Auto pickup manager  (you can change pickup rules here)"));
+    headers.push_back(_("4: List of item types and data"));
+    headers.push_back(_("5: Description of map symbols"));
+    headers.push_back(_("6: Description of gun types"));
+    headers.push_back(_("7: Frequently Asked Questions (Some spoilers!)"));
+    headers.push_back(_(" "));
+    headers.push_back(_("q: Return to game"));
+
+    y += half_size + 1;
+    for (size_t i = 0; i < headers.size(); i++) {
+        y += fold_and_print(win, y, 1, getmaxx(win) - 2, c_white, headers[i].c_str());
+    }
     wrefresh(win);
 }
 
+//fix-it
 void help_movement(WINDOW *win)
 {
     werase(win);
@@ -48,9 +74,8 @@ void help_movement(WINDOW *win)
                              ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
                              ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE};
     std::vector<std::string> text;
-    int pos_y;
-    pos_y = fold_and_print(win, 0, 1, getmaxx(win) - 2, c_white,
-                            _("Movement is performed using the numpad, or vikeys.")) + 1;
+    int pos_y = fold_and_print(win, 0, 1, getmaxx(win) - 2, c_white,
+                               _("Movement is performed using the numpad, or vikeys.")) + 1;
 
     mvwprintz(win, pos_y + 1, 0, c_white, _("\
   \\ | /     \\ | /\n\
@@ -69,8 +94,6 @@ void help_movement(WINDOW *win)
             }
         }
     }
-    int fig_last_line;
-    fig_last_line = pos_y + 8;
 
     text.push_back(string_format(_("\
 Each step will take 100 movement points (or more, depending on the terrain); \
@@ -92,9 +115,9 @@ getting into a dangerous situation or even killed before they have a chance to r
 toggle \"Run Mode\". While this is on, any movement will be ignored if new monsters enter the \
 player's view."), press_x(ACTION_TOGGLE_SAFEMODE, _("Pressing "), _("'Toggle Safemode'") ).c_str()));
 
-    int pos_x;
+    int fig_last_line = pos_y + 8;
     for (size_t i = 0; i < text.size(); i++) {
-        pos_x = (pos_y < fig_last_line) ? 20 : 1;
+        int pos_x = (pos_y < fig_last_line) ? 20 : 1;
         pos_y += fold_and_print(win, pos_y, pos_x, getmaxx(win) - pos_x - 2, c_white,
                                 text[i].c_str()) + 1;
     }
@@ -103,6 +126,7 @@ player's view."), press_x(ACTION_TOGGLE_SAFEMODE, _("Pressing "), _("'Toggle Saf
     getch();
 }
 
+//fix-it
 void help_driving(WINDOW *win)
 {
     action_id movearray[] = {ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
@@ -151,19 +175,20 @@ from the driver's seat."),
     getch();
 }
 
+//ready, checked
 std::vector<std::string> text_introduction()
 {
     std::vector<std::string> text;
 
     text.push_back(_("\
-Cataclysm is a roguelike with a monster apocalypse setting. You have survived \
-the original onslaught, and are ready to set out in search of safety."));
+Cataclysm is a roguelike with a monster apocalypse setting. \
+You have survived the original onslaught, and are ready to set out in search of safety."));
 
     text.push_back(_("\
-Cataclysm differs from most roguelikes in several ways. Rather than exploring an \
-underground dungeon, with a limited area on each level, you are exploring a truly infinite \
-world, stretching in all four cardinal directions. As in most roguelikes, you will have \
-to find food; you also need to keep yourself hydrated, and sleep periodically."));
+Cataclysm differs from most roguelikes in several ways. Rather than exploring \
+an underground dungeon, with a limited area on each level, you are exploring \
+a truly infinite world, stretching in all four cardinal directions. As in most roguelikes, \
+you will have to find food; you also need to keep yourself hydrated, and sleep periodically."));
 
     text.push_back(_("\
 While Cataclysm has more challenges than many roguelikes, the near-future \
@@ -173,6 +198,7 @@ of tools are all available to help you survive."));
     return text;
 }
 
+//fix-it
 std::vector<std::string> text_viewing()
 {
     std::vector<std::string> text;
@@ -190,6 +216,7 @@ eye on things as you move around."),
     return text;
 }
 
+//fix-it
 std::vector<std::string> text_hunger()
 {
     std::vector<std::string> text;
@@ -217,6 +244,7 @@ safe place, or set traps for unwary intruders."),
     return text;
 }
 
+//ready
 std::vector<std::string> text_pain()
 {
     std::vector<std::string> text;
@@ -246,6 +274,7 @@ cola to the more intense high of Adderall and methamphetamine."));
     return text;
 }
 
+//ready
 std::vector<std::string> text_addiction()
 {
     std::vector<std::string> text;
@@ -263,6 +292,7 @@ the effects to cease immediately, but may deepen your dependance."));
     return text;
 }
 
+//ready
 std::vector<std::string> text_morale()
 {
     std::vector<std::string> text;
@@ -294,10 +324,10 @@ level is 100, which indicates normal learning potential. Higher or lower focus l
 it easier or harder to learn from practical experience."));
 
     text.push_back(_("\
-Your focus level has a natural set point that it converges towards. When your \
-focus is much lower - or higher - than this set point, it will change faster \
-than when it is near the set point. Having high morale will raise the set \
-point, and having low morale will lower the set point. Pain is also factored \
+Your focus level has a natural set point that it converges towards. \
+When your focus is much lower - or higher - than this set point, it will change faster \
+than when it is near the set point. Having high morale will raise the set point, \
+and having low morale will lower the set point. Pain is also factored \
 into the set point calculation - it's harder to learn when you're in pain."));
 
     text.push_back(_("\
@@ -309,6 +339,7 @@ decreases your focus rapidly, by giving a significant penalty to the set point o
     return text;
 }
 
+//ready
 std::vector<std::string> text_mutation()
 {
     std::vector<std::string> text;
@@ -328,14 +359,15 @@ to find substances that will remove mutations, though these are extremely rare."
     return text;
 }
 
+//ready
 std::vector<std::string> text_bionics()
 {
     std::vector<std::string> text;
 
     text.push_back(_("\
-Bionics are biomechanical upgrades to your body. While many are simply \
-'built-in' versions of items you would otherwise have to carry, some \
-bionics have unique effects that are otherwise unobtainable."));
+Bionics are biomechanical upgrades to your body. \
+While many are simply 'built-in' versions of items you would otherwise have to carry, \
+some bionics have unique effects that are otherwise unobtainable."));
 
     text.push_back(_("\
 Most bionics require a source of power, and you will need an internal battery \
@@ -353,6 +385,7 @@ wandering vagabonds for a very high price."));
     return text;
 }
 
+//fix-it
 std::vector<std::string> text_crafting()
 {
     std::vector<std::string> text;
@@ -369,7 +402,7 @@ tool set. All recipes require one or more ingredients. These ARE used up in craf
     text.push_back(string_format(_("\
 %sThere are five categories: Weapons, Food, Electronics, Armor, and Miscellaneous. While a \
 few items require no skill to create, the majority require you to have some knowledge:\n"),
-press_x(ACTION_CRAFT, _("To craft items, press "), ". ", "").c_str()));
+                    press_x(ACTION_CRAFT, _("To craft items, press "), ". ", "").c_str()));
 
     text.push_back(_("\
 ->Mechanic skill is used for weapons, traps, and a few tools.\n\
@@ -385,6 +418,7 @@ items. Traps skill, Marksmanship skill, and First Aid skill are all required for
     return text;
 }
 
+//fix-it
 std::vector<std::string> text_traps()
 {
     std::vector<std::string> text;
@@ -419,8 +453,9 @@ may have a chance to avoid it, depending on your Dodge skill."));
     return text;
 }
 
+//fix-it
 std::vector<std::string> text_items()
-{ //fix-it
+{
     std::vector<std::string> text;
 
     text.push_back(string_format(_("\
@@ -478,8 +513,9 @@ Currently Available tokens:\n\
     return text;
 }
 
+//fix-it
 std::vector<std::string> text_combat()
-{ //fix-it
+{
     std::vector<std::string> text;
 
     text.push_back(_("\
@@ -516,8 +552,9 @@ Ducking down into the subways or sewers is often an excellent escape tactic."));
     return text;
 }
 
+//fix-it
 std::vector<std::string> text_styles()
-{ //fix-it
+{
     std::vector<std::string> text;
 
     text.push_back(_("\
@@ -546,6 +583,7 @@ depending on the situation you are in. You can check these by examining your sty
     return text;
 }
 
+//ready, checked
 std::vector<std::string> text_tips()
 {
     std::vector<std::string> text;
@@ -584,8 +622,9 @@ extremities from frostbite and to keep your distance from large fires."));
     return text;
 }
 
+//fix-it
 std::vector<std::string> text_types()
-{ //fix-it
+{
     std::vector<std::string> text;
 
     text.push_back(string_format(_("\
@@ -657,8 +696,9 @@ some require some base knowledge in the relevant subject."),
     return text;
 }
 
+//pristine
 void help_map(WINDOW *win)
-{ //fix-it
+{
     werase(win);
     mvwprintz(win, 0, 0, c_ltgray,  _("MAP SYMBOLS:"));
     mvwprintz(win, 1, 0, c_brown,   _("\
@@ -716,11 +756,12 @@ O           Parking lot - Empty lot, few items. Mostly useless."));
     getch();
 }
 
+//ready
 std::vector<std::string> text_guns()
 {
     std::vector<std::string> text;
 
-    text.push_back(_("Gun types:\n"));
+    text.push_back(_("Gun types: \n"));
 
     text.push_back(_("<color_ltgray>( Handguns</color>\n\
 Handguns are small weapons held in one or both hands. They are much more difficult \
@@ -745,7 +786,7 @@ out almost any enemy with a single hit. Birdshot and 00 shot spread, making \
 it very easy to hit nearby monsters. However, they are very ineffective \
 against armor, and some armored monsters might shrug off 00 shot completely. \
 Shotgun slugs are the answer to this problem; they also offer much better range than shot.\
-\n\
+\n\n\
 The biggest drawback to shotguns is their noisiness. They are very loud, and impossible to \
 silence. A shot that kills one zombie might attract three more! Because of this, shotguns \
 are best reserved for emergencies."));
@@ -769,7 +810,7 @@ Assault rifles are similar to hunting rifles in many ways; they are also suited 
 combat, with similar bonuses and penalties. Unlike hunting rifles, assault rifles are capable \
 of automatic fire. Assault rifles are less accurate than hunting rifles, and this is worsened \
 under automatic fire, so save it for when you're highly skilled. \
-\n\
+\n\n\
 Assault rifles are an excellent choice for medium or long range combat, or \
 even close-range bursts again a large number of enemies. They are difficult \
 to use, and are best saved for skilled riflemen."));
@@ -785,7 +826,8 @@ making them very good at clearing out large numbers of enemies."));
     text.push_back(_("<color_magenta>( Energy Weapons</color>\n\
 Energy weapons is an umbrella term used to describe a variety of rifles and handguns \
 which fire lasers, plasma, or energy attacks. They started to appear in military use \
-just prior to the start of the apocalypse, and as such are very difficult to find.\n\
+just prior to the start of the apocalypse, and as such are very difficult to find.\
+\n\n\
 Energy weapons have no recoil at all; they are nearly silent, have a long range, and are \
 fairly damaging. The biggest drawback to energy weapons is scarcity of ammunition; it is \
 wise to reserve the precious ammo for when you really need it."));
@@ -793,6 +835,7 @@ wise to reserve the precious ammo for when you really need it."));
     return text;
 }
 
+//fix-it
 std::vector<std::string> text_faq()
 {
     std::vector<std::string> text;
@@ -879,11 +922,7 @@ void display_help()
     WINDOW* w_help = newwin(FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
                             1 + (int)((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             1 + (int)((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
-
     char ch;
-    action_id movearray[] = {ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
-                             ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
-                             ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE};
     do {
         draw_border(w_help_border);
         center_print(w_help_border, 0, c_ltred, _(" HELP "));
@@ -1025,10 +1064,12 @@ void display_help()
                 remapch = input();
                 int sx = 0, sy = 0;
                 get_direction(sx, sy, remapch);
-                if (sy == -1 && offset > 1)
+                if (sy == -1 && offset > 1) {
                     offset--;
-                if (sy == 1 && offset + 20 < NUM_ACTIONS)
+                }
+                if (sy == 1 && offset + 20 < NUM_ACTIONS) {
                     offset++;
+                }
                 if (remapch == '-' || remapch == '+') {
                     needs_refresh = true;
                     for (int i = 0; i < FULL_SCREEN_HEIGHT-2 && i + offset < NUM_ACTIONS; i++) {
@@ -1038,8 +1079,7 @@ void display_help()
                         wrefresh(w_help);
                         refresh();
                         char actch = getch();
-                    if (actch >= 'a' && actch <= 'a' + 24 &&
-                        actch - 'a' + offset < NUM_ACTIONS) {
+                    if (actch >= 'a' && actch <= 'a' + 24 && actch - 'a' + offset < NUM_ACTIONS) {
                         action_id act = action_id(actch - 'a' + offset);
                         if (remapch == '-' && query_yn(_("Clear keys for %s?"),
                             action_name(act).c_str())){
@@ -1121,4 +1161,3 @@ std::string get_hint()
         return hints[rng(0, hints.size()-1)];
     }
 }
-
