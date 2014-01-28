@@ -2756,9 +2756,8 @@ bool game::handle_action()
    if (u.in_vehicle)
     add_msg(_("You can't construct while in vehicle."));
    else {
-       //construction_menu();
-       //construct_ui
-       construction_ui();
+       construction_menu();
+       //construction_ui();1
    }
    break;
 

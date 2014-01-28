@@ -123,9 +123,9 @@ void construction_menu()
    std::vector<construction*> options = constructions_by_desc[current_desc];
    for (unsigned i = 0; i < options.size(); ++i) {
     construction *current_con = options[i];
-    if (!can_construct(current_con)) {
+    /*if (!can_construct(current_con)) {
      continue;
-    }
+    }*/
     nc_color color_stage = c_white;
 
     // display required skill and difficulty
