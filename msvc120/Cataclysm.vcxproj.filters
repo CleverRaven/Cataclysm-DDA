@@ -396,7 +396,7 @@
     <ClCompile Include="..\src\damage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\construction2.cpp">
+    <ClCompile Include="..\src\construction_ui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -734,7 +734,7 @@
     <ClInclude Include="..\src\worldfactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\construction2.h">
+    <ClInclude Include="..\src\construction_ui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

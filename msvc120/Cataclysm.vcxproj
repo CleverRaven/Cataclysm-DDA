@@ -103,7 +103,7 @@
     <ClCompile Include="..\src\color.cpp" />
     <ClCompile Include="..\src\computer.cpp" />
     <ClCompile Include="..\src\construction.cpp" />
-    <ClCompile Include="..\src\construction2.cpp" />
+    <ClCompile Include="..\src\construction_ui.cpp" />
     <ClCompile Include="..\src\crafting.cpp" />
     <ClCompile Include="..\src\creature.cpp" />
     <ClCompile Include="..\src\creature_tracker.cpp" />
@@ -232,7 +232,7 @@
     <ClInclude Include="..\src\color.h" />
     <ClInclude Include="..\src\computer.h" />
     <ClInclude Include="..\src\construction.h" />
-    <ClInclude Include="..\src\construction2.h" />
+    <ClInclude Include="..\src\construction_ui.h" />
     <ClInclude Include="..\src\coordinates.h" />
     <ClInclude Include="..\src\crafting.h" />
     <ClInclude Include="..\src\creature.h" />
@@ -860,7 +860,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release TILES Localized|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MinSpace</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>

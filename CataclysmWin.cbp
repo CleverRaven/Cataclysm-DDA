@@ -217,6 +217,8 @@
 		<Unit filename="src/computer.h" />
 		<Unit filename="src/construction.cpp" />
 		<Unit filename="src/construction.h" />
+		<Unit filename="src/construction_ui.cpp" />
+		<Unit filename="src/construction_ui.h" />
 		<Unit filename="src/coordinates.h" />
 		<Unit filename="src/crafting.cpp" />
 		<Unit filename="src/crafting.h" />

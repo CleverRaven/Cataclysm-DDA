@@ -42,6 +42,12 @@ struct construction
     void (construct::*post_special)(point); // custom after-effects
     std::string post_terrain;// final terrain after construction
     bool post_is_furniture; // whether it's furniture or terrain
+
+    bool can_construct();
+    bool can_construct( int x, int y );
+    bool player_can_build( player &p, inventory inv );
+    std::string get_pre_terrain_name() const;
+    std::string get_post_terrain_name() const;
 };
 
 extern std::vector<construction*> constructions;
@@ -49,11 +55,11 @@ extern std::vector<construction*> constructions;
 void load_construction(JsonObject &jsobj);
 void reset_constructions();
 void construction_menu();
-bool player_can_build(player &p, inventory inv, construction *con);
-bool player_can_build(player &p, inventory pinv, const std::string &desc);
-bool can_construct(construction *con, int x, int y);
-bool can_construct(construction *con);
-bool can_construct(std::string desc);
+//bool player_can_build(player &p, inventory inv, construction *con);
+//bool player_can_build(player &p, inventory pinv, const std::string &desc);
+//bool can_construct(construction *con, int x, int y);
+//bool can_construct(construction *con);
+//bool can_construct(std::string desc);
 void place_construction(const std::string &desc);
 void complete_construction();
 

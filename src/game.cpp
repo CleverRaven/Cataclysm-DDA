@@ -33,7 +33,7 @@
 #include "worldfactory.h"
 #include "file_finder.h"
 #include "mod_manager.h"
-#include "construction2.h"
+#include "construction_ui.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -2756,8 +2756,8 @@ bool game::handle_action()
    if (u.in_vehicle)
     add_msg(_("You can't construct while in vehicle."));
    else {
-       construction_menu();
-       //construction_ui();1
+       //construction_menu();
+       construction_ui();
    }
    break;
 
@@ -6065,7 +6065,7 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
         }
     }
     if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player && ( (!(u.has_trait("LEG_TENT_BRACE"))) ||
-    (u.wearing_something_on(bp_feet))) ) 
+    (u.wearing_something_on(bp_feet))) )
     {
         add_msg(_("You're caught in the shockwave!"));
         knockback(x, y, u.posx, u.posy, force, stun, dam_mult);
@@ -7621,7 +7621,7 @@ void game::examine(int examx, int examy)
     vehicle *veh = NULL;
 
     if (examx == -1) {
-        // if we are driving a vehicle, examine the 
+        // if we are driving a vehicle, examine the
         // current tile without asking.
         veh = m.veh_at(u.posx, u.posy, veh_part);
         if (veh && veh->player_in_control(&u)) {
@@ -8895,7 +8895,7 @@ void game::pickup(int posx, int posy, int min)
         craft_part = veh->part_with_feature(veh_part, "CRAFTRIG");
         chempart = veh->part_with_feature(veh_part, "CHEMLAB");
         veh_part = veh->part_with_feature(veh_part, "CARGO", false);
-        ctrl_part = veh->part_with_feature(veh_part, "CONTROLS");    
+        ctrl_part = veh->part_with_feature(veh_part, "CONTROLS");
         from_veh = veh && veh_part >= 0 && veh->parts[veh_part].items.size() > 0;
 
         menu_items.push_back(_("Examine vehicle"));
@@ -8950,7 +8950,7 @@ void game::pickup(int posx, int posy, int min)
         {
           return;
         }
-        if(menu_items[choice]==_("Use the hotplate")) 
+        if(menu_items[choice]==_("Use the hotplate"))
         {
             //Will be -1 if no battery at all
             item tmp_hotplate( itypes["hotplate"], 0 );
@@ -8965,8 +8965,8 @@ void game::pickup(int posx, int posy, int min)
                 }
             }
             return;
-        } 
-        
+        }
+
         if(menu_items[choice]==_("Fill a container with water"))
         {
             int amt = veh->drain("water", veh->fuel_left("water"));
@@ -8979,8 +8979,8 @@ void game::pickup(int posx, int posy, int min)
                 veh->refill("water", amt);
             }
             return;
-        } 
-        
+        }
+
         if(menu_items[choice]==_("Have a drink"))
         {
             veh->drain("water", 1);
@@ -8989,7 +8989,7 @@ void game::pickup(int posx, int posy, int min)
             u.moves -= 250;
             return;
         }
-        
+
         if(menu_items[choice]==_("Use the welding rig?"))
         {
             //Will be -1 if no battery at all
@@ -9005,8 +9005,8 @@ void game::pickup(int posx, int posy, int min)
                 }
             }
             return;
-        } 
-        
+        }
+
         if(menu_items[choice]==_("Use the water purifier?"))
         {
             //Will be -1 if no battery at all
@@ -9022,8 +9022,8 @@ void game::pickup(int posx, int posy, int min)
                 }
             }
             return;
-        } 
-        
+        }
+
         if(menu_items[choice]==_("Control vehicle"))
         {
           veh->use_controls();
