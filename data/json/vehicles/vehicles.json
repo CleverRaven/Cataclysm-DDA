@@ -47,6 +47,19 @@
         ]
     },{
         "type" : "vehicle",
+        "id" : "segway",
+        "name" : "Segway PT",
+        "blueprint" : "#",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "engine_electric"},
+            {"x": 0, "y": 0, "part": "storage_battery"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 0, "y": 0, "part": "controls"}
+        ]
+    },{
+        "type" : "vehicle",
         "id" : "motorcycle_chassis",
         "name" : "Motorcycle Chassis",
         "blueprint" : "o#>",
