@@ -6250,6 +6250,35 @@
       ["gold_watch", 5],
       ["pocketwatch", 2]
     ]
+},{
+    "type" : "item_group",
+    "id" : "methlab",
+    "items":[
+      ["bandages", 50],
+      ["pan", 60],
+      ["coke", 10],
+      ["meth", 90],
+      ["jar_glass", 80],
+      ["heroin", 1],
+      ["bleach", 60],
+      ["ammonia", 60],
+      ["syringe", 30],
+      ["punch_dagger", 12],
+      ["water_clean", 80],
+      ["salt", 80],
+      ["mag_porn", 20],
+      ["lighter", 60],
+      ["ref_lighter", 2],
+      ["matches", 60],
+      ["sewage", 60],
+      ["pipebomb", 4],
+      ["crack", 8],
+      ["crackpipe", 37],
+      ["lsd", 10],
+      ["chemistry_set", 50],
+      ["battery", 70],
+      ["flashlight", 40]
+      ]
   },{
     "type" : "item_group",
     "id" : "wreckage",
