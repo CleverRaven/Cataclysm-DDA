@@ -277,6 +277,8 @@ static void OutputFontChar(Uint16 t, int x, int y, unsigned char color)
         if(t >= 0x80) SDL_FreeSurface(glyph);
     }
 }
+
+#ifdef SDLTILES
 static void OutputImageChar(Uint16 t, int x, int y, unsigned char color)
 {
     SDL_Rect src;
@@ -289,7 +291,6 @@ static void OutputImageChar(Uint16 t, int x, int y, unsigned char color)
     SDL_BlitSurface(ascii[color], &src, screen, &rect);
 }
 
-#ifdef SDLTILES
 // only update if the set interval has elapsed
 void try_update()
 {
