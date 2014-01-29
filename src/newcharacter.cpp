@@ -487,6 +487,12 @@ bool player::create(character_type type, std::string tempname)
         inv.push_back(tmp);
     }
     
+    // And cannibals start with a special cookbook.
+    if (has_trait("CANNIBAL")) {
+        tmp = item(itypes["cookbook_human"], 0);
+        inv.push_back(tmp);
+    }
+    
     // Albinoes have their umbrella handy.
     // Since they have to wield it, I don't think it breaks things
     // too badly to issue one.
