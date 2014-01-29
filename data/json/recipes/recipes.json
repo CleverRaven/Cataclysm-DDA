@@ -11466,11 +11466,11 @@
   "subcategory": "CSC_FOOD_OTHER",
   "note": "high-temperature acid hydrolysis, to extract edible wood sugars",
   "skill_used": "cooking",
-  "difficulty": 8,
+  "difficulty": 7,
   "time": 60000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [["adv_chemistry", 8] , ["textbook_chemistry", 9] , ["recipe_labchem", 8]],
+  "book_learn": [["adv_chemistry", 7] , ["textbook_chemistry", 8] , ["recipe_labchem", 6]],
   "tools": [
     [
       [ "chemistry_set", 50 ],
