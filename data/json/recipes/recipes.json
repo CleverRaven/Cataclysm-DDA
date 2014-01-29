@@ -25044,7 +25044,7 @@
   "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 2],
-  "difficulty": 4,
+  "difficulty": 5,
   "time": 70000,
   "reversible": false,
   "autolearn": true,
@@ -25094,7 +25094,7 @@
   "subcategory": "CSC_ARMOR_STORAGE",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 1],
-  "difficulty": 3,
+  "difficulty": 5,
   "time": 70000,
   "reversible": false,
   "autolearn": true,
@@ -25137,7 +25137,7 @@
   "subcategory": "CSC_ARMOR_STORAGE",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 2],
-  "difficulty": 4,
+  "difficulty": 5,
   "time": 80000,
   "reversible": false,
   "autolearn": true,
@@ -25610,7 +25610,6 @@
      ],
      [
       [ "hood_rain", 1 ],
-      [ "bag_plastic", 2 ]
      ],
      [
       [ "duct_tape", 100 ]
@@ -25653,8 +25652,7 @@
       [ "kevlar_plate", 4 ]
      ],
      [
-      [ "hood_rain", 1 ],
-      [ "bag_plastic", 2 ]
+      [ "hood_rain", 1 ]
      ],
      [
       [ "duct_tape", 100 ]
@@ -25700,7 +25698,6 @@
      ],
      [
       [ "hood_rain", 1 ],
-      [ "bag_plastic", 2 ]
      ],
      [
       [ "leather", 8 ]
@@ -25715,7 +25712,6 @@
       [ "helmet_ball", 1 ],
       [ "helmet_skid", 1 ],
       [ "helmet_bike", 1 ],
-      [ "hat_hard", 1 ],
       [ "firehelmet", 1 ],
       [ "pickelhaube", 1 ],
       [ "plastic_chunk", 8 ]
@@ -25761,7 +25757,6 @@
      ],
      [
       [ "hood_rain", 1 ],
-      [ "bag_plastic", 2 ]
      ],
      [
       [ "steel_chunk", 2 ],
@@ -25777,7 +25772,6 @@
       [ "helmet_ball", 1 ],
       [ "helmet_skid", 1 ],
       [ "helmet_bike", 1 ],
-      [ "hat_hard", 1 ],
       [ "firehelmet", 1 ],
       [ "pickelhaube", 1 ],
       [ "plastic_chunk", 8 ]
@@ -25821,7 +25815,6 @@
      ],
      [
       [ "hood_rain", 1 ],
-      [ "bag_plastic", 2 ]
      ],
      [
       [ "duct_tape", 100 ]
