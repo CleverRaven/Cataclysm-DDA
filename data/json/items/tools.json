@@ -6349,7 +6349,7 @@
     "symbol": ",",
     "color": "light_gray",
     "name": "RX12 jet injector",
-    "description": "The Rivtech RX12 jet injector is a small pistol-shaped device used to inject chemicals through the skin without using a needle. A label on the side warns against using more than two doses per hour.",
+    "description": "The Rivtech RX12 jet injector is a small pistol-shaped device used to inject advanced fast-healing chemicals through the skin without using a needle. A label on the side warns against using more than two doses per hour.",
     "price": 1000,
     "material": ["kevlar", "aluminum"],
     "weight": 316,
