@@ -11406,6 +11406,7 @@
 },{
         "type" : "recipe",
   "result": "sugar",
+  "id_suffix": "from_sweets",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
@@ -11462,6 +11463,7 @@
 },{
         "type" : "recipe",
   "result": "sugar",
+  "id_suffix": "from_wood",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "note": "high-temperature acid hydrolysis, to extract edible wood sugars",
