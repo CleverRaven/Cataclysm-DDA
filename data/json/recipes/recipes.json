@@ -11232,7 +11232,7 @@
         "type" : "recipe",
   "result": "aspirin",
   "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_CHEMICALS",
+  "subcategory": "CSC_CHEM_DRUGS",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 1 ],
   "difficulty": 4,
