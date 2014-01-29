@@ -198,21 +198,19 @@ of tools are all available to help you survive."));
     return text;
 }
 
-//fix-it
+//ready, checked
 std::vector<std::string> text_viewing()
 {
     std::vector<std::string> text;
 
     text.push_back(string_format(_("\
-The player can often see more than can be displayed on the screen at a time. %s allows you to \
-scroll around using the movement keys and view items on the map. %s provides a list of nearby \
-visible items, though items shut away in crates, cupboards, refrigerators and the like will not \
-be displayed. Pressing Shift+vikeys will scroll the view persistently, allowing you to keep an \
-eye on things as you move around."),
-                   press_x(ACTION_LOOK, _("Pressing "), _(" enters look around mode, which"),
-                           _("'Look Around' mode")).c_str(),
-                   press_x(ACTION_LIST_ITEMS, _("Pressing "),
-                           _("'List all items around the player'")).c_str()));
+The player can often see more than can be displayed on the screen at a time. Pressing %s enters \
+look around mode, which allows you to scroll around using the movement keys and view items on \
+the map. Pressing %s provides a list of nearby visible items, though items shut away in crates, \
+cupboards, refrigerators and the like will not be displayed. Pressing Shift+vikeys will scroll \
+the view persistently, allowing you to keep an eye on things as you move around."),
+                                 press_x(ACTION_LOOK, "", "").c_str(),
+                                 press_x(ACTION_LIST_ITEMS, "", "").c_str()));
     return text;
 }
 
@@ -227,24 +225,24 @@ screen will appear. As hunger and thirst reach critical levels, you will begin t
 penalties. Thirst is more dangerous than hunger. Finding food in a city is usually easy; outside \
 of a city, you may have to hunt an animal, then stand over its corpse and %s it into small chunks \
 of meat. Likewise, outside of a city you may have to drink water from a river or other natural \
-source; stand in shallow water and %s to pick it up. You'll need a watertight container. \
+source; stand in shallow water and press %s to pick it up. You'll need a watertight container. \
 Be forewarned that some sources of water aren't trustworthy and may produce diseased water. \
 To be sure it's healthy, run all water you collect through a water filter before drinking."),
-            press_x(ACTION_BUTCHER, _("butcher")).c_str(),
-            from_sentence_case(press_x(ACTION_PICKUP)).c_str()));
+                                 press_x(ACTION_BUTCHER, _("butcher")).c_str(),
+                                 from_sentence_case(press_x(ACTION_PICKUP, "", "")).c_str()));
 
     text.push_back(string_format(_("\
-Every 14 to 20 hours, you'll find yourself growing sleepy. If you do not sleep%s you'll start \
-suffering stat and movement penalties. You may not always fall asleep right away. Sleeping \
-indoors, especially on a bed, will help; or you can always use sleeping pills. While sleeping, \
-you'll slowly replenish lost hit points. You'll also be vulnerable to attack, so try to find a \
-safe place, or set traps for unwary intruders."),
-            press_x(ACTION_SLEEP, _(" by pressing "), ",", "").c_str()));
+Every 14 to 20 hours, you'll find yourself growing sleepy. If you do not sleep by pressing %s, \
+you'll start suffering stat and movement penalties. You may not always fall asleep right away. \
+Sleeping indoors, especially on a bed, will help; or you can always use sleeping pills. \
+While sleeping, you'll slowly replenish lost hit points. You'll also be vulnerable to attack, \
+so try to find a safe place, or set traps for unwary intruders."),
+                                 press_x(ACTION_SLEEP, "", "").c_str()));
 
     return text;
 }
 
-//ready
+//ready, checked
 std::vector<std::string> text_pain()
 {
     std::vector<std::string> text;
@@ -274,7 +272,7 @@ cola to the more intense high of Adderall and methamphetamine."));
     return text;
 }
 
-//ready
+//ready, checked
 std::vector<std::string> text_addiction()
 {
     std::vector<std::string> text;
@@ -292,7 +290,7 @@ the effects to cease immediately, but may deepen your dependance."));
     return text;
 }
 
-//ready
+//ready, checked
 std::vector<std::string> text_morale()
 {
     std::vector<std::string> text;
@@ -339,7 +337,7 @@ decreases your focus rapidly, by giving a significant penalty to the set point o
     return text;
 }
 
-//ready
+//ready, checked
 std::vector<std::string> text_mutation()
 {
     std::vector<std::string> text;
@@ -359,7 +357,7 @@ to find substances that will remove mutations, though these are extremely rare."
     return text;
 }
 
-//ready
+//ready, checked
 std::vector<std::string> text_bionics()
 {
     std::vector<std::string> text;
@@ -385,7 +383,7 @@ wandering vagabonds for a very high price."));
     return text;
 }
 
-//fix-it
+//ready, checked
 std::vector<std::string> text_crafting()
 {
     std::vector<std::string> text;
@@ -400,16 +398,17 @@ Some recipes require a set of tools. These are not used up when crafting, so you
 tool set. All recipes require one or more ingredients. These ARE used up in crafting."));
 
     text.push_back(string_format(_("\
-%sThere are five categories: Weapons, Food, Electronics, Armor, and Miscellaneous. While a \
-few items require no skill to create, the majority require you to have some knowledge:\n"),
-                    press_x(ACTION_CRAFT, _("To craft items, press "), ". ", "").c_str()));
+To craft items, press %s. There are five categories: \
+Weapons, Food, Electronics, Armor, and Miscellaneous. While a few items require \
+no skill to create, the majority require you to have some knowledge:\n"),
+                                 press_x(ACTION_CRAFT, "", "").c_str()));
 
     text.push_back(_("\
-->Mechanic skill is used for weapons, traps, and a few tools.\n\
-->Cooking skill, at low levels, is used for making tasty recipes; at higher levels, you have an \
-understanding of chemistry and can make chemical weapons and beneficial elixirs.\n\
-->Electronics skill lets you make a wide variety of tools with intricate uses.\n\
-->Tailoring skill is used to create basic clothing, and later tough armor."));
+-> Mechanic skill is used for weapons, traps, and a few tools.\n\
+-> Cooking skill, at low levels, is used for making tasty recipes; at higher levels, you have \
+an understanding of chemistry and can make chemical weapons and beneficial elixirs.\n\
+-> Tailoring skill is used to create basic clothing, and later tough armor.\n\
+-> Electronics skill lets you make a wide variety of tools with intricate uses."));
 
     text.push_back(_("\
 In addition to the primary crafting skills, other skills may be necessary to create certain \
@@ -418,37 +417,35 @@ items. Traps skill, Marksmanship skill, and First Aid skill are all required for
     return text;
 }
 
-//fix-it
+//ready, checked
 std::vector<std::string> text_traps()
 {
     std::vector<std::string> text;
 
     text.push_back(_("\
-While sleeping in dangerous territory, it may be wise to set traps to ward \
-off unwanted intrusions. There are a few traps to be found in the world, \
-most notably bubble wrap (which will make a loud noise if stepped on, helping \
-to wake you up) and bear traps (which make noise AND damage and trap anything \
-that steps on them). Others need to be crafted; this requires the Traps skill \
-and possibly Mechanics."));
+While sleeping in dangerous territory, it may be wise to set traps to ward off \
+unwanted intrusions. There are a few traps to be found in the world, most notably \
+bubble wrap (which will make a loud noise if stepped on, helping to wake you up) \
+and bear traps (which make noise AND damage and trap anything that steps on them). \
+Others need to be crafted; this requires the Traps skill and possibly Mechanics."));
 
     text.push_back(string_format(_("\
-To set a trap, simply use the item%s and choose a direction; the trap \
-will be placed on an adjacent tile. Some traps may require additional tools, \
-like a shovel, to be set. Once set, a trap will remain in place until \
-stepped on or disarmed."),
-            press_x(ACTION_USE, " (", ")", "").c_str()));
+To set a trap, simply use the item (%s) and choose a direction; the trap will be \
+placed on an adjacent tile. Some traps may require additional tools, like a shovel, \
+to be set. Once set, a trap will remain in place until stepped on or disarmed."),
+                                 press_x(ACTION_USE, "", "").c_str()));
 
     text.push_back(string_format(_("\
-To disarm a trap, examine%s the space it is on. Your success depends \
+To disarm a trap, examine (%s) the space it is on. Your success depends \
 upon your Traps skill and Dexterity. If you succeed, the trap is removed \
 and replaced by some or all of its constituent parts; however, if you fail, \
 there is a chance that you will set off the trap, suffering the consequences."),
-            press_x(ACTION_EXAMINE, " (", ")", "").c_str()));
+                                 press_x(ACTION_EXAMINE, "", "").c_str()));
 
     text.push_back(_("\
 Many traps are fully or partially hidden. Your ability to detect traps is \
-entirely dependent upon your Perception. Should you stumble into a trap, you \
-may have a chance to avoid it, depending on your Dodge skill."));
+entirely dependent upon your Perception. Should you stumble into a trap, \
+you may have a chance to avoid it, depending on your Dodge skill."));
 
     return text;
 }
@@ -460,48 +457,46 @@ std::vector<std::string> text_items()
 
     text.push_back(string_format(_("\
 There are a wide variety of items available for your use. You may find them \
-lying on the ground; if so, simply %s to pick up items on the \
+lying on the ground; if so, simply press %s to pick up items on the \
 same square. Some items are found inside a container, drawn as a { with a \
-blue background. %s, then a direction, will allow you to examine \
+blue background. Pressing %s, then a direction, will allow you to examine \
 these containers and loot their contents."),
-            from_sentence_case(press_x(ACTION_PICKUP)).c_str(),
-            press_x(ACTION_EXAMINE, _("Pressing "), _("'Examine Nearby Terrain'")).c_str()));
+                    from_sentence_case(press_x(ACTION_PICKUP, "", "")).c_str(),
+                    press_x(ACTION_EXAMINE, "", "").c_str()));
 
     text.push_back(string_format(_("\
-%s opens a comparison menu, where you can see two items \
+Pressing %s opens a comparison menu, where you can see two items \
 side-by-side with their attributes highlighted to indicate which is superior. \
 You can also access the item comparison menu by pressing 'C' when the %s \
 nearby items menu is open and an item is selected."),
-            press_x(ACTION_COMPARE, _("Pressing "), _("'Compare two Items'")).c_str(),
-            press_x(ACTION_LIST_ITEMS, _("view")).c_str()));
+            press_x(ACTION_COMPARE, "", "").c_str(),
+            press_x(ACTION_LIST_ITEMS, _("view")).c_str())); // F*ck U, coder!
 
     text.push_back(string_format(_("\
-All items may be used as a melee weapon, though some are better than others. \
-You can check the melee attributes of an item you're carrying by %s \
-to enter your inventory, then pressing the letter of the item. There are 3 \
-melee values, bashing, cutting, and to-hit bonus (or penalty). \
-Bashing damage is universally effective, but is capped by low strength. \
-Cutting damage is a guaranteed increase in damage, but it may be reduced by \
-a monster's natural armor."),
-            press_x(ACTION_INVENTORY, _("hitting "), _("trying")).c_str()));
+All items may be used as a melee weapon, though some are better than others. You can check the \
+melee attributes of an item you're carrying by hitting %s to enter your inventory, then pressing \
+the letter of the item. There are 3 melee values, bashing, cutting, and to-hit bonus (or \
+penalty). Bashing damage is universally effective, but is capped by low strength. Cutting damage \
+is a guaranteed increase in damage, but it may be reduced by a monster's natural armor."),
+                                 press_x(ACTION_INVENTORY, "", "").c_str()));
 
     text.push_back(string_format(_("\
 To wield an item as a weapon, %s then the proper letter. Pressing '-' in lieu of a letter will \
 make you wield nothing. A wielded weapon will not contribute to your volume carried, so holding \
 a large item in your hands may be a good option for travel. When unwielding your weapon, it will \
 go back in your inventory, or will be dropped on the ground if there is no space."),
-            from_sentence_case(press_x(ACTION_WIELD)).c_str()));
+                                 from_sentence_case(press_x(ACTION_WIELD)).c_str()));
 
     text.push_back(string_format(_("\
 To wear a piece of clothing, %s then the proper letter. Armor reduces damage and helps you \
 resist things like smoke. To take off an item, %s then the proper letter."),
-            from_sentence_case(press_x(ACTION_WEAR)).c_str(),
-            from_sentence_case(press_x(ACTION_TAKE_OFF)).c_str()));
+                                 from_sentence_case(press_x(ACTION_WEAR)).c_str(),
+                                 from_sentence_case(press_x(ACTION_TAKE_OFF)).c_str()));
 
     text.push_back(string_format(_("\
 Also available in the %s nearby items menu is the ability to filter or prioritize items. \
 You can enter item names, or various advanced filter strings: {<token>:<search param>}"),
-            press_x(ACTION_LIST_ITEMS, _("view")).c_str()));
+                                 press_x(ACTION_LIST_ITEMS, _("view")).c_str()));
 
     text.push_back(_("\
 Currently Available tokens:\n\
@@ -552,7 +547,7 @@ Ducking down into the subways or sewers is often an excellent escape tactic."));
     return text;
 }
 
-//fix-it
+//ready, checked
 std::vector<std::string> text_styles()
 {
     std::vector<std::string> text;
@@ -563,17 +558,16 @@ You can start with your choice of a single, commonly-taught style by starting wi
 the Martial Arts Training trait. Many, many more can be taught by wandering masters."));
 
     text.push_back(string_format(_("\
-To select a fighting style%s. If you are already unarmed this will make you start using the style. \
-Otherwise, it will be locked in as your default unarmed style; to start using it, %s '-'."),
-                    press_x(ACTION_PICK_STYLE, _(", press "), "").c_str(),
-                    press_x(ACTION_WIELD, _("press "), _(" then"), 
-                            _("'Select Wielded Item' then press")).c_str()));
+To select a fighting style, press %s. If you are already unarmed this will make you start using the style. \
+Otherwise, it will be locked in as your default unarmed style; to start using it, press %s then '-'."),
+                                 press_x(ACTION_PICK_STYLE, "", "").c_str(),
+                                 press_x(ACTION_WIELD, "", "").c_str()));
 
     text.push_back(string_format(_("\
 Most styles have a variety of special moves associated with them. Most have a skill requirement, \
 and will be unavailable until you reach a level of unarmed skill. You can check the moves by \
-examining your style via the inventory screen%s."),
-                   press_x(ACTION_INVENTORY, " (", _(" key)"), "").c_str()));
+examining your style via the inventory screen (%s key)."),
+                                 press_x(ACTION_INVENTORY, "", "").c_str()));
 
     text.push_back(_("\
 Many styles also have special effects unlocked under certain conditions. \
@@ -622,57 +616,55 @@ extremities from frostbite and to keep your distance from large fires."));
     return text;
 }
 
-//fix-it
+//ready, checked
 std::vector<std::string> text_types()
 {
     std::vector<std::string> text;
 
     text.push_back(string_format(_("\
-ITEM TYPES:\n\
 ~       Liquid\n\
 %%%%       Food\n\
 !       Medication\n\
-These are all consumed by %s. They provide a certain amount of nutrition, quench your thirst, may \
+These are all consumed by using %s. They provide a certain amount of nutrition, quench your thirst, may \
 be a stimulant or a depressant, and may provide morale. There may also be more subtle effects."),
-    press_x(ACTION_EAT, _("using "), _("eating")).c_str()));
+                                 press_x(ACTION_EAT, "", "").c_str()));
 
     text.push_back(string_format(_("\
 /       Large weapon\n\
 ;       Small weapon or tool\n\
 ,       Tiny item\n\
-    These are all generic items, useful only to be wielded as a weapon. \
- However, some have special uses; they will show up under the TOOLS section \
- in your inventory. %s to use these."),
-                    press_x(ACTION_USE).c_str()));
+These are all generic items, useful only to be wielded as a weapon. However, some have special \
+uses; they will show up under the TOOLS section in your inventory. Press %s to use these."),
+                                 press_x(ACTION_USE, "", "").c_str()));
 
     text.push_back(string_format(_("\
 )       Container\n\
-These items may hold other items. Some are passable weapons.\n\
-Many will be listed with their contents, e.g. \"plastic bottle of water\".\n\
-Those containing comestibles may be eaten%s; this may leave an empty container."),
-    press_x(ACTION_EAT, _(" with "), "").c_str()));
+These items may hold other items. Some are passable weapons. Many will be listed with their \
+contents, e.g. \"plastic bottle of water\". Those containing comestibles may be eaten with %s; \
+this may leave an empty container."),
+                                 press_x(ACTION_EAT, "", "").c_str()));
 
     text.push_back(string_format(_("\
 [       Clothing\n\
-This may be worn%s or removed%s. It may cover one or more body parts; you can wear \
-multiple articles of clothing on any given body part, but this will encumber you severely. \
-Each article of clothing may provide storage space, warmth, an encumberment, and a resistance \
-to bashing and/or cutting attacks. Some may protect against environmental effects."),
-            press_x(ACTION_WEAR, _(" with the "), _(" key"),"").c_str(),
-            press_x(ACTION_TAKE_OFF, _(" with the "),_(" key"),"").c_str()));
+This may be worn with the %s key or removed with the %s key. It may cover one or more body parts; \
+you can wear multiple articles of clothing on any given body part, but this will encumber you \
+severely. Each article of clothing may provide storage space, warmth, an encumberment, and a \
+resistance to bashing and/or cutting attacks. Some may protect against environmental effects."),
+                                press_x(ACTION_WEAR, "", "").c_str(),
+                                press_x(ACTION_TAKE_OFF, "","").c_str()));
 
     text.push_back(string_format(_("\
 (       Firearm\n\
-This weapon may be loaded with ammunition%s, unloaded%s, and fired%s. \
-Some have automatic fire, which may be used%s at a penalty to accuracy. \
+This weapon may be loaded with ammunition with %s, unloaded with %s, and fired with %s. \
+Some have automatic fire, which may be used with %s at a penalty to accuracy. \
 The color refers to the type; handguns are gray, shotguns are red, submachine guns are cyan, \
 rifles are brown, assault rifles are blue, and heavy machine guns are light red. Each has \
-a dispersion rating, a bonus to damage, a rate of fire, and a maximum load. Note that most firearms \
-load fully in one action, while shotguns must be loaded one shell at a time."),
-            press_x(ACTION_RELOAD, _(" with "), "").c_str(),
-            press_x(ACTION_UNLOAD, _(" with "), "").c_str(),
-            press_x(ACTION_FIRE, _(" with "), "").c_str(),
-            press_x(ACTION_SELECT_FIRE_MODE, _(" with "), "").c_str()));
+a dispersion rating, a bonus to damage, a rate of fire, and a maximum load. Note that most \
+firearms load fully in one action, while shotguns must be loaded one shell at a time."),
+                                press_x(ACTION_RELOAD, "", "").c_str(),
+                                press_x(ACTION_UNLOAD, "", "").c_str(),
+                                press_x(ACTION_FIRE, "", "").c_str(),
+                                press_x(ACTION_SELECT_FIRE_MODE, "", "").c_str()));
 
     text.push_back(_("\
 =       Ammunition\n\
@@ -682,16 +674,16 @@ damage, dispersion, and range ratings, and an armor-piercing quality."));
 
     text.push_back(string_format(_("\
 *       Thrown weapon; simple projectile or grenade\n\
-These items are suited for throwing, and many are only useful when thrown, such as grenades, \
-molotov cocktails, or tear gas. Once activated be certain to throw these items%s."),
-        press_x(ACTION_THROW, _(" by pressing "), _(", then the letter of the item to throw."),
-                ".").c_str()));
+These items are suited for throwing, and many are only useful when thrown, \
+such as grenades, molotov cocktails, or tear gas. Once activated be certain \
+to throw these items by pressing %s, then the letter of the item to throw."),
+                                press_x(ACTION_THROW, "", "").c_str()));
 
     text.push_back(string_format(_("\
 ?       Book or magazine\n\
-This can be read for training or entertainment%s. Most require a basic level of intelligence; \
-some require some base knowledge in the relevant subject."),
-    press_x(ACTION_READ, _(" by pressing "), "").c_str()));
+This can be read for training or entertainment by pressing %s. Most require a basic \
+level of intelligence; some require some base knowledge in the relevant subject."),
+                                press_x(ACTION_READ, "", "").c_str()));
 
     return text;
 }
@@ -756,12 +748,10 @@ O           Parking lot - Empty lot, few items. Mostly useless."));
     getch();
 }
 
-//ready
+//ready, checked
 std::vector<std::string> text_guns()
 {
     std::vector<std::string> text;
-
-    text.push_back(_("Gun types: \n"));
 
     text.push_back(_("<color_ltgray>( Handguns</color>\n\
 Handguns are small weapons held in one or both hands. They are much more difficult \
@@ -773,9 +763,11 @@ switching from one to the next once their ammo is spent."));
 
     text.push_back(_("<color_green>( Crossbows</color>\n\
 The best feature of crossbows is their silence. The bolts they fire are only rarely destroyed; \
-if you pick up the bolts after firing them, your ammunition will last much longer. Crossbows \
-suffer from a short range and a very long reload time (modified by your strength); plus, most \
-only hold a single round. For this reason, it is advisable to carry a few loaded crossbows. \
+if you pick up the bolts after firing them, your ammunition will last much longer. \
+Crossbows suffer from a short range and a very long reload time (modified by your strength); \
+plus, most only hold a single round. \
+\n\
+For this reason, it is advisable to carry a few loaded crossbows. \
 Crossbows can be very difficult to find; however, it is possible to craft one given enough \
 Mechanics skill. Likewise, it is possible to make wooden bolts from any number of wooden objects, \
 though these are much less effective than steel bolts. Crossbows use the handgun skill."));
@@ -786,7 +778,7 @@ out almost any enemy with a single hit. Birdshot and 00 shot spread, making \
 it very easy to hit nearby monsters. However, they are very ineffective \
 against armor, and some armored monsters might shrug off 00 shot completely. \
 Shotgun slugs are the answer to this problem; they also offer much better range than shot.\
-\n\n\
+\n\
 The biggest drawback to shotguns is their noisiness. They are very loud, and impossible to \
 silence. A shot that kills one zombie might attract three more! Because of this, shotguns \
 are best reserved for emergencies."));
@@ -810,7 +802,7 @@ Assault rifles are similar to hunting rifles in many ways; they are also suited 
 combat, with similar bonuses and penalties. Unlike hunting rifles, assault rifles are capable \
 of automatic fire. Assault rifles are less accurate than hunting rifles, and this is worsened \
 under automatic fire, so save it for when you're highly skilled. \
-\n\n\
+\n\
 Assault rifles are an excellent choice for medium or long range combat, or \
 even close-range bursts again a large number of enemies. They are difficult \
 to use, and are best saved for skilled riflemen."));
@@ -827,7 +819,7 @@ making them very good at clearing out large numbers of enemies."));
 Energy weapons is an umbrella term used to describe a variety of rifles and handguns \
 which fire lasers, plasma, or energy attacks. They started to appear in military use \
 just prior to the start of the apocalypse, and as such are very difficult to find.\
-\n\n\
+\n\
 Energy weapons have no recoil at all; they are nearly silent, have a long range, and are \
 fairly damaging. The biggest drawback to energy weapons is scarcity of ammunition; it is \
 wise to reserve the precious ammo for when you really need it."));
@@ -882,7 +874,7 @@ A: You can enter the front door if you have an ID card by %s the keypad. If you 
 in computers and have an electrohack, it is possible to hack the keypad. An EMP blast has a \
 chance to force the doors open, but it's more likely to break them. You can also sneak in \
 through the sewers sometimes, or try to smash through the walls with explosions."),
-    press_x(ACTION_EXAMINE, _("examining")).c_str()));
+    press_x(ACTION_EXAMINE, _("examining")).c_str())); //Damn you, coder!
 
     text.push_back(_("\
 Q: Why does my crafting fail so often?\n\
@@ -916,10 +908,10 @@ TheDarklingWolf@Gmail.com."));
 
 void display_help()
 {
-    WINDOW* w_help_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    WINDOW *w_help_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                    (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                                    (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    WINDOW* w_help = newwin(FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+    WINDOW *w_help = newwin(FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
                             1 + (int)((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             1 + (int)((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
     char ch;
@@ -1054,8 +1046,9 @@ void display_help()
                     } else {
                         for (int j = 0; j < keys.size(); j++) {
                             wprintz(w_help,c_yellow, "%c", keys[j]);
-                            if (j < keys.size() - 1)
+                            if (j < keys.size() - 1) {
                                 wprintz(w_help,c_white, _(" or "));
+                            }
                         }
                     }
                 }
@@ -1072,7 +1065,7 @@ void display_help()
                 }
                 if (remapch == '-' || remapch == '+') {
                     needs_refresh = true;
-                    for (int i = 0; i < FULL_SCREEN_HEIGHT-2 && i + offset < NUM_ACTIONS; i++) {
+                    for (int i = 0; i < FULL_SCREEN_HEIGHT - 2 && i + offset < NUM_ACTIONS; i++) {
                         mvwprintz(w_help, i, 0, c_ltblue, "%c", 'a' + i);
                         mvwprintz(w_help, i, 1, c_white, ":");
                     }
@@ -1123,7 +1116,7 @@ void display_help()
             break;
 
         case '4':
-            multipage(w_help, text_types());
+            multipage(w_help, text_types(), _("Item types:"));
             break;
 
         case '5':
@@ -1131,7 +1124,7 @@ void display_help()
             break;
 
         case '6':
-            multipage(w_help, text_guns());
+            multipage(w_help, text_guns(), _("Gun types:"));
             break;
 
         case '7':
