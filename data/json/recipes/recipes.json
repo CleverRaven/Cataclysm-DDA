@@ -11461,6 +11461,38 @@
   ]
 },{
         "type" : "recipe",
+  "result": "sugar",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "note": "high-temperature acid hydrolysis, to extract edible wood sugars",
+  "skill_used": "cooking",
+  "difficulty": 7,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["adv_chemistry", 7] , ["textbook_chemistry", 8] , ["recipe_labchem", 6]],
+  "tools": [
+    [
+      [ "chemistry_set", 50 ],
+      [ "hotplate", 50 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "2x4", 8 ],
+      [ "stick", 8 ],
+      [ "splinter", 16 ]
+    ],
+    [
+      [ "water_acid_weak", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "lye_powder",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
