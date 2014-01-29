@@ -5,7 +5,7 @@
             "house"
         ],
         "method": "json",
-        "weight": 100, "comment": "<--- very low weight due to the awesomness within",
+        "weight": 1000, "comment": "<--- very low weight due to the awesomness within",
         "object": {
             "rows":[
                 "........................",
@@ -15,12 +15,12 @@
                 ".|      7|    |     88|.",
                 ".|      7|    |-------|.",
                 ".|@@     |    |       |.",
-                ".|@@     |    |       |.",
+                ".|@@     |    +       |.",
                 ".|:      |    |  66  >|.",
                 ".|       +   7|  66  A2.",
                 ".|       |   7|      G2.",
-                ".|--------   7|      F|.",
-                ".|9          7|---+---|.",
+                ".|---------MM-|      F|.",
+                ".|9          7|-------|.",
                 ".|9   @  @            |.",
                 " |9                   |.",
                 ".|9   @  @            |.",
@@ -60,7 +60,7 @@
                 "G": "t_floor",
                 "H": "t_floor",
                 "z": "t_shrub",
-                "S": "t_sidewalk",
+                "M": "t_door_metal_c",
                 "^": "t_tree",
                 "{": "t_door_glass_c",
                 "[": "t_fence_v",
@@ -113,7 +113,9 @@
                 { "item": "fridge", "chance": 70, "x": [ 21,21 ], "y": [ 11,11 ] },
                 { "item": "oven", "chance": 70, "x": [ 21,21 ], "y": [ 10,10 ] },
                  { "item": "kitchen", "chance": 70, "x": [ 21,21 ], "y": [ 9,9 ] }, 
-                { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [6,10] }
+                { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [2,3] },
+                { "monster": "GROUP_PREPPER_HOUSE", "x": [ 2, 21 ], "y": [ 13, 21 ] }
+
             ],
             "comment": "end of mapgen json definition ---v"
         },
