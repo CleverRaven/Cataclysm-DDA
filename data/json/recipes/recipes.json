@@ -5358,8 +5358,8 @@
 },{
         "type" : "recipe",
   "result": "salt_water",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_DRINKS",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 1000,
