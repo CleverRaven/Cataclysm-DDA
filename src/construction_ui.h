@@ -1,3 +1,6 @@
+#ifndef _CONSTRUCTION_UI_H_
+#define _CONSTRUCTION_UI_H_
+
 #include "output.h"
 #include "game.h"
 #include <string>
@@ -5,7 +8,7 @@
 class construct_ui {
     public:
     enum construct_filter { ALL = 0, AVAILABLE, UNAVAILABLE };
-    enum construct_windows { HEAD = 1, LIST = 2, DESCRIPTION = 4, ALL_WIN = HEAD | LIST | DESCRIPTION, BODY = LIST | DESCRIPTION };
+    enum construct_windows { HEAD = 0x01, LIST = 0x02, DESCRIPTION = 0x04, ALL_WIN = HEAD | LIST | DESCRIPTION, BODY = LIST | DESCRIPTION };
 
     void display( player *p );
 
@@ -135,3 +138,4 @@ inline construct_ui::construct_filter operator++ ( construct_ui::construct_filte
     ++a;
     return result;
 }
+#endif // _CONSTRUCTION_UI_H_
