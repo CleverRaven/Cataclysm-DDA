@@ -247,7 +247,7 @@
     {
         "type": "profession",
         "ident": "specops",
-        "name": "pecial Operator",
+        "name": "Special Operator",
         "description": "You were the best of the best, the military's finest. That's why you're still alive, even after all your comrades fell to the undead. As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
         "points": 5,
         "skills": [
