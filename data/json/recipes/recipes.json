@@ -9643,7 +9643,9 @@
   ],
   "components": [
     [
-      [ "fighter_sting", 1 ]
+      [ "fighter_sting", 1 ],
+      [ "bleach", 2 ],
+      [ "disinfectant", 2 ]
     ],
     [
       [ "water_clean", 2 ]
