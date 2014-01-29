@@ -5,7 +5,7 @@
             "house"
         ],
         "method": "json",
-        "weight": 1000, "comment": "<--- very low weight due to the awesomness within",
+        "weight": 100, "comment": "<--- very low weight due to the awesomness within",
         "object": {
             "rows":[
                 "........................",
