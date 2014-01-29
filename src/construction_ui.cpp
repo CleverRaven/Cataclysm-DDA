@@ -39,6 +39,8 @@ void construct_ui::init( player *p ) {
 
     headstart = ( TERMY > w_height + head_height ) ? ( TERMY - w_height ) / 2 : 0;
     colstart = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
+
+    selected_index = -1;
 }
 
 void construct_ui::handle_key( int key ) {
@@ -95,12 +97,13 @@ void construct_ui::draw_list( WINDOW *win ) {
 
     if( items.size() <= 0 ) {
         selected_index = -1;
+        delete selected_item;
         selected_item = NULL;
         wrefresh( win );
         return;
     }
 
-    selected_index = selected_index < 0 ? 0 : selected_index;
+    selected_index = selected_index < 0 ? 0 : selected_index > items.size() - 1 ? items.size() - 1 : selected_index;
 
     if( items.size() > w_height - 1) {
         draw_scrollbar( win, selected_index, w_height - 2, items.size(), 1 );
@@ -122,7 +125,8 @@ void construct_ui::draw_list( WINDOW *win ) {
         nc_color color = it->available ? c_white : c_dkgray;
         if( line + offset == selected_index ) {
             color = hilite( color );
-            selected_item = &(*it);
+            delete selected_item;
+            selected_item = new construct_ui_item(*it);
         }
 
         mvwprintz( win, ++line, 1, color, it->display_name( l_width - 3 ).c_str( ) );
@@ -143,8 +147,8 @@ void construct_ui::draw_description( WINDOW *win ) {
         return;
     }
 
-    int line = 0;
-    mvwprintz( win, ++line, 1, c_white, "%s", selected_item->full_name().c_str());
+    int line = 1;
+    mvwprintz( win, line++, 1, c_white, "%s", selected_item->full_name().c_str());
 
     for( con_iter it = selected_item->begin(); it != selected_item->end(); ++it ) {
         construction *c = ( *it );
@@ -220,7 +224,7 @@ std::set<construct_ui::construct_ui_item, construct_ui::construction_sort_functo
 }
 
 void construct_ui::construct_ui_item::add( construction* c ) {
-    constructions.push_back( c );
+    this->constructions.push_back( c );
 }
 
 std::string construct_ui::construct_ui_item::display_name( int width ) const {

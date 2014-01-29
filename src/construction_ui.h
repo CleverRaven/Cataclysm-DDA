@@ -50,8 +50,8 @@ class construct_ui {
 
     struct construction_sort_functor {
         bool operator()( construct_ui_item const &a, construct_ui_item const &b ) {
-            if( a.available < b.available ) { return true; }
-            if( a.available > b.available ) { return false; }
+            if( a.available > b.available ) { return true; }
+            if( a.available < b.available ) { return false; }
             return a.full_name() < b.full_name();
         }
     };
@@ -68,7 +68,6 @@ class construct_ui {
     void handle_key( int );
     std::string get_filter_text();
     std::set<construct_ui_item, construction_sort_functor> get_filtered_items();
-
 
     const int head_height;
     const int min_w_height;
