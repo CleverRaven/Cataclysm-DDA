@@ -358,12 +358,12 @@ void MonsterGenerator::load_species(JsonObject &jo)
 mtype *MonsterGenerator::get_mtype(std::string mon)
 {
     static mtype *default_montype = mon_templates["mon_null"];
-    
-	if (mon == "mon_zombie_fast")
-	{ 
-	mon = "mon_zombie_dog";
-	}
-	
+
+    if (mon == "mon_zombie_fast")
+    {
+        mon = "mon_zombie_dog";
+    }
+
     if (mon_templates.find(mon) != mon_templates.end())
     {
         return mon_templates[mon];
