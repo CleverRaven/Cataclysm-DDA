@@ -348,7 +348,7 @@
         "avoidance" : 15,
         "difficulty" : 20,
         "player_action" : "telepad",
-        "monster_action" : "telepad,"
+        "monster_action" : "telepad"
         "drops" : ["telepad"]
     },
     {
