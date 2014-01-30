@@ -839,7 +839,7 @@ void advanced_inventory::display(player * pp)
                 popup(_("You can't put items there"));
             }
             recalc = true;
-        } else if('m' == c || 'M' == c || '\n' == c || 'p' == c ) {
+        } else if('m' == c || 'M' == c || '\n' == c ) {
             // If the active screen has no item.
             if( panes[src].size == 0 ) {
                 continue;
@@ -848,7 +848,7 @@ void advanced_inventory::display(player * pp)
             }
             bool moveall = ('M' == c || '\n' == c );
             int destarea = panes[dest].area;
-            if ( panes[dest].area == isall || 'p' == c ) {
+            if ( panes[dest].area == isall ) {
                 bool valid=false;
                 uimenu m; /* using new uimenu class */
                 m.text=_("Select destination");
