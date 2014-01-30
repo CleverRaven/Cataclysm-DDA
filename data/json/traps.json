@@ -349,6 +349,7 @@
         "difficulty" : 20,
         "player_action" : "telepad",
         "monster_action" : "telepad"
+        "drops" : ["telepad"]
     },
     {
         "type" : "trap",
