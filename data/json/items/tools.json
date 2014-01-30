@@ -4661,6 +4661,30 @@
   },
 
   {
+    "id": "thermometer",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "blue",
+    "name": "thermometer",
+    "description": "A simple mercury-in-glass thermometer. Allows you to tell the ambient temperature. Do not break. Do not eat.",
+    "price": 10,
+    "material": ["plastic", "aluminium"],
+    "flags" : ["THERMOMETER"],
+    "weight": 100,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "NONE"
+  },
+
+  {
     "id": "pda_flashlight",
     "type": "TOOL",
     "symbol": ",",
