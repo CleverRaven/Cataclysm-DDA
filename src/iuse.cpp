@@ -4213,6 +4213,11 @@ if(it->type->id == "cot"){
                            g->m.tername(posx, posy).c_str());
   type = tr_caltrops;
   practice = 2;
+ } else if(it->type->id == "telepad"){
+  message << string_format("You set the telepad on the %s.",
+                           g->m.tername(posx, posy).c_str());
+  type = tr_telepad;
+  practice = 5;
   } else if(it->type->id == "funnel"){
   message << _("You place the funnel, waiting to collect rain.");
   type = tr_funnel;
