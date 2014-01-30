@@ -732,7 +732,7 @@ int iuse::fungicide(player *p, item *it, bool) {
         return false;
     }
     g->add_msg_if_player(p,_("You use your fungicide."));
-    if (p->has_disease("fungus") && (one_in(4))) {
+    if (p->has_disease("fungus") && (one_in(3))) {
         p->rem_disease("fungus");
         g->add_msg_if_player(p,_("You feel a burning sensation under your skin that quickly fades away."));
     }
