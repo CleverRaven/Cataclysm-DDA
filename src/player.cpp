@@ -10133,4 +10133,61 @@ m_size player::get_size() {
     return MS_MEDIUM;
 }
 
+Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
+{
+    if (is_player()) {
+        debugmsg("called player::auto_find_hostile_target for player themself!");
+        return NULL;
+    }
+    int t;
+    monster *target = NULL;
+    const int iff_dist = 24; // iff check triggers at this distance
+    int iff_hangle = 15; // iff safety margin (degrees). less accuracy, more paranoia
+    int closest = range + 1;
+    int u_angle = 0;         // player angle relative to turret
+    boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
+    bool iff_trig = false;   // player seen and within range of stray shots
+    int pldist = rl_dist(posx, posy, g->u.posx, g->u.posy);
+    if (pldist < iff_dist && g->sees_u(posx, posy, t)) {
+        iff_trig = true;
+        if (pldist < 3) {
+            iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
+        }
+        u_angle = g->m.coord_to_angle(posx, posy, g->u.posx, g->u.posy);
+    }
+    for (int i = 0; i < g->num_zombies(); i++) {
+        monster *m = &g->zombie(i);
+        if (m->is_hallucination()) {
+            // invisible to "normal" creatures
+            continue;
+        }
+        if (m->friendly != 0) {
+            // friendly to the player, not a target for us
+            continue;
+        }
+        if (!g->m.sees(posx, posy, m->posx(), m->posy(), range, t)) {
+            // can't see not sense it
+            continue;
+        }
+        int dist = rl_dist(posx, posy, m->posx(), m->posy());
+        if (dist >= closest) {
+            // Have a better target anyway, ignore this one.
+            continue;
+        }
+        if (iff_trig) {
+            int tangle = g->m.coord_to_angle(posx, posy, m->posx(), m->posy());
+            int diff = abs(u_angle - tangle);
+            if (diff + iff_hangle > 360 || diff < iff_hangle) {
+                // Player is in the way
+                boo_hoo++;
+                continue;
+            }
+        }
+        target = m;
+        closest = dist;
+        fire_t = t;
+    }
+    return target;
+}
+
 // --- End ---
