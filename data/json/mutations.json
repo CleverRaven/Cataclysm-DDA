@@ -707,7 +707,7 @@
         "type" : "mutation",
         "id" : "ANIMALDISCORD",
         "name" : "Animal Discord",
-        "points" : -1,
+        "points" : -2,
         "description" : "Most animals don't like you, and aggressive animals are more likely to attack you. This only applies to natural animals such as woodland creatures.",
         "starting_trait" : true,
         "cancels" : ["ANIMALEMPATH"],
