@@ -1942,6 +1942,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen",
+        "category" : "drugs",
         "name" : "mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -1972,6 +1973,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_plant",
+        "category" : "drugs",
         "name" : "plant mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2002,6 +2004,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_insect",
+        "category" : "drugs",
         "name" : "insect mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2032,6 +2035,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_spider",
+        "category" : "drugs",
         "name" : "spider mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2062,6 +2066,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_slime",
+        "category" : "drugs",
         "name" : "slime mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2092,6 +2097,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_fish",
+        "category" : "drugs",
         "name" : "fish mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2122,6 +2128,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_rat",
+        "category" : "drugs",
         "name" : "rat mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2152,6 +2159,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_beast",
+        "category" : "drugs",
         "name" : "beast mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2182,6 +2190,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_ursine",
+        "category" : "drugs",
         "name" : "ursine mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2212,6 +2221,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_feline",
+        "category" : "drugs",
         "name" : "feline mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2242,6 +2252,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_lupine",
+        "category" : "drugs",
         "name" : "lupine mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2272,6 +2283,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_cattle",
+        "category" : "drugs",
         "name" : "cattle mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2302,6 +2314,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_cephalopod",
+        "category" : "drugs",
         "name" : "cephalopod mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2332,6 +2345,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_bird",
+        "category" : "drugs",
         "name" : "bird mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2362,6 +2376,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_lizard",
+        "category" : "drugs",
         "name" : "lizard mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2392,6 +2407,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_troglobite",
+        "category" : "drugs",
         "name" : "troglobite mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2422,6 +2438,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_medical",
+        "category" : "drugs",
         "name" : "medical mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2452,6 +2469,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "purifier",
+        "category" : "drugs",
         "name" : "purifier",
         "weight" : 250,
         "color" : "pink",
@@ -2481,6 +2499,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_chimera",
+        "category" : "drugs",
         "name" : "chimera mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2511,6 +2530,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "mutagen_alpha",
+        "category" : "drugs",
         "name" : "alpha mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2541,6 +2561,7 @@
 	{
         "type" : "COMESTIBLE",
         "id" : "mutagen_elfa",
+        "category" : "drugs",
         "name" : "elfa mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2571,6 +2592,7 @@
 	{
         "type" : "COMESTIBLE",
         "id" : "mutagen_raptor",
+        "category" : "drugs",
         "name" : "raptor mutagen",
         "weight" : 250,
         "color" : "light_green",
@@ -2601,6 +2623,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen",
+        "category" : "drugs",
         "name" : "mutagenic serum",
         "weight" : 1,
         "color" : "green",
@@ -2631,6 +2654,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_plant",
+        "category" : "drugs",
         "name" : "plant serum",
         "weight" : 1,
         "color" : "yellow",
@@ -2661,6 +2685,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_insect",
+        "category" : "drugs",
         "name" : "insect serum",
         "weight" : 1,
         "color" : "green",
@@ -2691,6 +2716,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_spider",
+        "category" : "drugs",
         "name" : "spider serum",
         "weight" : 1,
         "color" : "dark_gray",
@@ -2721,6 +2747,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_slime",
+        "category" : "drugs",
         "name" : "slime serum",
         "weight" : 1,
         "color" : "green",
@@ -2751,6 +2778,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_fish",
+        "category" : "drugs",
         "name" : "fish serum",
         "weight" : 1,
         "color" : "cyan",
@@ -2781,6 +2809,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_rat",
+        "category" : "drugs",
         "name" : "rat serum",
         "weight" : 1,
         "color" : "brown",
@@ -2811,6 +2840,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_beast",
+        "category" : "drugs",
         "name" : "beast serum",
         "weight" : 1,
         "color" : "red",
@@ -2841,6 +2871,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_ursine",
+        "category" : "drugs",
         "name" : "ursine serum",
         "weight" : 1,
         "color" : "red",
@@ -2871,6 +2902,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_feline",
+        "category" : "drugs",
         "name" : "feline serum",
         "weight" : 1,
         "color" : "red",
@@ -2901,6 +2933,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_lupine",
+        "category" : "drugs",
         "name" : "lupine serum",
         "weight" : 1,
         "color" : "red",
@@ -2931,6 +2964,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_cattle",
+        "category" : "drugs",
         "name" : "cattle serum",
         "weight" : 1,
         "color" : "green",
@@ -2961,6 +2995,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_cephalopod",
+        "category" : "drugs",
         "name" : "cephalopod serum",
         "weight" : 1,
         "color" : "light_green",
@@ -2991,6 +3026,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_bird",
+        "category" : "drugs",
         "name" : "bird serum",
         "weight" : 1,
         "color" : "cyan",
@@ -3021,6 +3057,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_lizard",
+        "category" : "drugs",
         "name" : "lizard serum",
         "weight" : 1,
         "color" : "light_green",
@@ -3051,7 +3088,9 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_troglobite",
+        "category" : "drugs",
         "name" : "troglobite serum",
+        "category" : "drugs",
         "weight" : 1,
         "color" : "light_gray",
         "addiction_type" : "mutagen",
@@ -3081,7 +3120,9 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_alpha",
+        "category" : "drugs",
         "name" : "alpha serum",
+        "category" : "drugs",
         "weight" : 1,
         "color" : "light_green",
         "addiction_type" : "mutagen",
@@ -3111,7 +3152,9 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_medical",
+        "category" : "drugs",
         "name" : "medical serum",
+        "category" : "drugs",
         "weight" : 1,
         "color" : "light_green",
         "addiction_type" : "mutagen",
@@ -3141,7 +3184,9 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_chimera",
+        "category" : "drugs",
         "name" : "chimera serum",
+        "category" : "drugs",
         "weight" : 1,
         "color" : "red",
         "addiction_type" : "mutagen",
@@ -3171,7 +3216,9 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_elfa",
+        "category" : "drugs",
         "name" : "elf-a serum",
+        "category" : "drugs",
         "weight" : 1,
         "color" : "light_green",
         "addiction_type" : "mutagen",
@@ -3201,7 +3248,9 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iv_mutagen_raptor",
+        "category" : "drugs",
         "name" : "raptor serum",
+        "category" : "drugs",
         "weight" : 1,
         "color" : "green",
         "addiction_type" : "mutagen",
@@ -3232,6 +3281,7 @@
         "type" : "COMESTIBLE",
         "id" : "iv_purifier",
         "name" : "purifier serum",
+        "category" : "drugs",
         "weight" : 1,
         "color" : "magenta",
         "addiction_type" : "mutagen",
