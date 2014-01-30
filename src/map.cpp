@@ -852,7 +852,7 @@ bool map::displace_water (const int x, const int y)
             for (int tx = -1; tx <= 1; tx++)
                 for (int ty = -1; ty <= 1; ty++)
                 {
-                    if ((!tx && !ty) 
+                    if ((!tx && !ty)
                             || move_cost_ter_furn(x + tx, y + ty) == 0
                             || has_flag(TFLAG_DEEP_WATER, x + tx, y + ty))
                         continue;
@@ -2542,8 +2542,8 @@ void map::process_active_items_in_vehicles(const int nonant)
     for (int v = vehicles->size() - 1; v >= 0; v--) {
         vehicle *next_vehicle = (*vehicles)[v];
         std::vector<int> cargo_parts = next_vehicle->all_parts_with_feature(VPFLAG_CARGO, false);
-        for(std::vector<int>::iterator part_index = cargo_parts.begin();
-                part_index != cargo_parts.end(); part_index++) {
+        for(std::vector<int>::reverse_iterator part_index = cargo_parts.rbegin();
+                part_index != cargo_parts.rend(); part_index++) {
             std::vector<item> *items_in_part = &(next_vehicle->parts[*part_index].items);
             int mapx = next_vehicle->posx + next_vehicle->parts[*part_index].precalc_dx[0];
             int mapy = next_vehicle->posy + next_vehicle->parts[*part_index].precalc_dy[0];
