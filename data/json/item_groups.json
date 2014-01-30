@@ -1360,6 +1360,7 @@
       ["thorazine", 7],
       ["prozac", 10],
       ["antibiotics", 25],
+      ["antifungal", 2],
       ["syringe", 8]
     ]
   },{
@@ -1493,6 +1494,7 @@
       ["oxy_powder", 5],
       ["boots_rubber", 20],
       ["charcoal", 5],
+      ["fungicide", 2],
       ["soap", 20]
     ]
   },{
@@ -1546,6 +1548,7 @@
       ["tool_belt", 30],
       ["knee_pads", 20],
       ["cu_pipe", 50],
+      ["fungicide", 5],
       ["charcoal", 5]
     ]
   },{
@@ -1643,6 +1646,7 @@
       ["textbook_fabrication", 12],
       ["vac_sealer", 10],
       ["sm_extinguisher", 10],
+      ["fungicide", 5],
       ["tool_belt", 30]
     ]
   },{
