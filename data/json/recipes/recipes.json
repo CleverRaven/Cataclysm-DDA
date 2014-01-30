@@ -19300,27 +19300,47 @@
     ]
   ]
 },{
-    "id": "telepad",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "dark_gray",
-    "name": "teleport pad",
-    "description": "This is a kit for a teleporter trap consisting of a teleporter and a solar cell that is triggered when stepped upon.",
-    "price": 90,
-    "material": "plastic", "aluminum",
-    "weight": 2500,
-    "volume": 1,
-    "bashing": 1,
-    "cutting": 8,
-    "to_hit": -4,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "SET_TRAP"
-  },{
+        "type" : "recipe",
+	"result": "telepad",
+	"category": "CC_OTHER",
+	"subcategory": "CSC_OTHER_TRAPS",
+	"skill_used": "traps",
+	"skills_required": [ "electronics", 8 ],
+	"difficulty": 5,
+	"time": 4500,
+	"reversible": true,
+	"autolearn": false,
+	"decomp_learn": 5,
+	"book_learn": [[ "recipe_lab_elec", 8 ]],
+	"tools": [
+		[
+			[ "screwdriver", -1 ],
+			[ "toolset", -1 ]
+		],
+		[
+			[ "wrench", -1 ],
+			[ "toolset", -1 ]
+		],
+		[
+			[ "soldering_iron", 16 ],
+			[ "toolset", 2 ]
+		]
+		],
+	"components": [
+		[
+			[ "teleporter", 1 ]
+		],
+		[
+			[ "amplifier", 1 ]
+		],
+		[
+			[ "solar_cell", 1 ]
+		],
+		[
+			[ "cable", 3 ]
+		]
+	]
+},{
         "type" : "recipe",
   "result": "brazier",
   "category": "CC_OTHER",
