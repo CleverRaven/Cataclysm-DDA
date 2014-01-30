@@ -19300,6 +19300,27 @@
     ]
   ]
 },{
+    "id": "telepad",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "teleport pad",
+    "description": "This is a kit for a teleporter trap consisting of a teleporter and a solar cell that is triggered when stepped upon.",
+    "price": 90,
+    "material": "plastic", "aluminum",
+    "weight": 2500,
+    "volume": 1,
+    "bashing": 1,
+    "cutting": 8,
+    "to_hit": -4,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "SET_TRAP"
+  },{
         "type" : "recipe",
   "result": "brazier",
   "category": "CC_OTHER",
