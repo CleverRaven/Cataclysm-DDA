@@ -388,16 +388,6 @@ void weather_effect::acid()
         }
     }
 
-    if (g->levz >= 0) {
-        for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
-            for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
-                if (!g->m.has_flag("DIGGABLE", x, y) && !g->m.has_flag("NOITEM", x, y) &&
-                      g->m.move_cost(x, y) > 0 && g->m.is_outside(x, y) && one_in(400)) {
-                    g->m.add_field(x, y, fd_acid, 1);
-                }
-            }
-        }
-    }
     for (int i = 0; i < g->num_zombies(); i++) {
         if (g->m.is_outside(g->zombie(i).posx(), g->zombie(i).posy())) {
             if (!g->zombie(i).has_flag(MF_ACIDPROOF)) {
