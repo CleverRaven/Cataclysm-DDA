@@ -208,8 +208,8 @@ void cata_tiles::load_tileset(std::string path)
         SDL_FreeSurface(buffer);
     }
 
-    tile_ratiox = (tile_width/fontwidth);
-    tile_ratioy = (tile_height/fontheight);
+    tile_ratiox = ((float)tile_width/(float)fontwidth);
+    tile_ratioy = ((float)tile_height/(float)fontheight);
 
     terrain_term_x = OPTIONS["TERMINAL_X"] - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
     terrain_term_y = OPTIONS["TERMINAL_Y"];
