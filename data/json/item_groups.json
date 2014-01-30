@@ -603,6 +603,7 @@
       ["bearing", 1],
       ["atomic_light", 1],
       ["alarmclock", 10],
+      ["fungicide", 10],
       ["charcoal", 20]
     ]
   },{
@@ -1359,6 +1360,7 @@
       ["thorazine", 7],
       ["prozac", 10],
       ["antibiotics", 25],
+      ["antifungal", 2],
       ["syringe", 8]
     ]
   },{
@@ -1492,6 +1494,7 @@
       ["oxy_powder", 5],
       ["boots_rubber", 20],
       ["charcoal", 5],
+      ["fungicide", 2],
       ["soap", 20]
     ]
   },{
@@ -1545,6 +1548,7 @@
       ["tool_belt", 30],
       ["knee_pads", 20],
       ["cu_pipe", 50],
+      ["fungicide", 5],
       ["charcoal", 5]
     ]
   },{
@@ -1642,6 +1646,7 @@
       ["textbook_fabrication", 12],
       ["vac_sealer", 10],
       ["sm_extinguisher", 10],
+      ["fungicide", 5],
       ["tool_belt", 30]
     ]
   },{
@@ -3234,6 +3239,7 @@
       ["fungicide", 10],
       ["oxygen_tank", 40],
       ["smoxygen_tank", 10],
+      ["antifungal", 5],
       ["jar_3l_glass", 15]
     ]
   },{
@@ -6074,6 +6080,7 @@
       ["rx12_injector", 5],
       ["ampoule", 10],
       ["optical_cloak", 2],
+      ["antifungal", 1],
       ["bot_laserturret", 2]
     ]
   },{
@@ -6179,6 +6186,7 @@
       ["heroin", 1],
       ["crack", 4],
       ["crackpipe", 7],
+      ["antifungal", 1],
       ["lsd", 6]
     ]
   },{
@@ -6783,6 +6791,8 @@
       ["pickaxe", 1],
       ["makeshift_machete", 4],
       ["flamethrower_crude", 6],
+      ["fungicide", 10],
+      ["antifungal", 1],
       ["flamethrower_simple", 2]
     ]
   },{
