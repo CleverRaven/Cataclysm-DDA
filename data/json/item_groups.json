@@ -603,6 +603,7 @@
       ["bearing", 1],
       ["atomic_light", 1],
       ["alarmclock", 10],
+      ["fungicide", 10],
       ["charcoal", 20]
     ]
   },{
@@ -3234,6 +3235,7 @@
       ["fungicide", 10],
       ["oxygen_tank", 40],
       ["smoxygen_tank", 10],
+      ["antifungal", 5],
       ["jar_3l_glass", 15]
     ]
   },{
@@ -6074,6 +6076,7 @@
       ["rx12_injector", 5],
       ["ampoule", 10],
       ["optical_cloak", 2],
+      ["antifungal", 1],
       ["bot_laserturret", 2]
     ]
   },{
@@ -6179,6 +6182,7 @@
       ["heroin", 1],
       ["crack", 4],
       ["crackpipe", 7],
+      ["antifungal", 1],
       ["lsd", 6]
     ]
   },{
@@ -6783,6 +6787,8 @@
       ["pickaxe", 1],
       ["makeshift_machete", 4],
       ["flamethrower_crude", 6],
+      ["fungicide", 10],
+      ["antifungal", 1],
       ["flamethrower_simple", 2]
     ]
   },{
