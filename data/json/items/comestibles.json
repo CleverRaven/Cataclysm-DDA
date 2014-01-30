@@ -1019,7 +1019,7 @@
         "heal" : 1,
         "addiction_potential" : 0,
         "nutrition" : 80,
-        "description" : "A mushy grey semi-liquid soup made from mushrooms. It tastes good on it's own but it's also useful in cooking.",
+        "description" : "A mushy grey semi-liquid soup made from mushrooms. It tastes good on its own but it's also useful in cooking.",
         "price" : 45,
         "material" : "veggy",
         "tool" : "null",
