@@ -19386,6 +19386,47 @@
   ]
 },{
         "type" : "recipe",
+	"result": "telepad",
+	"category": "CC_OTHER",
+	"subcategory": "CSC_OTHER_TRAPS",
+	"skill_used": "traps",
+	"skills_required": [ "electronics", 8 ],
+	"difficulty": 5,
+	"time": 4500,
+	"reversible": true,
+	"autolearn": false,
+	"decomp_learn": 5,
+	"book_learn": [[ "recipe_lab_elec", 8 ]],
+	"tools": [
+		[
+			[ "screwdriver", -1 ],
+			[ "toolset", -1 ]
+		],
+		[
+			[ "wrench", -1 ],
+			[ "toolset", -1 ]
+		],
+		[
+			[ "soldering_iron", 16 ],
+			[ "toolset", 2 ]
+		]
+		],
+	"components": [
+		[
+			[ "teleporter", 1 ]
+		],
+		[
+			[ "amplifier", 1 ]
+		],
+		[
+			[ "solar_cell", 1 ]
+		],
+		[
+			[ "cable", 3 ]
+		]
+	]
+},{
+        "type" : "recipe",
   "result": "brazier",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
