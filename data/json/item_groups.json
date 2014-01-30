@@ -860,7 +860,15 @@
       ["m_fishspear", 2],
       ["c_fishspear", 2],
       ["diveknife", 6],
-      ["u_shotgun", 5]
+      ["u_shotgun", 5],
+      ["cw-24m", 3],
+      ["cw-24", 3],
+      ["545", 5],
+      ["654", 3],
+      ["654t", 1],
+      ["545_ap", 3],
+      ["545_casing", 5],
+      ["654_casing", 5]
     ]
   },{
     "type" : "item_group",
@@ -2160,7 +2168,11 @@
       ["8mm_caseless", 4],
       ["8mm_hvp", 2],
       ["5x50dart", 6],
-      ["8mm_inc", 2]
+      ["8mm_inc", 2],
+      ["654", 6],
+      ["654t", 3],
+      ["545", 7],
+      ["545_ap", 4]
     ]
   },{
     "type" : "item_group",
@@ -2208,7 +2220,9 @@
       ["remington_700", 14],
       ["sks", 6],
       ["ruger_mini", 12],
-      ["savage_111f", 10]
+      ["savage_111f", 10],
+      ["cw-24", 6],
+      ["cw-24m", 8]
     ]
   },{
     "type" : "item_group",
@@ -2245,7 +2259,9 @@
       ["rm88_battle_rifle", 2],
       ["rm51_assault_rifle", 1],
       ["rm614_lmg", 1],
-      ["rm2000_smg", 1]
+      ["rm2000_smg", 1],
+      ["svs-24", 2],
+      ["svs-24c", 2]
     ]
   },{
     "type" : "item_group",
@@ -2314,7 +2330,11 @@
       ["needlegun", 4],
       ["flaregun", 8],
       ["signal_flare", 5],
-      ["blowgun", 5]
+      ["blowgun", 5],
+      ["svs-24", 5],
+      ["svs-24c", 5],
+      ["cw-24", 8],
+      ["cw-24m", 9]
     ]
   },{
     "type" : "item_group",
@@ -2408,7 +2428,9 @@
       ["cu_pipe", 10],
       ["5x50_hull", 8],
       ["waterproof_gunmod", 8],
-      ["improve_sights", 20]
+      ["improve_sights", 20],
+      ["654_casing", 10],
+      ["545_casing", 10]
     ]
   },{
     "type" : "item_group",
@@ -2965,7 +2987,8 @@
       ["smokebomb", 10],
       ["oxygen_tank", 5],
       ["jack", 2],
-      ["smoxygen_tank", 10]
+      ["smoxygen_tank", 10],
+      ["recipe_igm", 4]
     ]
   },{
     "type" : "item_group",
@@ -3006,7 +3029,10 @@
       ["bondage_mask", 1],
       ["pie_human", 5],
       ["bobburger", 5],
-      ["cheeseburgerhuman", 5]
+      ["cheeseburgerhuman", 5],
+      ["recipe_igm, 5],
+      ["cw-24hack, 3],
+      ["cw-24m_hack, 3]
     ]
   },{
     "type" : "item_group",
@@ -3096,7 +3122,9 @@
       ["ak47", 7],
       ["saiga_sawn", 5],
       ["arx160", 1],
-      ["hk_g3", 10]
+      ["hk_g3", 10],
+      ["cw-24", 7],
+      ["cw-24m", 7]
     ]
   },{
     "type" : "item_group",
@@ -3122,7 +3150,11 @@
       ["sks", 6],
       ["ppsh", 4],
       ["saiga_12", 5],
-      ["RPG", 1]
+      ["RPG", 1],
+      ["cw-24", 8],
+      ["cw-24m", 8],
+      ["svs-24", 6],
+      ["svs-24c", 6]
     ]
   },{
     "type" : "item_group",
@@ -3612,7 +3644,9 @@
       ["alloy_plate", 10],
       ["money_bundle", 90],
       ["pocketwatch", 5],
-      ["sf_watch", 10]
+      ["sf_watch", 10],
+      ["svs-24", 6],
+      ["svs-24c", 2]
     ]
   },{
     "type" : "item_group",
@@ -6074,7 +6108,10 @@
       ["rx12_injector", 5],
       ["ampoule", 10],
       ["optical_cloak", 2],
-      ["bot_laserturret", 2]
+      ["bot_laserturret", 2],
+      ["svs-24", 3],
+      ["svs-24c", 3],
+      ["654t", 4]
     ]
   },{
     "type" : "item_group",
@@ -6148,7 +6185,11 @@
       ["cu_pipe", 5],
       ["8mm_hvp", 2],
       ["signal_flare", 5],
-      ["8mm_inc", 2]
+      ["8mm_inc", 2],
+      ["654", 5],
+      ["654t", 2],
+      ["545", 6],
+      ["545_ap", 3]
     ]
   },{
     "type" : "item_group",

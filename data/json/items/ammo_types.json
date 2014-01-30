@@ -132,6 +132,18 @@
         "default" : "762_m43"
     },
     {
+		"type" : "ammunition_type",
+		"id" : "654",
+		"name" : "6.54x42mm",
+		"default" : "654"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "545",
+        "name" : "5.45x39mm",
+        "default" : "545"   
+    },   
+    {
         "type" : "ammunition_type",
         "id" : "223",
         "name" : ".223",
