@@ -388,7 +388,7 @@
       { "monster" : "mon_zombie", "freq" : 1, "cost_multiplier": 7, "pack_size": [5,10]},
       { "monster" : "mon_zombie", "freq" : 1, "cost_multiplier": 13, "pack_size": [15,20]},
       { "monster" : "mon_zombie", "freq" : 1, "cost_multiplier": 20, "pack_size": [25,30]},
-	  { "monster" : "mon_zombie_fat", "freq" : 200, "cost_multiplier": 2},
+	  { "monster" : "mon_zombie_fat", "freq" : 75, "cost_multiplier": 2},
 	  { "monster" : "mon_zombie_fat", "freq" : 3, "cost_multiplier": 7, "pack_size": [3,5]},
 	  { "monster" : "mon_zombie_tough", "freq" : 75, "cost_multiplier": 3},
 	  { "monster" : "mon_zombie_child", "freq" : 75, "cost_multiplier" : 1 },
