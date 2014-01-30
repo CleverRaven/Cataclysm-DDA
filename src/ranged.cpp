@@ -293,7 +293,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
                 // search for monsters in radius
                 if (rl_dist(z.posx(), z.posy(), tarx, tary) <= std::min(2 + skillLevel("gun"), weaponrange) &&
                         rl_dist(xpos(),ypos(),z.xpos(),z.ypos()) <= weaponrange &&
-                        g->pl_sees(&g->u, &z, dummy) ) {
+                        sees(&z, dummy) ) {
                     if (!z.is_dead_state())
                         new_targets.push_back(point(z.xpos(), z.ypos())); // oh you're not dead and I don't like you. Hello!
                 }

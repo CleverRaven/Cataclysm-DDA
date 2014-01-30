@@ -187,6 +187,24 @@ public:
  bool has_nv();
 
  /**
+  * Check if this creature can see the square at (x,y).
+  * Includes checks for line-of-sight and light.
+  * @param t The t output of map::sees.
+  */
+ bool sees(int x, int y);
+ bool sees(int x, int y, int &t);
+ /**
+  * Check if this creature can see the critter.
+  * Includes checks for simple critter visibility
+  * (digging/submerged) and if this can see the square
+  * the creature is on.
+  * If this is not the player, it ignores critters that are
+  * hallucinations.
+  * @param t The t output of map::sees.
+  */
+ bool sees(monster *critter);
+ bool sees(monster *critter, int &t);
+ /**
   * For fake-players (turrets, mounted turrets) this functions
   * chooses a target. This is for creatures that are friendly towards
   * the player and therefor choose a target that is hostile

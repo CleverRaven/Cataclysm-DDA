@@ -10157,16 +10157,12 @@ Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
     }
     for (int i = 0; i < g->num_zombies(); i++) {
         monster *m = &g->zombie(i);
-        if (m->is_hallucination()) {
-            // invisible to "normal" creatures
-            continue;
-        }
         if (m->friendly != 0) {
             // friendly to the player, not a target for us
             continue;
         }
-        if (!g->m.sees(posx, posy, m->posx(), m->posy(), range, t)) {
-            // can't see not sense it
+        if (!sees(m, t)) {
+            // can't see nor sense it
             continue;
         }
         int dist = rl_dist(posx, posy, m->posx(), m->posy());
@@ -10188,6 +10184,66 @@ Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
         fire_t = t;
     }
     return target;
+}
+
+bool player::sees(int x, int y)
+{
+    int dummy = 0;
+    return sees(x, y, dummy);
+}
+
+bool player::sees(int x, int y, int &t)
+{
+    const int s_range = sight_range(g->light_level());
+    static const std::string str_bio_night("bio_night");
+    const int wanted_range = rl_dist(posx, posy, x, y);
+
+    if (wanted_range < clairvoyance()) {
+        return true;
+    }
+    bool can_see = false;
+    if (wanted_range <= s_range ||
+        (wanted_range <= sight_range(DAYLIGHT_LEVEL) &&
+            g->m.light_at(x, y) >= LL_LOW)) {
+        if (is_player()) {
+            // uses the seen cache in map
+            can_see = g->m.pl_sees(posx, posy, x, y, wanted_range);
+        } else {
+            can_see = g->m.sees(posx, posy, x, y, s_range, t);
+        }
+    }
+    if (has_active_bionic(str_bio_night) && wanted_range < 15 && wanted_range > sight_range(1)) {
+        return false;
+    }
+    return can_see;
+}
+
+bool player::sees(monster *critter)
+{
+    int dummy = 0;
+    return sees(critter, dummy);
+}
+
+bool player::sees(monster *critter, int &t)
+{
+    if (!is_player() && critter->is_hallucination()) {
+        // hallucinations are only visible for the player
+        return false;
+    }
+    const int cx = critter->posx();
+    const int cy = critter->posy();
+    int dist = rl_dist(posx, posy, cx, cy);
+    if (dist <= 3 && has_trait("ANTENNAE")) {
+        return true;
+    }
+    if (dist > 1 && critter->digging() && !has_active_bionic("bio_ground_sonar")) {
+        return false; // Can't see digging monsters until we're right next to them
+    }
+    if (g->m.is_divable(cx, cy) && critter->can_submerge() && !is_underwater()) {
+        //Monster is in the water and submerged, and we're out of/above the water
+        return false;
+    }
+    return sees(cx, cy, t);
 }
 
 // --- End ---
