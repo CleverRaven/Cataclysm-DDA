@@ -2188,7 +2188,7 @@ int iuse::scissors(player *p, item *it, bool t)
         if(!query_yn(_("You are wielding that, are you sure?"))) {
             return 0;
         }
-    } else if (p->has_weapon_or_armor(cut->invlet))
+    } else if (pos < -1)
     {
         if(!query_yn(_("You're wearing that, are you sure?"))) {
             return 0;
@@ -5901,7 +5901,7 @@ int iuse::knife(player *p, item *it, bool t)
         if(!query_yn(_("You are wielding that, are you sure?"))) {
             return 0;
         }
-    } else if (p->has_weapon_or_armor(cut->invlet))
+    } else if (pos < -1)
     {
         if(!query_yn(_("You're wearing that, are you sure?"))) {
             return 0;
