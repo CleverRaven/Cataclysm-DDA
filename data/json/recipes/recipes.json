@@ -9638,12 +9638,11 @@
       [ "chemistry_set", 2 ]
     ]
   ],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
   "components": [
     [
-      [ "fighter_sting", 1 ]
+      [ "fighter_sting", 1 ],
+      [ "disinfectant", 2 ],
+      [ "bleach", 4 ]
     ],
     [
       [ "water_clean", 2 ]
