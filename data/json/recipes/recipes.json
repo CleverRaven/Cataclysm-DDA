@@ -1798,6 +1798,83 @@
     ]
   ]
 },{
+      "type" : "recipe",
+  "result": "cw-24hack",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 3],
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["recipe_igm", 1]],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ]
+    ],
+    [
+      [ "welder", 30 ],
+      [ "welder_crude", 40]
+    ]
+  ],
+  "components": [
+    [
+      [ "cw-24", 1 ]
+    ],
+    [
+      [ "pipe", 1]
+    ],
+    [
+      [ "sheet_metal", 1],
+      [ "scrap", 2]
+    ]
+    
+  ]
+},{
+      "type" : "recipe",
+  "result": "cw-24m_hack",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 3],
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["recipe_igm", 2]],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ]
+    ],
+    [
+      [ "welder", 30 ],
+      [ "welder_crude", 40]
+    ]
+  ],
+  "components": [
+    [
+      [ "cw-24m", 1 ]
+    ],
+    [
+      [ "pipe", 1]
+    ],
+    [
+      [ "sheet_metal", 1],
+      [ "scrap", 2]
+    ]
+    
+  ]
+
+},{
         "type" : "recipe",
   "result": "hand_crossbow",
   "category": "CC_WEAPON",
@@ -4557,7 +4634,8 @@
       [ "cu_pipe", 4 ]
     ]
   ]
-},{
+},
+{
         "type" : "recipe",
   "result": "762_m87",
   "category": "CC_AMMO",
@@ -4602,6 +4680,140 @@
       [ "cu_pipe", 4 ]
     ]
   ]
+},{
+        "type" : "recipe",
+   "result": "654",
+   "category": "CC_AMMO",
+   "subcategory": "CSC_AMMO_BULLETS",
+   "skill_used": "fabrication",
+   "skills_required": [ "gun", 3],
+   "difficulty": 5,
+   "time": 40000,
+   "reversible": false,
+   "autolearn": false,
+   "book_learn": [["recipe_bullets", 3 ] , [ "mag_rifle", 4 ]],
+   "tools": [
+      [
+        [ "press", -1 ]
+      ],
+      [
+        [ "fire", -1 ],
+        [ "toolset", 1 ],
+        [ "press", 2 ]
+      ]
+    ],
+    "components": [
+       [
+         [ "654_casing", 60 ]
+       ],
+       [
+         [ "smrifle_primer", 60 ]
+       ],
+       [
+         [ "gunpowder", 480 ]
+       ],
+       [
+         [ "lead", 160 ],
+         [ "gold_small", 160 ],
+         [ "silver_small", 160 ],
+         [ "tin", 160 ],
+         [ "bismuth", 160 ],
+         [ "solder_wire", 160 ]
+       ],
+       [
+         [ "cu_pipe", 4]
+       ]
+     ]
+},{
+        "type" : "recipe",
+  "result": "545",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_BULLETS",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 2],
+  "difficulty": 3,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2], [ "mag_rifle", 3 ]],
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "545_casing", 60 ]
+    ],
+    [
+      [ "smrifle_primer", 60 ]
+    ],
+    [
+      [ "gunpowder", 200 ]
+    ],
+    [
+      [ "lead", 80 ],
+      [ "gold_small", 80 ],
+      [ "silver_small", 80 ],
+      [ "tin", 80 ],
+      [ "bismuth", 80 ],
+      [ "solder_wire", 80]
+    ],
+    [
+      [ "cu_pipe", 4]
+    ]
+  ]
+
+},{
+        "type" : "recipe",
+  "result": "545_ap",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_BULLETS",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 3],
+  "difficulty": 4,
+  "time": 28000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2], [ "mag_rifle", 3 ]],
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "545_casing", 60 ]
+    ],
+    [
+      [ "smrifle_primer", 60 ]
+    ],
+    [
+      [ "gunpowder", 200 ]
+    ],
+    [
+      [ "lead", 100 ],
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ],
+      [ "tin", 100 ],
+      [ "bismuth", 100 ],
+      [ "solder_wire", 100]
+    ],
+    [
+      [ "cu_pipe", 4]
+    ]
+  ]
+
 },{
         "type" : "recipe",
   "result": "223",
