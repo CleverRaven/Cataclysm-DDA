@@ -128,8 +128,9 @@ struct jmapgen_place_special {
     jmapgen_int x;
     jmapgen_int y;
     jmapgen_place_special_op op;
-    jmapgen_place_special(jmapgen_int ix, jmapgen_int iy, jmapgen_place_special_op iop
-        ) : x(ix), y(iy), op(iop) {}
+    jmapgen_int amount;
+    jmapgen_place_special(jmapgen_int ix, jmapgen_int iy, jmapgen_place_special_op iop, jmapgen_int iamount
+        ) : x(ix), y(iy), op(iop), amount(iamount) {}
     void apply( map * m );
 
 };

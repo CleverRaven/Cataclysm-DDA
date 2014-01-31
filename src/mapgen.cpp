@@ -515,6 +515,7 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
     while ( parray.has_more() ) {
         jmapgen_int tmp_x(0,0);
         jmapgen_int tmp_y(0,0);
+        jmapgen_int tmp_amt(0,0);
         jmapgen_place_special_op tmpop = JMAPGEN_PLACESPECIAL_NULL;
         JsonObject jsi = parray.next_object();
         if ( jsi.has_string("type") ) {
@@ -540,7 +541,8 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
         if ( ! load_jmapgen_int(jsi, "y", tmp_y.val, tmp_y.valmax) ) {
             jsi.throw_error("  place_specials: invalid value for 'y'");
         }
-        jmapgen_place_special new_special( tmp_x, tmp_y, tmpop );
+        load_jmapgen_int(jsi, "amount", tmp_amt.val, tmp_amt.valmax);
+        jmapgen_place_special new_special( tmp_x, tmp_y, tmpop, tmp_amt );
         place_specials.push_back( new_special );
         tmpval = "";
     }
@@ -802,18 +804,25 @@ void jmapgen_spawn_item::apply( map * m ) {
 }
 
 void jmapgen_place_special::apply( map * m ) {
+    int charges = amount.get();
     switch(op) {
         case JMAPGEN_PLACESPECIAL_TOILET: {
             m->furn_set(x.get(), y.get(), f_null);
-            m->place_toilet(x.get(), y.get());
+            if (charges == 0)
+                m->place_toilet(x.get(), y.get());
+            else
+                m->place_toilet(x.get(), y.get(), charges );
         } break;
         case JMAPGEN_PLACESPECIAL_GASPUMP: {
             m->furn_set(x.get(), y.get(), f_null);
-            m->place_gas_pump(x.get(), y.get(), rng(10000, 50000));
+            if (charges == 0)
+                m->place_gas_pump(x.get(), y.get(), rng(10000, 50000));
+            else
+                m->place_toilet(x.get(), y.get(), charges );
         } break;
         case JMAPGEN_PLACESPECIAL_VENDINGMACHINE: {
             m->furn_set(x.get(), y.get(), f_null);
-            m->place_vending(x.get(), y.get(), rng(0, 1));
+            m->place_vending(x.get(), y.get(), charges);
         } break;
         case JMAPGEN_PLACESPECIAL_NULL:
         default:
