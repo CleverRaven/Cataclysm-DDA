@@ -584,7 +584,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                     message.c_str(), z.name().c_str(), dam);
             }
             if (z.hurt(dam, real_dam)) {
-                kill_mon(zid, !p.is_npc());
+                z.die(&p);
             }
             return;
         } else { // No monster hit, but the terrain might be.
