@@ -2081,6 +2081,14 @@ int iuse::fishing_rod_basic (player *p, item *it, bool) {
 
     return 0;
   }
+  // can't use g->om_global_location, because that gives the position
+  // of the player, not of (dirx, diry)
+  const int cursx = (g->levx + dirx / SEEX) / 2 + g->cur_om->pos().x * OMAPX;
+  const int cursy = (g->levy + diry / SEEY) / 2 + g->cur_om->pos().y * OMAPY;
+  if (!otermap[overmap_buffer.ter(cursx, cursy, g->levz)].is_river) {
+    g->add_msg_if_player(p, _("That water does not contain any fish, try a river instead."));
+    return 0;
+  }
 
   g->add_msg_if_player(p, _("You throw your fishing line and wait to hook something..."));
 
