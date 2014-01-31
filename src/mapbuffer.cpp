@@ -164,10 +164,8 @@ void mapbuffer::save()
         // A segment is a chunk of 32x32 submap quads.
         // We're breaking them into subdirectories so there aren't too many files per directory.
         // Might want to make a set for this one too so it's only checked once per save().
-        // Have to manually adjust for negative values here since we don't have a method predefined.
         std::stringstream segment_path;
-        tripoint segment_addr( (om_addr.x - ((om_addr.x < 0) * 33)) / 32,
-                               (om_addr.y - ((om_addr.y < 0) * 33)) / 32, om_addr.z );
+        tripoint segment_addr = overmapbuffer::omt_to_seg_copy( om_addr );
         segment_path << map_directory.str() << "/" << segment_addr.x << "." <<
             segment_addr.y << "." << segment_addr.z;
         assure_dir_exist( segment_path.str().c_str() );
