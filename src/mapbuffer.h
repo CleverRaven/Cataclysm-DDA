@@ -73,17 +73,16 @@ class mapbuffer
         int size();
 
     private:
-        int unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
-                              std::map<int, int> &furn_key, std::map<int, int> &trap_key );
-        void unserialize_submaps( std::ifstream &fin, const int num_submaps,
-                                  std::map<int, int> &ter_key,
-                                  std::map<int, int> &furn_key,
-                                  std::map<int, int> &trap_key );
+        int unserialize_keys( std::ifstream &fin );
+        void unserialize_submaps( std::ifstream &fin, const int num_submaps );
         bool unserialize_legacy(std::ifstream &fin);
         void save_quad( std::ofstream &fout, const tripoint &om_addr );
         std::map<tripoint, submap *, pointcomp> submaps;
         std::list<submap *> submap_list;
         bool dirty;
+        std::map<int, int> ter_key;
+        std::map<int, int> furn_key;
+        std::map<int, int> trap_key;
 };
 
 extern mapbuffer MAPBUFFER;

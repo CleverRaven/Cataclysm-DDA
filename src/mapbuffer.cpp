@@ -305,9 +305,6 @@ void mapbuffer::load(std::string worldname)
 {
     std::ifstream fin;
     std::stringstream worldmap;
-    std::map<int, int> ter_key;
-    std::map<int, int> furn_key;
-    std::map<int, int> trap_key;
     int num_submaps = 0;
 
     worldmap << world_generator->all_worlds[worldname]->world_path << "/maps.txt";
@@ -316,8 +313,8 @@ void mapbuffer::load(std::string worldname)
     fin.open( worldmap.str().c_str() );
     if( fin.is_open() ) {
         // If we have a maps.txt, load it, then get rid of it.
-        num_submaps = unserialize_keys( fin, ter_key, furn_key, trap_key );
-        unserialize_submaps( fin, num_submaps, ter_key, furn_key, trap_key );
+        num_submaps = unserialize_keys( fin );
+        unserialize_submaps( fin, num_submaps );
         fin.close();
         save();
         unlink( worldmap.str().c_str() );
@@ -334,7 +331,7 @@ void mapbuffer::load(std::string worldname)
         // Currently not having a key file is fatal.
         return;
     }
-    num_submaps = unserialize_keys( fin, ter_key, furn_key, trap_key );
+    num_submaps = unserialize_keys( fin );
     fin.close();
 
     std::vector<std::string> map_files = file_finder::get_files_from_path( ".map", world_map_path.str(),
@@ -345,13 +342,12 @@ void mapbuffer::load(std::string worldname)
     for( std::vector<std::string>::iterator file = map_files.begin();
          file != map_files.end(); ++file ) {
         fin.open( file->c_str() );
-        unserialize_submaps( fin, num_submaps, ter_key, furn_key, trap_key );
+        unserialize_submaps( fin, num_submaps );
         fin.close();
     }
 }
 
-int mapbuffer::unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
-                                  std::map<int, int> &furn_key, std::map<int, int> &trap_key )
+int mapbuffer::unserialize_keys( std::ifstream &fin )
 {
     if ( fin.peek() == '#' ) {
         std::string vline;
@@ -446,10 +442,7 @@ int mapbuffer::unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key
     return num_submaps;
 }
 
-void mapbuffer::unserialize_submaps( std::ifstream &fin, const int num_submaps,
-                                     std::map<int, int> &ter_key,
-                                     std::map<int, int> &furn_key,
-                                     std::map<int, int> &trap_key )
+void mapbuffer::unserialize_submaps( std::ifstream &fin, const int num_submaps )
 {
     std::map<tripoint, submap *>::iterator it;
     int num_loaded = 0;
