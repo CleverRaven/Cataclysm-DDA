@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+void help_draw_dir (WINDOW *win, int line_y = 0);
 void help_main     (WINDOW *win);
 void help_movement (WINDOW *win);
 void help_driving  (WINDOW *win);

@@ -134,9 +134,13 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
 
 void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, int begin_y)
 {
-    werase(w);
     int height = getmaxy(w);
     int width = getmaxx(w);
+
+    //Do not erase the current screen if it's not first line of the text
+    if (begin_y == 0) {
+        werase(w);
+    }
 
     /* TODO:
         issue:     # of lines in the paragraph > height -> inf. loop;

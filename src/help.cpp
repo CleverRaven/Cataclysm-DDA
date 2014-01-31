@@ -8,11 +8,34 @@
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
-#include <cmath>  // max
+#include <cmath>  // max in help_main
 
 std::vector<std::string> hints;
 
-//ready, checked
+void help_draw_dir(WINDOW *win, int line_y)
+{
+    action_id movearray[] = {ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
+                             ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
+                             ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE};
+    mvwprintz(win, line_y + 1, 0, c_white, _("\
+  \\ | /     \\ | /\n\
+   \\|/       \\|/ \n\
+  -- --     -- --  \n\
+   /|\\       /|\\ \n\
+  / | \\     / | \\"));
+    for(int acty = 0; acty < 3; acty++) {
+        for(int actx = 0; actx < 3; actx++) {
+            std::vector<char> keys = keys_bound_to( movearray[acty * 3 + actx] );
+            if (!keys.empty()) {
+                mvwputch(win, acty * 3 + line_y, actx * 3 + 1, c_ltblue, keys[0]);
+                if (keys.size() > 0) {
+                    mvwputch(win, acty * 3 + line_y, actx * 3 + 11, c_ltblue, keys[1]);
+                }
+            }
+        }
+    }
+}
+
 void help_main(WINDOW *win)
 {
     werase(win);
@@ -38,7 +61,7 @@ Press q or ESC to return to the game.")) + 2;
     headers.push_back(_("o: Survival tips"));
     headers.push_back(_("p: Driving"));
 
-    int half_size = headers.size() / 2;
+    size_t half_size = headers.size() / 2;
     int second_column = getmaxx(win) / 2;
     for (size_t i = 0; i < headers.size(); i++) {
         if (i < half_size) {
@@ -66,116 +89,95 @@ Press q or ESC to return to the game.")) + 2;
     wrefresh(win);
 }
 
-//fix-it
 void help_movement(WINDOW *win)
 {
     werase(win);
-    action_id movearray[] = {ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
-                             ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
-                             ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE};
     std::vector<std::string> text;
     int pos_y = fold_and_print(win, 0, 1, getmaxx(win) - 2, c_white,
                                _("Movement is performed using the numpad, or vikeys.")) + 1;
-
-    mvwprintz(win, pos_y + 1, 0, c_white, _("\
-  \\ | /     \\ | /\n\
-   \\|/       \\|/ \n\
-  -- --     -- --  \n\
-   /|\\       /|\\ \n\
-  / | \\     / | \\"));
-    for(int acty = 0; acty < 3; acty++) {
-        for(int actx = 0; actx < 3; actx++) {
-            std::vector<char> keys = keys_bound_to( movearray[acty * 3 + actx] );
-            if (!keys.empty()) {
-                mvwputch(win, acty * 3 + pos_y, actx * 3 + 1, c_ltblue, keys[0]);
-                if (keys.size() > 0) {
-                    mvwputch(win, acty * 3 + pos_y, actx * 3 + 11, c_ltblue, keys[1]);
-                }
-            }
-        }
-    }
-
+    help_draw_dir(win, pos_y);
     text.push_back(string_format(_("\
 Each step will take 100 movement points (or more, depending on the terrain); \
-you will then replenish a variable amount of movement points, depending on many factors \
-(%s to see the exact amount)."), press_x(ACTION_PL_INFO, _("press "), _("'View Player Info'")).c_str()));
+you will then replenish a variable amount of movement points, \
+depending on many factors (press %s to see the exact amount)."),
+                                 press_x(ACTION_PL_INFO, "", "").c_str()));
 
     text.push_back(_("To attempt to hit a monster with your weapon, simply move into it."));
 
-    text.push_back(string_format(_("You may find doors, ('+'); these may be opened %s or closed %s. \
-Some doors are locked. Locked doors, windows, and some other obstacles can be destroyed by smashing \
-them (%sthen choose a direction). Smashing down obstacles is much easier with a good weapon or a \
-strong character."), press_x(ACTION_OPEN, _("with "), "").c_str(),
-                     press_x(ACTION_CLOSE, _("with "), "").c_str(),
-                     press_x(ACTION_SMASH, "", ", ", "").c_str()));
+    text.push_back(string_format(_("You may find doors, ('+'); these may be opened with %s \
+or closed with %s. Some doors are locked. Locked doors, windows, and some other obstacles can be \
+destroyed by smashing them (%s, then choose a direction). Smashing down obstacles is much easier \
+with a good weapon or a strong character."),
+                                 press_x(ACTION_OPEN, "", "").c_str(),
+                                 press_x(ACTION_CLOSE, "", "").c_str(),
+                                 press_x(ACTION_SMASH, "", "").c_str()));
 
-    text.push_back(string_format(_("There may be times when you want to move more quickly by \
-holding down a movement key. However, fast movement in this fashion may lead to the player \
-getting into a dangerous situation or even killed before they have a chance to react. %s will \
-toggle \"Run Mode\". While this is on, any movement will be ignored if new monsters enter the \
-player's view."), press_x(ACTION_TOGGLE_SAFEMODE, _("Pressing "), _("'Toggle Safemode'") ).c_str()));
+    text.push_back(string_format(_("There may be times when you want to move more quickly \
+by holding down a movement key. However, fast movement in this fashion may lead to the player \
+getting into a dangerous situation or even killed before they have a chance to react. \
+Pressing %s will toggle \"Run Mode\". While this is on, any movement will be ignored if new \
+monsters enter the player's view."),
+                                 press_x(ACTION_TOGGLE_SAFEMODE, "", "").c_str()));
 
     int fig_last_line = pos_y + 8;
+    // TODO: do it better!
+    std::vector<std::string> remained_text;
     for (size_t i = 0; i < text.size(); i++) {
-        int pos_x = (pos_y < fig_last_line) ? 20 : 1;
-        pos_y += fold_and_print(win, pos_y, pos_x, getmaxx(win) - pos_x - 2, c_white,
-                                text[i].c_str()) + 1;
+        if (pos_y < fig_last_line) {
+            pos_y += fold_and_print(win, pos_y, 20, getmaxx(win) - 22, c_white, text[i].c_str()) + 1;
+        } else {
+            remained_text.push_back(text[i].c_str());
+        }
     }
-    wrefresh(win);
-    refresh();
-    getch();
+    multipage(win, remained_text, "", pos_y);
 }
 
-//fix-it
 void help_driving(WINDOW *win)
 {
-    action_id movearray[] = {ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
-                             ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
-                             ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE};
+    std::vector<std::string> text;
     werase(win);
-    mvwprintz(win, 0, 0, c_white, _("\
-You control vehicles using the numpad, or vikeys. However, you control their\n\
-                    controls, rather than the vehicle directly. In order to\n\
-                    assume control of the vehicle, get to a location with\n\
- \\ | /     \\ | /    \"vehicle controls\" and %s. Once you are in control,\n\
-  \\|/       \\|/     %s accelerates, %s slows or reverses, &\n\
- -- --     -- --      %s & %s turn left or right.\n\
-  /|\\       /|\\     Diagonals adjust course and speed. You default to\n\
- / | \\     / | \\    cruise control, so the gas/brake adjust the speed\n\
-                    which the vehicle will attempt to maintain. 10-30 MPH,\n\
-                    or 16-48 KPH, is a good speed for beginning drivers,\n\
-who tend to fumble the controls. As your Driving skill improves, you will\n\
-fumble less and less. To simply maintain course and speed, hit %s.\n\
-\n\
-It's a good idea to pull the handbrake-\"s\"-when parking, just to be safe.\n\
-If you want to get out, hit the lights, toggle cruise control, turn the\n\
-engine on or off, or otherwise use the vehicle controls, %s to bring up\n\
-the \"Vehicle Controls\" menu, which has options for things you'd do\n\
-from the driver's seat."),
-            press_x(ACTION_CONTROL_VEHICLE, _("press "), "'Vehicle Controls'").c_str(),
-            press_x(ACTION_MOVE_N, _(" "), "'move_n'").c_str(),
-            press_x(ACTION_MOVE_S, _(" "), "'move_s'").c_str(),
-            press_x(ACTION_MOVE_W, _(" "), "'move_w'").c_str(),
-            press_x(ACTION_MOVE_E, _(" "), "'move_e'").c_str(),
-            press_x(ACTION_PAUSE, _(" "), "'pause'").c_str(),
-            press_x(ACTION_CONTROL_VEHICLE, _("press "), "'Vehicle Controls'").c_str());
-            for(int acty = 0; acty < 3; acty++) {
-                for(int actx = 0; actx < 3; actx++) {
-                    std::vector<char> keys = keys_bound_to( movearray[acty*3+actx] );
-                    if (!keys.empty()) {
-                        mvwputch(win, (acty * 3 + 2), (actx * 3), c_ltblue, keys[0]);
-                        if (keys.size() > 0) {
-                            mvwputch(win, (acty * 3 + 2), (actx * 3 + 10), c_ltblue, keys[1]);
-                        }
-                    }
-                }
-            }
-    wrefresh(win);
-    refresh();
-    getch();
+    int pos_y = fold_and_print(win, 0, 1, getmaxx(win) - 2, c_white, _("\
+You control vehicles using the numpad, or vikeys. \
+However, you control their controls, rather than the vehicle directly.")) + 1;
+
+    help_draw_dir(win, pos_y);
+    text.push_back(string_format(_("\
+In order to assume control of the vehicle, get to a location with \"vehicle controls\" \
+and press %s. Once you are in control, %s accelerates, %s slows or reverses, & %s & %s \
+turn left or right. Diagonals adjust course and speed. You default to cruise control, so \
+the gas/brake adjust the speed which the vehicle will attempt to maintain."),
+                                 press_x(ACTION_CONTROL_VEHICLE, "", "").c_str(),
+                                 press_x(ACTION_MOVE_N, "", "").c_str(),
+                                 press_x(ACTION_MOVE_S, "", "").c_str(),
+                                 press_x(ACTION_MOVE_W, "", "").c_str(),
+                                 press_x(ACTION_MOVE_E, "", "").c_str()));
+
+    text.push_back(string_format(_("\
+10-30 MPH, or 16-48 KPH, is a good speed for beginning drivers, \
+who tend to fumble the controls. As your Driving skill improves, \
+you will fumble less and less. To simply maintain course and speed, hit %s."),
+                                 press_x(ACTION_PAUSE, "", "").c_str()));
+
+    text.push_back(string_format(_("\
+It's a good idea to pull the handbrake - \"s\" - when parking, just to be safe. \
+If you want to get out, hit the lights, toggle cruise control, turn the engine on or off, \
+or otherwise use the vehicle controls, press %s to bring up the \"Vehicle Controls\" menu, \
+which has options for things you'd do from the driver's seat."),
+                                 press_x(ACTION_CONTROL_VEHICLE, "", "").c_str()));
+
+    int fig_last_line = pos_y + 8;
+    // TODO: do it better!
+    std::vector<std::string> remained_text;
+    for (size_t i = 0; i < text.size(); i++) {
+        if (pos_y < fig_last_line) {
+            pos_y += fold_and_print(win, pos_y, 20, getmaxx(win) - 22, c_white, text[i].c_str()) + 1;
+        } else {
+            remained_text.push_back(text[i].c_str());
+        }
+    }
+    multipage(win, remained_text, "", pos_y);
 }
 
-//ready, checked
 std::vector<std::string> text_introduction()
 {
     std::vector<std::string> text;
@@ -198,7 +200,6 @@ of tools are all available to help you survive."));
     return text;
 }
 
-//ready, checked
 std::vector<std::string> text_viewing()
 {
     std::vector<std::string> text;
@@ -214,7 +215,6 @@ the view persistently, allowing you to keep an eye on things as you move around.
     return text;
 }
 
-//fix-it
 std::vector<std::string> text_hunger()
 {
     std::vector<std::string> text;
@@ -223,13 +223,13 @@ std::vector<std::string> text_hunger()
 As time passes, you will begin to feel hunger and thirst. A status warning at the bottom of the \
 screen will appear. As hunger and thirst reach critical levels, you will begin to suffer movement \
 penalties. Thirst is more dangerous than hunger. Finding food in a city is usually easy; outside \
-of a city, you may have to hunt an animal, then stand over its corpse and %s it into small chunks \
-of meat. Likewise, outside of a city you may have to drink water from a river or other natural \
-source; stand in shallow water and press %s to pick it up. You'll need a watertight container. \
-Be forewarned that some sources of water aren't trustworthy and may produce diseased water. \
-To be sure it's healthy, run all water you collect through a water filter before drinking."),
-                                 press_x(ACTION_BUTCHER, _("butcher")).c_str(),
-                                 from_sentence_case(press_x(ACTION_PICKUP, "", "")).c_str()));
+of a city, you may have to hunt an animal, then stand over its corpse and butcher it into small \
+chunks of meat by %s key. Likewise, outside of a city you may have to drink water from a river or \
+other natural source; stand in shallow water and press %s to pick it up. You'll need a watertight \
+container. Be forewarned that some sources of water aren't trustworthy and may produce diseased \
+water. To be sure it's healthy, run all water you collect through a water filter before drinking."),
+                                 press_x(ACTION_BUTCHER, "", "").c_str(),
+                                 press_x(ACTION_PICKUP, "", "")).c_str());
 
     text.push_back(string_format(_("\
 Every 14 to 20 hours, you'll find yourself growing sleepy. If you do not sleep by pressing %s, \
@@ -242,7 +242,6 @@ so try to find a safe place, or set traps for unwary intruders."),
     return text;
 }
 
-//ready, checked
 std::vector<std::string> text_pain()
 {
     std::vector<std::string> text;
@@ -272,7 +271,6 @@ cola to the more intense high of Adderall and methamphetamine."));
     return text;
 }
 
-//ready, checked
 std::vector<std::string> text_addiction()
 {
     std::vector<std::string> text;
@@ -286,11 +284,10 @@ The process may last days, and will leave you very weak, so try to do it in a sa
     text.push_back(_("\
 If you are suffering from drug withdrawal, taking more of the drug will cause \
 the effects to cease immediately, but may deepen your dependance."));
-    
+
     return text;
 }
 
-//ready, checked
 std::vector<std::string> text_morale()
 {
     std::vector<std::string> text;
@@ -337,7 +334,6 @@ decreases your focus rapidly, by giving a significant penalty to the set point o
     return text;
 }
 
-//ready, checked
 std::vector<std::string> text_mutation()
 {
     std::vector<std::string> text;
@@ -353,11 +349,10 @@ If you become very irradiated, you may develop mutations. Most of the time, thes
 mutations will be negative; however, many are beneficial, and others have both positive \
 and negative effects. Your mutations may change your play style considerably. It is possible \
 to find substances that will remove mutations, though these are extremely rare."));
-    
+
     return text;
 }
 
-//ready, checked
 std::vector<std::string> text_bionics()
 {
     std::vector<std::string> text;
@@ -379,11 +374,10 @@ professional. However, you may attempt to perform a self-installation. Performin
 requires high levels of intelligence, first aid, mechanics, and/or electronics, and failure may \
 cripple you! Many bionics canisters are difficult to find, but may be purchased from certain \
 wandering vagabonds for a very high price."));
-    
+
     return text;
 }
 
-//ready, checked
 std::vector<std::string> text_crafting()
 {
     std::vector<std::string> text;
@@ -417,7 +411,6 @@ items. Traps skill, Marksmanship skill, and First Aid skill are all required for
     return text;
 }
 
-//ready, checked
 std::vector<std::string> text_traps()
 {
     std::vector<std::string> text;
@@ -450,7 +443,6 @@ you may have a chance to avoid it, depending on your Dodge skill."));
     return text;
 }
 
-//fix-it
 std::vector<std::string> text_items()
 {
     std::vector<std::string> text;
@@ -461,16 +453,16 @@ lying on the ground; if so, simply press %s to pick up items on the \
 same square. Some items are found inside a container, drawn as a { with a \
 blue background. Pressing %s, then a direction, will allow you to examine \
 these containers and loot their contents."),
-                    from_sentence_case(press_x(ACTION_PICKUP, "", "")).c_str(),
-                    press_x(ACTION_EXAMINE, "", "").c_str()));
+                                 press_x(ACTION_PICKUP, "", "").c_str(),
+                                 press_x(ACTION_EXAMINE, "", "").c_str()));
 
     text.push_back(string_format(_("\
 Pressing %s opens a comparison menu, where you can see two items \
 side-by-side with their attributes highlighted to indicate which is superior. \
-You can also access the item comparison menu by pressing 'C' when the %s \
+You can also access the item comparison menu by pressing 'C' when %s to view \
 nearby items menu is open and an item is selected."),
-            press_x(ACTION_COMPARE, "", "").c_str(),
-            press_x(ACTION_LIST_ITEMS, _("view")).c_str())); // F*ck U, coder!
+                                 press_x(ACTION_COMPARE, "", "").c_str(),
+                                 press_x(ACTION_LIST_ITEMS, "", "").c_str()));
 
     text.push_back(string_format(_("\
 All items may be used as a melee weapon, though some are better than others. You can check the \
@@ -481,22 +473,22 @@ is a guaranteed increase in damage, but it may be reduced by a monster's natural
                                  press_x(ACTION_INVENTORY, "", "").c_str()));
 
     text.push_back(string_format(_("\
-To wield an item as a weapon, %s then the proper letter. Pressing '-' in lieu of a letter will \
-make you wield nothing. A wielded weapon will not contribute to your volume carried, so holding \
-a large item in your hands may be a good option for travel. When unwielding your weapon, it will \
-go back in your inventory, or will be dropped on the ground if there is no space."),
-                                 from_sentence_case(press_x(ACTION_WIELD)).c_str()));
+To wield an item as a weapon, press %s then the proper letter. Pressing '-' in lieu of a letter \
+will make you wield nothing. A wielded weapon will not contribute to your volume carried, so \
+holding a large item in your hands may be a good option for travel. When unwielding your weapon, \
+it will go back in your inventory, or will be dropped on the ground if there is no space."),
+                                 press_x(ACTION_WIELD, "", "").c_str()));
 
     text.push_back(string_format(_("\
-To wear a piece of clothing, %s then the proper letter. Armor reduces damage and helps you \
-resist things like smoke. To take off an item, %s then the proper letter."),
-                                 from_sentence_case(press_x(ACTION_WEAR)).c_str(),
-                                 from_sentence_case(press_x(ACTION_TAKE_OFF)).c_str()));
+To wear a piece of clothing, press %s then the proper letter. Armor reduces damage and helps you \
+resist things like smoke. To take off an item, press %s then the proper letter."),
+                                 press_x(ACTION_WEAR, "", "").c_str(),
+                                 press_x(ACTION_TAKE_OFF, "", "").c_str()));
 
     text.push_back(string_format(_("\
-Also available in the %s nearby items menu is the ability to filter or prioritize items. \
-You can enter item names, or various advanced filter strings: {<token>:<search param>}"),
-                                 press_x(ACTION_LIST_ITEMS, _("view")).c_str()));
+Also available in the view nearby items menu (%s key) is the ability to filter or prioritize \
+items. You can enter item names, or various advanced filter strings: {<token>:<search param>}"),
+                                 press_x(ACTION_LIST_ITEMS, "", "").c_str()));
 
     text.push_back(_("\
 Currently Available tokens:\n\
@@ -508,7 +500,6 @@ Currently Available tokens:\n\
     return text;
 }
 
-//fix-it
 std::vector<std::string> text_combat()
 {
     std::vector<std::string> text;
@@ -528,16 +519,15 @@ in it will move much more slowly. A miss may make you stumble and lose movement 
 monster hits you, your clothing may absorb some damage, but you will absorb the excess."));
 
     text.push_back(string_format(_("\
-Swarms of monsters may call for firearms. If you find one, wield it first, then reload%s. \
-If you wish to change ammo, you must unload the weapon%s, then reload again. \
-To fire%s, move the cursor to the relevant space, then hit '.' or 'f'. \
-Some guns have alternate firing modes, such as burst fire; to cycle modes%s. \
+Swarms of monsters may call for firearms. If you find one, wield it first, then reload by \
+pressing %s. If you wish to change ammo, you must unload the weapon by pressing %s, then \
+reload again. To fire, press %s, move the cursor to the relevant space, then hit '.' or 'f'. \
+Some guns have alternate firing modes, such as burst fire; to cycle modes, press %s. \
 Firing continuously, especially in bursts, will severely reduce accuracy."),
-            press_x(ACTION_RELOAD, _(" by pressing "), "").c_str(),
-            press_x(ACTION_UNLOAD, _(" by pressing "), "").c_str(),
-            press_x(ACTION_FIRE, _(", press "), "").c_str(),
-            press_x(ACTION_SELECT_FIRE_MODE, _(", press "),
-                    _(" 'Toggle attack mode of Wielded Item'")).c_str()));
+                                 press_x(ACTION_RELOAD, "", "").c_str(),
+                                 press_x(ACTION_UNLOAD, "", "").c_str(),
+                                 press_x(ACTION_FIRE, "", "").c_str(),
+                                 press_x(ACTION_SELECT_FIRE_MODE, "", "").c_str()));
 
     text.push_back(_("\
 Unlike most roguelikes, fleeing will often be your best option, especially when \
@@ -547,7 +537,6 @@ Ducking down into the subways or sewers is often an excellent escape tactic."));
     return text;
 }
 
-//ready, checked
 std::vector<std::string> text_styles()
 {
     std::vector<std::string> text;
@@ -577,7 +566,6 @@ depending on the situation you are in. You can check these by examining your sty
     return text;
 }
 
-//ready, checked
 std::vector<std::string> text_tips()
 {
     std::vector<std::string> text;
@@ -616,7 +604,6 @@ extremities from frostbite and to keep your distance from large fires."));
     return text;
 }
 
-//ready, checked
 std::vector<std::string> text_types()
 {
     std::vector<std::string> text;
@@ -650,8 +637,8 @@ This may be worn with the %s key or removed with the %s key. It may cover one or
 you can wear multiple articles of clothing on any given body part, but this will encumber you \
 severely. Each article of clothing may provide storage space, warmth, an encumberment, and a \
 resistance to bashing and/or cutting attacks. Some may protect against environmental effects."),
-                                press_x(ACTION_WEAR, "", "").c_str(),
-                                press_x(ACTION_TAKE_OFF, "","").c_str()));
+                                 press_x(ACTION_WEAR, "", "").c_str(),
+                                 press_x(ACTION_TAKE_OFF, "", "").c_str()));
 
     text.push_back(string_format(_("\
 (       Firearm\n\
@@ -661,10 +648,10 @@ The color refers to the type; handguns are gray, shotguns are red, submachine gu
 rifles are brown, assault rifles are blue, and heavy machine guns are light red. Each has \
 a dispersion rating, a bonus to damage, a rate of fire, and a maximum load. Note that most \
 firearms load fully in one action, while shotguns must be loaded one shell at a time."),
-                                press_x(ACTION_RELOAD, "", "").c_str(),
-                                press_x(ACTION_UNLOAD, "", "").c_str(),
-                                press_x(ACTION_FIRE, "", "").c_str(),
-                                press_x(ACTION_SELECT_FIRE_MODE, "", "").c_str()));
+                                 press_x(ACTION_RELOAD, "", "").c_str(),
+                                 press_x(ACTION_UNLOAD, "", "").c_str(),
+                                 press_x(ACTION_FIRE, "", "").c_str(),
+                                 press_x(ACTION_SELECT_FIRE_MODE, "", "").c_str()));
 
     text.push_back(_("\
 =       Ammunition\n\
@@ -677,18 +664,17 @@ damage, dispersion, and range ratings, and an armor-piercing quality."));
 These items are suited for throwing, and many are only useful when thrown, \
 such as grenades, molotov cocktails, or tear gas. Once activated be certain \
 to throw these items by pressing %s, then the letter of the item to throw."),
-                                press_x(ACTION_THROW, "", "").c_str()));
+                                 press_x(ACTION_THROW, "", "").c_str()));
 
     text.push_back(string_format(_("\
 ?       Book or magazine\n\
 This can be read for training or entertainment by pressing %s. Most require a basic \
 level of intelligence; some require some base knowledge in the relevant subject."),
-                                press_x(ACTION_READ, "", "").c_str()));
+                                 press_x(ACTION_READ, "", "").c_str()));
 
     return text;
 }
 
-//pristine
 void help_map(WINDOW *win)
 {
     werase(win);
@@ -748,7 +734,6 @@ O           Parking lot - Empty lot, few items. Mostly useless."));
     getch();
 }
 
-//ready, checked
 std::vector<std::string> text_guns()
 {
     std::vector<std::string> text;
@@ -827,7 +812,6 @@ wise to reserve the precious ammo for when you really need it."));
     return text;
 }
 
-//fix-it
 std::vector<std::string> text_faq()
 {
     std::vector<std::string> text;
@@ -870,11 +854,11 @@ You can find royal jelly in the bee hives which dot forests."));
 
     text.push_back(string_format(_("\
 Q: How do I get into science labs?\n\
-A: You can enter the front door if you have an ID card by %s the keypad. If you are skilled \
+A: You can enter the front door if you have an ID card by examining (%s) the keypad. If you are skilled \
 in computers and have an electrohack, it is possible to hack the keypad. An EMP blast has a \
 chance to force the doors open, but it's more likely to break them. You can also sneak in \
 through the sewers sometimes, or try to smash through the walls with explosions."),
-    press_x(ACTION_EXAMINE, _("examining")).c_str())); //Damn you, coder!
+                                 press_x(ACTION_EXAMINE, "", "").c_str()));
 
     text.push_back(_("\
 Q: Why does my crafting fail so often?\n\
@@ -922,8 +906,7 @@ void display_help()
         help_main(w_help);
         refresh();
         ch = getch();
-        switch (ch)
-        {
+        switch (ch) {
         case 'a':
         case 'A':
             multipage(w_help, text_introduction());
@@ -1031,8 +1014,9 @@ void display_help()
                     needs_refresh = false;
                 }
                 // Clear the lines
-                for (int i = 0; i < FULL_SCREEN_HEIGHT - 2; i++)
+                for (int i = 0; i < FULL_SCREEN_HEIGHT - 2; i++) {
                     mvwprintz(w_help, i, 0, c_black, "                                                ");
+                }
 
                 //Draw Scrollbar
                 draw_scrollbar(w_help_border, offset - 1, FULL_SCREEN_HEIGHT - 2, NUM_ACTIONS - 20, 1);
@@ -1042,12 +1026,12 @@ void display_help()
                     nc_color col = (keys.empty() ? c_ltred : c_white);
                     mvwprintz(w_help, i, 3, col, "%s: ", action_name( action_id(offset + i) ).c_str());
                     if (keys.empty()) {
-                        wprintz(w_help,c_red, _("Unbound!"));
+                        wprintz(w_help, c_red, _("Unbound!"));
                     } else {
-                        for (int j = 0; j < keys.size(); j++) {
-                            wprintz(w_help,c_yellow, "%c", keys[j]);
+                        for (size_t j = 0; j < keys.size(); j++) {
+                            wprintz(w_help, c_yellow, "%c", keys[j]);
                             if (j < keys.size() - 1) {
-                                wprintz(w_help,c_white, _(" or "));
+                                wprintz(w_help, c_white, _(" or "));
                             }
                         }
                     }
@@ -1069,13 +1053,13 @@ void display_help()
                         mvwprintz(w_help, i, 0, c_ltblue, "%c", 'a' + i);
                         mvwprintz(w_help, i, 1, c_white, ":");
                     }
-                        wrefresh(w_help);
-                        refresh();
-                        char actch = getch();
+                    wrefresh(w_help);
+                    refresh();
+                    char actch = getch();
                     if (actch >= 'a' && actch <= 'a' + 24 && actch - 'a' + offset < NUM_ACTIONS) {
                         action_id act = action_id(actch - 'a' + offset);
                         if (remapch == '-' && query_yn(_("Clear keys for %s?"),
-                            action_name(act).c_str())){
+                                                       action_name(act).c_str())) {
                             clear_bindings(act);
                             changed_keymap = true;
                         } else if (remapch == '+') {
@@ -1094,16 +1078,17 @@ void display_help()
 
 
             if (changed_keymap) {
-               if(query_yn(_("Save changes?"))) {
-                   save_keymap();
-               } else {
-                   // Player wants to keep the old keybindings. Revert!
-                   keymap = keymap_old;
-               }
+                if(query_yn(_("Save changes?"))) {
+                    save_keymap();
+                } else {
+                    // Player wants to keep the old keybindings. Revert!
+                    keymap = keymap_old;
+                }
             }
 
             werase(w_help);
-            } break;
+        }
+        break;
 
         case '2':
             show_options(true);
@@ -1151,6 +1136,6 @@ std::string get_hint()
     if (hints.empty()) {
         return "???";
     } else {
-        return hints[rng(0, hints.size()-1)];
+        return hints[rng(0, hints.size() - 1)];
     }
 }
