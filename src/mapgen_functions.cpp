@@ -840,7 +840,7 @@ void mapgen_fungal_bloom(map *m, oter_id, mapgendata dat, int, float)
                 } else {
                     m->ter_set(i, j, t_tree_fungal_young);
                 }
-            
+
             } else if (one_in(5)) {
                 m->ter_set(i, j, t_shrub_fungal);
             } else if (one_in(10)) {
@@ -4125,8 +4125,8 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
         line(m, t_wall_h, 0, SEEY * 2 - 4, SEEX * 2 - 3, SEEY * 2 - 4);
         line(m, t_window, 0, SEEY * 2 - 4, SEEX * 2 - 14, SEEY * 2 - 4);
         line(m, t_wall_h, 0, SEEY * 2 - 4, SEEX * 2 - 20, SEEY * 2 - 4);
-        line(m, t_wall_h, 0, yard_wdth, 2, yard_wdth);
-        line(m, t_wall_h, 8, yard_wdth, 13, yard_wdth);
+        line(m, t_wall_h, 0, yard_wdth, 3, yard_wdth);
+        line(m, t_wall_h, 12, yard_wdth, 13, yard_wdth);
         line(m, t_wall_h, 20, yard_wdth, 21, yard_wdth);
         line_furn(m, f_counter, 1, yard_wdth + 1, 1, yard_wdth + 7);
         line(m, t_wall_h, 1, SEEY * 2 - 9, 3, SEEY * 2 - 9);
@@ -4143,9 +4143,9 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
         m->furn_set(SEEX * 2 - 5, SEEY * 2 - 6, f_bench);
         line_furn(m, f_locker, SEEX * 2 - 6, SEEY * 2 - 5, SEEX * 2 - 4, SEEY * 2 - 5);
         //gates
-        line(m, t_door_metal_locked, 3, yard_wdth, 8, yard_wdth);
-        m->ter_set(2, yard_wdth + 1, t_gates_mech_control);
-        m->ter_set(2, yard_wdth - 1, t_gates_mech_control);
+        line(m, t_door_metal_locked, 4, yard_wdth, 11, yard_wdth);
+        m->ter_set(3, yard_wdth + 1, t_gates_mech_control);
+        m->ter_set(3, yard_wdth - 1, t_gates_mech_control);
         line(m, t_door_metal_locked, 14, yard_wdth, 19, yard_wdth );
         m->ter_set(13, yard_wdth + 1, t_gates_mech_control);
         m->ter_set(13, yard_wdth - 1, t_gates_mech_control);
