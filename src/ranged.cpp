@@ -219,7 +219,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     }
     proj.proj_effects.insert(curammo_effects->begin(),curammo_effects->end());
 
-    proj.wide = (weapon.curammo->phase == LIQUID ||
+    proj.wide = (curammo->phase == LIQUID ||
             proj.proj_effects.count("SHOT") || proj.proj_effects.count("BOUNCE"));
     proj.drops = (curammo->type == "bolt" || curammo->type == "arrow");
 
