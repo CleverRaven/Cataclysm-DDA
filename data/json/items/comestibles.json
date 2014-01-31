@@ -4001,7 +4001,7 @@
         "heal" : -1,
         "addiction_potential" : 0,
         "nutrition" : 8,
-        "description" : "It's first name isn't Oscar. Can be eaten cold.",
+        "description" : "Its first name isn't Oscar. Can be eaten cold.",
         "price" : 20,
         "material" : "flesh",
         "tool" : "null",
