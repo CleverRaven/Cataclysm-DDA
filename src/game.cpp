@@ -7600,8 +7600,10 @@ void game::examine(int examx, int examy)
         int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
         int vpchemlab = veh->part_with_feature(veh_part, "CHEMLAB", true);
         int vpcontrols = veh->part_with_feature(veh_part, "CONTROLS", true);
+        std::vector<item> here_ground = m.i_at(examx, examy);
         if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
-                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0 || vpchemlab >=0 || vpcontrols >=0) {
+                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0 || vpchemlab >=0 || vpcontrols >=0 
+                || here_ground.size() > 0) {
             pickup(examx, examy, 0);
         } else if (u.controlling_vehicle) {
             add_msg (_("You can't do that while driving."));
@@ -8843,6 +8845,12 @@ void game::pickup(int posx, int posy, int min)
     std::vector<uimenu_entry> options_message;
 
     vehicle *veh = m.veh_at (posx, posy, veh_part);
+    // which items are we grabbing?
+    //std::vector<item> here = from_veh ? veh->parts[veh_part].items : m.i_at(posx, posy);
+    std::vector<item> here;
+
+    std::vector<item> here_ground = m.i_at(posx, posy);
+    here.insert(here.end(), here_ground.begin(), here_ground.end());
     if (min != -1 && veh) {
         k_part = veh->part_with_feature(veh_part, "KITCHEN");
         w_part = veh->part_with_feature(veh_part, "WELDRIG");
@@ -8852,6 +8860,11 @@ void game::pickup(int posx, int posy, int min)
         ctrl_part = veh->part_with_feature(veh_part, "CONTROLS");
         from_veh = veh && veh_part >= 0 && veh->parts[veh_part].items.size() > 0;
 
+        if(from_veh)
+        {
+          here.insert(here.end(), veh->parts[veh_part].items.begin(), veh->parts[veh_part].items.end());
+        }
+
         menu_items.push_back(_("Examine vehicle"));
         options_message.push_back(uimenu_entry(_("Examine vehicle"), 'e'));
         if (ctrl_part >= 0) {
@@ -8859,7 +8872,7 @@ void game::pickup(int posx, int posy, int min)
             options_message.push_back(uimenu_entry(_("Control vehicle"), 'v'));
         }
 
-        if (from_veh) {
+        if (here.size() > 0) {
             menu_items.push_back(_("Get items"));
             options_message.push_back(uimenu_entry(_("Get items"), 'g'));
         }
@@ -9008,8 +9021,6 @@ void game::pickup(int posx, int posy, int min)
         if (isEmpty) { return; }
     }
 
-    // which items are we grabbing?
-    std::vector<item> here = from_veh ? veh->parts[veh_part].items : m.i_at(posx, posy);
 
     // Not many items, just grab them
     if (here.size() <= min && min != -1) {
