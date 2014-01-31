@@ -504,6 +504,47 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
          tmpval = "";
      }
 }
+/*
+ * place special map terrains
+ */
+void mapgen_function_json::setup_place_special(JsonArray &parray ) {
+
+    std::string tmpval="";
+    std::string err = "";
+
+    while ( parray.has_more() ) {
+        jmapgen_int tmp_x(0,0);
+        jmapgen_int tmp_y(0,0);
+        jmapgen_place_special_op tmpop = JMAPGEN_PLACESPECIAL_NULL;
+        JsonObject jsi = parray.next_object();
+        if ( jsi.has_string("type") ) {
+            tmpval = jsi.get_string("type");
+            if (tmpval == "toilet") {
+                tmpop = JMAPGEN_PLACESPECIAL_TOILET;
+            } else if (tmpval == "gaspump") {
+                tmpop = JMAPGEN_PLACESPECIAL_GASPUMP;
+            } else if (tmpval == "vendingmachine") {
+                tmpop = JMAPGEN_PLACESPECIAL_VENDINGMACHINE;
+            } else {
+            jsi.throw_error("  place special: no such special '%s'", tmpval.c_str() );
+            }
+        } else {
+            parray.throw_error("placing other specials is not supported yet"); return;
+        }
+        if ( ! jsi.has_member("x") || ! jsi.has_member("y") ) {
+            parray.throw_error("  place_specials: syntax error. Must be at least: { \"id\": \"(itype)\", \"x\": int, \"y\": int }");
+        }
+        if ( ! load_jmapgen_int(jsi, "x", tmp_x.val, tmp_x.valmax) ) {
+            jsi.throw_error("  place_specials: invalid value for 'x'");
+        }
+        if ( ! load_jmapgen_int(jsi, "y", tmp_y.val, tmp_y.valmax) ) {
+            jsi.throw_error("  place_specials: invalid value for 'y'");
+        }
+        jmapgen_place_special new_special( tmp_x, tmp_y, tmpop );
+        place_specials.push_back( new_special );
+        tmpval = "";
+    }
+}
 
 /*
  * Parse json, pre-calculating values for stuff, then cheerfully throw json away. Faster than regular mapf, in theory
@@ -680,6 +721,15 @@ bool mapgen_function_json::setup() {
                 throw err;
             }
        }
+       if ( jo.has_array("place_specials") ) {
+            parray = jo.get_array("place_specials");
+            try {
+                setup_place_special( parray );
+            } catch (std::string smerr) {
+                err = string_format("Bad JSON mapgen place_special array, discarding:\n  %s\n", smerr.c_str() );
+                throw err;
+            }
+       }
        if ( jo.has_array("place_groups") ) {
             parray = jo.get_array("place_groups");
             try {
@@ -748,6 +798,28 @@ void jmapgen_spawn_item::apply( map * m ) {
         for (int i = 0; i < trepeat; i++) {
             m->spawn_item( x.get(), y.get(), itype, amount.get() );
         }
+    }
+}
+
+void jmapgen_place_special::apply( map * m ) {
+    switch(op) {
+        case JMAPGEN_PLACESPECIAL_TOILET: {
+            m->furn_set(x.get(), y.get(), f_null);
+            m->place_toilet(x.get(), y.get());
+        } break;
+        case JMAPGEN_PLACESPECIAL_GASPUMP: {
+            m->furn_set(x.get(), y.get(), f_null);
+            m->place_gas_pump(x.get(), y.get(), rng(10000, 50000));
+        } break;
+        case JMAPGEN_PLACESPECIAL_VENDINGMACHINE: {
+            m->furn_set(x.get(), y.get(), f_null);
+            m->place_vending(x.get(), y.get(), rng(0, 1));
+        } break;
+        case JMAPGEN_PLACESPECIAL_NULL:
+        default:
+        {
+            debugmsg("JSON map special not set!");
+        } break;
     }
 }
 
@@ -844,6 +916,9 @@ void mapgen_function_json::apply( map *m, oter_id terrain_type, mapgendata md, i
     }
     for( int i=0; i < place_groups.size(); i++ ) {
         place_groups[i].apply( m, d );
+    }
+    for( int i=0; i < place_specials.size(); i++ ) {
+        place_specials[i].apply( m );
     }
     for( int i=0; i < setmap_points.size(); i++ ) {
         setmap_points[i].apply( m );
