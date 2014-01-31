@@ -2,6 +2,7 @@
 #include "file_finder.h"
 #include "debug.h"
 #include "output.h"
+#include "file_wrapper.h"
 #include "worldfactory.h"
 
 #include <math.h>
@@ -155,9 +156,6 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 
     mod_map[modfile->ident] = modfile;
 }
-
-// TODO: move this declaration into a header, but which?
-extern bool assure_dir_exist(const std::string &path);
 
 bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy,
                                     std::string output_base_path)
