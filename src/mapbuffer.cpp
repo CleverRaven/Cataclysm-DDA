@@ -468,7 +468,9 @@ void mapbuffer::unserialize_submaps( std::ifstream &fin, const int num_submaps )
     std::string st;
 
     while (!fin.eof()) {
-        if (num_loaded % 100 == 0) {
+        // We only load enough maps at once when loading them for conversion now.
+        if( savegame_loading_version != savegame_version &&
+            num_loaded % 100 == 0) {
             popup_nowait(_("Please wait as the map loads [%d/%d]"),
                          num_loaded, num_submaps);
         }
