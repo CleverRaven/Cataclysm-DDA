@@ -84,6 +84,9 @@
                 "F": "f_fridge",
                 "G": "f_oven"
             },
+            "place_specials": [
+                { "type": "toilet", "x": 10, "y": 3 }
+            ],
             "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
