@@ -2791,7 +2791,7 @@ void mapgen_office_cubical(map *m, oter_id terrain_type, mapgendata dat, int, fl
                                    mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s n", t_console_broken, t_shrub, t_floor,
                                            t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked,
                                            t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,
-                                           t_sidewalk, t_null),
+                                           t_sidewalk, t_floor),
                                    mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s n", f_null,           f_null,
                                            f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,
                                            f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
