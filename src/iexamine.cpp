@@ -150,7 +150,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
         }
         p->cash += amount;
         dep->charges -= amount;
-        g->add_msg(_("Cash: %d, Charges: %d"), p->cash, dep->charges);
+        g->add_msg(_("Your account now holds %d cents."), p->cash, dep->charges);
         p->moves -= 100;
         return;
 
@@ -180,7 +180,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
         }
         p->cash -= amount;
         with->charges += amount;
-        g->add_msg(_("Cash: %d, Charges: %d"), p->cash, with->charges);
+        g->add_msg(_("Your account now holds %d cents."), p->cash, dep->charges);
         p->moves -= 100;
         return;
 
@@ -228,7 +228,6 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
         }
         with->charges -= amount;
         dep->charges += amount;
-        g->add_msg(_("Deposit: %d, Withdrawal: %d"), dep->charges, with->charges);
         p->moves -= 100;
         return;
 
