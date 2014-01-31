@@ -1772,7 +1772,7 @@
     "name": "teleport pad",
     "description": "This is a kit for a teleporter trap consisting of a teleporter and a solar cell that is triggered when stepped upon.",
     "price": 7000,
-    "material": "plastic", "aluminum",
+    "material": ["plastic", "aluminum"],
     "weight": 2000,
     "volume": 4,
     "bashing": 1,
