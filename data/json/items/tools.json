@@ -1765,6 +1765,29 @@
   },
 
   {
+    "id": "telepad",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "teleport pad",
+    "description": "This is a kit for a teleporter trap consisting of a teleporter and a solar cell that is triggered when stepped upon.",
+    "price": 7000,
+    "material": "plastic", "aluminum",
+    "weight": 2000,
+    "volume": 4,
+    "bashing": 1,
+    "cutting": 8,
+    "to_hit": -4,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "SET_TRAP"
+  },
+
+  {
     "id": "geiger_off",
     "type": "TOOL",
     "symbol": ";",
