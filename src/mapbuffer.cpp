@@ -347,17 +347,20 @@ void mapbuffer::load(std::string worldname)
     }
     num_submaps = unserialize_keys( fin );
     fin.close();
-
-    std::vector<std::string> map_files = file_finder::get_files_from_path( ".map", world_map_path.str(),
-                                                                           true, true );
-    if( map_files.empty() ) {
-        return;
-    }
-    for( std::vector<std::string>::iterator file = map_files.begin();
-         file != map_files.end(); ++file ) {
-        fin.open( file->c_str() );
-        unserialize_submaps( fin, num_submaps );
-        fin.close();
+    // We only need to load all the files if we changed versions.
+    if( savegame_loading_version != savegame_version ) {
+        std::vector<std::string> map_files = file_finder::get_files_from_path(
+            ".map", world_map_path.str(), true, true );
+        if( map_files.empty() ) {
+            return;
+        }
+        // TODO: save/load in batches to avoid peak memory use getting out of control.
+        for( std::vector<std::string>::iterator file = map_files.begin();
+             file != map_files.end(); ++file ) {
+            fin.open( file->c_str() );
+            unserialize_submaps( fin, num_submaps );
+            fin.close();
+        }
     }
 }
 
