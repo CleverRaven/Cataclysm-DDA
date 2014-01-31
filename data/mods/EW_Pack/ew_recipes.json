@@ -132,5 +132,82 @@
       [ "cu_pipe", 4]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "cw-24hack",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 3],
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["recipe_igm", 1]],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ]
+    ],
+    [
+      [ "welder", 30 ],
+      [ "welder_crude", 40]
+    ]
+  ],
+  "components": [
+    [
+      [ "cw-24", 1 ]
+    ],
+    [
+      [ "pipe", 1]
+    ],
+    [
+      [ "sheet_metal", 1],
+      [ "scrap", 2]
+    ]
+    
+  ]
+},{
+        "type" : "recipe",
+  "result": "cw-24m_hack",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 3],
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["recipe_igm", 2]],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ]
+    ],
+    [
+      [ "welder", 30 ],
+      [ "welder_crude", 40]
+    ]
+  ],
+  "components": [
+    [
+      [ "cw-24m", 1 ]
+    ],
+    [
+      [ "pipe", 1]
+    ],
+    [
+      [ "sheet_metal", 1],
+      [ "scrap", 2]
+    ]
+    
+  ]
+
 }
 ]
