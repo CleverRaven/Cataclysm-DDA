@@ -512,7 +512,7 @@
         "color": "ltcyan",
         "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["BASHABLE", "SEALED", "DECONSTRUCT", "PLACE_ITEM", "BLOCKSDOOR"],
+        "flags": ["BASHABLE", "SEALED", "DECONSTRUCT", "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR"],
         "bash": {
             "str_min": 2, "str_max": 20,
             "sound": "glass breaking!",
@@ -527,7 +527,7 @@
         "color": "dkgray",
         "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "BLOCKSDOOR"],
+        "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR"],
         "bash": {
             "str_min": 2, "str_max": 30,
             "sound": "metal screeching!",
