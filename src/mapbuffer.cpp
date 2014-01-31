@@ -54,9 +54,23 @@ bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
     dbg(D_INFO) << "mapbuffer::add_submap( x[" <<
                 x << "], y[" << y << "], z[" << z << "], submap[" << sm << "])";
 
-    tripoint p(x, y, z);
+    const tripoint p(x, y, z);
     if (submaps.count(p) != 0) {
-        return false;
+        const tripoint om_addr = overmapbuffer::sm_to_omt_copy( p );
+        const tripoint segment_addr = overmapbuffer::omt_to_seg_copy( om_addr );
+        std::stringstream quad_path;
+        quad_path << world_generator->active_world->world_path << "/maps/" <<
+            segment_addr.x << "." << segment_addr.y << "." << segment_addr.z << "/" <<
+            om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
+        std::ifstream fin;
+        fin.open( quad_path.str().c_str() );
+        if( fin.is_open() ) {
+            unserialize_submaps( fin, 4 );
+        }
+        if (submaps.count(p) != 0) {
+            // If we can't find a file it must not have been generated yet.
+            return false;
+        }
     }
 
     sm->turn_last_touched = int(g->turn);
