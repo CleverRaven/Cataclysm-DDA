@@ -9000,6 +9000,7 @@ void game::pickup(int posx, int posy, int min)
         if(menu_items[choice]==_("Examine vehicle"))
         {
             exam_vehicle(*veh, posx, posy);
+            return;
         }
 
     }
