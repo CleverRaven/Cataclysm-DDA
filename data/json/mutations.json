@@ -2590,6 +2590,7 @@
         "points" : -3,
         "description" : "Your body dries out easily; you need to drink more water.",
         "starting_trait" : true,
+        "changes_to" : ["THIRST2"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_CEPHALOPOD", "MUTCAT_CHIMERA", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
