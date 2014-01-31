@@ -5068,20 +5068,7 @@ bool game::sees_u(int x, int y, int &t)
 
 bool game::u_see(int x, int y)
 {
- static const std::string str_bio_night("bio_night");
- int wanted_range = rl_dist(u.posx, u.posy, x, y);
-
- bool can_see = false;
- if (wanted_range < u.clairvoyance())
-  can_see = true;
- else if (wanted_range <= u.sight_range(light_level()) ||
-          (wanted_range <= u.sight_range(DAYLIGHT_LEVEL) &&
-            m.light_at(x, y) >= LL_LOW))
-     can_see = m.pl_sees(u.posx, u.posy, x, y, wanted_range);
-     if (u.has_active_bionic(str_bio_night) && wanted_range < 15 && wanted_range > u.sight_range(1))
-        return false;
-
- return can_see;
+    return u.sees(x, y);
 }
 
 bool game::u_see(Creature *t)
@@ -5096,30 +5083,7 @@ bool game::u_see(Creature &t)
 
 bool game::u_see(monster *critter)
 {
- int dist = rl_dist(u.posx, u.posy, critter->posx(), critter->posy());
- if (u.has_trait("ANTENNAE") && dist <= 3) {
-  return true;
- }
- if (critter->digging() && !u.has_active_bionic("bio_ground_sonar") && dist > 1) {
-  return false; // Can't see digging monsters until we're right next to them
- }
- if (m.is_divable(critter->posx(), critter->posy()) && critter->can_submerge()
-         && !u.is_underwater()) {
-   //Monster is in the water and submerged, and we're out of/above the water
-   return false;
- }
-
- return u_see(critter->posx(), critter->posy());
-}
-
-bool game::pl_sees(player *p, monster *critter, int &t)
-{
- // TODO: [lightmap] Allow npcs to use the lightmap
- if (critter->digging() && !p->has_active_bionic("bio_ground_sonar") &&
-       rl_dist(p->posx, p->posy, critter->posx(), critter->posy()) > 1)
-  return false; // Can't see digging monsters until we're right next to them
- int range = p->sight_range(light_level());
- return m.sees(p->posx, p->posy, critter->posx(), critter->posy(), range, t);
+    return u.sees(critter);
 }
 
 /**
