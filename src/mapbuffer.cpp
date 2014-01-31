@@ -171,8 +171,8 @@ void mapbuffer::save()
         assure_dir_exist( segment_path.str().c_str() );
 
         std::stringstream quad_path;
-        quad_path << segment_path.str() << "/" << om_addr.x * 2 << "." <<
-            om_addr.y * 2 << "." << om_addr.z << ".map";
+        quad_path << segment_path.str() << "/" << om_addr.x << "." <<
+            om_addr.y << "." << om_addr.z << ".map";
         fout.open( quad_path.str().c_str() );
 
         save_quad( fout, om_addr );
