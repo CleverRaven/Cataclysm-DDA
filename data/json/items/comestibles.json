@@ -7896,7 +7896,7 @@
         "nutrition" : 10,
         "description" : "A translucent hexagonal chunk of wax, filled with dense, milky jelly. Delicious, and rich with the most beneficial substances the hive can produce, it is useful for curing all sorts of afflictions.",
         "price" : 200,
-        "material" : "veggy",
+        "material" : "null",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
