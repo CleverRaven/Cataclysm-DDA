@@ -10498,7 +10498,7 @@ void game::complete_butcher(int index)
  if (skill_shift < 5)  { // Lose some skins and bones
   skins += ((int)skill_shift - 5);
   bones += ((int)skill_shift - 2);
-  fats += ((int)skill_shift - 5);
+  fats += ((int)skill_shift - 4);
   sinews += ((int)skill_shift - 8);
   feathers += ((int)skill_shift - 1);
  }

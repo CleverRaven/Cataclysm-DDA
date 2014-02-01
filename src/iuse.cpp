@@ -2346,6 +2346,52 @@ int iuse::gasoline_lantern_on(player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
+int iuse::oil_lamp_off(player *p, item *it, bool)
+{
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
+    if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,_("The lamp is empty."));
+        return 0;
+    }
+    else if(!p->use_charges_if_avail("fire", 1))
+    {
+        g->add_msg_if_player(p,_("You need a lighter!"));
+        return 0;
+    }
+    else
+    {
+        g->add_msg_if_player(p,_("You turn the lamp on."));
+        it->make(itypes["oil_lamp_on"]);
+        it->active = true;
+        return it->type->charges_to_use();
+    }
+}
+
+int iuse::oil_lamp_on(player *p, item *it, bool t)
+{
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p,_("The lamp is extinguished."));
+        it->make(itypes["oil_lamp"]);
+        it->active = false;
+        return 0;
+    }
+    if (t)  // Normal use
+    {
+// Do nothing... player::active_light and the lightmap::generate deal with this
+    }
+    else  // Turning it off
+    {
+        g->add_msg_if_player(p,_("The lamp is extinguished."));
+        it->make(itypes["oil_lamp"]);
+        it->active = false;
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::light_off(player *p, item *it, bool)
 {
     if (it->charges == 0) {
