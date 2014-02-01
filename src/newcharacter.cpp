@@ -835,9 +835,14 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
                         mvwprintz(w,  3, 33, c_ltgray,
                                   "                                              ");
-                        mvwprintz(w,  3, 33, col_tr, _("%s earns %d points"),
+                        int points = traits[vStartingTraits[iCurrentPage][i]].points;
+                        bool negativeTrait = points < 0;
+                        if (negativeTrait)
+                                  points *=-1;
+                        mvwprintz(w,  3, 33, col_tr, _("%s %s %d points"),
                                   traits[vStartingTraits[iCurrentPage][i]].name.c_str(),
-                                  traits[vStartingTraits[iCurrentPage][i]].points * -1);
+                                  negativeTrait ? _("earns"):_("costs"),
+                                  points);
                         fold_and_print(w_description, 0, 0,
                                        FULL_SCREEN_WIDTH - 2, col_tr, "%s",
                                        traits[vStartingTraits[iCurrentPage][i]].description.c_str());
@@ -1037,15 +1042,17 @@ int set_profession(WINDOW *w, player *u, int &points)
         // Clear the bottom of the screen.
         werase(w_description);
         mvwprintz(w, 3, 40, c_ltgray, "                                       ");
-        if (can_pick == "YES") {
-            mvwprintz(w, 3, 21, c_green, _("Profession %1$s costs %2$d points (net: %3$d)"),
+
+        int pointsForProf = sorted_profs[cur_id]->point_cost();
+        bool negativeProf = pointsForProf < 0;
+        if (negativeProf)
+                  pointsForProf *=-1;
+
+        mvwprintz(w, 3, 21, can_pick == "YES" ? c_green:c_ltred, _("Profession %1$s %2$s %3$d points (net: %4$d)"),
                       _(sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str()),
-                      sorted_profs[cur_id]->point_cost(), netPointCost);
-        } else if (can_pick == "INSUFFICIENT_POINTS") {
-            mvwprintz(w, 3, 21, c_ltred, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      _(sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str()),
-                      sorted_profs[cur_id]->point_cost(), netPointCost);
-        }
+                      negativeProf ? _("earns"):_("costs"),
+                      pointsForProf, netPointCost);
+
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
                        _(sorted_profs[cur_id]->description().c_str()));
 
