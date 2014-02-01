@@ -96,8 +96,9 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
     }
     return textformatted.size();
 };
-int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line, nc_color base_color,
-                   const char *mes, ...)
+
+int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
+                        nc_color base_color, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
@@ -130,6 +131,43 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
     }
     return textformatted.size();
 };
+
+void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, int begin_y)
+{
+    int height = getmaxy(w);
+    int width = getmaxx(w);
+
+    //Do not erase the current screen if it's not first line of the text
+    if (begin_y == 0) {
+        werase(w);
+    }
+
+    /* TODO:
+        issue:     # of lines in the paragraph > height -> inf. loop;
+        solution:  split this paragraph in two pieces;
+    */
+    for (size_t i = 0; i < text.size(); i++) {
+        if (begin_y == 0 && caption != _("")) {
+            begin_y = fold_and_print(w, 0, 1, width - 2, c_white, caption.c_str()) + 1;
+        }
+        std::vector<std::string> next_paragraph = foldstring(text[i].c_str(), width);
+        if (begin_y + next_paragraph.size() > height) {
+            // Next page
+            i--;
+            mvwprintw(w, height - 1, 1, _("Press any key for more..."));
+            wrefresh(w);
+            refresh();
+            getch();
+            werase(w);
+            begin_y = 0;
+        } else {
+            begin_y += fold_and_print(w, begin_y, 1, width - 2, c_white, text[i].c_str()) + 1;
+        }
+    }
+    wrefresh(w);
+    refresh();
+    getch();
+}
 
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
 {
@@ -462,7 +500,8 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 }
 
 std::string string_input_win(WINDOW *w, std::string input, int max_length, int startx, int starty,
-                             int endx, bool loop, long &ch, int &pos, std::string identifier, int w_x, int w_y, bool dorefresh, bool only_digits )
+                             int endx, bool loop, long &ch, int &pos, std::string identifier, 
+                             int w_x, int w_y, bool dorefresh, bool only_digits )
 {
     std::string ret = input;
     nc_color string_color = c_magenta;
@@ -851,8 +890,8 @@ void full_screen_popup(const char *mes, ...)
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 //@param without_getch don't wait getch, return = (int)' ';
 int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName,
-                               std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected,
-                               bool without_getch)
+                               std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare,
+                               int selected, bool without_getch)
 {
     WINDOW *w = newwin(iHeight, iWidth, VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
