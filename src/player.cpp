@@ -10133,4 +10133,117 @@ m_size player::get_size() {
     return MS_MEDIUM;
 }
 
+Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
+{
+    if (is_player()) {
+        debugmsg("called player::auto_find_hostile_target for player themself!");
+        return NULL;
+    }
+    int t;
+    monster *target = NULL;
+    const int iff_dist = 24; // iff check triggers at this distance
+    int iff_hangle = 15; // iff safety margin (degrees). less accuracy, more paranoia
+    int closest = range + 1;
+    int u_angle = 0;         // player angle relative to turret
+    boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
+    bool iff_trig = false;   // player seen and within range of stray shots
+    int pldist = rl_dist(posx, posy, g->u.posx, g->u.posy);
+    if (pldist < iff_dist && g->sees_u(posx, posy, t)) {
+        iff_trig = true;
+        if (pldist < 3) {
+            iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
+        }
+        u_angle = g->m.coord_to_angle(posx, posy, g->u.posx, g->u.posy);
+    }
+    for (int i = 0; i < g->num_zombies(); i++) {
+        monster *m = &g->zombie(i);
+        if (m->friendly != 0) {
+            // friendly to the player, not a target for us
+            continue;
+        }
+        if (!sees(m, t)) {
+            // can't see nor sense it
+            continue;
+        }
+        int dist = rl_dist(posx, posy, m->posx(), m->posy());
+        if (dist >= closest) {
+            // Have a better target anyway, ignore this one.
+            continue;
+        }
+        if (iff_trig) {
+            int tangle = g->m.coord_to_angle(posx, posy, m->posx(), m->posy());
+            int diff = abs(u_angle - tangle);
+            if (diff + iff_hangle > 360 || diff < iff_hangle) {
+                // Player is in the way
+                boo_hoo++;
+                continue;
+            }
+        }
+        target = m;
+        closest = dist;
+        fire_t = t;
+    }
+    return target;
+}
+
+bool player::sees(int x, int y)
+{
+    int dummy = 0;
+    return sees(x, y, dummy);
+}
+
+bool player::sees(int x, int y, int &t)
+{
+    const int s_range = sight_range(g->light_level());
+    static const std::string str_bio_night("bio_night");
+    const int wanted_range = rl_dist(posx, posy, x, y);
+
+    if (wanted_range < clairvoyance()) {
+        return true;
+    }
+    bool can_see = false;
+    if (wanted_range <= s_range ||
+        (wanted_range <= sight_range(DAYLIGHT_LEVEL) &&
+            g->m.light_at(x, y) >= LL_LOW)) {
+        if (is_player()) {
+            // uses the seen cache in map
+            can_see = g->m.pl_sees(posx, posy, x, y, wanted_range);
+        } else {
+            can_see = g->m.sees(posx, posy, x, y, s_range, t);
+        }
+    }
+    if (has_active_bionic(str_bio_night) && wanted_range < 15 && wanted_range > sight_range(1)) {
+        return false;
+    }
+    return can_see;
+}
+
+bool player::sees(monster *critter)
+{
+    int dummy = 0;
+    return sees(critter, dummy);
+}
+
+bool player::sees(monster *critter, int &t)
+{
+    if (!is_player() && critter->is_hallucination()) {
+        // hallucinations are only visible for the player
+        return false;
+    }
+    const int cx = critter->posx();
+    const int cy = critter->posy();
+    int dist = rl_dist(posx, posy, cx, cy);
+    if (dist <= 3 && has_trait("ANTENNAE")) {
+        return true;
+    }
+    if (dist > 1 && critter->digging() && !has_active_bionic("bio_ground_sonar")) {
+        return false; // Can't see digging monsters until we're right next to them
+    }
+    if (g->m.is_divable(cx, cy) && critter->can_submerge() && !is_underwater()) {
+        //Monster is in the water and submerged, and we're out of/above the water
+        return false;
+    }
+    return sees(cx, cy, t);
+}
+
 // --- End ---
