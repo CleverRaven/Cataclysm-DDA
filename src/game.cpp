@@ -7537,8 +7537,10 @@ void game::examine(int examx, int examy)
         int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
         int vpchemlab = veh->part_with_feature(veh_part, "CHEMLAB", true);
         int vpcontrols = veh->part_with_feature(veh_part, "CONTROLS", true);
+        std::vector<item> here_ground = m.i_at(examx, examy);
         if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
-                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0 || vpchemlab >=0 || vpcontrols >=0) {
+                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0 || vpchemlab >=0 || vpcontrols >=0 
+                || here_ground.size() > 0) {
             pickup(examx, examy, 0);
         } else if (u.controlling_vehicle) {
             add_msg (_("You can't do that while driving."));
@@ -8780,6 +8782,7 @@ void game::pickup(int posx, int posy, int min)
     std::vector<uimenu_entry> options_message;
 
     vehicle *veh = m.veh_at (posx, posy, veh_part);
+    std::vector<item> here_ground = m.i_at(posx, posy);
     if (min != -1 && veh) {
         k_part = veh->part_with_feature(veh_part, "KITCHEN");
         w_part = veh->part_with_feature(veh_part, "WELDRIG");
@@ -8800,6 +8803,12 @@ void game::pickup(int posx, int posy, int min)
             menu_items.push_back(_("Get items"));
             options_message.push_back(uimenu_entry(_("Get items"), 'g'));
         }
+
+        if(here_ground.size() > 0) {
+            menu_items.push_back(_("Get items on the ground"));
+            options_message.push_back(uimenu_entry(_("Get items on the ground"), 'i'));
+        }
+
         if((k_part >= 0 || chempart >= 0) && veh->fuel_left("battery") > 0)
         {
           menu_items.push_back(_("Use the hotplate"));
@@ -8925,6 +8934,11 @@ void game::pickup(int posx, int posy, int min)
         {
             exam_vehicle(*veh, posx, posy);
             return;
+        }
+
+        if(menu_items[choice]==_("Get items on the ground"))
+        {
+          from_veh = false;
         }
 
     }
