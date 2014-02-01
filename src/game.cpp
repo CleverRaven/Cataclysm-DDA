@@ -4155,66 +4155,39 @@ void game::draw_overmap()
 
 void game::disp_kills()
 {
- WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                    (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
-                    (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+        std::max(0, (TERMY - FULL_SCREEN_HEIGHT) / 2),
+        std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
 
- draw_border(w);
+    std::vector<std::string> data;
+    int totalkills = 0;
+    const int colum_width = (getmaxx(w) - 2) / 3; // minus border
+    for (std::map<std::string, int>::iterator kill = kills.begin(); kill != kills.end(); ++kill){
+        const mtype *m = MonsterGenerator::generator().get_mtype(kill->first);
+        std::ostringstream buffer;
+        buffer << "<color_" << string_from_color(m->color) << ">";
+        buffer << std::string(1, m->sym) << " " << m->name;
+        buffer << "</color>";
+        const int w = colum_width - utf8_width(m->name.c_str());
+        buffer.width(w - 3); // gap between cols, monster sym, space
+        buffer.fill(' ');
+        buffer << kill->second;
+        buffer.width(0);
+        data.push_back(buffer.str());
+        totalkills += kill->second;
+    }
+    std::ostringstream buffer;
+    if(data.empty()) {
+        buffer << _("You haven't killed any monsters yet!");
+    } else {
+        buffer << _("KILL COUNT: ") << totalkills;
+    }
+    display_table(w, buffer.str(), 3, data);
 
- std::vector<mtype *> types;
- std::vector<int> count;
- for (std::map<std::string, int>::iterator kill = kills.begin(); kill != kills.end(); ++kill){
-    types.push_back(MonsterGenerator::generator().get_mtype(kill->first));
-    count.push_back(kill->second);
- }
-
- mvwprintz(w, 1, 32, c_white, _("KILL COUNT:"));
-
- if (types.size() == 0) {
-  mvwprintz(w, 2, 2, c_white, _("You haven't killed any monsters yet!"));
-  wrefresh(w);
-  getch();
-  werase(w);
-  wrefresh(w);
-  delwin(w);
-  refresh_all();
-  return;
- }
- int totalkills = 0;
- int hori = 1;
- int horimove = 0;
- int vert = -2;
- // display individual kill counts
- for (int i = 0; i < types.size(); i++) {
-  hori = 1;
-  if (i > 21) {
-   hori = 28;
-   vert = 20;
-  }
-  if( i > 43) {
-   hori = 56;
-   vert = 42;
-  }
-  mvwprintz(w, i - vert, hori, types[i]->color, "%c %s", types[i]->sym, types[i]->name.c_str());
-  if (count[i] >= 10)
-   horimove = -1;
-  if (count[i] >= 100)
-   horimove = -2;
-  if (count[i] >= 1000)
-   horimove = -3;
-  mvwprintz(w, i - vert, hori + 22 + horimove, c_white, "%d", count[i]);
-  totalkills += count[i];
-  horimove = 0;
- }
- // Display total killcount at top of window
- mvwprintz(w, 1, 44, c_white, "%d", totalkills);
-
- wrefresh(w);
- getch();
- werase(w);
- wrefresh(w);
- delwin(w);
- refresh_all();
+    werase(w);
+    wrefresh(w);
+    delwin(w);
+    refresh_all();
 }
 
 inline bool npc_dist_to_player(const npc *a, const npc *b) {

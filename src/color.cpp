@@ -818,6 +818,18 @@ nc_color color_from_string(std::string new_color){
 }
 
 /**
+ * The reverse of color_from_string.
+ */
+std::string string_from_color(nc_color color){
+    for(std::map<std::string,nc_color>::const_iterator iter = colormap.begin(); iter != colormap.end(); ++iter) {
+        if (iter->second == color) {
+            return iter->first;
+        }
+    }
+    return "white";
+}
+
+/**
  * Given the name of a background color (that is, one of the i_xxxxx colors),
  * returns the nc_color constant that matches. If no match is found, i_white is
  * returned.

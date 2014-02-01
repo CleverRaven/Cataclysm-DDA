@@ -1396,3 +1396,44 @@ void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::st
     }
 }
 
+/**
+ * Display data in table, each cell contains one entry from the
+ * data vector. Allows vertical scrolling if the data does not fit.
+ * Data is displayed using fold_and_print_from, which allows coloring!
+ * @param columns Number of columns, can be 1. Make sure each entry
+ * of the data vector fits into one cell.
+ * @param title The title text, displayed on top.
+ * @param w The window to draw this in, the whole widow is used.
+ */
+void display_table(WINDOW *w, const std::string &title, int columns, const std::vector<std::string> &data)
+{
+    const int width = getmaxx(w) - 2; // -2 for border
+    const int rows = getmaxy(w) - 2 - 1; // -2 for border, -1 for title
+    const int col_width = width / columns;
+    int offset = 0;
+
+    const int title_length = utf8_width(title.c_str());
+    while(true) {
+        werase(w);
+        draw_border(w);
+        mvwprintz(w, 1, (width - title_length) / 2, c_white, title.c_str());
+        for(int i = 0; i < rows * columns; i++) {
+            if(i + offset * columns >= data.size()) {
+                break;
+            }
+            const int x = 2 + (i % columns) * col_width;
+            const int y = (i / columns) + 2;
+            fold_and_print_from(w, y, x, col_width, 0, c_white, "%s", data[i + offset * columns].c_str());
+        }
+        draw_scrollbar(w, offset, rows, data.size() / 3, 2, 0);
+        wrefresh(w);
+        int ch = getch();
+        if (ch == KEY_DOWN && ((offset + 1) * columns) < data.size()) {
+            offset++;
+        } else if(ch == KEY_UP && offset > 0) {
+            offset--;
+        } else if(ch == ' ' || ch == '\n' || ch == KEY_ESCAPE) {
+            break;
+        }
+    }
+}
