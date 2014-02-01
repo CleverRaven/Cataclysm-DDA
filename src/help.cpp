@@ -229,7 +229,7 @@ other natural source; stand in shallow water and press %s to pick it up. You'll 
 container. Be forewarned that some sources of water aren't trustworthy and may produce diseased \
 water. To be sure it's healthy, run all water you collect through a water filter before drinking."),
                                  press_x(ACTION_BUTCHER, "", "").c_str(),
-                                 press_x(ACTION_PICKUP, "", "")).c_str());
+                                 press_x(ACTION_PICKUP, "", "").c_str()));
 
     text.push_back(string_format(_("\
 Every 14 to 20 hours, you'll find yourself growing sleepy. If you do not sleep by pressing %s, \
