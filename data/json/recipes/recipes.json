@@ -6272,7 +6272,11 @@
   ],
   "components": [
     [
-      [ "human_flesh", 6 ]
+      [ "human_flesh", 3 ]
+    ],
+    [
+      [ "fat", 3 ],
+      [ "tallow", 3 ]
     ],
     [
       [ "salt", 1 ],
