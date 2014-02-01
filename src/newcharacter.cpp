@@ -837,8 +837,9 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                                   "                                              ");
                         int points = traits[vStartingTraits[iCurrentPage][i]].points;
                         bool negativeTrait = points < 0;
-                        if (negativeTrait)
+                        if (negativeTrait) {
                                   points *=-1;
+                        }
                         mvwprintz(w,  3, 33, col_tr, _("%s %s %d points"),
                                   traits[vStartingTraits[iCurrentPage][i]].name.c_str(),
                                   negativeTrait ? _("earns"):_("costs"),
@@ -1045,9 +1046,9 @@ int set_profession(WINDOW *w, player *u, int &points)
 
         int pointsForProf = sorted_profs[cur_id]->point_cost();
         bool negativeProf = pointsForProf < 0;
-        if (negativeProf)
+        if (negativeProf) {
                   pointsForProf *=-1;
-
+        }
         mvwprintz(w, 3, 21, can_pick == "YES" ? c_green:c_ltred, _("Profession %1$s %2$s %3$d points (net: %4$d)"),
                       _(sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str()),
                       negativeProf ? _("earns"):_("costs"),
