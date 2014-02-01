@@ -6108,7 +6108,11 @@
   ],
   "components": [
     [
-      [ "meat", 6 ]
+      [ "meat", 3 ]
+    ],
+    [
+      [ "fat", 3 ],
+      [ "tallow", 3 ]
     ],
     [
       [ "salt", 1 ],
