@@ -121,6 +121,9 @@
                     { "item": "judo_belts", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [1, 2] },
                     { "item": "dojo_manuals", "x": [17, 19], "y": [19, 19], "chance": 80, "repeat": [1, 3] }
                 ],
+                "place_specials": [
+                    { "type": "toilet", "x": 11, "y": 22 }
+                ],
                 "add": [
                     { "item": "judo_belt_black", "x": 17, "y": 18 }
                 ] }
