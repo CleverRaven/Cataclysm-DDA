@@ -10469,17 +10469,17 @@ void game::complete_butcher(int index)
  int age = m.i_at(u.posx, u.posy)[index].bday;
  m.i_rem(u.posx, u.posy, index);
  int factor = u.butcher_factor();
- int pieces = 0, skins = 0, bones = 0, sinews = 0, feathers = 0;
+ int pieces = 0, skins = 0, bones = 0, fats = 0, sinews = 0, feathers = 0;
  double skill_shift = 0.;
 
  int sSkillLevel = u.skillLevel("survival");
 
  switch (corpse->size) {
-  case MS_TINY:   pieces =  1; skins =  1; bones = 1; sinews = 1; feathers = 2;  break;
-  case MS_SMALL:  pieces =  2; skins =  3; bones = 4; sinews = 4; feathers = 6;  break;
-  case MS_MEDIUM: pieces =  4; skins =  6; bones = 9; sinews = 9; feathers = 11; break;
-  case MS_LARGE:  pieces =  8; skins = 10; bones = 14;sinews = 14; feathers = 17;break;
-  case MS_HUGE:   pieces = 16; skins = 18; bones = 21;sinews = 21; feathers = 24;break;
+  case MS_TINY:   pieces =  1; skins =  1; bones = 1; fats = 1; sinews = 1; feathers = 2;  break;
+  case MS_SMALL:  pieces =  2; skins =  3; bones = 4; fats = 2; sinews = 4; feathers = 6;  break;
+  case MS_MEDIUM: pieces =  4; skins =  6; bones = 9; fats = 4; sinews = 9; feathers = 11; break;
+  case MS_LARGE:  pieces =  8; skins = 10; bones = 14; fats = 8; sinews = 14; feathers = 17;break;
+  case MS_HUGE:   pieces = 16; skins = 18; bones = 21; fats = 16; sinews = 21; feathers = 24;break;
  }
 
  skill_shift += rng(0, sSkillLevel - 3);
@@ -10498,6 +10498,7 @@ void game::complete_butcher(int index)
  if (skill_shift < 5)  { // Lose some skins and bones
   skins += ((int)skill_shift - 5);
   bones += ((int)skill_shift - 2);
+  fats += ((int)skill_shift - 5);
   sinews += ((int)skill_shift - 8);
   feathers += ((int)skill_shift - 1);
  }
@@ -10556,6 +10557,13 @@ void game::complete_butcher(int index)
   if (corpse->has_flag(MF_FEATHER)) {
     m.spawn_item(u.posx, u.posy, "feather", feathers, 0, age);
    add_msg(_("You harvest some feathers!"));
+  }
+ }
+ 
+  if (fats > 0) {
+  if (corpse->has_flag(MF_FAT)) {
+    m.spawn_item(u.posx, u.posy, "fat", fats, 0, age);
+   add_msg(_("You harvest some fat!"));
   }
  }
 

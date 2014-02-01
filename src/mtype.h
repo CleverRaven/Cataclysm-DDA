@@ -173,6 +173,7 @@ enum m_flag {
     MF_FEATHER,             // May produce feather when butchered
     MF_CBM,                 // May produce a cbm or two when butchered
     MF_BONES,               // May produce bones and sinews when butchered
+    MF_FAT,                 // May produce fat when butchered
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
     MF_FRIENDLY_SPECIAL,    // Use our special attack, even if friendly
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
