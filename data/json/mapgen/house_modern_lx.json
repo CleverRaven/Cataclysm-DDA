@@ -94,6 +94,9 @@
                 "H": "f_armchair",
                 "G": "f_oven"
             },
+            "place_specials": [
+                { "type": "toilet", "x": 18, "y": 21 }
+            ],
                                         "comment": "specific things ---v",
             "add": [
                 { "item": "pistol_flintlock", "x": 12, "y": 10, "chance": 50 },
