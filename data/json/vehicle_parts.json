@@ -2561,6 +2561,22 @@
             {"item": "scrap", "min": 4, "max": 7}
         ]
     },{
+		"type" : "vehicle_part",
+	    "id": "water_faucet",
+        "name": "water faucet",
+        "symbol": "u",
+        "color": "light_gray",
+        "broken_symbol": "-",
+        "broken_color": "light_gray",
+        "damage_modifier": 10,
+        "durability": 45,
+        "item": "water_faucet",
+        "difficulty": 1,
+        "flags": ["FAUCET"],
+		"breaks_into" : [
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
+	},{
         "type" : "vehicle_part",
         "id" : "kitchen_unit",
         "name" : "kitchen unit",
