@@ -18536,8 +18536,9 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
   "difficulty": 3,
-  "time": 10000,
+  "time": 60000,
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
@@ -18574,6 +18575,9 @@
       [ "acid", 1 ]
     ],
     [
+      [ "rag", 1 ]
+    ],
+    [
       [ "cable", 1 ]
     ]
   ]
@@ -18583,8 +18587,9 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
   "difficulty": 3,
-  "time": 15000,
+  "time": 60000,
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
@@ -18621,6 +18626,9 @@
       [ "acid", 1 ]
     ],
     [
+      [ "rag", 2 ]
+    ],
+    [
       [ "cable", 2 ]
     ]
   ]
@@ -18630,8 +18638,9 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
   "difficulty": 3,
-  "time": 15000,
+  "time": 60000,
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
@@ -18668,6 +18677,9 @@
       [ "acid", 3 ]
     ],
     [
+      [ "rag", 3 ]
+    ],
+    [
       [ "cable", 4 ]
     ]
   ]
@@ -18677,8 +18689,9 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
   "difficulty": 3,
-  "time": 15000,
+  "time": 60000,
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
@@ -18713,6 +18726,9 @@
     ],
     [
       [ "acid", 4 ]
+    ],
+    [
+      [ "rag", 5 ]
     ],
     [
       [ "cable", 6 ]
