@@ -9907,6 +9907,43 @@
   ]
 },{
         "type" : "recipe",
+  "result": "antiparasitic",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_chemistry", 7] , ["adv_chemistry", 6] , ["pocket_survival", 8] , ["atomic_survival", 6] , ["textbook_survival", 6] , ["survival_book", 7] , [ "recipe_labchem", 6]],
+  "tools": [
+    [
+      [ "chemistry_set", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 2 ],
+      [ "hotplate", 20 ],
+      [ "chemistry_set", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "vitamins", 5 ]
+    ],
+    [
+      [ "aspirin", 10 ]
+    ],
+    [
+      [ "acid", 1 ]
+    ],
+    [
+      [ "bleach", 1 ],
+      [ "oxy_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "royal_jelly",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",

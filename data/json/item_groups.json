@@ -5962,6 +5962,7 @@
       ["optical_cloak", 1],
       ["halligan", 10],
       ["fire_ax", 5],
+      ["antiparasitic", 2],
       ["bot_laserturret", 1]
     ]
   },{
@@ -6041,6 +6042,7 @@
       ["fungicide", 10],
       ["pur_tablets", 10],
       ["optical_cloak", 1],
+      ["antiparasitic", 2],
       ["bot_laserturret", 1]
     ]
   },{
@@ -6098,6 +6100,7 @@
       ["ampoule", 10],
       ["optical_cloak", 2],
       ["antifungal", 1],
+      ["antiparasitic", 2],
       ["bot_laserturret", 2]
     ]
   },{
@@ -6205,6 +6208,7 @@
       ["crack", 4],
       ["crackpipe", 7],
       ["antifungal", 1],
+      ["antiparasitic", 2],
       ["lsd", 6]
     ]
   },{
