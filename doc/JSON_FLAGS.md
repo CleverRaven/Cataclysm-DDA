@@ -208,6 +208,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```FUR``` May produce fur when butchered.
 - ```LEATHER``` May produce leather when butchered.
 - ```FEATHER``` May produce feathers when butchered.
+- ```FAT``` May produce fat when butchered.
 - ```CBM``` May produce a cbm or two when butchered.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
