@@ -86,6 +86,9 @@
                 "H": "f_armchair",
                 "G": "f_oven"
             },
+            "place_specials": [
+                { "type": "toilet", "x": 15, "y": 13 }
+            ],
             "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
@@ -105,12 +108,12 @@
                 { "item": "kitchen", "chance": 70, "x": [ 2,10 ], "y": [ 13,15 ] },
                 { "item": "fridge", "chance": 70, "x": [ 4,4 ], "y": [ 13,13 ] },
                 { "item": "oven", "chance": 70, "x": [ 5,5 ], "y": [ 13,13 ] },
-                 { "item": "cannedfood", "chance": 20, "x": [ 9,10 ], "y": [ 15,15] }, 
-                 { "item": "pasta", "chance": 50, "x": [ 3,5 ], "y": [ 15,15 ] }, 
-                 { "item": "knifeblock", "chance": 30, "x": [ 3,5 ], "y": [ 15,15 ] }, 
-                 { "item": "cannedfood", "chance": 30, "x": [ 16,19 ], "y": [ 17,17 ] }, 
-                 { "item": "camping", "chance": 20, "x": [ 16,19 ], "y": [ 19,19 ] }, 
-                 { "item": "softdrugs", "chance": 30, "x": [ 16,19 ], "y": [ 21,21 ] }, 
+                { "item": "cannedfood", "chance": 20, "x": [ 9,10 ], "y": [ 15,15] },
+                { "item": "pasta", "chance": 50, "x": [ 3,5 ], "y": [ 15,15 ] },
+                { "item": "knifeblock", "chance": 30, "x": [ 3,5 ], "y": [ 15,15 ] },
+                { "item": "cannedfood", "chance": 30, "x": [ 16,19 ], "y": [ 17,17 ] },
+                { "item": "camping", "chance": 20, "x": [ 16,19 ], "y": [ 19,19 ] },
+                { "item": "softdrugs", "chance": 30, "x": [ 16,19 ], "y": [ 21,21 ] },
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] }
             ],
             "comment": "end of mapgen json definition ---v"

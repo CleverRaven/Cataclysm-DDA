@@ -135,7 +135,7 @@
             ],
         "category" : "MUTCAT_ALPHA",
         "strength" : 1
-	},{
+    },{
         "type" : "dream",
         "messages" : [
             "You have a strange dream.",
@@ -151,7 +151,7 @@
             ],
         "category" : "MUTCAT_CHIMERA",
         "strength" : 1
-	},{
+    },{
         "type" : "dream",
         "messages" : [
             "You dream of the tropics.",
@@ -303,7 +303,7 @@
             ],
         "category" : "MUTCAT_ELFA",
         "strength" : 2
-	},{
+    },{
         "type" : "dream",
         "messages" : [
             "You can't quite work out what the dream is about...it just keeps changing.",
@@ -319,7 +319,7 @@
             ],
         "category" : "MUTCAT_RAPTOR",
         "strength" : 2
-	},{
+    },{
         "type" : "dream",
         "messages" : [
             "You are terrified by a dream of becoming a lizard hybrid.",
@@ -455,7 +455,7 @@
             ],
         "category" : "MUTCAT_ALPHA",
         "strength" : 3
-	},{
+    },{
         "type" : "dream",
         "messages" : [
             "NO! You will not allow this corruption to prevail!",
@@ -471,7 +471,7 @@
             ],
         "category" : "MUTCAT_CHIMERA",
         "strength" : 3
-	},{
+    },{
         "type" : "dream",
         "messages" : [
             "You've never felt so lithe and powerful.",

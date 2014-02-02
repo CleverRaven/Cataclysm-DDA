@@ -86,6 +86,9 @@
                 "H": "f_armchair",
                 "G": "f_oven"
             },
+            "place_specials": [
+                { "type": "toilet", "x": 10, "y": 3 }
+            ],
             "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
@@ -110,7 +113,7 @@
                 { "item": "kitchen", "chance": 70, "x": [ 15,21 ], "y": [ 2,11 ] },
                 { "item": "fridge", "chance": 70, "x": [ 21,21 ], "y": [ 11,11 ] },
                 { "item": "oven", "chance": 70, "x": [ 21,21 ], "y": [ 10,10 ] },
-                 { "item": "kitchen", "chance": 70, "x": [ 21,21 ], "y": [ 9,9 ] }, 
+                { "item": "kitchen", "chance": 70, "x": [ 21,21 ], "y": [ 9,9 ] },
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] }
             ],
             "comment": "end of mapgen json definition ---v"

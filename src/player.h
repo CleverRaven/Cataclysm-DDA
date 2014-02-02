@@ -12,6 +12,7 @@
 #include "crafting.h"
 #include "vehicle.h"
 #include "martialarts.h"
+#include "player_activity.h"
 
 class monster;
 class game;
@@ -185,6 +186,38 @@ public:
  bool avoid_trap(trap *tr);
 
  bool has_nv();
+
+ /**
+  * Check if this creature can see the square at (x,y).
+  * Includes checks for line-of-sight and light.
+  * @param t The t output of map::sees.
+  */
+ bool sees(int x, int y);
+ bool sees(int x, int y, int &t);
+ /**
+  * Check if this creature can see the critter.
+  * Includes checks for simple critter visibility
+  * (digging/submerged) and if this can see the square
+  * the creature is on.
+  * If this is not the player, it ignores critters that are
+  * hallucinations.
+  * @param t The t output of map::sees.
+  */
+ bool sees(monster *critter);
+ bool sees(monster *critter, int &t);
+ /**
+  * For fake-players (turrets, mounted turrets) this functions
+  * chooses a target. This is for creatures that are friendly towards
+  * the player and therefor choose a target that is hostile
+  * to the player.
+  * @param fire_t The t output of map::sees.
+  * @param range The maximal range to look for monsters, anything
+  * outside of that range is ignored.
+  * @param boo_hoo The number of targets that have been skipped
+  * because the player is in the way.
+  */
+ Creature *auto_find_hostile_target(int range, int &boo_hoo, int &fire_t);
+
 
  void pause(); // '.' command; pauses & reduces recoil
 

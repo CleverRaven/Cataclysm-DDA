@@ -38,7 +38,6 @@
 #include <numeric>
 
 nc_color encumb_color(int level);
-bool activity_is_suspendable(activity_type type);
 static void manage_fire_exposure(player& p, int fireStrength = 1);
 static void handle_cough(player& p, int intensity = 1, int volume = 12);
 
@@ -656,12 +655,8 @@ int player::calc_focus_equilibrium()
     int focus_gain_rate = 100;
 
     if (activity.type == ACT_READ) {
-        it_book* reading;
-        if (this->activity.index == -2) {
-            reading = dynamic_cast<it_book *>(weapon.type);
-        } else {
-            reading = dynamic_cast<it_book *>(inv.find_item(activity.position).type);
-        }
+        item &book = i_at(activity.position);
+        it_book* reading = dynamic_cast<it_book *>(book.type);
         if (reading != 0) {
             // apply a penalty when we're actually learning something
             if (skillLevel(reading->type) < (int)reading->level) {
@@ -3929,16 +3924,6 @@ bool player::is_dead_state() {
 
 void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
     bool u_see = g->u_see(this);
-    if (is_player()) {
-        if (activity.type == ACT_RELOAD) {
-            g->add_msg(_("You stop reloading."));
-        } else if (activity.type == ACT_READ) {
-            g->add_msg(_("You stop reading."));
-        } else if (activity.type == ACT_CRAFT || activity.type == ACT_LONGCRAFT) {
-            g->add_msg(_("You stop crafting."));
-            activity.type = ACT_NULL;
-        }
-    }
     if (source != NULL) {
         if (has_active_bionic("bio_ods")) {
             if (is_player()) {
@@ -8744,14 +8729,7 @@ void player::read(int pos)
     }
 
     // Find the object
-    int index = -1;
-    item* it = NULL;
-    if (pos == -1) {
-        index = -2;
-        it = &weapon;
-    } else {
-        it = &inv.find_item(pos);
-    }
+    item* it = &i_at(pos);
 
     if (it == NULL || it->is_null()) {
         g->add_msg(_("You do not have that item."));
@@ -8776,7 +8754,9 @@ void player::read(int pos)
 
     it_book* tmp = dynamic_cast<it_book*>(it->type);
     int time; //Declare this here so that we can change the time depending on whats needed
-    bool study = false;
+    // activity.get_value(0) == 1: see below at player_activity(ACT_READ)
+    const bool continuous = (activity.get_value(0) == 1);
+    bool study = continuous;
     if (tmp->intel > 0 && has_trait("ILLITERATE")) {
         g->add_msg(_("You're illiterate!"));
         return;
@@ -8805,19 +8785,19 @@ void player::read(int pos)
                            : "Your %s skill won't be improved.  Read anyway?"),
                          tmp->type->name().c_str())) {
         return;
-    } else if (!activity.continuous && !query_yn("Study %s until you learn something? (gain a level)",
+    } else if (!continuous && !query_yn("Study %s until you learn something? (gain a level)",
                                                  tmp->type->name().c_str())) {
         study = false;
     } else {
         //If we just started studying, tell the player how to stop
-        if(!activity.continuous) {
+        if(!continuous) {
             g->add_msg(_("Now studying %s, %s to stop early."),
                        it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
         }
         study = true;
     }
 
-    if (!tmp->recipes.empty() && !(activity.continuous)) {
+    if (!tmp->recipes.empty() && !continuous) {
         if (can_study_recipe(tmp)) {
             g->add_msg(_("This book has more recipes for you to learn."));
         } else if (studied_all_recipes(tmp)) {
@@ -8835,8 +8815,10 @@ void player::read(int pos)
         time += (tmp->time * (tmp->intel - int_cur) * 100);
     }
 
-    activity = player_activity(ACT_READ, time, index, pos, "");
-    activity.continuous = study;
+    activity = player_activity(ACT_READ, time, -1, pos, "");
+    // activity.get_value(0) == 1 means continuous studing until
+    // the player gained the next skill level, this ensured by this:
+    activity.values.push_back(study ? 1 : 0);
     moves = 0;
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
@@ -8909,7 +8891,7 @@ void player::try_to_sleep()
              terlist[ter_at_pos].movecost <= 2 ?
              _("It's a little hard to get to sleep on this %s.") :
              _("It's hard to get to sleep on this %s."),
-             _(terlist[ter_at_pos].name.c_str())); // FIXME i18n
+             terlist[ter_at_pos].name.c_str());
  add_disease("lying_down", 300);
 }
 
@@ -9782,6 +9764,10 @@ void player::assign_activity(activity_type type, int moves, int index, int pos, 
     } else {
         activity = player_activity(type, moves, index, pos, name);
     }
+    if (this->moves <= activity.moves_left) {
+        activity.moves_left -= this->moves;
+    }
+    this->moves = 0;
     activity.warned_of_proximity = false;
 }
 
@@ -9796,9 +9782,10 @@ bool player::has_activity(const activity_type type)
 
 void player::cancel_activity()
 {
- if (activity_is_suspendable(activity.type))
-  backlog = activity;
- activity.type = ACT_NULL;
+    if (activity.is_suspendable()) {
+        backlog = activity;
+    }
+    activity.type = ACT_NULL;
 }
 
 std::vector<item*> player::has_ammo(ammotype at)
@@ -9849,13 +9836,6 @@ nc_color encumb_color(int level)
  if (level < 7)
   return c_ltred;
  return c_red;
-}
-
-bool activity_is_suspendable(activity_type type)
-{
- if (type == ACT_NULL || type == ACT_RELOAD || type == ACT_DISASSEMBLE)
-  return false;
- return true;
 }
 
 SkillLevel& player::skillLevel(std::string ident) {
@@ -10131,6 +10111,119 @@ bool player::has_weapon() {
 
 m_size player::get_size() {
     return MS_MEDIUM;
+}
+
+Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
+{
+    if (is_player()) {
+        debugmsg("called player::auto_find_hostile_target for player themself!");
+        return NULL;
+    }
+    int t;
+    monster *target = NULL;
+    const int iff_dist = 24; // iff check triggers at this distance
+    int iff_hangle = 15; // iff safety margin (degrees). less accuracy, more paranoia
+    int closest = range + 1;
+    int u_angle = 0;         // player angle relative to turret
+    boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
+    bool iff_trig = false;   // player seen and within range of stray shots
+    int pldist = rl_dist(posx, posy, g->u.posx, g->u.posy);
+    if (pldist < iff_dist && g->sees_u(posx, posy, t)) {
+        iff_trig = true;
+        if (pldist < 3) {
+            iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
+        }
+        u_angle = g->m.coord_to_angle(posx, posy, g->u.posx, g->u.posy);
+    }
+    for (int i = 0; i < g->num_zombies(); i++) {
+        monster *m = &g->zombie(i);
+        if (m->friendly != 0) {
+            // friendly to the player, not a target for us
+            continue;
+        }
+        if (!sees(m, t)) {
+            // can't see nor sense it
+            continue;
+        }
+        int dist = rl_dist(posx, posy, m->posx(), m->posy());
+        if (dist >= closest) {
+            // Have a better target anyway, ignore this one.
+            continue;
+        }
+        if (iff_trig) {
+            int tangle = g->m.coord_to_angle(posx, posy, m->posx(), m->posy());
+            int diff = abs(u_angle - tangle);
+            if (diff + iff_hangle > 360 || diff < iff_hangle) {
+                // Player is in the way
+                boo_hoo++;
+                continue;
+            }
+        }
+        target = m;
+        closest = dist;
+        fire_t = t;
+    }
+    return target;
+}
+
+bool player::sees(int x, int y)
+{
+    int dummy = 0;
+    return sees(x, y, dummy);
+}
+
+bool player::sees(int x, int y, int &t)
+{
+    const int s_range = sight_range(g->light_level());
+    static const std::string str_bio_night("bio_night");
+    const int wanted_range = rl_dist(posx, posy, x, y);
+
+    if (wanted_range < clairvoyance()) {
+        return true;
+    }
+    bool can_see = false;
+    if (wanted_range <= s_range ||
+        (wanted_range <= sight_range(DAYLIGHT_LEVEL) &&
+            g->m.light_at(x, y) >= LL_LOW)) {
+        if (is_player()) {
+            // uses the seen cache in map
+            can_see = g->m.pl_sees(posx, posy, x, y, wanted_range);
+        } else {
+            can_see = g->m.sees(posx, posy, x, y, s_range, t);
+        }
+    }
+    if (has_active_bionic(str_bio_night) && wanted_range < 15 && wanted_range > sight_range(1)) {
+        return false;
+    }
+    return can_see;
+}
+
+bool player::sees(monster *critter)
+{
+    int dummy = 0;
+    return sees(critter, dummy);
+}
+
+bool player::sees(monster *critter, int &t)
+{
+    if (!is_player() && critter->is_hallucination()) {
+        // hallucinations are only visible for the player
+        return false;
+    }
+    const int cx = critter->posx();
+    const int cy = critter->posy();
+    int dist = rl_dist(posx, posy, cx, cy);
+    if (dist <= 3 && has_trait("ANTENNAE")) {
+        return true;
+    }
+    if (dist > 1 && critter->digging() && !has_active_bionic("bio_ground_sonar")) {
+        return false; // Can't see digging monsters until we're right next to them
+    }
+    if (g->m.is_divable(cx, cy) && critter->can_submerge() && !is_underwater()) {
+        //Monster is in the water and submerged, and we're out of/above the water
+        return false;
+    }
+    return sees(cx, cy, t);
 }
 
 // --- End ---

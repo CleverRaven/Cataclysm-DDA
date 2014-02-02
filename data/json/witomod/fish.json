@@ -142,7 +142,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A trout",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
+    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES", "FAT"]
   },
   {
     "type"            : "MONSTER",
@@ -200,7 +200,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A pike.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
+    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES", "FAT"]
   },
   {
     "type"            : "MONSTER",
@@ -229,7 +229,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A river bass.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
+    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES", "FAT"]
   },
   {
     "type"            : "MONSTER",
@@ -258,7 +258,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A small spritely perch.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
+    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES", "FAT"]
   },
   {
     "type"            : "MONSTER",
@@ -287,7 +287,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A salmon.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
+    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES", "FAT"]
   },
   {
     "type"            : "MONSTER",

@@ -94,6 +94,9 @@
                 "H": "f_armchair",
                 "G": "f_oven"
             },
+            "place_specials": [
+                { "type": "toilet", "x": 18, "y": 21 }
+            ],
                                         "comment": "specific things ---v",
             "add": [
                 { "item": "pistol_flintlock", "x": 12, "y": 10, "chance": 50 },
@@ -114,10 +117,10 @@
                 { "item": "kitchen", "chance": 50, "x": [ 20,20 ], "y": [ 16,17 ] },
                 { "item": "produce", "chance": 50, "x": [ 17,17 ], "y": 17 },
                 { "item": "novels", "chance": 70, "x": [ 2,2 ], "y": [ 17, 17 ] },
-                { "item": "textbooks", "chance": 10, "x": [ 2,2 ], "y": [ 17, 17 ] }, 
+                { "item": "textbooks", "chance": 10, "x": [ 2,2 ], "y": [ 17, 17 ] },
                 { "item": "alcohol", "chance": 30, "x": 2, "y": 12 },
                 { "item": "alcohol", "chance": 30, "x": 8, "y": [ 12,13 ] },
-                 { "item": "pool_table", "chance": 50, "x": [ 4,6 ], "y": [ 13,14 ]}, 
+                { "item": "pool_table", "chance": 50, "x": [ 4,6 ], "y": [ 13,14 ]},
                 { "item": "office", "chance": 30, "x": [ 11,15 ] , "y": [ 19,21 ] },
                 { "item": "oven", "chance": 50, "x": [ 17, 17 ], "y": 19 },
                 { "item": "cleaning", "chance": 75, "x": [ 17,22 ], "y": [ 21,22 ] },

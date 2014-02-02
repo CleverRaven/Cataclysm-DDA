@@ -251,6 +251,7 @@ void MonsterGenerator::init_flags() {
     flag_map["FEATHER"] = MF_FEATHER;
     flag_map["CBM"] = MF_CBM;
     flag_map["BONES"] = MF_BONES;
+    flag_map["FAT"] = MF_FAT;
     flag_map["IMMOBILE"] = MF_IMMOBILE;
     flag_map["FRIENDLY_SPECIAL"] = MF_FRIENDLY_SPECIAL;
     flag_map["HIT_AND_RUN"] = MF_HIT_AND_RUN;

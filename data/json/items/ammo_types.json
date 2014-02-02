@@ -181,6 +181,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "lamp_oil",
+        "name" : "lamp oil",
+        "default" : "lamp_oil"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "thread",
         "name" : "thread",
         "default" : "thread"

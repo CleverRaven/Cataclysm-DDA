@@ -183,6 +183,7 @@ nc_color cyan_background(nc_color c);
 nc_color rand_color();
 
 nc_color color_from_string(std::string color);
+std::string string_from_color(nc_color color);
 nc_color bgcolor_from_string(std::string color);
 nc_color get_color_from_tag(const std::string &s, const nc_color base_color);
 

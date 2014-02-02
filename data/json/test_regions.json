@@ -12,7 +12,7 @@
       "field_coverage": {                   "//": "biome settings for builtin field mapgen",
           "percent_coverage": 1.9333,       "//": "% of tiles that have a plant: one_in(120)",
           "default_ter": "t_rubble",        "//": "default plant. Except this is a desert. Enjoy your rock.",
-          "other": {                        "//": "% of plants that aren't default_ter",   
+          "other": {                        "//": "% of plants that aren't default_ter",
               "t_shrub": 0.4166,
               "f_mutpoppy": 5.3333,
               "f_mutcactus_test": 10.3333
