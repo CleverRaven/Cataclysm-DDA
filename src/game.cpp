@@ -1492,7 +1492,7 @@ bool game::cancel_activity_query(const char* message, ...)
 
     if (ACT_NULL == u.activity.type) {
         if (u.has_destination()) {
-            add_msg(_("%s. Auto-move cancelled"), s.c_str());
+            add_msg(_("%s. Auto-move canceled"), s.c_str());
             u.clear_destination();
         }
         return false;

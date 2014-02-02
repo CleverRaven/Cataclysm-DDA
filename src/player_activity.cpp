@@ -42,7 +42,7 @@ const std::string &player_activity::get_stop_phrase() const {
         _(" Stop pumping gas?"), _(" Stop training?"),
         _(" Stop waiting?"), _(" Stop using first aid?"),
         _(" Stop fishing?"), _(" Stop mining?"),
-        _(" Stop smasing?")
+        _(" Stop smashing?")
     };
     return stop_phrase[type];
 }
