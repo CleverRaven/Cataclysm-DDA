@@ -5750,7 +5750,7 @@
   "tools": [
     [
       [ "dehydrator", 25 ],
-      [ "char_smoker", 4 ]
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
@@ -5774,7 +5774,7 @@
   "tools": [
     [
       [ "dehydrator", 25 ],
-      [ "char_smoker", 4 ]
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
@@ -5799,7 +5799,7 @@
   "tools": [
     [
       [ "dehydrator", 25 ],
-      [ "char_smoker", 4 ]
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
@@ -5977,7 +5977,7 @@
   "tools": [
     [
       [ "dehydrator", 25 ],
-      [ "char_smoker", 4 ]
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
@@ -6009,7 +6009,7 @@
   "tools": [
     [
       [ "dehydrator", 25 ],
-      [ "char_smoker", 4 ]
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
