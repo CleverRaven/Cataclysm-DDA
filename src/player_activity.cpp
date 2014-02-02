@@ -62,6 +62,18 @@ bool player_activity::is_abortable() const {
     }
 }
 
+bool player_activity::is_suspendable() const {
+    switch(type) {
+        case ACT_NULL:
+        case ACT_RELOAD:
+        case ACT_DISASSEMBLE:
+            return false;
+        default:
+            return true;
+    }
+}
+
+
 int player_activity::get_value(int index, int def) const {
     return (index < values.size()) ? values[index] : def;
 }

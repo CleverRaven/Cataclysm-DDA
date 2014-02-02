@@ -38,7 +38,6 @@
 #include <numeric>
 
 nc_color encumb_color(int level);
-bool activity_is_suspendable(activity_type type);
 static void manage_fire_exposure(player& p, int fireStrength = 1);
 static void handle_cough(player& p, int intensity = 1, int volume = 12);
 
@@ -9794,9 +9793,10 @@ bool player::has_activity(const activity_type type)
 
 void player::cancel_activity()
 {
- if (activity_is_suspendable(activity.type))
-  backlog = activity;
- activity.type = ACT_NULL;
+    if (activity.is_suspendable()) {
+        backlog = activity;
+    }
+    activity.type = ACT_NULL;
 }
 
 std::vector<item*> player::has_ammo(ammotype at)
@@ -9847,13 +9847,6 @@ nc_color encumb_color(int level)
  if (level < 7)
   return c_ltred;
  return c_red;
-}
-
-bool activity_is_suspendable(activity_type type)
-{
- if (type == ACT_NULL || type == ACT_RELOAD || type == ACT_DISASSEMBLE)
-  return false;
- return true;
 }
 
 SkillLevel& player::skillLevel(std::string ident) {

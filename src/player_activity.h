@@ -35,9 +35,20 @@ public:
     // Question to ask when the activity is to be stoped,
     // e.g. " Stop doing something?", already translated.
     const std::string &get_stop_phrase() const;
+    /**
+     * If this returns true, the activity can be aborted with
+     * the ACTION_PAUSE key (see game::handle_key_blocking_activity)
+     */
     bool is_abortable() const;
     int get_value(int index, int def = 0) const;
     std::string get_str_value(int index, const std::string def = "") const;
+    /**
+     * If this returns true, the action can be continued without
+     * starting from scratch again (see player::backlog). This is only
+     * possible if the player start the very same activity (with the same
+     * parameters) again.
+     */
+    bool is_suspendable() const;
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const;
