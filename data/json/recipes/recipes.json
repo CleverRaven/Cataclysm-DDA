@@ -18102,6 +18102,41 @@
   ]
 },{
         "type" : "recipe",
+  "result": "water_faucet",
+  "subcategory": "CSC_OTHER_PARTS",
+  "category": "CC_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "mechanics", 1 ],
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "kitchen_unit",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -18152,6 +18187,9 @@
     ],
     [
       [ "pan", 1 ]
+    ],
+	[
+      [ "water_faucet", 1 ]
     ]
   ]
 },{
