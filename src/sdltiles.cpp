@@ -1343,8 +1343,8 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         selected_row = (coordinate_y - win_top) / fontheight;
     }
 
-    x = g->ter_view_x - (ceil((double)view_columns/2) - selected_column);
-    y = g->ter_view_y - (ceil((double)view_rows/2) - selected_row);
+    x = g->ter_view_x - ( floor( (double)view_columns / 2.0 ) - selected_column );
+    y = g->ter_view_y - ( floor( (double)view_rows / 2.0 ) - selected_row );
 
     return true;
 }
