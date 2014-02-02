@@ -293,6 +293,7 @@
       ["milk_powder", 15],
       ["cornmeal", 40],
       ["powder_eggs", 20],
+      ["granola", 5],
       ["protein_powder", 15],
       ["dry_meat", 10],
       ["dry_fish", 10],
@@ -603,6 +604,9 @@
       ["bearing", 1],
       ["atomic_light", 1],
       ["alarmclock", 10],
+      ["fungicide", 10],
+      ["oil_lamp", 10],
+      ["lamp_oil", 10],
       ["charcoal", 20]
     ]
   },{
@@ -1019,6 +1023,8 @@
       ["chocpretzels", 40],
       ["chocolate", 50],
       ["jerky", 55],
+      ["pemmican", 5],
+      ["granola", 10],
       ["porkstick", 55],
       ["candy", 80],
       ["candy2", 80],
@@ -1359,6 +1365,7 @@
       ["thorazine", 7],
       ["prozac", 10],
       ["antibiotics", 25],
+      ["antifungal", 2],
       ["syringe", 8]
     ]
   },{
@@ -1492,6 +1499,7 @@
       ["oxy_powder", 5],
       ["boots_rubber", 20],
       ["charcoal", 5],
+      ["fungicide", 2],
       ["soap", 20]
     ]
   },{
@@ -1545,6 +1553,7 @@
       ["tool_belt", 30],
       ["knee_pads", 20],
       ["cu_pipe", 50],
+      ["fungicide", 5],
       ["charcoal", 5]
     ]
   },{
@@ -1642,6 +1651,7 @@
       ["textbook_fabrication", 12],
       ["vac_sealer", 10],
       ["sm_extinguisher", 10],
+      ["fungicide", 5],
       ["tool_belt", 30]
     ]
   },{
@@ -1836,6 +1846,8 @@
       ["rebreather", 3],
       ["fishing_waders", 12],
       ["gasoline_lantern", 5],
+      ["oil_lamp", 5],
+      ["lamp_oil", 5],
       ["folding_bicycle", 1],
       ["coat_rain",10],
       ["hood_rain", 5],
@@ -2111,16 +2123,16 @@
     "id" : "ammo",
     "items":[
       ["shot_bird", 8],
-      ["shot_00", 8],
-      ["shot_flechette", 3],
-      ["20x66_shot", 5],
+      ["shot_00", 10],
+      ["shot_flechette", 2],
+      ["20x66_shot", 3],
       ["20x66_exp", 1],
       ["20x66_inc", 2],
-      ["20x66_flare", 3],
-      ["20x66_frag", 2],
-      ["20x66_slug", 4],
+      ["20x66_flare", 2],
+      ["20x66_frag", 1],
+      ["20x66_slug", 3],
       ["20x66_flechette", 3],
-      ["20x66_beanbag", 4],
+      ["20x66_beanbag", 2],
       ["shot_slug", 6],
       ["22_fmj", 3],
       ["22_lr", 9],
@@ -3234,6 +3246,7 @@
       ["fungicide", 10],
       ["oxygen_tank", 40],
       ["smoxygen_tank", 10],
+      ["antifungal", 5],
       ["jar_3l_glass", 15]
     ]
   },{
@@ -3867,6 +3880,8 @@
       ["press", 5],
       ["vac_sealer", 10],
       ["gasoline_lantern", 5],
+      ["oil_lamp", 5],
+      ["lamp_oil", 5],
       ["flotation_vest", 1],
       ["huge_crossbow", 2],
       ["quiver", 2],
@@ -4084,6 +4099,8 @@
       ["emer_blanket", 20],
       ["flyer", 10],
       ["gasoline_lantern", 5],
+      ["oil_lamp", 5],
+      ["lamp_oil", 5],
       ["flotation_vest", 1],
       ["vaccine_shot", 10],
       ["coat_rain", 5],
@@ -5235,6 +5252,8 @@
       ["jerrycan", 10],
       ["jerrycan_big", 10],
       ["gasoline_lantern", 5],
+      ["oil_lamp", 5],
+      ["lamp_oil", 5],
       ["shovel", 10],
       ["e_tool", 5],
       ["apron_leather", 10]
@@ -5359,6 +5378,8 @@
       ["jar_3l_glass", 8],
       ["flyer", 10],
       ["gasoline_lantern", 10],
+      ["oil_lamp", 5],
+      ["lamp_oil", 1],
       ["child_book", 4],
       ["hairpin", 3],
       ["fc_hairpin", 1],
@@ -6074,6 +6095,7 @@
       ["rx12_injector", 5],
       ["ampoule", 10],
       ["optical_cloak", 2],
+      ["antifungal", 1],
       ["bot_laserturret", 2]
     ]
   },{
@@ -6103,6 +6125,7 @@
       ["con_milk", 20],
       ["jar_fish_pickled", 26],
       ["lutefisk", 1],
+      ["pemmican", 10],
       ["jar_meat_pickled", 20]
     ]
   },{
@@ -6179,6 +6202,7 @@
       ["heroin", 1],
       ["crack", 4],
       ["crackpipe", 7],
+      ["antifungal", 1],
       ["lsd", 6]
     ]
   },{
@@ -6274,6 +6298,35 @@
       ["gold_watch", 5],
       ["pocketwatch", 2]
     ]
+},{
+    "type" : "item_group",
+    "id" : "methlab",
+    "items":[
+      ["bandages", 50],
+      ["pan", 60],
+      ["coke", 10],
+      ["meth", 90],
+      ["jar_glass", 80],
+      ["heroin", 1],
+      ["bleach", 60],
+      ["ammonia", 60],
+      ["syringe", 30],
+      ["punch_dagger", 12],
+      ["water_clean", 80],
+      ["salt", 80],
+      ["mag_porn", 20],
+      ["lighter", 60],
+      ["ref_lighter", 2],
+      ["matches", 60],
+      ["sewage", 60],
+      ["pipebomb", 4],
+      ["crack", 8],
+      ["crackpipe", 37],
+      ["lsd", 10],
+      ["chemistry_set", 50],
+      ["battery", 70],
+      ["flashlight", 40]
+      ]
   },{
     "type" : "item_group",
     "id" : "wreckage",
@@ -6754,6 +6807,8 @@
       ["pickaxe", 1],
       ["makeshift_machete", 4],
       ["flamethrower_crude", 6],
+      ["fungicide", 10],
+      ["antifungal", 1],
       ["flamethrower_simple", 2]
     ]
   },{

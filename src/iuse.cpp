@@ -731,12 +731,12 @@ int iuse::fungicide(player *p, item *it, bool) {
         g->add_msg_if_player(p, _("You can't do that while underwater."));
         return false;
     }
-    g->add_msg_if_player(p,_("You take some fungicide."));
-    if (p->has_disease("fungus")) {
+    g->add_msg_if_player(p,_("You use your fungicide."));
+    if (p->has_disease("fungus") && (one_in(3))) {
         p->rem_disease("fungus");
         g->add_msg_if_player(p,_("You feel a burning sensation under your skin that quickly fades away."));
     }
-    if (p->has_disease("spores")) {
+    if (p->has_disease("spores")&& (one_in(2))) {
         if (!p->has_disease("fungus")) {
             g->add_msg_if_player(p,_("Your skin grows warm for a moment."));
         }
@@ -775,6 +775,24 @@ int iuse::fungicide(player *p, item *it, bool) {
                     break;
                 }
             }
+        }
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::antifungal(player *p, item *it, bool) {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return false;
+    }
+    g->add_msg_if_player(p,_("You take some antifungal medication."));
+    if (p->has_disease("fungus")) {
+        p->rem_disease("fungus");
+        g->add_msg_if_player(p,_("You feel a burning sensation under your skin that quickly fades away."));
+    }
+    if (p->has_disease("spores")) {
+        if (!p->has_disease("fungus")) {
+            g->add_msg_if_player(p,_("Your skin grows warm for a moment."));
         }
     }
     return it->type->charges_to_use();
@@ -2063,6 +2081,14 @@ int iuse::fishing_rod_basic (player *p, item *it, bool) {
 
     return 0;
   }
+  // can't use g->om_global_location, because that gives the position
+  // of the player, not of (dirx, diry)
+  const int cursx = (g->levx + dirx / SEEX) / 2 + g->cur_om->pos().x * OMAPX;
+  const int cursy = (g->levy + diry / SEEY) / 2 + g->cur_om->pos().y * OMAPY;
+  if (!otermap[overmap_buffer.ter(cursx, cursy, g->levz)].is_river) {
+    g->add_msg_if_player(p, _("That water does not contain any fish, try a river instead."));
+    return 0;
+  }
 
   g->add_msg_if_player(p, _("You throw your fishing line and wait to hook something..."));
 
@@ -2170,7 +2196,7 @@ int iuse::scissors(player *p, item *it, bool t)
         if(!query_yn(_("You are wielding that, are you sure?"))) {
             return 0;
         }
-    } else if (p->has_weapon_or_armor(cut->invlet))
+    } else if (pos < -1)
     {
         if(!query_yn(_("You're wearing that, are you sure?"))) {
             return 0;
@@ -2315,6 +2341,52 @@ int iuse::gasoline_lantern_on(player *p, item *it, bool t)
     {
         g->add_msg_if_player(p,_("The lantern is extinguished."));
         it->make(itypes["gasoline_lantern"]);
+        it->active = false;
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::oil_lamp_off(player *p, item *it, bool)
+{
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
+    if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,_("The lamp is empty."));
+        return 0;
+    }
+    else if(!p->use_charges_if_avail("fire", 1))
+    {
+        g->add_msg_if_player(p,_("You need a lighter!"));
+        return 0;
+    }
+    else
+    {
+        g->add_msg_if_player(p,_("You turn the lamp on."));
+        it->make(itypes["oil_lamp_on"]);
+        it->active = true;
+        return it->type->charges_to_use();
+    }
+}
+
+int iuse::oil_lamp_on(player *p, item *it, bool t)
+{
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p,_("The lamp is extinguished."));
+        it->make(itypes["oil_lamp"]);
+        it->active = false;
+        return 0;
+    }
+    if (t)  // Normal use
+    {
+// Do nothing... player::active_light and the lightmap::generate deal with this
+    }
+    else  // Turning it off
+    {
+        g->add_msg_if_player(p,_("The lamp is extinguished."));
+        it->make(itypes["oil_lamp"]);
         it->active = false;
     }
     return it->type->charges_to_use();
@@ -5883,7 +5955,7 @@ int iuse::knife(player *p, item *it, bool t)
         if(!query_yn(_("You are wielding that, are you sure?"))) {
             return 0;
         }
-    } else if (p->has_weapon_or_armor(cut->invlet))
+    } else if (pos < -1)
     {
         if(!query_yn(_("You're wearing that, are you sure?"))) {
             return 0;
@@ -7312,6 +7384,7 @@ int iuse::jet_injector(player *p, item *it, bool)
     p->rem_disease("infected");
     p->rem_disease("bite");
     p->rem_disease("bleed");
+    p->rem_disease("fungus");
     p->radiation += 4;
     p->healall(20);
   }

@@ -911,6 +911,14 @@
     ]
   },{
     "type":"monstergroup",
+    "name" : "GROUP_PREPPER_HOUSE",
+    "default" : "mon_zombie",
+    "monsters" : [
+      { "monster" : "mon_zombie_smoker", "freq" : 180, "cost_multiplier" : 0 },
+      { "monster" : "mon_zombie_survivor", "freq" : 400, "cost_multiplier" : 0 }
+    ]
+  },{
+    "type":"monstergroup",
     "name" : "GROUP_PHARM", "_comment" : "+15% fast",
     "default" : "mon_zombie",
     "monsters" : [

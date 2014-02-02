@@ -246,6 +246,59 @@
     },
     {
         "type": "profession",
+        "ident": "specops",
+        "name": "Special Operator",
+        "description": "You were the best of the best, the military's finest. That's why you're still alive, even after all your comrades fell to the undead. As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+        "points": 5,
+        "skills": [
+            {
+                "level": 3,
+                "name": "gun"
+            },
+            {
+                "level": 3,
+                "name": "smg"
+            },
+            {
+                "level": 2,
+                "name": "pistol"
+            },
+            {
+                "level": 1,
+                "name": "dodge"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            },
+            {
+                "level": 1,
+                "name": "swimming"
+            }
+        ],
+        "items": {
+            "both": [
+                "pants_army",
+                "jacket_army",
+                "beret",
+                "gloves_tactical",
+                "boots_combat",
+                "rm2000_smg",
+                "suppressor",
+                "8mm_fmj",
+                "knife_trench"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "maid",
         "name": {
             "male": "Butler",
@@ -524,6 +577,12 @@
                 "can_beans",
                 "pockknife",
                 "matches"
+            ],
+            "male": [
+                "undershirt"
+            ],
+            "female": [
+                "camisole"
             ]
         },
         "addictions": [
@@ -543,6 +602,12 @@
             "both": [
                 "pants",
                 "boxer_shorts"
+            ],
+            "male": [
+                "undershirt"
+            ],
+            "female": [
+                "camisole"
             ]
         },
         "addictions": [
@@ -1438,7 +1503,6 @@
                 "mbag",
                 "wristwatch",
                 "leather_belt",
-                "briefs",
                 "postman_shorts",
                 "socks",
                 "sneakers"

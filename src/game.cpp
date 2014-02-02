@@ -4155,66 +4155,39 @@ void game::draw_overmap()
 
 void game::disp_kills()
 {
- WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                    (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
-                    (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+        std::max(0, (TERMY - FULL_SCREEN_HEIGHT) / 2),
+        std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
 
- draw_border(w);
+    std::vector<std::string> data;
+    int totalkills = 0;
+    const int colum_width = (getmaxx(w) - 2) / 3; // minus border
+    for (std::map<std::string, int>::iterator kill = kills.begin(); kill != kills.end(); ++kill){
+        const mtype *m = MonsterGenerator::generator().get_mtype(kill->first);
+        std::ostringstream buffer;
+        buffer << "<color_" << string_from_color(m->color) << ">";
+        buffer << std::string(1, m->sym) << " " << m->name;
+        buffer << "</color>";
+        const int w = colum_width - utf8_width(m->name.c_str());
+        buffer.width(w - 3); // gap between cols, monster sym, space
+        buffer.fill(' ');
+        buffer << kill->second;
+        buffer.width(0);
+        data.push_back(buffer.str());
+        totalkills += kill->second;
+    }
+    std::ostringstream buffer;
+    if(data.empty()) {
+        buffer << _("You haven't killed any monsters yet!");
+    } else {
+        buffer << _("KILL COUNT: ") << totalkills;
+    }
+    display_table(w, buffer.str(), 3, data);
 
- std::vector<mtype *> types;
- std::vector<int> count;
- for (std::map<std::string, int>::iterator kill = kills.begin(); kill != kills.end(); ++kill){
-    types.push_back(MonsterGenerator::generator().get_mtype(kill->first));
-    count.push_back(kill->second);
- }
-
- mvwprintz(w, 1, 32, c_white, _("KILL COUNT:"));
-
- if (types.size() == 0) {
-  mvwprintz(w, 2, 2, c_white, _("You haven't killed any monsters yet!"));
-  wrefresh(w);
-  getch();
-  werase(w);
-  wrefresh(w);
-  delwin(w);
-  refresh_all();
-  return;
- }
- int totalkills = 0;
- int hori = 1;
- int horimove = 0;
- int vert = -2;
- // display individual kill counts
- for (int i = 0; i < types.size(); i++) {
-  hori = 1;
-  if (i > 21) {
-   hori = 28;
-   vert = 20;
-  }
-  if( i > 43) {
-   hori = 56;
-   vert = 42;
-  }
-  mvwprintz(w, i - vert, hori, types[i]->color, "%c %s", types[i]->sym, types[i]->name.c_str());
-  if (count[i] >= 10)
-   horimove = -1;
-  if (count[i] >= 100)
-   horimove = -2;
-  if (count[i] >= 1000)
-   horimove = -3;
-  mvwprintz(w, i - vert, hori + 22 + horimove, c_white, "%d", count[i]);
-  totalkills += count[i];
-  horimove = 0;
- }
- // Display total killcount at top of window
- mvwprintz(w, 1, 44, c_white, "%d", totalkills);
-
- wrefresh(w);
- getch();
- werase(w);
- wrefresh(w);
- delwin(w);
- refresh_all();
+    werase(w);
+    wrefresh(w);
+    delwin(w);
+    refresh_all();
 }
 
 inline bool npc_dist_to_player(const npc *a, const npc *b) {
@@ -5068,20 +5041,7 @@ bool game::sees_u(int x, int y, int &t)
 
 bool game::u_see(int x, int y)
 {
- static const std::string str_bio_night("bio_night");
- int wanted_range = rl_dist(u.posx, u.posy, x, y);
-
- bool can_see = false;
- if (wanted_range < u.clairvoyance())
-  can_see = true;
- else if (wanted_range <= u.sight_range(light_level()) ||
-          (wanted_range <= u.sight_range(DAYLIGHT_LEVEL) &&
-            m.light_at(x, y) >= LL_LOW))
-     can_see = m.pl_sees(u.posx, u.posy, x, y, wanted_range);
-     if (u.has_active_bionic(str_bio_night) && wanted_range < 15 && wanted_range > u.sight_range(1))
-        return false;
-
- return can_see;
+    return u.sees(x, y);
 }
 
 bool game::u_see(Creature *t)
@@ -5096,30 +5056,7 @@ bool game::u_see(Creature &t)
 
 bool game::u_see(monster *critter)
 {
- int dist = rl_dist(u.posx, u.posy, critter->posx(), critter->posy());
- if (u.has_trait("ANTENNAE") && dist <= 3) {
-  return true;
- }
- if (critter->digging() && !u.has_active_bionic("bio_ground_sonar") && dist > 1) {
-  return false; // Can't see digging monsters until we're right next to them
- }
- if (m.is_divable(critter->posx(), critter->posy()) && critter->can_submerge()
-         && !u.is_underwater()) {
-   //Monster is in the water and submerged, and we're out of/above the water
-   return false;
- }
-
- return u_see(critter->posx(), critter->posy());
-}
-
-bool game::pl_sees(player *p, monster *critter, int &t)
-{
- // TODO: [lightmap] Allow npcs to use the lightmap
- if (critter->digging() && !p->has_active_bionic("bio_ground_sonar") &&
-       rl_dist(p->posx, p->posy, critter->posx(), critter->posy()) > 1)
-  return false; // Can't see digging monsters until we're right next to them
- int range = p->sight_range(light_level());
- return m.sees(p->posx, p->posy, critter->posx(), critter->posy(), range, t);
+    return u.sees(critter);
 }
 
 /**
@@ -7600,8 +7537,10 @@ void game::examine(int examx, int examy)
         int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
         int vpchemlab = veh->part_with_feature(veh_part, "CHEMLAB", true);
         int vpcontrols = veh->part_with_feature(veh_part, "CONTROLS", true);
+        std::vector<item> here_ground = m.i_at(examx, examy);
         if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
-                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0 || vpchemlab >=0 || vpcontrols >=0) {
+                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0 || vpchemlab >=0 || vpcontrols >=0 
+                || here_ground.size() > 0) {
             pickup(examx, examy, 0);
         } else if (u.controlling_vehicle) {
             add_msg (_("You can't do that while driving."));
@@ -8843,6 +8782,7 @@ void game::pickup(int posx, int posy, int min)
     std::vector<uimenu_entry> options_message;
 
     vehicle *veh = m.veh_at (posx, posy, veh_part);
+    std::vector<item> here_ground = m.i_at(posx, posy);
     if (min != -1 && veh) {
         k_part = veh->part_with_feature(veh_part, "KITCHEN");
         w_part = veh->part_with_feature(veh_part, "WELDRIG");
@@ -8863,6 +8803,12 @@ void game::pickup(int posx, int posy, int min)
             menu_items.push_back(_("Get items"));
             options_message.push_back(uimenu_entry(_("Get items"), 'g'));
         }
+
+        if(here_ground.size() > 0) {
+            menu_items.push_back(_("Get items on the ground"));
+            options_message.push_back(uimenu_entry(_("Get items on the ground"), 'i'));
+        }
+
         if((k_part >= 0 || chempart >= 0) && veh->fuel_left("battery") > 0)
         {
           menu_items.push_back(_("Use the hotplate"));
@@ -8988,6 +8934,11 @@ void game::pickup(int posx, int posy, int min)
         {
             exam_vehicle(*veh, posx, posy);
             return;
+        }
+
+        if(menu_items[choice]==_("Get items on the ground"))
+        {
+          from_veh = false;
         }
 
     }
@@ -10505,17 +10456,17 @@ void game::complete_butcher(int index)
  int age = m.i_at(u.posx, u.posy)[index].bday;
  m.i_rem(u.posx, u.posy, index);
  int factor = u.butcher_factor();
- int pieces = 0, skins = 0, bones = 0, sinews = 0, feathers = 0;
+ int pieces = 0, skins = 0, bones = 0, fats = 0, sinews = 0, feathers = 0;
  double skill_shift = 0.;
 
  int sSkillLevel = u.skillLevel("survival");
 
  switch (corpse->size) {
-  case MS_TINY:   pieces =  1; skins =  1; bones = 1; sinews = 1; feathers = 2;  break;
-  case MS_SMALL:  pieces =  2; skins =  3; bones = 4; sinews = 4; feathers = 6;  break;
-  case MS_MEDIUM: pieces =  4; skins =  6; bones = 9; sinews = 9; feathers = 11; break;
-  case MS_LARGE:  pieces =  8; skins = 10; bones = 14;sinews = 14; feathers = 17;break;
-  case MS_HUGE:   pieces = 16; skins = 18; bones = 21;sinews = 21; feathers = 24;break;
+  case MS_TINY:   pieces =  1; skins =  1; bones = 1; fats = 1; sinews = 1; feathers = 2;  break;
+  case MS_SMALL:  pieces =  2; skins =  3; bones = 4; fats = 2; sinews = 4; feathers = 6;  break;
+  case MS_MEDIUM: pieces =  4; skins =  6; bones = 9; fats = 4; sinews = 9; feathers = 11; break;
+  case MS_LARGE:  pieces =  8; skins = 10; bones = 14; fats = 8; sinews = 14; feathers = 17;break;
+  case MS_HUGE:   pieces = 16; skins = 18; bones = 21; fats = 16; sinews = 21; feathers = 24;break;
  }
 
  skill_shift += rng(0, sSkillLevel - 3);
@@ -10534,6 +10485,7 @@ void game::complete_butcher(int index)
  if (skill_shift < 5)  { // Lose some skins and bones
   skins += ((int)skill_shift - 5);
   bones += ((int)skill_shift - 2);
+  fats += ((int)skill_shift - 4);
   sinews += ((int)skill_shift - 8);
   feathers += ((int)skill_shift - 1);
  }
@@ -10592,6 +10544,13 @@ void game::complete_butcher(int index)
   if (corpse->has_flag(MF_FEATHER)) {
     m.spawn_item(u.posx, u.posy, "feather", feathers, 0, age);
    add_msg(_("You harvest some feathers!"));
+  }
+ }
+ 
+  if (fats > 0) {
+  if (corpse->has_flag(MF_FAT)) {
+    m.spawn_item(u.posx, u.posy, "fat", fats, 0, age);
+   add_msg(_("You harvest some fat!"));
   }
  }
 
@@ -12294,7 +12253,7 @@ void game::vertical_move(int movez, bool force) {
     if (tmpmap.move_cost(u.posx, u.posy) == 0) {
      popup(_("Halfway down, the way down becomes blocked off."));
      return;
-    } else if (u.has_trait("VINES2") || ("VINES3")) {
+    } if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
         if (query_yn(_("There is a sheer drop halfway down.  Use your vines to descend?"))){
             if (u.has_trait("VINES2")) {
                 if (query_yn(_("Detach a vine?  It'll hurt, but you'll be able to climb back up..."))){
@@ -12315,7 +12274,7 @@ void game::vertical_move(int movez, bool force) {
                 u.hunger += 5;
                 u.thirst += 5;
             }
-        }
+        } else return;
      } else if (u.has_amount("rope_30", 1)) {
      if (query_yn(_("There is a sheer drop halfway down. Climb your rope down?"))){
       rope_ladder = true;

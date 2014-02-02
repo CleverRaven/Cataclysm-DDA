@@ -1300,32 +1300,38 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         capture_win = g->w_terrain;
     }
 
-    // Check if click is within bounds of the window we care about
-    int win_left = capture_win->x * fontwidth;
-    int win_right = (capture_win->x + capture_win->width) * fontwidth;
-    int win_top = capture_win->y * fontheight;
-    int win_bottom = (capture_win->y + capture_win->height) * fontheight;
-    if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
-        return false;
-    }
-
-    int view_columns, view_rows, selected_column, selected_row;
+    int view_columns = capture_win->width;
+    int view_rows = capture_win->height;
+    int selected_column, selected_row;
 
     // Translate mouse coords to map coords based on tile size
 #ifdef SDLTILES
     if (use_tiles)
     {
-        tilecontext->get_window_tile_counts(
-            capture_win->width * fontwidth, capture_win->height * fontheight, view_columns, view_rows);
+        // Check if click is within bounds of the window we care about
+        int win_left = capture_win->x * tilecontext->tile_width;
+        int win_right = (capture_win->x + capture_win->width) * tilecontext->tile_width;
+        int win_top = capture_win->y * tilecontext->tile_height;
+        int win_bottom = (capture_win->y + capture_win->height) * tilecontext->tile_height;
+        if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
+            return false;
+        }
 
-        selected_column = (coordinate_x - win_left) / tilecontext->get_tile_width();
-        selected_row = (coordinate_y - win_top) / tilecontext->get_tile_width();
+        selected_column = (coordinate_x - win_left) / tilecontext->tile_width;
+        selected_row = (coordinate_y - win_top) / tilecontext->tile_height;
     }
     else
 #endif
     {
-        view_columns = capture_win->width;
-        view_rows = capture_win->height;
+        // Check if click is within bounds of the window we care about
+        int win_left = capture_win->x * fontwidth;
+        int win_right = (capture_win->x + capture_win->width) * fontwidth;
+        int win_top = capture_win->y * fontheight;
+        int win_bottom = (capture_win->y + capture_win->height) * fontheight;
+        if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
+            return false;
+        }
+
         selected_column = (coordinate_x - win_left) / fontwidth;
         selected_row = (coordinate_y - win_top) / fontheight;
     }

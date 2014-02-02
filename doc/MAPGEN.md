@@ -30,11 +30,11 @@
 		        * 2.3.1.4 "repeat"
 	        * 2.3.2 "square" {}
         * 2.4 "place_groups": []
-	        * 2.4.0 "monster": 
+	        * 2.4.0 "monster":
 		        * 2.4.0.0 "x" & "y"
 		        * 2.4.0.1 "chance"
 		        * 2.4.0.2 "repeat"
-	        * 2.4.1 "item": 
+	        * 2.4.1 "item":
 		        * 2.4.1.0 "x" & "y"
                         * 2.4.1.1 "amount"
 		        * 2.4.1.2 "chance"
@@ -46,6 +46,7 @@
                         * 2.5.0.2 "chance"
                         * 2.5.0.3 "repeat"
         * 2.6 "lua":
+        * 2.7 "place_specials":
 
 * 3 Method: lua
 	* 3.0 Tested functions
@@ -122,7 +123,7 @@ The above example only illustrate the mapgen entries, not the actual format for 
 ### 1.2.0 "method":
 **required**
 > Values:
-> * "json" - requires 
+> * "json" - requires
 
 ```
 "object": { (more json here) }
@@ -130,7 +131,7 @@ The above example only illustrate the mapgen entries, not the actual format for 
 
 -or-
 
-> * "lua" - requires 
+> * "lua" - requires
 
 ```
 "script": "-- string of lua code\n -- for newline use \n -- and escape \"quote\"s"
@@ -165,11 +166,11 @@ Default: 1000
 ## 1.3 How "overmap_terrain" variables affect mapgen
 "id" is used to determine the required "om_terrain" id for standalone, -except- when the following variables are set in "overmap_terrain":
 * "line_drawing": true - For roads etc, which use ID_straight, ID_curved, ID_tee, ID_four_way
-The following variables also come into play 
+The following variables also come into play
 * "rotates": true - The terrain will be rotated after generation (to face roads etc). For format mapping, north is always up unless rotated east, etc.
 * "extras" - applies rare, random scenes after mapgen; helicoptor crashes, etc
 * "mondensity" - determines the default 'density' value for *"place_groups": [ { "monster": ...* (json) or *map:place_monster(..)* (lua)
- 
+
 ## 1.4 Limitations / TODO
 * JSON: adding vehicles, gas pumps, field effects, and specific monster spawns are still WIP.
 * lua: Just about *everything* is WIP; there are issues passing class pointers back and forth with the game that will be corrected eventually
@@ -181,7 +182,7 @@ The json method is defined by a json object ( go figure ) with the following str
 Note, either "fill_ter" or "rows" + "terrain" are required.
 
 # 2.0 "fill_ter": "terrain_id"
-*required if "rows" is unset* 
+*required if "rows" is unset*
 > Value: ("string"): Valid terrain id from data/json/terrain.json
 
 Example: "fill_ter": "t_grass"
@@ -423,6 +424,36 @@ Example: [ 1, 3 ] - apply 1-3 times
 > Value: "string"
 
 Example: "lua": "if game.one_in(5000) then\n map:square_ter(\"t_lava\", 3, 3, 20, 20)\n game.add_msg(\"Oh noes micro volcano ;.;\")\n end"
+
+#### 2.7 "place_specials"
+**optional** adds special map terrain or furniture objects
+> Value: [ array of {objects} ]: [ { "type": ... }, { "type": ... }, ... ]
+
+Example: { "type": "toilet", "x": 14, "y": 15, "amount": [ 10, 20 ]}
+
+##### 2.7.1 "type"
+**required** A valid type of special.  Current types are "toilet", "gaspump", "vendingmachine", with
+corresponding enums.
+
+These are defined in src\mapgen.cpp mapgen_function_json::setup_place_special
+The corresponding enums are defined in src\mapgen.h jmapgen_place_special_op
+
+Actual code that generates the map special from json is
+src\mapgen.cpp jmapgen_place_special::apply
+
+##### 2.7.2 "x" & "y"
+**required** x and y map coordinates of the map special_attack
+> Value: *number*
+
+##### 2.7.3 "amount"
+**optional** generic value range used in the jmapgen_place_special::apply function.  Typically used to
+specify charges of items for a given type of map terrain/furniture generation.
+> Value: [ *number*, *number* ]
+
+Adding more types to place_specials is done in the following way:
+Add the string identifier and enums in src\mapgen.cpp mapgen_function_json::setup_place_special and src\mapgen.h jmapgen_place_special_op.
+Add the relevant code in src\mapgen.cpp jmapgen_place_special::apply.
+Recompile.
 
 ## 3 Method: lua
 Lua is very WIP but supports the following map class functions:

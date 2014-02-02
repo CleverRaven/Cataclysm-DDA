@@ -251,6 +251,7 @@ void MonsterGenerator::init_flags() {
     flag_map["FEATHER"] = MF_FEATHER;
     flag_map["CBM"] = MF_CBM;
     flag_map["BONES"] = MF_BONES;
+    flag_map["FAT"] = MF_FAT;
     flag_map["IMMOBILE"] = MF_IMMOBILE;
     flag_map["FRIENDLY_SPECIAL"] = MF_FRIENDLY_SPECIAL;
     flag_map["HIT_AND_RUN"] = MF_HIT_AND_RUN;
@@ -358,6 +359,11 @@ void MonsterGenerator::load_species(JsonObject &jo)
 mtype *MonsterGenerator::get_mtype(std::string mon)
 {
     static mtype *default_montype = mon_templates["mon_null"];
+
+    if (mon == "mon_zombie_fast")
+    {
+        mon = "mon_zombie_dog";
+    }
 
     if (mon_templates.find(mon) != mon_templates.end())
     {

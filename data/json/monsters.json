@@ -56,7 +56,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The North American beaver, the continent's largest rodent. Its paddle-shaped tail helps ferry it through the water, and its prominent teeth can chew through wood, which it uses to build dam-like nests in lakes and streams.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "WARM", "FUR", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "WARM", "FUR", "BONES", "FAT"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["SOUND"],
     "categories":["WILDLIFE"]
@@ -87,7 +87,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A mallard duck, often seen around rivers and other bodies of water. It feeds primarily on insects, seeds, roots, and, pre-cataclysm, bread scraps.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "VIS40", "BONES", "FEATHER"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "VIS40", "BONES", "FEATHER", "FAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -117,7 +117,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The American black bear. A large omnivorous scavenger, it has powerful claws and jaws, and is an effective ambush hunter. It can pose a considerable threat, although most individuals are shy around humans.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "VIS40"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "VIS40", "FAT"],
     "anger_triggers":["HURT", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND"],
@@ -149,7 +149,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A spotted wild cat living across much of North America. It is not a serious threat to humans, but it can be aggressive if not left alone.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "VIS40", "BONES"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "VIS40", "BONES", "FAT"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
@@ -180,7 +180,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A small domesticated predator gone feral in the absence of human stewardship. Harried by the elements and the rigors of survival, it is scruffy and skittish.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "VIS40", "BONES"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "VIS40", "BONES", "FAT"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
     "categories":["WILDLIFE"]
@@ -211,7 +211,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A domesticated descendant of junglefowl, it may still be the most numerous bird in the world. Before the Cataclysm, it was raised by humans as a source of meat, eggs, and early morning wakeup calls.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "BONES", "FEATHER"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "BONES", "FEATHER", "FAT"],
     "categories":["WILDLIFE"]
     },{
         "type" : "MONSTER",
@@ -270,7 +270,7 @@
     "death_function":"NORMAL",
     "special_attack":"LEAP",
     "description":"The Eastern cougar, a large feline predator. Once thought extinct in this region, conservation efforts were successful in restoring a thriving population.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "VIS50", "BONES"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "VIS50", "BONES", "FAT"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND"],
@@ -302,7 +302,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The domestic cow, a baleful, ruminating farm animal. It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "VIS40"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "VIS40", "FAT"],
     "anger_triggers":["HURT"],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["PLAYER_CLOSE"],
@@ -365,7 +365,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The Northeastern Coyote, a widespread canine pack hunter. More timid than a wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker prey.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "VIS50"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "VIS50", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -426,7 +426,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The northern woodland white-tailed deer, a quick and strong grazing animal. Favored prey of coyotes, wolves, and giant spider mutants.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "VIS40", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "VIS40", "BONES", "FAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -486,7 +486,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description": "With mangy fur and hungry eyes, it's clear that this once domesticated dog has gone feral.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "VIS40", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "VIS40", "BONES", "FAT"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -549,7 +549,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The red fox, an omnivorous canine and largest of the true foxes, it is a wily hunter with a combative, suspicious temperament.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "VIS40", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "VIS40", "BONES", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -581,7 +581,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"Also known as the woodchuck, this ground squirrel has no actual talent for chucking wood.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "VIS40", "BONES"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "VIS40", "BONES", "FAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -641,7 +641,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful looking muscles.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "VIS40"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "VIS40", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED"],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -703,7 +703,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The American mink, a partially-aquatic weasel, once factory-farmed for its fur. It is a capable fisher, but the presence of otters in these parts makes it rely more on food from the land.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "VIS40", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "VIS40", "BONES", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -735,7 +735,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The Eastern Moose, the largest living species of deer. The bulls are quite ill-tempered, especially in the rutting season.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "VIS40", "ATTACKMON", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "VIS40", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["HURT", "PLAYER_CLOSE"],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["SOUND"],
@@ -767,7 +767,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A large omnivorous rodent with a thick furry pelt, found in wetlands across the northern hemisphere. It marks its territory with a musky odor for which it is named.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "FUR", "VIS40", "BONES"],
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "FUR", "VIS40", "BONES", "FAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -797,7 +797,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The North American river otter is a shy water dwelling relative of the weasel living in large families along the banks of streams. It is an excellent fisher and a resourceful survivor, using the abandoned dens of beavers and other animals to raise its own young.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "WARM", "FUR", "VIS40", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "WARM", "FUR", "VIS40", "BONES", "FAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -827,7 +827,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A domesticated omnivore descended from the wild boar, intelligent and inquisitive. Left to its own devices, it has gone feral.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "KEENNOSE", "BLEED", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["PLAYER_WEAK", "FRIEND_ATTACKED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -950,7 +950,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A timid, hooved grazing mammal, and one of the first animals ever domesticated, its body is covered in a thick layer of wool, and the males have long, spiralling horns.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "WOOL", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "WOOL", "BONES", "FAT"],
     "anger_triggers":[],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
@@ -1102,7 +1102,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The long-tailed weasel, a small but ubiquitous predator whose range extends across the continent. It forms its den in small burrows, preferring to occupy the nesting holes of its prey.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "WARM", "FUR", "VIS40", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "WARM", "FUR", "VIS40", "BONES", "FAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -1132,7 +1132,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A cunning pack predator, once extinct in the New England area, the wolf was successfully reintroduced and their numbers reached record highs in the decade before the cataclysm. Lucky you.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "VIS50"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "VIS50", "FAT"],
     "anger_triggers":["STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -1249,7 +1249,7 @@
     "death_function":"NORMAL",
     "special_attack":"ANTQUEEN",
     "description":"A colossal red ant with a bulging, bloated thorax. It moves slowly and deliberately, tending to nearby eggs and continually laying more.",
-    "flags":["SMELLS", "QUEEN", "CHITIN"],
+    "flags":["SMELLS", "QUEEN", "CHITIN", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT"]
     },{
         "type" : "MONSTER",
@@ -1306,7 +1306,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A tremendous housefly the size of a small dog, predictably accompanied by a loud, incessant buzzing sound.",
-    "flags":["SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CHITIN"],
+    "flags":["SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CHITIN", "FAT"],
     "fear_triggers":["PLAYER_CLOSE"]
     },{
         "type" : "MONSTER",
@@ -1393,7 +1393,7 @@
     "death_function":"WORM",
     "special_attack":"NONE",
     "description":"A monstrous beast with a tripartite mouth that opens to reveal hundreds of writhing tongues with razor sharp edges. It keeps most of its enormous body hidden underground.",
-    "flags":["DIGS", "HEARS", "POISON", "GOODHEARING", "DESTROYS", "WARM", "LEATHER"]
+    "flags":["DIGS", "HEARS", "POISON", "GOODHEARING", "DESTROYS", "WARM", "LEATHER", "FAT"]
     },{
         "type" : "MONSTER",
         "id" : "mon_worm",
@@ -1500,7 +1500,7 @@
     "armor_cut":0,
     "item_chance":40,
     "luminance":0,
-    "hp":50,
+    "hp":80,
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
@@ -1529,7 +1529,7 @@
     "armor_cut":2,
     "item_chance":40,
     "luminance":0,
-    "hp":75,
+    "hp":95,
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
@@ -1558,7 +1558,7 @@
     "armor_cut":1,
     "item_chance":40,
     "luminance":0,
-    "hp":65,
+    "hp":100,
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
@@ -1587,7 +1587,7 @@
     "armor_cut":0,
     "item_chance":40,
     "luminance":0,
-    "hp":40,
+    "hp":60,
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
@@ -1616,7 +1616,7 @@
     "armor_cut":4,
     "item_chance":40,
     "luminance":0,
-    "hp":60,
+    "hp":80,
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
@@ -1645,7 +1645,7 @@
     "armor_cut":6,
     "item_chance":40,
     "luminance":0,
-    "hp":65,
+    "hp":80,
     "special_freq":0,
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
@@ -1674,7 +1674,7 @@
     "armor_cut":7,
     "item_chance":40,
     "luminance":0,
-    "hp":100,
+    "hp":120,
     "special_freq":20,
     "death_function":"ZOMBIE",
     "special_attack":"SHRIEK",
@@ -1702,7 +1702,7 @@
     "armor_cut":0,
     "item_chance":40,
     "luminance":0,
-    "hp":35,
+    "hp":55,
     "special_freq":2,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
@@ -1731,7 +1731,7 @@
     "armor_cut":6,
     "item_chance":40,
     "luminance":0,
-    "hp":60,
+    "hp":80,
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
@@ -1760,7 +1760,7 @@
     "armor_cut":0,
     "item_chance":40,
     "luminance":0,
-    "hp":50,
+    "hp":60,
     "special_freq":10,
     "death_function":"ZOMBIE",
     "special_attack":"SHRIEK",
@@ -1788,7 +1788,7 @@
     "armor_cut":0,
     "item_chance":10,
     "luminance":0,
-    "hp":60,
+    "hp":70,
     "special_freq":20,
     "death_function":"ACID",
     "special_attack":"ACID",
@@ -1816,7 +1816,7 @@
     "armor_cut":0,
     "item_chance":40,
     "luminance":1,
-    "hp":65,
+    "hp":75,
     "special_freq":25,
     "death_function":"ZOMBIE",
     "special_attack":"SHOCKSTORM",
@@ -1844,7 +1844,7 @@
     "armor_cut":0,
     "item_chance":0,
     "luminance":0,
-    "hp":65,
+    "hp":75,
     "special_freq":1,
     "death_function":"SMOKEBURST",
     "special_attack":"SMOKECLOUD",
@@ -1872,7 +1872,7 @@
     "armor_cut":0,
     "item_chance":0,
     "luminance":0,
-    "hp":60,
+    "hp":70,
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
@@ -2013,7 +2013,7 @@
     "armor_cut":1,
     "item_chance":60,
     "luminance":0,
-    "hp":80,
+    "hp":100,
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
@@ -2041,7 +2041,7 @@
     "armor_cut":8,
     "item_chance":80,
     "luminance":0,
-    "hp":260,
+    "hp":360,
     "special_freq":0,
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
@@ -2069,7 +2069,7 @@
     "armor_cut":0,
     "item_chance":20,
     "luminance":0,
-    "hp":40,
+    "hp":60,
     "special_freq":200,
     "death_function":"ZOMBIE",
     "special_attack":"FUNGUS",
@@ -2097,7 +2097,7 @@
     "armor_cut":0,
     "item_chance":30,
     "luminance":0,
-    "hp":20,
+    "hp":40,
     "special_freq":20,
     "death_function":"BOOMER",
     "special_attack":"BOOMER",
@@ -2125,7 +2125,7 @@
     "armor_cut":0,
     "item_chance":20,
     "luminance":0,
-    "hp":20,
+    "hp":30,
     "special_freq":200,
     "death_function":"FUNGUS",
     "special_attack":"FUNGUS",
@@ -2181,7 +2181,7 @@
     "armor_cut":0,
     "item_chance":50,
     "luminance":0,
-    "hp":80,
+    "hp":100,
     "special_freq":4,
     "death_function":"ZOMBIE",
     "special_attack":"RESURRECT",
@@ -2210,7 +2210,7 @@
     "armor_cut":0,
     "item_chance":50,
     "luminance":0,
-    "hp":60,
+    "hp":80,
     "special_freq":20,
     "death_function":"ZOMBIE",
     "special_attack":"SCIENCE",
@@ -2267,7 +2267,7 @@
     "armor_cut":0,
     "item_chance":40,
     "luminance":0,
-    "hp":65,
+    "hp":85,
     "special_freq":0,
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
@@ -2295,7 +2295,7 @@
     "armor_cut":2,
     "item_chance":60,
     "luminance":0,
-    "hp":160,
+    "hp":180,
     "special_freq":3,
     "death_function":"ZOMBIE",
     "special_attack":"UPGRADE",
@@ -2324,7 +2324,7 @@
     "armor_cut":8,
     "item_chance":10,
     "luminance":0,
-    "hp":60,
+    "hp":80,
     "special_freq":0,
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
@@ -2352,7 +2352,7 @@
     "armor_cut":0,
     "item_chance":50,
     "luminance":0,
-    "hp":50,
+    "hp":60,
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"LEAP",
@@ -2380,7 +2380,7 @@
     "armor_cut":0,
     "item_chance":20,
     "luminance":0,
-    "hp":30,
+    "hp":40,
     "special_freq":0,
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
@@ -2977,7 +2977,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A large mutant variety of carp. It has shimmering green scales and a mouth lined with three jagged rows of razor-sharp teeth.",
-    "flags":["SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES"]
+    "flags":["SEES", "SMELLS", "WARM", "AQUATIC", "VIS30", "BONES", "FAT"]
     },{
         "type" : "MONSTER",
         "id" : "mon_sewer_snake",
@@ -3204,7 +3204,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A meter-long centipede with a menacing pair of pincers, moving swiftly on dozens of spindly legs.",
-    "flags":["SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN"]
+    "flags":["SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN", "FAT"]
     },{
         "type" : "MONSTER",
         "id" : "mon_frog",
@@ -3261,7 +3261,7 @@
     "death_function":"NORMAL",
     "special_attack":"LEAP",
     "description":"A mutated bullfrog taller than you are. It stares with amber eyes as it considers the easiest way to swallow you whole.",
-    "flags":["SEES", "SMELLS", "HEARS", "SWIMS", "LEATHER", "VIS40", "ATTACKMON", "BONES"],
+    "flags":["SEES", "SMELLS", "HEARS", "SWIMS", "LEATHER", "VIS40", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
         "type" : "MONSTER",
@@ -3319,7 +3319,7 @@
     "death_function":"NORMAL",
     "special_attack":"ACID",
     "description":"A mutated leopard slug, as wide as a golf cart. Venom dripping from its fanged maw, it slithers ahead slowly, leaving a trail of glistening slime.",
-    "flags":["SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "VIS30"],
+    "flags":["SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "VIS30", "FAT"],
     "anger_triggers":["PLAYER_CLOSE"]
     },{
         "type" : "MONSTER",
@@ -3432,8 +3432,8 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A wolf spider mutated to about thirty times its normal size, it moves quickly and aggresively to catch and consume prey.",
-    "flags":["SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN"],
+    "description":"A wolf spider mutated to about thirty times its normal size, it moves quickly and aggressively to catch and consume prey.",
+    "flags":["SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN", "FAT"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"]
     },{
         "type" : "MONSTER",
@@ -3576,7 +3576,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A gigantic spider with a bulbous thorax. It digs a deep underground burrow that serves as a pit to trap unwary prey.",
-    "flags":["SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CHITIN"]
+    "flags":["SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CHITIN", "FAT"]
     },{
         "type" : "MONSTER",
         "id" : "mon_spider_widow",
@@ -4812,7 +4812,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A large and colorful game bird native to the forests of North America. Its head and beak are covered in fleshy protuberances.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "VIS50", "BONES", "FEATHER"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "VIS50", "BONES", "FEATHER", "FAT"],
     "fear_triggers":["PLAYER_CLOSE", "FRIEND_DIED"],
     "categories":["WILDLIFE"]
     },{
@@ -4842,7 +4842,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A small mammal native to North America, distinctive for its dextrous paws and facial markings. It is resourceful and agile enough to open sealed containers with its paws.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "VIS50"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "VIS50", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "HURT"],
     "categories":["WILDLIFE"]
     },{
@@ -4872,7 +4872,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The Virginia opossum, a small omnivorous marsupial native to North America. About the size of a cat, it is hardy and adaptive, and a fairly common sight in urban areas.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "VIS50"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "VIS50", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "HURT"],
     "fear_triggers":["PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
@@ -4935,7 +4935,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A mutant, terrestrial variety of the signal crayfish, this massive crustacean resembles a humongous lobster.",
-    "flags":["SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "ATTACKMON", "GRABS"],
+    "flags":["SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "ATTACKMON", "GRABS", "FAT"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["FIRE"]
     },{

@@ -61,6 +61,7 @@ void Item_factory::init(){
     iuse_function_list["CIG"] = &iuse::cig;
     iuse_function_list["ANTIBIOTIC"] = &iuse::antibiotic;
     iuse_function_list["FUNGICIDE"] = &iuse::fungicide;
+    iuse_function_list["ANTIFUNGAL"] = &iuse::antifungal;
     iuse_function_list["WEED"] = &iuse::weed;
     iuse_function_list["COKE"] = &iuse::coke;
     iuse_function_list["CRACK"] = &iuse::crack;
@@ -102,6 +103,8 @@ void Item_factory::init(){
     iuse_function_list["LIGHT_ON"] = &iuse::light_on;
     iuse_function_list["GASOLINE_LANTERN_OFF"] = &iuse::gasoline_lantern_off;
     iuse_function_list["GASOLINE_LANTERN_ON"] = &iuse::gasoline_lantern_on;
+    iuse_function_list["OIL_LAMP_OFF"] = &iuse::oil_lamp_off;
+    iuse_function_list["OIL_LAMP_ON"] = &iuse::oil_lamp_on;
     iuse_function_list["LIGHTSTRIP"] = &iuse::lightstrip;
     iuse_function_list["LIGHTSTRIP_ACTIVE"] = &iuse::lightstrip_active;
     iuse_function_list["GLOWSTICK"] = &iuse::glowstick;

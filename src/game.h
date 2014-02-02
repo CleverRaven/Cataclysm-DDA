@@ -275,7 +275,6 @@ public:
   bool u_see (monster *critter);
   bool u_see (Creature *t); // for backwards compatibility
   bool u_see (Creature &t);
-  bool pl_sees(player *p, monster *critter, int &t);
   bool is_hostile_nearby();
   bool is_hostile_very_close();
   void refresh_all();

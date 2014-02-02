@@ -219,7 +219,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     }
     proj.proj_effects.insert(curammo_effects->begin(),curammo_effects->end());
 
-    proj.wide = (weapon.curammo->phase == LIQUID ||
+    proj.wide = (curammo->phase == LIQUID ||
             proj.proj_effects.count("SHOT") || proj.proj_effects.count("BOUNCE"));
     proj.drops = (curammo->type == "bolt" || curammo->type == "arrow");
 
@@ -293,7 +293,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
                 // search for monsters in radius
                 if (rl_dist(z.posx(), z.posy(), tarx, tary) <= std::min(2 + skillLevel("gun"), weaponrange) &&
                         rl_dist(xpos(),ypos(),z.xpos(),z.ypos()) <= weaponrange &&
-                        g->pl_sees(&g->u, &z, dummy) ) {
+                        sees(&z, dummy) ) {
                     if (!z.is_dead_state())
                         new_targets.push_back(point(z.xpos(), z.ypos())); // oh you're not dead and I don't like you. Hello!
                 }
@@ -584,7 +584,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                     message.c_str(), z.name().c_str(), dam);
             }
             if (z.hurt(dam, real_dam)) {
-                kill_mon(zid, !p.is_npc());
+                z.die(&p);
             }
             return;
         } else { // No monster hit, but the terrain might be.
