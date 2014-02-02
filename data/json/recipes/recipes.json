@@ -12529,6 +12529,32 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "lead_plate",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "electronics",
+  "difficulty": 2,
+  "time": 6500,
+  "reversible": true,
+  "autolearn": true,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 2 ] , [ "advanced_electronics", 2 ]],
+  "tools": [
+    [
+      ["crucible", -1]
+    ],
+    [
+      [ "hotplate", 20 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "lead", 200 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "receiver",
   "category": "CC_ELECTRONIC",
@@ -18502,6 +18528,158 @@
     ],
     [
       [ "nail", 8 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "small_storage_battery",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 2 ]
+    ],
+    [
+      [ "lead_plate", 1 ]
+    ],
+    [
+      [ "acid", 1 ]
+    ],
+    [
+      [ "cable", 1 ]
+    ],
+    [
+      [ "circuit", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "battery_motorbike",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 25 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 10 ]
+    ],
+    [
+      [ "lead_plate", 12 ]
+    ],
+    [
+      [ "acid", 1 ]
+    ],
+    [
+      [ "cable", 4 ]
+    ],
+    [
+      [ "circuit", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "battery_car",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 35 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 15 ]
+    ],
+    [
+      [ "lead_plate", 30 ]
+    ],
+    [
+      [ "acid", 2 ]
+    ],
+    [
+      [ "cable", 6 ]
+    ],
+    [
+      [ "circuit", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "battery_truck",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 35 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 20 ]
+    ],
+    [
+      [ "lead_plate", 50 ]
+    ],
+    [
+      [ "acid", 2 ]
+    ],
+    [
+      [ "cable", 10 ]
+    ],
+    [
+      [ "circuit", 15 ]
     ]
   ]
 },{
