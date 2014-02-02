@@ -1017,27 +1017,6 @@
      ]
     ]
 },{
-  "type" : "recipe",
-  "result": "tonfa_wood",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_BASHING",
-  "skill_used": "fabrication",
-  "requires_skills": [ "bashing", 3 ],
-  "difficulty": 4,
-  "time": 30000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "recipe_melee", 3 ]],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "2x4", 1 ],
-      [ "stick", 2 ]
-    ]
-  ]
-},{
         "type" : "recipe",
   "result": "shock_staff",
   "category": "CC_WEAPON",
@@ -1151,6 +1130,50 @@
     ],
     [
       [ "nail", 60 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rep_crossbow",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "archery", 3 ],
+  "difficulty": 3,
+  "time": 45000,
+  "reversible": true,
+  "decomp_learn": 4,
+  "autolearn":false,
+  "book_learn" : [[ "recipe_bows", 4 ] , [ "textbook_weapeast", 6]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "2x4", 4 ],
+      [ "stick", 8 ]
+    ],
+    [
+      [ "spring", 1 ]
+    ],
+    [
+      [ "string_36", 1 ]
+    ],
+    [
+      [ "nail", 20 ]
     ]
   ]
 }
