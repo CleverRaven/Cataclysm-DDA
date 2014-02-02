@@ -733,15 +733,15 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     w_list    = newwin(12, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY, iOffsetX);
     w_active  = newwin(12, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY,
                        FULL_SCREEN_WIDTH / 2 + 2 + iOffsetX);
-    w_description = newwin(6, FULL_SCREEN_WIDTH - 2, 18 + iOffsetY, 1 + iOffsetX);
+    w_description = newwin(5, FULL_SCREEN_WIDTH - 2, 18 + iOffsetY, 1 + iOffsetX);
 
     // draw the separation lines directly onto *win
     // UI LINES
     // make appropriate lines
     int xs[] = {1, 1, (FULL_SCREEN_WIDTH / 2) + 2, (FULL_SCREEN_WIDTH / 2) - 4, (FULL_SCREEN_WIDTH / 2) + 2};
-    int ys[] = {FULL_SCREEN_HEIGHT - 8, 4, 4, 3, 3};
+    int ys[] = {17 + iOffsetY, 4, 4, 3, 3};
     int ls[] = {FULL_SCREEN_WIDTH - 2, (FULL_SCREEN_WIDTH / 2) - 4, (FULL_SCREEN_WIDTH / 2) - 3,
-                FULL_SCREEN_HEIGHT - 11, 1};
+                15 + iOffsetY, 1};
     //horizontal line?
     bool hv[] = {true, true, true, false, false};
 
@@ -761,18 +761,18 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     }
     // Add in connective characters
     mvwputch(win, 4, 0, BORDER_COLOR, LINE_XXXO);
-    mvwputch(win, FULL_SCREEN_HEIGHT - 8, 0, BORDER_COLOR, LINE_XXXO);
+    mvwputch(win, 17 + iOffsetY, 0, BORDER_COLOR, LINE_XXXO);
     mvwputch(win, 4, FULL_SCREEN_WIDTH / 2 + 2, BORDER_COLOR, LINE_XXXO);
 
     mvwputch(win, 4, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX);
-    mvwputch(win, FULL_SCREEN_HEIGHT - 8, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX);
+    mvwputch(win, 17 + iOffsetY, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX);
     mvwputch(win, 4, FULL_SCREEN_WIDTH / 2 - 4, BORDER_COLOR, LINE_XOXX);
 
     mvwputch(win, 2, FULL_SCREEN_WIDTH / 2 - 4, BORDER_COLOR, LINE_OXXX); // -.-
     mvwputch(win, 2, FULL_SCREEN_WIDTH / 2 + 2, BORDER_COLOR, LINE_OXXX); // -.-
 
-    mvwputch(win, FULL_SCREEN_HEIGHT - 8, FULL_SCREEN_WIDTH / 2 - 4, BORDER_COLOR, LINE_XXOX); // _|_
-    mvwputch(win, FULL_SCREEN_HEIGHT - 8, FULL_SCREEN_WIDTH / 2 + 2, BORDER_COLOR, LINE_XXOX); // _|_
+    mvwputch(win, 17 + iOffsetY, FULL_SCREEN_WIDTH / 2 - 4, BORDER_COLOR, LINE_XXOX); // _|_
+    mvwputch(win, 17 + iOffsetY, FULL_SCREEN_WIDTH / 2 + 2, BORDER_COLOR, LINE_XXOX); // _|_
 
     wrefresh(win);
     refresh();
