@@ -9,6 +9,10 @@
       ["morningstar", 10],
       ["helmet_plate", 1],
       ["huge_crossbow", 2],
+      ["katana", 2],
+      ["broadsword", 30],
+      ["zweihander", 20],
+      ["rapier", 3],
       ["wakizashi", 5],
       ["tanto", 7],
       ["armor_lightplate", 1],
@@ -24,7 +28,8 @@
     "items":[
       ["tanto", 7],
       ["wakizashi", 3],
-      ["nodachi", 1]
+      ["nodachi", 1],
+      ["katana", 2]
     ]
   },{
     "type" : "item_group",
@@ -66,14 +71,18 @@
     "type" : "item_group",
     "id" : "art",
     "items":[
-      ["nodachi", 1]
+      ["nodachi", 1],
+      ["katana", 2],
+      ["rapier", 3]
     ]
 },{
     "type" : "item_group",
     "id" : "drugdealer",
     "items":[
       ["wakizashi", 1],
-      ["tanto", 4]
+      ["tanto", 4],
+      ["katana", 1]
+
     ]
   },{
     "type" : "item_group",
