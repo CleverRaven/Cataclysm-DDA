@@ -3575,7 +3575,7 @@ int iuse::chainsaw_on(player *p, item *it, bool t)
 {
     if (p->is_underwater()) {
         g->add_msg_if_player(p,_("Your chainsaw gurgles in the water and stops."));
-        it->make(itypes["combatsaw_off"]);
+        it->make(itypes["chainsaw_off"]);
         it->active = false;
     }
     else if (t) { // Effects while simply on
@@ -3584,7 +3584,7 @@ int iuse::chainsaw_on(player *p, item *it, bool t)
         }
     } else { // Toggling
         g->add_msg_if_player(p,_("Your chainsaw dies."));
-        it->make(itypes["combatsaw_off"]);
+        it->make(itypes["chainsaw_off"]);
         it->active = false;
     }
     return it->type->charges_to_use();
