@@ -5878,7 +5878,7 @@
         "weight" : 20,
         "color" : "brown",
         "addiction_type" : "none",
-        "spoils_in" : 0,
+        "spoils_in" : 72,
         "use_action" : "NONE",
         "stim" : 0,
         "container" : "bag_plastic",
