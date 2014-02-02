@@ -2561,8 +2561,8 @@
             {"item": "scrap", "min": 4, "max": 7}
         ]
     },{
-		"type" : "vehicle_part",
-	    "id": "water_faucet",
+        "type" : "vehicle_part",
+        "id": "water_faucet",
         "name": "water faucet",
         "symbol": "u",
         "color": "light_gray",
@@ -2573,10 +2573,10 @@
         "item": "water_faucet",
         "difficulty": 1,
         "flags": ["FAUCET"],
-		"breaks_into" : [
+        "breaks_into" : [
             {"item": "scrap", "min": 1, "max": 3}
         ]
-	},{
+    },{
         "type" : "vehicle_part",
         "id" : "kitchen_unit",
         "name" : "kitchen unit",

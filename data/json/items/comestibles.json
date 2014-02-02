@@ -2558,7 +2558,7 @@
         "bashing" : 0,
         "fun" : 0
     },
-	{
+    {
         "type" : "COMESTIBLE",
         "id" : "mutagen_elfa",
         "category" : "drugs",
@@ -2589,7 +2589,7 @@
         "bashing" : 0,
         "fun" : 0
     },
-	{
+    {
         "type" : "COMESTIBLE",
         "id" : "mutagen_raptor",
         "category" : "drugs",
@@ -11457,7 +11457,7 @@
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
-        "phase" : "liquid", 
+        "phase" : "liquid",
         "charges" : 2,
         "bashing" : 0,
         "fun" : -40
@@ -13887,7 +13887,7 @@
         "bashing" : 0,
         "fun" : 17
     },
-	{
+    {
         "type" : "COMESTIBLE",
         "id" : "contacts",
         "name" : "contact lenses",
@@ -13917,7 +13917,7 @@
         "bashing" : 0,
         "fun" : 0
     },
-	{
+    {
         "type" : "COMESTIBLE",
         "id" : "brioche",
         "name" : "brioche",
@@ -13976,7 +13976,7 @@
         "bashing" : 0,
         "fun" : 0
     },
-	{
+    {
         "type" : "COMESTIBLE",
         "id" : "candycigarette",
         "name" : "candy cigarettes",

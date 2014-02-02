@@ -894,7 +894,7 @@
         "leads_to" : ["INFRARED"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV"],
         "category" : ["MUTCAT_TROGLO", "MUTCAT_SPIDER"]
-	},{
+    },{
         "type" : "mutation",
         "id" : "ELFAEYES",
         "name" : "Fey Eyes",

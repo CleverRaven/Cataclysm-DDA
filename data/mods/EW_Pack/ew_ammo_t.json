@@ -9,6 +9,6 @@
         "type" : "ammunition_type",
         "id" : "545",
         "name" : "5.45x39mm",
-        "default" : "545"   
+        "default" : "545"
     }
 ]

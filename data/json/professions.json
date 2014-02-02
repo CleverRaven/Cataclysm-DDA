@@ -1491,7 +1491,7 @@
                 "level": 1,
                 "name": "driving"
             },
-			{
+            {
                 "level": 1,
                 "name": "dodge"
             }
@@ -1516,13 +1516,13 @@
             ]
         }
     },
-	{
+    {
         "type": "profession",
         "ident": "convict",
         "name": "Convict",
         "description": "The cataclysm gave you a chance to escape, but freedom comes with a steep price.",
         "points": 0,
-		"skills": [
+        "skills": [
             {
                 "level": 1,
                 "name": "melee"
@@ -1538,12 +1538,12 @@
                 "briefs"
             ],
             "female": [
-			    "bra",
+                "bra",
                 "panties"
             ]
         }
     },
-	{
+    {
         "type": "profession",
         "ident": "lawyer",
         "name": "Lawyer",
@@ -1554,28 +1554,28 @@
                 "level": 1,
                 "name": "barter"
             },
-			{
-			    "level": 2,
-				"name": "speech"
-			}
+            {
+                "level": 2,
+                "name": "speech"
+            }
         ],
         "items": {
             "both": [
                 "suit",
                 "skinny_tie",
-				"dress_shoes",
-				"wristwatch",
-				"cell_phone",
-				"pda",
-				"briefcase",
-				"money_bundle",
-				"file"
+                "dress_shoes",
+                "wristwatch",
+                "cell_phone",
+                "pda",
+                "briefcase",
+                "money_bundle",
+                "file"
             ],
             "male": [
                 "briefs"
             ],
             "female": [
-			    "bra",
+                "bra",
                 "panties"
             ]
         }

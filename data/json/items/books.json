@@ -3518,7 +3518,7 @@
         "bashing" : -3,
         "cutting" : 0,
         "to_hit" : 0
-	},
+    },
     {
         "type" : "BOOK",
         "id" : "recipe_elfa",
@@ -3560,7 +3560,7 @@
         "bashing" : -3,
         "cutting" : 0,
         "to_hit" : 0
-	},
+    },
     {
         "type" : "BOOK",
         "id" : "textbook_fireman",

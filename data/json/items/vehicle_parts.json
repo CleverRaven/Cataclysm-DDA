@@ -588,8 +588,8 @@
         "category" : "veh_parts",
         "price" : 160
     },
-	{
-	    "type":"GENERIC",
+    {
+        "type":"GENERIC",
         "id" : "water_faucet",
         "name" : "water faucet",
         "description" : "A metal faucet that can be attached to a water tank for easy access.",

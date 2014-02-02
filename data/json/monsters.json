@@ -1962,7 +1962,7 @@
     "special_attack":"BITE",
     "description":"A zombified version of one of the german shepherd dogs used in law enforcement. Its deformed body is encased in a protective kevlar harness.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "FUR"],
-	"categories":["CLASSIC"]
+    "categories":["CLASSIC"]
     },{
         "type" : "MONSTER",
         "id" : "mon_dog_zombie_rot",
