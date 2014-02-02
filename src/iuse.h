@@ -26,6 +26,7 @@ public:
     int xanax               (player*, item*, bool);
     int cig                 (player*, item*, bool);
     int antibiotic          (player*, item*, bool);
+    int eyedrops            (player*, item*, bool);
     int fungicide           (player*, item*, bool);
     int antifungal          (player*, item*, bool);
     int weed                (player*, item*, bool);

@@ -2778,7 +2778,8 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ],
-      [ "salt_water", 1 ]
+      [ "salt_water", 1 ],
+      [ "saline", 5 ]
     ],
     [
       [ "candy", 1 ],
@@ -5371,6 +5372,39 @@
     [
       [ "water_clean", 1 ],
       [ "water", 1 ]
+    ],
+    [
+      [ "salt", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "saline",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MEDICAL",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_firstaid", 2] , ["pocket_firstaid", 3], ["manual_first_aid", 2], ["atomic_survival", 4], ["textbook_chemistry", 5], ["adv_chemistry", 4] , ["emergency_book", 3]],
+  "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "teapot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water_clean", 1 ]
     ],
     [
       [ "salt", 1 ]
@@ -9959,7 +9993,8 @@
   "components": [
     [
       [ "salt_water", 1 ],
-      [ "salt", 1 ]
+      [ "salt", 1 ],
+      [ "saline", 5 ]
     ],
     [
       [ "oxycodone", 40 ]
@@ -11572,7 +11607,8 @@
   ],
   "components": [
     [
-      [ "salt_water", 2 ]
+      [ "salt_water", 2 ],
+      [ "saline", 10 ]
     ]
   ]
 },{
@@ -19770,7 +19806,8 @@
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ],
-      [ "disinfectant", 1 ]
+      [ "disinfectant", 1 ],
+      [ "saline", 5 ]
     ]
   ]
 },{
@@ -20599,7 +20636,8 @@
       [ "aspirin", 8 ]
     ],
     [
-      [ "disinfectant", 2 ]
+      [ "disinfectant", 1 ],
+      [ "saline", 10 ]
     ],
     [
       [ "bandages", 2 ],
