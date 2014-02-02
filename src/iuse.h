@@ -69,6 +69,8 @@ public:
     int light_on            (player *, item *, bool);
     int gasoline_lantern_off(player *, item *, bool);
     int gasoline_lantern_on (player *, item *, bool);
+    int oil_lamp_off        (player *, item *, bool);
+    int oil_lamp_on         (player *, item *, bool);
     int lightstrip          (player *, item *, bool);
     int lightstrip_active   (player *, item *, bool);
     int glowstick           (player *, item *, bool);
