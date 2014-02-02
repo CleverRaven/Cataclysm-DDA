@@ -8,7 +8,6 @@ player_activity::player_activity(activity_type t, int turns, int Index, int pos,
 , index(Index)
 , position(pos)
 , name(name_in)
-, continuous(false)
 , ignore_trivial(false)
 , values()
 , str_values()
@@ -24,7 +23,6 @@ player_activity::player_activity(const player_activity &copy)
 , index(copy.index)
 , position(copy.position)
 , name(copy.name)
-, continuous(copy.continuous)
 , ignore_trivial(copy.ignore_trivial)
 , values(copy.values)
 , str_values(copy.str_values)
@@ -47,4 +45,27 @@ const std::string &player_activity::get_stop_phrase() const {
         _(" Stop smasing?")
     };
     return stop_phrase[type];
+}
+
+bool player_activity::is_abortable() const {
+    switch(type) {
+        case ACT_READ:
+        case ACT_BUILD:
+        case ACT_LONGCRAFT:
+        case ACT_REFILL_VEHICLE:
+        case ACT_WAIT:
+        case ACT_WAIT_WEATHER:
+        case ACT_FIRSTAID:
+            return true;
+        default:
+            return false;
+    }
+}
+
+int player_activity::get_value(int index, int def) const {
+    return (index < values.size()) ? values[index] : def;
+}
+
+std::string player_activity::get_str_value(int index, std::string def) const {
+    return (index < str_values.size()) ? str_values[index] : def;
 }

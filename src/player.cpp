@@ -8766,7 +8766,9 @@ void player::read(int pos)
 
     it_book* tmp = dynamic_cast<it_book*>(it->type);
     int time; //Declare this here so that we can change the time depending on whats needed
-    bool study = false;
+    // activity.get_value(0) == 1: see below at player_activity(ACT_READ)
+    const bool continuous = (activity.get_value(0) == 1);
+    bool study = continuous;
     if (tmp->intel > 0 && has_trait("ILLITERATE")) {
         g->add_msg(_("You're illiterate!"));
         return;
@@ -8795,19 +8797,19 @@ void player::read(int pos)
                            : "Your %s skill won't be improved.  Read anyway?"),
                          tmp->type->name().c_str())) {
         return;
-    } else if (!activity.continuous && !query_yn("Study %s until you learn something? (gain a level)",
+    } else if (!continuous && !query_yn("Study %s until you learn something? (gain a level)",
                                                  tmp->type->name().c_str())) {
         study = false;
     } else {
         //If we just started studying, tell the player how to stop
-        if(!activity.continuous) {
+        if(!continuous) {
             g->add_msg(_("Now studying %s, %s to stop early."),
                        it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
         }
         study = true;
     }
 
-    if (!tmp->recipes.empty() && !(activity.continuous)) {
+    if (!tmp->recipes.empty() && !continuous) {
         if (can_study_recipe(tmp)) {
             g->add_msg(_("This book has more recipes for you to learn."));
         } else if (studied_all_recipes(tmp)) {
@@ -8826,7 +8828,9 @@ void player::read(int pos)
     }
 
     activity = player_activity(ACT_READ, time, index, pos, "");
-    activity.continuous = study;
+    // activity.get_value(0) == 1 means continuous studing until
+    // the player gained the next skill level, this ensured by this:
+    activity.values.push_back(study ? 1 : 0);
     moves = 0;
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay

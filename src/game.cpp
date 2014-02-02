@@ -1169,7 +1169,6 @@ void game::activity_on_finish() {
             break;
         case ACT_WAIT:
         case ACT_WAIT_WEATHER:
-            u.activity.continuous = false;
             add_msg(_("You finish waiting."));
             u.activity.type = ACT_NULL;
             break;
@@ -1218,6 +1217,10 @@ void game::activity_on_finish() {
             break;
         default:
             u.activity.type = ACT_NULL;
+    }
+    if (u.activity.type == ACT_NULL) {
+        // Make sure data of previous activity is cleared
+        u.activity = player_activity();
     }
 }
 
@@ -1320,20 +1323,18 @@ void game::activity_on_finish_read()
         add_msg(_("You learn a little about %s! (%d%%%%)"), reading->type->name().c_str(),
                 u.skillLevel(reading->type).exercise());
 
-        if (u.skillLevel(reading->type) == originalSkillLevel && u.activity.continuous) {
-            u.cancel_activity();
+        if (u.skillLevel(reading->type) == originalSkillLevel && u.activity.get_value(0) == 1) {
+            // continuously read until player gains a new skill level
+            u.activity.type = ACT_NULL;
             if (u.activity.index == -2) {
                 u.read(-1);
             } else {
                 u.read(u.activity.position);
             }
             if (u.activity.type != ACT_NULL) {
-                u.activity.continuous = true;
                 return;
             }
         }
-
-        u.activity.continuous = false;
 
         int new_skill_level = (int)u.skillLevel(reading->type);
         if (new_skill_level > originalSkillLevel) {
@@ -1877,17 +1878,7 @@ void game::handle_key_blocking_activity() {
         }
     }
 
-    if (u.activity.moves_left > 0 && u.activity.continuous == true &&
-        (  // bool activity_is_abortable() ?
-            u.activity.type == ACT_READ ||
-            u.activity.type == ACT_BUILD ||
-            u.activity.type == ACT_LONGCRAFT ||
-            u.activity.type == ACT_REFILL_VEHICLE ||
-            u.activity.type == ACT_WAIT ||
-            u.activity.type == ACT_WAIT_WEATHER ||
-            u.activity.type == ACT_FIRSTAID
-        )
-    ) {
+    if (u.activity.moves_left > 0 && u.activity.is_abortable()) {
         timeout(1);
         signed char ch = input();
         if(ch != ERR) {
@@ -12969,7 +12960,6 @@ void game::wait()
     }
 
     u.assign_activity(actType, time, 0);
-    u.activity.continuous = true;
 }
 
 void game::gameover()

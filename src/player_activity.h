@@ -23,7 +23,6 @@ public:
     int index;
     int position;
     std::string name;
-    bool continuous;
     bool ignore_trivial;
     std::vector<int> values;
     std::vector<std::string> str_values;
@@ -36,6 +35,9 @@ public:
     // Question to ask when the activity is to be stoped,
     // e.g. " Stop doing something?", already translated.
     const std::string &get_stop_phrase() const;
+    bool is_abortable() const;
+    int get_value(int index, int def = 0) const;
+    std::string get_str_value(int index, const std::string def = "") const;
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const;
