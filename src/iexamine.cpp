@@ -276,66 +276,54 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
     }
 
     int cur_pos = 0;
-    item &thisItem = vend_items[0];
 
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 6;
+    const int iContentHeight = FULL_SCREEN_HEIGHT - 4;
     const int iHalf = iContentHeight / 2;
 
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH / 2 - 1,
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-
-    for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
-        mvwputch(w, 2, i, BORDER_COLOR, LINE_OXOX);
-        mvwputch(w, 4, i, BORDER_COLOR, LINE_OXOX);
-        mvwputch(w, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
-
-        if (i > 2 && i < FULL_SCREEN_HEIGHT - 1) {
-            mvwputch(w, i, 0, BORDER_COLOR, LINE_XOXO);
-            mvwputch(w, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO);
-        }
-    }
-    mvwputch(w, 2,  0, BORDER_COLOR, LINE_OXXO); // |^
-    mvwputch(w, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX); // ^|
-
-    mvwputch(w, 4, 0, BORDER_COLOR, LINE_XXXO); // |-
-    mvwputch(w, 4, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX); // -|
-
-    mvwputch(w, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |_
-    mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
-
+    WINDOW* w_item_info = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH / 2,
+                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
+                       (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 + FULL_SCREEN_WIDTH / 2 : FULL_SCREEN_WIDTH / 2);
     do {
+        werase(w);
+        wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                         LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
         vend_items = m->i_at(examx, examy);
         num_items = vend_items.size();
 
-        mvwprintz(w, 3, 2, c_ltgray, _("Money left:%d Press 'q' to stop."), card->charges);
-        mvwprintz(w, 3, 40, c_ltgray, "                                    ");
+        mvwprintz(w, 1, 2, c_ltgray, _("Money left:%d Press 'q' to stop."), card->charges);
 
         int first_i, end_i;
         if (cur_pos < iHalf || num_items <= iContentHeight) {
             first_i = 0;
             end_i = std::min(iContentHeight, num_items);
-        } else if (cur_pos > iHalf && cur_pos < num_items - iHalf) {
-            first_i = cur_pos - iHalf;
-            end_i = std::min(cur_pos - iHalf + iContentHeight, num_items);
-        } else {
+        } else if (cur_pos > num_items - iHalf) {
             first_i = num_items - iContentHeight;
             end_i = num_items;
+        } else {
+            first_i = cur_pos - iHalf;
+            end_i = std::min(cur_pos + iHalf, num_items);
         }
-        int base_y = 5 - first_i;
+        int base_y = 3 - first_i;
         for (int i = first_i; i < end_i; ++i) {
-            thisItem = vend_items[i];
-            mvwprintz(w, base_y + i, 2, c_ltgray, "\
-                                         "); // Clear the line
             mvwprintz(w, base_y + i, 2,
-                      (i == cur_pos ? h_ltgray : c_ltgray), thisItem.type->name.c_str());
-            mvwprintz(w, base_y + i, 47,
-                      (i == cur_pos ? h_ltgray : c_ltgray), "%d", thisItem.price());
+                      (i == cur_pos ? h_ltgray : c_ltgray), vend_items[i].type->name.c_str());
         }
 
         //Draw Scrollbar
-        draw_scrollbar(w, cur_pos, iContentHeight, num_items, 5);
+        draw_scrollbar(w, cur_pos, iContentHeight, num_items, 3);
         wrefresh(w);
+
+        // Item info
+        werase(w_item_info);
+        fold_and_print(w_item_info,1,2,48-3, c_ltgray, "%s",  vend_items[cur_pos].info(true).c_str());
+        wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+        mvwprintw(w_item_info, 0, 2, "< %s >", vend_items[cur_pos].display_name().c_str() );
+        wrefresh(w_item_info);
         switch (input()) {
         case 'j':
         case '2':
@@ -354,15 +342,13 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
         case ' ':
         case '\n':
         case '5': {
-            if (thisItem.price() > card->charges) {
+            if (vend_items[cur_pos].price() > card->charges) {
                 popup(_("That item is too expensive!"));
                 break;
             }
-            card->charges -= thisItem.price();
+            card->charges -= vend_items[cur_pos].price();
             p->i_add(vend_items[cur_pos]);
             m->i_rem(examx, examy, cur_pos);
-            mvwprintz(w, base_y + end_i - 1, 2, c_ltgray, "\
-                                         "); // Clear the line
 
             if (num_items == 1) {
                 g->add_msg(_("With a beep, the empty vending machine shuts down"));
