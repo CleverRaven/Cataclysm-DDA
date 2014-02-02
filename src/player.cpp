@@ -3929,16 +3929,6 @@ bool player::is_dead_state() {
 
 void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
     bool u_see = g->u_see(this);
-    if (is_player()) {
-        if (activity.type == ACT_RELOAD) {
-            g->add_msg(_("You stop reloading."));
-        } else if (activity.type == ACT_READ) {
-            g->add_msg(_("You stop reading."));
-        } else if (activity.type == ACT_CRAFT || activity.type == ACT_LONGCRAFT) {
-            g->add_msg(_("You stop crafting."));
-            activity.type = ACT_NULL;
-        }
-    }
     if (source != NULL) {
         if (has_active_bionic("bio_ods")) {
             if (is_player()) {
