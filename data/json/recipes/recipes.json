@@ -1131,6 +1131,28 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "cudgel",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_BASHING",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "pool_cue", 1 ]
+    ]
+  ]
+},{
        "type" : "recipe",
   "result": "spear_rebar",
   "category": "CC_WEAPON",
