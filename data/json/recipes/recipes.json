@@ -12533,11 +12533,11 @@
   "result": "lead_plate",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-  "skill_used": "electronics",
-  "difficulty": 2,
+  "skill_used": "fabrication",
+  "difficulty": 3,
   "time": 6500,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 2 ] , [ "advanced_electronics", 2 ]],
   "tools": [
     [
@@ -18543,8 +18543,16 @@
   "autolearn": true,
   "tools": [
     [
+      ["mold_plastic", -1]
+    ],
+    [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
+    ],
+    [
+      ["hotplate", 2],
+      ["toolset", 1],
+      ["fire", -1]
     ],
     [
       [ "soldering_iron", 5 ],
@@ -18553,19 +18561,19 @@
   ],
   "components": [
     [
-      [ "scrap", 2 ]
+      [ "plastic_chunk", 3 ]
     ],
     [
       [ "lead_plate", 1 ]
+    ],
+    [
+      [ "water_clean", 1 ]
     ],
     [
       [ "acid", 1 ]
     ],
     [
       [ "cable", 1 ]
-    ],
-    [
-      [ "circuit", 1 ]
     ]
   ]
 },{
@@ -18585,25 +18593,33 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "soldering_iron", 25 ],
+      [ "soldering_iron", 10 ],
       [ "toolset", 1 ]
+    ],
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 5],
+      ["toolset", 1],
+      ["fire", -1]
     ]
   ],
   "components": [
     [
-      [ "scrap", 10 ]
+      [ "plastic_chunk", 10 ]
     ],
     [
       [ "lead_plate", 12 ]
+    ],
+    [
+      [ "water_clean", 3 ]
     ],
     [
       [ "acid", 1 ]
     ],
     [
       [ "cable", 4 ]
-    ],
-    [
-      [ "circuit", 6 ]
     ]
   ]
 },{
@@ -18623,25 +18639,33 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "soldering_iron", 35 ],
+      [ "soldering_iron", 15 ],
       [ "toolset", 2 ]
+    ],
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 8],
+      ["toolset", 1],
+      ["fire", -1]
     ]
   ],
   "components": [
     [
-      [ "scrap", 15 ]
+      [ "plastic_chunk", 15 ]
     ],
     [
       [ "lead_plate", 30 ]
     ],
     [
-      [ "acid", 2 ]
+      [ "water_clean", 5 ]
+    ],
+    [
+      [ "acid", 3 ]
     ],
     [
       [ "cable", 6 ]
-    ],
-    [
-      [ "circuit", 10 ]
     ]
   ]
 },{
@@ -18661,25 +18685,33 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "soldering_iron", 35 ],
+      [ "soldering_iron", 20 ],
       [ "toolset", 2 ]
+    ],
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 12],
+      ["toolset", 3],
+      ["fire", -1]
     ]
   ],
   "components": [
     [
-      [ "scrap", 20 ]
+      [ "plastic_chunk", 20 ]
     ],
     [
       [ "lead_plate", 50 ]
     ],
     [
-      [ "acid", 2 ]
+      [ "water_clean", 8 ]
+    ],
+    [
+      [ "acid", 4 ]
     ],
     [
       [ "cable", 10 ]
-    ],
-    [
-      [ "circuit", 15 ]
     ]
   ]
 },{
