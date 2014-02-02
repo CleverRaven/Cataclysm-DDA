@@ -1455,22 +1455,6 @@ void game::cancel_activity()
  u.cancel_activity();
 }
 
-const std::string &get_activity_stop_phrase(activity_type type) {
-    static const std::string stop_phrase[NUM_ACTIVITIES] = {
-        _(" Stop?"), _(" Stop reloading?"),
-        _(" Stop reading?"), _(" Stop playing?"),
-        _(" Stop waiting?"), _(" Stop crafting?"),
-        _(" Stop crafting?"), _(" Stop disassembly?"),
-        _(" Stop butchering?"), _(" Stop foraging?"),
-        _(" Stop construction?"), _(" Stop construction?"),
-        _(" Stop pumping gas?"), _(" Stop training?"),
-        _(" Stop waiting?"), _(" Stop using first aid?"),
-        _(" Stop fishing?"), _(" Stop mining?"),
-        _(" Stop smasing?")
-    };
-    return stop_phrase[type];
-}
-
 bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
   if(u.activity.type == ACT_NULL) return false;
   char buff[1024];
@@ -1483,7 +1467,7 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
   bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
   int ch=(int)' ';
 
-    std::string stop_message = s + get_activity_stop_phrase(u.activity.type) +
+    std::string stop_message = s + u.activity.get_stop_phrase() +
             _(" (Y)es, (N)o, (I)gnore further distractions and finish.");
 
     do {
@@ -1516,7 +1500,7 @@ bool game::cancel_activity_query(const char* message, ...)
         }
         return false;
     }
-    std::string stop_message = s + get_activity_stop_phrase(u.activity.type);
+    std::string stop_message = s + u.activity.get_stop_phrase();
     if (query_yn(stop_message.c_str())) {
         u.cancel_activity();
         return true;

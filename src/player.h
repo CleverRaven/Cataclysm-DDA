@@ -12,6 +12,7 @@
 #include "crafting.h"
 #include "vehicle.h"
 #include "martialarts.h"
+#include "player_activity.h"
 
 class monster;
 class game;
