@@ -1054,24 +1054,45 @@ void game::process_events()
 
 void game::process_activity()
 {
- it_book *reading = NULL;
- item *book_item = NULL;
- item *reloadable = NULL;
- vehicle *veh = NULL;
- bool no_recipes = true;
- if (u.activity.type != ACT_NULL) {
-  if (int(turn) % 50 == 0) {
-   draw();
-  }
-  if (u.activity.type == ACT_WAIT || u.activity.type == ACT_WAIT_WEATHER) { // Based on time, not speed
-   u.activity.moves_left -= 100;
-   u.pause();
-  } else if (u.activity.type == ACT_GAME) {
+    if (u.activity.type == ACT_NULL) {
+        return;
+    }
+    if (int(turn) % 50 == 0) {
+        draw();
+    }
+    activity_on_turn();
+    if (u.activity.moves_left <= 0) { // We finished our activity!
+        activity_on_finish();
+    }
+}
 
+void game::activity_on_turn() {
+    switch(u.activity.type) {
+        case ACT_WAIT:
+        case ACT_WAIT_WEATHER:
+            // Based on time, not speed
+            u.activity.moves_left -= 100;
+            u.pause();
+            break;
+        case ACT_GAME:
+            // Takes care of u.activity.moves_left
+            activity_on_turn_game();
+            break;
+        case ACT_REFILL_VEHICLE:
+            // Takes care of u.activity.moves_left
+            activity_on_turn_refill_vehicle();
+            break;
+        default:
+            // Based on speed, not time
+            u.activity.moves_left -= u.moves;
+            u.moves = 0;
+    }
+}
+
+void game::activity_on_turn_game() {
     //Gaming takes time, not speed
     u.activity.moves_left -= 100;
 
-    if (u.activity.type == ACT_GAME) {
       item& game_item = u.i_at(u.activity.position);
 
       //Deduct 1 battery charge for every minute spent playing
@@ -1084,10 +1105,11 @@ void game::process_activity()
         g->add_msg(_("The %s runs out of batteries."), game_item.name.c_str());
       }
 
-    }
     u.pause();
+}
 
-  } else if (u.activity.type == ACT_REFILL_VEHICLE) {
+void game::activity_on_turn_refill_vehicle() {
+ vehicle *veh = NULL;
    veh = m.veh_at( u.activity.placement.x, u.activity.placement.y );
    if (!veh) {  // Vehicle must've moved or something!
     u.activity.moves_left = 0;
@@ -1119,16 +1141,66 @@ void game::process_activity()
     }
    }
    u.pause();
-  } else {
-   u.activity.moves_left -= u.moves;
-   u.moves = 0;
-  }
+}
 
-  if (u.activity.moves_left <= 0) { // We finished our activity!
+void game::activity_on_finish() {
+    switch(u.activity.type) {
+        case ACT_RELOAD:
+            activity_on_finish_reload();
+            break;
+        case ACT_READ:
+            activity_on_finish_read();
+            break;
+        case ACT_WAIT:
+        case ACT_WAIT_WEATHER:
+            u.activity.continuous = false;
+            add_msg(_("You finish waiting."));
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_CRAFT:
+            complete_craft();
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_LONGCRAFT:
+            complete_craft();
+            u.activity.type = ACT_NULL;
+            if (making_would_work(u.lastrecipe)) {
+                make_all_craft(u.lastrecipe);
+            }
+            break;
+        case ACT_FORAGE:
+            forage();
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_DISASSEMBLE:
+            complete_disassemble();
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_BUTCHER:
+            complete_butcher(u.activity.index);
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_VEHICLE:
+            activity_on_finish_vehicle();
+            break;
+        case ACT_BUILD:
+            complete_construction();
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_TRAIN:
+            activity_on_finish_train();
+            break;
+        case ACT_FIRSTAID:
+            activity_on_finish_firstaid();
+            break;
+        case ACT_FISH:
+            activity_on_finish_fish();
+            break;
+    }
+}
 
-   switch (u.activity.type) {
-
-   case ACT_RELOAD:
+void game::activity_on_finish_reload() {
+ item *reloadable = NULL;
     {
      int reloadable_pos;
      std::stringstream ss(u.activity.name);
@@ -1150,9 +1222,13 @@ void game::process_activity()
     } else {
      add_msg(_("Can't reload your %s."), reloadable->tname().c_str());
     }
-    break;
+    u.activity.type = ACT_NULL;
+}
 
-   case ACT_READ:
+void game::activity_on_finish_read() {
+ it_book *reading = NULL;
+ item *book_item = NULL;
+ bool no_recipes = true;
     book_item = &(u.i_at(u.activity.position));
     reading = dynamic_cast<it_book*>(book_item->type);
 
@@ -1193,7 +1269,7 @@ void game::process_activity()
         {
             if (recipe_learned)
                 add_msg(_("The rest of the book is currently still beyond your understanding."));
-            break;
+            return;
         }
     }
 
@@ -1263,37 +1339,10 @@ void game::process_activity()
       }
      }
     }
-    break;
+    u.activity.type = ACT_NULL;
+}
 
-   case ACT_WAIT:
-   case ACT_WAIT_WEATHER:
-    u.activity.continuous = false;
-    add_msg(_("You finish waiting."));
-    break;
-
-   case ACT_CRAFT:
-   case ACT_LONGCRAFT:
-    complete_craft();
-    break;
-
-   case ACT_DISASSEMBLE:
-    complete_disassemble();
-    break;
-
-   case ACT_BUTCHER:
-    complete_butcher(u.activity.index);
-    break;
-
-   case ACT_FORAGE:
-    forage();
-    break;
-
-   case ACT_BUILD:
-    complete_construction();
-    break;
-
-   case ACT_TRAIN:
-    {
+void game::activity_on_finish_train() {
     Skill* skill = Skill::skill(u.activity.name);
     if (skill == NULL) {
         // Trained martial arts,
@@ -1316,12 +1365,10 @@ void game::process_activity()
                                new_skill_level, skill->name().c_str());
         }
     }
-    }
+    u.activity.type = ACT_NULL;
+}
 
-    break;
-
-   case ACT_FIRSTAID:
-    {
+void game::activity_on_finish_firstaid() {
       item& it = u.i_at(u.activity.position);
       iuse tmp;
       tmp.completefirstaid(&u, &it, false);
@@ -1329,11 +1376,10 @@ void game::process_activity()
       // Erase activity and values.
       u.activity.type = ACT_NULL;
       u.activity.values.clear();
-    }
+    u.activity.type = ACT_NULL;
+}
 
-    break;
-
-   case ACT_FISH:
+void game::activity_on_finish_fish() {
      {
        item& it = u.i_at(u.activity.position);
 
@@ -1358,20 +1404,16 @@ void game::process_activity()
          u.practice(turn, "survival", rng(5,15));
        }
      }
+    u.activity.type = ACT_NULL;
+}
 
-     break;
-
-   case ACT_VEHICLE:
+void game::activity_on_finish_vehicle() {
+    vehicle *veh = NULL;
     //Grab this now, in case the vehicle gets shifted
     veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
     complete_vehicle ();
-    break;
-   }
 
-   bool act_veh = (u.activity.type == ACT_VEHICLE);
-   bool act_longcraft = (u.activity.type == ACT_LONGCRAFT);
    u.activity.type = ACT_NULL;
-   if (act_veh) {
     if (u.activity.values.size() < 7)
     {
      dbg(D_ERROR) << "game:process_activity: invalid ACT_VEHICLE values: "
@@ -1390,12 +1432,6 @@ void game::process_activity()
       debugmsg ("process_activity ACT_VEHICLE: vehicle not found");
      }
     }
-   } else if (act_longcraft) {
-    if (making_would_work(u.lastrecipe))
-     make_all_craft(u.lastrecipe);
-   }
-  }
- }
 }
 
 void game::cancel_activity()
