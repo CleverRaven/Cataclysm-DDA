@@ -4174,6 +4174,10 @@
       ["chisel", 10],
       ["cu_pipe", 15],
       ["eyedrops", 5],
+      ["1st_aid", 6],
+      ["bandages", 8],
+      ["disinfectant", 4],
+      ["saline", 1],
       ["apron_leather", 5]
     ]
   },{
@@ -4232,6 +4236,9 @@
       ["syringe", 4],
       ["adrenaline_injector", 2],
       ["1st_aid", 4],
+      ["bandages", 10],
+      ["disinfectant", 5],
+      ["inhaler", 5],
       ["saline", 1],
       ["extinguisher", 20],
       ["hotplate", 10],
