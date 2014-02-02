@@ -279,17 +279,27 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
 
     const int iContentHeight = FULL_SCREEN_HEIGHT - 4;
     const int iHalf = iContentHeight / 2;
+    const bool odd = iContentHeight % 2;
 
+    const int w_width = FULL_SCREEN_WIDTH / 2 - 1;
     WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH / 2 - 1,
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
     WINDOW* w_item_info = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH / 2,
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 + FULL_SCREEN_WIDTH / 2 : FULL_SCREEN_WIDTH / 2);
+
+    bool used_machine = false;
     do {
         werase(w);
         wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                          LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+        for (int i = 1; i < FULL_SCREEN_WIDTH / 2 - 2; i++) {
+            mvwaddch(w, 2, i, LINE_OXOX);
+        }
+
+        mvwaddch(w, 2, 0, LINE_XXXO); // |-
+        mvwaddch(w, 2, w_width - 1, LINE_XOXX); // -|
 
         vend_items = m->i_at(examx, examy);
         num_items = vend_items.size();
@@ -300,12 +310,16 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
         if (cur_pos < iHalf || num_items <= iContentHeight) {
             first_i = 0;
             end_i = std::min(iContentHeight, num_items);
-        } else if (cur_pos > num_items - iHalf) {
+        } else if (cur_pos >= num_items - iHalf) {
             first_i = num_items - iContentHeight;
             end_i = num_items;
         } else {
             first_i = cur_pos - iHalf;
-            end_i = std::min(cur_pos + iHalf, num_items);
+            if (odd) {
+                end_i = cur_pos + iHalf + 1;
+            } else {
+                end_i = cur_pos + iHalf;
+            }
         }
         int base_y = 3 - first_i;
         for (int i = first_i; i < end_i; ++i) {
@@ -349,15 +363,22 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
             card->charges -= vend_items[cur_pos].price();
             p->i_add(vend_items[cur_pos]);
             m->i_rem(examx, examy, cur_pos);
+            used_machine = true;
 
             if (num_items == 1) {
                 g->add_msg(_("With a beep, the empty vending machine shuts down"));
+                p->moves -= 250;
+                delwin(w_item_info);
                 delwin(w);
                 return;
             }
             break;
         }
         case 'q':
+            if (used_machine) {
+                p->moves -= 250;
+            }
+            delwin(w_item_info);
             delwin(w);
             return;
         }
