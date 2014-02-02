@@ -1318,7 +1318,7 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         }
 
         selected_column = floor((coordinate_x - win_left) / (float)tilecontext->tile_width);
-        selected_row = floor((coordinate_y - win_top) / (float)tilecontext->tile_height;
+        selected_row = floor((coordinate_y - win_top) / (float)tilecontext->tile_height);
     }
     else
 #endif
