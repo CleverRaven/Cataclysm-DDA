@@ -2120,7 +2120,6 @@ int iuse::fishing_rod_basic (player *p, item *it, bool) {
   g->add_msg_if_player(p, _("You throw your fishing line and wait to hook something..."));
 
   p->assign_activity(ACT_FISH, 30000, 0, p->get_item_position(it), it->name);
-  p->moves = 0;
 
   return 0;
 }
@@ -4211,7 +4210,6 @@ int iuse::pickaxe(player *p, item *it, bool)
     }
     p->assign_activity(ACT_PICKAXE, turns, -1, p->get_item_position(it));
     p->activity.placement = point(dirx, diry);
-    p->moves = 0;
     g->add_msg_if_player(p, _("You attack the %s with your %s."),
                          g->m.tername(dirx, diry).c_str(), it->tname().c_str());
     return 0; // handled when the activity finishes
@@ -5829,7 +5827,6 @@ int iuse::portable_game(player *p, item *it, bool)
 
         g->add_msg_if_player(p, _("You play on your %s for a while."), it->name.c_str());
         p->assign_activity(ACT_GAME, time, -1, p->get_item_position(it), "gaming");
-        p->moves = 0;
 
         std::map<std::string, std::string> game_data;
         game_data.clear();

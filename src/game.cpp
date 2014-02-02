@@ -10491,7 +10491,6 @@ void game::butcher()
  if (time_to_cut < 250)
   time_to_cut = 250;
  u.assign_activity(ACT_BUTCHER, time_to_cut, corpses[butcher_corpse_index]);
- u.moves = 0;
 }
 
 void game::complete_butcher(int index)
@@ -10814,7 +10813,6 @@ void game::reload(int pos)
      std::stringstream ss;
      ss << pos;
      u.assign_activity(ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
-     u.moves = 0;
 
  } else if (it->is_tool()) { // tools are simpler
      it_tool* tool = dynamic_cast<it_tool*>(it->type);
@@ -10838,7 +10836,6 @@ void game::reload(int pos)
     std::stringstream ss;
     ss << pos;
     u.assign_activity(ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
-    u.moves = 0;
 
  } else { // what else is there?
      add_msg(_("You can't reload a %s!"), it->tname().c_str());
@@ -12987,7 +12984,6 @@ void game::wait()
 
     u.assign_activity(actType, time, 0);
     u.activity.continuous = true;
-    u.moves = 0;
 }
 
 void game::gameover()
