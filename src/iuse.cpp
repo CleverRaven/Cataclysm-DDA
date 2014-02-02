@@ -798,6 +798,19 @@ int iuse::antifungal(player *p, item *it, bool) {
     return it->type->charges_to_use();
 }
 
+int iuse::antiparasitic(player *p, item *it, bool) {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return false;
+    }
+    g->add_msg_if_player(p,_("You take some antiparasitic medication."));
+    if (p->has_disease("dermatik")) {
+        p->rem_disease("dermatik");
+        g->add_msg_if_player(p,_("The itching sensation under your skin fades away."));
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::weed(player *p, item *it, bool) {
     // Requires flame and something to smoke with.
     bool alreadyHigh = (p->has_disease("weed_high"));
@@ -7385,6 +7398,7 @@ int iuse::jet_injector(player *p, item *it, bool)
     p->rem_disease("bite");
     p->rem_disease("bleed");
     p->rem_disease("fungus");
+    p->rem_disease("dermatik");
     p->radiation += 4;
     p->healall(20);
   }
