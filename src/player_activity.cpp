@@ -56,6 +56,8 @@ bool player_activity::is_abortable() const {
         case ACT_WAIT:
         case ACT_WAIT_WEATHER:
         case ACT_FIRSTAID:
+        case ACT_PICKAXE:
+        case ACT_PULP:
             return true;
         default:
             return false;

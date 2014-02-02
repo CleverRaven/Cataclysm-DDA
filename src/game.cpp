@@ -1326,11 +1326,7 @@ void game::activity_on_finish_read()
         if (u.skillLevel(reading->type) == originalSkillLevel && u.activity.get_value(0) == 1) {
             // continuously read until player gains a new skill level
             u.activity.type = ACT_NULL;
-            if (u.activity.index == -2) {
-                u.read(-1);
-            } else {
-                u.read(u.activity.position);
-            }
+            u.read(u.activity.position);
             if (u.activity.type != ACT_NULL) {
                 return;
             }
@@ -6999,7 +6995,7 @@ void game::activity_on_turn_pulp()
     pulp_power = std::min(pulp_power, (double)u.str_cur);
     pulp_power *= 20; // constant multiplier to get the chance right
     int moves = 0;
-    int &num_corpses = u.activity.index; // use this to cellect how many corpse are pulped
+    int &num_corpses = u.activity.index; // use this to collect how many corpse are pulped
     for (int i = 0; i < m.i_at(smashx, smashy).size(); ++i)
     {
         item *it = &m.i_at(smashx, smashy)[i];
@@ -7025,6 +7021,7 @@ void game::activity_on_turn_pulp()
             if (it->damage >= full_pulp_threshold) {
                 it->damage = full_pulp_threshold;
                 it->active = false;
+                num_corpses++;
             }
             if (moves >= u.moves) {
                 // enough for this turn;
@@ -7033,7 +7030,7 @@ void game::activity_on_turn_pulp()
             }
         } while(it->damage < full_pulp_threshold);
     }
-    // IF we reach this, all coprses have been pulped, finishe the activity:
+    // If we reach this, all corpses have been pulped, finish the activity
     u.activity.moves_left = 0;
     // TODO: Factor in how long it took to do the smashing.
     add_msg(ngettext("The corpse is thoroughly pulped.",

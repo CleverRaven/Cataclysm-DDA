@@ -655,12 +655,8 @@ int player::calc_focus_equilibrium()
     int focus_gain_rate = 100;
 
     if (activity.type == ACT_READ) {
-        it_book* reading;
-        if (this->activity.index == -2) {
-            reading = dynamic_cast<it_book *>(weapon.type);
-        } else {
-            reading = dynamic_cast<it_book *>(inv.find_item(activity.position).type);
-        }
+        item &book = i_at(activity.position);
+        it_book* reading = dynamic_cast<it_book *>(book.type);
         if (reading != 0) {
             // apply a penalty when we're actually learning something
             if (skillLevel(reading->type) < (int)reading->level) {
@@ -8733,14 +8729,7 @@ void player::read(int pos)
     }
 
     // Find the object
-    int index = -1;
-    item* it = NULL;
-    if (pos == -1) {
-        index = -2;
-        it = &weapon;
-    } else {
-        it = &inv.find_item(pos);
-    }
+    item* it = &i_at(pos);
 
     if (it == NULL || it->is_null()) {
         g->add_msg(_("You do not have that item."));
@@ -8826,7 +8815,7 @@ void player::read(int pos)
         time += (tmp->time * (tmp->intel - int_cur) * 100);
     }
 
-    activity = player_activity(ACT_READ, time, index, pos, "");
+    activity = player_activity(ACT_READ, time, -1, pos, "");
     // activity.get_value(0) == 1 means continuous studing until
     // the player gained the next skill level, this ensured by this:
     activity.values.push_back(study ? 1 : 0);
