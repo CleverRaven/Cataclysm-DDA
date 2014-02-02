@@ -844,7 +844,6 @@ void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy) {
 
  p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
  p->activity.placement = point(examx, examy);
- p->moves = 0;
 }
 
 int sum_up_item_weight_by_material(std::vector<item> &items, const std::string &material, bool remove_items) {
