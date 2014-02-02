@@ -588,6 +588,22 @@
         "category" : "veh_parts",
         "price" : 160
     },
+	{
+	    "type":"GENERIC",
+        "id" : "water_faucet",
+        "name" : "water faucet",
+        "description" : "A metal faucet that can be attached to a water tank for easy access.",
+        "weight" : 900,
+        "to_hit" : -1,
+        "color" : "light_gray",
+        "symbol" : ";",
+        "material" : ["steel", "null"],
+        "volume" : 3,
+        "bashing" : 2,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 30
+    },
     {
         "type":"GENERIC",
         "id" : "kitchen_unit",

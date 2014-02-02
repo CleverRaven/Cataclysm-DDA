@@ -7533,13 +7533,14 @@ void game::examine(int examx, int examy)
     if (veh) {
         int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
         int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
+        int vpfaucet = veh->part_with_feature(veh_part, "FAUCET", true);
         int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
         int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
         int vpchemlab = veh->part_with_feature(veh_part, "CHEMLAB", true);
         int vpcontrols = veh->part_with_feature(veh_part, "CONTROLS", true);
         std::vector<item> here_ground = m.i_at(examx, examy);
         if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
-                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0 || vpchemlab >=0 || vpcontrols >=0 
+                || vpkitchen >= 0 || vpfaucet >= 0 ||vpweldrig >=0 || vpcraftrig >=0 || vpchemlab >=0 || vpcontrols >=0
                 || here_ground.size() > 0) {
             pickup(examx, examy, 0);
         } else if (u.controlling_vehicle) {
@@ -8774,6 +8775,7 @@ void game::pickup(int posx, int posy, int min)
     bool from_veh = false;
     int veh_part = 0;
     int k_part = 0;
+    int wtr_part = 0;
     int w_part = 0;
     int craft_part = 0;
     int chempart = 0;
@@ -8785,6 +8787,7 @@ void game::pickup(int posx, int posy, int min)
     std::vector<item> here_ground = m.i_at(posx, posy);
     if (min != -1 && veh) {
         k_part = veh->part_with_feature(veh_part, "KITCHEN");
+        wtr_part = veh->part_with_feature(veh_part, "FAUCET");
         w_part = veh->part_with_feature(veh_part, "WELDRIG");
         craft_part = veh->part_with_feature(veh_part, "CRAFTRIG");
         chempart = veh->part_with_feature(veh_part, "CHEMLAB");
@@ -8814,7 +8817,7 @@ void game::pickup(int posx, int posy, int min)
           menu_items.push_back(_("Use the hotplate"));
           options_message.push_back(uimenu_entry(_("Use the hotplate"), 'h'));
         }
-        if(k_part >= 0 && veh->fuel_left("water") > 0)
+        if((k_part >= 0 || wtr_part >= 0) && veh->fuel_left("water") > 0)
         {
           menu_items.push_back(_("Fill a container with water"));
           options_message.push_back(uimenu_entry(_("Fill a container with water"), 'c'));
