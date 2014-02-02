@@ -1983,7 +1983,7 @@
         "description" : "Your ears have extended into long, pointed ones, like those of a canine. They enhance your hearing, allowing you to hear at greater distances.",
         "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"],
         "changes_to" : ["LUPINE_EARS"],
-        "cancels" : ["FELINE_EARS", "URSINE_EARS"]
+        "cancels" : ["FELINE_EARS", "URSINE_EARS", "ELFA_EARS"]
     },{
         "type" : "mutation",
         "id" : "LUPINE_EARS",
@@ -1993,7 +1993,7 @@
         "ugliness" : 1,
         "description" : "Your hearing has evolved further and is now on par with wolves. You can hear things significantly farther away.",
         "category" : ["MUTCAT_LUPINE"],
-        "cancels" : ["URSINE_EARS", "FELINE_EARS", "CANINE_EARS"]
+        "cancels" : ["URSINE_EARS", "FELINE_EARS", "CANINE_EARS", "ELFA_EARS"]
     },{
         "type" : "mutation",
         "id" : "FELINE_EARS",
@@ -2003,7 +2003,7 @@
         "ugliness" : 0,
         "description" : "Your ears have extended into long, pointed, velvety ones, like those of a feline. You find it easier to tune in on sounds from afar.",
         "category" : ["MUTCAT_FELINE"],
-        "cancels" : ["LUPINE_EARS", "URSINE_EARS", "CANINE_EARS"]
+        "cancels" : ["LUPINE_EARS", "URSINE_EARS", "CANINE_EARS", "ELFA_EARS"]
     },{
         "type" : "mutation",
         "id" : "URSINE_EARS",
@@ -2013,7 +2013,7 @@
         "ugliness" : 1,
         "description" : "Your ears have grown longer and rounder, much like those of a bear. You can hear things a little farther away.",
         "category" : ["MUTCAT_URSINE"],
-        "cancels" : ["LUPINE_EARS", "FELINE_EARS", "CANINE_EARS"]
+        "cancels" : ["LUPINE_EARS", "FELINE_EARS", "CANINE_EARS", "ELFA_EARS"]
     },{
         "type" : "mutation",
         "id" : "ELFA_EARS",
@@ -2023,7 +2023,8 @@
         "ugliness" : 1,
         "description" : "Your upper earlobes have grown noticably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
         "valid" : false,
-        "category" : ["MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ELFA"],
+        "cancels" : ["FELINE_EARS", "LUPINE_EARS", "URSINE_EARS", "CANINE_EARS"]
     },{
         "type" : "mutation",
         "id" : "WEB_WALKER",
