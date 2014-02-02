@@ -886,7 +886,7 @@ void map::set(const int x, const int y, const std::string new_terrain, const std
 
 std::string map::name(const int x, const int y)
 {
- return has_furn(x, y) ? _(furnlist[furn(x, y)].name.c_str()) : _(terlist[ter(x, y)].name.c_str()); // FIXME i18n
+ return has_furn(x, y) ? furnlist[furn(x, y)].name : terlist[ter(x, y)].name;
 }
 
 bool map::has_furn(const int x, const int y)
@@ -959,7 +959,7 @@ bool map::can_move_furniture( const int x, const int y, player * p ) {
 }
 
 std::string map::furnname(const int x, const int y) {
- return _(furnlist[furn(x, y)].name.c_str()); // FIXME i18n
+ return furnlist[furn(x, y)].name;
 }
 /*
  * Get the terrain integer id. This is -not- a number guaranteed to remain
@@ -1036,7 +1036,7 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain) {
 
 std::string map::tername(const int x, const int y) const
 {
- return _(terlist[ter(x, y)].name.c_str()); // FIXME i18n
+ return terlist[ter(x, y)].name;
 }
 
 std::string map::features(const int x, const int y)
