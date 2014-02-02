@@ -2842,7 +2842,7 @@
         "range" : 90,
         "dispersion" : 1,
         "recoil" : 50,
-        "count" : 30,
+        "count" : 10,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
@@ -2865,7 +2865,7 @@
         "range" : 90,
         "dispersion" : 2,
         "recoil" : 35,
-        "count" : 30,
+        "count" : 10,
         "effects" : ["INCENDIARY"]
     },
     {   "type" : "AMMO",

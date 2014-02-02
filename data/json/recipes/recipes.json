@@ -4855,7 +4855,7 @@
       [ "incendiary", 300 ]
     ],
    [
-      [ "lgrifle_primer", 20 ]
+      [ "lgrifle_primer", 10 ]
     ],
     [
       [ "gunpowder", 1000 ]
@@ -4900,7 +4900,7 @@
       [ "50_casing", 10 ]
     ],
     [
-      [ "lgrifle_primer", 20 ]
+      [ "lgrifle_primer", 10 ]
     ],
     [
       [ "gunpowder", 1000 ]
@@ -4936,10 +4936,10 @@
   ],
   "components": [
     [
-      [ "50_casing", 10 ]
+      [ "50_casing", 30 ]
     ],
     [
-      [ "lgrifle_primer", 20 ]
+      [ "lgrifle_primer", 30 ]
     ],
     [
       [ "gunpowder", 1000 ]
