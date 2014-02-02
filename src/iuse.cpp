@@ -726,6 +726,20 @@ int iuse::antibiotic(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::eyedrops(player *p, item *it, bool) {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return false;
+    }
+    g->add_msg_if_player(p,_("You use your %s."), it->tname().c_str());
+    p->moves -= 150;
+    if (p->has_disease("boomered")) {
+        p->rem_disease("boomered");
+        g->add_msg_if_player(p,_("You wash the slime from your eyes."));
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::fungicide(player *p, item *it, bool) {
     if (p->is_underwater()) {
         g->add_msg_if_player(p, _("You can't do that while underwater."));
