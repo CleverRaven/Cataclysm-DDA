@@ -18513,7 +18513,7 @@
   "result": "v_table",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
-  "skill_used": "construction",
+  "skill_used": "fabrication",
   "difficulty": 1,
   "time": 20000,
   "reversible": true,

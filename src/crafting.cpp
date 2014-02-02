@@ -1265,7 +1265,7 @@ void game::complete_craft()
         int main_rank_penalty = 0;
         if (making->skill_used == Skill::skill("electronics")) {
             main_rank_penalty = 2;
-        } else if (making->skill_used == Skill::skill("tailoring")) {
+        } else if (making->skill_used == Skill::skill("tailor")) {
             main_rank_penalty = 1;
         }
         skill_dice -= main_rank_penalty * 4;
@@ -1277,7 +1277,7 @@ void game::complete_craft()
         int paws_rank_penalty = 0;
         if (making->skill_used == Skill::skill("electronics")) {
             paws_rank_penalty = 1;
-        } else if (making->skill_used == Skill::skill("tailoring")) {
+        } else if (making->skill_used == Skill::skill("tailor")) {
             paws_rank_penalty = 1;
         } else if (making->skill_used == Skill::skill("mechanics")) {
             paws_rank_penalty = 1;
