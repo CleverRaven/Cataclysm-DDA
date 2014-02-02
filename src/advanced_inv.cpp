@@ -38,6 +38,9 @@ bool advanced_inventory::isDirectionalDragged(int area1, int area2)
     if(!(area1 == isdrag || area2 == isdrag)) { return false; }
     // one of the areas is drag square
     advanced_inv_area other = (area1 == isdrag ? squares[area2] : squares[area1]);
+
+    // the player is not grabbing anything.
+    if(p->grab_point.x == 0 && p->grab_point.y == 0) { return false; }
     if(other.offx == p->grab_point.x && other.offy == p->grab_point.y) { return true; }
     return false;
 }
