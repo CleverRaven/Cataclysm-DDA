@@ -18540,7 +18540,8 @@
   "time": 10000,
   "reversible": true,
   "decomp_learn": 2,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "textbook_anarch", 2 ]],
   "tools": [
     [
       ["mold_plastic", -1]
@@ -18586,7 +18587,8 @@
   "time": 15000,
   "reversible": true,
   "decomp_learn": 2,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "textbook_anarch", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -18619,7 +18621,7 @@
       [ "acid", 1 ]
     ],
     [
-      [ "cable", 4 ]
+      [ "cable", 2 ]
     ]
   ]
 },{
@@ -18632,7 +18634,8 @@
   "time": 15000,
   "reversible": true,
   "decomp_learn": 2,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "textbook_anarch", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -18665,7 +18668,7 @@
       [ "acid", 3 ]
     ],
     [
-      [ "cable", 6 ]
+      [ "cable", 4 ]
     ]
   ]
 },{
@@ -18678,7 +18681,8 @@
   "time": 15000,
   "reversible": true,
   "decomp_learn": 2,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "textbook_anarch", 2 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -18711,7 +18715,7 @@
       [ "acid", 4 ]
     ],
     [
-      [ "cable", 10 ]
+      [ "cable", 6 ]
     ]
   ]
 },{
