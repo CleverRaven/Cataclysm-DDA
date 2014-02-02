@@ -390,6 +390,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   }
   dump->push_back(iteminfo("BASE", _(" To-hit bonus: "), ((type->m_to_hit > 0) ? "+" : ""), type->m_to_hit, true, ""));
   dump->push_back(iteminfo("BASE", _("Moves per attack: "), "", attack_time(), true, "", true, true));
+  dump->push_back(iteminfo("BASE", _("Price: "), "", price(), true, "", true, true));
 
   std::string material_string = get_material(1);
   if (material_string != "null") {
