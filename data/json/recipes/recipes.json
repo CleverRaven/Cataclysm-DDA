@@ -12721,7 +12721,8 @@
       [ "cable", 5 ]
     ],
     [
-      [ "small_storage_battery", 1 ]
+      [ "small_storage_battery", 1 ],
+      [ "UPS_off", 1 ]
     ]
   ]
 },{
