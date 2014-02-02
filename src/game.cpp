@@ -258,18 +258,19 @@ void game::init_ui(){
             VIEW_OFFSET_Y = ((int)(TERMY/tilecontext->tile_ratioy) > 121) ? (TERMY - 121)/2 : 0;
             TERRAIN_WINDOW_WIDTH  = (int)((TERMX - sidebarWidth)/tilecontext->tile_ratiox);
             TERRAIN_WINDOW_HEIGHT = (int)(TERMY/tilecontext->tile_ratioy);
-        } else {
+        }
+        else
         #endif // SDLTILES
+        {
+
             VIEW_OFFSET_X = (TERMX - sidebarWidth > 121) ? (TERMX - sidebarWidth - 121)/2 : 0;
             VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
             TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
             TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
-        #ifdef SDLTILES
         }
-        #endif // SDLTILES
 
-        POSX = TERRAIN_WINDOW_WIDTH / 2;
-        POSY = TERRAIN_WINDOW_HEIGHT / 2;
+        POSX = ceil(TERRAIN_WINDOW_WIDTH / 2.0);
+        POSY = ceil(TERRAIN_WINDOW_HEIGHT / 2.0);
     #else
         getmaxyx(stdscr, TERMY, TERMX);
 
