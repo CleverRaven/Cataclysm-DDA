@@ -1066,6 +1066,9 @@ void game::process_activity()
     }
 }
 
+void on_turn_activity_pickaxe(player *p);
+void on_finish_activity_pickaxe(player *p);
+
 void game::activity_on_turn() {
     switch(u.activity.type) {
         case ACT_WAIT:
@@ -1073,6 +1076,12 @@ void game::activity_on_turn() {
             // Based on time, not speed
             u.activity.moves_left -= 100;
             u.pause();
+            break;
+        case ACT_PICKAXE:
+            // Based on speed, not time
+            u.activity.moves_left -= u.moves;
+            u.moves = 0;
+            on_turn_activity_pickaxe(&u);
             break;
         case ACT_GAME:
             // Takes care of u.activity.moves_left
@@ -1198,6 +1207,10 @@ void game::activity_on_finish() {
             break;
         case ACT_FISH:
             activity_on_finish_fish();
+            break;
+        case ACT_PICKAXE:
+            on_finish_activity_pickaxe(&u);
+            u.activity.type = ACT_NULL;
             break;
     }
 }

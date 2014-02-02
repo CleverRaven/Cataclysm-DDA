@@ -4197,13 +4197,41 @@ int iuse::pickaxe(player *p, item *it, bool)
         g->add_msg_if_player(p,_("yourself into a hole. You stop digging."));
         return 0;
     }
+    int turns;
     if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
-        // Sound of a Pickaxe at work!
-        g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
-        g->m.destroy(dirx, diry, false);
         // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
-        p->moves -= (100000 - 3000 * p->skillLevel("carpentry"));
+        turns = (100000 - 3000 * p->skillLevel("carpentry"));
+    } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
+               g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+        turns = 20000;
+    } else {
+        g->add_msg_if_player(p,_("You can't mine there."));
+        return 0;
+    }
+    p->assign_activity(ACT_PICKAXE, turns, -1, p->get_item_position(it));
+    p->activity.placement = point(dirx, diry);
+    p->moves = 0;
+    g->add_msg_if_player(p, _("You attack the %s with your %s."),
+                         g->m.tername(dirx, diry).c_str(), it->tname().c_str());
+    return 0; // handled when the activity finishes
+}
+
+void on_turn_activity_pickaxe(player *p) {
+    const int dirx = p->activity.placement.x;
+    const int diry = p->activity.placement.y;
+    if (g->turn % MINUTES(1) == 0) { // each turn is to much
+        //~ Sound of a Pickaxe at work!
+        g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
+    }
+}
+
+void on_finish_activity_pickaxe(player *p) {
+    const int dirx = p->activity.placement.x;
+    const int diry = p->activity.placement.y;
+    item *it = &p->i_at(p->activity.position);
+    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+        g->m.ter(dirx, diry) != t_tree) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
         p->hunger += 15;
@@ -4216,24 +4244,18 @@ int iuse::pickaxe(player *p, item *it, bool)
         p->mod_pain( 2 * rng(1, 3) );
         // Mining is construction work!
         p->practice(g->turn, "carpentry", 5);
-        // Sounds before and after
-        g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
-        g->m.destroy(dirx, diry, false);
-        // 20 minutes to rip up the road.  Compressed a bit but so is all Cata-time.
-        p->moves -= 20000;
         //Breaking up concrete on the surface? not nearly as bad
         p->hunger += 5;
         p->fatigue += 10;
         p->thirst += 5;
-        g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
-    } else {
-        g->add_msg_if_player(p,_("You can't mine there."));
-        return 0;
     }
-    return it->type->charges_to_use();
+    g->m.destroy(dirx, diry, false);
+    it->charges = std::max(0, it->charges - it->type->charges_to_use());
+    if(it->charges == 0 && it->destroyed_at_zero_charges()) {
+        p->i_rem(p->activity.position);
+    }
 }
 
 int iuse::set_trap(player *p, item *it, bool)
