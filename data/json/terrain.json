@@ -1632,7 +1632,7 @@
         "symbol": "&",
         "color": "magenta",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT"],
+        "flags": ["TRANSPARENT", "NOITEM", "ALARMED", "REDUCE_SCENT"],
         "examine_action": "atm",
         "bash": {
             "str_min": 15, "str_max": 100, "num_tests": 2,
