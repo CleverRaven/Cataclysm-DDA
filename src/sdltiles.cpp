@@ -1310,20 +1310,15 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     {
         // Check if click is within bounds of the window we care about
         int win_left = capture_win->x * fontwidth;
-        int win_right = (capture_win->x * fontwidth) + (capture_win->width * tilecontext->tile_width);
+        int win_right = win_left + (capture_win->width * tilecontext->tile_width);
         int win_top = capture_win->y * fontheight;
-        int win_bottom = (capture_win->y * fontheight) + (capture_win->height * tilecontext->tile_height);
+        int win_bottom = win_top + (capture_win->height * tilecontext->tile_height);
         if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
             return false;
         }
 
-        DebugLog() << "Win Left    :" <<  win_left << "\n";
-        DebugLog() << "Win Right   :" <<  win_right << "\n";
-        DebugLog() << "Win Top     :" <<  win_top << "\n";
-        DebugLog() << "Win Bottom  :" <<  win_bottom << "\n";
-
-        selected_column = (coordinate_x - win_left) / tilecontext->tile_width;
-        selected_row = (coordinate_y - win_top) / tilecontext->tile_height;
+        selected_column = floor((coordinate_x - win_left) / (float)tilecontext->tile_width);
+        selected_row = floor((coordinate_y - win_top) / (float)tilecontext->tile_height;
     }
     else
 #endif
@@ -1341,8 +1336,8 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         selected_row = (coordinate_y - win_top) / fontheight;
     }
 
-    x = g->ter_view_x - (ceil((double)view_columns/2) - selected_column);
-    y = g->ter_view_y - (ceil((double)view_rows/2) - selected_row);
+    x = g->ter_view_x - (view_columns/2) - selected_column);
+    y = g->ter_view_y - (view_rows/2) - selected_row);
 
     return true;
 }
