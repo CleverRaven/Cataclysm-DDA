@@ -298,6 +298,10 @@ std::string action_ident(action_id act)
         return "debug_scent";
     case ACTION_TOGGLE_DEBUGMON:
         return "debug_mode";
+    case ACTION_TOGGLE_SIDEBAR_STYLE:
+        return "toggle_sidebar_style";
+    case ACTION_TOGGLE_FULLSCREEN:
+        return "toggle_fullscreen";
     case ACTION_NULL:
         return "null";
     default:
@@ -474,6 +478,10 @@ std::string action_name(action_id act)
         return _("View Scentmap");
     case ACTION_TOGGLE_DEBUGMON:
         return _("Toggle Debug Messages");
+    case ACTION_TOGGLE_SIDEBAR_STYLE:
+        return _("Switch Sidebar Style");
+    case ACTION_TOGGLE_FULLSCREEN:
+        return _("Toggle Fullscreen mode");
     case ACTION_NULL:
         return _("No Action");
     default:

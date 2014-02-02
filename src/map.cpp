@@ -211,7 +211,7 @@ void map::board_vehicle(int x, int y, player *p)
  }
 
  const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE);
- if (part < 0) {
+ if (seat_part < 0) {
   debugmsg ("map::board_vehicle: boarding %s (not boardable)",
             veh->part_info(part).name.c_str());
   return;
@@ -244,7 +244,7 @@ void map::unboard_vehicle(const int x, const int y)
   return;
  }
  const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE, false);
- if (part < 0) {
+ if (seat_part < 0) {
   debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
             veh->part_info(part).name.c_str());
   return;
@@ -412,7 +412,7 @@ void map::vehmove()
 {
     // give vehicles movement points
     {
-        VehicleList vehs = g->m.get_vehicles();
+        VehicleList vehs = get_vehicles();
         for(int v = 0; v < vehs.size(); ++v) {
             vehicle* veh = vehs[v].v;
             veh->gain_moves();
@@ -433,7 +433,7 @@ void map::vehmove()
 // proposal:
 //  move it at most, a tenth of a turn, and at least one square.
 bool map::vehproceed(){
-    VehicleList vehs = g->m.get_vehicles();
+    VehicleList vehs = get_vehicles();
     vehicle* veh = NULL;
     float max_of_turn = 0;
     int x; int y;
@@ -751,7 +751,7 @@ bool map::vehproceed(){
                     g->add_msg(_("%s is hurled from the %s's seat by the power of the impact!"),
                                psg->name.c_str(), veh->name.c_str());
                 }
-                g->m.unboard_vehicle(x + veh->parts[ppl[ps]].precalc_dx[0],
+                unboard_vehicle(x + veh->parts[ppl[ps]].precalc_dx[0],
                                      y + veh->parts[ppl[ps]].precalc_dy[0]);
                 g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
                                            (vel1 - psg->str_cur < 10 ? 10 :
@@ -886,7 +886,7 @@ void map::set(const int x, const int y, const std::string new_terrain, const std
 
 std::string map::name(const int x, const int y)
 {
- return has_furn(x, y) ? _(furnlist[furn(x, y)].name.c_str()) : _(terlist[ter(x, y)].name.c_str()); // FIXME i18n
+ return has_furn(x, y) ? furnlist[furn(x, y)].name : terlist[ter(x, y)].name;
 }
 
 bool map::has_furn(const int x, const int y)
@@ -959,7 +959,7 @@ bool map::can_move_furniture( const int x, const int y, player * p ) {
 }
 
 std::string map::furnname(const int x, const int y) {
- return _(furnlist[furn(x, y)].name.c_str()); // FIXME i18n
+ return furnlist[furn(x, y)].name;
 }
 /*
  * Get the terrain integer id. This is -not- a number guaranteed to remain
@@ -1036,7 +1036,7 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain) {
 
 std::string map::tername(const int x, const int y) const
 {
- return _(terlist[ter(x, y)].name.c_str()); // FIXME i18n
+ return terlist[ter(x, y)].name;
 }
 
 std::string map::features(const int x, const int y)
@@ -1673,10 +1673,10 @@ void map::destroy(const int x, const int y, const bool makesound)
   for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++) {
     if (one_in(2)) {
-      if (!g->m.has_flag("NOITEM", x, y)) {
-       if (!(g->m.field_at(i, j).findField(fd_rubble))) {
-        g->m.add_field(i, j, fd_rubble, rng(1,3));
-        g->m.field_effect(i, j);
+      if (!has_flag("NOITEM", x, y)) {
+       if (!(field_at(i, j).findField(fd_rubble))) {
+        add_field(i, j, fd_rubble, rng(1,3));
+        field_effect(i, j);
        }
       }
     }
@@ -1720,10 +1720,10 @@ void map::destroy(const int x, const int y, const bool makesound)
   for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++) {
     if (one_in(2)) {
-      if (!g->m.has_flag("NOITEM", x, y)) {
-       if (!(g->m.field_at(i, j).findField(fd_rubble))) {
-        g->m.add_field(i, j, fd_rubble, rng(1,3));
-        g->m.field_effect(i, j);
+      if (!has_flag("NOITEM", x, y)) {
+       if (!(field_at(i, j).findField(fd_rubble))) {
+        add_field(i, j, fd_rubble, rng(1,3));
+        field_effect(i, j);
       }
       }
     }
@@ -2498,21 +2498,26 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 // map::add_item_or_charges
 void map::add_item(const int x, const int y, item new_item, const int maxitems)
 {
- if (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y))
-     return;
- if (!INBOUNDS(x, y))
-     return;
- if (has_flag("DESTROY_ITEM", x, y) || (i_at(x,y).size() >= maxitems))
- {
-     return;
- }
-
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- grid[nonant]->itm[lx][ly].push_back(new_item);
- if (new_item.active)
-  grid[nonant]->active_item_count++;
+    if (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) {
+        return;
+    }
+    if (!INBOUNDS(x, y)) {
+        return;
+    }
+    if (has_flag("DESTROY_ITEM", x, y) || (i_at(x,y).size() >= maxitems)) {
+        return;
+    }
+    field &fld = field_at(x, y);
+    if (new_item.has_flag("ACT_IN_FIRE") && (fld.findField(fd_fire) != 0)) {
+        new_item.active = true;
+    }
+    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+    const int lx = x % SEEX;
+    const int ly = y % SEEY;
+    grid[nonant]->itm[lx][ly].push_back(new_item);
+    if (new_item.active) {
+        grid[nonant]->active_item_count++;
+    }
 }
 
 void map::process_active_items()
@@ -2568,11 +2573,15 @@ void map::process_active_items_in_vehicles(const int nonant)
                 }
                 if (it->has_flag("RECHARGE") && next_vehicle->part_with_feature(*part_index, VPFLAG_RECHARGE) >= 0 &&
                     next_vehicle->recharger_on) {
-                        if (it->is_tool() && static_cast<it_tool*>(it->type)->max_charges > it->charges ) {
-                            if (one_in(10)) {
-                                it->charges++;
-                            }
+                    int full_charge = static_cast<it_tool*>(it->type)->max_charges;
+                    if (it->has_flag("DOUBLE_AMMO")) {
+                        full_charge = full_charge * 2;
+                    }
+                    if (it->is_tool() && full_charge > it->charges ) {
+                        if (one_in(10)) {
+                            it->charges++;
                         }
+                    }
                 }
                 if(process_active_item(it, nonant, mapx, mapy)) {
                     next_vehicle->remove_item(*part_index, n);
@@ -2655,194 +2664,254 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
     return false;
 }
 
-std::list<item> map::use_amount(const point origin, const int range, const itype_id type,
-                                const int amount, const bool use_container)
+
+std::list<item> use_amount_map_or_vehicle(std::vector<item> &vec, const itype_id type, int &quantity, const bool use_container)
 {
- std::list<item> ret;
- int quantity = amount;
- for (int radius = 0; radius <= range && quantity > 0; radius++) {
-  for (int x = origin.x - radius; x <= origin.x + radius; x++) {
-   for (int y = origin.y - radius; y <= origin.y + radius; y++) {
-    if (rl_dist(origin.x, origin.y, x, y) >= radius) {
-     for (int n = 0; n < i_at(x, y).size() && quantity > 0; n++) {
-      item* curit = &(i_at(x, y)[n]);
-      bool used_contents = false;
-      for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
-       if (curit->contents[m].type->id == type) {
+  std::list<item> ret;
+  for (int n = 0; n < vec.size() && quantity > 0; n++) {
+    item* curit = &(vec[n]);
+    bool used_contents = false;
+    for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
+      if (curit->contents[m].type->id == type) {
         ret.push_back(curit->contents[m]);
         quantity--;
         curit->contents.erase(curit->contents.begin() + m);
         m--;
         used_contents = true;
-       }
       }
-      if (use_container && used_contents) {
-       i_rem(x, y, n);
-       n--;
-      } else if (curit->type->id == type && quantity > 0 && curit->contents.size() == 0) {
-       ret.push_back(*curit);
-       quantity--;
-       i_rem(x, y, n);
-       n--;
-      }
-     }
     }
-   }
+    if (use_container && used_contents) {
+      vec.erase(vec.begin() + n);
+      n--;
+    } else if (curit->type->id == type && quantity > 0 && curit->contents.size() == 0) {
+      ret.push_back(*curit);
+      quantity--;
+      vec.erase(vec.begin() + n);
+      n--;
+    }
   }
- }
- return ret;
+  return ret;
 }
 
-std::list<item> map::use_charges(const point origin, const int range, const itype_id type, const int amount)
+std::list<item> map::use_amount_square(const int x, const int y, const itype_id type,
+                                       int &quantity, const bool use_container)
 {
- std::list<item> ret;
- int quantity = amount;
- for (int radius = 0; radius <= range && quantity > 0; radius++) {
-  for (int x = origin.x - radius; x <= origin.x + radius; x++) {
-   for (int y = origin.y - radius; y <= origin.y + radius; y++) {
-    if (rl_dist(origin.x, origin.y, x, y) >= radius) {
-      int vpart = -1;
-      vehicle *veh = veh_at(x, y, vpart);
+  std::list<item> ret;
+  int vpart = -1;
+  vehicle *veh = veh_at(x,y, vpart);
 
-      if (veh) { // check if a vehicle part is present to provide water/power
-        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
-        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
-        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
-        const int forgepart = veh->part_with_feature(vpart, "FORGE");
-        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
-
-        if (kpart >= 0) { // we have a kitchen, now to see what to drain
-          ammotype ftype = "NULL";
-
-          if (type == "water_clean")
-            ftype = "water";
-          else if (type == "hotplate")
-            ftype = "battery";
-
-          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
-          tmp.charges = veh->drain(ftype, quantity);
-          quantity -= tmp.charges;
-          ret.push_back(tmp);
-
-          if (quantity == 0)
-            return ret;
-        }
-
-        if (weldpart >= 0) { // we have a weldrig, now to see what to drain
-          ammotype ftype = "NULL";
-
-          if (type == "welder")
-            ftype = "battery";
-          else if (type == "soldering_iron")
-            ftype = "battery";
-
-          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
-          tmp.charges = veh->drain(ftype, quantity);
-          quantity -= tmp.charges;
-          ret.push_back(tmp);
-
-          if (quantity == 0)
-            return ret;
-        }
-
-        if (craftpart >= 0) { // we have a craftrig, now to see what to drain
-          ammotype ftype = "NULL";
-
-          if (type == "press")
-            ftype = "battery";
-          else if (type == "vac_sealer")
-            ftype = "battery";
-          else if (type == "dehydrator")
-            ftype = "battery";
-
-          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
-          tmp.charges = veh->drain(ftype, quantity);
-          quantity -= tmp.charges;
-          ret.push_back(tmp);
-
-          if (quantity == 0)
-            return ret;
-        }
-
-        if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
-          ammotype ftype = "NULL";
-
-          if (type == "forge")
-            ftype = "battery";
-
-          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
-          tmp.charges = veh->drain(ftype, quantity);
-          quantity -= tmp.charges;
-          ret.push_back(tmp);
-
-          if (quantity == 0)
-            return ret;
-        }
-
-        if (chempart >= 0) { // we have a chem_lab, now to see what to drain
-          ammotype ftype = "NULL";
-
-          if (type == "chemistry_set")
-            ftype = "battery";
-          else if (type == "hotplate")
-            ftype = "battery";
-
-          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
-          tmp.charges = veh->drain(ftype, quantity);
-          quantity -= tmp.charges;
-          ret.push_back(tmp);
-
-          if (quantity == 0)
-            return ret;
-        }
-      }
-
-     for (int n = 0; n < i_at(x, y).size(); n++) {
-      item* curit = &(i_at(x, y)[n]);
-// Check contents first
-      for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
-       if (curit->contents[m].type->id == type) {
-        if (curit->contents[m].charges <= quantity) {
-         ret.push_back(curit->contents[m]);
-         quantity -= curit->contents[m].charges;
-         if (curit->contents[m].destroyed_at_zero_charges()) {
-          curit->contents.erase(curit->contents.begin() + m);
-          m--;
-         } else
-          curit->contents[m].charges = 0;
-        } else {
-         item tmp = curit->contents[m];
-         tmp.charges = quantity;
-         ret.push_back(tmp);
-         curit->contents[m].charges -= quantity;
-         return ret;
-        }
-       }
-      }
-// Now check the actual item
-      if (curit->type->id == type) {
-       if (curit->charges <= quantity) {
-        ret.push_back(*curit);
-        quantity -= curit->charges;
-        if (curit->destroyed_at_zero_charges()) {
-         i_rem(x, y, n);
-         n--;
-        } else
-         curit->charges = 0;
-       } else {
-        item tmp = *curit;
-        tmp.charges = quantity;
-        ret.push_back(tmp);
-        curit->charges -= quantity;
-        return ret;
-       }
-      }
-     }
+  if (veh) {
+    const int cargo = veh->part_with_feature(vpart, "CARGO");
+    if (cargo >= 0) {
+      std::list<item> tmp = use_amount_map_or_vehicle(veh->parts[cargo].items, type,
+                                                      quantity, use_container);
+      ret.splice(ret.end(), tmp);
     }
-   }
   }
- }
- return ret;
+  std::list<item> tmp = use_amount_map_or_vehicle(i_at(x,y), type, quantity, use_container);
+  ret.splice(ret.end(), tmp);
+  return ret;
+}
+
+std::list<item> map::use_amount(const point origin, const int range, const itype_id type,
+                                const int amount, const bool use_container)
+{
+  std::list<item> ret;
+  int quantity = amount;
+  for (int radius = 0; radius <= range && quantity > 0; radius++) {
+    for (int x = origin.x - radius; x <= origin.x + radius; x++) {
+      for (int y = origin.y - radius; y <= origin.y + radius; y++) {
+        if (rl_dist(origin.x, origin.y, x, y) >= radius) {
+          std::list<item> tmp;
+          tmp = use_amount_square(x, y, type, quantity, use_container);
+          ret.splice(ret.end(), tmp);
+        }
+      }
+    }
+  }
+  return ret;
+}
+
+std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const itype_id type,
+                                                int &quantity)
+{
+    std::list<item> ret;
+    for (int n = 0; n < vec.size() && quantity > 0; n++) {
+        item &curit = vec[n];
+        if (curit.contents.empty()) {
+            if (curit.type->id == type || curit.ammo_type() == type) {
+                // curit is empty, has the required type or
+                // the required ammo type
+                ret.push_back(curit);
+                if (curit.charges < 0) {
+                    quantity--;
+                    vec.erase(vec.begin() + n);
+                    n--;
+                } else {
+                    if (curit.charges > quantity) {
+                        // push only quantity charges to ret,
+                        // remove quantity charges from curit
+                        ret.back().charges = quantity;
+                        curit.charges -= quantity;
+                        quantity = 0;
+                    } else {
+                        // remove all charges, destroy the item (perhaps)
+                        quantity = -curit.charges;
+                        curit.charges = 0;
+                        if (curit.destroyed_at_zero_charges()) {
+                            vec.erase(vec.begin() + n);
+                            n--;
+                        }
+                    }
+                }
+            }
+        } else {
+            // Not empty, process contents, ignore the item itself.
+            std::list<item> tmp = use_charges_from_map_or_vehicle(curit.contents, type, quantity);
+            ret.splice(ret.end(), tmp);
+        }
+    }
+    return ret;
+}
+
+std::list<item> map::use_charges(const point origin, const int range,
+                                 const itype_id type, const int amount)
+{
+    std::list<item> ret;
+    int quantity = amount;
+    for (int radius = 0; radius <= range && quantity > 0; radius++) {
+        for (int x = origin.x - radius; x <= origin.x + radius; x++) {
+            for (int y = origin.y - radius; y <= origin.y + radius; y++) {
+                if(accessable_items( origin.x, origin.y, x, y, range) ) {
+                    continue;
+                }
+                if (rl_dist(origin.x, origin.y, x, y) >= radius) {
+                    int vpart = -1;
+                    vehicle *veh = veh_at(x, y, vpart);
+
+                    if (veh) { // check if a vehicle part is present to provide water/power
+                        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+                        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
+                        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
+                        const int forgepart = veh->part_with_feature(vpart, "FORGE");
+                        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
+                        const int cargo = veh->part_with_feature(vpart, "CARGO");
+
+                        if (kpart >= 0) { // we have a kitchen, now to see what to drain
+                            ammotype ftype = "NULL";
+
+                            if (type == "water_clean") {
+                                ftype = "water";
+                            } else if (type == "hotplate") {
+                                ftype = "battery";
+                            }
+
+                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            tmp.charges = veh->drain(ftype, quantity);
+                            quantity -= tmp.charges;
+                            ret.push_back(tmp);
+
+                            if (quantity == 0) {
+                                return ret;
+                            }
+                        }
+
+                        if (weldpart >= 0) { // we have a weldrig, now to see what to drain
+                            ammotype ftype = "NULL";
+
+                            if (type == "welder") {
+                                ftype = "battery";
+                            } else if (type == "soldering_iron") {
+                                ftype = "battery";
+                            }
+
+                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            tmp.charges = veh->drain(ftype, quantity);
+                            quantity -= tmp.charges;
+                            ret.push_back(tmp);
+
+                            if (quantity == 0) {
+                                return ret;
+                            }
+                        }
+
+                        if (craftpart >= 0) { // we have a craftrig, now to see what to drain
+                            ammotype ftype = "NULL";
+
+                            if (type == "press") {
+                                ftype = "battery";
+                            } else if (type == "vac_sealer") {
+                                ftype = "battery";
+                            } else if (type == "dehydrator") {
+                                ftype = "battery";
+                            }
+
+                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            tmp.charges = veh->drain(ftype, quantity);
+                            quantity -= tmp.charges;
+                            ret.push_back(tmp);
+
+                            if (quantity == 0) {
+                                return ret;
+                            }
+                        }
+
+                        if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
+                            ammotype ftype = "NULL";
+
+                            if (type == "forge") {
+                                ftype = "battery";
+                            }
+
+                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            tmp.charges = veh->drain(ftype, quantity);
+                            quantity -= tmp.charges;
+                            ret.push_back(tmp);
+
+                            if (quantity == 0) {
+                                return ret;
+                            }
+                        }
+
+                        if (chempart >= 0) { // we have a chem_lab, now to see what to drain
+                            ammotype ftype = "NULL";
+
+                            if (type == "chemistry_set") {
+                                ftype = "battery";
+                            } else if (type == "hotplate") {
+                                ftype = "battery";
+                            }
+
+                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            tmp.charges = veh->drain(ftype, quantity);
+                            quantity -= tmp.charges;
+                            ret.push_back(tmp);
+
+                            if (quantity == 0) {
+                                return ret;
+                            }
+                        }
+
+                        if (cargo >= 0) {
+                            std::list<item> tmp =
+                                use_charges_from_map_or_vehicle(veh->parts[cargo].items, type, quantity);
+                            ret.splice(ret.end(), tmp);
+                            if (quantity <= 0) {
+                                return ret;
+                            }
+                        }
+                    }
+
+                    std::list<item> tmp = use_charges_from_map_or_vehicle(i_at(x,y), type, quantity);
+                    ret.splice(ret.end(), tmp);
+                    if (quantity <= 0) {
+                        return ret;
+                    }
+                }
+            }
+        }
+    }
+    return ret;
 }
 
 std::string map::trap_get(const int x, const int y) const {
@@ -3193,6 +3262,7 @@ void map::draw(WINDOW* w, const point center)
  const bool u_is_boomered = g->u.has_disease("boomered");
  const int u_clairvoyance = g->u.clairvoyance();
  const bool u_sight_impaired = g->u.sight_impaired();
+ const bool bio_night_active = g->u.has_active_bionic("bio_night");
 
  for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
   if (!grid[i])
@@ -3243,7 +3313,7 @@ void map::draw(WINDOW* w, const point center)
        real_max_sight_range = distance_to_look;
    }
 
-   if ((g->u.has_active_bionic("bio_night") && dist < 15 && dist > natural_sight_range) || // if bio_night active, blackout 15 tile radius around player
+   if ((bio_night_active && dist < 15 && dist > natural_sight_range) || // if bio_night active, blackout 15 tile radius around player
        dist > real_max_sight_range ||
        (dist > light_sight_range &&
          (lit == LL_DARK ||
@@ -3471,7 +3541,7 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
 }
 
 bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
-                     const int range, const int cost_min, const int cost_max, int &tc)
+                     const int range, const int cost_min, const int cost_max, int &tc) const
 {
  const int dx = Tx - Fx;
  const int dy = Ty - Fy;
@@ -3533,6 +3603,14 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
   return false;
  }
  return false; // Shouldn't ever be reached, but there it is.
+}
+
+bool map::accessable_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
+{
+    int junk = 0;
+    return has_flag("SEALED", Tx, Ty) ||
+        ((Fx != Tx || Fy != Ty) &&
+         !clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
 }
 
 // Bash defaults to true.
@@ -4534,13 +4612,19 @@ void map::add_road_vehicles(bool city, int facing)
                     add_vehicle("ambulance", vx, vy, facing, -1, 1);
                 } else if (car_type <= 45) {
                     add_vehicle("beetle", vx, vy, facing, -1, 1);
+                } else if (car_type <= 48) {
+                    add_vehicle("car_sports", vx, vy, facing, -1, 1);
                 } else if (car_type <= 50) {
                     add_vehicle("scooter", vx, vy, facing, -1, 1);
+                } else if (car_type <= 53) {
+                    add_vehicle("scooter_electric", vx, vy, facing, -1, 1);
                 } else if (car_type <= 55) {
                     add_vehicle("motorcycle", vx, vy, facing, -1, 1);
                 } else if (car_type <= 65) {
                     add_vehicle("hippie_van", vx, vy, facing, -1, 1);
                 } else if (car_type <= 70) {
+                    add_vehicle("cube_van_cheap", vx, vy, facing, -1, 1);
+                } else if (car_type <= 75) {
                     add_vehicle("cube_van", vx, vy, facing, -1, 1);
                 } else if (car_type <= 80) {
                     add_vehicle("electric_car", vx, vy, facing, -1, 1);
@@ -4548,6 +4632,12 @@ void map::add_road_vehicles(bool city, int facing)
                     add_vehicle("flatbed_truck", vx, vy, facing, -1, 1);
                 } else if (car_type <= 95) {
                     add_vehicle("rv", vx, vy, facing, -1, 1);
+                } else if (car_type <= 96) {
+                    add_vehicle("lux_rv", vx, vy, facing, -1, 1);
+                } else if (car_type <= 98) {
+                    add_vehicle("meth_lab", vx, vy, facing, -1, 1);
+                } else if (car_type <= 99) {
+                    add_vehicle("apc", vx, vy, facing, -1, 1);
                 } else {
                     add_vehicle("motorcycle_sidecart", vx, vy, facing, -1, 1);
                 }
@@ -4655,10 +4745,16 @@ void map::add_road_vehicles(bool city, int facing)
             int car_type = rng(1, 10);
             if (car_type <= 5) {
                 add_vehicle("car", vx, vy, facing, 0, -1);
+            } else if (car_type <= 7) {
+                add_vehicle("car_sports", vx, vy, facing, 0, -1);
             } else if (car_type <= 8) {
                 add_vehicle("flatbed_truck", vx, vy, facing, 0, -1);
             } else if (car_type <= 9) {
                 add_vehicle("semi_truck", vx, vy, facing, 0, -1);
+            } else if (car_type <= 10) {
+                add_vehicle("humvee", vx, vy, facing, 0, -1);
+            } else if (car_type <= 12) {
+                add_vehicle("apc", vx, vy, facing, 0, -1);
             } else {
                 add_vehicle("armored_car", vx, vy, facing, 0, -1);
             }

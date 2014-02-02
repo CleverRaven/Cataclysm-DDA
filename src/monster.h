@@ -64,6 +64,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  bool getkeep();
  void setkeep(bool r);
 
+m_size get_size();
+
 // Access
  std::string name(); // Returns the monster's formal name
  std::string name_with_armor(); // Name, with whatever our armor is called
@@ -109,7 +111,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  point move_target(); // Returns point at the end of the monster's current plans
 
 // Movement
- void receive_moves();       // Gives us movement points
  void shift(int sx, int sy); // Shifts the monster to the appropriate submap
                              // Updates current pos AND our plans
  bool wander(); // Returns true if we have no plans

@@ -25,9 +25,17 @@ struct WORLD
     std::string world_name;
     std::map<std::string, cOpt> world_options;
     std::vector<std::string> world_saves;
+    /**
+     * A (possibly empty) list of (idents of) mods that
+     * should be loaded for this world.
+     */
+    std::vector<std::string> active_mod_order;
 
     WORLD();
 };
+
+class mod_manager;
+class mod_ui;
 
 typedef WORLD *WORLDPTR;
 
@@ -55,18 +63,23 @@ class worldfactory
         std::map<std::string, WORLDPTR> all_worlds;
         std::vector<std::string> all_worldnames;
 
+        mod_manager *get_mod_manager();
+
         void remove_world(std::string worldname);
         bool valid_worldname(std::string name, bool automated = false);
     protected:
     private:
         std::string pick_random_name();
         int show_worldgen_tab_options(WINDOW *win, WORLDPTR world);
+        int show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world);
         int show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world);
 
         void draw_worldgen_tabs(WINDOW *win, int current, std::vector<std::string> tabs);
 
         std::map<std::string, cOpt> get_default_world_options();
         std::map<std::string, cOpt> get_world_options(std::string path);
+        mod_manager *mman;
+        mod_ui *mman_ui;
 };
 
 extern worldfactory *world_generator;

@@ -26,7 +26,7 @@ extern cata_tiles *tilecontext;
 
 std::map<std::string, cOpt> OPTIONS;
 std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
-options_data optionsdata; // store extranious options data that doesn't need to be in OPTIONS, 
+options_data optionsdata; // store extranious options data that doesn't need to be in OPTIONS,
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, std::string> optionNames;
@@ -411,6 +411,11 @@ void initOptions() {
                                              true
                                             );
 
+    OPTIONS["VEHICLE_DIR_INDICATOR"] =  cOpt("interface", _("Draw vehicle facing indicator"),
+                                             _("If true, when controlling a vehicle, a white 'X' at distance 10 from the center will display its current facing."),
+                                             false
+                                            );
+
     OPTIONS["SAFEMODEPROXIMITY"] =      cOpt("general", _("Safemode proximity distance"),
                                              _("If safemode is enabled, distance to hostiles when safemode should show a warning. 0 = Max player viewdistance."),
                                              0, 50, 0
@@ -538,14 +543,14 @@ void initOptions() {
                                              _("Initial starting season of day on character generation."),
                                              "spring,summer,autumn,winter", "spring");
 
-    OPTIONS["VIEWPORT_X"] =             cOpt("graphics", _("Viewport width"),
-                                             _("SDL ONLY: Set the expansion of the viewport along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                             12, 93, 12
+    OPTIONS["TERMINAL_X"] =             cOpt("graphics", _("Terminal width"),
+                                             _("SDL ONLY: Set the size of the terminal along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
+                                             80, 242, 80
                                             );
 
-    OPTIONS["VIEWPORT_Y"] =             cOpt("graphics", _("Viewport height"),
-                                             _("SDL ONLY: Set the expansion of the viewport along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                             12, 93, 12
+    OPTIONS["TERMINAL_Y"] =             cOpt("graphics", _("Terminal height"),
+                                             _("SDL ONLY: Set the size of the terminal along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
+                                             25, 187, 25
                                             );
 
     OPTIONS["INPUT_DELAY"] =             cOpt("graphics", _("Input delay"),
@@ -608,6 +613,11 @@ void initOptions() {
                                              _("If true, radiation causes the player to mutate."),
                                              true
                                             );
+
+    OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),
+                                                  _("Determines the scope, which is known in the beginning of the game."),
+                                                  3, 20, 15
+                                                  );
 
     OPTIONS["SAVE_SLEEP"] =             cOpt("interface", _("Ask to save before sleeping"),
                                              _("If true, game will ask to save the map before sleeping."),
@@ -809,24 +819,24 @@ void show_options(bool ingame)
         wrefresh(w_options_header);
 
 #if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
-        if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_X") {
-            int new_viewport_x, new_window_width;
+        if (mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_X") {
+            int new_terminal_x, new_window_width;
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
-            value_conversion >> new_viewport_x;
-            new_window_width = projected_window_width(new_viewport_x);
+            value_conversion >> new_terminal_x;
+            new_window_width = projected_window_width(new_terminal_x);
 
             fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
                            "%s #%s -- The window will be %d pixels wide with the selected value.",
                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
                            new_window_width);
-        } else if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_Y") {
-            int new_viewport_y, new_window_height;
+        } else if (mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_Y") {
+            int new_terminal_y, new_window_height;
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
-            value_conversion >> new_viewport_y;
-            new_window_height = projected_window_height(new_viewport_y);
+            value_conversion >> new_terminal_y;
+            new_window_height = projected_window_height(new_terminal_y);
 
             fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
                            "%s #%s -- The window will be %d pixels tall with the selected value.",
@@ -956,7 +966,11 @@ void show_options(bool ingame)
     }
 #ifdef SDLTILES
     if (used_tiles_changed){
+        SDL_FillRect(tilecontext->buffer, NULL, 0x000000);
+        SDL_BlitSurface(tilecontext->buffer, NULL, tilecontext->display_screen, NULL);
         tilecontext->reinit("gfx");
+        g->init_ui();
+        g->refresh_all();
     }
 #endif // SDLTILES
     delwin(w_options);
@@ -989,7 +1003,7 @@ void load_options()
             const std::string loadedval = sLine.substr(iPos+1, sLine.length());
             // option with values from post init() might get clobbered
             optionsdata.add_retry(loadedvar, loadedval); // stash it until update();
-            
+
             OPTIONS[ loadedvar ].setValue( loadedval );
         }
     }
@@ -1049,7 +1063,7 @@ void save_options(bool ingame)
 
 bool use_narrow_sidebar()
 {
-    return (TERMY < 25 || OPTIONS["SIDEBAR_STYLE"] == "narrow");
+    return TERMY < 25 || g->narrow_sidebar;
 }
 
 std::string get_tileset_names(std::string dir_path)
@@ -1126,7 +1140,7 @@ void options_data::enable_json(const std::string & lvar) {
 }
 
 void options_data::add_retry(const std::string & lvar, const::std::string & lval) {
-    static const std::string blank_value( 1, 001 ); 
+    static const std::string blank_value( 1, 001 );
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
     if ( it != post_json_verify.end() && it->second == blank_value ) {
         // initialized with impossible value: valid

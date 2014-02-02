@@ -174,7 +174,9 @@ public:
     unsigned long value;    // Cash/Favor value of completing this
     npc_favor reward;       // If there's a special reward for completing it
     int uid;                // Unique ID number, used for referencing elsewhere
-    point target;           // Marked on the player's map.  (-1,-1) for none
+    // Marked on the player's map. (INT_MIN, INT_MIN) for none,
+    // global overmap terrain coordinates.
+    point target;
     itype_id item_id;       // Item that needs to be found (or whatever)
     oter_id target_id;      // Destination type to be reached
     npc_class recruit_class;// The type of NPC you are to recruit acidia
@@ -203,7 +205,7 @@ public:
   failed = false;
   value = 0;
   uid = -1;
-  target = point(-1, -1);
+  target = point(INT_MIN, INT_MIN);
   item_id = "null";
   target_id = 0;
   recruit_class = NC_NONE;

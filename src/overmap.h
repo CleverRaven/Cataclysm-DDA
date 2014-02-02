@@ -14,6 +14,7 @@
 #include "input.h"
 #include "json.h"
 
+class overmapbuffer;
 class npc;
 
 #define OVERMAP_DEPTH 10
@@ -21,8 +22,7 @@ class npc;
 #define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
-extern std::map<std::string, oter_t&> obasetermap;
-oter_id base_oter_id( const std::string & base );
+extern std::map<std::string, oter_t> obasetermap;
 
 // Likelihood to pick a specific overmap terrain.
 struct oter_weight {
@@ -44,7 +44,7 @@ struct oter_weight_list {
     void setup() { // populate iid's for faster generation and sanity check.
         for( int i=0; i < items.size(); i++ ) {
             if ( items[i].ot_iid == -1 ) {
-                std::map<std::string, oter_t&>::const_iterator it = obasetermap.find(items[i].ot_sid);
+                std::map<std::string, oter_t>::const_iterator it = obasetermap.find(items[i].ot_sid);
                 if ( it == obasetermap.end() ) {
                     debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", items[i].ot_sid.c_str() );
                     items[i].ot_iid = 0;
@@ -270,25 +270,10 @@ class overmap
 
   void process_mongroups(); // Makes them die out, maybe more
 
-/* Returns the closest point of terrain type [type, type + type_range)
- * Use type_range of 4, for instance, to match all gun stores (4 rotations).
- * dist is set to the distance between the two points.
- * You can give dist a value, which will be used as the maximum distance; a
- *  value of 0 will search the entire overmap.
- * Use must_be_seen=true if only terrain seen by the player should be searched.
- * If no such tile can be found, (-1, -1) is returned.
- */
-  // TODO: make this 3d
-  point find_closest(point origin, const std::string &type,
-                     int &dist, bool must_be_seen);
-  std::vector<point> find_all(tripoint origin, const std::string &type,
-                              int &dist, bool must_be_seen);
   std::vector<point> find_terrain(const std::string &term, int zlevel);
   int closest_city(point p);
   point random_house_in_city(int city_id);
   int dist_from_city(point p);
-// Interactive point choosing; used as the map screen
-  point draw_overmap(int z);
 
   oter_id& ter(const int x, const int y, const int z);
   bool&   seen(int x, int y, int z);
@@ -300,10 +285,42 @@ class overmap
   std::string const& note(int const x, int const y, int const z) const;
   void add_note(int const x, int const y, int const z, std::string const& message);
   void delete_note(int const x, int const y, int const z) { add_note(x, y, z, ""); }
-  point display_notes(int const z) const;
-
-  point find_note(int const x, int const y, int const z, std::string const& text) const;
-  void remove_npc(int npc_id);
+    /**
+     * Display a list of all notes on this z-level. Let the user choose
+     * one or none of them.
+     * @returns The location of the chosen note (absolute overmap terrain
+     * coordinates), or invalid_point if the user did not choose a note.
+     */
+    static point display_notes(int z);
+    /**
+     * Dummy value, used to indicate that a point returned by a function
+     * is invalid.
+     */
+    static const point invalid_point;
+    /**
+     * Search for the nearest note that contains the given pattern.
+     * (x,y) are in global overmap terrain coordinates.
+     * @returns The location of the chosen note (absolute overmap terrain
+     * coordinates), or invalid_point if no note has been found.
+     */
+    static point find_note(int const x, int const y, int const z, std::string const& text);
+    /**
+     * Interactive point choosing; used as the map screen.
+     * The map is initially center at the players position.
+     * @returns The absolute coordinates of the chosen point or
+     * @ref invalid_point if canceled with escape (or similar key).
+     */
+    static point draw_overmap();
+    /**
+     * Same as @ref draw_overmap() but starts at center
+     * instead of players location.
+     */
+    static point draw_overmap(const tripoint& center);
+    /**
+     * Same as above but start at z-level z instead of players
+     * current z-level, x and y are taken from the players position.
+     */
+    static point draw_overmap(int z);
   void remove_vehicle(int id);
   int add_vehicle(vehicle *veh);
 
@@ -324,6 +341,7 @@ class overmap
   std::vector<city> roads_out;
 
  private:
+  friend class overmapbuffer;
   point loc;
   std::string prefix;
   std::string name;
@@ -348,10 +366,17 @@ class overmap
                 overmap* west);
   bool generate_sub(int const z);
 
-  //Drawing
-  void draw(WINDOW *w, int z, int &cursx, int &cursy,
-            int &origx, int &origy, signed char &ch, bool blink,
-            overmap &hori, overmap &vert, overmap &diag, input_context* inp_ctxt);
+  /**
+   * Draws the overmap terrain.
+   * @param w The window to draw in.
+   * @param center The global overmap terrain coordinate of the center
+   * of the view. The z-component is used to determine the z-level.
+   * @param orig The global overmap terrain coordinates of the player.
+   * It will be marked specially.
+   */
+  static void draw(WINDOW *w, const tripoint &center,
+            const tripoint &orig, bool blink,
+            input_context* inp_ctxt);
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();
@@ -389,10 +414,9 @@ class overmap
   std::string player_filename(int const x, int const y) const;
 
   // Map helper function.
-  bool has_npc(int const x, int const y, int const z) const;
-  void print_npcs(WINDOW *w, int const x, int const y, int const z);
+  static void print_npcs(WINDOW *w, int const x, int const y, int const z);
   bool has_vehicle(int const x, int const y, int const z, bool require_pda = true) const;
-  void print_vehicles(WINDOW *w, int const x, int const y, int const z);
+  void print_vehicles(WINDOW *w, int const x, int const y, int const z) const;
 };
 
 // TODO: readd the stream operators
@@ -406,7 +430,9 @@ extern std::vector<oter_t> oterlist;
 extern std::map<std::string, regional_settings> region_settings_map;
 
 void load_overmap_terrain(JsonObject &jo);
+void reset_overmap_terrain();
 void load_region_settings(JsonObject &jo);
+void reset_region_settings();
 
 void finalize_overmap_terrain();
 

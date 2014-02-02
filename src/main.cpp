@@ -42,6 +42,7 @@ int main(int argc, char *argv[])
 #endif
     int seed = time(NULL);
     bool verifyexit = false;
+    bool check_all_mods = false;
     // set locale to system default
     setlocale(LC_ALL, "");
 #ifdef LOCALIZE
@@ -65,6 +66,9 @@ int main(int argc, char *argv[])
         } else if(std::string(argv[0]) == "--jsonverify") {
             argc--;
             verifyexit = true;
+        } else if(std::string(argv[0]) == "--check-mods") {
+            argc--;
+            check_all_mods = true;
         } else { // ignore unknown args.
             argc--;
         }
@@ -88,20 +92,37 @@ int main(int argc, char *argv[])
 
     std::srand(seed);
 
-    bool quit_game = false;
     g = new game;
-    g->init_data();
-    if(g->game_error()) {
+    // First load and initialize everything that does not
+    // depend on the mods.
+    try {
+        g->load_static_data();
+        if (verifyexit) {
+            if(g->game_error()) {
+                exit_handler(-999);
+            }
+            exit_handler(0);
+        }
+        if (check_all_mods) {
+            // Her we load all the mods and check their
+            // consistency (both is done in check_all_mod_data).
+            g->check_all_mod_data();
+            if(g->game_error()) {
+                exit_handler(-999);
+            }
+            // At this stage, the mods (and core game data)
+            // are find and we could start playing, but this
+            // is only for verifying that stage, so we exit.
+            exit_handler(0);
+        }
+    } catch(std::string &error_message) {
+        if(!error_message.empty()) {
+            debugmsg(error_message.c_str());
+        }
         exit_handler(-999);
     }
-    if ( verifyexit ) {
-        item_controller->check_itype_definitions();
-        item_controller->check_items_of_groups_exist();
-        MonsterGenerator::generator().check_monster_definitions();
-        MonsterGroupManager::check_group_definitions();
-        check_recipe_definitions();
-        exit_handler(0);
-    }
+
+    // Now we do the actuall game
 
     g->init_ui();
     if(g->game_error()) {
@@ -118,6 +139,7 @@ int main(int argc, char *argv[])
     sigaction(SIGINT, &sigIntHandler, NULL);
 #endif
 
+    bool quit_game = false;
     do {
         if(!g->opening_screen()) {
             quit_game = true;

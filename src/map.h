@@ -157,7 +157,18 @@ class map
   *    `cost_min` and `cost_max`.
   */
  bool clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
-                 const int range, const int cost_min, const int cost_max, int &tc);
+                 const int range, const int cost_min, const int cost_max, int &tc) const;
+
+
+ /**
+  * Check whether items in the target square are accessable from the source square
+  * `(Fx, Fy)` and `(Tx, Ty)`.
+  *
+  * Checks two things:
+  * 1. The `sees()` algorithm between `(Fx, Fy)` and `(Tx, Ty)` OR origin and target match.
+  * 2. That the target location isn't sealed.
+  */
+ bool accessable_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
 
  /**
   * Calculate a best path using A*
@@ -329,6 +340,7 @@ void add_corpse(int x, int y);
  void process_active_items();
  void process_vehicles();
 
+ std::list<item> use_amount_square(const int x, const int y, const itype_id type, int &quantity, const bool use_container);
  std::list<item> use_amount(const point origin, const int range, const itype_id type, const int amount,
                               const bool use_container = false);
  std::list<item> use_charges(const point origin, const int range, const itype_id type, const int amount);

@@ -404,13 +404,13 @@ void CheckMessages()
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
-    return (55 + (OPTIONS["VIEWPORT_X"] * 2 + 1)) * fontwidth;
+    return OPTIONS["TERMINAL_X"] * fontwidth;
 }
 
 // Calculates the new height of the window, given the number of rows.
 int projected_window_height(int)
 {
-    return (OPTIONS["VIEWPORT_Y"] * 2 + 1) * fontheight;
+    return OPTIONS["TERMINAL_Y"] * fontheight;
 }
 
 //***********************************
@@ -455,8 +455,8 @@ WINDOW *curses_init(void)
 
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
-    WindowWidth= (55 + (OPTIONS["VIEWPORT_X"] * 2 + 1)) * fontwidth;
-    WindowHeight = (OPTIONS["VIEWPORT_Y"] * 2 + 1) *fontheight;
+    WindowWidth= OPTIONS["TERMINAL_X"] * fontwidth;
+    WindowHeight = OPTIONS["TERMINAL_Y"] * fontheight;
 
     WinCreate();    //Create the actual window, register it, etc
     timeBeginPeriod(1); // Set Sleep resolution to 1ms
@@ -502,11 +502,11 @@ WINDOW *curses_init(void)
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
 //    WindowCount=0;
-    
+
     init_colors();
 
-    delete typeface_c;
-    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
+    delete[] typeface_c;
+    mainwin = newwin(OPTIONS["TERMINAL_Y"],OPTIONS["TERMINAL_X"],0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 

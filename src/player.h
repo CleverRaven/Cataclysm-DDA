@@ -12,6 +12,7 @@
 #include "crafting.h"
 #include "vehicle.h"
 #include "martialarts.h"
+#include "player_activity.h"
 
 class monster;
 class game;
@@ -185,6 +186,38 @@ public:
  bool avoid_trap(trap *tr);
 
  bool has_nv();
+
+ /**
+  * Check if this creature can see the square at (x,y).
+  * Includes checks for line-of-sight and light.
+  * @param t The t output of map::sees.
+  */
+ bool sees(int x, int y);
+ bool sees(int x, int y, int &t);
+ /**
+  * Check if this creature can see the critter.
+  * Includes checks for simple critter visibility
+  * (digging/submerged) and if this can see the square
+  * the creature is on.
+  * If this is not the player, it ignores critters that are
+  * hallucinations.
+  * @param t The t output of map::sees.
+  */
+ bool sees(monster *critter);
+ bool sees(monster *critter, int &t);
+ /**
+  * For fake-players (turrets, mounted turrets) this functions
+  * chooses a target. This is for creatures that are friendly towards
+  * the player and therefor choose a target that is hostile
+  * to the player.
+  * @param fire_t The t output of map::sees.
+  * @param range The maximal range to look for monsters, anything
+  * outside of that range is ignored.
+  * @param boo_hoo The number of targets that have been skipped
+  * because the player is in the way.
+  */
+ Creature *auto_find_hostile_target(int range, int &boo_hoo, int &fire_t);
+
 
  void pause(); // '.' command; pauses & reduces recoil
 
@@ -578,11 +611,12 @@ public:
  std::vector <addiction> addictions;
 
  recipe* lastrecipe;
+ itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
  //Dumps all memorial events into a single newline-delimited string
  std::string dump_memorial();
  //Log an event, to be later written to the memorial file
- void add_memorial_log(const char* message, ...);
+ void add_memorial_log(const char* male_msg, const char* female_msg, ...);
  //Loads the memorial log from a file
  void load_memorial_file(std::ifstream &fin);
  //Notable events, to be printed in memorial
@@ -605,6 +639,8 @@ public:
  static int worn_position_to_index(int position) {
      return -2 - position;
  }
+
+ m_size get_size();
 
 protected:
     std::set<std::string> my_traits;

@@ -45,7 +45,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
 
     std::vector<point> trajectory;
     int tart = 0;
-    if (g->m.sees(sourcex, sourcey, targetx, targety, 0, tart)) {
+    if (g->m.sees(sourcex, sourcey, targetx, targety, -1, tart)) {
         trajectory = line_to(sourcex,sourcey,targetx,targety,tart);
     } else {
         trajectory = line_to(sourcex,sourcey,targetx,targety,0);
@@ -219,7 +219,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     }
     proj.proj_effects.insert(curammo_effects->begin(),curammo_effects->end());
 
-    proj.wide = (weapon.curammo->phase == LIQUID ||
+    proj.wide = (curammo->phase == LIQUID ||
             proj.proj_effects.count("SHOT") || proj.proj_effects.count("BOUNCE"));
     proj.drops = (curammo->type == "bolt" || curammo->type == "arrow");
 
@@ -293,7 +293,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
                 // search for monsters in radius
                 if (rl_dist(z.posx(), z.posy(), tarx, tary) <= std::min(2 + skillLevel("gun"), weaponrange) &&
                         rl_dist(xpos(),ypos(),z.xpos(),z.ypos()) <= weaponrange &&
-                        g->pl_sees(&g->u, &z, dummy) ) {
+                        sees(&z, dummy) ) {
                     if (!z.is_dead_state())
                         new_targets.push_back(point(z.xpos(), z.ypos())); // oh you're not dead and I don't like you. Hello!
                 }
@@ -453,50 +453,55 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     // Throwing attempts below "Basic Competency" level are extra-bad
     int skillLevel = p.skillLevel("throw");
 
-    if (skillLevel < 3)
+    if (skillLevel < 3) {
         deviation += rng(0, 8 - skillLevel);
+    }
 
-    if (skillLevel < 8)
+    if (skillLevel < 8) {
         deviation += rng(0, 8 - skillLevel);
-    else
+    } else {
         deviation -= skillLevel - 6;
+    }
 
     deviation += p.throw_dex_mod();
 
-    if (p.per_cur < 6)
+    if (p.per_cur < 6) {
         deviation += rng(0, 8 - p.per_cur);
-    else if (p.per_cur > 8)
+    } else if (p.per_cur > 8) {
         deviation -= p.per_cur - 8;
+    }
 
     deviation += rng(0, p.encumb(bp_hands) * 2 + p.encumb(bp_eyes) + 1);
-    if (thrown.volume() > 5)
+    if (thrown.volume() > 5) {
         deviation += rng(0, 1 + (thrown.volume() - 5) / 4);
-    if (thrown.volume() == 0)
+    }
+    if (thrown.volume() == 0) {
         deviation += rng(0, 3);
+    }
 
-    deviation += rng(0, 1 + abs(p.str_cur - thrown.weight() / 113));
+    deviation += rng(0, std::max( 0, p.str_cur - thrown.weight() / 113 ) );
 
     double missed_by = .01 * deviation * trange;
     bool missed = false;
     int tart;
 
-    if (missed_by >= 1)
-    {
+    if (missed_by >= 1) {
         // We missed D:
         // Shoot a random nearby space?
-        if (missed_by > 9)
+        if (missed_by > 9) {
             missed_by = 9;
+        }
+
         tarx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
         tary += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
-        if (m.sees(p.posx, p.posy, tarx, tary, -1, tart))
+        if (m.sees(p.posx, p.posy, tarx, tary, -1, tart)) {
             trajectory = line_to(p.posx, p.posy, tarx, tary, tart);
-        else
+        } else {
             trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
+        }
         missed = true;
         add_msg_if_player(&p,_("You miss!"));
-    }
-    else if (missed_by >= .6)
-    {
+    } else if (missed_by >= .6) {
         // Hit the space, but not necessarily the monster there
         missed = true;
         add_msg_if_player(&p,_("You barely miss!"));
@@ -505,17 +510,16 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     std::string message;
     int real_dam = (thrown.weight() / 452 + thrown.type->melee_dam / 2 + p.str_cur / 2) /
                double(2 + double(thrown.volume() / 4));
-    if (real_dam > thrown.weight() / 40)
+    if (real_dam > thrown.weight() / 40) {
         real_dam = thrown.weight() / 40;
-    if (p.has_active_bionic("bio_railgun") && (thrown.made_of("iron") || thrown.made_of("steel")))
-    {
+    }
+    if (p.has_active_bionic("bio_railgun") && (thrown.made_of("iron") || thrown.made_of("steel"))) {
         real_dam *= 2;
     }
     int dam = real_dam;
 
     int i = 0, tx = 0, ty = 0;
-    for (i = 0; i < trajectory.size() && dam >= 0; i++)
-    {
+    for (i = 0; i < trajectory.size() && dam >= 0; i++) {
         message = "";
         double goodhit = missed_by;
         tx = trajectory[i].x;
@@ -525,53 +529,51 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 
         // If there's a monster in the path of our item, and either our aim was true,
         //  OR it's not the monster we were aiming at and we were lucky enough to hit it
-        if (zid != -1 &&
-           (!missed || one_in(7 - int(zombie(zid).type->size))))
-        {
+        if (zid != -1 && (!missed || one_in(7 - int(zombie(zid).type->size)))) {
             monster &z = zombie(zid);
-            if (rng(0, 100) < 20 + skillLevel * 12 &&
-                thrown.type->melee_cut > 0)
-            {
-                if (!p.is_npc())
-                {
+            if (rng(0, 100) < 20 + skillLevel * 12 && thrown.type->melee_cut > 0) {
+                if (!p.is_npc()) {
                     message += string_format(_(" You cut the %s!"), z.name().c_str());
                 }
-                if (thrown.type->melee_cut > z.get_armor_cut(bp_torso))
+                if (thrown.type->melee_cut > z.get_armor_cut(bp_torso)) {
                     dam += (thrown.type->melee_cut - z.get_armor_cut(bp_torso));
+                }
             }
             if (thrown.made_of("glass") && !thrown.active && // active = molotov, etc.
-                rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume())
-            {
-                if (u_see(tx, ty))
+                rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
+                if (u_see(tx, ty)) {
                     add_msg(_("The %s shatters!"), thrown.tname().c_str());
-                for (int i = 0; i < thrown.contents.size(); i++)
+                }
+
+                for (int i = 0; i < thrown.contents.size(); i++) {
                     m.add_item_or_charges(tx, ty, thrown.contents[i]);
-                    sound(tx, ty, 16, _("glass breaking!"));
-                    int glassdam = rng(0, thrown.volume() * 2);
-                    if (glassdam > z.get_armor_cut(bp_torso))
-                        dam += (glassdam - z.get_armor_cut(bp_torso));
-            }
-            else
+                }
+
+                sound(tx, ty, 16, _("glass breaking!"));
+                int glassdam = rng(0, thrown.volume() * 2);
+                if (glassdam > z.get_armor_cut(bp_torso)) {
+                    dam += (glassdam - z.get_armor_cut(bp_torso));
+                }
+            } else {
                 m.add_item_or_charges(tx, ty, thrown);
-            if (i < trajectory.size() - 1)
+            }
+
+            if (i < trajectory.size() - 1) {
                 goodhit = double(double(rand() / RAND_MAX) / 2);
-            if (goodhit < .1 && !z.has_flag(MF_NOHEAD))
-            {
+            }
+
+            if (goodhit < .1 && !z.has_flag(MF_NOHEAD)) {
                 message = _("Headshot!");
                 dam = rng(dam, dam * 3);
                 p.practice(turn, "throw", 5);
                 p.lifetime_stats()->headshots++;
-            }
-            else if (goodhit < .2)
-            {
+            } else if (goodhit < .2) {
                 message = _("Critical!");
                 dam = rng(dam, dam * 2);
                 p.practice(turn, "throw", 2);
-            }
-            else if (goodhit < .4)
+            } else if (goodhit < .4) {
                 dam = rng(int(dam / 2), int(dam * 1.5));
-            else if (goodhit < .5)
-            {
+            } else if (goodhit < .5) {
                 message = _("Grazing hit.");
                 dam = rng(0, dam);
             }
@@ -581,52 +583,49 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                     _("%s <npcname> hits the %s for %d damage."),
                     message.c_str(), z.name().c_str(), dam);
             }
-            if (z.hurt(dam, real_dam))
-                kill_mon(zid, !p.is_npc());
+            if (z.hurt(dam, real_dam)) {
+                z.die(&p);
+            }
             return;
-        }
-        else // No monster hit, but the terrain might be.
-        {
+        } else { // No monster hit, but the terrain might be.
             m.shoot(tx, ty, dam, false, no_effects);
         }
         // Collide with impassable terrain
-        if (m.move_cost(tx, ty) == 0)
-        {
-            if (i > 0)
-            {
+        if (m.move_cost(tx, ty) == 0) {
+            if (i > 0) {
                 tx = trajectory[i - 1].x;
                 ty = trajectory[i - 1].y;
-            }
-            else
-            {
+            } else {
                 tx = u.posx;
                 ty = u.posy;
             }
             i = trajectory.size();
         }
-        if (p.has_active_bionic("bio_railgun") && (thrown.made_of("iron") || thrown.made_of("steel")))
-        {
+        if (p.has_active_bionic("bio_railgun") &&
+            (thrown.made_of("iron") || thrown.made_of("steel"))) {
             m.add_field(tx, ty, fd_electricity, rng(2,3));
         }
     }
     if (thrown.made_of("glass") && !thrown.active && // active means molotov, etc
-        rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume())
-    {
-        if (u_see(tx, ty))
+        rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
+        if (u_see(tx, ty)) {
             add_msg(_("The %s shatters!"), thrown.tname().c_str());
-        for (int i = 0; i < thrown.contents.size(); i++)
+        }
+
+        for (int i = 0; i < thrown.contents.size(); i++) {
             m.add_item_or_charges(tx, ty, thrown.contents[i]);
+        }
         sound(tx, ty, 16, _("glass breaking!"));
-    }
-    else
-    {
-        if(m.has_flag("LIQUID", tx, ty))
+    } else {
+        if(m.has_flag("LIQUID", tx, ty)) {
             sound(tx, ty, 10, _("splash!"));
-        else
+        } else {
             sound(tx, ty, 8, _("thud."));
+        }
         m.add_item_or_charges(tx, ty, thrown);
     }
 }
+
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                                 int hiy, std::vector <monster> t, int &target,

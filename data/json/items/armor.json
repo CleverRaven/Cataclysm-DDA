@@ -1459,7 +1459,7 @@
         "to_hit" : -3,
         "storage" : 4,
         "symbol" : "[",
-        "description" : "A thin, short-sleeved and short-legged one-piece suit.  Judging by the odd tailoring and adjustment points....maybe you don't want to know who wore it. Provides nominal storage and is not very encumbering.",
+        "description" : "A thin, short-sleeved and short-legged one-piece suit. Judging by the odd tailoring and adjustment points... maybe you don't want to know who wore it. Provides nominal storage and is not very encumbering.",
         "price" : 200,
         "material" : ["cotton", "plastic"],
         "volume" : 20,
@@ -3735,7 +3735,7 @@
         "to_hit" : 0,
         "storage" : 10,
         "symbol" : "[",
-        "description" : "A common belt with pockets widely used by handymen, and electricians.",
+        "description" : "A common belt with pockets widely used by handymen and electricians.",
         "price" : 200,
         "material" : ["leather", "null"],
         "volume" : 7,
@@ -4401,7 +4401,7 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A really long wool scarf in an interesting brown, red, yellow, grey, purple, and olive striped pattern, worn over the mouth for warmth.  It would probably be long enough to wrap about your mouth and hands withh plenty of length left over, too.",
+        "description" : "A really long wool scarf in an interesting brown, red, yellow, grey, purple, and olive striped pattern, worn over the mouth for warmth.  It would probably be long enough to wrap about your mouth and hands with plenty of length left over, too.",
         "price" : 40,
         "material" : ["wool", "null"],
         "volume" : 4,
@@ -5017,7 +5017,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A hard plastic hat worn in constructions sites. Excellent protection from cuts and percussion.",
+        "description" : "A hard plastic hat worn in construction sites. Excellent protection from cuts and percussion.",
         "price" : 125,
         "material" : ["plastic", "null"],
         "volume" : 10,
@@ -6217,8 +6217,8 @@
         "enviromental_protection" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
-	},
-	{
+    },
+    {
         "type" : "ARMOR",
         "id" : "hairpin",
         "name" : "hairpin",
@@ -6239,9 +6239,9 @@
         "warmth" : 0,
         "enviromental_protection" : 0,
         "phase" : "solid"
-	},
-	{
-    
+    },
+    {
+
         "type" : "ARMOR",
         "id" : "fc_hairpin",
         "name" : "fancy hairpin",
@@ -6263,15 +6263,15 @@
         "enviromental_protection" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
-	},
-	{
+    },
+    {
         "type" : "ARMOR",
         "id" : "barrette",
         "name" : "barrette",
         "volume" : 0,
         "material_thickness" : 0,
         "storage" : 0,
-        "description" : "A barrette with with lots of ornaments.",
+        "description" : "A barrette with lots of ornaments.",
         "weight" : 5,
         "to_hit" : 0,
         "color" : "pink",
@@ -6286,8 +6286,8 @@
         "enviromental_protection" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
-	},		
-	{
+    },
+    {
         "type" : "ARMOR",
         "id" : "diamond_ring",
         "name" : "diamond ring",
@@ -6309,9 +6309,9 @@
         "enviromental_protection" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
-	},	
-	{
-		"type" : "ARMOR",
+    },
+    {
+        "type" : "ARMOR",
         "id" : "gold_ear",
         "name" : "gold earring",
         "volume" : 0,
@@ -6332,9 +6332,9 @@
         "enviromental_protection" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
-	},
-	{
-		"type" : "ARMOR",
+    },
+    {
+        "type" : "ARMOR",
         "id" : "silver_ear",
         "name" : "silver earring",
         "volume" : 0,
@@ -6355,9 +6355,9 @@
         "enviromental_protection" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
-	},
-	{
-		"type" : "ARMOR",
+    },
+    {
+        "type" : "ARMOR",
         "id" : "copper_ear",
         "name" : "copper earring",
         "volume" : 0,
@@ -6377,7 +6377,7 @@
         "warmth" : 0,
         "enviromental_protection" : 0,
         "phase" : "solid"
-	},
+    },
     {
         "type" : "ARMOR",
         "id" : "necklace",
@@ -6400,8 +6400,8 @@
         "enviromental_protection" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
-	},
-	{
+    },
+    {
         "type" : "ARMOR",
         "id" : "pearl_collar",
         "name" : "pearl collar",
@@ -6423,9 +6423,9 @@
         "enviromental_protection" : 0,
         "phase" : "solid",
         "flags" : ["SUPER_FANCY"]
-	},
-	{
-		"type" : "ARMOR",
+    },
+    {
+        "type" : "ARMOR",
         "id" : "locket",
         "name" : "locket",
         "volume" : 0,
@@ -6446,9 +6446,9 @@
         "enviromental_protection" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
-	},
-	{
-		"type" : "ARMOR",
+    },
+    {
+        "type" : "ARMOR",
         "id" : "gold_bracelet",
         "name" : "gold bracelet",
         "volume" : 0,
@@ -6470,8 +6470,8 @@
         "phase" : "solid",
         "flags" : ["FANCY"]
     },
-	{
-		"type" : "ARMOR",
+    {
+        "type" : "ARMOR",
         "id" : "silver_bracelet",
         "name" : "silver bracelet",
         "volume" : 0,
@@ -6492,9 +6492,9 @@
         "enviromental_protection" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
-	},
-	{
-		"type" : "ARMOR",
+    },
+    {
+        "type" : "ARMOR",
         "id" : "copper_bracelet",
         "name" : "copper bracelet",
         "volume" : 0,
@@ -6537,9 +6537,9 @@
         "enviromental_protection" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
-	},
-	{
-		"type" : "ARMOR",
+    },
+    {
+        "type" : "ARMOR",
         "id" : "brooch",
         "name" : "jade brooch",
         "volume" : 0,
@@ -6574,7 +6574,7 @@
         "color" : "white",
         "encumbrance" : 0,
         "price" : 10,
-        "material" : ["silver", "null"],
+        "material" : ["bone", "silver"],
         "coverage" : 0,
         "symbol" : "[",
         "bashing" : 0,
@@ -6591,7 +6591,7 @@
         "volume" : 0,
         "material_thickness" : 0,
         "storage" : 0,
-        "description" : "A plastic badge with an embedded film strip.  The film strip changes color as it is exposed to radiation.  Wear on your lapel so you can notice if it changes.",
+        "description" : "A plastic badge with an embedded film strip.  The film strip changes color as it is exposed to radiation. Wear on your lapel so you can notice if it changes.",
         "weight" : 20,
         "to_hit" : 0,
         "color" : "light_blue",
@@ -6688,14 +6688,14 @@
         "storage" : 0,
         "symbol" : "[",
         "description" : "A heavy fur blanket that covers most of your body.",
-        "price" : 225,
+        "price" : 255,
         "material" : ["cotton", "fur"],
         "volume" : 14,
         "cutting" : 0,
         "warmth" : 80,
         "phase" : "solid",
         "enviromental_protection" : 1,
-        "encumbrance" : 5,
+        "encumbrance" : 6,
         "bashing" : -5,
         "coverage" : 100,
         "flags" : ["OVERSIZE"],
@@ -6945,7 +6945,7 @@
         "type" : "ARMOR",
         "id" : "power_armor_basic",
         "name" : "basic power armor",
-        "description" : "The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in. The UPS power supply compartment can store other things if you don't mind powering the suit yourself.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
+        "description" : "The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  The UPS power supply compartment can store other things if you don't mind powering the suit yourself.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
         "weight" : 20339,
         "enviromental_protection" : 10,
         "color" : "light_gray",
@@ -7360,7 +7360,7 @@
         "volume" : 1,
         "material_thickness" : 0,
         "storage" : 0,
-        "description" : "A rather large and expensively made wristwatch. Tells the time in elegantly wrought gold with silver detailing.  It's really the only timepiece suitable for someone of your exquisitely discerning tastes.",
+        "description" : "A rather large and expensively made wristwatch.  Tells the time in elegantly wrought gold with silver detailing.  It's really the only timepiece suitable for someone of your exquisitely discerning tastes.",
         "weight" : 80,
         "to_hit" : -1,
         "color" : "yellow",
@@ -7576,7 +7576,7 @@
         "to_hit" : -3,
         "storage" : 50,
         "symbol" : "[",
-        "description" : "A lightweight home built combination armor made from a cut down bulletproof vest and a reinforced jumpsuit made out of fabric. Protects from the elements as well as from harm.",
+        "description" : "A lightweight, home-built combination armor made from a cut-down bulletproof vest and a reinforced jumpsuit made out of fabric. Protects from the elements as well as from harm.",
         "price" : 1100,
         "material" : ["kevlar", "cotton"],
         "volume" : 42,
@@ -7600,7 +7600,7 @@
         "to_hit" : -3,
         "storage" : 46,
         "symbol" : "[",
-        "description" : "A home built combination armor made from a bulletproof vest and a reinforced jumpsuit made out of leather. Protects from the elements as well as from harm.",
+        "description" : "A home-built combination armor made from a bulletproof vest and a reinforced jumpsuit made out of leather. Protects from the elements as well as from harm.",
         "price" : 1500,
         "material" : ["kevlar", "leather"],
         "volume" : 46,
@@ -7673,7 +7673,7 @@
         "to_hit" : -3,
         "storage" : 40,
         "symbol" : "[",
-        "description" : "A heavy home built combination armor made from a reinforced bulletproof vest and a metal armor plated jumpsuit made out of leather. Protects from the elements as well as from harm.",
+        "description" : "A heavy, home-built combination armor made from a reinforced bulletproof vest and a metal-plated jumpsuit made out of leather. Protects from the elements as well as from harm.",
         "price" : 2000,
         "material" : ["kevlar", "steel"],
         "volume" : 48,
@@ -7697,7 +7697,7 @@
         "to_hit" : -3,
         "storage" : 40,
         "symbol" : "[",
-        "description" : "A warm and heavy, home built combination armor made from a reinforced bulletproof vest and an insulated jumpsuit made out of leather. Protects from the elements as well as from harm.",
+        "description" : "A warm and heavy home-built combination armor made from a reinforced bulletproof vest and an insulated jumpsuit made out of leather. Protects from the elements as well as from harm.",
         "price" : 2000,
         "material" : ["kevlar", "fur"],
         "volume" : 56,
@@ -7842,7 +7842,7 @@
         "to_hit" : -3,
         "storage" : 40,
         "symbol" : "[",
-        "description" : "A heavy, home built combination armor made from a cut down bulletproof vest and a reinforced flame-resistant jumpsuit made out of Nomex. Protects from fire and the elements as well as from harm.",
+        "description" : "A heavy, home-built combination armor made from a cut-down bulletproof vest and a reinforced flame-resistant jumpsuit made out of Nomex. Protects from fire and the elements as well as from harm.",
         "price" : 2000,
         "material" : ["kevlar", "nomex"],
         "volume" : 46,
@@ -7987,7 +7987,7 @@
         "to_hit" : -3,
         "storage" : 46,
         "symbol" : "[",
-        "description" : "A lightweight home built combination armor made from a cut down bulletproof vest and a reinforced neoprene wetsuit. Protects from the elements as well as from harm.",
+        "description" : "A lightweight, home-built combination armor made from a cut-down bulletproof vest and a reinforced neoprene wetsuit. Protects from the elements as well as from harm.",
         "price" : 1100,
         "material" : ["kevlar", "plastic"],
         "volume" : 42,
@@ -8452,7 +8452,7 @@
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A suit of gothic plate armor.",
+        "description" : "A suit of Gothic plate armor.",
         "price" : 600,
         "material" : ["iron", "leather"],
         "volume" : 70,
@@ -8924,7 +8924,7 @@
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment. Disassemble to unpack and enjoy.",
+        "description" : "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.  Disassemble to unpack and enjoy.",
         "price" : 1000,
         "material" : ["cotton", "plastic"],
         "volume" : 143,
@@ -8937,7 +8937,7 @@
         "coverage" : 50,
         "material_thickness" : 3
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "striped_shirt",
         "name" : "striped shirt",
@@ -8961,7 +8961,7 @@
         "coverage" : 90,
         "material_thickness" : 1
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "striped_pants",
         "name" : "striped pants",
@@ -8985,7 +8985,7 @@
         "coverage" : 95,
         "material_thickness" : 2
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "briefcase",
         "name" : "briefcase",
@@ -9007,6 +9007,52 @@
         "bashing" : 5,
         "coverage" : 10,
         "material_thickness" : 2,
+        "flags" : ["FANCY"]
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "tieclip",
+        "name" : "tie clip",
+        "volume" : 0,
+        "material_thickness" : 0,
+        "storage" : 0,
+        "description" : "A fancy silver tie clip, a great match for your skinny tie.",
+        "weight" : 12,
+        "to_hit" : 0,
+        "color" : "light_gray",
+        "encumbrance" : 0,
+        "price" : 280,
+        "material" : ["silver", "null"],
+        "coverage" : 0,
+        "symbol" : "[",
+        "bashing" : 0,
+        "cutting" : 0,
+        "warmth" : 0,
+        "enviromental_protection" : 0,
+        "phase" : "solid",
+        "flags" : ["FANCY"]
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "collarpin",
+        "name" : "collar pin",
+        "volume" : 0,
+        "material_thickness" : 0,
+        "storage" : 0,
+        "description" : "A staple accessory for gentlemen. Keeps your shirt collar in place and provide a more aesthetically pleasing arc to your necktie.",
+        "weight" : 10,
+        "to_hit" : 0,
+        "color" : "light_gray",
+        "encumbrance" : 0,
+        "price" : 250,
+        "material" : ["silver", "null"],
+        "coverage" : 0,
+        "symbol" : "[",
+        "bashing" : 0,
+        "cutting" : 0,
+        "warmth" : 0,
+        "enviromental_protection" : 0,
+        "phase" : "solid",
         "flags" : ["FANCY"]
     }
 ]

@@ -63,7 +63,7 @@ map_extras build_extras(
 std::map<std::string,oter_t> otermap;
 std::vector<oter_t> oterlist;
 
-std::map<std::string, oter_t&> obasetermap;
+std::map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
 std::map<std::string, regional_settings> region_settings_map;
 
@@ -204,18 +204,6 @@ double dist(int x1, int y1, int x2, int y2)
 }
 
 
-oter_id base_oter_id( const std::string & base ) {
-    std::map<std::string, oter_t&>::const_iterator it = obasetermap.find( base );
-    if ( it == obasetermap.end() ) {
-        debugmsg("overmap_terrain: base id '%s' not found.", base.c_str() );
-        return 0;
-    } else {
-        return it->second.loadid_base;
-    }  
-}
-
-
-
 bool is_river(const oter_id &ter)
 {
     // if the id starts with "river" or "bridge", count as a river, but this
@@ -305,6 +293,11 @@ void load_oter(oter_t & oter) {
     oter.loadid = oterlist.size();
     otermap[oter.id] = oter;
     oterlist.push_back(oter);
+}
+
+void reset_overmap_terrain() {
+    otermap.clear();
+    oterlist.clear();
 }
 
 /*
@@ -488,7 +481,7 @@ void finalize_overmap_terrain( ) {
                 );
                 // aaaaaaaand continue to inevitable crash
             }
-            obasetermap.insert( std::pair<std::string, oter_t&>( (*it).id_base, oterlist[c] ) );;
+            obasetermap.insert( std::pair<std::string, oter_t>( (*it).id_base, oterlist[c] ) );;
         }
         c++;
     }
@@ -632,6 +625,11 @@ void load_region_settings( JsonObject &jo ) {
     region_settings_map[new_region.id] = new_region;
 };
 
+void reset_region_settings()
+{
+    region_settings_map.clear();
+}
+
 
 // *** BEGIN overmap FUNCTIONS ***
 
@@ -758,7 +756,7 @@ void overmap::init_layers()
 oter_id& overmap::ter(const int x, const int y, const int z)
 {
     if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
-        nullret = 0;
+        nullret = "";
         return nullret;
     }
 
@@ -849,42 +847,19 @@ void overmap::add_note(int const x, int const y, int const z, std::string const 
   layer[z + OVERMAP_DEPTH].notes.push_back(om_note(x, y, layer[z + OVERMAP_DEPTH].notes.size(), message));
 }
 
-point overmap::find_note(int const x, int const y, int const z, std::string const& text) const
+point overmap::find_note(int const x, int const y, int const z, std::string const& text)
 {
- point ret(-1, -1);
- if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
-  debugmsg("Attempting to find note on overmap for blank layer %d", z);
-  return ret;
- }
-
- int closest = 9999;
- for (int i = 0; i < layer[z + OVERMAP_DEPTH].notes.size(); i++) {
-  if (layer[z + OVERMAP_DEPTH].notes[i].text.find(text) != std::string::npos &&
-      rl_dist(x, y, layer[z + OVERMAP_DEPTH].notes[i].x, layer[z + OVERMAP_DEPTH].notes[i].y) < closest) {
-   closest = rl_dist(x, y, layer[z + OVERMAP_DEPTH].notes[i].x, layer[z + OVERMAP_DEPTH].notes[i].y);
-   ret = point(layer[z + OVERMAP_DEPTH].notes[i].x, layer[z + OVERMAP_DEPTH].notes[i].y);
-  }
- }
-
- return ret;
-}
-
-//This removes a npc from the overmap. The NPC is supposed to be already dead.
-//This function also assumes the npc is not in the list of active npcs anymore.
-void overmap::remove_npc(int npc_id)
-{
-    for(int i = 0; i < npcs.size(); i++)
-    {
-        if(npcs[i]->getID() == npc_id)
-        {
-            //Remove this npc from the list of overmap npcs.
-            if(!npcs[i]->dead) debugmsg("overmap::remove_npc: NPC (%d) is not dead.",npc_id);
-            npc * tmp = npcs[i];
-            npcs.erase(npcs.begin() + i);
-            delete tmp;
-            return;
+    const overmapbuffer::t_notes_vector notes = overmap_buffer.find_notes(z, text);
+    int closest = INT_MAX;
+    point ret = invalid_point;
+    for (int i = 0; i < notes.size(); i++) {
+        const int dist = rl_dist(x, y, notes[i].first.x, notes[i].first.y);
+        if (dist < closest) {
+            closest = dist;
+            ret = notes[i].first;
         }
     }
+    return ret;
 }
 
 void overmap::remove_vehicle(int id)
@@ -911,105 +886,74 @@ int overmap::add_vehicle(vehicle *veh)
     return id;
 }
 
-point overmap::display_notes(int const z) const
+point overmap::display_notes(int z)
 {
- if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
-  debugmsg("overmap::display_notes: Attempting to display notes on overmap for blank layer %d", z);
-  return point(-1, -1);
- }
+    const overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes(z);
+    WINDOW* w_notes = newwin(
+        FULL_SCREEN_HEIGHT,
+        FULL_SCREEN_WIDTH,
+        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
- WINDOW* w_notes = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                          (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
-                          (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    draw_border(w_notes);
 
- draw_border(w_notes);
+    const std::string title = _("Notes:");
+    const std::string back_msg = _("< Prev notes");
+    const std::string forward_msg = _("Next notes >");
 
- std::string title = _("Notes:");
- std::string back_msg = _("< Prev notes");
- std::string forward_msg = _("Next notes >");
+    // Number of items to show at one time, 2 rows for border, 2 for title & bottom text
+    const int maxitems = FULL_SCREEN_HEIGHT - 4;
+    int ch = '.';
+    int start = 0;
+    const int back_len = utf8_width(back_msg.c_str());
+    bool redraw = true;
+    point result(-1, -1);
 
- int maxitems; // Number of items to show at one time.
- char end_limit; // Last selectable line.
- if ( (FULL_SCREEN_HEIGHT%2) == 0) {
-    maxitems = 19;
-    end_limit = 's';
- }
- else {
-    end_limit = 't';
-    maxitems = 20;
- }
-    
- char ch = '.';
- int start = 0, cur_it(0);
-
- int back_len = utf8_width(back_msg.c_str());
-
- mvwprintz(w_notes, 1, 1, c_ltgray, title.c_str());
- do{
-  if (ch == '<' && start > 0) {
-   for (int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++)
-    for (int j = 1; j < FULL_SCREEN_WIDTH - 1; j++)
-     mvwputch(w_notes, i, j, c_black, ' ');
-   start -= maxitems;
-   if (start < 0)
-    start = 0;
-  }
-  if (ch == '>' && cur_it < layer[z + OVERMAP_DEPTH].notes.size()) {
-   start = cur_it;
-   for (int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++)
-    for (int j = 1; j < FULL_SCREEN_WIDTH - 1; j++)
-     mvwputch(w_notes, i, j, c_black, ' ');
-  }
-  int cur_line = 3;
-  int last_line = -1;
-  char cur_let = 'a';
-  for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems + 3; cur_it++) {
-   if (cur_it < layer[z + OVERMAP_DEPTH].notes.size()) {
-   mvwputch (w_notes, cur_line, 1, c_white, cur_let++);
-   mvwprintz(w_notes, cur_line, 3, c_ltgray, "- %s", layer[z + OVERMAP_DEPTH].notes[cur_it].text.c_str());
-   } else{
-    last_line = cur_line - 2;
-    break;
-   }
-   cur_line++;
-  }
-
-  if(last_line == -1)
-   last_line = 23;
-  if (start > 0)
-   mvwprintw(w_notes, maxitems + 3, 1, back_msg.c_str());
-  if (cur_it < layer[z + OVERMAP_DEPTH].notes.size())
-   mvwprintw(w_notes, maxitems + 3, 2 + back_len, forward_msg.c_str());
-  if(ch >= 'a' && ch <= end_limit) {
-   int chosen_line = (int)(ch % (int)'a');
-   if(chosen_line < last_line)
-    return point(layer[z + OVERMAP_DEPTH].notes[start + chosen_line].x, layer[z + OVERMAP_DEPTH].notes[start + chosen_line].y);
-  }
-  mvwprintz(w_notes, 1, 40, c_white, _("Press letter to center on note"));
-  mvwprintz(w_notes, FULL_SCREEN_HEIGHT-2, 40, c_white, _("Spacebar - Return to map  "));
-  wrefresh(w_notes);
-  ch = getch();
- } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
- delwin(w_notes);
- return point(-1,-1);
-}
-
-bool overmap::has_npc(int const x, int const y, int const z) const
-{
-    //Check if the target overmap square has an npc in it.
-    for (int n = 0; n < npcs.size(); n++) {
-        if(npcs[n]->omz == z && !npcs[n]->marked_for_death)
-        {
-            if (npcs[n]->is_active())
-            { //Active npcs have different coords. Because Cata hates you!
-                if ((g->levx + (npcs[n]->posx / SEEX))/2 == x &&
-                    (g->levy + (npcs[n]->posy / SEEY))/2 == y)
-                    return true;
-            } else if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2== y)
-                return true;
+    mvwprintz(w_notes, 1, 1, c_ltgray, title.c_str());
+    do {
+        if (redraw) {
+            for (int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++) {
+                for (int j = 1; j < FULL_SCREEN_WIDTH - 1; j++) {
+                    mvwputch(w_notes, i, j, c_black, ' ');
+                }
+            }
+            for (int i = 0; i < maxitems; i++) {
+                const int cur_it = start + i;
+                if (cur_it >= notes.size()) {
+                    continue;
+                }
+                // Print letter ('a' <=> cur_it == start)
+                mvwputch (w_notes, i + 2, 1, c_white, 'a' + i);
+                mvwprintz(w_notes, i + 2, 3, c_ltgray, "- %s", notes[cur_it].second.c_str());
+            }
+            if (start >= maxitems) {
+                mvwprintw(w_notes, maxitems + 2, 1, back_msg.c_str());
+            }
+            if (start + maxitems < notes.size()) {
+                mvwprintw(w_notes, maxitems + 2, 2 + back_len, forward_msg.c_str());
+            }
+            mvwprintz(w_notes, 1, 40, c_white, _("Press letter to center on note"));
+            mvwprintz(w_notes, FULL_SCREEN_HEIGHT - 2, 40, c_white, _("Spacebar - Return to map  "));
+            wrefresh(w_notes);
+            redraw = false;
         }
-    }
-    return false;
+        ch = getch();
+        if (ch == '<' && start >= maxitems) {
+            start -= maxitems;
+            redraw = true;
+        } else if (ch == '>' && start + maxitems < notes.size()) {
+            start += maxitems;
+            redraw = true;
+        } else if(ch >= 'a' && ch <= 'z') {
+            const int chosen = ch - 'a' + start;
+            if (chosen >= 0 && chosen < notes.size()) {
+                result = notes[chosen].first;
+                break; // -> return result
+            }
+        }
+    } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+    delwin(w_notes);
+    return result;
 }
 
 bool overmap::has_vehicle(int const x, int const y, int const z, bool require_pda) const
@@ -1032,54 +976,28 @@ bool overmap::has_vehicle(int const x, int const y, int const z, bool require_pd
     return false;
 }
 
-// int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
-//     cursy = (g->levy + int(MAPSIZE / 2)) / 2;
-
 //Helper function for the overmap::draw function.
 void overmap::print_npcs(WINDOW *w, int const x, int const y, int const z)
 {
+    std::vector<npc*> npcs = overmap_buffer.get_npcs_near_omt(x, y, z, 0);
     int i = 0, maxnamelength = 0;
     //Check the max namelength of the npcs in the target
     for (int n = 0; n < npcs.size(); n++)
     {
-        if(npcs[n]->omz == z && !npcs[n]->marked_for_death)
+        if(!npcs[n]->marked_for_death)
         {
-            if (npcs[n]->is_active())
-            {   //Active npcs have different coords. Because Cata hates you!
-                if ((g->levx + (npcs[n]->posx / SEEX))/2 == x &&
-                    (g->levy + (npcs[n]->posy / SEEY))/2 == y)
-                {
-                    if (npcs[n]->name.length() > maxnamelength)
-                        maxnamelength = npcs[n]->name.length();
-                }
-            } else if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2 == y) {
-                if (npcs[n]->name.length() > maxnamelength)
-                    maxnamelength = npcs[n]->name.length();
-            }
+            maxnamelength = npcs[n]->name.length();
         }
     }
     //Check if the target has an npc in it.
     for (int n = 0; n < npcs.size(); n++)
     {
-        if (npcs[n]->omz == z && !npcs[n]->marked_for_death)
+        if(!npcs[n]->marked_for_death)
         {
-            if (npcs[n]->is_active())
-            {
-                if ((g->levx + (npcs[n]->posx / SEEX))/2 == x &&
-                    (g->levy + (npcs[n]->posy / SEEY))/2 == y)
-                {
-                    mvwprintz(w, i, 0, c_yellow, npcs[n]->name.c_str());
-                    for (int j = npcs[n]->name.length(); j < maxnamelength; j++)
-                        mvwputch(w, i, j, c_black, LINE_XXXX);
-                    i++;
-                }
-            } else if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2 == y)
-            {
-                mvwprintz(w, i, 0, c_yellow, npcs[n]->name.c_str());
-                for (int j = npcs[n]->name.length(); j < maxnamelength; j++)
-                    mvwputch(w, i, j, c_black, LINE_XXXX);
-                i++;
-            }
+            mvwprintz(w, i, 0, c_yellow, npcs[n]->name.c_str());
+            for (int j = npcs[n]->name.length(); j < maxnamelength; j++)
+                mvwputch(w, i, j, c_black, LINE_XXXX);
+            i++;
         }
     }
     for (int j = 0; j < i; j++)
@@ -1089,7 +1007,7 @@ void overmap::print_npcs(WINDOW *w, int const x, int const y, int const z)
     mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
 }
 
-void overmap::print_vehicles(WINDOW *w, int const x, int const y, int const z)
+void overmap::print_vehicles(WINDOW *w, int const x, int const y, int const z) const
 {
     if (!z==0) // vehicles only exist on zlevel 0
         return;
@@ -1641,82 +1559,6 @@ void overmap::make_tutorial()
     zg.clear();
 }
 
-point overmap::find_closest(point origin, const std::string &type,
-                            int &dist, bool must_be_seen)
-{
-    //does origin qualify?
-    if (check_ot_type(type, origin.x, origin.y, 0)) {
-        if (!must_be_seen || seen(origin.x, origin.y, 0)) {
-            return point(origin.x, origin.y);
-        }
-    }
-
-    int max = (dist == 0 ? OMAPX : dist);
-    // expanding box
-    for (dist = 0; dist <= max; dist++) {
-        // each edge length is 2*dist-2, because corners belong to one edge
-        // south is +y, north is -y
-        for (int i = 0; i < dist*2-1; i++) {
-            //start at northwest, scan north edge
-            int x = origin.x - dist + i;
-            int y = origin.y - dist;
-            if (check_ot_type(type, x, y, 0)) {
-                if (!must_be_seen || seen(x, y, 0)) {
-                    return point(x, y);
-                }
-            }
-
-            //start at southeast, scan south
-            x = origin.x + dist - i;
-            y = origin.y + dist;
-            if (check_ot_type(type, x, y, 0)) {
-                if (!must_be_seen || seen(x, y, 0)) {
-                    return point(x, y);
-                }
-            }
-
-            //start at southwest, scan west
-            x = origin.x - dist;
-            y = origin.y + dist - i;
-            if (check_ot_type(type, x, y, 0)) {
-                if (!must_be_seen || seen(x, y, 0)) {
-                    return point(x, y);
-                }
-            }
-
-            //start at northeast, scan east
-            x = origin.x + dist;
-            y = origin.y - dist + i;
-            if (check_ot_type(type, x, y, 0)) {
-                if (!must_be_seen || seen(x, y, 0)) {
-                    return point(x, y);
-                }
-            }
-        }
-    }
-
-    dist = -1;
-    return point(-1, -1);
-}
-
-std::vector<point> overmap::find_all(tripoint origin, const std::string &type,
-                                     int &dist, bool must_be_seen)
-{
-    std::vector<point> res;
-    int max = (dist == 0 ? OMAPX / 2 : dist);
-    for (dist = 0; dist <= max; dist++) {
-        for (int x = origin.x - dist; x <= origin.x + dist; x++) {
-            for (int y = origin.y - dist; y <= origin.y + dist; y++) {
-                if (check_ot_type(type, x, y, origin.z)
-                        && (!must_be_seen || seen(x, y, origin.z))) {
-                    res.push_back(point(x, y));
-                }
-            }
-        }
-    }
-    return res;
-}
-
 std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
 {
     std::vector<point> found;
@@ -1783,451 +1625,342 @@ int overmap::dist_from_city(point p)
  return distance;
 }
 
-void overmap::draw(WINDOW *w, int z, int &cursx, int &cursy,
-                   int &origx, int &origy, signed char &ch, bool blink,
-                   overmap &hori, overmap &vert, overmap &diag, input_context* inp_ctxt)
+void overmap::draw(WINDOW *w, const tripoint &center,
+            const tripoint &orig, bool blink,
+                   input_context* inp_ctxt)
 {
- bool note_here = false, npc_here = false, veh_here = false;
- std::string note_text;
- int om_map_width = TERMX-28;
- int om_map_height = TERMY;
-
- int omx, omy;
- point target(-1, -1);
- if (g->u.active_mission >= 0 &&
-     g->u.active_mission < g->u.active_missions.size())
-  target = g->find_mission(g->u.active_missions[g->u.active_mission])->target;
-  bool see;
-  oter_id cur_ter = ot_null;
-  nc_color ter_color;
-  long ter_sym;
-  /* First, determine if we're close enough to the edge to need an
-   * adjacent overmap, and record the offsets. */
-  int offx = 0;
-  int offy = 0;
-  if (cursx < om_map_width / 2)
-  {
-      offx = -1;
-  }
-  else if (cursx > OMAPX - 2 - (om_map_width / 2))
-  {
-      offx = 1;
-  }
-  if (cursy < (om_map_height / 2))
-  {
-      offy = -1;
-  }
-  else if (cursy > OMAPY - 2 - (om_map_height / 2))
-  {
-      offy = 1;
-  }
-
-  // If the offsets don't match the previously loaded ones, load the new adjacent overmaps.
-  if( offx && loc.x + offx != hori.loc.x )
-  {
-      hori = overmap_buffer.get( loc.x + offx, loc.y );
-  }
-  if( offy && loc.y + offy != vert.loc.y )
-  {
-      vert = overmap_buffer.get( loc.x, loc.y + offy );
-  }
-  if( offx && offy && (loc.x + offx != diag.loc.x || loc.y + offy != diag.loc.y ) )
-  {
-      diag = overmap_buffer.get( loc.x + offx, loc.y + offy );
-  }
-
-// Now actually draw the map
-  bool csee = false;
-  oter_id ccur_ter = "";
-  for (int i = -(om_map_width / 2); i < (om_map_width / 2); i++) {
-   for (int j = -(om_map_height / 2);
-         j <= (om_map_height / 2) + (ch == 'j' ? 1 : 0); j++) {
-    omx = cursx + i;
-    omy = cursy + j;
-    see = false;
-    npc_here = false;
-    veh_here = false;
-    if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) { // It's in-bounds
-     cur_ter = ter(omx, omy, z);
-     see = seen(omx, omy, z);
-     note_here = has_note(omx, omy, z);
-     if (note_here) {
-         note_text = note(omx, omy, z);
-     }
-     //Check if there is an npc.
-     npc_here = has_npc(omx,omy,z);
-     // and a vehicle
-     veh_here = has_vehicle(omx,omy,z);
-// <Out of bounds placement>
-    } else if (omx < 0) {
-     omx += OMAPX;
-     if (omy < 0 || omy >= OMAPY) {
-      omy += (omy < 0 ? OMAPY : 0 - OMAPY);
-      cur_ter = diag.ter(omx, omy, z);
-      see = diag.seen(omx, omy, z);
-      veh_here = diag.has_vehicle(omx, omy, z);
-      note_here = diag.has_note(omx, omy, z);
-      if (note_here) {
-          note_text = diag.note(omx, omy, z);
-      }
-     } else {
-      cur_ter = hori.ter(omx, omy, z);
-      see = hori.seen(omx, omy, z);
-      veh_here = hori.has_vehicle(omx, omy, z);
-      note_here = hori.has_note(omx, omy, z);
-      if (note_here) {
-          note_text = hori.note(omx, omy, z);
-      }
-     }
-    } else if (omx >= OMAPX) {
-     omx -= OMAPX;
-     if (omy < 0 || omy >= OMAPY) {
-      omy += (omy < 0 ? OMAPY : 0 - OMAPY);
-      cur_ter = diag.ter(omx, omy, z);
-      see = diag.seen(omx, omy, z);
-      veh_here = diag.has_vehicle(omx, omy, z);
-      note_here = diag.has_note(omx, omy, z);
-      if (note_here) {
-          note_text = diag.note(omx, omy, z);
-      }
-     } else {
-      cur_ter = hori.ter(omx, omy, z);
-      see = hori.seen(omx, omy, z);
-      veh_here = hori.has_vehicle(omx, omy, z);
-      note_here = hori.has_note(omx, omy, z);
-      if (note_here) {
-          note_text = hori.note(omx, omy, z);
-      }
-     }
-    } else if (omy < 0) {
-     omy += OMAPY;
-     cur_ter = vert.ter(omx, omy, z);
-     see = vert.seen(omx, omy, z);
-     veh_here = vert.has_vehicle(omx, omy, z);
-     note_here = vert.has_note(omx, omy, z);
-     if (note_here) {
-         note_text = vert.note(omx, omy, z);
-     }
-    } else if (omy >= OMAPY) {
-     omy -= OMAPY;
-     cur_ter = vert.ter(omx, omy, z);
-     see = vert.seen(omx, omy, z);
-     veh_here = vert.has_vehicle(omx, omy, z);
-     note_here = vert.has_note(omx, omy, z);
-     if (note_here) {
-         note_text = vert.note(omx, omy, z);
-     }
-    } else {
-        debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
+    const int z = center.z;
+    const int cursx = center.x;
+    const int cursy = center.y;
+    static const int LEGEND_WIDTH = 28;
+    const int om_map_width = TERMX - LEGEND_WIDTH;
+    const int om_map_height = TERMY;
+    // Target of current mission
+    point target;
+    bool has_target = false;
+    if (g->u.active_mission >= 0 && g->u.active_mission < g->u.active_missions.size()) {
+        target = g->find_mission(g->u.active_missions[g->u.active_mission])->target;
+        has_target = target != overmap::invalid_point;
     }
-// </Out of bounds replacement>
-    if (see) {
-     if (note_here && blink) {
-      ter_color = c_yellow;
-      if (note_text[1] == ':') {
-       ter_sym = note_text[0];
-      } else {
-       ter_sym = 'N';
-      }
-     } else if (omx == origx && omy == origy && blink) {
-      ter_color = g->u.color();
-      ter_sym = '@';
-     } else if (npc_here && blink) {
-      ter_color = c_pink;
-      ter_sym = '@';
-     } else if (veh_here && blink) {
-         ter_color = c_cyan;
-         ter_sym = 'c';
-     } else if (omx == target.x && omy == target.y && blink) {
-      ter_color = c_red;
-      ter_sym = '*';
-     } else {
-        if (otermap.find(cur_ter) == otermap.end()) {
-            debugmsg("Bad ter %s (%d, %d)", cur_ter.c_str(), omx, omy);
+    // seen status & terrain of center position
+    bool csee = false;
+    oter_id ccur_ter = "";
+    // used inside the loop
+    oter_id cur_ter = ot_null;
+    nc_color ter_color;
+    long ter_sym;
+    for (int i = 0; i < om_map_width; i++) {
+        for (int j = 0; j < om_map_height; j++) {
+            const int omx = cursx + i -(om_map_width / 2);
+            const int omy = cursy + j -(om_map_height / 2);
+            const bool see = overmap_buffer.seen(omx, omy, z);
+            if (see) {
+                // Only load terrain if we can actually see it
+                cur_ter = overmap_buffer.ter(omx, omy, z);
+            }
+            //Check if there is an npc.
+            const bool npc_here = overmap_buffer.has_npc(omx, omy, z);
+            // and a vehicle
+            const bool veh_here = overmap_buffer.has_vehicle(omx, omy, z);
+            if (blink && omx == orig.x && omy == orig.y && z == orig.z) {
+                // Display player pos, should always be visible
+                ter_color = g->u.color();
+                ter_sym = '@';
+            } else if (blink && has_target && omx == target.x && omy == target.y && z == 0) {
+                // TODO: mission targets currently have no z-component, are assumed to be on z=0
+                // Mission target, display always, player should know where it is anyway.
+                ter_color = c_red;
+                ter_sym = '*';
+            } else if (blink && overmap_buffer.has_note(omx, omy, z)) {
+                // Display notes in all situations, even when not seen
+                ter_color = c_yellow;
+                const std::string& note_text = overmap_buffer.note(omx, omy, z);
+                if (note_text.length() >= 2 && note_text[1] == ':') {
+                    ter_sym = note_text[0];
+                } else {
+                    ter_sym = 'N';
+                }
+            } else if (!see) {
+                // All cases above ignore the seen-status,
+                ter_color = c_dkgray;
+                ter_sym = '#';
+                // All cases below assume that see is true.
+            } else if (blink && npc_here) {
+                // Display NPCs only when player can see the location
+                ter_color = c_pink;
+                ter_sym = '@';
+            } else if (blink && veh_here) {
+                // Display Vehicles only when player can see the location
+                ter_color = c_cyan;
+                ter_sym = 'c';
+            } else {
+                // Nothing special, but is visible to the player.
+                if (otermap.find(cur_ter) == otermap.end()) {
+                    debugmsg("Bad ter %s (%d, %d)", cur_ter.c_str(), omx, omy);
+                    ter_color = c_red;
+                    ter_sym = '?';
+                } else {
+                    ter_color = otermap[cur_ter].color;
+                    ter_sym = otermap[cur_ter].sym;
+                }
+            }
+            if (omx == cursx && omy == cursy) {
+                csee = see;
+                ccur_ter = cur_ter;
+                mvwputch_hi(w, j, i, ter_color, ter_sym);
+            } else {
+                mvwputch(w, j, i, ter_color, ter_sym);
+            }
         }
-        ter_color = otermap[cur_ter].color;
-        ter_sym = otermap[cur_ter].sym;
-     }
-    } else { // We haven't explored this tile yet
-     ter_color = c_dkgray;
-     ter_sym = '#';
     }
-    if (j == 0 && i == 0) {
-     mvwputch_hi (w, om_map_height / 2, om_map_width / 2,
-                  ter_color, ter_sym);
-     csee = see;
-     ccur_ter = cur_ter;
-    } else {
-        mvwputch(w, (om_map_height / 2) + j, (om_map_width / 2) + i,
-                 ter_color, ter_sym);
-    }
-   }
-  }
-  if (target.x != -1 && target.y != -1 && blink &&
-      (target.x < cursx - om_map_height / 2 ||
-                  target.x > cursx + om_map_height / 2  ||
-       target.y < cursy - om_map_width / 2 ||
-                  target.y > cursy + om_map_width / 2    )) {
-    switch (direction_from(cursx, cursy, target.x, target.y)) {
-    case NORTH:      mvwputch(w, 0, (om_map_width / 2), c_red, '^');       break;
-    case NORTHEAST:  mvwputch(w, 0, om_map_width - 1, c_red, LINE_OOXX); break;
-    case EAST:       mvwputch(w, (om_map_height / 2),
-                                    om_map_width - 1, c_red, '>');       break;
-    case SOUTHEAST:  mvwputch(w, om_map_height,
-                                    om_map_width - 1, c_red, LINE_XOOX); break;
-    case SOUTH:      mvwputch(w, om_map_height,
-                                    om_map_height / 2, c_red, 'v');       break;
-    case SOUTHWEST:  mvwputch(w, om_map_height,  0, c_red, LINE_XXOO); break;
-    case WEST:       mvwputch(w, om_map_height / 2,  0, c_red, '<');       break;
-    case NORTHWEST:  mvwputch(w,  0,  0, c_red, LINE_OXXO); break;
-   }
-  }
-
-  if (has_note(cursx, cursy, z)) {
-   note_text = note(cursx, cursy, z);
-   if (note_text[1] == ':')
-    note_text = note_text.substr(2, note_text.size());
-   for (int i = 0; i < note_text.length(); i++)
-    mvwputch(w, 1, i, c_white, LINE_OXOX);
-   mvwputch(w, 1, note_text.length(), c_white, LINE_XOOX);
-   mvwputch(w, 0, note_text.length(), c_white, LINE_XOXO);
-   mvwprintz(w, 0, 0, c_yellow, note_text.c_str());
-  } else if (has_npc(cursx, cursy, z))
+    if (has_target && blink &&
+        (target.x < cursx - om_map_height / 2 ||
+        target.x > cursx + om_map_height / 2  ||
+        target.y < cursy - om_map_width / 2 ||
+        target.y > cursy + om_map_width / 2))
     {
+        // TODO: mission targets currently have no z-component, are assumed to be on z=0
+        switch (direction_from(cursx, cursy, target.x, target.y)) {
+        case NORTH:
+            mvwputch(w, 0, om_map_width / 2, c_red, '^');
+            break;
+        case NORTHEAST:
+            mvwputch(w, 0, om_map_width - 1, c_red, LINE_OOXX);
+            break;
+        case EAST:
+            mvwputch(w, om_map_height / 2, om_map_width - 1, c_red, '>');
+            break;
+        case SOUTHEAST:
+            mvwputch(w, om_map_height, om_map_width - 1, c_red, LINE_XOOX);
+            break;
+        case SOUTH:
+            mvwputch(w, om_map_height, om_map_height / 2, c_red, 'v');
+            break;
+        case SOUTHWEST:
+            mvwputch(w, om_map_height, 0, c_red, LINE_XXOO);
+            break;
+        case WEST:
+            mvwputch(w, om_map_height / 2,  0, c_red, '<');
+            break;
+        case NORTHWEST:
+            mvwputch(w,  0,  0, c_red, LINE_OXXO);
+            break;
+        }
+    }
+
+    std::string note_text = overmap_buffer.note(cursx, cursy, z);
+    if (note_text.length() >= 2 && note_text[1] == ':') {
+        note_text.erase(0, 2);
+    }
+    if (!note_text.empty()) {
+        const int length = utf8_width(note_text.c_str());
+        for (int i = 0; i <= length; i++) {
+            mvwputch(w, 1, i, c_white, LINE_OXOX);
+        }
+        mvwprintz(w, 0, 0, c_yellow, "%s", note_text.c_str());
+        mvwputch(w, 1, length, c_white, LINE_XOOX);
+        mvwputch(w, 0, length, c_white, LINE_XOXO);
+    } else if (overmap_buffer.has_npc(cursx, cursy, z)) {
         print_npcs(w, cursx, cursy, z);
-    } else if (has_vehicle(cursx, cursy, z))
-    {
-        print_vehicles(w, cursx, cursy, z);
+    } else if (overmap_buffer.has_vehicle(cursx, cursy, z)) {
+        int x = cursx;
+        int y = cursy;
+        const overmap &om = overmap_buffer.get_om_global(x, y);
+        om.print_vehicles(w, x, y, z);
     }
 
+    // Draw the vertical line
+    for (int j = 0; j < om_map_height; j++) {
+        mvwputch(w, j, om_map_width, c_white, LINE_XOXO);
+    }
+    // Clear the legend
+    for (int i = om_map_width + 1; i < om_map_width + 55; i++) {
+        for (int j = 0; j < om_map_height; j++) {
+            mvwputch(w, j, i, c_black, ' ');
+        }
+    }
 
-  cur_ter = ter(cursx, cursy, z);
-// Draw the vertical line
-  for (int j = 0; j < om_map_height; j++)
-   mvwputch(w, j, om_map_width, c_white, LINE_XOXO);
-// Clear the legend
-  for (int i = om_map_width + 1; i < om_map_width + 55; i++) {
-   for (int j = 0; j < om_map_height; j++)
-   mvwputch(w, j, i, c_black, ' ');
-  }
+    if (csee) {
+        mvwputch(w, 1, om_map_width + 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
+        std::vector<std::string> name = foldstring(otermap[ccur_ter].name, 25);
+        for (int i = 0; i < name.size(); i++) {
+            mvwprintz(w, i + 1, om_map_width + 3, otermap[ccur_ter].color, "%s", name[i].c_str());
+        }
+    } else {
+        mvwprintz(w, 1, om_map_width + 1, c_dkgray, _("# Unexplored"));
+    }
 
-  real_coords rc;
-  rc.fromomap( pos().x, pos().y, cursx, cursy );
+    if (has_target) {
+        // TODO: mission targets currently have no z-component, are assumed to be on z=0
+        int distance = rl_dist(orig.x, orig.y, target.x, target.y);
+        mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
+    }
+    mvwprintz(w, 15, om_map_width + 1, c_magenta, _("Use movement keys to pan.  "));
+    mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
+            _(" - Center map on character")).c_str());
+    mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
+            _(" - Search                 ")).c_str());
+    mvwprintz(w, 18, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
+            _(" - Add/Edit a note        ")).c_str());
+    mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
+            _(" - Delete a note          ")).c_str());
+    mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
+            _(" - List notes             ")).c_str());
+    fold_and_print(w, 21, om_map_width + 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
+                _(" - Return to game  ")).c_str());
+    point omt(cursx, cursy);
+    const point om = overmapbuffer::omt_to_om_remain(omt);
+    mvwprintz(w, getmaxy(w) - 1, om_map_width + 1, c_red, 
+        _("LEVEL %i, %d'%d, %d'%d"), z, om.x, omt.x, om.y, omt.y);
+    // Done with all drawing!
+    wrefresh(w);
+}
 
-  if (csee) {
-   mvwputch(w, 1, om_map_width + 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
-   std::vector<std::string> name = foldstring(otermap[ccur_ter].name,25);
-   for (int i = 1; (i - 1) < name.size(); i++)
-   {
-       mvwprintz(w, i, om_map_width + 3, otermap[ccur_ter].color, "%s",
-                 name[i-1].c_str());
-   }
-  } else
-   mvwprintz(w, 1, om_map_width + 1, c_dkgray, _("# Unexplored"));
+point overmap::draw_overmap()
+{
+    return draw_overmap(g->om_global_location());
+}
 
-  if (target.x != -1 && target.y != -1) {
-   int distance = rl_dist(origx, origy, target.x, target.y);
-   mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
-  }
-  mvwprintz(w, 15, om_map_width + 1, c_magenta, _("Use movement keys to pan.  "));
-  mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
-                                                 _(" - Center map on character")).c_str());
-  mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
-                                                 _(" - Search                 ")).c_str());
-  mvwprintz(w, 18, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
-                                                 _(" - Add/Edit a note        ")).c_str());
-  mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
-                                                 _(" - Delete a note          ")).c_str());
-  mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
-                                                 _(" - List notes             ")).c_str());
-  fold_and_print(w, 21, om_map_width + 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
-                                                          _(" - Return to game  ")).c_str());
-  mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, string_format(_("LEVEL %i"),z).c_str());
-  mvwprintz( w, getmaxy(w) - 1, om_map_width + 1, c_red, "%s, %d'%d, %d'%d",
-                  string_format(_("LEVEL %i"),z).c_str(), rc.abs_om.x, rc.om_pos.x,
-                  rc.abs_om.y, rc.om_pos.y );
-// Done with all drawing!
-  wrefresh(w);
+point overmap::draw_overmap(int z)
+{
+    tripoint loc = g->om_global_location();
+    loc.z = z;
+    return draw_overmap(loc);
 }
 
 //Start drawing the overmap on the screen using the (m)ap command.
-point overmap::draw_overmap(int zlevel)
+point overmap::draw_overmap(const tripoint& orig)
 {
- WINDOW* w_map = newwin(TERMY, TERMX, 0, 0);
- WINDOW* w_search = newwin(13, 27, 3, TERMX-27);
- timeout(BLINK_SPEED); // Enable blinking!
- bool blink = true;
- int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
-     cursy = (g->levy + int(MAPSIZE / 2)) / 2;
- int origx = cursx, origy = cursy, origz = zlevel;
- signed char ch = 0;
- point ret(-1, -1);
- overmap hori, vert, diag; // Adjacent maps
+    WINDOW* w_map = newwin(TERMY, TERMX, 0, 0);
+    timeout(BLINK_SPEED); // Enable blinking!
+    bool blink = true;
+    long ch = 0;
+    point ret(invalid_point);
+    tripoint curs(orig);
 
- // Configure input context for navigating the map.
- input_context ictxt("OVERMAP");
- ictxt.register_action("ANY_INPUT");
- ictxt.register_directions();
- ictxt.register_action("CONFIRM");
- ictxt.register_action("LEVEL_UP");
- ictxt.register_action("LEVEL_DOWN");
- ictxt.register_action("HELP_KEYBINDINGS");
+    // Configure input context for navigating the map.
+    input_context ictxt("OVERMAP");
+    ictxt.register_action("ANY_INPUT");
+    ictxt.register_directions();
+    ictxt.register_action("CONFIRM");
+    ictxt.register_action("LEVEL_UP");
+    ictxt.register_action("LEVEL_DOWN");
+    ictxt.register_action("HELP_KEYBINDINGS");
 
- // Actions whose keys we want to display.
- ictxt.register_action("CENTER");
- ictxt.register_action("CREATE_NOTE");
- ictxt.register_action("DELETE_NOTE");
- ictxt.register_action("SEARCH");
- ictxt.register_action("LIST_NOTES");
- ictxt.register_action("QUIT");
- std::string action;
- do {
-     real_coords rc;
-     rc.fromomap(g->cur_om->pos().x, g->cur_om->pos().y, cursx, cursy);
-     // (cursx, cursy) are the coordinates of the overmap-terrain,
-     // that is in the center of the view (relative to this overmap)
-     // Those coordinates get translated to the coordinates of the
-     // overmap they are on (rc.abs_om) and the coordinates of the
-     // overmap-terrain on that overmap (rc.om_pos)
-     overmap &center_om = overmap_buffer.get(rc.abs_om.x, rc.abs_om.y);
+    // Actions whose keys we want to display.
+    ictxt.register_action("CENTER");
+    ictxt.register_action("CREATE_NOTE");
+    ictxt.register_action("DELETE_NOTE");
+    ictxt.register_action("SEARCH");
+    ictxt.register_action("LIST_NOTES");
+    ictxt.register_action("QUIT");
+    std::string action;
+    do {
+        timeout(BLINK_SPEED); // Enable blinking!
+        draw(w_map, curs, orig, blink, &ictxt);
+        action = ictxt.handle_input();
+        timeout(-1);
 
-     center_om.draw(w_map, zlevel, rc.om_pos.x, rc.om_pos.y, origx, origy, ch, blink, hori, vert, diag, &ictxt);
-     action = ictxt.handle_input();
-     timeout(BLINK_SPEED); // Enable blinking!
-
-  int dirx, diry;
-  if (action != "ANY_INPUT") {
-   blink = true; // If any input is detected, make the blinkies on
-  }
-  ictxt.get_direction(dirx, diry, action);
-  if (dirx != -2 && diry != -2) {
-   cursx += dirx;
-   cursy += diry;
-  } else if (action == "CENTER") {
-   cursx = origx;
-   cursy = origy;
-   zlevel = origz;
-  } else if (action == "LEVEL_DOWN" && zlevel > -OVERMAP_DEPTH) {
-      zlevel -= 1;
-  } else if (action == "LEVEL_UP" && zlevel < OVERMAP_HEIGHT) {
-      zlevel += 1;
-  }
-  else if (action == "CONFIRM")
-   ret = point(cursx, cursy);
-  else if (action == "QUIT")
-   ret = point(-1, -1);
-  else if (action == "CREATE_NOTE") {
-   timeout(-1);
-   const std::string old_note = center_om.note(rc.om_pos.x, rc.om_pos.y, zlevel);
-   const std::string new_note = string_input_popup(_("Note (X:TEXT for custom symbol):"), 45, old_note); // 45 char max
-   if(old_note != new_note) {
-     center_om.add_note(rc.om_pos.x, rc.om_pos.y, zlevel, new_note);
-   }
-   timeout(BLINK_SPEED);
-  } else if(action == "DELETE_NOTE"){
-   timeout(-1);
-   if (center_om.has_note(rc.om_pos.x, rc.om_pos.y, zlevel)){
-    bool res = query_yn(_("Really delete note?"));
-    if (res == true)
-     center_om.delete_note(rc.om_pos.x, rc.om_pos.y, zlevel);
-   }
-   timeout(BLINK_SPEED);
-  } else if (action == "LIST_NOTES"){
-   timeout(-1);
-   point p = center_om.display_notes(zlevel);
-   if (p.x != -1) {
-    // Translate coords relative to center_om back to relative to this
-    real_coords rct;
-    rct.fromomap(center_om.pos().x, center_om.pos().y, p.x, p.y);
-    cursx = rct.abs_pos.x / (2 * SEEX);
-    cursy = rct.abs_pos.y / (2 * SEEX);
-   }
-   timeout(BLINK_SPEED);
-   wrefresh(w_map);
-  } else if (action == "SEARCH") {
-   int tmpx = cursx, tmpy = cursy;
-   timeout(-1);
-   std::string term = string_input_popup(_("Search term:"));
-   if(term.empty()) {
-    continue;
-   }
-   timeout(BLINK_SPEED);
-   center_om.draw(w_map, zlevel, rc.om_pos.x, rc.om_pos.y, origx, origy, ch, blink, hori, vert, diag, &ictxt);
-   point found = center_om.find_note(rc.om_pos.x, rc.om_pos.y, zlevel, term);
-   if (found.x == -1) { // Didn't find a note
-    std::vector<point> terlist;
-    terlist = center_om.find_terrain(term, zlevel);
-    if (terlist.size() != 0){
-     int i = 0;
-     //Navigate through results
-     do {
-      //Draw search box
-      draw_border(w_search);
-      mvwprintz(w_search, 1, 1, c_red, _("Find place:"));
-      mvwprintz(w_search, 2, 1, c_ltblue, "                         ");
-      mvwprintz(w_search, 2, 1, c_ltblue, "%s", term.c_str());
-      mvwprintz(w_search, 4, 1, c_white,
-       _("'<' '>' Cycle targets."));
-      mvwprintz(w_search, 10, 1, c_white, _("Enter/Spacebar to select."));
-      mvwprintz(w_search, 11, 1, c_white, _("q or ESC to return."));
-      ch = input();
-      if (ch == ERR)
-       blink = !blink;
-      else if (ch == '<') {
-       i++;
-       if(i > terlist.size() - 1)
-        i = 0;
-      } else if(ch == '>'){
-       i--;
-       if(i < 0)
-        i = terlist.size() - 1;
-      }
-      rc.om_pos.x = terlist[i].x;
-      rc.om_pos.y = terlist[i].y;
-      center_om.draw(w_map, zlevel, rc.om_pos.x, rc.om_pos.y, origx, origy, ch, blink, hori, vert, diag, &ictxt);
-      wrefresh(w_search);
-      timeout(BLINK_SPEED);
-     } while(ch != '\n' && ch != ' ' && ch != 'q' && ch != KEY_ESCAPE);
-     //If q is hit, return to the last position
-     if(ch == 'q' || ch == KEY_ESCAPE){
-      cursx = tmpx;
-      cursy = tmpy;
-     } else {
-      // Translate coords relative to center_om back to relative to this
-      real_coords rct;
-      rct.fromomap(center_om.pos().x, center_om.pos().y, rc.om_pos.x, rc.om_pos.y);
-      cursx = rct.abs_pos.x / (2 * SEEX);
-      cursy = rct.abs_pos.y / (2 * SEEX);
-     }
-     ch = '.';
-    }
-   }
-   if (found.x != -1) {
-    // Translate coords relative to center_om back to relative to this
-    real_coords rct;
-    rct.fromomap(center_om.pos().x, center_om.pos().y, found.x, found.y);
-    cursx = rct.abs_pos.x / (2 * SEEX);
-    cursy = rct.abs_pos.y / (2 * SEEX);
-   }
-  }
-  else if (action == "ANY_INPUT") { // Hit timeout on input, so make characters blink
-   blink = !blink;
-   input_event e = ictxt.get_raw_input();
-   if(e.type == CATA_INPUT_KEYBOARD && e.get_first_input() == 'm') {
-     action = "QUIT";
-   }
-  }
- } while (action != "QUIT" && action != "CONFIRM");
- timeout(-1);
- werase(w_map);
- wrefresh(w_map);
- delwin(w_map);
- werase(w_search);
- wrefresh(w_search);
- delwin(w_search);
- erase();
- g->refresh_all();
- return ret;
+        int dirx, diry;
+        if (action != "ANY_INPUT") {
+            blink = true; // If any input is detected, make the blinkies on
+        }
+        ictxt.get_direction(dirx, diry, action);
+        if (dirx != -2 && diry != -2) {
+            curs.x += dirx;
+            curs.y += diry;
+        } else if (action == "CENTER") {
+            curs = orig;
+        } else if (action == "LEVEL_DOWN" && curs.z > -OVERMAP_DEPTH) {
+            curs.z -= 1;
+        } else if (action == "LEVEL_UP" && curs.z < OVERMAP_HEIGHT) {
+            curs.z += 1;
+        } else if (action == "CONFIRM") {
+            ret = point(curs.x, curs.y);
+        } else if (action == "QUIT") {
+            ret = invalid_point;
+        } else if (action == "CREATE_NOTE") {
+            const std::string old_note = overmap_buffer.note(curs);
+            const std::string new_note = string_input_popup(_("Note (X:TEXT for custom symbol):"), 45, old_note); // 45 char max
+            if(old_note != new_note) {
+                overmap_buffer.add_note(curs, new_note);
+            }
+        } else if(action == "DELETE_NOTE") {
+            if (overmap_buffer.has_note(curs) &&
+                query_yn(_("Really delete note?"))) {
+                overmap_buffer.delete_note(curs);
+            }
+        } else if (action == "LIST_NOTES") {
+            const point p = display_notes(curs.z);
+            if (p.x != -1 && p.y != -1) {
+                curs.x = p.x;
+                curs.y = p.y;
+            }
+        } else if (action == "SEARCH") {
+            const std::string term = string_input_popup(_("Search term:"));
+            if(term.empty()) {
+                continue;
+            }
+            const point p = find_note(curs.x, curs.y, curs.z, term);
+            if (p != invalid_point) {
+                // found a note, center on it, re-display
+                curs.x = p.x;
+                curs.y = p.y;
+                continue;
+            }
+            std::vector<point> terlist;
+            // This is on purpose only the current overmap, otherwise
+            // it would contain way to many entries
+            overmap &om = overmap_buffer.get_om_global(point(curs.x, curs.y));
+            terlist = om.find_terrain(term, curs.z);
+            if (terlist.size() == 0) {
+                continue;
+            }
+            int i = 0;
+            //Navigate through results
+            tripoint tmp = curs;
+            WINDOW* w_search = newwin(13, 27, 3, TERMX-27);
+            do {
+                tmp.x = om.pos().x * OMAPX + terlist[i].x;
+                tmp.y = om.pos().y * OMAPY + terlist[i].y;
+                timeout(BLINK_SPEED); // Enable blinking!
+                draw(w_map, tmp, orig, blink, &ictxt);
+                //Draw search box
+                draw_border(w_search);
+                mvwprintz(w_search, 1, 1, c_red, _("Find place:"));
+                mvwprintz(w_search, 2, 1, c_ltblue, "                         ");
+                mvwprintz(w_search, 2, 1, c_ltblue, "%s", term.c_str());
+                mvwprintz(w_search, 4, 1, c_white, _("'<' '>' Cycle targets."));
+                mvwprintz(w_search, 10, 1, c_white, _("Enter/Spacebar to select."));
+                mvwprintz(w_search, 11, 1, c_white, _("q or ESC to return."));
+                wrefresh(w_search);
+                ch = input();
+                timeout(-1);
+                if (ch == ERR) {
+                    blink = !blink;
+                } else if (ch == '<') {
+                    i = (i + + 1) % terlist.size();
+                } else if (ch == '>' && i > 0) {
+                    i = (i + terlist.size() - 1) % terlist.size();
+                } else if (ch == '\n' || ch == ' ') {
+                    curs = tmp;
+                }
+            } while(ch != '\n' && ch != ' ' && ch != 'q' && ch != KEY_ESCAPE);
+            delwin(w_search);
+            ch = '.';
+        } else if (action == "ANY_INPUT") {
+            // Hit timeout on input, so make characters blink
+            blink = !blink;
+            input_event e = ictxt.get_raw_input();
+            if(e.type == CATA_INPUT_KEYBOARD && e.get_first_input() == 'm') {
+                action = "QUIT";
+            }
+        }
+    } while (action != "QUIT" && action != "CONFIRM");
+    delwin(w_map);
+    erase();
+    g->refresh_all();
+    return ret;
 }
 
 void overmap::first_house(int &x, int &y)
@@ -4179,3 +3912,5 @@ void regional_settings::setup() {
         optionsdata.add_value("DEFAULT_REGION", id );
     }
 }
+
+const point overmap::invalid_point(INT_MIN, INT_MIN);

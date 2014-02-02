@@ -292,6 +292,8 @@ void veh_interact::cache_tool_availability()
     has_wrench = crafting_inv.has_amount("wrench", 1) ||
                  crafting_inv.has_amount("toolset", 1);
     has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
+                  crafting_inv.has_amount("circsaw_off", 1) ||
+                  crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED) ||
                   crafting_inv.has_amount("toolset", 1);
     has_welder = (crafting_inv.has_amount("welder", 1) &&
                   crafting_inv.has_charges("welder", charges)) ||
@@ -299,7 +301,7 @@ void veh_interact::cache_tool_availability()
                   crafting_inv.has_charges("welder_crude", charges_crude)) ||
                  (crafting_inv.has_amount("toolset", 1) &&
                   crafting_inv.has_charges("toolset", charges / 20));
-    has_goggles = (crafting_inv.has_amount("goggles_welding",1) ||
+    has_goggles = (crafting_inv.has_amount("goggles_welding", 1) ||
                    g->u.has_bionic("bio_sunglasses") ||
                    g->u.is_wearing("goggles_welding"));
     has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED));
@@ -308,6 +310,7 @@ void veh_interact::cache_tool_availability()
 
     has_wheel = crafting_inv.has_amount( "wheel", 1 ) ||
                 crafting_inv.has_amount( "wheel_wide", 1 ) ||
+                crafting_inv.has_amount( "wheel_armor", 1 ) ||
                 crafting_inv.has_amount( "wheel_bicycle", 1 ) ||
                 crafting_inv.has_amount( "wheel_motorbike", 1 ) ||
                 crafting_inv.has_amount( "wheel_small", 1 );
@@ -336,6 +339,7 @@ task_reason veh_interact::cant_do (char mode)
     bool part_free = true;
     bool has_skill = true;
     bool can_remove_wheel = has_wrench && has_jack && wheel;
+    bool pass_checks = false; // Used in refill only
 
     switch (mode) {
     case 'i': // install mode
@@ -349,8 +353,26 @@ task_reason veh_interact::cant_do (char mode)
         has_tools = (has_welder && has_goggles) || has_duct_tape;
         break;
     case 'f': // refill mode
-        valid_target = (ptank != NULL && ptank->hp > 0);
-        has_tools = has_fuel;
+        if (!ptanks.empty()) {
+            std::vector<vehicle_part*>::iterator iter;
+            for (iter = ptanks.begin(); iter != ptanks.end(); ) {
+                if ((*iter)->hp > 0 &&
+                    g->refill_vehicle_part(*veh, *iter, true)) {
+                    pass_checks = true;
+                    iter++;
+                } else {
+                    iter = ptanks.erase(iter);
+                }
+            }
+            if(pass_checks)
+                return CAN_DO;
+        }
+
+        // if refillable parts exist but can't be refilled for some reason.
+        if (has_ptank)
+            return CANT_REFILL;
+
+        // No refillable parts here (valid_target = false)
         break;
     case 'o': // remove mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
@@ -593,21 +615,49 @@ void veh_interact::do_repair(task_reason reason)
 void veh_interact::do_refill(task_reason reason)
 {
     werase (w_msg);
-    int msg_width = getmaxx(w_msg);
+    //int msg_width = getmaxx(w_msg);
+
     switch (reason) {
     case INVALID_TARGET:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("There's no fuel tank here."));
+        mvwprintz(w_msg, 0, 1, c_ltred, _("There's no refillable parts here."));
         wrefresh (w_msg);
         return;
-    case LACK_TOOLS:
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need <color_red>%s</color>."),
-                       ammo_name(vehicle_part_types[ptank->id].fuel_type).c_str());
+    case CANT_REFILL:
+        mvwprintz(w_msg, 1, 1, c_ltred, _("All refillable part's here can't be refilled."));
+        mvwprintz(w_msg, 2, 1, c_white, _("May be all of them is broken or "
+                                          "you don't have properly fuel."));
         wrefresh (w_msg);
         return;
     }
+
+    if (ptanks.empty()) {
+        debugmsg("veh_interact::do_refill: Refillable parts list is empty.\n"
+                 "veh_interact::cant_do() should control this before.");
+        return;
+    }
+    // Now at least one of "fuel tank" is can be refilled.
+    // If we have more that one tank we need to create choosing menu
+    if (ptanks.size() > 1) {
+        int pt_choise;
+        unsigned int entry_num;
+        uimenu fuel_choose;
+        fuel_choose.text = _("What to refill:");
+        for( entry_num = 0; entry_num < ptanks.size(); entry_num++) {
+            fuel_choose.addentry(entry_num, true, -1, "%s -> %s",
+                                 ammo_name(vehicle_part_types[ptanks[entry_num]->id].fuel_type).c_str(),
+                                 vehicle_part_types[ptanks[entry_num]->id].name.c_str());
+        }
+        fuel_choose.addentry(entry_num, true, 'q', "Cancel");
+        fuel_choose.query();
+        pt_choise = fuel_choose.ret;
+        if(pt_choise == entry_num) { // Select canceled
+            return;
+        }
+        sel_vehicle_part = ptanks[pt_choise];
+    } else {
+        sel_vehicle_part = ptanks.front();
+    }
     sel_cmd = 'f';
-    sel_vehicle_part = ptank;
 }
 
 /**
@@ -635,7 +685,7 @@ void veh_interact::do_remove(task_reason reason)
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw</color> to remove parts."),
+                       _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw or circular saw (off)</color> to remove parts."),
                        has_wrench ? "ltgreen" : "red",
                        has_hacksaw ? "ltgreen" : "red");
         if(wheel) {
@@ -677,7 +727,7 @@ void veh_interact::do_remove(task_reason reason)
                     return;
                 } else {
                     fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                                   _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw</color> to remove parts."),
+                                   _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw or circular saw (off)</color> to remove parts."),
                                    has_wrench ? "ltgreen" : "red",
                                    has_hacksaw ? "ltgreen" : "red");
                     wrefresh (w_msg);
@@ -917,7 +967,8 @@ void veh_interact::move_cursor (int dx, int dy)
 
     need_repair.clear();
     parts_here.clear();
-    ptank = NULL;
+    ptanks.clear();
+    has_ptank = false;
     wheel = NULL;
     if (cpart >= 0) {
         parts_here = veh->parts_at_relative(veh->parts[cpart].mount_dx, veh->parts[cpart].mount_dy);
@@ -927,14 +978,14 @@ void veh_interact::move_cursor (int dx, int dy)
                 need_repair.push_back (i);
             }
             if (veh->part_flag(p, "FUEL_TANK") && veh->parts[p].amount < veh->part_info(p).size) {
-                ptank = &veh->parts[p];
+                ptanks.push_back(&veh->parts[p]);
+                has_ptank = true;
             }
             if (veh->part_flag(p, "WHEEL")) {
                 wheel = &veh->parts[p];
             }
         }
     }
-    has_fuel = ptank != NULL ? g->refill_vehicle_part(*veh, ptank, true) : false;
     werase (w_msg);
     wrefresh (w_msg);
     display_mode (' ');
@@ -1043,10 +1094,8 @@ void veh_interact::display_stats()
 
     if (vertical_menu) {
         // Vertical menu
-        //const int second_column = 29 + (extraw / 3);
-        //const int third_column = 56 + (2 * extraw / 3);
-        const int second_column = 34 + (extraw / 3);
-        const int third_column = 63 + (2 * extraw / 3);
+        const int second_column = 34 + (extraw / 4); // 29
+        const int third_column = 63 + (extraw / 2);  // 56
         // Y-coordinates for vertical menu
         safe_vel_y = 0;
         top_vel_y  = safe_vel_y + 1;
@@ -1172,9 +1221,11 @@ void veh_interact::display_stats()
     ammotype fuel_types[3] = { "gasoline", "battery", "plasma" };
     nc_color fuel_colors[3] = { c_ltred, c_yellow, c_ltblue };
     bool first = true;
+    int fuel_name_length = 0;
     for (int i = 0; i < 3; ++i) {
         int fuel_usage = veh->basic_consumption(fuel_types[i]);
         if (fuel_usage > 0) {
+            fuel_name_length = std::max(fuel_name_length, utf8_width(ammo_name(fuel_types[i]).c_str()));
             fuel_usage = fuel_usage / 100;
             if (fuel_usage < 1) {
                 fuel_usage = 1;
@@ -1195,7 +1246,11 @@ void veh_interact::display_stats()
             mvwprintz(w_stats, fuel_use_y, fuel_use_x, c_ltgray, "-"); // no engines
         }
     }
-    veh->print_fuel_indicator (w_stats, fuel_ind_y, fuel_ind_x, true, true);
+
+    // Print fuel percentage & type name only if it fits in the window, 13 is width of "E...F 100% - "
+    veh->print_fuel_indicator (w_stats, fuel_ind_y, fuel_ind_x, true,
+                               (fuel_ind_x + 13 < stats_w),
+                               (fuel_ind_x + 13 + fuel_name_length < stats_w));
 
     // Write the overall damage
     mvwprintz(w_stats, status_y, status_x, c_ltgray, _("Status:  "));
@@ -1390,24 +1445,6 @@ std::string veh_interact::getDurabilityDescription(const int &dur)
     return std::string(_("error"));
 }
 
-
-/** Used by consume_vpart_item to track items that could be consumed. */
-struct candidate_vpart {
-    bool in_inventory;
-    int mapx;
-    int mapy;
-    int index;
-    item vpart_item;
-    candidate_vpart(int x, int y, int i, item vpitem):
-        in_inventory(false), mapx(x), mapy(y), index(i) {
-        vpart_item = vpitem;
-    }
-    candidate_vpart(int position, item vpitem):
-        in_inventory(true), mapx(-1), mapy(-1), index(position) {
-        vpart_item = vpitem;
-    }
-};
-
 /**
  * Given a vpart id, gives the choice of inventory and nearby items to consume
  * for install/repair/etc. Doesn't use consume_items in crafting.cpp, as it got
@@ -1418,34 +1455,21 @@ struct candidate_vpart {
  */
 item consume_vpart_item (std::string vpid)
 {
-    std::vector<candidate_vpart> candidates;
+    std::vector<bool> candidates;
     const itype_id itid = vehicle_part_types[vpid].item;
-    for (int x = g->u.posx - PICKUP_RANGE; x <= g->u.posx + PICKUP_RANGE; x++) {
-        for (int y = g->u.posy - PICKUP_RANGE; y <= g->u.posy + PICKUP_RANGE; y++) {
-            for(int i = 0; i < g->m.i_at(x, y).size(); i++) {
-                item *ith_item = &(g->m.i_at(x, y)[i]);
-                if (ith_item->type->id == itid) {
-                    candidates.push_back (candidate_vpart(x, y, i, *ith_item));
-                }
-            }
-        }
-    }
+    inventory map_inv;
+    map_inv.form_from_map( point(g->u.posx, g->u.posy), PICKUP_RANGE );
 
-    std::vector<std::pair<item*, int> > cand_from_inv = g->u.inv.all_items_by_type(itid);
-    for (int i = 0; i < cand_from_inv.size(); i++) {
-        item *ith_item = cand_from_inv[i].first;
-        if (ith_item->type->id  == itid) {
-            // TODO: Adapt this to position.
-            candidates.push_back (candidate_vpart(cand_from_inv[i].second, *ith_item));
-        }
+    if( g->u.has_amount( itid, 1) ) {
+        candidates.push_back( true );
     }
-    if (g->u.weapon.type->id == itid) {
-        candidates.push_back (candidate_vpart(-1, g->u.weapon));
+    if( map_inv.has_amount( itid, 1 ) ) {
+        candidates.push_back( false );
     }
 
     // bug?
     if(candidates.size() == 0) {
-        debugmsg("part not found");
+        debugmsg("Part not found!");
         return item();
     }
 
@@ -1457,35 +1481,26 @@ item consume_vpart_item (std::string vpid)
         // popup menu!?
         std::vector<std::string> options;
         for(int i = 0; i < candidates.size(); i++) {
-            if(candidates[i].in_inventory) {
-                if (candidates[i].index == -1) {
-                    options.push_back(candidates[i].vpart_item.tname() + _(" (wielded)"));
-                } else {
-                    options.push_back(candidates[i].vpart_item.tname());
-                }
+            if( candidates[i] ) {
+                // In inventory.
+                options.push_back(vehicle_part_types[vpid].name);
             } else {
-                //nearby.
-                options.push_back(candidates[i].vpart_item.tname() + _(" (nearby)"));
+                // Nearby.
+                options.push_back(vehicle_part_types[vpid].name + _(" (nearby)"));
             }
         }
         selection = menu_vec(false, _("Use which gizmo?"), options);
         selection -= 1;
     }
+    std::list<item> item_used;
     //remove item from inventory. or map.
-    if(candidates[selection].in_inventory) {
-        if(candidates[selection].index == -1) { //weapon
-            g->u.remove_weapon();
-        } else { //non-weapon inventory
-            g->u.inv.remove_item(candidates[selection].index);
-        }
+    if( candidates[selection] ) {
+        item_used = g->u.use_amount( itid, 1 );
     } else {
-        //map.
-        int x = candidates[selection].mapx;
-        int y = candidates[selection].mapy;
-        int i = candidates[selection].index;
-        g->m.i_rem(x, y, i);
+        item_used = g->m.use_amount( point(g->u.posx, g->u.posy), PICKUP_RANGE, itid, 1 );
     }
-    return candidates[selection].vpart_item;
+
+    return item_used.front();
 }
 
 /**
@@ -1615,6 +1630,9 @@ void complete_vehicle ()
         g->pl_refill_vehicle(*veh, vehicle_part);
         break;
     case 'o':
+        tools.push_back(component("hacksaw", -1));
+        tools.push_back(component("circsaw_off", 20));
+        g->consume_tools(&g->u, tools, true);
         // Dump contents of part at player's feet, if any.
         for (int i = 0; i < veh->parts[vehicle_part].items.size(); i++) {
             g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[vehicle_part].items[i]);

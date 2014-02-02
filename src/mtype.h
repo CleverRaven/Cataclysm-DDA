@@ -34,7 +34,7 @@ enum mon_id {
     // Zombies
     mon_zombie, mon_zombie_cop, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_electric,
     mon_zombie_smoker, mon_zombie_swimmer,
-    mon_zombie_fast, mon_zombie_brute, mon_zombie_hulk, mon_zombie_fungus,
+    mon_zombie_dog, mon_zombie_brute, mon_zombie_hulk, mon_zombie_fungus,
     mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
     mon_zombie_scientist, mon_zombie_soldier, mon_zombie_grabber,
     mon_zombie_master,  mon_beekeeper, mon_zombie_child, mon_zombie_fireman, mon_zombie_survivor,
@@ -173,6 +173,7 @@ enum m_flag {
     MF_FEATHER,             // May produce feather when butchered
     MF_CBM,                 // May produce a cbm or two when butchered
     MF_BONES,               // May produce bones and sinews when butchered
+    MF_FAT,                 // May produce fat when butchered
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
     MF_FRIENDLY_SPECIAL,    // Use our special attack, even if friendly
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack

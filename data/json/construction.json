@@ -745,11 +745,16 @@
         "post_special" : "done_deconstruct"
     },{
         "type" : "construction",
-        "description" : "Start vehicle construction",
+        "description" : "Start Vehicle Construction",
         "difficulty" : 0,
         "time" : 10,
         "components" : [
-            [ [ "frame", 1 ] ]
+            [
+                [ "frame", 1 ],
+                [ "hdframe", 1 ],
+                [ "frame_wood", 1 ],
+                [ "xlframe", 1 ]
+            ]
         ],
         "pre_special" : "check_empty",
         "post_special" : "done_vehicle"

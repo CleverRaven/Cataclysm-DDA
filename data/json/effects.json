@@ -81,6 +81,18 @@
     },
     {
         "type":"effect_type",
+        "id":"poisoned",
+        "name": "Poisoned",
+        "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."
+    },
+    {
+        "type":"effect_type",
+        "id":"nasty_poisoned",
+        "name": "Poisoned",
+        "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."
+    },
+    {
+        "type":"effect_type",
         "id":"beartrap",
         "name": "Stuck in beartrap",
         "desc": "You can't move!"

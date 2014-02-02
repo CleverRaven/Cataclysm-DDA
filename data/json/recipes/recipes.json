@@ -3,6 +3,7 @@
     "type" : "recipe_category",
     "id" : "CC_WEAPON",
     "recipe_subcategories" : [
+      "CSC_ALL",
       "CSC_WEAPON_BASHING",
       "CSC_WEAPON_CUTTING",
       "CSC_WEAPON_PIERCING",
@@ -15,6 +16,7 @@
     "type" : "recipe_category",
     "id" : "CC_AMMO",
     "recipe_subcategories" : [
+      "CSC_ALL",
       "CSC_AMMO_BULLETS",
       "CSC_AMMO_ARROWS",
       "CSC_AMMO_COMPONENTS",
@@ -24,6 +26,7 @@
     "type" : "recipe_category",
     "id" : "CC_FOOD",
     "recipe_subcategories" : [
+      "CSC_ALL",
       "CSC_FOOD_DRINKS",
       "CSC_FOOD_MEAT",
       "CSC_FOOD_VEGGI",
@@ -36,6 +39,7 @@
     "type" : "recipe_category",
     "id" : "CC_CHEM",
     "recipe_subcategories" : [
+      "CSC_ALL",
       "CSC_CHEM_DRUGS",
       "CSC_CHEM_MUTAGEN",
       "CSC_CHEM_CHEMICALS",
@@ -45,6 +49,7 @@
     "type" : "recipe_category",
     "id" : "CC_ELECTRONIC",
     "recipe_subcategories" : [
+      "CSC_ALL",
       "CSC_ELECTRONIC_CBMS",
       "CSC_ELECTRONIC_LIGHTING",
       "CSC_ELECTRONIC_COMPONENTS",
@@ -54,10 +59,10 @@
     "type" : "recipe_category",
     "id" : "CC_ARMOR",
     "recipe_subcategories" : [
+      "CSC_ALL",
       "CSC_ARMOR_STORAGE",
       "CSC_ARMOR_SUIT",
       "CSC_ARMOR_HEAD",
-      "CSC_ARMOR_BACK",
       "CSC_ARMOR_TORSO",
       "CSC_ARMOR_ARMS",
       "CSC_ARMOR_HANDS",
@@ -69,6 +74,7 @@
     "type" : "recipe_category",
     "id" : "CC_OTHER",
     "recipe_subcategories" : [
+      "CSC_ALL",
       "CSC_OTHER_TOOLS",
       "CSC_OTHER_MEDICAL",
       "CSC_OTHER_CONTAINERS",
@@ -164,7 +170,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "small_relic",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -189,7 +195,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "badge_deputy",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -214,7 +220,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "necklace",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -239,7 +245,107 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "locket",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "silver_small", 110 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gold_bracelet",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 600,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gold_small", 260 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "silver_bracelet",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 600,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "silver_small", 260 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "copper_bracelet",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 600,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "ring",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -263,9 +369,111 @@
       [ "gold_small", 50 ]
     ]
   ]
-},
-{
-        "type" : "recipe",
+},{
+  "type" : "recipe",
+  "result": "diamond_ring",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gold_small", 50 ]
+    ],
+    [
+      [ "diamond", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gold_ear",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gold_small", 60 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "silver_ear",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "silver_small", 60 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "copper_ear",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "usb_drive",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -286,7 +494,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pda",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -319,7 +527,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "binoculars",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -346,7 +554,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "wristwatch",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -373,7 +581,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "laptop",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
@@ -1479,6 +1687,7 @@
       [ "tequila", 14 ],
       [ "gin", 14 ],
       [ "triple_sec", 14 ],
+      [ "lamp_oil", 400 ],
       [ "gasoline", 600 ]
     ]
   ]
@@ -2398,7 +2607,7 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "trimmer_off",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -2411,43 +2620,43 @@
   "autolearn": false,
   "book_learn": [["advanced_electronics", 4] , ["textbook_electronics", 4]],
   "tools" : [
-     [ ["mold_plastic", -1] ],
-     [
+    [ ["mold_plastic", -1] ],
+    [
       ["hotplate", 12],
       ["toolset", 1],
       ["fire", -1]
-     ],
-     [
+    ],
+    [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-     ],
-     [
+    ],
+    [
       [ "soldering_iron", 12 ],
       [ "toolset", 1 ]
-     ]
+    ]
   ],
   "components" : [
-     [
+    [
       ["plastic_chunk", 6]
-     ],
-     [
+    ],
+    [
       ["chain", 1]
-     ],
-     [
+    ],
+    [
       ["motor", 1]
-     ],
-     [
+    ],
+    [
       ["power_supply", 1]
-     ],
-     [
+    ],
+    [
       [ "scrap", 1 ]
-     ],
-     [
+    ],
+    [
       [ "cable", 5 ]
-     ]
     ]
+  ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "circsaw_off",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -2459,41 +2668,41 @@
   "autolearn": false,
   "book_learn": [["advanced_electronics", 4] , ["textbook_electronics", 4] , ["textbook_carpentry", 5]],
   "tools" : [
-     [ ["mold_plastic", -1] ],
-     [
+    [ ["mold_plastic", -1] ],
+    [
       ["hotplate", 10],
       ["toolset", 1],
       ["fire", -1]
-     ],
-     [
+    ],
+    [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-     ],
-     [
+    ],
+    [
       [ "soldering_iron", 10 ],
       [ "toolset", 1 ]
-     ]
+    ]
   ],
   "components" : [
-     [
+    [
       ["plastic_chunk", 6]
-     ],
-     [
+    ],
+    [
       ["circsaw_blade", 1]
-     ],
-     [
+    ],
+    [
       ["motor", 1]
-     ],
-     [
+    ],
+    [
       ["power_supply", 1]
-     ],
-     [
+    ],
+    [
       [ "scrap", 1 ]
-     ],
-     [
+    ],
+    [
       [ "cable", 5 ]
-     ]
     ]
+  ]
 },{
         "type" : "recipe",
   "result": "combatsaw_off",
@@ -2569,7 +2778,8 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ],
-      [ "salt_water", 1 ]
+      [ "salt_water", 1 ],
+      [ "saline", 5 ]
     ],
     [
       [ "candy", 1 ],
@@ -3074,6 +3284,7 @@
       [ "tequila", 5 ],
       [ "gin", 5 ],
       [ "triple_sec", 5 ],
+      [ "lamp_oil", 100 ],
       [ "gasoline", 200 ]
     ]
   ]
@@ -3376,15 +3587,15 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
+  "decomp_learn": 0,
   "components": [
     [
-      [ "modularvest", 1 ],
-      [ "modularvestsuper", 1]
+      [ "modularvest", 1 ]
     ],
     [
-      [ "alloy_plate", 1 ]
+      [ "alloy_plate", 2 ]
     ]
   ]
 },{
@@ -3395,15 +3606,15 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
+  "decomp_learn": 0,
   "components": [
     [
-      [ "modularvest", 1 ],
-      [ "modularveststeel", 1]
+      [ "modularvest", 1 ]
     ],
     [
-      [ "steel_plate", 1 ]
+      [ "steel_plate", 2 ]
     ]
   ]
 },{
@@ -3414,12 +3625,12 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
+  "decomp_learn": 0,
   "components": [
     [
-      [ "modularvest", 1 ],
-      [ "modularvestceramic", 1]
+      [ "modularvest", 1 ]
     ],
     [
       [ "ceramic_armor", 4 ]
@@ -3433,12 +3644,12 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
+  "decomp_learn": 0,
   "components": [
     [
-      [ "modularvest", 1 ],
-      [ "modularvestkevlar", 1]
+      [ "modularvest", 1 ]
     ],
     [
       [ "kevlar_plate", 8 ]
@@ -3452,15 +3663,31 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
+  "decomp_learn": 0,
   "components": [
     [
-      [ "modularvest", 1 ],
-      [ "modularvesthard", 1]
+      [ "modularvest", 1 ]
     ],
     [
-      [ "hard_plate", 1 ]
+      [ "hard_plate", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "modularvest",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": false,
+  "decomp_learn": 4,
+  "components": [
+    [
+      [ "kevlar_plate", 24 ]
     ]
   ]
 },{
@@ -4629,7 +4856,7 @@
       [ "incendiary", 300 ]
     ],
    [
-      [ "lgrifle_primer", 20 ]
+      [ "lgrifle_primer", 10 ]
     ],
     [
       [ "gunpowder", 1000 ]
@@ -4674,7 +4901,7 @@
       [ "50_casing", 10 ]
     ],
     [
-      [ "lgrifle_primer", 20 ]
+      [ "lgrifle_primer", 10 ]
     ],
     [
       [ "gunpowder", 1000 ]
@@ -4710,10 +4937,10 @@
   ],
   "components": [
     [
-      [ "50_casing", 10 ]
+      [ "50_casing", 30 ]
     ],
     [
-      [ "lgrifle_primer", 20 ]
+      [ "lgrifle_primer", 30 ]
     ],
     [
       [ "gunpowder", 1000 ]
@@ -5134,8 +5361,8 @@
 },{
         "type" : "recipe",
   "result": "salt_water",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_DRINKS",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 1000,
@@ -5145,6 +5372,39 @@
     [
       [ "water_clean", 1 ],
       [ "water", 1 ]
+    ],
+    [
+      [ "salt", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "saline",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MEDICAL",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_firstaid", 2] , ["pocket_firstaid", 3], ["manual_first_aid", 2], ["atomic_survival", 4], ["textbook_chemistry", 5], ["adv_chemistry", 4] , ["emergency_book", 3]],
+  "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "teapot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water_clean", 1 ]
     ],
     [
       [ "salt", 1 ]
@@ -5263,6 +5523,107 @@
   ]
 },{
         "type" : "recipe",
+  "result": "fish_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "spear_wood", -1 ],
+      [ "spear_steel", -1 ],
+      [ "pointy_stick", -1 ],
+      [ "skewer", -1 ],
+      [ "javelin", -1 ],
+      [ "javelin_iron", -1 ],
+      [ "spear_knife", -1 ],
+      [ "tongs", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "fish", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "tallow",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "fat", 2 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "cooking_oil",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "plant_sac", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "rehydrated_meat",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -5288,6 +5649,38 @@
   "components": [
     [
       [ "dry_meat", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rehydrated_fish",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "ceramic_cup", -1],
+      [ "ceramic_bowl", -1],
+      [ "glass", -1],
+      [ "glass_bowl", -1],
+      [ "jar_glass", -1],
+      [ "can_food", -1 ],
+      [ "canister_empty", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "dry_fish", 2 ]
     ],
     [
       [ "water_clean", 1 ]
@@ -5418,6 +5811,32 @@
   ]
 },{
         "type" : "recipe",
+  "result": "fish_smoked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "char_smoker", 2 ]
+    ],
+    [
+      [ "tongs", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "fish", 6 ]
+    ],
+    [
+      [ "skewer", 3 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "dry_meat",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -5431,12 +5850,37 @@
   ],
   "tools": [
     [
-      [ "dehydrator", 50 ]
+      [ "dehydrator", 25 ],
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
     [
       [ "meat", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "dry_fish",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "dehydrator", 25 ],
+      [ "char_smoker", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fish", 2 ]
     ]
   ]
 },{
@@ -5455,12 +5899,61 @@
   ],
   "tools": [
     [
-      [ "dehydrator", 50 ]
+      [ "dehydrator", 25 ],
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
     [
       [ "human_flesh", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fish_fried",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 16000,
+  "reversible": false,
+  "autolearn": true,
+   "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the fish",
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "pan", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
+      [ "tongs", -1 ],
+      [ "skewer", -1 ]
+    ],
+    [
+      [ "cooking_oil", -1 ],
+      [ "tallow", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fish", 3 ]
+    ],
+    [
+      [ "flour", 1 ],
+      [ "cornmeal", 1 ],
+      [ "bread", 1 ],
+      [ "cornbread", 1 ],
+      [ "hardtack", 1 ],
+      [ "crackers", 1 ]
     ]
   ]
 },{
@@ -5486,7 +5979,8 @@
   ],
   "components": [
     [
-      [ "dry_meat", 2 ]
+      [ "dry_meat", 2 ],
+      [ "dry_fish", 2 ]
     ]
   ]
 },{
@@ -5584,7 +6078,8 @@
   ],
   "tools": [
     [
-      [ "dehydrator", 50 ]
+      [ "dehydrator", 25 ],
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
@@ -5615,7 +6110,8 @@
   ],
   "tools": [
     [
-      [ "dehydrator", 50 ]
+      [ "dehydrator", 25 ],
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
@@ -5651,7 +6147,11 @@
   ],
   "components": [
     [
-      [ "meat", 6 ]
+      [ "meat", 3 ]
+    ],
+    [
+      [ "fat", 3 ],
+      [ "tallow", 3 ]
     ],
     [
       [ "salt", 1 ],
@@ -5811,7 +6311,11 @@
   ],
   "components": [
     [
-      [ "human_flesh", 6 ]
+      [ "human_flesh", 3 ]
+    ],
+    [
+      [ "fat", 3 ],
+      [ "tallow", 3 ]
     ],
     [
       [ "salt", 1 ],
@@ -5844,7 +6348,8 @@
   ],
   "components": [
     [
-      [ "meat", 1 ]
+      [ "meat", 1 ],
+      [ "fish", 1 ]
     ],
     [
       [ "veggy", 1 ],
@@ -5882,7 +6387,8 @@
   ],
   "components": [
     [
-      [ "meat", 2 ]
+      [ "meat", 2 ],
+      [ "fish", 2 ]
     ],
     [
       [ "water", 1 ],
@@ -5979,7 +6485,7 @@
     [
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
-      [ "noodles_fast", 3]
+      [ "noodles_fast", 1]
     ],
     [
       [ "water", 1 ],
@@ -6058,7 +6564,7 @@
     [
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
-      [ "noodles_fast", 3]
+      [ "noodles_fast", 1]
     ],
     [
       [ "cheese", 1 ],
@@ -6095,12 +6601,15 @@
     [
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
-      [ "noodles_fast", 3]
+      [ "noodles_fast", 1]
     ],
     [
       [ "meat", 1 ],
       [ "dry_meat", 2],
-      [ "rehydrated_meat", 2]
+      [ "rehydrated_meat", 2],
+      [ "fish", 1 ],
+      [ "dry_fish", 2],
+      [ "rehydrated_fish", 2]
     ],
     [
       [ "cheese", 1 ],
@@ -6138,7 +6647,7 @@
     [
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
-      [ "noodles_fast", 3]
+      [ "noodles_fast", 1]
     ],
     [
       [ "human_flesh", 1 ],
@@ -6942,6 +7451,42 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "spezi",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 7000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "orangesoda", 1 ]
+    ],
+    [
+      [ "cola", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "crispycran",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 7000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "lemonlime", 1 ]
+    ],
+    [
+      [ "cranberry_juice", 1 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "irish_coffee",
   "category": "CC_FOOD",
@@ -7075,6 +7620,35 @@
   ]
 },{
         "type" : "recipe",
+  "result": "salted_fish",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "salt_water", 1 ],
+      [ "salt", 1 ],
+      [ "seasoning_salt", 5 ],
+      [ "pepper", 10 ]
+    ],
+    [
+      [ "fish", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "jerky_human",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7101,6 +7675,81 @@
     ],
     [
       [ "human_flesh", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "cracklins",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      ["pot", -1],
+      ["rock_pot", -1],
+      ["pan", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "fat", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "pemmican",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 20 ],
+      [ "char_smoker", 2 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "tallow", 2 ]
+    ],
+    [
+      [ "jerky", 6 ],
+      [ "dry_meat", 4 ],
+      [ "meat_smoked", 2 ],
+      [ "dry_fish", 9 ],
+      [ "salted_fish", 6 ],
+      [ "fish_smoked", 3 ]
+    ],
+    [
+      [ "dry_veggy", 2 ],
+      [ "dry_fruit", 2 ],
+      [ "strawberries", 1 ],
+      [ "blueberries", 1 ],
+      [ "cherries", 1 ],
+      [ "cranberries", 1 ],
+      [ "raspberries", 1 ],
+      [ "blackberries", 1 ]
     ]
   ]
 },{
@@ -7225,12 +7874,12 @@
   ],
   "components": [
     [
-      [ "broth", 2 ]
+      [ "broth", 1 ]
     ],
     [
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
-      [ "noodles_fast", 3],
+      [ "noodles_fast", 1],
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "powder_eggs", 5 ]
@@ -7270,12 +7919,13 @@
   ],
   "components": [
     [
-      [ "broth", 2 ]
+      [ "broth", 1 ],
+      [ "broth_bone", 1]
     ],
     [
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
-      [ "noodles_fast", 3],
+      [ "noodles_fast", 1],
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "powder_eggs", 5 ]
@@ -7283,6 +7933,65 @@
     [
       [ "meat", 2 ],
       [ "dry_meat", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "soup_fish",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "broth", 1 ],
+      [ "broth_bone", 1]
+    ],
+    [
+      [ "spaghetti_raw", 1 ],
+      [ "macaroni_raw", 1],
+      [ "noodles_fast", 1],
+      [ "potato_irradiated", 1],
+      [ "potato_raw", 1 ],
+      [ "corn", 1 ],
+      [ "can_corn", 1 ],
+      [ "onion", 1 ],
+      [ "carrot", 1 ],
+      [ "veggy_wild", 1 ],
+      [ "veggy", 1 ],
+      [ "dry_veggy", 1 ],
+      [ "con_milk", 1 ],
+      [ "bread", 1 ],
+      [ "hardtack", 1 ],
+      [ "flour", 1 ],
+      [ "cornmeal", 1 ],
+      [ "milk_powder", 1 ],
+      [ "crackers", 2 ],
+      [ "powder_eggs", 5 ]
+    ],
+    [
+      [ "fish", 2 ],
+      [ "dry_fish", 2],
+      [ "salted_fish", 3 ],
+      [ "fish_smoked", 2],
+      [ "fish_pickled", 1 ],
+      [ "fish_vac", 2 ],
+      [ "fish_canned", 1 ]
     ]
   ]
 },{
@@ -7317,6 +8026,10 @@
       [ "meat_smoked", 1 ],
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
+      [ "fish", 1 ],
+      [ "fish_smoked", 1 ],
+      [ "dry_fish", 1 ],
+      [ "rehydrated_fish", 1 ],
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ]
@@ -7353,12 +8066,13 @@
   ],
   "components": [
     [
-      [ "broth", 2 ]
+      [ "broth", 1 ],
+      [ "broth_bone", 1]
     ],
     [
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
-      [ "noodles_fast", 3],
+      [ "noodles_fast", 1],
       [ "potato_irradiated", 1 ],
       [ "potato_raw", 1 ]
     ],
@@ -7535,7 +8249,8 @@
       [ "milk", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
-      [ "cooking_oil", 1 ]
+      [ "cooking_oil", 1 ],
+      [ "tallow", 1 ]
     ]
   ]
 },{
@@ -7561,7 +8276,8 @@
   ],
   "components": [
     [
-      [ "cooking_oil", 1 ]
+      [ "cooking_oil", 1 ],
+      [ "tallow", 1 ]
     ],
     [
       [ "cornmeal", 2 ],
@@ -7657,6 +8373,57 @@
   ]
 },{
         "type" : "recipe",
+  "result": "granola",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 20 ],
+      [ "char_smoker", 2 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "oatmeal", 4 ]
+    ],
+    [
+      [ "honeycomb", 1 ],
+      [ "con_milk", 1 ],
+      [ "honey_bottled", 4 ],
+      [ "sugar", 4 ],
+      [ "syrup", 4 ]
+    ],
+    [
+      [ "dry_fruit", 1 ],
+      [ "jam_strawberries", 1 ],
+      [ "jam_blueberries", 1 ],
+      [ "jam_fruit", 1 ],
+      [ "strawberries", 1 ],
+      [ "blueberries", 1 ],
+      [ "cherries", 1 ],
+      [ "irradiated_plums", 1],
+      [ "plums", 1 ],
+      [ "grapes", 1 ],
+      [ "cranberries", 1 ],
+      [ "raspberries", 1 ],
+      [ "blackberries", 1 ],
+      [ "irradiated_pomegranate", 1],
+      [ "pomegranate", 1 ],
+      [ "chocolate", 1 ],
+      [ "candy", 2 ],
+      [ "candy2", 2 ],
+      [ "choco_coffee_beans", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "scrambled_eggs",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -7722,9 +8489,14 @@
       [ "rehydrated_meat", 2 ],
       [ "sausage", 1 ],
       [ "jerky", 3 ],
+      [ "salted_fish", 3 ],
       [ "meat_pickled", 1 ],
       [ "meat_vac", 1 ],
       [ "meat_canned", 1 ],
+      [ "fish_pickled", 1 ],
+      [ "fish_vac", 1 ],
+      [ "fish_canned", 1 ],
+      [ "cracklins", 4 ],
       [ "can_sardine", 1 ],
       [ "can_tuna", 1 ],
       [ "can_salmon", 1 ],
@@ -7770,7 +8542,8 @@
       [ "syrup", 1 ]
     ],
     [
-      [ "cooking_oil", 1 ]
+      [ "cooking_oil", 1 ],
+      [ "tallow", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -7812,7 +8585,8 @@
       [ "syrup", 1 ]
     ],
     [
-      [ "cooking_oil", 1 ]
+      [ "cooking_oil", 1 ],
+      [ "tallow", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -7870,7 +8644,8 @@
       [ "syrup", 1 ]
     ],
     [
-      [ "cooking_oil", 1 ]
+      [ "cooking_oil", 1 ],
+      [ "tallow", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -7918,7 +8693,8 @@
       [ "sugar", 1 ]
     ],
     [
-      [ "cooking_oil", 1 ]
+      [ "cooking_oil", 1 ],
+      [ "tallow", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -7963,7 +8739,8 @@
       [ "sugar", 1 ]
     ],
     [
-      [ "cooking_oil", 1 ]
+      [ "cooking_oil", 1 ],
+      [ "tallow", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -8021,7 +8798,8 @@
       [ "syrup", 1 ]
     ],
     [
-      [ "cooking_oil", 1 ]
+      [ "cooking_oil", 1 ],
+      [ "tallow", 1 ]
     ],
     [
       [ "sugar", 1 ]
@@ -8151,6 +8929,8 @@
     ],
     [
       [ "candy", 3 ],
+      [ "candy2", 3 ],
+      [ "choco_coffee_beans", 1 ],
       [ "chocolate", 1 ],
       [ "jam_strawberries", 1 ],
       [ "jam_blueberries", 1 ],
@@ -8948,6 +9728,42 @@
   ]
 },{
         "type" : "recipe",
+  "result": "lamp_oil",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "tallow", 5 ],
+      [ "cooking_oil", 10 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "meth",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
@@ -9111,15 +9927,85 @@
       [ "chemistry_set", 2 ]
     ]
   ],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+  "components": [
+    [
+      [ "fighter_sting", 1 ],
+      [ "disinfectant", 4 ],
+      [ "oxy_powder", 100 ]
+    ],
+    [
+      [ "bleach", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "antifungal",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_chemistry", 5] , ["adv_chemistry", 4] , ["pocket_survival", 5] , ["atomic_survival", 5] , ["textbook_survival", 5] , ["survival_book", 5] , [ "recipe_labchem", 4]],
+  "tools": [
+    [
+      [ "chemistry_set", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 2 ],
+      [ "hotplate", 20 ],
+      [ "chemistry_set", 20 ]
+    ]
   ],
   "components": [
     [
-      [ "fighter_sting", 1 ]
+      [ "fungicide", 10 ]
     ],
     [
-      [ "water_clean", 2 ]
+      [ "ammonia", 2 ],
+      [ "lye_powder", 200 ]
+    ],
+    [
+      [ "salt", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "antiparasitic",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_chemistry", 7] , ["adv_chemistry", 6] , ["pocket_survival", 8] , ["atomic_survival", 6] , ["textbook_survival", 6] , ["survival_book", 7] , [ "recipe_labchem", 6]],
+  "tools": [
+    [
+      [ "chemistry_set", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 2 ],
+      [ "hotplate", 20 ],
+      [ "chemistry_set", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "vitamins", 5 ]
+    ],
+    [
+      [ "aspirin", 10 ]
+    ],
+    [
+      [ "acid", 1 ]
+    ],
+    [
+      [ "bleach", 1 ],
+      [ "oxy_powder", 100 ]
     ]
   ]
 },{
@@ -9176,7 +10062,8 @@
   "components": [
     [
       [ "salt_water", 1 ],
-      [ "salt", 1 ]
+      [ "salt", 1 ],
+      [ "saline", 5 ]
     ],
     [
       [ "oxycodone", 40 ]
@@ -9280,7 +10167,7 @@
     ],
     [
       [ "veggy_tainted", 3 ],
-	  [ "biollante_bud", 1 ]
+      [ "biollante_bud", 1 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -9536,6 +10423,7 @@
       [ "mutagen", 1 ]
     ],
     [
+      [ "fish", 2 ],
       [ "can_sardine", 1 ],
       [ "can_tuna", 1 ],
       [ "can_salmon", 1 ],
@@ -10233,13 +11121,26 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "blood", 1 ]
+      [ "heroin", 5 ],
+      [ "oxycodone", 10 ],
+      [ "tramadol", 15 ],
+      [ "codeine", 20 ],
+      [ "poppy_pain", 20 ]
     ],
     [
-      [ "vitamins", 10 ]
+      [ "lsd", 5 ],
+      [ "prozac", 10 ],
+      [ "thorazine", 10 ],
+      [ "adderall", 10 ],
+      [ "xanax", 10 ],
+      [ "pills_sleep", 10 ],
+      [ "poppy_sleep", 15 ]
     ],
     [
-      [ "iodine", 10 ]
+      [ "vitamins", 5 ],
+      [ "iodine", 5 ],
+      [ "disinfectant", 5 ],
+      [ "protein_powder", 10 ]
     ]
   ]
 },{
@@ -10357,7 +11258,7 @@
   ],
   "components": [
     [
-      [ "mutagen_alpha", 2 ]
+      [ "purifier", 2 ]
     ]
   ]
 },{
@@ -10450,13 +11351,13 @@
   ],
   "components": [
     [
-	  [ "mutagen_slime", 2 ]
-	],
+      [ "mutagen_slime", 2 ]
+    ],
     [
       [ "mutagen_plant", 1 ]
     ],
     [
-	  [ "mutagen_bird", 1 ]
+      [ "mutagen_bird", 1 ]
     ]
   ]
 },{
@@ -10577,10 +11478,10 @@
   ],
   "components": [
     [
-	  [ "mutagen_lizard", 1 ]
-	],
+      [ "mutagen_lizard", 1 ]
+    ],
     [
-	  [ "mutagen_bird", 1 ]
+      [ "mutagen_bird", 1 ]
     ],
     [
       [ "purifier", 1 ]
@@ -10689,6 +11590,42 @@
   ]
 },{
         "type" : "recipe",
+  "result": "aspirin",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 1 ],
+  "difficulty": 4,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["adv_chemistry", 2] , ["textbook_chemistry", 2] , ["recipe_labchem", 2] , ["atomic_survival", 3]],
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "oxy_powder", 5 ]
+    ],
+    [
+      [ "2x4", 2 ],
+      [ "stick", 2 ],
+      [ "splinter", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "pur_tablets",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_OTHER",
@@ -10739,7 +11676,8 @@
   ],
   "components": [
     [
-      [ "salt_water", 2 ]
+      [ "salt_water", 2 ],
+      [ "saline", 10 ]
     ]
   ]
 },{
@@ -10829,6 +11767,7 @@
 },{
         "type" : "recipe",
   "result": "sugar",
+  "id_suffix": "from_sweets",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
@@ -10880,6 +11819,41 @@
     [
       [ "water_clean", 1 ],
       [ "water", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sugar",
+  "id_suffix": "from_wood",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "note": "high-temperature acid hydrolysis, to extract edible wood sugars",
+  "skill_used": "cooking",
+  "difficulty": 7,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["adv_chemistry", 7] , ["textbook_chemistry", 8] , ["recipe_labchem", 6]],
+  "tools": [
+    [
+      [ "chemistry_set", 50 ],
+      [ "hotplate", 50 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "2x4", 8 ],
+      [ "stick", 8 ],
+      [ "splinter", 16 ]
+    ],
+    [
+      [ "water_acid_weak", 3 ],
+      [ "water_acid", 2 ],
+      [ "acid", 1 ]
     ]
   ]
 },{
@@ -11852,7 +12826,8 @@
       [ "cable", 5 ]
     ],
     [
-      [ "small_storage_battery", 1 ]
+      [ "small_storage_battery", 1 ],
+      [ "UPS_off", 1 ]
     ]
   ]
 },{
@@ -12178,6 +13153,43 @@
     ],
     [
       [ "scrap", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "oil_lamp",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 6 ]
+    ],
+    [
+      [ "rag", 1 ]
+    ],
+    [
+      [ "bottle_glass", 1 ],
+      [ "flask_glass", 1],
+      [ "jar_glass", 1 ]
+    ],
+    [
+      [ "can_food", 1 ],
+      [ "can_drink", 1 ],
+      [ "canister_empty", 1 ]
     ]
   ]
 },{
@@ -13363,6 +14375,42 @@
   ]
 },{
         "type" : "recipe",
+  "result": "headlight_reinforced",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_fabrication", 3] , ["textbook_mechanics", 3] , ["welding_book", 5]],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 15 ],
+      [ "welder_crude", 30 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flashlight", 1 ]
+    ],
+    [
+      [ "wire", 2 ]
+    ],
+    [
+      [ "superglue", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "reinforced_solar_panel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -13487,34 +14535,35 @@
 },{
   "type" : "recipe",
   "result": "stockings_tent_legs",
+  "id_suffix": "from_rags",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 60000,
+  "time": 50000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 36 ],
-      [ "needle_wood", 36 ],
-      [ "sewing_kit", 36 ]
+      [ "needle_bone", 24 ],
+      [ "needle_wood", 24 ],
+      [ "sewing_kit", 24 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 48 ]
+      [ "rag", 30 ]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "stockings_tent_legs",
-  "id_suffix": "collection",
+  "id_suffix": "from_stockings",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 10000,
+  "time": 15000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -13527,39 +14576,43 @@
   "components": [
     [
       [ "stockings", 3 ]
+    ],
+    [
+      [ "rag", 6]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "stockings_tent_arms",
+  "id_suffix": "from_rags",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 80000,
+  "time": 60000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 48 ],
-      [ "needle_wood", 48 ],
-      [ "sewing_kit", 48 ]
+      [ "needle_bone", 32 ],
+      [ "needle_wood", 32 ],
+      [ "sewing_kit", 32 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 64 ]
+      [ "rag", 40 ]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "stockings_tent_arms",
-  "id_suffix": "collection",
+  "id_suffix": "from_stockings",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 12000,
+  "time": 20000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -13572,6 +14625,9 @@
   "components": [
     [
       [ "stockings", 4 ]
+    ],
+    [
+      [ "rag", 8 ]
     ]
   ]
 },{
@@ -14191,19 +15247,19 @@
   "subcategory": "CSC_OTHER_OTHER",
   "skill_used": "tailor",
   "difficulty": 0,
-  "time": 5000,
+  "time": 6000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 5 ],
-      [ "needle_wood", 5 ],
-      [ "sewing_kit", 5 ]
+      [ "needle_bone", 7 ],
+      [ "needle_wood", 7 ],
+      [ "sewing_kit", 7 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 2 ]
+      [ "rag", 5 ]
     ]
   ]
 },{
@@ -14511,8 +15567,7 @@
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
+  "autolearn": true,
   "tools": [
     [
       [ "needle_bone", 12 ],
@@ -14534,18 +15589,11 @@
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
-  "tools": [
-    [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "sewing_kit", 12 ]
-    ]
-  ],
+  "autolearn": true,
+  "tools": [ ],
   "components": [
     [
-      [ "fur", 1 ]
+      [ "fur", 2 ]
     ]
   ]
 },{
@@ -14557,8 +15605,7 @@
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
+  "autolearn": true,
   "tools": [
     [
       [ "needle_bone", 12 ],
@@ -14818,7 +15865,7 @@
     ],
   "components": [
     [
-      [ "rags", 4 ]
+      [ "rag", 4 ]
     ]
   ]
 },{
@@ -15548,7 +16595,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "skills_required" : ["tailor", 5],
-  "difficulty": 5,
+  "difficulty": 7,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
@@ -15588,7 +16635,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "skills_required" : ["tailor", 5],
-  "difficulty": 5,
+  "difficulty": 7,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
@@ -15628,7 +16675,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "skills_required" : ["tailor", 7],
-  "difficulty": 5,
+  "difficulty": 7,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
@@ -15676,7 +16723,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "skills_required" : ["tailor", 7],
-  "difficulty": 5,
+  "difficulty": 7,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
@@ -15724,7 +16771,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "skills_required" : ["tailor", 8],
-  "difficulty": 6,
+  "difficulty": 7,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
@@ -15767,7 +16814,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "skills_required" : ["tailor", 8],
-  "difficulty": 6,
+  "difficulty": 7,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
@@ -15810,7 +16857,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "skills_required" : ["tailor", 7],
-  "difficulty": 6,
+  "difficulty": 7,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
@@ -15855,7 +16902,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "skills_required" : ["tailor", 7],
-  "difficulty": 6,
+  "difficulty": 7,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
@@ -16218,7 +17265,7 @@
         "type" : "recipe",
   "result": "armor_chitin",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 7,
   "time": 100000,
@@ -16238,7 +17285,7 @@
         "type" : "recipe",
   "result": "armor_bone",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 7,
   "time": 30000,
@@ -16268,7 +17315,7 @@
         "type" : "recipe",
   "result": "armor_larmor",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 4,
   "note": "Whilst the trenchcoat needs 6 skill this'll need at least 4.",
@@ -16295,7 +17342,7 @@
         "type" : "recipe",
   "result": "armor_farmor",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 28000,
@@ -16320,7 +17367,7 @@
         "type" : "recipe",
   "result": "armor_blarmor",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "cooking",
   "difficulty": 3,
   "skills_required": [ "tailor", 3 ],
@@ -16346,6 +17393,7 @@
     ],
     [
       [ "wax", 2 ],
+      [ "tallow", 8 ],
       [ "vinegar", 10 ]
     ],
     [
@@ -16359,7 +17407,7 @@
         "type" : "recipe",
   "result": "armor_plarmor",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "fabrication",
   "difficulty": 2,
   "skills_required": [ "tailor", 3 ],
@@ -16463,19 +17511,19 @@
   "subcategory": "CSC_ARMOR_OTHER",
   "skill_used": "tailor",
   "difficulty": 0,
-  "time": 50000,
+  "time": 80000,
   "reversible": true,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "sewing_kit", 10 ]
+      [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
+      [ "sewing_kit", 20 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 20 ]
+      [ "rag", 35 ]
     ]
   ]
 },{
@@ -16486,20 +17534,20 @@
   "skill_used": "tailor",
   "skills_required": [ "survival", 1 ],
   "difficulty": 1,
-  "time": 50000,
+  "time": 80000,
   "reversible": true,
   "decomp_learn": 0,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "sewing_kit", 12 ]
+      [ "needle_bone", 24 ],
+      [ "needle_wood", 24 ],
+      [ "sewing_kit", 24 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 10 ]
+      [ "rag", 30 ]
     ],
     [
       [ "fur", 10 ]
@@ -16531,7 +17579,7 @@
         "type" : "recipe",
   "result": "cloak",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_BACK",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 25000,
@@ -16553,7 +17601,7 @@
         "type" : "recipe",
   "result": "cloak_fur",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_BACK",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "skills_required": [ "survival", 1 ],
   "difficulty": 2,
@@ -16577,7 +17625,7 @@
         "type" : "recipe",
   "result": "cloak_leather",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_BACK",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 25000,
@@ -16714,7 +17762,7 @@
   "components": [
     [
       [ "skewer", 1 ],
-	  [ "splinter", 1 ]
+      [ "splinter", 1 ]
     ]
   ]
 },{
@@ -16740,7 +17788,7 @@
     [
       [ "stick", 1 ],
       [ "2x4", 1 ],
-	  [ "bone", 1 ]
+      [ "bone", 1 ]
     ],
     [
       [ "rock", 1 ]
@@ -17159,6 +18207,41 @@
   ]
 },{
         "type" : "recipe",
+  "result": "water_faucet",
+  "subcategory": "CSC_OTHER_PARTS",
+  "category": "CC_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "mechanics", 1 ],
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "kitchen_unit",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -17209,6 +18292,9 @@
     ],
     [
       [ "pan", 1 ]
+    ],
+    [
+      [ "water_faucet", 1 ]
     ]
   ]
 },{
@@ -17420,6 +18506,34 @@
     [
       [ "steel_chunk", 4 ],
       [ "scrap", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "v_table",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "construction",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 1,
+  "autolearn": true,
+  "tools": [
+      [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+      ]
+      ],
+  "components": [
+    [
+      [ "2x4", 6 ]
+    ],
+    [
+      [ "nail", 8 ]
     ]
   ]
 },{
@@ -17675,6 +18789,20 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "rolling_paper",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "paper", 5 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "string_6",
   "category": "CC_OTHER",
@@ -17811,13 +18939,15 @@
     ],
     [
       [ "gasoline", 200 ],
+      [ "lamp_oil", 100 ],
       [ "vodka", 7 ],
       [ "rum", 7 ],
       [ "whiskey", 7 ],
       [ "single_malt_whiskey", 7 ],
       [ "tequila", 7 ],
       [ "gin", 7 ],
-      [ "triple_sec", 7 ]
+      [ "triple_sec", 7 ],
+      [ "tallow", 2 ]
     ],
     [
       [ "rag", 1 ]
@@ -17841,6 +18971,7 @@
     ],
     [
       [ "gasoline", 200 ],
+      [ "lamp_oil", 100 ],
       [ "vodka", 7 ],
       [ "rum", 7 ],
       [ "whiskey", 7 ],
@@ -17864,7 +18995,7 @@
   "autolearn": false,
   "components": [
     [
-	  [ "bat", 1 ]
+      [ "bat", 1 ]
     ],
     [
       [ "nomex", 5 ]
@@ -17881,18 +19012,22 @@
   "autolearn": true,
   "tools": [
     [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
       [ "lighter", 5 ],
       [ "ref_lighter", 5 ],
-      [ "fire", -1 ],
-      [ "toolset", 1 ]
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
     ]
   ],
   "components": [
     [
-      [ "can_food", -1 ]
+      [ "can_food", -1 ],
+      [ "canister_empty", -1 ]
     ],
     [
-      [ "wax", 2 ]
+      [ "wax", 2 ],
+      [ "tallow", 4 ]
     ],
     [
       [ "string_6", 1 ]
@@ -18008,7 +19143,7 @@
       [ "bleach", 1 ],
       [ "lye_powder", 100 ],
       [ "bone", 20 ],
-	  [ "biollante_bud", 1],
+      [ "biollante_bud", 1],
       [ "ant_egg", 1 ],
       [ "slime_scrap", 1 ]
     ]
@@ -18109,6 +19244,56 @@
   ]
 },{
         "type" : "recipe",
+  "result": "basket",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "wire", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "xlframe",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 60 ],
+      [ "welder_crude", 90 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "frame",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -18139,6 +19324,63 @@
   ]
 },{
         "type" : "recipe",
+  "result": "hdframe",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "crucible", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 2 ],
+      [ "forge", 50 ],
+      [ "char_forge", 10]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_lump", 18 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "frame_wood",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "2x4", 5 ]
+    ],
+    [
+      [ "nail", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "sheet_metal",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -18164,6 +19406,24 @@
   ]
 },{
         "type" : "recipe",
+  "result": "wood_plate",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 6000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "2x4", 6 ]
+    ],
+    [
+      [ "rope_6", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "steel_plate",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -18171,7 +19431,7 @@
   "difficulty": 4,
   "time": 12000,
   "reversible": true,
-  "note": "melting it down doesn't teach anythig useful",
+  "note": "sawing it down doesn't teach anything useful",
   "autolearn": true,
   "tools": [
     [
@@ -18653,7 +19913,8 @@
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ],
-      [ "disinfectant", 1 ]
+      [ "disinfectant", 1 ],
+      [ "saline", 5 ]
     ]
   ]
 },{
@@ -19032,6 +20293,43 @@
   ]
 },{
         "type" : "recipe",
+  "result": "jar_fish_canned",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "jar_glass", 1 ]
+    ],
+    [
+      [ "fish", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "jar_human_canned",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -19194,6 +20492,44 @@
     ],
     [
       [ "meat", 2 ]
+    ],
+    [
+      [ "salt_water", 1 ],
+      [ "salt", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "bag_fish_vac",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "vac_sealer", 10 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "bag_plastic", 1 ]
+    ],
+    [
+      [ "fish", 2 ]
     ],
     [
       [ "salt_water", 1 ],
@@ -19407,7 +20743,8 @@
       [ "aspirin", 8 ]
     ],
     [
-      [ "disinfectant", 2 ]
+      [ "disinfectant", 1 ],
+      [ "saline", 10 ]
     ],
     [
       [ "bandages", 2 ],
@@ -19611,7 +20948,7 @@
   "difficulty": 5,
   "time": 240000,
   "reversible": false,
-  "autolearn": false,
+  "autolearn": true,
   "tools": [
     [
       ["rock", -1],
@@ -20659,7 +21996,7 @@
         "type" : "recipe",
   "result": "armor_scrapsuit",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 100000,
@@ -20958,6 +22295,85 @@
   ]
 },{
         "type" : "recipe",
+   "result": "fish_sandwich",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+   "skill_used": "cooking",
+   "difficulty": 3,
+   "time": 9000,
+   "reversible": false,
+   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fish", 1 ],
+      [ "fish_fried", 1 ]
+    ],
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "pickle", 1],
+      [ "veggy_pickled", 1],
+      [ "onion", 1],
+      [ "tomato", 1]
+    ],
+    [
+      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "lutefisk",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fish", 4 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2]
+    ],
+    [
+      [ "lye_powder", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
    "result": "cheeseburgerhuman",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -21056,7 +22472,7 @@
   "difficulty": 3,
   "time": 240000,
   "reversible": true,
-  "note": "melting the anvil back down seems unlikely to teach anything useful",
+  "note": "hacking the anvil back down seems unlikely to teach anything useful",
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
@@ -23114,7 +24530,7 @@
         "type" : "recipe",
   "result": "armor_plate",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "fabrication",
   "difficulty": 9,
   "time": 600000,
@@ -23348,7 +24764,7 @@
         "type" : "recipe",
   "result": "armor_samurai",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "fabrication",
   "difficulty": 9,
   "time": 560000,
@@ -23797,7 +25213,7 @@
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
    "difficulty": 2,
-   "time": 6500,
+   "time": 3500,
    "reversible": false,
    "autolearn": true,
    "qualities" : [
@@ -24180,8 +25596,8 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
-  "skills_required" : ["fabrication", 2],
-  "difficulty": 4,
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 6,
   "time": 70000,
   "reversible": false,
   "autolearn": true,
@@ -24233,8 +25649,8 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
-  "skills_required" : ["fabrication", 2],
-  "difficulty": 4,
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 6,
   "time": 70000,
   "reversible": false,
   "autolearn": true,
@@ -24283,8 +25699,8 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
   "skill_used": "tailor",
-  "skills_required" : ["fabrication", 1],
-  "difficulty": 3,
+  "skills_required" : ["fabrication", 3],
+  "difficulty": 5,
   "time": 70000,
   "reversible": false,
   "autolearn": true,
@@ -24326,8 +25742,8 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
   "skill_used": "tailor",
-  "skills_required" : ["fabrication", 2],
-  "difficulty": 4,
+  "skills_required" : ["fabrication", 3],
+  "difficulty": 5,
   "time": 80000,
   "reversible": false,
   "autolearn": true,
@@ -24375,8 +25791,8 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
   "skill_used": "tailor",
-  "skills_required" : ["fabrication", 3],
-  "difficulty": 5,
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 6,
   "time": 90000,
   "reversible": false,
   "autolearn": true,
@@ -24423,7 +25839,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "skills_required" : ["fabrication", 3],
+  "skills_required" : ["fabrication", 6],
   "difficulty": 5,
   "time": 180000,
   "reversible": false,
@@ -24477,7 +25893,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "skills_required" : ["fabrication", 4],
+  "skills_required" : ["fabrication", 6],
   "difficulty": 6,
   "time": 240000,
   "reversible": false,
@@ -24534,7 +25950,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "skills_required" : ["fabrication", 5],
+  "skills_required" : ["fabrication", 7],
   "difficulty": 7,
   "time": 360000,
   "reversible": false,
@@ -24596,8 +26012,8 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "skills_required" : ["fabrication", 5],
-  "difficulty": 7,
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 6,
   "time": 300000,
   "reversible": false,
   "autolearn": true,
@@ -24656,7 +26072,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "skills_required" : ["fabrication", 6],
+  "skills_required" : ["fabrication", 7],
   "difficulty": 8,
   "time": 320000,
   "reversible": false,
@@ -24771,7 +26187,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
-  "skills_required" : ["fabrication", 3],
+  "skills_required" : ["fabrication", 4],
   "difficulty": 5,
   "time": 45000,
   "reversible": false,
@@ -25918,6 +27334,47 @@
     ],
     [
       [ "meat", 1 ]
+    ],
+    [
+      [ "vinegar", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "jar_fish_pickled",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 20 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ],
+      [ "salt_water", 1 ]
+    ],
+    [
+      [ "jar_glass", 1 ]
+    ],
+    [
+      [ "fish", 1 ]
     ],
     [
       [ "vinegar", 1 ]
@@ -27604,7 +29061,8 @@
       [ "sugar", 1 ]
     ],
     [
-      [ "cooking_oil", 1 ]
+      [ "cooking_oil", 1 ],
+      [ "tallow", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -28166,7 +29624,214 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "jar_3l_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 5 ]],
+  "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 150], ["char_forge", 30]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 48 ],
+     [ "flask_glass", 12 ],
+     [ "jar_glass", 6 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "bottle_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 5 ]],
+  "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 75], ["char_forge", 15]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 12 ],
+     [ "flask_glass", 3 ],
+     [ "jar_glass", 2 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "jar_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 4 ]],
+  "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 8 ],
+     [ "flask_glass", 2 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "flask_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 4 ]],
+  "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 25], ["char_forge", 5]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 4 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "pipe_glass",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 6 ]],
+  "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["pipe", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 25], ["char_forge", 5]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 4 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "glass_sheet",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      [ "sheet_metal", -1 ]
+     ],
+     [
+      ["forge", 75], ["char_forge", 15]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 16 ],
+     [ "flask_glass", 4 ],
+     [ "jar_glass", 2 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
   "result": "mre_ravioli_box",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",

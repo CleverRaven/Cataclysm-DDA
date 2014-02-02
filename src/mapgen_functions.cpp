@@ -840,7 +840,7 @@ void mapgen_fungal_bloom(map *m, oter_id, mapgendata dat, int, float)
                 } else {
                     m->ter_set(i, j, t_tree_fungal_young);
                 }
-            
+
             } else if (one_in(5)) {
                 m->ter_set(i, j, t_shrub_fungal);
             } else if (one_in(10)) {
@@ -1718,6 +1718,7 @@ void mapgen_park_basketball(map *m, oter_id, mapgendata dat, int, float)
                         \n",
         mapf::basic_bind(". 7 | - +", t_pavement_y, t_backboard, t_chainfence_v, t_chainfence_h, t_chaingate_l),
         mapf::basic_bind("#", f_bench));
+        m->place_vending(22, 19, 1);
         m->rotate(rng(0, 3));
 //    }
     m->add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY); // fixme; use density
@@ -2796,6 +2797,7 @@ void mapgen_office_cubical(map *m, oter_id terrain_type, mapgendata dat, int, fl
                                            f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,
                                            f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
                                            f_locker, f_null, f_safe_l));
+        m->place_vending(7, 13, rng(0, 1));
         m->place_items("fridge", 50,  2,  12, 2,  13, false, 0);
         m->place_items("cleaning", 50,  2,  15, 3,  16, false, 0);
         m->place_items("office", 80, 11,  7, 13,  7, false, 0);
@@ -4097,7 +4099,7 @@ void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float
         if (vset < 3) m->place_vending(5, vset+9, drinks);
         else if (vset < 15) m->place_vending(5 + (vset - 3), 11, drinks);
         else m->place_vending(18, 11 - (vset - 15), drinks);
-        if(rng(0,1))
+        if(one_in(3))
         {
             int vset2 = rng(0,16);
             if(vset2 >= vset) vset2++;
@@ -4123,8 +4125,8 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
         line(m, t_wall_h, 0, SEEY * 2 - 4, SEEX * 2 - 3, SEEY * 2 - 4);
         line(m, t_window, 0, SEEY * 2 - 4, SEEX * 2 - 14, SEEY * 2 - 4);
         line(m, t_wall_h, 0, SEEY * 2 - 4, SEEX * 2 - 20, SEEY * 2 - 4);
-        line(m, t_wall_h, 0, yard_wdth, 2, yard_wdth);
-        line(m, t_wall_h, 8, yard_wdth, 13, yard_wdth);
+        line(m, t_wall_h, 0, yard_wdth, 3, yard_wdth);
+        line(m, t_wall_h, 12, yard_wdth, 13, yard_wdth);
         line(m, t_wall_h, 20, yard_wdth, 21, yard_wdth);
         line_furn(m, f_counter, 1, yard_wdth + 1, 1, yard_wdth + 7);
         line(m, t_wall_h, 1, SEEY * 2 - 9, 3, SEEY * 2 - 9);
@@ -4141,9 +4143,9 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
         m->furn_set(SEEX * 2 - 5, SEEY * 2 - 6, f_bench);
         line_furn(m, f_locker, SEEX * 2 - 6, SEEY * 2 - 5, SEEX * 2 - 4, SEEY * 2 - 5);
         //gates
-        line(m, t_door_metal_locked, 3, yard_wdth, 8, yard_wdth);
-        m->ter_set(2, yard_wdth + 1, t_gates_mech_control);
-        m->ter_set(2, yard_wdth - 1, t_gates_mech_control);
+        line(m, t_door_metal_locked, 4, yard_wdth, 11, yard_wdth);
+        m->ter_set(3, yard_wdth + 1, t_gates_mech_control);
+        m->ter_set(3, yard_wdth - 1, t_gates_mech_control);
         line(m, t_door_metal_locked, 14, yard_wdth, 19, yard_wdth );
         m->ter_set(13, yard_wdth + 1, t_gates_mech_control);
         m->ter_set(13, yard_wdth - 1, t_gates_mech_control);
@@ -5797,7 +5799,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                 break;
             case 3:
                 // bat corpses
-                for (int i = rng(1, 12); i < 0; i--) {
+                for (int i = rng(1, 12); i > 0; i--) {
                     body.make_corpse(itypes["corpse"], GetMType("mon_bat"), g->turn);
                     m->add_item_or_charges(rng(1, SEEX * 2 - 1), rng(1, SEEY * 2 - 1), body);
                 }

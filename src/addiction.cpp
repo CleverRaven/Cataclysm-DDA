@@ -72,7 +72,7 @@ void addict_effect(addiction &add)
             g->u.per_cur--;
             g->u.dex_cur--;
             if (g->u.pain < in * 3) {
-                g->u.pain++;
+                g->u.mod_pain(1);
             }
             if ((in >= 40 || one_in(1200 - 30 * in)) && g->u.health > -100) {
                 g->u.health--;
@@ -93,10 +93,10 @@ void addict_effect(addiction &add)
         break;
 
     case ADD_SPEED: {
-        int move_pen = in * 5;
-        if (move_pen > 30) {
-            move_pen = 30;
-        }
+        // Minimal speed of PC is 0.25 * base speed, that is
+        // usually 25 moves, this ensures that even at minimal speed
+        // the PC gets 5 moves per turn.
+        int move_pen = std::min(in * 5, 20);
         g->u.moves -= move_pen;
         g->u.int_cur--;
         g->u.str_cur--;
@@ -154,6 +154,25 @@ void addict_effect(addiction &add)
             }
         }
         break;
+    
+    case ADD_MUTAGEN:
+        if (g->u.has_trait("MUT_JUNKIE")) {
+            if (one_in(600 - 50 * in)) {
+                g->add_msg(rng(0, 6) < in ? _("You so miss the exquisite rainbow of post-humanity.") :
+                       _("Your body is SOO booorrrring. Just a little sip to liven things up?"));
+                g->u.add_morale(MORALE_CRAVING_MUTAGEN, -20, -200);
+            }
+            if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
+                g->u.focus_pool -= (in);
+                g->add_msg(_("You daydream what it'd be like if you were *different*. Different is good."));
+            }
+        }
+        else if (in > 5 || one_in((500 - 15 * in))) {
+            g->add_msg(rng(0, 6) < in ? _("You haven't had any mutagen lately.") :
+                       _("You could use some new parts..."));
+            g->u.add_morale(MORALE_CRAVING_MUTAGEN, -5, -50);
+        }
+        break;
     }
 }
 
@@ -180,6 +199,8 @@ std::string addiction_type_name(add_type cur)
         return _("cocaine");
     case ADD_CRACK:
         return _("crack cocaine");
+    case ADD_MUTAGEN:
+        return _("mutation");
     default:
         return "bugs in addiction.cpp";
     }
@@ -204,6 +225,8 @@ std::string addiction_name(addiction cur)
         return _("Cocaine Withdrawal");
     case ADD_CRACK:
         return _("Crack Cocaine Withdrawal");
+    case ADD_MUTAGEN:
+        return _("Mutation Withdrawal");
     default:
         return "Erroneous addiction";
     }
@@ -226,6 +249,8 @@ morale_type addiction_craving(add_type cur)
         return MORALE_CRAVING_COCAINE;
     case ADD_CRACK:
         return MORALE_CRAVING_CRACK;
+    case ADD_MUTAGEN:
+        return MORALE_CRAVING_MUTAGEN;
     default:
         return MORALE_NULL;
     }
@@ -249,7 +274,12 @@ add_type addiction_type(std::string name)
         return ADD_COKE;
     } else if (name == "crack") {
         return ADD_CRACK;
+    } else if (name == "mutagen") {
+        return ADD_MUTAGEN;
     } else {
+        if (name != "none") {
+            debugmsg("unknown addiction type: %s. For no addictive potential, use \"none\"", name.c_str());
+        }
         return ADD_NULL;
     }
 }
@@ -273,10 +303,17 @@ Risk of delirium tremens");
         return _("You may find it difficult to sleep without medication.");
 
     case ADD_PKILLER: {
+    if (g->u.has_trait("NOPAIN")) {
         return string_format(_(
                                  "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
-                                 "Depression and physical pain to some degree.  Frequent cravings.  Vomiting."), strpen);
+                                 "Depression.  Frequent cravings.  Vomiting."), strpen);
     }
+    else {
+        return string_format(_(
+                             "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
+                             "Depression and physical pain to some degree.  Frequent cravings.  Vomiting."), strpen);
+    }
+  }
 
     case ADD_SPEED:
         return _("Strength - 1;   Intelligence - 1;\n\
@@ -287,6 +324,8 @@ Movement rate reduction.  Depression.  Weak immune system.  Frequent cravings.")
 
     case ADD_CRACK:
         return _("Perception - 2;   Intelligence - 2;  Frequent cravings.");
+    case ADD_MUTAGEN:
+        return _("You've gotten a taste for mutating and the chemicals that cause it. But you can stop, yeah, any time you want.");
     default:
         return "";
     }

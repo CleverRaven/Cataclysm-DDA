@@ -246,6 +246,59 @@
     },
     {
         "type": "profession",
+        "ident": "specops",
+        "name": "Special Operator",
+        "description": "You were the best of the best, the military's finest. That's why you're still alive, even after all your comrades fell to the undead. As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+        "points": 5,
+        "skills": [
+            {
+                "level": 3,
+                "name": "gun"
+            },
+            {
+                "level": 3,
+                "name": "smg"
+            },
+            {
+                "level": 2,
+                "name": "pistol"
+            },
+            {
+                "level": 1,
+                "name": "dodge"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            },
+            {
+                "level": 1,
+                "name": "swimming"
+            }
+        ],
+        "items": {
+            "both": [
+                "pants_army",
+                "jacket_army",
+                "beret",
+                "gloves_tactical",
+                "boots_combat",
+                "rm2000_smg",
+                "suppressor",
+                "8mm_fmj",
+                "knife_trench"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "maid",
         "name": {
             "male": "Butler",
@@ -254,10 +307,6 @@
         "description": "You worked in a wealthy household, but after the cataclysm they took a family vacation to an unknown place, leaving you to fend for yourself.",
         "points": 2,
         "skills": [
-            {
-                "level": 1,
-                "name": "throw"
-            },
             {
                 "level": 1,
                 "name": "cooking"
@@ -528,6 +577,12 @@
                 "can_beans",
                 "pockknife",
                 "matches"
+            ],
+            "male": [
+                "undershirt"
+            ],
+            "female": [
+                "camisole"
             ]
         },
         "addictions": [
@@ -547,6 +602,12 @@
             "both": [
                 "pants",
                 "boxer_shorts"
+            ],
+            "male": [
+                "undershirt"
+            ],
+            "female": [
+                "camisole"
             ]
         },
         "addictions": [
@@ -1086,7 +1147,7 @@
         "type": "profession",
         "ident": "blacksmith",
         "name": "Blacksmith",
-        "description": "You were going through your community college's metalsmithing program when the world ended. You ran into trouble coming out of class - but managed to keep ahold of the equipment you were carrying at the time..",
+        "description": "You were going through your community college's metalsmithing program when the world ended. You ran into trouble coming out of class - but managed to keep ahold of the equipment you were carrying at the time.",
         "points": 1,
         "skills": [
             {
@@ -1250,7 +1311,7 @@
         "type": "profession",
         "ident": "linebacker",
         "name": "Football Player",
-        "description": "You were the star player for the local football team, adored by teammates and fans alike. Now they just adore your brains. You've still got your bulky football gear on.",
+        "description": "You were the star player for the local football team, adored by teammates and fans alike. Now they just adore your brain. You've still got your bulky football gear on.",
         "points": 0,
         "items": {
             "both": [
@@ -1274,7 +1335,7 @@
         "type": "profession",
         "ident": "golfer",
         "name": "Golfer",
-        "description": "A birdie is 1 under par, but how much is a zombie? Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
+        "description": "A birdie is one under par, but how much is a zombie? Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
         "points": 0,
         "items": {
             "both": [
@@ -1423,7 +1484,7 @@
         "type": "profession",
         "ident": "postman",
         "name": "Mail Carrier",
-        "description": "You were a proud postal service worker. Neither snow nor rain would stop you from delivering correspondence near and far. But you weren't counting on the cataclysm!",
+        "description": "Your skill at avoiding dogs and discarded children's toys while delivering the mail gives you an edge in your new role as a survivor.",
         "points": 1,
         "skills": [
             {
@@ -1442,7 +1503,6 @@
                 "mbag",
                 "wristwatch",
                 "leather_belt",
-                "briefs",
                 "postman_shorts",
                 "socks",
                 "sneakers"
@@ -1456,7 +1516,7 @@
             ]
         }
     },
-	{
+    {
         "type": "profession",
         "ident": "convict",
         "name": "Convict",
@@ -1478,12 +1538,12 @@
                 "briefs"
             ],
             "female": [
-			    "bra",
+                "bra",
                 "panties"
             ]
         }
     },
-	{
+    {
         "type": "profession",
         "ident": "lawyer",
         "name": "Lawyer",
@@ -1494,28 +1554,28 @@
                 "level": 1,
                 "name": "barter"
             },
-			{
-			    "level": 2,
-				"name": "speech"
-			}
+            {
+                "level": 2,
+                "name": "speech"
+            }
         ],
         "items": {
             "both": [
                 "suit",
                 "skinny_tie",
-				"dress_shoes",
-				"wristwatch",
-				"cell_phone",
-				"pda",
-				"briefcase",
-				"money_bundle",
-				"file"
+                "dress_shoes",
+                "wristwatch",
+                "cell_phone",
+                "pda",
+                "briefcase",
+                "money_bundle",
+                "file"
             ],
             "male": [
                 "briefs"
             ],
             "female": [
-			    "bra",
+                "bra",
                 "panties"
             ]
         }

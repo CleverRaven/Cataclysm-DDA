@@ -320,8 +320,8 @@ bool player::create(character_type type, std::string tempname)
         matype_id ma_type;
         do {
             int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
-                         menu(false, _("Pick your style:"), _("Krav Maga"), _("Muay Thai"), _("Ninjutsu"),
-                              _("Capoeira"), _("Zui Quan"), NULL);
+                         menu(false, _("Pick your style:"), _("Krav Maga"), _("Muay Thai"),
+                              _("Ninjutsu"), _("Capoeira"), _("Zui Quan"), NULL);
             if (choice == 1) {
                 ma_type = "style_krav_maga";
             } else if (choice == 2) {
@@ -368,8 +368,8 @@ bool player::create(character_type type, std::string tempname)
         matype_id ma_type;
         do {
             int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
-                         menu(false, _("Pick your style:"), _("Centipede"), _("Viper"), _("Scorpion"),
-                              _("Lizard"), _("Toad"), NULL);
+                         menu(false, _("Pick your style:"), _("Centipede"), _("Viper"),
+                              _("Scorpion"), _("Lizard"), _("Toad"), NULL);
             if (choice == 1) {
                 ma_type = "style_centipede";
             } else if (choice == 2) {
@@ -486,6 +486,20 @@ bool player::create(character_type type, std::string tempname)
         tmp = item(itypes["inhaler"], 0);
         inv.push_back(tmp);
     }
+    
+    // And cannibals start with a special cookbook.
+    if (has_trait("CANNIBAL")) {
+        tmp = item(itypes["cookbook_human"], 0);
+        inv.push_back(tmp);
+    }
+    
+    // Albinoes have their umbrella handy.
+    // Since they have to wield it, I don't think it breaks things
+    // too badly to issue one.
+    if (has_trait("ALBINO")) {
+        tmp = item(itypes["teleumbrella"], 0);
+        inv.push_back(tmp);
+    }
 
     // make sure we have no mutations
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter)
@@ -543,6 +557,17 @@ int set_stats(WINDOW *w, player *u, int &points)
     char ch;
     int read_spd;
 
+    // There is no map loaded currently, so any access to the map will
+    // fail (player::suffer, called from player::reset_stats), might access
+    // the map:
+    // There are traits that check/change the radioactivity on the map,
+    // that check if in sunlight...
+    // Setting the position to -1 ensures that the INBOUNDS check in
+    // map.cpp is triggered. This check prevents access to invalid position
+    // on the map (like -1,0) and instead returns a dummy default value.
+    u->posx = -1;
+    u->reset();
+
     draw_tabs(w, _("STATS"));
 
     mvwprintz(w, 16, 2, COL_NOTE_MINOR, _("j/k, 8/2, or up/down arrows to select a statistic."));
@@ -560,13 +585,13 @@ int set_stats(WINDOW *w, player *u, int &points)
             mvwprintz(w, i, iSecondColumn, c_black, clear);
         }
         mvwprintz(w, 6,  2, c_ltgray, _("Strength:"));
-        mvwprintz(w, 6,  16, c_ltgray, "%2d", u->str_max);
+        mvwprintz(w, 6, 16, c_ltgray, "%2d", u->str_max);
         mvwprintz(w, 7,  2, c_ltgray, _("Dexterity:"));
-        mvwprintz(w, 7,  16, c_ltgray, "%2d", u->dex_max);
+        mvwprintz(w, 7, 16, c_ltgray, "%2d", u->dex_max);
         mvwprintz(w, 8,  2, c_ltgray, _("Intelligence:"));
-        mvwprintz(w, 8,  16, c_ltgray, "%2d", u->int_max);
+        mvwprintz(w, 8, 16, c_ltgray, "%2d", u->int_max);
         mvwprintz(w, 9,  2, c_ltgray, _("Perception:"));
-        mvwprintz(w, 9,  16, c_ltgray, "%2d", u->per_max);
+        mvwprintz(w, 9, 16, c_ltgray, "%2d", u->per_max);
 
         int tmp = 0;
         switch (sel) {
@@ -810,9 +835,15 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
                         mvwprintz(w,  3, 33, c_ltgray,
                                   "                                              ");
-                        mvwprintz(w,  3, 33, col_tr, _("%s earns %d points"),
+                        int points = traits[vStartingTraits[iCurrentPage][i]].points;
+                        bool negativeTrait = points < 0;
+                        if (negativeTrait) {
+                                  points *=-1;
+                        }
+                        mvwprintz(w,  3, 33, col_tr, _("%s %s %d points"),
                                   traits[vStartingTraits[iCurrentPage][i]].name.c_str(),
-                                  traits[vStartingTraits[iCurrentPage][i]].points * -1);
+                                  negativeTrait ? _("earns"):_("costs"),
+                                  points);
                         fold_and_print(w_description, 0, 0,
                                        FULL_SCREEN_WIDTH - 2, col_tr, "%s",
                                        traits[vStartingTraits[iCurrentPage][i]].description.c_str());
@@ -976,16 +1007,16 @@ int set_profession(WINDOW *w, player *u, int &points)
 
     int cur_id = 0;
     int retval = 0;
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 9;
+    const int iContentHeight = FULL_SCREEN_HEIGHT - 10;
     int iStartPos = 0;
 
-    WINDOW *w_description = newwin(3, FULL_SCREEN_WIDTH - 2,
-                                   FULL_SCREEN_HEIGHT - 4 + getbegy(w), 1 + getbegx(w));
+    WINDOW *w_description = newwin(4, FULL_SCREEN_WIDTH - 2,
+                                   FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
 
-    WINDOW *w_items =       newwin(iContentHeight,     26,  5 + getbegy(w), 21 + getbegx(w));
-    WINDOW *w_skills =      newwin(iContentHeight - 5, 30,  5 + getbegy(w), 48 + getbegx(w));
-    WINDOW *w_addictions =  newwin(4,                  30, 15 + getbegy(w), 48 + getbegx(w));
-    WINDOW *w_genderswap =  newwin(1,                  48, 19 + getbegy(w), 21 + getbegx(w));
+    WINDOW *w_items =       newwin(iContentHeight - 1, 25,  6 + getbegy(w), 24 + getbegx(w));
+    WINDOW *w_skills =      newwin(iContentHeight - 5, 30,  6 + getbegy(w), 49 + getbegx(w));
+    WINDOW *w_addictions =  newwin(5,                  30, 15 + getbegy(w), 49 + getbegx(w));
+    WINDOW *w_genderswap =  newwin(1,                  55,  5 + getbegy(w), 24 + getbegx(w));
 
     std::vector<const profession *> sorted_profs;
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
@@ -1011,16 +1042,18 @@ int set_profession(WINDOW *w, player *u, int &points)
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d"), points);
         // Clear the bottom of the screen.
         werase(w_description);
-        mvwprintz(w, 3, 40, c_ltgray, "                                      ");
-        if (can_pick == "YES") {
-            mvwprintz(w, 3, 20, c_green, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      _(sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str()),
-                      sorted_profs[cur_id]->point_cost(), netPointCost);
-        } else if (can_pick == "INSUFFICIENT_POINTS") {
-            mvwprintz(w, 3, 20, c_ltred, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      _(sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str()),
-                      sorted_profs[cur_id]->point_cost(), netPointCost);
+        mvwprintz(w, 3, 40, c_ltgray, "                                       ");
+
+        int pointsForProf = sorted_profs[cur_id]->point_cost();
+        bool negativeProf = pointsForProf < 0;
+        if (negativeProf) {
+                  pointsForProf *=-1;
         }
+        mvwprintz(w, 3, 21, can_pick == "YES" ? c_green:c_ltred, _("Profession %1$s %2$s %3$d points (net: %4$d)"),
+                      _(sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str()),
+                      negativeProf ? _("earns"):_("costs"),
+                      pointsForProf, netPointCost);
+
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
                        _(sorted_profs[cur_id]->description().c_str()));
 
@@ -1080,9 +1113,11 @@ int set_profession(WINDOW *w, player *u, int &points)
         std::vector<addiction> prof_addictions = sorted_profs[cur_id]->addictions();
         if (prof_addictions.size() > 0) {
             mvwprintz(w_addictions, 0, 0, COL_HEADER, _("Addictions:"));
-            for (int i = 0; i < prof_addictions.size(); i++) {
-                wprintz(w_addictions, c_ltgray, _("\n%1$s (%2$d)"),
-                        addiction_name(prof_addictions[i]).c_str(), prof_addictions[i].intensity);
+            int add_y = 1;
+            for (size_t i = 0; i < prof_addictions.size(); i++) {
+                add_y += fold_and_print(w_addictions, i + add_y, 0, getmaxx(w_addictions), c_ltgray,
+                                        _("%1$s (%2$d)"), addiction_name(prof_addictions[i]).c_str(),
+                                        prof_addictions[i].intensity) - 1;
             }
         }
 
@@ -1156,9 +1191,10 @@ inline bool skill_display_sort(const Skill *a, const Skill *b)
 int set_skills(WINDOW *w, player *u, int &points)
 {
     draw_tabs(w, _("SKILLS"));
-
-    WINDOW *w_description = newwin(3, FULL_SCREEN_WIDTH - 2, FULL_SCREEN_HEIGHT - 4 + getbegy(w),
-                                   1 + getbegx(w));
+    const int iContentHeight = FULL_SCREEN_HEIGHT - 6;
+    const int iHalf = iContentHeight / 2;
+    WINDOW *w_description = newwin(iContentHeight, FULL_SCREEN_WIDTH - 35,
+                                   5 + getbegy(w), 31 + getbegx(w));
 
     std::vector<Skill *> sorted_skills = Skill::skills;
     std::sort(sorted_skills.begin(), sorted_skills.end(), skill_display_sort);
@@ -1166,19 +1202,16 @@ int set_skills(WINDOW *w, player *u, int &points)
     int cur_pos = 0;
     Skill *currentSkill = sorted_skills[cur_pos];
 
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 9;
-    const int iHalf = iContentHeight / 2;
-
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d "), points);
         // Clear the bottom of the screen.
         werase(w_description);
-        mvwprintz(w, 3, 40, c_ltgray, "                                    ");
+        mvwprintz(w, 3, 31, c_ltgray, "                                              ");
         int cost = std::max(1, (u->skillLevel(currentSkill) + 1) / 2);
-        mvwprintz(w, 3, 30, points >= cost ? COL_SKILL_USED : c_ltred,
-                  _("Upgrading %s costs %d points"),
+        mvwprintz(w, 3, 31, points >= cost ? COL_SKILL_USED : c_ltred,
+                  _("Upgrading %s costs %d point(s)"),
                   currentSkill->name().c_str(), cost);
-        fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, COL_SKILL_USED,
+        fold_and_print(w_description, 0, 0, getmaxx(w_description), COL_SKILL_USED,
                        currentSkill->description().c_str());
 
         int first_i, end_i, base_y;
@@ -1189,7 +1222,7 @@ int set_skills(WINDOW *w, player *u, int &points)
         } else if (cur_pos > num_skills - iContentHeight + iHalf) {
             first_i = num_skills - iContentHeight;
             end_i = num_skills;
-            base_y = FULL_SCREEN_HEIGHT - 4 - num_skills;
+            base_y = FULL_SCREEN_HEIGHT - 1 - num_skills;
         } else {
             first_i = cur_pos - iHalf;
             end_i = cur_pos + iContentHeight - iHalf;
@@ -1197,20 +1230,17 @@ int set_skills(WINDOW *w, player *u, int &points)
         }
         for (int i = first_i; i < end_i; ++i) {
             Skill *thisSkill = sorted_skills[i];
-            mvwprintz(w, base_y + i, 2, c_ltgray, "\
-                                         "); // Clear the line
-            bool there_is_space = false;
+            // Clear the line
+            mvwprintz(w, base_y + i, 2, c_ltgray, "                            ");
             if (u->skillLevel(thisSkill) == 0) {
                 mvwprintz(w, base_y + i, 2,
                           (i == cur_pos ? h_ltgray : c_ltgray), thisSkill->name().c_str());
             } else {
                 mvwprintz(w, base_y + i, 2,
-                          (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
+                          (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), _("%s"),
                           thisSkill->name().c_str());
-                there_is_space = true;
-                for (int j = 0; j < u->skillLevel(thisSkill); j++) {
-                    wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
-                }
+                wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
+                        " (%d)", int(u->skillLevel(thisSkill)));
             }
             profession::StartingSkillList prof_skills = u->prof->skills();//profession skills
             for (int k = 0; k < prof_skills.size(); k++) {
@@ -1219,12 +1249,8 @@ int set_skills(WINDOW *w, player *u, int &points)
                     continue;  // skip unrecognized skills.
                 }
                 if (skill->ident() == thisSkill->ident()){
-                    if (!there_is_space) {
-                        wprintz(w, (i == cur_pos ? h_white : c_white), " ");
-                    }
-                    for (int j = 0; j < prof_skills[k].second; j++) {
-                        wprintz(w, (i == cur_pos ? h_white : c_white), "*");
-                    }
+                    wprintz(w, (i == cur_pos ? h_white : c_white),
+                            " (+%d)", int(prof_skills[k].second));
                     break;
                 }
             }
@@ -1311,7 +1337,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     WINDOW* w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
     WINDOW* w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
     WINDOW* w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
-    WINDOW* w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 22, getbegx(w) + 2);
+    WINDOW* w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 21, getbegx(w) + 2);
     
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d"), points);
 
@@ -1521,7 +1547,6 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         }
     } while (true);
 }
-
 
 std::set<std::string> player::get_traits() const
 {

@@ -97,6 +97,78 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
     return textformatted.size();
 };
 
+int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
+                        nc_color base_color, const char *mes, ...)
+{
+    va_list ap;
+    va_start(ap, mes);
+    char buff[6000];    //TODO replace Magic Number
+    vsprintf(buff, mes, ap);
+    va_end(ap);
+
+    nc_color color = base_color;
+    std::vector<std::string> textformatted;
+    textformatted = foldstring(buff, width);
+    for (int line_num = 0; line_num < textformatted.size(); line_num++) {
+        if (line_num >= begin_line) {
+          wmove(w, line_num + begin_y - begin_line, begin_x);
+        }
+        // split into colourable sections
+        std::vector<std::string> color_segments = split_by_color(textformatted[line_num]);
+        // for each section, get the colour, and print it
+        std::vector<std::string>::iterator it;
+        for (it = color_segments.begin(); it != color_segments.end(); ++it) {
+            if (!it->empty() && it->at(0) == '<') {
+                color = get_color_from_tag(*it, base_color);
+            }
+            if (line_num >= begin_line) {
+              std::string l = rm_prefix(*it);
+              if(l != "--") { // -- is a newline!
+                wprintz(w, color, "%s", rm_prefix(*it).c_str());
+              }
+            }
+        }
+    }
+    return textformatted.size();
+};
+
+void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, int begin_y)
+{
+    int height = getmaxy(w);
+    int width = getmaxx(w);
+
+    //Do not erase the current screen if it's not first line of the text
+    if (begin_y == 0) {
+        werase(w);
+    }
+
+    /* TODO:
+        issue:     # of lines in the paragraph > height -> inf. loop;
+        solution:  split this paragraph in two pieces;
+    */
+    for (size_t i = 0; i < text.size(); i++) {
+        if (begin_y == 0 && caption != _("")) {
+            begin_y = fold_and_print(w, 0, 1, width - 2, c_white, caption.c_str()) + 1;
+        }
+        std::vector<std::string> next_paragraph = foldstring(text[i].c_str(), width);
+        if (begin_y + next_paragraph.size() > height) {
+            // Next page
+            i--;
+            mvwprintw(w, height - 1, 1, _("Press any key for more..."));
+            wrefresh(w);
+            refresh();
+            getch();
+            werase(w);
+            begin_y = 0;
+        } else {
+            begin_y += fold_and_print(w, begin_y, 1, width - 2, c_white, text[i].c_str()) + 1;
+        }
+    }
+    wrefresh(w);
+    refresh();
+    getch();
+}
+
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
 {
     va_list ap;
@@ -428,7 +500,8 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 }
 
 std::string string_input_win(WINDOW *w, std::string input, int max_length, int startx, int starty,
-                             int endx, bool loop, long &ch, int &pos, std::string identifier, int w_x, int w_y, bool dorefresh, bool only_digits )
+                             int endx, bool loop, long &ch, int &pos, std::string identifier, 
+                             int w_x, int w_y, bool dorefresh, bool only_digits )
 {
     std::string ret = input;
     nc_color string_color = c_magenta;
@@ -817,8 +890,8 @@ void full_screen_popup(const char *mes, ...)
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 //@param without_getch don't wait getch, return = (int)' ';
 int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName,
-                               std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected,
-                               bool without_getch)
+                               std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare,
+                               int selected, bool without_getch)
 {
     WINDOW *w = newwin(iHeight, iWidth, VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
@@ -855,13 +928,19 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
             }
         } else if (vItemDisplay[i].sType == "DESCRIPTION") {
             line_num++;
-            line_num += fold_and_print(w, line_num, 2, iWidth - 4, c_white, "%s", vItemDisplay[i].sName.c_str());
+            if (vItemDisplay[i].bDrawName) {
+                line_num += fold_and_print(w, line_num, 2, iWidth - 4, c_white, "%s", vItemDisplay[i].sName.c_str());
+            }
         } else {
             if (bStartNewLine) {
-                mvwprintz(w, line_num, 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
+                if (vItemDisplay[i].bDrawName) {
+                    mvwprintz(w, line_num, 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
+                }
                 bStartNewLine = false;
             } else {
-                wprintz(w, c_white, "%s", (vItemDisplay[i].sName).c_str());
+                if (vItemDisplay[i].bDrawName) {
+                    wprintz(w, c_white, "%s", (vItemDisplay[i].sName).c_str());
+                }
             }
 
             std::string sPlus = vItemDisplay[i].sPlus;
@@ -1010,7 +1089,6 @@ std::string word_rewrap (const std::string &ins, int width)
 {
     std::ostringstream o;
     std::string in = ins;
-    std::replace(in.begin(), in.end(), '\n', ' ');
 
     // find non-printing tags
     std::vector<size_t> tag_positions = get_tag_positions(in);
@@ -1046,7 +1124,7 @@ std::string word_rewrap (const std::string &ins, int width)
 
         x += mk_wcwidth(uc);
 
-        if (x >= width) {
+        if (x > width) {
             if (lastwb == lastout) {
                 lastwb = j;
             }
@@ -1121,6 +1199,11 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
                     const int iNumEntries, const int iOffsetY, const int iOffsetX,
                     nc_color bar_color)
 {
+    if (iContentHeight >= iNumEntries) {
+        //scrollbar is not required
+        bar_color = BORDER_COLOR;
+    }
+
     //Clear previous scrollbar
     for(int i = iOffsetY; i < iOffsetY + iContentHeight; i++) {
         mvwputch(window, i, iOffsetX, bar_color, LINE_XOXO);
@@ -1220,7 +1303,7 @@ std::string string_format(std::string pattern, ...)
     vsprintf(buff, pattern.c_str(), ap);
     va_end(ap);
 
-    //drop contents behind $, this trick is there to skip certain arguments
+    //drop contents behind \003, this trick is there to skip certain arguments
     char *break_pos = strchr(buff, '\003');
     if(break_pos) {
         break_pos[0] = '\0';
@@ -1352,3 +1435,44 @@ void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::st
     }
 }
 
+/**
+ * Display data in table, each cell contains one entry from the
+ * data vector. Allows vertical scrolling if the data does not fit.
+ * Data is displayed using fold_and_print_from, which allows coloring!
+ * @param columns Number of columns, can be 1. Make sure each entry
+ * of the data vector fits into one cell.
+ * @param title The title text, displayed on top.
+ * @param w The window to draw this in, the whole widow is used.
+ */
+void display_table(WINDOW *w, const std::string &title, int columns, const std::vector<std::string> &data)
+{
+    const int width = getmaxx(w) - 2; // -2 for border
+    const int rows = getmaxy(w) - 2 - 1; // -2 for border, -1 for title
+    const int col_width = width / columns;
+    int offset = 0;
+
+    const int title_length = utf8_width(title.c_str());
+    while(true) {
+        werase(w);
+        draw_border(w);
+        mvwprintz(w, 1, (width - title_length) / 2, c_white, title.c_str());
+        for(int i = 0; i < rows * columns; i++) {
+            if(i + offset * columns >= data.size()) {
+                break;
+            }
+            const int x = 2 + (i % columns) * col_width;
+            const int y = (i / columns) + 2;
+            fold_and_print_from(w, y, x, col_width, 0, c_white, "%s", data[i + offset * columns].c_str());
+        }
+        draw_scrollbar(w, offset, rows, data.size() / 3, 2, 0);
+        wrefresh(w);
+        int ch = getch();
+        if (ch == KEY_DOWN && ((offset + 1) * columns) < data.size()) {
+            offset++;
+        } else if(ch == KEY_UP && offset > 0) {
+            offset--;
+        } else if(ch == ' ' || ch == '\n' || ch == KEY_ESCAPE) {
+            break;
+        }
+    }
+}

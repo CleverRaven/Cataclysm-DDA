@@ -201,7 +201,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     if(veh_status != 0) {
 
         //Leave engine running in some vehicles
-        if(veh_fuel_mult > 0 
+        if(veh_fuel_mult > 0
                 && all_parts_with_feature("ENGINE", true).size() > 0
                 && one_in(8)) {
             engine_on = true;
@@ -319,11 +319,11 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
                 int distSq = pow((blood_inside_x - parts[p].mount_dx), 2) + \
                              pow((blood_inside_y - parts[p].mount_dy), 2);
                 if (distSq <= 1) {
-                    parts[p].blood = rng(200, 400) - distSq*100; 
+                    parts[p].blood = rng(200, 400) - distSq*100;
                 }
             } else if (part_flag(p, "SEAT")) {
                 // Set the center of the bloody mess inside
-                blood_inside_x = parts[p].mount_dx; 
+                blood_inside_x = parts[p].mount_dx;
                 blood_inside_y = parts[p].mount_dy;
                 blood_inside_set = true;
             }
@@ -376,15 +376,17 @@ void vehicle::use_controls()
 {
     std::vector<vehicle_controls> options_choice;
     std::vector<uimenu_entry> options_message;
+    int vpart;
     // Always have this option
-    int current = 0;
-    int letgoent = 0;
 
-    options_choice.push_back(toggle_cruise_control);
-    options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
-                                           _("Enable cruise control"), 'c'));
 
-    current++;
+    // Let go without turning the engine off.
+    if (g->u.controlling_vehicle &&
+        g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
+        options_choice.push_back(release_control);
+        options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
+    }
+
 
     bool has_lights = false;
     bool has_overhead_lights = false;
@@ -429,77 +431,7 @@ void vehicle::use_controls()
         }
     }
 
-    // Lights if they are there - Note you can turn them on even when damaged, they just don't work
-    if (has_lights) {
-        options_choice.push_back(toggle_lights);
-        options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") :
-                                               _("Turn on headlights"), 'h'));
-        current++;
-    }
-
-   if (has_overhead_lights) {
-       options_choice.push_back(toggle_overhead_lights);
-       options_message.push_back(uimenu_entry(overhead_lights_on ? _("Turn off overhead lights") :
-                                              _("Turn on overhead lights"), 'v'));
-       current++;
-   }
-
-    //Honk the horn!
-    if (has_horn) {
-        options_choice.push_back(activate_horn);
-        options_message.push_back(uimenu_entry(_("Honk horn"), 'o'));
-        current++;
-    }
-
-    // Turrets: off or burst mode
-    if (has_turrets) {
-        options_choice.push_back(toggle_turrets);
-        options_message.push_back(uimenu_entry((0 == turret_mode) ? _("Switch turrets to burst mode") :
-                                               _("Disable turrets"), 't'));
-        current++;
-    }
-
-    // Turn the fridge on/off
-    if (has_fridge) {
-        options_choice.push_back(toggle_fridge);
-        options_message.push_back(uimenu_entry(fridge_on ? _("Turn off fridge") :
-                                               _("Turn on fridge"), 'f'));
-        current++;
-    }
-
-    // Turn the recharging station on/off
-    if (has_recharger) {
-        options_choice.push_back(toggle_recharger);
-        options_message.push_back(uimenu_entry(recharger_on ? _("Turn off recharger") :
-                                               _("Turn on recharger"), 'r'));
-        current++;
-    }
-
-    // Tracking on the overmap
-    if (has_tracker) {
-        options_choice.push_back(toggle_tracker);
-        options_message.push_back(uimenu_entry((tracking_on) ? _("Disable tracking device") :
-                                                _("Enable tracking device"), 'g'));
-
-        current++;
-    }
-
-    if( !g->u.controlling_vehicle && tags.count("convertible") ) {
-        options_choice.push_back(convert_vehicle);
-        options_message.push_back(uimenu_entry(_("Fold bicycle"), 'f'));
-        current++;
-    }
-
-    // Turn the reactor on/off
-    if (has_reactor) {
-        options_choice.push_back(toggle_reactor);
-        options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
-                                               _("Turn on reactor"), 'm'));
-        current++;
-    }
-
     // Toggle engine on/off, stop driving if we are driving.
-    int vpart;
     if (!pedals() && has_engine) {
         options_choice.push_back(toggle_engine);
         if (g->u.controlling_vehicle) {
@@ -508,15 +440,71 @@ void vehicle::use_controls()
             options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
                                                    _("Turn on the engine"), 'e'));
         }
-        current++;
     }
 
-    // Let go without turning the engine off.
-    if (g->u.controlling_vehicle &&
-        g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
-        options_choice.push_back(release_control);
-        options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
-        letgoent = current;
+    options_choice.push_back(toggle_cruise_control);
+    options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
+                                           _("Enable cruise control"), 'c'));
+
+
+    // Lights if they are there - Note you can turn them on even when damaged, they just don't work
+    if (has_lights) {
+        options_choice.push_back(toggle_lights);
+        options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") :
+                                               _("Turn on headlights"), 'h'));
+    }
+
+   if (has_overhead_lights) {
+       options_choice.push_back(toggle_overhead_lights);
+       options_message.push_back(uimenu_entry(overhead_lights_on ? _("Turn off overhead lights") :
+                                              _("Turn on overhead lights"), 'v'));
+   }
+
+    //Honk the horn!
+    if (has_horn) {
+        options_choice.push_back(activate_horn);
+        options_message.push_back(uimenu_entry(_("Honk horn"), 'o'));
+    }
+
+    // Turrets: off or burst mode
+    if (has_turrets) {
+        options_choice.push_back(toggle_turrets);
+        options_message.push_back(uimenu_entry((0 == turret_mode) ? _("Switch turrets to burst mode") :
+                                               _("Disable turrets"), 't'));
+    }
+
+    // Turn the fridge on/off
+    if (has_fridge) {
+        options_choice.push_back(toggle_fridge);
+        options_message.push_back(uimenu_entry(fridge_on ? _("Turn off fridge") :
+                                               _("Turn on fridge"), 'f'));
+    }
+
+    // Turn the recharging station on/off
+    if (has_recharger) {
+        options_choice.push_back(toggle_recharger);
+        options_message.push_back(uimenu_entry(recharger_on ? _("Turn off recharger") :
+                                               _("Turn on recharger"), 'r'));
+    }
+
+    // Tracking on the overmap
+    if (has_tracker) {
+        options_choice.push_back(toggle_tracker);
+        options_message.push_back(uimenu_entry((tracking_on) ? _("Disable tracking device") :
+                                                _("Enable tracking device"), 'g'));
+
+    }
+
+    if( tags.count("convertible") ) {
+        options_choice.push_back(convert_vehicle);
+        options_message.push_back(uimenu_entry(_("Fold bicycle"), 'f'));
+    }
+
+    // Turn the reactor on/off
+    if (has_reactor) {
+        options_choice.push_back(toggle_reactor);
+        options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
+                                               _("Turn on reactor"), 'm'));
     }
 
     options_choice.push_back(control_cancel);
@@ -526,7 +514,6 @@ void vehicle::use_controls()
     selectmenu.return_invalid = true;
     selectmenu.text = _("Vehicle controls");
     selectmenu.entries = options_message;
-    selectmenu.selected = letgoent;
     selectmenu.query();
     int select = selectmenu.ret;
 
@@ -628,24 +615,39 @@ void vehicle::use_controls()
         break;
     case convert_vehicle:
     {
+        if(g->u.controlling_vehicle) {
+            g->add_msg(_("As the pitiless metal bars close on your nether regions, you reconsider trying to fold the bicycle while riding it."));
+            break;
+        }
         g->add_msg(_("You painstakingly pack the bicycle into a portable configuration."));
         // create a folding bicycle item
         item bicycle;
         bicycle.make( itypes["folding_bicycle"] );
 
-        std::ostringstream part_hps;
-        // Stash part HP in item
-        for (int p = 0; p < parts.size(); p++)
-        {
-            part_hps << parts[p].hp << " ";
+        // Drop stuff in containers on ground
+        for (int p = 0; p < parts.size(); p++) {
             if( part_flag( p, "CARGO" ) ) {
                 for( std::vector<item>::iterator it = parts[p].items.begin();
                      it != parts[p].items.end(); ++it ) {
                     g->m.add_item_or_charges( g->u.posx, g->u.posy, *it );
                 }
+                parts[p].items.clear();
             }
         }
-        bicycle.item_vars["folding_bicycle_parts"] = part_hps.str();
+
+        // Store data of all parts, iuse::unfold_bicyle only loads
+        // some of them (like bigness), some are expect to be
+        // vehicle specific and therefor constant (like id, mount_dx).
+        // Writing everything here is easier to manage, as only
+        // iuse::unfold_bicyle has to adopt to changes.
+        try {
+            std::ostringstream veh_data;
+            JsonOut json(veh_data);
+            json.write(parts);
+            bicycle.item_vars["folding_bicycle_parts"] = veh_data.str();
+        } catch(std::string e) {
+            debugmsg("Error storing vehicle: %s", e.c_str());
+        }
 
         g->m.add_item_or_charges(g->u.posx, g->u.posy, bicycle);
         // Remove vehicle
@@ -677,6 +679,7 @@ void vehicle::use_controls()
 
 void vehicle::start_engine()
 {
+    bool muscle_powered = false;
     // TODO: Make chance of success based on engine condition.
     for(int p = 0; p < engines.size(); p++) {
         if(parts[engines[p]].hp > 0) {
@@ -685,15 +688,15 @@ void vehicle::start_engine()
                 if(engine_power < 50) {
                     // Small engines can be pull-started
                     engine_on = true;
-                }
-                else {
+                } else {
                     // Starter motor battery draw proportional to engine power
                     if(!discharge_battery(engine_power / 10)) {
                         engine_on = true;
                     }
                 }
-            }
-            else {
+            } else if (part_info(engines[p]).fuel_type == fuel_type_muscle) {
+                muscle_powered = true;
+            } else {
                 // Electric & plasma engines
                 engine_on = true;
             }
@@ -702,8 +705,7 @@ void vehicle::start_engine()
 
     if(engine_on == true) {
         g->add_msg(_("The %s's engine starts up."), name.c_str());
-    }
-    else {
+    } else if (!muscle_powered) {
         g->add_msg (_("The %s's engine fails to start."), name.c_str());
     }
 }
@@ -1526,7 +1528,7 @@ nc_color vehicle::part_color (int p)
     }
 
     // curtains turn windshields gray
-    int curtains = part_with_feature(p, VPFLAG_CURTIAN, false);
+    int curtains = part_with_feature(p, VPFLAG_CURTAIN, false);
     if (curtains >= 0) {
         if (part_with_feature(p, VPFLAG_WINDOW, true) >= 0 && !parts[curtains].open)
             col = part_info(curtains).color;
@@ -1620,33 +1622,34 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
     return y;
 }
 
-void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool verbose)
+void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool verbose, bool desc)
 {
     WINDOW *win = (WINDOW *) w;
     const nc_color fcs[num_fuel_types] = { c_ltred, c_yellow, c_ltgreen, c_ltblue, c_ltcyan };
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_ltgray;
-    int yofs=0;
-    for (int i = 0; i < num_fuel_types; i++)
-    {
+    int yofs = 0;
+    for (int i = 0; i < num_fuel_types; i++) {
         int cap = fuel_capacity(fuel_types[i]);
-        if (cap > 0 && ( basic_consumption(fuel_types[i]) > 0 || fullsize ) )
-        {
-            mvwprintz(win, y+yofs, x, col_indf1, "E...F");
+        if (cap > 0 && ( basic_consumption(fuel_types[i]) > 0 || fullsize ) ) {
+            mvwprintz(win, y + yofs, x, col_indf1, "E...F");
             int amnt = cap > 0? fuel_left(fuel_types[i]) * 99 / cap : 0;
             int indf = (amnt / 20) % 5;
-            mvwprintz(win, y+yofs, x + indf, fcs[i], "%c", fsyms[indf]);
-            if(verbose) {
-              if(g->debugmon) {
-                mvwprintz(win, y+yofs, x+6, fcs[i], "%d/%d",fuel_left(fuel_types[i]),cap);
-              } else {
-                mvwprintz(win, y+yofs, x+6, fcs[i], "%d",(fuel_left(fuel_types[i])*100)/cap);
-                wprintz(win, c_ltgray, "%c",045);
-              }
-              wprintz(win, c_ltgray, " - %s", ammo_name(fuel_types[i]).c_str() );
-
+            mvwprintz(win, y + yofs, x + indf, fcs[i], "%c", fsyms[indf]);
+            if (verbose) {
+                if (g->debugmon) {
+                    mvwprintz(win, y + yofs, x + 6, fcs[i], "%d/%d", fuel_left(fuel_types[i]), cap);
+                } else {
+                    mvwprintz(win, y + yofs, x + 6, fcs[i], "%d", (fuel_left(fuel_types[i]) * 100) / cap);
+                    wprintz(win, c_ltgray, "%c", 045);
+                }
             }
-            if(fullsize) yofs++;
+            if (desc) {
+                wprintz(win, c_ltgray, " - %s", ammo_name(fuel_types[i]).c_str() );
+            }
+            if (fullsize) {
+                yofs++;
+            }
         }
     }
 }
@@ -1962,7 +1965,6 @@ int vehicle::safe_velocity (bool fueled)
 int vehicle::noise (bool fueled, bool gas_only)
 {
     int pwrs = 0;
-    int cnt = 0;
     int muffle = 100;
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, "MUFFLER") && parts[p].hp > 0 && part_info(p).bonus < muffle) {
@@ -1974,23 +1976,27 @@ int vehicle::noise (bool fueled, bool gas_only)
         if (part_flag(p, "ENGINE") &&
             (fuel_left (part_info(p).fuel_type) || !fueled ||
              part_info(p).fuel_type == fuel_type_muscle) &&
-            parts[p].hp > 0)
-        {
+            parts[p].hp > 0)  {
             int nc = 10;
 
-            if( part_info(p).fuel_type == fuel_type_gasoline )    nc = 25;
-            else if( part_info(p).fuel_type == fuel_type_plasma ) nc = 10;
-            else if( part_info(p).fuel_type == fuel_type_battery )   nc = 3;
-            else if( part_info(p).fuel_type == fuel_type_muscle ) nc = 5;
+            if( part_info(p).fuel_type == fuel_type_gasoline ) {
+                nc = 25;
+            } else if( part_info(p).fuel_type == fuel_type_plasma ) {
+                nc = 10;
+            } else if( part_info(p).fuel_type == fuel_type_battery ) {
+                nc = 3;
+            } else if( part_info(p).fuel_type == fuel_type_muscle ) {
+                nc = 5;
+            }
 
-            if (!gas_only || part_info(p).fuel_type == fuel_type_gasoline)
-            {
+            if (!gas_only || part_info(p).fuel_type == fuel_type_gasoline) {
                 int pwr = part_power(p) * nc / 100;
                 if (muffle < 100 && (part_info(p).fuel_type == fuel_type_gasoline ||
-                    part_info(p).fuel_type == fuel_type_plasma))
+                                     part_info(p).fuel_type == fuel_type_plasma)) {
                     pwr = pwr * muffle / 100;
-                pwrs += pwr;
-                cnt++;
+                }
+                // Only the loudest engine counts.
+                pwrs = std::max(pwrs, pwr);
             }
         }
     }
@@ -2463,6 +2469,11 @@ void vehicle::thrust (int thd) {
           g->add_msg (_("The %s's engine isn't on!"), name.c_str());
           cruise_velocity = 0;
           return;
+        } else if (pedals()) {
+            if (g->u.has_bionic("bio_torsionratchet")
+                && g->turn.get_turn() % 60 == 0) {
+                g->u.charge_power(1);
+            }
         }
 
         consume_fuel ();
@@ -3599,7 +3610,9 @@ int vehicle::damage_direct (int p, int dmg, int type)
                 if (type == 2 ||
                     (one_in (ft == fuel_type_gasoline ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
                 {
-                    g->u.add_memorial_log(_("The fuel tank of the %s exploded!"), name.c_str());
+                    g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
+                        pgettext("memorial_female", "The fuel tank of the %s exploded!"),
+                        name.c_str());
                     g->explosion (global_x() + parts[p].precalc_dx[0], global_y() + parts[p].precalc_dy[0],
                                 pow, 0, ft == fuel_type_gasoline);
                     parts[p].hp = 0;
@@ -3724,30 +3737,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];
     // code copied form mattack::smg, mattack::flamethrower
-    int t, fire_t = 0;
-    monster *target = 0;
     int range = ammo.type == fuel_type_gasoline ? 5 : 12;
-    int closest = range + 1;
-    for (int i = 0; i < g->num_zombies(); i++) {
-        int dist = rl_dist( x, y, g->zombie(i).posx(), g->zombie(i).posy() );
-        if (g->zombie(i).friendly == 0 && dist < closest &&
-              !g->zombie(i).is_hallucination() &&
-              g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t) ) {
-            target = &(g->zombie(i));
-            closest = dist;
-            fire_t = t;
-        }
-    }
-    if( !target ) {
-        return false;
-    }
-
-    std::vector<point> traj = line_to( x, y, target->posx(), target->posy(), fire_t );
-    for( int i = 0; i < traj.size(); i++ ) {
-        if( traj[i].x == g->u.posx && traj[i].y == g->u.posy ) {
-            return false; // won't shoot at player
-        }
-    }
 
     // Check for available power for turrets that use it.
     const int power = fuel_left(fuel_type_battery);
@@ -3757,14 +3747,6 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
         if( power < 20 ) { return false; }
     } else if( gun.item_tags.count( "USE_UPS_40" ) ) {
         if( power < 40 ) { return false; }
-    }
-    // make a noise, if extra noise is to be made
-    if (extra_sound != "") {
-        g->sound(x, y, 20, extra_sound);
-    }
-    // notify player if player can see the shot
-    if( g->u_see(x, y) ) {
-        g->add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }
     npc tmp;
     tmp.set_fake( true );
@@ -3781,19 +3763,40 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     it_ammo curam = ammo;
     tmp.weapon.curammo = &curam;
     tmp.weapon.charges = charges;
+
+    const bool u_see = g->u_see(x, y);
+
+    int fire_t, boo_hoo;
+    Creature *target = tmp.auto_find_hostile_target(range, boo_hoo, fire_t);
+    if (target == NULL) {
+        if (u_see) {
+            if (boo_hoo > 1) {
+                g->add_msg(_("%s points in your direction and emits %d annoyed sounding beeps."),
+                tmp.name.c_str(), boo_hoo);
+            } else if (boo_hoo > 0) {
+                g->add_msg(_("%s points in your direction and emits an IFF warning beep."),
+                tmp.name.c_str());
+            }
+        }
+        return false;
+    }
+
+    // make a noise, if extra noise is to be made
+    if (extra_sound != "") {
+        g->sound(x, y, 20, extra_sound);
+    }
+    // notify player if player can see the shot
+    if( g->u_see(x, y) ) {
+        g->add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
+    }
     // Spawn a fake UPS to power any turreted weapons that need electricity.
     item tmp_ups( itypes["UPS_on"], 0 );
     // Drain a ton of power
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
     item &ups_ref = tmp.i_add(tmp_ups);
-    g->fire( tmp, target->posx(), target->posy(), traj, true );
-    // Rturn whatever is left.
+    tmp.fire_gun(target->xpos(), target->ypos(), true);
+    // Return whatever is left.
     refill( fuel_type_battery, ups_ref.charges );
-    if( ammo.type == fuel_type_gasoline ) {
-        for( int i = 0; i < traj.size(); i++ ) {
-            g->m.add_field(traj[i].x, traj[i].y, fd_fire, 1);
-        }
-    }
 
     return true;
 }

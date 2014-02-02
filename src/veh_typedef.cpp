@@ -152,6 +152,12 @@ void game::load_vehiclepart(JsonObject &jo)
     vehicle_part_int_types.push_back(next_part);
 }
 
+void game::reset_vehicleparts()
+{
+    vehicle_part_types.clear();
+    vehicle_part_int_types.clear();
+}
+
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
  */
@@ -163,8 +169,6 @@ void game::load_vehicle(JsonObject &jo)
     vproto->id = jo.get_string("id");
     vproto->name = jo.get_string("name");
 
-    std::map<point, bool> cargo_spots;
-
     JsonArray parts = jo.get_array("parts");
     point pxy;
     std::string pid;
@@ -173,9 +177,6 @@ void game::load_vehicle(JsonObject &jo)
         pxy = point(part.get_int("x"), part.get_int("y"));
         pid = part.get_string("part");
         vproto->parts.push_back(std::pair<point, std::string>(pxy, pid));
-        if ( vehicle_part_types[pid].has_flag("CARGO") ) {
-            cargo_spots[pxy] = true;
-        }
     }
 
     JsonArray items = jo.get_array("items");
@@ -187,9 +188,6 @@ void game::load_vehicle(JsonObject &jo)
         next_spawn.chance = spawn_info.get_int("chance");
         if(next_spawn.chance <= 0 || next_spawn.chance > 100) {
             debugmsg("Invalid spawn chance in %s (%d, %d): %d%%",
-                vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
-        } else if ( cargo_spots.find( point(next_spawn.x, next_spawn.y) ) == cargo_spots.end() ) {
-            debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
                 vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
         }
         if(spawn_info.has_array("items")) {
@@ -216,6 +214,16 @@ void game::load_vehicle(JsonObject &jo)
 
     vehprototypes.push(vproto);
 }
+
+void game::reset_vehicles()
+{
+    for (std::map<std::string, vehicle*>::iterator veh = vtypes.begin(); veh != vtypes.end(); ++veh){
+        delete veh->second;
+    }
+    vtypes.clear();
+}
+
+
 /**
  *Works through cached vehicle definitions and creates vehicle objects from them.
  */
@@ -225,7 +233,10 @@ void game::finalize_vehicles()
     std::string part_id = "";
     vehicle *next_vehicle;
 
+    std::map<point, bool> cargo_spots;
+
     while (vehprototypes.size() > 0){
+        cargo_spots.clear();
         vehicle_prototype *proto = vehprototypes.front();
         vehprototypes.pop();
 
@@ -245,12 +256,22 @@ void game::finalize_vehicles()
                         next_vehicle->name.c_str(), part_id.c_str(),
                         next_vehicle->parts.size(), part_x, part_y);
             }
+            if ( vehicle_part_types[part_id].has_flag("CARGO") ) {
+                cargo_spots[p] = true;
+            }
         }
 
         for (int i = 0; i < proto->item_spawns.size(); i++) {
+            if (cargo_spots.find(point(proto->item_spawns[i].x, proto->item_spawns[i].y)) == cargo_spots.end()){
+                debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
+                         proto->name.c_str(), proto->item_spawns[i].x, proto->item_spawns[i].y, proto->item_spawns[i].chance);
+            }
             next_vehicle->item_spawns.push_back(proto->item_spawns[i]);
         }
 
+        if (vtypes.count(next_vehicle->type) > 0) {
+            delete vtypes[next_vehicle->type];
+        }
         vtypes[next_vehicle->type] = next_vehicle;
         delete proto;
     }
@@ -277,7 +298,7 @@ void init_vpart_bitflag_map() {
     vpart_bitflag_map["FUEL_TANK"]= VPFLAG_FUEL_TANK;
     vpart_bitflag_map["LIGHT"]=     VPFLAG_LIGHT;
     vpart_bitflag_map["WINDOW"]=     VPFLAG_WINDOW;
-    vpart_bitflag_map["CURTIAN"]=     VPFLAG_CURTIAN;
+    vpart_bitflag_map["CURTAIN"]=     VPFLAG_CURTAIN;
     vpart_bitflag_map["CARGO"]=     VPFLAG_CARGO;
     vpart_bitflag_map["INTERNAL"]=     VPFLAG_INTERNAL;
     vpart_bitflag_map["SOLAR_PANEL"]=     VPFLAG_SOLAR_PANEL;

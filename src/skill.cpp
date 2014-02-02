@@ -29,9 +29,24 @@ Skill::Skill(size_t id, std::string ident, std::string name, std::string descrip
 
 std::vector<Skill*> Skill::skills;
 
+void Skill::reset()
+{
+    for(std::vector<Skill*>::iterator a = skills.begin(); a != skills.end(); ++a) {
+        delete *a;
+    }
+    skills.clear();
+}
+
 void Skill::load_skill(JsonObject &jsobj)
 {
     std::string ident = jsobj.get_string("ident");
+    for(std::vector<Skill*>::iterator a = skills.begin(); a != skills.end(); ++a) {
+        if ((*a)->_ident == ident) {
+            delete *a;
+            skills.erase(a);
+            break;
+        }
+    }
     std::string name = _(jsobj.get_string("name").c_str());
     std::string description = _(jsobj.get_string("description").c_str());
 
@@ -83,6 +98,10 @@ size_t Skill::skill_count() {
   return Skill::skills.size();
 }
 
+// used for the pacifist trait
+bool Skill::is_combat_skill() const {
+  return this->_tags.find("combat_skill") != this->_tags.end();
+}
 
 SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPracticed)
 {

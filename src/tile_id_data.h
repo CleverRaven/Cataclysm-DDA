@@ -80,7 +80,7 @@ const std::string monster_names[num_monsters] =
     toString(mon_zombie_electric),
     toString(mon_zombie_smoker),
     toString(mon_zombie_swimmer),
-    toString(mon_zombie_fast),
+    toString(mon_zombie_dog),
     toString(mon_zombie_brute),
     toString(mon_zombie_hulk),
     toString(mon_zombie_fungus),

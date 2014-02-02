@@ -19,19 +19,20 @@ MonsterGenerator::MonsterGenerator()
 
 MonsterGenerator::~MonsterGenerator()
 {
-    //dtor
-    if (mon_templates.size() > 0){
-        for (std::map<std::string, mtype*>::iterator types = mon_templates.begin(); types != mon_templates.end(); ++types){
-            delete types->second;
-        }
-        mon_templates.clear();
+    reset();
+}
+
+void MonsterGenerator::reset() {
+    for (std::map<std::string, mtype*>::iterator types = mon_templates.begin(); types != mon_templates.end(); ++types){
+        delete types->second;
     }
-    if (mon_species.size() > 0){
-        for (std::map<std::string, species_type*>::iterator specs = mon_species.begin(); specs != mon_species.end(); ++specs){
-            delete specs->second;
-        }
-        mon_species.clear();
+    mon_templates.clear();
+    for (std::map<std::string, species_type*>::iterator specs = mon_species.begin(); specs != mon_species.end(); ++specs){
+        delete specs->second;
     }
+    mon_species.clear();
+    mon_templates["mon_null"] = new mtype();
+    mon_species["spec_null"] = new species_type();
 }
 
 void MonsterGenerator::finalize_mtypes()
@@ -250,6 +251,7 @@ void MonsterGenerator::init_flags() {
     flag_map["FEATHER"] = MF_FEATHER;
     flag_map["CBM"] = MF_CBM;
     flag_map["BONES"] = MF_BONES;
+    flag_map["FAT"] = MF_FAT;
     flag_map["IMMOBILE"] = MF_IMMOBILE;
     flag_map["FRIENDLY_SPECIAL"] = MF_FRIENDLY_SPECIAL;
     flag_map["HIT_AND_RUN"] = MF_HIT_AND_RUN;
@@ -273,6 +275,9 @@ void MonsterGenerator::load_monster(JsonObject &jo)
     std::string mid;
     if (jo.has_member("id")){
         mid = jo.get_string("id");
+        if (mon_templates.count(mid) > 0) {
+            delete mon_templates[mid];
+        }
 
         mtype *newmon = new mtype;
 
@@ -329,6 +334,9 @@ void MonsterGenerator::load_species(JsonObject &jo)
     std::string sid;
     if (jo.has_member("id")){
         sid = jo.get_string("id");
+        if (mon_species.count(sid) > 0) {
+            delete mon_species[sid];
+        }
 
         std::set<std::string> sflags, sanger, sfear, splacate;
         sflags = jo.get_tags("flags");
@@ -351,6 +359,11 @@ void MonsterGenerator::load_species(JsonObject &jo)
 mtype *MonsterGenerator::get_mtype(std::string mon)
 {
     static mtype *default_montype = mon_templates["mon_null"];
+
+    if (mon == "mon_zombie_fast")
+    {
+        mon = "mon_zombie_dog";
+    }
 
     if (mon_templates.find(mon) != mon_templates.end())
     {

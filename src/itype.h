@@ -37,11 +37,8 @@ enum item_cat
 };
 
 typedef std::string itype_id;
-extern std::vector<std::string> unreal_itype_ids;
-extern std::vector<std::string> martial_arts_itype_ids;
 extern std::vector<std::string> artifact_itype_ids;
 extern std::vector<std::string> standard_itype_ids;
-extern std::vector<std::string> pseudo_itype_ids;
 
 // see item_factory.h
 class item_category;
@@ -198,6 +195,7 @@ struct itype
   light_emission = 0;
   use         = &iuse::none;
  }
+ virtual ~itype() {}
 };
 
 // Includes food drink and drugs
@@ -277,7 +275,9 @@ struct it_var_veh_part: public itype
  // TODO? geometric mean: nth root of product
  unsigned int min_bigness; //CC's
  unsigned int max_bigness;
+ bool engine;
 
+ it_var_veh_part() { }
  it_var_veh_part(std::string pid, unsigned int pprice,
         std::string pname, std::string pdes,
         char psym, nc_color pcolor, std::string pm1, std::string pm2,
@@ -286,20 +286,17 @@ struct it_var_veh_part: public itype
 
         unsigned int big_min,
         unsigned int big_max,
-        bigness_property_aspect big_aspect)
+        bigness_property_aspect big_aspect, bool pengine)
 :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   min_bigness = big_min;
   max_bigness = big_max;
   bigness_aspect = big_aspect;
+  engine = pengine;
  }
  virtual bool is_var_veh_part(){return true;}
  virtual bool is_wheel()          { return false; }
- virtual bool is_engine() {
-  //FIX ME OH FUCKING GOD NOT EVERYTING SHOULD BE AN ENGINE
-  // TODO: glyphgryph
-  return true;
- }
+ virtual bool is_engine() { return engine; }
 };
 
 
@@ -372,7 +369,6 @@ struct it_gun : public itype
 
  std::set<std::string> ammo_effects;
  std::map<std::string, int> valid_mod_locations;
- std::map<std::string, int> available_mod_locations;
 
  virtual bool is_gun() { return true; }
 
@@ -451,7 +447,7 @@ struct it_gunmod : public itype
 
  :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
         pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
-  
+
   dispersion = pdispersion;
   damage = pdamage;
   loudness = ploudness;
@@ -634,23 +630,20 @@ struct it_tool : public itype
 
 struct it_bionic : public itype
 {
- std::vector<bionic_id> options;
  int difficulty;
 
  virtual bool is_bionic()    { return true; }
-
+ it_bionic() { }
  it_bionic(std::string pid, unsigned int pprice,
            std::string pname, std::string pdes,
            char psym, nc_color pcolor, std::string pm1, std::string pm2,
            unsigned int pvolume, unsigned int pweight,
            signed char pmelee_dam, signed char pmelee_cut,
            signed char pm_to_hit,
-
            int pdifficulty)
  :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
         pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
    difficulty = pdifficulty;
-   options.push_back(id);
  }
 };
 

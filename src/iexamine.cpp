@@ -1171,25 +1171,63 @@ void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy) {
 
  p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
  p->activity.placement = point(examx, examy);
- p->moves = 0;
+}
+
+int sum_up_item_weight_by_material(std::vector<item> &items, const std::string &material, bool remove_items) {
+    int sum_weight = 0;
+    for (int i = items.size() - 1; i >= 0; i--) {
+        const item &it = items[i];
+        if (it.made_of(material) && it.weight() > 0) {
+            sum_weight += it.weight();
+            if (remove_items) {
+                items.erase(items.begin() + i);
+            }
+        }
+    }
+    return sum_weight;
+}
+
+void add_recyle_menu_entry(uimenu &menu, int w, char hk, const std::string &type) {
+    const itype *itt = item_controller->find_template(type);
+    menu.entries.push_back(
+        uimenu_entry(
+            menu.entries.size() + 1, // value return by uimenu for this entry
+            true, // enabled
+            hk, // hotkey
+            string_format(_("about %d %s"), (int) (w / itt->weight), itt->name.c_str())
+        )
+    );
 }
 
 void iexamine::recycler(player *p, map *m, int examx, int examy) {
-
-    if (m->i_at(examx, examy).size() == 0)
-    {
-        g->add_msg(_("The recycler is currently empty.  Drop some metal items onto it and examine it again."));
-        return;
-    }
-
-    int ch = menu(true, _("Recycle metal into?:"), _("Lumps"), _("Sheets"),
-                  _("Chunks"), _("Scraps"), _("Cancel"), NULL);
+    std::vector<item> &items_on_map = m->i_at(examx, examy);
 
     // check for how much steel, by weight, is in the recycler
     // only items made of STEEL are checked
     // IRON and other metals cannot be turned into STEEL for now
-
-    int steel_weight = 0;
+    int steel_weight = sum_up_item_weight_by_material(items_on_map, "steel", false);
+    if (steel_weight == 0)
+    {
+        g->add_msg(_("The recycler is currently empty.  Drop some metal items onto it and examine it again."));
+        return;
+    }
+    // See below for recover_factor (rng(6,9)/10), this
+    // is the normal value of that recover factor.
+    static const double norm_recover_factor = 8.0 / 10.0;
+    const int norm_recover_weight = steel_weight * norm_recover_factor;
+    uimenu as_m;
+    // Get format for printing weights, convert weight to that format,
+    const std::string format = OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _("%.3f lbs") : _("%.3f kg");
+    const std::string weight_str = string_format(format, g->u.convert_weight(steel_weight));
+    as_m.text = string_format(_("Recycle %s metal into:"), weight_str.c_str());
+    add_recyle_menu_entry(as_m, norm_recover_weight, 'l', "steel_lump");
+    add_recyle_menu_entry(as_m, norm_recover_weight, 'S', "sheet_metal");
+    add_recyle_menu_entry(as_m, norm_recover_weight, 'c', "steel_chunk");
+    add_recyle_menu_entry(as_m, norm_recover_weight, 's', "scrap");
+    as_m.entries.push_back(uimenu_entry(0, true, 'c', _("Cancel")));
+    as_m.selected = 4;
+    as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
+    int ch = as_m.ret;
     int num_lumps = 0;
     int num_sheets = 0;
     int num_chunks = 0;
@@ -1201,24 +1239,12 @@ void iexamine::recycler(player *p, map *m, int examx, int examy) {
         return;
     }
 
-    for (int i = 0; i < m->i_at(examx, examy).size(); i++)
-    {
-        item *it = &(m->i_at(examx, examy)[i]);
-        if (it->made_of("steel"))
-            steel_weight += it->weight();
-        m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
-        i--;
-    }
+    // Sum up again, this time remove the items,
+    // ignore result, should be the same as before.
+    sum_up_item_weight_by_material(items_on_map, "steel", true);
 
     double recover_factor = rng(6, 9) / 10.0;
     steel_weight = (int)(steel_weight * recover_factor);
-
-    if (steel_weight < 113)
-    {
-        g->add_msg(_("The recycler chews up all the items in its hopper."));
-        g->add_msg(_("The recycler beeps: \"No steel to process!\""));
-        return;
-    }
 
     g->sound(examx, examy, 80, _("Ka-klunk!"));
 
@@ -1226,6 +1252,13 @@ void iexamine::recycler(player *p, map *m, int examx, int examy) {
     int sheet_weight = item_controller->find_template("sheet_metal")->weight;
     int chunk_weight = item_controller->find_template("steel_chunk")->weight;
     int scrap_weight = item_controller->find_template("scrap")->weight;
+
+    if (steel_weight < scrap_weight)
+    {
+        g->add_msg(_("The recycler chews up all the items in its hopper."));
+        g->add_msg(_("The recycler beeps: \"No steel to process!\""));
+        return;
+    }
 
     switch(ch)
     {

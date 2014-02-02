@@ -69,199 +69,30 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
         }
     }
 
-    oter_id terrain_type, t_north, t_neast, t_east, t_seast, t_south,
-            t_nwest, t_west, t_swest, t_above;
     unsigned zones = 0;
-    int overx = x / 2;
-    int overy = y / 2;
-    const regional_settings * rsettings = NULL;
-    if ( x >= OMAPX * 2 || x < 0 || y >= OMAPY * 2 || y < 0) {
-        dbg(D_INFO) << "map::generate: In section 1";
-
-        // This happens when we're at the very edge of the overmap, and are generating
-        // terrain for the adjacent overmap.
-        int sx = 0, sy = 0;
-        overx = (x % (OMAPX * 2)) / 2;
-        if (x >= OMAPX * 2) {
-            sx = 1;
-        }
-        if (x < 0) {
-            sx = -1;
-            overx = (OMAPX * 2 + x) / 2;
-        }
-        overy = (y % (OMAPY * 2)) / 2;
-        if (y >= OMAPY * 2) {
-            sy = 1;
-        }
-        if (y < 0) {
-            overy = (OMAPY * 2 + y) / 2;
-            sy = -1;
-        }
-        overmap tmp = overmap_buffer.get(om->pos().x + sx, om->pos().y + sy);
-        terrain_type = tmp.ter(overx, overy, z);
-        rsettings = &tmp.get_settings(overx, overy, z);
-
-        //zones = tmp.zones(overx, overy);
-        t_above = tmp.ter(overx, overy, z + 1);
-
-        if (overy - 1 >= 0) {
-            t_north = tmp.ter(overx, overy - 1, z);
-        } else {
-            t_north = om->ter(overx, OMAPY - 1, z);
-        }
-
-        if (overy - 1 >= 0 && overx + 1 < OMAPX) {
-            t_neast = tmp.ter(overx + 1, overy - 1, z);
-        } else if (overy - 1 >= 0) {
-            t_neast = om->ter(0, overy - 1, z);
-        } else if (overx + 1 < OMAPX) {
-            t_neast = om->ter(overx + 1, OMAPY - 1, z);
-        } else {
-            t_neast = om->ter(0, OMAPY - 1, z);
-        }
-
-        if (overx + 1 < OMAPX) {
-            t_east = tmp.ter(overx + 1, overy, z);
-        } else {
-            t_east = om->ter(0, overy, z);
-        }
-
-        if (overy + 1 < OMAPY && overx + 1 < OMAPX) {
-            t_seast = tmp.ter(overx + 1, overy + 1, z);
-        } else if (overy + 1 < OMAPY) {
-            t_seast = om->ter(0, overy + 1, z);
-        } else if (overx + 1 < OMAPX) {
-            t_seast = om->ter(overx + 1, 0, z);
-        } else {
-            t_seast = om->ter(0, 0, z);
-        }
-
-        if (overy + 1 < OMAPY) {
-            t_south = tmp.ter(overx, overy + 1, z);
-        } else {
-            t_south = om->ter(overx, 0, z);
-        }
-
-        if (overy - 1 >= 0 && overx - 1 >= 0) {
-            t_nwest = tmp.ter(overx - 1, overy - 1, z);
-        } else if (overy - 1 >= 0) {
-            t_nwest = om->ter(OMAPX - 1, overy - 1, z);
-        } else if (overx - 1 >= 0) {
-            t_nwest = om->ter(overx - 1, OMAPY - 1, z);
-        } else {
-            t_nwest = om->ter(OMAPX - 1, OMAPY - 1, z);
-        }
-
-        if (overx - 1 >= 0) {
-            t_west = tmp.ter(overx - 1, overy, z);
-        } else {
-            t_west = om->ter(OMAPX - 1, overy, z);
-        }
-
-        if (overy + 1 < OMAPY && overx - 1 >= 0) {
-            t_swest = tmp.ter(overx - 1, overy + 1, z);
-        } else if (overy + 1 < OMAPY) {
-            t_swest = om->ter(OMAPX - 1, overy + 1, z);
-        } else if (overx - 1 >= 0) {
-            t_swest = om->ter(overx - 1, 0, z);
-        } else {
-            t_swest = om->ter(OMAPX - 1, 0, z);
-        }
-
-    } else {
-        dbg(D_INFO) << "map::generate: In section 2";
-
-        t_above = om->ter(overx, overy, z + 1);
-        terrain_type = om->ter(overx, overy, z);
-        rsettings = &om->get_settings(overx, overy, z);
-
-        if (overy - 1 >= 0) {
-            t_north = om->ter(overx, overy - 1, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y - 1);
-            t_north = tmp.ter(overx, OMAPY - 1, z);
-        }
-
-        if (overy - 1 >= 0 && overx + 1 < OMAPX) {
-            t_neast = om->ter(overx + 1, overy - 1, z);
-        } else if (overy - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y - 1);
-            t_neast = tmp.ter(0, overy - 1, z);
-        } else if (overx + 1 < OMAPX) {
-            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y);
-            t_neast = tmp.ter(overx + 1, OMAPY - 1, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y - 1);
-            t_neast = tmp.ter(0, OMAPY - 1, z);
-        }
-
-        if (overx + 1 < OMAPX) {
-            t_east = om->ter(overx + 1, overy, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y);
-            t_east = tmp.ter(0, overy, z);
-        }
-
-        if (overy + 1 < OMAPY && overx + 1 < OMAPX) {
-            t_seast = om->ter(overx + 1, overy + 1, z);
-        } else if (overy + 1 < OMAPY) {
-            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y + 1);
-            t_seast = tmp.ter(0, overy + 1, z);
-        } else if (overx + 1 < OMAPX) {
-            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y);
-            t_seast = tmp.ter(overx + 1, 0, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y + 1);
-            t_seast = tmp.ter(0, 0, z);
-        }
-
-        if (overy + 1 < OMAPY) {
-            t_south = om->ter(overx, overy + 1, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y + 1);
-            t_south = tmp.ter(overx, 0, z);
-        }
-
-        if (overy - 1 >= 0 && overx - 1 >= 0) {
-            t_nwest = om->ter(overx - 1, overy - 1, z);
-        } else if (overy - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y - 1);
-            t_nwest = tmp.ter(OMAPX - 1, overy - 1, z);
-        } else if (overx - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y);
-            t_nwest = tmp.ter(overx - 1, OMAPY - 1, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y - 1);
-            t_nwest = tmp.ter(OMAPX - 1, OMAPY - 1, z);
-        }
-
-        if (overx - 1 >= 0) {
-            t_west = om->ter(overx - 1, overy, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y);
-            t_west = tmp.ter(OMAPX - 1, overy, z);
-        }
-
-        if (overy + 1 < OMAPY && overx - 1 >= 0) {
-            t_swest = om->ter(overx - 1, overy + 1, z);
-        } else if (overy + 1 < OMAPY) {
-            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y + 1);
-            t_swest = tmp.ter(OMAPX - 1, overy + 1, z);
-        } else if (overx - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y);
-            t_swest = tmp.ter(overx - 1, 0, z);
-        } else {
-            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y + 1);
-            t_swest = tmp.ter(OMAPX - 1, 0, z);
-        }
-    }
+    // x, and y are submap coordinates, local to om -> make them global,
+    // than convert to overmap terrain coordinates
+    int overx = x + om->pos().x * OMAPX * 2;
+    int overy = y + om->pos().y * OMAPY * 2;
+    overmapbuffer::sm_to_omt(overx, overy);
+    const regional_settings *rsettings = &overmap_buffer.get_settings(overx, overy, z);
+    oter_id t_above = overmap_buffer.ter(overx, overy, z + 1);
+    oter_id terrain_type = overmap_buffer.ter(overx, overy, z);
+    oter_id t_north = overmap_buffer.ter(overx, overy - 1, z);
+    oter_id t_neast = overmap_buffer.ter(overx + 1, overy - 1, z);
+    oter_id t_east = overmap_buffer.ter(overx + 1, overy, z);
+    oter_id t_seast = overmap_buffer.ter(overx + 1, overy + 1, z);
+    oter_id t_south = overmap_buffer.ter(overx, overy + 1, z);
+    oter_id t_nwest = overmap_buffer.ter(overx - 1, overy - 1, z);
+    oter_id t_west = overmap_buffer.ter(overx - 1, overy, z);
+    oter_id t_swest = overmap_buffer.ter(overx - 1, overy + 1, z);
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimiters sparse.
     float density = 0.0;
     for (int i = overx - MON_RADIUS; i <= overx + MON_RADIUS; i++) {
         for (int j = overy - MON_RADIUS; j <= overy + MON_RADIUS; j++) {
-            density += otermap[om->ter(i, j, z)].mondensity;
+            density += otermap[overmap_buffer.ter(i, j, z)].mondensity;
         }
     }
     density = density / 100;
@@ -311,6 +142,7 @@ std::map<std::string, std::map<int, int> > oter_mapgen_weights;
  * setup oter_mapgen_weights which which mapgen uses to diceroll. Also setup mapgen_function_json
  */
 void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup too
+    oter_mapgen_weights.clear();
     for( std::map<std::string, std::vector<mapgen_function*> >::const_iterator oit = oter_mapgen.begin(); oit != oter_mapgen.end(); ++oit ) {
         int funcnum = 0;
         int wtotal = 0;
@@ -461,6 +293,23 @@ void load_mapgen( JsonObject &jo ) {
     } else {
         debugmsg("mapgen entry requires \"om_terrain\": \"something\", or \"om_terrain\": [ \"list\", \"of\" \"somethings\" ]\n%s\n", jo.str().c_str() );
     }
+}
+
+void reset_mapgens()
+{
+    // Because I don't know where that pointer is stored
+    // might be at multiple locations, but we must only delete it once!
+    typedef std::set<mapgen_function*> xset;
+    xset s;
+    for(std::map<std::string, std::vector<mapgen_function*> >::iterator a = oter_mapgen.begin(); a != oter_mapgen.end(); ++a) {
+        for(std::vector<mapgen_function*>::iterator b = a->second.begin(); b != a->second.end(); ++b) {
+            s.insert(*b);
+        }
+    }
+    for(xset::iterator a = s.begin(); a != s.end(); ++a) {
+        delete *a;
+    }
+    oter_mapgen.clear();
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -655,6 +504,49 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
          tmpval = "";
      }
 }
+/*
+ * place special map terrains
+ */
+void mapgen_function_json::setup_place_special(JsonArray &parray ) {
+
+    std::string tmpval="";
+    std::string err = "";
+
+    while ( parray.has_more() ) {
+        jmapgen_int tmp_x(0,0);
+        jmapgen_int tmp_y(0,0);
+        jmapgen_int tmp_amt(0,0);
+        jmapgen_place_special_op tmpop = JMAPGEN_PLACESPECIAL_NULL;
+        JsonObject jsi = parray.next_object();
+        if ( jsi.has_string("type") ) {
+            tmpval = jsi.get_string("type");
+            if (tmpval == "toilet") {
+                tmpop = JMAPGEN_PLACESPECIAL_TOILET;
+            } else if (tmpval == "gaspump") {
+                tmpop = JMAPGEN_PLACESPECIAL_GASPUMP;
+            } else if (tmpval == "vendingmachine") {
+                tmpop = JMAPGEN_PLACESPECIAL_VENDINGMACHINE;
+            } else {
+            jsi.throw_error("  place special: no such special '%s'", tmpval.c_str() );
+            }
+        } else {
+            parray.throw_error("placing other specials is not supported yet"); return;
+        }
+        if ( ! jsi.has_member("x") || ! jsi.has_member("y") ) {
+            parray.throw_error("  place_specials: syntax error. Must be at least: { \"id\": \"(itype)\", \"x\": int, \"y\": int }");
+        }
+        if ( ! load_jmapgen_int(jsi, "x", tmp_x.val, tmp_x.valmax) ) {
+            jsi.throw_error("  place_specials: invalid value for 'x'");
+        }
+        if ( ! load_jmapgen_int(jsi, "y", tmp_y.val, tmp_y.valmax) ) {
+            jsi.throw_error("  place_specials: invalid value for 'y'");
+        }
+        load_jmapgen_int(jsi, "amount", tmp_amt.val, tmp_amt.valmax);
+        jmapgen_place_special new_special( tmp_x, tmp_y, tmpop, tmp_amt );
+        place_specials.push_back( new_special );
+        tmpval = "";
+    }
+}
 
 /*
  * Parse json, pre-calculating values for stuff, then cheerfully throw json away. Faster than regular mapf, in theory
@@ -831,6 +723,15 @@ bool mapgen_function_json::setup() {
                 throw err;
             }
        }
+       if ( jo.has_array("place_specials") ) {
+            parray = jo.get_array("place_specials");
+            try {
+                setup_place_special( parray );
+            } catch (std::string smerr) {
+                err = string_format("Bad JSON mapgen place_special array, discarding:\n  %s\n", smerr.c_str() );
+                throw err;
+            }
+       }
        if ( jo.has_array("place_groups") ) {
             parray = jo.get_array("place_groups");
             try {
@@ -899,6 +800,35 @@ void jmapgen_spawn_item::apply( map * m ) {
         for (int i = 0; i < trepeat; i++) {
             m->spawn_item( x.get(), y.get(), itype, amount.get() );
         }
+    }
+}
+
+void jmapgen_place_special::apply( map * m ) {
+    int charges = amount.get();
+    switch(op) {
+        case JMAPGEN_PLACESPECIAL_TOILET: {
+            m->furn_set(x.get(), y.get(), f_null);
+            if (charges == 0)
+                m->place_toilet(x.get(), y.get());
+            else
+                m->place_toilet(x.get(), y.get(), charges );
+        } break;
+        case JMAPGEN_PLACESPECIAL_GASPUMP: {
+            m->furn_set(x.get(), y.get(), f_null);
+            if (charges == 0)
+                m->place_gas_pump(x.get(), y.get(), rng(10000, 50000));
+            else
+                m->place_toilet(x.get(), y.get(), charges );
+        } break;
+        case JMAPGEN_PLACESPECIAL_VENDINGMACHINE: {
+            m->furn_set(x.get(), y.get(), f_null);
+            m->place_vending(x.get(), y.get(), charges);
+        } break;
+        case JMAPGEN_PLACESPECIAL_NULL:
+        default:
+        {
+            debugmsg("JSON map special not set!");
+        } break;
     }
 }
 
@@ -995,6 +925,9 @@ void mapgen_function_json::apply( map *m, oter_id terrain_type, mapgendata md, i
     }
     for( int i=0; i < place_groups.size(); i++ ) {
         place_groups[i].apply( m, d );
+    }
+    for( int i=0; i < place_specials.size(); i++ ) {
+        place_specials[i].apply( m );
     }
     for( int i=0; i < setmap_points.size(); i++ ) {
         setmap_points[i].apply( m );
@@ -2413,7 +2346,11 @@ ___DEEE|.R.|...,,...|sss\n",
             if (t_west == "office_tower_b" && t_north == "office_tower_b") {
                 rotate(1);
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("cube_van", 17, 4, 180);
+                    if (one_in(3)) {
+                        add_vehicle ("cube_van", 17, 4, 180);
+                    } else {
+                        add_vehicle ("cube_van_cheap", 17, 4, 180);
+                    }
                 }
                 if (x_in_y(1, 5)) {
                     add_vehicle ("flatbed_truck", 17, 10, 180);
@@ -2424,7 +2361,11 @@ ___DEEE|.R.|...,,...|sss\n",
             } else if (t_east == "office_tower_b" && t_north == "office_tower_b") {
                 rotate(2);
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("cube_van", 6, 17, 270);
+                    if (one_in(3)) {
+                        add_vehicle ("cube_van", 6, 17, 270);
+                    } else {
+                        add_vehicle ("cube_van_cheap", 6, 17, 270);
+                    }
                 }
                 if (x_in_y(1, 5)) {
                     add_vehicle ("flatbed_truck", 12, 17, 270);
@@ -2435,14 +2376,14 @@ ___DEEE|.R.|...,,...|sss\n",
             } else if (t_east == "office_tower_b" && t_south == "office_tower_b") {
                 rotate(3);
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("cube_van", 6, 6, 0);
+                    add_vehicle ("cube_van_cheap", 6, 6, 0);
                 }
                 if (x_in_y(1, 5)) {
                     if (one_in(3)) {
                         add_vehicle ("fire_truck", 6, 13, 0);
-                        }
-                    else
-                    add_vehicle ("flatbed_truck", 6, 13, 0);
+                    } else {
+                        add_vehicle ("flatbed_truck", 6, 13, 0);
+                    }
                 }
                 if (x_in_y(1, 3)) {
                     add_vehicle ("car", 5, 19, 180);
@@ -2452,7 +2393,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     add_vehicle ("flatbed_truck", 16, 6, 90);
                 }
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("cube_van", 10, 6, 90);
+                    add_vehicle ("cube_van_cheap", 10, 6, 90);
                 }
                 if (x_in_y(1, 3)) {
                     add_vehicle ("car", 4, 6, 90);
@@ -8656,7 +8597,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         if (one_in(10)) {
                             add_spawn("mon_zombie_child", 1, i, j);
                         } else if (one_in(15)) {
-                            add_spawn("mon_zombie_fast", 1, i, j);
+                            add_spawn("mon_zombie_dog", 1, i, j);
                         } else {
                             add_spawn("mon_zombie", 1, i, j);
                         }
@@ -8749,7 +8690,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                             if (one_in(10)) {
                                 add_spawn("mon_zombie_child", 1, i, j);
                             } else if (one_in(15)) {
-                                add_spawn("mon_zombie_fast", 1, i, j);
+                                add_spawn("mon_zombie_dog", 1, i, j);
                             } else {
                                 add_spawn("mon_zombie", 1, i, j);
                             }
@@ -8835,7 +8776,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                             if (one_in(10)) {
                                 add_spawn("mon_zombie_child", 1, i, j);
                             } else if (one_in(15)) {
-                                add_spawn("mon_zombie_fast", 1, i, j);
+                                add_spawn("mon_zombie_dog", 1, i, j);
                             } else {
                                 add_spawn("mon_zombie", 1, i, j);
                             }
@@ -8930,7 +8871,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                             if (one_in(10)) {
                                 add_spawn("mon_zombie_child", 1, i, j);
                             } else if (one_in(15)) {
-                                add_spawn("mon_zombie_fast", 1, i, j);
+                                add_spawn("mon_zombie_dog", 1, i, j);
                             } else {
                                 add_spawn("mon_zombie", 1, i, j);
                             }
@@ -9236,6 +9177,21 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         line(this, t_wall_glass_h, 0, 0, SEEX * 2 - 1, 0);
         ter_set(SEEX, 0, t_door_glass_c);
         ter_set(SEEX + 1, 0, t_door_glass_c);
+        //Vending
+        std::vector<int> vset;
+        int vnum = rng( 2, 6 );
+        for(int a = 0; a < 21; a++ ) {
+            vset.push_back(a);
+        }
+        std::random_shuffle(vset.begin(), vset.end());
+        for(int a = 0; a < vnum; a++) {
+            if (vset[a] < 12) {
+                place_vending(vset[a], 1, rng(0,1));
+            } else {
+                place_vending(vset[a] + 2, 1, rng(0,1));
+            }
+        }
+        vset.clear();
         // Long checkout lanes
         for (int x = 2; x <= 18; x += 4) {
             line_furn(this, f_counter, x, 4, x, 14);
@@ -9416,6 +9372,27 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         line_furn(this, f_bench, 20, 7, 22,  7);
         line_furn(this, f_bench, 22, 8, 22, 10);
         place_items("magazines", 70, 8, 7, 22, 10, false, 0);
+        //Vending
+        std::vector<int> vset;
+        int vnum = rng(1, 3);
+        for(int a = 0; a < 17; a++) {
+            vset.push_back(a);
+        }
+        std::random_shuffle(vset.begin(), vset.end());
+        for(int a = 0; a < vnum; a++) {
+            if (vset[a] < 3) {
+                place_vending(5 + vset[a], 7, rng(0,1));
+            } else if (vset[a] < 5) {
+                place_vending(1 + vset[a] - 3, 7, rng(0,1));
+            } else if (vset[a] < 8) {
+                place_vending(1, 8 + vset[a] - 5, rng(0,1));
+            } else if (vset[a] < 13) {
+                place_vending(10 + vset[a] - 8, 12, rng(0,1));
+            } else {
+                place_vending(17 + vset[a] - 13, 12, rng(0,1));
+            }
+        }
+        vset.clear();
         // Reception and examination rooms
         line_furn(this, f_counter, 8, 13, 9, 13);
         line(this, t_wall_h, 10, 13, SEEX * 2 - 1, 13);
@@ -9551,10 +9528,13 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             }
             square_furn(this, f_rack, 16, 16, 21, 17);
             place_items("hospital_samples", 68, 16, 16, 21, 17, false, 0);
+            place_items("bionics_common", 12, 16, 16, 21, 17, false, 0);
             square_furn(this, f_rack, 16, 19, 21, 20);
             place_items("hospital_samples", 68, 16, 19, 21, 20, false, 0);
+            place_items("bionics_common", 12, 16, 19, 21, 20, false, 0);
             line_furn(this, f_rack, 14, 22, 23, 22);
             place_items("hospital_samples", 62, 14, 22, 23, 22, false, 0);
+            place_items("bionics_common", 12, 14, 22, 23, 22, false, 0);
 
         } else { // We're NOT in the center; a random hospital type!
 
@@ -9564,6 +9544,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_h, 1, 5, 9, 5);
                 for (int i = 1; i <= 7; i += 3) {
                     line_furn(this, f_bed, i, 1, i, 2);
+                    place_items("hospital_bed", 50, i + 1, 1, i + 1, 3, false, 0);
                     line(this, t_wall_v, i + 2, 0, i + 2, 4);
                     ter_set(rng(i, i + 1), 5, t_door_c);
                 }
@@ -9571,12 +9552,15 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_h, 14, 5, 23, 5);
                 line(this, t_wall_v, 14, 0, 14, 4);
                 line_furn(this, f_bed, 15, 1, 15, 2);
+                place_items("hospital_bed", 50, 16, 1, 16, 2, false, 0);
                 ter_set(rng(15, 16), 5, t_door_c);
                 line(this, t_wall_v, 17, 0, 17, 4);
                 line_furn(this, f_bed, 18, 1, 18, 2);
+                place_items("hospital_bed", 50, 19, 1, 19, 2, false, 0);
                 ter_set(rng(18, 19), 5, t_door_c);
                 line(this, t_wall_v, 20, 0, 20, 4);
                 line_furn(this, f_bed, 21, 1, 21, 2);
+                place_items("hospital_bed", 50, 22, 1, 22, 2, false, 0);
                 ter_set(rng(21, 22), 5, t_door_c);
                 // Waiting area
                 for (int i = 1; i <= 9; i += 4) {
@@ -9592,7 +9576,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_h, 15, 10, 23, 10);
                 line(this, t_wall_v, 19, 8, 19, 9);
                 line_furn(this, f_bed, 18, 8, 18, 9);
+                place_items("hospital_bed", 50, 17, 8, 17, 9, false, 0);
                 line_furn(this, f_bed, 20, 8, 20, 9);
+                place_items("hospital_bed", 50, 21, 8, 21, 9, false, 0);
                 if (one_in(3)) { // Doors to north
                     ter_set(rng(15, 16), 7, t_door_c);
                     ter_set(rng(21, 22), 7, t_door_c);
@@ -9605,7 +9591,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_h, 15, 16, 23, 16);
                 line(this, t_wall_v, 19, 14, 19, 15);
                 line_furn(this, f_bed, 18, 14, 18, 15);
+                place_items("hospital_bed", 50, 17, 14, 17, 15, false, 0);
                 line_furn(this, f_bed, 20, 14, 20, 15);
+                place_items("hospital_bed", 50, 21, 14, 21, 15, false, 0);
                 if (one_in(3)) { // Doors to south
                     ter_set(rng(15, 16), 16, t_door_c);
                     ter_set(rng(21, 22), 16, t_door_c);
@@ -9617,10 +9605,13 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_v, 5, 13, 5, 22);
                 line(this, t_wall_h, 1, 13, 4, 13);
                 line_furn(this, f_bed, 1, 14, 1, 15);
+                place_items("hospital_bed", 50, 2, 14, 2, 15, false, 0);
                 line(this, t_wall_h, 1, 17, 4, 17);
                 line_furn(this, f_bed, 1, 18, 1, 19);
+                place_items("hospital_bed", 50, 2, 18, 2, 19, false, 0);
                 line(this, t_wall_h, 1, 20, 4, 20);
                 line_furn(this, f_bed, 1, 21, 1, 22);
+                place_items("hospital_bed", 50, 2, 21, 2, 22, false, 0);
                 ter_set(5, rng(14, 16), t_door_c);
                 ter_set(5, rng(18, 19), t_door_c);
                 ter_set(5, rng(21, 22), t_door_c);
@@ -9629,7 +9620,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_v, 10, 14, 10, 22);
                 line(this, t_wall_h, 8, 18, 9, 18);
                 line_furn(this, f_bed, 8, 17, 9, 17);
+                place_items("hospital_bed", 50, 8, 16, 9, 16, false, 0);
                 line_furn(this, f_bed, 8, 22, 9, 22);
+                place_items("hospital_bed", 50, 8, 21, 9, 21, false, 0);
                 if (one_in(3)) { // Doors to west
                     ter_set(7, rng(14, 16), t_door_c);
                     ter_set(7, rng(19, 21), t_door_c);
@@ -9642,6 +9635,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 for (int i = 14; i <= 20; i += 3) {
                     line(this, t_wall_v, i, 19, i, 22);
                     line_furn(this, f_bed, i + 1, 21, i + 1, 22);
+                    place_items("hospital_bed", 50, i + 2, 21, i + 2, 22, false, 0);
                     ter_set(rng(i + 1, i + 2), 18, t_door_c);
                 }
                 break;
@@ -9707,10 +9701,12 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 // Next, the contents of each operating room
                 line_furn(this, f_counter, 1, 0, 1, 9);
                 place_items("surgery", 70, 1, 1, 1, 9, false, 0);
+                place_items("bionics_common", 5, 1, 1, 1, 9, false, 0);
                 square_furn(this, f_bed, 5, 4, 6, 5);
 
                 line_furn(this, f_counter, 1, 14, 1, 22);
                 place_items("surgery", 70, 1, 14, 1, 22, false, 0);
+                place_items("bionics_common", 5, 1, 14, 1, 22, false, 0);
                 square_furn(this, f_bed, 5, 18, 6, 19);
 
                 line_furn(this, f_counter, 14, 6, 14, 9);
@@ -10778,16 +10774,16 @@ void map::place_toilet(int x, int y, int charges)
 
 void map::place_vending(int x, int y, bool drinks)
 {
-    bool broken = rng(0, 1);
-    if(broken) {
-        furn_set(x, y, f_vending_c);
-    } else {
+    const bool broken = x_in_y(2,3);
+    if( broken ) {
         furn_set(x, y, f_vending_o);
+    } else {
+        furn_set(x, y, f_vending_c);
     }
     if( drinks ) {
-        place_items("vending_drink", broken ? 60 : 80, x, y, x, y, false, 0);
+        place_items("vending_drink", broken ? 40 : 99, x, y, x, y, false, 0);
     } else {
-        place_items("vending_food", broken ? 60 : 80, x, y, x, y, false, 0);
+        place_items("vending_food", broken ? 40 : 99, x, y, x, y, false, 0);
     }
 }
 

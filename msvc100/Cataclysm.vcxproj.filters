@@ -27,6 +27,9 @@
     <ClInclude Include="..\src\advanced_inv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ammo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\artifact.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -91,6 +94,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\dependency_tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\dialogue.h">
@@ -218,6 +224,9 @@
     </ClInclude>
     <ClInclude Include="..\src\mission.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mod_manager.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\monattack.h">
       <Filter>Header Files</Filter>
@@ -359,6 +368,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\advanced_inv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ammo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\animation_curses.cpp">
@@ -716,6 +728,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\worldfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mod_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mod_manager_ui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\dependency_tree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

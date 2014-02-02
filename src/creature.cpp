@@ -4,15 +4,73 @@
 #include "game.h"
 #include <algorithm>
 #include <numeric>
+#include <cmath>
+
+std::map<int, std::map<body_part, double> > Creature::default_hit_weights;
 
 Creature::Creature()
 {
+    str_max = 0;
+    dex_max = 0;
+    per_max = 0;
+    int_max = 0;
+    str_cur = 0;
+    dex_cur = 0;
+    per_cur = 0;
+    int_cur = 0;
+    moves = 0;
+    pain = 0;
+    killer = NULL;
+    speed_base = 100;
+
+    reset_bonuses();
+
     fake = false;
 }
 
-Creature::Creature(const Creature &)
+Creature::Creature(const Creature &rhs)
 {
-    fake = false;
+    str_max = rhs.str_max;
+    dex_max = rhs.dex_max;
+    per_max = rhs.per_max;
+    int_max = rhs.int_max;
+    str_cur = rhs.str_cur;
+    dex_cur = rhs.dex_cur;
+    per_cur = rhs.per_cur;
+    int_cur = rhs.int_cur;
+    moves = rhs.moves;
+    pain = rhs.pain;
+    killer = rhs.killer;
+    speed_base = rhs.speed_base;
+
+    str_bonus = rhs.str_bonus;
+    dex_bonus = rhs.dex_bonus;
+    per_bonus = rhs.per_bonus;
+    int_bonus = rhs.int_bonus;
+
+    num_blocks = rhs.num_blocks;
+    num_dodges = rhs.num_dodges;
+    num_blocks_bonus = rhs.num_blocks_bonus;
+    num_dodges_bonus = rhs.num_dodges_bonus;
+
+    armor_bash_bonus = rhs.armor_bash_bonus;
+    armor_cut_bonus = rhs.armor_cut_bonus;
+
+    speed_bonus = rhs.speed_bonus;
+    dodge_bonus = rhs.dodge_bonus;
+    block_bonus = rhs.block_bonus;
+    hit_bonus = rhs.hit_bonus;
+    bash_bonus = rhs.bash_bonus;
+    cut_bonus = rhs.cut_bonus;
+
+    bash_mult = rhs.bash_mult;
+    cut_mult = rhs.cut_mult;
+
+    melee_quiet = rhs.melee_quiet;
+    grab_resist = rhs.grab_resist;
+    throw_resist = rhs.throw_resist;
+
+    fake = rhs.fake;
 }
 
 void Creature::normalize()
@@ -54,6 +112,7 @@ void Creature::reset_bonuses()
     grab_resist = 0;
     throw_resist = 0;
 }
+
 void Creature::reset_stats()
 {
     // Reset our stats to normal levels
@@ -124,20 +183,8 @@ int Creature::deal_melee_attack(Creature *source, int hitroll, bool critical_hit
 
     //bool critical_hit = hit_spread > 30; //scored_crit(dodgeroll);
 
-    body_part bp_hit;
+    body_part bp_hit = select_body_part(source, hit_spread);
     int side = rng(0, 1);
-    int hit_value = hit_spread + dice(10, 6) - 35;
-    if (hit_value >= 40) {
-        bp_hit = bp_eyes;
-    } else if (hit_value >= 30) {
-        bp_hit = bp_head;
-    } else if (hit_value >= 5) {
-        bp_hit = bp_torso;
-    } else if (one_in(4)) {
-        bp_hit = bp_legs;
-    } else {
-        bp_hit = bp_arms;
-    }
 
     // Bashing crit
     if (critical_hit) {
@@ -156,7 +203,7 @@ int Creature::deal_melee_attack(Creature *source, int hitroll, bool critical_hit
         stab_moves *= 1.5;
     }
     if (stab_moves >= 150) {
-        if (is_player()) {
+        if ((is_player()) && ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.wearing_something_on(bp_feet))) ) {
             // can the player force their self to the ground? probably not.
             g->add_msg_if_npc(source, _("<npcname> forces you to the ground!"));
         } else {
@@ -164,8 +211,10 @@ int Creature::deal_melee_attack(Creature *source, int hitroll, bool critical_hit
                                      _("<npcname> forces %s to the ground!"),
                                      disp_name().c_str() );
         }
-        add_effect("downed", 1);
-        mod_moves(-stab_moves / 2);
+        if ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.wearing_something_on(bp_feet)) ) {
+            add_effect("downed", 1);
+            mod_moves(-stab_moves / 2);
+        }
     } else {
         mod_moves(-stab_moves);
     }
@@ -379,7 +428,8 @@ bool is_expired_effect(effect &e)   // utility function for process_effects
 {
     if (e.get_duration() <= 0) {
         g->add_msg_string(e.get_effect_type()->get_remove_message());
-        g->u.add_memorial_log(e.get_effect_type()->get_remove_memorial_log().c_str());
+        g->u.add_memorial_log(pgettext("memorial_male", e.get_effect_type()->get_remove_memorial_log().c_str()),
+                              pgettext("memorial_female", e.get_effect_type()->get_remove_memorial_log().c_str()));
         return true;
     } else {
         return false;
@@ -404,7 +454,8 @@ void Creature::add_effect(efftype_id eff_id, int dur)
         effects.push_back(new_eff);
         if (is_player()) { // only print the message if we didn't already have it
             g->add_msg_string(effect_types[eff_id].get_apply_message());
-            g->u.add_memorial_log(effect_types[eff_id].get_apply_memorial_log().c_str());
+            g->u.add_memorial_log(pgettext("memorial_male", effect_types[eff_id].get_apply_memorial_log().c_str()),
+                                  pgettext("memorial_female", effect_types[eff_id].get_apply_memorial_log().c_str()));
         }
     }
 }
@@ -817,4 +868,150 @@ bool Creature::is_symbol_highlighted()
 char Creature::symbol()
 {
     return '?';
+}
+
+body_part Creature::select_body_part(Creature *source, int hit_roll)
+{
+    // Get size difference (-1,0,1);
+    int szdif = source->get_size() - get_size();
+    if(szdif < -1) {
+        szdif = -1;
+    } else if (szdif > 1) {
+        szdif = 1;
+    }
+
+    if(g->debugmon) {
+        g->add_msg("source size = %d", source->get_size());
+        g->add_msg("target size = %d", get_size());
+        g->add_msg("difference = %d", szdif);
+    }
+
+    std::map<body_part, double> hit_weights = default_hit_weights[szdif];
+    std::map<body_part, double>::iterator iter;
+
+    // If the target is on the ground, even small/tiny creatures may target eyes/head. Also increases chances of larger creatures.
+    // Any hit modifiers to locations should go here. (Tags, attack style, etc)
+    if(is_on_ground()) {
+        hit_weights[bp_eyes] += 10;
+        hit_weights[bp_head] += 20;
+    }
+
+    //Adjust based on hit roll: Eyes, Head & Torso get higher, while Arms and Legs get lower.
+    //This should eventually be replaced with targeted attacks and this being miss chances.
+    hit_weights[bp_eyes] = floor(hit_weights[bp_eyes] * pow(hit_roll, 1.15) * 10);
+    hit_weights[bp_head] = floor(hit_weights[bp_head] * pow(hit_roll, 1.15) * 10);
+    hit_weights[bp_torso] = floor(hit_weights[bp_torso] * pow(hit_roll, 1) * 10);
+    hit_weights[bp_arms] = floor(hit_weights[bp_arms] * pow(hit_roll, 0.95) * 10);
+    hit_weights[bp_legs] = floor(hit_weights[bp_legs] * pow(hit_roll, 0.975) * 10);
+
+
+    // Debug for seeing weights.
+    if(g->debugmon) {
+        g->add_msg("eyes = %f", hit_weights.at(bp_eyes));
+        g->add_msg("head = %f", hit_weights.at(bp_head));
+        g->add_msg("torso = %f", hit_weights.at(bp_torso));
+        g->add_msg("arms = %f", hit_weights.at(bp_arms));
+        g->add_msg("legs = %f", hit_weights.at(bp_legs));
+    }
+
+    double totalWeight = 0;
+    std::set<weight_pair, weight_compare> adjusted_weights;
+    for(iter = hit_weights.begin(); iter != hit_weights.end(); ++iter) {
+        totalWeight += iter->second;
+        adjusted_weights.insert(*iter);
+    }
+
+    double roll = rng_float(1, totalWeight);
+    body_part selected_part = bp_torso;
+
+    std::set<weight_pair, weight_compare>::iterator adj_iter;
+    for(adj_iter = adjusted_weights.begin(); adj_iter != adjusted_weights.end(); ++adj_iter) {
+        roll -= adj_iter->second;
+        if(roll <= 0) {
+            selected_part = adj_iter->first;
+            break;
+        }
+    }
+
+    return selected_part;
+}
+
+void Creature::init_hit_weights()
+{
+    std::map<body_part, double> attacker_equal_weights;
+    std::map<body_part, double> attacker_smaller_weights;
+    std::map<body_part, double> attacker_bigger_weights;
+
+    attacker_equal_weights[bp_eyes] = 10.f;
+    attacker_equal_weights[bp_head] = 20.f;
+    attacker_equal_weights[bp_torso] = 55.f;
+    attacker_equal_weights[bp_arms] = 55.f;
+    attacker_equal_weights[bp_legs] = 35.f;
+
+    attacker_smaller_weights[bp_eyes] = 0.f;
+    attacker_smaller_weights[bp_head] = 0.f;
+    attacker_smaller_weights[bp_torso] = 55.f;
+    attacker_smaller_weights[bp_arms] = 35.f;
+    attacker_smaller_weights[bp_legs] = 55.f;
+
+    attacker_bigger_weights[bp_eyes] = 5.f;
+    attacker_bigger_weights[bp_head] = 25.f;
+    attacker_bigger_weights[bp_torso] = 55.f;
+    attacker_bigger_weights[bp_arms] = 55.f;
+    attacker_bigger_weights[bp_legs] = 20.f;
+
+    default_hit_weights[-1] = attacker_smaller_weights;
+    default_hit_weights[0] = attacker_equal_weights;
+    default_hit_weights[1] = attacker_bigger_weights;
+}
+
+Creature& Creature::operator= (const Creature& rhs)
+{
+    str_cur = rhs.str_cur;
+    dex_cur = rhs.dex_cur;
+    int_cur = rhs.int_cur;
+    per_cur = rhs.per_cur;
+
+    str_max = rhs.str_max;
+    dex_max = rhs.dex_max;
+    int_max = rhs.int_max;
+    per_max = rhs.per_max;
+
+    moves = rhs.moves;
+    pain = rhs.pain;
+
+    killer = rhs.killer;
+    effects = rhs.effects;
+
+    str_bonus = rhs.str_bonus;
+    dex_bonus = rhs.dex_bonus;
+    per_bonus = rhs.per_bonus;
+    int_bonus = rhs.int_bonus;
+
+    num_blocks = rhs.num_blocks;
+    num_dodges = rhs.num_dodges;
+    num_blocks_bonus = rhs.num_blocks_bonus;
+    num_dodges_bonus = rhs.num_dodges_bonus;
+
+    armor_bash_bonus = rhs.armor_bash_bonus;
+    armor_cut_bonus = rhs.armor_cut_bonus;
+
+    speed_base = rhs.speed_base;
+
+    speed_bonus = rhs.speed_bonus;
+    dodge_bonus = rhs.dodge_bonus;
+    block_bonus = rhs.block_bonus;
+    hit_bonus = rhs.hit_bonus;
+    bash_bonus = rhs.bash_bonus;
+    cut_bonus = rhs.cut_bonus;
+
+    bash_mult = rhs.bash_mult;
+    cut_mult = rhs.cut_mult;
+    melee_quiet = rhs.melee_quiet;
+
+    grab_resist = rhs.grab_resist;
+    throw_resist = rhs.throw_resist;
+
+    fake = rhs.fake;
+    return *this;
 }

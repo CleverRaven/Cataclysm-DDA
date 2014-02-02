@@ -238,7 +238,7 @@ void mattack::resurrect(monster *z)
   return; // We can only resurrect so many times!
  std::vector<point> corpses;
  int junk;
-// Find all corposes that we can see within 4 tiles.
+// Find all corpses that we can see within 4 tiles.
  for (int x = z->posx() - 4; x <= z->posx() + 4; x++) {
   for (int y = z->posy() - 4; y <= z->posy() + 4; y++) {
    if (g->is_empty(x, y) && g->m.sees(z->posx(), z->posy(), x, y, -1, junk)) {
@@ -429,7 +429,7 @@ void mattack::growplants(monster *z)
   }
  }
 
- if (one_in(5)) { // 1 in 5 chance of making exisiting vegetation grow larger
+ if (one_in(5)) { // 1 in 5 chance of making existing vegetation grow larger
   for (int i = -5; i <= 5; i++) {
    for (int j = -5; j <= 5; j++) {
     if (i != 0 || j != 0) {
@@ -870,7 +870,7 @@ void mattack::dermatik(monster *z)
     if (4 < g->u.get_armor_cut(targeted) / 3) {
         g->add_msg(_("The %s lands on your %s, but can't penetrate your armor."),
                      z->name().c_str(), body_part_name(targeted, side).c_str());
-        z->moves -= 150; // Attemped laying takes a while
+        z->moves -= 150; // Attempted laying takes a while
         return;
     }
 
@@ -879,7 +879,8 @@ void mattack::dermatik(monster *z)
     g->add_msg(_("The %s sinks its ovipositor into your %s!"), z->name().c_str(),
                  body_part_name(targeted, side).c_str());
     g->u.add_disease("dermatik", 14401, false, 1, 1, 0, 0, targeted, side, true);
-    g->u.add_memorial_log(_("Injected with dermatik eggs."));
+    g->u.add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
+                          pgettext("memorial_female", "Injected with dermatik eggs."));
 }
 
 void mattack::dermatik_growth(monster *z)
@@ -1148,7 +1149,11 @@ void mattack::vortex(monster *z)
    } // if (mondex != -1)
 
    if (g->u.posx == x && g->u.posy == y) { // Throw... the player?! D:
-    if (!g->u.uncanny_dodge()) {
+      if ((g->u.has_trait("LEG_TENT_BRACE")) && (!(g->u.wearing_something_on(bp_feet))) ) {
+          g->add_msg(_("You secure yourself using your tentacles!"));
+      }
+    if (!((g->u.uncanny_dodge()) || ( (g->u.has_trait("LEG_TENT_BRACE")) &&
+    (!(g->u.wearing_something_on(bp_feet))) ) )) {
      std::vector<point> traj = continue_line(from_monster, rng(2, 3));
      g->add_msg(_("You're thrown by winds!"));
      bool hit_wall = false;
@@ -1297,285 +1302,154 @@ void mattack::tazer(monster *z)
 
 void mattack::smg(monster *z)
 {
- // Make sure our ammo isn't weird.
- if (z->ammo > 1000) {
-   z->ammo = 1000;
-   debugmsg("Generated too much ammo (%d) for %s in mattack::smg", z->ammo, z->type->name.c_str());
- }
- int t, fire_t = 0;
- if (z->friendly != 0) {   // Attacking monsters, not the player!
-  monster* target = NULL;
-  const int iff_dist=24;   // iff check triggers at this distance
-  int iff_hangle=15; // iff safety margin (degrees). less accuracy, more paranoia
-  int closest = 19;
-  int c=0;
-  int u_angle = 0;         // player angle relative to turret
-  int boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
-  bool iff_trig = false;   // player seen and within range of stray shots
-  int pldist=rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
-  if ( pldist < iff_dist &&
-      g->sees_u(z->posx(), z->posy(), t) ) {
-      iff_trig = true;
-      if ( pldist < 3 ) iff_hangle=( pldist == 2 ? 30 : 60 ); // granularity increases with proximity
-      u_angle = g->m.coord_to_angle (z->posx(), z->posy(), g->u.posx, g->u.posy );
-  }
-  for (int i = 0; i < g->num_zombies(); i++) {
-    if ( g->m.sees(z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy(), 18, t) ) {
-      int dist = rl_dist(z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy());
-      if (g->zombie(i).friendly == 0 ) {
-        bool safe_target=true;
-        if ( iff_trig ) {
-          int tangle = g->m.coord_to_angle (z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy() );
-          int diff = abs ( u_angle - tangle );
-          if ( diff + iff_hangle > 360 || diff < iff_hangle ) {
-              safe_target=false;
-              boo_hoo++;
-          }
-        }
-        if (dist < closest && safe_target && !g->zombie(i).is_hallucination()) {
-          target = &(g->zombie(i));
-          closest = dist;
-          fire_t = t;
-        }
-      } // else if ( advanced_software_upgrade ) {
-        // todo; make friendly && unfriendly lists, then select closest non-friendly fire target
+    // Make sure our ammo isn't weird.
+    if (z->ammo > 1000) {
+        z->ammo = 1000;
+        debugmsg("Generated too much ammo (%d) for %s in mattack::smg", z->ammo, z->type->name.c_str());
     }
-    c++;
-  }
-  z->sp_timeout = z->type->sp_freq; // Reset timer
-  if (target == NULL) {// Couldn't find any targets!
-    if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
-       if(boo_hoo > 1) {
-         g->add_msg(_("Pointed in your direction, the %s emits %d annoyed sounding beeps."),
-           z->name().c_str(),boo_hoo);
-       } else {
-         g->add_msg(_("Pointed in your direction, the %s emits an IFF warning beep."),
-           z->name().c_str());
-       }
-    }
-    return;
-  }
-  z->moves -= 150;   // It takes a while
-  if (z->ammo > 0) {
-    if (g->u_see(z->posx(), z->posy()))
-     g->add_msg(_("The %s fires its smg!"), z->name().c_str());
+    int fire_t = 0;
+
     npc tmp;
     tmp.name = _("The ") + z->name();
     tmp.set_fake(true);
     tmp.skillLevel("smg").level(8);
     tmp.skillLevel("gun").level(4);
-
     tmp.recoil = 0;
     tmp.posx = z->posx();
     tmp.posy = z->posy();
     tmp.str_cur = 16;
     tmp.dex_cur = 8;
     tmp.per_cur = 12;
+
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    Creature *target = NULL;
+
+    if (z->friendly != 0) {
+        // Attacking monsters, not the player!
+        int boo_hoo;
+        target = tmp.auto_find_hostile_target(18, boo_hoo, fire_t);
+        if (target == NULL) {// Couldn't find any targets!
+            if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
+                if(boo_hoo > 1) {
+                    g->add_msg(_("Pointed in your direction, the %s emits %d annoyed sounding beeps."),
+                               z->name().c_str(), boo_hoo);
+                } else {
+                    g->add_msg(_("Pointed in your direction, the %s emits an IFF warning beep."),
+                               z->name().c_str());
+                }
+            }
+            return;
+        }
+    } else {
+        // Not friendly; hence, firing at the player
+        if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 24 ||
+            !g->sees_u(z->posx(), z->posy(), fire_t)) {
+            // Can't see and can't reach the player
+            return;
+        }
+        if (!z->has_effect("targeted")) {
+            g->sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
+            z->add_effect("targeted", 8);
+            z->moves -= 100;
+            return;
+        }
+        target = &g->u;
+    }
+    z->moves -= 150;   // It takes a while
+
+    if (z->ammo <= 0) {
+        if (one_in(3)) {
+            g->sound(z->posx(), z->posy(), 2, _("a chk!"));
+        } else if (one_in(4)) {
+            g->sound(z->posx(), z->posy(), 6, _("boop-boop!"));
+        }
+        return;
+    }
+    if (g->u_see(z->posx(), z->posy())) {
+        g->add_msg(_("The %s fires its smg!"), z->name().c_str());
+    }
     tmp.weapon = item(itypes["smg_9mm"], 0);
     tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["9mm"]);
     tmp.weapon.charges = std::max(z->ammo, 10);
     z->ammo -= tmp.weapon.charges;
-    std::vector<point> traj = line_to(z->posx(), z->posy(),
-                                      target->posx(), target->posy(), fire_t);
-    g->fire(tmp, target->posx(), target->posy(), traj, true);
+    tmp.fire_gun(target->xpos(), target->ypos(), true);
     z->ammo += tmp.weapon.charges;
-  }
-  else {
-    if (one_in(3)) {
-      g->sound(z->posx(), z->posy(), 2, _("a chk!"));
-    }
-    else if (one_in(4)) {
-      g->sound(z->posx(), z->posy(), 6, _("boop-boop!"));
-    }
-  }
-  return;
- }
-
-// Not friendly; hence, firing at the player
- if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 24 ||
-     !g->sees_u(z->posx(), z->posy(), t))
-  return;
- z->sp_timeout = z->type->sp_freq; // Reset timer
-
- if (!z->has_effect("targeted")) {
-  g->sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
-  z->add_effect("targeted", 8);
-  z->moves -= 100;
-  return;
- }
- z->moves -= 150;   // It takes a while
-
-  if (z->ammo > 0) {
-    if (g->u_see(z->posx(), z->posy()))
-      g->add_msg(_("The %s fires its smg!"), z->name().c_str());
-      // Set up a temporary player to fire this gun
-      npc tmp;
-      tmp.name = _("The ") + z->name();
-      tmp.set_fake(true);
-      tmp.skillLevel("smg").level(8);
-      tmp.skillLevel("gun").level(4);
-
-      tmp.recoil = 0;
-      tmp.posx = z->posx();
-      tmp.posy = z->posy();
-      tmp.str_cur = 16;
-      tmp.dex_cur = 8;
-      tmp.per_cur = 12;
-      tmp.weapon = item(itypes["smg_9mm"], 0);
-      tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["9mm"]);
-      tmp.weapon.charges = std::max(z->ammo, 10);
-      z->ammo -= tmp.weapon.charges;
-      std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
-      g->fire(tmp, g->u.posx, g->u.posy, traj, true);
-      z->ammo += tmp.weapon.charges;
-      z->add_effect("targeted", 3);
-    }
-    else {
-      if (one_in(3)) {
-        g->sound(z->posx(), z->posy(), 2, _("a chk!"));
-      }
-      else if (one_in(4)) {
-        g->sound(z->posx(), z->posy(), 6, _("boop-boop!"));
-      }
+    if (target == &g->u) {
+        z->add_effect("targeted", 3);
     }
 }
 
 void mattack::laser(monster *z)
 {
- bool sunlight = g->is_in_sunlight(z->posx(), z->posy());
- int t, fire_t = 0;
- if (z->friendly != 0) {   // Attacking monsters, not the player!
-  monster* target = NULL;
-  const int iff_dist=24;   // iff check triggers at this distance
-  int iff_hangle=15; // iff safety margin (degrees). less accuracy, more paranoia
-  int closest = 19;
-  int c=0;
-  int u_angle = 0;         // player angle relative to turret
-  int boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
-  bool iff_trig = false;   // player seen and within range of stray shots
-  int pldist=rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
-  if ( pldist < iff_dist &&
-      g->sees_u(z->posx(), z->posy(), t) ) {
-      iff_trig = true;
-      if ( pldist < 3 ) iff_hangle=( pldist == 2 ? 30 : 60 ); // granularity increases with proximity
-      u_angle = g->m.coord_to_angle (z->posx(), z->posy(), g->u.posx, g->u.posy );
-  }
-  for (int i = 0; i < g->num_zombies(); i++) {
-    if ( g->m.sees(z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy(), 18, t) ) {
-      int dist = rl_dist(z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy());
-      if (g->zombie(i).friendly == 0 ) {
-        bool safe_target=true;
-        if ( iff_trig ) {
-          int tangle = g->m.coord_to_angle (z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy() );
-          int diff = abs ( u_angle - tangle );
-          if ( diff + iff_hangle > 360 || diff < iff_hangle ) {
-              safe_target=false;
-              boo_hoo++;
-          }
+    bool sunlight = g->is_in_sunlight(z->posx(), z->posy());
+    int fire_t = 0;
+    npc tmp;
+    tmp.name = _("The ") + z->name();
+    tmp.set_fake(true);
+    tmp.skillLevel("rifle").level(8);
+    tmp.skillLevel("gun").level(4);
+    tmp.recoil = 0;
+    tmp.posx = z->posx();
+    tmp.posy = z->posy();
+    tmp.str_cur = 16;
+    tmp.dex_cur = 8;
+    tmp.per_cur = 12;
+
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    Creature *target = NULL;
+
+    if (z->friendly != 0) {   // Attacking monsters, not the player!
+        int boo_hoo;
+        target = tmp.auto_find_hostile_target(18, boo_hoo, fire_t);
+        z->sp_timeout = z->type->sp_freq; // Reset timer
+        if (target == NULL) {// Couldn't find any targets!
+            if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
+                if(boo_hoo > 1) {
+                    g->add_msg(_("Pointed in your direction, the %s emits %d annoyed sounding beeps."),
+                               z->name().c_str(), boo_hoo);
+                } else {
+                    g->add_msg(_("Pointed in your direction, the %s emits an IFF warning beep."),
+                               z->name().c_str());
+                }
+            }
+            return;
         }
-        if (dist < closest && safe_target && !g->zombie(i).is_hallucination()) {
-          target = &(g->zombie(i));
-          closest = dist;
-          fire_t = t;
+    } else {
+        // Not friendly; hence, firing at the player
+        if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 24 ||
+            !g->sees_u(z->posx(), z->posy(), fire_t)) {
+            // Can't see and can't reach the player
+            return;
         }
-      } // else if ( advanced_software_upgrade ) {
-        // todo; make friendly && unfriendly lists, then select closest non-friendly fire target
+        if (!z->has_effect("targeted")) {
+            g->sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
+            z->add_effect("targeted", 8);
+            z->moves -= 100;
+            return;
+        }
+        target = &g->u;
     }
-    c++;
-  }
-  z->sp_timeout = z->type->sp_freq; // Reset timer
-  if (target == NULL) {// Couldn't find any targets!
-    if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
-       if(boo_hoo > 1) {
-         g->add_msg(_("Pointed in your direction, the %s emits %d annoyed sounding beeps."),
-           z->name().c_str(),boo_hoo);
-       } else {
-         g->add_msg(_("Pointed in your direction, the %s emits an IFF warning beep."),
-           z->name().c_str());
-       }
+    z->moves -= 150;   // It takes a while
+    if (!sunlight) {
+        if (one_in(3)) {
+            if (g->u_see(z->posx(), z->posy())) {
+                g->add_msg(_("The %s's barrel spins but nothing happens!"), z->name().c_str());
+            }
+        } else if (one_in(4)) {
+            g->sound(z->posx(), z->posy(), 6, _("boop-boop!"));
+        }
+        return;
     }
-    return;
-  }
-  z->moves -= 150;   // It takes a while
-  if (sunlight) {
-      if (g->u_see(z->posx(), z->posy()))
-       g->add_msg(_("The %s's barrel spins and fires!"), z->name().c_str());
-      npc tmp;
-      tmp.name = _("The ") + z->name();
-      tmp.set_fake(true);
-      tmp.skillLevel("rifle").level(8);
-      tmp.skillLevel("gun").level(4);
-
-      tmp.recoil = 0;
-      tmp.posx = z->posx();
-      tmp.posy = z->posy();
-      tmp.str_cur = 16;
-      tmp.dex_cur = 8;
-      tmp.per_cur = 12;
-      tmp.weapon = item(itypes["cerberus_laser"], 0);
-      tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["laser_capacitor"]);
-      tmp.weapon.charges = 100;
-      std::vector<point> traj = line_to(z->posx(), z->posy(),
-                                        target->posx(), target->posy(), fire_t);
-      g->fire(tmp, target->posx(), target->posy(), traj, true);
-    return;
-  }
-  else {
-    if (one_in(3)) {
-      if (g->u_see(z->posx(), z->posy()))
-         g->add_msg(_("The %s's barrel spins but nothing happens!"), z->name().c_str());
-    }
-    else if (one_in(4)) {
-      g->sound(z->posx(), z->posy(), 6, _("boop-boop!"));
-    }
-  }
- }
-
-// Not friendly; hence, firing at the player
- if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 24 ||
-     !g->sees_u(z->posx(), z->posy(), t))
-  return;
- z->sp_timeout = z->type->sp_freq; // Reset timer
-
- if (!z->has_effect("targeted")) {
-  g->sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
-  z->add_effect("targeted", 8);
-  z->moves -= 100;
-  return;
- }
- z->moves -= 150;   // It takes a while
-  if (sunlight) {
-    if (g->u_see(z->posx(), z->posy()))
+    if (g->u_see(z->posx(), z->posy())) {
         g->add_msg(_("The %s's barrel spins and fires!"), z->name().c_str());
-      // Set up a temporary player to fire this gun
-      npc tmp;
-      tmp.name = _("The ") + z->name();
-      tmp.set_fake(true);
-      tmp.skillLevel("rifle").level(8);
-      tmp.skillLevel("gun").level(4);
-
-      tmp.recoil = 0;
-      tmp.posx = z->posx();
-      tmp.posy = z->posy();
-      tmp.str_cur = 16;
-      tmp.dex_cur = 8;
-      tmp.per_cur = 12;
-      tmp.weapon = item(itypes["cerberus_laser"], 0);
-      tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["laser_capacitor"]);
-      tmp.weapon.charges = 100;
-      std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
-      g->fire(tmp, g->u.posx, g->u.posy, traj, true);
-      z->add_effect("targeted", 3);
-  }
-  else {
-    if (one_in(3)) {
-      if (g->u_see(z->posx(), z->posy()))
-         g->add_msg(_("The %s's barrel spins but nothing happens!"), z->name().c_str());
     }
-    else if (one_in(4)) {
-      g->sound(z->posx(), z->posy(), 6, _("boop-boop!"));
+    tmp.weapon = item(itypes["cerberus_laser"], 0);
+    tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["laser_capacitor"]);
+    tmp.weapon.charges = 100;
+    tmp.fire_gun(target->xpos(), target->ypos(), true);
+    if (target == &g->u) {
+        z->add_effect("targeted", 3);
     }
-  }
 }
 
 void mattack::flamethrower(monster *z)
@@ -1839,7 +1713,8 @@ void mattack::flesh_golem(monster *z)
     int dam = rng(5, 10), side = random_side(hit);
     g->add_msg(_("Your %s is battered for %d damage!"), body_part_name(hit, side).c_str(), dam);
     g->u.hit(z, hit, side, dam, 0);
-    if (one_in(6)) {
+    if ((one_in(6)) && ( (!(g->u.has_trait("LEG_TENT_BRACE"))) ||
+    (g->u.wearing_something_on(bp_feet))) ) {
         g->u.add_effect("downed", 30);
     }
     g->u.practice(g->turn, "dodge", z->type->melee_skill);

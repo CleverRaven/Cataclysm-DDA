@@ -221,7 +221,7 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
             int ends = 0;
             if(mon.has_member("starts")){
                 starts = mon.get_int("starts");
-            } 
+            }
             if(mon.has_member("ends")){
                 ends = mon.get_int("ends");
             }
@@ -237,6 +237,11 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
     }
 
     monsterGroupMap[g.name] = g;
+}
+
+void MonsterGroupManager::ClearMonsterGroups()
+{
+    monsterGroupMap.clear();
 }
 
 void init_translation() {
@@ -381,7 +386,7 @@ void init_translation() {
     monStr2monId["mon_zombie_electric"] = mon_zombie_electric;
     monStr2monId["mon_zombie_smoker"] = mon_zombie_smoker;
     monStr2monId["mon_zombie_swimmer"] = mon_zombie_swimmer;
-    monStr2monId["mon_zombie_fast"] = mon_zombie_fast;
+    monStr2monId["mon_zombie_dog"] = mon_zombie_dog;
     monStr2monId["mon_dog_skeleton"] = mon_dog_skeleton;
     monStr2monId["mon_dog_zombie_cop"] = mon_dog_zombie_cop;
     monStr2monId["mon_dog_zombie_rot"] = mon_dog_zombie_rot;

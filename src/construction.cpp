@@ -11,6 +11,7 @@
 #include "catacharset.h"
 #include "action.h"
 #include "translations.h"
+#include "veh_interact.h"
 
 #include <algorithm>
 
@@ -131,7 +132,7 @@ void construction_menu()
     int diff = current_con->difficulty > 0 ? current_con->difficulty : 0;
     posy++;
     mvwprintz(w_con, posy, 31, c_white,
-              _("Skill: %s"), current_con->skill.c_str());
+              _("Skill: %s"), Skill::skill(current_con->skill)->name().c_str());
     posy++;
     mvwprintz(w_con, posy, 31, (pskill >= diff ? c_white : c_red),
               _("Difficulty: %d"), diff);
@@ -460,7 +461,6 @@ void place_construction(const std::string &desc)
 
     construction *con = valid[choice];
     g->u.assign_activity(ACT_BUILD, con->time * 1000, con->id);
-    g->u.moves = 0;
     g->u.activity.placement = choice;
 }
 
@@ -546,22 +546,31 @@ void construct::done_trunk_plank(point p)
 void construct::done_vehicle(point p)
 {
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
-    if(name.empty())
-    {
+    if(name.empty()) {
         name = _("Car");
     }
 
-    vehicle *veh = g->m.add_vehicle ("custom", p.x, p.y, 270, 0, 0);
-    if (!veh)
-    {
+    vehicle *veh = g->m.add_vehicle ("none", p.x, p.y, 270, 0, 0);
+
+    if (!veh) {
         debugmsg ("error constructing vehicle");
         return;
     }
     veh->name = name;
 
-    //Update the vehicle cache immediately, or the vehicle will be invisible for the first couple of turns.
-    g->m.update_vehicle_cache(veh, true);
+    if (g->u.lastconsumed == "hdframe") {
+        veh->install_part (0, 0, "hdframe_vertical_2");
+    } else if (g->u.lastconsumed == "frame_wood") {
+        veh->install_part (0, 0, "frame_wood_vertical_2");
+    } else if (g->u.lastconsumed == "xlframe") {
+        veh->install_part (0, 0, "xlframe_vertical_2");
+    } else {
+        veh->install_part (0, 0, "frame_vertical_2");
+    }
 
+    // Update the vehicle cache immediately,
+    // or the vehicle will be invisible for the first couple of turns.
+    g->m.update_vehicle_cache(veh, true);
 }
 
 void construct::done_deconstruct(point p)
@@ -795,3 +804,10 @@ void load_construction(JsonObject &jo)
     constructions_by_desc[con->description].push_back(con);
 }
 
+void reset_constructions() {
+    for(std::vector<construction*>::iterator a = constructions.begin(); a != constructions.end(); ++a) {
+        delete *a;
+    }
+    constructions.clear();
+    constructions_by_desc.clear();
+}

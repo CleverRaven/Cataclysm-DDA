@@ -863,15 +863,20 @@ void player::perform_special_attacks(Creature &t)
   if (dealt_dam.total_damage() > 0)
       g->add_msg(special_attacks[i].text.c_str());
 
-  if (!can_poison && one_in(2) && (dealt_dam.type_damage(DT_CUT) > 0 ||
-        dealt_dam.type_damage(DT_STAB)))
+  if (!can_poison && (dealt_dam.type_damage(DT_CUT) > 0 ||
+        dealt_dam.type_damage(DT_STAB) > 0 ))
    can_poison = true;
  }
 
- if (can_poison && has_trait("POISONOUS")) {
-    if (!t.has_effect("poisoned"))
+ if (can_poison && ((has_trait("POISONOUS")) || (has_trait("POISONOUS2")))) {
+    if ((has_trait("POISONOUS")) && !t.has_effect("poisoned")) {
         g->add_msg_if_player(&t,_("You poison %s!"), target.c_str());
-    t.add_effect("poisoned", 6);
+        t.add_effect("poisoned", 6);
+    }
+    else if ((has_trait("POISONOUS2")) && (!(t.has_effect("nasty_poisoned")))) {
+        g->add_msg_if_player(&t,_("You inject your venom into %s!"), target.c_str());
+        t.add_effect("nasty_poisoned", 6);
+    }
  }
 }
 
@@ -953,8 +958,13 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
 // Glass weapons shatter sometimes
  if (weapon.made_of("glass") &&
      rng(0, weapon.volume() + 8) < weapon.volume() + str_cur) {
-     g->add_msg_player_or_npc( &t, _("Your %s shatters!"), _("<npcname>'s %s shatters!"),
-                               weapon.tname().c_str() );
+        if (is_player()) {
+            dump << string_format(_("Your %s shatters!"), weapon.tname().c_str()) << std::endl;
+        } else {
+            g->add_msg_player_or_npc(this, _("Your %s shatters!"),
+                                        _("<npcname>'s %s shatters!"),
+                                        weapon.tname().c_str());
+        }
 
   g->sound(posx, posy, 16, "");
 // Dump its contents on the ground
@@ -984,9 +994,14 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
  }
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) /* && TODO: put is_halluc check back in
          !z->is_hallucination()*/) {
-    dump << string_format(_("Your %s gets stuck in %s, pulling it our of your hands!"), weapon.tname().c_str(), target.c_str());
+    dump << string_format(_("Your %s gets stuck in %s, pulling it out of your hands!"), weapon.tname().c_str(), target.c_str());
   // TODO: better speed debuffs for target, possibly through effects
-  remove_weapon();
+  if (monster *m = dynamic_cast<monster*>(&t)) {
+    m->add_item(remove_weapon());
+  } else {
+    // Happens if 't' is not of 'monster' origin (this shouldn't happen)
+    g->m.add_item_or_charges(tarposx, tarposy, remove_weapon(), 1);
+  }
   t.mod_moves(-30);
   if (weapon.has_flag("HURT_WHEN_PULLED") && one_in(3)) {
     //Sharp objects that injure wielder when pulled from hands (so cutting damage only)
@@ -1021,13 +1036,29 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
 
     std::string target = t.disp_name();
 
+    if ( (has_trait("SABER_TEETH")) && !wearing_something_on(bp_mouth) &&
+    one_in(20 - dex_cur - skillLevel("unarmed")) ) {
+        special_attack tmp;
+        tmp.stab = (25 + str_cur);
+        if (is_player()) {
+            tmp.text = string_format(_("You tear into %s with your saber teeth!"),
+                                     target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s tears into %s with his saber teeth!"),
+                                     name.c_str(), target.c_str());
+        } else {
+            tmp.text = string_format(_("%s tears into %s with her saber teeth!"),
+                                     name.c_str(), target.c_str());
+        }
+        ret.push_back(tmp);
+    }
+    
  //Having lupine or croc jaws makes it much easier to sink your fangs into people; Ursine/Feline, not so much
-    if (has_trait("FANGS") && (
-            (!wearing_something_on(bp_mouth) && !has_trait("MUZZLE") && !has_trait("LONG_MUZZLE") &&
-            one_in(20 - dex_cur - skillLevel("unarmed"))) ||
-            (has_trait("MUZZLE") && one_in(18 - dex_cur - skillLevel("unarmed"))) ||
-            (has_trait("LONG_MUZZLE") && one_in(15 - dex_cur - skillLevel("unarmed"))) ||
-            (has_trait("BEAR_MUZZLE") && one_in(20 - dex_cur - skillLevel("unarmed"))))) {
+    if (has_trait("FANGS") && (!wearing_something_on(bp_mouth)) &&
+        ((!has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") &&
+        one_in(20 - dex_cur - skillLevel("unarmed"))) ||
+        (has_trait("MUZZLE") && one_in(18 - dex_cur - skillLevel("unarmed"))) ||
+        (has_trait("MUZZLE_LONG") && one_in(15 - dex_cur - skillLevel("unarmed"))))) {
         special_attack tmp;
         tmp.stab = 20;
         if (is_player()) {
@@ -1061,7 +1092,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (!has_trait("FANGS") && has_trait("BEAR_MUZZLE") &&
+    if (!has_trait("FANGS") && has_trait("MUZZLE_BEAR") &&
             one_in(20 - dex_cur - skillLevel("unarmed")) &&
             (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
@@ -1079,7 +1110,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (!has_trait("FANGS") && has_trait("LONG_MUZZLE") &&
+    if (!has_trait("FANGS") && has_trait("MUZZLE_LONG") &&
             one_in(18 - dex_cur - skillLevel("unarmed")) &&
             (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
@@ -1291,21 +1322,58 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
 
         for (int i = 0; i < num_attacks; i++) {
             special_attack tmp;
-            tmp.bash = str_cur / 3 + 1;
+            // Tentacle Rakes add additional cutting damage
             if (is_player()) {
-                tmp.text = string_format(_("You slap %s with your tentacle!"),
+                if (has_trait("CLAWS_TENTACLE")) {
+                    tmp.text = string_format(_("You rake %s with your tentacle!"),
+                                            target.c_str());
+                }
+                else tmp.text = string_format(_("You slap %s with your tentacle!"),
                                             target.c_str());
             } else if (male) {
-                tmp.text = string_format(_("%s slaps %s with his tentacle!"),
+                if (has_trait("CLAWS_TENTACLE")) {
+                    tmp.text = string_format(_("&s rakes %s with his tentacle!"),
+                                            name.c_str(), target.c_str());
+                }
+                else tmp.text = string_format(_("%s slaps %s with his tentacle!"),
                                             name.c_str(), target.c_str());
             } else {
-                tmp.text = string_format(_("%s slaps %s with her tentacle!"),
+                if (has_trait("CLAWS_TENTACLE")) {
+                    tmp.text = string_format(_("%s rakes %s with her tentacle!"),
+                                            name.c_str(), target.c_str());
+                }
+                else tmp.text = string_format(_("%s slaps %s with her tentacle!"),
                                             name.c_str(), target.c_str());
             }
+            if (has_trait("CLAWS_TENTACLE")) {
+                tmp.cut = str_cur / 2 + 1;
+            }
+            else tmp.bash = str_cur / 3 + 1;
             ret.push_back(tmp);
         }
      }
-
+  
+  if (has_trait("VINES2") || has_trait("VINES3")) {
+      int num_attacks = 2;
+      if (has_trait("VINES3")) {
+          num_attacks = 3;
+      }
+      for (int i = 0; i < num_attacks; i++) {
+          special_attack tmp;
+          if (is_player()) {
+              tmp.text = string_format(_("You lash %s with a vine!"),
+                                          target.c_str());
+          } else if (male) {
+              tmp.text = string_format(_("%s lashes %s with his vines!"),
+                                          name.c_str(), target.c_str());
+          } else {
+              tmp.text = string_format(_("%s lashes %s with her vines!"),
+                                          name.c_str(), target.c_str());
+          }
+      tmp.bash = str_cur / 2;
+      ret.push_back(tmp);
+      }
+  }
     return ret;
 }
 

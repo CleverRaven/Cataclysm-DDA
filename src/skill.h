@@ -26,6 +26,8 @@ class Skill {
   static Skill* random_skill_with_tag(std::string tag);
 
   static size_t skill_count();
+  // clear skill vector, every skill pointer becames invalid!
+  static void reset();
 
   Skill();
   Skill(size_t id, std::string ident, std::string name, std::string description, std::set<std::string> tags);
@@ -41,6 +43,8 @@ class Skill {
   bool operator< (const Skill& b) const { return this->_ident <  b._ident; } // Only here for the benefit of std::map<Skill,T>
 
   bool operator!=(const Skill& b) const { return !(*this == b); }
+
+  bool is_combat_skill() const;
 };
 
 class SkillLevel : public JsonSerializer, public JsonDeserializer

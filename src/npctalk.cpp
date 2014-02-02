@@ -90,6 +90,10 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
                                  ret.back().text = txt;\
                                  ret.back().skill = skillIn;
 
+#define SELECT_STYLE(txt, styleIn)  ret.push_back(talk_response());\
+                                 ret.back().text = txt;\
+                                 ret.back().style = styleIn;
+
 #define TRIAL(tr, diff) ret.back().trial = tr;\
                         ret.back().difficulty = diff
 
@@ -575,7 +579,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
   if (g->u.backlog.type == ACT_TRAIN)
    return _("Shall we resume?");
   std::vector<Skill*> trainable = p->skills_offered_to( &(g->u) );
-  std::vector<itype_id> styles = p->styles_offered_to( &(g->u) );
+  std::vector<matype_id> styles = p->styles_offered_to( &(g->u) );
   if (trainable.empty() && styles.empty())
    return _("Sorry, but it doesn't seem I have anything to teach you.");
   else
@@ -618,7 +622,9 @@ std::string dynamic_line(talk_topic topic, npc *p)
   return _("No.  I'm the leader here.");
 
  case TALK_HOW_MUCH_FURTHER: {
-  int dist = rl_dist(g->om_location(), point(p->goalx, p->goaly));
+  // TODO: this ignores the z-component
+  const tripoint player_pos = g->om_global_location();
+  int dist = rl_dist(player_pos.x, player_pos.y, p->goal.x, p->goal.y);
   std::stringstream response;
   dist *= 100;
   if (dist >= 1300) {
@@ -974,9 +980,11 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   RESPONSE(_("How about some items as payment?"));
    SUCCESS(TALK_MISSION_REWARD);
    SUCCESS_ACTION(&talk_function::mission_reward);
+  if(!p->skills_offered_to(&(g->u)).empty() || !p->styles_offered_to(&(g->u)).empty()) {
   SELECT_TEMP(_("Maybe you can teach me something as payment."), 0);
    SUCCESS(TALK_TRAIN);
    SUCCESS_ACTION(&talk_function::clear_mission);
+  }
   RESPONSE(_("Alright, well, you owe me one."));
    SUCCESS(TALK_NONE);
    SUCCESS_ACTION(&talk_function::clear_mission);
@@ -1108,16 +1116,20 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
 
  case TALK_TRAIN: {
   if (g->u.backlog.type == ACT_TRAIN) {
-   std::stringstream resume;
-   resume << _("Yes, let's resume training ") <<
-             (g->u.backlog.name != "" ?
-              Skill::skill(g->u.backlog.name)->name() :
-              itypes[ martial_arts_itype_ids[0-g->u.backlog.index] ]->name);
-   SELECT_TEMP( resume.str(), g->u.backlog.index);
+    std::stringstream resume;
+    resume << _("Yes, let's resume training ");
+    Skill *skillt = Skill::skill(g->u.backlog.name);
+    if(skillt == NULL) {
+        resume << martialarts[g->u.backlog.name].name;
+        SELECT_STYLE(resume.str(), g->u.backlog.name);
+    } else {
+        resume << skillt->name();
+        SELECT_SKIL(resume.str(), skillt);
+    }
     SUCCESS(TALK_TRAIN_START);
   }
+  std::vector<matype_id> styles = p->styles_offered_to( &(g->u) );
   std::vector<Skill*> trainable = p->skills_offered_to( &(g->u) );
-  std::vector<itype_id> styles = p->styles_offered_to( &(g->u) );
   if (trainable.empty() && styles.empty()) {
    RESPONSE(_("Oh, okay.")); // Nothing to learn here
     SUCCESS(TALK_NONE);
@@ -1131,7 +1143,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    printed++;
    Skill* trained = trainable[i];
    SELECT_SKIL(
-    string_format(_("%s: %d ->  (cost %d)"), trained->name().c_str(), static_cast<int>(g->u.skillLevel(trained)), g->u.skillLevel(trained) + 1, 200 * (g->u.skillLevel(trained) + 1)),
+    string_format(_("%s: %d -> %d (cost %d)"), trained->name().c_str(), static_cast<int>(g->u.skillLevel(trained)), g->u.skillLevel(trained) + 1, 200 * (g->u.skillLevel(trained) + 1)),
     trainable[i] );
     SUCCESS(TALK_TRAIN_START);
   }
@@ -1139,8 +1151,9 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    shift = 0;
   for (int i = 0; i < styles.size() && printed < 9; i++) {
    printed++;
-   SELECT_TEMP( string_format(_("%s (cost 800)"), itypes[styles[i]]->name.c_str()) ,
-                0 - i );
+   SELECT_STYLE(
+    string_format(_("%s (cost 800)"), martialarts[styles[i]].name.c_str()),
+    styles[i] );
     SUCCESS(TALK_TRAIN_START);
   }
   if (more) {
@@ -1560,8 +1573,10 @@ int trial_chance(talk_response response, player *u, npc *p)
     chance += 15;
    if (u->has_trait("MUZZLE"))
     chance += 6;
-   if (u->has_trait("LONG_MUZZLE"))
+   if (u->has_trait("MUZZLE_LONG"))
     chance += 20;
+   if (u->has_trait("SABER_TEETH"))
+    chance += 15;
    if (u->has_trait("TERRIFYING"))
     chance += 15;
    if (u->has_trait("ELFAEYES"))
@@ -1780,7 +1795,9 @@ void talk_function::deny_equipment(npc *p)
 void talk_function::hostile(npc *p)
 {
  g->add_msg(_("%s turns hostile!"), p->name.c_str());
- g->u.add_memorial_log(_("%s became hostile."), p->name.c_str());
+    g->u.add_memorial_log(pgettext("memorial_male","%s became hostile."),
+        pgettext("memorial_female", "%s became hostile."),
+        p->name.c_str());
  p->attitude = NPCATT_KILL;
 }
 
@@ -1831,9 +1848,10 @@ void talk_function::lead_to_safety(npc *p)
  g->give_mission(MISSION_REACH_SAFETY);
  int missid = g->u.active_missions[g->u.active_mission];
  point target = g->find_mission( missid )->target;
- p->goalx = target.x;
- p->goaly = target.y;
- p->goalz = g->levz;
+ // TODO: the target has no z-component
+ p->goal.x = target.x;
+ p->goal.y = target.y;
+ p->goal.z = g->levz;
  p->attitude = NPCATT_LEAD;
 }
 
@@ -1882,14 +1900,17 @@ void talk_function::start_training(npc *p)
 {
  int cost = 0, time = 0;
  Skill* sk_used = NULL;
+ std::string name;
  if (p->chatbin.skill == NULL) {
   // we're training a martial art style
   cost = -800;
   time = 30000;
+  name = p->chatbin.style;
  } else {
    sk_used = p->chatbin.skill;
    cost = -200 * (1 + g->u.skillLevel(sk_used));
    time = 10000 + 5000 * g->u.skillLevel(sk_used);
+   name = p->chatbin.skill->ident();
  }
 
 // Pay for it
@@ -1898,7 +1919,7 @@ void talk_function::start_training(npc *p)
  else if (!trade(p, cost, _("Pay for training:")))
   return;
 // Then receive it
- g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue, 0, p->chatbin.skill->ident());
+ g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue, 0, name);
 }
 
 void parse_tags(std::string &phrase, player *u, npc *me)
@@ -1991,24 +2012,36 @@ talk_topic dialogue::opt(talk_topic topic)
  std::vector<std::string> options;
  std::vector<nc_color>    colors;
  for (int i = 0; i < responses.size(); i++) {
-  options.push_back(
-      rmp_format(
-        responses[i].trial>0?
-        _("<talk option>%1$c: [%2$s %3$d%%] %4$s"):
-        (std::string(_("<talk option>%1$c: %4$s"))+"\003<%2$c%3$c>").c_str(),
-        char('a' + i), talk_trial_text[responses[i].trial],
-        trial_chance(responses[i], alpha, beta), responses[i].text.c_str()
-      )
-  );
-  parse_tags(options.back(), alpha, beta);
-  if (responses[i].text[0] == '!')
-   colors.push_back(c_red);
-  else if (responses[i].text[0] == '*')
-   colors.push_back(c_ltred);
-  else if (responses[i].text[0] == '&')
-   colors.push_back(c_green);
-  else
-   colors.push_back(c_white);
+     if (responses[i].trial > 0) {  // dialogue w/ a % chance to work
+         options.push_back(
+             rmp_format(
+                 _("<talk option>%1$c: [%2$s %3$d%%] %4$s"),
+                 char('a' + i),                           // option letter
+                 talk_trial_text[responses[i].trial],     // trial type
+                 trial_chance(responses[i], alpha, beta), // trial % chance
+                 responses[i].text.c_str()                // response
+             )
+         );
+     }
+     else { // regular dialogue
+         options.push_back(
+             rmp_format(
+                 _("<talk option>%1$c: %2$s"),
+                 char('a' + i),            // option letter
+                 responses[i].text.c_str() // response
+             )
+         );
+     }
+
+     parse_tags(options.back(), alpha, beta);
+     if (responses[i].text[0] == '!')
+         colors.push_back(c_red);
+     else if (responses[i].text[0] == '*')
+         colors.push_back(c_ltred);
+     else if (responses[i].text[0] == '&')
+         colors.push_back(c_green);
+     else
+         colors.push_back(c_white);
  }
 
  for (int i = 2; i < 24; i++) {
@@ -2080,6 +2113,8 @@ talk_topic dialogue::opt(talk_topic topic)
   beta->chatbin.tempvalue = chosen.tempvalue;
  if (chosen.skill != NULL)
   beta->chatbin.skill = chosen.skill;
+ if (!chosen.style.empty())
+  beta->chatbin.style = chosen.style;
 
  talk_function effect;
  if (chosen.trial == TALK_TRIAL_NONE ||

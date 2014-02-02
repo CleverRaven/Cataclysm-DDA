@@ -267,7 +267,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
   damage_info = _("It is heavily injured");
   col = c_yellow;
  } else if (hp >= type->hp * .1) {
-  damage_info = _("It is severly injured");
+  damage_info = _("It is severely injured");
   col = c_ltred;
  } else {
   damage_info = _("it is nearly dead");
@@ -714,7 +714,7 @@ void monster::melee_attack(Creature &target, bool) {
 
     body_part bp_hit;
     //int highest_hit = 0;
-    int hitstat = std::max(type->melee_skill - 2,0);
+    int hitstat = type->melee_skill;
     int hitroll = dice(hitstat,10);
 
     damage_instance damage;
@@ -902,7 +902,7 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
             g->add_msg(_("The shot passes through the %s without hitting."),
             disp_name().c_str());
         return 0;
-    } 
+    }
     // Not HARDTOSHOOT
     // if it's a headshot with no head, make it not a headshot
     if (missed_by < 0.2 && has_flag(MF_NOHEAD)) {
@@ -1147,7 +1147,10 @@ void monster::process_effects()
     for (std::vector<effect>::iterator it = effects.begin();
             it != effects.end(); ++it) {
         std::string id = it->get_id();
-        if (id == "poisoned") {
+        if (id == "nasty_poisoned") {
+            speed -= rng(3, 5);
+            hurt(rng(3, 6));
+        } if (id == "poisoned") {
             speed -= rng(0, 3);
             hurt(rng(1, 3));
 
@@ -1173,7 +1176,7 @@ bool monster::make_fungus()
     if (tid == "mon_ant" || tid == "mon_ant_soldier" || tid == "mon_ant_queen" || tid == "mon_fly" || tid == "mon_bee" || tid == "mon_dermatik")
     {
         polypick = 1;
-    }else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" || tid == "mon_zombie_spitter" || tid == "mon_zombie_fast" ||
+    }else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" || tid == "mon_zombie_spitter" || tid == "mon_zombie_dog" ||
               tid == "mon_zombie_brute" || tid == "mon_zombie_hulk"){
         polypick = 2;
     }else if (tid == "mon_boomer"){
@@ -1223,4 +1226,8 @@ bool monster::getkeep()
 void monster::setkeep(bool r)
 {
     keep = r;
+}
+
+m_size monster::get_size() {
+    return type->size;
 }

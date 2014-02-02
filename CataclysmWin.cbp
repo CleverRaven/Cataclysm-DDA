@@ -184,6 +184,8 @@
 		<Unit filename="src/addiction.h" />
 		<Unit filename="src/advanced_inv.cpp" />
 		<Unit filename="src/advanced_inv.h" />
+		<Unit filename="src/ammo.cpp" />
+		<Unit filename="src/ammo.h" />
 		<Unit filename="src/animation_curses.cpp" />
 		<Unit filename="src/animation_tiles.cpp" />
 		<Unit filename="src/artifact.cpp" />
@@ -229,6 +231,8 @@
 		<Unit filename="src/debug.cpp" />
 		<Unit filename="src/debug.h" />
 		<Unit filename="src/defense.cpp" />
+		<Unit filename="src/dependency_tree.cpp" />
+		<Unit filename="src/dependency_tree.h" />
 		<Unit filename="src/dialogue.h" />
 		<Unit filename="src/disease.cpp" />
 		<Unit filename="src/disease.h" />
@@ -320,6 +324,10 @@
 		<Unit filename="src/mission_place.cpp" />
 		<Unit filename="src/mission_start.cpp" />
 		<Unit filename="src/missiondef.cpp" />
+		<Unit filename="src/mod_factory.h" />
+		<Unit filename="src/mod_manager.cpp" />
+		<Unit filename="src/mod_manager.h" />
+		<Unit filename="src/mod_manager_ui.cpp" />
 		<Unit filename="src/monattack.cpp" />
 		<Unit filename="src/monattack.h" />
 		<Unit filename="src/mondeath.cpp" />

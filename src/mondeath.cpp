@@ -13,7 +13,10 @@ void mdeath::normal(monster *z) {
         g->add_msg(_("The %s dies!"), z->name().c_str());
     }
     if(z->type->difficulty >= 30) {
-        g->u.add_memorial_log(_("Killed a %s."), z->name().c_str());
+        // TODO: might not be killed by the player (g->u)!
+        g->u.add_memorial_log(pgettext("memorial_male","Killed a %s."),
+            pgettext("memorial_female", "Killed a %s."),
+            z->name().c_str());
     }
 
     m_size monSize = (z->type->size);
@@ -270,8 +273,7 @@ void mdeath::guilt(monster *z) {
     guilt_tresholds[50] = "You regret killing %s.";
     guilt_tresholds[25] = "You feel remorse for killing %s.";
 
-
-    if (g->u.has_trait("PSYCHOPATH")) {
+    if (g->u.has_trait("PSYCHOPATH") || g->u.has_trait("PRED3") || g->u.has_trait("PRED4") ) {
         return;
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > MAX_GUILT_DISTANCE) {
@@ -289,7 +291,11 @@ void mdeath::guilt(monster *z) {
                           "about their deaths anymore."), z->name().c_str());
         }
         return;
-    } else {
+    }
+        else if ((g->u.has_trait("PRED1")) || (g->u.has_trait("PRED2"))) {
+            msg = (_("Culling the weak is distasteful, but necessary."));
+        }
+        else {
         for (std::map<int, std::string>::iterator it = guilt_tresholds.begin();
                 it != guilt_tresholds.end(); it++) {
             if (kill_count >= it->first) {
@@ -307,6 +313,15 @@ void mdeath::guilt(monster *z) {
     int decayDelay = 30 * (1.0 - ((float) kill_count / maxKills));
     if (z->type->in_species("ZOMBIE")) {
         moraleMalus /= 10;
+        if (g->u.has_trait("PACIFIST")) {
+            moraleMalus *= 5;
+        }
+        else if (g->u.has_trait("PRED1")) {
+            moraleMalus /= 4;
+        }
+        else if (g->u.has_trait("PRED2")) {
+            moraleMalus /= 5;
+        }
     }
     g->u.add_morale(MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay);
 

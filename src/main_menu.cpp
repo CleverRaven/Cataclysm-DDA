@@ -124,13 +124,25 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
     }
 }
 
+bool assure_dir_exist(const std::string &path) {
+    DIR *dir = opendir(path.c_str());
+    if (dir != NULL) {
+        closedir(dir);
+        return true;
+    }
+#if (defined _WIN32 || defined __WIN32__)
+    return (mkdir(path.c_str()) == 0);
+#else
+    return (mkdir(path.c_str(), 0777) == 0);
+#endif
+}
+
 bool game::opening_screen()
 {
-    std::map<std::string, WORLDPTR> worlds;
-    if (world_generator) {
-        world_generator->set_active_world(NULL);
-        worlds = world_generator->get_all_worlds();
-    }
+    world_generator->set_active_world(NULL);
+    // This actually _loads_ what worlds exist.
+    world_generator->get_all_worlds();
+
     WINDOW *w_background = newwin(TERMY, TERMX, 0, 0);
     werase(w_background);
     wrefresh(w_background);
@@ -170,22 +182,10 @@ bool game::opening_screen()
     dirent *dp;
     DIR *dir;
 
-    dir = opendir("save");
-    if (!dir){
-        #if (defined _WIN32 || defined __WIN32__)
-            mkdir("save");
-        #else
-            mkdir("save", 0777);
-        #endif
-        dir = opendir("save");
+    if (!assure_dir_exist("save")) {
+        popup(_("Unable to make save directory. Check permissions."));
+        return false;
     }
-    if (!dir) {
-        dbg(D_ERROR) << "game:opening_screen: Unable to make save directory.";
-        debugmsg("Could not make './save' directory");
-        endwin();
-        exit(1);
-    }
-    closedir(dir);
 
     dir = opendir("data");
     while ((dp = readdir(dir))) {
@@ -242,9 +242,9 @@ bool game::opening_screen()
     u = player();
 
     while(!start) {
-        if (layer == 1) {
-            print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY, (sel1 == 0 || sel1 == 7) ? false : true);
+        print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY, (sel1 == 0 || sel1 == 7) ? false : true);
 
+        if (layer == 1) {
             if (sel1 == 0) { // Print the MOTD.
                 for (int i = 0; i < motd.size() && i < 16; i++) {
                     mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, motd[i].c_str());
@@ -367,27 +367,23 @@ bool game::opening_screen()
                 }
                 if (chInput == KEY_UP || chInput == 'k' || chInput == '\n') {
                     if (sel2 == 0 || sel2 == 2 || sel2 == 3) {
+                        // First load the mods, this is done by
+                        // loading the world.
+                        // Pick a world, supressing prompts if it's "play now" mode.
+                        WORLDPTR world = world_generator->pick_world( sel2 != 3 );
+                        if (world == NULL) {
+                            continue;
+                        }
+                        world_generator->set_active_world(world);
                         setup();
                         if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM :
                                                     ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW))) {
                             u = player();
-                            delwin(w_open);
-                            return (opening_screen());
-                        }
-                        // Pick a world, supressing prompts if it's "play now" mode.
-                        WORLDPTR world = world_generator->pick_world( sel2 != 3 );
-                        if (!world) {
-                            u = player();
-                            delwin(w_open);
-                            return opening_screen();
-                        } else {
-                            world_generator->set_active_world(world);
+                            continue;
                         }
                         werase(w_background);
                         wrefresh(w_background);
 
-                        load_artifacts(world->world_path + "/artifacts.gsav",
-                                       itypes);
                         MAPBUFFER.load(world->world_name);
                         start_game(world->world_name);
                         start = true;
@@ -528,21 +524,17 @@ bool game::opening_screen()
                         gamemode = get_special_game( special_game_id(sel2 + 1) );
                         // check world
                         WORLDPTR world = world_generator->make_new_world(special_game_id(sel2 + 1));
-
-                        if (world) {
-                            world_generator->set_active_world(world);
-                            setup();
+                        if (world == NULL) {
+                            continue;
                         }
-
-                        if (world == NULL || !gamemode->init()) {
+                        world_generator->set_active_world(world);
+                        setup();
+                        if (!gamemode->init()) {
                             delete gamemode;
-                            gamemode = new special_game;
+                            gamemode = NULL;
                             u = player();
-                            delwin(w_open);
-                            return (opening_screen());
+                            continue;
                         }
-                        load_artifacts(world->world_path + "/artifacts.gsav",
-                                       itypes);
                         start = true;
                     }
                 }
@@ -589,11 +581,8 @@ bool game::opening_screen()
                         wrefresh(w_background);
                         WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
                         world_generator->set_active_world(world);
-
-                        load_artifacts(world->world_path + "/artifacts.gsav",
-                                       itypes);
-                        MAPBUFFER.load(world->world_name);
                         setup();
+                        MAPBUFFER.load(world->world_name);
 
                         load(world->world_name, savegames[sel3]);
                         start = true;
@@ -708,28 +697,20 @@ bool game::opening_screen()
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 } else if (input == DirectionE || input == Confirm) {
+                    WORLDPTR world = world_generator->pick_world();
+                    if (world == NULL) {
+                        u = player();
+                        continue;
+                    }
+                    world_generator->set_active_world(world);
                     setup();
                     if (!u.create(PLTYPE_TEMPLATE, templates[sel3])) {
                         u = player();
-                        delwin(w_open);
-                        return (opening_screen());
-                    }
-                    // check world
-                    WORLDPTR world = world_generator->pick_world();
-                    if (!world) {
-                        u = player();
-                        delwin(w_open);
-                        return (opening_screen());
-                    } else {
-                        world_generator->set_active_world(world);
+                        continue;
                     }
                     werase(w_background);
                     wrefresh(w_background);
-
-                    std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
-                    load_artifacts(artfilename, itypes);
                     MAPBUFFER.load(world_generator->active_world->world_name);
-
                     start_game(world_generator->active_world->world_name);
                     start = true;
                 }

@@ -342,6 +342,7 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
  int mission_selected;
  int tempvalue; //No clue what this value does, but it is used all over the place. So it is NOT temp.
  Skill* skill;
+ matype_id style;
  talk_topic first_topic;
 
  npc_chatbin()
@@ -349,6 +350,7 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
   mission_selected = -1;
   tempvalue = -1;
   skill = NULL;
+  style = "";
   first_topic = TALK_NONE;
  }
 
@@ -376,8 +378,26 @@ public:
 // Generating our stats, etc.
  void randomize(npc_class type = NC_NONE);
  void randomize_from_faction(faction *fac);
- void spawn_at(overmap *o, int posx, int posy, int omz);
- void place_near(int potentialX, int potentialY);
+    /**
+     * Set omx, omy, omz, mapx and mapx.
+     * mx and my are submap coordinates relative to the overmap o.
+     * Both may out of the normal range of submap coordinates
+     * (< 0 or >= OMAPX*2), that's fine.
+     */
+    void spawn_at(overmap *o, int mx, int my, int omz);
+    /**
+     * Calls @ref spawn_at, spawns in a random city in
+     * the given overmap on z-level 0.
+     */
+    void spawn_at_random_city(overmap *o);
+    /**
+     * Places the NPC on the @ref map. This update its
+     * posx,posy and mapx,mapy values to fit the current offset of
+     * map (g->levx, g->levy).
+     * If the square on the map where the NPC would go is not empty
+     * a spiral search for an empty square around it is performed.
+     */
+    void place_on_map();
  Skill* best_skill();
  void starting_weapon();
 
@@ -538,19 +558,50 @@ public:
  npc_class myclass; // What's our archetype?
  int wandx, wandy, wandf; // Location of heard sound, etc.
 
+private:
 // Location:
  int omx, omy, omz; // Which overmap (e.g., o.0.0.0)
  int mapx, mapy;// Which square in that overmap (e.g., m.0.0)
+public:
+    /**
+     * Global position, expressed in map square coordinate system
+     * (the most detailed coordinate system), used by the @ref map.
+     *
+     * The (global) position of an NPC is always:
+     * point(
+     *  ((omx * OMAPX * 2) + mapx) * SEEX + posx,
+     *  ((omy * OMAPY * 2) + mapy) * SEEY + posy,
+     *  omz)
+     * (Expressed in map squares, the system that @ref map uses.)
+     * Any of om, map, pos can be in any range.
+     * For active NPCs pos would be in the valid range required by
+     * the map. But pos, map, and om can be changed without the NPC
+     * actual moving as long as the position stays the same:
+     * posx += SEEX; mapx -= 1;
+     * This does not change the global position of the NPC.
+     */
+    tripoint global_square_location() const;
+    /**
+     * Returns the location of the NPC in global submap coordinates.
+     */
+    tripoint global_sm_location() const;
+    /**
+     * Returns the location of the NPC in global overmap terrain coordinates.
+     */
+    tripoint global_omt_location() const;
  int plx, ply, plt;// Where we last saw the player, timeout to forgetting
  int itx, ity; // The square containing an item we want
- int goalx, goaly, goalz;// Which mapx:mapy square we want to get to
+    /**
+     * Global overmap terrain coordinate, where we want to get to
+     * if no goal exist, this is no_goal_point.
+     */
+    tripoint goal;
 
  bool fetching_item;
  bool has_new_items; // If true, we have something new and should re-equip
  int  worst_item_value; // The value of our least-wanted item
 
  std::vector<point> path; // Our movement plans
-
 
 // Personality & other defining characteristics
  int fac_id; // A temp variable used to inform the game which faction to link
@@ -566,8 +617,15 @@ public:
  bool hit_by_player;
  std::vector<npc_need> needs;
  unsigned flags : NF_MAX;
+ // Dummy point that indicates that the goal is invalid.
+ static const tripoint no_goal_point;
 private:
     void setID (int id);
+    // Called after shifting or when mapx,mapy changed to
+    // update omx,omy and move the npc to another overmap,
+    // if needed. If mapx,mapy are still inside the overmap,
+    // nothing will be done.
+    void update_overmap_pos();
 };
 
 #endif

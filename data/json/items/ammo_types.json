@@ -1,0 +1,332 @@
+[
+    {
+        "type" : "ammunition_type",
+        "id" : "NULL",
+        "name" : "none",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "700nx",
+        "name" : ".700 Nitro Express",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "ammo_flintlock",
+        "name" : "paper cartridge",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "50",
+        "name" : ".50 BMG",
+        "default" : "50bmg"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "nail",
+        "name" : "nails",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "BB",
+        "name" : "BBs",
+        "default" : "bb"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "bolt",
+        "name" : "bolts",
+        "default" : "bolt_wood"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "arrow",
+        "name" : "arrows",
+        "default" : "arrow_wood"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "pebble",
+        "name" : "pebbles",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "shot",
+        "name" : "shot",
+        "default" : "shot_00"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "22",
+        "name" : ".22",
+        "default" : "22_lr"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "9mm",
+        "name" : "9mm",
+        "default" : "9mm"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "762x25",
+        "name" : "7.62x25mm",
+        "default" : "762_25"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "38",
+        "name" : ".38",
+        "default" : "38_special"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "40",
+        "name" : ".40",
+        "default" : "10mm"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "44",
+        "name" : ".44",
+        "default" : "44magnum"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "45",
+        "name" : ".45",
+        "default" : "45_acp"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "454",
+        "name" : ".454",
+        "default" : "454_Casull"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "500",
+        "name" : ".500",
+        "default" : "500_Magnum"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "57",
+        "name" : "5.7mm",
+        "default" : "57mm"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "46",
+        "name" : "4.6mm",
+        "default" : "46mm"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "762",
+        "name" : "7.62x39mm",
+        "default" : "762_m43"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "223",
+        "name" : ".223",
+        "default" : "223"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "3006",
+        "name" : ".30-06",
+        "default" : "270"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "308",
+        "name" : ".308",
+        "default" : "308"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "40mm",
+        "name" : "40mm grenade",
+        "default" : "40mm_concussive"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "66mm",
+        "name" : "High Explosive Anti Tank warhead",
+        "default" : "66mm_HEAT"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "84x246mm",
+        "name" : "84mm recoilless projectile",
+        "default" : "84x246mm_he"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "m235",
+        "name" : "M235 Incendiary TPA",
+        "default" : "m235tpa"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "gasoline",
+        "name" : "gasoline",
+        "default" : "gasoline"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "lamp_oil",
+        "name" : "lamp oil",
+        "default" : "lamp_oil"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "thread",
+        "name" : "thread",
+        "default" : "thread"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "battery",
+        "name" : "batteries",
+        "default" : "battery"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "money",
+        "name" : "cents",
+        "default" : "money"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "laser_capacitor",
+        "name" : "charge",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "plutonium",
+        "name" : "plutonium",
+        "default" : "plut_cell"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "muscle",
+        "name" : "muscle",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "fusion",
+        "name" : "fusion cell",
+        "default" : "laser_pack"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "12mm",
+        "name" : "12mm slugs",
+        "default" : "12mm"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "plasma",
+        "name" : "hydrogen",
+        "default" : "plasma"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "water",
+        "name" : "clean water",
+        "default" : "water_clean"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "8x40mm",
+        "name" : "8x40mm caseless",
+        "default" : "8mm_caseless"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "20x66mm",
+        "name" : "20x66mm caseless shotgun",
+        "default" : "20x66_shot"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "5x50",
+        "name" : "5x50mm flechette",
+        "default" : "5x50dart"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "signal_flare",
+        "name" : "signal flare",
+        "default" : "signal_flare"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "mininuke_mod",
+        "name" : "modified mininuke",
+        "default" : "mininuke_mod"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "charcoal",
+        "name" : "charcoal",
+        "default" : "charcoal"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "metal_rail",
+        "name" : "ferrous rail projectile",
+        "default" : "rebar_rail"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "UPS",
+        "name" : "UPS",
+        "default" : "UPS"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "thrown",
+        "name" : "throwing weapon",
+        "default" : "thrown"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "ampoule",
+        "name" : "chemical ampoule",
+        "default" : "ampoule"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "components",
+        "name" : "components",
+        "default" : "components"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "RPG-7",
+        "name" : "RPG-7",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "dart",
+        "name" : "dart",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "fishspear",
+        "name" : "speargun spear",
+        "default" : "fishspear"
+    }
+]

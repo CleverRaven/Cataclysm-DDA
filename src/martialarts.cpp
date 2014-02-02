@@ -212,6 +212,12 @@ void load_martial_art(JsonObject &jo)
     martialarts[ma.id] = ma;
 }
 
+void clear_techniques_and_martial_arts()
+{
+    martialarts.clear();
+    ma_buffs.clear();
+    ma_techniques.clear();
+}
 
 bool ma_requirements::is_valid_player(player& u) {
   for (std::set<mabuff_id>::iterator it = req_buffs.begin();
@@ -510,7 +516,7 @@ bool player::can_leg_block() {
   if (martialarts[style_selected].leg_block < 0)
     return false;
   if (skillLevel("unarmed") >= martialarts[style_selected].leg_block &&
-      (hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_l] > 0))
+      (hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0))
     return true;
   else
     return false;
@@ -520,7 +526,7 @@ bool player::can_arm_block() {
   if (martialarts[style_selected].arm_block < 0)
     return false;
   if (skillLevel("unarmed") >= martialarts[style_selected].arm_block &&
-      (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_l] > 0))
+      (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0))
     return true;
   else
     return false;
