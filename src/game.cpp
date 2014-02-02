@@ -1089,58 +1089,61 @@ void game::activity_on_turn() {
     }
 }
 
-void game::activity_on_turn_game() {
+void game::activity_on_turn_game()
+{
     //Gaming takes time, not speed
     u.activity.moves_left -= 100;
 
-      item& game_item = u.i_at(u.activity.position);
+    item &game_item = u.i_at(u.activity.position);
 
-      //Deduct 1 battery charge for every minute spent playing
-      if(int(turn) % 10 == 0) {
+    //Deduct 1 battery charge for every minute spent playing
+    if(int(turn) % 10 == 0) {
         game_item.charges--;
         u.add_morale(MORALE_GAME, 1, 100); //1 points/min, almost 2 hours to fill
-      }
-      if(game_item.charges == 0) {
+    }
+    if(game_item.charges == 0) {
         u.activity.moves_left = 0;
         g->add_msg(_("The %s runs out of batteries."), game_item.name.c_str());
-      }
+    }
 
     u.pause();
 }
 
-void game::activity_on_turn_refill_vehicle() {
- vehicle *veh = NULL;
-   veh = m.veh_at( u.activity.placement.x, u.activity.placement.y );
-   if (!veh) {  // Vehicle must've moved or something!
-    u.activity.moves_left = 0;
-    return;
-   }
-   for(int i = -1; i <= 1; i++) {
-    for(int j = -1; j <= 1; j++) {
-     if(m.ter(u.posx + i, u.posy + j) == t_gas_pump) {
-      for (int n = 0; n < m.i_at(u.posx + i, u.posy + j).size(); n++) {
-       if (m.i_at(u.posx + i, u.posy + j)[n].type->id == "gasoline") {
-        item* gas = &(m.i_at(u.posx + i, u.posy + j)[n]);
-        int lack = (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) < 200 ?
-                   (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) : 200;
-        if (gas->charges > lack) {
-         veh->refill ("gasoline", lack);
-         gas->charges -= lack;
-         u.activity.moves_left -= 100;
-        } else {
-         add_msg(_("With a clang and a shudder, the gasoline pump goes silent."));
-         veh->refill ("gasoline", gas->charges);
-         m.i_at(u.posx + i, u.posy + j).erase(m.i_at(u.posx + i, u.posy + j).begin() + n);
-         u.activity.moves_left = 0;
-        }
-        i = 2; j = 2;
-        break;
-       }
-      }
-     }
+void game::activity_on_turn_refill_vehicle()
+{
+    vehicle *veh = NULL;
+    veh = m.veh_at( u.activity.placement.x, u.activity.placement.y );
+    if (!veh) {  // Vehicle must've moved or something!
+        u.activity.moves_left = 0;
+        return;
     }
-   }
-   u.pause();
+    for(int i = -1; i <= 1; i++) {
+        for(int j = -1; j <= 1; j++) {
+            if(m.ter(u.posx + i, u.posy + j) == t_gas_pump) {
+                for (int n = 0; n < m.i_at(u.posx + i, u.posy + j).size(); n++) {
+                    if (m.i_at(u.posx + i, u.posy + j)[n].type->id == "gasoline") {
+                        item *gas = &(m.i_at(u.posx + i, u.posy + j)[n]);
+                        int lack = (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) < 200 ?
+                                   (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) : 200;
+                        if (gas->charges > lack) {
+                            veh->refill ("gasoline", lack);
+                            gas->charges -= lack;
+                            u.activity.moves_left -= 100;
+                        } else {
+                            add_msg(_("With a clang and a shudder, the gasoline pump goes silent."));
+                            veh->refill ("gasoline", gas->charges);
+                            m.i_at(u.posx + i, u.posy + j).erase(m.i_at(u.posx + i, u.posy + j).begin() + n);
+                            u.activity.moves_left = 0;
+                        }
+                        i = 2;
+                        j = 2;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    u.pause();
 }
 
 void game::activity_on_finish() {
@@ -1199,38 +1202,39 @@ void game::activity_on_finish() {
     }
 }
 
-void game::activity_on_finish_reload() {
- item *reloadable = NULL;
+void game::activity_on_finish_reload()
+{
+    item *reloadable = NULL;
     {
-     int reloadable_pos;
-     std::stringstream ss(u.activity.name);
-     ss >> reloadable_pos;
-     reloadable = &u.i_at(reloadable_pos);
+        int reloadable_pos;
+        std::stringstream ss(u.activity.name);
+        ss >> reloadable_pos;
+        reloadable = &u.i_at(reloadable_pos);
     }
     if (reloadable->reload(u, u.activity.position)) {
-     if (reloadable->is_gun() && reloadable->has_flag("RELOAD_ONE")) {
-      add_msg(_("You insert a cartridge into your %s."),
-              reloadable->tname().c_str());
-      if (u.recoil < 8)
-       u.recoil = 8;
-      if (u.recoil > 8)
-       u.recoil = (8 + u.recoil) / 2;
-     } else {
-      add_msg(_("You reload your %s."), reloadable->tname().c_str());
-      u.recoil = 6;
-     }
+        if (reloadable->is_gun() && reloadable->has_flag("RELOAD_ONE")) {
+            add_msg(_("You insert a cartridge into your %s."),
+                    reloadable->tname().c_str());
+            if (u.recoil < 8) {
+                u.recoil = 8;
+            }
+            if (u.recoil > 8) {
+                u.recoil = (8 + u.recoil) / 2;
+            }
+        } else {
+            add_msg(_("You reload your %s."), reloadable->tname().c_str());
+            u.recoil = 6;
+        }
     } else {
-     add_msg(_("Can't reload your %s."), reloadable->tname().c_str());
+        add_msg(_("Can't reload your %s."), reloadable->tname().c_str());
     }
     u.activity.type = ACT_NULL;
 }
 
-void game::activity_on_finish_read() {
- it_book *reading = NULL;
- item *book_item = NULL;
- bool no_recipes = true;
-    book_item = &(u.i_at(u.activity.position));
-    reading = dynamic_cast<it_book*>(book_item->type);
+void game::activity_on_finish_read()
+{
+    item *book_item = &(u.i_at(u.activity.position));
+    it_book *reading = dynamic_cast<it_book *>(book_item->type);
 
     if (reading->fun != 0) {
         int fun_bonus;
@@ -1254,96 +1258,93 @@ void game::activity_on_finish_read() {
         book_item->charges--;
     }
 
-    no_recipes = true;
-    if (!reading->recipes.empty())
-    {
+    bool no_recipes = true;
+    if (!reading->recipes.empty()) {
         bool recipe_learned = u.try_study_recipe(reading);
-        if (!u.studied_all_recipes(reading))
-        {
+        if (!u.studied_all_recipes(reading)) {
             no_recipes = false;
         }
 
         // for books that the player cannot yet read due to skill level or have no skill component,
         // but contain lower level recipes, break out once recipe has been studied
-        if (reading->type == NULL || (u.skillLevel(reading->type) < (int)reading->req))
-        {
-            if (recipe_learned)
+        if (reading->type == NULL || (u.skillLevel(reading->type) < (int)reading->req)) {
+            if (recipe_learned) {
                 add_msg(_("The rest of the book is currently still beyond your understanding."));
+            }
+            u.activity.type = ACT_NULL;
             return;
         }
     }
 
     if (u.skillLevel(reading->type) < (int)reading->level) {
-     int originalSkillLevel = u.skillLevel(reading->type);
-     int min_ex = reading->time / 10 + u.int_cur / 4,
-         max_ex = reading->time /  5 + u.int_cur / 2 - originalSkillLevel;
-     if (min_ex < 1)
-     {
-         min_ex = 1;
-     }
-     if (max_ex < 2)
-     {
-         max_ex = 2;
-     }
-     if (max_ex > 10)
-     {
-         max_ex = 10;
-     }
-     if (max_ex < min_ex)
-     {
-         max_ex = min_ex;
-     }
+        int originalSkillLevel = u.skillLevel(reading->type);
+        int min_ex = reading->time / 10 + u.int_cur / 4,
+            max_ex = reading->time /  5 + u.int_cur / 2 - originalSkillLevel;
+        if (min_ex < 1) {
+            min_ex = 1;
+        }
+        if (max_ex < 2) {
+            max_ex = 2;
+        }
+        if (max_ex > 10) {
+            max_ex = 10;
+        }
+        if (max_ex < min_ex) {
+            max_ex = min_ex;
+        }
 
-     min_ex *= originalSkillLevel + 1;
-     max_ex *= originalSkillLevel + 1;
+        min_ex *= originalSkillLevel + 1;
+        max_ex *= originalSkillLevel + 1;
 
-     u.skillLevel(reading->type).readBook(min_ex, max_ex, turn, reading->level);
+        u.skillLevel(reading->type).readBook(min_ex, max_ex, turn, reading->level);
 
-     add_msg(_("You learn a little about %s! (%d%%%%)"), reading->type->name().c_str(),
-             u.skillLevel(reading->type).exercise());
+        add_msg(_("You learn a little about %s! (%d%%%%)"), reading->type->name().c_str(),
+                u.skillLevel(reading->type).exercise());
 
-     if (u.skillLevel(reading->type) == originalSkillLevel && u.activity.continuous) {
-      u.cancel_activity();
-      if (u.activity.index == -2) {
-       u.read(-1);
-      } else {
-       u.read(u.activity.position);
-      }
-      if (u.activity.type != ACT_NULL) {
-        u.activity.continuous = true;
-        return;
-      }
-     }
+        if (u.skillLevel(reading->type) == originalSkillLevel && u.activity.continuous) {
+            u.cancel_activity();
+            if (u.activity.index == -2) {
+                u.read(-1);
+            } else {
+                u.read(u.activity.position);
+            }
+            if (u.activity.type != ACT_NULL) {
+                u.activity.continuous = true;
+                return;
+            }
+        }
 
-     u.activity.continuous = false;
+        u.activity.continuous = false;
 
-     int new_skill_level = (int)u.skillLevel(reading->type);
-     if (new_skill_level > originalSkillLevel) {
-      add_msg(_("You increase %s to level %d."),
-              reading->type->name().c_str(),
-              new_skill_level);
+        int new_skill_level = (int)u.skillLevel(reading->type);
+        if (new_skill_level > originalSkillLevel) {
+            add_msg(_("You increase %s to level %d."),
+                    reading->type->name().c_str(),
+                    new_skill_level);
 
-      if(new_skill_level % 4 == 0) {
-       //~ %s is skill name. %d is skill level
-       u.add_memorial_log(pgettext("memorial_male", "Reached skill level %1$d in %2$s."),
-                          pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
-                          new_skill_level, reading->type->name().c_str());
-      }
-     }
+            if(new_skill_level % 4 == 0) {
+                //~ %s is skill name. %d is skill level
+                u.add_memorial_log(pgettext("memorial_male", "Reached skill level %1$d in %2$s."),
+                                   pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
+                                   new_skill_level, reading->type->name().c_str());
+            }
+        }
 
-     if (u.skillLevel(reading->type) == (int)reading->level) {
-      if (no_recipes) {
-       add_msg(_("You can no longer learn from %s."), reading->name.c_str());
-      } else {
-       add_msg(_("Your skill level won't improve, but %s has more recipes for you."), reading->name.c_str());
-      }
-     }
+        if (u.skillLevel(reading->type) == (int)reading->level) {
+            if (no_recipes) {
+                add_msg(_("You can no longer learn from %s."), reading->name.c_str());
+            } else {
+                add_msg(_("Your skill level won't improve, but %s has more recipes for you."),
+                        reading->name.c_str());
+            }
+        }
     }
     u.activity.type = ACT_NULL;
 }
 
-void game::activity_on_finish_train() {
-    Skill* skill = Skill::skill(u.activity.name);
+void game::activity_on_finish_train()
+{
+    Skill *skill = Skill::skill(u.activity.name);
     if (skill == NULL) {
         // Trained martial arts,
         add_msg(_("You learn %s."), martialarts[u.activity.name].name.c_str());
@@ -1351,13 +1352,13 @@ void game::activity_on_finish_train() {
         u.add_memorial_log(pgettext("memorial_male", "Learned %s."),
                            pgettext("memorial_female", "Learned %s."),
                            martialarts[u.activity.name].name.c_str()),
-        u.ma_styles.push_back(u.activity.name);
+                                       u.ma_styles.push_back(u.activity.name);
     } else {
         int new_skill_level = u.skillLevel(skill) + 1;
         u.skillLevel(skill).level(new_skill_level);
         add_msg(_("You finish training %s to level %d."),
-            skill->name().c_str(),
-            new_skill_level);
+                skill->name().c_str(),
+                new_skill_level);
         if(new_skill_level % 4 == 0) {
             //~ %d is skill level %s is skill name
             u.add_memorial_log(pgettext("memorial_male", "Reached skill level %1$d in %2$s."),
@@ -1368,69 +1369,65 @@ void game::activity_on_finish_train() {
     u.activity.type = ACT_NULL;
 }
 
-void game::activity_on_finish_firstaid() {
-      item& it = u.i_at(u.activity.position);
-      iuse tmp;
-      tmp.completefirstaid(&u, &it, false);
-      u.reduce_charges(u.activity.position, 1);
-      // Erase activity and values.
-      u.activity.type = ACT_NULL;
-      u.activity.values.clear();
+void game::activity_on_finish_firstaid()
+{
+    item &it = u.i_at(u.activity.position);
+    iuse tmp;
+    tmp.completefirstaid(&u, &it, false);
+    u.reduce_charges(u.activity.position, 1);
+    // Erase activity and values.
+    u.activity.type = ACT_NULL;
+    u.activity.values.clear();
+}
+
+void game::activity_on_finish_fish()
+{
+    item &it = u.i_at(u.activity.position);
+
+    if (it.has_flag("FISH_POOR")) {
+        int sSkillLevel = u.skillLevel("survival") + dice(1, 6);
+        int fishChance = dice(1, 20);
+
+        if (sSkillLevel > fishChance) {
+            item fish;
+
+            std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+            std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+
+            fish.make_corpse(itypes["corpse"], GetMType(fish_mon), g->turn);
+            m.add_item_or_charges(u.posx, u.posy, fish);
+
+            g->add_msg_if_player(&u, _("You catch a fish!"));
+        } else {
+            g->add_msg_if_player(&u, _("You catch nothing."));
+        }
+
+        u.practice(turn, "survival", rng(5, 15));
+    }
     u.activity.type = ACT_NULL;
 }
 
-void game::activity_on_finish_fish() {
-     {
-       item& it = u.i_at(u.activity.position);
-
-       if (it.has_flag("FISH_POOR")) {
-         int sSkillLevel = u.skillLevel("survival") + dice(1,6);
-         int fishChance = dice(1, 20);
-
-         if (sSkillLevel > fishChance) {
-           item fish;
-
-           std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
-           std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
-
-           fish.make_corpse(itypes["corpse"], GetMType(fish_mon), g->turn);
-           m.add_item_or_charges(u.posx, u.posy, fish);
-
-           g->add_msg_if_player(&u, _("You catch a fish!"));
-         } else {
-           g->add_msg_if_player(&u, _("You catch nothing."));
-         }
-
-         u.practice(turn, "survival", rng(5,15));
-       }
-     }
-    u.activity.type = ACT_NULL;
-}
-
-void game::activity_on_finish_vehicle() {
-    vehicle *veh = NULL;
+void game::activity_on_finish_vehicle()
+{
     //Grab this now, in case the vehicle gets shifted
-    veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
+    vehicle *veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
     complete_vehicle ();
 
-   u.activity.type = ACT_NULL;
-    if (u.activity.values.size() < 7)
-    {
-     dbg(D_ERROR) << "game:process_activity: invalid ACT_VEHICLE values: "
-                  << u.activity.values.size();
-     debugmsg ("process_activity invalid ACT_VEHICLE values:%d",
-                u.activity.values.size());
-    }
-    else {
-     if (veh) {
-      exam_vehicle(*veh, u.activity.values[0], u.activity.values[1],
+    u.activity.type = ACT_NULL;
+    if (u.activity.values.size() < 7) {
+        dbg(D_ERROR) << "game:process_activity: invalid ACT_VEHICLE values: "
+                     << u.activity.values.size();
+        debugmsg ("process_activity invalid ACT_VEHICLE values:%d",
+                  u.activity.values.size());
+    } else {
+        if (veh) {
+            exam_vehicle(*veh, u.activity.values[0], u.activity.values[1],
                          u.activity.values[2], u.activity.values[3]);
-      return;
-     } else
-     {
-      dbg(D_ERROR) << "game:process_activity: ACT_VEHICLE: vehicle not found";
-      debugmsg ("process_activity ACT_VEHICLE: vehicle not found");
-     }
+            return;
+        } else {
+            dbg(D_ERROR) << "game:process_activity: ACT_VEHICLE: vehicle not found";
+            debugmsg ("process_activity ACT_VEHICLE: vehicle not found");
+        }
     }
 }
 
