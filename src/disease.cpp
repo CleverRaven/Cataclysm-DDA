@@ -1919,7 +1919,7 @@ Your legs are frostbitten from prolonged exposure to the cold. It is extremely p
         }
 
     case DI_BLISTERS:
-        
+
       if (g->u.has_trait("NOPAIN")) {
         switch (dis.bp) {
             case bp_mouth:
@@ -2481,12 +2481,12 @@ static void handle_alcohol(player& p, disease& dis) {
     /*  We get 600 turns, or one hour, of DI_DRUNK for each drink we have (on avg).
         Duration of DI_DRUNK is a good indicator of how much alcohol is in our system.
     */
-    p.per_cur -= int(dis.duration / 1000);
-    p.dex_cur -= int(dis.duration / 1000);
-    p.int_cur -= int(dis.duration /  700);
-    p.str_cur -= int(dis.duration / 1500);
+    p.mod_per_bonus( - int(dis.duration / 1000));
+    p.mod_dex_bonus( - int(dis.duration / 1000));
+    p.mod_int_bonus( - int(dis.duration /  700));
+    p.mod_str_bonus( - int(dis.duration / 1500));
     if (dis.duration <= 600) {
-        p.str_cur += 1;
+        p.mod_str_bonus(+1);
     }
     if (dis.duration > 2000 + 100 * dice(2, 100) &&
         (will_vomit(p, 1) || one_in(20))) {
