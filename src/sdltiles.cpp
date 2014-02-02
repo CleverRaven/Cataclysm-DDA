@@ -1313,7 +1313,8 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         int win_right = (capture_win->x * fontwidth) + (capture_win->width * tilecontext->tile_width);
         int win_top = capture_win->y * fontheight;
         int win_bottom = (capture_win->y * fontheight) + (capture_win->height * tilecontext->tile_height);
-        if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
+        if (coordinate_x < win_left || coordinate_x > win_right ||
+            coordinate_y < win_top || coordinate_y > win_bottom) {
             return false;
         }
 
@@ -1333,7 +1334,8 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         int win_right = (capture_win->x + capture_win->width) * fontwidth;
         int win_top = capture_win->y * fontheight;
         int win_bottom = (capture_win->y + capture_win->height) * fontheight;
-        if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
+        if (coordinate_x < win_left || coordinate_x > win_right ||
+            coordinate_y < win_top || coordinate_y > win_bottom) {
             return false;
         }
 
