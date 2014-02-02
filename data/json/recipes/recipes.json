@@ -14198,6 +14198,42 @@
   ]
 },{
         "type" : "recipe",
+  "result": "solar_cell",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "difficulty": 7,
+  "time": 30000,
+  "reversible": false,
+  "decomp_learn": 5,
+  "autolearn": true,
+  "book_learn": [["manual_electronics", 6] , ["textbook_electronics", 5] , ["advanced_electronics", 5]],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "glass_sheet", 1 ]
+    ],
+    [
+      [ "circuit", 2 ]
+    ],
+    [
+      [ "e_scrap", 4 ]
+    ],
+    [
+      [ "cable", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "solar_panel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
