@@ -417,12 +417,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     std::map<int, std::vector<std::string> > world_pages;
     int worldnum = 0;
     for (int i = 0; i < num_pages; ++i) {
-        world_pages[i] = std::vector<std::string>();
-        for (int j = 0; j < iContentHeight; ++j) {
+        for (int j = 0; j < iContentHeight && worldnum < world_names.size(); ++j) {
             world_pages[i].push_back(world_names[worldnum++]);
-            if (worldnum == world_names.size()) {
-                break;
-            }
         }
     }
     int sel = 0, selpage = 0;
