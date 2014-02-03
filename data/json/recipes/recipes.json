@@ -18030,6 +18030,66 @@
   ]
 },{
         "type" : "recipe",
+  "result": "waterskin2",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 2 ],
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 90 ],
+      [ "needle_wood", 90 ],
+      [ "sewing_kit", 90 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sinew", 40 ],
+      [ "thread", 40 ],
+      [ "plant_fibre", 40 ],
+      [ "string_36", 1 ]
+    ],
+    [
+      [ "leather", 14 ],
+      [ "fur", 14 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "waterskin3",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 2 ],
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 120 ],
+      [ "needle_wood", 120 ],
+      [ "sewing_kit", 120 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sinew", 40 ],
+      [ "thread", 40 ],
+      [ "plant_fibre", 40 ],
+      [ "string_36", 1 ]
+    ],
+    [
+      [ "leather", 24 ],
+      [ "fur", 24 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "makeshift_funnel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
