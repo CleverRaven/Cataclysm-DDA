@@ -66,6 +66,20 @@ bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
     return true;
 }
 
+void mapbuffer::remove_submap( tripoint addr )
+{
+    if (submaps.count( addr ) == 0) {
+        return;
+    }
+    std::map<tripoint, submap *, pointcomp>::iterator m_target = submaps.find( addr );
+    std::list<submap *>::iterator l_target = find( submap_list.begin(), submap_list.end(),
+                                                   m_target->second );
+    // We're probably leaking vehicle objects here.
+    delete m_target->second;
+    submap_list.erase( l_target );
+    submaps.erase( m_target );
+}
+
 submap *mapbuffer::lookup_submap(int x, int y, int z)
 {
     dbg(D_INFO) << "mapbuffer::lookup_submap( x[" << x << "], y[" << y << "], z[" << z << "])";
@@ -101,7 +115,7 @@ void mapbuffer::save_if_dirty()
     }
 }
 
-void mapbuffer::save()
+void mapbuffer::save( bool delete_after_save )
 {
     std::map<tripoint, submap *, pointcomp>::iterator it;
     std::ofstream fout;
@@ -158,7 +172,9 @@ void mapbuffer::save()
 
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint, pointcomp> saved_submaps;
-    for (it = submaps.begin(); it != submaps.end(); it++) {
+    // The weird ternary is to handle the case where we're deleting the list as we go.
+    for (it = submaps.begin(); it != submaps.end();
+         delete_after_save ? it = submaps.begin() : ++it ) {
         if (num_total_submaps > 100 && num_saved_submaps % 100 == 0) {
             popup_nowait(_("Please wait as the map saves [%d/%d]"),
                          num_saved_submaps, num_total_submaps);
@@ -188,14 +204,13 @@ void mapbuffer::save()
             om_addr.y << "." << om_addr.z << ".map";
         fout.open( quad_path.str().c_str() );
 
-        save_quad( fout, om_addr );
-
+        save_quad( fout, om_addr, delete_after_save );
         num_saved_submaps += 4;
         fout.close();
     }
 }
 
-void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr )
+void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr, bool delete_after_save )
 {
     std::vector<point> offsets;
     offsets.push_back(point(0, 0));
@@ -210,6 +225,9 @@ void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr )
 
         fout << submap_addr.x << " " << submap_addr.y << " " << submap_addr.z << std::endl;
         submap *sm = lookup_submap( submap_addr.x, submap_addr.y, submap_addr.z );
+        if( sm == NULL ) {
+            continue;
+        }
 
         fout << sm->turn_last_touched << std::endl;
         fout << sm->temperature << std::endl;
@@ -311,6 +329,9 @@ void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr )
             fout << "B " << sm->camp.save_data() << std::endl;
         }
         fout << "----" << std::endl;
+        if( delete_after_save ) {
+            remove_submap( submap_addr );
+        }
     }
 }
 
@@ -329,7 +350,8 @@ void mapbuffer::load(std::string worldname)
         num_submaps = unserialize_keys( fin );
         unserialize_submaps( fin, num_submaps );
         fin.close();
-        save();
+        // Save the data and unload it at the same time.
+        save( true );
         unlink( worldmap.str().c_str() );
         return;
     }
@@ -359,6 +381,8 @@ void mapbuffer::load(std::string worldname)
             fin.open( file->c_str() );
             unserialize_submaps( fin, num_submaps );
             fin.close();
+            // Write out and clear map data as its read.
+            save( true );
         }
     }
 }

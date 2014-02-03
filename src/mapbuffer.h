@@ -49,7 +49,7 @@ class mapbuffer
         /** Load the entire world from savefiles into submaps in this instance. **/
         void load(std::string worldname);
         /** Store all submaps in this instance into savefiles. **/
-        void save();
+        void save( bool delete_after_save = false );
 
         /** Save only if the dirty flag is set. **/
         void save_if_dirty();
@@ -73,10 +73,13 @@ class mapbuffer
         int size();
 
     private:
+        // There's a very good reason this is private,
+        // if not handled carefully, this can erase in-use submaps and crash the game.
+        void remove_submap( tripoint addr );
         int unserialize_keys( std::ifstream &fin );
         void unserialize_submaps( std::ifstream &fin, const int num_submaps );
         bool unserialize_legacy(std::ifstream &fin);
-        void save_quad( std::ofstream &fout, const tripoint &om_addr );
+        void save_quad( std::ofstream &fout, const tripoint &om_addr, bool delete_after_save );
         std::map<tripoint, submap *, pointcomp> submaps;
         std::list<submap *> submap_list;
         bool dirty;
