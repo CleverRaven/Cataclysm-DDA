@@ -8544,7 +8544,7 @@ void player::use(int pos)
             g->add_msg(_("That %s cannot be attached to a crossbow."),
                        used->tname().c_str());
             return;
-        } else if (guntype->skill_used == Skill::skill("launchers") && !mod->used_on_launcher) {
+        } else if (guntype->skill_used == Skill::skill("launcher") && !mod->used_on_launcher) {
             g->add_msg(_("That %s cannot be attached to a launcher."),
                        used->tname().c_str());
             return;
@@ -8825,7 +8825,12 @@ void player::read(int pos)
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
     // away while you read more.
     int minutes = time / 1000;
-    add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, tmp);
+    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+    if ((has_trait("CANNIBAL") || has_trait("PSYCHOPATH") || has_trait("SAPIOVORE")) &&
+      tmp->id == "cookbook_human") {
+          add_morale(MORALE_BOOK, 0, 75, minutes + 30, minutes, false, tmp);
+      }
+    else add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, tmp);
 }
 
 bool player::can_study_recipe(it_book* book)
