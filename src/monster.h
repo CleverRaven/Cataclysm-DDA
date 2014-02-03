@@ -250,6 +250,7 @@ m_size get_size();
  int speed;
  int hp;
  int sp_timeout;
+ int def_chance;
  int friendly;
  int anger, morale;
  int faction_id; // If we belong to a faction
