@@ -1340,7 +1340,7 @@ void game::complete_craft()
     }
 
     // Set up the new item, and assign an inventory letter if available
-    item newit(item_controller->find_template(making->result), turn, 0);
+    item newit(item_controller->find_template(making->result), turn, 0, false);
 
     if (newit.is_armor() && newit.has_flag("VARSIZE")) {
         newit.item_tags.insert("FIT");
@@ -1373,9 +1373,6 @@ void game::complete_craft()
     }
     if (!newit.craft_has_charges()) {
         newit.charges = 0;
-    } else {
-        it_tool* tool = dynamic_cast<it_tool*>(newit.type);
-        newit.charges = tool->def_charges;
     }
     u.inv.assign_empty_invlet(newit);
     //newit = newit.in_its_container(&itypes);

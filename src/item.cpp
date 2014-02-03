@@ -28,7 +28,7 @@ item::item()
     init();
 }
 
-item::item(itype* it, unsigned int turn)
+item::item(itype* it, unsigned int turn, bool rand)
 {
     init();
     if (it == NULL)
@@ -44,16 +44,22 @@ item::item(itype* it, unsigned int turn)
         charges = ammo->count;
     } else if (it->is_food()) {
         it_comest* comest = dynamic_cast<it_comest*>(it);
-        if (comest->charges == 1 && !made_of(LIQUID))
+        if (comest->charges == 1 && !made_of(LIQUID)) {
             charges = -1;
-        else
-            charges = comest->charges;
+        } else {
+            if (rand && comest->rand_charges.size() > 1) {
+                int charge_roll = rng(1, comest->rand_charges.size() - 1);
+                charges = rng(comest->rand_charges[charge_roll - 1], comest->rand_charges[charge_roll]);
+            } else {
+                charges = comest->charges;
+            }
+        }
     } else if (it->is_tool()) {
         it_tool* tool = dynamic_cast<it_tool*>(it);
         if (tool->max_charges == 0) {
             charges = -1;
         } else {
-            if (tool->rand_charges.size() > 1) {
+            if (rand && tool->rand_charges.size() > 1) {
                 int charge_roll = rng(1, tool->rand_charges.size() - 1);
                 charges = rng(tool->rand_charges[charge_roll - 1], tool->rand_charges[charge_roll]);
             } else {
@@ -81,7 +87,7 @@ item::item(itype* it, unsigned int turn)
     }
 }
 
-item::item(itype *it, unsigned int turn, char let)
+item::item(itype *it, unsigned int turn, char let, bool rand)
 {
     init();
     if(!it) {
@@ -98,16 +104,22 @@ item::item(itype *it, unsigned int turn, char let)
             charges = ammo->count;
         } else if (it->is_food()) {
             it_comest* comest = dynamic_cast<it_comest*>(it);
-            if (comest->charges == 1 && !made_of(LIQUID))
+            if (comest->charges == 1 && !made_of(LIQUID)) {
                 charges = -1;
-            else
-                charges = comest->charges;
+            } else {
+                if (rand && comest->rand_charges.size() > 1) {
+                    int charge_roll = rng(1, comest->rand_charges.size() - 1);
+                    charges = rng(comest->rand_charges[charge_roll - 1], comest->rand_charges[charge_roll]);
+                } else {
+                    charges = comest->charges;
+                }
+            }
         } else if (it->is_tool()) {
             it_tool* tool = dynamic_cast<it_tool*>(it);
             if (tool->max_charges == 0)
                 charges = -1;
             else {
-                if (tool->rand_charges.size() > 1) {
+                if (rand && tool->rand_charges.size() > 1) {
                     int charge_roll = rng(1, tool->rand_charges.size() - 1);
                     charges = rng(tool->rand_charges[charge_roll - 1], tool->rand_charges[charge_roll]);
                 } else {
@@ -2627,8 +2639,8 @@ itype_id item::typeId() const
     return type->id;
 }
 
-item item::clone() {
-    return item(type, bday);
+item item::clone(bool rand) {
+    return item(type, bday, rand);
 }
 
 bool item::getlight(float & luminance, int & width, int & direction, bool calculate_dimming ) const {

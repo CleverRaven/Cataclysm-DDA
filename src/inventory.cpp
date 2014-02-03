@@ -462,12 +462,12 @@ item& inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
     return items.back().back();
 }
 
-void inventory::add_item_by_type(itype_id type, int count, long charges)
+void inventory::add_item_by_type(itype_id type, int count, long charges, bool rand)
 {
     // TODO add proper birthday
     while (count > 0)
     {
-        item tmp = item_controller->create(type, 0);
+        item tmp = item_controller->create(type, 0, rand);
         if (charges != -1)
         {
             tmp.charges = charges;

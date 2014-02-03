@@ -206,6 +206,7 @@ struct it_comest : public itype
     unsigned int spoils;   // How long it takes to spoil (hours / 600 turns)
     unsigned int addict;   // Addictiveness potential
     long charges;  // Defaults # of charges (drugs, loaf of bread? etc)
+    std::vector<long> rand_charges;
     signed int stim;
     signed int healthy;
     std::string comesttype; //FOOD, DRINK, MED
@@ -237,22 +238,23 @@ struct it_comest : public itype
 
     signed int pquench, unsigned int pnutr, signed int pspoils,
     signed int pstim, signed int phealthy, unsigned int paddict,
-    long pcharges, signed int pfun, itype_id pcontainer,
+    long pcharges, std::vector<long> prand_charges, signed int pfun, itype_id pcontainer,
     itype_id ptool, int (iuse::*puse)(player *, item *, bool),
     add_type padd, std::string pcomesttype)
     : itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
     pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit), comesttype(pcomesttype), container(pcontainer), tool(ptool)
     {
-        quench     = pquench;
-        nutr       = pnutr;
-        spoils     = pspoils;
-        stim       = pstim;
-        healthy    = phealthy;
-        addict     = paddict;
-        charges    = pcharges;
-        fun        = pfun;
-        use        = puse;
-        add        = padd;
+        quench          = pquench;
+        nutr            = pnutr;
+        spoils          = pspoils;
+        stim            = pstim;
+        healthy         = phealthy;
+        addict          = paddict;
+        charges         = pcharges;
+        rand_charges    = prand_charges;
+        fun             = pfun;
+        use             = puse;
+        add             = padd;
     }
 
     it_comest() : itype()

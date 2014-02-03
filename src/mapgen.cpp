@@ -10788,7 +10788,7 @@ void map::place_vending(int x, int y, bool drinks)
 }
 
 int map::place_items(items_location loc, int chance, int x1, int y1,
-                     int x2, int y2, bool ongrass, int turn)
+                     int x2, int y2, bool ongrass, int turn, bool rand)
 {
     const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
 
@@ -10826,7 +10826,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                       (!ongrass && !terlist[ter(px, py)].has_flag("FLAT") )) &&
                      tries < 20);
             if (tries < 20) {
-                spawn_item(px, py, selected_item, 1, 0, turn);
+                spawn_item(px, py, selected_item, 1, 0, turn, rand);
                 item_num++;
                 // Guns in item groups with guns_have_ammo flags are generated with their ammo
                 if ( guns_have_ammo ) {
@@ -10842,11 +10842,11 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
 }
 
 void map::put_items_from(items_location loc, int num, int x, int y, int turn, int quantity,
-                         long charges, int damlevel)
+                         long charges, int damlevel, bool rand)
 {
     for (int i = 0; i < num; i++) {
         Item_tag selected_item = item_controller->id_from(loc);
-        spawn_item(x, y, selected_item, quantity, charges, turn, damlevel);
+        spawn_item(x, y, selected_item, quantity, charges, turn, damlevel, rand);
     }
 }
 

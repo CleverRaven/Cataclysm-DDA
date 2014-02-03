@@ -2383,7 +2383,7 @@ void map::spawn_artifact(const int x, const int y, itype* type, const int bday)
 // added argument to spawn at various damage levels
 void map::spawn_item(const int x, const int y, const std::string &type_id,
                      const unsigned quantity, const long charges,
-                     const unsigned birthday, const int damlevel)
+                     const unsigned birthday, const int damlevel, const bool rand)
 {
     // recurse to spawn (quantity - 1) items
     for(int i = 1; i < quantity; i++)
@@ -2391,7 +2391,7 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
         spawn_item(x, y, type_id, 1, charges, birthday, damlevel);
     }
     // spawn the item
-    item new_item = item_controller->create(type_id, birthday);
+    item new_item = item_controller->create(type_id, birthday, rand);
     spawn_an_item(x, y, new_item, charges, damlevel);
 }
 

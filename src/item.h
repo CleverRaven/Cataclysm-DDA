@@ -66,8 +66,8 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(itype* it, unsigned int turn);
- item(itype* it, unsigned int turn, char let);
+ item(itype* it, unsigned int turn, bool rand = true);
+ item(itype* it, unsigned int turn, char let, bool rand = true);
  void make_corpse(itype* it, mtype* mt, unsigned int turn); // Corpse
  item(std::string itemdata);
  item(JsonObject &jo);
@@ -248,7 +248,7 @@ public:
  std::map<std::string, std::string> item_vars;
  static itype * nullitem();
 
- item clone();
+ item clone(bool rand = true);
 private:
  int sort_rank() const;
  static itype * nullitem_m;

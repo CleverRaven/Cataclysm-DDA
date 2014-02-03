@@ -56,7 +56,7 @@ class inventory
   void push_back(std::list<item> newits);
   char get_invlet_for_item( std::string item_type );
   item& add_item (item newit, bool keep_invlet = false, bool assign_invlet = true); //returns a ref to the added item
-  void add_item_by_type(itype_id type, int count = 1, long charges = -1);
+  void add_item_by_type(itype_id type, int count = 1, long charges = -1, bool rand = true);
   void add_item_keep_invlet(item newit);
   void push_back(item newit);
 

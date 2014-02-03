@@ -472,31 +472,31 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag, bool & with_ammo 
     }
 }
 
-item Item_factory::create(Item_tag id, int created_at){
-    return item(find_template(id), created_at);
+item Item_factory::create(Item_tag id, int created_at, bool rand){
+    return item(find_template(id), created_at, rand);
 }
-Item_list Item_factory::create(Item_tag id, int created_at, int quantity){
+Item_list Item_factory::create(Item_tag id, int created_at, int quantity, bool rand){
     Item_list new_items;
-    item new_item_base = create(id, created_at);
+    item new_item_base = create(id, created_at, rand);
     for(int ii=0;ii<quantity;++ii){
-        new_items.push_back(new_item_base.clone());
+        new_items.push_back(new_item_base.clone(rand));
     }
     return new_items;
 }
-item Item_factory::create_from(Item_tag group, int created_at){
-    return create(id_from(group), created_at);
+item Item_factory::create_from(Item_tag group, int created_at, bool rand){
+    return create(id_from(group), created_at, rand);
 }
-Item_list Item_factory::create_from(Item_tag group, int created_at, int quantity){
-    return create(id_from(group), created_at, quantity);
+Item_list Item_factory::create_from(Item_tag group, int created_at, int quantity, bool rand){
+    return create(id_from(group), created_at, quantity, rand);
 }
-item Item_factory::create_random(int created_at){
-    return create(random_id(), created_at);
+item Item_factory::create_random(int created_at, bool rand){
+    return create(random_id(), created_at, rand);
 }
-Item_list Item_factory::create_random(int created_at, int quantity){
+Item_list Item_factory::create_random(int created_at, int quantity, bool rand){
     Item_list new_items;
     item new_item_base = create(random_id(), created_at);
     for(int ii=0;ii<quantity;++ii){
-        new_items.push_back(new_item_base.clone());
+        new_items.push_back(new_item_base.clone(rand));
     }
     return new_items;
 }
@@ -639,6 +639,15 @@ void Item_factory::load_comestible(JsonObject& jo)
     comest_template->healthy = jo.get_int("heal", 0);
     comest_template->fun = jo.get_int("fun", 0);
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
+
+    if (jo.has_array("rand_charges")) {
+        JsonArray jarr = jo.get_array("rand_charges");
+        while (jarr.has_more()){
+            comest_template->rand_charges.push_back(jarr.next_long());
+        }
+    } else {
+        comest_template->rand_charges.push_back(comest_template->charges);
+    }
 
     itype *new_item_template = comest_template;
     load_basic_info(jo, new_item_template);

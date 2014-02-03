@@ -775,7 +775,7 @@ std::list<item> starting_inv(npc *me, npc_class type)
 {
  int total_space = me->volume_capacity() - 2;
  std::list<item> ret;
- ret.push_back( item(itypes["lighter"], 0) );
+ ret.push_back( item(itypes["lighter"], 0, false) );
  itype_id tmp;
 
 // First, if we're wielding a gun, get some ammo for it
