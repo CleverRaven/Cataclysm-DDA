@@ -12534,12 +12534,12 @@
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
   "skill_used": "fabrication",
-  "difficulty": 3,
+  "difficulty": 2,
   "time": 6500,
   "reversible": true,
-  "decomp_learn": 2,
+  "decomp_learn": 1,
   "autolearn": false,
-  "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 2 ] , [ "advanced_electronics", 2 ]],
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ] , [ "manual_mechanics", 2] ],
   "tools": [
     [
       ["crucible", -1]
@@ -12552,7 +12552,7 @@
   ],
   "components": [
     [
-      [ "lead", 500 ]
+      [ "lead", 100 ]
     ]
   ]
 },{
@@ -18543,7 +18543,7 @@
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
-  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "textbook_anarch", 2 ]],
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
   "tools": [
     [
       ["mold_plastic", -1]
@@ -18567,7 +18567,7 @@
       [ "plastic_chunk", 3 ]
     ],
     [
-      [ "scrap" 1 ]
+      [ "scrap", 1 ]
     ],
     [
       [ "lead_plate", 2 ]
@@ -18597,7 +18597,7 @@
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
-  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "textbook_anarch", 2 ]],
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -18651,7 +18651,7 @@
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
-  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "textbook_anarch", 2 ]],
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -18675,7 +18675,7 @@
       [ "plastic_chunk", 15 ]
     ],
     [
-      [ "scrap" 4 ]
+      [ "scrap", 4 ]
     ],
     [
       [ "lead_plate", 6 ]
@@ -18705,7 +18705,7 @@
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
-  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "textbook_anarch", 2 ]],
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -18729,7 +18729,7 @@
       [ "plastic_chunk", 20 ]
     ],
     [
-      [ "scrap" 6 ]
+      [ "scrap", 6 ]
     ],
     [
       [ "lead_plate", 8 ]
