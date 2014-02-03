@@ -50,7 +50,7 @@ int set_profession(WINDOW *w, player *u, int &points);
 int set_skills(WINDOW *w, player *u, int &points);
 int set_description(WINDOW *w, player *u, character_type type, int &points);
 
-int random_skill();
+Skill *random_skill();
 
 int calc_HP(int strength, int tough);
 
@@ -197,9 +197,7 @@ bool player::create(character_type type, std::string tempname)
                         case 7:
                         case 8:
                         case 9:
-                            rn = random_skill();
-
-                            Skill *aSkill = Skill::skill(rn);
+                            Skill *aSkill = random_skill();
                             int level = skillLevel(aSkill);
 
                             if (level < points) {
@@ -1584,9 +1582,9 @@ std::string player::random_bad_trait()
     return vTraitsBad[rng(0, vTraitsBad.size() - 1)];
 }
 
-int random_skill()
+Skill *random_skill()
 {
-    return rng(1, Skill::skills.size() - 1);
+    return Skill::skill(rng(0, Skill::skill_count() - 1));
 }
 
 int calc_HP(int strength, int tough)
