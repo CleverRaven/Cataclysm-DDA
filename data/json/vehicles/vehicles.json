@@ -2190,7 +2190,7 @@
             {"x": -5, "y": -1, "part": "xlframe_sw"},
             {"x": -5, "y": -1, "part": "solar_panel"}
         ]
-
+    },{
         "type" : "vehicle",
         "id" : "rv",
         "name" : "RV",
