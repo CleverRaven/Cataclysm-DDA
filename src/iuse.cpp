@@ -4240,7 +4240,7 @@ if(it->type->id == "cot"){
   type = tr_caltrops;
   practice = 2;
  } else if(it->type->id == "telepad"){
-  message << string_format("You scatter the telepad on the %s.",
+  message << string_format("You place the telepad on the %s.",
                            g->m.tername(posx, posy).c_str());
   type = tr_telepad;
   practice = 10;
