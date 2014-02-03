@@ -1718,7 +1718,7 @@ void mapgen_park_basketball(map *m, oter_id, mapgendata dat, int, float)
                         \n",
         mapf::basic_bind(". 7 | - +", t_pavement_y, t_backboard, t_chainfence_v, t_chainfence_h, t_chaingate_l),
         mapf::basic_bind("#", f_bench));
-        m->place_vending(22, 19, 1);
+        m->place_vending(22, 19, "vending_drink");
         m->rotate(rng(0, 3));
 //    }
     m->add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY); // fixme; use density
@@ -1769,17 +1769,29 @@ void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float
     }
     //vending
     bool drinks = rng(0,1);
+    std::string type;
+    std::string type2;
+    if (drinks) {
+        type = "vending_drink";
+        type2 = "vending_food";
+    } else {
+        type2 = "vending_drink";
+        type = "vending_food";
+    }
     int vset = rng(1,5);
-    if(rng(0,1)) vset += left_w;
-    else vset = right_w - vset;
-    m->place_vending(vset,top_w-1,drinks);
+    if(rng(0,1)) {
+        vset += left_w;
+    } else {
+        vset = right_w - vset;
+    }
+    m->place_vending(vset,top_w-1, type);
     if(rng(0,1))
     {
         int vset2 = rng(1,9);
         if(vset2 >= vset) vset2++;
         if(vset2 > 5) vset2 = right_w - (vset2 - 5);
         else vset2 += left_w;
-        m->place_vending(vset2,top_w-1,!drinks);
+        m->place_vending(vset2,top_w-1, type2);
     }
     //
     m->ter_set(center_w, rng(middle_w + 1, bottom_w - 1), t_door_c);
@@ -2797,7 +2809,11 @@ void mapgen_office_cubical(map *m, oter_id terrain_type, mapgendata dat, int, fl
                                            f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,
                                            f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
                                            f_locker, f_null, f_safe_l));
-        m->place_vending(7, 13, rng(0, 1));
+        if (one_in(2)) {
+            m->place_vending(7, 13, "vending_drink");
+        } else {
+            m->place_vending(7, 13, "vending_food");
+        }
         m->place_items("fridge", 50,  2,  12, 2,  13, false, 0);
         m->place_items("cleaning", 50,  2,  15, 3,  16, false, 0);
         m->place_items("office", 80, 11,  7, 13,  7, false, 0);
@@ -4095,17 +4111,26 @@ void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float
         }
         //vending
         bool drinks = rng(0,1);
+        std::string type;
+        std::string type2;
+        if (drinks) {
+            type = "vending_drink";
+            type2 = "vending_food";
+        } else {
+            type2 = "vending_drink";
+            type = "vending_food";
+        }
         int vset = rng(0,17);
-        if (vset < 3) m->place_vending(5, vset+9, drinks);
-        else if (vset < 15) m->place_vending(5 + (vset - 3), 11, drinks);
-        else m->place_vending(18, 11 - (vset - 15), drinks);
+        if (vset < 3) m->place_vending(5, vset+9, type);
+        else if (vset < 15) m->place_vending(5 + (vset - 3), 11, type);
+        else m->place_vending(18, 11 - (vset - 15), type);
         if(one_in(3))
         {
             int vset2 = rng(0,16);
             if(vset2 >= vset) vset2++;
-            if (vset2 < 3) m->place_vending(5, vset2+9, !drinks);
-            else if (vset2 < 15) m->place_vending(5 + (vset2 - 3), 11, !drinks);
-            else m->place_vending(18, 11 - (vset2 - 15), !drinks);
+            if (vset2 < 3) m->place_vending(5, vset2+9, type2);
+            else if (vset2 < 15) m->place_vending(5 + (vset2 - 3), 11, type2);
+            else m->place_vending(18, 11 - (vset2 - 15), type2);
         }
         //
         m->ter_set(16, 10, t_stairs_down);

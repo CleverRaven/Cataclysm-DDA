@@ -129,8 +129,9 @@ struct jmapgen_place_special {
     jmapgen_int y;
     jmapgen_place_special_op op;
     jmapgen_int amount;
-    jmapgen_place_special(jmapgen_int ix, jmapgen_int iy, jmapgen_place_special_op iop, jmapgen_int iamount
-        ) : x(ix), y(iy), op(iop), amount(iamount) {}
+    std::string type;
+    jmapgen_place_special(jmapgen_int ix, jmapgen_int iy, jmapgen_place_special_op iop, jmapgen_int iamount, std::string itype
+        ) : x(ix), y(iy), op(iop), amount(iamount), type(itype) {}
     void apply( map * m );
 
 };

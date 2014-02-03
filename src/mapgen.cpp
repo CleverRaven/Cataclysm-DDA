@@ -516,6 +516,7 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
         jmapgen_int tmp_x(0,0);
         jmapgen_int tmp_y(0,0);
         jmapgen_int tmp_amt(0,0);
+        std::string tmp_type;
         jmapgen_place_special_op tmpop = JMAPGEN_PLACESPECIAL_NULL;
         JsonObject jsi = parray.next_object();
         if ( jsi.has_string("type") ) {
@@ -542,7 +543,7 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
             jsi.throw_error("  place_specials: invalid value for 'y'");
         }
         load_jmapgen_int(jsi, "amount", tmp_amt.val, tmp_amt.valmax);
-        jmapgen_place_special new_special( tmp_x, tmp_y, tmpop, tmp_amt );
+        jmapgen_place_special new_special( tmp_x, tmp_y, tmpop, tmp_amt, tmp_type );
         place_specials.push_back( new_special );
         tmpval = "";
     }
@@ -822,7 +823,7 @@ void jmapgen_place_special::apply( map * m ) {
         } break;
         case JMAPGEN_PLACESPECIAL_VENDINGMACHINE: {
             m->furn_set(x.get(), y.get(), f_null);
-            m->place_vending(x.get(), y.get(), charges);
+            m->place_vending(x.get(), y.get(), type);
         } break;
         case JMAPGEN_PLACESPECIAL_NULL:
         default:
@@ -9186,9 +9187,17 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         std::random_shuffle(vset.begin(), vset.end());
         for(int a = 0; a < vnum; a++) {
             if (vset[a] < 12) {
-                place_vending(vset[a], 1, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(vset[a], 1, "vending_food");
+                } else {
+                    place_vending(vset[a], 1, "vending_drink");
+                }
             } else {
-                place_vending(vset[a] + 2, 1, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(vset[a] + 2, 1, "vending_food");
+                } else {
+                    place_vending(vset[a] + 2, 1, "vending_drink");
+                }
             }
         }
         vset.clear();
@@ -9381,15 +9390,35 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         std::random_shuffle(vset.begin(), vset.end());
         for(int a = 0; a < vnum; a++) {
             if (vset[a] < 3) {
-                place_vending(5 + vset[a], 7, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(5 + vset[a], 7, "vending_food");
+                } else {
+                    place_vending(5 + vset[a], 7, "vending_drink");
+                }
             } else if (vset[a] < 5) {
-                place_vending(1 + vset[a] - 3, 7, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(1 + vset[a] - 3, 7, "vending_food");
+                } else {
+                    place_vending(1 + vset[a] - 3, 7, "vending_drink");
+                }
             } else if (vset[a] < 8) {
-                place_vending(1, 8 + vset[a] - 5, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(1, 8 + vset[a] - 5, "vending_food");
+                } else {
+                    place_vending(1, 8 + vset[a] - 5, "vending_drink");
+                }
             } else if (vset[a] < 13) {
-                place_vending(10 + vset[a] - 8, 12, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(10 + vset[a] - 8, 12, "vending_food");
+                } else {
+                    place_vending(10 + vset[a] - 8, 12, "vending_drink");
+                }
             } else {
-                place_vending(17 + vset[a] - 13, 12, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(17 + vset[a] - 13, 12, "vending_food");
+                } else {
+                    place_vending(17 + vset[a] - 13, 12, "vending_drink");
+                }
             }
         }
         vset.clear();
@@ -10772,19 +10801,15 @@ void map::place_toilet(int x, int y, int charges)
     furn_set(x, y, f_toilet);
 }
 
-void map::place_vending(int x, int y, bool drinks)
+void map::place_vending(int x, int y, std::string type)
 {
-    const bool broken = x_in_y(2,3);
+    const bool broken = one_in(5);
     if( broken ) {
         furn_set(x, y, f_vending_o);
     } else {
         furn_set(x, y, f_vending_c);
     }
-    if( drinks ) {
-        place_items("vending_drink", broken ? 40 : 99, x, y, x, y, false, 0);
-    } else {
-        place_items("vending_food", broken ? 40 : 99, x, y, x, y, false, 0);
-    }
+    place_items(type, broken ? 40 : 99, x, y, x, y, false, 0, false);
 }
 
 int map::place_items(items_location loc, int chance, int x1, int y1,
@@ -10826,7 +10851,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                       (!ongrass && !terlist[ter(px, py)].has_flag("FLAT") )) &&
                      tries < 20);
             if (tries < 20) {
-                spawn_item(px, py, selected_item, 1, 0, turn, rand);
+                spawn_item(px, py, selected_item, 1, 0, turn, 0, rand);
                 item_num++;
                 // Guns in item groups with guns_have_ammo flags are generated with their ammo
                 if ( guns_have_ammo ) {

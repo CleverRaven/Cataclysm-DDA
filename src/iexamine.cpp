@@ -324,7 +324,7 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
         int base_y = 3 - first_i;
         for (int i = first_i; i < end_i; ++i) {
             mvwprintz(w, base_y + i, 2,
-                      (i == cur_pos ? h_ltgray : c_ltgray), vend_items[i].type->name.c_str());
+                      (i == cur_pos ? h_ltgray : c_ltgray), vend_items[i].tname().c_str());
         }
 
         //Draw Scrollbar
