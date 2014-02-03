@@ -18621,7 +18621,7 @@
       [ "plastic_chunk", 10 ]
     ],
     [
-      [ "scrap" 2 ]
+      [ "scrap", 2 ]
     ],
     [
       [ "lead_plate", 4 ]
