@@ -59,15 +59,15 @@ void map::generate_lightmap()
             const std::vector<item> &items = g->m.i_at(sx, sy);
             field &current_field = g->m.field_at(sx, sy);
             // When underground natural_light is 0, if this changes we need to revisit
-            if (natural_light > LIGHT_AMBIENT_LOW) {
+            // Only apply this whole thing if the player is inside,
+            // buildings will be shadowed when outside looking in.
+            if (natural_light > LIGHT_AMBIENT_LOW && !g->m.is_outside(g->u.posx, g->u.posy) ) {
                 if (!g->m.is_outside(sx, sy)) {
                     // Apply light sources for external/internal divide
                     for(int i = 0; i < 4; ++i) {
                         if (INBOUNDS(sx + dir_x[i], sy + dir_y[i]) &&
                             g->m.is_outside(sx + dir_x[i], sy + dir_y[i])) {
-                            if (INBOUNDS(sx, sy) && g->m.is_outside(0, 0)) {
-                                lm[sx][sy] = natural_light;
-                            }
+                            lm[sx][sy] = natural_light;
 
                             if (g->m.light_transparency(sx, sy) > LIGHT_TRANSPARENCY_SOLID) {
                                 apply_light_arc(sx, sy, dir_d[i], natural_light);
