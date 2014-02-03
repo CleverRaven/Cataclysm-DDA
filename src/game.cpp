@@ -1269,15 +1269,17 @@ void game::activity_on_finish_read()
             }
             //50% penalty
             fun_bonus = (reading->fun * 5) / 2;
-        // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-        } if ((u.has_trait("CANNIBAL") || u.has_trait("PSYCHOPATH") || u.has_trait("SAPIOVORE")) &&
-      reading->id == "cookbook_human") {
-            fun_bonus = 25;
-      } else {
+        } else {
             fun_bonus = reading->fun * 5;
         }
-        u.add_morale(MORALE_BOOK, fun_bonus,
-                     reading->fun * 15, 60, 30, true, reading);
+        // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+        if ((u.has_trait("CANNIBAL") || u.has_trait("PSYCHOPATH") || u.has_trait("SAPIOVORE")) &&
+      reading->id == "cookbook_human") {
+          fun_bonus = 25;
+            u.add_morale(MORALE_BOOK, fun_bonus, fun_bonus*3, 60, 30, true, reading);
+           } else {
+            u.add_morale(MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, reading);
+        }
     }
 
     if(book_item->charges > 0) {
@@ -10573,7 +10575,7 @@ void game::complete_butcher(int index)
    add_msg(_("You harvest some feathers!"));
   }
  }
- 
+
   if (fats > 0) {
   if (corpse->has_flag(MF_FAT)) {
     m.spawn_item(u.posx, u.posy, "fat", fats, 0, age);
