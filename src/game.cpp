@@ -1269,7 +1269,11 @@ void game::activity_on_finish_read()
             }
             //50% penalty
             fun_bonus = (reading->fun * 5) / 2;
-        } else {
+        // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+        } if ((u.has_trait("CANNIBAL") || u.has_trait("PSYCHOPATH") || u.has_trait("SAPIOVORE")) &&
+      reading->id == "cookbook_human") {
+            fun_bonus = 25;
+      } else {
             fun_bonus = reading->fun * 5;
         }
         u.add_morale(MORALE_BOOK, fun_bonus,
