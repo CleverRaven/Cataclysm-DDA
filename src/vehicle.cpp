@@ -159,6 +159,9 @@ void vehicle::save (std::ofstream &stout)
 
 void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 {
+    bool destroySeats = false;
+    bool destroyControls = false;
+    bool destroyTank = false;
     bool destroyEngine = false;
     bool destroyTires = false;
     bool blood_covered = false;
@@ -190,9 +193,15 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     }
     if (init_veh_status == 1) {
      veh_status = 1;
-     if (one_in(2)) {  // either engine or tires are destroyed
+     if (one_in(5)) {           //  seats are destroyed
+      destroySeats = true;
+     } else if (one_in(5)) {    // controls are destroyed
+      destroyControls = true;
+     } else if (one_in(5)) {    //battery, minireactor or gasoline tank are destroyed
+      destroyTank = true;
+     } else if (one_in(5)) {    // either engine are destroyed
       destroyEngine = true;
-     } else {
+     } else {                   // tires are destroyed
       destroyTires = true;
      }
     }
@@ -287,6 +296,25 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             parts[p].hp= part_info(p).durability;
          }
 
+         if (destroySeats) { // vehicle is disabled because no seats
+          if (part_flag(p, "SEAT")) {
+           parts[p].hp= 0;
+          }
+          if (part_flag(p, "SEATBELT")) {
+           parts[p].hp= 0;
+          }
+         }
+         if (destroyControls) { // vehicle is disabled because no controls
+          if (part_flag(p, "CONTROLS")) {
+           parts[p].hp= 0;
+          }
+         }
+         if (destroyTank) { // vehicle is disabled because no battery, minireactor or gasoline tank
+          if (part_flag(p, "FUEL_TANK")) {
+           parts[p].hp= 0;
+           parts[p].amount = part_info(p).size * 0;
+          }
+         }
          if (destroyEngine) { // vehicle is disabled because engine is dead
           if (part_flag(p, "ENGINE")) {
            parts[p].hp= 0;
