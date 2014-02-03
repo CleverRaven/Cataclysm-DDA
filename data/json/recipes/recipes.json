@@ -6579,7 +6579,7 @@
         "type" : "recipe",
   "result": "macaroni_helper",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_VEGGI",
+  "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 10000,
