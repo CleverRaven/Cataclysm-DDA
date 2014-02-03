@@ -1141,6 +1141,68 @@
         ]
     },{
         "type" : "vehicle",
+        "id" : "car_mini",
+        "name" : "Hatchback",
+        "blueprint" : [
+            ["o+-o"],
+            ["+#'|"],
+            ["+#'|"],
+            ["o+-o"]
+        ],
+        "parts" : [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "seat"},
+            {"x": 0, "y": 0, "part": "seatbelt"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "horn_car"},
+            {"x": 0, "y": 0, "part": "roof"},
+            {"x": 0, "y": 1, "part": "frame_vertical_2"},
+            {"x": 0, "y": 1, "part": "seat"},
+            {"x": 0, "y": 1, "part": "seatbelt"},
+            {"x": 0, "y": 1, "part": "roof"},
+            {"x": 0, "y": -1, "part": "frame_vertical"},
+            {"x": 0, "y": -1, "part": "door"},
+            {"x": 0, "y": 2, "part": "frame_vertical"},
+            {"x": 0, "y": 2, "part": "door"},
+            {"x": 1, "y": 0, "part": "frame_horizontal"},
+            {"x": 1, "y": 0, "part": "windshield"},
+            {"x": 1, "y": 1, "part": "frame_horizontal"},
+            {"x": 1, "y": 1, "part": "windshield"},
+            {"x": 1, "y": -1, "part": "frame_vertical"},
+            {"x": 1, "y": -1, "part": "windshield"},
+            {"x": 1, "y": 2, "part": "frame_vertical"},
+            {"x": 1, "y": 2, "part": "windshield"},
+            {"x": 2, "y": 0, "part": "frame_horizontal"},
+            {"x": 2, "y": 0, "part": "halfboard_horizontal"},
+            {"x": 2, "y": 0, "part": "engine_inline4"},
+            {"x": 2, "y": 0, "part": "alternator_car"},
+            {"x": 2, "y": 0, "part": "battery_car"},
+            {"x": 2, "y": 1, "part": "frame_horizontal"},
+            {"x": 2, "y": 1, "part": "halfboard_horizontal"},
+            {"x": 2, "y": -1, "part": "frame_nw"},
+            {"x": 2, "y": -1, "part": "halfboard_nw"},
+            {"x": 2, "y": -1, "part": "wheel"},
+            {"x": 2, "y": -1, "part": "headlight"},
+            {"x": 2, "y": 2, "part": "frame_ne"},
+            {"x": 2, "y": 2, "part": "halfboard_ne"},
+            {"x": 2, "y": 2, "part": "wheel"},
+            {"x": 2, "y": 2, "part": "headlight"},
+            {"x": -1, "y": -1, "part": "frame_horizontal"},
+			{"x": -1, "y": -1, "part": "gas_tank_small"},
+            {"x": -1, "y": -1, "part": "halfboard_sw"},
+            {"x": -1, "y": -1, "part": "wheel"},
+            {"x": -1, "y": 0, "part": "frame_horizontal"},
+            {"x": -1, "y": 0, "part": "hatch"},
+			{"x": -1, "y": 0, "part": "muffler"},
+            {"x": -1, "y": 1, "part": "frame_horizontal"},
+            {"x": -1, "y": 1, "part": "hatch"},
+            {"x": -1, "y": 2, "part": "frame_horizontal"},
+			{"x": -1, "y": 2, "part": "gas_tank_small"},
+            {"x": -1, "y": 2, "part": "halfboard_se"},
+            {"x": -1, "y": 2, "part": "wheel"}
+        ]
+    },{
+        "type" : "vehicle",
         "id" : "beetle",
         "name" : "Beetle",
         "blueprint" : [
@@ -3089,8 +3151,7 @@
             {"x": -3, "y": 1, "chance": 5, "items": ["1st_aid"]},
             {"x": -3, "y": 1, "chance": 25, "items": ["quikclot"]}
         ]
-    },
- {
+    },{
         "type":"vehicle",
         "id" : "fire_truck",
         "name" : "Fire Truck",
