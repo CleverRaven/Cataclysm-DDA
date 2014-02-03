@@ -960,6 +960,7 @@
 
   {
     "id": "roadmap",
+    "category": "books",
     "type": "TOOL",
     "symbol": ";",
     "color": "yellow",
@@ -983,6 +984,7 @@
 
   {
     "id": "survivormap",
+    "category": "books",
     "type": "TOOL",
     "symbol": ";",
     "color": "white",
@@ -1006,6 +1008,7 @@
 
   {
     "id": "militarymap",
+    "category": "books",
     "type": "TOOL",
     "symbol": ";",
     "color": "green",
@@ -1029,6 +1032,7 @@
 
   {
     "id": "restaurantmap",
+    "category": "books",
     "type": "TOOL",
     "symbol": ";",
     "color": "pink",
@@ -1052,6 +1056,7 @@
 
   {
     "id": "touristmap",
+    "category": "books",
     "type": "TOOL",
     "symbol": ";",
     "color": "blue",
