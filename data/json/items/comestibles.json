@@ -11273,7 +11273,7 @@
         "to_hit": 0,
         "comestible_type": "DRINK",
         "tool": "null",
-        "container": "bottle_plastic",
+        "container": "jar_glass",
         "quench": -2,
         "nutrition": 5,
         "spoils_in": 0,
@@ -11283,7 +11283,8 @@
         "heal": 0,
         "fun": 0,
         "stim": 0,
-        "phase": "liquid"
+        "phase": "liquid",
+		"flags" : ["USE_EAT_VERB"]
     },
     {
         "type" : "COMESTIBLE",
