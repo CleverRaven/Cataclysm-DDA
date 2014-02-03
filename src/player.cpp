@@ -8543,7 +8543,7 @@ void player::use(int pos)
             g->add_msg(_("That %s cannot be attached to a crossbow."),
                        used->tname().c_str());
             return;
-        } else if (guntype->skill_used == Skill::skill("launchers") && !mod->used_on_launcher) {
+        } else if (guntype->skill_used == Skill::skill("launcher") && !mod->used_on_launcher) {
             g->add_msg(_("That %s cannot be attached to a launcher."),
                        used->tname().c_str());
             return;

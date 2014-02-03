@@ -552,7 +552,7 @@ int iuse::firstaid(player *p, item *it, bool)
     // Assign first aid long action.
     int healed = use_healing_item(p, it, 14, 10, 18, it->name, 95, 99, 95, false);
     if (healed != num_hp_parts) {
-      p->assign_activity(ACT_FIRSTAID, 6000 / (p->skillLevel("first aid") + 1), 0,
+      p->assign_activity(ACT_FIRSTAID, 6000 / (p->skillLevel("firstaid") + 1), 0,
                           p->get_item_position(it), it->name);
       p->activity.values.push_back(healed);
       p->moves = 0;

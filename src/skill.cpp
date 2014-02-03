@@ -68,6 +68,9 @@ Skill* Skill::skill(std::string ident) {
    return *aSkill;
   }
  }
+ if(ident != "none") {
+  debugmsg("unknown skill %s", ident.c_str());
+ }
  return NULL;
 }
 

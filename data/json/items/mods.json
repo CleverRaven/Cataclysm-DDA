@@ -766,7 +766,7 @@
         "bashing" : 2,
         "flags" : ["MODE_AUX", "STR_RELOAD"],
         "ammo_modifier" : "bolt",
-        "skill": "crossbow"
+        "skill": "archery"
     },
     {
         "type" : "GUNMOD",

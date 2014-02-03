@@ -3193,7 +3193,7 @@
         "price" : 882,
         "time" : 1,
         "fun" : 0,
-        "skill" : "",
+        "skill" : "none",
         "max_level" : 0,
         "required_level" : 0,
         "intelligence" : 0,
