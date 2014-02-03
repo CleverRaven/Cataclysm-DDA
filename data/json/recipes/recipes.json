@@ -521,9 +521,6 @@
     ],
     [
       [ "RAM", 1 ]
-    ],
-    [
-      [ "battery", 100 ]
     ]
   ]
 },{
@@ -577,7 +574,7 @@
       [ "processor", 1 ]
     ],
     [
-      [ "battery", 200 ]
+      [ "battery", 20 ]
     ]
   ]
 },{
@@ -616,7 +613,7 @@
       ["small_lcd_screen", 1]
     ],
     [
-      ["battery", 20]
+      ["battery", 200]
     ]
   ]
 },{
