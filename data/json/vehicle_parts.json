@@ -1735,6 +1735,7 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 80,
         "durability" : 120,
+        "size" : 150,
         "item" : "frame",
         "difficulty" : 2,
         "location" : "center",
