@@ -1,4 +1,4 @@
-[
+[    
     {
         "type" : "AMMO",
         "id" : "654",
@@ -71,11 +71,11 @@
         "count" : 60,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   
         "type" : "AMMO",
         "id" : "545_ap",
         "price" : 850,
-        "name" : "5.45x39 7N22",
+        "name" : "5.45x39mm 7N22",
         "symbol" : "=",
         "color" : "yellow",
         "description" : "This is the armor piercing cartridge with a steel penetrator, it was introduced in 1998. There is a tungsten carbide variant too, it is unavailable in the US though.",
@@ -99,7 +99,7 @@
         "type" : "AMMO",
         "id" : "654_casing",
         "price" : 50,
-        "name" : "6.54x42 casing",
+        "name" : "6.54x42mm casing",
         "symbol" : "=",
         "color" : "dark_gray",
         "description" : "An empty casing from a 6.54x42 round.",
@@ -121,8 +121,8 @@
         "type" : "AMMO",
         "id" : "545_casing",
         "price" : 50,
-        "name" : "5.45x39 casing",
-        "symbol" : "=",
+        "name" : "5.45x39mm casing",
+        "symbol" : "=", 
         "color" : "yellow",
         "description" : "An empty casing from a 5.45x39mm round.",
         "material" : "steel",
@@ -136,6 +136,29 @@
         "pierce" : 0,
         "range" : 0,
         "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 200
+    },
+    {
+        "type" : "AMMO",
+        "id" : "20_dread",
+        "price" : 300,
+        "name" : ".20 DREAD Pellets",
+        "symbol" : "=",
+        "color" : "light_gray",
+        "description" : "These metal pellets are propelled with the help of electromagnets, therefore they do not produce sound, flash or heat signature.",
+        "material" : "steel",
+        "volume" : 1,
+        "weight" : 4,
+        "bashing" : 1,
+        "cutting": 0,
+        "to_hit" : 0,
+        "ammo_type" : "wr_dread",
+        "casing" : "NULL",
+        "damage" : 6,
+        "pierce" : 2,
+        "range" : 8,
+        "dispersion" : 8,
         "recoil" : 0,
         "count" : 200
     }
