@@ -4250,7 +4250,7 @@ void on_finish_activity_pickaxe(player *p) {
         p->thirst += 5;
     }
     g->m.destroy(dirx, diry, false);
-    it->charges = std::max(0, it->charges - it->type->charges_to_use());
+    it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
     if(it->charges == 0 && it->destroyed_at_zero_charges()) {
         p->i_rem(p->activity.position);
     }
