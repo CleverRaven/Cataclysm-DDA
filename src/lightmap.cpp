@@ -31,11 +31,12 @@ void map::generate_lightmap()
     const float held_luminance = g->u.active_light();
     const float natural_light = g->natural_light_level();
 
-    // Daylight vision handling returned back to map due to issues it causes here
     if (natural_light > LIGHT_SOURCE_BRIGHT) {
         // Apply sunlight, first light source so just assign
-        for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
-            for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
+        for(int sx = DAYLIGHT_LEVEL - (natural_light / 2);
+            sx < LIGHTMAP_CACHE_X - (natural_light / 2); ++sx) {
+            for(int sy = DAYLIGHT_LEVEL - (natural_light / 2);
+                sy < LIGHTMAP_CACHE_Y - (natural_light / 2); ++sy) {
                 // In bright light indoor light exists to some degree
                 if (!g->m.is_outside(sx, sy)) {
                     lm[sx][sy] = LIGHT_AMBIENT_LOW;
