@@ -610,6 +610,10 @@ void mdeath::zombie(monster *z) {
                                     g->turn, 0, 0, rng(1,4));
         }
     }
+    if (one_in(8)) {
+        item art(itypes["cash_card"], g->turn);
+        g->m.add_item_or_charges(z->posx(), z->posy(), art);
+    }
 }
 
 void mdeath::gameover(monster *z) {
