@@ -83,7 +83,7 @@ submap *mapbuffer::lookup_submap(int x, int y, int z)
         if( fin.is_open() ) {
             unserialize_submaps( fin, 4 );
         }
-        if (submaps.count(p) != 0) {
+        if (submaps.count(p) == 0) {
             // If we can't find a file it must not have been generated yet.
             return NULL;
         }
