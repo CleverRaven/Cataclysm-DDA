@@ -2216,8 +2216,8 @@ condition, and deals massive damage.");
 void manage_fungal_infection(player& p, disease& dis) {
     int bonus = p.health + (p.has_trait("POISRESIST") ? 100 : 0);
     p.moves -= 10;
-    p.str_cur -= 1;
-    p.dex_cur -= 1;
+    p.mod_str_bonus(-1);
+    p.mod_dex_bonus(-1);
     if (!dis.permanent) {
         if (dis.duration > 3001) { // First hour symptoms
             if (one_in(160 + bonus)) {
@@ -2542,7 +2542,7 @@ static void handle_bite_wound(player& p, disease& dis) {
                 p.mod_pain(1);
             }
         }
-        p.dex_cur-= 1;
+        p.mod_dex_bonus(-1);
     } else {
         // Infection starts
          // 1 day of timer + 1 tick
@@ -2578,8 +2578,8 @@ static void handle_infected_wound(player& p, disease& dis) {
                 p.mod_pain(1);
             }
         }
-        p.str_cur -= 1;
-        p.dex_cur -= 1;
+        p.mod_str_bonus(-1);
+        p.mod_dex_bonus(-1);
     } else if (dis.duration > 3601) {
         // 8 hours of vomiting + pain
         if (one_in(100)) {
@@ -2594,8 +2594,8 @@ static void handle_infected_wound(player& p, disease& dis) {
                 p.mod_pain(1);
             }
         }
-        p.str_cur -= 2;
-        p.dex_cur -= 2;
+        p.mod_str_bonus(-2);
+        p.mod_dex_bonus(-2);
     } else if (dis.duration > 1) {
         // 6 hours extreme symptoms
         if (one_in(100)) {
@@ -2611,8 +2611,8 @@ static void handle_infected_wound(player& p, disease& dis) {
                 p.mod_pain(1);
             }
         }
-        p.str_cur -= 3;
-        p.dex_cur -= 3;
+        p.mod_str_bonus(-3);
+        p.mod_dex_bonus(-3);
         if (!p.has_disease("sleep") && one_in(100)) {
             g->add_msg(_("You pass out."));
             p.fall_asleep(60);
@@ -2644,8 +2644,8 @@ static void handle_recovery(player& p, disease& dis) {
                 p.mod_pain(1);
             }
         }
-        p.str_cur -= 3;
-        p.dex_cur -= 3;
+        p.mod_str_bonus(-3);
+        p.mod_dex_bonus(-3);
         if (!p.has_disease("sleep") && one_in(100)) {
             g->add_msg(_("You pass out."));
             p.fall_asleep(60);
@@ -2662,8 +2662,8 @@ static void handle_recovery(player& p, disease& dis) {
                 p.mod_pain(1);
             }
         }
-        p.str_cur -= 2;
-        p.dex_cur -= 2;
+        p.mod_str_bonus(-2);
+        p.mod_dex_bonus(-2);
     } else if (dis.duration > 9600) {
         if ((one_in(100)) && (!(p.has_trait("NOPAIN")))) {
             if (p.has_disease("sleep")) {
@@ -2674,8 +2674,8 @@ static void handle_recovery(player& p, disease& dis) {
                 p.mod_pain(1);
             }
         }
-        p.str_cur -= 1;
-        p.dex_cur -= 1;
+        p.mod_str_bonus(-1);
+        p.mod_dex_bonus(-1);
     } else {
         if ((one_in(100)) && (!(p.has_trait("NOPAIN")))) {
             if (p.has_disease("sleep")) {
@@ -2686,7 +2686,7 @@ static void handle_recovery(player& p, disease& dis) {
                 p.mod_pain(1);
             }
         }
-        p.dex_cur-= 1;
+        p.mod_dex_bonus(-1);
     }
 }
 
@@ -2769,10 +2769,10 @@ static void handle_deliriant(player& p, disease& dis) {
         p.add_disease("visuals", peakTime - comedownTime);
     } else if (dis.duration > comedownTime && dis.duration < peakTime) {
         // Full symptoms
-        p.per_cur -= 2;
-        p.int_cur -= 1;
-        p.dex_cur -= 2;
-        p.str_cur -= 1;
+        p.mod_per_bonus(-2);
+        p.mod_int_bonus(-1);
+        p.mod_dex_bonus(-2);
+        p.mod_str_bonus(-1);
         if (one_in(50)) {
             g->spawn_hallucination();
         }
@@ -2813,20 +2813,20 @@ static void handle_evil(player& p, disease& dis) {
     }
     if (lesserEvil) {
         // Only minor effects, some even good!
-        p.str_cur += (dis.duration > 4500 ? 10 : int(dis.duration / 450));
+        p.mod_str_bonus(dis.duration > 4500 ? 10 : int(dis.duration / 450));
         if (dis.duration < 600) {
-            p.dex_cur++;
+            p.mod_dex_bonus(1);
         } else {
-            p.dex_cur -= (dis.duration > 3600 ? 10 : int((dis.duration - 600) / 300));
+            p.mod_dex_bonus(-(dis.duration > 3600 ? 10 : int((dis.duration - 600) / 300)));
         }
-        p.int_cur -= (dis.duration > 3000 ? 10 : int((dis.duration - 500) / 250));
-        p.per_cur -= (dis.duration > 4800 ? 10 : int((dis.duration - 800) / 400));
+        p.mod_int_bonus(-(dis.duration > 3000 ? 10 : int((dis.duration - 500) / 250)));
+        p.mod_per_bonus(-(dis.duration > 4800 ? 10 : int((dis.duration - 800) / 400)));
     } else {
         // Major effects, all bad.
-        p.str_cur -= (dis.duration > 5000 ? 10 : int(dis.duration / 500));
-        p.dex_cur -= (dis.duration > 6000 ? 10 : int(dis.duration / 600));
-        p.int_cur -= (dis.duration > 4500 ? 10 : int(dis.duration / 450));
-        p.per_cur -= (dis.duration > 4000 ? 10 : int(dis.duration / 400));
+        p.mod_str_bonus(-(dis.duration > 5000 ? 10 : int(dis.duration / 500)));
+        p.mod_dex_bonus(-(dis.duration > 6000 ? 10 : int(dis.duration / 600)));
+        p.mod_int_bonus(-(dis.duration > 4500 ? 10 : int(dis.duration / 450)));
+        p.mod_per_bonus(-(dis.duration > 4000 ? 10 : int(dis.duration / 400)));
     }
 }
 
