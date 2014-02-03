@@ -614,6 +614,7 @@
     "id" : "bedroom",
     "items":[
       ["inhaler", 14],
+      ["eyedrops", 25],
       ["television", 10],
       ["clock", 10],
       ["cig", 90],
@@ -971,6 +972,7 @@
       ["chocpretzels", 40],
       ["chocolate", 50],
       ["jerky", 55],
+      ["cracklins", 25],
       ["porkstick", 55],
       ["candy", 80],
       ["candy2", 80],
@@ -1023,6 +1025,7 @@
       ["chocpretzels", 40],
       ["chocolate", 50],
       ["jerky", 55],
+      ["cracklins", 25],
       ["pemmican", 5],
       ["granola", 10],
       ["porkstick", 55],
@@ -1198,6 +1201,7 @@
       ["chocpretzels", 50],
       ["chocolate", 50],
       ["jerky", 55],
+      ["cracklins", 25],
       ["salted_fish", 15],
       ["porkstick", 55],
       ["candy", 80],
@@ -1336,6 +1340,7 @@
     "items":[
       ["bandages", 50],
       ["1st_aid", 35],
+      ["saline", 25],
       ["contacts", 10],
       ["vitamins", 75],
       ["aspirin", 85],
@@ -1350,6 +1355,7 @@
       ["caff_gum", 10],
       ["oxygen_tank", 20],
       ["smoxygen_tank", 5],
+      ["eyedrops", 35],
       ["nic_gum", 25]
     ]
   },{
@@ -1522,6 +1528,7 @@
       ["hdframe", 10],
       ["metal_tank", 10],
       ["metal_tank_small", 15],
+      ["water_faucet", 10],
       ["wire", 50],
       ["wire_barbed", 20],
       ["duct_tape", 60],
@@ -2940,6 +2947,7 @@
       ["armguard_hard", 20],
       ["legguard_hard", 15],
       ["1st_aid", 20],
+      ["saline", 5],
       ["bandages", 20],
       ["crowbar", 10],
       ["hammer_sledge", 5],
@@ -4037,6 +4045,7 @@
       ["coffee_raw", 15],
       ["bandages", 50],
       ["1st_aid", 35],
+      ["saline", 10],
       ["vitamins", 75],
       ["iodine", 5],
       ["dayquil", 70],
@@ -4167,6 +4176,7 @@
       ["anvil", 5],
       ["chisel", 10],
       ["cu_pipe", 15],
+      ["eyedrops", 5],
       ["apron_leather", 5]
     ]
   },{
@@ -4191,6 +4201,7 @@
       ["syringe", 1],
       ["adrenaline_injector", 1],
       ["1st_aid", 5],
+      ["saline", 1],
       ["extinguisher", 25],
       ["hotplate", 15],
       ["funnel", 50],
@@ -4202,6 +4213,7 @@
       ["oxy_powder", 12],
       ["chemistry_set", 8],
       ["sm_extinguisher", 20],
+      ["eyedrops", 15],
       ["charcoal", 10]
     ]
   },{
@@ -4223,6 +4235,7 @@
       ["syringe", 4],
       ["adrenaline_injector", 2],
       ["1st_aid", 4],
+      ["saline", 1],
       ["extinguisher", 20],
       ["hotplate", 10],
       ["funnel", 50],
@@ -4234,6 +4247,7 @@
       ["oxy_powder", 24],
       ["chemistry_set", 10],
       ["sm_extinguisher", 20],
+      ["eyedrops", 25],
       ["charcoal", 15]
     ]
   },{
@@ -4433,6 +4447,7 @@
     "id" : "lab_dorm",
     "items":[
       ["inhaler", 14],
+      ["eyedrops", 20],
       ["clock", 10],
       ["cig", 90],
       ["chaw", 20],
@@ -4915,6 +4930,7 @@
       ["mre_hotdog_box", 60],
       ["mre_ravioli_box", 30],
       ["1st_aid", 35],
+      ["saline", 15],
       ["con_milk", 5],
       ["codeine", 15],
       ["antibiotics", 25],
@@ -4941,6 +4957,7 @@
       ["mre_hotdog_box", 60],
       ["mre_ravioli_box", 30],
       ["1st_aid", 35],
+      ["saline", 10],
       ["con_milk", 10],
       ["sports_drink", 40],
       ["water_clean", 90]
@@ -5098,6 +5115,7 @@
     "items":[
       ["bandages", 50],
       ["1st_aid", 35],
+      ["saline", 5],
       ["disinfectant", 35],
       ["caffeine", 25],
       ["iodine", 5],
@@ -5154,6 +5172,7 @@
       ["1st_aid", 35],
       ["motor", 2],
       ["hose", 15],
+      ["water_faucet", 20],
       ["screwdriver", 40],
       ["wrench", 30],
       ["pipe", 20],
@@ -5797,6 +5816,7 @@
       ["mre_ravioli_box", 30],
       ["bandages", 50],
       ["1st_aid", 35],
+      ["saline", 15],
       ["iodine", 5],
       ["neccowafers", 5],
       ["codeine", 15],
@@ -5960,6 +5980,7 @@
       ["optical_cloak", 1],
       ["halligan", 10],
       ["fire_ax", 5],
+      ["antiparasitic", 2],
       ["bot_laserturret", 1]
     ]
   },{
@@ -5973,6 +5994,7 @@
       ["purifier", 12],
       ["iodine", 5],
       ["inhaler", 14],
+      ["eyedrops", 20],
       ["adderall", 10],
       ["id_science", 2],
       ["battery_compartment", 5],
@@ -6039,6 +6061,7 @@
       ["fungicide", 10],
       ["pur_tablets", 10],
       ["optical_cloak", 1],
+      ["antiparasitic", 2],
       ["bot_laserturret", 1]
     ]
   },{
@@ -6096,6 +6119,7 @@
       ["ampoule", 10],
       ["optical_cloak", 2],
       ["antifungal", 1],
+      ["antiparasitic", 2],
       ["bot_laserturret", 2]
     ]
   },{
@@ -6112,6 +6136,7 @@
       ["colamdew", 60],
       ["choc_drink", 30],
       ["jerky", 55],
+      ["cracklins", 25],
       ["salted_fish", 35],
       ["porkstick", 55],
       ["ravioli", 25],
@@ -6203,6 +6228,7 @@
       ["crack", 4],
       ["crackpipe", 7],
       ["antifungal", 1],
+      ["antiparasitic", 2],
       ["lsd", 6]
     ]
   },{
@@ -6219,6 +6245,7 @@
       ["whiskey", 16],
       ["bum_wine", 10],
       ["jerky", 55],
+      ["cracklins", 25],
       ["porkstick", 55],
       ["bandages", 50],
       ["caffeine", 25],
@@ -6429,7 +6456,8 @@
       ["huge_crossbow", 2],
       ["rep_crossbow", 1],
       ["vaccine_shot", 10],
-      ["bio_claws_weapon", 0]
+      ["bio_claws_weapon", 0],
+      ["testflames", 0]
     ]
   },{
     "type" : "item_group",

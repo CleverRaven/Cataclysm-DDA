@@ -3193,7 +3193,7 @@
         "price" : 882,
         "time" : 1,
         "fun" : 0,
-        "skill" : "",
+        "skill" : "none",
         "max_level" : 0,
         "required_level" : 0,
         "intelligence" : 0,
@@ -3518,7 +3518,7 @@
         "bashing" : -3,
         "cutting" : 0,
         "to_hit" : 0
-	},
+    },
     {
         "type" : "BOOK",
         "id" : "recipe_elfa",
@@ -3560,7 +3560,7 @@
         "bashing" : -3,
         "cutting" : 0,
         "to_hit" : 0
-	},
+    },
     {
         "type" : "BOOK",
         "id" : "textbook_fireman",

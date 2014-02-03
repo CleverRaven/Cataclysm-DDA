@@ -86,7 +86,7 @@
             },
             "place_specials": [
                 { "type": "toilet", "x": 3, "y": 4 },
-		{ "type": "toilet", "x": 5, "y": 15 }
+                { "type": "toilet", "x": 5, "y": 15 }
             ],
             "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
             "set": [

@@ -393,9 +393,9 @@
     [
       [ "gold_small", 50 ]
     ],
-	[
-	  [ "diamond", 1 ]
-	] 
+    [
+      [ "diamond", 1 ]
+    ]
   ]
 },{
   "type" : "recipe",
@@ -2778,7 +2778,8 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ],
-      [ "salt_water", 1 ]
+      [ "salt_water", 1 ],
+      [ "saline", 5 ]
     ],
     [
       [ "candy", 1 ],
@@ -4855,7 +4856,7 @@
       [ "incendiary", 300 ]
     ],
    [
-      [ "lgrifle_primer", 20 ]
+      [ "lgrifle_primer", 10 ]
     ],
     [
       [ "gunpowder", 1000 ]
@@ -4900,7 +4901,7 @@
       [ "50_casing", 10 ]
     ],
     [
-      [ "lgrifle_primer", 20 ]
+      [ "lgrifle_primer", 10 ]
     ],
     [
       [ "gunpowder", 1000 ]
@@ -4936,10 +4937,10 @@
   ],
   "components": [
     [
-      [ "50_casing", 10 ]
+      [ "50_casing", 30 ]
     ],
     [
-      [ "lgrifle_primer", 20 ]
+      [ "lgrifle_primer", 30 ]
     ],
     [
       [ "gunpowder", 1000 ]
@@ -5378,6 +5379,39 @@
   ]
 },{
         "type" : "recipe",
+  "result": "saline",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MEDICAL",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_firstaid", 2] , ["pocket_firstaid", 3], ["manual_first_aid", 2], ["atomic_survival", 4], ["textbook_chemistry", 5], ["adv_chemistry", 4] , ["emergency_book", 3]],
+  "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "teapot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "salt", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "acid",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
@@ -5551,7 +5585,7 @@
   ],
   "components": [
     [
-      [ "fat", 1 ]
+      [ "fat", 2 ]
     ],
     [
       [ "water", 1 ],
@@ -7645,6 +7679,37 @@
   ]
 },{
         "type" : "recipe",
+  "result": "cracklins",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      ["pot", -1],
+      ["rock_pot", -1],
+      ["pan", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "fat", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "pemmican",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -8431,6 +8496,7 @@
       [ "fish_pickled", 1 ],
       [ "fish_vac", 1 ],
       [ "fish_canned", 1 ],
+      [ "cracklins", 4 ],
       [ "can_sardine", 1 ],
       [ "can_tuna", 1 ],
       [ "can_salmon", 1 ],
@@ -9907,6 +9973,43 @@
   ]
 },{
         "type" : "recipe",
+  "result": "antiparasitic",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_chemistry", 7] , ["adv_chemistry", 6] , ["pocket_survival", 8] , ["atomic_survival", 6] , ["textbook_survival", 6] , ["survival_book", 7] , [ "recipe_labchem", 6]],
+  "tools": [
+    [
+      [ "chemistry_set", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 2 ],
+      [ "hotplate", 20 ],
+      [ "chemistry_set", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "vitamins", 5 ]
+    ],
+    [
+      [ "aspirin", 10 ]
+    ],
+    [
+      [ "acid", 1 ]
+    ],
+    [
+      [ "bleach", 1 ],
+      [ "oxy_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "royal_jelly",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -9959,7 +10062,8 @@
   "components": [
     [
       [ "salt_water", 1 ],
-      [ "salt", 1 ]
+      [ "salt", 1 ],
+      [ "saline", 5 ]
     ],
     [
       [ "oxycodone", 40 ]
@@ -11572,7 +11676,8 @@
   ],
   "components": [
     [
-      [ "salt_water", 2 ]
+      [ "salt_water", 2 ],
+      [ "saline", 10 ]
     ]
   ]
 },{
@@ -12721,7 +12826,8 @@
       [ "cable", 5 ]
     ],
     [
-      [ "small_storage_battery", 1 ]
+      [ "small_storage_battery", 1 ],
+      [ "UPS_off", 1 ]
     ]
   ]
 },{
@@ -17924,6 +18030,66 @@
   ]
 },{
         "type" : "recipe",
+  "result": "waterskin2",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 2 ],
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 90 ],
+      [ "needle_wood", 90 ],
+      [ "sewing_kit", 90 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sinew", 40 ],
+      [ "thread", 40 ],
+      [ "plant_fibre", 40 ],
+      [ "string_36", 1 ]
+    ],
+    [
+      [ "leather", 14 ],
+      [ "fur", 14 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "waterskin3",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 2 ],
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 120 ],
+      [ "needle_wood", 120 ],
+      [ "sewing_kit", 120 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sinew", 40 ],
+      [ "thread", 40 ],
+      [ "plant_fibre", 40 ],
+      [ "string_36", 1 ]
+    ],
+    [
+      [ "leather", 24 ],
+      [ "fur", 24 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "makeshift_funnel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -18101,6 +18267,41 @@
   ]
 },{
         "type" : "recipe",
+  "result": "water_faucet",
+  "subcategory": "CSC_OTHER_PARTS",
+  "category": "CC_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "mechanics", 1 ],
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "kitchen_unit",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -18151,6 +18352,9 @@
     ],
     [
       [ "pan", 1 ]
+    ],
+    [
+      [ "water_faucet", 1 ]
     ]
   ]
 },{
@@ -18369,7 +18573,7 @@
   "result": "v_table",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
-  "skill_used": "construction",
+  "skill_used": "carpentry",
   "difficulty": 1,
   "time": 20000,
   "reversible": true,
@@ -19769,7 +19973,8 @@
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ],
-      [ "disinfectant", 1 ]
+      [ "disinfectant", 1 ],
+      [ "saline", 5 ]
     ]
   ]
 },{
@@ -20598,7 +20803,8 @@
       [ "aspirin", 8 ]
     ],
     [
-      [ "disinfectant", 2 ]
+      [ "disinfectant", 1 ],
+      [ "saline", 10 ]
     ],
     [
       [ "bandages", 2 ],
@@ -29524,7 +29730,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "glassblowing_book", 5 ]],
-  "tools": [ 
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -29560,7 +29766,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "glassblowing_book", 4 ]],
-  "tools": [ 
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -29595,7 +29801,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "glassblowing_book", 4 ]],
-  "tools": [ 
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -29629,7 +29835,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "glassblowing_book", 6 ]],
-  "tools": [ 
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -29662,7 +29868,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ 
+  "tools": [
      [
       ["tongs", -1]
      ],

@@ -1,4 +1,4 @@
-[    
+[
     {
         "type" : "AMMO",
         "id" : "654",
@@ -71,7 +71,7 @@
         "count" : 60,
         "effects" : ["COOKOFF"]
     },
-    {   
+    {
         "type" : "AMMO",
         "id" : "545_ap",
         "price" : 850,
@@ -122,7 +122,7 @@
         "id" : "545_casing",
         "price" : 50,
         "name" : "5.45x39 casing",
-        "symbol" : "=", 
+        "symbol" : "=",
         "color" : "yellow",
         "description" : "An empty casing from a 5.45x39mm round.",
         "material" : "steel",

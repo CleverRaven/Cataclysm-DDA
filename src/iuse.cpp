@@ -552,7 +552,7 @@ int iuse::firstaid(player *p, item *it, bool)
     // Assign first aid long action.
     int healed = use_healing_item(p, it, 14, 10, 18, it->name, 95, 99, 95, false);
     if (healed != num_hp_parts) {
-      p->assign_activity(ACT_FIRSTAID, 6000 / (p->skillLevel("first aid") + 1), 0,
+      p->assign_activity(ACT_FIRSTAID, 6000 / (p->skillLevel("firstaid") + 1), 0,
                           p->get_item_position(it), it->name);
       p->activity.values.push_back(healed);
       p->moves = 0;
@@ -726,6 +726,20 @@ int iuse::antibiotic(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::eyedrops(player *p, item *it, bool) {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return false;
+    }
+    g->add_msg_if_player(p,_("You use your %s."), it->tname().c_str());
+    p->moves -= 150;
+    if (p->has_disease("boomered")) {
+        p->rem_disease("boomered");
+        g->add_msg_if_player(p,_("You wash the slime from your eyes."));
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::fungicide(player *p, item *it, bool) {
     if (p->is_underwater()) {
         g->add_msg_if_player(p, _("You can't do that while underwater."));
@@ -794,6 +808,19 @@ int iuse::antifungal(player *p, item *it, bool) {
         if (!p->has_disease("fungus")) {
             g->add_msg_if_player(p,_("Your skin grows warm for a moment."));
         }
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::antiparasitic(player *p, item *it, bool) {
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return false;
+    }
+    g->add_msg_if_player(p,_("You take some antiparasitic medication."));
+    if (p->has_disease("dermatik")) {
+        p->rem_disease("dermatik");
+        g->add_msg_if_player(p,_("The itching sensation under your skin fades away."));
     }
     return it->type->charges_to_use();
 }
@@ -2093,7 +2120,6 @@ int iuse::fishing_rod_basic (player *p, item *it, bool) {
   g->add_msg_if_player(p, _("You throw your fishing line and wait to hook something..."));
 
   p->assign_activity(ACT_FISH, 30000, 0, p->get_item_position(it), it->name);
-  p->moves = 0;
 
   return 0;
 }
@@ -3548,7 +3574,7 @@ int iuse::chainsaw_on(player *p, item *it, bool t)
 {
     if (p->is_underwater()) {
         g->add_msg_if_player(p,_("Your chainsaw gurgles in the water and stops."));
-        it->make(itypes["combatsaw_off"]);
+        it->make(itypes["chainsaw_off"]);
         it->active = false;
     }
     else if (t) { // Effects while simply on
@@ -3557,7 +3583,7 @@ int iuse::chainsaw_on(player *p, item *it, bool t)
         }
     } else { // Toggling
         g->add_msg_if_player(p,_("Your chainsaw dies."));
-        it->make(itypes["combatsaw_off"]);
+        it->make(itypes["chainsaw_off"]);
         it->active = false;
     }
     return it->type->charges_to_use();
@@ -4170,13 +4196,40 @@ int iuse::pickaxe(player *p, item *it, bool)
         g->add_msg_if_player(p,_("yourself into a hole. You stop digging."));
         return 0;
     }
+    int turns;
     if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
-        // Sound of a Pickaxe at work!
-        g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
-        g->m.destroy(dirx, diry, false);
         // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
-        p->moves -= (100000 - 3000 * p->skillLevel("carpentry"));
+        turns = (100000 - 3000 * p->skillLevel("carpentry"));
+    } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
+               g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+        turns = 20000;
+    } else {
+        g->add_msg_if_player(p,_("You can't mine there."));
+        return 0;
+    }
+    p->assign_activity(ACT_PICKAXE, turns, -1, p->get_item_position(it));
+    p->activity.placement = point(dirx, diry);
+    g->add_msg_if_player(p, _("You attack the %s with your %s."),
+                         g->m.tername(dirx, diry).c_str(), it->tname().c_str());
+    return 0; // handled when the activity finishes
+}
+
+void on_turn_activity_pickaxe(player *p) {
+    const int dirx = p->activity.placement.x;
+    const int diry = p->activity.placement.y;
+    if (g->turn % MINUTES(1) == 0) { // each turn is to much
+        //~ Sound of a Pickaxe at work!
+        g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
+    }
+}
+
+void on_finish_activity_pickaxe(player *p) {
+    const int dirx = p->activity.placement.x;
+    const int diry = p->activity.placement.y;
+    item *it = &p->i_at(p->activity.position);
+    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+        g->m.ter(dirx, diry) != t_tree) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
         p->hunger += 15;
@@ -4189,24 +4242,18 @@ int iuse::pickaxe(player *p, item *it, bool)
         p->mod_pain( 2 * rng(1, 3) );
         // Mining is construction work!
         p->practice(g->turn, "carpentry", 5);
-        // Sounds before and after
-        g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
-        g->m.destroy(dirx, diry, false);
-        // 20 minutes to rip up the road.  Compressed a bit but so is all Cata-time.
-        p->moves -= 20000;
         //Breaking up concrete on the surface? not nearly as bad
         p->hunger += 5;
         p->fatigue += 10;
         p->thirst += 5;
-        g->sound(dirx, diry, 20, _("CHNK! CHNK! CHNK!"));
-    } else {
-        g->add_msg_if_player(p,_("You can't mine there."));
-        return 0;
     }
-    return it->type->charges_to_use();
+    g->m.destroy(dirx, diry, false);
+    it->charges = std::max(0, it->charges - it->type->charges_to_use());
+    if(it->charges == 0 && it->destroyed_at_zero_charges()) {
+        p->i_rem(p->activity.position);
+    }
 }
 
 int iuse::set_trap(player *p, item *it, bool)
@@ -5780,7 +5827,6 @@ int iuse::portable_game(player *p, item *it, bool)
 
         g->add_msg_if_player(p, _("You play on your %s for a while."), it->name.c_str());
         p->assign_activity(ACT_GAME, time, -1, p->get_item_position(it), "gaming");
-        p->moves = 0;
 
         std::map<std::string, std::string> game_data;
         game_data.clear();
@@ -7385,6 +7431,7 @@ int iuse::jet_injector(player *p, item *it, bool)
     p->rem_disease("bite");
     p->rem_disease("bleed");
     p->rem_disease("fungus");
+    p->rem_disease("dermatik");
     p->radiation += 4;
     p->healall(20);
   }

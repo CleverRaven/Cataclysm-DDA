@@ -4804,7 +4804,7 @@
     "revert_to": "null",
     "use_action": "SEW"
   },
-  
+
    {
     "id": "needle_wood",
     "type": "TOOL",
@@ -6483,6 +6483,30 @@
     "revert_to": "null",
     "category": "drugs",
     "use_action": "INHALER"
+  },
+
+  {
+    "id": "eyedrops",
+    "type": "TOOL",
+    "symbol": "!",
+    "color": "light_blue",
+    "name": "saline eye drops",
+    "description": "Sterile saline eye drops. Can be used to treat dry eyes, or to wash out contaminants.",
+    "price": 100,
+    "material": "plastic",
+    "weight": 18,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -4,
+    "max_charges": 10,
+    "initial_charges": 10,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "drugs",
+    "use_action": "EYEDROPS"
   },
   {
     "id": "cow_bell",

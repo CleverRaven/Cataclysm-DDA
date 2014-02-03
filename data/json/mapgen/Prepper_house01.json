@@ -95,15 +95,15 @@
                 { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] },
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": 0, "repeat": [ 5, 8 ] }
-                    ],
-                        "comment": "randomly picked from a group ---v",
+            ],
+            "comment": "randomly picked from a group ---v",
             "place_groups": [
                 { "item": "bedroom", "chance": 60,  "x": [ 2,8 ], "y": [ 2,10 ] },
                 { "item": "dresser", "chance": 50,  "x": [ 2,2 ], "y": [ 8,8 ] },
                 { "item": "bedroom", "chance": 60,  "x": [ 2,2 ], "y": [ 8,8 ] },
                 { "item": "cannedfood", "chance": 80,  "x": [ 2,2 ], "y": [ 12,17 ] },
                 { "item": "pasta", "chance": 80,  "x": [ 2,2 ], "y": [ 12,17 ] },
-                { "item": "oven", "chance": 80,  "x": [ 2,2 ], "y": [ 19,19 ] },   
+                { "item": "oven", "chance": 80,  "x": [ 2,2 ], "y": [ 19,19 ] },
                 { "item": "homeguns", "chance": 60,  "x": [ 4,8 ], "y": [ 21,21 ] },
                 { "item": "lmoe_guns", "chance": 40,  "x": [ 4,8 ], "y": [ 21,21 ] },
                 { "item": "stash_ammo", "chance": 30,  "x": [ 4,8 ], "y": [ 21,21 ] },
@@ -115,7 +115,7 @@
                 { "item": "kitchen", "chance": 70, "x": [ 15,21 ], "y": [ 6,11 ] },
                 { "item": "fridge", "chance": 70, "x": [ 21,21 ], "y": [ 11,11 ] },
                 { "item": "oven", "chance": 70, "x": [ 21,21 ], "y": [ 10,10 ] },
-                 { "item": "kitchen", "chance": 70, "x": [ 21,21 ], "y": [ 9,9 ] }, 
+                { "item": "kitchen", "chance": 70, "x": [ 21,21 ], "y": [ 9,9 ] },
                 { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [2,3] },
                 { "monster": "GROUP_PREPPER_HOUSE", "x": [ 2, 21 ], "y": [ 13, 21 ] }
 

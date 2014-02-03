@@ -550,7 +550,7 @@ void initOptions() {
 
     OPTIONS["TERMINAL_Y"] =             cOpt("graphics", _("Terminal height"),
                                              _("SDL ONLY: Set the size of the terminal along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                             25, 187, 25
+                                             24, 187, 24
                                             );
 
     OPTIONS["INPUT_DELAY"] =             cOpt("graphics", _("Input delay"),
@@ -697,7 +697,7 @@ void show_options(bool ingame)
     }
 
     const int iTooltipHeight = 4;
-    const int iContentHeight = FULL_SCREEN_HEIGHT-3-iTooltipHeight;
+    const int iContentHeight = FULL_SCREEN_HEIGHT - 3 - iTooltipHeight;
 
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0;
@@ -720,7 +720,7 @@ void show_options(bool ingame)
     mvwputch(w_options_border, iTooltipHeight + 1, 79, BORDER_COLOR, LINE_XOXX); // -|
 
     for (std::map<int, bool>::iterator iter = mapLines.begin(); iter != mapLines.end(); ++iter) {
-        mvwputch(w_options_border, FULL_SCREEN_HEIGHT-1, iter->first + 1, BORDER_COLOR, LINE_XXOX); // _|_
+        mvwputch(w_options_border, FULL_SCREEN_HEIGHT - 1, iter->first + 1, BORDER_COLOR, LINE_XXOX); // _|_
     }
 
     mvwprintz(w_options_border, 0, 36, c_ltred, _(" OPTIONS "));
