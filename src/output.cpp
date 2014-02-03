@@ -147,7 +147,7 @@ void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, in
         solution:  split this paragraph in two pieces;
     */
     for (size_t i = 0; i < text.size(); i++) {
-        if (begin_y == 0 && caption != _("")) {
+        if (begin_y == 0 && caption != "") {
             begin_y = fold_and_print(w, 0, 1, width - 2, c_white, caption.c_str()) + 1;
         }
         std::vector<std::string> next_paragraph = foldstring(text[i].c_str(), width);

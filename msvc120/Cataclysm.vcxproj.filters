@@ -312,6 +312,9 @@
     <ClCompile Include="..\src\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\player_activity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\posix_time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -660,6 +663,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\player_activity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\pldata.h">
