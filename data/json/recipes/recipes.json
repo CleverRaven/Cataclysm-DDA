@@ -5815,16 +5815,19 @@
       [ "powder_eggs", 5 ]
     ],
     [
-      [ "salt", 1 ],
-      [ "seasoning_salt", 10 ],
-      [ "pepper", 15 ],
       [ "lemon", 1 ],
       [ "irradiated_lemon", 1 ],
       [ "mustard", 1 ],
       [ "pickle", 1],
       [ "veggy_pickled", 1],
       [ "vinegar", 1 ]
+    ],
+    [
+      [ "salt", 1 ],
+      [ "seasoning_salt", 10 ],
+      [ "pepper", 15 ]
     ]
+
   ]
 },{
         "type" : "recipe",
