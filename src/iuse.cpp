@@ -4240,8 +4240,7 @@ if(it->type->id == "cot"){
   type = tr_caltrops;
   practice = 2;
  } else if(it->type->id == "telepad"){
-  message << string_format("You place the telepad on the %s.",
-                           g->m.tername(posx, posy).c_str());
+  message <<_("You place the telepad."); 
   type = tr_telepad;
   practice = 10;
   } else if(it->type->id == "funnel"){
