@@ -159,7 +159,7 @@ void mapbuffer::save()
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint, pointcomp> saved_submaps;
     for (it = submaps.begin(); it != submaps.end(); it++) {
-        if (num_saved_submaps % 100 == 0) {
+        if (num_total_submaps > 100 && num_saved_submaps % 100 == 0) {
             popup_nowait(_("Please wait as the map saves [%d/%d]"),
                          num_saved_submaps, num_total_submaps);
         }
@@ -467,9 +467,7 @@ void mapbuffer::unserialize_submaps( std::ifstream &fin, const int num_submaps )
     std::string st;
 
     while (!fin.eof()) {
-        // We only load enough maps at once when loading them for conversion now.
-        if( savegame_loading_version != savegame_version &&
-            num_loaded % 100 == 0) {
+        if( num_submaps > 100 && num_loaded % 100 == 0 ) {
             popup_nowait(_("Please wait as the map loads [%d/%d]"),
                          num_loaded, num_submaps);
         }
