@@ -4240,7 +4240,7 @@ if(it->type->id == "cot"){
   type = tr_caltrops;
   practice = 2;
  } else if(it->type->id == "telepad"){
-  message <<_("You place the telepad."); 
+  message << _("You place the telepad."); 
   type = tr_telepad;
   practice = 10;
   } else if(it->type->id == "funnel"){
