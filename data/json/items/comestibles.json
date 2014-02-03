@@ -8088,6 +8088,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "fetus",
+        "category": "other",
         "name" : "misshapen fetus",
         "weight" : 760,
         "color" : "pink",
@@ -8117,6 +8118,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "arm",
+        "category": "other",
         "name" : "mutated arm",
         "weight" : 3767,
         "color" : "brown",
@@ -8146,6 +8148,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "leg",
+        "category": "other",
         "name" : "mutated leg",
         "weight" : 11071,
         "color" : "brown",
