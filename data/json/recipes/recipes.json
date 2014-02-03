@@ -12537,6 +12537,7 @@
   "difficulty": 3,
   "time": 6500,
   "reversible": true,
+  "decomp_learn": 2,
   "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 2 ] , [ "advanced_electronics", 2 ]],
   "tools": [
@@ -12551,7 +12552,7 @@
   ],
   "components": [
     [
-      [ "lead", 200 ]
+      [ "lead", 500 ]
     ]
   ]
 },{
@@ -18538,7 +18539,7 @@
   "skill_used": "electronics",
   "skills_required": [ "fabrication", 1 ],
   "difficulty": 3,
-  "time": 60000,
+  "time": 30000,
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
@@ -18566,10 +18567,13 @@
       [ "plastic_chunk", 3 ]
     ],
     [
-      [ "lead_plate", 1 ]
+      [ "scrap" 1 ]
     ],
     [
-      [ "water_clean", 1 ]
+      [ "lead_plate", 2 ]
+    ],
+    [
+      [ "water_clean", 3 ]
     ],
     [
       [ "acid", 1 ]
@@ -18589,7 +18593,7 @@
   "skill_used": "electronics",
   "skills_required": [ "fabrication", 1 ],
   "difficulty": 3,
-  "time": 60000,
+  "time": 30000,
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
@@ -18617,13 +18621,16 @@
       [ "plastic_chunk", 10 ]
     ],
     [
-      [ "lead_plate", 12 ]
+      [ "scrap" 2 ]
     ],
     [
-      [ "water_clean", 3 ]
+      [ "lead_plate", 4 ]
     ],
     [
-      [ "acid", 1 ]
+      [ "water_clean", 6 ]
+    ],
+    [
+      [ "acid", 2 ]
     ],
     [
       [ "rag", 2 ]
@@ -18640,7 +18647,7 @@
   "skill_used": "electronics",
   "skills_required": [ "fabrication", 1 ],
   "difficulty": 3,
-  "time": 60000,
+  "time": 30000,
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
@@ -18668,13 +18675,16 @@
       [ "plastic_chunk", 15 ]
     ],
     [
-      [ "lead_plate", 30 ]
+      [ "scrap" 4 ]
     ],
     [
-      [ "water_clean", 5 ]
+      [ "lead_plate", 6 ]
     ],
     [
-      [ "acid", 3 ]
+      [ "water_clean", 12 ]
+    ],
+    [
+      [ "acid", 4 ]
     ],
     [
       [ "rag", 3 ]
@@ -18691,7 +18701,7 @@
   "skill_used": "electronics",
   "skills_required": [ "fabrication", 1 ],
   "difficulty": 3,
-  "time": 60000,
+  "time": 30000,
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
@@ -18719,13 +18729,16 @@
       [ "plastic_chunk", 20 ]
     ],
     [
-      [ "lead_plate", 50 ]
+      [ "scrap" 6 ]
     ],
     [
-      [ "water_clean", 8 ]
+      [ "lead_plate", 8 ]
     ],
     [
-      [ "acid", 4 ]
+      [ "water_clean", 16 ]
+    ],
+    [
+      [ "acid", 6 ]
     ],
     [
       [ "rag", 5 ]

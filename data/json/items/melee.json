@@ -431,9 +431,9 @@
     "description": "A lead electrode plate from a lead-acid battery.",
     "price": 10,
     "material": "steel",
-    "weight": 250,
-    "volume": 1,
-    "bashing": 1,
+    "weight": 2000,
+    "volume": 4,
+    "bashing": 5,
     "cutting": 0,
     "category" : "spare_parts",
     "to_hit": -2
