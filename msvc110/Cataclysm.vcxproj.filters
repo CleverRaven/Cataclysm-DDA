@@ -396,6 +396,9 @@
     <ClCompile Include="..\src\ammo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\player_activity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\action.h">
@@ -732,6 +735,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ammo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\player_activity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
