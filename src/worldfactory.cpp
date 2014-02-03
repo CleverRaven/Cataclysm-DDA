@@ -55,6 +55,7 @@ WORLD::WORLD()
         }
     }
     world_saves.clear();
+    active_mod_order = world_generator->get_mod_manager()->get_default_mods();
 }
 
 worldfactory::worldfactory()
@@ -720,6 +721,15 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     // Use active_mod_order of the world,
     // saves us from writting 'world->active_mod_order' all the time.
     std::vector<std::string> &active_mod_order = world->active_mod_order;
+    {
+        std::vector<std::string> tmp_mod_order;
+        // clear active_mod_order and re-add all the mods, his ensures
+        // that changes (like changing depencies) get updated
+        tmp_mod_order.swap(active_mod_order);
+        for(size_t i = 0; i < tmp_mod_order.size(); i++) {
+            mman_ui->try_add(tmp_mod_order[i], active_mod_order);
+        }
+    }
 
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
@@ -964,7 +974,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             case '\n':
                 if (active_header == 0 && mman_ui->usable_mods.size() > 0) {
                     // try-add
-                    mman_ui->try_add(cursel[0], mman_ui->usable_mods, active_mod_order);
+                    mman_ui->try_add(mman_ui->usable_mods[cursel[0]], active_mod_order);
                     redraw_active = true;
                     redraw_shift = true;
                 } else if (active_header == 1 && active_mod_order.size() > 0) {
@@ -972,6 +982,11 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                     mman_ui->try_rem(cursel[1], active_mod_order);
                     redraw_active = true;
                     redraw_shift = true;
+                    if (active_mod_order.empty()) {
+                        // switch back to other list, we can't change
+                        // anything in the empty active mods list.
+                        active_header = 0;
+                    }
                 }
                 break;
             case '+':
@@ -987,6 +1002,11 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 break;
             case '<':
                 tab_output = -1;
+                break;
+            case 's':
+            case 'S':
+                mman->set_default_mods(active_mod_order);
+                popup("Saved list of active mods as default");
                 break;
             case 'q':
             case 'Q':
