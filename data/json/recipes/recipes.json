@@ -5787,7 +5787,7 @@
         "type" : "recipe",
   "result": "mayonnaise",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_VEGGI",
+  "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 9000,
