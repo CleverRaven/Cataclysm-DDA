@@ -1818,8 +1818,10 @@
     "luminance":1,
     "hp":75,
     "special_freq":25,
+	"defense_chance":100,
     "death_function":"ZOMBIE",
     "special_attack":"SHOCKSTORM",
+	"special_defense":"ZAPBACK",
     "description":"A human body with pale blue flesh, crackling with electrical energy.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "ELECTRIC", "CBM", "NO_BREATHE",  "VIS40", "REVIVES"]
     },{
@@ -4165,8 +4167,10 @@
     "luminance":0,
     "hp":60,
     "special_freq":20,
+	"defense_chance":100,
     "death_function":"MELT",
     "special_attack":"DISAPPEAR",
+	"special_defense":"ZAPBACK",
     "description":"A strange moving darkness, bringing with it the softest of whispers.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "NOHEAD", "HARDTOSHOOT", "GRABS", "WEBWALK", "FLIES", "PLASTIC", "SUNDEATH", "ELECTRIC", "ACIDPROOF", "HIT_AND_RUN", "NO_BREATHE", "VIS50"]
     },{
