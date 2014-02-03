@@ -883,7 +883,13 @@ static void save_font_list()
 
 static std::string find_system_font(std::string name, int& faceIndex)
 {
-    if(!fexists("data/fontlist.txt")) save_font_list();
+    struct stat stat_buf;
+    int rc = stat("data/fontlist.txt", &stat_buf);
+    if( rc == 0 ? stat_buf.st_size == 0 : true) {
+      DebugLog() << "Generating fontlist\n";
+      save_font_list();
+    }
+
 
     std::ifstream fin("data/fontlist.txt");
     if (fin) {
