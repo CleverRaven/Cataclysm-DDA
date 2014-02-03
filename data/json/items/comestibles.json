@@ -4191,6 +4191,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "meat_tainted",
+        "category": "other",
         "name" : "tainted meat",
         "weight" : 238,
         "color" : "red",
@@ -4220,6 +4221,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "slime_scrap",
+        "category": "other",
         "name" : "blob glob",
         "weight" : 238,
         "color" : "dkgray",
@@ -4249,6 +4251,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "veggy_tainted",
+        "category": "other",
         "name" : "tainted veggy",
         "weight" : 238,
         "color" : "green",
