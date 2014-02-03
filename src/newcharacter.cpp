@@ -556,7 +556,7 @@ int set_stats(WINDOW *w, player *u, int &points)
     const int iSecondColumn = 27;
     char ch;
     int read_spd;
-    WINDOW *w_description = newwin(8, FULL_SCREEN_WIDTH - iSecondColumn - 2, 6 + getbegy(w),
+    WINDOW *w_description = newwin(8, FULL_SCREEN_WIDTH - iSecondColumn - 1, 6 + getbegy(w),
                                    iSecondColumn + getbegx(w));
     // There is no map loaded currently, so any access to the map will
     // fail (player::suffer, called from player::reset_stats), might access
@@ -632,7 +632,7 @@ h, 4, or left arrow to decrease the statistic."));
                 mvwprintz(w, 7,  2, COL_STAT_ACT, _("Dexterity:"));
                 mvwprintz(w, 7,  16, COL_STAT_ACT, "%2d", u->dex_max);
                 if (u->dex_max >= HIGH_STAT) {
-                    mvwprintz(w, 3, 0, c_ltred, _("Increasing Dex further costs 2 points."));
+                    mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Dex further costs 2 points."));
                 }
                 mvwprintz(w_description, 0, 0, COL_STAT_BONUS, _("Melee to-hit bonus: +%d"),
                           u->base_to_hit(false));
@@ -1019,8 +1019,8 @@ int set_profession(WINDOW *w, player *u, int &points)
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
 
     WINDOW *w_items =       newwin(iContentHeight - 1, 25,  6 + getbegy(w), 24 + getbegx(w));
-    WINDOW *w_skills =      newwin(iContentHeight - 5, 30,  6 + getbegy(w), 49 + getbegx(w));
-    WINDOW *w_addictions =  newwin(5,                  30, 15 + getbegy(w), 49 + getbegx(w));
+    WINDOW *w_skills =      newwin(iContentHeight - 6, 30,  6 + getbegy(w), 49 + getbegx(w));
+    WINDOW *w_addictions =  newwin(5,                  30, 14 + getbegy(w), 49 + getbegx(w));
     WINDOW *w_genderswap =  newwin(1,                  55,  5 + getbegy(w), 24 + getbegx(w));
 
     std::vector<const profession *> sorted_profs;
