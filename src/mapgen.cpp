@@ -3622,7 +3622,6 @@ A......D.........|dh...|\n\
                                                            f_chair, f_null,    f_null,           f_null,         f_null,         f_null,      f_null,
                                                            f_null,       f_null,       f_null,         f_null,              f_table,  f_counter,
                                                            f_indoor_plant));
-                        }
                         for (int i = 0; i <= 23; i++) {
                             for (int j = 0; j <= 23; j++) {
                                 if (this->furn(i, j) == f_counter) {
