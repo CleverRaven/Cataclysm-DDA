@@ -118,6 +118,7 @@
     <ClCompile Include="..\src\faction.cpp" />
     <ClCompile Include="..\src\field.cpp" />
     <ClCompile Include="..\src\file_finder.cpp" />
+    <ClCompile Include="..\src\file_wrapper.cpp" />
     <ClCompile Include="..\src\game.cpp" />
     <ClCompile Include="..\src\gamemode.cpp" />
     <ClCompile Include="..\src\graffiti.cpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="..\src\faction.h" />
     <ClInclude Include="..\src\field.h" />
     <ClInclude Include="..\src\file_finder.h" />
+    <ClInclude Include="..\src\file_wrapper.h" />
     <ClInclude Include="..\src\game.h" />
     <ClInclude Include="..\src\gamemode.h" />
     <ClInclude Include="..\src\get_version.h" />
