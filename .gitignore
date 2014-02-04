@@ -20,7 +20,20 @@ CataclysmWin.layout
 *.exe
 *.dll
 WinDepend/
+*.7z
+*.zip
+
+data/font/
+data/keymap.txt
+data/options.txt
+data/auto_pickup.txt
+data/fontlist.txt
 data/FONTDATA
+
+doxygen_doc/html/*
+doxygen_doc/latex/*
+
+data/mods/user-default-mods.json
 
 # Visual Studio files
 *.suo
