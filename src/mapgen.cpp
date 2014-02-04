@@ -3449,7 +3449,7 @@ C..C..C...|hhh|#########\n\
 
                 case 4: // alien containment
                     fill_background(this, t_rock_floor);
-                    if (one_in(4)) {
+                    if (one_in(5)) {
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
 .....|..|.....|........|\n\
@@ -3519,7 +3519,7 @@ C..C..C...|hhh|#########\n\
                         tmpcomp = add_computer(12, 16, _("Containment Control"), 4);
                         tmpcomp->add_option(_("EMERGENCY CONTAINMENT UNLOCK"), COMPACT_UNLOCK, 4);
                         tmpcomp->add_option(_("EMERGENCY CLEANSE"), COMPACT_DISCONNECT, 7);
-                    } else if (one_in(3)) { //operations or utility
+                    } else if (one_in(4)) { //operations or utility
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
 .....|...........f.....|\n\
@@ -3583,6 +3583,77 @@ A......D.........|dh...|\n\
                                 }
                             }
                         }
+                    } else if (one_in(3)) { //mutagen developing and testing
+                        mapf::formatted_set_simple(this, 0, 0,
+                                                   "\
+......^|......|....... |\n\
+..d....g......g....c..F|\n\
+..d....+......g....c..F|\n\
+..xdd..g......g....r..F|\n\
+--------......D....r..F|\n\
+..ddd..g.....6|....r..F|\n\
+..d....+......|.......F|\n\
+^...h..g......|.FFFFF.F|\n\
+--------......|--------|\n\
+.......................|\n\
+.......................|\n\
+.......................+\n\
+.......................+\n\
+.......................|\n\
+..llllll......|--------|\n\
+-------|......g^...F...|\n\
+..BBF..g......g.......F|\n\
+..BB...+......g.....h.c|\n\
+.......g......|.......C|\n\
+-------|......+..h....c|\n\
+..BBF..g......|.......c|\n\
+..BB...+......g...h...c|\n\
+.......g......g........|\n\
+-------|---++----------|\n",
+                                                   mapf::basic_bind("D & P S p l B O F A r d C h 6 x g G , . - | + D t c ^",
+                                                           t_door_metal_locked, t_radio_tower, t_generator_broken, t_sewage_pump,
+                                                           t_sewage_pipe, t_floor,  t_floor, t_column, t_floor, t_floor,
+                                                           t_floor, t_floor, t_centrifuge, t_null,  t_console, t_console_broken, t_reinforced_glass_v,
+                                                           t_reinforced_glass_h, t_rock_blue, t_rock_floor, t_concrete_h, t_concrete_v, t_door_metal_c,
+                                                           t_door_metal_locked, t_floor,  t_floor,   t_floor),
+                                                   mapf::basic_bind("D & P S p l B O F A r d C h 6 x g G , . - | + D t c ^", f_null,
+                                                           f_null,        f_null,             f_null,        f_null,        f_locker,
+                                                           f_bed,        f_null,         f_glass_fridge,         f_crate_c, f_rack,  f_desk,  f_null,
+                                                           f_chair, f_null,    f_null,           f_null,         f_null,         f_null,      f_null,
+                                                           f_null,       f_null,       f_null,         f_null,              f_table,  f_counter,
+                                                           f_indoor_plant));
+                        for (int i = 0; i <= 23; i++) {
+                            for (int j = 0; j <= 23; j++) {
+                                if (this->furn(i, j) == f_counter) {
+                                    if (one_in(2)) {
+                                        place_items("dissection", 30,  i,  j, i,  j, false, 0);
+                                    } else if (one_in(2)) {
+                                        place_items("chem_lab", 60,  i,  j, i,  j, false, 0);
+                                    } else {
+                                        place_items("mut_recipes", 20,  i,  j, i,  j, false, 0);
+                                    }
+                                } else if (this->furn(i, j) == f_locker) {
+                                    place_items("lab_torso", 60,  i,  j, i,  j, false, 0);
+                                } else if (this->furn(i, j) == f_glass_fridge) {
+                                    place_items("mut_serums", 50,  i,  j, i,  j, false, 0);
+                                } else if (this->furn(i, j) == f_rack) {
+                                    place_items("mut_recipes", 50,  i,  j, i,  j, false, 0);
+                                } else if (this->furn(i, j) == f_desk) {
+                                    place_items("office", 60,  i,  j, i,  j, false, 0);
+                                }
+                                if (one_in(500) && this->ter(i, j) == t_rock_floor) {
+                                    add_spawn("mon_zombie", 1, i, j);
+                                }
+                                item body;
+                                body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
+                                if (one_in(500) && this->ter(i, j) == t_rock_floor) {
+                                    add_item(i, j, body);
+                                }
+
+                            }
+                        }
+                        tmpcomp = add_computer(13, 5, _("PE:XXX STORAGE VAULT"), 4);
+                        tmpcomp->add_option(_("UNLOCK VAULT"), COMPACT_UNLOCK, 4);
                     } else if (one_in(2)) { //tribute
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
