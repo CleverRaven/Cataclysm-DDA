@@ -853,6 +853,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 fold_and_print(w_description, 0, 1, getmaxx(w_description) - 1,
                                c_white, mman_ui->get_information(selmod).c_str());
             }
+            mvwprintz(w_description, getmaxy(w_description) - 2, 1 , c_green, _("Press s to save the list of active mods as default"));
             redraw_description = false;
             wrefresh(w_description);
         }
