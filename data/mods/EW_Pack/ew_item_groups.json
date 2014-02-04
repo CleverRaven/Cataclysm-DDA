@@ -3,15 +3,9 @@
         "type": "item_group",
         "id" : "rifles",
         "items" :[
-<<<<<<< Updated upstream
-          ["cw-24", 5],
-          ["cw-24m", 6],
-          ["cw-24k", 6],
-=======
           ["cw-24", 4],
           ["cw-24m", 5],
           ["cw-24k", 5],
->>>>>>> Stashed changes
           ["cwd-63", 5]
         ]
     },
@@ -29,15 +23,9 @@
         "items": [
           ["svs-24", 3],
           ["svs-24c", 2],
-<<<<<<< Updated upstream
-          ["cw-24", 5],
-          ["cw-24m", 6],
-          ["cw-24k", 6],
-=======
           ["cw-24", 4],
           ["cw-24m", 5],
           ["cw-24k", 5],
->>>>>>> Stashed changes
           ["cwd-63", 5]          
         ]
     },
@@ -93,11 +81,7 @@
         "items": [
           ["654", 4],
           ["654t", 3],
-<<<<<<< Updated upstream
-          ["545", 5],
-=======
           ["545", 4],
->>>>>>> Stashed changes
           ["545_ap", 3]          
         ]
     },
