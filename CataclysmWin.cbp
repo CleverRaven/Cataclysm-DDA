@@ -8,28 +8,18 @@
 		<Build>
 			<Target title="Release">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Release\" />
+				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Os" />
 					<Add option="-O2" />
 					<Add option="-DRELEASE=1" />
-					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\include" />
-					<Add directory="WinDepend\SDL-1.2.15\include\SDL" />
 				</Compiler>
-				<Linker>
-					<Add library="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86\SDL_ttf.lib" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
-					<Add directory="WinDepend\SDL-1.2.15\lib" />
-					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86" />
-					<Add directory="WinDepend\libiconv\lib" />
-				</Linker>
 			</Target>
 			<Target title="Release - Localized">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Release\" />
+				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -37,26 +27,15 @@
 					<Add option="-O2" />
 					<Add option="-DLOCALIZE" />
 					<Add option="-DRELEASE=1" />
-					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\include" />
-					<Add directory="WinDepend\SDL-1.2.15\include\SDL" />
-					<Add directory="WinDepend\SDLImg_binVC\SDL_image-1.2.12\include" />
 				</Compiler>
 				<Linker>
 					<Add library="intl" />
 					<Add library="iconv" />
-					<Add library="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86\SDL_ttf.lib" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
-					<Add library="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86\SDL_image.lib" />
-					<Add directory="WinDepend\SDL-1.2.15\lib" />
-					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86" />
-					<Add directory="WinDepend\libiconv\lib" />
-					<Add directory="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86" />
 				</Linker>
 			</Target>
 			<Target title="Release -SDL">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Release\" />
+				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -64,9 +43,9 @@
 					<Add option="-O2" />
 					<Add option="-DTILES" />
 					<Add option="-DRELEASE=1" />
-					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\include" />
-					<Add directory="WinDepend\SDL-1.2.15\include\SDL" />
-					<Add directory="WinDepend\SDLImg_binVC\SDL_image-1.2.12\include" />
+					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/include" />
+					<Add directory="WinDepend/SDL-1.2.15/include/SDL" />
+					<Add directory="WinDepend/SDLImg_binVC/SDL_image-1.2.12/include" />
 				</Compiler>
 				<Linker>
 					<Add library="libSDL.dll" />
@@ -75,15 +54,15 @@
 					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
 					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
 					<Add library="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86\SDL_image.lib" />
-					<Add directory="WinDepend\SDL-1.2.15\lib" />
-					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86" />
-					<Add directory="WinDepend\libiconv\lib" />
-					<Add directory="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86" />
+					<Add directory="WinDepend/SDL-1.2.15/lib" />
+					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/lib/x86" />
+					<Add directory="WinDepend/libiconv/lib" />
+					<Add directory="WinDepend/SDLImg_binVC/SDL_image-1.2.12/lib/x86" />
 				</Linker>
 			</Target>
 			<Target title="Release -SDL -Localized">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Release\" />
+				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -93,9 +72,9 @@
 					<Add option="-DTILES" />
 					<Add option="-DSDLTILES" />
 					<Add option="-DRELEASE=1" />
-					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\include" />
-					<Add directory="WinDepend\SDL-1.2.15\include\SDL" />
-					<Add directory="WinDepend\SDLImg_binVC\SDL_image-1.2.12\include" />
+					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/include" />
+					<Add directory="WinDepend/SDL-1.2.15/include/SDL" />
+					<Add directory="WinDepend/SDLImg_binVC/SDL_image-1.2.12/include" />
 				</Compiler>
 				<Linker>
 					<Add library="intl" />
@@ -104,15 +83,15 @@
 					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
 					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
 					<Add library="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86\SDL_image.lib" />
-					<Add directory="WinDepend\SDL-1.2.15\lib" />
-					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86" />
-					<Add directory="WinDepend\libiconv\lib" />
-					<Add directory="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86" />
+					<Add directory="WinDepend/SDL-1.2.15/lib" />
+					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/lib/x86" />
+					<Add directory="WinDepend/libiconv/lib" />
+					<Add directory="WinDepend/SDLImg_binVC/SDL_image-1.2.12/lib/x86" />
 				</Linker>
 			</Target>
 			<Target title="Debug">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Debug\" />
+				<Option object_output="obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -125,7 +104,7 @@
 			</Target>
 			<Target title="Debug - Localized">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Debug\" />
+				<Option object_output="obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -141,7 +120,7 @@
 			</Target>
 			<Target title="Release - Tile Support">
 				<Option output="Cataclysm-Tiles" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\TilesRelease\" />
+				<Option object_output="obj/TilesRelease/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -149,7 +128,8 @@
 					<Add option="-O2" />
 					<Add option="-pg" />
 					<Add option="-DSDLTILES" />
-					<Add directory="3rdparty\include\SDL" />
+					<Add option="-DTILES" />
+					<Add directory="3rdparty/include/SDL" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -157,13 +137,13 @@
 					<Add library="3rdparty\lib\libSDLmain.a" />
 					<Add library="3rdparty\lib\x86\SDL_image.lib" />
 					<Add library="3rdparty\lib\x86\SDL_ttf.lib" />
-					<Add directory="3rdparty\lib" />
-					<Add directory="3rdparty\lib\x86" />
+					<Add directory="3rdparty/lib" />
+					<Add directory="3rdparty/lib/x86" />
 				</Linker>
 			</Target>
 			<Target title="Debug - Tile Support">
 				<Option output="Cataclysm-Tiles" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\TilesRelease\" />
+				<Option object_output="obj/TilesRelease/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -172,7 +152,8 @@
 					<Add option="-pg" />
 					<Add option="-g" />
 					<Add option="-DSDLTILES" />
-					<Add directory="3rdparty\include\SDL" />
+					<Add option="-DTILES" />
+					<Add directory="3rdparty/include/SDL" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -180,8 +161,8 @@
 					<Add library="3rdparty\lib\libSDLmain.a" />
 					<Add library="3rdparty\lib\x86\SDL_image.lib" />
 					<Add library="3rdparty\lib\x86\SDL_ttf.lib" />
-					<Add directory="3rdparty\lib" />
-					<Add directory="3rdparty\lib\x86" />
+					<Add directory="3rdparty/lib" />
+					<Add directory="3rdparty/lib/x86" />
 				</Linker>
 			</Target>
 		</Build>
@@ -196,226 +177,248 @@
 			<Add library="gdi32" />
 			<Add library="winmm" />
 		</Linker>
-		<Unit filename="SDLMain.h" />
-		<Unit filename="action.cpp" />
-		<Unit filename="action.h" />
-		<Unit filename="addiction.cpp" />
-		<Unit filename="addiction.h" />
-		<Unit filename="advanced_inv.cpp" />
-		<Unit filename="advanced_inv.h" />
-		<Unit filename="animation_curses.cpp" />
-		<Unit filename="animation_tiles.cpp" />
-		<Unit filename="artifact.cpp" />
-		<Unit filename="artifact.h" />
-		<Unit filename="artifactdata.h" />
-		<Unit filename="auto_pickup.cpp" />
-		<Unit filename="auto_pickup.h" />
-		<Unit filename="basecamp.cpp" />
-		<Unit filename="basecamp.h" />
-		<Unit filename="bionics.cpp" />
-		<Unit filename="bionics.h" />
-		<Unit filename="bodypart.cpp" />
-		<Unit filename="bodypart.h" />
-		<Unit filename="building_generation.cpp" />
-		<Unit filename="building_generation.h" />
-		<Unit filename="calendar.cpp" />
-		<Unit filename="calendar.h" />
-		<Unit filename="cata_tiles.cpp" />
-		<Unit filename="cata_tiles.h" />
-		<Unit filename="catacharset.cpp" />
-		<Unit filename="catacharset.h" />
-		<Unit filename="catacurse.h" />
-		<Unit filename="catajson.cpp" />
-		<Unit filename="catajson.h" />
-		<Unit filename="color.cpp" />
-		<Unit filename="color.h" />
-		<Unit filename="computer.cpp" />
-		<Unit filename="computer.h" />
-		<Unit filename="construction.cpp" />
-		<Unit filename="construction.h" />
-		<Unit filename="coordinates.h" />
-		<Unit filename="crafting.cpp" />
-		<Unit filename="crafting.h" />
-		<Unit filename="cursesdef.h" />
-		<Unit filename="cursesport.cpp" />
-		<Unit filename="debug.cpp" />
-		<Unit filename="debug.h" />
-		<Unit filename="defense.cpp" />
-		<Unit filename="dialogue.h" />
-		<Unit filename="disease.cpp" />
-		<Unit filename="disease.h" />
-		<Unit filename="editmap.cpp" />
-		<Unit filename="editmap.h" />
-		<Unit filename="enums.h" />
-		<Unit filename="event.cpp" />
-		<Unit filename="event.h" />
-		<Unit filename="faction.cpp" />
-		<Unit filename="faction.h" />
-		<Unit filename="field.cpp" />
-		<Unit filename="field.h" />
-		<Unit filename="file_finder.cpp" />
-		<Unit filename="file_finder.h" />
-		<Unit filename="game.cpp" />
-		<Unit filename="game.h" />
-		<Unit filename="gamemode.cpp" />
-		<Unit filename="gamemode.h" />
-		<Unit filename="gamesave.cpp" />
-		<Unit filename="get_version.h" />
-		<Unit filename="graffiti.cpp" />
-		<Unit filename="graffiti.h" />
-		<Unit filename="help.cpp" />
-		<Unit filename="helper.cpp" />
-		<Unit filename="helper.h" />
-		<Unit filename="iexamine.cpp" />
-		<Unit filename="iexamine.h" />
-		<Unit filename="init.cpp" />
-		<Unit filename="init.h" />
-		<Unit filename="input.cpp" />
-		<Unit filename="input.h" />
-		<Unit filename="inventory.cpp" />
-		<Unit filename="inventory.h" />
-		<Unit filename="inventory_ui.cpp" />
-		<Unit filename="item.cpp" />
-		<Unit filename="item.h" />
-		<Unit filename="item_factory.cpp" />
-		<Unit filename="item_factory.h" />
-		<Unit filename="item_group.cpp" />
-		<Unit filename="item_group.h" />
-		<Unit filename="itype.h" />
-		<Unit filename="itypedef.cpp" />
-		<Unit filename="iuse.cpp" />
-		<Unit filename="iuse.h" />
-		<Unit filename="iuse_software.cpp" />
-		<Unit filename="iuse_software.h" />
-		<Unit filename="iuse_software_kitten.cpp" />
-		<Unit filename="iuse_software_kitten.h" />
-		<Unit filename="iuse_software_snake.cpp" />
-		<Unit filename="iuse_software_snake.h" />
-		<Unit filename="iuse_software_sokoban.cpp" />
-		<Unit filename="iuse_software_sokoban.h" />
-		<Unit filename="json.cpp" />
-		<Unit filename="json.h" />
-		<Unit filename="keypress.cpp" />
-		<Unit filename="keypress.h" />
-		<Unit filename="lightmap.cpp" />
-		<Unit filename="lightmap.h" />
-		<Unit filename="line.cpp" />
-		<Unit filename="line.h" />
-		<Unit filename="main.cpp" />
-		<Unit filename="main_menu.cpp" />
-		<Unit filename="map.cpp" />
-		<Unit filename="map.h" />
-		<Unit filename="mapbuffer.cpp" />
-		<Unit filename="mapbuffer.h" />
-		<Unit filename="mapdata.cpp" />
-		<Unit filename="mapdata.h" />
-		<Unit filename="mapgen.cpp" />
-		<Unit filename="mapgenformat.cpp" />
-		<Unit filename="mapgenformat.h" />
-		<Unit filename="mapitems.h" />
-		<Unit filename="martialarts.cpp" />
-		<Unit filename="martialarts.h" />
-		<Unit filename="material.cpp" />
-		<Unit filename="material.h" />
-		<Unit filename="melee.cpp" />
-		<Unit filename="mission.cpp" />
-		<Unit filename="mission.h" />
-		<Unit filename="mission_end.cpp" />
-		<Unit filename="mission_fail.cpp" />
-		<Unit filename="mission_place.cpp" />
-		<Unit filename="mission_start.cpp" />
-		<Unit filename="missiondef.cpp" />
-		<Unit filename="mod_factory.h" />
-		<Unit filename="monattack.cpp" />
-		<Unit filename="monattack.h" />
-		<Unit filename="mondeath.cpp" />
-		<Unit filename="mondeath.h" />
-		<Unit filename="mongroup.h" />
-		<Unit filename="mongroupdef.cpp" />
-		<Unit filename="monitemsdef.cpp" />
-		<Unit filename="monmove.cpp" />
-		<Unit filename="monster.cpp" />
-		<Unit filename="monster.h" />
-		<Unit filename="monstergenerator.cpp" />
-		<Unit filename="monstergenerator.h" />
-		<Unit filename="morale.h" />
-		<Unit filename="moraledata.h" />
-		<Unit filename="mtype.h" />
-		<Unit filename="mtypedef.cpp" />
-		<Unit filename="mutation.cpp" />
-		<Unit filename="mutation.h" />
-		<Unit filename="mutation_data.cpp" />
-		<Unit filename="name.cpp" />
-		<Unit filename="name.h" />
-		<Unit filename="newcharacter.cpp" />
-		<Unit filename="npc.cpp" />
-		<Unit filename="npc.h" />
-		<Unit filename="npcmove.cpp" />
-		<Unit filename="npctalk.cpp" />
-		<Unit filename="omdata.h" />
-		<Unit filename="options.cpp" />
-		<Unit filename="options.h" />
-		<Unit filename="output.cpp" />
-		<Unit filename="output.h" />
-		<Unit filename="overmap.cpp" />
-		<Unit filename="overmap.h" />
-		<Unit filename="overmapbuffer.cpp" />
-		<Unit filename="overmapbuffer.h" />
-		<Unit filename="picofunc.cpp" />
-		<Unit filename="picofunc.h" />
-		<Unit filename="picojson.h" />
-		<Unit filename="player.cpp" />
-		<Unit filename="player.h" />
-		<Unit filename="pldata.h" />
-		<Unit filename="posix_time.cpp" />
-		<Unit filename="posix_time.h" />
-		<Unit filename="profession.cpp" />
-		<Unit filename="profession.h" />
-		<Unit filename="ranged.cpp" />
-		<Unit filename="resource.rc">
+		<Unit filename="src/SDLMain.h" />
+		<Unit filename="src/action.cpp" />
+		<Unit filename="src/action.h" />
+		<Unit filename="src/addiction.cpp" />
+		<Unit filename="src/addiction.h" />
+		<Unit filename="src/advanced_inv.cpp" />
+		<Unit filename="src/advanced_inv.h" />
+		<Unit filename="src/ammo.cpp" />
+		<Unit filename="src/ammo.h" />
+		<Unit filename="src/animation_curses.cpp" />
+		<Unit filename="src/animation_tiles.cpp" />
+		<Unit filename="src/artifact.cpp" />
+		<Unit filename="src/artifact.h" />
+		<Unit filename="src/auto_pickup.cpp" />
+		<Unit filename="src/auto_pickup.h" />
+		<Unit filename="src/basecamp.cpp" />
+		<Unit filename="src/basecamp.h" />
+		<Unit filename="src/bionics.cpp" />
+		<Unit filename="src/bionics.h" />
+		<Unit filename="src/bodypart.cpp" />
+		<Unit filename="src/bodypart.h" />
+		<Unit filename="src/calendar.cpp" />
+		<Unit filename="src/calendar.h" />
+		<Unit filename="src/cata_tiles.cpp" />
+		<Unit filename="src/cata_tiles.h" />
+		<Unit filename="src/catacharset.cpp" />
+		<Unit filename="src/catacharset.h" />
+		<Unit filename="src/catacurse.h" />
+		<Unit filename="src/catalua.cpp" />
+		<Unit filename="src/catalua.h" />
+		<Unit filename="src/char_validity_check.cpp" />
+		<Unit filename="src/char_validity_check.h" />
+		<Unit filename="src/character.cpp" />
+		<Unit filename="src/character.h" />
+		<Unit filename="src/color.cpp" />
+		<Unit filename="src/color.h" />
+		<Unit filename="src/computer.cpp" />
+		<Unit filename="src/computer.h" />
+		<Unit filename="src/construction.cpp" />
+		<Unit filename="src/construction.h" />
+		<Unit filename="src/coordinates.h" />
+		<Unit filename="src/crafting.cpp" />
+		<Unit filename="src/crafting.h" />
+		<Unit filename="src/creature.cpp" />
+		<Unit filename="src/creature.h" />
+		<Unit filename="src/creature_tracker.cpp" />
+		<Unit filename="src/creature_tracker.h" />
+		<Unit filename="src/cursesdef.h" />
+		<Unit filename="src/cursesport.cpp" />
+		<Unit filename="src/damage.cpp" />
+		<Unit filename="src/damage.h" />
+		<Unit filename="src/debug.cpp" />
+		<Unit filename="src/debug.h" />
+		<Unit filename="src/defense.cpp" />
+		<Unit filename="src/dependency_tree.cpp" />
+		<Unit filename="src/dependency_tree.h" />
+		<Unit filename="src/dialogue.h" />
+		<Unit filename="src/disease.cpp" />
+		<Unit filename="src/disease.h" />
+		<Unit filename="src/editmap.cpp" />
+		<Unit filename="src/editmap.h" />
+		<Unit filename="src/effect.cpp" />
+		<Unit filename="src/effect.h" />
+		<Unit filename="src/enums.h" />
+		<Unit filename="src/event.cpp" />
+		<Unit filename="src/event.h" />
+		<Unit filename="src/faction.cpp" />
+		<Unit filename="src/faction.h" />
+		<Unit filename="src/field.cpp" />
+		<Unit filename="src/field.h" />
+		<Unit filename="src/file_finder.cpp" />
+		<Unit filename="src/file_finder.h" />
+		<Unit filename="src/game.cpp" />
+		<Unit filename="src/game.h" />
+		<Unit filename="src/gamemode.cpp" />
+		<Unit filename="src/gamemode.h" />
+		<Unit filename="src/get_version.h" />
+		<Unit filename="src/graffiti.cpp" />
+		<Unit filename="src/graffiti.h" />
+		<Unit filename="src/help.cpp" />
+		<Unit filename="src/help.h" />
+		<Unit filename="src/helper.cpp" />
+		<Unit filename="src/helper.h" />
+		<Unit filename="src/iexamine.cpp" />
+		<Unit filename="src/iexamine.h" />
+		<Unit filename="src/init.cpp" />
+		<Unit filename="src/init.h" />
+		<Unit filename="src/input.cpp" />
+		<Unit filename="src/input.h" />
+		<Unit filename="src/inventory.cpp" />
+		<Unit filename="src/inventory.h" />
+		<Unit filename="src/inventory_ui.cpp" />
+		<Unit filename="src/item.cpp" />
+		<Unit filename="src/item.h" />
+		<Unit filename="src/item_factory.cpp" />
+		<Unit filename="src/item_factory.h" />
+		<Unit filename="src/item_group.cpp" />
+		<Unit filename="src/item_group.h" />
+		<Unit filename="src/itype.h" />
+		<Unit filename="src/itypedef.cpp" />
+		<Unit filename="src/iuse.cpp" />
+		<Unit filename="src/iuse.h" />
+		<Unit filename="src/iuse_software.cpp" />
+		<Unit filename="src/iuse_software.h" />
+		<Unit filename="src/iuse_software_kitten.cpp" />
+		<Unit filename="src/iuse_software_kitten.h" />
+		<Unit filename="src/iuse_software_snake.cpp" />
+		<Unit filename="src/iuse_software_snake.h" />
+		<Unit filename="src/iuse_software_sokoban.cpp" />
+		<Unit filename="src/iuse_software_sokoban.h" />
+		<Unit filename="src/json.cpp" />
+		<Unit filename="src/json.h" />
+		<Unit filename="src/keypress.cpp" />
+		<Unit filename="src/keypress.h" />
+		<Unit filename="src/lightmap.cpp" />
+		<Unit filename="src/lightmap.h" />
+		<Unit filename="src/line.cpp" />
+		<Unit filename="src/line.h" />
+		<Unit filename="src/live_view.cpp" />
+		<Unit filename="src/live_view.h" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/main_menu.cpp" />
+		<Unit filename="src/map.cpp" />
+		<Unit filename="src/map.h" />
+		<Unit filename="src/mapbuffer.cpp" />
+		<Unit filename="src/mapbuffer.h" />
+		<Unit filename="src/mapdata.cpp" />
+		<Unit filename="src/mapdata.h" />
+		<Unit filename="src/mapgen.cpp" />
+		<Unit filename="src/mapgen.h" />
+		<Unit filename="src/mapgen_functions.cpp" />
+		<Unit filename="src/mapgen_functions.h" />
+		<Unit filename="src/mapgenformat.cpp" />
+		<Unit filename="src/mapgenformat.h" />
+		<Unit filename="src/mapitems.h" />
+		<Unit filename="src/martialarts.cpp" />
+		<Unit filename="src/martialarts.h" />
+		<Unit filename="src/material.cpp" />
+		<Unit filename="src/material.h" />
+		<Unit filename="src/melee.cpp" />
+		<Unit filename="src/mission.cpp" />
+		<Unit filename="src/mission.h" />
+		<Unit filename="src/mission_end.cpp" />
+		<Unit filename="src/mission_fail.cpp" />
+		<Unit filename="src/mission_place.cpp" />
+		<Unit filename="src/mission_start.cpp" />
+		<Unit filename="src/missiondef.cpp" />
+		<Unit filename="src/mod_factory.h" />
+		<Unit filename="src/mod_manager.cpp" />
+		<Unit filename="src/mod_manager.h" />
+		<Unit filename="src/mod_manager_ui.cpp" />
+		<Unit filename="src/monattack.cpp" />
+		<Unit filename="src/monattack.h" />
+		<Unit filename="src/mondeath.cpp" />
+		<Unit filename="src/mondeath.h" />
+		<Unit filename="src/mongroup.h" />
+		<Unit filename="src/mongroupdef.cpp" />
+		<Unit filename="src/monitemsdef.cpp" />
+		<Unit filename="src/monmove.cpp" />
+		<Unit filename="src/monster.cpp" />
+		<Unit filename="src/monster.h" />
+		<Unit filename="src/monstergenerator.cpp" />
+		<Unit filename="src/monstergenerator.h" />
+		<Unit filename="src/morale.h" />
+		<Unit filename="src/moraledata.h" />
+		<Unit filename="src/mtype.h" />
+		<Unit filename="src/mtypedef.cpp" />
+		<Unit filename="src/mutation.cpp" />
+		<Unit filename="src/mutation.h" />
+		<Unit filename="src/mutation_data.cpp" />
+		<Unit filename="src/name.cpp" />
+		<Unit filename="src/name.h" />
+		<Unit filename="src/newcharacter.cpp" />
+		<Unit filename="src/nonplayer.cpp" />
+		<Unit filename="src/nonplayer.h" />
+		<Unit filename="src/npc.cpp" />
+		<Unit filename="src/npc.h" />
+		<Unit filename="src/npcmove.cpp" />
+		<Unit filename="src/npctalk.cpp" />
+		<Unit filename="src/omdata.h" />
+		<Unit filename="src/options.cpp" />
+		<Unit filename="src/options.h" />
+		<Unit filename="src/output.cpp" />
+		<Unit filename="src/output.h" />
+		<Unit filename="src/overmap.cpp" />
+		<Unit filename="src/overmap.h" />
+		<Unit filename="src/overmapbuffer.cpp" />
+		<Unit filename="src/overmapbuffer.h" />
+		<Unit filename="src/player.cpp" />
+		<Unit filename="src/player.h" />
+		<Unit filename="src/pldata.h" />
+		<Unit filename="src/posix_time.cpp" />
+		<Unit filename="src/posix_time.h" />
+		<Unit filename="src/profession.cpp" />
+		<Unit filename="src/profession.h" />
+		<Unit filename="src/ranged.cpp" />
+		<Unit filename="src/resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
-		<Unit filename="rng.cpp" />
-		<Unit filename="rng.h" />
-		<Unit filename="savegame_json.cpp" />
-		<Unit filename="savegame_legacy.cpp" />
-		<Unit filename="sdltiles.cpp" />
-		<Unit filename="settlement.cpp" />
-		<Unit filename="settlement.h" />
-		<Unit filename="setvector.cpp" />
-		<Unit filename="setvector.h" />
-		<Unit filename="skill.cpp" />
-		<Unit filename="skill.h" />
-		<Unit filename="text_snippets.cpp" />
-		<Unit filename="text_snippets.h" />
-		<Unit filename="tile_id_data.h" />
-		<Unit filename="tileray.cpp" />
-		<Unit filename="tileray.h" />
-		<Unit filename="translations.h" />
-		<Unit filename="trap.h" />
-		<Unit filename="trapdef.cpp" />
-		<Unit filename="trapfunc.cpp" />
-		<Unit filename="tutorial.cpp" />
-		<Unit filename="tutorial.h" />
-		<Unit filename="ui.cpp" />
-		<Unit filename="ui.h" />
-		<Unit filename="uistate.h" />
-		<Unit filename="veh_interact.cpp" />
-		<Unit filename="veh_interact.h" />
-		<Unit filename="veh_type.h" />
-		<Unit filename="veh_typedef.cpp" />
-		<Unit filename="vehicle.cpp" />
-		<Unit filename="vehicle.h" />
-		<Unit filename="version.cpp" />
-		<Unit filename="wcwidth.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="wdirent.h" />
-		<Unit filename="weather.cpp" />
-		<Unit filename="weather.h" />
-		<Unit filename="weather_data.cpp" />
-		<Unit filename="wincurse.cpp" />
-		<Unit filename="wish.cpp" />
+		<Unit filename="src/rng.cpp" />
+		<Unit filename="src/rng.h" />
+		<Unit filename="src/savegame.cpp" />
+		<Unit filename="src/savegame.h" />
+		<Unit filename="src/savegame_json.cpp" />
+		<Unit filename="src/savegame_legacy.cpp" />
+		<Unit filename="src/sdltiles.cpp" />
+		<Unit filename="src/setvector.cpp" />
+		<Unit filename="src/setvector.h" />
+		<Unit filename="src/skill.cpp" />
+		<Unit filename="src/skill.h" />
+		<Unit filename="src/speech.cpp" />
+		<Unit filename="src/speech.h" />
+		<Unit filename="src/text_snippets.cpp" />
+		<Unit filename="src/text_snippets.h" />
+		<Unit filename="src/tile_id_data.h" />
+		<Unit filename="src/tileray.cpp" />
+		<Unit filename="src/tileray.h" />
+		<Unit filename="src/translations.cpp" />
+		<Unit filename="src/translations.h" />
+		<Unit filename="src/trap.h" />
+		<Unit filename="src/trapdef.cpp" />
+		<Unit filename="src/trapfunc.cpp" />
+		<Unit filename="src/tutorial.cpp" />
+		<Unit filename="src/tutorial.h" />
+		<Unit filename="src/ui.cpp" />
+		<Unit filename="src/ui.h" />
+		<Unit filename="src/uistate.h" />
+		<Unit filename="src/veh_interact.cpp" />
+		<Unit filename="src/veh_interact.h" />
+		<Unit filename="src/veh_type.h" />
+		<Unit filename="src/veh_typedef.cpp" />
+		<Unit filename="src/vehicle.cpp" />
+		<Unit filename="src/vehicle.h" />
+		<Unit filename="src/version.cpp" />
+		<Unit filename="src/wdirent.h" />
+		<Unit filename="src/weather.cpp" />
+		<Unit filename="src/weather.h" />
+		<Unit filename="src/weather_data.cpp" />
+		<Unit filename="src/wincurse.cpp" />
+		<Unit filename="src/wish.cpp" />
+		<Unit filename="src/worldfactory.cpp" />
+		<Unit filename="src/worldfactory.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
