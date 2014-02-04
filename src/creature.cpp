@@ -316,11 +316,12 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
             if (source->is_player()) {
                 g->add_msg(_("You hit the %s for %d damage."),
                            disp_name().c_str(), dealt_dam.total_damage());
-            } else if (u_see_this) {
+            } else if( this->is_player() && g->u.has_trait("SELFAWARE")) {
+                g->add_msg_if_player( this, _( "You were hit in the %s for %d damage." ),
+                                      body_part_name( bp_hit, side ).c_str( ), dealt_dam.total_damage( ) );
+            } else if( u_see_this ) {
                 g->add_msg(_("%s shoots %s."),
                            source->disp_name().c_str(), disp_name().c_str());
-                g->add_msg_if_player(this, _("You were hit in the %s for %d damage."),
-                           body_part_name(bp_hit, side).c_str(), dealt_dam.total_damage());
             }
         }
     }
