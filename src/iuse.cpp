@@ -4332,6 +4332,10 @@ if(it->type->id == "cot"){
                            g->m.tername(posx, posy).c_str());
   type = tr_caltrops;
   practice = 2;
+ } else if(it->type->id == "telepad"){
+  message << _("You place the telepad."); 
+  type = tr_telepad;
+  practice = 10;
   } else if(it->type->id == "funnel"){
   message << _("You place the funnel, waiting to collect rain.");
   type = tr_funnel;
