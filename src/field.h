@@ -23,7 +23,7 @@ of an existing field.
 struct field_t {
  std::string name[3]; //The display name of the given density (ie: light smoke, smoke, heavy smoke)
  char sym; //The symbol to draw for this field. Note that some are reserved like * and %. You will have to check the draw function for specifics.
- int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground" (rubble), 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke). 
+ int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground" (rubble), 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
  nc_color color[3]; //The color the field will be drawn as on the screen, by density.
 
  /*
@@ -50,9 +50,12 @@ struct field_t {
 enum field_id {
  fd_null = 0,
  fd_blood,
+ fd_blood_veggy,
+ fd_blood_insect,
  fd_bile,
  fd_gibs_flesh,
  fd_gibs_veggy,
+ fd_gibs_insect,
  fd_web,
  fd_slime,
  fd_acid,
