@@ -367,6 +367,8 @@
 		<Unit filename="src/overmapbuffer.h" />
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/player.h" />
+		<Unit filename="src/player_activity.cpp" />
+		<Unit filename="src/player_activity.h" />
 		<Unit filename="src/pldata.h" />
 		<Unit filename="src/posix_time.cpp" />
 		<Unit filename="src/posix_time.h" />
