@@ -1686,7 +1686,24 @@
         "symbol": "6",
         "color": "green",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM"]
+        "flags": ["TRANSPARENT", "BASHABLE", "DECONSTRUCT", "NOITEM"],
+        "bash": {
+            "str_min": 6, "str_max": 80, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "processor", "amount": 1, "minamount": 0, "chance": 50 },
+                { "item": "RAM", "amount": 2, "minamount": 0, "chance": 50 },
+                { "item": "cable", "amount": 4, "minamount": 1, "chance": 50 },
+                { "item": "e_scrap", "amount": 8, "minamount": 1, "chance": 50  },
+                { "item": "circuit", "amount": 6, "minamount": 1, "chance": 50 },
+                { "item": "power_supply", "amount": 4, "minamount": 1, "chance": 50 },
+                { "item": "amplifier", "amount": 6, "minamount": 1, "chance": 50 },
+                { "item": "plastic_chunk", "amount": 6, "minamount": 2, "chance": 50 },
+                { "item": "scrap", "amount": 6, "minamount": 2, "chance": 50 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_console_broken",
@@ -1694,7 +1711,25 @@
         "symbol": "6",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES", "INDOORS"]
+        "flags": ["TRANSPARENT", "NOITEM", "BASHABLE", "DECONSTRUCT", "INDOORS"],
+        "bash": {
+            "str_min": 6, "str_max": 80, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "processor", "amount": 1, "minamount": 0, "chance": 50 },
+                { "item": "RAM", "amount": 2, "minamount": 0, "chance": 50 },
+                { "item": "cable", "amount": 2, "minamount": 1, "chance": 50 },
+                { "item": "small_lcd_screen", "amount": 1, "minamount": 0, "chance": 50 },
+                { "item": "e_scrap", "amount": 4, "minamount": 1, "chance": 50  },
+                { "item": "circuit", "amount": 2, "minamount": 0, "chance": 50 },
+                { "item": "power_supply", "amount": 1, "minamount": 0, "chance": 50 },
+                { "item": "amplifier", "amount": 1, "minamount": 0, "chance": 50 },
+                { "item": "plastic_chunk", "amount": 10, "minamount": 4, "chance": 50 },
+                { "item": "scrap", "amount": 6, "minamount": 2, "chance": 50 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_console",
@@ -1702,7 +1737,25 @@
         "symbol": "6",
         "color": "blue",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "CONSOLE", "NOITEM", "COLLAPSES", "INDOORS"]
+        "flags": ["TRANSPARENT", "CONSOLE", "NOITEM", "BASHABLE", "DECONSTRUCT", "INDOORS"],
+        "bash": {
+            "str_min": 8, "str_max": 80, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "processor", "amount": 1, "minamount": 0, "chance": 50 },
+                { "item": "RAM", "amount": 4, "minamount": 0, "chance": 50 },
+                { "item": "cable", "amount": 4, "minamount": 2, "chance": 50 },
+                { "item": "small_lcd_screen", "amount": 1, "minamount": 0, "chance": 50 },
+                { "item": "e_scrap", "amount": 8, "minamount": 6, "chance": 50 },
+                { "item": "circuit", "amount": 6, "minamount": 4, "chance": 50 },
+                { "item": "power_supply", "amount": 2, "minamount": 1, "chance": 50 },
+                { "item": "amplifier", "amount": 2, "minamount": 1, "chance": 50 },
+                { "item": "plastic_chunk", "amount": 10, "minamount": 8, "chance": 50 },
+                { "item": "scrap", "amount": 6, "minamount": 4, "chance": 50 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_gates_mech_control",
