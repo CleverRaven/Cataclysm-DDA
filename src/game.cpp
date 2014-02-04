@@ -3413,7 +3413,11 @@ void game::delete_world(std::string worldname, bool delete_folder)
 {
     std::string worldpath = world_generator->all_worlds[worldname]->world_path;
     std::string filetmp = "";
-    std::string world_opfile = "worldoptions.txt";
+    std::set<std::string> files_not_to_delete;
+    if (!delete_folder) {
+        files_not_to_delete.insert("worldoptions.txt");
+        files_not_to_delete.insert("mods.json");
+    }
     std::vector<std::string> modfiles;
     std::set<std::string> mod_dirpathparts;
 
@@ -3442,7 +3446,7 @@ void game::delete_world(std::string worldname, bool delete_folder)
       if(INVALID_HANDLE_VALUE != hFind) {
        do {
         filetmp = FindFileData.cFileName;
-        if (delete_folder || filetmp != world_opfile){
+        if (files_not_to_delete.count(filetmp) == 0) {
         DeleteFile(FindFileData.cFileName);
         }
        } while(FindNextFile(hFind, &FindFileData) != 0);
@@ -3466,7 +3470,7 @@ void game::delete_world(std::string worldname, bool delete_folder)
       struct dirent *save_dirent = NULL;
       while ((save_dirent = readdir(save_dir)) != NULL){
         filetmp = save_dirent->d_name;
-        if (delete_folder || filetmp != world_opfile){
+        if (files_not_to_delete.count(filetmp) == 0) {
           (void)unlink(std::string(worldpath + "/" + filetmp).c_str());
         }
       }
