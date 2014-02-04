@@ -280,19 +280,19 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
 
     if (goodhit <= .1) {
         g->add_msg_if_player(source, _("Headshot!"));
-        damage_mult *= rng_float(5, 8);
+        damage_mult *= rng_float(2.45, 3.35);
         bp_hit = bp_head; // headshot hits the head, of course
     } else if (goodhit <= .2) {
         g->add_msg_if_player(source, _("Critical!"));
-        damage_mult *= rng_float(2, 3);
+        damage_mult *= rng_float(1.75, 2.3);
     } else if (goodhit <= .4) {
         g->add_msg_if_player(source, _("Good hit!"));
-        damage_mult *= rng_float(1, 2);
+        damage_mult *= rng_float(1, 1.5);
     } else if (goodhit <= .6) {
         damage_mult *= rng_float(0.5, 1);
     } else if (goodhit <= .8) {
         g->add_msg_if_player(source, _("Grazing hit."));
-        damage_mult *= rng_float(0, 1);
+        damage_mult *= rng_float(0, .25);
     } else {
         damage_mult *= 0;
     }
@@ -316,7 +316,10 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
             if (source->is_player()) {
                 g->add_msg(_("You hit the %s for %d damage."),
                            disp_name().c_str(), dealt_dam.total_damage());
-            } else if (u_see_this) {
+            } else if( this->is_player() && g->u.has_trait("SELFAWARE")) {
+                g->add_msg_if_player( this, _( "You were hit in the %s for %d damage." ),
+                                      body_part_name( bp_hit, side ).c_str( ), dealt_dam.total_damage( ) );
+            } else if( u_see_this ) {
                 g->add_msg(_("%s shoots %s."),
                            source->disp_name().c_str(), disp_name().c_str());
             }
