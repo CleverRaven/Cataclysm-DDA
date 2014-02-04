@@ -1,0 +1,483 @@
+[
+    {
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about lizards.",
+            "Your dreams give you a strange scaly feeling."
+            ],
+        "category" : "MUTCAT_LIZARD",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about being a patient in a frightening hospital.",
+            "Your dreams give you an oddly medicated feeling."
+            ],
+        "category" : "MUTCAT_MEDICAL",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about birds.",
+            "Your dreams give you a strange feathered feeling."
+            ],
+        "category" : "MUTCAT_BIRD",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about fish.",
+            "Your dreams give you a strange wet, scaly feeling."
+            ],
+        "category" : "MUTCAT_FISH",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about animals.",
+            "Your dreams give you a strange furry feeling."
+            ],
+        "category" : "MUTCAT_BEAST",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about bears.",
+            "Your dreams give you a rough furry feeling."
+            ],
+        "category" : "MUTCAT_URSINE",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about cats.",
+            "Your dreams give you a sleek furry feeling."
+            ],
+        "category" : "MUTCAT_FELINE",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about wolves.",
+            "Your dreams give you a thick furry feeling."
+            ],
+        "category" : "MUTCAT_LUPINE",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about cattle.",
+            "Your dreams give you a strange content, furry feeling."
+            ],
+        "category" : "MUTCAT_CATTLE",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about insects.",
+            "Your dreams give you a strange chitinous feeling."
+            ],
+        "category" : "MUTCAT_INSECT",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about plants.",
+            "Your dreams give you a strange plantlike feeling."
+            ],
+        "category" : "MUTCAT_PLANT",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about slime.",
+            "Your dreams give you a strange slimy feeling."
+            ],
+        "category" : "MUTCAT_SLIME",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about living in a cave.",
+            "Your dreams give a strange reclusive feeling."
+            ],
+        "category" : "MUTCAT_TROGLO",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about sea creatures.",
+            "Your dreams give you a strange wet feeling."
+            ],
+        "category" : "MUTCAT_CEPHALOPOD",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about spiders.",
+            "Your dreams give you a strange webbed feeling."
+            ],
+        "category" : "MUTCAT_SPIDER",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream about rats.",
+            "Your dreams give you a strange fuzzy feeling."
+            ],
+        "category" : "MUTCAT_RAT",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream.",
+            "You feel...OK."
+            ],
+        "category" : "MUTCAT_ALPHA",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream.",
+            "You feel a yearning..."
+            ],
+        "category" : "MUTCAT_ELFA",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream about the zoo, for some reason.",
+            "Your dreams...are complex and multifaceted."
+            ],
+        "category" : "MUTCAT_CHIMERA",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of the tropics.",
+            "You feel warm."
+            ],
+        "category" : "MUTCAT_RAPTOR",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a disturbing dream of bathing in the sun on a rock.",
+            "While dreaming, you see a distinctively lizard-like reflection of yourself."
+            ],
+        "category" : "MUTCAT_LIZARD",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a disturbing dream of undergoing strange medical procedures.",
+            "While dreaming, you see yourself dressed in a hospital gown, receiving treatment."
+            ],
+        "category" : "MUTCAT_MEDICAL",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have strange dreams of soaring through the sky.",
+            "In a dream, you see a curiously birdlike reflection of yourself."
+            ],
+        "category" : "MUTCAT_BIRD",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of swimming in the open ocean",
+            "In your dream, you see a strangely fishlike image of yourself."
+            ],
+        "category" : "MUTCAT_FISH",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a vivid dream of hunting in the woods.",
+            "Whilst dreaming, you see a disturbingly bestial version of yourself."
+            ],
+        "category" : "MUTCAT_BEAST",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of foraging in the woods...mouth-first?",
+            "Your dream-reflection is rather bearish."
+            ],
+        "category" : "MUTCAT_URSINE",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You easily bound from the street to a roof..oh, only a dream.",
+            "As you dream, your reflection looks rather catlike."
+            ],
+        "category" : "MUTCAT_FELINE",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a disturbing dream of someone invading your territory.",
+            "Your dream-self's muzzle looks...wait, muzzle?"
+            ],
+        "category" : "MUTCAT_LUPINE",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of grazing in an open field.",
+            "In a dream you catch a glimpse of a strangely cattle-like image of yourself."
+            ],
+        "category" : "MUTCAT_CATTLE",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a dream of working in a hive.",
+            "While dreaming you look into a mirror and see a frighteningly insectoid reflection."
+            ],
+        "category" : "MUTCAT_INSECT",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a confusing dream of growing in a garden.",
+            "You are confused by a plantlike image of yourself in a dream."
+            ],
+        "category" : "MUTCAT_PLANT",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream of living in sludge.",
+            "In your dream you see an odd, slimy reflection of yourself."
+            ],
+        "category" : "MUTCAT_SLIME",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of living deep inside a dark cave.",
+            "You dream of being a primitive cave dweller."
+            ],
+        "category" : "MUTCAT_TROGLO",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of living on the ocean floor.",
+            "While dreaming, a reflection of yourself appears almost like an octopus."
+            ],
+        "category" : "MUTCAT_CEPHALOPOD",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream of spinning webs",
+            "In your dream you see a very spiderlike version of yourself."
+            ],
+        "category" : "MUTCAT_SPIDER",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You vividly dream of living in the sewers.",
+            "In your dream you see a group of rats that look almost like yourself."
+            ],
+        "category" : "MUTCAT_RAT",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of having that success you knew you deserved, back before all this.",
+            "Your dream-self looks competent and in control."
+            ],
+        "category" : "MUTCAT_ALPHA",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of a home in the forests.",
+            "You feel beautiful, and yet riven with worry..."
+            ],
+        "category" : "MUTCAT_ELFA",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You can't quite work out what the dream is about...it just keeps changing.",
+            "Your dream is filled with creatures, and yet all seem like you."
+            ],
+        "category" : "MUTCAT_CHIMERA",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of stalking some sort of lizard...no, that can't be right, can it?",
+            "For some reason you dream of your shoes.  They don't fit, and nothing seems to help..."
+            ],
+        "category" : "MUTCAT_RAPTOR",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You are terrified by a dream of becoming a lizard hybrid.",
+            "You have a disturbingly lifelike dream of living as a lizard."
+            ],
+        "category" : "MUTCAT_LIZARD",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a dream of doctors and nurses doing unnatural things to your body, which brings you perverse pleasure.",
+            "You have a vivid dream of being a medical anomaly, as your heartbeat syncs with the steady drip of an IV line."
+            ],
+        "category" : "MUTCAT_MEDICAL",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a realistic dream of flying south with your flock for the winter.",
+            "You are disturbed when your birdlike dreams are more lifelike than reality."
+            ],
+        "category" : "MUTCAT_BIRD",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a disturbing dream of swimming with a school of fish.",
+            "When you wake up you panic about drowning from being out of water."
+            ],
+        "category" : "MUTCAT_FISH",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You vividly dream of running with your pack, hunting a wild animal.",
+            "A terrifyingly real dream has you killing game with your bare teeth."
+            ],
+        "category" : "MUTCAT_BEAST",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "Your dream of raiding a giant beehive has you licking your...muzzle in anticipation.",
+            "In your dream, you stalk and kill a young wolf, using only your teeth and claws."
+            ],
+        "category" : "MUTCAT_URSINE",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "A warm, sunny spot high up where you can watch your prey. What a great dream!",
+            "You dream of pursuing and killing a rat, for some reason."
+            ],
+        "category" : "MUTCAT_FELINE",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of tearing into a fresh kill.",
+            "You dream of finally finding the perfect place to make your den."
+            ],
+        "category" : "MUTCAT_LUPINE",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You terrifyingly dream of being led to a slaughterhouse by a farmer.",
+            "You find it hard to wake from a vivid dream of grazing on a farm."
+            ],
+        "category" : "MUTCAT_CATTLE",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You are terrified by a dream of serving the hive queen mindlessly.",
+            "Your disturbingly lifelike dream has you pollinating plants."
+            ],
+        "category" : "MUTCAT_INSECT",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a confusing and scary dream of becoming a plant.",
+            "The transition from your lifelike dreams of living as a plant to reality shocks you."
+            ],
+        "category" : "MUTCAT_PLANT",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "Your vivid dream of living as a slime blob frightens you.",
+            "You find it hard to control your limbs after dreaming of amorphous blob life."
+            ],
+        "category" : "MUTCAT_SLIME",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "Your dream of living in the dark for years is almost real.",
+            "You are frightened of the outside after your vivid dream of cave life."
+            ],
+        "category" : "MUTCAT_TROGLO",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "Your dreams of living on the ocean floor seem more lifelike than reality.",
+            "You dream of living as a terrifying octopus mutant."
+            ],
+        "category" : "MUTCAT_CEPHALOPOD",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You vividly dream of living in a web and consuming insects.",
+            "Your dreams of fully turning into a spider frighten you."
+            ],
+        "category" : "MUTCAT_SPIDER",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You scream in fear while you dream of being chased by a cat",
+            "Your lifelike dreams have you scavenging food with a pack of rats."
+            ],
+        "category" : "MUTCAT_RAT",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You see yourself, five years from now, as the leader of a successful city.",
+            "Your success in restoring civilization was only a dream.  For now."
+            ],
+        "category" : "MUTCAT_ALPHA",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "NO! You will not allow this corruption to prevail!",
+            "You see yourself reflected in the beauty of the forest."
+            ],
+        "category" : "MUTCAT_ELFA",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You are many animals, and yet one.",
+            "Hoof. Talon. Tooth. Fight. Feed. Forward."
+            ],
+        "category" : "MUTCAT_CHIMERA",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You've never felt so lithe and powerful.",
+            "After an exciting and tasty hunt, you retire to your nest.  Mmm, yes, nest."
+            ],
+        "category" : "MUTCAT_RAPTOR",
+        "strength" : 3
+   }
+]

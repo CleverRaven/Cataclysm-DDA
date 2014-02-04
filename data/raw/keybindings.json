@@ -1,0 +1,468 @@
+[
+    {
+        "type" : "keybinding",
+        "id":"UP",
+        "name":"Pan up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"k"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"8"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"DOWN",
+        "name":"Pan down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"j"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"2"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"LEFT",
+        "name":"Pan left",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"h"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"LEFT"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"4"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_LEFT"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"RIGHT",
+        "name":"Pan right",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"l"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"RIGHT"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"6"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_RIGHT"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"LEFTUP",
+        "name":"Pan up-left",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"y"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"7"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_LEFTUP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"RIGHTUP",
+        "name":"Pan up-right",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"u"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"9"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_RIGHTUP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"LEFTDOWN",
+        "name":"Pan down-left",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"b"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"1"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_LEFTDOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"RIGHTDOWN",
+        "name":"Pan down-right",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"n"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"3"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_RIGHTDOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"HELP_KEYBINDINGS",
+        "name":"Display Help",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"?"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"CENTER",
+        "category":"OVERMAP",
+        "name":"Center On Character",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"0"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"LEVEL_UP",
+        "name":"Go Up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"<"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"LEVEL_DOWN",
+        "name":"Go Down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            },
+            {
+                "input_method":"keyboard",
+                "key":">"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"CONFIRM",
+        "name":"Confirm Choice",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"RETURN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"DELETE_NOTE",
+        "category":"OVERMAP",
+        "name":"Delete Note",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"D"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"CREATE_NOTE",
+        "category":"OVERMAP",
+        "name":"Create/Edit Note",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"N"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"LIST_NOTES",
+        "category":"OVERMAP",
+        "name":"List Notes",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"L"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SEARCH",
+        "name":"Search",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"/"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"QUIT",
+        "category":"OVERMAP",
+        "name":"Exit Screen",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"q"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"Q"
+            },
+            {
+                "input_method":"keyboard",
+                "key":" "
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_3"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"QUIT",
+        "name":"Exit Screen",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"q"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"Q"
+            },
+            {
+                "input_method":"keyboard",
+                "key":" "
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_3"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"FIRE",
+        "name":"Fire Weapon",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"f"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"F"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"."
+            },
+            {
+                "input_method":"keyboard",
+                "key":"RETURN"
+            },
+            {
+                "input_method":"mouse",
+                "key":"MOUSE_RIGHT"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"PREV_TARGET",
+        "name":"Prev Target",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"SCROLL_UP"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"<"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"NEXT_TARGET",
+        "name":"Next Target",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"SCROLL_DOWN"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            },
+            {
+                "input_method":"keyboard",
+                "key":">"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SELECT",
+        "name":"Select",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"MOUSE_LEFT"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SEC_SELECT",
+        "name":"Select",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"MOUSE_RIGHT"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SELECT",
+        "name":"Select",
+        "category":"LOOK",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"MOUSE_LEFT"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"MOUSE_MOVE",
+        "name":"Mouse Move",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"MOUSE_MOVE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"TOGGLE_FAST_SCROLL",
+        "name":"Toggle Fast Scroll",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"f"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"TOGGLE_SNAP_TO_TARGET",
+        "name":"Toggle Snap to Target",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"*"
+            }
+        ]
+    }
+]

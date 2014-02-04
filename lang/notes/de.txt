@@ -1,0 +1,13 @@
+This file contains notes/discussion regarding translation. Look here if there's a term that's common in the game and you don't know how to translate.
+
+
+Problem word: Bionics
+---------------------
+
+From wikipedia:
+Bionics (also known as biomimicry, biomimetics, bio-inspiration, biognosis, and close to bionical creativity engineering) is the application of biological methods and systems found in nature to the study and design of engineering systems and modern technology
+
+Deutsches Wikipedia:
+Die Bionik (auch Biomimikry, Biomimetik oder Biomimese) beschäftigt sich mit dem Übertragen von Phänomenen der Natur auf die Technik.
+
+Aber wir verwenden Bionik als Wort für eine Art Implantat, nicht für ein Konzept. Momentan übersetze ich einfach mit "Bionik" und "Bioniken", aber vielleicht wäre ein anderes Wort angebracht.

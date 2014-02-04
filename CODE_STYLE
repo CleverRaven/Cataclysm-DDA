@@ -1,8 +1,0 @@
-Current policy is to update code to the standard style when changing a
-substantial portion of it.  Blocks of code can be passed through astyle
-to ensure that their formatting is correct:
-
-astyle --style=allman --indent=spaces=4 --add-brackets --align-pointer=name
-
-For example, from vi, set marks a and b around the block, then:
-:'a,'b ! astyle --style=allman --indent=spaces=4 --add-brackets --align-pointer=name

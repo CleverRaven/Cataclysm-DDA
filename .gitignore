@@ -1,10 +1,50 @@
 cataclysm
+cataclysm-tiles
+chkjson
+!src/chkjson
 data/*.template
 save/
+graveyard/
+memorial/
 obj/
 debug.log
 logg.txt
 bindist/
 cataclysmdda-*
 objwin/
-cataclysm.exe
+src/version.h
+lua/catabindings.cpp
+CataclysmWin.cscope_file_list
+CataclysmWin.depend
+CataclysmWin.layout
+*.exe
+*.dll
+WinDepend/
+data/FONTDATA
+
+# Visual Studio files
+*.suo
+*.sdf
+*.pdb
+*.ilk
+Release*/
+Debug*/
+*.opensdf
+
+# Temporary and backup files
+*~
+\#*
+*.bak
+*.cbTemp
+*.sw?
+gmon.out
+
+# System Files
+Thumbs.db
+.DS_Store
+core
+tags
+cscope.*
+
+# Compiled binary translations
+lang/mo/

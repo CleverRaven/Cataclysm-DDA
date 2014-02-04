@@ -1,0 +1,263 @@
+[
+    {
+        "type": "monitems",
+        "id": [
+            "mon_zombie", "mon_zombie_shrieker", "mon_zombie_spitter", "mon_zombie_electric", "mon_zombie_brute",
+            "mon_zombie_hulk", "mon_zombie_fungus", "mon_boomer", "mon_boomer_fungus", "mon_zombie_necro",
+            "mon_zombie_grabber", "mon_zombie_master", "mon_zombie_hunter", "mon_zombie_fat", "mon_zombie_tough", "mon_dementia",
+            "mon_zombie_rot", "mon_zombie_crawler"
+        ],
+        "item_groups": [
+            [ "livingroom", 5 ],
+            [ "kitchen", 4 ],
+            [ "bedroom", 16 ],
+            [ "softdrugs", 5 ],
+            [ "harddrugs", 1 ],
+            [ "tools", 20 ],
+            [ "trash", 7 ],
+            [ "ammo", 1 ],
+            [ "pistols", 1 ],
+            [ "shotguns", 1 ],
+            [ "smg", 1 ],
+            [ "postman_gear", 5]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_zombie_child",
+        "item_groups": [
+            [ "child_items", 65 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_beekeeper",
+        "item_groups": [
+            [ "hive", 80 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_zombie_cop",
+        "item_groups": [
+            [ "cop_weapons", 20 ],
+            [ "cop_gear", 40 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_zombie_scientist",
+        "item_groups": [
+            [ "harddrugs", 6 ],
+            [ "chem_lab", 10 ],
+            [ "teleport", 6 ],
+            [ "goo", 8 ],
+            [ "cloning_vat", 1 ],
+            [ "dissection", 10 ],
+            [ "electronics", 9 ],
+            [ "bionics", 1 ],
+            [ "radio", 2 ],
+            [ "textbooks", 3 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_zombie_soldier",
+        "item_groups": [
+            [ "ammo", 10 ],
+            [ "pistols", 5 ],
+            [ "shotguns", 2 ],
+            [ "smg", 5 ],
+            [ "bots", 1 ],
+            [ "launchers", 2 ],
+            [ "mil_rifles", 10 ],
+            [ "grenades", 5 ],
+            [ "mil_accessories", 10 ],
+            [ "mil_food", 5 ],
+            [ "bionics_mil", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_biollante",
+        "item_groups": [
+            [ "biollante", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": [ "mon_chud", "mon_one_eye" ],
+        "item_groups": [
+            [ "subway", 40 ],
+            [ "sewer", 20 ],
+            [ "trash", 5 ],
+            [ "bedroom", 1 ],
+            [ "dresser", 5 ],
+            [ "ammo", 18 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_bee",
+        "item_groups": [
+            [ "bees", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_wasp",
+        "item_groups": [
+            [ "wasps", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_eyebot",
+        "item_groups": [
+            [ "robots", 4 ],
+            [ "eyebot", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_manhack",
+        "item_groups": [
+            [ "robots", 4 ],
+            [ "manhack", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_skitterbot",
+        "item_groups": [
+            [ "robots", 4 ],
+            [ "skitterbot", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_secubot",
+        "item_groups": [
+            [ "robots", 4 ],
+            [ "secubot", 1]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_copbot",
+        "item_groups": [
+            [ "robots", 4 ],
+            [ "copbot", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_molebot",
+        "item_groups": [
+            [ "robots", 4 ],
+            [ "molebot", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_tripod",
+        "item_groups": [
+            [ "robots", 4 ],
+            [ "tripod", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_chickenbot",
+        "item_groups": [
+            [ "robots", 4 ],
+            [ "chickenbot", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_tankbot",
+        "item_groups": [
+            [ "robots", 4 ],
+            [ "tankbot", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_turret",
+        "item_groups": [
+            [ "robots", 10 ],
+            [ "turret", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_laserturret",
+        "item_groups": [
+            [ "robots", 10 ],
+            [ "laserturret", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_fungal_fighter",
+        "item_groups": [
+            [ "fungal_sting", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_shia",
+        "item_groups": [
+            [ "shia_stuff", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_dog_zombie_cop",
+        "item_groups": [
+            [ "dog_cop", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_zombie_hazmat",
+        "item_groups": [
+            [ "rad_gear", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_zombie_fireman",
+        "item_groups": [
+            [ "fireman_gear", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_zombie_survivor",
+        "item_groups": [
+            [ "allguns", 24 ],
+            [ "grenades", 10 ],
+            [ "mil_rifles", 8 ],
+            [ "mil_hw", 1 ],
+            [ "launchers", 1 ],
+            [ "gunxtras", 14 ],
+            [ "stash_food", 40 ],
+            [ "stash_ammo", 26 ],
+            [ "stash_drugs", 28 ],
+            [ "survival_tools", 18 ],
+            [ "mil_food", 22 ],
+            [ "mil_food_nodrugs", 34 ],
+            [ "shelter", 8 ],
+            [ "mil_surplus", 6 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": "mon_cow",
+        "item_groups": [
+            [ "cow", 75 ]
+        ]
+    }
+]

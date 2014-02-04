@@ -26,6 +26,9 @@ tests: $(TESTS)
 check: $(TESTS)
 	LD_LIBRARY_PATH=/usr/local/lib ./$?
 
+clean:
+	rm -f $(TESTS) *.d $(ODIR)/*.o $(ODIR)/*.d
+
 $(ODIR):
 	mkdir $(ODIR)
 
@@ -34,3 +37,5 @@ $(DDIR):
 
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+
+.PHONY: clean

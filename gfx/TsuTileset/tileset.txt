@@ -1,0 +1,9 @@
+#TSU'S TILESET
+#Name of the tileset
+NAME: tsu
+#Viewing (Option) name of the tileset
+VIEW: Tsu's
+#JSON Path - Default of gfx/tile_config.json
+JSON: gfx/TsuTileset/tile_config.json
+#Tileset Path - Default of gfx/tinytile.png
+TILESET: gfx/TsuTileset/tsutiles.png

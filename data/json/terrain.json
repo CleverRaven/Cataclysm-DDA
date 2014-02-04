@@ -1,0 +1,2028 @@
+[
+    {
+        "type" : "terrain",
+        "id" : "t_hole",
+        "name": "empty space",
+        "symbol": " ",
+        "color": "black",
+        "move_cost": 2,
+        "trap": "tr_ledge",
+        "flags": ["TRANSPARENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_dirt",
+        "name": "dirt",
+        "symbol": ".",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_sand",
+        "name": "sand",
+        "symbol": ".",
+        "color": "yellow",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_dirtmound",
+        "name": "mound of dirt",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 3,
+        "flags": ["TRANSPARENT", "DIGGABLE", "MOUNTABLE"],
+        "examine_action": "dirtmound"
+    },{
+        "type" : "terrain",
+        "id" : "t_pit_shallow",
+        "name": "shallow pit",
+        "symbol": "0",
+        "color": "yellow",
+        "move_cost": 8,
+        "flags": ["TRANSPARENT", "DIGGABLE"]
+    },{
+        "type" : "terrain",
+        "id" : "t_pit",
+        "name": "pit",
+        "symbol": "0",
+        "color": "brown",
+        "move_cost": 10,
+        "trap": "tr_pit",
+        "flags": ["TRANSPARENT"],
+        "examine_action": "pit"
+    },{
+        "type" : "terrain",
+        "id" : "t_pit_corpsed",
+        "name": "corpse filled pit",
+        "symbol": "#",
+        "color": "green",
+        "move_cost": 5,
+        "flags": ["TRANSPARENT", "DIGGABLE"],
+        "note": "left diggable to clean out corpses-KA101"
+    },{
+        "type" : "terrain",
+        "id" : "t_pit_covered",
+        "name": "covered pit",
+        "symbol": "#",
+        "color": "ltred",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "pit_covered"
+    },{
+        "type" : "terrain",
+        "id" : "t_pit_spiked",
+        "name": "spiked pit",
+        "symbol": "0",
+        "color": "ltred",
+        "move_cost": 10,
+        "trap": "tr_spike_pit",
+        "flags": ["TRANSPARENT"],
+        "examine_action": "pit"
+    },{
+        "type" : "terrain",
+        "id" : "t_pit_spiked_covered",
+        "name": "covered spiked pit",
+        "symbol": "#",
+        "color": "ltred",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "pit_covered"
+    },{
+        "type" : "terrain",
+        "id" : "t_rock_floor",
+        "name": "rock floor",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "INDOORS", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_rubble",
+        "name": "pile of rubble",
+        "symbol": "^",
+        "color": "ltgray",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "ROUGH", "DIGGABLE", "MOUNTABLE"],
+        "examine_action": "rubble"
+    },{
+        "type" : "terrain",
+        "id" : "t_ash",
+        "name": "pile of ash",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "DIGGABLE"],
+        "examine_action": "rubble"
+    },{
+        "type" : "terrain",
+        "id" : "t_metal",
+        "name": "twisted metal",
+        "symbol": "#",
+        "color": "cyan",
+        "move_cost": 5,
+        "flags": ["TRANSPARENT", "ROUGH", "SHARP", "PLACE_ITEM"],
+        "examine_action": "wreckage"
+    },{
+        "type" : "terrain",
+        "id" : "t_wreckage",
+        "name": "metal wreckage",
+        "symbol": "#",
+        "color": "cyan",
+        "move_cost": 5,
+        "flags": ["TRANSPARENT", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE"],
+        "examine_action": "wreckage"
+    },{
+        "type" : "terrain",
+        "id" : "t_grass",
+        "name": "grass",
+        "symbol": ".",
+        "color": "green",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_metal_floor",
+        "name": "metal floor",
+        "symbol": ".",
+        "color": "ltcyan",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "INDOORS", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_pavement",
+        "name": "pavement",
+        "symbol": ".",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_pavement_y",
+        "name": "yellow pavement",
+        "symbol": ".",
+        "color": "yellow",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_sidewalk",
+        "name": "sidewalk",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_concrete",
+        "name": "concrete",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_floor",
+        "name": "floor",
+        "symbol": ".",
+        "color": "cyan",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+        ]
+    },{
+        "type" : "terrain",
+        "id" : "t_dirtfloor",
+        "name": "dirt floor",
+        "symbol": ".",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "DIGGABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+        ]
+    },{
+        "type" : "terrain",
+        "id" : "t_grate",
+        "name": "metal grate",
+        "symbol": "#",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_slime",
+        "name": "slime",
+        "symbol": "~",
+        "color": "green",
+        "move_cost": 6,
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_bridge",
+        "name": "walkway",
+        "symbol": "#",
+        "color": "yellow",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_skylight",
+        "name": "floor",
+        "comment": "Skylight",
+        "symbol": ".",
+        "color": "white",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "FLAT"
+        ]
+    },{
+        "type" : "terrain",
+        "id" : "t_emergency_light_flicker",
+        "name": "floor",
+        "comment": "Emergency Light",
+        "symbol": ".",
+        "color": "white",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+        ]
+    },{
+        "type" : "terrain",
+        "id" : "t_emergency_light",
+        "name": "floor",
+        "comment": "Regular Light",
+        "symbol": ".",
+        "color": "white",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+        ]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_log_half",
+        "name": "half-built wall",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_log",
+        "name": "log wall",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 120, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_wall_log_chipped",
+            "items": [
+                { "item": "splinter", "amount": 20, "chance": 50}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_log_chipped",
+        "name": "chipped log wall",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 10, "str_max": 100, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_wall_log_broken",
+            "items": [
+                { "item": "splinter", "amount": 5 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_log_broken",
+        "name": "broken log wall",
+        "symbol": "&",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"
+        ],
+        "bash": {
+            "str_min": 7, "str_max": 80, "num_tests": 2,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "splinter", "amount": 5 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_palisade",
+        "name": "palisade wall",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "REDUCE_SCENT"
+        ],
+        "bash": {
+            "str_min": 12, "str_max": 120, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_pit",
+            "items": [
+                { "item": "splinter", "amount": 20, "chance": 50}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_palisade_gate",
+        "name": "palisade gate",
+        "symbol": "+",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": [
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DOOR", "TRANSPARENT"
+        ],
+        "bash": {
+            "str_min": 12, "str_max": 120, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_pit",
+            "items": [
+                { "item": "splinter", "amount": 20, "chance": 50}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_palisade_gate_o",
+        "name": "dirt",
+        "comment": "Open palisade gate",
+        "symbol": ".",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_half",
+        "name": "half-built wall",
+        "symbol": "#",
+        "color": "ltred",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_wood",
+        "name": "wooden wall",
+        "symbol": "#",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 120, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_wall_wood_chipped",
+            "items": [
+                { "item": "2x4", "amount": 1, "minamount": 8},
+                { "item": "nail", "amount": 2 },
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_wood_chipped",
+        "name": "chipped wood wall",
+        "symbol": "#",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 5, "str_max": 100, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_wall_wood_broken",
+            "items": [
+                { "item": "2x4", "amount": 4, "minamount": 1},
+                { "item": "nail", "amount": 3, "minamount": 1},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_wood_broken",
+        "name": "broken wood wall",
+        "symbol": "&",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"
+        ],
+        "bash": {
+            "str_min": 4, "str_max": 80, "num_tests": 2,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "2x4", "amount": 5, "minamount": 2},
+                { "item": "nail", "amount": 10, "minamount": 4},
+                { "item": "splinter", "amount": 1},
+                { "item": "cu_pipe", "amount": 1, "chance": 10}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_v",
+        "name": "wall",
+        "symbol": "LINE_XOXO",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_h",
+        "name": "wall",
+        "symbol": "LINE_OXOX",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_concrete_v",
+        "name": "concrete wall",
+        "symbol": "LINE_XOXO",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_concrete_h",
+        "name": "concrete wall",
+        "symbol": "LINE_OXOX",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_metal_v",
+        "name": "metal wall",
+        "symbol": "LINE_XOXO",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["NOITEM", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_metal_h",
+        "name": "metal wall",
+        "symbol": "LINE_OXOX",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["NOITEM", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_glass_v",
+        "name": "glass wall",
+        "symbol": "LINE_XOXO",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 1, "str_max": 20,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_glass_h",
+        "name": "glass wall",
+        "symbol": "LINE_OXOX",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 1, "str_max": 20,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_glass_v_alarm",
+        "name": "glass wall",
+        "symbol": "LINE_XOXO",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 1, "str_max": 20,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_glass_h_alarm",
+        "name": "glass wall",
+        "symbol": "LINE_OXOX",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 1, "str_max": 20,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_reinforced_glass_v",
+        "name": "reinforced glass",
+        "symbol": "LINE_XOXO",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 60, "str_max": 100,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_reinforced_glass_h",
+        "name": "reinforced glass",
+        "symbol": "LINE_OXOX",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 60, "str_max": 100,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_bars",
+        "name": "metal bars",
+        "symbol": "\"",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_door_c",
+        "name": "closed wood door",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM",
+            "SUPPORTS_ROOF", "BARRICADABLE_DOOR"
+        ],
+        "open": "t_door_o",
+        "bash": {
+            "str_min": 10, "str_max": 40, "str_min_blocked": 15, "str_max_blocked": 50,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_b"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_b",
+        "name": "damaged wood door",
+        "symbol": "&",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM",
+            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR"
+        ],
+        "bash": {
+            "str_min": 5, "str_max": 30, "str_min_blocked": 7, "str_max_blocked": 40,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "amount": 6, "minamount": 1},
+                { "item": "nail", "amount": 12, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_o",
+        "name": "open wood door",
+        "symbol": "'",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": [
+            "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
+            "FLAT", "BARRICADABLE_DOOR"
+        ],
+        "close": "t_door_c"
+    },{
+        "type" : "terrain",
+        "id" : "t_door_locked_interior",
+        "name": "closed wood door",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
+            "REDUCE_SCENT", "BARRICADABLE_DOOR"
+        ],
+        "bash": {
+            "str_min": 5, "str_max": 30, "str_min_blocked": 7, "str_max_blocked": 40,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "amount": 5, "minamount": 1},
+                { "item": "nail", "amount": 8, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_locked",
+        "name": "closed wood door",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
+            "OPENCLOSE_INSIDE", "REDUCE_SCENT", "BARRICADABLE_DOOR"
+        ],
+        "open": "t_door_o",
+        "bash": {
+            "str_min": 10, "str_max": 40, "str_min_blocked": 15, "str_max_blocked": 50,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_b"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_locked_alarm",
+        "name": "closed wood door",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "BASHABLE", "FLAMMABLE_ASH", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "BARRICADABLE_DOOR", "REDUCE_SCENT"],
+        "open": "t_door_o",
+        "bash": {
+            "str_min": 10, "str_max": 40, "str_min_blocked": 15, "str_max_blocked": 50,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_b"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_frame",
+        "name": "empty door frame",
+        "symbol": ".",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_chaingate_l",
+        "name": "locked wire gate",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF"],
+        "bash": {
+            "str_min": 10, "str_max": 80, "num_tests": 2, "str_min_blocked": 15, "str_max_blocked": 100,
+            "sound": "clang!",
+            "sound_fail": "whump!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "wire", "amount": 20, "minamount": 8},
+                { "item": "scrap", "amount": 12, "minamount": 0 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_fencegate_c",
+        "name": "closed wooden gate",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 3,
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH", "DOOR", "MOUNTABLE"],
+        "open": "t_fencegate_o",
+        "bash": {
+            "str_min": 2, "str_max": 30, "str_min_blocked": 4, "str_max_blocked": 40,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_dirtfloor",
+            "items": [
+                { "item": "2x4", "amount": 4, "minamount": 1},
+                { "item": "nail", "amount": 12, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_fencegate_o",
+        "name": "open wooden gate",
+        "symbol": ".",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "SUPPORTS_ROOF", "FLAMMABLE_ASH", "FLAT"],
+        "close": "t_fencegate_c"
+    },{
+        "type" : "terrain",
+        "id" : "t_chaingate_c",
+        "name": "closed wire gate",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "DOOR"],
+        "open": "t_chaingate_o",
+        "bash": {
+            "str_min": 10, "str_max": 80, "num_tests": 2, "str_min_blocked": 15, "str_max_blocked": 100,
+            "sound": "clang!",
+            "sound_fail": "whump!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "wire", "amount": 20, "minamount": 8},
+                { "item": "scrap", "amount": 12, "minamount": 0 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_chaingate_o",
+        "name": "open wire gate",
+        "symbol": ".",
+        "color": "cyan",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
+        "close": "t_chaingate_c"
+    },{
+        "type" : "terrain",
+        "id" : "t_door_boarded",
+        "name": "boarded up door",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 15, "str_max": 50, "str_min_blocked": 17, "str_max_blocked": 60,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_door_b",
+            "items": [
+                { "item": "2x4", "amount": 6, "minamount": 1},
+                { "item": "nail", "amount": 12, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_metal_c",
+        "name": "closed metal door",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "DOOR", "BARRICADABLE_DOOR"],
+        "open": "t_door_metal_o"
+    },{
+        "type" : "terrain",
+        "id" : "t_door_metal_o",
+        "name": "open metal door",
+        "symbol": "'",
+        "color": "cyan",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT", "BARRICADABLE_DOOR"],
+        "close": "t_door_metal_c"
+    },{
+        "type" : "terrain",
+        "id" : "t_door_metal_locked",
+        "name": "closed metal door",
+        "comment": "Actually locked",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR"]
+    },{
+        "type" : "terrain",
+        "id" : "t_door_bar_c",
+        "name": "closed bar door",
+        "comment": "Unlocked, only created at map gen",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "BARRICADABLE_DOOR"],
+        "open": "t_door_bar_o",
+        "close": "t_door_bar_locked"
+    },{
+        "type" : "terrain",
+        "id" : "t_door_bar_o",
+        "name": "open bar door",
+        "symbol": "'",
+        "color": "cyan",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
+        "close": "t_door_bar_c"
+    },{
+        "type" : "terrain",
+        "id" : "t_door_bar_locked",
+        "name": "closed bar door",
+        "comment": "Locked",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "BARRICADABLE_DOOR"]
+    },{
+        "type" : "terrain",
+        "id" : "t_door_glass_c",
+        "name": "closed glass door",
+        "symbol": "+",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "BASHABLE", "DOOR", "NOITEM", "SUPPORTS_ROOF", "BARRICADABLE_DOOR"
+        ],
+        "open": "t_door_glass_o",
+        "bash": {
+            "str_min": 1, "str_max": 20,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_glass_o",
+        "name": "open glass door",
+        "symbol": "'",
+        "color": "ltcyan",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT", "BARRICADABLE_DOOR"],
+        "close": "t_door_glass_c"
+    },{
+        "type" : "terrain",
+        "id" : "t_portcullis",
+        "name": "makeshift portcullis",
+        "symbol": "&",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["NOITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_recycler",
+        "name": "steel compactor",
+        "symbol": "&",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "REDUCE_SCENT"],
+        "examine_action": "recycler"
+    },{
+        "type" : "terrain",
+        "id" : "t_window",
+        "name": "window",
+        "symbol": "\"",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF",
+            "DECONSTRUCT", "REDUCE_SCENT", "BARRICADABLE_WINDOW"
+        ],
+        "bash": {
+            "str_min": 1, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "amount": 5 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_taped",
+        "name": "taped window",
+        "symbol": "\"",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": [
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"
+        ],
+        "bash": {
+            "str_min": 1, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "amount": 5 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_domestic",
+        "name": "window",
+        "symbol": "\"",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF",
+            "DECONSTRUCT", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT"
+        ],
+        "close": "t_curtains",
+        "open": "t_window_open",
+        "bash": {
+            "str_min": 1, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "amount": 3 },
+                { "item": "sheet", "amount": 2 },
+                { "item": "stick", "amount": 1},
+                { "item": "string_36", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_domestic_taped",
+        "name": "taped window",
+        "comment": "Taped window with curtains",
+        "symbol": "\"",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": [
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"
+        ],
+        "bash": {
+            "str_min": 1, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "amount": 3 },
+                { "item": "sheet", "amount": 2 },
+                { "item": "stick", "amount": 1},
+                { "item": "string_36", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_open",
+        "name": "open window",
+        "symbol": "'",
+        "color": "ltcyan",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "MOUNTABLE" ],
+        "close": "t_window_domestic"
+    },{
+        "type" : "terrain",
+        "id" : "t_curtains",
+        "name": "closed curtains",
+        "symbol": "\"",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": [
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "OPENCLOSE_INSIDE", "REDUCE_SCENT" ],
+        "open": "t_window_domestic",
+        "bash": {
+            "str_min": 1, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "amount": 3 },
+                { "item": "sheet", "amount": 2 },
+                { "item": "stick", "amount": 1},
+                { "item": "string_36", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_alarm",
+        "name": "window",
+        "symbol": "\"",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "ALARMED", "NOITEM",
+            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_WINDOW"
+        ],
+        "bash": {
+            "str_min": 1, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_alarm_taped",
+        "name": "taped window",
+        "symbol": "\"",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": [
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "ALARMED", "WALL", "BARRICADABLE_WINDOW"
+        ],
+        "bash": {
+            "str_min": 1, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "amount": 5 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_empty",
+        "name": "empty window",
+        "symbol": "0",
+        "color": "yellow",
+        "move_cost": 8,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE"
+        ]
+    },{
+        "type" : "terrain",
+        "id" : "t_window_frame",
+        "name": "window frame",
+        "symbol": "0",
+        "color": "ltcyan",
+        "move_cost": 8,
+        "flags": [
+            "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "MOUNTABLE"
+        ]
+    },{
+        "type" : "terrain",
+        "id" : "t_window_boarded",
+        "name": "boarded up window",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 3, "str_max": 30,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "splinter", "amount": 2, "minamount": 0, "chance": 50 },
+                { "item": "glass_shard", "amount": 5 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_boarded_noglass",
+        "name": "boarded up window",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 3, "str_max": 30,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_window_empty",
+            "items": [
+                { "item": "splinter", "amount": 2, "minamount": 0, "chance": 50 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_stained_green",
+        "name": "high stained glass window",
+        "symbol": "\"",
+        "color": "ltgreen",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"]
+    },{
+        "type" : "terrain",
+        "id" : "t_window_stained_red",
+        "name": "high stained glass window",
+        "symbol": "\"",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"]
+    },{
+        "type" : "terrain",
+        "id" : "t_window_stained_blue",
+        "name": "high stained glass window",
+        "symbol": "\"",
+        "color": "ltblue",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"]
+    },{
+        "type" : "terrain",
+        "id" : "t_rock",
+        "name": "solid rock",
+        "symbol": "#",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_fault",
+        "name": "odd fault",
+        "symbol": "#",
+        "color": "magenta",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "examine_action": "fault"
+    },{
+        "type" : "terrain",
+        "id" : "t_paper",
+        "name": "paper wall",
+        "symbol": "#",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 0, "str_max": 5,
+            "comment": "original: str >= dice(1, 6) - 2",
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "ter_set": "t_dirt"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree",
+        "name": "tree",
+        "symbol": "7",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_young",
+        "name": "young tree",
+        "symbol": "1",
+        "color": "green",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "YOUNG", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 4, "str_max": 50,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_underbrush",
+            "items": [
+                 { "item": "stick", "amount": 3, "minamount": 0 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_apple",
+        "name": "apple tree",
+        "symbol": "7",
+        "color": "ltgreen",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_apple"
+    },{
+        "type" : "terrain",
+        "id" : "t_underbrush",
+        "name": "underbrush",
+        "symbol": "#",
+        "color": "ltgreen",
+        "move_cost": 6,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB"
+        ],
+        "examine_action": "shrub_wildveggies",
+        "bash": {
+            "str_min": 0, "str_max": 30, "chance": 75,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_dirt"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_shrub",
+        "name": "shrub",
+        "symbol": "#",
+        "color": "green",
+        "move_cost": 8,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB"
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 30, "num_tests": 2, "chance": 50,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_underbrush"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_shrub_blueberry",
+        "name": "blueberry bush",
+        "symbol": "#",
+        "color": "ltgreen",
+        "move_cost": 8,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB"
+        ],
+        "examine_action": "shrub_blueberry"
+    },{
+        "type" : "terrain",
+        "id" : "t_shrub_strawberry",
+        "name": "strawberry bush",
+        "symbol": "#",
+        "color": "ltgreen",
+        "move_cost": 8,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB"
+        ],
+        "examine_action": "shrub_strawberry"
+    },{
+        "type" : "terrain",
+        "id" : "t_trunk",
+        "name": "tree trunk",
+        "symbol": "1",
+        "color": "brown",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE"]
+    },{
+        "type" : "terrain",
+        "id" : "t_root_wall",
+        "name": "root wall",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wax",
+        "name": "wax wall",
+        "symbol": "#",
+        "color": "yellow",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "PLACE_ITEM", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_floor_wax",
+        "name": "wax floor",
+        "symbol": ".",
+        "color": "yellow",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "INDOORS", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_fence_v",
+        "name": "picket fence",
+        "symbol": "|",
+        "color": "brown",
+        "move_cost": 3,
+        "flags": [
+            "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT", "MOUNTABLE"
+        ],
+        "bash": {
+            "str_min": 1, "str_max": 10,
+            "sound": "crack.",
+            "sound_fail": "whump.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 1},
+                { "item": "nail", "amount": 6, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_fence_h",
+        "name": "picket fence",
+        "symbol": "-",
+        "color": "brown",
+        "move_cost": 3,
+        "flags": [
+            "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT", "MOUNTABLE"
+        ],
+        "bash": {
+            "str_min": 1, "str_max": 10,
+            "sound": "crack.",
+            "sound_fail": "whump.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 1},
+                { "item": "nail", "amount": 6, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_chainfence_v",
+        "name": "chain link fence",
+        "symbol": "|",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF"
+        ],
+        "examine_action": "chainfence",
+        "bash": {
+            "str_min": 10, "str_max": 50, "num_tests": 2,
+            "sound": "clang!",
+            "sound_fail": "clang!",
+            "ter_set": "t_chainfence_posts",
+            "items": [
+                { "item": "wire", "amount": 20, "minamount": 8 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_chainfence_h",
+        "name": "chain link fence",
+        "symbol": "-",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF"
+        ],
+        "examine_action": "chainfence",
+        "bash": {
+            "str_min": 10, "str_max": 50, "num_tests": 2,
+            "sound": "clang!",
+            "sound_fail": "clang!",
+            "ter_set": "t_chainfence_posts",
+            "items": [
+                { "item": "wire", "amount": 20, "minamount": 8 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_chainfence_posts",
+        "name": "metal post",
+        "symbol": "#",
+        "color": "cyan",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE"]
+    },{
+        "type" : "terrain",
+        "id" : "t_fence_post",
+        "name": "fence post",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
+        "examine_action": "fence_post",
+        "bash": {
+            "str_min": 1, "str_max": 10,
+            "sound": "crack.",
+            "sound_fail": "whump.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "pointy_stick", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_fence_wire",
+        "name": "wire fence",
+        "symbol": "$",
+        "color": "blue",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
+        "examine_action": "remove_fence_wire"
+    },{
+        "type" : "terrain",
+        "id" : "t_fence_barbed",
+        "name": "barbed wire fence",
+        "symbol": "$",
+        "color": "blue",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "SHARP", "THIN_OBSTACLE"],
+        "examine_action": "remove_fence_barbed"
+    },{
+        "type" : "terrain",
+        "id" : "t_fence_rope",
+        "name": "rope fence",
+        "symbol": "$",
+        "color": "brown",
+        "move_cost": 3,
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
+        "examine_action": "remove_fence_rope"
+    },{
+        "type" : "terrain",
+        "id" : "t_railing_v",
+        "name": "railing",
+        "symbol": "|",
+        "color": "yellow",
+        "move_cost": 3,
+        "flags": ["BASHABLE", "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE"],
+        "bash": {
+            "str_min": 1, "str_max": 10,
+            "sound": "crack.",
+            "sound_fail": "whump.",
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 1},
+                { "item": "nail", "amount": 6, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_railing_h",
+        "name": "railing",
+        "symbol": "-",
+        "color": "yellow",
+        "move_cost": 3,
+        "flags": ["BASHABLE", "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE"],
+        "bash": {
+            "str_min": 1, "str_max": 10,
+            "sound": "crack.",
+            "sound_fail": "whump.",
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 1},
+                { "item": "nail", "amount": 6, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_marloss",
+        "name": "marloss bush",
+        "symbol": "#",
+        "color": "dkgray",
+        "move_cost": 8,
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "FUNGUS", "SHRUB"],
+        "bash": {
+            "str_min": 0, "str_max": 40,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_fungus"
+        },
+        "examine_action": "shrub_marloss"
+    },{
+        "type" : "terrain",
+        "id" : "t_fungus",
+        "name": "fungal bed",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 3,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FUNGUS"]
+    },{
+        "type" : "terrain",
+        "id" : "t_fungus_floor_in",
+        "name": "fungal floor",
+        "comment": "roofed",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "FUNGUS"
+        ]
+    },{
+        "type" : "terrain",
+        "id" : "t_fungus_floor_sup",
+        "name": "fungal floor",
+        "comment": "supports",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "FLAT", "FUNGUS"]
+    },{
+        "type" : "terrain",
+        "id" : "t_fungus_floor_out",
+        "name": "fungal floor",
+        "comment": "outside",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "FUNGUS"]
+    },{
+        "type" : "terrain",
+        "id" : "t_fungus_wall",
+        "name": "fungal wall",
+        "symbol": "O",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_fungus_wall_v",
+        "name": "fungal wall",
+        "symbol": "LINE_XOXO",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_fungus_wall_h",
+        "name": "fungal wall",
+        "symbol": "LINE_OXOX",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_fungus_mound",
+        "name": "fungal mound",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE"]
+    },{
+        "type" : "terrain",
+        "id" : "t_shrub_fungal",
+        "name": "fungal shrub",
+        "symbol": "#",
+        "color": "dkgray",
+        "move_cost": 8,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "FUNGUS"
+        ]
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_fungal",
+        "name": "fungal tree",
+        "symbol": "7",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "FUNGUS", "TREE", "REDUCE_SCENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_fungal_young",
+        "name": "young fungal tree",
+        "symbol": "1",
+        "color": "dkgray",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "FUNGUS", "YOUNG", "REDUCE_SCENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_water_sh",
+        "name": "shallow water",
+        "symbol": "~",
+        "color": "ltblue",
+        "move_cost": 5,
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE"],
+        "examine_action": "water_source"
+    },{
+        "type" : "terrain",
+        "id" : "t_water_dp",
+        "name": "deep water",
+        "symbol": "~",
+        "color": "blue",
+        "move_cost": 8,
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE"],
+        "examine_action": "water_source"
+    },{
+        "type" : "terrain",
+        "id" : "t_water_pool",
+        "name": "pool water",
+        "symbol": "~",
+        "color": "ltblue",
+        "move_cost": 5,
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "INDOORS", "DEEP_WATER"],
+        "examine_action": "water_source"
+    },{
+        "type" : "terrain",
+        "id" : "t_sewage",
+        "name": "sewage",
+        "symbol": "~",
+        "color": "ltgreen",
+        "move_cost": 6,
+        "flags": ["TRANSPARENT", "SWIMMABLE"],
+        "examine_action": "water_source"
+    },{
+        "type" : "terrain",
+        "id" : "t_lava",
+        "name": "lava",
+        "symbol": "~",
+        "color": "red",
+        "move_cost": 4,
+        "trap": "tr_lava",
+        "flags": ["TRANSPARENT", "LIQUID", "DESTROY_ITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_sandbox",
+        "name": "sandbox",
+        "symbol": "#",
+        "color": "yellow",
+        "move_cost": 3,
+        "flags": ["TRANSPARENT", "DECONSTRUCT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_slide",
+        "name": "slide",
+        "symbol": "#",
+        "color": "ltcyan",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "DECONSTRUCT", "MOUNTABLE"]
+    },{
+        "type" : "terrain",
+        "id" : "t_monkey_bars",
+        "name": "monkey bars",
+        "symbol": "#",
+        "color": "cyan",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "DECONSTRUCT", "MOUNTABLE"]
+    },{
+        "type" : "terrain",
+        "id" : "t_backboard",
+        "name": "backboard",
+        "symbol": "7",
+        "color": "red",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "DECONSTRUCT", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_gas_pump",
+        "name": "gasoline pump",
+        "symbol": "&",
+        "color": "red",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "EXPLODES", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT"],
+        "examine_action": "gaspump"
+    },{
+        "type" : "terrain",
+        "id" : "t_gas_pump_smashed",
+        "name": "smashed gas pump",
+        "symbol": "&",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_generator_broken",
+        "name": "broken generator",
+        "symbol": "&",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"]
+    },{
+        "type" : "terrain",
+        "id" : "t_missile",
+        "name": "missile",
+        "symbol": "#",
+        "color": "ltblue",
+        "move_cost": 0,
+        "flags": ["EXPLODES", "NOITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_missile_exploded",
+        "name": "blown-out missile",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_radio_tower",
+        "name": "radio tower",
+        "symbol": "&",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_radio_controls",
+        "name": "radio controls",
+        "symbol": "6",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_console_broken",
+        "name": "broken console",
+        "symbol": "6",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES", "INDOORS"]
+    },{
+        "type" : "terrain",
+        "id" : "t_console",
+        "name": "computer console",
+        "symbol": "6",
+        "color": "blue",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "CONSOLE", "NOITEM", "COLLAPSES", "INDOORS"]
+    },{
+        "type" : "terrain",
+        "id" : "t_gates_mech_control",
+        "name": "mechanical winch",
+        "symbol": "6",
+        "color": "cyan_red",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES"],
+        "examine_action": "controls_gate"
+    },{
+        "type" : "terrain",
+        "id" : "t_gates_control_concrete",
+        "name": "mechanical winch",
+        "symbol": "6",
+        "color": "cyan_red",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES"],
+        "examine_action": "controls_gate"
+    },{
+        "type" : "terrain",
+        "id" : "t_barndoor",
+        "name": "rope and pulley",
+        "symbol": "|",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES", "REDUCE_SCENT"],
+        "examine_action": "controls_gate"
+    },{
+        "type" : "terrain",
+        "id" : "t_palisade_pulley",
+        "name": "rope and pulley",
+        "symbol": "|",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES"],
+        "examine_action": "controls_gate"
+    },{
+        "type" : "terrain",
+        "id" : "t_sewage_pipe",
+        "name": "sewage pipe",
+        "symbol": "1",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "MOUNTABLE"]
+    },{
+        "type" : "terrain",
+        "id" : "t_sewage_pump",
+        "name": "sewage pump",
+        "symbol": "&",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "REDUCE_SCENT", "MOUNTABLE"]
+    },{
+        "type" : "terrain",
+        "id" : "t_centrifuge",
+        "name": "centrifuge",
+        "symbol": "{",
+        "color": "magenta",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_column",
+        "name": "column",
+        "symbol": "1",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_vat",
+        "name": "cloning vat",
+        "symbol": "0",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "BASHABLE", "SEALED", "PLACE_ITEM", "WALL"],
+        "bash": {
+            "str_min": 2, "str_max": 40,
+            "sound": "ker-rash!",
+            "sound_fail": "plunk.",
+            "ter_set": "t_floor"
+        }
+    },{
+        "type": "terrain",
+        "id": "t_stairs_down",
+        "name": "stairs",
+        "symbol": ">",
+        "color": "yellow",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"]
+    },{
+        "type": "terrain",
+        "id": "t_stairs_up",
+        "name": "stairs",
+        "symbol": "<",
+        "color": "yellow",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "GOES_UP", "PLACE_ITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_manhole",
+        "name": "manhole",
+        "symbol": ">",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_ladder_up",
+        "name": "ladder",
+        "symbol": "<",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "GOES_UP", "PLACE_ITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_ladder_down",
+        "name": "ladder",
+        "symbol": ">",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_slope_down",
+        "name": "downward slope",
+        "symbol": ">",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_slope_up",
+        "name": "upward slope",
+        "symbol": "<",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "GOES_UP", "PLACE_ITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_rope_up",
+        "name": "rope leading up",
+        "symbol": "<",
+        "color": "white",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "GOES_UP"]
+    },{
+        "type" : "terrain",
+        "id" : "t_manhole_cover",
+        "name": "manhole cover",
+        "symbol": "0",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_card_science",
+        "name": "card reader",
+        "comment": "Science",
+        "symbol": "6",
+        "color": "pink",
+        "move_cost": 0,
+        "flags": ["NOITEM"],
+        "examine_action": "cardreader"
+    },{
+        "type" : "terrain",
+        "id" : "t_card_military",
+        "name": "card reader",
+        "comment": "Military",
+        "symbol": "6",
+        "color": "pink",
+        "move_cost": 0,
+        "flags": ["NOITEM"],
+        "examine_action": "cardreader"
+    },{
+        "type" : "terrain",
+        "id" : "t_card_reader_broken",
+        "name": "broken card reader",
+        "symbol": "6",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_slot_machine",
+        "name": "slot machine",
+        "symbol": "6",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "NOITEM", "INDOORS"],
+        "examine_action": "slot_machine"
+    },{
+        "type" : "terrain",
+        "id" : "t_elevator_control",
+        "name": "elevator controls",
+        "symbol": "6",
+        "color": "ltblue",
+        "move_cost": 0,
+        "flags": ["NOITEM", "INDOORS"],
+        "examine_action": "elevator"
+    },{
+        "type" : "terrain",
+        "id" : "t_elevator_control_off",
+        "name": "powerless controls",
+        "symbol": "6",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "INDOORS"]
+    },{
+        "type" : "terrain",
+        "id" : "t_elevator",
+        "name": "elevator",
+        "symbol": ".",
+        "color": "magenta",
+        "move_cost": 2,
+        "flags": ["INDOORS", "TRANSPARENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_pedestal_wyrm",
+        "name": "dark pedestal",
+        "symbol": "&",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "MOUNTABLE"],
+        "examine_action": "pedestal_wyrm"
+    },{
+        "type" : "terrain",
+        "id" : "t_pedestal_temple",
+        "name": "light pedestal",
+        "symbol": "&",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "MOUNTABLE"],
+        "examine_action": "pedestal_temple"
+    },{
+        "type" : "terrain",
+        "id" : "t_rock_red",
+        "name": "red stone",
+        "symbol": "#",
+        "color": "red",
+        "move_cost": 0,
+        "move_cost": 0,
+        "flags": []
+    },{
+        "type" : "terrain",
+        "id" : "t_rock_green",
+        "name": "green stone",
+        "symbol": "#",
+        "color": "green",
+        "move_cost": 0,
+        "move_cost": 0,
+        "flags": []
+    },{
+        "type" : "terrain",
+        "id" : "t_rock_blue",
+        "name": "blue stone",
+        "symbol": "#",
+        "color": "blue",
+        "move_cost": 0,
+        "move_cost": 0,
+        "flags": []
+    },{
+        "type" : "terrain",
+        "id" : "t_floor_red",
+        "name": "red floor",
+        "symbol": ".",
+        "color": "red",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_floor_green",
+        "name": "green floor",
+        "symbol": ".",
+        "color": "green",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_floor_blue",
+        "name": "blue floor",
+        "symbol": ".",
+        "color": "blue",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_switch_rg",
+        "name": "yellow switch",
+        "symbol": "6",
+        "color": "yellow",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "fswitch"
+    },{
+        "type" : "terrain",
+        "id" : "t_switch_gb",
+        "name": "cyan switch",
+        "symbol": "6",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "fswitch"
+    },{
+        "type" : "terrain",
+        "id" : "t_switch_rb",
+        "name": "purple switch",
+        "symbol": "6",
+        "color": "magenta",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "fswitch"
+    },{
+        "type" : "terrain",
+        "id" : "t_switch_even",
+        "name": "checkered switch",
+        "symbol": "6",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "fswitch"
+    }
+]

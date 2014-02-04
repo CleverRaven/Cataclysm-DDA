@@ -1,6 +1,7 @@
 /* Needs to come before tap lib for some reason? */
 #include "player.h"
 #include "game.h"
+#include "overmapbuffer.h"
 #include "item_factory.h"
 
 /* libtap doesn't extern C their headers, so we do it for them. */
@@ -15,7 +16,7 @@ extern "C" {
 // core body temperature settles.
 void temperature_check( game *g, player *p, int ambient_temp, int target_temp, std::string clothing )
 {
-    g->temperature = ambient_temp;
+    g->get_temperature() = ambient_temp;
     for (int i = 0 ; i < num_bp; i++)
     {
         p->temp_cur[i] = BODYTEMP_NORM;
@@ -51,6 +52,20 @@ void equip_clothing( game *g, player *p, std::string clothing )
     p->wear_item( g, &article );
 }
 
+// Run the tests for each of the temperature setpoints.
+// ambient_temps MUST have 7 values or we'll segfault.
+void test_temperature_spread( game *g, player *p, int ambient_temps[], std::string clothing)
+{
+    temperature_check( g, p, ambient_temps[0], BODYTEMP_FREEZING, clothing );
+    temperature_check( g, p, ambient_temps[1], BODYTEMP_VERY_COLD, clothing );
+    temperature_check( g, p, ambient_temps[2], BODYTEMP_COLD, clothing );
+    temperature_check( g, p, ambient_temps[3], BODYTEMP_NORM, clothing );
+    temperature_check( g, p, ambient_temps[4], BODYTEMP_HOT, clothing );
+    temperature_check( g, p, ambient_temps[5], BODYTEMP_VERY_HOT, clothing );
+    temperature_check( g, p, ambient_temps[6], BODYTEMP_SCORCHING, clothing );
+}
+
+
 int main(int argc, char *argv[])
 {
  plan_tests(29);
@@ -61,9 +76,9 @@ int main(int argc, char *argv[])
  dummy.normalize( &fakeworld );
 
  dummy.name = "dummy";
- fakeworld.m = map( &fakeworld.itypes, &fakeworld.mapitems, &fakeworld.traps );
+ fakeworld.m = map( &fakeworld.traps );
  fakeworld.u = dummy;
- fakeworld.cur_om = overmap( &fakeworld, 0, 0 );
+ fakeworld.cur_om = &overmap_buffer.get(&fakeworld, 0, 0);
  fakeworld.m.load( &fakeworld, fakeworld.levx, fakeworld.levy, fakeworld.levz );
 
 
@@ -75,13 +90,10 @@ int main(int argc, char *argv[])
  // treating it as a 12C/54F boost across the board
 
  // Nude target temperatures
- temperature_check( &fakeworld, &dummy, 19, BODYTEMP_FREEZING, "No" );
- temperature_check( &fakeworld, &dummy, 34, BODYTEMP_VERY_COLD, "No" );
- temperature_check( &fakeworld, &dummy, 49, BODYTEMP_COLD, "No" );
- temperature_check( &fakeworld, &dummy, 64, BODYTEMP_NORM, "No" );
- temperature_check( &fakeworld, &dummy, 79, BODYTEMP_HOT, "No" );
- temperature_check( &fakeworld, &dummy, 94, BODYTEMP_VERY_HOT, "No" );
- temperature_check( &fakeworld, &dummy, 109, BODYTEMP_SCORCHING, "No" );
+ {
+     int temp_spread[] = { 19, 34, 49, 64, 79, 94, 109 };
+     test_temperature_spread( &fakeworld, &dummy, temp_spread, "No" );
+ }
 
  // Lightly clothed target temperatures
  equip_clothing( &fakeworld, &dummy, "hat_ball");
@@ -92,13 +104,10 @@ int main(int argc, char *argv[])
  equip_clothing( &fakeworld, &dummy, "socks");
  equip_clothing( &fakeworld, &dummy, "sneakers");
 
- temperature_check( &fakeworld, &dummy, -3, BODYTEMP_FREEZING, "Light" );
- temperature_check( &fakeworld, &dummy, 12, BODYTEMP_VERY_COLD, "Light" );
- temperature_check( &fakeworld, &dummy, 27, BODYTEMP_COLD, "Light" );
- temperature_check( &fakeworld, &dummy, 42, BODYTEMP_NORM, "Light" );
- temperature_check( &fakeworld, &dummy, 57, BODYTEMP_HOT, "Light" );
- temperature_check( &fakeworld, &dummy, 72, BODYTEMP_VERY_HOT, "Light" );
- temperature_check( &fakeworld, &dummy, 87, BODYTEMP_SCORCHING, "Light" );
+ {
+     int temp_spread[] = { -3, 12, 27, 42, 57, 72, 87 };
+     test_temperature_spread( &fakeworld, &dummy, temp_spread, "Light" );
+ }
 
  dummy.worn.clear();
 
@@ -113,13 +122,10 @@ int main(int argc, char *argv[])
  equip_clothing( &fakeworld, &dummy, "wool_socks");
  equip_clothing( &fakeworld, &dummy, "boots");
 
- temperature_check( &fakeworld, &dummy, -25, BODYTEMP_FREEZING, "Heavy" );
- temperature_check( &fakeworld, &dummy, -10, BODYTEMP_VERY_COLD, "Heavy" );
- temperature_check( &fakeworld, &dummy,  5, BODYTEMP_COLD, "Heavy" );
- temperature_check( &fakeworld, &dummy, 20, BODYTEMP_NORM, "Heavy" );
- temperature_check( &fakeworld, &dummy, 35, BODYTEMP_HOT, "Heavy" );
- temperature_check( &fakeworld, &dummy, 50, BODYTEMP_VERY_HOT, "Heavy" );
- temperature_check( &fakeworld, &dummy, 65, BODYTEMP_SCORCHING, "Heavy" );
+ {
+     int temp_spread[] = { -25, -10, 5, 20, 35, 50, 65 };
+     test_temperature_spread( &fakeworld, &dummy, temp_spread, "Heavy" );
+ }
 
  dummy.worn.clear();
 
@@ -137,13 +143,10 @@ int main(int argc, char *argv[])
  equip_clothing( &fakeworld, &dummy, "wool_socks");
  equip_clothing( &fakeworld, &dummy, "boots_winter");
 
- temperature_check( &fakeworld, &dummy, -47, BODYTEMP_FREEZING, "Artic" );
- temperature_check( &fakeworld, &dummy, -32, BODYTEMP_VERY_COLD, "Artic" );
- temperature_check( &fakeworld, &dummy, -17, BODYTEMP_COLD, "Artic" );
- temperature_check( &fakeworld, &dummy, -2, BODYTEMP_NORM, "Artic" );
- temperature_check( &fakeworld, &dummy, 13, BODYTEMP_HOT, "Artic" );
- temperature_check( &fakeworld, &dummy, 28, BODYTEMP_VERY_HOT, "Artic" );
- temperature_check( &fakeworld, &dummy, 43, BODYTEMP_SCORCHING, "Artic" );
+ {
+     int temp_spread[] = { -47, -32, -17, -2, 13, 28, 43 };
+     test_temperature_spread( &fakeworld, &dummy, temp_spread, "Artic" );
+ }
 
  dummy.worn.clear();
 

@@ -1,0 +1,1096 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug Localized|Win32">
+      <Configuration>Debug Localized</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug Localized|x64">
+      <Configuration>Debug Localized</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug SDL Localized|Win32">
+      <Configuration>Debug SDL Localized</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug SDL Localized|x64">
+      <Configuration>Debug SDL Localized</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug SDL|Win32">
+      <Configuration>Debug SDL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug SDL|x64">
+      <Configuration>Debug SDL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug TILES Localized|Win32">
+      <Configuration>Debug TILES Localized</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug TILES Localized|x64">
+      <Configuration>Debug TILES Localized</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Localized|Win32">
+      <Configuration>Release Localized</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Localized|x64">
+      <Configuration>Release Localized</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release SDL Localized|Win32">
+      <Configuration>Release SDL Localized</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release SDL Localized|x64">
+      <Configuration>Release SDL Localized</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release SDL|Win32">
+      <Configuration>Release SDL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release SDL|x64">
+      <Configuration>Release SDL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release TILES Localized|Win32">
+      <Configuration>Release TILES Localized</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release TILES Localized|x64">
+      <Configuration>Release TILES Localized</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\action.cpp" />
+    <ClCompile Include="..\src\addiction.cpp" />
+    <ClCompile Include="..\src\advanced_inv.cpp" />
+    <ClCompile Include="..\src\ammo.cpp" />
+    <ClCompile Include="..\src\animation_curses.cpp" />
+    <ClCompile Include="..\src\animation_tiles.cpp" />
+    <ClCompile Include="..\src\artifact.cpp" />
+    <ClCompile Include="..\src\auto_pickup.cpp" />
+    <ClCompile Include="..\src\basecamp.cpp" />
+    <ClCompile Include="..\src\bionics.cpp" />
+    <ClCompile Include="..\src\bodypart.cpp" />
+    <ClCompile Include="..\src\calendar.cpp" />
+    <ClCompile Include="..\src\catacharset.cpp" />
+    <ClCompile Include="..\src\catalua.cpp" />
+    <ClCompile Include="..\src\cata_tiles.cpp" />
+    <ClCompile Include="..\src\char_validity_check.cpp" />
+    <ClCompile Include="..\src\character.cpp" />
+    <ClCompile Include="..\src\color.cpp" />
+    <ClCompile Include="..\src\computer.cpp" />
+    <ClCompile Include="..\src\construction.cpp" />
+    <ClCompile Include="..\src\crafting.cpp" />
+    <ClCompile Include="..\src\creature.cpp" />
+    <ClCompile Include="..\src\creature_tracker.cpp" />
+    <ClCompile Include="..\src\cursesport.cpp" />
+    <ClCompile Include="..\src\damage.cpp" />
+    <ClCompile Include="..\src\debug.cpp" />
+    <ClCompile Include="..\src\defense.cpp" />
+    <ClCompile Include="..\src\dependency_tree.cpp" />
+    <ClCompile Include="..\src\disease.cpp" />
+    <ClCompile Include="..\src\editmap.cpp" />
+    <ClCompile Include="..\src\effect.cpp" />
+    <ClCompile Include="..\src\event.cpp" />
+    <ClCompile Include="..\src\faction.cpp" />
+    <ClCompile Include="..\src\field.cpp" />
+    <ClCompile Include="..\src\file_finder.cpp" />
+    <ClCompile Include="..\src\game.cpp" />
+    <ClCompile Include="..\src\gamemode.cpp" />
+    <ClCompile Include="..\src\graffiti.cpp" />
+    <ClCompile Include="..\src\help.cpp" />
+    <ClCompile Include="..\src\helper.cpp" />
+    <ClCompile Include="..\src\iexamine.cpp" />
+    <ClCompile Include="..\src\init.cpp" />
+    <ClCompile Include="..\src\input.cpp" />
+    <ClCompile Include="..\src\inventory.cpp" />
+    <ClCompile Include="..\src\inventory_ui.cpp" />
+    <ClCompile Include="..\src\item.cpp" />
+    <ClCompile Include="..\src\item_factory.cpp" />
+    <ClCompile Include="..\src\item_group.cpp" />
+    <ClCompile Include="..\src\itypedef.cpp" />
+    <ClCompile Include="..\src\iuse.cpp" />
+    <ClCompile Include="..\src\iuse_software.cpp" />
+    <ClCompile Include="..\src\iuse_software_kitten.cpp" />
+    <ClCompile Include="..\src\iuse_software_snake.cpp" />
+    <ClCompile Include="..\src\iuse_software_sokoban.cpp" />
+    <ClCompile Include="..\src\json.cpp" />
+    <ClCompile Include="..\src\keypress.cpp" />
+    <ClCompile Include="..\src\lightmap.cpp" />
+    <ClCompile Include="..\src\line.cpp" />
+    <ClCompile Include="..\src\live_view.cpp" />
+    <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\main_menu.cpp" />
+    <ClCompile Include="..\src\map.cpp" />
+    <ClCompile Include="..\src\mapbuffer.cpp" />
+    <ClCompile Include="..\src\mapdata.cpp" />
+    <ClCompile Include="..\src\mapgen.cpp" />
+    <ClCompile Include="..\src\mapgenformat.cpp" />
+    <ClCompile Include="..\src\mapgen_functions.cpp" />
+    <ClCompile Include="..\src\martialarts.cpp" />
+    <ClCompile Include="..\src\material.cpp" />
+    <ClCompile Include="..\src\melee.cpp" />
+    <ClCompile Include="..\src\mission.cpp" />
+    <ClCompile Include="..\src\missiondef.cpp" />
+    <ClCompile Include="..\src\mission_end.cpp" />
+    <ClCompile Include="..\src\mission_fail.cpp" />
+    <ClCompile Include="..\src\mission_place.cpp" />
+    <ClCompile Include="..\src\mission_start.cpp" />
+    <ClCompile Include="..\src\mod_manager.cpp" />
+    <ClCompile Include="..\src\mod_manager_ui.cpp" />
+    <ClCompile Include="..\src\monattack.cpp" />
+    <ClCompile Include="..\src\mondeath.cpp" />
+    <ClCompile Include="..\src\mongroupdef.cpp" />
+    <ClCompile Include="..\src\monitemsdef.cpp" />
+    <ClCompile Include="..\src\monmove.cpp" />
+    <ClCompile Include="..\src\monster.cpp" />
+    <ClCompile Include="..\src\monstergenerator.cpp" />
+    <ClCompile Include="..\src\mtypedef.cpp" />
+    <ClCompile Include="..\src\mutation.cpp" />
+    <ClCompile Include="..\src\mutation_data.cpp" />
+    <ClCompile Include="..\src\name.cpp" />
+    <ClCompile Include="..\src\newcharacter.cpp" />
+    <ClCompile Include="..\src\nonplayer.cpp" />
+    <ClCompile Include="..\src\npc.cpp" />
+    <ClCompile Include="..\src\npcmove.cpp" />
+    <ClCompile Include="..\src\npctalk.cpp" />
+    <ClCompile Include="..\src\options.cpp" />
+    <ClCompile Include="..\src\output.cpp" />
+    <ClCompile Include="..\src\overmap.cpp" />
+    <ClCompile Include="..\src\overmapbuffer.cpp" />
+    <ClCompile Include="..\src\player.cpp" />
+    <ClCompile Include="..\src\player_activity.cpp" />
+    <ClCompile Include="..\src\posix_time.cpp" />
+    <ClCompile Include="..\src\profession.cpp" />
+    <ClCompile Include="..\src\ranged.cpp" />
+    <ClCompile Include="..\src\rng.cpp" />
+    <ClCompile Include="..\src\savegame.cpp" />
+    <ClCompile Include="..\src\savegame_json.cpp" />
+    <ClCompile Include="..\src\savegame_legacy.cpp" />
+    <ClCompile Include="..\src\sdltiles.cpp" />
+    <ClCompile Include="..\src\setvector.cpp" />
+    <ClCompile Include="..\src\skill.cpp" />
+    <ClCompile Include="..\src\speech.cpp" />
+    <ClCompile Include="..\src\text_snippets.cpp" />
+    <ClCompile Include="..\src\tileray.cpp" />
+    <ClCompile Include="..\src\translations.cpp" />
+    <ClCompile Include="..\src\trapdef.cpp" />
+    <ClCompile Include="..\src\trapfunc.cpp" />
+    <ClCompile Include="..\src\tutorial.cpp" />
+    <ClCompile Include="..\src\ui.cpp" />
+    <ClCompile Include="..\src\vehicle.cpp" />
+    <ClCompile Include="..\src\veh_interact.cpp" />
+    <ClCompile Include="..\src\veh_typedef.cpp" />
+    <ClCompile Include="..\src\version.cpp" />
+    <ClCompile Include="..\src\wcwidth.c" />
+    <ClCompile Include="..\src\weather.cpp" />
+    <ClCompile Include="..\src\weather_data.cpp" />
+    <ClCompile Include="..\src\wincurse.cpp" />
+    <ClCompile Include="..\src\wish.cpp" />
+    <ClCompile Include="..\src\worldfactory.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\action.h" />
+    <ClInclude Include="..\src\addiction.h" />
+    <ClInclude Include="..\src\advanced_inv.h" />
+    <ClInclude Include="..\src\ammo.h" />
+    <ClInclude Include="..\src\artifact.h" />
+    <ClInclude Include="..\src\auto_pickup.h" />
+    <ClInclude Include="..\src\basecamp.h" />
+    <ClInclude Include="..\src\bionics.h" />
+    <ClInclude Include="..\src\bodypart.h" />
+    <ClInclude Include="..\src\calendar.h" />
+    <ClInclude Include="..\src\catacharset.h" />
+    <ClInclude Include="..\src\catacurse.h" />
+    <ClInclude Include="..\src\catalua.h" />
+    <ClInclude Include="..\src\cata_tiles.h" />
+    <ClInclude Include="..\src\char_validity_check.h" />
+    <ClInclude Include="..\src\character.h" />
+    <ClInclude Include="..\src\color.h" />
+    <ClInclude Include="..\src\computer.h" />
+    <ClInclude Include="..\src\construction.h" />
+    <ClInclude Include="..\src\coordinates.h" />
+    <ClInclude Include="..\src\crafting.h" />
+    <ClInclude Include="..\src\creature.h" />
+    <ClInclude Include="..\src\creature_tracker.h" />
+    <ClInclude Include="..\src\cursesdef.h" />
+    <ClInclude Include="..\src\damage.h" />
+    <ClInclude Include="..\src\debug.h" />
+    <ClInclude Include="..\src\dependency_tree.h" />
+    <ClInclude Include="..\src\dialogue.h" />
+    <ClInclude Include="..\src\disease.h" />
+    <ClInclude Include="..\src\editmap.h" />
+    <ClInclude Include="..\src\effect.h" />
+    <ClInclude Include="..\src\enums.h" />
+    <ClInclude Include="..\src\event.h" />
+    <ClInclude Include="..\src\faction.h" />
+    <ClInclude Include="..\src\field.h" />
+    <ClInclude Include="..\src\file_finder.h" />
+    <ClInclude Include="..\src\game.h" />
+    <ClInclude Include="..\src\gamemode.h" />
+    <ClInclude Include="..\src\get_version.h" />
+    <ClInclude Include="..\src\graffiti.h" />
+    <ClInclude Include="..\src\help.h" />
+    <ClInclude Include="..\src\helper.h" />
+    <ClInclude Include="..\src\iexamine.h" />
+    <ClInclude Include="..\src\init.h" />
+    <ClInclude Include="..\src\input.h" />
+    <ClInclude Include="..\src\inventory.h" />
+    <ClInclude Include="..\src\item.h" />
+    <ClInclude Include="..\src\item_factory.h" />
+    <ClInclude Include="..\src\item_group.h" />
+    <ClInclude Include="..\src\itype.h" />
+    <ClInclude Include="..\src\iuse.h" />
+    <ClInclude Include="..\src\iuse_software.h" />
+    <ClInclude Include="..\src\iuse_software_kitten.h" />
+    <ClInclude Include="..\src\iuse_software_snake.h" />
+    <ClInclude Include="..\src\iuse_software_sokoban.h" />
+    <ClInclude Include="..\src\json.h" />
+    <ClInclude Include="..\src\keypress.h" />
+    <ClInclude Include="..\src\lightmap.h" />
+    <ClInclude Include="..\src\line.h" />
+    <ClInclude Include="..\src\live_view.h" />
+    <ClInclude Include="..\src\map.h" />
+    <ClInclude Include="..\src\mapbuffer.h" />
+    <ClInclude Include="..\src\mapdata.h" />
+    <ClInclude Include="..\src\mapgenformat.h" />
+    <ClInclude Include="..\src\mapgen_functions.h" />
+    <ClInclude Include="..\src\mapitems.h" />
+    <ClInclude Include="..\src\martialarts.h" />
+    <ClInclude Include="..\src\material.h" />
+    <ClInclude Include="..\src\mission.h" />
+    <ClInclude Include="..\src\mod_manager.h" />
+    <ClInclude Include="..\src\monattack.h" />
+    <ClInclude Include="..\src\mondeath.h" />
+    <ClInclude Include="..\src\mongroup.h" />
+    <ClInclude Include="..\src\monster.h" />
+    <ClInclude Include="..\src\monstergenerator.h" />
+    <ClInclude Include="..\src\morale.h" />
+    <ClInclude Include="..\src\moraledata.h" />
+    <ClInclude Include="..\src\mtype.h" />
+    <ClInclude Include="..\src\mutation.h" />
+    <ClInclude Include="..\src\name.h" />
+    <ClInclude Include="..\src\nonplayer.h" />
+    <ClInclude Include="..\src\npc.h" />
+    <ClInclude Include="..\src\omdata.h" />
+    <ClInclude Include="..\src\options.h" />
+    <ClInclude Include="..\src\output.h" />
+    <ClInclude Include="..\src\overmap.h" />
+    <ClInclude Include="..\src\overmapbuffer.h" />
+    <ClInclude Include="..\src\player.h" />
+    <ClInclude Include="..\src\player_activity.h" />
+    <ClInclude Include="..\src\pldata.h" />
+    <ClInclude Include="..\src\posix_time.h" />
+    <ClInclude Include="..\src\profession.h" />
+    <ClInclude Include="..\src\rng.h" />
+    <ClInclude Include="..\src\savegame.h" />
+    <ClInclude Include="..\src\SDLMain.h" />
+    <ClInclude Include="..\src\setvector.h" />
+    <ClInclude Include="..\src\skill.h" />
+    <ClInclude Include="..\src\speech.h" />
+    <ClInclude Include="..\src\text_snippets.h" />
+    <ClInclude Include="..\src\tileray.h" />
+    <ClInclude Include="..\src\tile_id_data.h" />
+    <ClInclude Include="..\src\translations.h" />
+    <ClInclude Include="..\src\trap.h" />
+    <ClInclude Include="..\src\tutorial.h" />
+    <ClInclude Include="..\src\ui.h" />
+    <ClInclude Include="..\src\uistate.h" />
+    <ClInclude Include="..\src\vehicle.h" />
+    <ClInclude Include="..\src\veh_interact.h" />
+    <ClInclude Include="..\src\veh_type.h" />
+    <ClInclude Include="..\src\wdirent.h" />
+    <ClInclude Include="..\src\weather.h" />
+    <ClInclude Include="..\src\worldfactory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\SDLMain.m" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\src\resource.rc" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FE1372AC-5F90-447E-BBCA-1B253836EB77}</ProjectGuid>
+    <RootNamespace>Cataclysm</RootNamespace>
+    <ProjectName>Cataclysm</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Localized|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Localized|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL Localized|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Localized|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL Localized|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release TILES Localized|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug TILES Localized|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL Localized|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Localized|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL Localized|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release TILES Localized|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug TILES Localized|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Localized|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Localized|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL Localized|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Localized|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL Localized|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release TILES Localized|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug TILES Localized|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL Localized|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Localized|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL Localized|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release TILES Localized|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug TILES Localized|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL Localized|Win32'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Localized|Win32'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL Localized|Win32'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release TILES Localized|Win32'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug TILES Localized|Win32'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Localized|Win32'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|x64'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Localized|x64'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL Localized|x64'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|x64'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Localized|x64'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL Localized|x64'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release TILES Localized|x64'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug TILES Localized|x64'">
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>winmm.lib;SDLMain.lib;SDL.lib;SDL_ttf.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Localized|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>winmm.lib;intl.lib;iconv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>winmm.lib;libSDL.dll.lib;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Localized|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>winmm.lib;intl.lib;iconv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL Localized|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>winmm.lib;intl.lib;iconv.lib;libSDL.dll.lib;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>winmm.lib;SDLMain.lib;SDL.lib;SDL_ttf.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Localized|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>winmm.lib;libintl.lib;libiconv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL Localized|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>winmm.lib;libintl.lib;libiconv.lib;SDLMain.lib;SDL.lib;SDL_ttf.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release TILES Localized|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;TILES;SDLTILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>winmm.lib;libintl.lib;libiconv.lib;SDLMain.lib;SDL.lib;SDL_ttf.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug TILES Localized|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;TILES;SDLTILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>winmm.lib;libintl.lib;libiconv.lib;SDLMain.lib;SDL.lib;SDL_ttf.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL Localized|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>winmm.lib;intl.lib;iconv.lib;libSDL.dll.lib;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>winmm.lib;libSDL.dll.lib;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Localized|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>winmm.lib;intl.lib;iconv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL Localized|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>winmm.lib;intl.lib;iconv.lib;libSDL.dll.lib;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release TILES Localized|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;SDLTILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>winmm.lib;intl.lib;iconv.lib;libSDL.dll.lib;SDL_ttf.lib;SDL_image.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug TILES Localized|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;SDLTILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>winmm.lib;intl.lib;iconv.lib;libSDL.dll.lib;SDL_ttf.lib;SDL_image.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>getversion.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Generate version.h</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

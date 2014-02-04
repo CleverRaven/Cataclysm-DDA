@@ -1,3 +1,6 @@
-# These are both generated if missing at program startup
+# These are all generated if missing at program startup
 keymap.txt
 options.txt
+auto_pickup.txt
+fontlist.txt
+FONTDATA
