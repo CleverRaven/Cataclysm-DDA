@@ -33,6 +33,8 @@ data/FONTDATA
 doxygen_doc/html/*
 doxygen_doc/latex/*
 
+data/mods/user-default-mods.json
+
 # Visual Studio files
 *.suo
 *.sdf
