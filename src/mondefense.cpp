@@ -18,4 +18,4 @@ void mdefense::zapback(monster *m)
 		g->u.deal_damage(m, bp_arms, 1, shock);
 		g->add_msg(("As you strike, the %s shocks you!"), m->name().c_str());}
 	return;
-};
+}
