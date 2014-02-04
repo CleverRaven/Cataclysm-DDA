@@ -456,7 +456,20 @@ bool game::opening_screen()
                 print_menu_items(w_open, world_subs, sel2, yoffset, xoffset - (xlen / 4));
                 wrefresh(w_open);
                 refresh();
-                input = get_input();
+                chInput = getch();
+                input = get_input(chInput);
+
+                //shortcuts
+                if (chInput == 'c' || chInput == 'C') {
+                    sel2 = 0;
+                    input = Confirm;
+                } else if ((chInput == 'd' || chInput == 'D') && (world_subs_to_display > 1)) {
+                    sel2 = 1;
+                    input = Confirm;
+                } else if ((chInput == 'r' || chInput == 'R') && (world_subs_to_display > 1)) {
+                    sel2 = 2;
+                    input = Confirm;
+                }
 
                 if (input == DirectionW) {
                     if (sel2 > 0) {

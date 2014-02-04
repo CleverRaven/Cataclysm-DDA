@@ -12,8 +12,9 @@
 
 InputEvent get_input(int ch)
 {
-    if (ch == '\0')
+    if (ch == '\0') {
         ch = getch();
+    }
 
     const action_id act = action_from_key(ch);
     switch(act)
