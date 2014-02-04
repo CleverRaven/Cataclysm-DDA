@@ -404,6 +404,8 @@ const mod_manager::t_mod_list &mod_manager::get_default_mods() const
 }
 
 bool file_exist(const std::string &path) {
-    std::ifstream tmp(path.c_str(), std::ios::in);
-    return tmp; // true if the file could be opended
+    struct stat buffer;
+    return ( stat( path.c_str(), &buffer ) == 0 );
+    //std::ifstream tmp(path.c_str(), std::ios::in);
+    //return  tmp; // true if the file could be opended
 }
