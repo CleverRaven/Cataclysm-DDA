@@ -6670,7 +6670,7 @@ void game::explode_mon(int index)
   kills[critter.type->id]++; // Increment our kill counter
 // Send body parts and blood all over!
   mtype* corpse = critter.type;
-  if (corpse->mat == "flesh" || corpse->mat == "veggy") { // No chunks otherwise
+  if (corpse->mat == "flesh" || corpse->mat == "veggy" || corpse->mat == "iflesh") { // No chunks otherwise
    int num_chunks = 0;
    switch (corpse->size) {
     case MS_TINY:   num_chunks =  1; break;
@@ -6686,7 +6686,7 @@ void game::explode_mon(int index)
     else
      meat = "veggy_tainted";
    } else {
-    if (corpse->mat == "flesh")
+    if (corpse->mat == "flesh" || corpse->mat == "iflesh")
      meat = "meat";
     else
      meat = "veggy";
@@ -6707,7 +6707,10 @@ void game::explode_mon(int index)
       blood_type = fd_bile;
      else if (corpse->dies == &mdeath::acid)
       blood_type = fd_acid;
-
+     else if (corpse->mat == "veggy")
+      blood_type = fd_blood_veggy;
+     else if (corpse->mat == "iflesh")
+      blood_type = fd_blood_insect;
       m.add_field(tarx, tary, blood_type, 1);
 
      if (m.move_cost(tarx, tary) == 0) {
@@ -7030,6 +7033,12 @@ void game::activity_on_turn_pulp()
             continue; // no corpse or already pulped
         }
         int damage = pulp_power / it->volume();
+        //Determine corpse's blood type
+        field_id type_blood = fd_blood; //default
+        if (it->corpse->mat == "veggy")
+            type_blood = fd_blood_veggy;
+        else if (it->corpse->mat == "iflesh")
+            type_blood = fd_blood_insect;
         do {
             moves += move_cost;
             // Increase damage as we keep smashing,
@@ -7041,7 +7050,7 @@ void game::activity_on_turn_pulp()
             for (int x = smashx - 1; x <= smashx + 1; x++) {
                 for (int y = smashy - 1; y <= smashy + 1; y++) {
                     if (!one_in(damage+1)) {
-                        m.add_field(x, y, fd_blood, 1);
+                        m.add_field(x, y, type_blood, 1);
                     }
                 }
             }
@@ -10661,6 +10670,8 @@ void game::complete_butcher(int index)
      meat = "bone";
    } else if(corpse->mat == "veggy") {
     meat = "veggy";
+   } else if(corpse->mat == "iflesh") {
+    meat = "meat"; //In the future, insects could drop insect flesh rather than plain ol' meat.
    } else {
      //Don't generate anything
      return;

@@ -1315,7 +1315,7 @@ void splatter(std::vector<point> trajectory, int dam, monster* mon)
  }
  field_id blood = fd_blood;
  if (mon != NULL) {
-  if (!mon->made_of("flesh") || mon->has_flag(MF_VERMIN) )
+  if (!mon->made_of("flesh") || mon->has_flag(MF_VERMIN) ) //Todo: Add veggy and insect blood splatters
    return;
   if (mon->type->dies == &mdeath::boomer)
    blood = fd_bile;

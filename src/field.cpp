@@ -20,10 +20,19 @@ void game::init_fields()
             {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
             {0,0,0}
         },
-
         {
             {_("blood splatter"), _("blood stain"), _("puddle of blood")}, '%', 0,
             {c_red, c_red, c_red}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
+            {_("plant sap splatter"), _("plant sap stain"), _("puddle of resin")}, '%', 0,
+            {c_ltgreen, c_ltgreen, c_ltgreen}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
+            {_("hemolymph splatter"), _("hemolymph stain"), _("puddle of hemolymph")}, '%', 0,
+            {c_ltgray, c_ltgray, c_ltgray}, {true, true, true}, {false, false, false}, 2500,
             {0,0,0}
         },
         {
@@ -44,6 +53,11 @@ void game::init_fields()
             {0,0,0}
         },
 
+        {
+            {_("shards of chitin"), _("shattered bug leg"), _("torn insect organs")}, '~', 0,
+            {c_ltgreen, c_green, c_yellow}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
         {
             {_("cobwebs"),_("webs"), _("thick webs")}, '}', 2,
             {c_white, c_white, c_white}, {true, true, false},{false, false, false}, 0,
@@ -300,9 +314,12 @@ bool map::process_fields_in_submap(int gridn)
                         break;  // Do nothing, obviously.  OBVIOUSLY.
 
                     case fd_blood:
+                    case fd_blood_veggy:
+                    case fd_blood_insect:
                     case fd_bile:
                     case fd_gibs_flesh:
                     case fd_gibs_veggy:
+                    case fd_gibs_insect:
                         if (has_flag("SWIMMABLE", x, y)) { // Dissipate faster in water
                             cur->setFieldAge(cur->getFieldAge() + 250);
                         }
@@ -985,7 +1002,7 @@ void map::step_in_field(int x, int y)
         //Do things based on what field effect we are currently in.
         switch (cur->getFieldType()) {
         case fd_null:
-        case fd_blood: // It doesn't actually do anything
+        case fd_blood: // It doesn't actually do anything //necessary to add other types of blood?
         case fd_bile:  // Ditto
             //break instead of return in the event of post-processing in the future;
             // also we're in a loop now!

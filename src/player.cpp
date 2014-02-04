@@ -5150,7 +5150,7 @@ void player::suffer()
             else focus_pool --;
         }
     }
-    
+
     if (has_trait("SUNBURN") && g->is_in_sunlight(posx, posy) && one_in(10)) {
         if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
         g->add_msg(_("The sunlight burns your skin!"));
@@ -7070,7 +7070,7 @@ bool player::eat(item *eaten, it_comest *comest)
     if( has_trait("HIBERNATE") ) {
         capacity = -620;
     }
-    
+
     if ( (has_trait("EATHEALTH")) && ( comest->nutr > 0 && temp_hunger < capacity ) ) {
         int room = (capacity - temp_hunger);
         int excess_food = ((comest->nutr) - room);
@@ -7081,7 +7081,7 @@ bool player::eat(item *eaten, it_comest *comest)
         // Straight conversion, except it's divided amongst all your body parts.
         else healall(excess_food /= 5);
     }
-    
+
     if( ( comest->nutr > 0 && temp_hunger < capacity ) ||
         ( comest->quench > 0 && temp_thirst < capacity ) ) {
         if (spoiled){//rotten get random nutrification
@@ -7173,7 +7173,7 @@ bool player::eat(item *eaten, it_comest *comest)
           add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
       }
     }
-    if (has_trait("VEGETARIAN") && (eaten->made_of("flesh") || eaten->made_of("hflesh"))) {
+    if (has_trait("VEGETARIAN") && (eaten->made_of("flesh") || eaten->made_of("hflesh") || eaten->made_of("iflesh"))) {
         g->add_msg_if_player(this,_("Almost instantly you feel a familiar pain in your stomach."));
         add_morale(MORALE_VEGETARIAN, -75, -400, 300, 240);
     }
@@ -7759,7 +7759,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_mouth) && has_trait("SABER_TEETH"))
         {
             if(interactive)
