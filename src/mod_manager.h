@@ -50,6 +50,8 @@ struct MOD_INFORMATION {
 class mod_manager
 {
     public:
+        typedef std::vector<std::string> t_mod_list;
+
         mod_manager();
         virtual ~mod_manager();
         /**
@@ -82,7 +84,7 @@ class mod_manager
          * puts the files there. The original folder structure is
          * retained.
          */
-        bool copy_mod_contents(std::vector<std::string> mods_to_copy, std::string output_base_path);
+        bool copy_mod_contents(const t_mod_list &mods_to_copy, const std::string &output_base_path);
 
         /**
          * Save list of mods that are active in that world to
@@ -94,6 +96,8 @@ class mod_manager
          * world.
          */
         void load_mods_list(WORLDPTR world) const;
+        const t_mod_list &get_default_mods() const;
+        void set_default_mods(const t_mod_list &mods);
     protected:
     private:
         // Make this accessible for now
@@ -125,6 +129,9 @@ class mod_manager
          */
         void load_modfile(JsonObject &jo, const std::string &main_path);
 
+        bool set_default_mods(const std::string &ident);
+        void remove_mod(const std::string &ident);
+
         dependency_tree tree;
 
         typedef std::map<std::string, MOD_INFORMATION *> t_mod_map;
@@ -133,6 +140,7 @@ class mod_manager
          * never NULL.
          */
         t_mod_map mod_map;
+        t_mod_list default_mods;
 };
 
 class mod_ui
@@ -147,7 +155,7 @@ class mod_ui
         mod_manager *active_manager;
         dependency_tree *mm_tree;
 
-        void try_add(int selection, std::vector<std::string> modlist,
+        void try_add(const std::string &mod_to_add,
                      std::vector<std::string> &active_list);
         void try_rem(int selection, std::vector<std::string> &active_list);
         void try_shift(char direction, int &selection, std::vector<std::string> &active_list);
