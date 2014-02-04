@@ -715,6 +715,21 @@ void construct::done_deconstruct(point p)
         g->m.spawn_item(p.x, p.y, "pipe", rng(6,12));
         g->m.ter_set(p.x, p.y, t_grass);
       break;
+      case old_t_radio_controls:
+      case old_t_console:
+      case old_t_console_broken:
+        g->m.spawn_item(p.x, p.y, "processor", rng(1,2));
+        g->m.spawn_item(p.x, p.y, "RAM", rng(4,8));
+        g->m.spawn_item(p.x, p.y, "cable", rng(4,6));
+        g->m.spawn_item(p.x, p.y, "small_lcd_screen", rng(1,2));
+        g->m.spawn_item(p.x, p.y, "e_scrap", rng(10,16));
+        g->m.spawn_item(p.x, p.y, "circuit", rng(6,10));
+        g->m.spawn_item(p.x, p.y, "power_supply", rng(2,4));
+        g->m.spawn_item(p.x, p.y, "amplifier", rng(2,4));
+        g->m.spawn_item(p.x, p.y, "plastic_chunk", rng(10,12));
+        g->m.spawn_item(p.x, p.y, "scrap", rng(6,8));
+        g->m.ter_set(p.x, p.y, t_floor);
+      break;
     }
   }
 }

@@ -1269,15 +1269,17 @@ void game::activity_on_finish_read()
             }
             //50% penalty
             fun_bonus = (reading->fun * 5) / 2;
-        // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-        } if ((u.has_trait("CANNIBAL") || u.has_trait("PSYCHOPATH") || u.has_trait("SAPIOVORE")) &&
-      reading->id == "cookbook_human") {
-            fun_bonus = 25;
-      } else {
+        } else {
             fun_bonus = reading->fun * 5;
         }
-        u.add_morale(MORALE_BOOK, fun_bonus,
-                     reading->fun * 15, 60, 30, true, reading);
+        // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+        if ((u.has_trait("CANNIBAL") || u.has_trait("PSYCHOPATH") || u.has_trait("SAPIOVORE")) &&
+      reading->id == "cookbook_human") {
+          fun_bonus = 25;
+            u.add_morale(MORALE_BOOK, fun_bonus, fun_bonus*3, 60, 30, true, reading);
+           } else {
+            u.add_morale(MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, reading);
+        }
     }
 
     if(book_item->charges > 0) {
@@ -3413,7 +3415,11 @@ void game::delete_world(std::string worldname, bool delete_folder)
 {
     std::string worldpath = world_generator->all_worlds[worldname]->world_path;
     std::string filetmp = "";
-    std::string world_opfile = "worldoptions.txt";
+    std::set<std::string> files_not_to_delete;
+    if (!delete_folder) {
+        files_not_to_delete.insert("worldoptions.txt");
+        files_not_to_delete.insert("mods.json");
+    }
     std::vector<std::string> modfiles;
     std::set<std::string> mod_dirpathparts;
 
@@ -3442,7 +3448,7 @@ void game::delete_world(std::string worldname, bool delete_folder)
       if(INVALID_HANDLE_VALUE != hFind) {
        do {
         filetmp = FindFileData.cFileName;
-        if (delete_folder || filetmp != world_opfile){
+        if (files_not_to_delete.count(filetmp) == 0) {
         DeleteFile(FindFileData.cFileName);
         }
        } while(FindNextFile(hFind, &FindFileData) != 0);
@@ -3466,7 +3472,7 @@ void game::delete_world(std::string worldname, bool delete_folder)
       struct dirent *save_dirent = NULL;
       while ((save_dirent = readdir(save_dir)) != NULL){
         filetmp = save_dirent->d_name;
-        if (delete_folder || filetmp != world_opfile){
+        if (files_not_to_delete.count(filetmp) == 0) {
           (void)unlink(std::string(worldpath + "/" + filetmp).c_str());
         }
       }
@@ -10573,7 +10579,7 @@ void game::complete_butcher(int index)
    add_msg(_("You harvest some feathers!"));
   }
  }
- 
+
   if (fats > 0) {
   if (corpse->has_flag(MF_FAT)) {
     m.spawn_item(u.posx, u.posy, "fat", fats, 0, age);
