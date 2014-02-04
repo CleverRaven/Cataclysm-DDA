@@ -450,7 +450,7 @@
         "type": "profession",
         "ident": "survivalist",
         "name": "Survivalist",
-        "description": "Skilled at surviving off the land far from civilization, your skills are quite likely to come in useful considering civilization is now full of monsters that want you dead. Your equipment is basic, but versatile - and with your skills, more than you need.",
+        "description": "Skilled at surviving off the land far from civilization, your skills are quite likely to come in useful considering civilization is now full of monsters that want you dead. Your equipment is basic, but versatile - and with your skills, more than you need... except your canteen's run out!",
         "points": 3,
         "skills": [
             {
@@ -490,7 +490,8 @@
                 "backpack",
                 "knife_combat",
                 "lighter",
-                "rope_30"
+                "rope_30",
+                "canteen"
             ],
             "male": [
                 "boxer_shorts"
