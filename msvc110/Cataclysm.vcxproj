@@ -163,6 +163,7 @@
     <ClCompile Include="..\src\mod_manager_ui.cpp" />
     <ClCompile Include="..\src\monattack.cpp" />
     <ClCompile Include="..\src\mondeath.cpp" />
+    <ClCompile Include="..\src\mondefense.cpp" />
     <ClCompile Include="..\src\mongroupdef.cpp" />
     <ClCompile Include="..\src\monitemsdef.cpp" />
     <ClCompile Include="..\src\monmove.cpp" />
@@ -286,6 +287,7 @@
     <ClInclude Include="..\src\mod_manager.h" />
     <ClInclude Include="..\src\monattack.h" />
     <ClInclude Include="..\src\mondeath.h" />
+    <ClInclude Include="..\src\mondefense.h" />
     <ClInclude Include="..\src\mongroup.h" />
     <ClInclude Include="..\src\monster.h" />
     <ClInclude Include="..\src\monstergenerator.h" />

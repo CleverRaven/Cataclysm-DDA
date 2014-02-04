@@ -1,21 +1,11 @@
-#include "mondeath.h"
 #include "monster.h"
 #include "game.h"
 #include "rng.h"
 #include "line.h"
 #include "bodypart.h"
-#include "material.h"
 #include "speech.h"
 #include <algorithm>
 
-//Used for e^(x) functions
-#include <stdio.h>
-#include <math.h>
-
-// for loading monster dialogue:
-#include <iostream>
-#include <fstream>
-#include <limits>  // std::numeric_limits
 
 void mdefense::zapback(monster *m)
 {
@@ -28,4 +18,4 @@ void mdefense::zapback(monster *m)
 		g->u.deal_damage(m, bp_arms, 1, shock);
 		g->add_msg(("As you strike, the %s shocks you!"), m->name().c_str());}
 	return;
-}
+};

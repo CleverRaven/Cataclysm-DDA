@@ -399,6 +399,9 @@
     <ClCompile Include="..\src\player_activity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\mondefense.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\action.h">
@@ -738,6 +741,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\player_activity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mondefense.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
