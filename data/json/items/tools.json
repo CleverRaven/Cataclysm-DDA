@@ -37,7 +37,7 @@
     "color": "yellow",
     "name": "cash card",
     "description": "A yellow plastic card used to store money. These became popular once the government officialy moved to all electronic money. Holds up to 2 million dollars.",
-    "price": 10000,
+    "price": 100,
     "material": "plastic",
     "flags": ["NO_UNLOAD", "NO_RELOAD"],
     "weight": 6,
