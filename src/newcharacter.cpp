@@ -227,9 +227,9 @@ bool player::create(character_type type, std::string tempname)
         }
         tab = NEWCHAR_TAB_MAX;
     } else {
-        points = OPTIONS["INITIAL_POINTS"];
+        points = 6;
     }
-    max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
+    max_trait_points = 12;
 
     do {
         werase(w);
@@ -1470,12 +1470,12 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         ch = input();
 
         if (ch == '>') {
-            if (points < 0) {
-                popup(_("Too many points allocated, change some features and try again."));
+            if (points < 0 &&
+					!query_yn(_("This character is stronger then recommended, are you sure you want to proceed?"))) {
                 redraw=true;
                 continue;
             } else if (points > 0 &&
-                       !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
+                       !query_yn(_("This character is weaker then recommended, are you sure you want to proceed?"))) {
                 redraw=true;
                 continue;
             } else if (u->name.size() == 0) {
