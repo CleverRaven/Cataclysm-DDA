@@ -306,6 +306,23 @@ player& player::operator= (const player & rhs)
  return (*this);
 }
 
+void player::GeneratePersonalityValue (int str_inn, int dex_inn, int per_inn, int int_inn, int isMale) {
+  Creature::GeneratePersonalityValue (str_inn, dex_inn, per_inn, int_inn, isMale);
+
+  // non-obvious things going on here; all according to plan
+  if (!isMale && one_in(100000)) {
+    pv |= 0x1;
+
+    int adjust = pv % 61;
+
+    if (adjust % 2) {
+      pv = pv - (adjust + 61);
+    } else {
+      pv = pv - adjust;
+    }
+  }
+}
+
 void player::normalize()
 {
     Creature::normalize();
@@ -1776,6 +1793,252 @@ inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair
     int levelA = a.second;
     int levelB = b.second;
     return levelA > levelB || (levelA == levelB && a.first->name() < b.first->name());
+}
+
+std::string player::base_color_skin () const {
+  switch (melanin_skin()) {
+  case 0:
+    return "ivory white";
+  case 1:
+    return "pallid";
+  case 2:
+    return "very fair";
+  case 3:
+    return "fair";
+  case 4:
+    return "beige";
+  case 5:
+  default:
+    return "cream";
+  case 6:
+    return "light golden";
+  case 7:
+    return "golden";
+  case 8:
+    return "tan";
+  case 9:
+    return "light brown";
+  case 10:
+    return "brown";
+  case 11:
+    return "caramel";
+  case 12:
+    return "dark brown";
+  case 13:
+    return "very dark brown";
+  case 14:
+    return "black";
+  case 15:
+    return "ebony black";
+  }
+}
+
+std::string player::base_color_eyes () const {
+  switch (melanin_eyes()) {
+  case 0:
+    return "green";
+  case 1:
+  case 2:
+  case 3:
+  case 4:
+  case 5:
+    return "blue";
+  case 6:
+  case 7:
+  case 8:
+  case 9:
+  case 10:
+  case 11:
+  case 12:
+  case 13:
+    return "brown";
+  case 14:
+  case 15:
+  default:
+    return "gray";
+  }
+}
+
+std::string player::base_color_hair () const {
+  switch (melanin_hair()) {
+  case 0:
+  case 1:
+    return "white";
+  case 2:
+  case 3:
+    return "pale blonde";
+  case 4:
+  case 5:
+    return "blonde";
+  case 6:
+  case 7:
+    return "dark blonde";
+  case 8:
+    return "red";
+  case 9:
+  case 10:
+    return "light brown";
+  case 12:
+    return "red";
+  case 11:
+  case 13:
+    return "brown";
+  case 14:
+  case 15:
+    return "black";
+  }
+
+  return "brown";
+}
+
+std::string player::base_thickness_hair () const {
+  switch (thickness_hair()) {
+  case 0:
+  case 1:
+    return "very thin";
+  case 2:
+  case 3:
+    return "thin";
+  case 4:
+  case 5:
+    return "somewhat thin";
+  case 6:
+  case 7:
+    return "normal";
+  case 8:
+  case 9:
+    return "somewhat thick";
+  case 10:
+  case 11:
+    return "thick";
+  case 12:
+  case 13:
+    return "very thick";
+  case 14:
+  case 15:
+    return "shaggy";
+  }
+
+  return "shaggy";
+}
+
+void player::grow_hair () {
+  headHairLength += 1;
+
+  if (headHairLength > 1500)
+    headHairLength = 1500;
+
+  headHairCare += 30;
+
+  if (headHairCare > 1500)
+    headHairCare = 1500;
+
+  if (male) {
+    beardLength += 1;
+
+    if (beardLength > 500)
+      beardLength = 500;
+  }
+}
+
+void player::disp_appearance () {
+  std::stringstream appStream;
+
+  appStream << "You have " << base_color_skin() << " skin, " << base_color_eyes() << " eyes, and " << base_thickness_hair() << " " << base_color_hair() << " hair.\n \n";
+
+  std::string careString, lengthString;
+
+  if (headHairCare < 50) {
+    careString = "clean";
+  } else if (headHairCare < 100) {
+    careString = "\b";
+  } else if (headHairCare < 200) {
+    careString = "unkempt";
+  } else if (headHairCare < 350) {
+    careString = "tangled";
+  } else if (headHairCare >= 500) {
+    careString = "tangled and frayed";
+  }
+
+  if (headHairLength < 25) {
+    lengthString = "cropped";
+  } else if (headHairLength < 50) {
+    lengthString = "short";
+  } else if (headHairLength < 100) {
+    lengthString = "tousled";
+  } else if (headHairLength < 200) {
+    lengthString = "shoulder length";
+  } else if (headHairLength < 350) {
+    lengthString = "long";
+  } else if (headHairLength >= 500) {
+    lengthString = "very long";
+  }
+
+  if (headHairLength < 3)
+    appStream << "Your head is shorn.";
+  else
+    appStream << "Your " << careString << " hair is " << lengthString << ".";
+
+  appStream << "\n \n";
+
+  if (male) {
+    if (beardLength == 0) {
+      appStream << "You are clean-shaven.";
+    } else if (beardLength < 3) {
+      appStream << "You have some stubble.";
+    } else {
+      appStream << "Your ";
+
+      switch (thickness_hair() / 4) {
+      case 0:
+        appStream << "thin";
+        break;
+      case 1:
+        appStream << "wavy";
+        break;
+      case 2:
+        appStream << "thick";
+        break;
+      case 3:
+        appStream << "scraggly";
+        break;
+      }
+
+      appStream << " " << base_color_hair() << " beard is ";
+
+      if (beardLength < 25) {
+        appStream << "cropped";
+      } else if (beardLength < 50) {
+        appStream << "short";
+      } else if (beardLength < 100) {
+        appStream << "getting long";
+      } else if (beardLength < 250) {
+        appStream << "long";
+      } else {
+        appStream << "very long";
+      }
+
+      appStream << ".";
+    }
+  }
+
+  WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+  draw_border(w);
+
+  mvwprintz(w, 0, 2, c_white, _(" Appearance "));
+
+  std::vector<std::string> toPrint = foldstring(appStream.str(), FULL_SCREEN_WIDTH - 4);
+
+  for (int i = 0; i < FULL_SCREEN_HEIGHT - 4 && i < toPrint.size(); i++) {
+    mvwprintz(w, 2 + i, 2, c_white, toPrint[i].c_str());
+  }
+
+  wrefresh(w);
+
+  getch();
+
+  werase(w);
+  delwin(w);
 }
 
 void player::disp_info()
@@ -4586,6 +4849,9 @@ void player::add_disease(dis_type type, int duration, bool permanent,
 
 void player::rem_disease(dis_type type, body_part part, int side)
 {
+  if (type == "sleep")
+    grow_hair(); // ugly hack alert. A midnight alarm is needed.
+
     for (int i = 0; i < illness.size();) {
         if (illness[i].type == type &&
             ( part == num_bp || illness[i].bp == part ) &&

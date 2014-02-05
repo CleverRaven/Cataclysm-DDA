@@ -278,6 +278,8 @@ std::string action_ident(action_id act)
         return "quit";
     case ACTION_PL_INFO:
         return "player_data";
+    case ACTION_APPEARANCE:
+        return "appearance";
     case ACTION_MAP:
         return "map";
     case ACTION_MISSIONS:
@@ -458,6 +460,8 @@ std::string action_name(action_id act)
         return _("Commit Suicide");
     case ACTION_PL_INFO:
         return _("View Player Info");
+    case ACTION_APPEARANCE:
+        return _("View Appearance");
     case ACTION_MAP:
         return _("View Map");
     case ACTION_MISSIONS:

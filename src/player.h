@@ -90,6 +90,15 @@ public:
  virtual void die(Creature* nkiller);
 // </newcharacter.cpp>
 
+ virtual void GeneratePersonalityValue(int str_inn, int dex_inn, int per_inn, int int_inn, int male);
+
+ virtual std::string base_color_skin() const;
+ virtual std::string base_color_eyes() const;
+ virtual std::string base_color_hair() const;
+ virtual std::string base_thickness_hair() const;
+
+ void grow_hair();
+
     void pick_name(); // Picks a name from NAMES_*
     std::string disp_name(); // what to call 'im
     std::string skin_name(); // what to call 'im
@@ -118,6 +127,7 @@ public:
 
  void memorial( std::ofstream &memorial_file ); // Write out description of player.
  void disp_info(); // '@' key; extended character info
+ void disp_appearance(); // undetermined key; appearance info
  void disp_morale(); // '%' key; morale info
  void disp_status(WINDOW* w, WINDOW *w2);// On-screen data
 
@@ -550,6 +560,10 @@ public:
  std::vector<int> failed_missions;
  int active_mission;
  int volume;
+
+ int headHairLength;
+ int beardLength;
+ int headHairCare;
 
  std::string name;
  bool male;
