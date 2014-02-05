@@ -19867,9 +19867,6 @@
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "crucible", -1 ]
-    ],
-    [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 5 ],
@@ -19896,9 +19893,6 @@
   "tools": [
     [
       [ "goggles_welding", -1 ]
-    ],
-    [
-      [ "crucible", -1 ]
     ],
     [
       [ "welder", 100 ],
@@ -19934,9 +19928,6 @@
   "tools": [
     [
       [ "goggles_welding", -1 ]
-    ],
-    [
-      [ "crucible", -1 ]
     ],
     [
       [ "welder", 100 ],
