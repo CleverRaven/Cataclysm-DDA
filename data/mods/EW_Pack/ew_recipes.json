@@ -202,8 +202,7 @@
       [ "sheet_metal", 1],
       [ "scrap", 2]
     ]
-    
-  ]
+   ]
 },{
         "type" : "recipe",
   "result": "cw-24m_hack",
@@ -240,8 +239,6 @@
       [ "sheet_metal", 1],
       [ "scrap", 2]
     ]
-    
   ]
-
 }
 ]

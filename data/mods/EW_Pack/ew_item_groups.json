@@ -110,7 +110,6 @@
         "items": [
           ["recipe_igm", 5]
         ]
-        
     },
     {
         "type": "item_group",
@@ -118,6 +117,6 @@
         "items": [
           ["recipe_igm", 4]
         ]
-    }     
+    }
 
 ]
