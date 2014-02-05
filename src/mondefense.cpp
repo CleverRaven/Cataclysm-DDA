@@ -3,19 +3,8 @@
 #include "game.h"
 #include "rng.h"
 #include "line.h"
-#include "bodypart.h"
-#include "material.h"
 #include "speech.h"
 #include <algorithm>
-
-//Used for e^(x) functions
-#include <stdio.h>
-#include <math.h>
-
-// for loading monster dialogue:
-#include <iostream>
-#include <fstream>
-#include <limits>  // std::numeric_limits
 
 void mdefense::zapback(monster *m)
 {
