@@ -1727,6 +1727,26 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "hatch",
+        "name" : "hatch",
+        "symbol" : "+",
+        "color" : "light_gray",
+        "broken_symbol" : "&",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 120,
+        "size" : 150,
+        "item" : "frame",
+        "difficulty" : 2,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "windshield",
         "name" : "windshield",
         "symbol" : "\"",
