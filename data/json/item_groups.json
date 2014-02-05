@@ -2985,6 +2985,7 @@
       ["smokebomb", 10],
       ["oxygen_tank", 5],
       ["jack", 2],
+      ["throw_extinguisher", 1],
       ["smoxygen_tank", 10]
     ]
   },{
@@ -6594,6 +6595,7 @@
       ["oxygen_tank", 15],
       ["fireman_belt", 15],
       ["jack", 5],
+      ["throw_extinguisher", 10],
       ["smoxygen_tank", 35]
     ]
   },{
@@ -6837,6 +6839,7 @@
       ["flamethrower_crude", 6],
       ["fungicide", 10],
       ["antifungal", 1],
+      ["throw_extinguisher", 2],
       ["flamethrower_simple", 2]
     ]
   },{
