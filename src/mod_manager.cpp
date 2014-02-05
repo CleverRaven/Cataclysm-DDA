@@ -2,6 +2,7 @@
 #include "file_finder.h"
 #include "debug.h"
 #include "output.h"
+#include "file_wrapper.h"
 #include "worldfactory.h"
 
 #include <math.h>
@@ -25,7 +26,6 @@
 #define MOD_USER_DEFAULT_PATH "data/mods/user-default-mods.json"
 
 // TODO: move this declaration into a header, but which?
-extern bool assure_dir_exist(const std::string &path);
 extern bool file_exist(const std::string &path);
 
 mod_manager::mod_manager()
