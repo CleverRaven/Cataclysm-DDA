@@ -2,6 +2,7 @@
 #include "file_finder.h"
 #include "char_validity_check.h"
 #include "mod_manager.h"
+#include "file_wrapper.h"
 
 #include "name.h"
 
@@ -239,8 +240,6 @@ void worldfactory::set_active_world(WORLDPTR world)
         ACTIVE_WORLD_OPTIONS.clear();
     }
 }
-
-extern bool assure_dir_exist(const std::string &path);
 
 bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
 {
