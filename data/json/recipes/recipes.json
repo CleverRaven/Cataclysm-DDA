@@ -12484,6 +12484,48 @@
         [ "scrap", 21 ]
       ]
     ]
+  },
+  {
+    "type" : "recipe",
+    "result": "press",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 5,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [[ "manual_shotgun", 2 ] ,[ "manual_rifle", 2 ] ,[ "manual_smg", 2 ] ,[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
+    "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["press", -1]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
+    ],
+    "components": [
+      [
+        [ "scrap", 6 ]
+      ],
+      [
+        [ "element", 2 ],
+        [ "hotplate", 1 ]
+      ],
+      [
+        [ "cable", 2 ]
+      ]
+    ]
   },{
   "type" : "recipe",
   "result": "antenna",
@@ -19825,9 +19867,6 @@
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "crucible", -1 ]
-    ],
-    [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 5 ],
@@ -19856,9 +19895,11 @@
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "welder", 120 ],
-      [ "welder_crude", 180 ],
-      [ "toolset", 6 ]
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ],
+      [ "forge", 100 ],
+      [ "char_forge", 20]
     ]
   ],
   "components": [
@@ -19889,9 +19930,11 @@
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "welder", 300 ],
-      [ "welder_crude", 450 ],
-      [ "toolset", 15 ]
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ],
+      [ "forge", 100 ],
+      [ "char_forge", 20]
     ]
   ],
   "components": [
