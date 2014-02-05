@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <stdint.h> // uint64_t
 
 class game;
 class effect;
@@ -247,6 +248,14 @@ class Creature
         virtual void on_gethit(Creature *source, body_part bp_hit,
                                damage_instance &dam);
 
+        uint64_t personality_value() const;
+        std::string PersonalityValue() const;
+        void SetPersonalityValue(std::string);
+
+        virtual void GeneratePersonalityValue(int str_inn, int dex_inn, int per_inn, int int_inn, int male);
+
+        uint64_t PersonalityValueBits(size_t start, size_t width) const;
+
         // innate stats, slowly move these to protected as we rewrite more of
         // the codebase
         int str_max, dex_max, per_max, int_max,
@@ -297,6 +306,8 @@ class Creature
         int throw_resist;
 
         bool fake;
+
+        uint64_t pv;
 
         Creature& operator= (const Creature& rhs);
 

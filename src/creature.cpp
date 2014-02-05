@@ -26,6 +26,8 @@ Creature::Creature()
     reset_bonuses();
 
     fake = false;
+
+    pv = 0;
 }
 
 Creature::Creature(const Creature &rhs)
@@ -71,6 +73,8 @@ Creature::Creature(const Creature &rhs)
     throw_resist = rhs.throw_resist;
 
     fake = rhs.fake;
+
+    pv = rhs.pv;
 }
 
 void Creature::normalize()
@@ -835,6 +839,70 @@ void Creature::set_throw_resist(int nthrowres)
 void Creature::on_gethit(Creature *, body_part, damage_instance &)
 {
     // does nothing by default
+}
+
+uint64_t Creature::personality_value () const {
+  return pv;
+}
+
+std::string Creature::PersonalityValue () const {
+  std::stringstream stringStream;
+  stringStream.width(16);
+  stringStream.fill('0');
+  stringStream.flags(std::ios::right | std::ios::hex);
+  stringStream << pv;
+  return stringStream.str();
+}
+
+void Creature::SetPersonalityValue (std::string PV) {
+  std::stringstream stringStream;
+  stringStream.str(PV);
+  stringStream.flags(std::ios::hex);
+  stringStream >> pv;
+}
+
+void Creature::GeneratePersonalityValue (int str_inn, int dex_inn, int per_inn, int int_inn, int male) {
+  uint64_t rand1, rand2, rand3, rand4;
+
+  // create some numbers
+  rand1 = random();
+  rand2 = random();
+  rand3 = random();
+  rand4 = random();
+
+  // random() isn't quite big enough, so we improvise
+  rand1 = rand1 ^ rand2 << 16;
+  rand3 = rand3 ^ rand4 << 48;
+
+  // Free up some space in the pv for stats
+  pv = (rand1 ^ rand3) & 0x0000FFFFFFFFFFFE;
+
+  // ceil the stats
+  if (str_inn > 15)
+    str_inn = 15;
+  if (dex_inn > 15)
+    dex_inn = 15;
+  if (per_inn > 15)
+    per_inn = 15;
+  if (int_inn > 15)
+    int_inn = 15;
+
+  // shift the stats into place and include them
+  pv |= ((uint64_t)str_inn << 60);
+  pv |= ((uint64_t)dex_inn << 56);
+  pv |= ((uint64_t)per_inn << 52);
+  pv |= ((uint64_t)int_inn << 48);
+
+  // set the LSB to indicate gender
+  if (male)
+    pv |= 0x1;
+}
+
+uint64_t Creature::PersonalityValueBits (size_t start, size_t width) const {
+  uint64_t retval = pv >> start;
+  uint64_t filter = 0xFFFFFFFFFFFFFFFF >> (64 - width);
+
+  return retval & filter;
 }
 
 /*

@@ -91,6 +91,7 @@ int main(int argc, char *argv[])
     set_escdelay(10); // Make escape actually responsive
 
     std::srand(seed);
+    srandom(seed);
 
     g = new game;
     // First load and initialize everything that does not

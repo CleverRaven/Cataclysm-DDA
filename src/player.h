@@ -90,6 +90,8 @@ public:
  virtual void die(Creature* nkiller);
 // </newcharacter.cpp>
 
+ virtual void GeneratePersonalityValue(int str_inn, int dex_inn, int per_inn, int int_inn, int male);
+
     void pick_name(); // Picks a name from NAMES_*
     std::string disp_name(); // what to call 'im
     std::string skin_name(); // what to call 'im

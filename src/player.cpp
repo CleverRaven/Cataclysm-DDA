@@ -306,6 +306,23 @@ player& player::operator= (const player & rhs)
  return (*this);
 }
 
+void player::GeneratePersonalityValue (int str_inn, int dex_inn, int per_inn, int int_inn, int isMale) {
+  Creature::GeneratePersonalityValue (str_inn, dex_inn, per_inn, int_inn, isMale);
+
+  // non-obvious things going on here; all according to plan
+  if (!isMale && one_in(100000)) {
+    pv |= 0x1;
+
+    int adjust = pv % 61;
+
+    if (adjust % 2) {
+      pv = pv - (adjust + 61);
+    } else {
+      pv = pv - adjust;
+    }
+  }
+}
+
 void player::normalize()
 {
     Creature::normalize();

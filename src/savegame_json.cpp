@@ -183,6 +183,14 @@ void player::json_load_common_variables(JsonObject & data)
     data.read("effects",effects);
     data.read("addictions",addictions);
     data.read("my_bionics",my_bionics);
+
+    std::string PV;
+
+    data.read("pv", PV);
+    Creature::SetPersonalityValue(PV);
+
+    if (pv == 0)
+      GeneratePersonalityValue(str_max, dex_max, per_max, int_max, male);
 }
 
 /*
@@ -260,6 +268,8 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", my_bionics );
+
+    json.member ( "pv", Creature::PersonalityValue() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
