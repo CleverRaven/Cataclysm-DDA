@@ -154,6 +154,34 @@
         "post_terrain" : "t_door_boarded"
     },{
         "type" : "construction",
+        "description" : "Reinforce Wood Door",
+        "difficulty" : 3,
+        "time" : 30,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 12 ] ],
+            [ [ "nail", 48 ] ]
+        ],
+        "pre_flags" : "BARRICADABLE_DOOR",
+        "post_terrain" : "t_rdoor_c"
+    },{
+        "type" : "construction",
+        "description" : "Repair Reinforced Wood Door",
+        "difficulty" : 1,
+        "time" : 15,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 6 ] ],
+            [ [ "nail", 24 ] ]
+        ],
+        "pre_terrain" : "t_rdoor_b",
+        "post_terrain" : "t_rdoor_c"
+    },{
+        "type" : "construction",
         "description" : "Board Up Window",
         "difficulty" : 0,
         "time" : 5,

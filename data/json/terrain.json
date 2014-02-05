@@ -629,6 +629,58 @@
         "close": "t_door_c"
     },{
         "type" : "terrain",
+        "id" : "t_rdoor_c",
+        "name": "closed reinforced wood door",
+        "symbol": "+",
+        "color": "red",
+        "move_cost": 0,
+        "flags": [
+            "BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM",
+            "SUPPORTS_ROOF", "BARRICADABLE_DOOR"
+        ],
+        "open": "t_rdoor_o",
+        "bash": {
+            "str_min": 20, "str_max": 50, "str_min_blocked": 30, "str_max_blocked": 60,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_rdoor_b"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_rdoor_b",
+        "name": "damaged reinforced wood door",
+        "symbol": "&",
+        "color": "red",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM",
+            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR"
+        ],
+        "bash": {
+            "str_min": 15, "str_max": 50, "str_min_blocked": 25, "str_max_blocked": 60,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_door_b",
+            "items": [
+                { "item": "2x4", "amount": 12, "minamount": 1},
+                { "item": "nail", "amount": 48, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_rdoor_o",
+        "name": "open reinforced wood door",
+        "symbol": "'",
+        "color": "red",
+        "move_cost": 2,
+        "flags": [
+            "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
+            "FLAT", "BARRICADABLE_DOOR"
+        ],
+        "close": "t_rdoor_c"
+    },{
+        "type" : "terrain",
         "id" : "t_door_locked_interior",
         "name": "closed wood door",
         "symbol": "+",
