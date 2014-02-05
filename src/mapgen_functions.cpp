@@ -1588,6 +1588,8 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
         } else if (rc <= 73) {
             veh_type = "bicycle";
         } else if (rc <= 75) {
+            veh_type = "rara_x";
+        } else if (rc <= 80) {
             veh_type = "unicycle";
         } else if (rc <= 90) {
             veh_type = "motorcycle";
