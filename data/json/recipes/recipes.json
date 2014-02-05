@@ -19898,9 +19898,14 @@
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "welder", 120 ],
-      [ "welder_crude", 180 ],
-      [ "toolset", 6 ]
+      [ "crucible", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ],
+      [ "forge", 100 ],
+      [ "char_forge", 20]
     ]
   ],
   "components": [
@@ -19931,9 +19936,14 @@
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "welder", 300 ],
-      [ "welder_crude", 450 ],
-      [ "toolset", 15 ]
+      [ "crucible", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ],
+      [ "forge", 100 ],
+      [ "char_forge", 20]
     ]
   ],
   "components": [
