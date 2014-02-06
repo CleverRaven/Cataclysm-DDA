@@ -975,8 +975,11 @@
     {"id":"CUT","level":1,"amount":1}
   ],  "components": [
     [
-      [ "amplifier", 1 ]
-    ]
+      [ "amplifier", 1 ],
+    ],
+	[
+	  [ "e_scrap", 1 ]
+	]  
   ]
 },{
         "type" : "recipe",
@@ -12756,7 +12759,10 @@
     ],
     [
       [ "battery", 15 ]
-    ]
+    ],
+	[
+	  [ "e_scrap", 1 ]
+	]  
   ]
 },{
         "type" : "recipe",
