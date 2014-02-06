@@ -228,7 +228,35 @@
     },{
         "type" : "construction",
         "description" : "Reinforce Boarded Up Empty Window",
-        "difficulty" : 1,
+        "difficulty" : 5,
+        "time" : 30,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge" ]
+        ],
+        "components" : [
+            [ [ "spike", 4 ] ],
+            [ [ "steel_plate", 1 ], [ "sheet_metal", 4 ] ]
+        ],
+        "pre_terrain" : "t_window_boarded_noglass",
+        "post_terrain" : "t_window_reinforced_noglass"
+    },{
+        "type" : "construction",
+        "description" : "Armor Reinforced Boarded Up Window",
+        "difficulty" : 6,
+        "time" : 30,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge" ]
+        ],
+        "components" : [
+            [ [ "spike", 4 ] ],
+            [ [ "steel_plate", 1 ], [ "sheet_metal", 4 ] ]
+        ],
+        "pre_terrain" : "t_window_reinforced",
+        "post_terrain" : "t_window_enhanced"
+    },{
+        "type" : "construction",
+        "description" : "Armor Reinforced Boarded Up Empty Window",
+        "difficulty" : 6,
         "time" : 10,
         "tools" : [
             [ "hammer", "hammer_sledge", "primitive_hammer",
@@ -238,8 +266,8 @@
             [ [ "2x4", 8 ] ],
             [ [ "nail", 16 ] ]
         ],
-        "pre_terrain" : "t_window_boarded_noglass",
-        "post_terrain" : "t_window_reinforced_noglass"
+        "pre_terrain" : "t_window_reinforced_noglass",
+        "post_terrain" : "t_window_enhanced_noglass"
     },{
         "type" : "construction",
         "description" : "Board Up Broken Window Frame",
@@ -437,7 +465,7 @@
     },{
         "type" : "construction",
         "description" : "Build Metal Door",
-        "difficulty" : 6,
+        "difficulty" : 7,
         "time" : 15,
         "tools" : [
             [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge" ],
@@ -452,7 +480,7 @@
     },{
         "type" : "construction",
         "description" : "Build Metal Door",
-        "difficulty" : 6,
+        "difficulty" : 7,
         "time" : 15,
         "tools" : [
             [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge" ],

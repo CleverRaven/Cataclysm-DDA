@@ -1189,6 +1189,22 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_window_enhanced",
+        "name": "armored boarded up window",
+        "symbol": "#",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_window_enhanced_noglass",
+        "name": "armored boarded up window",
+        "symbol": "#",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"]
+    },{
+        "type" : "terrain",
         "id" : "t_window_stained_green",
         "name": "high stained glass window",
         "symbol": "\"",
