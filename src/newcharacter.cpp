@@ -760,7 +760,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
     WINDOW *w_description = newwin(3, FULL_SCREEN_WIDTH - 2, FULL_SCREEN_HEIGHT - 4 + getbegy(w),
                                    1 + getbegx(w));
-    // Track how many good / bad POINTS we have; warn at MAX_TRAIT_POINTS individually
+    // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0, num_bad = 0;
 
     std::vector<std::string> vStartingTraits[2];
@@ -1513,7 +1513,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         } else if (ch == '<') {
             return -1;
         } else if (ch == '!') {
-            if (points != 0) {//perhaps allow softcap to ignore this?
+            if (points != 0) {
                 popup(_("You cannot save a template with nonzero unused points!"));
             } else {
                 save_template(u);
