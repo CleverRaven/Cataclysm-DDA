@@ -497,6 +497,16 @@ void initOptions() {
                                              _("Delete the world when the last active character dies."),
                                              "no,yes,query", "no"
                                             );
+											
+    OPTIONS["INITIAL_POINTS"] =         cOpt("debug", _("Initial points"),
+                                             _("Initial points available on character generation."),
+                                             0, 96, 6
+                                            );
+ 
+    OPTIONS["MAX_TRAIT_POINTS"] =       cOpt("debug", _("Maximum trait points"),
+                                             _("Maximum trait points available for character generation."),
+                                             0, 96, 12
+                                            );
 
     OPTIONS["SPAWN_DENSITY"] =          cOpt("world_default", _("Spawn rate scaling factor"),
                                              _("A scaling factor that determines density of monster spawns."),

@@ -39,8 +39,6 @@
 #define COL_NOTE_MINOR      c_ltgray  // Just regular note
 
 #define HIGH_STAT 14 // The point after which stats cost double
-#define RECOMMENDED_INITAL_POINTS	6
-#define RECOMMENDED_TRAIT_POINTS	12
 
 #define NEWCHAR_TAB_MAX 4 // The ID of the rightmost tab
 
@@ -229,9 +227,9 @@ bool player::create(character_type type, std::string tempname)
         }
         tab = NEWCHAR_TAB_MAX;
     } else {
-        points = RECOMMENDED_INITAL_POINTS;
+        points = OPTIONS["INITIAL_POINTS"];
     }
-    max_trait_points = RECOMMENDED_TRAIT_POINTS;
+    max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
 
     do {
         werase(w);
@@ -759,6 +757,9 @@ h, 4, or left arrow to decrease the statistic."));
 int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 {
     draw_tabs(w, _("TRAITS"));
+	
+	bool pos_over_check = false;
+	bool neg_over_check = false;
 
     WINDOW *w_description = newwin(3, FULL_SCREEN_WIDTH - 2, FULL_SCREEN_HEIGHT - 4 + getbegy(w),
                                    1 + getbegx(w));
@@ -951,17 +952,22 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
                 } else if(u->has_conflicting_trait(cur_trait)) {
                     popup(_("You already picked a conflicting trait!"));
-
                 } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points >
                            max_trait_points) {
-                    popup(_("Sorry, but you can only take %d points of advantages."),
-                          max_trait_points);
-
+				    if(pos_over_check) {
+						u->toggle_trait(cur_trait);
+					} else if(!query_yn(_("This will take you over the maximum points of advantages, continue?"))) {
+						pos_over_check = true;
+						u->toggle_trait(cur_trait);
+					}
                 } else if (iCurWorkingPage != 0 && num_bad + traits[cur_trait].points <
                            -max_trait_points) {
-                    popup(_("Sorry, but you can only take %d points of disadvantages."),
-                          max_trait_points);
-
+					if(neg_over_check) {
+						u->toggle_trait(cur_trait);
+					} else if(!query_yn(_("This will take you over the maximum points of disadvantages, continue?"))) {
+						neg_over_check = true;
+						u->toggle_trait(cur_trait);
+					}
                 } else {
                     u->toggle_trait(cur_trait);
 
@@ -1473,7 +1479,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
         if (ch == '>') {
             if (points < 0 &&
-					!query_yn(_("This character is stronger then recommended, are you sure you want to proceed?"))) {
+                       !query_yn(_("This character is stronger then recommended, are you sure you want to proceed?"))) {
                 redraw=true;
                 continue;
             } else if (points > 0 &&
