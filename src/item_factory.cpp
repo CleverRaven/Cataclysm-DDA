@@ -5,6 +5,7 @@
 #include "addiction.h"
 #include "translations.h"
 #include "bodypart.h"
+#include "crafting.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -29,6 +30,103 @@ static const std::string category_id_cbm("bionics");
 static const std::string category_id_other("other");
 
 Item_factory* item_controller = new Item_factory();
+
+extern std::map<std::string, std::queue<std::pair<recipe *, int> > > recipe_booksets;
+
+typedef std::set<std::string> t_string_set;
+static t_string_set item_blacklist;
+
+bool remove_item(const std::string &itm, std::vector<component>& com) {
+    std::vector<component>::iterator a = com.begin();
+    while(a != com.end()) {
+        if(a->type == itm) {
+            a = com.erase(a);
+        } else {
+            ++a;
+        }
+    }
+    return com.empty();
+}
+
+bool remove_item(const std::string &itm, std::vector<std::vector<component> >& com) {
+    for(size_t i = 0; i < com.size(); i++) {
+        // Note: this assumes that coms[i] is never an empty vector
+        if(remove_item(itm, com[i])) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void remove_item(const std::string &itm, std::vector<map_bash_item_drop>& vec) {
+    for(size_t i = 0; i < vec.size(); i++) {
+        if(vec[i].itemtype == itm) {
+            vec.erase(vec.begin() + i);
+            i--;
+        }
+    }
+}
+
+void Item_factory::finialize_item_blacklist() {
+    std::set<recipe*> deleted_recipes;
+    for(t_string_set::const_iterator a = item_blacklist.begin(); a != item_blacklist.end(); ++a) {
+        const std::string &itm = *a;
+        for(std::map<Item_tag, Item_group*>::iterator b = m_template_groups.begin(); b != m_template_groups.end(); ++b) {
+            b->second->remove_item(itm);
+        }
+        for(recipe_map::iterator b = recipes.begin(); b != recipes.end(); ++b) {
+            for(size_t c = 0; c < b->second.size(); c++) {
+                recipe *r = b->second[c];
+                if(r->result == itm || remove_item(itm, r->components) || remove_item(itm, r->tools)) {
+                    deleted_recipes.insert(r);
+                    delete r;
+                    b->second.erase(b->second.begin() + c);
+                    c--;
+                    continue;
+                }
+            }
+        }
+        for(size_t i = 0; i < constructions.size(); i++) {
+            construction *c = constructions[i];
+            if(remove_item(itm, c->components) || remove_item(itm, c->tools)) {
+                delete c;
+                constructions.erase(constructions.begin() + i);
+                i--;
+            }
+        }
+        for(size_t i = 0; i < terlist.size(); i++) {
+            remove_item(itm, terlist[i].bash.items);
+        }
+        for(size_t i = 0; i < furnlist.size(); i++) {
+            remove_item(itm, furnlist[i].bash.items);
+        }
+    }
+    // look through the recipe-to-book mapping and remove any mapping
+    // to recipes that have been removed (and already deleted! - dangling pointers ahead)
+    for (std::map<std::string, std::queue<std::pair<recipe *, int> > >::iterator book_ref_it =
+            recipe_booksets.begin(); book_ref_it != recipe_booksets.end(); ++book_ref_it) {
+        // std::queue doesn't support erase, have to make a copy
+        // without the delete recipes and use that
+        std::queue<std::pair<recipe *, int> > copy;
+        while (!book_ref_it->second.empty()) {
+            std::pair<recipe *, int> rec_pair = book_ref_it->second.front();
+            book_ref_it->second.pop();
+            if (deleted_recipes.count(rec_pair.first) == 0) {
+                copy.push(rec_pair); // not delete, recipe still valid
+            }
+        }
+        // std::queue doesn't even has a swap function, have to use slow copy assignment
+        book_ref_it->second = copy;
+    }
+    item_blacklist.clear();
+}
+
+void Item_factory::load_item_blacklist(JsonObject &json) {
+    JsonArray jarr = json.get_array("items");
+    while(jarr.has_more()) {
+        item_blacklist.insert(jarr.next_string());
+    }
+}
 
 //Every item factory comes with a missing item
 Item_factory::Item_factory(){

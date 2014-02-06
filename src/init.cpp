@@ -193,6 +193,8 @@ void DynamicDataLoader::initialize()
     type_function_map["monitems"] = new ClassFunctionAccessor<game>(g, &game::load_monitem);
 
     type_function_map["region_settings"] = new StaticFunctionAccessor(&load_region_settings);
+    type_function_map["ITEM_BLACKLIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
+            &Item_factory::load_item_blacklist);
 
     // ...unimplemented?
     type_function_map["INSTRUMENT"] = new StaticFunctionAccessor(&load_ingored_type);
@@ -388,6 +390,7 @@ void DynamicDataLoader::finalize_loaded_data() {
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
     g->finalize_vehicles();
+    item_controller->finialize_item_blacklist();
     finalize_recipes();
     check_consistency();
 }
