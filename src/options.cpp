@@ -507,6 +507,11 @@ void initOptions() {
                                              _("Maximum trait points available for character generation."),
                                              0, 96, 12
                                             );
+											
+    OPTIONS["SOFT_POINT_CAP"] =       cOpt("debug", _("Soft point cap"),
+                                             _("Toggles a soft point cap in character generation, allowing you to go far over the usual initial and trait point costs."),
+                                             false
+                                            );
 
     OPTIONS["SPAWN_DENSITY"] =          cOpt("world_default", _("Spawn rate scaling factor"),
                                              _("A scaling factor that determines density of monster spawns."),

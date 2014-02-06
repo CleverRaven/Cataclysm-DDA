@@ -757,9 +757,6 @@ h, 4, or left arrow to decrease the statistic."));
 int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 {
     draw_tabs(w, _("TRAITS"));
-	
-	bool pos_over_check = false;
-	bool neg_over_check = false;
 
     WINDOW *w_description = newwin(3, FULL_SCREEN_WIDTH - 2, FULL_SCREEN_HEIGHT - 4 + getbegy(w),
                                    1 + getbegx(w));
@@ -949,19 +946,20 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                     popup(_("You already picked a conflicting trait!"));
                 } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points >
                            max_trait_points) {
-				    if(pos_over_check) {
+					if(OPTIONS["SOFT_POINT_CAP"]) {
 						set_type = 1;
-					} else if(query_yn(_("This will take you over the maximum points of advantages, continue?"))) {
-						pos_over_check = true;
-						set_type = 1;
+					} else {
+						popup(_("Sorry, but you can only take %d points of advantages."),
+ -                          max_trait_points);
 					}
+				    
                 } else if (iCurWorkingPage != 0 && num_bad + traits[cur_trait].points <
                            -max_trait_points) {
-					if(neg_over_check) {
+					if(OPTIONS["SOFT_POINT_CAP"]) {
 						set_type = 1;
-					} else if(query_yn(_("This will take you over the maximum points of disadvantages, continue?"))) {
-						neg_over_check = true;
-						set_type = 1;
+					} else {
+						popup(_("Sorry, but you can only take %d points of disadvantages."),
+ -                          max_trait_points);
 					}
                 } else {
 					set_type = 1;
@@ -1484,12 +1482,12 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         ch = input();
 
         if (ch == '>') {
-            if (points < 0 &&
-                       !query_yn(_("This character is stronger then recommended, are you sure you want to proceed?"))) {
+            if (points < 0 && !OPTIONS["SOFT_POINT_CAP"]) {
+				popup(_("Too many points allocated, change some features and try again."));
                 redraw=true;
                 continue;
             } else if (points > 0 &&
-                       !query_yn(_("This character is weaker then recommended, are you sure you want to proceed?"))) {
+                       !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
                 redraw=true;
                 continue;
             } else if (u->name.size() == 0) {
@@ -1524,7 +1522,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         } else if (ch == '<') {
             return -1;
         } else if (ch == '!') {
-            if (points != 0) {
+            if (points != 0) {//perhaps allow softcap to ignore this?
                 popup(_("You cannot save a template with nonzero unused points!"));
             } else {
                 save_template(u);
