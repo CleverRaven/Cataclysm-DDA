@@ -10147,6 +10147,13 @@ m_size player::get_size() {
     return MS_MEDIUM;
 }
 
+field_id player::playerBloodType() {
+    if (player::has_trait("THRESH_PLANT"))
+        return fd_blood_veggy;
+    if (player::has_trait("THRESH_INSECT") || player::has_trait("THRESH_SPIDER"))
+        return fd_blood_insect;
+    return fd_blood;
+}
 Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
 {
     if (is_player()) {
