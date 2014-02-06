@@ -193,15 +193,15 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     }
     if (init_veh_status == 1) {
      veh_status = 1;
-     if (one_in(5)) {           //  seats are destroyed
+     if (one_in(5)) {           //  seats are destroyed 20%
       destroySeats = true;
-     } else if (one_in(5)) {    // controls are destroyed
+     } else if (one_in(5)) {    // controls are destroyed 16%
       destroyControls = true;
-     } else if (one_in(5)) {    //battery, minireactor or gasoline tank are destroyed
+     } else if (one_in(5)) {    // battery, minireactor or gasoline tank are destroyed 13%
       destroyTank = true;
-     } else if (one_in(5)) {    // either engine are destroyed
+     } else if (one_in(5)) {   // engine are destroyed 10%
       destroyEngine = true;
-     } else {                   // tires are destroyed
+     } else {                   // tires are destroyed 41%
       destroyTires = true;
      }
     }
