@@ -745,6 +745,14 @@
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"]
     },{
         "type" : "terrain",
+        "id" : "t_mdoor_frame",
+        "name": "empty metal door frame",
+        "symbol": ".",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"]
+    },{
+        "type" : "terrain",
         "id" : "t_chaingate_l",
         "name": "locked wire gate",
         "symbol": "+",

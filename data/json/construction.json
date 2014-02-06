@@ -436,6 +436,37 @@
         "post_terrain" : "t_door_c"
     },{
         "type" : "construction",
+        "description" : "Build Metal Door",
+        "difficulty" : 6,
+        "time" : 15,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge" ],
+            [ "hacksaw" ]
+        ],
+        "components" : [
+            [ [ "spike", 8 ] ],
+            [ [ "scrap", 12 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "t_mdoor_frame"
+    },{
+        "type" : "construction",
+        "description" : "Build Metal Door",
+        "difficulty" : 6,
+        "time" : 15,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge" ],
+            [ "hacksaw" ],
+            [ "wrench" ]
+        ],
+        "components" : [
+            [ [ "steel_lump", 4 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
+            [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ]
+        ],
+        "pre_terrain" : "t_mdoor_frame",
+        "post_terrain" : "t_door_metal_c"
+    },{
+        "type" : "construction",
         "description" : "Fence Posts",
         "difficulty" : 0,
         "time" : 5,

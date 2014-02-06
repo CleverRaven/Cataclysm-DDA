@@ -470,6 +470,7 @@ void set_ter_ids() {
     t_door_locked=terfind("t_door_locked");
     t_door_locked_alarm=terfind("t_door_locked_alarm");
     t_door_frame=terfind("t_door_frame");
+    t_door_frame=terfind("t_mdoor_frame");
     t_chaingate_l=terfind("t_chaingate_l");
     t_fencegate_c=terfind("t_fencegate_c");
     t_fencegate_o=terfind("t_fencegate_o");
