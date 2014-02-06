@@ -946,21 +946,12 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                     popup(_("You already picked a conflicting trait!"));
                 } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points >
                            max_trait_points) {
-					if(OPTIONS["SOFT_POINT_CAP"]) {
-						set_type = 1;
-					} else {
-						popup(_("Sorry, but you can only take %d points of advantages."),
- -                          max_trait_points);
-					}
-				    
+					popup(_("Sorry, but you can only take %d points of advantages."),
+-                          max_trait_points);
                 } else if (iCurWorkingPage != 0 && num_bad + traits[cur_trait].points <
                            -max_trait_points) {
-					if(OPTIONS["SOFT_POINT_CAP"]) {
-						set_type = 1;
-					} else {
-						popup(_("Sorry, but you can only take %d points of disadvantages."),
- -                          max_trait_points);
-					}
+					popup(_("Sorry, but you can only take %d points of disadvantages."),
+-                          max_trait_points);
                 } else {
 					set_type = 1;
                     // If turning on the trait violates a profession condition,
@@ -1482,7 +1473,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         ch = input();
 
         if (ch == '>') {
-            if (points < 0 && !OPTIONS["SOFT_POINT_CAP"]) {
+            if (points < 0) {
 				popup(_("Too many points allocated, change some features and try again."));
                 redraw=true;
                 continue;

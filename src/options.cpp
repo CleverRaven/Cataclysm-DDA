@@ -500,17 +500,12 @@ void initOptions() {
 											
     OPTIONS["INITIAL_POINTS"] =         cOpt("debug", _("Initial points"),
                                              _("Initial points available on character generation."),
-                                             0, 96, 6
+                                             0, 1000, 6
                                             );
  
     OPTIONS["MAX_TRAIT_POINTS"] =       cOpt("debug", _("Maximum trait points"),
                                              _("Maximum trait points available for character generation."),
-                                             0, 96, 12
-                                            );
-											
-    OPTIONS["SOFT_POINT_CAP"] =       cOpt("debug", _("Soft point cap"),
-                                             _("Toggles a soft point cap in character generation, allowing you to go far over the usual initial and trait point costs."),
-                                             false
+                                             0, 1000, 12
                                             );
 
     OPTIONS["SPAWN_DENSITY"] =          cOpt("world_default", _("Spawn rate scaling factor"),
