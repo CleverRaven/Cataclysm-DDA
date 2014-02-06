@@ -39,6 +39,8 @@
 #define COL_NOTE_MINOR      c_ltgray  // Just regular note
 
 #define HIGH_STAT 14 // The point after which stats cost double
+#define RECOMMENDED_INITAL_POINTS	6
+#define RECOMMENDED_TRAIT_POINTS	12
 
 #define NEWCHAR_TAB_MAX 4 // The ID of the rightmost tab
 
@@ -227,9 +229,9 @@ bool player::create(character_type type, std::string tempname)
         }
         tab = NEWCHAR_TAB_MAX;
     } else {
-        points = 6;
+        points = RECOMMENDED_INITAL_POINTS;
     }
-    max_trait_points = 12;
+    max_trait_points = RECOMMENDED_TRAIT_POINTS;
 
     do {
         werase(w);
