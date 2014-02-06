@@ -1154,7 +1154,7 @@
         "move_cost": 0,
         "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
         "bash": {
-            "str_min": 12, "str_max": 30,
+            "str_min": 15, "str_max": 30,
             "sound": "crash!",
             "sound_fail": "wham!",
             "ter_set": "t_window_boarded",
@@ -1171,7 +1171,7 @@
         "move_cost": 0,
         "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
         "bash": {
-            "str_min": 12, "str_max": 30,
+            "str_min": 15, "str_max": 30,
             "sound": "crash!",
             "sound_fail": "wham!",
             "ter_set": "t_window_boarded_noglass",
