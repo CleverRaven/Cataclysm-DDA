@@ -2624,7 +2624,7 @@ bool game::handle_action()
     } while (iRetItems != -1 && iRetMonsters != -1 && !(iRetItems == 0 && iRetMonsters == 0));
 
     if (iRetItems == 0 && iRetMonsters == 0) {
-        add_msg(_("You dont see any items or monsters around you!"));
+        add_msg(_("You don't see any items or monsters around you!"));
     } else if ( iRetMonsters == 2 ) {
         refresh_all();
         plfire(false);
@@ -2645,14 +2645,17 @@ bool game::handle_action()
 
   case ACTION_COMPARE:
    compare();
+   refresh_all();
    break;
 
   case ACTION_ORGANIZE:
    reassign_item();
+   refresh_all();
    break;
 
   case ACTION_USE:
    use_item();
+   refresh_all();
    break;
 
   case ACTION_USE_WIELDED:

@@ -285,7 +285,6 @@ You can not activate %s!  To read a description of \
     delwin(w_title);
     delwin(w_description);
     delwin(wBio);
-    erase();
 }
 
 void draw_exam_window(WINDOW *win, int border_line, bool examination)
