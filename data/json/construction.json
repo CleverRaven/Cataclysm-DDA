@@ -155,7 +155,7 @@
     },{
         "type" : "construction",
         "description" : "Reinforce Wood Door",
-        "difficulty" : 3,
+        "difficulty" : 5,
         "time" : 30,
         "tools" : [
             [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
@@ -169,7 +169,7 @@
     },{
         "type" : "construction",
         "description" : "Repair Reinforced Wood Door",
-        "difficulty" : 1,
+        "difficulty" : 2,
         "time" : 15,
         "tools" : [
             [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
@@ -213,7 +213,7 @@
     },{
         "type" : "construction",
         "description" : "Reinforce Boarded Up Window",
-        "difficulty" : 1,
+        "difficulty" : 5,
         "time" : 10,
         "tools" : [
             [ "hammer", "hammer_sledge", "primitive_hammer",
@@ -242,7 +242,7 @@
     },{
         "type" : "construction",
         "description" : "Armor Reinforced Boarded Up Window",
-        "difficulty" : 6,
+        "difficulty" : 7,
         "time" : 30,
         "tools" : [
             [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge" ]
@@ -256,7 +256,7 @@
     },{
         "type" : "construction",
         "description" : "Armor Reinforced Boarded Up Empty Window",
-        "difficulty" : 6,
+        "difficulty" : 7,
         "time" : 10,
         "tools" : [
             [ "hammer", "hammer_sledge", "primitive_hammer",
@@ -465,7 +465,7 @@
     },{
         "type" : "construction",
         "description" : "Build Metal Door",
-        "difficulty" : 7,
+        "difficulty" : 9,
         "time" : 15,
         "tools" : [
             [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge" ],
@@ -480,7 +480,7 @@
     },{
         "type" : "construction",
         "description" : "Build Metal Door",
-        "difficulty" : 7,
+        "difficulty" : 9,
         "time" : 15,
         "tools" : [
             [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge" ],
