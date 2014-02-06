@@ -185,6 +185,11 @@ void mapbuffer::save( bool delete_after_save )
         // we have the rest of it, if that assumtion is broken we have REAL problems.
         const tripoint om_addr = overmapbuffer::sm_to_omt_copy( it->first );
         if( saved_submaps.count( om_addr ) != 0 ) {
+            if( delete_after_save ) {
+                // must erase the first entry of submaps, otherwise the loop
+                // would start with one over and over again.
+                submaps.erase(submaps.begin());
+            }
             // Already handled this one.
             continue;
         }
