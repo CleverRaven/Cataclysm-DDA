@@ -763,7 +763,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
     WINDOW *w_description = newwin(3, FULL_SCREEN_WIDTH - 2, FULL_SCREEN_HEIGHT - 4 + getbegy(w),
                                    1 + getbegx(w));
-    // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
+    // Track how many good / bad POINTS we have; warn at MAX_TRAIT_POINTS individually
     int num_good = 0, num_bad = 0;
 
     std::vector<std::string> vStartingTraits[2];
@@ -805,8 +805,8 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d"), points);
-        mvwprintz(w, 3, 18, c_ltgreen, "%2d/%d", num_good, max_trait_points);
-        mvwprintz(w, 3, 25, c_ltred, "%2d/-%d ", num_bad, max_trait_points);
+        mvwprintz(w, 3, 20, c_ltgreen, "%2d/%d", num_good, max_trait_points);
+        mvwprintz(w, 3, 26, c_ltred, "%2d/-%d ", num_bad, max_trait_points);
 
         // Clear the bottom of the screen.
         werase(w_description);
@@ -839,14 +839,14 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                     ((iContentHeight > vStartingTraits[iCurrentPage].size()) ?
                      vStartingTraits[iCurrentPage].size() : iContentHeight)) {
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
-                        mvwprintz(w,  3, 33, c_ltgray,
+                        mvwprintz(w,  3, 34, c_ltgray,
                                   "                                              ");
                         int points = traits[vStartingTraits[iCurrentPage][i]].points;
                         bool negativeTrait = points < 0;
                         if (negativeTrait) {
                                   points *=-1;
                         }
-                        mvwprintz(w,  3, 33, col_tr, _("%s %s %d points"),
+                        mvwprintz(w,  3, 34, col_tr, _("%s %s %d points"),
                                   traits[vStartingTraits[iCurrentPage][i]].name.c_str(),
                                   negativeTrait ? _("earns"):_("costs"),
                                   points);
