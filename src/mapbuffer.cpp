@@ -223,11 +223,14 @@ void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr, bool de
         submap_addr.x += offset->x;
         submap_addr.y += offset->y;
 
-        fout << submap_addr.x << " " << submap_addr.y << " " << submap_addr.z << std::endl;
-        submap *sm = lookup_submap( submap_addr.x, submap_addr.y, submap_addr.z );
+        if (submaps.count(submap_addr) == 0) {
+            continue;
+        }
+        submap *sm = submaps[submap_addr];
         if( sm == NULL ) {
             continue;
         }
+        fout << submap_addr.x << " " << submap_addr.y << " " << submap_addr.z << std::endl;
 
         fout << sm->turn_last_touched << std::endl;
         fout << sm->temperature << std::endl;
@@ -500,6 +503,7 @@ void mapbuffer::unserialize_submaps( std::ifstream &fin, const int num_submaps )
         submap *sm = new submap();
         fin >> locx >> locy >> locz >> turn >> temperature;
         if(fin.eof()) {
+            delete sm;
             break;
         }
         sm->turn_last_touched = turn;
@@ -548,6 +552,13 @@ void mapbuffer::unserialize_submaps( std::ifstream &fin, const int num_submaps )
         int d = 0;
         int a = 0;
         do {
+            if(fin.eof()) {
+                // file has ended, but the submap-separator string
+                // "----" has not been read, something's wrong, skip
+                // this probably damaged/invalid submap.
+                delete sm;
+                return;
+            }
             fin >> string_identifier; // "----" indicates end of this submap
             int t = 0;
 
@@ -608,7 +619,7 @@ void mapbuffer::unserialize_submaps( std::ifstream &fin, const int num_submaps )
                 getline(fin, s);
                 sm->graf[j][i] = graffiti(s);
             }
-        } while (string_identifier != "----" && !fin.eof());
+        } while (string_identifier != "----");
 
         submap_list.push_back(sm);
         submaps[ tripoint(locx, locy, locz) ] = sm;
