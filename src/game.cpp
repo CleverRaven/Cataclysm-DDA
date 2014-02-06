@@ -1434,7 +1434,12 @@ void game::activity_on_finish_vehicle()
     //Grab this now, in case the vehicle gets shifted
     vehicle *veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
     complete_vehicle ();
-
+    // complete_vehicle set activity tpye to NULL if the vehicle
+    // was completely dismantled, otherwise the vehicle still exist and
+    // is to be examined again.
+    if (u.activity.type == ACT_NULL) {
+        return;
+    }
     u.activity.type = ACT_NULL;
     if (u.activity.values.size() < 7) {
         dbg(D_ERROR) << "game:process_activity: invalid ACT_VEHICLE values: "
