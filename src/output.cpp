@@ -592,14 +592,14 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                     redraw = true;
                     continue;
                 } else if ( (only_digits && !isdigit(ch)) || ch == '\n' ) {
-                    return_current = true;
+                    return_unchanged = true;
                 } else if ( isprint(ch) ) {
                     /* Put char in string */
                     ret += ch;
                     redraw = true;
                     pos++;
                 } else {
-                    return_current = true;
+                    return_unchanged = true;
                 }
             } else if ( (byte_char & 0xE0) == 0xC0 ) {
                 ch = getchar();
@@ -682,7 +682,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             continue;
          }
         }
-        if (return_current) {
+        if (return_unchanged) {
             if(identifier.size() > 0 && ret.size() > 0 ) {
                 std::vector<std::string> *hist = uistate.gethistory(identifier);
                 if( hist != NULL ) {
