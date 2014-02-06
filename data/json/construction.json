@@ -473,7 +473,7 @@
         ],
         "components" : [
             [ [ "spike", 8 ] ],
-            [ [ "scrap", 12 ] ]
+            [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "t_mdoor_frame"
