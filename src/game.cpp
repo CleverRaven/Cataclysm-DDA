@@ -6679,16 +6679,7 @@ void game::explode_mon(int index)
      tarx = traj[j].x;
      tary = traj[j].y;
 // Choose a blood type and place it
-     field_id blood_type = fd_blood;
-     if (corpse->dies == &mdeath::boomer)
-      blood_type = fd_bile;
-     else if (corpse->dies == &mdeath::acid)
-      blood_type = fd_acid;
-     else if (corpse->mat == "veggy")
-      blood_type = fd_blood_veggy;
-     else if (corpse->mat == "iflesh")
-      blood_type = fd_blood_insect;
-      m.add_field(tarx, tary, blood_type, 1);
+      m.add_field(tarx, tary, critter.monBloodType(), 1);
 
      if (m.move_cost(tarx, tary) == 0) {
       std::string tmp = "";

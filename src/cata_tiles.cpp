@@ -891,9 +891,11 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         case fd_blood:
         case fd_blood_veggy:
         case fd_blood_insect:
+        case fd_blood_invertebrate:
         case fd_gibs_flesh:
         case fd_gibs_veggy:
         case fd_gibs_insect:
+        case fd_gibs_invertebrate:
         case fd_bile:
         case fd_slime:
         case fd_acid:

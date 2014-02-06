@@ -562,7 +562,7 @@ void trapfunc::dissector(int x, int y)
 void trapfuncm::dissector(monster *z, int x, int y)
 {
  g->sound(x, y, 10, _("BRZZZAP!"));
- if (z->hurt(60))
+ //if (z->hurt(60))
   g->explode_mon(g->mon_at(x, y));
 }
 

@@ -31,6 +31,11 @@ void game::init_fields()
             {0,0,0}
         },
         {
+            {_("bug blood splatter"), _("bug blood stain"), _("puddle of bug blood")}, '%', 0,
+            {c_green, c_green, c_green}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
             {_("hemolymph splatter"), _("hemolymph stain"), _("puddle of hemolymph")}, '%', 0,
             {c_ltgray, c_ltgray, c_ltgray}, {true, true, true}, {false, false, false}, 2500,
             {0,0,0}
@@ -56,6 +61,11 @@ void game::init_fields()
         {
             {_("shards of chitin"), _("shattered bug leg"), _("torn insect organs")}, '~', 0,
             {c_ltgreen, c_green, c_yellow}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
+            {_("gooey scraps"), _("icky mess"), _("heap of squishy gore")}, '~', 0,
+            {c_ltgray, c_ltgray, c_dkgray}, {true, true, true}, {false, false, false}, 2500,
             {0,0,0}
         },
         {
@@ -316,10 +326,12 @@ bool map::process_fields_in_submap(int gridn)
                     case fd_blood:
                     case fd_blood_veggy:
                     case fd_blood_insect:
+                    case fd_blood_invertebrate:
                     case fd_bile:
                     case fd_gibs_flesh:
                     case fd_gibs_veggy:
                     case fd_gibs_insect:
+                    case fd_gibs_invertebrate:
                         if (has_flag("SWIMMABLE", x, y)) { // Dissipate faster in water
                             cur->setFieldAge(cur->getFieldAge() + 250);
                         }
