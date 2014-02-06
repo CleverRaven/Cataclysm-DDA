@@ -6710,7 +6710,7 @@ int iuse::mop(player *p, item *it, bool)
  }
  if (g->m.moppable_items_at(dirx, diry)) {
    g->m.mop_spills(dirx, diry);
-   g->add_msg(_("You mop up the spill"));
+   g->add_msg(_("You mop up the spill."));
    p->moves -= 15;
  } else {
   g->add_msg_if_player(p,_("There's nothing to mop there."));

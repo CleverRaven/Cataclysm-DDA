@@ -1218,6 +1218,21 @@ bool monster::is_hallucination()
   return hallucination;
 }
 
+field_id monster::monBloodType() {
+    if (monster::made_of("veggy"))
+        return fd_blood_veggy;
+    if (monster::made_of("iflesh"))
+        return fd_blood_insect;
+    return fd_blood;
+}
+field_id monster::monGibType() {
+    if (monster::made_of("veggy"))
+        return fd_gibs_veggy;
+    if (monster::made_of("iflesh"))
+        return fd_gibs_insect;
+    return fd_gibs_flesh;
+}
+
 bool monster::getkeep()
 {
     return keep;
