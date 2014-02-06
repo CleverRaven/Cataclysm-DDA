@@ -561,13 +561,73 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
         if (dorefresh) {
             wrefresh(w);
         }
+
+        bool return_unchanged = false;
         ch = getch();
-        bool return_key = false;
-        if (ch == 27) { // Escape
+
+        if( ch == 0 || ch == ERR )
+            continue;
+
+        if( ch == KEY_BACKSPACE || ch == 0x7F ) {
+            if( pos > 0 && pos <= ret.size() ) {
+                pos--;
+                ret.erase(pos, 1);
+                redraw = true;
+            }
+            continue;
+        }
+
+        if (ch == 27) {
             return "";
-        } else if (ch == '\n') {
-            return_key = true;
-        } else if (ch == KEY_UP ) {
+        }
+           
+        if ( ((unsigned)ch >> 8) == 0 ) {
+            unsigned char byte_char;
+            unsigned char utf8_sym[4] = { 0, 0, 0, 0 };
+            byte_char = ch & 0xFF;
+            if ( !(byte_char & 0x80) ) {
+                if( byte_char == 0x15 ) {
+                    pos = 0;
+                    ret.erase(0);
+                    redraw = true;
+                    continue;
+                } else if ( (only_digits && !isdigit(ch)) || ch == '\n' ) {
+                    return_current = true;
+                } else if ( isprint(ch) ) {
+                    /* Put char in string */
+                    ret += ch;
+                    redraw = true;
+                    pos++;
+                } else {
+                    return_current = true;
+                }
+            } else if ( (byte_char & 0xE0) == 0xC0 ) {
+                ch = getchar();
+                utf8_sym[0] = byte_char;
+                utf8_sym[1] = (unsigned)ch & 0xFF;
+                ret.append((const char *)&utf8_sym, 2);
+            } else if ( (byte_char & 0xF0) == 0xE0 ) {
+                ch = getchar();
+                utf8_sym[0] = byte_char;
+                utf8_sym[1] = (unsigned)ch & 0xFF;
+                ch = getchar();
+                utf8_sym[2] = (unsigned)ch & 0xFF;
+                ret.append((const char *)&utf8_sym, 3);
+            } else if ( (byte_char & 0xF8) == 0xF0 ) {
+                ch = getchar();
+                utf8_sym[0] = byte_char;
+                utf8_sym[1] = (unsigned)ch & 0xFF;
+                ch = getchar();
+                utf8_sym[2] = (unsigned)ch & 0xFF;
+                ch = getchar();
+                utf8_sym[3] = (unsigned)ch & 0xFF;
+                ret.append((const char *)&utf8_sym, 3);
+            } else {
+                /* Not utf-8, not ASCII */
+                continue;
+            }
+        } else {
+         if ( ch == KEY_UP ) {
             if(identifier.size() > 0) {
                 std::vector<std::string> *hist = uistate.gethistory(identifier);
                 if(hist != NULL) {
@@ -607,60 +667,31 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                     }
                 }
             }
-        } else if (ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE ) {
-            /* absolutely nothing */
-        } else if (ch == KEY_RIGHT ) {
-            if( pos + 1 <= ret.size() ) {
-                pos++;
-            }
-            redraw = true;
-        } else if (ch == KEY_LEFT ) {
-            if ( pos > 0 ) {
-                pos--;
-            }
-            redraw = true;
-        } else if (ch == 0x15 ) {                      // ctrl-u: delete all the things
-            pos = 0;
-            ret.erase(0);
-            redraw = true;
-        } else if (ch == KEY_BACKSPACE || ch == 127) { // Move the cursor back and re-draw it
-            if( pos > 0 &&
-                pos <= ret.size() ) {         // but silently drop input if we're at 0, instead of adding '^'
-                pos--;                                     //TODO: it is safe now since you only input ascii chars
-                ret.erase(pos, 1);
-                redraw = true;
-            }
-        } else if(ch == KEY_F(2)) {
+         } else if ( ch == KEY_RIGHT ) {
+            if ( pos +1 <= ret.size() ) pos ++;
+         } else if ( ch == KEY_LEFT ) {
+            if (pos > 0) pos --;
+         } else if ( ch == KEY_F(2) ) {
             std::string tmp = get_input_string_from_file();
             int tmplen = utf8_width(tmp.c_str());
             if(tmplen > 0 && (tmplen + utf8_width(ret.c_str()) <= max_length || max_length == 0)) {
                 ret.append(tmp);
             }
-        } else if( ch != 0 && ch != ERR && (ret.size() < max_length || max_length == 0) ) {
-            if ( only_digits && !isdigit(ch) ) {
-                return_key = true;
-            } else {
-                if ( pos == ret.size() ) {
-                    ret += ch;
-                } else {
-                    ret.insert(pos, 1, ch);
-                }
-                redraw = true;
-                pos++;
-            }
+         } else {
+            /* Not used ncurses keys */
+            continue;
+         }
         }
-        if (return_key) {//"/n" return code
-            {
-                if(identifier.size() > 0 && ret.size() > 0 ) {
-                    std::vector<std::string> *hist = uistate.gethistory(identifier);
-                    if( hist != NULL ) {
-                        if ( hist->size() == 0 || (*hist)[hist->size() - 1] != ret ) {
-                            hist->push_back(ret);
-                        }
+        if (return_current) {
+            if(identifier.size() > 0 && ret.size() > 0 ) {
+                std::vector<std::string> *hist = uistate.gethistory(identifier);
+                if( hist != NULL ) {
+                    if ( hist->size() == 0 || (*hist)[hist->size() - 1] != ret ) {
+                        hist->push_back(ret);
                     }
                 }
-                return ret;
             }
+            return ret;
         }
     } while ( loop == true );
     return ret;
