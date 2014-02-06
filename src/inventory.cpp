@@ -55,12 +55,9 @@ inventory inventory::subset(std::map<int, int> chosen) const
 
 std::list<item>& inventory::stack_by_letter(char ch)
 {
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
-        if (iter->begin()->invlet == ch)
-        {
-            return *iter;
-        }
+    invchars::iterator found = char_index.find(ch);
+    if(found != char_index.end()) {
+        return *(found->second);
     }
     return nullstack;
 }
@@ -111,6 +108,17 @@ inventory& inventory::operator= (inventory &rhs)
  clear();
  for (int i = 0; i < rhs.size(); i++)
   items.push_back(rhs.const_stack(i));
+ for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+ {
+  if(!iter->empty())
+  {
+   item it = iter->front();
+   if(it.invlet != 0)
+   {
+    char_index[it.invlet] = &*iter;
+   }
+  }
+ }
  return *this;
 }
 
@@ -122,6 +130,17 @@ inventory& inventory::operator= (const inventory &rhs)
  clear();
  for (int i = 0; i < rhs.size(); i++)
   items.push_back(rhs.const_stack(i));
+ for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+ {
+  if(!iter->empty())
+  {
+   item it = iter->front();
+   if(it.invlet != 0)
+   {
+    char_index[it.invlet] = &*iter;
+   }
+  }
+ }
  return *this;
 }
 
@@ -293,6 +312,7 @@ void inventory::sort()
 void inventory::clear()
 {
  items.clear();
+ char_index.clear();
 }
 
 void inventory::add_stack(const std::list<item> newits)
@@ -420,6 +440,7 @@ item& inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         std::list<item>::iterator it_ref = iter->begin();
+        char orig_invlet = it_ref->invlet;
         if (it_ref->type->id == newit.type->id)
         {
             if (newit.charges != -1 && (newit.is_food() || newit.is_ammo()))
@@ -442,12 +463,28 @@ item& inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
             else if (keep_invlet && assign_invlet && it_ref->invlet == newit.invlet)
             {
                 assign_empty_invlet(*it_ref);
+                if(it_ref->invlet != orig_invlet) {
+                    if(orig_invlet != 0) {
+                        char_index.erase(orig_invlet);
+                    }
+                    if(it_ref->invlet != 0) {
+                        char_index[it_ref->invlet] = &*iter;
+                    }
+                }
             }
         }
         // If keep_invlet is true, we'll be forcing other items out of their current invlet.
         else if (keep_invlet && assign_invlet && it_ref->invlet == newit.invlet)
         {
             assign_empty_invlet(*it_ref);
+            if(it_ref->invlet != orig_invlet) {
+                if(orig_invlet != 0) {
+                    char_index.erase(orig_invlet);
+                }
+                if(it_ref->invlet != 0) {
+                    char_index[it_ref->invlet] = &*iter;
+                }
+            }
         }
     }
 
@@ -459,6 +496,9 @@ item& inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
     std::list<item> newstack;
     newstack.push_back(newit);
     items.push_back(newstack);
+    if(newit.invlet) {
+        char_index[newit.invlet] = &items.back();
+    }
     return items.back().back();
 }
 
@@ -501,8 +541,17 @@ void inventory::restack(player *p)
 
     std::list<item> to_restack;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        if (!iter->front().invlet_is_okay() || p->has_weapon_or_armor(iter->front().invlet)) {
+        char orig_invlet = iter->front().invlet;
+        if (!iter->front().invlet_is_okay() || p->has_weapon_or_armor(orig_invlet)) {
             assign_empty_invlet(iter->front());
+            if(iter->front().invlet != orig_invlet) {
+                if((orig_invlet != 0) && (char_index[orig_invlet] == &*iter)) {
+                    char_index.erase(orig_invlet);
+                }
+                if(iter->front().invlet != 0) {
+                    char_index[iter->front().invlet] = &*iter;
+                }
+            }
             for( std::list<item>::iterator stack_iter = iter->begin();
                  stack_iter != iter->end(); ++stack_iter ) {
                 stack_iter->invlet = iter->front().invlet;
@@ -528,6 +577,9 @@ void inventory::restack(player *p)
                 } else {
                     continue;
                 }
+                if (other->front().invlet != 0) {
+                    char_index.erase(other->front().invlet);
+                }
                 other = items.erase(other);
                 --other;
             }
@@ -544,6 +596,7 @@ void inventory::restack(player *p)
 void inventory::form_from_map(point origin, int range, bool assign_invlet)
 {
     items.clear();
+    char_index.clear();
     for (int x = origin.x - range; x <= origin.x + range; x++) {
         for (int y = origin.y - range; y <= origin.y + range; y++) {
             if(g->m.accessable_items(origin.x, origin.y, x, y, range)) {
@@ -666,6 +719,10 @@ std::list<item> inventory::reduce_stack_internal(const Locator& locator, int qua
             if(quantity >= iter->size() || quantity < 0)
             {
                 ret = *iter;
+                if(ret.size() && ret.front().invlet != 0)
+                {
+                    char_index.erase(ret.front().invlet);
+                }
                 items.erase(iter);
             }
             else
@@ -705,6 +762,9 @@ item inventory::remove_item(item* it)
                 iter->erase(stack_iter);
                 if (iter->size() <= 0)
                 {
+                    if(tmp.invlet != 0) {
+                        char_index.erase(tmp.invlet);
+                    }
                     items.erase(iter);
                 }
                 return tmp;
@@ -734,6 +794,9 @@ item inventory::remove_item_internal(const Locator& locator) {
             iter->erase(iter->begin());
             if (iter->empty())
             {
+                if(ret.invlet != 0) {
+                    char_index.erase(ret.invlet);
+                }
                 items.erase(iter);
             }
             return ret;
@@ -779,6 +842,9 @@ item inventory::reduce_charges_internal(const Locator& locator, int quantity)
             iter->front().charges -= quantity;
             if (iter->front().charges <= 0)
             {
+                if(ret.invlet != 0) {
+                    char_index.erase(ret.invlet);
+                }
                 items.erase(iter);
             }
             return ret;
@@ -858,12 +924,18 @@ item& inventory::find_item(int position) {
 
 int inventory::position_by_letter(char ch) {
     int i = 0;
+    invchars::iterator found = char_index.find(ch);
+    if(found == char_index.end()) {
+        // Short-circuit if no item has such invlet.
+	    return INT_MIN;
+    }
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         if (iter->begin()->invlet == ch) {
             return i;
         }
         ++i;
     }
+    // This should never be reached. It's a bug otherwise.
     return INT_MIN;
 }
 
@@ -882,12 +954,9 @@ int inventory::position_by_item(item* it) {
 
 item& inventory::item_by_letter(char ch)
 {
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
-        if (iter->begin()->invlet == ch)
-        {
-            return *iter->begin();
-        }
+    invchars::iterator found = char_index.find(ch);
+    if(found != char_index.end()) {
+        return found->second->front();
     }
     return nullitem;
 }
@@ -1081,6 +1150,7 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
         {
             // First, check contents
             bool used_item_contents = false;
+            char invlet = stack_iter->invlet;
             for (int k = 0; k < stack_iter->contents.size() && quantity > 0; k++)
             {
                 if (stack_iter->contents[k].type->id == it)
@@ -1098,6 +1168,9 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
                 stack_iter = iter->erase(stack_iter);
                 if (iter->empty())
                 {
+                    if(invlet != 0) {
+                        char_index.erase(invlet);
+                    }
                     iter = items.erase(iter);
                     --iter;
                     break;
@@ -1114,6 +1187,9 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
                 stack_iter = iter->erase(stack_iter);
                 if (iter->empty())
                 {
+                    if(invlet != 0) {
+                        char_index.erase(invlet);
+                    }
                     iter = items.erase(iter);
                     --iter;
                     break;
@@ -1136,6 +1212,7 @@ std::list<item> inventory::use_charges(itype_id it, int quantity)
         for (std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end() && quantity > 0; ++stack_iter) {
             // First, check contents
+            char invlet = stack_iter->invlet;
             for (int k = 0; k < stack_iter->contents.size() && quantity > 0; k++) {
                 if (stack_iter->contents[k].type->id == it || stack_iter->ammo_type() == it) {
                     if (stack_iter->contents[k].charges <= quantity) {
@@ -1169,6 +1246,9 @@ std::list<item> inventory::use_charges(itype_id it, int quantity)
                     if (stack_iter->destroyed_at_zero_charges()) {
                         stack_iter = iter->erase(stack_iter);
                         if (iter->empty()) {
+                            if(invlet != 0) {
+                                char_index.erase(invlet);
+                            }
                             iter = items.erase(iter);
                             --iter;
                             break;

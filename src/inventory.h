@@ -8,6 +8,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <map>
 
 class map;
 
@@ -16,6 +17,7 @@ const extern std::string inv_chars;
 typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
+typedef std::map< char, std::list<item>* > invchars;
 
 class inventory
 {
@@ -165,6 +167,7 @@ class inventory
   template<typename Locator> item reduce_charges_internal(const Locator& type, int quantity);
 
   invstack items;
+  invchars char_index;
   bool sorted;
 };
 
