@@ -212,6 +212,36 @@
         "post_terrain" : "t_window_boarded_noglass"
     },{
         "type" : "construction",
+        "description" : "Reinforce Boarded Up Window",
+        "difficulty" : 1,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer",
+              "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 8 ] ],
+            [ [ "nail", 16 ] ]
+        ],
+        "pre_terrain" : "t_window_boarded",
+        "post_terrain" : "t_window_reinforced"
+    },{
+        "type" : "construction",
+        "description" : "Reinforce Boarded Up Empty Window",
+        "difficulty" : 1,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer",
+              "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 8 ] ],
+            [ [ "nail", 16 ] ]
+        ],
+        "pre_terrain" : "t_window_boarded_noglass",
+        "post_terrain" : "t_window_reinforced_noglass"
+    },{
+        "type" : "construction",
         "description" : "Board Up Broken Window Frame",
         "difficulty" : 0,
         "time" : 10,

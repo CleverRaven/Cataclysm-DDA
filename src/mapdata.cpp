@@ -364,7 +364,7 @@ ter_id t_null,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
-    t_window_boarded_noglass,
+    t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass,
     t_window_stained_green, t_window_stained_red, t_window_stained_blue,
     t_rock, t_fault,
     t_paper,
@@ -498,6 +498,8 @@ void set_ter_ids() {
     t_window_frame=terfind("t_window_frame");
     t_window_boarded=terfind("t_window_boarded");
     t_window_boarded_noglass=terfind("t_window_boarded_noglass");
+    t_window_reinforced=terfind("t_window_reinforced");
+    t_window_reinforced_noglass=terfind("t_window_reinforced_noglass");
     t_window_stained_green=terfind("t_window_stained_green");
     t_window_stained_red=terfind("t_window_stained_red");
     t_window_stained_blue=terfind("t_window_stained_blue");

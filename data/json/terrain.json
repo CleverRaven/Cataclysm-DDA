@@ -1147,6 +1147,40 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_window_reinforced",
+        "name": "reinforced boarded up window",
+        "symbol": "#",
+        "color": "red",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 12, "str_max": 30,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_window_boarded",
+            "items": [
+                { "item": "splinter", "amount": 8, "minamount": 0, "chance": 50 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_reinforced_noglass",
+        "name": "reinforced boarded up window",
+        "symbol": "#",
+        "color": "red",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 12, "str_max": 30,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_window_boarded_noglass",
+            "items": [
+                { "item": "splinter", "amount": 8, "minamount": 0, "chance": 50 }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_window_stained_green",
         "name": "high stained glass window",
         "symbol": "\"",
