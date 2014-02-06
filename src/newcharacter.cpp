@@ -394,29 +394,28 @@ bool player::create(character_type type, std::string tempname)
 
     item tmp; //gets used several times
 
-    std::vector<std::string> prof_items;
+    std::vector<std::string> prof_items = g->u.prof->items();
+    std::vector<std::string> gender_items;
     if(g->u.male) {
-        prof_items = g->u.prof->items_male();
+        gender_items = g->u.prof->items_male();
     } else {
-        prof_items = g->u.prof->items_female();
+        gender_items = g->u.prof->items_female();
+    }
+    prof_items.insert(prof_items.begin(), gender_items.begin(), gender_items.end());
+
+    // Those who are both near-sighted and far-sighted start with bifocal glasses.
+    if (has_trait("HYPEROPIC") && has_trait("MYOPIC")) {
+        prof_items.push_back("glasses_bifocal");
+    }
+    // The near-sighted start with eyeglasses.
+    else if (has_trait("MYOPIC")) {
+        prof_items.push_back("glasses_eye");
+    }
+    // The far-sighted start with reading glasses.
+    else if (has_trait("HYPEROPIC")) {
+        prof_items.push_back("glasses_reading");
     }
 
-    for (std::vector<std::string>::const_iterator iter = prof_items.begin();
-         iter != prof_items.end(); ++iter) {
-        tmp = item(item_controller->find_template(*iter), 0);
-        tmp = tmp.in_its_container(&(itypes));
-        if(tmp.is_armor()) {
-            if(tmp.has_flag("VARSIZE")) {
-                tmp.item_tags.insert("FIT");
-            }
-            // If wearing an item fails we fail silently.
-            wear_item(&tmp, false);
-        } else {
-            inv.push_back(tmp);
-        }
-    }
-
-    prof_items = g->u.prof->items();
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
         tmp = item(item_controller->find_template(*iter), 0);
@@ -461,22 +460,6 @@ bool player::create(character_type type, std::string tempname)
         } else {
             add_bionic(*iter);
         }
-    }
-
-    // Those who are both near-sighted and far-sighted start with bifocal glasses.
-    if (has_trait("HYPEROPIC") && has_trait("MYOPIC")) {
-        tmp = item(itypes["glasses_bifocal"], 0);
-        inv.push_back(tmp);
-    }
-    // The near-sighted start with eyeglasses.
-    else if (has_trait("MYOPIC")) {
-        tmp = item(itypes["glasses_eye"], 0);
-        inv.push_back(tmp);
-    }
-    // The far-sighted start with reading glasses.
-    else if (has_trait("HYPEROPIC")) {
-        tmp = item(itypes["glasses_reading"], 0);
-        inv.push_back(tmp);
     }
 
     // Likewise, the asthmatic start with their medication.
