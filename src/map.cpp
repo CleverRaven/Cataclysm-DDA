@@ -1336,7 +1336,7 @@ bool map::moppable_items_at(const int x, const int y)
    return true;
  }
  field &fld = field_at(x, y);
- if(fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 || fld.findField(fd_blood_insect) != 0
+ if(fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 || fld.findField(fd_blood_insect) != 0 || fld.findField(fd_blood_invertebrate) != 0
     || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 || fld.findField(fd_sludge) != 0) {
   return true;
  }
@@ -1413,6 +1413,7 @@ void map::mop_spills(const int x, const int y) {
  fld.removeField(fd_blood);
  fld.removeField(fd_blood_veggy);
  fld.removeField(fd_blood_insect);
+ fld.removeField(fd_blood_invertebrate);
  fld.removeField(fd_bile);
  fld.removeField(fd_slime);
  fld.removeField(fd_sludge);

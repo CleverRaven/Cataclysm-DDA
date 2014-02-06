@@ -1163,7 +1163,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A pulsating sausage of glistening white flesh, the size of a large cat. On one end is a set of squirming mouth parts.",
-    "flags":["SMELLS", "POISON"]
+    "flags":["SMELLS", "POISON", "LARVA"]
     },{
         "type" : "MONSTER",
         "id" : "mon_ant",
@@ -3290,7 +3290,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The leopard slug, an omnivorous gastropod.  It consumes decaying matter as well as planted crops, and will attack and eat other slugs that cross its path.",
-    "flags":["SEES", "SMELLS", "VERMIN", "ACIDPROOF"],
+    "flags":["SEES", "SMELLS", "VERMIN", "ACIDPROOF", "ARTHROPOD_BLOOD"],
     "fear_triggers":["PLAYER_CLOSE"]
     },{
         "type" : "MONSTER",
@@ -3319,7 +3319,7 @@
     "death_function":"NORMAL",
     "special_attack":"ACID",
     "description":"A mutated leopard slug, as wide as a golf cart. Venom dripping from its fanged maw, it slithers ahead slowly, leaving a trail of glistening slime.",
-    "flags":["SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "VIS30", "FAT"],
+    "flags":["SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "VIS30", "FAT", "ARTHROPOD_BLOOD"],
     "anger_triggers":["PLAYER_CLOSE"]
     },{
         "type" : "MONSTER",
@@ -3348,7 +3348,7 @@
     "death_function":"NORMAL",
     "special_attack":"DERMATIK_GROWTH",
     "description":"A fat white grub as big as a squirrel, with a pair of large, spadelike mandibles.",
-    "flags":["HEARS", "SMELLS", "POISON", "CAN_DIG"]
+    "flags":["HEARS", "SMELLS", "POISON", "CAN_DIG", "LARVA"]
     },{
         "type" : "MONSTER",
         "id" : "mon_dermatik",
@@ -3943,7 +3943,7 @@
     "death_function":"NORMAL",
     "special_attack":"PARROT",
     "description":"A flexuous monstrosity seeming as a giant crab covered in writhing antennae, clawed tentacles, and star-shaped growths, with a head like the insides of a fish but for its dire utterance.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50"]
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "ARTHROPOD_BLOOD"]
     },{
         "type" : "MONSTER",
         "id" : "mon_yugg",
@@ -4935,7 +4935,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A mutant, terrestrial variety of the signal crayfish, this massive crustacean resembles a humongous lobster.",
-    "flags":["SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "ATTACKMON", "GRABS", "FAT"],
+    "flags":["SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "ATTACKMON", "GRABS", "FAT", "ARTHROPOD_BLOOD"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["FIRE"]
     },{

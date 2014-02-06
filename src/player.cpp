@@ -10152,6 +10152,8 @@ field_id player::playerBloodType() {
         return fd_blood_veggy;
     if (player::has_trait("THRESH_INSECT") || player::has_trait("THRESH_SPIDER"))
         return fd_blood_insect;
+    if (player::has_trait("THRESH_CEPHALOPOD"))
+        return fd_blood_invertebrate;
     return fd_blood;
 }
 Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)

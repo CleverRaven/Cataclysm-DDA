@@ -1219,16 +1219,24 @@ bool monster::is_hallucination()
 }
 
 field_id monster::monBloodType() {
-    if (monster::made_of("veggy"))
+    if (has_flag(MF_ACID_BLOOD) || (type->dies == &mdeath::acid))
+        return fd_acid; //ACID_BLOOD flag is kind of redundant now, but maybe some other monster can use it
+    if (type->dies == &mdeath::boomer)
+        return fd_bile;
+    if (has_flag(MF_LARVA) || has_flag(MF_ARTHROPOD_BLOOD))
+        return fd_blood_invertebrate;
+    if (made_of("veggy"))
         return fd_blood_veggy;
-    if (monster::made_of("iflesh"))
+    if (made_of("iflesh"))
         return fd_blood_insect;
     return fd_blood;
 }
 field_id monster::monGibType() {
-    if (monster::made_of("veggy"))
+    if (has_flag(MF_LARVA) || type->in_species("MOLLUSK"))
+        return fd_gibs_invertebrate;
+    if (made_of("veggy"))
         return fd_gibs_veggy;
-    if (monster::made_of("iflesh"))
+    if (made_of("iflesh"))
         return fd_gibs_insect;
     return fd_gibs_flesh;
 }
