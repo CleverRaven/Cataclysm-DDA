@@ -27,6 +27,7 @@ class inventory
   // chosen is an invlet-count mapping
   inventory subset(std::map<int, int> chosen) const;
   std::list<item>& stack_by_letter(char ch);
+  std::list<item>& find_stack(int position);
   const std::list<item>& const_stack(int i) const;
   int size() const;
   int num_items() const;
@@ -155,6 +156,8 @@ class inventory
   // Assigns an invlet if any remain.  If none do, will assign ` if force is
   // true, empty (invlet = 0) otherwise.
   void assign_empty_invlet(item &it, bool force = false);
+
+  void update_char_index(std::list<item> *stack, char ch);
  private:
   // For each item ID, store a set of "favorite" inventory letters.
   std::map<std::string, std::vector<char> > invlet_cache;

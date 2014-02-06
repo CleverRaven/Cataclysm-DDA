@@ -922,6 +922,17 @@ item& inventory::find_item(int position) {
     return iter->front();
 }
 
+std::list<item>& inventory::find_stack(int position) {
+    if (position < 0 || position >= items.size())
+        return nullstack;
+    invstack::iterator iter = items.begin();
+    for (int j = 0; j < position; ++j)
+    {
+        ++iter;
+    }
+    return *iter;
+}
+
 int inventory::position_by_letter(char ch) {
     int i = 0;
     invchars::iterator found = char_index.find(ch);
@@ -1693,3 +1704,15 @@ void inventory::assign_empty_invlet(item &it, bool force)
   }
   it.invlet = force ? '`' : 0;
 }
+
+void inventory::update_char_index(std::list<item> *stack, char ch)
+{
+    if(ch == 0) {
+        return;
+    }
+    char_index.erase(ch);
+    if(stack) {
+        char_index[ch] = stack;
+    }
+}
+

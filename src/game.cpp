@@ -10130,13 +10130,19 @@ void game::reassign_item(int pos)
      return;
  }
 
- item* change_from = &u.i_at(pos);
+ item* change_from = NULL;
+ std::list<item> *change_from_stack = NULL;
+ if(pos >= 0) {
+     change_from_stack = &u.inv.find_stack(pos);
+     change_from = &change_from_stack->front();
+ } else {
+     change_from = &u.i_at(pos);
+ }
  char newch = popup_getkey(_("%s; enter new letter."),
                            change_from->tname().c_str());
  if (newch == ' ') {
-     if (pos >= 0) {
-         change_from->invlet = 0;
-     } else {
+     newch = 0;
+     if (pos < 0) {
          add_msg(_("Cannot clear inventory letter of worn or wielded items."));
          return;
      }
@@ -10144,15 +10150,27 @@ void game::reassign_item(int pos)
      add_msg(_("%c is not a valid inventory letter."), newch);
      return;
  }
- if (u.has_item(newch)) {
+ if (newch && u.has_item(newch)) {
      if (change_from->invlet == 0 && u.has_weapon_or_armor(newch)) {
          // TODO: Chain assignment dialogues until in a valid state.
          add_msg(_("Cannot unassign inventory letter of worn or wielded items."));
          return;
      }
      item* change_to = &(u.i_at(newch));
+     std::list<item> *change_to_stack = &u.inv.stack_by_letter(newch);
+     if(change_to_stack && !change_to_stack->empty() && change_from->invlet) {
+         u.inv.update_char_index(change_to_stack, change_from->invlet);
+     }
+     if(change_to->invlet) {
+         u.inv.update_char_index(NULL, change_to->invlet);
+     }
      change_to->invlet = change_from->invlet;
      add_msg("%c - %s", change_to->invlet == 0 ? ' ' : change_to->invlet, change_to->tname().c_str());
+ } else if(change_from->invlet) {
+     u.inv.update_char_index(NULL, change_from->invlet);
+ }
+ if(change_from_stack && !change_from_stack->empty() && newch) {
+     u.inv.update_char_index(change_from_stack, newch);
  }
  change_from->invlet = newch;
  add_msg("%c - %s", newch == 0 ? ' ' : newch, change_from->tname().c_str());
