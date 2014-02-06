@@ -1,0 +1,141 @@
+[
+    {
+    "type" : "item_group",
+    "id" : "fireman_doc",
+    "items" : [
+        ["textbook_fireman", 100],
+        ["emergency_book", 100],
+        ["manual_first_aid", 50],
+        ["manual_swimming", 50],
+        ["textbook_firstaid", 10],
+        ["mag_computer", 50]
+        ]
+    },{
+    "type":"monstergroup",
+    "name" : "GROUP_FIRE",
+    "default" : "mon_zombie_fireman",
+    "monsters" : [
+        { "monster" : "mon_zombie_fireman", "freq" : 100, "cost_multiplier" : 2, "pack_size" : [3,5] },
+        { "monster" : "mon_zombie", "freq" : 40, "cost_multiplier" : 1 }
+        ]
+    },{
+    "type" : "overmap_terrain",
+    "id" : "fire_station",
+    "name" : "fire station",
+    "rotate" : true,
+    "sym" : 70,
+    "color" : "red",
+    "see_cost" : 5,
+    "extras" : "build",
+    "mondensity" : 2,
+    "sidewalk" : true,
+    "mapgen": [ {
+            "method": "json",
+            "weight": 10000000,
+            "object": {
+            "rows": [
+            "________________________",
+            "--O--_,_______,_______,_",
+            "|lcx|_,_______,_______,_",
+            "| c#O_,_______,_______,_",
+            "| ##|_,_______,_______,_",
+            "|r  L_,_______,_______,_",
+            "|r  |_,_______,_______,_",
+            "|w ^|_________,_________",
+            "|-M----MMMMMM--MMMMMMM--",
+            "|w    w               w|",
+            "|                      |",
+            "|ctc                   |",
+            "|ctc |                 |",
+            "|ctc |                 |",
+            "|    |                 |",
+            "|-+--|                 |",
+            "|F @@|                 |",
+            "|t  :|                 |",
+            "|c @@|                 |",
+            "|   :|                 |",
+            "|+|  |                 |",
+            "|T|GS|  l l l   l l l  |",
+            "|----------------------|",
+            "........................"
+            ],
+            "terrain": {
+            ".": "t_grass",
+            "_": "t_pavement",
+            ",": "t_pavement_y",
+            " ": "t_floor",
+            "-": "t_wall_h",
+            "|": "t_wall_v",
+            "O": "t_window",
+            "L": "t_door_locked",
+            "+": "t_door_c",
+            "M": "t_door_metal_locked",
+            "w": "t_gates_mech_control",
+            "x": "t_console_broken",
+            "c": "t_floor",
+            "#": "t_floor",
+            "r": "t_floor",
+            "^": "t_floor",
+            "t": "t_floor",
+            "F": "t_floor",
+            "@": "t_floor",
+            ":": "t_floor",
+            "T": "t_floor",
+            "l": "t_floor",
+            "S": "t_floor",
+            "G": "t_floor"
+            },
+            "furniture": {
+            ".": "f_null",
+            "_": "f_null",
+            ",": "f_null",
+            " ": "f_null",
+            "-": "f_null",
+            "|": "f_null",
+            "O": "f_null",
+            "L": "f_null",
+            "+": "f_null",
+            "M": "f_null",
+            "w": "f_null",
+            "x": "f_null",
+            "c": "f_chair",
+            "#": "f_counter",
+            "r": "f_rack",
+            "^": "f_indoor_plant",
+            "t": "f_table",
+            "F": "f_fridge",
+            "@": "f_bed",
+            ":": "f_dresser",
+            "T": "f_toilet",
+            "l": "f_locker",
+            "S": "f_sink",
+            "G": "f_oven"
+            },
+            "place_specials": [
+            { "type": "toilet", "x": 1, "y": 21 }
+            ],
+            "set": [
+            { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
+            ],
+            "place_groups": [
+            { "monster": "GROUP_FIRE", "x": [ 2, 21 ], "y": [ 9, 21 ], "chance": 1},
+            { "item": "fireman_doc", "chance": 70, "x": [ 1,1 ], "y": [ 2,2 ] },
+            { "item": "fireman_gear", "chance": 70, "x": [ 1,1 ], "y": [ 5,5 ] },
+            { "item": "fireman_gear", "chance": 70, "x": [ 1,1 ], "y": [ 6,6 ] },
+            { "item": "fridgesnacks", "chance": 70, "x": [ 1,1 ], "y": [ 16,16 ] },
+            { "item": "novels", "chance": 70, "x": [ 1,1 ], "y": [ 17,17 ] },
+            { "item": "fireman_pants", "chance": 70, "x": [ 4,4 ], "y": [ 17,17 ] },
+            { "item": "fireman_boots", "chance": 70, "x": [ 4,4 ], "y": [ 19,19 ] },
+            { "item": "oven", "chance": 70, "x": [ 3,3 ], "y": [ 21,21 ] },
+            { "item": "fireman_gear", "chance": 70, "x": [ 8,8 ], "y": [ 21,21 ] },
+            { "item": "fireman_torso", "chance": 70, "x": [ 10,10 ], "y": [ 21,21 ] },
+            { "item": "fireman_head", "chance": 70, "x": [ 12,12 ], "y": [ 21,21 ] },
+            { "item": "fireman_gloves", "chance": 70, "x": [ 16,16 ], "y": [ 21,21 ] },
+            { "item": "fireman_mask", "chance": 70, "x": [ 18,18 ], "y": [ 21,21 ] },
+            { "item": "fireman_gear", "chance": 70, "x": [ 20,20 ], "y": [ 21,21 ] }
+            ]
+            }
+        }
+        ]
+    }
+]
