@@ -2661,22 +2661,27 @@ bool game::handle_action()
 
   case ACTION_WEAR:
    wear();
+   refresh_all();
    break;
 
   case ACTION_TAKE_OFF:
    takeoff();
+   refresh_all();
    break;
 
   case ACTION_EAT:
    eat();
+   refresh_all();
    break;
 
   case ACTION_READ:
    read();
+   refresh_all();
    break;
 
   case ACTION_WIELD:
    wield();
+   refresh_all();
    break;
 
   case ACTION_PICK_STYLE:
@@ -2710,10 +2715,12 @@ bool game::handle_action()
 
   case ACTION_DROP:
    drop();
+   refresh_all();
    break;
 
   case ACTION_DIR_DROP:
    drop_in_direction();
+   refresh_all();
    break;
 
   case ACTION_BIONICS:
@@ -2752,6 +2759,7 @@ bool game::handle_action()
           add_msg(_("You can't disassemble items while driving."));
       } else {
           disassemble();
+          refresh_all();
       }
    break;
 
@@ -2925,6 +2933,7 @@ bool game::handle_action()
 
   case ACTION_DEBUG:
    debug();
+   refresh_all();
    break;
 
   case ACTION_TOGGLE_SIDEBAR_STYLE:
