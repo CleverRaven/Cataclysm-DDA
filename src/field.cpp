@@ -453,7 +453,7 @@ bool map::process_fields_in_submap(int gridn)
                                     smoke++;
                                 }
 
-                            } else if ((it->made_of("flesh")) || (it->made_of("hflesh"))) {
+                            } else if ((it->made_of("flesh")) || (it->made_of("hflesh")) || (it->made_of("iflesh"))) {
                                 //Same as cotton/wool really but more smokey.
                                 if (vol <= cur->getFieldDensity() * 5 || (cur->getFieldDensity() == 3 && one_in(vol / 20))) {
                                     cur->setFieldAge(cur->getFieldAge() - 1);
@@ -1290,7 +1290,7 @@ void map::mon_in_field(int x, int y, monster *z)
 
             // MATERIALS-TODO: Use fire resistance
         case fd_fire:
-            if ( z->made_of("flesh") || z->made_of("hflesh") ) {
+            if ( z->made_of("flesh") || z->made_of("hflesh") || z->made_of("iflesh") ) {
                 dam += 3;
             }
             if (z->made_of("veggy")) {
@@ -1350,7 +1350,7 @@ void map::mon_in_field(int x, int y, monster *z)
             break;
 
         case fd_tear_gas:
-            if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy")) &&
+            if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy") || z->made_of("iflesh")) &&
                 !z->has_flag(MF_NO_BREATHE)) {
                 if (cur->getFieldDensity() == 3) {
                     z->add_effect("stunned", rng(10, 20));
@@ -1399,7 +1399,7 @@ void map::mon_in_field(int x, int y, monster *z)
 
             // MATERIALS-TODO: Use fire resistance
         case fd_flame_burst:
-            if (z->made_of("flesh") || z->made_of("hflesh")) {
+            if (z->made_of("flesh") || z->made_of("hflesh") || z->made_of("iflesh")) {
                 dam += 3;
             }
             if (z->made_of("veggy")) {
