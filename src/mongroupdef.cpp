@@ -196,6 +196,63 @@ MonsterGroup MonsterGroupManager::GetMonsterGroup(std::string group)
 //json loading
 std::map<std::string, mon_id> monStr2monId;
 
+typedef std::set<std::string> t_string_set;
+// see item_factory.cpp
+extern void add_to_set(t_string_set &s, JsonObject &json, const std::string &name);
+t_string_set monster_blacklist;
+t_string_set monster_whitelist;
+
+template<typename T>
+void invert_whitelist(t_string_set &whitelist, t_string_set &blacklist, const std::map<std::string, T> &map) {
+    if (!whitelist.empty()) {
+        // Put everything that's not on the whitelist into the blacklist
+        for(typename std::map<std::string, T>::const_iterator a = map.begin(); a != map.end(); ++a) {
+            if (whitelist.count(a->first) == 0) {
+                blacklist.insert(a->first);
+            }
+        }
+        whitelist.clear();
+    }
+}
+
+void MonsterGroupManager::LoadMonsterBlacklist(JsonObject &jo) {
+    add_to_set(monster_blacklist, jo, "monsters");
+}
+
+void MonsterGroupManager::LoadMonsterWhitelist(JsonObject &jo) {
+    add_to_set(monster_whitelist, jo, "monsters");
+}
+
+void MonsterGroupManager::FinalizeMonsterGroups()
+{
+    const MonsterGenerator &gen = MonsterGenerator::generator();
+    for(t_string_set::const_iterator a = monster_whitelist.begin(); a != monster_whitelist.end(); ++a) {
+        if (!gen.has_mtype(*a)) {
+            debugmsg("monster on whitelist %s does not exist", a->c_str());
+        }
+    }
+    for(t_string_set::const_iterator a = monster_blacklist.begin(); a != monster_blacklist.end(); ++a) {
+        if (!gen.has_mtype(*a)) {
+            debugmsg("monster on blacklist %s does not exist", a->c_str());
+        }
+    }
+    invert_whitelist(monster_whitelist, monster_blacklist, gen.get_all_mtypes());
+    for(std::map<std::string, MonsterGroup>::iterator b = monsterGroupMap.begin(); b != monsterGroupMap.end(); ++b) {
+        MonsterGroup &mg = b->second;
+        FreqDef::iterator c = mg.monsters.begin();
+        while(c != mg.monsters.end()) {
+            if(monster_blacklist.count(c->name) > 0) {
+                c = mg.monsters.erase(c);
+            } else {
+                ++c;
+            }
+        }
+        if(monster_blacklist.count(mg.defaultMonster) > 0) {
+            mg.defaultMonster = "mon_null";
+        }
+    }
+}
+
 void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
 {
     MonsterGroup g;
