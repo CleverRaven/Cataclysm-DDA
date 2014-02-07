@@ -1156,7 +1156,7 @@ void monster::process_effects()
 
         // MATERIALS-TODO: use fire resistance
         } else if (id == "onfire") {
-            if (made_of("flesh"))
+            if (made_of("flesh") || made_of("iflesh"))
                 hurt(rng(3, 8));
             if (made_of("veggy"))
                 hurt(rng(10, 20));
