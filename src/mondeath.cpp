@@ -23,12 +23,10 @@ void mdeath::normal(monster *z) {
     bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
 
     // leave some blood if we have to
-    if ((z->made_of("flesh") || z->made_of("hflesh")) && z->has_flag(MF_WARM) && !z->has_flag(MF_VERMIN)) {
-        g->m.add_field(z->posx(), z->posy(), fd_blood, 1);
-    } else if (z->made_of("veggy") && !z->has_flag(MF_VERMIN)) {
-        g->m.add_field(z->posx(), z->posy(), fd_blood_veggy, 1);
-    } else if (z->made_of("iflesh") && !z->has_flag(MF_VERMIN)) {
-        g->m.add_field(z->posx(), z->posy(), fd_blood_insect, 1);
+    if (!z->has_flag(MF_VERMIN)) {
+       field_id type_blood = z->monBloodType();
+       if (type_blood != fd_null)
+        g->m.add_field(z->posx(), z->posy(), type_blood, 1);
     }
 
     int maxHP = z->type->hp;
@@ -637,7 +635,7 @@ void make_gibs(monster* z, int amount) {
     }
     const int zposx = z->posx();
     const int zposy = z->posy();
-    const bool toBleed = (z->has_flag(MF_WARM) || z->made_of("veggy") || (z->made_of("iflesh")));
+    field_id type_blood = z->monBloodType();
     for (int i = 0; i < amount; i++) {
         // leave gibs, if there are any
         const int gibX = zposx + rng(0,6) - 3;
@@ -648,12 +646,12 @@ void make_gibs(monster* z, int amount) {
             // Only place gib if there's a clear path for it to get there.
             g->m.add_field(gibX, gibY, z->monGibType(), gibDensity);
         }
-        if( toBleed ) {
+        if( type_blood != fd_null ) {
             const int bloodX = zposx + (rng(0,2) - 1);
             const int bloodY = zposy + (rng(0,2) - 1);
             if( g->m.clear_path( zposx, zposy, bloodX, bloodY, 2, 1, 100, junk ) ) {
                 // Only place blood if there's a clear path for it to get there.
-                g->m.add_field(bloodX, bloodY, z->monBloodType(), 1);
+                g->m.add_field(bloodX, bloodY, type_blood, 1);
             }
         }
     }

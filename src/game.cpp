@@ -6688,6 +6688,8 @@ void game::explode_mon(int index)
    } else {
     if (corpse->mat == "flesh" || corpse->mat == "iflesh")
      meat = "meat";
+    else if (corpse->mat == "bone")
+     meat = "bone";
     else
      meat = "veggy";
    }
@@ -6698,10 +6700,13 @@ void game::explode_mon(int index)
     std::vector<point> traj = line_to(posx, posy, tarx, tary, 0);
 
     bool done = false;
+    field_id type_blood = critter.monBloodType();
     for (int j = 0; j < traj.size() && !done; j++) {
      tarx = traj[j].x;
      tary = traj[j].y;
-     m.add_field(tarx, tary, critter.monBloodType(), 1);
+     if (type_blood != fd_null)
+        m.add_field(tarx, tary, type_blood, 1);
+     m.add_field(tarx+rng(-1, 1), tary+rng(-1, 1), critter.monGibType(), rng(1, j+1));
 
      if (m.move_cost(tarx, tary) == 0) {
       std::string tmp = "";
@@ -7025,7 +7030,7 @@ void game::activity_on_turn_pulp()
         int damage = pulp_power / it->volume();
         //Determine corpse's blood type.
         //TODO: See if it's possible to use the monBloodType() function rather than this spaghetti code.
-        field_id type_blood = fd_null; //No blood if corpse doesn't fall in one of the following rules
+        field_id type_blood;
         if (it->corpse->flags.count(MF_ACID_BLOOD) != 0)
             type_blood = fd_acid; //Currently unused, be wary that a corpse with ACID_BLOOD would be very hazardous to smash!
         else if (it->corpse->flags.count(MF_LARVA) != 0 || it->corpse->flags.count(MF_ARTHROPOD_BLOOD) != 0)
@@ -7036,6 +7041,7 @@ void game::activity_on_turn_pulp()
             type_blood = fd_blood_insect;
         else if (it->corpse->flags.count(MF_WARM) != 0)
             type_blood = fd_blood;
+        else type_blood = fd_null;
         do {
             moves += move_cost;
             // Increase damage as we keep smashing,
