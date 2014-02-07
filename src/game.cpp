@@ -61,6 +61,8 @@
 #include <tchar.h>
 #endif
 
+namespace std { float abs(float a) { return a < 0 ? -a : a; } }
+
 #ifdef _MSC_VER
 // MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
 #define snprintf _snprintf_s
@@ -702,6 +704,53 @@ void game::cleanup_at_end(){
     overmap_buffer.clear();
 }
 
+void game::calc_driving_offset(vehicle *veh) {
+    if(veh == NULL || !(OPTIONS["DRIVING_VIEW_OFFSET"] == true)) {
+        set_driving_view_offset(point(0, 0));
+        return;
+    }
+    // velocity at or below this results in no offset at all
+    static const float min_offset_vel = 10*100;
+    // velocity at or above this results in maximal offset
+    static const float max_offset_vel = 70*100;
+    // The maximal offset will leave at least this many tiles
+    // beetween the PC and the edge of the main window.
+    static const int border_range = 2;
+    float velocity = veh->velocity;
+    rl_vec2d offset = veh->move_vec();
+    if (!veh->skidding && std::abs(veh->cruise_velocity - veh->velocity) < 14*100 && veh->player_in_control(&u)) {
+        // Use the cruise controlled velocity, but only if
+        // it is not too different from the actuall velocity.
+        // The actuall velocity changes too often (see above slowdown).
+        // Using it makes would make the offset change far too often.
+        offset = veh->face_vec();
+        velocity = veh->cruise_velocity;
+    }
+    float rel_offset;
+    if(std::abs(velocity) < min_offset_vel) {
+        rel_offset = 0;
+    } else if(std::abs(velocity) > max_offset_vel) {
+        rel_offset = 1;
+    } else {
+        rel_offset = (velocity - min_offset_vel) / (max_offset_vel - min_offset_vel);
+    }
+    // Squeeze into the corners, by making the offset vector longer,
+    // the PC is still in view as long as both offset.x and
+    // offset.y are <= 1
+    if(std::abs(offset.x) > std::abs(offset.y) && std::abs(offset.x) > 0.2) {
+        offset.y /= std::abs(offset.x);
+        offset.x  = offset.x > 0 ? +1 : -1;
+    } else if(std::abs(offset.y) > 0.2) {
+        offset.x /= std::abs(offset.y);
+        offset.y  = offset.y > 0 ? +1 : -1;
+    }
+    offset.x *= rel_offset;
+    offset.y *= rel_offset;
+    offset.x *= (getmaxx(w_terrain) + 1) / 2 - border_range - 1;
+    offset.y *= (getmaxy(w_terrain) + 1) / 2 - border_range - 1;
+    set_driving_view_offset(point(offset.x, offset.y));
+}
+
 // MAIN GAME LOOP
 // Returns true if game is over (death, saved, quit, etc)
 bool game::do_turn()
@@ -976,6 +1025,19 @@ bool game::do_turn()
             handle_key_blocking_activity();
         }
     }
+    if ((driving_view_offset.x != 0 || driving_view_offset.y != 0))
+    {
+        // Still have a view offset, but might not be driving anymore,
+        // or the option has been deactivated,
+        // might also happen when someone dives from a moving car.
+        // or when using the handbrake.
+        vehicle *veh = m.veh_at(g->u.posx, g->u.posy);
+        if(veh == 0) {
+            calc_driving_offset(0); // reset to (0,0)
+        } else {
+            calc_driving_offset(veh);
+        }
+    }
     update_scent();
     m.vehmove();
     m.process_fields();
@@ -1017,6 +1079,17 @@ bool game::do_turn()
         }
     }
     return false;
+}
+
+void game::set_driving_view_offset(const point &p) {
+    // remove the previous driving offset,
+    // store the new offset and apply the new offset.
+    u.view_offset_x -= driving_view_offset.x;
+    u.view_offset_y -= driving_view_offset.y;
+    driving_view_offset.x = p.x;
+    driving_view_offset.y = p.y;
+    u.view_offset_x += driving_view_offset.x;
+    u.view_offset_y += driving_view_offset.y;
 }
 
 void game::rustCheck()
@@ -2518,8 +2591,8 @@ bool game::handle_action()
    break;
 
   case ACTION_CENTER:
-   u.view_offset_x = 0;
-   u.view_offset_y = 0;
+   u.view_offset_x = driving_view_offset.x;
+   u.view_offset_y = driving_view_offset.y;
    break;
 
   case ACTION_SHIFT_N:

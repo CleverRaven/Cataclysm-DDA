@@ -410,6 +410,10 @@ void initOptions() {
                                              _("If true, vehicle parts will change color if they are armor plated"),
                                              true
                                             );
+    OPTIONS["DRIVING_VIEW_OFFSET"] =    cOpt("interface", _("Auto-shift the view while driving"),
+                                             _("If true, view will automatically shift towards the driving direction"),
+                                             false
+                                            );
 
     OPTIONS["VEHICLE_DIR_INDICATOR"] =  cOpt("interface", _("Draw vehicle facing indicator"),
                                              _("If true, when controlling a vehicle, a white 'X' at distance 10 from the center will display its current facing."),
