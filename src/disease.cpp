@@ -846,7 +846,6 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_DRUNK:
-            p.add_disease("bleed", 600); //DEBUG DEBUGGITY
             handle_alcohol(p, dis);
             break;
 
