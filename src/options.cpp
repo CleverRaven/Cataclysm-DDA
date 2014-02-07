@@ -679,7 +679,7 @@ void initOptions() {
                                             );
 
     OPTIONS["FULLSCREEN"] =             cOpt("graphics", _("Fullscreen"),
-                                             _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Restart to apply."),
+                                             _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Requires Restart."),
                                              false
                                             );  // populate the options dynamically
 
