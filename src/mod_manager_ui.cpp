@@ -59,6 +59,7 @@ void mod_ui::set_usable_mods()
 
     usable_mods = ordered_mods;
 }
+
 int mod_ui::show_layering_ui()
 {
     DebugLog() << "mod_ui:: now showing layering ui\n";
@@ -244,9 +245,9 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
         }
         DebugLog() << "\n";
     }
-    info << "Name: \"" << mod->name << "\"  Author(s): " << mod->author << "\n";
-    info << "Description: \"" << mod->description << "\"\n";
-    info << "Dependencies: " << dependency_string << "\n";
+    info << _("Author(s): ") << mod->author << "\n";
+    info << _("Description: ") << mod->description << "\n";
+    info << _("Dependencies: ") << dependency_string << "\n";
     if (mod->_type == MT_SUPPLEMENTAL && note.size() > 0) {
         info << note;
     }
@@ -279,9 +280,9 @@ void mod_ui::show_mod_information(WINDOW *win, int width, MOD_INFORMATION *mod, 
             dependency_string += "[" + active_manager->mod_map[dependencies[i]]->name + "]";
         }
     }
-    info << "Name: \"" << mod->name << "\"  Author(s): " << mod->author << "\n";
-    info << "Description: \"" << mod->description << "\"\n";
-    info << "Dependencies: " << dependency_string << "\n";
+    info << _("Name: ") << "\"" << mod->name << "\"  " << _("Author(s): ") << mod->author << "\n";
+    info << _("Description: ") << "\"" << mod->description << "\"\n";
+    info << _("Dependencies: ") << dependency_string << "\n";
     if (mod->_type == MT_SUPPLEMENTAL && note.size() > 0) {
         info << note;
     }
@@ -454,6 +455,7 @@ void mod_ui::try_add(const std::string &mod_to_add,
         active_list.push_back(mod.ident);
     }
 }
+
 void mod_ui::try_rem(int selection, std::vector<std::string> &active_list)
 {
     // first make sure that what we are looking for exists in the list
@@ -483,6 +485,7 @@ void mod_ui::try_rem(int selection, std::vector<std::string> &active_list)
         active_list.erase(rem);
     }
 }
+
 void mod_ui::try_shift(char direction, int &selection, std::vector<std::string> &active_list)
 {
     // error catch for out of bounds
@@ -563,6 +566,7 @@ bool mod_ui::can_shift_up(int selection, std::vector<std::string> active_list)
         return true;
     }
 }
+
 bool mod_ui::can_shift_down(int selection, std::vector<std::string> active_list)
 {
     // error catch for out of bounds
