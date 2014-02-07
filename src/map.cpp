@@ -852,7 +852,7 @@ bool map::displace_water (const int x, const int y)
             for (int tx = -1; tx <= 1; tx++)
                 for (int ty = -1; ty <= 1; ty++)
                 {
-                    if ((!tx && !ty) 
+                    if ((!tx && !ty)
                             || move_cost_ter_furn(x + tx, y + ty) == 0
                             || has_flag(TFLAG_DEEP_WATER, x + tx, y + ty))
                         continue;
@@ -1336,7 +1336,8 @@ bool map::moppable_items_at(const int x, const int y)
    return true;
  }
  field &fld = field_at(x, y);
- if(fld.findField(fd_blood) != 0 || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 || fld.findField(fd_sludge) != 0) {
+ if(fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 || fld.findField(fd_blood_insect) != 0 || fld.findField(fd_blood_invertebrate) != 0
+    || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 || fld.findField(fd_sludge) != 0) {
   return true;
  }
  int vpart;
@@ -1410,6 +1411,9 @@ void map::mop_spills(const int x, const int y) {
  }
  field &fld = field_at(x, y);
  fld.removeField(fd_blood);
+ fld.removeField(fd_blood_veggy);
+ fld.removeField(fd_blood_insect);
+ fld.removeField(fd_blood_invertebrate);
  fld.removeField(fd_bile);
  fld.removeField(fd_slime);
  fld.removeField(fd_sludge);
