@@ -6678,8 +6678,7 @@ void game::explode_mon(int index)
     for (int j = 0; j < traj.size() && !done; j++) {
      tarx = traj[j].x;
      tary = traj[j].y;
-// Choose a blood type and place it
-      m.add_field(tarx, tary, critter.monBloodType(), 1);
+     m.add_field(tarx, tary, critter.monBloodType(), 1);
 
      if (m.move_cost(tarx, tary) == 0) {
       std::string tmp = "";
@@ -7001,12 +7000,19 @@ void game::activity_on_turn_pulp()
             continue; // no corpse or already pulped
         }
         int damage = pulp_power / it->volume();
-        //Determine corpse's blood type
-        field_id type_blood = fd_blood; //default
-        if (it->corpse->mat == "veggy")
+        //Determine corpse's blood type.
+        //TODO: See if it's possible to use the monBloodType() function rather than this spaghetti code.
+        field_id type_blood = fd_null; //No blood if corpse doesn't fall in one of the following rules
+        if (it->corpse->flags.count(MF_ACID_BLOOD) != 0)
+            type_blood = fd_acid; //Currently unused, be wary that a corpse with ACID_BLOOD would be very hazardous to smash!
+        else if (it->corpse->flags.count(MF_LARVA) != 0 || it->corpse->flags.count(MF_ARTHROPOD_BLOOD) != 0)
+            type_blood = fd_blood_invertebrate;
+        else if (it->corpse->mat == "veggy")
             type_blood = fd_blood_veggy;
         else if (it->corpse->mat == "iflesh")
             type_blood = fd_blood_insect;
+        else if (it->corpse->flags.count(MF_WARM) != 0)
+            type_blood = fd_blood;
         do {
             moves += move_cost;
             // Increase damage as we keep smashing,
@@ -7017,7 +7023,7 @@ void game::activity_on_turn_pulp()
             // Splatter some blood around
             for (int x = smashx - 1; x <= smashx + 1; x++) {
                 for (int y = smashy - 1; y <= smashy + 1; y++) {
-                    if (!one_in(damage+1)) {
+                    if (!one_in(damage+1) && type_blood != fd_null) {
                         m.add_field(x, y, type_blood, 1);
                     }
                 }
