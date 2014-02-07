@@ -612,6 +612,41 @@ void mdeath::zombie(monster *z) {
     }
 }
 
+// generates reaver clothing
+void mdeath::reaver(monster *z) {
+  mdeath::normal( z);
+
+  m_flag dropset = MF_NULL;
+
+  if (z->type->has_flag(MF_FEMALE)) {
+    dropset = MF_FEMALE;
+  } else if (z->type->has_flag(MF_MALE)) {
+    dropset = MF_MALE;
+  }
+
+  switch(dropset) {
+  case MF_MALE:
+    g->m.put_items_from("reaver_male_top", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(0,3));
+    g->m.put_items_from("reaver_male_bottom", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(0,3));
+
+    while (one_in(3)) g->m.put_items_from("reaver_drops_m", 1, z->posx(), z->posy(), g->turn, 0, 0, 0);
+
+    break;
+
+  case MF_FEMALE:
+    g->m.put_items_from("reaver_female_top", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(0,3));
+    g->m.put_items_from("reaver_female_bottom", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(0,3));
+
+    while (one_in(2)) g->m.put_items_from("reaver_drops_f", 1, z->posx(), z->posy(), g->turn, 0, 0, 0);
+
+    break;
+
+  case MF_NULL:
+  default:
+    break;
+  }
+}
+
 void mdeath::gameover(monster *z) {
     g->add_msg(_("The %s was destroyed!  GAME OVER!"), z->name().c_str());
     g->u.hp_cur[hp_torso] = 0;

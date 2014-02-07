@@ -131,6 +131,7 @@ void MonsterGenerator::init_death()
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
     death_map["ZOMBIE"] = &mdeath::zombie;// generate proper clothing for zombies
+    death_map["REAVER"] = &mdeath::reaver;
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
 
     /* Currently Unimplemented */
@@ -266,6 +267,8 @@ void MonsterGenerator::init_flags() {
     flag_map["VERMIN"] = MF_VERMIN;
     flag_map["HUNTS_VERMIN"] = MF_HUNTS_VERMIN;
     flag_map["SMALL_BITER"] = MF_SMALL_BITER;
+    flag_map["MALE"] = MF_MALE;
+    flag_map["FEMALE"] = MF_FEMALE;
 }
 
 

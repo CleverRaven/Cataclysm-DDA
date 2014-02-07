@@ -5,6 +5,10 @@
         "fear_triggers" : ["HURT", "FIRE", "FRIEND_DIED"]
     },{
         "type" : "SPECIES",
+        "id" : "REAVER",
+        "fear_triggers" : ["HURT", "FIRE", "FRIEND_DIED"]
+    },{
+        "type" : "SPECIES",
         "id" : "AMPHIBIAN",
         "fear_triggers" : ["HURT", "FIRE"]
     },{

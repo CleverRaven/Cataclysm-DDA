@@ -1,0 +1,290 @@
+[
+  {
+    "type" : "MONSTER",
+    "id" : "mon_reaver_f",
+    "name": "reaver girl",
+    "species":"REAVER",
+    "symbol":"@",
+    "color":"pink",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":3,
+    "aggression":60,
+    "morale":100,
+    "speed":85,
+    "melee_skill":4,
+    "melee_dice":2,
+    "melee_dice_sides":3,
+    "melee_cut":0,
+    "dodge":2,
+    "armor_bash":0,
+    "armor_cut":0,
+    "item_chance":30,
+    "luminance":0,
+    "hp":75,
+    "special_freq":5,
+    "death_function":"REAVER",
+    "special_attack":"NONE",
+    "description":"A young, still-living woman, mad as a hatter and high as a kite.",
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "HUMAN", "BONES", "FEMALE", "GRABS", "BASHES", "GUILT"]
+  },
+  {
+    "type" : "MONSTER",
+    "id" : "mon_reaver_m",
+    "name": "reaver boy",
+    "species":"REAVER",
+    "symbol":"@",
+    "color":"ltblue",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":5,
+    "aggression":100,
+    "morale":100,
+    "speed":80,
+    "melee_skill":4,
+    "melee_dice":2,
+    "melee_dice_sides":4,
+    "melee_cut":0,
+    "dodge":1,
+    "armor_bash":0,
+    "armor_cut":0,
+    "item_chance":25,
+    "luminance":0,
+    "hp":85,
+    "special_freq":5,
+    "death_function":"REAVER",
+    "special_attack":"SHRIEK",
+    "description":"A young, still-living man, mad as a hatter and high as a kite.",
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "HUMAN", "BONES", "MALE", "GRABS", "BASHES", "GUILT"]
+  },
+	{
+		"type" : "ARMOR",
+    "id" : "piercing_lip_ring",
+    "name" : "lip ring",
+    "volume" : 0,
+    "material_thickness" : 0,
+    "storage" : 0,
+    "description" : "A steel lip ring. You can wear it if you want, but it provides no effects.",
+    "weight" : 3,
+    "to_hit" : 0,
+    "color" : "light_gray",
+    "encumbrance" : 0,
+    "price" : 600,
+    "material" : ["steel", "null"],
+    "coverage" : 0,
+    "symbol" : "[",
+    "bashing" : 0,
+    "cutting" : 0,
+    "warmth" : 0,
+    "enviromental_protection" : 0,
+    "phase" : "solid",
+    "flags" : ["VARSIZE"]
+	},
+	{
+		"type" : "ARMOR",
+    "id" : "piercing_lip_stud",
+    "name" : "lip stud",
+    "volume" : 0,
+    "material_thickness" : 0,
+    "storage" : 0,
+    "description" : "A steel lip stud with a pointed tip. You can wear it if you want, but it provides no effects.",
+    "weight" : 3,
+    "to_hit" : 0,
+    "color" : "light_gray",
+    "encumbrance" : 0,
+    "price" : 600,
+    "material" : ["steel", "null"],
+    "coverage" : 0,
+    "symbol" : "[",
+    "bashing" : 0,
+    "cutting" : 0,
+    "warmth" : 0,
+    "enviromental_protection" : 0,
+    "phase" : "solid",
+    "flags" : ["VARSIZE"]
+	},
+	{
+		"type" : "ARMOR",
+    "id" : "piercing_nose_ring",
+    "name" : "nose ring",
+    "volume" : 0,
+    "material_thickness" : 0,
+    "storage" : 0,
+    "description" : "A steel nose ring. You can wear it if you want, but it provides no effects.",
+    "weight" : 3,
+    "to_hit" : 0,
+    "color" : "light_gray",
+    "encumbrance" : 0,
+    "price" : 600,
+    "material" : ["steel", "null"],
+    "coverage" : 0,
+    "symbol" : "[",
+    "bashing" : 0,
+    "cutting" : 0,
+    "warmth" : 0,
+    "enviromental_protection" : 0,
+    "phase" : "solid",
+    "flags" : ["VARSIZE"]
+	},
+	{
+		"type" : "ARMOR",
+    "id" : "piercing_nose_stud",
+    "name" : "nose stud",
+    "volume" : 0,
+    "material_thickness" : 0,
+    "storage" : 0,
+    "description" : "A steel nose stud with a costume gem. You can wear it if you want, but it provides no effects.",
+    "weight" : 3,
+    "to_hit" : 0,
+    "color" : "light_gray",
+    "encumbrance" : 0,
+    "price" : 600,
+    "material" : ["steel", "null"],
+    "coverage" : 0,
+    "symbol" : "[",
+    "bashing" : 0,
+    "cutting" : 0,
+    "warmth" : 0,
+    "enviromental_protection" : 0,
+    "phase" : "solid",
+    "flags" : ["VARSIZE"]
+	},
+	{
+		"type" : "ARMOR",
+    "id" : "piercing_nipple_ring",
+    "name" : "nipple ring",
+    "volume" : 0,
+    "material_thickness" : 0,
+    "storage" : 0,
+    "description" : "A steel nipple ring. You can wear it if you want, but it provides no effects.",
+    "weight" : 3,
+    "to_hit" : 0,
+    "color" : "light_gray",
+    "encumbrance" : 0,
+    "price" : 600,
+    "material" : ["steel", "null"],
+    "coverage" : 0,
+    "symbol" : "[",
+    "bashing" : 0,
+    "cutting" : 0,
+    "warmth" : 0,
+    "enviromental_protection" : 0,
+    "phase" : "solid",
+    "flags" : ["VARSIZE"]
+	},
+	{
+		"type" : "ARMOR",
+    "id" : "piercing_brow_ring",
+    "name" : "brow ring",
+    "volume" : 0,
+    "material_thickness" : 0,
+    "storage" : 0,
+    "description" : "A steel eyebrow ring. You can wear it if you want, but it provides no effects.",
+    "weight" : 3,
+    "to_hit" : 0,
+    "color" : "light_gray",
+    "encumbrance" : 0,
+    "price" : 600,
+    "material" : ["steel", "null"],
+    "coverage" : 0,
+    "symbol" : "[",
+    "bashing" : 0,
+    "cutting" : 0,
+    "warmth" : 0,
+    "enviromental_protection" : 0,
+    "phase" : "solid",
+    "flags" : ["VARSIZE"]
+	},
+  {
+    "type": "monstergroup",
+    "name" : "GROUP_REAVER", "_comment" : "Reavers",
+    "default": "mon_null",
+    "monsters" : [
+      { "monster" : "mon_reaver_f", "freq" : 700, "cost_multiplier" : 1 },
+      { "monster" : "mon_reaver_m", "freq" : 300, "cost_multiplier" : 1 }
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "reaver_drops",
+    "items": [
+      ["meth", 1],
+      ["coke", 1],
+      ["piercing_lip_ring", 15],
+      ["piercing_lip_stud", 15],
+      ["piercing_nose_ring", 15],
+      ["piercing_nose_stud", 15],
+      ["piercing_nipple_ring", 15],
+      ["piercing_brow_ring", 15]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "reaver_drops_f",
+    "items": [
+      ["piercing_lip_ring", 30],
+      ["piercing_nose_ring", 30],
+      ["piercing_nipple_ring", 30],
+      ["piercing_brow_ring", 15]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "reaver_drops_m",
+    "items": [
+      ["piercing_lip_stud", 30],
+      ["piercing_nose_stud", 30],
+      ["piercing_nipple_ring", 15],
+      ["piercing_brow_ring", 30]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "reaver_male_top",
+    "items": [
+      ["bondage_mask", 5],
+      ["mask_hockey", 5],
+      ["corset", 50],
+      ["armor_larmor", 40],
+      ["vest_leather", 60],
+      ["gloves_fingerless", 40]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "reaver_male_bottom",
+    "items": [
+      ["chaps_leather", 30],
+      ["pants_leather", 20],
+      ["hot_pants_leather", 20]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "reaver_female_top",
+    "items": [
+      ["leather_collar", 20],
+      ["knee_high_boots", 5],
+      ["corset", 25],
+      ["bikini_top_leather", 50]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "reaver_female_bottom",
+    "items": [
+      ["skirt_leather", 45],
+      ["hot_pants_leather", 45],
+      ["leather_cat_tail", 10]
+    ]
+  },
+  {
+    "type" : "monitems",
+    "id": [
+      "mon_reaver_f", "mon_reaver_m"
+    ],
+    "item_groups": [
+      [ "reaver_drops", 1 ]
+    ]
+  }
+]
