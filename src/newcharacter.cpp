@@ -1343,7 +1343,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 } else if (i == getmaxx(w) - 1) {
                     wputch(w, BORDER_COLOR, LINE_XOXX);
                 } else {
-                    wputch(w, c_ltgray, LINE_OXOX);
+                    wputch(w, BORDER_COLOR, LINE_OXOX);
                 }
             }
             wrefresh(w);
@@ -1455,11 +1455,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         if (ch == '>') {
             if (points < 0) {
                 popup(_("Too many points allocated, change some features and try again."));
-                redraw=true;
+                redraw = true;
                 continue;
             } else if (points > 0 &&
                        !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
-                redraw=true;
+                redraw = true;
                 continue;
             } else if (u->name.size() == 0) {
                 mvwprintz(w_name, 0, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!______"));
@@ -1488,9 +1488,17 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 delwin(w_guide);
                 return 1;
             } else {
+                redraw = true;
                 continue;
             }
         } else if (ch == '<') {
+            delwin(w_name);
+            delwin(w_gender);
+            delwin(w_stats);
+            delwin(w_traits);
+            delwin(w_profession);
+            delwin(w_skills);
+            delwin(w_guide);
             return -1;
         } else if (ch == '!') {
             if (points != 0) {
