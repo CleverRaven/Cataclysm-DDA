@@ -984,14 +984,17 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
  int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT));
  if (weapon.has_flag("MESSY")) { // e.g. chainsaws
   cutting_penalty /= 6; // Harder to get stuck
-  for (int x = tarposx - 1; x <= tarposx + 1; x++) {
-   for (int y = tarposy - 1; y <= tarposy + 1; y++) {
-    if (!one_in(3)) {
-      g->m.add_field(x, y, fd_blood, 1);
-    }
-   }
-  }
- }
+  if (monster *m = dynamic_cast<monster*>(&t)) {
+   field_id type_blood = m->monBloodType();
+   for (int x = tarposx - 1; x <= tarposx + 1; x++) {
+    for (int y = tarposy - 1; y <= tarposy + 1; y++) {
+     if (!one_in(3) && type_blood != fd_null) {
+       g->m.add_field(x, y, type_blood, 1);
+     } //it all
+    } //comes
+   } //tumbling down
+  } //tumbling down
+ } //tumbling down
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) /* && TODO: put is_halluc check back in
          !z->is_hallucination()*/) {
     dump << string_format(_("Your %s gets stuck in %s, pulling it out of your hands!"), weapon.tname().c_str(), target.c_str());
@@ -1052,7 +1055,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         }
         ret.push_back(tmp);
     }
-    
+
  //Having lupine or croc jaws makes it much easier to sink your fangs into people; Ursine/Feline, not so much
     if (has_trait("FANGS") && (!wearing_something_on(bp_mouth)) &&
         ((!has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") &&
@@ -1352,7 +1355,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
             ret.push_back(tmp);
         }
      }
-  
+
   if (has_trait("VINES2") || has_trait("VINES3")) {
       int num_attacks = 2;
       if (has_trait("VINES3")) {

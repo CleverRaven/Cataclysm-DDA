@@ -105,7 +105,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             z.deal_projectile_attack(this, missed_by, proj, dealt_dam);
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
-            //splatter(this, blood_traj, dam, &z); TODO: add splatter effects
+            //splatter(this, blood_traj, dam, &z); TODO: add splatter effects (include new blood types)
             //back in
             dam = 0;
         // TODO: general case this so it works for all npcs, instead of only
@@ -1315,7 +1315,7 @@ void splatter(std::vector<point> trajectory, int dam, monster* mon)
  }
  field_id blood = fd_blood;
  if (mon != NULL) {
-  if (!mon->made_of("flesh") || mon->has_flag(MF_VERMIN) ) //Todo: Add veggy and insect blood splatters
+  if (!mon->made_of("flesh") || mon->has_flag(MF_VERMIN) )
    return;
   if (mon->type->dies == &mdeath::boomer)
    blood = fd_bile;
