@@ -785,8 +785,8 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d"), points);
-        mvwprintz(w, 3, 18, c_ltgreen, "%2d/%d", num_good, max_trait_points);
-        mvwprintz(w, 3, 25, c_ltred, "%2d/%d ", num_bad, max_trait_points);
+        mvwprintz(w, 3, 20, c_ltgreen, "%2d/%d", num_good, max_trait_points);
+        mvwprintz(w, 3, 26, c_ltred, "%2d/-%d ", num_bad, max_trait_points);
 
         // Clear the bottom of the screen.
         werase(w_description);
@@ -819,14 +819,14 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                     ((iContentHeight > vStartingTraits[iCurrentPage].size()) ?
                      vStartingTraits[iCurrentPage].size() : iContentHeight)) {
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
-                        mvwprintz(w,  3, 33, c_ltgray,
+                        mvwprintz(w,  3, 34, c_ltgray,
                                   "                                              ");
                         int points = traits[vStartingTraits[iCurrentPage][i]].points;
                         bool negativeTrait = points < 0;
                         if (negativeTrait) {
                                   points *=-1;
                         }
-                        mvwprintz(w,  3, 33, col_tr, _("%s %s %d points"),
+                        mvwprintz(w,  3, 34, col_tr, _("%s %s %d points"),
                                   traits[vStartingTraits[iCurrentPage][i]].name.c_str(),
                                   negativeTrait ? _("earns"):_("costs"),
                                   points);
@@ -909,59 +909,62 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
             case ' ':
             case '\n':
             case '5': {
+				//-1 to remove, 1 to add, 0 for nothing
+				//this way we avoid duplicate code
+				int set_type = 0;
                 std::string cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
                 if (u->has_trait(cur_trait)) {
-
-                    u->toggle_trait(cur_trait);
+					set_type = -1;
 
                     // If turning off the trait violates a profession condition,
                     // turn it back on.
                     if(u->prof->can_pick(u, 0) != "YES") {
-                        u->toggle_trait(cur_trait);
+                        set_type = 0;
                         popup(_("Your profession of %s prevents you from removing this trait."),
                               u->prof->name().c_str());
-
                     } else {
-                        points += traits[cur_trait].points;
-                        if (iCurWorkingPage == 0) {
-                            num_good -= traits[cur_trait].points;
-                        } else {
-                            num_bad -= traits[cur_trait].points;
-                        }
+						set_type = -1;
                     }
-
                 } else if(u->has_conflicting_trait(cur_trait)) {
                     popup(_("You already picked a conflicting trait!"));
-
                 } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points >
                            max_trait_points) {
-                    popup(_("Sorry, but you can only take %d points of advantages."),
-                          max_trait_points);
-
+					popup(_("Sorry, but you can only take %d points of advantages."),
+-                          max_trait_points);
                 } else if (iCurWorkingPage != 0 && num_bad + traits[cur_trait].points <
                            -max_trait_points) {
-                    popup(_("Sorry, but you can only take %d points of disadvantages."),
-                          max_trait_points);
-
+					popup(_("Sorry, but you can only take %d points of disadvantages."),
+-                          max_trait_points);
                 } else {
-                    u->toggle_trait(cur_trait);
-
+					set_type = 1;
                     // If turning on the trait violates a profession condition,
                     // turn it back off.
                     if(u->prof->can_pick(u, 0) != "YES") {
+						set_type = 0;
                         u->toggle_trait(cur_trait);
                         popup(_("Your profession of %s prevents you from taking this trait."),
                               u->prof->name().c_str());
-
-                    } else {
-                        points -= traits[cur_trait].points;
-                        if (iCurWorkingPage == 0) {
-                            num_good += traits[cur_trait].points;
-                        } else {
-                            num_bad += traits[cur_trait].points;
-                        }
                     }
                 }
+				
+				if(set_type == 1) {
+					u->toggle_trait(cur_trait);
+					points -= traits[cur_trait].points;
+					if (iCurWorkingPage == 0) {
+						num_good += traits[cur_trait].points;
+					} else {
+						num_bad += traits[cur_trait].points;
+					}
+				} else if(set_type == -1) {
+					u->toggle_trait(cur_trait);
+					points += traits[cur_trait].points;
+					if (iCurWorkingPage == 0) {
+						num_good -= traits[cur_trait].points;
+					} else {
+						num_bad -= traits[cur_trait].points;
+					}
+				}
+				
                 break;
             }
             case '<':
@@ -1454,7 +1457,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
         if (ch == '>') {
             if (points < 0) {
-                popup(_("Too many points allocated, change some features and try again."));
+				popup(_("Too many points allocated, change some features and try again."));
                 redraw=true;
                 continue;
             } else if (points > 0 &&
