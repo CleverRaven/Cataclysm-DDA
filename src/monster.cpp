@@ -1229,7 +1229,9 @@ field_id monster::monBloodType() {
         return fd_blood_veggy;
     if (made_of("iflesh"))
         return fd_blood_insect;
-    return fd_blood;
+    if (has_flag(MF_WARM))
+        return fd_blood;
+    return fd_null; //Please update the corpse blood type in activity_on_turn_pulp() in game.cpp when modifying these rules!
 }
 field_id monster::monGibType() {
     if (has_flag(MF_LARVA) || type->in_species("MOLLUSK"))
