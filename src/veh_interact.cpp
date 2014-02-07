@@ -492,7 +492,7 @@ void veh_interact::do_install(task_reason reason)
                        sel_vpart_info->difficulty,
                        engine_string.c_str());
         wrefresh (w_msg);
-        char ch = input(); // See keypress.h
+        int ch = input(); // See keypress.h
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2 &&
@@ -506,9 +506,15 @@ void veh_interact::do_install(task_reason reason)
                 werase (w_msg);
                 wrefresh(w_msg);
                 break;
-            }
+            } else if (dx == -1 || dx == 1) {
+            dy = 10*dx;
+            } else if (ch == KEY_NPAGE || ch == DirectionDown) {
+            dy = 25;
+            } else if (ch == KEY_PPAGE || ch == DirectionUp) {
+            dy = -25;
+            }     
         }
-        if (dy == -1 || dy == 1) {
+        if (dy != 0) {
             pos += dy;
             if (pos < 0) {
                 pos = can_mount.size() - 1;
