@@ -229,7 +229,7 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     std::vector<std::string> dependencies = mod->dependencies;
     std::string dependency_string = "";
     if (dependencies.size() == 0) {
-        dependency_string = "[NONE]";
+        dependency_string = _("[NONE]");
     } else {
         DebugLog() << mod->name << " Dependencies --";
         for (int i = 0; i < dependencies.size(); ++i) {
@@ -271,7 +271,7 @@ void mod_ui::show_mod_information(WINDOW *win, int width, MOD_INFORMATION *mod, 
     std::vector<std::string> dependencies = mod->dependencies;
     std::string dependency_string = "";
     if (dependencies.size() == 0) {
-        dependency_string = "[NONE]";
+        dependency_string = _("[NONE]");
     } else {
         for (int i = 0; i < dependencies.size(); ++i) {
             if (i > 0) {

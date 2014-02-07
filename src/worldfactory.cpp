@@ -970,6 +970,10 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
 Use keys '<' and '>' for navigation between the tabs. \n\
 '>' Takes you to the next tab, '<' returns you to the main menu. \n\
  \n\
+Press left and right arrow keys for switching between list of all mods and active mods, or down and up arrow keys for choosing a mod. \n\
+ \n\
+Press '+' or '-' for definition the order of active mods. \n\
+ \n\
 Press 's' for saving list of active mods (mods listed in right part of the screen) as mods activated by default."));
                 draw_modselection_borders(win);
                 redraw_headers = true;
