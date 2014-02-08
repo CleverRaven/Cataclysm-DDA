@@ -613,10 +613,10 @@ void construct::done_deconstruct(point p)
         g->m.spawn_item(p.x, p.y, "pilot_light", 1);
         g->m.furn_set(p.x, p.y, f_null);
       case old_f_fridge:
-        g->m.spawn_item(p.x, p.y, "scrap", rng(2,6));
+        g->m.spawn_item(p.x, p.y, "scrap", rng(2,8));
         g->m.spawn_item(p.x, p.y, "steel_chunk", rng(2,3));
         g->m.spawn_item(p.x, p.y, "hose", 1);
-        g->m.spawn_item(p.x, p.y, "cu_pipe", rng(3, 6));
+        g->m.spawn_item(p.x, p.y, "cu_pipe", rng(2, 5));
 
         g->m.furn_set(p.x, p.y, f_null);
       break;
