@@ -390,6 +390,18 @@ public:
   WINDOW *w_status2;
   live_view liveview;
 
+  // View offset based on the driving speed (if any)
+  // that has been added to u.view_offset_*,
+  // Don't write to this directly, always use set_driving_view_offset
+  point driving_view_offset;
+  // Setter for driving_view_offset
+  void set_driving_view_offset(const point &p);
+  // Calculates the driving_view_offset for the given vehicle
+  // and sets it (view set_driving_view_offset), if
+  // the options for this feautre is dactivated or if veh is NULL,
+  // the function set the driving offset to (0,0)
+  void calc_driving_offset(vehicle *veh = NULL);
+
   bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL, item *cont = NULL);
 
  //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
