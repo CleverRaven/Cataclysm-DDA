@@ -633,7 +633,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
-                                int hiy, std::vector <monster> t, int &target,
+                                int hiy, std::vector <Creature*> t, int &target,
                                 item *relevent)
 {
  std::vector<point> ret;
@@ -647,15 +647,15 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    double closest = -1;
    double dist;
    for (int i = 0; i < t.size(); i++) {
-    dist = rl_dist(t[i].posx(), t[i].posy(), u.posx, u.posy);
+    dist = rl_dist(t[i]->xpos(), t[i]->ypos(), u.posx, u.posy);
     if (closest < 0 || dist < closest) {
      closest = dist;
      target = i;
     }
    }
   }
-  x = t[target].posx();
-  y = t[target].posy();
+  x = t[target]->xpos();
+  y = t[target]->ypos();
  } else
   target = -1; // No monsters in range, don't use target, reset to -1
 
@@ -882,16 +882,16 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   } else if ((action == "PREV_TARGET") && (target != -1)) {
    target--;
    if (target == -1) target = t.size() - 1;
-   x = t[target].posx();
-   y = t[target].posy();
+   x = t[target]->xpos();
+   y = t[target]->ypos();
   } else if ((action == "NEXT_TARGET") && (target != -1)) {
    target++;
    if (target == t.size()) target = 0;
-   x = t[target].posx();
-   y = t[target].posy();
+   x = t[target]->xpos();
+   y = t[target]->ypos();
   } else if (action == "WAIT" || action == "FIRE") {
    for (int i = 0; i < t.size(); i++) {
-    if (t[i].posx() == x && t[i].posy() == y)
+    if (t[i]->xpos() == x && t[i]->ypos() == y)
      target = i;
    }
    if (u.posx == x && u.posy == y)

@@ -466,6 +466,7 @@ void game::setup()
  monstairy = -1;
  monstairz = -1;
  last_target = -1;  // We haven't targeted any monsters yet
+ last_target_was_npc = false;
  curmes = 0;        // We haven't read any messages yet
  uquit = QUIT_NO;   // We haven't quit the game
  debugmon = false;  // We're not printing debug messages
@@ -10286,34 +10287,13 @@ void game::plthrow(int pos)
  temp_exit_fullscreen();
  m.draw(w_terrain, point(u.posx, u.posy));
 
- std::vector <monster> mon_targets;
- std::vector <int> targetindices;
- int passtarget = -1;
- for (int i = 0; i < num_zombies(); i++) {
-   monster &critter = critter_tracker.find(i);
-   if (u_see(&critter)) {
-     critter.draw(w_terrain, u.posx, u.posy, true);
-     if(rl_dist( u.posx, u.posy, critter.posx(), critter.posy() ) <= range) {
-       mon_targets.push_back(critter);
-       targetindices.push_back(i);
-       if (i == last_target) {
-         passtarget = mon_targets.size() - 1;
-       }
-     }
-   }
- }
-
  int x = u.posx;
  int y = u.posy;
 
- // target() sets x and y, or returns false if we canceled (by pressing Esc)
- std::vector <point> trajectory = target(x, y, u.posx - range, u.posy - range,
-                                         u.posx + range, u.posy + range,
-                                         mon_targets, passtarget, &thrown);
+    // pl_target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
+    std::vector <point> trajectory = pl_target_ui(x, y, range, &thrown);
  if (trajectory.size() == 0)
   return;
- if (passtarget != -1)
-  last_target = targetindices[passtarget];
 
  // Throw a single charge of a stacking object.
  if( thrown.count_by_charges() && thrown.charges > 1 ) {
@@ -10348,6 +10328,82 @@ void game::plthrow(int pos)
 
  throw_item(u, x, y, thrown, trajectory);
  reenter_fullscreen();
+}
+
+bool compare_by_dist_to_u(Creature *a, Creature *b)
+{
+    return rl_dist(a->xpos(), a->ypos(), g->u.posx, g->u.posy) <
+           rl_dist(b->xpos(), b->ypos(), g->u.posx, g->u.posy);
+}
+
+std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant, int default_target_x, int default_target_y)
+{
+    // Populate a list of targets with the zombies in range and visible
+    std::vector <Creature *> mon_targets;
+    const Creature *last_target_critter = NULL;
+    if(last_target >= 0 && !last_target_was_npc && last_target < num_zombies()) {
+        last_target_critter = &zombie(last_target);
+    } else if(last_target >= 0 && last_target_was_npc && last_target < active_npc.size()) {
+        last_target_critter = active_npc[last_target];
+    }
+    for (int i = 0; i < num_zombies(); i++) {
+        monster &critter = critter_tracker.find(i);
+        if (u_see(&critter)) {
+            mon_targets.push_back(&critter);
+        }
+    }
+    for (int i = 0; i < active_npc.size(); i++) {
+        npc &critter = *active_npc[i];
+        if (u_see(critter.xpos(), critter.ypos())) {
+            mon_targets.push_back(&critter);
+        }
+    }
+    std::sort(mon_targets.begin(), mon_targets.end(), compare_by_dist_to_u);
+    int passtarget = -1;
+    for (int i = 0; i < mon_targets.size(); i++) {
+        Creature &critter = *mon_targets[i];
+        if(rl_dist( u.posx, u.posy, critter.xpos(), critter.ypos() ) > range) {
+            // because the vector is sorted, everything from here on will
+            // have a distance greater than range, so not targetable at all.
+            mon_targets.erase(mon_targets.begin() + i, mon_targets.end());
+            break;
+        }
+        critter.draw(w_terrain, u.posx, u.posy, true);
+        // no default target, but found the last target
+        if (default_target_x == -1 && last_target_critter == &critter) {
+            passtarget = i;
+            break;
+        }
+        if(default_target_x == critter.xpos() && default_target_y == critter.ypos()) {
+            passtarget = i;
+            break;
+        }
+    }
+    // target() sets x and y, and returns an empty vector if we canceled (Esc)
+    std::vector <point> trajectory = target(x, y, u.posx - range, u.posy - range,
+                                            u.posx + range, u.posy + range,
+                                            mon_targets, passtarget, relevant);
+
+    if (trajectory.size() == 0) {
+        return trajectory;
+    }
+    if (passtarget != -1) { // We picked a real live target
+        // Make it our default for next time
+        int id = npc_at(x, y);
+        if(id >= 0) {
+            last_target = id;
+            last_target_was_npc = true;
+            // TODO: effect for npc, too?
+        } else {
+            id = mon_at(x, y);
+            if(id >= 0) {
+                last_target = id;
+                last_target_was_npc = false;
+                zombie(last_target).add_effect("hit_by_player", 100);
+            }
+        }
+    }
+    return trajectory;
 }
 
 void game::plfire(bool burst, int default_target_x, int default_target_y)
@@ -10444,32 +10500,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  temp_exit_fullscreen();
  m.draw(w_terrain, point(u.posx, u.posy));
 
-// Populate a list of targets with the zombies in range and visible
- std::vector <monster> mon_targets;
- std::vector <int> targetindices;
- int passtarget = -1;
- for (int i = 0; i < num_zombies(); i++) {
-   monster &critter = critter_tracker.find(i);
-   if (u_see(&critter)) {
-     critter.draw(w_terrain, u.posx, u.posy, true);
-     if(rl_dist( u.posx, u.posy, critter.posx(), critter.posy() ) <= range) {
-       mon_targets.push_back(critter);
-       targetindices.push_back(i);
-       bool is_default_target = default_target_x == critter.posx() && default_target_y == critter.posy();
-       if (is_default_target || (passtarget == -1 && i == last_target)) {
-         passtarget = mon_targets.size() - 1;
-       }
-     }
-   }
- }
-
  int x = u.posx;
  int y = u.posy;
 
- // target() sets x and y, and returns an empty vector if we canceled (Esc)
- std::vector <point> trajectory = target(x, y, u.posx - range, u.posy - range,
-                                         u.posx + range, u.posy + range,
-                                         mon_targets, passtarget, &u.weapon);
+ std::vector<point> trajectory = pl_target_ui(x, y, range, &u.weapon, default_target_x, default_target_y);
 
  draw_ter(); // Recenter our view
  if (trajectory.size() == 0) {
@@ -10481,10 +10515,6 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
   }
   reenter_fullscreen();
   return;
- }
- if (passtarget != -1) { // We picked a real live target
-  last_target = targetindices[passtarget]; // Make it our default for next time
-  zombie(targetindices[passtarget]).add_effect("hit_by_player", 100);
  }
 
  if (u.weapon.mode == "MODE_BURST")
