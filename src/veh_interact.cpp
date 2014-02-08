@@ -508,7 +508,21 @@ void veh_interact::do_install(task_reason reason)
                 break;
             }
         }
-        if (dy == -1 || dy == 1) {
+        //get_direction returns -2 on failure
+        if(dx == -2 || dy == -2) {
+            dx = dy = 0;
+        }
+        //input changes pgup and pgdn to these.
+        if(ch == '<') {
+            dx = -1;
+        } else if(ch == '>') {
+            dx = 1;
+        }
+        //if we move left/right scroll by page size
+        if(dx != 0) {
+            dy = dx * page_size;
+        }
+        if (dy != 0) {
             pos += dy;
             if (pos < 0) {
                 pos = can_mount.size() - 1;
