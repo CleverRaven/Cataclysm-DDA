@@ -830,6 +830,11 @@ bool map::vehproceed(){
     } else { // can_move
         veh->stop();
     }
+    // If the PC is in the currently moved vehicle, adjust the
+    // view offset.
+    if (g->u.controlling_vehicle && veh_at(g->u.posx, g->u.posy) == veh) {
+        g->calc_driving_offset(veh);
+    }
     // redraw scene
     g->draw();
     return true;
