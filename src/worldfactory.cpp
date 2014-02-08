@@ -35,7 +35,6 @@ std::string world_options_header()
 ";
 }
 
-
 std::string get_next_valid_worldname()
 {
     std::string worldname = Name::get(nameIsWorldName);
@@ -1162,8 +1161,6 @@ to continue, or <color_yellow><</color> to go back and review your world."));
 
 void worldfactory::draw_modselection_borders(WINDOW *win)
 {
-    const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
-
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type
     int xs[] = {1, 1, (FULL_SCREEN_WIDTH / 2) + 2, (FULL_SCREEN_WIDTH / 2) - 4,
                 (FULL_SCREEN_WIDTH / 2) + 2};
@@ -1203,7 +1200,7 @@ void worldfactory::draw_modselection_borders(WINDOW *win)
     mvwputch(win, FULL_SCREEN_HEIGHT - 8, FULL_SCREEN_WIDTH / 2 + 2, BORDER_COLOR, LINE_XXOX); // _|_
 
     // Add tips & hints
-    fold_and_print(win, 17 + iOffsetY, 2, getmaxx(win) - 4, c_green,
+    fold_and_print(win, FULL_SCREEN_HEIGHT - 7, 2, getmaxx(win) - 4, c_green,
                    _("Press 's' to save the list of active mods as default. Press '?' for help."));
     wrefresh(win);
     refresh();
