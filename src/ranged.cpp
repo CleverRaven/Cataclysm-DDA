@@ -65,6 +65,9 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     int px = trajectory[0].x;
     int py = trajectory[0].y;
 
+    // if this is a vehicle mounted turret, which vehicle is it mounted on?
+    const vehicle* in_veh = is_fake() ? g->m.veh_at(xpos(), ypos()) : NULL;
+
     for (int i = 0; i < trajectory.size() && (dam > 0 || (proj.proj_effects.count("FLAME"))); i++) {
         px = tx;
         py = ty;
@@ -117,6 +120,8 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
 
+        } else if(in_veh != NULL && g->m.veh_at(tx, ty) == in_veh) {
+            // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
             g->m.shoot(tx, ty, dam, i == trajectory.size() - 1, proj.proj_effects);
         }
