@@ -13,10 +13,10 @@
 #define LIGHT_RANGE(b) static_cast<int>(sqrt(b / LIGHT_AMBIENT_LOW) + 1)
 
 enum lit_level {
- LL_DARK = 0,
- LL_LOW,    // Hard to see
- LL_LIT,
- LL_BRIGHT  // Probably only for light sources
+    LL_DARK = 0,
+    LL_LOW,    // Hard to see
+    LL_LIT,
+    LL_BRIGHT  // Probably only for light sources
 };
 
 #endif

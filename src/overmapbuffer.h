@@ -10,6 +10,14 @@
  * this as overmap::loc (access with overmap::pos()).
  * There is a unique overmap for each overmap coord.
  *
+ * segment (seg): A segment is a unit of terrain saved to a directory.
+ * Each segment contains 32x32 overmap terrains, and is used only for
+ * saving/loading submaps, see mapbuffer.cpp.
+ * Translation from omt to seg:
+ * om.x /= 32
+ * om.y /= 32
+ * (with special handling for negative values).
+ *
  * overmap terrain (omt): the position of a overmap terrain (oter_id).
  * Each overmap contains (OMAPX * OMAPY) overmap terrains.
  * Translation from omt to om:
@@ -241,6 +249,8 @@ public:
     static void ms_to_omt(tripoint& p) { ms_to_omt(p.x, p.y); }
     static point ms_to_omt_remain(int &x, int &y);
     static point ms_to_omt_remain(point& p) { return ms_to_omt_remain(p.x, p.y); }
+    // overmap terrain to map segment.
+    static tripoint omt_to_seg_copy(const tripoint& p);
 
 private:
     std::list<overmap> overmap_list;

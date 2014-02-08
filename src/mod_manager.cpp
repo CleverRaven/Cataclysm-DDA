@@ -2,6 +2,7 @@
 #include "file_finder.h"
 #include "debug.h"
 #include "output.h"
+#include "file_wrapper.h"
 #include "worldfactory.h"
 
 #include <math.h>
@@ -21,6 +22,11 @@
 
 #define MOD_SEARCH_PATH "./data"
 #define MOD_SEARCH_FILE "modinfo.json"
+#define MOD_DEV_DEFAULT_PATH "data/mods/dev-default-mods.json"
+#define MOD_USER_DEFAULT_PATH "data/mods/user-default-mods.json"
+
+// TODO: move this declaration into a header, but which?
+extern bool file_exist(const std::string &path);
 
 mod_manager::mod_manager()
 {
@@ -43,6 +49,7 @@ void mod_manager::clear()
         delete a->second;
     }
     mod_map.clear();
+    default_mods.clear();
 }
 
 void mod_manager::show_ui()
@@ -61,10 +68,35 @@ void mod_manager::refresh_mod_list()
 
     std::map<std::string, std::vector<std::string> > mod_dependency_map;
     load_mods_from(MOD_SEARCH_PATH);
+    if (set_default_mods("user:default")) {
+    } else if(set_default_mods("dev:default")) {
+    }
+    // remove these mods from the list, so they do not appear to the user
+    remove_mod("user:default");
+    remove_mod("dev:default");
     for(t_mod_map::iterator a = mod_map.begin(); a != mod_map.end(); ++a) {
         mod_dependency_map[a->second->ident] = a->second->dependencies;
     }
     tree.init(mod_dependency_map);
+}
+
+void mod_manager::remove_mod(const std::string &ident)
+{
+    t_mod_map::iterator a = mod_map.find(ident);
+    if (a != mod_map.end()) {
+        delete a->second;
+        mod_map.erase(a);
+    }
+}
+
+bool mod_manager::set_default_mods(const std::string &ident)
+{
+    if (!has_mod(ident)) {
+        return false;
+    }
+    MOD_INFORMATION *mod = mod_map[ident];
+    default_mods = mod->dependencies;
+    return true;
 }
 
 bool mod_manager::has_mod(const std::string &ident) const
@@ -77,6 +109,12 @@ void mod_manager::load_mods_from(std::string path)
     std::vector<std::string> mod_files = file_finder::get_files_from_path(MOD_SEARCH_FILE, path, true);
     for (int i = 0; i < mod_files.size(); ++i) {
         load_mod_info(mod_files[i]);
+    }
+    if (file_exist(MOD_DEV_DEFAULT_PATH)) {
+        load_mod_info(MOD_DEV_DEFAULT_PATH);
+    }
+    if (file_exist(MOD_USER_DEFAULT_PATH)) {
+        load_mod_info(MOD_USER_DEFAULT_PATH);
     }
 }
 
@@ -156,11 +194,29 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     mod_map[modfile->ident] = modfile;
 }
 
-// TODO: move this declaration into a header, but which?
-extern bool assure_dir_exist(const std::string &path);
+void mod_manager::set_default_mods(const t_mod_list &mods)
+{
+    default_mods = mods;
+    std::ofstream stream(MOD_USER_DEFAULT_PATH, std::ios::out | std::ios::binary);
+    if(!stream) {
+        debugmsg("worldfactory: can not write to %s", MOD_USER_DEFAULT_PATH);
+        return;
+    }
+    try {
+        JsonOut json(stream, true); // pretty-print
+        json.start_object();
+        json.member("type", "MOD_INFO");
+        json.member("ident", "user:default");
+        json.member("dependencies");
+        json.write(mods);
+        json.end_object();
+    } catch(std::string e) {
+        debugmsg("%s", e.c_str());
+    }
+}
 
-bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy,
-                                    std::string output_base_path)
+bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
+                                    const std::string &output_base_path)
 {
     if (mods_to_copy.size() == 0) {
         // nothing to copy, so technically we succeeded already!
@@ -251,6 +307,10 @@ void mod_manager::load_mod_info(std::string info_file_path)
 {
     // info_file_path is the fully qualified path to the information file for this mod
     std::ifstream infile(info_file_path.c_str(), std::ifstream::in | std::ifstream::binary);
+    if (!infile) {
+        // fail silently?
+        return;
+    }
     std::istringstream iss(
         std::string(
             (std::istreambuf_iterator<char>(infile)),
@@ -336,4 +396,14 @@ void mod_manager::load_mods_list(WORLDPTR world) const
     } catch (std::string e) {
         DebugLog() << "worldfactory: loading mods list failed: " << e;
     }
+}
+
+const mod_manager::t_mod_list &mod_manager::get_default_mods() const
+{
+    return default_mods;
+}
+
+bool file_exist(const std::string &path) {
+    struct stat buffer;
+    return ( stat( path.c_str(), &buffer ) == 0 );
 }

@@ -358,7 +358,7 @@ int mod_ui::gather_input(int &active_header, int &selection, std::vector<std::st
             break;
         case '\n': // select
             if (active_header == 0) {
-                try_add(selection, mod_list, active_mods_list);
+                try_add(mod_list[selection], active_mods_list);
             } else if (active_header == 1) {
                 try_rem(selection, active_mods_list);
             }
@@ -389,14 +389,14 @@ int mod_ui::gather_input(int &active_header, int &selection, std::vector<std::st
     return 0;
 }
 
-void mod_ui::try_add(int selection, std::vector<std::string> modlist,
+void mod_ui::try_add(const std::string &mod_to_add,
                      std::vector<std::string> &active_list)
 {
-    if (std::find(active_list.begin(), active_list.end(), modlist[selection]) != active_list.end()) {
+    if (std::find(active_list.begin(), active_list.end(), mod_to_add) != active_list.end()) {
         // The same mod can not be added twice. That makes no sense.
         return;
     }
-    MOD_INFORMATION &mod = *active_manager->mod_map[modlist[selection]];
+    MOD_INFORMATION &mod = *active_manager->mod_map[mod_to_add];
     bool errs;
     try {
         dependency_node *checknode = mm_tree->get_node(mod.ident);
@@ -419,13 +419,13 @@ void mod_ui::try_add(int selection, std::vector<std::string> modlist,
     if (mod._type == MT_CORE) {
         //  (more than 0 active elements) && (active[0] is a CORE)                            &&    active[0] is not the add candidate
         if ((active_list.size() > 0) && (active_manager->mod_map[active_list[0]]->_type == MT_CORE) &&
-            (active_list[0] != modlist[selection])) {
+            (active_list[0] != mod_to_add)) {
             // remove existing core
             try_rem(0, active_list);
         }
 
         // add to start of active_list if it doesn't already exist in it
-        active_list.insert(active_list.begin(), modlist[selection]);
+        active_list.insert(active_list.begin(), mod_to_add);
     } else { // _type == MT_SUPPLEMENTAL
         // now check dependencies and add them as necessary
         std::vector<std::string> mods_to_add;

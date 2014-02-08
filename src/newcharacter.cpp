@@ -50,7 +50,7 @@ int set_profession(WINDOW *w, player *u, int &points);
 int set_skills(WINDOW *w, player *u, int &points);
 int set_description(WINDOW *w, player *u, character_type type, int &points);
 
-int random_skill();
+Skill *random_skill();
 
 int calc_HP(int strength, int tough);
 
@@ -197,9 +197,7 @@ bool player::create(character_type type, std::string tempname)
                         case 7:
                         case 8:
                         case 9:
-                            rn = random_skill();
-
-                            Skill *aSkill = Skill::skill(rn);
+                            Skill *aSkill = random_skill();
                             int level = skillLevel(aSkill);
 
                             if (level < points) {
@@ -1414,7 +1412,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 skillslist.push_back((*i).first);
             }
             
-            int line = 2;
+            int line = 1;
             bool has_skills = false;
             profession::StartingSkillList list_skills=u->prof->skills();
             for (std::vector<Skill*>::iterator aSkill = skillslist.begin();
@@ -1484,7 +1482,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 mvwprintz(w_name, 0, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!______"));
                 wrefresh(w_name);
                 if (!query_yn(_("Are you SURE you're finished? Your name will be randomly generated."))) {
-                    redraw=true;
+                    redraw = true;
                     continue;
                 } else {
                     u->pick_name();
@@ -1513,12 +1511,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             return -1;
         } else if (ch == '!') {
             if (points != 0) {
-                redraw=true;
                 popup(_("You cannot save a template with nonzero unused points!"));
             } else {
                 save_template(u);
             }
-
+            redraw = true;
             wrefresh(w);
         } else if (ch == '?') {
             u->pick_name();
@@ -1584,9 +1581,9 @@ std::string player::random_bad_trait()
     return vTraitsBad[rng(0, vTraitsBad.size() - 1)];
 }
 
-int random_skill()
+Skill *random_skill()
 {
-    return rng(1, Skill::skills.size() - 1);
+    return Skill::skill(rng(0, Skill::skill_count() - 1));
 }
 
 int calc_HP(int strength, int tough)

@@ -1,12 +1,22 @@
+<<<<<<< HEAD
+=======
+#include "mondeath.h"
+>>>>>>> 9cb8e447cdc92eb45f3c8fb8a33c4fc0e40460b0
 #include "monster.h"
 #include "game.h"
 #include "rng.h"
 #include "line.h"
+<<<<<<< HEAD
 #include "bodypart.h"
 #include "speech.h"
 #include <algorithm>
 
 
+=======
+#include "speech.h"
+#include <algorithm>
+
+>>>>>>> 9cb8e447cdc92eb45f3c8fb8a33c4fc0e40460b0
 void mdefense::zapback(monster *m)
 {
 	int j;

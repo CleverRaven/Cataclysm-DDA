@@ -521,9 +521,6 @@
     ],
     [
       [ "RAM", 1 ]
-    ],
-    [
-      [ "battery", 100 ]
     ]
   ]
 },{
@@ -577,7 +574,7 @@
       [ "processor", 1 ]
     ],
     [
-      [ "battery", 200 ]
+      [ "battery", 20 ]
     ]
   ]
 },{
@@ -616,7 +613,7 @@
       ["small_lcd_screen", 1]
     ],
     [
-      ["battery", 20]
+      ["battery", 200]
     ]
   ]
 },{
@@ -5785,6 +5782,52 @@
   ]
 },{
         "type" : "recipe",
+  "result": "mayonnaise",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 9000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "ceramic_cup", -1],
+      [ "ceramic_bowl", -1],
+      [ "glass", -1],
+      [ "glass_bowl", -1],
+      [ "jar_glass", -1],
+      [ "can_food", -1 ],
+      [ "canister_empty", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "cooking_oil", 2 ]
+    ],
+    [
+      [ "powder_eggs", 5 ]
+    ],
+    [
+      [ "lemon", 1 ],
+      [ "irradiated_lemon", 1 ],
+      [ "mustard", 1 ],
+      [ "pickle", 1],
+      [ "veggy_pickled", 1],
+      [ "vinegar", 1 ]
+    ],
+    [
+      [ "salt", 1 ],
+      [ "seasoning_salt", 10 ],
+      [ "pepper", 15 ]
+    ]
+
+  ]
+},{
+        "type" : "recipe",
   "result": "meat_smoked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -6579,7 +6622,7 @@
         "type" : "recipe",
   "result": "macaroni_helper",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_VEGGI",
+  "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 10000,
@@ -12561,6 +12604,33 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "lead_plate",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 6500,
+  "reversible": true,
+  "decomp_learn": 1,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ] , [ "manual_mechanics", 2] ],
+  "tools": [
+    [
+      ["crucible", -1]
+    ],
+    [
+      [ "hotplate", 20 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "lead", 100 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "receiver",
   "category": "CC_ELECTRONIC",
@@ -14488,6 +14558,47 @@
       [ "cable", 20 ]
     ]
   ]
+},{
+	"type" : "recipe",
+	"result": "telepad",
+	"category": "CC_OTHER",
+	"subcategory": "CSC_OTHER_TRAPS",
+	"skill_used": "traps",
+	"skills_required": [ "electronics", 8 ],
+	"difficulty": 5,
+	"time": 4500,
+	"reversible": true,
+	"autolearn": false,
+	"decomp_learn": 5,
+	"book_learn": [[ "recipe_lab_elec", 8 ]],
+	"tools": [
+		[
+			[ "screwdriver", -1 ],
+			[ "toolset", -1 ]
+		],
+		[
+			[ "wrench", -1 ],
+			[ "toolset", -1 ]
+		],
+		[
+			[ "soldering_iron", 16 ],
+			[ "toolset", 2 ]
+		]
+		],
+	"components": [
+		[
+			[ "teleporter", 1 ]
+		],
+		[
+			[ "amplifier", 1 ]
+		],
+		[
+			[ "solar_cell", 1 ]
+		],
+		[
+			[ "cable", 3 ]
+		]
+	]
 },{
         "type" : "recipe",
   "result": "socks",
@@ -18594,6 +18705,222 @@
     ],
     [
       [ "nail", 8 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "small_storage_battery",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
+  "tools": [
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      ["hotplate", 2],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "plastic_chunk", 3 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "lead_plate", 2 ]
+    ],
+    [
+      [ "water_clean", 3 ]
+    ],
+    [
+      [ "acid", 1 ]
+    ],
+    [
+      [ "rag", 1 ]
+    ],
+    [
+      [ "cable", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "battery_motorbike",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 1 ]
+    ],
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 5],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "plastic_chunk", 10 ]
+    ],
+    [
+      [ "scrap", 2 ]
+    ],
+    [
+      [ "lead_plate", 4 ]
+    ],
+    [
+      [ "water_clean", 6 ]
+    ],
+    [
+      [ "acid", 2 ]
+    ],
+    [
+      [ "rag", 2 ]
+    ],
+    [
+      [ "cable", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "battery_car",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 15 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 8],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "plastic_chunk", 15 ]
+    ],
+    [
+      [ "scrap", 4 ]
+    ],
+    [
+      [ "lead_plate", 6 ]
+    ],
+    [
+      [ "water_clean", 12 ]
+    ],
+    [
+      [ "acid", 4 ]
+    ],
+    [
+      [ "rag", 3 ]
+    ],
+    [
+      [ "cable", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "battery_truck",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 12],
+      ["toolset", 3],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "plastic_chunk", 20 ]
+    ],
+    [
+      [ "scrap", 6 ]
+    ],
+    [
+      [ "lead_plate", 8 ]
+    ],
+    [
+      [ "water_clean", 16 ]
+    ],
+    [
+      [ "acid", 6 ]
+    ],
+    [
+      [ "rag", 5 ]
+    ],
+    [
+      [ "cable", 6 ]
     ]
   ]
 },{

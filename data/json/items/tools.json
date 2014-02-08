@@ -960,6 +960,7 @@
 
   {
     "id": "roadmap",
+    "category": "books",
     "type": "TOOL",
     "symbol": ";",
     "color": "yellow",
@@ -983,6 +984,7 @@
 
   {
     "id": "survivormap",
+    "category": "books",
     "type": "TOOL",
     "symbol": ";",
     "color": "white",
@@ -1006,6 +1008,7 @@
 
   {
     "id": "militarymap",
+    "category": "books",
     "type": "TOOL",
     "symbol": ";",
     "color": "green",
@@ -1029,6 +1032,7 @@
 
   {
     "id": "restaurantmap",
+    "category": "books",
     "type": "TOOL",
     "symbol": ";",
     "color": "pink",
@@ -1052,6 +1056,7 @@
 
   {
     "id": "touristmap",
+    "category": "books",
     "type": "TOOL",
     "symbol": ";",
     "color": "blue",
@@ -1802,6 +1807,29 @@
     "bashing": 6,
     "cutting": 0,
     "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "SET_TRAP"
+  },
+
+  {
+    "id": "telepad",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "teleport pad",
+    "description": "This is a kit for a teleporter trap consisting of a teleporter and a solar cell that is triggered when stepped upon.",
+    "price": 7000,
+    "material": ["plastic", "aluminum"],
+    "weight": 2000,
+    "volume": 4,
+    "bashing": 1,
+    "cutting": 8,
+    "to_hit": -4,
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,

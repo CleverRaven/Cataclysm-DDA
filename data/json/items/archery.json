@@ -421,6 +421,7 @@
    {
       "type":"GENERIC",
       "id" : "exploding_arrow_warhead",
+      "category" : "spare_parts",
       "symbol" : "=",
       "color" : "green",
       "name" : "exploding arrowhead",
