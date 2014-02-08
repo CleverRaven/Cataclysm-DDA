@@ -599,8 +599,11 @@ public:
 // returns a Bresenham line to that square.  It is called by plfire() and
 // throw().
   std::vector<point> target(int &x, int &y, int lowx, int lowy, int hix,
-                            int hiy, std::vector <monster> t, int &target,
+                            int hiy, std::vector <Creature*> t, int &target,
                             item *relevent);
+  // interface to target(), collects a list of targets & selects default target
+  // finally calls target() and returns its result.
+  std::vector<point> pl_target_ui(int &x, int &y, int range, item *relevent, int default_target_x = -1, int default_target_y = -1);
 
 // Map updating and monster spawning
   void replace_stair_monsters();
@@ -654,10 +657,10 @@ public:
 
 // ########################## DATA ################################
 
-  std::map<point, int> z_at;
   Creature_tracker critter_tracker;
 
-  signed char last_target; // The last monster targeted
+  int last_target; // The last monster targeted
+  bool last_target_was_npc;
   int run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
                 //  monsters spawns, go to 2 - No movement allowed
   std::vector<int> new_seen_mon;
