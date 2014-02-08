@@ -1,5 +1,4 @@
 #include "game.h"
-#include "setvector.h"
 #include "output.h"
 #include "keypress.h"
 #include "player.h"
