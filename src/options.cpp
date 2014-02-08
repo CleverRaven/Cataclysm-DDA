@@ -412,7 +412,7 @@ void initOptions() {
                                             );
     OPTIONS["DRIVING_VIEW_OFFSET"] =    cOpt("interface", _("Auto-shift the view while driving"),
                                              _("If true, view will automatically shift towards the driving direction"),
-                                             false
+                                             true
                                             );
 
     OPTIONS["VEHICLE_DIR_INDICATOR"] =  cOpt("interface", _("Draw vehicle facing indicator"),
