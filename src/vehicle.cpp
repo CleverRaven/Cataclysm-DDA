@@ -3737,30 +3737,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];
     // code copied form mattack::smg, mattack::flamethrower
-    int t, fire_t = 0;
-    monster *target = 0;
     int range = ammo.type == fuel_type_gasoline ? 5 : 12;
-    int closest = range + 1;
-    for (int i = 0; i < g->num_zombies(); i++) {
-        int dist = rl_dist( x, y, g->zombie(i).posx(), g->zombie(i).posy() );
-        if (g->zombie(i).friendly == 0 && dist < closest &&
-              !g->zombie(i).is_hallucination() &&
-              g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t) ) {
-            target = &(g->zombie(i));
-            closest = dist;
-            fire_t = t;
-        }
-    }
-    if( !target ) {
-        return false;
-    }
-
-    std::vector<point> traj = line_to( x, y, target->posx(), target->posy(), fire_t );
-    for( int i = 0; i < traj.size(); i++ ) {
-        if( traj[i].x == g->u.posx && traj[i].y == g->u.posy ) {
-            return false; // won't shoot at player
-        }
-    }
 
     // Check for available power for turrets that use it.
     const int power = fuel_left(fuel_type_battery);
@@ -3770,14 +3747,6 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
         if( power < 20 ) { return false; }
     } else if( gun.item_tags.count( "USE_UPS_40" ) ) {
         if( power < 40 ) { return false; }
-    }
-    // make a noise, if extra noise is to be made
-    if (extra_sound != "") {
-        g->sound(x, y, 20, extra_sound);
-    }
-    // notify player if player can see the shot
-    if( g->u_see(x, y) ) {
-        g->add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }
     npc tmp;
     tmp.set_fake( true );
@@ -3794,19 +3763,40 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     it_ammo curam = ammo;
     tmp.weapon.curammo = &curam;
     tmp.weapon.charges = charges;
+
+    const bool u_see = g->u_see(x, y);
+
+    int fire_t, boo_hoo;
+    Creature *target = tmp.auto_find_hostile_target(range, boo_hoo, fire_t);
+    if (target == NULL) {
+        if (u_see) {
+            if (boo_hoo > 1) {
+                g->add_msg(_("%s points in your direction and emits %d annoyed sounding beeps."),
+                tmp.name.c_str(), boo_hoo);
+            } else if (boo_hoo > 0) {
+                g->add_msg(_("%s points in your direction and emits an IFF warning beep."),
+                tmp.name.c_str());
+            }
+        }
+        return false;
+    }
+
+    // make a noise, if extra noise is to be made
+    if (extra_sound != "") {
+        g->sound(x, y, 20, extra_sound);
+    }
+    // notify player if player can see the shot
+    if( g->u_see(x, y) ) {
+        g->add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
+    }
     // Spawn a fake UPS to power any turreted weapons that need electricity.
     item tmp_ups( itypes["UPS_on"], 0 );
     // Drain a ton of power
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
     item &ups_ref = tmp.i_add(tmp_ups);
-    g->fire( tmp, target->posx(), target->posy(), traj, true );
-    // Rturn whatever is left.
+    tmp.fire_gun(target->xpos(), target->ypos(), true);
+    // Return whatever is left.
     refill( fuel_type_battery, ups_ref.charges );
-    if( ammo.type == fuel_type_gasoline ) {
-        for( int i = 0; i < traj.size(); i++ ) {
-            g->m.add_field(traj[i].x, traj[i].y, fd_fire, 1);
-        }
-    }
 
     return true;
 }

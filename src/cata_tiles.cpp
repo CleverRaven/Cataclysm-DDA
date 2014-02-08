@@ -40,6 +40,8 @@ cata_tiles::cata_tiles()
     tile_width = 0;
     screentile_height = 0;
     screentile_width = 0;
+    tile_ratiox = 0;
+    tile_ratioy = 0;
 
     in_animation = false;
     do_draw_explosion = false;
@@ -90,11 +92,8 @@ cata_tiles::~cata_tiles()
     }
 }
 
-void cata_tiles::init(SDL_Surface *screen, std::string json_path, std::string tileset_path)
+void cata_tiles::init(std::string json_path, std::string tileset_path)
 {
-    if (screen) {
-        display_screen = screen;
-    }
     // load files
     DebugLog() << "Attempting to Load JSON file\n";
     load_tilejson(json_path);
@@ -103,20 +102,28 @@ void cata_tiles::init(SDL_Surface *screen, std::string json_path, std::string ti
     DebugLog() << "Attempting to Create Rotation Cache\n";
     create_rotation_cache();
 }
-void cata_tiles::init(SDL_Surface *screen, std::string load_file_path)
+void cata_tiles::init(std::string load_file_path)
 {
     std::string json_path, tileset_path;
     // get path information from load_file_path
     get_tile_information(load_file_path, json_path, tileset_path);
     // send this information to old init to avoid redundant code
-    init(screen, json_path, tileset_path);
+    init(json_path, tileset_path);
 }
 void cata_tiles::reinit(std::string load_file_path)
 {
     std::string json_path, tileset_path;
     get_tile_information(load_file_path, json_path, tileset_path);
-    init(NULL, json_path, tileset_path);
+    init(json_path, tileset_path);
 }
+
+void cata_tiles::set_screen(SDL_Surface * screen)
+{
+    if (screen) {
+        display_screen = screen;
+    }
+}
+
 void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
 {
     DebugLog() << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]\n";
@@ -182,14 +189,12 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
 
 void cata_tiles::load_tileset(std::string path)
 {
-    /* release buffer from memory if it has already been initialized */
-    if (buffer) {
-        SDL_FreeSurface(buffer);
-    }
+
     /* release tile_atlas from memory if it has already been initialized */
     if (tile_atlas) {
         SDL_FreeSurface(tile_atlas);
     }
+
     /* release stored tiles */
     if (tile_values) {
         for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
@@ -197,17 +202,31 @@ void cata_tiles::load_tileset(std::string path)
         }
         tile_values->clear();
     }
-    /* create the buffer screen */
-    buffer = SDL_AllocSurface(SDL_SWSURFACE, WindowWidth, WindowHeight, 32, 0xff0000, 0xff00, 0xff, 0);
 
-    screentile_height = WindowHeight / tile_height;
-    screentile_width = WindowWidth / tile_width;
+     /* release buffer from memory if it has already been initialized */
+    if (buffer) {
+        SDL_FreeSurface(buffer);
+    }
+
+    tile_ratiox = ((float)tile_width/(float)fontwidth);
+    tile_ratioy = ((float)tile_height/(float)fontheight);
+
+    terrain_term_x = OPTIONS["TERMINAL_X"] - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
+    terrain_term_y = OPTIONS["TERMINAL_Y"];
+
+    screentile_width =  (int)(terrain_term_x / tile_ratiox) + 1;
+    screentile_height = (int)(terrain_term_y / tile_ratioy) + 1;
+
+    /* create the buffer screen */
+    buffer = SDL_AllocSurface(SDL_SWSURFACE, screentile_width * tile_width, screentile_height * tile_height, 32, 0xff0000, 0xff00, 0xff, 0);
 
     DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->h << "\n";
+
     /** reinit tile_atlas */
     tile_atlas = IMG_Load(path.c_str());
     if(!tile_atlas) {
         std::cerr << "Could not locate tileset file at " << path << std::endl;
+        DebugLog() << (std::string)"Could not locate tileset file at " << path.c_str() << "\n";
         // TODO: run without tileset
     }
 
@@ -870,11 +889,16 @@ bool cata_tiles::draw_field_or_item(int x, int y)
             do_item = true;
             break;
         case fd_blood:
+        case fd_blood_veggy:
+        case fd_blood_insect:
+        case fd_blood_invertebrate:
         case fd_gibs_flesh:
+        case fd_gibs_veggy:
+        case fd_gibs_insect:
+        case fd_gibs_invertebrate:
         case fd_bile:
         case fd_slime:
         case fd_acid:
-        case fd_gibs_veggy:
         case fd_sap:
         case fd_sludge:
             //need to draw fields and items both

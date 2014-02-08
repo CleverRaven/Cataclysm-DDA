@@ -83,6 +83,9 @@ public:
     void load_bionic    (JsonObject &jo);
     void load_veh_part  (JsonObject &jo);
 
+    void load_item_blacklist(JsonObject &jo);
+    void finialize_item_blacklist();
+
     // Check that all items referenced in the groups
     // do actually exist (are defined)
     void check_items_of_groups_exist() const;

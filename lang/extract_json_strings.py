@@ -40,6 +40,7 @@ ignorable = {
 automatically_convertible = {
     "AMMO",
     "ARMOR",
+    "ammunition_type",
     "bionic",
     "BIONIC_ITEM",
     "BOOK",
@@ -55,6 +56,7 @@ automatically_convertible = {
     "ITEM_CATEGORY",
     "keybinding",
     "lab_note",
+    "MOD_INFO",
     "MONSTER",
     "mutation",
     "overmap_terrain",
@@ -141,10 +143,12 @@ extract_specials = {
 if os.path.exists("data/json"):
     raw_dir = "data/raw"
     json_dir = "data/json"
+    mods_dir = "data/mods"
     to_dir = "lang/json"
 elif os.path.exists("../data/json"):
     raw_dir = "../data/raw"
     json_dir = "../data/json"
+    mods_dir = "../data/mods"
     to_dir = "../lang/json"
 else:
     print("Error: Couldn't find the 'data/json' subdirectory.")
@@ -239,9 +243,12 @@ def extract_all_from_dir(json_dir):
     allfiles = os.listdir(json_dir)
     allfiles.sort()
     dirs = []
+    skiplist = [ ".gitkeep" ]
     for f in allfiles:
         if os.path.isdir(os.path.join(json_dir, f)):
             dirs.append(f)
+        elif f in skiplist:
+            continue
         elif f.endswith(".json"):
             extract_all_from_file(os.path.join(json_dir, f))
         elif f not in not_json:
@@ -265,5 +272,6 @@ def extract_all_from_file(json_file):
 
 extract_all_from_dir(json_dir)
 extract_all_from_dir(raw_dir)
+extract_all_from_dir(mods_dir)
 
 # done.

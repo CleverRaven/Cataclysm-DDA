@@ -2,6 +2,8 @@
 #define _ITEM_GROUP_H_
 
 #include <vector>
+#include <set>
+#include <string>
 
 typedef std::string Item_tag;
 
@@ -19,6 +21,7 @@ public:
     bool guns_have_ammo();
     void add_entry(const Item_tag item_id, int chance);
     void add_group(Item_group*, int chance);
+    void remove_item(const Item_tag &item_id);
 
     // Does this item group contain the given item?
     bool has_item(const Item_tag item_id);
@@ -26,6 +29,7 @@ public:
     // this is not recursive
     void check_items_exist() const;
 private:
+    void remove_item(const Item_tag &item_id, std::set<std::string> &rec);
 
     const Item_tag m_id;
     int m_max_odds;
@@ -39,6 +43,7 @@ private:
 //to add a lower bound value.
 class Item_group_entry
 {
+friend class Item_group;
 public:
     Item_group_entry(const Item_tag id, int upper_bound);
 
@@ -51,6 +56,7 @@ private:
 
 class Item_group_group
 {
+friend class Item_group;
 public:
     Item_group_group(Item_group* group, int upper_bound);
 

@@ -102,7 +102,7 @@
     "dispersion": 32,
     "recoil": 0,
     "durability": 8,
-    "burst": 5,
+    "burst": 1,
     "clip_size": 100,
     "reload": 450
   },
@@ -2980,7 +2980,7 @@
     "flags": ["MODE_BURST", "MOUNTED_GUN"],
     "skill": "rifle",
     "ammo": "50",
-    "weight": 13000,
+    "weight": 38000,
     "volume": 18,
     "bashing": 12,
     "cutting": 0,
@@ -3262,5 +3262,5 @@
     "reload": 1000,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   }
-  
+
 ]

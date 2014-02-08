@@ -215,6 +215,10 @@
         "T": "f_toilet",
         "d": "f_dumpster"
       },
+      "place_specials": [
+        { "type": "toilet", "x": 18, "y": 21 },
+        { "type": "toilet", "x": 20, "y": 21 }
+      ],
       "set": [
         { "point": "terrain", "id": "t_tree_young",
           "x": 22, "y": [ 1, 4 ], "chance": 10, "repeat" : [ 1, 3 ] },

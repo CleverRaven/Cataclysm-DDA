@@ -275,7 +275,6 @@ public:
   bool u_see (monster *critter);
   bool u_see (Creature *t); // for backwards compatibility
   bool u_see (Creature &t);
-  bool pl_sees(player *p, monster *critter, int &t);
   bool is_hostile_nearby();
   bool is_hostile_very_close();
   void refresh_all();
@@ -693,6 +692,17 @@ public:
   std::vector<point> destination_preview;
 
   bool is_hostile_within(int distance);
+    void activity_on_turn();
+    void activity_on_turn_game();
+    void activity_on_turn_refill_vehicle();
+    void activity_on_turn_pulp();
+    void activity_on_finish();
+    void activity_on_finish_reload();
+    void activity_on_finish_read();
+    void activity_on_finish_train();
+    void activity_on_finish_firstaid();
+    void activity_on_finish_fish();
+    void activity_on_finish_vehicle();
 };
 
 #endif

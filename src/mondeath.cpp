@@ -20,12 +20,13 @@ void mdeath::normal(monster *z) {
     }
 
     m_size monSize = (z->type->size);
-    bool isFleshy = (z->made_of("flesh") || z->made_of("hflesh"));
     bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
 
     // leave some blood if we have to
-    if (isFleshy && z->has_flag(MF_WARM) && !z->has_flag(MF_VERMIN)) {
-        g->m.add_field(z->posx(), z->posy(), fd_blood, 1);
+    if (!z->has_flag(MF_VERMIN)) {
+       field_id type_blood = z->monBloodType();
+       if (type_blood != fd_null)
+        g->m.add_field(z->posx(), z->posy(), type_blood, 1);
     }
 
     int maxHP = z->type->hp;
@@ -49,10 +50,10 @@ void mdeath::normal(monster *z) {
         } else if (monSize >= MS_MEDIUM) {
             gibAmount += rng(1,6);
         }
-        // Limit chunking to flesh and veggy creatures until other kinds are supported.
-        bool leaveGibs = (isFleshy || z->made_of("veggy"));
+        // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
+        bool leaveGibs = (z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy") || z->made_of("iflesh"));
         if (leaveGibs) {
-            make_gibs( z, gibAmount);
+            make_gibs( z, gibAmount );
         }
     }
 }
@@ -632,10 +633,9 @@ void make_gibs(monster* z, int amount) {
     if (amount <= 0) {
         return;
     }
-    const field_id gibType = (z->made_of("veggy") ? fd_gibs_veggy : fd_gibs_flesh);
     const int zposx = z->posx();
     const int zposy = z->posy();
-    const bool warm = z->has_flag(MF_WARM);
+    field_id type_blood = z->monBloodType();
     for (int i = 0; i < amount; i++) {
         // leave gibs, if there are any
         const int gibX = zposx + rng(0,6) - 3;
@@ -644,14 +644,14 @@ void make_gibs(monster* z, int amount) {
         int junk;
         if( g->m.clear_path( zposx, zposy, gibX, gibY, 3, 1, 100, junk ) ) {
             // Only place gib if there's a clear path for it to get there.
-            g->m.add_field(gibX, gibY, gibType, gibDensity);
+            g->m.add_field(gibX, gibY, z->monGibType(), gibDensity);
         }
-        if( warm ) {
+        if( type_blood != fd_null ) {
             const int bloodX = zposx + (rng(0,2) - 1);
             const int bloodY = zposy + (rng(0,2) - 1);
             if( g->m.clear_path( zposx, zposy, bloodX, bloodY, 2, 1, 100, junk ) ) {
                 // Only place blood if there's a clear path for it to get there.
-                g->m.add_field(bloodX, bloodY, fd_blood, 1);
+                g->m.add_field(bloodX, bloodY, type_blood, 1);
             }
         }
     }

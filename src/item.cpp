@@ -381,14 +381,14 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("BASE", _(" To-hit bonus: "), ((type->m_to_hit > 0) ? "+" : ""), type->m_to_hit, true, ""));
   dump->push_back(iteminfo("BASE", _("Moves per attack: "), "", attack_time(), true, "", true, true));
 
-	if (get_material(1) != "null") {
-		std::string material_string = material_type::find_material(get_material(1))->name();
-		if (get_material(2) != "null") {
-			material_string += ", ";
-			material_string += material_type::find_material(get_material(2))->name();
-		}
-		dump->push_back(iteminfo("BASE", _("Material: ") + material_string));
-	}
+  if (get_material(1) != "null") {
+      std::string material_string = material_type::find_material(get_material(1))->name();
+      if (get_material(2) != "null") {
+          material_string += ", ";
+          material_string += material_type::find_material(get_material(2))->name();
+      }
+      dump->push_back(iteminfo("BASE", _("Material: ") + material_string));
+  }
 
   if ( debug == true ) {
     if( g != NULL ) {
@@ -445,7 +445,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   // added charge display for debugging
   it_ammo* ammo = dynamic_cast<it_ammo*>(type);
 
-  dump->push_back(iteminfo("AMMO", _("Type: "), ammo_name(ammo->type)));
+  if (ammo->type != "NULL") {
+    dump->push_back(iteminfo("AMMO", _("Type: "), ammo_name(ammo->type)));
+  }
   dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage));
   dump->push_back(iteminfo("AMMO", _("Armor-pierce: "), "", ammo->pierce));
   dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range));
@@ -529,32 +531,32 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   }
 
   if (!gun->valid_mod_locations.empty()) {
-	temp1.str("");
-	temp1 << _("Mod Locations:") << "\n";
-	int iternum = 0;
-	for( std::map<std::string,int>::iterator i=gun->valid_mod_locations.begin(); i!=gun->valid_mod_locations.end(); i++) {
-		if (iternum != 0) {
-			temp1 << "; ";
-		}
-		const int free_slots = (*i).second - get_free_mod_locations((*i).first);
-		temp1 << free_slots << "/" << (*i).second << " " << _((*i).first.c_str());
-		bool first_mods = true;
-		for (int mn = 0; mn < contents.size(); mn++) {
-			it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[mn].type);
-			if (mod->location == (*i).first) {//if mod for this location
-				if (first_mods) {
-					temp1 << ": ";
-					first_mods = false;
-				}else{
-					temp1 << ", ";
-				}
-				temp1 << contents[mn].tname();
-			}
-		}
-		iternum++;
-	}
-	temp1 << ".";
-	dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
+      temp1.str("");
+      temp1 << _("Mod Locations:") << "\n";
+      int iternum = 0;
+      for( std::map<std::string,int>::iterator i=gun->valid_mod_locations.begin(); i!=gun->valid_mod_locations.end(); i++) {
+          if (iternum != 0) {
+              temp1 << "; ";
+          }
+          const int free_slots = (*i).second - get_free_mod_locations((*i).first);
+          temp1 << free_slots << "/" << (*i).second << " " << _((*i).first.c_str());
+          bool first_mods = true;
+          for (int mn = 0; mn < contents.size(); mn++) {
+              it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[mn].type);
+              if (mod->location == (*i).first) {//if mod for this location
+                  if (first_mods) {
+                      temp1 << ": ";
+                      first_mods = false;
+                  }else{
+                      temp1 << ", ";
+                  }
+                  temp1 << contents[mn].tname();
+              }
+          }
+          iternum++;
+      }
+      temp1 << ".";
+      dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
   }
 
  } else if (is_gunmod()) {
@@ -572,30 +574,30 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
    dump->push_back(iteminfo("GUNMOD", _("Burst: "), "", mod->burst, true, (mod->burst > 0 ? "+" : "")));
 
   if (mod->newtype != "NULL") {
-	dump->push_back(iteminfo("GUNMOD", _("Ammo: ") + ammo_name(mod->newtype)));
+      dump->push_back(iteminfo("GUNMOD", _("Ammo: ") + ammo_name(mod->newtype)));
   }
 
   temp1.str("");
   temp1 << _("Used on: ");
   bool first = true;
   if (mod->used_on_pistol){
-	temp1 << _("Pistols");
-	first = false;
+      temp1 << _("Pistols");
+      first = false;
   }
   if (mod->used_on_shotgun) {
-  	if (!first) temp1 << ", ";
-	temp1 << _("Shotguns");
-	first = false;
+      if (!first) temp1 << ", ";
+      temp1 << _("Shotguns");
+      first = false;
   }
   if (mod->used_on_smg){
-  	if (!first) temp1 << ", ";
-	temp1 << _("SMGs");
-	first = false;
+      if (!first) temp1 << ", ";
+      temp1 << _("SMGs");
+      first = false;
   }
   if (mod->used_on_rifle){
-  	if (!first) temp1 << ", ";
-	temp1 << _("Rifles");
-	first = false;
+      if (!first) temp1 << ", ";
+      temp1 << _("Rifles");
+      first = false;
   }
 
   temp2.str("");
@@ -833,18 +835,19 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         }
         dump->push_back(iteminfo("DESCRIPTION", ntext + item_note->second ));
     }
-  if (contents.size() > 0) {
-   if (is_gun()) {//Mods description
-	for (int i = 0; i < contents.size(); i++) {
-	 it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[i].type);
-	 temp1.str("");
-	 temp1 << " " << contents[i].tname() << " (" << _(mod->location.c_str()) << ")";
-	 dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
-     dump->push_back(iteminfo("DESCRIPTION", contents[i].type->description));
+    if (contents.size() > 0) {
+        if (is_gun()) {//Mods description
+            for (int i = 0; i < contents.size(); i++) {
+                it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[i].type);
+                temp1.str("");
+                temp1 << " " << contents[i].tname() << " (" << _(mod->location.c_str()) << ")";
+                dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
+                dump->push_back(iteminfo("DESCRIPTION", contents[i].type->description));
+            }
+        } else {
+            dump->push_back(iteminfo("DESCRIPTION", contents[0].type->description));
+        }
     }
-   } else
-    dump->push_back(iteminfo("DESCRIPTION", contents[0].type->description));
-  }
  }
 
  temp1.str("");

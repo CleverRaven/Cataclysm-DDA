@@ -1,0 +1,117 @@
+[
+    {
+        "type": "item_group",
+        "id" : "rifles",
+        "items" :[
+          ["cw-24", 5],
+          ["cw-24m", 6],
+          ["cw-24k", 6]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id" : "assault",
+        "items" :[
+          ["svs-24", 3],
+          ["svs-24c", 2]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "allguns",
+        "items": [
+          ["svs-24", 3],
+          ["svs-24c", 2],
+          ["cw-24", 5],
+          ["cw-24m", 6],
+          ["cw-24k", 6]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "mansion_guns",
+        "items": [
+          ["cw-24", 8],
+          ["cw-24m", 8],
+          ["cw-24k", 8],
+          ["svs-24", 6],
+          ["svs-24c", 6]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "rare",
+        "items": [
+          ["svs-24", 3],
+          ["svs-24c", 3],
+          ["654t", 4]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id" : "homeguns",
+        "items": [
+          ["cw-24m", 3],
+          ["cw-24", 3],
+          ["545", 5],
+          ["654", 3],
+          ["654t", 1],
+          ["545_ap", 3],
+          ["545_casing", 5],
+          ["654_casing", 5]
+       ]
+    },
+    {
+        "type": "item_group",
+        "id": "lmoe_guns",
+        "items": [
+          ["cw-24", 6],
+          ["cw-24m", 6],
+          ["cw-24k", 6]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "ammo",
+        "items": [
+          ["654", 5],
+          ["654t", 3],
+          ["545", 6],
+          ["545_ap", 4]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "gunxtras",
+        "items": [
+          ["654_casing", 10],
+          ["545_casing", 10]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "stash_ammo",
+        "items": [
+          ["654", 5],
+          ["654t", 2],
+          ["545", 6],
+          ["545_ap", 3]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "cop_evidence",
+        "items": [
+          ["recipe_igm", 5]
+        ]
+
+    },
+    {
+        "type": "item_group",
+        "id": "cop_gear",
+        "items": [
+          ["recipe_igm", 4]
+        ]
+    }
+
+]

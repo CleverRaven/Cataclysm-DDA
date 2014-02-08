@@ -220,11 +220,12 @@ class cata_tiles
         void scroll(int x, int y);
 
         /** Used to properly initialize everything for display */
-        void init(SDL_Surface *screen, std::string json_path, std::string tileset_path);
+        void init(std::string json_path, std::string tileset_path);
         /* initialize from an outside file */
-        void init(SDL_Surface *screen, std::string load_file_path);
+        void init(std::string load_file_path);
         /* Reinitializes the tile context using the original screen information */
         void reinit(std::string load_file_path);
+        void set_screen(SDL_Surface *screen);
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
         void init_light();
@@ -239,6 +240,8 @@ class cata_tiles
 
         int tile_height, tile_width;
         int screentile_width, screentile_height;
+        int terrain_term_x, terrain_term_y;
+        float tile_ratiox, tile_ratioy;
         tile *screen_tiles;
         int num_tiles;
 

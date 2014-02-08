@@ -26,7 +26,10 @@ public:
     int xanax               (player*, item*, bool);
     int cig                 (player*, item*, bool);
     int antibiotic          (player*, item*, bool);
+    int eyedrops            (player*, item*, bool);
     int fungicide           (player*, item*, bool);
+    int antifungal          (player*, item*, bool);
+    int antiparasitic       (player*, item*, bool);
     int weed                (player*, item*, bool);
     int coke                (player*, item*, bool);
     int crack               (player*, item*, bool);
@@ -68,6 +71,8 @@ public:
     int light_on            (player *, item *, bool);
     int gasoline_lantern_off(player *, item *, bool);
     int gasoline_lantern_on (player *, item *, bool);
+    int oil_lamp_off        (player *, item *, bool);
+    int oil_lamp_on         (player *, item *, bool);
     int lightstrip          (player *, item *, bool);
     int lightstrip_active   (player *, item *, bool);
     int glowstick           (player *, item *, bool);

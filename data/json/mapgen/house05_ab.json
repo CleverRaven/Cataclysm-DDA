@@ -1,0 +1,109 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "house"
+        ],
+        "method": "json",
+        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "rows": [
+                ".;;;....................",
+                ".|---------22----33----.",
+                ".|       |A   |       |.",
+                ".|       |;  8|       |.",
+                ".|       |   8|       |.",
+                ".2       |    |       |.",
+                ".2       |-+--|       |.",
+                ".|       |    |       |.",
+                ".|       |    +      G|.",
+                ".|       +    |      A2.",
+                ".|       |    |       2.",
+                ".|--------    |       |.",
+                ".|            |---+---|.",
+                ".2                    |.",
+                ".2                    2.",
+                ".|                    |.",
+                ".|----+----------+----|.",
+                ".|         |          |.",
+                ".|         |          |.",
+                ".|         |          |.",
+                ".|         |          |.",
+                ".|         |          |.",
+                ".----22---------22-----.",
+                "........................"
+            ],
+            "terrain": {
+                ".": "t_grass",
+                "-": "t_wall_h",
+                "2": "t_window_boarded",
+                "3": "t_door_locked",
+                "|": "t_wall_v",
+                " ": "t_floor",
+                "6": "t_floor",
+                "7": "t_floor",
+                "8": "t_floor",
+                "9": "t_floor",
+                ":": "t_floor",
+                ";": "t_floor",
+                "+": "t_door_c",
+                "=": "t_floor",
+                ">": "t_floor",
+                "?": "t_floor",
+                "@": "t_floor",
+                "A": "t_floor",
+                "B": "t_floor",
+                "C": "t_floor",
+                "D": "t_floor",
+                "E": "t_floor",
+                "F": "t_floor",
+                "G": "t_floor",
+                "z": "t_shrub",
+                "S": "t_sidewalk",
+                "^": "t_tree",
+                "{": "t_door_glass_c",
+                "[": "t_fence_v",
+                "~": "t_fence_h"
+            },
+            "furniture": {
+                "6": "f_table",
+                "7": "f_bookcase",
+                "8": "f_bathtub",
+                "9": "f_rack",
+                ":": "f_dresser",
+                ";": "f_toilet",
+                "=": "f_fireplace",
+                ">": "f_counter",
+                "?": "f_sofa",
+                "@": "f_bed",
+                "A": "f_sink",
+                "B": "f_chair",
+                "C": "f_desk",
+                "D": "f_trashcan",
+                "E": "f_cupboard",
+                "F": "f_fridge",
+                "G": "f_oven"
+            },
+            "place_specials": [
+                { "type": "toilet", "x": 10, "y": 3 }
+            ],
+            "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
+            "set": [
+                { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
+                { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
+                { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] },
+                { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": 0, "repeat": [ 5, 8 ] },
+                { "point": "terrain", "id": "t_dirt", "x": [ 2, 14 ], "y":[ 17,21 ] , "repeat": [ 1,3 ] },
+                { "point": "terrain", "id": "t_grass", "x": [ 2, 14 ], "y":[ 17,21 ] , "repeat": [ 1,3 ] }
+            ],
+                        "comment": "randomly picked from a group ---v",
+            "place_groups": [
+                { "item": "trash", "chance": 70,  "x": [ 2,21 ], "y": [ 2,21 ], "repeat": [ 3,4 ] },
+                { "item": "stash_drugs", "chance": 20, "x": [ 2,21 ], "y": [ 2,21 ] },
+                { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] }
+            ],
+            "comment": "end of mapgen json definition ---v"
+        },
+        "comment": "end of mapgen entry ---v"
+    }
+]

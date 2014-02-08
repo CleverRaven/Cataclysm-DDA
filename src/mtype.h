@@ -173,6 +173,7 @@ enum m_flag {
     MF_FEATHER,             // May produce feather when butchered
     MF_CBM,                 // May produce a cbm or two when butchered
     MF_BONES,               // May produce bones and sinews when butchered
+    MF_FAT,                 // May produce fat when butchered
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
     MF_FRIENDLY_SPECIAL,    // Use our special attack, even if friendly
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
@@ -187,6 +188,9 @@ enum m_flag {
     MF_VERMIN,              // Creature is too small for normal combat, butchering, etc.
     MF_HUNTS_VERMIN,        // Creature uses vermin as a food source
     MF_SMALL_BITER,         // Creature can cause a painful, non-damaging bite
+    MF_LARVA,               // Creature is a larva. Currently used for gib and blood handling.
+    MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
+    MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff!
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

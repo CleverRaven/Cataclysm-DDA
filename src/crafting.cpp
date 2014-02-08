@@ -1241,7 +1241,6 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
 void game::make_craft(recipe *making)
 {
     u.assign_activity(ACT_CRAFT, making->time, making->id);
-    u.moves = 0;
     u.lastrecipe = making;
 }
 
@@ -1249,7 +1248,6 @@ void game::make_craft(recipe *making)
 void game::make_all_craft(recipe *making)
 {
     u.assign_activity(ACT_LONGCRAFT, making->time, making->id);
-    u.moves = 0;
     u.lastrecipe = making;
 }
 
@@ -1267,7 +1265,7 @@ void game::complete_craft()
         int main_rank_penalty = 0;
         if (making->skill_used == Skill::skill("electronics")) {
             main_rank_penalty = 2;
-        } else if (making->skill_used == Skill::skill("tailoring")) {
+        } else if (making->skill_used == Skill::skill("tailor")) {
             main_rank_penalty = 1;
         }
         skill_dice -= main_rank_penalty * 4;
@@ -1279,7 +1277,7 @@ void game::complete_craft()
         int paws_rank_penalty = 0;
         if (making->skill_used == Skill::skill("electronics")) {
             paws_rank_penalty = 1;
-        } else if (making->skill_used == Skill::skill("tailoring")) {
+        } else if (making->skill_used == Skill::skill("tailor")) {
             paws_rank_penalty = 1;
         } else if (making->skill_used == Skill::skill("mechanics")) {
             paws_rank_penalty = 1;
@@ -1693,10 +1691,7 @@ void game::disassemble(int pos)
                         return;
                     }
                     u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
-                    u.moves = 0;
-                    std::vector<int> dis_items;
-                    dis_items.push_back(pos);
-                    u.activity.values = dis_items;
+                    u.activity.values.push_back(pos);
                 }
                 return; // recipe exists, but no tools, so do not start disassembly
             }

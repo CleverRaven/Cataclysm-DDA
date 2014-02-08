@@ -1156,7 +1156,7 @@ void monster::process_effects()
 
         // MATERIALS-TODO: use fire resistance
         } else if (id == "onfire") {
-            if (made_of("flesh"))
+            if (made_of("flesh") || made_of("iflesh"))
                 hurt(rng(3, 8));
             if (made_of("veggy"))
                 hurt(rng(10, 20));
@@ -1216,6 +1216,31 @@ void monster::add_item(item it)
 bool monster::is_hallucination()
 {
   return hallucination;
+}
+
+field_id monster::monBloodType() {
+    if (has_flag(MF_ACID_BLOOD) || (type->dies == &mdeath::acid))
+        return fd_acid; //ACID_BLOOD flag is kind of redundant now, but maybe some other monster can use it
+    if (type->dies == &mdeath::boomer)
+        return fd_bile;
+    if (has_flag(MF_LARVA) || has_flag(MF_ARTHROPOD_BLOOD))
+        return fd_blood_invertebrate;
+    if (made_of("veggy"))
+        return fd_blood_veggy;
+    if (made_of("iflesh"))
+        return fd_blood_insect;
+    if (has_flag(MF_WARM))
+        return fd_blood;
+    return fd_null; //Please update the corpse blood type code at activity_on_turn_pulp() in game.cpp when modifying these rules!
+}
+field_id monster::monGibType() {
+    if (has_flag(MF_LARVA) || type->in_species("MOLLUSK"))
+        return fd_gibs_invertebrate;
+    if (made_of("veggy"))
+        return fd_gibs_veggy;
+    if (made_of("iflesh"))
+        return fd_gibs_insect;
+    return fd_gibs_flesh;
 }
 
 bool monster::getkeep()

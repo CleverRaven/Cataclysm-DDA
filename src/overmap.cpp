@@ -862,24 +862,6 @@ point overmap::find_note(int const x, int const y, int const z, std::string cons
     return ret;
 }
 
-//This removes a npc from the overmap. The NPC is supposed to be already dead.
-//This function also assumes the npc is not in the list of active npcs anymore.
-void overmap::remove_npc(int npc_id)
-{
-    for(int i = 0; i < npcs.size(); i++)
-    {
-        if(npcs[i]->getID() == npc_id)
-        {
-            //Remove this npc from the list of overmap npcs.
-            if(!npcs[i]->dead) debugmsg("overmap::remove_npc: NPC (%d) is not dead.",npc_id);
-            npc * tmp = npcs[i];
-            npcs.erase(npcs.begin() + i);
-            delete tmp;
-            return;
-        }
-    }
-}
-
 void overmap::remove_vehicle(int id)
 {
     std::map<int, om_vehicle>::iterator om_veh = vehicles.find(id);
@@ -974,24 +956,6 @@ point overmap::display_notes(int z)
     return result;
 }
 
-bool overmap::has_npc(int const x, int const y, int const z) const
-{
-    //Check if the target overmap square has an npc in it.
-    for (int n = 0; n < npcs.size(); n++) {
-        if(npcs[n]->omz == z && !npcs[n]->marked_for_death)
-        {
-            if (npcs[n]->is_active())
-            { //Active npcs have different coords. Because Cata hates you!
-                if ((g->levx + (npcs[n]->posx / SEEX))/2 == x &&
-                    (g->levy + (npcs[n]->posy / SEEY))/2 == y)
-                    return true;
-            } else if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2== y)
-                return true;
-        }
-    }
-    return false;
-}
-
 bool overmap::has_vehicle(int const x, int const y, int const z, bool require_pda) const
 {
     // vehicles only spawn at z level 0 (for now)
@@ -1012,54 +976,28 @@ bool overmap::has_vehicle(int const x, int const y, int const z, bool require_pd
     return false;
 }
 
-// int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
-//     cursy = (g->levy + int(MAPSIZE / 2)) / 2;
-
 //Helper function for the overmap::draw function.
-void overmap::print_npcs(WINDOW *w, int const x, int const y, int const z) const
+void overmap::print_npcs(WINDOW *w, int const x, int const y, int const z)
 {
+    std::vector<npc*> npcs = overmap_buffer.get_npcs_near_omt(x, y, z, 0);
     int i = 0, maxnamelength = 0;
     //Check the max namelength of the npcs in the target
     for (int n = 0; n < npcs.size(); n++)
     {
-        if(npcs[n]->omz == z && !npcs[n]->marked_for_death)
+        if(!npcs[n]->marked_for_death)
         {
-            if (npcs[n]->is_active())
-            {   //Active npcs have different coords. Because Cata hates you!
-                if ((g->levx + (npcs[n]->posx / SEEX))/2 == x &&
-                    (g->levy + (npcs[n]->posy / SEEY))/2 == y)
-                {
-                    if (npcs[n]->name.length() > maxnamelength)
-                        maxnamelength = npcs[n]->name.length();
-                }
-            } else if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2 == y) {
-                if (npcs[n]->name.length() > maxnamelength)
-                    maxnamelength = npcs[n]->name.length();
-            }
+            maxnamelength = npcs[n]->name.length();
         }
     }
     //Check if the target has an npc in it.
     for (int n = 0; n < npcs.size(); n++)
     {
-        if (npcs[n]->omz == z && !npcs[n]->marked_for_death)
+        if(!npcs[n]->marked_for_death)
         {
-            if (npcs[n]->is_active())
-            {
-                if ((g->levx + (npcs[n]->posx / SEEX))/2 == x &&
-                    (g->levy + (npcs[n]->posy / SEEY))/2 == y)
-                {
-                    mvwprintz(w, i, 0, c_yellow, npcs[n]->name.c_str());
-                    for (int j = npcs[n]->name.length(); j < maxnamelength; j++)
-                        mvwputch(w, i, j, c_black, LINE_XXXX);
-                    i++;
-                }
-            } else if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2 == y)
-            {
-                mvwprintz(w, i, 0, c_yellow, npcs[n]->name.c_str());
-                for (int j = npcs[n]->name.length(); j < maxnamelength; j++)
-                    mvwputch(w, i, j, c_black, LINE_XXXX);
-                i++;
-            }
+            mvwprintz(w, i, 0, c_yellow, npcs[n]->name.c_str());
+            for (int j = npcs[n]->name.length(); j < maxnamelength; j++)
+                mvwputch(w, i, j, c_black, LINE_XXXX);
+            i++;
         }
     }
     for (int j = 0; j < i; j++)
@@ -1621,24 +1559,6 @@ void overmap::make_tutorial()
     zg.clear();
 }
 
-std::vector<point> overmap::find_all(tripoint origin, const std::string &type,
-                                     int &dist, bool must_be_seen)
-{
-    std::vector<point> res;
-    int max = (dist == 0 ? OMAPX / 2 : dist);
-    for (dist = 0; dist <= max; dist++) {
-        for (int x = origin.x - dist; x <= origin.x + dist; x++) {
-            for (int y = origin.y - dist; y <= origin.y + dist; y++) {
-                if (check_ot_type(type, x, y, origin.z)
-                        && (!must_be_seen || seen(x, y, origin.z))) {
-                    res.push_back(point(x, y));
-                }
-            }
-        }
-    }
-    return res;
-}
-
 std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
 {
     std::vector<point> found;
@@ -1838,30 +1758,23 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             mvwputch(w, 1, i, c_white, LINE_OXOX);
         }
         mvwprintz(w, 0, 0, c_yellow, "%s", note_text.c_str());
-        mvwputch(w, 1, length + 1, c_white, LINE_XOOX);
-        mvwputch(w, 0, length + 1, c_white, LINE_XOXO);
-    } else if (overmap_buffer.has_npc(cursx, cursy, z))
-    {
-        int x = cursx; // get_om_global changes its arguments
-        int y = cursy;
-        const overmap &om = overmap_buffer.get_om_global(x, y);
-        om.print_npcs(w, x, y, z);
-    } else if (overmap_buffer.has_vehicle(cursx, cursy, z))
-    {
-        int x = cursx; // get_om_global changes its arguments
+        mvwputch(w, 1, length, c_white, LINE_XOOX);
+        mvwputch(w, 0, length, c_white, LINE_XOXO);
+    } else if (overmap_buffer.has_npc(cursx, cursy, z)) {
+        print_npcs(w, cursx, cursy, z);
+    } else if (overmap_buffer.has_vehicle(cursx, cursy, z)) {
+        int x = cursx;
         int y = cursy;
         const overmap &om = overmap_buffer.get_om_global(x, y);
         om.print_vehicles(w, x, y, z);
     }
 
     // Draw the vertical line
-    for (int j = 0; j < om_map_height; j++)
-    {
+    for (int j = 0; j < om_map_height; j++) {
         mvwputch(w, j, om_map_width, c_white, LINE_XOXO);
     }
     // Clear the legend
-    for (int i = om_map_width + 1; i < om_map_width + 55; i++)
-    {
+    for (int i = om_map_width + 1; i < om_map_width + 55; i++) {
         for (int j = 0; j < om_map_height; j++) {
             mvwputch(w, j, i, c_black, ' ');
         }

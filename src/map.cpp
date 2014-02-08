@@ -852,7 +852,7 @@ bool map::displace_water (const int x, const int y)
             for (int tx = -1; tx <= 1; tx++)
                 for (int ty = -1; ty <= 1; ty++)
                 {
-                    if ((!tx && !ty) 
+                    if ((!tx && !ty)
                             || move_cost_ter_furn(x + tx, y + ty) == 0
                             || has_flag(TFLAG_DEEP_WATER, x + tx, y + ty))
                         continue;
@@ -886,7 +886,7 @@ void map::set(const int x, const int y, const std::string new_terrain, const std
 
 std::string map::name(const int x, const int y)
 {
- return has_furn(x, y) ? _(furnlist[furn(x, y)].name.c_str()) : _(terlist[ter(x, y)].name.c_str()); // FIXME i18n
+ return has_furn(x, y) ? furnlist[furn(x, y)].name : terlist[ter(x, y)].name;
 }
 
 bool map::has_furn(const int x, const int y)
@@ -959,7 +959,7 @@ bool map::can_move_furniture( const int x, const int y, player * p ) {
 }
 
 std::string map::furnname(const int x, const int y) {
- return _(furnlist[furn(x, y)].name.c_str()); // FIXME i18n
+ return furnlist[furn(x, y)].name;
 }
 /*
  * Get the terrain integer id. This is -not- a number guaranteed to remain
@@ -1036,7 +1036,7 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain) {
 
 std::string map::tername(const int x, const int y) const
 {
- return _(terlist[ter(x, y)].name.c_str()); // FIXME i18n
+ return terlist[ter(x, y)].name;
 }
 
 std::string map::features(const int x, const int y)
@@ -1336,7 +1336,8 @@ bool map::moppable_items_at(const int x, const int y)
    return true;
  }
  field &fld = field_at(x, y);
- if(fld.findField(fd_blood) != 0 || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 || fld.findField(fd_sludge) != 0) {
+ if(fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 || fld.findField(fd_blood_insect) != 0 || fld.findField(fd_blood_invertebrate) != 0
+    || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 || fld.findField(fd_sludge) != 0) {
   return true;
  }
  int vpart;
@@ -1410,6 +1411,9 @@ void map::mop_spills(const int x, const int y) {
  }
  field &fld = field_at(x, y);
  fld.removeField(fd_blood);
+ fld.removeField(fd_blood_veggy);
+ fld.removeField(fd_blood_insect);
+ fld.removeField(fd_blood_invertebrate);
  fld.removeField(fd_bile);
  fld.removeField(fd_slime);
  fld.removeField(fd_sludge);

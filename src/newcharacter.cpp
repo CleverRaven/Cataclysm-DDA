@@ -50,7 +50,7 @@ int set_profession(WINDOW *w, player *u, int &points);
 int set_skills(WINDOW *w, player *u, int &points);
 int set_description(WINDOW *w, player *u, character_type type, int &points);
 
-int random_skill();
+Skill *random_skill();
 
 int calc_HP(int strength, int tough);
 
@@ -197,9 +197,7 @@ bool player::create(character_type type, std::string tempname)
                         case 7:
                         case 8:
                         case 9:
-                            rn = random_skill();
-
-                            Skill *aSkill = Skill::skill(rn);
+                            Skill *aSkill = random_skill();
                             int level = skillLevel(aSkill);
 
                             if (level < points) {
@@ -396,29 +394,28 @@ bool player::create(character_type type, std::string tempname)
 
     item tmp; //gets used several times
 
-    std::vector<std::string> prof_items;
+    std::vector<std::string> prof_items = g->u.prof->items();
+    std::vector<std::string> gender_items;
     if(g->u.male) {
-        prof_items = g->u.prof->items_male();
+        gender_items = g->u.prof->items_male();
     } else {
-        prof_items = g->u.prof->items_female();
+        gender_items = g->u.prof->items_female();
+    }
+    prof_items.insert(prof_items.begin(), gender_items.begin(), gender_items.end());
+
+    // Those who are both near-sighted and far-sighted start with bifocal glasses.
+    if (has_trait("HYPEROPIC") && has_trait("MYOPIC")) {
+        prof_items.push_back("glasses_bifocal");
+    }
+    // The near-sighted start with eyeglasses.
+    else if (has_trait("MYOPIC")) {
+        prof_items.push_back("glasses_eye");
+    }
+    // The far-sighted start with reading glasses.
+    else if (has_trait("HYPEROPIC")) {
+        prof_items.push_back("glasses_reading");
     }
 
-    for (std::vector<std::string>::const_iterator iter = prof_items.begin();
-         iter != prof_items.end(); ++iter) {
-        tmp = item(item_controller->find_template(*iter), 0);
-        tmp = tmp.in_its_container(&(itypes));
-        if(tmp.is_armor()) {
-            if(tmp.has_flag("VARSIZE")) {
-                tmp.item_tags.insert("FIT");
-            }
-            // If wearing an item fails we fail silently.
-            wear_item(&tmp, false);
-        } else {
-            inv.push_back(tmp);
-        }
-    }
-
-    prof_items = g->u.prof->items();
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
         tmp = item(item_controller->find_template(*iter), 0);
@@ -465,25 +462,15 @@ bool player::create(character_type type, std::string tempname)
         }
     }
 
-    // Those who are both near-sighted and far-sighted start with bifocal glasses.
-    if (has_trait("HYPEROPIC") && has_trait("MYOPIC")) {
-        tmp = item(itypes["glasses_bifocal"], 0);
-        inv.push_back(tmp);
-    }
-    // The near-sighted start with eyeglasses.
-    else if (has_trait("MYOPIC")) {
-        tmp = item(itypes["glasses_eye"], 0);
-        inv.push_back(tmp);
-    }
-    // The far-sighted start with reading glasses.
-    else if (has_trait("HYPEROPIC")) {
-        tmp = item(itypes["glasses_reading"], 0);
-        inv.push_back(tmp);
-    }
-
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
         tmp = item(itypes["inhaler"], 0);
+        inv.push_back(tmp);
+    }
+    
+    // And cannibals start with a special cookbook.
+    if (has_trait("CANNIBAL")) {
+        tmp = item(itypes["cookbook_human"], 0);
         inv.push_back(tmp);
     }
     
@@ -550,7 +537,8 @@ int set_stats(WINDOW *w, player *u, int &points)
     const int iSecondColumn = 27;
     char ch;
     int read_spd;
-
+    WINDOW *w_description = newwin(8, FULL_SCREEN_WIDTH - iSecondColumn - 1, 6 + getbegy(w),
+                                   iSecondColumn + getbegx(w));
     // There is no map loaded currently, so any access to the map will
     // fail (player::suffer, called from player::reset_stats), might access
     // the map:
@@ -563,10 +551,10 @@ int set_stats(WINDOW *w, player *u, int &points)
     u->reset();
 
     draw_tabs(w, _("STATS"));
-
-    mvwprintz(w, 16, 2, COL_NOTE_MINOR, _("j/k, 8/2, or up/down arrows to select a statistic."));
-    mvwprintz(w, 17, 2, COL_NOTE_MINOR, _("l, 6, or right arrow to increase the statistic."));
-    mvwprintz(w, 18, 2, COL_NOTE_MINOR, _("h, 4, or left arrow to decrease the statistic."));
+    fold_and_print(w, 16, 2, getmaxx(w) - 4, COL_NOTE_MINOR, _("\
+j/k, 8/2, or up/down arrows to select a statistic.\n\
+l, 6, or right arrow to increase the statistic.\n\
+h, 4, or left arrow to decrease the statistic."));
     mvwprintz(w, FULL_SCREEN_HEIGHT - 3, 2, COL_NOTE_MAJOR, _("> Takes you to the next tab."));
     mvwprintz(w, FULL_SCREEN_HEIGHT - 2, 2, COL_NOTE_MAJOR, _("< Returns you to the main menu."));
 
@@ -588,6 +576,7 @@ int set_stats(WINDOW *w, player *u, int &points)
         mvwprintz(w, 9, 16, c_ltgray, "%2d", u->per_max);
 
         int tmp = 0;
+        werase(w_description);
         switch (sel) {
             case 1:
                 mvwprintz(w, 6, 2, COL_STAT_ACT, _("Strength:"));
@@ -609,14 +598,14 @@ int set_stats(WINDOW *w, player *u, int &points)
                 } else if (u->has_trait("FLIMSY3")) {
                     tmp = -3;
                 }
-                mvwprintz(w, 6, iSecondColumn, COL_STAT_NEUTRAL, _("Base HP: %d"),
+                mvwprintz(w_description, 0, 0, COL_STAT_NEUTRAL, _("Base HP: %d"),
                           calc_HP(u->str_max, tmp));
-                mvwprintz(w, 7, iSecondColumn, COL_STAT_NEUTRAL, _("Carry weight: %.1f %s"),
+                mvwprintz(w_description, 1, 0, COL_STAT_NEUTRAL, _("Carry weight: %.1f %s"),
                           u->convert_weight(u->weight_capacity(false)),
                           OPTIONS["USE_METRIC_WEIGHTS"] == "kg" ? _("kg") : _("lbs"));
-                mvwprintz(w, 8, iSecondColumn, COL_STAT_NEUTRAL, _("Melee damage: %d"),
+                mvwprintz(w_description, 2, 0, COL_STAT_NEUTRAL, _("Melee damage: %d"),
                           u->base_damage(false));
-                fold_and_print(w, 10, iSecondColumn, FULL_SCREEN_WIDTH - iSecondColumn - 2, COL_STAT_NEUTRAL,
+                fold_and_print(w_description, 4, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                                _("Strength also makes you more resistant to many diseases and poisons, and makes actions which require brute force more effective."));
                 break;
 
@@ -626,20 +615,20 @@ int set_stats(WINDOW *w, player *u, int &points)
                 if (u->dex_max >= HIGH_STAT) {
                     mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Dex further costs 2 points."));
                 }
-                mvwprintz(w, 6, iSecondColumn, COL_STAT_BONUS, _("Melee to-hit bonus: +%d"),
+                mvwprintz(w_description, 0, 0, COL_STAT_BONUS, _("Melee to-hit bonus: +%d"),
                           u->base_to_hit(false));
                 if (u->throw_dex_mod(false) <= 0) {
-                    mvwprintz(w, 7, iSecondColumn, COL_STAT_BONUS, _("Throwing bonus: +%d"),
+                    mvwprintz(w_description, 1, 0, COL_STAT_BONUS, _("Throwing bonus: +%d"),
                               abs(u->throw_dex_mod(false)));
                 } else {
-                    mvwprintz(w, 7, iSecondColumn, COL_STAT_PENALTY, _("Throwing penalty: -%d"),
+                    mvwprintz(w_description, 1, 0, COL_STAT_PENALTY, _("Throwing penalty: -%d"),
                               abs(u->throw_dex_mod(false)));
                 }
                 if (u->ranged_dex_mod(false) != 0) {
-                    mvwprintz(w, 8, iSecondColumn, COL_STAT_PENALTY, _("Ranged penalty: -%d"),
+                    mvwprintz(w_description, 2, 0, COL_STAT_PENALTY, _("Ranged penalty: -%d"),
                               abs(u->ranged_dex_mod(false)));
                 }
-                fold_and_print(w, 10, iSecondColumn, FULL_SCREEN_WIDTH - iSecondColumn - 2, COL_STAT_NEUTRAL,
+                fold_and_print(w_description, 4, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                                _("Dexterity also enhances many actions which require finesse."));
                 break;
 
@@ -650,12 +639,12 @@ int set_stats(WINDOW *w, player *u, int &points)
                     mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Int further costs 2 points."));
                 }
                 read_spd = u->read_speed(false);
-                mvwprintz(w, 6, iSecondColumn, (read_spd == 100 ? COL_STAT_NEUTRAL :
+                mvwprintz(w_description, 0, 0, (read_spd == 100 ? COL_STAT_NEUTRAL :
                                                 (read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY)),
                           _("Read times: %d%%"), read_spd);
-                mvwprintz(w, 7, iSecondColumn, COL_STAT_PENALTY, _("Skill rust: %d%%"),
+                mvwprintz(w_description, 1, 0, COL_STAT_PENALTY, _("Skill rust: %d%%"),
                           u->rust_rate(false));
-                fold_and_print(w, 9, iSecondColumn, FULL_SCREEN_WIDTH - iSecondColumn - 2, COL_STAT_NEUTRAL,
+                fold_and_print(w_description, 3, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                                _("Intelligence is also used when crafting, installing bionics, and interacting with NPCs."));
                 break;
 
@@ -666,15 +655,16 @@ int set_stats(WINDOW *w, player *u, int &points)
                     mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Per further costs 2 points."));
                 }
                 if (u->ranged_per_mod(false) != 0) {
-                    mvwprintz(w, 6, iSecondColumn, COL_STAT_PENALTY, _("Ranged penalty: -%d"),
+                    mvwprintz(w_description, 0, 0, COL_STAT_PENALTY, _("Ranged penalty: -%d"),
                               abs(u->ranged_per_mod(false)));
                 }
-                fold_and_print(w, 8, iSecondColumn, FULL_SCREEN_WIDTH - iSecondColumn - 2, COL_STAT_NEUTRAL,
+                fold_and_print(w_description, 2, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                                _("Perception is also used for detecting traps and other things of interest."));
                 break;
         }
 
         wrefresh(w);
+        wrefresh(w_description);
         ch = input();
         if ((ch == 'j' || ch == '2') && sel < 4) {
             sel++;
@@ -737,9 +727,11 @@ int set_stats(WINDOW *w, player *u, int &points)
             }
         }
         if (ch == '<' && query_yn(_("Return to main menu?"))) {
+            delwin(w_description);
             return -1;
         }
         if (ch == '>') {
+            delwin(w_description);
             return 1;
         }
     } while (true);
@@ -829,9 +821,15 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
                         mvwprintz(w,  3, 33, c_ltgray,
                                   "                                              ");
-                        mvwprintz(w,  3, 33, col_tr, _("%s earns %d points"),
+                        int points = traits[vStartingTraits[iCurrentPage][i]].points;
+                        bool negativeTrait = points < 0;
+                        if (negativeTrait) {
+                                  points *=-1;
+                        }
+                        mvwprintz(w,  3, 33, col_tr, _("%s %s %d points"),
                                   traits[vStartingTraits[iCurrentPage][i]].name.c_str(),
-                                  traits[vStartingTraits[iCurrentPage][i]].points * -1);
+                                  negativeTrait ? _("earns"):_("costs"),
+                                  points);
                         fold_and_print(w_description, 0, 0,
                                        FULL_SCREEN_WIDTH - 2, col_tr, "%s",
                                        traits[vStartingTraits[iCurrentPage][i]].description.c_str());
@@ -1002,8 +1000,8 @@ int set_profession(WINDOW *w, player *u, int &points)
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
 
     WINDOW *w_items =       newwin(iContentHeight - 1, 25,  6 + getbegy(w), 24 + getbegx(w));
-    WINDOW *w_skills =      newwin(iContentHeight - 5, 30,  6 + getbegy(w), 49 + getbegx(w));
-    WINDOW *w_addictions =  newwin(5,                  30, 15 + getbegy(w), 49 + getbegx(w));
+    WINDOW *w_skills =      newwin(iContentHeight - 6, 30,  6 + getbegy(w), 49 + getbegx(w));
+    WINDOW *w_addictions =  newwin(5,                  30, 14 + getbegy(w), 49 + getbegx(w));
     WINDOW *w_genderswap =  newwin(1,                  55,  5 + getbegy(w), 24 + getbegx(w));
 
     std::vector<const profession *> sorted_profs;
@@ -1031,15 +1029,17 @@ int set_profession(WINDOW *w, player *u, int &points)
         // Clear the bottom of the screen.
         werase(w_description);
         mvwprintz(w, 3, 40, c_ltgray, "                                       ");
-        if (can_pick == "YES") {
-            mvwprintz(w, 3, 21, c_green, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      _(sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str()),
-                      sorted_profs[cur_id]->point_cost(), netPointCost);
-        } else if (can_pick == "INSUFFICIENT_POINTS") {
-            mvwprintz(w, 3, 21, c_ltred, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      _(sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str()),
-                      sorted_profs[cur_id]->point_cost(), netPointCost);
+
+        int pointsForProf = sorted_profs[cur_id]->point_cost();
+        bool negativeProf = pointsForProf < 0;
+        if (negativeProf) {
+                  pointsForProf *=-1;
         }
+        mvwprintz(w, 3, 21, can_pick == "YES" ? c_green:c_ltred, _("Profession %1$s %2$s %3$d points (net: %4$d)"),
+                      _(sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str()),
+                      negativeProf ? _("earns"):_("costs"),
+                      pointsForProf, netPointCost);
+
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
                        _(sorted_profs[cur_id]->description().c_str()));
 
@@ -1343,7 +1343,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 } else if (i == getmaxx(w) - 1) {
                     wputch(w, BORDER_COLOR, LINE_XOXX);
                 } else {
-                    wputch(w, c_ltgray, LINE_OXOX);
+                    wputch(w, BORDER_COLOR, LINE_OXOX);
                 }
             }
             wrefresh(w);
@@ -1395,7 +1395,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 skillslist.push_back((*i).first);
             }
             
-            int line = 2;
+            int line = 1;
             bool has_skills = false;
             profession::StartingSkillList list_skills=u->prof->skills();
             for (std::vector<Skill*>::iterator aSkill = skillslist.begin();
@@ -1455,17 +1455,17 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         if (ch == '>') {
             if (points < 0) {
                 popup(_("Too many points allocated, change some features and try again."));
-                redraw=true;
+                redraw = true;
                 continue;
             } else if (points > 0 &&
                        !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
-                redraw=true;
+                redraw = true;
                 continue;
             } else if (u->name.size() == 0) {
                 mvwprintz(w_name, 0, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!______"));
                 wrefresh(w_name);
                 if (!query_yn(_("Are you SURE you're finished? Your name will be randomly generated."))) {
-                    redraw=true;
+                    redraw = true;
                     continue;
                 } else {
                     u->pick_name();
@@ -1488,18 +1488,25 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 delwin(w_guide);
                 return 1;
             } else {
+                redraw = true;
                 continue;
             }
         } else if (ch == '<') {
+            delwin(w_name);
+            delwin(w_gender);
+            delwin(w_stats);
+            delwin(w_traits);
+            delwin(w_profession);
+            delwin(w_skills);
+            delwin(w_guide);
             return -1;
         } else if (ch == '!') {
             if (points != 0) {
-                redraw=true;
                 popup(_("You cannot save a template with nonzero unused points!"));
             } else {
                 save_template(u);
             }
-
+            redraw = true;
             wrefresh(w);
         } else if (ch == '?') {
             u->pick_name();
@@ -1565,9 +1572,9 @@ std::string player::random_bad_trait()
     return vTraitsBad[rng(0, vTraitsBad.size() - 1)];
 }
 
-int random_skill()
+Skill *random_skill()
 {
-    return rng(1, Skill::skills.size() - 1);
+    return Skill::skill(rng(0, Skill::skill_count() - 1));
 }
 
 int calc_HP(int strength, int tough)

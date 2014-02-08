@@ -1,6 +1,12 @@
 [
     {
         "type" : "ammunition_type",
+        "id" : "NULL",
+        "name" : "none",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "700nx",
         "name" : ".700 Nitro Express",
         "default" : ""
@@ -172,6 +178,12 @@
         "id" : "gasoline",
         "name" : "gasoline",
         "default" : "gasoline"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "lamp_oil",
+        "name" : "lamp oil",
+        "default" : "lamp_oil"
     },
     {
         "type" : "ammunition_type",

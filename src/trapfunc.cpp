@@ -699,7 +699,7 @@ void trapfuncm::lava(monster *z, int x, int y)
                                      z->name().c_str());
 
  int dam = 30;
- if (z->made_of("flesh"))
+ if (z->made_of("flesh") || z->made_of("iflesh"))
   dam = 50;
  if (z->made_of("veggy"))
   dam = 80;
