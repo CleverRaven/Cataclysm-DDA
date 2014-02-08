@@ -200,12 +200,15 @@ typedef std::set<std::string> t_string_set;
 extern void add_to_set(t_string_set &s, JsonObject &json, const std::string &name);
 t_string_set monster_blacklist;
 t_string_set monster_whitelist;
+t_string_set monster_categories_blacklist;
+t_string_set monster_categories_whitelist;
 
 template<typename T>
 void invert_whitelist(t_string_set &whitelist, t_string_set &blacklist, const std::map<std::string, T> &map) {
     if (!whitelist.empty()) {
         // Put everything that's not on the whitelist into the blacklist
-        // and remove everything that is in the blacklist and in the whitelist
+        // and remove everything that is in the blacklist *and* in the whitelist
+        // from the blacklist to allow it.
         for(typename std::map<std::string, T>::const_iterator a = map.begin(); a != map.end(); ++a) {
             if (whitelist.count(a->first) == 0) {
                 blacklist.insert(a->first);
@@ -221,10 +224,12 @@ template void invert_whitelist<itype*>(t_string_set &whitelist, t_string_set &bl
 
 void MonsterGroupManager::LoadMonsterBlacklist(JsonObject &jo) {
     add_to_set(monster_blacklist, jo, "monsters");
+    add_to_set(monster_categories_blacklist, jo, "categories");
 }
 
 void MonsterGroupManager::LoadMonsterWhitelist(JsonObject &jo) {
     add_to_set(monster_whitelist, jo, "monsters");
+    add_to_set(monster_categories_whitelist, jo, "categories");
 }
 
 void MonsterGroupManager::FinalizeMonsterGroups()
@@ -241,6 +246,20 @@ void MonsterGroupManager::FinalizeMonsterGroups()
         }
     }
     invert_whitelist(monster_whitelist, monster_blacklist, gen.get_all_mtypes());
+    const std::map<std::string, mtype*> mmap = gen.get_all_mtypes();
+    for(std::map<std::string, mtype*>::const_iterator a = mmap.begin(); a != mmap.end(); ++a) {
+        mtype *m = a->second;
+        for(std::set<std::string>::const_iterator b = m->categories.begin(); b != m->categories.end(); ++b) {
+            if (monster_categories_whitelist.count(*b) > 0) {
+                // Is in whitelist, keep it always by removing it from blacklist
+                monster_blacklist.erase(a->first);
+                break;
+            }
+            if (monster_categories_blacklist.count(*b) > 0) {
+                monster_blacklist.insert(a->first);
+            }
+        }
+    }
     for(std::map<std::string, MonsterGroup>::iterator b = monsterGroupMap.begin(); b != monsterGroupMap.end(); ++b) {
         MonsterGroup &mg = b->second;
         FreqDef::iterator c = mg.monsters.begin();
