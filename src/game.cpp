@@ -750,6 +750,20 @@ void game::calc_driving_offset(vehicle *veh) {
     offset.y *= rel_offset;
     offset.x *= (getmaxx(w_terrain) + 1) / 2 - border_range - 1;
     offset.y *= (getmaxy(w_terrain) + 1) / 2 - border_range - 1;
+    // Turn the offset into a vector that increments the offset toward the desired position
+    // instead of setting it there instantly, should smooth out jerkiness.
+    const point offset_difference( offset.x - driving_view_offset.x,
+                                   offset.y - driving_view_offset.y );
+
+    const point offset_sign( (offset_difference.x < 0) ? -1 : 1,
+                             (offset_difference.y < 0) ? -1 : 1 );
+    // Shift the current offset in the direction of the calculated offset by one tile
+    // per draw event, but snap to calculated offset if we're close enough to avoid jitter.
+    offset.x = ( std::abs(offset_difference.x) > 1 ) ?
+        (driving_view_offset.x + offset_sign.x) : offset.x;
+    offset.y = ( std::abs(offset_difference.y) > 1 ) ?
+        (driving_view_offset.y + offset_sign.y) : offset.y;
+
     set_driving_view_offset(point(offset.x, offset.y));
 }
 
