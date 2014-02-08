@@ -206,14 +206,19 @@ template<typename T>
 void invert_whitelist(t_string_set &whitelist, t_string_set &blacklist, const std::map<std::string, T> &map) {
     if (!whitelist.empty()) {
         // Put everything that's not on the whitelist into the blacklist
+        // and remove everything that is in the blacklist and in the whitelist
         for(typename std::map<std::string, T>::const_iterator a = map.begin(); a != map.end(); ++a) {
             if (whitelist.count(a->first) == 0) {
                 blacklist.insert(a->first);
+            } else {
+                blacklist.erase(a->first);
             }
         }
         whitelist.clear();
     }
 }
+// instantiate the function to be used in item_factory.cpp
+template void invert_whitelist<itype*>(t_string_set &whitelist, t_string_set &blacklist, const std::map<std::string, itype*> &map);
 
 void MonsterGroupManager::LoadMonsterBlacklist(JsonObject &jo) {
     add_to_set(monster_blacklist, jo, "monsters");

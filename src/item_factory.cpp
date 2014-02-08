@@ -66,21 +66,16 @@ void remove_item(const std::string &itm, std::vector<map_bash_item_drop>& vec) {
     }
 }
 
+// see mongroupdef.cpp
+template<typename T> void invert_whitelist(t_string_set &whitelist, t_string_set &blacklist, const std::map<std::string, T> &map);
+
 void Item_factory::finialize_item_blacklist() {
     for(t_string_set::const_iterator a = item_whitelist.begin(); a != item_whitelist.end(); ++a) {
         if (!has_template(*a)) {
             debugmsg("item on whitelist %s does not exist", a->c_str());
         }
     }
-    if (!item_whitelist.empty()) {
-        // Put everything that's not on the whitelist into the blacklist
-        for(std::map<Item_tag, itype*>::const_iterator a = m_templates.begin(); a != m_templates.end(); ++a) {
-            if (item_whitelist.count(a->first) == 0) {
-                item_blacklist.insert(a->first);
-            }
-        }
-        item_whitelist.clear();
-    }
+    invert_whitelist(item_whitelist, item_blacklist, m_templates);
     for(t_string_set::const_iterator a = item_blacklist.begin(); a != item_blacklist.end(); ++a) {
         if (!has_template(*a)) {
             debugmsg("item on blacklist %s does not exist", a->c_str());
