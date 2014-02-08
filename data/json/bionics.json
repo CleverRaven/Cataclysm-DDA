@@ -388,7 +388,7 @@
         "id" : "bio_hydraulics",
     "name"       :    "Hydraulic Muscles",
     "active"     :    true,
-    "cost"       :    1,
+    "cost"       :    2,
     "time"       :    3,
     "description":    "While activated, the muscles in your arms will be greatly enhanced, increasing your strength by 20."
     },{
