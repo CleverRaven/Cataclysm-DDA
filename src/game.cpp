@@ -705,11 +705,31 @@ void game::cleanup_at_end(){
     overmap_buffer.clear();
 }
 
+int veh_lumi(vehicle *veh) {
+    float veh_luminance = 0.0;
+    float iteration = 1.0;
+    std::vector<int> light_indices = veh->all_parts_with_feature(VPFLAG_CONE_LIGHT);
+    for (std::vector<int>::iterator part = light_indices.begin();
+            part != light_indices.end(); ++part) {
+        veh_luminance += ( veh->part_info(*part).bonus / iteration );
+        iteration = iteration * 1.1;
+    }
+    // Calculation: see lightmap.cpp
+    return LIGHT_RANGE((veh_luminance*3));
+}
+
 void game::calc_driving_offset(vehicle *veh) {
     if(veh == NULL || !(OPTIONS["DRIVING_VIEW_OFFSET"] == true)) {
         set_driving_view_offset(point(0, 0));
         return;
     }
+    const int g_light_level = (int) light_level();
+    const int light_sight_range = u.sight_range(g_light_level);
+    int sight = light_sight_range;
+    if(veh->lights_on) {
+        sight = std::max(veh_lumi(veh), sight);
+    }
+
     // velocity at or below this results in no offset at all
     static const float min_offset_vel = 10*100;
     // velocity at or above this results in maximal offset
@@ -745,10 +765,41 @@ void game::calc_driving_offset(vehicle *veh) {
         offset.x /= std::abs(offset.y);
         offset.y  = offset.y > 0 ? +1 : -1;
     }
+    point max_offset((getmaxx(w_terrain) + 1) / 2 - border_range - 1,
+                     (getmaxy(w_terrain) + 1) / 2 - border_range - 1);
     offset.x *= rel_offset;
     offset.y *= rel_offset;
-    offset.x *= (getmaxx(w_terrain) + 1) / 2 - border_range - 1;
-    offset.y *= (getmaxy(w_terrain) + 1) / 2 - border_range - 1;
+    offset.x *= max_offset.x;
+    offset.y *= max_offset.y;
+    // [ ----@---- ] sight=6
+    // [ --@------ ] offset=2
+    // [ -@------# ] offset=3
+    // can see sights square in every direction, total visible area is
+    // (2*sight+1)x(2*sight+1), but the window is only
+    // getmaxx(w_terrain) x getmaxy(w_terrain)
+    // The area outside of the window is maxoff (sight-getmax/2).
+    // If that value is <= 0, the whole visible area fits the window.
+    // don't apply the view offset at all.
+    // If the offset is > maxoff, only apply at most maxoff, everything
+    // above leads to invisible area in front of the car.
+    // It will display (getmax/2+offset) squares in one direction and
+    // (getmax/2-offset) in the opposite direction (centered on the PC).
+    const point maxoff((sight * 2 + 1 - getmaxx(w_terrain)) / 2,
+                       (sight * 2 + 1 - getmaxy(w_terrain)) / 2);
+    if(maxoff.x <= 0) {
+        offset.x = 0;
+    } else if(offset.x > 0 && offset.x > maxoff.x) {
+        offset.x = maxoff.x;
+    } else if(offset.x < 0 && -offset.x > maxoff.x) {
+        offset.x = -maxoff.x;
+    }
+    if(maxoff.y <= 0) {
+        offset.y = 0;
+    } else if(offset.y > 0 && offset.y > maxoff.y) {
+        offset.y = maxoff.y;
+    } else if(offset.y < 0 && -offset.y > maxoff.y) {
+        offset.y = -maxoff.y;
+    }
     set_driving_view_offset(point(offset.x, offset.y));
 }
 
