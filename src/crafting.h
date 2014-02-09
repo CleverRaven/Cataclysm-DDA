@@ -63,6 +63,9 @@ struct recipe {
   std::vector<std::vector<component> > tools;
   std::vector<quality_requirement> qualities;
   std::vector<std::vector<component> > components;
+  // only used during loading json data: books and the skill needed
+  // to learn this recipe from.
+  std::vector<std::pair<std::string, int> > booksets;
 
   //Create a string list to describe the skill requirements fir this recipe
   // Format: skill_name(amount), skill_name(amount)

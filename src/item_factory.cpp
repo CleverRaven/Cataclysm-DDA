@@ -31,10 +31,9 @@ static const std::string category_id_other("other");
 
 Item_factory* item_controller = new Item_factory();
 
-extern std::map<std::string, std::queue<std::pair<recipe *, int> > > recipe_booksets;
-
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
+static t_string_set item_whitelist;
 
 bool remove_item(const std::string &itm, std::vector<component>& com) {
     std::vector<component>::iterator a = com.begin();
@@ -67,10 +66,33 @@ void remove_item(const std::string &itm, std::vector<map_bash_item_drop>& vec) {
     }
 }
 
+bool item_is_blacklisted(const std::string &id) {
+    if (item_whitelist.count(id) > 0) {
+        return false;
+    } else if(item_blacklist.count(id) > 0) {
+        return true;
+    }
+    // Empty whitelist: default to enable all,
+    // Non-empty whitelist: default to disable all.
+    return !item_whitelist.empty();
+}
+
 void Item_factory::finialize_item_blacklist() {
-    std::set<recipe*> deleted_recipes;
+    for(t_string_set::const_iterator a = item_whitelist.begin(); a != item_whitelist.end(); ++a) {
+        if (!has_template(*a)) {
+            debugmsg("item on whitelist %s does not exist", a->c_str());
+        }
+    }
     for(t_string_set::const_iterator a = item_blacklist.begin(); a != item_blacklist.end(); ++a) {
-        const std::string &itm = *a;
+        if (!has_template(*a)) {
+            debugmsg("item on blacklist %s does not exist", a->c_str());
+        }
+    }
+    for(std::map<std::string,itype*>::const_iterator a = m_templates.begin(); a != m_templates.end(); ++a) {
+        const std::string &itm = a->first;
+        if (!item_is_blacklisted(itm)) {
+            continue;
+        }
         for(std::map<Item_tag, Item_group*>::iterator b = m_template_groups.begin(); b != m_template_groups.end(); ++b) {
             b->second->remove_item(itm);
         }
@@ -78,7 +100,6 @@ void Item_factory::finialize_item_blacklist() {
             for(size_t c = 0; c < b->second.size(); c++) {
                 recipe *r = b->second[c];
                 if(r->result == itm || remove_item(itm, r->components) || remove_item(itm, r->tools)) {
-                    deleted_recipes.insert(r);
                     delete r;
                     b->second.erase(b->second.begin() + c);
                     c--;
@@ -101,31 +122,23 @@ void Item_factory::finialize_item_blacklist() {
             remove_item(itm, furnlist[i].bash.items);
         }
     }
-    // look through the recipe-to-book mapping and remove any mapping
-    // to recipes that have been removed (and already deleted! - dangling pointers ahead)
-    for (std::map<std::string, std::queue<std::pair<recipe *, int> > >::iterator book_ref_it =
-            recipe_booksets.begin(); book_ref_it != recipe_booksets.end(); ++book_ref_it) {
-        // std::queue doesn't support erase, have to make a copy
-        // without the delete recipes and use that
-        std::queue<std::pair<recipe *, int> > copy;
-        while (!book_ref_it->second.empty()) {
-            std::pair<recipe *, int> rec_pair = book_ref_it->second.front();
-            book_ref_it->second.pop();
-            if (deleted_recipes.count(rec_pair.first) == 0) {
-                copy.push(rec_pair); // not delete, recipe still valid
-            }
-        }
-        // std::queue doesn't even has a swap function, have to use slow copy assignment
-        book_ref_it->second = copy;
-    }
     item_blacklist.clear();
+    item_whitelist.clear();
+}
+
+void add_to_set(t_string_set &s, JsonObject &json, const std::string &name) {
+    JsonArray jarr = json.get_array(name);
+    while(jarr.has_more()) {
+        s.insert(jarr.next_string());
+    }
 }
 
 void Item_factory::load_item_blacklist(JsonObject &json) {
-    JsonArray jarr = json.get_array("items");
-    while(jarr.has_more()) {
-        item_blacklist.insert(jarr.next_string());
-    }
+    add_to_set(item_blacklist, json, "items");
+}
+
+void Item_factory::load_item_whitelist(JsonObject &json) {
+    add_to_set(item_whitelist, json, "items");
 }
 
 //Every item factory comes with a missing item

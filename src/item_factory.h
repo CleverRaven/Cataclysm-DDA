@@ -84,6 +84,7 @@ public:
     void load_veh_part  (JsonObject &jo);
 
     void load_item_blacklist(JsonObject &jo);
+    void load_item_whitelist(JsonObject &jo);
     void finialize_item_blacklist();
 
     // Check that all items referenced in the groups

@@ -194,13 +194,6 @@ enum m_flag {
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
-enum m_category {
-    MC_NULL = 0, // No category.
-    MC_CLASSIC, // Only monsters we expect in a classic zombie movie.
-    MC_WILDLIFE, // The natural animals.
-    MC_MAX // Size of flag array.
-};
-
 struct mtype {
     std::string id, name, description;
     std::set<std::string> species, categories;
