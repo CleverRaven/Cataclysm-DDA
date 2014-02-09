@@ -434,7 +434,7 @@
         "post_terrain" : "t_chainfence_posts"
     },{
         "type" : "construction",
-        "description" : "Build wire Fence",
+        "description" : "Build Wire Fence",
         "difficulty" : 3,
         "time" : 20,
         "components" : [

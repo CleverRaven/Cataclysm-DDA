@@ -10,6 +10,7 @@ enum { BILLION = 1000 * 1000 * 1000 };
 
 #if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
 /* Windows platforms.  */
+#ifndef _TIMESPEC_DEFINED
 
 #   ifdef __cplusplus
 extern "C" {
@@ -24,6 +25,8 @@ struct timespec
 #   ifdef __cplusplus
 }
 #   endif
+
+#endif // _TIMESPEC_DEFINED
 
 #ifndef NOMINMAX
 #define NOMINMAX

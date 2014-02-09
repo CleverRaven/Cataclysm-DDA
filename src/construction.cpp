@@ -25,24 +25,26 @@ void construction_menu()
 {
     // only display constructions the player can theoretically perform
     std::vector<std::string> available;
-    for (unsigned i = 0; i < constructions.size(); ++i) {
+    std::list<std::string> craftable;
+    std::list<std::string> uncraftable;
+    inventory total_inv = g->crafting_inventory(&(g->u));
+    for(int i = 0; i < constructions.size(); i++) {
         construction *c = constructions[i];
-        if (can_construct(c)) {
-            bool already_have_it = false;
-            for (unsigned j = 0; j < available.size(); ++j) {
-                if (available[j] == c->description) {
-                    already_have_it = true;
-                    break;
-                }
-            }
-            if (!already_have_it) {
-                available.push_back(c->description);
-            }
+        if( c->can_construct( ) && c->player_can_build( g->u, total_inv) ) {
+            craftable.push_back(c->description);
+        } else {
+            uncraftable.push_back(c->description);
         }
     }
 
+    craftable.unique();
+    uncraftable.unique();
+
+    available.insert(available.end(), craftable.begin(), craftable.end());
+    available.insert(available.end(), uncraftable.begin(), uncraftable.end());
+
     if(available.empty()) {
-        popup(_("You can not construct anything here."));
+        popup(_("you can not construct anything here."));
         return;
     }
 
@@ -72,8 +74,6 @@ void construction_menu()
  long ch;
  bool exit = false;
 
- inventory total_inv = g->crafting_inventory(&(g->u));
-
  do {
 // Erase existing list of constructions
   for (int i = 1; i < iMaxY-1; i++) {
@@ -90,7 +90,8 @@ void construction_menu()
   // Print the constructions between offset and max (or how many will fit)
   for (int i = 0; i < iMaxY-2 && (i + offset) < available.size(); i++) {
    int current = i + offset;
-   nc_color col = (player_can_build(g->u, total_inv, available[current]) ?
+   construction *c = constructions_by_desc[ available[current] ][0];
+   nc_color col = ( c->player_can_build( g->u, total_inv ) && c->can_construct( ) ?
                    c_white : c_dkgray);
    // Map menu items to hotkey letters, skipping j, k, l, and q.
    unsigned char hotkey = 97 + current;
@@ -100,9 +101,9 @@ void construction_menu()
    if (current == select)
     col = hilite(col);
    // print construction name with limited length.
-   // limit(28) = 30(column len) - 2(letter + ' ').
+   // limit(28) = 30(column len) - 3(letter + ' ' + border).
    mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey,
-             utf8_substr(available[current].c_str(), 0, 28).c_str());
+             utf8_substr(available[current].c_str(), 0, 27).c_str());
   }
 
   if (update_info) {
@@ -122,9 +123,9 @@ void construction_menu()
    std::vector<construction*> options = constructions_by_desc[current_desc];
    for (unsigned i = 0; i < options.size(); ++i) {
     construction *current_con = options[i];
-    if (!can_construct(current_con)) {
+    /*if (!can_construct(current_con)) {
      continue;
-    }
+    }*/
     nc_color color_stage = c_white;
 
     // display required skill and difficulty
@@ -276,7 +277,8 @@ void construction_menu()
      chosen = select;
 
     if (chosen < available.size()) {
-     if (player_can_build(g->u, total_inv, available[chosen])) {
+        construction *c = constructions_by_desc[available[chosen]][0];
+     if (c->player_can_build(g->u, total_inv)) {
       place_construction(available[chosen]);
       exit = true;
      } else {
@@ -301,21 +303,56 @@ void construction_menu()
  g->refresh_all();
 }
 
-bool player_can_build(player &p, inventory pinv, const std::string &desc)
-{
-    // check all with the same desc to see if player can build any
-    std::vector<construction*> cons = constructions_by_desc[desc];
-    for (unsigned i = 0; i < cons.size(); ++i) {
-        if (player_can_build(p, pinv, cons[i])) {
-            return true;
+bool construction::can_construct() {
+    for( int x = g->u.posx - 1; x <= g->u.posx + 1; x++ ) {
+        for( int y = g->u.posy - 1; y <= g->u.posy + 1; y++ ) {
+            if( x == g->u.posx && y == g->u.posy ) {
+                y++;
+            }
+            if( can_construct(x, y ) ) {
+                return true;
+            }
         }
     }
     return false;
 }
 
-bool player_can_build(player &p, inventory pinv, construction *con)
-{
-    if (p.skillLevel(con->skill) < con->difficulty) {
+bool construction::can_construct( int x, int y ) {
+    // see if the special pre-function checks out
+    construct test;
+    bool place_okay = ( test.*( this->pre_special ) )( point( x, y ) );
+    // see if the terrain type checks out
+    if( this->pre_terrain != "" ) {
+        if( this->pre_is_furniture ) {
+            furn_id f = furnmap[this->pre_terrain].loadid;
+            place_okay &= ( g->m.furn( x, y ) == f );
+        } else {
+            ter_id t = termap[this->pre_terrain].loadid;
+            place_okay &= ( g->m.ter( x, y ) == t );
+        }
+    }
+    // see if the flags check out
+    if( !this->pre_flags.empty( ) ) {
+        std::set<std::string>::iterator it;
+        for( it = this->pre_flags.begin( ); it != this->pre_flags.end( ); ++it ) {
+            place_okay &= g->m.has_flag( *it, x, y );
+        }
+    }
+    // make sure the construction would actually do something
+    if( this->post_terrain != "" ) {
+        if( this->post_is_furniture ) {
+            furn_id f = furnmap[this->post_terrain].loadid;
+            place_okay &= ( g->m.furn( x, y ) != f );
+        } else {
+            ter_id t = termap[this->post_terrain].loadid;
+            place_okay &= ( g->m.ter( x, y ) != t );
+        }
+    }
+    return place_okay;
+}
+
+bool construction::player_can_build( player &p, inventory pinv) {
+    if( p.skillLevel( this->skill ) < this->difficulty ) {
         return false;
     }
 
@@ -324,100 +361,49 @@ bool player_can_build(player &p, inventory pinv, construction *con)
     bool tools_required = false;
     bool components_required = false;
 
-    for (int j = 0; j < con->tools.size(); j++) {
-        if (con->tools[j].size() > 0) {
+    for( int j = 0; j < this->tools.size( ); j++ ) {
+        if( this->tools[j].size( ) > 0 ) {
             tools_required = true;
             has_tool = false;
-            for (unsigned k = 0; k < con->tools[j].size(); k++) {
-                if (pinv.has_amount(con->tools[j][k].type, 1)) {
+            for( unsigned k = 0; k < this->tools[j].size( ); k++ ) {
+                if( pinv.has_amount( this->tools[j][k].type, 1 ) ) {
                     has_tool = true;
-                    con->tools[j][k].available = 1;
+                    this->tools[j][k].available = 1;
                 } else {
-                    con->tools[j][k].available = -1;
+                    this->tools[j][k].available = -1;
                 }
             }
-            if (!has_tool) { // missing one of the tools for this stage
+            if( !has_tool ) { // missing one of the tools for this stage
                 break;
             }
         }
     }
 
-    for (int j = 0; j < con->components.size(); ++j) {
-        if (con->components[j].size() > 0) {
+    for( int j = 0; j < this->components.size( ); ++j ) {
+        if( this->components[j].size( ) > 0 ) {
             components_required = true;
             has_component = false;
-            for (unsigned k = 0; k < con->components[j].size(); k++) {
-                if (( item_controller->find_template(con->components[j][k].type)->is_ammo() &&
-                      pinv.has_charges(con->components[j][k].type,
-                                       con->components[j][k].count)    ) ||
-                    (!item_controller->find_template(con->components[j][k].type)->is_ammo() &&
-                      pinv.has_amount (con->components[j][k].type,
-                                       con->components[j][k].count)    ))
-                {
+            for( unsigned k = 0; k < this->components[j].size( ); k++ ) {
+                if( ( item_controller->find_template( this->components[j][k].type )->is_ammo( ) &&
+                    pinv.has_charges( this->components[j][k].type,
+                    this->components[j][k].count ) ) ||
+                    ( !item_controller->find_template( this->components[j][k].type )->is_ammo( ) &&
+                    pinv.has_amount( this->components[j][k].type,
+                    this->components[j][k].count ) ) ) {
                     has_component = true;
-                    con->components[j][k].available = 1;
+                    this->components[j][k].available = 1;
                 } else {
-                    con->components[j][k].available = -1;
+                    this->components[j][k].available = -1;
                 }
             }
-            if (!has_component) { // missing one of the comps for this stage
+            if( !has_component ) { // missing one of the comps for this stage
                 break;
             }
         }
     }
 
-    return (has_component || !components_required) &&
-           (has_tool || !tools_required);
-}
-
-bool can_construct(construction *con, int x, int y)
-{
-    // see if the special pre-function checks out
-    construct test;
-    bool place_okay = (test.*(con->pre_special))(point(x, y));
-    // see if the terrain type checks out
-    if (con->pre_terrain != "") {
-        if (con->pre_is_furniture) {
-            furn_id f = furnmap[con->pre_terrain].loadid;
-            place_okay &= (g->m.furn(x, y) == f);
-        } else {
-            ter_id t = termap[con->pre_terrain].loadid;
-            place_okay &= (g->m.ter(x, y) == t);
-        }
-    }
-    // see if the flags check out
-    if (!con->pre_flags.empty()) {
-        std::set<std::string>::iterator it;
-        for (it = con->pre_flags.begin(); it != con->pre_flags.end(); ++it) {
-            place_okay &= g->m.has_flag(*it, x, y);
-        }
-    }
-    // make sure the construction would actually do something
-    if (con->post_terrain != "") {
-        if (con->post_is_furniture) {
-            furn_id f = furnmap[con->post_terrain].loadid;
-            place_okay &= (g->m.furn(x, y) != f);
-        } else {
-            ter_id t = termap[con->post_terrain].loadid;
-            place_okay &= (g->m.ter(x, y) != t);
-        }
-    }
-    return place_okay;
-}
-
-bool can_construct(construction *con)
-{
-    for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
-        for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
-            if (x == g->u.posx && y == g->u.posy) {
-                y++;
-            }
-            if (can_construct(con, x, y)) {
-                return true;
-            }
-        }
-    }
-    return false;
+    return ( has_component || !components_required ) &&
+        ( has_tool || !tools_required );
 }
 
 void place_construction(const std::string &desc)
@@ -433,8 +419,8 @@ void place_construction(const std::string &desc)
                 y++;
             }
             for (unsigned i = 0; i < cons.size(); ++i) {
-                if (can_construct(cons[i], x, y)
-                        && player_can_build(g->u, total_inv, cons[i])) {
+                if( cons[i]->can_construct( x, y )
+                    && cons[i]->player_can_build( g->u, total_inv ) ) {
                     valid[point(x, y)] = cons[i];
                 }
             }
@@ -825,4 +811,12 @@ void reset_constructions() {
     }
     constructions.clear();
     constructions_by_desc.clear();
+}
+
+std::string construction::get_pre_terrain_name() const {
+    return this->pre_is_furniture ? furnmap[this->pre_terrain].name : termap[this->pre_terrain].name;
+}
+
+std::string construction::get_post_terrain_name( ) const {
+    return this->post_is_furniture ? furnmap[this->post_terrain].name : termap[this->post_terrain].name;
 }
