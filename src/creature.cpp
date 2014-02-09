@@ -860,7 +860,7 @@ nc_color Creature::basic_symbol_color()
 
 nc_color Creature::symbol_color()
 {
-    return symbol_color();
+    return basic_symbol_color();
 }
 
 bool Creature::is_symbol_highlighted()
