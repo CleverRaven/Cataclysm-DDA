@@ -4,6 +4,8 @@
 #include <map>
 #include <algorithm>
 
+static const std::string null_item_id("null");
+
 Item_group::Item_group(const Item_tag id)
 : m_id(id)
 , m_max_odds(0)
@@ -34,6 +36,10 @@ bool Item_group::guns_have_ammo() {
 }
 
 const Item_tag Item_group::get_id(std::vector<Item_tag> &recursion_list){
+    if (m_max_odds == 0) {
+        // No items in this group
+        return null_item_id;
+    }
     int rolled_value = rng(1,m_max_odds)-1;
 
     //Insure we haven't already visited this group
