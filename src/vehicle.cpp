@@ -1250,6 +1250,11 @@ void vehicle::remove_part (int p)
         }
     }
 
+    const int dx = global_x() + parts[p].precalc_dx[0];
+    const int dy = global_y() + parts[p].precalc_dy[0];
+    for (int i = 0; i < parts[p].items.size(); i++) {
+        g->m.add_item_or_charges(dx + rng(-3, +3), dy + rng(-3, +3), parts[p].items[i]);
+    }
     parts.erase(parts.begin() + p);
     refresh();
 
