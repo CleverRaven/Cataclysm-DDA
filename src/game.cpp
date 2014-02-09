@@ -5158,7 +5158,7 @@ bool game::u_see(int x, int y)
 
 bool game::u_see(Creature *t)
 {
-    monster *m = dynamic_cast<monster*>(m);
+    monster *m = dynamic_cast<monster*>(t);
     if (m != NULL) {
         return u.sees(m); // special handling for (submerged/digging) monsters
     }

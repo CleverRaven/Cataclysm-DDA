@@ -102,24 +102,14 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         } else {
             cur_missed_by = missed_by;
         }
-        if (mon != NULL && cur_missed_by <= 1.0) {
-            monster &z = *mon;
-
+        if (critter != NULL && cur_missed_by <= 1.0) {
             dealt_damage_instance dealt_dam;
-            z.deal_projectile_attack(this, missed_by, proj, dealt_dam);
+            critter->deal_projectile_attack(this, missed_by, proj, dealt_dam);
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
             //splatter(this, blood_traj, dam, &z); TODO: add splatter effects (include new blood types)
             //back in
             dam = 0;
-        // TODO: general case this so it works for all npcs, instead of only
-        // player
-        } else if (critter != NULL && cur_missed_by <= 1.0) {
-            dealt_damage_instance dealt_dam;
-            critter->deal_projectile_attack(this, missed_by, proj, dealt_dam);
-            std::vector<point> blood_traj = trajectory;
-            blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
-
         } else if(in_veh != NULL && g->m.veh_at(tx, ty) == in_veh) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
