@@ -711,15 +711,16 @@ void game::calc_driving_offset(vehicle *veh) {
         return;
     }
     // velocity at or below this results in no offset at all
-    static const float min_offset_vel = 10*100;
+    static const float min_offset_vel = 10 * 100;
     // velocity at or above this results in maximal offset
-    static const float max_offset_vel = 70*100;
+    static const float max_offset_vel = 70 * 100;
     // The maximal offset will leave at least this many tiles
     // beetween the PC and the edge of the main window.
     static const int border_range = 2;
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
-    if (!veh->skidding && std::abs(veh->cruise_velocity - veh->velocity) < 14*100 && veh->player_in_control(&u)) {
+    if (!veh->skidding && std::abs(veh->cruise_velocity - veh->velocity) < 14 * 100 &&
+        veh->player_in_control(&u)) {
         // Use the cruise controlled velocity, but only if
         // it is not too different from the actuall velocity.
         // The actuall velocity changes too often (see above slowdown).
@@ -740,7 +741,7 @@ void game::calc_driving_offset(vehicle *veh) {
     // offset.y are <= 1
     if(std::abs(offset.x) > std::abs(offset.y) && std::abs(offset.x) > 0.2) {
         offset.y /= std::abs(offset.x);
-        offset.x  = offset.x > 0 ? +1 : -1;
+        offset.x  = (offset.x > 0) ? +1 : -1;
     } else if(std::abs(offset.y) > 0.2) {
         offset.x /= std::abs(offset.y);
         offset.y  = offset.y > 0 ? +1 : -1;
@@ -749,6 +750,20 @@ void game::calc_driving_offset(vehicle *veh) {
     offset.y *= rel_offset;
     offset.x *= (getmaxx(w_terrain) + 1) / 2 - border_range - 1;
     offset.y *= (getmaxy(w_terrain) + 1) / 2 - border_range - 1;
+    // Turn the offset into a vector that increments the offset toward the desired position
+    // instead of setting it there instantly, should smooth out jerkiness.
+    const point offset_difference( offset.x - driving_view_offset.x,
+                                   offset.y - driving_view_offset.y );
+
+    const point offset_sign( (offset_difference.x < 0) ? -1 : 1,
+                             (offset_difference.y < 0) ? -1 : 1 );
+    // Shift the current offset in the direction of the calculated offset by one tile
+    // per draw event, but snap to calculated offset if we're close enough to avoid jitter.
+    offset.x = ( std::abs(offset_difference.x) > 1 ) ?
+        (driving_view_offset.x + offset_sign.x) : offset.x;
+    offset.y = ( std::abs(offset_difference.y) > 1 ) ?
+        (driving_view_offset.y + offset_sign.y) : offset.y;
+
     set_driving_view_offset(point(offset.x, offset.y));
 }
 
