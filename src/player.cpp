@@ -9962,7 +9962,7 @@ point player::adjacent_tile()
         {
             if (i == posx && j == posy) continue;       // don't consider player position
             curtrap=g->m.tr_at(i, j);
-            if (g->mon_at(i, j) == -1 && g->npc_at(i, j) == NULL && g->m.move_cost(i, j) > 0 && (curtrap == tr_null || g->traps[curtrap]->is_benign()))        // only consider tile if unoccupied, passable and has no traps
+            if (g->critter_at(i, j) == NULL && g->m.move_cost(i, j) > 0 && (curtrap == tr_null || g->traps[curtrap]->is_benign()))        // only consider tile if unoccupied, passable and has no traps
             {
                 dangerous_fields = 0;
                 tmpfld = g->m.field_at(i, j);

@@ -2417,10 +2417,9 @@ bool game::handle_action()
 
                 mouse_action_x = mx;
                 mouse_action_y = my;
-                int mouse_selected_mondex = mon_at(mx, my);
-                if (mouse_selected_mondex != -1) {
-                    monster &critter = critter_tracker.find(mouse_selected_mondex);
-                    if (!u_see(&critter)) {
+                Creature *mouse_selected_critter = critter_at(mx, my);
+                if (mouse_selected_critter != NULL) {
+                    if (!u_see(mouse_selected_critter)) {
                         add_msg(_("Nothing relevant here."));
                         return false;
                     }
@@ -5159,7 +5158,11 @@ bool game::u_see(int x, int y)
 
 bool game::u_see(Creature *t)
 {
- return u_see(t->xpos(), t->ypos());
+    monster *m = dynamic_cast<monster*>(m);
+    if (m != NULL) {
+        return u.sees(m); // special handling for (submerged/digging) monsters
+    }
+    return u_see(t->xpos(), t->ypos());
 }
 
 bool game::u_see(Creature &t)
@@ -6610,6 +6613,18 @@ npc *game::npc_by_id(const int id)
    return active_npc[i];
  }
  return NULL;
+}
+
+Creature *game::critter_at(int x, int y)
+{
+    const int mindex = mon_at(x, y);
+    if (mindex != -1) {
+        return &zombie(mindex);
+    }
+    if (x == u.posx && y == u.posy) {
+        return &u;
+    }
+    return npc_at(x, y);
 }
 
 bool game::add_zombie(monster& critter)

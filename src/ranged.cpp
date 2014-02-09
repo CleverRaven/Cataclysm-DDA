@@ -84,13 +84,14 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             break;
         }
         */
+        Creature *critter = g->critter_at(tx, ty);
+        monster *mon = dynamic_cast<monster*>(critter);
 
-        int mondex = g->mon_at(tx, ty);
         // ignore non-point-blank digging targets (since they are underground)
-        if (mondex != -1 && g->zombie(mondex).digging() &&
-                            rl_dist(xpos(), ypos(), g->zombie(mondex).xpos(),
-                                    g->zombie(mondex).ypos()) > 1)
-            mondex = -1;
+        if (mon != NULL && mon->digging() &&
+                            rl_dist(xpos(), ypos(), tx, ty) > 1) {
+            critter = mon = NULL;
+        }
         // If we shot us a monster...
         // TODO: add size effects to accuracy
         // If there's a monster in the path of our bullet, and either our aim was true,
@@ -101,8 +102,8 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         } else {
             cur_missed_by = missed_by;
         }
-        if (mondex != -1 && cur_missed_by <= 1.0) {
-            monster &z = g->zombie(mondex);
+        if (mon != NULL && cur_missed_by <= 1.0) {
+            monster &z = *mon;
 
             dealt_damage_instance dealt_dam;
             z.deal_projectile_attack(this, missed_by, proj, dealt_dam);
@@ -113,10 +114,9 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             dam = 0;
         // TODO: general case this so it works for all npcs, instead of only
         // player
-        } else if (g->u.xpos() == tx && g->u.ypos() == ty
-                && cur_missed_by <= 1.0) {
+        } else if (critter != NULL && cur_missed_by <= 1.0) {
             dealt_damage_instance dealt_dam;
-            g->u.deal_projectile_attack(this, missed_by, proj, dealt_dam);
+            critter->deal_projectile_attack(this, missed_by, proj, dealt_dam);
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
 
@@ -860,12 +860,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
   /* More drawing to terrain */
   if (tarx != 0 || tary != 0) {
-   int mondex = mon_at(x, y);
-   npc *foe = npc_at(x, y);
-   if (mondex != -1 && u_see(&(zombie(mondex))))
-    zombie(mondex).draw(w_terrain, center.x, center.y, false);
-   else if (foe != NULL)
-    foe->draw(w_terrain, center.x, center.y, false);
+   Creature *critter = critter_at(x, y);
+   if (critter != NULL && u_see(critter)) {
+    critter->draw(w_terrain, center.x, center.y, false);
+   }
    else if (m.sees(u.posx, u.posy, x, y, -1, junk))
     m.drawsq(w_terrain, u, x, y, false, true, center.x, center.y);
    else
