@@ -1,0 +1,44 @@
+[    
+    {
+        "type" : "ammunition_type",
+        "id" : "32",
+        "name" : ".32",
+        "default" : "32_acp"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "762x25",
+        "name" : "7.62x25mm",
+        "default" : "762_25"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "300",
+        "name" : ".300",
+        "default" : "300_winmag"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "ammo_flintlock",
+        "name" : "paper cartridge",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "36paper",
+        "name" : ".36 cap & ball",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "44paper",
+        "name" : ".44 cap & ball",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "762R",
+        "name": "7.62x54mm",
+        "default": "762_54R"
+    }
+]

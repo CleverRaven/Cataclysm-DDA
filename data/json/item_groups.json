@@ -2225,9 +2225,9 @@
       ["cx4", 15],
       ["browning_blr", 8],
       ["remington_700", 14],
-      ["sks", 6],
       ["ruger_mini", 12],
-      ["savage_111f", 10]
+      ["savage_111f", 10],
+      ["sks", 6]
     ]
   },{
     "type" : "item_group",
@@ -2309,7 +2309,6 @@
       ["cx4", 15],
       ["browning_blr", 8],
       ["remington_700", 14],
-      ["sks", 12],
       ["m14a", 10],
       ["ruger_mini", 12],
       ["savage_111f", 10],
@@ -2333,7 +2332,8 @@
       ["needlegun", 4],
       ["flaregun", 8],
       ["signal_flare", 5],
-      ["blowgun", 5]
+      ["blowgun", 5],
+      ["sks", 12]
     ]
   },{
     "type" : "item_group",
@@ -3092,7 +3092,6 @@
     "guns_with_ammo" : true,
     "items":[
       ["flaregun", 4],
-      ["rifle_flintlock", 4],
       ["m1911", 10],
       ["ruger_redhawk", 9],
       ["deagle_44", 9],
@@ -3111,20 +3110,16 @@
       ["ar15", 15],
       ["m4a1", 9],
       ["m249", 2],
-      ["sks", 7],
-      ["ppsh", 5],
       ["ak47", 7],
       ["saiga_sawn", 5],
       ["arx160", 1],
-      ["hk_g3", 10]
+      ["hk_g3", 10],
+      ["sks", 7]
     ]
   },{
     "type" : "item_group",
     "id" : "mansion_guns",
     "items":[
-      ["rifle_flintlock", 5],
-      ["pistol_flintlock", 9],
-      ["flintlock_ammo", 7],
       ["shotgun_s", 6],
       ["shotgun_d", 6],
       ["trex_gun", 1],
@@ -3138,11 +3133,9 @@
       ["rm120c", 4],
       ["rm99_pistol", 4],
       ["rm103a_pistol", 4],
-      ["tokarev", 4],
-      ["sks", 6],
-      ["ppsh", 4],
       ["saiga_12", 5],
-      ["RPG", 1]
+      ["RPG", 1],
+      ["sks", 6]
     ]
   },{
     "type" : "item_group",
@@ -3706,8 +3699,6 @@
     "type" : "item_group",
     "id" : "pawn",
     "items":[
-      ["rifle_flintlock", 1],
-      ["pistol_flintlock", 1],
       ["trex_gun", 1],
       ["700nx", 1],
       ["700nx_casing", 1],
@@ -3805,7 +3796,6 @@
       ["remington_870", 9],
       ["browning_blr", 8],
       ["remington_700", 14],
-      ["sks", 12],
       ["novel_romance", 30],
       ["novel_spy", 28],
       ["novel_satire", 15],
@@ -3951,7 +3941,8 @@
       ["leathersandals", 10],
       ["maid_dress", 3],
       ["maid_hat", 3],
-      ["razor_blade", 6]
+      ["razor_blade", 6],
+      ["sks", 12]
     ]
   },{
     "type" : "item_group",
@@ -5504,7 +5495,6 @@
       ["hk_mp5", 12],
       ["TDI", 4],
       ["savage_111f", 10],
-      ["sks", 12],
       ["ak47", 16],
       ["m4a1", 7],
       ["steyr_aug", 6],
@@ -5536,7 +5526,8 @@
       ["survivormap", 5],
       ["halligan", 10],
       ["fire_ax", 5],
-      ["pur_tablets", 10]
+      ["pur_tablets", 10],
+      ["sks", 12]
     ]
   },{
     "type" : "item_group",

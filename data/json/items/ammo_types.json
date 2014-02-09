@@ -13,12 +13,6 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "ammo_flintlock",
-        "name" : "paper cartridge",
-        "default" : ""
-    },
-    {
-        "type" : "ammunition_type",
         "id" : "50",
         "name" : ".50 BMG",
         "default" : "50bmg"
@@ -70,12 +64,6 @@
         "id" : "9mm",
         "name" : "9mm",
         "default" : "9mm"
-    },
-    {
-        "type" : "ammunition_type",
-        "id" : "762x25",
-        "name" : "7.62x25mm",
-        "default" : "762_25"
     },
     {
         "type" : "ammunition_type",
