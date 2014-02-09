@@ -2378,6 +2378,9 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
                      const unsigned quantity, const int charges,
                      const unsigned birthday, const int damlevel)
 {
+    if(type_id == "null") {
+        return;
+    }
     // recurse to spawn (quantity - 1) items
     for(int i = 1; i < quantity; i++)
     {

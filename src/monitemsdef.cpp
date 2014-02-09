@@ -1,5 +1,4 @@
 #include "game.h"
-#include "setvector.h"
 #include "json.h"
 
 void game::load_monitem(JsonObject &jo) {

@@ -20,7 +20,6 @@ std::map<craft_cat, std::vector<craft_subcat> > craft_subcat_list;
 std::vector<std::string> recipe_names;
 recipe_map recipes;
 std::map<std::string, quality> qualities;
-std::map<std::string, std::queue<std::pair<recipe *, int> > > recipe_booksets;
 
 static void draw_recipe_tabs(WINDOW *w, craft_cat tab, bool filtered = false);
 static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab,
@@ -153,11 +152,7 @@ void load_recipe(JsonObject &jsobj)
         JsonArray ja = jsarr.next_array();
         std::string book_name = ja.get_string(0);
         int book_level = ja.get_int(1);
-        std::pair<recipe *, int> temp_pair(rec, book_level);
-        if (recipe_booksets.find(book_name) == recipe_booksets.end()) {
-            recipe_booksets[book_name] = std::queue<std::pair<recipe *, int> >();
-        }
-        recipe_booksets[book_name].push(temp_pair);
+        rec->booksets.push_back(std::pair<std::string,int>(book_name, book_level));
     }
 
     recipes[category].push_back(rec);
@@ -176,18 +171,23 @@ void reset_recipes()
 
 void finalize_recipes()
 {
-    for (std::map<std::string, std::queue<std::pair<recipe *, int> > >::iterator book_ref_it =
-             recipe_booksets.begin(); book_ref_it != recipe_booksets.end(); ++book_ref_it) {
-        if (!book_ref_it->second.empty() && item_controller->find_template(book_ref_it->first)->is_book()) {
-            it_book *book_def = dynamic_cast<it_book *>(item_controller->find_template(book_ref_it->first));
-            while (!book_ref_it->second.empty()) {
-                std::pair<recipe *, int> rec_pair = book_ref_it->second.front();
-                book_ref_it->second.pop();
-                book_def->recipes[rec_pair.first] = rec_pair.second;
+    for (recipe_map::iterator it = recipes.begin(); it != recipes.end(); ++it) {
+        for (int i = 0; i < it->second.size(); ++i) {
+            recipe* r = it->second[i];
+            for(size_t j = 0; j < r->booksets.size(); j++) {
+                const std::string &book_id = r->booksets[j].first;
+                const int skill_level = r->booksets[j].second;
+                if (!item_controller->has_template(book_id)) {
+                    continue;
+                }
+                it_book *book_def = dynamic_cast<it_book *>(item_controller->find_template(book_id));
+                if (book_def != NULL) {
+                    book_def->recipes[r] = skill_level;
+                }
             }
+            r->booksets.clear();
         }
     }
-    recipe_booksets.clear();
 }
 
 void reset_recipes_qualities()

@@ -132,6 +132,10 @@ void DynamicDataLoader::initialize()
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
     type_function_map["monstergroup"] = new StaticFunctionAccessor(
         &MonsterGroupManager::LoadMonsterGroup);
+    type_function_map["MONSTER_BLACKLIST"] = new StaticFunctionAccessor(
+        &MonsterGroupManager::LoadMonsterBlacklist);
+    type_function_map["MONSTER_WHITELIST"] = new StaticFunctionAccessor(
+        &MonsterGroupManager::LoadMonsterWhitelist);
     type_function_map["speech"] = new StaticFunctionAccessor(&load_speech);
     type_function_map["ammunition_type"] = new StaticFunctionAccessor(&ammunition_type::load_ammunition_type);
 
@@ -195,6 +199,8 @@ void DynamicDataLoader::initialize()
     type_function_map["region_settings"] = new StaticFunctionAccessor(&load_region_settings);
     type_function_map["ITEM_BLACKLIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_blacklist);
+    type_function_map["ITEM_WHITELIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
+            &Item_factory::load_item_whitelist);
 
     // ...unimplemented?
     type_function_map["INSTRUMENT"] = new StaticFunctionAccessor(&load_ingored_type);
@@ -389,6 +395,7 @@ void DynamicDataLoader::finalize_loaded_data() {
     finalize_overmap_terrain();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
+    MonsterGroupManager::FinalizeMonsterGroups();
     g->finalize_vehicles();
     item_controller->finialize_item_blacklist();
     finalize_recipes();
