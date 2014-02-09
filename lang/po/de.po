@@ -16421,11 +16421,11 @@ msgid "Granade"
 msgstr "Granate"
 
 #: lang/json/TOOL_from_json.py
-msgid "Louisville Slaghterer"
+msgid "Louisville Slaughterer"
 msgstr "Louisville-Schlächter"
 
 #: lang/json/TOOL_from_json.py
-msgid "Louisville Slaghterer (lit)"
+msgid "Louisville Slaughterer (lit)"
 msgstr "Louisville-Schlächter (angezündet)"
 
 #: lang/json/TOOL_from_json.py

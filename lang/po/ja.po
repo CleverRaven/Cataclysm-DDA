@@ -14898,11 +14898,11 @@ msgid "Granade"
 msgstr "朱榴弾"
 
 #: lang/json/TOOL_from_json.py
-msgid "Louisville Slaghterer"
+msgid "Louisville Slaughterer"
 msgstr "ルイビルスロータラー"
 
 #: lang/json/TOOL_from_json.py
-msgid "Louisville Slaghterer (lit)"
+msgid "Louisville Slaughterer (lit)"
 msgstr "ルイビルスロータラー (点火)"
 
 #: lang/json/TOOL_from_json.py
