@@ -700,13 +700,14 @@ public:
   unsigned char latest_lightlevel;
   calendar latest_lightlevel_turn;
   
-  /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
-  int tileset_zoom;
 
   special_game *gamemode;
 
   int moveCount; //Times the player has moved (not pause, sleep, etc)
   const int lookHeight; // Look Around window height
+  
+  /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
+  int tileset_zoom;
 
   // Preview for auto move route
   std::vector<point> destination_preview;
