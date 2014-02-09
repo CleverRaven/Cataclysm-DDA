@@ -66,8 +66,16 @@ void remove_item(const std::string &itm, std::vector<map_bash_item_drop>& vec) {
     }
 }
 
-// see mongroupdef.cpp
-template<typename T> void invert_whitelist(t_string_set &whitelist, t_string_set &blacklist, const std::map<std::string, T> &map);
+bool item_is_blacklisted(const std::string &id) {
+    if (item_whitelist.count(id) > 0) {
+        return false;
+    } else if(item_blacklist.count(id) > 0) {
+        return true;
+    }
+    // Empty whitelist: default to enable all,
+    // Non-empty whitelist: default to disable all.
+    return !item_whitelist.empty();
+}
 
 void Item_factory::finialize_item_blacklist() {
     for(t_string_set::const_iterator a = item_whitelist.begin(); a != item_whitelist.end(); ++a) {
@@ -75,12 +83,16 @@ void Item_factory::finialize_item_blacklist() {
             debugmsg("item on whitelist %s does not exist", a->c_str());
         }
     }
-    invert_whitelist(item_whitelist, item_blacklist, m_templates);
     for(t_string_set::const_iterator a = item_blacklist.begin(); a != item_blacklist.end(); ++a) {
         if (!has_template(*a)) {
             debugmsg("item on blacklist %s does not exist", a->c_str());
         }
-        const std::string &itm = *a;
+    }
+    for(std::map<std::string,itype*>::const_iterator a = m_templates.begin(); a != m_templates.end(); ++a) {
+        const std::string &itm = a->first;
+        if (!item_is_blacklisted(itm)) {
+            continue;
+        }
         for(std::map<Item_tag, Item_group*>::iterator b = m_template_groups.begin(); b != m_template_groups.end(); ++b) {
             b->second->remove_item(itm);
         }
@@ -111,6 +123,7 @@ void Item_factory::finialize_item_blacklist() {
         }
     }
     item_blacklist.clear();
+    item_whitelist.clear();
 }
 
 void add_to_set(t_string_set &s, JsonObject &json, const std::string &name) {
