@@ -3639,12 +3639,11 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3661,12 +3660,11 @@
         "volume" : 5,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3683,12 +3681,11 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3705,12 +3702,11 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3727,12 +3723,11 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3749,12 +3744,11 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3771,12 +3765,11 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3793,12 +3786,11 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3815,12 +3807,11 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3837,12 +3828,11 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3859,12 +3849,11 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3881,34 +3870,32 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
         "id" : "holybook_kojiki",
         "name" : "The Kojiki",
         "max_level" : 0,
-        "description" : "The the oldest extant chronicle in Japan, the myths contained in the Kojiki are part of the inspiration behind Shinto practices.",
+        "description" : "The the oldest extant chronicle of Japan's myths and history, the stories contained in the Kojiki are part of the inspiration behind Shinto practices.",
         "weight" : 368,
         "to_hit" : 0,
-        "color" : "dark_grey",
+        "color" : "dark_gray",
         "intelligence" : 8,
         "symbol" : "?",
         "material" : ["paper", "null"],
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3925,12 +3912,11 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3947,12 +3933,11 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3969,12 +3954,11 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -3991,12 +3975,11 @@
         "volume" : 4,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 8,
+        "time" : 20,
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0,
-        "chapters": 40
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
