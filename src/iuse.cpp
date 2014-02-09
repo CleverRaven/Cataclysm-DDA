@@ -3234,8 +3234,8 @@ int iuse::picklock(player *p, item *it, bool)
   return 0;
  }
  ter_id type = g->m.ter(dirx, diry);
- int npcdex = g->npc_at(dirx, diry);
- if (npcdex != -1) {
+ npc *np = g->npc_at(dirx, diry);
+ if (np != NULL) {
   g->add_msg_if_player(p, _("You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose"));
   return 0;
  }
@@ -4695,15 +4695,15 @@ int iuse::granade_act(player *, item *it, bool t)
                 for (int i = -10; i <= 10; i++) {
                     for (int j = -10; j <= 10; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
+                        npc *p = g->npc_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
                             g->zombie(mon_hit).speed *= 1 + rng(0, 20) * .1;
                             g->zombie(mon_hit).hp *= 1 + rng(0, 20) * .1;
-                        } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
-                            int npc_hit = g->npc_at(pos.x + i, pos.y + j);
-                            g->active_npc[npc_hit]->str_max += rng(0, g->active_npc[npc_hit]->str_max/2);
-                            g->active_npc[npc_hit]->dex_max += rng(0, g->active_npc[npc_hit]->dex_max/2);
-                            g->active_npc[npc_hit]->int_max += rng(0, g->active_npc[npc_hit]->int_max/2);
-                            g->active_npc[npc_hit]->per_max += rng(0, g->active_npc[npc_hit]->per_max/2);
+                        } else if (p != NULL) {
+                            p->str_max += rng(0, p->str_max/2);
+                            p->dex_max += rng(0, p->dex_max/2);
+                            p->int_max += rng(0, p->int_max/2);
+                            p->per_max += rng(0, p->per_max/2);
                         } else if (g->u.posx == pos.x + i && g->u.posy == pos.y + j) {
                             g->u.str_max += rng(0, g->u.str_max/2);
                             g->u.dex_max += rng(0, g->u.dex_max/2);
@@ -4727,15 +4727,15 @@ int iuse::granade_act(player *, item *it, bool t)
                 for (int i = -10; i <= 10; i++) {
                     for (int j = -10; j <= 10; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
+                        npc *p = g->npc_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
                             g->zombie(mon_hit).speed = rng(1, g->zombie(mon_hit).speed);
                             g->zombie(mon_hit).hp = rng(1, g->zombie(mon_hit).hp);
-                        } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
-                            int npc_hit = g->npc_at(pos.x + i, pos.y + j);
-                            g->active_npc[npc_hit]->str_max -= rng(0, g->active_npc[npc_hit]->str_max/2);
-                            g->active_npc[npc_hit]->dex_max -= rng(0, g->active_npc[npc_hit]->dex_max/2);
-                            g->active_npc[npc_hit]->int_max -= rng(0, g->active_npc[npc_hit]->int_max/2);
-                            g->active_npc[npc_hit]->per_max -= rng(0, g->active_npc[npc_hit]->per_max/2);
+                        } else if (p != NULL) {
+                            p->str_max -= rng(0, p->str_max/2);
+                            p->dex_max -= rng(0, p->dex_max/2);
+                            p->int_max -= rng(0, p->int_max/2);
+                            p->per_max -= rng(0, p->per_max/2);
                         } else if (g->u.posx == pos.x + i && g->u.posy == pos.y + j) {
                             g->u.str_max -= rng(0, g->u.str_max/2);
                             g->u.dex_max -= rng(0, g->u.dex_max/2);
@@ -4758,13 +4758,13 @@ int iuse::granade_act(player *, item *it, bool t)
                 for (int i = -10; i <= 10; i++) {
                     for (int j = -10; j <= 10; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
+                        npc *p = g->npc_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
                             g->zombie(mon_hit).speed = g->zombie(mon_hit).type->speed;
                             g->zombie(mon_hit).hp = g->zombie(mon_hit).type->hp;
                             g->zombie(mon_hit).clear_effects();
-                        } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
-                            int npc_hit = g->npc_at(pos.x + i, pos.y + j);
-                            g->active_npc[npc_hit]->environmental_revert_effect();
+                        } else if (p != NULL) {
+                            p->environmental_revert_effect();
                         } else if (g->u.posx == pos.x + i && g->u.posy == pos.y + j) {
                             g->u.environmental_revert_effect();
                         }
@@ -5531,8 +5531,8 @@ int iuse::tazer(player *p, item *it, bool)
   return 0;
  }
  int mondex = g->mon_at(dirx, diry);
- int npcdex = g->npc_at(dirx, diry);
- if (mondex == -1 && npcdex == -1) {
+ npc *foe = g->npc_at(dirx, diry);
+ if (mondex == -1 && foe == NULL) {
   g->add_msg_if_player(p,_("Electricity crackles in the air."));
   return it->type->charges_to_use();
  }
@@ -5561,8 +5561,7 @@ int iuse::tazer(player *p, item *it, bool)
   return it->type->charges_to_use();
  }
 
- if (npcdex != -1) {
-  npc *foe = g->active_npc[npcdex];
+ if (foe != NULL) {
   if (foe->attitude != NPCATT_FLEE)
    foe->attitude = NPCATT_KILL;
   if (foe->str_max >= 17)
@@ -5579,7 +5578,7 @@ int iuse::tazer(player *p, item *it, bool)
   foe->hurtall(shock);
   if (foe->hp_cur[hp_head]  <= 0 || foe->hp_cur[hp_torso] <= 0) {
    foe->die(true);
-   g->active_npc.erase(g->active_npc.begin() + npcdex);
+   g->active_npc.erase(std::find(g->active_npc.begin(), g->active_npc.end(), foe));
   }
  }
  return it->type->charges_to_use();
@@ -5601,9 +5600,9 @@ int iuse::tazer2(player *p, item *it, bool)
         }
 
         int mondex = g->mon_at(dirx, diry);
-        int npcdex = g->npc_at(dirx, diry);
+        npc *foe = g->npc_at(dirx, diry);
 
-        if (mondex == -1 && npcdex == -1) {
+        if (mondex == -1 && foe != NULL) {
             g->add_msg_if_player(p, _("Electricity crackles in the air."));
             return 100;
         }
@@ -5651,9 +5650,7 @@ int iuse::tazer2(player *p, item *it, bool)
             return 100;
         }
 
-        if (npcdex != -1) {
-            npc *foe = g->active_npc[npcdex];
-
+        if (foe != NULL) {
             if (foe->attitude != NPCATT_FLEE) {
                 foe->attitude = NPCATT_KILL;
             }
@@ -5677,7 +5674,7 @@ int iuse::tazer2(player *p, item *it, bool)
 
             if (foe->hp_cur[hp_head]  <= 0 || foe->hp_cur[hp_torso] <= 0) {
                 foe->die(true);
-                g->active_npc.erase(g->active_npc.begin() + npcdex);
+                g->active_npc.erase(std::find(g->active_npc.begin(), g->active_npc.end(), foe));
             }
         }
 

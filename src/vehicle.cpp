@@ -1743,10 +1743,7 @@ player *vehicle::get_passenger (int p)
      if( player_id == g->u.getID()) {
       return &g->u;
      }
-     int npcdex = g->npc_by_id (player_id);
-     if (npcdex >= 0) {
-      return g->active_npc[npcdex];
-     }
+     return g->npc_by_id (player_id);
     }
     return 0;
 }
@@ -2646,10 +2643,10 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 {
     bool pl_ctrl = player_in_control (&g->u);
     int mondex = g->mon_at(x, y);
-    int npcind = g->npc_at(x, y);
+    npc *foe = g->npc_at(x, y);
     bool u_here = x == g->u.posx && y == g->u.posy && !g->u.in_vehicle;
     monster *z = mondex >= 0? &g->zombie(mondex) : NULL;
-    player *ph = (npcind >= 0? g->active_npc[npcind] : (u_here? &g->u : 0));
+    player *ph = (foe != NULL ? foe : (u_here? &g->u : NULL));
 
     // if in a vehicle assume it's this one
     if (ph && ph->in_vehicle) {

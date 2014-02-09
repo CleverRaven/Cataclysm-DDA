@@ -636,9 +636,9 @@ matec_id player::pick_technique(Creature &t,
             else
             enemy_count -= 2;
           }
-          int npcdex = g->npc_at(x, y);
-          if (npcdex != -1) {
-            if (g->active_npc[npcdex]->attitude == NPCATT_KILL)
+          npc *foe = g->npc_at(x, y);
+          if (foe != NULL) {
+            if (foe->attitude == NPCATT_KILL)
             enemy_count++;
             else
             enemy_count -= 2;
@@ -735,12 +735,12 @@ void player::perform_technique(ma_technique technique, Creature &t,
                 std::string temp_target = string_format(_("the %s"), g->zombie(mondex).name().c_str());
                 g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
             }
-            int npcdex = g->npc_at(x, y);
-            if (npcdex != -1 &&
-                    hit_roll() >= rng(0, 5) + g->active_npc[npcdex]->dodge_roll()) {
+            npc *foe = g->npc_at(x, y);
+            if (foe != NULL &&
+                    hit_roll() >= rng(0, 5) + foe->dodge_roll()) {
                 count_hit++;
-                melee_attack(*g->active_npc[npcdex],false);
-                g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), g->active_npc[npcdex]->name.c_str() );
+                melee_attack(*foe,false);
+                g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), foe->name.c_str() );
             }
             }
         }

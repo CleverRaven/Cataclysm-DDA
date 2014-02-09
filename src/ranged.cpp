@@ -860,11 +860,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
   /* More drawing to terrain */
   if (tarx != 0 || tary != 0) {
-   int mondex = mon_at(x, y), npcdex = npc_at(x, y);
+   int mondex = mon_at(x, y);
+   npc *foe = npc_at(x, y);
    if (mondex != -1 && u_see(&(zombie(mondex))))
     zombie(mondex).draw(w_terrain, center.x, center.y, false);
-   else if (npcdex != -1)
-    active_npc[npcdex]->draw(w_terrain, center.x, center.y, false);
+   else if (foe != NULL)
+    foe->draw(w_terrain, center.x, center.y, false);
    else if (m.sees(u.posx, u.posy, x, y, -1, junk))
     m.drawsq(w_terrain, u, x, y, false, true, center.x, center.y);
    else
@@ -1250,7 +1251,7 @@ void shoot_monster(player &p, monster &mon, int &dam, double goodhit,
 
 void shoot_player(player &p, player *h, int &dam, double goodhit)
 {
-    int npcdex = g->npc_at(h->posx, h->posy);
+    npc *foe = g->npc_at(h->posx, h->posy);
     // Gunmods don't have a type, so use the player gun type.
     it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
     body_part hit = bp_torso;
@@ -1302,7 +1303,7 @@ void shoot_player(player &p, player *h, int &dam, double goodhit)
             if (&p == &(g->u)) {
                 g->add_msg(_("You shoot %s's %s."), h->name.c_str(),
                                body_part_name(hit, side).c_str());
-                g->active_npc[npcdex]->make_angry();
+                foe->make_angry();
             } else if (g->u_see(h->posx, h->posy)) {
                 g->add_msg(_("%s shoots %s's %s."),
                    (g->u_see(p.posx, p.posy) ? p.name.c_str() : _("Someone")),

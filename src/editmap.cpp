@@ -147,7 +147,7 @@ void editmap_hilight::draw( editmap * hm, bool update ) {
             int y = it->first.y;
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
-            if ( ! g->m.veh_at(x, y, vpart) && ( g->mon_at(x, y) == -1 ) && ( g->npc_at(x, y) == -1 ) ) {
+            if ( ! g->m.veh_at(x, y, vpart) && ( g->mon_at(x, y) == -1 ) && ( g->npc_at(x, y) == NULL ) ) {
                 char t_sym = terlist[g->m.ter(x, y)].sym;
                 nc_color t_col = terlist[g->m.ter(x, y)].color;
 
@@ -306,12 +306,12 @@ point editmap::edit()
             uberdraw = !uberdraw;
         } else if ( ch == 'm' ) {
             int mon_index = g->mon_at(target.x, target.y);
-            int npc_index = g->npc_at(target.x, target.y);
+            npc *p = g->npc_at(target.x, target.y);
             int veh_part = -1;
             vehicle *veh = g->m.veh_at(target.x, target.y, veh_part);
           if(mon_index >= 0) {
             edit_mon();
-          } else if (npc_index >= 0) {
+          } else if (p != NULL) {
             edit_npc();
           } else if (veh) {
             edit_veh();
@@ -380,7 +380,7 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
             if ( x >= 0 && x < msize && y >= 0 && y < msize ) {
                 if ( game_map ) {
                     int mon_idx = g->mon_at(x, y);
-                    int npc_idx = g->npc_at(x, y);
+                    npc *p = g->npc_at(x, y);
                     if ( mon_idx >= 0 ) {
                         g->zombie(mon_idx).draw(w, center.x, center.y, false);
                         monster & mon=g->zombie(mon_idx);
@@ -389,8 +389,8 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                                 hilights["mplan"].points[mon.plans[i]] = 1;
                             }
                         }
-                    } else if ( npc_idx >= 0 ) {
-                        g->active_npc[npc_idx]->draw(w, center.x, center.y, false);
+                    } else if ( p != NULL ) {
+                        p->draw(w, center.x, center.y, false);
                     } else {
                         m->drawsq(w, g->u, x, y, false, draw_itm, center.x, center.y, false, true);
                     }
@@ -427,7 +427,7 @@ void editmap::update_view(bool update_info)
     cur_field = &g->m.field_at(target.x, target.y);
     cur_trap = g->m.tr_at(target.x, target.y);
     int mon_index = g->mon_at(target.x, target.y);
-    int npc_index = g->npc_at(target.x, target.y);
+    npc *p = g->npc_at(target.x, target.y);
 
     // update map always
     werase(g->w_terrain);
@@ -441,8 +441,8 @@ void editmap::update_view(bool update_info)
     // update target point
     if (mon_index != -1) {
         g->zombie(mon_index).draw(g->w_terrain, target.x, target.y, true);
-    } else if (npc_index != -1) {
-        g->active_npc[npc_index]->draw(g->w_terrain, target.x, target.y, true);
+    } else if (p != NULL) {
+        p->draw(g->w_terrain, target.x, target.y, true);
     } else {
         g->m.drawsq(g->w_terrain, g->u, target.x, target.y, true, true, target.x, target.y);
     }
@@ -454,7 +454,7 @@ void editmap::update_view(bool update_info)
             int y = target_list[i].y;
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
-            if ( ! g->m.veh_at(x, y, vpart) && ( g->mon_at(x, y) == -1 ) && ( g->npc_at(x, y) == -1 ) ) {
+            if ( ! g->m.veh_at(x, y, vpart) && ( g->mon_at(x, y) == -1 ) && ( g->npc_at(x, y) == NULL ) ) {
                 char t_sym = terlist[g->m.ter(x, y)].sym;
                 nc_color t_col = terlist[g->m.ter(x, y)].color;
 
@@ -564,8 +564,8 @@ void editmap::update_view(bool update_info)
         if (mon_index != -1) {
             g->zombie(mon_index).print_info(w_info);
             off += 6;
-        } else if (npc_index != -1) {
-            g->active_npc[npc_index]->print_info(w_info);
+        } else if (p != NULL) {
+            p->print_info(w_info);
             off += 6;
         } else if (veh) {
             mvwprintw(w_info, off, 1, _("There is a %s there. Parts:"), veh->name.c_str());
@@ -1392,8 +1392,7 @@ bool editmap::move_target( InputEvent &input, int ch, int moveorigin )
 int editmap::edit_npc()
 {
     int ret = 0;
-    int npc_index = g->npc_at(target.x, target.y);
-    npc * it=g->active_npc[npc_index];
+    npc *it = g->npc_at(target.x, target.y);
     edit_json(it);
     return ret;
 }

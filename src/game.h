@@ -192,8 +192,8 @@ public:
   void resonance_cascade(int x, int y);
   void scrambler_blast(int x, int y);
   void emp_blast(int x, int y);
-  int  npc_at(const int x, const int y) const; // Index of the npc at (x, y); -1 for none
-  int  npc_by_id(const int id) const; // Index of the npc at (x, y); -1 for none
+  npc *npc_at(const int x, const int y); // npc at (x, y); NULL for none
+  npc *npc_by_id(const int id);
  // void build_monmap();  // Caches data for mon_at()
 
   bool add_zombie(monster& critter);
