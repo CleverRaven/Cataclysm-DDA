@@ -97,7 +97,8 @@ game::game() :
  run_mode(1),
  mostseen(0),
  gamemode(NULL),
- lookHeight(13)
+ lookHeight(13),
+ tileset_zoom(16)
 {
     world_generator = new worldfactory();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -2203,6 +2204,10 @@ void game::hide_mouseview()
     }
 }
 
+#ifdef SDLTILES
+    void rescale_tileset(int size);
+#endif
+
 input_context game::get_player_input(std::string &action)
 {
     input_context ctxt("DEFAULTMODE");
@@ -3037,6 +3042,14 @@ bool game::handle_action()
    } else {
     add_msg(_("Debug messages OFF!"));
    }
+   break;
+
+  case ACTION_ZOOM_IN:
+   zoom_in();
+   break;
+  
+  case ACTION_ZOOM_OUT:
+   zoom_out();
    break;
  }
 
@@ -8352,6 +8365,29 @@ void centerlistview(int iActiveX, int iActiveY)
 
 }
 
+#define MAXIMUM_ZOOM_LEVEL 4
+void game::zoom_in() {
+   #ifdef SDLTILES
+   if(tileset_zoom > MAXIMUM_ZOOM_LEVEL) {
+       tileset_zoom = tileset_zoom / 2;
+   } else {
+       tileset_zoom = 16;
+   }
+   rescale_tileset(tileset_zoom);
+   #endif
+}
+
+void game::zoom_out() {
+   #ifdef SDLTILES
+   if(tileset_zoom == 16) {
+       tileset_zoom = MAXIMUM_ZOOM_LEVEL;
+   } else {
+       tileset_zoom = tileset_zoom * 2;
+   }
+   rescale_tileset(tileset_zoom);
+   #endif
+}
+
 int game::list_items(const int iLastState)
 {
     int iInfoHeight = 12;
@@ -8494,8 +8530,25 @@ int game::list_items(const int iLastState)
                     delwin(w_item_info_border);
                     return 1;
                     break;
-                default:
-                    break;
+                default: {
+                    action_id act = action_from_key(ch);
+                    switch (act) {
+                        /* The following two don't work for some reason.
+                         * Even though the zoom level will be adjusted,
+                         * the map won't be redrawn until V mode is exited.
+                         
+                        case ACTION_ZOOM_IN:
+                            zoom_in();
+                            break;
+                        case ACTION_ZOOM_OUT:
+                            zoom_out();
+                            break;
+                        default:
+                            break;
+                        */
+                    }
+                }
+                break;
             }
 
             if (ground_items.size() == 0 && iLastState == 1) {
@@ -8753,9 +8806,20 @@ int game::list_monsters(const int iLastState)
                                 delwin(w_monster_info_border);
                                 return 2;
                             }
-                            } break;
+                        } break;
+                        /* The following two don't work for some reason.
+                         * Even though the zoom level will be adjusted,
+                         * the map won't be redrawn until V mode is exited.
+                         
+                        case ACTION_ZOOM_IN:
+                            zoom_in();
+                            break;
+                        case ACTION_ZOOM_OUT:
+                            zoom_out();
+                            break;
                         default:
                             break;
+                        */
                     }
                 }
                 break;

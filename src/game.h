@@ -351,6 +351,8 @@ public:
   void toggle_fullscreen(void);
   void temp_exit_fullscreen(void);
   void reenter_fullscreen(void);
+  void zoom_in();
+  void zoom_out();
 
   std::map<std::string, std::vector <items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
@@ -697,6 +699,9 @@ public:
   time_t last_save_timestamp;
   unsigned char latest_lightlevel;
   calendar latest_lightlevel_turn;
+  
+  /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
+  int tileset_zoom;
 
   special_game *gamemode;
 

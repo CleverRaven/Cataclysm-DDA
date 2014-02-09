@@ -1297,6 +1297,12 @@ bool gamepad_available() {
     return joystick != NULL;
 }
 
+void rescale_tileset(int size) {
+    #ifdef SDLTILES
+        tilecontext->load_rescaled_tileset(size);
+    #endif
+}
+
 bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     if(!coordinate_input_received) {
         return false;
