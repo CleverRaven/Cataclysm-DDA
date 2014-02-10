@@ -20,10 +20,24 @@ void game::init_fields()
             {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
             {0,0,0}
         },
-
         {
             {_("blood splatter"), _("blood stain"), _("puddle of blood")}, '%', 0,
             {c_red, c_red, c_red}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
+            {_("plant sap splatter"), _("plant sap stain"), _("puddle of resin")}, '%', 0,
+            {c_ltgreen, c_ltgreen, c_ltgreen}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
+            {_("bug blood splatter"), _("bug blood stain"), _("puddle of bug blood")}, '%', 0,
+            {c_green, c_green, c_green}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
+            {_("hemolymph splatter"), _("hemolymph stain"), _("puddle of hemolymph")}, '%', 0,
+            {c_ltgray, c_ltgray, c_ltgray}, {true, true, true}, {false, false, false}, 2500,
             {0,0,0}
         },
         {
@@ -44,6 +58,16 @@ void game::init_fields()
             {0,0,0}
         },
 
+        {
+            {_("shards of chitin"), _("shattered bug leg"), _("torn insect organs")}, '~', 0,
+            {c_ltgreen, c_green, c_yellow}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
+            {_("gooey scraps"), _("icky mess"), _("heap of squishy gore")}, '~', 0,
+            {c_ltgray, c_ltgray, c_dkgray}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
         {
             {_("cobwebs"),_("webs"), _("thick webs")}, '}', 2,
             {c_white, c_white, c_white}, {true, true, false},{false, false, false}, 0,
@@ -300,9 +324,14 @@ bool map::process_fields_in_submap(int gridn)
                         break;  // Do nothing, obviously.  OBVIOUSLY.
 
                     case fd_blood:
+                    case fd_blood_veggy:
+                    case fd_blood_insect:
+                    case fd_blood_invertebrate:
                     case fd_bile:
                     case fd_gibs_flesh:
                     case fd_gibs_veggy:
+                    case fd_gibs_insect:
+                    case fd_gibs_invertebrate:
                         if (has_flag("SWIMMABLE", x, y)) { // Dissipate faster in water
                             cur->setFieldAge(cur->getFieldAge() + 250);
                         }
@@ -424,7 +453,7 @@ bool map::process_fields_in_submap(int gridn)
                                     smoke++;
                                 }
 
-                            } else if ((it->made_of("flesh")) || (it->made_of("hflesh"))) {
+                            } else if ((it->made_of("flesh")) || (it->made_of("hflesh")) || (it->made_of("iflesh"))) {
                                 //Same as cotton/wool really but more smokey.
                                 if (vol <= cur->getFieldDensity() * 5 || (cur->getFieldDensity() == 3 && one_in(vol / 20))) {
                                     cur->setFieldAge(cur->getFieldAge() - 1);
@@ -985,7 +1014,7 @@ void map::step_in_field(int x, int y)
         //Do things based on what field effect we are currently in.
         switch (cur->getFieldType()) {
         case fd_null:
-        case fd_blood: // It doesn't actually do anything
+        case fd_blood: // It doesn't actually do anything //necessary to add other types of blood?
         case fd_bile:  // Ditto
             //break instead of return in the event of post-processing in the future;
             // also we're in a loop now!
@@ -1261,7 +1290,7 @@ void map::mon_in_field(int x, int y, monster *z)
 
             // MATERIALS-TODO: Use fire resistance
         case fd_fire:
-            if ( z->made_of("flesh") || z->made_of("hflesh") ) {
+            if ( z->made_of("flesh") || z->made_of("hflesh") || z->made_of("iflesh") ) {
                 dam += 3;
             }
             if (z->made_of("veggy")) {
@@ -1321,7 +1350,7 @@ void map::mon_in_field(int x, int y, monster *z)
             break;
 
         case fd_tear_gas:
-            if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy")) &&
+            if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy") || z->made_of("iflesh")) &&
                 !z->has_flag(MF_NO_BREATHE)) {
                 if (cur->getFieldDensity() == 3) {
                     z->add_effect("stunned", rng(10, 20));
@@ -1370,7 +1399,7 @@ void map::mon_in_field(int x, int y, monster *z)
 
             // MATERIALS-TODO: Use fire resistance
         case fd_flame_burst:
-            if (z->made_of("flesh") || z->made_of("hflesh")) {
+            if (z->made_of("flesh") || z->made_of("hflesh") || z->made_of("iflesh")) {
                 dam += 3;
             }
             if (z->made_of("veggy")) {

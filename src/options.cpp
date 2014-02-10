@@ -410,6 +410,10 @@ void initOptions() {
                                              _("If true, vehicle parts will change color if they are armor plated"),
                                              true
                                             );
+    OPTIONS["DRIVING_VIEW_OFFSET"] =    cOpt("interface", _("Auto-shift the view while driving"),
+                                             _("If true, view will automatically shift towards the driving direction"),
+                                             true
+                                            );
 
     OPTIONS["VEHICLE_DIR_INDICATOR"] =  cOpt("interface", _("Draw vehicle facing indicator"),
                                              _("If true, when controlling a vehicle, a white 'X' at distance 10 from the center will display its current facing."),
@@ -500,12 +504,12 @@ void initOptions() {
 
     OPTIONS["INITIAL_POINTS"] =         cOpt("debug", _("Initial points"),
                                              _("Initial points available on character generation."),
-                                             0, 96, 6
+                                             0, 1000, 6
                                             );
 
     OPTIONS["MAX_TRAIT_POINTS"] =       cOpt("debug", _("Maximum trait points"),
                                              _("Maximum trait points available for character generation."),
-                                             0, 96, 12
+                                             0, 1000, 12
                                             );
 
     OPTIONS["SPAWN_DENSITY"] =          cOpt("world_default", _("Spawn rate scaling factor"),

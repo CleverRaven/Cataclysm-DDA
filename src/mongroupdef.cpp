@@ -1,7 +1,6 @@
 #include "game.h"
 #include <fstream>
 #include <vector>
-#include "setvector.h"
 #include "options.h"
 #include "monstergenerator.h"
 #include "json.h"
@@ -195,6 +194,78 @@ MonsterGroup MonsterGroupManager::GetMonsterGroup(std::string group)
 
 //json loading
 std::map<std::string, mon_id> monStr2monId;
+
+typedef std::set<std::string> t_string_set;
+// see item_factory.cpp
+extern void add_to_set(t_string_set &s, JsonObject &json, const std::string &name);
+t_string_set monster_blacklist;
+t_string_set monster_whitelist;
+t_string_set monster_categories_blacklist;
+t_string_set monster_categories_whitelist;
+
+void MonsterGroupManager::LoadMonsterBlacklist(JsonObject &jo) {
+    add_to_set(monster_blacklist, jo, "monsters");
+    add_to_set(monster_categories_blacklist, jo, "categories");
+}
+
+void MonsterGroupManager::LoadMonsterWhitelist(JsonObject &jo) {
+    add_to_set(monster_whitelist, jo, "monsters");
+    add_to_set(monster_categories_whitelist, jo, "categories");
+}
+
+bool monster_is_blacklisted(const mtype *m) {
+    if(m == NULL || monster_whitelist.count(m->id) > 0) {
+        return false;
+    }
+    for(std::set<std::string>::const_iterator b = monster_categories_whitelist.begin(); b != monster_categories_whitelist.end(); ++b) {
+        if (m->categories.count(*b) > 0) {
+            return false;
+        }
+    }
+    for(std::set<std::string>::const_iterator b = monster_categories_blacklist.begin(); b != monster_categories_blacklist.end(); ++b) {
+        if (m->categories.count(*b) > 0) {
+            return true;
+        }
+    }
+    if(monster_blacklist.count(m->id) > 0) {
+        return true;
+    }
+    // Empty whitelist: default to enable all,
+    // Non-empty whitelist: default to disable all.
+    return !(monster_whitelist.empty() && monster_categories_whitelist.empty());
+}
+
+void MonsterGroupManager::FinalizeMonsterGroups()
+{
+    const MonsterGenerator &gen = MonsterGenerator::generator();
+    for(t_string_set::const_iterator a = monster_whitelist.begin(); a != monster_whitelist.end(); a++) {
+        if (!gen.has_mtype(*a)) {
+            debugmsg("monster on whitelist %s does not exist", a->c_str());
+        }
+    }
+    for(t_string_set::const_iterator a = monster_blacklist.begin(); a != monster_blacklist.end(); a++) {
+        if (!gen.has_mtype(*a)) {
+            debugmsg("monster on blacklist %s does not exist", a->c_str());
+        }
+    }
+    for(std::map<std::string, MonsterGroup>::iterator b = monsterGroupMap.begin(); b != monsterGroupMap.end(); ++b) {
+        MonsterGroup &mg = b->second;
+        for(FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
+            if(monster_is_blacklisted(gen.GetMType(c->name))) {
+                c = mg.monsters.erase(c);
+            } else {
+                ++c;
+            }
+        }
+        if(monster_is_blacklisted(gen.GetMType(mg.defaultMonster))) {
+            mg.defaultMonster = "mon_null";
+        }
+    }
+    monster_blacklist.clear();
+    monster_whitelist.clear();
+    monster_categories_blacklist.clear();
+    monster_categories_whitelist.clear();
+}
 
 void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
 {

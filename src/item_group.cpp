@@ -4,6 +4,8 @@
 #include <map>
 #include <algorithm>
 
+static const std::string null_item_id("null");
+
 Item_group::Item_group(const Item_tag id)
 : m_id(id)
 , m_max_odds(0)
@@ -34,6 +36,10 @@ bool Item_group::guns_have_ammo() {
 }
 
 const Item_tag Item_group::get_id(std::vector<Item_tag> &recursion_list){
+    if (m_max_odds == 0) {
+        // No items in this group
+        return null_item_id;
+    }
     int rolled_value = rng(1,m_max_odds)-1;
 
     //Insure we haven't already visited this group
@@ -113,4 +119,46 @@ bool Item_group::has_item(const Item_tag item_id) {
     }
 
     return 0;
+}
+
+void Item_group::remove_item(const Item_tag &item_id) {
+    std::set<std::string> rec;
+    remove_item(item_id, rec);
+}
+
+void Item_group::remove_item(const Item_tag &item_id, std::set<std::string> &rec) {
+    if(rec.count(m_id) > 0) {
+        return;
+    }
+    rec.insert(m_id);
+    // If this removes an item/group, m_max_odds must be decreased
+    // by the chance of the removed item/group. But the chance of
+    // that is not directly stored, but as offset from the previous
+    // item/group (see add_entry/add_group)
+    int delta_max_odds = 0;
+    int prev_upper_bound = 0;
+    for(size_t i = 0; i < m_groups.size(); i++) {
+        m_groups[i]->m_group->remove_item(item_id, rec);
+        if(m_groups[i]->m_group->m_max_odds == 0) {
+            delta_max_odds += (m_groups[i]->m_upper_bound - prev_upper_bound);
+            delete m_groups[i];
+            m_groups.erase(m_groups.begin() + i);
+            i--;
+        } else {
+            m_groups[i]->m_upper_bound -= delta_max_odds;
+            prev_upper_bound = m_groups[i]->m_upper_bound;
+        }
+    }
+    for(size_t i = 0; i < m_entries.size(); i++) {
+        if(m_entries[i]->m_id == item_id) {
+            delta_max_odds += (m_entries[i]->m_upper_bound - prev_upper_bound);
+            delete m_entries[i];
+            m_entries.erase(m_entries.begin() + i);
+            i--;
+        } else {
+            m_entries[i]->m_upper_bound -= delta_max_odds;
+            prev_upper_bound = m_entries[i]->m_upper_bound;
+        }
+    }
+    m_max_odds -= delta_max_odds;
 }

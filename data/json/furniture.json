@@ -381,7 +381,7 @@
                 { "item": "scrap", "amount": 8, "minamount": 2},
                 { "item": "steel_chunk", "amount": 3, "minamount": 0},
                 { "item": "hose", "amount": 1},
-                { "item": "cu_pipe", "amount": 5, "minamount": 2 }
+                { "item": "cu_pipe", "amount": 6, "minamount": 3 }
             ]
         }
     },{

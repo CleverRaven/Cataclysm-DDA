@@ -5,6 +5,7 @@
 #include "addiction.h"
 #include "translations.h"
 #include "bodypart.h"
+#include "crafting.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -29,6 +30,116 @@ static const std::string category_id_cbm("bionics");
 static const std::string category_id_other("other");
 
 Item_factory* item_controller = new Item_factory();
+
+typedef std::set<std::string> t_string_set;
+static t_string_set item_blacklist;
+static t_string_set item_whitelist;
+
+bool remove_item(const std::string &itm, std::vector<component>& com) {
+    std::vector<component>::iterator a = com.begin();
+    while(a != com.end()) {
+        if(a->type == itm) {
+            a = com.erase(a);
+        } else {
+            ++a;
+        }
+    }
+    return com.empty();
+}
+
+bool remove_item(const std::string &itm, std::vector<std::vector<component> >& com) {
+    for(size_t i = 0; i < com.size(); i++) {
+        // Note: this assumes that coms[i] is never an empty vector
+        if(remove_item(itm, com[i])) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void remove_item(const std::string &itm, std::vector<map_bash_item_drop>& vec) {
+    for(size_t i = 0; i < vec.size(); i++) {
+        if(vec[i].itemtype == itm) {
+            vec.erase(vec.begin() + i);
+            i--;
+        }
+    }
+}
+
+bool item_is_blacklisted(const std::string &id) {
+    if (item_whitelist.count(id) > 0) {
+        return false;
+    } else if(item_blacklist.count(id) > 0) {
+        return true;
+    }
+    // Empty whitelist: default to enable all,
+    // Non-empty whitelist: default to disable all.
+    return !item_whitelist.empty();
+}
+
+void Item_factory::finialize_item_blacklist() {
+    for(t_string_set::const_iterator a = item_whitelist.begin(); a != item_whitelist.end(); ++a) {
+        if (!has_template(*a)) {
+            debugmsg("item on whitelist %s does not exist", a->c_str());
+        }
+    }
+    for(t_string_set::const_iterator a = item_blacklist.begin(); a != item_blacklist.end(); ++a) {
+        if (!has_template(*a)) {
+            debugmsg("item on blacklist %s does not exist", a->c_str());
+        }
+    }
+    for(std::map<std::string,itype*>::const_iterator a = m_templates.begin(); a != m_templates.end(); ++a) {
+        const std::string &itm = a->first;
+        if (!item_is_blacklisted(itm)) {
+            continue;
+        }
+        for(std::map<Item_tag, Item_group*>::iterator b = m_template_groups.begin(); b != m_template_groups.end(); ++b) {
+            b->second->remove_item(itm);
+        }
+        for(recipe_map::iterator b = recipes.begin(); b != recipes.end(); ++b) {
+            for(size_t c = 0; c < b->second.size(); c++) {
+                recipe *r = b->second[c];
+                if(r->result == itm || remove_item(itm, r->components) || remove_item(itm, r->tools)) {
+                    delete r;
+                    b->second.erase(b->second.begin() + c);
+                    c--;
+                    continue;
+                }
+            }
+        }
+        for(size_t i = 0; i < constructions.size(); i++) {
+            construction *c = constructions[i];
+            if(remove_item(itm, c->components) || remove_item(itm, c->tools)) {
+                delete c;
+                constructions.erase(constructions.begin() + i);
+                i--;
+            }
+        }
+        for(size_t i = 0; i < terlist.size(); i++) {
+            remove_item(itm, terlist[i].bash.items);
+        }
+        for(size_t i = 0; i < furnlist.size(); i++) {
+            remove_item(itm, furnlist[i].bash.items);
+        }
+    }
+    item_blacklist.clear();
+    item_whitelist.clear();
+}
+
+void add_to_set(t_string_set &s, JsonObject &json, const std::string &name) {
+    JsonArray jarr = json.get_array(name);
+    while(jarr.has_more()) {
+        s.insert(jarr.next_string());
+    }
+}
+
+void Item_factory::load_item_blacklist(JsonObject &json) {
+    add_to_set(item_blacklist, json, "items");
+}
+
+void Item_factory::load_item_whitelist(JsonObject &json) {
+    add_to_set(item_whitelist, json, "items");
+}
 
 //Every item factory comes with a missing item
 Item_factory::Item_factory(){

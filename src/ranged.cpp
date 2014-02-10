@@ -65,6 +65,9 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     int px = trajectory[0].x;
     int py = trajectory[0].y;
 
+    // if this is a vehicle mounted turret, which vehicle is it mounted on?
+    const vehicle* in_veh = is_fake() ? g->m.veh_at(xpos(), ypos()) : NULL;
+
     for (int i = 0; i < trajectory.size() && (dam > 0 || (proj.proj_effects.count("FLAME"))); i++) {
         px = tx;
         py = ty;
@@ -105,7 +108,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             z.deal_projectile_attack(this, missed_by, proj, dealt_dam);
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
-            //splatter(this, blood_traj, dam, &z); TODO: add splatter effects
+            //splatter(this, blood_traj, dam, &z); TODO: add splatter effects (include new blood types)
             //back in
             dam = 0;
         // TODO: general case this so it works for all npcs, instead of only
@@ -117,6 +120,8 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
 
+        } else if(in_veh != NULL && g->m.veh_at(tx, ty) == in_veh) {
+            // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
             g->m.shoot(tx, ty, dam, i == trajectory.size() - 1, proj.proj_effects);
         }
@@ -628,7 +633,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
-                                int hiy, std::vector <monster> t, int &target,
+                                int hiy, std::vector <Creature*> t, int &target,
                                 item *relevent)
 {
  std::vector<point> ret;
@@ -642,15 +647,15 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    double closest = -1;
    double dist;
    for (int i = 0; i < t.size(); i++) {
-    dist = rl_dist(t[i].posx(), t[i].posy(), u.posx, u.posy);
+    dist = rl_dist(t[i]->xpos(), t[i]->ypos(), u.posx, u.posy);
     if (closest < 0 || dist < closest) {
      closest = dist;
      target = i;
     }
    }
   }
-  x = t[target].posx();
-  y = t[target].posy();
+  x = t[target]->xpos();
+  y = t[target]->ypos();
  } else
   target = -1; // No monsters in range, don't use target, reset to -1
 
@@ -877,16 +882,16 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   } else if ((action == "PREV_TARGET") && (target != -1)) {
    target--;
    if (target == -1) target = t.size() - 1;
-   x = t[target].posx();
-   y = t[target].posy();
+   x = t[target]->xpos();
+   y = t[target]->ypos();
   } else if ((action == "NEXT_TARGET") && (target != -1)) {
    target++;
    if (target == t.size()) target = 0;
-   x = t[target].posx();
-   y = t[target].posy();
+   x = t[target]->xpos();
+   y = t[target]->ypos();
   } else if (action == "WAIT" || action == "FIRE") {
    for (int i = 0; i < t.size(); i++) {
-    if (t[i].posx() == x && t[i].posy() == y)
+    if (t[i]->xpos() == x && t[i]->ypos() == y)
      target = i;
    }
    if (u.posx == x && u.posy == y)
@@ -915,14 +920,14 @@ void game::hit_monster_with_flags(monster &z, const std::set<std::string> &effec
   if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
       z.made_of("paper") || z.made_of("wood"))
    z.add_effect("onfire", rng(8, 20));
-  else if (z.made_of("flesh"))
+  else if (z.made_of("flesh") || z.made_of("iflesh"))
    z.add_effect("onfire", rng(5, 10));
  } else if (effects.count("INCENDIARY")) {
 
   if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
       z.made_of("paper") || z.made_of("wood"))
    z.add_effect("onfire", rng(2, 6));
-  else if (z.made_of("flesh") && one_in(4))
+  else if ((z.made_of("flesh") || z.made_of("iflesh")) && one_in(4))
    z.add_effect("onfire", rng(1, 4));
 
  } else if (effects.count("IGNITE")) {
@@ -930,7 +935,7 @@ void game::hit_monster_with_flags(monster &z, const std::set<std::string> &effec
    if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
       z.made_of("paper") || z.made_of("wood"))
       z.add_effect("onfire", rng(6, 6));
-   else if (z.made_of("flesh"))
+   else if (z.made_of("flesh") || z.made_of("iflesh"))
    z.add_effect("onfire", rng(10, 10));
 
  }

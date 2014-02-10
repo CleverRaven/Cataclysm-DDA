@@ -6,6 +6,7 @@
 #include "mtype.h"
 #include "enums.h"
 #include "bodypart.h"
+#include "field.h"
 #include <vector>
 
 class map;
@@ -237,6 +238,9 @@ m_size get_size();
     void add_item(item it);     // Add an item to inventory
 
     bool is_hallucination();    // true if the monster isn't actually real
+
+    field_id monBloodType();
+    field_id monGibType();
 
 // TEMP VALUES
  int wandx, wandy; // Wander destination - Just try to move in that direction

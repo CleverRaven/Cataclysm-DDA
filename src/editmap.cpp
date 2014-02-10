@@ -1566,7 +1566,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     gpmenu.show();
     uphelp("[pgup/pgdn]: prev/next oter type",
            "[up/dn] select, [enter] accept, [q] abort",
-           string_format("Mapgen: %s", terlist[gmenu.ret].id.substr(0, 40).c_str() )
+           string_format("Mapgen: %s", oterlist[gmenu.ret].id.substr(0, 40).c_str() )
           );
     int lastsel = gmenu.selected;
     bool showpreview = true;
@@ -1770,7 +1770,7 @@ int editmap::edit_mapgen()
     broken_oter_blacklist["nuke_plant"] = true;
     broken_oter_blacklist["temple_core"] = true;
 
-    for (int i = 0; i < terlist.size(); i++) {
+    for (int i = 0; i < oterlist.size(); i++) {
         oter_id id = oter_id(i);
         gmenu.addentry(-1, true, 0, "[%3d] %s", (int)id, std::string(id).c_str() );
         if ( broken_oter_blacklist.find(id) != broken_oter_blacklist.end() ) {

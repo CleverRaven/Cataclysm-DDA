@@ -942,7 +942,7 @@ void mattack::formblob(monster *z)
      g->zombie(thatmon).speed += 5;
      if (g->zombie(thatmon).speed >= 60)
       g->zombie(thatmon).poly(GetMType("mon_blob"));
-    } else if ((g->zombie(thatmon).made_of("flesh") || g->zombie(thatmon).made_of("veggy")) &&
+    } else if ((g->zombie(thatmon).made_of("flesh") || g->zombie(thatmon).made_of("veggy") || g->zombie(thatmon).made_of("iflesh")) &&
                rng(0, z->hp) > rng(0, g->zombie(thatmon).hp)) { // Blobify!
      didit = true;
      g->zombie(thatmon).poly(GetMType("mon_blob"));

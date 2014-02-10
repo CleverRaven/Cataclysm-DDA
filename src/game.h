@@ -390,6 +390,18 @@ public:
   WINDOW *w_status2;
   live_view liveview;
 
+  // View offset based on the driving speed (if any)
+  // that has been added to u.view_offset_*,
+  // Don't write to this directly, always use set_driving_view_offset
+  point driving_view_offset;
+  // Setter for driving_view_offset
+  void set_driving_view_offset(const point &p);
+  // Calculates the driving_view_offset for the given vehicle
+  // and sets it (view set_driving_view_offset), if
+  // the options for this feautre is dactivated or if veh is NULL,
+  // the function set the driving offset to (0,0)
+  void calc_driving_offset(vehicle *veh = NULL);
+
   bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL, item *cont = NULL);
 
  //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
@@ -599,8 +611,11 @@ public:
 // returns a Bresenham line to that square.  It is called by plfire() and
 // throw().
   std::vector<point> target(int &x, int &y, int lowx, int lowy, int hix,
-                            int hiy, std::vector <monster> t, int &target,
+                            int hiy, std::vector <Creature*> t, int &target,
                             item *relevent);
+  // interface to target(), collects a list of targets & selects default target
+  // finally calls target() and returns its result.
+  std::vector<point> pl_target_ui(int &x, int &y, int range, item *relevent, int default_target_x = -1, int default_target_y = -1);
 
 // Map updating and monster spawning
   void replace_stair_monsters();
@@ -654,10 +669,10 @@ public:
 
 // ########################## DATA ################################
 
-  std::map<point, int> z_at;
   Creature_tracker critter_tracker;
 
-  signed char last_target; // The last monster targeted
+  int last_target; // The last monster targeted
+  bool last_target_was_npc;
   int run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
                 //  monsters spawns, go to 2 - No movement allowed
   std::vector<int> new_seen_mon;
