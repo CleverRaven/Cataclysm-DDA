@@ -356,12 +356,19 @@
     "name"       :    "Adamantium Claws",
     "active"     :    true,
     "cost"       :    3,
-    "description":    "Your fingers can withdraw into your hands, allowing a set of vicious claws to extend.  These do considerable cutting damage, but prevent you from holding anything else."
+    "description":    "Vicious claws have been installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended."
     },{
         "type" : "bionic",
         "id" : "bio_razors",
     "name"       :    "Fingertip Razors",
     "description":    "You possess razor-sharp retractable claws underneath your fingernails, ten double-edged blades four centimeters in length that do a small amount of unarmed slashing damage whenever your fingertips are uncovered."
+    },{
+        "type" : "bionic",
+        "id" : "bio_blade",
+    "name"       :    "Extensible Blade",
+    "active"     :    true,
+    "cost"       :    6,
+    "description":    "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended and retract through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended."
     },{
         "type" : "bionic",
         "id" : "bio_blaster",

@@ -4736,6 +4736,7 @@
       ["bio_shock", 10],
       ["bio_heat_absorb", 10],
       ["bio_claws", 10],
+      ["bio_blade", 5],
       ["bio_razors", 10],
       ["bio_shockwave", 10],
       ["bio_nanobots", 10],
@@ -5119,6 +5120,7 @@
       ["bio_teleport", 10],
       ["bio_probability_travel", 10],
       ["bio_power_armor_interface", 10],
+      ["bio_blade", 2],
       ["bio_power_armor_interface_mkII", 5]
     ]
   },{
@@ -6560,6 +6562,7 @@
       ["rep_crossbow", 1],
       ["vaccine_shot", 10],
       ["bio_claws_weapon", 0],
+      ["bio_blade_weapon", 0],
       ["testflames", 0]
     ]
   },{

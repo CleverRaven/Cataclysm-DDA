@@ -227,7 +227,7 @@
         "symbol": ":",
         "color": "yellow",
         "name": "CBM: Adamantium Claws",
-        "description": "Your fingers can withdraw into your hands, allowing a set of vicious claws to extend.  These do considerable cutting damage, but prevent you from holding anything else.",
+        "description": "Vicious claws have been installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended.",
         "price": 5500,
         "material": ["steel", "plastic"],
         "weight": 2041,
@@ -236,6 +236,23 @@
         "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
+    },
+    {
+        "type": "BIONIC_ITEM",
+        "category": "bionics",
+        "id": "bio_blade",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "CBM: Monomolecular Blade",
+        "description": "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended and retract through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended.",
+        "price": 8000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 0,
+        "difficulty": 8
     },
     {
         "type": "BIONIC_ITEM",
