@@ -4758,6 +4758,7 @@
       ["bio_flashbang", 10],
       ["bio_chain_lightning", 10],
       ["bio_power_armor_interface", 10],
+      ["bio_adrenaline", 10],
       ["bio_power_armor_interface_mkII", 5]
     ]
   },{
@@ -5121,6 +5122,7 @@
       ["bio_probability_travel", 10],
       ["bio_power_armor_interface", 10],
       ["bio_blade", 2],
+      ["bio_adrenaline", 10],
       ["bio_power_armor_interface_mkII", 5]
     ]
   },{

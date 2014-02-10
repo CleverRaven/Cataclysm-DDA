@@ -323,6 +323,13 @@
     "description":    "A system of advanced piezomechanical blood filters have been implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power."
     },{
         "type" : "bionic",
+        "id" : "bio_adrenaline",
+    "name"       :    "Adrenaline Pump",
+    "active"     :    true,
+    "cost"       :    2,
+    "description":    "A stimulator system has been implanted alongside your adrenal glands, allowing you to trigger your body's adrenaline response at the cost of some bionic power."
+    },{
+        "type" : "bionic",
         "id" : "bio_blood_filter",
     "name"       :    "Blood Filter",
     "active"     :    true,
@@ -544,7 +551,7 @@
         "id" : "bio_nostril",
     "name"       :    "Bionic Nostril",
     "faulty"     :    true,
-    "description":    "A malfunctioning bionic which makes it a bit harder to breathe."
+    "description":    "A malfunctioning bionic which makes it harder to breathe."
     },{
         "type" : "bionic",
         "id" : "bio_stiff",

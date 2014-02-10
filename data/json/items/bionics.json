@@ -512,6 +512,23 @@
     {
         "type": "BIONIC_ITEM",
         "category": "bionics",
+        "id": "bio_adrenaline",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "CBM: Adrenaline Pump",
+        "description": "A stimulator system has been implanted alongside your adrenal glands, allowing you to trigger your body's adrenaline response at the cost of some bionic power.",
+        "price": 4000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 0,
+        "difficulty": 6
+    },
+    {
+        "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_gills",
         "symbol": ":",
         "color": "yellow",

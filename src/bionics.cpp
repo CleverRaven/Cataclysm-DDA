@@ -520,6 +520,15 @@ void player::activate_bionic(int b)
             g->add_msg(_("You activate your radiation scrubber system."));
             radiation = 0;
         }
+    }
+    if(bio.id == "bio_adrenaline") {
+            g->add_msg(_("You activate your adrenaline pump."));
+  if(has_disease("adrenaline")) {
+    add_disease("adrenaline", 50);
+    stim += 10;
+  } else {
+    add_disease("adrenaline", 200);
+  }
     } else if(bio.id == "bio_claws") {
         if (weapon.type->id == "bio_claws_weapon") {
             g->add_msg(_("You withdraw your claws."));
