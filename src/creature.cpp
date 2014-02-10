@@ -311,6 +311,62 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     dealt_dam = deal_damage(source, bp_hit, side, impact);
     dealt_dam.bp_hit = bp_hit;
 
+    // Apply ammo effects to target.
+    const std::string target_material = get_material();
+    if (proj.proj_effects.count("FLAME")) {
+        if (0 == target_material.compare("veggy") || 0 == target_material.compare("cotton") ||
+            0 == target_material.compare("wool") || 0 == target_material.compare("paper") ||
+            0 == target_material.compare("wood" ) ) {
+            add_effect("onfire", rng(8, 20));
+        } else if (0 == target_material.compare("flesh") || 0 == target_material.compare("iflesh") ) {
+            add_effect("onfire", rng(5, 10));
+        }
+    } else if (proj.proj_effects.count("INCENDIARY") ) {
+        if (0 == target_material.compare("veggy") || 0 == target_material.compare("cotton") ||
+            0 == target_material.compare("wool") || 0 == target_material.compare("paper") ||
+            0 == target_material.compare("wood") ) {
+            add_effect("onfire", rng(2, 6));
+        } else if ( (0 == target_material.compare("flesh") || 0 == target_material.compare("iflesh") ) &&
+                    one_in(4) ) {
+            add_effect("onfire", rng(1, 4));
+        }
+    } else if (proj.proj_effects.count("IGNITE")) {
+        if (0 == target_material.compare("veggy") || 0 == target_material.compare("cotton") ||
+            0 == target_material.compare("wool") || 0 == target_material.compare("paper") ||
+            0 == target_material.compare("wood") ) {
+            add_effect("onfire", rng(6, 6));
+        } else if (0 == target_material.compare("flesh") || 0 == target_material.compare("iflesh") ) {
+            add_effect("onfire", rng(10, 10));
+        }
+    }
+    int stun_strength = 0;
+    if (proj.proj_effects.count("BEANBAG")) {
+        stun_strength = 4;
+    }
+    if (proj.proj_effects.count("LARGE_BEANBAG")) {
+        stun_strength = 16;
+    }
+    if( stun_strength > 0 ) {
+        switch( get_size() ) {
+            case MS_TINY:
+                stun_strength *= 4;
+                break;
+            case MS_SMALL:
+                stun_strength *= 2;
+                break;
+            case MS_MEDIUM:
+            default:
+                break;
+            case MS_LARGE:
+                stun_strength /= 2;
+                break;
+            case MS_HUGE:
+                stun_strength /= 4;
+                break;
+        }
+        add_effect( "stunned", rng(stun_strength / 2, stun_strength) );
+    }
+
     if(u_see_this) {
         if (damage_mult == 0) {
             if(source != NULL) {
@@ -325,7 +381,8 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
                            disp_name().c_str(), dealt_dam.total_damage());
             } else if( this->is_player() && g->u.has_trait("SELFAWARE")) {
                 g->add_msg_if_player( this, _( "You were hit in the %s for %d damage." ),
-                                      body_part_name( bp_hit, side ).c_str( ), dealt_dam.total_damage( ) );
+                                      body_part_name( bp_hit, side ).c_str( ),
+                                      dealt_dam.total_damage( ) );
             } else if( u_see_this ) {
                 g->add_msg(_("%s shoots %s."),
                            source->disp_name().c_str(), disp_name().c_str());

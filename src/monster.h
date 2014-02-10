@@ -66,6 +66,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
  m_size get_size();
  int get_hp( hp_part ) { return hp; };
+ std::string get_material() { return type->mat; };
 
  // Access
  std::string name(); // Returns the monster's formal name
