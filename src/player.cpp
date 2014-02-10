@@ -9208,6 +9208,10 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
         ( has_bionic("bio_nostril") ) ) {
         ret += 1;
     }
+    if (bp == bp_hands &&
+        ( has_bionic("bio_thumbs") ) ) {
+        ret += 1;
+    }
     if ( ret < 0 ) {
       ret = 0;
     }
