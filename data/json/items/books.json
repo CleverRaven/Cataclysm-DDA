@@ -3207,7 +3207,7 @@
     {
         "type" : "BOOK",
         "id" : "textbook_gaswarfare",
-        "name" : "The Art and Science of Chemical Warfare",
+        "name" : "Art and Science of Chemical Warfare",
         "max_level" : 7,
         "description" : "This in-depth and technical text covers the design, development, dissemination of, and defenses against various chemical weapons throughout the centuries. The photographs the author chose make it a difficult read at times, though the information is top-notch.",
         "weight" : 854,
