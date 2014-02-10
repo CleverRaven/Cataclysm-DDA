@@ -28,6 +28,7 @@ monster::monster()
  hp = 60;
  moves = 0;
  sp_timeout = 0;
+ def_chance = 0;
  spawnmapx = -1;
  spawnmapy = -1;
  spawnposx = -1;
@@ -60,6 +61,7 @@ monster::monster(mtype *t)
  Creature::set_speed_base(speed);
  hp = type->hp;
  sp_timeout = rng(0, type->sp_freq);
+ def_chance = type->def_chance;
  spawnmapx = -1;
  spawnmapy = -1;
  spawnposx = -1;
@@ -91,6 +93,7 @@ monster::monster(mtype *t, int x, int y)
  Creature::set_speed_base(speed);
  hp = type->hp;
  sp_timeout = type->sp_freq;
+ def_chance = type->def_chance;
  spawnmapx = -1;
  spawnmapy = -1;
  spawnposx = -1;
@@ -145,6 +148,7 @@ void monster::poly(mtype *t)
  morale = type->morale;
  hp = int(hp_percentage * type->hp);
  sp_timeout = type->sp_freq;
+ def_chance = type->def_chance;
 }
 
 void monster::spawn(int x, int y)
@@ -878,19 +882,11 @@ void monster::hit_monster(int i)
 
 int monster::deal_melee_attack(Creature *source, int hitroll, bool crit,
                                const damage_instance& d, dealt_damage_instance &dealt_dam) {
-    if (has_flag(MF_ELECTRIC)) { // shockers electrocute melee attackers
-        if (source != NULL && source->is_player() &&
-                !g->u.wearing_something_on(bp_hands) &&
-                (g->u.weapon.conductive() || g->u.unarmed_attack())
-                ) {
-            damage_instance shock;
-            shock.add_damage(DT_ELECTRIC, rng(0,1));
-            source->deal_damage(this, bp_arms, 1, shock);
-            g->add_msg_if_player(source, _("Contact with %s shocks you!"),
-                    disp_name().c_str());
-        }
-    }
-    return Creature::deal_melee_attack(source, hitroll, crit, d, dealt_dam);
+    mdefense mdf;
+	if(!is_hallucination() && source != NULL && source->is_player()) {
+		(mdf.*type->sp_defense)(this);
+	}
+	return Creature::deal_melee_attack(source, hitroll, crit, d, dealt_dam);
 }
 
 int monster::deal_projectile_attack(Creature *source, double missed_by,
@@ -1253,6 +1249,7 @@ void monster::setkeep(bool r)
     keep = r;
 }
 
-m_size monster::get_size() {
+m_size monster::get_size() 
+{
     return type->size;
 }
