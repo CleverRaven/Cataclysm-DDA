@@ -301,7 +301,7 @@
         "volume": 100,
         "bashing": 8,
         "cutting": 0,
-        "to_hit": -2,
+        "to_hit": -3,
         "material": "steel",
         "contains": 100,
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
@@ -319,7 +319,7 @@
         "volume" : 225,
         "bashing" : 10,
         "cutting" : 0,
-        "to_hit" : -2,
+        "to_hit" : -4,
         "contains" : 225,
         "material" : ["steel", "null"],
         "flags" : ["RIGID", "SEALS", "WATERTIGHT"]
@@ -337,7 +337,7 @@
         "volume" : 45,
         "bashing" : 8,
         "cutting" : 0,
-        "to_hit" : -1,
+        "to_hit" : -3,
         "contains" : 45,
         "material" : ["aluminum", "null"],
         "flags" : ["RIGID", "SEALS", "WATERTIGHT"]
@@ -355,7 +355,7 @@
         "volume": 200,
         "bashing": 18,
         "cutting": 0,
-        "to_hit": -1,
+        "to_hit": -5,
         "material": "aluminum",
         "contains": 200,
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
@@ -391,7 +391,7 @@
         "volume": 12,
         "bashing": 10,
         "cutting": 0,
-        "to_hit": 1,
+        "to_hit": -1,
         "material": "glass",
         "contains": 12,
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
