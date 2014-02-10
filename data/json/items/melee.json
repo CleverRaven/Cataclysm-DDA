@@ -629,7 +629,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "hatchet",
-    "description": "A one-handed hatchet. Makes a great melee weapon, and is useful both for cutting wood, and for use as a hammer.",
+    "description": "A one-handed hatchet. Makes a great melee weapon, and is useful both for chopping things and for use as a hammer.",
     "price": 95,
     "material": ["steel", "wood"],
     "weight": 907,
