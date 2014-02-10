@@ -4333,7 +4333,7 @@ if(it->type->id == "cot"){
   type = tr_caltrops;
   practice = 2;
  } else if(it->type->id == "telepad"){
-  message << _("You place the telepad."); 
+  message << _("You place the telepad.");
   type = tr_telepad;
   practice = 10;
   } else if(it->type->id == "funnel"){
@@ -7504,7 +7504,7 @@ int iuse::talking_doll(player *p, item *it, bool)
 int iuse::bell(player *p, item *it, bool)
 {
     if( it->type->id == "cow_bell" ) {
-        g->sound(p->posx, p->posy, 6, _("Clank! Clank!"));
+        g->sound(p->posx, p->posy, 12, _("Clank! Clank!"));
         if ( ! p->has_disease("deaf") ) {
             const int cow_factor = 1 + ( p->mutation_category_level.find("MUTCAT_CATTLE") == p->mutation_category_level.end() ?
                 0 :
