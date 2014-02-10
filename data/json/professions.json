@@ -1546,6 +1546,153 @@
     },
     {
         "type": "profession",
+        "ident": "razorgirl",
+        "name": {
+            "male": "Razor Boy",
+            "female": "Razor Girl"
+        },
+        "description": "Through a series of painful and expensive surgeries you became a walking bionic weapon, your services as a mercenary available to the highest bidder. Now that the world has ended, those bionic enhancements may spell the difference between life and death.",
+        "points": 5,
+        "CBMs":[
+            "bio_razors",
+            "bio_armor_eyes",
+            "bio_dex_enhancer",
+            "bio_carbon"
+        ],
+        "skills": [
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "unarmed"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "jacket_leather",
+                "pants_leather",
+                "boots",
+                "gloves_fingerless",
+                "tank_top",
+                "gum"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "cyberjunkie",
+        "name": "Cyberjunkie",
+        "description": "Long ago your lifelong infatuation with bionic enhancement lead you into a shady world of back-alley bionic clinics and self-installed secondhand CBMs. The world has moved on but your posthuman hunger still cries out to be fed; where will you get your bionic fix now?",
+        "points": -1,
+        "CBMs":[
+            "bio_itchy",
+            "bio_shakes",
+            "bio_leaky",
+            "bio_sleepy",
+            "bio_trip",
+            "bio_spasm",
+            "bio_ethanol",
+            "bio_power_storage_mkII",
+            "bio_climate",
+            "bio_painkiller"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "electronics"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            },
+            {
+                "level": 1,
+                "name": "mechanics"
+            }
+        ],
+        "items": {
+            "both": [
+                "tank_top",
+                "shorts",
+                "lowtops",
+                "aspirin",
+                "cig",
+                "lighter"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "camisole",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "cykotic",
+        "name": "Cykotic",
+        "description": "Long since overcome by your cyberaddiction, you are a deformed posthuman monster. Where once you were forced to hide in the shadows, you find in this new violent desolation a world where even a creature such as yourself might thrive and perhaps even find its niche.",
+        "points": -1,
+        "CBMs":[
+            "bio_itchy",
+            "bio_shakes",
+            "bio_leaky",
+            "bio_sleepy",
+            "bio_trip",
+            "bio_spasm",
+            "bio_ethanol",
+            "bio_power_storage_mkII",
+            "bio_climate",
+            "bio_painkiller"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "electronics"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            },
+            {
+                "level": 1,
+                "name": "mechanics"
+            }
+        ],
+        "items": {
+            "both": [
+                "tank_top",
+                "shorts",
+                "lowtops",
+                "aspirin",
+                "cig",
+                "lighter"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "camisole",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "lawyer",
         "name": "Lawyer",
         "description": "Now instead of complaining about your fees, your clients try to eat your brain. You can't tell which one is worse though.",
