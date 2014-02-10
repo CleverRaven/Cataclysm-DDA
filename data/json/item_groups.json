@@ -4760,6 +4760,7 @@
       ["bio_power_armor_interface", 10],
       ["bio_adrenaline", 10],
       ["bio_watch", 10],
+      ["bio_leukocyte", 10],
       ["bio_power_armor_interface_mkII", 5]
     ]
   },{
@@ -6164,6 +6165,7 @@
       ["bio_heatsink", 10],
       ["bio_blood_filter", 10],
       ["bio_watch", 10],
+      ["bio_leukocyte", 10],
       ["software_useless", 10],
       ["canteen", 15],
       ["2lcanteen", 10],

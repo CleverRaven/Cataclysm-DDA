@@ -1158,6 +1158,23 @@
     {
         "type": "BIONIC_ITEM",
         "category": "bionics",
+        "id": "bio_leukocyte",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "CBM: Leukocyte Breeder System",
+        "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.",
+        "price": 6000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 0,
+        "difficulty": 7
+    },
+    {
+        "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_str_enhancer",
         "symbol": ":",
         "color": "yellow",

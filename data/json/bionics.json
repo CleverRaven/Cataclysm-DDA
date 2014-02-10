@@ -240,6 +240,13 @@
     "description":    "A thin forcefield surrounds your body, continually draining power.  This field does not deflect penetration, but rather delivers a very strong shock, damaging unarmed attackers and those with a conductive weapon."
     },{
         "type" : "bionic",
+        "id" : "bio_leukocyte",
+    "name"       :    "Leukocyte Breeder System",
+    "active"     :    true,
+    "cost"       :    1,
+    "description":    "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power."
+    },{
+        "type" : "bionic",
         "id" : "bio_scent_mask",
     "name"       :    "Olfactory Mask",
     "active"     :    true,

@@ -509,15 +509,22 @@ void player::activate_bionic(int b)
         }
 
     }
+    if(bio.id == "bio_leukocyte") {
+        g->add_msg(_("You activate your leukocyte breeder system."));
+        if (health < 0) {
+            health = 0;
+        } else {
+            health += 5;
+        }
+    } 
     if(bio.id == "bio_geiger") {
         g->add_msg(_("Your radiation level: %d"), radiation);
     }
     if(bio.id == "bio_radscrubber") {
-        if (radiation > 4) {
-            g->add_msg(_("You activate your radiation scrubber system."));
+        g->add_msg(_("You activate your radiation scrubber system."));
+          if (radiation > 4) {
             radiation -= 5;
         } else {
-            g->add_msg(_("You activate your radiation scrubber system."));
             radiation = 0;
         }
     }
