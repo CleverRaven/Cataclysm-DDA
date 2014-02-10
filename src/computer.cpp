@@ -188,12 +188,12 @@ bool computer::hack_attempt(player *p, int Security)
     if (Security == -1) {
         Security = security;    // Set to main system security if no value passed
     }
-    
+
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance
     // So practical max files from a given terminal = 5, at 10 Computer
     if (alerts > 0) {
-        Security += (alerts * 2); 
+        Security += (alerts * 2);
     }
 
     p->practice(g->turn, "computer", 5 + Security * 2);
@@ -1077,6 +1077,7 @@ void computer::activate_failure(computer_failure fail)
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.has_flag("CONSOLE", x, y)) {
                     g->m.ter_set(x, y, t_console_broken);
+                    g->add_msg(_("The console shuts down."));
                 }
             }
         }
