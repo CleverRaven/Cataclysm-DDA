@@ -8992,7 +8992,7 @@
         "name" : "briefcase",
         "weight" : 1700,
         "color" : "light_gray",
-        "covers" : ["ARMS"],
+        "covers" : ["ARMS", "HANDS"],
         "to_hit" : -2,
         "storage" : 30,
         "symbol" : "[",
