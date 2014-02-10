@@ -5317,6 +5317,20 @@ void player::suffer()
         g->add_msg(_("Your vision pixelates!"));
         add_disease("visuals", 100);
     }
+    if (has_bionic("bio_spasm") && one_in(3000) && !has_disease("downed")) {
+        g->add_msg(_("Your malfunctioning bionics cause you to spasm and fall to the floor!"));
+        mod_pain(1);
+        add_effect("stunned", 1);
+        add_effect("downed", 1);
+    }
+    if (has_bionic("bio_shakes") && power_level > 0 && one_in(1200)) {
+        g->add_msg(_("Your bionics short-circuit, causing you to tremble and shiver."));
+        power_level--;
+        add_disease("shakes", 100);
+    }
+    if (has_bionic("bio_leaky") && one_in(500)) {
+        health--;
+    }
     if (has_bionic("bio_itchy") && one_in(500) && !has_disease("formication")) {
         g->add_msg(_("Your malfunctioning bionic itches!"));
       body_part bp = random_body_part(true);

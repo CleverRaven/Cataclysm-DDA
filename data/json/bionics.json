@@ -569,7 +569,25 @@
         "id" : "bio_thumbs",
     "name"       :    "Self-Locking Thumbs",
     "faulty"     :    true,
-    "description":    "Self-locking thumbs hold tight and don't let go, even when you don't want them to.  Increases hand encumbrance by one."
+    "description":    "Self-locking thumbs hold tight (even when you really don't want them to) and don't let go (even when you'd rather they did).  Increases hand encumbrance by one."
+    },{
+        "type" : "bionic",
+        "id" : "bio_spasm",
+    "name"       :    "Motor Control Overstimulator",
+    "faulty"     :    true,
+    "description":    "One piezoelectric solenoid installed backwards, two crossed wires, and four burned-out capacitors later you started falling on your face and writhing around at the least convenient times.  This incorrectly-configured bionic periodically stuns you for a short period of time."
+    },{
+        "type" : "bionic",
+        "id" : "bio_shakes",
+    "name"       :    "Bionic Short Circuit",
+    "faulty"     :    true,
+    "description":    "A poorly-wired bionic which fails to serve its intended purpose, this malfunctioning device periodically short-circuits, causing systemic muscle tremors."
+    },{
+        "type" : "bionic",
+        "id" : "bio_leaky",
+    "name"       :    "Leaky Bionic",
+    "faulty"     :    true,
+    "description":    "This botched piece of bionic hardware slowly leaks electrolytic compounds, piezoelectric nanomaterials, and other high-tech contaminants into your bloodstream. Needless to say, this is not good for your health."
     },{
         "type" : "bionic",
         "id" : "bio_ankles",
@@ -581,7 +599,7 @@
         "id" : "bio_trip",
     "name"       :    "Visual Disruptor",
     "faulty"     :    true,
-    "description":    "A malfunctioning bionic which causes periodic visual distortion and pixelation."
+    "description":    "A malfunctioning bionic which causes occasional visual distortion and pixelation."
     },{
         "type" : "bionic",
         "id" : "bio_stiff",
