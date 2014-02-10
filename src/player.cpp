@@ -5330,6 +5330,9 @@ void player::suffer()
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
         health--;
+    }}
+    if (has_bionic("bio_sleepy") && one_in(500)) {
+        fatigue++;
     }
     if (has_bionic("bio_itchy") && one_in(500) && !has_disease("formication")) {
         g->add_msg(_("Your malfunctioning bionic itches!"));
@@ -9224,7 +9227,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     }
     if (bp == bp_mouth &&
         ( has_bionic("bio_nostril") ) ) {
-        ret += 2;
+        ret += 1;
     }
     if (bp == bp_hands &&
         ( has_bionic("bio_thumbs") ) ) {

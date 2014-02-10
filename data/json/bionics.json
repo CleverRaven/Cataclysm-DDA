@@ -124,7 +124,7 @@
     "name"       :    "Internal Climate Control",
     "active"     :    true,
     "cost"       :    1,
-    "time"       :    30,
+    "time"       :    100,
     "description":    "Throughout your body lies a network of thermal piping which eases the effects of high and low ambient temperatures."
     },{
         "type" : "bionic",
@@ -563,13 +563,13 @@
         "id" : "bio_nostril",
     "name"       :    "Bionic Nostril",
     "faulty"     :    true,
-    "description":    "While you're really not sure how the CBM ended up in your nose, this badly misplaced bionic makes it harder to breathe.  Increases mouth encumbrance by two."
+    "description":    "While you're really not sure how the CBM ended up in your nose, this badly misplaced bionic makes it harder to breathe.  Increases mouth encumbrance by one."
     },{
         "type" : "bionic",
         "id" : "bio_thumbs",
     "name"       :    "Self-Locking Thumbs",
     "faulty"     :    true,
-    "description":    "Self-locking thumbs hold tight (even when you really don't want them to) and don't let go (even when you'd rather they did).  Increases hand encumbrance by two."
+    "description":    "Self-locking thumbs hold tight (even when you really don't want them to) and don't let go (even when you'd rather they did).  Increases hand encumbrance by two, while failing to improve your ability to hold objects whatsoever."
     },{
         "type" : "bionic",
         "id" : "bio_spasm",
@@ -588,6 +588,12 @@
     "name"       :    "Leaky Bionic",
     "faulty"     :    true,
     "description":    "This botched piece of bionic hardware slowly leaks electrolytic compounds, piezoelectric nanomaterials, and other high-tech contaminants into your bloodstream. Needless to say, this is not good for your health."
+    },{
+        "type" : "bionic",
+        "id" : "bio_sleepy",
+    "name"       :    "Endocrine Enervator",
+    "faulty"     :    true,
+    "description":    "Through a combination of psychochemical manipulation and old fashioned electrical nerve stimulation, this malfunctioning bionic alters your brain chemistry in such a way as to cause fatigue. You will find yourself tiring a bit faster than before."
     },{
         "type" : "bionic",
         "id" : "bio_ankles",
