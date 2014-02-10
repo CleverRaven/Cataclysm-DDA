@@ -9195,7 +9195,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     }
 
     // Bionics and mutation
-    if( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth ) {
+    if( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth && bp != bp_eyes ) {
         ret += 1;
     }
     if( has_trait("CHITIN3") && bp != bp_eyes && bp != bp_mouth ) {
@@ -9224,11 +9224,11 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     }
     if (bp == bp_mouth &&
         ( has_bionic("bio_nostril") ) ) {
-        ret += 1;
+        ret += 2;
     }
     if (bp == bp_hands &&
         ( has_bionic("bio_thumbs") ) ) {
-        ret += 1;
+        ret += 2;
     }
     if ( ret < 0 ) {
       ret = 0;

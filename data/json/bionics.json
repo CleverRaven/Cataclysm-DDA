@@ -563,19 +563,19 @@
         "id" : "bio_nostril",
     "name"       :    "Bionic Nostril",
     "faulty"     :    true,
-    "description":    "While you're really not sure how the CBM ended up in your nose, this badly misplaced bionic makes it harder to breathe.  Increases mouth encumbrance by one."
+    "description":    "While you're really not sure how the CBM ended up in your nose, this badly misplaced bionic makes it harder to breathe.  Increases mouth encumbrance by two."
     },{
         "type" : "bionic",
         "id" : "bio_thumbs",
     "name"       :    "Self-Locking Thumbs",
     "faulty"     :    true,
-    "description":    "Self-locking thumbs hold tight (even when you really don't want them to) and don't let go (even when you'd rather they did).  Increases hand encumbrance by one."
+    "description":    "Self-locking thumbs hold tight (even when you really don't want them to) and don't let go (even when you'd rather they did).  Increases hand encumbrance by two."
     },{
         "type" : "bionic",
         "id" : "bio_spasm",
     "name"       :    "Motor Control Overstimulator",
     "faulty"     :    true,
-    "description":    "One piezoelectric solenoid installed backwards, two crossed wires, and four burned-out capacitors later you started falling on your face and writhing around at the least convenient times.  This incorrectly-configured bionic periodically stuns you for a short period of time."
+    "description":    "One piezoelectric solenoid installed backwards, two crossed wires, and four burned-out capacitors later you started falling on your face and writhing around at the least convenient times.  This incorrectly-configured bionic periodically stuns you for a short duration."
     },{
         "type" : "bionic",
         "id" : "bio_shakes",
