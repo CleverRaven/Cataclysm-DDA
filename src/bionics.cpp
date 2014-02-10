@@ -523,9 +523,9 @@ void player::activate_bionic(int b)
     }
     if(bio.id == "bio_adrenaline") {
             g->add_msg(_("You activate your adrenaline pump."));
-  if(has_disease("adrenaline")) {
-    add_disease("adrenaline", 50);
-    stim += 10;
+      if (has_disease("adrenaline")) {
+            add_disease("adrenaline", 50);
+            stim += 20;
   } else {
     add_disease("adrenaline", 200);
   }

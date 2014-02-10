@@ -380,7 +380,7 @@
     "name"       :    "Extensible Blade",
     "active"     :    true,
     "cost"       :    2,
-    "description":    "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended and retract through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended."
+    "description":    "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended."
     },{
         "type" : "bionic",
         "id" : "bio_blaster",
