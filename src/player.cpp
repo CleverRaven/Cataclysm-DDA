@@ -5326,7 +5326,7 @@ void player::suffer()
     if (has_bionic("bio_shakes") && power_level > 0 && one_in(1200)) {
         g->add_msg(_("Your bionics short-circuit, causing you to tremble and shiver."));
         power_level--;
-        add_disease("shakes", 100);
+        add_disease("shakes", 50);
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
         health--;
