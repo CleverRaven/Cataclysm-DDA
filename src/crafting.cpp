@@ -975,7 +975,7 @@ recipe *game::select_crafting_recipe()
             keepline = true;
             break;
         case Filter:
-            filterstring = string_input_popup(_("Search:"), 55, filterstring);
+            filterstring = string_input_popup(_("Search:"), 85, filterstring, _("Search tools or component using prefix t and c. \n(i.e. \"t:hammer\" or \"c:two by four\".)"));
             redraw = true;
             break;
         case Reset:
@@ -1196,6 +1196,31 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
                         std::vector<bool> &available, craft_cat tab,
                         craft_subcat subtab, std::string filter)
 {
+    bool search_name = true;
+    bool search_tool = false;
+    bool search_component = false;
+    int pos = filter.find(":");
+    if(pos != std::string::npos)
+    {
+        search_name = false;
+        std::string searchType = filter.substr(0, pos);
+        for(int i = 0 ; i < searchType.size() ; i++)
+        {
+            if(searchType[i] == 'n')
+            {
+                search_name = true;
+            }
+            else if(searchType[i] == 't')
+            {
+                search_tool = true;
+            }
+            else if(searchType[i] == 'c')
+            {
+                search_component = true;
+            }
+        }
+        filter = filter.substr(pos + 1);
+    }
     recipe_list available_recipes;
 
     if (filter == "") {
@@ -1221,12 +1246,62 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
             if ((*iter)->difficulty < 0 ) {
                 continue;
             }
-
-            if (filter != "" &&
-                item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos) {
-                continue;
+            if(filter != "")
+            {
+                if(search_name)
+                {
+                    if(item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos)
+                    {
+                        continue;
+                    }
+                }
+                if(search_tool)
+                {
+                    bool found = false;
+                    for(std::vector<std::vector<component> >::iterator it = (*iter)->tools.begin() ; it != (*iter)->tools.end() ; ++it)
+                    {
+                        for(std::vector<component>::iterator it2 = (*it).begin() ; it2 != (*it).end() ; ++it2)
+                        {
+                            if(item_controller->find_template((*it2).type)->name.find(filter) != std::string::npos)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if(found)
+                        {
+                            break;
+                        }
+                    }
+                    if(!found)
+                    {
+                        continue;
+                    }
+                }
+                if(search_component)
+                {
+                    bool found = false;
+                    for(std::vector<std::vector<component> >::iterator it = (*iter)->components.begin() ; it != (*iter)->components.end() ; ++it)
+                    {
+                        for(std::vector<component>::iterator it2 = (*it).begin() ; it2 != (*it).end() ; ++it2)
+                        {
+                            if(item_controller->find_template((*it2).type)->name.find(filter) != std::string::npos)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if(found)
+                        {
+                            break;
+                        }
+                    }
+                    if(!found)
+                    {
+                        continue;
+                    }
+                }
             }
-
             if (can_make_with_inventory(*iter, crafting_inv)) {
                 current.insert(current.begin(), *iter);
                 available.insert(available.begin(), true);
