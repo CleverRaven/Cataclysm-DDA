@@ -557,19 +557,31 @@
         "id" : "bio_itchy",
     "name"       :    "Itchy Metal Thing",
     "faulty"     :    true,
-    "description":    "A malfunctioning bionic.  Sometimes it itches horribly."
+    "description":    "A bionic of some sort, so badly installed that you cannot even tell what it was originally supposed to be.  Sometimes it itches horribly."
     },{
         "type" : "bionic",
         "id" : "bio_nostril",
     "name"       :    "Bionic Nostril",
     "faulty"     :    true,
-    "description":    "A malfunctioning bionic which makes it harder to breathe."
+    "description":    "While you're really not sure how the CBM ended up in your nose, this badly misplaced bionic makes it harder to breathe.  Increases mouth encumbrance by one."
     },{
         "type" : "bionic",
         "id" : "bio_thumbs",
     "name"       :    "Self-Locking Thumbs",
     "faulty"     :    true,
-    "description":    "A malfunctioning bionic which costs you some manual dexterity."
+    "description":    "Self-locking thumbs hold tight and don't let go, even when you don't want them to.  Increases hand encumbrance by one."
+    },{
+        "type" : "bionic",
+        "id" : "bio_ankles",
+    "name"       :    "Squeaky Ankles",
+    "faulty"     :    true,
+    "description":    "In a cruel twist of fate, a poorly executed CBM installation has given you a pair of useless bionics which make squeaking noises when you walk."
+    },{
+        "type" : "bionic",
+        "id" : "bio_trip",
+    "name"       :    "Visual Disruptor",
+    "faulty"     :    true,
+    "description":    "A malfunctioning bionic which causes periodic visual distortion and pixelation."
     },{
         "type" : "bionic",
         "id" : "bio_stiff",

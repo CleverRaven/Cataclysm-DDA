@@ -5313,11 +5313,15 @@ void player::suffer()
         power_level >= max_power_level * .75) {
         str_cur -= 3;
     }
-    if (has_bionic("bio_itchy") && one_in(500)) {
+    if (has_bionic("bio_trip") && one_in(500) && !has_disease("visuals")) {
+        g->add_msg(_("Your vision pixelates!"));
+        add_disease("visuals", 100);
+    }
+    if (has_bionic("bio_itchy") && one_in(500) && !has_disease("formication")) {
         g->add_msg(_("Your malfunctioning bionic itches!"));
       body_part bp = random_body_part(true);
       int side = random_side(bp);
-        add_disease("formication", 600, false, 1, 3, 0, 1, bp, side, true);
+        add_disease("formication", 100, false, 1, 3, 0, 1, bp, side, true);
     }
 
     // Artifact effects

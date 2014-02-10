@@ -11827,9 +11827,11 @@ bool game::plmove(int dx, int dy)
    if (u.has_trait("LIGHTSTEP"))
     sound(x, y, 2, ""); // Sound of footsteps may awaken nearby monsters
    else if (u.has_trait("CLUMSY"))
-    sound(x, y, 10, ""); // Sound of footsteps may awaken nearby monsters
+    sound(x, y, 10, "");
+   else if (u.has_bionic("bio_ankles"))
+    sound(x, y, 12, "");
    else
-    sound(x, y, 6, ""); // Sound of footsteps may awaken nearby monsters
+    sound(x, y, 6, "");
   }
   if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE))
    sound(x, y, 40, _("You emit a rattling sound."));
