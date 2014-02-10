@@ -2704,6 +2704,41 @@
     ]
   ]
 },{
+    "type" : "recipe",
+  "result": "puller",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required" : [ "gun", 3 ],
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets", 6] , ["textbook_fabrication", 7]],
+  "tools" : [
+     [ ["mold_plastic", -1] ],
+     [
+      ["hotplate", 10],
+      ["toolset", 1],
+      ["fire", -1]
+     ],
+     [
+      [ "swage", -1 ]
+     ],
+     [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 1 ]
+     ]
+  ],
+  "components" : [
+     [
+      ["plastic_chunk", 5]
+     ],
+     [
+      [ "scrap", 1 ]
+     ]
+    ]
+},{
         "type" : "recipe",
   "result": "combatsaw_off",
   "category": "CC_WEAPON",
