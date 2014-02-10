@@ -2,7 +2,7 @@
   {
     "type":"GENERIC",
     "id": "withered",
-    "symbol": "t",
+    "symbol": "%",
     "color": "light_gray",
     "name": "withered plant",
     "description": "A dead plant. Good for starting fires.",
