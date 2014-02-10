@@ -920,6 +920,23 @@
     {
         "type": "BIONIC_ITEM",
         "category": "bionics",
+        "id": "bio_watch",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "CBM: Internal Chronometer",
+        "description": "You have been equipped with an internal atomic clock, ensuring that you will always know the current time.",
+        "price": 1000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 0,
+        "difficulty": 1
+    },
+    {
+        "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_probability_travel",
         "symbol": ":",
         "color": "yellow",

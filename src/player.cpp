@@ -5318,7 +5318,6 @@ void player::suffer()
       body_part bp = random_body_part(true);
       int side = random_side(bp);
         add_disease("formication", 600, false, 1, 3, 0, 1, bp, side, true);
-        mod_pain(1);
     }
 
     // Artifact effects

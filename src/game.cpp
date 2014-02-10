@@ -4584,7 +4584,7 @@ void game::draw()
 
     WINDOW *time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
-    if ( u.has_item_with_flag("WATCH") ) {
+    if ( (u.has_item_with_flag("WATCH") || u.has_bionic("bio_watch")) ) {
         wprintz(time_window, c_white, turn.print_time().c_str());
     } else {
         std::vector<std::pair<char, nc_color> > vGlyphs;
@@ -13048,7 +13048,7 @@ int game::valid_group(std::string type, int x, int y, int z_coord)
 
 void game::wait()
 {
-    const bool bHasWatch = u.has_item_with_flag("WATCH");
+    const bool bHasWatch = (u.has_item_with_flag("WATCH") || u.has_bionic("bio_watch"));
 
     uimenu as_m;
     as_m.text = _("Wait for how long?");

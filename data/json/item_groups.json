@@ -4759,6 +4759,7 @@
       ["bio_chain_lightning", 10],
       ["bio_power_armor_interface", 10],
       ["bio_adrenaline", 10],
+      ["bio_watch", 10],
       ["bio_power_armor_interface_mkII", 5]
     ]
   },{
@@ -4777,6 +4778,7 @@
       ["bio_metabolics", 10],
       ["bio_ethanol", 10],
       ["bio_furnace", 10],
+      ["bio_watch", 10],
       ["bio_torsionratchet", 10]
     ]
   },{
@@ -5123,6 +5125,7 @@
       ["bio_power_armor_interface", 10],
       ["bio_blade", 2],
       ["bio_adrenaline", 10],
+      ["bio_watch", 10],
       ["bio_power_armor_interface_mkII", 5]
     ]
   },{
@@ -6160,6 +6163,7 @@
       ["bio_climate", 10],
       ["bio_heatsink", 10],
       ["bio_blood_filter", 10],
+      ["bio_watch", 10],
       ["software_useless", 10],
       ["canteen", 15],
       ["2lcanteen", 10],
