@@ -306,7 +306,9 @@
       ["bacon", 25],
       ["bleach", 20],
       ["ammonia", 24],
-      ["flour", 50],
+      ["flour", 60],
+      ["yeast", 50],
+      ["molasses", 15],
       ["milk_powder", 15],
       ["cornmeal", 40],
       ["powder_eggs", 20],
@@ -486,6 +488,8 @@
       ["chili", 10],
       ["syrup", 10],
       ["coffee_syrup", 10],
+      ["yeast", 10],
+      ["molasses", 5],
       ["vodka", 20],
       ["apple_cider", 50],
       ["jihelucake", 1],
@@ -1453,6 +1457,7 @@
       ["toastem3", 35],
       ["toasterpastry", 20],
       ["sugar", 20],
+      ["molasses", 10],
       ["can_cheese", 40],
       ["salt", 20],
       ["pepper", 20],
@@ -4476,11 +4481,17 @@
       ["raspberries", 3],
       ["blackberries", 2],
       ["rhubarb", 5],
-      ["wheat", 5],
+      ["wheat", 6],
+      ["barley", 6],
+      ["sugar_beet", 4],
+      ["hops", 4],
       ["seed_wheat", 1],
       ["seed_tomato", 1],
       ["seed_blueberries", 1],
       ["seed_strawberries", 1],
+      ["seed_barley", 1],
+      ["seed_sugar_beet", 1],      
+      ["seed_hops", 1],      
       ["tomato", 9],
       ["broccoli", 9],
       ["zucchini", 7],
@@ -4488,7 +4499,7 @@
       ["corn", 7],
       ["onion", 3],
       ["carrot", 3],
-      ["withered", 70]
+      ["withered", 60]
     ]
   },{
     "type" : "item_group",
@@ -5821,12 +5832,12 @@
       ["9mm", 8]
     ]
   },{
-  "type" : "item_group",
-  "id" : "laserturret",
-      "items":[
+    "type" : "item_group",
+    "id" : "laserturret",
+    "items":[
       ["cerberus_laser", 1],
       ["laser_capacitor", 8]
-    ]
+      ]
   },{
     "type" : "item_group",
     "id" : "helicopter",
@@ -6428,7 +6439,7 @@
       ["gold_watch", 5],
       ["pocketwatch", 2]
     ]
-},{
+  },{
     "type" : "item_group",
     "id" : "methlab",
     "items":[

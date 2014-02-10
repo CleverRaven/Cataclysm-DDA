@@ -8195,6 +8195,9 @@
       [ "flour", 3 ]
     ],
     [
+      [ "yeast", 1 ]
+    ],
+    [
       [ "water", 2 ],
       [ "water_clean", 2 ]
     ]
@@ -11856,6 +11859,7 @@
       [ "purple_drink", 6 ],
       [ "syrup", 4 ],
       [ "coffee_syrup", 5 ],
+      [ "molasses", 1 ],
       [ "bum_wine", 14 ],
       [ "con_milk", 1 ]
     ],
@@ -11900,6 +11904,42 @@
       [ "water_acid_weak", 3 ],
       [ "water_acid", 2 ],
       [ "acid", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sugar",
+  "id_suffix": "from_beets",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "note": "process sugar beets into sugar",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["adv_chemistry", 6] , ["textbook_chemistry", 6] , ["recipe_labchem", 5]],
+  "tools": [
+    [
+      [ "chemistry_set", 40 ],
+      [ "hotplate", 40 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "chemistry_set", -1 ],
+      [ "still", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sugar_beet", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ],
+    [
+      [ "lye_powder", 20 ]
     ]
   ]
 },{
@@ -29481,6 +29521,9 @@
   "components": [
     [
       [ "flour", 3 ]
+    ],
+    [
+      [ "yeast", 1 ]
     ],
     [
       [ "milk", 1 ],
