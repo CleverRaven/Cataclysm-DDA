@@ -263,6 +263,10 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
         return 0;
     }
 
+    // Bounce applies whether it does damage or not.
+    if (proj.proj_effects.count("BOUNCE")) {
+        add_effect("bounced", 1);
+    }
 
     double hit_value = missed_by + rng_float(-0.5, 0.5);
     // headshots considered elsewhere
