@@ -5313,6 +5313,13 @@ void player::suffer()
         power_level >= max_power_level * .75) {
         str_cur -= 3;
     }
+    if (has_bionic("bio_itchy") && one_in(500)) {
+        g->add_msg(_("Your malfunctioning bionic itches!"));
+      body_part bp = random_body_part(true);
+      int side = random_side(bp);
+        add_disease("formication", 600, false, 1, 3, 0, 1, bp, side, true);
+        mod_pain(1);
+    }
 
     // Artifact effects
     if (has_artifact_with(AEP_ATTENTION)) {

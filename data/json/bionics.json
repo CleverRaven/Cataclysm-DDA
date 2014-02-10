@@ -535,6 +535,12 @@
     "description":    "Damaged power circuits cause short-circuiting inside your muscles when your batteries are above 75%%%% capacity, causing greatly reduced strength.  This has no effect if you have no internal batteries."
     },{
         "type" : "bionic",
+        "id" : "bio_itchy",
+    "name"       :    "Itchy Metal Thing",
+    "faulty"     :    true,
+    "description":    "A malfunctioning bionic.  Sometimes it itches horribly."
+    },{
+        "type" : "bionic",
         "id" : "bio_stiff",
     "name"       :    "Wire-induced Stiffness",
     "faulty"     :    true,
