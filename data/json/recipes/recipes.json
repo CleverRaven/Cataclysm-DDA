@@ -1610,7 +1610,7 @@
   "skill_used": "fabrication",
   "skills_required": [ "traps", 2 ],
   "difficulty": 3,
-  "time": 300000,
+  "time": 30000,
   "reversible": false,
   "autolearn": true,
   "tools": [
