@@ -705,12 +705,12 @@ void game::cleanup_at_end(){
     overmap_buffer.clear();
 }
 
-int veh_lumi(vehicle *veh) {
+static int veh_lumi(vehicle *veh) {
     float veh_luminance = 0.0;
     float iteration = 1.0;
     std::vector<int> light_indices = veh->all_parts_with_feature(VPFLAG_CONE_LIGHT);
     for (std::vector<int>::iterator part = light_indices.begin();
-            part != light_indices.end(); ++part) {
+         part != light_indices.end(); ++part) {
         veh_luminance += ( veh->part_info(*part).bonus / iteration );
         iteration = iteration * 1.1;
     }
