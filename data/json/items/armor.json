@@ -6103,7 +6103,7 @@
         "bashing" : -1,
         "coverage" : 5,
         "material_thickness" : 2,
-		"flags" : ["SKINTIGHT"]
+        "flags" : ["SKINTIGHT"]
     },
     {
         "type" : "ARMOR",

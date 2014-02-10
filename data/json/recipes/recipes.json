@@ -8750,7 +8750,7 @@
   "tools": [
     [
       [ "hotplate", 8 ],
-	  [ "char_smoker", 1 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -8864,7 +8864,7 @@
     ],
     [
       [ "pan", -1 ],
-	  [ "waffleiron", -1 ]
+      [ "waffleiron", -1 ]
     ]
   ],
   "components": [
