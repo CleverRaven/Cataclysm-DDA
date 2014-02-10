@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
             exit_handler(0);
         }
         if (check_all_mods) {
-            // Her we load all the mods and check their
+            // Here we load all the mods and check their
             // consistency (both is done in check_all_mod_data).
             g->check_all_mod_data();
             if(g->game_error()) {
