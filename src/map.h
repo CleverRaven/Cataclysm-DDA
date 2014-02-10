@@ -492,6 +492,7 @@ submap * getsubmap( const int grididx );
  
  void process_active_items_in_submap(const int nonant);
  void process_active_items_in_vehicles(const int nonant);
+ void process_active_items_in_vehicle(vehicle *cur_veh, int nonant);
  bool process_active_item(item *it, const int nonant, const int i, const int j);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
