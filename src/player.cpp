@@ -9205,6 +9205,10 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
         (has_trait("CLAWS_TENTACLE") )) {
         ret += 2;
     }
+    if (bp == bp_mouth &&
+        ( has_bionic("bio_nostril") ) ) {
+        ret += 1;
+    }
     if ( ret < 0 ) {
       ret = 0;
     }

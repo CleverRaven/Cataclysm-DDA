@@ -2212,7 +2212,7 @@
         "color" : "dark_gray",
         "symbol" : "{",
         "material" : ["ceramic", "steel"],
-        "techniques" : ["RAPID", "WBLOCK_1"],
+        "techniques" : ["WBLOCK_1"],
         "volume" : 3,
         "bashing" : 0,
         "cutting" : 36,
