@@ -984,8 +984,7 @@
     "description":"This black bear's eyes ooze with black fluid, and its flesh is torn and scarred. It shuffles as it walks.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "FUR"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
-    "fear_triggers":["FIRE"],
-    "categories":["WILDLIFE"]
+    "fear_triggers":["FIRE"]
     },{
         "type" : "MONSTER",
         "id" : "mon_shrew",
