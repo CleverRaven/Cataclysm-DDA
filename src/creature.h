@@ -182,7 +182,8 @@ class Creature
         virtual int get_speed();
         virtual int get_dodge();
         virtual int get_hit();
-        virtual m_size get_size()=0;
+        virtual m_size get_size() = 0;
+        virtual int get_hp( hp_part bp = num_hp_parts ) = 0;
 
         virtual int get_speed_base();
         virtual int get_dodge_base();

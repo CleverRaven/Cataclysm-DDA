@@ -303,6 +303,9 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
 
     // copy it, since we're mutating
     damage_instance impact = proj.impact;
+    if( item(proj.ammo, 0).has_flag("NOGIB") ) {
+        impact.add_effect("NOGIB");
+    }
     impact.mult_damage(damage_mult);
 
     dealt_dam = deal_damage(source, bp_hit, side, impact);
@@ -357,6 +360,10 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp, int 
     }
 
     mod_pain(total_pain);
+    if( dam.effects.count("NOGIB") ) {
+        total_damage = std::min( total_damage, get_hp() + 1 );
+    }
+
     apply_damage(source, bp, side, total_damage);
     return dealt_damage_instance(dealt_dams);
 }
@@ -461,8 +468,10 @@ void Creature::add_effect(efftype_id eff_id, int dur)
         effects.push_back(new_eff);
         if (is_player()) { // only print the message if we didn't already have it
             g->add_msg_string(effect_types[eff_id].get_apply_message());
-            g->u.add_memorial_log(pgettext("memorial_male", effect_types[eff_id].get_apply_memorial_log().c_str()),
-                                  pgettext("memorial_female", effect_types[eff_id].get_apply_memorial_log().c_str()));
+            g->u.add_memorial_log(pgettext("memorial_male",
+                                           effect_types[eff_id].get_apply_memorial_log().c_str()),
+                                  pgettext("memorial_female",
+                                           effect_types[eff_id].get_apply_memorial_log().c_str()));
         }
     }
 }

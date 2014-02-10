@@ -10146,6 +10146,18 @@ m_size player::get_size() {
     return MS_MEDIUM;
 }
 
+int player::get_hp( hp_part bp )
+{
+    if( bp < num_hp_parts ) {
+        return hp_cur[bp];
+    }
+    int hp_total = 0;
+    for( int i = 0; i < num_hp_parts; ++i ) {
+        hp_total += hp_cur[i];
+    }
+    return hp_total;
+}
+
 field_id player::playerBloodType() {
     if (player::has_trait("THRESH_PLANT"))
         return fd_blood_veggy;
