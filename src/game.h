@@ -217,8 +217,6 @@ public:
   void explode_mon(int index); // Explode a monster; like kill_mon but messier
   void revive_corpse(int x, int y, int n); // revives a corpse from an item pile
   void revive_corpse(int x, int y, item *it); // revives a corpse by item pointer, caller handles item deletion
-// hit_monster_with_flags processes ammo flags (e.g. incendiary, etc)
-  void hit_monster_with_flags(monster &critter, const std::set<std::string> &effects);
   void plfire(bool burst, int default_target_x = -1, int default_target_y = -1); // Player fires a gun (target selection)...
 // ... a gun is fired, maybe by an NPC (actual damage, etc.).
   void fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
