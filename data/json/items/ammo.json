@@ -344,6 +344,7 @@
         "dispersion" : 0,
         "recoil" : 18,
         "count" : 25,
+        "flags" : ["NOGIB"],
         "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
@@ -534,6 +535,7 @@
         "recoil" : 4,
         "count" : 100,
         "stack_size" : 200,
+        "flags" : ["NOGIB"],
         "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
