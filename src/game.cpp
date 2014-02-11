@@ -5240,6 +5240,9 @@ bool game::u_see(monster *critter)
     return u.sees(critter);
 }
 
+// temporary item and location of it for processing items
+// in vehicle cargo parts. See map::process_active_items_in_vehicle
+std::pair<item, point> tmp_active_item_pos(item(), point(-999, -999));
 /**
  * Attempts to find which map co-ordinates the specified item is located at,
  * looking at the player, the ground, NPCs, and vehicles in that order.
@@ -5248,6 +5251,9 @@ bool game::u_see(monster *critter)
  */
 point game::find_item(item *it)
 {
+    if (&tmp_active_item_pos.first == it) {
+        return tmp_active_item_pos.second;
+    }
     //Does the player have it?
     if (u.has_item(it)) {
         return point(u.posx, u.posy);
