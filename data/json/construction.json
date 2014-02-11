@@ -189,7 +189,8 @@
         ],
         "components" : [
             [ [ "log", 1 ] ],
-            [ [ "nail", 32 ] ]
+            [ [ "2x4", 2 ] ],
+            [ [ "nail", 24 ] ]
         ],
         "pre_terrain" : "t_wall_log_broken",
         "post_terrain" : "t_wall_log_chipped"
