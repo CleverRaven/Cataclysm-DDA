@@ -5330,7 +5330,7 @@ void player::suffer()
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
         health--;
-    }}
+    }
     if (has_bionic("bio_sleepy") && one_in(500)) {
         fatigue++;
     }

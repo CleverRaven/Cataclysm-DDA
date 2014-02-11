@@ -221,7 +221,7 @@
     "active"     :    true,
     "cost"       :    1,
     "time"       :    10,
-    "description":    "Your face is actually made of a compound which may be molded by electrical impulses, making you impossible to recognize.  While not powered, however, the compound reverts to its default shape."
+    "description":    "Through controlled application of electrochemical impulses, you are capable of altering your facial structure so as to subtly affect the reactions of others. While active, you gain a bonus to all social interactions."
     },{
         "type" : "bionic",
         "id" : "bio_ads",

@@ -1551,6 +1551,8 @@ int trial_chance(talk_response response, player *u, npc *p)
     chance += 10;
    if (u->has_bionic("bio_voice")) //come on, who would suspect a robot of lying?
     chance += 20;
+   if (u->has_bionic("bio_face_mask"))
+    chance += 10;
    break;
 
   case TALK_TRIAL_PERSUADE:
@@ -1559,6 +1561,8 @@ int trial_chance(talk_response response, player *u, npc *p)
    if (u->has_trait("ELFAEYES"))
     chance += 20;
    if (u->has_trait("TAIL_FLUFFY"))
+    chance += 10;
+   if (u->has_bionic("bio_face_mask"))
     chance += 10;
    if (u->has_trait("GROWL"))
     chance -= 25;
@@ -1587,14 +1591,14 @@ int trial_chance(talk_response response, player *u, npc *p)
     chance += 15;
    if (u->has_trait("ELFAEYES"))
     chance += 10;
-   if (p->has_trait("TERRIFYING"))
-    chance -= 15;
    if (u->has_trait("GROWL"))
     chance += 15;
    if (u->has_trait("HISS"))
     chance += 15;
    if (u->has_trait("SNARL"))
     chance += 30;
+   if (u->has_bionic("bio_face_mask"))
+    chance += 10;
    if (u->has_bionic("bio_armor_eyes"))
     chance += 10;
    if (u->has_bionic("bio_deformity"))
