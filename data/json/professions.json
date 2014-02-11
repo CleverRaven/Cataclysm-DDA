@@ -1694,8 +1694,8 @@
             "bio_armor_eyes",
             "bio_sunglasses",
             "bio_dex_enhancer",
-            "bio_carbon",
-            "bio_watch"
+            "bio_ears",
+            "bio_carbon"
         ],
         "skills": [
             {
@@ -1713,11 +1713,12 @@
         ],
         "items": {
             "both": [
+                "socks",
+                "tank_top",
                 "jacket_leather",
                 "pants_leather",
                 "boots",
                 "gloves_fingerless",
-                "tank_top",
                 "gum"
             ],
             "male": [
@@ -1819,6 +1820,7 @@
                 "footrags",
                 "gloves_wraps",
                 "hat_cotton",
+                "bandana",
                 "hat_noise_cancelling"
             ]
         }
