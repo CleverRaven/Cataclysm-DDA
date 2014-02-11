@@ -1126,7 +1126,8 @@
             "both": [
                 "sneakers",
                 "jeans",
-                "tshirt"
+                "tshirt",
+                "ear_plugs"
             ],
             "male": [
                 "briefs"
@@ -1652,7 +1653,7 @@
             "bio_sleepy",
             "bio_trip",
             "bio_spasm",
-            "bio_ethanol",
+            "bio_furnace",
             "bio_power_storage_mkII",
             "bio_climate",
             "bio_flashlight"
@@ -1702,7 +1703,7 @@
             "bio_leaky",
             "bio_trip",
             "bio_noise",
-            "bio_furnace",
+            "bio_metabolics",
             "bio_power_storage_mkII",
             "bio_painkiller",
             "bio_claws",

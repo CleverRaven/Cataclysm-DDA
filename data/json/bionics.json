@@ -608,6 +608,12 @@
     "description":    "You will likely spend the rest of your days serving as a walking testament to why you don't hold loose parts in your mouth while installing a CBM. Accidentally swallowing that remodulator unit has given you a creepy robot voice."
     },{
         "type" : "bionic",
+        "id" : "bio_pokedeye",
+    "name"       :    "Bionic Visual Impairment",
+    "faulty"     :    true,
+    "description":    "Due to a badly misplaced dielectric stylette you are now suffering from mild optic neuropathy. Increases eye encumbrance by one."
+    },{
+        "type" : "bionic",
         "id" : "bio_ankles",
     "name"       :    "Squeaky Ankles",
     "faulty"     :    true,
