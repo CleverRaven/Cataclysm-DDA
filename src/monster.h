@@ -10,7 +10,6 @@
 #include <vector>
 
 class map;
-class player;
 class game;
 class item;
 
@@ -65,9 +64,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  bool getkeep();
  void setkeep(bool r);
 
-m_size get_size();
+ m_size get_size();
+ int get_hp( hp_part ) { return hp; };
+ std::string get_material() { return type->mat; };
 
-// Access
+ // Access
  std::string name(); // Returns the monster's formal name
  std::string name_with_armor(); // Name, with whatever our armor is called
  // the creature-class versions of the above
