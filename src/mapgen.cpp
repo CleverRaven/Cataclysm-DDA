@@ -3144,8 +3144,12 @@ C..C..C...|hhh|#########\n\
                     computer *tmpcomp2 = NULL;
                     tmpcomp2 = add_computer(10, 21, _("Barracks Entrance"), 4);
                     tmpcomp2->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 6);
+                    tmpcomp2->add_failure(COMPFAIL_DAMAGE);
+                    tmpcomp2->add_failure(COMPFAIL_SHUTDOWN);
                     tmpcomp = add_computer(15, 12, _("Magazine Entrance"), 6);
                     tmpcomp->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 7);
+                    tmpcomp->add_failure(COMPFAIL_DAMAGE);
+                    tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
                     if (one_in(2)) {
                         add_spawn("mon_zombie_soldier", rng(1, 4), 12, 12);
                     }
@@ -3516,9 +3520,13 @@ C..C..C...|hhh|#########\n\
                         computer *tmpcomp2 = NULL;
                         tmpcomp2 = add_computer(6, 1, _("Containment Terminal"), 4);
                         tmpcomp2->add_option(_("EMERGENCY CONTAINMENT UNLOCK"), COMPACT_UNLOCK, 4);
+                        tmpcomp2->add_failure(COMPFAIL_DAMAGE);
+                        tmpcomp2->add_failure(COMPFAIL_SHUTDOWN);
                         tmpcomp = add_computer(12, 16, _("Containment Control"), 4);
                         tmpcomp->add_option(_("EMERGENCY CONTAINMENT UNLOCK"), COMPACT_UNLOCK, 4);
                         tmpcomp->add_option(_("EMERGENCY CLEANSE"), COMPACT_DISCONNECT, 7);
+                        tmpcomp->add_failure(COMPFAIL_DAMAGE);
+                        tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
                     } else if (one_in(3)) { //operations or utility
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
@@ -3695,6 +3703,8 @@ ff.......|....|WWWWWWWW|\n\
                         tmpcomp->add_option(_("Run Decryption Algorithm"), COMPACT_DATA_ANAL, 4);
                         tmpcomp->add_option(_("Upload Data to Melchior"), COMPACT_DISCONNECT, 7);
                         tmpcomp->add_option(_("Access Melchior"), COMPACT_DISCONNECT, 12);
+                        tmpcomp->add_failure(COMPFAIL_DAMAGE);
+                        tmpcomp->add_failure(COMPFAIL_MANHACKS);
                         tmpcomp->add_failure(COMPFAIL_DESTROY_DATA);
                     }
 

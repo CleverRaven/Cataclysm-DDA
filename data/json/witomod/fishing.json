@@ -50,7 +50,7 @@
   {
     "type" : "GENERIC",
     "id" : "fishing_hook_basic",
-    "symbol" : "J",
+    "symbol" : ",",
     "color" : "cyan",
     "name" : "fishing hook",
     "description" : "A simple fishing hook.",

@@ -705,21 +705,42 @@ void game::cleanup_at_end(){
     overmap_buffer.clear();
 }
 
+static int veh_lumi(vehicle *veh) {
+    float veh_luminance = 0.0;
+    float iteration = 1.0;
+    std::vector<int> light_indices = veh->all_parts_with_feature(VPFLAG_CONE_LIGHT);
+    for (std::vector<int>::iterator part = light_indices.begin();
+         part != light_indices.end(); ++part) {
+        veh_luminance += ( veh->part_info(*part).bonus / iteration );
+        iteration = iteration * 1.1;
+    }
+    // Calculation: see lightmap.cpp
+    return LIGHT_RANGE((veh_luminance*3));
+}
+
 void game::calc_driving_offset(vehicle *veh) {
     if(veh == NULL || !(OPTIONS["DRIVING_VIEW_OFFSET"] == true)) {
         set_driving_view_offset(point(0, 0));
         return;
     }
+    const int g_light_level = (int) light_level();
+    const int light_sight_range = u.sight_range(g_light_level);
+    int sight = light_sight_range;
+    if(veh->lights_on) {
+        sight = std::max(veh_lumi(veh), sight);
+    }
+
     // velocity at or below this results in no offset at all
-    static const float min_offset_vel = 10*100;
+    static const float min_offset_vel = 10 * 100;
     // velocity at or above this results in maximal offset
-    static const float max_offset_vel = 70*100;
+    static const float max_offset_vel = 70 * 100;
     // The maximal offset will leave at least this many tiles
     // beetween the PC and the edge of the main window.
     static const int border_range = 2;
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
-    if (!veh->skidding && std::abs(veh->cruise_velocity - veh->velocity) < 14*100 && veh->player_in_control(&u)) {
+    if (!veh->skidding && std::abs(veh->cruise_velocity - veh->velocity) < 14 * 100 &&
+        veh->player_in_control(&u)) {
         // Use the cruise controlled velocity, but only if
         // it is not too different from the actuall velocity.
         // The actuall velocity changes too often (see above slowdown).
@@ -740,15 +761,61 @@ void game::calc_driving_offset(vehicle *veh) {
     // offset.y are <= 1
     if(std::abs(offset.x) > std::abs(offset.y) && std::abs(offset.x) > 0.2) {
         offset.y /= std::abs(offset.x);
-        offset.x  = offset.x > 0 ? +1 : -1;
+        offset.x  = (offset.x > 0) ? +1 : -1;
     } else if(std::abs(offset.y) > 0.2) {
         offset.x /= std::abs(offset.y);
         offset.y  = offset.y > 0 ? +1 : -1;
     }
+    point max_offset((getmaxx(w_terrain) + 1) / 2 - border_range - 1,
+                     (getmaxy(w_terrain) + 1) / 2 - border_range - 1);
     offset.x *= rel_offset;
     offset.y *= rel_offset;
-    offset.x *= (getmaxx(w_terrain) + 1) / 2 - border_range - 1;
-    offset.y *= (getmaxy(w_terrain) + 1) / 2 - border_range - 1;
+    offset.x *= max_offset.x;
+    offset.y *= max_offset.y;
+    // [ ----@---- ] sight=6
+    // [ --@------ ] offset=2
+    // [ -@------# ] offset=3
+    // can see sights square in every direction, total visible area is
+    // (2*sight+1)x(2*sight+1), but the window is only
+    // getmaxx(w_terrain) x getmaxy(w_terrain)
+    // The area outside of the window is maxoff (sight-getmax/2).
+    // If that value is <= 0, the whole visible area fits the window.
+    // don't apply the view offset at all.
+    // If the offset is > maxoff, only apply at most maxoff, everything
+    // above leads to invisible area in front of the car.
+    // It will display (getmax/2+offset) squares in one direction and
+    // (getmax/2-offset) in the opposite direction (centered on the PC).
+    const point maxoff((sight * 2 + 1 - getmaxx(w_terrain)) / 2,
+                       (sight * 2 + 1 - getmaxy(w_terrain)) / 2);
+    if(maxoff.x <= 0) {
+        offset.x = 0;
+    } else if(offset.x > 0 && offset.x > maxoff.x) {
+        offset.x = maxoff.x;
+    } else if(offset.x < 0 && -offset.x > maxoff.x) {
+        offset.x = -maxoff.x;
+    }
+    if(maxoff.y <= 0) {
+        offset.y = 0;
+    } else if(offset.y > 0 && offset.y > maxoff.y) {
+        offset.y = maxoff.y;
+    } else if(offset.y < 0 && -offset.y > maxoff.y) {
+        offset.y = -maxoff.y;
+    }
+
+    // Turn the offset into a vector that increments the offset toward the desired position
+    // instead of setting it there instantly, should smooth out jerkiness.
+    const point offset_difference( offset.x - driving_view_offset.x,
+                                   offset.y - driving_view_offset.y );
+
+    const point offset_sign( (offset_difference.x < 0) ? -1 : 1,
+                             (offset_difference.y < 0) ? -1 : 1 );
+    // Shift the current offset in the direction of the calculated offset by one tile
+    // per draw event, but snap to calculated offset if we're close enough to avoid jitter.
+    offset.x = ( std::abs(offset_difference.x) > 1 ) ?
+        (driving_view_offset.x + offset_sign.x) : offset.x;
+    offset.y = ( std::abs(offset_difference.y) > 1 ) ?
+        (driving_view_offset.y + offset_sign.y) : offset.y;
+
     set_driving_view_offset(point(offset.x, offset.y));
 }
 

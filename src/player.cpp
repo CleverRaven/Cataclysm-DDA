@@ -585,6 +585,15 @@ void player::apply_persistent_morale()
         if(covered & mfb(bp_eyes)) {
             bonus += 2;
         }
+        if(covered & mfb(bp_arms)) {
+            bonus += 2;
+        }
+        if(covered & mfb(bp_mouth)) {
+            bonus += 2;
+        }
+
+        if(bonus > 20)
+            bonus = 20;
 
         if(bonus) {
             add_morale(MORALE_PERM_FANCY, bonus, bonus, 5, 5, true);
@@ -6932,25 +6941,24 @@ bool player::consume(int pos)
         } else if (which >= 0) {
             item& it = inv.find_item(pos);
             it.contents.erase(it.contents.begin());
+            const bool do_restack = inv.const_stack(pos).size() > 1;
             if (!is_npc()) {
+                bool drop_it = false;
                 if (OPTIONS["DROP_EMPTY"] == "no") {
-                    g->add_msg(_("%c - an empty %s"), it.invlet, it.tname().c_str());
-
+                    drop_it = false;
                 } else if (OPTIONS["DROP_EMPTY"] == "watertight") {
-                    if (it.is_container()) {
-                        if (!(it.has_flag("WATERTIGHT") && it.has_flag("SEALS"))) {
-                            g->add_msg(_("You drop the empty %s."), it.tname().c_str());
-                            g->m.add_item_or_charges(posx, posy, inv.remove_item(it.invlet));
-                        } else {
-                            g->add_msg(_("%c - an empty %s"), it.invlet,it.tname().c_str());
-                        }
-                    }
+                    drop_it = it.is_container() && !(it.has_flag("WATERTIGHT") && it.has_flag("SEALS"));
                 } else if (OPTIONS["DROP_EMPTY"] == "all") {
+                    drop_it = true;
+                }
+                if (drop_it) {
                     g->add_msg(_("You drop the empty %s."), it.tname().c_str());
-                    g->m.add_item_or_charges(posx, posy, inv.remove_item(it.invlet));
+                    g->m.add_item_or_charges(posx, posy, inv.remove_item(pos));
+                } else {
+                    g->add_msg(_("%c - an empty %s"), it.invlet, it.tname().c_str());
                 }
             }
-            if (inv.stack_by_letter(it.invlet).size() > 0) {
+            if (do_restack) {
                 inv.restack(this);
             }
             inv.unsort();
