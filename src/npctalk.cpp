@@ -1550,7 +1550,7 @@ int trial_chance(talk_response response, player *u, npc *p)
    if (u->has_trait("ELFAEYES"))
     chance += 10;
    if (u->has_bionic("bio_voice")) //come on, who would suspect a robot of lying?
-    chance += 20;
+    chance += 10;
    if (u->has_active_bionic("bio_face_mask"))
     chance += 10;
    break;
@@ -1591,6 +1591,8 @@ int trial_chance(talk_response response, player *u, npc *p)
     chance += 15;
    if (u->has_trait("ELFAEYES"))
     chance += 10;
+ //  if (p->has_trait("TERRIFYING")) // This apepars to do nothing, since NPCs don't seem to actually check for it.
+ //   chance -= 15;
    if (u->has_trait("GROWL"))
     chance += 15;
    if (u->has_trait("HISS"))
