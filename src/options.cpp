@@ -6,6 +6,7 @@
 #include "translations.h"
 #include "file_finder.h"
 #include "cursesdef.h"
+#include "globals.h"
 #ifdef SDLTILES
 #include "cata_tiles.h"
 #endif // SDLTILES
@@ -986,13 +987,14 @@ void show_options(bool ingame)
 void load_options()
 {
     std::ifstream fin;
-    fin.open("data/options.txt");
+    fin.open(FILENAMES["options"].c_str());
     if(!fin.is_open()) {
         fin.close();
         save_options();
-        fin.open("data/options.txt");
+        fin.open(FILENAMES["options"].c_str());
+        DebugLog() << "options=" << FILENAMES["options"].c_str() << "\n";
         if(!fin.is_open()) {
-            DebugLog() << "Could neither read nor create ./data/options.txt\n";
+            DebugLog() << "Could neither read nor create" << FILENAMES["options"].c_str() << "\n";
             return;
         }
     }
@@ -1038,7 +1040,7 @@ std::string options_header()
 void save_options(bool ingame)
 {
     std::ofstream fout;
-    fout.open("data/options.txt");
+    fout.open(FILENAMES["options"].c_str());
     if(!fout.is_open()) {
         return;
     }

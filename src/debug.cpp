@@ -1,4 +1,5 @@
 #include "debug.h"
+#include "globals.h"
 #include <time.h>
 #include <cstdlib>
 
@@ -121,7 +122,7 @@ static DebugFile debugFile;
 
 DebugFile::DebugFile()
 {
- file.open("data/debug.txt", std::ios::out | std::ios::app );
+ file.open(FILENAMES["debug"].c_str(), std::ios::out | std::ios::app );
  file << "\n\n-----------------------------------------\n";
  currentTime() << " : Starting log.";
 }

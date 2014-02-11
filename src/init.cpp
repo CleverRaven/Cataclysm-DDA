@@ -27,6 +27,7 @@
 #include "construction.h"
 #include "name.h"
 #include "ammo.h"
+#include "globals.h"
 
 #include <string>
 #include <vector>
@@ -35,7 +36,6 @@
 #include <locale> // for loading names
 
 #include "savegame.h"
-#include "file_finder.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -324,11 +324,11 @@ void init_names()
         loc_name = loc_name.substr(0, dotpos);
     }
     // test if a local version exists
-    std::string filename = "data/names/" + loc_name + ".json";
+    std::string filename = FILENAMES["datadir"] + "names/" + loc_name + ".json";
     std::ifstream fin(filename.c_str(), std::ifstream::in | std::ifstream::binary);
     if (!fin.good()) {
         // if not, use "en.json"
-        filename = "data/names/en.json";
+        filename = FILENAMES["datadir"] + "names/en.json";
     }
     fin.close();
 
@@ -337,7 +337,7 @@ void init_names()
 #else
 void init_names()
 {
-    load_names_from_file("data/names/en.json");
+    load_names_from_file(FILENAMES["datadir"] + "names/en.json");
 }
 #endif
 

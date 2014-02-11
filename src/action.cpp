@@ -1,6 +1,7 @@
 #include "action.h"
 #include "keypress.h"
 #include "output.h"
+#include "globals.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -19,16 +20,16 @@ void load_keyboard_settings()
 
     // Load the player's actual keymap
     std::ifstream fin;
-    fin.open("data/keymap.txt");
+    fin.open(FILENAMES["keymap"].c_str());
     if (!fin) { // It doesn't exist
         std::ofstream fout;
-        fout.open("data/keymap.txt");
+        fout.open(FILENAMES["keymap"].c_str());
         fout << default_keymap_txt();
         fout.close();
-        fin.open("data/keymap.txt");
+        fin.open(FILENAMES["keymap"].c_str());
     }
     if (!fin) { // Still can't open it--probably bad permissions
-        debugmsg("Can't open data/keymap.txt.  This may be a permissions issue.");
+        debugmsg(std::string("Can't open " + FILENAMES["keymap"] + " This may be a permissions issue.").c_str());
         keymap = default_keymap;
         return;
     } else {
@@ -63,7 +64,7 @@ void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap)
             action_id act = look_up_action(id);
             if (act == ACTION_NULL)
                 debugmsg("\
-Warning!  data/keymap.txt contains an unknown action, \"%s\"\n\
+Warning! data/keymap.txt contains an unknown action, \"%s\"\n\
 Fix data/keymap.txt at your next chance!", id.c_str());
             else {
                 while (!keymap_txt.eof()) {
@@ -92,7 +93,7 @@ Fix data/keymap.txt at your next chance!", ch, id.c_str());
 void save_keymap()
 {
     std::ofstream fout;
-    fout.open("data/keymap.txt");
+    fout.open(FILENAMES["keymap"].c_str());
     if (!fout) { // It doesn't exist
         debugmsg("Can't open data/keymap.txt.");
         fout.close();

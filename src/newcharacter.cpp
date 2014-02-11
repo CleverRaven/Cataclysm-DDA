@@ -10,6 +10,7 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "char_validity_check.h"
+#include "globals.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -42,6 +43,8 @@
 
 #define NEWCHAR_TAB_MAX 4 // The ID of the rightmost tab
 
+#define SHAREDMAPS
+
 void draw_tabs(WINDOW *w, std::string sTab);
 
 int set_stats(WINDOW *w, player *u, int &points);
@@ -71,7 +74,11 @@ bool player::create(character_type type, std::string tempname)
         switch (type) {
             case PLTYPE_NOW:
                 g->u.male = (rng(1, 100) > 50);
+                #ifndef SHAREDMAPS
                 g->u.pick_name();
+                #else
+                g->u.name = USERNAME;
+                #endif
             case PLTYPE_RANDOM: {
                 str_max = rng(6, 12);
                 dex_max = rng(6, 12);
@@ -212,7 +219,7 @@ bool player::create(character_type type, std::string tempname)
             case PLTYPE_TEMPLATE: {
                 std::ifstream fin;
                 std::stringstream filename;
-                filename << "data/" << tempname << ".template";
+                filename << FILENAMES["templatedir"] << tempname << ".template";
                 fin.open(filename.str().c_str());
                 if (!fin.is_open()) {
                     debugmsg("Couldn't open %s!", filename.str().c_str());
@@ -222,6 +229,9 @@ bool player::create(character_type type, std::string tempname)
                 getline(fin, data);
                 load_info(data);
                 points = 0;
+                #ifdef SHAREDMAPS
+                name = USERNAME; // Just make we use the correct username
+                #endif // SHAREDMAPS
             }
             break;
         }
@@ -467,13 +477,13 @@ bool player::create(character_type type, std::string tempname)
         tmp = item(itypes["inhaler"], 0);
         inv.push_back(tmp);
     }
-    
+
     // And cannibals start with a special cookbook.
     if (has_trait("CANNIBAL")) {
         tmp = item(itypes["cookbook_human"], 0);
         inv.push_back(tmp);
     }
-    
+
     // Albinoes have their umbrella handy.
     // Since they have to wield it, I don't think it breaks things
     // too badly to issue one.
@@ -913,7 +923,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 std::string cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
                 if (u->has_trait(cur_trait)) {
 					inc_type = -1;
-					
+
                     // If turning off the trait violates a profession condition,
                     // turn it back on.
                     if(u->prof->can_pick(u, 0) != "YES") {
@@ -948,7 +958,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
                     }
                 }
-				
+
 				//inc_type is either -1 or 1, so we can just multiply by it to invert
 				if(inc_type != 0) {
 					u->toggle_trait(cur_trait);
@@ -959,7 +969,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 						num_bad += traits[cur_trait].points * inc_type;
 					}
 				}
-				
+
                 break;
             }
             case '<':
@@ -1314,7 +1324,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     }
 
     draw_tabs(w, _("DESCRIPTION"));
-    
+
     WINDOW* w_name = newwin(2, 42, getbegy(w) + 6, getbegx(w) + 2);
     WINDOW* w_gender = newwin(2, 32, getbegy(w) + 6, getbegx(w) + 47);
     WINDOW* w_stats = newwin(6, 16, getbegy(w) + 10, getbegx(w) + 2);
@@ -1322,7 +1332,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     WINDOW* w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
     WINDOW* w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
     WINDOW* w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 21, getbegx(w) + 2);
-    
+
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
 
     const unsigned namebar_pos = 1 + utf8_width(_("Name:"));
@@ -1332,7 +1342,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
     long ch;
 
-    do {        
+    u->name = USERNAME;
+
+    do {
         if (redraw) {
             //Draw the line between editable and non-editable stuff.
             for (int i = 0; i < getmaxx(w); ++i) {
@@ -1362,7 +1374,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             mvwprintz(w_stats, 3, pos + 1, c_ltgray, "%2d", u->int_max);
             mvwprintz(w_stats, 4, pos + 1, c_ltgray, "%2d", u->per_max);
             wrefresh(w_stats);
-            
+
             mvwprintz(w_traits, 0, 0, COL_HEADER, _("Traits: "));
             std::set<std::string> current_traits = u->get_traits();
             if (current_traits.size() == 0) {
@@ -1376,7 +1388,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 }
             }
             wrefresh(w_traits);
-            
+
             mvwprintz(w_skills, 0, 0, COL_HEADER, _("Skills:"));
             std::vector<Skill*> skillslist;
 
@@ -1392,7 +1404,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                  i != sorted.end(); ++i) {
                 skillslist.push_back((*i).first);
             }
-            
+
             int line = 1;
             bool has_skills = false;
             profession::StartingSkillList list_skills=u->prof->skills();
@@ -1407,7 +1419,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                     }
                     ++i;
                 }
-                   
+
                 if (level > 0) {
                     mvwprintz(w_skills, line, 0, c_ltgray, "%s", ((*aSkill)->name() + ":").c_str());
                     mvwprintz(w_skills, line, 17, c_ltgray, "%-2d", (int)level);
@@ -1421,22 +1433,24 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 mvwprintz(w_skills, 0, utf8_width(_("Skills:")) + 1, c_ltgray, _("(Top 8)"));
             }
             wrefresh(w_skills);
-            
+
             mvwprintz(w_guide, 0, 0, c_green, _("Press > to finish character creation or < to go back and make revisions."));
             mvwprintz(w_guide, 1, 0, c_green, _("Press ! to save a template of this character."));
             wrefresh(w_guide);
-            
+
             redraw = false;
         }
-        
+
         //We draw this stuff every loop because this is user-editable
         mvwprintz(w_name, 0, 0, c_ltgray, _("Name:"));
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "_______________________________");
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "%s", u->name.c_str());
         wprintz(w_name, h_ltgray, "_");
+        #ifndef SHAREDMAPS // no random names when sharing maps
         mvwprintz(w_name, 1, 0, c_ltgray, _("Press ? to pick a random name."));
+        #endif // SHAREDMAPS
         wrefresh(w_name);
-        
+
         mvwprintz(w_gender, 0, 0, c_ltgray, _("Gender:"));
         mvwprintz(w_gender, 0, male_pos, (u->male ? c_ltred : c_ltgray), _("Male"));
         mvwprintz(w_gender, 0, female_pos, (u->male ? c_ltgray : c_ltred), _("Female"));
@@ -1507,8 +1521,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             redraw = true;
             wrefresh(w);
         } else if (ch == '?') {
+            #ifndef SHAREDMAPS // Don't allow random names. We don't need to check at the top as you won't be able to delete the name
             u->pick_name();
+            #endif // SHAREDMAPS
         } else if (ch == KEY_BACKSPACE || ch == 127) {
+            #ifndef SHAREDMAPS // Don't remove characters from name
             if (u->name.size() > 0) {
                 //erase utf8 character TODO: make a function
                 while(u->name.size() > 0 && ((unsigned char)u->name[u->name.size() - 1]) >= 128 &&
@@ -1517,10 +1534,13 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 }
                 u->name.erase(u->name.size() - 1);
             }
+            #endif // SHAREDMAPS
         } else if (ch == '\t') {
             u->male = !u->male;
         } else if (is_char_allowed(ch) && utf8_width(u->name.c_str()) < 30) {
+            #ifndef SHAREDMAPS // Don't add characters to name
             u->name.push_back(ch);
+            #endif // SHAREDMAPS
         } else if(ch == KEY_F(2)) {
             std::string tmp = get_input_string_from_file();
             int tmplen = utf8_width(tmp.c_str());
@@ -1530,11 +1550,13 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         }
         //experimental unicode input
         else if(ch > 127) {
+            #ifndef SHAREDMAPS // Don't add characters to name
             std::string tmp = utf32_to_utf8(ch);
             int tmplen = utf8_width(tmp.c_str());
             if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {
                 u->name.append(tmp);
             }
+            #endif // SHAREDMAPS
         }
     } while (true);
 }
@@ -1594,7 +1616,7 @@ void save_template(player *u)
         return;
     }
     std::stringstream playerfile;
-    playerfile << "data/" << name << ".template";
+    playerfile << FILENAMES["templatedir"] << name << ".template";
     std::ofstream fout;
     fout.open(playerfile.str().c_str());
     fout << u->save_info();

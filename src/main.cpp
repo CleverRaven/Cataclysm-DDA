@@ -16,6 +16,8 @@
 #include <sys/stat.h>
 #include <cstdlib>
 #include <signal.h>
+#include <map>
+#include "globals.h"
 #ifdef LOCALIZE
 #include <libintl.h>
 #endif
@@ -25,8 +27,14 @@
 #elif (defined OSX_SDL_LIBS)
 #include "SDL/SDL.h"
 #endif
+#ifdef __linux__
+#include <unistd.h>
+#endif // __linux__
 
 void exit_handler(int s);
+
+std::map<std::string,std::string> FILENAMES; // create map where we will store the FILENAMES
+std::string USERNAME;
 
 #ifdef USE_WINMAIN
 int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -51,7 +59,13 @@ int main(int argc, char *argv[])
     textdomain("cataclysm-dda");
 #endif
 
-    //args: world seeding only.
+#ifdef __linux__
+char username[21];
+getlogin_r(username, 21);
+USERNAME = std::string(username);
+#endif // __linux__
+
+    //args
     argc--;
     argv++;
     while (argc) {
@@ -69,11 +83,107 @@ int main(int argc, char *argv[])
         } else if(std::string(argv[0]) == "--check-mods") {
             argc--;
             check_all_mods = true;
+        } else if(std::string(argv[0]) == "--username") {
+            argc--;
+            argv++;
+            if(argc) {
+                USERNAME = std::string(argv[0]);
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--basepath") {
+            argc--;
+            argv++;
+            if(argc) {
+                FILENAMES["base_path"] = std::string(argv[0]);
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--datadir") {
+            argc--;
+            argv++;
+            if(argc) {
+                FILENAMES["datadir"] = std::string(argv[0]);
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--savedir") {
+            argc--;
+            argv++;
+            if(argc) {
+                FILENAMES["savedir"] = std::string(argv[0]);
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--optionfile") {
+            argc--;
+            argv++;
+            if(argc) {
+                FILENAMES["optionfile"] = std::string(argv[0]);
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--keymapfile") {
+            argc--;
+            argv++;
+            if(argc) {
+                FILENAMES["keymapfile"] = std::string(argv[0]);
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--autopickupfile") {
+            argc--;
+            argv++;
+            if(argc) {
+                FILENAMES["autopickupfile"] = std::string(argv[0]);
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--motdfile") {
+            argc--;
+            argv++;
+            if(argc) {
+                FILENAMES["motdfile"] = std::string(argv[0]);
+                argc--;
+                argv++;
+            }
         } else { // ignore unknown args.
             argc--;
+            argv++;
         }
-        argv++;
     }
+
+    // setting some standards
+
+    #ifdef __linux__
+    FILENAMES.insert(std::pair<std::string,std::string>("base_path", "/home/" + USERNAME + "/.cataclysm-dda/"));
+    #endif // __linux__
+
+    FILENAMES.insert(std::pair<std::string,std::string>("base_path", ""));
+
+    FILENAMES.insert(std::pair<std::string,std::string>("datadir", FILENAMES["base_path"] + "data/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("savedir", FILENAMES["base_path"] + "save/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("memorialdir", FILENAMES["base_path"] + "memorial/"));
+
+    FILENAMES.insert(std::pair<std::string,std::string>("fontdir", FILENAMES["datadir"] + "font/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("rawdir", FILENAMES["datadir"] + "raw/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("jsondir", FILENAMES["datadir"] + "json/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("moddir", FILENAMES["datadir"] + "mods/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("templatedir", FILENAMES["datadir"]));
+
+    FILENAMES.insert(std::pair<std::string,std::string>("options", FILENAMES.find("datadir")->second + "options.txt"));
+    FILENAMES.insert(std::pair<std::string,std::string>("keymap", FILENAMES.find("datadir")->second + "keymap.txt"));
+    FILENAMES.insert(std::pair<std::string,std::string>("autopickup", FILENAMES.find("datadir")->second + "auto_pickup.txt"));
+    FILENAMES.insert(std::pair<std::string,std::string>("motd", FILENAMES.find("datadir")->second + "motd"));
+    FILENAMES.insert(std::pair<std::string,std::string>("credits", FILENAMES["datadir"] + "credits"));
+    FILENAMES.insert(std::pair<std::string,std::string>("fontlist", FILENAMES["datadir"] + "fontlist.txt"));
+    FILENAMES.insert(std::pair<std::string,std::string>("fontdata", FILENAMES["datadir"] + "FONTDATA"));
+    FILENAMES.insert(std::pair<std::string,std::string>("debug", FILENAMES["datadir"] + "debug.txt"));
+
+    FILENAMES.insert(std::pair<std::string,std::string>("modsearchpath", FILENAMES["datadir"]));
+    FILENAMES.insert(std::pair<std::string,std::string>("modsearchfile", FILENAMES["modinfo.json"]));
+    FILENAMES.insert(std::pair<std::string,std::string>("moddevdefaultpath", FILENAMES["moddir"] + "dev-default-mods.json"));
+    FILENAMES.insert(std::pair<std::string,std::string>("moduserdefaultpath", FILENAMES["moddir"] + "user-defaults-mods.json"));
 
     // ncurses stuff
     initOptions();

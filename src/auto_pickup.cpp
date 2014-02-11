@@ -6,6 +6,7 @@
 #include "item_factory.h"
 #include "catacharset.h"
 #include "translations.h"
+#include "globals.h"
 
 #include <stdlib.h>
 #include <fstream>
@@ -419,7 +420,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
 void load_auto_pickup(bool bCharacter)
 {
     std::ifstream fin;
-    std::string sFile = "data/auto_pickup.txt";
+    std::string sFile = FILENAMES["autopickup"];
 
     if (bCharacter) {
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
@@ -625,7 +626,7 @@ std::string auto_pickup_header(bool bCharacter)
 void save_auto_pickup(bool bCharacter)
 {
     std::ofstream fout;
-    std::string sFile = "data/auto_pickup.txt";
+    std::string sFile = FILENAMES["autopickup"];
 
     if (bCharacter) {
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
@@ -661,7 +662,7 @@ void save_auto_pickup(bool bCharacter)
 void create_default_auto_pickup(bool bCharacter)
 {
     std::ofstream fout;
-    std::string sFile = "data/auto_pickup.txt";
+    std::string sFile = FILENAMES["autopickup"];
 
     if (bCharacter) {
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";

@@ -50,10 +50,10 @@
 				<Linker>
 					<Add library="libSDL.dll" />
 					<Add library="SDL_ttf" />
-					<Add library="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86\SDL_ttf.lib" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
-					<Add library="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86\SDL_image.lib" />
+					<Add library="WinDepend/SDLttf/SDL_ttf-2.0.11/lib/x86/SDL_ttf.lib" />
+					<Add library="WinDepend/SDL-1.2.15/lib/libSDL.dll.a" />
+					<Add library="WinDepend/SDL-1.2.15/lib/libSDLmain.a" />
+					<Add library="WinDepend/SDLImg_binVC/SDL_image-1.2.12/lib/x86/SDL_image.lib" />
 					<Add directory="WinDepend/SDL-1.2.15/lib" />
 					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/lib/x86" />
 					<Add directory="WinDepend/libiconv/lib" />
@@ -79,10 +79,10 @@
 				<Linker>
 					<Add library="intl" />
 					<Add library="iconv" />
-					<Add library="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86\SDL_ttf.lib" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
-					<Add library="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86\SDL_image.lib" />
+					<Add library="WinDepend/SDLttf/SDL_ttf-2.0.11/lib/x86/SDL_ttf.lib" />
+					<Add library="WinDepend/SDL-1.2.15/lib/libSDL.dll.a" />
+					<Add library="WinDepend/SDL-1.2.15/lib/libSDLmain.a" />
+					<Add library="WinDepend/SDLImg_binVC/SDL_image-1.2.12/lib/x86/SDL_image.lib" />
 					<Add directory="WinDepend/SDL-1.2.15/lib" />
 					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/lib/x86" />
 					<Add directory="WinDepend/libiconv/lib" />
@@ -133,10 +133,10 @@
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add library="3rdparty\lib\libSDL.dll.a" />
-					<Add library="3rdparty\lib\libSDLmain.a" />
-					<Add library="3rdparty\lib\x86\SDL_image.lib" />
-					<Add library="3rdparty\lib\x86\SDL_ttf.lib" />
+					<Add library="3rdparty/lib/libSDL.dll.a" />
+					<Add library="3rdparty/lib/libSDLmain.a" />
+					<Add library="3rdparty/lib/x86/SDL_image.lib" />
+					<Add library="3rdparty/lib/x86/SDL_ttf.lib" />
 					<Add directory="3rdparty/lib" />
 					<Add directory="3rdparty/lib/x86" />
 				</Linker>
@@ -157,10 +157,10 @@
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add library="3rdparty\lib\libSDL.dll.a" />
-					<Add library="3rdparty\lib\libSDLmain.a" />
-					<Add library="3rdparty\lib\x86\SDL_image.lib" />
-					<Add library="3rdparty\lib\x86\SDL_ttf.lib" />
+					<Add library="3rdparty/lib/libSDL.dll.a" />
+					<Add library="3rdparty/lib/libSDLmain.a" />
+					<Add library="3rdparty/lib/x86/SDL_image.lib" />
+					<Add library="3rdparty/lib/x86/SDL_ttf.lib" />
 					<Add directory="3rdparty/lib" />
 					<Add directory="3rdparty/lib/x86" />
 				</Linker>
@@ -251,6 +251,7 @@
 		<Unit filename="src/file_finder.h" />
 		<Unit filename="src/file_wrapper.cpp" />
 		<Unit filename="src/file_wrapper.h" />
+		<Unit filename="src/filenames.h" />
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/game.h" />
 		<Unit filename="src/gamemode.cpp" />

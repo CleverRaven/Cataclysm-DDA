@@ -12,6 +12,7 @@
 #include "options.h"
 #include "worldfactory.h"
 #include "file_wrapper.h"
+#include "globals.h"
 
 #include <sys/stat.h>
 #ifdef _MSC_VER
@@ -20,6 +21,8 @@
 #else
 #include <dirent.h>
 #endif
+
+#define SHAREDMAPS
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 extern worldfactory *world_generator;
@@ -157,7 +160,9 @@ bool game::opening_screen()
     vSubItems.push_back(pgettext("Main Menu|New Game", "<C>ustom Character"));
     vSubItems.push_back(pgettext("Main Menu|New Game", "<P>reset Character"));
     vSubItems.push_back(pgettext("Main Menu|New Game", "<R>andom Character"));
+    #ifndef SHAREDMAPS
     vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N>ow!"));
+    #endif
 
     std::vector<std::string> vWorldSubItems;
     vWorldSubItems.push_back(pgettext("Main Menu|World", "<C>reate World"));
@@ -170,12 +175,12 @@ bool game::opening_screen()
     dirent *dp;
     DIR *dir;
 
-    if (!assure_dir_exist("save")) {
+    if (!assure_dir_exist(FILENAMES["savedir"])) {
         popup(_("Unable to make save directory. Check permissions."));
         return false;
     }
 
-    dir = opendir("data");
+    dir = opendir(FILENAMES["templatedir"].c_str());
     while ((dp = readdir(dir))) {
         std::string tmp = dp->d_name;
         if (tmp.find(".template") != std::string::npos) {
@@ -194,7 +199,7 @@ bool game::opening_screen()
     static std::vector<std::string> motd;
     if (motd.empty()) {
         std::ifstream motd_file;
-        motd_file.open("data/motd");
+        motd_file.open(FILENAMES["motd"].c_str());
         if (!motd_file.is_open()) {
             motd.push_back(_("No message today."));
         } else {
@@ -213,7 +218,7 @@ bool game::opening_screen()
     static std::vector<std::string> credits;
     if (credits.empty()) {
         std::ifstream credits_file;
-        credits_file.open("data/credits");
+        credits_file.open(FILENAMES["credits"].c_str());
         if (!credits_file.is_open()) {
             credits.push_back(_("No message today."));
         } else {
@@ -319,6 +324,13 @@ bool game::opening_screen()
             }
         } else if (layer == 2) {
             if (sel1 == 1) { // New Character
+                #ifdef SHAREDMAPS //don't show anything when there are no worlds (will not work if there are special maps)
+                if (world_generator->all_worlds.empty()) {
+                    layer = 1;
+                    sel1 = 1;
+                    continue;
+                }
+                #endif // SHAREDMAPS
                 print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY - 2, iMenuOffsetX);
                 wrefresh(w_open);
                 refresh();
@@ -428,6 +440,14 @@ bool game::opening_screen()
 
                 // only show reset / destroy world if there is at least one valid world existing!
 
+                #ifdef SHAREDMAPS
+                if(USERNAME != "admin") {
+                layer = 1;
+                popup(_("Only the admin can change maps."));
+                continue;
+                }
+                #endif // SHAREDMAPS
+
                 int world_subs_to_display = (world_generator->all_worldnames.size() > 0)? vWorldSubItems.size(): 1;
                 std::vector<std::string> world_subs;
                 int xoffset = 25 + iMenuOffsetX + extra_w / 2;
@@ -489,6 +509,12 @@ bool game::opening_screen()
                     }
                 }
             } else if (sel1 == 4) { // Special game
+                #ifdef SHAREDMAPS // Thee can't save special games, therefore thee can't share them
+                layer = 1;
+                popup(_("Special games don't work with shared maps."));
+                continue;
+                #endif // SHAREDMAPS
+
                 std::vector<std::string> special_names;
                 int xoffset = 32 + iMenuOffsetX  + extra_w / 2;
                 int yoffset = iMenuOffsetY - 2;
@@ -551,7 +577,7 @@ bool game::opening_screen()
                         int line = iMenuOffsetY - 2 - i;
                         mvwprintz(w_open, line, 19 + 19 + iMenuOffsetX + extra_w / 2,
                                   (sel3 == i ? h_white : c_white),
-                                  base64_decode(savegames[i]).c_str());
+                                  base64_decode(savegames[i]).c_str()); //sancgdncaugoed
                     }
                 }
                 wrefresh(w_open);

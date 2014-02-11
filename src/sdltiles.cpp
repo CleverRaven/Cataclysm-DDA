@@ -12,7 +12,7 @@
 #include "cata_tiles.h"
 #include "get_version.h"
 #include "init.h"
-//
+#include "globals.h"
 
 #ifdef _MSC_VER
 #include "wdirent.h"
@@ -846,10 +846,10 @@ static void font_folder_list(std::ofstream& fout, std::string path)
 
 static void save_font_list()
 {
-    std::ofstream fout("data/fontlist.txt", std::ios_base::trunc);
+    std::ofstream fout(FILENAMES["fontlist"].c_str(), std::ios_base::trunc);
 
-    font_folder_list(fout, "data");
-    font_folder_list(fout, "data/font");
+    font_folder_list(fout, FILENAMES["datadir"]);
+    font_folder_list(fout, FILENAMES["fontdir"]);
 
 #if (defined _WIN32 || defined WINDOWS)
     char buf[256];
@@ -884,14 +884,14 @@ static void save_font_list()
 static std::string find_system_font(std::string name, int& faceIndex)
 {
     struct stat stat_buf;
-    int rc = stat("data/fontlist.txt", &stat_buf);
+    int rc = stat(FILENAMES["fontlist"], &stat_buf);
     if( rc == 0 ? stat_buf.st_size == 0 : true) {
       DebugLog() << "Generating fontlist\n";
       save_font_list();
     }
 
 
-    std::ifstream fin("data/fontlist.txt");
+    std::ifstream fin(FILENAMES["fontlist"]);
     if (fin) {
         std::string fname;
         std::string fpath;
@@ -971,12 +971,12 @@ WINDOW *curses_init(void)
     std::ifstream fin;
     int faceIndex = 0;
     int fontsize = 0; //actuall size
-    fin.open("data/FONTDATA");
+    fin.open(FILENAMES["fontdata"].c_str());
     if (!fin.is_open()){
         fontwidth = 8;
         fontheight = 16;
-        std::ofstream fout;//create data/FONDATA file
-        fout.open("data/FONTDATA");
+        std::ofstream fout;//create FONDATA file
+        fout.open(FILENAMES["fontdata"].c_str());
         if(fout.is_open()) {
             fout << typeface << "\n";
             fout << fontwidth << "\n";
@@ -1025,7 +1025,7 @@ WINDOW *curses_init(void)
     while(!strcasecmp(typeface.substr(typeface.length()-4).c_str(),".bmp") ||
           !strcasecmp(typeface.substr(typeface.length()-4).c_str(),".png")) {
         SDL_Surface *asciiload;
-        typeface = "data/font/" + typeface;
+        typeface = FILENAMES["fontdir"] + typeface;
         asciiload = IMG_Load(typeface.c_str());
         if(!asciiload || asciiload->w*asciiload->h < (fontwidth * fontheight * 256)) {
             SDL_FreeSurface(asciiload);
@@ -1065,13 +1065,13 @@ WINDOW *curses_init(void)
     //make fontdata compatible with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
-        typeface = "data/font/" + typeface + ".ttf";
+        typeface = FILENAMES["fontdir"] + typeface + ".ttf";
     }
 
     //different default font with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
-        typeface = "data/font/fixedsys.ttf";
+        typeface = FILENAMES["fontdir"] + "fixedsys.ttf";
     }
 
     if(fontsize <= 0) fontsize = fontheight - 1;
@@ -1164,7 +1164,7 @@ int curses_start_color(void)
 {
     colorpairs = new pairs[100];
     //Load the console colors from colors.json
-    std::ifstream colorfile("data/raw/colors.json", std::ifstream::in | std::ifstream::binary);
+    std::ifstream colorfile(FILENAMES["rawdir"] + "colors.json", std::ifstream::in | std::ifstream::binary);
     try{
         JsonIn jsin(colorfile);
         char ch;
@@ -1197,7 +1197,7 @@ int curses_start_color(void)
         }
     }
     catch(std::string e){
-        throw "data/raw/colors.json: " + e;
+        throw FILENAMES["rawdir"] + "colors.json: " + e;
     }
     if(consolecolors.empty())return 0;
     windowsPalette[0]  = BGR(ccolor("BLACK"));

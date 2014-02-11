@@ -33,6 +33,7 @@
 #include "worldfactory.h"
 #include "file_finder.h"
 #include "mod_manager.h"
+#include "globals.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -198,8 +199,7 @@ void game::load_core_data() {
     // adds the new item types to both (its internal map and
     // the global itypes).
 
-#define CORE_JSON_DATA_DIR "data/json"
-    load_data_from_dir(CORE_JSON_DATA_DIR);
+    load_data_from_dir(FILENAMES["jsondir"]);
 }
 
 void game::load_data_from_dir(const std::string &path) {
@@ -3243,7 +3243,7 @@ void game::death_screen()
     TCHAR Buffer[MAX_PATH];
 
     GetCurrentDirectory(MAX_PATH, Buffer);
-    SetCurrentDirectory("save");
+    SetCurrentDirectory(FILENAMES["savedir"].c_str());
     std::stringstream playerfile;
     playerfile << base64_encode(u.name) << "*";
     hFind = FindFirstFile(playerfile.str().c_str(), &FindFileData);
@@ -3255,9 +3255,9 @@ void game::death_screen()
     }
     SetCurrentDirectory(Buffer);
 #else
-    DIR *save_dir = opendir("save");
+    DIR *save_dir = opendir(FILENAMES["savedir"].c_str());
     struct dirent *save_dirent = NULL;
-    if(save_dir != NULL && 0 == chdir("save"))
+    if(save_dir != NULL && 0 == chdir(FILENAMES["savedir"].c_str()))
     {
         while ((save_dirent = readdir(save_dir)) != NULL)
         {
