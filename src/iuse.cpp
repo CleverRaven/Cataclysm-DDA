@@ -6078,13 +6078,23 @@ int iuse::knife(player *p, item *it, bool t)
     }
 
     if (action == "carve") {
-        g->add_msg(ngettext("You carve the %1$s into %2$i %3$s.",
+        if(count > 0) {
+            g->add_msg(ngettext("You carve the %1$s into %2$i %3$s.",
                             "You carve the %1$s into %2$i %3$ss.", count),
                    cut->tname().c_str(), count, result->tname().c_str());
+        } else {
+            g->add_msg("You clumsily carve the %s into useless pieces.",
+                       cut->tname().c_str());
+        }
     } else {
-        g->add_msg(ngettext("You cut the %1$s into %2$i %3$s.",
+        if(count > 0){
+            g->add_msg(ngettext("You cut the %1$s into %2$i %3$s.",
                             "You cut the %1$s into %2$i %3$ss.", count),
                    cut->tname().c_str(), count, result->tname().c_str());
+        } else {
+            g->add_msg("You clumsily cut the %s into useless pieces.",
+                       cut->tname().c_str());
+        }
     }
 
     // otherwise layout the goodies.
