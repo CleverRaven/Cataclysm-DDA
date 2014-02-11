@@ -25,9 +25,6 @@
 #define MOD_DEV_DEFAULT_PATH "data/mods/dev-default-mods.json"
 #define MOD_USER_DEFAULT_PATH "data/mods/user-default-mods.json"
 
-// TODO: move this declaration into a header, but which?
-extern bool file_exist(const std::string &path);
-
 mod_manager::mod_manager()
 {
 }
@@ -401,9 +398,4 @@ void mod_manager::load_mods_list(WORLDPTR world) const
 const mod_manager::t_mod_list &mod_manager::get_default_mods() const
 {
     return default_mods;
-}
-
-bool file_exist(const std::string &path) {
-    struct stat buffer;
-    return ( stat( path.c_str(), &buffer ) == 0 );
 }
