@@ -1245,6 +1245,9 @@ void player::recalc_speed_bonus()
     if (has_trait("QUICK")) { // multiply by 1.1
         set_speed_bonus(get_speed() * 1.10 - get_speed_base());
     }
+    if (has_bionic("bio_speed")) { // multiply by 1.1
+        set_speed_bonus(get_speed() * 1.10 - get_speed_base());
+    }
 
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = -0.75 * get_speed_base();
@@ -2352,6 +2355,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
  if (has_trait("QUICK")) {
   pen = int(newmoves * .1);
   mvwprintz(w_speed, line, 1, c_green, _("Quick               +%s%d%%"),
+            (pen < 10 ? " " : ""), pen);
+ }
+ if (has_bionic("bio_speed")) {
+  pen = int(newmoves * .1);
+  mvwprintz(w_speed, line, 1, c_green, _("Bionic Speed        +%s%d%%"),
             (pen < 10 ? " " : ""), pen);
  }
  int runcost = run_cost(100);

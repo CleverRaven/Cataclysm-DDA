@@ -648,6 +648,23 @@
     {
         "type": "BIONIC_ITEM",
         "category": "bionics",
+        "id": "bio_speed",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "CBM: Synaptic Accelerator",
+        "description": "Your nervous system has been enhanced with bionic stimulators, giving you a 10% boost to your speed.",
+        "price": 10000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 0,
+        "difficulty": 12
+    },
+    {
+        "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_laser",
         "symbol": ":",
         "color": "yellow",

@@ -4761,6 +4761,7 @@
       ["bio_adrenaline", 10],
       ["bio_watch", 10],
       ["bio_leukocyte", 10],
+      ["bio_speed", 5],
       ["bio_power_armor_interface_mkII", 5]
     ]
   },{
@@ -5125,6 +5126,7 @@
       ["bio_probability_travel", 10],
       ["bio_power_armor_interface", 10],
       ["bio_blade", 2],
+      ["bio_speed", 2],
       ["bio_adrenaline", 10],
       ["bio_watch", 10],
       ["bio_power_armor_interface_mkII", 5]
@@ -6233,6 +6235,8 @@
       ["optical_cloak", 2],
       ["antifungal", 1],
       ["antiparasitic", 2],
+      ["bio_speed", 1],
+      ["bio_blade", 1],
       ["bot_laserturret", 2]
     ]
   },{

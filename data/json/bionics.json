@@ -85,6 +85,11 @@
     "description":    "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence."
     },{
         "type" : "bionic",
+        "id" : "bio_speed",
+    "name"       :    "Synaptic Accelerator",
+    "description":    "Your nervous system has been enhanced with bionic stimulators, giving you a 10% boost to your speed."
+    },{
+        "type" : "bionic",
         "id" : "bio_watch",
     "name"       :    "Internal Chronometer",
     "description":    "You have been equipped with an internal atomic clock, ensuring that you will always know the current time."

@@ -98,6 +98,10 @@
     },{
         "type" : "snippet",
         "category" : "flier",
+        "text" : "This is an advertisement for the Rivtech brand Synaptic Accelerator CBM. It shows a picture of a stylized, soaring raven against a red background. The caption reads:  \"Introducing the Rivtech Model Six myelination retrovirus system. The latest in synthetic high-performance glycoprotein deposition technology.\" and \"Rivtech Bionics, guaranteed for life.\""
+    },{
+        "type" : "snippet",
+        "category" : "flier",
         "text" : "This is an advertisement for Rivtech brand ammunition. It shows a picture of an armored steel plate with a gaping hole blasted through the middle. Sitting beside the plate is a block of brightly colored caseless ammunition. The caption reads:  \"Rivtech 8x40mm caseless. Nothing else comes close.\""
     }
 ]
