@@ -155,7 +155,16 @@ bool WinCreate()
 
     char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
     SDL_putenv(center_string);
-    screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
+
+    //Flags used for setting up SDL VideoMode
+    int screen_flags = SDL_SWSURFACE | SDL_DOUBLEBUF;
+
+    //If FULLSCREEN was selected in options add SDL_FULLSCREEN flag to screen_flags, causing screen to go fullscreen.
+    if(OPTIONS["FULLSCREEN"]) {
+        screen_flags = screen_flags | SDL_FULLSCREEN;
+    }
+
+    screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, screen_flags);
     //SDL_SetColors(screen,windowsPalette,0,256);
 
     if (screen == NULL) return false;
