@@ -559,7 +559,7 @@
         "id" : "bio_nostril",
     "name"       :    "Bionic Nostril",
     "faulty"     :    true,
-    "description":    "While you're really not sure how the CBM ended up in your nose, this badly misplaced bionic makes it harder to breathe.  Increases mouth encumbrance by one."
+    "description":    "You're really not sure how the CBM ended up in your nose, but no matter how it got there, this badly misplaced bionic makes it harder to breathe.  Increases mouth encumbrance by one."
     },{
         "type" : "bionic",
         "id" : "bio_thumbs",

@@ -274,6 +274,10 @@
             {
                 "level": 1,
                 "name": "swimming"
+            },
+            {
+                "level": 1,
+                "name": "survival"
             }
         ],
         "items": {
@@ -1035,6 +1039,58 @@
         }
     },
     {
+        "type": "profession",
+        "ident": "bio_soldier",
+        "name": "Bionic Soldier",
+        "description": "You are the result of one of the military's latest and final research programs, a prototype cyborg soldier. You're still alive thanks to your augmentations, even after all your comrades fell to the undead. As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+        "points": 5,
+        "CBMs":[
+            "bio_targeting",
+            "bio_purifier",
+            "bio_carbon",
+            "bio_geiger",
+            "bio_night_vision",
+            "bio_torsionratchet",
+            "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "rifle"
+            },
+            {
+                "level": 1,
+                "name": "pistol"
+            },
+            {
+                "level": 1,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "pants_army",
+                "socks",
+                "jacket_army",
+                "boots_combat",
+                "rm51_assault_rifle",
+                "8mm_fmj",
+                "8mm_fmj"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
         "type" : "profession",
         "ident": "bionic_spy",
         "name": "Bionic Agent",
@@ -1065,7 +1121,7 @@
         "type" : "profession",
         "ident": "bionic_hitman",
         "name": "Bionic Assassin",
-        "description": "A product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently eliminating your target while maintaining an innocuous appearance.",
+        "description": "The product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently eliminating your target while maintaining an innocuous appearance.",
         "points": 5,
         "CBMs":[
             "bio_blade",
@@ -1110,7 +1166,7 @@
     {
         "type" : "profession",
         "ident": "faulty_bionic",
-        "name": "Failed Android",
+        "name": "Failed Cyborg",
         "description": "Your body is a wreck of bionic parts. You have a large capacity for power, but are filled with broken bionics. At least your ethanol power supply still works.",
         "points": -2,
         "CBMs":[
@@ -1135,6 +1191,39 @@
             "female": [
                 "bra",
                 "panties"
+            ]
+        }
+    },
+    {
+        "type" : "profession",
+        "ident": "bionic_customer",
+        "name": "Commercial Cyborg",
+        "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone? Only time will tell if your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
+        "points": 5,
+        "CBMs":[
+            "bio_tools",
+            "bio_flashlight",
+            "bio_storage",
+            "bio_watch",
+            "bio_recycler",
+            "bio_batteries",
+            "bio_power_storage_mkII"
+        ],
+        "items": {
+            "both": [
+                "sneakers",
+                "tshirt"
+            ],
+            "male": [
+                "briefs",
+                "socks",
+                "pants"
+            ],
+            "female": [
+                "bra",
+                "panties",
+                "stockings",
+                "skirt"
             ]
         }
     },
@@ -1645,7 +1734,7 @@
         "ident": "cyberjunkie",
         "name": "Cyberjunkie",
         "description": "Long ago your lifelong infatuation with bionic enhancement lead you into a shady world of back-alley bionic clinics and self-installed secondhand CBMs. The world has moved on but your posthuman hunger still cries out to be fed; where will you get your bionic fix now?",
-        "points": -1,
+        "points": 0,
         "CBMs":[
             "bio_itchy",
             "bio_shakes",
@@ -1655,8 +1744,8 @@
             "bio_spasm",
             "bio_furnace",
             "bio_power_storage_mkII",
-            "bio_climate",
-            "bio_flashlight"
+            "bio_painkiller",
+            "bio_climate"
         ],
         "skills": [
             {
@@ -1693,8 +1782,8 @@
     {
         "type": "profession",
         "ident": "cykotic",
-        "name": "Cykotic",
-        "description": "Many years ago you were completely overtaken by your cyberaddiction, leaving you a deformed posthuman monster with no place in society. But now, where once you were forced to hide in the shadows, you find in this new desolation a world where even a creature such as yourself might thrive and maybe even find its niche.",
+        "name": "Bionic Monster",
+        "description": "Completely overtaken by bionic-induced psychosis, you are a deformed posthuman monster who had no place in society. But now, where once you were forced to hide in the shadows, you find in this new desolation a world where even a creature such as yourself might find its niche.",
         "points": 0,
         "CBMs":[
             "bio_deformity",
@@ -1705,7 +1794,7 @@
             "bio_noise",
             "bio_metabolics",
             "bio_power_storage_mkII",
-            "bio_painkiller",
+            "bio_scent_vision",
             "bio_claws",
             "bio_digestion"
         ],
