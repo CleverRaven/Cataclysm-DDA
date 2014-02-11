@@ -1063,6 +1063,52 @@
     },
     {
         "type" : "profession",
+        "ident": "bionic_hitman",
+        "name": "Bionic Assassin",
+        "description": "A product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently eliminating your target while maintaining an innocuous appearance.",
+        "points": 5,
+        "CBMs":[
+            "bio_blade",
+            "bio_shock",
+            "bio_face_mask",
+            "bio_torsionratchet",
+            "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "unarmed"
+            },
+            {
+                "level": 2,
+                "name": "speech"
+            }
+        ],
+        "items": {
+            "both": [
+                "dress_shoes",
+                "dress_shirt"
+            ],
+            "male": [
+                "briefs",
+                "socks",
+                "pants",
+                "wristwatch"
+            ],
+            "female": [
+                "bra",
+                "panties",
+                "stockings",
+                "skirt"
+            ]
+        }
+    },
+    {
+        "type" : "profession",
         "ident": "faulty_bionic",
         "name": "Failed Android",
         "description": "Your body is a wreck of bionic parts. You have a large capacity for power, but are filled with broken bionics. At least your ethanol power supply still works.",
@@ -1558,7 +1604,8 @@
             "bio_armor_eyes",
             "bio_sunglasses",
             "bio_dex_enhancer",
-            "bio_carbon"
+            "bio_carbon",
+            "bio_watch"
         ],
         "skills": [
             {
