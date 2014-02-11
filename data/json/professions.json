@@ -1556,6 +1556,7 @@
         "CBMs":[
             "bio_razors",
             "bio_armor_eyes",
+            "bio_sunglasses",
             "bio_dex_enhancer",
             "bio_carbon"
         ],
@@ -1607,7 +1608,7 @@
             "bio_ethanol",
             "bio_power_storage_mkII",
             "bio_climate",
-            "bio_painkiller"
+            "bio_flashlight"
         ],
         "skills": [
             {
@@ -1645,49 +1646,43 @@
         "type": "profession",
         "ident": "cykotic",
         "name": "Cykotic",
-        "description": "Long since overcome by your cyberaddiction, you are a deformed posthuman monster. Where once you were forced to hide in the shadows, you find in this new violent desolation a world where even a creature such as yourself might thrive and perhaps even find its niche.",
-        "points": -1,
+        "description": "Many years ago you were completely overtaken by your cyberaddiction, leaving you a deformed posthuman monster with no place in society. But now, where once you were forced to hide in the shadows, you find in this new desolation a world where even a creature such as yourself might thrive and maybe even find its niche.",
+        "points": 0,
         "CBMs":[
-            "bio_itchy",
-            "bio_shakes",
+            "bio_deformity",
+            "bio_voice",
+            "bio_thumbs",
             "bio_leaky",
-            "bio_sleepy",
             "bio_trip",
-            "bio_spasm",
-            "bio_ethanol",
+            "bio_noise",
+            "bio_furnace",
             "bio_power_storage_mkII",
-            "bio_climate",
-            "bio_painkiller"
+            "bio_painkiller",
+            "bio_claws",
+            "bio_digestion"
         ],
         "skills": [
             {
                 "level": 1,
-                "name": "electronics"
+                "name": "melee"
             },
             {
                 "level": 1,
-                "name": "firstaid"
+                "name": "unarmed"
             },
             {
                 "level": 1,
-                "name": "mechanics"
+                "name": "survival"
             }
         ],
         "items": {
             "both": [
                 "tank_top",
-                "shorts",
-                "lowtops",
-                "aspirin",
-                "cig",
-                "lighter"
-            ],
-            "male": [
-                "briefs"
-            ],
-            "female": [
-                "camisole",
-                "panties"
+                "shorts_cargo",
+                "footrags",
+                "gloves_wraps",
+                "hat_cotton",
+                "hat_noise_cancelling"
             ]
         }
     },

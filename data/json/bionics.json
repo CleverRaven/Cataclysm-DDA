@@ -596,6 +596,18 @@
     "description":    "Through a combination of psychochemical manipulation and old fashioned electrical nerve stimulation, this malfunctioning bionic alters your brain chemistry in such a way as to cause fatigue. You will find yourself tiring a bit faster than before."
     },{
         "type" : "bionic",
+        "id" : "bio_deformity",
+    "name"       :    "Bionic-Induced Deformity",
+    "faulty"     :    true,
+    "description":    "A combination of poor installation and unpleasant scarring has lead to the malfunctioning bionic catastrophe you call your face. People who mind that you look like a dime-store Frankenstein will react poorly to your appearance."
+    },{
+        "type" : "bionic",
+        "id" : "bio_voice",
+    "name"       :    "Voice Remodulator",
+    "faulty"     :    true,
+    "description":    "You will likely spend the rest of your days serving as a walking testament to why you don't hold loose parts in your mouth while installing a CBM. Accidentally swallowing that remodulator unit has given you a creepy robot voice."
+    },{
+        "type" : "bionic",
         "id" : "bio_ankles",
     "name"       :    "Squeaky Ankles",
     "faulty"     :    true,
