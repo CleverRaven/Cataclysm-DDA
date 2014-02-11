@@ -129,6 +129,14 @@
     "description":    "Throughout your body lies a network of thermal piping which eases the effects of high and low ambient temperatures."
     },{
         "type" : "bionic",
+        "id" : "bio_faraday",
+    "name"       :    "Dielectric Capacitance System",
+    "active"     :    true,
+    "cost"       :    1,
+    "time"       :    10,
+    "description":    "Throughout your body lies a network of miniature piezoelectric capacitors which can be charged with bionic power to temporarily protect you from external electrical discharge."
+    },{
+        "type" : "bionic",
         "id" : "bio_storage",
     "name"       :    "Internal Storage",
     "description":    "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 8 units of volume."
