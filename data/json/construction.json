@@ -139,6 +139,62 @@
         "post_terrain" : "t_door_c"
     },{
         "type" : "construction",
+        "description" : "Repair Damaged Wood Wall",
+        "difficulty" : 1,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 16 ] ]
+        ],
+        "pre_terrain" : "t_wall_wood_chipped",
+        "post_terrain" : "t_wall_wood"
+    },{
+        "type" : "construction",
+        "description" : "Repair Broken Wood Wall",
+        "difficulty" : 1,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 8 ] ],
+            [ [ "nail", 32 ] ]
+        ],
+        "pre_terrain" : "t_wall_wood_broken",
+        "post_terrain" : "t_wall_wood_chipped"
+    },{
+        "type" : "construction",
+        "description" : "Repair Damaged Log Wall",
+        "difficulty" : 2,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 16 ] ]
+        ],
+        "pre_terrain" : "t_wall_log_chipped",
+        "post_terrain" : "t_wall_log"
+    },{
+        "type" : "construction",
+        "description" : "Repair Broken Log Wall",
+        "difficulty" : 2,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 8 ] ],
+            [ [ "nail", 32 ] ]
+        ],
+        "pre_terrain" : "t_wall_log_broken",
+        "post_terrain" : "t_wall_log_chipped"
+    },{
+        "type" : "construction",
         "description" : "Board Up Door",
         "difficulty" : 0,
         "time" : 8,
