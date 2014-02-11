@@ -2531,17 +2531,40 @@ void map::process_active_items()
     }
 }
 
+extern std::pair<item, point> tmp_active_item_pos;
+
 void map::process_active_items_in_submap(const int nonant)
 {
     for (int i = 0; i < SEEX; i++) {
         for (int j = 0; j < SEEY; j++) {
-            std::vector<item> *items = &(grid[nonant]->itm[i][j]);
+            tmp_active_item_pos.second.x = (nonant % my_MAPSIZE) * SEEX + i;
+            tmp_active_item_pos.second.y = (nonant / my_MAPSIZE) * SEEY + j;
+            std::vector<item> &items = grid[nonant]->itm[i][j];
             //Do a count-down loop, as some items may be removed
-            for (int n = items->size() - 1; n >= 0; n--) {
-                if(process_active_item(&((*items)[n]), nonant, i, j)) {
-                    items->erase(items->begin() + n);
-                    grid[nonant]->active_item_count--;
+            for (size_t n = 0; n < items.size(); n++) {
+                if (!items[n].active) {
+                    continue;
                 }
+                tmp_active_item_pos.first = items[n];
+                items.erase(items.begin() + n);
+                if(!process_active_item(&tmp_active_item_pos.first, nonant, i, j)) {
+                    // Not destroyed, must be inserted again, but make sure
+                    // we don't insert far behind the end of the vector
+                    n = std::min(items.size(), n);
+                    items.insert(items.begin() + n, tmp_active_item_pos.first);
+                    // Other note: the address of the items vector is
+                    // not affected by any explosion, but they could reduce
+                    // the amount of items in it.
+                    continue;
+                }
+                // Item is destroyed, don't reinsert it.
+                // Note: this might lead to items not being processed:
+                // vector: 10 glass items, mininuke, mininuke
+                // the first nuke explodes, destroys some of the glass items
+                // now the index of the second nuke is not 11, but less, but
+                // one can not know which it is now.
+                grid[nonant]->active_item_count--;
+                n--;
             }
         }
     }
@@ -2565,8 +2588,6 @@ void map::process_active_items_in_vehicles(const int nonant)
         process_active_items_in_vehicle(cur_veh, nonant);
     }
 }
-
-extern std::pair<item, point> tmp_active_item_pos;
 
 void map::process_active_items_in_vehicle(vehicle *cur_veh, int nonant)
 {
