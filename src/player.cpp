@@ -5318,7 +5318,7 @@ void player::suffer()
         add_disease("visuals", 100);
     }
     if (has_bionic("bio_spasm") && one_in(3000) && !has_disease("downed")) {
-        g->add_msg(_("Your malfunctioning bionics cause you to spasm and fall to the floor!"));
+        g->add_msg(_("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
         mod_pain(1);
         add_effect("stunned", 1);
         add_effect("downed", 1);
