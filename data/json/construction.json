@@ -188,7 +188,7 @@
             [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
         ],
         "components" : [
-            [ [ "2x4", 8 ] ],
+            [ [ "log", 1 ] ],
             [ [ "nail", 32 ] ]
         ],
         "pre_terrain" : "t_wall_log_broken",
