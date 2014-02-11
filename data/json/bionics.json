@@ -97,8 +97,6 @@
         "type" : "bionic",
         "id" : "bio_sunglasses",
     "name"       :    "Anti-glare Compensators",
-    "cost"       :    0,
-    "time"       :    0,
     "description":    "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding."
     },{
         "type" : "bionic",
@@ -115,8 +113,6 @@
         "type" : "bionic",
         "id" : "bio_purifier",
     "name"       :    "Air Filtration System",
-    "cost"       :    0,
-    "time"       :    0,
     "description":    "Implanted in your trachea is an advanced filtration system.  If toxins find their way into your windpipe, the filter will attempt to remove them."
     },{
         "type" : "bionic",
