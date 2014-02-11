@@ -1049,6 +1049,7 @@
             "bio_purifier",
             "bio_carbon",
             "bio_geiger",
+            "bio_blood_anal",
             "bio_night_vision",
             "bio_torsionratchet",
             "bio_power_storage_mkII"
