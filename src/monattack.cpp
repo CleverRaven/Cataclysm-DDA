@@ -407,8 +407,8 @@ void mattack::growplants(monster *z)
        g->u.hit(z, hit, side, 0, rng(10, 30));
       }
      } else {
-      int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
-      if (npcdex != -1) { // An NPC got hit
+      npc *p = g->npc_at(z->posx() + i, z->posy() + j);
+      if (p != NULL) { // An NPC got hit
        body_part hit = bp_legs;
        int side = random_side(hit);
        if (one_in(4))
@@ -417,9 +417,9 @@ void mattack::growplants(monster *z)
         hit = bp_feet;
        if (g->u_see(z->posx() + i, z->posy() + j))
         g->add_msg(_("A tree bursts forth from the earth and pierces %s's %s!"),
-                   g->active_npc[npcdex]->name.c_str(),
+                   p->name.c_str(),
                    body_part_name(hit, side).c_str());
-       g->active_npc[npcdex]->hit(z, hit, side, 0, rng(10, 30));
+       p->hit(z, hit, side, 0, rng(10, 30));
       }
      }
      g->m.ter_set(z->posx() + i, z->posy() + j, t_tree_young);
@@ -461,8 +461,8 @@ void mattack::growplants(monster *z)
         g->u.hit(z, hit, side, 0, rng(10, 30));
        }
       } else {
-       int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
-       if (npcdex != -1) {
+       npc *p = g->npc_at(z->posx() + i, z->posy() + j);
+       if (p != NULL) {
         body_part hit = bp_legs;
         int side = random_side(hit);
         if (one_in(4))
@@ -471,9 +471,9 @@ void mattack::growplants(monster *z)
          hit = bp_feet;
         if (g->u_see(z->posx() + i, z->posy() + j))
          g->add_msg(_("Underbrush grows into a tree, and it pierces %s's %s!"),
-                    g->active_npc[npcdex]->name.c_str(),
+                    p->name.c_str(),
                     body_part_name(hit, side).c_str());
-        g->active_npc[npcdex]->hit(z, hit, side, 0, rng(10, 30));
+        p->hit(z, hit, side, 0, rng(10, 30));
        }
       }
      }

@@ -848,11 +848,10 @@ bool map::process_fields_in_submap(int gridn)
                                         int side = random_side(hit);
                                         g->u.hit(NULL, hit, side, 6, 0);
                                     }
-                                    int npcdex = g->npc_at(newp.x, newp.y),
-                                        mondex = g->mon_at(newp.x, newp.y);
+                                    npc *p = g->npc_at(newp.x, newp.y);
+                                    int mondex = g->mon_at(newp.x, newp.y);
 
-                                    if (npcdex != -1) {
-                                        npc *p = g->active_npc[npcdex];
+                                    if (p != NULL) {
                                         body_part hit = random_body_part();
                                         int side = random_side(hit);
                                         p->hit(NULL, hit, side, 6, 0);
@@ -1481,10 +1480,7 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
   case fd_rubble:
    int hit_chance = 10;
    int fdmon = g->mon_at(x, y);              //The index of the monster at (x,y), or -1 if there isn't one
-   int fdnpc = g->npc_at(x, y);              //The index of the NPC at (x,y), or -1 if there isn't one
-   npc *me = NULL;
-   if (fdnpc != -1)
-    me = g->active_npc[fdnpc];
+   npc *me = g->npc_at(x, y);              //The index of the NPC at (x,y), or -1 if there isn't one
    int veh_part;
    bool pc_inside = false;
    bool npc_inside = false;
@@ -1525,9 +1521,9 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
     if (monhit->hurt(dam))                    //Ideally an external disease-like system would handle this to make it easier to modify later
      g->kill_mon(fdmon, false);
    }
-   if (fdnpc != -1) {
-    if (fdnpc < g->active_npc.size() && !npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...
-    if (me && (me->get_dodge() < rng(1, hit_chance) || one_in(me->get_dodge()))) {
+   if (me != NULL) {
+    if (!npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...
+    if ((me->get_dodge() < rng(1, hit_chance) || one_in(me->get_dodge()))) {
       int how_many_limbs_hit = rng(0, num_hp_parts);
       for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
        me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
@@ -1546,7 +1542,7 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
     }
     if (me && (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0)) {
      me->die(false);        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
-     g->active_npc.erase(g->active_npc.begin() + fdnpc);
+     g->active_npc.erase(std::find(g->active_npc.begin(), g->active_npc.end(), me));
     }                                       //Still need to add vehicle damage, but I'm ignoring that for now.
    }
     vehicle *veh = veh_at(x, y, veh_part);

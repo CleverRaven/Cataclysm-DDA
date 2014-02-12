@@ -2484,10 +2484,9 @@ bool game::handle_action()
 
                 mouse_action_x = mx;
                 mouse_action_y = my;
-                int mouse_selected_mondex = mon_at(mx, my);
-                if (mouse_selected_mondex != -1) {
-                    monster &critter = critter_tracker.find(mouse_selected_mondex);
-                    if (!u_see(&critter)) {
+                Creature *mouse_selected_critter = critter_at(mx, my);
+                if (mouse_selected_critter != NULL) {
+                    if (!u_see(mouse_selected_critter)) {
                         add_msg(_("Nothing relevant here."));
                         return false;
                     }
@@ -4088,12 +4087,11 @@ Current turn: %d; Next spawn %d.\n\
 
   case 14: {
    point pos = look_around();
-   int npcdex = npc_at(pos.x, pos.y);
-   if (npcdex == -1)
+   npc *p = npc_at(pos.x, pos.y);
+   if (p == NULL) {
     popup(_("No NPC there."));
-   else {
+   } else {
     std::stringstream data;
-    npc *p = active_npc[npcdex];
     uimenu nmenu;
     nmenu.return_invalid = true;
     data << p->name << " " << (p->male ? _("Male") : _("Female")) << std::endl;
@@ -5227,7 +5225,11 @@ bool game::u_see(int x, int y)
 
 bool game::u_see(Creature *t)
 {
- return u_see(t->xpos(), t->ypos());
+    monster *m = dynamic_cast<monster*>(t);
+    if (m != NULL) {
+        return u.sees(m); // special handling for (submerged/digging) monsters
+    }
+    return u_see(t->xpos(), t->ypos());
 }
 
 bool game::u_see(Creature &t)
@@ -5987,7 +5989,7 @@ void game::do_blast( const int x, const int y, const int power, const int radius
                 m.destroy(i, j, false);
             }
 
-            int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
+            int mon_hit = mon_at(i, j);
             if (mon_hit != -1) {
                 monster &critter = critter_tracker.find(mon_hit);
                 if (!critter.dead && critter.hurt(rng(dam / 2, long(dam * 1.5)))) {
@@ -6005,16 +6007,17 @@ void game::do_blast( const int x, const int y, const int power, const int radius
                 veh->damage (vpart, dam, false);
             }
 
-            if (npc_hit != -1) {
-                active_npc[npc_hit]->hit(NULL, bp_torso, -1, rng(dam / 2, long(dam * 1.5)), 0);
-                active_npc[npc_hit]->hit(NULL, bp_head,  -1, rng(dam / 3, dam),       0);
-                active_npc[npc_hit]->hit(NULL, bp_legs,  0, rng(dam / 3, dam),       0);
-                active_npc[npc_hit]->hit(NULL, bp_legs,  1, rng(dam / 3, dam),       0);
-                active_npc[npc_hit]->hit(NULL, bp_arms,  0, rng(dam / 3, dam),       0);
-                active_npc[npc_hit]->hit(NULL, bp_arms,  1, rng(dam / 3, dam),       0);
-                if (active_npc[npc_hit]->hp_cur[hp_head]  <= 0 ||
-                    active_npc[npc_hit]->hp_cur[hp_torso] <= 0   ) {
-                    active_npc[npc_hit]->die(true);
+            npc *npc_hit = npc_at(i, j);
+            if (npc_hit != NULL) {
+                npc_hit->hit(NULL, bp_torso, -1, rng(dam / 2, long(dam * 1.5)), 0);
+                npc_hit->hit(NULL, bp_head,  -1, rng(dam / 3, dam),       0);
+                npc_hit->hit(NULL, bp_legs,  0, rng(dam / 3, dam),       0);
+                npc_hit->hit(NULL, bp_legs,  1, rng(dam / 3, dam),       0);
+                npc_hit->hit(NULL, bp_arms,  0, rng(dam / 3, dam),       0);
+                npc_hit->hit(NULL, bp_arms,  1, rng(dam / 3, dam),       0);
+                if (npc_hit->hp_cur[hp_head]  <= 0 ||
+                    npc_hit->hp_cur[hp_torso] <= 0   ) {
+                    npc_hit->die(true);
                 }
             }
             if (u.posx == i && u.posy == j) {
@@ -6073,24 +6076,24 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
             tx = traj[j].x;
             ty = traj[j].y;
             const int zid = mon_at(tx, ty);
+            npc *p = npc_at(tx, ty);
             if (zid != -1) {
                 monster &critter = critter_tracker.find(zid);
                 dam -= critter.get_armor_cut(bp_torso);
                 if (critter.hurt(dam)) {
                     kill_mon(zid);
                 }
-            } else if (npc_at(tx, ty) != -1) {
+            } else if (p != NULL) {
                 body_part hit = random_body_part();
                 if (hit == bp_eyes || hit == bp_mouth || hit == bp_head) {
                     dam = rng(2 * dam, 5 * dam);
                 } else if (hit == bp_torso) {
                     dam = rng(long(1.5 * dam), 3 * dam);
                 }
-                int npcdex = npc_at(tx, ty);
-                active_npc[npcdex]->hit(NULL, hit, rng(0, 1), 0, dam);
-                if (active_npc[npcdex]->hp_cur[hp_head] <= 0 ||
-                    active_npc[npcdex]->hp_cur[hp_torso] <= 0) {
-                    active_npc[npcdex]->die();
+                p->hit(NULL, hit, rng(0, 1), 0, dam);
+                if (p->hp_cur[hp_head] <= 0 ||
+                    p->hp_cur[hp_torso] <= 0) {
+                    p->die();
                 }
             } else if (tx == u.posx && ty == u.posy) {
                 body_part hit = random_body_part();
@@ -6201,7 +6204,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
     int tx = traj.front().x;
     int ty = traj.front().y;
     const int zid = mon_at(tx, ty);
-    if (zid == -1 && npc_at(tx, ty) == -1 && (u.posx != tx && u.posy != ty))
+    if (zid == -1 && npc_at(tx, ty) == NULL && (u.posx != tx && u.posy != ty))
     {
         debugmsg(_("Nothing at (%d,%d) to knockback!"), tx, ty);
         return;
@@ -6243,7 +6246,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining, junk);
                 sound(traj[i].x, traj[i].y, (dam_mult * force_remaining * force_remaining) / 2, junk);
                 break;
-            } else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1 ||
+            } else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != NULL ||
                        (u.posx == traj[i].x && u.posy == traj[i].y)) {
                 targ->setpos(traj[i - 1]);
                 force_remaining = traj.size() - i;
@@ -6266,8 +6269,9 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 if (mon_at(traj.front().x, traj.front().y) != -1) {
                     add_msg(_("%s collided with something else and sent it flying!"),
                             targ->name().c_str());
-                } else if (npc_at(traj.front().x, traj.front().y) != -1) {
-                    if (active_npc[npc_at(traj.front().x, traj.front().y)]->male) {
+                } else if (npc_at(traj.front().x, traj.front().y) != NULL) {
+                    npc *p = npc_at(traj.front().x, traj.front().y);
+                    if (p->male) {
                         add_msg(_("%s collided with someone else and sent him flying!"),
                                 targ->name().c_str());
                     } else {
@@ -6295,9 +6299,9 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
             }
         }
     }
-    else if (npc_at(tx, ty) != -1)
+    else if (npc_at(tx, ty) != NULL)
     {
-        npc *targ = active_npc[npc_at(tx, ty)];
+        npc *targ = npc_at(tx, ty);
         if (stun > 0)
         {
             targ->add_effect("stunned", stun);
@@ -6345,7 +6349,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
                 break;
             }
-            else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1 ||
+            else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != NULL ||
                       (u.posx == traj[i].x && u.posy == traj[i].y))
             {
                 targ->posx = traj[i-1].x;
@@ -6373,8 +6377,9 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 if (mon_at(traj.front().x, traj.front().y) != -1) {
                     add_msg(_("%s collided with something else and sent it flying!"),
                             targ->name.c_str());
-                } else if (npc_at(traj.front().x, traj.front().y) != -1) {
-                    if (active_npc[npc_at(traj.front().x, traj.front().y)]->male) {
+                } else if (npc_at(traj.front().x, traj.front().y) != NULL) {
+                    npc *p = npc_at(traj.front().x, traj.front().y);
+                    if (p->male) {
                         add_msg(_("%s collided with someone else and sent him flying!"),
                                 targ->name.c_str());
                     } else {
@@ -6433,7 +6438,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
                 break;
             }
-            else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1)
+            else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != NULL)
             {
                 u.posx = traj[i-1].x;
                 u.posy = traj[i-1].y;
@@ -6453,8 +6458,9 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 traj.erase(traj.begin(), traj.begin()+i);
                 if (mon_at(traj.front().x, traj.front().y) != -1) {
                     add_msg(_("You collided with something and sent it flying!"));
-                } else if (npc_at(traj.front().x, traj.front().y) != -1) {
-                    if (active_npc[npc_at(traj.front().x, traj.front().y)]->male) {
+                } else if (npc_at(traj.front().x, traj.front().y) != NULL) {
+                    npc *p = npc_at(traj.front().x, traj.front().y);
+                    if (p->male) {
                         add_msg(_("You collided with someone and sent him flying!"));
                     } else {
                         add_msg(_("You collided with someone and sent her flying!"));
@@ -6664,22 +6670,34 @@ void game::emp_blast(int x, int y)
 // TODO: Drain NPC energy reserves
 }
 
-int game::npc_at(const int x, const int y) const
+npc *game::npc_at(const int x, const int y)
 {
  for (int i = 0; i < active_npc.size(); i++) {
   if (active_npc[i]->posx == x && active_npc[i]->posy == y && !active_npc[i]->dead)
-   return i;
+   return active_npc[i];
  }
- return -1;
+ return NULL;
 }
 
-int game::npc_by_id(const int id) const
+npc *game::npc_by_id(const int id)
 {
  for (int i = 0; i < active_npc.size(); i++) {
   if (active_npc[i]->getID() == id)
-   return i;
+   return active_npc[i];
  }
- return -1;
+ return NULL;
+}
+
+Creature *game::critter_at(int x, int y)
+{
+    const int mindex = mon_at(x, y);
+    if (mindex != -1) {
+        return &zombie(mindex);
+    }
+    if (x == u.posx && y == u.posy) {
+        return &u;
+    }
+    return npc_at(x, y);
 }
 
 bool game::add_zombie(monster& critter)
@@ -6750,7 +6768,7 @@ void game::rebuild_mon_at_cache()
 bool game::is_empty(const int x, const int y)
 {
  return ((m.move_cost(x, y) > 0 || m.has_flag("LIQUID", x, y)) &&
-         npc_at(x, y) == -1 && mon_at(x, y) == -1 &&
+         npc_at(x, y) == NULL && mon_at(x, y) == -1 &&
          (u.posx != x || u.posy != y));
 }
 
@@ -7443,10 +7461,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg) {
     if(x == u.pos().x && y == u.pos().y) {
         npc_or_player = &u;
     } else {
-        const int cindex = npc_at(x, y);
-        if(cindex != -1) {
-            npc_or_player = active_npc[cindex];
-        }
+        npc_or_player = npc_at(x, y);
     }
     if(npc_or_player != NULL) {
         if(bash_dmg <= 0) {
@@ -7893,6 +7908,7 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
     int veh_part = 0;
     vehicle *veh = m.veh_at(lx, ly, veh_part);
     int dex = mon_at(lx, ly);
+    npc *p = npc_at(lx, ly);
     if (dex != -1 && u_see(&zombie(dex)))
     {
         if (!mouse_hover) {
@@ -7901,12 +7917,12 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
         line = zombie(dex).print_info(w_look, line, 6, column);
         handle_multi_item_info(lx, ly, w_look, column, line, mouse_hover);
     }
-    else if (npc_at(lx, ly) != -1)
+    else if (p != NULL)
     {
         if (!mouse_hover) {
-            active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
+            p->draw(w_terrain, lx, ly, true);
         }
-        line = active_npc[npc_at(lx, ly)]->print_info(w_look, column, line);
+        line = p->print_info(w_look, column, line);
         handle_multi_item_info(lx, ly, w_look, column, line, mouse_hover);
     }
     else if (veh)
@@ -10462,13 +10478,13 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
     }
     if (passtarget != -1) { // We picked a real live target
         // Make it our default for next time
-        int id = npc_at(x, y);
-        if(id >= 0) {
-            last_target = id;
+        npc *p = npc_at(x, y);
+        if(p != NULL) {
+            last_target = std::find(active_npc.begin(), active_npc.end(), p) - active_npc.begin();
             last_target_was_npc = true;
             // TODO: effect for npc, too?
         } else {
-            id = mon_at(x, y);
+            int id = mon_at(x, y);
             if(id >= 0) {
                 last_target = id;
                 last_target_was_npc = false;
@@ -11442,20 +11458,20 @@ bool game::plmove(int dx, int dy)
      }
  }
  // If not a monster, maybe there's an NPC there
- int npcdex = npc_at(x, y);
- if (npcdex != -1) {
+ npc *p = npc_at(x, y);
+ if (p != NULL) {
      bool force_attack = false;
-     if(!active_npc[npcdex]->is_enemy()){
-         if (!query_yn(_("Really attack %s?"), active_npc[npcdex]->name.c_str())) {
-             if (active_npc[npcdex]->is_friend()) {
-                 add_msg(_("%s moves out of the way."), active_npc[npcdex]->name.c_str());
-                 active_npc[npcdex]->move_away_from(u.posx, u.posy);
+     if(!p->is_enemy()){
+         if (!query_yn(_("Really attack %s?"), p->name.c_str())) {
+             if (p->is_friend()) {
+                 add_msg(_("%s moves out of the way."), p->name.c_str());
+                 p->move_away_from(u.posx, u.posy);
              }
 
              return false; // Cancel the attack
          } else {
              //The NPC knows we started the fight, used for morale penalty.
-             active_npc[npcdex]->hit_by_player = true;
+             p->hit_by_player = true;
              force_attack = true;
          }
      }
@@ -11466,8 +11482,8 @@ bool game::plmove(int dx, int dy)
          return false;
      }
 
-     u.melee_attack(*active_npc[npcdex], true);
-     active_npc[npcdex]->make_angry();
+     u.melee_attack(*p, true);
+     p->make_angry();
      return false;
  }
 
@@ -11730,7 +11746,7 @@ bool game::plmove(int dx, int dy)
           // unfortunately, game::is_empty fails for tiles we're standing on, which will forbid pulling, so:
           bool canmove = (
                ( m.move_cost(fdest.x, fdest.y) > 0) &&
-               npc_at(fdest.x, fdest.y) == -1 &&
+               npc_at(fdest.x, fdest.y) == NULL &&
                mon_at(fdest.x, fdest.y) == -1 &&
                m.has_flag("FLAT", fdest.x, fdest.y) &&
                !m.has_furn(fdest.x, fdest.y) &&
@@ -12129,7 +12145,7 @@ bool game::plmove(int dx, int dy)
          // a monster is there
          ((mon_at(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) != -1 ||
            // so keep tunneling
-           npc_at(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) != -1) &&
+           npc_at(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) != NULL) &&
           // assuming we've already started
           tunneldist > 0))
   {

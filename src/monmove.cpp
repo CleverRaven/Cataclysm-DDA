@@ -673,7 +673,7 @@ int monster::bash_at(int x, int y) {
 
 int monster::attack_at(int x, int y) {
     int mondex = g->mon_at(x, y);
-    int npcdex = g->npc_at(x, y);
+    npc *foe = g->npc_at(x, y);
 
     if(x == g->u.posx && y == g->u.posy) {
         melee_attack(g->u);
@@ -712,11 +712,11 @@ int monster::attack_at(int x, int y) {
             hit_monster(mondex);
             return 1;
         }
-    } else if(npcdex != -1  && type->melee_dice > 0) {
+    } else if(foe != NULL  && type->melee_dice > 0) {
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
-        melee_attack(*g->active_npc[npcdex]);
+        melee_attack(*foe);
         return 1;
     }
 
@@ -924,9 +924,8 @@ void monster::knock_back_from(int x, int y)
   return;
  }
 
- int npcdex = g->npc_at(to.x, to.y);
- if (npcdex != -1) {
-  npc *p = g->active_npc[npcdex];
+ npc *p = g->npc_at(to.x, to.y);
+ if (p != NULL) {
   hurt(3);
   add_effect("stunned", 1);
   p->hit(this, bp_torso, -1, type->size, 0);
