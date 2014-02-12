@@ -191,15 +191,16 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     mod_map[modfile->ident] = modfile;
 }
 
-void mod_manager::set_default_mods(const t_mod_list &mods)
+bool mod_manager::set_default_mods(const t_mod_list &mods)
 {
     default_mods = mods;
     std::ofstream stream(MOD_USER_DEFAULT_PATH, std::ios::out | std::ios::binary);
     if(!stream) {
-        debugmsg("worldfactory: can not write to %s", MOD_USER_DEFAULT_PATH);
-        return;
+        popup(_("Can not open %s for writing"), MOD_USER_DEFAULT_PATH);
+        return false;
     }
     try {
+        stream.exceptions(std::ios::failbit | std::ios::badbit);
         JsonOut json(stream, true); // pretty-print
         json.start_object();
         json.member("type", "MOD_INFO");
@@ -207,9 +208,15 @@ void mod_manager::set_default_mods(const t_mod_list &mods)
         json.member("dependencies");
         json.write(mods);
         json.end_object();
+        return true;
+    } catch(std::ios::failure &) {
+        // this might happen and indicates an I/O-error
+        popup(_("Failed to write default mods to %s"), MOD_USER_DEFAULT_PATH);
     } catch(std::string e) {
+        // this should not happen, it comes from json-serialization
         debugmsg("%s", e.c_str());
     }
+    return false;
 }
 
 bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
@@ -356,14 +363,18 @@ void mod_manager::save_mods_list(WORLDPTR world) const
     if (world == NULL || world->active_mod_order.empty()) {
         return;
     }
-    std::ofstream mods_list_file(get_mods_list_file(world).c_str(), std::ios::out | std::ios::binary);
+    const std::string path = get_mods_list_file(world);
+    std::ofstream mods_list_file(path.c_str(), std::ios::out | std::ios::binary);
     if(!mods_list_file) {
-        DebugLog() << "worldfactory: can not write to " << get_mods_list_file(world) << "\n";
-        return;
+        popup(_("Can not open %s for writing"), path.c_str());
     }
     try {
+        mods_list_file.exceptions(std::ios::failbit | std::ios::badbit);
         JsonOut json(mods_list_file, true); // pretty-print
         json.write(world->active_mod_order);
+    } catch(std::ios::failure &) {
+        // this might happen and indicates an I/O-error
+        popup(_("Failed to write to %s"), path.c_str());
     } catch (std::string e) {
         DebugLog() << "worldfactory: failed to write list of mods to world folder\n";
     }
