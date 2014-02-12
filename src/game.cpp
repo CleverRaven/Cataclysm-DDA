@@ -640,7 +640,7 @@ void game::create_starting_npcs()
 
 void game::cleanup_at_end(){
     write_msg();
-    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE || uquit == QUIT_SAVED) {
+    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
         // Save the factions's, missions and set the NPC's overmap coords
         // Npcs are saved in the overmap.
         save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
@@ -2867,10 +2867,11 @@ bool game::handle_action()
 
   case ACTION_SAVE:
    if (query_yn(_("Save and quit?"))) {
-    save();
-    u.moves = 0;
-    uquit = QUIT_SAVED;
-    MAPBUFFER.make_volatile();
+    if(save()) {
+     u.moves = 0;
+     uquit = QUIT_SAVED;
+     MAPBUFFER.make_volatile();
+    }
    }
    break;
 
@@ -3340,7 +3341,7 @@ void game::load_world_modfiles(WORLDPTR world)
 }
 
 //Saves all factions and missions and npcs.
-void game::save_factions_missions_npcs ()
+bool game::save_factions_missions_npcs ()
 {
     std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
     try {
@@ -3350,12 +3351,14 @@ void game::save_factions_missions_npcs ()
     fout.open(masterfile.c_str());
     serialize_master(fout);
     fout.close();
+        return true;
     } catch(std::ios::failure &) {
         popup(_("Failed to save factions to %s"), masterfile.c_str());
+        return false;
     }
 }
 
-void game::save_artifacts()
+bool game::save_artifacts()
 {
     std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
     try {
@@ -3377,23 +3380,27 @@ void game::save_artifacts()
     }
     json.end_array();
     fout.close();
+        return true;
     } catch(std::ios::failure &) {
         popup(_("Failed to save artifacts to %s"), artfilename.c_str());
+        return false;
     }
 }
 
-void game::save_maps()
+bool game::save_maps()
 {
     try {
     m.save(cur_om, turn, levx, levy, levz);
     overmap_buffer.save(); // can throw std::ios::failure
     MAPBUFFER.save(); // can throw std::ios::failure
+        return true;
     } catch(std::ios::failure &) {
         popup(_("Failed to maps"));
+        return false;
     }
 }
 
-void game::save_uistate() {
+bool game::save_uistate() {
     std::string savefile = world_generator->active_world->world_path + "/uistate.json";
     try {
     std::ofstream fout;
@@ -3401,12 +3408,14 @@ void game::save_uistate() {
     fout.open(savefile.c_str());
     fout << uistate.serialize();
     fout.close();
+        return true;
     } catch(std::ios::failure &) {
         popup(_("Failed to save uistate to %s"), savefile.c_str());
+        return false;
     }
 }
 
-void game::save()
+bool game::save()
 {
  std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
     try {
@@ -3424,11 +3433,25 @@ void game::save()
  fout.open( std::string(playerfile + ".log").c_str() );
  fout << u.dump_memorial();
  fout.close();
- //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
- save_auto_pickup(true); // Save character auto pickup rules
- save_uistate();
+        if (!save_factions_missions_npcs()) {
+            return false;
+        }
+        if (!save_artifacts()) {
+            return false;
+        }
+        if (!save_maps()) {
+            return false;
+        }
+        if (!save_auto_pickup(true)) { // Save character auto pickup rules
+            return false;
+        }
+        if (!save_uistate()) {
+            return false;
+        }
+        return true;
     } catch(std::ios::failure &err) {
         popup(_("Failed to save game data"));
+        return false;
     }
 }
 
@@ -12482,7 +12505,6 @@ void game::update_map(int &x, int &y) {
   olevy = 1;
  }
  if (olevx != 0 || olevy != 0) {
-  cur_om->save();
   cur_om = &overmap_buffer.get(cur_om->pos().x + olevx, cur_om->pos().y + olevy);
  }
 
@@ -13440,10 +13462,6 @@ void game::quicksave(){
 
     //perform save
     save();
-    save_factions_missions_npcs();
-    save_artifacts();
-    save_maps();
-    save_uistate();
     //Now reset counters for autosaving, so we don't immediately autosave after a quicksave or autosave.
     moves_since_last_save = 0;
     item_exchanges_since_save = 0;

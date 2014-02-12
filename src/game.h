@@ -148,7 +148,8 @@ public:
   void unserialize_master(std::ifstream & fin); // for load
   bool unserialize_master_legacy(std::ifstream & fin); // for old load
 
-  void save();
+  // returns false if saving faild for whatever reason
+  bool save();
   void delete_world(std::string worldname, bool delete_folder);
   std::vector<std::string> list_active_characters();
   void write_memorial_file();
@@ -461,14 +462,18 @@ public:
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
   //private save functions.
-  void save_factions_missions_npcs();
+  // returns false if saving failed for whatever reason
+  bool save_factions_missions_npcs();
   void serialize_master(std::ofstream &fout);
-  void save_artifacts();
-  void save_maps();
+  // returns false if saving failed for whatever reason
+  bool save_artifacts();
+  // returns false if saving failed for whatever reason
+  bool save_maps();
   void save_weather(std::ofstream &fout);
   void load_legacy_future_weather(std::string data);
   void load_legacy_future_weather(std::istream &fin);
-  void save_uistate();
+  // returns false if saving failed for whatever reason
+  bool save_uistate();
   void load_uistate(std::string worldname);
 // Data Initialization
   void init_npctalk();
