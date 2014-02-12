@@ -7155,7 +7155,8 @@ int iuse::artifact(player *p, item *it, bool)
 
 int iuse::spray_can(player *p, item *it, bool)
 {
-    if ( it->type->id ==  _("permanent_marker")  )
+    bool ismarker = (it->type->id==_("permanent_marker") ;
+    if ( ismarker )
     {
         int ret=menu(true, _("Write on what?"), _("The ground"), _("An item"), _("Cancel"), NULL );
 
@@ -7167,6 +7168,7 @@ int iuse::spray_can(player *p, item *it, bool)
             {
                 return 0;
             }
+            p->moves -= 10;
             return it->type->charges_to_use();
         }
         else if ( ret != 1) // User chose cancel or some other undefined key.
@@ -7175,16 +7177,12 @@ int iuse::spray_can(player *p, item *it, bool)
         }
     }
 
-    bool ismarker = (it->type->id=="permanent_marker");
-
     std::string message = string_input_popup(ismarker?_("Write what?"):_("Spray what?"),
                                              0, "", "", "graffiti");
 
     if(message.empty()) {
         return 0;
-    }
-    else
-    {
+    } else {
         if(g->m.add_graffiti(p->posx, p->posy, message))
         {
             g->add_msg(
@@ -7192,9 +7190,8 @@ int iuse::spray_can(player *p, item *it, bool)
                 _("You write a message on the ground.") :
                 _("You spray a message on the ground.")
             );
-        }
-        else
-        {
+            p->moves -= 2 * message.length();
+        } else {
             g->add_msg(
                 ismarker?
                 _("You fail to write a message here.") :
