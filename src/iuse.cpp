@@ -41,6 +41,7 @@ static bool use_fire(player *p, item *it)
 static bool item_inscription( player *p, item *cut, std::string verb, std::string gerund,
                               bool carveable)
 {
+    (void)p; //unused
     if (!cut->made_of(SOLID)) {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
