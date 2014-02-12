@@ -251,6 +251,16 @@ class map
  // "fire" item to be used for example when crafting or when
  // a iuse function needs fire.
  bool has_nearby_fire(int x, int y, int radius = 1);
+ /**
+  * Check if player can see some items at (x,y). Includes:
+  * - check for items at this location (!i_at().empty())
+  * - check for SEALED flag (sealed furniture/terrain makes
+  * items not visible under any circumstances).
+  * - check for CONTAINER flag (makes items only visible when
+  * the player is at (x,y) or at an adjacent square).
+  */
+ bool sees_some_items(int x, int y, const player &u);
+
 
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(const std::string & flag, const int x, const int y) const;  // checks terrain, furniture and vehicles

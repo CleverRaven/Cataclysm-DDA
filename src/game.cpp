@@ -7899,7 +7899,6 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
             zombie(dex).draw(w_terrain, lx, ly, true);
         }
         line = zombie(dex).print_info(w_look, line, 6, column);
-        handle_multi_item_info(lx, ly, w_look, column, line, mouse_hover);
     }
     else if (npc_at(lx, ly) != -1)
     {
@@ -7907,7 +7906,6 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
             active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
         }
         line = active_npc[npc_at(lx, ly)]->print_info(w_look, column, line);
-        handle_multi_item_info(lx, ly, w_look, column, line, mouse_hover);
     }
     else if (veh)
     {
@@ -7915,23 +7913,6 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
         line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
         if (!mouse_hover) {
             m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-        }
-    }
-    else if (!m.has_flag("CONTAINER", lx, ly) && m.i_at(lx, ly).size() > 0)
-    {
-        if (!mouse_hover) {
-            mvwprintw(w_look, line++, column, _("There is a %s there."),
-                m.i_at(lx, ly)[0].tname().c_str());
-            if (m.i_at(lx, ly).size() > 1)
-            {
-                mvwprintw(w_look, line++, column, _("There are other items there as well."));
-            }
-            m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-        }
-    } else if (m.has_flag("CONTAINER", lx, ly)) {
-        mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
-        if (!mouse_hover) {
-            m.drawsq(w_terrain, u, lx, ly, true, false, lx, ly);
         }
     }
     // The player is not at <u.posx + u.view_offset_x, u.posy + u.view_offset_y>
@@ -7954,30 +7935,31 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
                 m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
             }
         }
-
     }
     else if (!mouse_hover)
     {
         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
     }
+    handle_multi_item_info(lx, ly, w_look, column, line, mouse_hover);
 }
 
 void game::handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover)
 {
-    if (!m.has_flag("CONTAINER", lx, ly))
-    {
-        if (!mouse_hover) {
-            if (m.i_at(lx, ly).size() > 1) {
-                mvwprintw(w_look, line++, column, _("There are several items there."));
-            } else if (m.i_at(lx, ly).size() == 1) {
-                mvwprintw(w_look, line++, column, _("There is an item there."));
-            }
+    if (m.sees_some_items(lx, ly, g->u)) {
+        if (mouse_hover) {
+            // items are displayed from the live view, don't do this here
+            return;
         }
-    } else {
+        std::vector<item> &items = m.i_at(lx, ly);
+        mvwprintw(w_look, line++, column, _("There is a %s there."), items[0].tname().c_str());
+        if (items.size() > 1)
+        {
+            mvwprintw(w_look, line++, column, _("There are other items there as well."));
+        }
+    } else if(m.has_flag("CONTAINER", lx, ly)) {
         mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
     }
 }
-
 
 void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const
 {
@@ -8148,6 +8130,10 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
     std::vector<map_item_stack> ret;
     std::vector<std::string> vOrder;
 
+    if(g->u.has_effect("blind")) {
+        return ret;
+    }
+
     std::vector<point> points = closest_points_first(iRadius, u.posx, u.posy);
 
     int iLastX = 0;
@@ -8155,9 +8141,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
 
     for (std::vector<point>::iterator p_it = points.begin(); p_it != points.end(); ++p_it) {
         if (p_it->y >= u.posy - iRadius && p_it->y <= u.posy + iRadius &&
-            u_see(p_it->x,p_it->y) &&
-            (!m.has_flag("CONTAINER", p_it->x, p_it->y) ||
-            (rl_dist(u.posx, u.posy, p_it->x, p_it->y) == 1 && !m.has_flag("SEALED", p_it->x, p_it->y)))) {
+            u_see(p_it->x,p_it->y) && m.sees_some_items(p_it->x, p_it->y, u)) {
 
             here.clear();
             here = m.i_at(p_it->x, p_it->y);

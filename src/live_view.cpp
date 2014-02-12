@@ -53,9 +53,12 @@ void live_view::show(const int x, const int y)
 
     g->print_all_tile_info(x, y, w_live_view, START_COLUMN, line, true);
 
-    if (m.can_put_items(x, y)) {
-        std::vector<item> &items = m.i_at(x, y);
-        print_items(items, line);
+    if (m.can_put_items(x, y) && m.sees_some_items(x, y, g->u)) {
+        if(g->u.has_effect("blind")) {
+            mvwprintz(w_live_view, line++, START_COLUMN, c_yellow, _("There's something here, but you can't see what it is."));
+        } else {
+            print_items(m.i_at(x, y), line);
+        }
     }
 
 #if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)

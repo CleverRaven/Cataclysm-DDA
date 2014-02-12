@@ -845,7 +845,7 @@ bool cata_tiles::draw_furniture(int x, int y)
     // get the name of this furniture piece
     std::string f_name = furnlist[f_id].id; // replace with furniture names array access
     bool ret = draw_from_id_string(f_name, x, y, subtile, rotation);
-    if (ret && g->m.i_at(x, y).size() > 0) {
+    if (ret && g->m.sees_some_items(x, y, g->u)) {
         draw_item_highlight(x, y);
     }
     return ret;
@@ -876,9 +876,9 @@ bool cata_tiles::draw_trap(int x, int y)
 bool cata_tiles::draw_field_or_item(int x, int y)
 {
     // check for field
-    field f = g->m.field_at(x, y);
+    field &f = g->m.field_at(x, y);
     // check for items
-    std::vector<item> items = g->m.i_at(x, y);
+    const std::vector<item> &items = g->m.i_at(x, y);
     field_id f_id = f.fieldSymbol();
     bool is_draw_field;
     bool do_item;
@@ -930,13 +930,13 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         ret_draw_field = draw_from_id_string(fd_name, x, y, subtile, rotation);
     }
     if(do_item) {
-        if (g->m.has_flag("CONTAINER", x, y) || g->m.has_furn(x, y) || items.empty()) {
+        if (!g->m.sees_some_items(x, y, g->u)) {
             return false;
         }
         // get the last item in the stack, it will be used for display
-        item display_item = items[items.size() - 1];
+        const item &display_item = items[items.size() - 1];
         // get the item's name, as that is the key used to find it in the map
-        std::string it_name = display_item.type->id;
+        const std::string &it_name = display_item.type->id;
         ret_draw_item = draw_from_id_string(it_name, x, y, 0, 0);
         if (ret_draw_item && items.size() > 1) {
             draw_item_highlight(x, y);
