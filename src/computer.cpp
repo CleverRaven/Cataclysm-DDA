@@ -283,7 +283,7 @@ void computer::activate_function(computer_action action)
         break; // Why would this be called?
 
     case COMPACT_OPEN:
-        g->m.translate(t_door_metal_locked, t_floor);
+        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.posx, g->u.posy);
         query_any(_("Doors opened.  Press any key..."));
         break;
 
@@ -355,8 +355,8 @@ void computer::activate_function(computer_action action)
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
         g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
-        g->m.translate(t_reinforced_glass_h, t_floor);
-        g->m.translate(t_reinforced_glass_v, t_floor);
+        g->m.translate_radius(t_reinforced_glass_h, t_floor, 25.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_reinforced_glass_v, t_floor, 25.0, g->u.posx, g->u.posy);
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
