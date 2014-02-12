@@ -3,7 +3,9 @@
 #include "debug.h"
 #include "translations.h"
 #include <fstream>
-#include "unistd.h"
+#ifndef _MSC_VER
+#include <unistd.h>
+#endif
 #include "savegame.h"
 #include "file_wrapper.h"
 #include "file_finder.h"
