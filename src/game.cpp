@@ -3342,19 +3342,25 @@ void game::load_world_modfiles(WORLDPTR world)
 //Saves all factions and missions and npcs.
 void game::save_factions_missions_npcs ()
 {
-    std::stringstream masterfile;
+    std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
+    try {
     std::ofstream fout;
-    masterfile << world_generator->active_world->world_path <<"/master.gsav";
+    fout.exceptions(std::ios::badbit | std::ios::failbit);
 
-    fout.open(masterfile.str().c_str());
+    fout.open(masterfile.c_str());
     serialize_master(fout);
     fout.close();
+    } catch(std::ios::failure &) {
+        popup(_("Failed to save factions to %s"), masterfile.c_str());
+    }
 }
 
 void game::save_artifacts()
 {
-    std::ofstream fout;
     std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
+    try {
+    std::ofstream fout;
+    fout.exceptions(std::ios::badbit | std::ios::failbit);
     fout.open(artfilename.c_str(), std::ofstream::trunc);
     JsonOut json(fout);
     json.start_array();
@@ -3371,44 +3377,59 @@ void game::save_artifacts()
     }
     json.end_array();
     fout.close();
+    } catch(std::ios::failure &) {
+        popup(_("Failed to save artifacts to %s"), artfilename.c_str());
+    }
 }
 
 void game::save_maps()
 {
+    try {
     m.save(cur_om, turn, levx, levy, levz);
-    overmap_buffer.save();
-    MAPBUFFER.save();
+    overmap_buffer.save(); // can throw std::ios::failure
+    MAPBUFFER.save(); // can throw std::ios::failure
+    } catch(std::ios::failure &) {
+        popup(_("Failed to maps"));
+    }
 }
 
 void game::save_uistate() {
-    std::stringstream savefile;
-    savefile << world_generator->active_world->world_path << "/uistate.json";
+    std::string savefile = world_generator->active_world->world_path + "/uistate.json";
+    try {
     std::ofstream fout;
-    fout.open(savefile.str().c_str());
+    fout.exceptions(std::ios::badbit | std::ios::failbit);
+    fout.open(savefile.c_str());
     fout << uistate.serialize();
     fout.close();
+    } catch(std::ios::failure &) {
+        popup(_("Failed to save uistate to %s"), savefile.c_str());
+    }
 }
 
 void game::save()
 {
- std::stringstream playerfile;
+ std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
+    try {
  std::ofstream fout;
- playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name);
+ fout.exceptions(std::ios::failbit | std::ios::badbit);
 
- fout.open( std::string(playerfile.str() + ".sav").c_str() );
+ fout.open( std::string(playerfile + ".sav").c_str() );
  serialize(fout);
  fout.close();
  // weather
- fout.open( std::string(playerfile.str() + ".weather").c_str() );
+ fout.open( std::string(playerfile + ".weather").c_str() );
  save_weather(fout);
  fout.close();
  // log
- fout.open( std::string(playerfile.str() + ".log").c_str() );
+ fout.open( std::string(playerfile + ".log").c_str() );
  fout << u.dump_memorial();
  fout.close();
  //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
  save_auto_pickup(true); // Save character auto pickup rules
  save_uistate();
+    } catch(std::ios::failure &err) {
+        popup(_("Failed to save game data"));
+    }
 }
 
 void game::delete_world(std::string worldname, bool delete_folder)

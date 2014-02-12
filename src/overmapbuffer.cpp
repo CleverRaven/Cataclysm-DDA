@@ -34,6 +34,7 @@ void overmapbuffer::save()
     for(std::list<overmap>::iterator current_map = overmap_list.begin();
         current_map != overmap_list.end(); ++current_map)
     {
+        // Note: this may throw io errors from std::ofstream
         current_map->save();
     }
 }
