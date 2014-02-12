@@ -94,6 +94,8 @@ void print_inv_statics(WINDOW *w_inv, std::string title,
 {
     // Print our header
     mvwprintw(w_inv, 0, 0, title.c_str());
+    if(title.compare("Multidrop:") == 0)
+        mvwprintw(w_inv, 1, 0, "To drop x items, type a number and then the item hotkey.");
 
     print_inv_weight_vol(w_inv, g->u.weight_carried(), g->u.volume_carried(),
                          calc_volume_capacity(dropped_items));
