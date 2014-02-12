@@ -26748,7 +26748,8 @@
       [ "scrap", 4 ]
      ],
      [
-      [ "kevlar_plate", 8 ]
+      [ "boots_combat", 2 ],
+      [ "kevlar_plate", 10 ]
      ],
      [
       [ "duct_tape", 200 ]
