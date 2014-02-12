@@ -211,6 +211,34 @@
         "post_terrain" : "t_door_boarded"
     },{
         "type" : "construction",
+        "description" : "Reinforce Wood Door",
+        "difficulty" : 5,
+        "time" : 30,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 12 ] ],
+            [ [ "nail", 48 ] ]
+        ],
+        "pre_flags" : "BARRICADABLE_DOOR",
+        "post_terrain" : "t_rdoor_c"
+    },{
+        "type" : "construction",
+        "description" : "Repair Reinforced Wood Door",
+        "difficulty" : 2,
+        "time" : 15,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 6 ] ],
+            [ [ "nail", 24 ] ]
+        ],
+        "pre_terrain" : "t_rdoor_b",
+        "post_terrain" : "t_rdoor_c"
+    },{
+        "type" : "construction",
         "description" : "Board Up Window",
         "difficulty" : 0,
         "time" : 5,
@@ -239,6 +267,64 @@
         ],
         "pre_terrain" : "t_window_empty",
         "post_terrain" : "t_window_boarded_noglass"
+    },{
+        "type" : "construction",
+        "description" : "Reinforce Boarded Up Window",
+        "difficulty" : 5,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer",
+              "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 8 ] ],
+            [ [ "nail", 16 ] ]
+        ],
+        "pre_terrain" : "t_window_boarded",
+        "post_terrain" : "t_window_reinforced"
+    },{
+        "type" : "construction",
+        "description" : "Reinforce Boarded Up Empty Window",
+        "difficulty" : 5,
+        "time" : 30,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge" ]
+        ],
+        "components" : [
+            [ [ "spike", 4 ] ],
+            [ [ "steel_plate", 1 ], [ "sheet_metal", 4 ] ]
+        ],
+        "pre_terrain" : "t_window_boarded_noglass",
+        "post_terrain" : "t_window_reinforced_noglass"
+    },{
+        "type" : "construction",
+        "description" : "Armor Reinforced Boarded Up Window",
+        "difficulty" : 7,
+        "time" : 30,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge" ]
+        ],
+        "components" : [
+            [ [ "spike", 4 ] ],
+            [ [ "steel_plate", 1 ], [ "sheet_metal", 4 ] ]
+        ],
+        "pre_terrain" : "t_window_reinforced",
+        "post_terrain" : "t_window_enhanced"
+    },{
+        "type" : "construction",
+        "description" : "Armor Reinforced Boarded Up Empty Window",
+        "difficulty" : 7,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer",
+              "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 8 ] ],
+            [ [ "nail", 16 ] ]
+        ],
+        "pre_terrain" : "t_window_reinforced_noglass",
+        "post_terrain" : "t_window_enhanced_noglass"
     },{
         "type" : "construction",
         "description" : "Board Up Broken Window Frame",
@@ -433,6 +519,37 @@
         ],
         "pre_terrain" : "t_door_frame",
         "post_terrain" : "t_door_c"
+    },{
+        "type" : "construction",
+        "description" : "Build Metal Door",
+        "difficulty" : 9,
+        "time" : 15,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge" ],
+            [ "hacksaw" ]
+        ],
+        "components" : [
+            [ [ "spike", 8 ] ],
+            [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "t_mdoor_frame"
+    },{
+        "type" : "construction",
+        "description" : "Build Metal Door",
+        "difficulty" : 9,
+        "time" : 15,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge" ],
+            [ "hacksaw" ],
+            [ "wrench" ]
+        ],
+        "components" : [
+            [ [ "steel_lump", 4 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
+            [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ]
+        ],
+        "pre_terrain" : "t_mdoor_frame",
+        "post_terrain" : "t_door_metal_c"
     },{
         "type" : "construction",
         "description" : "Fence Posts",
