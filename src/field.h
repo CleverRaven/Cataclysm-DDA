@@ -50,14 +50,9 @@ struct field_t {
 enum field_id {
  fd_null = 0,
  fd_blood,
- fd_blood_veggy,
- fd_blood_insect,
- fd_blood_invertebrate,
  fd_bile,
  fd_gibs_flesh,
  fd_gibs_veggy,
- fd_gibs_insect,
- fd_gibs_invertebrate,
  fd_web,
  fd_slime,
  fd_acid,
@@ -79,6 +74,11 @@ enum field_id {
  fd_acid_vent,
  fd_plasma,
  fd_laser,
+ fd_blood_veggy,
+ fd_blood_insect,
+ fd_blood_invertebrate,
+ fd_gibs_insect,
+ fd_gibs_invertebrate,
  num_fields
 };
 
