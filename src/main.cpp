@@ -279,7 +279,7 @@ void set_standard_filenames(void)
 
     #ifdef __linux__
     FILENAMES.insert(std::pair<std::string,std::string>("base_path", "/home/" + USERNAME + "/.cataclysm-dda/"));
-    system(std::string("cp -r * " + FILENAMES["base_path"]));
+    //system(std::string("cp -r * " + FILENAMES["base_path"]));
     #endif // __linux__
 
     FILENAMES.insert(std::pair<std::string,std::string>("base_path", ""));

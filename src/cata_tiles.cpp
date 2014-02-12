@@ -128,8 +128,8 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
 {
     DebugLog() << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]\n";
     const std::string filename = "tileset.txt";                 // tileset-information-file
-    const std::string default_json = "gfx/tile_config.json";    // defaults
-    const std::string default_tileset = "gfx/tinytile.png";
+    const std::string default_json = FILENAMES["defaulttilejson"];    // defaults
+    const std::string default_tileset = FILENAMES["defaulttilepng"];
 
     std::vector<std::string> files;
     files = file_finder::get_files_from_path(filename, dir_path, true);     // search for the files (tileset.txt)
@@ -383,15 +383,18 @@ void cata_tiles::create_rotation_cache()
     3 is a West rotation
     These rotations are stored in a map<tile number, vector<SDL_Surface*> > with 3 values relating to east, south, and west in that order
     */
-    for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
-        const int tile_num = it->first;
-        SDL_Surface *tile_surface = it->second;
+    if(!tile_values->empty())
+    {
+        for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
+            const int tile_num = it->first;
+            SDL_Surface *tile_surface = it->second;
 
-        std::vector<SDL_Surface *> rotations;
-        for (int i = 1; i < 4; ++i) {
-            rotations.push_back(rotate_tile(tile_surface, NULL, i));
+            std::vector<SDL_Surface *> rotations;
+            for (int i = 1; i < 4; ++i) {
+                rotations.push_back(rotate_tile(tile_surface, NULL, i));
+            }
+            rotation_cache[tile_num] = rotations;
         }
-        rotation_cache[tile_num] = rotations;
     }
 }
 
