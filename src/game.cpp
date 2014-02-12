@@ -4636,7 +4636,7 @@ void game::draw()
 
     WINDOW *time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
-    if ( u.has_item_with_flag("WATCH") ) {
+    if ( (u.has_item_with_flag("WATCH") || u.has_bionic("bio_watch")) ) {
         wprintz(time_window, c_white, turn.print_time().c_str());
     } else {
         std::vector<std::pair<char, nc_color> > vGlyphs;
@@ -8970,9 +8970,9 @@ void game::pickup(int posx, int posy, int min)
 
     item_exchanges_since_save += 1; // Keeping this simple.
     write_msg();
-    if (u.weapon.type->id == "bio_claws_weapon") {
+    if ((u.weapon.type->id == "bio_claws_weapon") || (u.weapon.type->id == "bio_blade_weapon")) {
         if (min != -1) {
-            add_msg(_("You cannot pick up items with your claws out!"));
+            add_msg(_("You cannot pick up items with your %s!"), u.weapon.tname().c_str());
         }
         return;
     }
@@ -11885,9 +11885,11 @@ bool game::plmove(int dx, int dy)
    if (u.has_trait("LIGHTSTEP"))
     sound(x, y, 2, ""); // Sound of footsteps may awaken nearby monsters
    else if (u.has_trait("CLUMSY"))
-    sound(x, y, 10, ""); // Sound of footsteps may awaken nearby monsters
+    sound(x, y, 10, "");
+   else if (u.has_bionic("bio_ankles"))
+    sound(x, y, 12, "");
    else
-    sound(x, y, 6, ""); // Sound of footsteps may awaken nearby monsters
+    sound(x, y, 6, "");
   }
   if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE))
    sound(x, y, 40, _("You emit a rattling sound."));
@@ -13106,7 +13108,7 @@ int game::valid_group(std::string type, int x, int y, int z_coord)
 
 void game::wait()
 {
-    const bool bHasWatch = u.has_item_with_flag("WATCH");
+    const bool bHasWatch = (u.has_item_with_flag("WATCH") || u.has_bionic("bio_watch"));
 
     uimenu as_m;
     as_m.text = _("Wait for how long?");

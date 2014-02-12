@@ -1254,6 +1254,9 @@ void player::recalc_speed_bonus()
     if (has_trait("QUICK")) { // multiply by 1.1
         set_speed_bonus(get_speed() * 1.10 - get_speed_base());
     }
+    if (has_bionic("bio_speed")) { // multiply by 1.1
+        set_speed_bonus(get_speed() * 1.10 - get_speed_base());
+    }
 
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = -0.75 * get_speed_base();
@@ -2361,6 +2364,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
  if (has_trait("QUICK")) {
   pen = int(newmoves * .1);
   mvwprintz(w_speed, line, 1, c_green, _("Quick               +%s%d%%"),
+            (pen < 10 ? " " : ""), pen);
+ }
+ if (has_bionic("bio_speed")) {
+  pen = int(newmoves * .1);
+  mvwprintz(w_speed, line, 1, c_green, _("Bionic Speed        +%s%d%%"),
             (pen < 10 ? " " : ""), pen);
  }
  int runcost = run_cost(100);
@@ -5321,6 +5329,33 @@ void player::suffer()
     if (has_bionic("bio_power_weakness") && max_power_level > 0 &&
         power_level >= max_power_level * .75) {
         str_cur -= 3;
+    }
+    if (has_bionic("bio_trip") && one_in(500) && !has_disease("visuals")) {
+        g->add_msg(_("Your vision pixelates!"));
+        add_disease("visuals", 100);
+    }
+    if (has_bionic("bio_spasm") && one_in(3000) && !has_disease("downed")) {
+        g->add_msg(_("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
+        mod_pain(1);
+        add_effect("stunned", 1);
+        add_effect("downed", 1);
+    }
+    if (has_bionic("bio_shakes") && power_level > 0 && one_in(1200)) {
+        g->add_msg(_("Your bionics short-circuit, causing you to tremble and shiver."));
+        power_level--;
+        add_disease("shakes", 50);
+    }
+    if (has_bionic("bio_leaky") && one_in(500)) {
+        health--;
+    }
+    if (has_bionic("bio_sleepy") && one_in(500)) {
+        fatigue++;
+    }
+    if (has_bionic("bio_itchy") && one_in(500) && !has_disease("formication")) {
+        g->add_msg(_("Your malfunctioning bionic itches!"));
+      body_part bp = random_body_part(true);
+      int side = random_side(bp);
+        add_disease("formication", 100, false, 1, 3, 0, 1, bp, side, true);
     }
 
     // Artifact effects
@@ -9180,7 +9215,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     }
 
     // Bionics and mutation
-    if( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth ) {
+    if( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth && bp != bp_eyes ) {
         ret += 1;
     }
     if( has_trait("CHITIN3") && bp != bp_eyes && bp != bp_mouth ) {
@@ -9206,6 +9241,18 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     if (bp == bp_hands &&
         (has_trait("CLAWS_TENTACLE") )) {
         ret += 2;
+    }
+    if (bp == bp_mouth &&
+        ( has_bionic("bio_nostril") ) ) {
+        ret += 1;
+    }
+    if (bp == bp_hands &&
+        ( has_bionic("bio_thumbs") ) ) {
+        ret += 2;
+    }
+    if (bp == bp_eyes &&
+        ( has_bionic("bio_pokedeye") ) ) {
+        ret += 1;
     }
     if ( ret < 0 ) {
       ret = 0;

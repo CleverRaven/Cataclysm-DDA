@@ -258,7 +258,8 @@ void player::power_bionics()
                         tmp->powered = false;
                         g->add_msg(_("%s powered off."), bio_data.name.c_str());
                     } else if (power_level >= bio_data.power_cost ||
-                               (weapon_id == "bio_claws_weapon" && bio_id == "bio_claws_weapon")) {
+                               (weapon_id == "bio_claws_weapon" && bio_id == "bio_claws_weapon") ||
+                               (weapon_id == "bio_blade_weapon" && bio_id == "bio_blade_weapon")) {
                         int b = tmp - &my_bionics[0];
                         activate_bionic(b);
                     }
@@ -314,7 +315,8 @@ void player::activate_bionic(int b)
 {
     bionic bio = my_bionics[b];
     int power_cost = bionics[bio.id]->power_cost;
-    if (weapon.type->id == "bio_claws_weapon" && bio.id == "bio_claws_weapon") {
+    if ((weapon.type->id == "bio_claws_weapon" && bio.id == "bio_claws_weapon") ||
+    (weapon.type->id == "bio_blade_weapon" && bio.id == "bio_blade_weapon")) {
         power_cost = 0;
     }
     if (power_level < power_cost) {
@@ -507,17 +509,32 @@ void player::activate_bionic(int b)
         }
 
     }
+    if(bio.id == "bio_leukocyte") {
+        g->add_msg(_("You activate your leukocyte breeder system."));
+        if (health < 0) {
+            health = 0;
+        } else {
+            health += 5;
+        }
+    } 
     if(bio.id == "bio_geiger") {
         g->add_msg(_("Your radiation level: %d"), radiation);
     }
     if(bio.id == "bio_radscrubber") {
-        if (radiation > 4) {
-            g->add_msg(_("You activate your radiation scrubber system."));
+        g->add_msg(_("You activate your radiation scrubber system."));
+          if (radiation > 4) {
             radiation -= 5;
         } else {
-            g->add_msg(_("You activate your radiation scrubber system."));
             radiation = 0;
         }
+    }
+    if(bio.id == "bio_adrenaline") {
+            g->add_msg(_("You activate your adrenaline pump."));
+      if (has_disease("adrenaline")) {
+            add_disease("adrenaline", 50);
+  } else {
+    add_disease("adrenaline", 200);
+  }
     } else if(bio.id == "bio_claws") {
         if (weapon.type->id == "bio_claws_weapon") {
             g->add_msg(_("You withdraw your claws."));
@@ -531,6 +548,21 @@ void player::activate_bionic(int b)
         } else {
             g->add_msg(_("Your claws extend!"));
             weapon = item(itypes["bio_claws_weapon"], 0);
+            weapon.invlet = '#';
+        }
+    } else if(bio.id == "bio_blade") {
+        if (weapon.type->id == "bio_blade_weapon") {
+            g->add_msg(_("You retract your blade."));
+            weapon = ret_null;
+        } else if(weapon.type->id != "null") {
+            g->add_msg(_("Your blade extends, forcing you to drop your %s."),
+                       weapon.tname().c_str());
+            g->m.add_item_or_charges(posx, posy, weapon);
+            weapon = item(itypes["bio_blade_weapon"], 0);
+            weapon.invlet = '#';
+        } else {
+            g->add_msg(_("You extend your blade!"));
+            weapon = item(itypes["bio_blade_weapon"], 0);
             weapon.invlet = '#';
         }
     } else if(bio.id == "bio_blaster") {
