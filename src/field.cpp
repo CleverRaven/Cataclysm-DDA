@@ -1187,7 +1187,7 @@ void map::step_in_field(int x, int y)
             break;
 
         case fd_electricity:
-            if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY)) //Artifact stops electricity.
+            if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday")) //Artifact or bionic stops electricity.
                 g->add_msg(_("The electricity flows around you."));
             else {
                 g->add_msg(_("You're electrocuted!"));

@@ -85,6 +85,16 @@
     "description":    "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence."
     },{
         "type" : "bionic",
+        "id" : "bio_speed",
+    "name"       :    "Synaptic Accelerator",
+    "description":    "Your nervous system has been enhanced with bionic stimulators, giving you a 10% boost to your speed."
+    },{
+        "type" : "bionic",
+        "id" : "bio_watch",
+    "name"       :    "Internal Chronometer",
+    "description":    "You have been equipped with an internal atomic clock, ensuring that you will always know the current time."
+    },{
+        "type" : "bionic",
         "id" : "bio_membrane",
     "name"       :    "Nictating Membrane",
     "description":    "Your eyes have a thin membrane that closes over your eyes while underwater, negating any vision penalties."
@@ -92,8 +102,6 @@
         "type" : "bionic",
         "id" : "bio_sunglasses",
     "name"       :    "Anti-glare Compensators",
-    "cost"       :    0,
-    "time"       :    0,
     "description":    "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding."
     },{
         "type" : "bionic",
@@ -110,8 +118,6 @@
         "type" : "bionic",
         "id" : "bio_purifier",
     "name"       :    "Air Filtration System",
-    "cost"       :    0,
-    "time"       :    0,
     "description":    "Implanted in your trachea is an advanced filtration system.  If toxins find their way into your windpipe, the filter will attempt to remove them."
     },{
         "type" : "bionic",
@@ -119,8 +125,16 @@
     "name"       :    "Internal Climate Control",
     "active"     :    true,
     "cost"       :    1,
-    "time"       :    30,
+    "time"       :    100,
     "description":    "Throughout your body lies a network of thermal piping which eases the effects of high and low ambient temperatures."
+    },{
+        "type" : "bionic",
+        "id" : "bio_faraday",
+    "name"       :    "Dielectric Capacitance System",
+    "active"     :    true,
+    "cost"       :    1,
+    "time"       :    10,
+    "description":    "Throughout your body lies a network of miniature piezoelectric capacitors which can be charged with bionic power to temporarily protect you from external electrical discharge."
     },{
         "type" : "bionic",
         "id" : "bio_storage",
@@ -216,7 +230,7 @@
     "active"     :    true,
     "cost"       :    1,
     "time"       :    10,
-    "description":    "Your face is actually made of a compound which may be molded by electrical impulses, making you impossible to recognize.  While not powered, however, the compound reverts to its default shape."
+    "description":    "Through controlled application of electrochemical impulses, you are capable of altering your facial structure so as to subtly affect the reactions of others. While active, you gain a bonus to all social interactions."
     },{
         "type" : "bionic",
         "id" : "bio_ads",
@@ -233,6 +247,13 @@
     "cost"       :    1,
     "time"       :    6,
     "description":    "A thin forcefield surrounds your body, continually draining power.  This field does not deflect penetration, but rather delivers a very strong shock, damaging unarmed attackers and those with a conductive weapon."
+    },{
+        "type" : "bionic",
+        "id" : "bio_leukocyte",
+    "name"       :    "Leukocyte Breeder System",
+    "active"     :    true,
+    "cost"       :    2,
+    "description":    "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power."
     },{
         "type" : "bionic",
         "id" : "bio_scent_mask",
@@ -323,6 +344,13 @@
     "description":    "A system of advanced piezomechanical blood filters have been implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power."
     },{
         "type" : "bionic",
+        "id" : "bio_adrenaline",
+    "name"       :    "Adrenaline Pump",
+    "active"     :    true,
+    "cost"       :    2,
+    "description":    "A stimulator system has been implanted alongside your adrenal glands, allowing you to trigger your body's adrenaline response at the cost of some bionic power."
+    },{
+        "type" : "bionic",
         "id" : "bio_blood_filter",
     "name"       :    "Blood Filter",
     "active"     :    true,
@@ -355,13 +383,20 @@
         "id" : "bio_claws",
     "name"       :    "Adamantium Claws",
     "active"     :    true,
-    "cost"       :    3,
-    "description":    "Your fingers can withdraw into your hands, allowing a set of vicious claws to extend.  These do considerable cutting damage, but prevent you from holding anything else."
+    "cost"       :    2,
+    "description":    "Vicious claws have been installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended."
     },{
         "type" : "bionic",
         "id" : "bio_razors",
     "name"       :    "Fingertip Razors",
     "description":    "You possess razor-sharp retractable claws underneath your fingernails, ten double-edged blades four centimeters in length that do a small amount of unarmed slashing damage whenever your fingertips are uncovered."
+    },{
+        "type" : "bionic",
+        "id" : "bio_blade",
+    "name"       :    "Extensible Blade",
+    "active"     :    true,
+    "cost"       :    4,
+    "description":    "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended."
     },{
         "type" : "bionic",
         "id" : "bio_blaster",
@@ -526,6 +561,78 @@
     "name"       :    "Power Overload",
     "faulty"     :    true,
     "description":    "Damaged power circuits cause short-circuiting inside your muscles when your batteries are above 75%%%% capacity, causing greatly reduced strength.  This has no effect if you have no internal batteries."
+    },{
+        "type" : "bionic",
+        "id" : "bio_itchy",
+    "name"       :    "Itchy Metal Thing",
+    "faulty"     :    true,
+    "description":    "A bionic of some sort, so badly installed that you cannot even tell what it was originally supposed to be.  Sometimes it itches horribly."
+    },{
+        "type" : "bionic",
+        "id" : "bio_nostril",
+    "name"       :    "Bionic Nostril",
+    "faulty"     :    true,
+    "description":    "You're really not sure how the CBM ended up in your nose, but no matter how it got there this badly misplaced bionic makes it difficult to breathe.  Increases mouth encumbrance by one."
+    },{
+        "type" : "bionic",
+        "id" : "bio_thumbs",
+    "name"       :    "Self-Locking Thumbs",
+    "faulty"     :    true,
+    "description":    "Self-locking thumbs hold tight (even when you really don't want them to) and don't let go (even when you'd rather they did).  Increases hand encumbrance by two, while failing to improve your ability to hold objects whatsoever."
+    },{
+        "type" : "bionic",
+        "id" : "bio_spasm",
+    "name"       :    "Motor Control Overstimulator",
+    "faulty"     :    true,
+    "description":    "One piezoelectric solenoid installed backwards, two crossed wires, and four burned-out capacitors later you started falling on your face and writhing around at the least convenient times.  This incorrectly-configured bionic periodically stuns you for a short duration."
+    },{
+        "type" : "bionic",
+        "id" : "bio_shakes",
+    "name"       :    "Bionic Short Circuit",
+    "faulty"     :    true,
+    "description":    "A poorly-wired bionic which fails to serve its intended purpose, this malfunctioning device periodically short-circuits, causing systemic muscle tremors."
+    },{
+        "type" : "bionic",
+        "id" : "bio_leaky",
+    "name"       :    "Leaky Bionic",
+    "faulty"     :    true,
+    "description":    "This botched piece of bionic hardware slowly leaks electrolytic compounds, piezoelectric nanomaterials, and other high-tech contaminants into your bloodstream. Needless to say, this is not good for your health."
+    },{
+        "type" : "bionic",
+        "id" : "bio_sleepy",
+    "name"       :    "Endocrine Enervator",
+    "faulty"     :    true,
+    "description":    "Through a combination of psychochemical manipulation and old fashioned electrical nerve stimulation, this malfunctioning bionic alters your brain chemistry in such a way as to cause fatigue. You will find yourself tiring a bit faster than before."
+    },{
+        "type" : "bionic",
+        "id" : "bio_deformity",
+    "name"       :    "Bionic-Induced Deformity",
+    "faulty"     :    true,
+    "description":    "A combination of poor installation and unpleasant scarring has lead to the malfunctioning bionic catastrophe you call your face. People who mind that you look like a dime-store Frankenstein will react poorly to your appearance."
+    },{
+        "type" : "bionic",
+        "id" : "bio_voice",
+    "name"       :    "Voice Remodulator",
+    "faulty"     :    true,
+    "description":    "You will likely spend the rest of your days serving as a walking testament to why you don't hold loose parts in your mouth while installing a CBM. Accidentally swallowing that remodulator unit has given you a creepy robot voice."
+    },{
+        "type" : "bionic",
+        "id" : "bio_pokedeye",
+    "name"       :    "Bionic Visual Impairment",
+    "faulty"     :    true,
+    "description":    "Due to a badly misplaced dielectric stylette you are now suffering from mild optic neuropathy. Increases eye encumbrance by one."
+    },{
+        "type" : "bionic",
+        "id" : "bio_ankles",
+    "name"       :    "Squeaky Ankles",
+    "faulty"     :    true,
+    "description":    "In a cruel twist of fate, a poorly executed CBM installation has given you a pair of useless bionics which make squeaking noises when you walk."
+    },{
+        "type" : "bionic",
+        "id" : "bio_trip",
+    "name"       :    "Visual Disruptor",
+    "faulty"     :    true,
+    "description":    "A malfunctioning bionic which causes occasional visual distortion and pixelation."
     },{
         "type" : "bionic",
         "id" : "bio_stiff",

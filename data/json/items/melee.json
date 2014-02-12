@@ -2191,7 +2191,7 @@
     {
         "type":"GENERIC",
         "id" : "bio_claws_weapon",
-        "name" : "adamantite claws",
+        "name" : "bionic claws",
         "description" : "Short and sharp claws made from a high-tech metal.",
         "weight" : 0,
         "to_hit" : 4,
@@ -2202,6 +2202,23 @@
         "bashing" : 8,
         "cutting" : 16,
         "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD"],
+        "price" : 0
+    },
+    {
+        "type":"GENERIC",
+        "id" : "bio_blade_weapon",
+        "name" : "monomolecular blade",
+        "description" : "A foot-long blade made from advanced materials.",
+        "weight" : 100,
+        "to_hit" : 3,
+        "color" : "dark_gray",
+        "symbol" : "{",
+        "material" : ["steel", "null"],
+        "techniques" : ["WBLOCK_1"],
+        "volume" : 3,
+        "bashing" : 0,
+        "cutting" : 36,
+        "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD"],
         "price" : 0
     },
     {
