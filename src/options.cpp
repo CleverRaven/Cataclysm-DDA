@@ -353,7 +353,7 @@ void initOptions() {
     OPTIONS.clear();
 
     std::string tileset_names;
-    tileset_names = get_tileset_names("gfx");      //get the tileset names and set the optionNames
+    tileset_names = get_tileset_names(FILENAMES["gfxdir"]);      //get the tileset names and set the optionNames
 
     optionNames["fahrenheit"] = _("Fahrenheit");
     optionNames["celsius"] = _("Celsius");
@@ -978,7 +978,7 @@ void show_options(bool ingame)
     if (used_tiles_changed){
         SDL_FillRect(tilecontext->buffer, NULL, 0x000000);
         SDL_BlitSurface(tilecontext->buffer, NULL, tilecontext->display_screen, NULL);
-        tilecontext->reinit("gfx");
+        tilecontext->reinit(FILENAMES["gfxdir"]);
         g->init_ui();
         g->refresh_all();
     }

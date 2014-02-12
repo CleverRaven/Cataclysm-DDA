@@ -343,10 +343,10 @@ void game::init_lua() {
     luaL_register(lua_state, "game", global_funcs);
 
     // Load lua-side metatables etc.
-    luaL_dofile(lua_state, "lua/autoexec.lua");
+    luaL_dofile(lua_state, FILENAMES["autoexeclua"]);
 
     // Load main lua mod
-    int err = luaL_dofile(lua_state,FILENAMES["datadir"] + "main.lua");
+    int err = luaL_dofile(lua_state,FILENAMES["mainlua"]);
     if(err) {
         // Error handling.
         const char* error = lua_tostring(lua_state, -1);

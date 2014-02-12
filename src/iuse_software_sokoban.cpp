@@ -56,7 +56,7 @@ bool sokoban_game::parse_level()
     vLevelDone.clear();
 
     std::ifstream fin;
-    fin.open(std::string(FILENAMES["rawdir"] + "sokoban.txt").c_str());
+    fin.open(std::string(FILENAMES["sokoban"]).c_str());
     if(!fin.is_open()) {
         fin.close();
         debugmsg("Could not read ./data/raw/sokoban.txt");

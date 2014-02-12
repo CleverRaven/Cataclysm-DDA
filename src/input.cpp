@@ -182,7 +182,7 @@ void input_manager::init() {
 
     std::ifstream data_file;
 
-    std::string file_name = FILENAMES["rawdir"] + "keybindings.json";
+    std::string file_name = FILENAMES["keybindings"];
     data_file.open(file_name.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if(!data_file.good()) {

@@ -251,12 +251,12 @@
 		<Unit filename="src/file_finder.h" />
 		<Unit filename="src/file_wrapper.cpp" />
 		<Unit filename="src/file_wrapper.h" />
-		<Unit filename="src/filenames.h" />
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/game.h" />
 		<Unit filename="src/gamemode.cpp" />
 		<Unit filename="src/gamemode.h" />
 		<Unit filename="src/get_version.h" />
+		<Unit filename="src/globals.h" />
 		<Unit filename="src/graffiti.cpp" />
 		<Unit filename="src/graffiti.h" />
 		<Unit filename="src/help.cpp" />

@@ -1017,7 +1017,7 @@ WINDOW *curses_init(void)
     #ifdef SDLTILES
     DebugLog() << "Initializing SDL Tiles context\n";
     tilecontext = new cata_tiles;
-    tilecontext->init("gfx");
+    tilecontext->init(FILENAMES["gfxdir"]);
     #endif // SDLTILES
     DebugLog() << (std::string)"Tiles initialized successfully.\n";
     WindowWidth= OPTIONS["TERMINAL_X"];
@@ -1080,7 +1080,7 @@ WINDOW *curses_init(void)
     //different default font with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
-        typeface = FILENAMES["fontdir"] + "fixedsys.ttf";
+        typeface = FILENAMES["fixedsys"];
     }
 
     if(fontsize <= 0) fontsize = fontheight - 1;
@@ -1173,7 +1173,7 @@ int curses_start_color(void)
 {
     colorpairs = new pairs[100];
     //Load the console colors from colors.json
-    std::ifstream colorfile(FILENAMES["rawdir"] + "colors.json", std::ifstream::in | std::ifstream::binary);
+    std::ifstream colorfile(FILENAMES["colors"], std::ifstream::in | std::ifstream::binary);
     try{
         JsonIn jsin(colorfile);
         char ch;
@@ -1206,7 +1206,7 @@ int curses_start_color(void)
         }
     }
     catch(std::string e){
-        throw FILENAMES["rawdir"] + "colors.json: " + e;
+        throw FILENAMES["colors"] + ": " + e;
     }
     if(consolecolors.empty())return 0;
     windowsPalette[0]  = BGR(ccolor("BLACK"));

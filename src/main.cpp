@@ -32,6 +32,7 @@
 #endif // __linux__
 
 void exit_handler(int s);
+void set_standard_filenames(void);
 
 std::map<std::string,std::string> FILENAMES; // create map where we will store the FILENAMES
 std::string USERNAME;
@@ -147,43 +148,21 @@ USERNAME = std::string(username);
                 argc--;
                 argv++;
             }
+        } else if(std::string(argv[0]) == "--typeface") {
+            argc--;
+            argv++;
+            if(argc) {
+                FILENAMES["typeface"] = std::string(argv[0]);
+                argc--;
+                argv++;
+            }
         } else { // ignore unknown args.
             argc--;
             argv++;
         }
     }
 
-    // setting some standards
-
-    #ifdef __linux__
-    FILENAMES.insert(std::pair<std::string,std::string>("base_path", "/home/" + USERNAME + "/.cataclysm-dda/"));
-    #endif // __linux__
-
-    FILENAMES.insert(std::pair<std::string,std::string>("base_path", ""));
-
-    FILENAMES.insert(std::pair<std::string,std::string>("datadir", FILENAMES["base_path"] + "data/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("savedir", FILENAMES["base_path"] + "save/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("memorialdir", FILENAMES["base_path"] + "memorial/"));
-
-    FILENAMES.insert(std::pair<std::string,std::string>("fontdir", FILENAMES["datadir"] + "font/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("rawdir", FILENAMES["datadir"] + "raw/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("jsondir", FILENAMES["datadir"] + "json/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("moddir", FILENAMES["datadir"] + "mods/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("templatedir", FILENAMES["datadir"]));
-
-    FILENAMES.insert(std::pair<std::string,std::string>("options", FILENAMES.find("datadir")->second + "options.txt"));
-    FILENAMES.insert(std::pair<std::string,std::string>("keymap", FILENAMES.find("datadir")->second + "keymap.txt"));
-    FILENAMES.insert(std::pair<std::string,std::string>("autopickup", FILENAMES.find("datadir")->second + "auto_pickup.txt"));
-    FILENAMES.insert(std::pair<std::string,std::string>("motd", FILENAMES.find("datadir")->second + "motd"));
-    FILENAMES.insert(std::pair<std::string,std::string>("credits", FILENAMES["datadir"] + "credits"));
-    FILENAMES.insert(std::pair<std::string,std::string>("fontlist", FILENAMES["datadir"] + "fontlist.txt"));
-    FILENAMES.insert(std::pair<std::string,std::string>("fontdata", FILENAMES["datadir"] + "FONTDATA"));
-    FILENAMES.insert(std::pair<std::string,std::string>("debug", FILENAMES["datadir"] + "debug.txt"));
-
-    FILENAMES.insert(std::pair<std::string,std::string>("modsearchpath", FILENAMES["datadir"]));
-    FILENAMES.insert(std::pair<std::string,std::string>("modsearchfile", FILENAMES["modinfo.json"]));
-    FILENAMES.insert(std::pair<std::string,std::string>("moddevdefaultpath", FILENAMES["moddir"] + "dev-default-mods.json"));
-    FILENAMES.insert(std::pair<std::string,std::string>("moduserdefaultpath", FILENAMES["moddir"] + "user-defaults-mods.json"));
+    set_standard_filenames();
 
     // ncurses stuff
     initOptions();
@@ -292,4 +271,52 @@ void exit_handler(int s) {
         }
         exit(0);
     }
+}
+
+void set_standard_filenames(void)
+{
+    // setting some standards
+
+    #ifdef __linux__
+    FILENAMES.insert(std::pair<std::string,std::string>("base_path", "/home/" + USERNAME + "/.cataclysm-dda/"));
+    system(std::string("cp -r * " + FILENAMES["base_path"]));
+    #endif // __linux__
+
+    FILENAMES.insert(std::pair<std::string,std::string>("base_path", ""));
+
+    FILENAMES.insert(std::pair<std::string,std::string>("datadir", FILENAMES["base_path"] + "data/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("savedir", FILENAMES["base_path"] + "save/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("memorialdir", FILENAMES["base_path"] + "memorial/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("luadir", FILENAMES["base_path"] + "lua/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("gfxdir", FILENAMES["base_path"] + "gfx/"));
+
+    FILENAMES.insert(std::pair<std::string,std::string>("fontdir", FILENAMES["datadir"] + "font/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("rawdir", FILENAMES["datadir"] + "raw/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("jsondir", FILENAMES["datadir"] + "json/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("moddir", FILENAMES["datadir"] + "mods/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("templatedir", FILENAMES["datadir"]));
+    FILENAMES.insert(std::pair<std::string,std::string>("namesdir", FILENAMES["datadir"] + "names/"));
+
+    FILENAMES.insert(std::pair<std::string,std::string>("options", FILENAMES.find("datadir")->second + "options.txt"));
+    FILENAMES.insert(std::pair<std::string,std::string>("keymap", FILENAMES.find("datadir")->second + "keymap.txt"));
+    FILENAMES.insert(std::pair<std::string,std::string>("autopickup", FILENAMES.find("datadir")->second + "auto_pickup.txt"));
+    FILENAMES.insert(std::pair<std::string,std::string>("motd", FILENAMES.find("datadir")->second + "motd"));
+    FILENAMES.insert(std::pair<std::string,std::string>("credits", FILENAMES["datadir"] + "credits"));
+    FILENAMES.insert(std::pair<std::string,std::string>("fontlist", FILENAMES["datadir"] + "fontlist.txt"));
+    FILENAMES.insert(std::pair<std::string,std::string>("fontdata", FILENAMES["datadir"] + "FONTDATA"));
+    FILENAMES.insert(std::pair<std::string,std::string>("debug", FILENAMES["datadir"] + "debug.log"));
+    FILENAMES.insert(std::pair<std::string,std::string>("mainlua", FILENAMES["datadir"] + "main.lua"));
+    FILENAMES.insert(std::pair<std::string,std::string>("typeface", FILENAMES["fontdir"] + "fixedsys.ttf"));
+    FILENAMES.insert(std::pair<std::string,std::string>("names", FILENAMES["namesdir"] + "en.json"));
+    FILENAMES.insert(std::pair<std::string,std::string>("colors", FILENAMES["rawdir"] + "colors.json"));
+    FILENAMES.insert(std::pair<std::string,std::string>("keybindings", FILENAMES["rawdir"] + "keybindings.json"));
+    FILENAMES.insert(std::pair<std::string,std::string>("sokoban", FILENAMES["rawdir"] + "sokoban.txt"));
+    FILENAMES.insert(std::pair<std::string,std::string>("autoexeclua", FILENAMES["luadir"] + "autoexec.lua"));
+    FILENAMES.insert(std::pair<std::string,std::string>("defaulttilejson", FILENAMES["gfx"] + "tile_config.json"));
+    FILENAMES.insert(std::pair<std::string,std::string>("defaulttilepng", FILENAMES["gfx"] + "tinytile.png"));
+
+    FILENAMES.insert(std::pair<std::string,std::string>("modsearchpath", FILENAMES["datadir"]));
+    FILENAMES.insert(std::pair<std::string,std::string>("modsearchfile", FILENAMES["modinfo.json"]));
+    FILENAMES.insert(std::pair<std::string,std::string>("moddevdefaultpath", FILENAMES["moddir"] + "dev-default-mods.json"));
+    FILENAMES.insert(std::pair<std::string,std::string>("moduserdefaultpath", FILENAMES["moddir"] + "user-defaults-mods.json"));
 }
