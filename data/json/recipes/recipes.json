@@ -2246,7 +2246,7 @@
   "result": "pipe_launcher40mm",
   "note": "underbarrel_mount",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
+  "subcategory": "CSC_WEAPON_MODS",
   "skill_used": "mechanics",
   "skills_required": [ "launcher", 3 ],
   "difficulty": 6,
