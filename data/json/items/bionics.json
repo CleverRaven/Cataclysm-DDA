@@ -226,7 +226,7 @@
         "id": "bio_claws",
         "symbol": ":",
         "color": "yellow",
-        "name": "CBM: Adamantium Claws",
+        "name": "CBM: Bionic Claws",
         "description": "Vicious claws have been installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended.",
         "price": 5500,
         "material": ["steel", "plastic"],

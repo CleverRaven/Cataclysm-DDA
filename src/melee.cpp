@@ -897,7 +897,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
  bool shock_them = (has_active_bionic("bio_shock") && power_level >= 2 &&
                     (unarmed_attack() || weapon.made_of("iron") ||
                      weapon.made_of("steel") || weapon.made_of("silver") ||
-                     weapon.made_of("gold")) && one_in(3));
+                     weapon.made_of("gold") || weapon.made_of("superalloy")) && one_in(3));
 
  bool drain_them = (has_active_bionic("bio_heat_absorb") && power_level >= 1 &&
                     !is_armed() && t.is_warm());
