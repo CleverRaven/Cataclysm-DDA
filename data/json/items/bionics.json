@@ -218,7 +218,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 5
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
