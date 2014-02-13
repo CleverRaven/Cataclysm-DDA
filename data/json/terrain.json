@@ -629,58 +629,6 @@
         "close": "t_door_c"
     },{
         "type" : "terrain",
-        "id" : "t_rdoor_c",
-        "name": "closed reinforced wood door",
-        "symbol": "+",
-        "color": "red",
-        "move_cost": 0,
-        "flags": [
-            "BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM",
-            "SUPPORTS_ROOF", "BARRICADABLE_DOOR"
-        ],
-        "open": "t_rdoor_o",
-        "bash": {
-            "str_min": 20, "str_max": 50, "str_min_blocked": 30, "str_max_blocked": 60,
-            "sound": "smash!",
-            "sound_fail": "whump!",
-            "ter_set": "t_rdoor_b"
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_rdoor_b",
-        "name": "damaged reinforced wood door",
-        "symbol": "&",
-        "color": "red",
-        "move_cost": 0,
-        "flags": [
-            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM",
-            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR"
-        ],
-        "bash": {
-            "str_min": 15, "str_max": 50, "str_min_blocked": 25, "str_max_blocked": 60,
-            "sound": "crash!",
-            "sound_fail": "wham!",
-            "ter_set": "t_door_b",
-            "items": [
-                { "item": "2x4", "amount": 12, "minamount": 1},
-                { "item": "nail", "amount": 48, "minamount": 2},
-                { "item": "splinter", "amount": 1 }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_rdoor_o",
-        "name": "open reinforced wood door",
-        "symbol": "'",
-        "color": "red",
-        "move_cost": 2,
-        "flags": [
-            "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
-            "FLAT", "BARRICADABLE_DOOR"
-        ],
-        "close": "t_rdoor_c"
-    },{
-        "type" : "terrain",
         "id" : "t_door_locked_interior",
         "name": "closed wood door",
         "symbol": "+",
@@ -741,14 +689,6 @@
         "name": "empty door frame",
         "symbol": ".",
         "color": "brown",
-        "move_cost": 2,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"]
-    },{
-        "type" : "terrain",
-        "id" : "t_mdoor_frame",
-        "name": "empty metal door frame",
-        "symbol": ".",
-        "color": "dkgray",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"]
     },{
@@ -1153,56 +1093,6 @@
                 { "item": "splinter", "amount": 2, "minamount": 0, "chance": 50 }
             ]
         }
-    },{
-        "type" : "terrain",
-        "id" : "t_window_reinforced",
-        "name": "reinforced boarded up window",
-        "symbol": "#",
-        "color": "red",
-        "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
-        "bash": {
-            "str_min": 15, "str_max": 30,
-            "sound": "crash!",
-            "sound_fail": "wham!",
-            "ter_set": "t_window_boarded",
-            "items": [
-                { "item": "splinter", "amount": 8, "minamount": 0, "chance": 50 }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_window_reinforced_noglass",
-        "name": "reinforced boarded up window",
-        "symbol": "#",
-        "color": "red",
-        "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
-        "bash": {
-            "str_min": 15, "str_max": 30,
-            "sound": "crash!",
-            "sound_fail": "wham!",
-            "ter_set": "t_window_boarded_noglass",
-            "items": [
-                { "item": "splinter", "amount": 8, "minamount": 0, "chance": 50 }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_window_enhanced",
-        "name": "armored boarded up window",
-        "symbol": "#",
-        "color": "cyan",
-        "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"]
-    },{
-        "type" : "terrain",
-        "id" : "t_window_enhanced_noglass",
-        "name": "armored boarded up window",
-        "symbol": "#",
-        "color": "cyan",
-        "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"]
     },{
         "type" : "terrain",
         "id" : "t_window_stained_green",
@@ -2187,5 +2077,133 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT"],
         "examine_action": "fswitch"
+    },{
+        "type" : "terrain",
+        "id" : "t_rdoor_c",
+        "name": "closed reinforced wood door",
+        "symbol": "+",
+        "color": "red",
+        "move_cost": 0,
+        "flags": [
+            "BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM",
+            "SUPPORTS_ROOF", "BARRICADABLE_DOOR"
+        ],
+        "open": "t_rdoor_o",
+        "bash": {
+            "str_min": 20, "str_max": 50, "str_min_blocked": 30, "str_max_blocked": 60,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_rdoor_b"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_rdoor_b",
+        "name": "damaged reinforced wood door",
+        "symbol": "&",
+        "color": "red",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM",
+            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR"
+        ],
+        "bash": {
+            "str_min": 15, "str_max": 50, "str_min_blocked": 25, "str_max_blocked": 60,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_door_b",
+            "items": [
+                { "item": "2x4", "amount": 12, "minamount": 1},
+                { "item": "nail", "amount": 48, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_rdoor_o",
+        "name": "open reinforced wood door",
+        "symbol": "'",
+        "color": "red",
+        "move_cost": 2,
+        "flags": [
+            "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
+            "FLAT", "BARRICADABLE_DOOR"
+        ],
+        "close": "t_rdoor_c"
+    },{
+        "type" : "terrain",
+        "id" : "t_mdoor_frame",
+        "name": "empty metal door frame",
+        "symbol": ".",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_window_reinforced",
+        "name": "reinforced boarded up window",
+        "symbol": "#",
+        "color": "red",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 15, "str_max": 30,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_window_boarded",
+            "items": [
+                { "item": "splinter", "amount": 8, "minamount": 0, "chance": 50 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_reinforced_noglass",
+        "name": "reinforced boarded up window",
+        "symbol": "#",
+        "color": "red",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 15, "str_max": 30,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_window_boarded_noglass",
+            "items": [
+                { "item": "splinter", "amount": 8, "minamount": 0, "chance": 50 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_enhanced",
+        "name": "armored boarded up window",
+        "symbol": "#",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_window_enhanced_noglass",
+        "name": "armored boarded up window",
+        "symbol": "#",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"]
+   },{
+      "type" : "terrain",
+      "id" : "t_searth_test",
+      "name": "scorched earth",
+      "symbol": ".",
+      "color": "ltgray",
+      "move_cost": 2,
+      "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
+   },{
+      "type" : "furniture",
+      "id" : "f_mutcactus_test",
+      "name": "mutated cactus",
+      "symbol": "f",
+      "color": "green",
+      "move_cost_mod": 4,
+      "required_str": -1,
+      "flags": ["TRANSPARENT", "FLAMMABLE_ASH" ],
+      "examine_action": "flower_poppy"
     }
 ]
