@@ -1222,6 +1222,8 @@ void advanced_inventory::display(player *pp)
             if(panes[src].area == isinventory ) {
                 ret = g->inventory_item_menu( item_pos, colstart + ( src == left ? w_width / 2 : 0 ),
                                               w_width / 2, (src == right ? 1 : -1) );
+                // Might have changed at stack (activated an item)
+                g->u.inv.restack(&g->u);
                 recalc = true;
                 checkshowmsg = true;
             } else {
