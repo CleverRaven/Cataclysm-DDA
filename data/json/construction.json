@@ -291,8 +291,8 @@
             [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge" ]
         ],
         "components" : [
-            [ [ "spike", 4 ] ],
-            [ [ "steel_plate", 1 ], [ "sheet_metal", 4 ] ]
+            [ [ "2x4", 8 ] ],
+            [ [ "nail", 16 ] ]
         ],
         "pre_terrain" : "t_window_boarded_noglass",
         "post_terrain" : "t_window_reinforced_noglass"
@@ -320,8 +320,8 @@
               "hatchet", "nailgun" ]
         ],
         "components" : [
-            [ [ "2x4", 8 ] ],
-            [ [ "nail", 16 ] ]
+            [ [ "spike", 4 ] ],
+            [ [ "steel_plate", 1 ], [ "sheet_metal", 4 ] ]
         ],
         "pre_terrain" : "t_window_reinforced_noglass",
         "post_terrain" : "t_window_enhanced_noglass"
