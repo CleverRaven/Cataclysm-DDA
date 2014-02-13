@@ -225,6 +225,8 @@ Flags used to describe monsters and define their properties and abilities.
 - ```VERMIN``` Creature is too small for normal combat, butchering etc.
 - ```HUNTS_VERMIN``` Creature uses vermin as a food source.
 - ```SMALL_BITER``` Creature can cause a painful, non-damaging bite.
+- ```ABSORBS``` Consumes objects it moves over.
+
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
@@ -275,7 +277,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```BITE``` Bites the player.
 - ```BRANDISH``` Brandish a knife at the player.
 - ```FLESH_GOLEM``` Attack the player with claw, and inflict disease `downed` if the attack connects.
-- ```PARROT``` Parrots the speech defined in `migo_speech.json`
+- ```PARROT``` Parrots the speech defined in `migo_speech.json`, only says the lines with the corresponding id.
 
 ### Anger, Fear & Placation Triggers
 

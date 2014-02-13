@@ -2,15 +2,19 @@
 ##Adding a monster
 1. Edit mtype.h.  Change the enum mon_id and insert a unique identifier for
     your new monster type.  Be sure to put it among similar monsters.
-2. Edit montypedef.cpp.  A macro is used for monsters and it is pretty
-    straightforward (Any of this ring a bell?).  Be ABSOLUTELY sure that you
-    insert the macro at the same point in the list as your inserted the
-    identifier in mon_id!
+	Add or remove the appropriate entry to the monster_names array in tile_id_data.h
+	Add the monster to init_translation in mongroupdef.cpp.
+2. Edit monsters.json  It is pretty straightforward (Any of this ring a bell?).
+	Be ABSOLUTELY sure that you insert the macro at the same point in the list as 
+	your inserted the identifier in mon_id!
 3. Your monster type is now valid, but won't be spawned.  If you want it to be
-    spawned among similar monsters, edit mongroupdef.cpp.  Find the appropriate
+    spawned among similar monsters, edit monstergroups.json.  Find the appropriate
     array, and insert the identifier for your monster (e.g, mon_zombie).  Make
     sure it comes in before the NULL at the end of the list.
-4. If you want your monster to drop items, edit monitemsdef.cpp.  Make a new
+	Cost_multiplier, makes it more expensive to spawn. The higher the cost, the 
+	more 'slots' it takes up, and freq is how frequent they spawn.
+	See mongroupdef.cpp:line:116 and up.
+4. If you want your monster to drop items, edit monster_drops.json.  Make a new
     array for your monster type with all the map item groups it may carry, and a
     chance value for each.
 5. Your monster may have a special attack, a monattack::function reference.
@@ -20,7 +24,7 @@
     statement that the monster uses to decide whether or not to use the attack,
     and if they do, should reset the monster's attack timer.
 6. Just like attacks, some monsters may have a special function called when
-    they die.  This works the same as attacks, but the relevent files are
+    they die.  This works the same as attacks, but the relevant files are
     mondeath.h and mondeath.cpp.
 
 ##Adding structures to the map
