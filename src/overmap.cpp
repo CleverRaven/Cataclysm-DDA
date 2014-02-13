@@ -3545,7 +3545,6 @@ void overmap::open()
   generate(pointers[0], pointers[3], pointers[1], pointers[2]);
   for (int i = 0; i < 4; i++)
    delete pointers[i];
-  save();
  }
 }
 

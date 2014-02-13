@@ -118,7 +118,6 @@ void mapbuffer::save_if_dirty()
 void mapbuffer::save( bool delete_after_save )
 {
     std::map<tripoint, submap *, pointcomp>::iterator it;
-    std::ofstream fout;
 
     std::stringstream map_directory;
     map_directory << world_generator->active_world->world_path << "/maps";
@@ -126,11 +125,12 @@ void mapbuffer::save( bool delete_after_save )
 
     std::stringstream mapfile;
     mapfile << map_directory.str() << "/map.key";
-    fout.open(mapfile.str().c_str());
+    std::ofstream fout(mapfile.str().c_str());
     if( !fout.is_open() ) {
         debugmsg( "Can't open %s.", mapfile.str().c_str() );
         return;
     }
+    fout.exceptions(std::ios::failbit | std::ios::badbit);
 
     fout << "# version " << savegame_version << std::endl;
 

@@ -298,6 +298,10 @@ std::string action_ident(action_id act)
         return "debug_scent";
     case ACTION_TOGGLE_DEBUGMON:
         return "debug_mode";
+    case ACTION_ZOOM_OUT:
+        return "zoom_out";
+    case ACTION_ZOOM_IN:
+        return "zoom_in";
     case ACTION_TOGGLE_SIDEBAR_STYLE:
         return "toggle_sidebar_style";
     case ACTION_TOGGLE_FULLSCREEN:
@@ -478,6 +482,10 @@ std::string action_name(action_id act)
         return _("View Scentmap");
     case ACTION_TOGGLE_DEBUGMON:
         return _("Toggle Debug Messages");
+    case ACTION_ZOOM_OUT:
+        return _("Zoom Out");
+    case ACTION_ZOOM_IN:
+        return _("Zoom In");
     case ACTION_TOGGLE_SIDEBAR_STYLE:
         return _("Switch Sidebar Style");
     case ACTION_TOGGLE_FULLSCREEN:
@@ -654,6 +662,8 @@ kills )\n\
 morale v\n\
 messages P\n\
 help ?\n\
+zoom_in z\n\
+zoom_out Z\n\
 \n\
 # DEBUG FUNCTIONS\n\
 debug_mode ~\n\

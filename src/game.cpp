@@ -97,7 +97,8 @@ game::game() :
  run_mode(1),
  mostseen(0),
  gamemode(NULL),
- lookHeight(13)
+ lookHeight(13),
+ tileset_zoom(16)
 {
     world_generator = new worldfactory();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -643,7 +644,7 @@ void game::create_starting_npcs()
 
 void game::cleanup_at_end(){
     write_msg();
-    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE || uquit == QUIT_SAVED) {
+    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
         // Save the factions's, missions and set the NPC's overmap coords
         // Npcs are saved in the overmap.
         save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
@@ -2270,6 +2271,10 @@ void game::hide_mouseview()
     }
 }
 
+#ifdef SDLTILES
+    void rescale_tileset(int size);
+#endif
+
 input_context game::get_player_input(std::string &action)
 {
     input_context ctxt("DEFAULTMODE");
@@ -3024,10 +3029,11 @@ bool game::handle_action()
 
   case ACTION_SAVE:
    if (query_yn(_("Save and quit?"))) {
-    save();
-    u.moves = 0;
-    uquit = QUIT_SAVED;
-    MAPBUFFER.make_volatile();
+    if(save()) {
+     u.moves = 0;
+     uquit = QUIT_SAVED;
+     MAPBUFFER.make_volatile();
+    }
    }
    break;
 
@@ -3104,6 +3110,14 @@ bool game::handle_action()
    } else {
     add_msg(_("Debug messages OFF!"));
    }
+   break;
+
+  case ACTION_ZOOM_IN:
+   zoom_in();
+   break;
+  
+  case ACTION_ZOOM_OUT:
+   zoom_out();
    break;
  }
 
@@ -3498,21 +3512,29 @@ void game::load_world_modfiles(WORLDPTR world)
 }
 
 //Saves all factions and missions and npcs.
-void game::save_factions_missions_npcs ()
+bool game::save_factions_missions_npcs ()
 {
-    std::stringstream masterfile;
+    std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
+    try {
     std::ofstream fout;
-    masterfile << world_generator->active_world->world_path <<"/master.gsav";
+    fout.exceptions(std::ios::badbit | std::ios::failbit);
 
-    fout.open(masterfile.str().c_str());
+    fout.open(masterfile.c_str());
     serialize_master(fout);
     fout.close();
+        return true;
+    } catch(std::ios::failure &) {
+        popup(_("Failed to save factions to %s"), masterfile.c_str());
+        return false;
+    }
 }
 
-void game::save_artifacts()
+bool game::save_artifacts()
 {
-    std::ofstream fout;
     std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
+    try {
+    std::ofstream fout;
+    fout.exceptions(std::ios::badbit | std::ios::failbit);
     fout.open(artfilename.c_str(), std::ofstream::trunc);
     JsonOut json(fout);
     json.start_array();
@@ -3529,44 +3551,79 @@ void game::save_artifacts()
     }
     json.end_array();
     fout.close();
+        return true;
+    } catch(std::ios::failure &) {
+        popup(_("Failed to save artifacts to %s"), artfilename.c_str());
+        return false;
+    }
 }
 
-void game::save_maps()
+bool game::save_maps()
 {
+    try {
     m.save(cur_om, turn, levx, levy, levz);
-    overmap_buffer.save();
-    MAPBUFFER.save();
+    overmap_buffer.save(); // can throw std::ios::failure
+    MAPBUFFER.save(); // can throw std::ios::failure
+        return true;
+    } catch(std::ios::failure &) {
+        popup(_("Failed to maps"));
+        return false;
+    }
 }
 
-void game::save_uistate() {
-    std::stringstream savefile;
-    savefile << world_generator->active_world->world_path << "/uistate.json";
+bool game::save_uistate() {
+    std::string savefile = world_generator->active_world->world_path + "/uistate.json";
+    try {
     std::ofstream fout;
-    fout.open(savefile.str().c_str());
+    fout.exceptions(std::ios::badbit | std::ios::failbit);
+    fout.open(savefile.c_str());
     fout << uistate.serialize();
     fout.close();
+        return true;
+    } catch(std::ios::failure &) {
+        popup(_("Failed to save uistate to %s"), savefile.c_str());
+        return false;
+    }
 }
 
-void game::save()
+bool game::save()
 {
- std::stringstream playerfile;
+ std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
+    try {
  std::ofstream fout;
- playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name);
+ fout.exceptions(std::ios::failbit | std::ios::badbit);
 
- fout.open( std::string(playerfile.str() + ".sav").c_str() );
+ fout.open( std::string(playerfile + ".sav").c_str() );
  serialize(fout);
  fout.close();
  // weather
- fout.open( std::string(playerfile.str() + ".weather").c_str() );
+ fout.open( std::string(playerfile + ".weather").c_str() );
  save_weather(fout);
  fout.close();
  // log
- fout.open( std::string(playerfile.str() + ".log").c_str() );
+ fout.open( std::string(playerfile + ".log").c_str() );
  fout << u.dump_memorial();
  fout.close();
- //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
- save_auto_pickup(true); // Save character auto pickup rules
- save_uistate();
+        if (!save_factions_missions_npcs()) {
+            return false;
+        }
+        if (!save_artifacts()) {
+            return false;
+        }
+        if (!save_maps()) {
+            return false;
+        }
+        if (!save_auto_pickup(true)) { // Save character auto pickup rules
+            return false;
+        }
+        if (!save_uistate()) {
+            return false;
+        }
+        return true;
+    } catch(std::ios::failure &err) {
+        popup(_("Failed to save game data"));
+        return false;
+    }
 }
 
 void game::delete_world(std::string worldname, bool delete_folder)
@@ -7899,7 +7956,6 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
             zombie(dex).draw(w_terrain, lx, ly, true);
         }
         line = zombie(dex).print_info(w_look, line, 6, column);
-        handle_multi_item_info(lx, ly, w_look, column, line, mouse_hover);
     }
     else if (npc_at(lx, ly) != -1)
     {
@@ -7907,7 +7963,6 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
             active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
         }
         line = active_npc[npc_at(lx, ly)]->print_info(w_look, column, line);
-        handle_multi_item_info(lx, ly, w_look, column, line, mouse_hover);
     }
     else if (veh)
     {
@@ -7915,23 +7970,6 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
         line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
         if (!mouse_hover) {
             m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-        }
-    }
-    else if (!m.has_flag("CONTAINER", lx, ly) && m.i_at(lx, ly).size() > 0)
-    {
-        if (!mouse_hover) {
-            mvwprintw(w_look, line++, column, _("There is a %s there."),
-                m.i_at(lx, ly)[0].tname().c_str());
-            if (m.i_at(lx, ly).size() > 1)
-            {
-                mvwprintw(w_look, line++, column, _("There are other items there as well."));
-            }
-            m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-        }
-    } else if (m.has_flag("CONTAINER", lx, ly)) {
-        mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
-        if (!mouse_hover) {
-            m.drawsq(w_terrain, u, lx, ly, true, false, lx, ly);
         }
     }
     // The player is not at <u.posx + u.view_offset_x, u.posy + u.view_offset_y>
@@ -7954,30 +7992,31 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
                 m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
             }
         }
-
     }
     else if (!mouse_hover)
     {
         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
     }
+    handle_multi_item_info(lx, ly, w_look, column, line, mouse_hover);
 }
 
 void game::handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover)
 {
-    if (!m.has_flag("CONTAINER", lx, ly))
-    {
-        if (!mouse_hover) {
-            if (m.i_at(lx, ly).size() > 1) {
-                mvwprintw(w_look, line++, column, _("There are several items there."));
-            } else if (m.i_at(lx, ly).size() == 1) {
-                mvwprintw(w_look, line++, column, _("There is an item there."));
-            }
+    if (m.sees_some_items(lx, ly, g->u)) {
+        if (mouse_hover) {
+            // items are displayed from the live view, don't do this here
+            return;
         }
-    } else {
+        std::vector<item> &items = m.i_at(lx, ly);
+        mvwprintw(w_look, line++, column, _("There is a %s there."), items[0].tname().c_str());
+        if (items.size() > 1)
+        {
+            mvwprintw(w_look, line++, column, _("There are other items there as well."));
+        }
+    } else if(m.has_flag("CONTAINER", lx, ly)) {
         mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
     }
 }
-
 
 void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const
 {
@@ -8148,6 +8187,10 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
     std::vector<map_item_stack> ret;
     std::vector<std::string> vOrder;
 
+    if(g->u.has_effect("blind")) {
+        return ret;
+    }
+
     std::vector<point> points = closest_points_first(iRadius, u.posx, u.posy);
 
     int iLastX = 0;
@@ -8155,9 +8198,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
 
     for (std::vector<point>::iterator p_it = points.begin(); p_it != points.end(); ++p_it) {
         if (p_it->y >= u.posy - iRadius && p_it->y <= u.posy + iRadius &&
-            u_see(p_it->x,p_it->y) &&
-            (!m.has_flag("CONTAINER", p_it->x, p_it->y) ||
-            (rl_dist(u.posx, u.posy, p_it->x, p_it->y) == 1 && !m.has_flag("SEALED", p_it->x, p_it->y)))) {
+            u_see(p_it->x,p_it->y) && m.sees_some_items(p_it->x, p_it->y, u)) {
 
             here.clear();
             here = m.i_at(p_it->x, p_it->y);
@@ -8425,6 +8466,29 @@ void centerlistview(int iActiveX, int iActiveY)
 
 }
 
+#define MAXIMUM_ZOOM_LEVEL 4
+void game::zoom_in() {
+   #ifdef SDLTILES
+   if(tileset_zoom > MAXIMUM_ZOOM_LEVEL) {
+       tileset_zoom = tileset_zoom / 2;
+   } else {
+       tileset_zoom = 16;
+   }
+   rescale_tileset(tileset_zoom);
+   #endif
+}
+
+void game::zoom_out() {
+   #ifdef SDLTILES
+   if(tileset_zoom == 16) {
+       tileset_zoom = MAXIMUM_ZOOM_LEVEL;
+   } else {
+       tileset_zoom = tileset_zoom * 2;
+   }
+   rescale_tileset(tileset_zoom);
+   #endif
+}
+
 int game::list_items(const int iLastState)
 {
     int iInfoHeight = 12;
@@ -8567,8 +8631,25 @@ int game::list_items(const int iLastState)
                     delwin(w_item_info_border);
                     return 1;
                     break;
-                default:
-                    break;
+                default: {
+                    action_id act = action_from_key(ch);
+                    switch (act) {
+                        /* The following two don't work for some reason.
+                         * Even though the zoom level will be adjusted,
+                         * the map won't be redrawn until V mode is exited.
+                         
+                        case ACTION_ZOOM_IN:
+                            zoom_in();
+                            break;
+                        case ACTION_ZOOM_OUT:
+                            zoom_out();
+                            break;
+                        default:
+                            break;
+                        */
+                    }
+                }
+                break;
             }
 
             if (ground_items.size() == 0 && iLastState == 1) {
@@ -8826,9 +8907,20 @@ int game::list_monsters(const int iLastState)
                                 delwin(w_monster_info_border);
                                 return 2;
                             }
-                            } break;
+                        } break;
+                        /* The following two don't work for some reason.
+                         * Even though the zoom level will be adjusted,
+                         * the map won't be redrawn until V mode is exited.
+                         
+                        case ACTION_ZOOM_IN:
+                            zoom_in();
+                            break;
+                        case ACTION_ZOOM_OUT:
+                            zoom_out();
+                            break;
                         default:
                             break;
+                        */
                     }
                 }
                 break;
@@ -12670,7 +12762,6 @@ void game::update_map(int &x, int &y) {
   olevy = 1;
  }
  if (olevx != 0 || olevy != 0) {
-  cur_om->save();
   cur_om = &overmap_buffer.get(cur_om->pos().x + olevx, cur_om->pos().y + olevy);
  }
 
@@ -13628,10 +13719,6 @@ void game::quicksave(){
 
     //perform save
     save();
-    save_factions_missions_npcs();
-    save_artifacts();
-    save_maps();
-    save_uistate();
     //Now reset counters for autosaving, so we don't immediately autosave after a quicksave or autosave.
     moves_since_last_save = 0;
     item_exchanges_since_save = 0;
