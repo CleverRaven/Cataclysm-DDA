@@ -1001,10 +1001,10 @@ bool cata_tiles::draw_entity(int x, int y)
         }
     }
     // check for NPC (next most common)
-    if (!entity_here && g->npc_at(x, y) >= 0) {
-        npc &m = *g->active_npc[g->npc_at(x, y)];
-        if (!m.dead) {
-            ent_name = m.male ? "npc_male" : "npc_female";
+    npc *m = g->npc_at(x, y);
+    if (!entity_here && m != NULL) {
+        if (!m->dead) {
+            ent_name = m->male ? "npc_male" : "npc_female";
             entity_here = true;
         }
     }

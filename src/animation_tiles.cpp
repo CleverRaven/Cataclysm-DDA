@@ -137,17 +137,17 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
     {
         for (int i = 0; i < ret.size(); i++)
         {
-            int mondex = mon_at(ret[i].x, ret[i].y),
-            npcdex = npc_at(ret[i].x, ret[i].y);
+            int mondex = mon_at(ret[i].x, ret[i].y);
+            npc *p = npc_at(ret[i].x, ret[i].y);
 
             // NPCs and monsters get drawn with inverted colors
             if (mondex != -1 && u_see(&(critter_tracker.find(mondex))))
             {
                 critter_tracker.find(mondex).draw(w_terrain, center_point.x, center_point.y, true);
             }
-            else if (npcdex != -1)
+            else if (p != NULL)
             {
-                active_npc[npcdex]->draw(w_terrain, center_point.x, center_point.y, true);
+                p->draw(w_terrain, center_point.x, center_point.y, true);
             }
             else
             {
