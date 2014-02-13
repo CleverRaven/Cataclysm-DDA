@@ -253,7 +253,7 @@ void monster::move()
     //If there are. Consume them.
     if (has_flag(MF_ABSORBS)) {
         if(!g->m.i_at(posx(), posy()).empty()) {
-            g->add_msg(_("There is a slurping sound, as the %s sucks objects into its body, quickly dissolving them!"), name().c_str());
+            g->add_msg(_("The %s flows around the objects on the floor and they are quickly dissolved!"), name().c_str());
             std::vector<item> items_absorbed = g->m.i_at(posx(), posy());
             for(int i = 0 ; i < items_absorbed.size(); i++) {
                 hp += items_absorbed.at(i).volume(); //Yeah this means it can get more HP than normal.
