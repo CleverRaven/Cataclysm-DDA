@@ -97,7 +97,7 @@ class mod_manager
          */
         void load_mods_list(WORLDPTR world) const;
         const t_mod_list &get_default_mods() const;
-        void set_default_mods(const t_mod_list &mods);
+        bool set_default_mods(const t_mod_list &mods);
     protected:
     private:
         // Make this accessible for now
