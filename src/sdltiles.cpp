@@ -64,6 +64,8 @@ static bool needupdate = false;
 #endif
 
 static SDL_Color windowsPalette[256];
+static SDL_Window *window = NULL;
+static SDL_Renderer* renderer = NULL;
 static SDL_Surface *screen = NULL;
 static SDL_Surface *glyph_cache[128][16]; //cache ascii characters
 static SDL_Surface *ascii[16];
@@ -138,8 +140,8 @@ bool InitSDL()
 
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 
-    SDL_EnableUNICODE(1);
-    SDL_EnableKeyRepeat(500, OPTIONS["INPUT_DELAY"]);
+    //SDL_EnableUNICODE(1);
+    //SDL_EnableKeyRepeat(500, OPTIONS["INPUT_DELAY"]);
 
     atexit(SDL_Quit);
 
@@ -151,23 +153,42 @@ bool WinCreate()
 {
 
     std::string version = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
-    SDL_WM_SetCaption(version.c_str(), NULL);
-
-    char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
-    SDL_putenv(center_string);
 
     //Flags used for setting up SDL VideoMode
-    int screen_flags = SDL_SWSURFACE | SDL_DOUBLEBUF;
+    int window_flags = 0;
 
-    //If FULLSCREEN was selected in options add SDL_FULLSCREEN flag to screen_flags, causing screen to go fullscreen.
+    //If FULLSCREEN was selected in options add SDL_WINDOW_FULLSCREEN flag to screen_flags, causing screen to go fullscreen.
     if(OPTIONS["FULLSCREEN"]) {
-        screen_flags = screen_flags | SDL_FULLSCREEN;
+        window_flags = window_flags | SDL_WINDOW_FULLSCREEN;
     }
 
-    screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, screen_flags);
-    //SDL_SetColors(screen,windowsPalette,0,256);
+	window = SDL_CreateWindow(version.c_str(),
+			SDL_WINDOWPOS_CENTERED,
+			SDL_WINDOWPOS_CENTERED,
+			WindowWidth,
+			WindowHeight,
+			window_flags
+		);
+		
+	//create renderer and convert that to a SDL_Surface?
 
-    if (screen == NULL) return false;
+    if (window == NULL) return false;
+	
+	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	
+	if(renderer == NULL) {
+		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+		if(renderer == NULL) {
+			return false;
+		}
+	}
+	
+	//we have to do it this way, since cata is based on old SDL 1.2 technology
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    screen = SDL_CreateRGBSurface(0, WindowWidth, WindowHeight, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+#else
+    screen = SDL_CreateRGBSurface(0, WindowWidth, WindowHeight, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
+#endif
 
     ClearScreen();
 
@@ -201,8 +222,18 @@ void WinDestroy()
         joystick = 0;
     }
 
-    if(screen) SDL_FreeSurface(screen);
-    screen = NULL;
+	if(screen) {
+		SDL_FreeSurface(screen);
+	}
+	
+	if(renderer) {
+		SDL_DestroyRenderer(renderer);
+	}
+	renderer = NULL; 
+	if(window) {
+		SDL_DestroyWindow(window);
+	}
+    window = NULL;
 };
 
 //The following 3 methods use mem functions for fast drawing
@@ -305,7 +336,14 @@ void try_update()
 {
     unsigned long now = SDL_GetTicks();
     if (now - lastupdate >= interval) {
-        SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
+		//copy screen to renderer
+		//we have to move the surface to texture memory and then update the renderer
+		//SDL 1.2 pretty much did this behind the scenes
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, screen);
+		SDL_RenderCopy(renderer,texture,NULL,NULL);
+		SDL_RenderPresent(renderer);
+		SDL_DestroyTexture(texture);
+		
         needupdate = false;
         lastupdate = now;
     } else {
@@ -318,29 +356,19 @@ void curses_drawwindow(WINDOW *win)
     int i,j,w,drawx,drawy;
     unsigned tmp;
 
-    SDL_Rect update_rect;
-    update_rect.x = win->x * fontwidth;
-    update_rect.w = win->width * fontwidth;
-    update_rect.y = 9999; // default value
-    update_rect.h = 9999; // default value
-
-    int jr = 0;
+	bool inner_update = false;
 
     for (j=0; j<win->height; j++){
-        if (win->line[j].touched)
-        {
-            if (update_rect.y == 9999)
-            {
-                update_rect.y = (win->y+j)*fontheight;
-                jr=j;
+        if (win->line[j].touched) {
+            if (!inner_update) {
+				inner_update = true;
             }
-            update_rect.h = (j-jr+1)*fontheight;
 
             needupdate = true;
 
             win->line[j].touched=false;
 
-            for (i=0,w=0; w<win->width; i++,w++){
+            for (i=0,w=0; w<win->width; i++,w++) {
                 drawx=((win->x+w)*fontwidth);
                 drawy=((win->y+j)*fontheight);//-j;
                 if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
@@ -418,21 +446,13 @@ void curses_drawwindow(WINDOW *win)
     };// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
 
-    if (g && win == g->w_terrain && use_tiles)
-    {
-        update_rect.y = win->y*tilecontext->tile_height;
-        update_rect.h = win->height*tilecontext->tile_height;
-        update_rect.x = win->y*tilecontext->tile_width;
-        update_rect.w = win->width*tilecontext->tile_width;
+    if (g && win == g->w_terrain && use_tiles) {
         //GfxDraw(thegame, win->x*fontwidth, win->y*fontheight, thegame->terrain_view_x, thegame->terrain_view_y, win->width*fontwidth, win->height*fontheight);
         tilecontext->draw(win->x * fontwidth, win->y * fontheight, g->ter_view_x, g->ter_view_y, tilecontext->terrain_term_x * fontwidth, tilecontext->terrain_term_y * fontheight);
     }
 //*/
-    if (update_rect.y != 9999)
-    {
-        SDL_UpdateRect(screen, update_rect.x, update_rect.y, update_rect.w, update_rect.h);
-    }
-    if (needupdate) try_update();
+	//just use the regular update system
+    if (inner_update || needupdate) try_update();
 }
 #else
 void curses_drawwindow(WINDOW *win)
@@ -549,7 +569,8 @@ void curses_drawwindow(WINDOW *win)
         if(th+ty>maxh) {
             th= maxh-ty;
         }
-        SDL_UpdateRect(screen, tx*fontwidth, ty*fontheight, tw*fontwidth, th*fontheight);
+		try_update();
+        //SDL_UpdateRect(screen, tx*fontwidth, ty*fontheight, tw*fontwidth, th*fontheight);
     }
 }
 #endif
@@ -677,25 +698,27 @@ void CheckMessages()
                 int lc = 0;
                 //hide mouse cursor on keyboard input
                 if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) { SDL_ShowCursor(SDL_DISABLE); }
-                Uint8 *keystate = SDL_GetKeyState(NULL);
+                const Uint8 *keystate = SDL_GetKeyboardState(NULL);
                 // manually handle Alt+F4 for older SDL lib, no big deal
-                if( ev.key.keysym.sym == SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) ) {
+                if( ev.key.keysym.sym == SDLK_F4 && (keystate[SDL_SCANCODE_RALT] || keystate[SDL_SCANCODE_LALT]) ) {
                     quit = true;
                     break;
                 }
-                if( ev.key.keysym.unicode != 0 ) {
-                    lc = ev.key.keysym.unicode;
-                    switch (lc){
-                        case 13:            //Reroute ENTER key for compatilbity purposes
-                            lc=10;
-                            break;
-                        case 8:             //Reroute BACKSPACE key for compatilbity purposes
-                            lc=127;
-                            break;
-                    }
-                }
                 switch (ev.key.keysym.sym) {
-                    case SDLK_RSHIFT||SDLK_LSHIFT||SDLK_RCTRL||SDLK_LCTRL||SDLK_RALT:
+					case SDLK_BACKSPACE:
+					case SDLK_KP_BACKSPACE:
+						lc=127;
+						break;
+					case SDLK_KP_ENTER:
+					case SDLK_RETURN:
+					case SDLK_RETURN2:
+						lc=10;
+						break;
+                    case SDLK_RSHIFT:
+					case SDLK_LSHIFT:
+					case SDLK_RCTRL:
+					case SDLK_LCTRL:
+					case SDLK_RALT:
                         lc= 0;
                         break; // temporary fix for unwanted keys
                     case SDLK_LALT:
@@ -765,13 +788,16 @@ void CheckMessages()
                     case SDL_BUTTON_RIGHT:
                         lastchar = MOUSE_BUTTON_RIGHT;
                         break;
-                    case SDL_BUTTON_WHEELUP:
-                        lastchar = SCROLLWHEEL_UP;
-                        break;
-                    case SDL_BUTTON_WHEELDOWN:
-                        lastchar = SCROLLWHEEL_DOWN;
-                        break;
                     }
+                break;
+				
+			case SDL_MOUSEWHEEL:
+                lastchar_is_mouse = true;
+				if(ev.wheel.y > 0) {
+					lastchar = SCROLLWHEEL_UP;
+				} else if(ev.wheel.y < 0) {
+					lastchar = SCROLLWHEEL_DOWN;
+				}
                 break;
 
             case SDL_QUIT:
@@ -1041,9 +1067,13 @@ WINDOW *curses_init(void)
             break;
         }
         Uint32 key = SDL_MapRGB(asciiload->format, 0xFF, 0, 0xFF);
-        SDL_SetColorKey(asciiload,SDL_SRCCOLORKEY,key);
-        ascii[0] = SDL_DisplayFormat(asciiload);
-        SDL_FreeSurface(asciiload);
+        SDL_SetColorKey(asciiload,SDL_TRUE,key);
+		//SDL_RendererInfo info;
+		//SDL_GetRendererInfo(renderer, &info);
+		//for now, until we can figure out the above.
+		//ascii[0] = SDL_ConvertSurfaceFormat(asciiload, SDL_PIXELFORMAT_RGBA8888, 0);
+		ascii[0] = asciiload;
+		//SDL_FreeSurface(asciiload);
         for(int a = 1; a < 16; a++) {
             ascii[a]=SDL_ConvertSurface(ascii[0],ascii[0]->format,ascii[0]->flags);
         }
