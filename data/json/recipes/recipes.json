@@ -23544,6 +23544,102 @@
      ]
     ]
 },{
+  "type" : "recipe",
+  "result": "diamond_knife",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 11,
+  "time": 220000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_cvd", 9 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1] ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["cvd_machine", -1]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "charcoal", 8 ]
+     ],
+     [
+      [ "plasma", 16 ]
+     ],
+     [
+      [ "fur", 2 ],
+      [ "leather", 2 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "diamond_machete",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 11,
+  "time": 280000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_cvd", 9 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1] ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["cvd_machine", -1]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "charcoal", 15 ]
+     ],
+     [
+      [ "plasma", 30 ]
+     ],
+     [
+      [ "fur", 2 ],
+      [ "leather", 2 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "diamond_katana",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 12,
+  "time": 360000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_cvd", 9 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1] ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["cvd_machine", -1]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "charcoal", 20 ]
+     ],
+     [
+      [ "plasma", 40 ]
+     ],
+     [
+      [ "fur", 2 ],
+      [ "leather", 2 ]
+     ]
+    ]
+},{
         "type" : "recipe",
   "result": "katana",
   "category": "CC_WEAPON",

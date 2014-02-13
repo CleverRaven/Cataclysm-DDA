@@ -566,6 +566,12 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 water.charges = 50;
                 add_item(water);
             }
+			// add cvd forge from terrain
+			if (terrain_id == t_cvdmachine) {
+				item cvd_machine(itypes["cvd_machine"], 0);
+				cvd_machine.charges = 1;
+				add_item(cvd_machine);
+			}
             // kludge that can probably be done better to check specifically for toilet water to use in
             // crafting
             if (furnlist[g->m.furn(x,y)].examine == &iexamine::toilet) {
