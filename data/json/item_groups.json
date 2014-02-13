@@ -4409,7 +4409,7 @@
       ["glasses_safety", 40],
       ["goggles_welding", 70],
       ["recipe_lab_elec", 15],
-	  ["recipe_lab_cvd", 15]
+	  ["recipe_lab_cvd", 15],
       ["recipe_mininuke_launch", 5],
       ["teleporter", 10],
       ["usb_drive", 5]
