@@ -1177,7 +1177,7 @@
     },{
         "type" : "speech",
         "speaker" : "mon_shoggoth",
-        "sound" : "\"Tekeli-li?\"",
+        "sound" : "\"Tekeli-li.\"",
         "volume" : 20
     },{
         "type" : "speech",
