@@ -827,7 +827,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("DESCRIPTION", "\n" ));
         std::string ntext = "";
         if ( item_note_type != item_vars.end() ) {
-            ntext += string_format(_("%1$s on this %2$s is a note saying: "),
+            ntext += string_format(_("%1$s on the %2$s is: "),
                 item_note_type->second.c_str(), type->name.c_str()
             );
         } else {

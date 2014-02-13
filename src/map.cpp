@@ -2283,6 +2283,24 @@ std::vector<item>& map::i_at(const int x, const int y)
  return grid[nonant]->itm[lx][ly];
 }
 
+bool map::sees_some_items(int x, int y, const player &u)
+{
+    if(i_at(x, y).empty()) {
+        // can not see non-existing items.
+        return false;
+    }
+    if (has_flag("SEALED", x, y)) {
+        // never see inside of sealed containers
+        return false;
+    }
+    if (has_flag("CONTAINER", x, y)) {
+        // can see inside of containers if adjacent or
+        // on top of the container
+        return (abs(x - u.posx) <= 1 && abs(y - u.posy) <= 1);
+    }
+    return true;
+}
+
 item map::water_from(const int x, const int y)
 {
     item ret(item_controller->find_template("water"), 0);
@@ -3455,7 +3473,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  const furn_id curr_furn = furn(x,y);
  const trap_id curr_trap = tr_at(x, y);
  field &curr_field = field_at(x, y);
- const std::vector<item> curr_items = i_at(x, y);
+ const std::vector<item> &curr_items = i_at(x, y);
  long sym;
  bool hi = false;
  bool graf = false;
@@ -3517,7 +3535,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   }
  }
     // If there's items here, draw those instead
-    if (show_items && !has_flag("CONTAINER", x, y) && curr_items.size() > 0 && !drew_field) {
+    if (show_items && !drew_field && sees_some_items(x, y, g->u)) {
         if (sym != '.' && sym != '%') {
             hi = true;
         } else {
