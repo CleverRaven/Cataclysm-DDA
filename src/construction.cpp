@@ -584,77 +584,57 @@ void construct::done_vehicle(point p)
 void construct::done_deconstruct(point p)
 {
   if (g->m.has_furn(p.x, p.y)) {
+    std::string furn_here = m.get_furn(p.x, p.y);
     g->add_msg(_("You disassemble the %s."), g->m.furnname(p.x, p.y).c_str());
-    switch (g->m.oldfurn(p.x, p.y)){
-      case old_f_makeshift_bed:
-      case old_f_bed:
-      case old_f_armchair:
-      case old_f_sofa:
+    if(furn_here == "f_makeshift_bed" || f furn_here == "" || urn_here == "f_beg" || furn_here == "f_armchair" || furn_here == "f_sofa") {
         g->m.spawn_item(p.x, p.y, "2x4", 10);
         g->m.spawn_item(p.x, p.y, "rag", rng(10,15));
         g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,8));
         g->m.furn_set(p.x, p.y, f_null);
-      case old_f_bench:
-      case old_f_crate_o:
-      case old_f_crate_c:
-      case old_f_chair:
-      case old_f_cupboard:
-      case old_f_desk:
-      case old_f_bulletin:
+    } else if(furn_here == "f_bench" || furn_here == "f_crate_o" || furn_here == "f_crate_c" || furn_here == "f_chair" || furn_here == "f_cupboard" || furn_here == "f_desk" || furn_here == "f_bulletin" ||) {
         g->m.spawn_item(p.x, p.y, "2x4", 4);
         g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,10));
         g->m.furn_set(p.x, p.y, f_null);
-      break;
-      case old_f_locker:
+    } else if(furn_here == "f_locker") {
         g->m.spawn_item(p.x, p.y, "sheet_metal", rng(1,2));
         g->m.spawn_item(p.x, p.y, "pipe", rng(4,8));
         g->m.furn_set(p.x, p.y, f_null);
-      break;
-      case old_f_rack:
+    } else if(furn_here == "f_rack") {
         g->m.spawn_item(p.x, p.y, "pipe", rng(6,12));
         g->m.furn_set(p.x, p.y, f_null);
-      break;
-      case old_f_oven:
+    } else if(furn_here == "f_oven") {
         g->m.spawn_item(p.x, p.y, "scrap",       rng(2,6));
         g->m.spawn_item(p.x, p.y, "steel_chunk", rng(2,3));
         g->m.spawn_item(p.x, p.y, "element",     rng(1,4));
         g->m.spawn_item(p.x, p.y, "pilot_light", 1);
         g->m.furn_set(p.x, p.y, f_null);
-      case old_f_fridge:
+    } else if(furn_here == "f_fridge") {
         g->m.spawn_item(p.x, p.y, "scrap", rng(2,8));
         g->m.spawn_item(p.x, p.y, "steel_chunk", rng(2,3));
         g->m.spawn_item(p.x, p.y, "hose", 1);
         g->m.spawn_item(p.x, p.y, "cu_pipe", rng(2, 5));
-
         g->m.furn_set(p.x, p.y, f_null);
-      break;
-      case old_f_glass_fridge:
+    } else if(furn_here == "f_glass_fridge") {
         g->m.spawn_item(p.x, p.y, "scrap", rng(2,6));
         g->m.spawn_item(p.x, p.y, "steel_chunk", rng(2,3));
         g->m.spawn_item(p.x, p.y, "hose", 1);
         g->m.spawn_item(p.x, p.y, "glass_sheet", 1);
         g->m.spawn_item(p.x, p.y, "cu_pipe", rng(3, 6));
         g->m.furn_set(p.x, p.y, f_null);
-      break;
-      case old_f_counter:
-      case old_f_dresser:
-      case old_f_table:
+    } else if(furn_here == "f_counter" || furn_here == "f_dresser" || furn_here == "f_table") {
         g->m.spawn_item(p.x, p.y, "2x4", 6);
         g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,8));
         g->m.furn_set(p.x, p.y, f_null);
-      break;
-      case old_f_pool_table:
+    } else if(furn_here == "f_pool_table") {
         g->m.spawn_item(p.x, p.y, "2x4", 4);
         g->m.spawn_item(p.x, p.y, "rag", 4);
         g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,10));
         g->m.furn_set(p.x, p.y, f_null);
-      break;
-      case old_f_bookcase:
+    } else if(furn_here == "f_bookcase") {
         g->m.spawn_item(p.x, p.y, "2x4", 12);
         g->m.spawn_item(p.x, p.y, "nail", 0, rng(12,16));
         g->m.furn_set(p.x, p.y, f_null);
-      break;
-      case old_f_washer:
+    } else if(furn_here == "f_washer") {
         g->m.spawn_item(p.x, p.y, "pipe", 1);
         g->m.spawn_item(p.x, p.y, "scrap",       rng(2,6));
         g->m.spawn_item(p.x, p.y, "steel_chunk",       rng(1,3));
@@ -662,24 +642,20 @@ void construct::done_deconstruct(point p)
         g->m.spawn_item(p.x, p.y, "cable",       rng(1,15));
         g->m.spawn_item(p.x, p.y, "cu_pipe",       rng(2,5));
         g->m.furn_set(p.x, p.y, f_null);
-        break;
-        case old_f_dryer:
+    } else if(furn_here == "f_dryer") {
         g->m.spawn_item(p.x, p.y, "scrap",       rng(2,6));
         g->m.spawn_item(p.x, p.y, "steel_chunk",       rng(1,3));
         g->m.spawn_item(p.x, p.y, "sheet_metal",       rng(2,6));
         g->m.spawn_item(p.x, p.y, "cable",       rng(1,15));
         g->m.spawn_item(p.x, p.y, "element",       rng(1,3));
         g->m.furn_set(p.x, p.y, f_null);
-        break;
-        case old_f_exercise:
+    } else if(furn_here == "f_exercise") {
         g->m.spawn_item(p.x, p.y, "pipe", 1);
         g->m.spawn_item(p.x, p.y, "steel_chunk", 1);
         g->m.spawn_item(p.x, p.y, "scrap",       rng(2,6));
         g->m.furn_set(p.x, p.y, f_null);
-        break;
-      default:
+    } else() {
         g->add_msg(_("You have to push away %s first."), g->m.furnname(p.x, p.y).c_str());
-      break;
     }
   } else {
     g->add_msg(_("You disassemble the %s."), g->m.tername(p.x, p.y).c_str());
