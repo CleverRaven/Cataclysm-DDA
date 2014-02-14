@@ -195,6 +195,8 @@ public:
   void emp_blast(int x, int y);
   int  npc_at(const int x, const int y) const; // Index of the npc at (x, y); -1 for none
   int  npc_by_id(const int id) const; // Index of the npc at (x, y); -1 for none
+  // Return any critter at (x,y), be it a monster, an npc, or u (the player).
+  Creature *critter_at(int x, int y);
  // void build_monmap();  // Caches data for mon_at()
 
   bool add_zombie(monster& critter);

@@ -83,12 +83,13 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         }
         */
 
-        int mondex = g->mon_at(tx, ty);
+        Creature *critter = g->critter_at(tx, ty);
+        monster *mon = dynamic_cast<monster*>(critter);
         // ignore non-point-blank digging targets (since they are underground)
-        if (mondex != -1 && g->zombie(mondex).digging() &&
-                            rl_dist(xpos(), ypos(), g->zombie(mondex).xpos(),
-                                    g->zombie(mondex).ypos()) > 1)
-            mondex = -1;
+        if (mon != NULL && mon->digging() &&
+                            rl_dist(xpos(), ypos(), tx, ty) > 1) {
+            critter = mon = NULL;
+        }
         // If we shot us a monster...
         // TODO: add size effects to accuracy
         // If there's a monster in the path of our bullet, and either our aim was true,
@@ -99,25 +100,14 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         } else {
             cur_missed_by = missed_by;
         }
-        if (mondex != -1 && cur_missed_by <= 1.0) {
-            monster &z = g->zombie(mondex);
-
+        if (critter != NULL && cur_missed_by <= 1.0) {
             dealt_damage_instance dealt_dam;
-            z.deal_projectile_attack(this, missed_by, proj, dealt_dam);
+            critter->deal_projectile_attack(this, missed_by, proj, dealt_dam);
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
             //splatter(this, blood_traj, dam, &z); TODO: add splatter effects (include new blood types)
             //back in
             dam = 0;
-        // TODO: general case this so it works for all npcs, instead of only
-        // player
-        } else if (g->u.xpos() == tx && g->u.ypos() == ty
-                && cur_missed_by <= 1.0) {
-            dealt_damage_instance dealt_dam;
-            g->u.deal_projectile_attack(this, missed_by, proj, dealt_dam);
-            std::vector<point> blood_traj = trajectory;
-            blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
-
         } else if(in_veh != NULL && g->m.veh_at(tx, ty) == in_veh) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {

@@ -6739,6 +6739,22 @@ int game::npc_by_id(const int id) const
  return -1;
 }
 
+Creature *game::critter_at(int x, int y)
+{
+    const int mindex = mon_at(x, y);
+    if (mindex != -1) {
+        return &zombie(mindex);
+    }
+    if (x == u.posx && y == u.posy) {
+        return &u;
+    }
+    const int nindex = npc_at(x, y);
+    if (nindex != -1) {
+        return active_npc[nindex];
+    }
+    return NULL;
+}
+
 bool game::add_zombie(monster& critter)
 {
     return critter_tracker.add(critter);
