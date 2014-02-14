@@ -3418,7 +3418,7 @@
         "type" : "BOOK",
         "id" : "recipe_lab_cvd",
         "name" : "lab journal-Gustav",
-        "description" : "This paper notebook is mostly full of boring logs, experimental observation and notes. Mixed in, however, are musing on how to use the labs vapor deposition machine to grow enormous diamonds.",
+        "description" : "This paper notebook is mostly full of boring logs, experimental observations and notes. Mixed in, however, are musings on how to use the lab's vapor deposition machine to grow enormous diamonds.",
         "weight" : 2000,
         "volume" : 2,
         "price" : 500,
