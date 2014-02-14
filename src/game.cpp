@@ -9870,38 +9870,42 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     if (liquid.type->id == "gasoline" && vehicle_near() && query_yn(_("Refill vehicle?"))) {
         int vx = u.posx, vy = u.posy;
         refresh_all();
-        if (choose_adjacent(_("Refill vehicle where?"), vx, vy)) {
-            vehicle *veh = m.veh_at (vx, vy);
-            if (veh) {
-                ammotype ftype = "gasoline";
-                int fuel_cap = veh->fuel_capacity(ftype);
-                int fuel_amnt = veh->fuel_left(ftype);
-                if (fuel_cap < 1) {
-                    add_msg (_("This vehicle doesn't use %s."), ammo_name(ftype).c_str());
-                } else if (fuel_amnt == fuel_cap) {
-                    add_msg (_("Already full."));
-                } else if (from_ground && query_yn(_("Pump until full?"))) {
-                    u.assign_activity(ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
-                    u.activity.placement = point(vx, vy);
-                } else { // Not pump
-                    veh->refill ("gasoline", liquid.charges);
-                    if (veh->fuel_left(ftype) < fuel_cap) {
-                        add_msg(_("You refill %s with %s."),
-                                veh->name.c_str(), ammo_name(ftype).c_str());
-                    } else {
-                        add_msg(_("You refill %s with %s to its maximum."),
-                                veh->name.c_str(), ammo_name(ftype).c_str());
-                    }
-
-                    u.moves -= 100;
-                    return true;
-                }
-            } else { // if (veh)
-                add_msg (_("There isn't any vehicle there."));
-            }
+        if (!choose_adjacent(_("Refill vehicle where?"), vx, vy)) {
             return false;
-        } // if (choose_adjacent(_("Refill vehicle where?"), vx, vy))
-        return true;
+        }
+        vehicle *veh = m.veh_at (vx, vy);
+        if (veh == NULL) {
+            add_msg(_("There isn't any vehicle there."));
+            return false;
+        }
+        const ammotype ftype = "gasoline";
+        int fuel_cap = veh->fuel_capacity(ftype);
+        int fuel_amnt = veh->fuel_left(ftype);
+        if (fuel_cap <= 0) {
+            add_msg(_("The %s doesn't use %s."),
+                    veh->name.c_str(), ammo_name(ftype).c_str());
+            return false;
+        } else if (fuel_amnt >= fuel_cap) {
+            add_msg(_("The %s is already full."),
+                    veh->name.c_str());
+            return false;
+        } else if (from_ground && query_yn(_("Pump until full?"))) {
+            u.assign_activity(ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
+            u.activity.placement = point(vx, vy);
+            return false; // Liquid is not handled by this function, but by the activity!
+        }
+        const int amt = infinite ? INT_MAX : liquid.charges;
+        u.moves -= 100;
+        liquid.charges = veh->refill(ftype, amt);
+        if (veh->fuel_left(ftype) < fuel_cap) {
+            add_msg(_("You refill the %s with %s."),
+                    veh->name.c_str(), ammo_name(ftype).c_str());
+        } else {
+            add_msg(_("You refill the %s with %s to its maximum."),
+                    veh->name.c_str(), ammo_name(ftype).c_str());
+        }
+        // infinite: always handled all, to prevent loops
+        return infinite || liquid.charges == 0;
     }
 
     // Ask to pour rotten liquid (milk!) from the get-go
