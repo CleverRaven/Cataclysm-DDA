@@ -43,7 +43,7 @@ bool monster::can_move_to(int x, int y)
     if (has_flag(MF_AQUATIC) && !g->m.has_flag("SWIMMABLE", x, y)) {
         return false;
     }
-    
+
     if (has_flag(MF_SUNDEATH) && g->is_in_sunlight(x, y)) {
         return false;
     }
@@ -123,7 +123,7 @@ void monster::plan(const std::vector<int> &friendlies)
         } else if (friendly > 0 && one_in(3)) {
             // Grow restless with no targets
             friendly--;
-        } else if (friendly < 0 &&  sees_player( tc ) ) { 
+        } else if (friendly < 0 &&  sees_player( tc ) ) {
             if (rl_dist(posx(), posy(), g->u.posx, g->u.posy) > 2) {
                 set_dest(g->u.posx, g->u.posy, tc);
             } else {
@@ -134,7 +134,7 @@ void monster::plan(const std::vector<int> &friendlies)
     }
 
     // If we can see, and we can see a character, move toward them or flee.
-    if (can_see() && sees_player( tc ) ) { 
+    if (can_see() && sees_player( tc ) ) {
         dist = rl_dist(posx(), posy(), g->u.posx, g->u.posy);
         if (is_fleeing(g->u)) {
             // Wander away.
@@ -248,7 +248,20 @@ void monster::move()
             }
         }
     }
-    
+
+    //The monster can consume objects it stands on. Check if there are any.
+    //If there are. Consume them.
+    if (has_flag(MF_ABSORBS)) {
+        if(!g->m.i_at(posx(), posy()).empty()) {
+            g->add_msg(_("The %s flows around the objects on the floor and they are quickly dissolved!"), name().c_str());
+            std::vector<item> items_absorbed = g->m.i_at(posx(), posy());
+            for(int i = 0 ; i < items_absorbed.size(); i++) {
+                hp += items_absorbed.at(i).volume(); //Yeah this means it can get more HP than normal.
+            }
+            g->m.i_clear(posx(), posy());
+        }
+    }
+
     // If this critter dies in sunlight, check & assess damage.
     if (g->is_in_sunlight(posx(), posy()) && has_flag(MF_SUNDEATH)) {
         g->add_msg(_("The %s burns horribly in the sunlight!"), name().c_str());
