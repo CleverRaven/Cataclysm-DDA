@@ -584,14 +584,14 @@ void construct::done_vehicle(point p)
 void construct::done_deconstruct(point p)
 {
     if (g->m.has_furn(p.x, p.y)) {
-        std::string furn_here = m.get_furn(p.x, p.y);
+        std::string furn_here = g->m.get_furn(p.x, p.y);
         g->add_msg(_("You disassemble the %s."), g->m.furnname(p.x, p.y).c_str());
         if(furn_here == "f_makeshift_bed" || f furn_here == "" || urn_here == "f_beg" || furn_here == "f_armchair" || furn_here == "f_sofa") {
             g->m.spawn_item(p.x, p.y, "2x4", 10);
             g->m.spawn_item(p.x, p.y, "rag", rng(10,15));
             g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,8));
             g->m.furn_set(p.x, p.y, f_null);
-        } else if(furn_here == "f_bench" || furn_here == "f_crate_o" || furn_here == "f_crate_c" || furn_here == "f_chair" || furn_here == "f_cupboard" || furn_here == "f_desk" || furn_here == "f_bulletin" ||) {
+        } else if(furn_here == "f_bench" || furn_here == "f_crate_o" || furn_here == "f_crate_c" || furn_here == "f_chair" || furn_here == "f_cupboard" || furn_here == "f_desk" || furn_here == "f_bulletin") {
             g->m.spawn_item(p.x, p.y, "2x4", 4);
             g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,10));
             g->m.furn_set(p.x, p.y, f_null);
@@ -660,7 +660,7 @@ void construct::done_deconstruct(point p)
     
     } else {
         g->add_msg(_("You disassemble the %s."), g->m.tername(p.x, p.y).c_str());
-        std::string ter_here = m.get_furn(p.x, p.y);
+        std::string ter_here = g->m.get_furn(p.x, p.y);
         if(ter_here == "t_door_c" || ter_here == "t_door_o") {
             g->m.spawn_item(p.x, p.y, "2x4", 4);
             g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,12));
