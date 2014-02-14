@@ -429,6 +429,10 @@ int mapbuffer::unserialize_keys( std::ifstream &fin )
     jsonbuff.str(databuff);
     JsonIn jsin(jsonbuff);
 
+    ter_key.clear();
+    furn_key.clear();
+    trap_key.clear();
+
     jsin.start_object();
     while (!jsin.end_object()) {
         std::string name = jsin.get_member_name();
