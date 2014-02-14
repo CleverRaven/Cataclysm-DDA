@@ -660,7 +660,7 @@ void construct::done_deconstruct(point p)
     
     } else {
         g->add_msg(_("You disassemble the %s."), g->m.tername(p.x, p.y).c_str());
-        std::string ter_here = g->m.get_furn(p.x, p.y);
+        std::string ter_here = g->m.get_ter(p.x, p.y);
         if(ter_here == "t_door_c" || ter_here == "t_door_o") {
             g->m.spawn_item(p.x, p.y, "2x4", 4);
             g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,12));
