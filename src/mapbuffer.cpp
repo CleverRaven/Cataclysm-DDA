@@ -379,6 +379,8 @@ void mapbuffer::load(std::string worldname)
         // Save the data and unload it at the same time.
         save( true );
         unlink( worldmap.str().c_str() );
+        // Clear and reload the keys so they don't mess with dynamic map loading.
+        load_keys( worldname );
         return;
     }
 
