@@ -9918,39 +9918,28 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return true;
     }
 
-    if (cont == NULL) {
+    if (cont == NULL || cont->is_null()) {
         std::stringstream text;
         text << _("Container for ") << liquid.tname();
 
         int pos = inv_for_liquid(liquid, text.str().c_str(), false);
-        if (!u.has_item(pos)) {
+        cont = &(u.i_at(pos));
+        if (cont->is_null()) {
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten() &&
                 query_yn(_("Pour %s on the ground?"), liquid.tname().c_str())) {
-                    if (!m.has_flag("SWIMMABLE", u.posx, u.posy))
+                    if (!m.has_flag("SWIMMABLE", u.posx, u.posy)) {
                         m.add_item_or_charges(u.posx, u.posy, liquid, 1);
+                    }
                     return true;
             }
+            add_msg(_("Never mind."));
             return false;
         }
-
-        cont = &(u.i_at(pos));
     }
 
-    if (cont == NULL || cont->is_null()) {
-        // Container is null, ask to pour.
-        // we asked to pour rotten already
-        if (!from_ground && !liquid.rotten() &&
-                query_yn(_("Pour %s on the ground?"), liquid.tname().c_str())) {
-            if (!m.has_flag("SWIMMABLE", u.posx, u.posy))
-                m.add_item_or_charges(u.posx, u.posy, liquid, 1);
-            return true;
-        }
-        add_msg(_("Never mind."));
-        return false;
-
-    } else if(cont == source) {
+    if (cont == source) {
         //Source and destination are the same; abort
         add_msg(_("That's the same container!"));
         return false;
