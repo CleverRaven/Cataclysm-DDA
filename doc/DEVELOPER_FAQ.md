@@ -26,6 +26,8 @@
 6. Just like attacks, some monsters may have a special function called when
     they die.  This works the same as attacks, but the relevant files are
     mondeath.h and mondeath.cpp.
+7. If you add flags. Document them in JSON_FLAGS.md, and mtype.h. Please. Or 
+    we will replace your blood with acid in the night.
 
 ##Adding structures to the map
 Most "regular" buildings are spawned in cities (large clusters of buildings which are located rather close to each other).

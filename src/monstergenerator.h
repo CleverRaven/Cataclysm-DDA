@@ -81,7 +81,7 @@ class MonsterGenerator
 
         // data acquisition
         std::set<std::string> get_tags(JsonObject &jo, std::string member);
-        MonDeathFunction get_death_function(JsonObject &jo, std::string member);
+        std::vector<void (mdeath::*)(monster*)> get_death_functions(JsonObject &jo, std::string member);
         MonAttackFunction get_attack_function(JsonObject &jo, std::string member);
         template <typename T> std::set<T> get_set_from_tags(std::set<std::string> tags, std::map<std::string, T> conversion_map, T fallback);
         template <typename T> T get_from_string(std::string tag, std::map<std::string, T> conversion_map, T fallback);

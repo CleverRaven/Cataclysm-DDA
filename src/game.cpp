@@ -3115,7 +3115,7 @@ bool game::handle_action()
   case ACTION_ZOOM_IN:
    zoom_in();
    break;
-  
+
   case ACTION_ZOOM_OUT:
    zoom_out();
    break;
@@ -7236,7 +7236,9 @@ void game::activity_on_turn_pulp()
         //TODO: See if it's possible to use the monBloodType() function rather than this spaghetti code.
         field_id type_blood;
         if (it->corpse->flags.count(MF_ACID_BLOOD) != 0)
-            type_blood = fd_acid; //Currently unused, be wary that a corpse with ACID_BLOOD would be very hazardous to smash!
+            type_blood = fd_acid; //Be wary that a corpse with ACID_BLOOD would be very hazardous to smash!
+        else if (it->corpse->flags.count(MF_BILE_BLOOD) != 0)
+            type_blood = fd_bile;
         else if (it->corpse->flags.count(MF_LARVA) != 0 || it->corpse->flags.count(MF_ARTHROPOD_BLOOD) != 0)
             type_blood = fd_blood_invertebrate;
         else if (it->corpse->mat == "veggy")
@@ -8637,7 +8639,7 @@ int game::list_items(const int iLastState)
                         /* The following two don't work for some reason.
                          * Even though the zoom level will be adjusted,
                          * the map won't be redrawn until V mode is exited.
-                         
+
                         case ACTION_ZOOM_IN:
                             zoom_in();
                             break;
@@ -8911,7 +8913,7 @@ int game::list_monsters(const int iLastState)
                         /* The following two don't work for some reason.
                          * Even though the zoom level will be adjusted,
                          * the map won't be redrawn until V mode is exited.
-                         
+
                         case ACTION_ZOOM_IN:
                             zoom_in();
                             break;

@@ -158,7 +158,6 @@ void mdeath::triffid_heart(monster *z) {
 }
 
 void mdeath::fungus(monster *z) {
-    mdeath::normal( z);
     monster spore(GetMType("mon_spore"));
     bool fungal = false;
     int mondex = -1;
@@ -389,7 +388,6 @@ void mdeath::amigara(monster *z) {
         item art(new_artifact(itypes), g->turn);
         g->m.add_item_or_charges(z->posx(), z->posy(), art);
     }
-    normal( z);
 }
 
 void mdeath::thing(monster *z) {
@@ -469,9 +467,6 @@ void mdeath::smokeburst(monster *z) {
 
 // this function generates clothing for zombies
 void mdeath::zombie(monster *z) {
-    // normal death function first
-    mdeath::normal( z);
-
     // skip clothing generation if the zombie was rezzed rather than spawned
     if (z->no_extra_death_drops) {
         return;

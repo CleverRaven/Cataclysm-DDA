@@ -1169,9 +1169,9 @@ void splatter(std::vector<point> trajectory, int dam, monster* mon)
  if (mon != NULL) {
   if (!mon->made_of("flesh") || mon->has_flag(MF_VERMIN) )
    return;
-  if (mon->type->dies == &mdeath::boomer)
+  if (mon->has_flag(MF_BILE_BLOOD))
    blood = fd_bile;
-  else if (mon->type->dies == &mdeath::acid)
+  else if (mon->has_flag(MF_ACID_BLOOD))
    blood = fd_acid;
  }
 

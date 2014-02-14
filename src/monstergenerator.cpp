@@ -270,6 +270,7 @@ void MonsterGenerator::init_flags() {
     flag_map["LARVA"] = MF_LARVA;
     flag_map["ARTHROPOD_BLOOD"] = MF_ARTHROPOD_BLOOD;
     flag_map["ACID_BLOOD"] = MF_ACID_BLOOD;
+    flag_map["BILE_BLOOD"] = MF_BILE_BLOOD;
 }
 
 
@@ -315,7 +316,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->sp_freq = jo.get_int("special_freq", 0);
         newmon->luminance = jo.get_float("luminance", 0);
 
-        newmon->dies = get_death_function(jo, "death_function");
+        newmon->dies = get_death_functions(jo, "death_function");
         newmon->sp_attack = get_attack_function(jo, "special_attack");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig, cats;
@@ -426,16 +427,22 @@ mtype *MonsterGenerator::get_valid_hallucination()
     return potentials[rng(0, potentials.size() - 1)];
 }
 
-MonDeathFunction MonsterGenerator::get_death_function(JsonObject& jo, std::string member)
+std::vector<void (mdeath::*)(monster*)> MonsterGenerator::get_death_functions(JsonObject& jo, std::string member)
 {
-    static MonDeathFunction default_death = death_map["NORMAL"];
+    std::vector<void (mdeath::*)(monster*)> deaths;
 
-    if (death_map.find(jo.get_string(member, "")) != death_map.end())
-    {
-        return death_map[jo.get_string(member)];
+    std::set<std::string> death_flags = jo.get_tags("death_function");
+
+    std::set<std::string>::iterator it = death_flags.begin();
+    for (; it != death_flags.end(); ++it) {
+        deaths.push_back(death_map[*it]);
+        //debugmsg("SOY:get_death_functions monster has %i", it);
     }
+    //debugmsg("SOY:get_death_functions monster has %i possible deaths", deaths.size());
 
-    return default_death;
+    if (deaths.size() == 0)
+        deaths.push_back(death_map["NORMAL"]);
+    return deaths;
 }
 
 MonAttackFunction MonsterGenerator::get_attack_function(JsonObject& jo, std::string member)
