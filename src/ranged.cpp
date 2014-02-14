@@ -235,9 +235,8 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         burst = false; // Can't burst fire a semi-auto
 
     // Use different amounts of time depending on the type of gun and our skill
-    if (!proj.proj_effects.count("BOUNCE")) {
-        moves -= time_to_fire(*this, firing);
-    }
+    moves -= time_to_fire(*this, firing);
+
     // Decide how many shots to fire
     int num_shots = 1;
     if (burst)
@@ -363,6 +362,13 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         } else if (used_weapon->has_flag("CHARGE")) {
             used_weapon->active = false;
             used_weapon->charges = 0;
+        } else if (used_weapon->has_flag("BIO_WEAPON")) {
+            //The weapon used is a bio weapon.
+            //It should consume a charge to let the game (specific: bionics.cpp:player::activate_bionic)
+            //know the weapon has been fired.
+            //It should ignore the NO_AMMO tag for charges, and still use one.
+            //the charges are virtual anyway.
+            used_weapon->charges--;
         } else if (!used_weapon->has_flag("NO_AMMO")) {
             used_weapon->charges--;
         }

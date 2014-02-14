@@ -516,7 +516,7 @@ void player::activate_bionic(int b)
         } else {
             health += 5;
         }
-    } 
+    }
     if(bio.id == "bio_geiger") {
         g->add_msg(_("Your radiation level: %d"), radiation);
     }
@@ -568,19 +568,24 @@ void player::activate_bionic(int b)
     } else if(bio.id == "bio_blaster") {
         tmp_item = weapon;
         weapon = item(itypes["bio_blaster_gun"], 0);
-        weapon.curammo = dynamic_cast<it_ammo *>(itypes["generic_no_ammo"]);
-        weapon.charges = 1;
         g->refresh_all();
         g->plfire(false);
-        weapon = tmp_item;
         if(weapon.charges == 1) { // not fired
             power_level += bionics[bio.id]->power_cost;
         }
+        weapon = tmp_item;
     } else if (bio.id == "bio_laser") {
         tmp_item = weapon;
         weapon = item(itypes["bio_laser_gun"], 0);
-        weapon.curammo = dynamic_cast<it_ammo *>(itypes["generic_no_ammo"]);
-        weapon.charges = 1;
+        g->refresh_all();
+        g->plfire(false);
+        if(weapon.charges == 1) { // not fired
+            power_level += bionics[bio.id]->power_cost;
+        }
+        weapon = tmp_item;
+    } else if(bio.id == "bio_chain_lightning") {
+        tmp_item = weapon;
+        weapon = item(itypes["bio_lightning"], 0);
         g->refresh_all();
         g->plfire(false);
         if(weapon.charges == 1) { // not fired
@@ -593,7 +598,6 @@ void player::activate_bionic(int b)
         } else {
             power_level += bionics["bio_emp"]->power_cost;
         }
-
     } else if (bio.id == "bio_hydraulics") {
         g->add_msg(_("Your muscles hiss as hydraulic strength fills them!"));
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
@@ -687,17 +691,6 @@ void player::activate_bionic(int b)
     } else if(bio.id == "bio_shockwave") {
         g->shockwave(posx, posy, 3, 4, 2, 8, true);
         g->add_msg_if_player(this, _("You unleash a powerful shockwave!"));
-    } else if(bio.id == "bio_chain_lightning") {
-        tmp_item = weapon;
-        weapon = item(itypes["bio_lightning"], 0);
-        weapon.curammo = dynamic_cast<it_ammo *>(itypes["generic_no_ammo"]);
-        weapon.charges = 1;
-        g->refresh_all();
-        g->plfire(false);
-        weapon = tmp_item;
-        if(weapon.charges == 1) { // not fired
-            power_level += bionics[bio.id]->power_cost;
-        }
     }
 }
 

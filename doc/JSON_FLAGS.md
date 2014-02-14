@@ -654,6 +654,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
 - ```RELOAD_ONE``` Only reloads one round at a time.
 - ```NO_AMMO``` Does not directly have a loaded ammo type.
+- ```BIO_WEAPON``` Weapon is a CBM weapon, uses power as ammo. (CBM weapons should get both NO_AMMO and BIO_WEAPON, to work correctly).
 - ```USE_UPS``` Uses 5 UPS charges per shot, or 3 advanced UPS charges.
 - ```USE_UPS_20``` Uses 20 UPS charges per shot, or 12 advanced UPS charges.
 - ```USE_UPS_40``` Uses 40 UPS charges per shot, or 24 advanced UPS charges.

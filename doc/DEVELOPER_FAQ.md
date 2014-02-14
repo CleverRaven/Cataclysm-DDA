@@ -51,10 +51,11 @@ These structures are also commented in source code. Add new identifier in enum o
   The comments given in source code to `structure struct overmap_special` explain the meaning of these constants in the example above.
 
 ##Adding a bionic
-1. Edit data/raw/bionics.json and add your bionic near similar types. See JSON_INFO for a more in-depth review of the individual fields.
-2. If you want the bionic to be available in the gameworld as an item, add it to item_groups.json
-3. Manually code in effects into the appropriate files
-
+1. Edit data/json/bionics.json and add your bionic near similar types. See JSON_INFO for a more in-depth review of the individual fields.
+2. If you want the bionic to be available in the gameworld as an item, add it to item_groups.json, and add a bionic item to data/json/items/bionics.json
+3. Manually code in effects into the appropriate files, for activated bionics edit the player::activate_bionic function in bionics.cpp.
+4. For bionic ranged weapons add the bionic weapon counterparts to ranged.json, give them the NO_AMMO and BIO_WEAPON flags.
+5. For bionic close combat weapons add the bionic weapon to data/json/items/melee.json give them NON_STUCK", "NO_UNWIELD" at least.
 
 ##How armour protection is calculated
 1. When the player is hit at a specific body part, armour coverage determines whether the armour is hit, or an uncovered part of the player is hit (roll 1d100 against coverage)
