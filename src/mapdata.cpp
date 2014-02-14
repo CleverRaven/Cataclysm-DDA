@@ -253,7 +253,11 @@ void load_furniture(JsonObject &jsobj)
       new_furniture.close = jsobj.get_string("close");
   }
   new_furniture.bash.load(jsobj, "bash", true);
-
+  if( jsobj.has_member("deconstruct")) {
+      JsonObject j = jsobj.get_object("deconstruct")
+      JsonArray ja = j.get_array("items")
+      new_furniture.
+  }
   new_furniture.loadid = furnlist.size();
   furnmap[new_furniture.id] = new_furniture;
   furnlist.push_back(new_furniture);
