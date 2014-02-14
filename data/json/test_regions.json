@@ -143,25 +143,5 @@
               }
           }
       ]
-   },
-   {
-      "type" : "terrain",
-      "id" : "t_searth_test",
-      "name": "scorched earth",
-      "symbol": ".",
-      "color": "ltgray",
-      "move_cost": 2,
-      "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
-   },
-   {
-      "type" : "furniture",
-      "id" : "f_mutcactus_test",
-      "name": "mutated cactus",
-      "symbol": "f",
-      "color": "green",
-      "move_cost_mod": 4,
-      "required_str": -1,
-      "flags": ["TRANSPARENT", "FLAMMABLE_ASH" ],
-      "examine_action": "flower_poppy"
    }
 ]
