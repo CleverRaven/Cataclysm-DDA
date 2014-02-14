@@ -669,7 +669,7 @@ void construct::done_deconstruct(point p)
             g->m.spawn_item(p.x, p.y, "2x4", 24);
             g->m.spawn_item(p.x, p.y, "nail", 0, rng(36,48));
             g->m.ter_set(p.x, p.y, t_door_c);
-        } else if(ter_here == "t_curtains" || ter_here == "t_window_domestric") {
+        } else if(ter_here == "t_curtains" || ter_here == "t_window_domestic") {
             g->m.spawn_item(g->u.posx, g->u.posy, "stick");
             g->m.spawn_item(g->u.posx, g->u.posy, "sheet", 2);
             g->m.spawn_item(g->u.posx, g->u.posy, "glass_sheet");
