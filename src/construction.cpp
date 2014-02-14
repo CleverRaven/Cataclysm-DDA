@@ -656,7 +656,7 @@ void construct::done_deconstruct(point p)
             g->m.furn_set(p.x, p.y, f_null);
         } else {
             g->add_msg(_("You have to push away %s first."), g->m.furnname(p.x, p.y).c_str());
-    }
+        }
     
     } else {
         g->add_msg(_("You disassemble the %s."), g->m.tername(p.x, p.y).c_str());
@@ -694,7 +694,7 @@ void construct::done_deconstruct(point p)
         } else if(ter_here == "t_monkey_bars") {
             g->m.spawn_item(p.x, p.y, "pipe", rng(6,12));
             g->m.ter_set(p.x, p.y, t_grass);
-        } else if(ter_here == "t_radio_controls" || ter_here == "t_console" || ter_here == "t_console_broken")
+        } else if(ter_here == "t_radio_controls" || ter_here == "t_console" || ter_here == "t_console_broken") {
             g->m.spawn_item(p.x, p.y, "processor", rng(1,2));
             g->m.spawn_item(p.x, p.y, "RAM", rng(4,8));
             g->m.spawn_item(p.x, p.y, "cable", rng(4,6));
