@@ -227,10 +227,7 @@
         "type" : "bionic",
         "id" : "bio_face_mask",
     "name"       :    "Facial Distortion",
-    "active"     :    true,
-    "cost"       :    1,
-    "time"       :    10,
-    "description":    "Through controlled application of electrochemical impulses, you are capable of altering your facial structure so as to subtly affect the reactions of others. While active, you gain a bonus to all social interactions."
+    "description":    "Through controlled application of electrochemical impulses, you are capable of altering your facial structure so as to subtly affect the reactions of others. This grants a bonus to all social interactions."
     },{
         "type" : "bionic",
         "id" : "bio_ads",
