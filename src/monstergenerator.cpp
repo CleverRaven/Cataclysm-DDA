@@ -431,7 +431,7 @@ std::vector<void (mdeath::*)(monster*)> MonsterGenerator::get_death_functions(Js
 {
     std::vector<void (mdeath::*)(monster*)> deaths;
 
-    std::set<std::string> death_flags = jo.get_tags("death_function");
+    std::set<std::string> death_flags = jo.get_tags(member);
 
     std::set<std::string>::iterator it = death_flags.begin();
     for (; it != death_flags.end(); ++it) {
