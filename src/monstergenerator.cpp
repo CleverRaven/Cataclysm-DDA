@@ -436,9 +436,7 @@ std::vector<void (mdeath::*)(monster*)> MonsterGenerator::get_death_functions(Js
     std::set<std::string>::iterator it = death_flags.begin();
     for (; it != death_flags.end(); ++it) {
         deaths.push_back(death_map[*it]);
-        //debugmsg("SOY:get_death_functions monster has %i", it);
     }
-    //debugmsg("SOY:get_death_functions monster has %i possible deaths", deaths.size());
 
     if (deaths.size() == 0)
         deaths.push_back(death_map["NORMAL"]);

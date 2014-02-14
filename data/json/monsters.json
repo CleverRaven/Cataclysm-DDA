@@ -1789,7 +1789,7 @@
     "luminance":0,
     "hp":70,
     "special_freq":20,
-    "death_function":"ACID",
+    "death_function":["ACID", "ZOMBIE", "NORMAL"],
     "special_attack":"ACID",
     "description":"A hunched human body with its eyes pushed up into its forehead and drooping cheeks, most of its face is occupied by a puckered mouth. Its stomach is swollen and nearly translucent, with a sickly yellow tint.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "VIS40", "REVIVES"]
