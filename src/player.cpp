@@ -7563,11 +7563,9 @@ hint_rating player::rate_action_wear(item *it)
 bool player::wear(int pos, bool interactive)
 {
     item* to_wear = NULL;
-    int index = -1;
     if (pos == -1)
     {
         to_wear = &weapon;
-        index = -2;
     }
     else
     {
@@ -7589,13 +7587,17 @@ bool player::wear(int pos, bool interactive)
         return false;
     }
 
-    if (index == -2)
+    if (pos == -1)
     {
         weapon = ret_null;
     }
     else
     {
+        // it has been copied into worn vector, but assigned an invlet,
+        // in case it's a stack, reset the invlet to avoid duplicates
+        to_wear->invlet = 0;
         inv.remove_item(to_wear);
+        inv.restack(this);
     }
 
     return true;
