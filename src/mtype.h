@@ -66,7 +66,7 @@ enum mon_id {
     // Subspace monsters
     mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
     mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_gozu, mon_shadow, mon_breather_hub,
-    mon_breather, mon_shadow_snake,
+    mon_breather, mon_shadow_snake, mon_shoggoth,
     // Cult, lobotomized creatures that are human/undead hybrids
     mon_dementia, mon_homunculus, mon_blood_sacrifice, mon_flesh_angel,
     // Robots
@@ -191,6 +191,7 @@ enum m_flag {
     MF_LARVA,               // Creature is a larva. Currently used for gib and blood handling.
     MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
     MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff!
+    MF_ABSORBS,             // Consumes objects it moves over.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
