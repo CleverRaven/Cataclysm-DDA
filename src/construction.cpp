@@ -679,7 +679,7 @@ void construct::done_deconstruct(point p)
         } else if(ter_here == "t_window") {
             g->m.spawn_item(p.x, p.y, "glass_sheet");
             g->m.ter_set(p.x, p.y, t_window_empty);
-        } else if(ter_here == "t_blackboard") {
+        } else if(ter_here == "t_backboard") {
             g->m.spawn_item(p.x, p.y, "2x4", 4);
             g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,10));
             g->m.ter_set(p.x, p.y, t_pavement);
