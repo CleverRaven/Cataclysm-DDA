@@ -36,7 +36,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 13;
+const int savegame_version = 14;
 const int savegame_minver_game = 11;
 //const int savegame_minver_map = 11;
 const int savegame_minver_overmap = 12;

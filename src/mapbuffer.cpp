@@ -343,6 +343,24 @@ void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr, bool de
     }
 }
 
+int mapbuffer::load_keys(std::string worldname)
+{
+    int num_submaps = 0;
+    std::ifstream fin;
+    std::stringstream world_map_path;
+    world_map_path << world_generator->all_worlds[worldname]->world_path << "/maps";
+    std::stringstream map_key_file;
+    map_key_file << world_map_path.str() << "/map.key";
+    fin.open( map_key_file.str().c_str() );
+    if( !fin.is_open() ) {
+        // Currently not having a key file is fatal.
+        return 0;
+    }
+    num_submaps = unserialize_keys( fin );
+    fin.close();
+    return num_submaps;
+}
+
 void mapbuffer::load(std::string worldname)
 {
     std::ifstream fin;
@@ -361,21 +379,18 @@ void mapbuffer::load(std::string worldname)
         // Save the data and unload it at the same time.
         save( true );
         unlink( worldmap.str().c_str() );
+        // Clear and reload the keys so they don't mess with dynamic map loading.
+        load_keys( worldname );
         return;
     }
 
     // If we don't have a monolithic maps.txt, we either have a maps directory or nothing.
     std::stringstream world_map_path;
     world_map_path << world_generator->all_worlds[worldname]->world_path << "/maps";
-    std::stringstream map_key_file;
-    map_key_file << world_map_path.str() << "/map.key";
-    fin.open( map_key_file.str().c_str() );
-    if( !fin.is_open() ) {
-        // Currently not having a key file is fatal.
+    num_submaps = load_keys( worldname );
+    if( num_submaps == 0 ) {
         return;
     }
-    num_submaps = unserialize_keys( fin );
-    fin.close();
     // We only need to load all the files if we changed versions.
     if( savegame_loading_version != savegame_version ) {
         std::vector<std::string> map_files = file_finder::get_files_from_path(
@@ -428,6 +443,10 @@ int mapbuffer::unserialize_keys( std::ifstream &fin )
     getline(fin, databuff);
     jsonbuff.str(databuff);
     JsonIn jsin(jsonbuff);
+
+    ter_key.clear();
+    furn_key.clear();
+    trap_key.clear();
 
     jsin.start_object();
     while (!jsin.end_object()) {
