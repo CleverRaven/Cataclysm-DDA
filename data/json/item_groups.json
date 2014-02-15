@@ -2461,6 +2461,7 @@
       ["cu_pipe", 10],
       ["5x50_hull", 8],
       ["waterproof_gunmod", 8],
+      ["gun_crossbow", 4],
       ["improve_sights", 20]
     ]
   },{
@@ -5277,6 +5278,7 @@
       ["flaregun", 20],
       ["signal_flare", 25],
       ["survivormap", 1],
+      ["gun_crossbow", 1],
       ["charcoal", 5]
     ]
   },{
