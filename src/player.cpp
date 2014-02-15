@@ -5363,19 +5363,6 @@ void player::suffer()
         add_disease("attention", 3);
     }
 
-    if (dex_cur < 0) {
-        dex_cur = 0;
-    }
-    if (str_cur < 0) {
-        str_cur = 0;
-    }
-    if (per_cur < 0) {
-        per_cur = 0;
-    }
-    if (int_cur < 0) {
-        int_cur = 0;
-    }
-
     // check for limb mending every 1000 turns (~1.6 hours)
     if(g->turn.get_turn() % 1000 == 0) {
         mend();
