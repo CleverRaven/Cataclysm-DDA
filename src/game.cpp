@@ -11080,6 +11080,7 @@ void game::reload(int pos)
      int am_pos = it->pick_reload_ammo(u, true);
      if (am_pos == INT_MIN) {
          add_msg(_("Out of ammo!"));
+         refresh_all();
          return;
      }
 
