@@ -598,19 +598,19 @@ Creature *Creature::get_killer()
 // get_stat_bonus() is always just the bonus amount
 int Creature::get_str() const
 {
-    return str_max + str_bonus;
+    return std::max(0, str_max + str_bonus);
 }
 int Creature::get_dex() const
 {
-    return dex_max + dex_bonus;
+    return std::max(0, dex_max + dex_bonus);
 }
 int Creature::get_per() const
 {
-    return per_max + per_bonus;
+    return std::max(0, per_max + per_bonus);
 }
 int Creature::get_int() const
 {
-    return int_max + int_bonus;
+    return std::max(0, int_max + int_bonus);
 }
 
 int Creature::get_str_base() const
