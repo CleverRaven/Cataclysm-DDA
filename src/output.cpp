@@ -572,14 +572,6 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                 std::vector<std::string> *hist = uistate.gethistory(identifier);
                 if(hist != NULL) {
                     uimenu hmenu;
-                    hmenu.w_height = 3 + hist->size();
-                    if (w_y - hmenu.w_height < 0 ) {
-                        hmenu.w_y = 0;
-                        hmenu.w_height = ( w_y - hmenu.w_y < 4 ? 4 : w_y - hmenu.w_y );
-                    } else {
-                        hmenu.w_y = w_y - hmenu.w_height;
-                    }
-                    hmenu.w_x = w_x;
                     hmenu.title = _("d: delete history");
                     hmenu.return_invalid = true;
                     for(int h = 0; h < hist->size(); h++) {
@@ -592,6 +584,14 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                     } else {
                         hmenu.selected = hist->size() - 1;
                     }
+                    // number of lines that make up the menu window: title,2*border+entries
+                    hmenu.w_height = 3 + hmenu.entries.size();
+                    hmenu.w_y = w_y - hmenu.w_height;
+                    if (hmenu.w_y < 0 ) {
+                        hmenu.w_y = 0;
+                        hmenu.w_height = std::max(w_y, 4);
+                    }
+                    hmenu.w_x = w_x;
 
                     hmenu.query();
                     if ( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret ) {
