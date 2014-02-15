@@ -817,6 +817,11 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```HORN_BICYCLE``` Honk the horn.
 - ```RAD_BADGE``` Take the radiation badge out of its protective case to start measuring absorbed dosage.
 - ```AIRHORN``` Sound the horn.
+- ```BELL``` Ring the bell.
+- ```SEED``` Asks if you are sure that you want to eat the seed. As it is better to plant seeds.
+- ```OXYGEN_BOTTLE```
+- ```ATOMIC_BATTERY```
+- ```FISHING_BASIC``` Use a fishing rod
 - ```JET_INJECTOR``` Inject some jet drugs right into your veins.
 
 ## Skills

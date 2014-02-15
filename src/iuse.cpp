@@ -7525,3 +7525,11 @@ int iuse::bell(player *p, item *it, bool)
     }
     return it->type->charges_to_use();
 }
+
+int iuse::seed(player *p, item *it, bool)
+{
+    if( query_yn(_("Sure you want to eat the %s? You could plant it in a mound of dirt."), it->name.c_str())) {
+        return it->type->charges_to_use(); //This eats the seed object.
+    }
+    return 0;
+}

@@ -70,6 +70,11 @@ These structures are also commented in source code. Add new identifier in enum o
 6. If the armour is made from 2 materials types, then it takes a weighted average of the primary material (66%) and secondary material (33%).
 7. Materials resistance factors are given relative to PAPER as a material (this probably needs some fine-tuning for balance).
 
+##Adding an iuse function.
+1. Add the new item use code to iuse.cpp and iuse.h
+2. Add the new json_flag to your item. And link it to the iuse function in item_factory.cpp
+3. Document the new flag in JSON_FLAGS.md
+
 ##Acid resistance
 This determines how items react to acid fields.  Item acid resistances are a weighted
 average of the materials acid resistance (see item::acid_resist).
@@ -82,7 +87,6 @@ Acid resistance values are in materials.json, and defined as such:
   1 - partly resistant to acid
   2 - very resistant to acid
   3 - complete acid resistance
-
 
 #FAQ
 **Q: What the heck is up with the map objects?**
