@@ -7465,7 +7465,7 @@
         "encumbrance" : 4,
         "bashing" : 6,
         "flags" : ["VARSIZE"],
-        "volume": 10,
+        "volume": 62,
         "coverage" : 90,
         "material_thickness" : 3
     },
