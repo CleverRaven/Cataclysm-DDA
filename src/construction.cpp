@@ -586,7 +586,7 @@ void construct::done_deconstruct(point p)
     if (g->m.has_furn(p.x, p.y)) {
         std::string furn_here = g->m.get_furn(p.x, p.y);
         g->add_msg(_("You disassemble the %s."), g->m.furnname(p.x, p.y).c_str());
-        if(furn_here == "f_makeshift_bed" || furn_here == "" || furn_here == "f_beg" || furn_here == "f_armchair" || furn_here == "f_sofa") {
+        if(furn_here == "f_makeshift_bed" || furn_here == "" || furn_here == "f_bed" || furn_here == "f_armchair" || furn_here == "f_sofa") {
             g->m.spawn_item(p.x, p.y, "2x4", 10);
             g->m.spawn_item(p.x, p.y, "rag", rng(10,15));
             g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,8));
