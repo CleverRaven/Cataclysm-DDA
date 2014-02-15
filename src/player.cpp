@@ -5181,22 +5181,22 @@ void player::suffer()
 
     if ((has_trait("TROGLO") || has_trait("TROGLO2")) &&
         g->is_in_sunlight(posx, posy) && g->weather == WEATHER_SUNNY) {
-        str_cur--;
-        dex_cur--;
-        int_cur--;
-        per_cur--;
+        mod_str_bonus(-1);
+        mod_dex_bonus(-1);
+        mod_int_bonus(-1);
+        mod_per_bonus(-1);
     }
     if (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy)) {
-        str_cur--;
-        dex_cur--;
-        int_cur--;
-        per_cur--;
+        mod_str_bonus(-1);
+        mod_dex_bonus(-1);
+        mod_int_bonus(-1);
+        mod_per_bonus(-1);
     }
     if (has_trait("TROGLO3") && g->is_in_sunlight(posx, posy)) {
-        str_cur -= 4;
-        dex_cur -= 4;
-        int_cur -= 4;
-        per_cur -= 4;
+        mod_str_bonus(-4);
+        mod_dex_bonus(-4);
+        mod_int_bonus(-4);
+        mod_per_bonus(-4);
     }
 
     if (has_trait("SORES")) {
@@ -5328,7 +5328,7 @@ void player::suffer()
     }
     if (has_bionic("bio_power_weakness") && max_power_level > 0 &&
         power_level >= max_power_level * .75) {
-        str_cur -= 3;
+        mod_str_bonus(-3);
     }
     if (has_bionic("bio_trip") && one_in(500) && !has_disease("visuals")) {
         g->add_msg(_("Your vision pixelates!"));
