@@ -10426,7 +10426,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "dayquil",
-        "name" : "Dayquil",
+        "name" : "non-drowsy cough syrup",
         "weight" : 1,
         "color" : "yellow",
         "addiction_type" : "none",
@@ -10455,7 +10455,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "nyquil",
-        "name" : "Nyquil",
+        "name" : "cough syrup",
         "weight" : 1,
         "color" : "blue",
         "addiction_type" : "sleeping pill",

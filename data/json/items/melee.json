@@ -1633,7 +1633,7 @@
     "flags": "SPEAR"
   },
   { "type":"GENERIC",
- "id": "pointy_stick",
+    "id": "pointy_stick",
     "symbol" : "/",
     "color": "brown",
     "name": "pointy stick",
