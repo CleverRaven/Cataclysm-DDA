@@ -220,7 +220,7 @@ void map::board_vehicle(int x, int y, player *p)
         player *psg = veh->get_passenger (seat_part);
         debugmsg ("map::board_vehicle: passenger (%s) is already there",
                   psg ? psg->name.c_str() : "<null>");
-        return;
+        unboard_vehicle( x, y );
     }
     veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
     veh->parts[seat_part].passenger_id = p->getID();
@@ -240,8 +240,23 @@ void map::unboard_vehicle(const int x, const int y)
 {
     int part = 0;
     vehicle *veh = veh_at(x, y, part);
+    player *passenger = NULL;
     if (!veh) {
         debugmsg ("map::unboard_vehicle: vehicle not found");
+        // Try and force unboard the player anyway.
+        if( g->u.xpos() == x && g->u.ypos() == y ) {
+            passenger = &(g->u);
+        } else {
+            int npcdex = g->npc_at( x, y );
+            if( npcdex != -1 ) {
+                passenger = g->active_npc[npcdex];
+            }
+        }
+        if( passenger ) {
+            passenger->in_vehicle = false;
+            passenger->driving_recoil = 0;
+            passenger->controlling_vehicle = false;
+        }
         return;
     }
     const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE, false);
@@ -250,14 +265,14 @@ void map::unboard_vehicle(const int x, const int y)
                   veh->part_info(part).name.c_str());
         return;
     }
-    player *psg = veh->get_passenger(seat_part);
-    if (!psg) {
+    passenger = veh->get_passenger(seat_part);
+    if (!passenger) {
         debugmsg ("map::unboard_vehicle: passenger not found");
         return;
     }
-    psg->in_vehicle = false;
-    psg->driving_recoil = 0;
-    psg->controlling_vehicle = false;
+    passenger->in_vehicle = false;
+    passenger->driving_recoil = 0;
+    passenger->controlling_vehicle = false;
     veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
     veh->skidding = true;
 }
