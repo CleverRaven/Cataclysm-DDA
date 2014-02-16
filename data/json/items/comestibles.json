@@ -10321,7 +10321,7 @@
         "heal" : -1,
         "addiction_potential" : 0,
         "nutrition" : 0,
-        "description" : "Acetylsalicylic acid, a mild anti-inflammatory. Take to relieve pain and swelling. Best to avoid ingesting with alcohol or other painkillers.",
+        "description" : "Acetylsalicylic acid, a mild anti-inflammatory. Take to relieve pain and swelling.",
         "price" : 30,
         "material" : "plastic",
         "tool" : "null",
