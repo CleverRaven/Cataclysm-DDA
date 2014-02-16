@@ -10,6 +10,7 @@
 #include <math.h>
 #include "mondeath.h"
 #include "monattack.h"
+#include "mondefense.h"
 #include "material.h"
 #include "enums.h"
 #include "color.h"
@@ -225,9 +226,10 @@ struct mtype {
     float luminance;           // 0 is default, >0 gives luminance to lightmap
     int hp;
     unsigned int sp_freq;     // How long sp_attack takes to charge
+	unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
     void (mdeath::*dies)(monster *); // What happens when this monster dies
     void (mattack::*sp_attack)(monster *); // This monster's special attack
-
+	void (mdefense::*sp_defense)(monster *); // This monster's special "defensive" move that may trigger when the monster is attacked.  Note that this can be anything, and is not necessarily beneficial to the monster
     // Default constructor
     mtype ();
 
