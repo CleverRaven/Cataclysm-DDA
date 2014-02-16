@@ -364,9 +364,13 @@ void uimenu::setup() {
     if ( vmax + 3 + textformatted.size() > w_height ) {
         vmax = w_height - 3 - textformatted.size();
         if ( vmax < 1 ) {
-            popup("Can't display menu options, %d %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
-               textformatted.size(),TERMY,textformatted[0].c_str(),textformatted[textformatted.size()-1].c_str()
-            );
+            if (textformatted.empty()) {
+                popup("Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",TERMY);
+            } else {
+                popup("Can't display menu options, %d %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
+                    textformatted.size(),TERMY,textformatted[0].c_str(),textformatted[textformatted.size()-1].c_str()
+                );
+            }
         }
     }
 
