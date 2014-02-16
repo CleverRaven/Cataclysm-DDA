@@ -129,10 +129,10 @@ void print_inv_statics(WINDOW *w_inv, std::string title,
         }
         if (dropped_armor)
             mvwprintz(w_inv, 6 + i, 45, c_white, "%c + %s", g->u.worn[i].invlet,
-                      g->u.worn[i].tname().c_str());
+                      g->u.worn[i].display_name().c_str());
         else
-            mvwprintz(w_inv, 6 + i, 45, c_ltgray, "%c - %s", g->u.worn[i].invlet,
-                      g->u.worn[i].tname().c_str());
+            mvwprintz(w_inv, 6 + i, 45, g->u.worn[i].color_in_inventory(), "%c - %s", g->u.worn[i].invlet,
+                      g->u.worn[i].display_name().c_str());
     }
 
     // Print items carried
@@ -485,7 +485,7 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
                         dropping_w = true;
                         dropping_a = true;
                         mvwprintw(w_inv, drp_line, 90, "%s", drp_line_padding.c_str());
-                        mvwprintz(w_inv, drp_line, 90, c_cyan, "%c + %s", u.worn[k].invlet, u.worn[k].tname().c_str());
+                        mvwprintz(w_inv, drp_line, 90, c_cyan, "%c + %s", u.worn[k].invlet, u.worn[k].display_name().c_str());
                         drp_line++;
                     }
                 }
