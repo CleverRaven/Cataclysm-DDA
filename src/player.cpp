@@ -5969,6 +5969,10 @@ void player::process_active_items()
         if (worn[i].is_artifact()) {
             g->process_artifact(&(worn[i]), this);
         }
+        if (!process_single_active_item(&worn[i])) {
+            worn.erase(worn.begin() + i);
+            i--;
+        }
     }
 
   // Drain UPS if using optical cloak.
