@@ -13821,22 +13821,22 @@ void game::process_artifact(item *it, player *p, bool wielded)
     for (int i = 0; i < effects.size(); i++) {
         switch (effects[i]) {
         case AEP_STR_UP:
-            p->str_cur += 4;
+            p->mod_str_bonus(+4);
             break;
         case AEP_DEX_UP:
-            p->dex_cur += 4;
+            p->mod_dex_bonus(+4);
             break;
         case AEP_PER_UP:
-            p->per_cur += 4;
+            p->mod_per_bonus(+4);
             break;
         case AEP_INT_UP:
-            p->int_cur += 4;
+            p->mod_int_bonus(+4);
             break;
         case AEP_ALL_UP:
-            p->str_cur += 2;
-            p->dex_cur += 2;
-            p->per_cur += 2;
-            p->int_cur += 2;
+            p->mod_str_bonus(+2);
+            p->mod_dex_bonus(+2);
+            p->mod_per_bonus(+2);
+            p->mod_int_bonus(+2);
             break;
         case AEP_SPEED_UP: // Handled in player::current_speed()
             break;
@@ -13902,32 +13902,37 @@ void game::process_artifact(item *it, player *p, bool wielded)
             break;
 
         case AEP_STR_DOWN:
-            p->str_cur -= 3;
+            p->mod_str_bonus(-3);
             break;
 
         case AEP_DEX_DOWN:
-            p->dex_cur -= 3;
+            p->mod_dex_bonus(-3);
             break;
 
         case AEP_PER_DOWN:
-            p->per_cur -= 3;
+            p->mod_per_bonus(-3);
             break;
 
         case AEP_INT_DOWN:
-            p->int_cur -= 3;
+            p->mod_int_bonus(-3);
             break;
 
         case AEP_ALL_DOWN:
-            p->str_cur -= 2;
-            p->dex_cur -= 2;
-            p->per_cur -= 2;
-            p->int_cur -= 2;
+            p->mod_str_bonus(-2);
+            p->mod_dex_bonus(-2);
+            p->mod_per_bonus(-2);
+            p->mod_int_bonus(-2);
             break;
 
         case AEP_SPEED_DOWN:
             break; // Handled in player::current_speed()
         }
     }
+    // Recalculate, as it might have changed (by mod_*_bonus above)
+    p->str_cur = p->get_str();
+    p->int_cur = p->get_int();
+    p->dex_cur = p->get_dex();
+    p->per_cur = p->get_per();
 }
 
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)
