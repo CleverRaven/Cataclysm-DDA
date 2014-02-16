@@ -137,10 +137,10 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CLASSIC``` Only monsters we expect in a classic zombie movie.
 - ```WILDLIFE``` Natural animals.
 
-### Death functions
+### Death functions. Multiple death functions can be used. Not all combinations make sense.
 
-- ```NORMAL``` Drop a body.
-- ```ACID``` Acid instead of a body.
+- ```NORMAL``` Drop a body, leave gibs.
+- ```ACID``` Acid instead of a body. not the same as the ACID_BLOOD flag. In most cases you want both.
 - ```BOOMER``` Explodes in vomit.
 - ```KILL_VINES``` Kill all nearby vines.
 - ```VINE_CUT``` Kill adjacent vine if it's cut.
@@ -149,7 +149,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```DISINTEGRATE``` Falls apart.
 - ```WORM``` Spawns 2 half-worms
 - ```DISAPPEAR``` Hallucination disappears.
-- ```GUILT``` Moral penalty.
+- ```GUILT``` Moral penalty. There is also a flag with a similar effect.
 - ```BLOBSPLIT``` Creates more blobs.
 - ```MELT``` Normal death, but melts.
 - ```AMIGARA``` Removes hypnosis if the last one.
@@ -159,7 +159,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```RATKING``` Cure verminitis.
 - ```KILL_BREATHERS``` All breathers die.
 - ```SMOKEBURST``` Explode like a huge smoke bomb.
-- ```ZOMBIE``` Generate proper clothing for zombies.
+- ```ZOMBIE``` Generate proper clothing for zombies. (Also use NORMAL).
 - ```GAMEOVER``` Game over man! Game over! Defense mode.
 
 ### Flags
@@ -226,7 +226,10 @@ Flags used to describe monsters and define their properties and abilities.
 - ```HUNTS_VERMIN``` Creature uses vermin as a food source.
 - ```SMALL_BITER``` Creature can cause a painful, non-damaging bite.
 - ```ABSORBS``` Consumes objects it moves over.
-
+- ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
+- ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.
+- ```ACID_BLOOD``` Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
+- ```BILE_BLOOD``` Makes monster bleed bile.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
