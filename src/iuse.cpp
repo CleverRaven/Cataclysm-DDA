@@ -13,6 +13,7 @@
 #include "action.h"
 #include "monstergenerator.h"
 #include "speech.h"
+#include "item_factory.h"
 #include "overmapbuffer.h"
 #include <sstream>
 #include <algorithm>
@@ -2421,11 +2422,16 @@ int iuse::oil_lamp_on(player *p, item *it, bool t)
 int iuse::light_off(player *p, item *it, bool)
 {
     if (it->charges == 0) {
-        g->add_msg_if_player(p,_("The flashlight's batteries are dead."));
+        g->add_msg_if_player(p,_("The %ss batteries are dead."), it->tname().c_str());
         return 0;
     } else {
-        g->add_msg_if_player(p,_("You turn the flashlight on."));
-        it->make(itypes["flashlight_on"]);
+        std::string oname = it->type->id + "_on";
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        g->add_msg_if_player(p,_("You turn the %s on."), it->tname().c_str());
+        it->make(item_controller->find_template(oname));
         it->active = true;
         return it->type->charges_to_use();
     }
@@ -2433,14 +2439,25 @@ int iuse::light_off(player *p, item *it, bool)
 
 int iuse::light_on(player *p, item *it, bool t)
 {
- if (t) { // Normal use
-// Do nothing... player::active_light and the lightmap::generate deal with this
- } else { // Turning it off
-  g->add_msg_if_player(p,_("The flashlight flicks off."));
-  it->make(itypes["flashlight"]);
-  it->active = false;
- }
- return it->type->charges_to_use();
+    if (t) { // Normal use
+        // Do nothing... player::active_light and the lightmap::generate deal with this
+    } else { // Turning it off
+        std::string oname = it->type->id;
+        if (oname.length() > 3 && oname.compare(oname.length() - 3, 3, "_on") == 0) {
+            oname.erase(oname.length() - 3, 3);
+        } else {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        g->add_msg_if_player(p,_("The %s flicks off."), it->tname().c_str());
+        it->make(item_controller->find_template(oname));
+        it->active = false;
+    }
+    return it->type->charges_to_use();
 }
 
 // this function only exists because we need to set it->active = true
