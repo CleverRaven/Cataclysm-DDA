@@ -33,7 +33,12 @@
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
 # PROFILE is for use with gprof or a similar program -- don't bother generally
-WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-narrowing
+# RELEASE is flags for release builds, we want to error on everything to make sure
+# we don't check in code with new warnings, but we also have to disable some classes of warnings
+# for now as we get rid of them.  In non-release builds we want to show all the warnings,
+# even the ones we're allowing in release builds so they're visible to developers.
+RELEASE_FLAGS = -Werror -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-narrowing
+WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUG = -g
@@ -85,7 +90,7 @@ RC  = $(CROSS)windres
 
 # enable optimizations. slow to build
 ifdef RELEASE
-  OTHERS += -O3
+  OTHERS += -O3 $(RELEASE_FLAGS)
   DEBUG =
 endif
 
