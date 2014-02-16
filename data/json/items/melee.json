@@ -1622,7 +1622,7 @@
     "symbol": ",",
     "color": "white",
     "name": "syringe",
-    "description": "A medical syringe. Used for administering heroin and other drugs.",
+    "description": "A medical syringe. Used for administering intravenous drugs.",
     "material": "plastic",
     "price": 25,
     "volume": 1,
