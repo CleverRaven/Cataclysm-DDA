@@ -11,6 +11,7 @@ MonsterGenerator::MonsterGenerator()
     //ctor
     init_phases();
     init_attack();
+	init_defense();
     init_death();
     init_flags();
     init_trigger();
@@ -189,6 +190,12 @@ void MonsterGenerator::init_attack()
     attack_map["PARROT"] = &mattack::parrot;
 }
 
+void MonsterGenerator::init_defense()
+{
+	defense_map["NONE"] = &mdefense::none; //No Special attack-back
+	defense_map["ZAPBACK"] = &mdefense::zapback; //shock attacker on hit
+}
+
 void MonsterGenerator::init_trigger()
 {
     trigger_map["NULL"] = MTRIG_NULL;// = 0,
@@ -313,10 +320,12 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->item_chance = jo.get_int("item_chance", 0);
         newmon->hp = jo.get_int("hp", 0);
         newmon->sp_freq = jo.get_int("special_freq", 0);
+		newmon->def_chance = jo.get_int("special_when_hit_freq", 0);
         newmon->luminance = jo.get_float("luminance", 0);
 
         newmon->dies = get_death_function(jo, "death_function");
         newmon->sp_attack = get_attack_function(jo, "special_attack");
+		newmon->sp_defense = get_defense_function(jo, "special_when_hit");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig, cats;
         flags = jo.get_tags("flags");
@@ -448,6 +457,18 @@ MonAttackFunction MonsterGenerator::get_attack_function(JsonObject& jo, std::str
     }
 
     return default_attack;
+}
+
+MonDefenseFunction MonsterGenerator::get_defense_function(JsonObject& jo, std::string member)
+{
+    static MonDefenseFunction default_defense = defense_map["NONE"];
+
+    if (defense_map.find(jo.get_string(member, "")) != defense_map.end())
+    {
+        return defense_map[jo.get_string(member)];
+    }
+
+    return default_defense;
 }
 template <typename T>
 std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags, std::map<std::string, T> conversion_map, T fallback)
