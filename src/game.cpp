@@ -261,6 +261,7 @@ void game::init_ui(){
             VIEW_OFFSET_Y = ((int)(TERMY/tilecontext->tile_ratioy) > 121) ? (TERMY - 121)/2 : 0;
             TERRAIN_WINDOW_WIDTH  = ceil((TERMX - sidebarWidth)/tilecontext->tile_ratiox);
             TERRAIN_WINDOW_HEIGHT = ceil(TERMY/tilecontext->tile_ratioy);
+            TERRAIN_WINDOW_TERM_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
         }
         else
         #endif // SDLTILES
@@ -269,7 +270,10 @@ void game::init_ui(){
             VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
             TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
             TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
+            TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
         }
+		
+		
 
         POSX = TERRAIN_WINDOW_WIDTH / 2;
         POSY = TERRAIN_WINDOW_HEIGHT / 2;

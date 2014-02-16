@@ -1895,7 +1895,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
   }
  }
 
-    int maxy = TERRAIN_WINDOW_HEIGHT;
+    int maxy = TERMY;
 
     int infooffsetytop = 11;
     int infooffsetybottom = 15;
