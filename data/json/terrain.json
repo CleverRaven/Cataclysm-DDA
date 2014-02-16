@@ -2107,7 +2107,6 @@
         "symbol": "#",
         "color": "red",
         "move_cost": 0,
-        "move_cost": 0,
         "flags": []
     },{
         "type" : "terrain",
@@ -2116,7 +2115,6 @@
         "symbol": "#",
         "color": "green",
         "move_cost": 0,
-        "move_cost": 0,
         "flags": []
     },{
         "type" : "terrain",
@@ -2124,7 +2122,6 @@
         "name": "blue stone",
         "symbol": "#",
         "color": "blue",
-        "move_cost": 0,
         "move_cost": 0,
         "flags": []
     },{
