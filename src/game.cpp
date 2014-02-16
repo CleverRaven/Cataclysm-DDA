@@ -2042,6 +2042,7 @@ void game::handle_key_blocking_activity() {
                     break;
                 case ACTION_MESSAGES:
                     msg_buffer();
+                    refresh_all();
                     break;
                 case ACTION_HELP:
                     display_help();
@@ -2796,17 +2797,14 @@ bool game::handle_action()
 
   case ACTION_COMPARE:
    compare();
-   refresh_all();
    break;
 
   case ACTION_ORGANIZE:
    reassign_item();
-   refresh_all();
    break;
 
   case ACTION_USE:
    use_item();
-   refresh_all();
    break;
 
   case ACTION_USE_WIELDED:
@@ -2815,32 +2813,26 @@ bool game::handle_action()
 
   case ACTION_WEAR:
    wear();
-   refresh_all();
    break;
 
   case ACTION_TAKE_OFF:
    takeoff();
-   refresh_all();
    break;
 
   case ACTION_EAT:
    eat();
-   refresh_all();
    break;
 
   case ACTION_READ:
    read();
-   refresh_all();
    break;
 
   case ACTION_WIELD:
    wield();
-   refresh_all();
    break;
 
   case ACTION_PICK_STYLE:
    u.pick_style();
-   refresh_all();
    break;
 
   case ACTION_RELOAD:
@@ -2869,12 +2861,10 @@ bool game::handle_action()
 
   case ACTION_DROP:
    drop();
-   refresh_all();
    break;
 
   case ACTION_DIR_DROP:
    drop_in_direction();
-   refresh_all();
    break;
 
   case ACTION_BIONICS:
@@ -3079,6 +3069,7 @@ bool game::handle_action()
 
   case ACTION_MESSAGES:
    msg_buffer();
+   refresh_all();
    break;
 
   case ACTION_HELP:
@@ -6739,6 +6730,22 @@ int game::npc_by_id(const int id) const
  return -1;
 }
 
+Creature *game::critter_at(int x, int y)
+{
+    const int mindex = mon_at(x, y);
+    if (mindex != -1) {
+        return &zombie(mindex);
+    }
+    if (x == u.posx && y == u.posy) {
+        return &u;
+    }
+    const int nindex = npc_at(x, y);
+    if (nindex != -1) {
+        return active_npc[nindex];
+    }
+    return NULL;
+}
+
 bool game::add_zombie(monster& critter)
 {
     return critter_tracker.add(critter);
@@ -9870,38 +9877,42 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     if (liquid.type->id == "gasoline" && vehicle_near() && query_yn(_("Refill vehicle?"))) {
         int vx = u.posx, vy = u.posy;
         refresh_all();
-        if (choose_adjacent(_("Refill vehicle where?"), vx, vy)) {
-            vehicle *veh = m.veh_at (vx, vy);
-            if (veh) {
-                ammotype ftype = "gasoline";
-                int fuel_cap = veh->fuel_capacity(ftype);
-                int fuel_amnt = veh->fuel_left(ftype);
-                if (fuel_cap < 1) {
-                    add_msg (_("This vehicle doesn't use %s."), ammo_name(ftype).c_str());
-                } else if (fuel_amnt == fuel_cap) {
-                    add_msg (_("Already full."));
-                } else if (from_ground && query_yn(_("Pump until full?"))) {
-                    u.assign_activity(ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
-                    u.activity.placement = point(vx, vy);
-                } else { // Not pump
-                    veh->refill ("gasoline", liquid.charges);
-                    if (veh->fuel_left(ftype) < fuel_cap) {
-                        add_msg(_("You refill %s with %s."),
-                                veh->name.c_str(), ammo_name(ftype).c_str());
-                    } else {
-                        add_msg(_("You refill %s with %s to its maximum."),
-                                veh->name.c_str(), ammo_name(ftype).c_str());
-                    }
-
-                    u.moves -= 100;
-                    return true;
-                }
-            } else { // if (veh)
-                add_msg (_("There isn't any vehicle there."));
-            }
+        if (!choose_adjacent(_("Refill vehicle where?"), vx, vy)) {
             return false;
-        } // if (choose_adjacent(_("Refill vehicle where?"), vx, vy))
-        return true;
+        }
+        vehicle *veh = m.veh_at (vx, vy);
+        if (veh == NULL) {
+            add_msg(_("There isn't any vehicle there."));
+            return false;
+        }
+        const ammotype ftype = "gasoline";
+        int fuel_cap = veh->fuel_capacity(ftype);
+        int fuel_amnt = veh->fuel_left(ftype);
+        if (fuel_cap <= 0) {
+            add_msg(_("The %s doesn't use %s."),
+                    veh->name.c_str(), ammo_name(ftype).c_str());
+            return false;
+        } else if (fuel_amnt >= fuel_cap) {
+            add_msg(_("The %s is already full."),
+                    veh->name.c_str());
+            return false;
+        } else if (from_ground && query_yn(_("Pump until full?"))) {
+            u.assign_activity(ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
+            u.activity.placement = point(vx, vy);
+            return false; // Liquid is not handled by this function, but by the activity!
+        }
+        const int amt = infinite ? INT_MAX : liquid.charges;
+        u.moves -= 100;
+        liquid.charges = veh->refill(ftype, amt);
+        if (veh->fuel_left(ftype) < fuel_cap) {
+            add_msg(_("You refill the %s with %s."),
+                    veh->name.c_str(), ammo_name(ftype).c_str());
+        } else {
+            add_msg(_("You refill the %s with %s to its maximum."),
+                    veh->name.c_str(), ammo_name(ftype).c_str());
+        }
+        // infinite: always handled all, to prevent loops
+        return infinite || liquid.charges == 0;
     }
 
     // Ask to pour rotten liquid (milk!) from the get-go
@@ -9914,39 +9925,28 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return true;
     }
 
-    if (cont == NULL) {
+    if (cont == NULL || cont->is_null()) {
         std::stringstream text;
         text << _("Container for ") << liquid.tname();
 
         int pos = inv_for_liquid(liquid, text.str().c_str(), false);
-        if (!u.has_item(pos)) {
+        cont = &(u.i_at(pos));
+        if (cont->is_null()) {
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten() &&
                 query_yn(_("Pour %s on the ground?"), liquid.tname().c_str())) {
-                    if (!m.has_flag("SWIMMABLE", u.posx, u.posy))
+                    if (!m.has_flag("SWIMMABLE", u.posx, u.posy)) {
                         m.add_item_or_charges(u.posx, u.posy, liquid, 1);
+                    }
                     return true;
             }
+            add_msg(_("Never mind."));
             return false;
         }
-
-        cont = &(u.i_at(pos));
     }
 
-    if (cont == NULL || cont->is_null()) {
-        // Container is null, ask to pour.
-        // we asked to pour rotten already
-        if (!from_ground && !liquid.rotten() &&
-                query_yn(_("Pour %s on the ground?"), liquid.tname().c_str())) {
-            if (!m.has_flag("SWIMMABLE", u.posx, u.posy))
-                m.add_item_or_charges(u.posx, u.posy, liquid, 1);
-            return true;
-        }
-        add_msg(_("Never mind."));
-        return false;
-
-    } else if(cont == source) {
+    if (cont == source) {
         //Source and destination are the same; abort
         add_msg(_("That's the same container!"));
         return false;
@@ -11089,6 +11089,7 @@ void game::reload(int pos)
      int am_pos = it->pick_reload_ammo(u, true);
      if (am_pos == INT_MIN) {
          add_msg(_("Out of ammo!"));
+         refresh_all();
          return;
      }
 
@@ -11433,6 +11434,7 @@ void game::chat()
         }
     }
     u.moves -= 100;
+    refresh_all();
 }
 
 void game::pldrive(int x, int y) {
@@ -13381,7 +13383,6 @@ void game::msg_buffer()
 
  werase(w);
  delwin(w);
- refresh_all();
 }
 
 void game::teleport(player *p, bool add_teleglow)

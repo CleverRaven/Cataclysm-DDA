@@ -116,7 +116,73 @@
       [ "processor", 1 ]
     ],
     [
-      [ "battery", 200 ]
+      [ "battery", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "talking_doll",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 1 ]
+    ],
+	[
+      [ "plastic_chunk", 2 ]
+    ],
+    [
+      [ "rag", 2 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "e_scrap", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "creepy_doll",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 1 ]
+    ],
+	[
+      [ "plastic_chunk", 2 ]
+    ],
+    [
+      [ "rag", 2 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "e_scrap", 2 ]
     ]
   ]
 },    {

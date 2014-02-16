@@ -2822,7 +2822,6 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
  delwin(w_grid_effect);
  delwin(w_grid_skill);
  delwin(w_grid_trait);
- erase();
 }
 
 void player::disp_morale()
@@ -7563,11 +7562,9 @@ hint_rating player::rate_action_wear(item *it)
 bool player::wear(int pos, bool interactive)
 {
     item* to_wear = NULL;
-    int index = -1;
     if (pos == -1)
     {
         to_wear = &weapon;
-        index = -2;
     }
     else
     {
@@ -7589,13 +7586,17 @@ bool player::wear(int pos, bool interactive)
         return false;
     }
 
-    if (index == -2)
+    if (pos == -1)
     {
         weapon = ret_null;
     }
     else
     {
+        // it has been copied into worn vector, but assigned an invlet,
+        // in case it's a stack, reset the invlet to avoid duplicates
+        to_wear->invlet = 0;
         inv.remove_item(to_wear);
+        inv.restack(this);
     }
 
     return true;
@@ -8363,7 +8364,6 @@ The sum of these values is the effective encumbrance value your character has fo
     delwin(w_sort_middle);
     delwin(w_sort_right);
     delwin(w_sort_armor);
-    return;
 }
 
 void player::use_wielded() {
