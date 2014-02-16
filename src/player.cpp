@@ -3540,7 +3540,14 @@ float player::active_light()
         }
     }
 
-    // worn light sources? Unimplemented
+    for (size_t i = 0; i < worn.size(); i++) {
+        if ( worn[i].active  && worn[i].charges > 0) {
+            int lumit = worn[i].getlight_emit(true);
+            if ( maxlum < lumit ) {
+                maxlum = lumit;
+            }
+        }
+    }
 
     if (!weapon.is_null()) {
         if ( weapon.active  && weapon.charges > 0) {
