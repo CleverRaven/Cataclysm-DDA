@@ -331,7 +331,6 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
              ch == KEY_UP || ch == KEY_DOWN );
     werase(w_inv);
     delwin(w_inv);
-    erase();
     refresh_all();
     if (ch == '\n') {  // user hit enter (or equivalent).
         return selected_pos;
@@ -748,7 +747,6 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
     } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
     werase(w_inv);
     delwin(w_inv);
-    erase();
     refresh_all();
 
     std::vector<item> ret;
@@ -1038,6 +1036,5 @@ void game::compare(int iCompareX, int iCompareY)
     } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
     werase(w_inv);
     delwin(w_inv);
-    erase();
     refresh_all();
 }

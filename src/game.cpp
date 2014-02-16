@@ -2042,6 +2042,7 @@ void game::handle_key_blocking_activity() {
                     break;
                 case ACTION_MESSAGES:
                     msg_buffer();
+                    refresh_all();
                     break;
                 case ACTION_HELP:
                     display_help();
@@ -2796,17 +2797,14 @@ bool game::handle_action()
 
   case ACTION_COMPARE:
    compare();
-   refresh_all();
    break;
 
   case ACTION_ORGANIZE:
    reassign_item();
-   refresh_all();
    break;
 
   case ACTION_USE:
    use_item();
-   refresh_all();
    break;
 
   case ACTION_USE_WIELDED:
@@ -2815,32 +2813,26 @@ bool game::handle_action()
 
   case ACTION_WEAR:
    wear();
-   refresh_all();
    break;
 
   case ACTION_TAKE_OFF:
    takeoff();
-   refresh_all();
    break;
 
   case ACTION_EAT:
    eat();
-   refresh_all();
    break;
 
   case ACTION_READ:
    read();
-   refresh_all();
    break;
 
   case ACTION_WIELD:
    wield();
-   refresh_all();
    break;
 
   case ACTION_PICK_STYLE:
    u.pick_style();
-   refresh_all();
    break;
 
   case ACTION_RELOAD:
@@ -2869,12 +2861,10 @@ bool game::handle_action()
 
   case ACTION_DROP:
    drop();
-   refresh_all();
    break;
 
   case ACTION_DIR_DROP:
    drop_in_direction();
-   refresh_all();
    break;
 
   case ACTION_BIONICS:
@@ -3079,6 +3069,7 @@ bool game::handle_action()
 
   case ACTION_MESSAGES:
    msg_buffer();
+   refresh_all();
    break;
 
   case ACTION_HELP:
@@ -11098,6 +11089,7 @@ void game::reload(int pos)
      int am_pos = it->pick_reload_ammo(u, true);
      if (am_pos == INT_MIN) {
          add_msg(_("Out of ammo!"));
+         refresh_all();
          return;
      }
 
@@ -11442,6 +11434,7 @@ void game::chat()
         }
     }
     u.moves -= 100;
+    refresh_all();
 }
 
 void game::pldrive(int x, int y) {
@@ -13390,7 +13383,6 @@ void game::msg_buffer()
 
  werase(w);
  delwin(w);
- refresh_all();
 }
 
 void game::teleport(player *p, bool add_teleglow)

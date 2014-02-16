@@ -2822,7 +2822,6 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
  delwin(w_grid_effect);
  delwin(w_grid_skill);
  delwin(w_grid_trait);
- erase();
 }
 
 void player::disp_morale()
@@ -8365,7 +8364,6 @@ The sum of these values is the effective encumbrance value your character has fo
     delwin(w_sort_middle);
     delwin(w_sort_right);
     delwin(w_sort_armor);
-    return;
 }
 
 void player::use_wielded() {
