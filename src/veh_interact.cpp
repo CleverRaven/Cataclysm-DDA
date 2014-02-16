@@ -287,8 +287,8 @@ void veh_interact::cache_tool_availability()
 {
     crafting_inv = g->crafting_inventory(&g->u);
 
-    int charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
-    int charges_crude = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
+    int charges = dynamic_cast<it_tool *>(itypes["welder"])->charges_per_use;
+    int charges_crude = dynamic_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
     has_wrench = crafting_inv.has_amount("wrench", 1) ||
                  crafting_inv.has_amount("toolset", 1);
     has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
@@ -1539,8 +1539,8 @@ void complete_vehicle ()
     int type = g->u.activity.values[7];
     std::string part_id = g->u.activity.str_values[0];
     std::vector<component> tools;
-    int welder_charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
-    int welder_crude_charges = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
+    int welder_charges = dynamic_cast<it_tool *>(itypes["welder"])->charges_per_use;
+    int welder_crude_charges = dynamic_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
     inventory crafting_inv = g->crafting_inventory(&g->u);
     const bool has_goggles = crafting_inv.has_amount("goggles_welding", 1) ||
                    g->u.has_bionic("bio_sunglasses") ||

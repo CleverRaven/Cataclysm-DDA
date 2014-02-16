@@ -2649,7 +2649,7 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, int nonant)
             }
             if (it->has_flag("RECHARGE") && cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 &&
                 cur_veh->recharger_on) {
-                int full_charge = static_cast<it_tool*>(it->type)->max_charges;
+                int full_charge = dynamic_cast<it_tool*>(it->type)->max_charges;
                 if (it->has_flag("DOUBLE_AMMO")) {
                     full_charge = full_charge * 2;
                 }

@@ -10840,7 +10840,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                 item_num++;
                 // Guns in item groups with guns_have_ammo flags are generated with their ammo
                 if ( guns_have_ammo ) {
-                    it_gun *maybe_gun = static_cast<it_gun *> (item_controller->find_template(selected_item));
+                    it_gun *maybe_gun = dynamic_cast<it_gun *> (item_controller->find_template(selected_item));
                     if ( maybe_gun != NULL ) {
                         spawn_item(px, py, default_ammo(maybe_gun->ammo), 1, 0, turn);
                     }

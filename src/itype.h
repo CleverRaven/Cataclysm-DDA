@@ -199,7 +199,7 @@ struct itype
 };
 
 // Includes food drink and drugs
-struct it_comest : public itype
+struct it_comest : public virtual itype
 {
     signed int quench;     // Many things make you thirstier!
     unsigned int nutr;     // Nutrition imparted
@@ -270,7 +270,7 @@ struct it_comest : public itype
 };
 
 // v6, v8, wankel, etc.
-struct it_var_veh_part: public itype
+struct it_var_veh_part: public virtual itype
 {
  // TODO? geometric mean: nth root of product
  unsigned int min_bigness; //CC's
@@ -300,7 +300,7 @@ struct it_var_veh_part: public itype
 };
 
 
-struct it_ammo : public itype
+struct it_ammo : public virtual itype
 {
  ammotype type;          // Enum of varieties (e.g. 9mm, shot, etc)
  itype_id casing;        // Casing produced by the ammo, if any
@@ -353,7 +353,7 @@ struct it_ammo : public itype
  }
 };
 
-struct it_gun : public itype
+struct it_gun : public virtual itype
 {
  ammotype ammo;
  Skill *skill_used;
@@ -416,7 +416,7 @@ struct it_gun : public itype
  };
 };
 
-struct it_gunmod : public itype
+struct it_gunmod : public virtual itype
 {
  signed int dispersion, damage, loudness, clip, recoil, burst;
  ammotype newtype;
@@ -480,7 +480,7 @@ struct it_gunmod : public itype
  };
 };
 
-struct it_armor : public itype
+struct it_armor : public virtual itype
 {
  unsigned char covers; // Bitfield of enum body_part
  signed char encumber;
@@ -541,7 +541,7 @@ struct it_armor : public itype
 
 struct recipe;
 
-struct it_book : public itype
+struct it_book : public virtual itype
 {
  Skill *type;         // Which skill it upgrades
  unsigned char level; // The value it takes the skill to
@@ -573,14 +573,14 @@ struct it_book : public itype
  }
 };
 
-struct it_container : public itype
+struct it_container : public virtual itype
 {
  unsigned int contains; // Internal volume
  virtual bool is_container() { return true; }
  it_container() : contains(0) {};
 };
 
-struct it_tool : public itype
+struct it_tool : public virtual itype
 {
  ammotype ammo;
  unsigned int max_charges;
@@ -626,7 +626,7 @@ struct it_tool : public itype
  }
 };
 
-struct it_bionic : public itype
+struct it_bionic : public virtual itype
 {
  int difficulty;
 
@@ -645,7 +645,7 @@ struct it_bionic : public itype
  }
 };
 
-struct it_macguffin : public itype
+struct it_macguffin : public virtual itype
 {
  bool readable; // If true, activated with 'R'
 
@@ -667,7 +667,7 @@ struct it_macguffin : public itype
  }
 };
 
-struct it_software : public itype
+struct it_software : public virtual itype
 {
  software_type swtype;
  int power;
@@ -689,7 +689,7 @@ struct it_software : public itype
  }
 };
 
-struct it_stationary : public itype
+struct it_stationary : public virtual itype
 {
  virtual bool is_stationary()         { return true; }
 

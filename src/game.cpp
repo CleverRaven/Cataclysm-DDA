@@ -9166,7 +9166,7 @@ void game::pickup(int posx, int posy, int min)
             // Drain a ton of power
             tmp_hotplate.charges = veh->drain( "battery", 100 );
             if( tmp_hotplate.is_tool() ) {
-                it_tool * tmptool = static_cast<it_tool*>((&tmp_hotplate)->type);
+                it_tool * tmptool = dynamic_cast<it_tool*>((&tmp_hotplate)->type);
                 if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
                     tmptool->use.call(&u, &tmp_hotplate, false);
                     tmp_hotplate.charges -= tmptool->charges_per_use;
@@ -9206,7 +9206,7 @@ void game::pickup(int posx, int posy, int min)
             // Drain a ton of power
             tmp_welder.charges = veh->drain( "battery", 1000 );
             if( tmp_welder.is_tool() ) {
-                it_tool * tmptool = static_cast<it_tool*>((&tmp_welder)->type);
+                it_tool * tmptool = dynamic_cast<it_tool*>((&tmp_welder)->type);
                 if ( tmp_welder.charges >= tmptool->charges_per_use ) {
                     tmptool->use.call( &u, &tmp_welder, false );
                     tmp_welder.charges -= tmptool->charges_per_use;
@@ -9223,7 +9223,7 @@ void game::pickup(int posx, int posy, int min)
             // Drain a ton of power
             tmp_purifier.charges = veh->drain( "battery", 100 );
             if( tmp_purifier.is_tool() ) {
-                it_tool * tmptool = static_cast<it_tool*>((&tmp_purifier)->type);
+                it_tool * tmptool = dynamic_cast<it_tool*>((&tmp_purifier)->type);
                 if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
                     tmptool->use.call( &u, &tmp_purifier, false );
                     tmp_purifier.charges -= tmptool->charges_per_use;
