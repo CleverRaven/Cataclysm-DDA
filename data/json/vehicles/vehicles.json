@@ -1865,12 +1865,14 @@
             {"x": -9, "y": -1, "part": "solar_panel"},
             {"x": -9, "y": 0, "part": "frame_horizontal"},
             {"x": -9, "y": 0, "part": "board_horizontal"},
+			{"x": -9, "y": 0, "part": "solar_panel"},
             {"x": -9, "y": 1, "part": "frame_horizontal_2"},
             {"x": -9, "y": 1, "part": "board_horizontal"},
             {"x": -9, "y": 1, "part": "floodlight"},
             {"x": -9, "y": 2, "part": "frame_horizontal"},
             {"x": -9, "y": 2, "part": "muffler"},
             {"x": -9, "y": 2, "part": "board_horizontal"},
+			{"x": -9, "y": 2, "part": "solar_panel"},
             {"x": -9, "y": 3, "part": "frame_se"},
             {"x": -9, "y": 3, "part": "wheel_wide"},
             {"x": -9, "y": 3, "part": "board_se"},
@@ -2090,10 +2092,10 @@
         "id" : "electric_car",
         "name" : "Electric Car",
         "blueprint" : [
-            ["o#++-o"],
+            ["##++-o"],
             ["+=##'|"],
             ["+=##'|"],
-            ["o#++-o"]
+            ["##++-o"]
         ],
         "parts" : [
             {"x": 0, "y": 0, "part": "frame_vertical_2"},
@@ -2160,13 +2162,15 @@
             {"x": -3, "y": -1, "part": "frame_sw"},
             {"x": -3, "y": -1, "part": "halfboard_sw"},
             {"x": -3, "y": -1, "part": "wheel"},
+			{"x": -3, "y": -1, "part": "solar_panel"},
             {"x": -3, "y": 0, "part": "frame_horizontal"},
             {"x": -3, "y": 0, "part": "door_trunk"},
             {"x": -3, "y": 1, "part": "frame_horizontal"},
             {"x": -3, "y": 1, "part": "door_trunk"},
             {"x": -3, "y": 2, "part": "frame_se"},
             {"x": -3, "y": 2, "part": "halfboard_se"},
-            {"x": -3, "y": 2, "part": "wheel"}
+            {"x": -3, "y": 2, "part": "wheel"},
+			{"x": -3, "y": 2, "part": "solar_panel"}
         ]
     },{
         "type" : "vehicle",
