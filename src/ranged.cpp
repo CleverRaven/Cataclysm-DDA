@@ -382,9 +382,9 @@ void player::fire_gun(int tarx, int tary, bool burst) {
                 g->add_msg_player_or_npc(this, _("Your weapon misfires with a wet click!"),
                                          _("<npcname>'s weapon misfires with a wet click!") );
                 return;
-            } else if (one_in(2 << firing->durability)) {
-                g->add_msg_player_or_npc(this, _("Your weapon misfires!"),
-                                         _("<npcname>'s weapon misfires!") );
+            } else if ((one_in(2 << firing->durability))&& !weapon.has_flag("NEVER_JAMS")) {
+                g->add_msg_player_or_npc(this, _("Your weapon malfunctions!"),
+                                         _("<npcname>'s weapon malfunctions!") );
                 return;
             }
         }
