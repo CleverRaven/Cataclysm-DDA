@@ -16204,11 +16204,11 @@ msgid "Granade"
 msgstr "Гранада"
 
 #: lang/json/TOOL_from_json.py
-msgid "Louisville Slaghterer"
+msgid "Louisville Slaughterer"
 msgstr "Луисвильский погромщик"
 
 #: lang/json/TOOL_from_json.py
-msgid "Louisville Slaghterer (lit)"
+msgid "Louisville Slaughterer (lit)"
 msgstr "Луисвильский погромщик (горит)"
 
 #: lang/json/TOOL_from_json.py

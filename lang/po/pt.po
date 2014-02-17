@@ -14310,11 +14310,11 @@ msgid "Granade"
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "Louisville Slaghterer"
+msgid "Louisville Slaughterer"
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "Louisville Slaghterer (lit)"
+msgid "Louisville Slaughterer (lit)"
 msgstr ""
 
 #: lang/json/TOOL_from_json.py

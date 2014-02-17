@@ -4168,7 +4168,7 @@
   {
     "id" : "battletorch",
     "type": "TOOL",
-    "name" : "Louisville Slaghterer",
+    "name" : "Louisville Slaughterer",
     "description" : "This is sturdy wood bat, wrapped in gasoline-soaked rags and flame-resistant Nomex fabric. Light it, and the ball game will REALLY heat up. You'll need a lighter or matches to light it.",
     "weight" : 1485,
     "to_hit" : 3,
@@ -4193,7 +4193,7 @@
   {
     "id" : "battletorch_lit",
     "type": "TOOL",
-    "name" : "Louisville Slaghterer (lit)",
+    "name" : "Louisville Slaughterer (lit)",
     "description" : "This is a sturdy wood bat, wrapped in gasoline-soaked rags and flame-resistant Nomex fabric. It is burning brightly, and makes it much easier to see the baselines at night games (It also makes the umpire FAR more likely to call a ball instead of a strike).",
     "weight" : 1485,
     "to_hit" : 3,

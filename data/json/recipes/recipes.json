@@ -5451,7 +5451,8 @@
       [ "pan", -1 ],
       [ "pot", -1 ],
       [ "coffeemaker", -1],
-      [ "rock_pot", -1 ]
+      [ "rock_pot", -1 ],
+      [ "teapot", -1 ]
     ]
   ],
   "components": [
@@ -20491,6 +20492,38 @@
   "components": [
     [
       [ "sheet_metal", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "metal_tank_small",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sheet_metal", 1 ]
     ]
   ]
 },{
