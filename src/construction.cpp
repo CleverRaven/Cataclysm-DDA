@@ -31,12 +31,13 @@ std::vector<construction *> constructions_by_desc(const std::string &description
 bool will_flood_stop(map *m, bool (&fill)[SEEX *MAPSIZE][SEEY *MAPSIZE],
                      int x, int y);
 
-static void load_available_constructions( std::vector<std::string> &available ) 
+static void load_available_constructions( std::vector<std::string> &available,
+                                          bool hide_unconstructable )
 {
     available.clear();
     for( unsigned i = 0; i < constructions.size(); ++i ) {
         construction *c = constructions[i];
-        if( can_construct(c) ) {
+        if( !hide_unconstructable || can_construct(c) ) {
             bool already_have_it = false;
             for( unsigned j = 0; j < available.size(); ++j ) {
                 if (available[j] == c->description) {
@@ -53,9 +54,10 @@ static void load_available_constructions( std::vector<std::string> &available )
 
 void construction_menu()
 {
+    static bool hide_unconstructable = false;
     // only display constructions the player can theoretically perform
     std::vector<std::string> available;
-    load_available_constructions( available );
+    load_available_constructions( available, hide_unconstructable );
 
     if(available.empty()) {
         popup(_("You can not construct anything here."));
@@ -136,15 +138,18 @@ void construction_menu()
                 }
             }
 
+            // Print instructions for toggling recipe hiding.
+            mvwprintz(w_con, 1, 31, c_white, "%s", _("Press ';' to toggle unavailable constructions."));
+
             // Print consruction name
-            mvwprintz(w_con, 1, 31, c_white, "%s", current_desc.c_str());
+            mvwprintz(w_con, 2, 31, c_white, "%s", current_desc.c_str());
 
             // Print stages and their requirement
-            int posx = 33, posy = 1;
+            int posx = 33, posy = 2;
             std::vector<construction *> options = constructions_by_desc(current_desc);
             for( unsigned i = 0; i < options.size(); ++i) {
                 construction *current_con = options[i];
-                if( !can_construct(current_con) ) {
+                if( hide_unconstructable && !can_construct(current_con) ) {
                     continue;
                 }
                 nc_color color_stage = c_white;
@@ -289,6 +294,11 @@ void construction_menu()
         case 'q':
         case 'Q':
             exit = true;
+            break;
+        case ';':
+            update_info = true;
+            hide_unconstructable = !hide_unconstructable;
+            load_available_constructions( available, hide_unconstructable );
             break;
         case '\n':
         default:
