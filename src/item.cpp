@@ -1352,19 +1352,21 @@ bool item::rotten()
         return false;
     it_comest* food = dynamic_cast<it_comest*>(type);
     if (food->spoils != 0) {
-      if ( last_rot_check+10 < int(g->turn) ) {
-          const int since = ( last_rot_check == 0 ? (int)bday : last_rot_check );
-          const int until = ( fridge > 0 ? fridge : int(g->turn) );
+      const int now = g->turn;
+      if ( last_rot_check+10 < now ) {
+          const int since = ( last_rot_check == 0 ? bday : last_rot_check );
+          const int until = ( fridge > 0 ? fridge : now );
           if ( since < until ) {
+              // rot (outside of fridge) from bday/last_rot_check until fridge/now
               int old = rot;
               rot += get_rot_since( since, until );
               if (g->debugmon) g->add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
           }
-          last_rot_check = int(g->turn);
+          last_rot_check = now;
 
           if (fridge > 0) {
-            // Flat 20%
-            rot += (until - fridge) * 0.2;
+            // Flat 20%, rot from time of putting it into fridge up to now
+            rot += (now - fridge) * 0.2;
             fridge = 0;
           }
       }
