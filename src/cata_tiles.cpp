@@ -626,7 +626,8 @@ void cata_tiles::apply_changes()
 {
     // bug: currently the rendering cache will bug out with rescaling on for some reason.
     //      for this reason, everything will be redrawn every frame if we're rescaled.
-    bool rescaled = tile_width != default_tile_width;
+    //bool rescaled = tile_width != default_tile_width;
+    bool rescaled = true;
 
     if(!rescaled) {
         // Scroll to avoid too much redrawing
