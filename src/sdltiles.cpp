@@ -355,13 +355,13 @@ void try_update()
 {
     unsigned long now = SDL_GetTicks();
     if (now - lastupdate >= interval) {
-        if(needupdate) {
-            SDL_RenderPresent(renderer);
-        }
+        //if(needupdate) {
+        SDL_RenderPresent(renderer);
+        //}
         needupdate = false;
         lastupdate = now;
     } else {
-        //needupdate = true;
+        needupdate = true;
     }
 }
 
