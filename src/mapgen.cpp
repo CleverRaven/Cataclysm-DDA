@@ -10834,10 +10834,10 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                 py = rng(y1, y2);
                 tries++;
                 // Only place on valid terrain
-            } while (((terlist[ter(px, py)].movecost == 0 &&
-                       !(terlist[ter(px, py)].has_flag("PLACE_ITEM"))) ||
-                      (!ongrass && !terlist[ter(px, py)].has_flag("FLAT") )) &&
-                     tries < 20);
+            } while (( (terlist[ter(px, py)].movecost == 0 &&
+                         !(terlist[ter(px, py)].has_flag("PLACE_ITEM")))
+                       && (!ongrass && !terlist[ter(px, py)].has_flag("FLAT") ))
+                     && tries < 20);
             if (tries < 20) {
                 spawn_item(px, py, selected_item, 1, 0, turn);
                 item_num++;

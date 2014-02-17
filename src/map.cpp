@@ -2396,7 +2396,6 @@ void map::spawn_an_item(const int x, const int y, item new_item,
     {
         new_item.item_tags.insert("FIT");
     }
-
     add_item_or_charges(x, y, new_item);
 }
 
