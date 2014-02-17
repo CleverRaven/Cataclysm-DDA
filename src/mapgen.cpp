@@ -3877,8 +3877,9 @@ ff.......|....|WWWWWWWW|\n\
 
         case 2: { // Netherworld access
             if (!one_in(4)) { // Trapped netherworld monsters
-                std::string nethercreatures[10] = {"mon_flying_polyp", "mon_hunting_horror", "mon_mi_go", "mon_yugg", "mon_gelatin",
-                                                   "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank", "mon_gozu"
+                std::string nethercreatures[11] = {"mon_flying_polyp", "mon_hunting_horror", "mon_mi_go", "mon_yugg", "mon_gelatin",
+                                                   "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank", "mon_gozu",
+                                                   "mon_shoggoth"
                                                   };
                 tw = rng(SEEY + 3, SEEY + 5);
                 bw = tw + 4;
@@ -3897,7 +3898,7 @@ ff.......|....|WWWWWWWW|\n\
                         } else if (j == tw + 2) {
                             ter_set(i, j, t_concrete_h);
                         } else { // Empty space holds monsters!
-                            std::string type = nethercreatures[(rng(0, 9))];
+                            std::string type = nethercreatures[(rng(0, 10))];
                             add_spawn(type, 1, i, j);
                         }
                     }
@@ -10369,8 +10370,6 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         }
 
         add_spawn("mon_blob", 8, SEEX, SEEY);
-        if(t_above == "slimepit_down" || t_above == "slimepit") //Shoggots only spawn underground in the slime pits.
-            add_spawn("mon_shoggoth", 1, SEEX, SEEY);
         place_items("sewer", 40, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 
 
