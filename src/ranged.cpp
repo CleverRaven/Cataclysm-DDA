@@ -17,7 +17,7 @@ void make_gun_sound_effect(player &p, bool burst, item* weapon);
 double calculate_missed_by(player &p, int trange, item* weapon);
 void shoot_player(player &p, player *h, int &dam, double goodhit);
 
-void splatter(std::vector<point> trajectory, int dam, monster* mon = NULL);
+void splatter(std::vector<point> trajectory, int dam, Creature *target = NULL);
 
 double Creature::projectile_attack(const projectile &proj, int targetx, int targety,
         double shot_dispersion) {
@@ -105,8 +105,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             critter->deal_projectile_attack(this, missed_by, proj, dealt_dam);
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
-            //splatter(this, blood_traj, dam, &z); TODO: add splatter effects (include new blood types)
-            //back in
+            splatter( blood_traj, dam, critter );
             dam = 0;
         } else if(in_veh != NULL && g->m.veh_at(tx, ty) == in_veh) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
@@ -1150,19 +1149,19 @@ void shoot_player(player &p, player *h, int &dam, double goodhit)
     }
 }
 
-void splatter(std::vector<point> trajectory, int dam, monster* mon)
+void splatter( std::vector<point> trajectory, int dam, Creature* target )
 {
     if( dam <= 0 ) {
         return;
     }
     field_id blood = fd_blood;
-    if( mon != NULL ) {
-        if( !mon->made_of("flesh") || mon->has_flag(MF_VERMIN) ) {
+    if( target != NULL ) {
+        if( target->get_material() != "flesh" || target->has_flag(MF_VERMIN) ) {
             return;
         }
-        if( mon->has_flag(MF_BILE_BLOOD) ) {
+        if( target->has_flag(MF_BILE_BLOOD) ) {
             blood = fd_bile;
-        } else if( mon->has_flag(MF_ACID_BLOOD) ) {
+        } else if( target->has_flag(MF_ACID_BLOOD) ) {
             blood = fd_acid;
         }
     }
