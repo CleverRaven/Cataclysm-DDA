@@ -386,7 +386,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
                 g->add_msg_player_or_npc(this, _("Your weapon malfunctions!"),
                                          _("<npcname>'s weapon malfunctions!") );
                 return;
-            } else if (one_in(1000) && !curammo_effects->count("NEVER_MISFIRES")) {
+            } else if (one_in(1728) && !curammo_effects->count("NEVER_MISFIRES")) {
                 g->add_msg_player_or_npc(this, _("Your weapon misfires!"),
                                          _("<npcname>'s weapon misfires!") );
                 return;
