@@ -297,7 +297,7 @@ ifdef LANGUAGES
   BINDIST_EXTRAS += lang/mo
 endif
 
-CXXFLAGS += -I/c/Development/MinGW/include/SDL2
+
 
 all: version $(TARGET) $(L10N)
 	@
