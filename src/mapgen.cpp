@@ -3499,6 +3499,8 @@ C..C..C...|hhh|#########\n\
                         }
                         if (one_in(3)) {
                             add_spawn("mon_crawler", 1, 2, 7);
+                        } else if (one_in(3)) {
+                            add_spawn("mon_shoggoth", 1, 2, 7);
                         }
                         if (one_in(2)) {
                             add_spawn("mon_zombie_scientist", rng(1, 3), 12, 18);
