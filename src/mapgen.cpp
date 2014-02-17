@@ -10369,6 +10369,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         }
 
         add_spawn("mon_blob", 8, SEEX, SEEY);
+        if(t_above == "slimepit_down" || t_above == "slimepit") //Shoggots only spawn underground in the slime pits.
+            add_spawn("mon_shoggoth", 1, SEEX, SEEY);
         place_items("sewer", 40, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 
 

@@ -262,6 +262,23 @@ void monster::move()
         }
     }
 
+    //Monster will regen morale and agression if it is on max HP
+    //It regens more morale and agression if is currently fleeing.
+    if(has_flag(MF_REGENMORALE) && hp >= type->hp){
+        if(is_fleeing(g->u)){
+            morale = type->morale;
+            anger = type->agro;
+        }
+        if(morale <= type->morale)
+            morale += 1;
+        if(anger <= type->agro)
+            anger += 1;
+        if(morale < 0)
+            morale += 5;
+        if(anger < 0)
+            anger += 5;
+    }
+
     // If this critter dies in sunlight, check & assess damage.
     if (g->is_in_sunlight(posx(), posy()) && has_flag(MF_SUNDEATH)) {
         g->add_msg(_("The %s burns horribly in the sunlight!"), name().c_str());
