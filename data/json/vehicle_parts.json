@@ -2550,7 +2550,7 @@
         "broken_color" : "yellow",
         "damage_modifier" : 10,
         "durability" : 20,
-        "epower" : 167,
+        "epower" : 111,
         "item" : "solar_panel",
         "difficulty" : 6,
         "location" : "on_roof",
@@ -2558,19 +2558,20 @@
         "breaks_into" : [
             {"item": "steel_lump", "min": 2, "max": 4},
             {"item": "steel_chunk", "min": 2, "max": 4},
-            {"item": "scrap", "min": 2, "max": 4}
+            {"item": "scrap", "min": 2, "max": 4},
+            {"item": "solar_cell", "min": 1, "max": 4}
         ]
     },{
         "type" : "vehicle_part",
         "id" : "reinforced_solar_panel",
-        "name" : "solar panel",
+        "name" : "reinforced solar panel",
         "symbol" : "#",
         "color" : "light_blue",
         "broken_symbol" : "x",
         "broken_color" : "light_gray",
         "damage_modifier" : 80,
         "durability" : 300,
-        "epower" : 167,
+        "epower" : 111,
         "item" : "reinforced_solar_panel",
         "difficulty" : 6,
         "location" : "on_roof",
@@ -2578,7 +2579,71 @@
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
-            {"item": "scrap", "min": 4, "max": 7}
+            {"item": "scrap", "min": 4, "max": 7},
+            {"item": "solar_cell", "min": 1, "max": 4}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "solar_panel_v2",
+        "name" : "upgraded solar panel",
+        "symbol" : "#",
+        "color" : "yellow",
+        "broken_symbol" : "x",
+        "broken_color" : "yellow",
+        "damage_modifier" : 10,
+        "durability" : 20,
+        "epower" : 222,
+        "item" : "solar_panel_v2",
+        "difficulty" : 8,
+        "location" : "on_roof",
+        "flags" : ["SOLAR_PANEL"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 2, "max": 4},
+            {"item": "steel_chunk", "min": 2, "max": 4},
+            {"item": "scrap", "min": 2, "max": 4},
+            {"item": "solar_cell", "min": 1, "max": 4}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "reinforced_solar_panel_v2",
+        "name" : "upgraded reinforced solar panel",
+        "symbol" : "#",
+        "color" : "light_blue",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 300,
+        "epower" : 200,
+        "item" : "reinforced_solar_panel_v2",
+        "difficulty" : 9,
+        "location" : "on_roof",
+        "flags" : ["SOLAR_PANEL"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 4, "max": 7},
+            {"item": "scrap", "min": 4, "max": 7},
+            {"item": "solar_cell", "min": 1, "max": 4}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "solar_panel_v3",
+        "name" : "quantum solar panel",
+        "symbol" : "#",
+        "color" : "yellow",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 10,
+        "durability" : 30,
+        "epower" : 555,
+        "item" : "solar_panel_v3",
+        "difficulty" : 12,
+        "location" : "on_roof",
+        "flags" : ["SOLAR_PANEL"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 4, "max": 7},
+            {"item": "scrap", "min": 4, "max": 7},
+            {"item": "solar_cell", "min": 2, "max": 8}
         ]
     },{
         "type" : "vehicle_part",

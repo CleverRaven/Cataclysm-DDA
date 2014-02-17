@@ -14557,6 +14557,45 @@
   ]
 },{
         "type" : "recipe",
+  "result": "solar_panel_v2",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "difficulty": 10,
+  "time": 50000,
+  "reversible": true,
+  "decomp_learn": 5,
+  "autolearn": false,
+  "book_learn": [["textbook_robots", 8]],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 35 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "power_supply", 2 ]
+    ],
+    [
+      [ "amplifier", 2 ]
+    ],
+    [
+      [ "solar_cell", 8 ]
+    ],
+    [
+      [ "cable", 10 ]
+    ],
+    [
+      [ "solar_panel", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "reinforced_glass_pane",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -14660,6 +14699,45 @@
     ],
     [
       [ "scrap", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "reinforced_solar_panel_v2",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 10,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": false,
+  "book_learn": [["textbook_robots", 8]],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 3 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "solar_panel_v2", 1 ]
+    ],
+    [
+      [ "reinforced_glass_pane", 1 ]
+    ],
+    [
+      [ "scrap", 2 ]
+    ],
+    [
+      [ "wire", 2 ]
     ]
   ]
 },{

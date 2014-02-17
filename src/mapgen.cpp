@@ -3848,19 +3848,21 @@ ff.......|....|WWWWWWWW|\n\
             add_trap(SEEX - 2, SEEY + 1, tr_dissector);
             add_trap(SEEX + 1, SEEY + 1, tr_dissector);
             if (!one_in(3)) {
-                rn = dice(4, 3);
-                spawn_item(SEEX - 1, SEEY - 1, "laser_pack", rn);
-                spawn_item(SEEX + 1, SEEY - 1, "UPS_off", rn);
+                spawn_item(SEEX - 1, SEEY - 1, "laser_pack", dice(4, 3));
+                spawn_item(SEEX    , SEEY - 1, "UPS_off");
+                spawn_item(SEEX    , SEEY - 1, "battery", dice(4, 3));
                 spawn_item(SEEX - 1, SEEY    , "v29");
-                spawn_item(SEEX + 1, SEEY    , "ftk93");
-                spawn_item(SEEX + 1, SEEY    , "recipe_atomic_battery");
+                spawn_item(SEEX    , SEEY    , "ftk93");
+                spawn_item(SEEX - 1, SEEY    , "recipe_atomic_battery");
+                spawn_item(SEEX    , SEEY  -1, "solar_panel_v3"); //quantum solar panel, 5 panels in one!
             } else if (!one_in(3)) {
                 rn = dice(3, 6);
-                spawn_item(SEEX - 1, SEEY - 1, "mininuke", rn);
-                spawn_item(SEEX    , SEEY - 1, "mininuke", rn);
-                spawn_item(SEEX - 1, SEEY    , "mininuke", rn);
-                spawn_item(SEEX    , SEEY    , "mininuke", rn);
-                spawn_item(SEEX + 1, SEEY    , "recipe_atomic_battery");
+                spawn_item(SEEX - 1, SEEY - 1, "mininuke", dice(3, 6));
+                spawn_item(SEEX    , SEEY - 1, "mininuke", dice(3, 6));
+                spawn_item(SEEX - 1, SEEY    , "mininuke", dice(3, 6));
+                spawn_item(SEEX    , SEEY    , "mininuke", dice(3, 6));
+                spawn_item(SEEX    , SEEY    , "recipe_atomic_battery");
+                spawn_item(SEEX    , SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
             } else {
                 furn_set(SEEX - 2, SEEY - 1, f_rack);
                 furn_set(SEEX - 1, SEEY - 1, f_rack);
@@ -3872,6 +3874,7 @@ ff.......|....|WWWWWWWW|\n\
                 furn_set(SEEX + 1, SEEY    , f_rack);
                 place_items("ammo", 96, SEEX - 2, SEEY - 1, SEEX + 1, SEEY - 1, false, 0);
                 place_items("allguns", 96, SEEX - 2, SEEY, SEEX + 1, SEEY, false, 0);
+                spawn_item(SEEX + 1, SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
             }
             break;
 
