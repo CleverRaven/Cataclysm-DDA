@@ -499,7 +499,7 @@ submap * getsubmap( const int grididx );
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
  void add_item(const int x, const int y, item new_item, int maxitems = 64);
- 
+
  void process_active_items_in_submap(const int nonant);
  void process_active_items_in_vehicles(const int nonant);
  void process_active_items_in_vehicle(vehicle *cur_veh, int nonant);

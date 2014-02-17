@@ -1810,7 +1810,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                 _(" - Return to game  ")).c_str());
     point omt(cursx, cursy);
     const point om = overmapbuffer::omt_to_om_remain(omt);
-    mvwprintz(w, getmaxy(w) - 1, om_map_width + 1, c_red, 
+    mvwprintz(w, getmaxy(w) - 1, om_map_width + 1, c_red,
         _("LEVEL %i, %d'%d, %d'%d"), z, om.x, omt.x, om.y, omt.y);
     // Done with all drawing!
     wrefresh(w);
@@ -3851,7 +3851,7 @@ void groundcover_extra::setup() { // fixme return bool for failure
         if ( it->second < 0.0001 ) continue;
         if ( termap.find( it->first ) != termap.end() ) {
             tf_id.ter = termap[ it->first ].loadid;
-        } else if ( furnmap.find( it->first ) != furnmap.end() ) { 
+        } else if ( furnmap.find( it->first ) != furnmap.end() ) {
             tf_id.furn = furnmap[ it->first ].loadid;
         } else {
             debugmsg("No clue what '%s' is! No such terrain or furniture",it->first.c_str() );
@@ -3867,7 +3867,7 @@ void groundcover_extra::setup() { // fixme return bool for failure
         if ( it->second < 0.0001 ) continue;
         if ( termap.find( it->first ) != termap.end() ) {
             tf_id.ter = termap[ it->first ].loadid;
-        } else if ( furnmap.find( it->first ) != furnmap.end() ) { 
+        } else if ( furnmap.find( it->first ) != furnmap.end() ) {
             tf_id.furn = furnmap[ it->first ].loadid;
         } else {
             debugmsg("No clue what '%s' is! No such terrain or furniture",it->first.c_str() );

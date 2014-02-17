@@ -154,7 +154,7 @@ void addict_effect(addiction &add)
             }
         }
         break;
-    
+
     case ADD_MUTAGEN:
         if (g->u.has_trait("MUT_JUNKIE")) {
             if (one_in(600 - 50 * in)) {

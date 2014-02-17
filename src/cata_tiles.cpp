@@ -129,10 +129,10 @@ SDL_Surface *cata_tiles::scale_surface(SDL_Surface *surface, Uint16 w, Uint16 h)
 {
     SDL_Surface *rval = SDL_CreateRGBSurface(surface->flags, w, h, surface->format->BitsPerPixel,
         surface->format->Rmask, surface->format->Gmask, surface->format->Bmask, surface->format->Amask);
- 
+
     double stretch_factor_x = (static_cast<double>(w)  / static_cast<double>(surface->w));
     double stretch_factor_y = (static_cast<double>(h) / static_cast<double>(surface->h));
- 
+
     for(Sint32 y = 0; y < surface->h; y++) {
         for(Sint32 x = 0; x < surface->w; x++) {
             for(Sint32 o_y = 0; o_y < stretch_factor_y; ++o_y) {
@@ -143,7 +143,7 @@ SDL_Surface *cata_tiles::scale_surface(SDL_Surface *surface, Uint16 w, Uint16 h)
             }
         }
     }
- 
+
     return rval;
 }
 
@@ -215,12 +215,12 @@ void cata_tiles::reload_tileset() {
     if (buffer) {
         SDL_FreeSurface(buffer);
     }
-    
+
     /* create the buffer screen */
     buffer = SDL_AllocSurface(SDL_SWSURFACE, screentile_width * tile_width, screentile_height * tile_height, 32, 0xff0000, 0xff00, 0xff, 0);
 
     DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->h << "\n";
-    
+
     /* release stored tiles */
     if (tile_values) {
         for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
@@ -228,10 +228,10 @@ void cata_tiles::reload_tileset() {
         }
         tile_values->clear();
     }
-    
+
     // Clear the cache of drawn tiles.
     cache.clear();
-    
+
     /** Check to make sure the tile_atlas loaded correctly, will be NULL if didn't load */
     if (tile_atlas) {
         /** get dimensions of the atlas image */
@@ -283,7 +283,7 @@ void cata_tiles::load_rescaled_tileset(int scale) {
     if (tile_atlas) {
         SDL_FreeSurface(tile_atlas);
     }
-    
+
     tile_width = default_tile_width * scale / 16;
     tile_height = default_tile_height * scale / 16;
 
@@ -295,7 +295,7 @@ void cata_tiles::load_rescaled_tileset(int scale) {
 
     /** reinit tile_atlas */
     tile_atlas = scale_surface(default_size_tile_atlas, default_size_tile_atlas->w * scale / 16, default_size_tile_atlas->h * scale / 16);
-    
+
     reload_tileset();
 }
 
@@ -317,16 +317,16 @@ void cata_tiles::load_tileset(std::string path)
 
     /** reinit tile_atlas */
     tile_atlas = IMG_Load(path.c_str());
-    
+
     // Load as separate image, so it's not released along with tile_atlas
     default_size_tile_atlas = IMG_Load(path.c_str());
-    
+
     if(!tile_atlas) {
         std::cerr << "Could not locate tileset file at " << path << std::endl;
         DebugLog() << (std::string)"Could not locate tileset file at " << path.c_str() << "\n";
         // TODO: run without tileset
     }
-    
+
     reload_tileset();
 }
 
@@ -372,7 +372,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f)
         JsonObject curr_info = info.next_object();
         tile_height = curr_info.get_int("height");
         tile_width = curr_info.get_int("width");
-        
+
         default_tile_width = tile_width;
         default_tile_height = tile_height;
     }
@@ -616,7 +616,7 @@ void cata_tiles::apply_changes()
     // bug: currently the rendering cache will bug out with rescaling on for some reason.
     //      for this reason, everything will be redrawn every frame if we're rescaled.
     bool rescaled = tile_width != default_tile_width;
-    
+
     if(!rescaled) {
         // Scroll to avoid too much redrawing
         scroll(g->u.posx - last_pos_x, g->u.posy - last_pos_y);

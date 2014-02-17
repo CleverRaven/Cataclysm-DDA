@@ -470,9 +470,9 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                 std::stringstream derp;
                 derp << tmpstr;
                 JsonIn jsin(derp);
-                try {            
+                try {
                     JsonObject data = jsin.get_object();
-                    
+
                     if ( data.read("region_id",tmpstr) ) { // temporary, until option DEFAULT_REGION becomes start_scenario.region_id
                         if ( settings.id != tmpstr ) {
                             std::map<std::string, regional_settings>::const_iterator rit = region_settings_map.find( tmpstr );

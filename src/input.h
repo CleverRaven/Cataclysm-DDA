@@ -241,11 +241,11 @@ extern input_manager inp_mngr;
  */
 class input_context {
 public:
-    input_context() : registered_any_input(false), category("default"), 
+    input_context() : registered_any_input(false), category("default"),
         handling_coordinate_input(false) {};
     // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
     // outside that window can be ignored
-    input_context(std::string category) : registered_any_input(false), 
+    input_context(std::string category) : registered_any_input(false),
         category(category), handling_coordinate_input(false) {};
 
     /**
@@ -319,7 +319,7 @@ public:
 
     /**
      * Temporary method to retrieve the raw input received, so that input_contexts
-     * can be used in screens where not all possible actions have been defined in 
+     * can be used in screens where not all possible actions have been defined in
      * keybindings.json yet.
      */
     input_event get_raw_input();

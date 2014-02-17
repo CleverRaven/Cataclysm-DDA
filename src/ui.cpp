@@ -464,7 +464,7 @@ void uimenu::show() {
     for ( int i = 0; i < text_lines; i++ ) {
         mvwprintz(window, 1+i, 2, text_color, "%s", textformatted[i].c_str());
     }
-    
+
     mvwputch(window, text_lines + 1, 0, border_color, LINE_XXXO);
     for ( int i = 1; i < w_width - 1; ++i) {
         mvwputch(window, text_lines + 1, i, border_color, LINE_OXOX);

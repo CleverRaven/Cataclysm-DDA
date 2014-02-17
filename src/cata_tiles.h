@@ -133,15 +133,15 @@ class cata_tiles
         cata_tiles();
         /** Default destructor */
         ~cata_tiles();
-        
+
         /** Reconfigure the tileset at runtime. Assumes that all the tileset variables, including tile_atlas
          *  have been properly set. */
         void reload_tileset();
-        
+
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
          *  float inaccuracies. */
         void load_rescaled_tileset(int scale);
-         
+
         /** Load tileset */
         void load_tileset(std::string path);
         /** Load tileset config file */

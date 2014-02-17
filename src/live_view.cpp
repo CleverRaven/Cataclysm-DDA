@@ -130,7 +130,7 @@ void live_view::print_items(std::vector<item> &items, int &line) const
     int last_line = height - START_LINE - 1;
     bool will_overflow = line-1 + item_names.size() > last_line;
 
-    for (std::map<std::string, int>::iterator it = item_names.begin(); 
+    for (std::map<std::string, int>::iterator it = item_names.begin();
          it != item_names.end() && (!will_overflow || line < last_line); it++) {
         mvwprintz(w_live_view, line++, START_COLUMN, c_white, it->first.c_str());
         if (it->second > 1) {

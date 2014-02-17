@@ -11288,7 +11288,7 @@
         "fun": 0,
         "stim": 0,
         "phase": "liquid",
-		"flags" : ["USE_EAT_VERB"]
+        "flags" : ["USE_EAT_VERB"]
     },
     {
         "type" : "COMESTIBLE",

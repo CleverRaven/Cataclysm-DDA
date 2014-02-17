@@ -441,9 +441,9 @@ void npc::talk_to_u()
  if (d.topic_stack.back() == TALK_NONE) {
   d.topic_stack.back() = pick_talk_topic(&(g->u));
  }
- 
+
  moves -= 100;
- 
+
  if(g->u.has_disease("deaf")) {
   g->add_msg(_("%s tries to talk to you, but you're deaf!"), name.c_str());
   if(d.topic_stack.back() == TALK_MUG) {
@@ -452,7 +452,7 @@ void npc::talk_to_u()
   }
   return;
  }
- 
+
  decide_needs();
 
  d.win = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,

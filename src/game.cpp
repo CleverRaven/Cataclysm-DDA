@@ -272,8 +272,6 @@ void game::init_ui(){
             TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
             TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
         }
-		
-		
 
         POSX = TERRAIN_WINDOW_WIDTH / 2;
         POSY = TERRAIN_WINDOW_HEIGHT / 2;
