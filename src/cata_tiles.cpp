@@ -217,7 +217,8 @@ void cata_tiles::reload_tileset() {
     }
 
     /* create the buffer screen */
-    buffer = SDL_AllocSurface(SDL_SWSURFACE, screentile_width * tile_width, screentile_height * tile_height, 32, 0xff0000, 0xff00, 0xff, 0);
+	/* In SDL2 this is replaced with ... */
+    buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, screentile_width * tile_width, screentile_height * tile_height, 32, 0xff0000, 0xff00, 0xff, 0);
 
     DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->h << "\n";
 
@@ -1102,9 +1103,9 @@ void cata_tiles::create_default_item_highlight()
     SDL_Surface *surface;
     int index = tile_values->size();
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    surface = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA, tile_width, tile_height, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+    surface = SDL_CreateRGBSurface(0, tile_width, tile_height, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
 #else
-    surface = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA, tile_width, tile_height, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
+    surface = SDL_CreateRGBSurface(0, tile_width, tile_height, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
 #endif
     SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, 0, 0, 127, highlight_alpha));
 
