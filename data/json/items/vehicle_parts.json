@@ -496,7 +496,7 @@
         "id" : "solar_cell",
         "name" : "solar cell",
         "description" : "A small electronic device that can convert solar radiation into electric power. Useful for crafting.",
-        "weight" : 1000,
+        "weight" : 500,
         "to_hit" : -4,
         "color" : "yellow",
         "symbol" : ";",
