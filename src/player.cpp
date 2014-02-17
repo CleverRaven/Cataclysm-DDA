@@ -4161,7 +4161,7 @@ void player::mod_pain(int npain) {
     Creature::mod_pain(npain);
 }
 
-void player::hurt(body_part, int, int dam)
+void player::hurt(body_part hurt, int, int dam)
 {
     if (has_disease("sleep") && rng(0, dam) > 2) {
         wake_up(_("You wake up!"));
@@ -4183,6 +4183,7 @@ void player::hurt(body_part, int, int dam)
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
         add_disease("adrenaline", 200);
     }
+    hp_cur[hurt] -= dam;
     lifetime_stats()->damage_taken += dam;
 }
 
@@ -4208,6 +4209,10 @@ void player::hurt(hp_part hurt, int dam)
     if (hp_cur[hurt] < 0) {
         lifetime_stats()->damage_taken += hp_cur[hurt];
         hp_cur[hurt] = 0;
+        // This is to avoid double-counting pre-overflow damage
+        // in an overflow situation, though I suppose it also
+        // cuts back on overkill-reporting.  Feel free to remove it!
+        dam = 0;
     }
     lifetime_stats()->damage_taken += dam;
 }
