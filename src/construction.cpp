@@ -31,10 +31,9 @@ std::vector<construction *> constructions_by_desc(const std::string &description
 bool will_flood_stop(map *m, bool (&fill)[SEEX *MAPSIZE][SEEY *MAPSIZE],
                      int x, int y);
 
-void construction_menu()
+static void load_available_constructions( std::vector<std::string> &available ) 
 {
-    // only display constructions the player can theoretically perform
-    std::vector<std::string> available;
+    available.clear();
     for( unsigned i = 0; i < constructions.size(); ++i ) {
         construction *c = constructions[i];
         if( can_construct(c) ) {
@@ -50,6 +49,13 @@ void construction_menu()
             }
         }
     }
+}
+
+void construction_menu()
+{
+    // only display constructions the player can theoretically perform
+    std::vector<std::string> available;
+    load_available_constructions( available );
 
     if(available.empty()) {
         popup(_("You can not construct anything here."));
