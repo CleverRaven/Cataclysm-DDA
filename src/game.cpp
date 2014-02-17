@@ -295,6 +295,7 @@ void game::init_ui(){
 
         TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
         TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
+        TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
 
         VIEW_OFFSET_X = (TERMX - sidebarWidth > 121) ? (TERMX - sidebarWidth - 121)/2 : 0;
         VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
