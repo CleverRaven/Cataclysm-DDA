@@ -3512,7 +3512,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  } else {
   normal_tercol = true;
  }
- if (has_flag("SWIMMABLE", x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
+ if (has_flag(TFLAG_SWIMMABLE, x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
   show_items = false; // Can only see underwater items if WE are underwater
  }
 // If there's a trap here, and we have sufficient perception, draw that instead
@@ -4403,7 +4403,7 @@ void map::build_outside_cache()
     {
         for(int y = 0; y < SEEY * my_MAPSIZE; y++)
         {
-            if( has_flag_ter_or_furn("INDOORS", x, y))
+            if( has_flag_ter_or_furn(TFLAG_INDOORS, x, y))
             {
                 for( int dx = -1; dx <= 1; dx++ )
                 {
