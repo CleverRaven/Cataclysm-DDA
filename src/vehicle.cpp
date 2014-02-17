@@ -209,10 +209,11 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     //Provide some variety to non-mint vehicles
     if(veh_status != 0) {
 
-        //Leave engine running in some vehicles
+        //Leave engine running in some vehicles, if the engine has not been destroyed
         if(veh_fuel_mult > 0
                 && all_parts_with_feature("ENGINE", true).size() > 0
-                && one_in(8)) {
+                && one_in(8)
+                && !destroyEngine) {
             engine_on = true;
         }
 
@@ -238,7 +239,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if(all_parts_with_feature("FRIDGE").size() > 0) {
             fridge_on = true;
         }
-
     }
 
     // Reactor should always start out activated if present
@@ -324,6 +324,9 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
           if (part_flag(p, "WHEEL")) {
              parts[p].hp= 0;
           }
+         }
+         if (part_flag(p, "SOLAR_PANEL") && one_in(4)) {//Solar panels have a 1 in four chance of being broken.
+            parts[p].hp= 0;
          }
 
          /* Bloodsplatter the front-end parts. Assume anything with x > 0 is

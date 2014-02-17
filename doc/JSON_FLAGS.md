@@ -384,7 +384,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```CONTROLS``` Can be used to control the vehicle.
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
 - ```CURTAIN``` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds found on windows in buildings.
-- ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight.
+- ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
 - ```KITCHEN``` Acts as a kitchen unit and heat source for crafting.
 - ```WELDRIG``` Acts as a welder for crafting.
 - ```CRAFTRIG``` Acts as a dehydrator, vacuum sealer and reloading press for crafting purposes. Potentially to include additional tools in the future.
