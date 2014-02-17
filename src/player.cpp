@@ -5322,7 +5322,10 @@ void player::suffer()
         power_level--;
     }
     if (has_bionic("bio_noise") && one_in(500)) {
-        g->add_msg(_("A bionic emits a crackle of noise!"));
+        if(!has_disease("deaf"))
+            g->add_msg(_("A bionic emits a crackle of noise!"));
+        else
+            g->add_msg(_("A bionic shudders, but you hear nothing."));
         g->sound(posx, posy, 60, "");
     }
     if (has_bionic("bio_power_weakness") && max_power_level > 0 &&
