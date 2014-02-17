@@ -828,8 +828,6 @@ void CheckMessages()
                 quit = true;
                 break;
         }
-        if(lastchar)
-            break;
     }
 #ifdef SDLTILES
     if (needupdate) {
