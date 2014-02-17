@@ -463,7 +463,7 @@
         "type":"GENERIC",
         "id" : "solar_panel_v3",
         "name" : "quantum solar panel",
-        "description" : "A strangly looking solar panel that has been covered with special materials. Looks very space age tech. Should provide a lot of power if installed on a vehicle. But looks fragile.",
+        "description" : "This solar panel is obviously cutting-edge technology and given where you found it, should probably provide a LOT of power. It's covered in strange-looking material, but the covering looks rather fragile; it doesn't look like it could support a reinforcing sheet, either.",
         "weight" : 31752,
         "to_hit" : -5,
         "color" : "yellow",
