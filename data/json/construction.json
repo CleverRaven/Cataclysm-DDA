@@ -421,7 +421,7 @@
         ],
         "components" : [
             [ [ "log", 3 ] ],
-            [ [ "rope_6", 2 ] ]
+            [ [ "wire", 6 ], [ "wire_barbed", 4 ], [ "rope_6", 2 ], [ "chain", 1 ] ]
         ],
         "pre_terrain" : "t_pit",
         "post_terrain" : "t_palisade"
