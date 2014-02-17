@@ -18348,6 +18348,79 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "bindle",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 800,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rag", 4 ],
+      [ "fur", 2 ],
+      [ "leather", 1 ]
+    ],
+    [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "pool_cue", 1 ],
+      [ "pointy_stick", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "makeshift_sling",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 800,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "sheet", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bindle",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "rag", 4 ]
+    ],
+    [
+      [ "stick", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "makeshift_sling",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "sheet", 1 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "makeshift_funnel",
   "category": "CC_OTHER",

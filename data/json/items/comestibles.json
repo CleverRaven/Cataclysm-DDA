@@ -10764,7 +10764,7 @@
         "flags": ["SEED"],
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "NONE",
+        "use_action" : "SEED",
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
