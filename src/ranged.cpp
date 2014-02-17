@@ -1152,35 +1152,39 @@ void shoot_player(player &p, player *h, int &dam, double goodhit)
 
 void splatter(std::vector<point> trajectory, int dam, monster* mon)
 {
- if( dam <= 0 ) {
-     return;
- }
- field_id blood = fd_blood;
- if (mon != NULL) {
-  if (!mon->made_of("flesh") || mon->has_flag(MF_VERMIN) )
-   return;
-  if (mon->has_flag(MF_BILE_BLOOD))
-   blood = fd_bile;
-  else if (mon->has_flag(MF_ACID_BLOOD))
-   blood = fd_acid;
- }
-
- int distance = 1;
- if (dam > 50)
-  distance = 3;
- else if (dam > 20)
-  distance = 2;
-
- std::vector<point> spurt = continue_line(trajectory, distance);
-
- for (int i = 0; i < spurt.size(); i++) {
-    int tarx = spurt[i].x, tary = spurt[i].y;
-    g->m.adjust_field_strength(point(tarx, tary), blood, 1 );
-    if( g->m.move_cost(tarx, tary) == 0 ) {
-        // Blood splatters stop at walls.
-        break;
+    if( dam <= 0 ) {
+        return;
     }
- }
+    field_id blood = fd_blood;
+    if( mon != NULL ) {
+        if( !mon->made_of("flesh") || mon->has_flag(MF_VERMIN) ) {
+            return;
+        }
+        if( mon->has_flag(MF_BILE_BLOOD) ) {
+            blood = fd_bile;
+        } else if( mon->has_flag(MF_ACID_BLOOD) ) {
+            blood = fd_acid;
+        }
+    }
+
+    int distance = 1;
+    if( dam > 50 ) {
+        distance = 3;
+    } else if( dam > 20 ) {
+        distance = 2;
+    }
+
+    std::vector<point> spurt = continue_line( trajectory, distance );
+
+    for( int i = 0; i < spurt.size(); i++ ) {
+        int tarx = spurt[i].x;
+        int tary = spurt[i].y;
+        g->m.adjust_field_strength( point(tarx, tary), blood, 1 );
+        if( g->m.move_cost(tarx, tary) == 0 ) {
+            // Blood splatters stop at walls.
+            break;
+        }
+    }
 }
 
 
