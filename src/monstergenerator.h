@@ -77,7 +77,7 @@ class MonsterGenerator
         void init_sizes();
         void init_death();
         void init_attack();
-		void init_defense();
+        void init_defense();
         void init_trigger();
         void init_flags();
 
@@ -85,7 +85,7 @@ class MonsterGenerator
         std::set<std::string> get_tags(JsonObject &jo, std::string member);
         MonDeathFunction get_death_function(JsonObject &jo, std::string member);
         MonAttackFunction get_attack_function(JsonObject &jo, std::string member);
-		MonDefenseFunction get_defense_function(JsonObject &jo, std::string member);
+        MonDefenseFunction get_defense_function(JsonObject &jo, std::string member);
         template <typename T> std::set<T> get_set_from_tags(std::set<std::string> tags, std::map<std::string, T> conversion_map, T fallback);
         template <typename T> T get_from_string(std::string tag, std::map<std::string, T> conversion_map, T fallback);
 
@@ -102,7 +102,7 @@ class MonsterGenerator
         std::map<std::string, m_size> size_map;
         std::map<std::string, MonDeathFunction> death_map;
         std::map<std::string, MonAttackFunction> attack_map;
-		std::map<std::string, MonDefenseFunction> defense_map;
+        std::map<std::string, MonDefenseFunction> defense_map;
         std::map<std::string, monster_trigger> trigger_map;
         std::map<std::string, m_flag> flag_map;
 };

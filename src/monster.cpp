@@ -881,12 +881,14 @@ void monster::hit_monster(int i)
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll, bool crit, 
-							   const damage_instance& d, dealt_damage_instance &dealt_dam) {
-	mdefense mdf;
-	if(!is_hallucination() && source != NULL) {
-		(mdf.*type->sp_defense)(this);
- 	}
-return Creature::deal_melee_attack(source, hitroll, crit, d, dealt_dam);
+							   const damage_instance& d, dealt_damage_instance &dealt_dam) 
+{
+    mdefense mdf;
+    if(!is_hallucination() && source != NULL)
+        {
+        (mdf.*type->sp_defense)(this);
+        }
+    return Creature::deal_melee_attack(source, hitroll, crit, d, dealt_dam);
 }
 
 int monster::deal_projectile_attack(Creature *source, double missed_by,
@@ -904,11 +906,12 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
     if (missed_by < 0.2 && has_flag(MF_NOHEAD)) {
         missed_by = 0.2;
     }
-	mdefense mdf;
- 	if(!is_hallucination() && source != NULL) {
- 		(mdf.*type->sp_defense)(this);
- 	}
-return Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
+    mdefense mdf;
+ 	if(!is_hallucination() && source != NULL)
+        {
+        (mdf.*type->sp_defense)(this);
+        }
+    return Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
 }
 
 void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain) {
