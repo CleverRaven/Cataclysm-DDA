@@ -19588,9 +19588,8 @@
   ],
   "components": [
     [
-      [ "knife_combat", 1 ],
-      [ "steel_chunk", 3 ],
-      [ "scrap", 9 ]
+      [ "steel_chunk", 2 ],
+      [ "scrap", 5 ]
     ]
   ]
 },{
