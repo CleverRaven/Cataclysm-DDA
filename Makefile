@@ -164,7 +164,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static -lgdi32 -lwinmm
+  LDFLAGS += -static
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl -liconv
   endif
@@ -203,30 +203,30 @@ ifdef SDL
       DEFINES += -DOSX_SDL_FW
       OSX_INC = -F/Library/Frameworks \
 		-F$(HOME)/Library/Frameworks \
-		-I/Library/Frameworks/SDL.framework/Headers \
-		-I$(HOME)/Library/Frameworks/SDL.framework/Headers \
-		-I/Library/Frameworks/SDL_image.framework/Headers \
-		-I$(HOME)/Library/Frameworks/SDL_image.framework/Headers \
-		-I/Library/Frameworks/SDL_ttf.framework/Headers \
-		-I$(HOME)/Library/Frameworks/SDL_ttf.framework/Headers
+		-I/Library/Frameworks/SDL2.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL2.framework/Headers \
+		-I/Library/Frameworks/SDL2_image.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL2_image.framework/Headers \
+		-I/Library/Frameworks/SDL2_ttf.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL2_ttf.framework/Headers
       LDFLAGS += -F/Library/Frameworks \
 		 -F$(HOME)/Library/Frameworks \
-		 -framework SDL -framework SDL_image -framework SDL_ttf -framework Cocoa
+		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa
       CXXFLAGS += $(OSX_INC)
     else # libsdl build
-      DEFINES += -DOSX_SDL_LIBS
-      # handle #include "SDL/SDL.h" and "SDL.h"
+      DEFINES += -DOSX_SDL2_LIBS
+      # handle #include "SDL2/SDL.h" and "SDL.h"
       CXXFLAGS += $(shell sdl-config --cflags) \
 		  -I$(shell dirname $(shell sdl-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
-      LDFLAGS += $(shell sdl-config --libs) -lSDL_ttf
+      LDFLAGS += $(shell sdl-config --libs) -lSDL2_ttf
       ifdef TILES
-	LDFLAGS += -lSDL_image
+	LDFLAGS += -lSDL2_image
       endif
     endif
   else # not osx
-    LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
+    LDFLAGS += -lSDL2 -lSDL2_ttf
     ifdef TILES
-      LDFLAGS += -lSDL_image
+      LDFLAGS += -lSDL2_image
     endif
   endif
   ifdef TILES
@@ -234,7 +234,7 @@ ifdef SDL
   endif
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
-    LDFLAGS += -lgdi32 -ldxguid -lwinmm -ljpeg -lpng
+    LDFLAGS += -lfreetype -lpng -lz
     TARGET = $(W32TILESTARGET)
     ODIR = $(W32ODIRTILES)
   else
@@ -264,6 +264,11 @@ else
   endif
 endif
 
+# Global settings for Windows targets (at end)
+ifeq ($(TARGETSYSTEM),WINDOWS)
+    LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
+endif
+
 ifeq ($(LOCALIZE),1)
   DEFINES += -DLOCALIZE
 endif
@@ -291,6 +296,8 @@ ifdef LANGUAGES
   L10N = localization
   BINDIST_EXTRAS += lang/mo
 endif
+
+CXXFLAGS += -I/c/Development/MinGW/include/SDL2
 
 all: version $(TARGET) $(L10N)
 	@

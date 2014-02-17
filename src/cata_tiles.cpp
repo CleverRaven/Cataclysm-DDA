@@ -9,14 +9,13 @@
 #include <fstream>
 
 // SDL headers end up in different places depending on the OS, sadly
-#if (defined SDLTILES)
 #if (defined _WIN32 || defined WINDOWS)
+//this is wrong for my windows machine, but if it works for you...
 #include "SDL_image.h" // Make sure to add this to the other OS inclusions
 #elif (defined OSX_SDL_FW)
 #include "SDL_image/SDL_image.h" // Make sure to add this to the other OS inclusions
 #else
-#include "SDL/SDL_image.h" // Make sure to add this to the other OS inclusions
-#endif
+#include "SDL2/SDL_image.h" // Make sure to add this to the other OS inclusions
 #endif
 
 #define ITEM_HIGHLIGHT "highlight_item"
@@ -31,7 +30,7 @@ cata_tiles::cata_tiles()
     //ctor
     buffer = NULL;
     tile_atlas = NULL;
-    display_screen = NULL;
+    renderer = NULL;
     tile_values = NULL;
     tile_ids = NULL;
     screen_tiles = NULL;
@@ -117,10 +116,10 @@ void cata_tiles::reinit(std::string load_file_path)
     init(json_path, tileset_path);
 }
 
-void cata_tiles::set_screen(SDL_Surface * screen)
+void cata_tiles::set_renderer(SDL_Renderer *render)
 {
-    if (screen) {
-        display_screen = screen;
+    if(render) {
+        renderer = render;
     }
 }
 
@@ -217,7 +216,7 @@ void cata_tiles::reload_tileset() {
     }
 
     /* create the buffer screen */
-    buffer = SDL_AllocSurface(SDL_SWSURFACE, screentile_width * tile_width, screentile_height * tile_height, 32, 0xff0000, 0xff00, 0xff, 0);
+    buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, screentile_width * tile_width, screentile_height * tile_height, 32, 0xff0000, 0xff00, 0xff, 0);
 
     DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->h << "\n";
 
@@ -533,7 +532,19 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     SDL_Rect srcrect = {0, 0, (Uint16)width, (Uint16)height};
     SDL_Rect desrect = {(Sint16)destx, (Sint16)desty, (Uint16)width, (Uint16)height};
 
-    SDL_BlitSurface(buffer, &srcrect, display_screen, &desrect);
+    //temporary fix!
+    SDL_Texture *tbuf = SDL_CreateTextureFromSurface(renderer,buffer);
+    SDL_RenderCopy(renderer, tbuf, &srcrect, &desrect);
+    SDL_DestroyTexture(tbuf);
+}
+
+void cata_tiles::clear_buffer()
+{
+    //set to black
+    SDL_FillRect(buffer, NULL, 0x000000);
+    
+    //TODO convert this to use sdltiles ClearScreen() function
+    SDL_RenderClear(renderer);
 }
 
 void cata_tiles::get_window_tile_counts(const int width, const int height, int &columns, int &rows) const
@@ -1102,9 +1113,9 @@ void cata_tiles::create_default_item_highlight()
     SDL_Surface *surface;
     int index = tile_values->size();
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    surface = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA, tile_width, tile_height, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+    surface = SDL_CreateRGBSurface(0, tile_width, tile_height, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
 #else
-    surface = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA, tile_width, tile_height, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
+    surface = SDL_CreateRGBSurface(0, tile_width, tile_height, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
 #endif
     SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, 0, 0, 127, highlight_alpha));
 

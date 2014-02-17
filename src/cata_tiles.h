@@ -12,8 +12,8 @@
 #include "SDL.h"
 #include "SDL_ttf/SDL_ttf.h"
 #else
-#include "SDL/SDL.h"
-#include "SDL/SDL_ttf.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_ttf.h"
 #endif
 #endif
 
@@ -163,6 +163,8 @@ class cata_tiles
          * Redraws all the tiles that have changed since the last frame.
          */
         void apply_changes();
+        
+        void clear_buffer();
 
         /** Surface/Sprite rotation specifics */
         SDL_Surface *rotate_tile(SDL_Surface *src, SDL_Rect *rect, int rota);
@@ -235,14 +237,15 @@ class cata_tiles
         void init(std::string load_file_path);
         /* Reinitializes the tile context using the original screen information */
         void reinit(std::string load_file_path);
-        void set_screen(SDL_Surface *screen);
+        void set_renderer(SDL_Renderer *render);
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
         void init_light();
         LIGHTING light_at(int x, int y);
 
         /** Variables */
-        SDL_Surface *buffer, *tile_atlas, *default_size_tile_atlas, *display_screen;
+        SDL_Renderer *renderer;
+        SDL_Surface *buffer, *tile_atlas, *default_size_tile_atlas;
         tile_map *tile_values;
         tile_id_map *tile_ids;
 
