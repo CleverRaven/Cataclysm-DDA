@@ -817,5 +817,35 @@
         "required_str": -1,
         "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM"],
         "examine_action": "aggie_plant"
+    },{
+        "type" : "furniture",
+        "id" : "f_fvat_empty",
+        "name": "empty fermenting vat",
+        "symbol": "O",
+        "color": "brown",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "flags": ["SEALED", "CONTAINER"],
+        "examine_action": "fvat_empty"
+    },{
+        "type" : "furniture",
+        "id" : "f_fvat_full",
+        "name": "full fermenting vat",
+        "symbol": "O",
+        "color": "brown_cyan",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "flags": ["SEALED", "CONTAINER"],
+        "examine_action": "fvat_full"
+    },{
+        "type" : "furniture",
+        "id" : "f_fvat_done",
+        "name": "vat of booze",
+        "symbol": "O",
+        "color": "brown_cyan",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "flags": ["SEALED", "CONTAINER"],
+        "examine_action": "fvat_done"
     }
 ]

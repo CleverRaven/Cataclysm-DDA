@@ -598,7 +598,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 if (cargo >= 0) {
                     *this += std::list<item>(veh->parts[cargo].items.begin(), veh->parts[cargo].items.end());
                 }
-                
+
                 if (kpart >= 0) {
                     item hotplate(itypes["hotplate"], 0);
                     hotplate.charges = veh->fuel_left("battery");
@@ -969,6 +969,13 @@ std::vector<item*> inventory::all_items_with_flag( const std::string flag ) {
       if (iitem->has_flag(flag)) {
         ret.push_back(&*iitem);
       }
+      else if (!iitem->contents.empty())
+        for (int k = 0; k < iitem->contents.size(); k++) {
+            if (iitem->contents[k].has_flag(flag))
+            {
+                ret.push_back(&iitem->contents[k]);
+            }
+        }
     }
   }
 
@@ -1207,7 +1214,7 @@ bool inventory::has_flag(std::string flag) const
     {
         for (std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter)
         {
-            if (stack_iter->has_flag(flag))
+            if (stack_iter->has_flag(flag) || stack_iter->contains_with_flag(flag))
             {
                 return true;
             }

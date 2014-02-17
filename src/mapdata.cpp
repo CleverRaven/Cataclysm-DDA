@@ -149,12 +149,12 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
                        }
                    } else {
                        debugmsg("terrain[\"%s\"].bash.items[%d]: invalid entry",jsobj.get_string("id").c_str(),c);
-                   } 
+                   }
                    c++;
                }
            }
         }
-     
+
 //debugmsg("%d/%d %s %s/%s %d",str_min,str_max, ter_set.c_str(), sound.c_str(), sound_fail.c_str(), items.size() );
     return true;
   } else {
@@ -590,7 +590,7 @@ void set_ter_ids() {
     t_switch_gb=terfind("t_switch_gb");
     t_switch_rb=terfind("t_switch_rb");
     t_switch_even=terfind("t_switch_even");
-    num_terrain_types = terlist.size(); 
+    num_terrain_types = terlist.size();
 };
 
 furn_id furnfind(const std::string & id) {
@@ -620,6 +620,7 @@ furn_id f_null,
     f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
+    f_fvat_empty, f_fvat_full, f_fvat_done,
     num_furniture_types;
 
 void set_furn_ids() {
@@ -680,7 +681,10 @@ void set_furn_ids() {
     f_plant_seedling=furnfind("f_plant_seedling");
     f_plant_mature=furnfind("f_plant_mature");
     f_plant_harvest=furnfind("f_plant_harvest");
-    num_furniture_types = furnlist.size(); 
+    f_fvat_empty=furnfind("f_fvat_empty");
+    f_fvat_full=furnfind("f_fvat_full");
+    f_fvat_done=furnfind("f_fvat_done");
+    num_furniture_types = furnlist.size();
 }
 
 /*

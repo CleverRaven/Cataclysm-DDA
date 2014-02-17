@@ -645,7 +645,7 @@ void iexamine::fungus(player *p, map *m, int examx, int examy) {
             mondex = g->mon_at(i, j);
             if (g->m.move_cost(i, j) > 0 || (i == examx && j == examy)) {
                 if (mondex != -1) { // Spores hit a monster
-                    if (g->u_see(i, j) && 
+                    if (g->u_see(i, j) &&
                             !g->zombie(mondex).type->in_species("FUNGUS")) {
                         g->add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());
@@ -796,6 +796,91 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy) {
         p->use_charges("fertilizer_liquid", 1);
         m->i_at(examx, examy).push_back(item_controller->create("fertilizer", (int) g->turn));
     }
+}
+
+void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
+    if (m->i_at(examx, examy).size() != 0){
+        m->i_clear(examx, examy);
+        debugmsg("fvat_empty was not actually empty! Clearing space...");
+        return;
+    }
+    if (!p->has_item_with_flag("FERMENT")){
+        g->add_msg(_("You have no booze to ferment."));
+        return;
+    }
+    // Get list of all inv+wielded ferment-able items.
+    std::vector<item*> f_inv = p->inv.all_items_with_flag("FERMENT");
+    if (g->u.weapon.has_flag("FERMENT"))
+        f_inv.push_back(&g->u.weapon);
+    else if (g->u.weapon.contains_with_flag("FERMENT"))
+        f_inv.push_back(&g->u.weapon.contents[0]);
+
+    // Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
+    //Code shamelessly stolen from the crop planting function!
+    std::vector<itype_id> f_types;
+    std::vector<std::string> f_names;
+    for (std::vector<item*>::iterator it = f_inv.begin() ; it != f_inv.end(); it++){
+        if (std::find(f_types.begin(), f_types.end(), (*it)->typeId()) == f_types.end()){
+            f_types.push_back((*it)->typeId());
+            f_names.push_back((*it)->name);
+        }
+    }
+
+    // Choose ferment if applicable
+    int f_index = 0;
+    if (f_types.size() > 1) {
+        f_names.push_back("Cancel");
+        f_index = menu_vec(false, _("Ferment what?"), f_names) - 1; // TODO: make cancelable using ESC
+        if (f_index == f_names.size() - 1)
+            f_index = -1;
+    } else { //Only one ferment was in inventory
+        if (!query_yn(_("Set %s to ferment?"), f_names[0].c_str()))
+            f_index = -1;
+    }
+
+    // Did we cancel?
+    if (f_index < 0) {
+        //g->add_msg(_("You saved your seeds for later.")); // huehuehue //very funny
+        return;
+    }
+
+    // Setting the ferment in the vat
+    itype_id booze_type = f_types[f_index];
+    item booze(itypes[booze_type], 0);
+    std::list<item> selected = p->inv.use_charges(f_types[f_index], 1);
+    if (selected.empty()) { // nothing was removed from inv => weapon is the ferment
+        if (g->u.weapon.charges > 1) {
+            g->u.weapon.charges--;
+        } else {
+            g->u.remove_weapon();
+        }
+    }
+    m->add_item_or_charges(examx, examy, booze);
+    m->furn_set(examx, examy, f_fvat_full);
+    p->moves -= 500;
+    g->add_msg(_("Set %s to ferment."), f_names[f_index].c_str());
+}
+
+void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
+    if (m->furn(examx, examy) == f_fvat_full && query_yn(_("Finish brewing?"))) {
+        itype_id alcoholType = m->i_at(examx, examy)[0].typeId().substr(8);
+        item booze(itypes[alcoholType], 0);
+        m->i_clear(examx, examy);
+        m->add_item_or_charges(examx, examy, booze);
+        p->moves -= 500;
+        m->furn_set(examx, examy, f_fvat_done);
+        g->add_msg(_("Finished brewing cycle."));
+    }
+}
+
+void iexamine::fvat_done(player *p, map *m, int examx, int examy) {
+    for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
+        item* booze = &(m->i_at(examx, examy)[i]);
+        if (g->handle_liquid(*booze, true, false)) {
+            m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
+        }
+    }
+    m->furn_set(examx, examy, f_fvat_empty);
 }
 
 void iexamine::pick_plant(player *p, map *m, int examx, int examy, std::string itemType, int new_ter, bool seeds) {
@@ -1126,6 +1211,15 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("aggie_plant" == function_name) {
     return &iexamine::aggie_plant;
+  }
+  if ("fvat_empty" == function_name) {
+    return &iexamine::fvat_empty;
+  }
+  if ("fvat_full" == function_name) {
+    return &iexamine::fvat_full;
+  }
+  if ("fvat_done" == function_name) {
+    return &iexamine::fvat_done;
   }
   //pick_plant deliberately missing due to different function signature
   if ("tree_apple" == function_name) {

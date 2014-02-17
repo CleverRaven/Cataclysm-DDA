@@ -6692,7 +6692,7 @@ bool player::has_item_with_flag( std::string flag ) const
     }
 
     //check weapon for flag
-    if (weapon.has_flag( flag ))
+    if (weapon.has_flag( flag ) || weapon.contains_with_flag( flag ))
     {
         return true;
     }
