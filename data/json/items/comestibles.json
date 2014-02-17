@@ -10321,7 +10321,7 @@
         "heal" : -1,
         "addiction_potential" : 0,
         "nutrition" : 0,
-        "description" : "Acetylsalicylic acid, a mild anti-inflammatory. Take to relieve pain and swelling. Best to avoid ingesting with alcohol or other painkillers.",
+        "description" : "Acetylsalicylic acid, a mild anti-inflammatory. Take to relieve pain and swelling.",
         "price" : 30,
         "material" : "plastic",
         "tool" : "null",
@@ -10426,7 +10426,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "dayquil",
-        "name" : "Dayquil",
+        "name" : "non-drowsy cough syrup",
         "weight" : 1,
         "color" : "yellow",
         "addiction_type" : "none",
@@ -10455,7 +10455,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "nyquil",
-        "name" : "Nyquil",
+        "name" : "cough syrup",
         "weight" : 1,
         "color" : "blue",
         "addiction_type" : "sleeping pill",
