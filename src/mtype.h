@@ -193,6 +193,7 @@ enum m_flag {
     MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
     MF_BILE_BLOOD,          // Makes monster bleed bile.
     MF_ABSORBS,             // Consumes objects it moves over.
+    MF_REGENMORALE,         // Will stop fleeing if at max hp, and regen anger and morale to positive values.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

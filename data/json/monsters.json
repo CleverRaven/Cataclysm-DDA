@@ -4279,8 +4279,7 @@
     "death_function":"MELT",
     "special_attack":"PARROT",
     "description":"A gargantuan protoplasmic blob, constantly reshaping, forming new pseudopods seemingly at will. All over its body are eyes that form and disappear. It looks at you with malice.",
-    "flags":["SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACID_PROOF", "NOHEAD", "REGENERATES_50", "ABSORBS"],
-    "anger_triggers":["PLAYER_WEAK", "HURT", "PLAYER_CLOSE"]
+    "flags":["SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACID_PROOF", "NOHEAD", "REGENERATES_50", "ABSORBS", "REGEN_MORALE"]
     },{
         "type" : "MONSTER",
         "id" : "mon_dementia",
