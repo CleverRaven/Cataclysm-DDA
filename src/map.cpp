@@ -2305,11 +2305,13 @@ bool map::sees_some_items(int x, int y, const player &u)
         // can not see non-existing items.
         return false;
     }
-    if (has_flag("SEALED", x, y)) {
+    const bool container = has_flag_ter_or_furn("CONTAINER", x, y);
+    const bool sealed = has_flag_ter_or_furn("SEALED", x, y);
+    if (sealed && container) {
         // never see inside of sealed containers
         return false;
     }
-    if (has_flag("CONTAINER", x, y)) {
+    if (container) {
         // can see inside of containers if adjacent or
         // on top of the container
         return (abs(x - u.posx) <= 1 && abs(y - u.posy) <= 1);
