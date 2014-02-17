@@ -1103,7 +1103,7 @@
         "dispersion" : 4,
         "recoil" : 32,
         "count" : 40,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
         "id" : "556_incendiary",
@@ -2378,7 +2378,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 200,
-        "effects" : ["FLAME","STREAM"]
+        "effects" : ["FLAME", "STREAM", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
         "id" : "lamp_oil",
@@ -2404,7 +2404,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 400,
-        "effects" : ["FLAME","STREAM"]
+        "effects" : ["FLAME", "STREAM"]
     },
     {   "type" : "AMMO",
         "id" : "medical_tape",
@@ -2874,7 +2874,7 @@
         "dispersion" : 1,
         "recoil" : 50,
         "count" : 30,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
         "id" : "50ss",
@@ -2966,7 +2966,8 @@
         "range" : 40,
         "dispersion" : 10,
         "recoil" : 20,
-        "count" : 3
+        "count" : 3,
+        "effects" : ["RECYCLED"]
     },
     {   "type" : "AMMO",
         "id" : "steel_rail",
@@ -3374,7 +3375,7 @@
     },
     {   "type" : "AMMO",
         "id" : "700nx_casing",
-       "category" : "spare_parts",
+        "category" : "spare_parts",
         "price" : 300,
         "name" : ".700 NX casing",
         "symbol" : "=",

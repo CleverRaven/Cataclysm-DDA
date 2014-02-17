@@ -386,9 +386,13 @@ void player::fire_gun(int tarx, int tary, bool burst) {
                 g->add_msg_player_or_npc(this, _("Your weapon malfunctions!"),
                                          _("<npcname>'s weapon malfunctions!") );
                 return;
-            } else if (one_in(1728) && !curammo_effects->count("NEVER_MISFIRES")) {
+            } else if (!curammo_effects->count("NEVER_MISFIRES") && one_in(1028)) {
                 g->add_msg_player_or_npc(this, _("Your weapon misfires!"),
                                          _("<npcname>'s weapon misfires!") );
+                return;
+            } else if (curammo_effects->count("RECYCLED") && one_in(256)) {
+                g->add_msg_player_or_npc(this, _("Your weapon misfires with a muffled click!"),
+                                         _("<npcname>'s weapon misfires with a muffled click!") );
                 return;
             }
         }
