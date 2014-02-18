@@ -259,7 +259,19 @@ classes = {
         functions = {
         }
     },
+    Creature = {
+        attributes = {
+        
+        },
+        functions = {
+            get_speed = {
+                args = {},
+                rval = "int"
+            }
+        }
+    },
     monster = {
+        parent = "creature",
         attributes = {
             hp = {
                 type = "int",
@@ -297,7 +309,6 @@ classes = {
             }
         }
     }
-        
 }
 
 global_functions = {
