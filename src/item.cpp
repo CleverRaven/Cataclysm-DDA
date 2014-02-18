@@ -1830,7 +1830,7 @@ int item::is_funnel_container(int bigger_than) const
     if ( ! is_container() ) {
         return 0;
     }
-    it_container *ct = static_cast<it_container *>(type);
+    it_container *ct = dynamic_cast<it_container *>(type);
     // todo; consider linking funnel to item or -making- it an active item
     if ( (int)ct->contains <= bigger_than ) {
         return 0; // skip contents check, performance
