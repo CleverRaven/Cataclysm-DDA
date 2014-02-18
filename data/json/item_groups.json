@@ -790,6 +790,7 @@
       ["holybook_slack", 1],
       ["holybook_kallisti", 1],
       ["holybook_scientology", 1],
+      ["mouthpiece", 1],
       ["leathersandals", 25]
     ]
   },{
@@ -1794,6 +1795,7 @@
       ["airhorn", 40],
       ["boots_hiking", 10],
       ["runner_bag", 5],
+      ["mouthpiece", 15],
       ["leathersandals", 10]
     ]
   },{
@@ -2068,6 +2070,7 @@
       ["c_fishspear", 10],
       ["swim_fins", 20],
       ["diveknife", 12],
+      ["mouthpiece", 15],
       ["leathersandals", 15]
     ]
   },{
@@ -3650,6 +3653,7 @@
       ["teleumbrella", 2],
       ["football_armor", 5],
       ["helmet_football", 5],
+      ["mouthpiece", 5],
       ["football", 5]
     ]
   },{
