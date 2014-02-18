@@ -176,11 +176,14 @@ bool WinCreate()
     
     format = SDL_AllocFormat(SDL_GetWindowPixelFormat(window));
 
+    DebugLog() << "Attempting to initialize accelerated SDL renderer.\n";
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
+    
     if(renderer == NULL) {
+        DebugLog() << "Failed to initialize accelerated renderer, falling back to software rendering.\n";
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_PRESENTVSYNC);
         if(renderer == NULL) {
+            DebugLog() << "Failed to initialize software renderer!\n";
             return false;
         }
     }
@@ -265,7 +268,6 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 
 static void cache_glyphs()
 {
-
     int top = 999;
     int bottom = -999;
     start_color();
@@ -355,9 +357,7 @@ void try_update()
 {
     unsigned long now = SDL_GetTicks();
     if (now - lastupdate >= interval) {
-        //if(needupdate) {
         SDL_RenderPresent(renderer);
-        //}
         needupdate = false;
         lastupdate = now;
     } else {
@@ -371,13 +371,12 @@ void curses_drawwindow(WINDOW *win)
     unsigned tmp;
     bool update = false;
     for (j=0; j<win->height; j++){
-        if (win->line[j].touched)
-        {
+        if (win->line[j].touched) {
             update = true;
 
             win->line[j].touched=false;
 
-            for (i=0,w=0; w<win->width; i++,w++){
+            for (i=0,w=0; w<win->width; i++,w++) {
                 drawx=((win->x+w)*fontwidth);
                 drawy=((win->y+j)*fontheight);//-j;
                 if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
@@ -453,15 +452,22 @@ void curses_drawwindow(WINDOW *win)
             };//for (i=0;i<_windows[w].width;i++)
         }
     };// for (j=0;j<_windows[w].height;j++)
-    win->draw=false;                //We drew the window, mark it as so
     
-    if(update) {
-        needupdate = true;
-    }
+    win->draw = false; //We drew the window, mark it as so
 
     if (g && win == g->w_terrain && use_tiles)
     {
-        tilecontext->draw(win->x * fontwidth, win->y * fontheight, g->ter_view_x, g->ter_view_y, tilecontext->terrain_term_x * fontwidth, tilecontext->terrain_term_y * fontheight);
+        tilecontext->draw(
+            win->x * fontwidth,
+            win->y * fontheight,
+            g->ter_view_x,
+            g->ter_view_y,
+            tilecontext->terrain_term_x * fontwidth,
+            tilecontext->terrain_term_y * fontheight);
+    }
+    
+    if(update) {
+        needupdate = true;
     }
 }
 #else
@@ -469,21 +475,14 @@ void curses_drawwindow(WINDOW *win)
 {
     int i,j,w,drawx,drawy;
     unsigned tmp;
-
-    int miny = 99999;
-    int maxy = -99999;
+    
+    bool update = false;
 
     for (j=0; j<win->height; j++)
     {
         if (win->line[j].touched)
         {
-            if(j<miny) {
-                miny=j;
-            }
-            if(j>maxy) {
-                maxy=j;
-            }
-
+            update = true;
 
             win->line[j].touched=false;
 
@@ -569,16 +568,7 @@ void curses_drawwindow(WINDOW *win)
     }// for (j=0;j<_windows[w].height;j++)
     win->draw=false; //We drew the window, mark it as so
 
-    if(maxy>=0)
-    {
-        int tx=win->x, ty=win->y+miny, tw=win->width, th=maxy-miny+1;
-        int maxw=WindowWidth/fontwidth, maxh=WindowHeight/fontheight;
-        if(tw+tx>maxw) {
-            tw= maxw-tx;
-        }
-        if(th+ty>maxh) {
-            th= maxh-ty;
-        }
+    if(update) {
         needupdate = true;
     }
 }
@@ -1069,8 +1059,8 @@ WINDOW *curses_init(void)
     DebugLog() << "Initializing SDL Tiles context\n";
     tilecontext = new cata_tiles;
     tilecontext->init("gfx");
+    DebugLog() << "Tiles initialized successfully.\n";
     #endif // SDLTILES
-    DebugLog() << (std::string)"Tiles initialized successfully.\n";
     WindowWidth= OPTIONS["TERMINAL_X"];
     if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
     WindowWidth *= fontwidth;
@@ -1085,6 +1075,7 @@ WINDOW *curses_init(void)
 
     while(!strcasecmp(typeface.substr(typeface.length()-4).c_str(),".bmp") ||
           !strcasecmp(typeface.substr(typeface.length()-4).c_str(),".png")) {
+        DebugLog() << "Loading bitmap font [" + typeface + "].\n" ;
         typeface = "data/font/" + typeface;
         SDL_Surface *asciiload = IMG_Load(typeface.c_str());
         if(!asciiload || asciiload->w*asciiload->h < (fontwidth * fontheight * 256)) {
@@ -1147,6 +1138,8 @@ WINDOW *curses_init(void)
         typeface = "data/font/fixedsys.ttf";
     }
 
+    DebugLog() << "Loading truetype font [" + typeface + "].\n" ;
+    
     if(fontsize <= 0) fontsize = fontheight - 1;
 
     // SDL_ttf handles bitmap fonts size incorrectly

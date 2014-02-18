@@ -28,7 +28,6 @@ extern int fontwidth, fontheight;
 cata_tiles::cata_tiles()
 {
     //ctor
-    buffer = NULL;
     tile_atlas = NULL;
     renderer = NULL;
     tile_values = NULL;
@@ -62,9 +61,6 @@ cata_tiles::~cata_tiles()
 {
     //dtor
     // free surfaces
-    if (buffer) {
-        SDL_FreeSurface(buffer);
-    }
     if (tile_atlas) {
         SDL_FreeSurface(tile_atlas);
     }
@@ -98,8 +94,6 @@ void cata_tiles::init(std::string json_path, std::string tileset_path)
     load_tilejson(json_path);
     DebugLog() << "Attempting to Load Tileset file\n";
     load_tileset(tileset_path);
-    DebugLog() << "Attempting to Create Rotation Cache\n";
-    create_rotation_cache();
 }
 void cata_tiles::init(std::string load_file_path)
 {
@@ -210,16 +204,6 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
 }
 
 void cata_tiles::reload_tileset() {
-     /* release buffer from memory if it has already been initialized */
-    if (buffer) {
-        SDL_FreeSurface(buffer);
-    }
-
-    /* create the buffer screen */
-    buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, screentile_width * tile_width, screentile_height * tile_height, 32, 0xff0000, 0xff00, 0xff, 0);
-
-    DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->h << "\n";
-
     /* release stored tiles */
     if (tile_values) {
         for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
@@ -227,9 +211,6 @@ void cata_tiles::reload_tileset() {
         }
         tile_values->clear();
     }
-
-    // Clear the cache of drawn tiles.
-    cache.clear();
 
     /** Check to make sure the tile_atlas loaded correctly, will be NULL if didn't load */
     if (tile_atlas) {
@@ -429,34 +410,17 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f)
     DebugLog() << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids->size() << "\n";
 }
 
-void cata_tiles::create_rotation_cache()
-{
-    /*
-    Each tile has the potential of having 3 additional rotational values applied to it.
-    0 is the default tile in the tileset
-    1 is an East rotation
-    2 is a South rotation
-    3 is a West rotation
-    These rotations are stored in a map<tile number, vector<SDL_Surface*> > with 3 values relating to east, south, and west in that order
-    */
-    for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
-        const int tile_num = it->first;
-        SDL_Surface *tile_surface = it->second;
-
-        std::vector<SDL_Surface *> rotations;
-        for (int i = 1; i < 4; ++i) {
-            rotations.push_back(rotate_tile(tile_surface, NULL, i));
-        }
-        rotation_cache[tile_num] = rotations;
-    }
-}
-
 void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width, int height)
 {
     if (!g) {
         return;
     }
-    tiles_to_draw_this_frame.clear();
+    
+    {
+        //set clipping to prevent drawing over stuff we shouldn't
+        SDL_Rect clipRect = {destx,desty,width,height};
+        SDL_RenderSetClipRect(renderer,&clipRect);
+    }
 
     int posx = centerx;
     int posy = centery;
@@ -527,22 +491,11 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         draw_from_id_string("cursor", g->ter_view_x, g->ter_view_y, 0, 0);
     }
 
-    apply_changes();
-
-    SDL_Rect srcrect = {0, 0, (Uint16)width, (Uint16)height};
-    SDL_Rect desrect = {(Sint16)destx, (Sint16)desty, (Uint16)width, (Uint16)height};
-
-    //temporary fix!
-    SDL_Texture *tbuf = SDL_CreateTextureFromSurface(renderer,buffer);
-    SDL_RenderCopy(renderer, tbuf, &srcrect, &desrect);
-    SDL_DestroyTexture(tbuf);
+    SDL_RenderSetClipRect(renderer,NULL);
 }
 
 void cata_tiles::clear_buffer()
 {
-    //set to black
-    SDL_FillRect(buffer, NULL, 0x000000);
-    
     //TODO convert this to use sdltiles ClearScreen() function
     SDL_RenderClear(renderer);
 }
@@ -614,42 +567,10 @@ bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, 
         screen_y = y * tile_width;
     }
 
-    // Schedule the draw call to be invoked later
-    tile_drawing_cache &cache_item = tiles_to_draw_this_frame[point(screen_x, screen_y)];
-    cache_item.rotations.push_back(rota);
-    cache_item.sprites.push_back(display_tile);
+    //draw it!
+    draw_tile_at(display_tile,screen_x,screen_y,rota);
 
     return true;
-}
-
-void cata_tiles::apply_changes()
-{
-    // bug: currently the rendering cache will bug out with rescaling on for some reason.
-    //      for this reason, everything will be redrawn every frame if we're rescaled.
-    //bool rescaled = tile_width != default_tile_width;
-    bool rescaled = true;
-
-    if(!rescaled) {
-        // Scroll to avoid too much redrawing
-        scroll(g->u.posx - last_pos_x, g->u.posy - last_pos_y);
-        last_pos_x = g->u.posx;
-        last_pos_y = g->u.posy;
-    }
-
-    for(std::map<point, tile_drawing_cache>::iterator i = tiles_to_draw_this_frame.begin(); i != tiles_to_draw_this_frame.end(); i++) {
-        const point &location = i->first;
-        const tile_drawing_cache &compare_to = cache[location];
-        tile_drawing_cache &to_draw = i->second;
-
-        if(to_draw != compare_to || rescaled) {
-            // TODO: fill with black
-            for(int i = 0; i < to_draw.sprites.size(); i++) {
-                draw_tile_at(to_draw.sprites[i], location.x, location.y, to_draw.rotations[i]);
-            }
-        }
-    }
-
-    cache = tiles_to_draw_this_frame;
 }
 
 bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
@@ -667,22 +588,47 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     // blit background first : always non-rotated
     if (bg >= 0 && bg < tile_values->size()) {
         SDL_Surface *bg_surf = (*tile_values)[bg];
-        SDL_BlitSurface(bg_surf, NULL, buffer, &destination);
+        
+        SDL_Texture *tbuf = SDL_CreateTextureFromSurface(renderer,bg_surf);
+        SDL_RenderCopy(renderer, tbuf, NULL, &destination);
+        SDL_DestroyTexture(tbuf);
     }
     // blit foreground based on rotation
     if (rota == 0) {
         if (fg >= 0 && fg < tile_values->size()) {
             SDL_Surface *fg_surf = (*tile_values)[fg];
-            SDL_BlitSurface(fg_surf, NULL, buffer, &destination);
+            
+            SDL_Texture *tbuf = SDL_CreateTextureFromSurface(renderer,fg_surf);
+            SDL_RenderCopy(renderer, tbuf, NULL, &destination);
+            SDL_DestroyTexture(tbuf);
         }
     } else {
         if (fg >= 0 && fg < tile_values->size()) {
-            // get rect
-
-            // get new surface of just the rotated fgrect and blit it to the screen
-            std::vector<SDL_Surface *> fgtiles = rotation_cache[fg];
-            SDL_Surface *rotatile = fgtiles[rota - 1];
-            SDL_BlitSurface(rotatile, NULL, buffer, &destination);
+            double angle = -90*rota;
+            SDL_Point center = {0,0};
+            
+            SDL_RendererFlip flip = SDL_FLIP_NONE;
+            
+            switch(rota) {
+            case 1:
+                destination.y += tile_height - 1;
+                break;
+            case 2:
+                //flip rather then rotate this one
+                angle = 0;
+                flip = (SDL_RendererFlip)(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
+                break;
+            case 3:
+                destination.x += tile_width - 1;
+                break;
+            }
+            
+            SDL_Surface *fg_surf = (*tile_values)[fg];
+            
+            SDL_Texture *tbuf = SDL_CreateTextureFromSurface(renderer,fg_surf);
+            SDL_RenderCopyEx(renderer, tbuf, NULL, &destination,
+                angle, &center, flip );
+            SDL_DestroyTexture(tbuf);
         }
     }
 
@@ -1525,51 +1471,6 @@ void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &
         }
     }
     get_rotation_and_subtile(val, num_connects, rotation, subtile);
-}
-
-void cata_tiles::scroll(int x, int y)
-{
-    if(abs(x) > 1 || abs(y) > 1) {
-        cache.clear();
-        return;
-    }
-
-    {
-        // Annoying but necessary:If our drawing pane gets
-        // "clipped"(half-tiles get drawn at border), we need
-        // to manually invalidate the "borders"
-        int rightMostTile = (WindowWidth / tile_width) * tile_width;
-        int bottomMostTile = (WindowHeight / tile_height) * tile_height;
-        if(rightMostTile != WindowWidth && x == 1) {
-            for(int y = 0; y < WindowHeight; y += tile_height) {
-                cache[point(rightMostTile, y)] = tile_drawing_cache();
-            }
-        }
-        if(bottomMostTile != WindowHeight && y == 1) {
-            for(int x = 0; x < WindowWidth; x += tile_width) {
-                cache[point(x, bottomMostTile)] = tile_drawing_cache();
-            }
-        }
-    }
-
-    // Convert from tile shift to screen shift
-    x *= tile_width;
-    y *= tile_height;
-
-    SDL_Rect srcrect;
-    srcrect.x = x;
-    srcrect.y = y;
-    srcrect.w = WindowWidth - x;
-    srcrect.h = WindowHeight - y;
-
-    SDL_BlitSurface(buffer, &srcrect, buffer, NULL);
-
-    std::map<point, tile_drawing_cache> new_cache;
-    for(std::map<point, tile_drawing_cache>::iterator i = cache.begin(); i != cache.end(); i++) {
-        const point &old_point = i->first;
-        new_cache[point(old_point.x - x, old_point.y - y)] = i->second;
-    }
-    cache = new_cache;
 }
 
 #endif // SDL_TILES

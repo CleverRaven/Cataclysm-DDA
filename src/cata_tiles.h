@@ -245,11 +245,9 @@ class cata_tiles
 
         /** Variables */
         SDL_Renderer *renderer;
-        SDL_Surface *buffer, *tile_atlas, *default_size_tile_atlas;
+        SDL_Surface *tile_atlas, *default_size_tile_atlas;
         tile_map *tile_values;
         tile_id_map *tile_ids;
-
-        std::map<int, std::vector<SDL_Surface*> > rotation_cache;
 
         int tile_height, tile_width, default_tile_width, default_tile_height;
         int screentile_width, screentile_height;
@@ -284,8 +282,6 @@ class cata_tiles
         std::string weather_name;
 
         std::queue<point> footsteps;
-        std::map<point, tile_drawing_cache> cache;
-        std::map<point, tile_drawing_cache> tiles_to_draw_this_frame;
 
         // offset values
         int o_x, o_y;
