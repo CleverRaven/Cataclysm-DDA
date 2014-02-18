@@ -20515,7 +20515,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "suppressor",
+  "result": "crafted_suppressor",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_MODS",
   "skill_used": "mechanics",
