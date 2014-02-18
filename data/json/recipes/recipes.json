@@ -30741,6 +30741,43 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "electric_socks",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "electronics",
+  "difficulty": 3,
+  "skills_required" : [ "tailor", 1 ],
+  "time": 10000,
+  "reversible": false,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 6 ],
+      [ "needle_wood", 6 ],
+      [ "sewing_kit", 6 ]
+    ],
+    [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 2 ],
+      [ "socks", 1 ]
+    ],
+    [
+      [ "element", 2 ]
+    ],
+    [
+      [ "wire", 2 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "mre_ravioli_box",
   "id_suffix": "uncraft",

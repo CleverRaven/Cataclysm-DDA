@@ -218,6 +218,8 @@ public:
     int oxygen_bottle       (player *, item *, bool);
     int atomic_battery      (player *, item *, bool);
     int fishing_rod_basic   (player *, item *, bool);
+    int basictoolarmor_off  (player *, item *, bool);
+    int basictoolarmor_on   (player *, item *, bool);
 // MACGUFFINS
     int mcg_note            (player *, item *, bool);
 
