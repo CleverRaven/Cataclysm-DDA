@@ -2571,7 +2571,7 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 80,
         "durability" : 300,
-        "epower" : 111,
+        "epower" : 100,
         "item" : "reinforced_solar_panel",
         "difficulty" : 6,
         "location" : "on_roof",
@@ -2601,7 +2601,7 @@
             {"item": "steel_lump", "min": 2, "max": 4},
             {"item": "steel_chunk", "min": 2, "max": 4},
             {"item": "scrap", "min": 2, "max": 4},
-            {"item": "solar_cell", "min": 1, "max": 4}
+            {"item": "solar_cell", "min": 1, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -2622,7 +2622,7 @@
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
             {"item": "scrap", "min": 4, "max": 7},
-            {"item": "solar_cell", "min": 1, "max": 4}
+            {"item": "solar_cell", "min": 1, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -2640,9 +2640,9 @@
         "location" : "on_roof",
         "flags" : ["SOLAR_PANEL"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 4, "max": 7},
-            {"item": "steel_chunk", "min": 4, "max": 7},
-            {"item": "scrap", "min": 4, "max": 7},
+            {"item": "steel_lump", "min": 4, "max": 4},
+            {"item": "steel_chunk", "min": 4, "max": 4},
+            {"item": "scrap", "min": 4, "max": 4},
             {"item": "solar_cell", "min": 2, "max": 8}
         ]
     },{
