@@ -2460,6 +2460,46 @@ int iuse::light_on(player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
+int iuse::basictoolarmor_off(player *p, item *it, bool)
+{
+    if (it->charges == 0) {
+        g->add_msg_if_player(p,_("The %ss batteries are dead."), it->tname().c_str());
+        return 0;
+    } else {
+        std::string oname = it->type->id + "_on";
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        g->add_msg_if_player(p,_("You activate your %s."), it->tname().c_str());
+        it->make(item_controller->find_template(oname));
+        it->active = true;
+        return it->type->charges_to_use();
+    }
+}
+
+int iuse::basictoolarmor_on(player *p, item *it, bool t)
+{
+    if (t) { // Normal use
+    } else { // Turning it off
+        std::string oname = it->type->id;
+        if (oname.length() > 3 && oname.compare(oname.length() - 3, 3, "_on") == 0) {
+            oname.erase(oname.length() - 3, 3);
+        } else {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        g->add_msg_if_player(p,_("Your %s deactivates."), it->tname().c_str());
+        it->make(item_controller->find_template(oname));
+        it->active = false;
+    }
+    return it->type->charges_to_use();
+}
+
 // this function only exists because we need to set it->active = true
 // otherwise crafting would just give you the active version directly
 int iuse::lightstrip(player *p, item *it, bool)
