@@ -213,7 +213,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
     proj.wide = (curammo->phase == LIQUID ||
             proj.proj_effects.count("SHOT") || proj.proj_effects.count("BOUNCE"));
-    proj.drops = (curammo->type == "bolt" || curammo->type == "arrow");
+    proj.drops = (curammo->type == "bolt" || curammo->type == "arrow" || proj.proj_effects.count("REUSE"));
 
     //int x = xpos(), y = ypos();
     // Have to use the gun, gunmods don't have a type
