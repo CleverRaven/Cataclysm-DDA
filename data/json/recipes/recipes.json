@@ -23555,24 +23555,30 @@
   "autolearn": false,
   "book_learn": [[ "recipe_lab_cvd", 9 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1] ],
-      [
-      ["chisel", -1]
+      [ 
+      ["chisel", -1] 
+      ],
+      [ 
+      ["cvd_machine", -1] 
       ],
       [
-      ["cvd_machine", -1]
-      ]
+      [ "welder", 10 ],
+      [ "welder_crude", 15 ],
+	  [ "toolset", 1 ]
+      ]      
       ],
   "components":
     [
-     [
-     [ "charcoal", 8 ]
+     [ 
+     [ "charcoal", 5 ] 
      ],
-     [
-      [ "plasma", 16 ]
+     [ 
+     [ "plasma", 10 ] 
      ],
-     [
-      [ "fur", 2 ],
-      [ "leather", 2 ]
+     [ 
+     [ "makeshift_knife", 1 ],
+     [ "knife_combat", 1 ],
+     [ "tanto", 1]
      ]
     ]
 },{
@@ -23587,24 +23593,29 @@
   "autolearn": false,
   "book_learn": [[ "recipe_lab_cvd", 9 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1] ],
-      [
-      ["chisel", -1]
+      [ 
+      ["chisel", -1] 
+      ],
+      [ 
+      ["cvd_machine", -1] 
       ],
       [
-      ["cvd_machine", -1]
-      ]
+      [ "welder", 20 ],
+      [ "welder_crude", 30 ],
+	  [ "toolset", 2 ]
+      ]      
       ],
   "components":
     [
      [
-     [ "charcoal", 15 ]
+     [ "charcoal", 10 ]
      ],
      [
-      [ "plasma", 30 ]
+     [ "plasma", 20 ]
      ],
-     [
-      [ "fur", 2 ],
-      [ "leather", 2 ]
+     [ 
+     [ "makeshift_machete", 1 ],
+     [ "machete", 1 ]
      ]
     ]
 },{
@@ -23619,12 +23630,17 @@
   "autolearn": false,
   "book_learn": [[ "recipe_lab_cvd", 9 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1] ],
-      [
-      ["chisel", -1]
+      [ 
+      ["chisel", -1] 
+      ],
+      [ 
+      ["cvd_machine", -1] 
       ],
       [
-      ["cvd_machine", -1]
-      ]
+      [ "welder", 30 ],
+      [ "welder_crude", 45 ],
+	  [ "toolset", 3 ]
+      ]      
       ],
   "components":
     [
@@ -23632,11 +23648,10 @@
      [ "charcoal", 20 ]
      ],
      [
-      [ "plasma", 40 ]
+     [ "plasma", 40 ]
      ],
-     [
-      [ "fur", 2 ],
-      [ "leather", 2 ]
+     [ 
+     [ "katana", 1 ]
      ]
     ]
 },{

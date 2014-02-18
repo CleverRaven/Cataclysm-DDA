@@ -3838,7 +3838,7 @@ ff.......|....|WWWWWWWW|\n\
         }
 
         switch (rng(1, 7)) {
-		case 1:
+        case 1:
         case 2: // Weapons testing
             add_spawn("mon_secubot", 1,            6,            6);
             add_spawn("mon_secubot", 1, SEEX * 2 - 7,            6);
@@ -3875,7 +3875,7 @@ ff.......|....|WWWWWWWW|\n\
                 place_items("allguns", 96, SEEX - 2, SEEY, SEEX + 1, SEEY, false, 0);
             }
             break;
-		case 3:
+        case 3:
         case 4: { // Netherworld access
             if (!one_in(4)) { // Trapped netherworld monsters
                 std::string nethercreatures[10] = {"mon_flying_polyp", "mon_hunting_horror", "mon_mi_go", "mon_yugg", "mon_gelatin",
@@ -3917,8 +3917,8 @@ ff.......|....|WWWWWWWW|\n\
             ter_set(SEEX + 1, 7, t_radio_tower);
         }
         break;
-		case 5:
-        case 6: {// Bionics
+        case 5:
+        case 6: { // Bionics
             add_spawn("mon_secubot", 1,            6,            6);
             add_spawn("mon_secubot", 1, SEEX * 2 - 7,            6);
             add_spawn("mon_secubot", 1,            6, SEEY * 2 - 7);
@@ -3942,9 +3942,10 @@ ff.......|....|WWWWWWWW|\n\
             tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE, 5);
             tmpcomp->add_failure(COMPFAIL_MANHACKS);
             tmpcomp->add_failure(COMPFAIL_SECUBOTS);
-		}break;        
+            }
+        break;        
 
-		case 7: // CVD Forge
+        case 7: // CVD Forge
             add_spawn("mon_secubot", 1,            6,            6);
             add_spawn("mon_secubot", 1, SEEX * 2 - 7,            6);
             add_spawn("mon_secubot", 1,            6, SEEY * 2 - 7);
@@ -3954,8 +3955,8 @@ ff.......|....|WWWWWWWW|\n\
             line(this, t_cvdbody, SEEX    , SEEY - 1, SEEX    , SEEY + 1);
             line(this, t_cvdbody, SEEX + 1, SEEY - 2, SEEX + 1, SEEY + 1);
             ter_set(SEEX   , SEEY - 2, t_cvdmachine);
-			break;
-		}
+            break;
+        }
 
     } else if (terrain_type == "bunker") {
 
