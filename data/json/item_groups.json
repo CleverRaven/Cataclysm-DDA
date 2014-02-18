@@ -1693,6 +1693,7 @@
       ["vac_sealer", 10],
       ["sm_extinguisher", 10],
       ["fungicide", 5],
+      ["miner_hat", 1],
       ["tool_belt", 30]
     ]
   },{
@@ -4038,6 +4039,7 @@
       ["leathersandals", 10],
       ["maid_dress", 3],
       ["maid_hat", 3],
+      ["miner_hat", 3],
       ["razor_blade", 6]
     ]
   },{
@@ -5391,6 +5393,7 @@
       ["lamp_oil", 5],
       ["shovel", 10],
       ["e_tool", 5],
+      ["miner_hat", 40],
       ["apron_leather", 10]
     ]
   },{
@@ -5652,6 +5655,7 @@
       ["survivormap", 5],
       ["halligan", 10],
       ["fire_ax", 5],
+      ["miner_hat", 10],
       ["pur_tablets", 10]
     ]
   },{
@@ -5700,6 +5704,7 @@
       ["stick", 95],
       ["bio_metabolics", 10],
       ["survivormap", 1],
+      ["miner_hat", 10],
       ["bio_blaster", 10]
     ]
   },{

@@ -30717,6 +30717,30 @@
      ]
     ]
 },{
+        "type" : "recipe",
+  "result": "miner_hat",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "hat_hard", 1 ],
+      [ "helmet_bike", 1 ]
+    ],
+    [
+      [ "flashlight", 1 ]
+    ],
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 6 ],
+      [ "duct_tape", 10 ],
+      [ "medical_tape", 20 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "mre_ravioli_box",
   "id_suffix": "uncraft",
