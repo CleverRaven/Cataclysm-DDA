@@ -376,34 +376,32 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
         if (firing->skill_used != Skill::skill("archery") &&
             firing->skill_used != Skill::skill("throw")) {
-            // Current guns have a durability between 5 and 9.
-            // Misfire chance is between 1/64 and 1/1024.
             if (is_underwater() && !weapon.has_flag("WATERPROOF_GUN") && one_in(firing->durability)) { // here we check if we're underwater and whether we should misfire as a result
-                g->add_msg_player_or_npc(this, _("Your %s misfires with a wet click!"),                // note that some guns are waterproof and so are immune to this effect
-                                         _("<npcname>'s %s misfires with a wet click!"),
-                              weapon.name.c_str());
+                g->add_msg_player_or_npc(this, _("Your %s misfires with a wet click!"),                // this causes no damage to the firearm, note that some guns are waterproof
+                                         _("<npcname>'s %s misfires with a wet click!"),               // and so are immune to this effect, note also that WATERPROOF_GUN status does
+                              weapon.name.c_str());                                                    // not mean the gun will actually be accurate underwater
                 return;
             } else if ((one_in(2 << firing->durability))&& !weapon.has_flag("NEVER_JAMS")) { // here we check for a chance for the weapon to suffer a mechanical malfunction
-                g->add_msg_player_or_npc(this, _("Your %s malfunctions!"),                   // note that some weapons never jam up and thus are immune to this effect
-                                         _("<npcname>'s %s malfunctions!"),
-                              weapon.name.c_str());
-                   if ((weapon.damage < 4) && one_in(8 * firing->durability)){ // the malfunction may cause damage, but never enough to push the weapon beyond 'shattered'
+                g->add_msg_player_or_npc(this, _("Your %s malfunctions!"),                   // note that some weapons never jam up 'NEVER_JAMS' and thus are immune to this effect
+                                         _("<npcname>'s %s malfunctions!"),                  // as current guns have a durability between 5 and 9 this results in a chance
+                              weapon.name.c_str());                                          // of mechanical failure between 1/64 and 1/1024 on any given shot
+                   if ((weapon.damage < 4) && one_in(8 * firing->durability)){  // the malfunction may cause damage, but never enough to push the weapon beyond 'shattered'
                    weapon.damage++;
                 g->add_msg_player_or_npc(this, _("Your %s is damaged by the mechanical malfunction!"),
                                          _("<npcname>'s %s is damaged by the mechanical malfunction!"),
                               weapon.name.c_str());
                    }
                 return;
-            } else if (!curammo_effects->count("NEVER_MISFIRES") && one_in(1728)) { // here we check for a chance for the weapon to suffer a misfire due to using pre-cataclysm bullets
-                g->add_msg_player_or_npc(this, _("Your %s misfires!"),              // note that these misfires cause no damage to the weapon and some types of ammunition are immune to this effect
-                                         _("<npcname>'s %s misfires!"),
+            } else if (!curammo_effects->count("NEVER_MISFIRES") && one_in(1728)) {      // here we check for a chance for the weapon to suffer a misfire due to using OEM bullets
+                g->add_msg_player_or_npc(this, _("Your %s misfires with a dry click!"),  // note that these misfires cause no damage to the weapon and some types of ammunition
+                                         _("<npcname>'s %s misfires with a dry click!"), // are immune to this effect via the NEVER_MISFIRES effect
                               weapon.name.c_str());
                 return;
-            } else if (curammo_effects->count("RECYCLED") && one_in(512)) {                 // here we check for a chance for the weapon to suffer a misfire due to using 'RECYCLED' bullets
-                g->add_msg_player_or_npc(this, _("Your %s misfires with a muffled click!"), // note that not all forms of reloaded/bootleg ammunition have this tag
+            } else if (curammo_effects->count("RECYCLED") && one_in(512)) {                  // here we check for a chance for the weapon to suffer a misfire due to using player-made
+                g->add_msg_player_or_npc(this, _("Your %s misfires with a muffled click!"),  // 'RECYCLED' bullets, note that not all forms of player-made ammunition have this effect
                                          _("<npcname>'s %s misfires with a muffled click!"),
                               weapon.name.c_str());
-                   if ((weapon.damage < 4) && one_in(2 * firing->durability)){ // the misfire may cause damage, but never enough to push the weapon beyond 'shattered'
+                   if ((weapon.damage < 4) && one_in(2 * firing->durability)){  // the misfire may cause damage, but never enough to push the weapon beyond 'shattered'
                    weapon.damage++;
                 g->add_msg_player_or_npc(this, _("Your %s is damaged by the misfired round!"),
                                          _("<npcname>'s %s is damaged by the misfired round!"),

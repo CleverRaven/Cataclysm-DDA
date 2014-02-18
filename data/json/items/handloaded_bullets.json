@@ -422,7 +422,7 @@
     },
     {   "type" : "AMMO",
         "id" : "reloaded_45_jhp",
-        "price" : 480,
+        "price" : 48,
         "name" : "reloaded .45 FMJ",
         "symbol" : "=",
         "color" : "yellow",

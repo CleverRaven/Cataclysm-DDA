@@ -900,6 +900,8 @@
       ["c_fishspear", 2],
       ["diveknife", 6],
       ["small_repairkit", 12],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["u_shotgun", 5]
     ]
   },{
@@ -2413,6 +2415,8 @@
       ["barrel_ported", 5],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["clip", 8],
       ["spare_mag", 15],
       ["clip2", 4],
@@ -3173,6 +3177,8 @@
       ["ak47", 7],
       ["saiga_sawn", 5],
       ["arx160", 1],
+      ["small_repairkit", 2],
+      ["large_repairkit", 1],
       ["hk_g3", 10]
     ]
   },{
@@ -3199,6 +3205,10 @@
       ["sks", 6],
       ["ppsh", 4],
       ["saiga_12", 5],
+      ["small_repairkit", 5],
+      ["large_repairkit", 3],
+      ["tuned_mechanism", 1],
+      ["match_trigger", 2],
       ["RPG", 1]
     ]
   },{
@@ -3841,6 +3851,8 @@
       ["m1911", 5],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["geiger_off", 8],
       ["UPS_off", 5],
       ["tazer", 3],
@@ -6103,6 +6115,8 @@
       ["halligan", 10],
       ["fire_ax", 5],
       ["antiparasitic", 2],
+      ["tuned_mechanism", 1],
+      ["match_trigger", 2],
       ["bot_laserturret", 1]
     ]
   },{
@@ -6451,6 +6465,8 @@
       ["knife_trench", 7],
       ["switchblade", 4],
       ["gold_watch", 5],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["pocketwatch", 2]
     ]
 },{
