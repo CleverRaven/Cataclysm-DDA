@@ -1,0 +1,119 @@
+[
+    {
+        "type" : "item_group",
+        "id" : "gi",
+        "items" : [
+            ["karate_gi", 100],
+            ["tabi_gi", 25],
+            ["judo_gi", 50],
+            ["keikogi", 25],
+            ["zubon_gi", 25],
+            ["hakama_gi", 10],
+            ["obi_gi", 10]
+        ]
+    },
+    {
+        "type" : "item_group",
+        "id" : "dojo_manuals",
+        "items" : [
+            ["manual_karate", 50],
+            ["manual_judo", 25],
+            ["manual_aikido", 25]
+        ]
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_tatami",
+        "name": "tatami mat",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost_mod": 0,
+        "required_str": 7,
+        "flags": ["TRANSPARENT"]
+    },
+    {
+        "type" : "overmap_terrain",
+        "id" : "dojo",
+        "name" : "dojo",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "brown",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true,
+        "mapgen": [
+            { "weight": 1000,
+            "method": "json", "object": {
+                "fill_ter": "t_grass",
+                "rows":[
+                    " --------ssss-------- ",
+                    " -,-----,ssss,-----,- ",
+                    " -,-----,ssss,-----,- ",
+                    " -,-----,ssss,-----,- ",
+                    " -,-----,ssss,-----,- ",
+                    " -,-----,ssss,-----,- ",
+                    " qgg++ggggggggggggggq ",
+                    " x..................x ",
+                    " x........#=====7..8x ",
+                    " x........|.....|...x ",
+                    " x......D.|.....|..8x ",
+                    " x.....CD.|.....|...x ",
+                    " x......D.|.....|..8x ",
+                    " x........7=====#...x ",
+                    " x.................Bx ",
+                    " x.................Bx ",
+                    " x.............BBBB.x ",
+                    " xqqqqqqqqqq''qqqqqqx ",
+                    " xLLLLLLLLLx..x.DC..x ",
+                    " xBBBBBBBBBx..x.DDD.x ",
+                    " x.........'..'.....x ",
+                    " xqqq...qqqx..x.....x ",
+                    " xS.'...'.Tx..xXXXXXx ",
+                    " qqqqqqqqqqqqqqqqqqqq "
+                ],
+                "terrain":{
+                    " ": "t_null",
+                    "g": "t_wall_glass_h",
+                    ",": "t_pavement_y",
+                    "_": "t_pavement",
+                    "#": "t_floor",
+                    ".": "t_floor",
+                    "q": "t_wall_h",
+                    "x": "t_wall_v",
+                    "L": "t_floor",
+                    "+": "t_door_glass_c",
+                    "'": "t_door_c",
+                    "T": "t_floor",
+                    "S": "t_floor",
+                    "B": "t_floor",
+                    "D": "t_floor",
+                    "X": "t_floor",
+                    "C": "t_floor",
+                    "s": "t_sidewalk"
+                },
+                "furniture":{
+                    "T": "f_toilet",
+                    "S": "f_shower",
+                    "L": "f_locker",
+                    "B": "f_bench",
+                    "D": "f_desk",
+                    "8": "f_punchbag",
+                    "C": "f_chair",
+                    "X": "f_rack"
+                },
+                "place_groups": [
+                    { "item": "gi", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [5, 8] },
+                    { "item": "judo_belts", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [1, 2] },
+                    { "item": "dojo_manuals", "x": [17, 19], "y": [19, 19], "chance": 80, "repeat": [1, 3] }
+                ],
+                "place_specials": [
+                    { "type": "toilet", "x": 11, "y": 22 }
+                ],
+                "add": [
+                    { "item": "judo_belt_black", "x": 17, "y": 18 }
+                ] }
+            }
+        ]
+    }
+]
