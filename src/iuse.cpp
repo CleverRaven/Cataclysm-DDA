@@ -7534,14 +7534,14 @@ int iuse::gun_repair(player *p, item *it, bool)
                 else if (fix->damage >= 2) {
                     g->add_msg_if_player(p,_("You repair your %s!"), fix->tname().c_str());
                 g->sound(p->posx, p->posy, 8, "");
-                p->moves -= 5000 * p->fine_detail_vision_mod();
+                p->moves -= 1000 * p->fine_detail_vision_mod();
                 p->practice(g->turn, "mechanics", 10);
                     fix->damage--;
                 }
                 else {
                     g->add_msg_if_player(p,_("You repair your %s completely!"), fix->tname().c_str());
                 g->sound(p->posx, p->posy, 8, "");
-                p->moves -= 2000 * p->fine_detail_vision_mod();
+                p->moves -= 500 * p->fine_detail_vision_mod();
                 p->practice(g->turn, "mechanics", 10);
                     fix->damage = 0;
                 }
