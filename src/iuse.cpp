@@ -2460,7 +2460,7 @@ int iuse::light_on(player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
-int iuse::basictoolarmor_off(player *p, item *it, bool)
+int iuse::toolarmor_off(player *p, item *it, bool)
 {
     if (it->charges == 0) {
         g->add_msg_if_player(p,_("The %ss batteries are dead."), it->tname().c_str());
@@ -2478,7 +2478,7 @@ int iuse::basictoolarmor_off(player *p, item *it, bool)
     }
 }
 
-int iuse::basictoolarmor_on(player *p, item *it, bool t)
+int iuse::toolarmor_on(player *p, item *it, bool t)
 {
     if (t) { // Normal use
     } else { // Turning it off
