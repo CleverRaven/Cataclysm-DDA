@@ -1,20 +1,7 @@
 [
     {
-        "type"  : "item_group",
-        "id"    : "judo_belts",
-        "items" : [
-            ["judo_belt_white", 100],
-            ["judo_belt_yellow", 50],
-            ["judo_belt_orange", 25],
-            ["judo_belt_green",  15],
-            ["judo_belt_blue",    5],
-            ["judo_belt_brown",   4],
-            ["judo_belt_black",   1]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "gi",
+        "type" : "item_group",
+        "id" : "gi",
         "items" : [
             ["karate_gi", 100],
             ["tabi_gi", 25],
@@ -26,13 +13,12 @@
         ]
     },
     {
-        "type"  : "item_group",
-        "id"    : "dojo_manuals",
+        "type" : "item_group",
+        "id" : "dojo_manuals",
         "items" : [
             ["manual_karate", 50],
             ["manual_judo", 25],
-            ["manual_aikido", 25],
-            ["manual_boxing", 15]
+            ["manual_aikido", 25]
         ]
     },
     {
@@ -61,30 +47,30 @@
             "method": "json", "object": {
                 "fill_ter": "t_grass",
                 "rows":[
-                    "  --------ssss--------  ",
-                    "  -,-----,ssss,-----,-  ",
-                    "  -,-----,ssss,-----,-  ",
-                    "  -,-----,ssss,-----,-  ",
-                    "  -,-----,ssss,-----,-  ",
-                    "  -,-----,ssss,-----,-  ",
-                    "  qgggggggg++ggggggggq  ",
-                    "  x..................x  ",
-                    "  x.################.x  ",
-                    "  x.################.x  ",
-                    "  x.################.x  ",
-                    "  x.################.x  ",
-                    "  x.################.x  ",
-                    "  x.################.x  ",
-                    "  x.################.x  ",
-                    "  x.################.x  ",
-                    "  x..................x  ",
-                    "  xqqqqqqqqqq''qqqqqqx  ",
-                    "  xLLLLLLLLLx..x.DC..x  ",
-                    "  xBBBBBBBBBx..x.DDD.x  ",
-                    "  x.........'..'.....x  ",
-                    "  xqqq...qqqx..x.....x  ",
-                    "  xS.'...'.Tx..xXXXXXx  ",
-                    "  qqqqqqqqqqqqqqqqqqqq  "
+                    " --------ssss-------- ",
+                    " -,-----,ssss,-----,- ",
+                    " -,-----,ssss,-----,- ",
+                    " -,-----,ssss,-----,- ",
+                    " -,-----,ssss,-----,- ",
+                    " -,-----,ssss,-----,- ",
+                    " qgg++ggggggggggggggq ",
+                    " x..................x ",
+                    " x........#=====7..8x ",
+                    " x........|.....|...x ",
+                    " x......D.|.....|..8x ",
+                    " x.....CD.|.....|...x ",
+                    " x......D.|.....|..8x ",
+                    " x........7=====#...x ",
+                    " x.................Bx ",
+                    " x.................Bx ",
+                    " x.............BBBB.x ",
+                    " xqqqqqqqqqq''qqqqqqx ",
+                    " xLLLLLLLLLx..x.DC..x ",
+                    " xBBBBBBBBBx..x.DDD.x ",
+                    " x.........'..'.....x ",
+                    " xqqq...qqqx..x.....x ",
+                    " xS.'...'.Tx..xXXXXXx ",
+                    " qqqqqqqqqqqqqqqqqqqq "
                 ],
                 "terrain":{
                     " ": "t_null",
@@ -112,7 +98,7 @@
                     "L": "f_locker",
                     "B": "f_bench",
                     "D": "f_desk",
-                    "#": "f_tatami",
+                    "8": "f_punchbag",
                     "C": "f_chair",
                     "X": "f_rack"
                 },

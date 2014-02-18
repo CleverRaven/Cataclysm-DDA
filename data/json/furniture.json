@@ -622,6 +622,26 @@
                 { "item": "nail", "amount": 10, "minamount": 2 }
             ]
         }
+    },{    
+        "type" : "furniture",
+        "id" : "f_punchbag",
+        "name": "Heavy Punching Bag",
+        "symbol": "8",
+        "color": "black",
+        "move_cost_mod": 3,
+        "required_str": 10,
+        "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR"],
+        "bash": {
+            "str_min": 8, "str_max": 45,
+            "sound": "Whack!",
+            "sound_fail": "Thud.",
+            "items": [
+                { "item": "rag", "amount": 20, "minamount": 10},
+                { "item": "leather_patch", "amount": 14, "minamount": 6},
+                { "item": "long_string", "amount": 6, "minamount": 2},
+                { "item": "steel_chain", "amount": 3, "minamount": 1 }
+            ]
+        }
     },{
         "type" : "furniture",
         "id" : "f_canvas_wall",

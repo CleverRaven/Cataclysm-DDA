@@ -531,6 +531,54 @@
             "tec_venom_snake_bite",
             "tec_venom_snake_strike"
         ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_boxing",
+        "name" : "Boxing",
+        "description" : "The sport of the true gentleman, modern boxing evolved from the prizefights of the victorian era.",
+        "arm_block" : 2,
+        "static_buffs" : [
+            {
+                "id" : "Boxing_static",
+                "name" : "Situational Awareness",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 3,
+                "bash_str" : 0.15,
+                "description" : "Increased unarmed power"
+            }
+        ],
+        "onmove_buffs": [
+            {
+                "id" : "fancy_footwork",
+                "name" : "fancy footwork",
+                "Description" : "Evasive footwork grants a small dodge bonus.",
+                "unarmed_allowed" : true,
+                "min_melee" : 3,
+                "buff_duration" : 2,
+                "max_stacks" : 2,
+                "dodges_bonus" : 1
+            }
+        ],
+        "ondodge_buffs" : [
+            {
+                "id" : "boxing_counter",
+                "name" : "Counter Chance",
+                "description" : "They're wide open!",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 5,
+                "buff_duration" : 2,
+                "max_stacks" : 1,
+                "bash_mult" : 1.5,
+                "stun_dur" : 1
+            }
+        ],
+        "techniques" : [
+            "tec_feint",
+            "tec_boxing_cross",
+            "tec_boxing_rapid",
+            "tec_boxing_upper",
+            "tec_cross_counter"
+        ]
     }
 ]
 
