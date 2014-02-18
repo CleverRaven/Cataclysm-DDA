@@ -3620,85 +3620,70 @@ bool game::save()
     }
 }
 
+// Helper predicate to exclude files from deletion when resetting a world directory.
+static bool isForbidden( std::string candidate ) {
+    if( candidate.find("worldoptions.txt") != std::string::npos ||
+        candidate.find("mods.json") != std::string::npos ) {
+        return true;
+    }
+    return false;
+}
+
+// If delete_folder is true, just delete all the files and directories of a world folder.
+// If it's false, just avoid deleting the two config files and the directory itself.
 void game::delete_world(std::string worldname, bool delete_folder)
 {
     std::string worldpath = world_generator->all_worlds[worldname]->world_path;
     std::string filetmp = "";
-    std::set<std::string> files_not_to_delete;
-    if( !delete_folder ) {
-        files_not_to_delete.insert( "worldoptions.txt" );
-        files_not_to_delete.insert( "mods.json" );
-    }
-    std::vector<std::string> modfiles;
-    std::set<std::string> mod_dirpathparts;
+    std::vector<std::string> file_paths;
+    std::set<std::string> directory_paths;
 
-    if( delete_folder ) {
-        modfiles = file_finder::get_files_from_path( ".json", worldpath, true, true );
-        for( int i = 0; i < modfiles.size(); ++i ) {
-            // strip to path and remove worldpath from it
-            std::string part = modfiles[i].substr( worldpath.size(),
-                                                   modfiles[i].find_last_of("/\\") -
-                                                   worldpath.size() );
-            int last_separator = part.find_last_of("/\\");
-            while( last_separator != std::string::npos && part.size() > 1 ) {
-                mod_dirpathparts.insert(part);
-                part = part.substr(0, last_separator);
-                last_separator = part.find_last_of("/\\");
-            }
+    file_paths = file_finder::get_files_from_path( "", worldpath, true, true );
+    if( !delete_folder ) {
+        std::vector<std::string>::iterator forbidden = find_if( file_paths.begin(), file_paths.end(),
+                                                                isForbidden );
+        while( forbidden != file_paths.end() ) {
+            file_paths.erase( forbidden );
+            forbidden = find_if( file_paths.begin(), file_paths.end(), isForbidden );
+        }
+    }
+    for( std::vector<std::string>::iterator file = file_paths.begin();
+         file != file_paths.end(); ++file ) {
+        // strip to path and remove worldpath from it
+        std::string part = file->substr( worldpath.size(),
+                                         file->find_last_of("/\\") - worldpath.size() );
+        int last_separator = part.find_last_of("/\\");
+        while( last_separator != std::string::npos && part.size() > 1 ) {
+            directory_paths.insert(part);
+            part = part.substr(0, last_separator);
+            last_separator = part.find_last_of("/\\");
         }
     }
 
 #if (defined _WIN32 || defined __WIN32__)
-    WIN32_FIND_DATA FindFileData;
-    HANDLE hFind;
-    TCHAR Buffer[MAX_PATH];
-
-    GetCurrentDirectory( MAX_PATH, Buffer );
-    SetCurrentDirectory( worldpath.c_str() );
-    hFind = FindFirstFile( "*", &FindFileData );
-    if( INVALID_HANDLE_VALUE != hFind ) {
-        do {
-            filetmp = FindFileData.cFileName;
-            if( files_not_to_delete.count(filetmp) == 0 ) {
-                DeleteFile(FindFileData.cFileName);
-            }
-        } while( FindNextFile(hFind, &FindFileData) != 0 );
-        FindClose( hFind );
+    for( std::vector<std::string>::iterator file = file_paths.begin();
+         file != file_paths.end(); ++file ) {
+        DeleteFile( file->c_str() );
     }
-
-    SetCurrentDirectory( Buffer );
+    for( std::set<std::string>::reverse_iterator it = directory_paths.rbegin();
+         it != directory_paths.rend(); ++it ) {
+        RemoveDirectory( std::string(worldpath + *it).c_str() );
+    }
     if( delete_folder ) {
-        for( int i = 0; i < modfiles.size(); ++i ){
-            DeleteFile( modfiles[i].c_str() );
-        }
-        for( std::set<std::string>::reverse_iterator it = mod_dirpathparts.rbegin();
-             it != mod_dirpathparts.rend(); ++it ) {
-            RemoveDirectory( std::string(worldpath + *it).c_str() );
-        }
         RemoveDirectory( worldpath.c_str() );
     }
 #else
-    DIR *save_dir = opendir( worldpath.c_str() );
-    if( save_dir != NULL ) {
-        struct dirent *save_dirent = NULL;
-        while( (save_dirent = readdir(save_dir)) != NULL ){
-            filetmp = save_dirent->d_name;
-            if( files_not_to_delete.count(filetmp) == 0 ) {
-                (void)unlink( std::string(worldpath + "/" + filetmp).c_str() );
-            }
-        }
-        (void)closedir( save_dir );
+    // Delete files, order doesn't matter.
+    for( std::vector<std::string>::iterator file = file_paths.begin();
+         file != file_paths.end(); ++file ) {
+        (void)unlink( file->c_str() );
+    }
+    // Delete directories -- directories are ordered deepest to shallowest.
+    for( std::set<std::string>::reverse_iterator it = directory_paths.rbegin();
+         it != directory_paths.rend(); ++it ) {
+        remove( std::string(worldpath + *it).c_str() );
     }
     if( delete_folder ) {
-        // delete mod files
-        for( int i = 0; i < modfiles.size(); ++i ){
-            (void)unlink( modfiles[i].c_str() );
-        }
-        // delete mod directories -- directories are ordered deepest to shallowest
-        for( std::set<std::string>::reverse_iterator it = mod_dirpathparts.rbegin();
-             it != mod_dirpathparts.rend(); ++it ) {
-            remove( std::string(worldpath + *it).c_str() );
-        }
         remove( worldpath.c_str() );
     }
 #endif
