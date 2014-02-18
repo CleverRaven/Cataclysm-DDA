@@ -938,7 +938,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   that these facilities would be constructed so close to populated\n\
   areas, and only agreed to sign-off on the project if we were\n\
   allowed to freely examine and monitor the sarcophagi.  But that\n\
-  has not happened.  Since then the DoE has employed any and all\n\
+  has not happened.  Since then, the DoE has employed any and all\n\
   means to keep EPA agents from visiting the SRCFs, using military\n\
   secrecy, emergency powers, and inter-departmental gag orders to\n"));
         query_any(_("Press any key to continue..."));
