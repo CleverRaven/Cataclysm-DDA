@@ -1802,7 +1802,9 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -1827,7 +1829,9 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "goggles_welding", -1 ]
@@ -1835,7 +1839,9 @@
     [
       [ "welder", 30 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 3 ]
+      [ "toolset", 3 ],
+      [ "small_repairkit", 150 ],
+      [ "large_repairkit", 30 ]
     ]
   ],
   "components": [
@@ -1856,7 +1862,9 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2067,11 +2075,15 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2096,11 +2108,15 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
         ]
   ],
   "components": [
@@ -2124,7 +2140,9 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2146,11 +2164,15 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2176,18 +2198,24 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "rock", -1 ],
       [ "primitive_hammer", -1 ],
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2216,11 +2244,15 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "rock", -1 ],
@@ -2255,11 +2287,15 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2292,7 +2328,9 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2352,7 +2390,9 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2952,11 +2992,15 @@
   "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "soldering_iron", 6 ],
-      [ "toolset", 1 ]
+      [ "toolset", 1 ],
+      [ "small_repairkit", 6 ],
+      [ "large_repairkit", 3 ]
     ]
   ],
   "components": [
@@ -13098,11 +13142,15 @@
   "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 1 ],
+      [ "small_repairkit", 10 ],
+      [ "large_repairkit", 5 ]
     ]
   ],
   "components": [
@@ -20527,7 +20575,9 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -20576,7 +20626,8 @@
   "autolearn": true,
   "tools": [
     [
-      [ "large_repairkit", 100 ]
+      [ "large_repairkit", 100 ],
+      [ "small_repairkit", 300 ]
     ]
   ],
   "components": [
@@ -20600,7 +20651,8 @@
   "autolearn": true,
   "tools": [
     [
-      [ "large_repairkit", 100 ]
+      [ "large_repairkit", 100 ],
+      [ "small_repairkit", 300 ]
     ]
   ],
   "components": [
@@ -22048,11 +22100,15 @@
   "tools": [
     [
       ["hacksaw", -1],
-      ["toolset", -1]
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["screwdriver", -1],
-      ["toolset", -1]
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -22132,13 +22188,22 @@
       ["goggles_welding", -1]
     ],
     [
-      ["hacksaw", -1], ["toolset", -1]
+      ["hacksaw", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["screwdriver", -1], ["toolset", -1]
+      ["screwdriver", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["wrench", -1], ["toolset", -1]
+      ["wrench", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 150], ["welder_crude", 225], ["toolset", 6]
@@ -22180,13 +22245,22 @@
       ["goggles_welding", -1]
     ],
     [
-      ["hacksaw", -1], ["toolset", -1]
+      ["hacksaw", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["screwdriver", -1], ["toolset", -1]
+      ["screwdriver", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["wrench", -1], ["toolset", -1]
+      ["wrench", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 300], ["welder_crude", 450], ["toolset", 12]
@@ -22229,13 +22303,22 @@
       ["goggles_welding", -1]
     ],
     [
-      ["hacksaw", -1], ["toolset", -1]
+      ["hacksaw", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["screwdriver", -1], ["toolset", -1]
+      ["screwdriver", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["wrench", -1], ["toolset", -1]
+      ["wrench", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 200], ["welder_crude", 300], ["toolset", 8]
@@ -22278,13 +22361,22 @@
       ["goggles_welding", -1]
     ],
     [
-      ["hacksaw", -1], ["toolset", -1]
+      ["hacksaw", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["screwdriver", -1], ["toolset", -1]
+      ["screwdriver", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["wrench", -1], ["toolset", -1]
+      ["wrench", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 100], ["welder_crude", 150], ["toolset", 4]
@@ -22318,13 +22410,22 @@
       ["goggles_welding", -1]
     ],
     [
-      ["hacksaw", -1], ["toolset", -1]
+      ["hacksaw", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["screwdriver", -1], ["toolset", -1]
+      ["screwdriver", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["wrench", -1], ["toolset", -1]
+      ["wrench", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 300], ["welder_crude", 450], ["toolset", 12]
@@ -28954,11 +29055,15 @@
   "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 2 ],
+      [ "small_repairkit", 20 ],
+      [ "large_repairkit", 10 ]
     ]
   ],
   "components": [
@@ -30011,16 +30116,22 @@
   "tools":[
     [
       ["hammer", -1],
-      ["toolset", -1]
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["screwdriver", -1]
+      ["screwdriver", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["tongs", -1]
     ],
     [
-      ["chisel", -1]
+      ["chisel", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["anvil", -1]
@@ -30264,16 +30375,22 @@
   "tools":[
     [
       ["hammer", -1],
-      ["toolset", -1]
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["screwdriver", -1]
+      ["screwdriver", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["tongs", -1]
     ],
     [
-      ["chisel", -1]
+      ["chisel", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["anvil", -1]
@@ -30283,7 +30400,7 @@
     ],
     [
       ["forge", 400],
-      [ "char_forge", 80]
+      ["char_forge", 80]
     ]
   ],
   "components": [
