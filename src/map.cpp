@@ -2552,6 +2552,24 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
     }
 }
 
+// Check if it's in a fridge and is food, set the fridge
+// date to current time, and also check contents.
+static void apply_in_fridge(item &it)
+{
+    if (it.is_food() && it.fridge == 0) {
+        it.fridge = (int) g->turn;
+        // cool down of the HOT flag, is unsigned, don't go below 1
+        if (it.item_counter > 10) {
+            it.item_counter -= 10;
+        }
+    }
+    if (it.is_container()) {
+        for (size_t a = 0; a < it.contents.size(); a++) {
+            apply_in_fridge(it.contents[a]);
+        }
+    }
+}
+
 void map::process_active_items()
 {
     for (int gx = 0; gx < my_MAPSIZE; gx++) {
@@ -2641,13 +2659,11 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, int nonant)
         // temporary item would nowhere to be found.
         tmp_active_item_pos.second = point(cur_veh->global_x() + vp.precalc_dx[0], cur_veh->global_y() + vp.precalc_dy[0]);
         std::vector<item> *items_in_part = &vp.items;
+        const bool fridge_here = cur_veh->fridge_on && cur_veh->part_flag(part, VPFLAG_FRIDGE);
         for(int n = items_in_part->size() - 1; n >= 0; n--) {
             item *it = &(*items_in_part)[n];
-            // Check if it's in a fridge and is food.
-            if (it->is_food() && cur_veh->part_flag(part, VPFLAG_FRIDGE) &&
-                cur_veh->fridge_on && it->fridge == 0) {
-                it->fridge = (int)g->turn;
-                it->item_counter -= 10;
+            if (fridge_here) {
+                apply_in_fridge(*it);
             }
             if (it->has_flag("RECHARGE") && cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 &&
                 cur_veh->recharger_on) {
