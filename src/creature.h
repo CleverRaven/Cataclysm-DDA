@@ -185,6 +185,8 @@ class Creature
         virtual m_size get_size() = 0;
         virtual int get_hp( hp_part bp = num_hp_parts ) = 0;
         virtual std::string get_material() { return "flesh"; };
+        // TODO: replumb this to use a std::string along with monster flags.
+        virtual bool has_flag( const m_flag ) const { return false; };
 
         virtual int get_speed_base();
         virtual int get_dodge_base();

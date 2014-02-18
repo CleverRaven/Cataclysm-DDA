@@ -198,67 +198,83 @@ void map::update_vehicle_list(const int to) {
 
 void map::board_vehicle(int x, int y, player *p)
 {
- if (!p) {
-  debugmsg ("map::board_vehicle: null player");
-  return;
- }
+    if (!p) {
+        debugmsg ("map::board_vehicle: null player");
+        return;
+    }
 
- int part = 0;
- vehicle *veh = veh_at(x, y, part);
- if (!veh) {
-  debugmsg ("map::board_vehicle: vehicle not found");
-  return;
- }
+    int part = 0;
+    vehicle *veh = veh_at(x, y, part);
+    if (!veh) {
+        debugmsg ("map::board_vehicle: vehicle not found");
+        return;
+    }
 
- const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE);
- if (seat_part < 0) {
-  debugmsg ("map::board_vehicle: boarding %s (not boardable)",
-            veh->part_info(part).name.c_str());
-  return;
- }
- if (veh->parts[seat_part].has_flag(vehicle_part::passenger_flag)) {
-  player *psg = veh->get_passenger (seat_part);
-  debugmsg ("map::board_vehicle: passenger (%s) is already there",
-            psg ? psg->name.c_str() : "<null>");
-  return;
- }
- veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
- veh->parts[seat_part].passenger_id = p->getID();
+    const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE);
+    if (seat_part < 0) {
+        debugmsg ("map::board_vehicle: boarding %s (not boardable)",
+                  veh->part_info(part).name.c_str());
+        return;
+    }
+    if (veh->parts[seat_part].has_flag(vehicle_part::passenger_flag)) {
+        player *psg = veh->get_passenger (seat_part);
+        debugmsg ("map::board_vehicle: passenger (%s) is already there",
+                  psg ? psg->name.c_str() : "<null>");
+        unboard_vehicle( x, y );
+    }
+    veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
+    veh->parts[seat_part].passenger_id = p->getID();
 
- p->posx = x;
- p->posy = y;
- p->in_vehicle = true;
- if (p == &g->u &&
-     (x < SEEX * int(my_MAPSIZE / 2) || y < SEEY * int(my_MAPSIZE / 2) ||
-      x >= SEEX * (1 + int(my_MAPSIZE / 2)) ||
-      y >= SEEY * (1 + int(my_MAPSIZE / 2))   ))
-  g->update_map(x, y);
+    p->posx = x;
+    p->posy = y;
+    p->in_vehicle = true;
+    if (p == &g->u &&
+        (x < SEEX * int(my_MAPSIZE / 2) || y < SEEY * int(my_MAPSIZE / 2) ||
+         x >= SEEX * (1 + int(my_MAPSIZE / 2)) ||
+         y >= SEEY * (1 + int(my_MAPSIZE / 2))   )) {
+        g->update_map(x, y);
+    }
 }
 
 void map::unboard_vehicle(const int x, const int y)
 {
- int part = 0;
- vehicle *veh = veh_at(x, y, part);
- if (!veh) {
-  debugmsg ("map::unboard_vehicle: vehicle not found");
-  return;
- }
- const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE, false);
- if (seat_part < 0) {
-  debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
-            veh->part_info(part).name.c_str());
-  return;
- }
- player *psg = veh->get_passenger(seat_part);
- if (!psg) {
-  debugmsg ("map::unboard_vehicle: passenger not found");
-  return;
- }
- psg->in_vehicle = false;
- psg->driving_recoil = 0;
- psg->controlling_vehicle = false;
- veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
- veh->skidding = true;
+    int part = 0;
+    vehicle *veh = veh_at(x, y, part);
+    player *passenger = NULL;
+    if (!veh) {
+        debugmsg ("map::unboard_vehicle: vehicle not found");
+        // Try and force unboard the player anyway.
+        if( g->u.xpos() == x && g->u.ypos() == y ) {
+            passenger = &(g->u);
+        } else {
+            int npcdex = g->npc_at( x, y );
+            if( npcdex != -1 ) {
+                passenger = g->active_npc[npcdex];
+            }
+        }
+        if( passenger ) {
+            passenger->in_vehicle = false;
+            passenger->driving_recoil = 0;
+            passenger->controlling_vehicle = false;
+        }
+        return;
+    }
+    const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE, false);
+    if (seat_part < 0) {
+        debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
+                  veh->part_info(part).name.c_str());
+        return;
+    }
+    passenger = veh->get_passenger(seat_part);
+    if (!passenger) {
+        debugmsg ("map::unboard_vehicle: passenger not found");
+        return;
+    }
+    passenger->in_vehicle = false;
+    passenger->driving_recoil = 0;
+    passenger->controlling_vehicle = false;
+    veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
+    veh->skidding = true;
 }
 
 void map::destroy_vehicle (vehicle *veh)
@@ -2283,6 +2299,26 @@ std::vector<item>& map::i_at(const int x, const int y)
  return grid[nonant]->itm[lx][ly];
 }
 
+bool map::sees_some_items(int x, int y, const player &u)
+{
+    if(i_at(x, y).empty()) {
+        // can not see non-existing items.
+        return false;
+    }
+    const bool container = has_flag_ter_or_furn("CONTAINER", x, y);
+    const bool sealed = has_flag_ter_or_furn("SEALED", x, y);
+    if (sealed && container) {
+        // never see inside of sealed containers
+        return false;
+    }
+    if (container) {
+        // can see inside of containers if adjacent or
+        // on top of the container
+        return (abs(x - u.posx) <= 1 && abs(y - u.posy) <= 1);
+    }
+    return true;
+}
+
 item map::water_from(const int x, const int y)
 {
     item ret(item_controller->find_template("water"), 0);
@@ -2362,7 +2398,6 @@ void map::spawn_an_item(const int x, const int y, item new_item,
     {
         new_item.item_tags.insert("FIT");
     }
-
     add_item_or_charges(x, y, new_item);
 }
 
@@ -2516,6 +2551,24 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
     }
 }
 
+// Check if it's in a fridge and is food, set the fridge
+// date to current time, and also check contents.
+static void apply_in_fridge(item &it)
+{
+    if (it.is_food() && it.fridge == 0) {
+        it.fridge = (int) g->turn;
+        // cool down of the HOT flag, is unsigned, don't go below 1
+        if (it.item_counter > 10) {
+            it.item_counter -= 10;
+        }
+    }
+    if (it.is_container()) {
+        for (size_t a = 0; a < it.contents.size(); a++) {
+            apply_in_fridge(it.contents[a]);
+        }
+    }
+}
+
 void map::process_active_items()
 {
     for (int gx = 0; gx < my_MAPSIZE; gx++) {
@@ -2605,17 +2658,15 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, int nonant)
         // temporary item would nowhere to be found.
         tmp_active_item_pos.second = point(cur_veh->global_x() + vp.precalc_dx[0], cur_veh->global_y() + vp.precalc_dy[0]);
         std::vector<item> *items_in_part = &vp.items;
+        const bool fridge_here = cur_veh->fridge_on && cur_veh->part_flag(part, VPFLAG_FRIDGE);
         for(int n = items_in_part->size() - 1; n >= 0; n--) {
             item *it = &(*items_in_part)[n];
-            // Check if it's in a fridge and is food.
-            if (it->is_food() && cur_veh->part_flag(part, VPFLAG_FRIDGE) &&
-                cur_veh->fridge_on && it->fridge == 0) {
-                it->fridge = (int)g->turn;
-                it->item_counter -= 10;
+            if (fridge_here) {
+                apply_in_fridge(*it);
             }
             if (it->has_flag("RECHARGE") && cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 &&
                 cur_veh->recharger_on) {
-                int full_charge = static_cast<it_tool*>(it->type)->max_charges;
+                int full_charge = dynamic_cast<it_tool*>(it->type)->max_charges;
                 if (it->has_flag("DOUBLE_AMMO")) {
                     full_charge = full_charge * 2;
                 }
@@ -3455,7 +3506,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  const furn_id curr_furn = furn(x,y);
  const trap_id curr_trap = tr_at(x, y);
  field &curr_field = field_at(x, y);
- const std::vector<item> curr_items = i_at(x, y);
+ const std::vector<item> &curr_items = i_at(x, y);
  long sym;
  bool hi = false;
  bool graf = false;
@@ -3478,7 +3529,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  } else {
   normal_tercol = true;
  }
- if (has_flag("SWIMMABLE", x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
+ if (has_flag(TFLAG_SWIMMABLE, x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
   show_items = false; // Can only see underwater items if WE are underwater
  }
 // If there's a trap here, and we have sufficient perception, draw that instead
@@ -3517,7 +3568,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   }
  }
     // If there's items here, draw those instead
-    if (show_items && !has_flag("CONTAINER", x, y) && curr_items.size() > 0 && !drew_field) {
+    if (show_items && !drew_field && sees_some_items(x, y, g->u)) {
         if (sym != '.' && sym != '%') {
             hi = true;
         } else {
@@ -4369,7 +4420,7 @@ void map::build_outside_cache()
     {
         for(int y = 0; y < SEEY * my_MAPSIZE; y++)
         {
-            if( has_flag_ter_or_furn("INDOORS", x, y))
+            if( has_flag_ter_or_furn(TFLAG_INDOORS, x, y))
             {
                 for( int dx = -1; dx <= 1; dx++ )
                 {

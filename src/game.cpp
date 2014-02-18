@@ -99,7 +99,8 @@ game::game() :
  run_mode(1),
  mostseen(0),
  gamemode(NULL),
- lookHeight(13)
+ lookHeight(13),
+ tileset_zoom(16)
 {
     world_generator = new worldfactory();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -262,6 +263,7 @@ void game::init_ui(){
             VIEW_OFFSET_Y = ((int)(TERMY/tilecontext->tile_ratioy) > 121) ? (TERMY - 121)/2 : 0;
             TERRAIN_WINDOW_WIDTH  = ceil((TERMX - sidebarWidth)/tilecontext->tile_ratiox);
             TERRAIN_WINDOW_HEIGHT = ceil(TERMY/tilecontext->tile_ratioy);
+            TERRAIN_WINDOW_TERM_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
         }
         else
         #endif // SDLTILES
@@ -270,6 +272,7 @@ void game::init_ui(){
             VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
             TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
             TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
+            TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
         }
 
         POSX = TERRAIN_WINDOW_WIDTH / 2;
@@ -294,6 +297,7 @@ void game::init_ui(){
 
         TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
         TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
+        TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
 
         VIEW_OFFSET_X = (TERMX - sidebarWidth > 121) ? (TERMX - sidebarWidth - 121)/2 : 0;
         VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
@@ -645,7 +649,7 @@ void game::create_starting_npcs()
 
 void game::cleanup_at_end(){
     write_msg();
-    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE || uquit == QUIT_SAVED) {
+    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
         // Save the factions's, missions and set the NPC's overmap coords
         // Npcs are saved in the overmap.
         save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
@@ -2043,6 +2047,7 @@ void game::handle_key_blocking_activity() {
                     break;
                 case ACTION_MESSAGES:
                     msg_buffer();
+                    refresh_all();
                     break;
                 case ACTION_HELP:
                     display_help();
@@ -2271,6 +2276,10 @@ void game::hide_mouseview()
         write_msg(); // Redraw anything hidden by mouseview
     }
 }
+
+#ifdef SDLTILES
+    void rescale_tileset(int size);
+#endif
 
 input_context game::get_player_input(std::string &action)
 {
@@ -2793,17 +2802,14 @@ bool game::handle_action()
 
   case ACTION_COMPARE:
    compare();
-   refresh_all();
    break;
 
   case ACTION_ORGANIZE:
    reassign_item();
-   refresh_all();
    break;
 
   case ACTION_USE:
    use_item();
-   refresh_all();
    break;
 
   case ACTION_USE_WIELDED:
@@ -2812,32 +2818,26 @@ bool game::handle_action()
 
   case ACTION_WEAR:
    wear();
-   refresh_all();
    break;
 
   case ACTION_TAKE_OFF:
    takeoff();
-   refresh_all();
    break;
 
   case ACTION_EAT:
    eat();
-   refresh_all();
    break;
 
   case ACTION_READ:
    read();
-   refresh_all();
    break;
 
   case ACTION_WIELD:
    wield();
-   refresh_all();
    break;
 
   case ACTION_PICK_STYLE:
    u.pick_style();
-   refresh_all();
    break;
 
   case ACTION_RELOAD:
@@ -2866,12 +2866,10 @@ bool game::handle_action()
 
   case ACTION_DROP:
    drop();
-   refresh_all();
    break;
 
   case ACTION_DIR_DROP:
    drop_in_direction();
-   refresh_all();
    break;
 
   case ACTION_BIONICS:
@@ -3026,10 +3024,11 @@ bool game::handle_action()
 
   case ACTION_SAVE:
    if (query_yn(_("Save and quit?"))) {
-    save();
-    u.moves = 0;
-    uquit = QUIT_SAVED;
-    MAPBUFFER.make_volatile();
+    if(save()) {
+     u.moves = 0;
+     uquit = QUIT_SAVED;
+     MAPBUFFER.make_volatile();
+    }
    }
    break;
 
@@ -3075,6 +3074,7 @@ bool game::handle_action()
 
   case ACTION_MESSAGES:
    msg_buffer();
+   refresh_all();
    break;
 
   case ACTION_HELP:
@@ -3106,6 +3106,14 @@ bool game::handle_action()
    } else {
     add_msg(_("Debug messages OFF!"));
    }
+   break;
+
+  case ACTION_ZOOM_IN:
+   zoom_in();
+   break;
+
+  case ACTION_ZOOM_OUT:
+   zoom_out();
    break;
  }
 
@@ -3500,21 +3508,29 @@ void game::load_world_modfiles(WORLDPTR world)
 }
 
 //Saves all factions and missions and npcs.
-void game::save_factions_missions_npcs ()
+bool game::save_factions_missions_npcs ()
 {
-    std::stringstream masterfile;
+    std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
+    try {
     std::ofstream fout;
-    masterfile << world_generator->active_world->world_path <<"/master.gsav";
+    fout.exceptions(std::ios::badbit | std::ios::failbit);
 
-    fout.open(masterfile.str().c_str());
+    fout.open(masterfile.c_str());
     serialize_master(fout);
     fout.close();
+        return true;
+    } catch(std::ios::failure &) {
+        popup(_("Failed to save factions to %s"), masterfile.c_str());
+        return false;
+    }
 }
 
-void game::save_artifacts()
+bool game::save_artifacts()
 {
-    std::ofstream fout;
     std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
+    try {
+    std::ofstream fout;
+    fout.exceptions(std::ios::badbit | std::ios::failbit);
     fout.open(artfilename.c_str(), std::ofstream::trunc);
     JsonOut json(fout);
     json.start_array();
@@ -3531,44 +3547,79 @@ void game::save_artifacts()
     }
     json.end_array();
     fout.close();
+        return true;
+    } catch(std::ios::failure &) {
+        popup(_("Failed to save artifacts to %s"), artfilename.c_str());
+        return false;
+    }
 }
 
-void game::save_maps()
+bool game::save_maps()
 {
+    try {
     m.save(cur_om, turn, levx, levy, levz);
-    overmap_buffer.save();
-    MAPBUFFER.save();
+    overmap_buffer.save(); // can throw std::ios::failure
+    MAPBUFFER.save(); // can throw std::ios::failure
+        return true;
+    } catch(std::ios::failure &) {
+        popup(_("Failed to maps"));
+        return false;
+    }
 }
 
-void game::save_uistate() {
-    std::stringstream savefile;
-    savefile << world_generator->active_world->world_path << "/uistate.json";
+bool game::save_uistate() {
+    std::string savefile = world_generator->active_world->world_path + "/uistate.json";
+    try {
     std::ofstream fout;
-    fout.open(savefile.str().c_str());
+    fout.exceptions(std::ios::badbit | std::ios::failbit);
+    fout.open(savefile.c_str());
     fout << uistate.serialize();
     fout.close();
+        return true;
+    } catch(std::ios::failure &) {
+        popup(_("Failed to save uistate to %s"), savefile.c_str());
+        return false;
+    }
 }
 
-void game::save()
+bool game::save()
 {
- std::stringstream playerfile;
+ std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
+    try {
  std::ofstream fout;
- playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name);
+ fout.exceptions(std::ios::failbit | std::ios::badbit);
 
- fout.open( std::string(playerfile.str() + ".sav").c_str() );
+ fout.open( std::string(playerfile + ".sav").c_str() );
  serialize(fout);
  fout.close();
  // weather
- fout.open( std::string(playerfile.str() + ".weather").c_str() );
+ fout.open( std::string(playerfile + ".weather").c_str() );
  save_weather(fout);
  fout.close();
  // log
- fout.open( std::string(playerfile.str() + ".log").c_str() );
+ fout.open( std::string(playerfile + ".log").c_str() );
  fout << u.dump_memorial();
  fout.close();
- //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
- save_auto_pickup(true); // Save character auto pickup rules
- save_uistate();
+        if (!save_factions_missions_npcs()) {
+            return false;
+        }
+        if (!save_artifacts()) {
+            return false;
+        }
+        if (!save_maps()) {
+            return false;
+        }
+        if (!save_auto_pickup(true)) { // Save character auto pickup rules
+            return false;
+        }
+        if (!save_uistate()) {
+            return false;
+        }
+        return true;
+    } catch(std::ios::failure &err) {
+        popup(_("Failed to save game data"));
+        return false;
+    }
 }
 
 void game::delete_world(std::string worldname, bool delete_folder)
@@ -6684,6 +6735,22 @@ int game::npc_by_id(const int id) const
  return -1;
 }
 
+Creature *game::critter_at(int x, int y)
+{
+    const int mindex = mon_at(x, y);
+    if (mindex != -1) {
+        return &zombie(mindex);
+    }
+    if (x == u.posx && y == u.posy) {
+        return &u;
+    }
+    const int nindex = npc_at(x, y);
+    if (nindex != -1) {
+        return active_npc[nindex];
+    }
+    return NULL;
+}
+
 bool game::add_zombie(monster& critter)
 {
     return critter_tracker.add(critter);
@@ -7181,7 +7248,9 @@ void game::activity_on_turn_pulp()
         //TODO: See if it's possible to use the monBloodType() function rather than this spaghetti code.
         field_id type_blood;
         if (it->corpse->flags.count(MF_ACID_BLOOD) != 0)
-            type_blood = fd_acid; //Currently unused, be wary that a corpse with ACID_BLOOD would be very hazardous to smash!
+            type_blood = fd_acid; //Be wary that a corpse with ACID_BLOOD would be very hazardous to smash!
+        else if (it->corpse->flags.count(MF_BILE_BLOOD) != 0)
+            type_blood = fd_bile;
         else if (it->corpse->flags.count(MF_LARVA) != 0 || it->corpse->flags.count(MF_ARTHROPOD_BLOOD) != 0)
             type_blood = fd_blood_invertebrate;
         else if (it->corpse->mat == "veggy")
@@ -7901,7 +7970,6 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
             zombie(dex).draw(w_terrain, lx, ly, true);
         }
         line = zombie(dex).print_info(w_look, line, 6, column);
-        handle_multi_item_info(lx, ly, w_look, column, line, mouse_hover);
     }
     else if (npc_at(lx, ly) != -1)
     {
@@ -7909,7 +7977,6 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
             active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
         }
         line = active_npc[npc_at(lx, ly)]->print_info(w_look, column, line);
-        handle_multi_item_info(lx, ly, w_look, column, line, mouse_hover);
     }
     else if (veh)
     {
@@ -7917,23 +7984,6 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
         line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
         if (!mouse_hover) {
             m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-        }
-    }
-    else if (!m.has_flag("CONTAINER", lx, ly) && m.i_at(lx, ly).size() > 0)
-    {
-        if (!mouse_hover) {
-            mvwprintw(w_look, line++, column, _("There is a %s there."),
-                m.i_at(lx, ly)[0].tname().c_str());
-            if (m.i_at(lx, ly).size() > 1)
-            {
-                mvwprintw(w_look, line++, column, _("There are other items there as well."));
-            }
-            m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-        }
-    } else if (m.has_flag("CONTAINER", lx, ly)) {
-        mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
-        if (!mouse_hover) {
-            m.drawsq(w_terrain, u, lx, ly, true, false, lx, ly);
         }
     }
     // The player is not at <u.posx + u.view_offset_x, u.posy + u.view_offset_y>
@@ -7956,30 +8006,31 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
                 m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
             }
         }
-
     }
     else if (!mouse_hover)
     {
         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
     }
+    handle_multi_item_info(lx, ly, w_look, column, line, mouse_hover);
 }
 
 void game::handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover)
 {
-    if (!m.has_flag("CONTAINER", lx, ly))
-    {
-        if (!mouse_hover) {
-            if (m.i_at(lx, ly).size() > 1) {
-                mvwprintw(w_look, line++, column, _("There are several items there."));
-            } else if (m.i_at(lx, ly).size() == 1) {
-                mvwprintw(w_look, line++, column, _("There is an item there."));
-            }
+    if (m.sees_some_items(lx, ly, g->u)) {
+        if (mouse_hover) {
+            // items are displayed from the live view, don't do this here
+            return;
         }
-    } else {
+        std::vector<item> &items = m.i_at(lx, ly);
+        mvwprintw(w_look, line++, column, _("There is a %s there."), items[0].tname().c_str());
+        if (items.size() > 1)
+        {
+            mvwprintw(w_look, line++, column, _("There are other items there as well."));
+        }
+    } else if(m.has_flag("CONTAINER", lx, ly)) {
         mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
     }
 }
-
 
 void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const
 {
@@ -8150,6 +8201,10 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
     std::vector<map_item_stack> ret;
     std::vector<std::string> vOrder;
 
+    if(g->u.has_effect("blind")) {
+        return ret;
+    }
+
     std::vector<point> points = closest_points_first(iRadius, u.posx, u.posy);
 
     int iLastX = 0;
@@ -8157,9 +8212,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
 
     for (std::vector<point>::iterator p_it = points.begin(); p_it != points.end(); ++p_it) {
         if (p_it->y >= u.posy - iRadius && p_it->y <= u.posy + iRadius &&
-            u_see(p_it->x,p_it->y) &&
-            (!m.has_flag("CONTAINER", p_it->x, p_it->y) ||
-            (rl_dist(u.posx, u.posy, p_it->x, p_it->y) == 1 && !m.has_flag("SEALED", p_it->x, p_it->y)))) {
+            u_see(p_it->x,p_it->y) && m.sees_some_items(p_it->x, p_it->y, u)) {
 
             here.clear();
             here = m.i_at(p_it->x, p_it->y);
@@ -8427,6 +8480,29 @@ void centerlistview(int iActiveX, int iActiveY)
 
 }
 
+#define MAXIMUM_ZOOM_LEVEL 4
+void game::zoom_in() {
+   #ifdef SDLTILES
+   if(tileset_zoom > MAXIMUM_ZOOM_LEVEL) {
+       tileset_zoom = tileset_zoom / 2;
+   } else {
+       tileset_zoom = 16;
+   }
+   rescale_tileset(tileset_zoom);
+   #endif
+}
+
+void game::zoom_out() {
+   #ifdef SDLTILES
+   if(tileset_zoom == 16) {
+       tileset_zoom = MAXIMUM_ZOOM_LEVEL;
+   } else {
+       tileset_zoom = tileset_zoom * 2;
+   }
+   rescale_tileset(tileset_zoom);
+   #endif
+}
+
 int game::list_items(const int iLastState)
 {
     int iInfoHeight = 12;
@@ -8569,8 +8645,25 @@ int game::list_items(const int iLastState)
                     delwin(w_item_info_border);
                     return 1;
                     break;
-                default:
-                    break;
+                default: {
+                    action_id act = action_from_key(ch);
+                    switch (act) {
+                        /* The following two don't work for some reason.
+                         * Even though the zoom level will be adjusted,
+                         * the map won't be redrawn until V mode is exited.
+
+                        case ACTION_ZOOM_IN:
+                            zoom_in();
+                            break;
+                        case ACTION_ZOOM_OUT:
+                            zoom_out();
+                            break;
+                        default:
+                            break;
+                        */
+                    }
+                }
+                break;
             }
 
             if (ground_items.size() == 0 && iLastState == 1) {
@@ -8828,9 +8921,20 @@ int game::list_monsters(const int iLastState)
                                 delwin(w_monster_info_border);
                                 return 2;
                             }
-                            } break;
+                        } break;
+                        /* The following two don't work for some reason.
+                         * Even though the zoom level will be adjusted,
+                         * the map won't be redrawn until V mode is exited.
+
+                        case ACTION_ZOOM_IN:
+                            zoom_in();
+                            break;
+                        case ACTION_ZOOM_OUT:
+                            zoom_out();
+                            break;
                         default:
                             break;
+                        */
                     }
                 }
                 break;
@@ -9069,7 +9173,7 @@ void game::pickup(int posx, int posy, int min)
             // Drain a ton of power
             tmp_hotplate.charges = veh->drain( "battery", 100 );
             if( tmp_hotplate.is_tool() ) {
-                it_tool * tmptool = static_cast<it_tool*>((&tmp_hotplate)->type);
+                it_tool * tmptool = dynamic_cast<it_tool*>((&tmp_hotplate)->type);
                 if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
                     tmptool->use.call(&u, &tmp_hotplate, false);
                     tmp_hotplate.charges -= tmptool->charges_per_use;
@@ -9109,7 +9213,7 @@ void game::pickup(int posx, int posy, int min)
             // Drain a ton of power
             tmp_welder.charges = veh->drain( "battery", 1000 );
             if( tmp_welder.is_tool() ) {
-                it_tool * tmptool = static_cast<it_tool*>((&tmp_welder)->type);
+                it_tool * tmptool = dynamic_cast<it_tool*>((&tmp_welder)->type);
                 if ( tmp_welder.charges >= tmptool->charges_per_use ) {
                     tmptool->use.call( &u, &tmp_welder, false );
                     tmp_welder.charges -= tmptool->charges_per_use;
@@ -9126,7 +9230,7 @@ void game::pickup(int posx, int posy, int min)
             // Drain a ton of power
             tmp_purifier.charges = veh->drain( "battery", 100 );
             if( tmp_purifier.is_tool() ) {
-                it_tool * tmptool = static_cast<it_tool*>((&tmp_purifier)->type);
+                it_tool * tmptool = dynamic_cast<it_tool*>((&tmp_purifier)->type);
                 if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
                     tmptool->use.call( &u, &tmp_purifier, false );
                     tmp_purifier.charges -= tmptool->charges_per_use;
@@ -9780,38 +9884,42 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     if (liquid.type->id == "gasoline" && vehicle_near() && query_yn(_("Refill vehicle?"))) {
         int vx = u.posx, vy = u.posy;
         refresh_all();
-        if (choose_adjacent(_("Refill vehicle where?"), vx, vy)) {
-            vehicle *veh = m.veh_at (vx, vy);
-            if (veh) {
-                ammotype ftype = "gasoline";
-                int fuel_cap = veh->fuel_capacity(ftype);
-                int fuel_amnt = veh->fuel_left(ftype);
-                if (fuel_cap < 1) {
-                    add_msg (_("This vehicle doesn't use %s."), ammo_name(ftype).c_str());
-                } else if (fuel_amnt == fuel_cap) {
-                    add_msg (_("Already full."));
-                } else if (from_ground && query_yn(_("Pump until full?"))) {
-                    u.assign_activity(ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
-                    u.activity.placement = point(vx, vy);
-                } else { // Not pump
-                    veh->refill ("gasoline", liquid.charges);
-                    if (veh->fuel_left(ftype) < fuel_cap) {
-                        add_msg(_("You refill %s with %s."),
-                                veh->name.c_str(), ammo_name(ftype).c_str());
-                    } else {
-                        add_msg(_("You refill %s with %s to its maximum."),
-                                veh->name.c_str(), ammo_name(ftype).c_str());
-                    }
-
-                    u.moves -= 100;
-                    return true;
-                }
-            } else { // if (veh)
-                add_msg (_("There isn't any vehicle there."));
-            }
+        if (!choose_adjacent(_("Refill vehicle where?"), vx, vy)) {
             return false;
-        } // if (choose_adjacent(_("Refill vehicle where?"), vx, vy))
-        return true;
+        }
+        vehicle *veh = m.veh_at (vx, vy);
+        if (veh == NULL) {
+            add_msg(_("There isn't any vehicle there."));
+            return false;
+        }
+        const ammotype ftype = "gasoline";
+        int fuel_cap = veh->fuel_capacity(ftype);
+        int fuel_amnt = veh->fuel_left(ftype);
+        if (fuel_cap <= 0) {
+            add_msg(_("The %s doesn't use %s."),
+                    veh->name.c_str(), ammo_name(ftype).c_str());
+            return false;
+        } else if (fuel_amnt >= fuel_cap) {
+            add_msg(_("The %s is already full."),
+                    veh->name.c_str());
+            return false;
+        } else if (from_ground && query_yn(_("Pump until full?"))) {
+            u.assign_activity(ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
+            u.activity.placement = point(vx, vy);
+            return false; // Liquid is not handled by this function, but by the activity!
+        }
+        const int amt = infinite ? INT_MAX : liquid.charges;
+        u.moves -= 100;
+        liquid.charges = veh->refill(ftype, amt);
+        if (veh->fuel_left(ftype) < fuel_cap) {
+            add_msg(_("You refill the %s with %s."),
+                    veh->name.c_str(), ammo_name(ftype).c_str());
+        } else {
+            add_msg(_("You refill the %s with %s to its maximum."),
+                    veh->name.c_str(), ammo_name(ftype).c_str());
+        }
+        // infinite: always handled all, to prevent loops
+        return infinite || liquid.charges == 0;
     }
 
     // Ask to pour rotten liquid (milk!) from the get-go
@@ -9824,39 +9932,28 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return true;
     }
 
-    if (cont == NULL) {
+    if (cont == NULL || cont->is_null()) {
         std::stringstream text;
         text << _("Container for ") << liquid.tname();
 
         int pos = inv_for_liquid(liquid, text.str().c_str(), false);
-        if (!u.has_item(pos)) {
+        cont = &(u.i_at(pos));
+        if (cont->is_null()) {
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten() &&
                 query_yn(_("Pour %s on the ground?"), liquid.tname().c_str())) {
-                    if (!m.has_flag("SWIMMABLE", u.posx, u.posy))
+                    if (!m.has_flag("SWIMMABLE", u.posx, u.posy)) {
                         m.add_item_or_charges(u.posx, u.posy, liquid, 1);
+                    }
                     return true;
             }
+            add_msg(_("Never mind."));
             return false;
         }
-
-        cont = &(u.i_at(pos));
     }
 
-    if (cont == NULL || cont->is_null()) {
-        // Container is null, ask to pour.
-        // we asked to pour rotten already
-        if (!from_ground && !liquid.rotten() &&
-                query_yn(_("Pour %s on the ground?"), liquid.tname().c_str())) {
-            if (!m.has_flag("SWIMMABLE", u.posx, u.posy))
-                m.add_item_or_charges(u.posx, u.posy, liquid, 1);
-            return true;
-        }
-        add_msg(_("Never mind."));
-        return false;
-
-    } else if(cont == source) {
+    if (cont == source) {
         //Source and destination are the same; abort
         add_msg(_("That's the same container!"));
         return false;
@@ -10999,6 +11096,7 @@ void game::reload(int pos)
      int am_pos = it->pick_reload_ammo(u, true);
      if (am_pos == INT_MIN) {
          add_msg(_("Out of ammo!"));
+         refresh_all();
          return;
      }
 
@@ -11343,6 +11441,7 @@ void game::chat()
         }
     }
     u.moves -= 100;
+    refresh_all();
 }
 
 void game::pldrive(int x, int y) {
@@ -12672,7 +12771,6 @@ void game::update_map(int &x, int &y) {
   olevy = 1;
  }
  if (olevx != 0 || olevy != 0) {
-  cur_om->save();
   cur_om = &overmap_buffer.get(cur_om->pos().x + olevx, cur_om->pos().y + olevy);
  }
 
@@ -13292,7 +13390,6 @@ void game::msg_buffer()
 
  werase(w);
  delwin(w);
- refresh_all();
 }
 
 void game::teleport(player *p, bool add_teleglow)
@@ -13630,10 +13727,6 @@ void game::quicksave(){
 
     //perform save
     save();
-    save_factions_missions_npcs();
-    save_artifacts();
-    save_maps();
-    save_uistate();
     //Now reset counters for autosaving, so we don't immediately autosave after a quicksave or autosave.
     moves_since_last_save = 0;
     item_exchanges_since_save = 0;
@@ -13735,22 +13828,22 @@ void game::process_artifact(item *it, player *p, bool wielded)
     for (int i = 0; i < effects.size(); i++) {
         switch (effects[i]) {
         case AEP_STR_UP:
-            p->str_cur += 4;
+            p->mod_str_bonus(+4);
             break;
         case AEP_DEX_UP:
-            p->dex_cur += 4;
+            p->mod_dex_bonus(+4);
             break;
         case AEP_PER_UP:
-            p->per_cur += 4;
+            p->mod_per_bonus(+4);
             break;
         case AEP_INT_UP:
-            p->int_cur += 4;
+            p->mod_int_bonus(+4);
             break;
         case AEP_ALL_UP:
-            p->str_cur += 2;
-            p->dex_cur += 2;
-            p->per_cur += 2;
-            p->int_cur += 2;
+            p->mod_str_bonus(+2);
+            p->mod_dex_bonus(+2);
+            p->mod_per_bonus(+2);
+            p->mod_int_bonus(+2);
             break;
         case AEP_SPEED_UP: // Handled in player::current_speed()
             break;
@@ -13816,32 +13909,37 @@ void game::process_artifact(item *it, player *p, bool wielded)
             break;
 
         case AEP_STR_DOWN:
-            p->str_cur -= 3;
+            p->mod_str_bonus(-3);
             break;
 
         case AEP_DEX_DOWN:
-            p->dex_cur -= 3;
+            p->mod_dex_bonus(-3);
             break;
 
         case AEP_PER_DOWN:
-            p->per_cur -= 3;
+            p->mod_per_bonus(-3);
             break;
 
         case AEP_INT_DOWN:
-            p->int_cur -= 3;
+            p->mod_int_bonus(-3);
             break;
 
         case AEP_ALL_DOWN:
-            p->str_cur -= 2;
-            p->dex_cur -= 2;
-            p->per_cur -= 2;
-            p->int_cur -= 2;
+            p->mod_str_bonus(-2);
+            p->mod_dex_bonus(-2);
+            p->mod_per_bonus(-2);
+            p->mod_int_bonus(-2);
             break;
 
         case AEP_SPEED_DOWN:
             break; // Handled in player::current_speed()
         }
     }
+    // Recalculate, as it might have changed (by mod_*_bonus above)
+    p->str_cur = p->get_str();
+    p->int_cur = p->get_int();
+    p->dex_cur = p->get_dex();
+    p->per_cur = p->get_per();
 }
 
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)

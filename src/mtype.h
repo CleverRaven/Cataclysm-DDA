@@ -66,7 +66,7 @@ enum mon_id {
     // Subspace monsters
     mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
     mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_gozu, mon_shadow, mon_breather_hub,
-    mon_breather, mon_shadow_snake,
+    mon_breather, mon_shadow_snake, mon_shoggoth,
     // Cult, lobotomized creatures that are human/undead hybrids
     mon_dementia, mon_homunculus, mon_blood_sacrifice, mon_flesh_angel,
     // Robots
@@ -190,7 +190,10 @@ enum m_flag {
     MF_SMALL_BITER,         // Creature can cause a painful, non-damaging bite
     MF_LARVA,               // Creature is a larva. Currently used for gib and blood handling.
     MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
-    MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff!
+    MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
+    MF_BILE_BLOOD,          // Makes monster bleed bile.
+    MF_ABSORBS,             // Consumes objects it moves over.
+    MF_REGENMORALE,         // Will stop fleeing if at max hp, and regen anger and morale to positive values.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -225,7 +228,8 @@ struct mtype {
     float luminance;           // 0 is default, >0 gives luminance to lightmap
     int hp;
     unsigned int sp_freq;     // How long sp_attack takes to charge
-    void (mdeath::*dies)(monster *); // What happens when this monster dies
+    //void (mdeath::*dies)(monster *); // What happens when this monster dies
+    std::vector<void (mdeath::*)(monster *)> dies;
     void (mattack::*sp_attack)(monster *); // This monster's special attack
 
     // Default constructor

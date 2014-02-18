@@ -227,10 +227,7 @@
         "type" : "bionic",
         "id" : "bio_face_mask",
     "name"       :    "Facial Distortion",
-    "active"     :    true,
-    "cost"       :    1,
-    "time"       :    10,
-    "description":    "Through controlled application of electrochemical impulses, you are capable of altering your facial structure so as to subtly affect the reactions of others. While active, you gain a bonus to all social interactions."
+    "description":    "Through controlled application of electrochemical impulses, you are capable of altering your facial structure so as to subtly affect the reactions of others. This grants a bonus to all social interactions."
     },{
         "type" : "bionic",
         "id" : "bio_ads",
@@ -381,7 +378,7 @@
     },{
         "type" : "bionic",
         "id" : "bio_claws",
-    "name"       :    "Adamantium Claws",
+    "name"       :    "Bionic Claws",
     "active"     :    true,
     "cost"       :    2,
     "description":    "Vicious claws have been installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended."
@@ -393,7 +390,7 @@
     },{
         "type" : "bionic",
         "id" : "bio_blade",
-    "name"       :    "Extensible Blade",
+    "name"       :    "Monomolecular Blade",
     "active"     :    true,
     "cost"       :    4,
     "description":    "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended."

@@ -555,7 +555,7 @@ void player::apply_persistent_morale()
         unsigned char covered = 0; // body parts covered
         for(int i=0; i<worn.size(); i++) {
             if(worn[i].has_flag(basic_flag) || worn[i].has_flag(bonus_flag) ) {
-                it_armor* item_type = (it_armor*) worn[i].type;
+                it_armor* item_type = dynamic_cast<it_armor*>(worn[i].type);
                 covered |= item_type->covers;
             }
             if(worn[i].has_flag(bonus_flag)) {
@@ -1895,7 +1895,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
   }
  }
 
-    int maxy = TERRAIN_WINDOW_HEIGHT;
+    int maxy = TERMY;
 
     int infooffsetytop = 11;
     int infooffsetybottom = 15;
@@ -2822,7 +2822,6 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
  delwin(w_grid_effect);
  delwin(w_grid_skill);
  delwin(w_grid_trait);
- erase();
 }
 
 void player::disp_morale()
@@ -3541,7 +3540,14 @@ float player::active_light()
         }
     }
 
-    // worn light sources? Unimplemented
+    for (size_t i = 0; i < worn.size(); i++) {
+        if ( worn[i].active  && worn[i].charges > 0) {
+            int lumit = worn[i].getlight_emit(true);
+            if ( maxlum < lumit ) {
+                maxlum = lumit;
+            }
+        }
+    }
 
     if (!weapon.is_null()) {
         if ( weapon.active  && weapon.charges > 0) {
@@ -4162,8 +4168,42 @@ void player::mod_pain(int npain) {
     Creature::mod_pain(npain);
 }
 
-void player::hurt(body_part, int, int dam)
+void player::hurt(body_part hurt, int side, int dam)
 {
+    hp_part hurtpart;
+    switch (hurt) {
+        case bp_eyes: // Fall through to head damage
+        case bp_mouth: // Fall through to head damage
+        case bp_head:
+            hurtpart = hp_head;
+            break;
+        case bp_torso:
+            hurtpart = hp_torso;
+            break;
+        case bp_hands:
+            // Shouldn't happen, but fall through to arms
+            debugmsg("Hurt against hands!");
+        case bp_arms:
+            if (side == 0) {
+                hurtpart = hp_arm_l;
+            } else {
+                hurtpart = hp_arm_r;
+            }
+            break;
+        case bp_feet:
+            // Shouldn't happen, but fall through to legs
+            debugmsg("Hurt against feet!");
+        case bp_legs:
+            if (side == 0) {
+                hurtpart = hp_leg_l;
+            } else {
+                hurtpart = hp_leg_r;
+            }
+            break;
+        default:
+            debugmsg("Wacky body part hurt!");
+            hurtpart = hp_torso;
+    }
     if (has_disease("sleep") && rng(0, dam) > 2) {
         wake_up(_("You wake up!"));
     } else if (has_disease("lying_down")) {
@@ -4183,6 +4223,11 @@ void player::hurt(body_part, int, int dam)
     if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
         add_disease("adrenaline", 200);
+    }
+    hp_cur[hurtpart] -= dam;
+    if (hp_cur[hurtpart] < 0) {
+        lifetime_stats()->damage_taken += hp_cur[hurt];
+        hp_cur[hurtpart] = 0;
     }
     lifetime_stats()->damage_taken += dam;
 }
@@ -5181,22 +5226,22 @@ void player::suffer()
 
     if ((has_trait("TROGLO") || has_trait("TROGLO2")) &&
         g->is_in_sunlight(posx, posy) && g->weather == WEATHER_SUNNY) {
-        str_cur--;
-        dex_cur--;
-        int_cur--;
-        per_cur--;
+        mod_str_bonus(-1);
+        mod_dex_bonus(-1);
+        mod_int_bonus(-1);
+        mod_per_bonus(-1);
     }
     if (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy)) {
-        str_cur--;
-        dex_cur--;
-        int_cur--;
-        per_cur--;
+        mod_str_bonus(-1);
+        mod_dex_bonus(-1);
+        mod_int_bonus(-1);
+        mod_per_bonus(-1);
     }
     if (has_trait("TROGLO3") && g->is_in_sunlight(posx, posy)) {
-        str_cur -= 4;
-        dex_cur -= 4;
-        int_cur -= 4;
-        per_cur -= 4;
+        mod_str_bonus(-4);
+        mod_dex_bonus(-4);
+        mod_int_bonus(-4);
+        mod_per_bonus(-4);
     }
 
     if (has_trait("SORES")) {
@@ -5323,12 +5368,15 @@ void player::suffer()
         power_level--;
     }
     if (has_bionic("bio_noise") && one_in(500)) {
-        g->add_msg(_("A bionic emits a crackle of noise!"));
+        if(!has_disease("deaf"))
+            g->add_msg(_("A bionic emits a crackle of noise!"));
+        else
+            g->add_msg(_("A bionic shudders, but you hear nothing."));
         g->sound(posx, posy, 60, "");
     }
     if (has_bionic("bio_power_weakness") && max_power_level > 0 &&
         power_level >= max_power_level * .75) {
-        str_cur -= 3;
+        mod_str_bonus(-3);
     }
     if (has_bionic("bio_trip") && one_in(500) && !has_disease("visuals")) {
         g->add_msg(_("Your vision pixelates!"));
@@ -5361,19 +5409,6 @@ void player::suffer()
     // Artifact effects
     if (has_artifact_with(AEP_ATTENTION)) {
         add_disease("attention", 3);
-    }
-
-    if (dex_cur < 0) {
-        dex_cur = 0;
-    }
-    if (str_cur < 0) {
-        str_cur = 0;
-    }
-    if (per_cur < 0) {
-        per_cur = 0;
-    }
-    if (int_cur < 0) {
-        int_cur = 0;
     }
 
     // check for limb mending every 1000 turns (~1.6 hours)
@@ -5962,6 +5997,10 @@ void player::process_active_items()
     for (int i = 0; i < worn.size(); i++) {
         if (worn[i].is_artifact()) {
             g->process_artifact(&(worn[i]), this);
+        }
+        if (!process_single_active_item(&worn[i])) {
+            worn.erase(worn.begin() + i);
+            i--;
         }
     }
 
@@ -6557,7 +6596,7 @@ bool player::covered_with_flag(const std::string flag, int parts) const {
   int covered = 0;
 
   for (std::vector<item>::const_reverse_iterator armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
-    int cover = ((it_armor *)(armorPiece->type))->covers & parts;
+    int cover = dynamic_cast<it_armor *>(armorPiece->type)->covers & parts;
 
     if (!cover) continue; // For our purposes, this piece covers nothing.
     if (cover & covered) continue; // the body part(s) is already covered.
@@ -6575,7 +6614,7 @@ bool player::covered_with_flag(const std::string flag, int parts) const {
 
 bool player::covered_with_flag_exclusively(const std::string flag, int flags) const {
   for (std::vector<item>::const_iterator armorPiece = worn.begin(); armorPiece != worn.end(); ++armorPiece) {
-    if ((((it_armor *)(armorPiece->type))->covers & flags) && !armorPiece->has_flag(flag))
+    if ((dynamic_cast<it_armor *>(armorPiece->type)->covers & flags) && !armorPiece->has_flag(flag))
       return false;
   }
 
@@ -7563,11 +7602,9 @@ hint_rating player::rate_action_wear(item *it)
 bool player::wear(int pos, bool interactive)
 {
     item* to_wear = NULL;
-    int index = -1;
     if (pos == -1)
     {
         to_wear = &weapon;
-        index = -2;
     }
     else
     {
@@ -7589,13 +7626,17 @@ bool player::wear(int pos, bool interactive)
         return false;
     }
 
-    if (index == -2)
+    if (pos == -1)
     {
         weapon = ret_null;
     }
     else
     {
+        // it has been copied into worn vector, but assigned an invlet,
+        // in case it's a stack, reset the invlet to avoid duplicates
+        to_wear->invlet = 0;
         inv.remove_item(to_wear);
+        inv.restack(this);
     }
 
     return true;
@@ -8363,7 +8404,6 @@ The sum of these values is the effective encumbrance value your character has fo
     delwin(w_sort_middle);
     delwin(w_sort_right);
     delwin(w_sort_armor);
-    return;
 }
 
 void player::use_wielded() {
@@ -8581,7 +8621,7 @@ void player::use(int pos)
             return;
         }
         int gunpos = g->inv(_("Select gun to modify:"));
-        it_gunmod *mod = static_cast<it_gunmod*>(used->type);
+        it_gunmod *mod = dynamic_cast<it_gunmod*>(used->type);
         item* gun = &(i_at(gunpos));
         if (gun->is_null()) {
             g->add_msg(_("You do not have that item."));

@@ -120,7 +120,6 @@ void mapbuffer::save_if_dirty()
 void mapbuffer::save( bool delete_after_save )
 {
     std::map<tripoint, submap *, pointcomp>::iterator it;
-    std::ofstream fout;
 
     std::stringstream map_directory;
     map_directory << world_generator->active_world->world_path << "/maps";
@@ -128,11 +127,12 @@ void mapbuffer::save( bool delete_after_save )
 
     std::stringstream mapfile;
     mapfile << map_directory.str() << "/map.key";
-    fout.open(mapfile.str().c_str());
+    std::ofstream fout(mapfile.str().c_str());
     if( !fout.is_open() ) {
         debugmsg( "Can't open %s.", mapfile.str().c_str() );
         return;
     }
+    fout.exceptions(std::ios::failbit | std::ios::badbit);
 
     fout << "# version " << savegame_version << std::endl;
 
@@ -345,6 +345,24 @@ void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr, bool de
     }
 }
 
+int mapbuffer::load_keys(std::string worldname)
+{
+    int num_submaps = 0;
+    std::ifstream fin;
+    std::stringstream world_map_path;
+    world_map_path << world_generator->all_worlds[worldname]->world_path << "/maps";
+    std::stringstream map_key_file;
+    map_key_file << world_map_path.str() << "/map.key";
+    fin.open( map_key_file.str().c_str() );
+    if( !fin.is_open() ) {
+        // Currently not having a key file is fatal.
+        return 0;
+    }
+    num_submaps = unserialize_keys( fin );
+    fin.close();
+    return num_submaps;
+}
+
 void mapbuffer::load(std::string worldname)
 {
     std::ifstream fin;
@@ -363,21 +381,18 @@ void mapbuffer::load(std::string worldname)
         // Save the data and unload it at the same time.
         save( true );
         unlink( worldmap.str().c_str() );
+        // Clear and reload the keys so they don't mess with dynamic map loading.
+        load_keys( worldname );
         return;
     }
 
     // If we don't have a monolithic maps.txt, we either have a maps directory or nothing.
     std::stringstream world_map_path;
     world_map_path << world_generator->all_worlds[worldname]->world_path << "/maps";
-    std::stringstream map_key_file;
-    map_key_file << world_map_path.str() << "/map.key";
-    fin.open( map_key_file.str().c_str() );
-    if( !fin.is_open() ) {
-        // Currently not having a key file is fatal.
+    num_submaps = load_keys( worldname );
+    if( num_submaps == 0 ) {
         return;
     }
-    num_submaps = unserialize_keys( fin );
-    fin.close();
     // We only need to load all the files if we changed versions.
     if( savegame_loading_version != savegame_version ) {
         std::vector<std::string> map_files = file_finder::get_files_from_path(
@@ -430,6 +445,10 @@ int mapbuffer::unserialize_keys( std::ifstream &fin )
     getline(fin, databuff);
     jsonbuff.str(databuff);
     JsonIn jsin(jsonbuff);
+
+    ter_key.clear();
+    furn_key.clear();
+    trap_key.clear();
 
     jsin.start_object();
     while (!jsin.end_object()) {

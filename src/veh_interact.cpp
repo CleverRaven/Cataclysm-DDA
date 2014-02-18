@@ -287,8 +287,8 @@ void veh_interact::cache_tool_availability()
 {
     crafting_inv = g->crafting_inventory(&g->u);
 
-    int charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
-    int charges_crude = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
+    int charges = dynamic_cast<it_tool *>(itypes["welder"])->charges_per_use;
+    int charges_crude = dynamic_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
     has_wrench = crafting_inv.has_amount("wrench", 1) ||
                  crafting_inv.has_amount("toolset", 1);
     has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
@@ -1031,14 +1031,14 @@ void veh_interact::display_grid()
         }
         for (int i = (name_h + 1 + disp_h + 1); i < (name_h + 1 + stats_h); i++) {
             mvwputch(w_grid, i, parts_w, BORDER_COLOR, LINE_XOXO); // |
-        }     
-        
+        }
+
         // Two horizontal lines: one after name window, and another after parts window
         for (int i = 0; i < grid_w; i++) {
             mvwputch(w_grid, name_h, i, BORDER_COLOR, LINE_OXOX);
             mvwputch(w_grid, name_h + 1 + stats_h, i, BORDER_COLOR, LINE_OXOX);
         }
-        // Horizontal line between vehicle/parts windows 
+        // Horizontal line between vehicle/parts windows
         for (int i = 0; i < disp_w; i++) {
             mvwputch(w_grid, name_h + 1 + disp_h, i, BORDER_COLOR, LINE_OXOX);
         }
@@ -1228,8 +1228,8 @@ void veh_interact::display_stats()
     fold_and_print(w_stats, k_mass_y, k_mass_x, k_mass_w, c_ltgray,
                    _("K mass:       <color_ltblue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
-    
-    // "Fuel usage (safe): " is renamed to "Fuel usage: ". 
+
+    // "Fuel usage (safe): " is renamed to "Fuel usage: ".
     mvwprintz(w_stats, fuel_use_y, fuel_use_x, c_ltgray,  _("Fuel usage:     "));
     fuel_use_x += utf8_width(_("Fuel usage:     "));
     ammotype fuel_types[3] = { "gasoline", "battery", "plasma" };
@@ -1539,8 +1539,8 @@ void complete_vehicle ()
     int type = g->u.activity.values[7];
     std::string part_id = g->u.activity.str_values[0];
     std::vector<component> tools;
-    int welder_charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
-    int welder_crude_charges = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
+    int welder_charges = dynamic_cast<it_tool *>(itypes["welder"])->charges_per_use;
+    int welder_crude_charges = dynamic_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
     inventory crafting_inv = g->crafting_inventory(&g->u);
     const bool has_goggles = crafting_inv.has_amount("goggles_welding", 1) ||
                    g->u.has_bionic("bio_sunglasses") ||

@@ -239,12 +239,12 @@ static int game_monster_at(lua_State *L) {
     int parameter1 = (int) lua_tonumber(L, 1);
     int parameter2 = (int) lua_tonumber(L, 2);
     int monster_idx = g->mon_at(parameter1, parameter2);
-    
+
     monster& mon_ref = g->zombie(monster_idx);
     monster** monster_userdata = (monster**) lua_newuserdata(L, sizeof(monster*));
     *monster_userdata = &mon_ref;
     luah_setmetatable(L, "monster_metatable");
-    
+
     return 1; // 1 return values
 }
 
@@ -254,19 +254,19 @@ static int game_item_type(lua_State *L) {
     // t["id"] = item.type.id
     // t["name"] = item.type.name
     // then return t
-    
+
     item** item_instance = (item**) lua_touserdata(L, 1);
 
     lua_createtable(L, 0, 2); // Preallocate enough space for all type properties.
-    
+
     lua_pushstring(L, "name");
     lua_pushstring(L, (*item_instance)->type->name.c_str());
     lua_rawset(L, -3);
-    
+
     lua_pushstring(L, "id");
     lua_pushstring(L, (*item_instance)->type->id.c_str());
     lua_rawset(L, -3);
-    
+
     return 1; // 1 return values
 }
 

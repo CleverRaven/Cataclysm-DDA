@@ -137,10 +137,10 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CLASSIC``` Only monsters we expect in a classic zombie movie.
 - ```WILDLIFE``` Natural animals.
 
-### Death functions
+### Death functions. Multiple death functions can be used. Not all combinations make sense.
 
-- ```NORMAL``` Drop a body.
-- ```ACID``` Acid instead of a body.
+- ```NORMAL``` Drop a body, leave gibs.
+- ```ACID``` Acid instead of a body. not the same as the ACID_BLOOD flag. In most cases you want both.
 - ```BOOMER``` Explodes in vomit.
 - ```KILL_VINES``` Kill all nearby vines.
 - ```VINE_CUT``` Kill adjacent vine if it's cut.
@@ -149,7 +149,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```DISINTEGRATE``` Falls apart.
 - ```WORM``` Spawns 2 half-worms
 - ```DISAPPEAR``` Hallucination disappears.
-- ```GUILT``` Moral penalty.
+- ```GUILT``` Moral penalty. There is also a flag with a similar effect.
 - ```BLOBSPLIT``` Creates more blobs.
 - ```MELT``` Normal death, but melts.
 - ```AMIGARA``` Removes hypnosis if the last one.
@@ -159,7 +159,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```RATKING``` Cure verminitis.
 - ```KILL_BREATHERS``` All breathers die.
 - ```SMOKEBURST``` Explode like a huge smoke bomb.
-- ```ZOMBIE``` Generate proper clothing for zombies.
+- ```ZOMBIE``` Generate proper clothing for zombies. (Also use NORMAL).
 - ```GAMEOVER``` Game over man! Game over! Defense mode.
 
 ### Flags
@@ -225,6 +225,12 @@ Flags used to describe monsters and define their properties and abilities.
 - ```VERMIN``` Creature is too small for normal combat, butchering etc.
 - ```HUNTS_VERMIN``` Creature uses vermin as a food source.
 - ```SMALL_BITER``` Creature can cause a painful, non-damaging bite.
+- ```ABSORBS``` Consumes objects it moves over.
+- ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
+- ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.
+- ```ACID_BLOOD``` Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
+- ```BILE_BLOOD``` Makes monster bleed bile.
+- ```REGEN_MORALE``` Will stop fleeing if at max hp, and regen anger and morale.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
@@ -275,7 +281,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```BITE``` Bites the player.
 - ```BRANDISH``` Brandish a knife at the player.
 - ```FLESH_GOLEM``` Attack the player with claw, and inflict disease `downed` if the attack connects.
-- ```PARROT``` Parrots the speech defined in `migo_speech.json`
+- ```PARROT``` Parrots the speech defined in `migo_speech.json`, only says the lines with the corresponding id.
 
 ### Anger, Fear & Placation Triggers
 
@@ -379,7 +385,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```CONTROLS``` Can be used to control the vehicle.
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
 - ```CURTAIN``` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds found on windows in buildings.
-- ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight.
+- ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
 - ```KITCHEN``` Acts as a kitchen unit and heat source for crafting.
 - ```WELDRIG``` Acts as a welder for crafting.
 - ```CRAFTRIG``` Acts as a dehydrator, vacuum sealer and reloading press for crafting purposes. Potentially to include additional tools in the future.
@@ -654,6 +660,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
 - ```RELOAD_ONE``` Only reloads one round at a time.
 - ```NO_AMMO``` Does not directly have a loaded ammo type.
+- ```BIO_WEAPON``` Weapon is a CBM weapon, uses power as ammo. (CBM weapons should get both NO_AMMO and BIO_WEAPON, to work correctly).
 - ```USE_UPS``` Uses 5 UPS charges per shot, or 3 advanced UPS charges.
 - ```USE_UPS_20``` Uses 20 UPS charges per shot, or 12 advanced UPS charges.
 - ```USE_UPS_40``` Uses 40 UPS charges per shot, or 24 advanced UPS charges.
@@ -814,6 +821,11 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```HORN_BICYCLE``` Honk the horn.
 - ```RAD_BADGE``` Take the radiation badge out of its protective case to start measuring absorbed dosage.
 - ```AIRHORN``` Sound the horn.
+- ```BELL``` Ring the bell.
+- ```SEED``` Asks if you are sure that you want to eat the seed. As it is better to plant seeds.
+- ```OXYGEN_BOTTLE```
+- ```ATOMIC_BATTERY```
+- ```FISHING_BASIC``` Use a fishing rod
 - ```JET_INJECTOR``` Inject some jet drugs right into your veins.
 
 ## Skills

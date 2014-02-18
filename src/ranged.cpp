@@ -17,7 +17,7 @@ void make_gun_sound_effect(player &p, bool burst, item* weapon);
 double calculate_missed_by(player &p, int trange, item* weapon);
 void shoot_player(player &p, player *h, int &dam, double goodhit);
 
-void splatter(std::vector<point> trajectory, int dam, monster* mon = NULL);
+void splatter(std::vector<point> trajectory, int dam, Creature *target = NULL);
 
 double Creature::projectile_attack(const projectile &proj, int targetx, int targety,
         double shot_dispersion) {
@@ -83,12 +83,13 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         }
         */
 
-        int mondex = g->mon_at(tx, ty);
+        Creature *critter = g->critter_at(tx, ty);
+        monster *mon = dynamic_cast<monster*>(critter);
         // ignore non-point-blank digging targets (since they are underground)
-        if (mondex != -1 && g->zombie(mondex).digging() &&
-                            rl_dist(xpos(), ypos(), g->zombie(mondex).xpos(),
-                                    g->zombie(mondex).ypos()) > 1)
-            mondex = -1;
+        if (mon != NULL && mon->digging() &&
+                            rl_dist(xpos(), ypos(), tx, ty) > 1) {
+            critter = mon = NULL;
+        }
         // If we shot us a monster...
         // TODO: add size effects to accuracy
         // If there's a monster in the path of our bullet, and either our aim was true,
@@ -99,25 +100,13 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         } else {
             cur_missed_by = missed_by;
         }
-        if (mondex != -1 && cur_missed_by <= 1.0) {
-            monster &z = g->zombie(mondex);
-
+        if (critter != NULL && cur_missed_by <= 1.0) {
             dealt_damage_instance dealt_dam;
-            z.deal_projectile_attack(this, missed_by, proj, dealt_dam);
+            critter->deal_projectile_attack(this, missed_by, proj, dealt_dam);
             std::vector<point> blood_traj = trajectory;
             blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
-            //splatter(this, blood_traj, dam, &z); TODO: add splatter effects (include new blood types)
-            //back in
+            splatter( blood_traj, dam, critter );
             dam = 0;
-        // TODO: general case this so it works for all npcs, instead of only
-        // player
-        } else if (g->u.xpos() == tx && g->u.ypos() == ty
-                && cur_missed_by <= 1.0) {
-            dealt_damage_instance dealt_dam;
-            g->u.deal_projectile_attack(this, missed_by, proj, dealt_dam);
-            std::vector<point> blood_traj = trajectory;
-            blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
-
         } else if(in_veh != NULL && g->m.veh_at(tx, ty) == in_veh) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
@@ -235,9 +224,8 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         burst = false; // Can't burst fire a semi-auto
 
     // Use different amounts of time depending on the type of gun and our skill
-    if (!proj.proj_effects.count("BOUNCE")) {
-        moves -= time_to_fire(*this, firing);
-    }
+    moves -= time_to_fire(*this, firing);
+
     // Decide how many shots to fire
     int num_shots = 1;
     if (burst)
@@ -363,6 +351,13 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         } else if (used_weapon->has_flag("CHARGE")) {
             used_weapon->active = false;
             used_weapon->charges = 0;
+        } else if (used_weapon->has_flag("BIO_WEAPON")) {
+            //The weapon used is a bio weapon.
+            //It should consume a charge to let the game (specific: bionics.cpp:player::activate_bionic)
+            //know the weapon has been fired.
+            //It should ignore the NO_AMMO tag for charges, and still use one.
+            //the charges are virtual anyway.
+            used_weapon->charges--;
         } else if (!used_weapon->has_flag("NO_AMMO")) {
             used_weapon->charges--;
         }
@@ -1154,37 +1149,41 @@ void shoot_player(player &p, player *h, int &dam, double goodhit)
     }
 }
 
-void splatter(std::vector<point> trajectory, int dam, monster* mon)
+void splatter( std::vector<point> trajectory, int dam, Creature* target )
 {
- if( dam <= 0 ) {
-     return;
- }
- field_id blood = fd_blood;
- if (mon != NULL) {
-  if (!mon->made_of("flesh") || mon->has_flag(MF_VERMIN) )
-   return;
-  if (mon->type->dies == &mdeath::boomer)
-   blood = fd_bile;
-  else if (mon->type->dies == &mdeath::acid)
-   blood = fd_acid;
- }
-
- int distance = 1;
- if (dam > 50)
-  distance = 3;
- else if (dam > 20)
-  distance = 2;
-
- std::vector<point> spurt = continue_line(trajectory, distance);
-
- for (int i = 0; i < spurt.size(); i++) {
-    int tarx = spurt[i].x, tary = spurt[i].y;
-    g->m.adjust_field_strength(point(tarx, tary), blood, 1 );
-    if( g->m.move_cost(tarx, tary) == 0 ) {
-        // Blood splatters stop at walls.
-        break;
+    if( dam <= 0 ) {
+        return;
     }
- }
+    field_id blood = fd_blood;
+    if( target != NULL ) {
+        if( target->get_material() != "flesh" || target->has_flag(MF_VERMIN) ) {
+            return;
+        }
+        if( target->has_flag(MF_BILE_BLOOD) ) {
+            blood = fd_bile;
+        } else if( target->has_flag(MF_ACID_BLOOD) ) {
+            blood = fd_acid;
+        }
+    }
+
+    int distance = 1;
+    if( dam > 50 ) {
+        distance = 3;
+    } else if( dam > 20 ) {
+        distance = 2;
+    }
+
+    std::vector<point> spurt = continue_line( trajectory, distance );
+
+    for( int i = 0; i < spurt.size(); i++ ) {
+        int tarx = spurt[i].x;
+        int tary = spurt[i].y;
+        g->m.adjust_field_strength( point(tarx, tary), blood, 1 );
+        if( g->m.move_cost(tarx, tary) == 0 ) {
+            // Blood splatters stop at walls.
+            break;
+        }
+    }
 }
 
 

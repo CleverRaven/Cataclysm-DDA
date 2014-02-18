@@ -3499,6 +3499,8 @@ C..C..C...|hhh|#########\n\
                         }
                         if (one_in(3)) {
                             add_spawn("mon_crawler", 1, 2, 7);
+                        } else if (one_in(3)) {
+                            add_spawn("mon_shoggoth", 1, 2, 7);
                         }
                         if (one_in(2)) {
                             add_spawn("mon_zombie_scientist", rng(1, 3), 12, 18);
@@ -3849,19 +3851,18 @@ ff.......|....|WWWWWWWW|\n\
             add_trap(SEEX - 2, SEEY + 1, tr_dissector);
             add_trap(SEEX + 1, SEEY + 1, tr_dissector);
             if (!one_in(3)) {
-                rn = dice(4, 3);
-                spawn_item(SEEX - 1, SEEY - 1, "laser_pack", rn);
-                spawn_item(SEEX + 1, SEEY - 1, "UPS_off", rn);
+                spawn_item(SEEX - 1, SEEY - 1, "laser_pack", dice(4, 3));
+                spawn_item(SEEX    , SEEY - 1, "UPS_off");
+                spawn_item(SEEX    , SEEY - 1, "battery", dice(4, 3));
                 spawn_item(SEEX - 1, SEEY    , "v29");
-                spawn_item(SEEX + 1, SEEY    , "ftk93");
-                spawn_item(SEEX + 1, SEEY    , "recipe_atomic_battery");
+                spawn_item(SEEX    , SEEY    , "ftk93");
+                spawn_item(SEEX - 1, SEEY    , "recipe_atomic_battery");
             } else if (!one_in(3)) {
-                rn = dice(3, 6);
-                spawn_item(SEEX - 1, SEEY - 1, "mininuke", rn);
-                spawn_item(SEEX    , SEEY - 1, "mininuke", rn);
-                spawn_item(SEEX - 1, SEEY    , "mininuke", rn);
-                spawn_item(SEEX    , SEEY    , "mininuke", rn);
-                spawn_item(SEEX + 1, SEEY    , "recipe_atomic_battery");
+                spawn_item(SEEX - 1, SEEY - 1, "mininuke", dice(3, 6));
+                spawn_item(SEEX    , SEEY - 1, "mininuke", dice(3, 6));
+                spawn_item(SEEX - 1, SEEY    , "mininuke", dice(3, 6));
+                spawn_item(SEEX    , SEEY    , "mininuke", dice(3, 6));
+                spawn_item(SEEX    , SEEY    , "recipe_atomic_battery");
             } else {
                 furn_set(SEEX - 2, SEEY - 1, f_rack);
                 furn_set(SEEX - 1, SEEY - 1, f_rack);
@@ -3877,10 +3878,13 @@ ff.......|....|WWWWWWWW|\n\
             break;
         case 3:
         case 4: { // Netherworld access
+            bool monsters_end = false;
             if (!one_in(4)) { // Trapped netherworld monsters
-                std::string nethercreatures[10] = {"mon_flying_polyp", "mon_hunting_horror", "mon_mi_go", "mon_yugg", "mon_gelatin",
-                                                   "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank", "mon_gozu"
-                                                  };
+                monsters_end = true;
+                std::string nethercreatures[11] = { "mon_flying_polyp", "mon_hunting_horror",
+                                                    "mon_mi_go", "mon_yugg", "mon_gelatin",
+                                                    "mon_flaming_eye", "mon_kreck", "mon_gracke",
+                                                    "mon_blank", "mon_gozu", "mon_shoggoth" };
                 tw = rng(SEEY + 3, SEEY + 5);
                 bw = tw + 4;
                 lw = rng(SEEX - 6, SEEX - 2);
@@ -3898,15 +3902,17 @@ ff.......|....|WWWWWWWW|\n\
                         } else if (j == tw + 2) {
                             ter_set(i, j, t_concrete_h);
                         } else { // Empty space holds monsters!
-                            std::string type = nethercreatures[(rng(0, 9))];
+                            std::string type = nethercreatures[(rng(0, 10))];
                             add_spawn(type, 1, i, j);
                         }
                     }
                 }
             }
             tmpcomp = add_computer(SEEX, 8, _("Sub-prime contact console"), 7);
-            tmpcomp->add_option(_("Terminate Specimens"), COMPACT_TERMINATE, 2);
-            tmpcomp->add_option(_("Release Specimens"), COMPACT_RELEASE, 3);
+            if(monsters_end) { //only add these options when there are monsters.
+                tmpcomp->add_option(_("Terminate Specimens"), COMPACT_TERMINATE, 2);
+                tmpcomp->add_option(_("Release Specimens"), COMPACT_RELEASE, 3);
+            }
             tmpcomp->add_option(_("Toggle Portal"), COMPACT_PORTAL, 8);
             tmpcomp->add_option(_("Activate Resonance Cascade"), COMPACT_CASCADE, 10);
             tmpcomp->add_failure(COMPFAIL_MANHACKS);
@@ -10844,16 +10850,16 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                 py = rng(y1, y2);
                 tries++;
                 // Only place on valid terrain
-            } while (((terlist[ter(px, py)].movecost == 0 &&
-                       !(terlist[ter(px, py)].has_flag("PLACE_ITEM"))) ||
-                      (!ongrass && !terlist[ter(px, py)].has_flag("FLAT") )) &&
+            } while (( (terlist[ter(px, py)].movecost == 0 &&
+                        !(terlist[ter(px, py)].has_flag("PLACE_ITEM")) ) &&
+                       (!ongrass && !terlist[ter(px, py)].has_flag("FLAT")) ) &&
                      tries < 20);
             if (tries < 20) {
                 spawn_item(px, py, selected_item, 1, 0, turn);
                 item_num++;
                 // Guns in item groups with guns_have_ammo flags are generated with their ammo
                 if ( guns_have_ammo ) {
-                    it_gun *maybe_gun = static_cast<it_gun *> (item_controller->find_template(selected_item));
+                    it_gun *maybe_gun = dynamic_cast<it_gun *> (item_controller->find_template(selected_item));
                     if ( maybe_gun != NULL ) {
                         spawn_item(px, py, default_ammo(maybe_gun->ammo), 1, 0, turn);
                     }

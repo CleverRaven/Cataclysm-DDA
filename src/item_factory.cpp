@@ -358,6 +358,7 @@ void Item_factory::init(){
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;
     iuse_function_list["DOLLCHAT"] = &iuse::talking_doll;
     iuse_function_list["BELL"] = &iuse::bell;
+    iuse_function_list["SEED"] = &iuse::seed;
     iuse_function_list["OXYGEN_BOTTLE"] = &iuse::oxygen_bottle;
     iuse_function_list["ATOMIC_BATTERY"] = &iuse::atomic_battery;
     iuse_function_list["FISHING_BASIC"]  = &iuse::fishing_rod_basic;
@@ -701,6 +702,32 @@ void Item_factory::load_tool(JsonObject& jo)
 
     itype *new_item_template = tool_template;
     load_basic_info(jo, new_item_template);
+}
+
+void Item_factory::load_tool_armor(JsonObject& jo)
+{
+    it_tool_armor* tool_armor_template = new it_tool_armor();
+
+    it_tool *tool_template = tool_armor_template;
+    tool_template->ammo = jo.get_string("ammo");
+    tool_template->max_charges = jo.get_int("max_charges");
+    tool_template->def_charges = jo.get_int("initial_charges");
+    tool_template->charges_per_use = jo.get_int("charges_per_use");
+    tool_template->turns_per_charge = jo.get_int("turns_per_charge");
+    tool_template->revert_to = jo.get_string("revert_to");
+
+    it_armor* armor_template = tool_armor_template;
+    armor_template->encumber = jo.get_int("encumbrance");
+    armor_template->coverage = jo.get_int("coverage");
+    armor_template->thickness = jo.get_int("material_thickness");
+    armor_template->env_resist = jo.get_int("enviromental_protection");
+    armor_template->warmth = jo.get_int("warmth");
+    armor_template->storage = jo.get_int("storage");
+    armor_template->power_armor = jo.get_bool("power_armor", false);
+    armor_template->covers = jo.has_member("covers") ?
+        flags_from_json(jo, "covers", "bodyparts") : 0;
+
+    load_basic_info(jo, tool_armor_template);
 }
 
 void Item_factory::load_book(JsonObject& jo)

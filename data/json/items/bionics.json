@@ -218,7 +218,7 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": 0,
-        "difficulty": 3
+        "difficulty": 4
     },
     {
         "type": "BIONIC_ITEM",
@@ -226,7 +226,7 @@
         "id": "bio_claws",
         "symbol": ":",
         "color": "yellow",
-        "name": "CBM: Adamantium Claws",
+        "name": "CBM: Bionic Claws",
         "description": "Vicious claws have been installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended.",
         "price": 5500,
         "material": ["steel", "plastic"],
@@ -414,7 +414,7 @@
         "symbol": ":",
         "color": "yellow",
         "name": "CBM: Facial Distortion",
-        "description": "Your face is actually made of a compound which may be molded by electrical impulses, making you impossible to recognize.  While not powered, however, the compound reverts to its default shape.",
+        "description": "Through controlled application of electrochemical impulses, you are capable of altering your facial structure so as to subtly affect the reactions of others. This grants a bonus to all social interactions.",
         "price": 8500,
         "material": ["steel", "plastic"],
         "weight": 2041,

@@ -178,6 +178,8 @@ std::string monster::name_with_armor()
          ret = string_format(_("%s's thick hide"), type->name.c_str());
      } else if (type->mat == "iron" || type->mat == "steel") {
          ret = string_format(_("%s's armor plating"), type->name.c_str());
+     } else if (type->mat == "protoplasmic") {
+         ret = string_format(_("%s's hard protoplasmic hide"), type->name.c_str());
      }
  }
  return ret;
@@ -1074,7 +1076,13 @@ void monster::die()
    md.disappear(this);
    return;
  } else {
-   (md.*type->dies)(this);
+   //Not a hallucination, go process the death effects.
+   std::vector<void (mdeath::*)(monster *)> deathfunctions = type->dies;
+   void (mdeath::*func)(monster *);
+   for (int i = 0; i < deathfunctions.size(); i++) {
+     func = deathfunctions.at(i);
+     (md.*func)(this);
+   }//(md.*type->dies)(this);
  }
 // If our species fears seeing one of our own die, process that
  int anger_adjust = 0, morale_adjust = 0;
@@ -1219,9 +1227,10 @@ bool monster::is_hallucination()
 }
 
 field_id monster::monBloodType() {
-    if (has_flag(MF_ACID_BLOOD) || (type->dies == &mdeath::acid))
-        return fd_acid; //ACID_BLOOD flag is kind of redundant now, but maybe some other monster can use it
-    if (type->dies == &mdeath::boomer)
+    if (has_flag(MF_ACID_BLOOD))
+        //A monster that has the death effect "ACID" does not need to have acid blood.
+        return fd_acid;
+    if (has_flag(MF_BILE_BLOOD))
         return fd_bile;
     if (has_flag(MF_LARVA) || has_flag(MF_ARTHROPOD_BLOOD))
         return fd_blood_invertebrate;
@@ -1232,6 +1241,7 @@ field_id monster::monBloodType() {
     if (has_flag(MF_WARM))
         return fd_blood;
     return fd_null; //Please update the corpse blood type code at activity_on_turn_pulp() in game.cpp when modifying these rules!
+                    //And splatter() in ranged.cpp
 }
 field_id monster::monGibType() {
     if (has_flag(MF_LARVA) || type->in_species("MOLLUSK"))

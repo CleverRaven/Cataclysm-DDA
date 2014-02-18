@@ -133,6 +133,15 @@ class cata_tiles
         cata_tiles();
         /** Default destructor */
         ~cata_tiles();
+
+        /** Reconfigure the tileset at runtime. Assumes that all the tileset variables, including tile_atlas
+         *  have been properly set. */
+        void reload_tileset();
+
+        /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
+         *  float inaccuracies. */
+        void load_rescaled_tileset(int scale);
+
         /** Load tileset */
         void load_tileset(std::string path);
         /** Load tileset config file */
@@ -159,6 +168,7 @@ class cata_tiles
         SDL_Surface *rotate_tile(SDL_Surface *src, SDL_Rect *rect, int rota);
         void put_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
         Uint32 get_pixel(SDL_Surface *surface, int x, int y);
+        SDL_Surface *scale_surface(SDL_Surface *surface, Uint16 w, Uint16 h);
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
 
@@ -232,13 +242,13 @@ class cata_tiles
         LIGHTING light_at(int x, int y);
 
         /** Variables */
-        SDL_Surface *buffer, *tile_atlas, *display_screen;
+        SDL_Surface *buffer, *tile_atlas, *default_size_tile_atlas, *display_screen;
         tile_map *tile_values;
         tile_id_map *tile_ids;
 
         std::map<int, std::vector<SDL_Surface*> > rotation_cache;
 
-        int tile_height, tile_width;
+        int tile_height, tile_width, default_tile_width, default_tile_height;
         int screentile_width, screentile_height;
         int terrain_term_x, terrain_term_y;
         float tile_ratiox, tile_ratioy;

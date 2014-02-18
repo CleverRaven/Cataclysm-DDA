@@ -36,8 +36,8 @@ void addict_effect(addiction &add)
         break;
 
     case ADD_ALCOHOL:
-        g->u.per_cur--;
-        g->u.int_cur--;
+        g->u.mod_per_bonus(-1);
+        g->u.mod_int_bonus(-1);
         if (rng(40, 1200) <= in * 10 && g->u.health > -100) {
             g->u.health--;
         }
@@ -68,9 +68,9 @@ void addict_effect(addiction &add)
         if (g->u.pkill >= 35) { // No further effects if we're doped up.
             add.sated = 0;
         } else {
-            g->u.str_cur -= 1 + int(in / 7);
-            g->u.per_cur--;
-            g->u.dex_cur--;
+            g->u.mod_str_bonus(-(1 + int(in / 7)));
+            g->u.mod_per_bonus(-1);
+            g->u.mod_dex_bonus(-1);
             if (g->u.pain < in * 3) {
                 g->u.mod_pain(1);
             }
@@ -98,8 +98,8 @@ void addict_effect(addiction &add)
         // the PC gets 5 moves per turn.
         int move_pen = std::min(in * 5, 20);
         g->u.moves -= move_pen;
-        g->u.int_cur--;
-        g->u.str_cur--;
+        g->u.mod_int_bonus(-1);
+        g->u.mod_str_bonus(-1);
         if (g->u.stim > -100 && (in >= 20 || int(g->turn) % (100 - in * 5) == 0)) {
             g->u.stim--;
         }
@@ -124,8 +124,8 @@ void addict_effect(addiction &add)
     break;
 
     case ADD_COKE:
-        g->u.int_cur--;
-        g->u.per_cur--;
+        g->u.mod_int_bonus(-1);
+        g->u.mod_per_bonus(-1);
         if (in >= 30 || one_in((900 - 30 * in))) {
             g->add_msg(_("You feel like you need a bump."));
             g->u.add_morale(MORALE_CRAVING_COCAINE, -20, -250);
@@ -140,8 +140,8 @@ void addict_effect(addiction &add)
         break;
 
     case ADD_CRACK:
-        g->u.int_cur--;
-        g->u.per_cur--;
+        g->u.mod_int_bonus(-1);
+        g->u.mod_per_bonus(-1);
         if (in >= 30 || one_in((900 - 30 * in))) {
             g->add_msg(_("You're shivering, you need some crack."));
             g->u.add_morale(MORALE_CRAVING_CRACK, -80, -250);
@@ -154,7 +154,7 @@ void addict_effect(addiction &add)
             }
         }
         break;
-    
+
     case ADD_MUTAGEN:
         if (g->u.has_trait("MUT_JUNKIE")) {
             if (one_in(600 - 50 * in)) {

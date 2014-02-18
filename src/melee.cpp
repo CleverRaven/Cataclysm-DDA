@@ -897,7 +897,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
  bool shock_them = (has_active_bionic("bio_shock") && power_level >= 2 &&
                     (unarmed_attack() || weapon.made_of("iron") ||
                      weapon.made_of("steel") || weapon.made_of("silver") ||
-                     weapon.made_of("gold")) && one_in(3));
+                     weapon.made_of("gold") || weapon.made_of("superalloy")) && one_in(3));
 
  bool drain_them = (has_active_bionic("bio_heat_absorb") && power_level >= 1 &&
                     !is_armed() && t.is_warm());
@@ -1335,7 +1335,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
                                             target.c_str());
             } else if (male) {
                 if (has_trait("CLAWS_TENTACLE")) {
-                    tmp.text = string_format(_("&s rakes %s with his tentacle!"),
+                    tmp.text = string_format(_("%s rakes %s with his tentacle!"),
                                             name.c_str(), target.c_str());
                 }
                 else tmp.text = string_format(_("%s slaps %s with his tentacle!"),

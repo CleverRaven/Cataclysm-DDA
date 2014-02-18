@@ -631,10 +631,10 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y)
     if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
         return false;
     }
-    
+
     x = g->ter_view_x - ((view_columns/2) - coordinate_x);
     y = g->ter_view_y - ((view_rows/2) - coordinate_y);
-    
+
     return true;
 }
 #endif

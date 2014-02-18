@@ -46,16 +46,16 @@ std::string utf16_to_utf8(unsigned ch) {
 
     buf += utf8Bytes;
     switch (utf8Bytes) {
-        case 4: 
+        case 4:
             *--buf = (ch|0x80)&0xBF;
             ch >>= 6;
         case 3:
             *--buf = (ch|0x80)&0xBF;
             ch >>= 6;
-        case 2: 
+        case 2:
             *--buf = (ch|0x80)&0xBF;
             ch >>= 6;
-        case 1: 
+        case 1:
             *--buf = ch|utf8FirstByte[utf8Bytes];
     }
     out[utf8Bytes] = '\0';

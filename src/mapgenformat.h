@@ -6,7 +6,7 @@
 #include "map.h"
 /////
 
-void formatted_set_incredibly_simple( 
+void formatted_set_incredibly_simple(
   map * m, const ter_furn_id data[], const int width, const int height, const int startx, const int starty, const int defter=-1
 );
 

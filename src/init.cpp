@@ -157,6 +157,8 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_armor);
     type_function_map["TOOL"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_tool);
+    type_function_map["TOOL_ARMOR"] = new ClassFunctionAccessor<Item_factory>(item_controller,
+            &Item_factory::load_tool_armor);
     type_function_map["BOOK"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_book);
     type_function_map["COMESTIBLE"] = new ClassFunctionAccessor<Item_factory>(item_controller,

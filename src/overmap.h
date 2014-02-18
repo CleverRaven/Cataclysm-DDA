@@ -51,11 +51,11 @@ struct oter_weight_list {
                 } else {
                     items[i].ot_iid = it->second.loadid;
                 }
-            } 
+            }
         }
     }
 
-    int pick_ent() { 
+    int pick_ent() {
         int picked = rng(0, total_weight);
         int accumulated_weight = 0;
         int i;
@@ -97,7 +97,7 @@ struct city_settings {
    city_settings() : zoning_type(CITY_GEN_RADIAL), shop_radius(80), park_radius(130) { }
 };
 /*
-todo: add relevent vars to regional_settings struct 
+todo: add relevent vars to regional_settings struct
 #define STREETCHANCE 2
 #define NUM_FOREST 250
 #define TOP_HIWAY_DIST 999
@@ -168,7 +168,7 @@ class regional_settings {
    city_settings city_spec;   // put what where in a city of what kind
    groundcover_extra field_coverage;
    groundcover_extra forest_coverage;
-   regional_settings() : 
+   regional_settings() :
        id("null"),
        default_oter("field"),
        default_groundcover(0,0,0),
@@ -178,7 +178,7 @@ class regional_settings {
        forest_size_max(40),
        house_basement_chance(2),
        swamp_maxsize(4),          // SWAMPINESS // Affects the size of a swamp
-       swamp_river_influence(5),  // 
+       swamp_river_influence(5),  //
        swamp_spread_chance(8500)  // SWAMPCHANCE // Chance that a swamp will spawn instead of forest
    {
        //default_groundcover_str = new sid_or_sid("t_grass", 4, "t_dirt");

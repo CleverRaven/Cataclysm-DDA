@@ -194,7 +194,6 @@
     "volume": 1,
     "bashing": -5,
     "cutting": 0,
-    "category": "spare_parts",
     "to_hit": -1
   },
 
@@ -365,7 +364,6 @@
     "volume": 0,
     "bashing": -6,
     "cutting": 0,
-    "category" : "spare_parts",
     "to_hit": 2
   },
 
@@ -383,7 +381,6 @@
     "volume": 2,
     "bashing": 8,
     "cutting": 0,
-    "category" : "spare_parts",
     "to_hit": -2
   },
 
@@ -418,10 +415,9 @@
     "volume": 1,
     "bashing": 1,
     "cutting": 0,
-    "category" : "spare_parts",
     "to_hit": -2
   },
-  
+
   {
     "type":"GENERIC",
     "id": "lead_plate",
@@ -436,7 +432,6 @@
     "volume": 1,
     "bashing": 4,
     "cutting": 0,
-    "category" : "spare_parts",
     "to_hit": -2
   },
 
@@ -1627,7 +1622,7 @@
     "symbol": ",",
     "color": "white",
     "name": "syringe",
-    "description": "A medical syringe. Used for administering heroin and other drugs.",
+    "description": "A medical syringe. Used for administering intravenous drugs.",
     "material": "plastic",
     "price": 25,
     "volume": 1,
@@ -1638,7 +1633,7 @@
     "flags": "SPEAR"
   },
   { "type":"GENERIC",
- "id": "pointy_stick",
+    "id": "pointy_stick",
     "symbol" : "/",
     "color": "brown",
     "name": "pointy stick",
@@ -2197,7 +2192,7 @@
         "to_hit" : 4,
         "color" : "light_gray",
         "symbol" : "{",
-        "material" : ["steel", "null"],
+        "material" : ["superalloy", "null"],
         "volume" : 2,
         "bashing" : 8,
         "cutting" : 16,
@@ -2208,12 +2203,12 @@
         "type":"GENERIC",
         "id" : "bio_blade_weapon",
         "name" : "monomolecular blade",
-        "description" : "A foot-long blade made from advanced materials.",
+        "description" : "A foot-long blade made from high tech alloy and edged with bonded nanocrystals.",
         "weight" : 100,
         "to_hit" : 3,
         "color" : "dark_gray",
         "symbol" : "{",
-        "material" : ["steel", "null"],
+        "material" : ["superalloy", "null"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 3,
         "bashing" : 0,
@@ -2293,12 +2288,12 @@
     "id" : "cell_phone",
     "name" : "cell phone",
     "description" : "A simple cell phone. Nowadays only useful for telling the time or as an alarm clock. Can also be disassembled into some useful parts.",
-    "weight" : 113,
+    "weight" : 226,
     "to_hit" : -3,
     "color" : "light_gray",
     "symbol" : ",",
     "material" : ["plastic", "aluminum"],
-    "volume" : 1,
+    "volume" : 2,
     "bashing" : -8,
     "cutting" : 0,
     "price" : 100,

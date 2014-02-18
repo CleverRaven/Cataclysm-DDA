@@ -170,6 +170,7 @@ const std::string monster_names[num_monsters] =
     toString(mon_breather_hub),
     toString(mon_breather),
     toString(mon_shadow_snake),
+    toString(mon_shoggoth),
 
     toString(mon_dementia),
     toString(mon_homunculus),

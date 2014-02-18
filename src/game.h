@@ -148,7 +148,8 @@ public:
   void unserialize_master(std::ifstream & fin); // for load
   bool unserialize_master_legacy(std::ifstream & fin); // for old load
 
-  void save();
+  // returns false if saving faild for whatever reason
+  bool save();
   void delete_world(std::string worldname, bool delete_folder);
   std::vector<std::string> list_active_characters();
   void write_memorial_file();
@@ -194,6 +195,8 @@ public:
   void emp_blast(int x, int y);
   int  npc_at(const int x, const int y) const; // Index of the npc at (x, y); -1 for none
   int  npc_by_id(const int id) const; // Index of the npc at (x, y); -1 for none
+  // Return any critter at (x,y), be it a monster, an npc, or u (the player).
+  Creature *critter_at(int x, int y);
  // void build_monmap();  // Caches data for mon_at()
 
   bool add_zombie(monster& critter);
@@ -349,6 +352,8 @@ public:
   void toggle_fullscreen(void);
   void temp_exit_fullscreen(void);
   void reenter_fullscreen(void);
+  void zoom_in();
+  void zoom_out();
 
   std::map<std::string, std::vector <items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
@@ -471,14 +476,18 @@ public:
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
   //private save functions.
-  void save_factions_missions_npcs();
+  // returns false if saving failed for whatever reason
+  bool save_factions_missions_npcs();
   void serialize_master(std::ofstream &fout);
-  void save_artifacts();
-  void save_maps();
+  // returns false if saving failed for whatever reason
+  bool save_artifacts();
+  // returns false if saving failed for whatever reason
+  bool save_maps();
   void save_weather(std::ofstream &fout);
   void load_legacy_future_weather(std::string data);
   void load_legacy_future_weather(std::istream &fin);
-  void save_uistate();
+  // returns false if saving failed for whatever reason
+  bool save_uistate();
   void load_uistate(std::string worldname);
 // Data Initialization
   void init_npctalk();
@@ -696,10 +705,14 @@ public:
   unsigned char latest_lightlevel;
   calendar latest_lightlevel_turn;
 
+
   special_game *gamemode;
 
   int moveCount; //Times the player has moved (not pause, sleep, etc)
   const int lookHeight; // Look Around window height
+
+  /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
+  int tileset_zoom;
 
   // Preview for auto move route
   std::vector<point> destination_preview;

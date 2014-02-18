@@ -53,9 +53,12 @@ void live_view::show(const int x, const int y)
 
     g->print_all_tile_info(x, y, w_live_view, START_COLUMN, line, true);
 
-    if (m.can_put_items(x, y)) {
-        std::vector<item> &items = m.i_at(x, y);
-        print_items(items, line);
+    if (m.can_put_items(x, y) && m.sees_some_items(x, y, g->u)) {
+        if(g->u.has_effect("blind")) {
+            mvwprintz(w_live_view, line++, START_COLUMN, c_yellow, _("There's something here, but you can't see what it is."));
+        } else {
+            print_items(m.i_at(x, y), line);
+        }
     }
 
 #if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
@@ -127,7 +130,7 @@ void live_view::print_items(std::vector<item> &items, int &line) const
     int last_line = height - START_LINE - 1;
     bool will_overflow = line-1 + item_names.size() > last_line;
 
-    for (std::map<std::string, int>::iterator it = item_names.begin(); 
+    for (std::map<std::string, int>::iterator it = item_names.begin();
          it != item_names.end() && (!will_overflow || line < last_line); it++) {
         mvwprintz(w_live_view, line++, START_COLUMN, c_white, it->first.c_str());
         if (it->second > 1) {

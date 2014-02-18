@@ -645,7 +645,7 @@ void iexamine::fungus(player *p, map *m, int examx, int examy) {
             mondex = g->mon_at(i, j);
             if (g->m.move_cost(i, j) > 0 || (i == examx && j == examy)) {
                 if (mondex != -1) { // Spores hit a monster
-                    if (g->u_see(i, j) && 
+                    if (g->u_see(i, j) &&
                             !g->zombie(mondex).type->in_species("FUNGUS")) {
                         g->add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());
