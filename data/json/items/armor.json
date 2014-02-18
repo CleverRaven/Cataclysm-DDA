@@ -188,7 +188,7 @@
         "encumbrance": 0,
         "bashing" : 2,
         "flags": ["VARSIZE", "STURDY", "WATER_FRIENDLY"],
-        "coverage": 95,
+        "coverage": 50,
         "material_thickness" : 2
     },
     {
