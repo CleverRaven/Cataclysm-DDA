@@ -31,7 +31,8 @@
         "items" : [
             ["manual_karate", 50],
             ["manual_judo", 25],
-            ["manual_aikido", 25]
+            ["manual_aikido", 25],
+            ["manual_boxing", 15]
         ]
     },
     {
