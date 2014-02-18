@@ -21,7 +21,7 @@
         "recoil" : 23,
         "count" : 25,
         "flags" : ["NOGIB"],
-        "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
+        "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
         "id" : "reloaded_shot_00",
@@ -44,7 +44,7 @@
         "dispersion" : 5,
         "recoil" : 31,
         "count" : 25,
-        "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
+        "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
         "id" : "reloaded_shot_slug",
@@ -138,7 +138,7 @@
         "dispersion" : 15,
         "recoil" : 18,
         "count" : 50,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "RECYCLED"]
     },
     {   "type" : "AMMO",
         "id" : "reloaded_9mmP",
@@ -186,7 +186,7 @@
         "recoil" : 20,
         "count" : 10,
         "stack_size" : 50,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "RECYCLED"]
     },
 
     {   "type" : "AMMO",
@@ -606,7 +606,7 @@
         "dispersion" : 16,
         "recoil" : 30,
         "count" : 80,
-        "effects" : ["COOKOFF", "RECYCLED"]
+        "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
         "id" : "reloaded_223",
@@ -652,7 +652,7 @@
         "dispersion" : 9,
         "recoil" : 37,
         "count" : 40,
-        "effects" : ["COOKOFF", "RECYCLED"]
+        "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
         "id" : "reloaded_556_incendiary",
@@ -796,7 +796,7 @@
         "recoil" : 39,
         "count" : 20,
         "stack_size" : 20,
-        "effects" : ["COOKOFF", "RECYCLED"]
+        "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
         "id" : "reloaded_762_51_incendiary",
@@ -867,7 +867,7 @@
         "recoil" : 40,
         "count" : 4,
         "stack_size" : 4,
-        "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
+        "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
         "id" : "reloaded_40mm_flechette",
@@ -961,7 +961,7 @@
         "dispersion" : 6,
         "recoil" : 55,
         "count" : 10,
-        "effects" : ["COOKOFF", "RECYCLED"]
+        "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
         "id" : "reloaded_50_incendiary",

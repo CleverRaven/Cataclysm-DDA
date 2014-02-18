@@ -21927,6 +21927,43 @@
   ]
 },{
         "type" : "recipe",
+  "result": "small_repairkit",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used" : "mechanics",
+  "difficulty" : 1,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": false,
+    "book_learn": [[ "manual_shotgun", 0 ] ,[ "manual_rifle", 0 ] ,[ "manual_smg", 0 ] ,[ "manual_pistol", 0 ] , ["recipe_bullets" , 0] , [ "textbook_mechanics", 1 ] , [ "mag_mechanics", 2 ]],
+  "components": [
+    [
+      ["wire", 2],
+      ["cable", 2]
+    ],
+    [
+      ["soldering_iron", 1]
+    ],
+    [
+      ["screwdriver", 1]
+    ],
+    [
+      ["wrench", 1]
+    ],
+    [
+      ["chisel", 1]
+    ],
+    [
+      ["hammer", 1]
+    ],
+    [
+      ["rag", 2],
+      ["leather", 2],
+      ["fur", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "nailrifle",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",

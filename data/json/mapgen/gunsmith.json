@@ -21,6 +21,8 @@
       ["press",90],
       ["chemistry_set",30],
       ["hotplate",50],
+      ["small_repairkit", 20],
+      ["large_repairkit", 50],
       ["forge",30]
     ]
   },{
@@ -41,6 +43,7 @@
       ["string_36",40],
       ["superglue",40],
       ["cu_pipe",40],
+      ["battery",30],
       ["nail",40]
     ]
   },{

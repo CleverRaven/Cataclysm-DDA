@@ -899,6 +899,7 @@
       ["m_fishspear", 2],
       ["c_fishspear", 2],
       ["diveknife", 6],
+      ["small_repairkit", 12],
       ["u_shotgun", 5]
     ]
   },{
@@ -2067,6 +2068,7 @@
       ["c_fishspear", 10],
       ["swim_fins", 20],
       ["diveknife", 12],
+      ["small_repairkit", 2],
       ["leathersandals", 15]
     ]
   },{
@@ -2462,6 +2464,8 @@
       ["5x50_hull", 8],
       ["waterproof_gunmod", 8],
       ["gun_crossbow", 4],
+      ["small_repairkit", 15],
+      ["large_repairkit", 1],
       ["improve_sights", 20]
     ]
   },{
@@ -5279,6 +5283,7 @@
       ["signal_flare", 25],
       ["survivormap", 1],
       ["gun_crossbow", 1],
+      ["small_repairkit", 8],
       ["charcoal", 5]
     ]
   },{
@@ -5921,6 +5926,7 @@
       ["bipod" , 1],
       ["50bmg" , 3],
       ["50ss" , 2],
+      ["small_repairkit", 10],
       ["50_incendiary" , 2],
       ["water_clean", 90],
       ["knuckle_brass", 15],
@@ -6198,6 +6204,7 @@
       ["dump_pouch", 10],
       ["electrohack", 3],
       ["processor", 15],
+      ["large_repairkit", 2],
       ["armor_chitin", 1],
       ["plut_cell", 10],
       ["laser_pack", 10],
@@ -6961,6 +6968,7 @@
       ["fungicide", 10],
       ["antifungal", 1],
       ["throw_extinguisher", 2],
+      ["small_repairkit", 14],
       ["flamethrower_simple", 2]
     ]
   },{
