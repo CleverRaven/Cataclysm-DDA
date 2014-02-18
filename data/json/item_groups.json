@@ -251,7 +251,8 @@
       ["holybook_slack", 1],
       ["holybook_kallisti", 1],
       ["holybook_scientology", 1],
-      ["leathersandals", 25]
+      ["leathersandals", 25],
+      ["boxing_gloves", 15]
     ]
   },{
     "type" : "item_group",
@@ -790,7 +791,8 @@
       ["holybook_slack", 1],
       ["holybook_kallisti", 1],
       ["holybook_scientology", 1],
-      ["leathersandals", 25]
+      ["leathersandals", 25],
+      ["boxing_gloves", 10]
     ]
   },{
     "type":"item_group",
@@ -1736,6 +1738,7 @@
       ["bat", 60],
       ["bismuth", 30],
       ["bat_metal", 60],
+      ["boxing_gloves", 25],
       ["football_armor", 10],
       ["helmet_football", 10],
       ["sneakers", 80],
@@ -3404,7 +3407,7 @@
       ["mask_dust", 65],
       ["towel", 40],
       ["vacutainer", 10],
-      ["rag_bloody", 1],
+      ["rag_bloody", 2],
       ["disinfectant", 35],
       ["medical_gauze", 10],
       ["medical_tape", 45],
@@ -3412,7 +3415,8 @@
       ["jar_3l_glass", 15],
       ["oxygen_tank", 50],
       ["smoxygen_tank", 25],
-      ["quikclot", 10]
+      ["quikclot", 10],
+      ["boxing_gloves", 1]
     ]
   },{
     "type" : "item_group",
@@ -3474,7 +3478,8 @@
       ["sm_extinguisher", 10],
       ["pocketwatch", 2],
       ["gold_watch", 2],
-      ["sf_watch", 1]
+      ["sf_watch", 1],
+      ["golf_club", 5]
     ]
   },{
     "type" : "item_group",
@@ -3561,7 +3566,8 @@
       ["caff_gum", 7],
       ["nic_gum", 5],
       ["sm_extinguisher", 10],
-      ["pocketwatch", 2]
+      ["pocketwatch", 2],
+      ["boxing_gloves", 3]
     ]
   },{
     "type" : "item_group",
