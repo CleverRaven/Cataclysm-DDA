@@ -533,7 +533,7 @@
         ]
     },{
         "type" : "martial_art",
-        "id" : "style_Boxing",
+        "id" : "style_boxing",
         "name" : "Boxing",
         "description" : "The sport of the true gentleman, modern boxing evolved from the prizefights of the victorian era.",
         "arm_block" : 2,
