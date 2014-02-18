@@ -833,7 +833,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
         f_index = menu_vec(false, _("Ferment what?"), f_names) - 1; // TODO: make cancelable using ESC
         if (f_index == f_names.size() - 1)
             f_index = -1;
-    } else { //Only one ferment was in inventory
+    } else { //Only one ferment type was in inventory
         if (!query_yn(_("Set %s to ferment?"), f_names[0].c_str()))
             f_index = -1;
     }
@@ -845,30 +845,31 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
     }
 
     // Setting the ferment in the vat
-    itype_id booze_type = f_types[f_index];
-    item booze(itypes[booze_type], 0);
-    std::list<item> selected = p->inv.use_charges(f_types[f_index], 1);
-    if (selected.empty()) { // nothing was removed from inv => weapon is the ferment
-        if (g->u.weapon.charges > 1) {
-            g->u.weapon.charges--;
-        } else {
-            g->u.remove_weapon();
-        }
-    }
-    m->add_item_or_charges(examx, examy, booze);
+    itype_id ferment_type = f_types[f_index];
+    int f_used = p->charges_of(ferment_type);
+    std::list<item> selected = p->inv.use_charges(ferment_type, p->inv.charges_of(ferment_type));
+    if (g->u.weapon.contains_with_flag("FERMENT"))
+        g->u.weapon.contents.erase(g->u.weapon.contents.begin()); //Since ALL ferment is used, there is no need to keep track of how much charges to use.
+    if (g->u.weapon.has_flag("FERMENT"))
+        g->u.remove_weapon(); //In case the player is somehow holding the ferment without a container (spawning it in)
+    item ferment(itypes[ferment_type], 0);
+    ferment.charges = f_used; //Spawns 1 charge of ferment into the vat for each charge of ferment removed from the player
+    m->add_item_or_charges(examx, examy, ferment);
     m->furn_set(examx, examy, f_fvat_full);
     p->moves -= 500;
     g->add_msg(_("Set %s to ferment."), f_names[f_index].c_str());
 }
 
 void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
+    //TODO: Make brewing actually take time
     if (m->furn(examx, examy) == f_fvat_full && query_yn(_("Finish brewing?"))) {
         itype_id alcoholType = m->i_at(examx, examy)[0].typeId().substr(8);
         item booze(itypes[alcoholType], 0);
+        booze.charges = m->i_at(examx, examy)[0].charges;
         m->i_clear(examx, examy);
         m->add_item_or_charges(examx, examy, booze);
-        p->moves -= 500;
         m->furn_set(examx, examy, f_fvat_done);
+        p->moves -= 500;
         g->add_msg(_("Finished brewing cycle."));
     }
 }
@@ -878,9 +879,10 @@ void iexamine::fvat_done(player *p, map *m, int examx, int examy) {
         item* booze = &(m->i_at(examx, examy)[i]);
         if (g->handle_liquid(*booze, true, false)) {
             m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
+            m->furn_set(examx, examy, f_fvat_empty);
+            g->add_msg(_("You squeeze the last drops of booze from the vat."));
         }
     }
-    m->furn_set(examx, examy, f_fvat_empty);
 }
 
 void iexamine::pick_plant(player *p, map *m, int examx, int examy, std::string itemType, int new_ter, bool seeds) {

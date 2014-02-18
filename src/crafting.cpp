@@ -79,6 +79,7 @@ void load_recipe(JsonObject &jsobj)
     std::string skill_used = jsobj.get_string("skill_used", "");
     std::string id_suffix = jsobj.get_string("id_suffix", "");
     int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
+    int result_mult = jsobj.get_int("result_mult", 1);
 
     std::map<std::string, int> requires_skills;
     jsarr = jsobj.get_array("skills_required");
@@ -111,7 +112,7 @@ void load_recipe(JsonObject &jsobj)
 
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
                              requires_skills, difficulty, time, reversible,
-                             autolearn, learn_by_disassembly);
+                             autolearn, learn_by_disassembly, result_mult);
 
     jsarr = jsobj.get_array("components");
     while (jsarr.has_more()) {
@@ -1371,16 +1372,34 @@ void game::complete_craft()
             newit.item_counter = 600;
         }
     }
+    if (making->result_mult != 1) {
+        newit.charges *= making->result_mult;
+    }
+
     if (!newit.craft_has_charges()) {
         newit.charges = 0;
     }
     u.inv.assign_empty_invlet(newit);
     //newit = newit.in_its_container(&itypes);
     if (newit.made_of(LIQUID)) {
+        /*bool done = false;
+        while (!done){
+            if ( u.has_watertight_container() || u.has_matching_liquid(newit.typeId()) ) {
+                if (handle_liquid(newit, false, false)){
+                    done = true;
+                }
+            }
+            else {
+                add_msg(_("You don't have enough watertight containers to store the %s, so some of it spills on the ground."),
+                    newit.tname().c_str());
+                m.add_item_or_charges(u.posx, u.posy, newit);
+                done = true;
+            }
+        }*/
         handle_liquid(newit, false, false);
     } else {
         // We might not have space for the item
-        if (!u.can_pickVolume(newit.volume())) {
+        if (!u.can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("There's no room in your inventory for the %s, so you drop it."),
                     newit.tname().c_str());
             m.add_item_or_charges(u.posx, u.posy, newit);

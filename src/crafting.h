@@ -59,6 +59,7 @@ struct recipe {
   bool reversible; // can the item be disassembled?
   bool autolearn; // do we learn it just by leveling skills?
   int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
+  int result_mult; // used by certain batch recipes that create more than one stack of the result
 
   std::vector<std::vector<component> > tools;
   std::vector<quality_requirement> qualities;
@@ -92,13 +93,14 @@ struct recipe {
     reversible = false;
     autolearn = false;
     learn_by_disassembly = -1;
+    result_mult = 1;
   }
 
 recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, craft_subcat psubcat, std::string &to_use,
        std::map<std::string,int> &to_require, int pdiff, int ptime, bool preversible, bool pautolearn,
-       int plearn_dis) :
+       int plearn_dis, int pmult) :
   ident (pident), id (pid), result (pres), cat(pcat), subcat(psubcat), difficulty (pdiff), time (ptime),
-  reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis) {
+  reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis), result_mult(pmult) {
     skill_used = to_use.size()?Skill::skill(to_use):NULL;
     if(!to_require.empty()){
         for(std::map<std::string,int>::iterator iter=to_require.begin(); iter!=to_require.end(); ++iter){

@@ -318,7 +318,7 @@ public:
   int inv(const std::string& title);
   int inv_activatable(std::string title);
   int inv_type(std::string title, item_cat inv_item_type = IC_NULL);
-  int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
+  int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single, int batch_size = 1);
   int display_slice(indexed_invslice&, const std::string&);
   int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
   // Same as other multidrop, only the dropped_worn vector
@@ -402,7 +402,7 @@ public:
   // the function set the driving offset to (0,0)
   void calc_driving_offset(vehicle *veh = NULL);
 
-  bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL, item *cont = NULL);
+  bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL, item *cont = NULL, int batch_size = 1);
 
  //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
  //otherwise returns sentinel -1, signifies transaction fail.

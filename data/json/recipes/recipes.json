@@ -7534,6 +7534,25 @@
   ]
 },{
         "type" : "recipe",
+  "result": "ferment_mead",
+  "result_mult": 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 100,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "mead", 1 ]
+    ],
+    [
+      [ "lye_powder", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "irish_coffee",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
