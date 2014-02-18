@@ -881,7 +881,7 @@ void monster::hit_monster(int i)
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll, bool crit, 
-							   const damage_instance& d, dealt_damage_instance &dealt_dam) 
+                               const damage_instance& d, dealt_damage_instance &dealt_dam) 
 {
     mdefense mdf;
     if(!is_hallucination() && source != NULL)

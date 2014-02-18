@@ -15,7 +15,7 @@ void mdefense::zapback(monster *m)
         {
         return; // Out of range
         }
-    if ((g->u.weapon.conductive() || g->u.unarmed_attack()) && (rng(0,100) <= m->def_chance));
+    if ((g->u.weapon.conductive() || g->u.unarmed_attack()) && (rng(0,100) <= m->def_chance))
         {
         damage_instance shock;
         shock.add_damage(DT_ELECTRIC, rng(1,5));
