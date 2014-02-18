@@ -485,7 +485,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                 wprintz(w_worlds, c_yellow, " ");
             }
 
-            wprintz(w_worlds, c_white, "%s", (world_pages[selpage])[i].c_str());
+            wprintz(w_worlds, c_white, "%s (%i)", (world_pages[selpage])[i].c_str(),
+                    world_generator->all_worlds[((world_pages[selpage])[i])]->world_saves.size());
         }
 
         //Draw Tabs
