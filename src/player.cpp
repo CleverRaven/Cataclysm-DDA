@@ -555,7 +555,7 @@ void player::apply_persistent_morale()
         unsigned char covered = 0; // body parts covered
         for(int i=0; i<worn.size(); i++) {
             if(worn[i].has_flag(basic_flag) || worn[i].has_flag(bonus_flag) ) {
-                it_armor* item_type = (it_armor*) worn[i].type;
+                it_armor* item_type = dynamic_cast<it_armor*>(worn[i].type);
                 covered |= item_type->covers;
             }
             if(worn[i].has_flag(bonus_flag)) {
@@ -3540,7 +3540,14 @@ float player::active_light()
         }
     }
 
-    // worn light sources? Unimplemented
+    for (size_t i = 0; i < worn.size(); i++) {
+        if ( worn[i].active  && worn[i].charges > 0) {
+            int lumit = worn[i].getlight_emit(true);
+            if ( maxlum < lumit ) {
+                maxlum = lumit;
+            }
+        }
+    }
 
     if (!weapon.is_null()) {
         if ( weapon.active  && weapon.charges > 0) {
@@ -4161,8 +4168,42 @@ void player::mod_pain(int npain) {
     Creature::mod_pain(npain);
 }
 
-void player::hurt(body_part, int, int dam)
+void player::hurt(body_part hurt, int side, int dam)
 {
+    hp_part hurtpart;
+    switch (hurt) {
+        case bp_eyes: // Fall through to head damage
+        case bp_mouth: // Fall through to head damage
+        case bp_head:
+            hurtpart = hp_head;
+            break;
+        case bp_torso:
+            hurtpart = hp_torso;
+            break;
+        case bp_hands:
+            // Shouldn't happen, but fall through to arms
+            debugmsg("Hurt against hands!");
+        case bp_arms:
+            if (side == 0) {
+                hurtpart = hp_arm_l;
+            } else {
+                hurtpart = hp_arm_r;
+            }
+            break;
+        case bp_feet:
+            // Shouldn't happen, but fall through to legs
+            debugmsg("Hurt against feet!");
+        case bp_legs:
+            if (side == 0) {
+                hurtpart = hp_leg_l;
+            } else {
+                hurtpart = hp_leg_r;
+            }
+            break;
+        default:
+            debugmsg("Wacky body part hurt!");
+            hurtpart = hp_torso;
+    }
     if (has_disease("sleep") && rng(0, dam) > 2) {
         wake_up(_("You wake up!"));
     } else if (has_disease("lying_down")) {
@@ -4182,6 +4223,11 @@ void player::hurt(body_part, int, int dam)
     if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
         add_disease("adrenaline", 200);
+    }
+    hp_cur[hurtpart] -= dam;
+    if (hp_cur[hurtpart] < 0) {
+        lifetime_stats()->damage_taken += hp_cur[hurt];
+        hp_cur[hurtpart] = 0;
     }
     lifetime_stats()->damage_taken += dam;
 }
@@ -5952,6 +5998,10 @@ void player::process_active_items()
         if (worn[i].is_artifact()) {
             g->process_artifact(&(worn[i]), this);
         }
+        if (!process_single_active_item(&worn[i])) {
+            worn.erase(worn.begin() + i);
+            i--;
+        }
     }
 
   // Drain UPS if using optical cloak.
@@ -6546,7 +6596,7 @@ bool player::covered_with_flag(const std::string flag, int parts) const {
   int covered = 0;
 
   for (std::vector<item>::const_reverse_iterator armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
-    int cover = ((it_armor *)(armorPiece->type))->covers & parts;
+    int cover = dynamic_cast<it_armor *>(armorPiece->type)->covers & parts;
 
     if (!cover) continue; // For our purposes, this piece covers nothing.
     if (cover & covered) continue; // the body part(s) is already covered.
@@ -6564,7 +6614,7 @@ bool player::covered_with_flag(const std::string flag, int parts) const {
 
 bool player::covered_with_flag_exclusively(const std::string flag, int flags) const {
   for (std::vector<item>::const_iterator armorPiece = worn.begin(); armorPiece != worn.end(); ++armorPiece) {
-    if ((((it_armor *)(armorPiece->type))->covers & flags) && !armorPiece->has_flag(flag))
+    if ((dynamic_cast<it_armor *>(armorPiece->type)->covers & flags) && !armorPiece->has_flag(flag))
       return false;
   }
 
@@ -8571,7 +8621,7 @@ void player::use(int pos)
             return;
         }
         int gunpos = g->inv(_("Select gun to modify:"));
-        it_gunmod *mod = static_cast<it_gunmod*>(used->type);
+        it_gunmod *mod = dynamic_cast<it_gunmod*>(used->type);
         item* gun = &(i_at(gunpos));
         if (gun->is_null()) {
             g->add_msg(_("You do not have that item."));

@@ -178,6 +178,8 @@ std::string monster::name_with_armor()
          ret = string_format(_("%s's thick hide"), type->name.c_str());
      } else if (type->mat == "iron" || type->mat == "steel") {
          ret = string_format(_("%s's armor plating"), type->name.c_str());
+     } else if (type->mat == "protoplasmic") {
+         ret = string_format(_("%s's hard protoplasmic hide"), type->name.c_str());
      }
  }
  return ret;

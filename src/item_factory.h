@@ -75,6 +75,7 @@ public:
     void load_gun       (JsonObject &jo);
     void load_armor     (JsonObject &jo);
     void load_tool      (JsonObject &jo);
+    void load_tool_armor(JsonObject &jo);
     void load_book      (JsonObject &jo);
     void load_comestible(JsonObject &jo);
     void load_container (JsonObject &jo);

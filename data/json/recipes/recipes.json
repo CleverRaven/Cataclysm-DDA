@@ -5451,7 +5451,8 @@
       [ "pan", -1 ],
       [ "pot", -1 ],
       [ "coffeemaker", -1],
-      [ "rock_pot", -1 ]
+      [ "rock_pot", -1 ],
+      [ "teapot", -1 ]
     ]
   ],
   "components": [
@@ -20573,6 +20574,38 @@
   ]
 },{
         "type" : "recipe",
+  "result": "metal_tank_small",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sheet_metal", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "bandages",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
@@ -30761,6 +30794,30 @@
      [ "jar_glass", 2 ]
      ]
     ]
+},{
+        "type" : "recipe",
+  "result": "miner_hat",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "hat_hard", 1 ],
+      [ "helmet_bike", 1 ]
+    ],
+    [
+      [ "flashlight", 1 ]
+    ],
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 6 ],
+      [ "duct_tape", 10 ],
+      [ "medical_tape", 20 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "mre_ravioli_box",
