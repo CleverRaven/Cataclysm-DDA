@@ -67,6 +67,8 @@ cata_tiles::~cata_tiles()
     // release maps
     if (tile_values) {
         for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
+            //SDL_DestroyTexture(it->second);
+            SDL_FreeSurface(it->second);
             it->second = NULL;
         }
         tile_values->clear();
@@ -115,29 +117,6 @@ void cata_tiles::set_renderer(SDL_Renderer *render)
     if(render) {
         renderer = render;
     }
-}
-
-/** Rescale the given surface to the given width and height. **/
-SDL_Surface *cata_tiles::scale_surface(SDL_Surface *surface, Uint16 w, Uint16 h)
-{
-    SDL_Surface *rval = SDL_CreateRGBSurface(surface->flags, w, h, surface->format->BitsPerPixel,
-        surface->format->Rmask, surface->format->Gmask, surface->format->Bmask, surface->format->Amask);
-
-    double stretch_factor_x = (static_cast<double>(w)  / static_cast<double>(surface->w));
-    double stretch_factor_y = (static_cast<double>(h) / static_cast<double>(surface->h));
-
-    for(Sint32 y = 0; y < surface->h; y++) {
-        for(Sint32 x = 0; x < surface->w; x++) {
-            for(Sint32 o_y = 0; o_y < stretch_factor_y; ++o_y) {
-                for(Sint32 o_x = 0; o_x < stretch_factor_x; ++o_x) {
-                    put_pixel(rval, static_cast<Sint32>(stretch_factor_x * x) + o_x,
-                        static_cast<Sint32>(stretch_factor_y * y) + o_y, get_pixel(surface, x, y));
-                }
-            }
-        }
-    }
-
-    return rval;
 }
 
 void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
@@ -207,7 +186,9 @@ void cata_tiles::reload_tileset() {
     /* release stored tiles */
     if (tile_values) {
         for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
-            delete it->second;
+            //SDL_DestroyTexture(it->second);
+            SDL_FreeSurface(it->second);
+            it->second = NULL;
         }
         tile_values->clear();
     }
@@ -224,45 +205,38 @@ void cata_tiles::reload_tileset() {
         sx *= tile_width;
         sy *= tile_height;
 
-        // set up initial source and destination information. Destination is going to be unchanging
-        SDL_Rect *source_rect = new SDL_Rect(), *dest_rect = new SDL_Rect();
-        source_rect->w = dest_rect->w = tile_width;
-        source_rect->h = dest_rect->h = tile_height;
-        source_rect->x = 0;
-        dest_rect->x = 0;
-        source_rect->y = 0;
-        dest_rect->y = 0;
+        // Set up initial source and destination information. Destination is going to be unchanging
+        SDL_Rect source_rect = {0,0,tile_width,tile_height};
+        SDL_Rect dest_rect = {0,0,tile_width,tile_height};
 
         /** split the atlas into tiles using SDL_Rect structs instead of slicing the atlas into individual surfaces */
         int tilecount = 0;
         for (int y = 0; y < sy; y += tile_height) {
             for (int x = 0; x < sx; x += tile_width) {
-                source_rect->x = x;
-                source_rect->y = y;
+                source_rect.x = x;
+                source_rect.y = y;
 
-                // make new surface to place the tile onto
-                // REALLY hacky workaround, but without it the tile's alpha channel is missing.
-                // Approximately as fast as creating and then blitting manually
-                SDL_Surface *new_tile = rotate_tile(tile_atlas, source_rect, 0);
+                SDL_Surface *tile_surf = create_tile_surface();
+                SDL_BlitSurface(tile_atlas, &source_rect, tile_surf, &dest_rect);
+                
+                //SDL_Texture *tile_tex = SDL_CreateTextureFromSurface(renderer,tile_surf);
+                
+                //SDL_FreeSurface(tile_surf);
+                
                 if (!tile_values) {
                     tile_values = new tile_map;
                 }
 
-                (*tile_values)[tilecount++] = new_tile;
+                (*tile_values)[tilecount++] = tile_surf;
             }
         }
-        // release source and destination rectangles
-        delete source_rect;
-        delete dest_rect;
+        
         DebugLog() << "Tiles Created: " << tilecount << "\n";
     }
 }
 
 void cata_tiles::load_rescaled_tileset(int scale) {
     /* release tile_atlas from memory if it has already been initialized */
-    if (tile_atlas) {
-        SDL_FreeSurface(tile_atlas);
-    }
 
     tile_width = default_tile_width * scale / 16;
     tile_height = default_tile_height * scale / 16;
@@ -272,9 +246,6 @@ void cata_tiles::load_rescaled_tileset(int scale) {
 
     screentile_width =  (int)(terrain_term_x / tile_ratiox) + 1;
     screentile_height = (int)(terrain_term_y / tile_ratioy) + 1;
-
-    /** reinit tile_atlas */
-    tile_atlas = scale_surface(default_size_tile_atlas, default_size_tile_atlas->w * scale / 16, default_size_tile_atlas->h * scale / 16);
 
     reload_tileset();
 }
@@ -587,6 +558,9 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
 
     // blit background first : always non-rotated
     if (bg >= 0 && bg < tile_values->size()) {
+        //SDL_Texture *bg_tex = (*tile_values)[bg];
+        //SDL_RenderCopy(renderer, bg_tex, NULL, &destination);
+        
         SDL_Surface *bg_surf = (*tile_values)[bg];
         
         SDL_Texture *tbuf = SDL_CreateTextureFromSurface(renderer,bg_surf);
@@ -596,6 +570,9 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     // blit foreground based on rotation
     if (rota == 0) {
         if (fg >= 0 && fg < tile_values->size()) {
+            //SDL_Texture *fg_tex = (*tile_values)[fg];
+            //SDL_RenderCopy(renderer, fg_tex, NULL, &destination);
+            
             SDL_Surface *fg_surf = (*tile_values)[fg];
             
             SDL_Texture *tbuf = SDL_CreateTextureFromSurface(renderer,fg_surf);
@@ -629,157 +606,14 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
             SDL_RenderCopyEx(renderer, tbuf, NULL, &destination,
                 angle, &center, flip );
             SDL_DestroyTexture(tbuf);
+            
+            //SDL_Texture *fg_tex = (*tile_values)[fg];
+            //SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
+            //    angle, &center, flip );
         }
     }
 
     return true;
-}
-/**
-    may be able to cache results for each rotation using a double dx,dy pair. Would certainly increase speed at the expense of:
-    [4 * tile_width * tile_height * (2*sizeof(double))] memory use.
-    0 rota would have all zeros
-    1 rota would have a 90 degree right rotation
-    2 rota would have a 180 degree rotation
-    3 rota would have a 90 degree left (270 right) rotation
-*/
-SDL_Surface *cata_tiles::rotate_tile(SDL_Surface *src, SDL_Rect *rect, int rota)
-{
-    SDL_Rect *used_rect;
-    bool delete_used_rect = false;
-
-    if (!src) {
-        return NULL;
-    }
-    if (!rect || rect->w == 0 || rect->h == 0) {
-        used_rect = new SDL_Rect();
-        delete_used_rect = true;
-        used_rect->w = src->w;
-        used_rect->h = src->h;
-        used_rect->x = 0;
-        used_rect->y = 0;
-    } else {
-        used_rect = rect;
-    }
-    double cx, cy;
-    cx = (double)(used_rect->w - 1) / 2;
-    cy = (double)(used_rect->h - 1) / 2;
-
-    double X, Y;
-    double X2, Y2;
-
-    double cosAngle, sinAngle;
-
-    SDL_Surface *ret = SDL_CreateRGBSurface(src->flags, used_rect->w, used_rect->h, src->format->BitsPerPixel, src->format->Rmask, src->format->Gmask, src->format->Bmask, src->format->Amask);
-
-    // simple rotational values wooo!
-    switch(rota) {
-        case 0:
-            cosAngle = 1;
-            sinAngle = 0;
-            break;
-        case 1:
-            cosAngle = 0;
-            sinAngle = 1;
-            break;
-        case 2:
-            cosAngle = -1;
-            sinAngle = 0;
-            break;
-        case 3:
-            cosAngle = 0;
-            sinAngle = -1;
-            break;
-        default:
-            cosAngle = 0;
-            sinAngle = 0;
-            break;
-    }
-
-    for (int x = 0; x < used_rect->w; ++x) {
-        for (int y = 0; y < used_rect->h; ++y) {
-            X = (double)x - cx;
-            Y = (double)y - cy;
-            X2 = (X * cosAngle - Y * sinAngle);
-            Y2 = (X * sinAngle + Y * cosAngle);
-            X2 += cx + used_rect->x;
-            Y2 += cy + used_rect->y;
-
-            if( (int)X2 >= (int)src->w || (int)X2 < 0 || (int)Y2 >= src->h || (int)Y2 < 0) {
-                put_pixel(ret, x, y, SDL_MapRGB(src->format, 255, 0, 255));
-            } else {
-                put_pixel(ret, x, y, get_pixel(src, X2, Y2));
-            }
-        }
-    }
-
-    if (delete_used_rect) {
-        delete used_rect;
-    }
-
-    return ret;
-}
-Uint32 cata_tiles::get_pixel(SDL_Surface *surface, int x, int y)
-{
-    int bpp = surface->format->BytesPerPixel;
-    /* Here p is the address to the pixel we want to retrieve */
-    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-
-    switch(bpp) {
-        case 1:
-            return *p;
-            break;
-
-        case 2:
-            return *(Uint16 *)p;
-            break;
-
-        case 3:
-            if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-                return p[0] << 16 | p[1] << 8 | p[2];
-            } else {
-                return p[0] | p[1] << 8 | p[2] << 16;
-            }
-            break;
-
-        case 4:
-            return *(Uint32 *)p;
-            break;
-
-        default:
-            return 0;       /* shouldn't happen, but avoids warnings */
-    }
-}
-void cata_tiles::put_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
-{
-    int bpp = surface->format->BytesPerPixel;
-    /* Here p is the address to the pixel we want to set */
-    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-
-    switch(bpp) {
-        case 1:
-            *p = pixel;
-            break;
-
-        case 2:
-            *(Uint16 *)p = pixel;
-            break;
-
-        case 3:
-            if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-                p[0] = (pixel >> 16) & 0xff;
-                p[1] = (pixel >> 8) & 0xff;
-                p[2] = pixel & 0xff;
-            } else {
-                p[0] = pixel & 0xff;
-                p[1] = (pixel >> 8) & 0xff;
-                p[2] = (pixel >> 16) & 0xff;
-            }
-            break;
-
-        case 4:
-            *(Uint32 *)p = pixel;
-            break;
-    }
 }
 
 bool cata_tiles::draw_lighting(int x, int y, LIGHTING l)
@@ -1052,19 +886,27 @@ bool cata_tiles::draw_item_highlight(int x, int y)
     return draw_from_id_string(ITEM_HIGHLIGHT, x, y, 0, 0);
 }
 
+SDL_Surface *cata_tiles::create_tile_surface() {
+    SDL_Surface *surface;
+    #if SDL_BYTEORDER == SDL_BIG_ENDIAN
+        surface = SDL_CreateRGBSurface(0, tile_width, tile_height, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+    #else
+        surface = SDL_CreateRGBSurface(0, tile_width, tile_height, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
+    #endif
+    return surface;
+}
+
 void cata_tiles::create_default_item_highlight()
 {
     const Uint8 highlight_alpha = 127;
 
     std::string key = ITEM_HIGHLIGHT;
-    SDL_Surface *surface;
     int index = tile_values->size();
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    surface = SDL_CreateRGBSurface(0, tile_width, tile_height, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
-#else
-    surface = SDL_CreateRGBSurface(0, tile_width, tile_height, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
-#endif
+    
+    SDL_Surface *surface = create_tile_surface();
     SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, 0, 0, 127, highlight_alpha));
+    //SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer,surface);
+    //SDL_FreeSurface(surface);
 
     (*tile_values)[index] = surface;
     tile_type *type = new tile_type;

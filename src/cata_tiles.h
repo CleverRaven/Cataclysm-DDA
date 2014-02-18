@@ -147,8 +147,6 @@ class cata_tiles
         /** Load tileset config file */
         void load_tilejson(std::string path);
         void load_tilejson_from_file(std::ifstream &f);
-        /* After loading tileset, create additional cache for rotating each tile assuming it is used for rotations */
-        void create_rotation_cache();
         /** Draw to screen */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);
 
@@ -162,21 +160,15 @@ class cata_tiles
         /**
          * Redraws all the tiles that have changed since the last frame.
          */
-        void apply_changes();
-        
         void clear_buffer();
 
         /** Surface/Sprite rotation specifics */
-        SDL_Surface *rotate_tile(SDL_Surface *src, SDL_Rect *rect, int rota);
-        void put_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
-        Uint32 get_pixel(SDL_Surface *surface, int x, int y);
-        SDL_Surface *scale_surface(SDL_Surface *surface, Uint16 w, Uint16 h);
+        SDL_Surface *create_tile_surface();
+        
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
-
         void get_wall_values(const int x, const int y, const long vertical_wall_symbol, const long horizontal_wall_symbol, int &subtile, int &rotation);
         void get_terrain_orientation(int x, int y, int &rota, int &subtype);
-
         void get_rotation_and_subtile(const char val, const int num_connects, int &rota, int &subtype);
 
         /** Drawing Layers */
@@ -220,16 +212,6 @@ class cata_tiles
 
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
-
-        /**
-         * Scroll the map widget by (x, y)
-         *
-         * scroll(1, 1) would move the view one to the right and one down.
-         *
-         * Useful for keeping part of the previous "frame" and redrawing
-         * only what changed.
-         */
-        void scroll(int x, int y);
 
         /** Used to properly initialize everything for display */
         void init(std::string json_path, std::string tileset_path);
