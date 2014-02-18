@@ -331,7 +331,7 @@ bool player::create(character_type type, std::string tempname)
             } else if (choice == 5) {
                 ma_type = "style_zui_quan";
             } else { // choice == 6
-                ma_type = "style_boxing"
+                ma_type = "style_boxing";
             }
             if (PLTYPE_NOW != type) {
                 popup(martialarts[ma_type].description.c_str());
