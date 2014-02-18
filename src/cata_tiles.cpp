@@ -69,7 +69,6 @@ cata_tiles::~cata_tiles()
     if (tile_values) {
         for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
             SDL_DestroyTexture(it->second);
-            //SDL_FreeSurface(it->second);
             it->second = NULL;
         }
         tile_values->clear();
@@ -181,7 +180,6 @@ void cata_tiles::reload_tileset() {
     if (tile_values) {
         for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
             SDL_DestroyTexture(it->second);
-            //SDL_FreeSurface(it->second);
             it->second = NULL;
         }
         tile_values->clear();
@@ -229,7 +227,7 @@ void cata_tiles::reload_tileset() {
     }
 }
 
-void cata_tiles::load_rescaled_tileset(int scale) {
+void cata_tiles::set_draw_scale(int scale) {
     /* release tile_atlas from memory if it has already been initialized */
 
     tile_width = default_tile_width * scale / 16;
@@ -240,8 +238,6 @@ void cata_tiles::load_rescaled_tileset(int scale) {
 
     screentile_width =  (int)(terrain_term_x / tile_ratiox) + 1;
     screentile_height = (int)(terrain_term_y / tile_ratioy) + 1;
-
-    reload_tileset();
 }
 
 void cata_tiles::load_tileset(std::string path)

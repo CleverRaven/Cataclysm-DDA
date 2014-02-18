@@ -140,7 +140,7 @@ class cata_tiles
 
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
          *  float inaccuracies. */
-        void load_rescaled_tileset(int scale);
+        void set_draw_scale(int scale);
 
         /** Load tileset */
         void load_tileset(std::string path);

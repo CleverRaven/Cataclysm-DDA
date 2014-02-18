@@ -1367,7 +1367,7 @@ bool gamepad_available() {
 
 void rescale_tileset(int size) {
     #ifdef SDLTILES
-        tilecontext->load_rescaled_tileset(size);
+        tilecontext->set_draw_scale(size);
     #endif
 }
 
