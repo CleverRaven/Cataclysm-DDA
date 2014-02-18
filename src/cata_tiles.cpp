@@ -25,7 +25,7 @@ extern game *g;
 extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
 
-cata_tiles::cata_tiles()
+cata_tiles::cata_tiles(SDL_Renderer *render)
 {
     //ctor
     tile_atlas = NULL;
@@ -33,6 +33,7 @@ cata_tiles::cata_tiles()
     tile_values = NULL;
     tile_ids = NULL;
     screen_tiles = NULL;
+    renderer = render;
 
     tile_height = 0;
     tile_width = 0;
@@ -67,8 +68,8 @@ cata_tiles::~cata_tiles()
     // release maps
     if (tile_values) {
         for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
-            //SDL_DestroyTexture(it->second);
-            SDL_FreeSurface(it->second);
+            SDL_DestroyTexture(it->second);
+            //SDL_FreeSurface(it->second);
             it->second = NULL;
         }
         tile_values->clear();
@@ -110,13 +111,6 @@ void cata_tiles::reinit(std::string load_file_path)
     std::string json_path, tileset_path;
     get_tile_information(load_file_path, json_path, tileset_path);
     init(json_path, tileset_path);
-}
-
-void cata_tiles::set_renderer(SDL_Renderer *render)
-{
-    if(render) {
-        renderer = render;
-    }
 }
 
 void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
@@ -186,8 +180,8 @@ void cata_tiles::reload_tileset() {
     /* release stored tiles */
     if (tile_values) {
         for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
-            //SDL_DestroyTexture(it->second);
-            SDL_FreeSurface(it->second);
+            SDL_DestroyTexture(it->second);
+            //SDL_FreeSurface(it->second);
             it->second = NULL;
         }
         tile_values->clear();
@@ -219,15 +213,15 @@ void cata_tiles::reload_tileset() {
                 SDL_Surface *tile_surf = create_tile_surface();
                 SDL_BlitSurface(tile_atlas, &source_rect, tile_surf, &dest_rect);
                 
-                //SDL_Texture *tile_tex = SDL_CreateTextureFromSurface(renderer,tile_surf);
+                SDL_Texture *tile_tex = SDL_CreateTextureFromSurface(renderer,tile_surf);
                 
-                //SDL_FreeSurface(tile_surf);
+                SDL_FreeSurface(tile_surf);
                 
                 if (!tile_values) {
                     tile_values = new tile_map;
                 }
 
-                (*tile_values)[tilecount++] = tile_surf;
+                (*tile_values)[tilecount++] = tile_tex;
             }
         }
         
@@ -558,26 +552,21 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
 
     // blit background first : always non-rotated
     if (bg >= 0 && bg < tile_values->size()) {
-        //SDL_Texture *bg_tex = (*tile_values)[bg];
-        //SDL_RenderCopy(renderer, bg_tex, NULL, &destination);
+        SDL_Texture *bg_tex = (*tile_values)[bg];
+        SDL_RenderCopy(renderer, bg_tex, NULL, &destination);
         
-        SDL_Surface *bg_surf = (*tile_values)[bg];
+        /*SDL_Surface *bg_surf = (*tile_values)[bg];
         
         SDL_Texture *tbuf = SDL_CreateTextureFromSurface(renderer,bg_surf);
         SDL_RenderCopy(renderer, tbuf, NULL, &destination);
-        SDL_DestroyTexture(tbuf);
+        SDL_DestroyTexture(tbuf);*/
     }
+    
     // blit foreground based on rotation
     if (rota == 0) {
         if (fg >= 0 && fg < tile_values->size()) {
-            //SDL_Texture *fg_tex = (*tile_values)[fg];
-            //SDL_RenderCopy(renderer, fg_tex, NULL, &destination);
-            
-            SDL_Surface *fg_surf = (*tile_values)[fg];
-            
-            SDL_Texture *tbuf = SDL_CreateTextureFromSurface(renderer,fg_surf);
-            SDL_RenderCopy(renderer, tbuf, NULL, &destination);
-            SDL_DestroyTexture(tbuf);
+            SDL_Texture *fg_tex = (*tile_values)[fg];
+            SDL_RenderCopy(renderer, fg_tex, NULL, &destination);
         }
     } else {
         if (fg >= 0 && fg < tile_values->size()) {
@@ -600,16 +589,9 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
                 break;
             }
             
-            SDL_Surface *fg_surf = (*tile_values)[fg];
-            
-            SDL_Texture *tbuf = SDL_CreateTextureFromSurface(renderer,fg_surf);
-            SDL_RenderCopyEx(renderer, tbuf, NULL, &destination,
+            SDL_Texture *fg_tex = (*tile_values)[fg];
+            SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
                 angle, &center, flip );
-            SDL_DestroyTexture(tbuf);
-            
-            //SDL_Texture *fg_tex = (*tile_values)[fg];
-            //SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
-            //    angle, &center, flip );
         }
     }
 
@@ -905,10 +887,10 @@ void cata_tiles::create_default_item_highlight()
     
     SDL_Surface *surface = create_tile_surface();
     SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, 0, 0, 127, highlight_alpha));
-    //SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer,surface);
-    //SDL_FreeSurface(surface);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer,surface);
+    SDL_FreeSurface(surface);
 
-    (*tile_values)[index] = surface;
+    (*tile_values)[index] = texture;
     tile_type *type = new tile_type;
     type->fg = index;
     type->bg = -1;

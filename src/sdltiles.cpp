@@ -1055,12 +1055,7 @@ WINDOW *curses_init(void)
         DebugLog() << (std::string)"Failed to initialize SDL!\n";
     }
 
-    #ifdef SDLTILES
-    DebugLog() << "Initializing SDL Tiles context\n";
-    tilecontext = new cata_tiles;
-    tilecontext->init("gfx");
-    DebugLog() << "Tiles initialized successfully.\n";
-    #endif // SDLTILES
+    
     WindowWidth= OPTIONS["TERMINAL_X"];
     if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
     WindowWidth *= fontwidth;
@@ -1069,10 +1064,15 @@ WINDOW *curses_init(void)
         DebugLog() << (std::string)"Failed to create game window!\n";
         return NULL;
     }
+    
     #ifdef SDLTILES
-    //TODO
-    tilecontext->set_renderer(renderer);
-
+    DebugLog() << "Initializing SDL Tiles context\n";
+    tilecontext = new cata_tiles(renderer);
+    tilecontext->init("gfx");
+    DebugLog() << "Tiles initialized successfully.\n";
+    #endif // SDLTILES
+    
+    #ifdef SDLTILES
     while(!strcasecmp(typeface.substr(typeface.length()-4).c_str(),".bmp") ||
           !strcasecmp(typeface.substr(typeface.length()-4).c_str(),".png")) {
         DebugLog() << "Loading bitmap font [" + typeface + "].\n" ;

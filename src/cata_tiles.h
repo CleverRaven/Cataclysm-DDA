@@ -86,7 +86,7 @@ enum MULTITILE_TYPE
 };
 
 /** Typedefs */
-typedef std::map<int, SDL_Surface*> tile_map;
+typedef std::map<int, SDL_Texture*> tile_map;
 typedef std::map<std::string, tile_type*> tile_id_map;
 
 typedef tile_map::iterator tile_iterator;
@@ -130,7 +130,7 @@ class cata_tiles
 {
     public:
         /** Default constructor */
-        cata_tiles();
+        cata_tiles(SDL_Renderer *render);
         /** Default destructor */
         ~cata_tiles();
 
@@ -219,7 +219,6 @@ class cata_tiles
         void init(std::string load_file_path);
         /* Reinitializes the tile context using the original screen information */
         void reinit(std::string load_file_path);
-        void set_renderer(SDL_Renderer *render);
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
         void init_light();
