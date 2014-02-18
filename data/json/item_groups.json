@@ -3075,6 +3075,7 @@
       ["clown_suit", 2],
       ["clownshoes", 2],
       ["bondage_suit", 1],
+      ["gold_dental_grill", 1],
       ["knife_trench", 14],
       ["switchblade", 15],
       ["bondage_mask", 1],
@@ -3113,6 +3114,8 @@
       ["pda", 10],
       ["gold_watch", 5],
       ["pocketwatch", 2],
+      ["gold_dental_grill", 2],
+      ["diamond_dental_grill", 1],
       ["picklocks", 4],
       ["chisel", 2],
       ["scissors", 10],
@@ -6449,7 +6452,9 @@
       ["knife_trench", 7],
       ["switchblade", 4],
       ["gold_watch", 5],
-      ["pocketwatch", 2]
+      ["pocketwatch", 2],
+      ["gold_dental_grill", 2],
+      ["diamond_dental_grill", 1]
     ]
 },{
     "type" : "item_group",
