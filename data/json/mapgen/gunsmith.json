@@ -106,6 +106,7 @@
       ["waterproof_gunmod", 8],
       ["tuned_mechanism", 10],
       ["match_trigger", 15],
+      ["recoil_stock", 15],
       ["improve_sights", 40]
     ]
   },{
