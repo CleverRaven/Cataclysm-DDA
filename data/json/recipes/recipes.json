@@ -20541,6 +20541,75 @@
   ]
 },{
         "type" : "recipe",
+  "result": "suppressor",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 8,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "large_repairkit", 250 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "pipe", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "barrel_small",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "large_repairkit", 100 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "pipe", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "barrel_big",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "large_repairkit", 100 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "brass_catcher",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_MODS",
