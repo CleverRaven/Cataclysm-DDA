@@ -120,10 +120,17 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     }
     // we can only drop something if curammo exists
     if (curammo != NULL && proj.drops &&
-            !(proj.proj_effects.count("IGNITE")) &&
-            !(proj.proj_effects.count("EXPLOSIVE")) &&
-            ((curammo->m1 == "wood" && !one_in(5)) ||
-            (curammo->m1 != "wood" && !one_in(15))  )) {
+    !(proj.proj_effects.count("IGNITE")) &&
+    !(proj.proj_effects.count("EXPLOSIVE")) &&
+    (
+        (proj.proj_effects.count("RECOVER_3") && !one_in(3)) ||
+        (proj.proj_effects.count("RECOVER_5") && !one_in(5)) ||
+        (proj.proj_effects.count("RECOVER_10") && !one_in(10)) ||
+        (proj.proj_effects.count("RECOVER_15") && !one_in(15)) ||
+        (proj.proj_effects.count("RECOVER_25") && !one_in(25))
+    )
+       )
+    {
         item ammotmp = item(curammo, 0);
         ammotmp.charges = 1;
         g->m.add_item_or_charges(tx, ty, ammotmp);
@@ -212,8 +219,13 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     proj.proj_effects.insert(curammo_effects->begin(),curammo_effects->end());
 
     proj.wide = (curammo->phase == LIQUID ||
-            proj.proj_effects.count("SHOT") || proj.proj_effects.count("BOUNCE"));
-    proj.drops = (curammo->type == "bolt" || curammo->type == "arrow" || proj.proj_effects.count("REUSE"));
+    proj.proj_effects.count("SHOT") || proj.proj_effects.count("BOUNCE"));
+    proj.drops = (proj.proj_effects.count("RECOVER_3") ||
+    proj.proj_effects.count("RECOVER_5") ||
+    proj.proj_effects.count("RECOVER_10") ||
+    proj.proj_effects.count("RECOVER_15") ||
+    proj.proj_effects.count("RECOVER_25")
+                 );
 
     //int x = xpos(), y = ypos();
     // Have to use the gun, gunmods don't have a type

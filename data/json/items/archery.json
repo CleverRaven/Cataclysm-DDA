@@ -68,7 +68,8 @@
       "range" : 0,
       "dispersion" : 34,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_5"]
    },
    {
       "type" : "AMMO",
@@ -91,7 +92,8 @@
       "range" : 1,
       "dispersion" : 29,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_10"]
    },
    {
       "type" : "AMMO",
@@ -114,7 +116,8 @@
       "range" : 3,
       "dispersion" : 24,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_15"]
    },
    {
       "type" : "AMMO",
@@ -137,7 +140,8 @@
       "range" : 2,
       "dispersion" : 29,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_5"]
    },
    {
       "type" : "AMMO",
@@ -160,7 +164,8 @@
       "range" : 2,
       "dispersion" : 29,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_5"]
    },
    {
       "type" : "AMMO",
@@ -184,7 +189,8 @@
       "dispersion" : 29,
       "recoil" : 0,
       "count" : 10,
-      "flags" : ["NOGIB"]
+      "flags" : ["NOGIB"],
+      "effects" : ["RECOVER_5"]
    },
    {
       "type" : "AMMO",
@@ -207,7 +213,8 @@
       "range" : 6,
       "dispersion" : 14,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_5"]
    },
    {
       "type" : "AMMO",
@@ -230,7 +237,8 @@
       "range" : 6,
       "dispersion" : 14,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_5"]
    },
    {
       "type" : "AMMO",
@@ -253,7 +261,8 @@
       "range" : 7,
       "dispersion" : 9,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_5"]
    },
    {
       "type" : "AMMO",
@@ -276,7 +285,8 @@
       "range" : 7,
       "dispersion" : 9,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_10"]
    },
    {
       "type" : "AMMO",
@@ -299,7 +309,8 @@
       "range" : 7,
       "dispersion" : 9,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_10"]
    },
    {
       "type" : "AMMO",
@@ -322,7 +333,8 @@
       "range" : 8,
       "dispersion" : 4,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_10"]
    },
    {
       "type" : "AMMO",
@@ -345,7 +357,8 @@
       "range" : 5,
       "dispersion" : 19,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_15"]
    },
    {
       "type" : "AMMO",
@@ -368,7 +381,8 @@
       "range" : 10,
       "dispersion" : 4,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_15"]
    },
    {
       "type" : "AMMO",
@@ -392,7 +406,8 @@
       "dispersion" : 9,
       "recoil" : 0,
       "count" : 8,
-      "stack_size" : 10
+      "stack_size" : 10,
+      "effects" : ["RECOVER_3"]
    },
    {
       "type" : "AMMO",
@@ -481,7 +496,8 @@
       "range" : 0,
       "dispersion" : 10,
       "recoil" : 0,
-      "count" : 15
+      "count" : 15,
+      "effects" : ["RECOVER_5"]
    },
    {
       "type" : "AMMO",
@@ -505,7 +521,8 @@
       "range" : 3,
       "dispersion" : 9,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_15"]
    },
    {
       "type" : "AMMO",
@@ -528,7 +545,8 @@
       "range" : 6,
       "dispersion" : 8,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
+      "effects" : ["RECOVER_25"]
    },
    {
       "type" : "AMMO",
@@ -898,7 +916,8 @@
       "damage":0,
       "recoil":0,
       "dispersion":40,
-      "count":10
+      "count":10,
+      "effects" : ["RECOVER_10"]
    },
    {
       "id":"arrowhead_plastic",
@@ -1010,7 +1029,7 @@
       "dispersion" : 10,
       "recoil" : 0,
       "count" : 4,
-      "effects" : ["REUSE"]
+      "effects" : ["RECOVER_5"]
    },
    {
       "type" : "AMMO",
@@ -1034,7 +1053,7 @@
       "dispersion" : 8,
       "recoil" : 0,
       "count" : 4,
-      "effects" : ["REUSE"]
+      "effects" : ["RECOVER_15"]
    },
    {
       "type" : "AMMO",
@@ -1058,7 +1077,7 @@
       "dispersion" : 6,
       "recoil" : 0,
       "count" : 4,
-      "effects" : ["REUSE"]
+      "effects" : ["RECOVER_3"]
    },
    {
       "id":"arrow_plastic",
@@ -1080,6 +1099,7 @@
       "range":12,
       "dispersion":15,
       "recoil":0,
-      "count":10
+      "count":10,
+      "effects" : ["RECOVER_10"]
    }
 ]
