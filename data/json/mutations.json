@@ -412,7 +412,7 @@
         "id" : "MARTIAL_ARTS2",
         "name" : "Self-Defense Classes",
         "points" : 3,
-        "description" : "You have taken some self-defense classes at a nearby gym. You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan.",
+        "description" : "You have taken some self-defense classes at a nearby gym. You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, Boxing or Zui Quan.",
         "starting_trait" : true,
         "valid" : false
     },{
