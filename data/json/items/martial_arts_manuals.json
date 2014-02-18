@@ -460,6 +460,29 @@
     "use_action": "MA_MANUAL"
   },
   {
+    "id": "manual_boxing",
+    "type": "TOOL",
+    "symbol": "?",
+    "color": "red",
+    "name": "Pugilism Illustrated",
+    "category": "books",
+    "description": "It's an ancient manual on the finer arts of boxing. A victorian man on the cover seems to be ready to rough-up some ruffians.",
+    "price": 200,
+    "material": "paper",
+    "weight": 150,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "MA_MANUAL"
+  },
+  {
     "type" : "item_group",
     "id"   : "ma_manuals",
     "items":[
@@ -483,6 +506,7 @@
       ["manual_toad", 5],
       ["manual_lizard", 5],
       ["manual_venom_snake", 5]
+      ["manual_boxing", 5]
     ]
   }
 ]
