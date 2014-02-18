@@ -1033,7 +1033,8 @@
       "range" : 6,
       "dispersion" : 8,
       "recoil" : 0,
-      "count" : 4
+      "count" : 4,
+      "effects" : ["REUSE"]
    },
    {
       "type" : "AMMO",
@@ -1056,7 +1057,8 @@
       "range" : 10,
       "dispersion" : 6,
       "recoil" : 0,
-      "count" : 4
+      "count" : 4,
+      "effects" : ["REUSE"]
    },
    {
       "id":"arrow_plastic",
