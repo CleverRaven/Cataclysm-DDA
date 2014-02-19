@@ -74,7 +74,7 @@
             ["manual_boxing", 50],
             ["mag_melee", 35],
             ["mag_bashing", 20],
-            ["manual_melee" 15],
+            ["manual_melee", 15],
             ["recipe_melee", 10]
         ]
     },
@@ -100,7 +100,7 @@
         "color": "grey",
         "move_cost_mod": -1,
         "required_str": 7,
-        "flags": ["BASHABLE", "DECONSTRUCT", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC"]
+        "flags": ["BASHABLE", "DECONSTRUCT", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC"],
         "bash": {
             "str_min": 10, "str_max": 20,
             "sound": "whack!",
