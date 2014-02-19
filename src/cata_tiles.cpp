@@ -566,28 +566,21 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
         }
     } else {
         if (fg >= 0 && fg < tile_values->size()) {
-            double angle = -90*rota;
-            SDL_Point center = {0,0};
-            
-            SDL_RendererFlip flip = SDL_FLIP_NONE;
-            
-            switch(rota) {
-            case 1:
-                destination.y += tile_height - 1;
-                break;
-            case 2:
-                //flip rather then rotate this one
-                angle = 0;
-                flip = (SDL_RendererFlip)(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
-                break;
-            case 3:
-                destination.x += tile_width - 1;
-                break;
-            }
-            
             SDL_Texture *fg_tex = (*tile_values)[fg];
-            SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
-                angle, &center, flip );
+            
+            if(rota == 1) {
+                destination.y -= 1;
+                SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
+                    -90, NULL, SDL_FLIP_NONE );
+            } else if(rota == 2) {
+                //flip rather then rotate here
+                SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
+                    0, NULL, (SDL_RendererFlip)(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL) );
+            } else { //rota == 3
+                destination.x -= 1;
+                SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
+                    90, NULL, SDL_FLIP_NONE );
+            }
         }
     }
 
