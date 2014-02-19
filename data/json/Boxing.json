@@ -24,6 +24,30 @@
         "material_thickness" : 5
     },
     {
+        "type" : "ARMOR",
+        "id" : "headgear",
+        "name" : "Headgear",
+        "weight" : 500,
+        "color" : "Red",
+        "covers" : ["HEAD"],
+        "to_hit" : 1,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "Lightweight sports headgear designed to protect the head while sparring.",
+        "price" : 4000,
+        "material" : ["plastic", "leather"],
+        "volume" : 4,
+        "cutting" : 0,
+        "warmth" : 10,
+        "phase" : "solid",
+        "enviromental_protection" : 1,
+        "encumbrance" : 2,
+        "bashing" : -1,
+        "flags" : ["VARSIZE", "OVERSIZE", "STURDY"],
+        "coverage" : 75,
+        "material_thickness" : 3
+    },
+    {
         "type"  : "item_group",
         "id"    : "boxing_clothes",
         "items" : [
