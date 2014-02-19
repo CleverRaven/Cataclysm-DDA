@@ -12956,6 +12956,7 @@
     ],
     [
       [ "rag", 2 ],
+      [ "leather", 2 ],
       [ "string_6", 6 ],
       [ "string_36", 1 ],
       [ "duct_tape", 10 ],
@@ -12982,6 +12983,7 @@
     ],
     [
       [ "rag", 2 ],
+      [ "leather", 2 ],
       [ "string_6", 6 ],
       [ "string_36", 1 ],
       [ "duct_tape", 10 ],
