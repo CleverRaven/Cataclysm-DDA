@@ -261,6 +261,7 @@ public:
  bool can_weapon_block(); //gear-based defensive ability
  void melee_attack(Creature &p, bool allow_special = true);
  double get_weapon_dispersion(item* weapon);
+ bool handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_effects );
  void fire_gun(int targetx, int targety, bool burst);
  int  hit_mon(monster *critter, bool allow_grab = true);
  void hit_player(player &p, bool allow_grab = true);
