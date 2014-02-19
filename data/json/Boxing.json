@@ -246,7 +246,7 @@
                 
                 "add": [
                     { "item": "water_clean", "x": 12, "y": 16, "amount": 15 }
-                ],}
+                ] }
             }
         ]
     }
