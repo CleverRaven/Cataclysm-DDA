@@ -2187,10 +2187,11 @@ bool trade(npc *p, int cost, std::string deal)
                         40+((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
 
  WINDOW* w_tmp;
- mvwprintz(w_head, 0, 0, c_white, _("\
+ std::string header_message = _("\
 Trading with %s\n\
 Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n\
-? to get information on an item"), p->name.c_str());
+? to get information on an item");
+ mvwprintz(w_head, 0, 0, c_white, header_message.c_str(), p->name.c_str());
 
 // Set up line drawings
  for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
@@ -2324,7 +2325,9 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    help -= 'a';
    werase(w_tmp);
    delwin(w_tmp);
+   mvwprintz(w_head, 0, 0, c_white, header_message.c_str(), p->name.c_str());
    wrefresh(w_head);
+   update = true;
    if (focus_them) {
     if (help >= 0 && help < theirs.size())
      popup(theirs[help]->info().c_str());
