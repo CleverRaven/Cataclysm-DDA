@@ -418,12 +418,17 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
             water_temp.charges = std::min(water_temp.charges, water.charges);
 
             p->inv.push_back(water_temp);
-            p->consume(p->inv.position_by_type(water_temp.typeId()));
-            p->moves -= 350;
+            // If player is slaked water might not get consumed.
+            if (p->consume(p->inv.position_by_type(water_temp.typeId())))
+            {
+                p->moves -= 350;
 
-            water.charges -= water_temp.charges;
-            if (water.charges <= 0) {
-                drained = true;
+                water.charges -= water_temp.charges;
+                if (water.charges <= 0) {
+                    drained = true;
+                }
+            } else {
+                p->inv.remove_item(p->inv.position_by_type(water_temp.typeId()));
             }
         }
 
