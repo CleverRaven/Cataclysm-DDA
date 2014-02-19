@@ -3229,7 +3229,7 @@
         "type" : "BOOK",
         "id" : "recipe_caseless",
         "name" : "Rivtech design binder",
-        "description" : "This Rivtech binder warns that \"Unauthorized readers are our best test subjects.\" With good reason: it contains complete design specs and technical drawings for their entire line of caseless firearms.  You could probably break their monopoly and make a fortune!",
+        "description" : "This Rivtech binder warns that \"Unauthorized readers are our best test subjects.\" With good reason: it contains complete design specs and technical drawings for their entire line of products.  You could probably break their monopoly and make a fortune!",
         "weight" : 1409,
         "volume" : 2,
         "price" : 400,
