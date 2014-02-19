@@ -392,6 +392,7 @@ ter_id t_null,
     t_centrifuge,
     t_column,
     t_vat,
+	t_cvdbody, t_cvdmachine,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -570,6 +571,8 @@ void set_ter_ids() {
     t_centrifuge=terfind("t_centrifuge");
     t_column=terfind("t_column");
     t_vat=terfind("t_vat");
+	t_cvdbody=terfind("t_cvdbody");
+	t_cvdmachine=terfind("t_cvdmachine");
     t_stairs_down=terfind("t_stairs_down");
     t_stairs_up=terfind("t_stairs_up");
     t_manhole=terfind("t_manhole");
