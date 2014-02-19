@@ -52,16 +52,16 @@
         "id"    : "boxing_clothes",
         "items" : [
             ["tank_top", 40],
-            ["shorts", 40]
+            ["shorts", 40],
             ["boxing_gloves", 50],
-            ["headgear", 45]
+            ["headgear", 45],
             ["jersey", 40],
             ["coat_rain", 10],
             ["hood_rain", 10],
             ["gloves_wraps", 45],
             ["jeans", 30],
             ["sports_bra", 15],
-            ["jacket_leather", 20]
+            ["jacket_leather", 20],
             ["aspirin", 30],
             ["1st_aid", 20]
         ]
