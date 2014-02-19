@@ -267,8 +267,8 @@ point editmap::edit()
     uberdraw = uistate.editmap_nsa_viewmode;
     infoHeight = 14;
 
-    w_info = newwin(infoHeight, width, TERRAIN_WINDOW_HEIGHT - infoHeight, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
-    w_help = newwin(3, width - 2, TERRAIN_WINDOW_HEIGHT - 3, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X + 1);
+    w_info = newwin(infoHeight, width, TERMY - infoHeight, TERRAIN_WINDOW_TERM_WIDTH + VIEW_OFFSET_X);
+    w_help = newwin(3, width - 2, TERMY - 3, TERRAIN_WINDOW_TERM_WIDTH + VIEW_OFFSET_X + 1);
     for ( int i = 0; i < getmaxx(w_help); i++ ) {
         mvwaddch(w_help, 2, i, LINE_OXOX);
     }
@@ -625,9 +625,9 @@ int get_alt_ter(bool isvert, ter_id sel_ter) {
 int editmap::edit_ter()
 {
     int ret = 0;
-    int pwh = TERRAIN_WINDOW_HEIGHT - 4;
+    int pwh = TERMY - 4;
 
-    WINDOW *w_pickter = newwin(pwh, width, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
+    WINDOW *w_pickter = newwin(pwh, width, VIEW_OFFSET_Y, TERRAIN_WINDOW_TERM_WIDTH + VIEW_OFFSET_X);
     draw_border(w_pickter);
     wrefresh(w_pickter);
 
@@ -958,9 +958,9 @@ int editmap::edit_fld()
     int ret = 0;
     uimenu fmenu;
     fmenu.w_width = width;
-    fmenu.w_height = TERRAIN_WINDOW_HEIGHT - infoHeight;
+    fmenu.w_height = TERMY - infoHeight;
     fmenu.w_y = 0;
-    fmenu.w_x = TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X;
+    fmenu.w_x = TERRAIN_WINDOW_TERM_WIDTH + VIEW_OFFSET_X;
     fmenu.return_invalid = true;
     setup_fmenu(&fmenu);
 
@@ -984,7 +984,7 @@ int editmap::edit_fld()
                 femenu.w_width = width;
                 femenu.w_height = infoHeight;
                 femenu.w_y = fmenu.w_height;
-                femenu.w_x = TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X;
+                femenu.w_x = TERRAIN_WINDOW_TERM_WIDTH + VIEW_OFFSET_X;
 
                 femenu.return_invalid = true;
                 field_t ftype = fieldlist[idx];
@@ -1071,9 +1071,9 @@ int editmap::edit_fld()
 int editmap::edit_trp()
 {
     int ret = 0;
-    int pwh = TERRAIN_WINDOW_HEIGHT - infoHeight - 1;
+    int pwh = TERMY - infoHeight - 1;
 
-    WINDOW *w_picktrap = newwin(pwh, width, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
+    WINDOW *w_picktrap = newwin(pwh, width, VIEW_OFFSET_Y, TERRAIN_WINDOW_TERM_WIDTH + VIEW_OFFSET_X);
     draw_border(w_picktrap);
     int tmax = pwh - 4;
     int tshift = 0;
@@ -1159,10 +1159,10 @@ int editmap::edit_itm()
 {
     int ret = 0;
     uimenu ilmenu;
-    ilmenu.w_x = TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X;
+    ilmenu.w_x = TERRAIN_WINDOW_TERM_WIDTH + VIEW_OFFSET_X;
     ilmenu.w_y = 0;
     ilmenu.w_width = width;
-    ilmenu.w_height = TERRAIN_WINDOW_HEIGHT - infoHeight - 1;
+    ilmenu.w_height = TERMY - infoHeight - 1;
     ilmenu.return_invalid = true;
     std::vector<item>& items = g->m.i_at(target.x , target.y );
     for(int i = 0; i < items.size(); i++) {
@@ -1431,7 +1431,7 @@ int editmap::select_shape(shapetype shape, int mode)
                     timeout(-1);
                     uimenu smenu;
                     smenu.text = "Selection type";
-                    smenu.w_x = (TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X - 16) / 2;
+                    smenu.w_x = (TERRAIN_WINDOW_TERM_WIDTH + VIEW_OFFSET_X - 16) / 2;
                     smenu.addentry(editmap_rect, true, 'r', "Rectangle");
                     smenu.addentry(editmap_rect_filled, true, 'f', "Filled Rectangle");
                     smenu.addentry(editmap_line, true, 'l', "Line");
@@ -1556,7 +1556,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     gpmenu.w_width = width;
     gpmenu.w_height = infoHeight - 4;
     gpmenu.w_y = gmenu.w_height;
-    gpmenu.w_x = TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X;
+    gpmenu.w_x = TERRAIN_WINDOW_TERM_WIDTH + VIEW_OFFSET_X;
     gpmenu.return_invalid = true;
     gpmenu.addentry("Regenerate");
     gpmenu.addentry("Rotate");
@@ -1566,7 +1566,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     gpmenu.show();
     uphelp("[pgup/pgdn]: prev/next oter type",
            "[up/dn] select, [enter] accept, [q] abort",
-           string_format("Mapgen: %s", terlist[gmenu.ret].id.substr(0, 40).c_str() )
+           string_format("Mapgen: %s", oterlist[gmenu.ret].id.substr(0, 40).c_str() )
           );
     int lastsel = gmenu.selected;
     bool showpreview = true;
@@ -1758,9 +1758,9 @@ int editmap::edit_mapgen()
     point orig = target;
     uimenu gmenu;
     gmenu.w_width = width;
-    gmenu.w_height = TERRAIN_WINDOW_HEIGHT - infoHeight;
+    gmenu.w_height = TERMY - infoHeight;
     gmenu.w_y = 0;
-    gmenu.w_x = TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X;
+    gmenu.w_x = TERRAIN_WINDOW_TERM_WIDTH + VIEW_OFFSET_X;
     gmenu.return_invalid = true;
 
     std::map<std::string,bool> broken_oter_blacklist;
@@ -1770,7 +1770,7 @@ int editmap::edit_mapgen()
     broken_oter_blacklist["nuke_plant"] = true;
     broken_oter_blacklist["temple_core"] = true;
 
-    for (int i = 0; i < terlist.size(); i++) {
+    for (int i = 0; i < oterlist.size(); i++) {
         oter_id id = oter_id(i);
         gmenu.addentry(-1, true, 0, "[%3d] %s", (int)id, std::string(id).c_str() );
         if ( broken_oter_blacklist.find(id) != broken_oter_blacklist.end() ) {

@@ -202,7 +202,7 @@ double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const {
     const item water(item_controller->find_template("water"), 0);
     const double charge_ml = (double) (water.weight()) / water.charges; // 250ml
     const double PI = 3.14159265358979f;
-   
+
     const double surface_area_mm2 = PI * (funnel_radius_mm * funnel_radius_mm);
 
     const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;

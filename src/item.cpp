@@ -849,7 +849,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("DESCRIPTION", "\n" ));
         std::string ntext = "";
         if ( item_note_type != item_vars.end() ) {
-            ntext += string_format(_("%1$s on this %2$s is a note saying: "),
+            ntext += string_format(_("%1$s on the %2$s is: "),
                 item_note_type->second.c_str(), type->name.c_str()
             );
         } else {
@@ -1374,19 +1374,21 @@ bool item::rotten()
         return false;
     it_comest* food = dynamic_cast<it_comest*>(type);
     if (food->spoils != 0) {
-      if ( last_rot_check+10 < int(g->turn) ) {
-          const int since = ( last_rot_check == 0 ? (int)bday : last_rot_check );
-          const int until = ( fridge > 0 ? fridge : int(g->turn) );
+      const int now = g->turn;
+      if ( last_rot_check+10 < now ) {
+          const int since = ( last_rot_check == 0 ? bday : last_rot_check );
+          const int until = ( fridge > 0 ? fridge : now );
           if ( since < until ) {
+              // rot (outside of fridge) from bday/last_rot_check until fridge/now
               int old = rot;
               rot += get_rot_since( since, until );
               if (g->debugmon) g->add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
           }
-          last_rot_check = int(g->turn);
+          last_rot_check = now;
 
           if (fridge > 0) {
-            // Flat 20%
-            rot += (until - fridge) * 0.2;
+            // Flat 20%, rot from time of putting it into fridge up to now
+            rot += (now - fridge) * 0.2;
             fridge = 0;
           }
       }
@@ -1852,7 +1854,7 @@ int item::is_funnel_container(int bigger_than) const
     if ( ! is_container() ) {
         return 0;
     }
-    it_container *ct = static_cast<it_container *>(type);
+    it_container *ct = dynamic_cast<it_container *>(type);
     // todo; consider linking funnel to item or -making- it an active item
     if ( (int)ct->contains <= bigger_than ) {
         return 0; // skip contents check, performance

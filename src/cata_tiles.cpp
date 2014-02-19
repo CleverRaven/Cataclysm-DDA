@@ -124,6 +124,29 @@ void cata_tiles::set_screen(SDL_Surface * screen)
     }
 }
 
+/** Rescale the given surface to the given width and height. **/
+SDL_Surface *cata_tiles::scale_surface(SDL_Surface *surface, Uint16 w, Uint16 h)
+{
+    SDL_Surface *rval = SDL_CreateRGBSurface(surface->flags, w, h, surface->format->BitsPerPixel,
+        surface->format->Rmask, surface->format->Gmask, surface->format->Bmask, surface->format->Amask);
+
+    double stretch_factor_x = (static_cast<double>(w)  / static_cast<double>(surface->w));
+    double stretch_factor_y = (static_cast<double>(h) / static_cast<double>(surface->h));
+
+    for(Sint32 y = 0; y < surface->h; y++) {
+        for(Sint32 x = 0; x < surface->w; x++) {
+            for(Sint32 o_y = 0; o_y < stretch_factor_y; ++o_y) {
+                for(Sint32 o_x = 0; o_x < stretch_factor_x; ++o_x) {
+                    put_pixel(rval, static_cast<Sint32>(stretch_factor_x * x) + o_x,
+                        static_cast<Sint32>(stretch_factor_y * y) + o_y, get_pixel(surface, x, y));
+                }
+            }
+        }
+    }
+
+    return rval;
+}
+
 void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
 {
     DebugLog() << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]\n";
@@ -187,13 +210,16 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
     }
 }
 
-void cata_tiles::load_tileset(std::string path)
-{
-
-    /* release tile_atlas from memory if it has already been initialized */
-    if (tile_atlas) {
-        SDL_FreeSurface(tile_atlas);
+void cata_tiles::reload_tileset() {
+     /* release buffer from memory if it has already been initialized */
+    if (buffer) {
+        SDL_FreeSurface(buffer);
     }
+
+    /* create the buffer screen */
+    buffer = SDL_AllocSurface(SDL_SWSURFACE, screentile_width * tile_width, screentile_height * tile_height, 32, 0xff0000, 0xff00, 0xff, 0);
+
+    DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->h << "\n";
 
     /* release stored tiles */
     if (tile_values) {
@@ -203,32 +229,8 @@ void cata_tiles::load_tileset(std::string path)
         tile_values->clear();
     }
 
-     /* release buffer from memory if it has already been initialized */
-    if (buffer) {
-        SDL_FreeSurface(buffer);
-    }
-
-    tile_ratiox = ((float)tile_width/(float)fontwidth);
-    tile_ratioy = ((float)tile_height/(float)fontheight);
-
-    terrain_term_x = OPTIONS["TERMINAL_X"] - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
-    terrain_term_y = OPTIONS["TERMINAL_Y"];
-
-    screentile_width =  (int)(terrain_term_x / tile_ratiox) + 1;
-    screentile_height = (int)(terrain_term_y / tile_ratioy) + 1;
-
-    /* create the buffer screen */
-    buffer = SDL_AllocSurface(SDL_SWSURFACE, screentile_width * tile_width, screentile_height * tile_height, 32, 0xff0000, 0xff00, 0xff, 0);
-
-    DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->h << "\n";
-
-    /** reinit tile_atlas */
-    tile_atlas = IMG_Load(path.c_str());
-    if(!tile_atlas) {
-        std::cerr << "Could not locate tileset file at " << path << std::endl;
-        DebugLog() << (std::string)"Could not locate tileset file at " << path.c_str() << "\n";
-        // TODO: run without tileset
-    }
+    // Clear the cache of drawn tiles.
+    cache.clear();
 
     /** Check to make sure the tile_atlas loaded correctly, will be NULL if didn't load */
     if (tile_atlas) {
@@ -276,6 +278,58 @@ void cata_tiles::load_tileset(std::string path)
     }
 }
 
+void cata_tiles::load_rescaled_tileset(int scale) {
+    /* release tile_atlas from memory if it has already been initialized */
+    if (tile_atlas) {
+        SDL_FreeSurface(tile_atlas);
+    }
+
+    tile_width = default_tile_width * scale / 16;
+    tile_height = default_tile_height * scale / 16;
+
+    tile_ratiox = ((float)tile_width/(float)fontwidth);
+    tile_ratioy = ((float)tile_height/(float)fontheight);
+
+    screentile_width =  (int)(terrain_term_x / tile_ratiox) + 1;
+    screentile_height = (int)(terrain_term_y / tile_ratioy) + 1;
+
+    /** reinit tile_atlas */
+    tile_atlas = scale_surface(default_size_tile_atlas, default_size_tile_atlas->w * scale / 16, default_size_tile_atlas->h * scale / 16);
+
+    reload_tileset();
+}
+
+void cata_tiles::load_tileset(std::string path)
+{
+    /* release tile_atlas from memory if it has already been initialized */
+    if (tile_atlas) {
+        SDL_FreeSurface(tile_atlas);
+    }
+
+    tile_ratiox = ((float)tile_width/(float)fontwidth);
+    tile_ratioy = ((float)tile_height/(float)fontheight);
+
+    terrain_term_x = OPTIONS["TERMINAL_X"] - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
+    terrain_term_y = OPTIONS["TERMINAL_Y"];
+
+    screentile_width =  (int)(terrain_term_x / tile_ratiox) + 1;
+    screentile_height = (int)(terrain_term_y / tile_ratioy) + 1;
+
+    /** reinit tile_atlas */
+    tile_atlas = IMG_Load(path.c_str());
+
+    // Load as separate image, so it's not released along with tile_atlas
+    default_size_tile_atlas = IMG_Load(path.c_str());
+
+    if(!tile_atlas) {
+        std::cerr << "Could not locate tileset file at " << path << std::endl;
+        DebugLog() << (std::string)"Could not locate tileset file at " << path.c_str() << "\n";
+        // TODO: run without tileset
+    }
+
+    reload_tileset();
+}
+
 void cata_tiles::load_tilejson(std::string path)
 {
     std::ifstream config_file(path.c_str(), std::ifstream::in | std::ifstream::binary);
@@ -318,6 +372,9 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f)
         JsonObject curr_info = info.next_object();
         tile_height = curr_info.get_int("height");
         tile_width = curr_info.get_int("width");
+
+        default_tile_width = tile_width;
+        default_tile_height = tile_height;
     }
 
     /** 2) Load tile information if available */
@@ -556,17 +613,23 @@ bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, 
 
 void cata_tiles::apply_changes()
 {
-    // Scroll to avoid too much redrawing
-    scroll(g->u.posx - last_pos_x, g->u.posy - last_pos_y);
-    last_pos_x = g->u.posx;
-    last_pos_y = g->u.posy;
+    // bug: currently the rendering cache will bug out with rescaling on for some reason.
+    //      for this reason, everything will be redrawn every frame if we're rescaled.
+    bool rescaled = tile_width != default_tile_width;
+
+    if(!rescaled) {
+        // Scroll to avoid too much redrawing
+        scroll(g->u.posx - last_pos_x, g->u.posy - last_pos_y);
+        last_pos_x = g->u.posx;
+        last_pos_y = g->u.posy;
+    }
 
     for(std::map<point, tile_drawing_cache>::iterator i = tiles_to_draw_this_frame.begin(); i != tiles_to_draw_this_frame.end(); i++) {
         const point &location = i->first;
         const tile_drawing_cache &compare_to = cache[location];
         tile_drawing_cache &to_draw = i->second;
 
-        if(to_draw != compare_to) {
+        if(to_draw != compare_to || rescaled) {
             // TODO: fill with black
             for(int i = 0; i < to_draw.sprites.size(); i++) {
                 draw_tile_at(to_draw.sprites[i], location.x, location.y, to_draw.rotations[i]);
@@ -845,7 +908,7 @@ bool cata_tiles::draw_furniture(int x, int y)
     // get the name of this furniture piece
     std::string f_name = furnlist[f_id].id; // replace with furniture names array access
     bool ret = draw_from_id_string(f_name, x, y, subtile, rotation);
-    if (ret && g->m.i_at(x, y).size() > 0) {
+    if (ret && g->m.sees_some_items(x, y, g->u)) {
         draw_item_highlight(x, y);
     }
     return ret;
@@ -876,9 +939,9 @@ bool cata_tiles::draw_trap(int x, int y)
 bool cata_tiles::draw_field_or_item(int x, int y)
 {
     // check for field
-    field f = g->m.field_at(x, y);
+    field &f = g->m.field_at(x, y);
     // check for items
-    std::vector<item> items = g->m.i_at(x, y);
+    const std::vector<item> &items = g->m.i_at(x, y);
     field_id f_id = f.fieldSymbol();
     bool is_draw_field;
     bool do_item;
@@ -889,11 +952,16 @@ bool cata_tiles::draw_field_or_item(int x, int y)
             do_item = true;
             break;
         case fd_blood:
+        case fd_blood_veggy:
+        case fd_blood_insect:
+        case fd_blood_invertebrate:
         case fd_gibs_flesh:
+        case fd_gibs_veggy:
+        case fd_gibs_insect:
+        case fd_gibs_invertebrate:
         case fd_bile:
         case fd_slime:
         case fd_acid:
-        case fd_gibs_veggy:
         case fd_sap:
         case fd_sludge:
             //need to draw fields and items both
@@ -925,13 +993,13 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         ret_draw_field = draw_from_id_string(fd_name, x, y, subtile, rotation);
     }
     if(do_item) {
-        if (g->m.has_flag("CONTAINER", x, y) || g->m.has_furn(x, y) || items.empty()) {
+        if (!g->m.sees_some_items(x, y, g->u)) {
             return false;
         }
         // get the last item in the stack, it will be used for display
-        item display_item = items[items.size() - 1];
+        const item &display_item = items[items.size() - 1];
         // get the item's name, as that is the key used to find it in the map
-        std::string it_name = display_item.type->id;
+        const std::string &it_name = display_item.type->id;
         ret_draw_item = draw_from_id_string(it_name, x, y, 0, 0);
         if (ret_draw_item && items.size() > 1) {
             draw_item_highlight(x, y);

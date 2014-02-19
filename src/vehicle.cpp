@@ -159,6 +159,9 @@ void vehicle::save (std::ofstream &stout)
 
 void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 {
+    bool destroySeats = false;
+    bool destroyControls = false;
+    bool destroyTank = false;
     bool destroyEngine = false;
     bool destroyTires = false;
     bool blood_covered = false;
@@ -190,9 +193,15 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     }
     if (init_veh_status == 1) {
      veh_status = 1;
-     if (one_in(2)) {  // either engine or tires are destroyed
+     if (one_in(5)) {           //  seats are destroyed 20%
+      destroySeats = true;
+     } else if (one_in(5)) {    // controls are destroyed 16%
+      destroyControls = true;
+     } else if (one_in(5)) {    // battery, minireactor or gasoline tank are destroyed 13%
+      destroyTank = true;
+     } else if (one_in(5)) {   // engine are destroyed 10%
       destroyEngine = true;
-     } else {
+     } else {                   // tires are destroyed 41%
       destroyTires = true;
      }
     }
@@ -200,10 +209,11 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     //Provide some variety to non-mint vehicles
     if(veh_status != 0) {
 
-        //Leave engine running in some vehicles
+        //Leave engine running in some vehicles, if the engine has not been destroyed
         if(veh_fuel_mult > 0
                 && all_parts_with_feature("ENGINE", true).size() > 0
-                && one_in(8)) {
+                && one_in(8)
+                && !destroyEngine) {
             engine_on = true;
         }
 
@@ -229,7 +239,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if(all_parts_with_feature("FRIDGE").size() > 0) {
             fridge_on = true;
         }
-
     }
 
     // Reactor should always start out activated if present
@@ -287,6 +296,25 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             parts[p].hp= part_info(p).durability;
          }
 
+         if (destroySeats) { // vehicle is disabled because no seats
+          if (part_flag(p, "SEAT")) {
+           parts[p].hp= 0;
+          }
+          if (part_flag(p, "SEATBELT")) {
+           parts[p].hp= 0;
+          }
+         }
+         if (destroyControls) { // vehicle is disabled because no controls
+          if (part_flag(p, "CONTROLS")) {
+           parts[p].hp= 0;
+          }
+         }
+         if (destroyTank) { // vehicle is disabled because no battery, minireactor or gasoline tank
+          if (part_flag(p, "FUEL_TANK")) {
+           parts[p].hp= 0;
+           parts[p].amount = part_info(p).size * 0;
+          }
+         }
          if (destroyEngine) { // vehicle is disabled because engine is dead
           if (part_flag(p, "ENGINE")) {
            parts[p].hp= 0;
@@ -296,6 +324,9 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
           if (part_flag(p, "WHEEL")) {
              parts[p].hp= 0;
           }
+         }
+         if (part_flag(p, "SOLAR_PANEL") && one_in(4)) {//Solar panels have a 1 in four chance of being broken.
+            parts[p].hp= 0;
          }
 
          /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
@@ -1222,6 +1253,11 @@ void vehicle::remove_part (int p)
         }
     }
 
+    const int dx = global_x() + parts[p].precalc_dx[0];
+    const int dy = global_y() + parts[p].precalc_dy[0];
+    for (int i = 0; i < parts[p].items.size(); i++) {
+        g->m.add_item_or_charges(dx + rng(-3, +3), dy + rng(-3, +3), parts[p].items[i]);
+    }
     parts.erase(parts.begin() + p);
     refresh();
 

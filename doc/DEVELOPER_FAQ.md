@@ -2,15 +2,19 @@
 ##Adding a monster
 1. Edit mtype.h.  Change the enum mon_id and insert a unique identifier for
     your new monster type.  Be sure to put it among similar monsters.
-2. Edit montypedef.cpp.  A macro is used for monsters and it is pretty
-    straightforward (Any of this ring a bell?).  Be ABSOLUTELY sure that you
-    insert the macro at the same point in the list as your inserted the
-    identifier in mon_id!
+	Add or remove the appropriate entry to the monster_names array in tile_id_data.h
+	Add the monster to init_translation in mongroupdef.cpp.
+2. Edit monsters.json  It is pretty straightforward (Any of this ring a bell?).
+    Be ABSOLUTELY sure that you insert the macro at the same point in the list as 
+    your inserted the identifier in mon_id!
 3. Your monster type is now valid, but won't be spawned.  If you want it to be
-    spawned among similar monsters, edit mongroupdef.cpp.  Find the appropriate
+    spawned among similar monsters, edit monstergroups.json.  Find the appropriate
     array, and insert the identifier for your monster (e.g, mon_zombie).  Make
     sure it comes in before the NULL at the end of the list.
-4. If you want your monster to drop items, edit monitemsdef.cpp.  Make a new
+    Cost_multiplier, makes it more expensive to spawn. The higher the cost, the 
+    more 'slots' it takes up, and freq is how frequent they spawn.
+    See mongroupdef.cpp:line:116 and up.
+4. If you want your monster to drop items, edit monster_drops.json.  Make a new
     array for your monster type with all the map item groups it may carry, and a
     chance value for each.
 5. Your monster may have a special attack, a monattack::function reference.
@@ -20,8 +24,10 @@
     statement that the monster uses to decide whether or not to use the attack,
     and if they do, should reset the monster's attack timer.
 6. Just like attacks, some monsters may have a special function called when
-    they die.  This works the same as attacks, but the relevent files are
+    they die.  This works the same as attacks, but the relevant files are
     mondeath.h and mondeath.cpp.
+7. If you add flags. Document them in JSON_FLAGS.md, and mtype.h. Please. Or 
+    we will replace your blood with acid in the night.
 
 ##Adding structures to the map
 Most "regular" buildings are spawned in cities (large clusters of buildings which are located rather close to each other).
@@ -51,10 +57,11 @@ These structures are also commented in source code. Add new identifier in enum o
   The comments given in source code to `structure struct overmap_special` explain the meaning of these constants in the example above.
 
 ##Adding a bionic
-1. Edit data/raw/bionics.json and add your bionic near similar types. See JSON_INFO for a more in-depth review of the individual fields.
-2. If you want the bionic to be available in the gameworld as an item, add it to item_groups.json
-3. Manually code in effects into the appropriate files
-
+1. Edit data/json/bionics.json and add your bionic near similar types. See JSON_INFO for a more in-depth review of the individual fields.
+2. If you want the bionic to be available in the gameworld as an item, add it to item_groups.json, and add a bionic item to data/json/items/bionics.json
+3. Manually code in effects into the appropriate files, for activated bionics edit the player::activate_bionic function in bionics.cpp.
+4. For bionic ranged weapons add the bionic weapon counterparts to ranged.json, give them the NO_AMMO and BIO_WEAPON flags.
+5. For bionic close combat weapons add the bionic weapon to data/json/items/melee.json give them NON_STUCK", "NO_UNWIELD" at least.
 
 ##How armour protection is calculated
 1. When the player is hit at a specific body part, armour coverage determines whether the armour is hit, or an uncovered part of the player is hit (roll 1d100 against coverage)
@@ -64,6 +71,11 @@ These structures are also commented in source code. Add new identifier in enum o
 5. Armour protects against bash and cut damage.  These are determined by multiplying the armour thickness by the material bash/cut resistance factor respectively, given in materials.json
 6. If the armour is made from 2 materials types, then it takes a weighted average of the primary material (66%) and secondary material (33%).
 7. Materials resistance factors are given relative to PAPER as a material (this probably needs some fine-tuning for balance).
+
+##Adding an iuse function.
+1. Add the new item use code to iuse.cpp and iuse.h
+2. Add the new json_flag to your item. And link it to the iuse function in item_factory.cpp
+3. Document the new flag in JSON_FLAGS.md
 
 ##Acid resistance
 This determines how items react to acid fields.  Item acid resistances are a weighted
@@ -77,7 +89,6 @@ Acid resistance values are in materials.json, and defined as such:
   1 - partly resistant to acid
   2 - very resistant to acid
   3 - complete acid resistance
-
 
 #FAQ
 **Q: What the heck is up with the map objects?**

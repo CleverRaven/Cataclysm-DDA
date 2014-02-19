@@ -188,12 +188,12 @@ bool computer::hack_attempt(player *p, int Security)
     if (Security == -1) {
         Security = security;    // Set to main system security if no value passed
     }
-    
+
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance
     // So practical max files from a given terminal = 5, at 10 Computer
     if (alerts > 0) {
-        Security += (alerts * 2); 
+        Security += (alerts * 2);
     }
 
     p->practice(g->turn, "computer", 5 + Security * 2);
@@ -283,7 +283,7 @@ void computer::activate_function(computer_action action)
         break; // Why would this be called?
 
     case COMPACT_OPEN:
-        g->m.translate(t_door_metal_locked, t_floor);
+        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.posx, g->u.posy);
         query_any(_("Doors opened.  Press any key..."));
         break;
 
@@ -355,8 +355,8 @@ void computer::activate_function(computer_action action)
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
         g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
-        g->m.translate(t_reinforced_glass_h, t_floor);
-        g->m.translate(t_reinforced_glass_v, t_floor);
+        g->m.translate_radius(t_reinforced_glass_h, t_floor, 25.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_reinforced_glass_v, t_floor, 25.0, g->u.posx, g->u.posy);
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
@@ -368,9 +368,9 @@ void computer::activate_function(computer_action action)
                 int mondex = g->mon_at(x, y);
                 if (mondex != -1 &&
                     ((g->m.ter(x, y - 1) == t_reinforced_glass_h &&
-                      g->m.ter(x, y + 1) == t_wall_h) ||
+                      g->m.ter(x, y + 1) == t_concrete_h) ||
                      (g->m.ter(x, y + 1) == t_reinforced_glass_h &&
-                      g->m.ter(x, y - 1) == t_wall_h))) {
+                      g->m.ter(x, y - 1) == t_concrete_h))) {
                     g->kill_mon(mondex, true);
                 }
             }
@@ -766,9 +766,6 @@ of pureed bone & LSD."));
                     } else if (g->m.i_at(x, y)[0].type->id == "usb_drive" && g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Memory bank is empty."));
                     } else { // Success!
-                        if (g->m.i_at(x, y)[0].type->id == "usb_drive") {
-                            print_line(_("Memory Bank:  Unencrypted\nNothing of interest."));
-                        }
                         if (g->m.i_at(x, y)[0].type->id == "black_box") {
                             print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
                             item transcript(itypes["black_box_transcript"], g->turn);
@@ -894,7 +891,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   To: all SRCF staff\n\
   From:  Robert Shane, Director of the EPA\n\
   \n\
-  All hazardous waste dumps and sarcouphagi must submit three\n\
+  All hazardous waste dumps and sarcophagi must submit three\n\
   samples from each operational leache system to the following\n\
   addresses:\n\
   \n\
@@ -938,7 +935,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   that these facilities would be constructed so close to populated\n\
   areas, and only agreed to sign-off on the project if we were\n\
   allowed to freely examine and monitor the sarcophagi.  But that\n\
-  has not happened.  Since then the DoE has employed any and all\n\
+  has not happened.  Since then, the DoE has employed any and all\n\
   means to keep EPA agents from visiting the SRCFs, using military\n\
   secrecy, emergency powers, and inter-departmental gag orders to\n"));
         query_any(_("Press any key to continue..."));
@@ -970,15 +967,15 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   From:  Ellen Grimes, Director of the EPA\n\
   \n\
       Your site along with many others has been found to be\n\
-  contaminated with what we will now refer to as [redracted].\n\
+  contaminated with what we will now refer to as [redacted].\n\
   It is vital that you standby for further orders.  We are\n\
   currently awaiting the President to decide our course of\n\
   action in this national crisis.  You will proceed with fail-\n\
-  safe procedures and rig the sarcouphagus with c-4 as outlined\n\
+  safe procedures and rig the sarcophagus with c-4 as outlined\n\
   in Publication 4423.  We will send you orders to either detonate\n\
-  and seal the sarcouphagus or remove the charges.  It is of\n\
+  and seal the sarcophagus or remove the charges.  It is of\n\
   upmost importance that the facility is sealed immediatly when\n\
-  the orders are given, we have been alerted by Homeland Security\n\
+  the orders are given.  We have been alerted by Homeland Security\n\
   that there are potential terrorist suspects that are being\n\
   detained in connection with the recent national crisis.\n\
   \n\
@@ -1077,6 +1074,7 @@ void computer::activate_failure(computer_failure fail)
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.has_flag("CONSOLE", x, y)) {
                     g->m.ter_set(x, y, t_console_broken);
+                    g->add_msg(_("The console shuts down."));
                 }
             }
         }

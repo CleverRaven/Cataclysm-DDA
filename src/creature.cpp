@@ -263,6 +263,10 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
         return 0;
     }
 
+    // Bounce applies whether it does damage or not.
+    if (proj.proj_effects.count("BOUNCE")) {
+        add_effect("bounced", 1);
+    }
 
     double hit_value = missed_by + rng_float(-0.5, 0.5);
     // headshots considered elsewhere
@@ -280,29 +284,88 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
 
     if (goodhit <= .1) {
         g->add_msg_if_player(source, _("Headshot!"));
-        damage_mult *= rng_float(5, 8);
+        damage_mult *= rng_float(2.45, 3.35);
         bp_hit = bp_head; // headshot hits the head, of course
     } else if (goodhit <= .2) {
         g->add_msg_if_player(source, _("Critical!"));
-        damage_mult *= rng_float(2, 3);
+        damage_mult *= rng_float(1.75, 2.3);
     } else if (goodhit <= .4) {
         g->add_msg_if_player(source, _("Good hit!"));
-        damage_mult *= rng_float(1, 2);
+        damage_mult *= rng_float(1, 1.5);
     } else if (goodhit <= .6) {
         damage_mult *= rng_float(0.5, 1);
     } else if (goodhit <= .8) {
         g->add_msg_if_player(source, _("Grazing hit."));
-        damage_mult *= rng_float(0, 1);
+        damage_mult *= rng_float(0, .25);
     } else {
         damage_mult *= 0;
     }
 
     // copy it, since we're mutating
     damage_instance impact = proj.impact;
+    if( item(proj.ammo, 0).has_flag("NOGIB") ) {
+        impact.add_effect("NOGIB");
+    }
     impact.mult_damage(damage_mult);
 
     dealt_dam = deal_damage(source, bp_hit, side, impact);
     dealt_dam.bp_hit = bp_hit;
+
+    // Apply ammo effects to target.
+    const std::string target_material = get_material();
+    if (proj.proj_effects.count("FLAME")) {
+        if (0 == target_material.compare("veggy") || 0 == target_material.compare("cotton") ||
+            0 == target_material.compare("wool") || 0 == target_material.compare("paper") ||
+            0 == target_material.compare("wood" ) ) {
+            add_effect("onfire", rng(8, 20));
+        } else if (0 == target_material.compare("flesh") || 0 == target_material.compare("iflesh") ) {
+            add_effect("onfire", rng(5, 10));
+        }
+    } else if (proj.proj_effects.count("INCENDIARY") ) {
+        if (0 == target_material.compare("veggy") || 0 == target_material.compare("cotton") ||
+            0 == target_material.compare("wool") || 0 == target_material.compare("paper") ||
+            0 == target_material.compare("wood") ) {
+            add_effect("onfire", rng(2, 6));
+        } else if ( (0 == target_material.compare("flesh") || 0 == target_material.compare("iflesh") ) &&
+                    one_in(4) ) {
+            add_effect("onfire", rng(1, 4));
+        }
+    } else if (proj.proj_effects.count("IGNITE")) {
+        if (0 == target_material.compare("veggy") || 0 == target_material.compare("cotton") ||
+            0 == target_material.compare("wool") || 0 == target_material.compare("paper") ||
+            0 == target_material.compare("wood") ) {
+            add_effect("onfire", rng(6, 6));
+        } else if (0 == target_material.compare("flesh") || 0 == target_material.compare("iflesh") ) {
+            add_effect("onfire", rng(10, 10));
+        }
+    }
+    int stun_strength = 0;
+    if (proj.proj_effects.count("BEANBAG")) {
+        stun_strength = 4;
+    }
+    if (proj.proj_effects.count("LARGE_BEANBAG")) {
+        stun_strength = 16;
+    }
+    if( stun_strength > 0 ) {
+        switch( get_size() ) {
+            case MS_TINY:
+                stun_strength *= 4;
+                break;
+            case MS_SMALL:
+                stun_strength *= 2;
+                break;
+            case MS_MEDIUM:
+            default:
+                break;
+            case MS_LARGE:
+                stun_strength /= 2;
+                break;
+            case MS_HUGE:
+                stun_strength /= 4;
+                break;
+        }
+        add_effect( "stunned", rng(stun_strength / 2, stun_strength) );
+    }
 
     if(u_see_this) {
         if (damage_mult == 0) {
@@ -316,7 +379,11 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
             if (source->is_player()) {
                 g->add_msg(_("You hit the %s for %d damage."),
                            disp_name().c_str(), dealt_dam.total_damage());
-            } else if (u_see_this) {
+            } else if( this->is_player() && g->u.has_trait("SELFAWARE")) {
+                g->add_msg_if_player( this, _( "You were hit in the %s for %d damage." ),
+                                      body_part_name( bp_hit, side ).c_str( ),
+                                      dealt_dam.total_damage( ) );
+            } else if( u_see_this ) {
                 g->add_msg(_("%s shoots %s."),
                            source->disp_name().c_str(), disp_name().c_str());
             }
@@ -350,6 +417,10 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp, int 
     }
 
     mod_pain(total_pain);
+    if( dam.effects.count("NOGIB") ) {
+        total_damage = std::min( total_damage, get_hp() + 1 );
+    }
+
     apply_damage(source, bp, side, total_damage);
     return dealt_damage_instance(dealt_dams);
 }
@@ -454,8 +525,10 @@ void Creature::add_effect(efftype_id eff_id, int dur)
         effects.push_back(new_eff);
         if (is_player()) { // only print the message if we didn't already have it
             g->add_msg_string(effect_types[eff_id].get_apply_message());
-            g->u.add_memorial_log(pgettext("memorial_male", effect_types[eff_id].get_apply_memorial_log().c_str()),
-                                  pgettext("memorial_female", effect_types[eff_id].get_apply_memorial_log().c_str()));
+            g->u.add_memorial_log(pgettext("memorial_male",
+                                           effect_types[eff_id].get_apply_memorial_log().c_str()),
+                                  pgettext("memorial_female",
+                                           effect_types[eff_id].get_apply_memorial_log().c_str()));
         }
     }
 }
@@ -525,19 +598,19 @@ Creature *Creature::get_killer()
 // get_stat_bonus() is always just the bonus amount
 int Creature::get_str() const
 {
-    return str_max + str_bonus;
+    return std::max(0, str_max + str_bonus);
 }
 int Creature::get_dex() const
 {
-    return dex_max + dex_bonus;
+    return std::max(0, dex_max + dex_bonus);
 }
 int Creature::get_per() const
 {
-    return per_max + per_bonus;
+    return std::max(0, per_max + per_bonus);
 }
 int Creature::get_int() const
 {
-    return int_max + int_bonus;
+    return std::max(0, int_max + int_bonus);
 }
 
 int Creature::get_str_base() const
@@ -857,7 +930,7 @@ nc_color Creature::basic_symbol_color()
 
 nc_color Creature::symbol_color()
 {
-    return symbol_color();
+    return basic_symbol_color();
 }
 
 bool Creature::is_symbol_highlighted()

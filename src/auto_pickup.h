@@ -40,7 +40,7 @@ void createPickupRules(const std::string sItemNameIn = "");
 void save_reset_changes(bool bReset);
 void show_auto_pickup();
 void load_auto_pickup(bool bCharacter);
-void save_auto_pickup(bool bCharacter);
+bool save_auto_pickup(bool bCharacter);
 void show_auto_pickup();
 std::string auto_pickup_header(bool bCharacter);
 void create_default_auto_pickup(bool bCharacter);

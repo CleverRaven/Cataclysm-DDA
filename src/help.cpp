@@ -28,7 +28,7 @@ void help_draw_dir(WINDOW *win, int line_y)
             std::vector<char> keys = keys_bound_to( movearray[acty * 3 + actx] );
             if (!keys.empty()) {
                 mvwputch(win, acty * 3 + line_y, actx * 3 + 1, c_ltblue, keys[0]);
-                if (keys.size() > 0) {
+                if (keys.size() > 1) {
                     mvwputch(win, acty * 3 + line_y, actx * 3 + 11, c_ltblue, keys[1]);
                 }
             }

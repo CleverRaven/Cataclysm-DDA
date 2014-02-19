@@ -150,12 +150,12 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
                        }
                    } else {
                        debugmsg("terrain[\"%s\"].bash.items[%d]: invalid entry",jsobj.get_string("id").c_str(),c);
-                   } 
+                   }
                    c++;
                }
            }
         }
-     
+
 //debugmsg("%d/%d %s %s/%s %d",str_min,str_max, ter_set.c_str(), sound.c_str(), sound_fail.c_str(), items.size() );
     return true;
   } else {
@@ -357,7 +357,7 @@ ter_id t_null,
     t_wall_glass_v_alarm, t_wall_glass_h_alarm,
     t_reinforced_glass_v, t_reinforced_glass_h,
     t_bars,
-    t_door_c, t_door_b, t_door_o, t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
+    t_door_c, t_door_b, t_door_o, t_rdoor_c, t_rdoor_b, t_rdoor_o,t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
@@ -365,7 +365,7 @@ ter_id t_null,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
-    t_window_boarded_noglass,
+    t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced, t_window_enhanced_noglass,
     t_window_stained_green, t_window_stained_red, t_window_stained_blue,
     t_rock, t_fault,
     t_paper,
@@ -465,10 +465,14 @@ void set_ter_ids() {
     t_door_c=terfind("t_door_c");
     t_door_b=terfind("t_door_b");
     t_door_o=terfind("t_door_o");
+    t_rdoor_c=terfind("t_rdoor_c");
+    t_rdoor_b=terfind("t_rdoor_b");
+    t_rdoor_o=terfind("t_rdoor_o");
     t_door_locked_interior=terfind("t_door_locked_interior");
     t_door_locked=terfind("t_door_locked");
     t_door_locked_alarm=terfind("t_door_locked_alarm");
     t_door_frame=terfind("t_door_frame");
+    t_door_frame=terfind("t_mdoor_frame");
     t_chaingate_l=terfind("t_chaingate_l");
     t_fencegate_c=terfind("t_fencegate_c");
     t_fencegate_o=terfind("t_fencegate_o");
@@ -497,6 +501,10 @@ void set_ter_ids() {
     t_window_frame=terfind("t_window_frame");
     t_window_boarded=terfind("t_window_boarded");
     t_window_boarded_noglass=terfind("t_window_boarded_noglass");
+    t_window_reinforced=terfind("t_window_reinforced");
+    t_window_reinforced_noglass=terfind("t_window_reinforced_noglass");
+    t_window_enhanced=terfind("t_window_enhanced");
+    t_window_enhanced_noglass=terfind("t_window_enhanced_noglass");
     t_window_stained_green=terfind("t_window_stained_green");
     t_window_stained_red=terfind("t_window_stained_red");
     t_window_stained_blue=terfind("t_window_stained_blue");
@@ -593,7 +601,7 @@ void set_ter_ids() {
     t_switch_gb=terfind("t_switch_gb");
     t_switch_rb=terfind("t_switch_rb");
     t_switch_even=terfind("t_switch_even");
-    num_terrain_types = terlist.size(); 
+    num_terrain_types = terlist.size();
 };
 
 furn_id furnfind(const std::string & id) {
@@ -683,7 +691,7 @@ void set_furn_ids() {
     f_plant_seedling=furnfind("f_plant_seedling");
     f_plant_mature=furnfind("f_plant_mature");
     f_plant_harvest=furnfind("f_plant_harvest");
-    num_furniture_types = furnlist.size(); 
+    num_furniture_types = furnlist.size();
 }
 
 /*

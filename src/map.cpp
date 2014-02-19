@@ -198,67 +198,83 @@ void map::update_vehicle_list(const int to) {
 
 void map::board_vehicle(int x, int y, player *p)
 {
- if (!p) {
-  debugmsg ("map::board_vehicle: null player");
-  return;
- }
+    if (!p) {
+        debugmsg ("map::board_vehicle: null player");
+        return;
+    }
 
- int part = 0;
- vehicle *veh = veh_at(x, y, part);
- if (!veh) {
-  debugmsg ("map::board_vehicle: vehicle not found");
-  return;
- }
+    int part = 0;
+    vehicle *veh = veh_at(x, y, part);
+    if (!veh) {
+        debugmsg ("map::board_vehicle: vehicle not found");
+        return;
+    }
 
- const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE);
- if (seat_part < 0) {
-  debugmsg ("map::board_vehicle: boarding %s (not boardable)",
-            veh->part_info(part).name.c_str());
-  return;
- }
- if (veh->parts[seat_part].has_flag(vehicle_part::passenger_flag)) {
-  player *psg = veh->get_passenger (seat_part);
-  debugmsg ("map::board_vehicle: passenger (%s) is already there",
-            psg ? psg->name.c_str() : "<null>");
-  return;
- }
- veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
- veh->parts[seat_part].passenger_id = p->getID();
+    const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE);
+    if (seat_part < 0) {
+        debugmsg ("map::board_vehicle: boarding %s (not boardable)",
+                  veh->part_info(part).name.c_str());
+        return;
+    }
+    if (veh->parts[seat_part].has_flag(vehicle_part::passenger_flag)) {
+        player *psg = veh->get_passenger (seat_part);
+        debugmsg ("map::board_vehicle: passenger (%s) is already there",
+                  psg ? psg->name.c_str() : "<null>");
+        unboard_vehicle( x, y );
+    }
+    veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
+    veh->parts[seat_part].passenger_id = p->getID();
 
- p->posx = x;
- p->posy = y;
- p->in_vehicle = true;
- if (p == &g->u &&
-     (x < SEEX * int(my_MAPSIZE / 2) || y < SEEY * int(my_MAPSIZE / 2) ||
-      x >= SEEX * (1 + int(my_MAPSIZE / 2)) ||
-      y >= SEEY * (1 + int(my_MAPSIZE / 2))   ))
-  g->update_map(x, y);
+    p->posx = x;
+    p->posy = y;
+    p->in_vehicle = true;
+    if (p == &g->u &&
+        (x < SEEX * int(my_MAPSIZE / 2) || y < SEEY * int(my_MAPSIZE / 2) ||
+         x >= SEEX * (1 + int(my_MAPSIZE / 2)) ||
+         y >= SEEY * (1 + int(my_MAPSIZE / 2))   )) {
+        g->update_map(x, y);
+    }
 }
 
 void map::unboard_vehicle(const int x, const int y)
 {
- int part = 0;
- vehicle *veh = veh_at(x, y, part);
- if (!veh) {
-  debugmsg ("map::unboard_vehicle: vehicle not found");
-  return;
- }
- const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE, false);
- if (seat_part < 0) {
-  debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
-            veh->part_info(part).name.c_str());
-  return;
- }
- player *psg = veh->get_passenger(seat_part);
- if (!psg) {
-  debugmsg ("map::unboard_vehicle: passenger not found");
-  return;
- }
- psg->in_vehicle = false;
- psg->driving_recoil = 0;
- psg->controlling_vehicle = false;
- veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
- veh->skidding = true;
+    int part = 0;
+    vehicle *veh = veh_at(x, y, part);
+    player *passenger = NULL;
+    if (!veh) {
+        debugmsg ("map::unboard_vehicle: vehicle not found");
+        // Try and force unboard the player anyway.
+        if( g->u.xpos() == x && g->u.ypos() == y ) {
+            passenger = &(g->u);
+        } else {
+            int npcdex = g->npc_at( x, y );
+            if( npcdex != -1 ) {
+                passenger = g->active_npc[npcdex];
+            }
+        }
+        if( passenger ) {
+            passenger->in_vehicle = false;
+            passenger->driving_recoil = 0;
+            passenger->controlling_vehicle = false;
+        }
+        return;
+    }
+    const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE, false);
+    if (seat_part < 0) {
+        debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
+                  veh->part_info(part).name.c_str());
+        return;
+    }
+    passenger = veh->get_passenger(seat_part);
+    if (!passenger) {
+        debugmsg ("map::unboard_vehicle: passenger not found");
+        return;
+    }
+    passenger->in_vehicle = false;
+    passenger->driving_recoil = 0;
+    passenger->controlling_vehicle = false;
+    veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
+    veh->skidding = true;
 }
 
 void map::destroy_vehicle (vehicle *veh)
@@ -830,6 +846,11 @@ bool map::vehproceed(){
     } else { // can_move
         veh->stop();
     }
+    // If the PC is in the currently moved vehicle, adjust the
+    // view offset.
+    if (g->u.controlling_vehicle && veh_at(g->u.posx, g->u.posy) == veh) {
+        g->calc_driving_offset(veh);
+    }
     // redraw scene
     g->draw();
     return true;
@@ -852,7 +873,7 @@ bool map::displace_water (const int x, const int y)
             for (int tx = -1; tx <= 1; tx++)
                 for (int ty = -1; ty <= 1; ty++)
                 {
-                    if ((!tx && !ty) 
+                    if ((!tx && !ty)
                             || move_cost_ter_furn(x + tx, y + ty) == 0
                             || has_flag(TFLAG_DEEP_WATER, x + tx, y + ty))
                         continue;
@@ -1336,7 +1357,8 @@ bool map::moppable_items_at(const int x, const int y)
    return true;
  }
  field &fld = field_at(x, y);
- if(fld.findField(fd_blood) != 0 || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 || fld.findField(fd_sludge) != 0) {
+ if(fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 || fld.findField(fd_blood_insect) != 0 || fld.findField(fd_blood_invertebrate) != 0
+    || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 || fld.findField(fd_sludge) != 0) {
   return true;
  }
  int vpart;
@@ -1410,6 +1432,9 @@ void map::mop_spills(const int x, const int y) {
  }
  field &fld = field_at(x, y);
  fld.removeField(fd_blood);
+ fld.removeField(fd_blood_veggy);
+ fld.removeField(fd_blood_insect);
+ fld.removeField(fd_blood_invertebrate);
  fld.removeField(fd_bile);
  fld.removeField(fd_slime);
  fld.removeField(fd_sludge);
@@ -2290,6 +2315,26 @@ std::vector<item>& map::i_at(const int x, const int y)
  return grid[nonant]->itm[lx][ly];
 }
 
+bool map::sees_some_items(int x, int y, const player &u)
+{
+    if(i_at(x, y).empty()) {
+        // can not see non-existing items.
+        return false;
+    }
+    const bool container = has_flag_ter_or_furn("CONTAINER", x, y);
+    const bool sealed = has_flag_ter_or_furn("SEALED", x, y);
+    if (sealed && container) {
+        // never see inside of sealed containers
+        return false;
+    }
+    if (container) {
+        // can see inside of containers if adjacent or
+        // on top of the container
+        return (abs(x - u.posx) <= 1 && abs(y - u.posy) <= 1);
+    }
+    return true;
+}
+
 item map::water_from(const int x, const int y)
 {
     item ret(item_controller->find_template("water"), 0);
@@ -2369,7 +2414,6 @@ void map::spawn_an_item(const int x, const int y, item new_item,
     {
         new_item.item_tags.insert("FIT");
     }
-
     add_item_or_charges(x, y, new_item);
 }
 
@@ -2385,6 +2429,9 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
                      const unsigned quantity, const long charges,
                      const unsigned birthday, const int damlevel, const bool rand)
 {
+    if(type_id == "null") {
+        return;
+    }
     // recurse to spawn (quantity - 1) items
     for(int i = 1; i < quantity; i++)
     {
@@ -2520,6 +2567,24 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
     }
 }
 
+// Check if it's in a fridge and is food, set the fridge
+// date to current time, and also check contents.
+static void apply_in_fridge(item &it)
+{
+    if (it.is_food() && it.fridge == 0) {
+        it.fridge = (int) g->turn;
+        // cool down of the HOT flag, is unsigned, don't go below 1
+        if (it.item_counter > 10) {
+            it.item_counter -= 10;
+        }
+    }
+    if (it.is_container()) {
+        for (size_t a = 0; a < it.contents.size(); a++) {
+            apply_in_fridge(it.contents[a]);
+        }
+    }
+}
+
 void map::process_active_items()
 {
     for (int gx = 0; gx < my_MAPSIZE; gx++) {
@@ -2535,17 +2600,40 @@ void map::process_active_items()
     }
 }
 
+extern std::pair<item, point> tmp_active_item_pos;
+
 void map::process_active_items_in_submap(const int nonant)
 {
     for (int i = 0; i < SEEX; i++) {
         for (int j = 0; j < SEEY; j++) {
-            std::vector<item> *items = &(grid[nonant]->itm[i][j]);
+            tmp_active_item_pos.second.x = (nonant % my_MAPSIZE) * SEEX + i;
+            tmp_active_item_pos.second.y = (nonant / my_MAPSIZE) * SEEY + j;
+            std::vector<item> &items = grid[nonant]->itm[i][j];
             //Do a count-down loop, as some items may be removed
-            for (int n = items->size() - 1; n >= 0; n--) {
-                if(process_active_item(&((*items)[n]), nonant, i, j)) {
-                    items->erase(items->begin() + n);
-                    grid[nonant]->active_item_count--;
+            for (size_t n = 0; n < items.size(); n++) {
+                if (!items[n].active) {
+                    continue;
                 }
+                tmp_active_item_pos.first = items[n];
+                items.erase(items.begin() + n);
+                if(!process_active_item(&tmp_active_item_pos.first, nonant, i, j)) {
+                    // Not destroyed, must be inserted again, but make sure
+                    // we don't insert far behind the end of the vector
+                    n = std::min(items.size(), n);
+                    items.insert(items.begin() + n, tmp_active_item_pos.first);
+                    // Other note: the address of the items vector is
+                    // not affected by any explosion, but they could reduce
+                    // the amount of items in it.
+                    continue;
+                }
+                // Item is destroyed, don't reinsert it.
+                // Note: this might lead to items not being processed:
+                // vector: 10 glass items, mininuke, mininuke
+                // the first nuke explodes, destroys some of the glass items
+                // now the index of the second nuke is not 11, but less, but
+                // one can not know which it is now.
+                grid[nonant]->active_item_count--;
+                n--;
             }
         }
     }
@@ -2553,40 +2641,106 @@ void map::process_active_items_in_submap(const int nonant)
 
 void map::process_active_items_in_vehicles(const int nonant)
 {
-    item *it;
-    std::vector<vehicle*> *vehicles = &(grid[nonant]->vehicles);
-    for (int v = vehicles->size() - 1; v >= 0; v--) {
-        vehicle *next_vehicle = (*vehicles)[v];
-        std::vector<int> cargo_parts = next_vehicle->all_parts_with_feature(VPFLAG_CARGO, false);
-        for(std::vector<int>::iterator part_index = cargo_parts.begin();
-                part_index != cargo_parts.end(); part_index++) {
-            std::vector<item> *items_in_part = &(next_vehicle->parts[*part_index].items);
-            int mapx = next_vehicle->posx + next_vehicle->parts[*part_index].precalc_dx[0];
-            int mapy = next_vehicle->posy + next_vehicle->parts[*part_index].precalc_dy[0];
-            for(int n = items_in_part->size() - 1; n >= 0; n--) {
-                it = &((*items_in_part)[n]);
-                // Check if it's in a fridge and is food.
-                if (it->is_food() && next_vehicle->part_flag(*part_index, VPFLAG_FRIDGE) &&
-                    next_vehicle->fridge_on && it->fridge == 0) {
-                    it->fridge = (int)g->turn;
-                    it->item_counter -= 10;
+    std::vector<vehicle*> &veh_in_nonant = grid[nonant]->vehicles;
+    // a copy, important if the vehicle list changes because a
+    // vehicle got destroyed by a bomb (an active item!), this list
+    // won't change, but veh_in_nonant will change.
+    std::vector<vehicle*> vehicles = veh_in_nonant;
+    for (size_t v = 0; v < vehicles.size(); v++) {
+        vehicle *cur_veh = vehicles[v];
+        if (std::find(veh_in_nonant.begin(), veh_in_nonant.end(), cur_veh) == veh_in_nonant.end()) {
+            // vehicle not in the vehicle list of the nonant, has been
+            // destroyed (or moved to another nonant?)
+            // Can't be sure that it still exist, so skip it
+            continue;
+        }
+        process_active_items_in_vehicle(cur_veh, nonant);
+    }
+}
+
+void map::process_active_items_in_vehicle(vehicle *cur_veh, int nonant)
+{
+    std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
+    for(size_t part_index = 0; part_index < cargo_parts.size(); part_index++) {
+        const int part = cargo_parts[part_index];
+        vehicle_part &vp = cur_veh->parts[part];
+        // Cache the mount position and the type, to identify
+        // the vehicle part in case cur_veh->parts got changed
+        const point mnt(vp.precalc_dx[0], vp.precalc_dy[0]);
+        const int vp_type = vp.iid;
+        const int mapx = cur_veh->posx + vp.precalc_dx[0];
+        const int mapy = cur_veh->posy + vp.precalc_dy[0];
+        // This is used in game::find_item. Because otherwise the
+        // temporary item would nowhere to be found.
+        tmp_active_item_pos.second = point(cur_veh->global_x() + vp.precalc_dx[0], cur_veh->global_y() + vp.precalc_dy[0]);
+        std::vector<item> *items_in_part = &vp.items;
+        const bool fridge_here = cur_veh->fridge_on && cur_veh->part_flag(part, VPFLAG_FRIDGE);
+        for(int n = items_in_part->size() - 1; n >= 0; n--) {
+            item *it = &(*items_in_part)[n];
+            if (fridge_here) {
+                apply_in_fridge(*it);
+            }
+            if (it->has_flag("RECHARGE") && cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 &&
+                cur_veh->recharger_on) {
+                int full_charge = dynamic_cast<it_tool*>(it->type)->max_charges;
+                if (it->has_flag("DOUBLE_AMMO")) {
+                    full_charge = full_charge * 2;
                 }
-                if (it->has_flag("RECHARGE") && next_vehicle->part_with_feature(*part_index, VPFLAG_RECHARGE) >= 0 &&
-                    next_vehicle->recharger_on) {
-                    int full_charge = static_cast<it_tool*>(it->type)->max_charges;
-                    if (it->has_flag("DOUBLE_AMMO")) {
-                        full_charge = full_charge * 2;
+                if (it->is_tool() && full_charge > it->charges ) {
+                    if (one_in(10)) {
+                        it->charges++;
                     }
-                    if (it->is_tool() && full_charge > it->charges ) {
-                        if (one_in(10)) {
-                            it->charges++;
-                        }
-                    }
-                }
-                if(process_active_item(it, nonant, mapx, mapy)) {
-                    next_vehicle->remove_item(*part_index, n);
                 }
             }
+            // The following code is expensive, don't run it for non-active
+            // items, that would be useless anyway
+            if(!it->active) {
+                continue;
+            }
+            // make a temporary copy, remove the item (in advance)
+            // and use that copy to process it
+            tmp_active_item_pos.first = *it;
+            items_in_part->erase(items_in_part->begin() + n);
+            if(!process_active_item(&tmp_active_item_pos.first, nonant, mapx, mapy)) {
+                // item still exist, most likely it didn't just explode,
+                // put it back
+                items_in_part->insert(items_in_part->begin() + n, tmp_active_item_pos.first);
+                continue;
+            }
+            n--; // to process the correct next item.
+            // item does not exist anymore, might have been an exploding bomb,
+            // check if the vehicle is still valid (does exist)
+            std::vector<vehicle*> &veh_in_nonant = grid[nonant]->vehicles;
+            if(std::find(veh_in_nonant.begin(), veh_in_nonant.end(), cur_veh) == veh_in_nonant.end()) {
+                // Nope, vehicle is not in the vehicle list of the submap,
+                // it might have moved to another submap (unlikely)
+                // or be destroyed, anywaay it does not need to be processed here
+                return;
+            }
+            // Vehicle still valid, find the current vehicle part again,
+            // the list of cargo parts might have changed (image a part with
+            // a low index has been removed by an explosion, all the other
+            // parts would move up to fill the gap).
+            cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
+            for(part_index = 0; part_index < cargo_parts.size(); part_index++) {
+                vehicle_part &vp = cur_veh->parts[cargo_parts[part_index]];
+                if(mnt.x == vp.precalc_dx[0] && mnt.y == vp.precalc_dy[0] && vp_type == vp.iid) {
+                    // Found it, this is the vehicle part we are currently iterating overall
+                    // update the item vector (if the part index changed,
+                    // the address of the item vector changed, too.
+                    items_in_part = &vp.items;
+                    break;
+                }
+            }
+            if (part_index >= cargo_parts.size()) {
+                // went over all parts and did not found the current cargo part
+                // it is gone, now we bail out, because we can not know
+                // which cargo part to do next, it could be one that has
+                // already been handled.
+                return;
+            }
+            // Now we can continue as if nothing happened, the item has
+            // already been remove and it is not put back,
         }
     }
 }
@@ -3368,7 +3522,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  const furn_id curr_furn = furn(x,y);
  const trap_id curr_trap = tr_at(x, y);
  field &curr_field = field_at(x, y);
- const std::vector<item> curr_items = i_at(x, y);
+ const std::vector<item> &curr_items = i_at(x, y);
  long sym;
  bool hi = false;
  bool graf = false;
@@ -3391,7 +3545,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  } else {
   normal_tercol = true;
  }
- if (has_flag("SWIMMABLE", x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
+ if (has_flag(TFLAG_SWIMMABLE, x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
   show_items = false; // Can only see underwater items if WE are underwater
  }
 // If there's a trap here, and we have sufficient perception, draw that instead
@@ -3430,7 +3584,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   }
  }
     // If there's items here, draw those instead
-    if (show_items && !has_flag("CONTAINER", x, y) && curr_items.size() > 0 && !drew_field) {
+    if (show_items && !drew_field && sees_some_items(x, y, g->u)) {
         if (sym != '.' && sym != '%') {
             hi = true;
         } else {
@@ -4282,7 +4436,7 @@ void map::build_outside_cache()
     {
         for(int y = 0; y < SEEY * my_MAPSIZE; y++)
         {
-            if( has_flag_ter_or_furn("INDOORS", x, y))
+            if( has_flag_ter_or_furn(TFLAG_INDOORS, x, y))
             {
                 for( int dx = -1; dx <= 1; dx++ )
                 {

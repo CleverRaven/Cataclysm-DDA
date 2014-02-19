@@ -251,6 +251,16 @@ class map
  // "fire" item to be used for example when crafting or when
  // a iuse function needs fire.
  bool has_nearby_fire(int x, int y, int radius = 1);
+ /**
+  * Check if player can see some items at (x,y). Includes:
+  * - check for items at this location (!i_at().empty())
+  * - check for SEALED flag (sealed furniture/terrain makes
+  * items not visible under any circumstances).
+  * - check for CONTAINER flag (makes items only visible when
+  * the player is at (x,y) or at an adjacent square).
+  */
+ bool sees_some_items(int x, int y, const player &u);
+
 
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(const std::string & flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
@@ -490,9 +500,10 @@ submap * getsubmap( const int grididx );
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
  void add_item(const int x, const int y, item new_item, int maxitems = 64);
- 
+
  void process_active_items_in_submap(const int nonant);
  void process_active_items_in_vehicles(const int nonant);
+ void process_active_items_in_vehicle(vehicle *cur_veh, int nonant);
  bool process_active_item(item *it, const int nonant, const int i, const int j);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];

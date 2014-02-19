@@ -35,7 +35,7 @@ public:
      output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
   */
 
-  std::map<std::string, std::vector<std::string>*> input_history; 
+  std::map<std::string, std::vector<std::string>*> input_history;
 
   std::map<std::string, std::string> lastreload; // last typeid used when reloading ammotype
 

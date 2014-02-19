@@ -366,6 +366,7 @@
         "dispersion" : 0,
         "recoil" : 18,
         "count" : 25,
+        "flags" : ["NOGIB"],
         "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
@@ -556,6 +557,7 @@
         "recoil" : 4,
         "count" : 100,
         "stack_size" : 200,
+        "flags" : ["NOGIB"],
         "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
@@ -3341,10 +3343,10 @@
     {   "type" : "AMMO",
         "id" : "flintlock_ammo",
         "price" : 50000,
-        "name" : "paper cartidge",
+        "name" : "paper cartridge",
         "symbol" : "=",
         "color" : "white",
-        "description" : "A paper cartidge containing black powder and a metallic projectile. Historically used to reload muzzleloaders in a more reasonable time.",
+        "description" : "A paper cartridge containing black powder and a metallic projectile. Historically used to reload muzzleloaders in a more reasonable time.",
         "material" : "steel",
         "volume" : 2,
         "weight" : 70,

@@ -13,6 +13,7 @@
 #include "vehicle.h"
 #include "martialarts.h"
 #include "player_activity.h"
+#include "field.h"
 
 class monster;
 class game;
@@ -641,6 +642,9 @@ public:
  }
 
  m_size get_size();
+ int get_hp( hp_part bp );
+
+ field_id playerBloodType();
 
 protected:
     std::set<std::string> my_traits;

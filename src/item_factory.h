@@ -75,6 +75,7 @@ public:
     void load_gun       (JsonObject &jo);
     void load_armor     (JsonObject &jo);
     void load_tool      (JsonObject &jo);
+    void load_tool_armor(JsonObject &jo);
     void load_book      (JsonObject &jo);
     void load_comestible(JsonObject &jo);
     void load_container (JsonObject &jo);
@@ -82,6 +83,10 @@ public:
     void load_generic   (JsonObject &jo);
     void load_bionic    (JsonObject &jo);
     void load_veh_part  (JsonObject &jo);
+
+    void load_item_blacklist(JsonObject &jo);
+    void load_item_whitelist(JsonObject &jo);
+    void finialize_item_blacklist();
 
     // Check that all items referenced in the groups
     // do actually exist (are defined)

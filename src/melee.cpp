@@ -897,7 +897,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
  bool shock_them = (has_active_bionic("bio_shock") && power_level >= 2 &&
                     (unarmed_attack() || weapon.made_of("iron") ||
                      weapon.made_of("steel") || weapon.made_of("silver") ||
-                     weapon.made_of("gold")) && one_in(3));
+                     weapon.made_of("gold") || weapon.made_of("superalloy")) && one_in(3));
 
  bool drain_them = (has_active_bionic("bio_heat_absorb") && power_level >= 1 &&
                     !is_armed() && t.is_warm());
@@ -984,14 +984,17 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
  int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT));
  if (weapon.has_flag("MESSY")) { // e.g. chainsaws
   cutting_penalty /= 6; // Harder to get stuck
-  for (int x = tarposx - 1; x <= tarposx + 1; x++) {
-   for (int y = tarposy - 1; y <= tarposy + 1; y++) {
-    if (!one_in(3)) {
-      g->m.add_field(x, y, fd_blood, 1);
-    }
-   }
-  }
- }
+  if (monster *m = dynamic_cast<monster*>(&t)) {
+   field_id type_blood = m->monBloodType();
+   for (int x = tarposx - 1; x <= tarposx + 1; x++) {
+    for (int y = tarposy - 1; y <= tarposy + 1; y++) {
+     if (!one_in(3) && type_blood != fd_null) {
+       g->m.add_field(x, y, type_blood, 1);
+     } //it all
+    } //comes
+   } //tumbling down
+  } //tumbling down
+ } //tumbling down
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) /* && TODO: put is_halluc check back in
          !z->is_hallucination()*/) {
     dump << string_format(_("Your %s gets stuck in %s, pulling it out of your hands!"), weapon.tname().c_str(), target.c_str());
@@ -1052,7 +1055,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         }
         ret.push_back(tmp);
     }
-    
+
  //Having lupine or croc jaws makes it much easier to sink your fangs into people; Ursine/Feline, not so much
     if (has_trait("FANGS") && (!wearing_something_on(bp_mouth)) &&
         ((!has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") &&
@@ -1332,7 +1335,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
                                             target.c_str());
             } else if (male) {
                 if (has_trait("CLAWS_TENTACLE")) {
-                    tmp.text = string_format(_("&s rakes %s with his tentacle!"),
+                    tmp.text = string_format(_("%s rakes %s with his tentacle!"),
                                             name.c_str(), target.c_str());
                 }
                 else tmp.text = string_format(_("%s slaps %s with his tentacle!"),
@@ -1352,7 +1355,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
             ret.push_back(tmp);
         }
      }
-  
+
   if (has_trait("VINES2") || has_trait("VINES3")) {
       int num_attacks = 2;
       if (has_trait("VINES3")) {

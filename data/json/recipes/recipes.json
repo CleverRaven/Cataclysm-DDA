@@ -116,7 +116,73 @@
       [ "processor", 1 ]
     ],
     [
-      [ "battery", 200 ]
+      [ "battery", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "talking_doll",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 2 ]
+    ],
+    [
+      [ "rag", 2 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "e_scrap", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "creepy_doll",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 2 ]
+    ],
+    [
+      [ "rag", 2 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "e_scrap", 2 ]
     ]
   ]
 },    {
@@ -976,6 +1042,9 @@
   ],  "components": [
     [
       [ "amplifier", 1 ]
+    ],
+    [
+      [ "e_scrap", 1 ]
     ]
   ]
 },{
@@ -1607,7 +1676,7 @@
   "skill_used": "fabrication",
   "skills_required": [ "traps", 2 ],
   "difficulty": 3,
-  "time": 300000,
+  "time": 30000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -2243,7 +2312,7 @@
   "result": "pipe_launcher40mm",
   "note": "underbarrel_mount",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
+  "subcategory": "CSC_WEAPON_MODS",
   "skill_used": "mechanics",
   "skills_required": [ "launcher", 3 ],
   "difficulty": 6,
@@ -2700,6 +2769,41 @@
       [ "cable", 5 ]
     ]
   ]
+},{
+    "type" : "recipe",
+  "result": "puller",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required" : [ "gun", 3 ],
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets", 6] , ["textbook_fabrication", 7]],
+  "tools" : [
+     [ ["mold_plastic", -1] ],
+     [
+      ["hotplate", 10],
+      ["toolset", 1],
+      ["fire", -1]
+     ],
+     [
+      [ "swage", -1 ]
+     ],
+     [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 1 ]
+     ]
+  ],
+  "components" : [
+     [
+      ["plastic_chunk", 5]
+     ],
+     [
+      [ "scrap", 1 ]
+     ]
+    ]
 },{
         "type" : "recipe",
   "result": "combatsaw_off",
@@ -5347,7 +5451,8 @@
       [ "pan", -1 ],
       [ "pot", -1 ],
       [ "coffeemaker", -1],
-      [ "rock_pot", -1 ]
+      [ "rock_pot", -1 ],
+      [ "teapot", -1 ]
     ]
   ],
   "components": [
@@ -8712,6 +8817,7 @@
   "tools": [
     [
       [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -8824,7 +8930,8 @@
       [ "fire", -1 ]
     ],
     [
-      [ "pan", -1 ]
+      [ "pan", -1 ],
+      [ "waffleiron", -1 ]
     ]
   ],
   "components": [
@@ -12484,6 +12591,45 @@
         [ "scrap", 21 ]
       ]
     ]
+  },
+  {
+    "type" : "recipe",
+    "result": "press",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 5,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [[ "manual_shotgun", 2 ] ,[ "manual_rifle", 2 ] ,[ "manual_smg", 2 ] ,[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
+    "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
+    ],
+    "components": [
+      [
+        [ "scrap", 6 ]
+      ],
+      [
+        [ "element", 2 ],
+        [ "hotplate", 1 ]
+      ],
+      [
+        [ "cable", 2 ]
+      ]
+    ]
   },{
   "type" : "recipe",
   "result": "antenna",
@@ -12714,6 +12860,9 @@
     ],
     [
       [ "battery", 15 ]
+    ],
+    [
+      [ "e_scrap", 1 ]
     ]
   ]
 },{
@@ -14559,46 +14708,46 @@
     ]
   ]
 },{
-	"type" : "recipe",
-	"result": "telepad",
-	"category": "CC_OTHER",
-	"subcategory": "CSC_OTHER_TRAPS",
-	"skill_used": "traps",
-	"skills_required": [ "electronics", 8 ],
-	"difficulty": 5,
-	"time": 4500,
-	"reversible": true,
-	"autolearn": false,
-	"decomp_learn": 5,
-	"book_learn": [[ "recipe_lab_elec", 8 ]],
-	"tools": [
-		[
-			[ "screwdriver", -1 ],
-			[ "toolset", -1 ]
-		],
-		[
-			[ "wrench", -1 ],
-			[ "toolset", -1 ]
-		],
-		[
-			[ "soldering_iron", 16 ],
-			[ "toolset", 2 ]
-		]
-		],
-	"components": [
-		[
-			[ "teleporter", 1 ]
-		],
-		[
-			[ "amplifier", 1 ]
-		],
-		[
-			[ "solar_cell", 1 ]
-		],
-		[
-			[ "cable", 3 ]
-		]
-	]
+    "type" : "recipe",
+    "result": "telepad",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TRAPS",
+    "skill_used": "traps",
+    "skills_required": [ "electronics", 8 ],
+    "difficulty": 5,
+    "time": 4500,
+    "reversible": true,
+    "autolearn": false,
+    "decomp_learn": 5,
+    "book_learn": [[ "recipe_lab_elec", 8 ]],
+    "tools": [
+        [
+            [ "screwdriver", -1 ],
+            [ "toolset", -1 ]
+        ],
+        [
+            [ "wrench", -1 ],
+            [ "toolset", -1 ]
+        ],
+        [
+            [ "soldering_iron", 16 ],
+            [ "toolset", 2 ]
+        ]
+        ],
+    "components": [
+        [
+            [ "teleporter", 1 ]
+        ],
+        [
+            [ "amplifier", 1 ]
+        ],
+        [
+            [ "solar_cell", 1 ]
+        ],
+        [
+            [ "cable", 3 ]
+        ]
+    ]
 },{
         "type" : "recipe",
   "result": "socks",
@@ -18200,6 +18349,79 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "bindle",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 800,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rag", 4 ],
+      [ "fur", 2 ],
+      [ "leather", 1 ]
+    ],
+    [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "pool_cue", 1 ],
+      [ "pointy_stick", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "makeshift_sling",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 800,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "sheet", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bindle",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "rag", 4 ]
+    ],
+    [
+      [ "stick", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "makeshift_sling",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "sheet", 1 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "makeshift_funnel",
   "category": "CC_OTHER",
@@ -19440,9 +19662,8 @@
   ],
   "components": [
     [
-      [ "knife_combat", 1 ],
-      [ "steel_chunk", 3 ],
-      [ "scrap", 9 ]
+      [ "steel_chunk", 2 ],
+      [ "scrap", 5 ]
     ]
   ]
 },{
@@ -19825,9 +20046,6 @@
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "crucible", -1 ]
-    ],
-    [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 5 ],
@@ -19856,9 +20074,11 @@
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "welder", 120 ],
-      [ "welder_crude", 180 ],
-      [ "toolset", 6 ]
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ],
+      [ "forge", 100 ],
+      [ "char_forge", 20]
     ]
   ],
   "components": [
@@ -19889,9 +20109,11 @@
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "welder", 300 ],
-      [ "welder_crude", 450 ],
-      [ "toolset", 15 ]
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ],
+      [ "forge", 100 ],
+      [ "char_forge", 20]
     ]
   ],
   "components": [
@@ -20270,6 +20492,38 @@
   "components": [
     [
       [ "sheet_metal", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "metal_tank_small",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sheet_metal", 1 ]
     ]
   ]
 },{
@@ -26570,6 +26824,251 @@
   ]
 },{
         "type" : "recipe",
+  "result": "xlsurvivor_suit",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 6,
+  "time": 320000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+     [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+     ],
+     [
+      [ "needle_bone", 200 ],
+      [ "needle_wood", 200 ],
+      [ "sewing_kit", 200 ]
+     ]
+  ],
+  "components": [
+     [
+      [ "rag", 30 ]
+     ],
+     [
+      [ "leather", 40 ]
+     ],
+    [
+      ["scrap", 8]
+    ],
+     [
+      [ "coat_rain", 2 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 6 ],
+      [ "leather_pouch", 4 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 400 ]
+     ],
+     [
+      [ "kevlar", 2 ],
+      [ "modularvest", 2 ],
+      [ "swat_armor", 2 ],
+      [ "kevlar_plate", 42 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "boots_xlsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 4],
+  "difficulty": 6,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "needle_bone", 160 ],
+      [ "needle_wood", 160 ],
+      [ "sewing_kit", 160 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "leather", 24 ]
+     ],
+     [
+      [ "rag", 6 ]
+     ],
+     [
+      [ "scrap", 4 ]
+     ],
+     [
+      [ "boots_combat", 2 ],
+      [ "kevlar_plate", 10 ]
+     ],
+     [
+      [ "duct_tape", 200 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gloves_xlsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 4],
+  "difficulty": 6,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 28 ],
+      [ "soldering_iron", 28 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "needle_bone", 100 ],
+      [ "needle_wood", 100 ],
+      [ "sewing_kit", 100 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "leather", 16 ]
+     ],
+     [
+      [ "rag", 6 ]
+     ],
+     [
+      [ "scrap", 2 ]
+     ],
+     [
+      [ "duct_tape", 160 ]
+     ],
+     [
+      [ "gloves_tactical", 2 ],
+      [ "kevlar_plate", 6 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "hood_xlsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 4],
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "needle_bone", 80 ],
+      [ "needle_wood", 80 ],
+      [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "leather", 14 ]
+     ],
+     [
+      [ "rag", 4 ]
+     ],
+     [
+      [ "scrap", 2 ]
+     ],
+     [
+      [ "kevlar_plate", 6 ]
+     ],
+     [
+      [ "hood_rain", 2 ],
+      [ "bag_plastic", 4 ]
+     ],
+     [
+      [ "duct_tape", 200 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "helmet_xlsurvivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 4],
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "welder", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 6 ]
+    ],
+    [
+      [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "scrap", 4 ]
+     ],
+     [
+      [ "rag", 6 ]
+     ],
+     [
+      [ "leather", 16 ]
+     ],
+     [
+      [ "plastic_chunk", 20 ]
+     ],
+     [
+      [ "kevlar_plate", 14 ]
+     ],
+     [
+      [ "hood_rain", 2 ],
+      [ "bag_plastic", 4 ]
+     ],
+     [
+      [ "duct_tape", 300 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
   "result": "hood_lsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -30217,6 +30716,30 @@
      [ "jar_glass", 2 ]
      ]
     ]
+},{
+        "type" : "recipe",
+  "result": "miner_hat",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "hat_hard", 1 ],
+      [ "helmet_bike", 1 ]
+    ],
+    [
+      [ "flashlight", 1 ]
+    ],
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 6 ],
+      [ "duct_tape", 10 ],
+      [ "medical_tape", 20 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "mre_ravioli_box",

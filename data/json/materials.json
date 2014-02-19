@@ -163,6 +163,24 @@
         "density" : 1
     },{
         "type" : "material",
+        "ident" : "iflesh",
+        "name" : "Insect Flesh",
+        "bash_resist" : 1,
+        "cut_resist" : 1,
+        "bash_dmg_verb" : "bruised",
+        "cut_dmg_verb" : "sliced",
+        "dmg_adj" : [
+            "bruised",
+            "mutilated",
+            "badly mutilated",
+            "thoroughly mutilated"
+        ],
+        "acid_resist" : 1,
+        "elec_resist" : 1,
+        "fire_resist" : 0,
+        "density" : 5
+        },{
+        "type" : "material",
         "ident" : "hflesh",
         "name" : "Human Flesh",
         "bash_resist" : 1,

@@ -598,7 +598,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 if (cargo >= 0) {
                     *this += std::list<item>(veh->parts[cargo].items.begin(), veh->parts[cargo].items.end());
                 }
-                
+
                 if (kpart >= 0) {
                     item hotplate(itypes["hotplate"], 0);
                     hotplate.charges = veh->fuel_left("battery");
@@ -1602,14 +1602,26 @@ std::vector<item*> inventory::active_items()
 
 void inventory::assign_empty_invlet(item &it, bool force)
 {
-  player *p = &(g->u);
-  for (std::string::const_iterator newinvlet = inv_chars.begin();
-       newinvlet != inv_chars.end();
-       newinvlet++) {
-   if (!p->has_item(*newinvlet) && (!p || !p->has_weapon_or_armor(*newinvlet))) {
-    it.invlet = *newinvlet;
-    return;
-   }
-  }
-  it.invlet = force ? '`' : 0;
+    player *p = &(g->u);
+    for (std::string::const_iterator newinvlet = inv_chars.begin();
+        newinvlet != inv_chars.end(); newinvlet++) {
+        if (!p->has_item(*newinvlet)) {
+            it.invlet = *newinvlet;
+            return;
+        }
+    }
+    if (!force) {
+        it.invlet = 0;
+        return;
+    }
+    // No free hotkey exist, re-use some of the existing ones
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+        item &o = iter->front();
+        if (o.invlet != 0) {
+            it.invlet = o.invlet;
+            o.invlet = 0;
+            return;
+        }
+    }
+    debugmsg("could not find a hotkey for %s", it.tname().c_str());
 }

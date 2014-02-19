@@ -2,7 +2,7 @@
   {
     "type":"GENERIC",
     "id": "withered",
-    "symbol": "t",
+    "symbol": "%",
     "color": "light_gray",
     "name": "withered plant",
     "description": "A dead plant. Good for starting fires.",
@@ -45,6 +45,7 @@
     "volume": 1,
     "bashing": -2,
     "cutting": 0,
+    "category" : "spare_parts",
     "to_hit": -1
   },
 
@@ -193,7 +194,6 @@
     "volume": 1,
     "bashing": -5,
     "cutting": 0,
-    "category": "spare_parts",
     "to_hit": -1
   },
 
@@ -364,7 +364,6 @@
     "volume": 0,
     "bashing": -6,
     "cutting": 0,
-    "category" : "spare_parts",
     "to_hit": 2
   },
 
@@ -382,7 +381,6 @@
     "volume": 2,
     "bashing": 8,
     "cutting": 0,
-    "category" : "spare_parts",
     "to_hit": -2
   },
 
@@ -417,10 +415,9 @@
     "volume": 1,
     "bashing": 1,
     "cutting": 0,
-    "category" : "spare_parts",
     "to_hit": -2
   },
-  
+
   {
     "type":"GENERIC",
     "id": "lead_plate",
@@ -435,7 +432,6 @@
     "volume": 1,
     "bashing": 4,
     "cutting": 0,
-    "category" : "spare_parts",
     "to_hit": -2
   },
 
@@ -629,7 +625,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "hatchet",
-    "description": "A one-handed hatchet. Makes a great melee weapon, and is useful both for cutting wood, and for use as a hammer.",
+    "description": "A one-handed hatchet. Makes a great melee weapon, and is useful both for chopping things and for use as a hammer.",
     "price": 9500,
     "material": ["steel", "wood"],
     "weight": 907,
@@ -1253,6 +1249,7 @@
     "symbol": ",",
     "color": "green",
     "name": "broken manhack",
+    "category": "other",
     "description": "A broken manhack. Much less threatening now that it lies limp on solid ground. Could be gutted for parts.",
     "price": 30000,
     "material": ["aluminum", "plastic"],
@@ -1625,7 +1622,7 @@
     "symbol": ",",
     "color": "white",
     "name": "syringe",
-    "description": "A medical syringe. Used for administering heroin and other drugs.",
+    "description": "A medical syringe. Used for administering intravenous drugs.",
     "material": "plastic",
     "price": 2500,
     "volume": 1,
@@ -1636,7 +1633,7 @@
     "flags": "SPEAR"
   },
   { "type":"GENERIC",
- "id": "pointy_stick",
+    "id": "pointy_stick",
     "symbol" : "/",
     "color": "brown",
     "name": "pointy stick",
@@ -2189,17 +2186,34 @@
     {
         "type":"GENERIC",
         "id" : "bio_claws_weapon",
-        "name" : "adamantite claws",
+        "name" : "bionic claws",
         "description" : "Short and sharp claws made from a high-tech metal.",
         "weight" : 0,
         "to_hit" : 4,
         "color" : "light_gray",
         "symbol" : "{",
-        "material" : ["steel", "null"],
+        "material" : ["superalloy", "null"],
         "volume" : 2,
         "bashing" : 8,
         "cutting" : 16,
         "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD"],
+        "price" : 0
+    },
+    {
+        "type":"GENERIC",
+        "id" : "bio_blade_weapon",
+        "name" : "monomolecular blade",
+        "description" : "A foot-long blade made from high tech alloy and edged with bonded nanocrystals.",
+        "weight" : 100,
+        "to_hit" : 3,
+        "color" : "dark_gray",
+        "symbol" : "{",
+        "material" : ["superalloy", "null"],
+        "techniques" : ["WBLOCK_1"],
+        "volume" : 3,
+        "bashing" : 0,
+        "cutting" : 36,
+        "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD"],
         "price" : 0
     },
     {
@@ -2270,12 +2284,12 @@
     "id" : "cell_phone",
     "name" : "cell phone",
     "description" : "A simple cell phone. Nowadays only useful for telling the time or as an alarm clock. Can also be disassembled into some useful parts.",
-    "weight" : 113,
+    "weight" : 226,
     "to_hit" : -3,
     "color" : "light_gray",
     "symbol" : ",",
     "material" : ["plastic", "aluminum"],
-    "volume" : 1,
+    "volume" : 2,
     "bashing" : -8,
     "cutting" : 0,
     "price" : 10000,

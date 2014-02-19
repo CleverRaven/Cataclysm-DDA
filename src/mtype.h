@@ -10,6 +10,7 @@
 #include <math.h>
 #include "mondeath.h"
 #include "monattack.h"
+#include "mondefense.h"
 #include "material.h"
 #include "enums.h"
 #include "color.h"
@@ -66,7 +67,7 @@ enum mon_id {
     // Subspace monsters
     mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
     mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_gozu, mon_shadow, mon_breather_hub,
-    mon_breather, mon_shadow_snake,
+    mon_breather, mon_shadow_snake, mon_shoggoth,
     // Cult, lobotomized creatures that are human/undead hybrids
     mon_dementia, mon_homunculus, mon_blood_sacrifice, mon_flesh_angel,
     // Robots
@@ -188,14 +189,13 @@ enum m_flag {
     MF_VERMIN,              // Creature is too small for normal combat, butchering, etc.
     MF_HUNTS_VERMIN,        // Creature uses vermin as a food source
     MF_SMALL_BITER,         // Creature can cause a painful, non-damaging bite
+    MF_LARVA,               // Creature is a larva. Currently used for gib and blood handling.
+    MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
+    MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
+    MF_BILE_BLOOD,          // Makes monster bleed bile.
+    MF_ABSORBS,             // Consumes objects it moves over.
+    MF_REGENMORALE,         // Will stop fleeing if at max hp, and regen anger and morale to positive values.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
-};
-
-enum m_category {
-    MC_NULL = 0, // No category.
-    MC_CLASSIC, // Only monsters we expect in a classic zombie movie.
-    MC_WILDLIFE, // The natural animals.
-    MC_MAX // Size of flag array.
 };
 
 struct mtype {
@@ -229,9 +229,11 @@ struct mtype {
     float luminance;           // 0 is default, >0 gives luminance to lightmap
     int hp;
     unsigned int sp_freq;     // How long sp_attack takes to charge
-    void (mdeath::*dies)(monster *); // What happens when this monster dies
+    std::vector<void (mdeath::*)(monster *)> dies; // What happens when this monster dies
+    unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
     void (mattack::*sp_attack)(monster *); // This monster's special attack
-
+    void (mdefense::*sp_defense)(monster *); // This monster's special "defensive" move that may trigger when the monster is attacked.  
+	                                         // Note that this can be anything, and is not necessarily beneficial to the monster
     // Default constructor
     mtype ();
 

@@ -942,7 +942,7 @@ void mattack::formblob(monster *z)
      g->zombie(thatmon).speed += 5;
      if (g->zombie(thatmon).speed >= 60)
       g->zombie(thatmon).poly(GetMType("mon_blob"));
-    } else if ((g->zombie(thatmon).made_of("flesh") || g->zombie(thatmon).made_of("veggy")) &&
+    } else if ((g->zombie(thatmon).made_of("flesh") || g->zombie(thatmon).made_of("veggy") || g->zombie(thatmon).made_of("iflesh")) &&
                rng(0, z->hp) > rng(0, g->zombie(thatmon).hp)) { // Blobify!
      didit = true;
      g->zombie(thatmon).poly(GetMType("mon_blob"));
@@ -1725,7 +1725,8 @@ void mattack::parrot(monster *z)
     if (one_in(20)) {
         z->moves -= 100;  // It takes a while
         z->sp_timeout = z->type->sp_freq;  // Reset timer
-        const SpeechBubble speech = get_speech( "migo" );
+        const SpeechBubble speech = get_speech( z->type->id );
         g->sound(z->posx(), z->posy(), speech.volume, speech.text);
     }
 }
+

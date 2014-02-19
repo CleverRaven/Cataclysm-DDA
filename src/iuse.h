@@ -214,6 +214,7 @@ public:
     int contacts            (player *, item *, bool);
     int talking_doll        (player *, item *, bool);
     int bell                (player *, item *, bool);
+    int seed                (player *, item *, bool);
     int oxygen_bottle       (player *, item *, bool);
     int atomic_battery      (player *, item *, bool);
     int fishing_rod_basic   (player *, item *, bool);

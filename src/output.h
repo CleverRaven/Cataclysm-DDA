@@ -46,19 +46,22 @@ extern int VIEW_OFFSET_X; // X position of terrain window
 extern int VIEW_OFFSET_Y; // Y position of terrain window
 extern int TERRAIN_WINDOW_WIDTH; // width of terrain window
 extern int TERRAIN_WINDOW_HEIGHT; // height of terrain window
+extern int TERRAIN_WINDOW_TERM_WIDTH; // width of terrain window in terminal characters
 extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 
 std::vector<std::string> foldstring (std::string str, int width);
-int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);
-int fold_and_print_from(WINDOW* w, int begin_y, int begin_x, int width, int begin_line, nc_color color, const char *mes, ...);
+int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);
+int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
+                        nc_color color, const char *mes, ...);
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
-void display_table(WINDOW *w, const std::string &title, int columns, const std::vector<std::string> &data);
+void display_table(WINDOW *w, const std::string &title, int columns,
+                   const std::vector<std::string> &data);
 void multipage(WINDOW *w, std::vector<std::string> text, std::string caption = "", int begin_y = 0);
 
 void mvputch(int y, int x, nc_color FG, long ch);
-void wputch(WINDOW* w, nc_color FG, long ch);
-void mvwputch(WINDOW* w, int y, int x, nc_color FG, long ch);
+void wputch(WINDOW *w, nc_color FG, long ch);
+void mvwputch(WINDOW *w, int y, int x, nc_color FG, long ch);
 void mvputch_inv(int y, int x, nc_color FG, long ch);
 void mvwputch_inv(WINDOW *w, int y, int x, nc_color FG, long ch);
 void mvputch_hi(int y, int x, nc_color FG, long ch);
@@ -81,7 +84,7 @@ std::vector<std::string> split_by_color(const std::string &s);
 // classy
 #define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __VA_ARGS__)
 
-void realDebugmsg(const char* name, const char* line, const char *mes, ...);
+void realDebugmsg(const char *name, const char *line, const char *mes, ...);
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
 
@@ -116,8 +119,8 @@ std::string string_format(std::string pattern, ...);
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');
 #define rmp_format(...) rm_prefix(string_format(__VA_ARGS__))
-size_t shortcut_print(WINDOW* w, int y, int x, nc_color color, nc_color colork, const char* fmt, ...);
-size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fmt, ...);
+size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, const char *fmt, ...);
+size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const char *fmt, ...);
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout = 70);
@@ -125,9 +128,11 @@ void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color,
                 std::string &health_bar, const bool bMonster = false);
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
-void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight, const int iNumEntries,
-                    const int iOffsetY = 0, const int iOffsetX = 0, nc_color bar_color = c_white);
-void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeight, const int iNumEntries);
+void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
+                    const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0,
+                    nc_color bar_color = c_white);
+void calcStartPos(int &iStartPos, const int iCurrentLine,
+                  const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW *w);
 
 #endif

@@ -11,7 +11,7 @@
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
- * 
+ *
  * Consists of six JSON manipulation tools:
  * JsonIn - for low-level parsing of an input JSON stream
  * JsonOut - for outputting JSON
@@ -19,7 +19,7 @@
  * JsonArray - convenience-wrapper for reading JSON arrays from a JsonIn
  * JsonSerializer - inheritable interface for custom datatype serialization
  * JsonDeserializer - inheritable interface for custom datatype deserialization
- * 
+ *
  * Further documentation can be found below.
  */
 class JsonIn;
@@ -31,16 +31,16 @@ class JsonDeserializer;
 
 /* JsonIn
  * ======
- * 
+ *
  * The JsonIn class provides a wrapper around a std::istream,
  * with methods for reading JSON data directly from the stream.
- * 
+ *
  * JsonObject and JsonArray provide higher-level wrappers,
  * and are a little easier to use in most cases,
  * but have the small overhead of indexing the members or elements before use.
- * 
+ *
  * Typical JsonIn usage might be something like the following:
- * 
+ *
  *     JsonIn jsin(myistream);
  *     // expecting an array of objects
  *     jsin.start_array(); // throws std::string if array not found
@@ -48,24 +48,24 @@ class JsonDeserializer;
  *         JsonObject jo = jsin.get_object();
  *         ... // load object using JsonObject methods
  *     }
- * 
+ *
  * The array could have been loaded into a JsonArray for convenience.
  * Not doing so saves one full pass of the data,
  * as the element positions don't have to be read beforehand.
- * 
+ *
  * If the JSON structure is not as expected,
  * verbose error messages are provided, indicating the problem,
  * and the exact line number and byte offset within the istream.
- * 
- * 
+ *
+ *
  * Single-Pass Loading
  * -------------------
- * 
+ *
  * A JsonIn can also be used for single-pass loading,
  * by passing off members as they arrive according to their names.
- * 
+ *
  * Typical usage might be:
- * 
+ *
  *     JsonIn jsin(&myistream);
  *     // expecting an array of objects, to be mapped by id
  *     std::map<std::string,my_data_type> myobjects;
@@ -98,14 +98,14 @@ class JsonDeserializer;
  *         }
  *         myobjects[myobject.id] = myobject;
  *     }
- * 
+ *
  * The get_* methods automatically verify and skip separators and whitespace.
- * 
+ *
  * Using this method, unrecognized members are silently ignored,
  * allowing for things like "comment" members,
  * but the user must remember to provide an "else" clause,
  * explicitly skipping them.
- * 
+ *
  * If an if;else if;... is missing the "else", it /will/ cause bugs,
  * so preindexing as a JsonObject is safer, as well as tidier.
  */
@@ -237,13 +237,13 @@ public:
 
 /* JsonOut
  * =======
- * 
+ *
  * The JsonOut class provides a straightforward interface for outputting JSON.
- * 
+ *
  * It wraps a std::ostream, providing methods for writing JSON data directly.
- * 
+ *
  * Typical usage might be as follows:
- * 
+ *
  *     JsonOut jsout(myostream);
  *     jsout.start_object();          // {
  *     jsout.member("type", "point"); // "type":"point"
@@ -253,13 +253,13 @@ public:
  *     jsout.write(9)                 // ,9
  *     jsout.end_array();             // ]
  *     jsout.end_object();            // }
- * 
+ *
  * which writes {"type":"point","data":[5,9]} to myostream.
- * 
+ *
  * Separators are handled automatically,
  * and the constructor also has an option for crude pretty-printing,
  * which inserts newlines and whitespace liberally, if turned on.
- * 
+ *
  * Basic containers such as maps, sets and vectors,
  * as well as anything inheriting the JsonSerializer interface,
  * can be serialized automatically by write() and member().
@@ -336,19 +336,19 @@ public:
 
 /* JsonObject
  * ==========
- * 
+ *
  * The JsonObject class provides easy access to incoming JSON object data.
- * 
+ *
  * JsonObject maps member names to the byte offset of the paired value,
  * given an underlying JsonIn stream.
- * 
+ *
  * It provides data by seeking the stream to the relevant position,
  * and calling the correct JsonIn method to read the value from the stream.
- * 
- * 
+ *
+ *
  * General Usage
  * -------------
- * 
+ *
  *     JsonObject jo(jsin);
  *     std::string id = jo.get_string("id");
  *     std::string name = _(jo.get_string("name").c_str());
@@ -356,37 +356,37 @@ public:
  *     int points = jo.get_int("points", 0);
  *     std::set<std::string> tags = jo.get_tags("flags");
  *     my_object_type myobject(id, name, description, points, tags);
- * 
+ *
  * Here the "id", "name" and "description" members are required.
  * JsonObject will throw a std::string if they are not found,
  * identifying the problem and the current position in the input stream.
- * 
+ *
  * Note that "name" and "description" are passed to gettext for translating.
  * Any members with string information that is displayed directly to the user
  * will need similar treatment, and may also need to be explicitly handled
  * in lang/extract_json_strings.py to be translatable.
- * 
+ *
  * The "points" member here is not required.
  * If it is not found in the incoming JSON object,
  * it will be initialized with the default value given as the second parameter,
  * in this case, 0.
- * 
+ *
  * get_tags() always returns an empty set if the member is not found,
  * and so does not require a default value to be specified.
- * 
- * 
+ *
+ *
  * Member Testing and Automatic Deserialization
  * --------------------------------------------
- * 
+ *
  * JsonObjects can test for member type with has_int(name) etc.,
  * and for member existence with has_member(name).
- * 
+ *
  * They can also read directly into compatible data structures,
  * including sets, vectors, maps, and any class inheriting JsonDeserializer,
  * using read(name, value).
- * 
+ *
  * read() returns true on success, false on failure.
- * 
+ *
  *     JsonObject jo(jsin);
  *     std::vector<std::string> messages;
  *     if (!jo.read("messages", messages)) {
@@ -473,67 +473,67 @@ public:
 
 /* JsonArray
  * =========
- * 
+ *
  * The JsonArray class provides easy access to incoming JSON array data.
- * 
+ *
  * JsonArray stores only the byte offset of each element in the JsonIn stream,
  * and iterates or accesses according to these offsets.
- * 
+ *
  * It provides data by seeking the stream to the relevant position,
  * and calling the correct JsonIn method to read the value from the stream.
- * 
+ *
  * Arrays can be iterated over,
  * or accessed directly by element index.
- * 
+ *
  * Elements can be returned as standard data types,
  * or automatically read into a compatible container.
- * 
- * 
+ *
+ *
  * Iterative Access
  * ----------------
- * 
+ *
  *     JsonArray ja = jo.get_array("some_array_member");
  *     std::vector<int> myarray;
  *     while (ja.has_more()) {
  *         myarray.push_back(ja.next_int());
  *     }
- * 
+ *
  * If the array member is not found, get_array() returns an empty array,
  * and has_more() is always false, so myarray will remain empty.
- * 
+ *
  * next_int() and the other next_* methods advance the array iterator,
  * so after the final element has been read,
  * has_more() will return false and the loop will terminate.
- * 
+ *
  * If the next element is not an integer,
  * JsonArray will throw a std::string indicating the problem,
  * and the position in the input stream.
- * 
+ *
  * To handle arrays with elements of indeterminate type,
  * the test_* methods can be used, calling next_* according to the result.
- * 
+ *
  * Note that this style of iterative access requires an element to be read,
  * or else the index will not be incremented, resulting in an infinite loop.
  * Unwanted elements can be skipped with JsonArray::skip_value().
- * 
- * 
+ *
+ *
  * Positional Access
  * -----------------
- * 
+ *
  *     JsonArray ja = jo.get_array("xydata");
  *     point xydata(ja.get_int(0), ja.get_int(1));
- * 
+ *
  * Arrays also provide has_int(index) etc., for positional type testing,
  * and read(index, &container) for automatic deserialization.
- * 
- * 
+ *
+ *
  * Automatic Deserialization
  * -------------------------
- * 
+ *
  * Elements can also be automatically read into compatible containers,
  * such as maps, sets, vectors, and classes implementing JsonDeserializer,
  * using the read_next() and read() methods.
- * 
+ *
  *     JsonArray ja = jo.get_array("custom_datatype_array");
  *     while (ja.has_more()) {
  *         MyDataType mydata; // MyDataType implementing JsonDeserializer
@@ -622,18 +622,18 @@ public:
 
 /* JsonSerializer
  * ==============
- * 
+ *
  * JsonSerializer is an inheritable interface,
  * allowing classes to define how they are to be serialized,
  * and then treated as a basic type for serialization purposes.
- * 
+ *
  * All a class must to do satisfy this interface,
  * is define a `void serialize(JsonOut&) const` method,
  * which should use the provided JsonOut to write its data as JSON.
- * 
+ *
  * Methods to output to a std::ostream, or as a std::string,
  * are then automatically provided.
- * 
+ *
  *     class point : public JsonSerializer {
  *         int x, y;
  *         using JsonSerializer::serialize;
@@ -662,19 +662,19 @@ public:
 
 /* JsonDeserializer
  * ==============
- * 
+ *
  * JsonDeserializer is an inheritable interface,
  * allowing classes to define how they are to be deserialized,
  * and then treated as a basic type for deserialization purposes.
- * 
+ *
  * All a class must to do satisfy this interface,
  * is define a `void deserialize(JsonIn&)` method,
  * which should read its data from the provided JsonIn,
  * assuming it to be in the correct form.
- * 
+ *
  * Methods to read from a std::istream, or a std::string,
  * are then automatically provided.
- * 
+ *
  *     class point : public JsonDeserializer {
  *         int x, y;
  *         using JsonDeserializer::deserialize;

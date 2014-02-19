@@ -34,6 +34,7 @@ void overmapbuffer::save()
     for(std::list<overmap>::iterator current_map = overmap_list.begin();
         current_map != overmap_list.end(); ++current_map)
     {
+        // Note: this may throw io errors from std::ofstream
         current_map->save();
     }
 }
@@ -503,4 +504,10 @@ void overmapbuffer::ms_to_omt(int &x, int &y) {
 
 point overmapbuffer::ms_to_omt_remain(int &x, int &y) {
     return point(divide(x, SEEX * 2, x), divide(y, SEEY * 2, y));
+}
+
+
+
+tripoint overmapbuffer::omt_to_seg_copy(const tripoint& p) {
+    return tripoint(divide(p.x, 32), divide(p.y, 32), p.z);
 }

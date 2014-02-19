@@ -441,9 +441,9 @@ void npc::talk_to_u()
  if (d.topic_stack.back() == TALK_NONE) {
   d.topic_stack.back() = pick_talk_topic(&(g->u));
  }
- 
+
  moves -= 100;
- 
+
  if(g->u.has_disease("deaf")) {
   g->add_msg(_("%s tries to talk to you, but you're deaf!"), name.c_str());
   if(d.topic_stack.back() == TALK_MUG) {
@@ -452,7 +452,7 @@ void npc::talk_to_u()
   }
   return;
  }
- 
+
  decide_needs();
 
  d.win = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -1549,6 +1549,10 @@ int trial_chance(talk_response response, player *u, npc *p)
     chance += 40;
    if (u->has_trait("ELFAEYES"))
     chance += 10;
+   if (u->has_bionic("bio_voice")) //come on, who would suspect a robot of lying?
+    chance += 10;
+   if (u->has_bionic("bio_face_mask"))
+    chance += 20;
    break;
 
   case TALK_TRIAL_PERSUADE:
@@ -1558,12 +1562,18 @@ int trial_chance(talk_response response, player *u, npc *p)
     chance += 20;
    if (u->has_trait("TAIL_FLUFFY"))
     chance += 10;
+   if (u->has_bionic("bio_face_mask"))
+    chance += 10;
    if (u->has_trait("GROWL"))
     chance -= 25;
    if (u->has_trait("HISS"))
     chance -= 25;
    if (u->has_trait("SNARL"))
     chance -= 60;
+   if (u->has_bionic("bio_deformity"))
+    chance -= 50;
+   if (u->has_bionic("bio_voice"))
+    chance -= 20;
    break;
 
   case TALK_TRIAL_INTIMIDATE:
@@ -1581,14 +1591,22 @@ int trial_chance(talk_response response, player *u, npc *p)
     chance += 15;
    if (u->has_trait("ELFAEYES"))
     chance += 10;
-   if (p->has_trait("TERRIFYING"))
-    chance -= 15;
+ //if (p->has_trait("TERRIFYING")) // This appears to do nothing, since NPCs don't seem to actually check for it.
+ // chance -= 15;
    if (u->has_trait("GROWL"))
     chance += 15;
    if (u->has_trait("HISS"))
     chance += 15;
    if (u->has_trait("SNARL"))
     chance += 30;
+   if (u->has_bionic("bio_face_mask"))
+    chance += 10;
+   if (u->has_bionic("bio_armor_eyes"))
+    chance += 10;
+   if (u->has_bionic("bio_deformity"))
+    chance += 20;
+   if (u->has_bionic("bio_voice"))
+    chance += 20;
    break;
 
  }

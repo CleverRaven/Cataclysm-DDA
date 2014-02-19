@@ -148,7 +148,8 @@ public:
   void unserialize_master(std::ifstream & fin); // for load
   bool unserialize_master_legacy(std::ifstream & fin); // for old load
 
-  void save();
+  // returns false if saving faild for whatever reason
+  bool save();
   void delete_world(std::string worldname, bool delete_folder);
   std::vector<std::string> list_active_characters();
   void write_memorial_file();
@@ -194,6 +195,8 @@ public:
   void emp_blast(int x, int y);
   int  npc_at(const int x, const int y) const; // Index of the npc at (x, y); -1 for none
   int  npc_by_id(const int id) const; // Index of the npc at (x, y); -1 for none
+  // Return any critter at (x,y), be it a monster, an npc, or u (the player).
+  Creature *critter_at(int x, int y);
  // void build_monmap();  // Caches data for mon_at()
 
   bool add_zombie(monster& critter);
@@ -217,8 +220,6 @@ public:
   void explode_mon(int index); // Explode a monster; like kill_mon but messier
   void revive_corpse(int x, int y, int n); // revives a corpse from an item pile
   void revive_corpse(int x, int y, item *it); // revives a corpse by item pointer, caller handles item deletion
-// hit_monster_with_flags processes ammo flags (e.g. incendiary, etc)
-  void hit_monster_with_flags(monster &critter, const std::set<std::string> &effects);
   void plfire(bool burst, int default_target_x = -1, int default_target_y = -1); // Player fires a gun (target selection)...
 // ... a gun is fired, maybe by an NPC (actual damage, etc.).
   void fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
@@ -351,6 +352,8 @@ public:
   void toggle_fullscreen(void);
   void temp_exit_fullscreen(void);
   void reenter_fullscreen(void);
+  void zoom_in();
+  void zoom_out();
 
   std::map<std::string, std::vector <items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
@@ -389,6 +392,18 @@ public:
   WINDOW *w_status;
   WINDOW *w_status2;
   live_view liveview;
+
+  // View offset based on the driving speed (if any)
+  // that has been added to u.view_offset_*,
+  // Don't write to this directly, always use set_driving_view_offset
+  point driving_view_offset;
+  // Setter for driving_view_offset
+  void set_driving_view_offset(const point &p);
+  // Calculates the driving_view_offset for the given vehicle
+  // and sets it (view set_driving_view_offset), if
+  // the options for this feautre is dactivated or if veh is NULL,
+  // the function set the driving offset to (0,0)
+  void calc_driving_offset(vehicle *veh = NULL);
 
   bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL, item *cont = NULL);
 
@@ -461,14 +476,18 @@ public:
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
   //private save functions.
-  void save_factions_missions_npcs();
+  // returns false if saving failed for whatever reason
+  bool save_factions_missions_npcs();
   void serialize_master(std::ofstream &fout);
-  void save_artifacts();
-  void save_maps();
+  // returns false if saving failed for whatever reason
+  bool save_artifacts();
+  // returns false if saving failed for whatever reason
+  bool save_maps();
   void save_weather(std::ofstream &fout);
   void load_legacy_future_weather(std::string data);
   void load_legacy_future_weather(std::istream &fin);
-  void save_uistate();
+  // returns false if saving failed for whatever reason
+  bool save_uistate();
   void load_uistate(std::string worldname);
 // Data Initialization
   void init_npctalk();
@@ -599,8 +618,11 @@ public:
 // returns a Bresenham line to that square.  It is called by plfire() and
 // throw().
   std::vector<point> target(int &x, int &y, int lowx, int lowy, int hix,
-                            int hiy, std::vector <monster> t, int &target,
+                            int hiy, std::vector <Creature*> t, int &target,
                             item *relevent);
+  // interface to target(), collects a list of targets & selects default target
+  // finally calls target() and returns its result.
+  std::vector<point> pl_target_ui(int &x, int &y, int range, item *relevent, int default_target_x = -1, int default_target_y = -1);
 
 // Map updating and monster spawning
   void replace_stair_monsters();
@@ -654,10 +676,10 @@ public:
 
 // ########################## DATA ################################
 
-  std::map<point, int> z_at;
   Creature_tracker critter_tracker;
 
-  signed char last_target; // The last monster targeted
+  int last_target; // The last monster targeted
+  bool last_target_was_npc;
   int run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
                 //  monsters spawns, go to 2 - No movement allowed
   std::vector<int> new_seen_mon;
@@ -683,10 +705,14 @@ public:
   unsigned char latest_lightlevel;
   calendar latest_lightlevel_turn;
 
+
   special_game *gamemode;
 
   int moveCount; //Times the player has moved (not pause, sleep, etc)
   const int lookHeight; // Look Around window height
+
+  /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
+  int tileset_zoom;
 
   // Preview for auto move route
   std::vector<point> destination_preview;

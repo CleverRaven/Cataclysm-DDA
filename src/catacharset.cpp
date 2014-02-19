@@ -105,16 +105,16 @@ std::string utf32_to_utf8(unsigned ch) {
 
     buf += utf8Bytes;
     switch (utf8Bytes) {
-        case 4: 
+        case 4:
             *--buf = (ch|0x80)&0xBF;
             ch >>= 6;
         case 3:
             *--buf = (ch|0x80)&0xBF;
             ch >>= 6;
-        case 2: 
+        case 2:
             *--buf = (ch|0x80)&0xBF;
             ch >>= 6;
-        case 1: 
+        case 1:
             *--buf = ch|utf8FirstByte[utf8Bytes];
     }
     out[utf8Bytes] = '\0';
@@ -143,7 +143,7 @@ int utf8_width(const char* s)
 
 //Convert cursor position to byte offset
 //returns the first character position in bytes behind the cursor position.
-//If the cursor is not on the first half of the character, 
+//If the cursor is not on the first half of the character,
 //prevpos (which points to the first byte of the cursor located char)
 // should be a different value.
 int cursorx_to_position(const char* line, int cursorx, int* prevpos)
@@ -224,7 +224,7 @@ std::string utf8_substr(std::string s, int start, int size)
         erease_utf8_by_cw(buf+pos, tw, tw, len-pos-1);
     }
 
-    if(size>0) 
+    if(size>0)
     {
         int end = cursorx_to_position(buf, start+size-1, &pos);
         if(end!=pos)
@@ -238,11 +238,11 @@ std::string utf8_substr(std::string s, int start, int size)
         }
         buf[end+1] = '\0';
     }
-    
+
     return std::string(buf+start);
 }
 
-static const char base64_encoding_table[] = 
+static const char base64_encoding_table[] =
 {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
@@ -312,7 +312,7 @@ std::string base64_decode(std::string str) {
     }
 
     build_base64_decoding_table();
-    
+
     std::string instr = str.substr(1);
 
     int input_length = instr.length();

@@ -155,7 +155,16 @@ bool WinCreate()
 
     char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
     SDL_putenv(center_string);
-    screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
+
+    //Flags used for setting up SDL VideoMode
+    int screen_flags = SDL_SWSURFACE | SDL_DOUBLEBUF;
+
+    //If FULLSCREEN was selected in options add SDL_FULLSCREEN flag to screen_flags, causing screen to go fullscreen.
+    if(OPTIONS["FULLSCREEN"]) {
+        screen_flags = screen_flags | SDL_FULLSCREEN;
+    }
+
+    screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, screen_flags);
     //SDL_SetColors(screen,windowsPalette,0,256);
 
     if (screen == NULL) return false;
@@ -883,7 +892,13 @@ static void save_font_list()
 
 static std::string find_system_font(std::string name, int& faceIndex)
 {
-    if(!fexists("data/fontlist.txt")) save_font_list();
+    struct stat stat_buf;
+    int rc = stat("data/fontlist.txt", &stat_buf);
+    if( rc == 0 ? stat_buf.st_size == 0 : true) {
+      DebugLog() << "Generating fontlist\n";
+      save_font_list();
+    }
+
 
     std::ifstream fin("data/fontlist.txt");
     if (fin) {
@@ -1289,6 +1304,12 @@ input_event input_manager::get_input_event(WINDOW *win) {
 
 bool gamepad_available() {
     return joystick != NULL;
+}
+
+void rescale_tileset(int size) {
+    #ifdef SDLTILES
+        tilecontext->load_rescaled_tileset(size);
+    #endif
 }
 
 bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {

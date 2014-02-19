@@ -6,10 +6,10 @@
 #include "mtype.h"
 #include "enums.h"
 #include "bodypart.h"
+#include "field.h"
 #include <vector>
 
 class map;
-class player;
 class game;
 class item;
 
@@ -64,9 +64,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  bool getkeep();
  void setkeep(bool r);
 
-m_size get_size();
+ m_size get_size();
+ int get_hp( hp_part ) { return hp; };
+ std::string get_material() { return type->mat; };
 
-// Access
+ // Access
  std::string name(); // Returns the monster's formal name
  std::string name_with_armor(); // Name, with whatever our armor is called
  // the creature-class versions of the above
@@ -238,6 +240,9 @@ m_size get_size();
 
     bool is_hallucination();    // true if the monster isn't actually real
 
+    field_id monBloodType();
+    field_id monGibType();
+
 // TEMP VALUES
  int wandx, wandy; // Wander destination - Just try to move in that direction
  int wandf;        // Urge to wander - Increased by sound, decrements each move
@@ -250,6 +255,7 @@ m_size get_size();
  int speed;
  int hp;
  int sp_timeout;
+ int def_chance;
  int friendly;
  int anger, morale;
  int faction_id; // If we belong to a faction

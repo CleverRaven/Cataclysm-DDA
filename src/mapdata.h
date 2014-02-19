@@ -39,7 +39,7 @@ struct map_bash_item_drop {
     std::string itemtype; // item id
     int amount;           // number dropped
     int minamount;        // optional: if >= amount drop is random # between minamount and amount
-    int chance;           // 
+    int chance;           //
     map_bash_item_drop(std::string str, int i) : itemtype(str), amount(i), minamount(-1), chance(-1) {};
     map_bash_item_drop(std::string str, int i1, int i2) : itemtype(str), amount(i1), minamount(i2), chance(-1) {};
 };
@@ -48,7 +48,7 @@ struct map_bash_info {
     int str_max;          // max str required: bash succeeds if str >= random # between str_min_roll & str_max
     int str_min_roll;     // lower bound of success check; defaults to str_min ( may set default to 0 )
     int str_min_blocked;  // same as above; alternate values for has_adjacent_furniture(...) == true
-    int str_max_blocked;  
+    int str_max_blocked;
     int num_tests;        // how many tests must succeed
     int chance;
     int explosive;        // Explosion on destruction
@@ -178,7 +178,7 @@ struct ter_t {
  std::string close;         // close action: transform into terrain with matching id
 
  map_bash_info bash;
- 
+
  bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
  }
@@ -193,7 +193,7 @@ struct ter_t {
          transparent = true;
      }
      if ( ter_bitflags_map.find( flag ) != ter_bitflags_map.end() ) {
-         bitflags |= mfb ( ter_bitflags_map.find( flag )->second ); 
+         bitflags |= mfb ( ter_bitflags_map.find( flag )->second );
      }
  }
  bool transparent;
@@ -226,7 +226,7 @@ struct furn_t {
  std::string close;
 
  map_bash_info bash;
- 
+
  bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
  }
@@ -241,7 +241,7 @@ struct furn_t {
          transparent = true;
      }
      if ( ter_bitflags_map.find( flag ) != ter_bitflags_map.end() ) {
-         bitflags |= mfb ( ter_bitflags_map.find( flag )->second ); 
+         bitflags |= mfb ( ter_bitflags_map.find( flag )->second );
      }
  }
  bool transparent;
@@ -445,7 +445,8 @@ extern ter_id t_null,
     t_wall_glass_v_alarm, t_wall_glass_h_alarm,
     t_reinforced_glass_v, t_reinforced_glass_h,
     t_bars,
-    t_door_c, t_door_b, t_door_o, t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
+    t_door_c, t_door_b, t_door_o,
+    t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
@@ -492,6 +493,8 @@ extern ter_id t_null,
     // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
      t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
+    t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
+    t_window_enhanced, t_window_enhanced_noglass,
     num_terrain_types;
 
 
@@ -550,7 +553,8 @@ old_t_wall_glass_v, old_t_wall_glass_h,
 old_t_wall_glass_v_alarm, old_t_wall_glass_h_alarm,
 old_t_reinforced_glass_v, old_t_reinforced_glass_h,
 old_t_bars,
-old_t_door_c, old_t_door_b, old_t_door_o, old_t_door_locked_interior, old_t_door_locked, old_t_door_locked_alarm, old_t_door_frame,
+old_t_door_c, old_t_door_b, old_t_door_o, old_t_rdoor_c,
+old_t_door_locked_interior, old_t_door_locked, old_t_door_locked_alarm, old_t_door_frame,
 old_t_chaingate_l, old_t_fencegate_c, old_t_fencegate_o, old_t_chaingate_c, old_t_chaingate_o, old_t_door_boarded,
 old_t_door_metal_c, old_t_door_metal_o, old_t_door_metal_locked,
 old_t_door_bar_c, old_t_door_bar_o, old_t_door_bar_locked,
@@ -595,6 +599,8 @@ old_t_card_science, old_t_card_military, old_t_card_reader_broken, old_t_slot_ma
 // Temple tiles
 old_t_rock_red, old_t_rock_green, old_t_rock_blue, old_t_floor_red, old_t_floor_green, old_t_floor_blue,
  old_t_switch_rg, old_t_switch_gb, old_t_switch_rb, old_t_switch_even,
+old_t_rdoor_b, old_t_rdoor_o, old_t_mdoor_frame, old_t_window_reinforced, old_t_window_reinforced_noglass,
+ old_t_window_enhanced, old_t_window_enhanced_noglass,
 old_num_terrain_types,
 };
 

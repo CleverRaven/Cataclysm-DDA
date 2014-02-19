@@ -29,6 +29,7 @@ int VIEW_OFFSET_X;
 int VIEW_OFFSET_Y;
 int TERRAIN_WINDOW_WIDTH;
 int TERRAIN_WINDOW_HEIGHT;
+int TERRAIN_WINDOW_TERM_WIDTH;
 int FULL_SCREEN_WIDTH;
 int FULL_SCREEN_HEIGHT;
 
@@ -111,7 +112,7 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
     textformatted = foldstring(buff, width);
     for (int line_num = 0; line_num < textformatted.size(); line_num++) {
         if (line_num >= begin_line) {
-          wmove(w, line_num + begin_y - begin_line, begin_x);
+            wmove(w, line_num + begin_y - begin_line, begin_x);
         }
         // split into colourable sections
         std::vector<std::string> color_segments = split_by_color(textformatted[line_num]);
@@ -122,10 +123,10 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
                 color = get_color_from_tag(*it, base_color);
             }
             if (line_num >= begin_line) {
-              std::string l = rm_prefix(*it);
-              if(l != "--") { // -- is a newline!
-                wprintz(w, color, "%s", rm_prefix(*it).c_str());
-              }
+                std::string l = rm_prefix(*it);
+                if(l != "--") { // -- is a newline!
+                    wprintz(w, color, "%s", rm_prefix(*it).c_str());
+                }
             }
         }
     }
@@ -372,7 +373,7 @@ void realDebugmsg(const char *filename, const char *line, const char *mes, ...)
     va_list ap;
     va_start(ap, mes);
     char buff[4096];
-//[1024];
+    //[1024];
     vsprintf(buff, mes, ap);
     va_end(ap);
     fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "DEBUG: %s\n  Press spacebar...", buff);
@@ -500,7 +501,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 }
 
 std::string string_input_win(WINDOW *w, std::string input, int max_length, int startx, int starty,
-                             int endx, bool loop, long &ch, int &pos, std::string identifier, 
+                             int endx, bool loop, long &ch, int &pos, std::string identifier,
                              int w_x, int w_y, bool dorefresh, bool only_digits )
 {
     std::string ret = input;
@@ -572,14 +573,6 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                 std::vector<std::string> *hist = uistate.gethistory(identifier);
                 if(hist != NULL) {
                     uimenu hmenu;
-                    hmenu.w_height = 3 + hist->size();
-                    if (w_y - hmenu.w_height < 0 ) {
-                        hmenu.w_y = 0;
-                        hmenu.w_height = ( w_y - hmenu.w_y < 4 ? 4 : w_y - hmenu.w_y );
-                    } else {
-                        hmenu.w_y = w_y - hmenu.w_height;
-                    }
-                    hmenu.w_x = w_x;
                     hmenu.title = _("d: delete history");
                     hmenu.return_invalid = true;
                     for(int h = 0; h < hist->size(); h++) {
@@ -592,6 +585,14 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                     } else {
                         hmenu.selected = hist->size() - 1;
                     }
+                    // number of lines that make up the menu window: title,2*border+entries
+                    hmenu.w_height = 3 + hmenu.entries.size();
+                    hmenu.w_y = w_y - hmenu.w_height;
+                    if (hmenu.w_y < 0 ) {
+                        hmenu.w_y = 0;
+                        hmenu.w_height = std::max(w_y, 4);
+                    }
+                    hmenu.w_x = w_x;
 
                     hmenu.query();
                     if ( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret ) {
@@ -929,7 +930,8 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
         } else if (vItemDisplay[i].sType == "DESCRIPTION") {
             line_num++;
             if (vItemDisplay[i].bDrawName) {
-                line_num += fold_and_print(w, line_num, 2, iWidth - 4, c_white, "%s", vItemDisplay[i].sName.c_str());
+                line_num += fold_and_print(w, line_num, 2, iWidth - 4, c_white, "%s",
+                                           vItemDisplay[i].sName.c_str());
             }
         } else {
             if (bStartNewLine) {
@@ -1018,26 +1020,26 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
 char rand_char()
 {
     switch (rng(0, 9)) {
-        case 0:
-            return '|';
-        case 1:
-            return '-';
-        case 2:
-            return '#';
-        case 3:
-            return '?';
-        case 4:
-            return '&';
-        case 5:
-            return '.';
-        case 6:
-            return '%';
-        case 7:
-            return '{';
-        case 8:
-            return '*';
-        case 9:
-            return '^';
+    case 0:
+        return '|';
+    case 1:
+        return '-';
+    case 2:
+        return '#';
+    case 3:
+        return '?';
+    case 4:
+        return '&';
+    case 5:
+        return '.';
+    case 6:
+        return '%';
+    case 7:
+        return '{';
+    case 8:
+        return '*';
+    case 9:
+        return '^';
     }
     return '?';
 }
@@ -1047,22 +1049,22 @@ char rand_char()
 long special_symbol (long sym)
 {
     switch (sym) {
-        case 'j':
-            return LINE_XOXO;
-        case 'h':
-            return LINE_OXOX;
-        case 'c':
-            return LINE_XXXX;
-        case 'y':
-            return LINE_OXXO;
-        case 'u':
-            return LINE_OOXX;
-        case 'n':
-            return LINE_XOOX;
-        case 'b':
-            return LINE_XXOO;
-        default:
-            return sym;
+    case 'j':
+        return LINE_XOXO;
+    case 'h':
+        return LINE_OXOX;
+    case 'c':
+        return LINE_XXXX;
+    case 'y':
+        return LINE_OXXO;
+    case 'u':
+        return LINE_OOXX;
+    case 'n':
+        return LINE_XOOX;
+    case 'b':
+        return LINE_XXOO;
+    default:
+        return sym;
     }
 }
 
@@ -1396,42 +1398,42 @@ size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const char *fm
 
 void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::string &text, const bool bMonster)
 {
-    if (current_hp == max_hp){
-      color = c_green;
-      text = "|||||";
+    if (current_hp == max_hp) {
+        color = c_green;
+        text = "|||||";
     } else if (current_hp > max_hp * .9 && !bMonster) {
-      color = c_green;
-      text = "||||\\";
+        color = c_green;
+        text = "||||\\";
     } else if (current_hp > max_hp * .8) {
-      color = c_ltgreen;
-      text = "||||";
+        color = c_ltgreen;
+        text = "||||";
     } else if (current_hp > max_hp * .7 && !bMonster) {
-      color = c_ltgreen;
-      text = "|||\\";
+        color = c_ltgreen;
+        text = "|||\\";
     } else if (current_hp > max_hp * .6) {
-      color = c_yellow;
-      text = "|||";
+        color = c_yellow;
+        text = "|||";
     } else if (current_hp > max_hp * .5 && !bMonster) {
-      color = c_yellow;
-      text = "||\\";
+        color = c_yellow;
+        text = "||\\";
     } else if (current_hp > max_hp * .4 && !bMonster) {
-      color = c_ltred;
-      text = "||";
+        color = c_ltred;
+        text = "||";
     } else if (current_hp > max_hp * .3) {
-      color = c_ltred;
-      text = "|\\";
+        color = c_ltred;
+        text = "|\\";
     } else if (current_hp > max_hp * .2 && !bMonster) {
-      color = c_red;
-      text = "|";
+        color = c_red;
+        text = "|";
     } else if (current_hp > max_hp * .1) {
-      color = c_red;
-      text = "\\";
+        color = c_red;
+        text = "\\";
     } else if (current_hp > 0) {
-      color = c_red;
-      text = ":";
+        color = c_red;
+        text = ":";
     } else {
-      color = c_ltgray;
-      text = "-----";
+        color = c_ltgray;
+        text = "-----";
     }
 }
 
@@ -1444,7 +1446,8 @@ void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::st
  * @param title The title text, displayed on top.
  * @param w The window to draw this in, the whole widow is used.
  */
-void display_table(WINDOW *w, const std::string &title, int columns, const std::vector<std::string> &data)
+void display_table(WINDOW *w, const std::string &title, int columns,
+                   const std::vector<std::string> &data)
 {
     const int width = getmaxx(w) - 2; // -2 for border
     const int rows = getmaxy(w) - 2 - 1; // -2 for border, -1 for title

@@ -1578,7 +1578,12 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
         } else if (rc <= 11) {
             veh_type = "scooter";
         } else if (rc <= 21) {
-            veh_type = "beetle";
+            int rd = rng(1, 100);
+            if(rd <= 50) {
+                veh_type = "car_mini";
+            } else {
+                veh_type = "beetle";
+            }
         } else if (rc <= 50) {
             veh_type = "car";
         } else if (rc <= 60) {
@@ -1588,6 +1593,8 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
         } else if (rc <= 73) {
             veh_type = "bicycle";
         } else if (rc <= 75) {
+            veh_type = "rara_x"; //The Solar Car Toyota RaRa X
+        } else if (rc <= 80) {
             veh_type = "unicycle";
         } else if (rc <= 90) {
             veh_type = "motorcycle";
