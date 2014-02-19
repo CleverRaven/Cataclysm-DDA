@@ -88,6 +88,61 @@
         "stun_dur" : 2
     },{
         "type" : "technique",
+        "id" : "tec_boxing_cross",
+        "name" : "Cross",
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
+        "messages" : [
+            "You throw a heavy straight at %s",
+            "<npcname> throws a straight at %s"
+        ],
+        "bash_mult" : 1.1
+    },{
+        "type" : "technique",
+        "id" : "tec_boxing_rapid",
+        "name" : "Jab",
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
+        "messages" : [
+            "You quickly jab %s",
+            "<npcname> quickly jabs at %s"
+        ],
+        "quick" : true,
+        "bash_mult" : 0.8
+
+    },{
+        "type" : "technique",
+        "id" : "tec_boxing_upper",
+        "name" : "Uppercut",
+        "min_unarmed" : 4,
+        "min_melee": 3,
+        "unarmed_allowed" : true,
+        "crit_tec" : true,
+        "messages" : [
+            "You uppercut %s",
+            "<npcname> uppercuts %s"
+        ],
+        "bash_mult" : 1.25,
+        "stun_dur" : 2
+    },{
+        "type" : "technique",
+        "id" : "tec_boxing_counter",
+        "name" : "Cross Counter",
+        "min_unarmed" : 5,
+        "min_melee" : 5,
+        "unarmed_allowed" : true,
+        "crit_tec" : true,
+        "req_buffs" : [
+            "boxing_counter"
+            ],
+        "messages" : [
+            "You Cross-Counter %s",
+            "<npcname> throws a perfect counter at %s"
+        ],
+        "bash_mult" : 1.5,
+        "stun_dur" : 2
+    },{
+        "type" : "technique",
         "id" : "tec_karate_rapid",
         "name" : "quick punch",
         "min_unarmed" : 0,
