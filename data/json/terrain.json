@@ -1759,6 +1759,26 @@
         "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT"]
     },{
         "type" : "terrain",
+        "id" : "t_atm",
+        "name": "ATM",
+        "symbol": "&",
+        "color": "magenta",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "ALARMED", "REDUCE_SCENT"],
+        "examine_action": "atm",
+        "bash": {
+            "str_min": 15, "str_max": 100, "num_tests": 2,
+            "explosive" : 5,
+            "sound": "Critial failure imminent, self destruct activated. Have a nice day!",
+            "ter_set": "t_floor",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 16, "minamount": 4},
+                { "item": "steel_chunk", "amount": 6, "minamount": 1}
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_generator_broken",
         "name": "broken generator",
         "symbol": "&",
@@ -1926,6 +1946,50 @@
         "color": "magenta",
         "move_cost": 0,
         "flags": ["TRANSPARENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_cvdbody",
+        "name": "cvd machine",
+        "symbol": "%",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 6, "str_max": 80, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor",
+            "items": [                
+                { "item": "e_scrap", "amount": 4, "minamount": 1, "chance": 50  },
+                { "item": "circuit", "amount": 6, "minamount": 1, "chance": 50 },
+                { "item": "scrap", "amount": 8, "minamount": 2, "chance": 50 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_cvdmachine",
+        "name": "cvd control panel",
+        "symbol": "&",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "BASHABLE", "DECONSTRUCT", "NOITEM"],
+        "bash": {
+            "str_min": 6, "str_max": 80, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "processor", "amount": 1, "minamount": 0, "chance": 50 },
+                { "item": "RAM", "amount": 2, "minamount": 0, "chance": 50 },
+                { "item": "cable", "amount": 4, "minamount": 1, "chance": 50 },
+                { "item": "e_scrap", "amount": 8, "minamount": 1, "chance": 50  },
+                { "item": "circuit", "amount": 6, "minamount": 1, "chance": 50 },
+                { "item": "power_supply", "amount": 4, "minamount": 1, "chance": 50 },
+                { "item": "amplifier", "amount": 6, "minamount": 1, "chance": 50 },
+                { "item": "plastic_chunk", "amount": 6, "minamount": 2, "chance": 50 },
+                { "item": "scrap", "amount": 6, "minamount": 2, "chance": 50 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_column",

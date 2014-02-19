@@ -790,6 +790,7 @@
       ["holybook_slack", 1],
       ["holybook_kallisti", 1],
       ["holybook_scientology", 1],
+      ["mouthpiece", 1],
       ["leathersandals", 25]
     ]
   },{
@@ -834,6 +835,7 @@
       ["grip", 12],
       ["pistol_grip", 12],
       ["adjustable_stock", 12],
+      ["recoil_stock", 12],
       ["pistol_stock", 6],
       ["clip", 8],
       ["spare_mag", 15],
@@ -899,6 +901,9 @@
       ["m_fishspear", 2],
       ["c_fishspear", 2],
       ["diveknife", 6],
+      ["small_repairkit", 12],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["u_shotgun", 5]
     ]
   },{
@@ -1794,6 +1799,7 @@
       ["airhorn", 40],
       ["boots_hiking", 10],
       ["runner_bag", 5],
+      ["mouthpiece", 15],
       ["leathersandals", 10]
     ]
   },{
@@ -2068,6 +2074,8 @@
       ["c_fishspear", 10],
       ["swim_fins", 20],
       ["diveknife", 12],
+      ["mouthpiece", 15],
+      ["small_repairkit", 2],
       ["leathersandals", 15]
     ]
   },{
@@ -2405,6 +2413,7 @@
       ["grip", 12],
       ["pistol_grip", 12],
       ["adjustable_stock", 12],
+      ["recoil_stock", 12],
       ["pistol_stock", 12],
       ["barrel_big", 10],
       ["barrel_small", 6],
@@ -2412,6 +2421,8 @@
       ["barrel_ported", 5],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["clip", 8],
       ["spare_mag", 15],
       ["clip2", 4],
@@ -2463,6 +2474,8 @@
       ["5x50_hull", 8],
       ["waterproof_gunmod", 8],
       ["gun_crossbow", 4],
+      ["small_repairkit", 15],
+      ["large_repairkit", 1],
       ["improve_sights", 20]
     ]
   },{
@@ -3075,6 +3088,7 @@
       ["clown_suit", 2],
       ["clownshoes", 2],
       ["bondage_suit", 1],
+      ["gold_dental_grill", 1],
       ["knife_trench", 14],
       ["switchblade", 15],
       ["bondage_mask", 1],
@@ -3113,6 +3127,8 @@
       ["pda", 10],
       ["gold_watch", 5],
       ["pocketwatch", 2],
+      ["gold_dental_grill", 2],
+      ["diamond_dental_grill", 1],
       ["picklocks", 4],
       ["chisel", 2],
       ["scissors", 10],
@@ -3170,6 +3186,8 @@
       ["ak47", 7],
       ["saiga_sawn", 5],
       ["arx160", 1],
+      ["small_repairkit", 2],
+      ["large_repairkit", 1],
       ["hk_g3", 10]
     ]
   },{
@@ -3196,6 +3214,10 @@
       ["sks", 6],
       ["ppsh", 4],
       ["saiga_12", 5],
+      ["small_repairkit", 5],
+      ["large_repairkit", 3],
+      ["tuned_mechanism", 1],
+      ["match_trigger", 2],
       ["RPG", 1]
     ]
   },{
@@ -3650,6 +3672,7 @@
       ["teleumbrella", 2],
       ["football_armor", 5],
       ["helmet_football", 5],
+      ["mouthpiece", 5],
       ["football", 5]
     ]
   },{
@@ -3838,6 +3861,8 @@
       ["m1911", 5],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["geiger_off", 8],
       ["UPS_off", 5],
       ["tazer", 3],
@@ -4412,6 +4437,7 @@
       ["glasses_safety", 40],
       ["goggles_welding", 70],
       ["recipe_lab_elec", 15],
+      ["recipe_lab_cvd", 15],
       ["recipe_mininuke_launch", 5],
       ["teleporter", 10],
       ["usb_drive", 5]
@@ -5281,6 +5307,7 @@
       ["signal_flare", 25],
       ["survivormap", 1],
       ["gun_crossbow", 1],
+      ["small_repairkit", 8],
       ["charcoal", 5]
     ]
   },{
@@ -5926,6 +5953,7 @@
       ["bipod" , 1],
       ["50bmg" , 3],
       ["50ss" , 2],
+      ["small_repairkit", 10],
       ["50_incendiary" , 2],
       ["water_clean", 90],
       ["knuckle_brass", 15],
@@ -6102,6 +6130,8 @@
       ["halligan", 10],
       ["fire_ax", 5],
       ["antiparasitic", 2],
+      ["tuned_mechanism", 1],
+      ["match_trigger", 2],
       ["bot_laserturret", 1]
     ]
   },{
@@ -6203,6 +6233,7 @@
       ["dump_pouch", 10],
       ["electrohack", 3],
       ["processor", 15],
+      ["large_repairkit", 2],
       ["armor_chitin", 1],
       ["plut_cell", 10],
       ["laser_pack", 10],
@@ -6449,6 +6480,11 @@
       ["knife_trench", 7],
       ["switchblade", 4],
       ["gold_watch", 5],
+      ["pocketwatch", 2],
+      ["gold_dental_grill", 2],
+      ["diamond_dental_grill", 1],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["pocketwatch", 2]
     ]
 },{
@@ -6966,6 +7002,7 @@
       ["fungicide", 10],
       ["antifungal", 1],
       ["throw_extinguisher", 2],
+      ["small_repairkit", 14],
       ["flamethrower_simple", 2]
     ]
   },{

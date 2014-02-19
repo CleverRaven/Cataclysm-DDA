@@ -20,7 +20,7 @@
         "bashing" : 15,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 40
+        "price" : 4000
     },
     {
         "type":"GENERIC",
@@ -37,7 +37,7 @@
         "bashing" : 20,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 55
+        "price" : 5500
     },
     {
         "type":"GENERIC",
@@ -54,7 +54,7 @@
         "bashing" : 20,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 55
+        "price" : 5500
     },
     {
         "type":"GENERIC",
@@ -71,7 +71,7 @@
         "bashing" : 16,
         "cutting" : 4,
         "category" : "veh_parts",
-        "price" : 35
+        "price" : 3500
     },
     {
         "type":"GENERIC",
@@ -88,7 +88,7 @@
         "bashing" : 25,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 120
+        "price" : 12000
     },
     {
         "type":"GENERIC",
@@ -104,7 +104,7 @@
         "bashing" : 4,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 250
+        "price" : 25000
     },
     {
         "type":"GENERIC",
@@ -120,7 +120,7 @@
         "bashing" : 6,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 200
+        "price" : 20000
     },
     {
         "type":"GENERIC",
@@ -136,7 +136,7 @@
         "bashing" : 2,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 25
+        "price" : 2500
     },
     {
         "type":"GENERIC",
@@ -153,7 +153,7 @@
         "bashing" : 19,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 30
+        "price" : 3000
     },
     {
         "type":"GENERIC",
@@ -169,7 +169,7 @@
         "bashing" : 2,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 400
+        "price" : 40000
     },
     {
         "type":"GENERIC",
@@ -185,7 +185,7 @@
         "bashing" : 4,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 120
+        "price" : 12000
     },
     {
         "type":"GENERIC",
@@ -201,7 +201,7 @@
         "bashing" : 9,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 220
+        "price" : 22000
     },
     {
         "type":"GENERIC",
@@ -217,7 +217,7 @@
         "bashing" : 7,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 900
+        "price" : 90000
     },
     {
         "type":"GENERIC",
@@ -233,7 +233,7 @@
         "bashing" : 10,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 90
+        "price" : 9000
     },
     {
         "type":"GENERIC",
@@ -249,7 +249,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 50
+        "price" : 5000
     },
     {
         "type":"GENERIC",
@@ -265,7 +265,7 @@
         "bashing" : 2,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 20
+        "price" : 2000
     },
     {
         "type":"GENERIC",
@@ -281,7 +281,7 @@
         "bashing" : 3,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 40
+        "price" : 4000
     },
     {
         "type":"GENERIC",
@@ -297,7 +297,7 @@
         "bashing" : 5,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 60
+        "price" : 6000
     },
     {
         "type":"GENERIC",
@@ -313,7 +313,7 @@
         "bashing" : 4,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 400
+        "price" : 40000
     },
     {
         "type":"GENERIC",
@@ -329,7 +329,7 @@
         "bashing" : 4,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 60
+        "price" : 6000
     },
     {
         "type":"GENERIC",
@@ -345,7 +345,7 @@
         "bashing" : 4,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 90
+        "price" : 9000
     },
     {
         "type":"GENERIC",
@@ -361,7 +361,7 @@
         "bashing" : 4,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 120
+        "price" : 12000
     },
     {
         "type":"GENERIC",
@@ -377,7 +377,7 @@
         "bashing" : 6,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 80
+        "price" : 8000
     },
     {
         "type":"GENERIC",
@@ -393,7 +393,7 @@
         "bashing" : 7,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 900
+        "price" : 90000
     },
     {
         "type":"GENERIC",
@@ -409,7 +409,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 900
+        "price" : 90000
     },
     {
         "type":"GENERIC",
@@ -425,7 +425,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 1200
+        "price" : 120000
     },
     {
         "type":"GENERIC",
@@ -489,7 +489,7 @@
         "bashing": 8,
         "cutting": 0,
         "category" : "veh_parts",
-        "price": 600
+        "price": 60000
     },
     {
         "type":"GENERIC",
@@ -505,7 +505,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 50
+        "price" : 5000
     },
     {
         "type":"GENERIC",
@@ -521,7 +521,7 @@
         "bashing" : 5,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 60
+        "price" : 6000
     },
     {
         "type":"GENERIC",
@@ -537,7 +537,7 @@
         "bashing" : 10,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 120
+        "price" : 12000
     },
     {
         "type":"GENERIC",
@@ -553,7 +553,7 @@
         "bashing" : 6,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 120
+        "price" : 12000
     },
     {
         "type":"GENERIC",
@@ -569,7 +569,7 @@
         "bashing" : 6,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 185
+        "price" : 18500
     },
     {
         "type":"GENERIC",
@@ -585,7 +585,7 @@
         "bashing" : -2,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 85
+        "price" : 8500
     },
     {
         "type":"GENERIC",
@@ -602,7 +602,7 @@
         "cutting" : 3,
         "flags" : ["STAB"],
         "category" : "veh_parts",
-        "price" : 185
+        "price" : 18500
     },
     {
         "type":"GENERIC",
@@ -618,7 +618,7 @@
         "bashing" : 6,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 160
+        "price" : 16000
     },
     {
         "type":"GENERIC",
@@ -634,7 +634,7 @@
         "bashing" : 8,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 160
+        "price" : 16000
     },
     {
         "type":"GENERIC",
@@ -650,7 +650,7 @@
         "bashing" : 2,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 30
+        "price" : 3000
     },
     {
         "type":"GENERIC",
@@ -666,7 +666,7 @@
         "bashing" : 0,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 400
+        "price" : 40000
     },
     {
         "type":"GENERIC",
@@ -682,7 +682,7 @@
         "bashing" : 0,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 400
+        "price" : 40000
     },
     {
         "type":"GENERIC",
@@ -698,7 +698,7 @@
         "bashing" : 0,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 400
+        "price" : 40000
     },
     {
         "type":"GENERIC",
@@ -714,7 +714,7 @@
         "bashing" : 0,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 400
+        "price" : 40000
     },
     {
         "type":"GENERIC",
@@ -730,7 +730,7 @@
         "bashing": 1,
         "cutting": 0,
         "category" : "veh_parts",
-        "price": 800
+        "price": 80000
     },
     {
         "type":"GENERIC",
@@ -746,7 +746,7 @@
         "bashing": 1,
         "cutting": 0,
         "category" : "veh_parts",
-        "price": 400
+        "price": 40000
     },
     {
         "type":"GENERIC",
@@ -762,7 +762,7 @@
         "bashing": 1,
         "cutting": 0,
         "category" : "veh_parts",
-        "price": 400
+        "price": 40000
     },
     {
         "type":"GENERIC",
@@ -778,7 +778,7 @@
         "bashing" : 2,
         "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 400
+        "price" : 40000
     },
     {
         "type":"GENERIC",
@@ -794,7 +794,7 @@
         "bashing": 5,
         "cutting": 0,
         "category" : "veh_parts",
-        "price": 900
+        "price": 90000
     },
     {
         "type":"GENERIC",
@@ -810,6 +810,6 @@
         "bashing": 5,
         "cutting": 0,
         "category" : "veh_parts",
-        "price": 900
+        "price": 90000
     }
 ]

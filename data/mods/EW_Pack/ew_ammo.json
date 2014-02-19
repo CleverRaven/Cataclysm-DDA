@@ -2,7 +2,7 @@
     {
         "type" : "AMMO",
         "id" : "654",
-        "price" : 680,
+        "price" : 68000,
         "name" : "6.54x42mm 9N8",
         "symbol" : "=",
         "color" : "dark_gray",
@@ -26,7 +26,7 @@
     {
         "type" : "AMMO",
         "id" : "654t",
-        "price" : 900,
+        "price" : 90000,
         "name" : "6.54x42mm 9N12",
         "symbol" : "=",
         "color" : "dark_gray",
@@ -50,7 +50,7 @@
     {
         "type" : "AMMO",
         "id" : "545",
-        "price" : 750,
+        "price" : 75000,
         "name" : "5.45x39mm 5N7",
         "symbol" : "=",
         "color" : "yellow",
@@ -74,7 +74,7 @@
     {
         "type" : "AMMO",
         "id" : "545_ap",
-        "price" : 850,
+        "price" : 85000,
         "name" : "5.45x39mm 7N22",
         "symbol" : "=",
         "color" : "yellow",
@@ -98,7 +98,7 @@
     {
         "type" : "AMMO",
         "id" : "654_casing",
-        "price" : 50,
+        "price" : 5000,
         "name" : "6.54x42mm casing",
         "symbol" : "=",
         "color" : "dark_gray",
@@ -120,7 +120,7 @@
     {
         "type" : "AMMO",
         "id" : "545_casing",
-        "price" : 50,
+        "price" : 5000,
         "name" : "5.45x39mm casing",
         "symbol" : "=",
         "color" : "yellow",

@@ -66,8 +66,8 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(itype* it, unsigned int turn);
- item(itype* it, unsigned int turn, char let);
+ item(itype* it, unsigned int turn, bool rand = true);
+ item(itype* it, unsigned int turn, char let, bool rand = true);
  void make_corpse(itype* it, mtype* mt, unsigned int turn); // Corpse
  item(std::string itemdata);
  item(JsonObject &jo);
@@ -149,9 +149,9 @@ public:
  item const* inspect_active_gunmod() const;
  bool goes_bad();
  bool count_by_charges() const;
- int max_charges() const;
+ long max_charges() const;
  bool craft_has_charges();
- int num_charges();
+ long num_charges();
  bool rotten();
  bool ready_to_revive(); // used for corpses
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
@@ -223,7 +223,7 @@ public:
 
  std::string name;
  char invlet;           // Inventory letter
- int charges;
+ long charges;
  bool active;           // If true, it has active effects to be processed
  int fridge;            // The turn we entered a fridge.
  int rot;               // decay; same as turn-bday at 65 degrees, but doubles/halves every 18 degrees. can be negative (start game fridges)
@@ -248,7 +248,7 @@ public:
  std::map<std::string, std::string> item_vars;
  static itype * nullitem();
 
- item clone();
+ item clone(bool rand = true);
 private:
  int sort_rank() const;
  static itype * nullitem_m;

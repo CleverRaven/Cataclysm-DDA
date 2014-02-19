@@ -1450,173 +1450,189 @@ void map::mop_spills(const int x, const int y) {
 
 bool map::bash(const int x, const int y, const int str, std::string &sound, int *res)
 {
- sound = "";
- bool smashed_web = false;
- if (field_at(x, y).findField(fd_web)) {
-  smashed_web = true;
-  remove_field(x, y, fd_web);
- }
-
- for (int i = 0; i < i_at(x, y).size(); i++) { // Destroy glass items (maybe)
-    // the check for active supresses molotovs smashing themselves with their own explosion
-    if (i_at(x, y)[i].made_of("glass") && !i_at(x, y)[i].active && one_in(2)) {
-        if (sound == "") {
-            sound = string_format(_("A %s shatters!  "), i_at(x,y)[i].tname().c_str());
-        } else {
-            sound = _("Some items shatter!  ");
-        }
-        for (int j = 0; j < i_at(x, y)[i].contents.size(); j++) {
-            i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
-        }
-        i_rem(x, y, i);
-        i--;
+    sound = "";
+    bool smashed_web = false;
+    if (field_at(x, y).findField(fd_web)) {
+        smashed_web = true;
+        remove_field(x, y, fd_web);
     }
- }
 
- int result = -1;
- int vpart;
- vehicle *veh = veh_at(x, y, vpart);
- if (veh) {
-  veh->damage (vpart, str, 1);
-  sound += _("crash!");
-  return true;
- }
+    for (int i = 0; i < i_at(x, y).size(); i++) { // Destroy glass items (maybe)
+        // the check for active supresses molotovs smashing themselves with their own explosion
+        if (i_at(x, y)[i].made_of("glass") && !i_at(x, y)[i].active && one_in(2)) {
+            if (sound == "") {
+                sound = string_format(_("A %s shatters!  "), i_at(x,y)[i].tname().c_str());
+            } else {
+                sound = _("Some items shatter!  ");
+            }
+            for (int j = 0; j < i_at(x, y)[i].contents.size(); j++) {
+                i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
+            }
+            i_rem(x, y, i);
+            i--;
+        }
+    }
 
-/////
-bool jsfurn = false;
-bool jster = false;
-map_bash_info * bash = NULL;
+    // Smash vehicle if present
+    int result = -1;
+    int vpart;
+    vehicle *veh = veh_at(x, y, vpart);
+    if (veh) {
+        veh->damage (vpart, str, 1);
+        sound += _("crash!");
+        return true;
+    }
 
-if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
-  bash = &(furn_at(x,y).bash);
-  jsfurn = true;
-} else if ( ter_at(x, y).bash.str_max != -1 ) {
-  bash = &(ter_at(x,y).bash);
-  jster = true;
-}
+    // Else smash furniture or terrain
+    bool jsfurn = false;
+    bool jster = false;
+    map_bash_info * bash = NULL;
 
-if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
-  bool success = ( bash->chance == -1 || rng(0, 100) >= bash->chance );
-  if ( success == true ) {
-     int smin = bash->str_min;
-     int smax = bash->str_max;
-     if ( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
-         if( has_adjacent_furniture(x, y) ) {
-             if ( bash->str_min_blocked != -1 ) smin = bash->str_min_blocked;
-             if ( bash->str_max_blocked != -1 ) smax = bash->str_max_blocked;
-         }
-     }
-     if ( str >= smin ) {
-        // roll min_str-max_str;
-        smin = ( bash->str_min_roll != -1 ? bash->str_min_roll : smin );
-        // min_str is a qualifier, but roll 0-max; same delay as before
-        //   smin = ( bash->str_min_roll != -1 ? bash->str_min_roll : 0 );
+    if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
+        bash = &(furn_at(x,y).bash);
+        jsfurn = true;
+    } else if ( ter_at(x, y).bash.str_max != -1 ) {
+        bash = &(ter_at(x,y).bash);
+        jster = true;
+    }
 
-        for( int i=0; i < bash->num_tests; i++ ) {
-            result = rng(smin, smax);
-            // g->add_msg("bash[%d/%d]: %d >= %d (%d/%d)", i+1,bash->num_tests, str, result,smin,smax);
-            if (i == 0 && res) *res = result;
-            if (str < result) {
+    if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
+        bool success = ( bash->chance == -1 || rng(0, 100) >= bash->chance );
+        if ( success == true ) {
+            int smin = bash->str_min;
+            int smax = bash->str_max;
+            if ( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
+                if( has_adjacent_furniture(x, y) ) {
+                    if ( bash->str_min_blocked != -1 ) {
+                        smin = bash->str_min_blocked;
+                    }
+                    if ( bash->str_max_blocked != -1 ) {
+                        smax = bash->str_max_blocked;
+                    }
+                }
+            }
+            if ( str >= smin ) {
+                // roll min_str-max_str;
+                smin = ( bash->str_min_roll != -1 ? bash->str_min_roll : smin );
+                // min_str is a qualifier, but roll 0-max; same delay as before
+                //   smin = ( bash->str_min_roll != -1 ? bash->str_min_roll : 0 );
+
+                for( int i=0; i < bash->num_tests; i++ ) {
+                    result = rng(smin, smax);
+                    if (i == 0 && res) {
+                        *res = result;
+                    }
+                    if (str < result) {
+                        success = false;
+                        break;
+                    }
+                }
+            } else {
+                // todo; bash->sound_too_weak = "feeble whump" ?
                 success = false;
-                break;
             }
         }
-     } else {
-        // g->add_msg("bash[%d]: %d >= (%d/%d)", bash->num_tests, str,smin,smax);
-        // todo; bash->sound_too_weak = "feeble whump" ?
-        success = false;
-     }
-  }
-  if ( success == true ) {
-     int bday=int(g->turn);
-     sound += _(bash->sound.c_str());
-     if ( jsfurn == true ) {
-         if ( bash->furn_set.size() > 0 ) {
-             furn_set( x, y, bash->furn_set );
-         } else {
-             furn_set( x, y, f_null );
-         }
-     }
-     if ( bash->ter_set.size() > 0 ) {
-        ter_set( x, y, bash->ter_set );
-     } else if ( jster == true ) {
-        debugmsg("data/json/terrain.json does not have %s.bash.ter_set set!",ter_at(x,y).id.c_str());
-     }
-     for (int i = 0; i < bash->items.size(); i++) {
-        int chance = bash->items[i].chance;
-        if ( chance == -1 || rng(0, 100) >= chance ) {
-           int numitems = bash->items[i].amount;
+        if ( success == true ) {
+            int bday=int(g->turn);
+            sound += _(bash->sound.c_str());
+            if ( jsfurn == true ) {
+                if ( bash->furn_set.size() > 0 ) {
+                    furn_set( x, y, bash->furn_set );
+                } else {
+                    furn_set( x, y, f_null );
+                }
+            }
+            if ( bash->ter_set.size() > 0 ) {
+                ter_set( x, y, bash->ter_set );
+            } else if ( jster == true ) {
+                debugmsg("data/json/terrain.json does not have %s.bash.ter_set set!",ter_at(x,y).id.c_str());
+            }
+            for (int i = 0; i < bash->items.size(); i++) {
+                int chance = bash->items[i].chance;
+                if ( chance == -1 || rng(0, 100) >= chance ) {
+                    int numitems = bash->items[i].amount;
 
-           if ( bash->items[i].minamount != -1 ) {
-              numitems = rng( bash->items[i].minamount, bash->items[i].amount );
-           }
-           // g->add_msg(" it: %d/%d, == %d",bash->items[i].minamount, bash->items[i].amount,numitems);
-           if ( numitems > 0 ) {
-              // spawn_item(x,y, bash->items[i].itemtype, numitems); // doesn't abstract amount || charges
-              item new_item = item_controller->create(bash->items[i].itemtype, bday);
-              if ( new_item.count_by_charges() ) {
-                  new_item.charges = numitems;
-                  numitems = 1;
-              }
-              for(int a = 0; a < numitems; a++ ) {
-                  add_item_or_charges(x, y, new_item);
-              }
-           }
+                    if ( bash->items[i].minamount != -1 ) {
+                        numitems = rng( bash->items[i].minamount, bash->items[i].amount );
+                    }
+                    if ( numitems > 0 ) {
+                        // spawn_item(x,y, bash->items[i].itemtype, numitems); // doesn't abstract amount || charges
+                        item new_item = item_controller->create(bash->items[i].itemtype, bday);
+                        if ( new_item.count_by_charges() ) {
+                            new_item.charges = numitems;
+                            numitems = 1;
+                        }
+                        for(int a = 0; a < numitems; a++ ) {
+                            add_item_or_charges(x, y, new_item);
+                        }
+                    }
+                }
+            }
+            if (bash->explosive > 0) {
+                g->explosion(x, y, bash->explosive, 0, false);
+            }
+            return true;
+        } else {
+            sound += _(bash->sound_fail.c_str());
+            return true;
         }
-     }
-     return true;
-  } else {
-     sound += _(bash->sound_fail.c_str());
-     return true;
-  }
-} else {
- furn_id furnid = furn(x, y);
- if ( furnid == old_f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
-      furnid == f_skin_groundsheet || furnid == f_canvas_wall || furnid == f_canvas_door ||
-      furnid == f_canvas_door_o || furnid == f_groundsheet ) {
-  result = rng(0, 6);
-  if (res) *res = result;
-  if (str >= result)
-  {
-   // Special code to collapse the tent if destroyed
-   int tentx = -1, tenty = -1;
-   // Find the center of the tent
-   for (int i = -1; i <= 1; i++)
-    for (int j = -1; j <= 1; j++)
-     if (furn(x + i, y + j) == f_groundsheet ||
-         furn(x + i, y + j) == f_fema_groundsheet ||
-         furn(x + i, y + j) == f_skin_groundsheet)  {
-       tentx = x + i;
-       tenty = y + j;
-       break;
-     }
-   // Never found tent center, bail out
-   if (tentx == -1 && tenty == -1)
-    return true;
-   // Take the tent down
-   for (int i = -1; i <= 1; i++)
-    for (int j = -1; j <= 1; j++) {
-     if (furn(tentx + i, tenty + j) == f_groundsheet)
-      spawn_item(tentx + i, tenty + j, "broketent");
-     if (furn(tentx + i, tenty + j) == f_skin_groundsheet)
-      spawn_item(tentx + i, tenty + j, "damaged_shelter_kit");
-     furn_set(tentx + i, tenty + j, f_null);
-    }
+    } else {
+        furn_id furnid = furn(x, y);
+        if ( furnid == old_f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
+              furnid == f_skin_groundsheet || furnid == f_canvas_wall || furnid == f_canvas_door ||
+              furnid == f_canvas_door_o || furnid == f_groundsheet ) {
+            result = rng(0, 6);
+            if (res) {
+                *res = result;
+            }
+            if (str >= result) {
+                // Special code to collapse the tent if destroyed
+                int tentx = -1, tenty = -1;
+                // Find the center of the tent
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        if (furn(x + i, y + j) == f_groundsheet ||
+                              furn(x + i, y + j) == f_fema_groundsheet ||
+                              furn(x + i, y + j) == f_skin_groundsheet)  {
+                            tentx = x + i;
+                            tenty = y + j;
+                            break;
+                        }
+                    }
+                }
+                // Never found tent center, bail out
+                if (tentx == -1 && tenty == -1) {
+                    return true;
+                }
+                // Take the tent down
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        if (furn(tentx + i, tenty + j) == f_groundsheet) {
+                            spawn_item(tentx + i, tenty + j, "broketent");
+                        }
+                        if (furn(tentx + i, tenty + j) == f_skin_groundsheet) {
+                            spawn_item(tentx + i, tenty + j, "damaged_shelter_kit");
+                        }
+                        furn_set(tentx + i, tenty + j, f_null);
+                    }
+                }
 
-   sound += _("rrrrip!");
-   return true;
-  } else {
-   sound += _("slap!");
-   return true;
-  }
- }
-}
- if (res) *res = result;
- if (move_cost(x, y) <= 0) {
-  sound += _("thump!");
-  return true;
- }
- return smashed_web;// If we kick empty space, the action is cancelled
+                sound += _("rrrrip!");
+                return true;
+            } else {
+                sound += _("slap!");
+                return true;
+            }
+        }
+    }
+    if (res) {
+        *res = result;
+    }
+    if (move_cost(x, y) <= 0) {
+        sound += _("thump!");
+        return true;
+    }
+    return smashed_web;// If we kick empty space, the action is cancelled
 }
 
 // map::destroy is only called (?) if the terrain is NOT bashable.
@@ -1814,249 +1830,223 @@ void map::shoot(const int x, const int y, int &dam,
         dam = veh->damage (vpart, dam, inc? 2 : 0, hit_items);
     }
 
-    switch (oldter(x, y))
-    {
-
-        case old_t_wall_wood_broken:
-        case old_t_wall_log_broken:
-        case old_t_door_b:
-            if (hit_items || one_in(8))
-            { // 1 in 8 chance of hitting the door
-                dam -= rng(20, 40);
-                if (dam > 0)
-                {
-                    g->sound(x, y, 10, _("crash!"));
-                    ter_set(x, y, t_dirt);
-                }
-            }
-            else
-                dam -= rng(0, 1);
-        break;
-
-
-        case old_t_door_c:
-        case old_t_door_locked:
-        case old_t_door_locked_alarm:
-            dam -= rng(15, 30);
-            if (dam > 0)
-            {
-                g->sound(x, y, 10, _("smash!"));
-                ter_set(x, y, t_door_b);
-            }
-        break;
-
-        case old_t_door_boarded:
-            dam -= rng(15, 35);
-            if (dam > 0)
-            {
+    ter_t terrain = ter_at(x, y);
+    if( 0 == terrain.id.compare("t_wall_wood_broken") ||
+        0 == terrain.id.compare("t_wall_log_broken") ||
+        0 == terrain.id.compare("t_door_b") ) {
+        if (hit_items || one_in(8)) { // 1 in 8 chance of hitting the door
+            dam -= rng(20, 40);
+            if (dam > 0) {
                 g->sound(x, y, 10, _("crash!"));
-                ter_set(x, y, t_door_b);
+                ter_set(x, y, t_dirt);
             }
-        break;
-
-        // Fall-through intended
-        case old_t_window_domestic_taped:
-        case old_t_curtains:
-            if (ammo_effects.count("LASER"))
-                dam -= rng(1, 5);
-        case old_t_window_domestic:
-            if (ammo_effects.count("LASER"))
-                dam -= rng(0, 5);
-            else
-            {
-                dam -= rng(1,3);
-                if (dam > 0)
-                {
-                    g->sound(x, y, 16, _("glass breaking!"));
-                    ter_set(x, y, t_window_frame);
-                    spawn_item(x, y, "sheet", 1);
-                    spawn_item(x, y, "stick");
-                    spawn_item(x, y, "string_36");
-                }
+        }
+        else {
+            dam -= rng(0, 1);
+        }
+    } else if( 0 == terrain.id.compare("t_door_c") ||
+               0 == terrain.id.compare("t_door_locked") ||
+               0 == terrain.id.compare("t_door_locked_alarm") ) {
+        dam -= rng(15, 30);
+        if (dam > 0) {
+            g->sound(x, y, 10, _("smash!"));
+            ter_set(x, y, t_door_b);
+        }
+    } else if( 0 == terrain.id.compare("t_door_boarded") ) {
+        dam -= rng(15, 35);
+        if (dam > 0) {
+            g->sound(x, y, 10, _("crash!"));
+            ter_set(x, y, t_door_b);
+        }
+    } else if( 0 == terrain.id.compare("t_window_domestic_taped") ||
+               0 == terrain.id.compare("t_curtains") ) {
+        if (ammo_effects.count("LASER")) {
+            dam -= rng(1, 5);
+        }
+        if (ammo_effects.count("LASER")) {
+            dam -= rng(0, 5);
+        } else {
+            dam -= rng(1,3);
+            if (dam > 0) {
+                g->sound(x, y, 16, _("glass breaking!"));
+                ter_set(x, y, t_window_frame);
+                spawn_item(x, y, "sheet", 1);
+                spawn_item(x, y, "stick");
+                spawn_item(x, y, "string_36");
             }
-        break;
-
-        // Fall-through intended
-        case old_t_window_taped:
-        case old_t_window_alarm_taped:
-            if (ammo_effects.count("LASER"))
-                dam -= rng(1, 5);
-        case old_t_window:
-        case old_t_window_alarm:
-            if (ammo_effects.count("LASER"))
-                dam -= rng(0, 5);
-            else
-            {
-                dam -= rng(1,3);
-                if (dam > 0)
-                {
-                    g->sound(x, y, 16, _("glass breaking!"));
-                    ter_set(x, y, t_window_frame);
-                }
+        }
+    } else if( 0 == terrain.id.compare("t_window_domestic") ) {
+        if (ammo_effects.count("LASER")) {
+            dam -= rng(0, 5);
+        } else {
+            dam -= rng(1,3);
+            if (dam > 0) {
+                g->sound(x, y, 16, _("glass breaking!"));
+                ter_set(x, y, t_window_frame);
+                spawn_item(x, y, "sheet", 1);
+                spawn_item(x, y, "stick");
+                spawn_item(x, y, "string_36");
             }
-        break;
-
-        case old_t_window_boarded:
-            dam -= rng(10, 30);
-            if (dam > 0)
-            {
+        }
+    } else if( 0 == terrain.id.compare("t_window_taped") ||
+               0 == terrain.id.compare("t_window_alarm_taped") ) {
+        if (ammo_effects.count("LASER")) {
+            dam -= rng(1, 5);
+        }
+        if (ammo_effects.count("LASER")) {
+            dam -= rng(0, 5);
+        } else {
+            dam -= rng(1,3);
+            if (dam > 0) {
                 g->sound(x, y, 16, _("glass breaking!"));
                 ter_set(x, y, t_window_frame);
             }
-        break;
-
-        case old_t_wall_glass_h:
-        case old_t_wall_glass_v:
-        case old_t_wall_glass_h_alarm:
-        case old_t_wall_glass_v_alarm:
-            if (ammo_effects.count("LASER"))
-                dam -= rng(0,5);
-            else
-            {
-                dam -= rng(1,8);
-                if (dam > 0)
-                {
-                    g->sound(x, y, 20, _("glass breaking!"));
-                    ter_set(x, y, t_floor);
-                }
+        }
+    } else if( 0 == terrain.id.compare("t_window") ||
+               0 == terrain.id.compare("t_window_alarm") ) {
+        if (ammo_effects.count("LASER")) {
+            dam -= rng(0, 5);
+        } else {
+            dam -= rng(1,3);
+            if (dam > 0) {
+                g->sound(x, y, 16, _("glass breaking!"));
+                ter_set(x, y, t_window_frame);
             }
-        break;
-
-
+        }
+    } else if( 0 == terrain.id.compare("t_window_boarded") ) {
+        dam -= rng(10, 30);
+        if (dam > 0) {
+            g->sound(x, y, 16, _("glass breaking!"));
+            ter_set(x, y, t_window_frame);
+        }
+    } else if( 0 == terrain.id.compare("t_wall_glass_h") ||
+               0 == terrain.id.compare("t_wall_glass_v") ||
+               0 == terrain.id.compare("t_wall_glass_h_alarm") ||
+               0 == terrain.id.compare("t_wall_glass_v_alarm") ) {
+        if (ammo_effects.count("LASER")) {
+            dam -= rng(0,5);
+        } else {
+            dam -= rng(1,8);
+            if (dam > 0) {
+                g->sound(x, y, 20, _("glass breaking!"));
+                ter_set(x, y, t_floor);
+            }
+        }
+    } else if( 0 == terrain.id.compare("t_reinforced_glass_v") ||
+               0 == terrain.id.compare("t_reinforced_glass_h") ) {
         // reinforced glass stops most bullets
         // laser beams are attenuated
-        case old_t_reinforced_glass_v:
-        case old_t_reinforced_glass_h:
-            if (ammo_effects.count("LASER"))
-            {
-                dam -= rng(0, 8);
-            }
-            else
-            {
-                //Greatly weakens power of bullets
-                dam -= 40;
-                if (dam <= 0)
-                    g->add_msg(_("The shot is stopped by the reinforced glass wall!"));
+        if (ammo_effects.count("LASER")) {
+            dam -= rng(0, 8);
+        } else {
+            //Greatly weakens power of bullets
+            dam -= 40;
+            if (dam <= 0) {
+                g->add_msg(_("The shot is stopped by the reinforced glass wall!"));
+            } else if (dam >= 40) {
                 //high powered bullets penetrate the glass, but only extremely strong
                 // ones (80 before reduction) actually destroy the glass itself.
-                else if (dam >= 40)
-                {
-                    g->sound(x, y, 20, _("glass breaking!"));
-                    ter_set(x, y, t_floor);
-                }
+                g->sound(x, y, 20, _("glass breaking!"));
+                ter_set(x, y, t_floor);
             }
-        break;
-
-        case old_t_paper:
-            dam -= rng(4, 16);
-            if (dam > 0)
-            {
-                g->sound(x, y, 8, _("rrrrip!"));
-                ter_set(x, y, t_dirt);
-            }
-            if (ammo_effects.count("INCENDIARY"))
-                add_field(x, y, fd_fire, 1);
-        break;
-
-        case old_t_gas_pump:
-            if (hit_items || one_in(3))
-            {
-                if (dam > 15)
-                {
-                    if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"))
-                        g->explosion(x, y, 40, 0, true);
-                    else
-                    {
-                        for (int i = x - 2; i <= x + 2; i++)
-                        {
-                            for (int j = y - 2; j <= y + 2; j++)
-                            {
-                                if (move_cost(i, j) > 0 && one_in(3))
+        }
+    } else if( 0 == terrain.id.compare("t_paper") ) {
+        dam -= rng(4, 16);
+        if (dam > 0) {
+            g->sound(x, y, 8, _("rrrrip!"));
+            ter_set(x, y, t_dirt);
+        }
+        if (ammo_effects.count("INCENDIARY")) {
+            add_field(x, y, fd_fire, 1);
+        }
+    } else if( 0 == terrain.id.compare("t_gas_pump") ) {
+        if (hit_items || one_in(3)) {
+            if (dam > 15) {
+                if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME")) {
+                    g->explosion(x, y, 40, 0, true);
+                } else {
+                    for (int i = x - 2; i <= x + 2; i++) {
+                        for (int j = y - 2; j <= y + 2; j++) {
+                            if (move_cost(i, j) > 0 && one_in(3)) {
                                     spawn_item(i, j, "gasoline");
                             }
                         }
-                        g->sound(x, y, 10, _("smash!"));
                     }
-                    ter_set(x, y, t_gas_pump_smashed);
+                    g->sound(x, y, 10, _("smash!"));
                 }
-                dam -= 60;
+                ter_set(x, y, t_gas_pump_smashed);
             }
-        break;
-
-        case old_t_vat:
-            if (dam >= 10)
-            {
-                g->sound(x, y, 20, _("ke-rash!"));
-                ter_set(x, y, t_floor);
-            }
-            else
-                dam = 0;
-        break;
-
-        default:
-            if (move_cost(x, y) == 0 && !trans(x, y))
-                dam = 0; // TODO: Bullets can go through some walls?
-            else
-                dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
+            dam -= 60;
+        }
+    } else if( 0 == terrain.id.compare("t_vat") ) {
+        if (dam >= 10) {
+            g->sound(x, y, 20, _("ke-rash!"));
+            ter_set(x, y, t_floor);
+        } else {
+            dam = 0;
+        }
+    } else {
+        if (move_cost(x, y) == 0 && !trans(x, y)) {
+            dam = 0; // TODO: Bullets can go through some walls?
+        } else {
+            dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
+        }
     }
 
-    if (ammo_effects.count("TRAIL") && !one_in(4))
+    if (ammo_effects.count("TRAIL") && !one_in(4)) {
         add_field(x, y, fd_smoke, rng(1, 2));
+    }
 
-    if (ammo_effects.count("LIGHTNING"))
+    if (ammo_effects.count("LIGHTNING")) {
         add_field(x, y, fd_electricity, rng(2, 3));
+    }
 
-    if (ammo_effects.count("PLASMA") && one_in(2))
+    if (ammo_effects.count("PLASMA") && one_in(2)) {
         add_field(x, y, fd_plasma, rng(1, 2));
+    }
 
-    if (ammo_effects.count("LASER"))
+    if (ammo_effects.count("LASER")) {
         add_field(x, y, fd_laser, 2);
+    }
 
     // Set damage to 0 if it's less
-    if (dam < 0)
+    if (dam < 0) {
         dam = 0;
+    }
 
     // Check fields?
     field_entry *fieldhit = field_at(x, y).findField(fd_web);
-   // switch (fieldhit->type)
-   // {
-        //case fd_web:
-    //Removed switch for now as web is the only relevant choice to avoid a currently redundant for loop declaration for all the field types.
     if(fieldhit){
-            if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"))
-                add_field(x, y, fd_fire, fieldhit->getFieldDensity() - 1);
-            else if (dam > 5 + fieldhit->getFieldDensity() * 5 &&
-                     one_in(5 - fieldhit->getFieldDensity()))
-            {
-                dam -= rng(1, 2 + fieldhit->getFieldDensity() * 2);
-                remove_field(x, y,fd_web);
-            }
+        if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME")) {
+            add_field(x, y, fd_fire, fieldhit->getFieldDensity() - 1);
+        } else if (dam > 5 + fieldhit->getFieldDensity() * 5 &&
+                   one_in(5 - fieldhit->getFieldDensity())) {
+            dam -= rng(1, 2 + fieldhit->getFieldDensity() * 2);
+            remove_field(x, y,fd_web);
+        }
     }
-        //break;
-    //}
 
     // Now, destroy items on that tile.
-    if ((move_cost(x, y) == 2 && !hit_items) || !INBOUNDS(x, y))
+    if ((move_cost(x, y) == 2 && !hit_items) || !INBOUNDS(x, y)) {
         return; // Items on floor-type spaces won't be shot up.
+    }
 
-    for (int i = 0; i < i_at(x, y).size(); i++)
-    {
+    for (int i = 0; i < i_at(x, y).size(); i++) {
         bool destroyed = false;
-        int chance = (i_at(x, y)[i].volume() > 0 ? i_at(x, y)[i].volume() : 1);   // volume dependent chance
+        int chance = (i_at(x, y)[i].volume() > 0 ? i_at(x, y)[i].volume() : 1);
+        // volume dependent chance
 
-        if (dam > i_at(x, y)[i].bash_resist() && one_in(chance))
-        {
+        if (dam > i_at(x, y)[i].bash_resist() && one_in(chance)) {
             i_at(x, y)[i].damage++;
         }
-        if (i_at(x, y)[i].damage >= 5)
-        {
+        if (i_at(x, y)[i].damage >= 5) {
             destroyed = true;
         }
 
-        if (destroyed)
-        {
-            for (int j = 0; j < i_at(x, y)[i].contents.size(); j++)
+        if (destroyed) {
+            for (int j = 0; j < i_at(x, y)[i].contents.size(); j++) {
                 i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
+            }
             i_rem(x, y, i);
             i--;
         }
@@ -2368,7 +2358,7 @@ point map::find_item(const item *it)
 }
 
 void map::spawn_an_item(const int x, const int y, item new_item,
-                        const int charges, const int damlevel)
+                        const long charges, const int damlevel)
 {
     if (charges && new_item.charges > 0)
     {
@@ -2410,8 +2400,8 @@ void map::spawn_artifact(const int x, const int y, itype* type, const int bday)
 //New spawn_item method, using item factory
 // added argument to spawn at various damage levels
 void map::spawn_item(const int x, const int y, const std::string &type_id,
-                     const unsigned quantity, const int charges,
-                     const unsigned birthday, const int damlevel)
+                     const unsigned quantity, const long charges,
+                     const unsigned birthday, const int damlevel, const bool rand)
 {
     if(type_id == "null") {
         return;
@@ -2422,7 +2412,7 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
         spawn_item(x, y, type_id, 1, charges, birthday, damlevel);
     }
     // spawn the item
-    item new_item = item_controller->create(type_id, birthday);
+    item new_item = item_controller->create(type_id, birthday, rand);
     spawn_an_item(x, y, new_item, charges, damlevel);
 }
 

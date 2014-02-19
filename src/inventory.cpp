@@ -462,12 +462,12 @@ item& inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
     return items.back().back();
 }
 
-void inventory::add_item_by_type(itype_id type, int count, int charges)
+void inventory::add_item_by_type(itype_id type, int count, long charges, bool rand)
 {
     // TODO add proper birthday
     while (count > 0)
     {
-        item tmp = item_controller->create(type, 0);
+        item tmp = item_controller->create(type, 0, rand);
         if (charges != -1)
         {
             tmp.charges = charges;
@@ -566,6 +566,12 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 water.charges = 50;
                 add_item(water);
             }
+			// add cvd forge from terrain
+			if (terrain_id == t_cvdmachine) {
+				item cvd_machine(itypes["cvd_machine"], 0);
+				cvd_machine.charges = 1;
+				add_item(cvd_machine);
+			}
             // kludge that can probably be done better to check specifically for toilet water to use in
             // crafting
             if (furnlist[g->m.furn(x,y)].examine == &iexamine::toilet) {
@@ -757,7 +763,7 @@ item inventory::remove_item(const itype_id& type) {
 
 // using this assumes the item has charges
 template<typename Locator>
-item inventory::reduce_charges_internal(const Locator& locator, int quantity)
+item inventory::reduce_charges_internal(const Locator& locator, long quantity)
 {
     int pos = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
@@ -790,13 +796,13 @@ item inventory::reduce_charges_internal(const Locator& locator, int quantity)
 }
 
 // Instantiate for each type of Locator.
-item inventory::reduce_charges(int position, int quantity) {
+item inventory::reduce_charges(int position, long quantity) {
     return reduce_charges_internal(position, quantity);
 }
-item inventory::reduce_charges(char ch, int quantity) {
+item inventory::reduce_charges(char ch, long quantity) {
     return reduce_charges_internal(ch, quantity);
 }
-item inventory::reduce_charges(const itype_id& type, int quantity) {
+item inventory::reduce_charges(const itype_id& type, long quantity) {
     return reduce_charges_internal(type, quantity);
 }
 
@@ -1039,7 +1045,7 @@ int inventory::amount_of(itype_id it) const
     return count;
 }
 
-int inventory::charges_of(itype_id it) const
+long inventory::charges_of(itype_id it) const
 {
     int count = 0;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
@@ -1128,7 +1134,7 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
     return ret;
 }
 
-std::list<item> inventory::use_charges(itype_id it, int quantity)
+std::list<item> inventory::use_charges(itype_id it, long quantity)
 {
     sort();
     std::list<item> ret;
@@ -1196,7 +1202,7 @@ bool inventory::has_amount(itype_id it, int quantity) const
     return (amount_of(it) >= quantity);
 }
 
-bool inventory::has_charges(itype_id it, int quantity) const
+bool inventory::has_charges(itype_id it, long quantity) const
 {
     return (charges_of(it) >= quantity);
 }
@@ -1561,9 +1567,9 @@ int inventory::volume() const
     return ret;
 }
 
-int inventory::max_active_item_charges(itype_id id) const
+long inventory::max_active_item_charges(itype_id id) const
 {
-    int max = 0;
+    long max = 0;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         for (std::list<item>::const_iterator stack_iter = iter->begin();

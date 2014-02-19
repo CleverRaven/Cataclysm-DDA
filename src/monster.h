@@ -255,6 +255,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  int speed;
  int hp;
  int sp_timeout;
+ int def_chance;
  int friendly;
  int anger, morale;
  int faction_id; // If we belong to a faction

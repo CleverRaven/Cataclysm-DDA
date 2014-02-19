@@ -41,6 +41,11 @@ void game::init_itypes ()
   new itype("apparatus", 0, _("a smoking device and a source of flame"),
             "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+// For CVD Forging
+ itypes["cvd_machine"]=
+  new itype("cvd_machine", 0, _("cvd machine"), 
+			"A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
+			'$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);	
 
 // SOFTWARE
 #define SOFTWARE(id, name, price, swtype, power, description) \

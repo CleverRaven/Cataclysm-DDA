@@ -4267,7 +4267,7 @@ void on_finish_activity_pickaxe(player *p) {
         p->thirst += 5;
     }
     g->m.destroy(dirx, diry, false);
-    it->charges = std::max(0, it->charges - it->type->charges_to_use());
+    it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
     if(it->charges == 0 && it->destroyed_at_zero_charges()) {
         p->i_rem(p->activity.position);
     }
@@ -5151,7 +5151,7 @@ int iuse::firecracker_pack(player *p, item *it, bool)
  shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<C>ancel"));
  wrefresh(w);
  bool close = false;
- int charges = 1;
+ long charges = 1;
  char ch = getch();
  while(!close) {
   if(ch == 'I') {
@@ -5393,7 +5393,7 @@ int iuse::turret(player *p, item *, bool)
 
  p->moves -= 100;
  monster mturret(GetMType("mon_turret"), dirx, diry);
- int ammo = std::min(p->inv.charges_of("9mm"), 500);
+ int ammo = std::min(p->inv.charges_of("9mm"), long(500));
  if (ammo > 0) {
     p->inv.reduce_charges(p->inv.position_by_type("9mm"), ammo);
     if (ammo == 1) {
@@ -7521,6 +7521,47 @@ int iuse::talking_doll(player *p, item *it, bool)
 
     g->sound( p->posx, p->posy, speech.volume, speech.text );
 
+    return it->type->charges_to_use();
+}
+
+int iuse::gun_repair(player *p, item *it, bool)
+{
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
+    if (p->skillLevel("mechanics") < 2) {
+        g->add_msg_if_player(p, _("You need a mechanics skill of 2 to use this repair kit."));
+        return 0;
+    }
+            int pos = g->inv_type(_("Select the firearm to repair."), IC_GUN);
+            item* fix = &(p->i_at(pos));
+            if (fix == NULL || fix->is_null()) {
+                g->add_msg_if_player(p,_("You do not have that item!"));
+                return 0 ;
+            }
+            if (!fix->is_gun()) {
+                g->add_msg_if_player(p,_("That isn't a firearm!"));
+                return 0;
+            }
+            if (fix->damage < 1) {
+                g->add_msg_if_player(p,_("Your %s is already in peak condition."), fix->tname().c_str());
+                return 0;
+            }
+                else if (fix->damage >= 2) {
+                    g->add_msg_if_player(p,_("You repair your %s!"), fix->tname().c_str());
+                g->sound(p->posx, p->posy, 8, "");
+                p->moves -= 1000 * p->fine_detail_vision_mod();
+                p->practice(g->turn, "mechanics", 10);
+                    fix->damage--;
+                }
+                else {
+                    g->add_msg_if_player(p,_("You repair your %s completely!"), fix->tname().c_str());
+                g->sound(p->posx, p->posy, 8, "");
+                p->moves -= 500 * p->fine_detail_vision_mod();
+                p->practice(g->turn, "mechanics", 10);
+                    fix->damage = 0;
+                }
     return it->type->charges_to_use();
 }
 

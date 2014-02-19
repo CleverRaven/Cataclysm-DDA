@@ -120,10 +120,17 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     }
     // we can only drop something if curammo exists
     if (curammo != NULL && proj.drops &&
-            !(proj.proj_effects.count("IGNITE")) &&
-            !(proj.proj_effects.count("EXPLOSIVE")) &&
-            ((curammo->m1 == "wood" && !one_in(5)) ||
-            (curammo->m1 != "wood" && !one_in(15))  )) {
+    !(proj.proj_effects.count("IGNITE")) &&
+    !(proj.proj_effects.count("EXPLOSIVE")) &&
+    (
+        (proj.proj_effects.count("RECOVER_3") && !one_in(3)) ||
+        (proj.proj_effects.count("RECOVER_5") && !one_in(5)) ||
+        (proj.proj_effects.count("RECOVER_10") && !one_in(10)) ||
+        (proj.proj_effects.count("RECOVER_15") && !one_in(15)) ||
+        (proj.proj_effects.count("RECOVER_25") && !one_in(25))
+    )
+       )
+    {
         item ammotmp = item(curammo, 0);
         ammotmp.charges = 1;
         g->m.add_item_or_charges(tx, ty, ammotmp);
@@ -149,6 +156,63 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     return missed_by;
 }
 
+bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_effects ) {
+
+    // Here we check if we're underwater and whether we should misfire.
+    // As a result this causes no damage to the firearm, note that some guns are waterproof
+    // and so are immune to this effect, note also that WATERPROOF_GUN status does not
+    // mean the gun will actually be accurate underwater.
+    if (firing->skill_used != Skill::skill("archery") &&
+        firing->skill_used != Skill::skill("throw")) {
+        if (is_underwater() && !weapon.has_flag("WATERPROOF_GUN") && one_in(firing->durability)) {
+            g->add_msg_player_or_npc(this, _("Your %s misfires with a wet click!"),
+                                     _("<npcname>'s %s misfires with a wet click!"),
+                                     weapon.name.c_str());
+            return false;
+            // Here we check for a chance for the weapon to suffer a mechanical malfunction.
+            // Note that some weapons never jam up 'NEVER_JAMS' and thus are immune to this
+            // effect as current guns have a durability between 5 and 9 this results in
+            // a chance of mechanical failure between 1/64 and 1/1024 on any given shot.
+            // the malfunction may cause damage, but never enough to push the weapon beyond 'shattered'
+        } else if ((one_in(2 << firing->durability))&& !weapon.has_flag("NEVER_JAMS")) {
+            g->add_msg_player_or_npc(this, _("Your %s malfunctions!"),
+                                     _("<npcname>'s %s malfunctions!"),
+                                     weapon.name.c_str());
+            if ((weapon.damage < 4) && one_in(8 * firing->durability)){
+                weapon.damage++;
+                g->add_msg_player_or_npc(this, _("Your %s is damaged by the mechanical malfunction!"),
+                                         _("<npcname>'s %s is damaged by the mechanical malfunction!"),
+                                         weapon.name.c_str());
+            }
+            return false;
+            // Here we check for a chance for the weapon to suffer a misfire due to
+            // using OEM bullets note that these misfires cause no damage to the weapon and
+            // some types of ammunition are immune to this effect via the NEVER_MISFIRES effect.
+        } else if (!curammo_effects->count("NEVER_MISFIRES") && one_in(1728)) {
+            g->add_msg_player_or_npc(this, _("Your %s misfires with a dry click!"),
+                                     _("<npcname>'s %s misfires with a dry click!"),
+                                     weapon.name.c_str());
+            return false;
+            // Here we check for a chance for the weapon to suffer a misfire due to
+            // using player-made 'RECYCLED' bullets. Note that not all forms of
+            // player-made ammunition have this effect the misfire may cause damage, but never
+            // enough to push the weapon beyond 'shattered'.
+        } else if (curammo_effects->count("RECYCLED") && one_in(256)) {
+            g->add_msg_player_or_npc(this, _("Your %s misfires with a muffled click!"),
+                                     _("<npcname>'s %s misfires with a muffled click!"),
+                                     weapon.name.c_str());
+            if ((weapon.damage < 4) && one_in(2 * firing->durability)){
+                weapon.damage++;
+                g->add_msg_player_or_npc(this, _("Your %s is damaged by the misfired round!"),
+                                         _("<npcname>'s %s is damaged by the misfired round!"),
+                                         weapon.name.c_str());
+            }
+            return false;
+        }
+    }
+    return true;
+}
+
 void player::fire_gun(int tarx, int tary, bool burst) {
     item ammotmp;
     item* gunmod = weapon.active_gunmod();
@@ -157,7 +221,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
     if (weapon.has_flag("CHARGE")) { // It's a charger gun, so make up a type
         // Charges maxes out at 8.
-        int charges = weapon.num_charges();
+        long charges = weapon.num_charges();
         it_ammo *tmpammo = dynamic_cast<it_ammo*>(itypes["charge_shot"]);
 
         tmpammo->damage = charges * charges;
@@ -205,36 +269,47 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     proj.speed = 1000;
 
     std::set<std::string> *curammo_effects = &curammo->ammo_effects;
-    if(gunmod == NULL){
+    if( gunmod == NULL ) {
         std::set<std::string> *gun_effects = &dynamic_cast<it_gun*>(used_weapon->type)->ammo_effects;
-        proj.proj_effects.insert(gun_effects->begin(),gun_effects->end());
+        proj.proj_effects.insert(gun_effects->begin(), gun_effects->end());
     }
-    proj.proj_effects.insert(curammo_effects->begin(),curammo_effects->end());
+    proj.proj_effects.insert(curammo_effects->begin(), curammo_effects->end());
 
     proj.wide = (curammo->phase == LIQUID ||
-            proj.proj_effects.count("SHOT") || proj.proj_effects.count("BOUNCE"));
-    proj.drops = (curammo->type == "bolt" || curammo->type == "arrow");
+                 proj.proj_effects.count("SHOT") || proj.proj_effects.count("BOUNCE"));
+
+    proj.drops = (proj.proj_effects.count("RECOVER_3") ||
+                  proj.proj_effects.count("RECOVER_5") ||
+                  proj.proj_effects.count("RECOVER_10") ||
+                  proj.proj_effects.count("RECOVER_15") ||
+                  proj.proj_effects.count("RECOVER_25") );
 
     //int x = xpos(), y = ypos();
     // Have to use the gun, gunmods don't have a type
     it_gun* firing = dynamic_cast<it_gun*>(weapon.type);
-    if (has_trait("TRIGGERHAPPY") && one_in(30))
+    if (has_trait("TRIGGERHAPPY") && one_in(30)) {
         burst = true;
-    if (burst && used_weapon->burst_size() < 2)
+    }
+    if (burst && used_weapon->burst_size() < 2) {
         burst = false; // Can't burst fire a semi-auto
+    }
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire(*this, firing);
 
     // Decide how many shots to fire
-    int num_shots = 1;
-    if (burst)
+    long num_shots = 1;
+    if (burst) {
         num_shots = used_weapon->burst_size();
-    if (num_shots > used_weapon->num_charges() && !used_weapon->has_flag("CHARGE") && !used_weapon->has_flag("NO_AMMO"))
+    }
+    if (num_shots > used_weapon->num_charges() &&
+        !used_weapon->has_flag("CHARGE") && !used_weapon->has_flag("NO_AMMO")) {
         num_shots = used_weapon->num_charges();
+    }
 
-    if (num_shots == 0)
+    if (num_shots == 0) {
         debugmsg("game::fire() - num_shots = 0!");
+    }
 
     int ups_drain = 0;
     int adv_ups_drain = 0;
@@ -258,9 +333,8 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         num_shots--;
     }
 
-    const bool debug_retarget = false;  // this will inevitably be needed
-    //const bool wildly_spraying = false; // stub for now. later, rng based on stress/skill/etc at the start,
-    int weaponrange = weapon.range(); // this is expensive, let's cache. todo: figure out if we need weapon.range(&p);
+    // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
+    int weaponrange = weapon.range();
 
     for (int curshot = 0; curshot < num_shots; curshot++) {
         // Burst-fire weapons allow us to pick a new target after killing the first
@@ -269,55 +343,32 @@ void player::fire_gun(int tarx, int tary, bool burst) {
             std::vector<point> new_targets;
             new_targets.clear();
 
-            if ( debug_retarget == true ) {
-                mvprintz(curshot,5,c_red,"[%d] %s: retarget: mon_at(%d,%d)",curshot,name.c_str(),tarx,tary);
-                if(zid == -1) {
-                    printz(c_red, " = -1");
-                } else {
-                    printz(c_red, ".hp=%d", g->zombie(zid).hp);
-                }
-            }
-
             for (unsigned long int i = 0; i < g->num_zombies(); i++) {
                 monster &z = g->zombie(i);
                 int dummy;
                 // search for monsters in radius
-                if (rl_dist(z.posx(), z.posy(), tarx, tary) <= std::min(2 + skillLevel("gun"), weaponrange) &&
-                        rl_dist(xpos(),ypos(),z.xpos(),z.ypos()) <= weaponrange &&
-                        sees(&z, dummy) ) {
-                    if (!z.is_dead_state())
-                        new_targets.push_back(point(z.xpos(), z.ypos())); // oh you're not dead and I don't like you. Hello!
+                if( rl_dist(z.posx(), z.posy(), tarx, tary) <=
+                    std::min(2 + skillLevel("gun"), weaponrange) &&
+                    rl_dist(xpos(),ypos(),z.xpos(),z.ypos()) <= weaponrange && sees(&z, dummy) ) {
+                    if (!z.is_dead_state()) {
+                        // oh you're not dead and I don't like you. Hello!
+                        new_targets.push_back(point(z.xpos(), z.ypos()));
+                    }
                 }
             }
 
             if ( new_targets.empty() == false ) {    /* new victim! or last victim moved */
-                int target_picked = rng(0, new_targets.size() - 1); /* 1 victim list unless wildly spraying */
+                /* 1 victim list unless wildly spraying */
+                int target_picked = rng(0, new_targets.size() - 1);
                 tarx = new_targets[target_picked].x;
                 tary = new_targets[target_picked].y;
                 zid = g->mon_at(tarx, tary);
-
-                /* debug */ if (debug_retarget) printz(c_ltgreen, " NEW:(%d:%d,%d) %d,%d (%s)[%d] hp: %d",
-                    target_picked, new_targets[target_picked].x, new_targets[target_picked].y,
-                    tarx, tary, g->zombie(zid).name().c_str(), zid, g->zombie(zid).hp);
-
-            } else if (
-                (
-                    !has_trait("TRIGGERHAPPY") ||   /* double ta TRIPLE TAP! wait, no... */
-                    one_in(3)                          /* on second though...everyone double-taps at times. */
-                ) && (
-                    skillLevel("gun") >= 7 ||        /* unless trained */
-                    one_in(7 - skillLevel("gun"))    /* ...sometimes */
-                ) ) {
-                return;                               // No targets, so return
-            } else if (debug_retarget) {
-                printz(c_red, " new targets.empty()!");
+            } else if( ( !has_trait("TRIGGERHAPPY") || one_in(3) ) &&
+                       ( skillLevel("gun") >= 7 || one_in(7 - skillLevel("gun")) ) ) {
+                // Triggerhappy has a higher chance of firing repeatedly.
+                // Otherwise it's dominated by how much practice you've had.
+                return;
             }
-        } else if (debug_retarget) {
-            const int zid = g->mon_at(tarx, tary);
-            mvprintz(curshot,5,c_red,"[%d] %s: target == mon_at(%d,%d)[%d] %s hp %d",curshot, name.c_str(), tarx ,tary,
-            zid,
-            g->zombie(zid).name().c_str(),
-            g->zombie(zid).hp);
         }
 
         // Drop a shell casing if appropriate.
@@ -373,19 +424,8 @@ void player::fire_gun(int tarx, int tary, bool burst) {
             use_charges("UPS_on", ups_drain);
         }
 
-        if (firing->skill_used != Skill::skill("archery") &&
-            firing->skill_used != Skill::skill("throw")) {
-            // Current guns have a durability between 5 and 9.
-            // Misfire chance is between 1/64 and 1/1024.
-            if (is_underwater() && !weapon.has_flag("WATERPROOF_GUN") && one_in(firing->durability)) {
-                g->add_msg_player_or_npc(this, _("Your weapon misfires with a wet click!"),
-                                         _("<npcname>'s weapon misfires with a wet click!") );
-                return;
-            } else if (one_in(2 << firing->durability)) {
-                g->add_msg_player_or_npc(this, _("Your weapon misfires!"),
-                                         _("<npcname>'s weapon misfires!") );
-                return;
-            }
+        if( !handle_gun_damage( firing, curammo_effects ) ) {
+            return;
         }
 
         make_gun_sound_effect(*this, burst, used_weapon);

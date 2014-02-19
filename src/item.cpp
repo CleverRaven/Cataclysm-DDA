@@ -28,7 +28,7 @@ item::item()
     init();
 }
 
-item::item(itype* it, unsigned int turn)
+item::item(itype* it, unsigned int turn, bool rand)
 {
     init();
     if (it == NULL)
@@ -44,16 +44,27 @@ item::item(itype* it, unsigned int turn)
         charges = ammo->count;
     } else if (it->is_food()) {
         it_comest* comest = dynamic_cast<it_comest*>(it);
-        if (comest->charges == 1 && !made_of(LIQUID))
+        if (comest->charges == 1 && !made_of(LIQUID)) {
             charges = -1;
-        else
-            charges = comest->charges;
+        } else {
+            if (rand && comest->rand_charges.size() > 1) {
+                int charge_roll = rng(1, comest->rand_charges.size() - 1);
+                charges = rng(comest->rand_charges[charge_roll - 1], comest->rand_charges[charge_roll]);
+            } else {
+                charges = comest->charges;
+            }
+        }
     } else if (it->is_tool()) {
         it_tool* tool = dynamic_cast<it_tool*>(it);
         if (tool->max_charges == 0) {
             charges = -1;
         } else {
-            charges = tool->def_charges;
+            if (rand && tool->rand_charges.size() > 1) {
+                int charge_roll = rng(1, tool->rand_charges.size() - 1);
+                charges = rng(tool->rand_charges[charge_roll - 1], tool->rand_charges[charge_roll]);
+            } else {
+                charges = tool->def_charges;
+            }
             if (tool->ammo != "NULL") {
                 curammo = dynamic_cast<it_ammo*>(item_controller->find_template(default_ammo(tool->ammo)));
             }
@@ -76,7 +87,7 @@ item::item(itype* it, unsigned int turn)
     }
 }
 
-item::item(itype *it, unsigned int turn, char let)
+item::item(itype *it, unsigned int turn, char let, bool rand)
 {
     init();
     if(!it) {
@@ -93,16 +104,27 @@ item::item(itype *it, unsigned int turn, char let)
             charges = ammo->count;
         } else if (it->is_food()) {
             it_comest* comest = dynamic_cast<it_comest*>(it);
-            if (comest->charges == 1 && !made_of(LIQUID))
+            if (comest->charges == 1 && !made_of(LIQUID)) {
                 charges = -1;
-            else
-                charges = comest->charges;
+            } else {
+                if (rand && comest->rand_charges.size() > 1) {
+                    int charge_roll = rng(1, comest->rand_charges.size() - 1);
+                    charges = rng(comest->rand_charges[charge_roll - 1], comest->rand_charges[charge_roll]);
+                } else {
+                    charges = comest->charges;
+                }
+            }
         } else if (it->is_tool()) {
             it_tool* tool = dynamic_cast<it_tool*>(it);
             if (tool->max_charges == 0)
                 charges = -1;
             else {
-                charges = tool->def_charges;
+                if (rand && tool->rand_charges.size() > 1) {
+                    int charge_roll = rng(1, tool->rand_charges.size() - 1);
+                    charges = rng(tool->rand_charges[charge_roll - 1], tool->rand_charges[charge_roll]);
+                } else {
+                    charges = tool->def_charges;
+                }
                 if (tool->ammo != "NULL") {
                     curammo = dynamic_cast<it_ammo*>(item_controller->find_template(default_ammo(tool->ammo)));
                 }
@@ -380,6 +402,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   }
   dump->push_back(iteminfo("BASE", _(" To-hit bonus: "), ((type->m_to_hit > 0) ? "+" : ""), type->m_to_hit, true, ""));
   dump->push_back(iteminfo("BASE", _("Moves per attack: "), "", attack_time(), true, "", true, true));
+  dump->push_back(iteminfo("BASE", _("Price: "), "", price(), true, "", true, true));
 
   if (get_material(1) != "null") {
       std::string material_string = material_type::find_material(get_material(1))->name();
@@ -629,8 +652,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   if (armor->covers & mfb(bp_feet))
    temp1 << _("The feet. ");
 
-  dump->push_back(iteminfo("ARMOR", temp1.str()));
-  dump->push_back(iteminfo("ARMOR", _("Coverage: "), _("<num> percent"), armor->coverage));
+  dump->push_back(iteminfo("ARMOR", temp1.str()));   
+  dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%", armor->coverage, true, "", false));
+  dump->push_back(iteminfo("ARMOR", _("   Warmth: "), "", armor->warmth));
     if (has_flag("FIT"))
     {
         dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
@@ -643,7 +667,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("ARMOR", _("Protection: Bash: "), "", bash_resist(), true, "", false));
   dump->push_back(iteminfo("ARMOR", _("   Cut: "), "", cut_resist(), true, "", true));
   dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "", armor->env_resist));
-  dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", armor->warmth));
   dump->push_back(iteminfo("ARMOR", _("Storage: "), "", armor->storage));
 
 } else if (is_book()) {
@@ -689,7 +712,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
   if ((tool->max_charges)!=0) {
    if (has_flag("DOUBLE_AMMO")) {
-
     dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges (doubled)."):string_format(_("Maximum <num> charges (doubled) of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges*2));
    } else if (has_flag("RECHARGE")) {
     dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges (rechargeable)."):string_format(_("Maximum <num> charges (rechargeable) of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges));
@@ -1415,7 +1437,7 @@ bool item::count_by_charges() const
     return false;
 }
 
-int item::max_charges() const
+long item::max_charges() const
 {
     if(count_by_charges()) {
         return type->stack_size;
@@ -1434,7 +1456,7 @@ bool item::craft_has_charges()
     return false;
 }
 
-int item::num_charges()
+long item::num_charges()
 {
     if (is_gun()) {
         if (mode == "MODE_AUX") {
@@ -2515,9 +2537,9 @@ bool item::reload(player &u, int pos)
    ammo_to_use->charges--;
   }
   else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on" || reload_target->has_flag("ATOMIC_AMMO")) {
-      int charges_per_plut = 500;
-      int max_plut = floor( static_cast<float>((max_load - reload_target->charges) / charges_per_plut) );
-      int charges_used = std::min(ammo_to_use->charges, max_plut);
+      long charges_per_plut = 500;
+      long max_plut = floor( static_cast<float>((max_load - reload_target->charges) / charges_per_plut) );
+      long charges_used = std::min(ammo_to_use->charges, max_plut);
       reload_target->charges += (charges_used * charges_per_plut);
       ammo_to_use->charges -= charges_used;
   } else {
@@ -2619,8 +2641,8 @@ itype_id item::typeId() const
     return type->id;
 }
 
-item item::clone() {
-    return item(type, bday);
+item item::clone(bool rand) {
+    return item(type, bday, rand);
 }
 
 bool item::getlight(float & luminance, int & width, int & direction, bool calculate_dimming ) const {

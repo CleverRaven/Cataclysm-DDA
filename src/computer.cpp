@@ -322,7 +322,7 @@ void computer::activate_function(computer_action action)
                                         item sewage = item(itypes["sewage"], g->turn);
                                         it_container *container = dynamic_cast<it_container *>(it->type);
                                         it_comest    *comest    = dynamic_cast<it_comest *>(sewage.type);
-                                        int maxCharges = container->contains * comest->charges;
+                                        long maxCharges = container->contains * comest->charges;
 
                                         if (it->contents.empty()) {
                                             it->put_in(sewage);
@@ -766,9 +766,6 @@ of pureed bone & LSD."));
                     } else if (g->m.i_at(x, y)[0].type->id == "usb_drive" && g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Memory bank is empty."));
                     } else { // Success!
-                        if (g->m.i_at(x, y)[0].type->id == "usb_drive") {
-                            print_line(_("Memory Bank:  Unencrypted\nNothing of interest."));
-                        }
                         if (g->m.i_at(x, y)[0].type->id == "black_box") {
                             print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
                             item transcript(itypes["black_box_transcript"], g->turn);
@@ -894,7 +891,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   To: all SRCF staff\n\
   From:  Robert Shane, Director of the EPA\n\
   \n\
-  All hazardous waste dumps and sarcouphagi must submit three\n\
+  All hazardous waste dumps and sarcophagi must submit three\n\
   samples from each operational leache system to the following\n\
   addresses:\n\
   \n\
@@ -938,7 +935,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   that these facilities would be constructed so close to populated\n\
   areas, and only agreed to sign-off on the project if we were\n\
   allowed to freely examine and monitor the sarcophagi.  But that\n\
-  has not happened.  Since then the DoE has employed any and all\n\
+  has not happened.  Since then, the DoE has employed any and all\n\
   means to keep EPA agents from visiting the SRCFs, using military\n\
   secrecy, emergency powers, and inter-departmental gag orders to\n"));
         query_any(_("Press any key to continue..."));
@@ -970,15 +967,15 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   From:  Ellen Grimes, Director of the EPA\n\
   \n\
       Your site along with many others has been found to be\n\
-  contaminated with what we will now refer to as [redracted].\n\
+  contaminated with what we will now refer to as [redacted].\n\
   It is vital that you standby for further orders.  We are\n\
   currently awaiting the President to decide our course of\n\
   action in this national crisis.  You will proceed with fail-\n\
-  safe procedures and rig the sarcouphagus with c-4 as outlined\n\
+  safe procedures and rig the sarcophagus with c-4 as outlined\n\
   in Publication 4423.  We will send you orders to either detonate\n\
-  and seal the sarcouphagus or remove the charges.  It is of\n\
+  and seal the sarcophagus or remove the charges.  It is of\n\
   upmost importance that the facility is sealed immediatly when\n\
-  the orders are given, we have been alerted by Homeland Security\n\
+  the orders are given.  We have been alerted by Homeland Security\n\
   that there are potential terrorist suspects that are being\n\
   detained in connection with the recent national crisis.\n\
   \n\

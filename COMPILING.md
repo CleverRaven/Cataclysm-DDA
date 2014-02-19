@@ -54,10 +54,11 @@ make CROSS=i686-pc-mingw32-
 Dependencies:
   * SDL
   * SDL_ttf
+  * freetype
   * build essentials
 
 ```
-sudo apt-get install libsdl1.2-dev libsdl-ttf2.0-dev build-essential
+sudo apt-get install libsdl1.2-dev libsdl-ttf2.0-dev libfreetype6-dev build-essential
 ```
 
 ### Building ###

@@ -516,6 +516,7 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
         jmapgen_int tmp_x(0,0);
         jmapgen_int tmp_y(0,0);
         jmapgen_int tmp_amt(0,0);
+        std::string tmp_type;
         jmapgen_place_special_op tmpop = JMAPGEN_PLACESPECIAL_NULL;
         JsonObject jsi = parray.next_object();
         if ( jsi.has_string("type") ) {
@@ -542,7 +543,7 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
             jsi.throw_error("  place_specials: invalid value for 'y'");
         }
         load_jmapgen_int(jsi, "amount", tmp_amt.val, tmp_amt.valmax);
-        jmapgen_place_special new_special( tmp_x, tmp_y, tmpop, tmp_amt );
+        jmapgen_place_special new_special( tmp_x, tmp_y, tmpop, tmp_amt, tmp_type );
         place_specials.push_back( new_special );
         tmpval = "";
     }
@@ -822,7 +823,7 @@ void jmapgen_place_special::apply( map * m ) {
         } break;
         case JMAPGEN_PLACESPECIAL_VENDINGMACHINE: {
             m->furn_set(x.get(), y.get(), f_null);
-            m->place_vending(x.get(), y.get(), charges);
+            m->place_vending(x.get(), y.get(), type);
         } break;
         case JMAPGEN_PLACESPECIAL_NULL:
         default:
@@ -3839,8 +3840,9 @@ ff.......|....|WWWWWWWW|\n\
             ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
         }
 
-        switch (rng(1, 3)) {
-        case 1: // Weapons testing
+        switch (rng(1, 7)) {
+        case 1:
+        case 2: // Weapons testing
             add_spawn("mon_secubot", 1,            6,            6);
             add_spawn("mon_secubot", 1, SEEX * 2 - 7,            6);
             add_spawn("mon_secubot", 1,            6, SEEY * 2 - 7);
@@ -3878,8 +3880,8 @@ ff.......|....|WWWWWWWW|\n\
                 spawn_item(SEEX + 1, SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
             }
             break;
-
-        case 2: { // Netherworld access
+        case 3:
+        case 4: { // Netherworld access
             bool monsters_end = false;
             if (!one_in(4)) { // Trapped netherworld monsters
                 monsters_end = true;
@@ -3925,8 +3927,8 @@ ff.......|....|WWWWWWWW|\n\
             ter_set(SEEX + 1, 7, t_radio_tower);
         }
         break;
-
-        case 3: // Bionics
+        case 5:
+        case 6: { // Bionics
             add_spawn("mon_secubot", 1,            6,            6);
             add_spawn("mon_secubot", 1, SEEX * 2 - 7,            6);
             add_spawn("mon_secubot", 1,            6, SEEY * 2 - 7);
@@ -3950,9 +3952,21 @@ ff.......|....|WWWWWWWW|\n\
             tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE, 5);
             tmpcomp->add_failure(COMPFAIL_MANHACKS);
             tmpcomp->add_failure(COMPFAIL_SECUBOTS);
+            }
+        break;        
+
+        case 7: // CVD Forge
+            add_spawn("mon_secubot", 1,            6,            6);
+            add_spawn("mon_secubot", 1, SEEX * 2 - 7,            6);
+            add_spawn("mon_secubot", 1,            6, SEEY * 2 - 7);
+            add_spawn("mon_secubot", 1, SEEX * 2 - 7, SEEY * 2 - 7);            
+            line(this, t_cvdbody, SEEX - 2, SEEY - 2, SEEX - 2, SEEY + 1);
+            line(this, t_cvdbody, SEEX - 1, SEEY - 2, SEEX - 1, SEEY + 1);
+            line(this, t_cvdbody, SEEX    , SEEY - 1, SEEX    , SEEY + 1);
+            line(this, t_cvdbody, SEEX + 1, SEEY - 2, SEEX + 1, SEEY + 1);
+            ter_set(SEEX   , SEEY - 2, t_cvdmachine);
             break;
         }
-
 
     } else if (terrain_type == "bunker") {
 
@@ -9205,9 +9219,17 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         std::random_shuffle(vset.begin(), vset.end());
         for(int a = 0; a < vnum; a++) {
             if (vset[a] < 12) {
-                place_vending(vset[a], 1, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(vset[a], 1, "vending_food");
+                } else {
+                    place_vending(vset[a], 1, "vending_drink");
+                }
             } else {
-                place_vending(vset[a] + 2, 1, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(vset[a] + 2, 1, "vending_food");
+                } else {
+                    place_vending(vset[a] + 2, 1, "vending_drink");
+                }
             }
         }
         vset.clear();
@@ -9400,15 +9422,35 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         std::random_shuffle(vset.begin(), vset.end());
         for(int a = 0; a < vnum; a++) {
             if (vset[a] < 3) {
-                place_vending(5 + vset[a], 7, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(5 + vset[a], 7, "vending_food");
+                } else {
+                    place_vending(5 + vset[a], 7, "vending_drink");
+                }
             } else if (vset[a] < 5) {
-                place_vending(1 + vset[a] - 3, 7, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(1 + vset[a] - 3, 7, "vending_food");
+                } else {
+                    place_vending(1 + vset[a] - 3, 7, "vending_drink");
+                }
             } else if (vset[a] < 8) {
-                place_vending(1, 8 + vset[a] - 5, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(1, 8 + vset[a] - 5, "vending_food");
+                } else {
+                    place_vending(1, 8 + vset[a] - 5, "vending_drink");
+                }
             } else if (vset[a] < 13) {
-                place_vending(10 + vset[a] - 8, 12, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(10 + vset[a] - 8, 12, "vending_food");
+                } else {
+                    place_vending(10 + vset[a] - 8, 12, "vending_drink");
+                }
             } else {
-                place_vending(17 + vset[a] - 13, 12, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(17 + vset[a] - 13, 12, "vending_food");
+                } else {
+                    place_vending(17 + vset[a] - 13, 12, "vending_drink");
+                }
             }
         }
         vset.clear();
@@ -10791,23 +10833,19 @@ void map::place_toilet(int x, int y, int charges)
     furn_set(x, y, f_toilet);
 }
 
-void map::place_vending(int x, int y, bool drinks)
+void map::place_vending(int x, int y, std::string type)
 {
-    const bool broken = x_in_y(2,3);
+    const bool broken = one_in(5);
     if( broken ) {
         furn_set(x, y, f_vending_o);
     } else {
         furn_set(x, y, f_vending_c);
     }
-    if( drinks ) {
-        place_items("vending_drink", broken ? 40 : 99, x, y, x, y, false, 0);
-    } else {
-        place_items("vending_food", broken ? 40 : 99, x, y, x, y, false, 0);
-    }
+    place_items(type, broken ? 40 : 99, x, y, x, y, false, 0, false);
 }
 
 int map::place_items(items_location loc, int chance, int x1, int y1,
-                     int x2, int y2, bool ongrass, int turn)
+                     int x2, int y2, bool ongrass, int turn, bool rand)
 {
     const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
 
@@ -10845,7 +10883,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                        (!ongrass && !terlist[ter(px, py)].has_flag("FLAT")) ) &&
                      tries < 20);
             if (tries < 20) {
-                spawn_item(px, py, selected_item, 1, 0, turn);
+                spawn_item(px, py, selected_item, 1, 0, turn, 0, rand);
                 item_num++;
                 // Guns in item groups with guns_have_ammo flags are generated with their ammo
                 if ( guns_have_ammo ) {
@@ -10861,11 +10899,11 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
 }
 
 void map::put_items_from(items_location loc, int num, int x, int y, int turn, int quantity,
-                         int charges, int damlevel)
+                         long charges, int damlevel, bool rand)
 {
     for (int i = 0; i < num; i++) {
         Item_tag selected_item = item_controller->id_from(loc);
-        spawn_item(x, y, selected_item, quantity, charges, turn, damlevel);
+        spawn_item(x, y, selected_item, quantity, charges, turn, damlevel, rand);
     }
 }
 

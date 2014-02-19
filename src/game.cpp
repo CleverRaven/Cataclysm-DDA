@@ -61,7 +61,9 @@
 #include <tchar.h>
 #endif
 
+#ifndef _MSC_VER
 namespace std { float abs(float a) { return a < 0 ? -a : a; } }
+#endif
 
 #ifdef _MSC_VER
 // MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
@@ -2079,6 +2081,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
 
         const int iOffsetX = 2;
         const bool bHPR = hasPickupRule(oThisItem.tname());
+        const hint_rating rate_drop_item = u.weapon.has_flag("NO_UNWIELD") ? HINT_CANT : HINT_GOOD;
 
         int max_text_length = 0;
         int length = 0;
@@ -2099,7 +2102,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
         length = utf8_width(_("<T>ake off")); if (length > max_text_length) max_text_length = length;
         vMenu.push_back(iteminfo("MENU", "T", _("<T>ake off"), u.rate_action_takeoff(&oThisItem)));
         length = utf8_width(_("<d>rop")); if (length > max_text_length) max_text_length = length;
-        vMenu.push_back(iteminfo("MENU", "d", _("<d>rop")));
+        vMenu.push_back(iteminfo("MENU", "d", _("<d>rop"), rate_drop_item));
         length = utf8_width(_("<U>nload")); if (length > max_text_length) max_text_length = length;
         vMenu.push_back(iteminfo("MENU", "U", _("<U>nload"), u.rate_action_unload(&oThisItem)));
         length = utf8_width(_("<r>eload")); if (length > max_text_length) max_text_length = length;
@@ -3620,84 +3623,72 @@ bool game::save()
     }
 }
 
+// Helper predicate to exclude files from deletion when resetting a world directory.
+static bool isForbidden( std::string candidate ) {
+    if( candidate.find("worldoptions.txt") != std::string::npos ||
+        candidate.find("mods.json") != std::string::npos ) {
+        return true;
+    }
+    return false;
+}
+
+// If delete_folder is true, just delete all the files and directories of a world folder.
+// If it's false, just avoid deleting the two config files and the directory itself.
 void game::delete_world(std::string worldname, bool delete_folder)
 {
     std::string worldpath = world_generator->all_worlds[worldname]->world_path;
     std::string filetmp = "";
-    std::set<std::string> files_not_to_delete;
-    if (!delete_folder) {
-        files_not_to_delete.insert("worldoptions.txt");
-        files_not_to_delete.insert("mods.json");
-    }
-    std::vector<std::string> modfiles;
-    std::set<std::string> mod_dirpathparts;
+    std::vector<std::string> file_paths;
+    std::set<std::string> directory_paths;
 
-    if (delete_folder){
-        modfiles = file_finder::get_files_from_path(".json", worldpath, true, true);
-        for (int i = 0; i < modfiles.size(); ++i){
-            // strip to path and remove worldpath from it
-            std::string part = modfiles[i].substr(worldpath.size(), modfiles[i].find_last_of("/\\") - worldpath.size());
-            int last_separator = part.find_last_of("/\\");
-            while (last_separator != std::string::npos && part.size() > 1){
-                mod_dirpathparts.insert(part);
-                part = part.substr(0, last_separator);
-                last_separator = part.find_last_of("/\\");
-            }
+    file_paths = file_finder::get_files_from_path( "", worldpath, true, true );
+    if( !delete_folder ) {
+        std::vector<std::string>::iterator forbidden = find_if( file_paths.begin(), file_paths.end(),
+                                                                isForbidden );
+        while( forbidden != file_paths.end() ) {
+            file_paths.erase( forbidden );
+            forbidden = find_if( file_paths.begin(), file_paths.end(), isForbidden );
+        }
+    }
+    for( std::vector<std::string>::iterator file = file_paths.begin();
+         file != file_paths.end(); ++file ) {
+        // strip to path and remove worldpath from it
+        std::string part = file->substr( worldpath.size(),
+                                         file->find_last_of("/\\") - worldpath.size() );
+        int last_separator = part.find_last_of("/\\");
+        while( last_separator != std::string::npos && part.size() > 1 ) {
+            directory_paths.insert(part);
+            part = part.substr(0, last_separator);
+            last_separator = part.find_last_of("/\\");
         }
     }
 
 #if (defined _WIN32 || defined __WIN32__)
-      WIN32_FIND_DATA FindFileData;
-      HANDLE hFind;
-      TCHAR Buffer[MAX_PATH];
-
-      GetCurrentDirectory(MAX_PATH, Buffer);
-      SetCurrentDirectory(worldpath.c_str());
-      hFind = FindFirstFile("*", &FindFileData);
-      if(INVALID_HANDLE_VALUE != hFind) {
-       do {
-        filetmp = FindFileData.cFileName;
-        if (files_not_to_delete.count(filetmp) == 0) {
-        DeleteFile(FindFileData.cFileName);
-        }
-       } while(FindNextFile(hFind, &FindFileData) != 0);
-       FindClose(hFind);
-      }
-
-      SetCurrentDirectory(Buffer);
-      if (delete_folder){
-        for (int i = 0; i < modfiles.size(); ++i){
-            DeleteFile(modfiles[i].c_str());
-        }
-        for (std::set<std::string>::reverse_iterator it = mod_dirpathparts.rbegin(); it != mod_dirpathparts.rend(); ++it){
-            RemoveDirectory(std::string(worldpath + *it).c_str());
-        }
-        RemoveDirectory(worldpath.c_str());
-      }
+    for( std::vector<std::string>::iterator file = file_paths.begin();
+         file != file_paths.end(); ++file ) {
+        DeleteFile( file->c_str() );
+    }
+    for( std::set<std::string>::reverse_iterator it = directory_paths.rbegin();
+         it != directory_paths.rend(); ++it ) {
+        RemoveDirectory( std::string(worldpath + *it).c_str() );
+    }
+    if( delete_folder ) {
+        RemoveDirectory( worldpath.c_str() );
+    }
 #else
-     DIR *save_dir = opendir(worldpath.c_str());
-     if(save_dir != NULL)
-     {
-      struct dirent *save_dirent = NULL;
-      while ((save_dirent = readdir(save_dir)) != NULL){
-        filetmp = save_dirent->d_name;
-        if (files_not_to_delete.count(filetmp) == 0) {
-          (void)unlink(std::string(worldpath + "/" + filetmp).c_str());
-        }
-      }
-      (void)closedir(save_dir);
-     }
-     if (delete_folder){
-        // delete mod files
-        for (int i = 0; i < modfiles.size(); ++i){
-            (void)unlink(modfiles[i].c_str());
-        }
-        // delete mod directories -- directories are ordered deepest to shallowest
-        for (std::set<std::string>::reverse_iterator it = mod_dirpathparts.rbegin(); it != mod_dirpathparts.rend(); ++it){
-            remove(std::string(worldpath + *it).c_str());
-        }
-        remove(worldpath.c_str());
-     }
+    // Delete files, order doesn't matter.
+    for( std::vector<std::string>::iterator file = file_paths.begin();
+         file != file_paths.end(); ++file ) {
+        (void)unlink( file->c_str() );
+    }
+    // Delete directories -- directories are ordered deepest to shallowest.
+    for( std::set<std::string>::reverse_iterator it = directory_paths.rbegin();
+         it != directory_paths.rend(); ++it ) {
+        remove( std::string(worldpath + *it).c_str() );
+    }
+    if( delete_folder ) {
+        remove( worldpath.c_str() );
+    }
 #endif
 }
 
@@ -7350,7 +7341,7 @@ bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
   }
   item* it = NULL;
   item *p_itm = NULL;
-  int min_charges = -1;
+  long min_charges = -1;
   bool in_container = false;
 
   std::string ftype = part_info.fuel_type;
@@ -7396,7 +7387,7 @@ bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
     charge_difference = 1;
   }
   bool rem_itm = min_charges <= charge_difference;
-  int used_charges = rem_itm ? min_charges : charge_difference;
+  long used_charges = rem_itm ? min_charges : charge_difference;
   part->amount += used_charges * fuel_per_charge;
   if (part->amount > max_fuel) {
     part->amount = max_fuel;
@@ -9959,7 +9950,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
         // for filling up chainsaws, jackhammers and flamethrowers
         ammotype ammo = "NULL";
-        int max = 0;
+        long max = 0;
 
         if (cont->is_tool()) {
             it_tool *tool = dynamic_cast<it_tool *>(cont->type);
@@ -9998,7 +9989,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         } else {
             cont->charges += liquid.charges;
             if (cont->charges > max) {
-                int extra = cont->charges - max;
+                long extra = cont->charges - max;
                 cont->charges = max;
                 liquid.charges = extra;
                 add_msg(_("There's some left over!"));
@@ -10142,7 +10133,7 @@ int game::move_liquid(item &liquid)
       cont->curammo = dynamic_cast<it_ammo*>(liquid.type);
       cont->charges += liquid.charges;
       if (cont->charges > max) {
-      int extra = cont->charges - max;
+      long extra = cont->charges - max;
       cont->charges = max;
       add_msg(_("There's some left over!"));
       return extra;
@@ -10162,7 +10153,7 @@ int game::move_liquid(item &liquid)
         }
       }
       it_container* container = dynamic_cast<it_container*>(cont->type);
-      int holding_container_charges;
+      long holding_container_charges;
 
       if (liquid.type->is_food())
       {
@@ -10205,7 +10196,7 @@ int game::move_liquid(item &liquid)
             return -1;
           }
           // pouring into a valid empty container
-          int default_charges = 1;
+          long default_charges = 1;
 
           if (liquid.is_food()) {
             it_comest* comest = dynamic_cast<it_comest*>(liquid.type);
@@ -10219,7 +10210,7 @@ int game::move_liquid(item &liquid)
             add_msg(_("You fill your %s with some of the %s."), cont->tname().c_str(),
                                                       liquid.tname().c_str());
             u.inv.unsort();
-            int extra = liquid.charges - container->contains * default_charges;
+            long extra = liquid.charges - container->contains * default_charges;
             liquid.charges = container->contains * default_charges;
             cont->put_in(liquid);
             return extra;
@@ -10254,6 +10245,9 @@ void game::drop(int pos)
             // while taking it off
             return;
         }
+    } else if(pos == -1 && u.weapon.has_flag("NO_UNWIELD")) {
+        add_msg(_("You cannot drop your %s."), u.weapon.tname().c_str());
+        return;
     } else {
         dropped.push_back(u.i_rem(pos));
     }
@@ -10692,7 +10686,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
 // Train up our skill
  it_gun* firing = dynamic_cast<it_gun*>(u.weapon.type);
- int num_shots = 1;
+ long num_shots = 1;
  if (burst)
   num_shots = u.weapon.burst_size();
  if (num_shots > u.weapon.num_charges() && !u.weapon.has_flag("NO_AMMO"))
@@ -11108,6 +11102,9 @@ void game::reload(int pos)
 
      // see if its actually reloadable.
      if (tool->ammo == "NULL") {
+         add_msg(_("You can't reload a %s!"), it->tname().c_str());
+         return;
+     } else if (it->has_flag("NO_RELOAD")) {
          add_msg(_("You can't reload a %s!"), it->tname().c_str());
          return;
      }
