@@ -364,6 +364,8 @@ void Item_factory::init(){
     iuse_function_list["FISHING_BASIC"]  = &iuse::fishing_rod_basic;
     iuse_function_list["TOOLARMOR_OFF"]  = &iuse::toolarmor_off;
     iuse_function_list["TOOLARMOR_ON"]  = &iuse::toolarmor_on;
+    iuse_function_list["RM13ARMOR_OFF"]  = &iuse::rm13armor_off;
+    iuse_function_list["RM13ARMOR_ON"]  = &iuse::rm13armor_on;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS

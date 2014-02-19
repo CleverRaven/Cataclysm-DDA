@@ -1140,7 +1140,7 @@ int item::weight() const
     } else if (type->is_gun() && charges >= 1) {
         ret += curammo->weight * charges;
     } else if (type->is_tool() && charges >= 1 && ammo_type() != "NULL") {
-        if (typeId() == "adv_UPS_off" || typeId() == "adv_UPS_on") {
+        if (typeId() == "adv_UPS_off" || typeId() == "adv_UPS_on" || typeId() == "rm13_armor" || typeId() == "rm13_armor_on") {
             ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges / 500;
         } else {
             ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges;
@@ -2514,7 +2514,8 @@ bool item::reload(player &u, int pos)
    reload_target->charges++;
    ammo_to_use->charges--;
   }
-  else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on" || reload_target->has_flag("ATOMIC_AMMO")) {
+  else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on" || reload_target->has_flag("ATOMIC_AMMO") ||
+           reload_target->typeId() == "rm13_armor" || reload_target->typeId() == "rm13_armor_on") {
       int charges_per_plut = 500;
       int max_plut = floor( static_cast<float>((max_load - reload_target->charges) / charges_per_plut) );
       int charges_used = std::min(ammo_to_use->charges, max_plut);

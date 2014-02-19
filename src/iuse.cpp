@@ -2422,7 +2422,7 @@ int iuse::oil_lamp_on(player *p, item *it, bool t)
 int iuse::light_off(player *p, item *it, bool)
 {
     if (it->charges == 0) {
-        g->add_msg_if_player(p,_("The %ss batteries are dead."), it->tname().c_str());
+        g->add_msg_if_player(p,_("The %s's batteries are dead."), it->tname().c_str());
         return 0;
     } else {
         std::string oname = it->type->id + "_on";
@@ -2463,7 +2463,7 @@ int iuse::light_on(player *p, item *it, bool t)
 int iuse::toolarmor_off(player *p, item *it, bool)
 {
     if (it->charges == 0) {
-        g->add_msg_if_player(p,_("The %ss batteries are dead."), it->tname().c_str());
+        g->add_msg_if_player(p,_("The %s's batteries are dead."), it->tname().c_str());
         return 0;
     } else {
         std::string oname = it->type->id + "_on";
@@ -2494,6 +2494,52 @@ int iuse::toolarmor_on(player *p, item *it, bool t)
             return 0;
         }
         g->add_msg_if_player(p,_("Your %s deactivates."), it->tname().c_str());
+        it->make(item_controller->find_template(oname));
+        it->active = false;
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::rm13armor_off(player *p, item *it, bool)
+{
+    if (it->charges == 0) {
+        g->add_msg_if_player(p,_("The RM13 combat armor's fuel cells are dead."), it->tname().c_str());
+        return 0;
+    } else {
+        std::string oname = it->type->id + "_on";
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        g->add_msg_if_player(p,_("RM13 combat armor RivOS v1.7 initiated."));
+        g->add_msg_if_player(p,_("Reactor:                       ONLINE."));
+        g->add_msg_if_player(p,_("Electro-reactive armor system: ONLINE."));
+        g->add_msg_if_player(p,_("CBRN defense system:           ONLINE."));
+        g->add_msg_if_player(p,_("Thermal regulation system:     ONLINE."));
+        g->add_msg_if_player(p,_("All systems nominal."));
+        it->make(item_controller->find_template(oname));
+        it->active = true;
+        return it->type->charges_to_use();
+    }
+}
+
+int iuse::rm13armor_on(player *p, item *it, bool t)
+{
+    if (t) { // Normal use
+    } else { // Turning it off
+        std::string oname = it->type->id;
+        if (oname.length() > 3 && oname.compare(oname.length() - 3, 3, "_on") == 0) {
+            oname.erase(oname.length() - 3, 3);
+        } else {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        g->add_msg_if_player(p,_("Shutdown sequence initiated."), it->tname().c_str());
+        g->add_msg_if_player(p,_("Your RM13 combat armor powers down."));
         it->make(item_controller->find_template(oname));
         it->active = false;
     }

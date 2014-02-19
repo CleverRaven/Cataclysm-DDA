@@ -3849,19 +3849,24 @@ ff.......|....|WWWWWWWW|\n\
             add_trap(SEEX + 1, SEEY - 2, tr_dissector);
             add_trap(SEEX - 2, SEEY + 1, tr_dissector);
             add_trap(SEEX + 1, SEEY + 1, tr_dissector);
-            if (!one_in(3)) {
+            if (!one_in(4)) {
                 spawn_item(SEEX - 1, SEEY - 1, "laser_pack", dice(4, 3));
                 spawn_item(SEEX    , SEEY - 1, "UPS_off");
                 spawn_item(SEEX    , SEEY - 1, "battery", dice(4, 3));
                 spawn_item(SEEX - 1, SEEY    , "v29");
                 spawn_item(SEEX    , SEEY    , "ftk93");
                 spawn_item(SEEX - 1, SEEY    , "recipe_atomic_battery");
-            } else if (!one_in(3)) {
+            } else if (!one_in(4)) {
                 spawn_item(SEEX - 1, SEEY - 1, "mininuke", dice(3, 6));
                 spawn_item(SEEX    , SEEY - 1, "mininuke", dice(3, 6));
                 spawn_item(SEEX - 1, SEEY    , "mininuke", dice(3, 6));
                 spawn_item(SEEX    , SEEY    , "mininuke", dice(3, 6));
                 spawn_item(SEEX    , SEEY    , "recipe_atomic_battery");
+            }  else if (!one_in(4)) {
+                spawn_item(SEEX - 1, SEEY - 1, "rm13_armor");
+                spawn_item(SEEX    , SEEY - 1, "plutonium");
+                spawn_item(SEEX - 1, SEEY    , "plutonium");
+                spawn_item(SEEX    , SEEY    , "recipe_caseless");
             } else {
                 furn_set(SEEX - 2, SEEY - 1, f_rack);
                 furn_set(SEEX - 1, SEEY - 1, f_rack);

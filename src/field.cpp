@@ -1088,7 +1088,7 @@ void map::step_in_field(int x, int y)
                     adjusted_intensity -= 1;
                 }
             }
-            if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink prevents ALL fire damage.
+            if (!g->u.has_active_bionic("bio_heatsink") || !g->u.is_wearing("rm13_armor_on")) { //heatsink or suit prevents ALL fire damage.
                 if (adjusted_intensity == 1) {
                     g->add_msg(_("You burn your legs and feet!"));
                     g->u.hit(NULL, bp_feet, 0, 0, rng(2, 6));
@@ -1177,7 +1177,7 @@ void map::step_in_field(int x, int y)
         case fd_flame_burst:
             //A burst of flame? Only hits the legs and torso.
             if (inside) break; //fireballs can't touch you inside a car.
-            if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink stops fire.
+            if (!g->u.has_active_bionic("bio_heatsink") || !g->u.is_wearing("rm13_armor_on")) { //heatsink or suit stops fire.
                 g->add_msg(_("You're torched by flames!"));
                 g->u.hit(NULL, bp_legs, 0, 0,  rng(2, 6));
                 g->u.hit(NULL, bp_legs, 1, 0,  rng(2, 6));
