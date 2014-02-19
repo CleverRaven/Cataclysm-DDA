@@ -1666,6 +1666,7 @@
       ["boots_hiking", 10],
       ["runner_bag", 5],
       ["hat_hard", 50],
+      ["wearable_light", 10],
       ["ear_plugs", 50],
       ["mask_filter", 30],
       ["glasses_safety", 40],
@@ -5318,6 +5319,7 @@
       ["mask_filter", 30],
       ["glasses_safety", 40],
       ["hat_hard", 50],
+      ["wearable_light", 15],
       ["ear_plugs", 50],
       ["extinguisher", 20],
       ["laptop", 20],
@@ -5353,6 +5355,7 @@
       ["mask_filter", 30],
       ["glasses_safety", 40],
       ["hat_hard", 50],
+      ["wearable_light", 5],
       ["ear_plugs", 50],
       ["battery", 50],
       ["flashlight", 40],
@@ -5385,6 +5388,7 @@
       ["goggles_welding", 70],
       ["goggles_nv", 1],
       ["hat_hard", 50],
+      ["wearable_light", 20],
       ["ear_plugs", 50],
       ["backpack", 38],
       ["briefcase", 20],
@@ -5498,6 +5502,7 @@
       ["sm_extinguisher", 10],
       ["55gal_drum", 40],
       ["30gal_drum", 30],
+      ["wearable_light", 10],
       ["apron_leather", 10]
     ]
   },{
@@ -6738,6 +6743,7 @@
       ["fireman_belt", 15],
       ["jack", 5],
       ["throw_extinguisher", 10],
+      ["wearable_light", 5],
       ["smoxygen_tank", 35]
     ]
   },{
