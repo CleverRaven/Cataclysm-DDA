@@ -3,131 +3,192 @@
         "type" : "ARMOR",
         "id" : "boxing_gloves",
         "name" : "Boxing Gloves",
-        "weight" : 500,
+        "weight" : 453,
         "color" : "Red",
         "covers" : ["HANDS"],
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "G",
-        "description" : "A pair of big, red 8Oz Boxing gloves. They make dexterous tasks near impossible, but provide ample protection.",
+        "description" : "A pair of big, red 8-Oz Boxing gloves. They make dexterous tasks near impossible, but provide ample protection.",
         "price" : 4000,
         "material" : ["leather", "null"],
         "volume" : 4,
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
-        "enviromental_protection" : 0,
-        "encumbrance" : 6,
-        "bashing" : -5,
+        "enviromental_protection" : 3,
+        "encumbrance" : 7,
+        "bashing" : -1,
         "flags" : ["VARSIZE", "OVERSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 5
     },
     {
         "type"  : "item_group",
-        "id"    : "judo_belts",
+        "id"    : "boxing_clothes",
         "items" : [
-            ["judo_belt_white", 100],
-            ["judo_belt_yellow", 50],
-            ["judo_belt_orange", 25],
-            ["judo_belt_green",  15],
-            ["judo_belt_blue",    5],
-            ["judo_belt_brown",   4],
-            ["judo_belt_black",   1]
+            ["tank_top", 45],
+            ["shorts", 45]
+            ["boxing_gloves", 50],
+            ["jersey", 40],
+            ["coat_rain", 10],
+            ["hood_rain", 10],
+            ["gloves_wraps", 45],
+            ["jeans", 30],
+            ["sports_bra", 10],
+            ["jacket_leather", 20]
+            ["aspirin", 30],
+            ["1st_aid", 20]
         ]
     },
     {
         "type"  : "item_group",
-        "id"    : "gi",
+        "id"    : "boxing_books",
         "items" : [
-            ["karate_gi", 100],
-            ["tabi_gi", 25],
-            ["judo_gi", 50],
-            ["keikogi", 25],
-            ["zubon_gi", 25],
-            ["hakama_gi", 10],
-            ["mouthpiece", 5],
-            ["obi_gi", 10]
+            ["mag_unarmed", 50],
+            ["manual_boxing", 50],
+            ["mag_melee", 35],
+            ["mag_bashing", 20],
+            ["manual_melee" 15],
+            ["recipe_melee", 10]
         ]
     },
     {
         "type"  : "item_group",
-        "id"    : "dojo_manuals",
+        "id"    : "boxing_misc",
         "items" : [
-            ["manual_karate", 50],
-            ["manual_judo", 25],
-            ["manual_aikido", 25]
+            ["aspirin", 50],
+            ["1st_aid", 40],
+            ["bandages", 30],
+            ["duct_tape", 20],
+            ["sewing_kit", 10],
+            ["cigar", 20],
+            ["cig", 15],
+            ["matches", 10]
         ]
     },
     {
         "type" : "furniture",
-        "id" : "f_tatami",
-        "name": "tatami mat",
-        "symbol": "#",
-        "color": "brown",
-        "move_cost_mod": 0,
+        "id" : "f_punchbag",
+        "name": "Heavy Punching Bag",
+        "symbol": "0",
+        "color": "grey",
+        "move_cost_mod": -1,
         "required_str": 7,
-        "flags": ["TRANSPARENT"]
+        "flags": ["BASHABLE", "DECONSTRUCT", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC"]
+        "bash": {
+            "str_min": 10, "str_max": 20,
+            "sound": "whack!",
+            "sound_fail": "whud.",
+            "items": [
+                { "item": "steel_chain", "amount": 3, "minamount": 1},
+                { "item": "leather_patch", "amount": 12, "minamount": 4},
+                { "item": "rag", "amount": 18, "minamount": 4 }
+            ]
+        }
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_canvas_floor",
+        "name": "Canvas floor",
+        "symbol": ".",
+        "color": "white",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "PLACE_ITEM"],
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_cooler",
+        "name": "Water Cooler",
+        "symbol": "8",
+        "color": "ltcyan",
+        "move_cost_mod": 1,
+        "required_str": 6,
+        "flags": ["TRANSPARENT", "BASHABLE", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM"],
+        "examine_action": "toilet",
+        "bash": {
+            "str_min": 4, "str_max": 20,
+            "sound": "whack!",
+            "sound_fail": "whud.",
+            "items": [
+                { "item": "cu_pipe", "amount": 3, "minamount": 0},
+                { "item": "jug_plastic", "amount": 1, "minamount": 1},
+                { "item": "hose", "amount": 1, "minamount": 1},
+                { "item": "element", "amount": 2, "minamount": 1},
+                { "item": "e_scrap", "amount": 3, "minamount": 1 }
+            ]
+        }
     },
     {
         "type" : "overmap_terrain",
-        "id" : "dojo",
-        "name" : "dojo",
+        "id" : "gym",
+        "name" : "Boxing gym",
         "rotate" : true,
         "sym" : [94, 62, 118, 60],
-        "color" : "brown",
+        "color" : "ltcyan",
         "see_cost" : 5,
         "extras" : "build",
-        "mondensity" : 2,
+        "mondensity" : 3,
         "sidewalk" : true,
         "mapgen": [
             { "weight": 1000,
             "method": "json", "object": {
                 "fill_ter": "t_grass",
                 "rows":[
-                    "  --------ssss--------  ",
-                    "  -,-----,ssss,-----,-  ",
-                    "  -,-----,ssss,-----,-  ",
-                    "  -,-----,ssss,-----,-  ",
-                    "  -,-----,ssss,-----,-  ",
-                    "  -,-----,ssss,-----,-  ",
-                    "  qg++gggggggggggggggq  ",
-                    "  x..................x  ",
-                    "  x.################.x  ",
-                    "  x.################.x  ",
-                    "  x.################.x  ",
-                    "  x.################.x  ",
-                    "  x.################.x  ",
-                    "  x.################.x  ",
-                    "  x.################.x  ",
-                    "  x.################.x  ",
-                    "  x..................x  ",
+                    "  --ss----------------  ",
+                    "  --ss--,-----,-----,-  ",
+                    "  --ss--,-----,-----,-  ",
+                    "  --ss--,-----,-----,-  ",
+                    "  --ss--,-----,-----,-  ",
+                    "  --ss--,-----,-----,-  ",
+                    "  qq++qqqqgggggqqqggqq  ",
+                    "  xf................^x  ",
+                    "  x........?$$$$$$?.0x  ",
+                    "  xE.E.....$555555$..x  ",
+                    "  xE.E.....$555555$.0x  ",
+                    "  xE.E.....$555555$..x  ",
+                    "  xE.E.....?$$$$$$?.0x  ",
+                    "  x..........####....x  ",
+                    "  x...........CC....Bx  ",
+                    "  x.0.0.0...........Bx  ",
+                    "  x^.....^VV8..^BBBB^x  ",
                     "  xqqqqqqqqqq''qqqqqqx  ",
-                    "  xLLLLLLLLLx..x.DC..x  ",
-                    "  xBBBBBBBBBx..x.DDD.x  ",
-                    "  x.........'..'.....x  ",
-                    "  xqqq...qqqx..x.....x  ",
+                    "  xLLLLLLLLLx..xfZZZ^x  ",
+                    "  xBBBB.BBBBx..x.....p  ",
+                    "  x.........'..'.C.DCp  ",
+                    "  xqqq...qqqx..x...DDx  ",
                     "  xS.'...'.Tx..xXXXXXx  ",
                     "  qqqqqqqqqqqqqqqqqqqq  "
                 ],
                 "terrain":{
                     " ": "t_null",
-                    "g": "t_wall_glass_h",
+                    "g": "t_window",
+                    "p": "t_window_domestic",
                     ",": "t_pavement_y",
                     "_": "t_pavement",
-                    "#": "t_floor",
-                    ".": "t_floor",
                     "q": "t_wall_h",
                     "x": "t_wall_v",
-                    "L": "t_floor",
                     "+": "t_door_glass_c",
                     "'": "t_door_c",
+                    "#": "t_floor",
+                    ".": "t_floor",
+                    "L": "t_floor",
                     "T": "t_floor",
                     "S": "t_floor",
                     "B": "t_floor",
                     "D": "t_floor",
                     "X": "t_floor",
                     "C": "t_floor",
+                    "0": "t_floor",
+                    "E": "t_floor",
+                    "8": "t_floor",
+                    "Z": "t_floor",
+                    "V": "t_floor",
+                    "5": "t_floor",
+                    "$": "t_fence_rope",
+                    "?": "t_chainfence_posts",
+                    "f": "t_floor",
                     "s": "t_sidewalk"
                 },
                 "furniture":{
@@ -136,21 +197,31 @@
                     "L": "f_locker",
                     "B": "f_bench",
                     "D": "f_desk",
-                    "#": "f_tatami",
                     "C": "f_chair",
-                    "X": "f_rack"
+                    "X": "f_rack",
+                    "#": "f_table",
+                    "Z": "f_bookcase",
+                    "0": "f_punchbag",
+                    "8": "f_cooler",
+                    "V": "f_vending_c",
+                    "E": "f_exercise",
+                    "f": "f_trashcan",
+                    "5": "f_canvas_floor",
+                    "^": "f_indoor_plant"
                 },
                 "place_groups": [
-                    { "item": "gi", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [5, 8] },
-                    { "item": "judo_belts", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [1, 2] },
-                    { "item": "dojo_manuals", "x": [17, 19], "y": [19, 19], "chance": 80, "repeat": [1, 3] }
+                    { "item": "boxing_clothes", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [5, 8] },
+                    { "item": "boxing_clothes", "x": [3, 11], "y": [18, 18], "chance": 40, "repeat": [1, 2] },
+                    { "item": "boxing_books", "x": [17, 19], "y": [18, 18], "chance": 80, "repeat": [1, 3] },
+                    { "item": "boxing_misc", "x": [16, 20], "y": [22, 22], "chance": 60, "repeat": [1, 3] }
                 ],
                 "place_specials": [
                     { "type": "toilet", "x": 11, "y": 22 }
                 ],
+                
                 "add": [
-                    { "item": "judo_belt_black", "x": 17, "y": 18 }
-                ] }
+                    { "item": "water_clean", "x": 12, "y": 16, "amount": 15 }
+                ],}
             }
         ]
     }
