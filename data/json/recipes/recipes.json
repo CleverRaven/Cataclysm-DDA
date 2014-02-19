@@ -12938,6 +12938,32 @@
   ]
 },{
         "type" : "recipe",
+  "result": "wearable_light",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "book_learn": [[ "textbook_fabrication", 0 ] , [ "manual_fabrication", 0 ], [ "mag_electronics", 0 ]],
+  "components": [
+    [
+      [ "flashlight", 1 ]
+    ],
+    [
+      [ "rag", 2 ],
+      [ "string_6", 6 ],
+      [ "string_36", 1 ],
+      [ "duct_tape", 10 ],
+      [ "medical_tape", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "floodlight",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
