@@ -1,0 +1,134 @@
+[
+    {
+    "type" : "item_group",
+    "id" : "bowling_item",
+    "items" : [
+        ["socks", 100],
+	["shoes_bowling", 100],
+	["bowling_pin", 100],
+	["bowling_ball", 100]
+        ]
+    },{
+    "type" : "item_group",
+    "id" : "bowling_balls",
+    "items" : [
+	["bowling_ball", 100]
+        ]
+    },{
+    "type":"monstergroup",
+    "name" : "GROUP_PLAIN",
+    "default" : "mon_zombie",
+    "monsters" : [
+        { "monster" : "mon_zombie", "freq" : 40, "cost_multiplier" : 1 }
+        ]
+    },{
+    "type" : "overmap_terrain",
+    "id" : "bowling_alley",
+    "name" : "bowling alley",
+    "rotate" : true,
+    "sym" : 66,
+    "color" : "red",
+    "see_cost" : 5,
+    "extras" : "build",
+    "mondensity" : 2,
+    "sidewalk" : true,
+    "mapgen": [ {
+            "method": "json",
+            "weight": 1000,
+            "object": {
+            "rows": [
+            "________________________",
+            "--O--_,_______,_______,_",
+            "|   |_,_______,_______,_",
+            "|   O_,_______,_______,_",
+            "|   |_,_______,_______,_",
+            "|   +_,_______,_______,_",
+            "|   |_,_______,_______,_",
+            "|   |_,_______,_______,_",
+            "|-+------OOOO----OOOO---",
+            "|                      |",
+            "|                      |",
+            "|ctc      =GGGGGGGGGGGG|",
+            "|ctc       SSSSSSSSSSSS|",
+            "|ctc       SSSSSSSSSSSS|",
+            "|         =GGGGGGGGGGGG|",
+            "|#####     SSSSSSSSSSSS|",
+            "|r   #     SSSSSSSSSSSS|",
+            "|r   #    =GGGGGGGGGGGG|",
+            "|r   #     SSSSSSSSSSSS|",
+            "| ####     SSSSSSSSSSSS|",
+            "|         =GGGGGGGGGGGG|",
+            "|          SSSSSSSSSSSS|",
+            "|----------------------|",
+            "........................"
+            ],
+            "terrain": {
+            ".": "t_grass",
+            "_": "t_pavement",
+            ",": "t_pavement_y",
+            " ": "t_floor",
+            "-": "t_wall_h",
+            "|": "t_wall_v",
+            "O": "t_window",
+            "L": "t_door_locked",
+            "+": "t_door_c",
+            "M": "t_door_metal_locked",
+            "w": "t_gates_mech_control",
+            "x": "t_console_broken",
+            "c": "t_floor",
+            "#": "t_floor",
+            "r": "t_floor",
+            "^": "t_floor",
+            "t": "t_floor",
+            "F": "t_floor",
+            "@": "t_floor",
+            ":": "t_floor",
+            "T": "t_floor",
+            "l": "t_floor",
+            "S": "t_floor_wax",
+	    "=": "t_floor",
+            "G": "t_floor"
+            },
+            "furniture": {
+            ".": "f_null",
+            "_": "f_null",
+            ",": "f_null",
+            " ": "f_null",
+            "-": "f_null",
+            "|": "f_null",
+            "O": "f_null",
+            "L": "f_null",
+            "+": "f_null",
+            "M": "f_null",
+            "w": "f_null",
+            "x": "f_null",
+            "c": "f_chair",
+            "#": "f_counter",
+            "r": "f_rack",
+            "^": "f_indoor_plant",
+            "t": "f_table",
+            "F": "f_fridge",
+            "@": "f_bed",
+            ":": "f_dresser",
+            "T": "f_toilet",
+            "l": "f_locker",
+            "S": "f_null",
+	    "=": "f_ball_mach",
+            "G": "f_lane"
+            },
+            "place_specials": [
+            ],
+            "set": [
+            { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
+            ],
+            "place_groups": [
+            { "monster": "GROUP_PLAIN", "x": [ 2, 21 ], "y": [ 9, 21 ], "chance": 1},
+            { "item": "bowling_item", "chance": 80, "x": [ 1,1 ], "y": [ 16,18 ] },
+	    { "item": "bowling_balls", "chance": 80, "x": [ 10,10 ], "y": [ 11,20 ] },
+	    { "item": "vending_food", "chance": 70, "x": [ 2,2 ], "y": [ 11,13 ] }
+            ]
+            }
+        }
+        ]
+    }
+]

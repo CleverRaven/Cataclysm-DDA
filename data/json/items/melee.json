@@ -918,6 +918,21 @@
     "cutting": 0,
     "to_hit": -3
   },
+  {
+    "type":"GENERIC",
+    "id": "bowling_ball",
+    "symbol": "*",
+    "color": "blue",
+    "name": "bowling ball",
+    "description": "A large, heavy ball. Before the apocalypse, it's main purpose was to be rolled along waxed floors.",
+    "price": 30,
+    "material": "ceramic",
+    "weight": 2170,
+    "volume": 16,
+    "bashing": 16,
+    "cutting": 0,
+    "to_hit": -2
+  },
 
   {
     "type":"GENERIC",
@@ -1825,6 +1840,23 @@
         "price" : 160
     },
     {
+        "type":"GENERIC",
+        "id" : "bowling_axe",
+        "name" : "The 7-10 Split",
+        "description" : "A bowling pin with menacing spikes on the large end. Makes a great melee weapon.",
+        "weight" : 1659,
+        "to_hit" : 1,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["wood", "null"],
+        "techniques" : ["WBLOCK_1"],
+        "volume" : 7,
+        "bashing" : 15,
+        "cutting" : 15,
+        "flags" : ["STAB"],
+        "price" : 160
+    },
+    {
     "type":"GENERIC",
     "id": "knuckle_nail",
     "symbol" : "]",
@@ -1902,6 +1934,22 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 7,
         "bashing" : 20,
+        "cutting" : 0,
+        "price" : 160
+    },
+    {
+        "type":"GENERIC",
+        "id" : "bowling_pin",
+        "name" : "bowling pin",
+        "description" : "A blunt bowling pin. Makes a decent melee weapon, if somewhat short.",
+        "weight" : 1333,
+        "to_hit" : 1,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["wood", "null"],
+        "techniques" : ["WBLOCK_1"],
+        "volume" : 9,
+        "bashing" : 24,
         "cutting" : 0,
         "price" : 160
     },

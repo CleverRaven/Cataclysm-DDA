@@ -290,8 +290,46 @@
         }
     },{
         "type" : "furniture",
+        "id" : "f_ball_mach",
+        "name": "ball machine",
+        "symbol": "T",
+        "color": "dkgray",
+        "move_cost_mod": 1,
+        "required_str": 8,
+        "flags": ["TRANSPARENT", "BASHABLE"],
+        "bash": {
+            "str_min": 3, "str_max": 45,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 6, "minamount": 2},
+                { "item": "steel_chunk", "amount": 1, "minamount": 0},
+                { "item": "pipe", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_bench",
         "name": "bench",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost_mod": 1,
+        "required_str": 8,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "ORGANIC", "MOUNTABLE"],
+        "bash": {
+            "str_min": 2, "str_max": 30,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 1},
+                { "item": "nail", "amount": 6, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_lane",
+        "name": "lane gaurd",
         "symbol": "#",
         "color": "brown",
         "move_cost_mod": 1,
