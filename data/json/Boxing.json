@@ -120,7 +120,7 @@
         "color": "white",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "PLACE_ITEM"]
     },
     {
         "type" : "furniture",
