@@ -469,7 +469,7 @@
     "color": "dark_gray",
     "name": "RM13 combat armor",
     "description": "Internally powered by a maximum of ten plutonium fuel cells, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology. Use it to turn it on.",
-    "flags" : ["VARSIZE", "STURDY", "WATER_FRIENDLY", "RAINPROOF"],
+    "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF"],
     "price": 25000,
     "material": ["ceramic", "kevlar"],
     "weight" : 6820,
@@ -486,8 +486,8 @@
     "use_action": "RM13ARMOR_OFF",
     "covers" : ["HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET"],
     "storage" : 12,
-    "warmth" : 15,
-    "enviromental_protection" : 10,
+    "warmth" : 25,
+    "enviromental_protection" : 15,
     "encumbrance" : 3,
     "coverage" : 100,
     "material_thickness" : 2
@@ -499,8 +499,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "name": "RM13 combat armor (on)",
-    "description": "Internally powered by a maximum of ten plutonium fuel cells, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology. It is turned on, and continually draining fuel cells. Use it to turn it off.",
-    "flags" : ["VARSIZE", "STURDY", "WATER_FRIENDLY", "RAINPROOF"],
+    "description": "Internally powered by a maximum of ten plutonium fuel cells, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology. It is turned on, and continually draining power. Use it to turn it off.",
+    "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF"],
     "price": 25000,
     "material": ["ceramic", "kevlar"],
     "weight" : 6820,
@@ -517,11 +517,11 @@
     "use_action": "RM13ARMOR_ON",
     "covers" : ["HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET"],
     "storage" : 12,
-    "warmth" : 15,
-    "enviromental_protection" : 35,
+    "warmth" : 25,
+    "enviromental_protection" : 40,
     "encumbrance" : 1,
     "coverage" : 100,
-    "material_thickness" : 4
+    "material_thickness" : 5
   }
   
 ]
