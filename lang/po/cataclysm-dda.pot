@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-18 22:18+0400\n"
+"POT-Creation-Date: 2014-02-19 01:31-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,14 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A set of universal batteries. Used to charge almost any electronic device."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "cents"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "IF YOU ARE SEEING THIS IT IS A BUG."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -1768,6 +1776,462 @@ msgid "Some fungal seeds."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
+msgid "reloaded birdshot"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Weak hand-reloaded shotgun ammunition. Designed for hunting birds and other "
+"small game, its applications in combat are very limited."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 00 shot"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hand-reloaded shell filled with iron pellets. Extremely damaging, plus the "
+"spread makes it very accurate at short range. Favored by SWAT forces."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded shotgun slug"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded explosive slug"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hand-reloaded shotgun slug loaded with concussive explosives. While the "
+"slug itself will not do much damage to its target, it will explode on "
+"contact."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded flechette shell"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hand-reloaded shotgun shell filled with tiny steel darts. Extremely "
+"damaging, plus the spread makes it very accurate at short range. Slices "
+"through most forms of armor with ease."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 9mm"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"9 millimeter parabellum is generally regarded as the most popular handgun "
+"cartridge and used by the majority of US police forces. It is also a very "
+"popular round in sub-machine guns. This one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 9mm +P"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Attempts to improve the ballistics of 9mm ammunition lead to high-pressure "
+"rounds. Increased velocity results in superior accuracy and damage. This one "
+"has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 9mm +P+"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A step beyond the high-pressure 9mm +P round, the +P+ has an even higher "
+"internal pressure that offers a degree of armor-penetrating ability. This "
+"one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 9mm FMJ"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .38 Special"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .38 Smith & Wesson Special enjoyed popularity among US police forces "
+"throughout the 20th century. It is most commonly used in revolvers. This one "
+"has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .38 Super"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .38 Super is a high-pressure load of the .38 Special caliber. It is a "
+"popular choice in pistol competitions for its high accuracy, while its "
+"stopping power keeps it popular for self-defense. This one has been hand-"
+"reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .38 FMJ"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A brass-jacketed .38 round.  This increases penetration slightly at the cost "
+"of reduced expansion. This one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 10mm Auto"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Originally used by the FBI, the organization eventually abandoned the round "
+"due to its high recoil. Although respected for its versatility and power, it "
+"has largely been supplanted by the downgraded .40 S&W. This one has been "
+"hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .40 S&W"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .40 Smith & Wesson round was developed as an alternative to 10mm Auto "
+"for the FBI after they complained of high recoil. It is as accurate as 9mm, "
+"but has greater stopping power, leading to widespread use in law "
+"enforcement. This one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .40 FMJ"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A brass-jacketed .40 Smith & Wesson round.  This increases penetration "
+"slightly at the cost of reduced expansion. This one has been hand-reloaded"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .44 Magnum"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .44 FMJ"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A brass-jacketed variant of the .44 Magnum round.  This increases "
+"penetration slightly at the cost of reduced damage from expansion. This "
+"onehas been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .45 ACP"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .45 round was one of the most popular and powerful handgun rounds "
+"through the 20th century. It features very good accuracy and stopping power, "
+"but suffers from moderate recoil and poor armor penetration. This one has "
+"been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .45 FMJ"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Full Metal Jacket .45 rounds are designed to overcome the poor armor "
+"penetration of the standard ACP round. However, they are less likely to "
+"expand upon impact, resulting in reduced damage overall. This one has been "
+"hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .45 Super"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .45 Super round is an updated variant of .45 ACP. It is overloaded, "
+"resulting in a great increase in muzzle velocity. This translates to higher "
+"accuracy and range, a minor armor piercing capability, and greater recoil. "
+"This one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .454 Casull"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .454 Casull round a very powerful revolver round capable of killing huge "
+"game, like elephants, with ease. It's designed to be used with the Taurus "
+"Raging Bull. This one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .500 S&W Magnum"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Claimed to be the world's most powerful handgun round, the .500 S&W Magnum "
+"was developed in tandem with the revolutionary S&W 500 Revolver. This one "
+"has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 5.7x28mm"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The 5.7x28mm round is a proprietary round developed by FN Hestal for use in "
+"their P90 SMG. While it is a very small round, comparable in power to .22, "
+"it features incredible armor-piercing capabilities and very low recoil. This "
+"one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 4.6x30mm"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Designed by Heckler & Koch to compete with the 5.7x28mm round, 4.6x30mm is, "
+"like the 5.7, designed to minimize weight and recoil while increasing "
+"penetration of body armor. Its low recoil makes it ideal for automatic fire. "
+"This one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 7.62x39mm M43"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Designed during World War II by the Soviet Union, the popularity of the "
+"AK-47 and the SKS contributed to the widespread adoption of the 7.62x39mm "
+"rifle round. However, due to its lack of yaw, this round deals less damage "
+"than most. This one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 7.62x39mm M67"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The M67 variant of the popular 7.62x39mm rifle round was designed to improve "
+"yaw. This causes the round to tumble inside a target, causing significantly "
+"more damage. It is still outdone by shattering rounds. This one has been "
+"hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .223 Remington"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .223 rifle round is a civilian variant of the 5.56 NATO round. It is "
+"designed to tumble or fragment inside a target, dealing devastating damage. "
+"The lower pressure of the .223 compared to the 5.56 results in lower "
+"accuracy. This one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 5.56 NATO"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"This rifle round has enjoyed widespread use in NATO countries, thanks to its "
+"very light weight and high damage. It is designed to shatter inside a "
+"target, inflicting massive damage. This one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 5.56 incendiary"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hand-reloaded variant of the widely-used 5.56 NATO round, incendiary "
+"rounds are designed to burn hotly upon impact, piercing armor and igniting "
+"flammable substances."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .270 Winchester"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Based off the military .30-03 round, the .270 rifle round is compatible with "
+"most guns that fire .30-06 rounds. However, it is designed for hunting, and "
+"is less powerful than the military rounds, with nearly no armor penetration. "
+"This one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .30-06 AP"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .30-06 is a very powerful rifle round designed for long-range use. Its "
+"stupendous accuracy and armor piercing capabilities make it one of the most "
+"deadly rounds available, offset only by its drastic recoil and noise. This "
+"one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .30-06 incendiary"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hand-reloaded variant of the powerful .30-06 sniper round, incendiary "
+"rounds are designed to burn hotly upon impact, piercing armor and igniting "
+"flammable substances."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .308 Winchester"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .308 Winchester is a rifle round, the commercial equivalent of the "
+"military 7.62x51mm round. Its high accuracy and phenomenal damage have made "
+"it the most popular hunting round in the world. This one has been hand-"
+"reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 7.62x51mm"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The 7.62x51mm largely replaced the .30-06 round as the standard military "
+"rifle round. It is lighter, but offers similar velocities, resulting in "
+"greater accuracy and reduced recoil. This one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 7.62x51mm incendiary"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hand-reloaded variant of the powerful 7.62x51mm round, incendiary rounds "
+"are designed to burn hotly upon impact, piercing armor and igniting "
+"flammable substances."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "bootleg fusion pack"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"In the middle of the 21st Century, military powers began to look towards "
+"energy based weapons. The result was the standard fusion pack, capable of "
+"delivering bolts of superheated gas at near light speed with no recoil. This "
+"one has been hand-crafted from spare parts."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 40mm buckshot"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "A hand-reloaded 40mm grenade with a buckshot load."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 40mm flechette"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "A hand-reloaded 40mm grenade with an armor-piercing flechette load."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 5x50mm flechette"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Designed to defeat modern body armor, the Rivtech 5x50mm flechette round "
+"features a biodegradable sabot and a single, fin-stabilized penetrator. This "
+"one has been hand-reloaded"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .50 BMG"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .50 BMG is a very powerful rifle round designed for long-range use. Its "
+"stupendous accuracy and armor piercing capabilities make it one of the most "
+"deadly rounds available, offset only by its drastic recoil and noise. This "
+"one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .50 BMG SS"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hand-reloaded solid steel copper jacketed variant of the .50 BMG round. "
+"Penetration is increased, but damage is reduced."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .50 BMG incendiary"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hand-reloaded variant of the powerful .50 BMG sniper round, incendiary "
+"rounds are designed to burn hotly upon impact, piercing armor and igniting "
+"flammable substances."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded signal flare"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hand-reloaded heavy plastic cartridge made for use in flare guns. It "
+"appears to be a modified 12 gauge shotgun shell."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
 msgid "6.54x42mm 9N8"
 msgstr ""
 
@@ -1896,6 +2360,16 @@ msgstr ""
 msgid ""
 "Sport shoes with hard undersides, and studs on the bottom designed to dig "
 "into the grass."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "protective mouthpiece"
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A protective piece of equipment commonly used by athletes, which is worn "
+"inside the mouth to protect your teeth."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -5128,7 +5602,7 @@ msgid "A thick leather helmet that provides excellent protection for the head."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "Ō-yoroi"
+msgid "O-yoroi"
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -5413,6 +5887,25 @@ msgstr ""
 msgid ""
 "A staple accessory for gentlemen. Keeps your shirt collar in place and "
 "provide a more aesthetically pleasing arc to your necktie."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "gold dental grill"
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Fake golden teeth, worn over the teeth. Fits horribly, but looks very shiny"
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "diamond dental grill"
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Fake teeth inlaid with diamonds, worn over the teeth. Fits horribly, but "
+"looks very shiny. For that high class gansta rap look."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -7955,6 +8448,17 @@ msgid ""
 "technology to improve their bodies.  There are a few in-depth and thoroughly "
 "illustrated articles on bionic systems, though they tend to use too much "
 "jargon."
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
+msgid "lab journal-Gustav"
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
+msgid ""
+"This paper notebook is mostly full of boring logs, experimental observations "
+"and notes. Mixed in, however, are musings on how to use the lab's vapor "
+"deposition machine to grow enormous diamonds."
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
@@ -14604,6 +15108,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
+msgid "homemade suppressor"
+msgstr ""
+
+#: lang/json/GUNMOD_from_json.py
 msgid "forward grip"
 msgstr ""
 
@@ -15011,6 +15519,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
+msgid "recoil stock"
+msgstr ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid ""
+"A replacement stock designed to absorb perceived recoil. Aside from "
+"increased mass, there are no drawbacks."
+msgstr ""
+
+#: lang/json/GUNMOD_from_json.py
 msgid "pistol stock"
 msgstr ""
 
@@ -15028,6 +15546,25 @@ msgstr ""
 msgid ""
 "A set of seals and gaskets that will allow a firearm to operate reliably "
 "while submerged in water."
+msgstr ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid "tuned mechanism"
+msgstr ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid ""
+"A set of finely tuned internal components which increase the precision and "
+"reliably of a firearm."
+msgstr ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid "match trigger"
+msgstr ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid ""
+"A precision weighted trigger assembly that improves a firearm's accuracy."
 msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
@@ -15570,7 +16107,7 @@ msgstr ""
 msgid ""
 "The TEC-9 is a machine pistol made of cheap polymers and machine stamped "
 "parts. Its rise in popularity among criminals is largely due to its "
-"intimidating looks and low price."
+"intimidating looks and low ."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -15688,8 +16225,8 @@ msgstr ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "A small pistol caliber carbine designed for police use and civilian self-"
-"defense, the CX4 Storm uses magazines that are interchangeable with  "
-"handguns of the same series."
+"defense, the CX4 Storm uses magazines that are interchangeable with handguns "
+"of the same series."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -16324,8 +16861,8 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A heavy machine gun used by the US Military from it's inception to the "
-"cataclysm, and even rarely by Cataclysm survivors. It's massive size, "
+"A heavy machine gun used by the US Military from its inception to the "
+"cataclysm, and even rarely by Cataclysm survivors. Its massive size, "
 "exceptionally rare ammo type, and design make it impossible to use unless "
 "deployed or mounted to a vehicle."
 msgstr ""
@@ -18739,6 +19276,17 @@ msgid "HOLY SHIT THIS THING IS ON FIRE"
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "cash card"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A yellow plastic card used to store money. These became popular once the "
+"government officialy moved to all electronic money. Holds up to 2 million "
+"dollars."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "lighter"
 msgstr ""
 
@@ -20147,7 +20695,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "C4-Explosive"
+msgid "C-4 explosive"
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -20157,7 +20705,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "C4-Explosive (armed)"
+msgid "C-4 explosive (armed)"
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -20286,7 +20834,38 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "tantō"
+msgid "diamond knife"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This edge of this combat knife is made of synthetic diamond: lightweight, "
+"transparent and very very sharp."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "diamond machete"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"Steel core for weight, diamond edged for sharpness. Wickedly sharp and "
+"nearly indestructible, it cleaves vegetation and the living dead with equal "
+"ease."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "diamond katana"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The edge of this katana has been replaced with synthetic diamond. It is now "
+"stronger, sharper and lighter than Muramasa could have ever dreamed."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "tanto"
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -21580,6 +22159,28 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "A brass cow bell. Potentially useful in so many ways."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "firearm repair kit"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a portable toolkit made to repair damaged firearms. Powered by "
+"standard batteries, it is a vital tool for long-term firearms maintenance. "
+"It requires 100 charges of battery power per use."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "gunsmith repair kit"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a complete toolkit made to repair damaged firearms. Powered by "
+"standard batteries, it is a vital tool for long-term firearms maintenance. "
+"It requires 25 charges of battery power per use."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -25515,6 +26116,10 @@ msgstr ""
 
 #: lang/json/material_from_json.py
 msgid "Superalloy"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "Diamond"
 msgstr ""
 
 #: lang/json/material_from_json.py
@@ -32571,6 +33176,10 @@ msgid "smashed gas pump"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
+msgid "ATM"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "broken generator"
 msgstr ""
 
@@ -32612,6 +33221,14 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "centrifuge"
+msgstr ""
+
+#: lang/json/terrain_from_json.py src/itypedef.cpp
+msgid "cvd machine"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "cvd control panel"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -35991,12 +36608,6 @@ msgstr ""
 
 #: src/computer.cpp
 msgid ""
-"Memory Bank:  Unencrypted\n"
-"Nothing of interest."
-msgstr ""
-
-#: src/computer.cpp
-msgid ""
 "Memory Bank:  Military Hexron Encryption\n"
 "Printing Transcript\n"
 msgstr ""
@@ -36114,7 +36725,7 @@ msgid ""
 "  To: all SRCF staff\n"
 "  From:  Robert Shane, Director of the EPA\n"
 "  \n"
-"  All hazardous waste dumps and sarcouphagi must submit three\n"
+"  All hazardous waste dumps and sarcophagi must submit three\n"
 "  samples from each operational leache system to the following\n"
 "  addresses:\n"
 "  \n"
@@ -36159,7 +36770,7 @@ msgid ""
 "  that these facilities would be constructed so close to populated\n"
 "  areas, and only agreed to sign-off on the project if we were\n"
 "  allowed to freely examine and monitor the sarcophagi.  But that\n"
-"  has not happened.  Since then the DoE has employed any and all\n"
+"  has not happened.  Since then, the DoE has employed any and all\n"
 "  means to keep EPA agents from visiting the SRCFs, using military\n"
 "  secrecy, emergency powers, and inter-departmental gag orders to\n"
 msgstr ""
@@ -36192,15 +36803,15 @@ msgid ""
 "  From:  Ellen Grimes, Director of the EPA\n"
 "  \n"
 "      Your site along with many others has been found to be\n"
-"  contaminated with what we will now refer to as [redracted].\n"
+"  contaminated with what we will now refer to as [redacted].\n"
 "  It is vital that you standby for further orders.  We are\n"
 "  currently awaiting the President to decide our course of\n"
 "  action in this national crisis.  You will proceed with fail-\n"
-"  safe procedures and rig the sarcouphagus with c-4 as outlined\n"
+"  safe procedures and rig the sarcophagus with c-4 as outlined\n"
 "  in Publication 4423.  We will send you orders to either detonate\n"
-"  and seal the sarcouphagus or remove the charges.  It is of\n"
+"  and seal the sarcophagus or remove the charges.  It is of\n"
 "  upmost importance that the facility is sealed immediatly when\n"
-"  the orders are given, we have been alerted by Homeland Security\n"
+"  the orders are given.  We have been alerted by Homeland Security\n"
 "  that there are potential terrorist suspects that are being\n"
 "  detained in connection with the recent national crisis.\n"
 "  \n"
@@ -41091,6 +41702,7 @@ msgstr ""
 #: src/iexamine.cpp src/iuse.cpp
 #: src/iuse.cpp
 #: src/iuse.cpp src/player.cpp
+#: src/player.cpp
 msgid "Cancel"
 msgstr ""
 
@@ -42206,6 +42818,11 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid "You fill your %s with some of the %s."
+msgstr ""
+
+#: src/game.cpp src/inventory_ui.cpp
+#, c-format
+msgid "You cannot drop your %s."
 msgstr ""
 
 #: src/game.cpp
@@ -44469,6 +45086,133 @@ msgid "Out of order."
 msgstr ""
 
 #: src/iexamine.cpp
+msgid "Welcome to the C.C.B.o.t.T. ATM. What would you like to do?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Purchase cash card?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You need $1.00 in your account to purchase a card."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Withdraw Money"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You need a cash card before you can withdraw money!"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You need money in your account before you can withdraw money!"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Deposit Money"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You need a charged cash card before you can deposit money!"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Transfer Money"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You need two cash cards before you can move money!"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "One of your cash cards must be charged before you can move money!"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Insert card for deposit."
+msgstr ""
+
+#: src/iexamine.cpp
+#: src/iexamine.cpp src/iuse.cpp
+#: src/iuse.cpp
+msgid "You do not have that item!"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Please insert cash cards only!"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You can only deposit money from charged cash cards!"
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "Deposit how much? Max:%d cents. (0 to cancel) "
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "Your account now holds %d cents."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Insert card for withdrawal."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "Withdraw how much? Max:%d cents. (0 to cancel) "
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You must select a different card to move from!"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You can only move money from charged cash cards!"
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "Transfer how much? Max:%d cents. (0 to cancel) "
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "This will automatically deduct $1.00 from your bank account. Continue?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "The vending machine is empty!"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You need a charged cash card to purchase things!"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Insert card for purchases."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You must insert a charged cash card!"
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "Money left:%d Press 'q' to stop."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "That item is too expensive!"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "With a beep, the empty vending machine shuts down"
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "This toilet is empty."
 msgstr ""
 
@@ -44891,11 +45635,6 @@ msgid "Multidrop:"
 msgstr ""
 
 #: src/inventory_ui.cpp
-#, c-format
-msgid "You cannot drop your %s."
-msgstr ""
-
-#: src/inventory_ui.cpp
 msgid "Compare where?"
 msgstr ""
 
@@ -44934,6 +45673,10 @@ msgstr ""
 
 #: src/item.cpp
 msgid "Moves per attack: "
+msgstr ""
+
+#: src/item.cpp
+msgid "Price: "
 msgstr ""
 
 #: src/item.cpp
@@ -45129,12 +45872,12 @@ msgstr ""
 msgid "The feet. "
 msgstr ""
 
-#: src/item.cpp
-msgid "<num> percent"
-msgstr ""
-
 #: src/item.cpp src/player.cpp
 msgid "Coverage: "
+msgstr ""
+
+#: src/item.cpp
+msgid "   Warmth: "
 msgstr ""
 
 #: src/item.cpp
@@ -45155,10 +45898,6 @@ msgstr ""
 
 #: src/item.cpp
 msgid "Environmental protection: "
-msgstr ""
-
-#: src/item.cpp src/player.cpp
-msgid "Warmth: "
 msgstr ""
 
 #: src/item.cpp src/player.cpp
@@ -45660,10 +46399,6 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "%s on what?"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You do not have that item!"
 msgstr ""
 
 #: src/iuse.cpp src/player.cpp
@@ -47209,8 +47944,8 @@ msgid "You break the glass."
 msgstr ""
 
 #: src/iuse.cpp src/map.cpp
-#: src/map.cpp src/monattack.cpp src/ranged.cpp
-#: src/ranged.cpp
+#: src/map.cpp
+#: src/monattack.cpp src/ranged.cpp
 msgid "glass breaking!"
 msgstr ""
 
@@ -48891,6 +49626,23 @@ msgid "Your vision is fine already."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "You need a mechanics skill of 2 to use this repair kit."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Select the firearm to repair."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "That isn't a firearm!"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Your %s is already in peak condition."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Clank! Clank!"
 msgstr ""
 
@@ -49529,7 +50281,7 @@ msgid "Open Evidence Locker"
 msgstr ""
 
 #: src/mapgen_functions.cpp
-msgid "First United Bank"
+msgid "Consolated Computerized Bank of the Treasury"
 msgstr ""
 
 #: src/mapgen_functions.cpp
@@ -51996,11 +52748,6 @@ msgstr ""
 #: src/monster.cpp
 #, c-format
 msgid "The %s hits the %s!"
-msgstr ""
-
-#: src/monster.cpp
-#, c-format
-msgid "Contact with %s shocks you!"
 msgstr ""
 
 #: src/monster.cpp
@@ -57686,6 +58433,10 @@ msgid "Cut protection: "
 msgstr ""
 
 #: src/player.cpp
+msgid "Warmth: "
+msgstr ""
+
+#: src/player.cpp
 msgid "It fits you well.\n"
 msgstr ""
 
@@ -57840,6 +58591,11 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "Your %s is already waterproof."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "This %s is eminently reliable. You can't improve upon it this way."
 msgstr ""
 
 #: src/player.cpp
@@ -58087,19 +58843,63 @@ msgid "The attack bounced to %s!"
 msgstr ""
 
 #: src/ranged.cpp
-msgid "Your weapon misfires with a wet click!"
+#, c-format
+msgid "Your %s misfires with a wet click!"
 msgstr ""
 
 #: src/ranged.cpp
-msgid "<npcname>'s weapon misfires with a wet click!"
+#, c-format
+msgid "<npcname>'s %s misfires with a wet click!"
 msgstr ""
 
 #: src/ranged.cpp
-msgid "Your weapon misfires!"
+#, c-format
+msgid "Your %s malfunctions!"
 msgstr ""
 
 #: src/ranged.cpp
-msgid "<npcname>'s weapon misfires!"
+#, c-format
+msgid "<npcname>'s %s malfunctions!"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "Your %s is damaged by the mechanical malfunction!"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "<npcname>'s %s is damaged by the mechanical malfunction!"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "Your %s misfires with a dry click!"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "<npcname>'s %s misfires with a dry click!"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "Your %s misfires with a muffled click!"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "<npcname>'s %s misfires with a muffled click!"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "Your %s is damaged by the misfired round!"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "<npcname>'s %s is damaged by the misfired round!"
 msgstr ""
 
 #: src/ranged.cpp
