@@ -275,7 +275,8 @@
         "range" : 30,
         "dispersion" : 5,
         "recoil" : 0,
-        "count" : 10
+        "count" : 10,
+      "effects" : ["RECOVER_3"]
     },
     {   "type" : "AMMO",
         "id" : "bearing",
