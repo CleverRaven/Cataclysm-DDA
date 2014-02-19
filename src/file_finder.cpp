@@ -55,7 +55,7 @@ std::vector<std::string> file_finder::get_files_from_path(std::string extension,
             struct stat _buff;
             DIR *subdir;
 
-            while( root_file = readdir(root) ) {
+            while( (root_file = readdir(root)) ) {
                 // Check to see if it is a folder!
                 if( stat(root_file->d_name, &_buff) != 0x4 ) {
                     // Ignore '.' and '..' folder names, which are current and parent folder
@@ -121,7 +121,7 @@ std::vector<std::string> file_finder::get_directories_with( std::vector<std::str
             struct stat _buff;
             DIR *subdir;
             bool foundit = false;
-            while( root_file = readdir(root) ) {
+            while( (root_file = readdir(root)) ) {
                 // Check to see if it is a folder!
                 if( stat(root_file->d_name, &_buff) != 0x4 ) {
                     // Ignore '.' and '..' folder names, which are current and parent folder

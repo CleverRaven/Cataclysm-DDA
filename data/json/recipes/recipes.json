@@ -1802,7 +1802,9 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -1827,7 +1829,9 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "goggles_welding", -1 ]
@@ -1835,7 +1839,9 @@
     [
       [ "welder", 30 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 3 ]
+      [ "toolset", 3 ],
+      [ "small_repairkit", 150 ],
+      [ "large_repairkit", 30 ]
     ]
   ],
   "components": [
@@ -1856,7 +1862,9 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2067,11 +2075,15 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2096,11 +2108,15 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
         ]
   ],
   "components": [
@@ -2124,7 +2140,9 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2146,11 +2164,15 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2176,18 +2198,24 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "rock", -1 ],
       [ "primitive_hammer", -1 ],
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2216,11 +2244,15 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "rock", -1 ],
@@ -2255,11 +2287,15 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2292,7 +2328,9 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2352,7 +2390,9 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -2408,7 +2448,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "shot_he",
+  "result": "reloaded_shot_he",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -2532,7 +2572,7 @@
   "type" : "recipe",
   "result": "mininuke_mod",
   "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
+  "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "skills_required": ["electronics",  7],
   "difficulty": 8,
@@ -2952,11 +2992,15 @@
   "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "soldering_iron", 6 ],
-      [ "toolset", 1 ]
+      [ "toolset", 1 ],
+      [ "small_repairkit", 6 ],
+      [ "large_repairkit", 3 ]
     ]
   ],
   "components": [
@@ -3981,7 +4025,7 @@
   ]
 },{
          "type" : "recipe",
-  "result": "9mm",
+  "result": "reloaded_9mm",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4022,7 +4066,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "9mmP",
+  "result": "reloaded_9mmP",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4064,7 +4108,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "9mmP2",
+  "result": "reloaded_9mmP2",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4106,7 +4150,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "38_special",
+  "result": "reloaded_38_special",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4148,7 +4192,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "38_super",
+  "result": "reloaded_38_super",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4190,7 +4234,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "40sw",
+  "result": "reloaded_40sw",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4232,7 +4276,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "10mm",
+  "result": "reloaded_10mm",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4274,7 +4318,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "44magnum",
+  "result": "reloaded_44magnum",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4315,7 +4359,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "45_acp",
+  "result": "reloaded_45_acp",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4357,7 +4401,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "45_super",
+  "result": "reloaded_45_super",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4399,7 +4443,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "45_jhp",
+  "result": "reloaded_45_jhp",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4444,7 +4488,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "454_Casull",
+  "result": "reloaded_454_Casull",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4489,7 +4533,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "500_Magnum",
+  "result": "reloaded_500_Magnum",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4534,7 +4578,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "57mm",
+  "result": "reloaded_57mm",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4576,7 +4620,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "46mm",
+  "result": "reloaded_46mm",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4618,7 +4662,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "762_m43",
+  "result": "reloaded_762_m43",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4663,7 +4707,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "762_m87",
+  "result": "reloaded_762_m87",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4708,7 +4752,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "223",
+  "result": "reloaded_223",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4754,7 +4798,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "556",
+  "result": "reloaded_556",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4800,7 +4844,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "556_incendiary",
+  "result": "reloaded_556_incendiary",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4840,7 +4884,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "270",
+  "result": "reloaded_270",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4884,7 +4928,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "3006",
+  "result": "reloaded_3006",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4929,7 +4973,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "50_incendiary",
+  "result": "reloaded_50_incendiary",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -4977,7 +5021,7 @@
   ]
  },{
         "type" : "recipe",
-  "result": "50ss",
+  "result": "reloaded_50ss",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -5016,7 +5060,7 @@
 ]
   },{
         "type" : "recipe",
-  "result": "50bmg",
+  "result": "reloaded_50bmg",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -5060,7 +5104,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "3006_incendiary",
+  "result": "reloaded_3006_incendiary",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -5099,7 +5143,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "308",
+  "result": "reloaded_308",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -5144,7 +5188,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "762_51",
+  "result": "reloaded_762_51",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -5189,7 +5233,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "762_51_incendiary",
+  "result": "reloaded_762_51_incendiary",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -5228,7 +5272,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "signal_flare",
+  "result": "reloaded_signal_flare",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -5267,7 +5311,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "shot_bird",
+  "result": "reloaded_shot_bird",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -5309,7 +5353,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "shot_00",
+  "result": "reloaded_shot_00",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -5351,7 +5395,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "shot_slug",
+  "result": "reloaded_shot_slug",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -5392,7 +5436,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "shot_flechette",
+  "result": "reloaded_shot_flechette",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -13099,11 +13143,15 @@
   "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 1 ],
+      [ "small_repairkit", 10 ],
+      [ "large_repairkit", 5 ]
     ]
   ],
   "components": [
@@ -20620,7 +20668,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "suppressor",
+  "result": "crafted_suppressor",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_MODS",
   "skill_used": "mechanics",
@@ -20632,7 +20680,9 @@
   "tools": [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -20642,6 +20692,77 @@
     ],
     [
       [ "pipe", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "suppressor",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 8,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "large_repairkit", 250 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "pipe", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "barrel_small",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "large_repairkit", 100 ],
+      [ "small_repairkit", 300 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "pipe", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "barrel_big",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "large_repairkit", 100 ],
+      [ "small_repairkit", 300 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 2 ]
     ]
   ]
 },{
@@ -20697,7 +20818,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "laser_pack",
+  "result": "reloaded_laser_pack",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
@@ -22032,6 +22153,46 @@
   ]
 },{
         "type" : "recipe",
+  "result": "small_repairkit",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used" : "mechanics",
+  "difficulty" : 1,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": false,
+    "book_learn": [[ "manual_shotgun", 0 ] ,[ "manual_rifle", 0 ] ,[ "manual_smg", 0 ] ,[ "manual_pistol", 0 ] , ["recipe_bullets" , 0] , [ "textbook_mechanics", 1 ] , [ "mag_mechanics", 2 ]],
+  "components": [
+    [
+      ["wire", 2],
+      ["cable", 2]
+    ],
+    [
+      ["soldering_iron", 1]
+    ],
+    [
+      ["screwdriver", 1]
+    ],
+    [
+      ["wrench", 1]
+    ],
+    [
+      ["chisel", 1]
+    ],
+    [
+      ["hacksaw", 1]
+    ],
+    [
+      ["hammer", 1]
+    ],
+    [
+      ["rag", 2],
+      ["leather", 2],
+      ["fur", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "nailrifle",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -22044,11 +22205,15 @@
   "tools": [
     [
       ["hacksaw", -1],
-      ["toolset", -1]
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["screwdriver", -1],
-      ["toolset", -1]
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ]
   ],
   "components": [
@@ -22128,13 +22293,22 @@
       ["goggles_welding", -1]
     ],
     [
-      ["hacksaw", -1], ["toolset", -1]
+      ["hacksaw", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["screwdriver", -1], ["toolset", -1]
+      ["screwdriver", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["wrench", -1], ["toolset", -1]
+      ["wrench", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 150], ["welder_crude", 225], ["toolset", 6]
@@ -22176,13 +22350,22 @@
       ["goggles_welding", -1]
     ],
     [
-      ["hacksaw", -1], ["toolset", -1]
+      ["hacksaw", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["screwdriver", -1], ["toolset", -1]
+      ["screwdriver", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["wrench", -1], ["toolset", -1]
+      ["wrench", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 300], ["welder_crude", 450], ["toolset", 12]
@@ -22225,13 +22408,22 @@
       ["goggles_welding", -1]
     ],
     [
-      ["hacksaw", -1], ["toolset", -1]
+      ["hacksaw", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["screwdriver", -1], ["toolset", -1]
+      ["screwdriver", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["wrench", -1], ["toolset", -1]
+      ["wrench", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 200], ["welder_crude", 300], ["toolset", 8]
@@ -22274,13 +22466,22 @@
       ["goggles_welding", -1]
     ],
     [
-      ["hacksaw", -1], ["toolset", -1]
+      ["hacksaw", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["screwdriver", -1], ["toolset", -1]
+      ["screwdriver", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["wrench", -1], ["toolset", -1]
+      ["wrench", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 100], ["welder_crude", 150], ["toolset", 4]
@@ -22314,13 +22515,22 @@
       ["goggles_welding", -1]
     ],
     [
-      ["hacksaw", -1], ["toolset", -1]
+      ["hacksaw", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["screwdriver", -1], ["toolset", -1]
+      ["screwdriver", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["wrench", -1], ["toolset", -1]
+      ["wrench", -1], 
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 300], ["welder_crude", 450], ["toolset", 12]
@@ -29061,11 +29271,15 @@
   "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
+      [ "toolset", -1 ],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 2 ],
+      [ "small_repairkit", 20 ],
+      [ "large_repairkit", 10 ]
     ]
   ],
   "components": [
@@ -29088,9 +29302,9 @@
   ]
 },{
     "type" : "recipe",
-    "result": "9mmfmj",
+    "result": "reloaded_9mmfmj",
     "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLET",
+    "subcategory": "CSC_AMMO_BULLETS",
     "skill_used": "fabrication",
     "skills_required": [ "gun", 4 ],
     "difficulty": 4,
@@ -29132,9 +29346,9 @@
     ]
   },{
     "type" : "recipe",
-    "result": "38_fmj",
+    "result": "reloaded_38_fmj",
     "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLET",
+    "subcategory": "CSC_AMMO_BULLETS",
     "skill_used": "fabrication",
     "skills_required": [ "gun", 4 ],
     "difficulty": 4,
@@ -29176,9 +29390,9 @@
     ]
    },{
     "type" : "recipe",
-    "result": "40fmj",
+    "result": "reloaded_40fmj",
     "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLET",
+    "subcategory": "CSC_AMMO_BULLETS",
     "skill_used": "fabrication",
     "skills_required": [ "gun", 4 ],
     "difficulty": 4,
@@ -29220,9 +29434,9 @@
     ]
   },{
   "type" : "recipe",
-  "result": "5x50dart",
+  "result": "reloaded_5x50dart",
   "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLET",
+  "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
   "skills_required": [ "gun", 5 ],
   "difficulty": 6,
@@ -29406,9 +29620,9 @@
   ]
 },{
     "type" : "recipe",
-    "result": "44fmj",
+    "result": "reloaded_44fmj",
     "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLET",
+    "subcategory": "CSC_AMMO_BULLETS",
     "skill_used": "fabrication",
     "skills_required": [ "gun", 4 ],
     "difficulty": 5,
@@ -30118,16 +30332,22 @@
   "tools":[
     [
       ["hammer", -1],
-      ["toolset", -1]
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["screwdriver", -1]
+      ["screwdriver", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["tongs", -1]
     ],
     [
-      ["chisel", -1]
+      ["chisel", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["anvil", -1]
@@ -30170,7 +30390,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "40mm_shot",
+  "result": "reloaded_40mm_shot",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -30211,7 +30431,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "40mm_flechette",
+  "result": "reloaded_40mm_flechette",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -30371,16 +30591,22 @@
   "tools":[
     [
       ["hammer", -1],
-      ["toolset", -1]
+      ["toolset", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
-      ["screwdriver", -1]
+      ["screwdriver", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["tongs", -1]
     ],
     [
-      ["chisel", -1]
+      ["chisel", -1],
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
     ],
     [
       ["anvil", -1]
@@ -30390,7 +30616,7 @@
     ],
     [
       ["forge", 400],
-      [ "char_forge", 80]
+      ["char_forge", 80]
     ]
   ],
   "components": [

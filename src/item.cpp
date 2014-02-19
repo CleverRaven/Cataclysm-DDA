@@ -629,8 +629,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   if (armor->covers & mfb(bp_feet))
    temp1 << _("The feet. ");
 
-  dump->push_back(iteminfo("ARMOR", temp1.str()));
-  dump->push_back(iteminfo("ARMOR", _("Coverage: "), _("<num> percent"), armor->coverage));
+  dump->push_back(iteminfo("ARMOR", temp1.str()));   
+  dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%", armor->coverage, true, "", false));
+  dump->push_back(iteminfo("ARMOR", _("   Warmth: "), "", armor->warmth));
     if (has_flag("FIT"))
     {
         dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
@@ -643,7 +644,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("ARMOR", _("Protection: Bash: "), "", bash_resist(), true, "", false));
   dump->push_back(iteminfo("ARMOR", _("   Cut: "), "", cut_resist(), true, "", true));
   dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "", armor->env_resist));
-  dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", armor->warmth));
   dump->push_back(iteminfo("ARMOR", _("Storage: "), "", armor->storage));
 
 } else if (is_book()) {
