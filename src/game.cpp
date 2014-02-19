@@ -11301,7 +11301,7 @@ void game::unload(item& it)
  } else {
   newam = item(itypes[default_ammo(weapon->ammo_type())], turn);
  }
- if(weapon->typeId() == "adv_UPS_off" || weapon->typeId() == "adv_UPS_on") {
+ if(weapon->typeId() == "adv_UPS_off" || weapon->typeId() == "adv_UPS_on"|| weapon->typeId() == "rm13_armor"|| weapon->typeId() == "rm13_armor_on") {
     int chargesPerPlutonium = 500;
     int chargesRemoved = weapon->charges - (weapon-> charges % chargesPerPlutonium);;
     int plutoniumRemoved = chargesRemoved / chargesPerPlutonium;
@@ -11309,7 +11309,7 @@ void game::unload(item& it)
         add_msg(_("You can't remove partially depleted plutonium!"));
     }
     if(plutoniumRemoved > 0) {
-        add_msg(_("You remove %i plutonium from the advanced UPS"), plutoniumRemoved);
+        add_msg(_("You recover %i unused plutonium."), plutoniumRemoved);
         newam.charges = plutoniumRemoved;
         weapon->charges -= chargesRemoved;
     } else { return; }

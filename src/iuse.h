@@ -221,6 +221,8 @@ public:
     int gun_repair          (player *, item *, bool);
     int toolarmor_off       (player *, item *, bool);
     int toolarmor_on        (player *, item *, bool);
+    int rm13armor_off       (player *, item *, bool);
+    int rm13armor_on        (player *, item *, bool);
 // MACGUFFINS
     int mcg_note            (player *, item *, bool);
 

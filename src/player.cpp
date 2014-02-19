@@ -912,7 +912,7 @@ void player::update_bodytemp()
             }
         }
         // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F. 500 is picked at random...
-        if (has_bionic("bio_heatsink") && blister_count < 500)
+        if ((has_bionic("bio_heatsink") || is_wearing("rm13_armor_on")) && blister_count < 500)
         {
             blister_count = (has_trait("BARK") ? -100 : 0);
         }
@@ -3390,7 +3390,7 @@ bool player::in_climate_control()
 {
     bool regulated_area=false;
     // Check
-    if(has_active_bionic("bio_climate")) { return true; }
+    if(has_active_bionic("bio_climate") || is_wearing("rm13_armor_on")) { return true; }
     if (is_wearing_power_armor() &&
         (has_active_item("UPS_on") || has_active_item("adv_UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII")))
     {
@@ -5303,7 +5303,7 @@ void player::suffer()
 
         bool power_armored = is_wearing_power_armor(&has_helmet);
 
-        if ((power_armored && has_helmet) || is_wearing("hazmat_suit")|| is_wearing("anbc_suit")) {
+        if ((power_armored && has_helmet) || is_wearing("hazmat_suit")|| is_wearing("anbc_suit")|| is_wearing("rm13_armor_on")) {
             radiation += 0; // Power armor protects completely from radiation
         } else if (power_armored || is_wearing("cleansuit")|| is_wearing("aep_suit")) {
             radiation += rng(0, localRadiation / 40) + rng(0, selfRadiation / 5);
