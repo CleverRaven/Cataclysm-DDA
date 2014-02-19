@@ -221,7 +221,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
     if (weapon.has_flag("CHARGE")) { // It's a charger gun, so make up a type
         // Charges maxes out at 8.
-        int charges = weapon.num_charges();
+        long charges = weapon.num_charges();
         it_ammo *tmpammo = dynamic_cast<it_ammo*>(itypes["charge_shot"]);
 
         tmpammo->damage = charges * charges;
@@ -298,7 +298,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     moves -= time_to_fire(*this, firing);
 
     // Decide how many shots to fire
-    int num_shots = 1;
+    long num_shots = 1;
     if (burst) {
         num_shots = used_weapon->burst_size();
     }

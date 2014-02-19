@@ -1725,7 +1725,7 @@ void mapgen_park_basketball(map *m, oter_id, mapgendata dat, int, float)
                         \n",
         mapf::basic_bind(". 7 | - +", t_pavement_y, t_backboard, t_chainfence_v, t_chainfence_h, t_chaingate_l),
         mapf::basic_bind("#", f_bench));
-        m->place_vending(22, 19, 1);
+        m->place_vending(22, 19, "vending_drink");
         m->rotate(rng(0, 3));
 //    }
     m->add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY); // fixme; use density
@@ -1776,17 +1776,33 @@ void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float
     }
     //vending
     bool drinks = rng(0,1);
+    std::string type;
+    std::string type2;
+    if (drinks) {
+        type = "vending_drink";
+        type2 = "vending_food";
+    } else {
+        type2 = "vending_drink";
+        type = "vending_food";
+    }
     int vset = rng(1,5);
-    if(rng(0,1)) vset += left_w;
-    else vset = right_w - vset;
-    m->place_vending(vset,top_w-1,drinks);
+    if(rng(0,1)) {
+        vset += left_w;
+    } else {
+        vset = right_w - vset;
+    }
+    m->place_vending(vset,top_w-1, type);
     if(rng(0,1))
     {
         int vset2 = rng(1,9);
         if(vset2 >= vset) vset2++;
         if(vset2 > 5) vset2 = right_w - (vset2 - 5);
         else vset2 += left_w;
-        m->place_vending(vset2,top_w-1,!drinks);
+        m->place_vending(vset2,top_w-1, type2);
+    }
+    //ATM
+    if(rng(0,1)) {
+        m->ter_set(vset - 1, top_w-1, t_atm);
     }
     //
     m->ter_set(center_w, rng(middle_w + 1, bottom_w - 1), t_door_c);
@@ -2799,12 +2815,16 @@ void mapgen_office_cubical(map *m, oter_id terrain_type, mapgendata dat, int, fl
                                    mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s n", t_console_broken, t_shrub, t_floor,
                                            t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked,
                                            t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,
-                                           t_sidewalk, t_null),
+                                           t_sidewalk, t_floor),
                                    mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s n", f_null,           f_null,
                                            f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,
                                            f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
                                            f_locker, f_null, f_safe_l));
-        m->place_vending(7, 13, rng(0, 1));
+        if (one_in(2)) {
+            m->place_vending(7, 13, "vending_drink");
+        } else {
+            m->place_vending(7, 13, "vending_food");
+        }
         m->place_items("fridge", 50,  2,  12, 2,  13, false, 0);
         m->place_items("cleaning", 50,  2,  15, 3,  16, false, 0);
         m->place_items("office", 80, 11,  7, 13,  7, false, 0);
@@ -4102,17 +4122,26 @@ void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float
         }
         //vending
         bool drinks = rng(0,1);
+        std::string type;
+        std::string type2;
+        if (drinks) {
+            type = "vending_drink";
+            type2 = "vending_food";
+        } else {
+            type2 = "vending_drink";
+            type = "vending_food";
+        }
         int vset = rng(0,17);
-        if (vset < 3) m->place_vending(5, vset+9, drinks);
-        else if (vset < 15) m->place_vending(5 + (vset - 3), 11, drinks);
-        else m->place_vending(18, 11 - (vset - 15), drinks);
+        if (vset < 3) m->place_vending(5, vset+9, type);
+        else if (vset < 15) m->place_vending(5 + (vset - 3), 11, type);
+        else m->place_vending(18, 11 - (vset - 15), type);
         if(one_in(3))
         {
             int vset2 = rng(0,16);
             if(vset2 >= vset) vset2++;
-            if (vset2 < 3) m->place_vending(5, vset2+9, !drinks);
-            else if (vset2 < 15) m->place_vending(5 + (vset2 - 3), 11, !drinks);
-            else m->place_vending(18, 11 - (vset2 - 15), !drinks);
+            if (vset2 < 3) m->place_vending(5, vset2+9, type2);
+            else if (vset2 < 15) m->place_vending(5 + (vset2 - 3), 11, type2);
+            else m->place_vending(18, 11 - (vset2 - 15), type2);
         }
         //
         m->ter_set(16, 10, t_stairs_down);
@@ -4605,91 +4634,178 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int, float dens
 
 void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
-
-//    } else if (is_ot_type("bank", terrain_type)) {
-
-        dat.fill_groundcover();
-
-        square(m, t_floor, 1,  1, 22, 22);
-        line(m, t_wall_h,  1,  1, 22,  1);
-        line(m, t_wall_h,  2,  6, 19,  6);
-        line(m, t_wall_h,  2, 13, 18, 13);
-        line(m, t_wall_h,  1, 22, 22, 22);
-        line(m, t_wall_h,  9,  9, 18,  9);
-        line(m, t_wall_v,  1,  2,  1, 21);
-        line(m, t_wall_v, 22,  2, 22, 21);
-        line(m, t_wall_v, 19,  9, 19, 21);
-        line(m, t_wall_v, 13, 14, 13, 16);
-        line(m, t_wall_v, 13, 19, 13, 21);
-        line(m, t_wall_v,  8,  7,  8, 12);
-        line(m, t_wall_metal_h,  3, 14, 11, 14);
-        line(m, t_wall_metal_h,  3, 21, 11, 21);
-        line(m, t_wall_metal_v,  2, 14,  2, 21);
-        line(m, t_wall_metal_v, 12, 14, 12, 16);
-        line(m, t_wall_metal_v, 12, 19, 12, 21);
-        line_furn(m, f_counter,  2,  4,  14,  4);
-        m->ter_set(13, 17, t_door_metal_locked);
-        m->ter_set(13, 18, t_door_metal_locked);
-        computer * tmpcomp = m->add_computer(14, 16, _("First United Bank"), 3);
-        tmpcomp->add_option(_("Open Vault"), COMPACT_OPEN, 3);
-        tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
-        tmpcomp->add_failure(COMPFAIL_ALARM);
-        // Front wall--glass or windows?
-        if (!one_in(4)) {
-            line(m, t_wall_glass_h_alarm, 2, 1, 21, 1);
-            if (one_in(2)) {
-                line(m, t_wall_glass_v_alarm, 1, 2, 1, 5);    // Side wall for teller room
-            }
-        } else {
-            if (one_in(4)) {
-                line(m, t_wall_glass_v_alarm, 1, 2, 1, 5);    // Side wall for teller room
-            }
-            int rn = rng(3, 7);
-            m->ter_set(rn    , 1, t_window_alarm);
-            m->ter_set(rn + 1, 1, t_window_alarm);
-            rn = rng(13, 18);
-            m->ter_set(rn    , 1, t_window_alarm);
-            m->ter_set(rn + 1, 1, t_window_alarm);
-        }
-        // Doors for offices
-        m->ter_set(8, rng(7, 8), t_door_c);
-        m->ter_set(rng(10, 17), 9, t_door_c);
-        m->ter_set(19, rng(15, 20), t_door_c);
-        // Side and back windows
-        m->ter_set(1, rng(7, 12), t_window_alarm);
-        m->ter_set(1, rng(7, 12), t_window_alarm);
-        m->ter_set(rng(14, 18), 22, t_window_alarm);
+    dat.fill_groundcover();
+    // Basic floorplan
+    square(m, t_floor, 1,  1, 22, 22);
+    line(m, t_wall_h,  1,  1, 22,  1);
+    line(m, t_wall_h,  2,  5,  5,  5);
+    line(m, t_wall_h, 16,  5, 19,  5);
+    line(m, t_wall_h,  2,  9, 19,  9);
+    line(m, t_wall_h, 12, 12, 21, 12);
+    line(m, t_wall_h,  2, 14,  6, 14);
+    line(m, t_wall_h, 13, 16, 21, 16);
+    line(m, t_wall_h,  1, 22, 22, 22);
+    line(m, t_wall_v,  1,  2,  1, 21);
+    line(m, t_wall_v, 22,  2, 22, 21);
+    line(m, t_wall_v,  7, 10,  7, 21);
+    line(m, t_wall_v, 12, 12, 12, 21);
+    line(m, t_wall_v, 19, 13, 19, 15);
+    line(m, t_wall_v, 16,  6, 16,  8);
+    line(m, t_wall_v, 19,  6, 19,  8);
+    line(m, t_wall_metal_h,  2, 15,  6, 15);
+    line(m, t_wall_metal_h,  2, 21,  6, 21);
+    line(m, t_wall_metal_v,  2, 16,  2, 20);
+    line(m, t_wall_metal_v,  6, 16,  6, 20);
+    //Fixed doors
+    line(m, t_door_glass_c, 9, 1, 10, 1);
+    m->ter_set( 19,  6, t_door_c);
+    m->ter_set( 12, 17, t_door_c);
+    m->ter_set( 17, 12, t_door_c);
+    square(m, t_door_metal_locked, 6, 19, 7, 20);
+    if (one_in(3)) {
+        line(m, t_door_locked_interior, 20, 9, 21, 9);
+    } else {
+        line(m, t_door_c, 20, 9, 21, 9);
+    }
+    if (one_in(4)) {
+        m->ter_set( 7, 10, t_door_locked_interior);
+    } else {
+        m->ter_set( 7, 10, t_door_c);
+    }
+    //Lobby
+    line(m, t_atm,  2,  2,  2,  3);
+    if (one_in(2)) {
+        line_furn(m, f_chair, 13, 2, 15, 2);
+        m->furn_set(14, 2, f_table);
+    }
+    if (one_in(2)) {
+        line_furn(m, f_chair, 17, 2, 19, 2);
+        m->furn_set(18, 2, f_table);
+    }
+    if (one_in(2)) {
+        m->furn_set(21, 2, f_indoor_plant);
+    }
+    //Windows or glass wall front?
+    int tmp = 0;
+    if (!one_in(3)) {
+        line(m, t_wall_glass_h_alarm, 1, 1, 8, 1);
+        line(m, t_wall_glass_h_alarm, 11, 1, 22, 1);
+    } else {
+        m->ter_set( rng(4,7),  1, t_window_alarm);
+        m->ter_set( rng(12,16),  1, t_window_alarm);
+        m->ter_set( rng(17,20),  1, t_window_alarm);
+        tmp = 1;
+    }
+    //Windows or glass wall side?
+    if (tmp != 1 && one_in(3)) {
+        line(m, t_wall_glass_v_alarm, 22, 1, 22, 8);
         if (one_in(2)) {
-            m->ter_set(rng(14, 18), 22, t_window_alarm);
+            line(m, t_wall_glass_v_alarm, 22, 1, 22, 11);
         }
-        if (one_in(10)) {
-            line(m, t_wall_glass_v, 22, 2, 22, 21);    // Right side is glass wall!
+    } else {
+        m->ter_set( 22, rng(3,5), t_window_alarm);
+        m->ter_set( 22, rng(6,8), t_window_alarm);
+    }
+    //Teller counters, 1 in 2 chance to have windows
+    if (one_in(2)) {
+        m->furn_set(  7,  5, f_counter);
+        m->ter_set(   8,  5, t_window);
+        m->furn_set(  9,  5, f_counter);
+        m->ter_set(  10,  5, t_window);
+        m->furn_set( 11,  5, f_counter);
+        m->ter_set(  12,  5, t_window);
+        m->furn_set( 13,  5, f_counter);
+        m->ter_set(  14,  5, t_window);
+        m->furn_set( 15,  5, f_counter);
+    } else {
+        line_furn(m, f_counter,  7,  5, 15, 5);
+    }
+    //Back wall teller space counter
+    tmp = rng(9, 11);
+    line_furn(m, f_counter,  rng(2,4),  8,  tmp,  8);
+    m->furn_set( tmp + 1, 8, f_indoor_plant);
+    //Teller doors
+    m->ter_set(rng(2,4), 5, t_door_locked_interior);
+    m->ter_set(rng(13,15), 9, t_door_c);
+    //Bathroom
+    m->furn_set( 17, 6, f_sink);
+    m->place_toilet( 17, 8);
+    //Storage
+    if (one_in(2)){
+        if (!one_in(4)) {
+            m->ter_set( 20, 12, t_door_c);
         } else {
-            int rn = rng(7, 12);
-            m->ter_set(22, rn    , t_window_alarm);
-            m->ter_set(22, rn + 1, t_window_alarm);
-            rn = rng(13, 19);
-            m->ter_set(22, rn    , t_window_alarm);
-            m->ter_set(22, rn + 1, t_window_alarm);
+            m->ter_set( 20, 12, t_door_locked_interior);
         }
-        // Finally, place the front doors.
-        if (one_in(4)) { // 1 in 4 are unlocked
-            m->ter_set(10, 1, t_door_c);
-            m->ter_set(11, 1, t_door_c);
-        } else if (one_in(4)) { // 1 in 4 locked ones are un-alarmed
-            m->ter_set(10, 1, t_door_locked);
-            m->ter_set(11, 1, t_door_locked);
+        line_furn(m, f_counter, 21, 13, 21, 15);
+        m->furn_set( 20, 15, f_counter);
+    } else {
+        if (!one_in(4)) {
+            m->ter_set( 21, 12, t_door_c);
         } else {
-            m->ter_set(10, 1, t_door_locked_alarm);
-            m->ter_set(11, 1, t_door_locked_alarm);
+            m->ter_set( 21, 12, t_door_locked_interior);
         }
+        line_furn(m, f_counter, 20, 13, 20, 15);
+        m->furn_set( 21, 15, f_counter);
+    }
+    //Interview office
+    if (one_in(2)) {
+        m->ter_set( 13, 12, t_door_c);
+    } else {
+        m->ter_set( 14, 12, t_door_c);
+    }
+    if (one_in(2)) {
+        m->furn_set( 18, 13, f_indoor_plant);
+    }
+    line_furn(m, f_desk, 16, 14, 16, 15);
+    line_furn(m, f_chair, 15, 14, 15, 15);
+    m->furn_set( 17, 15, f_chair);
+    //Executive office
+    if (!one_in(3)) {
+        m->furn_set( 2, 13, f_indoor_plant);
+    }
+    line_furn(m, f_desk, 3, 12, 5, 12);
+    m->furn_set(4, 13, f_chair);
+    if (one_in(2)) {
+        m->ter_set( 1, 11, t_window_alarm);
+    } else {
+        m->ter_set( 1, 10, t_window_alarm);
+        m->ter_set( 1, 12, t_window_alarm);
+    }
+    //Conference room
+    line_furn(m, f_chair, 15, 18, 15, 20);
+    line_furn(m, f_chair, 17, 18, 17, 20);
+    line_furn(m, f_chair, 19, 18, 19, 20);
+    line_furn(m, f_table, 15, 19, 19, 19);
+    m->furn_set( 20, 19, f_chair);
+    //Conference windows or glass walls?
+    if (one_in(4)) {
+        line(m, t_wall_glass_h_alarm, 13, 22, 22, 22);
+        line(m, t_wall_glass_v_alarm, 22, 17, 22, 21);
+    } else {
+        m->ter_set( rng(13,17), 22, t_window_alarm);
+        m->ter_set( rng(17,21), 22, t_window_alarm);
+        m->ter_set( 22, rng(18,20), t_window_alarm);
+    }
+    //Vault
+    line_furn(m, f_safe_l, 3, 16, 5, 16);
+    line_furn(m, f_table, 3, 19, 3, 20);
+    if (one_in(3)){
+        line(m, t_bars, 8, 18, 11, 18);
+        line(m, t_door_metal_locked, 9, 18, 10, 18);
+    }
+    computer * tmpcomp = m->add_computer(8, 21, _("Consolated Computerized Bank of the Treasury"), 3);
+    tmpcomp->add_option(_("Open Vault"), COMPACT_OPEN, 3);
+    tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
+    tmpcomp->add_failure(COMPFAIL_ALARM);
 
-        m->place_items("office",       60,  2,  7,  7, 12,    false, 0);
-        m->place_items("office",       60,  9, 10, 18, 12,    false, 0);
-        m->place_items("office",       70, 14, 14, 18, 21,    false, 0);
-        m->place_items("vault",        45,  3, 15, 11, 20,    false, 0);
+    m->place_items("office",    30,  4,  8,  9,  8, false, 0);
+    m->place_items("office",    30,  3, 12,  5, 12, false, 0);
+    m->place_items("office",    70, 16, 14, 16, 15, false, 0);
+    m->place_items("vault",     50,  3, 19,  3, 20, false, 0);
+    m->place_items("vault",     90,  3, 16,  5, 16, false, 0);
 
-        autorotate(false);
+    autorotate(false);
 }
 
 

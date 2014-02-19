@@ -7341,7 +7341,7 @@ bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
   }
   item* it = NULL;
   item *p_itm = NULL;
-  int min_charges = -1;
+  long min_charges = -1;
   bool in_container = false;
 
   std::string ftype = part_info.fuel_type;
@@ -7387,7 +7387,7 @@ bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
     charge_difference = 1;
   }
   bool rem_itm = min_charges <= charge_difference;
-  int used_charges = rem_itm ? min_charges : charge_difference;
+  long used_charges = rem_itm ? min_charges : charge_difference;
   part->amount += used_charges * fuel_per_charge;
   if (part->amount > max_fuel) {
     part->amount = max_fuel;
@@ -9950,7 +9950,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
         // for filling up chainsaws, jackhammers and flamethrowers
         ammotype ammo = "NULL";
-        int max = 0;
+        long max = 0;
 
         if (cont->is_tool()) {
             it_tool *tool = dynamic_cast<it_tool *>(cont->type);
@@ -9989,7 +9989,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         } else {
             cont->charges += liquid.charges;
             if (cont->charges > max) {
-                int extra = cont->charges - max;
+                long extra = cont->charges - max;
                 cont->charges = max;
                 liquid.charges = extra;
                 add_msg(_("There's some left over!"));
@@ -10133,7 +10133,7 @@ int game::move_liquid(item &liquid)
       cont->curammo = dynamic_cast<it_ammo*>(liquid.type);
       cont->charges += liquid.charges;
       if (cont->charges > max) {
-      int extra = cont->charges - max;
+      long extra = cont->charges - max;
       cont->charges = max;
       add_msg(_("There's some left over!"));
       return extra;
@@ -10153,7 +10153,7 @@ int game::move_liquid(item &liquid)
         }
       }
       it_container* container = dynamic_cast<it_container*>(cont->type);
-      int holding_container_charges;
+      long holding_container_charges;
 
       if (liquid.type->is_food())
       {
@@ -10196,7 +10196,7 @@ int game::move_liquid(item &liquid)
             return -1;
           }
           // pouring into a valid empty container
-          int default_charges = 1;
+          long default_charges = 1;
 
           if (liquid.is_food()) {
             it_comest* comest = dynamic_cast<it_comest*>(liquid.type);
@@ -10210,7 +10210,7 @@ int game::move_liquid(item &liquid)
             add_msg(_("You fill your %s with some of the %s."), cont->tname().c_str(),
                                                       liquid.tname().c_str());
             u.inv.unsort();
-            int extra = liquid.charges - container->contains * default_charges;
+            long extra = liquid.charges - container->contains * default_charges;
             liquid.charges = container->contains * default_charges;
             cont->put_in(liquid);
             return extra;
@@ -10686,7 +10686,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
 // Train up our skill
  it_gun* firing = dynamic_cast<it_gun*>(u.weapon.type);
- int num_shots = 1;
+ long num_shots = 1;
  if (burst)
   num_shots = u.weapon.burst_size();
  if (num_shots > u.weapon.num_charges() && !u.weapon.has_flag("NO_AMMO"))
@@ -11102,6 +11102,9 @@ void game::reload(int pos)
 
      // see if its actually reloadable.
      if (tool->ammo == "NULL") {
+         add_msg(_("You can't reload a %s!"), it->tname().c_str());
+         return;
+     } else if (it->has_flag("NO_RELOAD")) {
          add_msg(_("You can't reload a %s!"), it->tname().c_str());
          return;
      }

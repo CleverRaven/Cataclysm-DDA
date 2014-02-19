@@ -1551,7 +1551,7 @@ void complete_vehicle ()
     int replaced_wheel;
     std::vector<int> parts;
     int dd = 2;
-    int batterycharges; // Charges in a battery
+    long batterycharges; // Charges in a battery
 
     switch (cmd) {
     case 'i':

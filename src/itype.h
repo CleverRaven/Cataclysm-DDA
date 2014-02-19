@@ -205,7 +205,8 @@ struct it_comest : public virtual itype
     unsigned int nutr;     // Nutrition imparted
     unsigned int spoils;   // How long it takes to spoil (hours / 600 turns)
     unsigned int addict;   // Addictiveness potential
-    unsigned int charges;  // Defaults # of charges (drugs, loaf of bread? etc)
+    long charges;  // Defaults # of charges (drugs, loaf of bread? etc)
+    std::vector<long> rand_charges;
     signed int stim;
     signed int healthy;
     std::string comesttype; //FOOD, DRINK, MED
@@ -237,22 +238,23 @@ struct it_comest : public virtual itype
 
     signed int pquench, unsigned int pnutr, signed int pspoils,
     signed int pstim, signed int phealthy, unsigned int paddict,
-    unsigned int pcharges, signed int pfun, itype_id pcontainer,
+    long pcharges, std::vector<long> prand_charges, signed int pfun, itype_id pcontainer,
     itype_id ptool, int (iuse::*puse)(player *, item *, bool),
     add_type padd, std::string pcomesttype)
     : itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
     pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit), comesttype(pcomesttype), container(pcontainer), tool(ptool)
     {
-        quench     = pquench;
-        nutr       = pnutr;
-        spoils     = pspoils;
-        stim       = pstim;
-        healthy    = phealthy;
-        addict     = paddict;
-        charges    = pcharges;
-        fun        = pfun;
-        use        = puse;
-        add        = padd;
+        quench          = pquench;
+        nutr            = pnutr;
+        spoils          = pspoils;
+        stim            = pstim;
+        healthy         = phealthy;
+        addict          = paddict;
+        charges         = pcharges;
+        rand_charges    = prand_charges;
+        fun             = pfun;
+        use             = puse;
+        add             = padd;
     }
 
     it_comest() : itype()
@@ -583,8 +585,9 @@ struct it_container : public virtual itype
 struct it_tool : public virtual itype
 {
  ammotype ammo;
- unsigned int max_charges;
- unsigned int def_charges;
+ long max_charges;
+ long def_charges;
+ std::vector<long> rand_charges;
  unsigned char charges_per_use;
  unsigned char turns_per_charge;
  itype_id revert_to;
@@ -610,7 +613,7 @@ struct it_tool : public virtual itype
          unsigned int pvolume, unsigned int pweight,
          signed int pmelee_dam, signed int pmelee_cut, signed int pm_to_hit,
 
-         unsigned int pmax_charges, unsigned int pdef_charges,
+         long pmax_charges, long pdef_charges, std::vector<long> prand_charges,
          unsigned char pcharges_per_use, unsigned char pturns_per_charge,
          ammotype pammo, itype_id prevert_to,
          int (iuse::*puse)(player *, item *, bool))
@@ -618,6 +621,7 @@ struct it_tool : public virtual itype
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   max_charges = pmax_charges;
   def_charges = pdef_charges;
+  rand_charges = prand_charges;
   ammo = pammo;
   charges_per_use = pcharges_per_use;
   turns_per_charge = pturns_per_charge;

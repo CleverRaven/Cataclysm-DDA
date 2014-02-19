@@ -340,8 +340,8 @@ void add_corpse(int x, int y);
  point find_item(const item *it);
  void spawn_artifact(const int x, const int y, itype* type, int bday);
     void spawn_item(const int x, const int y, const std::string &itype_id,
-                    const unsigned quantity=1, const int charges=0,
-                    const unsigned birthday=0, const int damlevel=0);
+                    const unsigned quantity=1, const long charges=0,
+                    const unsigned birthday=0, const int damlevel=0, const bool rand = true);
  int max_volume(const int x, const int y);
  int free_volume(const int x, const int y);
  int stored_volume(const int x, const int y);
@@ -404,13 +404,14 @@ void add_corpse(int x, int y);
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
- void place_vending(int x, int y, bool drinks);
+ void place_vending(int x, int y, std::string type);
  int place_items(items_location loc, const int chance, const int x1, const int y1,
-                  const int x2, const int y2, bool ongrass, const int turn);
+                  const int x2, const int y2, bool ongrass, const int turn, bool rand = true);
 // put_items_from puts exactly num items, based on chances
- void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0, const int quantity = 0, const int charges = 0, const int damlevel = 0);
+ void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0,
+                    const int quantity = 0, const long charges = 0, const int damlevel = 0, const bool rand = true);
  void spawn_an_item(const int x, const int y, item new_item,
-                    const int charges, const int damlevel);
+                    const long charges, const int damlevel);
  void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");

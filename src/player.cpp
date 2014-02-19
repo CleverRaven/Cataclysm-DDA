@@ -5915,15 +5915,15 @@ bool player::has_active_item(const itype_id & id) const
     return inv.has_active_item(id);
 }
 
-int player::active_item_charges(itype_id id)
+long player::active_item_charges(itype_id id)
 {
-    int max = 0;
+    long max = 0;
     if (weapon.type->id == id && weapon.active)
     {
         max = weapon.charges;
     }
 
-    int inv_max = inv.max_active_item_charges(id);
+    long inv_max = inv.max_active_item_charges(id);
     if (inv_max > max)
     {
         max = inv_max;
@@ -6135,7 +6135,7 @@ void player::remove_mission_items(int mission_id)
  inv.remove_mission_items(mission_id);
 }
 
-item player::reduce_charges(int position, int quantity) {
+item player::reduce_charges(int position, long quantity) {
     if (position == -1) {
         if (!weapon.count_by_charges())
         {
@@ -6336,7 +6336,7 @@ std::list<item> player::use_amount(itype_id it, int quantity, bool use_container
  return ret;
 }
 
-bool player::use_charges_if_avail(itype_id it, int quantity)
+bool player::use_charges_if_avail(itype_id it, long quantity)
 {
     if (has_charges(it, quantity))
     {
@@ -6473,7 +6473,7 @@ void player::use_fire(const int quantity)
 }
 
 // does NOT return anything if the item is integrated toolset or fire!
-std::list<item> player::use_charges(itype_id it, int quantity)
+std::list<item> player::use_charges(itype_id it, long quantity)
 {
  std::list<item> ret;
  // the first two cases *probably* don't need to be tracked for now...
@@ -6692,7 +6692,7 @@ int player::amount_of(itype_id it) {
     return quantity;
 }
 
-bool player::has_charges(itype_id it, int quantity)
+bool player::has_charges(itype_id it, long quantity)
 {
     if (it == "fire" || it == "apparatus")
     {
@@ -6701,7 +6701,7 @@ bool player::has_charges(itype_id it, int quantity)
     return (charges_of(it) >= quantity);
 }
 
-int player::charges_of(itype_id it)
+long player::charges_of(itype_id it)
 {
  if (it == "toolset") {
   if (has_bionic("bio_tools"))
@@ -6709,7 +6709,7 @@ int player::charges_of(itype_id it)
   else
    return 0;
  }
- int quantity = 0;
+ long quantity = 0;
  if (weapon.type->id == it || weapon.ammo_type() == it) {
   quantity += weapon.charges;
  }
@@ -8411,36 +8411,37 @@ void player::use_wielded() {
 }
 
 hint_rating player::rate_action_reload(item *it) {
- if (it->is_gun()) {
-  if (it->has_flag("RELOAD_AND_SHOOT") || it->ammo_type() == "NULL") {
-   return HINT_CANT;
-  }
-  if (it->charges == it->clip_size()) {
-   int alternate_magazine = -1;
-   for (int i = 0; i < it->contents.size(); i++)
-   {
-       if ((it->contents[i].is_gunmod() &&
-            (it->contents[i].typeId() == "spare_mag" &&
-             it->contents[i].charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
-           (it->contents[i].has_flag("MODE_AUX") &&
-            it->contents[i].charges < it->contents[i].clip_size()))
-       {
-           alternate_magazine = i;
-       }
-   }
-   if(alternate_magazine == -1) {
-    return HINT_IFFY;
-   }
-  }
-  return HINT_GOOD;
- } else if (it->is_tool()) {
-  it_tool* tool = dynamic_cast<it_tool*>(it->type);
-  if (tool->ammo == "NULL") {
-   return HINT_CANT;
-  }
-  return HINT_GOOD;
- }
- return HINT_CANT;
+    if (it->has_flag("NO_RELOAD")) {
+        return HINT_CANT;
+    }
+    if (it->is_gun()) {
+        if (it->has_flag("RELOAD_AND_SHOOT") || it->ammo_type() == "NULL") {
+            return HINT_CANT;
+        }
+        if (it->charges == it->clip_size()) {
+            int alternate_magazine = -1;
+            for (int i = 0; i < it->contents.size(); i++) {
+                if ((it->contents[i].is_gunmod() &&
+                      (it->contents[i].typeId() == "spare_mag" &&
+                      it->contents[i].charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
+                      (it->contents[i].has_flag("MODE_AUX") &&
+                      it->contents[i].charges < it->contents[i].clip_size())) {
+                    alternate_magazine = i;
+                }
+            }
+            if(alternate_magazine == -1) {
+                return HINT_IFFY;
+            }
+        }
+        return HINT_GOOD;
+    } else if (it->is_tool()) {
+        it_tool* tool = dynamic_cast<it_tool*>(it->type);
+        if (tool->ammo == "NULL") {
+            return HINT_CANT;
+        }
+        return HINT_GOOD;
+    }
+    return HINT_CANT;
 }
 
 hint_rating player::rate_action_unload(item *it) {
@@ -8595,7 +8596,7 @@ void player::use(int pos)
             int charges_used = tool->use.call(this, used, false);
             if ( charges_used >= 1 ) {
                 if( tool->charges_per_use > 0 ) {
-                    used->charges -= std::min(used->charges, charges_used);
+                    used->charges -= std::min(used->charges, long(charges_used));
                 } else {
                     // An item that doesn't normally expend charges is destroyed instead.
                     /* We can't be certain the item is still in the same position,

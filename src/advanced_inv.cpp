@@ -132,10 +132,10 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     if(isinventory) {
         //right align
         int hrightcol = columns -
-            helper::to_string(g->u.convert_weight(g->u.weight_carried())).length() - 3 - //"xxx.y/"
-            helper::to_string(g->u.convert_weight(g->u.weight_capacity())).length() - 3 - //"xxx.y_"
-            helper::to_string(g->u.volume_carried()).length() - 1 - //"xxx/"
-            helper::to_string(g->u.volume_capacity() - 2).length() - 1;//"xxx|"
+            helper::to_string_int(g->u.convert_weight(g->u.weight_carried())).length() - 3 - //"xxx.y/"
+            helper::to_string_int(g->u.convert_weight(g->u.weight_capacity())).length() - 3 - //"xxx.y_"
+            helper::to_string_int(g->u.volume_carried()).length() - 1 - //"xxx/"
+            helper::to_string_int(g->u.volume_capacity() - 2).length() - 1;//"xxx|"
         nc_color color = c_ltgreen;//red color if overload
         if (g->u.weight_carried() > g->u.weight_capacity()) {
             color = c_red;
@@ -912,7 +912,7 @@ void advanced_inventory::display(player *pp)
                 const std::list<item> &stack = u.inv.const_stack(item_pos);
                 const item *it = &stack.front();
 
-                int amount = 1;
+                long amount = 1;
                 int volume = it->precise_unit_volume();
                 bool askamount = false;
                 if ( stack.size() > 1) {
@@ -948,7 +948,7 @@ void advanced_inventory::display(player *pp)
                     }
                     // fixme / todo make popup take numbers only (m = accept, q = cancel)
                     amount = helper::to_int(string_input_popup( popupmsg, 20,
-                             helper::to_string(( amount > max ? max : amount )),
+                             helper::to_string_int(( amount > max ? max : amount )),
                              "", "", -1, true)); //input only digits
                 }
                 recalc = true;
@@ -1048,7 +1048,7 @@ void advanced_inventory::display(player *pp)
                     popup(_("You can't pick up a liquid."));
                     continue;
                 } else {// from veh/map
-                    int trycharges = -1;
+                    long trycharges = -1;
                     if ( destarea == isinventory ) { // if destination is inventory
                         if(squares[destarea].size >= MAX_ITEM_IN_SQUARE) {
                             popup(_("Too many items."));
@@ -1083,7 +1083,7 @@ void advanced_inventory::display(player *pp)
                                 if ( !moveall ) {
                                     amount = helper::to_int(
                                         string_input_popup( popupmsg, 20,
-                                             helper::to_string(
+                                             helper::to_string_int(
                                                  ( amount > max ? max : amount )
                                              ), "", "", -1, true//input only digits
                                         )

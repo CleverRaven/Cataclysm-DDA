@@ -117,6 +117,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         jsonint(j, "str_min_blocked", str_min_blocked );
         jsonint(j, "str_max_blocked", str_max_blocked );
         jsonint(j, "str_min_roll", str_min_roll );
+        jsonint(j, "explosive", explosive );
         jsonint(j, "chance", chance );
         jsonstring(j, "sound", sound );
         jsonstring(j, "sound_fail", sound_fail );
@@ -384,6 +385,7 @@ ter_id t_null,
     // More embellishments than you can shake a stick at.
     t_sandbox, t_slide, t_monkey_bars, t_backboard,
     t_gas_pump, t_gas_pump_smashed,
+    t_atm,
     t_generator_broken,
     t_missile, t_missile_exploded,
     t_radio_tower, t_radio_controls,
@@ -555,6 +557,7 @@ void set_ter_ids() {
     t_backboard=terfind("t_backboard");
     t_gas_pump=terfind("t_gas_pump");
     t_gas_pump_smashed=terfind("t_gas_pump_smashed");
+    t_atm=terfind("t_atm");
     t_generator_broken=terfind("t_generator_broken");
     t_missile=terfind("t_missile");
     t_missile_exploded=terfind("t_missile_exploded");
