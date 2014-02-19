@@ -2079,6 +2079,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
 
         const int iOffsetX = 2;
         const bool bHPR = hasPickupRule(oThisItem.tname());
+        const hint_rating rate_drop_item = u.weapon.has_flag("NO_UNWIELD") ? HINT_CANT : HINT_GOOD;
 
         int max_text_length = 0;
         int length = 0;
@@ -2099,7 +2100,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
         length = utf8_width(_("<T>ake off")); if (length > max_text_length) max_text_length = length;
         vMenu.push_back(iteminfo("MENU", "T", _("<T>ake off"), u.rate_action_takeoff(&oThisItem)));
         length = utf8_width(_("<d>rop")); if (length > max_text_length) max_text_length = length;
-        vMenu.push_back(iteminfo("MENU", "d", _("<d>rop")));
+        vMenu.push_back(iteminfo("MENU", "d", _("<d>rop"), rate_drop_item));
         length = utf8_width(_("<U>nload")); if (length > max_text_length) max_text_length = length;
         vMenu.push_back(iteminfo("MENU", "U", _("<U>nload"), u.rate_action_unload(&oThisItem)));
         length = utf8_width(_("<r>eload")); if (length > max_text_length) max_text_length = length;
@@ -10242,6 +10243,9 @@ void game::drop(int pos)
             // while taking it off
             return;
         }
+    } else if(pos == -1 && u.weapon.has_flag("NO_UNWIELD")) {
+        add_msg(_("You cannot drop your %s."), u.weapon.tname().c_str());
+        return;
     } else {
         dropped.push_back(u.i_rem(pos));
     }
