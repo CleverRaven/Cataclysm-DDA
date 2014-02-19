@@ -84,19 +84,16 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["s_restaurant"] = mapgen_s_restaurant;
     mapgen_cfunction_map["s_restaurant_fast"] = mapgen_s_restaurant_fast;
     mapgen_cfunction_map["s_restaurant_coffee"] = mapgen_s_restaurant_coffee;
-
     mapgen_cfunction_map["shelter"] = &mapgen_shelter;
     mapgen_cfunction_map["shelter_under"] = &mapgen_shelter_under;
     mapgen_cfunction_map["lmoe"] = &mapgen_lmoe;
     mapgen_cfunction_map["lmoe_under"] = &mapgen_lmoe_under;
-
     mapgen_cfunction_map["basement_generic_layout"] = &mapgen_basement_generic_layout; // empty, not bound
     mapgen_cfunction_map["basement_junk"] = &mapgen_basement_junk;
     mapgen_cfunction_map["basement_guns"] = &mapgen_basement_guns;
     mapgen_cfunction_map["basement_survivalist"] = &mapgen_basement_survivalist;
     mapgen_cfunction_map["basement_chemlab"] = &mapgen_basement_chemlab;
     mapgen_cfunction_map["basement_weed"] = &mapgen_basement_weed;
-    mapgen_cfunction_map["bowling_alley"] = mapgen_bowling_alley;
     mapgen_cfunction_map["office_doctor"] = &mapgen_office_doctor;
     mapgen_cfunction_map["sub_station"] = &mapgen_sub_station;
     mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
