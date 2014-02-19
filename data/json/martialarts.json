@@ -48,6 +48,55 @@
         ]
     },{
         "type" : "martial_art",
+        "id" : "style_boxing",
+        "name" : "Boxing",
+        "description" : "Sport of the true Gentleman, Modern boxing has evolved from the prizefights of the victorian era.",
+        "arm_block" : 2,
+           "static_buffs" : [
+            {
+                "id" : "boxing_static",
+                "name" : "Boxing",
+                "description" : "Increase unarmed power on dex/per and reduce block damage through str.",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 2,
+                "max_stacks" : 1,
+                "bash_dex" : 0.1,
+                "bash_per" : 0.15,
+                "block_str" : 0.6
+            }
+        ],
+        "onmove_buffs" : [
+            {
+                "id" : "boxing_move_buff",
+                "name" : "footwork",
+                "description" : "Gain an extra dodge while moving.",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 4,
+                "buff_duration" : 2,
+                "max_stacks" : 2,
+                "dodges_bonus" : 1
+            }
+        ],
+        "ondodge_buffs" : [
+            {
+                "id" : "boxing_counter",
+                "name" : "Counter Chance",
+                "description" : "They're wide open!",
+                "min_unarmed" : 5,
+                "unarmed_allowed" : true,
+                "max_stacks": 2,
+                "buff_duration" : 1,
+                "bash_mult" : 1.25
+            }
+        ],
+        "techniques" : [
+            "tec_boxing_rapid",
+            "tec_boxing_cross",
+            "tec_boxing_upper",
+            "tec_boxing_counter"
+        ]
+    },{
+        "type" : "martial_art",
         "id" : "style_judo",
         "name" : "Judo",
         "description" : "Judo is a martial art that focuses on grabs and throws, both defensive and offensive. It also focuses on recovering from throws; while using judo, you will not lose any turns to being thrown or knocked down.",
