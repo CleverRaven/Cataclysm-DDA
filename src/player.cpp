@@ -8685,6 +8685,11 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
                        gun->tname().c_str());
             return;
         }
+        if (mod->id == "tuned_mechanism" && gun->has_flag("NEVER_JAMS")) {
+            g->add_msg(_("This %s is eminently reliable. You can't improve upon it this way."),
+                       gun->tname().c_str());
+            return;
+        }
         if (guntype->id == "hand_crossbow" && !mod->used_on_pistol) {
           g->add_msg(_("Your %s isn't big enough to use that mod.'"), gun->tname().c_str(),
           used->tname().c_str());

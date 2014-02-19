@@ -835,6 +835,7 @@
       ["grip", 12],
       ["pistol_grip", 12],
       ["adjustable_stock", 12],
+      ["recoil_stock", 12],
       ["pistol_stock", 6],
       ["clip", 8],
       ["spare_mag", 15],
@@ -900,6 +901,9 @@
       ["m_fishspear", 2],
       ["c_fishspear", 2],
       ["diveknife", 6],
+      ["small_repairkit", 12],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["u_shotgun", 5]
     ]
   },{
@@ -2071,6 +2075,7 @@
       ["swim_fins", 20],
       ["diveknife", 12],
       ["mouthpiece", 15],
+      ["small_repairkit", 2],
       ["leathersandals", 15]
     ]
   },{
@@ -2408,6 +2413,7 @@
       ["grip", 12],
       ["pistol_grip", 12],
       ["adjustable_stock", 12],
+      ["recoil_stock", 12],
       ["pistol_stock", 12],
       ["barrel_big", 10],
       ["barrel_small", 6],
@@ -2415,6 +2421,8 @@
       ["barrel_ported", 5],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["clip", 8],
       ["spare_mag", 15],
       ["clip2", 4],
@@ -2466,6 +2474,8 @@
       ["5x50_hull", 8],
       ["waterproof_gunmod", 8],
       ["gun_crossbow", 4],
+      ["small_repairkit", 15],
+      ["large_repairkit", 1],
       ["improve_sights", 20]
     ]
   },{
@@ -3176,6 +3186,8 @@
       ["ak47", 7],
       ["saiga_sawn", 5],
       ["arx160", 1],
+      ["small_repairkit", 2],
+      ["large_repairkit", 1],
       ["hk_g3", 10]
     ]
   },{
@@ -3202,6 +3214,10 @@
       ["sks", 6],
       ["ppsh", 4],
       ["saiga_12", 5],
+      ["small_repairkit", 5],
+      ["large_repairkit", 3],
+      ["tuned_mechanism", 1],
+      ["match_trigger", 2],
       ["RPG", 1]
     ]
   },{
@@ -3845,6 +3861,8 @@
       ["m1911", 5],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["geiger_off", 8],
       ["UPS_off", 5],
       ["tazer", 3],
@@ -5288,6 +5306,7 @@
       ["signal_flare", 25],
       ["survivormap", 1],
       ["gun_crossbow", 1],
+      ["small_repairkit", 8],
       ["charcoal", 5]
     ]
   },{
@@ -5933,6 +5952,7 @@
       ["bipod" , 1],
       ["50bmg" , 3],
       ["50ss" , 2],
+      ["small_repairkit", 10],
       ["50_incendiary" , 2],
       ["water_clean", 90],
       ["knuckle_brass", 15],
@@ -6109,6 +6129,8 @@
       ["halligan", 10],
       ["fire_ax", 5],
       ["antiparasitic", 2],
+      ["tuned_mechanism", 1],
+      ["match_trigger", 2],
       ["bot_laserturret", 1]
     ]
   },{
@@ -6210,6 +6232,7 @@
       ["dump_pouch", 10],
       ["electrohack", 3],
       ["processor", 15],
+      ["large_repairkit", 2],
       ["armor_chitin", 1],
       ["plut_cell", 10],
       ["laser_pack", 10],
@@ -6458,7 +6481,10 @@
       ["gold_watch", 5],
       ["pocketwatch", 2],
       ["gold_dental_grill", 2],
-      ["diamond_dental_grill", 1]
+      ["diamond_dental_grill", 1],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
+      ["pocketwatch", 2]
     ]
 },{
     "type" : "item_group",
@@ -6975,6 +7001,7 @@
       ["fungicide", 10],
       ["antifungal", 1],
       ["throw_extinguisher", 2],
+      ["small_repairkit", 14],
       ["flamethrower_simple", 2]
     ]
   },{
