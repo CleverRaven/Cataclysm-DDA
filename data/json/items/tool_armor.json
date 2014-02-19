@@ -28,7 +28,6 @@
     "warmth" : 5,
     "enviromental_protection" : 0,
     "encumbrance" : 1,
-    "flags" : ["WATERPROOF"],
     "coverage" : 80,
     "material_thickness" : 4
   },
@@ -338,7 +337,6 @@
     "warmth" : 0,
     "enviromental_protection" : 0,
     "encumbrance" : 0,
-    "flags" : ["WATERPROOF"],
     "coverage" : 0,
     "material_thickness" : 2
   },
@@ -371,6 +369,35 @@
     "encumbrance" : 0,
     "coverage" : 0,
     "material_thickness" : 2
+  },
+
+  {
+    "id": "wearable_rx12",
+    "type": "TOOL_ARMOR",
+    "symbol": "[",
+    "color": "blue",
+    "name": "wearable RX12 jet injector",
+    "description": "This is a modified RX12 jet injector which can be worn on the body. A label on the side warns against using more than two doses per hour.",
+    "price": 400,
+    "material": ["ceramic", "superalloy"],
+    "weight" : 364,
+    "volume": 3,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit" : 0,
+    "max_charges": 2,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "ampoule",
+    "revert_to": "null",
+    "use_action": "JET_INJECTOR",
+    "storage" : 0,
+    "warmth" : 0,
+    "enviromental_protection" : 0,
+    "encumbrance" : 0,
+    "coverage" : 0,
+    "material_thickness" : 3
   }
   
 ]

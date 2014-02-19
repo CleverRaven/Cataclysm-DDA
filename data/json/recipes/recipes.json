@@ -12964,6 +12964,32 @@
   ]
 },{
         "type" : "recipe",
+  "result": "wearable_rx12",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "book_learn": [[ "recipe_caseless", 5 ]],
+  "components": [
+    [
+      [ "rx12_injector", 1 ]
+    ],
+    [
+      [ "rag", 2 ],
+      [ "string_6", 6 ],
+      [ "string_36", 1 ],
+      [ "duct_tape", 10 ],
+      [ "medical_tape", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "floodlight",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
