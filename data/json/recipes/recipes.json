@@ -31114,7 +31114,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "difficulty": 0,
-  "time": 120000,
+  "time": 6000,
   "autolearn": true,
   "components": [
     [
