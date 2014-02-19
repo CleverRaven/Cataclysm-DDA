@@ -61,7 +61,9 @@
 #include <tchar.h>
 #endif
 
+#ifndef _MSC_VER
 namespace std { float abs(float a) { return a < 0 ? -a : a; } }
+#endif
 
 #ifdef _MSC_VER
 // MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
