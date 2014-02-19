@@ -333,9 +333,6 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         num_shots--;
     }
 
-    const bool debug_retarget = false;  // this will inevitably be needed
-    //const bool wildly_spraying = false; // stub for now. later, rng based on
-    // stress/skill/etc at the start.
     // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
     int weaponrange = weapon.range();
 
@@ -345,16 +342,6 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         if ( curshot > 0 && (zid == -1 || g->zombie(zid).hp <= 0) ) {
             std::vector<point> new_targets;
             new_targets.clear();
-
-            if ( debug_retarget == true ) {
-                mvprintz( curshot, 5, c_red, "[%d] %s: retarget: mon_at(%d,%d)",
-                          curshot, name.c_str(), tarx, tary );
-                if(zid == -1) {
-                    printz(c_red, " = -1");
-                } else {
-                    printz(c_red, ".hp=%d", g->zombie(zid).hp);
-                }
-            }
 
             for (unsigned long int i = 0; i < g->num_zombies(); i++) {
                 monster &z = g->zombie(i);
@@ -376,28 +363,12 @@ void player::fire_gun(int tarx, int tary, bool burst) {
                 tarx = new_targets[target_picked].x;
                 tary = new_targets[target_picked].y;
                 zid = g->mon_at(tarx, tary);
-
-                /* debug */ if (debug_retarget) printz(c_ltgreen, " NEW:(%d:%d,%d) %d,%d (%s)[%d] hp: %d",
-                    target_picked, new_targets[target_picked].x, new_targets[target_picked].y,
-                    tarx, tary, g->zombie(zid).name().c_str(), zid, g->zombie(zid).hp);
-
-            } else if (
-                (
-                    !has_trait("TRIGGERHAPPY") ||   /* double ta TRIPLE TAP! wait, no... */
-                    one_in(3)                          /* on second though...everyone double-taps at times. */
-                ) && (
-                    skillLevel("gun") >= 7 ||        /* unless trained */
-                    one_in(7 - skillLevel("gun"))    /* ...sometimes */
-                ) ) {
-                return;                               // No targets, so return
-            } else if (debug_retarget) {
-                printz(c_red, " new targets.empty()!");
+            } else if( ( !has_trait("TRIGGERHAPPY") || one_in(3) ) &&
+                       ( skillLevel("gun") >= 7 || one_in(7 - skillLevel("gun")) ) ) {
+                // Triggerhappy has a higher chance of firing repeatedly.
+                // Otherwise it's dominated by how much practice you've had.
+                return;
             }
-        } else if (debug_retarget) {
-            const int zid = g->mon_at(tarx, tary);
-            mvprintz( curshot, 5, c_red, "[%d] %s: target == mon_at(%d,%d)[%d] %s hp %d",
-                     curshot, name.c_str(), tarx ,tary, zid, g->zombie(zid).name().c_str(),
-                     g->zombie(zid).hp );
         }
 
         // Drop a shell casing if appropriate.
