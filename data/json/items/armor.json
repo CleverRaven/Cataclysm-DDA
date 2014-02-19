@@ -1197,17 +1197,17 @@
         "symbol" : "G",
         "description" : "A pair of heavily padded 8-Oz red boxing gloves. They make dexterous tasks near impossible, but provide ample protection.",
         "price" : 100,
-        "material" : ["Leather", "cotton", "null"],
+        "material" : ["Leather", "null"],
         "volume" : 4,
-        "cutting" : 6,
+        "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
-        "enviromental_protection" : 4,
+        "enviromental_protection" : 5,
         "encumbrance" : 5,
-        "bashing" : 15,
+        "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -7583,7 +7583,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "OVERSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT", "OVERSIZE"],
         "coverage" : 50,
         "material_thickness" : 1
     },
