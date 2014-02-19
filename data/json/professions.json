@@ -1409,6 +1409,7 @@
                 "jersey",
                 "pants",
                 "sneakers",
+                "mouthpiece",
                 "puck"
             ],
             "male": [
@@ -1433,6 +1434,7 @@
                 "dress_shirt",
                 "pants",
                 "cleats",
+                "mouthpiece",
                 "baseball"
             ],
             "male": [
@@ -1457,6 +1459,7 @@
                 "helmet_football",
                 "pants",
                 "cleats",
+                "mouthpiece",
                 "football"
             ],
             "male": [
