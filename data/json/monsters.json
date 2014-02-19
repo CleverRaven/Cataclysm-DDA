@@ -1934,7 +1934,7 @@
     "death_function":"NORMAL",
     "special_attack":"BITE",
     "description":"This canines see-through thin, black veined and scab riddled skin, is tightly compressed around its skeletal frame.",
-    "flags":["SEES", "HEARS", "NO_BREATHE", "BLEED", "HARDTOSHOOT", "VIS40", "REVIVES"]
+    "flags":["SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "VIS40", "REVIVES"]
     },{
         "type" : "MONSTER",
         "id" : "mon_dog_zombie_cop",
