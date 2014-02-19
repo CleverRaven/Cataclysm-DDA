@@ -309,8 +309,8 @@ bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
             itype_id type = tool.type;
             int req = tool.count;
             if ( (req <= 0 && crafting_inv.has_amount(type, 1)) ||
-                 (req <= 0 && (type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses"))) ||
-                 (req > 0 && crafting_inv.has_charges(type, req))) {
+                 (req <= 0 && ((type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")) ||
+                 (req > 0 && crafting_inv.has_charges(type, req))))) {
                 has_tool_in_set = true;
                 tool.available = 1;
             } else {
@@ -817,7 +817,7 @@ recipe *game::select_crafting_recipe()
                                 toolcol = c_green;
                             } else if (charges > 0 && crafting_inv.has_charges(type, charges)) {
                                 toolcol = c_green;
-                            } else if ((type == "goggles_welding") && u.has_bionic("bio_sunglasses")) {
+                            } else if ((type == "goggles_welding") && (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on"))) {
                                 toolcol = c_cyan;
                             }
 

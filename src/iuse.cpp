@@ -2511,11 +2511,13 @@ int iuse::rm13armor_off(player *p, item *it, bool)
             debugmsg("no item type to turn it into (%s)!", oname.c_str());
             return 0;
         }
-        g->add_msg_if_player(p,_("RM13 combat armor RivOS v1.7 initiated."));
-        g->add_msg_if_player(p,_("Reactor:                       ONLINE."));
-        g->add_msg_if_player(p,_("Electro-reactive armor system: ONLINE."));
-        g->add_msg_if_player(p,_("CBRN defense system:           ONLINE."));
-        g->add_msg_if_player(p,_("Thermal regulation system:     ONLINE."));
+        g->add_msg_if_player(p,_("You activate your RM13 combat armor."));
+        g->add_msg_if_player(p,_("Rivtech Model 13 RivOS v2.19:   ONLINE."));
+        g->add_msg_if_player(p,_("CBRN defense system:            ONLINE."));
+        g->add_msg_if_player(p,_("Acoustic dampening system:      ONLINE."));
+        g->add_msg_if_player(p,_("Thermal regulation system:      ONLINE."));
+        g->add_msg_if_player(p,_("Vision enhancement system:      ONLINE."));
+        g->add_msg_if_player(p,_("Electro-reactive armor system:  ONLINE."));
         g->add_msg_if_player(p,_("All systems nominal."));
         it->make(item_controller->find_template(oname));
         it->active = true;
@@ -2538,8 +2540,9 @@ int iuse::rm13armor_on(player *p, item *it, bool t)
             debugmsg("no item type to turn it into (%s)!", oname.c_str());
             return 0;
         }
-        g->add_msg_if_player(p,_("Shutdown sequence initiated."), it->tname().c_str());
-        g->add_msg_if_player(p,_("Your RM13 combat armor powers down."));
+        g->add_msg_if_player(p,_("RivOS v2.19 shutdown sequence initiated."));
+        g->add_msg_if_player(p,_("Shutting down."));
+        g->add_msg_if_player(p,_("Your RM13 combat armor turns off."));
         it->make(item_controller->find_template(oname));
         it->active = false;
     }
