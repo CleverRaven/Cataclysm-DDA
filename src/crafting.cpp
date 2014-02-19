@@ -808,7 +808,7 @@ recipe *game::select_crafting_recipe()
                         bool has_one = any_marked_available(current[line]->tools[i]);
                         for (unsigned j = 0; j < current[line]->tools[i].size(); j++) {
                             itype_id type = current[line]->tools[i][j].type;
-                            int charges = current[line]->tools[i][j].count;
+                            long charges = current[line]->tools[i][j].count;
                             nc_color toolcol = has_one ? c_dkgray : c_red;
 
                             if (current[line]->tools[i][j].available == 0) {
@@ -1415,7 +1415,7 @@ void game::complete_craft()
     }
 
     // Set up the new item, and assign an inventory letter if available
-    item newit(item_controller->find_template(making->result), turn, 0);
+    item newit(item_controller->find_template(making->result), turn, 0, false);
 
     if (newit.is_armor() && newit.has_flag("VARSIZE")) {
         newit.item_tags.insert("FIT");
@@ -1631,7 +1631,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
         }
         itype_id type = tools[i].type;
         if (tools[i].count > 0) {
-            int count = tools[i].count;
+            long count = tools[i].count;
             if (p->has_charges(type, count)) {
                 player_has.push_back(tools[i]);
             }

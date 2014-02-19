@@ -1759,6 +1759,26 @@
         "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT"]
     },{
         "type" : "terrain",
+        "id" : "t_atm",
+        "name": "ATM",
+        "symbol": "&",
+        "color": "magenta",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "ALARMED", "REDUCE_SCENT"],
+        "examine_action": "atm",
+        "bash": {
+            "str_min": 15, "str_max": 100, "num_tests": 2,
+            "explosive" : 5,
+            "sound": "Critial failure imminent, self destruct activated. Have a nice day!",
+            "ter_set": "t_floor",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 16, "minamount": 4},
+                { "item": "steel_chunk", "amount": 6, "minamount": 1}
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_generator_broken",
         "name": "broken generator",
         "symbol": "&",

@@ -215,6 +215,23 @@ int JsonObject::get_int(const std::string &name, const int fallback)
     return jsin->get_int();
 }
 
+long JsonObject::get_long(const std::string &name)
+{
+    int pos = verify_position(name);
+    jsin->seek(pos);
+    return jsin->get_long();
+}
+
+long JsonObject::get_long(const std::string &name, const long fallback)
+{
+    long pos = positions[name];
+    if (pos <= start) {
+        return fallback;
+    }
+    jsin->seek(pos);
+    return jsin->get_long();
+}
+
 double JsonObject::get_float(const std::string &name)
 {
     int pos = verify_position(name);
@@ -472,6 +489,13 @@ int JsonArray::next_int()
     return jsin->get_int();
 }
 
+long JsonArray::next_long()
+{
+    verify_index(index);
+    jsin->seek(positions[index++]);
+    return jsin->get_long();
+}
+
 double JsonArray::next_float()
 {
     verify_index(index);
@@ -520,6 +544,13 @@ int JsonArray::get_int(int i)
     verify_index(i);
     jsin->seek(positions[i]);
     return jsin->get_int();
+}
+
+long JsonArray::get_long(int i)
+{
+    verify_index(i);
+    jsin->seek(positions[i]);
+    return jsin->get_long();
 }
 
 double JsonArray::get_float(int i)
@@ -972,6 +1003,13 @@ int JsonIn::get_int()
     return (int)get_float();
 }
 
+long JsonIn::get_long()
+{
+    // get float value and then convert to int,
+    // because "1.359e3" is technically a valid integer.
+    return (long)get_float();
+}
+
 double JsonIn::get_float()
 {
     // this could maybe be prettier?
@@ -1224,6 +1262,24 @@ bool JsonIn::read(unsigned int &u)
         return false;
     }
     u = get_int();
+    return true;
+}
+
+bool JsonIn::read(long &l)
+{
+    if (!test_number()) {
+        return false;
+    }
+    l = get_long();
+    return true;
+}
+
+bool JsonIn::read(unsigned long &ul)
+{
+    if (!test_number()) {
+        return false;
+    }
+    ul = get_long();
     return true;
 }
 
@@ -1552,6 +1608,26 @@ void JsonOut::write(const unsigned &u)
     }
     // format specified in constructor, let's hope it hasn't changed
     *stream << u;
+    need_separator = true;
+}
+
+void JsonOut::write(const long &l)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    // format specified in constructor, let's hope it hasn't changed
+    *stream << l;
+    need_separator = true;
+}
+
+void JsonOut::write(const unsigned long &ul)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    // format specified in constructor, let's hope it hasn't changed
+    *stream << ul;
     need_separator = true;
 }
 

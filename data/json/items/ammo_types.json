@@ -205,6 +205,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "money",
+        "name" : "cents",
+        "default" : "money"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "laser_capacitor",
         "name" : "charge",
         "default" : ""

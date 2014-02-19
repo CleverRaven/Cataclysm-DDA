@@ -535,9 +535,10 @@
         "color": "ltcyan",
         "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["BASHABLE", "SEALED", "DECONSTRUCT", "PLACE_ITEM", "BLOCKSDOOR"],
+        "flags": ["BASHABLE", "SEALED", "DECONSTRUCT", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR"],
+        "examine_action": "vending",
         "bash": {
-            "str_min": 2, "str_max": 20,
+            "str_min": 4, "str_max": 30,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "furn_set": "f_vending_o"
@@ -550,9 +551,9 @@
         "color": "dkgray",
         "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "BLOCKSDOOR"],
+        "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR"],
         "bash": {
-            "str_min": 2, "str_max": 30,
+            "str_min": 5, "str_max": 45,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "items": [

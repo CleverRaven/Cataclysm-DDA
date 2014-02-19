@@ -322,7 +322,7 @@ void computer::activate_function(computer_action action)
                                         item sewage = item(itypes["sewage"], g->turn);
                                         it_container *container = dynamic_cast<it_container *>(it->type);
                                         it_comest    *comest    = dynamic_cast<it_comest *>(sewage.type);
-                                        int maxCharges = container->contains * comest->charges;
+                                        long maxCharges = container->contains * comest->charges;
 
                                         if (it->contents.empty()) {
                                             it->put_in(sewage);

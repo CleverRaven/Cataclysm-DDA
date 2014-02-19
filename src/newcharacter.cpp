@@ -418,7 +418,7 @@ bool player::create(character_type type, std::string tempname)
 
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
-        tmp = item(item_controller->find_template(*iter), 0);
+        tmp = item(item_controller->find_template(*iter), 0, false);
         tmp = tmp.in_its_container(&(itypes));
         if(tmp.is_armor()) {
             if(tmp.has_flag("VARSIZE")) {
@@ -464,7 +464,7 @@ bool player::create(character_type type, std::string tempname)
 
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
-        tmp = item(itypes["inhaler"], 0);
+        tmp = item(itypes["inhaler"], 0, false);
         inv.push_back(tmp);
     }
 
