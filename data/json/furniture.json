@@ -98,7 +98,9 @@
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
-                { "item": "cu_pipe", "amount": 1, "minamount": 0 }
+                { "item": "cu_pipe", "amount": 1, "minamount": 0 },
+                { "item": "water_faucet", "amount": 1, "minamount": 0},
+                { "item": "rock", "amount": 8, "minamount": 2}
             ]
         }
     },{
@@ -174,7 +176,9 @@
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
-                { "item": "cu_pipe", "amount": 1, "minamount": 0 }
+                { "item": "cu_pipe", "amount": 1, "minamount": 0 },
+                { "item": "water_faucet", "amount": 1, "minamount": 0},
+                { "item": "rock", "amount": 18, "minamount": 6}
             ]
         }
     },{
