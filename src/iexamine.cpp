@@ -389,7 +389,7 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
     std::vector<item>& items = m->i_at(examx, examy);
     int waterIndex = -1;
     for (int i = 0; i < items.size(); i++) {
-        if (items[i].typeId() == "water") {
+        if (items[i].typeId() == "water" || items[i].typeId() == "water_clean") {
             waterIndex = i;
             break;
         }
