@@ -1800,6 +1800,10 @@ void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float
         else vset2 += left_w;
         m->place_vending(vset2,top_w-1, type2);
     }
+    //ATM
+    if(rng(0,1)) {
+        m->ter_set(vset - 1, top_w-1, t_atm);
+    }
     //
     m->ter_set(center_w, rng(middle_w + 1, bottom_w - 1), t_door_c);
     m->ter_set(right_w - 1, middle_w, t_door_c);
