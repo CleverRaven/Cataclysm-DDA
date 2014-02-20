@@ -334,6 +334,8 @@
 		<Unit filename="src/monattack.h" />
 		<Unit filename="src/mondeath.cpp" />
 		<Unit filename="src/mondeath.h" />
+		<Unit filename="src/mondefense.cpp" />
+		<Unit filename="src/mondefense.h" />
 		<Unit filename="src/mongroup.h" />
 		<Unit filename="src/mongroupdef.cpp" />
 		<Unit filename="src/monitemsdef.cpp" />
