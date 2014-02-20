@@ -2341,8 +2341,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     if(epower > 0) {
         // store epower surplus in battery
         charge_battery(epower_to_power(epower));
-    }
-    else {
+    } else if(epower < 0) {
         // draw epower deficit from battery
         battery_deficit = discharge_battery(abs(epower_to_power(epower)));
     }
