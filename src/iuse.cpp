@@ -216,37 +216,57 @@ static hp_part body_window(player *p, item *, std::string item_name,
 
     mvwprintz(hp_window, 1, 1, c_ltred, _("Use %s:"), item_name.c_str());
     nc_color color = c_ltgray;
-    if(p->hp_cur[hp_head] < p->hp_max[hp_head] || force) {
+    if(p->hp_cur[hp_head] < p->hp_max[hp_head] ||
+      (p->has_disease("infected", bp_head)) ||
+      (p->has_disease("bite", bp_head)) ||
+      // By rights "bleed" ought to enable itself via HP loss, but...
+      (p->has_disease("bleed", bp_head)) || force ) {
         color = g->limb_color(p, bp_head, -1, bleed, bite, infect);
         if (color != c_ltgray || head_bonus != 0 ) {
             mvwprintz(hp_window, 2, 1, color, _("1: Head"));
         }
     }
-    if(p->hp_cur[hp_torso] < p->hp_max[hp_torso] || force) {
+    if(p->hp_cur[hp_torso] < p->hp_max[hp_torso] ||
+      (p->has_disease("infected", bp_torso)) ||
+      (p->has_disease("bite", bp_torso)) ||
+      (p->has_disease("bleed", bp_torso)) || force) {
         color = g->limb_color(p, bp_torso, -1, bleed, bite, infect);
         if (color != c_ltgray || torso_bonus != 0) {
             mvwprintz(hp_window, 3, 1, color, _("2: Torso"));
         }
     }
-    if(p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l] || force) {
+    int side = -1;
+    if(p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l] ||
+      (p->has_disease("infected", bp_arms, side)) ||
+      (p->has_disease("bite", bp_arms, side)) ||
+      (p->has_disease("bleed", bp_arms, side)) || force) {
         color = g->limb_color(p, bp_arms, 0, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 4, 1, color, _("3: Left Arm"));
         }
     }
-    if(p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r] || force) {
+    if(p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r] ||
+      (p->has_disease("infected", bp_arms)) ||
+      (p->has_disease("bite", bp_arms)) ||
+      (p->has_disease("bleed", bp_arms)) || force) {
         color = g->limb_color(p, bp_arms, 1, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 5, 1, color, _("4: Right Arm"));
         }
     }
-    if(p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l] || force) {
+    if(p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l] ||
+      (p->has_disease("infected", bp_legs)) ||
+      (p->has_disease("bite", bp_legs)) ||
+      (p->has_disease("bleed", bp_legs)) || force) {
         color = g->limb_color(p, bp_legs, 0, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 6, 1, color, _("5: Left Leg"));
         }
     }
-    if(p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r] || force) {
+    if(p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r] ||
+      (p->has_disease("infected", bp_legs)) ||
+      (p->has_disease("bite", bp_legs)) ||
+      (p->has_disease("bleed", bp_legs)) || force) {
         color = g->limb_color(p, bp_legs, 1, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 7, 1, color, _("6: Right Leg"));
