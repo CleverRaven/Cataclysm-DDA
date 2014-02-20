@@ -1035,34 +1035,7 @@ int inventory::amount_of(itype_id it, bool used_as_tool) const
              stack_iter != iter->end();
              ++stack_iter)
         {
-            if (stack_iter->type->id == it)
-            {
-                // check if it's a container, if so, it should be empty
-                if (stack_iter->type->is_container())
-                {
-                    if (stack_iter->contents.empty())
-                    {
-                        if(used_as_tool || !stack_iter->has_flag("PSEUDO")) {
-                            count++;
-                        }
-                    }
-                }
-                else
-                {
-                    if(used_as_tool || !stack_iter->has_flag("PSEUDO")) {
-                        count++;
-                    }
-                }
-            }
-            for (int k = 0; k < stack_iter->contents.size(); k++)
-            {
-                if (stack_iter->contents[k].type->id == it)
-                {
-                    if(used_as_tool || !stack_iter->contents[k].has_flag("PSEUDO")) {
-                        count++;
-                    }
-                }
-            }
+            count += stack_iter->amount_of(it, used_as_tool);
         }
     }
     return count;
