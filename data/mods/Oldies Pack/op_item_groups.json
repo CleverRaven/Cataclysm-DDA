@@ -1,0 +1,86 @@
+[ 
+  {
+    "type" : "item_group",
+    "id" : "rifles",
+    "items" : [
+      ["win70", 6],
+      ["weatherby_5", 6],
+      ["mosin91_30", 3],
+      ["mosin44", 3]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "allguns",
+    "items" : [
+      ["walther_ppk", 4],
+      ["sig_p230", 4],
+      ["win70", 6],
+      ["weatherby_5", 6],
+      ["mosin91_30", 3],
+      ["mosin44", 3]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "mansion_guns",
+    "items" : [
+      ["tokarev", 4],
+      ["ppsh", 4],
+      ["walther_ppk", 4],
+      ["sig_p230", 4],
+      ["weatherby_5", 8],
+      ["rifle_flintlock", 5],
+      ["pistol_flintlock", 9],
+      ["flintlock_ammo", 7],
+      ["mosin44", 5],
+      ["mosin91_30", 5],
+      ["colt_navy", 7],
+      ["colt_army", 7],
+      ["36navy", 6],
+      ["44army", 6]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "lmoe_guns",
+    "guns_with_ammo" : true,
+    "items":[
+      ["ppsh", 5],
+      ["sig_p230", 5],
+      ["walther_ppk", 5],
+      ["win70", 6],
+      ["rifle_flintlock", 4],
+      ["mosin91_30", 5],
+      ["mosin44", 5]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "homeguns",
+    "items" : [
+      ["sig_p230", 5],
+      ["walther_ppk", 5]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "ammo",
+    "items" : [
+      ["32_acp", 6],
+      ["300_winmag", 6],
+      ["762_54R", 4],
+      ["32_casing", 4],
+      ["300_casing", 4],
+      ["762R_casing", 3]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "pawn",
+    "items" : [
+      ["rifle_flintlock", 1],
+      ["pistol_flintlock", 1]
+    ]
+  }
+]
