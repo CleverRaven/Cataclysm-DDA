@@ -239,23 +239,35 @@ item item::in_its_container(std::map<std::string, itype*> *itypes)
         ret.invlet = invlet;
         return ret;
     }
-    if (!is_food() || (dynamic_cast<it_comest*>(type))->container == "null")
+    if (is_food() && (dynamic_cast<it_comest*>(type))->container != "null") {
+        it_comest *food = dynamic_cast<it_comest*>(type);
+        item ret((*itypes)[food->container], bday);
+
+        if (dynamic_cast<it_comest*>(type)->container == "can_food")
+            food->spoils = 0;
+
+        if (made_of(LIQUID))
+        {
+            it_container* container = dynamic_cast<it_container*>(ret.type);
+            charges = container->contains * food->charges;
+        }
+        ret.contents.push_back(*this);
+        ret.invlet = invlet;
+        return ret;
+    } else if (is_ammo() && (dynamic_cast<it_ammo*>(type))->container != "null") {
+        it_ammo *ammo = dynamic_cast<it_ammo*>(type);
+        item ret((*itypes)[ammo->container], bday);
+
+        if (made_of(LIQUID))
+        {
+            it_container* container = dynamic_cast<it_container*>(ret.type);
+            charges = container->contains * ammo->count;
+        }
+        ret.contents.push_back(*this);
+        ret.invlet = invlet;
+        return ret;
+    } else
         return *this;
-
-    it_comest *food = dynamic_cast<it_comest*>(type);
-    item ret((*itypes)[food->container], bday);
-
-    if (dynamic_cast<it_comest*>(type)->container == "can_food")
-        food->spoils = 0;
-
-    if (made_of(LIQUID))
-    {
-        it_container* container = dynamic_cast<it_container*>(ret.type);
-        charges = container->contains * food->charges;
-    }
-    ret.contents.push_back(*this);
-    ret.invlet = invlet;
-    return ret;
 }
 
 bool item::invlet_is_okay()
@@ -652,7 +664,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   if (armor->covers & mfb(bp_feet))
    temp1 << _("The feet. ");
 
-  dump->push_back(iteminfo("ARMOR", temp1.str()));   
+  dump->push_back(iteminfo("ARMOR", temp1.str()));
   dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%", armor->coverage, true, "", false));
   dump->push_back(iteminfo("ARMOR", _("   Warmth: "), "", armor->warmth));
     if (has_flag("FIT"))

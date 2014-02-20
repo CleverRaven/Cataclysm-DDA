@@ -313,6 +313,8 @@ struct it_ammo : public virtual itype
  unsigned int recoil;   // Recoil; modified by strength
  unsigned int count;    // Default charges
 
+ itype_id container; // The container it comes in
+
  std::set<std::string> ammo_effects;
 
  virtual bool is_ammo() { return true; }
@@ -340,9 +342,9 @@ struct it_ammo : public virtual itype
         ammotype ptype, itype_id pcasing,
         unsigned int pdamage, unsigned int ppierce,
         signed int pdispersion, unsigned int precoil, unsigned int prange,
-        unsigned int pcount)
+        unsigned int pcount, itype_id pcontainer)
 :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit), container(pcontainer) {
   type = ptype;
   casing = pcasing;
   damage = pdamage;
