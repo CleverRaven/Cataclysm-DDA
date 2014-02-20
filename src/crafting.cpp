@@ -308,7 +308,7 @@ bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
             component &tool = *tool_it;
             itype_id type = tool.type;
             int req = tool.count;
-            if ( (req <= 0 && crafting_inv.has_amount(type, 1)) ||
+            if ( (req <= 0 && crafting_inv.has_tools(type, 1)) ||
                  (req <= 0 && (type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses"))) ||
                  (req > 0 && crafting_inv.has_charges(type, req))) {
                 has_tool_in_set = true;
@@ -344,7 +344,7 @@ bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
                 } else {
                     comp.available = -1;
                 }
-            } else if (crafting_inv.has_amount(type, abs(req))) {
+            } else if (crafting_inv.has_components(type, abs(req))) {
                 has_comp_in_set = true;
                 comp.available = 1;
             } else {
@@ -398,7 +398,7 @@ bool game::check_enough_materials(recipe *r, const inventory &crafting_inv)
                                     }
                                 } else {
                                     int req = comp.count + 1;
-                                    if (crafting_inv.has_amount(comp.type, req)) {
+                                    if (crafting_inv.has_components(comp.type, req)) {
                                         have_enough = true;
                                     }
                                 }
@@ -463,7 +463,7 @@ bool game::check_enough_materials(recipe *r, const inventory &crafting_inv)
                                 }
                             } else {
                                 int req = comp.count + 1;
-                                if (!crafting_inv.has_amount(comp.type, req)) {
+                                if (!crafting_inv.has_components(comp.type, req)) {
                                     conflict = true;
                                     have_enough = have_enough || false;
                                 }
@@ -813,7 +813,7 @@ recipe *game::select_crafting_recipe()
 
                             if (current[line]->tools[i][j].available == 0) {
                                 toolcol = c_brown;
-                            } else if (charges < 0 && crafting_inv.has_amount(type, 1)) {
+                            } else if (charges < 0 && crafting_inv.has_tools(type, 1)) {
                                 toolcol = c_green;
                             } else if (charges > 0 && crafting_inv.has_charges(type, charges)) {
                                 toolcol = c_green;
@@ -866,7 +866,7 @@ recipe *game::select_crafting_recipe()
                         if (crafting_inv.has_charges(type, count)) {
                             compcol = c_green;
                         }
-                    } else if (crafting_inv.has_amount(type, abs(count))) {
+                    } else if (crafting_inv.has_components(type, abs(count))) {
                         compcol = c_green;
                     }
                     std::stringstream dump;
@@ -1512,7 +1512,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
                 player_has.push_back(components[i]);
                 pl = true;
             }
-            if (map_inv.has_amount(type, count)) {
+            if (map_inv.has_components(type, count)) {
                 map_has.push_back(components[i]);
                 mp = true;
             }
@@ -1638,7 +1638,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
             if (map_inv.has_charges(type, count)) {
                 map_has.push_back(tools[i]);
             }
-        } else if (p->has_amount(type, 1) || map_inv.has_amount(type, 1)) {
+        } else if (p->has_amount(type, 1) || map_inv.has_tools(type, 1)) {
             found_nocharge = true;
         }
     }
@@ -1712,7 +1712,7 @@ void game::disassemble(int pos)
                         itype_id type = cur_recipe->tools[j][k].type;
                         int req = cur_recipe->tools[j][k].count; // -1 => 1
 
-                        if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
+                        if ((req <= 0 && crafting_inv.has_tools (type, 1)) ||
                             // No welding, no goggles needed.
                             (req <= 0 && type == ("goggles_welding")) ||
                             (req <= 0 && (type == ("crucible")) &&
@@ -1726,8 +1726,8 @@ void game::disassemble(int pos)
                         // If crafting recipe required a welder,
                         // disassembly requires a hacksaw or super toolkit.
                         if (type == "welder") {
-                            have_this_tool = (crafting_inv.has_amount("hacksaw", 1) ||
-                                              crafting_inv.has_amount("toolset", 1));
+                            have_this_tool = (crafting_inv.has_tools("hacksaw", 1) ||
+                                              crafting_inv.has_tools("toolset", 1));
                         }
                     }
                     if (!have_this_tool) {

@@ -100,12 +100,16 @@ class inventory
 // Below, "amount" refers to quantity
 //        "charges" refers to charges
   int  amount_of (itype_id it) const;
+  int  amount_of (itype_id it, bool used_as_tool) const;
   long charges_of(itype_id it) const;
 
   std::list<item> use_amount (itype_id it, int quantity, bool use_container = false);
   std::list<item> use_charges(itype_id it, long quantity);
 
   bool has_amount (itype_id it, int quantity) const;
+  bool has_amount (itype_id it, int quantity, bool used_as_tool) const;
+  bool has_tools (itype_id it, int quantity) const;
+  bool has_components (itype_id it, int quantity) const;
   bool has_charges(itype_id it, long quantity) const;
   bool has_flag(std::string flag) const; //Inventory item has flag
   bool has_item(item *it) const; // Looks for a specific item
