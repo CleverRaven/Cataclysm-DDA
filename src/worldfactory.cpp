@@ -486,7 +486,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                 wprintz(w_worlds, c_yellow, " ");
             }
 
-            wprintz(w_worlds, c_white, "%s", (world_pages[selpage])[i].c_str());
+            wprintz(w_worlds, c_white, "%s (%i)", (world_pages[selpage])[i].c_str(),
+                    world_generator->all_worlds[((world_pages[selpage])[i])]->world_saves.size());
         }
 
         //Draw Tabs
@@ -960,10 +961,11 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 break;
             case 's':
             case 'S':
-                mman->set_default_mods(active_mod_order);
-                popup("Saved list of active mods as default");
-                draw_modselection_borders(win);
-                redraw_headers = true;
+                if(mman->set_default_mods(active_mod_order)) {
+                    popup("Saved list of active mods as default");
+                    draw_modselection_borders(win);
+                    redraw_headers = true;
+                }
                 break;
             case '?':{
                 popup(_("\

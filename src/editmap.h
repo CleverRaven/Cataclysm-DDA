@@ -108,8 +108,8 @@ class editmap
         bool uberdraw;
         std::map<oter_id, int> oter_special;
         editmap() {
-            width = TERMX - TERRAIN_WINDOW_WIDTH;
-            height = TERMY - TERRAIN_WINDOW_HEIGHT;
+            width = TERMX - TERRAIN_WINDOW_TERM_WIDTH;
+            height = TERMY;
             infoHeight = 0;
             sel_ter = -1;
             target_ter = -1;

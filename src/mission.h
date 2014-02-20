@@ -171,7 +171,7 @@ public:
     mission_type *type;
     std::string description;// Basic descriptive text
     bool failed;            // True if we've failed it!
-    int value;              // Cash/Favor value of completing this
+    unsigned long value;    // Cash/Favor value of completing this
     npc_favor reward;       // If there's a special reward for completing it
     int uid;                // Unique ID number, used for referencing elsewhere
     // Marked on the player's map. (INT_MIN, INT_MIN) for none,

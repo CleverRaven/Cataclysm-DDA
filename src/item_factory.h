@@ -64,17 +64,18 @@ public:
     bool group_contains_item(Item_tag group_tag, Item_tag item);
 
     //Production methods
-    item create(Item_tag id, int created_at);
-    Item_list create(Item_tag id, int created_at, int quantity);
-    item create_from(Item_tag group, int created_at);
-    Item_list create_from(Item_tag group, int created_at, int quantity);
-    item create_random(int created_at);
-    Item_list create_random(int created_at, int quantity);
+    item create(Item_tag id, int created_at, bool rand = true);
+    Item_list create(Item_tag id, int created_at, int quantity, bool rand = true);
+    item create_from(Item_tag group, int created_at, bool rand = true);
+    Item_list create_from(Item_tag group, int created_at, int quantity, bool rand = true);
+    item create_random(int created_at, bool rand = true);
+    Item_list create_random(int created_at, int quantity, bool rand = true);
 
     void load_ammo      (JsonObject &jo);
     void load_gun       (JsonObject &jo);
     void load_armor     (JsonObject &jo);
     void load_tool      (JsonObject &jo);
+    void load_tool_armor(JsonObject &jo);
     void load_book      (JsonObject &jo);
     void load_comestible(JsonObject &jo);
     void load_container (JsonObject &jo);

@@ -94,6 +94,8 @@ void print_inv_statics(WINDOW *w_inv, std::string title,
 {
     // Print our header
     mvwprintw(w_inv, 0, 0, title.c_str());
+    if(title.compare("Multidrop:") == 0)
+        mvwprintw(w_inv, 1, 0, "To drop x items, type a number and then the item hotkey.");
 
     print_inv_weight_vol(w_inv, g->u.weight_carried(), g->u.volume_carried(),
                          calc_volume_capacity(dropped_items));
@@ -127,10 +129,10 @@ void print_inv_statics(WINDOW *w_inv, std::string title,
         }
         if (dropped_armor)
             mvwprintz(w_inv, 6 + i, 45, c_white, "%c + %s", g->u.worn[i].invlet,
-                      g->u.worn[i].tname().c_str());
+                      g->u.worn[i].display_name().c_str());
         else
-            mvwprintz(w_inv, 6 + i, 45, c_ltgray, "%c - %s", g->u.worn[i].invlet,
-                      g->u.worn[i].tname().c_str());
+            mvwprintz(w_inv, 6 + i, 45, g->u.worn[i].color_in_inventory(), "%c - %s", g->u.worn[i].invlet,
+                      g->u.worn[i].display_name().c_str());
     }
 
     // Print items carried
@@ -329,7 +331,6 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
              ch == KEY_UP || ch == KEY_DOWN );
     werase(w_inv);
     delwin(w_inv);
-    erase();
     refresh_all();
     if (ch == '\n') {  // user hit enter (or equivalent).
         return selected_pos;
@@ -484,7 +485,7 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
                         dropping_w = true;
                         dropping_a = true;
                         mvwprintw(w_inv, drp_line, 90, "%s", drp_line_padding.c_str());
-                        mvwprintz(w_inv, drp_line, 90, c_cyan, "%c + %s", u.worn[k].invlet, u.worn[k].tname().c_str());
+                        mvwprintz(w_inv, drp_line, 90, c_cyan, "%c + %s", u.worn[k].invlet, u.worn[k].display_name().c_str());
                         drp_line++;
                     }
                 }
@@ -746,7 +747,6 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
     } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
     werase(w_inv);
     delwin(w_inv);
-    erase();
     refresh_all();
 
     std::vector<item> ret;
@@ -1036,6 +1036,5 @@ void game::compare(int iCompareX, int iCompareY)
     } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
     werase(w_inv);
     delwin(w_inv);
-    erase();
     refresh_all();
 }

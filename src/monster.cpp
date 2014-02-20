@@ -28,6 +28,7 @@ monster::monster()
  hp = 60;
  moves = 0;
  sp_timeout = 0;
+ def_chance = 0;
  spawnmapx = -1;
  spawnmapy = -1;
  spawnposx = -1;
@@ -60,6 +61,7 @@ monster::monster(mtype *t)
  Creature::set_speed_base(speed);
  hp = type->hp;
  sp_timeout = rng(0, type->sp_freq);
+ def_chance = type->def_chance;
  spawnmapx = -1;
  spawnmapy = -1;
  spawnposx = -1;
@@ -91,6 +93,7 @@ monster::monster(mtype *t, int x, int y)
  Creature::set_speed_base(speed);
  hp = type->hp;
  sp_timeout = type->sp_freq;
+ def_chance = type->def_chance;
  spawnmapx = -1;
  spawnmapy = -1;
  spawnposx = -1;
@@ -145,6 +148,7 @@ void monster::poly(mtype *t)
  morale = type->morale;
  hp = int(hp_percentage * type->hp);
  sp_timeout = type->sp_freq;
+ def_chance = type->def_chance;
 }
 
 void monster::spawn(int x, int y)
@@ -178,6 +182,8 @@ std::string monster::name_with_armor()
          ret = string_format(_("%s's thick hide"), type->name.c_str());
      } else if (type->mat == "iron" || type->mat == "steel") {
          ret = string_format(_("%s's armor plating"), type->name.c_str());
+     } else if (type->mat == "protoplasmic") {
+         ret = string_format(_("%s's hard protoplasmic hide"), type->name.c_str());
      }
  }
  return ret;
@@ -877,19 +883,13 @@ void monster::hit_monster(int i)
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll, bool crit,
-                               const damage_instance& d, dealt_damage_instance &dealt_dam) {
-    if (has_flag(MF_ELECTRIC)) { // shockers electrocute melee attackers
-        if (source != NULL && source->is_player() &&
-                !g->u.wearing_something_on(bp_hands) &&
-                (g->u.weapon.conductive() || g->u.unarmed_attack())
-                ) {
-            damage_instance shock;
-            shock.add_damage(DT_ELECTRIC, rng(0,1));
-            source->deal_damage(this, bp_arms, 1, shock);
-            g->add_msg_if_player(source, _("Contact with %s shocks you!"),
-                    disp_name().c_str());
+                               const damage_instance& d, dealt_damage_instance &dealt_dam)
+{
+    mdefense mdf;
+    if(!is_hallucination() && source != NULL)
+        {
+        (mdf.*type->sp_defense)(this);
         }
-    }
     return Creature::deal_melee_attack(source, hitroll, crit, d, dealt_dam);
 }
 
@@ -908,6 +908,11 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
     if (missed_by < 0.2 && has_flag(MF_NOHEAD)) {
         missed_by = 0.2;
     }
+    mdefense mdf;
+     if(!is_hallucination() && source != NULL)
+        {
+        (mdf.*type->sp_defense)(this);
+        }
     return Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
 }
 
@@ -1074,7 +1079,13 @@ void monster::die()
    md.disappear(this);
    return;
  } else {
-   (md.*type->dies)(this);
+   //Not a hallucination, go process the death effects.
+   std::vector<void (mdeath::*)(monster *)> deathfunctions = type->dies;
+   void (mdeath::*func)(monster *);
+   for (int i = 0; i < deathfunctions.size(); i++) {
+     func = deathfunctions.at(i);
+     (md.*func)(this);
+   }//(md.*type->dies)(this);
  }
 // If our species fears seeing one of our own die, process that
  int anger_adjust = 0, morale_adjust = 0;
@@ -1219,9 +1230,10 @@ bool monster::is_hallucination()
 }
 
 field_id monster::monBloodType() {
-    if (has_flag(MF_ACID_BLOOD) || (type->dies == &mdeath::acid))
-        return fd_acid; //ACID_BLOOD flag is kind of redundant now, but maybe some other monster can use it
-    if (type->dies == &mdeath::boomer)
+    if (has_flag(MF_ACID_BLOOD))
+        //A monster that has the death effect "ACID" does not need to have acid blood.
+        return fd_acid;
+    if (has_flag(MF_BILE_BLOOD))
         return fd_bile;
     if (has_flag(MF_LARVA) || has_flag(MF_ARTHROPOD_BLOOD))
         return fd_blood_invertebrate;
@@ -1232,6 +1244,7 @@ field_id monster::monBloodType() {
     if (has_flag(MF_WARM))
         return fd_blood;
     return fd_null; //Please update the corpse blood type code at activity_on_turn_pulp() in game.cpp when modifying these rules!
+                    //And splatter() in ranged.cpp
 }
 field_id monster::monGibType() {
     if (has_flag(MF_LARVA) || type->in_species("MOLLUSK"))

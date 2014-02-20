@@ -1,0 +1,108 @@
+[
+{
+    "type" : "item_group",
+    "id" : "pawn",
+    "items":[
+      ["cestus", 1],
+      ["battleaxe", 20],
+      ["warhammer", 10],
+      ["morningstar", 10],
+      ["helmet_plate", 1],
+      ["huge_crossbow", 2],
+      ["katana", 2],
+      ["broadsword", 30],
+      ["zweihander", 20],
+      ["rapier", 3],
+      ["wakizashi", 5],
+      ["tanto", 7],
+      ["armor_lightplate", 1],
+      ["armor_samurai", 1],
+      ["helmet_kabuto", 1],
+      ["gloves_plate", 1],
+      ["boots_plate", 1],
+      ["helmet_barbute", 1]
+          ]
+  },{
+    "type" : "item_group",
+    "id" : "weapons",
+    "items":[
+      ["tanto", 7],
+      ["wakizashi", 3],
+      ["nodachi", 1],
+      ["katana", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "medieval",
+    "items":[
+      ["katana", 2],
+      ["cestus", 2],
+      ["mace", 20],
+      ["morningstar", 10],
+      ["rapier", 3],
+      ["broadsword", 30],
+      ["zweihander", 20],
+      ["battleaxe", 20],
+      ["warhammer", 10],
+      ["pike", 5],
+      ["helmet_plate", 1],
+      ["armor_plate", 2],
+      ["huge_crossbow", 2],
+      ["quiver", 2],
+      ["quiver_large", 1],
+      ["nodachi", 1],
+      ["armor_lightplate", 1],
+      ["armor_samurai", 1],
+      ["helmet_kabuto", 1],
+      ["gloves_plate", 1],
+      ["boots_plate", 1],
+      ["helmet_barbute", 1],
+      ["textbook_weapwest", 5],
+      ["textbook_weapeast", 5],
+      ["textbook_armwest", 5],
+      ["textbook_armeast", 5],
+      ["q_staff", 10],
+      ["i_staff", 5],
+      ["sword_bayonet", 10],
+      ["bagh_nakha", 5],
+      ["apron_leather", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "art",
+    "items":[
+      ["nodachi", 1],
+      ["katana", 2],
+      ["rapier", 3]
+    ]
+},{
+    "type" : "item_group",
+    "id" : "drugdealer",
+    "items":[
+      ["wakizashi", 1],
+      ["tanto", 4],
+      ["katana", 1]
+
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_hacker",
+    "items":[
+      ["textbook_weapwest", 2],
+      ["textbook_weapeast", 2],
+      ["textbook_armwest", 2],
+      ["textbook_armeast", 2]
+
+    ]
+
+  },{
+    "type" : "item_group",
+    "id" : "textbooks",
+    "items":[
+      ["textbook_weapwest", 3],
+      ["textbook_weapeast", 3],
+      ["textbook_armwest", 3],
+      ["textbook_armeast", 3]
+    ]
+}
+]

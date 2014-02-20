@@ -358,9 +358,11 @@ void Item_factory::init(){
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;
     iuse_function_list["DOLLCHAT"] = &iuse::talking_doll;
     iuse_function_list["BELL"] = &iuse::bell;
+    iuse_function_list["SEED"] = &iuse::seed;
     iuse_function_list["OXYGEN_BOTTLE"] = &iuse::oxygen_bottle;
     iuse_function_list["ATOMIC_BATTERY"] = &iuse::atomic_battery;
     iuse_function_list["FISHING_BASIC"]  = &iuse::fishing_rod_basic;
+    iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS
@@ -583,31 +585,31 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag, bool & with_ammo 
     }
 }
 
-item Item_factory::create(Item_tag id, int created_at){
-    return item(find_template(id), created_at);
+item Item_factory::create(Item_tag id, int created_at, bool rand){
+    return item(find_template(id), created_at, rand);
 }
-Item_list Item_factory::create(Item_tag id, int created_at, int quantity){
+Item_list Item_factory::create(Item_tag id, int created_at, int quantity, bool rand){
     Item_list new_items;
-    item new_item_base = create(id, created_at);
+    item new_item_base = create(id, created_at, rand);
     for(int ii=0;ii<quantity;++ii){
-        new_items.push_back(new_item_base.clone());
+        new_items.push_back(new_item_base.clone(rand));
     }
     return new_items;
 }
-item Item_factory::create_from(Item_tag group, int created_at){
-    return create(id_from(group), created_at);
+item Item_factory::create_from(Item_tag group, int created_at, bool rand){
+    return create(id_from(group), created_at, rand);
 }
-Item_list Item_factory::create_from(Item_tag group, int created_at, int quantity){
-    return create(id_from(group), created_at, quantity);
+Item_list Item_factory::create_from(Item_tag group, int created_at, int quantity, bool rand){
+    return create(id_from(group), created_at, quantity, rand);
 }
-item Item_factory::create_random(int created_at){
-    return create(random_id(), created_at);
+item Item_factory::create_random(int created_at, bool rand){
+    return create(random_id(), created_at, rand);
 }
-Item_list Item_factory::create_random(int created_at, int quantity){
+Item_list Item_factory::create_random(int created_at, int quantity, bool rand){
     Item_list new_items;
     item new_item_base = create(random_id(), created_at);
     for(int ii=0;ii<quantity;++ii){
-        new_items.push_back(new_item_base.clone());
+        new_items.push_back(new_item_base.clone(rand));
     }
     return new_items;
 }
@@ -638,6 +640,7 @@ void Item_factory::load_ammo(JsonObject& jo)
     ammo_template->count = jo.get_int("count");
     ammo_template->stack_size = jo.get_int("stack_size", ammo_template->count);
     ammo_template->ammo_effects = jo.get_tags("effects");
+    ammo_template->container = jo.get_string("container", "null");
 
     itype *new_item_template = ammo_template;
     load_basic_info(jo, new_item_template);
@@ -693,14 +696,50 @@ void Item_factory::load_tool(JsonObject& jo)
 {
     it_tool* tool_template = new it_tool();
     tool_template->ammo = jo.get_string("ammo");
-    tool_template->max_charges = jo.get_int("max_charges");
-    tool_template->def_charges = jo.get_int("initial_charges");
+    tool_template->max_charges = jo.get_long("max_charges");
+    tool_template->def_charges = jo.get_long("initial_charges");
+
+    if (jo.has_array("rand_charges")) {
+        JsonArray jarr = jo.get_array("rand_charges");
+        while (jarr.has_more()){
+            tool_template->rand_charges.push_back(jarr.next_long());
+        }
+    } else {
+        tool_template->rand_charges.push_back(tool_template->def_charges);
+    }
+
     tool_template->charges_per_use = jo.get_int("charges_per_use");
     tool_template->turns_per_charge = jo.get_int("turns_per_charge");
     tool_template->revert_to = jo.get_string("revert_to");
 
     itype *new_item_template = tool_template;
     load_basic_info(jo, new_item_template);
+}
+
+void Item_factory::load_tool_armor(JsonObject& jo)
+{
+    it_tool_armor* tool_armor_template = new it_tool_armor();
+
+    it_tool *tool_template = tool_armor_template;
+    tool_template->ammo = jo.get_string("ammo");
+    tool_template->max_charges = jo.get_int("max_charges");
+    tool_template->def_charges = jo.get_int("initial_charges");
+    tool_template->charges_per_use = jo.get_int("charges_per_use");
+    tool_template->turns_per_charge = jo.get_int("turns_per_charge");
+    tool_template->revert_to = jo.get_string("revert_to");
+
+    it_armor* armor_template = tool_armor_template;
+    armor_template->encumber = jo.get_int("encumbrance");
+    armor_template->coverage = jo.get_int("coverage");
+    armor_template->thickness = jo.get_int("material_thickness");
+    armor_template->env_resist = jo.get_int("enviromental_protection");
+    armor_template->warmth = jo.get_int("warmth");
+    armor_template->storage = jo.get_int("storage");
+    armor_template->power_armor = jo.get_bool("power_armor", false);
+    armor_template->covers = jo.has_member("covers") ?
+        flags_from_json(jo, "covers", "bodyparts") : 0;
+
+    load_basic_info(jo, tool_armor_template);
 }
 
 void Item_factory::load_book(JsonObject& jo)
@@ -730,9 +769,9 @@ void Item_factory::load_comestible(JsonObject& jo)
     comest_template->nutr = jo.get_int("nutrition", 0);
     comest_template->spoils = jo.get_int("spoils_in", 0);
     comest_template->addict = jo.get_int("addiction_potential", 0);
-    comest_template->charges = jo.get_int("charges", 0);
+    comest_template->charges = jo.get_long("charges", 0);
     if(jo.has_member("stack_size")) {
-      comest_template->stack_size = jo.get_int("stack_size");
+      comest_template->stack_size = jo.get_long("stack_size");
     } else {
       comest_template->stack_size = comest_template->charges;
     }
@@ -740,6 +779,15 @@ void Item_factory::load_comestible(JsonObject& jo)
     comest_template->healthy = jo.get_int("heal", 0);
     comest_template->fun = jo.get_int("fun", 0);
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
+
+    if (jo.has_array("rand_charges")) {
+        JsonArray jarr = jo.get_array("rand_charges");
+        while (jarr.has_more()){
+            comest_template->rand_charges.push_back(jarr.next_long());
+        }
+    } else {
+        comest_template->rand_charges.push_back(comest_template->charges);
+    }
 
     itype *new_item_template = comest_template;
     load_basic_info(jo, new_item_template);

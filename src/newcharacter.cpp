@@ -428,7 +428,7 @@ bool player::create(character_type type, std::string tempname)
 
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
-        tmp = item(item_controller->find_template(*iter), 0);
+        tmp = item(item_controller->find_template(*iter), 0, false);
         tmp = tmp.in_its_container(&(itypes));
         if(tmp.is_armor()) {
             if(tmp.has_flag("VARSIZE")) {
@@ -474,7 +474,7 @@ bool player::create(character_type type, std::string tempname)
 
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
-        tmp = item(itypes["inhaler"], 0);
+        tmp = item(itypes["inhaler"], 0, false);
         inv.push_back(tmp);
     }
 
@@ -919,10 +919,11 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
             case ' ':
             case '\n':
             case '5': {
-				int inc_type = 0;
+                int inc_type = 0;
                 std::string cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
                 if (u->has_trait(cur_trait)) {
-					inc_type = -1;
+
+                    inc_type = -1;
 
                     // If turning off the trait violates a profession condition,
                     // turn it back on.
@@ -959,17 +960,16 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                     }
                 }
 
-				//inc_type is either -1 or 1, so we can just multiply by it to invert
-				if(inc_type != 0) {
-					u->toggle_trait(cur_trait);
-					points -= traits[cur_trait].points * inc_type;
-					if (iCurWorkingPage == 0) {
-						num_good += traits[cur_trait].points * inc_type;
-					} else {
-						num_bad += traits[cur_trait].points * inc_type;
-					}
-				}
-
+                //inc_type is either -1 or 1, so we can just multiply by it to invert
+                if(inc_type != 0) {
+                    u->toggle_trait(cur_trait);
+                    points -= traits[cur_trait].points * inc_type;
+                    if (iCurWorkingPage == 0) {
+                        num_good += traits[cur_trait].points * inc_type;
+                    } else {
+                        num_bad += traits[cur_trait].points * inc_type;
+                    }
+                }
                 break;
             }
             case '<':
@@ -1615,9 +1615,13 @@ void save_template(player *u)
     if (name.length() == 0) {
         return;
     }
-    std::stringstream playerfile;
-    playerfile << FILENAMES["templatedir"] << name << ".template";
+    std::string playerfile = FILENAMES["templatedir"] + name + ".template";
+
     std::ofstream fout;
-    fout.open(playerfile.str().c_str());
+    fout.open(playerfile.c_str());
     fout << u->save_info();
+    fout.close();
+    if (fout.fail()) {
+        popup(_("Failed to write template to %s"), playerfile.c_str());
+    }
 }

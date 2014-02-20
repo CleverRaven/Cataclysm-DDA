@@ -36,7 +36,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 13;
+const int savegame_version = 14;
 const int savegame_minver_game = 11;
 //const int savegame_minver_map = 11;
 const int savegame_minver_overmap = 12;
@@ -470,9 +470,9 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                 std::stringstream derp;
                 derp << tmpstr;
                 JsonIn jsin(derp);
-                try {            
+                try {
                     JsonObject data = jsin.get_object();
-                    
+
                     if ( data.read("region_id",tmpstr) ) { // temporary, until option DEFAULT_REGION becomes start_scenario.region_id
                         if ( settings.id != tmpstr ) {
                             std::map<std::string, regional_settings>::const_iterator rit = region_settings_map.find( tmpstr );
@@ -552,7 +552,7 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
     }
 }
 
-
+// Note: this may throw io errors from std::ofstream
 void overmap::save()
 {
     if (layer == NULL) {
@@ -561,6 +561,7 @@ void overmap::save()
     }
 
     std::ofstream fout;
+    fout.exceptions(std::ios::badbit | std::ios::failbit);
     std::string const plrfilename = player_filename(loc.x, loc.y);
     std::string const terfilename = terrain_filename(loc.x, loc.y);
 

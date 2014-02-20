@@ -17,6 +17,11 @@ void damage_instance::add_damage(damage_type dt, float a, int rp, float rm)
     damage_unit du(dt, a, rp, rm);
     damage_units.push_back(du);
 }
+void damage_instance::add_effect( std::string effect )
+{
+    effects.insert( effect );
+}
+
 void damage_instance::mult_damage(double multiplier)
 {
     for (std::vector<damage_unit>::iterator it = damage_units.begin();

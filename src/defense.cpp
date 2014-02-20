@@ -35,7 +35,7 @@ int caravan_price(player &u, int price);
 
 void draw_caravan_borders(WINDOW *w, int current_window);
 void draw_caravan_categories(WINDOW *w, int category_selected, int total_price,
-                             int cash);
+                             unsigned long cash);
 void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
                         std::vector<int> *counts, int offset,
                         int item_selected);
@@ -408,9 +408,9 @@ void defense_game::init_to_style(defense_style new_style)
         wave_difficulty = 10;
         time_between_waves = 30;
         waves_between_caravans = 3;
-        initial_cash = 10000;
-        cash_per_wave = 1000;
-        cash_increase = 300;
+        initial_cash = 1000000;
+        cash_per_wave = 100000;
+        cash_increase = 30000;
         specials = true;
         spiders = true;
         triffids = true;
@@ -423,9 +423,9 @@ void defense_game::init_to_style(defense_style new_style)
         wave_difficulty = 15;
         time_between_waves = 20;
         waves_between_caravans = 4;
-        initial_cash = 6000;
-        cash_per_wave = 800;
-        cash_increase = 200;
+        initial_cash = 600000;
+        cash_per_wave = 80000;
+        cash_increase = 20000;
         specials = true;
         spiders = true;
         triffids = true;
@@ -440,9 +440,9 @@ void defense_game::init_to_style(defense_style new_style)
         wave_difficulty = 20;
         time_between_waves = 10;
         waves_between_caravans = 5;
-        initial_cash = 2000;
-        cash_per_wave = 600;
-        cash_increase = 100;
+        initial_cash = 200000;
+        cash_per_wave = 60000;
+        cash_increase = 10000;
         specials = true;
         spiders = true;
         triffids = true;
@@ -460,9 +460,9 @@ void defense_game::init_to_style(defense_style new_style)
         wave_difficulty = 15;
         time_between_waves = 5;
         waves_between_caravans = 6;
-        initial_cash = 5000;
-        cash_per_wave = 500;
-        cash_increase = 100;
+        initial_cash = 500000;
+        cash_per_wave = 50000;
+        cash_increase = 10000;
         zombies = true;
         break;
 
@@ -472,8 +472,8 @@ void defense_game::init_to_style(defense_style new_style)
         wave_difficulty = 20;
         time_between_waves = 30;
         waves_between_caravans = 4;
-        initial_cash = 8000;
-        cash_per_wave = 500;
+        initial_cash = 800000;
+        cash_per_wave = 50000;
         cash_increase = 0;
         zombies = true;
         hunger = true;
@@ -487,9 +487,9 @@ void defense_game::init_to_style(defense_style new_style)
         wave_difficulty = 10;
         time_between_waves = 10;
         waves_between_caravans = 4;
-        initial_cash = 6000;
-        cash_per_wave = 500;
-        cash_increase = 100;
+        initial_cash = 600000;
+        cash_per_wave = 50000;
+        cash_increase = 10000;
         spiders = true;
         break;
 
@@ -499,9 +499,9 @@ void defense_game::init_to_style(defense_style new_style)
         wave_difficulty = 20;
         time_between_waves = 30;
         waves_between_caravans = 2;
-        initial_cash = 10000;
-        cash_per_wave = 600;
-        cash_increase = 100;
+        initial_cash = 1000000;
+        cash_per_wave = 60000;
+        cash_increase = 10000;
         triffids = true;
         hunger = true;
         thirst = true;
@@ -515,9 +515,9 @@ void defense_game::init_to_style(defense_style new_style)
         wave_difficulty = 20;
         time_between_waves = 20;
         waves_between_caravans = 6;
-        initial_cash = 12000;
-        cash_per_wave = 1000;
-        cash_increase = 200;
+        initial_cash = 1200000;
+        cash_per_wave = 100000;
+        cash_increase = 20000;
         robots = true;
         hunger = true;
         thirst = true;
@@ -530,9 +530,9 @@ void defense_game::init_to_style(defense_style new_style)
         wave_difficulty = 20;
         time_between_waves = 120;
         waves_between_caravans = 8;
-        initial_cash = 4000;
-        cash_per_wave = 1000;
-        cash_increase = 100;
+        initial_cash = 400000;
+        cash_per_wave = 100000;
+        cash_increase = 10000;
         subspace = true;
         hunger = true;
         thirst = true;
@@ -1309,7 +1309,7 @@ void draw_caravan_borders(WINDOW *w, int current_window)
 }
 
 void draw_caravan_categories(WINDOW *w, int category_selected, int total_price,
-                             int cash)
+                             unsigned long cash)
 {
     // Clear the window
     for (int i = 1; i <= 10; i++) {

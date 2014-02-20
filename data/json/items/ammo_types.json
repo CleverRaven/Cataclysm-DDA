@@ -7,14 +7,14 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "700nx",
-        "name" : ".700 Nitro Express",
+        "id" : "generic_no_ammo",
+        "name" : "none",
         "default" : ""
     },
     {
         "type" : "ammunition_type",
-        "id" : "ammo_flintlock",
-        "name" : "paper cartridge",
+        "id" : "700nx",
+        "name" : ".700 Nitro Express",
         "default" : ""
     },
     {
@@ -70,12 +70,6 @@
         "id" : "9mm",
         "name" : "9mm",
         "default" : "9mm"
-    },
-    {
-        "type" : "ammunition_type",
-        "id" : "762x25",
-        "name" : "7.62x25mm",
-        "default" : "762_25"
     },
     {
         "type" : "ammunition_type",
@@ -196,6 +190,12 @@
         "id" : "battery",
         "name" : "batteries",
         "default" : "battery"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "money",
+        "name" : "cents",
+        "default" : "money"
     },
     {
         "type" : "ammunition_type",

@@ -66,6 +66,7 @@ automatically_convertible = {
     "terrain",
     "tool_quality",
     "TOOL",
+    "TOOL_ARMOR",
     "trap",
     "tutorial_messages",
     "VAR_VEH_PART",

@@ -623,7 +623,7 @@ std::string auto_pickup_header(bool bCharacter)
 \n\n";
 }
 
-void save_auto_pickup(bool bCharacter)
+bool save_auto_pickup(bool bCharacter)
 {
     std::ofstream fout;
     std::string sFile = FILENAMES["autopickup"];
@@ -634,16 +634,14 @@ void save_auto_pickup(bool bCharacter)
 
         fin.open((world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".sav").c_str());
         if(!fin.is_open()) {
-            return;
+            return true;
         }
         fin.close();
     }
 
+    fout.exceptions(std::ios::badbit | std::ios::failbit);
+    try {
     fout.open(sFile.c_str());
-
-    if(!fout.is_open()) {
-        return;
-    }
 
     fout << auto_pickup_header(bCharacter) << std::endl;
     for (unsigned i = 0; i < vAutoPickupRules[(bCharacter) ? 2 : 1].size(); i++) {
@@ -656,6 +654,12 @@ void save_auto_pickup(bool bCharacter)
     if (!bCharacter) {
         merge_vector();
         createPickupRules();
+    }
+    fout.close();
+        return true;
+    } catch(std::ios::failure &) {
+        popup(_("Failed to write autopickup rules to %s"), sFile.c_str());
+        return false;
     }
 }
 

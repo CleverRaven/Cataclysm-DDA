@@ -247,7 +247,7 @@ void npc::randomize(npc_class type)
   personality.aggression -= rng(0, 4);
   if (one_in(4))
    flags |= mfb(NF_DRUGGIE);
-  cash += 100 * rng(0, 3) * rng(0, 3);
+  cash += 10000 * rng(0, 3) * rng(0, 3);
   break;
 
  case NC_TRADER:
@@ -266,7 +266,7 @@ void npc::randomize(npc_class type)
   int_max += rng(0, 1) * rng(0, 1);
   per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
-  cash += 250 * rng(1, 10);
+  cash += 25000 * rng(1, 10);
   break;
 
  case NC_NINJA:
@@ -775,7 +775,7 @@ std::list<item> starting_inv(npc *me, npc_class type)
 {
  int total_space = me->volume_capacity() - 2;
  std::list<item> ret;
- ret.push_back( item(itypes["lighter"], 0) );
+ ret.push_back( item(itypes["lighter"], 0, false) );
  itype_id tmp;
 
 // First, if we're wielding a gun, get some ammo for it

@@ -76,6 +76,7 @@ class mapbuffer
         // There's a very good reason this is private,
         // if not handled carefully, this can erase in-use submaps and crash the game.
         void remove_submap( tripoint addr );
+        int load_keys( std::string worldname );
         int unserialize_keys( std::ifstream &fin );
         void unserialize_submaps( std::ifstream &fin, const int num_submaps );
         bool unserialize_legacy(std::ifstream &fin);

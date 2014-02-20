@@ -784,7 +784,7 @@ int npc::confident_range(char invlet)
     deviation += 3 * (8 - skillLevel(firing->skill_used));
   }
   if (skillLevel("gun") < 9) {
-    deviation += 9 - skillLevel("gun"); 
+    deviation += 9 - skillLevel("gun");
   }
 
   deviation += ranged_dex_mod();

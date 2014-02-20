@@ -808,7 +808,7 @@ recipe *game::select_crafting_recipe()
                         bool has_one = any_marked_available(current[line]->tools[i]);
                         for (unsigned j = 0; j < current[line]->tools[i].size(); j++) {
                             itype_id type = current[line]->tools[i][j].type;
-                            int charges = current[line]->tools[i][j].count;
+                            long charges = current[line]->tools[i][j].count;
                             nc_color toolcol = has_one ? c_dkgray : c_red;
 
                             if (current[line]->tools[i][j].available == 0) {
@@ -975,7 +975,7 @@ recipe *game::select_crafting_recipe()
             keepline = true;
             break;
         case Filter:
-            filterstring = string_input_popup(_("Search:"), 55, filterstring);
+            filterstring = string_input_popup(_("Search:"), 85, filterstring, _("Search tools or component using prefix t and c. \n(i.e. \"t:hammer\" or \"c:two by four\".)"));
             redraw = true;
             break;
         case Reset:
@@ -1196,6 +1196,31 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
                         std::vector<bool> &available, craft_cat tab,
                         craft_subcat subtab, std::string filter)
 {
+    bool search_name = true;
+    bool search_tool = false;
+    bool search_component = false;
+    int pos = filter.find(":");
+    if(pos != std::string::npos)
+    {
+        search_name = false;
+        std::string searchType = filter.substr(0, pos);
+        for(int i = 0 ; i < searchType.size() ; i++)
+        {
+            if(searchType[i] == 'n')
+            {
+                search_name = true;
+            }
+            else if(searchType[i] == 't')
+            {
+                search_tool = true;
+            }
+            else if(searchType[i] == 'c')
+            {
+                search_component = true;
+            }
+        }
+        filter = filter.substr(pos + 1);
+    }
     recipe_list available_recipes;
 
     if (filter == "") {
@@ -1221,12 +1246,62 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
             if ((*iter)->difficulty < 0 ) {
                 continue;
             }
-
-            if (filter != "" &&
-                item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos) {
-                continue;
+            if(filter != "")
+            {
+                if(search_name)
+                {
+                    if(item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos)
+                    {
+                        continue;
+                    }
+                }
+                if(search_tool)
+                {
+                    bool found = false;
+                    for(std::vector<std::vector<component> >::iterator it = (*iter)->tools.begin() ; it != (*iter)->tools.end() ; ++it)
+                    {
+                        for(std::vector<component>::iterator it2 = (*it).begin() ; it2 != (*it).end() ; ++it2)
+                        {
+                            if(item_controller->find_template((*it2).type)->name.find(filter) != std::string::npos)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if(found)
+                        {
+                            break;
+                        }
+                    }
+                    if(!found)
+                    {
+                        continue;
+                    }
+                }
+                if(search_component)
+                {
+                    bool found = false;
+                    for(std::vector<std::vector<component> >::iterator it = (*iter)->components.begin() ; it != (*iter)->components.end() ; ++it)
+                    {
+                        for(std::vector<component>::iterator it2 = (*it).begin() ; it2 != (*it).end() ; ++it2)
+                        {
+                            if(item_controller->find_template((*it2).type)->name.find(filter) != std::string::npos)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if(found)
+                        {
+                            break;
+                        }
+                    }
+                    if(!found)
+                    {
+                        continue;
+                    }
+                }
             }
-
             if (can_make_with_inventory(*iter, crafting_inv)) {
                 current.insert(current.begin(), *iter);
                 available.insert(available.begin(), true);
@@ -1340,7 +1415,7 @@ void game::complete_craft()
     }
 
     // Set up the new item, and assign an inventory letter if available
-    item newit(item_controller->find_template(making->result), turn, 0);
+    item newit(item_controller->find_template(making->result), turn, 0, false);
 
     if (newit.is_armor() && newit.has_flag("VARSIZE")) {
         newit.item_tags.insert("FIT");
@@ -1556,7 +1631,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
         }
         itype_id type = tools[i].type;
         if (tools[i].count > 0) {
-            int count = tools[i].count;
+            long count = tools[i].count;
             if (p->has_charges(type, count)) {
                 player_has.push_back(tools[i]);
             }

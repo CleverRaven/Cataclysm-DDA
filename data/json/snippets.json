@@ -86,11 +86,19 @@
     },{
         "type" : "snippet",
         "category" : "flier",
-        "text" : "This is an advertisement for the Rivtech brand Muscle Augmentation CBM. It shows a picture of an athlete engaged in weight lifting. The weights are absurdly large, but the smiling athlete appears to be lifting them with ease. The caption reads:  \"Rivtech neuroreactive myomer bionics. Unlock the Olympian inside.\" and \"Rivtech Bionics, guaranteed for life.\""
+        "text" : "This is an advertisement for the Rivtech brand Muscle Augmentation CBM. It shows a picture of a stylized, howling wolf against a red background. The caption reads:  \"Rivtech neuroreactive myomer bionics. The most efficient sythetic adenosine triphosphate recovery system on the market.\" and \"Rivtech Bionics, guaranteed for life.\""
     },{
         "type" : "snippet",
         "category" : "flier",
         "text" : "This is an advertisement for the Rivtech brand Wired Reflexes CBM. It shows a picture of a stylized, snarling black cat against a red background. The caption reads:  \"Rivtech neuroelectric stimulation bionics. The next level in quantum inductive piezochemical nerve stimulation technology.\" and \"Rivtech Bionics, guaranteed for life.\""
+    },{
+        "type" : "snippet",
+        "category" : "flier",
+        "text" : "This is an advertisement for the Rivtech brand Monomolecular Blade CBM. It shows a picture of a woman with a bionic blade extending from her arm steadfastly defending her children from an angry bear. The caption reads:  \"Rivtech retractable monomolecular blade system. Failure is never an option.\" and \"Rivtech Bionics, guaranteed for life.\""
+    },{
+        "type" : "snippet",
+        "category" : "flier",
+        "text" : "This is an advertisement for the Rivtech brand Synaptic Accelerator CBM. It shows a picture of a stylized, soaring raven against a red background. The caption reads:  \"Introducing the Rivtech Model Six myelination retrovirus system. The latest in synthetic high-performance glycoprotein deposition technology.\" and \"Rivtech Bionics, guaranteed for life.\""
     },{
         "type" : "snippet",
         "category" : "flier",

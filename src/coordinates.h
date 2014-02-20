@@ -16,7 +16,7 @@
  *
  * 'absolute' is defined as the -actual- submap x,y * 12 + position in submap, and
  * can be obtained from map.getabs(x, y);
- *   usage: 
+ *   usage:
  *    real_coords rc( g->m.getabs(g->u.posx, g->u.posy ) );
  */
 struct real_coords {
@@ -24,7 +24,7 @@ struct real_coords {
   static const int tiles_in_sub_n = tiles_in_sub - 1;
   static const int subs_in_om = OMAPX * 2;
   static const int subs_in_om_n = subs_in_om - 1;
-    
+
   point abs_pos;     // 1 per tile, starting from tile 0,0 of submap 0,0 of overmap 0,0
   point abs_sub;     // submap: 12 tiles.
   point abs_om;      // overmap: 360 submaps.
@@ -84,7 +84,7 @@ struct real_coords {
     fromabs(ax*24, ay*24);
   }
 
-  // helper functions to return abs_pos of submap/overmap tile/overmap's start 
+  // helper functions to return abs_pos of submap/overmap tile/overmap's start
 
   point begin_sub() {
     return point( abs_sub.x * tiles_in_sub, abs_sub.y * tiles_in_sub );

@@ -171,9 +171,9 @@ private:
  int time_between_waves;     // Cooldown / building / healing time
  int waves_between_caravans; // How many waves until we get to trade?
 
- int initial_cash;  // How much cash do we start with?
- int cash_per_wave; // How much cash do we get per wave?
- int cash_increase; // How much does the above increase per wave?
+ unsigned long initial_cash;  // How much cash do we start with?
+ unsigned long cash_per_wave; // How much cash do we get per wave?
+ unsigned long cash_increase; // How much does the above increase per wave?
 
  bool zombies;
  bool specials;

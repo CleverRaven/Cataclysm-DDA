@@ -505,6 +505,24 @@
         "density" : 26
     },{
         "type" : "material",
+        "ident" : "diamond",
+        "name" : "Diamond",
+        "bash_resist" : 14,
+        "cut_resist" : 20,
+        "bash_dmg_verb" : "chipped",
+        "cut_dmg_verb" : "scratched",
+        "dmg_adj" : [
+            "marked",
+            "chipped",
+            "cracked",
+            "shattered"
+        ],
+        "acid_resist" : 3,
+        "elec_resist" : 3,
+        "fire_resist" : 2,
+        "density" : 14
+    },{
+        "type" : "material",
         "ident" : "hardsteel",
         "name" : "Hard Steel",
         "bash_resist" : 10,

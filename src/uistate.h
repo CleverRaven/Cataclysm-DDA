@@ -13,6 +13,7 @@ public:
   int wishmutate_selected;
   int wishmonster_selected;
   int iuse_knife_selected;
+  int iexamine_atm_selected;
   int adv_inv_leftsort;
   int adv_inv_rightsort;
   int adv_inv_leftarea;
@@ -34,7 +35,7 @@ public:
      output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
   */
 
-  std::map<std::string, std::vector<std::string>*> input_history; 
+  std::map<std::string, std::vector<std::string>*> input_history;
 
   std::map<std::string, std::string> lastreload; // last typeid used when reloading ammotype
 
@@ -47,6 +48,7 @@ public:
       wishmutate_selected = 0;
       wishmonster_selected = 0;
       iuse_knife_selected = 0;
+      iexamine_atm_selected = 0;
       adv_inv_leftsort = 1;
       adv_inv_rightsort = 1;
       adv_inv_leftarea = 5;

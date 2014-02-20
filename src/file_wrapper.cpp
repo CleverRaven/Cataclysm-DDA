@@ -21,3 +21,7 @@ bool assure_dir_exist( std::string path ) {
 #endif
 }
 
+bool file_exist(const std::string &path) {
+    struct stat buffer;
+    return ( stat( path.c_str(), &buffer ) == 0 );
+}

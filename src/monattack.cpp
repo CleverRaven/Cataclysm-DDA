@@ -1725,7 +1725,8 @@ void mattack::parrot(monster *z)
     if (one_in(20)) {
         z->moves -= 100;  // It takes a while
         z->sp_timeout = z->type->sp_freq;  // Reset timer
-        const SpeechBubble speech = get_speech( "migo" );
+        const SpeechBubble speech = get_speech( z->type->id );
         g->sound(z->posx(), z->posy(), speech.volume, speech.text);
     }
 }
+

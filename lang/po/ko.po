@@ -16528,12 +16528,12 @@ msgid "Granade"
 msgstr "수류탄(grenade)"
 
 #: lang/json/TOOL_from_json.py
-msgid "Louisville Slaghterer"
-msgstr "루이스빌 학살자(Slaghterer)"
+msgid "Louisville Slaughterer"
+msgstr "루이스빌 학살자(Slaughterer)"
 
 #: lang/json/TOOL_from_json.py
-msgid "Louisville Slaghterer (lit)"
-msgstr "루이스빌 학살자-켜짐(Slaghterer)"
+msgid "Louisville Slaughterer (lit)"
+msgstr "루이스빌 학살자-켜짐(Slaughterer)"
 
 #: lang/json/TOOL_from_json.py
 msgid "No. 9 (off)"
@@ -18486,7 +18486,7 @@ msgid ""
 msgstr ""
 "튼튼한 목제 야구방망이에 휘발유를 먹인 천 조각을 둘둘 감은 무기입니다. 불을"
 "\r\n"
-"붙이면, 말 그대로 경기가 불타오를 것입니다. (역자 주 : Louisville Slaghterer"
+"붙이면, 말 그대로 경기가 불타오를 것입니다. (역자 주 : Louisville Slaughterer"
 "\r\n"
 "라는 이름은 유명한 야구방망이 메이커인 Louisville Slugger의 패러디입니다)"
 

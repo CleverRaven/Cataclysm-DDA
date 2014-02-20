@@ -36,7 +36,6 @@
     "volume": 5,
     "bashing": 14,
     "cutting": 0,
-    "to_hit": -2,
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,

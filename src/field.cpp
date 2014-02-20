@@ -26,21 +26,6 @@ void game::init_fields()
             {0,0,0}
         },
         {
-            {_("plant sap splatter"), _("plant sap stain"), _("puddle of resin")}, '%', 0,
-            {c_ltgreen, c_ltgreen, c_ltgreen}, {true, true, true}, {false, false, false}, 2500,
-            {0,0,0}
-        },
-        {
-            {_("bug blood splatter"), _("bug blood stain"), _("puddle of bug blood")}, '%', 0,
-            {c_green, c_green, c_green}, {true, true, true}, {false, false, false}, 2500,
-            {0,0,0}
-        },
-        {
-            {_("hemolymph splatter"), _("hemolymph stain"), _("puddle of hemolymph")}, '%', 0,
-            {c_ltgray, c_ltgray, c_ltgray}, {true, true, true}, {false, false, false}, 2500,
-            {0,0,0}
-        },
-        {
             {_("bile splatter"), _("bile stain"), _("puddle of bile")}, '%', 0,
             {c_pink, c_pink, c_pink}, {true, true, true}, {false, false, false}, 2500,
             {0,0,0}
@@ -58,16 +43,6 @@ void game::init_fields()
             {0,0,0}
         },
 
-        {
-            {_("shards of chitin"), _("shattered bug leg"), _("torn insect organs")}, '~', 0,
-            {c_ltgreen, c_green, c_yellow}, {true, true, true}, {false, false, false}, 2500,
-            {0,0,0}
-        },
-        {
-            {_("gooey scraps"), _("icky mess"), _("heap of squishy gore")}, '~', 0,
-            {c_ltgray, c_ltgray, c_dkgray}, {true, true, true}, {false, false, false}, 2500,
-            {0,0,0}
-        },
         {
             {_("cobwebs"),_("webs"), _("thick webs")}, '}', 2,
             {c_white, c_white, c_white}, {true, true, false},{false, false, false}, 0,
@@ -191,6 +166,31 @@ void game::init_fields()
         { // laser beam (for laser weapons)
             {_("faint glimmer"), _("beam of light"), _("intense beam of light")}, '#', 4,
             {c_blue, c_ltblue, c_white}, {true, true, true}, {false, false, false}, 1,
+            {0,0,0}
+        },
+        {
+            {_("plant sap splatter"), _("plant sap stain"), _("puddle of resin")}, '%', 0,
+            {c_ltgreen, c_ltgreen, c_ltgreen}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
+            {_("bug blood splatter"), _("bug blood stain"), _("puddle of bug blood")}, '%', 0,
+            {c_green, c_green, c_green}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
+            {_("hemolymph splatter"), _("hemolymph stain"), _("puddle of hemolymph")}, '%', 0,
+            {c_ltgray, c_ltgray, c_ltgray}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
+            {_("shards of chitin"), _("shattered bug leg"), _("torn insect organs")}, '~', 0,
+            {c_ltgreen, c_green, c_yellow}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
+            {_("gooey scraps"), _("icky mess"), _("heap of squishy gore")}, '~', 0,
+            {c_ltgray, c_ltgray, c_dkgray}, {true, true, true}, {false, false, false}, 2500,
             {0,0,0}
         }
     };
@@ -403,7 +403,7 @@ bool map::process_fields_in_submap(int gridn)
                                 ammo_type->ammo_effects.count("FLASHBANG") ||
                                 ammo_type->ammo_effects.count("COOKOFF"))) {
                                 //Any kind of explosive ammo (IE: not arrows and pebbles and such)
-                                const int rounds_exploded = rng(1, it->charges);
+                                const long rounds_exploded = rng(1, it->charges);
                                 // TODO: Vary the effect based on the ammo flag instead of just exploding them all.
                                 // cook off ammo instead of just burning it.
                                 for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
@@ -1187,7 +1187,7 @@ void map::step_in_field(int x, int y)
             break;
 
         case fd_electricity:
-            if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY)) //Artifact stops electricity.
+            if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday")) //Artifact or bionic stops electricity.
                 g->add_msg(_("The electricity flows around you."));
             else {
                 g->add_msg(_("You're electrocuted!"));

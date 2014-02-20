@@ -340,7 +340,7 @@ nc_color int_to_color(int key)
    case 77: return c_pink_white;
    case 78: return c_cyan_white;
    case 79: return c_ltcyan_white;
- 
+
    case 80: return c_black_green;
    case 81: return c_dkgray_green;
    case 82: return c_ltgray_green;
@@ -357,7 +357,7 @@ nc_color int_to_color(int key)
    case 93: return c_pink_green;
    case 94: return c_cyan_green;
    case 95: return c_ltcyan_green;
- 
+
    case 96: return c_black_yellow;
    case 97: return c_dkgray_yellow;
    case 98: return c_ltgray_yellow;
@@ -374,7 +374,7 @@ nc_color int_to_color(int key)
    case 109: return c_pink_yellow;
    case 110: return c_cyan_yellow;
    case 111: return c_ltcyan_yellow;
- 
+
    case 112: return c_black_magenta;
    case 113: return c_dkgray_magenta;
    case 114: return c_ltgray_magenta;
@@ -391,7 +391,7 @@ nc_color int_to_color(int key)
    case 125: return c_pink_magenta;
    case 126: return c_cyan_magenta;
    case 127: return c_ltcyan_magenta;
- 
+
    case 128: return c_black_cyan;
    case 129: return c_dkgray_cyan;
    case 130: return c_ltgray_cyan;

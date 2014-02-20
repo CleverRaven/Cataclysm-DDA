@@ -451,7 +451,8 @@
     "monsters" : [
       { "monster" : "mon_blob_small", "freq" : 200, "cost_multiplier" : 0 },
       { "monster" : "mon_blob_small", "freq" : 100, "cost_multiplier" : 0, "pack_size" : [2,12] },
-      { "monster" : "mon_blob", "freq" : 10, "cost_multiplier" : 0, "pack_size" : [5,10] }
+      { "monster" : "mon_blob", "freq" : 10, "cost_multiplier" : 0, "pack_size" : [5,10] },
+      { "monster" : "mon_shoggoth", "freq" : 1, "cost_multiplier" : 0 }
     ]
   },{
     "type":"monstergroup",
@@ -803,7 +804,8 @@
       { "monster" : "mon_gelatin", "freq" : 120, "cost_multiplier" : 0 },
       { "monster" : "mon_flaming_eye", "freq" : 120, "cost_multiplier" : 0 },
       { "monster" : "mon_kreck", "freq" : 210, "cost_multiplier" : 0 },
-      { "monster" : "mon_gozu", "freq" : 25, "cost_multiplier" : 0 }
+      { "monster" : "mon_gozu", "freq" : 25, "cost_multiplier" : 0 },
+      { "monster" : "mon_shoggoth", "freq" : 5, "cost_multiplier" : 0 }
     ]
   },{
     "type":"monstergroup",

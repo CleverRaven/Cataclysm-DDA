@@ -240,7 +240,7 @@ void player::mutate_towards(std::string mut)
             prereq1 = true;
         }
     }
-    
+
     for (int i = 0; (!prereq2) && i < prereqs2.size(); i++) {
         if (has_trait(prereqs2[i])) {
             prereq2 = true;
@@ -250,7 +250,7 @@ void player::mutate_towards(std::string mut)
     if (prereq1 && prereq2) {
         has_prereqs = true;
     }
-    
+
     if (!has_prereqs && (!prereq.empty() || !prereqs2.empty())) {
         if (!prereq1 && !prereq.empty()) {
             std::string devel = prereq[ rng(0, prereq.size() - 1) ];
@@ -263,14 +263,14 @@ void player::mutate_towards(std::string mut)
             return;
             }
     }
-    
+
     // Check for threshhold mutation, if needed
     bool threshold = mutation_data[mut].threshold;
     bool has_threshreq = false;
     std::vector<std::string> threshreq = mutation_data[mut].threshreq;
     std::vector<std::string> mutcat;
     mutcat = mutation_data[mut].category;
-    
+
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized--but if it does, just reroll
     if (threshold) {
@@ -306,7 +306,7 @@ void player::mutate_towards(std::string mut)
             }
         }
     }
-    
+
     // Loop through again for prereqs2
     std::string replacing2 = "";
     prereq = mutation_data[mut].prereqs2; // Reset it
@@ -324,7 +324,7 @@ void player::mutate_towards(std::string mut)
     toggle_mutation(mut);
 
     bool mutation_replaced = false;
-    
+
     if (replacing != "") {
         g->add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing].name.c_str(), traits[mut].name.c_str());
         add_memorial_log(pgettext("memorial_male","'%s' mutation turned into '%s'"),
@@ -398,7 +398,7 @@ void player::remove_mutation(std::string mut)
             }
         }
     }
-    
+
     std::string replacing2 = "";
     std::vector<std::string> originals2 = mutation_data[mut].prereqs2;
     for (int i = 0; replacing2 == "" && i < originals2.size(); i++) {
@@ -429,7 +429,7 @@ void player::remove_mutation(std::string mut)
             }
         }
     }
-    
+
     // Duplicated for prereq2
     if (replacing2 == "") {
         //Check each mutation until we reach the end or find a trait to revert to
@@ -448,12 +448,12 @@ void player::remove_mutation(std::string mut)
             }
         }
     }
-    
+
     // This should revert back to a removed base trait rather than simply removing the mutation
     toggle_mutation(mut);
 
     bool mutation_replaced = false;
-    
+
     if (replacing != "") {
         g->add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
                    traits[replacing].name.c_str());
@@ -577,7 +577,7 @@ void mutation_effect(player &p, std::string mut)
         p.recalc_hp();
         // Good-Huge still can't fit places but its heart's healthy enough for
         // going around being Huge, so you get the HP
-        
+
     } else if (mut == "STOCKY_TROGLO") {
         p.dex_max -= 2;
         p.str_max += 2;
@@ -668,7 +668,7 @@ void mutation_effect(player &p, std::string mut)
 
     } else if (mut == "PER_UP_4") {
         p.per_max += 7;
-        
+
     } else if (mut == "PER_ALPHA") {
         if (p.per_max <= 7) {
             p.per_max = 11;
@@ -690,7 +690,7 @@ void mutation_effect(player &p, std::string mut)
 
                     p.worn.erase(p.worn.begin() + i);
 
-                } 
+                }
                 else {
                     if (is_u) {
                         g->add_msg(_("Your %s is pushed off."), p.worn[i].tname().c_str());
@@ -813,7 +813,7 @@ void mutation_loss_effect(player &p, std::string mut)
 
     } else if (mut == "PER_UP_4") {
         p.per_max -= 7;
-        
+
     } else if (mut == "PER_ALPHA") {
         if (p.per_max == 15) {
             p.per_max = 8;

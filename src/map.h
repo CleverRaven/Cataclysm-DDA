@@ -251,6 +251,16 @@ class map
  // "fire" item to be used for example when crafting or when
  // a iuse function needs fire.
  bool has_nearby_fire(int x, int y, int radius = 1);
+ /**
+  * Check if player can see some items at (x,y). Includes:
+  * - check for items at this location (!i_at().empty())
+  * - check for SEALED flag (sealed furniture/terrain makes
+  * items not visible under any circumstances).
+  * - check for CONTAINER flag (makes items only visible when
+  * the player is at (x,y) or at an adjacent square).
+  */
+ bool sees_some_items(int x, int y, const player &u);
+
 
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(const std::string & flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
@@ -330,8 +340,8 @@ void add_corpse(int x, int y);
  point find_item(const item *it);
  void spawn_artifact(const int x, const int y, itype* type, int bday);
     void spawn_item(const int x, const int y, const std::string &itype_id,
-                    const unsigned quantity=1, const int charges=0,
-                    const unsigned birthday=0, const int damlevel=0);
+                    const unsigned quantity=1, const long charges=0,
+                    const unsigned birthday=0, const int damlevel=0, const bool rand = true);
  int max_volume(const int x, const int y);
  int free_volume(const int x, const int y);
  int stored_volume(const int x, const int y);
@@ -394,13 +404,14 @@ void add_corpse(int x, int y);
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
- void place_vending(int x, int y, bool drinks);
+ void place_vending(int x, int y, std::string type);
  int place_items(items_location loc, const int chance, const int x1, const int y1,
-                  const int x2, const int y2, bool ongrass, const int turn);
+                  const int x2, const int y2, bool ongrass, const int turn, bool rand = true);
 // put_items_from puts exactly num items, based on chances
- void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0, const int quantity = 0, const int charges = 0, const int damlevel = 0);
+ void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0,
+                    const int quantity = 0, const long charges = 0, const int damlevel = 0, const bool rand = true);
  void spawn_an_item(const int x, const int y, item new_item,
-                    const int charges, const int damlevel);
+                    const long charges, const int damlevel);
  void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
@@ -489,9 +500,10 @@ submap * getsubmap( const int grididx );
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
  void add_item(const int x, const int y, item new_item, int maxitems = 64);
- 
+
  void process_active_items_in_submap(const int nonant);
  void process_active_items_in_vehicles(const int nonant);
+ void process_active_items_in_vehicle(vehicle *cur_veh, int nonant);
  bool process_active_item(item *it, const int nonant, const int i, const int j);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];

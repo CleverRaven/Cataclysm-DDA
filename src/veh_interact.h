@@ -108,7 +108,7 @@ private:
     /** Store the most damaged part's index, or -1 if they're all healthy. */
     int mostDamagedPart;
 
-    /* true if current selected square has part with "FUEL_TANK flag and 
+    /* true if current selected square has part with "FUEL_TANK flag and
      * they are not full. Otherwise will be false.
      */
     bool has_ptank;

@@ -1,5 +1,6 @@
 #include "mtype.h"
 #include "translations.h"
+#include "monstergenerator.h"
 
 mtype::mtype () {
     id = "mon_null";
@@ -23,9 +24,11 @@ mtype::mtype () {
     armor_cut = 0;
     hp = 0;
     sp_freq = 0;
+    def_chance =0;
     item_chance = 0;
-    dies = NULL;
+    dies.push_back(&mdeath::normal);
     sp_attack = NULL;
+    sp_defense = NULL;
     luminance = 0;
     flags.insert(MF_HUMAN);
 }

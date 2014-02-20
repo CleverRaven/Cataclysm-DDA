@@ -38,7 +38,12 @@ const std::string field_names[num_fields] =
     toString(fd_shock_vent),
     toString(fd_acid_vent),
     toString(fd_plasma),
-    toString(fd_laser)
+    toString(fd_laser),
+    toString( fd_blood_veggy ),
+    toString( fd_blood_insect ),
+    toString( fd_blood_invertebrate ),
+    toString( fd_gibs_insect ),
+    toString( fd_gibs_invertebrate )
 };
 const std::string monster_names[num_monsters] =
 {
@@ -165,6 +170,7 @@ const std::string monster_names[num_monsters] =
     toString(mon_breather_hub),
     toString(mon_breather),
     toString(mon_shadow_snake),
+    toString(mon_shoggoth),
 
     toString(mon_dementia),
     toString(mon_homunculus),
