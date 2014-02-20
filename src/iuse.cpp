@@ -416,14 +416,20 @@ static hp_part body_window(player *p, item *, std::string item_name,
                 healed_part = hp_arm_r;
             }
         } else if (ch == '5') {
-            if (p->hp_cur[hp_leg_l] == 0) {
+            if ( (p->hp_cur[hp_leg_l] == 0) &&
+              (!((p->has_disease("infected", bp_legs)) ||
+              (p->has_disease("bite", bp_legs)) ||
+              (p->has_disease("bleed", bp_legs)))) ) {
                 g->add_msg_if_player(p,_("That leg is broken.  It needs surgical attention."));
                 return num_hp_parts;
             } else {
                 healed_part = hp_leg_l;
             }
         } else if (ch == '6') {
-            if (p->hp_cur[hp_leg_r] == 0) {
+            if ( (p->hp_cur[hp_leg_r] == 0) &&
+              (!((p->has_disease("infected", bp_legs)) ||
+              (p->has_disease("bite", bp_legs)) ||
+              (p->has_disease("bleed", bp_legs)))) ) {
                 g->add_msg_if_player(p,_("That leg is broken.  It needs surgical attention."));
                 return num_hp_parts;
             } else {
