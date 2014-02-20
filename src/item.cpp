@@ -2539,7 +2539,7 @@ bool item::reload(player &u, int pos)
   else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on" || reload_target->has_flag("ATOMIC_AMMO") ||
            reload_target->typeId() == "rm13_armor" || reload_target->typeId() == "rm13_armor_on") {
       int charges_per_plut = 500;
-      int max_plut = floor( static_cast<float>((max_load - reload_target->charges) / charges_per_plut) );
+      long max_plut = floor( static_cast<float>((max_load - reload_target->charges) / charges_per_plut) );
       int charges_used = std::min(ammo_to_use->charges, max_plut);
       reload_target->charges += (charges_used * charges_per_plut);
       ammo_to_use->charges -= charges_used;
