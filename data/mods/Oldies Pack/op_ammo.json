@@ -97,6 +97,7 @@
     "effects" : ["COOKOFF"]
   },
   {
+    "type" : "AMMO",
     "id" : "flintlock_ammo",
     "price" : 50000,
     "name" : "paper cartridge",
