@@ -691,7 +691,7 @@ bool mapgen_function_json::setup() {
                if ( jsi.has_string("item") ) {
                    tmpval = jsi.get_string("item");
                    if( ! item_controller->has_template(tmpval) ) {
-                       jsi.throw_error("  add item: no such item '%s'", tmpval.c_str() );
+                       jsi.throw_error(("  add item: no such item ") + tmpval );
                    }
                } else {
                    parray.throw_error("adding other things is not supported yet"); return false;
