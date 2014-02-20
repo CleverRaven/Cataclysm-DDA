@@ -396,14 +396,20 @@ static hp_part body_window(player *p, item *, std::string item_name,
         } else if (ch == '2'){
             healed_part = hp_torso;
         } else if (ch == '3') {
-            if (p->hp_cur[hp_arm_l] == 0) {
+            if ( (p->hp_cur[hp_arm_l] == 0) &&
+            (!((p->has_disease("infected", bp_arms)) ||
+              (p->has_disease("bite", bp_arms)) ||
+              (p->has_disease("bleed", bp_arms)))) ) {
                 g->add_msg_if_player(p,_("That arm is broken.  It needs surgical attention."));
                 return num_hp_parts;
             } else {
                 healed_part = hp_arm_l;
             }
         } else if (ch == '4') {
-            if (p->hp_cur[hp_arm_r] == 0) {
+            if ( (p->hp_cur[hp_arm_r] == 0) &&
+              (!((p->has_disease("infected", bp_arms)) ||
+              (p->has_disease("bite", bp_arms)) ||
+              (p->has_disease("bleed", bp_arms)))) ) {
                 g->add_msg_if_player(p,_("That arm is broken.  It needs surgical attention."));
                 return num_hp_parts;
             } else {
@@ -503,9 +509,9 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
     } else {
         dam = normal_bonus;
     }
-    if (dam > 0) {
+    if ( (p->hp_cur[healed] >= 1) && (dam > 0) ) { // Prevent first-aid from mending limbs
         p->heal(healed, dam);
-    } else if (dam < 0) {
+    } else if ( (p->hp_cur[healed] >= 1) && (dam < 0) ) {
         p->hurt(healed, -dam); //hurt takes + damage
     }
 
