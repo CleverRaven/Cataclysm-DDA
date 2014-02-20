@@ -348,7 +348,7 @@
         "description" : "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
         "starting_trait" : true,
         "valid" : false,
-        "changes_to" : ["CENOBITE"]
+        "changes_to" : ["PAIN_JUNKIE", "CENOBITE"]
     },{
         "type" : "mutation",
         "id" : "STYLISH",
