@@ -1959,7 +1959,7 @@
             "sound": "crunch!",
             "sound_fail": "whack!",
             "ter_set": "t_floor",
-            "items": [                
+            "items": [
                 { "item": "e_scrap", "amount": 4, "minamount": 1, "chance": 50  },
                 { "item": "circuit", "amount": 6, "minamount": 1, "chance": 50 },
                 { "item": "scrap", "amount": 8, "minamount": 2, "chance": 50 }

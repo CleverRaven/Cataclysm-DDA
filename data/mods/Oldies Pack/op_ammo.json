@@ -210,7 +210,7 @@
     "dispersion" : 0,
     "recoil" : 0,
     "count" : 200
-  },  
+  },
   {
     "type" : "AMMO",
     "id" : "32_casing",

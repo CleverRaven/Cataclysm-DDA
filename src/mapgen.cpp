@@ -3950,13 +3950,13 @@ ff.......|....|WWWWWWWW|\n\
             tmpcomp->add_failure(COMPFAIL_MANHACKS);
             tmpcomp->add_failure(COMPFAIL_SECUBOTS);
             }
-        break;        
+        break;
 
         case 7: // CVD Forge
             add_spawn("mon_secubot", 1,            6,            6);
             add_spawn("mon_secubot", 1, SEEX * 2 - 7,            6);
             add_spawn("mon_secubot", 1,            6, SEEY * 2 - 7);
-            add_spawn("mon_secubot", 1, SEEX * 2 - 7, SEEY * 2 - 7);            
+            add_spawn("mon_secubot", 1, SEEX * 2 - 7, SEEY * 2 - 7);
             line(this, t_cvdbody, SEEX - 2, SEEY - 2, SEEX - 2, SEEY + 1);
             line(this, t_cvdbody, SEEX - 1, SEEY - 2, SEEX - 1, SEEY + 1);
             line(this, t_cvdbody, SEEX    , SEEY - 1, SEEX    , SEEY + 1);

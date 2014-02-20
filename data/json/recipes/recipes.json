@@ -23746,7 +23746,7 @@
       [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
-	  [ "toolset", 2 ]
+      [ "toolset", 2 ]
       ]
       ],
   "components":
@@ -23783,7 +23783,7 @@
       [
       [ "welder", 30 ],
       [ "welder_crude", 45 ],
-	  [ "toolset", 3 ]
+      [ "toolset", 3 ]
       ]
       ],
   "components":

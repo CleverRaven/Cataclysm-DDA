@@ -882,8 +882,8 @@ void monster::hit_monster(int i)
   g->kill_mon(i, (friendly != 0));
 }
 
-int monster::deal_melee_attack(Creature *source, int hitroll, bool crit, 
-                               const damage_instance& d, dealt_damage_instance &dealt_dam) 
+int monster::deal_melee_attack(Creature *source, int hitroll, bool crit,
+                               const damage_instance& d, dealt_damage_instance &dealt_dam)
 {
     mdefense mdf;
     if(!is_hallucination() && source != NULL)
@@ -909,7 +909,7 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
         missed_by = 0.2;
     }
     mdefense mdf;
- 	if(!is_hallucination() && source != NULL)
+     if(!is_hallucination() && source != NULL)
         {
         (mdf.*type->sp_defense)(this);
         }
