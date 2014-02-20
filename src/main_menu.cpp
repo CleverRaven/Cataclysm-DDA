@@ -553,7 +553,7 @@ bool game::opening_screen()
                         int line = iMenuOffsetY - 2 - i;
                         mvwprintz(w_open, line, 19 + 19 + iMenuOffsetX + extra_w / 2,
                                   (sel3 == i ? h_white : c_white),
-                                  base64_decode(savegames[i]).c_str()); //sancgdncaugoed
+                                  base64_decode(savegames[i]).c_str());
                     }
                 }
                 wrefresh(w_open);

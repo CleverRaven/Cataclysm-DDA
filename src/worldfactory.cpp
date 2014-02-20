@@ -19,7 +19,6 @@
 #define WORLD_OPTION_FILE "worldoptions.txt"
 #define SAVE_MASTER "master.gsav"
 #define SAVE_EXTENSION ".sav"
-#define PATH_SEPARATOR "/"
 
 typedef int (worldfactory::*worldgen_display)(WINDOW *, WORLDPTR);
 // single instance of world generator

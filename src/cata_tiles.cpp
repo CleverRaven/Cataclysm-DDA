@@ -440,8 +440,6 @@ void cata_tiles::create_rotation_cache()
     3 is a West rotation
     These rotations are stored in a map<tile number, vector<SDL_Surface*> > with 3 values relating to east, south, and west in that order
     */
-    if(!tile_values->empty())
-    {
         for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
             const int tile_num = it->first;
             SDL_Surface *tile_surface = it->second;
@@ -452,7 +450,6 @@ void cata_tiles::create_rotation_cache()
             }
             rotation_cache[tile_num] = rotations;
         }
-    }
 }
 
 void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width, int height)
