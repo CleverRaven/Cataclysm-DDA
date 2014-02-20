@@ -34,7 +34,7 @@
     "sidewalk" : true,
     "mapgen": [ {
             "method": "json",
-            "weight": 1000,
+            "weight": 10000000,
             "object": {
             "rows": [
             "________________________",
