@@ -1374,7 +1374,7 @@
         "ident": "cosplay",
         "name": "Otaku",
         "description": "Late nights with friends watching anime and eating snacks has prepared you for the premier anime convention in the Northeast.  It just had to be the day of the apocalypse.  At least you were ready in case your costume tore.",
-        "points": 4,
+        "points": 1,
         "items": {
             "both": [
                 "shorts",
