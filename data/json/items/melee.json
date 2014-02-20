@@ -2392,8 +2392,8 @@
     "price": 0,
     "volume": 2,
     "weight": 1150,
-    "bashing": 4,
-    "cutting": 12,
+    "bashing": 0,
+    "cutting": 16,
     "to_hit": 2,
     "flags" : ["UNARMED_WEAPON", "CHOP"],
     "techniques": ["WBLOCK_1"]
