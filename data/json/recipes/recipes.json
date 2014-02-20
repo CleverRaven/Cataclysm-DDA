@@ -7999,6 +7999,9 @@
       [ "broccoli", 2 ],
       [ "irradiated_zucchini", 2 ],
       [ "zucchini", 2 ],
+      [ "potato_raw", 2 ],
+      [ "onion", 2 ],
+      [ "carrot", 2 ],
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ]
     ]
@@ -9464,6 +9467,7 @@
       [ "veggy_wild", 2 ],
       [ "veggy_vac", 2 ],
       [ "tomato", 2 ],
+      [ "onion", 2 ],
       [ "broccoli", 1 ],
       [ "irradiated_tomato", 2 ],
       [ "irradiated_broccoli", 1 ],
