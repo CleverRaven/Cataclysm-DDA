@@ -43,8 +43,6 @@
 
 #define NEWCHAR_TAB_MAX 4 // The ID of the rightmost tab
 
-#define SHAREDMAPS
-
 void draw_tabs(WINDOW *w, std::string sTab);
 
 int set_stats(WINDOW *w, player *u, int &points);
@@ -74,11 +72,7 @@ bool player::create(character_type type, std::string tempname)
         switch (type) {
             case PLTYPE_NOW:
                 g->u.male = (rng(1, 100) > 50);
-                #ifndef SHAREDMAPS
                 g->u.pick_name();
-                #else
-                g->u.name = USERNAME;
-                #endif
             case PLTYPE_RANDOM: {
                 str_max = rng(6, 12);
                 dex_max = rng(6, 12);
@@ -229,9 +223,6 @@ bool player::create(character_type type, std::string tempname)
                 getline(fin, data);
                 load_info(data);
                 points = 0;
-                #ifdef SHAREDMAPS
-                name = USERNAME; // Just make we use the correct username
-                #endif // SHAREDMAPS
             }
             break;
         }
@@ -925,6 +916,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
                     inc_type = -1;
 
+
                     // If turning off the trait violates a profession condition,
                     // turn it back on.
                     if(u->prof->can_pick(u, 0) != "YES") {
@@ -1342,8 +1334,6 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
     long ch;
 
-    u->name = USERNAME;
-
     do {
         if (redraw) {
             //Draw the line between editable and non-editable stuff.
@@ -1446,9 +1436,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "_______________________________");
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "%s", u->name.c_str());
         wprintz(w_name, h_ltgray, "_");
-        #ifndef SHAREDMAPS // no random names when sharing maps
         mvwprintz(w_name, 1, 0, c_ltgray, _("Press ? to pick a random name."));
-        #endif // SHAREDMAPS
         wrefresh(w_name);
 
         mvwprintz(w_gender, 0, 0, c_ltgray, _("Gender:"));
@@ -1521,11 +1509,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             redraw = true;
             wrefresh(w);
         } else if (ch == '?') {
-            #ifndef SHAREDMAPS // Don't allow random names. We don't need to check at the top as you won't be able to delete the name
             u->pick_name();
-            #endif // SHAREDMAPS
         } else if (ch == KEY_BACKSPACE || ch == 127) {
-            #ifndef SHAREDMAPS // Don't remove characters from name
             if (u->name.size() > 0) {
                 //erase utf8 character TODO: make a function
                 while(u->name.size() > 0 && ((unsigned char)u->name[u->name.size() - 1]) >= 128 &&
@@ -1534,13 +1519,10 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 }
                 u->name.erase(u->name.size() - 1);
             }
-            #endif // SHAREDMAPS
         } else if (ch == '\t') {
             u->male = !u->male;
         } else if (is_char_allowed(ch) && utf8_width(u->name.c_str()) < 30) {
-            #ifndef SHAREDMAPS // Don't add characters to name
             u->name.push_back(ch);
-            #endif // SHAREDMAPS
         } else if(ch == KEY_F(2)) {
             std::string tmp = get_input_string_from_file();
             int tmplen = utf8_width(tmp.c_str());
@@ -1550,13 +1532,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         }
         //experimental unicode input
         else if(ch > 127) {
-            #ifndef SHAREDMAPS // Don't add characters to name
             std::string tmp = utf32_to_utf8(ch);
             int tmplen = utf8_width(tmp.c_str());
             if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {
                 u->name.append(tmp);
             }
-            #endif // SHAREDMAPS
         }
     } while (true);
 }

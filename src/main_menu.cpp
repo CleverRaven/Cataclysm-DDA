@@ -22,8 +22,6 @@
 #include <dirent.h>
 #endif
 
-#define SHAREDMAPS
-
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 extern worldfactory *world_generator;
 
@@ -160,9 +158,8 @@ bool game::opening_screen()
     vSubItems.push_back(pgettext("Main Menu|New Game", "<C>ustom Character"));
     vSubItems.push_back(pgettext("Main Menu|New Game", "<P>reset Character"));
     vSubItems.push_back(pgettext("Main Menu|New Game", "<R>andom Character"));
-    #ifndef SHAREDMAPS
     vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N>ow!"));
-    #endif
+
 
     std::vector<std::string> vWorldSubItems;
     vWorldSubItems.push_back(pgettext("Main Menu|World", "<C>reate World"));
@@ -324,13 +321,6 @@ bool game::opening_screen()
             }
         } else if (layer == 2) {
             if (sel1 == 1) { // New Character
-                #ifdef SHAREDMAPS //don't show anything when there are no worlds (will not work if there are special maps)
-                if (world_generator->all_worlds.empty()) {
-                    layer = 1;
-                    sel1 = 1;
-                    continue;
-                }
-                #endif // SHAREDMAPS
                 print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY - 2, iMenuOffsetX);
                 wrefresh(w_open);
                 refresh();
@@ -440,14 +430,6 @@ bool game::opening_screen()
 
                 // only show reset / destroy world if there is at least one valid world existing!
 
-                #ifdef SHAREDMAPS
-                if(USERNAME != "admin") {
-                layer = 1;
-                popup(_("Only the admin can change maps."));
-                continue;
-                }
-                #endif // SHAREDMAPS
-
                 int world_subs_to_display = (world_generator->all_worldnames.size() > 0)? vWorldSubItems.size(): 1;
                 std::vector<std::string> world_subs;
                 int xoffset = 25 + iMenuOffsetX + extra_w / 2;
@@ -509,12 +491,6 @@ bool game::opening_screen()
                     }
                 }
             } else if (sel1 == 4) { // Special game
-                #ifdef SHAREDMAPS // Thee can't save special games, therefore thee can't share them
-                layer = 1;
-                popup(_("Special games don't work with shared maps."));
-                continue;
-                #endif // SHAREDMAPS
-
                 std::vector<std::string> special_names;
                 int xoffset = 32 + iMenuOffsetX  + extra_w / 2;
                 int yoffset = iMenuOffsetY - 2;
