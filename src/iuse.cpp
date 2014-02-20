@@ -1788,6 +1788,9 @@ void resolve_firestarter_use(player *p, item *, int posx, int posy)
     if (g->m.add_field(point(posx, posy), fd_fire, 1, 100)) {
         g->add_msg_if_player(p, _("You successfully light a fire."));
     }
+    if(p->has_trait("PYROMANIAC")) {
+	p->add_morale(MORALE_MUSIC, 1, 50);
+ }
 }
 
 int iuse::lighter(player *p, item *it, bool)
@@ -5036,6 +5039,10 @@ int iuse::molotov(player *p, item *it, bool)
  it->make(itypes["molotov_lit"]);
  it->bday = int(g->turn);
  it->active = true;
+ if(p->has_trait("PYROMANIAC")) {
+	p->add_morale(MORALE_MUSIC, 1, 50);
+ }
+
  return it->type->charges_to_use();
 }
 

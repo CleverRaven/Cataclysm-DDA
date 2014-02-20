@@ -62,6 +62,24 @@
         "cancels" : ["BADTEMPER"]
     },{
         "type" : "mutation",
+        "id" : "pyro_maniac",
+        "name" : "PYROMANIAC",
+        "points" : 3,
+        "description" : "Burning stuff, dead or alive, excites you",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["PYROPHOBIC"]
+    },{
+        "type" : "mutation",
+        "id" : "pyro_phobic",
+        "name" : "PYROPHOBIC",
+        "points" : -3,
+        "description" : "Burning stuff, dead or alive, excites you",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["PYROMANIAC"]
+    },{
+        "type" : "mutation",
         "id" : "FASTHEALER",
         "name" : "Fast Healer",
         "points" : 2,
