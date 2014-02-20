@@ -46,7 +46,7 @@
             "|   |_,_______,_______,_",
             "|   |_,_______,_______,_",
             "|-+------OOOO----OOOO---",
-            "|                      |",
+            "|   lll                |",
             "|                      |",
             "|ctc      =GGGGGGGGGGGG|",
             "|ctc       SSSSSSSSSSSS|",
@@ -111,7 +111,7 @@
             "@": "f_bed",
             ":": "f_dresser",
             "T": "f_toilet",
-            "l": "f_locker",
+            "l": "f_vending_c",
             "S": "f_null",
 	    "=": "f_ball_mach",
             "G": "f_lane"
@@ -125,7 +125,8 @@
             { "monster": "GROUP_PLAIN", "x": [ 2, 21 ], "y": [ 9, 21 ], "chance": 1},
             { "item": "bowling_item", "chance": 80, "x": [ 1,1 ], "y": [ 16,18 ] },
 	    { "item": "bowling_balls", "chance": 80, "x": [ 10,10 ], "y": [ 11,20 ] },
-	    { "item": "vending_food", "chance": 70, "x": [ 2,2 ], "y": [ 11,13 ] }
+	    { "item": "vending_food", "chance": 70, "x": [ 4,6 ], "y": [ 8,8 ] },
+	    { "item": "bowling_item", "chance" : 80, "x": [10,22], "y": [11,21] }
             ]
             }
         }
