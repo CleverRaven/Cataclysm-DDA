@@ -83,7 +83,7 @@ USERNAME = std::string(username);
             argv++;
             verifyexit = true;
         } else if(std::string(argv[0]) == "--check-mods") {
-            argc--;FILENAMES
+            argc--;
             argv++;
             check_all_mods = true;
         } else if(std::string(argv[0]) == "--home") {
