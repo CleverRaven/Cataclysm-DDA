@@ -5425,18 +5425,18 @@ int iuse::turret(player *p, item *, bool)
 
  p->moves -= 100;
  monster mturret(GetMType("mon_turret"), dirx, diry);
- int ammo = std::min(p->inv.charges_of("9mm"), long(500));
- if (ammo > 0) {
-    p->inv.reduce_charges(p->inv.position_by_type("9mm"), ammo);
+ const int ammopos = p->inv.position_by_type("9mm");
+ int ammo = 0;
+ if (ammopos != INT_MIN) {
+    item& ammoitem = p->inv.find_item(ammopos);
+    ammo = std::min(ammoitem.charges, long(500));
+    p->inv.reduce_charges(ammopos, ammo);
     if (ammo == 1) {
       g->add_msg_if_player(p,_("You load your only 9mm bullet into the turret."));
     }
     else {
       g->add_msg_if_player(p,_("You load %d x 9mm rounds into the turret."), ammo);
     }
- }
- else {
-  ammo = 0;
  }
  mturret.ammo = ammo;
  if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
