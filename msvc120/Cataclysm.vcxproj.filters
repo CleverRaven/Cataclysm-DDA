@@ -120,6 +120,9 @@
     <ClCompile Include="..\src\file_finder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\file_wrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -253,6 +256,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\mondeath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mondefense.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\mongroupdef.cpp">
@@ -506,6 +512,9 @@
     <ClInclude Include="..\src\file_finder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\file_wrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -615,6 +624,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\mondeath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mondefense.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\mongroup.h">
