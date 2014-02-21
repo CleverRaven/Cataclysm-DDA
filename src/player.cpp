@@ -912,7 +912,7 @@ void player::update_bodytemp()
             }
         }
         // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F. 500 is picked at random...
-        if (has_bionic("bio_heatsink") && blister_count < 500)
+        if ((has_bionic("bio_heatsink") || is_wearing("rm13_armor_on")) && blister_count < 500)
         {
             blister_count = (has_trait("BARK") ? -100 : 0);
         }
@@ -3391,8 +3391,8 @@ bool player::in_climate_control()
     bool regulated_area=false;
     // Check
     if(has_active_bionic("bio_climate")) { return true; }
-    if (is_wearing_power_armor() &&
-        (has_active_item("UPS_on") || has_active_item("adv_UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII")))
+    if ((is_wearing("rm13_armor_on")) || (is_wearing_power_armor() &&
+        (has_active_item("UPS_on") || has_active_item("adv_UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII"))))
     {
         return true;
     }
@@ -3618,7 +3618,7 @@ void player::recalc_sight_limits()
     // Set sight_boost and sight_boost_cap, based on night vision.
     // (A player will never have more than one night vision trait.)
     sight_boost_cap = 12;
-    if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV")) {
+    if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) {
         sight_boost = sight_boost_cap;
     }else if (has_trait("ELFA_NV")) {
         sight_boost = 6;
@@ -5303,9 +5303,9 @@ void player::suffer()
 
         bool power_armored = is_wearing_power_armor(&has_helmet);
 
-        if ((power_armored && has_helmet) || is_wearing("hazmat_suit")|| is_wearing("anbc_suit")) {
+        if ((power_armored && has_helmet) || is_wearing("hazmat_suit")|| is_wearing("anbc_suit")|| is_wearing("rm13_armor_on")) {
             radiation += 0; // Power armor protects completely from radiation
-        } else if (power_armored || is_wearing("cleansuit")|| is_wearing("aep_suit")) {
+        } else if (power_armored || is_wearing("cleansuit") || is_wearing("aep_suit") || is_wearing("rm13_armor")) {
             radiation += rng(0, localRadiation / 40) + rng(0, selfRadiation / 5);
         } else {
             radiation += rng(0, localRadiation / 16) + rng(0, selfRadiation);;
@@ -9151,7 +9151,7 @@ float player::fine_detail_vision_mod()
     if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
     else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
     else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV")) { vision_ii -= 2; }
-    else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV")) { vision_ii -= 3; }
+    else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) { vision_ii -= 3; }
 
     if (vision_ii < 1) { vision_ii = 1; }
     return vision_ii;
