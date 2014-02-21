@@ -9,7 +9,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "G",
-        "description" : "A pair of big, red, 8-Oz Boxing gloves. They make dexterous tasks near impossible, but provide ample protection.",
+        "description" : "A pair of big, red, 8 oz. Boxing gloves. They make dexterous tasks near impossible, but provide ample protection.",
         "price" : 4000,
         "material" : ["leather", "null"],
         "volume" : 4,
