@@ -1555,13 +1555,6 @@ void complete_vehicle ()
 
     switch (cmd) {
     case 'i':
-        partnum = veh->install_part (dx, dy, part_id);
-        if(partnum < 0) {
-            debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
-        }
-        used_item = consume_vpart_item (part_id);
-        batterycharges = used_item.charges;
-        veh->get_part_properties_from_item(partnum, used_item); //transfer damage, etc.
         if (has_goggles) {
             // Need welding goggles to use any of these tools,
             // without the goggles one _must_ use the duct tape
@@ -1571,6 +1564,14 @@ void complete_vehicle ()
         }
         tools.push_back(component("duct_tape", DUCT_TAPE_USED));
         g->consume_tools(&g->u, tools, true);
+
+        partnum = veh->install_part (dx, dy, part_id);
+        if(partnum < 0) {
+            debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
+        }
+        used_item = consume_vpart_item (part_id);
+        batterycharges = used_item.charges;
+        veh->get_part_properties_from_item(partnum, used_item); //transfer damage, etc.
 
         if ( vehicle_part_types[part_id].has_flag("CONE_LIGHT") ) {
             // Need map-relative coordinates to compare to output of look_around.
