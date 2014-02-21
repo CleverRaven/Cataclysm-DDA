@@ -5895,6 +5895,7 @@
         "phase" : "solid",
         "charges" : 2,
         "bashing" : 0,
+        "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
     {
