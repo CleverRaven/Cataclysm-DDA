@@ -146,10 +146,14 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.z_order = 0;
     }
 
-    next_part.loadid = vehicle_part_int_types.size();
-
+    if (vehicle_part_types.count(next_part.id) > 0) {
+        next_part.loadid = vehicle_part_types[next_part.id].loadid;
+        vehicle_part_int_types[next_part.loadid] = next_part;
+    } else {
+        next_part.loadid = vehicle_part_int_types.size();
+        vehicle_part_int_types.push_back(next_part);
+    }
     vehicle_part_types[next_part.id] = next_part;
-    vehicle_part_int_types.push_back(next_part);
 }
 
 void game::reset_vehicleparts()
