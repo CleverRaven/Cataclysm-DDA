@@ -750,7 +750,7 @@ void trapfunc::sinkhole(int x, int y)
 // Determine safe places for the character to get pulled to
     std::vector<point> safe;
     for (int i = g->u.posx - 1; i <= g->u.posx + 1; i++) {
-     for (int j = g->u.posx - 1; j <= g->u.posx + 1; j++) {
+     for (int j = g->u.posy - 1; j <= g->u.posy + 1; j++) {
       if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j) != tr_pit)
        safe.push_back(point(i, j));
      }
