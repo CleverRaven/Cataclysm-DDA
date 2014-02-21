@@ -99,7 +99,7 @@
         "id" : "f_punchbag",
         "name": "Heavy Punching Bag",
         "symbol": "0",
-        "color": "grey",
+        "color": "dkgrey",
         "move_cost_mod": -1,
         "required_str": 10,
         "flags": ["BASHABLE", "DECONSTRUCT", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC"],
@@ -108,8 +108,8 @@
             "sound": "whack!",
             "sound_fail": "whud.",
             "items": [
-                { "item": "steel_chain", "amount": 3, "minamount": 1},
-                { "item": "leather_patch", "amount": 12, "minamount": 4},
+                { "item": "chain", "amount": 3, "minamount": 1},
+                { "item": "leather", "amount": 12, "minamount": 4},
                 { "item": "rag", "amount": 18, "minamount": 4 }
             ]
         }
