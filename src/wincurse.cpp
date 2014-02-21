@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <fstream>
 #include "init.h"
+#include "globals.h"
 
 //***********************************
 //Globals                           *
@@ -599,7 +600,7 @@ int curses_start_color(void)
     windowsPalette = new RGBQUAD[16];
 
     //Load the console colors from colors.json
-    std::ifstream colorfile(FILENAMES["colors"], std::ifstream::in | std::ifstream::binary);
+    std::ifstream colorfile(FILENAMES["colors"].c_str(), std::ifstream::in | std::ifstream::binary);
     try{
         JsonIn jsin(colorfile);
         char ch;

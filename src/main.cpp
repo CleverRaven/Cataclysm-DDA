@@ -80,10 +80,18 @@ USERNAME = std::string(username);
             }
         } else if(std::string(argv[0]) == "--jsonverify") {
             argc--;
+            argv++;
             verifyexit = true;
         } else if(std::string(argv[0]) == "--check-mods") {
-            argc--;
+            argc--;FILENAMES
+            argv++;
             check_all_mods = true;
+        } else if(std::string(argv[0]) == "--home") {
+            argc--;
+            argv++;
+            #ifdef __linux__
+            FILENAMES.insert(std::pair<std::string,std::string>("base_path", "/home/" + USERNAME + "/.cataclysm-dda/"));
+            #endif // __linux__
         } else if(std::string(argv[0]) == "--username") {
             argc--;
             argv++;
@@ -276,11 +284,6 @@ void exit_handler(int s) {
 void set_standard_filenames(void)
 {
     // setting some standards
-
-    #ifdef __linux__
-    FILENAMES.insert(std::pair<std::string,std::string>("base_path", "/home/" + USERNAME + "/.cataclysm-dda/"));
-    //system(std::string("cp -r * " + FILENAMES["base_path"]));
-    #endif // __linux__
 
     FILENAMES.insert(std::pair<std::string,std::string>("base_path", ""));
 
