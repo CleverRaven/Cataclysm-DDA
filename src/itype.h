@@ -208,6 +208,7 @@ struct it_comest : public itype
     unsigned int charges;  // Defaults # of charges (drugs, loaf of bread? etc)
     signed int stim;
     signed int healthy;
+    unsigned int brewtime; // How long it takes for a brew to ferment.
     std::string comesttype; //FOOD, DRINK, MED
 
     signed int fun;    // How fun its use is
@@ -236,9 +237,9 @@ struct it_comest : public itype
     signed int pm_to_hit,
 
     signed int pquench, unsigned int pnutr, signed int pspoils,
-    signed int pstim, signed int phealthy, unsigned int paddict,
-    unsigned int pcharges, signed int pfun, itype_id pcontainer,
-    itype_id ptool, int (iuse::*puse)(player *, item *, bool),
+    signed int pstim, signed int phealthy, unsigned int pbrewt,
+    unsigned int paddict, unsigned int pcharges, signed int pfun,
+    itype_id pcontainer, itype_id ptool, int (iuse::*puse)(player *, item *, bool),
     add_type padd, std::string pcomesttype)
     : itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
     pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit), comesttype(pcomesttype), container(pcontainer), tool(ptool)
@@ -248,6 +249,7 @@ struct it_comest : public itype
         spoils     = pspoils;
         stim       = pstim;
         healthy    = phealthy;
+        brewtime   = pbrewt;
         addict     = paddict;
         charges    = pcharges;
         fun        = pfun;
@@ -262,6 +264,7 @@ struct it_comest : public itype
         spoils = 0;
         stim = 0;
         healthy = 0;
+        brewtime = 0;
         addict = 0;
         charges = 0;
         fun = 0;

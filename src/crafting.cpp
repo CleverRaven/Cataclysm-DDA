@@ -1382,21 +1382,27 @@ void game::complete_craft()
     u.inv.assign_empty_invlet(newit);
     //newit = newit.in_its_container(&itypes);
     if (newit.made_of(LIQUID)) {
-        /*bool done = false;
-        while (!done){
-            if ( u.has_watertight_container() || u.has_matching_liquid(newit.typeId()) ) {
-                if (handle_liquid(newit, false, false)){
-                    done = true;
-                }
-            }
-            else {
-                add_msg(_("You don't have enough watertight containers to store the %s, so some of it spills on the ground."),
+        //while ( u.has_watertight_container() || u.has_matching_liquid(newit.typeId()) ){
+        /*while ( u.inv.slice_filter_by_capacity_for_liquid(newit).size() > 0 ){
+            if (handle_liquid(newit, false, false) && u.inv.slice_filter_by_capacity_for_liquid(newit).size()==0) {
+                add_msg(_("You don't have enough watertight containers to store the %s, so some of it is wasted."),
                     newit.tname().c_str());
-                m.add_item_or_charges(u.posx, u.posy, newit);
-                done = true;
             }
         }*/
-        handle_liquid(newit, false, false);
+        /*  Here, I tried to implement a loop for handling recipes that return more than 1 vol of liquid.
+            Unfortunately, no method of detecting whether the player can hold any more liquid I've tried works fully,
+            as multiple copies of the same empty container are not detected any more after any of them are filled.
+            The way this works now is that the handle_liquid() screen will still appear even if the player has no more
+            containers, and then they are forced to manually pour the remaining liquid on the ground themselves.
+            Hopefully this isn't too big of an issue, and if anyone can improve it, please do.                          */
+        if (making->result_mult > 1) {
+            bool done = false;
+            while (!done){
+                if (handle_liquid(newit, false, false)){
+            done = true; }
+            }
+        }
+        else handle_liquid(newit, false, false);
     } else {
         // We might not have space for the item
         if (!u.can_pickVolume(newit.volume())) { //Accounts for result_mult

@@ -804,37 +804,37 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
         debugmsg("fvat_empty was not actually empty! Clearing space...");
         return;
     }
-    if (!p->has_item_with_flag("FERMENT")){
+    if (!p->has_item_with_flag("BREW")){
         g->add_msg(_("You have no booze to ferment."));
         return;
     }
     // Get list of all inv+wielded ferment-able items.
-    std::vector<item*> f_inv = p->inv.all_items_with_flag("FERMENT");
-    if (g->u.weapon.has_flag("FERMENT"))
-        f_inv.push_back(&g->u.weapon);
-    else if (g->u.weapon.contains_with_flag("FERMENT"))
-        f_inv.push_back(&g->u.weapon.contents[0]);
+    std::vector<item*> b_inv = p->inv.all_items_with_flag("BREW");
+    if (g->u.weapon.has_flag("BREW"))
+        b_inv.push_back(&g->u.weapon);
+    else if (g->u.weapon.contains_with_flag("BREW"))
+        b_inv.push_back(&g->u.weapon.contents[0]);
 
     // Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
     //Code shamelessly stolen from the crop planting function!
-    std::vector<itype_id> f_types;
-    std::vector<std::string> f_names;
-    for (std::vector<item*>::iterator it = f_inv.begin() ; it != f_inv.end(); it++){
-        if (std::find(f_types.begin(), f_types.end(), (*it)->typeId()) == f_types.end()){
-            f_types.push_back((*it)->typeId());
-            f_names.push_back((*it)->name);
+    std::vector<itype_id> b_types;
+    std::vector<std::string> b_names;
+    for (std::vector<item*>::iterator it = b_inv.begin() ; it != b_inv.end(); it++){
+        if (std::find(b_types.begin(), b_types.end(), (*it)->typeId()) == b_types.end()){
+            b_types.push_back((*it)->typeId());
+            b_names.push_back((*it)->name);
         }
     }
 
-    // Choose ferment if applicable
+    // Choose brew if applicable
     int f_index = 0;
-    if (f_types.size() > 1) {
-        f_names.push_back("Cancel");
-        f_index = menu_vec(false, _("Ferment what?"), f_names) - 1; // TODO: make cancelable using ESC
-        if (f_index == f_names.size() - 1)
+    if (b_types.size() > 1) {
+        b_names.push_back("Cancel");
+        f_index = menu_vec(false, _("Ferment what?"), b_names) - 1; // TODO: make cancelable using ESC
+        if (f_index == b_names.size() - 1)
             f_index = -1;
-    } else { //Only one ferment type was in inventory
-        if (!query_yn(_("Set %s to ferment?"), f_names[0].c_str()))
+    } else { //Only one brew type was in inventory
+        if (!query_yn(_("Set %s to ferment?"), b_names[0].c_str()))
             f_index = -1;
     }
 
@@ -844,26 +844,45 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
         return;
     }
 
-    // Setting the ferment in the vat
-    itype_id ferment_type = f_types[f_index];
-    int f_used = p->charges_of(ferment_type);
-    std::list<item> selected = p->inv.use_charges(ferment_type, p->inv.charges_of(ferment_type));
-    if (g->u.weapon.contains_with_flag("FERMENT"))
-        g->u.weapon.contents.erase(g->u.weapon.contents.begin()); //Since ALL ferment is used, there is no need to keep track of how much charges to use.
-    if (g->u.weapon.has_flag("FERMENT"))
-        g->u.remove_weapon(); //In case the player is somehow holding the ferment without a container (spawning it in)
-    item ferment(itypes[ferment_type], 0);
-    ferment.charges = f_used; //Spawns 1 charge of ferment into the vat for each charge of ferment removed from the player
-    m->add_item_or_charges(examx, examy, ferment);
+    // Setting the brew in the vat
+    itype_id brew_type = b_types[f_index];
+    int f_used = p->charges_of(brew_type);
+    std::list<item> selected = p->inv.use_charges(brew_type, p->inv.charges_of(brew_type));
+    if (g->u.weapon.contains_with_flag("BREW"))
+        g->u.weapon.contents.erase(g->u.weapon.contents.begin()); //Since ALL brew is used, there is no need to keep track of how much charges to use.
+    if (g->u.weapon.has_flag("BREW"))
+        g->u.remove_weapon(); //In case the player is somehow holding the brew without a container (spawning it in)
+    item brew(itypes[brew_type], 0);
+    brew.charges = f_used; //Spawns 1 charge of brew into the vat for each charge of brew removed from the player
+    brew.bday = g->turn;
+    m->add_item_or_charges(examx, examy, brew);
     m->furn_set(examx, examy, f_fvat_full);
     p->moves -= 500;
-    g->add_msg(_("Set %s to ferment."), f_names[f_index].c_str());
+    g->add_msg(_("Set %s to ferment."), b_names[f_index].c_str());
 }
 
 void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
+    item brew_i = m->i_at(examx, examy)[0];
+    int brew_time = dynamic_cast<it_comest*>(brew_i.type)->brewtime;
+    int t_passed = (g->turn - brew_i.bday);
+    int brewing_stage = t_passed / brew_time;
+    if (g->turn > 4000)  g->add_msg(_("Game_turn over 4k"));
+    if (brew_time == 300)  g->add_msg(_("brew_time is exactly 300."));
+    if (t_passed < 0) g->add_msg(_("t_passed is negative!"));
+    if (t_passed > 1) g->add_msg(_("t_passed is positive!"));
+    switch (brewing_stage) {
+    case 0:
+        g->add_msg(_("Brewstage 0")); break;
+    case 1:
+        g->add_msg(_("Brewstage 1")); break;
+    default:
+        g->add_msg(_("Brewstage is something weird"));
+    }
+
+    if (g->turn > (brew_i.bday + brew_time))  g->add_msg(_("But really it done yo."));
     //TODO: Make brewing actually take time
     if (m->furn(examx, examy) == f_fvat_full && query_yn(_("Finish brewing?"))) {
-        itype_id alcoholType = m->i_at(examx, examy)[0].typeId().substr(8);
+        itype_id alcoholType = m->i_at(examx, examy)[0].typeId().substr(5);
         item booze(itypes[alcoholType], 0);
         booze.charges = m->i_at(examx, examy)[0].charges;
         m->i_clear(examx, examy);
