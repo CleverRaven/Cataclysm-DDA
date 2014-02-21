@@ -253,6 +253,10 @@ void game::finalize_vehicles()
             part_y = p.y;
 
             part_id = proto->parts[i].second;
+            if (vehicle_part_types.count(part_id) == 0) {
+                debugmsg("unknown vehicle part %s in %s", part_id.c_str(), proto->id.c_str());
+                continue;
+            }
 
             if(next_vehicle->install_part(part_x, part_y, part_id) < 0) {
                 debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
