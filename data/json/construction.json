@@ -912,7 +912,7 @@
         "difficulty" : 0,
         "time" : 20,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ],
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ],
             [ "screwdriver", "toolset" ]
         ],
         "pre_flags" : "DECONSTRUCT",
