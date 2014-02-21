@@ -4369,7 +4369,7 @@
         "weight" : 80,
         "color" : "red",
         "addiction_type" : "none",
-        "spoils_in" : 0,
+        "spoils_in" : 280,
         "use_action" : "NONE",
         "stim" : 0,
         "container" : "bag_plastic",
