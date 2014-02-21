@@ -2792,9 +2792,8 @@ int item::amount_of(const itype_id &it, bool used_as_tool) const
     // Check that type matches, and (if not used as tool), it
     // is not a pseudo item.
     if (type->id == it && (used_as_tool || !has_flag("PSEUDO"))) {
-        if (!contents.empty()) {
-            // non-empty container, is never used
-        } else {
+        if (contents.empty()) {
+            // Only use empty container
             count++;
         }
     }
