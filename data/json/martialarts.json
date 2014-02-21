@@ -50,7 +50,7 @@
         "type" : "martial_art",
         "id" : "style_boxing",
         "name" : "Boxing",
-        "description" : "Sport of the true Gentleman, Modern boxing has evolved from the prizefights of the victorian era.",
+        "description" : "Sport of the true Gentleman, modern boxing has evolved from the prizefights of the Victorian era.",
         "arm_block" : 2,
            "static_buffs" : [
             {
@@ -68,7 +68,7 @@
         "onmove_buffs" : [
             {
                 "id" : "boxing_move_buff",
-                "name" : "footwork",
+                "name" : "Footwork",
                 "description" : "Gain an extra dodge while moving.",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 4,
@@ -85,7 +85,7 @@
                 "min_unarmed" : 5,
                 "unarmed_allowed" : true,
                 "max_stacks": 2,
-                "buff_duration" : 1,
+                "buff_duration" : 2,
                 "bash_mult" : 1.25
             }
         ],
