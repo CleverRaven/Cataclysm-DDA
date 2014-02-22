@@ -9868,8 +9868,8 @@
   ],
   "components": [
     [
-      [ "tallow", 5 ],
-      [ "cooking_oil", 10 ]
+      [ "tallow", 2 ],
+      [ "cooking_oil", 5 ]
     ],
     [
       [ "water", 1 ],
