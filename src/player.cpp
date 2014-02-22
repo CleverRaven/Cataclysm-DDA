@@ -3945,7 +3945,7 @@ bool player::is_dead_state() {
     return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
 }
 
-void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
+void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &damage) {
     bool u_see = g->u_see(this);
     if (source != NULL) {
         if (has_active_bionic("bio_ods")) {
@@ -3977,6 +3977,33 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             damage_instance spine_damage;
             spine_damage.add_damage(DT_STAB, spine);
             source->deal_damage(this, bp_torso, 3, spine_damage);
+        }
+
+        if (damage.total_damage() > 0 && source->has_flag("VENOM")) {
+            g->add_msg_if_player(this, _("You're poisoned!"));
+            add_disease("poison", 30);
+        }
+        else if (damage.total_damage() > 0 && source->has_flag("BADVENOM")) {
+            g->add_msg_if_player(this, _("You feel poison flood your body, wracking you with pain..."));
+            add_disease("badpoison", 40);
+        }
+        else if (damage.total_damage() > 0 && source->has_flag("PARALYZEVENOM")) {
+            g->add_msg_if_player(this, _("You feel poison enter your body!"));
+            add_disease("paralyzepoison", 100, false, 1, 20, 100);
+        }
+
+        if (source->has_flag("BLEED") && damage.total_damage() > 6 && damage.type_damage(DT_CUT) > 0) {
+            g->add_msg_if_player(this, _("You're Bleeding!"));
+            add_disease("bleed", 60, false, 1, 3, 120, 1, bphit, side, true);
+        }
+
+        if (source->has_flag("GRABS") && (rng(0, 10000) > 11000 * exp(-.3 * type->melee_skill))) {
+            g->add_msg(_("The %s grabs you!"), name().c_str());
+            if (has_grab_break_tec() && dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10)) {
+                g->add_msg_if_player(this, _("You break the grab!"));
+            } else {
+                hit_player(this);
+            }
         }
     }
 }
