@@ -344,7 +344,7 @@ void game::init_lua() {
     luaL_register(lua_state, "game", global_funcs);
 
     // Load lua-side metatables etc.
-    luaL_dofile(lua_state, FILENAMES["autoexeclua"]);
+    luaL_dofile(lua_state, FILENAMES["autoexeclua"].c_str());
 
     // Load main lua mod
     int err = luaL_dofile(lua_state, FILENAMES["mainlua"].c_str());
