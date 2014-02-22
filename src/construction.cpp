@@ -25,10 +25,10 @@ static bool can_construct( const std::string &desc );
 std::vector<construction *> constructions_by_desc(const std::string &description)
 {
     std::vector<construction *> result;
-    for(std::vector<construction *>::iterator a = constructions.begin(); a != constructions.end();
-        ++a) {
-        if((*a)->description == description) {
-            result.push_back(*a);
+    for( std::vector<construction *>::iterator a = constructions.begin();
+         a != constructions.end(); ++a ) {
+        if( (*a)->description == description ) {
+            result.push_back( *a );
         }
     }
     return result;
@@ -850,8 +850,8 @@ void load_construction(JsonObject &jo)
 
 void reset_constructions()
 {
-    for(std::vector<construction *>::iterator a = constructions.begin(); a != constructions.end();
-        ++a) {
+    for( std::vector<construction *>::iterator a = constructions.begin();
+         a != constructions.end(); ++a ) {
         delete *a;
     }
     constructions.clear();
