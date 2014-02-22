@@ -1264,7 +1264,8 @@
         "bashing" : 0,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"]
+        "flags" : ["BREW"],
+        "brew_time" : 28800
     },
     {
         "type" : "COMESTIBLE",
@@ -1323,7 +1324,8 @@
         "bashing" : 0,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"]
+        "flags" : ["BREW"],
+        "brew_time" : 14400
     },
     {
         "type" : "COMESTIBLE",
@@ -1411,7 +1413,8 @@
         "bashing" : 0,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"]
+        "flags" : ["BREW"],
+        "brew_time" : 28800
     },
     {
         "type" : "COMESTIBLE",
@@ -1528,7 +1531,8 @@
         "bashing" : 0,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"]
+        "flags" : ["BREW"],
+        "brew_time" : 43200
     },
     {
         "type" : "COMESTIBLE",
@@ -1587,7 +1591,8 @@
         "bashing" : 0,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"]
+        "flags" : ["BREW"],
+        "brew_time" : 64800
     },
     {
         "type" : "COMESTIBLE",
@@ -1850,7 +1855,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 300
+        "brew_time" : 288000
     },
     {
         "type" : "COMESTIBLE",
@@ -1909,7 +1914,8 @@
         "bashing" : 0,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"]
+        "flags" : ["BREW"],
+        "brew_time" : 300
     },
     {
         "type" : "COMESTIBLE",
@@ -1919,14 +1925,14 @@
         "color" : "brown",
         "addiction_type" : "alcohol",
         "spoils_in" : 0,
-        "use_action" : "ALCOHOL",
+        "use_action" : "ALCOHOL_STRONG",
         "stim" : -18,
         "container" : "jug_plastic",
         "to_hit" : 0,
         "comestible_type" : "DRINK",
         "symbol" : "~",
-        "quench" : -8,
-        "heal" : 0,
+        "quench" : -16,
+        "heal" : -6,
         "addiction_potential" : 7,
         "nutrition" : 2,
         "description" : "Only the strongest, purest, good ol' fashioned hooch. Guaranteed to make you forget about the whole cataclysm thing, or you get your vision back.",
@@ -1938,7 +1944,7 @@
         "phase" : "liquid",
         "charges" : 7,
         "bashing" : 0,
-        "fun" : 18
+        "fun" : 12
     },
     {
         "type" : "COMESTIBLE",
@@ -1968,7 +1974,8 @@
         "bashing" : 0,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"]
+        "flags" : ["BREW"],
+        "brew_time" : 14400
     },
     {
         "type" : "COMESTIBLE",

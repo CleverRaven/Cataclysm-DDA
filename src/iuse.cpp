@@ -695,6 +695,36 @@ int iuse::alcohol_weak(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::alcohol_strong(player *p, item *it, bool)
+{
+    int duration = 900 - (12 * p->str_max);
+    it_comest *food = dynamic_cast<it_comest*> (it->type);
+    if (p->has_trait("ALCMET")) {
+        duration = 250 - (10 * p->str_max);
+        // Metabolizing the booze improves the nutritional
+        // value; might not be healthy, and still
+        // causes Thirst problems, though
+        p->hunger -= (abs(food->stim));
+        // Metabolizing it cancels out depressant
+        // effects, but doesn't make it any more
+        // stimulating
+        if ((food->stim) < 0) {
+            p->stim += (abs(food->stim));
+        }
+    }
+    else if (p->has_trait("TOLERANCE")) {
+        duration -= 450;
+    }
+    else if (p->has_trait("LIGHTWEIGHT")) {
+        duration += 450;
+    }
+    if (!(p->has_trait("ALCMET"))) {
+        p->pkill += 12;
+    }
+    p->add_disease("drunk", duration);
+    return it->type->charges_to_use();
+}
+
 int iuse::cig(player *p, item *it, bool)
 {
     if (!use_fire(p, it)) return 0;
@@ -4333,7 +4363,7 @@ if(it->type->id == "cot"){
   type = tr_caltrops;
   practice = 2;
  } else if(it->type->id == "telepad"){
-  message << _("You place the telepad."); 
+  message << _("You place the telepad.");
   type = tr_telepad;
   practice = 10;
   } else if(it->type->id == "funnel"){

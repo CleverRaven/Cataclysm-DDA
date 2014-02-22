@@ -800,23 +800,24 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy) {
 
 void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
     if (m->i_at(examx, examy).size() != 0){
+        if (g->debugmon)
+            debugmsg("fvat_empty was not actually empty! Clearing space...");
         m->i_clear(examx, examy);
-        debugmsg("fvat_empty was not actually empty! Clearing space...");
         return;
     }
-    if (!p->has_item_with_flag("BREW")){
+    if ( !p->has_item_with_flag("BREW") ) {
         g->add_msg(_("You have no booze to ferment."));
         return;
     }
     // Get list of all inv+wielded ferment-able items.
     std::vector<item*> b_inv = p->inv.all_items_with_flag("BREW");
-    if (g->u.weapon.has_flag("BREW"))
+    if (g->u.weapon.has_flag("BREW")) //If player is somehow wielding uncontained liquid...
         b_inv.push_back(&g->u.weapon);
     else if (g->u.weapon.contains_with_flag("BREW"))
         b_inv.push_back(&g->u.weapon.contents[0]);
 
-    // Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
-    //Code shamelessly stolen from the crop planting function!
+    // Make lists of unique typeids and names for the menu
+    // Code shamelessly stolen from the crop planting function!
     std::vector<itype_id> b_types;
     std::vector<std::string> b_names;
     for (std::vector<item*>::iterator it = b_inv.begin() ; it != b_inv.end(); it++){
@@ -826,34 +827,32 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
         }
     }
 
-    // Choose brew if applicable
+    // Choose brew from list
     int f_index = 0;
     if (b_types.size() > 1) {
         b_names.push_back("Cancel");
-        f_index = menu_vec(false, _("Ferment what?"), b_names) - 1; // TODO: make cancelable using ESC
+        f_index = menu_vec(false, _("Ferment what?"), b_names) - 1;
         if (f_index == b_names.size() - 1)
             f_index = -1;
-    } else { //Only one brew type was in inventory
+    } else { //Only one brew type was in inventory, so it's automatically used
         if (!query_yn(_("Set %s to ferment?"), b_names[0].c_str()))
             f_index = -1;
     }
 
-    // Did we cancel?
     if (f_index < 0) {
-        //g->add_msg(_("You saved your seeds for later.")); // huehuehue //very funny
         return;
     }
 
     // Setting the brew in the vat
     itype_id brew_type = b_types[f_index];
-    int f_used = p->charges_of(brew_type);
+    int b_used = p->charges_of(brew_type);
     std::list<item> selected = p->inv.use_charges(brew_type, p->inv.charges_of(brew_type));
     if (g->u.weapon.contains_with_flag("BREW"))
-        g->u.weapon.contents.erase(g->u.weapon.contents.begin()); //Since ALL brew is used, there is no need to keep track of how much charges to use.
+        g->u.weapon.contents.erase(g->u.weapon.contents.begin());
     if (g->u.weapon.has_flag("BREW"))
         g->u.remove_weapon(); //In case the player is somehow holding the brew without a container (spawning it in)
     item brew(itypes[brew_type], 0);
-    brew.charges = f_used; //Spawns 1 charge of brew into the vat for each charge of brew removed from the player
+    brew.charges = b_used; //Spawns 1 charge of brew into the vat for each charge of brew removed from the player
     brew.bday = g->turn;
     m->add_item_or_charges(examx, examy, brew);
     m->furn_set(examx, examy, f_fvat_full);
@@ -863,43 +862,50 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
 
 void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
     item brew_i = m->i_at(examx, examy)[0];
-    int brew_time = dynamic_cast<it_comest*>(brew_i.type)->brewtime;
-    int t_passed = (g->turn - brew_i.bday);
-    int brewing_stage = t_passed / brew_time;
-    if (g->turn > 4000)  g->add_msg(_("Game_turn over 4k"));
-    if (brew_time == 300)  g->add_msg(_("brew_time is exactly 300."));
-    if (t_passed < 0) g->add_msg(_("t_passed is negative!"));
-    if (t_passed > 1) g->add_msg(_("t_passed is positive!"));
-    switch (brewing_stage) {
-    case 0:
-        g->add_msg(_("Brewstage 0")); break;
-    case 1:
-        g->add_msg(_("Brewstage 1")); break;
-    default:
-        g->add_msg(_("Brewstage is something weird"));
-    }
+    if (brew_i.has_flag("BREW")) //Is the booze fermented?
+    {
+        int brew_time = dynamic_cast<it_comest*>(brew_i.type)->brewtime;
+        float season_mult = (int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 14; //brew_time is declared as default 14 season length
+        int brewing_stage = 3 * ((g->turn.get_turn() - brew_i.bday) / (brew_time * season_mult));
+        g->add_msg(_("There's a vat full of %s set to ferment there."), brew_i.name.c_str());
+        switch (brewing_stage) {
+        case 0:
+            g->add_msg(_("It's been set recently, and will take some time to ferment.")); break;
+        case 1:
+            g->add_msg(_("It is about halfway done fermenting.")); break;
+        case 2:
+            g->add_msg(_("It will be ready for bottling soon.")); break; //More messages can be added to show progress if desired
+        default:
+            if ( (g->turn.get_turn() > (brew_i.bday + brew_time * season_mult) ) //Double-checking that the brew is actually ready
+            && m->furn(examx, examy) == f_fvat_full && query_yn(_("Finish brewing?")) )
+            {
+                itype_id alcoholType = m->i_at(examx, examy)[0].typeId().substr(5); //declare fermenting result as the brew's ID minus "brew_"
+                SkillLevel& cooking = p->skillLevel("cooking");
+                if (alcoholType=="hb_beer" && cooking<5)
+                    alcoholType=alcoholType.substr(3); //hb_beer -> beer
+                item booze(itypes[alcoholType], 0);
+                booze.charges = brew_i.charges; booze.bday = brew_i.bday;
 
-    if (g->turn > (brew_i.bday + brew_time))  g->add_msg(_("But really it done yo."));
-    //TODO: Make brewing actually take time
-    if (m->furn(examx, examy) == f_fvat_full && query_yn(_("Finish brewing?"))) {
-        itype_id alcoholType = m->i_at(examx, examy)[0].typeId().substr(5);
-        item booze(itypes[alcoholType], 0);
-        booze.charges = m->i_at(examx, examy)[0].charges;
-        m->i_clear(examx, examy);
-        m->add_item_or_charges(examx, examy, booze);
-        m->furn_set(examx, examy, f_fvat_done);
-        p->moves -= 500;
-        g->add_msg(_("Finished brewing cycle."));
-    }
-}
+                m->i_clear(examx, examy);
+                m->add_item_or_charges(examx, examy, booze);
+                p->moves -= 1500;
 
-void iexamine::fvat_done(player *p, map *m, int examx, int examy) {
-    for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
-        item* booze = &(m->i_at(examx, examy)[i]);
-        if (g->handle_liquid(*booze, true, false)) {
-            m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
+                p->practice( g->turn, "cooking", std::min(brew_time/600, 72) ); //low xp: you also get xp from crafting the brew
+                /*if ((cooking<4 && !one_in(cooking)) || (cooking>=4 && !one_in(4))) { //Couldn't figure out how to spawn yeast
+                    g->add_msg(_("You manage to retrieve some yeast from the vat!"));  //directly into the player's inventory,
+                    // add_item(???)                                                   //then decided that yeast culturing was
+                }                                                                      //a better idea. */
+                g->add_msg(_("The %s is now ready for bottling."), booze.name.c_str());
+
+            }
+        }
+    }
+    else {
+        //item* booze = &(m->i_at(examx, examy)[i]);
+        if (g->handle_liquid(brew_i, true, false)) {
+            m->i_at(examx, examy).erase(m->i_at(examx, examy).begin());
             m->furn_set(examx, examy, f_fvat_empty);
-            g->add_msg(_("You squeeze the last drops of booze from the vat."));
+            g->add_msg(_("You squeeze the last drops of %s from the vat."), brew_i.name.c_str());
         }
     }
 }
@@ -1238,9 +1244,6 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("fvat_full" == function_name) {
     return &iexamine::fvat_full;
-  }
-  if ("fvat_done" == function_name) {
-    return &iexamine::fvat_done;
   }
   //pick_plant deliberately missing due to different function signature
   if ("tree_apple" == function_name) {

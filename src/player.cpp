@@ -7156,6 +7156,9 @@ bool player::eat(item *eaten, it_comest *comest)
     if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_weak) {
         charge_power(rng(1, 4));
     }
+    if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_strong) {
+        charge_power(rng(3, 12));
+    }
 
     if (eaten->made_of("hflesh") && !has_trait("SAPIOVORE")) {
     // Sapiovores don't recognize humans as the same species.

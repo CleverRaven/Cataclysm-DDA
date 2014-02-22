@@ -22,6 +22,7 @@ public:
     int atomic_caff         (player*, item*, bool);
     int alcohol             (player*, item*, bool);
     int alcohol_weak        (player*, item*, bool);
+    int alcohol_strong      (player*, item*, bool);
     int pkill               (player*, item*, bool);
     int xanax               (player*, item*, bool);
     int cig                 (player*, item*, bool);
