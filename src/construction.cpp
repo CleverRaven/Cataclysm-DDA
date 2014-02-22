@@ -1,3 +1,5 @@
+#include "construction.h"
+
 #include "game.h"
 #include "output.h"
 #include "keypress.h"
@@ -5,7 +7,6 @@
 #include "inventory.h"
 #include "mapdata.h"
 #include "skill.h"
-#include "crafting.h" // For the use_comps use_tools functions
 #include "item_factory.h"
 #include "catacharset.h"
 #include "action.h"
@@ -14,6 +15,23 @@
 
 #include <algorithm>
 
+
+struct construct // Construction functions.
+{
+    // Checks for whether terrain mod can proceed
+    bool check_nothing(point) { return true; }
+    bool check_empty(point); // tile is empty
+    bool check_support(point); // at least two orthogonal supports
+
+    // Special actions to be run post-terrain-mod
+    void done_nothing(point) {}
+    void done_tree(point);
+    void done_trunk_log(point);
+    void done_trunk_plank(point);
+    void done_vehicle(point);
+    void done_deconstruct(point);
+};
+
 // Keys available for use as hotkeys.  Excludes vi direction keys and Q for quit.
 const std::string hotkeys = "abcdefgimnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}";
 
@@ -21,6 +39,11 @@ std::vector<construction *> constructions;
 
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const std::string &desc );
+static bool can_construct( construction *con, int x, int y );
+static bool can_construct( construction *con);
+static bool player_can_build( player &p, inventory inv, construction *con );
+static bool player_can_build( player &p, inventory pinv, const std::string &desc );
+static void place_construction(const std::string &desc);
 
 std::vector<construction *> constructions_by_desc(const std::string &description)
 {
@@ -337,7 +360,7 @@ void construction_menu()
     g->refresh_all();
 }
 
-bool player_can_build(player &p, inventory pinv, const std::string &desc)
+static bool player_can_build(player &p, inventory pinv, const std::string &desc)
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc(desc);
@@ -349,7 +372,7 @@ bool player_can_build(player &p, inventory pinv, const std::string &desc)
     return false;
 }
 
-bool player_can_build(player &p, inventory pinv, construction *con)
+static bool player_can_build(player &p, inventory pinv, construction *con)
 {
     if (p.skillLevel(con->skill) < con->difficulty) {
         return false;
@@ -417,7 +440,7 @@ static bool can_construct( const std::string &desc )
     return false;
 }
 
-bool can_construct(construction *con, int x, int y)
+static bool can_construct(construction *con, int x, int y)
 {
     // see if the special pre-function checks out
     construct test;
@@ -452,7 +475,7 @@ bool can_construct(construction *con, int x, int y)
     return place_okay;
 }
 
-bool can_construct(construction *con)
+static bool can_construct(construction *con)
 {
     for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
         for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
@@ -467,7 +490,7 @@ bool can_construct(construction *con)
     return false;
 }
 
-void place_construction(const std::string &desc)
+static void place_construction(const std::string &desc)
 {
     g->refresh_all();
     inventory total_inv = g->crafting_inventory(&(g->u));
