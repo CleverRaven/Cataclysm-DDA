@@ -401,8 +401,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
   dump->push_back(iteminfo("BASE", _("   Weight: "), string_format(_("<num> %s"),
                            OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? "lbs" : "kg"),
-                           g->u.convert_weight(weight()), false, "", false, true));
-  dump->push_back(iteminfo("BASE", _("   Price: "), "", price(), true, "", true, true));
+                           g->u.convert_weight(weight()), false, "", true, true));
   dump->push_back(iteminfo("BASE", _("Bash: "), "", damage_bash(), true, "", false));
   if (has_flag("SPEAR")) {
     dump->push_back(iteminfo("BASE", _(" Pierce: "), "", damage_cut(), true, "", false));
@@ -415,7 +414,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   }
   dump->push_back(iteminfo("BASE", _(" To-hit bonus: "), ((type->m_to_hit > 0) ? "+" : ""), type->m_to_hit, true, ""));
   dump->push_back(iteminfo("BASE", _("Moves per attack: "), "", attack_time(), true, "", true, true));
-  
+  dump->push_back(iteminfo("BASE", _("Price: "), "", price(), true, "", true, true));
 
   if (get_material(1) != "null") {
       std::string material_string = material_type::find_material(get_material(1))->name();
@@ -484,8 +483,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   if (ammo->type != "NULL") {
     dump->push_back(iteminfo("AMMO", _("Type: "), ammo_name(ammo->type)));
   }
-  dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage, true, "", false, true));
-  dump->push_back(iteminfo("AMMO", _("   Armor-pierce: "), "", ammo->pierce, true, "", true, true));
+  dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage));
+  dump->push_back(iteminfo("AMMO", _("Armor-pierce: "), "", ammo->pierce, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range, true, "", false, true));
   dump->push_back(iteminfo("AMMO", _("   Dispersion: "), "", ammo->dispersion, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
@@ -495,8 +494,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   it_ammo* ammo = dynamic_cast<it_ammo*>(contents[0].type);
 
   dump->push_back(iteminfo("AMMO", _("Type: "), ammo_name(ammo->type)));
-  dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage, true, "", false, true));
-  dump->push_back(iteminfo("AMMO", _("   Armor-pierce: "), "", ammo->pierce, true, "", true, true));
+  dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage));
+  dump->push_back(iteminfo("AMMO", _("Armor-pierce: "), "", ammo->pierce, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range, true, "", false, true));
   dump->push_back(iteminfo("AMMO", _("   Dispersion: "), "", ammo->dispersion, true, "", false, true));
   dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
@@ -517,16 +516,16 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("GUN", _("Ammunition: "), string_format(_("<num> rounds of %s"), ammo_name(ammo_type()).c_str()), clip_size(), true));
 
   //damage of gun
-  dump->push_back(iteminfo("GUN", _("Damage: "), "", gun_damage(false), true, "", false, false));
+  dump->push_back(iteminfo("GUN", _("Damage: "), "", gun_damage(false), true, "", !has_ammo, false));
   if (has_ammo) {
       temp1.str("");
       temp1 << (ammo_dam >= 0 ? "+" : "" );//ammo_damage and sum_of_damage don't need to translate
       dump->push_back(iteminfo("GUN", "ammo_damage", "", ammo_dam, true, temp1.str(), false, false, false));
-      dump->push_back(iteminfo("GUN", "sum_of_damage", _(" = <num>"), gun_damage(), true, "", false, false, false));
+      dump->push_back(iteminfo("GUN", "sum_of_damage", _(" = <num>"), gun_damage(), true, "", true, false, false));
   }
 
   //armor-pierce of gun
-  dump->push_back(iteminfo("GUN", _("   Armor-pierce: "), "", gun_pierce(false), true, "", !has_ammo, false));
+  dump->push_back(iteminfo("GUN", _("Armor-pierce: "), "", gun_pierce(false), true, "", !has_ammo, false));
   if (has_ammo) {
       temp1.str("");
       temp1 << (ammo_pierce >= 0 ? "+" : "" );//ammo_armor_pierce and sum_of_armor_pierce don't need to translate
