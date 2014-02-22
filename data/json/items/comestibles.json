@@ -4044,7 +4044,7 @@
         "weight" : 18,
         "color" : "red",
         "addiction_type" : "none",
-        "spoils_in" : 0,
+        "spoils_in" : 560,
         "use_action" : "NONE",
         "stim" : 0,
         "container" : "bag_plastic",
@@ -4369,7 +4369,7 @@
         "weight" : 80,
         "color" : "red",
         "addiction_type" : "none",
-        "spoils_in" : 0,
+        "spoils_in" : 280,
         "use_action" : "NONE",
         "stim" : 0,
         "container" : "bag_plastic",
@@ -5895,6 +5895,7 @@
         "phase" : "solid",
         "charges" : 2,
         "bashing" : 0,
+        "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
     {
@@ -9590,7 +9591,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 10,
+        "charges" : 20,
         "bashing" : 0,
         "fun" : -1
     },
@@ -9619,7 +9620,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 10,
+        "charges" : 20,
         "bashing" : 0,
         "fun" : -5
     },
