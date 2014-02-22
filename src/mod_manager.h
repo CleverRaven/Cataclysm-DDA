@@ -162,10 +162,6 @@ class mod_ui
         bool can_shift_down(int selection, std::vector<std::string> active_list);
 
     private:
-        void show_mod_information(WINDOW *win, int width, MOD_INFORMATION *mod, std::string note);
-        int gather_input(int &active_header, int &selection, std::vector<std::string> mod_list,
-                         std::vector<std::string> &active_mods_list);
-
         void set_usable_mods();
 };
 

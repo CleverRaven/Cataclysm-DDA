@@ -4,6 +4,8 @@
 #include "debug.h"
 #include <algorithm>
 
+// Note: Functions for drawing of UI are moved to the file worldfactory.cpp.
+
 mod_ui::mod_ui(mod_manager *mman)
 {
     if (mman) {
@@ -44,12 +46,12 @@ void mod_ui::set_usable_mods()
         MOD_INFORMATION *mod = *a;
 
         switch(mod->_type) {
-            case MT_CORE:
-                available_cores.push_back(mod->ident);
-                break;
-            case MT_SUPPLEMENTAL:
-                available_supplementals.push_back(mod->ident);
-                break;
+        case MT_CORE:
+            available_cores.push_back(mod->ident);
+            break;
+        case MT_SUPPLEMENTAL:
+            available_supplementals.push_back(mod->ident);
+            break;
         }
     }
     std::vector<std::string>::iterator it = ordered_mods.begin();
@@ -104,113 +106,6 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     }
 
     return info.str();
-}
-
-void mod_ui::show_mod_information(WINDOW *win, int width, MOD_INFORMATION *mod, std::string note)
-{
-    const int infopanel_start_y = FULL_SCREEN_HEIGHT - 6;
-    const int infopanel_start_x = 1;
-
-    std::stringstream info;
-    info.str("");
-    // color the note red!
-    if (note.size() > 0) {
-        std::stringstream newnote;
-        newnote << "<color_red>" << note << "</color>";
-        note = newnote.str();
-    }
-    std::vector<std::string> dependencies = mod->dependencies;
-    std::string dependency_string = "";
-    if (dependencies.size() == 0) {
-        dependency_string = _("[NONE]");
-    } else {
-        for (int i = 0; i < dependencies.size(); ++i) {
-            if (i > 0) {
-                dependency_string += ", ";
-            }
-            dependency_string += "[" + active_manager->mod_map[dependencies[i]]->name + "]";
-        }
-    }
-    info << _("Name: ") << "\"" << mod->name << "\"  " << _("Author(s): ") << mod->author << "\n";
-    info << _("Description: ") << "\"" << mod->description << "\"\n";
-    info << _("Dependencies: ") << dependency_string << "\n";
-    if (mod->_type == MT_SUPPLEMENTAL && note.size() > 0) {
-        info << note;
-    }
-    fold_and_print(win, infopanel_start_y, infopanel_start_x, width, c_white, info.str().c_str());
-}
-
-int mod_ui::gather_input(int &active_header, int &selection, std::vector<std::string> mod_list,
-                         std::vector<std::string> &active_mods_list)
-{
-    char ch = input();
-    const int next_header = (active_header == 1) ? 0 : 1;
-    const int prev_header = (active_header == 0) ? 1 : 0;
-
-    const int input_header = active_header;
-
-    int next_selection = selection + 1;
-    int prev_selection = selection - 1;
-
-    if (active_header == 0) {
-        if (prev_selection < 0) {
-            prev_selection = mod_list.size() - 1;
-        }
-        if (next_selection >= mod_list.size()) {
-            next_selection = 0;
-        }
-    } else if (active_header == 1) {
-        if (prev_selection < 0) {
-            prev_selection = active_mods_list.size() - 1;
-        }
-        if (next_selection >= active_mods_list.size()) {
-            next_selection = 0;
-        }
-    }
-
-    switch (ch) {
-        case 'j': // move down
-            selection = next_selection;
-            break;
-        case 'k': // move up
-            selection = prev_selection;
-            break;
-        case 'l': // switch active section
-            active_header = next_header;
-            break;
-        case 'h': // switch active section
-            active_header = prev_header;
-            break;
-        case '\n': // select
-            if (active_header == 0) {
-                try_add(mod_list[selection], active_mods_list);
-            } else if (active_header == 1) {
-                try_rem(selection, active_mods_list);
-            }
-            break;
-        case '+': // move active mod up
-        case '-': // move active mod down
-            if (active_header == 1) {
-                try_shift(ch, selection, active_mods_list);
-            }
-            break;
-        case KEY_ESCAPE: // exit!
-            return -1;
-    }
-
-    if (input_header == 1 && active_header == 1) {
-        if (active_mods_list.size() == 0) {
-            selection = -1;
-        } else {
-            if (selection < 0) {
-                selection = 0;
-            } else if (selection >= active_mods_list.size()) {
-                selection = active_mods_list.size() - 1;
-            }
-        }
-    }
-
-    return 0;
 }
 
 void mod_ui::try_add(const std::string &mod_to_add,
