@@ -1574,6 +1574,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
         } else {
             std::list<item> tmp = p->use_amount(player_use[i].type, abs(player_use[i].count),
                                                 (player_use[i].count < 0));
+            remove_ammo(tmp);
             ret.splice(ret.end(), tmp);
             u.lastconsumed = player_use[i].type;
         }
@@ -1588,6 +1589,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
             std::list<item> tmp =  m.use_amount(point(p->posx, p->posy), PICKUP_RANGE,
                                                 map_use[i].type, abs(map_use[i].count),
                                                 (map_use[i].count < 0));
+            remove_ammo(tmp);
             ret.splice(ret.end(), tmp);
             u.lastconsumed =  map_use[i].type;
         }
@@ -1612,6 +1614,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
             tmp = m.use_amount(point(p->posx, p->posy), PICKUP_RANGE,
                                mixed_use[i].type, from_map, in_container);
             ret.splice(ret.end(), tmp);
+            remove_ammo(ret);
         }
     }
     return ret;
@@ -1806,33 +1809,7 @@ void game::complete_disassemble()
 
     add_msg(_("You disassemble the %s into its components."), dis_item->name.c_str());
     // remove any batteries or ammo first
-    if (dis_item->is_gun() && dis_item->curammo != NULL && dis_item->ammo_type() != "NULL") {
-        item ammodrop;
-        ammodrop = item(dis_item->curammo, turn);
-        ammodrop.charges = dis_item->charges;
-        if (ammodrop.made_of(LIQUID)) {
-            handle_liquid(ammodrop, false, false);
-        } else if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, ammodrop)) {
-            // add_item did put the items in the vehicle, nothing further to be done
-        } else {
-            m.add_item_or_charges(u.posx, u.posy, ammodrop);
-        }
-    }
-    if (dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL") {
-        item ammodrop;
-        ammodrop = item(item_controller->find_template(default_ammo(dis_item->ammo_type())), turn);
-        ammodrop.charges = dis_item->charges;
-        if (dis_item->typeId() == "adv_UPS_off" || dis_item->typeId() == "adv_UPS_on") {
-            ammodrop.charges /= 500;
-        }
-        if (ammodrop.made_of(LIQUID)) {
-            handle_liquid(ammodrop, false, false);
-        } else if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, ammodrop)) {
-            // add_item did put the items in the vehicle, nothing further to be done
-        } else {
-            m.add_item_or_charges(u.posx, u.posy, ammodrop);
-        }
-    }
+    remove_ammo(dis_item);
 
     if (dis_item->count_by_charges()) {
         dis_item->charges -= dis_item->type->stack_size;
@@ -1972,6 +1949,45 @@ void check_recipe_definitions()
             if (!item_controller->has_template(r.result)) {
                 debugmsg("result %s in recipe %s is not a valid item template", r.result.c_str(), r.ident.c_str());
             }
+        }
+    }
+}
+
+void remove_ammo(std::list<item> &dis_items) {
+    for(std::list<item>::iterator a = dis_items.begin(); a != dis_items.end(); ++a) {
+        remove_ammo(&*a);
+    }
+}
+
+void remove_ammo(item *dis_item) {
+    if (dis_item->has_flag("NO_UNLOAD")) {
+        return;
+    }
+    if (dis_item->is_gun() && dis_item->curammo != NULL && dis_item->ammo_type() != "NULL") {
+        item ammodrop;
+        ammodrop = item(dis_item->curammo, g->turn);
+        ammodrop.charges = dis_item->charges;
+        if (ammodrop.made_of(LIQUID)) {
+            while(!g->handle_liquid(ammodrop, false, false)) {
+                // Allow selecting several containers
+            }
+        } else {
+            g->u.i_add_or_drop(ammodrop, 1);
+        }
+    }
+    if (dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL") {
+        item ammodrop;
+        ammodrop = item(item_controller->find_template(default_ammo(dis_item->ammo_type())), g->turn);
+        ammodrop.charges = dis_item->charges;
+        if (dis_item->typeId() == "adv_UPS_off" || dis_item->typeId() == "adv_UPS_on") {
+            ammodrop.charges /= 500;
+        }
+        if (ammodrop.made_of(LIQUID)) {
+            while(!g->handle_liquid(ammodrop, false, false)) {
+                // Allow selecting several containers
+            }
+        } else {
+            g->u.i_add_or_drop(ammodrop, 1);
         }
     }
 }
