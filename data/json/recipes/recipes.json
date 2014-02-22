@@ -22133,7 +22133,7 @@
   "time": 2000,
   "reversible": false,
   "autolearn": false,
-    "book_learn": [[ "manual_shotgun", 0 ] ,[ "manual_rifle", 0 ] ,[ "manual_smg", 0 ] ,[ "manual_pistol", 0 ] , ["recipe_bullets" , 0] , [ "textbook_mechanics", 1 ] , [ "mag_mechanics", 2 ]],
+    "book_learn": [[ "manual_shotgun", 0 ] ,[ "manual_rifle", 0 ] ,[ "manual_smg", 0 ] ,[ "manual_pistol", 0 ] , ["recipe_bullets" , 0] , [ "textbook_mechanics", 1 ] , [ "mag_mechanics", 2 ], [ "mag_rifle", 2 ]],
   "components": [
     [
       ["wire", 2],
