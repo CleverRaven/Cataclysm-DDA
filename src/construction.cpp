@@ -19,6 +19,9 @@ const std::string hotkeys = "abcdefgimnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ!\"#&
 
 std::vector<construction *> constructions;
 
+// Helper functions, nobody but us needs to call these.
+static bool can_construct( const std::string &desc );
+
 std::vector<construction *> constructions_by_desc(const std::string &description)
 {
     std::vector<construction *> result;
@@ -114,8 +117,8 @@ void construction_menu()
         // Print the constructions between offset and max (or how many will fit)
         for (int i = 0; i < iMaxY - 2 && (i + offset) < available.size(); i++) {
             int current = i + offset;
-            nc_color col = (player_can_build(g->u, total_inv, available[current]) ?
-                            c_white : c_dkgray);
+            nc_color col = ( player_can_build(g->u, total_inv, available[current]) &&
+                             can_construct( available[current] ) ) ? c_white : c_dkgray;
             if (current == select) {
                 col = hilite(col);
             }
@@ -400,6 +403,18 @@ bool player_can_build(player &p, inventory pinv, construction *con)
 
     return (has_component || !components_required) &&
            (has_tool || !tools_required);
+}
+
+static bool can_construct( const std::string &desc )
+{
+    // check all with the same desc to see if player can build any
+    std::vector<construction *> cons = constructions_by_desc(desc);
+    for( unsigned i = 0; i < cons.size(); ++i ) {
+        if( can_construct(cons[i]) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool can_construct(construction *con, int x, int y)
