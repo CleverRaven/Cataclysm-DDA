@@ -14,6 +14,9 @@
 
 #include <algorithm>
 
+// Keys available for use as hotkeys.  Excludes vi direction keys and Q for quit.
+const std::string hotkeys = "abcdefgimnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}";
+
 std::vector<construction *> constructions;
 
 std::vector<construction *> constructions_by_desc(const std::string &description)
@@ -113,18 +116,12 @@ void construction_menu()
             int current = i + offset;
             nc_color col = (player_can_build(g->u, total_inv, available[current]) ?
                             c_white : c_dkgray);
-            // Map menu items to hotkey letters, skipping j, k, l, and q.
-            unsigned char hotkey = 97 + current;
-            if (hotkey > 122) {
-                hotkey = hotkey - 58;
-            }
-
             if (current == select) {
                 col = hilite(col);
             }
             // print construction name with limited length.
             // limit(28) = 30(column len) - 2(letter + ' ').
-            mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey,
+            mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkeys[current],
                       utf8_substr(available[current].c_str(), 0, 27).c_str());
         }
 
@@ -302,11 +299,12 @@ void construction_menu()
             break;
         case '\n':
         default:
-            if (ch > 64 && ch < 91) { //A-Z
-                chosen = ch - 65 + 26;
-            } else if (ch > 96 && ch < 123) { //a-z
-                chosen = ch - 97;
-            } else if (ch == '\n') {
+            // Get the index corresponding to the key pressed.
+            chosen = hotkeys.find_first_of( ch );
+            if( chosen == std::string::npos ) {
+                break;
+            }
+            if (ch == '\n') {
                 chosen = select;
             }
             if (chosen < available.size()) {
