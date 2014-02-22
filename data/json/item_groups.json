@@ -6575,6 +6575,13 @@
       ["rep_crossbow", 1],
       ["vaccine_shot", 10],
       ["bio_claws_weapon", 0],
+      ["brew_whiskey", 0],
+      ["brew_rum", 0],
+      ["brew_bum_wine", 0],
+      ["brew_fruit_wine", 0],
+      ["brew_mead", 0],
+      ["brew_hb_beer", 0],
+      ["brew_moonshine", 0],
       ["testflames", 0]
     ]
   },{
