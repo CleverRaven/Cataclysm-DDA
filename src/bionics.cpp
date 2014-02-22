@@ -541,7 +541,7 @@ void player::activate_bionic(int b)
             weapon = ret_null;
         } else if (weapon.type->id == "bio_blade_weapon") {
             g->add_msg(_("Deactivate your monomolecular blade first!"));
-            power_level += 2;
+            power_level += bionics[bio.id]->power_cost;
             return;
         } else if(weapon.type->id != "null") {
             g->add_msg(_("Your claws extend, forcing you to drop your %s."),
@@ -560,7 +560,7 @@ void player::activate_bionic(int b)
             weapon = ret_null;
         } else if (weapon.type->id == "bio_claws_weapon") {
             g->add_msg(_("Deactivate your bionic claws first!"));
-            power_level += 4;
+            power_level += bionics[bio.id]->power_cost;
             return;
         } else if(weapon.type->id != "null") {
             g->add_msg(_("Your blade extends, forcing you to drop your %s."),
