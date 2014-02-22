@@ -1768,7 +1768,7 @@ void npc::use_painkiller()
   debugmsg("NPC tried to use painkillers, but has none!");
   move_pause();
  } else {
-  consume(it.invlet);
+  consume(inv.position_by_item(&it));
   moves = 0;
  }
 }
