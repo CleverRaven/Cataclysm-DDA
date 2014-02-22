@@ -57,7 +57,7 @@ void snake_game::snake_over(WINDOW *w_snake, int iScore)
     }
 
     center_print(w_snake, 17, c_yellow, string_format( _("TOTAL SCORE: %d"), iScore).c_str());
-    center_print(w_snake, 20, c_white, _("Press 'q' or ESC for exit."));
+    center_print(w_snake, 20, c_white, _("Press 'q' or ESC to exit."));
     wrefresh(w_snake);
     do {
         InputEvent input_event = get_input();
@@ -102,7 +102,7 @@ int snake_game::start_game()
     //Draw Score
     print_score(w_snake, iScore);
 
-    int input = '.';
+    InputEvent input;
 
     do {
         //Check if we hit a border
@@ -180,35 +180,35 @@ int snake_game::start_game()
 
         //Check input
         timeout(iGameSpeed);
-        input = getch();
+        input = get_input();
         timeout(-1);
 
         switch (input) {
-        case KEY_UP: /* up */
+        case DirectionN: /* up */
             if (iDirY != 1) {
                 iDirY = -1;
                 iDirX = 0;
             }
             break;
-        case KEY_DOWN: /* down */
+        case DirectionS: /* down */
             if (iDirY != -1) {
                 iDirY = 1;
                 iDirX = 0;
             }
             break;
-        case KEY_LEFT: /* left */
+        case DirectionW: /* left */
             if (iDirX != 1) {
                 iDirY = 0;
                 iDirX = -1;
             }
             break;
-        case KEY_RIGHT: /* right */
+        case DirectionE: /* right */
             if (iDirX != -1) {
                 iDirY = 0;
                 iDirX = 1;
             }
             break;
-        case 'q':
+        case Cancel:
             return iScore;
             break;
         default:
