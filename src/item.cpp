@@ -329,23 +329,23 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
     if(item_tag.at(0) == ivaresc && item_tag.find('=') != -1 && item_tag.find('=') >= 2 ) {
         std::string var_name, val_decoded;
         int svarlen, svarsep;
-        svarsep=item_tag.find('=');
-        svarlen=item_tag.size();
-        val_decoded="";
-        var_name=item_tag.substr(1,svarsep-1); // will assume sanity here for now
-        for(int s = svarsep+1; s < svarlen; s++ ) { // cheap and temporary, afaik stringstream IFS = [\r\n\t ];
-            if(item_tag[s] == ivaresc && s < svarlen-2 ) {
-                if ( item_tag[s+1] == '0' && item_tag[s+2] == 'A' ) {
-                    s+=2;
+        svarsep = item_tag.find('=');
+        svarlen = item_tag.size();
+        val_decoded = "";
+        var_name = item_tag.substr(1, svarsep - 1); // will assume sanity here for now
+        for(int s = svarsep + 1; s < svarlen; s++ ) { // cheap and temporary, afaik stringstream IFS = [\r\n\t ];
+            if(item_tag[s] == ivaresc && s < svarlen - 2 ) {
+                if ( item_tag[s + 1] == '0' && item_tag[s + 2] == 'A' ) {
+                    s += 2;
                     val_decoded.append(1, '\n');
-                } else if ( item_tag[s+1] == '0' && item_tag[s+2] == 'D' ) {
-                    s+=2;
+                } else if ( item_tag[s + 1] == '0' && item_tag[s + 2] == 'D' ) {
+                    s += 2;
                     val_decoded.append(1, '\r');
-                } else if ( item_tag[s+1] == '0' && item_tag[s+2] == '6' ) {
-                    s+=2;
+                } else if ( item_tag[s + 1] == '0' && item_tag[s + 2] == '6' ) {
+                    s += 2;
                     val_decoded.append(1, '\t');
-                } else if ( item_tag[s+1] == '2' && item_tag[s+2] == '0' ) {
-                    s+=2;
+                } else if ( item_tag[s + 1] == '2' && item_tag[s + 2] == '0' ) {
+                    s += 2;
                     val_decoded.append(1, ' ');
                 } else {
                     val_decoded.append(1, item_tag[s]); // hhrrrmmmmm should be passing \a?
@@ -415,7 +415,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   }
   dump->push_back(iteminfo("BASE", _(" To-hit bonus: "), ((type->m_to_hit > 0) ? "+" : ""), type->m_to_hit, true, ""));
   dump->push_back(iteminfo("BASE", _("Moves per attack: "), "", attack_time(), true, "", true, true));
-  dump->push_back(iteminfo("BASE", _("Price: "), "<num>$", (double)price() / 100, false, "", true, true));
+  dump->push_back(iteminfo("BASE", _("Price: "), "<num>", (double)price() / 100, false, "$", true, true));
 
   if (get_material(1) != "null") {
       std::string material_string = material_type::find_material(get_material(1))->name();
