@@ -140,7 +140,7 @@ public:
  int attack_time();
  int damage_bash();
  int damage_cut() const;
- bool has_flag(std::string f) const;
+ bool has_flag(const std::string &f) const;
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
  bool has_technique(std::string t);
