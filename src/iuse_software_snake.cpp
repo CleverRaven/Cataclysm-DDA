@@ -72,7 +72,7 @@ void snake_game::snake_over(WINDOW *w_snake, int iScore)
     game_over_text.push_back("  /   |   \\\\   Y   /  |    __)_  |       _/      ");
     game_over_text.push_back(" /    |    \\\\     /   |        \\ |    |   \\    ");
     game_over_text.push_back(" \\_______  / \\___/   /_______  / |____|_  /      ");
-    game_over_text.push_back("         \\/                   \\/         \\/     ");
+    game_over_text.push_back("         \\/                  \\/         \\/      ");
 
     for (size_t i = 0; i < game_over_text.size(); i++) {
         mvwprintz(w_snake, i + 3, 17, c_ltred, game_over_text[i].c_str());
