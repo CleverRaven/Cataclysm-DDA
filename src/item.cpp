@@ -1664,8 +1664,10 @@ bool item::made_of(std::string mat_ident) const
 
 std::string item::get_material(int m) const
 {
-    if (corpse != NULL && typeId() == "corpse" )
-        return corpse->mat;
+    if (corpse != NULL && typeId() == "corpse" ) {
+        // corpses have only one material
+        return m == 1 ? corpse->mat : "null";
+    }
 
     if ( is_null())
         return "NULL type";
