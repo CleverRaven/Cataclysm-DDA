@@ -44,11 +44,11 @@ struct iteminfo{
     is_int = _is_int;
     dValue = Value;
     std::stringstream convert;
-    if (_is_int == true) {
+    if (_is_int) {
         int dIn0i = int(Value);
         convert << dIn0i;
     } else {
-        convert.precision(1);
+        convert.precision(2);
         convert << std::fixed << Value;
     }
     sValue = convert.str();
