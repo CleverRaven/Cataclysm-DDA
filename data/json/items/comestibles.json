@@ -4946,7 +4946,7 @@
         "heal" : 1,
         "addiction_potential" : 0,
         "nutrition" : 16,
-        "description" : "An irradiated apple, will remain edible nearly forever. Sterilized using radiation, so safe to eat.",
+        "description" : "Mmm, irradiated. Will remain edible nearly forever. Sterilized using radiation, so safe to eat.",
         "price" : 2000,
         "material" : "fruit",
         "tool" : "null",
