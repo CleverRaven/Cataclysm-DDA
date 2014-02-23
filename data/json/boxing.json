@@ -21,7 +21,7 @@
         "bashing" : -1,
         "flags" : ["VARSIZE", "OVERSIZE", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 5
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -57,11 +57,11 @@
             ["headgear", 45],
             ["mouthpiece", 45],
             ["jersey", 40],
-            ["coat_rain", 10],
-            ["hood_rain", 10],
+            ["coat_rain", 15],
+            ["hood_rain", 15],
             ["gloves_wraps", 45],
             ["jeans", 30],
-            ["sports_bra", 15],
+            ["sports_bra", 25],
             ["jacket_leather", 25],
             ["aspirin", 30],
             ["1st_aid", 20]
@@ -71,10 +71,10 @@
         "type"  : "item_group",
         "id"    : "boxing_books",
         "items" : [
-            ["mag_unarmed", 50],
+            ["mag_unarmed", 40],
             ["manual_boxing", 50],
-            ["mag_melee", 35],
-            ["mag_bashing", 20],
+            ["mag_melee", 25],
+            ["mag_bashing", 10],
             ["manual_melee", 15],
             ["recipe_melee", 10]
         ]
@@ -118,7 +118,7 @@
         "type" : "furniture",
         "id" : "f_canvas_floor",
         "name": "Canvas floor",
-        "symbol": ".",
+        "symbol": "#",
         "color": "white",
         "move_cost_mod": 0,
         "required_str": -1,
@@ -237,17 +237,17 @@
                     "^": "f_indoor_plant"
                 },
                 "place_groups": [
-                    { "item": "boxing_clothes", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [5, 8] },
+                    { "item": "boxing_clothes", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [3, 5] },
                     { "item": "boxing_clothes", "x": [3, 11], "y": [18, 18], "chance": 40, "repeat": [1, 2] },
                     { "item": "boxing_books", "x": [17, 19], "y": [18, 18], "chance": 80, "repeat": [1, 3] },
-                    { "item": "boxing_misc", "x": [16, 20], "y": [22, 22], "chance": 60, "repeat": [1, 3] }
+                    { "item": "boxing_misc", "x": [16, 20], "y": [22, 22], "chance": 60, "repeat": [1, 4] }
                 ],
                 "place_specials": [
                     { "type": "toilet", "x": 11, "y": 22 }
                 ],
                 
                 "add": [
-                    { "item": "water_clean", "x": 12, "y": 16, "amount": 15 }
+                    { "item": "water_clean", "x": 12, "y": 16, "amount": 10 }
                 ] }
             }
         ]
