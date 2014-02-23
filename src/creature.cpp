@@ -242,6 +242,20 @@ int Creature::deal_melee_attack(Creature *source, int hitroll, bool critical_hit
     }
     */
 
+    if (source->has_flag(MF_GRABS)) {
+        g->add_msg_if_player(this, _("The %s grabs you!"), source->disp_name().c_str());
+        if (get_grab_resist() > 0 && dice(get_dex(), 10) > dice(source->get_dex(), 10)) {
+            g->add_msg_player_or_npc(this, _("You break the grab!"),
+                                           _("<npcname> breaks the grab!"));
+        //} else if (unarmed_attack()) {
+            //item tmpweap = remove_weapon();
+        //    source->melee_attack(*this, false);
+            //weapon = tmpweap;
+        } else {
+            source->melee_attack(*this, false);
+        }
+    }
+
     return hit_spread;
 }
 

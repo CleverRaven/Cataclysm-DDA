@@ -4128,17 +4128,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
 
         if (source->has_flag(MF_BLEED) && d.total_damage() > 6 && d.type_damage(DT_CUT) > 0) {
             g->add_msg_if_player(this, _("You're Bleeding!"));
-            //has_disease("bleed", bp, side);
-            add_disease("bleed", 60, false, 1, 3, 120, 1, bp, side, true);
-        }
-
-        if ( source->has_flag(MF_GRABS)/* && (rng(0, 10000) > 11000 * exp(-.3 * skillLevel("melee")))*/) {
-            g->add_msg(_("The %s grabs you!"), source->disp_name().c_str());
-            if (has_grab_break_tec() && dice(dex_cur + skillLevel("melee"), 12) > dice(source-> get_hit() + source->get_str() + source->get_dex(), 10)) {
-                g->add_msg_if_player(this, _("You break the grab!"));
-            } else {
-                //hit_player(*this);
-            }
+            add_disease("bleed", 60, false, 1, 3, 120, 1, bp, -1, true);
         }
 
     return dealt_damage_instance(dealt_dams);
