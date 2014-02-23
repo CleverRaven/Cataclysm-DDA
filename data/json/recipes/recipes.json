@@ -1818,13 +1818,13 @@
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
   "skill_used": "cooking",
   "difficulty": 7,
-  "time": 1500,
+  "time": 10000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_anarch", 5 ] , [ "adv_chemistry", 5 ] , [ "textbook_chemistry", 5 ]],
+  "book_learn": [[ "textbook_anarch", 5 ] , [ "adv_chemistry", 6 ] , [ "textbook_chemistry", 6 ]],
   "tools": [
     [
-      [ "chemistry_set", -1 ]
+      [ "chemistry_set", 25 ]
     ]
   ],
   "components": [
