@@ -60,7 +60,7 @@
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
                 "max_stacks" : 1,
-                "bash_dex" : 0.1,
+                "bash_dex" : 0.15,
                 "bash_per" : 0.15,
                 "block_str" : 0.5
             }
@@ -85,7 +85,7 @@
                 "min_unarmed" : 5,
                 "unarmed_allowed" : true,
                 "max_stacks": 2,
-                "buff_duration" : 2.5,
+                "buff_duration" : 3,
                 "bash_mult" : 1.25
             }
         ],
