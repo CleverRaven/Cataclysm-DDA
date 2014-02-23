@@ -1,7 +1,7 @@
 #include "action.h"
 #include "keypress.h"
 #include "output.h"
-#include "globals.h"
+#include "path_info.h"
 #include <istream>
 #include <sstream>
 #include <fstream>

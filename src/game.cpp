@@ -33,7 +33,7 @@
 #include "worldfactory.h"
 #include "file_finder.h"
 #include "mod_manager.h"
-#include "globals.h"
+#include "path_info.h"
 #include <map>
 #include <set>
 #include <algorithm>

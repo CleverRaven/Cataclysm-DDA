@@ -17,7 +17,7 @@
 #include <cstdlib>
 #include <signal.h>
 #include <map>
-#include "globals.h"
+#include "path_info.h"
 #ifdef LOCALIZE
 #include <libintl.h>
 #endif

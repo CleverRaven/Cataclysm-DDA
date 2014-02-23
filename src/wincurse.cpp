@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <fstream>
 #include "init.h"
-#include "globals.h"
+#include "path_info.h"
 
 //***********************************
 //Globals                           *

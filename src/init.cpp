@@ -27,7 +27,7 @@
 #include "construction.h"
 #include "name.h"
 #include "ammo.h"
-#include "globals.h"
+#include "path_info.h"
 
 #include <string>
 #include <vector>

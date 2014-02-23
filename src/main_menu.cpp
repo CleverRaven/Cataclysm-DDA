@@ -12,7 +12,7 @@
 #include "options.h"
 #include "worldfactory.h"
 #include "file_wrapper.h"
-#include "globals.h"
+#include "path_info.h"
 
 #include <sys/stat.h>
 #ifdef _MSC_VER

@@ -1,5 +1,5 @@
 #include "debug.h"
-#include "globals.h"
+#include "path_info.h"
 #include <time.h>
 #include <cstdlib>
 

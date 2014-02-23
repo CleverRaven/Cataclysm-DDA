@@ -10,7 +10,7 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "char_validity_check.h"
-#include "globals.h"
+#include "path_info.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif

@@ -10,7 +10,7 @@
 #include "options.h"
 #include "debug.h"
 #include "iuse_software_sokoban.h"
-#include "globals.h"
+#include "path_info.h"
 
 sokoban_game::sokoban_game()
 {

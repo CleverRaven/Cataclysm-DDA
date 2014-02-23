@@ -5,7 +5,7 @@
 #include "output.h"
 #include "keypress.h"
 #include "game.h"
-#include "globals.h"
+#include "path_info.h"
 #include <fstream>
 
 /* TODO Replace the hardcoded values with an abstraction layer.

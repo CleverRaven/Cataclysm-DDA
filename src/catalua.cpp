@@ -7,7 +7,7 @@
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "map.h"
-#include "globals.h"
+#include "path_info.h"
 
 #ifdef LUA
 extern "C" {

@@ -6,7 +6,7 @@
 #include "item_factory.h"
 #include "catacharset.h"
 #include "translations.h"
-#include "globals.h"
+#include "path_info.h"
 
 #include <stdlib.h>
 #include <fstream>

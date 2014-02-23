@@ -19,7 +19,7 @@
 #include "debug.h"
 #include "uistate.h"
 #include "translations.h"
-#include "globals.h"
+#include "path_info.h"
 
 // Display data
 int TERMX;

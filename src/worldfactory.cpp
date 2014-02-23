@@ -3,7 +3,7 @@
 #include "char_validity_check.h"
 #include "mod_manager.h"
 #include "file_wrapper.h"
-#include "globals.h"
+#include "path_info.h"
 
 #include "name.h"
 

@@ -6,7 +6,7 @@
 #include "translations.h"
 #include "file_finder.h"
 #include "cursesdef.h"
-#include "globals.h"
+#include "path_info.h"
 #ifdef SDLTILES
 #include "cata_tiles.h"
 #endif // SDLTILES
