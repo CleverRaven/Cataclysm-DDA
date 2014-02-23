@@ -7096,7 +7096,7 @@ bool player::eat(item *eaten, it_comest *comest)
         return false;
     }
     if ((!has_trait("SAPIOVORE") && has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&& !is_npc() &&
-        !query_yn(_("The thought of eating that makes you feel both guilty and excited. Go through with it?"))) {
+        !query_yn(_("The thought of eating that makes you feel both guilty and excited. Really do it?"))) {
         return false;
     }
 
