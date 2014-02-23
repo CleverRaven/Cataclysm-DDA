@@ -1813,6 +1813,39 @@
   ]
 },{
         "type" : "recipe",
+  "result": "dynamite",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_EXPLOSIVE",
+  "skill_used": "cooking",
+  "difficulty": 7,
+  "time": 1500,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_gaswarfare", 5 ] , [ "adv_chemistry", 5 ] , [ "textbook_chemistry", 5 ]],
+  "tools": [
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "paper", 5 ],
+      [ "rolling_paper", 5],
+      [ "wrapper", 5]
+    ],
+    [
+      [ "acid", 2 ]
+    ],
+    [
+      [ "ammonia", 1 ]
+    ],
+    [
+      [ "soap", 3 ],
+      [ "cooking_oil", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "shotgun_sawn",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
