@@ -3945,7 +3945,7 @@ bool player::is_dead_state() {
     return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
 }
 
-void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &damage) {
+void player::on_gethit(Creature *source, body_part bp_hit, damage_instance&) {
     bool u_see = g->u_see(this);
     if (source != NULL) {
         if (has_active_bionic("bio_ods")) {
@@ -3979,32 +3979,32 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &dama
             source->deal_damage(this, bp_torso, 3, spine_damage);
         }
 
-        if (damage.total_damage() > 0 && source->has_flag("VENOM")) {
+    /*    if (dam.total_damage() > 0 && source->has_flag(MF_VENOM)) {
             g->add_msg_if_player(this, _("You're poisoned!"));
             add_disease("poison", 30);
         }
-        else if (damage.total_damage() > 0 && source->has_flag("BADVENOM")) {
+        else if (dam.total_damage() > 0 && source->has_flag(MF_BADVENOM)) {
             g->add_msg_if_player(this, _("You feel poison flood your body, wracking you with pain..."));
             add_disease("badpoison", 40);
         }
-        else if (damage.total_damage() > 0 && source->has_flag("PARALYZEVENOM")) {
+        else if (dam.total_damage() > 0 && source->has_flag(MF_PARALYZE)) {
             g->add_msg_if_player(this, _("You feel poison enter your body!"));
             add_disease("paralyzepoison", 100, false, 1, 20, 100);
         }
 
-        if (source->has_flag("BLEED") && damage.total_damage() > 6 && damage.type_damage(DT_CUT) > 0) {
+        if (source->has_flag(MF_BLEED) && dam.total_damage() > 6 && dam.type_damage(DT_CUT) > 0) {
             g->add_msg_if_player(this, _("You're Bleeding!"));
-            add_disease("bleed", 60, false, 1, 3, 120, 1, bphit, side, true);
+            add_disease("bleed", 60, false, 1, 3, 120, 1, bp_hit, side, true);
         }
 
-        if (source->has_flag("GRABS") && (rng(0, 10000) > 11000 * exp(-.3 * type->melee_skill))) {
-            g->add_msg(_("The %s grabs you!"), name().c_str());
-            if (has_grab_break_tec() && dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10)) {
+        if ( source->has_flag(MF_GRABS) && (rng(0, 10000) > 11000 * exp(-.3 * skillLevel("melee")))) {
+            g->add_msg(_("The %s grabs you!"), source->disp_name().c_str());
+            if (has_grab_break_tec() && dice(dex_cur + skillLevel("melee"), 12) > dice(source-> get_hit() + source->get_str() + source->get_dex(), 10)) {
                 g->add_msg_if_player(this, _("You break the grab!"));
             } else {
-                hit_player(this);
+                //hit_player(this);
             }
-        }
+        }*/
     }
 }
 
@@ -4109,6 +4109,37 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     default:
         debugmsg("Wacky body part hit!");
     }
+
+        if (d.total_damage() > 0 && source->has_flag(MF_VENOM)) {
+            g->add_msg_if_player(this, _("You're poisoned!"));
+            add_disease("poison", 30, false, 1, 20, 100);
+            add_effect("poison", 30);
+        }
+        else if (d.total_damage() > 0 && source->has_flag(MF_BADVENOM)) {
+            g->add_msg_if_player(this, _("You feel poison flood your body, wracking you with pain..."));
+            add_disease("badpoison", 40);
+            add_effect("badpoison", 40);
+        }
+        else if (d.total_damage() > 0 && source->has_flag(MF_PARALYZE)) {
+            g->add_msg_if_player(this, _("You feel poison enter your body!"));
+            add_disease("paralyzepoison", 100, false, 1, 20, 100);
+            add_effect("paralyzepoison", 100);
+        }
+
+        if (source->has_flag(MF_BLEED) && d.total_damage() > 6 && d.type_damage(DT_CUT) > 0) {
+            g->add_msg_if_player(this, _("You're Bleeding!"));
+            //has_disease("bleed", bp, side);
+            add_disease("bleed", 60, false, 1, 3, 120, 1, bp, side, true);
+        }
+
+        if ( source->has_flag(MF_GRABS)/* && (rng(0, 10000) > 11000 * exp(-.3 * skillLevel("melee")))*/) {
+            g->add_msg(_("The %s grabs you!"), source->disp_name().c_str());
+            if (has_grab_break_tec() && dice(dex_cur + skillLevel("melee"), 12) > dice(source-> get_hit() + source->get_str() + source->get_dex(), 10)) {
+                g->add_msg_if_player(this, _("You break the grab!"));
+            } else {
+                //hit_player(*this);
+            }
+        }
 
     return dealt_damage_instance(dealt_dams);
 }
