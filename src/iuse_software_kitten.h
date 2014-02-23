@@ -26,18 +26,18 @@ class robot_finds_kitten {
 public:
     bool ret;
     std::string getmessage(int idx);
-    robot_finds_kitten(WINDOW * w);
-    void instructions(WINDOW * w);
-    void draw_robot(WINDOW * w);
-    void draw_kitten(WINDOW * w);
-    void process_input(int input, WINDOW * w);
+    robot_finds_kitten(WINDOW *w);
+    void instructions(WINDOW *w);
+    void draw_robot(WINDOW *w);
+    void draw_kitten(WINDOW *w);
+    void process_input(int input, WINDOW *w);
     kobject robot;
     kobject kitten;
     kobject empty;
-    kobject bogus[1200];
+    kobject bogus[MAXMESSAGES];
     int rfkscreen[60][20];
     int nummessages;
-int bogus_messages[1200];
+int bogus_messages[MAXMESSAGES];
 int rfkLINES;
 int rfkCOLS;
 };
