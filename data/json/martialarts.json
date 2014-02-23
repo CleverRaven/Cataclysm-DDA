@@ -56,13 +56,13 @@
             {
                 "id" : "boxing_static",
                 "name" : "Boxing",
-                "description" : "Increase unarmed power on dex/per and reduce block damage through str.",
+                "description" : "Dex/Per increases unarmed power, Str reduces block damage.",
                 "unarmed_allowed" : true,
-                "min_unarmed" : 2,
+                "min_unarmed" : 0,
                 "max_stacks" : 1,
                 "bash_dex" : 0.1,
                 "bash_per" : 0.15,
-                "block_str" : 0.6
+                "block_str" : 0.5
             }
         ],
         "onmove_buffs" : [
@@ -85,7 +85,7 @@
                 "min_unarmed" : 5,
                 "unarmed_allowed" : true,
                 "max_stacks": 2,
-                "buff_duration" : 2,
+                "buff_duration" : 2.5,
                 "bash_mult" : 1.25
             }
         ],
