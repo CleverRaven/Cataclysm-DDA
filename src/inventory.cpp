@@ -570,6 +570,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
             if (terrain_id == t_cvdmachine) {
                 item cvd_machine(itypes["cvd_machine"], 0);
                 cvd_machine.charges = 1;
+                cvd_machine.item_tags.insert("PSEUDO");
                 add_item(cvd_machine);
             }
             // kludge that can probably be done better to check specifically for toilet water to use in
@@ -608,6 +609,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 if (kpart >= 0) {
                     item hotplate(itypes["hotplate"], 0);
                     hotplate.charges = veh->fuel_left("battery");
+                    hotplate.item_tags.insert("PSEUDO");
                     add_item(hotplate);
 
                     item water(itypes["water_clean"], 0);
@@ -615,44 +617,54 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                     add_item(water);
 
                     item pot(itypes["pot"], 0);
+                    pot.item_tags.insert("PSEUDO");
                     add_item(pot);
                     item pan(itypes["pan"], 0);
+                    pan.item_tags.insert("PSEUDO");
                     add_item(pan);
                 }
                 if (weldpart >= 0) {
                     item welder(itypes["welder"], 0);
                     welder.charges = veh->fuel_left("battery");
+                    welder.item_tags.insert("PSEUDO");
                     add_item(welder);
 
                     item soldering_iron(itypes["soldering_iron"], 0);
                     soldering_iron.charges = veh->fuel_left("battery");
+                    soldering_iron.item_tags.insert("PSEUDO");
                     add_item(soldering_iron);
                 }
                 if (craftpart >= 0) {
                     item vac_sealer(itypes["vac_sealer"], 0);
                     vac_sealer.charges = veh->fuel_left("battery");
+                    vac_sealer.item_tags.insert("PSEUDO");
                     add_item(vac_sealer);
 
                     item dehydrator(itypes["dehydrator"], 0);
                     dehydrator.charges = veh->fuel_left("battery");
+                    dehydrator.item_tags.insert("PSEUDO");
                     add_item(dehydrator);
 
                     item press(itypes["press"], 0);
                     press.charges = veh->fuel_left("battery");
+                    press.item_tags.insert("PSEUDO");
                     add_item(press);
                 }
                 if (forgepart >= 0) {
                     item forge(itypes["forge"], 0);
                     forge.charges = veh->fuel_left("battery");
+                    forge.item_tags.insert("PSEUDO");
                     add_item(forge);
                 }
                 if (chempart >= 0) {
                     item hotplate(itypes["hotplate"], 0);
                     hotplate.charges = veh->fuel_left("battery");
+                    hotplate.item_tags.insert("PSEUDO");
                     add_item(hotplate);
 
                     item chemistry_set(itypes["chemistry_set"], 0);
                     chemistry_set.charges = veh->fuel_left("battery");
+                    chemistry_set.item_tags.insert("PSEUDO");
                     add_item(chemistry_set);
                 }
             }
@@ -1011,6 +1023,11 @@ std::vector<item*> inventory::all_ammo(ammotype type)
 
 int inventory::amount_of(itype_id it) const
 {
+    return amount_of(it, true);
+}
+
+int inventory::amount_of(itype_id it, bool used_as_tool) const
+{
     int count = 0;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
     {
@@ -1018,28 +1035,7 @@ int inventory::amount_of(itype_id it) const
              stack_iter != iter->end();
              ++stack_iter)
         {
-            if (stack_iter->type->id == it)
-            {
-                // check if it's a container, if so, it should be empty
-                if (stack_iter->type->is_container())
-                {
-                    if (stack_iter->contents.empty())
-                    {
-                        count++;
-                    }
-                }
-                else
-                {
-                    count++;
-                }
-            }
-            for (int k = 0; k < stack_iter->contents.size(); k++)
-            {
-                if (stack_iter->contents[k].type->id == it)
-                {
-                    count++;
-                }
-            }
+            count += stack_iter->amount_of(it, used_as_tool);
         }
     }
     return count;
@@ -1197,9 +1193,24 @@ std::list<item> inventory::use_charges(itype_id it, long quantity)
     return ret;
 }
 
+bool inventory::has_tools(itype_id it, int quantity) const
+{
+    return has_amount(it, quantity, true);
+}
+
+bool inventory::has_components(itype_id it, int quantity) const
+{
+    return has_amount(it, quantity, false);
+}
+
 bool inventory::has_amount(itype_id it, int quantity) const
 {
-    return (amount_of(it) >= quantity);
+    return has_amount(it, quantity, true);
+}
+
+bool inventory::has_amount(itype_id it, int quantity, bool used_as_tool) const
+{
+    return (amount_of(it, used_as_tool) >= quantity);
 }
 
 bool inventory::has_charges(itype_id it, long quantity) const

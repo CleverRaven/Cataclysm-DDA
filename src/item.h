@@ -140,6 +140,8 @@ public:
  int attack_time();
  int damage_bash();
  int damage_cut() const;
+ // See inventory::amount_of, this does the same for this item (and its content)
+ int amount_of(const itype_id &it, bool used_as_tool) const;
  bool has_flag(std::string f) const;
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;

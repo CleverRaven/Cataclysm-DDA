@@ -2786,6 +2786,23 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
     return remaining_capacity;
 }
 
+int item::amount_of(const itype_id &it, bool used_as_tool) const
+{
+    int count = 0;
+    // Check that type matches, and (if not used as tool), it
+    // is not a pseudo item.
+    if (type->id == it && (used_as_tool || !has_flag("PSEUDO"))) {
+        if (contents.empty()) {
+            // Only use empty container
+            count++;
+        }
+    }
+    for (size_t k = 0; k < contents.size(); k++) {
+        count += contents[k].amount_of(it, used_as_tool);
+    }
+    return count;
+}
+
 const item_category &item::get_category() const
 {
     if(is_container() && !contents.empty()) {
