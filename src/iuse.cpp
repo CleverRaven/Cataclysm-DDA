@@ -5437,6 +5437,8 @@ int iuse::turret(player *p, item *, bool)
     else {
       g->add_msg_if_player(p,_("You load %d x 9mm rounds into the turret."), ammo);
     }
+ } else {
+    g->add_msg_if_player(p,_("If you had standard factory-built 9mm bullets, you could even load the turret."));
  }
  mturret.ammo = ammo;
  if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
