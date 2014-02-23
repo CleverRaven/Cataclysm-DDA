@@ -198,7 +198,7 @@ void construction_menu()
                     for (unsigned j = 0; j < current_con->tools[i].size(); j++) {
                         itype_id tool = current_con->tools[i][j].type;
                         nc_color col = c_red;
-                        if (total_inv.has_amount(tool, 1)) {
+                        if (total_inv.has_tools(tool, 1)) {
                             has_tool[i] = true;
                             col = c_green;
                         }
@@ -234,7 +234,7 @@ void construction_menu()
                         if( ( item_controller->find_template(comp.type)->is_ammo() &&
                               total_inv.has_charges(comp.type, comp.count)) ||
                             (!item_controller->find_template(comp.type)->is_ammo() &&
-                             total_inv.has_amount(comp.type, comp.count)) ) {
+                             total_inv.has_components(comp.type, comp.count)) ) {
                             has_component[i] = true;
                             col = c_green;
                         }
@@ -364,7 +364,7 @@ bool player_can_build(player &p, inventory pinv, construction *con)
             tools_required = true;
             has_tool = false;
             for (unsigned k = 0; k < con->tools[j].size(); k++) {
-                if (pinv.has_amount(con->tools[j][k].type, 1)) {
+                if (pinv.has_tools(con->tools[j][k].type, 1)) {
                     has_tool = true;
                     con->tools[j][k].available = 1;
                 } else {
@@ -386,7 +386,7 @@ bool player_can_build(player &p, inventory pinv, construction *con)
                       pinv.has_charges(con->components[j][k].type,
                                        con->components[j][k].count)    ) ||
                     (!item_controller->find_template(con->components[j][k].type)->is_ammo() &&
-                     pinv.has_amount (con->components[j][k].type,
+                     pinv.has_components (con->components[j][k].type,
                                       con->components[j][k].count)    )) {
                     has_component = true;
                     con->components[j][k].available = 1;

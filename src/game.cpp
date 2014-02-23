@@ -8494,7 +8494,7 @@ void game::zoom_out() {
 
 int game::list_items(const int iLastState)
 {
-    int iInfoHeight = 12;
+    int iInfoHeight = 21;
     const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERMX - width);
     WINDOW* w_item_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width + 1);
@@ -9379,7 +9379,7 @@ and you can't unwield your %s."),
     // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
     int maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
 
-    int itemsH = 12;
+    int itemsH = 21;
     int pickupBorderRows = 3;
 
     // The pickup list may consume the entire terminal, minus space needed for its
@@ -11171,7 +11171,7 @@ void game::unload(int pos)
 
 void game::unload(item& it)
 {
-    if ( !it.is_gun() && it.contents.size() == 0 && (!it.is_tool() || it.ammo_type() == "NULL") )
+    if ( !it.is_gun() && it.contents.size() == 0 && (!it.is_tool() || it.ammo_type() == "NULL"))
     {
         add_msg(_("You can't unload a %s!"), it.tname().c_str());
         return;

@@ -379,6 +379,10 @@ mtype *MonsterGenerator::get_mtype(std::string mon)
     {
         mon = "mon_zombie_dog";
     }
+    if (mon == "mon_fungaloid_dormant")
+    {
+        mon = "mon_fungaloid";
+    }
 
     if (mon_templates.find(mon) != mon_templates.end())
     {

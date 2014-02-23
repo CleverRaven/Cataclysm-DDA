@@ -475,7 +475,8 @@
         "avoidance" : 4,
         "difficulty" : 7,
         "player_action" : "boobytrap",
-        "monster_action" : "boobytrap"
+        "monster_action" : "boobytrap",
+        "drops" : ["boobytrap"]
     },
     {
         "type" : "trap",

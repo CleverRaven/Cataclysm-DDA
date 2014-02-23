@@ -1384,8 +1384,8 @@ void JsonIn::error(std::string message, int offset)
     rewind(1, 240);
     startpos = tell();
     err << '\n';
-    for (int i=0; i < pos-startpos-1; ++i) {
-        err << ' ';
+    if (pos > startpos) {
+        err << std::string(pos - startpos - 1, ' ');
     }
     err << "^\n";
     seek(pos);

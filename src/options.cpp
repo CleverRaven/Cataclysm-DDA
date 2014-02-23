@@ -593,8 +593,8 @@ void initOptions() {
                                              false
                                             );
 
-    OPTIONS["BLACK_ROAD"] =             cOpt("world_default", _("Black Road"),
-                                             _("If true, spawn zombies at shelters."),
+    OPTIONS["BLACK_ROAD"] =             cOpt("world_default", _("Surrounded start"),
+                                             _("If true, spawn zombies at shelters. Makes the starting game a lot harder."),
                                              false
                                             );
 
