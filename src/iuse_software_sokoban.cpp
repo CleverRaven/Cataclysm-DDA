@@ -18,19 +18,19 @@ sokoban_game::sokoban_game()
 void sokoban_game::print_score(WINDOW *w_sokoban, int iScore, int iMoves)
 {
     std::stringstream ssTemp;
-    ssTemp << "Level: " << iCurrentLevel+1 << "/" << iNumLevel << "    ";
+    ssTemp << _("Level: ") << iCurrentLevel + 1 << "/" << iNumLevel << "    ";
     mvwprintz(w_sokoban, 1, 3, c_white, ssTemp.str().c_str());
 
     ssTemp.str("");
-    ssTemp << "Score: " << iScore;
+    ssTemp << _("Score: ") << iScore;
     mvwprintz(w_sokoban, 2, 3, c_white, ssTemp.str().c_str());
 
     ssTemp.str("");
-    ssTemp << "Moves: " << iMoves << "    ";
+    ssTemp << _("Moves: ") << iMoves << "    ";
     mvwprintz(w_sokoban, 3, 3, c_white, ssTemp.str().c_str());
 
     ssTemp.str("");
-    ssTemp << "Total moves: " << iTotalMoves;
+    ssTemp << _("Total moves: ") << iTotalMoves;
     mvwprintz(w_sokoban, 4, 3, c_white, ssTemp.str().c_str());
 
 }
@@ -75,8 +75,8 @@ bool sokoban_game::parse_level()
 
         if (sLine == "") {
             //Find level start
-            vLevel.resize(iNumLevel+1);
-            vLevelDone.resize(iNumLevel+1);
+            vLevel.resize(iNumLevel + 1);
+            vLevelDone.resize(iNumLevel + 1);
             mLevelInfo[iNumLevel]["MaxLevelY"] = 0;
             mLevelInfo[iNumLevel]["MaxLevelX"] = 0;
             mLevelInfo[iNumLevel]["PlayerY"] = 0;
@@ -88,7 +88,7 @@ bool sokoban_game::parse_level()
             mLevelInfo[iNumLevel]["MaxLevelX"] = sLine.length();
         }
 
-        for (int i=0; i < sLine.length(); i++) {
+        for (int i = 0; i < sLine.length(); i++) {
             if ( sLine[i] == '@' ) {
                 if (mLevelInfo[iNumLevel]["PlayerY"] == 0 && mLevelInfo[iNumLevel]["PlayerX"] == 0) {
                     mLevelInfo[iNumLevel]["PlayerY"] = mLevelInfo[iNumLevel]["MaxLevelY"];
@@ -122,65 +122,54 @@ int sokoban_game::get_wall_connection(const int iY, const int iX)
     bool bBottom = false;
     bool bLeft = false;
 
-    if (mLevel[iY-1][iX] == "#") {
+    if (mLevel[iY - 1][iX] == "#") {
         bTop = true;
     }
 
-    if (mLevel[iY][iX+1] == "#") {
+    if (mLevel[iY][iX + 1] == "#") {
         bRight = true;
     }
 
-    if (mLevel[iY+1][iX] == "#") {
+    if (mLevel[iY + 1][iX] == "#") {
         bBottom = true;
     }
 
-    if (mLevel[iY][iX-1] == "#") {
+    if (mLevel[iY][iX - 1] == "#") {
         bLeft = true;
     }
 
     if (!bRight && !bLeft) {
-        //#define LINE_XOXO 4194424
-        return 4194424;
+        return LINE_XOXO; //
 
     } else if (!bTop && !bBottom) {
-        //#define LINE_OXOX 4194417
-        return 4194417;
+        return LINE_OXOX;
 
     } else if (bTop && bRight && !bBottom && !bLeft) {
-        //#define LINE_XXOO 4194413
-        return 4194413;
+        return LINE_XXOO;
 
     } else if (!bTop && bRight && bBottom && !bLeft) {
-        //#define LINE_OXXO 4194412
-        return 4194412;
+        return LINE_OXXO;
 
     } else if (!bTop && !bRight && bBottom && bLeft) {
-        //#define LINE_OOXX 4194411
-        return 4194411;
+        return LINE_OOXX;
 
     } else if (bTop && !bRight && !bBottom && bLeft) {
-        //#define LINE_XOOX 4194410
-        return 4194410;
+        return LINE_XOOX;
 
     } else if (bTop && bRight && bBottom && !bLeft) {
-        //#define LINE_XXXO 4194420
-        return 4194420;
+        return LINE_XXXO;
 
     } else if (bTop && bRight && !bBottom && bLeft) {
-        //#define LINE_XXOX 4194422
-        return 4194422;
+        return LINE_XXOX;
 
     } else if (bTop && !bRight && bBottom && bLeft) {
-        //#define LINE_XOXX 4194421
-        return 4194421;
+        return LINE_XOXX;
 
     } else if (!bTop && bRight && bBottom && bLeft) {
-        //#define LINE_OXXX 4194423
-        return 4194423;
+        return LINE_OXXX;
 
     } else if (bTop && bRight && bBottom && bLeft) {
-        //#define LINE_XXXX 4194414
-        return 4194414;
+        return LINE_XXXX;
     }
 
     return '#';
@@ -188,27 +177,30 @@ int sokoban_game::get_wall_connection(const int iY, const int iX)
 
 void sokoban_game::clear_level(WINDOW *w_sokoban)
 {
-    const int iOffsetX = (FULL_SCREEN_WIDTH-2-mLevelInfo[iCurrentLevel]["MaxLevelX"])/2;
-    const int iOffsetY = (FULL_SCREEN_HEIGHT-2-mLevelInfo[iCurrentLevel]["MaxLevelY"])/2;
+    const int iOffsetX = (FULL_SCREEN_WIDTH - 2 - mLevelInfo[iCurrentLevel]["MaxLevelX"]) / 2;
+    const int iOffsetY = (FULL_SCREEN_HEIGHT - 2 - mLevelInfo[iCurrentLevel]["MaxLevelY"]) / 2;
 
-    for (int iY=0; iY < mLevelInfo[iCurrentLevel]["MaxLevelY"]; iY++) {
-        for (int iX=0; iX < mLevelInfo[iCurrentLevel]["MaxLevelX"]; iX++) {
-            mvwputch(w_sokoban, iOffsetY+iY, iOffsetX+iX, c_black, ' ');
+    for (int iY = 0; iY < mLevelInfo[iCurrentLevel]["MaxLevelY"]; iY++) {
+        for (int iX = 0; iX < mLevelInfo[iCurrentLevel]["MaxLevelX"]; iX++) {
+            mvwputch(w_sokoban, iOffsetY + iY, iOffsetX + iX, c_black, ' ');
         }
     }
 }
 
 void sokoban_game::draw_level(WINDOW *w_sokoban)
 {
-    const int iOffsetX = (FULL_SCREEN_WIDTH-2-mLevelInfo[iCurrentLevel]["MaxLevelX"])/2;
-    const int iOffsetY = (FULL_SCREEN_HEIGHT-2-mLevelInfo[iCurrentLevel]["MaxLevelY"])/2;
+    const int iOffsetX = (FULL_SCREEN_WIDTH - 2 - mLevelInfo[iCurrentLevel]["MaxLevelX"]) / 2;
+    const int iOffsetY = (FULL_SCREEN_HEIGHT - 2 - mLevelInfo[iCurrentLevel]["MaxLevelY"]) / 2;
 
-    for (std::map<int, std::map<int, std::string> >::iterator iterY = mLevel.begin(); iterY != mLevel.end(); ++iterY) {
-        for (std::map<int, std::string>::iterator iterX = (iterY->second).begin(); iterX != (iterY->second).end(); ++iterX) {
+    for (std::map<int, std::map<int, std::string> >::iterator iterY = mLevel.begin();
+         iterY != mLevel.end(); ++iterY) {
+        for (std::map<int, std::string>::iterator iterX = (iterY->second).begin();
+             iterX != (iterY->second).end(); ++iterX) {
             std::string sTile = iterX->second;
 
             if (sTile == "#") {
-                mvwputch(w_sokoban, iOffsetY+(iterY->first), iOffsetX+(iterX->first), c_white, get_wall_connection(iterY->first, iterX->first));
+                mvwputch(w_sokoban, iOffsetY + (iterY->first), iOffsetX + (iterX->first), c_white,
+                         get_wall_connection(iterY->first, iterX->first));
 
             } else {
                 nc_color cCol = c_white;
@@ -229,7 +221,7 @@ void sokoban_game::draw_level(WINDOW *w_sokoban)
                     sTile = "@";
                 }
 
-                mvwprintz(w_sokoban, iOffsetY+(iterY->first), iOffsetX+(iterX->first), cCol, sTile.c_str());
+                mvwprintz(w_sokoban, iOffsetY + (iterY->first), iOffsetX + (iterX->first), cCol, sTile.c_str());
             }
         }
     }
@@ -237,12 +229,11 @@ void sokoban_game::draw_level(WINDOW *w_sokoban)
 
 bool sokoban_game::check_win()
 {
-    for (int i=0; i < vLevelDone[iCurrentLevel].size(); i++) {
+    for (int i = 0; i < vLevelDone[iCurrentLevel].size(); i++) {
         if (mLevel[vLevelDone[iCurrentLevel][i].first][vLevelDone[iCurrentLevel][i].second] != "*") {
             return false;
         }
     }
-
     return true;
 }
 
@@ -254,30 +245,32 @@ int sokoban_game::start_game()
 
     int iDirY, iDirX;
 
-    const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0;
-    const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0;
-
-    WINDOW* w_sokoban = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
-    draw_border(w_sokoban);
+    const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
+    const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
     parse_level();
 
-    mvwprintz(w_sokoban, 0, (FULL_SCREEN_WIDTH/2)-5, hilite(c_white), "Sokoban");
+    WINDOW *w_sokoban = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+    draw_border(w_sokoban);
+    center_print(w_sokoban, 0, hilite(c_white), _("Sokoban"));
 
-    mvwprintz(w_sokoban, 1, FULL_SCREEN_WIDTH-10, c_ltgreen, "+");
-    wprintz(w_sokoban, c_white, " next");
+    std::vector<std::string> shortcuts;
+    shortcuts.push_back(_("<+> next"));    // '+': next
+    shortcuts.push_back(_("<-> prev"));    // '-': prev
+    shortcuts.push_back(_("<r>eset"));     // 'r': reset
+    shortcuts.push_back(_("<q>uit"));      // 'q': quit
+    shortcuts.push_back(_("<u>ndo move")); // 'u': undo move
 
-    mvwprintz(w_sokoban, 2, FULL_SCREEN_WIDTH-10, c_ltgreen, "-");
-    wprintz(w_sokoban, c_white, " prev");
+    int indent = 10;
+    for (size_t i = 0; i < shortcuts.size(); i++) {
+        indent = std::max(indent, utf8_width(shortcuts[i].c_str()) + 1);
+    }
+    indent = std::min(indent, 30);
 
-    mvwprintz(w_sokoban, 3, FULL_SCREEN_WIDTH-10, c_ltgreen,  "r");
-    wprintz(w_sokoban, c_white, "eset");
-
-    mvwprintz(w_sokoban, 4, FULL_SCREEN_WIDTH-10, c_ltgreen,  "q");
-    wprintz(w_sokoban, c_white, "uit");
-
-    mvwprintz(w_sokoban, 5, FULL_SCREEN_WIDTH-10, c_ltgreen,  "u");
-    wprintz(w_sokoban, c_white, "ndo move");
+    for (size_t i = 0; i < shortcuts.size(); i++) {
+        shortcut_print(w_sokoban, i + 1, FULL_SCREEN_WIDTH - indent,
+                       c_white, c_ltgreen, shortcuts[i].c_str());
+    }
 
     int input = '.';
 
@@ -318,89 +311,89 @@ int sokoban_game::start_game()
 
         bMoved = false;
         switch (input) {
-            case KEY_UP: /* up */
-                iDirY = -1;
-                iDirX = 0;
-                bMoved = true;
-                break;
-            case KEY_DOWN: /* down */
-                iDirY = 1;
-                iDirX = 0;
-                bMoved = true;
-                break;
-            case KEY_LEFT: /* left */
-                iDirY = 0;
-                iDirX = -1;
-                bMoved = true;
-                break;
-            case KEY_RIGHT: /* right */
-                iDirY = 0;
-                iDirX = 1;
-                bMoved = true;
-                break;
-            case 'q':
-                return iScore;
-                break;
-            case 'u':
-                {
-                    int iPlayerYNew = 0;
-                    int iPlayerXNew = 0;
-                    bool bUndoSkip = false;
-                    //undo move
-                    if (vUndo.size() > 0) {
-                        //reset last player pos
-                        mLevel[iPlayerY][iPlayerX] = (mLevel[iPlayerY][iPlayerX] == "+") ? "." : " ";
-                        iPlayerYNew = vUndo[vUndo.size()-1].iOldY;
-                        iPlayerXNew = vUndo[vUndo.size()-1].iOldX;
-                        mLevel[iPlayerYNew][iPlayerXNew] = vUndo[vUndo.size()-1].sTileOld;
+        case KEY_UP: /* up */
+            iDirY = -1;
+            iDirX = 0;
+            bMoved = true;
+            break;
+        case KEY_DOWN: /* down */
+            iDirY = 1;
+            iDirX = 0;
+            bMoved = true;
+            break;
+        case KEY_LEFT: /* left */
+            iDirY = 0;
+            iDirX = -1;
+            bMoved = true;
+            break;
+        case KEY_RIGHT: /* right */
+            iDirY = 0;
+            iDirX = 1;
+            bMoved = true;
+            break;
+        case 'q':
+            return iScore;
+            break;
+        case 'u': {
+            int iPlayerYNew = 0;
+            int iPlayerXNew = 0;
+            bool bUndoSkip = false;
+            //undo move
+            if (vUndo.size() > 0) {
+                //reset last player pos
+                mLevel[iPlayerY][iPlayerX] = (mLevel[iPlayerY][iPlayerX] == "+") ? "." : " ";
+                iPlayerYNew = vUndo[vUndo.size() - 1].iOldY;
+                iPlayerXNew = vUndo[vUndo.size() - 1].iOldX;
+                mLevel[iPlayerYNew][iPlayerXNew] = vUndo[vUndo.size() - 1].sTileOld;
 
-                        vUndo.pop_back();
+                vUndo.pop_back();
 
-                        bUndoSkip = true;
-                    }
+                bUndoSkip = true;
+            }
 
-                    if (bUndoSkip && vUndo.size() > 0) {
-                        iDirY = vUndo[vUndo.size()-1].iOldY;
-                        iDirX = vUndo[vUndo.size()-1].iOldX;
+            if (bUndoSkip && vUndo.size() > 0) {
+                iDirY = vUndo[vUndo.size() - 1].iOldY;
+                iDirX = vUndo[vUndo.size() - 1].iOldX;
 
-                        if (vUndo[vUndo.size()-1].sTileOld == "$" || vUndo[vUndo.size()-1].sTileOld == "*") {
-                            mLevel[iPlayerY][iPlayerX] = (mLevel[iPlayerY][iPlayerX] == ".") ? "*" : "$";
-                            mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = (mLevel[iPlayerY + iDirY][iPlayerX + iDirX] == "*") ? "." : " ";
+                if (vUndo[vUndo.size() - 1].sTileOld == "$" ||
+                    vUndo[vUndo.size() - 1].sTileOld == "*") {
+                    mLevel[iPlayerY][iPlayerX] = (mLevel[iPlayerY][iPlayerX] == ".") ? "*" : "$";
+                    mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = (mLevel[iPlayerY + iDirY][iPlayerX + iDirX] == "*") ? "." : " ";
 
-                            vUndo.pop_back();
-                        }
-                    }
-
-                    if (bUndoSkip) {
-                        iPlayerY = iPlayerYNew;
-                        iPlayerX = iPlayerXNew;
-                    }
+                    vUndo.pop_back();
                 }
-                break;
-            case 'r':
-                //reset level
-                bNewLevel = true;
-                break;
-            case '+':
-                //next level
-                clear_level(w_sokoban);
-                iCurrentLevel++;
-                if (iCurrentLevel >= iNumLevel) {
-                    iCurrentLevel = 0;
-                }
-                bNewLevel = true;
-                break;
-            case '-':
-                //prev level
-                clear_level(w_sokoban);
-                iCurrentLevel--;
-                if (iCurrentLevel < 0) {
-                    iCurrentLevel =  iNumLevel - 1;
-                }
-                bNewLevel = true;
-                break;
-            default:
-                break;
+            }
+
+            if (bUndoSkip) {
+                iPlayerY = iPlayerYNew;
+                iPlayerX = iPlayerXNew;
+            }
+        }
+        break;
+        case 'r':
+            //reset level
+            bNewLevel = true;
+            break;
+        case '+':
+            //next level
+            clear_level(w_sokoban);
+            iCurrentLevel++;
+            if (iCurrentLevel >= iNumLevel) {
+                iCurrentLevel = 0;
+            }
+            bNewLevel = true;
+            break;
+        case '-':
+            //prev level
+            clear_level(w_sokoban);
+            iCurrentLevel--;
+            if (iCurrentLevel < 0) {
+                iCurrentLevel =  iNumLevel - 1;
+            }
+            bNewLevel = true;
+            break;
+        default:
+            break;
         }
 
         if (bMoved) {
