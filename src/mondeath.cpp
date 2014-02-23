@@ -10,7 +10,7 @@
 
 void mdeath::normal(monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The %s dies!"), z->name().c_str()); //Currenlty it is possible to get multiple messages that a monster died.
+        g->add_msg(_("The %s dies!"), z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
     }
     if(z->type->difficulty >= 30) {
         // TODO: might not be killed by the player (g->u)!
