@@ -139,6 +139,7 @@
             "<npcname> throws a perfect counter at %s"
         ],
         "bash_mult" : 1.5,
+        "quick" : true,
         "stun_dur" : 2
     },{
         "type" : "technique",
