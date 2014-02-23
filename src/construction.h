@@ -2,6 +2,8 @@
 #define _CONSTRUCTION_H_
 
 #include "json.h"
+#include "crafting.h" // for component
+// TODO: Hoist component into its own header so we don't have a cross-dependency on crafting.
 
 #include <vector>
 #include <string>
