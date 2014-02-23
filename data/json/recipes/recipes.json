@@ -1821,7 +1821,7 @@
   "time": 1500,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_gaswarfare", 5 ] , [ "adv_chemistry", 5 ] , [ "textbook_chemistry", 5 ]],
+  "book_learn": [[ "textbook_anarch", 5 ] , [ "adv_chemistry", 5 ] , [ "textbook_chemistry", 5 ]],
   "tools": [
     [
       [ "chemistry_set", -1 ]
