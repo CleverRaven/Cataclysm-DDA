@@ -3945,7 +3945,7 @@ bool player::is_dead_state() {
     return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
 }
 
-void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
+void player::on_gethit(Creature *source, body_part bp_hit, damage_instance&) {
     bool u_see = g->u_see(this);
     if (source != NULL) {
         if (has_active_bionic("bio_ods")) {
@@ -4081,6 +4081,44 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         break;
     default:
         debugmsg("Wacky body part hit!");
+    }
+
+    // Skip all this if the damage isn't from a creature. e.g. an explosion.
+    if( source != NULL ) {
+        if (d.total_damage() > 0 && source->has_flag(MF_VENOM)) {
+            g->add_msg_if_player(this, _("You're poisoned!"));
+            add_disease("poison", 30, false, 1, 20, 100);
+            add_effect("poison", 30);
+        }
+        else if (d.total_damage() > 0 && source->has_flag(MF_BADVENOM)) {
+            g->add_msg_if_player(this, _("You feel poison flood your body, wracking you with pain..."));
+            add_disease("badpoison", 40, false, 1, 20, 100);
+            add_effect("badpoison", 40);
+        }
+        else if (d.total_damage() > 0 && source->has_flag(MF_PARALYZE)) {
+            g->add_msg_if_player(this, _("You feel poison enter your body!"));
+            add_disease("paralyzepoison", 100, false, 1, 20, 100);
+            add_effect("paralyzepoison", 100);
+        }
+
+        if (source->has_flag(MF_BLEED) && d.total_damage() > 6 && d.type_damage(DT_CUT) > 0) {
+            g->add_msg_if_player(this, _("You're Bleeding!"));
+            add_disease("bleed", 60, false, 1, 3, 120, 1, bp, -1, true);
+        }
+
+        static bool grab = false;
+
+        if ( !grab && source->has_flag(MF_GRABS)) {
+            g->add_msg(_("%s grabs you!"), source->disp_name().c_str());
+            if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ? dice(get_dex(), 10) : dice(get_str(), 10) > dice(source->get_dex(), 10)) {
+                g->add_msg_player_or_npc(this, _("You break the grab!"),
+                                                  _("<npcname> breaks the grab!"));
+            } else {
+                grab = true;
+                source->melee_attack(*this, false);
+            }
+        }
+        grab = false;
     }
 
     return dealt_damage_instance(dealt_dams);
