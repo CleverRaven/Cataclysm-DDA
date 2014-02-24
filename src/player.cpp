@@ -4083,6 +4083,8 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         debugmsg("Wacky body part hit!");
     }
 
+    // Skip all this if the damage isn't from a creature. e.g. an explosion.
+    if( source != NULL ) {
         if (d.total_damage() > 0 && source->has_flag(MF_VENOM)) {
             g->add_msg_if_player(this, _("You're poisoned!"));
             add_disease("poison", 30, false, 1, 20, 100);
@@ -4117,6 +4119,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             }
         }
         grab = false;
+    }
 
     return dealt_damage_instance(dealt_dams);
 }
