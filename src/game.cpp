@@ -4815,7 +4815,8 @@ void game::draw_ter(int posx, int posy)
                    && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT
                    && (u.has_active_bionic("bio_infrared")
                        || u.has_trait("INFRARED")
-                       || u.has_trait("LIZ_IR"))
+                       || u.has_trait("LIZ_IR")
+                       || u.worn_with_flag("IR_EFFECT"))
                    && m.pl_sees(u.posx,u.posy,critter.posx(),critter.posy(),
                                 u.sight_range(DAYLIGHT_LEVEL))) {
             mvwputch(w_terrain, my, mx, c_red, '?');
