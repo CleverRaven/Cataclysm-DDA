@@ -504,7 +504,7 @@ public:
  npc_action address_player ();
  npc_action long_term_goal_action();
  bool alt_attack_available(); // Do we have grenades, molotov, etc?
- signed char  choose_escape_item(); // Returns index of our best escape aid
+ int choose_escape_item(); // Returns item position of our best escape aid
 
 // Helper functions for ranged combat
  int  confident_range(char invlet = 0); // >= 50% chance to hit
@@ -533,7 +533,7 @@ public:
  void melee_player (player &foe);
  void wield_best_melee ();
  void alt_attack (int target);
- void use_escape_item (signed char invlet);
+ void use_escape_item (int position);
  void heal_player (player &patient);
  void heal_self  ();
  void take_painkiller ();
