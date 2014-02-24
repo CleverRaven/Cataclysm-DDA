@@ -4131,6 +4131,20 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             add_disease("bleed", 60, false, 1, 3, 120, 1, bp, -1, true);
         }
 
+        static bool grab = false;
+
+        if ( !grab && source->has_flag(MF_GRABS)) {
+            g->add_msg(_("The %s grabs you!"), source->disp_name().c_str());
+            if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ? dice(get_dex(), 10) : dice(get_str(), 10) > dice(source->get_dex(), 10)) {
+                g->add_msg_player_or_npc(this, _("You break the grab!"),
+                                                  _("<npcname> breaks the grab!"));
+            } else {
+                grab = true;
+                source->melee_attack(*this, false);
+            }
+        }
+        grab = false;
+
     return dealt_damage_instance(dealt_dams);
 }
 
