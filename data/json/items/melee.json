@@ -165,6 +165,24 @@
 
   {
     "type":"GENERIC",
+    "id": "grapnel",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "grappling hook",
+    "description": "A folding grappling hook attached to a stout 30-foot long length of lightweight cord. Useful for keeping yourself safe from falls.",
+    "techniques" : ["RAPID"],
+    "flags" : ["WRAP"],
+    "price": 25000,
+    "material": ["cotton", "steel"],
+    "weight": 760,
+    "volume": 3,
+    "bashing": 8,
+    "cutting": 6,
+    "to_hit": -2
+  },
+
+  {
+    "type":"GENERIC",
     "id": "processor",
     "symbol": ",",
     "color": "dark_gray",
