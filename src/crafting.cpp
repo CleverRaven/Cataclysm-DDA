@@ -894,6 +894,7 @@ recipe *game::select_crafting_recipe()
                 if ( lastid != current[line]->id ) {
                     lastid = current[line]->id;
                     tmp = item(item_controller->find_template(current[line]->result), g->turn);
+                    tmp.charges *= current[line]->result_mult;
                     folded = foldstring(tmp.info(true), iInfoWidth);
                 }
                 int maxline = folded.size() > dataHeight ? dataHeight : folded.size();
@@ -1383,18 +1384,13 @@ void game::complete_craft()
     //newit = newit.in_its_container(&itypes);
     if (newit.made_of(LIQUID)) {
         //while ( u.has_watertight_container() || u.has_matching_liquid(newit.typeId()) ){
-        /*while ( u.inv.slice_filter_by_capacity_for_liquid(newit).size() > 0 ){
-            if (handle_liquid(newit, false, false) && u.inv.slice_filter_by_capacity_for_liquid(newit).size()==0) {
-                add_msg(_("You don't have enough watertight containers to store the %s, so some of it is wasted."),
-                    newit.tname().c_str());
-            }
-        }*/
-        /*  Here, I tried to implement a loop for handling recipes that return more than 1 vol of liquid.
-            Unfortunately, no method of detecting whether the player can hold any more liquid I've tried works fully,
-            as multiple copies of the same empty container are not detected any more after any of them are filled.
-            The way this works now is that the handle_liquid() screen will still appear even if the player has no more
-            containers, and then they are forced to manually pour the remaining liquid on the ground themselves.
-            Hopefully this isn't too big of an issue, and if anyone can improve it, please do.                          */
+        //while ( u.inv.slice_filter_by_capacity_for_liquid(newit).size() > 0 ){
+        /*  Unfortunately, no method I tried of detecting whether the player could hold any more liquid would
+            fully work in a loop: stacks of the same empty container are ignored after only one of them is
+            filled and the loop is ran again. The way this works now is that the handle_liquid() screen will
+            continue appearing until the liquid is gone, and if the player runs out of containers, they must
+            say yes to the "Dump x on the ground? Y/N" dialog to continue. Hopefully this isn't too big of
+            an issue, if anyone can help make it more intuitive, please do. */
         if (making->result_mult > 1) {
             bool done = false;
             while (!done){
