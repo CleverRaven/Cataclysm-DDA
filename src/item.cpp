@@ -666,8 +666,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
    temp1 << _("The feet. ");
 
   dump->push_back(iteminfo("ARMOR", temp1.str()));
-  dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%%  ", armor->coverage, true, "", false));
-  dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", armor->warmth));
+  dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%", armor->coverage, true, "", false));
+  dump->push_back(iteminfo("ARMOR", _("   Warmth: "), "", armor->warmth));
     if (has_flag("FIT")) {
         dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
                                  std::max(0, armor->encumber - 1), true, "", true, true));
@@ -1313,7 +1313,7 @@ int item::damage_bash()
 int item::damage_cut() const
 {
     if (is_gun()) {
-        for (int i = 0; i < contents.size(); i++) {
+        for (size_t i = 0; i < contents.size(); i++) {
             if (contents[i].typeId() == "bayonet" || "pistol_bayonet"|| "sword_bayonet")
                 return contents[i].type->melee_cut;
         }
