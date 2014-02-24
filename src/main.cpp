@@ -33,6 +33,7 @@
 
 void exit_handler(int s);
 void set_standard_filenames(void);
+void
 
 std::map<std::string,std::string> FILENAMES; // create map where we will store the FILENAMES
 std::string USERNAME;
@@ -62,7 +63,7 @@ int main(int argc, char *argv[])
 
 #ifdef __linux__
 char username[21];
-getlogin_r(username, 21);
+getenv("USER");
 USERNAME = std::string(username);
 #endif // __linux__
 
@@ -90,7 +91,7 @@ USERNAME = std::string(username);
             argc--;
             argv++;
             #ifdef __linux__
-            FILENAMES.insert(std::pair<std::string,std::string>("base_path", "/home/" + USERNAME + "/.cataclysm-dda/"));
+            FILENAMES.insert(std::pair<std::string,std::string>("base_path", std::string(getenv("HOME")) + "/.cataclysm-dda/"));
             #endif // __linux__
         } else if(std::string(argv[0]) == "--username") {
             argc--;
