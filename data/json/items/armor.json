@@ -4700,6 +4700,7 @@
         "encumbrance" : 1,
         "bashing" : -4,
         "coverage" : 100,
+        "flags" : ["SUNGLASSES"],
         "material_thickness" : 3
     },
     {
@@ -4723,6 +4724,7 @@
         "encumbrance" : 6,
         "bashing" : -1,
         "coverage" : 100,
+        "flags" : ["SUNGLASSES"],
         "material_thickness" : 4
     },
     {
@@ -4793,7 +4795,7 @@
         "enviromental_protection" : 1,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["WATER_FRIENDLY"],
+        "flags" : ["WATER_FRIENDLY", "SUNGLASSES"],
         "coverage" : 85,
         "material_thickness" : 1
    },
@@ -4817,7 +4819,7 @@
         "enviromental_protection" : 1,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["FANCY", "WATER_FRIENDLY"],
+        "flags" : ["FANCY", "WATER_FRIENDLY", "SUNGLASSES"],
         "coverage" : 95,
         "material_thickness" : 2
    },
