@@ -3674,7 +3674,7 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
 | b b b    c   |\n\
 |          c  x|\n\
 |----:-++-:----|\n",
-                                   mapf::basic_bind("- | + : 6 x >", t_wall_h, t_wall_v, t_door_c, t_window_domestic,  t_console,
+                                   mapf::basic_bind("- | + : 6 x >", t_wall_h, t_wall_v, t_door_c, t_window,  t_console,
                                            t_console_broken, t_stairs_down),
                                    mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
         computer * tmpcomp = m->add_computer(SEEX + 6, 5, _("Evac shelter computer"), 0);
