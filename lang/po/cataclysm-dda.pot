@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-19 01:31-0600\n"
+"POT-Creation-Date: 2014-02-24 01:27-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -267,16 +267,6 @@ msgstr ""
 msgid ""
 "A brass-jacketed 9mm Parabellum round.  This increases penetration slightly "
 "at the cost of reduced expansion."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "7.62mm Type P"
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid ""
-"This small caliber pistol round offers good armor penetration at the cost of "
-"slightly less damage. It is rarely used outside of the Chinese army."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -1382,16 +1372,6 @@ msgid ""
 "hold onto these."
 msgstr ""
 
-#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
-msgid "paper cartridge"
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A paper cartridge containing black powder and a metallic projectile. "
-"Historically used to reload muzzleloaders in a more reasonable time."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid ".700 NX"
 msgstr ""
@@ -2297,6 +2277,102 @@ msgstr ""
 msgid ""
 "These metal pellets are propelled with the help of electromagnets, therefore "
 "they do not produce sound, flash or heat signature."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ".32 ACP"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .32 ACP was a popular handgun cartridge in the 20th century. Not so "
+"powerful as the .38 or the 9mm though."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "7.62mm Type P"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"This small caliber pistol round offers good armor penetration at the cost of "
+"slightly less damage. It is rarely used outside of the Chinese army."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ".300 Winchester Magnum"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .300 Winchester Magnum is extremely versatile and has been adopted by "
+"many shooting disciplines. The cartridge has found use by hunters, military "
+"units, and law enforcement departments."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "7.62x54mmR"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The 7.62×54mmR is a rimmed rifle cartridge developed by the Russian Empire "
+"in 1891. It is still in service and has the longest service life of all "
+"military issued cartridges in the world."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "paper cartridge"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A paper cartridge containing black powder and a metallic projectile. "
+"Historically used to reload muzzleloaders in a more reasonable time."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ".36 paper cartridge"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A paper cartridge containing a premeasured amount of black powder and a .36 "
+"projectile. Used by the Colt M1861 Navy."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ".44 paper cartridge"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A paper cartridge containing a premeasured amount of black powder and a .44 "
+"projectile. Used by the Colt M1860 Army."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ".300 casing"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "An empty casing from a .300 Winchester Magnum round."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "7.62x54mmR casing"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "An empty casing from a 7.62x54mmR round."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ".32 casing"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "An empty casing from a .32 round."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -10091,7 +10167,9 @@ msgid "irradiated apple"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Mmm, irradiated."
+msgid ""
+"Mmm, irradiated. Will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -10100,8 +10178,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated banana, while the radiation is gone it will remain edible "
-"nearly forever."
+"An irradiated banana, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -10110,8 +10188,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated orange, while the radiation is gone it will remain edible "
-"nearly forever."
+"An irradiated orange, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -10120,8 +10198,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated lemon, while the radiation is gone it will remain edible "
-"nearly forever."
+"An irradiated lemon, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -10581,8 +10659,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated head of lettuce, the radiation is long gone but it will remain "
-"edible for a very long time."
+"An irradiated head of lettuce, will remain edible nearly forever. Sterilized "
+"using radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -10591,8 +10669,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated tomato, the radiation is long gone but it will remain edible "
-"for a very long time."
+"An irradiated tomato, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -10601,8 +10679,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated cluster of broccoli, the radiation is long gone but it will "
-"remain edible for a very long time."
+"An irradiated cluster of broccoli, will remain edible nearly forever. "
+"Sterilized using radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -10611,8 +10689,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated zucchini, the radiation is long gone but it will remain edible "
-"for a very long time."
+"An irradiated zucchini, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -10621,8 +10699,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated onion, the radiation is long gone but it will remain edible "
-"for a very long time."
+"An irradiated onion, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -10631,8 +10709,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated bundle of carrots, the radiation is long gone but it will "
-"remain edible for a very long time."
+"An irradiated bundle of carrots, will remain edible nearly forever. "
+"Sterilized using radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -10641,8 +10719,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated ear of corn, the radiation is long gone but it will remain "
-"edible for a very long time."
+"An irradiated ear of corn, will remain edible nearly forever. Sterilized "
+"using radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -11153,8 +11231,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated potato, while the radiation is gone it will remain edible "
-"nearly forever."
+"An irradiated potato, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -11361,8 +11439,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"The irradiated beef main course from an MRE. Exposed to the atmosphere it "
-"has started to go bad."
+"The irradiated beef main course from an MRE. Sterilized using radiation, so "
+"safe to eat. Exposed to the atmosphere it has started to go bad."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -11371,8 +11449,9 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"The irradiated vegetarian main course from an MRE. Exposed to the atmosphere "
-"it has started to go bad."
+"The irradiated vegetarian main course from an MRE. Sterilized using "
+"radiation, so safe to eat. Exposed to the atmosphere it has started to go "
+"bad."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -11381,8 +11460,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"The irradiated chicken main course from an MRE. Exposed to the atmosphere it "
-"has started to go bad."
+"The irradiated chicken main course from an MRE. Sterilized using radiation, "
+"so safe to eat. Exposed to the atmosphere it has started to go bad."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -11392,8 +11471,8 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Nicknamed the Four Fingers of Death by troops this is probably the most "
-"disgusting thing you've ever eaten. Exposed to the atmosphere it has started "
-"to go bad."
+"disgusting thing you've ever eaten. Sterilized using radiation, so safe to "
+"eat. Exposed to the atmosphere it has started to go bad."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -11403,7 +11482,8 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "The main course from a ravioli MRE, the sauce really helps with the taste. "
-"Exposed to the atmosphere it has started to go bad."
+"Sterilized using radiation, so safe to eat. Exposed to the atmosphere it has "
+"started to go bad."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -12318,8 +12398,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated pear, the radiation is gone but it will remain edible nearly "
-"forever."
+"An irradiated pear, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -12328,8 +12408,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated grapefruit, the radiation is gone but it will remain edible "
-"nearly forever."
+"An irradiated grapefruit, will remain edible nearly forever. Sterilized "
+"using radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -12354,8 +12434,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A group of irradiated plums, the radiation is gone but they will remain "
-"edible nearly forever."
+"A group of irradiated plums, will remain edible nearly forever. Sterilized "
+"using radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -12396,8 +12476,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated pineapple, the radiation is long gone but it will remain "
-"edible nearly forever."
+"An irradiated pineapple, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -12406,8 +12486,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated peach, while the radiation is gone it will remain edible "
-"nearly forever."
+"An irradiated peach, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -12495,8 +12575,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated watermelon, while the radiation is gone it will remain edible "
-"nearly forever."
+"An irradiated watermelon, will remain edible nearly forever. Sterilized "
+"using radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -12505,8 +12585,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated melon, while the radiation is gone it will remain edible "
-"nearly forever."
+"An irradiated melon, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -12587,8 +12667,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated mango, while the radiation is gone it will remain edible "
-"nearly forever."
+"An irradiated mango, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -12597,8 +12677,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated pomegranate, while the radiation is gone it will remain edible "
-"nearly forever."
+"An irradiated pomegranate, will remain edible nearly forever. Sterilized "
+"using radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -12607,8 +12687,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated rhubarb, while the radiation is gone it will remain edible "
-"nearly forever."
+"An irradiated rhubarb, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -12740,8 +12820,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated papaya, while the radiation is gone it will remain edible "
-"nearly forever."
+"An irradiated papaya, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -12750,8 +12830,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated kiwi, while the radiation is gone it will remain edible nearly "
-"forever."
+"An irradiated kiwi, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -12760,8 +12840,8 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated apricot, while the radiation is gone it will remain edible "
-"nearly forever."
+"An irradiated apricot, will remain edible nearly forever. Sterilized using "
+"radiation, so safe to eat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -14852,25 +14932,60 @@ msgid "A small portable plutonium reactor. Handle with great care!"
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "solar panel"
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "Electronic device that can convert solar radiation into electric power. "
-"Useful for crafting."
+"Useful for a vehicle."
 msgstr ""
 
-#: lang/json/GENERIC_from_json.py
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "reinforced solar panel"
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A solar panel that has been covered with a pane of reinforced glass to "
-"protect the delicate solar cells from zombies or errant baseballs.  Useful "
-"for crafting."
+"protect the delicate solar cells from zombies or errant baseballs. The glass "
+"causes this panel to produce slightly less power than a normal panel. Useful "
+"for a vehicle."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "upgraded solar panel"
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"Electronic device that can convert solar radiation into electric power. This "
+"panel has been upgraded to convert more sunlight into power. Useful for a "
+"vehicle."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "upgraded reinforced solar panel"
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"An upgraded solar panel that has been covered with a pane of reinforced "
+"glass to protect the delicate solar cells from zombies or errant baseballs. "
+"The glass causes this panel to produce slightly less power than a normal "
+"upgraded panel. Useful for a vehicle."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "quantum solar panel"
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This solar panel is obviously cutting-edge technology and given where you "
+"found it, should probably provide a LOT of power.  It's covered in strange-"
+"looking material, but the covering looks rather fragile; it doesn't look "
+"like it could support a reinforcing sheet, either."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
@@ -14985,6 +15100,16 @@ msgid ""
 "A welding rig made to run off a vehicle's storage battery.  It has a "
 "soldering iron attachment for delicate work, and a compartment to store your "
 "extra tools in."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "vehicle forge rig"
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A forge rig made to run off a vehicle's storage battery. Used for forging "
+"tools in a vehicle."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
@@ -15993,16 +16118,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "Tokarev TT-30"
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid ""
-"The Norinco manufactured Tokarev TT-30 is the standard sidearm of the "
-"Chinese military, it does not see extensive use outside of China."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
 msgid "sawn-off shotgun"
 msgstr ""
 
@@ -16187,16 +16302,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "PPSh-41"
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid ""
-"The Soviet made PPSh-41, chambered in 7.62 Tokarev, provides a relatively "
-"large ammunition capacity coupled with low recoil and decent accuracy."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
 msgid "Marlin 39A"
 msgstr ""
 
@@ -16248,17 +16353,6 @@ msgid ""
 "A very popular and durable hunting or sniping rifle. Popular among SWAT and "
 "US Marine snipers. Highly damaging, but perhaps not as accurate as the "
 "competing Browning BLR."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "SKS"
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid ""
-"Developed by the Soviets in 1945, this rifle was quickly replaced by the "
-"full-auto AK47. However, due to its superb accuracy and low recoil, this gun "
-"maintains immense popularity."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -16322,6 +16416,17 @@ msgstr ""
 msgid ""
 "One of the most recognizable assault rifles ever made, the AK-47 is renowned "
 "for its durability even under the worst conditions."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "SKS"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"Developed by the Soviets in 1945, this rifle was quickly replaced by the "
+"full-auto AK47. However, due to its superb accuracy and low recoil, this gun "
+"maintains immense popularity."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -16868,27 +16973,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "flintlock rifle"
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid ""
-"For once, something *good* came back from the dead.  This ancient design "
-"lacks the fire-rate of modern weapons, but packs as much punch as the best "
-"of 'em and rewards the skilled shootist with easily-crafted ammunition."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "flintlock pistol"
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid ""
-"A  beautifully decorated flintlock pistol. If using this doesn't makes you "
-"feel a pirate, nothing will."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
 msgid "Mossberg Brownie"
 msgstr ""
 
@@ -17063,6 +17147,131 @@ msgid ""
 "or noise. It is mainly a defensive weapon."
 msgstr ""
 
+#: lang/json/GUN_from_json.py
+msgid "Tokarev TT-30"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The Norinco manufactured Tokarev TT-30 is the standard sidearm of the "
+"Chinese military, it does not see extensive use outside of China."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "PPSh-41"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The Soviet made PPSh-41, chambered in 7.62 Tokarev, provides a relatively "
+"large ammunition capacity coupled with low recoil and decent accuracy."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "Walther PPK"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"One of the most famous handguns of the 20th century. Your name is not Bond, "
+"but you might find this little gun still useful."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "SIG Sauer P230"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The SIG Sauer P230 is a small, semi-automatic handgun chambered in .32 ACP. "
+"Due to its small dimensions, it was often carried as a backup weapon."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "Winchester Model 70"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The Winchester Model 70 is a bolt action sporting rifle. It has an iconic "
+"place in American sporting culture and has been held in high regard by "
+"shooters since it was introduced in 1936."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "Weatherby Mark V"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The Weatherby Mark V is one of the finest bolt action rifles. It was "
+"introduced in 1957. These rifles are considered prestigious or luxury "
+"firearms."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "Colt M1861 Navy"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The Colt Model 1861 Navy cap & ball .36-caliber revolver was a six-shot, "
+"single-action percussion weapon produced by Colt's Manufacturing Company "
+"from 1861 until 1873."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "Colt M1860 Army"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The Colt Army Model 1860 is a cap & ball .44-caliber revolver. It was used "
+"during the American Civil War, and made by Colt's Manufacturing Company."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "flintlock rifle"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"For once, something *good* came back from the dead.  This ancient design "
+"lacks the fire-rate of modern weapons, but packs as much punch as the best "
+"of 'em and rewards the skilled shootist with easily-crafted ammunition."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "flintlock pistol"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"A  beautifully decorated flintlock pistol. If using this doesn't makes you "
+"feel a pirate, nothing will."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "Mosin-Nagant 1891/30"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The Mosin-Nagant 1891/30 is a bolt action, internal magazine-fed, military "
+"rifle, developed by the Russian Empire, and later used and perfected by the "
+"Soviet Union."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "Mosin-Nagant M44"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The Model 44 is the carbine sized variant of the standard 1891/30. It has a "
+"shorter barrel, therefore it is weaker than the 1891/30, but easier to carry."
+msgstr ""
+
 #: lang/json/ITEM_CATEGORY_from_json.py
 msgid "chemical stuff"
 msgstr ""
@@ -17097,6 +17306,22 @@ msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "For those gun nuts."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Medieval content pack"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "A compilation of medieval gear by several different authors"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Old Guns Pack"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Weapons that are old or are no longer in production."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -21840,8 +22065,8 @@ msgstr ""
 msgid ""
 "This is a portable electric metalworking forge, powered by batteries. "
 "Combined with the right tools, you could use this for metalworking.  With a "
-"little mechanical know-how, you could probably even hook it directly to a "
-"vehicle's power system."
+"little mechanical know-how, you could probably even convert it to run "
+"directly off a vehicle's power system."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -22364,10 +22589,6 @@ msgid ".22"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
-msgid "7.62x25mm"
-msgstr ""
-
-#: lang/json/ammunition_type_from_json.py
 msgid ".38"
 msgstr ""
 
@@ -22489,6 +22710,30 @@ msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "5.45x39mm"
+msgstr ""
+
+#: lang/json/ammunition_type_from_json.py
+msgid ".32"
+msgstr ""
+
+#: lang/json/ammunition_type_from_json.py
+msgid "7.62x25mm"
+msgstr ""
+
+#: lang/json/ammunition_type_from_json.py
+msgid ".300"
+msgstr ""
+
+#: lang/json/ammunition_type_from_json.py
+msgid ".36 cap & ball"
+msgstr ""
+
+#: lang/json/ammunition_type_from_json.py
+msgid ".44 cap & ball"
+msgstr ""
+
+#: lang/json/ammunition_type_from_json.py
+msgid "7.62x54mm"
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -31008,7 +31253,7 @@ msgid ""
 "This is an advertisement for the Rivtech brand Muscle Augmentation CBM. It "
 "shows a picture of a stylized, howling wolf against a red background. The "
 "caption reads:  \"Rivtech neuroreactive myomer bionics. The most efficient "
-"sythetic adenosine triphosphate recovery system on the market.\" and "
+"synthetic adenosine triphosphate recovery system on the market.\" and "
 "\"Rivtech Bionics, guaranteed for life.\""
 msgstr ""
 
@@ -35862,6 +36107,11 @@ msgstr ""
 
 #: src/bionics.cpp
 msgid "You withdraw your claws."
+msgstr ""
+
+#: src/bionics.cpp
+#, c-format
+msgid "Deactivate your %s first!"
 msgstr ""
 
 #: src/bionics.cpp
@@ -45651,6 +45901,16 @@ msgstr ""
 msgid "<num> %s"
 msgstr ""
 
+#: src/item.cpp src/newcharacter.cpp src/options.cpp
+#: src/player.cpp
+msgid "kg"
+msgstr ""
+
+#: src/item.cpp src/newcharacter.cpp src/options.cpp
+#: src/player.cpp
+msgid "lbs"
+msgstr ""
+
 #: src/item.cpp
 msgid "Bash: "
 msgstr ""
@@ -45876,8 +46136,8 @@ msgstr ""
 msgid "Coverage: "
 msgstr ""
 
-#: src/item.cpp
-msgid "   Warmth: "
+#: src/item.cpp src/player.cpp
+msgid "Warmth: "
 msgstr ""
 
 #: src/item.cpp
@@ -48833,6 +49093,11 @@ msgid "You load %d x 9mm rounds into the turret."
 msgstr ""
 
 #: src/iuse.cpp
+msgid ""
+"If you had standard factory-built 9mm bullets, you could load the turret."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "The turret scans you and makes angry beeping noises!"
 msgstr ""
 
@@ -49038,11 +49303,11 @@ msgstr ""
 msgid "Robot finds Kitten"
 msgstr ""
 
-#: src/iuse.cpp
+#: src/iuse.cpp src/iuse_software_snake.cpp
 msgid "S N A K E"
 msgstr ""
 
-#: src/iuse.cpp
+#: src/iuse.cpp src/iuse_software_sokoban.cpp
 msgid "Sokoban"
 msgstr ""
 
@@ -49663,6 +49928,915 @@ msgstr ""
 #, c-format
 msgid ""
 "You struggle to get '%s' working, and finally give up to play minesweeper."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "\"I pity the fool who mistakes me for kitten!\", sez Mr. T."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "That's just an old tin can."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's an altar to the horse god."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A box of dancing mechanical pencils. They dance! They sing!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's an old Duke Ellington record."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A box of fumigation pellets."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A digital clock. It's stuck at 2:17 PM."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "That's just a charred human corpse."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "I don't know what that is, but it's not kitten."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "An empty shopping bag. Paper or plastic?"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Could it be... a big ugly bowling trophy?"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A coat hanger hovers in thin air. Odd."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Not kitten, just a packet of Kool-Aid(tm)."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A freshly-baked pumpkin pie."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A lone, forgotten comma, sits here, sobbing."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "ONE HUNDRED THOUSAND CARPET FIBERS!!!!!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's Richard Nixon's nose!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's Lucy Ricardo. \"Aaaah, Ricky!\", she says."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "You stumble upon Bill Gates' stand-up act."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Just an autographed copy of the Kama Sutra."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's the Will Rogers Highway. Who was Will Rogers, anyway?"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid ""
+"It's another robot, more advanced in design than you but strangely immobile."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Leonard Richardson is here, asking people to lick him."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a stupid mask, fashioned after a beagle."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Your State Farm Insurance(tm) representative!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's the local draft board."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Seven 1/4\" screws and a piece of plastic."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "An 80286 machine."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "One of those stupid \"Homes of the Stars\" maps."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A signpost saying \"TO KITTEN\". It points in no particular direction."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A hammock stretched between a tree and a volleyball pole."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A Texas Instruments of Destruction calculator."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a dark, amphorous blob of matter."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Just a pincushion."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a mighty zombie talking about some love and prosperity."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "\"Dear robot, you may have already won our 10 MILLION DOLLAR prize...\""
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's just an object."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A mere collection of pixels."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A badly dented high-hat cymbal lies on its side here."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A marijuana brownie."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A plush Chewbacca."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Daily hunger conditioner from Australasia"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Just some stuff."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Why are you touching this when you should be finding kitten?"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A glorious fan of peacock feathers."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's some compromising photos of Babar the Elephant."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A copy of the Weekly World News. Watch out for the chambered nautilus!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's the proverbial wet blanket."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A \"Get Out of Jail Free\" card."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "An incredibly expensive \"Mad About You\" collector plate."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Paul Moyer's necktie."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A haircut and a real job. Now you know where to get one!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "An automated robot-hater. It frowns disapprovingly at you."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "An automated robot-liker. It smiles at you."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a black hole. Don't fall in!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Just a big brick wall."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "You found kitten! No, just kidding."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Heart of Darkness brand pistachio nuts."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A smoking branding iron shaped like a 24-pin connector."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a Java applet."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "An abandoned used-car lot."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A shameless plug for Crummy: http://www.crummy.com/"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A shameless plug for the UCLA Linux Users Group: http://linux.ucla.edu/"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A can of Spam Lite."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This is another fine mess you've gotten us into, Stanley."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's scenery for \"Waiting for Godot\"."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This grain elevator towers high above you."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A Mentos wrapper."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's the constellation Pisces."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a fly on the wall. Hi, fly!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This kind of looks like kitten, but it's not."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a banana! Oh, joy!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A helicopter has crashed here."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Carlos Tarango stands here, doing his best impression of Pat Smear."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A patch of mushrooms grows here."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A patch of grape jelly grows here."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A spindle, and a grindle, and a bucka-wacka-woom!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A geyser sprays water high into the air."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A toenail? What good is a toenail?"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "You've found the fish! Not that it does you much good in this game."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A Buttertonsils bar."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "One of the few remaining discoes."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Ah, the uniform of a Revolutionary-era minuteman."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A punch bowl, filled with punch and lemon slices."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's nothing but a G-thang, baby."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "IT'S ALIVE! AH HA HA HA HA!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This was no boating accident!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Wait! This isn't the poker chip! You've been tricked! DAMN YOU, MENDEZ!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A livery stable! Get your livery!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a perpetual immobility machine."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "\"On this spot in 1962, Henry Winkler was sick.\""
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "There's nothing here; it's just an optical illusion."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "The World's Biggest Motzah Ball!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid ""
+"A tribe of cannibals lives here. They eat Malt-O-Meal for breakfast, you "
+"know."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This appears to be a rather large stack of trashy romance novels."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Look out! Exclamation points!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A herd of wild coffee mugs slumbers here."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a limbo bar! How low can you go?"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's the horizon. Now THAT'S weird."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A vase full of artificial flowers is stuck to the floor here."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A large snake bars your way."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A pair of saloon-style doors swing slowly back and forth here."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's an ordinary bust of Beethoven... but why is it painted green?"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's TV's lovable wisecracking Crow! \"Bite me!\", he says."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid ""
+"Hey, look, it's war. What is it good for? Absolutely nothing. Say it again."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's the amazing self-referential thing that's not kitten."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A flamboyant feather boa. Now you can dress up like Carol Channing!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "\"Sure hope we get some rain soon,\" says Farmer Joe."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid ""
+"\"How in heck can I wash my neck if it ain't gonna rain no more?\" asks "
+"Farmer Al."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "\"Topsoil's all gone, ma,\" weeps Lil' Greg."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid ""
+"This is a large brown bear. Oddly enough, it's currently peeing in the woods."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A team of arctic explorers is camped here."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This object here appears to be Louis Farrakhan's bow tie."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This is the world-famous Chain of Jockstraps."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A trash compactor, compacting away."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This toaster strudel is riddled with bullet holes!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a hologram of a crashed helicopter."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid ""
+"This is a television. On screen you see a robot strangely similar to "
+"yourself."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This balogna has a first name, it's R-A-N-C-I-D."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A salmon hatchery? Look again. It's merely a single salmon."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a rim shot. Ba-da-boom!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid ""
+"It's creepy and it's kooky, mysterious and spooky. It's also somewhat ooky."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This is an anagram."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This object is like an analogy."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a symbol. You see in it a model for all symbols everywhere."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "The object pushes back at you."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A traffic signal. It appears to have been recently vandalized."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid ""
+"\"There is no kitten!\" cackles the old crone. You are shocked by her "
+"blasphemy."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This is a Lagrange point. Don't come too close now."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "The dirty old tramp bemoans the loss of his harmonica."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Look, it's Fanny the Irishman!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "What in blazes is this?"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's the instruction manual for a previous version of this game."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A brain cell. Oddly enough, it seems to be functioning."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Tea and/or crumpets."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This jukebox has nothing but Cliff Richards albums in it."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a Quaker Oatmeal tube, converted into a drum."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This is a remote control. Being a robot, you keep a wide berth."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a roll of industrial-strength copper wire."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Oh boy! Grub! Er, grubs."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A puddle of mud, where the mudskippers play."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Plenty of nothing."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Look at that, it's the Crudmobile."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Just Walter Mattheau and Jack Lemmon."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Two crepes, two crepes in a box."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "An autographed copy of \"Primary Colors\", by Anonymous."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Another rabbit? That's three today!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a segmentation fault. Core dumped, by the way."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A historical marker showing the actual location of /dev/null."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Thar's Mobius Dick, the convoluted whale. Arrr!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a charcoal briquette, smoking away."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A pizza, melting in the sun."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a \"HOME ALONE 2: Lost in New York\" novelty cup."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A stack of 7 inch floppies wobbles precariously."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's nothing but a corrupted floppy. Coaster anyone?"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A section of glowing phosphor cells sings a song of radiation to you."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This TRS-80 III is eerily silent."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A toilet bowl occupies this space."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This peg-leg is stuck in a knothole!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a solitary vacuum tube."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This corroded robot is clutching a mitten."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "\"Hi, I'm Anson Williams, TV's 'Potsy'.\""
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This subwoofer was blown out in 1974."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Three half-pennies and a wooden nickel."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's the missing chapter to \"A Clockwork Orange\"."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a burrito stand flyer. \"Taqueria El Ranchito\"."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "This smiling family is happy because they eat LARD."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Roger Avery, persona un famoso de los Estados Unidos."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Ne'er but a potted plant."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A parrot, kipping on its back."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A forgotten telephone switchboard."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A forgotten telephone switchboard operator."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's an automated robot-disdainer. It pretends you're not there."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a portable hole. A sign reads: \"Closed for the winter\"."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Just a moldy loaf of bread."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A little glass tub of Carmex. ($.89) Too bad you have no lips."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A Swiss-Army knife. All of its appendages are out. (toothpick lost)"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a zen simulation, trapped within an ASCII character."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a copy of \"The Rubaiyat of Spike Schudy\"."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's \"War and Peace\" (unabridged, very small print)."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A willing, ripe tomato bemoans your inability to digest fruit."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A robot comedian. You feel amused."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's KITT, the talking car."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Here's Pete Peterson. His batteries seem to have long gone dead."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "\"Blup, blup, blup\", says the mud pot."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "More grist for the mill."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Grind 'em up, spit 'em out, they're twigs."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "The boom box cranks out an old Ethel Merman tune."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's \"Finding kitten\", published by O'Reilly and Associates."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Pumpkin pie spice."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's the Bass-Matic '76! Mmm, that's good bass!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "\"Lend us a fiver 'til Thursday\", pleas Andy Capp."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's a tape of '70s rock. All original hits! All original artists!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "You've found the fabled America Online disk graveyard!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Empty jewelboxes litter the landscape."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's the astounding meta-object."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid ""
+"Ed McMahon stands here, lost in thought. Seeing you, he bellows, \"YES SIR!\""
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "...thingy???"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It's 1000 secrets the government doesn't want you to know!"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "The letters O and R."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "A magical... magic thing."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "It is SOFTWARE BUG."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "robotfindskitten v22July2008"
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid ""
+"Originally by the illustrious Leonard Richardson, rewritten in PDCurses by "
+"Joseph Larson, ported to CDDA gaming system by a nutcase."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "In this game, you are robot ("
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid ")."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid ""
+"Your job is to find kitten. This task is complicated by the existance of "
+"various things which are not kitten. Robot must touch items to determine if "
+"they are kitten or not. The game ends when robotfindskitten. Alternatively, "
+"you may end the game by hitting 'q'."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Press any key to start."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "Invalid command: Use direction keys or press 'q'."
+msgstr ""
+
+#: src/iuse_software_kitten.cpp
+msgid "You found kitten! Way to go, robot!"
+msgstr ""
+
+#: src/iuse_software_snake.cpp
+#, c-format
+msgid "Score: %d"
+msgstr ""
+
+#: src/iuse_software_snake.cpp src/iuse_software_sokoban.cpp
+msgid "<q>uit"
+msgstr ""
+
+#: src/iuse_software_snake.cpp
+#, c-format
+msgid "TOTAL SCORE: %d"
+msgstr ""
+
+#: src/iuse_software_snake.cpp
+msgid "Press 'q' or ESC to exit."
+msgstr ""
+
+#: src/iuse_software_sokoban.cpp
+msgid "Level: "
+msgstr ""
+
+#: src/iuse_software_sokoban.cpp
+msgid "Score: "
+msgstr ""
+
+#: src/iuse_software_sokoban.cpp
+msgid "Moves: "
+msgstr ""
+
+#: src/iuse_software_sokoban.cpp
+msgid "Total moves: "
+msgstr ""
+
+#: src/iuse_software_sokoban.cpp
+msgid "<+> next"
+msgstr ""
+
+#: src/iuse_software_sokoban.cpp
+msgid "<-> prev"
+msgstr ""
+
+#: src/iuse_software_sokoban.cpp
+msgid "<r>eset"
+msgstr ""
+
+#: src/iuse_software_sokoban.cpp
+msgid "<u>ndo move"
 msgstr ""
 
 #: src/line.cpp
@@ -52338,7 +53512,7 @@ msgstr ""
 msgid "The %s shoots a dart into you!"
 msgstr ""
 
-#: src/monattack.cpp
+#: src/monattack.cpp src/player.cpp
 msgid "You feel poison enter your body!"
 msgstr ""
 
@@ -52949,14 +54123,6 @@ msgstr ""
 #: src/newcharacter.cpp
 #, c-format
 msgid "Carry weight: %.1f %s"
-msgstr ""
-
-#: src/newcharacter.cpp src/options.cpp src/player.cpp
-msgid "kg"
-msgstr ""
-
-#: src/newcharacter.cpp src/options.cpp src/player.cpp
-msgid "lbs"
 msgstr ""
 
 #: src/newcharacter.cpp
@@ -56419,11 +57585,12 @@ msgid ""
 msgstr ""
 
 #: src/options.cpp
-msgid "Black Road"
+msgid "Surrounded start"
 msgstr ""
 
 #: src/options.cpp
-msgid "If true, spawn zombies at shelters."
+msgid ""
+"If true, spawn zombies at shelters. Makes the starting game a lot harder."
 msgstr ""
 
 #: src/options.cpp
@@ -57749,6 +58916,31 @@ msgid "Some snakes sprout from your body!"
 msgstr ""
 
 #: src/player.cpp
+msgid "You're poisoned!"
+msgstr ""
+
+#: src/player.cpp
+msgid "You feel poison flood your body, wracking you with pain..."
+msgstr ""
+
+#: src/player.cpp
+msgid "You're Bleeding!"
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "%s grabs you!"
+msgstr ""
+
+#: src/player.cpp
+msgid "You break the grab!"
+msgstr ""
+
+#: src/player.cpp
+msgid "<npcname> breaks the grab!"
+msgstr ""
+
+#: src/player.cpp
 #, c-format
 msgid "<npcname> bounces off a %s!"
 msgstr ""
@@ -58112,8 +59304,8 @@ msgstr ""
 
 #: src/player.cpp
 msgid ""
-"The thought of eating that makes you feel both guilty and excited. Go "
-"through with it?"
+"The thought of eating that makes you feel both guilty and excited. Really do "
+"it?"
 msgstr ""
 
 #: src/player.cpp
@@ -58430,10 +59622,6 @@ msgstr ""
 
 #: src/player.cpp
 msgid "Cut protection: "
-msgstr ""
-
-#: src/player.cpp
-msgid "Warmth: "
 msgstr ""
 
 #: src/player.cpp
