@@ -920,6 +920,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     SWIM_GOGGLES - Allows you to see much further under water.
     REBREATHER - Works to supply you with oxygen while underwater. Requires external limiter like battery power.
     UNRECOVERABLE - Prevents the item from being recovered when deconstructing another item that uses this one.
+    GNV_EFFECT - Green night vision effect. Requires external limiter like battery power.
 
     Container-only flags:
     SEALS

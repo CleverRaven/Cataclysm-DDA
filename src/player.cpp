@@ -3714,8 +3714,7 @@ bool player::has_nv()
 
     if( !nv_cached ) {
         nv_cached = true;
-        nv = ((is_wearing("goggles_nv") && (has_active_item("UPS_on") ||
-                                            has_active_item("adv_UPS_on"))) ||
+        nv = (worn_with_flag("GNV_EFFECT") ||
               has_active_bionic("bio_night_vision"));
     }
 

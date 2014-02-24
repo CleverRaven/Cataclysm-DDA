@@ -5542,8 +5542,6 @@ int iuse::UPS_off(player *p, item *it, bool)
   return 0;
  } else {
   g->add_msg_if_player(p,_("You turn the power supply on."));
-  if (p->is_wearing("goggles_nv"))
-   g->add_msg_if_player(p,_("Your light amp goggles power on."));
   if (p->is_wearing("optical_cloak"))
    g->add_msg_if_player(p,_("Your optical cloak flickers as it becomes transparent."));
   if (p->is_wearing_power_armor())
@@ -5586,9 +5584,6 @@ int iuse::adv_UPS_off(player *p, item *it, bool)
   g->add_msg_if_player(p,_("The power supply has depleted the plutonium."));
  } else {
   g->add_msg_if_player(p,_("You turn the power supply on."));
-  if (p->is_wearing("goggles_nv")) {
-   g->add_msg_if_player(p,_("Your light amp goggles power on."));
-  }
   if (p->is_wearing("optical_cloak")) {
    g->add_msg_if_player(p,_("Your optical cloak becomes transparent."));
   }
