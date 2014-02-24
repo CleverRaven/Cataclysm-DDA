@@ -12615,6 +12615,8 @@ void game::vertical_move(int movez, bool force) {
      if (query_yn(_("There is a sheer drop halfway down. Climb your grappling hook down?"))){
       rope_ladder = true;
       u.use_amount("grapnel", 1);
+     }
+     else return;
      } else if (u.has_amount("rope_30", 1)) {
      if (query_yn(_("There is a sheer drop halfway down. Climb your rope down?"))){
       rope_ladder = true;
