@@ -325,13 +325,14 @@ void construction_menu()
             break;
         case '\n':
         default:
-            // Get the index corresponding to the key pressed.
-            chosen = hotkeys.find_first_of( ch );
-            if( chosen == std::string::npos ) {
-                break;
-            }
             if (ch == '\n') {
                 chosen = select;
+            } else {
+                // Get the index corresponding to the key pressed.
+                chosen = hotkeys.find_first_of( ch );
+                if( chosen == std::string::npos ) {
+                    break;
+                }
             }
             if (chosen < available.size()) {
                 if (player_can_build(g->u, total_inv, available[chosen])) {
