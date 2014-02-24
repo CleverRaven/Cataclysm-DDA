@@ -467,7 +467,7 @@ npc_action npc::method_of_fleeing(int enemy)
                     point(g->zombie(enemy).posx(), g->zombie(enemy).posy()));
  int distance = rl_dist(posx, posy, enemy_loc.x, enemy_loc.y);
 
- if (choose_escape_item() >= 0) // We have an escape item!
+ if (choose_escape_item() != INT_MIN) // We have an escape item!
   return npc_escape_item;
 
  if (speed > 0 && (100 * distance) / speed <= 4 && speed > get_speed())
@@ -696,41 +696,37 @@ bool npc::alt_attack_available()
  return false;
 }
 
-signed char npc::choose_escape_item()
+int npc::choose_escape_item()
 {
- int best = -1, ret = -1;
- invslice slice = inv.slice();
- for (int i = 0; i < slice.size(); i++) {
-  item& it = slice[i]->front();
-  for (int j = 0; j < NUM_ESCAPE_ITEMS; j++) {
-   it_comest* food = NULL;
-   if (it.is_food())
-    food = dynamic_cast<it_comest*>(it.type);
-   if (it.type->id == ESCAPE_ITEMS[j] &&
-       (food == NULL || stim < food->stim ||            // Avoid guzzling down
-        (food->stim >= 10 && stim < food->stim * 2)) && //  Adderall etc.
-       (j > best || (j == best && it.charges < slice[ret]->front().charges))) {
-    ret = i;
-    best = j;
-    j = NUM_ESCAPE_ITEMS;
-   }
-  }
- }
- // Protect us from accessing an invalid index.
- if (ret == -1) { return ret; }
-
- return slice[ret]->front().invlet;
+    int best = -1;
+    int ret = INT_MIN;
+    invslice slice = inv.slice();
+    for (int i = 0; i < slice.size(); i++) {
+        item &it = slice[i]->front();
+        for (int j = 0; j < NUM_ESCAPE_ITEMS; j++) {
+            it_comest *food = NULL;
+            if (it.is_food()) {
+                food = dynamic_cast<it_comest *>(it.type);
+            }
+            if (it.type->id == ESCAPE_ITEMS[j] &&
+                (food == NULL || stim < food->stim ||            // Avoid guzzling down
+                 (food->stim >= 10 && stim < food->stim * 2)) && //  Adderall etc.
+                (j > best || (j == best && it.charges < slice[ret]->front().charges))) {
+                ret = i;
+                best = j;
+                break;
+            }
+        }
+    }
+    return ret;
 }
 
-void npc::use_escape_item(signed char invlet)
+void npc::use_escape_item(int position)
 {
- if (invlet == 0) {
-  debugmsg("%s tried to use item with null invlet", name.c_str());
+ item* used = &i_at(position);
+ if (used->is_null()) {
+  debugmsg("%s tried to use null item (position: %d)", name.c_str(), position);
   move_pause();
-  return;
- }
- if (invlet == -1) {
-  // No item found.
   return;
  }
 
@@ -739,27 +735,18 @@ void npc::use_escape_item(signed char invlet)
  * ESCAPE_ITEMS, defined in npc.h
  */
 
- item* used = &(inv.item_by_letter(invlet));
-
  if (used->is_food() || used->is_food_container()) {
-  consume(invlet);
+  consume(position);
   return;
  }
 
  if (used->is_tool()) {
-  it_tool* tool = dynamic_cast<it_tool*>(used->type);
-  int charges_used = tool->use.call(this, used, false);
-  if( charges_used ) {
-      used->charges -= charges_used;
-      if (used->invlet == 0) {
-          inv.remove_item(used);
-      }
-  }
+  use(position);
   return;
  }
 
- debugmsg("NPC tried to use %s (%c) but it has no use?", used->tname().c_str(),
-          invlet);
+ debugmsg("NPC tried to use %s (%d) but it has no use?", used->tname().c_str(),
+          position);
  move_pause();
 }
 
@@ -1781,7 +1768,7 @@ void npc::use_painkiller()
   debugmsg("NPC tried to use painkillers, but has none!");
   move_pause();
  } else {
-  consume(it.invlet);
+  consume(inv.position_by_item(&it));
   moves = 0;
  }
 }
