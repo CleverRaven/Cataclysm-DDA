@@ -4090,7 +4090,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         }
         else if (d.total_damage() > 0 && source->has_flag(MF_BADVENOM)) {
             g->add_msg_if_player(this, _("You feel poison flood your body, wracking you with pain..."));
-            add_disease("badpoison", 40);
+            add_disease("badpoison", 40, false, 1, 20, 100);
             add_effect("badpoison", 40);
         }
         else if (d.total_damage() > 0 && source->has_flag(MF_PARALYZE)) {
@@ -4107,7 +4107,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         static bool grab = false;
 
         if ( !grab && source->has_flag(MF_GRABS)) {
-            g->add_msg(_("The %s grabs you!"), source->disp_name().c_str());
+            g->add_msg(_("%s grabs you!"), source->disp_name().c_str());
             if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ? dice(get_dex(), 10) : dice(get_str(), 10) > dice(source->get_dex(), 10)) {
                 g->add_msg_player_or_npc(this, _("You break the grab!"),
                                                   _("<npcname> breaks the grab!"));
