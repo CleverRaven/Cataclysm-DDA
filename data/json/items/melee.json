@@ -176,7 +176,7 @@
     "material": ["cotton", "steel"],
     "weight": 760,
     "volume": 3,
-    "bashing": 8,
+    "bashing": 12,
     "cutting": 6,
     "to_hit": -2
   },
