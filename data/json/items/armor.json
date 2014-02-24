@@ -5294,7 +5294,7 @@
         "enviromental_protection" : 20,
         "encumbrance" : 5,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY"],
+        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUNGLASSES"],
         "coverage" : 100,
         "material_thickness" : 6
     },
