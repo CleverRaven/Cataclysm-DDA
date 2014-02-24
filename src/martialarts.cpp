@@ -29,7 +29,17 @@ void load_technique(JsonObject &jo)
     tec.reqs.melee_allowed = jo.get_bool("melee_allowed", false);
     tec.reqs.min_melee = jo.get_int("min_melee", 0);
     tec.reqs.min_unarmed = jo.get_int("min_unarmed", 0);
+
+    tec.reqs.min_bashing = jo.get_int("min_bashing", 0);
+    tec.reqs.min_cutting = jo.get_int("min_cutting", 0);
+    tec.reqs.min_stabbing = jo.get_int("min_stabbing", 0);
+
+    tec.reqs.min_bashing_damage = jo.get_int("min_bashing_damage", 0);
+    tec.reqs.min_cutting_damage = jo.get_int("min_cutting_damage", 0);
+    tec.reqs.min_stabbing_damage = jo.get_int("min_stabbing_damage", 0);
+
     tec.reqs.req_buffs = jo.get_tags("req_buffs");
+    tec.reqs.req_flags = jo.get_tags("req_flags");    
 
     tec.crit_tec = jo.get_bool("crit_tec", false);
     tec.defensive = jo.get_bool("defensive", false);
@@ -38,16 +48,18 @@ void load_technique(JsonObject &jo)
     tec.counters = jo.get_bool("counters", false);
     tec.miss_recovery = jo.get_bool("miss_recovery", false);
     tec.grab_break = jo.get_bool("grab_break", false);
-    tec.flaming = jo.get_bool("flaming", false);
-    tec.quick = jo.get_bool("quick", false);
+    tec.flaming = jo.get_bool("flaming", false);    
 
     tec.hit = jo.get_int("pain", 0);
     tec.bash = jo.get_int("bash", 0);
     tec.cut = jo.get_int("cut", 0);
     tec.pain = jo.get_int("pain", 0);
 
+    tec.weighting = jo.get_int("weighting", 1);
+
     tec.bash_mult = jo.get_float("bash_mult", 1.0);
     tec.cut_mult = jo.get_float("cut_mult", 1.0);
+    tec.speed_mult = jo.get_float("speed_mult", 1.0);
 
     tec.down_dur = jo.get_int("down_dur", 0);
     tec.stun_dur = jo.get_int("stun_dur", 0);
@@ -223,14 +235,22 @@ bool ma_requirements::is_valid_player(player& u) {
   for (std::set<mabuff_id>::iterator it = req_buffs.begin();
       it != req_buffs.end(); ++it) {
     mabuff_id buff_id = *it;
-    if (!u.has_mabuff(*it)) return false;
+    if (!u.has_mabuff(buff_id)) return false;
   }
-  bool valid = ((unarmed_allowed && u.unarmed_attack()) || (melee_allowed && !u.unarmed_attack()))
+  for (std::set<std::string>::iterator it = req_flags.begin();
+      it != req_flags.end(); ++it) {
+    std::string flag = *it;
+    if (!u.weapon.has_flag(flag)) return false;
+  }
+  bool valid = ((unarmed_allowed && u.unarmed_attack()) 
+      || (melee_allowed && !u.unarmed_attack()) 
+      || (u.has_weapon() && u.weapon.has_martial_art(u.style_selected)))
     && u.skillLevel("melee") >= min_melee
     && u.skillLevel("unarmed") >= min_unarmed
     && u.skillLevel("bashing") >= min_bashing
     && u.skillLevel("cutting") >= min_cutting
     && u.skillLevel("stabbing") >= min_stabbing;
+
   return valid;
 }
 
@@ -254,8 +274,7 @@ ma_technique::ma_technique() {
   grab_break = false; // allows grab_breaks, like tec_break
 
   flaming = false; // applies fire effects etc
-  quick = false; // moves discount based on attack speed, like tec_rapid
-
+  
   hit = 0; // flat bonus to hit
   bash = 0; // flat bonus to bash
   cut = 0; // flat bonus to cut
@@ -263,7 +282,7 @@ ma_technique::ma_technique() {
 
   bash_mult = 1.0f; // bash damage multiplier
   cut_mult = 1.0f; // cut damage multiplier
-
+  speed_mult = 1.0f; // speed multiplier (fractional is faster, old rapid aka quick = 0.5)
 }
 
 bool ma_technique::is_valid_player(player& u) {

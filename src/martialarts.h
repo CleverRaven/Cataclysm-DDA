@@ -19,7 +19,12 @@ struct ma_requirements {
     int min_cutting; // minimum amount of unarmed to trigger this bonus
     int min_stabbing; // minimum amount of unarmed to trigger this bonus
 
+    int min_bashing_damage; // minimum amount of bashing damage on the weapon
+    int min_cutting_damage; // minimum amount of cutting damage on the weapon
+    int min_stabbing_damage; // minimum amount of stabbing damage on the weapon
+
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
+    std::set<std::string> req_flags; // any item flags required for this technique
 
     ma_requirements() {
       unarmed_allowed = false; // does this bonus work when unarmed?
@@ -72,15 +77,17 @@ class ma_technique {
     bool grab_break; // allows grab_breaks, like tec_break
 
     bool flaming; // applies fire effects etc
-    bool quick; // moves discount based on attack speed, like tec_rapid
 
     int hit; // flat bonus to hit
     int bash; // flat bonus to bash
     int cut; // flat bonus to cut
     int pain; // attacks cause pain
 
+    int weighting; //how often this technique is used
+
     float bash_mult; // bash damage multiplier
     float cut_mult; // cut damage multiplier
+    float speed_mult; // speed multiplier (fractional is faster)
 
     float bash_str; // bonus damage to add per str point
     float bash_dex; // "" dex point

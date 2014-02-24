@@ -161,7 +161,7 @@ void player::melee_attack(Creature &t, bool allow_special) {
         if (critical_hit) // stab criticals have extra extra %arpen
             d.add_damage(DT_STAB, stab_dam, 0, 0.33);
         else
-            d.add_damage(DT_STAB, stab_dam);
+            d.add_damage(DT_STAB, stab_dam); 
     }
 
     // Pick one or more special attacks
@@ -196,7 +196,7 @@ void player::melee_attack(Creature &t, bool allow_special) {
     } else {
         // Handles effects as well; not done in melee_affect_*
         if (technique.id != "tec_none")
-            perform_technique(technique, t, bash_dam, cut_dam, stab_dam, pain);
+            perform_technique(technique, t, d, move_cost);
         perform_special_attacks(t);
         // Make a rather quiet sound, to alert any nearby monsters
         if (!is_quiet()) // check martial arts silence
@@ -597,6 +597,9 @@ matec_id player::pick_technique(Creature &t,
             it != all.end(); ++it) {
         ma_technique tec = ma_techniques[*it];
 
+        //ignore "dummy" techniques like WBLOCK_1
+        if (tec.id.length() == 0) continue;
+
         // skip defensive techniques
         if (tec.defensive) continue;
 
@@ -615,8 +618,15 @@ matec_id player::pick_technique(Creature &t,
         // ignore aoe tecs for a bit
         if (tec.aoe.length() > 0) continue;
 
-        if (tec.is_valid_player(*this))
+        if (tec.is_valid_player(*this)) {
             possible.push_back(tec.id);
+
+            //add weighted options into the list extra times, to increase their chance of being selected
+            if (tec.weighting > 1) { 
+                for (int i = 1; i < tec.weighting; i++)
+                    possible.push_back(tec.id);
+            }
+        }
     }
 
   // now add aoe tecs (since they depend on if we have other tecs or not)
@@ -662,34 +672,33 @@ bool player::has_technique(matec_id id) {
     martialarts[style_selected].has_technique(*this, id);
 }
 
-void player::perform_technique(ma_technique technique, Creature &t,
-                               int &bash_dam, int &cut_dam,
-                               int &stab_dam, int &pain)
+void player::perform_technique(ma_technique technique, Creature &t, damage_instance &d, int& move_cost)
 {
 
     std::string target = t.disp_name();
+    
+    d.add_damage(DT_BASH, technique.bash);
+    if (d.type_damage(DT_CUT) > d.type_damage(DT_STAB)) { // cut affects stab damage too since only one of cut/stab is used
+        d.add_damage(DT_CUT, technique.cut);
+    } else {
+        d.add_damage(DT_STAB, technique.cut);
+    }
 
-    bash_dam += technique.bash;
-    cut_dam += technique.cut;
-    stab_dam += technique.cut; // cut affects stab damage too since only one of cut/stab is used
+    d.add_damage(DT_BASH, d.type_damage(DT_BASH) * (1 - technique.bash_mult));
+    d.add_damage(DT_CUT, d.type_damage(DT_CUT) * (1 - technique.cut_mult));
+    d.add_damage(DT_STAB, d.type_damage(DT_STAB) * (1 - technique.cut_mult));
 
-    bash_dam *= technique.bash_mult;
-    cut_dam *= technique.cut_mult;
-    stab_dam *= technique.cut_mult;
+    move_cost *= technique.speed_mult;
 
     int tarx = t.xpos(), tary = t.ypos();
 
     (void) tarx;
-    (void) tary;
-
-    if (technique.quick) {
-        moves += int(attack_speed(*this) / 2);
-    }
+    (void) tary;      
 
     if (technique.down_dur > 0) {
         if (t.get_throw_resist() == 0) {
             t.add_effect("downed", rng(1, technique.down_dur));
-            bash_dam += 3;
+            d.add_damage(DT_BASH, 3);
         }
     }
 
@@ -706,7 +715,7 @@ void player::perform_technique(ma_technique technique, Creature &t,
     }
 
     if (technique.pain > 0) {
-        pain += rng(technique.pain/2, technique.pain);
+        t.pain += rng(technique.pain/2, technique.pain);
     }
 
     /* TODO: put all this in when disease/effects merging is done

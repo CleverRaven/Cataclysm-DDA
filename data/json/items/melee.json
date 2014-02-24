@@ -529,7 +529,8 @@
     "volume": 5,
     "bashing": 14,
     "cutting": 0,
-    "to_hit": -2
+    "to_hit": -2,
+    "martial_arts": [ "style_eskrima" ]
   },
 
   {
@@ -563,7 +564,8 @@
     "volume" : 8,
     "bashing" : 8,
     "cutting" : 0,
-    "price" : 19500
+    "price" : 19500,
+    "martial_arts": [ "style_eskrima" ]
   },
 
   {
@@ -1871,7 +1873,8 @@
         "volume" : 6,
         "bashing" : 10,
         "cutting" : 0,
-        "price" : 8000
+        "price" : 8000,
+        "martial_arts": [ "style_eskrima" ]
     },
     {
         "type":"GENERIC",
@@ -1887,7 +1890,8 @@
         "volume" : 4,
         "bashing" : 12,
         "cutting" : 0,
-        "price" : 7500
+        "price" : 7500,
+        "martial_arts": [ "style_eskrima" ]
     },
     {
         "type":"GENERIC",
@@ -1985,7 +1989,8 @@
         "volume" : 1,
         "bashing" : 12,
         "cutting" : 0,
-        "price" : 17500
+        "price" : 17500,
+        "martial_arts": [ "style_eskrima" ]
     },
     {
         "type":"GENERIC",
@@ -2052,7 +2057,8 @@
         "volume" : 4,
         "bashing" : 10,
         "cutting" : 0,
-        "price" : 16000
+        "price" : 16000,
+        "martial_arts": [ "style_eskrima" ]
     },
     {
         "type":"GENERIC",
@@ -2101,7 +2107,8 @@
         "volume" : 8,
         "bashing" : 10,
         "cutting" : 0,
-        "price" : 8000
+        "price" : 8000,
+        "martial_arts": [ "style_eskrima" ]
     },
     {
         "type":"GENERIC",
@@ -2230,7 +2237,8 @@
         "bashing" : 2,
         "cutting" : 10,
         "flags" : ["STAB", "UNARMED_WEAPON"],
-        "price" : 10000
+        "price" : 10000,
+        "martial_arts": [ "style_eskrima" ]
     },
     {
         "type":"GENERIC",
@@ -2327,7 +2335,8 @@
     "cutting": 4,
     "to_hit": 1,
     "flags": ["STAB","RAIN_PROTECT"],
-    "techniques": ["WBLOCK_1"]
+    "techniques": ["WBLOCK_1"],
+    "martial_arts": [ "style_eskrima" ]
   },
   {
     "type":"GENERIC",
@@ -2565,7 +2574,8 @@
     "volume" : 2,
     "bashing" : 5,
     "cutting" : 0,
-    "price" : 7500
+    "price" : 7500,
+    "martial_arts": [ "style_eskrima" ]
   },
   {
     "type":"GENERIC",
@@ -2626,7 +2636,8 @@
     "volume": 1,
     "bashing": 0,
     "cutting": 6,
-    "to_hit": 0
+    "to_hit": 0,
+    "martial_arts": [ "style_eskrima" ]
   },
   {
     "id": "mre_beef_box",

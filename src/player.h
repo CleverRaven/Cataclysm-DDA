@@ -291,8 +291,7 @@ public:
  bool has_technique(matec_id tec);
  matec_id pick_technique(Creature &t,
                              bool crit, bool allowgrab);
- void perform_technique(ma_technique technique, Creature &t,
-                       int &bash_dam, int &cut_dam, int &pierce_dam, int &pain);
+ void perform_technique(ma_technique technique, Creature &t, damage_instance &d, int& move_cost);
 
  void perform_special_attacks(Creature &t);
 

@@ -258,6 +258,64 @@
         ]
     },{
         "type" : "martial_art",
+        "id" : "style_fencing",
+        "name" : "Fencing",
+        "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples. Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.", 
+        "onmove_buffs" : [
+            {
+                "id" : "fencing_move_buff",
+                "name" : "Fencing Footwork",
+                "description" : "+2 stab and +1 acc per stack",
+                "unarmed_allowed" : true,
+                "min_melee" : 2,
+                "buff_duration" : 2,
+                "max_stacks" : 2,
+                "stab" : 2,
+                "hit" : 1
+            }
+        ],
+        "techniques" : [
+            "tec_feint",
+            "tec_fencing_lunge",
+            "tec_fencing_stop_thrust",
+            "tec_fencing_thrust"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_eskrima",
+        "name" : "Eskrima",
+        "description": "Eskrima, also known as Kali, is a Filipino martial art. It emphasises rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
+        "static_buffs" : [
+            {
+                "id" : "eskrima_bash",
+                "name" : "Eskrima Bashing",
+                "melee_allowed" : true,
+                "min_melee" : 1,
+                "bash_mult" : 1.2,
+                "description" : "Increased bashing damage"
+            }
+        ],
+        "onhit_buffs" : [
+            {
+                "id" : "eskrima_hit_buff",
+                "name" : "Eskrima Combination",
+                "description" : "Combination",
+                "melee_allowed" : true,
+                "min_melee" : 2,
+                "buff_duration" : 3,
+                "max_stacks" : 1
+            }
+        ],
+        "techniques" : [
+            "tec_eskrima_round",
+            "tec_eskrima_fan",
+            "tec_eskrima_snap",
+            "tec_eskrima_puno",
+            "tec_eskrima_kick",
+            "tec_eskrima_combination"
+        ]
+    },{
+        "type" : "martial_art",
         "id" : "style_crane",
         "name" : "Crane Kung Fu",
         "description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines the majority of your damage, rather than Strength; you also receive a dodge bonus the turn after moving a tile.",
