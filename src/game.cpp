@@ -545,7 +545,7 @@ void game::start_game(std::string worldname)
  levy -= int(int(MAPSIZE / 2) / 2);
  levz = 0;
 // Start the overmap with out immediate neighborhood visible
- overmap_buffer.reveal(point(levx, levy), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
+ overmap_buffer.reveal(point(levx + 2, levy + 2), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
 // Convert the overmap coordinates to submap coordinates
  levx = levx * 2 - 1;
  levy = levy * 2 - 1;
