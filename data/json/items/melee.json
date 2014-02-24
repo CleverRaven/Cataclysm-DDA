@@ -169,7 +169,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "grappling hook",
-    "description": "A folding grappling hook attached to a stout 30-foot long length of lightweight cord. Useful for keeping yourself safe from falls.",
+    "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord. Useful for keeping yourself safe from falls.",
     "techniques" : ["RAPID"],
     "flags" : ["WRAP"],
     "price": 25000,
