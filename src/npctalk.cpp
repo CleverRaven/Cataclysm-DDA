@@ -463,7 +463,7 @@ void npc::talk_to_u()
  for (int i = 1; i < 24; i++)
   mvwputch(d.win, i, 41, c_ltgray, LINE_XOXO);
  mvwputch(d.win,  0, 41, c_ltgray, LINE_OXXX);
- mvwputch(d.win, 24, 41, c_ltgray, LINE_XXOX);
+ mvwputch(d.win, 23, 41, c_ltgray, LINE_XXOX);
  mvwprintz(d.win, 1,  1, c_white, _("Dialogue with %s"), name.c_str());
  mvwprintz(d.win, 1, 43, c_white, _("Your response:"));
 
@@ -2062,14 +2062,14 @@ talk_topic dialogue::opt(talk_topic topic)
          colors.push_back(c_white);
  }
 
- for (int i = 2; i < 24; i++) {
+ for (int i = 2; i < 23; i++) {
   for (int j = 1; j < 79; j++) {
    if (j != 41)
     mvwputch(win, i, j, c_black, ' ');
   }
  }
 
- int curline = 23, curhist = 1;
+ int curline = 22, curhist = 1;
  nc_color col;
  while (curhist <= history.size() && curline > 0) {
   if (curhist <= hilight_lines)
@@ -2333,7 +2333,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
      popup(theirs[help]->info().c_str());
    } else {
     if (help >= 0 && help < yours.size())
-     popup(theirs[help]->info().c_str());
+     popup(yours[help]->info().c_str());
    }
    break;
   case '\n': // Check if we have enough cash...
