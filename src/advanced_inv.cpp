@@ -187,7 +187,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
 
     for(int i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++) {
       if ( items[i].volume == -8 ) { // I'm a header!
-        mvwprintz(window,6+x,( columns - items[i].name.size()-6 )/2,c_cyan, "[%s]", items[i].name.c_str() );
+        mvwprintz(window,6+x,( columns - utf8_width(items[i].name.c_str())-6 )/2,c_cyan, "[%s]", items[i].name.c_str() );
       } else {
         nc_color thiscolor = active ? items[i].it->color(&g->u) : norm;
         nc_color thiscolordark = c_dkgray;
