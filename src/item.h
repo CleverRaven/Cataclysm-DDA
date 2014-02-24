@@ -154,6 +154,7 @@ public:
  bool craft_has_charges();
  int num_charges();
  bool rotten();
+ int brewing_time();
  bool ready_to_revive(); // used for corpses
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)

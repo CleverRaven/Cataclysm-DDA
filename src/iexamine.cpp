@@ -864,9 +864,8 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
     item brew_i = m->i_at(examx, examy)[0];
     if (brew_i.has_flag("BREW")) //Is the booze fermented?
     {
-        int brew_time = dynamic_cast<it_comest*>(brew_i.type)->brewtime;
-        float season_mult = (int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 14; //brew_time is declared as default 14 season length
-        int brewing_stage = 3 * ((g->turn.get_turn() - brew_i.bday) / (brew_time * season_mult));
+        int brew_time = brew_i.brewing_time();
+        int brewing_stage = 3 * ((float)(g->turn.get_turn() - brew_i.bday) / (brew_time));
         g->add_msg(_("There's a vat full of %s set to ferment there."), brew_i.name.c_str());
         switch (brewing_stage) {
         case 0:
@@ -876,7 +875,7 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
         case 2:
             g->add_msg(_("It will be ready for bottling soon.")); break; //More messages can be added to show progress if desired
         default:
-            if ( (g->turn.get_turn() > (brew_i.bday + brew_time * season_mult) ) //Double-checking that the brew is actually ready
+            if ( (g->turn.get_turn() > (brew_i.bday + brew_time) ) //Double-checking that the brew is actually ready
             && m->furn(examx, examy) == f_fvat_full && query_yn(_("Finish brewing?")) )
             {
                 itype_id alcoholType = m->i_at(examx, examy)[0].typeId().substr(5); //declare fermenting result as the brew's ID minus "brew_"

@@ -806,6 +806,19 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("DESCRIPTION", _("On closer inspection, this appears to be hallucinogenic.")));
     }
 
+    if ((is_food() && has_flag("BREW")) || (is_food_container() && contents[0].has_flag("BREW"))) {
+        int btime = ( is_food_container() ) ? contents[0].brewing_time() : brewing_time();
+        if (btime <= 28800)
+            dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d hours."), btime/600)));
+        else {
+            btime = 0.5+btime / 7200; //Round down to 12-hour intervals
+            if (btime % 2 == 1)
+                dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d and a half days."), btime/2)));
+            else
+                dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d days."), btime/2)));
+        }
+    }
+
     if ((is_food() && goes_bad()) || (is_food_container() && contents[0].goes_bad())) {
         if(rotten() || (is_food_container() && contents[0].rotten())) {
             if(g->u.has_bionic("bio_digestion")) {
@@ -1382,6 +1395,14 @@ bool item::rotten()
     } else {
       return false;
     }
+}
+
+int item::brewing_time()
+{
+    unsigned int b_time = dynamic_cast<it_comest*>(type)->brewtime;
+    float season_mult = ( (float)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] ) / 14;
+    int ret = b_time * season_mult;
+    return ret;
 }
 
 bool item::ready_to_revive()

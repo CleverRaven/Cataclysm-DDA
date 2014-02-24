@@ -1389,7 +1389,7 @@
         "type" : "COMESTIBLE",
         "id" : "brew_rum",
         "name" : "rum wort",
-        "description" : "Unfermented rum. Sugar caramel or molasses dissolved into sweet water. Basically a saccharine soup.",
+        "description" : "Unfermented rum. Sugar caramel or molasses brewed into sweet water. Basically a saccharine soup.",
         "weight" : 33,
         "color" : "light_cyan",
         "addiction_type" : "none",
@@ -1915,7 +1915,7 @@
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "flags" : ["BREW"],
-        "brew_time" : 300
+        "brew_time" : 21600
     },
     {
         "type" : "COMESTIBLE",
