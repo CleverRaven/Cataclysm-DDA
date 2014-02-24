@@ -70,6 +70,8 @@ Creature::Creature(const Creature &rhs)
     grab_resist = rhs.grab_resist;
     throw_resist = rhs.throw_resist;
 
+    effects = rhs.effects;
+
     fake = rhs.fake;
 }
 
