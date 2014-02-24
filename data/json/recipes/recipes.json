@@ -7999,6 +7999,9 @@
       [ "broccoli", 2 ],
       [ "irradiated_zucchini", 2 ],
       [ "zucchini", 2 ],
+      [ "potato_raw", 2 ],
+      [ "onion", 2 ],
+      [ "carrot", 2 ],
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ]
     ]
@@ -9464,6 +9467,7 @@
       [ "veggy_wild", 2 ],
       [ "veggy_vac", 2 ],
       [ "tomato", 2 ],
+      [ "onion", 2 ],
       [ "broccoli", 1 ],
       [ "irradiated_tomato", 2 ],
       [ "irradiated_broccoli", 1 ],
@@ -9864,8 +9868,8 @@
   ],
   "components": [
     [
-      [ "tallow", 5 ],
-      [ "cooking_oil", 10 ]
+      [ "tallow", 2 ],
+      [ "cooking_oil", 5 ]
     ],
     [
       [ "water", 1 ],
@@ -14522,6 +14526,45 @@
   ]
 },{
         "type" : "recipe",
+  "result": "solar_panel_v2",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "difficulty": 10,
+  "time": 50000,
+  "reversible": true,
+  "decomp_learn": 5,
+  "autolearn": false,
+  "book_learn": [["textbook_robots", 8]],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 35 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "power_supply", 2 ]
+    ],
+    [
+      [ "amplifier", 2 ]
+    ],
+    [
+      [ "solar_cell", 8 ]
+    ],
+    [
+      [ "cable", 10 ]
+    ],
+    [
+      [ "solar_panel", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "reinforced_glass_pane",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -14625,6 +14668,45 @@
     ],
     [
       [ "scrap", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "reinforced_solar_panel_v2",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 10,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": false,
+  "book_learn": [["textbook_robots", 8]],
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 3 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "solar_panel_v2", 1 ]
+    ],
+    [
+      [ "reinforced_glass_pane", 1 ]
+    ],
+    [
+      [ "scrap", 2 ]
+    ],
+    [
+      [ "wire", 2 ]
     ]
   ]
 },{
@@ -18656,6 +18738,40 @@
   ]
 },{
         "type" : "recipe",
+  "result": "forgerig",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",4],
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 4,
+  "autolearn": false,
+  "book_learn": [["textbook_mechanics", 6] , ["textbook_electronics", 8] , ["textbook_fabrication", 8] , ["welding_book", 5]],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "power_supply", 2 ]
+    ],
+    [
+      [ "forge", 1 ]
+    ],
+    [
+      ["cable", 5]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "weldrig",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -22017,7 +22133,7 @@
   "time": 2000,
   "reversible": false,
   "autolearn": false,
-    "book_learn": [[ "manual_shotgun", 0 ] ,[ "manual_rifle", 0 ] ,[ "manual_smg", 0 ] ,[ "manual_pistol", 0 ] , ["recipe_bullets" , 0] , [ "textbook_mechanics", 1 ] , [ "mag_mechanics", 2 ]],
+    "book_learn": [[ "manual_shotgun", 0 ] ,[ "manual_rifle", 0 ] ,[ "manual_smg", 0 ] ,[ "manual_pistol", 0 ] , ["recipe_bullets" , 0] , [ "textbook_mechanics", 1 ] , [ "mag_mechanics", 2 ], [ "mag_rifle", 2 ]],
   "components": [
     [
       ["wire", 2],

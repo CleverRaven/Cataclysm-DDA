@@ -206,6 +206,14 @@ void game::load_core_data() {
 }
 
 void game::load_data_from_dir(const std::string &path) {
+    #ifdef LUA
+        // Process the lua mod file before the .json files,
+        // so that custom IUSE's will be present when the
+        // item definitions are parsed.
+        
+        lua_loadmod(lua_state, path, "main.lua");
+    #endif
+    
     try {
         DynamicDataLoader::get_instance().load_data_from_path(path);
     } catch(std::string &err) {
@@ -11171,7 +11179,7 @@ void game::unload(int pos)
 
 void game::unload(item& it)
 {
-    if ( !it.is_gun() && it.contents.size() == 0 && (!it.is_tool() || it.ammo_type() == "NULL") )
+    if ( !it.is_gun() && it.contents.size() == 0 && (!it.is_tool() || it.ammo_type() == "NULL"))
     {
         add_msg(_("You can't unload a %s!"), it.tname().c_str());
         return;

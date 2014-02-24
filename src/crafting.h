@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <list>
 #include "itype.h"
 #include "skill.h"
 #include "rng.h"
@@ -113,6 +114,13 @@ recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, craft_subcat 
 
 typedef std::vector<recipe*> recipe_list;
 typedef std::map<craft_cat, recipe_list> recipe_map;
+
+class item;
+// removes any (removable) ammo from the item and stores it in the
+// players inventory.
+void remove_ammo(item *dis_item);
+// same as above but for each item in the list
+void remove_ammo(std::list<item> &dis_items);
 
 void load_recipe_category(JsonObject &jsobj);
 void reset_recipe_categories();

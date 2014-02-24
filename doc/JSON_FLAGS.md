@@ -281,7 +281,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```BITE``` Bites the player.
 - ```BRANDISH``` Brandish a knife at the player.
 - ```FLESH_GOLEM``` Attack the player with claw, and inflict disease `downed` if the attack connects.
-- ```PARROT``` Parrots the speech defined in `migo_speech.json`, only says the lines with the corresponding id.
+- ```PARROT``` Parrots the speech defined in `speech.json`, picks one of the lines randomly. "speaker" points to a monster id.
 
 ### Anger, Fear & Placation Triggers
 

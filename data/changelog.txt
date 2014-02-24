@@ -1,3 +1,131 @@
+0.A
+
+Features:
+View item on mouse hover in SDL.
+Mouse move.
+Basic LUA support.
+Vehicles disintegrate into their constituent parts on impact.
+Fuel tanks preserve their contents when removed/installed.
+Vehicle construction and repair using duct tape.
+More distinct mutation trees, including branch thresholds and post-threshold mutations.
+Interact with monsters on stairs.
+Guilt from killing monsters tapers off as you kill more of them.
+Can track vehicles with a GPS module.
+Allow filtering constructions by the ones you can do right now (can toggle).
+Idling for vehicles, can effectively run as generators.
+Minifridge that keeps food fresh longer.
+Clothing pockets and hoods only activate when needed. (for warmth)
+Inventory and crafting menus support listing items by category.
+Expanded underwater combat.
+Item spoilage rate varies based on temperature.
+More info in list monsters menu.
+Rechargeable battery pack mod for tools.
+Gunmods are installed on rails now.
+Better gender handling at character creation.
+Expanded vehicle electrical system.
+Can pick up or drop partial stacks.
+Shove items out of the way when closing a door.
+Radioactive items.
+Mutation friendly clothing.
+Remove prompt to resume task, of course you want to.
+Vehicle facing indicator (option).
+Fullscreen mode.
+Show contents of grabbed vehicle (e.g. your shopping cart) in advanced inventory pane.
+Fishing, find a pole!
+Automatic view shifting when driving (option).
+Zoom mode that dynamically resizes tiles (pretty slow when zoomed unfortunately).
+Search known recipes by output, tool or component.
+
+Infrastructure:
+Overmap tiles moved to json.
+Lots of warning cleanup.
+More development of internal json library.
+Mod manager.
+Can define mapgen for tiles in json or LUA.
+Traps moved to json.
+Standalone json checker.
+Refactored monsters and players to have a common parent class.
+Retrieve items from inventory based on location instead of invlet.
+Ammo types moved to json.
+Blacklist and whitelist for including/excluding content.
+
+Balance:
+Sleep increases rate of fatigue recovery and healing over time.
+Remove automatic matches and poketknife from player spawn.
+Add skintight flag for underwear-type clothing to negate layering penalties.
+First Aid and bandages take time to apply now.
+Increased city size variability.
+Turrets have finite ammo.
+Reduce rate of damage for "real armor" as opposed to "clothes".
+Zombies spawn at last stand locations.
+Burning ammo only throws shrapnel, no explosion.
+Increased crafting distance to 6 to enable large workshops.
+Progressive difficulty searching for lab notes.
+Large-scale vehicle rebalances.
+Improved code that determines what body part is hit by an attack.
+Water purification methods use one charge per unit of water.
+Buffed water resistant clothing.
+Removed acid puddles from acid rain. (no more melting items).
+Buffed most zombie HP.
+Large nerf to solar panels.
+Effectively remove cap to starting points option (set to 1,000).
+More interesting gun misfire/jam mechanics, guns can take damage now.
+Varied rate of projectile breakage with a flag, more differentiation between arrow types.
+
+Content:
+Atomic coffee, energy drink and hypospray, lawn darts, MOLLE pack, fingertip razors.
+Too many mutations to list, including mutagen types and recipes.
+Map types, ammo reloads, vehicle curtains, creepy doll, whiskey barrels.
+Hibernation mutation, lots of cop and fireman gear, IV mutagen, piles of new traits.
+Mutation-themed dreams, cowbell, atomic batteries, dojo and contents,
+vending machines and bank cards.
+Dinocataclysm added as a mod at long last!
+Lots more terrain and furniture is now bashable.
+Several new houses and other buildings.
+Variations of vehicle condition (damaged, blood-splattered, engine running, etc)
+Creatures fling around appropriate fluids and chunks when gibbed.
+Several content packs that allow enabling/disabling different categories of content.
+Shoggoth.
+
+Bugfixes:
+Prevent artifact swords from sticking all the time.
+Royal jelly and blood filter heal dermatik infections.
+Make active items (ticking bombs, rotting food) work in vehicle storage.
+Prevent teleportation and stairclimbing from erasing monsters.
+Lots of UI tweaks.
+Fix bug where items couldn't be thrown over water.
+Erase scentmap when we move between floors.
+Handle adjacent overmaps better, including notes.
+Lots of recipes moved fro auto-learn on skill thresholds to being learned from books.
+Fixed vehicle rendering when dragging.
+Can craft from items in vehicle storage.
+Only count loudest vehicle engine for noise generation instead of adding them together.
+Fix weird bug where being too strong made you bad at throwing things.
+Fixed several related vehicle board/unboard bugs.
+Player displayed in correct position when peeking.
+Fixed lots of menu drawing glitches.
+Height/width options make more sense, total instead of based on view width.
+Limit indoor dimly lit areas to the same view distance as outside.
+Fix bug where vehicles and windows projected light at dawn and dusk.
+Targeting defaults to nearest enemy.
+Toggling between enemies includes hostile NPCs.
+Vehicle turrets no longer shoot player or their own vehicle.
+Fixed issue where exploding items could destroy themselves and cause a segfault.
+Check for errors when attempting to write files and take appropriate action.
+Fixed some lab finale features.
+Fixed vehicle workshops being usable as components in recipes.
+
+Performance:
+Many overmap generation performance improvements.
+Stop updating scent if player hasn't moved for a while, makes waiting and sleeping go much faster.
+Optimized bitflag methods for very frequently used flags.
+Heavy refactor of crafting menu for more speed.
+Heavy optimization of scent diffusion.
+Declare strings as const to avoid reallocating them all the time.
+Lots of caching of vehicle parts.
+Vision calculation speedups.
+Refactored map loading to chunk up map data into tiny (1KB or so) files, so save/load is nearly instantaneous.
+
 0.9
 
 Highlights:

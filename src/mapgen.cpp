@@ -691,7 +691,7 @@ bool mapgen_function_json::setup() {
                if ( jsi.has_string("item") ) {
                    tmpval = jsi.get_string("item");
                    if( ! item_controller->has_template(tmpval) ) {
-                       jsi.throw_error("  add item: no such item '%s'", tmpval.c_str() );
+                       jsi.throw_error(("  add item: no such item ") + tmpval );
                    }
                } else {
                    parray.throw_error("adding other things is not supported yet"); return false;
@@ -3858,12 +3858,14 @@ ff.......|....|WWWWWWWW|\n\
                 spawn_item(SEEX - 1, SEEY    , "v29");
                 spawn_item(SEEX    , SEEY    , "ftk93");
                 spawn_item(SEEX - 1, SEEY    , "recipe_atomic_battery");
+                spawn_item(SEEX    , SEEY  -1, "solar_panel_v3"); //quantum solar panel, 5 panels in one!
             } else if (!one_in(3)) {
                 spawn_item(SEEX - 1, SEEY - 1, "mininuke", dice(3, 6));
                 spawn_item(SEEX    , SEEY - 1, "mininuke", dice(3, 6));
                 spawn_item(SEEX - 1, SEEY    , "mininuke", dice(3, 6));
                 spawn_item(SEEX    , SEEY    , "mininuke", dice(3, 6));
                 spawn_item(SEEX    , SEEY    , "recipe_atomic_battery");
+                spawn_item(SEEX    , SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
             } else {
                 furn_set(SEEX - 2, SEEY - 1, f_rack);
                 furn_set(SEEX - 1, SEEY - 1, f_rack);
@@ -3875,6 +3877,7 @@ ff.......|....|WWWWWWWW|\n\
                 furn_set(SEEX + 1, SEEY    , f_rack);
                 place_items("ammo", 96, SEEX - 2, SEEY - 1, SEEX + 1, SEEY - 1, false, 0);
                 place_items("allguns", 96, SEEX - 2, SEEY, SEEX + 1, SEEY, false, 0);
+                spawn_item(SEEX + 1, SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
             }
             break;
         case 3:

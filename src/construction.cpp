@@ -1,3 +1,5 @@
+#include "construction.h"
+
 #include "game.h"
 #include "output.h"
 #include "keypress.h"
@@ -5,7 +7,6 @@
 #include "inventory.h"
 #include "mapdata.h"
 #include "skill.h"
-#include "crafting.h" // For the use_comps use_tools functions
 #include "item_factory.h"
 #include "catacharset.h"
 #include "action.h"
@@ -14,15 +15,43 @@
 
 #include <algorithm>
 
+
+struct construct // Construction functions.
+{
+    // Checks for whether terrain mod can proceed
+    bool check_nothing(point) { return true; }
+    bool check_empty(point); // tile is empty
+    bool check_support(point); // at least two orthogonal supports
+
+    // Special actions to be run post-terrain-mod
+    void done_nothing(point) {}
+    void done_tree(point);
+    void done_trunk_log(point);
+    void done_trunk_plank(point);
+    void done_vehicle(point);
+    void done_deconstruct(point);
+};
+
+// Keys available for use as hotkeys.  Excludes vi direction keys and Q for quit.
+const std::string hotkeys = "abcdefgimnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}";
+
 std::vector<construction *> constructions;
+
+// Helper functions, nobody but us needs to call these.
+static bool can_construct( const std::string &desc );
+static bool can_construct( construction *con, int x, int y );
+static bool can_construct( construction *con);
+static bool player_can_build( player &p, inventory inv, construction *con );
+static bool player_can_build( player &p, inventory pinv, const std::string &desc );
+static void place_construction(const std::string &desc);
 
 std::vector<construction *> constructions_by_desc(const std::string &description)
 {
     std::vector<construction *> result;
-    for(std::vector<construction *>::iterator a = constructions.begin(); a != constructions.end();
-        ++a) {
-        if((*a)->description == description) {
-            result.push_back(*a);
+    for( std::vector<construction *>::iterator a = constructions.begin();
+         a != constructions.end(); ++a ) {
+        if( (*a)->description == description ) {
+            result.push_back( *a );
         }
     }
     return result;
@@ -111,20 +140,14 @@ void construction_menu()
         // Print the constructions between offset and max (or how many will fit)
         for (int i = 0; i < iMaxY - 2 && (i + offset) < available.size(); i++) {
             int current = i + offset;
-            nc_color col = (player_can_build(g->u, total_inv, available[current]) ?
-                            c_white : c_dkgray);
-            // Map menu items to hotkey letters, skipping j, k, l, and q.
-            unsigned char hotkey = 97 + current;
-            if (hotkey > 122) {
-                hotkey = hotkey - 58;
-            }
-
+            nc_color col = ( player_can_build(g->u, total_inv, available[current]) &&
+                             can_construct( available[current] ) ) ? c_white : c_dkgray;
             if (current == select) {
                 col = hilite(col);
             }
             // print construction name with limited length.
             // limit(28) = 30(column len) - 2(letter + ' ').
-            mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey,
+            mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkeys[current],
                       utf8_substr(available[current].c_str(), 0, 27).c_str());
         }
 
@@ -198,7 +221,7 @@ void construction_menu()
                     for (unsigned j = 0; j < current_con->tools[i].size(); j++) {
                         itype_id tool = current_con->tools[i][j].type;
                         nc_color col = c_red;
-                        if (total_inv.has_amount(tool, 1)) {
+                        if (total_inv.has_tools(tool, 1)) {
                             has_tool[i] = true;
                             col = c_green;
                         }
@@ -234,7 +257,7 @@ void construction_menu()
                         if( ( item_controller->find_template(comp.type)->is_ammo() &&
                               total_inv.has_charges(comp.type, comp.count)) ||
                             (!item_controller->find_template(comp.type)->is_ammo() &&
-                             total_inv.has_amount(comp.type, comp.count)) ) {
+                             total_inv.has_components(comp.type, comp.count)) ) {
                             has_component[i] = true;
                             col = c_green;
                         }
@@ -302,12 +325,14 @@ void construction_menu()
             break;
         case '\n':
         default:
-            if (ch > 64 && ch < 91) { //A-Z
-                chosen = ch - 65 + 26;
-            } else if (ch > 96 && ch < 123) { //a-z
-                chosen = ch - 97;
-            } else if (ch == '\n') {
+            if (ch == '\n') {
                 chosen = select;
+            } else {
+                // Get the index corresponding to the key pressed.
+                chosen = hotkeys.find_first_of( ch );
+                if( chosen == std::string::npos ) {
+                    break;
+                }
             }
             if (chosen < available.size()) {
                 if (player_can_build(g->u, total_inv, available[chosen])) {
@@ -336,7 +361,7 @@ void construction_menu()
     g->refresh_all();
 }
 
-bool player_can_build(player &p, inventory pinv, const std::string &desc)
+static bool player_can_build(player &p, inventory pinv, const std::string &desc)
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc(desc);
@@ -348,7 +373,7 @@ bool player_can_build(player &p, inventory pinv, const std::string &desc)
     return false;
 }
 
-bool player_can_build(player &p, inventory pinv, construction *con)
+static bool player_can_build(player &p, inventory pinv, construction *con)
 {
     if (p.skillLevel(con->skill) < con->difficulty) {
         return false;
@@ -364,7 +389,7 @@ bool player_can_build(player &p, inventory pinv, construction *con)
             tools_required = true;
             has_tool = false;
             for (unsigned k = 0; k < con->tools[j].size(); k++) {
-                if (pinv.has_amount(con->tools[j][k].type, 1)) {
+                if (pinv.has_tools(con->tools[j][k].type, 1)) {
                     has_tool = true;
                     con->tools[j][k].available = 1;
                 } else {
@@ -386,7 +411,7 @@ bool player_can_build(player &p, inventory pinv, construction *con)
                       pinv.has_charges(con->components[j][k].type,
                                        con->components[j][k].count)    ) ||
                     (!item_controller->find_template(con->components[j][k].type)->is_ammo() &&
-                     pinv.has_amount (con->components[j][k].type,
+                     pinv.has_components (con->components[j][k].type,
                                       con->components[j][k].count)    )) {
                     has_component = true;
                     con->components[j][k].available = 1;
@@ -404,7 +429,19 @@ bool player_can_build(player &p, inventory pinv, construction *con)
            (has_tool || !tools_required);
 }
 
-bool can_construct(construction *con, int x, int y)
+static bool can_construct( const std::string &desc )
+{
+    // check all with the same desc to see if player can build any
+    std::vector<construction *> cons = constructions_by_desc(desc);
+    for( unsigned i = 0; i < cons.size(); ++i ) {
+        if( can_construct(cons[i]) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+static bool can_construct(construction *con, int x, int y)
 {
     // see if the special pre-function checks out
     construct test;
@@ -439,7 +476,7 @@ bool can_construct(construction *con, int x, int y)
     return place_okay;
 }
 
-bool can_construct(construction *con)
+static bool can_construct(construction *con)
 {
     for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
         for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
@@ -454,7 +491,7 @@ bool can_construct(construction *con)
     return false;
 }
 
-void place_construction(const std::string &desc)
+static void place_construction(const std::string &desc)
 {
     g->refresh_all();
     inventory total_inv = g->crafting_inventory(&(g->u));
@@ -837,8 +874,8 @@ void load_construction(JsonObject &jo)
 
 void reset_constructions()
 {
-    for(std::vector<construction *>::iterator a = constructions.begin(); a != constructions.end();
-        ++a) {
+    for( std::vector<construction *>::iterator a = constructions.begin();
+         a != constructions.end(); ++a ) {
         delete *a;
     }
     constructions.clear();
