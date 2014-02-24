@@ -918,7 +918,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
     STURDY - Clothing is made to be armor. Prevents damage to armor unless it is penetrated.
     SWIM_GOGGLES - Allows you to see much further under water.
-    REBREATHER - Works with an active UPS to supply you with oxygen while underwater.
+    REBREATHER - Works to supply you with oxygen while underwater. Requires external limiter like battery power.
     UNRECOVERABLE - Prevents the item from being recovered when deconstructing another item that uses this one.
 
     Container-only flags:

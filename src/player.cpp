@@ -4922,8 +4922,7 @@ void player::suffer()
         if (!has_trait("GILLS")) {
             oxygen--;
         }
-        if (oxygen < 12 && worn_with_flag("REBREATHER") &&
-            (has_active_item("UPS_on") || has_active_item("adv_UPS_on"))) {
+        if (oxygen < 12 && worn_with_flag("REBREATHER")) {
                 oxygen += 12;
             }
         if (oxygen < 0) {
