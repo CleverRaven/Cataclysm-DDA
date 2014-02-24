@@ -423,6 +423,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr));
   dump->push_back(iteminfo("FOOD", _("Quench: "), "", food->quench));
   dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
+  dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(charges))));
   if (corpse != NULL &&
     ( debug == true ||
       ( g != NULL &&
