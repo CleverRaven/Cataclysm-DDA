@@ -783,8 +783,8 @@ void iexamine::slot_machine(player *p, map *m, int examx, int examy)
                 popup(_("Three stars... you win $200!"));
                 p->cash += 190;
             } else if (one_in(1000)) {
-                popup(_("JACKPOT!  You win $5000!"));
-                p->cash += 4990;
+                popup(_("JACKPOT!  You win $3000!"));
+                p->cash += 2990;
             } else {
                 popup(_("No win."));
                 p->cash -= 10;
