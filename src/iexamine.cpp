@@ -396,6 +396,50 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
     }
 
     if (waterIndex < 0) {
+        g->add_msg(_("It's empty."));
+    } else {
+        bool drained = false;
+
+        item& water = items[waterIndex];
+            // First try handling/bottling, then try drinking.
+        if (g->handle_liquid(water, true, false))
+        {
+            p->moves -= 100;
+            drained = true;
+        }
+        else if (query_yn(_("Drink from your hands?")))
+        {
+            // Create a dose of water no greater than the amount of water remaining.
+            item water_temp(item_controller->find_template("water"), 0);
+            water_temp.charges = std::min(water_temp.charges, water.charges);
+
+            p->inv.push_back(water_temp);
+            p->consume(p->inv.position_by_type(water_temp.typeId()));
+            p->moves -= 350;
+
+            water.charges -= water_temp.charges;
+            if (water.charges <= 0) {
+                drained = true;
+            }
+        }
+
+        if (drained) {
+            items.erase(items.begin() + waterIndex);
+        }
+    }
+}
+
+void iexamine::toilet(player *p, map *m, int examx, int examy) {
+    std::vector<item>& items = m->i_at(examx, examy);
+    int waterIndex = -1;
+    for (int i = 0; i < items.size(); i++) {
+        if (items[i].typeId() == "water" || items[i].typeId() == "water_clean") {
+            waterIndex = i;
+            break;
+        }
+    }
+
+    if (waterIndex < 0) {
         g->add_msg(_("This toilet is empty."));
     } else {
         bool drained = false;
