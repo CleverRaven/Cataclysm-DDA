@@ -22,7 +22,6 @@ public:
 
  void gaspump (player *p, map *m, int examx, int examy);
  void atm (player *p, map *m, int examx, int examy);
- void cooler (player *p, map *m, int examx, int examy);
  void vending (player *p, map *m, int examx, int examy);
  void toilet (player *p, map *m, int examx, int examy);
  void elevator (player *p, map *m, int examx, int examy);
