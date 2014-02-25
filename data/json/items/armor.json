@@ -8366,7 +8366,7 @@
         "enviromental_protection" : 2,
         "encumbrance" : 3,
         "bashing" : 10,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "SUNGLASSES"],
         "coverage" : 100,
         "material_thickness" : 4
     },
