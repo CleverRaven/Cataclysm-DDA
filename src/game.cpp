@@ -2520,7 +2520,8 @@ bool game::handle_action()
                     //TODO: Add weapon range check. This requires weapon to be reloaded.
 
                     act = ACTION_FIRE;
-                } else if (m.close_door(mx, my, !m.is_outside(mx, my), true)) {
+                } else if (std::abs(mx - u.posx) <= 1 && std::abs(my - u.posy) <= 1 && m.close_door(mx, my, !m.is_outside(u.posx, u.posy), true)) {
+                    // Can only close doors when adjacent to it.
                     act = ACTION_CLOSE;
                 } else {
                     int dx = abs(u.posx - mx);
