@@ -346,6 +346,7 @@ ter_id t_null,
     t_grate,
     t_slime,
     t_bridge,
+    t_covered_well,
     // Lighting related
     t_skylight, t_emergency_light_flicker, t_emergency_light,
     // Walls
@@ -395,6 +396,7 @@ ter_id t_null,
     t_column,
     t_vat,
     t_cvdbody, t_cvdmachine,
+    t_water_pump,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -604,6 +606,8 @@ void set_ter_ids() {
     t_switch_gb=terfind("t_switch_gb");
     t_switch_rb=terfind("t_switch_rb");
     t_switch_even=terfind("t_switch_even");
+    t_covered_well=terfind("t_covered_well");
+    t_water_pump=terfind("t_water_pump");
     num_terrain_types = terlist.size();
 };
 

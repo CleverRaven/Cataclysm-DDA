@@ -3757,6 +3757,7 @@
       ["manual_dodge", 1],
       ["fancy_sunglasses", 2],
       ["pocketwatch", 5],
+      ["well_pump", 1],
       ["sf_watch", 5]
     ]
   },{
@@ -3918,6 +3919,7 @@
       ["lawn_dart", 10],
       ["dehydrator", 15],
       ["pickelhaube", 50],
+      ["well_pump", 2],
       ["firehelmet", 10],
       ["bunker_coat", 5],
       ["bunker_pants", 5],
