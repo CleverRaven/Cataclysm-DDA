@@ -925,7 +925,7 @@
     },{
         "type" : "construction",
         "description" : "Build Water Well",
-        "difficulty" : 9,
+        "difficulty" : 5,
         "time" : 120,
         "tools" : [
             [ "hammer", "primitive_hammer", "hatchet", "toolset" ],
