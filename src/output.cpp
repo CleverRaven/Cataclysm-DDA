@@ -12,7 +12,6 @@
 #include "color.h"
 #include "input.h"
 #include "rng.h"
-#include "keypress.h"
 #include "options.h"
 #include "cursesdef.h"
 #include "catacharset.h"

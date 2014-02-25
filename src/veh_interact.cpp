@@ -1,7 +1,6 @@
 #include <string>
 #include "veh_interact.h"
 #include "vehicle.h"
-#include "keypress.h"
 #include "game.h"
 #include "output.h"
 #include "catacharset.h"
@@ -216,7 +215,7 @@ void veh_interact::do_main_loop()
     move_cursor (0, 0);
     bool finish = false;
     while (!finish) {
-        char ch = input(); // See keypress.h
+        char ch = input(); // See input.h
         int dx, dy;
         get_direction(dx, dy, ch);
         if (ch == KEY_ESCAPE || ch == 'q' ) {
@@ -492,7 +491,7 @@ void veh_interact::do_install(task_reason reason)
                        sel_vpart_info->difficulty,
                        engine_string.c_str());
         wrefresh (w_msg);
-        char ch = input(); // See keypress.h
+        char ch = input();
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2 &&
@@ -595,7 +594,7 @@ void veh_interact::do_repair(task_reason reason)
                            itypes[itm]->name.c_str());
         }
         wrefresh (w_msg);
-        char ch = input(); // See keypress.h
+        char ch = input();
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') &&
@@ -731,7 +730,7 @@ void veh_interact::do_remove(task_reason reason)
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
-        char ch = input(); // See keypress.h
+        char ch = input();
         int dx, dy;
         get_direction (dx, dy, ch);
         if (ch == '\n' || ch == ' ') {
@@ -828,7 +827,7 @@ void veh_interact::do_tirechange(task_reason reason)
         bool has_tools = has_jack && has_wrench;
         werase (w_msg);
         wrefresh (w_msg);
-        char ch = input(); // See keypress.h
+        char ch = input();
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && is_wheel) {
