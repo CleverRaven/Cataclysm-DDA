@@ -427,32 +427,6 @@
         "post_terrain" : "t_palisade"
     },{
         "type" : "construction",
-        "description" : "Build Stone Wall",
-        "difficulty" : 6,
-        "time" : 90,
-        "tools" : [
-            [ "hammer", "hammer_sledge", "primitive_hammer", "hatchet", "shovel", "e_tool", "primitive_shovel", "toolset" ]
-        ],
-        "components" : [
-            [ [ "rock", 12 ] ]
-        ],
-        "pre_special" : "check_empty",
-        "post_terrain" : "t_rock_wall_half"
-    },{
-        "type" : "construction",
-        "description" : "Build Stone Wall",
-        "difficulty" : 6,
-        "time" : 90,
-        "tools" : [
-            [ "hammer", "hammer_sledge", "primitive_hammer", "hatchet", "shovel", "e_tool", "primitive_shovel", "toolset" ]
-        ],
-        "components" : [
-            [ [ "rock", 12 ] ]
-        ],
-        "pre_terrain" : "t_rock_wall_half",
-        "post_terrain" : "t_rock_wall"
-    },{
-        "type" : "construction",
         "description" : "Build Rope & Pulley System",
         "difficulty" : 2,
         "time" : 5,
