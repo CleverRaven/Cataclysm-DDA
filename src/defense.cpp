@@ -1,7 +1,6 @@
 #include "gamemode.h"
 #include "game.h"
 #include "setvector.h"
-#include "keypress.h"
 #include "itype.h"
 #include "mtype.h"
 #include "overmapbuffer.h"

@@ -1,7 +1,6 @@
 #include "game.h"
 #include "output.h"
 #include "uistate.h"
-#include "keypress.h"
 #include "translations.h"
 #include "item_factory.h"
 #include "options.h"

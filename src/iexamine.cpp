@@ -1,15 +1,7 @@
-//
-//  iexamine.cpp
-//  Cataclysm
-//
-//  Livingstone
-//
-
 #include "item_factory.h"
 #include "iuse.h"
 #include "game.h"
 #include "mapdata.h"
-#include "keypress.h"
 #include "output.h"
 #include "rng.h"
 #include "line.h"

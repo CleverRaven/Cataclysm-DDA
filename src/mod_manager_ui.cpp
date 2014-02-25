@@ -1,6 +1,6 @@
 #include "mod_manager.h"
+#include "input.h"
 #include "output.h"
-#include "keypress.h"
 #include "debug.h"
 #include <algorithm>
 

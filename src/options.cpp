@@ -2,7 +2,6 @@
 #include "options.h"
 #include "output.h"
 #include "debug.h"
-#include "keypress.h"
 #include "translations.h"
 #include "file_finder.h"
 #include "cursesdef.h"

@@ -2,7 +2,6 @@
 #define _IUSE_SOFTWARE_H_
 
 #include <string>
-#include "keypress.h"
 #include "game.h"
 #include "output.h"
 #include "catacharset.h"

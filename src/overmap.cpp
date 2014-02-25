@@ -9,7 +9,6 @@
 #include "line.h"
 #include "game.h"
 #include "npc.h"
-#include "keypress.h"
 #include <cstring>
 #include <ostream>
 #include "debug.h"

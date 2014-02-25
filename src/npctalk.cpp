@@ -4,7 +4,6 @@
 #include "dialogue.h"
 #include "rng.h"
 #include "line.h"
-#include "keypress.h"
 #include "debug.h"
 #include "catacharset.h"
 #include <vector>

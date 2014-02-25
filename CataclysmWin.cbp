@@ -291,8 +291,6 @@
 		<Unit filename="src/iuse_software_sokoban.h" />
 		<Unit filename="src/json.cpp" />
 		<Unit filename="src/json.h" />
-		<Unit filename="src/keypress.cpp" />
-		<Unit filename="src/keypress.h" />
 		<Unit filename="src/lightmap.cpp" />
 		<Unit filename="src/lightmap.h" />
 		<Unit filename="src/line.cpp" />

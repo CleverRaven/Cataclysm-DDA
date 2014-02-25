@@ -1,7 +1,6 @@
 #include "game.h"
 #include "rng.h"
 #include "input.h"
-#include "keypress.h"
 #include "output.h"
 #include "skill.h"
 #include "line.h"
