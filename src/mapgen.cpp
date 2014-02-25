@@ -523,6 +523,8 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
             tmpval = jsi.get_string("type");
             if (tmpval == "toilet") {
                 tmpop = JMAPGEN_PLACESPECIAL_TOILET;
+            } else if (tmpval == "cooler") {
+                tmpop = JMAPGEN_PLACESPECIAL_COOLER;
             } else if (tmpval == "gaspump") {
                 tmpop = JMAPGEN_PLACESPECIAL_GASPUMP;
             } else if (tmpval == "vendingmachine") {
@@ -811,6 +813,13 @@ void jmapgen_place_special::apply( map * m ) {
             m->furn_set(x.get(), y.get(), f_null);
             if (charges == 0)
                 m->place_toilet(x.get(), y.get());
+            else
+                m->place_toilet(x.get(), y.get(), charges );
+        } break;
+        case JMAPGEN_PLACESPECIAL_COOLER: {
+            m->furn_set(x.get(), y.get(), f_null);
+            if (charges == 0)
+                m->place_cooler(x.get(), y.get(), rng(10, 30));
             else
                 m->place_toilet(x.get(), y.get(), charges );
         } break;
@@ -10828,6 +10837,14 @@ void map::place_toilet(int x, int y, int charges)
     water.charges = charges;
     add_item(x, y, water);
     furn_set(x, y, f_toilet);
+}
+
+void map::place_cooler(int x, int y, int charges)
+{
+    item water(itypes["water"], 0);
+    water.charges = charges;
+    add_item(x, y, water);
+    furn_set(x, y, f_cooler);
 }
 
 void map::place_vending(int x, int y, std::string type)
