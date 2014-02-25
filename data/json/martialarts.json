@@ -280,6 +280,12 @@
             "tec_fencing_lunge",
             "tec_fencing_stop_thrust",
             "tec_fencing_thrust"
+        ],
+        "weapons" : [
+            "rapier",
+            "broadsword",
+            "broadfire_off",
+            "broadfire_on"
         ]
     },{
         "type" : "martial_art",
@@ -314,6 +320,29 @@
             "tec_eskrima_puno",
             "tec_eskrima_kick",
             "tec_eskrima_combination"
+        ],
+        "weapons" : [
+            "screwdriver",
+            "makeshift_knife",
+            "switchblade",
+            "scissors",
+            "machete",
+            "diamond_knife",
+            "diamond_machete",
+            "tanto",
+            "makeshift_machete",
+            "knife_combat",
+            "pool_cue",
+            "punch_dagger",
+            "umbrella",
+            "cu_pipe",
+            "glass_shiv",
+            "stick",
+            "cudgel",
+            "2x4",
+            "pipe",
+            "baton",
+            "cane"
         ]
     },{
         "type" : "martial_art",

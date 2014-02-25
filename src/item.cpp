@@ -1376,11 +1376,6 @@ bool item::has_technique(matec_id tech)
     return type->techniques.count(tech);
 }
 
-bool item::has_martial_art(matype_id art)
-{
-    return type->martial_arts.count(art);
-}
-
 int item::has_gunmod(itype_id mod_type)
 {
     if (!is_gun())

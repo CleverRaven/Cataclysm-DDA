@@ -935,9 +935,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
         set_qualities_from_json(jo, "qualities", new_item_template);
     }
 
-    new_item_template->techniques = jo.get_tags("techniques");
-
-    new_item_template->martial_arts = jo.get_tags("martial_arts");
+    new_item_template->techniques = jo.get_tags("techniques");    
 
     new_item_template->use = (!jo.has_member("use_action") ? &iuse::none :
                               use_from_string(jo.get_string("use_action")));

@@ -216,6 +216,7 @@ void load_martial_art(JsonObject &jo)
     }
 
     ma.techniques = jo.get_tags("techniques");
+    ma.weapons = jo.get_tags("weapons");
 
     ma.leg_block = jo.get_int("leg_block", -1);
     ma.arm_block = jo.get_int("arm_block", -1);
@@ -243,7 +244,7 @@ bool ma_requirements::is_valid_player(player& u) {
   //further restrictions on required weapon properties (is_valid_weapon).
   bool valid = ((unarmed_allowed && u.unarmed_attack()) 
       || (melee_allowed && !u.unarmed_attack() && is_valid_weapon(u.weapon)) 
-      || (u.has_weapon() && u.weapon.has_martial_art(u.style_selected) && is_valid_weapon(u.weapon)))
+      || (u.has_weapon() && martialarts[u.style_selected].has_weapon(u.weapon.type->id) && is_valid_weapon(u.weapon)))
     && u.skillLevel("melee") >= min_melee
     && u.skillLevel("unarmed") >= min_unarmed
     && u.skillLevel("bashing") >= min_bashing
@@ -492,6 +493,11 @@ bool martialart::has_technique(player& u, matec_id tec_id) {
   return false;
 }
 
+bool martialart::has_weapon(itype_id item)
+{
+    return weapons.count(item);
+}
+
 std::string martialart::melee_verb(matec_id tec_id, player& u) {
   for (std::set<matec_id>::iterator it = techniques.begin();
       it != techniques.end(); ++it) {
@@ -505,8 +511,6 @@ std::string martialart::melee_verb(matec_id tec_id, player& u) {
   }
   return std::string("%s is attacked by bugs");
 }
-
-
 
 // Player stuff
 

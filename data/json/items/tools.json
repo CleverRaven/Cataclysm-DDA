@@ -215,8 +215,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SCISSORS",
-    "qualities": [["CUT", 1]],
-    "martial_arts": [ "style_eskrima" ]
+    "qualities": [["CUT", 1]]
   },
 
   {
@@ -3465,8 +3464,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]],
-    "martial_arts": [ "style_eskrima" ]
+    "qualities": [["CUT", 1]]
   },
 
   {
@@ -3544,8 +3542,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]],
-    "martial_arts": [ "style_eskrima" ]
+    "qualities": [["CUT", 1]]
   },
   {
     "id": "diamond_machete",
@@ -3571,8 +3568,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]],
-    "martial_arts": [ "style_eskrima" ]
+    "qualities": [["CUT", 1]]
   },
   {
     "id": "diamond_katana",
@@ -3624,8 +3620,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]],
-    "martial_arts": [ "style_eskrima" ]
+    "qualities": [["CUT", 1]]
   },
   {
     "id": "wakizashi",
@@ -3783,8 +3778,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1]],
-    "martial_arts": [ "style_fencing" ]
+    "qualities": [["CUT", 1]]
   },
 
   {
@@ -3836,8 +3830,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1]],
-    "martial_arts": [ "style_fencing" ]
+    "qualities": [["CUT", 1]]
   },
 
   {
@@ -3944,8 +3937,7 @@
     "ammo": "gasoline",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "BROADFIRE_OFF",
-    "martial_arts": [ "style_fencing" ]
+    "use_action": "BROADFIRE_OFF"
   },
 
   {
@@ -3971,8 +3963,7 @@
     "ammo": "gasoline",
     "revert_to": "broadfire_off",
     "category" : "weapons",
-    "use_action": "BROADFIRE_ON",
-    "martial_arts": [ "style_fencing" ]
+    "use_action": "BROADFIRE_ON"
   },
 
   {
@@ -3998,8 +3989,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]],
-    "martial_arts": [ "style_eskrima" ]
+    "qualities": [["CUT", 1]]
   },
 
   {
@@ -4151,8 +4141,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]],
-    "martial_arts": [ "style_eskrima" ]
+    "qualities": [["CUT", 1]]
   },
 
   {
@@ -4579,8 +4568,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE",
-    "martial_arts": [ "style_eskrima" ]
+    "use_action": "NONE"
   },
 
   {
@@ -4983,8 +4971,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]],
-    "martial_arts": [ "style_eskrima" ]
+    "qualities": [["CUT", 1]]
    },
 
    {
@@ -6472,8 +6459,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]],
-    "martial_arts": [ "style_eskrima" ]
+    "qualities": [["CUT", 1]]
   },
 
   {
