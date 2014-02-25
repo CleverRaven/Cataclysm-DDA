@@ -2248,5 +2248,21 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT"],
         "examine_action": "fswitch"
+    },{
+        "type" : "terrain",
+        "id" : "t_rock_wall",
+        "name": "stone wall",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_rock_wall_half",
+        "name": "half-built stone wall",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"]
     }
 ]
