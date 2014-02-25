@@ -4542,6 +4542,11 @@ void player::recalc_hp()
     for (int i = 0; i < num_hp_parts; i++)
     {
         new_max_hp[i] = 60 + str_max * 3;
+        if (has_trait("HUGE")) {
+            // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
+            // so no HP bonus from the ST above/beyond that from Large
+            new_max_hp[i] -= 6;
+        }
         // Only the most extreme applies.
         if (has_trait("TOUGH")) {
             new_max_hp[i] *= 1.2;
