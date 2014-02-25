@@ -36,7 +36,6 @@ void load_technique(JsonObject &jo)
 
     tec.reqs.min_bashing_damage = jo.get_int("min_bashing_damage", 0);
     tec.reqs.min_cutting_damage = jo.get_int("min_cutting_damage", 0);
-    tec.reqs.min_stabbing_damage = jo.get_int("min_stabbing_damage", 0);
 
     tec.reqs.req_buffs = jo.get_tags("req_buffs");
     tec.reqs.req_flags = jo.get_tags("req_flags");    
@@ -44,8 +43,8 @@ void load_technique(JsonObject &jo)
     tec.crit_tec = jo.get_bool("crit_tec", false);
     tec.defensive = jo.get_bool("defensive", false);
     tec.disarms = jo.get_bool("disarms", false);
-    tec.grabs = jo.get_bool("grabs", false);
-    tec.counters = jo.get_bool("counters", false);
+    tec.dodge_counter = jo.get_bool("dodge_counter", false);
+    tec.block_counter = jo.get_bool("block_counter", false);
     tec.miss_recovery = jo.get_bool("miss_recovery", false);
     tec.grab_break = jo.get_bool("grab_break", false);
     tec.flaming = jo.get_bool("flaming", false);    
@@ -237,14 +236,14 @@ bool ma_requirements::is_valid_player(player& u) {
     mabuff_id buff_id = *it;
     if (!u.has_mabuff(buff_id)) return false;
   }
-  for (std::set<std::string>::iterator it = req_flags.begin();
-      it != req_flags.end(); ++it) {
-    std::string flag = *it;
-    if (!u.weapon.has_flag(flag)) return false;
-  }
+  
+  //A technique is valid if it applies to unarmed strikes, if it applies generally
+  //to all weapons (such as Ninjutsu sneak attacks or innate weapon techniques like RAPID) 
+  //or if the weapon is flagged as being compatible with the style. Some techniques have 
+  //further restrictions on required weapon properties (is_valid_weapon).
   bool valid = ((unarmed_allowed && u.unarmed_attack()) 
-      || (melee_allowed && !u.unarmed_attack()) 
-      || (u.has_weapon() && u.weapon.has_martial_art(u.style_selected)))
+      || (melee_allowed && !u.unarmed_attack() && is_valid_weapon(u.weapon)) 
+      || (u.has_weapon() && u.weapon.has_martial_art(u.style_selected) && is_valid_weapon(u.weapon)))
     && u.skillLevel("melee") >= min_melee
     && u.skillLevel("unarmed") >= min_unarmed
     && u.skillLevel("bashing") >= min_bashing
@@ -254,6 +253,17 @@ bool ma_requirements::is_valid_player(player& u) {
   return valid;
 }
 
+bool ma_requirements::is_valid_weapon(item& i) {  
+  for (std::set<std::string>::iterator it = req_flags.begin();
+      it != req_flags.end(); ++it) {
+    std::string flag = *it;
+    if (!i.has_flag(flag)) return false;
+  }
+  bool valid = i.damage_bash() >= min_bashing_damage 
+      && i.damage_cut() >= min_cutting_damage;
+
+  return valid;
+}
 
 ma_technique::ma_technique() {
 
@@ -267,8 +277,8 @@ ma_technique::ma_technique() {
 
   // offensive
   disarms = false; // like tec_disarm
-  grabs = false; // like tec_grab
-  counters = false; // like tec_counter
+  dodge_counter = false; // like tec_grab
+  block_counter = false; // like tec_counter
 
   miss_recovery = false; // allows free recovery from misses, like tec_feint
   grab_break = false; // allows grab_breaks, like tec_break
@@ -551,7 +561,7 @@ bool player::can_arm_block() {
     return false;
 }
 
-bool player::can_block() {
+bool player::can_limb_block() {
   return can_arm_block() || can_leg_block();
 }
 

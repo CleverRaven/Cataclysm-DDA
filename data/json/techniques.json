@@ -137,6 +137,21 @@
         ]
     },{
         "type" : "technique",
+        "id" : "tec_aikido_dodgethrow",
+        "name" : "dodge throw",
+        "min_unarmed" : 6,
+        "unarmed_allowed" : true,
+        "dodge_counter": true,
+        "down_dur" : 1,
+        "knockback_dist" : 1,
+        "knockback_spread" : 1,
+        "speed_mult" : 0.33,
+        "messages" : [
+            "You smoothly throw %s",
+            "<npcname> smoothly throws %s"
+        ]
+    },{
+        "type" : "technique",
         "id" : "tec_aikido_feint",
         "name" : "feint at",
         "min_unarmed" : 2,
@@ -409,13 +424,10 @@
         "id" : "tec_fencing_stop_thrust",
         "name" : "Fencing stop thrust",
         "min_melee" : 3,
-        "crit_tec": true,
+        "block_counter": true,
         "speed_mult" : 1,
         "cut_mult" : 1.5,
-        "stun_dur" : 2,
-        "req_buffs" : [
-            "fencing_move_buff"
-        ],
+        "stun_dur" : 1,        
         "messages" : [
             "You deliver a perfect stop thrust to %s",
             "<npcname> delivers a perfect stop thrust to %s"

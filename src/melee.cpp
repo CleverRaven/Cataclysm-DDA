@@ -123,9 +123,9 @@ int player::hit_roll()
  return dice(numdice, sides);
 }
 
-// Melee calculation is two parts. In melee_attack, we calculate if we would
-// hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void player::melee_attack(Creature &t, bool allow_special) {
+// Melee calculation is in parts. This sets up the attack, then in deal_melee_attack, 
+// we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
+void player::melee_attack(Creature &t, bool allow_special, matec_id force_technique) {
     bool is_u = (this == &(g->u)); // Affects how we'll display messages
     if (!t.is_player()) {
         t.add_effect("hit_by_player", 100); // Flag as attacked by us for AI
@@ -166,15 +166,14 @@ void player::melee_attack(Creature &t, bool allow_special) {
 
     // Pick one or more special attacks
     ma_technique technique;
-    if (allow_special) {
-        technique = ma_techniques[pick_technique(t, critical_hit, true)];
+    if (allow_special && force_technique == "") {
+        technique = ma_techniques[pick_technique(t, critical_hit, false, false)];
+    } else if (allow_special && force_technique != "") {
+        technique = ma_techniques[force_technique];
     } else
         technique = ma_techniques["tec_none"];
-
-    // Handles speed penalties to monster & us, etc
-    std::string specialmsg = melee_special_effects(t, d);
-    dealt_damage_instance dealt_dam; // gets overwritten with the dealt damage values
-    int hit_spread = t.deal_melee_attack(this, hit_roll(), critical_hit, d, dealt_dam);
+    
+    int hit_spread = t.deal_melee_attack(this, hit_roll());
     if (hit_spread < 0) {
         int stumble_pen = stumble(*this);
         if (is_player()) { // Only display messages if this is the player
@@ -194,10 +193,17 @@ void player::melee_attack(Creature &t, bool allow_special) {
         if (has_miss_recovery_tec())
             move_cost = rng(move_cost / 3, move_cost);
     } else {
+        // Handles speed penalties to monster & us, etc
+        std::string specialmsg = melee_special_effects(t, d);
+
+        dealt_damage_instance dealt_dam; // gets overwritten with the dealt damage values    
         // Handles effects as well; not done in melee_affect_*
         if (technique.id != "tec_none")
             perform_technique(technique, t, d, move_cost);
         perform_special_attacks(t);
+
+        t.deal_melee_hit(this, hit_spread, critical_hit, d, dealt_dam);
+
         // Make a rather quiet sound, to alert any nearby monsters
         if (!is_quiet()) // check martial arts silence
             g->sound(posx, posy, 8, "");
@@ -342,8 +348,6 @@ int player::dodge_roll()
             dodge_stat = 0;
         }
     }
-    //TODO: maybe move this somewhere, since not all calls to dodge_roll have to be followed by a dodge (although they currently are)
-    dodges_left--;
 
     return dice(dodge_stat, 10); //Matches NPC and monster dodge_roll functions
 }
@@ -581,10 +585,8 @@ int player::roll_stuck_penalty(bool stabbing)
 }
 
 matec_id player::pick_technique(Creature &t,
-                                    bool crit, bool allowgrab)
+                                    bool crit, bool dodge_counter, bool block_counter)
 {
-    (void)allowgrab; //FIXME: is this supposed to be being used for something?
-
 
     std::vector<matec_id> all = get_all_techniques();
 
@@ -603,8 +605,15 @@ matec_id player::pick_technique(Creature &t,
         // skip defensive techniques
         if (tec.defensive) continue;
 
-        // if crit then select only from crit tecs
-        if ((crit && !tec.crit_tec) || (!crit && tec.crit_tec)) continue;
+        // skip normal techniques if looking for a dodge counter
+        if (dodge_counter && !tec.dodge_counter) continue;
+
+        // skip normal techniques if looking for a block counter
+        if (block_counter && !tec.block_counter) continue;
+
+        // if crit then select only from crit tecs 
+        // dodge and blocks roll again for their attack, so ignore crit state
+        if (!dodge_counter && !block_counter && (crit && !tec.crit_tec) || (!crit && tec.crit_tec)) continue;
 
         // don't apply downing techniques to someone who's already downed
         if (downed && tec.down_dur > 0) continue;
@@ -613,7 +622,7 @@ matec_id player::pick_technique(Creature &t,
         //TODO: these are the stat reqs for tec_disarm
         // dice(   dex_cur +    skillLevel("unarmed"),  8) >
         // dice(p->dex_cur + p->skillLevel("melee"),   10))
-        if (tec.disarms && t.has_weapon()) continue;
+        if (tec.disarms && !t.has_weapon()) continue;
 
         // ignore aoe tecs for a bit
         if (tec.aoe.length() > 0) continue;
@@ -674,9 +683,8 @@ bool player::has_technique(matec_id id) {
 
 void player::perform_technique(ma_technique technique, Creature &t, damage_instance &d, int& move_cost)
 {
-
     std::string target = t.disp_name();
-    
+
     d.add_damage(DT_BASH, technique.bash);
     if (d.type_damage(DT_CUT) > d.type_damage(DT_STAB)) { // cut affects stab damage too since only one of cut/stab is used
         d.add_damage(DT_CUT, technique.cut);
@@ -684,10 +692,10 @@ void player::perform_technique(ma_technique technique, Creature &t, damage_insta
         d.add_damage(DT_STAB, technique.cut);
     }
 
-    d.add_damage(DT_BASH, d.type_damage(DT_BASH) * (1 - technique.bash_mult));
-    d.add_damage(DT_CUT, d.type_damage(DT_CUT) * (1 - technique.cut_mult));
-    d.add_damage(DT_STAB, d.type_damage(DT_STAB) * (1 - technique.cut_mult));
-
+    d.add_damage(DT_BASH, d.type_damage(DT_BASH) * (technique.bash_mult - 1));
+    d.add_damage(DT_CUT, d.type_damage(DT_CUT) * (technique.cut_mult - 1));
+    d.add_damage(DT_STAB, d.type_damage(DT_STAB) * (technique.cut_mult - 1));    
+    
     move_cost *= technique.speed_mult;
 
     int tarx = t.xpos(), tary = t.ypos();
@@ -768,8 +776,21 @@ bool player::can_weapon_block()
             weapon.has_technique("WBLOCK_3"));
 }
 
+void player::dodge_hit(Creature *source, int hit_spread) {
+    if (dodges_left < 1)
+        return;
 
-bool player::block_hit(body_part &bp_hit, int &side,
+    dodges_left--;
+
+    // check if we have any dodge counters
+    matec_id tec = pick_technique(*source, false, true, false);
+
+    if (tec != "tec_none") {
+        melee_attack(*source, true, tec);
+    }
+}
+
+bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
                        damage_instance &dam) {
 
     if (blocks_left < 1)
@@ -781,28 +802,29 @@ bool player::block_hit(body_part &bp_hit, int &side,
     float total_phys_block = mabuff_block_bonus();
     bool conductive_weapon = weapon.conductive();
 
-    if (unarmed_attack() && can_block()) {
+    //weapon blocks are prefered to arm blocks
+    if (can_weapon_block()) {
+        g->add_msg_player_or_npc( this, _("You block with your %s!"),
+            _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
+    }
+    else if (can_limb_block()) {
         //Choose which body part to block with
         if (can_leg_block() && can_arm_block())
-        bp_hit = one_in(2) ? bp_legs : bp_arms;
+            bp_hit = one_in(2) ? bp_legs : bp_arms;
         else if (can_leg_block())
-        bp_hit = bp_legs;
+            bp_hit = bp_legs;
         else
-        bp_hit = bp_arms;
+            bp_hit = bp_arms;
 
         // Choose what side to block with.
         if (bp_hit == bp_legs)
-        side = hp_cur[hp_leg_r] > hp_cur[hp_leg_l];
+            side = hp_cur[hp_leg_r] > hp_cur[hp_leg_l];
         else
-        side = hp_cur[hp_arm_r] > hp_cur[hp_arm_l];
+            side = hp_cur[hp_arm_r] > hp_cur[hp_arm_l];
 
         g->add_msg_player_or_npc( this, _("You block with your %s!"),
-        _("<npcname> blocks with their %s!"),
-        body_part_name(bp_hit, side).c_str());
-    } else if (can_arm_block() || can_weapon_block()) {
-        // If we are using a weapon, apply extra reductions
-        g->add_msg_player_or_npc( this, _("You block with your %s!"),
-                    _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
+            _("<npcname> blocks with their %s!"),
+            body_part_name(bp_hit, side).c_str());
     }
 
     float phys_mult = 1.0f;
@@ -816,9 +838,7 @@ bool player::block_hit(body_part &bp_hit, int &side,
             total_phys_block -= block_amount;
             it->amount -= block_amount;
 
-            if (unarmed_attack() && can_block()) {
-                phys_mult = 0.5;
-            } else if (can_arm_block() || can_weapon_block()) {
+            if (can_weapon_block()) {
                 if (weapon.has_technique("WBLOCK_1")) {
                     phys_mult = 0.4;
                 } else if (weapon.has_technique("WBLOCK_2")) {
@@ -828,6 +848,9 @@ bool player::block_hit(body_part &bp_hit, int &side,
                 } else {
                     phys_mult = 0.5; // always at least as good as unarmed
                 }
+            }
+            else if (can_limb_block()) {
+                phys_mult = 0.5;
             }
             it->amount *= phys_mult;
         // non-electrical "elemental" damage types do their full damage if unarmed,
@@ -850,6 +873,13 @@ bool player::block_hit(body_part &bp_hit, int &side,
 
     ma_onblock_effects(); // fire martial arts block-triggered effects
 
+    // check if we have any dodge counters
+    matec_id tec = pick_technique(*source, false, false, true);
+
+    if (tec != "tec_none") {
+        melee_attack(*source, true, tec);
+    }
+
     return true;
 }
 
@@ -863,8 +893,10 @@ void player::perform_special_attacks(Creature &t)
 
  for (int i = 0; i < special_attacks.size(); i++) {
   dealt_damage_instance dealt_dam;
-  t.deal_melee_attack(this, hit_roll() * 0.8, false,
-        damage_instance::physical(
+
+  int hit_spread = t.deal_melee_attack(this, hit_roll() * 0.8);
+  if (hit_spread >= 0)
+      t.deal_melee_hit(this, hit_spread, false, damage_instance::physical(
             special_attacks[i].bash,
             special_attacks[i].cut,
             special_attacks[i].stab

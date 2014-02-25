@@ -21,7 +21,6 @@ struct ma_requirements {
 
     int min_bashing_damage; // minimum amount of bashing damage on the weapon
     int min_cutting_damage; // minimum amount of cutting damage on the weapon
-    int min_stabbing_damage; // minimum amount of stabbing damage on the weapon
 
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
     std::set<std::string> req_flags; // any item flags required for this technique
@@ -35,10 +34,13 @@ struct ma_requirements {
       min_bashing = 0;
       min_cutting = 0;
       min_stabbing = 0;
+
+      min_bashing_damage = 0;
+      min_cutting_damage = 0;
     }
 
     bool is_valid_player(player& u);
-
+    bool is_valid_weapon(item& i);
 };
 
 class ma_technique {
@@ -70,8 +72,8 @@ class ma_technique {
 
     // offensive
     bool disarms; // like tec_disarm
-    bool grabs; // like tec_grab
-    bool counters; // like tec_counter
+    bool dodge_counter; // counter move activated on a dodge
+    bool block_counter; // counter move activated on a block
 
     bool miss_recovery; // allows free recovery from misses, like tec_feint
     bool grab_break; // allows grab_breaks, like tec_break

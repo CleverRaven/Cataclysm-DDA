@@ -44,7 +44,8 @@
         "techniques" : [
             "tec_aikido_feint",
             "tec_aikido_disarm",
-            "tec_aikido_throw"
+            "tec_aikido_throw",
+            "tec_aikido_dodgethrow"
         ]
     },{
         "type" : "martial_art",

@@ -170,23 +170,28 @@ int Creature::hit(Creature *source, body_part bphurt, int side,
     return dealt_dams.total_damage();
 }
 
-int Creature::deal_melee_attack(Creature *source, int hitroll, bool critical_hit,
-                                const damage_instance &dam, dealt_damage_instance &dealt_dam)
-{
+int Creature::deal_melee_attack(Creature *source, int hitroll)
+{    
     int dodgeroll = dodge_roll();
     int hit_spread = hitroll - dodgeroll;
     bool missed = hit_spread <= 0;
-
-    damage_instance d = dam; // copy, since we will mutate in block_hit
-
+    
     if (missed) {
+        dodge_hit(source, hit_spread);
         return hit_spread;
     }
 
-    //bool critical_hit = hit_spread > 30; //scored_crit(dodgeroll);
+    return hit_spread;
+}
+
+void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hit,
+                                const damage_instance &dam, dealt_damage_instance &dealt_dam)
+{    
+    damage_instance d = dam; // copy, since we will mutate in block_hit
 
     body_part bp_hit = select_body_part(source, hit_spread);
     int side = rng(0, 1);
+    block_hit(source, bp_hit, side, d);
 
     // Bashing crit
     if (critical_hit) {
@@ -220,31 +225,10 @@ int Creature::deal_melee_attack(Creature *source, int hitroll, bool critical_hit
     } else {
         mod_moves(-stab_moves);
     }
-    block_hit(bp_hit, side, d);
 
     on_gethit(source, bp_hit, d); // trigger on-gethit events
     dealt_dam = deal_damage(source, bp_hit, side, d);
     dealt_dam.bp_hit = bp_hit;
-
-    /* TODO: add grabs n shit back in
-    if (allow_special && technique.grabs) {
-        // TODO: make this depend on skill (through grab_resist stat) again
-        if (t.get_grab_resist() > 0 &&
-                dice(t.get_dex() , 12) >
-                dice(get_dex(), 10)) {
-            g->add_msg_player_or_npc(&t, _("You break the grab!"),
-                                        _("<npcname> breaks the grab!"));
-        } else if (!unarmed_attack()) {
-            // Move our weapon to a temp slot, if it's not unarmed
-            item tmpweap = remove_weapon();
-            melee_attack(t, false); // False means a second grab isn't allowed
-            weapon = tmpweap;
-        } else
-            melee_attack(t, false); // False means a second grab isn't allowed
-    }
-    */
-
-    return hit_spread;
 }
 
 int Creature::deal_projectile_attack(Creature *source, double missed_by,
