@@ -245,8 +245,7 @@
                 "place_specials": [
                     { "type": "toilet", "x": 11, "y": 22 },
                     { "type": "cooler", "x": 12, "y": 16 }
-                ],
-                
+                ]
                 }
             }
         ]
