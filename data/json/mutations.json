@@ -115,12 +115,7 @@
         "description" : "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
         "starting_trait" : true,
         "leads_to" : ["EATPOISON"],
-        "category" : [
-            "MUTCAT_INSECT",
-            "MUTCAT_SLIME",
-            "MUTCAT_SPIDER",
-            "MUTCAT_MEDICAL"
-        ]
+        "category" : ["MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_SPIDER", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "FASTREADER",
@@ -177,18 +172,9 @@
         "category" : ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"],
         "cancels" : ["THINSKIN"],
         "wet_protection" : [
-            {
-                "part" : "LEGS",
-                "ignored" : 0,
-                "neutral" : 1,
-                "good" : 0
-            },{
-                "part" : "ARMS",
-                "neutral" : 1
-            },{
-                "part" : "TORSO",
-                "neutral" : 2
-            }
+            { "part" : "LEGS", "neutral" : 1 },
+            { "part" : "ARMS", "neutral" : 1 },
+            { "part" : "TORSO", "neutral" : 2 }
         ]
     },{
         "type" : "mutation",
