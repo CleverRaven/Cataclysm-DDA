@@ -385,7 +385,7 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
     } while (true);
 }
 
-void iexamine::toilet(player *p, map *m, int examx, int examy) {
+void iexamine::cooler(player *p, map *m, int examx, int examy) {
     std::vector<item>& items = m->i_at(examx, examy);
     int waterIndex = -1;
     for (int i = 0; i < items.size(); i++) {
@@ -1422,6 +1422,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("atm" == function_name) {
     return &iexamine::atm;
+  }
+  if ("cooler" == function_name) {
+    return &iexamine::cooler;
   }
   if ("vending" == function_name) {
     return &iexamine::vending;
