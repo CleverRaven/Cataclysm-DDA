@@ -790,7 +790,9 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
 
     dealt_damage_instance dealt_dam;
     int hitspread = target.deal_melee_attack(this, hitroll);
-    target.deal_melee_hit(this, hitspread, false, damage, dealt_dam);
+    if (hitspread >= 0) {
+        target.deal_melee_hit(this, hitspread, false, damage, dealt_dam);
+    }
     bp_hit = dealt_dam.bp_hit;
 
     //Hallucinations always produce messages but never actually deal damage
