@@ -559,6 +559,15 @@ bool Creature::has_effect(efftype_id eff_id)
     return (std::find_if(effects.begin(), effects.end(), is_id_functor(eff_id)) !=
             effects.end());
 }
+
+const std::vector<effect> & Creature::get_effects() const {
+  return effects;
+}
+
+void Creature::set_effects(std::vector<effect> effs) {
+  effects = effs;
+}
+
 void Creature::process_effects()
 {
     for (std::vector<effect>::iterator it = effects.begin();

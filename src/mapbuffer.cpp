@@ -323,6 +323,10 @@ void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr, bool de
                  " " << tmpsp.posy << " " << tmpsp.faction_id << " " <<
                  tmpsp.mission_id << (tmpsp.friendly ? " 1 " : " 0 ") <<
                  tmpsp.name << std::endl;
+
+            for (std::vector<effect>::iterator effect = tmpsp.effects.begin(); effect != tmpsp.effects.end(); effect++) {
+              fout << "e " << effect->get_effect_type()->id << " " << effect->get_duration() << " " << effect->get_intensity() << std::endl;
+            }
         }
         // Output the vehicles
         for (int i = 0; i < sm->vehicles.size(); i++) {
@@ -624,9 +628,18 @@ void mapbuffer::unserialize_submaps( std::ifstream &fin, const int num_submaps )
                 int tmpfac = -1, tmpmis = -1;
                 std::string spawnname;
                 fin >> st >> a >> itx >> ity >> tmpfac >> tmpmis >> tmpfriend >> spawnname;
-                spawn_point tmp((st), a, itx, ity, tmpfac, tmpmis, (tmpfriend == '1'),
-                                spawnname);
+                spawn_point tmp((st), a, itx, ity, tmpfac, tmpmis, (tmpfriend == '1'), spawnname);
                 sm->spawns.push_back(tmp);
+            } else if (string_identifier == "e") {
+                std::string tmpEff;
+                int tmpIn, tmpDur;
+
+                fin >> tmpEff >> tmpDur >> tmpIn;
+
+                effect tmpEffect(&(effect_types[tmpEff]), tmpDur);
+                tmpEffect.set_intensity(tmpIn);
+
+                sm->spawns.back().effects.push_back(tmpEffect);
             } else if (string_identifier == "V") {
                 vehicle *veh = new vehicle();
                 veh->load (fin);

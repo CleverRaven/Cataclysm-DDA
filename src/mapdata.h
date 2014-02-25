@@ -330,6 +330,7 @@ struct spawn_point {
  std::string type;
  int faction_id;
  int mission_id;
+ std::vector<effect> effects;
  bool friendly;
  std::string name;
  spawn_point(std::string T = "mon_null", int C = 0, int X = -1, int Y = -1,

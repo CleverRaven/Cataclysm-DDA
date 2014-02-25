@@ -10949,6 +10949,8 @@ void map::add_spawn(monster *mon)
     spawny %= SEEY;
     add_spawn(mon->type->id, 1, spawnx, spawny, (mon->friendly < 0),
               mon->faction_id, mon->mission_id, spawnname);
+
+    grid[int(spawnx / SEEX) + int(spawny / SEEY) * my_MAPSIZE]->spawns.back().effects = mon->get_effects();
 }
 
 vehicle *map::add_vehicle(std::string type, const int x, const int y, const int dir,
