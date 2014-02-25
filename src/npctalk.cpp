@@ -2181,9 +2181,9 @@ bool trade(npc *p, int cost, std::string deal)
 {
  WINDOW* w_head = newwin(4, FULL_SCREEN_WIDTH, (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
                          (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
- WINDOW* w_them = newwin(21, 40, 4+((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
+ WINDOW* w_them = newwin(20, 40, 4+((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
                          (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
- WINDOW* w_you = newwin(21, 40, 4+((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
+ WINDOW* w_you = newwin(20, 40, 4+((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
                         40+((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
 
  WINDOW* w_tmp;
@@ -2258,23 +2258,23 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    mvwprintz(w_you,  0, 2, (cash > 0 || g->u.cash>=cash*-1 ? c_green:c_red),
              _("You: $%d"), g->u.cash);
 // Draw their list of items, starting from them_off
-   for (int i = them_off; i < theirs.size() && i < 17; i++)
+   for (int i = them_off; i < theirs.size() && i < (17 + them_off); i++)
     mvwprintz(w_them, i - them_off + 1, 1,
               (getting_theirs[i] ? c_white : c_ltgray), "%c %c %s - $%d",
-              char(i + 'a'), (getting_theirs[i] ? '+' : '-'),
-              utf8_substr(theirs[i + them_off]->tname(), 0, 25).c_str(),
-              their_price[i + them_off]);
+              char((i -them_off) + 'a'), (getting_theirs[i] ? '+' : '-'),
+              utf8_substr(theirs[i]->tname(), 0, 25).c_str(),
+              their_price[i]);
    if (them_off > 0)
     mvwprintw(w_them, 19, 1, "< Back");
    if (them_off + 17 < theirs.size())
     mvwprintw(w_them, 19, 9, "More >");
 // Draw your list of items, starting from you_off
-   for (int i = you_off; i < yours.size() && i < 17; i++)
+   for (int i = you_off; i < yours.size() && (i < (17 + you_off)) ; i++)
     mvwprintz(w_you, i - you_off + 1, 1,
               (getting_yours[i] ? c_white : c_ltgray), "%c %c %s - $%d",
-              char(i + 'a'), (getting_yours[i] ? '+' : '-'),
-              utf8_substr(yours[i + you_off]->tname(), 0,25).c_str(),
-              your_price[i + you_off]);
+              char((i -you_off) + 'a'), (getting_yours[i] ? '+' : '-'),
+              utf8_substr(yours[i]->tname(), 0,25).c_str(),
+              your_price[i]);
    if (you_off > 0)
     mvwprintw(w_you, 19, 1, _("< Back"));
    if (you_off + 17 < yours.size())
@@ -2329,9 +2329,11 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    wrefresh(w_head);
    update = true;
    if (focus_them) {
+    help += them_off;
     if (help >= 0 && help < theirs.size())
      popup(theirs[help]->info().c_str());
    } else {
+    help += you_off;
     if (help >= 0 && help < yours.size())
      popup(yours[help]->info().c_str());
    }
@@ -2348,6 +2350,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    if (ch >= 'a' && ch <= 'z') {
     ch -= 'a';
     if (focus_them) {
+     ch += them_off;
      if (ch < theirs.size()) {
       getting_theirs[ch] = !getting_theirs[ch];
       if (getting_theirs[ch])
@@ -2357,6 +2360,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
       update = true;
      }
     } else { // Focus is on the player's inventory
+     ch += you_off;
      if (ch < yours.size()) {
       getting_yours[ch] = !getting_yours[ch];
       if (getting_yours[ch])
