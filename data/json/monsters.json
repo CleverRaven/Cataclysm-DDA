@@ -2325,7 +2325,7 @@
     "armor_cut":8,
     "item_chance":10,
     "luminance":0,
-    "hp":80,
+    "hp":70,
     "special_freq":0,
     "death_function":["NORMAL", "ZOMBIE"],
     "special_attack":"NONE",
