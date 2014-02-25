@@ -133,7 +133,7 @@
         "move_cost_mod": 1,
         "required_str": 6,
         "flags": ["TRANSPARENT", "BASHABLE", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM"],
-        "examine_action": "toilet",
+        "examine_action": "cooler",
         "bash": {
             "str_min": 4, "str_max": 20,
             "sound": "whack!",
@@ -243,11 +243,10 @@
                     { "item": "boxing_misc", "x": [16, 20], "y": [22, 22], "chance": 60, "repeat": [1, 4] }
                 ],
                 "place_specials": [
-                    { "type": "toilet", "x": 11, "y": 22 }
+                    { "type": "toilet", "x": 11, "y": 22 },
+                    { "type": "cooler", "x": 12, "y": 16 }
                 ],
                 
-                "add": [
-                    { "item": "water_clean", "x": 12, "y": 16, "amount": 10 }
                 ] }
             }
         ]
