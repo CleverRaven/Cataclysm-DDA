@@ -899,7 +899,7 @@
         "name" : "reloaded 5x50mm flechette",
         "symbol" : "=",
         "color" : "green",
-        "description" : "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized penetrator. This one has been hand-reloaded",
+        "description" : "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized penetrator. This one has been hand-reloaded.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 2,
