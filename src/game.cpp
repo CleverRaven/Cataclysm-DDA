@@ -9581,8 +9581,7 @@ and you can't unwield your %s."),
                 if ( selected >= 0 && selected <= here.size()-1 ) {
                     fold_and_print(w_item_info,1,2,48-3, c_ltgray, "%s",  here[selected].info().c_str());
                 }
-                wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                                     LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+                draw_border(w_item_info);
                 mvwprintw(w_item_info, 0, 2, "< %s >", here[selected].display_name().c_str() );
                 wrefresh(w_item_info);
             }
