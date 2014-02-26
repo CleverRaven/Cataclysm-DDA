@@ -550,12 +550,6 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     if (bg >= 0 && bg < tile_values->size()) {
         SDL_Texture *bg_tex = (*tile_values)[bg];
         SDL_RenderCopy(renderer, bg_tex, NULL, &destination);
-        
-        /*SDL_Surface *bg_surf = (*tile_values)[bg];
-        
-        SDL_Texture *tbuf = SDL_CreateTextureFromSurface(renderer,bg_surf);
-        SDL_RenderCopy(renderer, tbuf, NULL, &destination);
-        SDL_DestroyTexture(tbuf);*/
     }
     
     // blit foreground based on rotation
@@ -569,7 +563,9 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
             SDL_Texture *fg_tex = (*tile_values)[fg];
             
             if(rota == 1) {
+#if (defined _WIN32 || defined WINDOWS)
                 destination.y -= 1;
+#endif
                 SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
                     -90, NULL, SDL_FLIP_NONE );
             } else if(rota == 2) {
@@ -577,7 +573,9 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
                 SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
                     0, NULL, (SDL_RendererFlip)(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL) );
             } else { //rota == 3
+#if (defined _WIN32 || defined WINDOWS)
                 destination.x -= 1;
+#endif
                 SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
                     90, NULL, SDL_FLIP_NONE );
             }
