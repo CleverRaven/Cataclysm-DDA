@@ -9074,10 +9074,7 @@ void game::pickup(int posx, int posy, int min)
 
     item_exchanges_since_save += 1; // Keeping this simple.
     write_msg();
-    if ((u.weapon.type->id == "bio_claws_weapon") || (u.weapon.type->id == "bio_blade_weapon")) {
-        if (min != -1) {
-            add_msg(_("You cannot pick up items with your %s!"), u.weapon.tname().c_str());
-        }
+    if (!u.can_pickup(min != 1)) { // no message on autopickup (-1)
         return;
     }
 
