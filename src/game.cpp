@@ -9074,7 +9074,7 @@ void game::pickup(int posx, int posy, int min)
 
     item_exchanges_since_save += 1; // Keeping this simple.
     write_msg();
-    if (!u.can_pickup(min != 1)) { // no message on autopickup (-1)
+    if (!u.can_pickup(min != -1)) { // no message on autopickup (-1)
         return;
     }
 
