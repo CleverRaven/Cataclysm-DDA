@@ -10584,6 +10584,11 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  int reload_pos = INT_MIN;
  if (!u.weapon.is_gun())
   return;
+ //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
+ //should be fine to place this here, plfire(true,*) only once in code
+ if(burst && !u.weapon.has_flag("MODE_BURST"))
+  return;
+
  vehicle *veh = m.veh_at(u.posx, u.posy);
  if (veh && veh->player_in_control(&u) && u.weapon.is_two_handed(&u)) {
   add_msg (_("You need a free arm to drive!"));
