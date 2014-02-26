@@ -1637,8 +1637,12 @@ void player::memorial( std::ofstream &memorial_file )
 
     //Equipment
     memorial_file << _("Weapon:") << "\n";
-    memorial_file << indent << weapon.invlet << " - " << weapon.tname() << "\n";
-    memorial_file << "\n";
+    memorial_file << indent << weapon.invlet << " - " << weapon.tname();
+    if(weapon.is_gun() && !weapon.has_flag("NO_AMMO")) {
+        memorial_file << " (" << weapon.charges << " / " << weapon.clip_size() << ") "
+        << weapon.ammo_type();
+    }
+    memorial_file << "\n\n";
 
     memorial_file << _("Equipment:") << "\n";
     for(int i = 0; i < worn.size(); i++) {
