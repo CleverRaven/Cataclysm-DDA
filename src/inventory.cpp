@@ -563,11 +563,11 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
             vehicle *veh = g->m.veh_at(x, y, vpart);
 
             if (veh) {
-				//Adds faucet to kitchen stuff; may be horribly wrong to do such....
-				//ShouldBreak into own variable
-				const int kpart = veh->part_with_feature(vpart, "KITCHEN");
-				const int faupart = veh->part_with_feature(vpart, "FAUCET");
-				const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
+                //Adds faucet to kitchen stuff; may be horribly wrong to do such....
+                //ShouldBreak into own variable
+                const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+                const int faupart = veh->part_with_feature(vpart, "FAUCET");
+                const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
                 const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
                 const int forgepart = veh->part_with_feature(vpart, "FORGE");
                 const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
@@ -577,11 +577,11 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                     *this += std::list<item>(veh->parts[cargo].items.begin(), veh->parts[cargo].items.end());
                 }
 
-				if(faupart >= 0 ){
+                if(faupart >= 0 ){
                     item water(itypes["water_clean"], 0);
                     water.charges = veh->fuel_left("water");
                     add_item(water);
-				}
+                }
 
                 if (kpart >= 0) {
                     item hotplate(itypes["hotplate"], 0);
