@@ -10433,4 +10433,15 @@ bool player::sees(monster *critter, int &t)
     return sees(cx, cy, t);
 }
 
+bool player::can_pickup(bool print_msg) const
+{
+    if (weapon.has_flag("NO_PICKUP")) {
+        if (print_msg && const_cast<player*>(this)->is_player()) {
+            g->add_msg(_("You cannot pick up items with your %s!"), const_cast<player*>(this)->weapon.tname().c_str());
+        }
+        return false;
+    }
+    return true;
+}
+
 // --- End ---

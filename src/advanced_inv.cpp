@@ -1050,6 +1050,12 @@ void advanced_inventory::display(player *pp)
                 } else {// from veh/map
                     long trycharges = -1;
                     if ( destarea == isinventory ) { // if destination is inventory
+                        if (!u.can_pickup(true)) {
+                            if (!showmsg) {
+                                redraw = showmsg = true;
+                            }
+                            continue;
+                        }
                         if(squares[destarea].size >= MAX_ITEM_IN_SQUARE) {
                             popup(_("Too many items."));
                             continue;
