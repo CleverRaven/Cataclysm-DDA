@@ -146,14 +146,10 @@ void game::init_npctalk()
     {_("Got anything to drink?"), _("I need some water or something."),
      _("<name_g>, I need some water... got any?"),
      _("<ill_die> without something to drink."), _("You got anything to drink?")}
-    /*
-    {"<ill_die> unless I get healed<punc>", "You gotta heal me up, <name_g><punc>",
-     "Help me<punc> <ill_die> if you don't heal me<punc>",
-     "Please... I need medical help<punc>", "
-    */
     };
-    for(int i=0;i<num_needs;i++) {
-        for(int j=0; j<5; j++) {
+
+    for(int i = 0; i < num_needs; i++) {
+        for(int j = 0; j < 5; j++) {
             talk_needs[i][j] = tmp_talk_needs[i][j];
         }
     }
@@ -456,16 +452,14 @@ void npc::talk_to_u()
  decide_needs();
 
  d.win = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
-                (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
- wborder(d.win, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- for (int i = 1; i < 24; i++)
-  mvwputch(d.win, i, 41, c_ltgray, LINE_XOXO);
- mvwputch(d.win,  0, 41, c_ltgray, LINE_OXXX);
- mvwputch(d.win, 23, 41, c_ltgray, LINE_XXOX);
+                (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT) / 2 : 0,
+                (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH) / 2 : 0);
+ draw_border(d.win);
+ mvwvline(d.win, 1, (FULL_SCREEN_WIDTH / 2) + 1, LINE_XOXO, FULL_SCREEN_HEIGHT - 1);
+ mvwputch(d.win, 0, (FULL_SCREEN_WIDTH / 2) + 1, BORDER_COLOR, LINE_OXXX);
+ mvwputch(d.win, FULL_SCREEN_HEIGHT - 1, (FULL_SCREEN_WIDTH / 2) + 1, BORDER_COLOR, LINE_XXOX);
  mvwprintz(d.win, 1,  1, c_white, _("Dialogue with %s"), name.c_str());
- mvwprintz(d.win, 1, 43, c_white, _("Your response:"));
+ mvwprintz(d.win, 1, (FULL_SCREEN_WIDTH / 2) + 3, c_white, _("Your response:"));
 
 // Main dialogue loop
  do {
@@ -1992,7 +1986,6 @@ void parse_tags(std::string &phrase, player *u, npc *me)
  } while (fa != std::string::npos && fb != std::string::npos);
 }
 
-
 talk_topic dialogue::opt(talk_topic topic)
 {
  const char* talk_trial_text[NUM_TALK_TRIALS] = {
@@ -2021,15 +2014,15 @@ talk_topic dialogue::opt(talk_topic topic)
 
 // Number of lines to highlight
  int hilight_lines = 1;
- std::vector<std::string> folded = foldstring(challenge, 40);
- for(int i=0; i<folded.size(); i++){
+ std::vector<std::string> folded = foldstring(challenge, FULL_SCREEN_WIDTH / 2);
+ for (size_t i = 0; i < folded.size(); i++) {
   history.push_back(folded[i]);
   hilight_lines++;
  }
 
  std::vector<std::string> options;
  std::vector<nc_color>    colors;
- for (int i = 0; i < responses.size(); i++) {
+ for (size_t i = 0; i < responses.size(); i++) {
      if (responses[i].trial > 0) {  // dialogue w/ a % chance to work
          options.push_back(
              rmp_format(
@@ -2062,14 +2055,14 @@ talk_topic dialogue::opt(talk_topic topic)
          colors.push_back(c_white);
  }
 
- for (int i = 2; i < 23; i++) {
-  for (int j = 1; j < 79; j++) {
-   if (j != 41)
+ for (int i = 2; i < (FULL_SCREEN_HEIGHT - 1); i++) {
+  for (int j = 1; j < (FULL_SCREEN_WIDTH - 1); j++) {
+   if (j != (FULL_SCREEN_WIDTH / 2) + 1)
     mvwputch(win, i, j, c_black, ' ');
   }
  }
 
- int curline = 22, curhist = 1;
+ int curline = FULL_SCREEN_HEIGHT - 2, curhist = 1;
  nc_color col;
  while (curhist <= history.size() && curline > 0) {
   if (curhist <= hilight_lines)
@@ -2083,14 +2076,15 @@ talk_topic dialogue::opt(talk_topic topic)
 
  curline = 3;
  for (int i = 0; i < options.size(); i++) {
-  folded = foldstring(options[i], 36);
+  folded = foldstring(options[i], (FULL_SCREEN_WIDTH / 2) - 4);
   for(int j=0; j<folded.size(); j++) {
-   mvwprintz(win, curline, 42, colors[i], ((j==0?"":"   ") + folded[j]).c_str());
+   mvwprintz(win, curline, (FULL_SCREEN_WIDTH / 2) + 2, colors[i],
+             ((j == 0 ? "" : "   ") + folded[j]).c_str());
    curline++;
   }
  }
- mvwprintz(win, curline + 2, 42, c_magenta, _("L: Look at"));
- mvwprintz(win, curline + 3, 42, c_magenta, _("S: Size up stats"));
+ mvwprintz(win, curline + 2, (FULL_SCREEN_WIDTH / 2) + 2, c_magenta, _("L: Look at"));
+ mvwprintz(win, curline + 3, (FULL_SCREEN_WIDTH / 2) + 2, c_magenta, _("S: Size up stats"));
 
  wrefresh(win);
 
@@ -2118,7 +2112,7 @@ talk_topic dialogue::opt(talk_topic topic)
   return special_talk(ch);
 
  std::string response_printed = rmp_format("<you say something>You: %s", responses[ch].text.c_str());
- folded = foldstring(response_printed, 40);
+ folded = foldstring(response_printed, FULL_SCREEN_WIDTH / 2);
  for(int i=0; i<folded.size(); i++){
    history.push_back(folded[i]);
    hilight_lines++;
@@ -2179,26 +2173,27 @@ talk_topic special_talk(char ch)
 
 bool trade(npc *p, int cost, std::string deal)
 {
- WINDOW* w_head = newwin(4, FULL_SCREEN_WIDTH, (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
-                         (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
- WINDOW* w_them = newwin(20, 40, 4+((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
-                         (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
- WINDOW* w_you = newwin(20, 40, 4+((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
-                        40+((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
-
+ WINDOW* w_head = newwin(4, FULL_SCREEN_WIDTH,
+                         (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
+                         (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
+ WINDOW* w_them = newwin(FULL_SCREEN_HEIGHT - 4, FULL_SCREEN_WIDTH / 2,
+                         4 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
+                         (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
+ WINDOW* w_you = newwin(FULL_SCREEN_HEIGHT - 4, FULL_SCREEN_WIDTH - (FULL_SCREEN_WIDTH / 2),
+                        4 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
+                        (FULL_SCREEN_WIDTH / 2) + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
  WINDOW* w_tmp;
  std::string header_message = _("\
 Trading with %s\n\
-Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n\
-? to get information on an item");
+TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\n\
+? to get information on an item.");
  mvwprintz(w_head, 0, 0, c_white, header_message.c_str(), p->name.c_str());
 
 // Set up line drawings
- for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
-  mvwputch(w_head,  3, i, c_white, LINE_OXOX);
+ for (int i = 0; i < FULL_SCREEN_WIDTH; i++) {
+  mvwputch(w_head, 3, i, c_white, LINE_OXOX);
+ }
  wrefresh(w_head);
-
-
 // End of line drawings
 
 // Populate the list of what the NPC is willing to buy, and the prices they pay
@@ -2212,21 +2207,21 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
  getting_yours.resize(yours.size());
 
 // Adjust the prices based on your barter skill.
- for (int i = 0; i < their_price.size(); i++) {
+ for (size_t i = 0; i < their_price.size(); i++) {
   their_price[i] *= (price_adjustment(g->u.skillLevel("barter")) +
                      (p->int_cur - g->u.int_cur) / 15);
   getting_theirs[i] = false;
  }
- for (int i = 0; i < your_price.size(); i++) {
+ for (size_t i = 0; i < your_price.size(); i++) {
   your_price[i] /= (price_adjustment(g->u.skillLevel("barter")) +
                     (p->int_cur - g->u.int_cur) / 15);
   getting_yours[i] = false;
  }
 
- long cash = cost;// How much cash you get in the deal (negative = losing money)
+ long cash = cost;       // How much cash you get in the deal (negative = losing money)
  bool focus_them = true; // Is the focus on them?
- bool update = true;  // Re-draw the screen?
- int  them_off = 0, you_off = 0;// Offset from the start of the list
+ bool update = true;     // Re-draw the screen?
+ int  them_off = 0, you_off = 0; // Offset from the start of the list
  signed char ch, help;
 
  do {
@@ -2237,23 +2232,17 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    werase(w_you);
    for (int i = 1; i < FULL_SCREEN_WIDTH; i++)
     mvwputch(w_head, 3, i, c_white, LINE_OXOX);
-   mvwprintz(w_head, 3, 30, ((cash <  0 && g->u.cash >= cash * -1) ||
-                             (cash >= 0 && p->cash  >= cash) ?
-                             c_green : c_red),
-             (cash >= 0 ? _("Profit $%d") : _("Cost $%d")), abs(cash));
+   mvwprintz(w_head, 3, 30,
+             (cash <  0 && g->u.cash >= cash * -1) || (cash >= 0 && p->cash  >= cash) ?
+             c_green : c_red, (cash >= 0 ? _("Profit $%d") : _("Cost $%d")), abs(cash));
 
     if (deal != "") {
         mvwprintz(w_head, 3, 45, (cost < 0 ? c_ltred : c_ltgreen), deal.c_str());
     }
-    if (focus_them) {
-        draw_border(w_them, c_yellow);
-        draw_border(w_you);
-    } else {
-        draw_border(w_them);
-        draw_border(w_you, c_yellow);
-    }
+   draw_border(w_them, (focus_them ? c_yellow : BORDER_COLOR));
+   draw_border(w_you, (!focus_them ? c_yellow : BORDER_COLOR));
 
-   mvwprintz(w_them, 0, 1, (cash < 0 || p->cash >= cash ? c_green : c_red),
+   mvwprintz(w_them, 0, 2, (cash < 0 || p->cash >= cash ? c_green : c_red),
              _("%s: $%d"), p->name.c_str(), p->cash);
    mvwprintz(w_you,  0, 2, (cash > 0 || g->u.cash>=cash*-1 ? c_green:c_red),
              _("You: $%d"), g->u.cash);
@@ -2379,7 +2368,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
   inventory newinv;
   int practice = 0;
   std::vector<char> removing;
-  for (int i = 0; i < yours.size(); i++) {
+  for (size_t i = 0; i < yours.size(); i++) {
    if (getting_yours[i]) {
     newinv.push_back(*yours[i]);
     practice++;
@@ -2387,10 +2376,10 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    }
   }
 // Do it in two passes, so removing items doesn't corrupt yours[]
-  for (int i = 0; i < removing.size(); i++)
+  for (size_t i = 0; i < removing.size(); i++)
    g->u.i_rem(removing[i]);
 
-  for (int i = 0; i < theirs.size(); i++) {
+  for (size_t i = 0; i < theirs.size(); i++) {
    item tmp = *theirs[i];
    if (getting_theirs[i]) {
     practice += 2;
