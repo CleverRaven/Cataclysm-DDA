@@ -673,7 +673,7 @@ void advanced_inventory::redraw_pane( int i )
     if ( src == i ) {
         wattron(panes[i].window, c_cyan);
     }
-    wborder(panes[i].window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+    draw_border(panes[i].window);
     mvwprintw(panes[i].window, 0, 3, _("< [s]ort: %s >"), sortnames[ ( panes[i].sortby <= 6 ? panes[i].sortby : 0 ) ].c_str() );
     int max = MAX_ITEM_IN_SQUARE;
     if ( panes[i].area == isall ) {
