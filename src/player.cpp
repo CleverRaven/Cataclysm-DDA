@@ -8762,7 +8762,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         }
         g->add_msg(_("You attach the %s to your %s."), used->tname().c_str(),
                    gun->tname().c_str());
-        gun->contents.push_back(i_rem(pos));
+        gun->contents.push_back(i_rem(used));
         return;
 
     } else if (used->is_bionic()) {
