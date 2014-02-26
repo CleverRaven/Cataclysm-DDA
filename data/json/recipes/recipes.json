@@ -22299,7 +22299,7 @@
         [ "stick", 1 ]
     ],
     [
-        ["metal_tank", 1]
+        ["metal_tank_small", 1]
     ],
     [
         ["steel_chunk", 3],
@@ -22356,7 +22356,7 @@
       [ "stick", 1 ]
     ],
     [
-      ["metal_tank", 1]
+      ["metal_tank_small", 1]
     ],
     [
       ["steel_chunk", 3],
