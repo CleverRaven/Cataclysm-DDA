@@ -13335,71 +13335,72 @@ void game::write_msg()
     wrefresh(w_messages);
 }
 
-void game::msg_buffer()
+void game::msg_buffer(bool show_return_message = true)
 {
- WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                      (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
                      (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
- int offset = 0;
- InputEvent input;
- do {
-  werase(w);
-  draw_border(w);
-  mvwprintz(w, FULL_SCREEN_HEIGHT-1, 32, c_red, _("Press q to return"));
+    int offset = 0;
+    InputEvent input;
+    do {
+        werase(w);
+        draw_border(w);
+        if(show_return_message)
+            mvwprintz(w, FULL_SCREEN_HEIGHT-1, 32, c_red, _("Press q to return"));
 
-  int line = 1;
-  int lasttime = -1;
-  int i;
+        int line = 1;
+        int lasttime = -1;
+        int i;
 
-  //Draw Scrollbar
-  draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT-2, messages.size(), 1);
+        //Draw Scrollbar
+        draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT-2, messages.size(), 1);
 
-  for (i = 1; i <= 20 && line <= FULL_SCREEN_HEIGHT-2 && offset + i <= messages.size(); i++) {
-   game_message *mtmp = &(messages[ messages.size() - (offset + i) ]);
-   calendar timepassed = turn - mtmp->turn;
+        for (i = 1; i <= 20 && line <= FULL_SCREEN_HEIGHT-2 && offset + i <= messages.size(); i++) {
+                game_message *mtmp = &(messages[ messages.size() - (offset + i) ]);
+                calendar timepassed = turn - mtmp->turn;
 
-   if (int(timepassed) > lasttime) {
-    mvwprintz(w, line, 3, c_ltblue, _("%s ago:"),
-              timepassed.textify_period().c_str());
-    line++;
-    lasttime = int(timepassed);
-   }
+            if (int(timepassed) > lasttime) {
+                mvwprintz(w, line, 3, c_ltblue, _("%s ago:"),
+                        timepassed.textify_period().c_str());
+                        line++;
+                lasttime = int(timepassed);
+            }
 
-   if (line <= FULL_SCREEN_HEIGHT-2) { // Print the actual message... we may have to split it
-    std::string mes = mtmp->message;
-    if (mtmp->count > 1) {
-     std::stringstream mesSS;
-     mesSS << mes << " x " << mtmp->count;
-     mes = mesSS.str();
-    }
-// Split the message into many if we must!
-    std::vector<std::string> folded = foldstring(mes, FULL_SCREEN_WIDTH-2);
-    for(int j=0; j<folded.size() && line <= FULL_SCREEN_HEIGHT-2; j++, line++) {
-     mvwprintz(w, line, 1, c_ltgray, folded[j].c_str());
-    }
-   } // if (line <= 23)
-  } //for (i = 1; i <= 10 && line <= 23 && offset + i <= messages.size(); i++)
-  if (offset > 0)
-   mvwprintz(w, FULL_SCREEN_HEIGHT-1, 27, c_magenta, "^^^");
-  if (offset + i < messages.size())
-   mvwprintz(w, FULL_SCREEN_HEIGHT-1, 51, c_magenta, "vvv");
-  wrefresh(w);
+            if (line <= FULL_SCREEN_HEIGHT-2) { // Print the actual message... we may have to split it
+                std::string mes = mtmp->message;
+                if (mtmp->count > 1) {
+                    std::stringstream mesSS;
+                    mesSS << mes << " x " << mtmp->count;
+                    mes = mesSS.str();
+                }
+                // Split the message into many if we must!
+                std::vector<std::string> folded = foldstring(mes, FULL_SCREEN_WIDTH-2);
+                for(int j=0; j<folded.size() && line <= FULL_SCREEN_HEIGHT-2; j++, line++) {
+                    mvwprintz(w, line, 1, c_ltgray, folded[j].c_str());
+                }
+            } // if (line <= 23)
+        } //for (i = 1; i <= 10 && line <= 23 && offset + i <= messages.size(); i++)
+        if (offset > 0)
+            mvwprintz(w, FULL_SCREEN_HEIGHT-1, 27, c_magenta, "^^^");
+        if (offset + i < messages.size())
+            mvwprintz(w, FULL_SCREEN_HEIGHT-1, 51, c_magenta, "vvv");
+        wrefresh(w);
 
-  DebugLog() << __FUNCTION__ << "calling get_input() \n";
-  input = get_input();
-  int dirx = 0, diry = 0;
+        DebugLog() << __FUNCTION__ << "calling get_input() \n";
+        input = get_input();
+        int dirx = 0, diry = 0;
 
-  get_direction(dirx, diry, input);
-  if (diry == -1 && offset > 0)
-   offset--;
-  if (diry == 1 && offset < messages.size())
-   offset++;
+        get_direction(dirx, diry, input);
+        if (diry == -1 && offset > 0)
+            offset--;
+        if (diry == 1 && offset < messages.size())
+            offset++;
 
- } while (input != Close && input != Cancel && input != Confirm);
+    } while (input != Close && input != Cancel && input != Confirm);
 
- werase(w);
- delwin(w);
+    werase(w);
+    delwin(w);
 }
 
 void game::teleport(player *p, bool add_teleglow)
