@@ -226,8 +226,8 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
             // Current field not a candidate.
             if( !(a || b) ) { continue; }
             field_entry* tmpfld = m->field_at( x + a, y + b ).findField( curtype );
-            // Candidates are existing non-max-strength fields or navigable tiles with no field.
-            if( ( tmpfld && tmpfld->getFieldDensity() < 3 ) ||
+            // Candidates are existing weaker fields or navigable tiles with no field.
+            if( ( tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() ) ||
                 ( !tmpfld && m->move_cost( x + a, y + b ) > 0 ) ) {
                 spread.push_back( point( x + a, y + b ) );
             }
