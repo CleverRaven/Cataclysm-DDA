@@ -1498,7 +1498,7 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << "\n";
 
     //Misc
-    memorial_file << _("Cash on hand: ") << "$" << cash << "\n";
+    memorial_file << _("Cash on hand: ") << "$" << (double)cash/100 << "\n";
     memorial_file << "\n";
 
     //HP
