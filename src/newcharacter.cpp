@@ -1108,7 +1108,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         werase(w_genderswap);
         if (sorted_profs[cur_id]->name() == "") {
             mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press TAB to switch to %1$s."),
-                      sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
+                      _(sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str()));
         } else {
             mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press TAB to switch to %1$s %2$s."),
                       u->male ? _("female") : _("male"),
