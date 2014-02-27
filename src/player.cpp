@@ -7545,15 +7545,15 @@ void player::pick_style() // Style selection menu
             kmenu.addentry( 1, true, -1, martialarts["style_karate"].name );
         if (martialarts.find("style_judo") != martialarts.end())
             kmenu.addentry( 2, true, -1, martialarts["style_judo"].name );
-        if (martialarts.find("style_tiger") != martialarts.end())
-            kmenu.addentry( 3, true, -1, martialarts["style_tiger"].name );
+        if (martialarts.find("style_muay_thai") != martialarts.end())
+            kmenu.addentry( 3, true, -1, martialarts["style_muay_thai"].name );
 
         kmenu.query();
         int selection = kmenu.ret;
         switch (selection) {
             case 1: style_selected = "style_karate"; break;
             case 2: style_selected = "style_judo"; break;
-            case 3: style_selected = "style_tiger"; break;
+            case 3: style_selected = "style_muay_thai"; break;
         }
     }
     else {
