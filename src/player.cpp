@@ -7524,49 +7524,68 @@ bool player::wield(signed char ch, bool autodrop)
 
 void player::pick_style() // Style selection menu
 {
-//Create menu
-// Entries:
-// 0: Cancel
-// 1: No style
-// x: dynamic list of selectable styles
+    //Create menu
+    // Entries:
+    // 0: Cancel
+    // 1: No style
+    // x: dynamic list of selectable styles
 
-//If there are style already, cursor starts there
-// if no selected styles, cursor starts from no-style
+    //If there are style already, cursor starts there
+    // if no selected styles, cursor starts from no-style
 
-// Any other keys quit the menu
-// No matter how menu is cancelled, style_selected is not changed.
+    // Any other keys quit the menu
+    // No matter how menu is cancelled, style_selected is not changed.
 
- uimenu kmenu;
- kmenu.text = _("Select a style");
+    uimenu kmenu;
+    kmenu.text = _("Select a style");
 
- kmenu.addentry( 0, true, 'c', _("Cancel") );
- kmenu.addentry( 1, true, 'n', _("No style") );
- kmenu.selected = 1;
- kmenu.return_invalid = true; //cancel with any other keys
+    if (has_active_bionic("bio_cqb")) {
+        kmenu.addentry( 0, true, 'c', _("Cancel") );
+        if (martialarts.find("style_karate") != martialarts.end())
+            kmenu.addentry( 1, true, -1, martialarts["style_karate"].name );
+        if (martialarts.find("style_judo") != martialarts.end())
+            kmenu.addentry( 2, true, -1, martialarts["style_judo"].name );
+        if (martialarts.find("style_tiger") != martialarts.end())
+            kmenu.addentry( 3, true, -1, martialarts["style_tiger"].name );
 
- for (int i = 0; i < ma_styles.size(); i++) {
-  if(martialarts.find(ma_styles[i]) == martialarts.end()) {
-   debugmsg ("Bad hand to hand style: %s",ma_styles[i].c_str());
-  } else {
+        kmenu.query();
+        int selection = kmenu.ret;
+        switch (selection) {
+            case 1: style_selected = "style_karate"; break;
+            case 2: style_selected = "style_judo"; break;
+            case 3: style_selected = "style_tiger"; break;
+        }
+    }
+    else {
+        kmenu.addentry( 0, true, 'c', _("Cancel") );
+        kmenu.addentry( 1, true, 'n', _("No style") );
+        kmenu.selected = 1;
+        kmenu.return_invalid = true; //cancel with any other keys
 
-   //Check if this style is currently selected
-   if (strcmp(martialarts[ma_styles[i]].id.c_str(),style_selected.c_str())==0) {
-    kmenu.selected =i+2; //+2 because there are "cancel" and "no style" first in the list
-   }
-   kmenu.addentry( i+2, true, -1, martialarts[ma_styles[i]].name );
-  }
- }
- kmenu.query();
- int selection = kmenu.ret;
+        for (int i = 0; i < ma_styles.size(); i++) {
+            if(martialarts.find(ma_styles[i]) == martialarts.end()) {
+                debugmsg ("Bad hand to hand style: %s",ma_styles[i].c_str());
+            } else {
+                //Check if this style is currently selected
+                if (strcmp(martialarts[ma_styles[i]].id.c_str(),style_selected.c_str())==0) {
+                    kmenu.selected =i+2; //+2 because there are "cancel" and "no style" first in the list
+                }
+                kmenu.addentry( i+2, true, -1, martialarts[ma_styles[i]].name );
+            }
+        }
 
-//debugmsg("selected %d",choice);
- if (selection >= 2)
-  style_selected = ma_styles[selection - 2];
- else if (selection == 1)
-  style_selected = "style_none";
+        kmenu.query();
+        int selection = kmenu.ret;
 
- //else
- //all other means -> don't change, keep current.
+        //debugmsg("selected %d",choice);
+        if (selection >= 2)
+            style_selected = ma_styles[selection - 2];
+        else if (selection == 1)
+            style_selected = "style_none";
+
+        //else
+        //all other means -> don't change, keep current.
+    }
 }
 
 hint_rating player::rate_action_wear(item *it)

@@ -157,6 +157,7 @@ public:
  void charge_power(int amount);
  void power_bionics();
  void activate_bionic(int b);
+ void deactivate_bionic(int b);
  bool remove_random_bionic();
  int num_bionics() const;
  bionic& bionic_at_index(int i);

@@ -254,14 +254,20 @@ void player::power_bionics()
             if (activating) {
                 if (bio_data.activated) {
                     itype_id weapon_id = weapon.type->id;
+                    int b = tmp - &my_bionics[0];
                     if (tmp->powered) {
                         tmp->powered = false;
                         g->add_msg(_("%s powered off."), bio_data.name.c_str());
+
+                        deactivate_bionic(b);
                     } else if (power_level >= bio_data.power_cost ||
                                (weapon_id == "bio_claws_weapon" && bio_id == "bio_claws_weapon") ||
                                (weapon_id == "bio_blade_weapon" && bio_id == "bio_blade_weapon")) {
-                        int b = tmp - &my_bionics[0];
+                        
                         activate_bionic(b);
+
+                        if (bio_id == "bio_cqb")
+                            pick_style();
                     }
                     // Action done, leave screen
                     break;
@@ -701,6 +707,24 @@ void player::activate_bionic(int b)
     } else if(bio.id == "bio_shockwave") {
         g->shockwave(posx, posy, 3, 4, 2, 8, true);
         g->add_msg_if_player(this, _("You unleash a powerful shockwave!"));
+    }
+}
+
+void player::deactivate_bionic(int b)
+{
+    bionic bio = my_bionics[b];
+    
+    if (bio.id == "bio_cqb") {
+        // check if player knows current style naturally, otherwise drop them back to style_none
+        if (style_selected != "style_none") {
+            bool has_style = false;
+            for (int i = 0; i < ma_styles.size(); i++) {
+                if (ma_styles[i] == style_selected)
+                    has_style = true;                
+            }
+            if (!has_style)
+                style_selected = "style_none";
+        }
     }
 }
 
