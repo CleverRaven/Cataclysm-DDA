@@ -390,7 +390,7 @@
     },{
         "type" : "bionic",
         "id" : "bio_cqb",
-    "name"       :    "Close Quarter Battle",
+    "name"       :    "Close Quarters Battle",
     "active"     :    true,
     "cost"       :    1,
     "time"       :    15,

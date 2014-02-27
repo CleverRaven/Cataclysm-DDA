@@ -260,7 +260,7 @@
         "id": "bio_cqb",
         "symbol": ":",
         "color": "yellow",
-        "name": "CBM: Close Quarter Battle",
+        "name": "CBM: Close Quarters Battle",
         "description": "Databanks and processors loaded with extensive martial arts combat programs are integrated directly into your spinal column. Whilst active, you become deadly in hand-to-hand.",
         "price": 220000,
         "material": ["steel", "plastic"],
