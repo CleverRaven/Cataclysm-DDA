@@ -1632,7 +1632,7 @@ void player::memorial( std::ofstream &memorial_file )
     } else {
         memorial_file << _("Total bionics: ") << total_bionics << "\n";
     }
-    if(max_power_level != 0) {
+    if(max_power_level != 0 || total_bionics != 0) {
         memorial_file << _("Power: ") << power_level << "/" << max_power_level << "\n";
     }
     memorial_file << "\n";
@@ -1643,7 +1643,7 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << indent << weapon.invlet << " - " << weapon.tname();
     if(weapon.is_gun() && !weapon.has_flag("NO_AMMO")) {
         memorial_file << " (" << weapon.charges << " / " << weapon.clip_size() << ") "
-        << weapon.ammo_type();
+        << weapon.curammo->name.c_str();
     }
     memorial_file << "\n\n";
 
@@ -1651,10 +1651,7 @@ void player::memorial( std::ofstream &memorial_file )
     for(int i = 0; i < worn.size(); i++) {
         item next_item = worn[i];
         memorial_file << indent << next_item.invlet << " - " << next_item.tname();
-        if(next_item.is_gun() && !next_item.has_flag("NO_AMMO")) {
-            memorial_file << " (" << next_item.charges << " / " << next_item.clip_size() << ") "
-            << next_item.ammo_type();
-        } else if(next_item.charges > 0) {
+        if(next_item.charges > 0) {
             memorial_file << " (" << next_item.charges << ")";
         } else if (next_item.contents.size() == 1
               && next_item.contents[0].charges > 0) {
@@ -1675,7 +1672,10 @@ void player::memorial( std::ofstream &memorial_file )
         if(slice[i]->size() > 1) {
             memorial_file << " [" << slice[i]->size() << "]";
         }
-        if(next_item.charges > 0) {
+        if(next_item.is_gun() && !next_item.has_flag("NO_AMMO")) {
+            memorial_file << " (" << next_item.charges << " / " << next_item.clip_size() << ") "
+            << next_item.curammo->name.c_str();
+        } else if(next_item.charges > 0) {
             memorial_file << " (" << next_item.charges << ")";
         } else if (next_item.contents.size() == 1
               && next_item.contents[0].charges > 0) {
@@ -1701,6 +1701,9 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Game History") << "\n";
     memorial_file << dump_memorial();
 
+    //World statistics
+    memorial_file << _("World Information") << "\n";
+    memorial_file << dump_memorial();
 }
 
 /**

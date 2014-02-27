@@ -210,10 +210,10 @@ void game::load_data_from_dir(const std::string &path) {
         // Process the lua mod file before the .json files,
         // so that custom IUSE's will be present when the
         // item definitions are parsed.
-        
+
         lua_loadmod(lua_state, path, "main.lua");
     #endif
-    
+
     try {
         DynamicDataLoader::get_instance().load_data_from_path(path);
     } catch(std::string &err) {
@@ -3385,7 +3385,8 @@ void game::death_screen()
     delwin(w_death);
 
     msg_buffer();
-    disp_kills();
+    if( kills.size() > 0) //Only list the kills when there are kills.
+        disp_kills();
 }
 
 
