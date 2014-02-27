@@ -1452,9 +1452,9 @@ void player::memorial( std::ofstream &memorial_file )
     //Avoid saying "a male unemployed" or similar
     std::stringstream profession_name;
     if(prof == prof->generic()) {
-      profession_name << _("an unemployed ") << gender_str;
+        profession_name << _("an unemployed ") << gender_str;
     } else {
-      profession_name << _("a ") << gender_str << " " << prof->name();
+        profession_name << _("a ") << gender_str << " " << prof->name();
     }
 
     //Figure out the location
@@ -1524,12 +1524,12 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Final Messages:") << "\n";
     std::vector<game_message> recent_messages = g->recent_messages(20);
     for(int i = 0; i < recent_messages.size(); i++) {
-      memorial_file << indent << recent_messages[i].turn.print_time() << " " <<
+        memorial_file << indent << recent_messages[i].turn.print_time() << " " <<
               recent_messages[i].message;
-      if(recent_messages[i].count > 1) {
-        memorial_file << " x" << recent_messages[i].count;
-      }
-      memorial_file << "\n";
+        if(recent_messages[i].count > 1) {
+            memorial_file << " x" << recent_messages[i].count;
+        }
+        memorial_file << "\n";
     }
     memorial_file << "\n";
 
@@ -1546,19 +1546,19 @@ void player::memorial( std::ofstream &memorial_file )
         }
     }
     if(total_kills == 0) {
-      memorial_file << indent << _("No monsters were killed.") << "\n";
+        memorial_file << indent << _("No monsters were killed.") << "\n";
     } else {
-      memorial_file << _("Total kills: ") << total_kills << "\n";
+        memorial_file << _("Total kills: ") << total_kills << "\n";
     }
     memorial_file << "\n";
 
     //Skills
     memorial_file << _("Skills:") << "\n";
     for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-      aSkill != Skill::skills.end(); ++aSkill) {
-      SkillLevel next_skill_level = skillLevel(*aSkill);
-      memorial_file << indent << (*aSkill)->name() << ": "
-              << next_skill_level.level() << " (" << next_skill_level.exercise() << "%)\n";
+        aSkill != Skill::skills.end(); ++aSkill) {
+        SkillLevel next_skill_level = skillLevel(*aSkill);
+        memorial_file << indent << (*aSkill)->name() << ": "
+            << next_skill_level.level() << " (" << next_skill_level.exercise() << "%)\n";
     }
     memorial_file << "\n";
 
@@ -1566,13 +1566,13 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Traits:") << "\n";
     bool had_trait = false;
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-      if(has_trait(iter->first)) {
-        had_trait = true;
-        memorial_file << indent << traits[iter->first].name << "\n";
-      }
+        if(has_trait(iter->first)) {
+            had_trait = true;
+            memorial_file << indent << traits[iter->first].name << "\n";
+        }
     }
     if(!had_trait) {
-      memorial_file << indent << _("(None)") << "\n";
+        memorial_file << indent << _("(None)") << "\n";
     }
     memorial_file << "\n";
 
@@ -1580,42 +1580,42 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Ongoing Effects:") << "\n";
     bool had_effect = false;
     for(int i = 0; i < illness.size(); i++) {
-      disease next_illness = illness[i];
-      if(dis_name(next_illness).size() > 0) {
-        had_effect = true;
-        memorial_file << indent << dis_name(next_illness) << "\n";
-      }
+        disease next_illness = illness[i];
+        if(dis_name(next_illness).size() > 0) {
+            had_effect = true;
+            memorial_file << indent << dis_name(next_illness) << "\n";
+        }
     }
     //Various effects not covered by the illness list - from player.cpp
     if(morale_level() >= 100) {
-      had_effect = true;
-      memorial_file << indent << _("Elated") << "\n";
+        had_effect = true;
+        memorial_file << indent << _("Elated") << "\n";
     }
     if(morale_level() <= -100) {
-      had_effect = true;
-      memorial_file << indent << _("Depressed") << "\n";
+        had_effect = true;
+        memorial_file << indent << _("Depressed") << "\n";
     }
     if(pain - pkill > 0) {
-      had_effect = true;
-      memorial_file << indent << _("Pain") << " (" << (pain - pkill) << ")";
+        had_effect = true;
+        memorial_file << indent << _("Pain") << " (" << (pain - pkill) << ")";
     }
     if(stim > 0) {
-      had_effect = true;
-      int dexbonus = int(stim / 10);
-      if (abs(stim) >= 30) {
-        dexbonus -= int(abs(stim - 15) /  8);
-      }
-      if(dexbonus < 0) {
-        memorial_file << indent << _("Stimulant Overdose") << "\n";
-      } else {
-        memorial_file << indent << _("Stimulant") << "\n";
-      }
+        had_effect = true;
+        int dexbonus = int(stim / 10);
+        if (abs(stim) >= 30) {
+            dexbonus -= int(abs(stim - 15) /  8);
+        }
+        if(dexbonus < 0) {
+            memorial_file << indent << _("Stimulant Overdose") << "\n";
+        } else {
+            memorial_file << indent << _("Stimulant") << "\n";
+        }
     } else if(stim < 0) {
-      had_effect = true;
-      memorial_file << indent << _("Depressants") << "\n";
+        had_effect = true;
+        memorial_file << indent << _("Depressants") << "\n";
     }
     if(!had_effect) {
-      memorial_file << indent << _("(None)") << "\n";
+        memorial_file << indent << _("(None)") << "\n";
     }
     memorial_file << "\n";
 
@@ -1623,17 +1623,20 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Bionics:") << "\n";
     int total_bionics = 0;
     for(int i = 0; i < my_bionics.size(); i++) {
-      bionic_id next_bionic_id = my_bionics[i].id;
-      memorial_file << indent << (i+1) << ": " << bionics[next_bionic_id]->name << "\n";
-      total_bionics++;
+        bionic_id next_bionic_id = my_bionics[i].id;
+        memorial_file << indent << (i+1) << ": " << bionics[next_bionic_id]->name << "\n";
+        total_bionics++;
     }
     if(total_bionics == 0) {
-      memorial_file << indent << _("No bionics were installed.") << "\n";
+        memorial_file << indent << _("No bionics were installed.") << "\n";
     } else {
-      memorial_file << _("Total bionics: ") << total_bionics << "\n";
+        memorial_file << _("Total bionics: ") << total_bionics << "\n";
     }
-    memorial_file << _("Power: ") << power_level << "/" << max_power_level << "\n";
+    if(max_power_level != 0) {
+        memorial_file << _("Power: ") << power_level << "/" << max_power_level << "\n";
+    }
     memorial_file << "\n";
+
 
     //Equipment
     memorial_file << _("Weapon:") << "\n";
@@ -1646,15 +1649,18 @@ void player::memorial( std::ofstream &memorial_file )
 
     memorial_file << _("Equipment:") << "\n";
     for(int i = 0; i < worn.size(); i++) {
-      item next_item = worn[i];
-      memorial_file << indent << next_item.invlet << " - " << next_item.tname();
-      if(next_item.charges > 0) {
-        memorial_file << " (" << next_item.charges << ")";
-      } else if (next_item.contents.size() == 1
+        item next_item = worn[i];
+        memorial_file << indent << next_item.invlet << " - " << next_item.tname();
+        if(next_item.is_gun() && !next_item.has_flag("NO_AMMO")) {
+            memorial_file << " (" << next_item.charges << " / " << next_item.clip_size() << ") "
+            << next_item.ammo_type();
+        } else if(next_item.charges > 0) {
+            memorial_file << " (" << next_item.charges << ")";
+        } else if (next_item.contents.size() == 1
               && next_item.contents[0].charges > 0) {
-        memorial_file << " (" << next_item.contents[0].charges << ")";
-      }
-      memorial_file << "\n";
+            memorial_file << " (" << next_item.contents[0].charges << ")";
+        }
+        memorial_file << "\n";
     }
     memorial_file << "\n";
 
@@ -1664,18 +1670,18 @@ void player::memorial( std::ofstream &memorial_file )
     inv.sort();
     invslice slice = inv.slice();
     for(int i = 0; i < slice.size(); i++) {
-      item& next_item = slice[i]->front();
-      memorial_file << indent << next_item.invlet << " - " << next_item.tname();
-      if(slice[i]->size() > 1) {
-        memorial_file << " [" << slice[i]->size() << "]";
-      }
-      if(next_item.charges > 0) {
-        memorial_file << " (" << next_item.charges << ")";
-      } else if (next_item.contents.size() == 1
+        item& next_item = slice[i]->front();
+        memorial_file << indent << next_item.invlet << " - " << next_item.tname();
+        if(slice[i]->size() > 1) {
+            memorial_file << " [" << slice[i]->size() << "]";
+        }
+        if(next_item.charges > 0) {
+            memorial_file << " (" << next_item.charges << ")";
+        } else if (next_item.contents.size() == 1
               && next_item.contents[0].charges > 0) {
-        memorial_file << " (" << next_item.contents[0].charges << ")";
-      }
-      memorial_file << "\n";
+            memorial_file << " (" << next_item.contents[0].charges << ")";
+        }
+        memorial_file << "\n";
     }
     memorial_file << "\n";
 
