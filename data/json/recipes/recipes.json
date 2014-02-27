@@ -17533,7 +17533,10 @@
   ],
   "components": [
     [
-      [ "oxy_powder", 100 ]
+      [ "oxy_powder", 50 ]
+    ],
+    [
+      ["charcoal", 1]
     ],
     [
       [ "superglue", 1 ]
