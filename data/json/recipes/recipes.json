@@ -17385,7 +17385,8 @@
   "difficulty": 9,
   "time": 80000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["manual_swimming", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4]],
   "tools": [
     [
       [ "welder", 56 ],
@@ -17431,7 +17432,7 @@
   "time": 85000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "manual_swimming", 7 ]],
+  "book_learn": [["manual_swimming", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4]],
   "tools": [
     [
       [ "welder", 56 ],
@@ -17477,8 +17478,7 @@
   "difficulty": 3,
   "time": 20000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "manual_swimming", 5 ]],
+  "autolearn": true,
   "tools": [
     [
       [ "welder", 56 ],
@@ -17506,6 +17506,43 @@
     ],
     [
       [ "plastic_chunk", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rebreather_filter",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "cooking", 1 ],
+  "difficulty": 5,
+  "time": 60000,
+  "reversible": true,
+  "decomp_learn": 4,
+  "autolearn": false,
+  "book_learn": [["textbook_fireman", 4] , ["atomic_survival", 4] , ["adv_chemistry", 4] , ["textbook_chemistry", 4] , ["emergency_book", 3] , ["textbook_gaswarfare", 4]],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "oxy_powder", 100 ]
+    ],
+    [
+      [ "superglue", 1 ]
+    ],
+    [
+      [ "scrap", 2 ],
+      [ "can_food", 1 ],
+      [ "can_drink", 1 ],
+      [ "canister_empty", 1 ]
     ]
   ]
 },{

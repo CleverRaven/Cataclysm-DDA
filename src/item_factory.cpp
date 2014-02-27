@@ -922,7 +922,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     UNRECOVERABLE - Prevents the item from being recovered when deconstructing another item that uses this one.
     GNV_EFFECT - Green night vision effect. Requires external limiter like battery power.
     IR_EFFECT - Infrared vision effect. Requires external limiter like battery power.
-    SUNGLASSES - Protects from sunlight's 'glare' effect.
+    SUN_GLASSES - Protects from sunlight's 'glare' effect.
 
     Container-only flags:
     SEALS

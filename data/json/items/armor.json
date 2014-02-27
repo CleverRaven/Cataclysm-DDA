@@ -4700,7 +4700,7 @@
         "encumbrance" : 1,
         "bashing" : -4,
         "coverage" : 100,
-        "flags" : ["SUNGLASSES"],
+        "flags" : ["SUN_GLASSES"],
         "material_thickness" : 3
     },
     {
@@ -4724,7 +4724,7 @@
         "encumbrance" : 6,
         "bashing" : -1,
         "coverage" : 100,
-        "flags" : ["SUNGLASSES"],
+        "flags" : ["SUN_GLASSES"],
         "material_thickness" : 4
     },
     {
@@ -4795,7 +4795,7 @@
         "enviromental_protection" : 1,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["WATER_FRIENDLY", "SUNGLASSES"],
+        "flags" : ["WATER_FRIENDLY", "SUN_GLASSES"],
         "coverage" : 85,
         "material_thickness" : 1
    },
@@ -4819,7 +4819,7 @@
         "enviromental_protection" : 1,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["FANCY", "WATER_FRIENDLY", "SUNGLASSES"],
+        "flags" : ["FANCY", "WATER_FRIENDLY", "SUN_GLASSES"],
         "coverage" : 95,
         "material_thickness" : 2
    },
@@ -5294,7 +5294,7 @@
         "enviromental_protection" : 20,
         "encumbrance" : 5,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUNGLASSES"],
+        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES"],
         "coverage" : 100,
         "material_thickness" : 6
     },
@@ -7925,7 +7925,7 @@
         "enviromental_protection" : 14,
         "encumbrance" : 3,
         "bashing" : 0,
-        "flags" : ["VARSIZE", "STURDY", "SUNGLASSES"],
+        "flags" : ["VARSIZE", "STURDY", "SUN_GLASSES"],
         "coverage" : 100,
         "material_thickness" : 4
     },
@@ -7949,7 +7949,7 @@
         "enviromental_protection" : 14,
         "encumbrance" : 3,
         "bashing" : 0,
-        "flags" : ["VARSIZE", "STURDY", "OVERSIZE", "SUNGLASSES"],
+        "flags" : ["VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES"],
         "coverage" : 100,
         "material_thickness" : 4
     },
@@ -8366,7 +8366,7 @@
         "enviromental_protection" : 2,
         "encumbrance" : 3,
         "bashing" : 10,
-        "flags" : ["VARSIZE", "STURDY", "SUNGLASSES"],
+        "flags" : ["VARSIZE", "STURDY", "SUN_GLASSES"],
         "coverage" : 100,
         "material_thickness" : 4
     },
