@@ -7925,7 +7925,7 @@
         "enviromental_protection" : 14,
         "encumbrance" : 3,
         "bashing" : 0,
-        "flags" : ["VARSIZE", "STURDY", "SUN_GLASSES"],
+        "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 4
     },
@@ -7949,7 +7949,7 @@
         "enviromental_protection" : 14,
         "encumbrance" : 3,
         "bashing" : 0,
-        "flags" : ["VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES"],
+        "flags" : ["VARSIZE", "STURDY", "OVERSIZE"],
         "coverage" : 100,
         "material_thickness" : 4
     },
