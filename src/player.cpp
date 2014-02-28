@@ -5301,9 +5301,9 @@ void player::suffer()
 
         bool power_armored = is_wearing_power_armor(&has_helmet);
 
-        if ((power_armored && has_helmet) || is_wearing("hazmat_suit")|| is_wearing("anbc_suit")|| is_wearing("rm13_armor_on")) {
+        if ((power_armored && has_helmet) || worn_with_flag("RAD_PROOF")) {
             radiation += 0; // Power armor protects completely from radiation
-        } else if (power_armored || is_wearing("cleansuit") || is_wearing("aep_suit") || is_wearing("rm13_armor")) {
+        } else if (power_armored || worn_with_flag("RAD_RESIST")) {
             radiation += rng(0, localRadiation / 40) + rng(0, selfRadiation / 5);
         } else {
             radiation += rng(0, localRadiation / 16) + rng(0, selfRadiation);;
