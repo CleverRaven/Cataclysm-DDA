@@ -11840,6 +11840,7 @@ bool game::plmove(int dx, int dy)
                mon_at(fdest.x, fdest.y) == -1 &&
                m.has_flag("FLAT", fdest.x, fdest.y) &&
                !m.has_furn(fdest.x, fdest.y) &&
+               m.veh_at(fdest.x, fdest.y)== NULL && 
                m.tr_at(fdest.x, fdest.y) == tr_null
           );
 
