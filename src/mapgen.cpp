@@ -10844,7 +10844,7 @@ void map::place_cooler(int x, int y, int charges)
     item water(itypes["water"], 0);
     water.charges = charges;
     add_item(x, y, water);
-    furn_set(x, y, f_cooler);
+    furn_set(x, y, "f_cooler");
 }
 
 void map::place_vending(int x, int y, std::string type)
