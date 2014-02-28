@@ -759,21 +759,22 @@ void trapfunc::sinkhole(int x, int y)
      g->add_msg(_("There's nowhere to pull yourself to, and you sink!"));
      g->u.use_amount("rope_30", 1);
      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
-     g->m.add_trap(g->u.posx, g->u.posy, tr_pit);
+     g->m.ter_set(g->u.posx, g->u.posy, t_hole);
      g->vertical_move(-1, true);
     } else {
      g->add_msg(_("You pull yourself to safety!  The sinkhole collapses."));
      int index = rng(0, safe.size() - 1);
+     g->m.ter_set(g->u.posx, g->u.posy, t_hole);
      g->u.posx = safe[index].x;
      g->u.posy = safe[index].y;
      g->update_map(g->u.posx, g->u.posy);
-     g->m.add_trap(g->u.posx, g->u.posy, tr_pit);
     }
    } else {
     g->add_msg(_("You're not strong enough to pull yourself out..."));
     g->u.moves -= 100;
     g->u.use_amount("rope_30", 1);
     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
+    g->m.ter_set(g->u.posx, g->u.posy, t_hole);
     g->vertical_move(-1, true);
    }
   } else {
@@ -782,11 +783,12 @@ void trapfunc::sinkhole(int x, int y)
     g->u.use_amount("rope_30", 1);
     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
    }
-   g->m.add_trap(g->u.posx, g->u.posy, tr_pit);
+   g->m.ter_set(g->u.posx, g->u.posy, t_hole);
    g->vertical_move(-1, true);
   }
  } else {
   g->add_msg(_("You sink into the sinkhole!"));
+  g->m.ter_set(g->u.posx, g->u.posy, t_hole);
   g->vertical_move(-1, true);
  }
 }
