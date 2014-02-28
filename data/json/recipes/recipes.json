@@ -29999,6 +29999,9 @@
     [
       [ "plastic_chunk", 1 ]
     ],
+     [
+      [ "superglue", 1 ]
+     ],
     [
       [ "power_supply", 1 ]
     ],
@@ -30030,6 +30033,9 @@
   "components": [
     [
       [ "plastic_chunk", 3 ]
+    ],
+    [
+      [ "superglue", 1 ]
     ],
     [
       [ "power_supply", 1 ]
