@@ -183,7 +183,7 @@ int main(int argc, char *argv[])
 {
     setlocale(LC_ALL, "");
     try {
-       load_json_dir("data/json");
+       load_json_dir("data/core");
      } catch(std::string &error_message) {
      if(!error_message.empty()) {
         printf("%s\n", error_message.c_str() );

@@ -201,7 +201,7 @@ void game::load_core_data() {
     // adds the new item types to both (its internal map and
     // the global itypes).
 
-#define CORE_JSON_DATA_DIR "data/json"
+#define CORE_JSON_DATA_DIR "data/core"
     load_data_from_dir(CORE_JSON_DATA_DIR);
 }
 
