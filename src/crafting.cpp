@@ -1863,6 +1863,8 @@ void game::complete_disassemble()
             if (newit.count_by_charges()) {
                 newit.charges = compcount;
                 compcount = 1;
+            } else if (newit.is_tool()) {
+                newit.charges = 0;
             }
             if (newit.made_of(LIQUID)) {
                 handle_liquid(newit, false, false);
