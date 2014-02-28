@@ -29985,9 +29985,10 @@
   "subcategory": "CSC_NONCRAFT",
   "skill_used": "electronics",
   "difficulty": 3,
-  "time": 2000,
+  "time": 20000,
   "reversible": true,
   "autolearn": false,
+  "book_learn": [[ "recipe_caseless", 6 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
@@ -30001,6 +30002,9 @@
     [
       [ "power_supply", 1 ]
     ],
+     [
+      [ "cable", 1 ]
+     ],
     [
       [ "plut_cell", 1 ]
     ]
@@ -30016,6 +30020,7 @@
   "time": 3000,
   "reversible": true,
   "autolearn": false,
+  "book_learn": [[ "recipe_caseless", 8 ]],
   "tools": [
     [
       [ "screwdriver", -1 ],
