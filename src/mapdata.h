@@ -112,7 +112,7 @@ struct map_bash_info {
  */
 
 /*
- * Note; All flags are defined as strings dynamically in data/json/terrain.json and furniture.json. The list above
+ * Note; All flags are defined as strings dynamically in data/core/terrain.json and furniture.json. The list above
  * represent the common builtins. The enum below is an alternative means of fast-access, for those flags that are checked
  * so much that strings produce a significant performance penalty. The following are equivalent:
  *  m->has_flag("FLAMMABLE");     //

@@ -1545,7 +1545,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
             if ( bash->ter_set.size() > 0 ) {
                 ter_set( x, y, bash->ter_set );
             } else if ( jster == true ) {
-                debugmsg("data/json/terrain.json does not have %s.bash.ter_set set!",ter_at(x,y).id.c_str());
+                debugmsg("core/json/terrain.json does not have %s.bash.ter_set set!",ter_at(x,y).id.c_str());
             }
             for (int i = 0; i < bash->items.size(); i++) {
                 int chance = bash->items[i].chance;

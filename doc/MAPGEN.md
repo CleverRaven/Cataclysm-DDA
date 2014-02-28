@@ -93,7 +93,7 @@ As "mapgen": { ... } objects inside an existing overmap_terrain object ( see "s_
 
 ```
 ### 1.1.1 Standalone
-As standalone { "type": "mapgen", ... } objects in a .json inside data/json. Below is the same fast food restaurant, along with one written lua (as part of unhealthy_dining_expansion_mod.json)
+As standalone { "type": "mapgen", ... } objects in a .json inside data/core. Below is the same fast food restaurant, along with one written lua (as part of unhealthy_dining_expansion_mod.json)
 ```C++
 [
     {
@@ -183,7 +183,7 @@ Note, either "fill_ter" or "rows" + "terrain" are required.
 
 # 2.0 "fill_ter": "terrain_id"
 *required if "rows" is unset*
-> Value: ("string"): Valid terrain id from data/json/terrain.json
+> Value: ("string"): Valid terrain id from data/core/terrain.json
 
 Example: "fill_ter": "t_grass"
 
@@ -384,7 +384,7 @@ Example: "x": 12, "y": [ 5, 15 ]
 > Value: [ array of {objects} ]: [ { "item", ... }, ... ]
 
 ### 2.5.0 "item"
-**required** A valid itype ID. see everything in data/json/items
+**required** A valid itype ID. see everything in data/core/items
 > Value: "string"
 
 Example: { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1, 3], "chance": 2 }
