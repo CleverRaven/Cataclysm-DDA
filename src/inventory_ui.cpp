@@ -288,7 +288,12 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
                 selected = start;
             } else {
                 if (inCategoryMode) {
-                    selected < firsts[category_order[category_order.size() - 1]] ? selected = next_category_at : 0;
+                    if( category_order.size() &&
+                        selected < firsts[category_order[category_order.size() - 1]] ) {
+                        selected = next_category_at;
+                    } else {
+                        selected = 0;
+                    }
                 } else {
                     selected++;
                 }
