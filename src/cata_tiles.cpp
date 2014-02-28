@@ -210,11 +210,11 @@ void cata_tiles::reload_tileset() {
 
                 SDL_Surface *tile_surf = create_tile_surface();
                 SDL_BlitSurface(tile_atlas, &source_rect, tile_surf, &dest_rect);
-                
+
                 SDL_Texture *tile_tex = SDL_CreateTextureFromSurface(renderer,tile_surf);
-                
+
                 SDL_FreeSurface(tile_surf);
-                
+
                 if (!tile_values) {
                     tile_values = new tile_map;
                 }
@@ -222,7 +222,7 @@ void cata_tiles::reload_tileset() {
                 (*tile_values)[tilecount++] = tile_tex;
             }
         }
-        
+
         DebugLog() << "Tiles Created: " << tilecount << "\n";
     }
 }
@@ -376,7 +376,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     if (!g) {
         return;
     }
-    
+
     {
         //set clipping to prevent drawing over stuff we shouldn't
         SDL_Rect clipRect = {destx,desty,width,height};
@@ -449,7 +449,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     // check to see if player is located at ter
     else if (g->u.posx + g->u.view_offset_x != g->ter_view_x ||
              g->u.posy + g->u.view_offset_y != g->ter_view_y) {
-        draw_from_id_string("cursor", g->ter_view_x, g->ter_view_y, 0, 0);
+        draw_from_id_string("cursor", "misc", "", g->ter_view_x, g->ter_view_y, 0, 0);
     }
 
     SDL_RenderSetClipRect(renderer,NULL);
@@ -472,7 +472,13 @@ int cata_tiles::get_tile_width() const
     return tile_width;
 }
 
+
 bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position)
+{
+    return cata_tiles::draw_from_id_string(id, "", "", x, y, subtile, rota, is_at_screen_position);
+}
+
+bool cata_tiles::draw_from_id_string(std::string id, std::string category, std::string subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position)
 {
     // For the moment, if the ID string does not produce a drawable tile it will revert to the "unknown" tile.
     // The "unknown" tile is one that is highly visible so you kinda can't miss it :D
@@ -485,9 +491,29 @@ bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, 
     }
 
     tile_id_iterator it = tile_ids->find(id);
-    // if id is not found, return unknown tile
+
+    // if id is not found, try to find a tile for the category+subcategory combination
     if (it == tile_ids->end()) {
-        return draw_from_id_string("unknown", x, y, subtile, rota, is_at_screen_position);
+        if(category != "" && subcategory != "") {
+            it = tile_ids->find("unknown_"+category+"_"+subcategory);
+        }
+    }
+
+    // if at this point we have no tile, try just the category
+    if (it == tile_ids->end()) {
+        if(category != "") {
+            it = tile_ids->find("unknown_"+category);
+        }
+    }
+
+    // if we still have no tile, we're out of luck, fall back to unknown
+    if (it == tile_ids->end()) {
+        it = tile_ids->find("unknown");
+    }
+
+    //  this really shouldn't happen, but the tileset creator might have forgotten to define an unknown tile
+    if (it == tile_ids->end()) {
+        debugmsg("The tileset you're using has no 'unknown' tile defined!");
     }
 
     tile_type *display_tile = it->second;
@@ -551,7 +577,7 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
         SDL_Texture *bg_tex = (*tile_values)[bg];
         SDL_RenderCopy(renderer, bg_tex, NULL, &destination);
     }
-    
+
     // blit foreground based on rotation
     if (rota == 0) {
         if (fg >= 0 && fg < tile_values->size()) {
@@ -561,7 +587,7 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     } else {
         if (fg >= 0 && fg < tile_values->size()) {
             SDL_Texture *fg_tex = (*tile_values)[fg];
-            
+
             if(rota == 1) {
 #if (defined _WIN32 || defined WINDOWS)
                 destination.y -= 1;
@@ -607,7 +633,7 @@ bool cata_tiles::draw_lighting(int x, int y, LIGHTING l)
     }
 
     // lighting is never rotated, though, could possibly add in random rotation?
-    draw_from_id_string(light_name, x, y, 0, 0);
+    draw_from_id_string(light_name, "lighting", "", x, y, 0, 0);
 
     return false;
 }
@@ -642,7 +668,7 @@ bool cata_tiles::draw_terrain(int x, int y)
 
     tname = terlist[t].id;
 
-    return draw_from_id_string(tname, x, y, subtile, rotation);
+    return draw_from_id_string(tname, "terrain", "", x, y, subtile, rotation);
 }
 
 bool cata_tiles::draw_furniture(int x, int y)
@@ -668,7 +694,7 @@ bool cata_tiles::draw_furniture(int x, int y)
 
     // get the name of this furniture piece
     std::string f_name = furnlist[f_id].id; // replace with furniture names array access
-    bool ret = draw_from_id_string(f_name, x, y, subtile, rotation);
+    bool ret = draw_from_id_string(f_name, "furniture", "", x, y, subtile, rotation);
     if (ret && g->m.sees_some_items(x, y, g->u)) {
         draw_item_highlight(x, y);
     }
@@ -694,7 +720,7 @@ bool cata_tiles::draw_trap(int x, int y)
     int subtile = 0, rotation = 0;
     get_tile_values(tr_id, neighborhood, subtile, rotation);
 
-    return draw_from_id_string(tr_name, x, y, subtile, rotation);
+    return draw_from_id_string(tr_name, "trap", "", x, y, subtile, rotation);
 }
 
 bool cata_tiles::draw_field_or_item(int x, int y)
@@ -751,7 +777,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         int subtile = 0, rotation = 0;
         get_tile_values(f.fieldSymbol(), neighborhood, subtile, rotation);
 
-        ret_draw_field = draw_from_id_string(fd_name, x, y, subtile, rotation);
+        ret_draw_field = draw_from_id_string(fd_name, "field", "", x, y, subtile, rotation);
     }
     if(do_item) {
         if (!g->m.sees_some_items(x, y, g->u)) {
@@ -760,8 +786,9 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         // get the last item in the stack, it will be used for display
         const item &display_item = items[items.size() - 1];
         // get the item's name, as that is the key used to find it in the map
-        const std::string &it_name = display_item.type->id;
-        ret_draw_item = draw_from_id_string(it_name, x, y, 0, 0);
+        const std::string &it_name = display_item.type->get_item_type_string();
+        const std::string it_category = display_item.type->get_item_type_string();
+        ret_draw_item = draw_from_id_string(it_name, "item", it_category, x, y, 0, 0);
         if (ret_draw_item && items.size() > 1) {
             draw_item_highlight(x, y);
         }
@@ -804,7 +831,7 @@ bool cata_tiles::draw_vpart(int x, int y)
     }
     int cargopart = veh->part_with_feature(veh_part, "CARGO");
     bool draw_highlight = (cargopart > 0) && (!veh->parts[cargopart].items.empty());
-    bool ret = draw_from_id_string(vpid, x, y, subtile, veh_dir);
+    bool ret = draw_from_id_string(vpid, "vehicle_part", "", x, y, subtile, veh_dir);
     if (ret && draw_highlight) {
         draw_item_highlight(x, y);
     }
@@ -815,12 +842,18 @@ bool cata_tiles::draw_entity(int x, int y)
 {
     // figure out what entity exists at x,y
     std::string ent_name;
+    std::string ent_category = "";
+    std::string ent_subcategory = "";
     bool entity_here = false;
     // check for monster (most common)
     if (!entity_here && g->mon_at(x, y) >= 0) {
         monster m = g->zombie(g->mon_at(x, y));
         if (!m.dead) {
             ent_name = m.type->id;
+            ent_category = "monster";
+            if(m.type->species.size() >= 1) {
+                ent_subcategory = *(m.type->species.begin());
+            }
             entity_here = true;
         }
     }
@@ -839,7 +872,7 @@ bool cata_tiles::draw_entity(int x, int y)
     }
     if (entity_here) {
         int subtile = corner;
-        return draw_from_id_string(ent_name, x, y, subtile, 0);
+        return draw_from_id_string(ent_name, ent_category, ent_subcategory, x, y, subtile, 0);
     }
     return false;
 }
@@ -852,7 +885,7 @@ bool cata_tiles::draw_item_highlight(int x, int y)
         create_default_item_highlight();
         item_highlight_available = true;
     }
-    return draw_from_id_string(ITEM_HIGHLIGHT, x, y, 0, 0);
+    return draw_from_id_string(ITEM_HIGHLIGHT, "", "", x, y, 0, 0);
 }
 
 SDL_Surface *cata_tiles::create_tile_surface() {
@@ -871,7 +904,7 @@ void cata_tiles::create_default_item_highlight()
 
     std::string key = ITEM_HIGHLIGHT;
     int index = tile_values->size();
-    
+
     SDL_Surface *surface = create_tile_surface();
     SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, 0, 0, 127, highlight_alpha));
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer,surface);
@@ -1000,14 +1033,14 @@ void cata_tiles::draw_bullet_frame()
 {
     const int mx = bul_pos_x, my = bul_pos_y;
 
-    draw_from_id_string(bul_id, mx, my, 0, 0);
+    draw_from_id_string(bul_id, "bullet", "", mx, my, 0, 0);
 }
 void cata_tiles::draw_hit_frame()
 {
     const int mx = hit_pos_x, my = hit_pos_y;
     std::string hit_overlay = "animation_hit";
 
-    draw_from_id_string(hit_entity_id, mx, my, 0, 0);
+    draw_from_id_string(hit_entity_id, "hit_entity", "", mx, my, 0, 0);
     draw_from_id_string(hit_overlay, mx, my, 0, 0);
 }
 void cata_tiles::draw_line()
@@ -1039,7 +1072,7 @@ void cata_tiles::draw_weather_frame()
         x = x + g->ter_view_x - getmaxx(g->w_terrain) / 2;
         y = y + g->ter_view_y - getmaxy(g->w_terrain) / 2;
 
-        draw_from_id_string(weather_name, x, y, 0, 0, false);
+        draw_from_id_string(weather_name, "weather", "", x, y, 0, 0, false);
     }
 }
 void cata_tiles::draw_footsteps_frame()
