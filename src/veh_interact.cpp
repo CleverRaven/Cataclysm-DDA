@@ -970,17 +970,17 @@ void veh_interact::move_cursor (int dx, int dy)
 
     can_mount.clear();
     if (!obstruct) {
-        std::vector<vpart_info>::iterator can_mount_divider_iterator = can_mount.begin();
+        int divider_index = 0;
         for (std::map<std::string, vpart_info>::iterator
              part_type_iterator = vehicle_part_types.begin();
              part_type_iterator != vehicle_part_types.end();
              ++part_type_iterator) {
-            if (veh->can_mount (vdx, vdy, part_type_iterator->first)) {
-                vpart_info *vpart = &part_type_iterator->second;
-                if (can_currently_install(vpart)) {
-                    can_mount.insert (can_mount_divider_iterator++, *vpart);
+            if (veh->can_mount(vdx, vdy, part_type_iterator->first)) {
+                vpart_info *vpi = &part_type_iterator->second;
+                if (can_currently_install(vpi)) {
+                    can_mount.insert( can_mount.begin() + divider_index++, *vpi );
                 } else {
-                    can_mount.push_back (*vpart);
+                    can_mount.push_back( *vpi );
                 }
             }
         }
