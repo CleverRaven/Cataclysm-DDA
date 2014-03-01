@@ -118,6 +118,7 @@
   {
     "type":"GENERIC",
     "id": "string_6",
+    "category" : "spare_parts",
     "symbol": ",",
     "color": "light_gray",
     "name": "small string",
@@ -134,6 +135,7 @@
   {
     "type":"GENERIC",
     "id": "string_36",
+    "category" : "spare_parts",
     "symbol": ",",
     "color": "light_gray",
     "name": "long string",
@@ -150,6 +152,7 @@
   {
     "type":"GENERIC",
     "id": "rope_30",
+    "category" : "spare_parts",
     "symbol": ",",
     "color": "light_gray",
     "name": "long rope",
@@ -1279,6 +1282,7 @@
   {
     "type":"GENERIC",
     "id": "ceramic_armor",
+    "category" : "spare_parts",
     "symbol": ",",
     "color": "yellow",
     "name": "ceramic armor plate",
@@ -1506,6 +1510,7 @@
   {
     "type":"GENERIC",
     "id": "clockworks",
+    "category" : "spare_parts",
     "symbol": ";",
     "color": "light_gray",
     "name": "clockworks",
@@ -1712,6 +1717,7 @@
     {
         "type":"GENERIC",
         "id" : "rope_6",
+        "category" : "spare_parts",
         "name" : "short rope",
         "description" : "A six-inch long piece of nylon rope. Too small to be of much use. ",
         "weight" : 216,
@@ -1728,6 +1734,7 @@
     {
         "type":"GENERIC",
         "id" : "chain",
+        "category" : "spare_parts",
         "name" : "steel chain",
         "description" : "A heavy steel chain. Useful as a weapon, or for crafting. It has a chance to wrap around your target, allowing for a bonus unarmed attack.",
         "weight" : 3628,
@@ -2252,6 +2259,7 @@
   {
     "type":"GENERIC",
     "id": "bag_bundle_10",
+    "category" : "spare_parts",
     "symbol": ",",
     "color": "light_gray",
     "name": "10 plastic bags",
@@ -2570,6 +2578,7 @@
   {
     "type":"GENERIC",
     "id": "nomex",
+    "category" : "spare_parts",
     "symbol": ",",
     "color": "light_gray",
     "name": "nomex patch",
