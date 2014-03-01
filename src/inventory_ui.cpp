@@ -243,9 +243,16 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
                 }
                 nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
                 const char invlet = it.invlet == 0 ? ' ' : it.invlet;
-                mvwputch(w_inv, cur_line, 0, (cur_it == selected ? selected_line_color : c_white), invlet);
-                mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? selected_line_color : it.color_in_inventory()),
-                          _(" %s"), it.display_name().c_str());
+                const int item_max_width = 42;
+                // Use width of the column minus two for the hotkey and leading space,
+                // and one for a space on the right.
+                const std::string truncated_item_name = std::string(
+                    _(it.display_name().c_str()) ).substr( 0, right_column_offset - 3 );
+                mvwputch(w_inv, cur_line, 0,
+                         (cur_it == selected ? selected_line_color : c_white), invlet);
+                mvwprintz( w_inv, cur_line, 1,
+                           (cur_it == selected ? selected_line_color : it.color_in_inventory()),
+                           " %s", truncated_item_name.c_str() );
                 if (slice[cur_it].first->size() > 1) {
                     wprintw(w_inv, " x %d", slice[cur_it].first->size());
                 }
